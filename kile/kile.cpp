@@ -55,8 +55,6 @@
 #include "kileoutputwidget.h"
 #include "kilekonsolewidget.h"
 #include "quickdocumentdialog.h"
-#include "tabdialog.h"
-#include "arraydialog.h"
 #include "tabbingdialog.h"
 #include "kilestructurewidget.h"
 #include "convert.h"
@@ -72,6 +70,10 @@
 //#include "kilespell2.h"
 #include "kilesidebar.h"
 #include "symbolview.h"
+#include "floatdialog.h"
+#include "mathenvdialog.h"
+#include "tabulardialog.h"
+#include "postscriptdialog.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -420,6 +422,9 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Tabular"),"wizard_tabular",0 , this, SLOT(quickTabular()), actionCollection(),"wizard_tabular" );
 	(void) new KAction(i18n("Array"),"wizard_array",0 , this, SLOT(quickArray()), actionCollection(),"wizard_array" );
 	(void) new KAction(i18n("Tabbing"),"wizard_tabbing",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
+	(void) new KAction(i18n("Floats"),"wizard_float",0, this, SLOT(quickFloat()), actionCollection(),"wizard_float" );
+	(void) new KAction(i18n("Math"),"wizard_math",0, this, SLOT(quickMathenv()), actionCollection(),"wizard_mathenv" );
+	(void) new KAction(i18n("Postscript tools"),"wizard_pstools",0 , this, SLOT(quickPostscript()), actionCollection(),"wizard_postscript" );
 
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
 
@@ -1213,12 +1218,22 @@ void Kile::quickDocument()
 	delete dlg;
 }
 
+void Kile::quickArray()
+{
+	quickTabulardialog(false);
+}
+
 void Kile::quickTabular()
 {
+	quickTabulardialog(true);
+}
+
+void Kile::quickTabulardialog(bool tabularenv)
+{
 	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickTabular *dlg = new KileDialog::QuickTabular(m_config, this,"Tabular", i18n("Tabular"));
-	if ( dlg->exec() )
-	{
+	
+	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(m_config,this,tabularenv);
+	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
 	delete dlg;
@@ -1235,14 +1250,41 @@ void Kile::quickTabbing()
 	delete dlg;
 }
 
-void Kile::quickArray()
+void Kile::quickFloat()
 {
 	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickArray *dlg = new KileDialog::QuickArray(m_config, this,"Array", i18n("Array"));
-	if ( dlg->exec() )
-	{
+
+	KileDialog::FloatEnvironmentDialog *dlg = new KileDialog::FloatEnvironmentDialog(m_config,this);
+	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
+	delete dlg;
+}
+
+void Kile::quickMathenv()
+{
+	if ( !viewManager()->currentView() ) return;
+	
+	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(m_config,this);
+	if ( dlg->exec() ) {
+		insertTag(dlg->tagData());
+	}
+	delete dlg;
+}
+
+void Kile::quickPostscript()
+{	
+	QString startdir = QDir::homeDirPath();
+	QString texfilename = QString::null;
+	
+	Kate::View *view = viewManager()->currentView();
+	if ( view ) {
+		startdir = QFileInfo(view->getDoc()->url().path()).dirPath();
+		texfilename = getCompileName();
+	} 
+	
+	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_logWidget,m_outputWidget);         
+	dlg->exec();
 	delete dlg;
 }
 

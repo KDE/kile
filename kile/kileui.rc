@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="12">
+<kpartgui name="kile" version="13">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -416,7 +416,7 @@
 			<Action name="tag_vspace"/>
 			<Action name="tag_vspace*"/>
 		</Menu>
-		<Menu name="menu_rubberlength"><text>Rubber lengths</text>
+		<Menu name="menu_rubberlength"><text>Rubber lenghts</text>
 			<Action name="tag_hfill"/>
 			<Action name="tag_hrulefill"/>
 			<Action name="tag_dotfill"/>
@@ -438,6 +438,11 @@
 	<Action name="wizard_tabular"/>
 	<Action name="wizard_array"/>
 	<Action name="wizard_tabbing"/>
+	<Separator/>
+	<Action name="wizard_float"/>
+	<Action name="wizard_mathenv"/>
+	<Separator/>
+	<Action name="wizard_postscript"/>
 </Menu>
 
 <Merge/>

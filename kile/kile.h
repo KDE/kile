@@ -276,6 +276,10 @@ private slots:
 	void quickArray();
 	void quickTabbing();
 	void quickDocument();
+	void quickFloat();
+	void quickMathenv();
+	void quickPostscript();
+	void quickTabulardialog(bool tabularenv);
 
 	void insertSymbol(QIconViewItem*);
 	void insertMetaPost(QListBoxItem *);

@@ -29,7 +29,7 @@ static KCmdLineOptions options[] =
 {
   { "line <line>", "line", "0" },
   { "+[file]", "File to open", 0 },
-  { 0, 0, 0 }
+  KCmdLineLastOption
 };
 
 int main( int argc, char ** argv )
@@ -95,7 +95,7 @@ if (!running)
  return a.exec();
 }
 else
-{   
+{
     if (args->count()>0)
     {
       QByteArray data_file, data_line;

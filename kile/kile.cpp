@@ -5001,6 +5001,17 @@ void Kile::RunGfe()
 /////////////// CONFIG ////////////////////
 void Kile::ReadSettings()
 {
+
+//test for old kilerc
+config->setGroup("VersionInfo");
+int version = config->readNumEntry("RCVersion",0);
+bool old=false;
+
+//if the kilerc file is old some of the configuration
+//date must be set by kile, even if the keys are present
+//in the kilerc file
+if (version<KILERC_VERSION) old=true;
+
 singlemode=true;
 QRect screen = QApplication::desktop()->screenGeometry();
 config->setGroup( "Geometries" );
@@ -5048,21 +5059,38 @@ menuaccels=config->readBoolEntry("MenuAccels", false);
 
 config->setGroup( "Tools" );
 quickmode=config->readNumEntry( "Quick Mode",1);
-latex_command=config->readEntry("Latex","latex -interaction=nonstopmode %S.tex");
-viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
-dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
-viewps_command=config->readEntry("Ps","Embedded Viewer");
-ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
-makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
-bibtex_command=config->readEntry("Bibtex","bibtex %S");
-pdflatex_command=config->readEntry("Pdflatex","pdflatex %S.tex");
-viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
-dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
-l2h_options=config->readEntry("L2h Options","");
-userClassList=config->readListEntry("User Class", ':');
-userPaperList=config->readListEntry("User Paper", ':');
-userEncodingList=config->readListEntry("User Encoding", ':');
-userOptionsList=config->readListEntry("User Options", ':');
+if (old)
+{
+	latex_command="latex -interaction=nonstopmode %S.tex";
+	viewdvi_command="Embedded Viewer";
+	dvips_command="dvips -o %S.ps %S.dvi";
+	viewps_command="Embedded Viewer";
+	ps2pdf_command="ps2pdf %S.ps %S.pdf";
+	makeindex_command="makeindex %S.idx";
+	bibtex_command="bibtex %S";
+	pdflatex_command="pdflatex %S.tex";
+	viewpdf_command="Embedded Viewer";
+	dvipdf_command="dvipdfm %S.dvi";
+	l2h_options="";
+}
+else
+{
+	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode %S.tex");
+	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
+	dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
+	viewps_command=config->readEntry("Ps","Embedded Viewer");
+	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
+	makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
+	bibtex_command=config->readEntry("Bibtex","bibtex %S");
+	pdflatex_command=config->readEntry("Pdflatex","pdflatex %S.tex");
+	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
+	dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
+	l2h_options=config->readEntry("L2h Options","");
+	userClassList=config->readListEntry("User Class", ':');
+	userPaperList=config->readListEntry("User Paper", ':');
+	userEncodingList=config->readListEntry("User Encoding", ':');
+	userOptionsList=config->readListEntry("User Options", ':');
+}
 
 config->setGroup( "Files" );
 lastDocument=config->readEntry("Last Document","");
@@ -5117,6 +5145,9 @@ void Kile::SaveSettings()
 ShowEditorWidget();
 QValueList<int> sizes;
 QValueList<int>::Iterator it;
+
+config->setGroup("VersionInfo");
+config->writeEntry("RCVersion",KILERC_VERSION);
 
 config->setGroup( "Geometries" );
 config->writeEntry("MainwindowWidth", width() );

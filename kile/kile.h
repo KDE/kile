@@ -81,6 +81,8 @@
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
+#define KILERC_VERSION 1
+
 class QFileInfo;
 class QTimer;
 class QSignalMapper;

@@ -69,7 +69,7 @@
 #include "newfilewizard.h"
 #include "managetemplatesdialog.h"
 
-Kile::Kile( QWidget *parent, const char *name ): KParts::MainWindow( name, WDestructiveClose),DCOPObject( "Kile" )
+Kile::Kile( QWidget *, const char *name ): KParts::MainWindow( name, WDestructiveClose),DCOPObject( "Kile" )
 {
 config = KGlobal::config();
 ReadSettings();
@@ -266,7 +266,7 @@ void Kile::setupActions()
   (void) new KAction(i18n("Make Index"),Key_F12, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
   (void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
   (void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
-  (void) new KAction("Kdvi Forward Search","dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
+  (void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
   (void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
 
@@ -313,11 +313,11 @@ void Kile::setupActions()
   (void) new KAction("\\begin{list}",0, this, SLOT(Insert19()), actionCollection(),"27" );
   (void) new KAction("\\item","item",ALT+Key_H, this, SLOT(Insert20()), actionCollection(),"28" );
 
-  (void) new KAction("\\textit - Italics","text_italic",ALT+Key_I, this, SLOT(Insert21()), actionCollection(),"29" );
-  (void) new KAction("\\textsl - Slanted",ALT+Key_A, this, SLOT(Insert22()), actionCollection(),"30" );
-  (void) new KAction("\\textbf - Boldface","text_bold",ALT+Key_B, this, SLOT(Insert23()), actionCollection(),"31" );
-  (void) new KAction("\\texttt - Typewriter",ALT+Key_T, this, SLOT(Insert24()), actionCollection(),"32" );
-  (void) new KAction("\\textsc - Small caps",ALT+Key_C, this, SLOT(Insert25()), actionCollection(),"33" );
+  (void) new KAction(i18n("\\textit - Italics"),"text_italic",ALT+Key_I, this, SLOT(Insert21()), actionCollection(),"29" );
+  (void) new KAction(i18n("\\textsl - Slanted"),ALT+Key_A, this, SLOT(Insert22()), actionCollection(),"30" );
+  (void) new KAction(i18n("\\textbf - Boldface"),"text_bold",ALT+Key_B, this, SLOT(Insert23()), actionCollection(),"31" );
+  (void) new KAction(i18n("\\texttt - Typewriter"),ALT+Key_T, this, SLOT(Insert24()), actionCollection(),"32" );
+  (void) new KAction(i18n("\\textsc - Small caps"),ALT+Key_C, this, SLOT(Insert25()), actionCollection(),"33" );
 
   (void) new KAction("\\begin{tabbing}",0, this, SLOT(Insert26()), actionCollection(),"34" );
   (void) new KAction("\\begin{tabular}",0, this, SLOT(Insert27()), actionCollection(),"35" );
@@ -778,12 +778,12 @@ void Kile::createTemplate() {
    }
 
    QFileInfo fi(getName());
-   ManageTemplatesDialog mtd(fi,i18n("Create Template From Document").utf8());
+   ManageTemplatesDialog mtd(fi,i18n("Create Template From Document"));
    mtd.exec();
 }
 
 void Kile::removeTemplate() {
-	ManageTemplatesDialog mtd(i18n("Remove a template.").utf8());
+	ManageTemplatesDialog mtd(i18n("Remove a template."));
     mtd.exec();
 }
 
@@ -2283,7 +2283,7 @@ void Kile::LatexToHtml()
 
   QFileInfo fic(finame);
 
-    l2hDlg = new l2hdialog(this,i18n("LaTex2Html Options").utf8());
+    l2hDlg = new l2hdialog(this,"LaTex2Html Options",i18n("LaTex2Html Options"));
     l2hDlg->options_edit->setText(l2h_options);
     if ( l2hDlg->exec() )
     {
@@ -3093,7 +3093,7 @@ QString opt="";
 int li=3;
   if ( !currentEditorView() )	return;
   QString tag=QString("\\documentclass[");
-	startDlg = new quickdocumentdialog(this,i18n("Quick Start").utf8());
+  startDlg = new quickdocumentdialog(this,"Quick Start",i18n("Quick Start"));
   startDlg->otherClassList=userClassList;
   startDlg->otherPaperList=userPaperList;
   startDlg->otherEncodingList=userEncodingList;
@@ -3163,7 +3163,7 @@ void Kile::QuickTabular()
   QString al="";
   QString vs="";
   QString hs="";
-	quickDlg = new tabdialog(this,i18n("Tabular").utf8());
+	quickDlg = new tabdialog(this,"Tabular",i18n("Tabular"));
   if ( quickDlg->exec() )
   {
     int	y = quickDlg->spinBoxRows->value();
@@ -3198,7 +3198,7 @@ void Kile::QuickTabular()
 void Kile::QuickTabbing()
 {
   if ( !currentEditorView() )	return;
-  tabDlg = new tabbingdialog(this,i18n("Tabbing").utf8());
+  tabDlg = new tabbingdialog(this,"Tabbing",i18n("Tabbing"));
   if ( tabDlg->exec() )
  {
   int	x = tabDlg->spinBoxCollums->value();
@@ -3223,7 +3223,7 @@ void Kile::QuickArray()
 {
   if ( !currentEditorView() )	return;
   QString al;
-	arrayDlg = new arraydialog(this,i18n("Array").utf8());
+	arrayDlg = new arraydialog(this,"Array",i18n("Array"));
   if ( arrayDlg->exec() ) {
   	int y = arrayDlg->spinBoxRows->value();
   	int x = arrayDlg->spinBoxCollums->value();
@@ -3257,7 +3257,7 @@ void Kile::QuickLetter()
 {
   if ( !currentEditorView() )	return;
   QString tag=QString("\\documentclass[");
-	ltDlg = new letterdialog(this,i18n("Letter").utf8());
+	ltDlg = new letterdialog(this,"Letter",i18n("Letter"));
   if ( ltDlg->exec() )
   {
   tag+=ltDlg->combo2->currentText()+QString(",");
@@ -3781,7 +3781,7 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select Image File").utf8());
+sfDlg = new FileChooser(this,"Select Image File",i18n("Select Image File"));
 sfDlg->setFilter(i18n("*.eps *.pdf *.png|Graphic Files\n*|All Files"));
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
@@ -3811,7 +3811,7 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select File").utf8());
+sfDlg = new FileChooser(this,"Select File",i18n("Select File"));
 sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
@@ -3835,7 +3835,7 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select File").utf8());
+sfDlg = new FileChooser(this,"Select File",i18n("Select File"));
 sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
@@ -4940,7 +4940,7 @@ void Kile::invokeHelp()
 ///////////////////// USER ///////////////
 void Kile::EditUserMenu()
 {
-umDlg = new usermenudialog(this,i18n("Edit User Tags").utf8());
+umDlg = new usermenudialog(this,"Edit User Tags", i18n("Edit User Tags"));
 for ( int i = 0; i <= 9; i++ )
     {
     umDlg->Name[i]=UserMenuName[i];
@@ -4971,7 +4971,7 @@ delete umDlg;
 
 void Kile::EditUserTool()
 {
-utDlg = new usertooldialog(this,i18n("Edit User Commands").utf8());
+utDlg = new usertooldialog(this,"Edit User Commands", i18n("Edit User Commands"));
 for ( int i = 0; i <= 4; i++ )
     {
     utDlg->Name[i]=UserToolName[i];
@@ -5019,7 +5019,7 @@ void Kile::RunGfe()
   Outputview->showPage(LogWidget);
   logpresent=false;
   UpdateLineColStatus();
-  if (!gfe_widget) gfe_widget=new Qplotmaker(0,i18n("Gnuplot Front End").utf8());
+  if (!gfe_widget) gfe_widget=new Qplotmaker(0,"Gnuplot Front End");
   gfe_widget->setIcon(kapp->miniIcon());
   gfe_widget->raise();
   gfe_widget->show();
@@ -5294,7 +5294,7 @@ if (singlemode && currentEditorView())  {
       int pos;
       while ( (pos = (int)shortName.find('/')) != -1 )
       shortName.remove(0,pos+1);
-      ModeAction->setText(i18n("Normal mode (current master document:")+shortName+")");
+      ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
       ModeAction->setChecked(true);
       statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
       singlemode=false;
@@ -5392,7 +5392,7 @@ else
 
 void Kile::GeneralOptions()
 {
-toDlg = new toolsoptionsdialog(this,i18n("Configure Kile").utf8());
+toDlg = new toolsoptionsdialog(this,"Configure Kile");
 for ( int i = 0; i <= 7; i++ )
     {
     toDlg->colors[i]=editor_color[i];
@@ -5654,7 +5654,7 @@ else
       if (symbol_view && symbol_present) delete symbol_view;
       if (Structview_layout) delete Structview_layout;
       Structview_layout=new QHBoxLayout(Structview);
-      symbol_view = new SymbolView(page-1,Structview,i18n("Symbols").utf8());
+      symbol_view = new SymbolView(page-1,Structview,"Symbols");
       connect(symbol_view, SIGNAL(SymbolSelected()), SLOT(InsertSymbol()));
       symbol_present=true;
       Structview_layout->add(symbol_view);

@@ -122,7 +122,7 @@ multiFuncData::multiFuncData
     legendTitleDefaultButton = new QCheckBox(ButtonGroup_3, "CheckBox_6" );
     legendTitleDefaultButton->setMinimumSize( 70, 20 );
     legendTitleDefaultButton->setMaximumSize( 32767, 20 );
-    legendTitleDefaultButton->setText( "&default" );
+    legendTitleDefaultButton->setText( i18n("&default") );
     legendTitleDefaultButton->setAutoRepeat( FALSE );
     //legendTitleDefaultButton->setAutoResize( FALSE );
     legendTitleDefaultButton->setChecked( TRUE );
@@ -130,7 +130,7 @@ multiFuncData::multiFuncData
     legendTitlenotitleButton = new QCheckBox(ButtonGroup_3, "CheckBox_7" );
     legendTitlenotitleButton->setMinimumSize( 60, 20 );
     legendTitlenotitleButton->setMaximumSize( 32767, 20 );
-    legendTitlenotitleButton->setText( "&notitle" );
+    legendTitlenotitleButton->setText( i18n("&notitle") );
     legendTitlenotitleButton->setAutoRepeat( FALSE );
     //legendTitlenotitleButton->setAutoResize( FALSE );
 

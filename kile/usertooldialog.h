@@ -35,7 +35,7 @@ typedef QString userCd[5];
 class usertooldialog : public QDialog  {
    Q_OBJECT
 public:
-	usertooldialog(QWidget *parent=0, const char *name=0);
+	usertooldialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~usertooldialog();
 
       userCd Name,Tool;

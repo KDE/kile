@@ -18,10 +18,10 @@
 #include "arraydialog.h"
 #include "klocale.h"
 
-arraydialog::arraydialog(QWidget *parent, const char *name)
+arraydialog::arraydialog(QWidget *parent, const char *name, const QString &caption)
     :QDialog( parent,name, true)
 {
-	setCaption(name);
+	setCaption(caption);
 
   QGridLayout *gbox = new QGridLayout( this, 6, 2,5,5,"");
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );

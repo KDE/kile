@@ -1098,8 +1098,8 @@ ticsOpData::ticsOpData
 
 
   // add buttons
-  setOKButton("&OK");
-  setCancelButton("&Cancel");
+  setOKButton(i18n("&OK"));
+  setCancelButton(i18n("&Cancel"));
 
   connect(this, SIGNAL(applyButtonPressed()), SLOT(setTicsOptions()));
 

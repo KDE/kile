@@ -25,10 +25,10 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 
-tabdialog::tabdialog(QWidget *parent, const char *name)
+tabdialog::tabdialog(QWidget *parent, const char *name, const QString &caption)
     :QDialog( parent,name, true)
 {
-	setCaption(name);
+	setCaption(caption);
 
   QGridLayout *gbox = new QGridLayout( this, 7, 2,5,5,"");
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );

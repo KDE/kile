@@ -11,7 +11,7 @@ class FileChooser : public QDialog
     Q_OBJECT
 
  public:
-    FileChooser( QWidget *parent = 0, const char *name = 0);
+    FileChooser( QWidget *parent = 0, const char *name = 0, const QString &caption = QString::null);
 
     QString fileName() const;
     QString filter,dir;

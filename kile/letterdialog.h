@@ -32,7 +32,7 @@
 class letterdialog : public QDialog  {
    Q_OBJECT
 public:
-	letterdialog(QWidget *parent=0, const char *name=0);
+	letterdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~letterdialog();
 
 public:

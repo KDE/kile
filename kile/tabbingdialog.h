@@ -32,7 +32,7 @@ class QPushButton;
 class tabbingdialog : public QDialog  {
    Q_OBJECT
 public:
-	tabbingdialog(QWidget *parent=0, const char *name=0);
+	tabbingdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~tabbingdialog();
 
 public:

@@ -23,10 +23,10 @@
 #include <qpushbutton.h>
 #include <qlineedit.h>
 
-tabbingdialog::tabbingdialog(QWidget *parent, const char *name )
+tabbingdialog::tabbingdialog(QWidget *parent, const char *name, const QString &caption )
 : QDialog(parent,name,true)
 {
-	setCaption(name);
+	setCaption(caption);
   QGridLayout *gbox = new QGridLayout( this, 4, 2,5,5,"");
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 

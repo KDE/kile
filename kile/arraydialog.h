@@ -35,7 +35,7 @@
 class arraydialog : public QDialog  {
    Q_OBJECT
 public:
-	arraydialog(QWidget *parent=0, const char *name=0);
+	arraydialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~arraydialog();
 
 public:

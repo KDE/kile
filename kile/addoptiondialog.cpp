@@ -19,10 +19,10 @@
 #include <qlayout.h>
 #include <klocale.h>
 
-AddOptionDialog::AddOptionDialog(QWidget *parent, const char *name)
+AddOptionDialog::AddOptionDialog(QWidget *parent, const char *name, const QString &caption)
     : QDialog( parent, name,true )
 {
-   setCaption(name);
+   setCaption(caption);
    QGridLayout *gbox = new QGridLayout( this, 2, 2,5,5,"" );
    gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 

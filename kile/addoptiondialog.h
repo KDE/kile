@@ -30,7 +30,7 @@ class AddOptionDialog : public QDialog
 {
     Q_OBJECT
 public: 
-	AddOptionDialog(QWidget *parent = 0, const char *name = 0);
+	AddOptionDialog(QWidget *parent = 0, const char *name = 0, const QString &caption = QString::null);
 	~AddOptionDialog();
    QLineEdit *lineEdit;
 private:

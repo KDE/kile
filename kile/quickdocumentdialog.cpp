@@ -25,10 +25,10 @@
 #include <qlistbox.h>
 #include <qlineedit.h>
 
-quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
+quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name, const QString &caption)
     :QDialog( parent, name, true)
 {
-	setCaption(name);
+	setCaption(caption);
   QGridLayout *gbox = new QGridLayout( this, 10, 3,5,5,"");
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
@@ -247,7 +247,7 @@ void quickdocumentdialog::Init()
 void quickdocumentdialog::addUserClass()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New").utf8());
+dlg = new AddOptionDialog(this,"New",i18n("New"));
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();
@@ -260,7 +260,7 @@ delete (dlg);
 void quickdocumentdialog::addUserPaper()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New").utf8());
+dlg = new AddOptionDialog(this,"New",i18n("New"));
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();
@@ -273,7 +273,7 @@ delete (dlg);
 void quickdocumentdialog::addUserEncoding()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New").utf8());
+dlg = new AddOptionDialog(this,"New",i18n("New"));
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();
@@ -286,7 +286,7 @@ delete (dlg);
 void quickdocumentdialog::addUserOptions()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New").utf8());
+dlg = new AddOptionDialog(this,"New",i18n("New"));
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();

@@ -27,9 +27,9 @@
 #include <qpushbutton.h>
 
 
-usertooldialog::usertooldialog(QWidget *parent, const char *name ) : QDialog(parent,name)
+usertooldialog::usertooldialog(QWidget *parent, const char *name, const QString &caption ) : QDialog(parent,name)
 {
-  	setCaption(name);
+  	setCaption(caption);
   previous_index=0;
   QGridLayout *gbox = new QGridLayout( this, 6, 2,5,5,"");
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );

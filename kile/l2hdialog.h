@@ -31,7 +31,7 @@
 class l2hdialog : public QDialog  {
    Q_OBJECT
 public: 
-	l2hdialog(QWidget *parent=0, const char *name=0);
+	l2hdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~l2hdialog();
 public:
 	QLabel *QLabel_1;

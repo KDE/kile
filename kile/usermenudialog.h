@@ -34,7 +34,7 @@ class usermenudialog : public QDialog
     Q_OBJECT
 
 public:
-    usermenudialog( QWidget* parent = 0, const char* name = 0);
+    usermenudialog( QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
     ~usermenudialog();
 
     userlist Name,Tag;

@@ -37,7 +37,7 @@ class QListBox;
 class quickdocumentdialog : public QDialog  {
     Q_OBJECT
 public:
-    quickdocumentdialog(QWidget *parent=0, const char *name=0);
+    quickdocumentdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
     ~quickdocumentdialog();
 
 public:

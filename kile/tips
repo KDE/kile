@@ -26,7 +26,7 @@
 
 <tip category="Kile|Project">
 <html>
-<p>...that you can configure which QuickBuild command is issues for a project? Just go to <b>Project->Project Options</b> and select a QuickBuild command.</p>
+<p>...that you can configure which QuickBuild command is issued for a project? Just go to <b>Project->Project Options</b> and select a QuickBuild command.</p>
 </html>
 </tip>
 

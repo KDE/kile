@@ -490,7 +490,7 @@ namespace KileWidget
 		QLabel *lb = new QLabel(i18n("&Type"), this); m_layout->addWidget(lb, 0, 0, Qt::AlignLeft);
 		m_cbType = new KComboBox(this); m_layout->addWidget(m_cbType, 0, 1, Qt::AlignLeft);
 		lb->setBuddy(m_cbType);
-		m_cbType->insertItem(i18n("Run outside of Kile")); m_cbType->insertItem("Run in a Konsole"); m_cbType->insertItem("Run embedded in Kile"); m_cbType->insertItem("Use HTML viewer");
+		m_cbType->insertItem(i18n("Run outside of Kile")); m_cbType->insertItem("Run in a Konsole"); m_cbType->insertItem("Run embedded in Kile"); m_cbType->insertItem("Use HTML viewer"); m_cbType->insertItem("Run a sequence of tools");
 		connect(m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
 
 		QString type = (*m_map)["type"];
@@ -498,6 +498,7 @@ namespace KileWidget
 		else if ( type == "Konsole" ) m_cbType->setCurrentItem(1);
 		else if ( type == "Part" ) m_cbType->setCurrentItem(2);
 		else if ( type == "DocPart" ) m_cbType->setCurrentItem(3);
+		else if ( type == "Sequence" ) m_cbType->setCurrentItem(4);
 
 		QStringList classes;
 		classes << "Compile" << "Convert" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
@@ -523,6 +524,7 @@ namespace KileWidget
 		case 1 : (*m_map)["type"] = "Konsole"; break;
 		case 2 : (*m_map)["type"] = "Part"; break;
 		case 3 : (*m_map)["type"] = "DocPart"; break;
+		case 4 : (*m_map)["type"] = "Sequence"; break;
 		default : (*m_map)["type"] = "Process"; break;
 		}
 		emit(changed());

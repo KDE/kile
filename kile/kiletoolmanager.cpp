@@ -110,11 +110,11 @@ namespace KileTool
 		Base *head = m_queue.head();
 		if (head)
 		{
-			if ( head->run() != Running ) //tool did not even start, remove it from the queue
+			if (m_log->lines() > 1) 
+				m_log->append("\n");
+
+			if ( head->run() != Running ) //tool did not even start, clear queue
 			{
-				//delete m_queue.dequeue();
-				//if ( m_queue.isEmpty() ) stop();
-				//else runNextInQueue();
 				stop();
 				m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
 			}
@@ -245,7 +245,7 @@ namespace KileTool
 		kdDebug() << "==KileTool::toolList()==================" << endl;
 
 		int index;
-		bool ok;
+		bool place, separator;
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
 
@@ -256,11 +256,12 @@ namespace KileTool
 				if ( ! groups[i].endsWith(configName(re.cap(1), config)) ) continue;
 
 				config->setGroup(groups[i]);
-				index = config->readEntry("toolbarPos", "none").toInt(&ok);
-				if (!ok) index=1000; //some large number, assumption: #tools < 1000
+				toolbarInfoFor(re.cap(1), index, place, separator, config);
+				if (!place) index=1000; //some large number, assumption: #tools < 1000
 				index += 1000;
 				//append number to tool name, little trick to make sorting easy
-				if ( (! menuOnly) || ( config->readEntry("menu", "none") != "none" ) )
+
+				if ( (! menuOnly) || ( menuFor(re.cap(1),config) != "none" ) )
 				{
 					tools.append(QString::number(index)+"/"+ re.cap(1));
 				}

@@ -33,7 +33,7 @@ class KileProjectViewItem : public QObject, public KListViewItem
 	Q_OBJECT
 
 public:
-	KileProjectViewItem (QListView *parent, const QString & name, bool ar = false) : KListViewItem(parent, name) { setArchiveState(ar);}
+	KileProjectViewItem (QListView *parent, const QString & name, bool ar = false) : KListViewItem(parent, name), m_nonsrc(0) { setArchiveState(ar);}
 	KileProjectViewItem (QListViewItem *parent, const QString & name) : KListViewItem(parent, name) {}
 	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 
@@ -50,6 +50,9 @@ public:
 
 	void setArchiveState(bool ar) { setText(1,ar ? "*" : "");}
 
+	void setNonSrc(KileProjectViewItem *nonsrc) { m_nonsrc = nonsrc; }
+	KileProjectViewItem* nonSrc() { return m_nonsrc; }
+
 public slots:
 	void urlChanged(const KURL & url);
 	void nameChanged(const QString & name);
@@ -59,6 +62,7 @@ private:
 	KURL	m_url;
 	KileType::ProjectView m_type;
 	KileDocumentInfo	*m_docinfo;
+	KileProjectViewItem	*m_nonsrc;
 };
 
 class KileProjectView : public KListView

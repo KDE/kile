@@ -136,7 +136,7 @@ public:
 	void setArchiveCommand(const QString &command) { m_archiveCommand = command;}
 	const QString& archiveCommand() { return m_archiveCommand;}
 
-	void setExtensions(const QString & ext) { m_extensions = ext; m_reExtensions.setPattern(ext);}
+	void setExtensions(const QString & ext);
 	const QString & extensions() { return m_extensions; }
 
 	const KURL& url() const { return m_projecturl; }

@@ -152,6 +152,18 @@ void KileProject::init(const QString& name, const KURL& url)
 	}
 }
 
+void KileProject::setExtensions(const QString & ext)
+{
+	m_extensions = ext;
+	QStringList lst = QStringList::split(" ", ext);
+	QString pattern = lst.join("|");
+	pattern.replace(".","\\.");
+	pattern ="("+ pattern +")$";
+	kdDebug() << "==KileProject::setExtensions"<<endl;
+	kdDebug() << "\tsetting pattern to: " << pattern << endl;
+	m_reExtensions.setPattern(pattern);
+}
+
 bool KileProject::load()
 {
 	kdDebug() << "KileProject: loading..." <<endl;
@@ -161,7 +173,7 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
-	m_extensions = m_config->readEntry("extensions", ".eps .pdf .dvi .ps .fig .log .aux .gif .jpg .png .fig");
+	setExtensions(m_config->readEntry("extensions", ".eps .pdf .dvi .ps .fig .log .aux .gif .jpg .png .fig"));
 	m_archiveCommand = m_config->readEntry("archive", "tar zcvf '%S'.tar.gz %F");
 
 	KURL url;
@@ -181,9 +193,8 @@ bool KileProject::load()
 			item->setOpenState(m_config->readBoolEntry("open", true));
 			item->setEncoding(m_config->readEntry("encoding", QString::null));
 			item->setHighlight(m_config->readEntry("highlight",QString::null));
-			item->setType(m_config->readNumEntry("type", KileProjectItem::Source));
+			//item->setType(m_config->readNumEntry("type", KileProjectItem::Source));
 			item->setArchive(m_config->readBoolEntry("archive", true));
-//			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
 			item->changePath(groups[i].mid(5));
 
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
@@ -215,7 +226,7 @@ bool KileProject::save()
 		m_config->writeEntry("open", item->isOpen());
 		m_config->writeEntry("encoding", item->encoding());
 		m_config->writeEntry("highlight", item->highlight());
-		m_config->writeEntry("type", item->type());
+		//m_config->writeEntry("type", item->type());
 		m_config->writeEntry("archive", item->archive());
 		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
@@ -298,6 +309,11 @@ KileProjectItem* KileProject::item(const KURL & url)
 void KileProject::add(KileProjectItem* item)
 {
 	kdDebug() << "KileProject::add projectitem" << item->url().path() << endl;
+
+	if (m_reExtensions.search(item->url().fileName()) != -1)
+		item->setType(KileProjectItem::Other);
+	else
+		item->setType(KileProjectItem::Source);
 
 	item->changePath(findRelativePath(item->url()));
 	connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );

@@ -89,6 +89,7 @@ class KRecentFilesAction;
 class KileEventFilter;
 class KileProject;
 class KileProjectItem;
+class KileProjectView;
 class TemplateItem;
 
 #ifndef KILE_USERITEM
@@ -165,6 +166,7 @@ private:
     TexKonsoleWidget		*texkonsole;
 	QTabWidget 				*tabWidget, *Outputview;
 	QFrame 						*Structview;
+	KileProjectView			*m_projectview;
 	QHBoxLayout 				*Structview_layout;
 	QWidgetStack 				*topWidgetStack;
 	QSplitter 						*splitter1, *splitter2 ;
@@ -220,6 +222,7 @@ private:
 private slots:
 	void ShowStructView(bool change);
 	void ShowStructure();
+	void RefreshStructure();
 	void UpdateStructure(bool parse = false);
 
 	void ClickedOnStructure(QListViewItem *);
@@ -308,6 +311,7 @@ public:
 
 private:
 	QPtrList<Kate::View> 		m_viewList;
+	Kate::View						*m_activeView;
 
 /* document handling */
 public slots:
@@ -317,15 +321,16 @@ public slots:
 	 *
 	 * @returns pointer to the new view
 	 **/
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true);
+	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null);
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 
 private slots:
 	void fileNew();
 	void fileOpen();
-	void fileOpen(const KURL& url);
+	void fileOpen(const KURL& url, const QString & = QString::null);
 	void fileSaveAll(bool amAutoSaving = false);
+	bool fileClose(const KURL & url);
 	bool fileClose(Kate::Document *doc = 0);
 	bool fileCloseAll();
 	void fileSelected(const KFileItem *file);
@@ -335,7 +340,7 @@ private slots:
 
 	bool isOpen(const KURL & url);
 
-	void setHighlightMode(Kate::Document * doc);
+	void setHighlightMode(Kate::Document * doc, const QString & highlight = QString::null);
 	void changeInputEncoding();
 
 	void newStatus(const QString& = QString::null);
@@ -351,8 +356,14 @@ private slots:
 	void projectNew();
 	void projectOpen();
 	void projectOpen(const KURL&);
-	void projectSave();
-	void projectClose();
+	void projectOpenItem(KileProjectItem *item);
+	void projectSave(KileProject * project = 0);
+	bool projectClose(const KURL & url = KURL());
+	bool projectCloseAll();
+
+	void addToProject(const KURL &);
+	void addToProject(KileProject *, const KURL &);
+	void removeFromProject(const KURL &, const KURL &);
 
 private:
 	KRecentFilesAction *m_actRecentProjects;
@@ -526,5 +537,3 @@ private:
 };
 
 #endif
-
-

@@ -51,7 +51,6 @@
 #include <qpopupmenu.h>
 #include <qtabwidget.h>
 #include <qapplication.h>
-//#include <qfontdatabase.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qfile.h>
@@ -76,10 +75,19 @@
 #include "usermenudialog.h"
 #include "kileconfigdialog.h"
 #include "kileproject.h"
+#include "kileprojectview.h"
 #include "kileprojectdlgs.h"
+#include "kilelistselector.h"
 
-Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), KileInfo()
+Kile::Kile( QWidget *, const char *name ) :
+	DCOPObject( "Kile" ),
+	KParts::MainWindow( name, WDestructiveClose),
+	KileInfo(),
+	m_activeView(0)
 {
+	//m_docList.setAutoDelete(true);
+	//m_infoList.setAutoDelete(true);
+
 	partManager = new KParts::PartManager( this );
 	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
 
@@ -124,6 +132,7 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	topWidgetStack->setFocusPolicy(QWidget::NoFocus);
 	splitter1=new QSplitter(QSplitter::Horizontal,topWidgetStack, "splitter1" );
 
+	Structview_layout=0;
 	Structview=new QFrame(splitter1);
 	Structview->setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
 	Structview->setLineWidth( 2 );
@@ -143,6 +152,15 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	}
 	KileFS->setDir(KURL(currentDir));
 	KileFS->comboEncoding->lineEdit()->setText(input_encoding);
+
+	m_projectview = new KileProjectView(Structview, this);
+	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
+	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileOpen(const KURL&)));
+	connect(m_projectview, SIGNAL(closeURL(const KURL&)), this, SLOT(fileClose(const KURL&)));
+	connect(m_projectview, SIGNAL(closeProject(const KURL&)), this, SLOT(projectClose(const KURL&)));
+	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
+	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 
 	ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
 	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
@@ -240,8 +258,8 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
-	if (errorlist !=0 ) delete errorlist;
-	if (m_AutosaveTimer != 0) delete m_AutosaveTimer;
+	delete errorlist;
+	delete m_AutosaveTimer;
 }
 
 void Kile::setupActions()
@@ -257,7 +275,7 @@ void Kile::setupActions()
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
-	(void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, this, SLOT(projectNew()), actionCollection(), "project_new");
@@ -449,7 +467,7 @@ void Kile::setupUserToolActions()
 }
 
 ////////////////////////////// FILE /////////////////////////////
-Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
+Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight)
 {
 	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
@@ -458,16 +476,15 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 		//bring up the view to the already opened doc
 		tabWidget->showPage(view);
 
+		UpdateStructure(true);
 		if (switchtostructure)
 			ShowStructure();
-		else
-			UpdateStructure(true);
 
 		//return this view
 		return view;
 	}
 
-	kdDebug() << QString("load(%1,%2,%3)").arg(url.path()).arg(encoding).arg(create) << endl;
+	kdDebug() << QString("load(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
 
 	//create a new document
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
@@ -492,40 +509,38 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 		doc->setDocName(i18n("Untitled"));
 	}
 
-	setHighlightMode(doc);
+	setHighlightMode(doc, highlight);
 
-	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(slotNameChanged(Kate::Document *)));
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
-	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
-
-	//install a documentinfo class for this doc
-	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
-	//decorate the document with the KileDocumentInfo class
-	mapInfo(doc, docinfo);
-	docinfo->setListView(outstruct);
+	KileDocumentInfo *docinfo;
 
 	//see if this file belongs to an opened project
 	//if so, make the project class aware
-	KileProjectItemList *list;
-	for (uint i=0; i < m_projects.count(); i++)
+	KileProjectItem *item = itemFor(url);
+	if (item)
 	{
-		if (m_projects.at(i)->contains(doc->url()) )
-		{
-			list = m_projects.at(i)->items();
-			for (uint j=0; j < list->count(); j++)
-			{
-				if (list->at(j)->url() == url)
-				{
-					kdDebug() << "Kile::load(" << url.path() <<") belongs to the project " << m_projects.at(i)->name()  << endl;
-					//decorate the doc with the KileProjectItem
-					mapItem(docinfo,list->at(j));
-					list->at(j)->setOpenState(true);
-				}
-			}
-			break;
-		}
+		kdDebug() << "Kile::load(" << url.path() <<") belongs to the project " << item->project()->name()  << endl;
+		//decorate the doc with the KileProjectItem
+		docinfo = infoFor(item);
+		docinfo->setDoc(doc);
+		//mapItem(docinfo, item);
+		item->setOpenState(true);
 	}
+	else
+	{
+		//install a documentinfo class for this doc
+		docinfo = new KileDocumentInfo(doc);
+		//decorate the document with the KileDocumentInfo class
+		docinfo->setListView(outstruct);
+		docinfo->setURL(url);
+		m_infoList.append(docinfo);
+	}
+	mapInfo(doc, docinfo);
+
+	//handle changes of the document
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(slotNameChanged(Kate::Document *)));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
+	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
 	if (create) return createView(doc);
 	else return 0;
@@ -533,6 +548,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 
 Kate::View * Kile::createView(Kate::Document *doc)
 {
+	kdDebug() << "createView("<< doc->docName() << ")" <<endl;
 	Kate::View *view;
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
 
@@ -549,8 +565,6 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 	//activate the newly created view
 	activateView(view, false, false);
-	//KParts::GUIActivateEvent ev( true );
-	//QApplication::sendEvent( view, &ev );
 
 	newStatus();
 	newCaption();
@@ -560,8 +574,6 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 	if (switchtostructure)
 		ShowStructure();
-	else
-		UpdateStructure(true);
 
 	return view;
 }
@@ -577,11 +589,23 @@ void Kile::slotNameChanged(Kate::Document * doc)
 		tabWidget->setTabLabel((Kate::View*) list.at(i), getShortName(doc));
 	}
 
-	KileProjectItem *item = itemFor(infoFor(doc));
+	KileDocumentInfo *docinfo = infoFor(doc);
+	/*if (docinfo)
+	{
+		docinfo->emitNameChanged(doc->url());
+	}*/
 
+	KileProjectItem *item = itemFor(docinfo);
 	if (item)
 	{
 		item->changeURL(doc->url());
+	}
+
+	//add to project view if doc was Untitled before
+	if (docinfo->oldURL().isEmpty())
+	{
+		kdDebug() << "slotNameChanged adding URL to projectview " << doc->url().path() << endl;
+		m_projectview->add(doc->url());
 	}
 }
 
@@ -627,19 +651,21 @@ void Kile::setLine( const QString &line )
   	}
 }
 
-void Kile::setHighlightMode(Kate::Document * doc)
+void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 {
 	int c = doc->hlModeCount();
 	bool found = false;
 	int i;
 
+	QString hl = highlight;
 	QString ext = doc->url().fileName().right(4);
 
-	if ( doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
+	if (hl == QString::null) hl = "LaTeX-Kile";
 	for (i = 0; i < c; i++)
 	{
-		if (doc->hlModeName(i) == "LaTeX-Kile") { found = true; break; }
+		if (doc->hlModeName(i) == hl) { found = true; break; }
 	}
 
 	if (found)
@@ -724,18 +750,29 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 
 	for (uint i=0; i<m_viewList.count(); i++)
 	{
+		if (m_viewList.at(i)==0)
+			kdDebug() << "NULL pointer in m_viewList" << endl;
+		else
+			kdDebug() << "removing client from guiFactory " << m_viewList.at(i)->getDoc()->docName() << endl;
+
 		guiFactory()->removeClient(m_viewList.at(i));
+		m_viewList.at(i)->setActive(false);
 	}
 
+	toolBar ()->setUpdatesEnabled (false);
+
 	guiFactory()->addClient(view);
+	view->setActive( true );
 
 	KParts::GUIActivateEvent ev( true );
-        QApplication::sendEvent( view, &ev );	
+   	QApplication::sendEvent( view, &ev );
 
 	if( checkModified )
 		if (view) view->getDoc()->isModOnHD();
 
-	if (updateStruct) UpdateStructure();
+	UpdateStructure(updateStruct);
+
+	toolBar ()->setUpdatesEnabled (true);
 }
 
 void Kile::updateModeStatus()
@@ -792,9 +829,18 @@ void Kile::fileOpen()
 }
 
 
-void Kile::fileOpen(const KURL& url)
+void Kile::fileOpen(const KURL& url, const QString & encoding)
 {
-	load(url);
+	kdDebug() << "fileOpen : " << url.fileName() << endl;
+	bool isopen = isOpen(url);
+
+	Kate::View *view = load(url, encoding);
+
+	//URL wasn't open before loading, add it to the project view
+	if (!isopen) m_projectview->add(url);
+
+	if (view)
+		infoFor(view->getDoc())->updateStruct();
 	updateModeStatus();
 }
 
@@ -876,13 +922,115 @@ void Kile::projectNew()
 			view->getDoc()->saveAs(url);
 
 			//add this file to the project
-			KileProjectItem *item = new KileProjectItem(url);
+			KileProjectItem *item = new KileProjectItem(project, url);
 			project->add(item);
 			mapItem(infoFor(view->getDoc()), item);
 		}
 
-		project->save();
+		//project->save();
+		m_projects.append(project);
+		m_projectview->add(project);
 	}
+}
+
+void Kile::addToProject(const KURL & url)
+{
+	kdDebug() << "addToProject " << url.fileName() << endl;
+	QStringList list;
+	QPtrListIterator<KileProject> it(m_projects);
+	while (it.current())
+	{
+		list.append((*it)->name());
+		++it;
+	}
+
+	QString name = QString::null;
+	if (list.count() > 1)
+	{
+		KileListSelector *dlg  = new KileListSelector(list, "Add to project..", "project", this);
+		if (dlg->exec())
+		{
+			name = list[dlg->currentItem()];
+		}
+	}
+	else
+		name = m_projects.first()->name();
+
+	KileProject *project = projectFor(name);
+
+	if (project)
+	{
+		addToProject(project, url);
+	}
+}
+
+void Kile::addToProject(KileProject* project, const KURL & url)
+{
+	KileProjectItem *item = new KileProjectItem(project, url);
+	projectOpenItem(item);
+	m_projectview->add(item);
+}
+
+void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
+{
+	KileProject *project = projectFor(projecturl);
+
+	if (project)
+	{
+		KileProjectItem *item = project->item(url);
+		if (item)
+		{
+			kdDebug() << "removeFromProject(" << projecturl.path() << "," << item->url().path() << ")" << endl;
+			removeMap(infoFor(item), item);
+			project->remove(item);
+
+			//move projectviewitem to a place outside of this project tree
+			m_projectview->removeItem(url);
+			m_projectview->add(url);
+		}
+	}
+}
+
+void Kile::projectOpenItem(KileProjectItem *item)
+{
+	kdDebug() << "projectOpenItem " << item->url().path() << endl;
+
+	KileDocumentInfo *docinfo;
+
+	Kate::View *view = 0;
+	if (isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
+	{
+		m_projectview->remove(item->url());
+	}
+	else
+		view = load(item->url(),item->encoding(), item->isOpen(), item->highlight());
+
+	if (view) //there is a view for this projectitem, get docinfo by doc
+	{
+		docinfo = infoFor(view->getDoc());
+	}
+	else //there is no view for this item, get docinfo by path of this file
+	{
+		docinfo = infoFor(item->url().path());
+	}
+
+	mapItem(docinfo, item);
+	docinfo->updateStruct();
+
+	if ((!item->isOpen()) && (view != 0)) //oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
+	{
+			item->setOpenState(true);
+	}
+
+	if ( (!item->isOpen()) && ( view ==0)) //doc shouldn't be displayed, trash the doc
+	{
+		//since we've parsed it, trash the document
+		kdDebug() << "TRASHING" << endl;
+		trash(docinfo->getDoc());
+	}
+
+	//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
+	outstruct->takeItem(outstruct->firstChild());
 }
 
 void Kile::projectOpen(const KURL &url)
@@ -890,60 +1038,23 @@ void Kile::projectOpen(const KURL &url)
 	KileProject *kp = new KileProject(url);
 
 	m_actRecentProjects->addURL(url);
-	
+
 	KileProjectItemList *list = kp->items();
+	m_projectview->add(kp);
 
 	kdDebug() << "projectOpen " << list->count() << " items" << endl;
 
-	KileDocumentInfo *docinfo;
+	KileProjectItem *item;
 	for ( uint i=0; i < list->count(); i++)
 	{
-		kdDebug() << "projectOpen " << list->at(i)->url().path() << endl;
-		if (list->at(i)->isOpen())
-		{
-			Kate::View *view = load(list->at(i)->url(),list->at(i)->encoding());
-			docinfo = infoFor(view->getDoc());
-
-			mapItem(docinfo, list->at(i));
-		}
-		else
-		{
-			//document shouldn't be displayed, but we need to parse it anyway (need to know the dependencies, labels, etc.)
-			Kate::View *view = load(list->at(i)->url(), list->at(i)->encoding(), false);
-
-			//find the doc (this is not very efficient, but load returns the view, which in this case is zero)
-			docinfo = infoFor(list->at(i)->url().path());
-			mapItem(docinfo, list->at(i));
-			docinfo->updateStruct();
-
-			if (view) //oops, doc apparently was open, don't trash it, update openstate instead
-			{
-				list->at(i)->setOpenState(true);
-			}
-			else
-			{
-				//since we've parsed it, trash the document
-				kdDebug() << "TRASHING" << endl;
-				trash(docinfo->getDoc());
-			}
-
-			//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
-			outstruct->takeItem(outstruct->firstChild());
-		}
+		item = list->at(i);
+		projectOpenItem(item);
 	}
 
 	m_projects.append(kp);
 
 	UpdateStructure();
 	updateModeStatus();
-
-	kdDebug() << "project loaded, result: " <<endl;
-	for ( uint i=0; i < list->count(); i++)
-	{
-		docinfo = infoFor(list->at(i));
-		if (docinfo != 0)
-			kdDebug() << i << " : " << docinfo->isLaTeXRoot() << endl;
-	}
 }
 
 void Kile::projectOpen()
@@ -955,28 +1066,43 @@ void Kile::projectOpen()
 		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
 		return;
 	}
-
-	projectOpen(url);
+	else
+		projectOpen(url);
 }
 
-void Kile::projectSave()
+void Kile::projectSave(KileProject *project /* = 0 */)
 {
-	//find the project that corresponds to the active doc
-	KileProject *project= activeProject();
+	if (project == 0)
+	{
+		//find the project that corresponds to the active doc
+		project= activeProject();
+	}
 
 	if (project)
 	{
 		KileProjectItemList *list = project->items();
 		Kate::Document *doc;
 
+		KileProjectItem *item;
+		KileDocumentInfo *docinfo;
 		//update the open-state of the items
 		for (uint i=0; i < list->count(); i++)
 		{
-			kdDebug() << "Kile::projectSave() setOpenState(" << list->at(i)->url().path() << ")" << endl;
-			list->at(i)->setOpenState(isOpen(list->at(i)->url()));
-			doc = infoFor(list->at(i))->getDoc();
+			item =list->at(i);
+			kdDebug() << "Kile::projectSave() setOpenState(" << item->url().path() << ")" << endl;
+			item->setOpenState(isOpen(item->url()));
+			docinfo = infoFor(item);
+			if (docinfo)
+			{
+				doc = docinfo->getDoc();
+			}
+
+			kdDebug() << "doc == 0 " << (doc==0) << endl;
 			if (doc)
-				list->at(i)->setEncoding( doc->encoding());
+			{
+				item->setEncoding( doc->encoding());
+				item->setHighlight( doc->hlModeName(doc->hlMode()));
+			}
 		}
 
 		project->save();
@@ -984,15 +1110,50 @@ void Kile::projectSave()
 	else
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could not save project."));
 
+   kdDebug() << "============================" << endl;
 }
 
-void Kile::projectClose()
+bool Kile::projectCloseAll()
 {
-	KileProject *project = activeProject();
+	bool close = true;
 
-	if (project)
+	//copy the list, since projectClose() changes the list
+	QPtrList<KileProject> list = m_projects;
+	QPtrListIterator<KileProject> it(list);
+	while ( it.current() )
 	{
-		project->save();
+		close = close && projectClose((*it)->url());
+		++it;
+	}
+
+	return close;
+}
+
+bool Kile::projectClose(const KURL & url)
+{
+	KileProject *project = 0;
+
+	if (url.isEmpty())
+		 project = activeProject();
+	else
+	{
+		QPtrListIterator<KileProject> it(m_projects);
+		while ( it.current() )
+		{
+			if ((*it)->url() == url)
+			{
+				project = (*it);
+				break;
+			}
+
+			++it;
+		}
+	}
+
+ 	if (project)
+	{
+		kdDebug() << "projectClose " << project->name() << endl;
+		projectSave(project);
 
 		KileProjectItemList *list = project->items();
 
@@ -1005,12 +1166,19 @@ void Kile::projectClose()
 		if (close)
 		{
 			m_projects.remove(project);
+			m_projectview->remove(project);
 			delete project;
+			return true;
 		}
+		else
+			return false;
 	}
 	else
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could not close project."));
 
+	return true;
+
+	kdDebug() << "============================" << endl;
 }
 
 void Kile::createTemplate() {
@@ -1067,6 +1235,20 @@ void Kile::focusEditor()
 	if (view) view->setFocus();
 }
 
+bool Kile::fileClose(const KURL & url )
+{
+	QPtrListIterator<Kate::Document> it(m_docList);
+	while ( it.current())
+	{
+		if ((*it)->url() == url )
+			return fileClose((*it));
+
+		++it;
+	}
+
+	return true;
+}
+
 bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 {
 	Kate::View *view = currentView();
@@ -1075,18 +1257,31 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 		view = static_cast<Kate::View*>(doc->views().first());
 
 	//TODO: remove from docinfo map, remove from dirwatch
+	KileDocumentInfo *docinfo;
 	if (view)
 	{
 		kdDebug() << "fileClose : " << view->getDoc()->docName() << endl;
+
+		KURL url = view->getDoc()->url();
+		KileProjectItem *item;
 		if (view->getDoc()->closeURL() )
 		{
 			removeView(view);
-
 			//remove the decorations
-			removeMap(doc);
-			removeMap(infoFor(doc), itemFor(infoFor(doc)));
+			docinfo = infoFor(doc);
+			item = itemFor(docinfo);
+			if (item == 0)
+			{
+				//doc doesn't belong to a project, get rid of the docinfo
+				m_infoList.remove(docinfo);
+				delete docinfo;
+			}
 
-			m_docList.remove(doc);
+			//remove entry in projectview
+			m_projectview->remove(url);
+
+			trash(doc);
+			//m_docList.remove(doc);
 		}
 		else
 			return false;
@@ -1127,14 +1322,14 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
-	return fileCloseAll();
+	return projectCloseAll() && fileCloseAll();
 }
 
 void Kile::fileSelected(const KFileItem *file)
 {
     QString encoding =KileFS->comboEncoding->lineEdit()->text();
-
-	load(file->url(), encoding);
+	kdDebug() << "fileSelected : " << file->url().fileName() << endl;
+	fileOpen(file->url(), encoding);
 }
 
 void Kile::showDocInfo(Kate::Document *doc)
@@ -2574,6 +2769,11 @@ void Kile::execUserTool(int i)
 void Kile::ShowStructure()
 {
 	showVertPage(1);
+}
+
+void Kile::RefreshStructure()
+{
+	showVertPage(1);
 	UpdateStructure(true);
 }
 
@@ -2589,9 +2789,10 @@ void Kile::UpdateStructure(bool parse /* = false */)
 
 	if (docinfo)
 	{
-		if (parse) docinfo->updateStruct();
+		QListViewItem *item = (QListViewItem*)docinfo->structViewItem();
+		if ((item == 0) || parse) docinfo->updateStruct();
 		kdDebug() << "inserting item" <<endl;
-		outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
+		outstruct->insertItem(item);
 	}
 
 	Kate::View *view = currentView();
@@ -2619,6 +2820,8 @@ void Kile::ClickedOnStructure(QListViewItem * itm)
 
 void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 {
+	//TODO:
+	kdDebug() << "DoubleClickedOnStructure " << itm->text(0) << endl;
 	KileListViewItem *item = (KileListViewItem*)(itm);
 	if (! item) return;
 	if (! (item->type() & KileStruct::Input)) return;
@@ -2626,24 +2829,21 @@ void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 	Kate::View *view = currentView();
 	if ( ! view ) return;
 
-	QString fn;
-	if (m_singlemode)
-		fn = getName();
-	else
-		fn = m_masterName;
-
+	QString fn = getCompileName();
 	QString fname = item->title();
-
-	if (fname.right(5)==".tex")
+	if (fname.right(4)==".tex")
 		fname =QFileInfo(fn).dirPath()+"/" + fname;
 	else
 		fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
 
 	QFileInfo fi(fname);
-	if (fi.exists() && fi.isReadable())
+	kdDebug() << "trying : " << fname << endl;
+	if (fi.isReadable())
 	{
-		load(fname);
+		fileOpen(KURL::fromPathOrURL(fname));
 	}
+	else
+		KMessageBox::error(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1").arg(fname), i18n("Cannot find file!"));
 }
 
 //////////////// MESSAGES - LOG FILE///////////////////////
@@ -3914,6 +4114,7 @@ ButtonBar->setTab(page,true);
 lastvtab=page;
 if (page==0)
    {
+   m_projectview->hide();
    outstruct->hide();
    mpview->hide();
    if (symbol_view && symbol_present) delete symbol_view;
@@ -3928,6 +4129,7 @@ if (page==0)
 else if (page==1)
    {
    //UpdateStructure();
+   m_projectview->hide();
    KileFS->hide();
    mpview->hide();
    if (symbol_view && symbol_present) delete symbol_view;
@@ -3941,6 +4143,7 @@ else if (page==1)
    }
 else if (page==8)
    {
+   m_projectview->hide();
    KileFS->hide();
    outstruct->hide();
    if (symbol_view && symbol_present) delete symbol_view;
@@ -3952,8 +4155,24 @@ else if (page==8)
    ButtonBar->setPosition(KMultiVertTabBar::Right);
    mpview->show();
    }
+else if (page==9)
+{
+	kdDebug() << "SHOWING PROJECTS VIEW" << endl;
+	if (symbol_view && symbol_present) delete symbol_view;
+   symbol_present=false;
+	KileFS->hide();
+    outstruct->hide();
+    mpview->hide();
+	delete Structview_layout;
+	Structview_layout=new QHBoxLayout(Structview);
+    Structview_layout->add(m_projectview);
+    Structview_layout->add(ButtonBar);
+	ButtonBar->setPosition(KMultiVertTabBar::Right);
+	m_projectview->show();
+}
 else
    {
+	m_projectview->hide();
       KileFS->hide();
       outstruct->hide();
       mpview->hide();

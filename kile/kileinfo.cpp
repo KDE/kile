@@ -19,27 +19,90 @@
 
 #include <kate/document.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
 #include "kiledocumentinfo.h"
 #include "kileproject.h"
 #include "kileinfo.h"
 
+void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
+{
+	m_mapDocInfoToItem[docinfo]=item;
+	m_mapItemToDocInfo[item]=docinfo;
+	item->setInfo(docinfo);
+}
+
 void KileInfo::trash(Kate::Document *doc)
 {
-	 infoFor(doc)->detach();
-	 m_docList.remove(doc);
-	 removeMap(doc);
-	 delete doc;
+	KileDocumentInfo *docinfo =  infoFor(doc);
+	if (docinfo) docinfo->detach();
+	removeMap(doc);
+	m_docList.remove(doc);
+	delete doc;
+}
+
+KileProject* KileInfo::projectFor(const KURL &projecturl)
+{
+	KileProject *project = 0;
+
+	//find project with url = projecturl
+	QPtrListIterator<KileProject> it(m_projects);
+	while ( it.current() )
+	{
+		if ((*it)->url() == projecturl)
+		{
+			return *it;
+		}
+		++it;
+	}
+
+	return project;
+}
+
+KileProject* KileInfo::projectFor(const QString &name)
+{
+	KileProject *project = 0;
+
+	//find project with url = projecturl
+	QPtrListIterator<KileProject> it(m_projects);
+	while ( it.current() )
+	{
+		if ((*it)->name() == name)
+		{
+			return *it;
+		}
+		++it;
+	}
+
+	return project;
+}
+
+KileProjectItem* KileInfo::itemFor(const KURL &url)
+{
+	KileProjectItem *projectitem = 0;
+
+	QPtrListIterator<KileProject> it(m_projects);
+	while ( it.current() )
+	{
+		if ((*it)->contains(url))
+		{
+			return (*it)->item(url);
+		}
+		++it;
+	}
+
+	return projectitem;
 }
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
 {
-	for (uint i=0; i < m_docList.count(); i++)
+	for (uint i=0; i < m_infoList.count(); i++)
 	{
-		if ( m_docList.at(i)->url().path() == path)
-			return infoFor(m_docList.at(i));
+		if ( m_infoList.at(i)->url().path() == path)
+			return m_infoList.at(i);
 	}
 
+	kdDebug() << "COULD NOT find info for " << path << endl;
 	return 0;
 }
 
@@ -107,13 +170,9 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 
 bool	KileInfo::projectIsOpen(const KURL & url)
 {
-	for (uint i=0; i < m_projects.count(); i++)
-	{
-		if (m_projects.at(i)->url() == url)
-			return true;
-	}
+	KileProject *project = projectFor(url);
 
-	return false;
+	return project != 0 ;
 }
 
 KileProject* KileInfo::activeProject()

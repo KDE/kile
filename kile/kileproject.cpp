@@ -23,10 +23,49 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+#include "kiledocumentinfo.h"
+
+/*
+ * KileURLTree
+ */
+KileURLTree::KileURLTree(KileURLTree *parent, const KURL & url)  : m_parent(parent), m_url(url), m_sibling(0), m_child(0)
+{
+	if (m_parent)
+	{
+		//set this item as child, if parent didn't have a child yet
+		if (m_parent->firstChild() == 0)
+			m_parent->setChild(this);
+		else
+		{
+			KileURLTree *item = m_parent->firstChild();
+			while (item->sibling())
+				item = item->sibling();
+
+			item->setSibling(this);
+		}
+	}
+}
+
+KileURLTree::~KileURLTree()
+{
+	kdDebug() << "~KileURLTree() " << m_url.path() << endl;
+	delete m_sibling;
+	delete m_child;
+}
+
 /*
  * KileProjectItem
  */
+KileProjectItem::KileProjectItem(KileProject *project, const KURL & url) :
+	m_project(project),
+	m_url(url),
+	m_docinfo(0)
+{
+	m_highlight=m_encoding=QString::null; m_bOpen = true;
 
+	if (project)
+		project->add(this);
+}
 
 /*
  * KileProject
@@ -86,17 +125,18 @@ bool KileProject::load()
 			url = m_baseurl;
 			url.addPath(groups[i].mid(5));
 			url.cleanPath(true);
-			item = new KileProjectItem(url);
+			item = new KileProjectItem(this, url);
 
 			m_config->setGroup(groups[i]);
 			item->setOpenState(m_config->readBoolEntry("open", true));
-			item->setEncoding(m_config->readEntry("encoding",""));
+			item->setEncoding(m_config->readEntry("encoding", QString::null));
+			item->setHighlight(m_config->readEntry("highlight",QString::null));
 			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
 			item->changePath(groups[i].mid(5));
 
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
 
-			m_projectitems.append(item);
+			//m_projectitems.append(item);
 		}
 	}
 
@@ -120,7 +160,8 @@ bool KileProject::save()
 		m_config->setGroup("item:"+item->path());
 		m_config->writeEntry("open", item->isOpen());
 		m_config->writeEntry("encoding", item->encoding());
-		if (m_rootItem == item) m_config->writeEntry("master", true);
+		m_config->writeEntry("highlight", item->highlight());
+		kdDebug() << "saving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 
 	m_config->sync();
@@ -128,6 +169,23 @@ bool KileProject::save()
 	dump();
 
 	return true;
+}
+
+void KileProject::buildProjectTree()
+{
+}
+
+KileProjectItem* KileProject::item(const KURL & url)
+{
+	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	while (it.current())
+	{
+		if ((*it)->url() == url)
+			return *it;
+		++it;
+	}
+
+	return 0;
 }
 
 void KileProject::add(KileProjectItem* item)
@@ -144,8 +202,13 @@ void KileProject::add(KileProjectItem* item)
 
 void KileProject::remove(KileProjectItem* item)
 {
-	m_projectitems.remove(item);
+	if (m_config->hasGroup("item:"+item->path()))
+		m_config->deleteGroup("item:"+item->path());
+	else
+		kdWarning() << "KileProject::remove() Failed to delete the group corresponding to this item!!!" <<endl;
 
+	m_projectitems.remove(item);
+	
 	kdDebug() << "KileProject::remove" << endl;
 
 	dump();
@@ -207,6 +270,29 @@ bool KileProject::contains(const KURL &url)
 	}
 
 	return false;
+}
+
+KileProjectItem *KileProject::rootItem()
+{
+	//FIXME: don't set the master document statically, but
+	//use the updateStructure() to build the project tree
+
+	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	KileDocumentInfo *docinfo;
+	while (it.current())
+	{
+		docinfo = (*it)->getInfo();
+		kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
+		if (docinfo && docinfo->isLaTeXRoot())
+		{
+			return *it;
+		}
+		++it;
+	}
+
+	return 0;
+
+	return m_rootItem;
 }
 
 void KileProject::dump()

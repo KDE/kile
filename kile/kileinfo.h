@@ -51,15 +51,22 @@ public:
 	KileDocumentInfo* infoFor(Kate::Document* doc) const { if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
 
 	bool	projectIsOpen(const KURL & );
-	
+	KileProject* projectFor(const KURL &projecturl);
+	KileProject* projectFor(const QString & name);
+
 	KileProject*	activeProject();
 	KileProjectItem* activeProjectItem();
 	KileProjectItem* itemFor(KileDocumentInfo *docinfo) { if (m_mapDocInfoToItem.contains(docinfo)) return m_mapDocInfoToItem[docinfo];  else return 0;}
+	/**
+	 * Finds the project item for the file with URL @param url.
+	 * @returns a pointer to the project item, 0 if this file does not belong to a project
+	 **/
+	KileProjectItem* itemFor(const KURL &url);
 	KileDocumentInfo* infoFor(KileProjectItem *item) { if (m_mapItemToDocInfo.contains(item))  return m_mapItemToDocInfo[item];  else return 0;}
 	Kate::Document* docFor(const KURL &url);
 
 	void mapInfo(Kate::Document *doc, KileDocumentInfo *info) { m_mapDocInfo[doc] = info; }
-	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem[docinfo]=item; m_mapItemToDocInfo[item]=docinfo;}
+	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item);
 	void removeMap(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem.remove(docinfo); m_mapItemToDocInfo.remove(item); }
 	void removeMap(Kate::Document *doc) { m_mapDocInfo.remove(doc); }
 
@@ -75,6 +82,7 @@ protected:
 	QString	m_masterName;
 
 	QPtrList<Kate::Document> 		m_docList;
+	QPtrList<KileDocumentInfo>	m_infoList;
 };
 
 #endif

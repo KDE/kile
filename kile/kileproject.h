@@ -26,19 +26,49 @@
 class QString;
 class QStringList;
 class KSimpleConfig;
+class KileDocumentInfo;
+
+/**
+ * KileURLTree
+ **/
+class KileURLTree
+{
+public:
+	KileURLTree(KileURLTree *parent, const KURL & url);
+	~KileURLTree();
+
+	KileURLTree*	firstChild() {return m_child; }
+	KileURLTree*	sibling() { return m_sibling;}
+	KileURLTree*	parent() { return m_parent;}
+
+	void setChild(KileURLTree *item) { m_child = item; }
+	void setSibling(KileURLTree *item) { m_sibling = item; }
+
+private:
+	KileURLTree	*m_parent;
+	KURL				m_url;
+	KileURLTree	*m_sibling;
+	KileURLTree	*m_child;
+};
 
 /**
  * KileProjectItem
  **/
+class KileProject;
 class KileProjectItem : public QObject
 {
 	Q_OBJECT
 
 public:
-	KileProjectItem(const KURL &url = KURL()) : m_url(url) { m_encoding=QString::null; m_bOpen = true;}
+	KileProjectItem(KileProject *project = 0, const KURL &url = KURL());
 	~KileProjectItem() { kdDebug() << "DELETING " << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
+
+	void setInfo(KileDocumentInfo * docinfo) { m_docinfo = docinfo;}
+	KileDocumentInfo*	getInfo() { return m_docinfo; }
+
+	const KileProject* project() const{ return m_project;}
 
 	/**
 	 * @returns absolute URL of this item
@@ -55,6 +85,9 @@ public:
 	const QString& encoding() { return m_encoding;}
 	void setEncoding(const QString& encoding) {m_encoding = encoding;}
 
+	const QString& highlight() { return m_highlight;}
+	void setHighlight(const QString& highlight) {m_highlight = highlight;}
+
 	void changeURL(const KURL &url) { m_url = url;  emit(urlChanged(this));}
 	void changePath(const QString& path) { m_path = path;}
 
@@ -62,10 +95,13 @@ signals:
 	void urlChanged(KileProjectItem*);
 
 private:
-	KURL		m_url;
-	QString	m_path;
-	QString	m_encoding;
-	bool			m_bOpen;
+	KileProject			*m_project;
+	KURL					m_url;
+	QString				m_path;
+	QString				m_encoding;
+	QString				m_highlight;
+	bool						m_bOpen;
+	KileDocumentInfo *m_docinfo;
 };
 
 class  KileProjectItemList : public QPtrList<KileProjectItem>
@@ -88,14 +124,18 @@ public:
 
 	~KileProject() {}
 
-	const QString& name() { return m_name; }
-	const KURL& url() { return m_projecturl; }
-	const KURL& baseURL() { return m_baseurl; }
+	const QString& name() const { return m_name; }
+	const KURL& url() const { return m_projecturl; }
+	const KURL& baseURL() const { return m_baseurl; }
 
+	KileProjectItem* item(const KURL &);
 	KileProjectItemList* items() { return &m_projectitems; }
 
 	bool contains(const KURL&);
-	KileProjectItem *rootItem() { return m_rootItem; }
+	KileProjectItem *rootItem();
+
+	void buildProjectTree();
+	const KileURLTree* projectTree() { return m_projecttree; }
 
 public slots:
 	bool load();
@@ -123,6 +163,7 @@ private:
 
 	KileProjectItem			*m_rootItem;
 	KileProjectItemList	m_projectitems;
+	KileURLTree			*m_projecttree;
 
 	KSimpleConfig	*m_config;
 };

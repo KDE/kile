@@ -33,6 +33,8 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_bIsRoot = false;
 	m_arStatistics = new long[5];
 
+	m_url = m_oldurl = KURL();
+
 	//TODO: make this configurable
 	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
 	m_dictStructLevel["\\bibitem"]= KileStructData(-2, KileStruct::BibItem);
@@ -179,9 +181,15 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 
 void KileDocumentInfo::updateStruct()
 {
-	//kdDebug() << "KileDocumentInfo::updateStruct() " << getDoc()->url().path() << endl;
+	if (getDoc())
+		kdDebug() << "KileDocumentInfo::updateStruct() " << getDoc()->url().path() << endl;
+	else
+	{
+		kdDebug() << "no Document for " << url().path() <<endl;
+		return;
+	}
 
-	QString shortName = m_doc->url().fileName();
+	QString shortName = getDoc()->url().fileName();
 	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
 
 	m_labels.clear();
@@ -318,6 +326,8 @@ void KileDocumentInfo::updateStruct()
 			} // if tagStart
 		} // while tagStart
 	} //for
+
+	emit(isrootChanged(isLaTeXRoot()));
 
 }
 

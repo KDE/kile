@@ -20,7 +20,9 @@
 
 #include <kate/document.h>
 
+#include <kdebug.h>
 #include <klistview.h>
+#include <kurl.h>
 #include <kdialogbase.h>
 
 #define TEX_CAT0 '\\'
@@ -93,11 +95,13 @@ class KileDocumentInfo : public QObject
 
 public:
 	KileDocumentInfo(Kate::Document *doc);
+	~KileDocumentInfo() {kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;}
 
 	/**
 	 * @returns the document for which this class is a decorator
 	 **/
 	Kate::Document* getDoc() { return m_doc; }
+	void setDoc(Kate::Document *doc) { m_doc = doc;}
 	void detach() { m_doc = 0; }
 
 	/**
@@ -117,9 +121,18 @@ public:
 
 	bool isLaTeXRoot() { return m_bIsRoot; }
 
+	void setURL(const KURL& url) { m_oldurl = m_url = url;}
+	const KURL& url() {return m_url;}
+	const KURL& oldURL() {return m_oldurl;}
+
 public slots:
 	void updateStruct();
 	void updateBibItems();
+	void emitNameChanged(Kate::Document * doc ) { m_oldurl = m_url; if (doc) m_url = doc->url(); emit nameChanged(m_url);}
+
+signals:
+	void nameChanged(const KURL &);
+	void isrootChanged(bool);
 
 private:
 	void				count(const QString line, long *stat);
@@ -142,6 +155,7 @@ private:
 	KListView				*m_structview;
 	KileListViewItem	*m_struct;
 	QMap<QString,KileStructData>		m_dictStructLevel;
+	KURL					m_url, m_oldurl;
 };
 
 class KileDocInfoDlg : public KDialogBase

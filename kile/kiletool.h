@@ -20,7 +20,6 @@
 
 #include <qobject.h>
 #include <qmap.h>
-#include <qptrlist.h>
 #include <qstring.h>
 #include <qdict.h>
 #include <qstringlist.h>

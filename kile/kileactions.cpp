@@ -30,6 +30,7 @@
 #include <kdebug.h>
 
 #include "kileactions.h"
+#include "kileinfo.h"
 
 namespace KileAction
 {

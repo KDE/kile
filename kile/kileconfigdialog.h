@@ -19,8 +19,6 @@
 #include <kconfigdialog.h>
 
 #include <kdeversion.h>
-#include <ktexteditor/configinterface.h>
-#include <ktexteditor/configinterfaceextension.h>
 
 #include "configcodecompletion.h"     // code completion (dani)
 

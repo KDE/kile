@@ -23,8 +23,6 @@
 
 #include <qobject.h>
 
-#include <klocale.h>
-
 class KURL;
 class KFileItem;
 class KProgressDialog;

@@ -24,6 +24,7 @@
 
 #include "kileactions.h"
 #include "kileedit.h"
+#include "kileinfo.h"
 
 namespace KileStdActions
 {

@@ -21,7 +21,6 @@
 #include <klistview.h>
 #include <kurl.h>
 #include <kdialogbase.h>
-#include <kconfig.h>
 
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'

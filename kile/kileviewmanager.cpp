@@ -17,6 +17,8 @@
 
 #include <qpopupmenu.h>
 #include <qtimer.h> //for QTimer::singleShot trick
+#include <qpixmap.h>
+#include <qclipboard.h>
 
 #include <kdeversion.h>
 #include <kglobal.h>
@@ -30,7 +32,6 @@
 #include <klocale.h>
 #include <ktexteditor/editinterfaceext.h>
 #include <kapplication.h>
-#include <qclipboard.h>
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"

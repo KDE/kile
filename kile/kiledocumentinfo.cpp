@@ -19,6 +19,7 @@
 #include <qregexp.h>
 #include <qdatetime.h>
 
+#include <kconfig.h>
 #include <klocale.h>
 #include <kapplication.h>
 #include <kdebug.h>

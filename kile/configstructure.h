@@ -17,24 +17,19 @@
 #ifndef CONFIGSTRUCTURE_H
 #define CONFIGSTRUCTURE_H
 
-#include <kconfig.h>
-
 #include <qwidget.h>
-#include <qpoint.h>
 #include <qtable.h>
-#include <qlabel.h>
-#include <qlistview.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qmap.h>
 
-#include <qpainter.h>
-#include <qpalette.h>
-#include <qrect.h>
+class KConfig;
+
+class QRect;
+class QPainter;
+class QSpinBox;
+class QComboBox;
+class QPushButton;
 
 /**
   *@author Holger Danielsson
@@ -81,17 +76,17 @@ private:
    QComboBox *comboclasses;
    QSpinBox *m_structurelevel;
    QPushButton *add, *remove;
-       
+
    KileTable *m_entriestable,*m_sectioningtable;
    QCheckTableItem *m_visible[6], *m_defaultopen[6];
    QMap<QString,const QStringList *> m_docclasses;
-   
+
    void showSectioning(const QStringList *list);
    void changeSectioning(const QStringList *list);
-   
+
 public slots:
    void polish();
-   
+
 private slots:
   void clickedTable(KileTable *table,int row,int col);
   void clickedAdd();

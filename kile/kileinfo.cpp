@@ -18,6 +18,7 @@
 #include <qobject.h>
 
 #include <kate/document.h>
+#include <kate/view.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 

@@ -19,7 +19,6 @@
 #include <qsimplerichtext.h>
 
 #include <kdialogbase.h>
-#include <klistbox.h>
 
 #include "configtester.h"
 
@@ -27,6 +26,7 @@ class QLabel;
 class QPainter;
 
 class KProgress;
+class KListBox;
 
 class ConfigCheckerWidget;
 

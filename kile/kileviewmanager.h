@@ -20,17 +20,25 @@
 #define KILEVIEWKILEVIEWMANAGER_H
 
 #include <qobject.h>
-#include <ktabwidget.h>
-#include <qpixmap.h>
 
-#include <kate/view.h>
+#include <ktabwidget.h>
+
+class QPixmap;
 
 class KXMLGUIClient;
 
 class KileInfo;
 class KileEventFilter;
 class KileProjectView;
-class KileDocument::Info;
+
+namespace Kate {
+	class Document;
+	class View;
+}
+
+namespace KileDocument {
+	class Info;
+}
 
 namespace KileView 
 {

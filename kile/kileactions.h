@@ -20,10 +20,11 @@
 #include <kaction.h>
 #include <kdialogbase.h>
 
-#include "kileinfo.h"
 
 class QCheckBox;
 class QLineEdit;
+
+class KileInfo;
 
 namespace KileAction
 {

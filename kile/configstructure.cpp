@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdialog.h>
+#include <kconfig.h>
 #include <klocale.h>
 #include <kiconloader.h>
 
@@ -25,6 +26,12 @@
 #include <qvgroupbox.h>
 #include <qframe.h>
 #include <qstringlist.h>
+#include <qpushbutton.h>
+#include <qcombobox.h>
+#include <qspinbox.h>
+#include <qpainter.h>
+#include <qrect.h>
+#include <qlabel.h>
 
 #include "configstructure.h"
 

@@ -17,24 +17,26 @@
 #ifndef INCLUDEGRAPHICSDIALOG_H
 #define INCLUDEGRAPHICSDIALOG_H
 
-#include <qcheckbox.h>
-#include <qlabel.h>
 #include <qstring.h>
 
-#include <klineedit.h>
-#include <kprocess.h>
 #include <kdialogbase.h>
 
 /**
   *@author dani
   */
 
+class QLabel;
+class QCheckBox;
+
 class KileInfo;
+class KLineEdit;
+class KProcess;
+class KShellProcess;
 
 namespace KileDialog
 {
 
-class IncludeGraphics : public KDialogBase  
+class IncludeGraphics : public KDialogBase
 {
 	Q_OBJECT
 
@@ -80,6 +82,7 @@ private:
 	void execute(const QString &command);
 	
 	KileInfo *m_ki;
+	KShellProcess* m_proc;
 };
 
 }

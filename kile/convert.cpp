@@ -35,9 +35,13 @@ bool ConvertMap::create(const QString & encoding)
 	if ( map == 0 )
 	{
 		kdDebug() << "\tcreating a map for " << encoding << endl;
-		map = new ConvertMap(encoding);
+		map = new ConvertMap(encoding); // FIXME This will never be deleted if load() succeeds...
 		if ( map->load() )
 			g_maps[encoding] = map;
+        else {
+			delete map;
+			map = 0L;
+        }
 
 		map = g_maps[encoding];
 	}

@@ -22,6 +22,8 @@
 #include <qvgroupbox.h>
 #include <qlayout.h>
 #include <qpixmap.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
 
 #include <klocale.h>
 #include <kfiledialog.h>
@@ -29,6 +31,8 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kpushbutton.h>
+#include <kprocess.h>
+#include <klineedit.h>
 
 #include "kileconfig.h"
 #include "kileinfo.h"
@@ -40,7 +44,8 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
 	KDialogBase( Plain, i18n("Include Graphics"), Ok | Cancel, Ok, parent, 0, true, true),
 	m_startdir(startdir),
 	m_pdflatex(pdflatex),
-	m_ki(ki)
+	m_ki(ki),
+	m_proc(0)
 {
    // Layout
    QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
@@ -160,7 +165,9 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
 }
 
 IncludeGraphics::~IncludeGraphics()
-{}
+{
+   delete m_proc;
+}
 
 ////////////////////////////// update figure environment //////////////////////////////
 
@@ -394,22 +401,25 @@ void IncludeGraphics::execute(const QString &command)
    if ( !m_boundingbox || (!m_imagemagick && command.left(8)=="identify") )
       return;
 
-   KShellProcess* proc = new KShellProcess("/bin/sh");
-   proc->clearArguments();
-   (*proc) << QStringList::split(' ',command);
+   if(m_proc)
+      delete m_proc;
 
-   connect(proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
+   m_proc = new KShellProcess("/bin/sh");
+   m_proc->clearArguments();
+   (*m_proc) << QStringList::split(' ',command);
+
+   connect(m_proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
            this, SLOT(slotProcessOutput(KProcess*,char*,int)) );
-   connect(proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
+   connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
            this, SLOT(slotProcessOutput(KProcess*,char*,int)) );
-   connect(proc, SIGNAL(processExited(KProcess*)),
+   connect(m_proc, SIGNAL(processExited(KProcess*)),
            this, SLOT(slotProcessExited(KProcess*)) );
 
    m_output = "";
    kdDebug() << "=== IncludeGraphics::execute ====================" << endl;
    kdDebug() << "   execute '" << command << "'" << endl;
 
-   proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+   m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
 // get all output of identify

@@ -24,26 +24,35 @@
 TexKonsoleWidget::TexKonsoleWidget(QWidget *parent, const char *name)
   : QWidget(parent, name)
 {
-    KLibFactory *factory = KLibLoader::self()->factory("libkonsolepart");
-    if (!factory) return;
+	present=false;
 
-    part = (KParts::ReadOnlyPart *) factory->create(this);
-    if (!part) return;
-    if (part->widget()->inherits("QFrame"))
-      ((QFrame*)part->widget())->setFrameStyle(QFrame::Panel|QFrame::Sunken);
-
-    vbox = new QVBoxLayout(this);
-    vbox->addWidget(part->widget());
-    present=true;
-    connect ( part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()) );
+	vbox = new QVBoxLayout(this);
+	spawn();
 }
 
 
 TexKonsoleWidget::~TexKonsoleWidget()
 {
-
 }
 
+void TexKonsoleWidget::spawn()
+{
+	KLibFactory *factory = KLibLoader::self()->factory("libkonsolepart");
+    if (!factory) return;
+
+    part = (KParts::ReadOnlyPart *) factory->create(this);
+	if (!part) return;
+
+	if (part->widget()->inherits("QFrame"))
+      ((QFrame*)part->widget())->setFrameStyle(QFrame::Panel|QFrame::Sunken);
+
+    vbox->addWidget(part->widget());
+    present=true;
+    connect ( part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()) );
+
+	part->widget()->show();
+	show();
+}
 
 void TexKonsoleWidget::SetDirectory(QString dirname)
 {
@@ -66,7 +75,6 @@ void TexKonsoleWidget::activate()
 {
     if (present)
     {
-
       part->widget()->show();
       this->setFocusProxy(part->widget());
       part->widget()->setFocus();
@@ -75,7 +83,8 @@ void TexKonsoleWidget::activate()
 
 void TexKonsoleWidget::slotDestroyed ()
 {
-present=false;
+	present=false;
+	spawn();
 }
 
 #include "texkonsolewidget.moc"

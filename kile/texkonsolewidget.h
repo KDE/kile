@@ -39,13 +39,13 @@ public:
 
 
 public slots:
-
   void SetDirectory(QString dirname);
   void activate();
 
 protected:
 
   virtual void showEvent(QShowEvent *ev);
+	void spawn();
 
 private:
 

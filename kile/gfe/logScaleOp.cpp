@@ -26,7 +26,6 @@ using namespace std;
 
 #include "logScaleOp.h"
 #include <qstring.h>
-#include <strstream.h>
 #include <klocale.h>
 
 logScaleOp::logScaleOp
@@ -49,7 +48,7 @@ void logScaleOp::setGnuInterface(gnuInterface* gnu)
 {
   gnuInt = gnu;
 
-  QString tempBase = "";
+  QString tempBase;
   int base;
   int xAxis;
   int yAxis;
@@ -64,11 +63,7 @@ void logScaleOp::setGnuInterface(gnuInterface* gnu)
   x2Axis = gnuInt->getLogScaleX2Axis();
   y2Axis = gnuInt->getLogScaleY2Axis();
 
-  ostrstream temp;
-
-  temp << base << ends; // make sure to add terminator with ends, to avoid garbage
-                        // from unterminated QString
-  tempBase = temp.str();
+  tempBase = QString::number( base );
 
   logBaseEdit->setText(tempBase);
 

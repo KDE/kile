@@ -32,7 +32,12 @@ namespace KileWidget
 	Structure::Structure(KileInfo *ki, QWidget * parent, const char * name) : 
 		KListView(parent,name),
 		m_ki(ki),
-		m_docinfo(0L)
+		m_docinfo(0L),
+		m_label(0L),
+		m_current(0L),
+		m_root(0L), 
+		m_child(0L), 
+		m_lastChild(0L)
 	{
 		kdDebug() << "==KileWidget::Structure::Structure()===========" << endl;
 		kdDebug() << "\tm_root " << m_root << endl;

@@ -100,8 +100,8 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	cb_usecomplete = new QCheckBox(i18n("Use complete"),bg_options);
 	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"),bg_options);
 	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"),bg_options);
-	lb_latexthreshold = new QLabel("Threshold:",bg_options);
-	lb_textthreshold = new QLabel("Threshold:",bg_options);
+	lb_latexthreshold = new QLabel("Threshold (in letters):",bg_options);
+	lb_textthreshold = new QLabel("Threshold (in letters):",bg_options);
 	sp_latexthreshold = new QSpinBox(1,9,1,bg_options);
 	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
 	
@@ -120,10 +120,10 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	bg_optionsLayout->addWidget(sp_textthreshold,2,6);
 	
 	// tune layout
-	bg_optionsLayout->setColSpacing(1,30);
-	bg_optionsLayout->setColSpacing(3,16);
-	bg_optionsLayout->setColSpacing(5,10);
-	bg_optionsLayout->setColStretch(7,1);
+	bg_optionsLayout->setColSpacing(1,20);
+	bg_optionsLayout->setColSpacing(3,12);
+	bg_optionsLayout->setColSpacing(5,8);
+	bg_optionsLayout->setColStretch(6,1);
 	
 	QWhatsThis::add(cb_setcursor,i18n("Try to place the cursor."));
 	QWhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));

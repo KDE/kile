@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="2">
+<kpartgui name="kile" version="3">
 <MenuBar noMerge="1">
 <Menu name="file"><text>&amp;File</text>
 	<Action name="New"/>
@@ -320,6 +320,7 @@
 	<Action name="HtmlPreview"/>
 	<Separator lineSeparator="true"/>
 	<Action name="KdviForwardSearch"/>
+</ToolBar>
 <ToolBar name="ToolBar4" fullWidth="false" index="3">
 	<text>Edit</text>
 	<Action name="structure_list"/>

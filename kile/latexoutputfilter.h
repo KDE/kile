@@ -84,8 +84,8 @@ class LatexOutputFilter : public OutputFilter
 	bool detectError(const QString & strLine, short &dwCookie);
 	bool detectWarning(const QString & strLine, short &dwCookie);
 	bool detectBadBox(const QString & strLine, short &dwCookie);
-	bool detectLaTeXLineNumber(QString & warning, short & dwCookie);
-	bool detectBadBoxLineNumber(QString & strLine, short & dwCookie);
+	bool detectLaTeXLineNumber(QString & warning, short & dwCookie, int len);
+	bool detectBadBoxLineNumber(QString & strLine, short & dwCookie, int len);
 
 	bool fileExists(const QString & name);
 

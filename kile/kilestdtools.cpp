@@ -141,7 +141,7 @@ namespace KileTool
 		{
 			//check for "rerun LaTeX" warnings
 			bool reRan = false;
-			if ( (m_reRun < 3) && (nErrors == 0) && (nWarnings > 0) )
+			if ( (m_reRun < 1) && (nErrors == 0) && (nWarnings > 0) )
 			{
 				int sz =  manager()->info()->outputInfo()->size();
 				for (int i = 0; i < sz; i++ )

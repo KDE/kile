@@ -50,27 +50,12 @@ namespace KileTool
 	public:
 		LaTeX(const QString & tool, Manager *mngr) : Compile(tool, mngr) {}
 
+	signals:
+		void jumpToFirstError();
+
 	public slots:
 		bool finish(int);
 	};
-	
-	/*class TeX : public Compile
-	{
-	public:
-		TeX(Manager *mngr) : Compile("TeX", mngr) {}
-	};
-	
-	class DVItoPS : public Convert
-	{
-	public:
-		DVItoPS(Manager *mngr) : Convert("DVItoPS", mngr) {}
-	};
-
-	class ViewDVI : public View
-	{
-	public:
-		ViewDVI(Manager *mngr) : View("ViewDVI", mngr) {}
-	};*/
 
 	class ForwardDVI : public View
 	{

@@ -110,7 +110,14 @@ namespace KileTool
 			QString es = i18n("%n error", "%n errors", nErrors);
 			QString ws = i18n("%n warning", "%n warnings", nWarnings);
 			QString bs = i18n("%n badbox", "%n badboxes", nBadBoxes);
+
 			sendMessage(Info, es +", " + ws + ", " + bs);
+
+			if ( nErrors > 0 && (readEntry("jumpToFirstError") == "yes") )
+			{
+				connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
+				emit(jumpToFirstError());
+			}
 		}
 
 		return Compile::finish(r);

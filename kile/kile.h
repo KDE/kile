@@ -333,6 +333,10 @@ private slots:
 
 private:
 	void jumpToProblem(int type, bool);
+	void jumpToProblem(OutputInfo *);
+
+public slots:
+	void jumpToFirstError();
 
 private:
 	int			m_nCurrentError;

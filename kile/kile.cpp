@@ -306,6 +306,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(requestSaveAll()), docManager(), SLOT(fileSaveAll()));
+	connect(m_manager, SIGNAL(jumpToFirstError()), this, SLOT(jumpToFirstError()));
 
 	m_toolFactory = new KileTool::Factory(m_manager, config);
 	m_manager->setFactory(m_toolFactory);
@@ -1342,6 +1343,32 @@ void Kile::ViewLog()
 }
 
 ////////////////////////// ERRORS /////////////////////////////
+
+void Kile::jumpToFirstError()
+{
+	int sz = m_outputInfo->size();
+	for (int i = 0; i < sz; i++ )
+	{
+		if ( (*m_outputInfo)[i].type() == LatexOutputInfo::itmError )
+		{
+			jumpToProblem(&(*m_outputInfo)[i]);
+			break;
+		}
+	}
+}
+
+void Kile::jumpToProblem(OutputInfo *info)
+{
+	QString file = getFullFromPrettyName(info->source());
+
+	if ( file != QString::null )
+	{
+		docManager()->fileOpen(file);
+		if ( info->sourceLine() > 0 )
+		setLine(QString::number(info->sourceLine() - 1));
+	}
+}
+
 void Kile::jumpToProblem(int type, bool forward)
 {
 	static LatexOutputInfoArray::iterator it;
@@ -1384,7 +1411,7 @@ void Kile::jumpToProblem(int type, bool forward)
 		if ( !found ) return;
 
 		Outputview->showPage(LogWidget);
-
+		
 		//If the log file is being viewed, use this to jump to the errors,
 		//otherwise, use the error summary display
 		if (logpresent)
@@ -1392,15 +1419,7 @@ void Kile::jumpToProblem(int type, bool forward)
 		else
 			LogWidget->highlight( (*m_outputInfo)[m_nCurrentError].source() + ":" + QString::number((*m_outputInfo)[m_nCurrentError].sourceLine()), pl );
 
-		//jump to the error
-		QString file = getFullFromPrettyName((*m_outputInfo)[m_nCurrentError].source());
-
-		if ( file != QString::null )
-		{
-			docManager()->fileOpen(file);
-			if ( (*m_outputInfo)[m_nCurrentError].sourceLine() > 0 )
-				setLine(QString::number((*m_outputInfo)[m_nCurrentError].sourceLine() - 1));
-		}
+		jumpToProblem(&(*m_outputInfo)[m_nCurrentError]);
 	}
 
 	if (m_outputInfo->isEmpty() && correctlogfile)

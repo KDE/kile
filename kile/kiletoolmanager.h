@@ -106,6 +106,7 @@ namespace KileTool
 	signals:
 		void requestGUIState(const QString &);
 		void requestSaveAll();
+		void jumpToFirstError();
 
 	private:
 		KileInfo		*m_ki;

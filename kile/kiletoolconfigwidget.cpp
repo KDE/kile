@@ -437,6 +437,11 @@ namespace KileWidget
 		m_layout->addMultiCellWidget(cbRoot, row, row, 1, m_layout->numCols()-1, Qt::AlignLeft);
 		cbRoot->setChecked((*m_map)["checkForRoot"] == "yes");
 		connect(cbRoot, SIGNAL(toggled(bool)), this, SLOT(setLaTeXCheckRoot(bool)));
+
+		QCheckBox *cbJump = new QCheckBox(i18n("Jump to first error in case running LaTeX failed."), this);
+		m_layout->addMultiCellWidget(cbJump, row + 1, row + 1, 1, m_layout->numCols()-1, Qt::AlignLeft);
+		cbJump->setChecked((*m_map)["jumpToFirstError"] == "yes");
+		connect(cbJump, SIGNAL(toggled(bool)), this, SLOT(setLaTeXJump(bool)));
 	}
 
 	void BasicTool::createViewBib()
@@ -461,6 +466,7 @@ namespace KileWidget
 	void BasicTool::setTarget(const QString & trg) { (*m_map)["target"] = trg; }
 	void BasicTool::setRelDir(const QString & rd) { (*m_map)["relDir"] = rd; }
 	void BasicTool::setLaTeXCheckRoot(bool ck) { (*m_map)["checkForRoot"] = ck ? "yes" : "no"; }
+	void BasicTool::setLaTeXJump(bool ck) { (*m_map)["jumpToFirstError"] = ck ? "yes" : "no"; }
 	void BasicTool::setRunLyxServer(bool ck)
 	{
 		//kdDebug() << "setRunLyxServer" << endl;

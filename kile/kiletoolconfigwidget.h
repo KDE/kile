@@ -62,6 +62,7 @@ namespace KileWidget
 		void setTarget(const QString &);
 		void setRelDir(const QString &);
 		void setLaTeXCheckRoot(bool);
+		void setLaTeXJump(bool);
 		void setRunLyxServer(bool);
 
 	private:

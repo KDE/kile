@@ -38,6 +38,7 @@ from=
 to=dvi
 type=Process
 checkForRoot=yes
+jumpToFirstError=yes
 
 [Tool/LaTeX/Modern]
 class=LaTeX
@@ -47,6 +48,7 @@ from=
 to=dvi
 type=Process
 checkForRoot=yes
+jumpToFirstError=yes
 
 [Tool/LaTeXtoHTML/latex2html]
 class=Compile
@@ -96,6 +98,7 @@ from=
 to=pdf
 type=Process
 checkForRoot=yes
+jumpToFirstError=yes
 
 [Tool/PDFLaTeX/Modern]
 class=LaTeX
@@ -105,6 +108,7 @@ from=
 to=pdf
 type=Process
 checkForRoot=yes
+jumpToFirstError=yes
 
 [Tool/PStoPDF/Default]
 class=Convert
@@ -151,6 +155,7 @@ options=-interaction=nonstopmode '%source'
 from=
 to=dvi
 type=Process
+jumpToFirstError=yes
 
 [Tool/TeX/Modern]
 class=Compile
@@ -159,6 +164,7 @@ options=-src -interaction=nonstopmode '%source'
 from=
 to=dvi
 type=Process
+jumpToFirstError=yes
 
 [Tool/PDFTeX/Default]
 class=Compile

@@ -54,6 +54,7 @@ public:
 
 	void createTabs(QWidget *);
 	Kate::View* createView(Kate::Document *doc);
+	KTabWidget* tabs() { return m_tabs; }
 
 	void setProjectView(KileProjectView *view) { m_projectview = view; }
 	KileProjectView *projectView() { return m_projectview; }
@@ -80,12 +81,11 @@ signals:
 	void prepareForPart(const QString &);
 	void startSpellCheck();
 
-
 private:
-	KileInfo				*m_ki;
+	KileInfo			*m_ki;
 	Kate::View			*m_activeView;
 	KileProjectView		*m_projectview;
-	QPtrList<Kate::View> 	m_viewList;
+	QPtrList<Kate::View> m_viewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;

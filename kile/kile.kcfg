@@ -12,19 +12,19 @@
 		</entry>
 	</group>
 	<group name="Geometries">
-		<entry name="Splitter1_left" type="Int">
+		<entry name="horizontalSplitterLeft" type="Int">
 			<label></label>
 			<default>100</default>
 		</entry>
-		<entry name="Splitter1_right" type="Int">
+		<entry name="horizontalSplitterRight" type="Int">
 			<label></label>
 			<default>350</default>
 		</entry>
-		<entry name="Splitter2_top" type="Int">
+		<entry name="verticalSplitterTop" type="Int">
 			<label></label>
 			<default>350</default>
 		</entry>
-		<entry name="Splitter2_bottom" type="Int">
+		<entry name="verticalSplitterBottom" type="Int">
 			<label></label>
 			<default>100</default>
 		</entry>
@@ -54,12 +54,12 @@
 		</entry>
 	</group>
 	<group name="Show">
-		<entry name="Outputview" type="Bool">
-			<label>Whether to show the output view.</label>
+		<entry name="BottomBar" type="Bool">
+			<label>Whether to show the bottom bar.</label>
 			<default>true</default>
 		</entry>
-		<entry name="Structureview" type="Bool">
-			<label>Whether to show the structure view.</label>
+		<entry name="SideBar" type="Bool">
+			<label>Whether to show the side bar.</label>
 			<default>true</default>
 		</entry>
 		<entry name="HideProblemBadBox" type="Bool">

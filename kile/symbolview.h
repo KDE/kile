@@ -475,14 +475,21 @@ const codelist code=
   };
 
 //////////////////////////////
-class SymbolView : public KIconView  {
-Q_OBJECT
+class SymbolView : public KIconView
+{
+	Q_OBJECT
+
 public:
-	SymbolView(int page,QWidget *parent=0, const char *name=0);
+	SymbolView(QWidget *parent=0, const char *name=0);
 	~SymbolView();
 
+	enum {Relation = 0, Arrow, Misc, Delimiters, Greek, Special };
+
+public slots:
+	void showPage(int);
+
 private slots:
-	void InitPage(int page);
+	void initPage(int page);
 };
 ////////////////////////////////////////////
 

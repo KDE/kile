@@ -23,7 +23,6 @@
 #include <qmap.h>
 #include <qptrlist.h>
 
-#include <ktabwidget.h>
 #include <kdebug.h>
 #include <kurl.h>
 
@@ -42,6 +41,8 @@ class KileFileSelect;
 class KileEventFilter;
 
 namespace Kate { class Document;}
+
+class KileBottomBar;
 namespace KileDocument { class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
 namespace KileWidget { class Structure; class Konsole; }
@@ -98,7 +99,7 @@ public:
 	KileWidget::Structure *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::Output *outputWidget() { return m_outputWidget; }
-	KTabWidget *outputView() { return m_outputView; }
+	KileBottomBar *outputView() { return m_bottomBar; }
 	KileWidget::LogMsg *logWidget() { return m_logWidget; }
 
 	KileDocument::Manager* docManager() const { return m_docManager; }
@@ -126,7 +127,7 @@ protected:
 	KileWidget::Konsole		*m_texKonsole;
 	KileWidget::Output		*m_outputWidget;
 	KileWidget::LogMsg		*m_logWidget;
-	KTabWidget 			 *m_outputView;
+	KileBottomBar			*m_bottomBar;
 
 	KileDocument::EditorExtension *m_edit;
 

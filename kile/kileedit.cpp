@@ -294,16 +294,16 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 			view->getDoc()->insertText( row,col,"\n\\item " );
 			view->setCursorPositionReal(row + 1,6);
 		}
-		else if ( isTabEnvironment(name) || isMathEnvironment(name) )
-		{
-			view->getDoc()->insertText( row,col,"\\\\\n" );
-			view->setCursorPositionReal(row + 1,0);
-		}
+// 		else if ( isTabEnvironment(name) || isMathEnvironment(name) )
+// 		{
+// 			view->getDoc()->insertText( row,col,"\\\\\n" );
+// 			view->setCursorPositionReal(row + 1,0);
+// 		}
 		else
-			view->getDoc()->insertText( row,col,"\n" );
+			view->getDoc()->insertText( row,col,"\\\\\n" );
 	}
 	else
-		view->getDoc()->insertText( row,col,"\n" );
+		view->getDoc()->insertText( row,col,"\\\\\n" );
 
 }
 

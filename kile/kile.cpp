@@ -112,64 +112,165 @@
 #include "configcheckerdlg.h"
 #include "kilespell.h"
 #include "kilespell2.h"
+#include "kilesidebar.h"
+#include "symbolview.h"
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
 	KParts::MainWindow( parent, name),
 	KileInfo(this),
 	m_paPrint(0L),
-	m_bQuick(false),
 	m_bShowUserMovedMessage(false)
 {
+	m_config = KGlobal::config();
+	
+	m_AutosaveTimer= new QTimer();
+	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
+
+	m_edit = new KileDocument::EditorExtension(this);
+	m_help = new KileHelp::Help(m_edit);
+	m_partManager = new KParts::PartManager( this );
+	m_eventFilter = new KileEventFilter();
+	m_errorHandler = new KileErrorHandler(this, this);
+	m_spell = new KileSpell(this, this, "kilespell");
+
+	connect( m_partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
+	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
+
+	readGUISettings();
+
+	setXMLFile( "kileui.rc" );
+
 	// do initializations first
 	m_currentState = m_wantState="Editor";
 	m_bWatchFile = m_logPresent = false;
 
-	m_spell = new KileSpell(this, this, "kilespell");
-
-	symbol_view = 0L;
-	symbol_present=false;
-
 	viewManager()->setClient(this, this);
 
-	partManager = new KParts::PartManager( this );
-	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
+	setupStatusBar();
 
-	m_AutosaveTimer= new QTimer();
-	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
+	m_topWidgetStack = new QWidgetStack( this );
+	m_topWidgetStack->setFocusPolicy(QWidget::NoFocus);
+	
+	m_horizontalSplitter = new QSplitter(QSplitter::Horizontal,m_topWidgetStack, "horizontalSplitter" );
 
-	m_eventFilter = new KileEventFilter();
-	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
+	setupSideBar();
 
-	m_errorHandler = new KileErrorHandler(this, this);
+	m_verticalSplitter=new QSplitter(QSplitter::Vertical, m_horizontalSplitter, "verticalSplitter");	
+	viewManager()->createTabs(m_verticalSplitter);
+	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
+	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 
+	setupBottomBar();
+
+	// check requirements for IncludeGraphicsDialog (dani)
+	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify") == QString::null));
+
+	//workaround for kdvi crash when started with Tooltips
+	KileConfig::setRunOnStart(false);
+
+	setupActions();
+
+	QValueList<int> sizes;
+	sizes << m_verSplitTop << m_verSplitBottom;
+	m_verticalSplitter->setSizes( sizes );
+	sizes.clear();
+	sizes << m_horSplitLeft << m_horSplitRight;
+	m_horizontalSplitter->setSizes( sizes );
+
+	m_topWidgetStack->addWidget(m_horizontalSplitter , 0);
+	setCentralWidget(m_topWidgetStack);
+	newCaption();
+
+	m_partManager->setActivePart( 0L );
+
+	m_lyxserver = new KileLyxServer(m_runlyxserver);
+	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
+
+	applyMainWindowSettings(m_config, "KileMainWindow" );
+
+	m_manager  = new KileTool::Manager(this, m_config, m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
+	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
+	connect(m_manager, SIGNAL(requestSaveAll()), docManager(), SLOT(fileSaveAll()));
+	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
+	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
+
+	m_toolFactory = new KileTool::Factory(m_manager, m_config);
+	m_manager->setFactory(m_toolFactory);
+	m_help->setManager(m_manager);     // kile help (dani)
+
+	readConfig();
+	// ReadRecentFileSettings should be after setupActions() because fileOpenRecentAction needs to be
+	// initialized before calling ReadSettnigs().
+	readRecentFileSettings();
+	readUserSettings();
+
+	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
+	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
+	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
+	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
+
+	KileApplication::closeSplash();
+	show();
+
+	if ( m_listUserTools.count() > 0 )
+	{
+		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));
+		m_listUserTools.clear();
+	}
+
+	if (m_bShowUserMovedMessage)
+	{
+		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you have defined, is moved to the LaTeX menu."));
+	}
+
+	m_singlemode = true;
+	m_masterName = getName();
+	if (rest) restoreFilesAndProjects();
+}
+
+Kile::~Kile()
+{
+	kdDebug() << "cleaning up..." << endl;
+
+	// CodeCompletion  and edvanced editor (dani)
+	delete m_edit;
+	delete m_AutosaveTimer;
+}
+
+
+void Kile::setupStatusBar()
+{
 	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
 	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
 	statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
 	statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
-	topWidgetStack = new QWidgetStack( this );
-	topWidgetStack->setFocusPolicy(QWidget::NoFocus);
-	splitter1=new QSplitter(QSplitter::Horizontal,topWidgetStack, "splitter1" );
+}
 
-	Structview_layout=0;
-	Structview=new QFrame(splitter1);
-	Structview->setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
-	Structview->setLineWidth( 2 );
-	Structview_layout=0;
-// 	ButtonBar=new KMultiVertTabBar(Structview);
-	ButtonBar=new KMultiTabBar(KMultiTabBar::Vertical, Structview);
+void Kile::setupSideBar()
+{
+	m_sideBar = new KileSideBar(m_horizontalSplitter);
 
-	ButtonBar->appendTab(SmallIcon("fileopen"),0,i18n("Open File"));
-	connect(ButtonBar->tab(0),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	KileFS= new KileFileSelect(Structview,"File Selector");
+	KileFS= new KileFileSelect(m_sideBar,"File Selector");
+	m_sideBar->addTab(KileFS, SmallIcon("fileopen"), i18n("Open File"));
 	connect(KileFS,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
 	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	KileFS->comboEncoding->lineEdit()->setText(input_encoding);
+	KileFS->comboEncoding->lineEdit()->setText(m_inputEncoding);
+	KileFS->readConfig();
 
-	KileProjectView *projectview = new KileProjectView(Structview, this);
+	setupProjectView();
+	setupStructureView();
+	setupSymbolViews();
+
+	m_sideBar->showTab(KileConfig::selectedLeftView());
+	m_sideBar->setVisible(KileConfig::sideBar());
+}
+
+void Kile::setupProjectView()
+{
+	KileProjectView *projectview = new KileProjectView(m_sideBar, this);
 	viewManager()->setProjectView(projectview);
-	ButtonBar->appendTab( SmallIcon("editcopy"),9,i18n("Files & Projects"));
-	connect(ButtonBar->tab(9),SIGNAL(clicked(int)), this,SLOT(showVertPage(int)));
+	m_sideBar->addTab(projectview, SmallIcon("editcopy"), i18n("Files && Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
 	connect(projectview, SIGNAL(closeURL(const KURL&)), docManager(), SLOT(fileClose(const KURL&)));
@@ -183,158 +284,65 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(projectview, SIGNAL(saveURL(const KURL &)), docManager(), SLOT(saveURL(const KURL &)));
 	connect(projectview, SIGNAL(buildProjectTree(const KURL &)), docManager(), SLOT(buildProjectTree(const KURL &)));
 	connect(docManager(), SIGNAL(projectTreeChanged(const KileProject *)), projectview, SLOT(refreshProjectTree(const KileProject *)));
+}
 
-	ButtonBar->appendTab( SmallIcon("structure"),1,i18n("Structure"));
-	connect(ButtonBar->tab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	m_kwStructure = new KileWidget::Structure(this, Structview);
+void Kile::setupStructureView()
+{
+	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
+	m_sideBar->addTab(m_kwStructure, SmallIcon("structure"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
 	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
 
 	QToolTip::add(m_kwStructure, i18n("Click to jump to the line"));
+}
 
-	mpview = new metapostview( Structview );
-	connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
+void Kile::setupSymbolViews()
+{
+	m_sideBar->addSymbolTab(SymbolView::Relation, SmallIcon("math1"), i18n("Relation Symbols"));
+	m_sideBar->addSymbolTab(SymbolView::Arrow, SmallIcon("math2"), i18n("Arrow Symbols"));
+	m_sideBar->addSymbolTab(SymbolView::Misc, SmallIcon("math3"), i18n("Miscellaneous Symbols"));
+	m_sideBar->addSymbolTab(SymbolView::Delimiters, SmallIcon("math4"), i18n("Delimiters"));
+	m_sideBar->addSymbolTab(SymbolView::Greek, SmallIcon("math5"), i18n("Greek Letters"));
+	m_sideBar->addSymbolTab(SymbolView::Special, SmallIcon("math6"), i18n("Special Characters"));
+	connect(m_sideBar->symbolView(), SIGNAL(executed(QIconViewItem*)), this, SLOT(insertSymbol(QIconViewItem*)));
 
-	m_edit = new KileDocument::EditorExtension(this);
-	m_help = new KileHelp::Help(m_edit);
+	m_mpview = new metapostview( m_sideBar );
+	m_sideBar->addTab(m_mpview, SmallIcon("metapost"), i18n("MetaPost Commands"));
+	connect(m_mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(insertMetaPost(QListBoxItem *)));
+}
 
-	config = KGlobal::config();
+void Kile::setupBottomBar()
+{
+	m_bottomBar = new KileBottomBar(m_verticalSplitter);
+	m_bottomBar->setFocusPolicy(QWidget::ClickFocus);
 
-	// check requirements for IncludeGraphicsDialog (dani)
-	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify") == QString::null));
-
-	//workaround for kdvi crash when started with Tooltips
-	KileConfig::setRunOnStart(false);
-
-	KileFS->readConfig();
-
-	setXMLFile( "kileui.rc" );
-
-	ReadSettings();
-
-	setupActions();
-
-	// ReadRecentFileSettings should be after setupActions() because fileOpenRecentAction needs to be
-	// initialized before calling ReadSettnigs().
-	ReadRecentFileSettings();
-
-	ButtonBar->appendTab(SmallIcon("math1"),2,i18n("Relation Symbols"));
-	connect(ButtonBar->tab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->appendTab(SmallIcon("math2"),3,i18n("Arrow Symbols"));
-	connect(ButtonBar->tab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->appendTab(SmallIcon("math3"),4,i18n("Miscellaneous Symbols"));
-	connect(ButtonBar->tab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->appendTab(SmallIcon("math4"),5,i18n("Delimiters"));
-	connect(ButtonBar->tab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->appendTab(SmallIcon("math5"),6,i18n("Greek Letters"));
-	connect(ButtonBar->tab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->appendTab(SmallIcon("math6"),7,i18n("Special Characters"));
-	connect(ButtonBar->tab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->appendTab(SmallIcon("metapost"),8,i18n("MetaPost Commands"));
-	connect(ButtonBar->tab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-
-	splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
-
-	viewManager()->createTabs(splitter2);
-	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
-	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
-
-	//Log/Messages/KShell widgets
-	m_outputView = new KTabWidget(splitter2);
-	m_outputView->setFocusPolicy(QWidget::ClickFocus);
-
-	//m_logWidget = new MessageWidget( m_outputView );
-	m_logWidget = new KileWidget::LogMsg( this, m_outputView );
+	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );
 	connect(m_logWidget, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
 
 	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_outputView->addTab(m_logWidget,SmallIcon("viewlog"), i18n("Log/Messages"));
+	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n(" Log && Messages "));
 
-	m_outputWidget = new KileWidget::Output(m_outputView);
+	m_outputWidget = new KileWidget::Output(m_bottomBar);
 	m_outputWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
-	m_outputView->addTab(m_outputWidget,SmallIcon("output_win"), i18n("Output"));
+	m_bottomBar->addTab(m_outputWidget, SmallIcon("output_win"), i18n(" Output "));
 
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter(m_outputInfo);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
-	m_texKonsole=new KileWidget::Konsole(this, m_outputView,"konsole");
-	m_outputView->addTab(m_texKonsole,SmallIcon("konsole"),i18n("Konsole"));
+	m_texKonsole=new KileWidget::Konsole(this, m_bottomBar,"konsole");
+	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n(" Konsole "));
+	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
-	QValueList<int> sizes;
-	sizes << split2_top << split2_bottom;
-	splitter2->setSizes( sizes );
-	sizes.clear();
-	sizes << split1_left << split1_right;
-	splitter1->setSizes( sizes );
-
-	topWidgetStack->addWidget(splitter1 , 0);
-	setCentralWidget(topWidgetStack);
-	ShowOutputView(false);
-	ShowStructView(false);
-	m_outputView->showPage(m_logWidget);
-	newCaption();
-	showVertPage(lastvtab);
-	m_singlemode=true;
-	m_masterName=getName();
-
-	partManager->setActivePart( 0L );
-
-	m_lyxserver = new KileLyxServer(m_runlyxserver);
-	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
-
-	KileApplication::closeSplash();
-	show();
-
-	connect(m_outputView, SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
-
-	applyMainWindowSettings(config, "KileMainWindow" );
-
-	m_manager  = new KileTool::Manager(this, config, m_logWidget, m_outputWidget, partManager, topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
-	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
-	connect(m_manager, SIGNAL(requestSaveAll()), docManager(), SLOT(fileSaveAll()));
-	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
-	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
-
-	m_toolFactory = new KileTool::Factory(m_manager, config);
-	m_manager->setFactory(m_toolFactory);
-	m_help->setManager(m_manager);     // kile help (dani)
-
-	if ( m_listUserTools.count() > 0 )
-	{
-		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));
-		m_listUserTools.clear();
-	}
-
-	if (m_bShowUserMovedMessage)
-	{
-		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you have defined, is moved to the LaTeX menu."));
-	}
-
-	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
-	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
-	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
-	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
-
-// 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), this, SLOT(UpdateStructure(bool, KileDocument::Info*)));
-
-	if (rest) restore();
-}
-
-Kile::~Kile()
-{
-	kdDebug() << "cleaning up..." << endl;
-
-	// CodeCompletion  and edvanced editor (dani)
-	delete m_edit;
-	delete m_AutosaveTimer;
+	m_bottomBar->showPage(m_logWidget);
+	m_bottomBar->setVisible(KileConfig::bottomBar());
 }
 
 void Kile::setupActions()
@@ -361,12 +369,12 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Western European (cp-1252)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1252" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
-	(void) new KAction(i18n("Find &in Files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
+	(void) new KAction(i18n("Find &in Files..."), ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
 
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
-	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
@@ -382,7 +390,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
 
 	//build actions
-	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
+	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
 	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, m_errorHandler, SLOT(PreviousError()), actionCollection(),"PreviousError" );
 	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, m_errorHandler, SLOT(NextError()), actionCollection(),"NextError" );
@@ -395,7 +403,7 @@ void Kile::setupActions()
 
 	setupTools();
 
-	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
+	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(showEditorWidget()), actionCollection(),"EditorView" );
 	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, viewManager(), SLOT(gotoNextView()), actionCollection(), "gotoNextDocument" );
 	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, viewManager(), SLOT(gotoPrevView()), actionCollection(), "gotoPrevDocument" );
 	(void) new KAction(i18n("Focus Log/Messages View"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
@@ -448,19 +456,24 @@ void Kile::setupActions()
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
 
-	(void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
-	connect(docManager(), SIGNAL(startWizard()), this, SLOT(QuickDocument()));
-	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
-	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
-	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );
+	(void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(quickDocument()), actionCollection(),"127" );
+	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
+	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(quickTabular()), actionCollection(),"129" );
+	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(quickTabbing()), actionCollection(),"149" );
+	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(quickArray()), actionCollection(),"130" );
 
+	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
 
-	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
+	ModeAction=new KToggleAction(i18n("Define Current Document as '&Master Document'"),"master",0 , this, SLOT(toggleMode()), actionCollection(),"Mode" );
 
-	ModeAction=new KToggleAction(i18n("Define Current Document as '&Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
-
-	StructureAction=new KToggleAction(i18n("Show Str&ucture View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
-	MessageAction=new KToggleAction(i18n("Show Mess&ages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
+	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), 0, 0, 0, actionCollection(),"StructureView" );
+	tact->setChecked(KileConfig::sideBar());
+	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
+	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
+	tact = new KToggleAction(i18n("Show Mess&ages Bar"), 0, 0, 0, actionCollection(),"MessageView" );
+	tact->setChecked(KileConfig::bottomBar());
+	connect(tact, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
+	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
 
 	//FIXME: obsolete for KDE 4
 	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
@@ -481,28 +494,24 @@ void Kile::setupActions()
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
 	else {ModeAction->setChecked(true);}
-	if (showstructview) {StructureAction->setChecked(true);}
-	else {StructureAction->setChecked(false);}
-	if (showoutputview) {MessageAction->setChecked(true);}
-	else {MessageAction->setChecked(false);}
 
 	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "removetemplates");
 
-	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(), "WatchFile");
+	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(toggleWatchFile()), actionCollection(), "WatchFile");
 	if (m_bWatchFile) {WatchFileAction->setChecked(true);}
 	else {WatchFileAction->setChecked(false);}
 
 	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
-	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help_latex_reference" );
+	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
 	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
 	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
-	(void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"settings_configure" );
-	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"settings_keys" );
-	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"settings_toolbars" );
+	(void) KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
+	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
+	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
 	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
@@ -518,7 +527,7 @@ void Kile::setupActions()
 void Kile::setupTools()
 {
 	kdDebug() << "==Kile::setupTools()===================" << endl;
-	QStringList tools = KileTool::toolList(config);
+	QStringList tools = KileTool::toolList(m_config);
 	QString toolMenu;
 	QPtrList<KAction> *pl;
 
@@ -530,10 +539,10 @@ void Kile::setupTools()
 
 	for ( uint i = 0; i < tools.count(); i++)
 	{
-		QString grp = KileTool::groupFor(tools[i], config);
+		QString grp = KileTool::groupFor(tools[i], m_config);
 		kdDebug() << tools[i] << " is using group: " << grp << endl;
-		config->setGroup(KileTool::groupFor(tools[i], config));
-		toolMenu = KileTool::menuFor(tools[i], config);
+		m_config->setGroup(KileTool::groupFor(tools[i], m_config));
+		toolMenu = KileTool::menuFor(tools[i], m_config);
 
 		if ( toolMenu == "none" ) continue;
 
@@ -552,7 +561,7 @@ void Kile::setupTools()
 
 		if ( action(QString("tool_"+tools[i]).ascii()) == 0L )
 		{
-			KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
+			KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], m_config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
 			pl->append(act);
 		}
 	}
@@ -569,7 +578,7 @@ void Kile::setupTools()
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
 
-	actionCollection()->readShortcutSettings("Shortcuts", config);
+	actionCollection()->readShortcutSettings("Shortcuts", m_config);
 }
 
 void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
@@ -589,7 +598,7 @@ void Kile::setupUserTagActions()
 	KShortcut tagaccels[10] = {CTRL+SHIFT+Key_1, CTRL+SHIFT+Key_2,CTRL+SHIFT+Key_3,CTRL+SHIFT+Key_4,CTRL+SHIFT+Key_5,CTRL+SHIFT+Key_6,CTRL+SHIFT+Key_7,
 		CTRL+SHIFT+Key_8,CTRL+SHIFT+Key_9,CTRL+SHIFT+Key_0};
 
-	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), m_menuUserTags,"EditUserMenu" );
+	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
 	for (uint i=0; i<m_listUserTags.size(); i++)
 	{
@@ -600,10 +609,10 @@ void Kile::setupUserTagActions()
 		m_menuUserTags->insert(menuItem);
 	}
 
-	actionCollection()->readShortcutSettings("Shortcuts", config);
+	actionCollection()->readShortcutSettings("Shortcuts", m_config);
 }
 
-void Kile::restore()
+void Kile::restoreFilesAndProjects()
 {
 	if (!m_bRestore) return;
 
@@ -634,7 +643,7 @@ void Kile::restore()
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(lastDocument));
+	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(m_lastDocument));
 	if (doc) activateView(doc->views().first());
 }
 
@@ -659,7 +668,7 @@ void Kile::setLine( const QString &line )
 		view->setFocus();
 		view->gotoLineNumber(l);
 
-		ShowEditorWidget();
+		showEditorWidget();
 		newStatus();
   	}
 }
@@ -776,17 +785,17 @@ void Kile::projectOpen(const QString& proj)
 
 void Kile::focusLog()
 {
-	m_outputView->showPage(m_logWidget);
+	m_bottomBar->showPage(m_logWidget);
 }
 
 void Kile::focusOutput()
 {
-	m_outputView->showPage(m_outputWidget);
+	m_bottomBar->showPage(m_outputWidget);
 }
 
 void Kile::focusKonsole()
 {
-	m_outputView->showPage(m_texKonsole);
+	m_bottomBar->showPage(m_texKonsole);
 }
 
 void Kile::focusEditor()
@@ -797,7 +806,7 @@ void Kile::focusEditor()
 
 bool Kile::queryExit()
 {
-	SaveSettings();
+	saveSettings();
 	return true;
 }
 
@@ -806,13 +815,13 @@ bool Kile::queryClose()
 	//don't close Kile if embedded viewers are present
 	if ( m_currentState != "Editor" )
 	{
-		ResetPart();
+		resetPart();
 		return false;
 	}
 
 	Kate::View *view = viewManager()->currentView();
 	if (view)
-		lastDocument = view->getDoc()->url().path();
+		m_lastDocument = view->getDoc()->url().path();
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -921,11 +930,11 @@ void Kile::newCaption()
 	if (view)
 	{
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
-		if (m_outputView->currentPage()->inherits("KileWidget::Konsole")) m_texKonsole->sync();
+		if (m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) m_texKonsole->sync();
 	}
 }
 
-void Kile::GrepItemSelected(const QString &abs_filename, int line)
+void Kile::grepItemSelected(const QString &abs_filename, int line)
 {
 	kdDebug() << "Open file: "
 		<< abs_filename << " (" << line << ")" << endl;
@@ -933,7 +942,7 @@ void Kile::GrepItemSelected(const QString &abs_filename, int line)
 	setLine(QString::number(line));
 }
 
-void Kile::FindInFiles()
+void Kile::findInFiles()
 {
 	static KileGrepDialog *dlg = 0;
 
@@ -966,19 +975,17 @@ void Kile::FindInFiles()
 	dlg->show();
 
 	connect(dlg, SIGNAL(itemSelected(const QString &, int)),
-		this, SLOT(GrepItemSelected(const QString &, int)));
+		this, SLOT(grepItemSelected(const QString &, int)));
 }
 
 /////////////////// PART & EDITOR WIDGET //////////
-void Kile::ShowEditorWidget()
+void Kile::showEditorWidget()
 {
-	ResetPart();
-	setCentralWidget(topWidgetStack);
-	topWidgetStack->show();
-	splitter1->show();
-	splitter2->show();
-	if (showstructview) Structview->show();
-	if (showoutputview) m_outputView->show();
+	resetPart();
+	setCentralWidget(m_topWidgetStack);
+	m_topWidgetStack->show();
+	m_horizontalSplitter->show();
+	m_verticalSplitter->show();
 
 	Kate::View *view = viewManager()->currentView();
 	if (view) view->setFocus();
@@ -988,26 +995,26 @@ void Kile::ShowEditorWidget()
 }
 
 
-void Kile::ResetPart()
+void Kile::resetPart()
 {
-	kdDebug() << "==Kile::ResetPart()=============================" << endl;
+	kdDebug() << "==Kile::resetPart()=============================" << endl;
 	kdDebug() << "\tcurrent state " << m_currentState << endl;
 	kdDebug() << "\twant state " << m_wantState << endl;
 
-	KParts::ReadOnlyPart *part = (KParts::ReadOnlyPart*)partManager->activePart();
+	KParts::ReadOnlyPart *part = (KParts::ReadOnlyPart*)m_partManager->activePart();
 
 	if (part && m_currentState != "Editor")
 	{
 		kdDebug() << "\tclosing current part" << endl;
 		part->closeURL();
-		partManager->removePart(part) ;
-		topWidgetStack->removeWidget(part->widget());
+		m_partManager->removePart(part) ;
+		m_topWidgetStack->removeWidget(part->widget());
 		delete part;
 	}
 
 	m_currentState = "Editor";
 	m_wantState = "Editor";
-	partManager->setActivePart( 0L);
+	m_partManager->setActivePart( 0L);
 }
 
 void Kile::activePartGUI(KParts::Part * part)
@@ -1090,7 +1097,7 @@ void Kile::showToolBars(const QString & wantState)
 	{
 		stateChanged( "Editor" );
 		m_wantState="Editor";
-		topWidgetStack->raiseWidget(0);
+		m_topWidgetStack->raiseWidget(0);
 		if (m_bShowMainTB) toolBar("mainToolBar")->show();
 		if (m_bShowEditTB) toolBar("editToolBar")->show();
 		if (m_bShowToolsTB) toolBar("toolsToolBar")->show();
@@ -1130,7 +1137,7 @@ void Kile::prepareForPart(const QString & state)
 
 	if ( m_currentState == "Editor" && state == "Editor" ) return;
 
-	ResetPart();
+	resetPart();
 	m_wantState = state;
 
 	//deactivate kateparts
@@ -1151,7 +1158,7 @@ void Kile::runTool()
 	m_manager->run(name);
 }
 
-void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
+void Kile::cleanAll(KileDocument::Info *docinfo, bool silent)
 {
 	static QString noactivedoc = i18n("There is no active document or it is not saved.");
 	if (docinfo == 0)
@@ -1214,15 +1221,8 @@ void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
 	}
 }
 
-////////////////// STRUCTURE ///////////////////
-void Kile::ShowStructure()
+void Kile::refreshStructure()
 {
-	showVertPage(1);
-}
-
-void Kile::RefreshStructure()
-{
-	showVertPage(1);
 	viewManager()->updateStructure(true);
 }
 
@@ -1250,9 +1250,9 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 	insertTag(KileAction::TagData(QString::null,tagB,tagE,dx,dy));
 }
 
-void Kile::QuickDocument()
+void Kile::quickDocument()
 {
-	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(config, this,"Quick Start",i18n("Quick Start"));
+	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(m_config, this,"Quick Start",i18n("Quick Start"));
 
 	if ( dlg->exec() )
 	{
@@ -1264,10 +1264,10 @@ void Kile::QuickDocument()
 	delete dlg;
 }
 
-void Kile::QuickTabular()
+void Kile::quickTabular()
 {
 	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickTabular *dlg = new KileDialog::QuickTabular(config, this,"Tabular", i18n("Tabular"));
+	KileDialog::QuickTabular *dlg = new KileDialog::QuickTabular(m_config, this,"Tabular", i18n("Tabular"));
 	if ( dlg->exec() )
 	{
 		insertTag(dlg->tagData());
@@ -1275,10 +1275,10 @@ void Kile::QuickTabular()
 	delete dlg;
 }
 
-void Kile::QuickTabbing()
+void Kile::quickTabbing()
 {
 	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(config, this,"Tabbing", i18n("Tabbing"));
+	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(m_config, this,"Tabbing", i18n("Tabbing"));
 	if ( dlg->exec() )
 	{
 		insertTag(dlg->tagData());
@@ -1286,10 +1286,10 @@ void Kile::QuickTabbing()
 	delete dlg;
 }
 
-void Kile::QuickArray()
+void Kile::quickArray()
 {
 	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickArray *dlg = new KileDialog::QuickArray(config, this,"Array", i18n("Array"));
+	KileDialog::QuickArray *dlg = new KileDialog::QuickArray(m_config, this,"Array", i18n("Array"));
 	if ( dlg->exec() )
 	{
 		insertTag(dlg->tagData());
@@ -1300,18 +1300,18 @@ void Kile::QuickArray()
 //////////////////////////// MATHS TAGS/////////////////////////////////////
 void Kile::insertSymbol(QIconViewItem *item)
 {
-	QString code_symbol= item->key();
+	QString code_symbol = item->key();
 	insertTag(code_symbol,QString::null,code_symbol.length(),0);
 }
 
-void Kile::InsertMetaPost(QListBoxItem *)
+void Kile::insertMetaPost(QListBoxItem *)
 {
-	QString mpcode=mpview->currentText();
+	QString mpcode = m_mpview->currentText();
 	if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 }
 
 //////////////// HELP /////////////////
-void Kile::LatexHelp()
+void Kile::helpLaTex()
 {
 	QString loc = locate("html","en/kile/latexhelp.html");
 	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
@@ -1322,7 +1322,7 @@ void Kile::LatexHelp()
 }
 
 ///////////////////// USER ///////////////
-void Kile::EditUserMenu()
+void Kile::editUserMenu()
 {
 	KileDialog::UserTags *dlg = new KileDialog::UserTags(m_listUserTags, this, "Edit User Tags", i18n("Edit User Tags"));
 
@@ -1347,13 +1347,24 @@ void Kile::EditUserMenu()
 }
 
 /////////////// CONFIG ////////////////////
-void Kile::ReadSettings()
+void Kile::readGUISettings()
+{
+	//now read the other config data
+	QRect screen = QApplication::desktop()->screenGeometry();
+	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
+	m_horSplitLeft = KileConfig::horizontalSplitterLeft();
+	m_horSplitRight = KileConfig::horizontalSplitterRight();
+	m_verSplitTop = KileConfig::verticalSplitterTop();
+	m_verSplitBottom = KileConfig::verticalSplitterBottom();
+}
+
+void Kile::readUserSettings()
 {
 	//test for old kilerc
 	int version = KileConfig::rCVersion();
 	bool old=false;
 
-	m_bShowUserMovedMessage = (version < 4);
+	m_bShowUserMovedMessage = (version < 5);
 
 	//if the kilerc file is old some of the configuration
 	//date must be set by kile, even if the keys are present
@@ -1362,124 +1373,105 @@ void Kile::ReadSettings()
 
 	if ( version < 4 )
 	{
-		KileTool::Factory *factory = new KileTool::Factory(0,config);
+		KileTool::Factory *factory = new KileTool::Factory(0, m_config);
 		kdDebug() << "WRITING STD TOOL CONFIG" << endl;
 		factory->writeStdConfig();
+		delete factory;
 	}
 
 	//delete old editor key
-	if (config->hasGroup("Editor") )
+	if (m_config->hasGroup("Editor") )
 	{
-		config->deleteGroup("Editor");
+		m_config->deleteGroup("Editor");
 	}
 
-	config->setGroup( "User" );
-	int len = config->readNumEntry("nUserTags",0);
+	m_config->setGroup( "User" );
+	int len = m_config->readNumEntry("nUserTags",0);
 	for (int i = 0; i < len; i++)
 	{
-		m_listUserTags.append(KileDialog::UserTags::splitTag(config->readEntry("userTagName"+QString::number(i),i18n("no name")) , config->readEntry("userTag"+QString::number(i),"") ));
+		m_listUserTags.append(KileDialog::UserTags::splitTag(m_config->readEntry("userTagName"+QString::number(i),i18n("no name")) , m_config->readEntry("userTag"+QString::number(i),"") ));
 	}
 
 	//convert user tools to new KileTool classes
 	userItem tempItem;
-	len= config->readNumEntry("nUserTools",0);
+	len= m_config->readNumEntry("nUserTools",0);
 	for (int i=0; i< len; i++)
 	{
-		tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
-		tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
+		tempItem.name=m_config->readEntry("userToolName"+QString::number(i),i18n("no name"));
+		tempItem.tag =m_config->readEntry("userTool"+QString::number(i),"");
 		m_listUserTools.append(tempItem);
 	}
 	if ( len > 0 )
 	{
  		//move the tools
-		config->writeEntry("nUserTools", 0);
+		m_config->writeEntry("nUserTools", 0);
 		for ( int i = 0; i < len; i++)
 		{
 			tempItem = m_listUserTools[i];
-			config->setGroup("Tools");
-			config->writeEntry(tempItem.name, "Default");
+			m_config->setGroup("Tools");
+			m_config->writeEntry(tempItem.name, "Default");
 
-			KileTool::setGUIOptions(tempItem.name, "Other", "gear", config);
+			KileTool::setGUIOptions(tempItem.name, "Other", "gear", m_config);
 
-			config->setGroup(KileTool::groupFor(tempItem.name, "Default"));
+			m_config->setGroup(KileTool::groupFor(tempItem.name, "Default"));
 			QString bin = KRun::binaryName(tempItem.tag, false);
-			config->writeEntry("command", bin);
-			config->writeEntry("options", tempItem.tag.mid(bin.length()));
-			config->writeEntry("class", "Base");
-			config->writeEntry("type", "Process");
-			config->writeEntry("from", "");
-			config->writeEntry("to", "");
+			m_config->writeEntry("command", bin);
+			m_config->writeEntry("options", tempItem.tag.mid(bin.length()));
+			m_config->writeEntry("class", "Base");
+			m_config->writeEntry("type", "Process");
+			m_config->writeEntry("from", "");
+			m_config->writeEntry("to", "");
 
 			if ( i < 10 )
 			{
-				config->setGroup("Shortcuts");
-				config->writeEntry("tool_" + tempItem.name, "Alt+Shift+" + QString::number(i + 1) ); //should be alt+shift+
+				m_config->setGroup("Shortcuts");
+				m_config->writeEntry("tool_" + tempItem.name, "Alt+Shift+" + QString::number(i + 1) ); //should be alt+shift+
 			}
 		}
 	}
-
-	//reads options that can be set in the configuration dialog
-	readConfig();
-
-	//now read the other config data
-	m_singlemode=true;
-	QRect screen = QApplication::desktop()->screenGeometry();
-	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
-	split1_left = KileConfig::splitter1_left();
-	split1_right = KileConfig::splitter1_right();
-	split2_top = KileConfig::splitter2_top();
-	split2_bottom = KileConfig::splitter2_bottom();
-
-	showoutputview = KileConfig::outputview();
-	showstructview = KileConfig::structureview();
-
-	lastvtab = KileConfig::selectedLeftView();
 }
 
-void Kile::ReadRecentFileSettings()
+void Kile::readRecentFileSettings()
 {
-	config->setGroup("FilesOpenOnStart");
-	int n = config->readNumEntry("NoDOOS", 0);
+	m_config->setGroup("FilesOpenOnStart");
+	int n = m_config->readNumEntry("NoDOOS", 0);
 	for (int i=0; i < n; i++)
-		m_listDocsOpenOnStart.append(config->readPathEntry("DocsOpenOnStart"+QString::number(i), ""));
+		m_listDocsOpenOnStart.append(m_config->readPathEntry("DocsOpenOnStart"+QString::number(i), ""));
 
-	n = config->readNumEntry("NoPOOS", 0);
+	n = m_config->readNumEntry("NoPOOS", 0);
 	for (int i=0; i < n; i++)
-		m_listProjectsOpenOnStart.append(config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
+		m_listProjectsOpenOnStart.append(m_config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
 
-	lastDocument = KileConfig::lastDocument();
-	input_encoding = KileConfig::inputEncoding();
+	m_lastDocument = KileConfig::lastDocument();
+	m_inputEncoding = KileConfig::inputEncoding();
 
 	// Load recent files from "Recent Files" group
 	// using the KDE standard action for recent files
-	fileOpenRecentAction->loadEntries(config,"Recent Files");
+	fileOpenRecentAction->loadEntries(m_config, "Recent Files");
 
 	// Now check if user is using an old rc file that has "Recent Files" under
 	// the "Files" group
-	if(config->hasKey("Recent Files"))
+	if(m_config->hasKey("Recent Files"))
 	{
 		// If so, then read the entry in, add it to fileOpenRecentAction
-		QStringList recentFilesList = config->readListEntry("Recent Files", ':');
-		QStringList::ConstIterator it = recentFilesList.begin();
-		for ( ; it != recentFilesList.end(); ++it )
+		QStringList m_recentFilesList = m_config->readListEntry("Recent Files", ':');
+		QStringList::ConstIterator it = m_recentFilesList.begin();
+		for ( ; it != m_recentFilesList.end(); ++it )
 		{
-		fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
+			fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
 		}
 		// Now delete this recent files entry as we are now using a separate
 		// group for recent files
-		config->deleteEntry("Recent Files");
+		m_config->deleteEntry("Recent Files");
 	}
 
-	m_actRecentProjects->loadEntries(config,"Projects");
+	m_actRecentProjects->loadEntries(m_config, "Projects");
 }
 
 //reads options that can be set in the configuration dialog
 void Kile::readConfig()
 {
 // 	kdDebug() << "==Kile::readConfig()=======================" << endl;
-
-	m_kwStructure->setLevel(KileConfig::defaultLevel());
-
 	m_bRestore = KileConfig::restore();
 	autosave = KileConfig::autosave();
 	autosaveinterval = KileConfig::autosaveInterval();
@@ -1492,37 +1484,34 @@ void Kile::readConfig()
 
 	m_runlyxserver = KileConfig::runLyxServer();
 
-//////////////////// code completion (dani) ////////////////////
 	m_edit->complete()->readConfig();
 }
 
-void Kile::SaveSettings()
+void Kile::saveSettings()
 {
-	ShowEditorWidget();
+	showEditorWidget();
 
 	KileFS->writeConfig();
 
-	KileConfig::setLastDocument(lastDocument);
-	input_encoding=KileFS->comboEncoding->lineEdit()->text();
-	KileConfig::setInputEncoding(input_encoding);
+	KileConfig::setLastDocument(m_lastDocument);
+	m_inputEncoding=KileFS->comboEncoding->lineEdit()->text();
+	KileConfig::setInputEncoding(m_inputEncoding);
 
 	// Store recent files
-	fileOpenRecentAction->saveEntries(config,"Recent Files");
-	m_actRecentProjects->saveEntries(config,"Projects");
+	fileOpenRecentAction->saveEntries(m_config, "Recent Files");
+	m_actRecentProjects->saveEntries(m_config, "Projects");
 
-	config->deleteGroup("FilesOpenOnStart");
-	kdDebug() << "deleting FilesOpenOnStart" << endl;
+	m_config->deleteGroup("FilesOpenOnStart");
 	if (m_bRestore)
 	{
-		kdDebug() << "saving Restore info" << endl;
-		config->setGroup("FilesOpenOnStart");
-		config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
+		m_config->setGroup("FilesOpenOnStart");
+		m_config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
 		for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
-			config->writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
+			m_config->writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
 
-		config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
+		m_config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
 		for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
-			config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+			m_config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
 
 		if (!m_singlemode)
 			KileConfig::setMaster(m_masterName);
@@ -1530,56 +1519,53 @@ void Kile::SaveSettings()
 			KileConfig::setMaster("");
 	}
 
-	config->setGroup( "User" );
+	m_config->setGroup( "User" );
 
-	config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
+	m_config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
 	for (uint i=0; i < m_listUserTags.size(); i++)
 	{
 		KileAction::TagData td( m_listUserTags[i]);
-		config->writeEntry( "userTagName"+QString::number(i),  td.text );
-		config->writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
+		m_config->writeEntry( "userTagName"+QString::number(i),  td.text );
+		m_config->writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
 	}
 
 	actionCollection()->writeShortcutSettings();
-	saveMainWindowSettings(config, "KileMainWindow" );
+	saveMainWindowSettings(m_config, "KileMainWindow" );
 
 	KileConfig::setRCVersion(KILERC_VERSION);
-	QValueList<int> sizes;
-	QValueList<int>::Iterator it;
 	KileConfig::setMainwindowWidth(width());
 	KileConfig::setMainwindowHeight(height());
-	sizes=splitter1->sizes();
+
+	QValueList<int> sizes;
+	QValueList<int>::Iterator it;
+	sizes=m_horizontalSplitter->sizes();
 	it = sizes.begin();
-	split1_left=*it;
+	m_horSplitLeft=*it;
 	++it;
-	split1_right=*it;
+	m_horSplitRight=*it;
 	sizes.clear();
-	sizes=splitter2->sizes();
+	sizes = m_verticalSplitter->sizes();
 	it = sizes.begin();
-	split2_top=*it;
+	m_verSplitTop=*it;
 	++it;
-	split2_bottom=*it;
+	m_verSplitBottom=*it;
 
-	KileConfig::setSplitter1_left(split1_left);
-	KileConfig::setSplitter1_right(split1_right);
-	KileConfig::setSplitter2_top(split2_top);
-	KileConfig::setSplitter2_bottom(split2_bottom);
+	KileConfig::setHorizontalSplitterLeft(m_horSplitLeft);
+	KileConfig::setHorizontalSplitterRight(m_horSplitRight);
+	KileConfig::setVerticalSplitterTop(m_verSplitTop);
+	KileConfig::setVerticalSplitterBottom(m_verSplitBottom);
 
-	KileConfig::setOutputview(showoutputview);
-	KileConfig::setStructureview(showstructview);
+	KileConfig::setSideBar(m_sideBar->isVisible());
+	KileConfig::setBottomBar(m_bottomBar->isVisible());
 
-	for ( uint i = 0; i < 10; i++)
-	{
-		if ( ButtonBar->isTabRaised(i) )
-			KileConfig::setSelectedLeftView(i);
-	}
+	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
 
 	KileConfig::writeConfig();
-	config->sync();
+	m_config->sync();
 }
 
 /////////////////  OPTIONS ////////////////////
-void Kile::ToggleMode()
+void Kile::toggleMode()
 {
 	if (!m_singlemode)
 	{
@@ -1613,17 +1599,7 @@ void Kile::ToggleMode()
 	updateModeStatus();
 }
 
-void Kile::ToggleOutputView()
-{
-	ShowOutputView(true);
-}
-
-void Kile::ToggleStructView()
-{
-	ShowStructView(true);
-}
-
-void Kile::ToggleWatchFile()
+void Kile::toggleWatchFile()
 {
 	m_bWatchFile=!m_bWatchFile;
 
@@ -1633,47 +1609,16 @@ void Kile::ToggleWatchFile()
 		WatchFileAction->setChecked(false);
 }
 
-void Kile::ShowOutputView(bool change)
+void Kile::generalOptions()
 {
-	if (change) showoutputview=!showoutputview;
-	if (showoutputview)
-	{
-		MessageAction->setChecked(true);
-		m_outputView->show();
-	}
-	else
-	{
-		MessageAction->setChecked(false);
-		m_outputView->hide();
-	}
-}
-
-void Kile::ShowStructView(bool change)
-{
-	if (change) showstructview=!showstructview;
-
-	if (showstructview)
-	{
-		StructureAction->setChecked(true);
-		Structview->show();
-	}
-	else
-	{
-		StructureAction->setChecked(false);
-		Structview->hide();
-	}
-}
-
-void Kile::GeneralOptions()
-{
-	KileDialog::Config *dlg = new KileDialog::Config(config, m_manager, this);
+	KileDialog::Config *dlg = new KileDialog::Config(m_config, m_manager, this);
 
 	if (dlg->exec())
 	{
 		readConfig();
 		setupTools();
 
-		emit(configChanged());
+		emit configChanged();
 
 		//stop/restart LyX server if necessary
 		if (m_runlyxserver && !m_lyxserver->isRunning())
@@ -1694,7 +1639,7 @@ void Kile::slotPerformCheck()
 }
 
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////
-void Kile::ConfigureKeys()
+void Kile::configureKeys()
 {
 	KKeyDialog dlg( false, this );
 	QPtrList<KXMLGUIClient> clients = guiFactory()->clients();
@@ -1703,101 +1648,16 @@ void Kile::ConfigureKeys()
 		dlg.insert( (*it)->actionCollection() );
 	}
 	dlg.configure();
-	actionCollection()->writeShortcutSettings("Shortcuts", config);
+	actionCollection()->writeShortcutSettings("Shortcuts", m_config);
 }
 
-void Kile::ConfigureToolbars()
+void Kile::configureToolbars()
 {
-	saveMainWindowSettings(config, "KileMainWindow" );
+	saveMainWindowSettings(m_config, "KileMainWindow" );
 	KEditToolbar dlg(factory());
 	dlg.exec();
 
 	showToolBars(m_currentState);
-}
-
-////////////// VERTICAL TAB /////////////////
-//FIXME create a KileSideBar class, move this mess in there, then refactor
-void Kile::showVertPage(int page)
-{
-	ButtonBar->setTab(lastvtab,false);
-	ButtonBar->setTab(page,true);
-	lastvtab=page;
-
-	if (page==0)
-	{
-		viewManager()->projectView()->hide();
-		m_kwStructure->hide();
-		mpview->hide();
-		if (symbol_view && symbol_present) delete symbol_view;
-		symbol_present=false;
-		if (Structview_layout) delete Structview_layout;
-		Structview_layout=new QHBoxLayout(Structview);
-		Structview_layout->add(KileFS);
-		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiTabBar::Right);
-		KileFS->show();
-	}
-	else if (page==1)
-	{
-		//UpdateStructure();
-		viewManager()->projectView()->hide();
-		KileFS->hide();
-		mpview->hide();
-		if (symbol_view && symbol_present) delete symbol_view;
-		symbol_present=false;
-		if (Structview_layout) delete Structview_layout;
-		Structview_layout=new QHBoxLayout(Structview);
-		Structview_layout->add(m_kwStructure);
-		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiTabBar::Right);
-		m_kwStructure->show();
-	}
-	else if (page==8)
-	{
-		viewManager()->projectView()->hide();
-		KileFS->hide();
-		m_kwStructure->hide();
-		if (symbol_view && symbol_present) delete symbol_view;
-		symbol_present=false;
-		if (Structview_layout) delete Structview_layout;
-		Structview_layout=new QHBoxLayout(Structview);
-		Structview_layout->add(mpview);
-		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiTabBar::Right);
-		mpview->show();
-	}
-	else if (page==9)
-	{
-		kdDebug() << "SHOWING PROJECTS VIEW" << endl;
-		if (symbol_view && symbol_present) delete symbol_view;
-		symbol_present=false;
-		KileFS->hide();
-		m_kwStructure->hide();
-		mpview->hide();
-		delete Structview_layout;
-		Structview_layout=new QHBoxLayout(Structview);
-		Structview_layout->add(viewManager()->projectView());
-		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiTabBar::Right);
-		viewManager()->projectView()->show();
-	}
-	else
-	{
-		viewManager()->projectView()->hide();
-		KileFS->hide();
-		m_kwStructure->hide();
-		mpview->hide();
-		if (symbol_view && symbol_present) delete symbol_view;
-		if (Structview_layout) delete Structview_layout;
-		Structview_layout=new QHBoxLayout(Structview);
-		symbol_view = new SymbolView(page-1,Structview,"Symbols");
-		connect(symbol_view, SIGNAL(executed(QIconViewItem*)), SLOT(insertSymbol(QIconViewItem*)));
-		symbol_present=true;
-		Structview_layout->add(symbol_view);
-		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiTabBar::Right);
-		symbol_view->show();
-	}
 }
 
 void Kile::changeInputEncoding()
@@ -1819,9 +1679,8 @@ void Kile::changeInputEncoding()
 	}
 }
 
-
 //////////////////// CLEAN BIB /////////////////////
-void Kile::CleanBib()
+void Kile::cleanBib()
 {
 	Kate::View *view = viewManager()->currentView();
 	if ( ! view )
@@ -1853,7 +1712,7 @@ void Kile::includeGraphics()
 	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), false);
 
 	if ( dialog->exec() == QDialog::Accepted )
-		insertTag( dialog->getTemplate(),"%C",0,0 );
+		insertTag(dialog->getTemplate(), "%C", 0,0);
 
 	delete dialog;
 }

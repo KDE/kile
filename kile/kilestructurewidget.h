@@ -62,8 +62,8 @@ public:
 private:
 	QString		m_title;
 	KURL		m_url;
-	uint			m_line;
-	uint			m_column;
+	uint		m_line;
+	uint		m_column;
 	int			m_type, m_level;
 };
 
@@ -100,8 +100,8 @@ namespace KileWidget
 	private:
 		Structure							*m_stack;
 		KileDocument::Info					*m_docinfo;
-		QMap<QString, KileListViewItem *>		m_folders;
-		QMap<QString, bool>				m_openByTitle;
+		QMap<QString, KileListViewItem *>	m_folders;
+		QMap<QString, bool>					m_openByTitle;
 		QMap<uint, bool>					m_openByLine;
 		KileListViewItem					*m_parent[7], *m_current, *m_root, *m_child, *m_lastChild;
 	};
@@ -113,9 +113,7 @@ namespace KileWidget
 		public:
 			Structure(KileInfo *, QWidget * parent, const char * name = 0);
 
-			void setLevel(int level) { m_level = level; }
-			int level() { return m_level; }
-
+			int level();
 			KileInfo *info() { return m_ki; }
 
 		public slots:
@@ -141,11 +139,10 @@ namespace KileWidget
 			bool viewExistsFor(KileDocument::Info *info);
 
 		private:
-			KileInfo			*m_ki;
-			int				m_level;
-			KileDocument::Info	*m_docinfo;
-			QMap<KileDocument::Info *, StructureList *> m_map;
-			StructureList		*m_default;
+			KileInfo									*m_ki;
+			KileDocument::Info							*m_docinfo;
+			QMap<KileDocument::Info *, StructureList *>	m_map;
+			StructureList								*m_default;
 	};
 }
 

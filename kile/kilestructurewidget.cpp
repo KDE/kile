@@ -29,6 +29,7 @@
 #include "kiledocmanager.h"
 #include "kiledocumentinfo.h"
 #include "kilestructurewidget.h"
+#include "kileconfig.h"
 
 KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level) : 
 	KListViewItem(parent,after),
@@ -121,6 +122,8 @@ namespace KileWidget
 
 	bool StructureList::shouldBeOpen(KileListViewItem *item, QString folder, int level)
 	{
+		if ( item->parent() == 0L ) return true;
+
 		if ( m_openByTitle.contains(item->title()) )
 			return m_openByTitle [ item->title() ];
 		else if ( m_openByLine.contains(item->line()) )
@@ -244,6 +247,11 @@ namespace KileWidget
 		m_default->activate();
 	}
 
+	int Structure::level()
+	{
+		return KileConfig::defaultLevel();
+	}
+
 	void Structure::addDocumentInfo(KileDocument::Info *docinfo)
 	{
 		StructureList *view = new StructureList(this, docinfo);
@@ -319,6 +327,7 @@ namespace KileWidget
 			m_map.remove(docinfo);
 			delete data;
 		}
+		kdDebug() << "\tm_map is empty " << m_map.isEmpty() << endl;
 		if ( m_map.isEmpty() ) m_default->activate();
 	}
 
@@ -331,6 +340,8 @@ namespace KileWidget
 
 		m_map.clear();
 		m_docinfo = 0L;
+
+		m_default->activate();
 	}
 
 	void Structure::update(KileDocument::Info *docinfo, bool parse)

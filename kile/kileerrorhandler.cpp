@@ -32,6 +32,7 @@
 #include "latexoutputinfo.h"
 #include "kiledocmanager.h"
 #include "kileerrorhandler.h"
+#include "kilesidebar.h"
 
 KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, const char *name)
  : QObject(parent, name), m_ki(info), m_nCurrentError(-1)

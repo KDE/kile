@@ -69,7 +69,7 @@ void Manager::createTabs(QWidget *parent)
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(newCaption()) );
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(activateView( QWidget * )) );
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(updateModeStatus()) );
-	connect( m_tabs, SIGNAL(closeRequest(QWidget *)), this, SLOT(closeWidget(QWidget *)));
+	connect( m_tabs, SIGNAL( closeRequest(QWidget *) ), this, SLOT(closeWidget(QWidget *)));
 }
 
 void Manager::closeWidget(QWidget *widget)
@@ -77,7 +77,7 @@ void Manager::closeWidget(QWidget *widget)
 	if (widget->inherits( "Kate::View" ))
 	{
 		Kate::View *view = static_cast<Kate::View*>(widget);
-		m_ki->docManager()->fileClose(view->getDoc()->url());
+		m_ki->docManager()->fileClose(view->getDoc());
 	}
 }
 

@@ -23,7 +23,7 @@
 
 //////////////////////////////////////////////////////////
 
-SymbolView::SymbolView(int page,QWidget *parent, const char *name): KIconView( parent, name )
+SymbolView::SymbolView(QWidget *parent, const char *name): KIconView( parent, name )
 {
     setGridX( 36 );
     setGridY( 36);
@@ -38,21 +38,25 @@ SymbolView::SymbolView(int page,QWidget *parent, const char *name): KIconView( p
     setItemsMovable(false);
     setArrangement(LeftToRight);
     setAcceptDrops(false);
-
-    InitPage(page);
 }
 
 SymbolView::~SymbolView()
 {}
 
-void SymbolView::InitPage(int page)
+void SymbolView::showPage(int page)
+{
+	clear();
+	initPage(page);
+}
+
+void SymbolView::initPage(int page)
 {
     QString icon_name;
     QPixmap pixmap;
     KIconViewItem* item;
     switch (page)
     {
-    case 1:
+    case Relation:
         {
             for ( uint i = 0; i <= 225; i++ )
             {
@@ -66,7 +70,7 @@ void SymbolView::InitPage(int page)
             }
         }
         break;
-    case 2:
+    case Arrow:
         {
             for ( uint i = 247; i <=313 ; i++ )
             {
@@ -80,7 +84,7 @@ void SymbolView::InitPage(int page)
             }
         }
         break;
-    case 3:
+    case Misc:
         {
             for ( uint i = 314; i <= 371; i++ )
             {
@@ -94,7 +98,7 @@ void SymbolView::InitPage(int page)
             }
         }
         break;
-    case 4:
+    case Delimiters:
         {
             for ( uint i = 226; i <= 246; i++ )
             {
@@ -108,7 +112,7 @@ void SymbolView::InitPage(int page)
             }
         }
         break;
-    case 5:
+    case Greek:
         {
             for ( uint i = 0; i <= 39; i++ )
             {
@@ -122,7 +126,7 @@ void SymbolView::InitPage(int page)
             }
         }
         break;
-    case 6:
+    case Special:
         {
             for ( uint i = 401; i <= 433; i++ )
             {

@@ -379,37 +379,31 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 void Manager::setHighlightMode(Kate::Document * doc, const QString &highlight)
 {
-	kdDebug() << "==Kile::setHighlightMode()==================" << endl;
+	kdDebug() << "==Kile::setHighlightMode(" << doc->docName() << "," << highlight << " )==================" << endl;
 
 	int c = doc->hlModeCount();
-	bool found = false;
-	int i;
-
-	QString hl = highlight.lower();
-	QString ext = doc->url().fileName().right(4);
-
-	KMimeType::Ptr pMime = KMimeType::findByURL(doc->url());
-	kdDebug() << "\tmimeType name: " << pMime->name() << endl;
-
-	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
-
-	if ( (hl != QString::null) || doc->url().isEmpty() || doc->docName() == i18n("Untitled")|| pMime->name() == "text/x-tex" || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls")
+	int nHlLaTeX = 0;
+	//determine default highlighting mode (LaTeX)
+	for (int i = 0; i < c; i++)
 	{
-		if (hl == "") hl = "latex-kile";
-		for (i = 0; i < c; i++)
-		{
-			if (doc->hlModeName(i).lower() == hl) { found = true; break; }
-		}
+		if (doc->hlModeName(i) == "LaTeX") { nHlLaTeX = i; break; }
+	}
 
-		if (found)
+	//don't let KatePart determine the highlighting
+	if ( highlight != QString::null )
+	{
+		bool found = false;
+		int mode = 0;
+		for (int i = 0; i < c; i++)
 		{
-			doc->setHlMode(i);
+			if (doc->hlModeName(i) == highlight) { found = true; mode = i; }
 		}
-		else
-		{
-			//doc->setHlMode(0);
-			kdWarning() << "could not find the LaTeX-Kile highlighting definitions" << endl;
-		}
+		if (found) doc->setHlMode(mode);
+		else doc->setHlMode(nHlLaTeX);
+	}
+	else if ( doc->url().isEmpty() || doc->docName() == i18n("Untitled") )
+	{
+		doc->setHlMode(nHlLaTeX);
 	}
 }
 
@@ -622,7 +616,6 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	emit(documentStatusChanged(doc, doc->isModified(), 0));
 
 	Info *docinfo = infoFor(doc);
-	
 
 	//add to project view if doc was Untitled before
 	if (docinfo->oldURL().isEmpty())

@@ -53,7 +53,6 @@
 
 #include "kileappIface.h"
 #include "docpart.h"
-#include "symbolview.h"
 #include "kilefileselect.h"
 #include "metapostview.h"
 #include "kileinfo.h"
@@ -73,6 +72,7 @@
 class QFileInfo;
 class QTimer;
 class QSignalMapper;
+class QIconViewItem;
 
 class KToolBar;
 class KActionMenu;
@@ -89,6 +89,7 @@ class TemplateItem;
 class KileAutoSaveJob;
 class KileSpell;
 class KileErrorHandler;
+class KileSideBar;
 
 namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
@@ -130,55 +131,51 @@ public slots:
 
 /* actions */
 private:
+	void setupStatusBar();
+	void setupSideBar();
+	void setupProjectView();
+	void setupStructureView();
+	void setupSymbolViews();
+	void setupBottomBar();
 	void setupActions();
 	void setupTools();
 	void setupUserTagActions();
 	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
 
-	KToolBar					*m_toolsToolBar;
-	KActionMenu 				*m_menuUserTags;
+	KToolBar						*m_toolsToolBar;
+	KActionMenu 					*m_menuUserTags;
 	QValueList<KileAction::TagData>	m_listUserTags;
 	QValueList<userItem>			m_listUserTools;
-	QPtrList<KAction> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KAction					*m_actionEditTag;
-	KToggleToolBarAction		*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
-	KAction 					*m_paStop, *m_paPrint;
-	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
-	KRecentFilesAction			*fileOpenRecentAction;
-	KAction* m_pFullScreen;
+	QPtrList<KAction> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	KAction							*m_actionEditTag;
+	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
+	KAction 						*m_paStop, *m_paPrint;
+	KToggleAction 					*ModeAction, *WatchFileAction;
+	KRecentFilesAction				*fileOpenRecentAction;
+	KAction							*m_pFullScreen;
 
 /* GUI */
 private:
 	//widgets
-	KMultiTabBar 			*ButtonBar;
-	SymbolView 			*symbol_view;
-	metapostview 			*mpview;
-	QFrame 				*Structview;
-	QHBoxLayout 			*Structview_layout;
-	QWidgetStack 			*topWidgetStack;
-	QSplitter 				*splitter1, *splitter2 ;
-	QWidgetStack			*m_tabbarStack;
+	KileSideBar			*m_sideBar;
+	metapostview		*m_mpview;
+	QWidgetStack 		*m_topWidgetStack;
+	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 
 	//parts
-	KParts::PartManager 	*partManager;
+	KParts::PartManager 	*m_partManager;
 	QString 				m_wantState, m_currentState;
 	
 private slots:
-	void ToggleMode();
-	void ToggleStructView();
-	void ToggleOutputView();
-	void ToggleWatchFile();
-	void ShowOutputView(bool change);
-	void ShowEditorWidget();
-	void showVertPage(int page);
+	void toggleMode();
+	void toggleWatchFile();
+	void showEditorWidget();
+	void refreshStructure();
 
-	void LatexHelp();
-
-private:
-	bool 	showoutputview, m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB, m_bFullScreen;
+	void helpLaTex();
 
 private slots:
-	void ResetPart();
+	void resetPart();
 	void activePartGUI(KParts::Part * the_part);
 	void showToolBars(const QString &);
 	void enableKileGUI(bool enable);
@@ -187,26 +184,16 @@ private slots:
 public slots:
 	void prepareForPart(const QString &);
 
-/* structure view */
-private:
-	bool 								showstructview;
-
-private slots:
-	void ShowStructView(bool change);
-	void ShowStructure();
-	void RefreshStructure();
-
 /* config */
 private:
-	KConfig		*config;
-	int 		split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
-	QString 	document_class, typeface_size, paper_size, document_encoding, author;
-	QString 	lastDocument, input_encoding;
-	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
-	bool 		symbol_present;
-	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
+	KConfig			*m_config;
+	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
+	QString 		m_lastDocument, m_inputEncoding;
+	QStringList 	m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
-	bool		m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
+	bool			m_bRestore, m_runlyxserver, m_bFullScreen;
+	bool 			m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
+
 
 signals:
 	/**
@@ -216,16 +203,17 @@ signals:
 	void configChanged();
 
 private slots:
-	void restore();
-	void ReadSettings();
-	void ReadRecentFileSettings();
-	void SaveSettings();
+	void restoreFilesAndProjects();
+	void readGUISettings();
+	void readUserSettings();
+	void readRecentFileSettings();
+	void saveSettings();
 
 	void readConfig();
 
-	void GeneralOptions();
-	void ConfigureKeys();
-	void ConfigureToolbars();
+	void generalOptions();
+	void configureKeys();
+	void configureToolbars();
 	void slotPerformCheck();
 
 private slots:
@@ -291,11 +279,11 @@ private:
 private slots:
 	void runTool();
 
-	void CleanAll(KileDocument::Info *docinfo = 0, bool silent = false);
-	void CleanBib();
+	void cleanAll(KileDocument::Info *docinfo = 0, bool silent = false);
+	void cleanBib();
 
-	void FindInFiles();
-	void GrepItemSelected(const QString &abs_filename, int line);
+	void findInFiles();
+	void grepItemSelected(const QString &abs_filename, int line);
 
 /* insert tags */
 private slots:
@@ -310,17 +298,17 @@ private slots:
 	 **/
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
 
-	void QuickTabular();
-	void QuickArray();
-	void QuickTabbing();
-	void QuickDocument();
+	void quickTabular();
+	void quickArray();
+	void quickTabbing();
+	void quickDocument();
 
 	void insertSymbol(QIconViewItem*);
-	void InsertMetaPost(QListBoxItem *);
+	void insertMetaPost(QListBoxItem *);
 
 // 	void insertUserTag(int i);
 // 	void insertUserTag(const KileAction::TagData& td);
-	void EditUserMenu();
+	void editUserMenu();
 
 	void includeGraphics();
 
@@ -329,9 +317,9 @@ private:
 	bool				m_bShowUserMovedMessage;
 
 private:
-	KileHelp::Help *m_help;
-	KileErrorHandler *m_errorHandler;
-	KileSpell		*m_spell;
+	KileHelp::Help 		*m_help;
+	KileErrorHandler 	*m_errorHandler;
+	KileSpell			*m_spell;
 };
 
 #endif

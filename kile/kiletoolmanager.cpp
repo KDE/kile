@@ -39,7 +39,8 @@
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
 #include "kiledocmanager.h"
- 
+#include "kilesidebar.h"
+
 namespace KileTool
 {
 	QueueItem::QueueItem(Base *tool, const QString & cfg, bool block) : m_tool(tool), m_cfg(cfg), m_bBlock(block)
@@ -280,6 +281,7 @@ namespace KileTool
 		if ( result != Success && result != Silent ) //abort execution, delete all remaing tools
 		{
 			m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
+			m_ki->outputView()->showPage(m_log);
 		}
 		else //continue
 			runNextInQueue();

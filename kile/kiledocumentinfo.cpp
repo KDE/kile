@@ -145,10 +145,10 @@ const long* KileDocumentInfo::getStatistics()
 }
 
 // match a { with the corresponding }
-// pos is the positon of the {
+// pos is the positon next to the {
 QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 {
-	QString line, grab;
+	QString line, grab = "";
 	int count=0, len;
 
 	while ( l <= m_doc->numLines() )
@@ -237,6 +237,7 @@ void KileDocumentInfo::updateStruct()
 				{
 					tagLine=i; tagCol =  tagEnd;
 					m = matchBracket(i, static_cast<uint&>(tagEnd));
+					kdDebug() << "grabbed : " << m << endl;
 				}
 
 				//title (or label) found, add the element to the listview

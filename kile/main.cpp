@@ -21,6 +21,7 @@
 #include <kstartupinfo.h>
 #include <dcopclient.h>
 #include <kmessagebox.h>
+#include <klocale.h>
 
 #include "kile.h"
 

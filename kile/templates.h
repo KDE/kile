@@ -26,6 +26,7 @@
 #include <qvaluelist.h>
 
 struct TemplateInfo {
+public:
    QString name;
    QString path;
    QString icon;

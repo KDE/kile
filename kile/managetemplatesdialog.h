@@ -19,7 +19,7 @@
 #define MANAGETEMPLATESDIALOG_H
 
 #include <qfileinfo.h>
-
+#include <qstring.h>
 #include <klistview.h>
 #include <kdialogbase.h>
 #include <klineedit.h>

@@ -42,6 +42,7 @@
 #include <kparts/browserextension.h>
 #include <kaccel.h>
 
+#include <qregexp.h>
 #include <qiconset.h>
 #include <qtimer.h>
 #include <qpopupmenu.h>
@@ -1550,7 +1551,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  (*proc) << "cd " << dir << "&&";
 
  for ( QValueListIterator<QString> i = cmmnd.begin(); i != cmmnd.end(); i++) {
-   (*i).replace("%S",name);
+   (*i).replace(QRegExp("%S"),name);
    (*proc) << *i;
  }
 
@@ -1690,7 +1691,7 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
    if (!target.isNull())
    {
 		finame += target;
-		finame.replace("%S",fic.baseName());
+		finame.replace(QRegExp("%S"),fic.baseName());
 	}
    else
    {

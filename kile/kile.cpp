@@ -530,6 +530,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	QString hl = highlight;
 
 	//kdDebug() << "==Kile::load==========================" << endl;
+	//if doc already opened, update the structure view and return the view
 	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
 		//kdDebug() << "\talready opened " << url.path() << endl;
@@ -543,34 +544,37 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		return view;
 	}
 
-	//kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
+	//kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(load) << endl;
 
+	Kate::Document *doc = 0;
+	
 	//create a new document
-	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
-	m_docList.append(doc);
-
-	//set the default encoding
-	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
-	KileFS->comboEncoding->lineEdit()->setText(enc);
-	doc->setEncoding(enc);
-
-	//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
-	if (load) doc->openURL(url);
-	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
-
-	if ( !url.isEmpty() )
+	if (load)
 	{
-		doc->setDocName(url.path());
-		fileOpenRecentAction->addURL(url);
+		doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
+		m_docList.append(doc);
+	
+		//set the default encoding
+		QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
+		KileFS->comboEncoding->lineEdit()->setText(enc);
+		doc->setEncoding(enc);
+	
+		//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
+		doc->openURL(url);
+		//TODO: connect to completed() signal, now updatestructure is called before loading is completed
+	
+		if ( !url.isEmpty() ) 
+		{
+			doc->setDocName(url.path());
+			fileOpenRecentAction->addURL(url);
+		}
+		else 
+		{
+			doc->setDocName(i18n("Untitled"));
+			if (text != QString::null)
+				doc->insertText(0,0,text);
+		}
 	}
-	else
-	{
-		doc->setDocName(i18n("Untitled"));
-		if (text != QString::null)
-			doc->insertText(0,0,text);
-	}
-
-
 
 	KileDocumentInfo *docinfo = 0;
 
@@ -596,25 +600,32 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	{
 		//install a documentinfo class for this doc
 		docinfo = new KileDocumentInfo(doc);
+		if (doc == 0) docinfo->setURL(url);
+		
 		//decorate the document with the KileDocumentInfo class
 		docinfo->setListView(outstruct);
 		docinfo->setURL(url);
 		m_infoList.append(docinfo);
 	}
-	mapInfo(doc, docinfo);
 
-	setHighlightMode(doc, hl);
+	if (doc) 
+	{
+		mapInfo(doc, docinfo);
+		setHighlightMode(doc, hl);
 
-	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
-	//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
-	//updates the docinfo, on which all decisions are bases in slotNameChanged
-	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
-	connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
-	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
+		//handle changes of the document
+		connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
+		//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
+		//updates the docinfo, on which all decisions are bases in slotNameChanged
+		connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
+		connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
+		connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
-	if (create) return createView(doc);
-	else return 0;
+		if (create)
+			return createView(doc);
+	}
+
+	return 0;
 }
 
 Kate::View * Kile::createView(Kate::Document *doc)
@@ -1498,6 +1509,11 @@ bool Kile::projectClose(const KURL & url)
 			{
 				//kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
 				close = close && fileClose(doc, true);
+			}
+			else if (docinfo) 
+			{
+				m_infoList.remove(docinfo);
+				delete docinfo;
 			}
 		}
 

@@ -62,7 +62,7 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 	m_receiver = receiver;
 	m_client = client;
 	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex"))
-		new KAction(i18n("Paste as La&TeX"), 0, this,
+		new KAction(i18n("Paste as LaTe&X"), 0, this,
 			SLOT(pasteAsLaTeX()), m_client->actionCollection(), "popup_pasteaslatex");
 	if(NULL == m_client->actionCollection()->action("popup_converttolatex"))
 		new KAction(i18n("Convert selection to &LaTeX"), 0, this,

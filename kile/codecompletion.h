@@ -25,6 +25,8 @@
 #include <kate/document.h>
 #include <ktexteditor/codecompletioninterface.h>
 
+#define BULLET QString("×")
+
 /**
   *@author Holger Danielsson
   */
@@ -97,6 +99,8 @@ private:
 	void editCompleteList(KileDocument::CodeCompletion::Type type);
 	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
 	bool oddBackslashes(const QString& text, int index);
+
+	void appendNewCommands(QValueList<KTextEditor::CompletionEntry> & list);
 
 private:
 	// wordlists

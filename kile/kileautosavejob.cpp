@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <kapplication.h>
 
 #include "kileautosavejob.h"
 
@@ -23,7 +24,7 @@ KileAutoSaveJob::KileAutoSaveJob(const KURL &url)
 {
 	KIO::Job *job = KIO::file_copy(url,KURL(KURL::fromPathOrURL(url.path()+".backup")),-1,true,false,false);
 	//let KIO show the error messages
-	job->setAutoErrorHandlingEnabled(true);
+	job->setAutoErrorHandlingEnabled(true, kapp->mainWidget());
 	connect(job, SIGNAL(result(KIO::Job*)), this, SLOT(slotResult(KIO::Job*)));
 }
 

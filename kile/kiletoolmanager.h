@@ -112,6 +112,7 @@ namespace KileTool
 		void requestGUIState(const QString &);
 		void requestSaveAll();
 		void jumpToFirstError();
+		void toolStarted();
 
 	private:
 		KileInfo		*m_ki;

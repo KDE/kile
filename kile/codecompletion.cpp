@@ -33,8 +33,6 @@ email                : holger.danielsson@t-online.de
 #include "codecompletion.h"
 #include "kileconfig.h"
 
-#define BULLET QString("×")
-
 namespace KileDocument
 {
 
@@ -81,9 +79,11 @@ namespace KileDocument
 
 	CodeCompletion::Type CodeCompletion::getType( const QString &text )
 	{
-		if ( text.left( 5 ) == "\\ref{" || text.left( 9 ) == "\\pageref{" )
+		static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
+		static QRegExp::QRegExp reCite("^\\\\(c|C)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
+		if ( text.find( reRef ) != -1 )
 			return CodeCompletion::ctReference;
-		else if ( text.left( 6 ) == "\\cite{" )
+		else if ( text.find( reCite ) != -1 )
 			return CodeCompletion::ctCitation;
 		else
 			return CodeCompletion::ctNone;
@@ -180,6 +180,7 @@ namespace KileDocument
 				case cmLatex:
 				case cmEnvironment:
 				list = m_texlist;
+				appendNewCommands(list);
 				break;
 				case cmDictionary:
 				list = m_dictlist;
@@ -228,12 +229,12 @@ namespace KileDocument
 
 		if ( m_mode == cmLabel )
 		{
-			doc->insertText( m_ycursor, m_xstart, " " );
+// 			doc->insertText( m_ycursor, m_xstart, " " );
 
 			// set the cursor to the new position
-			m_textlen++;
-			m_xcursor++;
-			m_view->setCursorPositionReal( m_ycursor, m_xcursor );
+// 			m_textlen++;
+// 			m_xcursor++;
+// 			m_view->setCursorPositionReal( m_ycursor, m_xcursor );
 
 			// set restore mode
 			m_undo = true;
@@ -247,16 +248,30 @@ namespace KileDocument
 		iface->showCompletionBox( list, m_textlen );
 	}
 
+	void CodeCompletion::appendNewCommands(QValueList<KTextEditor::CompletionEntry> & list)
+	{
+		KTextEditor::CompletionEntry e;
+		const QStringList *ncommands = m_ki->allNewCommands();
+		QStringList::ConstIterator it;
+		QStringList::ConstIterator itend(ncommands->end());
+		for ( it = ncommands->begin(); it != itend; ++it )
+		{
+			e.text = *it;
+			list.prepend(e);
+		}
+	}
+
 	void CodeCompletion::completeFromList(const QStringList *list )
 	{
 		KTextEditor::CompletionEntry e;
 
 		m_labellist.clear();
 		QStringList::ConstIterator it;
-		for ( it = list->begin(); it != list->end(); ++it )
+		QStringList::ConstIterator itend(list->end());
+		for ( it = list->begin(); it != itend; ++it )
 		{
-			e.text = QString( " " ) + ( *it );
-			m_labellist.append( e );
+			e.text = *it;
+			m_labellist.append(  e );
 		}
 
 		completeWord("", cmLabel);
@@ -269,10 +284,14 @@ namespace KileDocument
 		// is there a new cursor position?
 		if ( m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
 		{
+			int newx = m_xcursor, newy = m_ycursor;
+			
 			if ( m_yoffset == 0 )
-				m_view->setCursorPositionReal( m_ycursor, m_xcursor + m_xoffset - m_textlen );
+				newx = m_xcursor + m_xoffset - m_textlen;
 			else
-				m_view->setCursorPositionReal( m_ycursor + m_yoffset, m_xoffset );
+				newy = m_ycursor + m_yoffset;
+
+			m_view->setCursorPositionReal( newy, newx );
 		}
 
 		m_inprogress = false;
@@ -710,9 +729,9 @@ namespace KileDocument
 	void CodeCompletion::editCompleteList(Type type )
 	{
 		if ( type == ctReference )
-			completeFromList(info()->labels());
+			completeFromList(info()->allLabels());
 		else if ( type == ctCitation )
-			completeFromList(info()->bibItems());
+			completeFromList(info()->allBibItems());
 	}
 
 	//////////////////// slots for code completion ////////////////////
@@ -740,6 +759,8 @@ namespace KileDocument
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
+		kdDebug() << "==CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )==" << endl;
+		kdDebug() << "\ts = " << *s << " type = " << c->type << " text = " << c->text << " prefix = " << c->prefix << " postfix = " << c->postfix << " comment = " << c->comment << endl;
 		*s = filterCompletionText( c->text, c->type );
 	}
 

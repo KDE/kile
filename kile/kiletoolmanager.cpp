@@ -141,6 +141,7 @@ namespace KileTool
 		if (m_bClear)
 		{
 			m_log->clear();
+			m_ki->setLogPresent(false);
 			m_output->clear();
 		}
 
@@ -178,6 +179,9 @@ namespace KileTool
 				m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
 				return status;
 			}
+
+			emit(toolStarted());
+
 			return Running;
 		}
 

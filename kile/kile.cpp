@@ -107,6 +107,7 @@
 #include "kileautosavejob.h"
 #include "kileconfig.h"
 #include "kxtrcconverter.h"
+#include "kileerrorhandler.h"
 
 #include "kilespell.h"
 #include "kilespell2.h"
@@ -117,15 +118,11 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	KileInfo(this),
 	m_paPrint(0L),
 	m_bQuick(false),
-	m_nCurrentError(-1),
 	m_bShowUserMovedMessage(false)
 {
 	// do initializations first
-	m_currentState=m_wantState="Editor";
-	m_bWatchFile=false;
-	m_bNewInfolist=true;
-	m_bCheckForLaTeXErrors=false;
-	m_bBlockWindowActivateEvents=false;
+	m_currentState = m_wantState="Editor";
+	m_bWatchFile = m_bBlockWindowActivateEvents = m_logPresent = false;
 
 	m_spell = new KileSpell(this, this, "kilespell");
 
@@ -142,6 +139,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	m_eventFilter = new KileEventFilter();
 	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
+
+	m_errorHandler = new KileErrorHandler(this, this);
 
 	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
 	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
@@ -229,7 +228,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(SmallIcon("math5"),6,i18n("Greek Letters"));
 	connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math6"),7,i18n("Foreign characters"));
+	ButtonBar->insertTab(SmallIcon("math6"),7,i18n("Special characters"));
 	connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(SmallIcon("metapost"),8,i18n("MetaPost Commands"));
 	connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
@@ -241,32 +240,31 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 
 	//Log/Messages/KShell widgets
-	Outputview=new QTabWidget(splitter2);
-	Outputview->setFocusPolicy(QWidget::ClickFocus);
+	m_outputView=new QTabWidget(splitter2);
+	m_outputView->setFocusPolicy(QWidget::ClickFocus);
 
-	//LogWidget = new MessageWidget( Outputview );
-	LogWidget = new KileWidget::LogMsg( this, Outputview );
-	connect(LogWidget, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
-	connect(LogWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
+	//m_logWidget = new MessageWidget( m_outputView );
+	m_logWidget = new KileWidget::LogMsg( this, m_outputView );
+	connect(m_logWidget, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
+	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
 
-	LogWidget->setFocusPolicy(QWidget::ClickFocus);
-	LogWidget->setMinimumHeight(40);
-	LogWidget->setReadOnly(true);
-	Outputview->addTab(LogWidget,SmallIcon("viewlog"), i18n("Log/Messages"));
+	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
+	m_logWidget->setMinimumHeight(40);
+	m_logWidget->setReadOnly(true);
+	m_outputView->addTab(m_logWidget,SmallIcon("viewlog"), i18n("Log/Messages"));
 
-	OutputWidget = new KileWidget::Output(Outputview);
-	OutputWidget->setFocusPolicy(QWidget::ClickFocus);
-	OutputWidget->setMinimumHeight(40);
-	OutputWidget->setReadOnly(true);
-	Outputview->addTab(OutputWidget,SmallIcon("output_win"), i18n("Output"));
+	m_outputWidget = new KileWidget::Output(m_outputView);
+	m_outputWidget->setFocusPolicy(QWidget::ClickFocus);
+	m_outputWidget->setMinimumHeight(40);
+	m_outputWidget->setReadOnly(true);
+	m_outputView->addTab(m_outputWidget,SmallIcon("output_win"), i18n("Output"));
 
-	logpresent=false;
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter(m_outputInfo);
-	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), LogWidget, SLOT(printProblem(int, const QString& )));
+	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
-	m_texKonsole=new KileWidget::Konsole(this, Outputview,"konsole");
-	Outputview->addTab(m_texKonsole,SmallIcon("konsole"),i18n("Konsole"));
+	m_texKonsole=new KileWidget::Konsole(this, m_outputView,"konsole");
+	m_outputView->addTab(m_texKonsole,SmallIcon("konsole"),i18n("Konsole"));
 
 	QValueList<int> sizes;
 	sizes << split2_top << split2_bottom;
@@ -279,7 +277,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	setCentralWidget(topWidgetStack);
 	ShowOutputView(false);
 	ShowStructView(false);
-	Outputview->showPage(LogWidget);
+	m_outputView->showPage(m_logWidget);
 	lastvtab=1;
 	newCaption();
 	showVertPage(0);
@@ -294,14 +292,15 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	KileApplication::closeSplash();
 	show();
 
-	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
+	connect(m_outputView, SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
 	applyMainWindowSettings(config, "KileMainWindow" );
 
-	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
+	m_manager  = new KileTool::Manager(this, config, m_logWidget, m_outputWidget, partManager, topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(requestSaveAll()), docManager(), SLOT(fileSaveAll()));
-	connect(m_manager, SIGNAL(jumpToFirstError()), this, SLOT(jumpToFirstError()));
+	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
+	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
 
 	m_toolFactory = new KileTool::Factory(m_manager, config);
 	m_manager->setFactory(m_toolFactory);
@@ -383,13 +382,13 @@ void Kile::setupActions()
 
 	//build actions
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
-	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
-	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
-	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
-	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, this, SLOT(PreviousWarning()), actionCollection(),"PreviousWarning" );
-	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, this, SLOT(NextWarning()), actionCollection(),"NextWarning" );
-	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, this, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
-	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, this, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
+	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
+	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, m_errorHandler, SLOT(PreviousError()), actionCollection(),"PreviousError" );
+	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, m_errorHandler, SLOT(NextError()), actionCollection(),"NextError" );
+	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, m_errorHandler, SLOT(PreviousWarning()), actionCollection(),"PreviousWarning" );
+	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, m_errorHandler, SLOT(NextWarning()), actionCollection(),"NextWarning" );
+	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, m_errorHandler, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
+	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, m_errorHandler, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
 	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	m_paStop->setEnabled(false);
 
@@ -780,17 +779,17 @@ void Kile::projectOpen(const QString& proj)
 
 void Kile::focusLog()
 {
-	Outputview->showPage(LogWidget);
+	m_outputView->showPage(m_logWidget);
 }
 
 void Kile::focusOutput()
 {
-	Outputview->showPage(OutputWidget);
+	m_outputView->showPage(m_outputWidget);
 }
 
 void Kile::focusKonsole()
 {
-	Outputview->showPage(m_texKonsole);
+	m_outputView->showPage(m_texKonsole);
 }
 
 void Kile::focusEditor()
@@ -905,80 +904,6 @@ void Kile::newStatus(const QString & msg)
 	statusBar()->changeItem(msg,ID_LINE_COLUMN);
 }
 
-const QStringList* Kile::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0 */)
-{
-	m_listTemp.clear();
-
-	if (docinfo == 0)
-	{
-		docinfo = docManager()->getInfo();
-	}
-	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
-
-	kdDebug() << "Kile::retrieveList()" << endl;
-	if (item)
-	{
-		const KileProject *project = item->project();
-		const KileProjectItem *root = project->rootItem(item);
-		if (root)
-		{
-			kdDebug() << "\tusing root item " << root->url().fileName() << endl;
-
-			QPtrList<KileProjectItem> children;
-			children.append(root);
-			root->allChildren(&children);
-
-			const QStringList *list;
-
-			for (uint i=0; i < children.count(); i++)
-			{
-				kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
-				list = (children.at(i)->getInfo()->*getit)();
-				if (list)
-				{
-					for (uint i=0; i < list->count(); i++)
-						m_listTemp << (*list)[i];
-				}
-			}
-
-			return &m_listTemp;
-		}
-		else
-			return &m_listTemp;
-	}
-	else	if (docinfo)
-	{
-		m_listTemp = *((docinfo->*getit)());
-		return &m_listTemp;
-	}
-	else
-		return &m_listTemp;
-}
-
-const QStringList* Kile::labels(KileDocument::Info * info)
-{
-	kdDebug() << "Kile::labels()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::labels;
-	const QStringList* list = retrieveList(p, info);
-	return list;
-}
-
-const QStringList* Kile::bibItems(KileDocument::Info * info)
-{
-	kdDebug() << "Kile::bibItems()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibItems;
-	const QStringList* list = retrieveList(p, info);
-	return list;
-}
-
-const QStringList* Kile::bibliographies(KileDocument::Info * info)
-{
-	kdDebug() << "Kile::bibliographies()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibliographies;
-	const QStringList* list = retrieveList(p, info);
-	return list;
-}
-
 int Kile::lineNumber()
 {
 	Kate::View *view = viewManager()->currentView();
@@ -999,7 +924,7 @@ void Kile::newCaption()
 	if (view)
 	{
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
-		if (Outputview->currentPage()->inherits("KileWidget::Konsole")) m_texKonsole->sync();
+		if (m_outputView->currentPage()->inherits("KileWidget::Konsole")) m_texKonsole->sync();
 	}
 }
 
@@ -1056,7 +981,7 @@ void Kile::ShowEditorWidget()
 	splitter1->show();
 	splitter2->show();
 	if (showstructview)  Structview->show();
-	if (showoutputview)   Outputview->show();
+	if (showoutputview)   m_outputView->show();
 
 	Kate::View *view = viewManager()->currentView();
 	if (view) view->setFocus();
@@ -1243,7 +1168,7 @@ void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
 			docinfo = docManager()->infoFor(doc);
 		else
 		{
-			LogWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
+			m_logWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
 			return;
 		}
 	}
@@ -1265,7 +1190,7 @@ void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
 		str = file.fileName();
 		if (!silent &&  (str==i18n("Untitled") || str == "" ) )
 		{
-			LogWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
+			m_logWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
 			return;
 		}
 
@@ -1286,11 +1211,11 @@ void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
 
 		if ( extlist.count() == 0 )
 		{
-			LogWidget->printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
+			m_logWidget->printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
 			return;
 		}
 
-		LogWidget->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
+		m_logWidget->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
 
 		docinfo->cleanTempFiles(extlist);
 	}
@@ -1308,152 +1233,6 @@ void Kile::RefreshStructure()
 	viewManager()->updateStructure(true);
 }
 
-
-//////////////// MESSAGES - LOG FILE///////////////////////
-void Kile::ViewLog()
-{
-	Outputview->showPage(LogWidget);
-	logpresent=false;
-
-	QString cn = getCompileName();
-	if ( m_outputFilter->source() !=  cn )
-	{
-		m_outputFilter->setSource(cn);
-		m_outputFilter->Run(cn.replace(QRegExp("\\..*$"),".log"));
-	}
-
-	QString log = m_outputFilter->log();
-
-	if (log != QString::null)
-	{
-		LogWidget->setText(log);
-		LogWidget->highlight();
-		LogWidget->scrollToBottom();
-		logpresent=true;
-	}
-	else
-	{
-		LogWidget->printProblem(KileTool::Error, i18n("Cannot open log file! Did you run LaTeX?"));
-	}
-}
-
-////////////////////////// ERRORS /////////////////////////////
-
-void Kile::jumpToFirstError()
-{
-	int sz = m_outputInfo->size();
-	for (int i = 0; i < sz; i++ )
-	{
-		if ( (*m_outputInfo)[i].type() == LatexOutputInfo::itmError )
-		{
-			jumpToProblem(&(*m_outputInfo)[i]);
-			break;
-		}
-	}
-}
-
-void Kile::jumpToProblem(OutputInfo *info)
-{
-	QString file = getFullFromPrettyName(info->source());
-
-	if ( file != QString::null )
-	{
-		docManager()->fileOpen(file);
-		if ( info->sourceLine() > 0 )
-		setLine(QString::number(info->sourceLine() - 1));
-	}
-}
-
-void Kile::jumpToProblem(int type, bool forward)
-{
-	static LatexOutputInfoArray::iterator it;
-
-	//if the current log file does not belong to the files the user is viewing
-	//reparse the correct log file
-	QString cn = getCompileName();
-	bool correctlogfile = (cn == outputFilter()->source());
-	if ( ! correctlogfile )
-	{
-		LogWidget->clear();
-		outputFilter()->setSource(cn);
-		QFileInfo fi(cn);
-		QString lf = fi.dirPath(true) + "/" + fi.baseName(true) + ".log";
-		LogWidget->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...").arg(lf), i18n("Log") );
-		if ( ! outputFilter()->Run( lf ) )
-		{
-			outputFilter()->setSource(QString::null);
-			return;
-		}
-	}
-
-	if (!m_outputInfo->isEmpty())
-	{
-		int sz = m_outputInfo->size();
-		int pl = forward ? 1 : -1;
-		bool found =false;
-
-		//look for next problem of requested type
-		for (int i = m_nCurrentError+pl; (i < sz) && (i >= 0); i += pl )
-		{
-			if ( (*m_outputInfo)[i].type() == type )
-			{
-				m_nCurrentError = i;
-				found = true;
-				break;
-			}
-		}
-
-		if ( !found ) return;
-
-		Outputview->showPage(LogWidget);
-		
-		//If the log file is being viewed, use this to jump to the errors,
-		//otherwise, use the error summary display
-		if (logpresent)
-			LogWidget->highlight( (*m_outputInfo)[m_nCurrentError].outputLine(), pl );
-		else
-			LogWidget->highlight( (*m_outputInfo)[m_nCurrentError].source() + ":" + QString::number((*m_outputInfo)[m_nCurrentError].sourceLine()), pl );
-
-		jumpToProblem(&(*m_outputInfo)[m_nCurrentError]);
-	}
-
-	if (m_outputInfo->isEmpty() && correctlogfile)
-	{
-		LogWidget->append("\n<font color=\"green\">"+ i18n("No LaTeX errors detected!") + "</font>");
-	}
-
-	m_bNewInfolist = false;
-}
-
-void Kile::NextError()
-{
-	jumpToProblem(LatexOutputInfo::itmError, true);
-}
-
-void Kile::PreviousError()
-{
-	jumpToProblem(LatexOutputInfo::itmError, false);
-}
-
-void Kile::NextWarning()
-{
-	jumpToProblem(LatexOutputInfo::itmWarning, true);
-}
-
-void Kile::PreviousWarning()
-{
-	jumpToProblem(LatexOutputInfo::itmWarning, false);
-}
-
-void Kile::NextBadBox()
-{
-	jumpToProblem(LatexOutputInfo::itmBadBox, true);
-}
-
-void Kile::PreviousBadBox()
-{
-	jumpToProblem(LatexOutputInfo::itmBadBox, false);
-}
 
 /////////////////////// LATEX TAGS ///////////////////
 void Kile::insertTag(const KileAction::TagData& data)
@@ -1536,11 +1315,11 @@ void Kile::insertTag(const KileAction::TagData& data)
 
 	view->getDoc()->clearSelection();
 
-	LogWidget->clear();
-	Outputview->showPage(LogWidget);
-	logpresent=false;
+	m_logWidget->clear();
+	m_outputView->showPage(m_logWidget);
+	m_logPresent=false;
 
-	LogWidget->append(data.description);
+	m_logWidget->append(data.description);
 }
 
 void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
@@ -1943,7 +1722,7 @@ void Kile::ToggleMode()
 	{
 		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
 		ModeAction->setChecked(false);
-		logpresent=false;
+		m_logPresent=false;
 		m_singlemode=true;
 	}
 	else if (m_singlemode && viewManager()->currentView())
@@ -1997,12 +1776,12 @@ void Kile::ShowOutputView(bool change)
 	if (showoutputview)
 	{
 		MessageAction->setChecked(true);
-		Outputview->show();
+		m_outputView->show();
 	}
 	else
 	{
 		MessageAction->setChecked(false);
-		Outputview->hide();
+		m_outputView->hide();
 	}
 }
 

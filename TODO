@@ -1,6 +1,9 @@
 TODO
  - add more, improving existing wizards
- 
+
+ - allow users to set environment variables
+ - allow users to set a preferred shell
+  
  - improving template support
  
  - finishing the ASCII <-> encoding converters (convert accented letters into TeX sequences)

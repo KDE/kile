@@ -90,6 +90,7 @@ class TemplateItem;
 class KileEventFilter;
 class KileAutoSaveJob;
 class KileSpell;
+class KileErrorHandler;
 
 namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
@@ -148,9 +149,6 @@ private:
 	KMultiVertTabBar 		*ButtonBar;
 	SymbolView 			*symbol_view;
 	metapostview 			*mpview;
-	KileWidget::Output		*OutputWidget;
-	KileWidget::LogMsg		*LogWidget;
-	QTabWidget 			 *Outputview;
 	QFrame 				*Structview;
 	QHBoxLayout 			*Structview_layout;
 	QWidgetStack 			*topWidgetStack;
@@ -289,15 +287,7 @@ private slots:
 	// KileInfo
 	//
 public:
-	const QStringList* labels(KileDocument::Info * info = 0);
-	const QStringList* bibItems(KileDocument::Info * info = 0);
-	const QStringList* bibliographies(KileDocument::Info * info = 0);
-
 	int lineNumber();
-
-private:
-	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0);
-	QStringList m_listTemp;
 
 /* autosave */
 private slots:
@@ -320,30 +310,6 @@ private slots:
 
 	void FindInFiles();
 	void GrepItemSelected(const QString &abs_filename, int line);
-
-/* log view, error handling */
-private slots:
-	void ViewLog();
-	void NextError();
-	void PreviousError();
-	void NextWarning();
-	void PreviousWarning();
-	void NextBadBox();
-	void PreviousBadBox();
-
-private:
-	void jumpToProblem(int type, bool);
-	void jumpToProblem(OutputInfo *);
-
-public slots:
-	void jumpToFirstError();
-
-private:
-	int			m_nCurrentError;
-	bool 			logpresent;
-
-	bool 			m_bCheckForLaTeXErrors;
-	bool 			m_bNewInfolist;
 
 /* insert tags */
 private slots:
@@ -378,7 +344,7 @@ private:
 
 private:
 	KileHelp::Help *m_help;
-
+	KileErrorHandler *m_errorHandler;
 	KileSpell		*m_spell;
 };
 

@@ -143,6 +143,100 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 	return file;
 }
 
+const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0L */)
+{
+	m_listTemp.clear();
+
+	if (docinfo == 0L) docinfo = docManager()->getInfo();
+	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
+
+	kdDebug() << "Kile::retrieveList()" << endl;
+	if (item)
+	{
+		const KileProject *project = item->project();
+		const KileProjectItem *root = project->rootItem(item);
+		if (root)
+		{
+			kdDebug() << "\tusing root item " << root->url().fileName() << endl;
+
+			QPtrList<KileProjectItem> children;
+			children.append(root);
+			root->allChildren(&children);
+
+			const QStringList *list;
+
+			for (uint i=0; i < children.count(); i++)
+			{
+				kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
+				list = (children.at(i)->getInfo()->*getit)();
+				if (list)
+				{
+					for (uint i=0; i < list->count(); i++)
+						m_listTemp << (*list)[i];
+				}
+			}
+
+			return &m_listTemp;
+		}
+		else
+			return &m_listTemp;
+	}
+	else	if (docinfo)
+	{
+		m_listTemp = *((docinfo->*getit)());
+		return &m_listTemp;
+	}
+	else
+		return &m_listTemp;
+}
+
+const QStringList* KileInfo::allLabels(KileDocument::Info * info)
+{
+	kdDebug() << "Kile::allLabels()" << endl;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::labels;
+	const QStringList* list = retrieveList(p, info);
+	return list;
+}
+
+const QStringList* KileInfo::allBibItems(KileDocument::Info * info)
+{
+	kdDebug() << "Kile::allBibItems()" << endl;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibItems;
+	const QStringList* list = retrieveList(p, info);
+	return list;
+}
+
+const QStringList* KileInfo::allBibliographies(KileDocument::Info * info)
+{
+	kdDebug() << "Kile::bibliographies()" << endl;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibliographies;
+	const QStringList* list = retrieveList(p, info);
+	return list;
+}
+
+const QStringList* KileInfo::allDependencies(KileDocument::Info * info)
+{
+	kdDebug() << "Kile::dependencies()" << endl;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::dependencies;
+	const QStringList* list = retrieveList(p, info);
+	return list;
+}
+
+const QStringList* KileInfo::allNewCommands(KileDocument::Info * info)
+{
+	kdDebug() << "Kile::newCommands()" << endl;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::newCommands;
+	const QStringList* list = retrieveList(p, info);
+	return list;
+}
+
+QString KileInfo::lastModifiedFile(KileDocument::Info * info)
+{
+	if (info == 0) info = docManager()->getInfo();
+	const QStringList *list = allDependencies(info);
+	return info->lastModifiedFile(list);
+}
+
 bool KileInfo::isOpen(const KURL & url)
 {
 	kdDebug() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;

@@ -40,7 +40,7 @@ namespace KileStruct
 {
 	enum  {
 		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
-		BibItem = 0x10, Bibliography = 0x12, Package = 0x14
+		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80
 	};
 }
 
@@ -134,8 +134,9 @@ public:
 	const QStringList* dependencies() const {return &m_deps; }
 	const QStringList* bibliographies() const { return &m_bibliography; }
 	const QStringList* packages() const { return &m_packages; }
+	const QStringList* newCommands() const { return &m_newCommands; }
 
-	QString lastModifiedFile();
+	QString lastModifiedFile(const QStringList *list = 0L);
 
 	const QString & preamble() const { return m_preamble; }
 
@@ -182,6 +183,7 @@ protected:
 	QStringList					m_deps;
 	QStringList					m_bibliography;
 	QStringList					m_packages;
+	QStringList					m_newCommands;
 	QString						m_preamble;
 	QMap<QString,KileStructData>	m_dictStructLevel;
 	KURL						m_url, m_oldurl;

@@ -77,7 +77,7 @@ namespace KileWidget
 	{
 		kdDebug() << "==void LogMsg::highlight(" << begin << ", int direction /* = 1 */)========" << endl;
 		int parags = paragraphs();
-		for ( int i = 0; i < parags;  i++ )
+		for ( int i = parags - 1; i >= 0;  i-- )
 		{
 			kdDebug() << "considering : " << text(i) << endl;
 			if ( text(i).startsWith(begin) )

@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kiconloader.h>
 
+#include "codecompletion.h"
 #include "kiledocumentinfo.h"
 
 namespace KileDocument
@@ -71,6 +72,7 @@ Info::Info(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "bibtex");
 	m_dictStructLevel["\\usepackage"]=KileStructData(-3,KileStruct::Package);
+	m_dictStructLevel["\\newcommand"]=KileStructData(-4,KileStruct::NewCommand);
 }
 
 void Info::emitNameChanged(Kate::Document * /*doc*/)
@@ -201,17 +203,19 @@ void Info::cleanTempFiles(const QStringList &extlist )
 	} 
 }
 
-QString Info::lastModifiedFile()
+QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 {
 	kdDebug() << "==QString Info::lastModifiedFile()=====" << endl;
 	QFileInfo fileinfo ( url().path() );
 	QString basepath = fileinfo.dirPath(true), last = fileinfo.absFilePath();
 	QDateTime time ( fileinfo.lastModified() );
 
+	if ( list == 0L ) list = &m_deps;
+
 	kdDebug() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
-	for ( uint i = 0; i < m_deps.count(); i++ )
+	for ( uint i = 0; i < list->count(); i++ )
 	{
-		fileinfo.setFile( basepath + "/" + m_deps[i]);
+		fileinfo.setFile( basepath + "/" + (*list)[i] );
 		kdDebug() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
 		if ( fileinfo.lastModified() >  time ) 
 		{
@@ -244,7 +248,7 @@ QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 		len = line.length();
 		for (int i=pos; i < len; i++)
 		{
-			if (line[i] == '\\') i++;
+			if (line[i] == '\\' && ( line[i+1] == obracket || line[i+1] == cbracket) ) i++;
 			else if (line[i] == obracket) count++;
 			else if (line[i] == cbracket)
 			{
@@ -269,6 +273,7 @@ void Info::updateStruct()
 	m_deps.clear();
 	m_bibliography.clear();
 	m_packages.clear();
+	m_newCommands.clear();
 	m_bIsRoot = false;
 	m_preamble = QString::null;
 }
@@ -342,7 +347,7 @@ void TeXInfo::updateStruct()
 	static QRegExp::QRegExp reComments("([^\\\\]%|^%).*$");
 	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
-	static QRegExp::QRegExp reNewCommand("\\\\(re)?newcommand.*$");
+	static QRegExp::QRegExp reReNewCommand("\\\\renewcommand.*$");
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
@@ -372,8 +377,8 @@ void TeXInfo::updateStruct()
 		//remove comments
 		s.replace(reComments, "");
 
-		//if the command is a \renewcommand or \newcommand, ignore rest of the line
-		s.replace(reNewCommand, "");
+		//ignore renewcommands
+		s.replace(reReNewCommand, "");
 
 		//find all commands in this line
 		while (tagStart != -1)
@@ -473,6 +478,20 @@ void TeXInfo::updateStruct()
 							cumlen += pckgs[p].length() + 1;
 						}
 						fire = false;
+					}
+
+					if ( (*it).type == KileStruct::NewCommand )
+					{
+						bool ok;
+						int noo = shorthand.toInt(&ok);
+						if ( ok ) 
+						{
+							for ( int noo_index = 0; noo_index < noo; noo_index++)
+								m +=  "{" + BULLET + "}";
+						}
+						m_newCommands.append(m);
+						//ignore rest of line
+						continue;
 					}
 
 					if ( ((*it).type == KileStruct::Sect) && (shorthand != QString::null) )

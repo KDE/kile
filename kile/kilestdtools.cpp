@@ -99,11 +99,11 @@ namespace KileTool
 
 	bool LaTeX::updateBibs()
 	{
-		KileDocument::Info *info = manager()->info()->docManager()->infoFor(source());
-                if ( info )
+		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
+                if ( docinfo )
                 {
-			if ( info->bibliographies()->count() > 0 )
-				return needsUpdate ( baseDir() + "/" + S() + ".bbl" , info->lastModifiedFile() );
+			if ( manager()->info()->allBibliographies()->count() > 0 )
+				return needsUpdate ( baseDir() + "/" + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
 		}
 
 		return false;
@@ -111,13 +111,13 @@ namespace KileTool
 
 	bool LaTeX::updateIndex()
 	{
-		KileDocument::Info *info = manager()->info()->docManager()->infoFor(source());
-		if ( info )
+		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
+		if ( docinfo )
 		{
-			const QStringList *pckgs = info->packages();
+			const QStringList *pckgs = docinfo->packages();
 			for ( uint i = 0; i < pckgs->count(); i++)
 				if ( (*pckgs->at(i)) == "makeidx" )
-					return needsUpdate ( baseDir() + "/" + S() + ".ind", info->lastModifiedFile() );
+					return needsUpdate ( baseDir() + "/" + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
 		}
 
 		return false;
@@ -240,7 +240,7 @@ endl;
 		QString path = source(true);
 
 		//get the bibliographies for this source
-		const QStringList *bibs = manager()->info()->bibliographies(manager()->info()->docManager()->infoFor(path));
+		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->infoFor(path));
 		if (bibs->count() > 0)
 		{
 			QString bib = bibs->front();

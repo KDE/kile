@@ -22,6 +22,7 @@
 #include <qptrlist.h>
 #include <qmap.h>
 #include <qptrlist.h>
+#include <qtabwidget.h>
 
 #include <kdebug.h>
 
@@ -67,14 +68,25 @@ public:
 	QString getSelection() const;
 	void clearSelection() const;
 
-	virtual const QStringList* labels(KileDocument::Info * info = 0) =0;
-	virtual const QStringList* bibItems(KileDocument::Info * info = 0) =0;
-	virtual const QStringList* bibliographies(KileDocument::Info * info = 0) = 0;
+	virtual const QStringList* allLabels(KileDocument::Info * info = 0L);
+	virtual const QStringList* allBibItems(KileDocument::Info * info = 0L);
+	virtual const QStringList* allBibliographies(KileDocument::Info * info = 0L);
+	virtual const QStringList* allDependencies(KileDocument::Info * info = 0L);
+	virtual const QStringList* allNewCommands(KileDocument::Info * info = 0L);
 
+	QString lastModifiedFile(KileDocument::Info * info = 0L);
+
+private:
+	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0L);
+	QStringList m_listTemp;
+
+public:
 	bool isOpen(const KURL & url);
 	bool	projectIsOpen(const KURL & );
 
 	bool watchFile() { return m_bWatchFile; }
+	bool logPresent() { return m_logPresent; }
+	void setLogPresent(bool pr) { m_logPresent = pr; }
 
 	LatexOutputFilter * outputFilter() { return m_outputFilter; }
 	LatexOutputInfoArray * outputInfo() { return m_outputInfo; }
@@ -85,6 +97,9 @@ public:
 
 	KileWidget::Structure *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
+	KileWidget::Output *outputWidget() { return m_outputWidget; }
+	QTabWidget *outputView() { return m_outputView; }
+	KileWidget::LogMsg *logWidget() { return m_logWidget; }
 
 	KileDocument::Manager* docManager() const { return m_docManager; }
 	KileView::Manager* viewManager() const { return m_viewManager; }
@@ -109,6 +124,9 @@ protected:
 	KileTool::Manager		*m_manager;
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;
+	KileWidget::Output		*m_outputWidget;
+	KileWidget::LogMsg		*m_logWidget;
+	QTabWidget 			 *m_outputView;
 
 	KileDocument::EditorExtension *m_edit;
 
@@ -119,7 +137,7 @@ protected:
 
 	QString	m_currentTarget;
 	
-	bool m_bWatchFile;
+	bool m_bWatchFile, m_logPresent;
 
 	LatexOutputFilter		*m_outputFilter;
 	LatexOutputInfoArray	*m_outputInfo;

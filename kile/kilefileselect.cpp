@@ -50,7 +50,7 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   cmbPath->setCompletionObject( cmpl );
   lo->addWidget(cmbPath);
 
-  dir = new KDirOperator(QString::null, this, "operator");
+  dir = new KDirOperator(KURL(), this, "operator");
   connect(dir, SIGNAL(fileSelected(const KFileItem*)), this, SIGNAL(fileSelected(const KFileItem*)));
   dir->setView(KFile::Simple);
   dir->setMode(KFile::Files);

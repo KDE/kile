@@ -218,7 +218,7 @@ KileNewProjectDlg::~KileNewProjectDlg()
 KileProject* KileNewProjectDlg::project()
 {
 	if (!m_project) {
-		m_project = new KileProject(projectTitle(), location());
+		m_project = new KileProject(projectTitle(), KURL(location()));
 
 		KileProjectItem::Type type;
 		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++) {

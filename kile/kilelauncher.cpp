@@ -297,7 +297,7 @@
 		stack->addWidget(m_part->widget() , 1 );
 		stack->raiseWidget(1);
 
-		m_part->openURL(name);
+		m_part->openURL(KURL(name));
 		pm->addPart(m_part, true);
 		pm->setActivePart(m_part);
 
@@ -335,7 +335,7 @@
 
 		tool()->manager()->wantGUIState(m_state);
 
-		htmlpart->openURL(name);
+		htmlpart->openURL(KURL(name));
 		htmlpart->addToHistory(name);
 		stack->addWidget(htmlpart->widget() , 1 );
 		stack->raiseWidget(1);

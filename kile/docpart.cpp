@@ -51,13 +51,13 @@ void docpart::urlSelected( const QString &url, int button, int state,const QStri
 }
 void docpart::home()
 {
-if ( !history.isEmpty() ) openURL( history.first() );
+if ( !history.isEmpty() ) openURL( KURL(history.first()) );
 }
 void docpart::forward()
 {
   if ( forwardEnable() ) {
   	hpos++;
-  	openURL( history[hpos] );
+  	openURL( KURL( history[hpos]) );
     emit updateStatus( backEnable() , forwardEnable() );
   }
 }
@@ -67,7 +67,7 @@ void docpart::back()
 {
   if ( backEnable() ) {
   	hpos--;
-  	openURL( history[hpos] );
+  	openURL( KURL(history[hpos]) );
     emit updateStatus( backEnable() , forwardEnable() );
   }
 }

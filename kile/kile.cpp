@@ -900,7 +900,7 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 		//create a new document to open the template in
 		Kate::Document *tempdoc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 
-		if (!tempdoc->openURL(sel->path()))
+		if (!tempdoc->openURL(KURL(sel->path())))
 		{
 			KMessageBox::error(this, i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!"));
 		}

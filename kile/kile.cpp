@@ -202,7 +202,7 @@ htmlpart=0L;
 pspart=0L;
 dvipart=0L;
 m_bNewErrorlist=true;
-
+m_bCheckForLaTeXErrors=false;
 
 showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
 showtoolstoolbar=!showtoolstoolbar;ToggleShowToolsToolbar();
@@ -1536,8 +1536,8 @@ void Kile::QuickBuild()
       LogWidget->clear();
       logpresent=false;
       LogWidget->insertLine(i18n("Quick build..."));
-      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
       LogWidget->insertLine(i18n("Compilation..."));
+      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
    }
 
    UpdateLineColStatus();
@@ -1545,47 +1545,37 @@ void Kile::QuickBuild()
 
 void Kile::EndQuickCompile()
 {
+QuickLatexError();
+LogWidget->insertLine(i18n("Viewing..."));
 switch (quickmode)
  {
   case 1:
     {
-    //ViewLog();
-    QuickLatexError();
     if (errorlist->isEmpty()) {QuickDviToPS();}
     else {NextError();}
     }break;
   case 2:
     {
-    //ViewLog();
-    QuickLatexError();
     if (errorlist->isEmpty() && !watchfile) {ViewDvi();}
     else {NextError();}
     }break;
  case 3:
     {
-    //ViewLog();
-    QuickLatexError();
     if (errorlist->isEmpty()) {KdviForwardSearch();}
     else {NextError();}
     }break;
  case 4:
     {
-    //ViewLog();
-    QuickLatexError();
     if (errorlist->isEmpty() && !watchfile) {ViewPDF();}
     else {NextError();}
     }break;
  case 5:
     {
-    //ViewLog();
-    QuickLatexError();
     if (errorlist->isEmpty()) {QuickDviPDF();}
     else {NextError();}
     }break;
  case 6:
     {
-    //ViewLog();
-    QuickLatexError();
     if (errorlist->isEmpty()) {QuickDviToPS();}
     else {NextError();}
     }break;
@@ -1692,11 +1682,13 @@ void Kile::QuickPS2PDF()
 //file    : the file to be passed as an argument to the command, %S is substituted
 //          by the basename of this file
 //enablestop : whether or not this process can be stopped by pressing the STOP button
-CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &file, bool enablestop, bool runonfile) {
+CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &file, bool enablestop,bool runonfile) {
  //substitute %S for the basename of the file
  QStringList cmmnd = command;
  QString dir = file.dirPath();
  QString name = file.baseName(TRUE);
+
+ m_nErrors=m_nWarnings=0;
 
  CommandProcess* proc = new CommandProcess();
  currentProcess=proc;
@@ -1713,8 +1705,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
    (*proc) << *i;
  }
 
- kdDebug() << "exec command: " << proc->command() << endl;
- 
+
  connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  connect(this, SIGNAL( stopProcess() ), proc, SLOT(terminate()));
@@ -1753,7 +1744,6 @@ QString Kile::prepareForCompile(const QString & command) {
      finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
-  kdDebug() << "prepareForCompile finame " << finame << endl;
   //we need to check for finame=="untitled" etc. because the user could have
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
@@ -1876,6 +1866,8 @@ void Kile::Latex()
 {
   QString finame;
   if ( (finame=prepareForCompile("LaTeX")) == QString::null)  return;
+
+  m_bCheckForLaTeXErrors=true;
 
   QFileInfo fic(finame);
   QStringList command;
@@ -2081,6 +2073,8 @@ void Kile::PDFLatex()
 {
   QString finame;
   if ( (finame= prepareForCompile("PDFLaTeX")) == QString::null) return;
+
+  m_bCheckForLaTeXErrors=true;
 
   QFileInfo fic(finame);
 
@@ -2479,19 +2473,31 @@ OutputWidget->insertAt(s, row, col);
 
 void Kile::slotProcessExited(KProcess* proc)
 {
+if (m_bCheckForLaTeXErrors)
+{
+	LatexError();
+	m_bCheckForLaTeXErrors=false;
+}
+
 QString result;
-if (proc->normalExit())
-  {
-  result= ((proc->exitStatus()) ? i18n("Process failed") : i18n("Process exited normally"));
-  }
+if (m_nErrors !=0 || m_nWarnings != 0)
+{
+	result = i18n("Process exited with %1 errors and %1 warnings.").arg(m_nErrors).arg(m_nWarnings);
+}
 else
-  {
-   result= i18n("Process exited with error(s)");
-  }
-int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
-int col = LogWidget->paragraphLength(row);
-LogWidget->setCursorPosition(row,col);
-LogWidget->insertAt(result, row, col);
+if (proc->normalExit())
+{
+	result= ((proc->exitStatus()) ? i18n("Process failed.") : i18n("Process exited normally."));
+}
+else
+{
+   result= i18n("Process exited unexpectedly.");
+}
+//int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
+//int col = LogWidget->paragraphLength(row);
+//LogWidget->setCursorPosition(row,col);
+//LogWidget->insertAt(result, row, col);
+LogWidget->append(result);
 UpdateLineColStatus();
 currentProcess=0;
 }
@@ -2867,34 +2873,22 @@ else if (s=="input")
 void Kile::ViewLog()
 {
 	Outputview->showPage(LogWidget);
-	LogWidget->clear();
 	logpresent=false;
-	QString finame;
-	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
-
-	QFileInfo fic(finame);
-
-	LogWidget->insertLine("************** LOG FILE *************** :");
-	QFile f(finame);
-	if ( f.open(IO_ReadOnly) )
+	LatexError();
+	if (tempLog != QString::null)
 	{
-		QTextStream t( &f );
-		QString s;
-		while ( !t.eof() )
-		{
-			s = t.readLine();
-			int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
-			int col = LogWidget->text(row).length();
-			if (s.left(1) == "\n" && col == 0)  s = QString(" ")+s;
-			LogWidget->insertLine(s);
-		}
-		f.close();
-		logpresent=true;
+		kdDebug() << "about to show log" << endl;
+		LogWidget->setText(tempLog);
 		LogWidget->highlight();
-		LatexError();
+		LogWidget->scrollToBottom();
+		UpdateLineColStatus();
+		logpresent=true;
 	}
-	
-	UpdateLineColStatus();
+	else
+	{
+		LogWidget->insertLine(i18n("Cannot open log file! Did you run LaTeX?"));
+	}
+	tempLog=QString::null;
 }
 
 void Kile::ClickedOnOutput(int parag, int /*index*/)
@@ -2977,54 +2971,50 @@ if (ok && l<=currentEditorView()->editor->paragraphs())
  }
 }
 ////////////////////////// ERRORS /////////////////////////////
-void Kile::LatexError()
+void Kile::LatexError(bool warnings)
 {
 	errorlist->clear();
+	m_nErrors=m_nWarnings=0;
 	m_bNewErrorlist=true;
-
+	int tagStart,i=0;
 	QString s,num;
+	tempLog=QString::null;
 
-	for (int i = 0; i < LogWidget->paragraphs(); i++)
+	QString finame;
+	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
+
+	QFileInfo fic(finame);
+	QFile f(finame);
+	if ( f.open(IO_ReadOnly) )
 	{
-		s = LogWidget->text(i);
-		int tagStart, tagEnd;
-		//// ! ////
-		tagStart=tagEnd=0;
-		tagStart=s.find("!", tagEnd);
-		if (tagStart==0)
+		QTextStream t( &f );
+		while ( !t.eof() )
 		{
-			num = QString::number(i,10);
-			errorlist->append(num.ascii());
+			s=t.readLine()+"\n";
+			tempLog += s;
+   			//// ! ////
+			tagStart=s.find("!");
+			if (tagStart==0)
+			{
+				num = QString::number(i,10);
+				m_nErrors++;
+				errorlist->append(num.ascii());
+			}
+			//// latex warning ////
+			if (warnings)
+			{
+				tagStart=s.find("LaTeX Warning");
+				if (tagStart!=-1)
+				{
+					num = QString::number(i,10);
+					m_nWarnings++;
+					errorlist->append(num.ascii());
+				}
+			}
+			i++;
 		}
-		//// latex warning ////
-		tagStart=tagEnd=0;
-		tagStart=s.find("LaTeX Warning", tagEnd);
-		if (tagStart!=-1)
-		{
-			num = QString::number(i,10);
-			errorlist->append(num.ascii());
-		}
+		f.close();
 	}
-}
-
-void Kile::QuickLatexError()
-{
-    errorlist->clear();
-    m_bNewErrorlist=true;
-    QString s,num;
-    for(int i = 0; i < LogWidget->paragraphs(); i++)
-    {
-        s = LogWidget->text(i);
-        int tagStart, tagEnd;
-        //// ! ////
-        tagStart=tagEnd=0;
-        tagStart=s.find("!", tagEnd);
-        if (tagStart==0)
-        {
-		num = QString::number(i,10);
-		errorlist->append(num.ascii());
-        }
-    }
 }
 
 void Kile::NextError()

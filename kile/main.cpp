@@ -39,7 +39,7 @@ int main( int argc, char ** argv )
     "Jeroen Wijnhout 2003",
     0,
     "http://www.science.uva.nl/~wijnhout/Kile");
-  aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"wijnhout@science.uva.nl");
+  aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
   aboutData.addAuthor("Brachet Pascal",0,"");
   aboutData.addCredit("David Ishee", I18N_NOOP("Xgfe"));
   aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");

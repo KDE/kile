@@ -133,6 +133,7 @@ private:
     KSpell *kspell;
     int ks_corrected;
 
+    QString tempLog;
     KileFileSelect *KileFS;
     KMultiVertTabBar *ButtonBar;
     structdialog *stDlg;
@@ -189,6 +190,8 @@ private:
     MessageWidget *OutputWidget, *LogWidget;
     TexKonsoleWidget* texkonsole;
     QStrList *errorlist;
+    int m_nErrors,m_nWarnings;
+    bool m_bCheckForLaTeXErrors;
     QStringList structlist, labelitem, structitem, userClassList, userPaperList, userEncodingList, userOptionsList;
     FilesMap filenames;
     KPopupMenu*help;
@@ -294,8 +297,8 @@ private slots:
 
    void ViewLog();
    void ClickedOnOutput(int parag, int index);
-   void QuickLatexError();
-   void LatexError();
+   void QuickLatexError() { LatexError(false);}
+   void LatexError(bool warnings=true);
    void NextError();
    void PreviousError();
 

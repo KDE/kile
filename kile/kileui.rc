@@ -67,6 +67,7 @@
 		<Action name="ViewPS"/>
 		<Action name="ViewPDF"/>
 		<Action name="HtmlPreview"/>
+		<Action name="Bibtexeditor"/>
 	</Menu>
 	<Separator/>
 	<Action name="KdviForwardSearch"/>
@@ -401,6 +402,7 @@
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
 <Action name="HtmlPreview"/>
+<Action name="Bibtexeditor"/>
 <Action name="CleanAll"/>
 <Action name="MetaPost"/>
 <Action name="1"/>
@@ -600,6 +602,7 @@
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
 <Action name="HtmlPreview"/>
+<Action name="Bibtexeditor"/>
 <Action name="CleanAll"/>
 <Action name="MetaPost"/>
 <Action name="1"/>
@@ -799,6 +802,7 @@
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
 <Action name="HtmlPreview"/>
+<Action name="Bibtexeditor"/>
 <Action name="CleanAll"/>
 <Action name="MetaPost"/>
 <Action name="1"/>
@@ -1006,6 +1010,7 @@
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
 <Action name="HtmlPreview"/>
+<Action name="Bibtexeditor"/>
 <Action name="CleanAll"/>
 <Action name="MetaPost"/>
 <Action name="1"/>

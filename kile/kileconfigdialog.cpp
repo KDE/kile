@@ -101,7 +101,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
                         KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
 
-    QGridLayout *gbox1 = new QGridLayout( toolsPage,10,2,5,5,"" );
+    QGridLayout *gbox1 = new QGridLayout( toolsPage,11,2,5,5,"" );
     gbox1->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
     TextLabel1 = new QLabel( toolsPage, "label1" );
@@ -180,6 +180,12 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     LineEdit13 = new QLineEdit( toolsPage, "le113" );
     gbox1->addWidget( LineEdit13,9,1 );
 
+    TextLabel14 = new QLabel( toolsPage, "label14" );
+    TextLabel14->setText("BibTeX Editor");
+    gbox1->addWidget( TextLabel14,10,0 );
+    LineEdit14 = new QLineEdit( toolsPage, "le114" );
+    gbox1->addWidget( LineEdit14,10,1 );
+
 	//fill in tools
 	m_config->setGroup("Tools");
 	comboDvi->setCurrentText(m_config->readEntry("Dvi","Embedded Viewer"));
@@ -192,6 +198,8 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	LineEdit11->setText(m_config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'"));
 	LineEdit12->setText(m_config->readEntry("Makeindex","makeindex '%S.idx'"));
 	LineEdit13->setText(m_config->readEntry("Bibtex","bibtex '%S'"));
+	LineEdit14->setText(m_config->readEntry("Bibtexeditor","gbib '%S.bib'"));
+
 
 
     // ************************************************************************************************
@@ -283,6 +291,7 @@ void KileConfigDialog::slotOk()
 	m_config->writeEntry("Pdflatex",LineEdit7->text());
 	m_config->writeEntry("Pdf",comboPdf->currentText());
 	m_config->writeEntry("Dvipdf",LineEdit9->text());
+	m_config->writeEntry("Bibtexeditor",LineEdit14->text());
 
 	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
 
@@ -292,7 +301,7 @@ void KileConfigDialog::slotOk()
 	m_config->setGroup("Structure");
 	m_config->writeEntry("SwitchToStructure", checkSwitchStruct->isChecked());
 	m_config->sync();
-	
+
 	accept();
 }
 

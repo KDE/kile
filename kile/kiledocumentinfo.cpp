@@ -48,6 +48,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
 	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\bibliography"]=KileStructData(-2,KileStruct::Bibliography);
 }
 
 void KileDocumentInfo::emitNameChanged(Kate::Document *doc)
@@ -217,6 +218,7 @@ void KileDocumentInfo::updateStruct()
 	m_labels.clear();
 	m_bibItems.clear();
 	m_deps.clear();
+	m_bibliography.clear();
 	m_bIsRoot = false;
 
 	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
@@ -305,6 +307,13 @@ void KileDocumentInfo::updateStruct()
 						if (dep.right(4) != ".tex")
 							dep += ".tex";
 						m_deps.append(dep);
+					}
+
+					//update the referenced Bib files
+					if((*it).type == KileStruct::Bibliography)
+					{
+						kdDebug() << "\tappending Bibiliograph file " << m << endl;
+						m_bibliography.append(m.stripWhiteSpace());
 					}
 
 					//update the label list

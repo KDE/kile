@@ -55,6 +55,7 @@
 #include "structdialog.h"
 #include "quickdocumentdialog.h"
 #include "letterdialog.h"
+#include "bibtexdialog.h"
 #include "tabdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
@@ -182,6 +183,7 @@ private:
 	arraydialog 					*arrayDlg;
 	tabbingdialog 				*tabDlg;
 	l2hdialog 						*l2hDlg;
+	bibtexdialog					*BibtexDlg;
 
 	//parts
 	docpart 						*htmlpart;
@@ -235,9 +237,9 @@ private:
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument, input_encoding;
-   	QString 		templAuthor, templDocClassOpt, templEncoding;
-   	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-   	QStringList 	recentFilesList;
+  QString 		templAuthor, templDocClassOpt, templEncoding;
+  QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
+  QStringList 	recentFilesList;
 	bool 				ams_packages, makeidx_package;
 	bool 				htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
@@ -396,6 +398,7 @@ public:
 
 	const QStringList* labels() const;
 	const QStringList* bibItems() const;
+	const QStringList* bibliographies() const;
 
 /* autosave */
 private slots:
@@ -419,9 +422,9 @@ private slots:
 /* tools */
 private:
 	KShellProcess 		*currentProcess;
-	QString 				latex_command, viewdvi_command, dvips_command, dvipdf_command,
-								viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
-								pdflatex_command, viewpdf_command, l2h_options;
+	QString 		latex_command, viewdvi_command, dvips_command, dvipdf_command,
+					viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
+					pdflatex_command, viewpdf_command, l2h_options, bibtexeditor_command;
 
 signals:
 	void stopProcess();
@@ -460,6 +463,7 @@ private slots:
 	void LatexToHtml();
 	void MetaPost();
 	void HtmlPreview();
+	void Bibtexeditor();
 
 	void CleanBib();
 	QString DetectEpsSize(const QString &epsfile);

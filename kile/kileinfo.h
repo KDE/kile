@@ -45,6 +45,7 @@ public:
 
 	virtual const QStringList* labels() const =0;
 	virtual const QStringList* bibItems() const =0;
+	virtual const QStringList* bibliographies() const = 0;
 
 	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
 	KileDocumentInfo* infoFor(const QString &path);

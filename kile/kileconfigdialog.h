@@ -50,8 +50,8 @@ public:
 
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
 
-    QLabel    *TextLabel6, *TextLabel7, *TextLabel9, *TextLabel10, *TextLabel11, *TextLabel12, *TextLabel13;
-    QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13;
+    QLabel    *TextLabel6, *TextLabel7, *TextLabel9, *TextLabel10, *TextLabel11, *TextLabel12, *TextLabel13, *TextLabel14;
+    QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13, *LineEdit14;
 
     QComboBox *comboDvi, *comboPs, *comboPdf;
 	QButtonGroup *ButtonGroup2;

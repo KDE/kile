@@ -308,14 +308,13 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Make Index"),Key_F12, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
 	(void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
 	(void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
+	(void) new KAction(i18n("View Bibtex"),0 , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
 	(void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
-
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
 	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, this, SLOT(gotoNextDocument()), actionCollection(), "gotoNextDocument" );
 	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, this, SLOT(gotoPrevDocument()), actionCollection(), "gotoPrevDocument" );
-
 	(void) new KAction(i18n("Focus Log/Messages view"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
 	(void) new KAction(i18n("Focus Output view"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
 	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
@@ -547,9 +546,9 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	mapInfo(doc, docinfo);
 
 	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged()));
 	//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
-	//updates the docinfo, on which all decisions are based in slotNameChanged
+	//updates the docinfo, on which all decisions are bases in slotNameChanged
 	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
 	connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
@@ -606,7 +605,7 @@ void Kile::slotNameChanged(Kate::Document * doc)
 	KileDocumentInfo *docinfo = infoFor(doc);
 
 	//add to project view if doc was Untitled before
-	if ( (! docinfo->url().isEmpty()) && docinfo->oldURL().isEmpty())
+	if (docinfo->oldURL().isEmpty())
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_projectview->add(doc->url());
@@ -1374,12 +1373,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		KileProjectItem *item;
 		if (view->getDoc()->closeURL() )
 		{
-			kdDebug() << "\tclosed" << endl;
 			removeView(view);
-
-			//remove entry in projectview
-			m_projectview->remove(url);
-
 			//remove the decorations
 			docinfo = infoFor(doc);
 			item = itemFor(docinfo);
@@ -1390,6 +1384,9 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
+
+			//remove entry in projectview
+			m_projectview->remove(url);
 
 			trash(doc);
 			//m_docList.remove(doc);
@@ -1515,6 +1512,15 @@ const QStringList* Kile::bibItems() const
 
 	if (docinfo)
 		return docinfo->bibItems();
+	else
+		return 0;
+}
+
+const QStringList* Kile::bibliographies() const
+{
+	const KileDocumentInfo *docinfo = getInfo();
+	if (docinfo)
+		return docinfo->bibliographies();
 	else
 		return 0;
 }
@@ -2826,6 +2832,73 @@ void Kile::HtmlPreview()
    partManager->setActivePart( htmlpart);
 }
 
+void Kile::Bibtexeditor()
+{
+  //check if a file is opened
+	Kate::View *view = currentView();
+	if (m_singlemode && !view) {
+     KMessageBox::error( this, i18n("Unable to determine which Bibtex file to show. Please open a source file with a reference."));
+     return;
+   }
+	
+	QString finame_t = getCompileName();
+	kdDebug() << "Compile name: " << finame_t <<endl;
+	
+
+  //get the referenced bibliograph files
+	const QStringList *filesbib = bibliographies();
+  int NumberOfBibtexFiles = filesbib->count();
+  //If there are more references, show dialog to choose
+	if(NumberOfBibtexFiles > 1 ){
+		kdDebug() << "Opening Bibtex dialog " << endl;
+		bibtexdialog *BibtexDlg = new bibtexdialog( (*filesbib),"Bibtex file Selector",i18n("Bibtex"),this );
+		if ( BibtexDlg->exec() ){
+  	    QString currentDir = getName();
+				QFileInfo fica(currentDir);
+				QString path = fica.dirPath(); 
+				QString finame_a = (*filesbib)[BibtexDlg->currentItem()];
+				QString finame = path+"/"+finame_a+".bib";
+				QFileInfo fic(finame);
+        if( (finame= prepareForViewing("ViewBibtex","bib")) == QString::null) return;
+				QStringList command; command << bibtexeditor_command;
+	    	CommandProcess *proc=execCommand(command,fic,false);
+  	  	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+				if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) ){
+      	 		KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(bibtexeditor_command));
+	    	}
+  	  	else{
+					OutputWidget->clear();
+					logpresent=false;
+					LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
+				}
+		}
+	}
+  //only one reference is found, so show the damm thing
+	else {
+				QString currentDir = getName();
+				QFileInfo fica(currentDir);
+				QString path = fica.dirPath();
+
+     		QStringList::ConstIterator it = filesbib->begin();
+				QString finame_a = *it;
+  	    QString finame = path+"/"+finame_a+".bib";
+				QFileInfo fic(finame);
+        if( (finame= prepareForViewing("ViewBibtex","bib")) == QString::null) return;
+				QStringList command; command << bibtexeditor_command;
+	    	CommandProcess *proc=execCommand(command,fic,false);
+  	  	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+				if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) ){
+      	 		KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(bibtexeditor_command));
+	    	}
+  	  	else{
+					OutputWidget->clear();
+					logpresent=false;
+					LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
+				}
+	}
+ 
+}
+
 void Kile::execUserTool(int i)
 {
 	Kate::View *view = currentView();
@@ -2861,7 +2934,6 @@ void Kile::execUserTool(int i)
 
 		}
 	}
-
 
 	command << commandline;
 	CommandProcess* proc = execCommand(command,fi,true, documentpresent);
@@ -3760,7 +3832,7 @@ void Kile::readConfig()
 {
 	config->setGroup( "Structure" );
 	switchtostructure = config->readBoolEntry("SwitchToStructure", true);
-	
+
 	config->setGroup( "Files" );
 
 	autosave=config->readBoolEntry("Autosave",true);
@@ -3788,6 +3860,7 @@ void Kile::readConfig()
 	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
 	dvipdf_command=config->readEntry("Dvipdf","dvipdfm '%S.dvi'");
 	l2h_options=config->readEntry("L2h Options","");
+	bibtexeditor_command=config->readEntry("Bibtexeditor","gbib '%S.bib'");
 	userClassList=config->readListEntry("User Class", ':');
 	userPaperList=config->readListEntry("User Paper", ':');
 	userEncodingList=config->readListEntry("User Encoding", ':');

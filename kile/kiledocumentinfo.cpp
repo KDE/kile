@@ -333,6 +333,7 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 	return result;
 }
 
+//FIXME refactor, clean this mess up
 void TeXInfo::updateStruct()
 {
 	if ( getDoc() == 0L ) return;
@@ -348,11 +349,12 @@ void TeXInfo::updateStruct()
 	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 	static QRegExp::QRegExp reReNewCommand("\\\\renewcommand.*$");
+	static QRegExp::QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
 	BracketResult result;
-	QString m, s, cap, folder = "root", shorthand;
+	QString m, s, folder = "root", shorthand;
 	bool foundBD = false; // found \begin { document }
 	bool fire = true; //whether or not we should emit a foundItem signal
 
@@ -404,12 +406,10 @@ void TeXInfo::updateStruct()
 
 			if (tagStart != -1)
 			{
-				//kdDebug() << "Found command " <<  reCommand.cap(0) << " at " << i << endl;
-				cap = reCommand.cap(1);
 				tagEnd = tagStart + reCommand.cap(0).length()-1;
 
 				//look up the command in the dictionary
-				it = m_dictStructLevel.find(cap);
+				it = m_dictStructLevel.find(reCommand.cap(1));
 
 				//if it is was a structure element, find the title (or label)
 				if (it != m_dictStructLevel.end())
@@ -480,14 +480,19 @@ void TeXInfo::updateStruct()
 						fire = false;
 					}
 
+					//newcommand found, add it to the newCommands list
 					if ( (*it).type == KileStruct::NewCommand )
 					{
-						bool ok;
-						int noo = shorthand.toInt(&ok);
-						if ( ok ) 
+						//find how many parameters this command takes
+						if ( s.find(reNumOfParams, tagEnd + 1) != -1 )
 						{
-							for ( int noo_index = 0; noo_index < noo; noo_index++)
-								m +=  "{" + BULLET + "}";
+							bool ok;
+							int noo = reNumOfParams.cap(1).toInt(&ok);
+							if ( ok ) 
+							{
+								for ( int noo_index = 0; noo_index < noo; noo_index++)
+									m +=  "{" + BULLET + "}";
+							}
 						}
 						m_newCommands.append(m);
 						//ignore rest of line

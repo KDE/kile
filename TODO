@@ -1,7 +1,10 @@
 TODO
  - add more, improving existing wizards
 
+ - use KDirWatch signals provided by Kate instead of old modifiedOnDisc
+ 
  - allow users to set environment variables
+ 
  - allow users to set a preferred shell
   
  - improving template support
@@ -18,9 +21,7 @@ TODO
 
  - need a project manager class, too much of the code is in KileInfo and Kile
  
- - probably need a doc manager as well
- 
- - get rid of the KMultiVertTab code, should be done using standard KDE widgets
+  - get rid of the KMultiVertTab code, should be done using standard KDE widgets
  
  - use KDirWatch to check for modified files on disk
 

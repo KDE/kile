@@ -414,7 +414,7 @@ namespace KileTool
 
 		if (!isRoot)
 		{
-			return  manager()->queryContinue(i18n("The document %1 is not a LaTeX root document. Continue anyway?").arg(source()), i18n("Continue?"));
+			return  manager()->queryContinue(i18n("The document %1 is not a LaTeX root document; continue anyway?").arg(source()), i18n("Continue?"));
 		}
 
 		return true;
@@ -425,7 +425,7 @@ namespace KileTool
 	{
 		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
-		setMsg(NeedTargetExists, i18n("The file %2/%3 does not exist. Did you compile the source file?"));
+		setMsg(NeedTargetExists, i18n("The file %2/%3 does not exist; did you compile the source file?"));
 	}
 
 	View::~View()

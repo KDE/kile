@@ -77,7 +77,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo *src, const QString &capt
 
    topLayout->addWidget(tlist);
 
-   topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterix,\nif you do select such a template, a new template with the same name\nwill be created in a location you have write access to."),page));
+   topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterisk:\nif you do select such a template a new template with the same name\nwill be created in a location you have write access to."),page));
 
    connect(tlist,SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(slotSelectedTemplate(QListViewItem*)));
    connect(iconbut,SIGNAL(clicked()),this, SLOT(slotSelectIcon()));
@@ -112,7 +112,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(const QString &caption, QWidget *pa
    }
 
    topLayout->addWidget(tlist);
-   topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to remove it.\nNote that you cannot delete templates marked with an asterix (you don't have write access)."),page));
+   topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to remove it.\nNote that you cannot delete templates marked with an asterisk (those to which you do not have write access.)"),page));
 
    connect(this,SIGNAL(okClicked()),this,SLOT(removeTemplate()));
 

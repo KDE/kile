@@ -327,7 +327,7 @@ namespace KileWidget
 			}
 		}
 		else
-			KMessageBox::error(this, i18n("You need at least one configuration for each tool."), i18n("Can't remove configuration."));
+			KMessageBox::error(this, i18n("You need at least one configuration for each tool."), i18n("Cannot remove configuration."));
 	}
 
 	BasicTool::BasicTool(const QString & tool, KConfig *config, KileTool::Config *map, QWidget *parent) : 
@@ -343,7 +343,7 @@ namespace KileWidget
 		else if ( type == "Sequence" ) createSequence();
 		else
 		{
-			m_layout->addWidget(new QLabel(i18n("Unknown tool type, your configuration data is malformed."), this), 0, 0, Qt::AlignLeft);
+			m_layout->addWidget(new QLabel(i18n("Unknown tool type; your configuration data is malformed."), this), 0, 0, Qt::AlignLeft);
 			m_layout->addWidget(new QLabel(i18n("Perhaps it is a good idea to restore the default settings."), this), 1, 0, Qt::AlignLeft);
 		}
 

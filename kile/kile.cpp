@@ -319,7 +319,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	if (m_bShowUserMovedMessage)
 	{
-		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you've defined, is moved to the LaTeX menu."));
+		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you have defined, is moved to the LaTeX menu."));
 	}
 
 	if (rest) restore();

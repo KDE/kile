@@ -31,8 +31,8 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 {
 	(void) new KileAction::Tag("\\documentclass",0,parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "tag_documentclass",
   		"\\documentclass[10pt]{}",QString::null,21,0,i18n("\\documentclass[options]{class}\nclass : article,report,book,letter\nsize options : 10pt, 11pt, 12pt\npaper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper\n"
-		"other options: \nlandscape -- selects landscape format. Default is portrait. \ntitlepage, notitlepage -- selects if there should be a separate title page.\nleqno -- equation number on left side of equations. Default is right side.\n"
-		"fleqn -- displayed formulas flush left. Default is centered.\nonecolumn, twocolumn -- one or two columns. Defaults to one column\noneside, twoside -- selects one- or twosided layout.\n" ));
+		"other options: \nlandscape -- selects landscape format; default is portrait. \ntitlepage, notitlepage -- selects if there should be a separate title page.\nleqno -- display equation number on left side of equations; default is right side.\n"
+		"fleqn -- display formulae flush left; default is centered.\nonecolumn, twocolumn -- one or two columns; defaults to one column\noneside, twoside -- selects one- or two-sided layout.\n" ));
 
 	(void) new KileAction::Tag("\\usepackage{}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_usepackage",
 		"\\usepackage{} ",QString::null,12,0,i18n("Any options given in the \\documentclass command that are unknown by the selected document class\n"

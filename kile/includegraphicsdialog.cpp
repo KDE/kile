@@ -488,13 +488,13 @@ void IncludegraphicsDialog::slotProcessExited(KProcess* proc)
 void IncludegraphicsDialog::checkParameter()
 {
    if ( edit_file->text().isEmpty() ) {
-      KMessageBox::error( this, i18n("No graphics file was given!") );
+      KMessageBox::error( this, i18n("No graphics file was given.") );
       return;
    }
 
    QFileInfo fi( edit_file->text() );
    if ( ! fi.exists() ) {
-      KMessageBox::error( this, i18n("The graphics file doen't exist!") );
+      KMessageBox::error( this, i18n("The graphics file does not exist.") );
       return;
    }
 

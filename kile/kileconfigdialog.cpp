@@ -120,10 +120,10 @@ namespace KileDialog
 		//	genLayout->setStretchFactor(templateGroup,0);
 
 		// Fixme Start of seans cleanup
-		QGroupBox *cleanUpGroup = new QGroupBox(1, Qt::Horizontal, i18n("File clean up details"), generalPage);
+		QGroupBox *cleanUpGroup = new QGroupBox(1, Qt::Horizontal, i18n("File clean-up details"), generalPage);
 		genLayout->addWidget(cleanUpGroup);
 		genLayout->setStretchFactor(cleanUpGroup,0);
-		checkCleanUpAfterClose = new QCheckBox(i18n("Automatic clean up files after close."), cleanUpGroup );
+		checkCleanUpAfterClose = new QCheckBox(i18n("Automatically clean-up files after close."), cleanUpGroup );
 		fileExtensionList = new KLineEdit( cleanUpGroup, "fileExtensionList" );
 
 		m_config->setGroup("Files");

@@ -203,7 +203,7 @@
 			else
 			{
 				kdDebug() << "\tabnormal exit" << endl;
-				emit(message(Error,i18n("finished abruptedly")));
+				emit(message(Error,i18n("finished abruptly")));
 				emit(done(AbnormalExit));
 			}
 		}

@@ -98,13 +98,6 @@ namespace KileWidget
 		m_label->setOpen(false);
 
 		m_map.insert(m_docinfo, m_root, true); //FIXME: when closing a document, item should be removed from map, tree should be deleted
-
-		typedef QMap<KileDocumentInfo *, QListViewItem *> StructMap;
-		StructMap::Iterator it;
-		for ( it = m_map.begin(); it != m_map.end(); it++)
-		{
-			kdDebug() << "\t" << it.key()->url().fileName() << " " << it.data()->text(0) << " : " << it.data() << endl;
-		}
 	}
 
 	void Structure::closeDocument(KileDocumentInfo *docinfo)

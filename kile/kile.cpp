@@ -666,13 +666,14 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		return view;
 	}
 
-	kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
+	kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(load) << endl;
 
 	Kate::Document *doc = 0;
 	
 	//create a new document
 	if (load)
 	{
+		kdDebug() << "load == true ==> creating document " << url.path() << endl;
 		doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 		m_docList.append(doc);
 	
@@ -682,7 +683,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		doc->setEncoding(enc);
 	
 		//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
-		if (load) doc->openURL(url);
+		doc->openURL(url);
 		//TODO: connect to completed() signal, now updatestructure is called before loading is completed
 	
 		if ( !url.isEmpty() ) 
@@ -697,7 +698,9 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 				doc->insertText(0,0,text);
 		}
 	}
-	
+
+	kdDebug() << "1 doc " << doc << endl;
+
 	KileDocumentInfo *docinfo = 0;
 
 	//see if this file belongs to an opened project
@@ -710,6 +713,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		docinfo = infoFor(item);
 		if (docinfo)
 			docinfo->setDoc(doc);
+
+		kdDebug() << "2 doc " << doc << endl;
 
 		hl = item->highlight();
 		item->setOpenState(create);
@@ -728,11 +733,14 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		docinfo->setListView(m_kwStructure);
 		docinfo->setURL(url);
 		m_infoList.append(docinfo);
+
+		kdDebug() << "3 doc " << doc << " " << docinfo->getDoc() << endl;
 	}
 
 	if (docinfo == 0)
 		kdWarning() << "no docinfo for " << url.path() << endl;
 
+	kdDebug() << "4 doc " << doc << " " << docinfo->getDoc() << endl;
 	if (doc) 
 	{
 		mapInfo(doc, docinfo);
@@ -745,6 +753,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
 		connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
 		connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
+
+		kdDebug() << "5 doc " << doc << " " << docinfo->getDoc() << endl;
 
 		if (create)
 			return createView(doc);
@@ -771,15 +781,11 @@ Kate::View * Kile::createView(Kate::Document *doc)
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), this, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
 
-  // code completion (dani)
-  connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)),
-           this,  SLOT(slotCharactersInserted(int,int,const QString&)) );
-  connect( view, SIGNAL(completionDone()),
-           this,  SLOT( slotCompletionDone()) );
-  connect( view, SIGNAL(completionAborted()),
-           this,  SLOT( slotCompletionAborted()) );
-  connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)),
-           this,  SLOT( slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
+	// code completion (dani)
+	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), this,  SLOT(slotCharactersInserted(int,int,const QString&)) );
+	connect( view, SIGNAL(completionDone()), this,  SLOT( slotCompletionDone()) );
+	connect( view, SIGNAL(completionAborted()), this,  SLOT( slotCompletionAborted()) );
+	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), this,  SLOT( slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// install a working kate part popup dialog thingy
 	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))
@@ -794,6 +800,7 @@ Kate::View * Kile::createView(Kate::Document *doc)
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
 
+	kdDebug() << "6 doc " << doc << endl;
 	return view;
 }
 
@@ -1317,19 +1324,28 @@ void Kile::projectOpenItem(KileProjectItem *item)
 	else //there is no view for this item, get docinfo by path of this file
 	{
 		docinfo = infoFor(item->url().path());
+		kdDebug() << "0 docinfo " << docinfo << " doc " << docinfo->getDoc() <<  endl;
 	}
+
+	kdDebug() << "1 docinfo for " << docinfo->url().path() << " doc " << docinfo->getDoc() << endl;
 
 	mapItem(docinfo, item);
 	UpdateStructure(false, docinfo);
 
+	kdDebug() << "2 docinfo for " << docinfo->url().path() << " doc " << docinfo->getDoc() << endl;
+
+	kdDebug() << "item->isOpen() " << item->isOpen() << " Kile::isOpen " << isOpen(item->url()) <<  " for " << item->url().path() << endl;
 	if ((!item->isOpen()) && (view != 0)) //oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
 	{
 			item->setOpenState(true);
 	}
 
-	if ( (!item->isOpen()) && ( view ==0)) //doc shouldn't be displayed, trash the doc
+	kdDebug() << "3 docinfo for " << docinfo->url().path() << " doc " << docinfo->getDoc() << endl;
+	if ( (!item->isOpen()) && (view == 0) ) //doc shouldn't be displayed, trash the doc
 	{
+		kdDebug() << "trashing doc for projectitem " << item->url().path() << endl;
 		//since we've parsed it, trash the document
+		if ( !docinfo->getDoc() ) kdError() << "NO DOCUMENT TO TRASH" << endl;
 		trash(docinfo->getDoc());
 	}
 
@@ -1716,6 +1732,11 @@ bool Kile::projectClose(const KURL & url)
 			{
 				kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
 				close = close && fileClose(doc, true);
+			}
+			else if (docinfo) 
+			{
+				m_infoList.remove(docinfo);
+				delete docinfo;
 			}
 		}
 

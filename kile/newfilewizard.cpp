@@ -52,7 +52,7 @@ NewFileWidget::NewFileWidget(QWidget *parent , char *name) : KIconView(parent,na
    TemplateItem * emp = new TemplateItem( this, info);
 
    Templates templ;
-    for (int i=0; i< templ.count(); i++) 
+    for (int i=0; i< templ.count(); i++)
     {
       new TemplateItem(this, *templ.at(i));
     }
@@ -73,8 +73,8 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
 
    m_iv = new NewFileWidget( page );
    topLayout->addWidget(m_iv);
-   
-   m_ckWizard = new QCheckBox(i18n("Start the Quick Start wizard when creating an empty file."), page);
+
+   m_ckWizard = new QCheckBox(i18n("Start the Quick Start wizard when creating an empty file"), page);
    topLayout->addWidget(m_ckWizard);
 
    connect(m_iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(accept()));
@@ -86,7 +86,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
 
    int h = kapp->config()->readNumEntry("height", -1);
    if ( h != -1 ) resize(width(), h);
-  
+
 	QString nme = kapp->config()->readEntry("select", DEFAULT_EMPTY_CAPTION);
 	for ( QIconViewItem *item = m_iv->firstItem(); item; item = item->nextItem() )
 	if ( static_cast<TemplateItem*>(item)->name() == nme )

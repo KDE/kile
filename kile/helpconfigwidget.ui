@@ -51,7 +51,7 @@
                         <cstring>m_rbKileRef</cstring>
                     </property>
                     <property name="text">
-                        <string>use the &amp;Kile LaTeX reference</string>
+                        <string>Use the &amp;Kile LaTeX reference</string>
                     </property>
                     <property name="accel">
                         <string>Alt+K</string>
@@ -62,7 +62,7 @@
                         <cstring>m_rbTeTeX</cstring>
                     </property>
                     <property name="text">
-                        <string>use your system's &amp;TeX documentation</string>
+                        <string>Use your system's &amp;TeX documentation</string>
                     </property>
                     <property name="accel">
                         <string>Alt+T</string>

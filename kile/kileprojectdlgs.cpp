@@ -53,10 +53,10 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, QWidget *parent, 
 
 	m_extensions = new KLineEdit(plainPage(), "le_ext");
 	m_sel_extensions = new KComboBox(false, plainPage(), "le_sel_ext");
-	m_sel_extensions->insertItem(i18n("Extensions for source files"));
-	m_sel_extensions->insertItem(i18n("Extensions for package files"));
-	m_sel_extensions->insertItem(i18n("Extensions for image files"));
-	m_isregexp = new QCheckBox(i18n("use extension list as a regular expression"), plainPage());
+	m_sel_extensions->insertItem(i18n("Extensions for Source Files"));
+	m_sel_extensions->insertItem(i18n("Extensions for Package Files"));
+	m_sel_extensions->insertItem(i18n("Extensions for Image Files"));
+	m_isregexp = new QCheckBox(i18n("Use extension list as a regular expression"), plainPage());
 	QWhatsThis::add(m_sel_extensions, whatsthisExt);
 	QWhatsThis::add(m_extensions, whatsthisExt);
 	QWhatsThis::add(m_isregexp, whatsthisExt);
@@ -161,14 +161,14 @@ void KileProjectDlgBase::fillProjectDefaults()
  * KileNewProjectDlg
  */
 KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
-        : KileProjectDlgBase( i18n("Create a new project"), parent, name),
+        : KileProjectDlgBase( i18n("Create New Project"), parent, name),
 		m_filename(QString::null)
 {
 	QGridLayout *layout = new QGridLayout(plainPage(), 4,8, 10);
 	layout->setColStretch(2,1);
 	layout->setColStretch(3,1);
 
-	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
+	QLabel *lb = new QLabel(i18n("Project &title:"), plainPage());
 	lb->setBuddy(m_title);
 	QWhatsThis::add(lb, whatsthisName);
 	layout->addWidget(lb, 0,0);
@@ -182,19 +182,19 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 	kdDebug() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);
 
-	lb = new QLabel(i18n("Project &file"), plainPage());
+	lb = new QLabel(i18n("Project &file:"), plainPage());
 	QWhatsThis::add(lb, whatsthisPath);
 	QWhatsThis::add(m_location, whatsthisPath);
 	lb->setBuddy(m_location);
-	KPushButton *pb = new KPushButton(i18n("Select a folder..."), plainPage());
+	KPushButton *pb = new KPushButton(i18n("Select Folder..."), plainPage());
 	connect(pb, SIGNAL(clicked()), this, SLOT(browseLocation()));
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_location, 1,1, 1,2);
 	layout->addWidget(pb, 1,3);
 
-	m_cb = new QCheckBox(i18n("Create a new file and add it to this project."),plainPage());
+	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"),plainPage());
 	m_cb->setChecked(true);
-	m_lb  = new QLabel(i18n("File&name (relative to where the project file is)"), plainPage());
+	m_lb  = new QLabel(i18n("File&name (relative to where the project file is):"), plainPage());
 	m_file = new KLineEdit(plainPage());
 	m_lb->setBuddy(m_file);
 	m_nfw = new NewFileWidget(plainPage());
@@ -292,7 +292,7 @@ void KileNewProjectDlg::slotOk()
 
 	if ( projectTitle().stripWhiteSpace() == "")
 	{
-		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No name")) == KMessageBox::Yes)
+		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes)
 			m_title->setText(i18n("Untitled"));
 		else
 			return;
@@ -300,7 +300,7 @@ void KileNewProjectDlg::slotOk()
 
 	if ( location().stripWhiteSpace() == "" )
 	{
-		KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty location"));
+		KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty Location"));
 		return;
 	}
 
@@ -317,7 +317,7 @@ void KileNewProjectDlg::slotOk()
 
 		if (dir.isRelative())
 		{
-			KMessageBox::error(this, i18n("The path for the project file is not an absolute path, absolute paths always begin with an /"),i18n("Relative path"));
+			KMessageBox::error(this, i18n("The path for the project file is not an absolute path, absolute paths always begin with an /"),i18n("Relative Path"));
 			return;
 		}
 
@@ -360,20 +360,20 @@ void KileNewProjectDlg::slotOk()
 	{
 		if ( file().stripWhiteSpace() == "")
 		{
-			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project"), i18n("No file name give"));
+			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
 				return;
 		}
 
 		if ( QFileInfo(file().stripWhiteSpace()).exists() )
 		{
-			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()), i18n("File already exists")) == KMessageBox::No)
+			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()), i18n("File Already Exists")) == KMessageBox::No)
 				return;
 		}
 	}
 
 	if (QFileInfo(location()).exists())
 	{
-		KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."),i18n("Project file already exists."));
+		KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."),i18n("Project File Already Exists"));
 		return;
 	}
 
@@ -403,7 +403,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 {
 	QGridLayout *layout = new QGridLayout(plainPage(), 5,4, 10);
 
-	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
+	QLabel *lb = new QLabel(i18n("Project &title:"), plainPage());
 	lb->setBuddy(m_title);
 	QWhatsThis::add(lb, whatsthisName);
 	layout->addWidget(lb, 0,0);
@@ -415,7 +415,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 
 	m_master = new KComboBox(false, plainPage(), "master");
 	//m_master->setDisabled(true);
-	lb = new QLabel(i18n("&Master document"), plainPage());
+	lb = new QLabel(i18n("&Master document:"), plainPage());
 	lb->setBuddy(m_master);
 	QWhatsThis::add(m_master, whatsthisMaster);
 	QWhatsThis::add(lb,whatsthisMaster);
@@ -440,7 +440,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	if (project->masterDocument() == QString::null)
 		m_master->setCurrentItem(0);
 
-	lb = new QLabel(i18n("&QuickBuild configuration"), plainPage()); layout->addWidget(lb, 5, 0);
+	lb = new QLabel(i18n("&QuickBuild configuration:"), plainPage()); layout->addWidget(lb, 5, 0);
 	m_cbQuick = new KComboBox(plainPage()); layout->addWidget(m_cbQuick, 5, 1);
 	lb->setBuddy(m_cbQuick);
 	m_cbQuick->insertItem(tool_default);

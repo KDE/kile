@@ -185,22 +185,22 @@ void Info::cleanTempFiles(const QStringList &extlist )
 {
 	QString finame = url().fileName();
 	QFileInfo fic(finame);
-	
-	QString baseName = fic.baseName(true); 
-	
+
+	QString baseName = fic.baseName(true);
+
 	QStringList fileList;
-	for (uint i=0; i< extlist.count(); i++) 
-	{ 
-		fileList.append(baseName+extlist[i]); 
+	for (uint i=0; i< extlist.count(); i++)
+	{
+		fileList.append(baseName+extlist[i]);
 	}
 
-	QString path = url().directory(false); 
-	for (uint i=0; i < fileList.count(); i++) 
-	{ 
+	QString path = url().directory(false);
+	for (uint i=0; i < fileList.count(); i++)
+	{
 		QFile file( path + fileList[i] );
 		kdDebug() << "About to remove file = " << file.name() << endl;
-		file.remove(); 
-	} 
+		file.remove();
+	}
 }
 
 QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
@@ -217,7 +217,7 @@ QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 	{
 		fileinfo.setFile( basepath + "/" + (*list)[i] );
 		kdDebug() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
-		if ( fileinfo.lastModified() >  time ) 
+		if ( fileinfo.lastModified() >  time )
 		{
 			time = fileinfo.lastModified();
 			last = fileinfo.absFilePath();
@@ -372,7 +372,7 @@ void TeXInfo::updateStruct()
 		}
 		else
 			teller++;
-		
+
 		//remove escaped \ characters
 		s.replace("\\\\", "  ");
 
@@ -488,7 +488,7 @@ void TeXInfo::updateStruct()
 						{
 							bool ok;
 							int noo = reNumOfParams.cap(1).toInt(&ok);
-							if ( ok ) 
+							if ( ok )
 							{
 								for ( int noo_index = 0; noo_index < noo; noo_index++)
 									m +=  "{" + BULLET + "}";
@@ -561,7 +561,7 @@ void BibInfo::updateStruct()
 				}
 				else if ( state == 1 )
 				{
-					if ( s[col] == ',' ) 
+					if ( s[col] == ',' )
 					{
 						key = key.stripWhiteSpace();
 						kdDebug() << "found: " << key << endl;
@@ -569,7 +569,7 @@ void BibInfo::updateStruct()
 						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "bibtex", reItem.cap(2).lower()));
 						break;
 					}
-					else 
+					else
 					{
 						key += s[col];
 						if (!keystarted) { startcol = col; startline = i; }
@@ -599,25 +599,25 @@ KileDocInfoDlg::KileDocInfoDlg(KileDocument::Info *docinfo, QWidget* parent,  co
 
 	const long *list = docinfo->getStatistics();
 
-	layout->addWidget(new QLabel(i18n("Characters in words"),page), 0,0);
+	layout->addWidget(new QLabel(i18n("Characters in words:"),page), 0,0);
 	layout->addWidget(new QLabel(QString::number(list[0]), page), 0,2);
 
-	layout->addWidget(new QLabel(i18n("Characters in LaTeX commands"),page), 1,0);
+	layout->addWidget(new QLabel(i18n("Characters in LaTeX commands:"),page), 1,0);
 	layout->addWidget(new QLabel(QString::number(list[1]), page), 1,2);
 
-	layout->addWidget(new QLabel(i18n("Whitespace/Delimiters/Punctuation Marks"),page), 2,0);
+	layout->addWidget(new QLabel(i18n("Whitespace/Delimiters/Punctuation marks:"),page), 2,0);
 	layout->addWidget(new QLabel(QString::number(list[2]), page), 2,2);
 
-	layout->addWidget(new QLabel(i18n("Total"),page), 3,1, Qt::AlignRight);
+	layout->addWidget(new QLabel(i18n("Total:"),page), 3,1, Qt::AlignRight);
 	layout->addWidget(new QLabel(QString::number(list[0]+list[1]+list[2]), page), 3,2);
 
-	layout->addWidget(new QLabel(i18n("Words"),page), 4,0);
+	layout->addWidget(new QLabel(i18n("Words:"),page), 4,0);
 	layout->addWidget(new QLabel(QString::number(list[3]), page), 4,2);
 
-	layout->addWidget(new QLabel(i18n("LaTeX commands"),page), 5,0);
+	layout->addWidget(new QLabel(i18n("LaTeX commands:"),page), 5,0);
 	layout->addWidget(new QLabel(QString::number(list[4]), page), 5,2);
 
-	layout->addWidget(new QLabel(i18n("Total"),page), 6,1, Qt::AlignRight);
+	layout->addWidget(new QLabel(i18n("Total:"),page), 6,1, Qt::AlignRight);
 	layout->addWidget(new QLabel(QString::number(list[3]+list[4]), page), 6,2);
 
 	if (docinfo->getDoc() && docinfo->getDoc()->hasSelection())

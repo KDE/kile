@@ -1,7 +1,7 @@
 //
 // C++ Implementation: kilespell
 //
-// Description: 
+// Description:
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
@@ -16,9 +16,9 @@
  ***************************************************************************/
 
 #include "kilespell2.h"
- 
+
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
- 
+
 #include <kspell2/dialog.h>
 #include <kspell2/backgroundchecker.h>
 #include <kspell2/broker.h>
@@ -34,7 +34,7 @@ using namespace KSpell2;
 
 #include "kileviewmanager.h"
 
-KileSpell::KileSpell(QWidget *parent, KileInfo *info, const char *name) : 
+KileSpell::KileSpell(QWidget *parent, KileInfo *info, const char *name) :
 	QObject(parent, name),
 	m_ki(info),
 	m_parent(parent)
@@ -146,7 +146,7 @@ void KileSpell::slotCorrected (const QString & originalword, int pos, const QStr
 void KileSpell::slotDone(const QString& /*newtext*/)
 {
 	m_ki->viewManager()->currentView()->getDoc()->clearSelection();
-	KMessageBox::information(m_parent, i18n("Corrected %1 words.").arg(m_spellCorrected), i18n("Spell checking done"));
+	KMessageBox::information(m_parent, i18n("Corrected %1 words.").arg(m_spellCorrected), i18n("Spell Checking Done"));
 }
 
 #include "kilespell2.moc"

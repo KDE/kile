@@ -360,7 +360,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Western European (cp-1252)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1252" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
-	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
+	(void) new KAction(i18n("Find &in Files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
 
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
@@ -370,14 +370,14 @@ void Kile::setupActions()
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, docManager(), SLOT(projectOpen()), actionCollection(), "project_open");
-	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, docManager(), SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
+	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project"),  0, docManager(), SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	connect(docManager(), SIGNAL(removeFromRecentProjects(const KURL& )), m_actRecentProjects, SLOT(removeURL(const KURL& )));
 	connect(docManager(), SIGNAL(addToRecentProjects(const KURL& )), m_actRecentProjects, SLOT(addURL(const KURL& )));
 
-	(void) new KAction(i18n("A&dd files to project..."), 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
+	(void) new KAction(i18n("A&dd Files to Project..."), 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
 	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
 	(void) new KAction(i18n("&Archive"), "package", 0, docManager(), SLOT(projectArchive()), actionCollection(), "project_archive");
-	(void) new KAction(i18n("Project &Options..."), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
+	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
 
 	//build actions
@@ -416,14 +416,14 @@ void Kile::setupActions()
 	(void) new KAction(i18n("TeX Group (outside)"),"selgroup_o",KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
 	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+S,P"),m_edit, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
 	(void) new KAction(i18n("Line"),KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
-	(void) new KAction(i18n("TeX word"),KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
+	(void) new KAction(i18n("TeX Word"),KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
 
 	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+D,E"), m_edit, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
 	(void) new KAction(i18n("Environment (outside)"),KShortcut("CTRL+Alt+D,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
 	(void) new KAction(i18n("TeX Group (inside)"),KShortcut("CTRL+Alt+D,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_inside_group");
 	(void) new KAction(i18n("TeX Group (outside)"),KShortcut("CTRL+Alt+D,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
 	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+D,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
-	(void) new KAction(i18n("TeX word"),KShortcut("CTRL+Alt+D,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
+	(void) new KAction(i18n("TeX Word"),KShortcut("CTRL+Alt+D,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
 
 	(void) new KAction(i18n("Goto Begin"),KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
 	(void) new KAction(i18n("Goto End"),KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
@@ -855,7 +855,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 
 	if (docinfo)
 	{
-		KileDocInfoDlg *dlg = new KileDocInfoDlg(docinfo, this, 0, i18n("Summary for document : %1").arg(getShortName(doc)));
+		KileDocInfoDlg *dlg = new KileDocInfoDlg(docinfo, this, 0, i18n("Summary for Document: %1").arg(getShortName(doc)));
 		dlg->exec();
 	}
 	else
@@ -961,9 +961,9 @@ void Kile::FindInFiles()
 	filter.replace(".", "*.");
 	filter.replace(" ", ",");
 	filter.append("|");
-	filter.append(i18n("TeX files"));
+	filter.append(i18n("TeX Files"));
 	filter.append("\n*|");
-	filter.append(i18n("All files"));
+	filter.append(i18n("All Files"));
 	dlg->setFilter(filter);
 
 	dlg->show();

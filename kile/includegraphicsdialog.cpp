@@ -125,11 +125,11 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    QWidget *widget_fig = new QWidget(gb_fig);
    QGridLayout *grid_fig = new QGridLayout( widget_fig, 3,2, 6,6, "");
 
-   QLabel *label4 = new QLabel(i18n("figure:"), widget_fig);
-   lb_label = new QLabel(i18n("label:"), widget_fig);
-   lb_caption = new QLabel(i18n("caption:"), widget_fig);
-   cb_figure = new QCheckBox(i18n("use figure environment"),widget_fig);
-   edit_label = new QLineEdit("fig:",widget_fig);
+   QLabel *label4 = new QLabel(i18n("Figure:"), widget_fig);
+   lb_label = new QLabel(i18n("Label:"), widget_fig);
+   lb_caption = new QLabel(i18n("Caption:"), widget_fig);
+   cb_figure = new QCheckBox(i18n("Use figure environment"),widget_fig);
+   edit_label = new QLineEdit("Fig:",widget_fig);
    edit_caption = new QLineEdit("",widget_fig);
    
    grid_fig->addWidget( label4,0,0);
@@ -147,9 +147,9 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    QWidget *buttonwidget = new QWidget(this);
    QHBoxLayout *buttons = new QHBoxLayout(buttonwidget);
 
-   QPushButton *ok = new QPushButton(i18n("Ok"),buttonwidget);
+   QPushButton *ok = new QPushButton(i18n("&OK"),buttonwidget);
    ok->setDefault(true);
-   QPushButton *cancel= new QPushButton(i18n("Cancel"),buttonwidget);
+   QPushButton *cancel= new QPushButton(i18n("&Cancel"),buttonwidget);
 
    int w = ok->sizeHint().width();
    int wcancel = cancel->sizeHint().width();
@@ -351,7 +351,7 @@ bool IncludegraphicsDialog::getPictureSize(int &wpx, int &hpx, QString &wcm, QSt
       hpx = (int)height;
 
       // die anderen Werte werden jetzt berechnet
-      // dazu muss die Auflösung angegeben werden
+      // dazu muss die Auflï¿½ung angegeben werden
       // Bitmap-Dateien in 300 dpi, EPS-Dateien in 72.27 dpi
       // da aber alle EPS-Dateien von Bitmaps abstammen,
       // wird immer 300dpi genommen
@@ -384,7 +384,7 @@ void IncludegraphicsDialog::chooseFile()
                           + "*|All files";
 
    QString fn = KFileDialog::getOpenFileName( m_startdir,filter,
-                                              this,i18n("Select a File") );
+                                              this,i18n("Select File") );
    QFileInfo fi(fn);
 
    // could we accept the picture?

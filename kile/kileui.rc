@@ -20,7 +20,7 @@
 	<DefineGroup name="file_print" append="print_merge" />
 	<Merge/>
 	<Separator/>
-	<Menu name="convert"><text>Con&amp;vert To...</text>
+	<Menu name="convert"><text>Con&amp;vert To</text>
 		<Action name="file_export_ascii"/>
 		<Separator/>
 		<Action name="file_export_latin1"/>

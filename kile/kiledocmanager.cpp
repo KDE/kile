@@ -1,7 +1,7 @@
 //
 // C++ Implementation: kiledocmanager
 //
-// Description: 
+// Description:
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
@@ -51,10 +51,10 @@
 #include "kileautosavejob.h"
 #include "kilekonsolewidget.h"
 
-namespace KileDocument 
+namespace KileDocument
 {
 
-Manager::Manager(KileInfo *info, QObject *parent, const char *name) : 
+Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent, name),
 	m_ki(info)
 {
@@ -107,7 +107,7 @@ Kate::Document* Manager::docFor(const KURL& url)
 
 Info* Manager::getInfo() const
 {
-	Kate::Document *doc = m_ki->activeDocument(); 
+	Kate::Document *doc = m_ki->activeDocument();
 	if ( doc != 0L )
 		return infoFor(doc);
 	else
@@ -353,13 +353,13 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 	doc->openURL(docinfo->url());
 	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
-	
-	if ( !docinfo->url().isEmpty() ) 
+
+	if ( !docinfo->url().isEmpty() )
 	{
 		doc->setDocName(docinfo->url().path());
 		emit(addToRecentFiles(docinfo->url()));
 	}
-	else 
+	else
 		doc->setDocName(i18n("Untitled"));
 
 	setHighlightMode(doc, highlight);
@@ -438,7 +438,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 		Info *docinfo = createDocumentInfo(item->url());
 		item->setInfo(docinfo);
 
-		if ( docFor(item->url()) == 0L) 
+		if ( docFor(item->url()) == 0L)
 		{
 			docinfo->detach();
 			kdDebug() << "\t\t\tdetached" << endl;
@@ -463,7 +463,7 @@ Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QStrin
 	if ( text != QString::null ) doc->setText(text);
 
 	//FIXME: use signal/slot
-	if (doc && create) 
+	if (doc && create)
 		return m_ki->viewManager()->createView(doc);
 
 	kdDebug() << "just after createView()" << endl;
@@ -484,7 +484,7 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 
 		if (!tempdoc->openURL(KURL(sel->path())))
 		{
-			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1").arg(sel->name()),i18n("File Not Found."));
+			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1").arg(sel->name()),i18n("File Not Found"));
 		}
 		else
 		{
@@ -494,14 +494,14 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 			replaceTemplateVariables(text);
 		}
 	}
-	
+
 	return createDocumentWithText(text);
 }
 
 Kate::View* Manager::createDocumentWithText(const QString & text)
 {
 	Kate::View *view = load(KURL(), QString::null, true, QString::null, text);
-	if (view) 
+	if (view)
 	{
 		//FIXME this shouldn't be necessary!!!
 		view->getDoc()->setModified(true);
@@ -519,30 +519,30 @@ void Manager::replaceTemplateVariables(QString &line)
 	else { line = line.replace("$$INPUTENCODING$$","");}
 }
 
-void Manager::createTemplate() 
+void Manager::createTemplate()
 {
 	if (m_ki->viewManager()->currentView())
 	{
-		if (m_ki->viewManager()->currentView()->getDoc()->isModified() ) 
+		if (m_ki->viewManager()->currentView()->getDoc()->isModified() )
 		{
 			KMessageBox::information(m_ki->parentWidget(),i18n("Please save the file first."));
 			return;
 		}
-	} 
-	else 
+	}
+	else
 	{
 		KMessageBox::information(m_ki->parentWidget(),i18n("Open/create a document first."));
 		return;
 	}
-	
+
 	QFileInfo fi(m_ki->viewManager()->currentView()->getDoc()->url().path());
 	ManageTemplatesDialog mtd(&fi,i18n("Create Template From Document"));
 	mtd.exec();
 }
 
-void Manager::removeTemplate() 
+void Manager::removeTemplate()
 {
-	ManageTemplatesDialog mtd(i18n("Remove a template."));
+	ManageTemplatesDialog mtd(i18n("Remove Template"));
 	mtd.exec();
 }
 
@@ -588,11 +588,11 @@ void Manager::fileOpen()
 	filter.append(PACKAGE_EXTENSIONS);
 	filter.replace(".","*.");
 	filter.append("|");
-	filter.append(i18n("TeX files"));
+	filter.append(i18n("TeX Files"));
 	filter.append("\n*|");
-	filter.append(i18n("All files"));
+	filter.append(i18n("All Files"));
 	kdDebug() << "using FILTER " << filter << endl;
-	KURL::List urls = KFileDialog::getOpenURLs( currentDir, filter, m_ki->parentWidget(), i18n("Open File(s)") );
+	KURL::List urls = KFileDialog::getOpenURLs( currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
 
 	//open them
 	for (uint i=0; i < urls.count(); i++)
@@ -740,7 +740,7 @@ bool Manager::fileCloseAll()
 bool Manager::fileClose(const KURL & url)
 {
 	Kate::Document *doc = docFor(url);
-	if ( doc == 0L ) 
+	if ( doc == 0L )
 		return true;
 	else
 		return fileClose(doc);
@@ -816,7 +816,7 @@ void Manager::buildProjectTree(KileProject *project)
 		project->buildProjectTree();
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could not refresh project tree."));
+		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could Not Refresh Project Tree"));
 }
 
 void Manager::projectNew()
@@ -892,7 +892,7 @@ KileProject* Manager::selectProject(const QString& caption)
 	QString name = QString::null;
 	if (list.count() > 1)
 	{
-		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select a project"), m_ki->parentWidget());
+		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), m_ki->parentWidget());
 		if (dlg->exec())
 		{
 			name = list[dlg->currentItem()];
@@ -915,7 +915,7 @@ void Manager::addToProject(const KURL & url)
 	kdDebug() << "==Kile::addToProject==========================" << endl;
 	kdDebug() << "\t" <<  url.fileName() << endl;
 
-	KileProject *project = selectProject(i18n("Add to project.."));
+	KileProject *project = selectProject(i18n("Add to Project"));
 
 	if (project) addToProject(project, url);
 }
@@ -939,7 +939,7 @@ void Manager::removeFromProject(const KileProjectItem *item)
 
 		if (item->project()->url() == item->url())
 		{
-			KMessageBox::error(m_ki->parentWidget(), i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot remove file from project"));
+			KMessageBox::error(m_ki->parentWidget(), i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot Remove File From Project"));
 			return;
 		}
 
@@ -968,7 +968,7 @@ void Manager::projectOpenItem(KileProjectItem *item)
 		view->setCursorPosition(item->lineNumber(), item->columnNumber());
 
 	//oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
-	if ((!item->isOpen()) && (view != 0L)) 
+	if ((!item->isOpen()) && (view != 0L))
 		item->setOpenState(true);
 }
 
@@ -982,7 +982,7 @@ void Manager::projectOpen(const KURL & url, int step, int max)
 	{
 		if (kpd != 0) kpd->cancel();
 
-		KMessageBox::information(m_ki->parentWidget(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
+		KMessageBox::information(m_ki->parentWidget(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
 		return;
 	}
 
@@ -991,13 +991,13 @@ void Manager::projectOpen(const KURL & url, int step, int max)
 	{
 		if (kpd != 0) kpd->cancel();
 
-		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could not load the project file"))  == KMessageBox::Yes)
+		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
 			emit(removeFromRecentProjects(url));
 
 		return;
 	}
 
-	if (kpd == 0) 
+	if (kpd == 0)
 	{
 		kpd = new KProgressDialog (m_ki->parentWidget(), 0, i18n("Open Project..."), QString::null, true);
 		kpd->showCancelButton(false);
@@ -1038,7 +1038,7 @@ void Manager::projectOpen(const KURL & url, int step, int max)
 void Manager::projectOpen()
 {
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
-	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project files\n*|All files"), m_ki->parentWidget(), i18n("Open Project") );
+	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
 
 	if (!url.isEmpty())
 		projectOpen(url);
@@ -1054,7 +1054,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 	}
 
 	if (project == 0 )
-		project = selectProject(i18n("Save project..."));
+		project = selectProject(i18n("Save Project"));
 
 	if (project)
 	{
@@ -1082,7 +1082,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		project->save();
 	}
 	else
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could determine active project."));
+		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could Determine Active Project"));
 }
 
 void Manager::projectAddFiles(const KURL & url)
@@ -1100,7 +1100,7 @@ void Manager::projectAddFiles(KileProject *project)
 		project = activeProject();
 
 	if (project == 0 )
-		project = selectProject(i18n("Add files to project..."));
+		project = selectProject(i18n("Add Files to Project"));
 
 	if (project)
 	{
@@ -1113,7 +1113,7 @@ void Manager::projectAddFiles(KileProject *project)
 			if (fi.exists()) currentDir= fi.dirPath();
 		}
 
-		KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*|All files"), m_ki->parentWidget(), i18n("Add File(s)") );
+		KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*|All Files"), m_ki->parentWidget(), i18n("Add Files") );
 
 		//open them
 		for (uint i=0; i < urls.count(); i++)
@@ -1122,7 +1122,7 @@ void Manager::projectAddFiles(KileProject *project)
 		}
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
+		KMessageBox::error(m_ki->parentWidget(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could Not Determine Active Project"));
 }
 
 void Manager::toggleArchive(KileProjectItem *item)
@@ -1146,7 +1146,7 @@ bool Manager::projectArchive(KileProject *project /* = 0*/)
 		project = activeProject();
 
 	if (project == 0 )
-		project = selectProject(i18n("Archive project..."));
+		project = selectProject(i18n("Archive Project"));
 
 	if (project)
 	{
@@ -1171,7 +1171,7 @@ bool Manager::projectArchive(KileProject *project /* = 0*/)
 		m_ki->toolManager()->run(tool);
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could not determine active project."));
+		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could Not Determine Active Project"));
 
 	return true;
 }
@@ -1191,7 +1191,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 		project = activeProject();
 
 	if (project == 0 )
-		project = selectProject(i18n("Project options for..."));
+		project = selectProject(i18n("Project Options For"));
 
 	if (project)
 	{
@@ -1200,7 +1200,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 		dlg->exec();
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could not determine active project."));
+		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could Not Determine Active Project"));
 }
 
 bool Manager::projectCloseAll()
@@ -1229,7 +1229,7 @@ bool Manager::projectClose(const KURL & url)
 		 project = activeProject();
 
 		 if (project == 0 )
-			project = selectProject(i18n("Close project..."));
+			project = selectProject(i18n("Close Project"));
 	}
 	else
 	{
@@ -1284,7 +1284,7 @@ bool Manager::projectClose(const KURL & url)
 			return false;
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could not close project."));
+		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could Not Close Project"));
 
 	return true;
 }

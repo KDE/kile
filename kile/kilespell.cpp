@@ -1,7 +1,7 @@
 //
 // C++ Implementation: kilespell
 //
-// Description: 
+// Description:
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "kilespell.h"
- 
+
 #if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
 
 #include <kspell.h>
@@ -28,7 +28,7 @@
 
 #include "kileviewmanager.h"
 
-KileSpell::KileSpell(QWidget *parent, KileInfo *info, const char *name) : 
+KileSpell::KileSpell(QWidget *parent, KileInfo *info, const char *name) :
 	QObject(parent, name),
 	m_ki(info),
 	m_parent(parent)
@@ -91,7 +91,7 @@ void KileSpell::spell_done(const QString& /*newtext*/)
 {
 	m_ki->viewManager()->currentView()->getDoc()->clearSelection();
 	kspell->cleanUp();
-	KMessageBox::information(m_parent, i18n("Corrected %1 words.").arg(ks_corrected), i18n("Spell checking done"));
+	KMessageBox::information(m_parent, i18n("Corrected %1 words.").arg(ks_corrected), i18n("Spell Checking Done"));
 }
 
 void KileSpell::spell_finished( )

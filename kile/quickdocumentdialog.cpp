@@ -161,7 +161,7 @@ void QuickDocument::setupGUI()
 	hl = new QHBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
 
-	button = new KPushButton(SmallIcon("edit_add"), i18n("&Add"), frame);
+	button = new KPushButton(SmallIcon("edit_add"), i18n("&Add..."), frame);
 	QWhatsThis::add(button, i18n("Add a new class option"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 	hl->addWidget(button);
@@ -176,7 +176,7 @@ void QuickDocument::setupGUI()
 	connect(m_btnClassOptionsDelete, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
 	hl->addWidget(m_btnClassOptionsDelete);
 
-	button = new KPushButton(SmallIcon("reload"), i18n("&Reset to defaults"), frame);
+	button = new KPushButton(SmallIcon("reload"), i18n("&Reset to Defaults"), frame);
 	QWhatsThis::add(button, i18n("Reset this list to the default values."));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionReset()));
 	hl->addWidget(button);
@@ -200,10 +200,10 @@ void QuickDocument::setupGUI()
 	vl->addWidget(frame);
 	hl = new QHBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
-	button = new KPushButton(SmallIcon("edit_add"), "&Add Package", frame);
+	button = new KPushButton(SmallIcon("edit_add"), "&Add Package...", frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageAdd()));
 	hl->addWidget(button);
-	m_btnPackagesCommonAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Op&tion"), frame);
+	m_btnPackagesCommonAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Op&tion..."), frame);
 	connect(m_btnPackagesCommonAddOption, SIGNAL(clicked()), this, SLOT(slotCommonPackageAddOption()));
 	hl->addWidget(m_btnPackagesCommonAddOption);
 	m_btnPackagesCommonEdit = new KPushButton(SmallIcon("edit"), "Ed&it", frame);
@@ -212,7 +212,7 @@ void QuickDocument::setupGUI()
 	m_btnPackagesCommonDelete = new KPushButton(SmallIcon("eraser"), i18n("De&lete"), frame);
 	connect(m_btnPackagesCommonDelete, SIGNAL(clicked()), this, SLOT(slotCommonPackageDelete()));
 	hl->addWidget(m_btnPackagesCommonDelete);
-	button = new KPushButton(SmallIcon("reload"), i18n("&Reset to defaults"), frame);
+	button = new KPushButton(SmallIcon("reload"), i18n("&Reset to Defaults"), frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageReset()));
 	hl->addWidget(button);
 
@@ -233,10 +233,10 @@ void QuickDocument::setupGUI()
 	vl->addWidget(frame);
 	hl = new QHBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
-	button = new KPushButton(SmallIcon("edit_add"), i18n("Add Package"), frame);
+	button = new KPushButton(SmallIcon("edit_add"), i18n("Add Package..."), frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageAdd()));
 	hl->addWidget(button);
-	m_btnPackagesExoticAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Option"), frame);
+	m_btnPackagesExoticAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Option..."), frame);
 	connect(m_btnPackagesExoticAddOption, SIGNAL(clicked()), this, SLOT(slotExoticPackageAddOption()));
 	hl->addWidget(m_btnPackagesExoticAddOption);
 	m_btnPackagesExoticEdit = new KPushButton(SmallIcon("edit"), i18n("Edit"), frame);
@@ -245,7 +245,7 @@ void QuickDocument::setupGUI()
 	m_btnPackagesExoticDelete = new KPushButton(SmallIcon("eraser"), i18n("Delete"), frame);
 	connect(m_btnPackagesExoticDelete, SIGNAL(clicked()), this, SLOT(slotExoticPackageDelete()));
 	hl->addWidget(m_btnPackagesExoticDelete);
-	button = new KPushButton(SmallIcon("reload"), i18n("Reset to defaults"), frame);
+	button = new KPushButton(SmallIcon("reload"), i18n("Reset to Defaults"), frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageReset()));
 	hl->addWidget(button);
 
@@ -712,7 +712,7 @@ void QuickDocument::slotCheckParent(QListViewItem *listViewItem)
  */
 void QuickDocument::slotClassOptionReset()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this option list?"), i18n("Reset Option List"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset this option list?"), i18n("Reset Option List"))==KMessageBox::Continue)
 	{
 		initClassOption();
 		slotEnableButtons();
@@ -756,7 +756,7 @@ void QuickDocument::slotClassOptionEdit()
  */
 void QuickDocument::slotClassOptionDelete()
 {
-	if (m_lvClassOptions->selectedItem() && (KMessageBox::questionYesNo(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Yes))
+	if (m_lvClassOptions->selectedItem() && (KMessageBox::warningContinueCancel(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Continue))
 		m_lvClassOptions->takeItem(m_lvClassOptions->selectedItem());
 }
 
@@ -766,7 +766,7 @@ void QuickDocument::slotClassOptionDelete()
  */
 void QuickDocument::slotCommonPackageReset()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Continue)
 	{
 		initPackageCommon();
 		slotEnableButtons();
@@ -810,7 +810,7 @@ void QuickDocument::slotCommonPackageDelete()
  */
 void QuickDocument::slotExoticPackageReset()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Continue)
 		initPackageExotic();
 }
 
@@ -860,7 +860,7 @@ void QuickDocument::slotDocumentClassAdd()
  */
 void QuickDocument::slotDocumentClassDelete()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to remove \"%1\" from the document class list?").arg(m_cbDocumentClass->currentText()), i18n("Remove Document Class"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?").arg(m_cbDocumentClass->currentText()), i18n("Remove Document Class"))==KMessageBox::Continue)
 	{
 		int i=m_cbDocumentClass->currentItem();
 		m_cbDocumentClass->removeItem(i);
@@ -872,7 +872,7 @@ void QuickDocument::slotDocumentClassDelete()
  */
 void QuickDocument::slotDocumentClassReset()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the document class list?"), i18n("Reset Document Class List"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset the document class list?"), i18n("Reset Document Class List"))==KMessageBox::Continue)
 	{
 		initDocumentClass();
 		slotEnableButtons();
@@ -893,7 +893,7 @@ void QuickDocument::slotPaperSizeAdd()
  */
 void QuickDocument::slotPaperSizeDelete()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to remove \"%1\" from the papersize list?").arg(m_cbPaperSize->currentText()), i18n("Remove Papersize"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the papersize list?").arg(m_cbPaperSize->currentText()), i18n("Remove Papersize"))==KMessageBox::Continue)
 	{
 		int i=m_cbPaperSize->currentItem();
 		m_cbPaperSize->removeItem(i);
@@ -905,7 +905,7 @@ void QuickDocument::slotPaperSizeDelete()
  */
 void QuickDocument::slotPaperSizeReset()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the papersize list?"), i18n("Reset Papersize List"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset the papersize list?"), i18n("Reset Papersize List"))==KMessageBox::Continue)
 		initPaperSize();
 }
 
@@ -923,7 +923,7 @@ void QuickDocument::slotEncodingAdd()
  */
 void QuickDocument::slotEncodingDelete()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to remove \"%1\" from the encoding list?").arg(m_cbEncoding->currentText()), i18n("Remove Encoding"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the encoding list?").arg(m_cbEncoding->currentText()), i18n("Remove Encoding"))==KMessageBox::Continue)
 	{
 		int i=m_cbEncoding->currentItem();
 		m_cbEncoding->removeItem(i);
@@ -935,7 +935,7 @@ void QuickDocument::slotEncodingDelete()
  */
 void QuickDocument::slotEncodingReset()
 {
-	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the encodings list?"), i18n("Reset Encodings List"))==KMessageBox::Yes)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset the encodings list?"), i18n("Reset Encodings List"))==KMessageBox::Continue)
 		initEncoding();
 }
 
@@ -1008,7 +1008,7 @@ void QuickDocument::packageDelete(QListViewItem *cur)
 	if (cur) {
 		QString message=cur->parent()?i18n("Do you want do delete this package option?"):i18n("Do you want to delete this package?");
 
-		if (KMessageBox::questionYesNo(this, message, i18n("Delete"))==KMessageBox::Yes) {
+		if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))==KMessageBox::Continue) {
 			QListViewItem *childcur = cur->firstChild();
 			while (childcur) {
 				QListViewItem *nextchildcur=childcur->nextSibling();

@@ -82,7 +82,7 @@ int KileProjectViewItem::compare(QListViewItem * i, int col, bool ascending) con
  */
 KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
 {
-	addColumn(i18n("Files and Projects"),-1);
+	addColumn(i18n("Files & Projects"),-1);
 	addColumn(i18n("Include in Archive"),10);
 	setSorting(-1);
 	setFocusPolicy(QWidget::ClickFocus);
@@ -234,7 +234,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 		if (itm->type() == KileType::File)
 		{
-			if (m_nProjects>0) m_popup->insertItem(i18n("&Add To Project"), KPV_ID_ADD);
+			if (m_nProjects>0) m_popup->insertItem(i18n("&Add to Project"), KPV_ID_ADD);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotFile(int)));
 		}

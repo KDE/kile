@@ -126,7 +126,7 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    // document class
    QWidget *widget3 = new QWidget(widget2);
    QHBoxLayout *hbox3 = new QHBoxLayout(widget3, 5,KDialog::spacingHint() );
-   QLabel *label7 = new QLabel(i18n("Document Class:"), widget3);
+   QLabel *label7 = new QLabel(i18n("Document class:"), widget3);
    comboclasses = new QComboBox(widget3);
    hbox3->addWidget(label7);
    hbox3->addSpacing(10);
@@ -146,7 +146,7 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_sectioningtable->horizontalHeader()->setLabel(2,SmallIcon("structure"),"Structure Node");
     
    // default structure level
-   QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure view"), widget2);
+   QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure View"), widget2);
    QLabel *label9 = new QLabel(i18n("Default expansion &level: "),structGroup);
    m_structurelevel = new QSpinBox(1,5, 1, structGroup);
    label9->setBuddy(m_structurelevel);
@@ -154,7 +154,7 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    QGroupBox *classGroup = new QGroupBox(1,Qt::Horizontal,i18n("Document Classes"), widget2);
    QWidget *widget4 = new QWidget(classGroup);
    QHBoxLayout *hbox4 = new QHBoxLayout(widget4, 5,KDialog::spacingHint() );
-   QLabel *label10 = new QLabel("Manage Classes:",widget4);
+   QLabel *label10 = new QLabel("Manage classes:",widget4);
    add = new QPushButton(i18n("Add"), widget4);
    remove = new QPushButton(i18n("Remove"), widget4);
    hbox4->addWidget(label10);

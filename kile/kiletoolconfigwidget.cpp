@@ -41,8 +41,8 @@
 
 namespace KileWidget
 {
-	ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *name) : 
-		QWidget(parent, name), 
+	ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *name) :
+		QWidget(parent, name),
 		m_manager(mngr),
 		m_basic(0L),
 		m_advanced(0L),
@@ -71,7 +71,7 @@ namespace KileWidget
 
 		QGroupBox *grp = new QGroupBox(1, Qt::Vertical, this); m_layout->addMultiCellWidget(grp, 5, 5, 1, 2, Qt::AlignLeft);
 		grp->setFrameStyle(QFrame::NoFrame);
-		lb = new QLabel(i18n("&Menu"), grp);
+		lb = new QLabel(i18n("&Menu:"), grp);
 		m_cbMenu = new KComboBox(grp);
 		QStringList lst; lst << "Quick" << "Compile" << "Convert" << "View" << "Other";
 		m_cbMenu->insertStringList(lst);
@@ -82,17 +82,17 @@ namespace KileWidget
 
 		QHBox *box = new QHBox(this); box->setSpacing(10);
 		m_layout->addMultiCellWidget(box, m_layout->numRows(), m_layout->numRows(), 0, m_layout->numCols()-1);
-		KPushButton *pb = new KPushButton(i18n("Remove tool..."), box); pb->setMaximumHeight(pb->sizeHint().height());
+		KPushButton *pb = new KPushButton(i18n("Remove Tool"), box); pb->setMaximumHeight(pb->sizeHint().height());
 		connect(pb, SIGNAL(clicked()), this, SLOT(removeTool()));
 
-		pb = new KPushButton(i18n("New tool..."), box); pb->setMaximumHeight(pb->sizeHint().height());
+		pb = new KPushButton(i18n("New Tool..."), box); pb->setMaximumHeight(pb->sizeHint().height());
 		connect(pb, SIGNAL(clicked()), this, SLOT(newTool()));
 
-		pb = new KPushButton(i18n("Remove config..."), box); pb->setMaximumHeight(pb->sizeHint().height());
+		pb = new KPushButton(i18n("Remove Config"), box); pb->setMaximumHeight(pb->sizeHint().height());
 		//pb->setMaximumWidth(pb->sizeHint().width());
 		connect(pb, SIGNAL(clicked()), this, SLOT(removeConfig()));
 
-		pb = new KPushButton(i18n("New config..."), box); pb->setMaximumHeight(pb->sizeHint().height());
+		pb = new KPushButton(i18n("New Config..."), box); pb->setMaximumHeight(pb->sizeHint().height());
 		connect(pb, SIGNAL(clicked()), this, SLOT(newConfig()));
 		//pb->setMaximumWidth(pb->sizeHint().width());
 
@@ -145,10 +145,10 @@ namespace KileWidget
 	{
 		//kdDebug() << "==ToolConfig::switchTo(const QString & tool, bool save /* = true */)====================" << endl;
 		//save config
-		if (save) 
+		if (save)
 		{
 			writeConfig();
-		
+
 			//update the config number
 			QString cf = m_cbPredef->currentText();
 			KileTool::setConfigName(m_current, cf, m_manager->config());
@@ -157,7 +157,7 @@ namespace KileWidget
 		m_current = tool;
 
 		m_lbName->setText("<center><h2>"+m_current+"</h2></center>");
-		if (m_basic) 
+		if (m_basic)
 		{
 			m_layout->remove(m_basic);
 			m_basic->deleteLater();
@@ -168,7 +168,7 @@ namespace KileWidget
 			m_advanced->deleteLater();
 		}
 		m_map.clear();
-		if (!m_manager->retrieveEntryMap(m_current, m_map, false, false)) 
+		if (!m_manager->retrieveEntryMap(m_current, m_map, false, false))
 			kdWarning() << "no entrymap" << endl;
 
 		updateConfiglist();
@@ -230,7 +230,7 @@ namespace KileWidget
 		//kdDebug() << "==ToolConfig::newTool()=====================" << endl;
 		bool ok;
 		KConfig *config = m_manager->config();
-		QString tool = KLineEditDlg::getText(i18n("New tool"), "", &ok, this);
+		QString tool = KLineEditDlg::getText(i18n("New Tool"), i18n("Enter new tool name:"),"", &ok, this);
 		if ( ok && tool != "")
 		{
 			if ( config->hasGroup(KileTool::groupFor(tool, config)) )
@@ -241,7 +241,7 @@ namespace KileWidget
 
 			writeStdConfig(tool, "Default");
 
-			m_lstbTools->blockSignals(true); 
+			m_lstbTools->blockSignals(true);
 			updateToollist();
 			switchTo(tool);
 			for ( uint i = 0; i < m_lstbTools->count(); i++)
@@ -259,7 +259,7 @@ namespace KileWidget
 		//kdDebug() << "==ToolConfig::newConfig()=====================" << endl;
 		writeConfig();
 		bool ok;
-		QString cfg = KLineEditDlg::getText(i18n("New Configuration"), "", &ok, this);
+		QString cfg = KLineEditDlg::getText(i18n("New Configuration"), i18n("Enter new configuration name:"), "", &ok, this);
 		if (ok && cfg != "")
 		{
 			//copy config
@@ -291,7 +291,7 @@ namespace KileWidget
 	void ToolConfig::removeTool()
 	{
 		//kdDebug() << "==ToolConfig::removeTool()=====================" << endl;
-		if ( KMessageBox::questionYesNo(this, i18n("Are you sure you want to remove the tool %1?").arg(m_current)) == KMessageBox::Yes )
+		if ( KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove the tool %1?").arg(m_current)) == KMessageBox::Continue )
 		{
 			KConfig *config = m_manager->config();
 			QStringList cfgs = KileTool::configNames(m_current, config);
@@ -304,7 +304,7 @@ namespace KileWidget
 			int index = m_lstbTools->currentItem()-1;
 			if ( index < 0 ) index=0;
 			QString tool = m_lstbTools->text(index);
-			m_lstbTools->blockSignals(true); 
+			m_lstbTools->blockSignals(true);
 			updateToollist();
 			m_lstbTools->setCurrentItem(index);
 			switchTo(tool, false);
@@ -318,7 +318,7 @@ namespace KileWidget
 		writeConfig();
 		if ( m_cbPredef->count() > 1)
 		{
-			if ( KMessageBox::questionYesNo(this, i18n("Are you sure you want to remove this configuration?") ) == KMessageBox::Yes )
+			if ( KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove this configuration?") ) == KMessageBox::Continue )
 			{
 				m_manager->config()->deleteGroup(KileTool::groupFor(m_current, m_cbPredef->currentText()));
 				updateConfiglist();
@@ -327,12 +327,12 @@ namespace KileWidget
 			}
 		}
 		else
-			KMessageBox::error(this, i18n("You need at least one configuration for each tool."), i18n("Cannot remove configuration."));
+			KMessageBox::error(this, i18n("You need at least one configuration for each tool."), i18n("Cannot Remove Configuration"));
 	}
 
-	BasicTool::BasicTool(const QString & tool, KConfig *config, KileTool::Config *map, QWidget *parent) : 
+	BasicTool::BasicTool(const QString & tool, KConfig *config, KileTool::Config *map, QWidget *parent) :
 		QWidget(parent), m_tool(tool), m_map(map),  m_config(config),m_elbSequence(0L)
-	{   
+	{
 		//kdDebug() << "==BasicTool::BasicTool()=====================" << endl;
 		m_layout = new QGridLayout(this, 1, 1, 0, 10);
 		QString type = (*m_map)["type"];
@@ -360,14 +360,14 @@ namespace KileWidget
 		int row = 0;
 		QLabel *lb = new QLabel(str, this); m_layout->addMultiCellWidget(lb, row, row, 0, 5, Qt::AlignLeft);
 
-		lb = new QLabel(i18n("Co&mmand"), this); m_layout->addWidget(lb, row+1, 0, Qt::AlignLeft);
+		lb = new QLabel(i18n("Co&mmand:"), this); m_layout->addWidget(lb, row+1, 0, Qt::AlignLeft);
 		KLineEdit *le = new KLineEdit(this); m_layout->addWidget(le, row+1, 1, Qt::AlignLeft);
 		lb->setBuddy(le);
 		le->setMinimumWidth(150);
 		le->setText((*m_map)["command"]);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setCommand(const QString &)));
 
-		lb = new QLabel(i18n("&Options"), this); m_layout->addWidget(lb, row+1, 2, Qt::AlignLeft);
+		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row+1, 2, Qt::AlignLeft);
 		le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row+1, row+1, 3, 5, Qt::AlignLeft);
 		lb->setBuddy(le);
 		le->setMinimumWidth(300);
@@ -396,19 +396,19 @@ namespace KileWidget
 
 		int row = m_layout->numRows();
 
-		lb = new QLabel(i18n("&Library"), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
+		lb = new QLabel(i18n("&Library:"), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
 		KLineEdit *le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row, row, 1, 2, Qt::AlignLeft);
 		lb->setBuddy(le);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setLibrary(const QString &)));
 		le->setText((*m_map)["libName"]);
 
-		lb = new QLabel(i18n("C&lass"), this); m_layout->addWidget(lb, row, 3, Qt::AlignLeft);
+		lb = new QLabel(i18n("C&lass:"), this); m_layout->addWidget(lb, row, 3, Qt::AlignLeft);
 		le = new KLineEdit(this); m_layout->addWidget(le, row, 4, Qt::AlignLeft);
 		lb->setBuddy(le);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setClassName(const QString &)));
 		le->setText((*m_map)["className"]);
 
-		lb = new QLabel(i18n("&Options"), this); m_layout->addWidget(lb, row, 5, Qt::AlignLeft);
+		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row, 5, Qt::AlignLeft);
 		le = new KLineEdit(this); m_layout->addWidget(le, row, 6, Qt::AlignLeft);
 		lb->setBuddy(le);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setLibOptions(const QString &)));
@@ -484,10 +484,10 @@ namespace KileWidget
 	{
 		//kdDebug() << "==AdvancedTool::AdvancedTool()====================" << endl;
 		m_layout = new QGridLayout(this, 2, 4, 0, 10);
-		QLabel *lb = new QLabel(i18n("&Type"), this); m_layout->addWidget(lb, 0, 0, Qt::AlignLeft);
+		QLabel *lb = new QLabel(i18n("&Type:"), this); m_layout->addWidget(lb, 0, 0, Qt::AlignLeft);
 		m_cbType = new KComboBox(this); m_layout->addWidget(m_cbType, 0, 1, Qt::AlignLeft);
 		lb->setBuddy(m_cbType);
-		m_cbType->insertItem(i18n("Run outside of Kile")); m_cbType->insertItem("Run in a Konsole"); m_cbType->insertItem("Run embedded in Kile"); m_cbType->insertItem("Use HTML viewer"); m_cbType->insertItem("Run a sequence of tools");
+		m_cbType->insertItem(i18n("Run Outside of Kile")); m_cbType->insertItem("Run in Konsole"); m_cbType->insertItem("Run Embedded in Kile"); m_cbType->insertItem("Use HTML Viewer"); m_cbType->insertItem("Run Sequence of Tools");
 		connect(m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
 
 		QString type = (*m_map)["type"];
@@ -499,7 +499,7 @@ namespace KileWidget
 
 		QStringList classes;
 		classes << "Compile" << "Convert" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
-		lb = new QLabel(i18n("C&lass"), this); m_layout->addWidget(lb, 0, 2, Qt::AlignLeft);
+		lb = new QLabel(i18n("C&lass:"), this); m_layout->addWidget(lb, 0, 2, Qt::AlignLeft);
 		m_cbClasses = new KComboBox(this); m_layout->addWidget(m_cbClasses, 0, 3, Qt::AlignLeft);
 		m_cbClasses->insertStringList(classes);
 		connect(m_cbClasses, SIGNAL(activated(const QString &)), this, SLOT(switchClass(const QString& )));
@@ -559,10 +559,10 @@ namespace KileWidget
 		QString cat = KileTool::categoryFor((*m_map)["class"]);
 		QString extFrom = (*m_map)["from"], extTo = (*m_map)["to"];
 		bool src = true, trg = true;
-		QString from = i18n("&Source file extension"), to = i18n("&Target file extension");
+		QString from = i18n("&Source file extension:"), to = i18n("&Target file extension:");
 
 		if ( (cat == "Compile" )  && (extFrom == "") ) { src = false; }
-		else if ( cat == "View" ) { src = false; to = i18n("&Extension"); }
+		else if ( cat == "View" ) { src = false; to = i18n("&Extension:"); }
 		else if ( cat == "Sequence" ) { src = trg = false; }
 
 		QLabel *lb;
@@ -604,7 +604,7 @@ namespace KileWidget
 	void AdvancedTool::setTarget(const QString & trg) { (*m_map)["target"] = trg; }
 	void AdvancedTool::setRelDir(const QString & rd) { (*m_map)["relDir"] = rd; }
 
-	QuickTool::QuickTool(KileTool::Config *map, KConfig *config, QWidget *parent, const char *name) : 
+	QuickTool::QuickTool(KileTool::Config *map, KConfig *config, QWidget *parent, const char *name) :
 		QWidget(parent,name),
 		m_config(config),
 		m_map(map)
@@ -640,8 +640,8 @@ namespace KileWidget
 				m_lstbSeq->insertItem(tl);
 		}
 
-		m_pbUp = new KPushButton(i18n("Move &up"), this); layout->addWidget(m_pbUp, 3, 4);
-		m_pbDown = new KPushButton(i18n("Move &down"), this); layout->addWidget(m_pbDown, 4, 4);
+		m_pbUp = new KPushButton(i18n("Move &Up"), this); layout->addWidget(m_pbUp, 3, 4);
+		m_pbDown = new KPushButton(i18n("Move &Down"), this); layout->addWidget(m_pbDown, 4, 4);
 		m_pbRemove = new KPushButton(i18n("&Remove"), this); layout->addWidget(m_pbRemove, 5, 4);
 
 		connect(m_pbAdd, SIGNAL(clicked()), this, SLOT(add()));

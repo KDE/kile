@@ -29,7 +29,7 @@
                 </sizepolicy>
             </property>
             <property name="title">
-                <string>Autosave options</string>
+                <string>Autosave Options</string>
             </property>
             <hbox>
                 <widget class="QCheckBox">
@@ -53,7 +53,7 @@
                                 <cstring>textLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>Interval &amp;time in minutes (1 - 9999) :</string>
+                                <string>Interval &amp;time in minutes (1 - 9999):</string>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>kcfg_AutosaveInterval</cstring>
@@ -87,7 +87,7 @@
                 </sizepolicy>
             </property>
             <property name="title">
-                <string>Structure view options</string>
+                <string>Structure View Options</string>
             </property>
             <hbox>
                 <widget class="QLabel">
@@ -95,7 +95,7 @@
                         <cstring>textLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>Default expansion &amp;level for the structure view (1 part - 5 subsubsection) :</string>
+                        <string>Default expansion &amp;level for the structure view (1 part - 5 subsubsection):</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_DefaultLevel</cstring>
@@ -119,7 +119,7 @@
                 <cstring>kcfg_Restore</cstring>
             </property>
             <property name="text">
-                <string>Reopen files and projects on startup.</string>
+                <string>Reopen files and projects on startup</string>
             </property>
         </widget>
         <widget class="QGroupBox">
@@ -127,7 +127,7 @@
                 <cstring>groupBox3</cstring>
             </property>
             <property name="title">
-                <string>Template variables</string>
+                <string>Template Variables</string>
             </property>
             <grid>
                 <widget class="KLineEdit" row="0" column="1">
@@ -150,7 +150,7 @@
                         <cstring>textLabel3</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Author</string>
+                        <string>&amp;Author:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_Author</cstring>
@@ -161,7 +161,7 @@
                         <cstring>textLabel4</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Documentclass options</string>
+                        <string>&amp;Documentclass options:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_DocumentClassOptions</cstring>
@@ -172,7 +172,7 @@
                         <cstring>textLabel5</cstring>
                     </property>
                     <property name="text">
-                        <string>Input &amp;encoding</string>
+                        <string>Input &amp;encoding:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_TemplateEncoding</cstring>
@@ -185,7 +185,7 @@
                 <cstring>groupBox4</cstring>
             </property>
             <property name="title">
-                <string>File clean-up details</string>
+                <string>File Clean-Up Details</string>
             </property>
             <vbox>
                 <widget class="QCheckBox">
@@ -193,7 +193,7 @@
                         <cstring>kcfg_CleanUpAfterClose</cstring>
                     </property>
                     <property name="text">
-                        <string>Automatically clean-up files after close.</string>
+                        <string>Automatically clean-up files after close</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">

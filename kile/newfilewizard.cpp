@@ -77,7 +77,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
    m_ckWizard = new QCheckBox(i18n("Start the Quick Start wizard when creating an empty file"), page);
    topLayout->addWidget(m_ckWizard);
 
-   connect(m_iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(accept()));
+   connect(m_iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(slotOk()));
 
    kapp->config()->setGroup("NewFileWizard");
    m_ckWizard->setChecked(kapp->config()->readBoolEntry("UseWizardWhenCreatingEmptyFile", false));

@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 #include "kile.h"
 
 #include <ktexteditor/editorchooser.h>
@@ -386,11 +385,13 @@ void Kile::setupActions()
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), UserIcon("usertag"), actionCollection(),"menuUserTags");
+	m_menuUserTags->setDelayed(false);
 	m_mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
 	setupUserTagActions();
 	connect(m_mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
 
 	m_menuUserTools = new KActionMenu(i18n("User Tools"), UserIcon("usertool"), actionCollection(), "menuUserTools");
+	m_menuUserTools->setDelayed(false);
 	m_mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
 	setupUserToolActions();
 	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
@@ -450,7 +451,7 @@ void Kile::setupUserToolActions()
 ////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 {
-	if ( url.path() != "untitled" && isOpen(url))
+	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
 		kdDebug() << "load : already opened " << url.path() << endl;
 		Kate::View *view = static_cast<Kate::View*>(docFor(url)->views().first());
@@ -489,7 +490,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 	else
 	{
 		//doc->openURL(KURL("file:untitled"));
-		doc->setDocName("untitled");
+		doc->setDocName(i18n("Untitled"));
 	}
 
 	setHighlightMode(doc);
@@ -634,7 +635,7 @@ void Kile::setHighlightMode(Kate::Document * doc)
 
 	QString ext = doc->url().fileName().right(4);
 
-	if ( doc->url().isEmpty() || doc->docName() == "untitled" || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	if ( doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
 	for (i = 0; i < c; i++)
 	{
@@ -815,7 +816,7 @@ void Kile::fileSaveAll(bool amAutoSaving)
 		if (view && view->getDoc()->isModified())
 		{
 			//don't save unwritable and untitled documents when autosaving
-			if ( ! (amAutoSaving && ((view->getDoc()->docName() == "untitled") || !fi.isWritable() )))
+			if ( ! (amAutoSaving && ((view->getDoc()->url().isEmpty() ) || !fi.isWritable() )))
 			{
 				view->save();
 			}
@@ -1647,7 +1648,7 @@ QString Kile::prepareForCompile(const QString & command) {
 		}
 	}
 
-  if (finame == "untitled" || finame == "")
+  if ( finame == i18n("Untitled") || finame == "")
   {
   	   if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
                                              "Do you want to save it? Click Yes to save and No to abort.").arg(command),
@@ -1715,7 +1716,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
 		}
 	}
 
-   if (getCompileName(true) == "untitled" || finame == "") {
+   if ( finame == i18n("Untitled") || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can turn it into a %2 file.")
                                    .arg(from.upper()).arg(to.upper()),
@@ -1770,7 +1771,7 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
 		}
 	}
 
-   if (getCompileName(true) == "untitled" || finame == "") {
+   if ( finame == i18n("Untitled") || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can view the %1 file.")
                                    .arg(ext.upper()).arg(ext.upper()),
@@ -2099,8 +2100,11 @@ void Kile::ViewPDF()
 
 void Kile::MakeBib()
 {
+  Kate::View *view = currentView();
+  if (!view) return;
+
   QString finame = getShortName();
-  if (finame == "untitled") {
+  if (finame == i18n("Untitled")) {
      KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an AUX file which is required to run %1").arg(bibtex_command),
                         i18n("File needs to be saved!"));
      return;
@@ -2111,7 +2115,7 @@ void Kile::MakeBib()
      finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
-  //we need to check for finame=="untitled" etc. because the user could have
+  //we need to check for finame==i18n("Untitled") etc. because the user could have
   //escaped the file save dialog
   if ((m_singlemode && !currentView()) || finame=="")
   {
@@ -2157,8 +2161,11 @@ void Kile::MakeIndex()
   //TODO: figure out how makeindex works ;-))
   //I'm just guessing here
 
+  Kate::View *view = currentView();
+  if (!view) return;
+
   QString finame = getShortName();
-  if (finame == "untitled") {
+  if (finame == i18n("Untitled")) {
      KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an idx file "
                                   "which is required to run %1.").arg(makeindex_command),
                         i18n("File needs to be saved!"));
@@ -2170,7 +2177,7 @@ void Kile::MakeIndex()
      finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
-  //we need to check for finame=="untitled" etc. because the user could have
+  //we need to check for finame==i18n("Untitled") etc. because the user could have
   //escaped the file save dialog
   if ((m_singlemode && !currentView()) || finame=="")
   {
@@ -2270,7 +2277,7 @@ void Kile::MetaPost()
   QString finame;
 
   finame=getShortName();
-  if (!currentView() ||finame=="untitled" || finame=="")
+  if (!currentView() ||finame==i18n("Untitled") || finame=="")
   {
   KMessageBox::error( this,i18n("Could not start the command."));
   return;
@@ -2310,7 +2317,7 @@ void Kile::CleanAll()
 {
   QString finame = getShortName();
 
-  if ((m_singlemode && !currentView()) ||finame=="untitled" || finame=="")
+  if ((m_singlemode && !currentView()) ||finame==i18n("Untitled") || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
      return;
@@ -2373,7 +2380,7 @@ void Kile::syncTerminal()
 		if (m_singlemode) {finame=view->getDoc()->url().path();}
     		else {finame=m_masterName;}
 
-		if (finame == "" || finame == "untitled" ) return;
+		if (finame == "" || finame == i18n("Untitled") ) return;
 
     		QFileInfo fic(finame);
   		if ( fic.isReadable() )
@@ -2513,7 +2520,7 @@ void Kile::execUserTool(int i)
 
 	if (m_singlemode) {finame=getName();}
 	else {finame=m_masterName;}
-	if ((m_singlemode && !view) ||getShortName()=="untitled" || getShortName()=="")
+	if ((m_singlemode && !view) ||getShortName()==i18n("Untitled") || getShortName()=="")
 	{
 		documentpresent=false;
 	}
@@ -2875,11 +2882,11 @@ void Kile::insertTag(const KileAction::TagData& data)
 	index=view->cursorColumnReal();
 
 	//if there is a selection act as if cursor is at the beginning of selection
-	/*if (wrap)
+	if (wrap)
 	{
 		index = view->getDoc()->selStartCol();
 		para  = view->getDoc()->selStartLine();
-	}*/
+	}
 
 	QString ins = data.tagBegin;
 	
@@ -3561,7 +3568,7 @@ void Kile::ToggleMode()
 	if (m_singlemode && currentView())
 	{
 		m_masterName=getName();
-		if (m_masterName=="untitled" || m_masterName=="")
+		if (m_masterName==i18n("Untitled") || m_masterName=="")
 		{
 			ModeAction->setChecked(false);
 			KMessageBox::error( this,i18n("Could not start the command."));

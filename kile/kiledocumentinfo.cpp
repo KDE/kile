@@ -174,7 +174,7 @@ void KileDocumentInfo::updateStruct()
 	//kdDebug() << "KileDocumentInfo::updateStruct() " << getDoc()->url().path() << endl;
 
 	QString shortName = m_doc->url().fileName();
-	if ((shortName.right(4)!=".tex") && (shortName!="untitled"))  return;
+	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
 
 	m_labels.clear();
 	m_bibItems.clear();

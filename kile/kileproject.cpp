@@ -20,6 +20,7 @@
 #include <qfileinfo.h>
 
 #include <ksimpleconfig.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 /*
@@ -72,7 +73,7 @@ bool KileProject::load()
 
 	//load general settings/options
 	m_config->setGroup("General");
-	m_name = m_config->readEntry("name", "untitled");
+	m_name = m_config->readEntry("name", i18n("Untitled"));
 
 	KURL url;
 	KileProjectItem *item;

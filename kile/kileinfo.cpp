@@ -18,6 +18,7 @@
 #include <qfileinfo.h>
 
 #include <kate/document.h>
+#include <klocale.h>
 
 #include "kiledocumentinfo.h"
 #include "kileproject.h"
@@ -60,9 +61,10 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 
 	if (doc)
 	{
+		kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
 		title = shrt ? doc->url().fileName() : doc->url().path();
 
-		if (title == "") title = doc->docName();
+		if (title == "") title = i18n("Untitled");
 	}
 	else
 		title="";

@@ -38,7 +38,7 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	layout->setColStretch(3,1);
 
 	m_name = new KLineEdit(plainPage(), "le_projectname");
-	QLabel *lb = new QLabel(i18n("Project &name"), plainPage());
+	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
 	lb->setBuddy(m_name);
 	QWhatsThis::add(lb, i18n("Insert a short descriptive name of your project here."));
 	QWhatsThis::add(m_name, i18n("Insert a short descriptive name of your project here."));
@@ -58,7 +58,7 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project."),plainPage());
 	m_cb->setChecked(true);
-	m_lb  = new QLabel(i18n("File&name (relative to the project file)"), plainPage());
+	m_lb  = new QLabel(i18n("File&name (relative to where the project file is)"), plainPage());
 	m_file = new KLineEdit(plainPage());
 	m_lb->setBuddy(m_file);
 	m_nfw = new NewFileWidget(plainPage());
@@ -100,8 +100,8 @@ void KileNewProjectDlg::browseLocation()
 void KileNewProjectDlg::slotOk()
 {
 	if ( name().stripWhiteSpace() == "")
-		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to %1.").arg("untitled"), i18n("No name")) == KMessageBox::Yes)
-			m_name->setText("untitled");
+		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No name")) == KMessageBox::Yes)
+			m_name->setText(i18n("Untitled"));
 		else
 			return;
 

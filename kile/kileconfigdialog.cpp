@@ -74,7 +74,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	checkSwitchStruct = new QCheckBox("Switch to structure view after opening a file.", generalPage );
 	genLayout->addWidget(checkSwitchStruct);
 	m_config->setGroup("Structure");
-	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure"));
+	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure",true));
 
     //template variables
     QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);

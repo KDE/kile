@@ -45,9 +45,6 @@
                     <property name="text">
                         <string>Use the &amp;Kile LaTeX reference</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+K</string>
-                    </property>
                 </widget>
                 <widget class="QRadioButton" row="1" column="0">
                     <property name="name">
@@ -55,9 +52,6 @@
                     </property>
                     <property name="text">
                         <string>Use your system's &amp;TeX documentation</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+T</string>
                     </property>
                 </widget>
             </grid>

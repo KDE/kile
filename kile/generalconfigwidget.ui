@@ -59,9 +59,6 @@
                     <property name="text">
                         <string>Auto&amp;save</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+S</string>
-                    </property>
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">

@@ -56,7 +56,7 @@
 		<entry name="TeXPaths" type="String">
 			<label>Holds the TEXINPUTS environment variable.</label>
 			<default></default>
-			<whatsthis>Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon separate list of all paths TeX should look for additional packages and/or files. You don't have to add :$TEXINPUTS at the end.</whatsthis>
+			<whatsthis>Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$TEXINPUTS at the end.</whatsthis>
 		</entry>
 	</group>
 	<group name="Show">

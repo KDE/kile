@@ -194,7 +194,7 @@ void setupMathTags(KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("Math mode - $...$"),"mathmode",Qt::ALT+Qt::SHIFT+Qt::Key_M, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathmode","$","$",1);
 	(void) new KileAction::Tag("\\[...\\]",Qt::ALT+Qt::SHIFT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "\\[","\\]", 2);
   	(void) new KileAction::Tag(i18n("Equation environment - \\begin{equation}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","\n\\end{equation} ",0,1);
-  	(void) new KileAction::Tag(i18n("Equation arry - \\begin{eqnarray}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
+  	(void) new KileAction::Tag(i18n("Equation array - \\begin{eqnarray}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
 	(void) new KileAction::Tag(i18n("Subscript - _{}"),"math_lsup",Qt::ALT+Qt::SHIFT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
 	(void) new KileAction::Tag(i18n("Superscript - ^{}"),"math_lsub",Qt::ALT+Qt::SHIFT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
 	(void) new KileAction::Tag(i18n("Fraction - \\frac{}{}"),"smallfrac",Qt::ALT+Qt::SHIFT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);

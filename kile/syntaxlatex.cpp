@@ -116,7 +116,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 {
 	Formats fmt;
 	int state = endStateOfLastPara, len = text.length(),
-		cmmnd_start=0, env_start=0, key=0;
+		cmmnd_start=0, env_start=0, key=0,ind=0;
   QChar ch, verbatimDelimiter;
   QString cmmnd,env;
 
@@ -243,14 +243,15 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 											if (ch != ' ')
 											{
 												verbatimDelimiter=ch;
-												if ( listVerbChars.contains(ch) == 0)
+												ind= listVerbChars.findIndex(ch);
+												if ( ind >= 0)
 												{
 													listVerbChars.append(ch);
 													key=listVerbChars.size();
 												}
 												else
 												{
-													key=listVerbChars.findIndex(ch)+1;
+													key=ind+1;
 												}
                         state=stVerbatimDetected;
                         //kdDebug() << "going verbatim with " << ch.latin1() << " at " << listVerbChars.size() << endl;

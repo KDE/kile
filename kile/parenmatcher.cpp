@@ -34,21 +34,23 @@ ParenMatcher::ParenMatcher()
 bool ParenMatcher::match( QTextCursor *cursor )
 {
     if ( !enabled )
-	return FALSE;
+		return FALSE;
     bool ret = FALSE;
 
     QChar c( cursor->paragraph()->at( cursor->index() )->c );
     bool ok1 = FALSE;
     bool ok2 = FALSE;
-    if ( c == '{' || c == '(' || c == '[' ) {
-	ok1 = checkOpenParen( cursor );
-	ret = ok1 || ret;
-    } else if ( cursor->index() > 0 ) {
-	c = cursor->paragraph()->at( cursor->index() - 1 )->c;
-	if ( c == '}' || c == ')' || c == ']' ) {
-	    ok2 = checkClosedParen( cursor );
-	    ret = ok2 || ret;
-	}
+    if ( c == '{' ) {
+			ok1 = checkOpenParen( cursor );
+			ret = ok1 || ret;
+    }
+    else if ( cursor->index() > 0 )
+    {
+			c = cursor->paragraph()->at( cursor->index() - 1 )->c;
+			if ( c == '}' ) {
+	  	  ok2 = checkClosedParen( cursor );
+	    	ret = ok2 || ret;
+			}
     }
 
     return ret;

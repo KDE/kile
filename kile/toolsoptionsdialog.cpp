@@ -214,6 +214,8 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
     m_view = m_kile->currentView();
 	QStringList path;
 
+	checkEnv=0;
+	
 	if (m_view)
 	{
 		QVBox *page;

@@ -324,7 +324,7 @@ void Kile::setupActions()
   MenuAccelsAction = new KToggleAction(i18n("Standard Menu Shortcuts"), 0, this,SLOT(ToggleAccels()),actionCollection(),"MenuAccels" );
   MenuAccelsAction->setChecked(m_menuaccels);
 
-  (void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"146" );
+  (void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"settings_configure" );
   (void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
   (void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
 
@@ -3649,7 +3649,7 @@ void Kile::GeneralOptions()
 	toDlg->comboDvi->lineEdit()->setText(viewdvi_command );
 	toDlg->comboPdf->lineEdit()->setText(viewpdf_command );
 	toDlg->comboPs->lineEdit()->setText(viewps_command );
-	toDlg->checkEnv->setChecked(m_bCompleteEnvironment);
+	if (toDlg->checkEnv) toDlg->checkEnv->setChecked(m_bCompleteEnvironment);
 
 	if (quickmode==1) {toDlg->checkLatex->setChecked(true);}
 	if (quickmode==2) {toDlg->checkDvi->setChecked(true);}
@@ -3685,7 +3685,7 @@ void Kile::GeneralOptions()
 		ps2pdf_command   = toDlg->LineEdit11->text();
 		makeindex_command   = toDlg->LineEdit12->text();
 		bibtex_command   = toDlg->LineEdit13->text();
-		m_bCompleteEnvironment = toDlg->checkEnv->isChecked();
+		if (toDlg->checkEnv) m_bCompleteEnvironment = toDlg->checkEnv->isChecked();
 		emit completeConfigChanged(m_bCompleteEnvironment);
 	}
 	delete toDlg;

@@ -36,7 +36,7 @@
 	<Action name="Spell"/>
 	<Action name="RefreshStructure"/>
 </Menu>
-<Menu name="view"><text>View</text>
+<Menu name="view"><text>&amp;View</text>
 <Action name="EditorView"/>
 <Merge/>
 <Separator/>
@@ -74,7 +74,7 @@
 	<Separator/>
 	<Action name="CleanAll"/>
 </Menu>
-<Menu name="menu_latex"><text>LaTeX</text><!-- menu4 !-->
+<Menu name="menu_latex"><text>&amp;LaTeX</text><!-- menu4 !-->
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>
 	<Action name="tag_amspackages"/>
@@ -210,7 +210,7 @@
 		<Action name="CleanBib"/>
 	</Menu>
 </Menu>
-<Menu name="menu7"><text>Wizard</text>
+<Menu name="menu7"><text>&amp;Wizard</text>
 	<Action name="127"/>
 	<Action name="128"/>
 	<Separator/>
@@ -218,14 +218,14 @@
 	<Action name="130"/>
 	<Action name="149"/>
 </Menu>
-<Menu name="menu9"><text>User</text>
+<Menu name="menu9"><text>&amp;User</text>
 	<Action name="menuUserTags"/>
 	<Action name="menuUserTools"/>
 </Menu>
-<Menu name="bookmarks"><text>Bookmarks</text>
+<Menu name="bookmarks"><text>&amp;Bookmarks</text>
 	<Merge/>
 </Menu>
-<Menu name="menu10"><text>Graph</text>
+<Menu name="menu10"><text>&amp;Graph</text>
 	<Action name="144"/>
 	<Action name="145"/>
 </Menu>
@@ -243,7 +243,7 @@
 	<Action name="tools_apply_wordwrap" group="tools_operations" />
 	<Action name="tools_cmd" group="tools_operations" />
 </Menu>
-<Menu name="settings"  noMerge="1"><text>Settings</text>
+<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 	<Action name="MenuAccels"/>
 	<Action name="Mode"/>
 	<Action name="removetemplates"/>
@@ -259,9 +259,9 @@
 	<Separator/>
 	<Action name="147"/>
 	<Action name="148"/>
-	<Action name="146"/>
+	<Action name="settings_configure" />
 </Menu>
-<Menu name="help"><text>Help</text>
+<Menu name="help"><text>&amp;Help</text>
 	<Action name="help1"/>
 	<Action name="help2"/>
 	<Merge/>
@@ -509,7 +509,7 @@
 <Action name="usertool5"/>
 <Action name="144"/>
 <Action name="145"/>
-<Action name="146"/>
+<Action name="settings_configure"/>
 <Action name="147"/>
 <Action name="148"/>
 <Action name="Mode"/>
@@ -708,7 +708,7 @@
 <Action name="usertool5"/>
 <Action name="144"/>
 <Action name="145"/>
-<Action name="146"/>
+<Action name="settings_configure"/>
 <Action name="147"/>
 <Action name="148"/>
 <Action name="Mode"/>
@@ -907,7 +907,7 @@
 <Action name="usertool5"/>
 <Action name="144"/>
 <Action name="145"/>
-<Action name="146"/>
+<Action name="settings_configure"/>
 <Action name="147"/>
 <Action name="148"/>
 <Action name="Mode"/>
@@ -1114,7 +1114,7 @@
 <Action name="usertool5"/>
 <Action name="144"/>
 <Action name="145"/>
-<Action name="146"/>
+<Action name="settings_configure"/>
 <Action name="147"/>
 <Action name="148"/>
 <Action name="Mode"/>

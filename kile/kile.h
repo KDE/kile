@@ -75,7 +75,7 @@
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
-#define KILERC_VERSION 3
+#define KILERC_VERSION 4
 
 class QFileInfo;
 class QTimer;
@@ -133,20 +133,17 @@ private:
 	void setupActions();
 	void setupTools();
 	void setupUserTagActions();
-	void setupUserToolActions();
 
 	KToolBar					*m_toolsToolBar;
-	KActionMenu 					*m_menuUserTags, *m_menuUserTools;
-	QSignalMapper 				*m_mapUserTagSignals, *m_mapUserToolsSignals;
-	QValueList<userItem> 	m_listUserTags, m_listUserTools;
-	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KAction							*m_actionEditTag, *m_actionEditTool;
-	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
+	KActionMenu 				*m_menuUserTags;
+	QSignalMapper 			*m_mapUserTagSignals;
+	QValueList<userItem> 		m_listUserTags, m_listUserTools;
+	QPtrList<KAction> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	KAction					*m_actionEditTag, *m_actionEditTool;
+	KToggleToolBarAction		*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
 	KAction 					*m_paStop, *m_paPrint;
 	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
 	KRecentFilesAction			*fileOpenRecentAction;
-
-
 
 /* GUI */
 private:
@@ -429,9 +426,6 @@ private slots:
 	void CleanAll(KileDocumentInfo *docinfo = 0, bool silent = false);
 	void CleanBib();
 
-	void execUserTool(int);
-	void EditUserTool();
-
 	void FindInFiles();
 	void GrepItemSelected(const QString &abs_filename, int line);
 
@@ -484,6 +478,7 @@ private slots:
 
 private:
 	KileLyxServer		*m_lyxserver;
+	bool				m_bShowUserMovedMessage;
 
 /* editor extensions */
 private:

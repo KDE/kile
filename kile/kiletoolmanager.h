@@ -138,6 +138,8 @@ namespace KileTool
 	void toolbarInfoFor(const QString &tool, int &pos, bool &place, bool &separator, KConfig *config);
 	QString iconFor(const QString &tool, KConfig *config);
 
+	QString categoryFor(const QString &clss);
+
 	void setGUIOptions(const QString &tool, const QString &menu, int pos, bool place, bool separator, const QString &icon, KConfig *config);
 }
 

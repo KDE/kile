@@ -115,7 +115,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_paPrint(0L),
 	m_bQuick(false),
 	m_activeView(0),
-	m_nCurrentError(-1)
+	m_nCurrentError(-1),
+	m_bShowUserMovedMessage(false)
 {
 	// do initializations first
 	m_currentState=m_wantState="Editor";
@@ -160,13 +161,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	KileFS= new KileFileSelect(Structview,"File Selector");
 	connect(KileFS,SIGNAL(fileSelected(const KFileItem*)),this,SLOT(fileSelected(const KFileItem*)));
 	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	QString currentDir=QDir::currentDirPath();
-	if (!lastDocument.isEmpty())
-	{
-		QFileInfo fi(lastDocument);
-		if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
-	}
-	KileFS->setDir(KURL(currentDir));
 	KileFS->comboEncoding->lineEdit()->setText(input_encoding);
 
 	m_projectview = new KileProjectView(Structview, this);
@@ -213,6 +207,9 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	//workaround for kdvi crash when started with Tooltips
 	config->setGroup("TipOfDay");
 	config->writeEntry( "RunOnStart",false);
+
+	KileFS->readConfig();
+
 	setXMLFile( "kileui.rc" );
 
 	ReadSettings();
@@ -313,6 +310,17 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_manager->setFactory(m_toolFactory);
 
 	m_help = new KileHelp::Help(m_manager, m_edit);     // kile help (dani)
+
+	if ( m_listUserTools.count() > 0 )
+	{
+		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));
+		m_listUserTools.clear();
+	}
+
+	if (m_bShowUserMovedMessage)
+	{
+		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you've defined, is moved to the LaTeX menu."));
+	}
 
 	if (rest) restore();
 }
@@ -486,12 +494,6 @@ void Kile::setupActions()
 	setupUserTagActions();
 	connect(m_mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
 
-	m_menuUserTools = new KActionMenu(i18n("User Tools"), SmallIcon("usertool"), actionCollection(), "menuUserTools");
-	m_menuUserTools->setDelayed(false);
-	m_mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
-	setupUserToolActions();
-	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
-
 	actionCollection()->readShortcutSettings();
 }
 
@@ -558,7 +560,7 @@ void Kile::setupTools()
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
 
-	actionCollection()->readShortcutSettings("ToolShortcuts", config);
+	actionCollection()->readShortcutSettings("Shortcuts", config);
 }
 
 void Kile::setupUserTagActions()
@@ -581,29 +583,6 @@ void Kile::setupUserTagActions()
 		m_listUserTagsActions.append(menuItem);
 		m_menuUserTags->insert(menuItem);
 		m_mapUserTagSignals->setMapping(menuItem,i);
-	}
-}
-
-void Kile::setupUserToolActions()
-{
-	KShortcut sc=0;
-	QString name;
-	KAction *menuItem;
-
-	KShortcut toolaccels[10] = {SHIFT+ALT+Key_1, SHIFT+ALT+Key_2,SHIFT+ALT+Key_3,SHIFT+ALT+Key_4,SHIFT+ALT+Key_5,SHIFT+ALT+Key_6,SHIFT+ALT+Key_7,
-		SHIFT+ALT+Key_8,SHIFT+ALT+Key_9,SHIFT+ALT+Key_0};
-
-	m_actionEditTool = new KAction(i18n("Edit User Tools"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
-	m_menuUserTools->insert(m_actionEditTool);
-	for (uint i=0; i<m_listUserTools.size(); i++)
-	{
-		if (i<10) sc = toolaccels[i];
-		else sc=0;
-		name=QString::number(i+1)+": "+m_listUserTools[i].name;
-		menuItem = new KAction(name,sc,m_mapUserToolsSignals,SLOT(map()), m_menuUserTools, name.ascii());
-		m_listUserToolsActions.append(menuItem);
-		m_menuUserTools->insert(menuItem);
-		m_mapUserToolsSignals->setMapping(menuItem,i);
 	}
 }
 
@@ -2424,46 +2403,6 @@ void Kile::CleanAll(KileDocumentInfo *docinfo, bool silent)
 	}
 }
 
-void Kile::execUserTool(int i)
-{
-	//FIXME: port this to new KileTool classes
-	Kate::View *view = currentView();
-	QString finame;
-	QString commandline=m_listUserTools[i].tag;
-	QFileInfo fi;
-
-	bool documentpresent=true;
-
-	if (m_singlemode) {finame=getName();}
-	else {finame=m_masterName;}
-	if ((m_singlemode && !view) ||getShortName()==i18n("Untitled") || getShortName()=="")
-	{
-		documentpresent=false;
-	}
-
-	QStringList command;
-	if (documentpresent)
-	{
-		fi.setFile(finame);
-		view->save();
-	}
-	else
-	{
-		if (commandline.contains("%S"))
-		{
-			if (KMessageBox::warningContinueCancel(this,i18n("Please open or create a document before you execute this tool."))
-				== KMessageBox::Cancel)
-			{
-				LogWidget->append(i18n("Process canceled by user."));
-				return;
-			}
-
-		}
-	}
-
-	m_manager->run(m_listUserTools[i].name);
-}
-
 ////////////////// STRUCTURE ///////////////////
 void Kile::ShowStructure()
 {
@@ -2810,33 +2749,6 @@ void Kile::EditUserMenu()
 	delete umDlg;
 }
 
-void Kile::EditUserTool()
-{
-	usermenudialog *umDlg = new usermenudialog(m_listUserTools,this,"Edit User Tools", i18n("Edit User Tools"));
-
-	if ( umDlg->exec() )
-	{
-		//remove all actions
-		KAction *menuItem;
-		uint len = m_listUserToolsActions.count();
-		for (uint j=0; j< len; j++)
-		{
-			menuItem = m_listUserToolsActions.getLast();
-			m_mapUserToolsSignals->removeMappings(menuItem);
-			m_menuUserTools->remove(menuItem);
-			m_listUserToolsActions.removeLast();
-			delete menuItem;
-		}
-		m_menuUserTools->remove(m_actionEditTool);
-
-		m_listUserTools = umDlg->result();
-		setupUserToolActions();
-		SaveSettings();
-	}
-
-	delete umDlg;
-}
-
 /////////////// CONFIG ////////////////////
 void Kile::ReadSettings()
 {
@@ -2853,14 +2765,16 @@ void Kile::ReadSettings()
 	//if the kilerc file is old some of the configuration
 	//date must be set by kile, even if the keys are present
 	//in the kilerc file
-	if (version<KILERC_VERSION) old=true;
+	if ( version < KILERC_VERSION ) old=true;
 	
-	if (version < 3 )
+	if ( version < 4 )
 	{
 		KileTool::Factory *factory = new KileTool::Factory(0,config);
 		kdDebug() << "WRITING STD TOOL CONFIG" << endl;
 		factory->writeStdConfig();
 	}
+
+	m_bShowUserMovedMessage = (version < 4);
 
 	m_singlemode=true;
 	QRect screen = QApplication::desktop()->screenGeometry();
@@ -2899,6 +2813,34 @@ void Kile::ReadSettings()
 		tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
 		tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
 		m_listUserTools.append(tempItem);
+	}
+	if ( len > 0 )
+	{
+ 		//move the tools
+		config->writeEntry("nUserTools", 0);
+		for ( int i = 0; i < len; i++)
+		{
+			tempItem = m_listUserTools[i];
+			config->setGroup("Tools");
+			config->writeEntry(tempItem.name, "Default");
+
+			KileTool::setGUIOptions(tempItem.name, "Other", 0, false, false, "gear", config);
+
+			config->setGroup(KileTool::groupFor(tempItem.name, "Default"));
+			QString bin = KRun::binaryName(tempItem.tag, false);
+			config->writeEntry("command", bin);
+			config->writeEntry("options", tempItem.tag.mid(bin.length()));
+			config->writeEntry("class", "Base");
+			config->writeEntry("type", "Process");
+			config->writeEntry("from", "");
+			config->writeEntry("to", "");
+
+			if ( i < 10 )
+			{
+				config->setGroup("Shortcuts");
+				config->writeEntry("tool_" + tempItem.name, "Alt+Shift+" + QString::number(i + 1) ); //should be alt+shift+
+			}
+		}
 	}
 
 	config->setGroup( "Structure" );
@@ -3041,6 +2983,7 @@ config->setGroup( "Show" );
 config->writeEntry("Outputview",showoutputview);
 config->writeEntry( "Structureview",showstructview);
 
+	KileFS->writeConfig();
 	config->setGroup( "Files" );
 	if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
 	config->writeEntry("Last Document",lastDocument);
@@ -3080,23 +3023,6 @@ for (uint i=0; i<m_listUserTags.size(); i++)
 	tempItem = m_listUserTags[i];
 	config->writeEntry("userTagName"+QString::number(i),tempItem.name);
 	config->writeEntry("userTag"+QString::number(i),tempItem.tag);
-}
-
-config->writeEntry("nUserTools",static_cast<int>(m_listUserTools.size()));
-for (uint i=0; i<m_listUserTools.size(); i++)
-{
-	tempItem = m_listUserTools[i];
-	config->setGroup( "User" );
-	config->writeEntry("userToolName"+QString::number(i),tempItem.name);
-	config->writeEntry("userTool"+QString::number(i),tempItem.tag);
-
-	//FIXME: temporary work-around to make this work with the new KileTool classes
-	config->setGroup(KileTool::groupFor(tempItem.name, config));
-	config->writeEntry("command", tempItem.tag);
-	config->writeEntry("class", "Base");
-	config->writeEntry("type", "Process");
-	config->writeEntry("from", "");
-	config->writeEntry("to", "");
 }
 
 config->setGroup( "Structure" );
@@ -3346,7 +3272,7 @@ void Kile::ConfigureKeys()
 		dlg.insert( (*it)->actionCollection() );
 	}
 	dlg.configure();
-	actionCollection()->writeShortcutSettings("ToolShortcuts", config);
+	actionCollection()->writeShortcutSettings("Shortcuts", config);
 }
 
 void Kile::ConfigureToolbars()

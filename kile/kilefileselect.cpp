@@ -30,6 +30,7 @@ from Kate (C) 2001 by Matt Newell
 #include <kurlcompletion.h>
 #include <kprotocolinfo.h>
 #include <kconfig.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kcharsets.h>
@@ -90,6 +91,23 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
 
 KileFileSelect::~KileFileSelect()
 {
+}
+
+void KileFileSelect::readConfig()
+{
+	KConfig *config = KGlobal::config();
+	config->setGroup("Files");
+	QString lastDir = config->readPathEntry("lastDir");
+	QFileInfo ldi(lastDir);
+	if ( ! ldi.isReadable() ) dir->home();
+	else setDir(KURL::fromPathOrURL(lastDir));
+}
+
+void KileFileSelect::writeConfig()
+{
+	KConfig *config = KGlobal::config();
+	config->setGroup("Files");
+	config->writePathEntry("lastDir", dir->url().path());
 }
 
 void KileFileSelect::setView(KFile::FileView view)

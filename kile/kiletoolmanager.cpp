@@ -434,6 +434,15 @@ namespace KileTool
 		config->setGroup("ToolsGUI");
 		config->writeEntry(tool, entry);
 	}
+
+	QString categoryFor(const QString &clss)
+	{
+		if ( clss == "Compile" || clss == "LaTeX" ) return "Compile";
+		if ( clss == "Convert" ) return "Convert";
+		if ( clss == "View" || clss == "ViewBib" || clss == "ViewHTML" || clss == "ForwardDVI" ) return "View";
+		if ( clss == "Sequence" ) return "Sequence";
+		return "Base";
+	}
 }
 
 #include "kiletoolmanager.moc"

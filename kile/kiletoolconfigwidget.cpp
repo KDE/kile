@@ -292,7 +292,7 @@ namespace KileWidget
 	{
 		KConfig *config = m_manager->config();
 		config->setGroup(KileTool::groupFor(tool, cfg));
-		config->writeEntry("category", "Compile");
+		//config->writeEntry("category", "Compile");
 		config->writeEntry("class", "Compile");
 		config->writeEntry("type", "Process");
 		config->writeEntry("menu", "Compile");
@@ -540,12 +540,12 @@ namespace KileWidget
 
 		QHBox *box = new QHBox(this); m_layout->addMultiCellWidget(box, row, row, 0, m_layout->numCols()-1, Qt::AlignLeft);
 		box->setSpacing(5);
-		QString cat = (*m_map)["category"];
+		QString cat = KileTool::categoryFor((*m_map)["class"]);
 		QString extFrom = (*m_map)["from"], extTo = (*m_map)["to"];
 		bool src = true, trg = true;
 		QString from = i18n("&Source file extension"), to = i18n("&Target file extension");
 
-		if ( (cat == "Compile")  && (extFrom == "") ) { src = false; }
+		if ( (cat == "Compile" )  && (extFrom == "") ) { src = false; }
 		else if ( cat == "View" ) { src = false; to = i18n("&Extension"); }
 		else if ( cat == "Sequence" ) { src = trg = false; }
 

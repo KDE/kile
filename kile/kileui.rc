@@ -129,6 +129,7 @@
 	<Action name="project_close"/>
 </Menu>
 <Menu name="menu_latex"><text>&amp;LaTeX</text><!-- menu4 !-->
+	<Action name="menuUserTags"/>
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>
 	<Action name="tag_amspackages"/>
@@ -271,10 +272,6 @@
 	<Action name="129"/>
 	<Action name="130"/>
 	<Action name="149"/>
-</Menu>
-<Menu name="menu9"><text>&amp;User</text>
-	<Action name="menuUserTags"/>
-	<Action name="menuUserTools"/>
 </Menu>
 
 <Merge/>

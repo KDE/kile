@@ -134,11 +134,10 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	
 	// update value of texinput path 
 	QString texinputpath = KileConfig::teXPaths();
-	QString inputdir = QFileInfo(textfilename).dirPath(true);
-	if ( texinputpath.isEmpty() )
- 		KileConfig::setTeXPaths(inputdir);
-	else
-		KileConfig::setTeXPaths(inputdir + ":" + texinputpath);
+	QString inputdir = QFileInfo(m_ki->getCompileName()).dirPath(true);
+	if ( ! texinputpath.isEmpty() )
+		inputdir += ":" + texinputpath;
+ 	KileConfig::setTeXPaths(inputdir);
 	
 	// prepare tools
 	QString filepath = m_tempfile.left( m_tempfile.length()-3 ); 

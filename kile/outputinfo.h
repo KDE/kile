@@ -65,7 +65,7 @@ class OutputInfo
         void Clear();
 
 	private:
-        QString m_strSrcFile;
+        QString m_strSrcFile, m_file;
         int m_nSrcLine;
         QString m_strError;
         int m_nErrorID;

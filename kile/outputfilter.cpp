@@ -20,15 +20,14 @@
 #include <assert.h>
 
 #include <kdebug.h>
+#include <ktextedit.h>
 #include "outputfilter.h"
 
 using namespace std;
 
-OutputFilter::OutputFilter( MessageWidget* LogWidget, MessageWidget* OutputWidget)
+OutputFilter::OutputFilter() :
+	m_log(QString::null)
 {
-    m_log = 0L;
-    m_LogWidget = LogWidget;
-    m_OutputWidget = OutputWidget;
 }
 
 OutputFilter::~ OutputFilter()
@@ -52,9 +51,10 @@ unsigned int OutputFilter::Run(QString logfile)
 	short sCookie = 0;
 	QString s;
 	QFile f(logfile);
-	
+
+	m_log = QString::null;
 	m_nOutputLines = 0;
-	
+
 	if ( f.open(IO_ReadOnly) )
 	{
 		QTextStream t( &f );
@@ -63,7 +63,7 @@ unsigned int OutputFilter::Run(QString logfile)
 			s=t.readLine()+"\n";
 			sCookie = ParseLine(s,sCookie);
 			m_nOutputLines++;
-			if (m_log)  (*m_log) += s;
+			m_log += s;
 		}
 		f.close();
 	}
@@ -77,12 +77,4 @@ int OutputFilter::GetCurrentOutputLine() const
     return m_nOutputLines;
 }
 
-
-/** Adds the specified line of text to the putput view.
-
-Can be used in addition to add text to the output view (comments etc.) */
-void OutputFilter::AddLine(QString line)
-{
-    if (m_OutputWidget)
-        m_OutputWidget->append(line);
-}
+#include "outputfilter.moc"

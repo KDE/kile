@@ -29,6 +29,7 @@
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
 
+
 namespace KileTool
 {
 	Base::Base(const QString &name, Manager * manager) :
@@ -297,7 +298,7 @@ namespace KileTool
 		if ( result == Success )
 			sendMessage(Info,"Done!");
 
-		kdDebug() << "\temitting done(Base*) " << name() << endl;
+		kdDebug() << "\temitting done(Base*, int) " << name() << endl;
 		emit(done(this, result));
 	
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
@@ -354,7 +355,7 @@ namespace KileTool
 	
 	void Base::sendMessage(int type, const QString &msg)
 	{
-		emit(message(type, "<b>["+m_name+"]</b> " + msg));
+		emit(message(type, msg, name()));
 	}
 
 	void Base::filterOutput(char * buf, int len)

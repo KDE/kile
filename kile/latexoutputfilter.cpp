@@ -20,21 +20,20 @@
 #include <assert.h>
 
 #include <kdebug.h>
+#include <ktextedit.h>
 
 #include "latexoutputfilter.h"
+#include "kiletool_enums.h"
 
 using namespace std;
 
-LatexOutputFilter::LatexOutputFilter(   LatexOutputInfoArray* LatexOutputInfoArray ,
-MessageWidget* LogWidget,
-MessageWidget* OutputWidget ):
-OutputFilter( LogWidget, OutputWidget ),
-m_nErrors(0),
-m_nWarnings(0),
-m_nBadBoxes(0),
-m_nOutputPages(0),
-m_bFileNameOverLines(false),
-m_InfoList(LatexOutputInfoArray)
+LatexOutputFilter::LatexOutputFilter(   LatexOutputInfoArray* LatexOutputInfoArray ):
+	m_nErrors(0),
+	m_nWarnings(0),
+	m_nBadBoxes(0),
+	m_nOutputPages(0),
+	m_bFileNameOverLines(false),
+	m_InfoList(LatexOutputInfoArray)
 {
 }
 
@@ -408,30 +407,27 @@ bool LatexOutputFilter::OnTerminate()
 
 unsigned int LatexOutputFilter::Run(QString logfile)
 {
-    m_InfoList->clear();
-    m_nErrors = m_nWarnings = m_nBadBoxes = 0;
-    unsigned int result = OutputFilter::Run(logfile);
+	m_InfoList->clear();
+	m_nErrors = m_nWarnings = m_nBadBoxes = 0;
+	unsigned int result = OutputFilter::Run(logfile);
 
-    if (m_LogWidget)
-    {
-		QString Message;
-		QString color;
+	QString Message;
+	int type;
 
-		//print detailed error info
-		for (uint i=0; i < m_InfoList->count() ; i++)
+	//print detailed error info
+	for (uint i=0; i < m_InfoList->count() ; i++)
+	{
+		Message = QString("%1:%2:%3").arg((*m_InfoList)[i].source()).arg((*m_InfoList)[i].sourceLine()).arg((*m_InfoList)[i].message());
+		switch ( (*m_InfoList)[i].type()  )
 		{
-			Message = QString("%1:%2:%3").arg((*m_InfoList)[i].source()).arg((*m_InfoList)[i].sourceLine()).arg((*m_InfoList)[i].message());
-			switch ( (*m_InfoList)[i].type()  )
-			{
-				case LatexOutputInfo::itmBadBox	: color = "black"; break;
-				case LatexOutputInfo::itmError		: color = "red"; break;
-				case LatexOutputInfo::itmWarning	: color = "blue"; break;
-				default : color="black";break;
-			}
-			Message = "<font color="+color+">"+Message+"</font>";
-			m_LogWidget->append(Message);
+			case LatexOutputInfo::itmBadBox	: type = KileTool::Info; break;
+			case LatexOutputInfo::itmError	: type = KileTool::Error; break;
+			case LatexOutputInfo::itmWarning	: type = KileTool::Warning; break;
+			default : type = KileTool::Info; break;
 		}
-    }
+		emit(problem(type, Message));
+	}
+
     return result;
 }
 

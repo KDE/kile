@@ -87,6 +87,7 @@
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
+#include "kilelogwidget.h"
 
 Kile::Kile( bool rest, QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -222,7 +223,11 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	Outputview=new QTabWidget(splitter2);
 	Outputview->setFocusPolicy(QWidget::ClickFocus);
 
-	LogWidget = new MessageWidget( Outputview );
+	//LogWidget = new MessageWidget( Outputview );
+	LogWidget = new KileWidget::LogMsg( this, Outputview );
+	connect(LogWidget, SIGNAL(fileOpen(const KURL&, const QString & )), this, SLOT(fileOpen(const KURL&, const QString& )));
+	connect(LogWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
+
 	LogWidget->setFocusPolicy(QWidget::ClickFocus);
 	LogWidget->setMinimumHeight(40);
 	LogWidget->setReadOnly(true);
@@ -238,11 +243,12 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	errorlist=new QStrList();
 	warnlist=new QStrList();
 	m_nCurrentError=-1;
-	m_OutputInfo=new LatexOutputInfoArray();
-	m_OutputFilter=new LatexOutputFilter( m_OutputInfo,LogWidget,OutputWidget );
-	m_OutputFilter->setLog(&tempLog);
-	//m_OutputFilter=new LatexOutputFilter( m_OutputInfo );
-	connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
+	m_outputInfo=new LatexOutputInfoArray();
+	m_outputFilter=new LatexOutputFilter( m_outputInfo );
+	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), LogWidget, SLOT(printProblem(int, const QString& )));
+//	m_outputFilter->setLog(&tempLog);
+	//m_outputFilter=new LatexOutputFilter( m_outputInfo );
+	//connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
 	texkonsole=new TexKonsoleWidget(Outputview,"konsole");
 	Outputview->addTab(texkonsole,SmallIcon("konsole"),i18n("Konsole"));
@@ -2277,29 +2283,6 @@ if (htmlpresent)
  }
 }
 
-void Kile::recvMessage(int type, const QString & msg)
-{
-	kdDebug() << "received message (" << type << "): " << msg << endl;
-	QString ot = "", ct = "";
-
-	switch (type)
-	{
-		case KileTool::Warning :
-			ot = "<font color='blue'>";
-			ct = "</font>";
-			break;
-		case KileTool::Error :
-			ot = "<font color='red'>";
-			ct = "</font>";
-			break;
-		default :
-			ot = ""; ct = "";
-			break;
-	}
-
-	LogWidget->append(ot+msg+ct);
-}
-
 void Kile::recvOutput(char *buffer, int buflen)
 {
 	kdDebug() << "received output: " << buffer << endl;
@@ -2313,7 +2296,6 @@ void Kile::recvOutput(char *buffer, int buflen)
 
 void Kile::QuickBuild()
 {
-	//TODO: implement Watch File feature
 	m_manager->run("QuickBuild");
 }
 
@@ -2419,7 +2401,7 @@ void Kile::CleanAll()
 	{ 
 		LogWidget->clear(); 
 		logpresent=false; 
-		LogWidget->insertLine(i18n("Cleaning up...")); 
+		LogWidget->append(i18n("Cleaning up...")); 
 		
 		QDir::setCurrent( fic.dirPath() ); 
 		for (uint i=0; i < fileList.count(); i++) 
@@ -2428,7 +2410,7 @@ void Kile::CleanAll()
 			file.remove(); 
 		} 
 		
-		LogWidget->insertLine(i18n("Done")); 
+		LogWidget->append(i18n("Done")); 
  	} 
  }
 
@@ -2483,12 +2465,12 @@ void Kile::slotProcessExited(KProcess* proc)
 {
 	if (m_bCheckForLaTeXErrors)
 	{
-		LatexError();
+		//LatexError();
 		m_bCheckForLaTeXErrors=false;
 	}
 
 	QString result;
-	m_OutputFilter->GetErrorCount(&m_nErrors, &m_nWarnings, &m_nBadBoxes);
+	m_outputFilter->GetErrorCount(&m_nErrors, &m_nWarnings, &m_nBadBoxes);
 	if (m_nErrors !=0 || m_nWarnings != 0 || m_nBadBoxes != 0)
 	{
 		result = i18n("Process exited with %1 errors, %2 warnings and %3 bad boxes.").
@@ -2533,31 +2515,6 @@ void Kile::HtmlPreview()
 	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
 	connect(tool, SIGNAL(updateStatus(bool, bool)), this, SLOT(updateNavAction( bool, bool)));
 	m_manager->run(tool);
-
-/*	kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
-
-	QString finame;
-	//if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
-
-	kdDebug() << "\tfiname=" << finame << endl;
-
-	LogWidget->clear();
-	logpresent=false;
-
-	QFileInfo fih(finame);
-
-	ResetPart();
-	m_wantState = "HTMLpreview";
-	
-   htmlpart = new docpart(topWidgetStack,"help");
-   connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-   htmlpresent=true;
-   htmlpart->openURL(finame);
-   htmlpart->addToHistory(finame);
-   topWidgetStack->addWidget(htmlpart->widget() , 1 );
-   topWidgetStack->raiseWidget(1);
-   partManager->addPart(htmlpart, true);
-   partManager->setActivePart( htmlpart);*/
 }
 
 void Kile::Bibtexeditor()
@@ -2567,7 +2524,7 @@ void Kile::Bibtexeditor()
 
 void Kile::execUserTool(int i)
 {
-	//TODO: port this to new KileTool classes
+	//FIXME: port this to new KileTool classes
 	Kate::View *view = currentView();
 	QString finame;
 	QString commandline=m_listUserTools[i].tag;
@@ -2595,7 +2552,7 @@ void Kile::execUserTool(int i)
 			if (KMessageBox::warningContinueCancel(this,i18n("Please open or create a document before you execute this tool."))
 				== KMessageBox::Cancel)
 			{
-				LogWidget->insertLine(i18n("Process canceled by user."));
+				LogWidget->append(i18n("Process canceled by user."));
 				return;
 			}
 
@@ -2712,11 +2669,19 @@ void Kile::ViewLog()
 {
 	Outputview->showPage(LogWidget);
 	logpresent=false;
-	LatexError();
 
-	if (tempLog != QString::null)
+	QString cn = getCompileName();
+	if ( m_outputFilter->source() !=  cn )
 	{
-		LogWidget->setText(tempLog);
+		m_outputFilter->setSource(cn);
+		m_outputFilter->Run(cn.replace(QRegExp("\\..*$"),".log"));
+	}
+
+	QString log = m_outputFilter->log();
+
+	if (log != QString::null)
+	{
+		LogWidget->setText(log);
 		LogWidget->highlight();
 		LogWidget->scrollToBottom();
 		//newStatus();
@@ -2724,122 +2689,33 @@ void Kile::ViewLog()
 	}
 	else
 	{
-		LogWidget->insertLine(i18n("Cannot open log file! Did you run LaTeX?"));
+		LogWidget->append(i18n("Cannot open log file! Did you run LaTeX?"));
 	}
+
 	tempLog=QString::null;
 }
 
-void Kile::ClickedOnOutput(int parag, int /*index*/)
-{
-	int l = parag;
-
-	QString s = LogWidget->text(parag);
-	QString file = QString::null;
-
-	static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
-	//log not present, maybe there is an error summary
-	if ( (!logpresent) && ( reES.search(s) != -1 ) )
-	{
-		l = reES.cap(2).toInt() - 1;
-		file = reES.cap(1);
-	}
-	else
-	if (logpresent)
-	{
-		//look for error at line parag
-		for (uint i=0; i< m_OutputInfo->size(); i++)
-		{
-			if ( (*m_OutputInfo)[i].outputLine() == parag)
-			{
-				file = (*m_OutputInfo)[i].source();
-				l = (*m_OutputInfo)[i].sourceLine() - 1;
-			}
-		}
-	}
-	else
-		return;
-
-	if (file.left(2) == "./" )
-	{
-		file = QFileInfo(getCurrentTarget()).dirPath(true) + "/" + file.mid(2);
-	}
-
-	if (file[0] != '/' )
-	{
-		file = QFileInfo(getCurrentTarget()).dirPath(true) + "/" + file;
-	}
-
-	kdDebug() << "==Kile::ClickedOnOutput()====================" << endl;
-	kdDebug() << "\tfile="<<file<<endl;
-
-	QFileInfo fi(file);
-	if ( (file == QString::null) || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
-	{
-		file = getCurrentTarget();
-		l=-1;
-	}
-
-	fi.setFile(file);
-
-	if ( fi.isReadable() )
-	{
-		kdDebug() << "jumping to (" << l << ") " << file << endl;
-		fileOpen(KURL::fromPathOrURL(file));
-		if (l >= 0) setLine(QString::number(l));
-	}
-}
 ////////////////////////// ERRORS /////////////////////////////
-void Kile::LatexError(bool /*warnings*/)
-{
-	m_nErrors=m_nWarnings=m_nBadBoxes=0;
-	m_bNewInfolist=true;
-
-	QString s,num;
-	tempLog=QString::null;
-
-	QString finame;
-	//TODO: port to new KileTool classes
-//	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
-	QFileInfo fic(finame);
-	QFile f(finame);
-
-	m_OutputFilter->Run( finame );
-
-	kdDebug() << "===LatexError()===================" << endl;
-	kdDebug() << "Total: " << m_OutputInfo->size() << " Infos reported" << endl;
-	for (uint i =0; i<m_OutputInfo->size();i++)
-	{
-		if ( (*m_OutputInfo)[i].type() == LatexOutputInfo::itmError ) m_nErrors++;
-		if ( (*m_OutputInfo)[i].type() == LatexOutputInfo::itmWarning ) m_nWarnings++;
-		if ( (*m_OutputInfo)[i].type() == LatexOutputInfo::itmBadBox ) m_nBadBoxes++;
-		kdDebug() << (*m_OutputInfo)[i].type() << " in file <<" << (*m_OutputInfo)[i].source()
-		<< ">> (line " << (*m_OutputInfo)[i].sourceLine()
-		<< ") [Reported in line " << (*m_OutputInfo)[i].outputLine() << "]" << endl;
-	}
-	
-	kdDebug() << "\terrors="<<m_nErrors<<" warnings="<<m_nWarnings<<" badboxes="<<m_nBadBoxes<<endl;
-}
-
 void Kile::jumpToProblem(int type, bool forward)
 {
 	static LatexOutputInfoArray::iterator it;
 
 	if (!logpresent) {ViewLog();}
 
-	if (logpresent && !m_OutputInfo->isEmpty())
+	if (logpresent && !m_outputInfo->isEmpty())
 	{
 		Outputview->showPage(LogWidget);
 
-		int sz = m_OutputInfo->size();
+		int sz = m_outputInfo->size();
 		int pl = forward ? 1 : -1;
 
 		//look for next problem of type
 		for (int i=m_nCurrentError+pl; (i < sz) && (i >= 0); i += pl )
 		{
-			if ( (*m_OutputInfo)[i].type() == type )
+			if ( (*m_outputInfo)[i].type() == type )
 			{
 				m_nCurrentError = i;
-				int l= (*m_OutputInfo)[i].outputLine();
+				int l= (*m_outputInfo)[i].outputLine();
 				LogWidget->setCursorPosition(l+pl * 3 , 0);
 				LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 
@@ -2848,9 +2724,9 @@ void Kile::jumpToProblem(int type, bool forward)
 		}
 	}
 
-	if (logpresent && m_OutputInfo->isEmpty())
+	if (logpresent && m_outputInfo->isEmpty())
 	{
-		LogWidget->insertLine(i18n("No LaTeX errors detected!"));
+		LogWidget->append(i18n("No LaTeX errors detected!"));
 	}
 
 	m_bNewInfolist = false;
@@ -2982,8 +2858,8 @@ void Kile::insertGraphic(const KileAction::TagData& data)
 
 	if (fi.extension(false) =="eps")
 	{
-		LogWidget->insertLine("*************  ABOUT THIS IMAGE  *************");
-		LogWidget->insertLine(DetectEpsSize(fi.absFilePath()));
+		LogWidget->append("*************  ABOUT THIS IMAGE  *************");
+		LogWidget->append(DetectEpsSize(fi.absFilePath()));
 	}
 }
 
@@ -3322,7 +3198,7 @@ else
   LogWidget->clear();
   Outputview->showPage(LogWidget);
   logpresent=false;
-  LogWidget->insertLine(i18n("Launched: %1").arg("xfig"));
+  LogWidget->append(i18n("Launched: %1").arg("xfig"));
   }
 }
 

@@ -99,6 +99,7 @@ class KileProjectView;
 class TemplateItem;
 
 namespace KileTool { class Manager; class Factory; }
+namespace KileWidget { class LogMsg; }
 
 #ifndef KILE_USERITEM
 struct userItem
@@ -173,7 +174,8 @@ private:
 	KMultiVertTabBar 		*ButtonBar;
 	SymbolView 				*symbol_view;
 	metapostview 				*mpview;
-    MessageWidget 			*OutputWidget, *LogWidget;
+    MessageWidget 			*OutputWidget;
+    KileWidget::LogMsg *LogWidget;
     TexKonsoleWidget		*texkonsole;
 	QTabWidget 				*tabWidget, *Outputview;
 	QFrame 						*Structview;
@@ -503,15 +505,11 @@ private slots:
 	void GrepItemSelected(const QString &abs_filename, int line);
 
 public slots:
-	void recvMessage(int type, const QString & msg);
 	void recvOutput(char *buf, int len);
 
 /* log view, error handling */
 private slots:
 	void ViewLog();
-	void ClickedOnOutput(int parag, int index);
-	void QuickLatexError() { LatexError(false);}
-	void LatexError(bool warnings=true);
 	void NextError();
 	void PreviousError();
 	void NextWarning();
@@ -531,8 +529,8 @@ private:
 	int 				m_nErrors,m_nWarnings,m_nBadBoxes, m_nCurrentError;
 	bool 				m_bCheckForLaTeXErrors;
 	bool 				m_bNewInfolist;
-	LatexOutputInfoArray	*m_OutputInfo;
-	LatexOutputFilter		*m_OutputFilter;
+	//LatexOutputInfoArray	*m_OutputInfo;
+	//LatexOutputFilter		*m_OutputFilter;
 	KileTool::Manager		*m_manager;
 	KileTool::Factory		*m_toolFactory;
 

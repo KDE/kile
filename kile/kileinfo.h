@@ -23,6 +23,9 @@
 
 #include <kdebug.h>
 
+#include "latexoutputfilter.h"
+#include "latexoutputinfo.h"
+
 class KURL;
 
 class KileDocumentInfo;
@@ -83,6 +86,9 @@ public:
 
 	bool checkForRoot() { return m_bCheckForRoot; }
 	bool watchFile() { return m_bWatchFile; }
+
+	LatexOutputFilter * outputFilter() { return m_outputFilter; }
+	LatexOutputInfoArray * outputInfo() { return m_outputInfo; }
 	
 	virtual int lineNumber() = 0;
 	
@@ -103,6 +109,9 @@ protected:
 	QString			m_currentTarget;
 	
 	bool m_bCheckForRoot, m_bWatchFile;
+
+	LatexOutputFilter	*m_outputFilter;
+	LatexOutputInfoArray	*m_outputInfo;
 };
 
 #endif

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qfileinfo.h>
+#include <qregexp.h>
 
 #include <kconfig.h>
 #include <klocale.h>
@@ -28,14 +29,16 @@
 #include "kileinfo.h"
 #include "kilelistselector.h"
 
+#include "latexoutputinfo.h"
+
 namespace KileTool
 {
 	Base* Factory::create(const QString & tool)
 	{
-		/*if ( tool == "LaTeX")
+		if ( tool == "LaTeX")
 			return new LaTeX(m_manager);
 
-		if ( tool == "TeX" )
+		/*if ( tool == "TeX" )
 			return new TeX(m_manager);
 
 		if ( tool == "ViewDVI" )
@@ -225,6 +228,34 @@ namespace KileTool
 		m_config->setGroup("Tools");
 		m_config->writeEntry("Quick Mode", 1);
 		m_config->sync();
+	}
+
+	bool LaTeX::finish(int r)
+	{
+		QString finame = source();
+		manager()->info()->outputFilter()->setSource( finame);
+		finame.replace(QRegExp("\\..*$"), ".log");
+
+		//manager()->info()->outputFilter()->Run( "/home/wijnhout/test.log" );
+		manager()->info()->outputFilter()->Run(finame);
+
+		int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
+		kdDebug() << "===LatexError()===================" << endl;
+		kdDebug() << "Total: " << manager()->info()->outputInfo()->size() << " Infos reported" << endl;
+		for (uint i =0; i<manager()->info()->outputInfo()->size();i++)
+		{
+			if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmError ) nErrors++;
+			if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning ) nWarnings++;
+			if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmBadBox ) nBadBoxes++;
+			kdDebug() << (*manager()->info()->outputInfo())[i].type() << " in file <<" << (*manager()->info()->outputInfo())[i].source()
+			<< ">> (line " << (*manager()->info()->outputInfo())[i].sourceLine()
+			<< ") [Reported in line " << (*manager()->info()->outputInfo())[i].outputLine() << "]" << endl;
+		}
+
+		kdDebug() << "\terrors="<< nErrors<<" warnings="<< nWarnings<<" badboxes="<< nBadBoxes<<endl;
+		sendMessage(Info, i18n("%1 errors, %2 warings and %3 badboxes").arg(nErrors).arg(nWarnings).arg(nBadBoxes));
+
+		return Compile::finish(r);
 	}
 
 	bool ForwardDVI::determineTarget()

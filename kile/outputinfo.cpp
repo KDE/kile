@@ -24,15 +24,14 @@ OutputInfo::OutputInfo()
 
 
 OutputInfo::OutputInfo(QString strSrcFile, int nSrcLine, int nOutputLine,
-QString strError , int nErrorID /*=-1*/)                                        /*=""*/
+QString strError , int nErrorID /*=-1*/) :
+    m_strSrcFile(strSrcFile),
+    m_nSrcLine(nSrcLine),
+    m_nOutputLine(nOutputLine),
+    m_strError(strError),
+    m_nErrorID(nErrorID)
 {
-    m_strSrcFile = strSrcFile;
-    m_nSrcLine = nSrcLine;
-    m_nOutputLine = nOutputLine;
-    m_strError = strError;
-    m_nErrorID = nErrorID;
 }
-
 
 /** Clears all attributes. */
 void OutputInfo::Clear()

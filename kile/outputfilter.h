@@ -23,56 +23,51 @@
 #include <qwidget.h>
 
 #include "outputinfo.h"
-#include "messagewidget.h"
 
 /**An object of this class is used to parse the output messages
 of any third-party tool.
-
+ 
 @author Thorsten Lück
   *@author Jeroen Wijnhout
   */
 
-class OutputFilter
+class KTextEdit;
+
+class OutputFilter : public QObject
 {
-    public:
-        OutputFilter(MessageWidget *LogWidget = NULL, MessageWidget* OutputWidget = NULL);
-        virtual ~OutputFilter();
+    Q_OBJECT
 
-    protected:
+public:
+    OutputFilter();
+    virtual ~OutputFilter();
 
-    public:
-        virtual unsigned int Run(QString logfile);
-        /** Adds the specified line of text to the putput view.
+protected:
 
-        Can be used in addition to add text to the output view (comments etc.) */
-        void AddLine(QString line);
-        void setLog(QString *log) { m_log = log; }
+public:
+    virtual unsigned int Run(QString logfile);
 
-    protected:
-        virtual short ParseLine(QString strLine, short dwCookie);
-        virtual bool OnTerminate();
-        /**
-        Returns the zero based index of the currently parsed line in the
-        output file.
-        */
-        int GetCurrentOutputLine() const;
+    //void setLog(const QString &log) { m_log = log; }
+    const QString & log() const { return m_log; }
 
-    private:
+    void setSource(const QString &src) { m_source = src; }
+    const QString & source() const  { return m_source; }
 
-        // types
-    protected:
+signals:
+    void problem(int, const QString &);
+    void output(const QString &);
 
-        // attributes
-    private:
-        /** Number of current line in output file */
-        unsigned int m_nOutputLines;
-	QString * m_log;
+protected:
+    virtual short ParseLine(QString strLine, short dwCookie);
+    virtual bool OnTerminate();
+    /**
+    Returns the zero based index of the currently parsed line in the
+    output file.
+    */
+    int GetCurrentOutputLine() const;
 
-    protected:
-        /** the view, the errors and warnings are reported to */
-        MessageWidget *m_LogWidget;
-
-        /** the view, where the logfile is printed to */
-        MessageWidget *m_OutputWidget;
+private:
+    /** Number of current line in output file */
+    unsigned int	m_nOutputLines;
+    QString		m_log, m_source;
 };
 #endif

@@ -20,6 +20,8 @@
 #include <qobject.h>
 
 class KileInfo;
+namespace KileWidget { class LogMsg; }
+
 class KConfig;
 class KTextEdit;
 class KAction;
@@ -36,7 +38,7 @@ namespace KileTool
 		Q_OBJECT
 		
 	public:
-		Manager(KileInfo *ki, KConfig *config, KTextEdit *log, KTextEdit *output, KParts::PartManager *, QWidgetStack *, KAction *);
+		Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KTextEdit *output, KParts::PartManager *, QWidgetStack *, KAction *);
 		~Manager();
 
 	public:
@@ -55,7 +57,7 @@ namespace KileTool
 		Factory* factory() { return m_factory; }
 
 	public slots:
-		void recvMessage(int, const QString &);
+		void recvMessage(int, const QString &, const QString & = "Kile" );
 		void recvOutput(char *, int);
 		
 		void started(Base*);
@@ -73,7 +75,8 @@ namespace KileTool
 	private:
 		KileInfo		*m_ki;
 		KConfig		*m_config;
-		KTextEdit		*m_log, *m_output;
+		KileWidget::LogMsg		*m_log;
+		KTextEdit*m_output;
 		KParts::PartManager	*m_pm;
 		QWidgetStack 			*m_stack;
 		KAction				*m_stop;

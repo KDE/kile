@@ -43,13 +43,18 @@ namespace KileTool
 		KConfig		*m_config;
 	};
 
-	/*class LaTeX : public Compile
+	class LaTeX : public Compile
 	{
+		Q_OBJECT
+
 	public:
 		LaTeX(Manager *mngr) : Compile("LaTeX", mngr) {}
+
+	public slots:
+		bool finish(int);
 	};
 	
-	class TeX : public Compile
+	/*class TeX : public Compile
 	{
 	public:
 		TeX(Manager *mngr) : Compile("TeX", mngr) {}

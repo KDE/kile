@@ -26,6 +26,7 @@
 
 /**
   *@author Brachet Pascal
+  @author Jeroen Wijnhout
   */
 
 class TexKonsoleWidget : public QWidget

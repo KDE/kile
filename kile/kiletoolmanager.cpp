@@ -30,10 +30,11 @@
 #include "kiletool_enums.h"
 #include "kiletool.h"
 #include "kilestdtools.h"
+#include "kilelogwidget.h"
  
 namespace KileTool
 {
-	Manager::Manager(KileInfo *ki, KConfig *config, KTextEdit *log, KTextEdit *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KTextEdit *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop) :
 		m_ki(ki),
 		m_config(config),
 		m_log(log),
@@ -53,14 +54,14 @@ namespace KileTool
 	{
 		if (!m_factory)
 		{
-			recvMessage(Error, i18n("<b>[Kile]</b> No factory installed, contact the author of Kile."));
+			recvMessage(Error, i18n("No factory installed, contact the author of Kile."));
 			return;
 		}
 	
 		Base* pTool = m_factory->create(tool);
 		if (!pTool)
 		{
-			recvMessage(Error, i18n("<b>[Kile]</b> Unknown tool %1.").arg(tool));
+			recvMessage(Error, i18n("Unknown tool %1.").arg(tool));
 			return;
 		}
 		
@@ -79,7 +80,7 @@ namespace KileTool
 		tool->setInfo(m_ki);
 		tool->setConfig(m_config);
 
-		connect(tool, SIGNAL(message(int, const QString &)), this, SLOT(recvMessage(int, const QString &)));
+		connect(tool, SIGNAL(message(int, const QString &, const QString &)), this, SLOT(recvMessage(int, const QString &, const QString &)));
 		connect(tool, SIGNAL(output(char *,int)), this, SLOT(recvOutput(char *, int)));
 		connect(tool, SIGNAL(done(Base*,int)), this, SLOT(done(Base*, int)));
 		connect(tool, SIGNAL(start(Base* )), this, SLOT(started(Base*)));
@@ -122,7 +123,7 @@ namespace KileTool
 		else
 		{
 			kdDebug() << "\tgroup " << group << " not found" << endl;
-			recvMessage(Error, i18n("[Kile] Can't find the tool %1 in the configuration database.").arg(tool->name()));
+			recvMessage(Error, i18n("Can't find the tool %1 in the configuration database.").arg(tool->name()));
 			return false;
 		}
 
@@ -142,27 +143,9 @@ namespace KileTool
 		emit(requestGUIState(state));
 	}
 	
-	void Manager::recvMessage(int type, const QString & msg)
+	void Manager::recvMessage(int type, const QString & msg, const QString & tool)
 	{
-		//kdDebug() << "received message (" << type << "): " << msg << endl;
-		QString ot = "", ct = "";
-	
-		switch (type)
-		{
-			case Warning :
-				ot = "<font color='blue'>";
-				ct = "</font>";
-				break;
-			case Error :
-				ot = "<font color='red'>";
-				ct = "</font>";
-				break;
-			default :
-				ot = ""; ct = "";
-				break;
-		}
-	
-		m_log->append(ot+msg+ct);
+		m_log->printMsg(type, msg, tool);
 	}
 	
 	void Manager::recvOutput(char *buffer, int buflen)

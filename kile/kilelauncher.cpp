@@ -168,7 +168,7 @@
 					type = Error;
 					emit(message(type,i18n("finished with exit status %1").arg(m_proc->exitStatus())));
 				}
-	
+
 				if (type == Info)
 					emit(done(Success));
 				else

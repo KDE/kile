@@ -12,6 +12,7 @@
   <!ENTITY gbib "<application>gBib</application>">
   <!ENTITY makeidx "<application>makeidx</application>">
   <!ENTITY kate "<application>Kate</application>">
+  <!ENTITY xfig "<application>XFig</application>">
   <!ENTITY kappname "&kile;">
   <!ENTITY package "kdeextragear-2">
   <!ENTITY % addindex "IGNORE">
@@ -96,8 +97,8 @@
 
 		<itemizedlist>
 			<listitem><para><ulink url="http://devel-home.kde.org/~kdvi/">&kdvi;</ulink>: DVI viewer for &kde;.</para></listitem>
-			<listitem><para><ulink url="http://www.gnuplot.info/">Gnuplot</ulink>: Scientific plotting package.</para></listitem>
-			<listitem><para><ulink url="http://www.xfig.org/">XFig</ulink>: Drawing program for X window.</para></listitem>
+			<listitem><para><ulink url="http://www.gnuplot.info/">&gnuplot;</ulink>: scientific plotting package.</para></listitem>
+			<listitem><para><ulink url="http://www.xfig.org/">&xfig;</ulink>: drawing program for X window.</para></listitem>
 		</itemizedlist>
 
 		<para>Some of these items might be included in your Linux distribution; please refer to your
@@ -146,7 +147,7 @@
 			ability to use all the functionalities of &latex; in a graphical interface, giving you easy,
 			immediate, and customised access to all programs for &latex; compiling, postprocessing,
 			debugging, conversion and viewing tools; you also get very handy wizards, a &latex;
-			reference, interfaces with &gnuplot; and XFig, and project management.</para>
+			reference, interfaces with &gnuplot; and &xfig;, and project management.</para>
 
 		</sect2>
 
@@ -478,10 +479,10 @@
 
 		<title>Writing a &latex; Document with &kile; for Beginners</title>
 
-		<para>An user of &kile; has two choices when starting a new document: she or he can
-		use the <guimenu>Wizard</guimenu> to begin a new document, selecting the type of document they
+		<para>Users of &kile; have two choices when starting a new document: they can use the 
+		<guimenu>Wizard</guimenu> to begin a new document, selecting the type of document they
 		would like to create and options such as font size, paper size, and so on; otherwise, 
-		she or he will write the code by hand.</para>
+		they can write the code by hand.</para>
 
 		<screen><userinput>
 		\documentclass[12pt]{article}
@@ -517,7 +518,7 @@
 		automatically for you, but only for the master document; if you have any child documents, you
 		have to save them by hand.</para>
 
-		<para>If your document didn't compile, check the log for errors. When using the Quickbuild
+		<para>If your document didn't compile, check the log for errors. When using the <guilabel>Quickbuild</guilabel>
 		key, the &kdvi; viewer should be launched automatically; if it does not, look at the log.</para>
 
 	</sect1>
@@ -545,7 +546,7 @@
 			<listitem><para><userinput>\begin{emph}</userinput> or <userinput>\begin{em}</userinput>: this command makes 
 			text italicised, and is valid until the code comes across a <userinput>\end{em}</userinput>,
 			<userinput>\end{emph}</userinput> or another environment. To italicise one word in a sentence, you
-			use the syntax: this is <userinput>\em{my}</userinput> sentence.</para></listitem>
+			can use the syntax: this is <userinput>\em{my}</userinput> sentence.</para></listitem>
 			<listitem><para><userinput>\bfseries{I'm making this text inside the brackets bold}</userinput>: this
 			command makes your text bold. The bold command will continue until a close brace is found.</para></listitem>
 			<listitem><para><userinput>\quote</userinput>: to create a quote inside your document; begin your quote
@@ -657,7 +658,7 @@
 			You will have to do a search of your files to check if your distribution has 
 			<filename>scrltx.sty</filename> included. If it is not included, you may 
 			<ulink url="http://valis.cs.uiuc.edu/~sariel/research/latex/srcltx.sty">download it</ulink>; copy it 
-			to a tex directory, for example <userinput>/usr/share/texmf/tex/latex/srcltx/</userinput>, and 
+			to a &tex; folder, for example <userinput>/usr/share/texmf/tex/latex/srcltx/</userinput>, and 
 			run <userinput><command>texhash</command></userinput> so that &latex; will know its whereabouts. 
 			Then you can set the following command in the preamble:</para>
 
@@ -720,8 +721,8 @@
 			and the summary of the error will be given.</para>
 
 			<para>The log file will explain the source of the error in your code. In the
-			editor, you can use the buttons in the toolbar labeled <guibutton>previous error</guibutton>
-			and <guibutton>next error</guibutton> to jump to and from errors. The log file always states
+			editor, you can use the buttons in the toolbar labeled <guibutton>Previous LaTeX Error</guibutton>
+			and <guibutton>Next LaTeX Error</guibutton> to jump to and from errors. The log file always states
 			in which line the error occurred. To view the line where an error occurred, click on the error
 			in the log window, and &kile; will take you to its line.</para>
 
@@ -748,7 +749,7 @@
 	</itemizedlist>
 
 	<para>If you selected an <guilabel>Empty document</guilabel>, you can either start writing a document from scratch, 
-	or you can use the wizard to quickly start a new document (see <xref linkend="intro_docwizard"/>)</para>
+	or you can use the wizard to quickly start a new document (see <xref linkend="intro_docwizard"/>).</para>
 
 
 	<sect1 id="startnew_templates">
@@ -830,7 +831,7 @@
 			home page</ulink>, too bad the commentaries are in Norwegian. Remember that you will need the
 			<filename>a0poster</filename> package, which is normally not in a standard &tetex; installation, so
 			you will have to <ulink url="http://lars.nummedal.net/LaTeX/A0poster/">download it</ulink>,
-			copy it to a tex directory, for example <userinput>/usr/share/texmf/tex/latex/a0poster/</userinput>, and 
+			copy it to a &tex; folder, for example <userinput>/usr/share/texmf/tex/latex/a0poster/</userinput>, and 
 			run <userinput><command>texhash</command></userinput> so that &latex; will know that is exists.</para>
 
 		</sect2>
@@ -843,12 +844,12 @@
 
 			<procedure>
 				<step><para>Go to <menuchoice><guimenu>Settings</guimenu><guimenuitem>Remove 
-				template</guimenuitem></menuchoice>;</para></step>
+				template...</guimenuitem></menuchoice>;</para></step>
 				<step><para>A dialog box will appear with all templates listed: select a template;</para></step>
-				<step><para>Click Remove, and your template will be removed.</para></step>
+				<step><para>Click <guilabel>OK</guilabel>, and your template will be removed.</para></step>
 			</procedure>
 			
-			<para>Templates marked with a * cannot be removed without the proper permission.</para>
+			<para>Templates marked with an asterisk (*) cannot be removed without the proper permission.</para>
 
 		</sect2>
 
@@ -889,7 +890,7 @@
 			<listitem><para>Hold left mouse button, and drag mouse to highlight text.</para></listitem>
 			<listitem><para>Click once on a word to move the cursor to a new area.</para></listitem>
 			<listitem><para>Click twice on a word to select the whole word.</para></listitem>
-			<listitem><para>Click three time to select the whole sentence.</para></listitem>
+			<listitem><para>Click three times to select the whole sentence.</para></listitem>
 		</itemizedlist>
 
 		<para>Holding the left mouse button, and dragging the text you want to select,
@@ -908,7 +909,7 @@
 		which bracket matches which. If you open any .tex file, and select any
 		bracket, whether it be a parenthesis (), square brackets [] or braces {}, the editor will
 		highlight the bracket and its match in yellow (this default color can be changed). So, for example,
-		you can position the cursor on the braces in <userinput>\section{Introduction}</userinput>,
+		if you position the cursor on the braces in <userinput>\section{Introduction}</userinput>,
 		you would see <userinput>\section{Introduction}</userinput> in the default yellow highlight,
 		showing you the location of the beginning and ending brackets.</para>
 
@@ -1036,9 +1037,9 @@
 		<userinput>thebibliography</userinput> environment, and contains the reference data.
 		Both corresponding <userinput>\bibitem</userinput> and <userinput>\cite</userinput> must
 		have the same <userinput>{key}</userinput>; the easiest way to organise keys is by 
-		the author's last name. The secondary <userinput>{}</userinput> in
-		<userinput>{thebibliography}</userinput> denotes the longest bibliography label you 
-		expect to have. So, inserting <userinput>{<replaceable>foo</replaceable>}</userinput> means 
+		the author's last name. The secondary braces in the <userinput>thebibliography</userinput> 
+		environmen denote the longest bibliography label you expect to have. 
+		So, inserting <userinput>{<replaceable>foo</replaceable>}</userinput> means 
 		you can have any label shorter or as large as the expression 
 		<userinput><replaceable>foo</replaceable></userinput>. Failure to set this parameter correctly 
 		may result in a not so attractive indentation of your bybliography.</para>
@@ -1048,7 +1049,7 @@
 
 		<screen><userinput>
 		\begin{thebibliography}{50}
-		\bibitem{Simpson} Homer J. Simpson. \texts]{Mmmmm...doughnuts}.
+		\bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...doughnuts}.
 		Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998
 		\end{thebibliography)</userinput></screen>
 
@@ -1060,8 +1061,8 @@
 		comes from my favorite book \cite{Simpson}.</userinput></screen>
 
 		<para>As it is often difficult to remember the exact citation key once you have many 
-		references, &kile; provides an easy way to insert a citation. On the edit toolbar click 
-		on the second drop-down box (usually it reads <guilabel>label</guilabel>) and select 
+		references, &kile; provides an easy way to insert a citation. On the <guilabel>Edit</guilabel> 
+		toolbar click on the second drop-down box (usually it reads <guilabel>label</guilabel>) and select 
 		<guilabel>cite</guilabel>. A list with all the citation keys will show: select the correct 
 		reference and a citation will be inserted in your document. To update the list of keys, 
 		either save the file or choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Refresh 
@@ -1087,9 +1088,9 @@
 
 		<para>&kile; gives you the ability to make your own tags. A tag is similar
 		to a shortcut that launches some command or writes frequently-used text.
-		For example, Joe Sixpack uses often the phrases <userinput>I prefer \LaTeX\ to \TeX\</userinput> 
-		in my text and <userinput>What would I do without Linux?</userinput>. To create 
-		user-defined tags to write these sentences, he would access 
+		For example, Joe Sixpack uses often the sentences <userinput>I prefer \LaTeX\ 
+		to \TeX\</userinput> and <userinput>What would I do without Linux?</userinput>. 
+		To create user-defined tags to write these sentences, he would access 
 		<menuchoice><guimenu>User</guimenu><guisubmenu>User Tags</guisubmenu><guimenuitem>Edit 
 		User Tags</guimenuitem></menuchoice>; this will present him a dialog where he can create 
 		his own user-defined tags.</para>
@@ -1120,7 +1121,7 @@
 
 		<para>He would probably give each tag a name that can clearly identify it. The name you give your tag 
 		is entered in the section marked <guilabel>Menu item</guilabel>, and the text of frequently-used command 
-		would be entered into the section labelled <guilabel>Value</guilabel>. Once the commands are entered, 
+		should be entered into the section labelled <guilabel>Value</guilabel>. Once the commands are entered, 
 		he can use them quickly using the shortcut <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap>
 		<keycap>1</keycap></keycombo> for the first tag to enter <userinput>I prefer
 		\LaTeX\ to \TeX\</userinput> and <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap>
@@ -1145,9 +1146,9 @@
 			<para>To show you how this works let's say for example that we have a user-defined tag,
 			which contains the value <userinput>\bfseries{%M}%C</userinput>, and I have a selection of text
 			highlighted in my document that we want to turn into bold text. So, we highlight the
-			phrase <userinput>I love Friday</userinput>, apply our user-defined tag by pressing
+			phrase <userinput>I love Fridays</userinput>, apply our user-defined tag by pressing
 			<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>1</keycap></keycombo>,
-			and we get the text <userinput>\bfseries{I love Friday}</userinput>, with the cursor 
+			and we get the text <userinput>\bfseries{I love Fridays}</userinput>, with the cursor 
 			placed at the end of the text.</para>
 
 		</sect2>
@@ -1172,9 +1173,9 @@
 		menus.</para>
 
 		<para>To compile your source code for screen viewers like &kdvi;, other DVI viewers or
-		further conversion, you can use the shortcut <keycombo><keycap>Alt</keycap>
-		<keycap>2</keycap></keycombo> from the menu. Then you can view the DVI file using your 
-		default viewer with <keycombo><keycap>Alt</keycap><keycap>3</keycap></keycombo>, convert 
+		further conversion, you can use the shortcut <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo>. 
+		Then you can view the DVI file using your default viewer with 
+		<keycombo><keycap>Alt</keycap><keycap>3</keycap></keycombo>, convert 
 		the DVI to a PS file with <keycombo><keycap>Alt</keycap><keycap>4</keycap></keycombo>, 
 		and view the PS file with <keycombo><keycap>Alt</keycap><keycap>5</keycap></keycombo>.</para>
 
@@ -1223,8 +1224,8 @@
 			<title>MetaPost</title>
 
 			<para>If you want to compile your document with <application>MetaPost</application>, a picture 
-			drawing program, you can do it with <menuchoice><guimenu>Build</guimenu>
-			<guisubmenu>Compile</guisubmenu><guimenuitem>Mpost</guimenuitem></menuchoice>.</para>
+			drawing program, you can do it with 
+			<menuchoice><guimenu>Build</guimenu><guisubmenu>Compile</guisubmenu><guimenuitem>Mpost</guimenuitem></menuchoice>.</para>
 
 		</sect2>
 		
@@ -1266,7 +1267,7 @@
 
 			<para>If you want to pass some specific command-line parameters to the compile, convert 
 			or view tools, you can configure their call in <menuchoice><guimenu>Settings</guimenu>
-			<guimenuitem>Configure &kile;</guimenuitem><guilabel>Tools</guilabel></menuchoice>.</para>
+			<guimenuitem>Configure Kile...</guimenuitem><guilabel>Tools</guilabel></menuchoice>.</para>
 
 		</sect2>
 	
@@ -1293,8 +1294,7 @@
 			but not all applications support this perfectly; some might actually try to build your JPG image 
 			with vectors and various scripting, which will result in gigantic files. 
 			A simple program that does this process correctly is 
-			<ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/">
-			<application>jpg2ps</application></ulink>.</para></listitem>
+			<ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"><application>jpg2ps</application></ulink>.</para></listitem>
 			<listitem><para>If you need a file in PS format, but have JPG or PNG graphics, you can also
 			simply use PDF&latex; first, and then use the command-line instruction 
 			<application>pdftops</application>, or, better yet, implement your own user tag to do that for you
@@ -1443,7 +1443,7 @@
 		<title>Bookmarks</title>
 
 		<para>Bookmarks are your reference to a segment of text or a line inside the &kile;
-		environment. To use a bookmark, you can select a specific line of your document
+		environment. To use a bookmark, select a specific line of your document
 		you would like to return to, then press <keycombo><keycap>Ctrl</keycap>
 		<keycap>B</keycap></keycombo>, and &kile; will add a bookmark to this line. 
 		Alternatively, you can also set a bookmark by highlighting a line and choosing 
@@ -1510,7 +1510,7 @@
 		<title>Using the File and Project View</title>
 
 		<para>The <guilabel>File and Project</guilabel> view is a button of the sidebar menu. 
-		From this view, you can visually see the structure of your project, its files, 
+		From this view, you can see the structure of your project, its files, 
 		and the name of the .kilepr file that stores the project information. 
 		Adding, removing, or changing options in your project are done via
 		the <guilabel>File and Projects</guilabel> view.</para>
@@ -1583,7 +1583,7 @@
 
 			<title>Archiving your Project</title>
 
-			<para>&kile; allows you to easily backup your project by storing all the projects files 
+			<para>&kile; allows you to easily backup your project by storing all the project files 
 			into a single archive (often known as <emphasis>tarball</emphasis>). To archive your project 
 			right-click on the project name in the <guilabel>Files and Projects</guilabel> view, or select 
 			<menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
@@ -1593,7 +1593,7 @@
 			view, and uncheck the <guilabel>Include in Archive</guilabel> option.</para>
 
 			<para>Archive commands are simple shell commands that are executed from the project
-			directory (where the .kilepr file is located). Some placeholders can be used
+			folder (where the .kilepr file is located). Some placeholders can be used
 			when writing the archive command:</para>
 
 			<itemizedlist>
@@ -1641,7 +1641,7 @@
 	Selecting the encoding for your document can be done in three ways:</para>
 
 	<itemizedlist>
-		<listitem><para>One way to set the encoding is to use the <guilabel>encoding</guilabel> combo
+		<listitem><para>One way to set the encoding is to use the <guilabel>Set encoding</guilabel> combo
 		box, located at the bottom of the <guilabel>Open File</guilabel> sidebar view.</para></listitem>
 		<listitem><para>Another way is using the submenu <menuchoice><guimenu>View</guimenu><guisubmenu>Set
 		Encoding</guisubmenu></menuchoice>.</para></listitem>

@@ -3044,7 +3044,7 @@ void Kile::CleanAll()
     QStringList prettyList;
    QStringList command;
 
-   command << "cd " << fic.dirPath() << "&&";
+   command << "cd " << "'"+fic.dirPath()+"'" << "&&";
 
    for (int i=0; i< 13; i++) {
       prettyList.append(fic.baseName(TRUE)+extlist[i]);

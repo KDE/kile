@@ -35,7 +35,7 @@
 static KCmdLineOptions options[] =
 {
 	{ "line <line>", "line", "0" },
-	{ "new", "Start a new Kile mainwindow.", 0 },
+	{ "new", "Start a new Kile mainwindow", 0 },
 	{ "+[file]", "File to open", 0 },
 	KCmdLineLastOption
 };

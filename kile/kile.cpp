@@ -2,7 +2,7 @@
                           kile.cpp  -  description
                              -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 by Pascal Brachet
+    copyright            : (C) 2002 by Pascal Brachet, 2003 by Jeroen Wijnhout
     email                : 
  ***************************************************************************/
 
@@ -1538,19 +1538,26 @@ UpdateLineColStatus();
 
 
 /////////////////// TOOLS /////////////////////////
+
+//command : a list representing the command to be started
+//          i.e. latex %.tex -interactionmode=nonstop
+//          is represented by the list (latex,%S.tex,-interactionmode=nonstop)
+//file    : the file to be passed as an argument to the command, %S is substituted
+//          by the basename of this file
+//enablestop : whether or not this process can be stopped by pressing the STOP button
 CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &file, bool enablestop) {
  //substitute %S for the basename of the file
  QStringList cmmnd = command;
  QString dir = file.dirPath();
  QString name = file.baseName();
- 
+                               
  CommandProcess* proc = new CommandProcess();
  currentProcess=proc;
  proc->clearArguments();
  
  KRun::shellQuote(const_cast<QString&>(dir));
  (*proc) << "cd " << dir << "&&";
- //KMessageBox::information(this,cmmnd);
+
  for ( QValueListIterator<QString> i = cmmnd.begin(); i != cmmnd.end(); i++) {
    (*i).replace("%S",name);
    (*proc) << *i;
@@ -1568,13 +1575,21 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  return proc;
 }
 
+//This function prepares files for compiling by the command <command>.
+// - untitled document -> warn user that he needs to save the file
+// - save the file (if untitled a file save dialog is opened)
+// - determine the file to be compile (this file could be a child of the master document)
+// -
+// - return the name of the file to be compiled (master document)
 QString Kile::prepareForCompile(const QString & command) {
   QString finame = getName();
   if (finame == "untitled") {
-     KMessageBox::information(this,i18n("You need to save an untitled document before you run LaTeX on it."),"File needs to be saved!");
+     if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run ")+command+i18n(" on it. Do you want to save it? Click Yes to save and No to abort."),"File needs to be saved!")
+         == KMessageBox::No) return QString::null;
   }
 
   //save the file before doing anything
+  //attempting to save an untitled document will result in a file-save dialog pop-up
   fileSave();
 
   //determine the name of the file to be compiled
@@ -1583,13 +1598,101 @@ QString Kile::prepareForCompile(const QString & command) {
      finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
+  //we need to check for finame=="untitled" etc. because the user could have
+  //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
   {
-     KMessageBox::error( this,i18n("Could not start the" +command+" command, because there is no file to run "+command+" on. Make sure you have the file you want to compile open and saved."));
+     KMessageBox::error( this,i18n("Could not start the ") +command+i18n(" command, because there is no file to run "+command+" on. Make sure you have the file you want to compile open and saved."));
      return QString::null;
   }
 
+  QFileInfo fic(finame);
+  
+  if (!fic.exists() )
+  {
+     KMessageBox::error(this,i18n("The file ")+finame+i18n(" does not exist. Are you working with a master document which is accidently deleted?"));
+     return QString::null;
+  }
+
+  if (!fic.isReadable() )
+  {
+     KMessageBox::error(this, i18n("You do not have read permission for the file: ") + finame);
+     return QString::null;
+  }
+  
   return finame;
+}
+
+QStringList Kile::prepareForConversion(const QString &command, const QString &from, const QString &to)
+{
+   QStringList list,empty;
+   QString finame, fromName, toName;
+   if (singlemode) {finame=getName();}
+   else {
+     finame=MasterName; 
+   }
+
+   if (finame == "untitled") {
+      KMessageBox::error(this,i18n("You need to save an untitled document and make a ") + from.upper()
+                                + i18n(" file out of it. After you have done this, you can turn it into a ")+to.upper()
+                                + i18n(" file."),"File needs to be saved and compiled!");
+      return empty;   
+   }
+
+   if ((singlemode && !currentEditorView()) || finame=="")
+   {
+     KMessageBox::error( this,i18n("Could not start the ") +command+i18n(" command, because there is no file to run "+command+" on. Make sure you have the source file of the file you want to convert open and saved."));
+     return empty;
+   }
+
+   QFileInfo fic(finame);
+   fromName = fic.dirPath() + "/" +fic.baseName() + "." + from;
+   toName = fic.dirPath() + "/" +fic.baseName() + "." + to;
+
+   fic.setFile(fromName);
+   if (!(fic.exists() && fic.isReadable()))
+   {
+      KMessageBox::error(this, i18n("The ")+ from.upper() + i18n(" file does not exists or you do not have read permission. Did you forget to compile to source file to turn it into a ") + from.upper() + i18n(" file?"));
+   }
+
+   list.append(fromName);
+   list.append(toName);
+   
+   return list;
+}
+
+QString Kile::prepareForViewing(const QString & command, const QString &ext)
+{
+   QString finame;
+   if (singlemode) {finame=getName();}
+   else {
+     finame=MasterName;
+   }
+
+   if (finame == "untitled") {
+      KMessageBox::error(this,i18n("You need to save an untitled document and make a ") + ext.upper()
+                                + i18n(" file out of it. After you have done this, you can view the ")+ext.upper()
+                                + i18n(" file."),"File needs to be saved and compiled!");
+      return QString::null;
+   }
+
+   if ((singlemode && !currentEditorView()) || finame=="")
+   {
+     KMessageBox::error( this,i18n("Unable to determine which ") +ext.upper()+i18n(" file to show. Please open the source file of the ") + ext.upper() + i18n(" file to want to view."));
+     return QString::null;
+   }
+
+   QFileInfo fic(finame);
+   finame = fic.dirPath() + "/" + fic.baseName() + "." + ext;
+   fic.setFile(finame);
+
+   if ( ! (fic.exists() && fic.isReadable() ) )
+   {
+      KMessageBox::error(this,i18n("The ") + ext.upper() + i18n(" file does not exists or you do not have read permission. Maybe you forgot to create the ") + ext.upper() + i18n(" file?"));
+      return QString::null;
+   }
+   
+   return finame;
 }
 
 void Kile::Latex()
@@ -1598,61 +1701,48 @@ void Kile::Latex()
   if ( (finame=prepareForCompile("LaTeX")) == QString::null)  return;
   
   QFileInfo fic(finame);
-  if (fic.exists() && fic.isReadable() )
-  {
-    QStringList command;
-    command << latex_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+  QStringList command;
+  command << latex_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
           
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-        }
-   }
- else
- {
-  KMessageBox::error(this, i18n("TeX file not found !"));
- }
-UpdateLineColStatus();
+  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+  {
+     KMessageBox::error( this,i18n("Could not start LaTeX, make sure you have installed the LaTeX package on your system."));
+  }
+  else
+  {
+     OutputWidget->clear();
+     Outputview->showPage(OutputWidget);
+     logpresent=false;
+     OutputWidget->insertLine(i18n("Process launched"));
+  }
+    
+  UpdateLineColStatus();
 }
 
  
 void Kile::ViewDvi()
 {
   QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".dvi";
-  QString dviname=fi.baseName()+".dvi";
-  QFileInfo fic(name);
+  if ( (finame=prepareForViewing("ViewDvi","dvi")) == QString::null) return;
   
-  if ( fic.exists() && fic.isReadable() ) {
-    
-  if (viewdvi_command=="Embedded viewer") {
+  QFileInfo fic(finame);
+  
+  if (viewdvi_command=="Embedded viewer")
+  {
    ResetPart();
    KLibFactory *dvifactory;
    dvifactory = KLibLoader::self()->factory("kviewerpart");
    if (!dvifactory)    {
-      KMessageBox::error(this, "Library not found !");
+      KMessageBox::error(this, i18n("Couldn't find the DVI embedded viewer! Please install kviewshell."));
       return;
    }
    dvipart =(KParts::ReadOnlyPart *)dvifactory->create(topWidgetStack, "kviewerpart", "KViewPart", "dvi");
    dvipresent=true;
    topWidgetStack->addWidget(dvipart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
-   dvipart->openURL(name);
+   dvipart->openURL(finame);
    partManager->addPart(dvipart, true);
    partManager->setActivePart( dvipart);
   }
@@ -1661,14 +1751,16 @@ void Kile::ViewDvi()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start ")+ viewdvi_command + i18n(". make sure you have this package installed.") );
+    }
     else
-        {
+    {
          OutputWidget->clear();
          Outputview->showPage(OutputWidget);
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
-         }
      }
   }
  
@@ -1677,13 +1769,9 @@ void Kile::ViewDvi()
 
 void Kile::KdviForwardSearch()
 {
-  QString finame=getName();
-  if (!currentEditorView() || !singlemode || finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
+  QString finame;
+  if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
+  
   OutputWidget->clear();
   Outputview->showPage(OutputWidget);
   logpresent=false;
@@ -1692,26 +1780,22 @@ void Kile::KdviForwardSearch()
   OutputWidget->insertLine("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides.");
   OutputWidget->insertLine("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file.");
   OutputWidget->insertLine("(see the kdvi handbook for more details)");
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".dvi";
-  QString dviname=fi.baseName()+".dvi";
-  QString texname=fi.baseName()+".tex";
-  QString command;
-	int para=0;
+
+  QFileInfo fic(finame);
+  QString dviname=finame;
+  QString texname=fic.baseName()+".tex";
+  int para=0;
   int index=0;
   currentEditorView()->editor->viewport()->setFocus();
   currentEditorView()->editor->getCursorPosition( &para, &index);
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  if (viewdvi_command=="Embedded viewer")
   {
-   if (viewdvi_command=="Embedded viewer")
-   {
    ResetPart();
    KLibFactory *dvifactory;
    dvifactory = KLibLoader::self()->factory("kviewerpart");
    if (!dvifactory)
       {
-      KMessageBox::error(this, "Library not found !");
+      KMessageBox::error(this, i18n("Couldn't find the DVI embedded viewer! Please install kviewshell."));
       return;
       }
    dvipart =(KParts::ReadOnlyPart *)dvifactory->create(topWidgetStack, "kviewerpart", "KViewPart", "dvi");
@@ -1720,85 +1804,65 @@ void Kile::KdviForwardSearch()
    topWidgetStack->raiseWidget(1);
    partManager->addPart(dvipart, true);
    partManager->setActivePart( dvipart);
-   //KMessageBox::information(this,name+"\n"+texname);
-   dvipart->openURL("file:"+name+"#src:"+QString::number(para+1)+"./"+texname);
+
+   dvipart->openURL("file:"+finame+"#src:"+QString::number(para+1)+"./"+texname);
    }
    else
-    {
+   {
     QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./%S.tex";
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start KDVI. Are you sure KDVI is installed on your system?"));
+    }
     else
-        {
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
+    {
+        OutputWidget->insertLine(i18n("Process launched"));
     }
    }
- else
- {
-  KMessageBox::error(this, i18n("Dvi file not found !"));
- }
-UpdateLineColStatus();
+
+
+   UpdateLineColStatus();
 }
 
 void Kile::DviToPS()
 {
-  QString finame;
+  QStringList files;
+  if ( (files = prepareForConversion("DviPs","dvi", "ps")).size() == 0) return;
+   
+  QString dviname=files[0];
+  QString psname=files[1];
+  QFileInfo fic(dviname);
+  
+  QStringList command; command << dvips_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+      KMessageBox::error( this,i18n("Could not start DviPs. Make sure this package is installed on your system."));
   }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".dvi";
-  QString dviname=fi.baseName()+".dvi";
-  QString psname=fi.baseName()+".ps";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  else
   {
-    QStringList command; command << dvips_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
          OutputWidget->clear();
          Outputview->showPage(OutputWidget);
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
-         }
-     }
- else
- {
-  KMessageBox::error(this, i18n("Dvi file not found !"));
- }
-UpdateLineColStatus();
+         
+  }
+
+  UpdateLineColStatus();
 }
 
 void Kile::ViewPS()
 {
   QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".ps";
-  QString psname=fi.baseName()+".ps";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
-  {
+  if ( (finame=prepareForViewing("ViewPS","ps")) == QString::null) return;
+  
+  QFileInfo fic(finame);
+
    if (viewps_command=="Embedded viewer")
    {
    ResetPart();
@@ -1806,14 +1870,14 @@ void Kile::ViewPS()
    psfactory = KLibLoader::self()->factory("libkghostviewpart");
    if (!psfactory)
       {
-      KMessageBox::error(this, "Library not found !");
+      KMessageBox::error(this, i18n("Couldn't find the embedded postscript viewer! Install kviewshell."));
       return;
       }
    pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
    pspresent=true;
    topWidgetStack->addWidget(pspart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
-   pspart->openURL(name);
+   pspart->openURL(finame);
    partManager->addPart(pspart, true);
    partManager->setActivePart( pspart);
    }
@@ -1823,7 +1887,10 @@ void Kile::ViewPS()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start ") + viewps_command + i18n(". Make sure this package is installed on your system"));
+    }
     else
         {
          OutputWidget->clear();
@@ -1832,95 +1899,57 @@ void Kile::ViewPS()
          OutputWidget->insertLine(i18n("Process launched"));
          }
     }
-  }
- else
- {
-  KMessageBox::error(this, i18n("PS file not found !"));
- }
-UpdateLineColStatus();
+
+    UpdateLineColStatus();
 }
 
 void Kile::PDFLatex()
 {
   QString finame;
+  if ( (finame= prepareForCompile("PDFLaTeX")) == QString::null) return;
 
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
+  QFileInfo fic(finame);
 
-  if (finame == "untitled") {
-     KMessageBox::information(this,i18n("You need to save an untitled document before you run LaTeX on it."),"File needs to be saved!");
-  }
+  QStringList command; command << pdflatex_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-  //save the file before doing anything
-  fileSave();
-
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+     KMessageBox::error( this,i18n("Could not start PDFLaTeX, make sure you have this package installed on your system."));
   }
-  
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".tex";
-  QString texname=fi.baseName()+".tex";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  else
   {
-    QStringList command; command << pdflatex_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
-      }
- else
- {
-  KMessageBox::error(this, i18n("TeX file not found !"));
- }
-UpdateLineColStatus();
+     OutputWidget->clear();
+     Outputview->showPage(OutputWidget);
+     logpresent=false;
+     OutputWidget->insertLine(i18n("Process launched"));
+  }
+     
+  UpdateLineColStatus();
 }
 
 void Kile::ViewPDF()
 {
   QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".pdf";
-  QString pdfname=fi.baseName()+".pdf";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
-  {
-    if (viewpdf_command=="Embedded viewer")
+  if ( (finame = prepareForViewing("ViewPDF","pdf")) == QString::null ) return;
+
+  QFileInfo fic(finame);
+   if (viewpdf_command=="Embedded viewer")
    {
    ResetPart();
    KLibFactory *psfactory;
    psfactory = KLibLoader::self()->factory("libkghostviewpart");
    if (!psfactory)
       {
-      KMessageBox::error(this, "Library not found !");
+      KMessageBox::error(this, i18n("Couldn't find the embedded pdf viewer! Install kviewshell."));
       return;
       }
    pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
    pspresent=true;
    topWidgetStack->addWidget(pspart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
-   pspart->openURL(name);
+   pspart->openURL(finame);
    partManager->addPart(pspart, true);
    partManager->setActivePart( pspart);
    }
@@ -1930,7 +1959,10 @@ void Kile::ViewPDF()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start ") + viewpdf_command + i18n(". Make sure this package is installed on your system."));
+    }
     else
         {
          OutputWidget->clear();
@@ -1939,37 +1971,53 @@ void Kile::ViewPDF()
          OutputWidget->insertLine(i18n("Process launched"));
          }
     }
-  }
- else
- {
-  KMessageBox::error(this, i18n("PDF file not found !"));
- }
-UpdateLineColStatus();
+  
+ 
+ UpdateLineColStatus();
 }
 
 void Kile::MakeBib()
 {
-  QString finame;
+  QString finame = getName();
+  if (finame == "untitled") {
+     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an AUX file which is required to run ")+bibtex_command,i18n("File needs to be saved!"));
+     return;
+  }
 
   if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+  else {
+     finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".aux";
-  QString bibname=fi.baseName()+".aux";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+
+  //we need to check for finame=="untitled" etc. because the user could have
+  //escaped the file save dialog
+  if ((singlemode && !currentEditorView()) || finame=="")
   {
+     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +bibtex_command+i18n(" . Make sure you have the file you want to run ")+bibtex_command+i18n(" on  open and saved."));
+     return;
+  }
+
+  QFileInfo fic(finame);
+  finame = fic.dirPath()+"/"+fic.baseName()+".aux";
+  fic.setFile(finame);
+
+  if (!(fic.exists() && fic.isReadable()) )
+  {
+     KMessageBox::error(this,i18n("The file ")+finame+i18n(" does not exist or you do not have read permission. You need to run LaTeX to create this file."));
+     return;
+  }
+
+  //QString name=fic.dirPath()+"/"+fic.baseName();
+  //fic.setFile(name);
+	
     QStringList command; command << bibtex_command;
     CommandProcess *proc=execCommand(command,fic,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start ") + bibtex_command + i18n(". Make sure this package is installed on your system."));
+    }
     else
         {
          OutputWidget->clear();
@@ -1977,32 +2025,46 @@ void Kile::MakeBib()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  }
- else
- {
-  KMessageBox::error(this, i18n("aux file not found !"));
- }
-UpdateLineColStatus();
+  
+ 
+ UpdateLineColStatus();
 }
 
 void Kile::MakeIndex()
 {
-  QString finame;
+  //TODO: figure out how makeindex works ;-))
+  //I'm just guessing here
+  
+  QString finame = getName();
+  if (finame == "untitled") {
+     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an idx file which is required to run ")+makeindex_command,i18n("File needs to be saved!"));
+     return;
+  }
 
   if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+  else {
+     finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".idx";
-  QString idxname=fi.baseName()+".idx";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+
+  //we need to check for finame=="untitled" etc. because the user could have
+  //escaped the file save dialog
+  if ((singlemode && !currentEditorView()) || finame=="")
   {
+     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +makeindex_command+i18n(" . Make sure you have the file you want to run ")+makeindex_command+i18n(" on  open and saved."));
+     return;
+  }
+
+  QFileInfo fic(finame);
+  finame = fic.dirPath()+"/"+fic.baseName()+".idx";
+  fic.setFile(finame);
+
+  if (!(fic.exists() && fic.isReadable()) )
+  {
+     KMessageBox::error(this,i18n("The file ")+finame+i18n(" does not exist or you do not have read permission. You need to run LaTeX to create this file."));
+     return;
+  }
+
+  
     QStringList command; command << makeindex_command;
     CommandProcess *proc=execCommand(command,fic,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
@@ -2015,37 +2077,28 @@ void Kile::MakeIndex()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  }
- else
- {
-  KMessageBox::error(this, i18n("idx file not found !"));
- }
-UpdateLineColStatus();
+  
+  UpdateLineColStatus();
 }
 
 void Kile::PStoPDF()
 {
-  QString finame;
+  QStringList files;
+  if ( (files=prepareForConversion("PStoPDF","ps","pdf")).size() ==0) return;
 
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".ps";
-  QString psname=fi.baseName()+".ps";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
-  {
-    QStringList command; command << ps2pdf_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+  QString psname=files[0];
+  QString pdfname=files[1];
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}
+  QFileInfo fic(psname);
+  
+  QStringList command; command << ps2pdf_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start ") + ps2pdf_command + i18n(". Make sure this packages is installed on your system."));
+    }
     else
         {
          OutputWidget->clear();
@@ -2053,37 +2106,27 @@ void Kile::PStoPDF()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  }
- else
- {
-  KMessageBox::error(this, i18n("PS file not found !"));
- }
-UpdateLineColStatus();
+    UpdateLineColStatus();
 }
 
 void Kile::DVItoPDF()
 {
-  QString finame;
+   QStringList files;
+  if ( (files=prepareForConversion("DVItoPDF","dvi","pdf")).size() ==0) return;
 
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".dvi";
-  QString dviname=fi.baseName()+".dvi";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
-  {
+  QString dviname=files[0];
+  QString pdfname=files[1];
+
+  QFileInfo fic(dviname);
+
     QStringList command; command << dvipdf_command;
     CommandProcess *proc=execCommand(command,fic,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start ")+dvipdf_command+i18n(". Make sure this package is installed on your system."));
+    }
     else
         {
          OutputWidget->clear();
@@ -2091,16 +2134,15 @@ void Kile::DVItoPDF()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  }
- else
- {
-  KMessageBox::error(this, i18n("Dvi file not found !"));
- }
-UpdateLineColStatus();
+  
+  UpdateLineColStatus();
 }
 
 void Kile::MetaPost()
 {
+  //TODO: what the h*ll is MetaPost, how should we deal with the
+  //error messages?
+  
   QString finame;
 
   finame=getName();
@@ -2143,42 +2185,33 @@ void Kile::CleanAll()
 
   if (singlemode) {finame=getName();}
   else {finame=MasterName;}
+  
   if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
   {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+     KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
+     return;
   }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".tex";
-  QString n1=fi.baseName()+".log";
-  QString n2=fi.baseName()+".aux";
-  QString n3=fi.baseName()+".dvi";
-  QString n4=fi.baseName()+".lof";
-  QString n5=fi.baseName()+".lot";
-  QString n6=fi.baseName()+".bit";
-  QString n7=fi.baseName()+".idx";
-  QString n8=fi.baseName()+".glo";
-  QString n9=fi.baseName()+".bbl";
-  QString n10=fi.baseName()+".ilg";
-  QString n11=fi.baseName()+".toc";
-  QString n12=fi.baseName()+".ind";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  
+  QFileInfo fic(finame);
+  if ( ! (fic.exists() && fic.isReadable() ) )
   {
-   QStringList prettyList;
-   prettyList.append(n1);
-   prettyList.append(n2);
-   prettyList.append(n3);
-   prettyList.append(n4);
-   prettyList.append(n5);
-   prettyList.append(n6);
-   prettyList.append(n7);
-   prettyList.append(n8);
-   prettyList.append(n9);
-   prettyList.append(n10);
-   prettyList.append(n11);
-   prettyList.append(n12);
+        KMessageBox::sorry(this,i18n("The current document does not exists or is not readable. I'm not sure if it is ok to go ahead, bailing out."));
+        return;
+  }
+
+  QString extlist[] = {".log",".aux",".dvi",".aux",".dvi",".lof",".lot",".bit",".idx" ,".glo",".bbl",".ilg",".toc",".ind"};
+  
+    QStringList prettyList;
+   QStringList command;
+
+   command << "cd " << fic.dirPath() << "&&";
+   
+   for (int i=0; i< 14; i++) {
+      prettyList.append(fic.baseName()+extlist[i]);
+      command << "rm -f" << fic.baseName()+extlist[i];
+      if (i<13) {command << "&&"; }
+   }
+   
    int query = KMessageBox::warningContinueCancelList( this,
             i18n( "Do you really want to delete these files ?" ),
             prettyList,
@@ -2187,27 +2220,12 @@ void Kile::CleanAll()
 
    if (query==KMessageBox::Continue)
    {
-    CommandProcess* proc = new CommandProcess();
-    proc->clearArguments();
-    QString docdir=fic.dirPath();
-    KRun::shellQuote(docdir);
-    (*proc) << "cd " << docdir << "&&";
-    (*proc) << "rm -f" << n1 << "&&";
-  	(*proc) << "rm -f" << n2 << "&&";
-  	(*proc) << "rm -f" << n3 << "&&";
-  	(*proc) << "rm -f" << n4 << "&&";
-  	(*proc) << "rm -f" << n5 << "&&";
-  	(*proc) << "rm -f" << n6 << "&&";
-  	(*proc) << "rm -f" << n7 << "&&";
-  	(*proc) << "rm -f" << n8 << "&&";
-  	(*proc) << "rm -f" << n9 << "&&";
-  	(*proc) << "rm -f" << n10 << "&&";
-  	(*proc) << "rm -f" << n11 << "&&";
-  	(*proc) << "rm -f" << n12 ;
-    connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
+     CommandProcess *proc=execCommand(command,fic,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
+    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    {
+       KMessageBox::error( this,i18n("Could not start the command."));
+    }
     else
         {
          OutputWidget->clear();
@@ -2215,13 +2233,9 @@ void Kile::CleanAll()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-   }
-  }
- else
- {
-  KMessageBox::error(this, i18n("Tex file not found !"));
- }
-UpdateLineColStatus();
+   }       
+   
+   UpdateLineColStatus();
 }
 
 void Kile::syncTerminal()
@@ -5081,7 +5095,7 @@ dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
 viewps_command=config->readEntry("Ps","Embedded viewer");
 ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
 makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
-bibtex_command=config->readEntry("Bibtex","bibtex %S.tex");
+bibtex_command=config->readEntry("Bibtex","bibtex %S.aux");
 pdflatex_command=config->readEntry("Pdflatex","pdflatex %S.tex");
 viewpdf_command=config->readEntry("Pdf","Embedded viewer");
 dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");

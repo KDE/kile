@@ -2,8 +2,8 @@
                           kile.h  -  description
                              -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    copyright            : (C) 2002 by Pascal Brachet, 2003 Jeroen Wijnhout
+    email                : wijnhout@science.uva.nl
  ***************************************************************************/
 
 /***************************************************************************
@@ -225,6 +225,8 @@ private slots:
 
     CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop);
     QString prepareForCompile(const QString & command);
+    QStringList prepareForConversion(const QString &command, const QString &from, const QString &to);
+    QString prepareForViewing(const QString & command, const QString &ext);
     void Latex();
     void ViewDvi();
     void KdviForwardSearch();

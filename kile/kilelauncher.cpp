@@ -50,6 +50,7 @@
 		m_wd(QString::null),
 		m_cmd(QString::null),
 		m_options(QString::null),
+		m_texinputs(KileConfig::teXPaths()),
 		m_changeTo(true)
 	{
 		kdDebug() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
@@ -114,8 +115,8 @@
 			 
 			emit(message(Info,msg));
 
-			if (!KileConfig::teXPaths().isEmpty())
-				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(KileConfig::teXPaths() + ":$TEXINPUTS"));
+			if (! m_texinputs.isEmpty())
+				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
 
 			out += "*****\n";
 			emit(output(out));

@@ -409,18 +409,21 @@ namespace KileDocument
     QString parameter = stripParameter( reEnv.cap(3) );
     QString start = reEnv.cap(1);
     QString envname = reEnv.cap(2);
+    QString whitespace = getWhiteSpace();
     
     QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
+    
+    s += whitespace;
     
     bool item = (type == "list" );
     if ( item )
 			s += "\\item ";
       
-		if ( m_setbullets && !parameter.isEmpty() )
-			s += s_bullet;
+    if ( m_setbullets && !parameter.isEmpty() )
+		s += s_bullet;
       
     if ( m_closeenv && start != "end" )
-			s += "\n\\end{" + envname + "}\n";
+			s += "\n" + whitespace + "\\end{" + envname + "}\n";
     
     // place cursor
 		if ( m_setcursor )
@@ -428,7 +431,7 @@ namespace KileDocument
 			if ( parameter.isEmpty() )
 			{
 				ypos = 1;
-				xpos = ( item ) ? 6 : 0;
+				xpos = whitespace.length() + (( item ) ? 6 : 0);
 			}
 			else
 			{
@@ -439,6 +442,20 @@ namespace KileDocument
     
     return s;
 	}
+    
+    QString CodeCompletion::getWhiteSpace()
+    {
+        QString line = m_view->getDoc()->textLine(m_view->cursorLine());
+        QString whitespace = QString::null;
+        int i = 0;
+        while ( line[i].isSpace() )
+        {
+            whitespace += line[i];
+            ++i;
+        }
+            
+        return whitespace;
+    }
 
 	//////////////////// text in  cmAbbreviation mode ////////////////////
 

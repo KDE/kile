@@ -144,6 +144,7 @@ private:
 
 	QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
 	QString buildEnvironmentText(const QString &text, const QString &type, uint &ypos, uint &xpos);
+    QString getWhiteSpace();
 	QString buildAbbreviationText(const QString &text);
 	QString buildLabelText(const QString &text);
 

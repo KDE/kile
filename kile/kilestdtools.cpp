@@ -107,7 +107,10 @@ namespace KileTool
 		{
 			int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
 			manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
-			sendMessage(Info, i18n("%1 errors, %2 warnings and %3 badboxes").arg(nErrors).arg(nWarnings).arg(nBadBoxes));
+			QString es = i18n("%n error", "%n errors", nErrors);
+			QString ws = i18n("%n warning", "%n warnings", nWarnings);
+			QString bs = i18n("%n badbox", "%n badboxes", nBadBoxes);
+			sendMessage(Info, es +", " + ws + ", " + bs);
 		}
 
 		return Compile::finish(r);
@@ -153,7 +156,7 @@ namespace KileTool
 			if (bibs->count() > 1)
 			{
 				//show dialog
-				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select a bibliography"),i18n("a bibliography"));
+				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select a bibliography"),i18n("Select a bibliography"));
 				if (dlg->exec())
 				{
 					bib = (*bibs)[dlg->currentItem()];

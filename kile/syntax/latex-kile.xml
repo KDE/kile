@@ -151,7 +151,7 @@
 		</itemDatas>
 	</highlighting>
 	<general>
-		<keywords weakDeliminator="{}[]"/>
+		<keywords weakDeliminator=",{}[]"/>
 		<comments>
 			<comment name="singleLine" start="%" />
 		</comments>

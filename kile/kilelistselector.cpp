@@ -29,7 +29,7 @@ KileListSelector::KileListSelector(const QStringList & list, const QString &capt
 {
 	QVBoxLayout *layout = new QVBoxLayout(plainPage());
 
-	layout->addWidget(new QLabel(i18n("Please select a %1 from the list:").arg(select), plainPage()));
+	layout->addWidget(new QLabel(select, plainPage()));
 
 	m_listbox = new KListBox(plainPage());
 	m_listbox->insertStringList(list);

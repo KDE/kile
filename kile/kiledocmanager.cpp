@@ -881,7 +881,7 @@ KileProject* Manager::selectProject(const QString& caption)
 	QString name = QString::null;
 	if (list.count() > 1)
 	{
-		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("project"), m_ki->parentWidget());
+		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select a project"), m_ki->parentWidget());
 		if (dlg->exec())
 		{
 			name = list[dlg->currentItem()];

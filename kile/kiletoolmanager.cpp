@@ -138,7 +138,7 @@ namespace KileTool
 	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/)
 	{
 		kdDebug() << "==KileTool::Manager::run(Base*)============" << endl;
-		if (m_bClear)
+		if (m_bClear && (m_queue.count() == 0) )
 		{
 			m_log->clear();
 			m_ki->setLogPresent(false);

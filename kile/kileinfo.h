@@ -19,6 +19,7 @@
 #define KILEINFO_H
 
 #include <qstring.h>
+#include <qptrlist.h>
 #include <qmap.h>
 
 #include <kdebug.h>

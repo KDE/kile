@@ -41,7 +41,7 @@ namespace KileWidget
 		Q_OBJECT
 
 		enum GeneralBasicStack { GBS_None = 1, GBS_Process, GBS_Library, GBS_DocPart, GBS_Sequence, GBS_Error };
-		enum GeneralExtraStack { GES_None = 1, GES_LaTeX, GES_ViewBib };
+		enum GeneralExtraStack { GES_None = 1, GES_LaTeX/*, GES_ViewBib*/ };
 
 	public:
 		ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
@@ -107,7 +107,7 @@ namespace KileWidget
 		LibraryToolConfigWidget	*m_ltcw;
 		QuickToolConfigWidget	*m_qtcw;
 		LaTeXToolConfigWidget	*m_LaTeXtcw;
-		ViewBibToolConfigWidget	*m_ViewBibtcw;
+// 		ViewBibToolConfigWidget	*m_ViewBibtcw;
 	};
 }
 

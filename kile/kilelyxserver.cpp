@@ -18,43 +18,41 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdlib.h> //getenv
+#include <unistd.h> //read
 
 #include "kilelyxserver.h"
 #include "kileactions.h"
 
-#include <qlayout.h>
 #include <qfile.h>
 #include <qfileinfo.h>
-#include <qstringlist.h>
 #include <qsocketnotifier.h>
 #include <qregexp.h>
 
 #include <kdebug.h>
-#include <ktextedit.h>
-#include <kmainwindow.h>
 #include <klocale.h>
-#include <kurl.h>
 
 KileLyxServer::KileLyxServer(bool st) :
-	m_running(false),
-	m_count(0)
+	m_running(false)
 {
 	m_pipeIn.setAutoDelete(true);
 	m_notifier.setAutoDelete(true);
 
-	if (st)
-		start();
+	QString home(getenv("HOME"));
+	m_pipes << home+"/.lyxpipe.in" << home+"/.lyx/lyxpipe.in";
+	m_pipes << home+"/.lyxpipe.out" << home+"/.lyx/lyxpipe.out";
+
+	if (st) start();
 }
 
 KileLyxServer::~KileLyxServer()
 {
 	stop();
+	removePipes();
 }
 
 bool KileLyxServer::start()
 {
-	if (m_running)
-		stop();
+	if (m_running) stop();
 
 	kdDebug() << "starting the LyX server..." << endl;
 
@@ -83,19 +81,13 @@ bool KileLyxServer::start()
 
 bool KileLyxServer::openPipes()
 {
-	QString home(getenv("HOME"));
-
-	QStringList pipes;
-	pipes << home+"/.lyxpipe.in" << home+"/.lyx/lyxpipe.in";
-	pipes << home+"/.lyxpipe.out" << home+"/.lyx/lyxpipe.out";
-
 	bool opened = false;
 	QFileInfo info;
 	QFile *file;
 
-	for (uint i=0; i < pipes.count(); i++)
+	for (uint i=0; i < m_pipes.count(); i++)
 	{
-		info.setFile(pipes[i]);
+		info.setFile(m_pipes[i]);
 		if ( ! info.exists() )
 		{
 			mode_t perms = S_IRUSR | S_IWUSR | S_IRGRP| S_IROTH;
@@ -105,10 +97,10 @@ bool KileLyxServer::openPipes()
 			else
 				kdDebug() << "Created directory " << info.dirPath() << endl;
 
-			if (mkfifo(pipes[i].ascii(), perms) == -1)
+			if (mkfifo(m_pipes[i].ascii(), perms) == -1)
    				perror( "Could not create pipe ");
 			else
-				kdDebug() << "Created pipe " << pipes[i] << endl;
+				kdDebug() << "Created pipe " << m_pipes[i] << endl;
 		}
 
 		file  = new QFile(info.absFilePath());
@@ -122,9 +114,6 @@ bool KileLyxServer::openPipes()
 			m_pipeIn.append(file);
 			m_file.insert(file->handle(),file);
 			opened=true;
-
-			//read all data on the pipe (this is to ensure that old unprocessed data is not going to bother us)
-			//file->readAll(); //find a non-blocking solution
 		}
 	}
 
@@ -133,7 +122,7 @@ bool KileLyxServer::openPipes()
 
 void KileLyxServer::stop()
 {
-	kdDebug() << "stopping the LyX server after " << m_count << " requests..." << endl;
+	kdDebug() << "stopping the LyX server..." << endl;
 
 	QPtrListIterator<QFile> it(m_pipeIn);
 	while (it.current())
@@ -148,26 +137,38 @@ void KileLyxServer::stop()
 	m_running=false;
 }
 
+void KileLyxServer::removePipes()
+{
+ 	for ( uint i = 0; i < m_pipes.count(); i++) 
+		QFile::remove(m_pipes[i]);
+}
+
+void KileLyxServer::processLine(const QString &line)
+{
+	QRegExp cite(":citation-insert:(.*)$");
+	QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
+
+	if (cite.search(line) > -1)
+		emit(insert(KileAction::TagData("Cite", "\\cite{"+cite.cap(1)+"}", QString::null, 7+cite.cap(1).length())));
+	else if ( bibtexdbadd.search(line) > -1 )
+		emit(insert(KileAction::TagData("BibTeX db add", "\\bibliography{"+ bibtexdbadd.cap(1) + "}", QString::null, 15+bibtexdbadd.cap(1).length())));
+}
+
 void KileLyxServer::receive(int fd)
 {
-	kdDebug() << "==KileLyxServer::receive(" << fd << ")==============" << endl;
-	m_count++;
-	kdDebug() << "\tcount = " << m_count << endl;
-	if (m_file[fd])
-	{
-		QString line;
-		m_file[fd]->readLine(line, 80);
-		line=line.stripWhiteSpace();
-		kdDebug() << m_count << ":" << line << endl;
-
-		QRegExp cite(":citation-insert:(.*)$");
-		QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
-
-		if (cite.search(line) > -1)
-			emit(insert(KileAction::TagData("Cite", "\\cite{"+cite.cap(1)+"}", QString::null, 7+cite.cap(1).length())));
-		else if ( bibtexdbadd.search(line) > -1 )
-			emit(insert(KileAction::TagData("BibTeX db add", "\\bibliography{"+ bibtexdbadd.cap(1) + "}", QString::null, 15+bibtexdbadd.cap(1).length())));
-	}
+ 	if (m_file[fd])
+ 	{
+ 		int bytesRead;
+ 		int const size = 256;
+        char buffer[size];
+ 		if ((bytesRead = read(fd, buffer, size - 1)) > 0 ) 
+ 		{
+  			buffer[bytesRead] = '\0'; // turn it into a c string
+            QStringList cmds = QStringList::split('\n', QString(buffer).stripWhiteSpace());
+			for ( uint i = 0; i < cmds.count(); i++ )
+				processLine(cmds[i]);
+		}
+ 	}
 }
 
 #include "kilelyxserver.moc"

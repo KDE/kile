@@ -87,7 +87,7 @@ type=Process
 [Tool/MetaPost/Default]
 class=Compile
 command=mpost
-options=-interaction=nonstopmode '%source'
+options=-tex=latex -interaction=nonstopmode '%source'
 from=
 to=
 type=Process

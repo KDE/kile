@@ -25,6 +25,7 @@
 #include <qobject.h>
 #include <qptrlist.h>
 #include <qintdict.h>
+#include <qstringlist.h>
 
 /**
  * @short Simple server that impersonates as LyX to work with gBib, pyBibliographer etc.
@@ -50,19 +51,23 @@ public slots:
 	bool start();
 	void stop();
 
-protected slots:
+private slots:
 	void receive(int);
+	
+private:
 	bool openPipes();
+	void removePipes();
+	void processLine(const QString &);
 
 signals:
 	void insert(const KileAction::TagData &);
 
 private:
 	QPtrList<QFile>					m_pipeIn;
-	QPtrList<QSocketNotifier>			m_notifier;
+	QPtrList<QSocketNotifier>		m_notifier;
 	QIntDict<QFile>					m_file;
-	bool								m_running;
-	int								m_count;
+	bool							m_running;
+	QStringList 					m_pipes;
 };
 
 #endif // _LYXSERVER_H_

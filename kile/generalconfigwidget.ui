@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KileWidgetGeneralConfig</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>776</width>
-            <height>434</height>
+            <height>494</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -95,6 +95,9 @@
                     </property>
                     <property name="text">
                         <string>Auto&amp;save</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+S</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -261,17 +264,21 @@
                 </widget>
             </vbox>
         </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_RunLyxServer</cstring>
+            </property>
+            <property name="text">
+                <string>Let Kile process LyX commands sent by bibliography editors/viewers.</string>
+            </property>
+        </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

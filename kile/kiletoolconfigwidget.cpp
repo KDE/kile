@@ -178,9 +178,9 @@ namespace KileWidget
 		connect(m_LaTeXtcw->m_ckJump, SIGNAL(toggled(bool)), this, SLOT(setLaTeXJump(bool)));
 		connect(m_LaTeXtcw->m_ckAutoRun, SIGNAL(toggled(bool)), this, SLOT(setLaTeXAuto(bool)));
 
-		m_ViewBibtcw = new ViewBibToolConfigWidget(m_configWidget->m_stackExtra);
-		m_configWidget->m_stackExtra->addWidget(m_ViewBibtcw, GES_ViewBib);
-		connect(m_ViewBibtcw->m_ckRunLyxServer, SIGNAL(toggled(bool)), this, SLOT(setRunLyxServer(bool)));
+// 		m_ViewBibtcw = new ViewBibToolConfigWidget(m_configWidget->m_stackExtra);
+// 		m_configWidget->m_stackExtra->addWidget(m_ViewBibtcw, GES_ViewBib);
+// 		connect(m_ViewBibtcw->m_ckRunLyxServer, SIGNAL(toggled(bool)), this, SLOT(setRunLyxServer(bool)));
 	}
 
 	void ToolConfig::updateGeneral()
@@ -203,8 +203,8 @@ namespace KileWidget
 		QString cls = m_map["class"];
 		if ( cls == "LaTeX" )
 			extraPage = GES_LaTeX;
-		else if ( cls == "ViewBib" )
-			extraPage = GES_ViewBib;
+// 		else if ( cls == "ViewBib" )
+// 			extraPage = GES_ViewBib;
 
 		m_ptcw->m_leCommand->setText(m_map["command"]);
 		m_ptcw->m_leOptions->setText(m_map["options"]);
@@ -217,8 +217,8 @@ namespace KileWidget
 		m_LaTeXtcw->m_ckJump->setChecked(m_map["jumpToFirstError"] == "yes");
 		m_LaTeXtcw->m_ckAutoRun->setChecked(m_map["autoRun"] == "yes");
 
-		m_config->setGroup("Tools");
-		m_ViewBibtcw->m_ckRunLyxServer->setChecked(m_config->readBoolEntry("RunLyxServer", true));
+// 		m_config->setGroup("Tools");
+// 		m_ViewBibtcw->m_ckRunLyxServer->setChecked(m_config->readBoolEntry("RunLyxServer", true));
 
 		kdDebug() << "showing pages " << basicPage << " " << extraPage << endl;
 		m_configWidget->m_stackBasic->raiseWidget(basicPage);

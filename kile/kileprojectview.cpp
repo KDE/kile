@@ -260,8 +260,10 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	if (item->type() == KileType::Project)
 	{
 		KileProject *project = m_ki->projectFor(item->url());
-		//make some connections
-		connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
+		if (project==0)
+			kdWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path() << endl;
+		else
+			connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
 	}
 	else
 	{
@@ -299,6 +301,7 @@ KileProjectViewItem* KileProjectView::nonSrc(const KileProjectItem *pi, KileProj
 void KileProjectView::add(const KileProject *project)
 {
 	KileProjectViewItem *parent = new KileProjectViewItem(this, project->name());
+
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
 	parent->setOpen(true);
@@ -408,6 +411,8 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 	item->setArchiveState(projitem->archive());
 	item->setURL(projitem->url());
 	makeTheConnection(item);
+
+	projvi->sortChildItems(0,true);
 
 	return item;
 }

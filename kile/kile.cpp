@@ -318,7 +318,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), viewManager(), SLOT(updateStructure(bool, KileDocumentInfo*)));
-	connect(docManager(), SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocument(KileDocumentInfo *)));
+	connect(docManager(), SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocumentInfo *)));
 
 // 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), this, SLOT(UpdateStructure(bool, KileDocumentInfo*)));
 

@@ -17,6 +17,7 @@
 
 #include <qpopupmenu.h>
 
+#include <kdeversion.h>
 #include <kglobal.h>
 #include <kate/view.h>
 #include <kate/document.h>
@@ -86,6 +87,18 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	connect( view, SIGNAL(completionDone()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone()) );
 	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
 	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
+
+	#if KDE_VERSION < KDE_MAKE_VERSION(3,3,0)
+		#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,0)
+			KAction *spa = view->actionCollection()->action( "tools_spelling" );
+			if ( spa )
+			{
+				kdDebug() << "RECONNECTING SPELLCHECKER" << endl;
+				disconnect(spa , 0 , 0 , 0);
+				connect( spa, SIGNAL(activated()), this, SIGNAL(startSpellCheck()) );
+			}
+		#endif
+	#endif
 
 	// install a working kate part popup dialog thingy
 	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))

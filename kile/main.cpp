@@ -37,18 +37,19 @@ static KCmdLineOptions options[] =
 int main( int argc, char ** argv )
 {
    KAboutData aboutData( "kile", "Kile",
-                          "1.7a1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+                          "1.7a2", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
                           I18N_NOOP("by the Kile Team (2003)"),
                           0,
                           "http://kile.sourceforge.net");
     aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
     aboutData.addAuthor("Brachet Pascal",0,"");
+    aboutData.addCredit("Holger Danielsson", I18N_NOOP("Code Completion, Advanced Editing, Help system"));
     aboutData.addCredit("Roland Schulz", I18N_NOOP("KatePart integration"));
-    aboutData.addCredit("Thorsten Lück", I18N_NOOP("log parsing"));
-    aboutData.addCredit("Jan-Marek Glogowski", I18N_NOOP("find in files"));
-    aboutData.addCredit("Thomas Basset", I18N_NOOP("translations"));
+    aboutData.addCredit("Thorsten Lück", I18N_NOOP("Log Parsing"));
+    aboutData.addCredit("Jan-Marek Glogowski", I18N_NOOP("Find in Files dialog"));
+    aboutData.addCredit("Thomas Basset", I18N_NOOP("Translations"));
     aboutData.addCredit(I18N_NOOP("Please consult the webpage for up to date translation credits."));
-    aboutData.addCredit("Jonathan Pechta and Federico Zenith", I18N_NOOP("documentation"));
+    aboutData.addCredit("Jonathan Pechta and Federico Zenith", I18N_NOOP("Documentation"));
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions( options );

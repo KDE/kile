@@ -23,9 +23,9 @@
 #include <ktexteditor/searchinterface.h>
 #include <kparts/componentfactory.h>
 
+#include <kdeversion.h>
 #include <kdebug.h>
 #include <kaboutdata.h>
-#include <kileapplication.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
 #include <kiconloader.h>
@@ -75,6 +75,7 @@
 #include <qtextstream.h>
 #include <qsignalmapper.h>
 
+#include "kileapplication.h"
 #include "kiledocumentinfo.h"
 #include "kileactions.h"
 #include "kilestdactions.h"
@@ -360,8 +361,12 @@ void Kile::setupActions()
 
 	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
 
-	#if KDE_VERSION <= KDE_MAKE_VERSION(3,3,0)
+	//TODO fix #if's here and in spellcheck() once we depend on KDE 3.2.x
+	#if KDE_VERSION < KDE_MAKE_VERSION(3,2,0)
 		(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
+	#elif KDE_VERSION < KDE_MAKE_VERSION(3,3,0)
+		kdDebug() << "CONNECTING SPELLCHECKER" << endl;
+		connect ( viewManager(), SIGNAL(startSpellCheck()), this, SLOT(spellcheck()) );
 	#endif
 
 	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );

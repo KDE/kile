@@ -75,6 +75,7 @@ public slots:
 signals:
 	void activateView(QWidget *, bool, bool);
 	void prepareForPart(const QString &);
+	void startSpellCheck();
 
 	//TODO: make private after refactoring
 public:

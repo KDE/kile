@@ -310,6 +310,7 @@ private slots:
 	 **/
 	void activateView(QWidget* view ,bool checkModified = true, bool updateStruct = true);
 	void removeView(Kate::View *view);
+	Kate::View* switchToView(const KURL & url);
 
 	void focusLog();
 	void focusOutput();
@@ -332,9 +333,13 @@ public slots:
 	 *
 	 * @returns pointer to the new view
 	 **/
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, bool load = true, const QString &text = QString::null);
+	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null);
+	Kate::View* loadItem(KileProjectItem *item, const QString & text = QString::null);
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
+
+	KileDocumentInfo* createDocumentInfo(const KURL &url);
+	Kate::Document* createDocument(KileDocumentInfo *docinfo, const QString & encoding, const QString & highlight);
 
 public slots:
 	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }

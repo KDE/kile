@@ -94,7 +94,7 @@ class KileDocumentInfo : public QObject
 	Q_OBJECT
 
 public:
-	KileDocumentInfo(Kate::Document *doc);
+	KileDocumentInfo(Kate::Document *doc = 0L);
 	~KileDocumentInfo() {}
 
 	/**
@@ -102,7 +102,7 @@ public:
 	 **/
 	Kate::Document* getDoc() { return m_doc; }
 	void setDoc(Kate::Document *doc) { m_doc = doc; m_url=m_oldurl=doc->url();}
-	void detach() { m_doc = 0; }
+	void detach() { m_doc = 0L; }
 
 	/**
 	 * Used by @ref KileDocInfoDlg to display statistics of the Document.

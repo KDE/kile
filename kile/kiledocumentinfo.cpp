@@ -212,8 +212,7 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 
 void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 {
-	if (! getDoc())
-		return;
+	if ( getDoc() == 0L ) return;
 
 	QString shortName = getDoc()->url().fileName();
 

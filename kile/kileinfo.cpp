@@ -27,24 +27,25 @@
 
 void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 {
-/*	m_mapDocInfoToItem[docinfo]=item;
-	m_mapItemToDocInfo[item]=docinfo;*/
 	item->setInfo(docinfo);
 }
 
-void KileInfo::trash(Kate::Document *doc)
+void KileInfo::trashDoc(KileDocumentInfo *docinfo)
 {
-	kdDebug() << "\tTRASHING " <<  doc  << endl;
-	if (doc == 0) return;
+	Kate::Document *doc = docFor(docinfo->url());
 
-	kdDebug() << "\tremoving from m_docList: " << doc->url().path() << endl;
+	kdDebug() << "\tTRASHING " <<  doc  << endl;
+	if (doc == 0L) return;
+
+	kdDebug() << "DETACHING " << docinfo << endl;
+	docinfo->detach();
+
+	kdDebug() << "DELETING " << doc << endl;
 	m_docList.remove(doc);
 
-	KileDocumentInfo *docinfo =  infoFor(doc);
-	if (docinfo) docinfo->detach();
-	removeMap(doc);
+	kdDebug() << "just checking: " << docinfo->getDoc() << endl;
+	kdDebug() << "just checking: " << docFor(docinfo->url()) << endl;
 
-	//if (doc) doc->closeURL();
 	delete doc;
 }
 
@@ -84,19 +85,22 @@ KileProject* KileInfo::projectFor(const QString &name)
 	return project;
 }
 
-KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0*/) const
+KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0L*/) const
 {
 	if (project == 0L)
 	{
 		QPtrListIterator<KileProject> it(m_projects);
 		while ( it.current() )
 		{
+			kdDebug() << "looking in project " << (*it)->name() << endl;
 			if ((*it)->contains(url))
 			{
+				kdDebug() << "\t\tfound!" << endl;
 				return (*it)->item(url);
 			}
 			++it;
 		}
+		kdDebug() << "\t nothing found" << endl;
 	}
 	else
 	{
@@ -104,7 +108,7 @@ KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0*/)
 			return project->item(url);
 	}
 
-	return 0;
+	return 0L;
 }
 
 KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
@@ -114,13 +118,17 @@ KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *proje
 
 KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
 {
+	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
 	KileProjectItemList *list = new KileProjectItemList();
+	list->setAutoDelete(false);
 
 	QPtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
+		kdDebug() << "\tproject: " << (*it)->name() << endl;
 		if ((*it)->contains(docinfo->url()))
 		{
+			kdDebug() << "\t\tcontains" << endl;
 			list->append((*it)->item(docinfo->url()));
 		}
 		++it;
@@ -129,24 +137,38 @@ KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
 	return list;
 }
 
-KileDocumentInfo* KileInfo::infoFor(KileProjectItem *item)
+KileDocumentInfo* KileInfo::getInfo() const
 {
-	return infoFor(item->url().path());
+	Kate::Document *doc = activeDocument(); 
+	if ( doc != 0L )
+		return infoFor(doc);
+	else
+		return 0L;
 }
 
-KileDocumentInfo *KileInfo::infoFor(const QString & path)
+KileDocumentInfo *KileInfo::infoFor(const QString & path) const
 {
-	//kdDebug() << "==KileInfo::infoFor==========================" << endl;
-	//kdDebug() << "\t" << path << endl;
-	for (uint i=0; i < m_infoList.count(); i++)
+// 	kdDebug() << "==KileInfo::infoFor==========================" << endl;
+	kdDebug() << "\t" << path << endl;
+	QPtrListIterator<KileDocumentInfo> it(m_infoList);
+	while ( true )
 	{
-		//kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
-		if ( m_infoList.at(i)->url().path() == path)
-			return m_infoList.at(i);
+// 		kdDebug() << "\tconsidering " << it.current()->url().path() << endl;
+		if ( it.current()->url().path() == path)
+			return it.current();
+
+		if (it.atLast()) break;
+
+		++it;
 	}
 
 	//kdDebug() << "\tCOULD NOT find info for " << path << endl;
-	return 0;
+	return 0L;
+}
+
+KileDocumentInfo* KileInfo::infoFor(Kate::Document* doc) const
+{
+	return infoFor(doc->url().path());
 }
 
 Kate::Document* KileInfo::docFor(const KURL& url)
@@ -157,7 +179,7 @@ Kate::Document* KileInfo::docFor(const KURL& url)
 			return m_docList.at(i);
 	}
 
-	return 0;
+	return 0L;
 }
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {

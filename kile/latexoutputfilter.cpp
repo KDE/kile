@@ -161,7 +161,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 
 	static QString::QString strPartialFileName;
 	bool expectFileName = (dwCookie == FileNameHeuristic);
-	int index = 0, len = 0;
+	int index = 0;
 
     // handle special case (bug fix for 101810)
     if ( expectFileName && strLine[0] == ')' )

@@ -350,15 +350,9 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
 </ToolBar>
-<ToolBar name="Extra" index="5">
+<ToolBar name="Extra" index="5" noMerge="1">
+	<Merge/>
 	<Action name="print"/>
-	<Action name="info"/>
-	<DefineGroup name="print" />
-	<Separator lineSeparator="true"/>
-	<Action name="Back"/>
-	<Action name="Forward"/>
-	<Action name="Home"/>
-	<Separator lineSeparator="true"/>
 	<Action name="EditorView"/>
 </ToolBar>
 <State name="HTMLpreview">
@@ -383,9 +377,6 @@
 <Action name="EditorView"/>
 <Action name="file_print"/>
 <Action name="print"/>
-<Action name="Back"/>
-<Action name="Forward"/>
-<Action name="Home"/>
 </Enable>
 </State>
 <State name="Viewer">
@@ -404,9 +395,6 @@
 <Action name="FindInFiles"/>
 <Action name="settings_configure"/>
 <Action name="Mode"/>
-<Action name="Back"/>
-<Action name="Forward"/>
-<Action name="Home"/>
 <Action name="gotoNextDocument"/>
 <Action name="gotoPrevDocument"/>
 </Disable>
@@ -417,11 +405,6 @@
 </Enable>
 </State>
 <State name="Editor">
-<Disable>
-<Action name="Back"/>
-<Action name="Forward"/>
-<Action name="Home"/>
-</Disable>
 <Enable>
 <Action name="EditorView"/>
 <Action name="file_new"/>

@@ -281,6 +281,7 @@ Kile::~Kile()
 
 void Kile::setupActions()
 {
+	m_paPrint = KStdAction::print(0,0, actionCollection(), "print");
 	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "file_new" );
 	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"file_open" );
 	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
@@ -336,10 +337,6 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Output view"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
 	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
 	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
-
-	BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
-	ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
-	HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
 	QPtrList<KAction> alt_list;
 	KileStdActions::setupStdTags(this,this, &alt_list);
@@ -1966,25 +1963,6 @@ void Kile::ShowEditorWidget()
 
 void Kile::ResetPart()
 {
-KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
-KParts::BrowserExtension *ext =0L;
-if (dvipresent && dvipart) ext = KParts::BrowserExtension::childObject(dvipart);
-if (pspresent && pspart) ext = KParts::BrowserExtension::childObject(pspart);
-if (ext)
-{
-  QStrList slotNames =  ext->metaObject()->slotNames();
-  for ( ; it != itEnd ; ++it )
-  {
-    KAction * act = actionCollection()->action( it.key() );
-    if ( act && slotNames.contains( it.key()+"()" ) )
-    {
-        act->disconnect( ext );
-    }
-  }
-}
-
 if (htmlpresent  && htmlpart)
  {
    htmlpart->closeURL();
@@ -2018,38 +1996,6 @@ partManager->setActivePart( 0L);
 
 void Kile::ActivePartGUI(KParts::Part * the_part)
 {
-KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
-KParts::BrowserExtension *ext =0L;
-if (dvipresent && dvipart) ext = KParts::BrowserExtension::childObject(dvipart);
-if (pspresent && pspart) ext = KParts::BrowserExtension::childObject(pspart);
-
-if (ext)
-{
-    QStrList slotNames = ext->metaObject()->slotNames();
-    for ( ; it != itEnd ; ++it )
-    {
-    KAction * act = actionCollection()->action( it.key() );
-    if ( act )
-    {
-      if ( slotNames.contains( it.key()+"()" ) )
-      {
-          connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
-          act->setEnabled( ext->isActionEnabled( it.key() ) );
-      } else
-          act->setEnabled(false);
-    }
-  }
-}
-else
-{
-    for ( ; it != itEnd ; ++it )
-    {
-      KAction * act = actionCollection()->action( it.key() );
-      if (act) act->setEnabled( false );
-    }
-}
     createGUI( the_part );  
     if (htmlpresent && htmlpart)
     {
@@ -2082,6 +2028,24 @@ else
     toolBar("Extra")->hide();
     enableKileGUI(true);
     }
+
+KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(the_part);
+if (ext) //part is a BrowserExtension, connect printAction()
+{
+	if ( ext->metaObject()->slotNames().contains( "print()" ))
+	{
+		connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
+		m_paPrint->setEnabled(true);
+	}
+	else 
+	{
+		m_paPrint->setEnabled(false);
+	}
+}
+else
+{
+	m_paPrint->setEnabled(false);
+}
 
 }
 
@@ -3243,7 +3207,6 @@ void Kile::HtmlPreview()
 
 	prepareForPart();
    htmlpart = new docpart(topWidgetStack,"help");
-   connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
    htmlpresent=true;
    htmlpart->openURL(finame);
    htmlpart->addToHistory(finame);
@@ -4013,28 +3976,8 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-      if (viewlatexhelp_command == i18n("Embedded Viewer") )
-      {
-	      prepareForPart();
-	      htmlpart = new docpart(topWidgetStack,"help");
-	      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-	      htmlpresent=true;
-	      topWidgetStack->addWidget(htmlpart->widget() , 1 );
-	      topWidgetStack->raiseWidget(1);
-	      partManager->addPart(htmlpart, true);
-	      partManager->setActivePart( htmlpart);
-	      htmlpart->openURL("help:kile/latexhelp.html");
-	      htmlpart->addToHistory("help:kile/latexhelp.html");
-      }
-      else if (viewlatexhelp_command == i18n("External Browser") )
-      {
-        QString loc = locate("html","en/kile/latexhelp.html");
+	QString loc = locate("html","en/kile/latexhelp.html");
 	kapp->invokeBrowser(loc);
-      }
-      else
-      {
-	kapp->invokeHTMLHelp("kile/latexhelp.html");
-      }
 }
 
 void Kile::invokeHelp()
@@ -4773,12 +4716,6 @@ void Kile::ConfigureToolbars()
     }
 }
 
-///////////// NAVIGATION - DOC ////////////////////
-void Kile::updateNavAction(bool back, bool forward)
-{
-BackAction->setEnabled(back);
-ForwardAction->setEnabled(forward);
-}
 ////////////// VERTICAL TAB /////////////////
 void Kile::showVertPage(int page)
 {

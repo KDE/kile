@@ -151,7 +151,7 @@ private:
 
 	KPopupMenu			*help;
 	KHelpMenu				*help_menu;
-	KAction 					*BackAction, *ForwardAction, *HomeAction, *StopAction;
+	KAction 					*StopAction, *m_paPrint;
 	KToggleAction 		*ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
 									*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
 	KAction 					*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
@@ -273,7 +273,6 @@ private slots:
 	void GeneralOptions();
 	void ConfigureKeys();
    	void ConfigureToolbars();
-   	void updateNavAction( bool, bool);
 
 /* spell check */
 private slots:

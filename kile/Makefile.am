@@ -8,7 +8,7 @@ kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML
 
 SUBDIRS = pics symbols gfe templates syntax
 
-EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h docpart.cpp docpart.h kileappIface.h kileappIface_skel.cpp kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp kilefileselect.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h l2hdialog.cpp l2hdialog.h letterdialog.cpp letterdialog.h messagewidget.cpp messagewidget.h quickdocumentdialog.cpp quickdocumentdialog.h structdialog.cpp structdialog.h symbolview.cpp symbolview.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp tabdialog.h texkonsolewidget.cpp texkonsolewidget.h kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp refdialog.h kile22x22.png metapostview.cpp metapostview.h commandprocess.cpp commandprocess.h newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp kileprojectdlgs.h kileprojectview.cpp kileprojectview.h kilelistselector.cpp kilelistselector.h bibtexdialog.cpp bibtexdialog.h kilelyxserver.cpp kilelyxserver.h
+EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h docpart.cpp docpart.h kileappIface.h kileappIface_skel.cpp kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp kilefileselect.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h l2hdialog.cpp l2hdialog.h letterdialog.cpp letterdialog.h messagewidget.cpp messagewidget.h quickdocumentdialog.cpp quickdocumentdialog.h structdialog.cpp structdialog.h symbolview.cpp symbolview.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp tabdialog.h texkonsolewidget.cpp texkonsolewidget.h kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp refdialog.h kile22x22.png metapostview.cpp metapostview.h commandprocess.cpp commandprocess.h newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp kileprojectdlgs.h kileprojectview.cpp kileprojectview.h kilelistselector.cpp kilelistselector.h bibtexdialog.cpp bibtexdialog.h kilelyxserver.cpp kilelyxserver.h docpartui.rc
 
 xdg_apps_DATA = kile.desktop
 
@@ -45,7 +45,7 @@ METASOURCES = AUTO
 kile_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 rcdir = $(kde_datadir)/kile
-rc_DATA = kileui.rc
+rc_DATA = kileui.rc docpartui.rc
 
 messages: rc.cpp
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \

@@ -10,14 +10,14 @@
       <keyword>Qt</keyword>
       <keyword>KDE</keyword>
     </keywords>
-    <projectdirectory>.</projectdirectory>
+    <projectdirectory>kile</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <description/>
     <ignoreparts>
       <part>KDevClearCase</part>
       <part>KDevPerforce</part>
-      <part>KDevVisualBoyAdvance</part>
     </ignoreparts>
+    <secondaryLanguages/>
   </general>
   <kdevfileview>
     <groups>
@@ -52,6 +52,10 @@
       <userdocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/doc/kile</userdocDir>
       <apidocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html</apidocDir>
     </projectdoc>
+    <ignoreqt_xml/>
+    <ignoredoxygen/>
+    <ignorekdocs/>
+    <ignoredevhelp/>
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
@@ -62,6 +66,9 @@
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -101,6 +108,24 @@
       <directoryradio>custom</directoryradio>
       <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
     </run>
+    <configurations>
+      <default>
+        <configargs/>
+        <builddir>/home/kde-dev/kde/build/kile/1_6/kdeextragear-2/kile</builddir>
+        <topsourcedir>/home/kde-dev/kde/src/kile/1_6/kdeextragear-2</topsourcedir>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevpgf77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags/>
+        <f77flags/>
+      </default>
+    </configurations>
   </kdevautoproject>
   <cppsupportpart>
     <codecompletion/>
@@ -119,14 +144,14 @@
   </kdevclassview>
   <kdevcvs>
     <cvsoptions>-f</cvsoptions>
-    <commitoptions></commitoptions>
-    <addoptions></addoptions>
-    <logoptions></logoptions>
+    <commitoptions/>
+    <addoptions/>
+    <logoptions/>
     <updateoptions>-dP</updateoptions>
     <removeoptions>-f</removeoptions>
     <revertoptions>-C -d -P</revertoptions>
     <diffoptions>-u3 -p</diffoptions>
-    <rshoptions></rshoptions>
+    <rshoptions/>
   </kdevcvs>
   <kdevcppsupport>
     <codecompletion>
@@ -143,4 +168,11 @@
     </codecompletion>
     <references/>
   </kdevcppsupport>
+  <kdevcvsservice>
+    <recursivewhenupdate>true</recursivewhenupdate>
+    <prunedirswhenupdate>true</prunedirswhenupdate>
+    <createdirswhenupdate>true</createdirswhenupdate>
+    <recursivewhencommitremove>true</recursivewhencommitremove>
+    <revertoptions>-C</revertoptions>
+  </kdevcvsservice>
 </kdevelop>

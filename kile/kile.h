@@ -444,7 +444,8 @@ private:
 	KShellProcess 		*currentProcess;
 	QString 		latex_command, viewdvi_command, dvips_command, dvipdf_command,
 					viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
-					pdflatex_command, viewpdf_command, l2h_options, bibtexeditor_command;
+					pdflatex_command, viewpdf_command, l2h_options, bibtexeditor_command,
+					viewlatexhelp_command;
 
 signals:
 	void stopProcess();

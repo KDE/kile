@@ -157,11 +157,11 @@ void KileLyxServer::receive(int fd)
 		line=line.stripWhiteSpace();
 		kdDebug() << m_count++ << ":" << line << endl;
 
-		QStringList split = QStringList::split(':', line);
+		QString from = line.section(':',0,0);
+		QString command = line.section(':',1,1);
+		QString arg = line.section(":",2);
 
-		QString command = split[2];
-		QString arg = split[3];
-		kdDebug() << "received " << command << "(" << arg << ") from " << split[1] << endl;
+		kdDebug() << "received " << command << "(" << arg << ") from " << from << endl;
 
 		if (command == "citation-insert")
 			emit(insertCite(arg));

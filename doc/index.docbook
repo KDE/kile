@@ -13,6 +13,8 @@
   <!ENTITY makeidx "<application>makeidx</application>">
   <!ENTITY kate "<application>Kate</application>">
   <!ENTITY xfig "<application>XFig</application>">
+  <!ENTITY cjk "<abbrev>CJK</abbrev>">
+  <!ENTITY ucs "<abbrev>ucs</abbrev>">
   <!ENTITY kappname "&kile;">
   <!ENTITY package "kdeextragear-2">
   <!ENTITY % addindex "IGNORE">
@@ -25,8 +27,7 @@
 <title>The &kile; Handbook</title>
 
 <authorgroup>
-	<author><firstname>Jonathan</firstname><surname>Pechta</surname>
-	<affiliation><address><email>jrpechta@yahoo.com</email></address></affiliation></author>
+	<author><firstname>Jonathan</firstname><surname>Pechta</surname></author>
 	<author><firstname>Federico</firstname><surname>Zenith</surname>
 	<affiliation><address><email>zenith@chemeng.ntnu.no</email></address></affiliation></author>
 	<othercredit role="developer">
@@ -45,12 +46,12 @@
 </copyright>
 
 <copyright>
-<year>2003</year><year>2004</year>
+<year>2003</year><year>2005</year>
 <holder>Federico Zenith</holder>
 </copyright>
 
-<date>2003-11-29</date>
-<releaseinfo>1.6</releaseinfo>
+<date>2005-01-18</date>
+<releaseinfo>1.7</releaseinfo>
 
 <legalnotice>
 &FDLNotice;
@@ -1652,8 +1653,8 @@
 	accented or special letters directly. To use accented letters, a special syntax was created: 
 	such as for example <userinput>\"e</userinput> for <computeroutput>ë</computeroutput>. 
 	There is a package to help you with this, called <application>inputenc</application>, and is included 
-	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the option argument is the
-	encoding you would like to use (in most cases <userinput>latin1</userinput>). This tells &latex;
+	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the optional argument 
+	is the encoding you would like to use (in most cases <userinput>latin1</userinput>). This tells &latex;
 	to translate all of the <userinput>ë</userinput>'s you wrote to <userinput>\"e</userinput>'s before
 	compiling. Please refer to the <application>inputenc</application> documents directly for more
 	information on <application>inputenc</application>. Last but not least: remember to make sure that 
@@ -1687,9 +1688,184 @@
 	document; the good news is, there <emphasis>is</emphasis> a &latex; package
 	that can do just that, and you can install it yourself.</para>
 
-	<para>Just go to the home page of <ulink url="http://www.unruh.de/DniQ/latex/unicode/">Unicode
-	support for &latex;</ulink>, by Dominique Unruh from the university of Karlsruhe.
-	Follow the instructions there to install the package and use it.</para>
+	<sect1 id="ucs">
+	
+		<title>The &ucs; Package</title>
+		
+		<para>You can get the &ucs; package from the home page of 
+		<ulink url="http://www.unruh.de/DniQ/latex/unicode/">Unicode support for 
+		&latex;</ulink>, by Dominique Unruh from the university of Karlsruhe.</para>
+		
+		<para>To install it, unpack the downloaded file and move the uncompressed 
+		contents to a directory that &tex; can see; you could for instance use 
+		<userinput>/usr/share/texmf/tex/latex/ucs/</userinput> (make sure this is 
+		actually your $<envar>TEXMF</envar> path, as it sometimes change depending 
+		on the distribution you use!). Make the directory globally readable if it is
+		not already, and the subdirectories executable, using <command>chmod</command>.
+		You have to perform all these actions as root, so be careful.</para>
+		
+		<para>When you have finished, launch the <command>texhash</command> command
+		to make &tex; review its files, and hopefully find the new package. Refer to 
+		the package documentation for details, but generally you will need little more
+		than setting the following in your preamble:
+		<screen><userinput>
+		\usepackage{ucs}
+		\usepackage[utf8x]{inputenc}</userinput></screen></para>
+		
+	</sect1>
+	
+	<sect1 id="cjk">
+		
+		<title>Chinese, Japanese and Korean (&cjk;) Support</title>
+		
+		<para>Adding support for ideographic languages is quite tricky. However, once
+		you are done with it, it will work quite well. Other than installing packages,
+		there is some extra configuration work to do.</para>
+		
+		<tip><para>Your Linux distribution might already have a &cjk; package ready for 
+		you, so you might be saved the hassle of manually installing everything. Do check 
+		before going forward!</para></tip>
+		
+		<para>There is the possibility of using the &ucs; package in order to write
+		short snippets of &cjk; text, but that option is seriously limited as it does
+		not handle, among other things, newlines. We will instead install the complete
+		&cjk;-&latex; package and make it work for both &latex; and PDF&latex;. A lot
+		of this material has been inspired by <ulink url="http://www.ece.uci.edu/~chou/">Pai
+		H. Chou</ulink>'s <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html">page 
+		about how to setup PDF&latex;</ulink>.</para>
+		
+		<orderedlist>
+		
+		<listitem><para>Download the <ulink 
+		url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html">&cjk;</ulink> 
+		package. Copy its unpacked files to an appropriate subfolder of 
+		$<envar>TEXMF</envar>, just like you did with the &ucs; package 
+		before (see <xref linkend="ucs"/>). The files will be unpacked in a 
+		<filename>CJK/X_Y.Z</filename> directory, it is not important that you 
+		take them out, though it will probably be tidier for you to 
+		maintain.</para></listitem>
+		
+		<listitem><para>Now you have to download a font that supports all the &cjk; characters 
+		you need. You can choose any <literal role="extension">*.ttf</literal> file that
+		covers them, but in this walkthrough we will use <ulink
+		url="ftp://ftp.netscape.com/pub/communicator/extras/fonts/windows/Cyberbit.ZIP">Cyberbit</ulink>.
+		Unzip the file and rename <filename>Cyberbit.ttf</filename> to 
+		<filename>cyberbit.ttf</filename>, since uppercase might confuse your system.</para>
+		<para>Place <filename>cyberbit.ttf</filename> in a folder together with
+		<ulink url="http://delloye.free.fr/Unicode.sfd"><filename>Unicode.sfd</filename></ulink>,
+		and generate the <literal role="extension">*.tfm</literal> and 
+		<literal role="extension">*.enc</literal> files with the command 
+		<command>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command>. 
+		For some reasons, sometimes this does not produce the hundreds 
+		of files it should. Should that be your case, you can download both 
+		<ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"><literal
+		role="extension">*.tfm</literal></ulink> and 
+		<ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"><literal
+		role="extension">*.enc</literal></ulink> files.</para>
+		<para>Place the <literal role="extension">*.tfm</literal> files in an 
+		appropriate folder, say <filename>$TEXMF/fonts/tfm/bitstream/cyberbit/</filename>;
+		the <literal role="extension">*.enc</literal> files may be installed in
+		<filename>$TEXMF/pdftex/enc/cyberbit/</filename>.</para></listitem>
+		
+		<listitem><para>Now we need a map file to connect the <literal
+		role="extension">*.enc</literal> files to the font. Download <ulink
+		url="http://delloye.free.fr/cyberbit.map"><filename>cyberbit.map</filename></ulink> 
+		and install it in <filename>$TEXMF/pdftex/config/</filename>.</para></listitem>
+		
+		<listitem><para>Download another file, <ulink 
+		url="http://delloye.free.fr/c70cyberbit.fd"><filename>c70cyberbit.fd</filename></ulink>,
+		and place it in an appropriate folder. You may choose, for example, 
+		<filename>$TEXMF/tex/misc/</filename>.</para></listitem>
+		
+		<listitem><para>The last file we have to generate is a PostScript Type 1
+		font, necessary to read DVI files generated with &latex;. Run the command
+		<command>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command>, and copy the
+		resulting <filename>cyberbit.pfb</filename> in a folder like
+		<filename>$TEXMF/fonts/type1/cyberbit/</filename>.</para></listitem>
+		
+		<listitem><para>Let's now place <filename>cyberbit.ttf</filename> among the fonts 
+		where &latex; can find it. You could place it in a folder named 
+		<filename>$TEXMF/fonts/truetype/</filename>.</para></listitem>
+		
+		<listitem><para>Check the configuration file you find at
+		<filename>$TEXMF/web2c/texmf.cnf</filename>, and make sure that the 
+		line mentioning <envar>TTFONTS</envar> is uncommented and points to 
+		the folder where you saved <filename>cyberbit.ttf</filename>.</para></listitem>
+		
+		<listitem><para>To make it possible for PDF&latex; to use your &cjk; 
+		fonts, it is necessary that you add a line in configuration file
+		<filename>$TEXMF/pdftex/config/pdftex.cfg</filename>. Add 
+		<userinput>map +cyberbit.map</userinput> in the file to complete the
+		configuration for PDF&latex;.</para></listitem>
+		
+		<listitem><para>To configure &latex; so that you can produce DVI 
+		files with &cjk; characters, you have to add a line in file 
+		<filename>ttfonts.map</filename>. The file might be in a directory named 
+		<filename>$TEXMF/ttf2pk/</filename>, but you will probably have to look 
+		for it. Add the line <userinput>cyberbit@Unicode@ cyberbit.ttf</userinput>
+		into it.</para></listitem>
+		
+		<listitem><para>Now, you only have to run <command>texhash</command> and 
+		the system should be ready.</para></listitem>
+		
+		</orderedlist>
+		
+		<para>To test whether your configuration is correct, you can try to compile
+		<ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex">this test
+		file</ulink>.</para>
+		
+		<sect2>
+			<title>&cjk; Troubleshooting</title>
+			
+			<para>There are many things that can go wrong when setting &cjk; 
+			support manually. If something seems not to work, the following 
+			checklist might help you.</para>
+			
+			<itemizedlist>
+			
+			<listitem><para>Obviously, since you run &latex; as a user and
+			not as root, you must <emphasis>allow</emphasis> ordinary users
+			to access the new files. Make sure all folders and files are 
+			accessible using the <command>chmod</command> command.</para></listitem>
+			
+			<listitem><para>If &latex; writes a DVI without problems, but you
+			cannot view it, it's almost certainly because of some problems in the
+			automatic generation of <literal role="extension">*.pk</literal> 
+			fonts. They are supposed to be generated on the fly when viewing a
+			DVI file, but this might fail for a number of reasons: double-check
+			<filename>ttfonts.map</filename> for your custom line first. However,
+			it might happen that your <command>ttf2pk</command> command, which 
+			is usually invoked by the DVI viewer, has been compiled 
+			<emphasis>without</emphasis> support for the 
+			<application>kpathsea</application> libraries. If this is the case,
+			<command>$ ttf2pk --version</command> will make no mention of 
+			<application>kpathsea</application>. As support for these libraries
+			is necessary, you might have to find a new package, or recompile
+			<application>FreeType 1</application> by yourself.</para></listitem>
+			
+			</itemizedlist>
+			
+		</sect2>
+			
+		
+		<sect2>
+		
+			<title>How do I input &cjk; in Unicode?</title>
+			
+			<para>There are a number of different input engines, and the choice can
+			depend also on personal preference. The author uses <ulink 
+			url="http://www.scim-im.org/projects/skim"><application>Skim</application></ulink>,
+			a port to &kde; of the <ulink 
+			url="http://www.scim-im.org"><application>Scim</application></ulink>
+			engine. Refer to your distribution's documentation to learn how to 
+			install these programs. Configuration of such programs can be tricky
+			too, in the case of <application>Skim</application> you will have to 
+			define an environment variable <userinput>XMODIFIERS="@im=SCIM"</userinput> 
+			<emphasis>before</emphasis> starting <application>X</application>.</para>
+		
+		</sect2>
+	
+	</sect1>
 
 </chapter>
 
@@ -1716,12 +1892,9 @@
 	<application>Xgfe</application> (X Windows GUI front end to &gnuplot;),
 	Copyright &copy; 1998 David Ishee</para>
 
-	<para>Documentation Copyright &copy; 2003 Jonathan Pechta, 2003-2004 Federico Zenith (final adjustments)</para>
+	<para>Documentation Copyright &copy; 2003 Jonathan Pechta, 2003-2005 Federico Zenith</para>
 
 	<para>Contributions from: Rob Lensen, Roland Schulz, Michael Margraf</para>
-
-	<para>Translators: Thomas Basset (fr), Kris Luyten (nl), Alexander Hunziger (de), Stefan Asserhall (se),
-	Alfredo Beaumont (eu), Leopold Palomo Avellaneda (ca), Federico Zenith (it), Quique (es), Maciej Woloszyn (pl).</para>
 
 	<para>Many thanks to all those involved!</para>
 

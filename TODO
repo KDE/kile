@@ -5,21 +5,14 @@ BUGS
  - F3 is assigned to two actions
 
 TODO
+ - use KDirWatch to check for modified files on disk
+ 
  - version control for the kilerc file, now users have to delete
    the old kilerc file when they upgrade to a new version
 
  - inherit QListView for the structureview (current code is very inefficient)
- 
+
  - also handle .ltx files
- 
- - improve UI of usertool/usertag dialogs
-
- - fix compile (Mandrake) for gfe
-
- - add a check for libfam in configure.in.in (?)
-
- - inverse search: kile is started and a Goto dialog is presented, could do
-   without it the Goto dialog :-)
 
  - recursive sectioning: also parse sections that were inserted with
    \input or \include (optional)

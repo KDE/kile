@@ -132,7 +132,7 @@ if (!lastDocument.isEmpty())
 KileFS->setDir(KURL(currentDir));
 KileFS->comboEncoding->lineEdit()->setText(input_encoding);
 
-ButtonBar->insertTab(UserIcon("structure"),1,i18n("Structure"));
+ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
 connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 outstruct = new QListView( Structview );
 outstruct->setFocusPolicy(QWidget::ClickFocus);
@@ -247,6 +247,7 @@ void Kile::setupActions()
   (void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
   (void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
   (void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
+  (void) new KAction(i18n("Statistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
   (void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
   (void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
@@ -437,7 +438,13 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	Kate::View *view;
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 
+	//install a documentinfo class for this doc
+	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
+	m_mapDocInfo[doc]=docinfo;
+
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
+
+	//install event filter on the view
 	KileEventFilter *fil = new KileEventFilter();
 	fil->setComplete(m_bCompleteEnvironment);
 	connect(this,SIGNAL(completeConfigChanged(bool)), fil, SLOT(setComplete(bool)));
@@ -476,7 +483,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
 	//activate the newly created view
-	activateView(view,false);
+	activateView(view, false);
 	KParts::GUIActivateEvent ev( true );
 	QApplication::sendEvent( view, &ev );
 
@@ -601,6 +608,7 @@ void Kile::fileNew()
     }
 }
 
+//TODO: connect to modifiedondisc() when using KDE 3.2
 bool Kile::eventFilter(QObject* o, QEvent* e)
 {
 	if ( (!m_bBlockWindowActivateEvents) && e->type() == QEvent::WindowActivate && o == this )
@@ -620,7 +628,8 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 	return QWidget::eventFilter(o,e);
 }
 
-void Kile::activateView(QWidget* w, bool checkModified /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
+
+void Kile::activateView(QWidget* w ,bool checkModified /*= true*/  )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	Kate::View* view = (Kate::View*)w;
 
@@ -767,6 +776,7 @@ void Kile::removeTemplate() {
 
 void Kile::fileClose()
 {
+	//TODO: remove from docinfo map, remove from dirwatch
 	Kate::View *view = currentView();
 	if (view)
 	{
@@ -826,6 +836,27 @@ void Kile::fileSelected(const KFileItem *file)
 		load(file->url(), encoding);
 }
 
+void Kile::showDocInfo(Kate::Document *doc)
+{
+	if (doc == 0)
+	{
+		Kate::View *view = currentView();
+
+		if (view) doc = view->getDoc();
+		else return;
+	}
+
+	KileDocumentInfo *docinfo = m_mapDocInfo[doc];
+
+	if (docinfo)
+	{
+		KileDocInfoDlg *dlg = new KileDocInfoDlg(docinfo, this, 0, i18n("Summary for document : %1").arg(getShortName(doc)));
+		dlg->exec();
+	}
+	else
+		kdWarning() << "There is know KileDocumentInfo object belonging to this document!" << endl;
+}
+
 ////////////////// GENERAL SLOTS //////////////
 void Kile::newStatus(const QString & msg)
 {
@@ -836,6 +867,7 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 {
 	if (doc)
 	{
+		kdDebug() << "newDocumentStatus " << doc->docName() << endl;
 		QPtrList<KTextEditor::View> list = doc->views();
 		QString icon = doc->isModified() ? "modified" : "empty";
 
@@ -2053,6 +2085,8 @@ void Kile::syncTerminal()
     			texkonsole->SetDirectory(fic.dirPath());
     			texkonsole->activate();
 		}
+
+		view->setFocus();
 	}
 }
 
@@ -3596,7 +3630,7 @@ else
 
 void Kile::GeneralOptions()
 {
-	toDlg = new toolsoptionsdialog(this,"Configure Kile");
+	toDlg = new KileConfigDialog(this,"Configure Kile");
 
 	//initialize dialog with current settings
 	kdDebug() << "autosaveinterval = " << autosaveinterval << endl;
@@ -3980,9 +4014,9 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 	if ( e->type() == QEvent::AccelOverride)
 	{
 		QKeyEvent *ke = (QKeyEvent*) e;
-		kdDebug() << "eventFilter : AccelOverride : " << ke->key() << endl;
-		kdDebug() << "              type          : " << ke->type() << endl;
-		kdDebug() << "              state         : " << ke->state() << endl;
+		//kdDebug() << "eventFilter : AccelOverride : " << ke->key() << endl;
+		//kdDebug() << "              type          : " << ke->type() << endl;
+		//kdDebug() << "              state         : " << ke->state() << endl;
 
 		if ( m_bCompleteEnvironment &&  ke->key() == Qt::Key_Return && ke->state() == 0)
 		{
@@ -3993,9 +4027,9 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 
 				QString line = view->getDoc()->textLine(view->cursorLine()).left(view->cursorColumnReal());
 				int pos = m_regexpEnter.search(line);
-				kdDebug() << "              line     : " << line << endl;
-				kdDebug() << "              pos      : " << pos << endl;
-				kdDebug() << "              captured : " << m_regexpEnter.cap(1) << "+" << m_regexpEnter.cap(2) << endl;
+				//kdDebug() << "              line     : " << line << endl;
+				//kdDebug() << "              pos      : " << pos << endl;
+				//kdDebug() << "              captured : " << m_regexpEnter.cap(1) << "+" << m_regexpEnter.cap(2) << endl;
 				if (pos != -1 )
 				{
 					line = m_regexpEnter.cap(1);

@@ -24,10 +24,12 @@
 
 #include "kileinfointerface.h"
 
+class QCheckBox;
+
 namespace KileAction
 {
 
-enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList = 16};
+enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList = 16, ShowFigureInput=32};
 /*
 	TagData
 */
@@ -84,6 +86,8 @@ protected:
 */
 class InputTag : public Tag
 {
+friend class InputFigure;
+
 	Q_OBJECT
 
 public:
@@ -124,6 +128,26 @@ private:
 	QString				m_alter;
 };
 
+
+/*
+	InputFigure
+*/
+class InputFigure : public InputTag
+{
+	Q_OBJECT
+
+public:
+	//constructors
+	InputFigure(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
+
+private slots:
+	//emits the activated(TagData) signal
+	virtual void emitData();
+
+};
+
+
 /*
 	InputDialog
 */
@@ -140,6 +164,7 @@ public:
 public slots:
 	void slotBrowse();
 	void slotAltClicked();
+	void slotEnvClicked();
 
 	void setTag(const QString&);
 
@@ -148,11 +173,16 @@ signals:
 
 public:
 	QString tag() { return m_tag; }
+	QLineEdit *figLabel;
+	QLineEdit *figCaption;
+	QCheckBox *Env;
 
 private:
 	QString 			m_tag;
 	bool				m_useAlternative;
 	KileInfoInterface	*m_kii;
+	QLabel *Text2;
+	QLabel *Text3;
 };
 
 class Select : public KSelectAction

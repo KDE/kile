@@ -71,6 +71,7 @@
 #include "metapostview.h"
 
 #include "kileinfointerface.h"
+#include "kiledocumentinfo.h"
 #include "kileactions.h"
 
 #include "commandprocess.h"
@@ -84,6 +85,7 @@ class QFileInfo;
 class QTimer;
 class QSignalMapper;
 class KActionMenu;
+class KDirWatch;
 
 //typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
@@ -215,7 +217,7 @@ private slots:
 /* config */
 private:
 	KConfig				*config;
-	toolsoptionsdialog 	*toDlg;
+	KileConfigDialog 	*toDlg;
 	int 				split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
@@ -264,10 +266,13 @@ protected:
 	bool m_bBlockWindowActivateEvents;
 
 private slots:
-	void activateView(QWidget* view, bool checkModified = true);
+	void activateView(QWidget* view ,bool checkModified = true);
+
+public:
+	Kate::View* currentView() const;
+	QPtrList<Kate::View>& views() {return m_viewList;}
 
 private:
-	Kate::View* currentView() const;
 	Kate::View					*m_activeView;
 	QPtrList<Kate::View> 		m_viewList;
 
@@ -306,6 +311,15 @@ private slots:
 
 	QString getName(Kate::Document *doc);
     QString getShortName(Kate::Document *doc);
+
+	//
+	// documentinfo
+	//
+private slots:
+	void showDocInfo(Kate::Document *doc = 0);
+
+private:
+	QMap< Kate::Document*, KileDocumentInfo* >	m_mapDocInfo;
 
 	//
 	// implementation of:

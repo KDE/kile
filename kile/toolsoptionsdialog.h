@@ -19,7 +19,9 @@
 #define TOOLSOPTIONSDIALOG_H
 
 #include <kdialogbase.h>
-#include <qvalidator.h>
+
+#include <ktexteditor/configinterface.h>
+#include <ktexteditor/configinterfaceextension.h>
 
 class QLabel;
 class QLineEdit;
@@ -36,16 +38,15 @@ class KSpellConfig;
 class KColorButton;
 class KIntNumInput;
 
-//typedef  QColor ListColors[8];
+class Kile;
 
-
-class toolsoptionsdialog : public KDialogBase
+class KileConfigDialog : public KDialogBase
 {
     Q_OBJECT
 
 public:
-    toolsoptionsdialog( QWidget* parent = 0, const char* name = 0);
-    ~toolsoptionsdialog();
+    KileConfigDialog( Kile* parent = 0, const char* name = 0);
+    ~KileConfigDialog();
 
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
 
@@ -67,7 +68,15 @@ public:
     QFrame* toolsPage;
     QFrame* quickPage;
     QFrame* spellingPage;
-	QFrame* editPage;
+	QVBox* editPage;
     KSpellConfig *ksc;
+
+private slots:
+	void slotOk();
+
+private:
+	Kile								*m_kile;
+	QPtrList<KTextEditor::ConfigPage>	editorPages;
+	Kate::View							*m_view;
 };
 #endif

@@ -159,12 +159,54 @@ void InputTag::emitData()
 	delete dlg;
 }
 
+
+////////////////
+//    InputFigure     //
+////////////////
+InputFigure::InputFigure(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+			, const QString &tagBegin, const QString &tagEnd, int dx, int dy, const QString &description, const QString &hint, const QString &alter)
+	: InputTag(kii, text, cut, receiver, slot, parent, name, wparent, options, tagBegin, tagEnd, dx, dy, description, hint, alter)
+{
+	init();
+}
+
+void InputFigure::emitData()
+{
+	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_kii, m_parent, "input_dialog");
+	if (dlg->exec())
+	{
+//		kdDebug() << "een" << endl;
+		if ( (! dlg->tag().isEmpty()) && hasHistory()) addToHistory(dlg->tag());
+
+//		kdDebug() << "twee" << endl;
+		TagData td(m_data);
+
+		td.tagBegin.append(dlg->tag());
+
+		if(dlg->Env != NULL) if(dlg->Env->isChecked())
+		{
+			td.tagBegin.prepend("\\begin{figure}\n   \\centering\n   ");
+
+			td.tagEnd.append("\n   \\caption{"+dlg->figCaption->text()+"}\n   \\label{"+dlg->figLabel->text()+"}\n\\end{figure}" );
+			td.dx += 3;
+			td.dy += 2;
+		}
+
+//		kdDebug() << "vier" << endl;
+		emit(activated(td));
+	}
+	delete dlg;
+}
+
 /*
 	InputDialog
 */
 InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, KileInfoInterface *kii, QWidget *parent, const char *name)
 	: KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true), m_kii(kii)
 {
+	Env = NULL;
+	figLabel = NULL;
+
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 	QGridLayout *gbox = new QGridLayout( page, 3, 4,5,5,"");
@@ -226,6 +268,30 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		m_useAlternative=false;
 		gbox->addMultiCellWidget(m_checkbox,2,2,0,3);
 	}
+	if ( options & KileAction::ShowFigureInput)
+	{
+		Env = new QCheckBox(page, "" );
+		Env->setText(i18n("with environment") );
+		Env->setChecked( false );
+		gbox->addMultiCellWidget( Env,2,2,0,1,1 );
+		connect( Env, SIGNAL( clicked() ), this, SLOT( slotEnvClicked() ) );
+
+		Text2 = new QLabel(page, "" );
+		Text2->setText(i18n("Label:") );
+		gbox->addWidget( Text2,3,0 );
+		figLabel = new QLineEdit(page, "" );
+		figLabel->setText("");
+		gbox->addMultiCellWidget( figLabel,3,3,1,3,0 );
+
+		Text3 = new QLabel(page, "" );
+		Text3->setText(i18n("Caption:") );
+		gbox->addWidget( Text3,4,0 );
+		figCaption = new QLineEdit(page, "" );
+		figCaption->setText("");
+		gbox->addMultiCellWidget( figCaption,4,4,1,3,0 );
+
+		slotEnvClicked();
+	}
 }
 
 
@@ -240,7 +306,7 @@ void InputDialog::slotBrowse()
 	fn = KFileDialog::getOpenFileName(fi.absFilePath(), QString::null, this,i18n("Select File") );
   	if ( !fn.isEmpty() )
     {
-    	setTag(fn);
+		setTag(fn);
 		emit(setInput(fn));
     }
 }
@@ -253,6 +319,28 @@ void InputDialog::slotAltClicked()
 void InputDialog::setTag(const QString &tag)
 {
 	m_tag = tag;
+	if(figLabel != NULL)
+	{
+		QFileInfo picFile( tag );
+		if(figLabel->text().isEmpty())
+			figLabel->setText( "fig:"+picFile.baseName() );
+	}
+}
+
+void InputDialog::slotEnvClicked()
+{
+  if (Env->isChecked()) {
+    Text2->setEnabled( true );
+    Text3->setEnabled( true );
+    figLabel->setEnabled( true );
+    figCaption->setEnabled( true );
+  }
+  else {
+    Text2->setDisabled( true );
+    Text3->setDisabled( true );
+    figLabel->setDisabled( true );
+    figCaption->setDisabled( true );
+  }
 }
 
 /////////////////

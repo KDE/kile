@@ -7,3 +7,4 @@ EXTRA_DIST = kile.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO ki
  
 
 
+_SOURCES =  kile.h

@@ -1,3 +1,9 @@
+- more advanced \includegraphics dialog (thx Michael Margraf)
+- check for modified on disc
+- auto-complete environments
+- highligthing inside math environments
+- allow user to set PS-PDF, DVI-PS, PDF-PS, BibTeX, makeindex commands
+
 version 1.5 -> 1.5.2 :
 - prompt user when trying to run LaTeX on a document which isn't a document root
 - better syntax highlighting (deals with \verb and verbatim environment)

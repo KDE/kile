@@ -552,9 +552,12 @@ void TeXInfo::updateStruct()
 						uint cumlen = 0;
 						for (uint p = 0; p < pckgs.count(); ++p)
 						{
-							m_packages.append(pckgs[p]);
-							emit(foundItem(pckgs[p], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
-							cumlen += pckgs[p].length() + 1;
+							QString package = pckgs[p].stripWhiteSpace();
+							if ( ! package.isEmpty() ) {
+								m_packages.append(package);
+								emit(foundItem(package, tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
+								cumlen += package.length() + 1;
+							}
 						}
 						fire = false;
 					}

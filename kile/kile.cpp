@@ -740,9 +740,15 @@ void Kile::fileClose()
 bool Kile::fileCloseAll()
 {
 	m_activeView=0;
-	Kate::View * view;
+	Kate::View * view = currentView();
+
+	if (view)
+	{
+		lastDocument = view->getDoc()->url().path();
+	}
+
 	while( ! m_viewList.isEmpty() )
-    	{
+    {
 		view = m_viewList.first();
 
 		if (view->getDoc()->closeURL())
@@ -755,7 +761,7 @@ bool Kile::fileCloseAll()
 		{
 			return false;
 		}
-    	}
+    }
 
 	return true;
 }
@@ -3478,7 +3484,7 @@ author=config->readEntry("Author","");
 void Kile::ReadRecentFileSettings()
 {
 	config->setGroup( "Files" );
-	lastDocument=config->readEntry("Last Document","");
+	lastDocument=config->readPathEntry("Last Document","");
 	input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
 	autosave=config->readBoolEntry("Autosave",true);
 	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);

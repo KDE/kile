@@ -2,7 +2,7 @@ Source: kile
 Section: tex
 Priority: optional
 Maintainer: Ben Burton <bab@debian.org>
-Build-Depends: debhelper (>> 4.0.0), kdelibs4-dev, libqt3-compat-headers
+Build-Depends: debhelper (>> 4.0.0), kdelibs4-dev, libqt3-compat-headers, libqt3-mt-dev (>= 3:3.2.1)
 Standards-Version: 3.6.0
 
 Package: kile

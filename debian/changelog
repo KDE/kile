@@ -1,3 +1,12 @@
+kile (1:1.5.2-2) unstable; urgency=low
+
+  * Rebuilt against Qt 3.2 to stop kile from crashing (closes: #208169).
+  * Added versioned build-depends on libqt3-mt-dev (>= 3:3.2.1).
+  * Using $(objdir) in debian/rules.
+  * Updated list of authors.
+
+ -- Ben Burton <bab@debian.org>  Fri,  5 Sep 2003 00:18:52 +1000
+
 kile (1:1.5.2-1) unstable; urgency=low
 
   * New upstream release.

@@ -20,6 +20,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
+#include <qregexp.h>
 
 #include <klineedit.h>
 #include <kglobal.h>
@@ -327,8 +328,11 @@ void InputDialog::slotBrowse()
 	fn = KFileDialog::getOpenFileName(fi.absFilePath(), QString::null, this,i18n("Select File") );
   	if ( !fn.isEmpty() )
     {
-		setTag(fn);
-		emit(setInput(fn));
+		QString path = m_ki->relativePath(fi.dirPath(), fn);
+		QRegExp reExt("\\.(tex|latex|ltx|eps|png)$");
+		path.replace(reExt, "");
+		setTag(path);
+		emit(setInput(path));
     }
 }
 

@@ -1597,7 +1597,7 @@ void Kile::includeGraphics()
 	if ( !view ) return;
 
 	QFileInfo fi( view->getDoc()->url().path() );
-	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), false);
+	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), false, this);
 
 	if ( dialog->exec() == QDialog::Accepted )
 		insertTag(dialog->getTemplate(), "%C", 0,0);

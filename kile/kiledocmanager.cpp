@@ -108,7 +108,7 @@ void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 	kdDebug() << "DELETING doc" << endl;
 	delete doc;
 }
- 
+
 Kate::Document* Manager::docFor(const KURL & url)
 {
 	for (uint i=0; i < m_infoList.count(); i++)
@@ -336,6 +336,23 @@ Info* Manager::createDocumentInfo(const KURL & url)
 	return docinfo;
 }
 
+Info* Manager::recreateDocInfo(Info *oldinfo, const KURL & url)
+{
+	KileProjectItemList *list = itemsFor(oldinfo);
+	Info *newinfo = createDocumentInfo(url);
+	newinfo->setDoc(oldinfo->getDoc());
+
+	KileProjectItem *pritem = 0L;
+	for ( pritem = list->first(); pritem; pritem = list->next() )
+		pritem->setInfo(newinfo);
+	
+	m_infoList.removeRef(oldinfo);
+	delete oldinfo;
+
+	m_infoList.append(newinfo);
+	return newinfo;
+}
+
 bool Manager::removeDocumentInfo(Info *docinfo, bool closingproject /* = false */)
 {
 	kdDebug() << "==Manager::removeDocumentInfo(Info *docinfo)=====" << endl;
@@ -477,6 +494,7 @@ Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QStrin
 	Info *docinfo = createDocumentInfo(url);
 	Kate::Document *doc = createDocument(docinfo, encoding, highlight);
 
+	m_ki->structureWidget()->clean(docinfo);
 	docinfo->updateStruct();
 
 	if ( text != QString::null ) doc->setText(text);
@@ -660,6 +678,10 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_ki->viewManager()->projectView()->add(doc->url());
+		
+		//hack: by default a TeX docinfo is created, if a newly created file is save as
+		//a .bib file, recreate the docinfo (now as a BibTeX docinfo)
+		if (doc->url().path().endsWith(".bib")) recreateDocInfo(docinfo, doc->url());
 	}
 }
 

@@ -52,6 +52,7 @@ public slots:
 
 //files
 	Info* createDocumentInfo(const KURL &url);
+	Info* recreateDocInfo(Info *oldinfo, const KURL & url);
 	bool removeDocumentInfo(Info *docinfo, bool closingproject = false);
 	Kate::Document* createDocument(Info *docinfo, const QString & encoding, const QString & highlight);
 

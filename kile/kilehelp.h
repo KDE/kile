@@ -66,6 +66,7 @@ namespace KileHelp
 		void helpLatex(KileHelp::Type type);
 		void helpTetex(KileHelp::Type type);
 		void helpKeyword(Kate::View *view);
+		void noHelpAvailableFor(const QString &word);
 
 	public slots:
 		void helpTetexGuide() { helpTetex(KileHelp::HelpTetexGuide); }

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="8">
+<kpartgui name="kile" version="9">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -144,7 +144,7 @@
 	<Action name="project_close"/>
 </Menu>
 <Menu name="menu_latex"><text>&amp;LaTeX</text>
-	<Menu name="menu_preamble"><text>Preamble</text>
+	<Menu name="menu_preamble"><text>&amp;Preamble</text>
 		<Action name="tag_documentclass"/>
 		<Action name="tag_usepackage"/>
 		<Action name="tag_env_document"/>
@@ -156,7 +156,7 @@
 		<Action name="tag_maketitle"/>
 		<Action name="tag_tableofcontents"/>
 	</Menu>
-	<Menu name="menu_sectioning"><text>Sectioning</text>
+	<Menu name="menu_sectioning"><text>&amp;Sectioning</text>
 		<Action name="tag_part"/>
 		<Separator/>
 		<Action name="tag_chapter"/>
@@ -167,7 +167,7 @@
 		<Action name="tag_paragraph"/>
 		<Action name="tag_subparagraph"/>
 	</Menu>
-	<Menu name="references"><text>References</text>
+	<Menu name="references"><text>&amp;References</text>
 		<Action name="tag_label"/>
 		<Action name="tag_ref"/>
 		<Action name="tag_pageref"/>
@@ -176,7 +176,7 @@
 		<Action name="tag_cite"/>
 	</Menu>
 	<Separator/>
-	<Menu name="menu_environment"><text>Environment</text>
+	<Menu name="menu_environment"><text>&amp;Environment</text>
 		<Action name="tag_center"/>
 		<Action name="tag_flushleft"/>
 		<Action name="tag_flushright"/>
@@ -188,7 +188,7 @@
 		<Separator/>
 		<Action name="tag_titlepage"/>
 	</Menu>
-	<Menu name="menu_listenv"><text>List Environment</text>
+	<Menu name="menu_listenv"><text>&amp;List Environment</text>
 		<Action name="tag_env_itemize"/>
 		<Action name="tag_env_enumerate"/>
 		<Action name="tag_env_description"/>
@@ -196,7 +196,7 @@
 		<Separator/>
 		<Action name="tag_item"/>
 	</Menu>
-	<Menu name="menu_tabularenv"><text>Tabular Environment</text>
+	<Menu name="menu_tabularenv"><text>&amp;Tabular Environment</text>
 		<Action name="tag_env_tabbing"/>
 		<Action name="tag_env_tabular"/>
 		<Separator/>
@@ -205,12 +205,12 @@
 		<Action name="tag_vline"/>
 		<Action name="tag_cline"/>
 	</Menu>
-	<Menu name="menu_floatenv"><text>Floating Environment</text>
+	<Menu name="menu_floatenv"><text>&amp;Floating Environment</text>
 		<Action name="tag_figure"/>
 		<Action name="tag_table"/>
 	</Menu>
 	<Separator/>
-	<Menu name="menu_math"><text>Math</text>
+	<Menu name="menu_math"><text>&amp;Math</text>
 		<Action name="tag_mathmode"/>
 		<Action name="tag_equation"/>
 		<Separator/>
@@ -226,7 +226,7 @@
 		<Action name="tag_left"/>
 		<Action name="tag_right"/>
 		<Separator/>
-		<Menu name="menu_mathfontstyles"><text>Math Font Styles</text>
+		<Menu name="menu_mathfontstyles"><text>Math &amp;Font Styles</text>
 			<Action name="tag_mathrm"/>
 			<Action name="tag_mathit"/>
 			<Action name="tag_mathbf"/>
@@ -236,7 +236,7 @@
 			<Action name="tag_mathbb"/>
 			<Action name="tag_mathfrak"/>
 		</Menu>
-		<Menu name="menu_mathaccents"><text>Math Accents</text>
+		<Menu name="menu_mathaccents"><text>Math &amp;Accents</text>
 			<Action name="tag_acute"/>
 			<Action name="tag_grave"/>
 			<Action name="tag_tilde"/>
@@ -248,7 +248,7 @@
 			<Action name="tag_dot"/>
 			<Action name="tag_ddot"/>
 		</Menu>
-		<Menu name="menu_mathspaces"><text>Math Spaces</text>
+		<Menu name="menu_mathspaces"><text>Math &amp;Spaces</text>
 			<Action name="tag_space_small"/>
 			<Action name="tag_space_medium"/>
 			<Action name="tag_space_large"/>
@@ -257,7 +257,7 @@
 			<Action name="tag_qquad"/>
 		</Menu>
 	</Menu>
-	<Menu name="menu_bibliography"><text>Bibliography</text>
+	<Menu name="menu_bibliography"><text>&amp;Bibliography</text>
 		<Action name="tag_bibliographystyle"/>
 		<Action name="tag_bibliography"/>
 		<Separator/>
@@ -278,14 +278,14 @@
 		<Action name="CleanBib"/>
 	</Menu>
 	<Separator/>
-	<Menu name="menu_fontstyles"><text>Font Styles</text>
+	<Menu name="menu_fontstyles"><text>&amp;Font Styles</text>
 		<Action name="tag_textit"/>
 		<Action name="tag_textsl"/>
 		<Action name="tag_textbf"/>
 		<Action name="tag_texttt"/>
 		<Action name="tag_textsc"/>
 	</Menu>
-	<Menu name="menu_spacing"><text>Spacing</text>
+	<Menu name="menu_spacing"><text>Spa&amp;cing</text>
 		<Action name="tag_newline"/>
 		<Action name="tag_newpage"/>
 		<Separator/>

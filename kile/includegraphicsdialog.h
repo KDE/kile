@@ -31,6 +31,8 @@
   *@author dani
   */
 
+class KileInfo;
+
 namespace KileDialog
 {
 
@@ -39,7 +41,7 @@ class IncludeGraphics : public KDialogBase
 	Q_OBJECT
 
 public:
-	IncludeGraphics(QWidget *parent,const QString &startdir,bool pdflatex);
+	IncludeGraphics(QWidget *parent,const QString &startdir,bool pdflatex, KileInfo *ki);
 	~IncludeGraphics();
 
 	QString getTemplate();
@@ -78,6 +80,8 @@ private:
 	float m_defaultresolution;
 
 	void execute(const QString &command);
+	
+	KileInfo *m_ki;
 };
 
 }

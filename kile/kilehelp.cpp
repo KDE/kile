@@ -33,6 +33,7 @@
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 #include "kileinfo.h"
+#include "kilelogwidget.h"
 #include "kilestdtools.h"
 #include "kileconfig.h"
 
@@ -143,6 +144,8 @@ namespace KileHelp
 			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTetex[word] << " )" << endl;
 			showHelpFile( KileConfig::location() + "/latex/latex2e-html/" + m_dictHelpTetex[word] );
 		}
+		else
+			noHelpAvailableFor(word);
 	}
 
 	void Help::helpLatexKeyword(Kate::View *view)
@@ -157,9 +160,16 @@ namespace KileHelp
 			{
 				showHelpFile( kilehelp + "#" + m_dictHelpKile[word] );
 			}
+			else
+				noHelpAvailableFor(word);
 		}
 	}
 
+	void Help::noHelpAvailableFor(const QString &word)
+	{
+		m_manager->info()->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no help available for %1.").arg(word), i18n("Help"));
+	}
+	
 	QString Help::getKeyword(Kate::View *view)         
 	{
 		if ( !view )

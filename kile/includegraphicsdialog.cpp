@@ -33,14 +33,16 @@
 #include <kpushbutton.h>
 
 #include "kileconfig.h"
+#include "kileinfo.h"
 
 namespace KileDialog
 {
 
-IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool pdflatex) :
+IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool pdflatex, KileInfo *ki) :
 	KDialogBase( Plain, i18n("Include Graphics"), Ok | Cancel, Ok, parent, 0, true, true),
 	m_startdir(startdir),
-	m_pdflatex(pdflatex)
+	m_pdflatex(pdflatex),
+	m_ki(ki)
 {
    // Layout
    QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
@@ -190,12 +192,12 @@ QString IncludeGraphics::getTemplate()
    // add start of center environment ?
     if ( cb_center->isChecked() )
        if ( m_figure )
-          s += "\\centering\n";
+          s += "\t\\centering\n";
        else
-          s += "\\begin{center}\n";
+          s += "\t\\begin{center}\n";
 
    // add inclucegraphics command
-   s += "\\includegraphics";
+   s += "\t\\includegraphics";
 
    // add some options
    QString options = getOptions();
@@ -204,25 +206,26 @@ QString IncludeGraphics::getTemplate()
 
    // add name of picture
    // (try to take the relative part of the name)
-   QString filename = edit_file->text();
-   if ( filename.find(m_startdir+"/",0) == 0 )
-       filename = filename.remove(0,m_startdir.length()+1);
+   QString filename = m_ki->relativePath(QFileInfo(m_ki->getName()).dirPath(), edit_file->text());
+//    if ( filename.find(m_startdir+"/",0) == 0 )
+//        filename = filename.remove(0,m_startdir.length()+1);
    s += "{" + filename + "}\n";
 
    // add some comments (depending of given resolution, this may be wrong!)
-   s += getInfo() + "\n";
+   QString info = getInfo();
+   if (info.length() > 0) s += getInfo() + "\n";
 
    // close center environment ?
    if ( cb_center->isChecked() && !m_figure )
-      s += "\\end{center}\n";
+      s += "\t\\end{center}\n";
 
    // close figure environment?
    if ( m_figure ) 
    {
       if ( ! edit_caption->text().isEmpty() )
-         s +=  "\\caption{" + edit_caption->text() + "}\n";
+         s +=  "\t\\caption{" + edit_caption->text() + "}\n";
 	  if ( !edit_label->text().isEmpty() && edit_label->text()!="fig:" )
-         s +=  "\\label{" + edit_label->text() + "}\n";
+         s +=  "\t\\label{" + edit_label->text() + "}\n";
 
       s += "\\end{figure}\n";
    }
@@ -364,8 +367,7 @@ void IncludeGraphics::chooseFile()
    QString fn = KFileDialog::getOpenFileName( m_startdir,filter,
                                               this,i18n("Select File") );
    QFileInfo fi(fn);
-
-    // insert the chosen file
+   // insert the chosen file
    edit_file->setText( fn );
    
    // could we accept the picture?

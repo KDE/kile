@@ -154,6 +154,9 @@ public:
 	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
 	const QString & quickBuildConfig() { return m_quickBuildConfig; }
 
+    void setLastDocument(const KURL &url);
+    const KURL & lastDocument() const { return m_lastDocument; }
+
 	void setMakeIndexOptions(const QString & opt) { m_makeIndexOptions = opt; }
 	const QString & makeIndexOptions() { return m_makeIndexOptions; }
 	void readMakeIndexOptions();
@@ -203,7 +206,7 @@ private:
 
 private:
 	QString		m_name, m_quickBuildConfig;
-	KURL		m_projecturl, m_baseurl;
+	KURL		m_projecturl, m_baseurl, m_lastDocument;
 
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;

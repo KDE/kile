@@ -149,6 +149,12 @@ void KileProject::init(const QString& name, const KURL& url)
 	}
 }
 
+void KileProject::setLastDocument(const KURL &url)
+{
+    if ( item(url) != 0 )
+        m_lastDocument = url;
+}
+
 void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
 	QString pattern = ext;
@@ -281,12 +287,15 @@ bool KileProject::load()
 		}
 	}
 
+    // only call this after all items are created, otherwise setLastDocument doesn't accept the url
+    m_config->setGroup("General");
+    setLastDocument(KURL::fromPathOrURL(m_config->readEntry("lastDocument", QString::null)));
+
 	dump();
 
 	return true;
 }
 
-//TODO: restore encoding for documents
 bool KileProject::save()
 {
 	kdDebug() << "KileProject: saving..." <<endl;
@@ -294,6 +303,7 @@ bool KileProject::save()
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
 	m_config->writeEntry("masterDocument", m_masterDocument);
+    m_config->writeEntry("lastDocument", m_lastDocument.url());
 
 	m_config->writeEntry("src_extensions", extensions(KileProjectItem::Source));
 	m_config->writeEntry("src_extIsRegExp", extIsRegExp(KileProjectItem::Source));

@@ -1086,6 +1086,8 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 
 	if (step == (max - 1))
 		m_kpd->cancel();
+
+    m_ki->viewManager()->switchToView(kp->lastDocument());
 		
 	return kp;
 }
@@ -1297,6 +1299,7 @@ bool Manager::projectClose(const KURL & url)
  	if (project)
 	{
 		kdDebug() << "\tclosing:" << project->name() << endl;
+        project->setLastDocument(m_ki->viewManager()->currentView()->getDoc()->url());
 
 		//close the project file first, projectSave, changes this file
 		Kate::Document *doc = docFor(project->url());

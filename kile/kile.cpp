@@ -612,8 +612,9 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
+    kdDebug() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
-	if (doc) activateView(doc->views().first());
+	if (doc) viewManager()->switchToView(doc->url());
 }
 
 void Kile::setActive()
@@ -799,6 +800,10 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
+    Kate::View *view = viewManager()->currentView();
+    if (view) KileConfig::setLastDocument(view->getDoc()->url().path());
+    else KileConfig::setLastDocument("");
+
 	//don't close Kile if embedded viewers are present
 	kdDebug() << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
 	if ( m_currentState != "Editor" )
@@ -1453,10 +1458,6 @@ void Kile::saveSettings()
 	showEditorWidget();
 
 	m_fileSelector->writeConfig();
-
-	Kate::View *view = viewManager()->currentView();
-	if (view) KileConfig::setLastDocument(view->getDoc()->url().path());
-	else KileConfig::setLastDocument("");
 
 	KileConfig::setInputEncoding(m_fileSelector->comboEncoding()->lineEdit()->text());
 

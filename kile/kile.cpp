@@ -150,14 +150,8 @@ Kile::Kile( QWidget *, const char *name ) :
 	KileFS= new KileFileSelect(Structview,"File Selector");
 	connect(KileFS,SIGNAL(fileSelected(const KFileItem*)),this,SLOT(fileSelected(const KFileItem*)));
 	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	QString currentDir=QDir::currentDirPath();
-	if (!lastDocument.isEmpty())
-	{
-		QFileInfo fi(lastDocument);
-		if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
-	}
-	KileFS->setDir(KURL(currentDir));
 	KileFS->comboEncoding->lineEdit()->setText(input_encoding);
+	KileFS->readConfig();
 
 	m_projectview = new KileProjectView(Structview, this);
 	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
@@ -4243,6 +4237,7 @@ config->writeEntry("User Options",userOptionsList, ':');
 
 
 	config->setGroup( "Files" );
+	KileFS->writeConfig();
 	if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
 	config->writeEntry("Last Document",lastDocument);
 	input_encoding=KileFS->comboEncoding->lineEdit()->text();

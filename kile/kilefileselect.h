@@ -47,6 +47,8 @@ public:
 
   public slots:
     void setDir(KURL);
+    void readConfig();
+    void writeConfig();
 
   private slots:
     void cmbPathActivated( const KURL& u );

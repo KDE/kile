@@ -50,7 +50,8 @@ namespace KileWidget
 	private:
 		void setupAdvanced();
 		void setupGeneral();
-
+		int indexQuickBuild();
+		
 	private slots:
 		void updateGeneral();
 		void updateAdvanced();

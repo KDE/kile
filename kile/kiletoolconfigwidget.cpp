@@ -62,7 +62,8 @@ namespace KileWidget
 		m_tabMenu = m_configWidget->m_tab->page(2);
 
 		updateToollist();
-		m_configWidget->m_lstbTools->setSelected(0, true);
+		// --->m_configWidget->m_lstbTools->setSelected(0, true);
+		m_configWidget->m_lstbTools->setSelected(indexQuickBuild(), true);
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
 		QStringList lst; lst << i18n( "Quick" ) << i18n( "Compile" ) << i18n( "Convert" ) << i18n( "View" ) << i18n( "Other" );
@@ -76,7 +77,8 @@ namespace KileWidget
 		connect(m_configWidget->m_pshbNewConfig, SIGNAL(clicked()), this, SLOT(newConfig()));
 		connect(m_configWidget->m_pshbDefault, SIGNAL(clicked()), this, SLOT(writeDefaults()));
 
-		m_current = m_configWidget->m_lstbTools->text(0);
+		//--->m_current = m_configWidget->m_lstbTools->text(0);
+		m_current = m_configWidget->m_lstbTools->currentText();
 		m_manager->retrieveEntryMap(m_current, m_map, false, false);
 		QString cfg = KileTool::configName(m_current, m_config);
 		m_configWidget->m_cbConfig->insertItem(cfg);
@@ -245,8 +247,11 @@ namespace KileWidget
 			for ( uint i = 0; i < tools.count(); ++i)
 				switchTo(tools[i], false);
 
-			switchTo(tools[0], false);
-			m_configWidget->m_lstbTools->setSelected(0, true);
+			int index = indexQuickBuild();
+			// --->switchTo(tools[0], false);
+			// --->m_configWidget->m_lstbTools->setSelected(0, true);
+			switchTo(tools[index], false);
+			m_configWidget->m_lstbTools->setSelected(index, true);
 		}
 	}
 
@@ -272,6 +277,13 @@ namespace KileWidget
 		KileTool::setGUIOptions(m_current, m_configWidget->m_cbMenu->currentText(), m_icon, m_config);
 	}
 
+	int ToolConfig::indexQuickBuild()
+	{
+		int index = m_configWidget->m_lstbTools->index( m_configWidget->m_lstbTools->findItem("QuickBuild",Qt::ExactMatch) );
+		
+		return ( index >= 0 ) ? index : 0;
+	}
+	
 	void ToolConfig::switchConfig(int /*index*/)
 	{
 		//kdDebug() << "==ToolConfig::switchConfig(int /*index*/)====================" << endl;
@@ -314,7 +326,10 @@ namespace KileWidget
 		//show GUI info
 		m_configWidget->m_cbMenu->setCurrentText(KileTool::menuFor(m_current, m_config));
 		m_icon=KileTool::iconFor(m_current, m_config);
-		m_configWidget->m_pshbIcon->setPixmap(SmallIcon(m_icon));
+		if ( m_icon.isEmpty() )
+			m_configWidget->m_pshbIcon->setPixmap(QString::null);
+		else
+			m_configWidget->m_pshbIcon->setPixmap(SmallIcon(m_icon));
 	}
 
 	void ToolConfig::updateConfiglist()
@@ -329,13 +344,20 @@ namespace KileWidget
 
 	void ToolConfig::selectIcon()
 	{
+		kdDebug() << "icon ---> " << m_icon << endl;
 		//kdDebug() << "==ToolConfig::selectIcon()=====================" << endl;
 		KIconDialog *dlg = new KIconDialog(this);
 		QString res = dlg->openDialog();
-		m_icon=res;
-
-		writeConfig();
-		m_configWidget->m_pshbIcon->setPixmap(SmallIcon(m_icon));
+		if ( m_icon != res ) {
+			if ( res.isEmpty() ) return;
+		
+			m_icon = res;
+			writeConfig();
+			if ( m_icon.isEmpty() )
+				m_configWidget->m_pshbIcon->setPixmap(QString::null);
+			else
+				m_configWidget->m_pshbIcon->setPixmap(SmallIcon(m_icon));
+		}
 	}
 
 	void ToolConfig::newTool()

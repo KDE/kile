@@ -58,7 +58,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    grid->setColStretch(1,1);
 
    // line 1: QLabel
-   QLabel *label1 = new QLabel(i18n("picture:"), widget);
+   QLabel *label1 = new QLabel(i18n("Picture:"), widget);
    grid->addWidget( label1, 0,0 );
 
    // line 1: QLineEdit
@@ -75,7 +75,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    grid->addWidget(pb_choose,0,2);
 
    // line 2: some (more or less useful) information
-   QLabel *label2 = new QLabel(i18n("info:"), widget);
+   QLabel *label2 = new QLabel(i18n("Info:"), widget);
    infolabel = new QLabel("---", widget);
 
    grid->addWidget( label2, 1,0 );
@@ -86,7 +86,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
 
    QWidget *cb_widget = new QWidget(widget);
    QGridLayout *cb_grid = new QGridLayout( cb_widget, 1,2, 5,5,"");
-   cb_center = new QCheckBox(i18n("center picture"),cb_widget);
+   cb_center = new QCheckBox(i18n("Center picture"),cb_widget);
    cb_pdftex = new QCheckBox(i18n("pdftex/pdflatex"),cb_widget);
    cb_center->setChecked(true);                             // default: always on
    cb_pdftex->setChecked(m_pdflatex);                       // default: on when using pdftex
@@ -101,10 +101,10 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    QWidget *widget_opt = new QWidget(gb_opt);
    QGridLayout *grid_opt = new QGridLayout( widget_opt, 2,4, 6,6, "");
 
-   QLabel *label7 = new QLabel(i18n("width:"), widget_opt);
-   QLabel *label8 = new QLabel(i18n("height:"),widget_opt);
-   QLabel *label9 = new QLabel(i18n("angle:"), widget_opt);
-   QLabel *label10= new QLabel(i18n("bounding box:"), widget_opt);
+   QLabel *label7 = new QLabel(i18n("Width:"), widget_opt);
+   QLabel *label8 = new QLabel(i18n("Height:"),widget_opt);
+   QLabel *label9 = new QLabel(i18n("Angle:"), widget_opt);
+   QLabel *label10= new QLabel(i18n("Bounding box:"), widget_opt);
    edit_width = new QLineEdit("",widget_opt);
    edit_height = new QLineEdit("",widget_opt);
    edit_angle = new QLineEdit("",widget_opt);
@@ -131,7 +131,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    cb_figure = new QCheckBox(i18n("Use figure environment"),widget_fig);
    edit_label = new QLineEdit("Fig:",widget_fig);
    edit_caption = new QLineEdit("",widget_fig);
-   
+
    grid_fig->addWidget( label4,0,0);
    grid_fig->addWidget( cb_figure, 0,1);
    grid_fig->addWidget( lb_label,1,0);
@@ -142,7 +142,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    // init
    cb_figure->setChecked(false);
    updateFigure();
-   
+
    // OK/Cancel widgets
    QWidget *buttonwidget = new QWidget(this);
    QHBoxLayout *buttons = new QHBoxLayout(buttonwidget);
@@ -212,7 +212,7 @@ QString IncludegraphicsDialog::getTemplate()
    // add start of figure environment ?
    if ( m_figure )
       s += "\\begin{figure}\n";
-      
+
    // add start of center environment ?
     if ( cb_center->isChecked() )
        if ( m_figure )
@@ -233,7 +233,7 @@ QString IncludegraphicsDialog::getTemplate()
    QString filename = edit_file->text();
    if ( filename.find(m_startdir+"/",0) == 0 )
        filename = filename.remove(0,m_startdir.length()+1);
-   s += "{" + filename + "}\n";    
+   s += "{" + filename + "}\n";
 
    // add some comments (depending of given resolution, this may be wrong!)
    s += getInfo() + "\n";
@@ -250,7 +250,7 @@ QString IncludegraphicsDialog::getTemplate()
          s +=  "\\caption{" + edit_caption->text() + "}\n";
       s += "\\end{figure}\n";
    }
-  
+
    return s;
 }
 
@@ -321,7 +321,7 @@ void IncludegraphicsDialog::setInfo()
    }
    else
       text = "---";
- 
+
    // insert text
    infolabel->setText(text);
 }
@@ -411,7 +411,7 @@ void IncludegraphicsDialog::execute(const QString &command)
 {
    if ( !m_boundingbox || (!m_imagemagick && command.left(8)=="identify") )
       return;
-      
+
    KShellProcess* proc = new KShellProcess("/bin/sh");
    proc->clearArguments();
    (*proc) << QStringList::split(' ',command);
@@ -426,7 +426,7 @@ void IncludegraphicsDialog::execute(const QString &command)
    m_output = "";
    kdDebug() << "=== IncludegraphicsDialog::execute ====================" << endl;
    kdDebug() << "   execute '" << command << "'" << endl;
-  
+
    proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
@@ -443,7 +443,7 @@ void IncludegraphicsDialog::slotProcessExited(KProcess* proc)
 {
   if ( proc->normalExit() &&  !proc->exitStatus() ) {
       kdDebug() << "   result:" << m_output << endl;
-    
+
       // set the default resolution
       m_resolution = m_defaultresolution;
 

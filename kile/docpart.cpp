@@ -19,6 +19,7 @@
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kglobal.h>
+#include <kdebug.h>
 #include <kstandarddirs.h>
 #include <kparts/part.h>
 #include <kparts/browserextension.h>

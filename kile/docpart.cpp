@@ -42,13 +42,13 @@ void docpart::urlSelected( const QString &url, int button, int state,const QStri
 }
 void docpart::home()
 {
-if ( !history.isEmpty() ) openURL( history.at(0) );
+if ( !history.isEmpty() ) openURL( history.first() );
 }
 void docpart::forward()
 {
   if ( forwardEnable() ) {
   	hpos++;
-  	openURL( history.at(hpos) );
+  	openURL( history[hpos] );
     emit updateStatus( backEnable() , forwardEnable() );
   }
 }
@@ -58,7 +58,7 @@ void docpart::back()
 {
   if ( backEnable() ) {
   	hpos--;
-  	openURL( history.at(hpos) );
+  	openURL( history[hpos] );
     emit updateStatus( backEnable() , forwardEnable() );
   }
 }
@@ -69,7 +69,7 @@ void docpart::addToHistory( QString url )
 
    if ( history.count() > 0 )
 	   while ( hpos < history.count()-1  )
-  	 		history.removeLast();
+  	 		history.pop_back();
 
    if ( !history.isEmpty() ) hpos++;
 
@@ -77,7 +77,6 @@ void docpart::addToHistory( QString url )
 
    hpos = history.count()-1;
    emit updateStatus( backEnable() , forwardEnable() );
-
 }
 
 
@@ -86,7 +85,7 @@ bool docpart::backEnable()
    return hpos > 0;
 }
 
-	
+
 bool docpart::forwardEnable()
 {
    return hpos < history.count()-1;

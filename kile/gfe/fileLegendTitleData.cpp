@@ -64,14 +64,14 @@ fileLegendTitleData::fileLegendTitleData
     ButtonGroup_1->setFrameStyle( 49 );
     ButtonGroup_1->setTitle( "" );
     ButtonGroup_1->setAlignment( 1 );
-    ButtonGroup_1->setExclusive( TRUE ); 
+    ButtonGroup_1->setExclusive( TRUE );
 
     defaultCButton = new QCheckBox(ButtonGroup_1, "CheckBox_2" );
     defaultCButton->setMinimumSize( 70, 20 );
     defaultCButton->setMaximumSize( 32767, 20 );
     defaultCButton->setText( "&default" );
     defaultCButton->setAutoRepeat( FALSE );
-    defaultCButton->setAutoResize( FALSE );
+    //defaultCButton->setAutoResize( FALSE );
     defaultCButton->setChecked(TRUE);
 
     noTitleCButton = new QCheckBox(ButtonGroup_1, "CheckBox_3" );
@@ -79,7 +79,7 @@ fileLegendTitleData::fileLegendTitleData
     noTitleCButton->setMaximumSize( 32767, 20 );
     noTitleCButton->setText( "&notitle" );
     noTitleCButton->setAutoRepeat( FALSE );
-    noTitleCButton->setAutoResize( FALSE );
+    //noTitleCButton->setAutoResize( FALSE );
 
 	QPushButton* PushButton_1;
 	PushButton_1 = new QPushButton( this, "PushButton_1" );
@@ -87,7 +87,7 @@ fileLegendTitleData::fileLegendTitleData
 	connect( PushButton_1, SIGNAL(clicked()), SLOT(setFileLegendTitleOK()) );
 	PushButton_1->setText( i18n("&OK") );
 	PushButton_1->setAutoRepeat( FALSE );
-	PushButton_1->setAutoResize( FALSE );
+	//PushButton_1->setAutoResize( FALSE );
     PushButton_1->setDefault(TRUE);
     PushButton_1->setAutoDefault(TRUE);
 
@@ -96,7 +96,7 @@ fileLegendTitleData::fileLegendTitleData
 	PushButton_2->setMinimumSize( 100, 26 );
 	PushButton_2->setText( i18n("&Cancel") );
 	PushButton_2->setAutoRepeat( FALSE );
-	PushButton_2->setAutoResize( FALSE );
+	//PushButton_2->setAutoResize( FALSE );
     connect( PushButton_2, SIGNAL(clicked()), SLOT(reject()) );
 
 	resize( 250,120 );
@@ -105,16 +105,16 @@ fileLegendTitleData::fileLegendTitleData
 
     // main column
     QVBoxLayout* mainColLayout = new QVBoxLayout(this,5);
-    
+
     // row for legend title edit box
     QHBoxLayout* titleRowLayout = new QHBoxLayout();
-    
+
     // row for inside button group
     QHBoxLayout* insideBGRowLayout = new QHBoxLayout(ButtonGroup_1,5);
-    
+
     // row for pushbuttons
     QHBoxLayout* buttonRowLayout = new QHBoxLayout();
-    
+
     // ------------------------ assemble layouts and widgets
     mainColLayout->addLayout(titleRowLayout);
     titleRowLayout->addWidget(Label_1);

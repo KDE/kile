@@ -22,6 +22,7 @@
  *********************************************************************/
 
 #include "gnuInterface.h"
+#include <qfile.h>
 
 gnuInterface::gnuInterface()
 {
@@ -151,7 +152,7 @@ FILE* gnuInterface::openGnuplot()
 
 void gnuInterface::doCommand(const QString &c)
 {
-  fprintf(gnuCommand,c+"\n");
+  fprintf(gnuCommand,QFile::encodeName(c)+"\n");
   fflush(gnuCommand);
 }
 
@@ -198,19 +199,19 @@ int gnuInterface::getPlotFuncFlag()
 void gnuInterface::doSave()
 {
   fprintf(gnuCommand, "save '");
-  fprintf(gnuCommand, gnuFileSave);
+  fprintf(gnuCommand, QFile::encodeName(gnuFileSave));
   fprintf(gnuCommand, "'\n");
   fflush(gnuCommand);
-  cout << endl << "Saving to " << gnuFileSave << endl << endl;
+  //cout << endl << "Saving to " << gnuFileSave << endl << endl;
 }
 
 void gnuInterface::doLoad()
 {
   fprintf(gnuCommand, "load '");
-  fprintf(gnuCommand, gnuFileLoad);
+  fprintf(gnuCommand, QFile::encodeName(gnuFileLoad));
   fprintf(gnuCommand, "'\n");
   fflush(gnuCommand);
-  cout << endl << "Loading  " << gnuFileLoad << endl << endl;
+  //cout << endl << "Loading  " << gnuFileLoad << endl << endl;
 }
 
 void gnuInterface::setPlotFilename(QString filename)
@@ -2113,9 +2114,9 @@ void gnuInterface::doCurveFit()
 
   fitcmd = curveFitOb->getFitCmd();
 
-  cout << fitcmd << endl;
+  //cout << fitcmd << endl;
 
-  fprintf(gnuCommand,fitcmd);
+  fprintf(gnuCommand,QFile::encodeName(fitcmd));
   fprintf(gnuCommand,"\n");
   fflush(gnuCommand);
 }
@@ -2212,7 +2213,7 @@ QString gnuInterface::getIsolineV()
 
 void gnuInterface::savePlotData(QString filename)
 {
-  cout << endl << "Saving Xgfe plot data to " << filename << endl;
+    //cout << endl << "Saving Xgfe plot data to " << filename << endl;
 
   QFile file(filename);
   if ( !file.open( IO_WriteOnly ) ) return;
@@ -2491,7 +2492,7 @@ cout << "Done." << endl;
 
 void gnuInterface::loadPlotData(QString filename)
 {
-  cout << endl << "Loading Xgfe plot data from " << filename << endl;
+    //cout << endl << "Loading Xgfe plot data from " << filename << endl;
 
   QString token;
   QString buffer;
@@ -3444,7 +3445,7 @@ QString gnuInterface::getValue(QTextStream& infile)
         if (i>0) result+=" ";
         result+=buffer;
         i++;
-       } 
+       }
     }
   return result;
 }
@@ -3855,7 +3856,7 @@ QString gnuInterface::getCommands()
      }
 
     result+="\n";
-    
+
   }
   else
   {
@@ -4025,7 +4026,7 @@ QString gnuInterface::getCommands()
     tmp.sprintf("%d",logScaleBase);
     result+=tmp;
     result+= "\n";
-    
+
   }
 
   // only print nologscale command if all axes are not set to log
@@ -4289,7 +4290,7 @@ QString gnuInterface::getCommands()
     // add a space before file plotting command
     result+=" ";
     result+=filePlotCMD;
-    
+
   }
 
   // add newline to end command if no function is being plotted
@@ -4327,7 +4328,7 @@ QString gnuInterface::getCommands()
       // acutally plot functions
       result+=funcPlotCMD;
       result+="\n";
-      
+
     }
 
     // if a file command is present, insert comma first before function command
@@ -4336,7 +4337,7 @@ QString gnuInterface::getCommands()
       result+=", ";
       result+=funcPlotCMD;
       result+="\n";
-     
+
     }
   }
   return result;

@@ -318,7 +318,7 @@ fileOptionsData::fileOptionsData
 	connect( OKPushButton, SIGNAL(clicked()), SLOT(setFormat()) );
 	OKPushButton->setText( i18n("&OK") );
 	OKPushButton->setAutoRepeat( FALSE );
-	OKPushButton->setAutoResize( FALSE );
+	//OKPushButton->setAutoResize( FALSE );
 	OKPushButton->setAutoDefault( TRUE );
     OKPushButton->setDefault( TRUE );
 
@@ -328,32 +328,32 @@ fileOptionsData::fileOptionsData
 	connect( cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
 	cancelPushButton->setText( i18n("&Cancel") );
 	cancelPushButton->setAutoRepeat( FALSE );
-	cancelPushButton->setAutoResize( FALSE );
+	//cancelPushButton->setAutoResize( FALSE );
 
     // create layouts
 
     // main column layout
     QVBoxLayout* mainColLayout = new QVBoxLayout(this,5);
-    
-    
+
+
     // row layout for inside data set button group
     QHBoxLayout* insideDataSetBGRowLayout = new QHBoxLayout(dataSetButtonGroup,5);
-    
+
     // column layout for inside periodic sampling button group
     QVBoxLayout* insidePeriodicBGTopColLayout = new QVBoxLayout(samplingButtonGroup,5);
-    
+
     // top row layout for inside periodic sampling button group
     QHBoxLayout* insidePeriodicBGTopRowLayout = new QHBoxLayout(-1);
-    
+
     // bottom row layout for inside periodic sampling button group
     QHBoxLayout* insidePeriodicBGBottomRowLayout = new QHBoxLayout(-1);
-    
+
     // column layout for inside columns and formats button group
     QVBoxLayout* colFormatBGColLayout = new QVBoxLayout(colFormatButtonGroup,5);
 
     // top row layout for inside columns and formats button group
     QHBoxLayout* colFormatBGTopRowLayout = new QHBoxLayout(-1);
-    
+
     // middle row layout for inside columns and formats button group
     QHBoxLayout* colFormatBGMiddleRowLayout = new QHBoxLayout(-1);
 

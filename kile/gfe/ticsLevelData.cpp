@@ -58,7 +58,7 @@ ticsLevelData::ticsLevelData
 	QPushButton* dlgedit_OKPushButton;
 	dlgedit_OKPushButton = new QPushButton( this, "OKPushButton" );
 	connect( dlgedit_OKPushButton, SIGNAL(clicked()), SLOT(setTicsLevel()) );
-	dlgedit_OKPushButton->setText( "&OK" );
+	dlgedit_OKPushButton->setText( i18n("&OK") );
 	dlgedit_OKPushButton->setAutoRepeat( FALSE );
   dlgedit_OKPushButton->setDefault( TRUE );
 	dlgedit_OKPushButton->setAutoDefault( TRUE );
@@ -67,7 +67,7 @@ ticsLevelData::ticsLevelData
 	QPushButton* dlgedit_cancelPushButton;
 	dlgedit_cancelPushButton = new QPushButton( this, "cancelPushButton" );
 	connect( dlgedit_cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_cancelPushButton->setText( "&Cancel" );
+	dlgedit_cancelPushButton->setText( i18n("&Cancel") );
 	dlgedit_cancelPushButton->setAutoRepeat( FALSE );
   gbox->addWidget( dlgedit_cancelPushButton, 1,1, Qt::AlignCenter );
 

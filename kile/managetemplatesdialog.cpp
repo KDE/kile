@@ -58,7 +58,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const char *caption,
    tlist = new KListView(page);
    tlist->setSorting(-1);
    tlist->addColumn("M");
-   tlist->addColumn("Existing Templates");
+   tlist->addColumn(i18n("Existing Templates"));
    tlist->setColumnWidthMode(0,QListView::Manual);
    tlist->setFullWidth(true);
    tlist->setAllColumnsShowFocus(true);
@@ -66,17 +66,17 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const char *caption,
    m_Templates = new Templates();
    QFileInfo fi;
    QString mode;
-   
+
    for (int i=m_Templates->count()-1; i>=0; i--) {
       fi.setFile((*m_Templates->at(i)).path);
       mode = fi.isWritable() ? " " : "*";
       (void) new QListViewItem( tlist, mode,(*m_Templates->at(i)).name );
    }
-   
+
    topLayout->addWidget(tlist);
 
    topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterix,\nif you do select such a template, a new template with the same name\nwill be created in a location you have write access to."),page));
-   
+
    connect(tlist,SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(slotSelectedTemplate(QListViewItem*)));
    connect(iconbut,SIGNAL(clicked()),this, SLOT(slotSelectIcon()));
    connect(this,SIGNAL(okClicked()),this,SLOT(addTemplate()));
@@ -94,7 +94,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(const char *caption, QWidget *paren
    tlist = new KListView(page);
    tlist->setSorting(-1);
    tlist->addColumn("M");
-   tlist->addColumn("Existing Templates");
+   tlist->addColumn(i18n("Existing Templates"));
    tlist->setColumnWidthMode(0,QListView::Manual);
    tlist->setFullWidth(true);
    tlist->setAllColumnsShowFocus(true);
@@ -116,11 +116,11 @@ ManageTemplatesDialog::ManageTemplatesDialog(const char *caption, QWidget *paren
 
    //we need the following connection because it will update "selected" for us
    connect(tlist,SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(slotSelectedTemplate()));
-    
+
    //nobody selected anything yet
    selected=false;
 }
-	
+
 
 ManageTemplatesDialog::~ManageTemplatesDialog(){
 }
@@ -128,11 +128,11 @@ ManageTemplatesDialog::~ManageTemplatesDialog(){
 void ManageTemplatesDialog::slotSelectedTemplate(QListViewItem *item) {
 
    TemplateListIterator result= m_Templates->find(item->text(1));
-   
+
    if ( result != NULL ) {
       m_sourceTemplate.name=(*result).name;
       m_sourceTemplate.name=(*result).icon;
-      
+
       m_nameEdit->setText((*result).name);
       m_iconEdit->setText((*result).icon);
    }
@@ -181,7 +181,7 @@ void ManageTemplatesDialog::removeTemplate()
 	//currentItem() returns the last item, so we need to check
 	//if the user actually selected something
    if (!( (selected) && (tlist->currentItem()!=0) )) return;
-      
+
 	TemplateListIterator result= m_Templates->find(tlist->currentItem()->text(1));
 
 	if (KMessageBox::warningYesNo(0,i18n("You are about to remove the template %1. Are you sure?").arg((*result).name) )

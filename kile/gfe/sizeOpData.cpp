@@ -72,7 +72,7 @@ sizeOpData::sizeOpData
 	QPushButton* dlgedit_PushButton_1;
 	dlgedit_PushButton_1 = new QPushButton( this, "PushButton_1" );
 	connect( dlgedit_PushButton_1, SIGNAL(clicked()), SLOT(setSize()) );
-	dlgedit_PushButton_1->setText( "&OK" );
+	dlgedit_PushButton_1->setText( i18n("&OK") );
 	dlgedit_PushButton_1->setAutoRepeat( FALSE );
   dlgedit_PushButton_1->setDefault(TRUE);
   gbox->addWidget(dlgedit_PushButton_1 , 2,0, Qt::AlignCenter );
@@ -80,7 +80,7 @@ sizeOpData::sizeOpData
 	QPushButton* dlgedit_PushButton_2;
 	dlgedit_PushButton_2 = new QPushButton( this, "PushButton_2" );
 	connect( dlgedit_PushButton_2, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_PushButton_2->setText( "&Cancel" );
+	dlgedit_PushButton_2->setText( i18n("&Cancel") );
 	dlgedit_PushButton_2->setAutoRepeat( FALSE );
   gbox->addWidget(dlgedit_PushButton_2 , 2,1, Qt::AlignCenter );
 

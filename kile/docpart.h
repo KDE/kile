@@ -21,7 +21,7 @@
 #include <khtml_part.h>
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
-#include <qstrlist.h>
+#include <qstringlist.h>
 
 /**
   *@author Brachet Pascal
@@ -48,7 +48,7 @@ protected:
   virtual void urlSelected( const QString &url, int button=0, int state=0,const QString &_target= QString::null, KParts::URLArgs args = KParts::URLArgs());
 
 private:
-	QStrList history;	
+	QStringList history;
 	unsigned int hpos;
 
 };

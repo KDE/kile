@@ -133,7 +133,7 @@ curveFitData::curveFitData
 	connect(getDatafilePushButton , SIGNAL(clicked()), SLOT(dataFileOpen()) );
 	getDatafilePushButton->setText( i18n("&Get...") );
 	getDatafilePushButton->setAutoRepeat( FALSE );
-	getDatafilePushButton->setAutoResize( FALSE );
+	//getDatafilePushButton->setAutoResize( FALSE );
 
 	QLabel* varXRangeNameLabel;
 	varXRangeNameLabel = new QLabel(xRangeButtonGroup , "varXRangeNameLabel" );
@@ -236,7 +236,7 @@ curveFitData::curveFitData
 	paramFileRB->setMaximumSize( 32767, 20 );
 	paramFileRB->setText( i18n("&Parameter file:") );
 	paramFileRB->setAutoRepeat( FALSE );
-	paramFileRB->setAutoResize( FALSE );
+	//paramFileRB->setAutoResize( FALSE );
 
 	paramFileEdit = new QLineEdit( paramButtonGroup, "paramFileLineEdit" );
 	paramFileEdit->setMinimumSize( 80, 20 );
@@ -252,14 +252,14 @@ curveFitData::curveFitData
 	connect( getParamFilePushButton, SIGNAL(clicked()), SLOT(paramFileOpen()) );
 	getParamFilePushButton->setText( i18n("G&et...") );
 	getParamFilePushButton->setAutoRepeat( FALSE );
-	getParamFilePushButton->setAutoResize(TRUE );
+	//getParamFilePushButton->setAutoResize(TRUE );
 
 	paramCSLRB = new QRadioButton( paramButtonGroup, "paramCSLRadioButton" );
 	paramCSLRB->setMinimumSize( 160, 20 );
 	paramCSLRB->setMaximumSize( 32767, 20 );
 	paramCSLRB->setText( i18n("Co&mma seperated list:") );
 	paramCSLRB->setAutoRepeat( FALSE );
-	paramCSLRB->setAutoResize( FALSE );
+	//paramCSLRB->setAutoResize( FALSE );
 
     paramCSLRB->setChecked(TRUE);
 
@@ -309,7 +309,7 @@ curveFitData::curveFitData
 	connect(fitPushButton , SIGNAL(clicked()), SLOT(doFit()) );
 	fitPushButton->setText( i18n("&Fit") );
 	fitPushButton->setAutoRepeat( FALSE );
-	fitPushButton->setAutoResize( FALSE );
+	//fitPushButton->setAutoResize( FALSE );
 
     // create layouts
 

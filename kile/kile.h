@@ -36,8 +36,8 @@
 #include <qmap.h>
 #include <qsplitter.h>
 #include <qwidget.h>
-#include <qstrlist.h>
 #include <qstringlist.h>
+#include <qstrlist.h>
 #include <qlistview.h>
 #include <qtabwidget.h>
 #include <qwidgetstack.h>
@@ -176,7 +176,7 @@ private:
 
 signals:
    void stopProcess();
-   
+
 private slots:
     void fileNew();
     void fileOpen();

@@ -153,8 +153,8 @@ legendOpData::legendOpData
   gbox->addWidget(dlgedit_Label_7 , 0,3, Qt::AlignLeft );
 
 	textJustifyList = new QComboBox( FALSE, this, "ComboBox_1" );
-	textJustifyList->insertItem( "Right" );
-	textJustifyList->insertItem( "Left" );
+	textJustifyList->insertItem( i18n("Right") );
+	textJustifyList->insertItem( i18n("Left") );
   gbox->addWidget(textJustifyList , 0,4, Qt::AlignLeft );
 
 	QLabel* dlgedit_Label_8;

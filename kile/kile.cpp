@@ -3,7 +3,7 @@
                              -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2002 by Pascal Brachet, 2003 by Jeroen Wijnhout
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -126,20 +126,20 @@ connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxIte
 
 
 symbol_present=false;
-ButtonBar->insertTab(UserIcon("math1"),2,"Relation Symbols");
+ButtonBar->insertTab(UserIcon("math1"),2,i18n("Relation Symbols"));
 connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math2"),3,"Arrow Symbols");
+ButtonBar->insertTab(UserIcon("math2"),3,i18n("Arrow Symbols"));
 connect(ButtonBar->getTab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math3"),4,"Miscellaneous Symbols");
+ButtonBar->insertTab(UserIcon("math3"),4,i18n("Miscellaneous Symbols"));
 connect(ButtonBar->getTab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math4"),5,"Delimiters");
+ButtonBar->insertTab(UserIcon("math4"),5,i18n("Delimiters"));
 connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math5"),6,"Greek Letters");
+ButtonBar->insertTab(UserIcon("math5"),6,i18n("Greek Letters"));
 connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("metapost"),7,"MetaPost Commands");
+ButtonBar->insertTab(UserIcon("metapost"),7,i18n("MetaPost Commands"));
 connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 
-splitter2=new QSplitter(QSplitter::Vertical,splitter1 , "splitter2" );
+splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
 tabWidget=new QTabWidget(splitter2);
 tabWidget->setFocusPolicy(QWidget::ClickFocus);
 tabWidget->setFocus();
@@ -381,19 +381,19 @@ void Kile::setupActions()
   (void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
   (void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );
 
-  (void) new KAction("Article in Journal",0 , this, SLOT(InsertBib1()), actionCollection(),"131" );
-  (void) new KAction("Article in Conference Proceedings",0 , this, SLOT(InsertBib2()), actionCollection(),"132" );
-  (void) new KAction("Article in Collection",0 , this, SLOT(InsertBib3()), actionCollection(),"133" );
-  (void) new KAction("Chapter or Pages in Book",0 , this, SLOT(InsertBib4()), actionCollection(),"134" );
-  (void) new KAction("Conference Proceedings",0 , this, SLOT(InsertBib5()), actionCollection(),"135" );
-  (void) new KAction("Book",0 , this, SLOT(InsertBib6()), actionCollection(),"136" );
-  (void) new KAction("Booklet",0 , this, SLOT(InsertBib7()), actionCollection(),"137" );
-  (void) new KAction("PhD. Thesis",0 , this, SLOT(InsertBib8()), actionCollection(),"138" );
-  (void) new KAction("Master's Thesis",0 , this, SLOT(InsertBib9()), actionCollection(),"139" );
-  (void) new KAction("Technical Report",0 , this, SLOT(InsertBib10()), actionCollection(),"140" );
-  (void) new KAction("Technical Manual",0 , this, SLOT(InsertBib11()), actionCollection(),"141" );
-  (void) new KAction("Unpublished",0 , this, SLOT(InsertBib12()), actionCollection(),"142" );
-  (void) new KAction("Miscellaneous",0 , this, SLOT(InsertBib13()), actionCollection(),"143" );
+  (void) new KAction(i18n("Article in Journal"),0 , this, SLOT(InsertBib1()), actionCollection(),"131" );
+  (void) new KAction(i18n("Article in Conference Proceedings"),0 , this, SLOT(InsertBib2()), actionCollection(),"132" );
+  (void) new KAction(i18n("Article in Collection"),0 , this, SLOT(InsertBib3()), actionCollection(),"133" );
+  (void) new KAction(i18n("Chapter or Pages in Book"),0 , this, SLOT(InsertBib4()), actionCollection(),"134" );
+  (void) new KAction(i18n("Conference Proceedings"),0 , this, SLOT(InsertBib5()), actionCollection(),"135" );
+  (void) new KAction(i18n("Book"),0 , this, SLOT(InsertBib6()), actionCollection(),"136" );
+  (void) new KAction(i18n("Booklet"),0 , this, SLOT(InsertBib7()), actionCollection(),"137" );
+  (void) new KAction(i18n("PhD. Thesis"),0 , this, SLOT(InsertBib8()), actionCollection(),"138" );
+  (void) new KAction(i18n("Master's Thesis"),0 , this, SLOT(InsertBib9()), actionCollection(),"139" );
+  (void) new KAction(i18n("Technical Report"),0 , this, SLOT(InsertBib10()), actionCollection(),"140" );
+  (void) new KAction(i18n("Technical Manual"),0 , this, SLOT(InsertBib11()), actionCollection(),"141" );
+  (void) new KAction(i18n("Unpublished"),0 , this, SLOT(InsertBib12()), actionCollection(),"142" );
+  (void) new KAction(i18n("Miscellaneous"),0 , this, SLOT(InsertBib13()), actionCollection(),"143" );
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
 
   UserAction1=new KAction("1: "+UserMenuName[0],SHIFT+Key_F1 , this, SLOT(InsertUserTag1()), actionCollection(),"user1" );
@@ -446,7 +446,7 @@ void Kile::setupActions()
   else {MessageAction->setChecked(false);}
 
   (void) new KAction(i18n("Remove a template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
-  
+
   WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(),"WatchFile" );
   if (watchfile) {WatchFileAction->setChecked(true);}
   else {WatchFileAction->setChecked(false);}
@@ -491,7 +491,7 @@ void Kile::setupActions()
   list.append("index");
   list.append("cite");
   list.append("footnote");
-  ListAction5 = new KSelectAction("Other", 0, actionCollection(), "other_list");
+  ListAction5 = new KSelectAction(i18n("Other"), 0, actionCollection(), "other_list");
   ListAction5->setItems(list);
   connect(ListAction5, SIGNAL(activated(const QString&)),this,SLOT(OtherCommand(const QString&)));
 
@@ -508,7 +508,7 @@ void Kile::setupActions()
   list.append("left }");
   list.append("left >");
   list.append("left.");
-  ListAction3 = new KSelectAction("Left Delimiter", 0, actionCollection(), "left_list");
+  ListAction3 = new KSelectAction(i18n("Left Delimiter"), 0, actionCollection(), "left_list");
   ListAction3->setItems(list);
   connect(ListAction3,SIGNAL(activated(const QString&)),this,SLOT(LeftDelimiter(const QString&)));
 
@@ -523,7 +523,7 @@ void Kile::setupActions()
   list.append("right {");
   list.append("right <");
   list.append("right.");
-  ListAction4 = new KSelectAction("Right Delimiter", 0, actionCollection(), "right_list");
+  ListAction4 = new KSelectAction(i18n("Right Delimiter"), 0, actionCollection(), "right_list");
   ListAction4->setItems(list);
   connect(ListAction4,SIGNAL(activated(const QString&)),this,SLOT(RightDelimiter(const QString&)));
 
@@ -561,7 +561,7 @@ void Kile::load( const QString &f )
        return;
        }
     QTextStream ts( &file );
-    QTextCodec* codec = QTextCodec::codecForName(input_encoding);
+    QTextCodec* codec = QTextCodec::codecForName(input_encoding.latin1());
     if(!codec) codec = QTextCodec::codecForLocale();
     ts.setEncoding(QTextStream::Locale);
     ts.setCodec(codec);
@@ -613,7 +613,7 @@ connect(e, SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)
 void Kile::fileNew()
 {
     NewFileWizard *nfw = new NewFileWizard(this);
-  
+
     if (nfw->exec()) {
     LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
     edit->editor->setReadOnly(false);
@@ -655,7 +655,7 @@ if (!lastDocument.isEmpty())
   QFileInfo fi(lastDocument);
   if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
   }
-QString fn = KFileDialog::getOpenFileName( currentDir, "*.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files", this,i18n("Open File") );
+QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
 if ( !fn.isEmpty() ) load( fn );
 }
 
@@ -715,7 +715,7 @@ else
       }
 	QTextStream ts( &file );
 	ts.setEncoding(QTextStream::Locale);
-	QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding());
+	QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().latin1());
   ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
 	ts << currentEditorView()->editor->text();
   currentEditorView()->editor->setModified(false);
@@ -730,7 +730,7 @@ void Kile::fileSaveAs()
 {
 int query=KMessageBox::Yes;
 if ( !currentEditorView() ) 	return;
-QString fn = KFileDialog::getSaveFileName( QString::null,"*.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files", this,i18n("Save As") );
+QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
 if ( !fn.isEmpty() )
     {
      QFileInfo fic(fn);
@@ -774,13 +774,13 @@ void Kile::createTemplate() {
    }
 
    QFileInfo fi(getName());
-   ManageTemplatesDialog mtd(fi,i18n("Create Template From Document"));
+   ManageTemplatesDialog mtd(fi,i18n("Create Template From Document").utf8());
    mtd.exec();
 }
 
 void Kile::removeTemplate() {
-	ManageTemplatesDialog mtd(i18n("Remove a template."));
-   mtd.exec();
+	ManageTemplatesDialog mtd(i18n("Remove a template.").utf8());
+    mtd.exec();
 }
 
 void Kile::filePrint()
@@ -1117,8 +1117,8 @@ else
   int index=0;
   currentEditorView()->editor->viewport()->setFocus();
   currentEditorView()->editor->getCursorPosition( &para, &index);
-  linenumber.sprintf(i18n("Line: %d Col: %d"), para + 1, index + 1);
-  statusBar()->changeItem(linenumber.data(), ID_LINE_COLUMN);
+  linenumber = i18n("Line: %1 Col: %2").arg(para + 1).arg(index + 1);
+  statusBar()->changeItem(linenumber, ID_LINE_COLUMN);
   }
 }
 
@@ -1143,7 +1143,7 @@ QString title;
 if   ( !currentEditorView() )	{title=i18n("No Document");}
 else
    {
-   title=i18n("Document :")+" "+getName();
+   title=i18n("Document: %1").arg(getName());
    input_encoding=currentEditorView()->editor->getEncoding();
    KileFS->comboEncoding->lineEdit()->setText(input_encoding);
    }
@@ -1320,7 +1320,7 @@ else
     if (showmaintoolbar) {toolBar("ToolBar1")->show();}
     if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
     toolBar("Extra")->hide();
-    } 
+    }
 
 }
 
@@ -1358,16 +1358,17 @@ void Kile::QuickBuild()
 
    QString finame;
    if ( (finame = prepareForCompile(compile_command) ) == QString::null ) return;
-   
+
    QFileInfo fic(finame);
-	
+
    command << compile_command;
    CommandProcess* proc= execCommand(command,fic,true);
    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(EndQuickCompile()));
 
    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
    {
-      KMessageBox::error( this,i18n("Could not start ") + compile_command + i18n(". Make sure this package is installed on your system."));
+      KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.")
+                          .arg(compile_command));
    }
    else
    {
@@ -1376,7 +1377,7 @@ void Kile::QuickBuild()
       Outputview->showPage(LogWidget);
       logpresent=false;
       LogWidget->insertLine(i18n("Quick build..."));
-      LogWidget->insertLine(i18n("Launched: ") + proc->command());
+      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
       LogWidget->insertLine(i18n("Compilation..."));
    }
 
@@ -1443,7 +1444,7 @@ void Kile::QuickDviToPS()
 
   QStringList command; command << dvips_command;
   CommandProcess *proc=execCommand(command,fic,true);
-  
+
   if (quickmode==1)
   {
      if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
@@ -1457,7 +1458,7 @@ void Kile::QuickDviToPS()
 
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-      KMessageBox::error( this,i18n("Could not start ")+ dvips_command + i18n(". Make sure this package is installed on your system."));
+      KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvips_command));
   }
   else
   {
@@ -1486,7 +1487,7 @@ void Kile::QuickDviPDF()
 
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-     KMessageBox::error( this,i18n("Could not start ")+dvipdf_command+i18n(". Make sure this package is installed on your system."));
+     KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvipdf_command));
   }
   else
   {
@@ -1512,17 +1513,17 @@ void Kile::QuickPS2PDF()
 
   if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
   else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
-  
+
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-     KMessageBox::error( this,i18n("Could not start ") + ps2pdf_command + i18n(". Make sure this packages is installed on your system."));
+     KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(ps2pdf_command));
   }
   else
   {
      logpresent=false;
      LogWidget->insertLine(i18n("Ps2Pdf..."));
   }
-  
+
   UpdateLineColStatus();
 }
 
@@ -1540,11 +1541,11 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  QStringList cmmnd = command;
  QString dir = file.dirPath();
  QString name = file.baseName();
-                               
+
  CommandProcess* proc = new CommandProcess();
  currentProcess=proc;
  proc->clearArguments();
- 
+
  KRun::shellQuote(const_cast<QString&>(dir));
  (*proc) << "cd " << dir << "&&";
 
@@ -1552,7 +1553,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
    (*i).replace("%S",name);
    (*proc) << *i;
  }
- 
+
  connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  connect(this, SIGNAL( stopProcess() ), proc, SLOT(terminate()));
@@ -1575,7 +1576,9 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
 QString Kile::prepareForCompile(const QString & command) {
   QString finame = getName();
   if (finame == "untitled") {
-     if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run ")+command+i18n(" on it. Do you want to save it? Click Yes to save and No to abort."),"File Needs to be Saved!")
+     if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
+                                             "Do you want to save it? Click Yes to save and No to abort.").arg(command),
+                                   i18n("File Needs to be Saved!"))
          == KMessageBox::No) return QString::null;
   }
 
@@ -1593,24 +1596,27 @@ QString Kile::prepareForCompile(const QString & command) {
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
   {
-     KMessageBox::error( this,i18n("Could not start the ") +command+i18n(" command, because there is no file to run "+command+" on. Make sure you have the file you want to compile open and saved."));
+     KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on.\n"
+                                   "Make sure you have the file you want to compile open and saved.")
+                         .arg(command).arg(command));
      return QString::null;
   }
 
   QFileInfo fic(finame);
-  
+
   if (!fic.exists() )
   {
-     KMessageBox::error(this,i18n("The file ")+finame+i18n(" does not exist. Are you working with a master document which is accidently deleted?"));
+     KMessageBox::error(this,i18n("The file %1 does not exist. Are you working with a master document which is accidently deleted?")
+                        .arg(finame));
      return QString::null;
   }
 
   if (!fic.isReadable() )
   {
-     KMessageBox::error(this, i18n("You do not have read permission for the file: ") + finame);
+     KMessageBox::error(this, i18n("You do not have read permission for the file: %1").arg(finame));
      return QString::null;
   }
-  
+
   return finame;
 }
 
@@ -1620,19 +1626,22 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    QString finame, fromName, toName;
    if (singlemode) {finame=getName();}
    else {
-     finame=MasterName; 
+     finame=MasterName;
    }
 
    if (finame == "untitled") {
-      KMessageBox::error(this,i18n("You need to save an untitled document and make a ") + from.upper()
-                                + i18n(" file out of it. After you have done this, you can turn it into a ")+to.upper()
-                                + i18n(" file."),"File needs to be saved and compiled!");
-      return empty;   
+      KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
+                                   "file out of it. After you have done this, you can turn it into a %2 file.")
+                                   .arg(from.upper()).arg(to.upper()),
+                         i18n("File needs to be saved and compiled!"));
+      return empty;
    }
 
    if ((singlemode && !currentEditorView()) || finame=="")
    {
-     KMessageBox::error( this,i18n("Could not start the ") +command+i18n(" command, because there is no file to run "+command+" on. Make sure you have the source file of the file you want to convert open and saved."));
+     KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on. "
+                                   "Make sure you have the source file of the file you want to convert open and saved.")
+                         .arg(command).arg(command));
      return empty;
    }
 
@@ -1643,16 +1652,17 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    fic.setFile(fromName);
    if (!(fic.exists() && fic.isReadable()))
    {
-      KMessageBox::error(this, i18n("The ")+ from.upper() + i18n(" file does not exists or you do not have read permission. Did you forget to compile to source file to turn it into a ") + from.upper() + i18n(" file?"));
+      KMessageBox::error(this, i18n("The %1 file does not exist or you do not have read permission. "
+                                    "Did you forget to compile to source file to turn it into a %1 file?").arg(from.upper()));
    }
 
    list.append(fromName);
    list.append(toName);
-   
+
    return list;
 }
 
-QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target = QString::null)
+QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext, const QString &target = QString::null)
 {
    QString finame;
    if (singlemode) {finame=getName();}
@@ -1661,21 +1671,23 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
    }
 
    if (finame == "untitled") {
-      KMessageBox::error(this,i18n("You need to save an untitled document and make a ") + ext.upper()
-                                + i18n(" file out of it. After you have done this, you can view the ")+ext.upper()
-                                + i18n(" file."),"File needs to be saved and compiled!");
+      KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
+                                   "file out of it. After you have done this, you can view the %1 file.")
+                                   .arg(ext.upper()).arg(ext.upper()),
+                         i18n("File needs to be saved and compiled!"));
       return QString::null;
    }
 
    if ((singlemode && !currentEditorView()) || finame=="")
    {
-     KMessageBox::error( this,i18n("Unable to determine which ") +ext.upper()+i18n(" file to show. Please open the source file of the ") + ext.upper() + i18n(" file to want to view."));
+     KMessageBox::error( this, i18n("Unable to determine which %1 file to show. Please open the source file of the %1 file to want to view.")
+                         .arg(ext.upper()));
      return QString::null;
    }
 
    QFileInfo fic(finame);
    finame = fic.dirPath() + "/";
-   if (target)
+   if (!target.isNull())
    {
 		finame += target;
 		finame.replace("%S",fic.baseName());
@@ -1684,15 +1696,17 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
    {
 		finame += fic.baseName() + "." + ext;
 	}
-		
+
    fic.setFile(finame);
 
    if ( ! (fic.exists() && fic.isReadable() ) )
    {
-      KMessageBox::error(this,i18n("The ") + ext.upper() + i18n(" file does not exists or you do not have read permission. Maybe you forgot to create the ") + ext.upper() + i18n(" file?"));
+      KMessageBox::error(this,i18n("The %1 file does not exist or you do not have read permission. "
+                                   "Maybe you forgot to create the %1 file?")
+                         .arg(ext.upper()).arg(ext.upper()));
       return QString::null;
    }
-   
+
    return finame;
 }
 
@@ -1700,13 +1714,13 @@ void Kile::Latex()
 {
   QString finame;
   if ( (finame=prepareForCompile("LaTeX")) == QString::null)  return;
-  
+
   QFileInfo fic(finame);
   QStringList command;
   command << latex_command;
   CommandProcess *proc=execCommand(command,fic,true);
   connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-          
+
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
      KMessageBox::error( this,i18n("Could not start LaTeX, make sure you have installed the LaTeX package on your system."));
@@ -1717,7 +1731,7 @@ void Kile::Latex()
      LogWidget->clear();
      Outputview->showPage(LogWidget);
      logpresent=false;
-     LogWidget->insertLine(i18n("Launched: ") + proc->command());
+     LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
   UpdateLineColStatus();
@@ -1755,7 +1769,7 @@ void Kile::ViewDvi()
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
     {
-       KMessageBox::error( this,i18n("Could not start ")+ viewdvi_command + i18n(". make sure you have this package installed.") );
+       KMessageBox::error( this,i18n("Could not start %1. Make sure you have this package installed.").arg(viewdvi_command) );
     }
     else
     {
@@ -1763,10 +1777,10 @@ void Kile::ViewDvi()
          LogWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ") + proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
      }
   }
- 
+
   UpdateLineColStatus();
 }
 
@@ -1774,15 +1788,15 @@ void Kile::KdviForwardSearch()
 {
   QString finame;
   if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
-  
+
   LogWidget->clear();
   Outputview->showPage(LogWidget);
   logpresent=false;
-  LogWidget->insertLine("You must be in 'Normal mode' to use this command.");
-  LogWidget->insertLine("If you do not have a TeX-binary which includes inverse search information natively :");
-  LogWidget->insertLine("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides.");
-  LogWidget->insertLine("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file.");
-  LogWidget->insertLine("(see the kdvi handbook for more details)");
+  LogWidget->insertLine(i18n("You must be in 'Normal mode' to use this command."));
+  LogWidget->insertLine(i18n("If you do not have a TeX-binary which includes inverse search information natively :"));
+  LogWidget->insertLine(i18n("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides."));
+  LogWidget->insertLine(i18n("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file."));
+  LogWidget->insertLine(i18n("(see the kdvi handbook for more details)"));
 
   QFileInfo fic(finame);
   QString dviname=finame;
@@ -1822,7 +1836,7 @@ void Kile::KdviForwardSearch()
     }
     else
     {
-       LogWidget->insertLine(i18n("Launched: ") + "kdvi");
+       LogWidget->insertLine(i18n("Launched: %1").arg("kdvi"));
     }
    }
 
@@ -1838,21 +1852,21 @@ void Kile::DviToPS()
   QString dviname=files[0];
   QString psname=files[1];
   QFileInfo fic(dviname);
-  
+
   QStringList command; command << dvips_command;
   CommandProcess *proc=execCommand(command,fic,true);
   connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-      KMessageBox::error( this,i18n("Could not start ") + dvips_command + i18n(". Make sure this package is installed on your system."));
+      KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvips_command));
   }
   else
   {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ") + proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
 
   }
 
@@ -1863,7 +1877,7 @@ void Kile::ViewPS()
 {
   QString finame;
   if ( (finame=prepareForViewing("ViewPS","ps")) == QString::null) return;
-  
+
   QFileInfo fic(finame);
 
    if (viewps_command=="Embedded viewer")
@@ -1873,7 +1887,7 @@ void Kile::ViewPS()
    psfactory = KLibLoader::self()->factory("libkghostviewpart");
    if (!psfactory)
       {
-      KMessageBox::error(this, i18n("Couldn't find the embedded postscript viewer! Install kviewshell."));
+      KMessageBox::error(this, i18n("Couldn't find the embedded PostScript viewer! Install kviewshell."));
       return;
       }
    pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
@@ -1892,14 +1906,14 @@ void Kile::ViewPS()
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
     {
-       KMessageBox::error( this,i18n("Could not start ") + viewps_command + i18n(". Make sure this package is installed on your system"));
+       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(viewps_command));
     }
     else
         {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched:")+proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
     }
 
@@ -1919,14 +1933,14 @@ void Kile::PDFLatex()
 
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-     KMessageBox::error( this,i18n("Could not start PDFLaTeX, make sure you have this package installed on your system."));
+     KMessageBox::error( this,i18n("Could not start PDFLaTeX. Make sure you have this package installed on your system."));
   }
   else
   {
      OutputWidget->clear();
      Outputview->showPage(LogWidget);
      logpresent=false;
-     LogWidget->insertLine(i18n("Launched: ")+ proc->command());
+     LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
   UpdateLineColStatus();
@@ -1945,7 +1959,7 @@ void Kile::ViewPDF()
    psfactory = KLibLoader::self()->factory("libkghostviewpart");
    if (!psfactory)
       {
-      KMessageBox::error(this, i18n("Couldn't find the embedded pdf viewer! Install kviewshell."));
+      KMessageBox::error(this, i18n("Couldn't find the embedded PDF viewer! Install kviewshell."));
       return;
       }
    pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
@@ -1964,14 +1978,14 @@ void Kile::ViewPDF()
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
     {
-       KMessageBox::error( this,i18n("Could not start ") + viewpdf_command + i18n(". Make sure this package is installed on your system."));
+       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(viewpdf_command));
     }
     else
         {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ") + proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
     }
 
@@ -1983,7 +1997,8 @@ void Kile::MakeBib()
 {
   QString finame = getName();
   if (finame == "untitled") {
-     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an AUX file which is required to run ")+bibtex_command,i18n("File needs to be saved!"));
+     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an AUX file which is required to run %1").arg(bibtex_command),
+                        i18n("File needs to be saved!"));
      return;
   }
 
@@ -1996,7 +2011,9 @@ void Kile::MakeBib()
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="")
   {
-     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +bibtex_command+i18n(" . Make sure you have the source file of the file you want to run ")+bibtex_command+i18n(" on  open and saved."));
+     KMessageBox::error( this,i18n("Unable to determine on which file to run %1. Make sure you have the source file "
+                                   "of the file you want to run %1 on open and saved.")
+                         .arg(bibtex_command).arg(bibtex_command));
      return;
   }
 
@@ -2006,27 +2023,29 @@ void Kile::MakeBib()
 
   if (!(fic.exists() && fic.isReadable()) )
   {
-     KMessageBox::error(this,i18n("The file ")+finame+i18n(" does not exist or you do not have read permission. You need to run LaTeX to create this file."));
+     KMessageBox::error(this,i18n("The file %1 does not exist or you do not have read permission. "
+                                  "You need to run LaTeX to create this file.").arg(finame));
      return;
   }
 
   //QString name=fic.dirPath()+"/"+fic.baseName();
   //fic.setFile(name);
-	
+
     QStringList command; command << bibtex_command;
     CommandProcess *proc=execCommand(command,fic,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
     {
-       KMessageBox::error( this,i18n("Could not start ") + bibtex_command + i18n(". Make sure this package is installed on your system."));
+       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.")
+                           .arg(bibtex_command));
     }
     else
         {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ")+proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
 
 
@@ -2037,10 +2056,12 @@ void Kile::MakeIndex()
 {
   //TODO: figure out how makeindex works ;-))
   //I'm just guessing here
-  
+
   QString finame = getName();
   if (finame == "untitled") {
-     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an idx file which is required to run ")+makeindex_command,i18n("File needs to be saved!"));
+     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an idx file "
+                                  "which is required to run %1.").arg(makeindex_command),
+                        i18n("File needs to be saved!"));
      return;
   }
 
@@ -2053,7 +2074,9 @@ void Kile::MakeIndex()
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="")
   {
-     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +makeindex_command+i18n(" . Make sure you have the source file of the file you want to run ")+makeindex_command+i18n(" on  open and saved."));
+     KMessageBox::error(this,i18n("Unable to determine on which file to run %1. "
+                                  "Make sure you have the source file of the file you want to run %1 on open and saved.")
+                        .arg(makeindex_command).arg(makeindex_command));
      return;
   }
 
@@ -2063,11 +2086,12 @@ void Kile::MakeIndex()
 
   if (!(fic.exists() && fic.isReadable()) )
   {
-     KMessageBox::error(this,i18n("The file ")+finame+i18n(" does not exist or you do not have read permission. You need to run LaTeX to create this file."));
+     KMessageBox::error(this,i18n("The file %1 does not exist or you do not have read permission. "
+                                  "You need to run LaTeX to create this file.").arg(finame));
      return;
   }
 
-  
+
     QStringList command; command << makeindex_command;
     CommandProcess *proc=execCommand(command,fic,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
@@ -2078,7 +2102,7 @@ void Kile::MakeIndex()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ")+ proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
 
   UpdateLineColStatus();
@@ -2093,21 +2117,21 @@ void Kile::PStoPDF()
   QString pdfname=files[1];
 
   QFileInfo fic(psname);
-  
+
   QStringList command; command << ps2pdf_command;
   CommandProcess *proc=execCommand(command,fic,true);
   connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
     {
-       KMessageBox::error( this,i18n("Could not start ") + ps2pdf_command + i18n(". Make sure this packages is installed on your system."));
+       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(ps2pdf_command));
     }
     else
         {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ")+proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
     UpdateLineColStatus();
 }
@@ -2128,14 +2152,14 @@ void Kile::DVItoPDF()
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
     {
-       KMessageBox::error( this,i18n("Could not start ")+dvipdf_command+i18n(". Make sure this package is installed on your system."));
+       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvipdf_command));
     }
     else
         {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ")+ proc->command());
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
 
   UpdateLineColStatus();
@@ -2145,7 +2169,7 @@ void Kile::MetaPost()
 {
   //TODO: what the h*ll is MetaPost, how should we deal with the
   //error messages?
-  
+
   QString finame;
 
   finame=getName();
@@ -2172,7 +2196,7 @@ void Kile::MetaPost()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ") + "mpost");
+         LogWidget->insertLine(i18n("Launched: %1").arg("mpost"));
          }
   }
  else
@@ -2188,13 +2212,13 @@ void Kile::CleanAll()
 
   if (singlemode) {finame=getName();}
   else {finame=MasterName;}
-  
+
   if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
      return;
   }
-  
+
   QFileInfo fic(finame);
   if ( ! (fic.exists() && fic.isReadable() ) )
   {
@@ -2203,18 +2227,18 @@ void Kile::CleanAll()
   }
 
   QString extlist[] = {".log",".aux",".dvi",".aux",".lof",".lot",".bit",".idx" ,".glo",".bbl",".ilg",".toc",".ind"};
-  
+
     QStringList prettyList;
    QStringList command;
 
    command << "cd " << fic.dirPath() << "&&";
-   
+
    for (int i=0; i< 13; i++) {
       prettyList.append(fic.baseName()+extlist[i]);
       command << "rm -f" << fic.baseName()+extlist[i];
       if (i<12) {command << "&&"; }
    }
-   
+
    int query = KMessageBox::warningContinueCancelList( this,
             i18n( "Do you really want to delete these files?" ),
             prettyList,
@@ -2272,7 +2296,7 @@ void Kile::LatexToHtml()
 
   QFileInfo fic(finame);
 
-    l2hDlg = new l2hdialog(this,i18n("LaTex2Html Options"));
+    l2hDlg = new l2hdialog(this,i18n("LaTex2Html Options").utf8());
     l2hDlg->options_edit->setText(l2h_options);
     if ( l2hDlg->exec() )
     {
@@ -2280,22 +2304,22 @@ void Kile::LatexToHtml()
     QStringList command; command <<  "konsole" << "-e" << "latex2html" << "%S.tex" << l2h_options;
     CommandProcess* proc = execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotl2hExited(KProcess*)));
-    
+
     if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
     else
         {
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: ")+ "latex2html");
+         LogWidget->insertLine(i18n("Launched: %1").arg("latex2html"));
         }
     }
     delete (l2hDlg);
-  
+
    UpdateLineColStatus();
 }
 
-void Kile::slotProcessOutput(KProcess* proc,char* buffer,int buflen)
+void Kile::slotProcessOutput(KProcess* /*proc*/,char* buffer,int buflen)
 {
 int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
 int col = OutputWidget->paragraphLength(row);
@@ -2346,13 +2370,13 @@ void Kile::HtmlPreview()
 {
 	QString finame;
 	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
-	       
+
 	LogWidget->clear();
 	Outputview->showPage(LogWidget);
 	logpresent=false;
 
 	QFileInfo fih(finame);
-	
+
 	ResetPart();
    htmlpart = new docpart(topWidgetStack,"help");
    connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
@@ -2605,7 +2629,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
  tagStart=s.find("\\label{", tagEnd);
  if (tagStart!=-1)
   {
-    s=s.mid(tagStart+7,qstrlen(s));
+    s=s.mid(tagStart+7,s.length());
     tagStart=s.find("}", tagEnd);
     if (tagStart!=-1)
     {
@@ -2629,7 +2653,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
  tagStart=s.find("\\include{", tagEnd);
  if (tagStart!=-1)
   {
-    s=s.mid(tagStart+8,qstrlen(s));
+    s=s.mid(tagStart+8,s.length());
     tagStart=s.find("}", tagEnd);
     if (tagStart!=-1)
     {
@@ -2651,7 +2675,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
  tagStart=s.find("\\input{", tagEnd);
  if (tagStart!=-1)
   {
-    s=s.mid(tagStart+6,qstrlen(s));
+    s=s.mid(tagStart+6,s.length());
     tagStart=s.find("}", tagEnd);
     if (tagStart!=-1)
     {
@@ -2675,7 +2699,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   {
     structlist.append(QString::number(i));
     tagStart=s.find(struct_level1, tagEnd);
-    s=s.mid(tagStart+qstrlen(struct_level1),qstrlen(s));
+    s=s.mid(tagStart+struct_level1.length(),s.length());
     s=s+" (line "+QString::number(i+1)+")";
     structitem.append(s);
     Child = top->firstChild();
@@ -2695,7 +2719,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   {
     structlist.append(QString::number(i));
     tagStart=s.find(struct_level2, tagEnd);
-    s=s.mid(tagStart+qstrlen(struct_level2),qstrlen(s));
+    s=s.mid(tagStart+struct_level2.length(),s.length());
     s=s+" (line "+QString::number(i+1)+")";
     structitem.append(s);
     Child = parent_level[0]->firstChild();
@@ -2715,7 +2739,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   {
     structlist.append(QString::number(i));
     tagStart=s.find(struct_level3, tagEnd);
-    s=s.mid(tagStart+qstrlen(struct_level3),qstrlen(s));
+    s=s.mid(tagStart+struct_level3.length(),s.length());
     s=s+" (line "+QString::number(i+1)+")";
     structitem.append(s);
     Child = parent_level[1]->firstChild();
@@ -2735,7 +2759,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   {
     structlist.append(QString::number(i));
     tagStart=s.find(struct_level4, tagEnd);
-    s=s.mid(tagStart+qstrlen(struct_level4),qstrlen(s));
+    s=s.mid(tagStart+struct_level4.length(),s.length());
     s=s+" (line "+QString::number(i+1)+")";
     structitem.append(s);
     Child = parent_level[2]->firstChild();
@@ -2755,7 +2779,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   {
     structlist.append(QString::number(i));
     tagStart=s.find(struct_level5, tagEnd);
-    s=s.mid(tagStart+qstrlen(struct_level5),qstrlen(s));
+    s=s.mid(tagStart+struct_level5.length(),s.length());
     s=s+" (line "+QString::number(i+1)+")";
     structitem.append(s);
     Child = parent_level[3]->firstChild();
@@ -2817,8 +2841,8 @@ QString s=*it2;
 if (s=="include")
     {
     QString fname=*it1;
-    if (fname.right(5)==".tex}") fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,qstrlen(fname)-2);
-    else fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,qstrlen(fname)-2)+".tex";
+    if (fname.right(5)==".tex}") fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2);
+    else fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
     QFileInfo fi(fname);
     if (fi.exists() && fi.isReadable())
       {
@@ -2828,8 +2852,8 @@ if (s=="include")
 else if (s=="input")
     {
     QString fname=*it1;
-    if (fname.right(5)==".tex}") fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,qstrlen(fname)-2);
-    else fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,qstrlen(fname)-2)+".tex";
+    if (fname.right(5)==".tex}") fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2);
+    else fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
     QFileInfo fi(fname);
     if (fi.exists() && fi.isReadable())
       {
@@ -2868,7 +2892,7 @@ if (fic.exists() && fic.isReadable() )
        {
 				s = t.readLine();
         int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
-        int col = qstrlen(LogWidget->text(row));
+        int col = LogWidget->text(row).length();
         if (s.left(1) == "\n" && col == 0)  s = QString(" ")+s;
         LogWidget->insertLine(s);
         }
@@ -2882,7 +2906,7 @@ else {KMessageBox::error( this,i18n("Log file not found!"));}
 UpdateLineColStatus();
 }
 
-void Kile::ClickedOnOutput(int parag, int index)
+void Kile::ClickedOnOutput(int parag, int /*index*/)
 {
 
 if ( !currentEditorView() ) return;
@@ -2897,12 +2921,12 @@ if ( !currentEditorView() ) return;
  if (Start!=-1)
   {
   Start=Start+2;
-  s=s.mid(Start,qstrlen(s));
+  s=s.mid(Start,s.length());
   End=s.find(QRegExp("[ a-zA-Z.\\-]"),0);
   if (End!=-1)
     line=s.mid(0,End);
   else
-    line=s.mid(0,qstrlen(s));
+    line=s.mid(0,s.length());
   };
  //// line ///
  s = LogWidget->text(parag);
@@ -2911,12 +2935,12 @@ if ( !currentEditorView() ) return;
  if (Start!=-1)
   {
   Start=Start+5;
-  s=s.mid(Start,qstrlen(s));
+  s=s.mid(Start,s.length());
   End=s.find(QRegExp("[ a-zA-Z.\\-]"),0);
   if (End!=-1)
     line=s.mid(0,End);
   else
-    line=s.mid(0,qstrlen(s));
+    line=s.mid(0,s.length());
   };
  //// lines ///
  s = LogWidget->text(parag);
@@ -2925,12 +2949,12 @@ if ( !currentEditorView() ) return;
  if (Start!=-1)
   {
   Start=Start+6;
-  s=s.mid(Start,qstrlen(s));
+  s=s.mid(Start,s.length());
   End=s.find(QRegExp("[ a-zA-Z.\\-]"),0);
   if (End!=-1)
     line=s.mid(0,End);
   else
-    line=s.mid(0,qstrlen(s));
+    line=s.mid(0,s.length());
   };
 int l=line.toInt(&ok,10)-1;
 if (ok && l<=currentEditorView()->editor->paragraphs())
@@ -2953,37 +2977,36 @@ for(int i = 0; i < LogWidget->paragraphs(); i++)
  tagStart=tagEnd=0;
  tagStart=s.find("!", tagEnd);
  if (tagStart==0)
-  {
-    errorlist->append(QString::number(i));
-  };
+ {
+     errorlist->append((char *)i);
+ }
  //// latex warning ////
  tagStart=tagEnd=0;
  tagStart=s.find("LaTeX Warning", tagEnd);
  if (tagStart!=-1)
   {
-    errorlist->append(QString::number(i));
-  };
+    errorlist->append((char *)i);
+  }
  }
 }
 
 void Kile::QuickLatexError()
 {
-errorlist->clear();
-QString s;
-for(int i = 0; i < LogWidget->paragraphs(); i++)
- {
- s = LogWidget->text(i);
- int tagStart, tagEnd;
- //// ! ////
- tagStart=tagEnd=0;
- tagStart=s.find("!", tagEnd);
- if (tagStart==0)
-  {
-    errorlist->append(QString::number(i));
-  };
- }
+    errorlist->clear();
+    QString s;
+    for(int i = 0; i < LogWidget->paragraphs(); i++)
+    {
+        s = LogWidget->text(i);
+        int tagStart, tagEnd;
+        //// ! ////
+        tagStart=tagEnd=0;
+        tagStart=s.find("!", tagEnd);
+        if (tagStart==0)
+        {
+            errorlist->append((char *)i);
+        }
+    }
 }
-
 
 void Kile::NextError()
 {
@@ -3069,7 +3092,7 @@ QString opt="";
 int li=3;
   if ( !currentEditorView() )	return;
   QString tag=QString("\\documentclass[");
-	startDlg = new quickdocumentdialog(this,i18n("Quick Start"));
+	startDlg = new quickdocumentdialog(this,i18n("Quick Start").utf8());
   startDlg->otherClassList=userClassList;
   startDlg->otherPaperList=userPaperList;
   startDlg->otherEncodingList=userEncodingList;
@@ -3139,7 +3162,7 @@ void Kile::QuickTabular()
   QString al="";
   QString vs="";
   QString hs="";
-	quickDlg = new tabdialog(this,i18n("Tabular"));
+	quickDlg = new tabdialog(this,i18n("Tabular").utf8());
   if ( quickDlg->exec() )
   {
     int	y = quickDlg->spinBoxRows->value();
@@ -3174,7 +3197,7 @@ void Kile::QuickTabular()
 void Kile::QuickTabbing()
 {
   if ( !currentEditorView() )	return;
-  tabDlg = new tabbingdialog(this,"Tabbing");
+  tabDlg = new tabbingdialog(this,i18n("Tabbing").utf8());
   if ( tabDlg->exec() )
  {
   int	x = tabDlg->spinBoxCollums->value();
@@ -3199,7 +3222,7 @@ void Kile::QuickArray()
 {
   if ( !currentEditorView() )	return;
   QString al;
-	arrayDlg = new arraydialog(this,i18n("Array"));
+	arrayDlg = new arraydialog(this,i18n("Array").utf8());
   if ( arrayDlg->exec() ) {
   	int y = arrayDlg->spinBoxRows->value();
   	int x = arrayDlg->spinBoxCollums->value();
@@ -3233,7 +3256,7 @@ void Kile::QuickLetter()
 {
   if ( !currentEditorView() )	return;
   QString tag=QString("\\documentclass[");
-	ltDlg = new letterdialog(this,i18n("Letter"));
+	ltDlg = new letterdialog(this,i18n("Letter").utf8());
   if ( ltDlg->exec() )
   {
   tag+=ltDlg->combo2->currentText()+QString(",");
@@ -3757,8 +3780,8 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select Image File"));
-sfDlg->setFilter("*.eps *.pdf *.png|Graphic Files\n*|All Files");
+sfDlg = new FileChooser(this,i18n("Select Image File").utf8());
+sfDlg->setFilter(i18n("*.eps *.pdf *.png|Graphic Files\n*|All Files"));
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
   {
@@ -3787,8 +3810,8 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select File"));
-sfDlg->setFilter("*.tex|TeX Files\n*|All Files");
+sfDlg = new FileChooser(this,i18n("Select File").utf8());
+sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
   {
@@ -3811,8 +3834,8 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select File"));
-sfDlg->setFilter("*.tex|TeX Files\n*|All Files");
+sfDlg = new FileChooser(this,i18n("Select File").utf8());
+sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
   {
@@ -3954,7 +3977,7 @@ refDlg->combo1->insertStringList(labelitem);
 if (!labelitem.isEmpty() && refDlg->exec() )
   {
   tag="\\ref{"+refDlg->combo1->currentText()+"}";
-  InsertTag(tag,qstrlen(tag),0);
+  InsertTag(tag,tag.length(),0);
   }
 else InsertTag("\\ref{}",5,0);
 delete refDlg;
@@ -3970,7 +3993,7 @@ refDlg->combo1->insertStringList(labelitem);
 if (!labelitem.isEmpty() && refDlg->exec() )
   {
   tag="\\pageref{"+refDlg->combo1->currentText()+"}";
-  InsertTag(tag,qstrlen(tag),0);
+  InsertTag(tag,tag.length(),0);
   }
 else InsertTag("\\pageref{}",9,0);
 delete refDlg;
@@ -4466,13 +4489,13 @@ if (text=="right.") InsertTag("\\right. ",8,0);
 void Kile::InsertSymbol()
 {
 QString code_symbol=symbol_view->getSymbolCode();
-InsertTag(code_symbol,qstrlen(code_symbol),0);
+InsertTag(code_symbol,code_symbol.length(),0);
 }
 
 void Kile::InsertMetaPost(QListBoxItem *)
 {
 QString mpcode=mpview->currentText();
-if (mpcode!="----------") InsertTag(mpcode,qstrlen(mpcode),0);
+if (mpcode!="----------") InsertTag(mpcode,mpcode.length(),0);
 }
 
 ////////////////////////// BIBLIOGRAPHY //////////////////////////
@@ -4930,7 +4953,7 @@ QFileInfo fic(locate("appdata","doc/usermanual.html"));
 ///////////////////// USER ///////////////
 void Kile::EditUserMenu()
 {
-umDlg = new usermenudialog(this,i18n("Edit User Tags"));
+umDlg = new usermenudialog(this,i18n("Edit User Tags").utf8());
 for ( int i = 0; i <= 9; i++ )
     {
     umDlg->Name[i]=UserMenuName[i];
@@ -4961,7 +4984,7 @@ delete umDlg;
 
 void Kile::EditUserTool()
 {
-utDlg = new usertooldialog(this,i18n("Edit User Commands"));
+utDlg = new usertooldialog(this,i18n("Edit User Commands").utf8());
 for ( int i = 0; i <= 4; i++ )
     {
     utDlg->Name[i]=UserToolName[i];
@@ -4999,7 +5022,7 @@ else
   LogWidget->clear();
   Outputview->showPage(LogWidget);
   logpresent=false;
-  LogWidget->insertLine(i18n("Launched: ")+ "xfig");
+  LogWidget->insertLine(i18n("Launched: %1").arg("xfig"));
   }
 }
 
@@ -5009,7 +5032,7 @@ void Kile::RunGfe()
   Outputview->showPage(LogWidget);
   logpresent=false;
   UpdateLineColStatus();
-  if (!gfe_widget) gfe_widget=new Qplotmaker(0,i18n("Gnuplot Front End"));
+  if (!gfe_widget) gfe_widget=new Qplotmaker(0,i18n("Gnuplot Front End").utf8());
   gfe_widget->setIcon(kapp->miniIcon());
   gfe_widget->raise();
   gfe_widget->show();
@@ -5286,7 +5309,7 @@ if (singlemode && currentEditorView())  {
       shortName.remove(0,pos+1);
       ModeAction->setText(i18n("Normal mode (current master document:")+shortName+")");
       ModeAction->setChecked(true);
-      statusBar()->changeItem(i18n("Master document: ")+shortName, ID_HINTTEXT);
+      statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
       singlemode=false;
       return;
       }
@@ -5305,7 +5328,7 @@ ShowStructView(true);
 
 void Kile::ToggleShowMainToolbar() {
   showmaintoolbar = !showmaintoolbar;
-  
+
   if (showmaintoolbar ) {
       toolBar("ToolBar1")->show();
   } else {
@@ -5382,12 +5405,12 @@ else
 
 void Kile::GeneralOptions()
 {
-toDlg = new toolsoptionsdialog(this,i18n("Configure Kile"));
+toDlg = new toolsoptionsdialog(this,i18n("Configure Kile").utf8());
 for ( int i = 0; i <= 7; i++ )
     {
     toDlg->colors[i]=editor_color[i];
     }
-toDlg->init();    
+toDlg->init();
 toDlg->LineEdit6->setText(latex_command);
 toDlg->LineEdit7->setText(pdflatex_command);
 toDlg->comboFamily->lineEdit()->setText(EditorFont.family() );
@@ -5495,10 +5518,10 @@ void Kile::spell_started( KSpell *)
 void Kile::spell_progress (unsigned int percent)
 {
   QString s;
-  s = QString(i18n("Spellcheck:  %1% complete")).arg(percent);
+  s = QString(i18n("Spellcheck: %1% complete")).arg(percent);
 }
 
-void Kile::spell_done(const QString& newtext)
+void Kile::spell_done(const QString& /*newtext*/)
 {
 currentEditorView()->editor->removeSelection(0);
 //if (kspell->dlgResult() == 0)
@@ -5526,7 +5549,7 @@ else if (status == KSpell::Crashed)
   }
 }
 
-void Kile::misspelling (const QString & originalword, const QStringList & suggestions,unsigned int pos)
+void Kile::misspelling (const QString & originalword, const QStringList & /*suggestions*/,unsigned int pos)
 {
   int l=par_start;
   int cnt=0;
@@ -5644,7 +5667,7 @@ else
       if (symbol_view && symbol_present) delete symbol_view;
       if (Structview_layout) delete Structview_layout;
       Structview_layout=new QHBoxLayout(Structview);
-      symbol_view = new SymbolView(page-1,Structview,"Symbols");
+      symbol_view = new SymbolView(page-1,Structview,i18n("Symbols").utf8());
       connect(symbol_view, SIGNAL(SymbolSelected()), SLOT(InsertSymbol()));
       symbol_present=true;
       Structview_layout->add(symbol_view);
@@ -5659,11 +5682,11 @@ void Kile::changeInputEncoding()
 input_encoding=KileFS->comboEncoding->lineEdit()->text();
 if (currentEditorView())
   {
-   QTextCodec* codec1 = QTextCodec::codecForName(currentEditorView()->editor->getEncoding());
+   QTextCodec* codec1 = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().latin1());
    if(!codec1) codec1 = QTextCodec::codecForLocale();
    QString tmp =currentEditorView()->editor->text();
-   QString unicodetmp=codec1->toUnicode(tmp);
-   QTextCodec* codec2 = QTextCodec::codecForName(input_encoding);
+   QString unicodetmp=codec1->toUnicode(tmp.latin1());
+   QTextCodec* codec2 = QTextCodec::codecForName(input_encoding.latin1());
    if(!codec2) codec2 = QTextCodec::codecForLocale();
    QString newtmp= codec2->fromUnicode( unicodetmp );
    currentEditorView()->editor->clear();
@@ -5700,27 +5723,27 @@ if (fic.exists() && fic.isReadable() )
     tagStart=line.find("%%BoundingBox: ",0);
     if (tagStart!=-1)
        {
-       line=line.right(qstrlen(line)-15);
+       line=line.right(line.length()-15);
        /// l ///
        tagStart=line.find(" ",0);
        if (tagStart!=-1)
            {
            l=line.left(tagStart);
-           line=line.right(qstrlen(line)-tagStart-1);
+           line=line.right(line.length()-tagStart-1);
            }
        /// t ///
        tagStart=line.find(" ",0);
        if (tagStart!=-1)
            {
            t=line.left(tagStart);
-           line=line.right(qstrlen(line)-tagStart-1);
+           line=line.right(line.length()-tagStart-1);
            }
        /// r ///
        tagStart=line.find(" ",0);
        if (tagStart!=-1)
            {
            r=line.left(tagStart);
-           line=line.right(qstrlen(line)-tagStart-1);
+           line=line.right(line.length()-tagStart-1);
            }
        /// b ///
        b=line;

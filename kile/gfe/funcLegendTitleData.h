@@ -27,8 +27,8 @@
 #define funcLegendTitleData_included
 
 #include <qdialog.h>
-#include <qchkbox.h>
-#include <qlined.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
 
 class funcLegendTitleData : public QDialog
 {

@@ -28,8 +28,8 @@
 #include "funcLegendTitleData.h"
 
 #include <qlabel.h>
-#include <qbttngrp.h>
-#include <qpushbt.h>
+#include <qbuttongroup.h>
+#include <qpushbutton.h>
 #include <qlayout.h>
 #include <klocale.h>
 
@@ -71,7 +71,7 @@ funcLegendTitleData::funcLegendTitleData
 	defaultCButton->setMaximumSize( 32767, 20 );
 	defaultCButton->setText( "&default" );
 	defaultCButton->setAutoRepeat( FALSE );
-	defaultCButton->setAutoResize( FALSE );
+	//defaultCButton->setAutoResize( FALSE );
 	defaultCButton->setChecked( TRUE );
 
 	notitleCButton = new QCheckBox(ButtonGroup_2, "CheckBox_5" );
@@ -79,7 +79,7 @@ funcLegendTitleData::funcLegendTitleData
 	notitleCButton->setMaximumSize( 32767, 20 );
 	notitleCButton->setText( "&notitle" );
 	notitleCButton->setAutoRepeat( FALSE );
-	notitleCButton->setAutoResize( FALSE );
+	//notitleCButton->setAutoResize( FALSE );
 
 	QPushButton* PushButton_5;
 	PushButton_5 = new QPushButton( this, "PushButton_5" );
@@ -87,7 +87,7 @@ funcLegendTitleData::funcLegendTitleData
 	connect( PushButton_5, SIGNAL(clicked()), SLOT(setFuncLegendTitleOK()) );
 	PushButton_5->setText( i18n("&OK") );
 	PushButton_5->setAutoRepeat( FALSE );
-	PushButton_5->setAutoResize( FALSE );
+	//PushButton_5->setAutoResize( FALSE );
     PushButton_5->setDefault(TRUE);
     PushButton_5->setAutoDefault(TRUE);
 
@@ -97,7 +97,7 @@ funcLegendTitleData::funcLegendTitleData
 	connect( PushButton_6, SIGNAL(clicked()), SLOT(reject()) );
 	PushButton_6->setText( i18n("&Cancel") );
 	PushButton_6->setAutoRepeat( FALSE );
-	PushButton_6->setAutoResize( FALSE );
+	//PushButton_6->setAutoResize( FALSE );
 
 	resize( 320,120 );
 

@@ -247,7 +247,7 @@ void quickdocumentdialog::Init()
 void quickdocumentdialog::addUserClass()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New"));
+dlg = new AddOptionDialog(this,i18n("New").utf8());
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();
@@ -260,7 +260,7 @@ delete (dlg);
 void quickdocumentdialog::addUserPaper()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New"));
+dlg = new AddOptionDialog(this,i18n("New").utf8());
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();
@@ -273,7 +273,7 @@ delete (dlg);
 void quickdocumentdialog::addUserEncoding()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New"));
+dlg = new AddOptionDialog(this,i18n("New").utf8());
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();
@@ -286,7 +286,7 @@ delete (dlg);
 void quickdocumentdialog::addUserOptions()
 {
 QString newoption="";
-dlg = new AddOptionDialog(this,i18n("New"));
+dlg = new AddOptionDialog(this,i18n("New").utf8());
   if ( dlg->exec() )
   {
   newoption=dlg->lineEdit->text();

@@ -173,6 +173,7 @@ signals:
 private:
 	void 	init(const QString& name, const KURL& url);
 	QString	findRelativePath(const KURL&);
+	void setType(KileProjectItem *item);
 
 private:
 	QString		m_name, m_archiveCommand;

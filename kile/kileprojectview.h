@@ -26,7 +26,7 @@ class KileProject;
 class KileDocumentInfo;
 class KileInfo;
 
-namespace KileType {enum ProjectView { Project=0, ProjectItem, ProjectExtra, File};}
+namespace KileType {enum ProjectView { Project=0, ProjectItem, ProjectExtra, File, Folder};}
 
 class KileProjectViewItem : public QObject, public KListViewItem 
 {

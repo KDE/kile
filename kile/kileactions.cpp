@@ -22,6 +22,7 @@
 #include <qcheckbox.h>
 
 #include <klineedit.h>
+#include <kglobal.h>
 #include <kcombobox.h>
 #include <kpushbutton.h>
 #include <klocale.h>
@@ -219,6 +220,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList) )
 	{
 		KComboBox *input = new KComboBox(true, page, "input_dialog_input");
+
 		focus = input;
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setEditText(const QString&)));

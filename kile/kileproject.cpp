@@ -154,6 +154,10 @@ void KileProject::init(const QString& name, const KURL& url)
 
 void KileProject::setExtensions(const QString & ext)
 {
+	bool retype = false;
+	if (ext != m_extensions)
+		retype = true; //determine the types of the project items again
+
 	m_extensions = ext;
 	QStringList lst = QStringList::split(" ", ext);
 	QString pattern = lst.join("|");
@@ -162,6 +166,21 @@ void KileProject::setExtensions(const QString & ext)
 	kdDebug() << "==KileProject::setExtensions"<<endl;
 	kdDebug() << "\tsetting pattern to: " << pattern << endl;
 	m_reExtensions.setPattern(pattern);
+
+	if (retype)
+	{
+		buildProjectTree();
+	}
+}
+
+void KileProject::setType(KileProjectItem *item)
+{
+	kdDebug() << "==KileProject::setType()================" << endl;
+	if (m_reExtensions.search(item->url().fileName()) != -1)
+		item->setType(KileProjectItem::Other);
+	else
+		item->setType(KileProjectItem::Source);
+	kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
 }
 
 bool KileProject::load()
@@ -310,10 +329,7 @@ void KileProject::add(KileProjectItem* item)
 {
 	kdDebug() << "KileProject::add projectitem" << item->url().path() << endl;
 
-	if (m_reExtensions.search(item->url().fileName()) != -1)
-		item->setType(KileProjectItem::Other);
-	else
-		item->setType(KileProjectItem::Source);
+	setType(item);
 
 	item->changePath(findRelativePath(item->url()));
 	connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );

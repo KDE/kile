@@ -209,7 +209,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
 		}
 
-		m_popup->insertItem(SmallIcon("fileclose"), i18n("&Close"), KPV_ID_CLOSE);
+		if ( (itm->type() == KileType::File) || (itm->type() == KileType::ProjectItem) || (itm->type()== KileType::Project)) m_popup->insertItem(SmallIcon("fileclose"), i18n("&Close"), KPV_ID_CLOSE);
 
 		m_popup->exec(point);
 	}
@@ -253,6 +253,7 @@ KileProjectViewItem* KileProjectView::nonSrc(const KileProjectItem *pi, KileProj
 	//create the non-source item
 	KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-sources"));
 	parent->setNonSrc(nonsrc);
+	nonsrc->setType(KileType::Folder);
 
 	return nonsrc;
 }

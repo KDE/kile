@@ -13,7 +13,7 @@ email                : holger.danielsson@t-online.de
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+ 
 #include <qregexp.h>
 #include <qfile.h>
 #include <qtimer.h>
@@ -772,7 +772,7 @@ namespace KileDocument
 	{
 		CompletionDone(entry);
 
-		if ( getMode() == cmLatex ) m_completeTimer->start( 0, false );
+		if ( getMode() == cmLatex ) m_completeTimer->start( 10, true );
 		
 		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) ) 
 		{

@@ -815,7 +815,7 @@ void Kile::fileOpen()
 	}
 
 	//get the URLs
-	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
+	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All Files"), this,i18n("Open File") );
 
 	//open them
 	for (uint i=0; i < urls.count(); i++)
@@ -2808,7 +2808,7 @@ void Kile::execUserTool(int i)
 			if (KMessageBox::warningContinueCancel(this,i18n("Please open or create a document before you execute this tool."))
 				== KMessageBox::Cancel)
 			{
-				LogWidget->insertLine(i18n("Process cancelled by user."));
+				LogWidget->insertLine(i18n("Process canceled by user."));
 				return;
 			}
 

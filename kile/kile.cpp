@@ -449,7 +449,7 @@ void Kile::setupUserToolActions()
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 {
 	if ( url.path() != "untitled" && isOpen(url))
-		return 0;
+		return static_cast<Kate::View*>(docFor(url)->views().first());
 
 	kdDebug() << QString("load(%1,%2,%3)").arg(url.path()).arg(encoding).arg(create) << endl;
 
@@ -750,16 +750,14 @@ void Kile::fileOpen(const KURL& url)
 
 bool Kile::isOpen(const KURL & url)
 {
-	for ( uint i = 0; i < m_viewList.count();  i++ )
+	Kate::Document *doc = docFor(url);
+	if ( doc == 0)
+		return false;
+	else
 	{
-		if ( m_viewList.at(i)->getDoc()->url()  == url )
-		{
-			tabWidget->showPage(m_viewList.at(i));
-			return true;
-		}
+		tabWidget->showPage(doc->views().first());
+		return true;
 	}
-
-	return false;
 }
 
 void Kile::fileSaveAll(bool amAutoSaving)
@@ -847,14 +845,26 @@ void Kile::projectOpen()
 
 	kdDebug() << "projectOpen " << list->count() << " items" << endl;
 
-	Kate::View *view;
+	Kate::Document *doc;
 	for ( uint i=0; i < list->count(); i++)
 	{
 		kdDebug() << "projectOpen " << list->at(i)->url().path() << endl;
 		if (list->at(i)->isOpen())
 		{
-			view = load(list->at(i)->url());
-			mapItem(view->getDoc(), list->at(i));
+			//don't reload if the file was already open
+			if (docFor(list->at(i)) == 0)
+			{
+				Kate::View *view = load(list->at(i)->url());
+				doc = view->getDoc();
+			}
+			else
+			{
+				doc = docFor(list->at(i));
+				removeMap(doc, list->at(i));
+			}
+
+			mapItem(doc, list->at(i));
+
 		}
 	}
 
@@ -2469,6 +2479,8 @@ void Kile::UpdateStructure(bool parse /* = false */)
 		if (parse) docinfo->updateStruct();
 		outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
 	}
+	else
+		outstruct->clear();
 
 	Kate::View *view = currentView();
 	if (view) {view->setFocus();}

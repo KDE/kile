@@ -52,6 +52,7 @@ public:
 	KileProjectItem* activeProjectItem();
 	KileProjectItem* itemFor(Kate::Document *doc) { return m_mapDocToItem[doc]; }
 	Kate::Document* docFor(KileProjectItem *item) { return m_mapItemToDoc[item]; }
+	Kate::Document* docFor(const KURL &url);
 
 	void mapInfo(Kate::Document *doc, KileDocumentInfo *info) { m_mapDocInfo[doc] = info; }
 	void mapItem(Kate::Document *doc, KileProjectItem *item) { m_mapDocToItem[doc]=item; m_mapItemToDoc[item]=doc;}

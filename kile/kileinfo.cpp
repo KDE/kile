@@ -33,6 +33,16 @@ KileDocumentInfo *KileInfo::infoFor(const QString & path)
 	return 0;
 }
 
+Kate::Document* KileInfo::docFor(const KURL& url)
+{
+	for (uint i=0; i < m_docList.count(); i++)
+	{
+		if (m_docList.at(i)->url() == url)
+			return m_docList.at(i);
+	}
+
+	return 0;
+}
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
 	QString title;
@@ -55,17 +65,19 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 {
 	KileProject *project = activeProject();
 
+	//TODO: handle the case where not master document is specified in a project (sick)
 	if (project)
 	{
 		KileProjectItem *item = project->rootItem();
-		KURL url;
 		if (item)
-			url = item->url();
+		{
+			KURL url = item->url();
+			if (shrt) return url.fileName();
+			else return url.path();
+		}
 		else
 			return QString::null;
 
-		if (shrt) return url.fileName();
-		else return url.path();
 	}
 	else
 	{

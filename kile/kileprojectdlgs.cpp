@@ -100,7 +100,7 @@ void KileNewProjectDlg::browseLocation()
 void KileNewProjectDlg::slotOk()
 {
 	if ( name().stripWhiteSpace() == "")
-		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to untitled."), i18n("No name")) == KMessageBox::Yes)
+		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to %1.").arg("untitled"), i18n("No name")) == KMessageBox::Yes)
 			m_name->setText("untitled");
 		else
 			return;

@@ -137,9 +137,13 @@ const long* KileDocumentInfo::getStatistics()
 }
 
 // match a { with the corresponding }
-// pos is the positon next to the {
+// pos is the positon of the {
 QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 {
+	QChar obracket = m_doc->textLine(l)[pos], cbracket;
+	if (obracket == '{') cbracket = '}';
+	if (obracket == '[') cbracket = ']';
+
 	QString line, grab = "";
 	int count=0, len;
 
@@ -147,11 +151,11 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 	{
 		line = m_doc->textLine(l);
 		len = line.length();
-		for (int i=pos; i < len; i++)
+		for (int i=pos+1; i < len; i++)
 		{
 			if (line[i] == '\\') i++;
-			else if (line[i] == '{') count++;
-			else if (line[i] == '}')
+			else if (line[i] == obracket) count++;
+			else if (line[i] == cbracket)
 			{
 				count--;
 				if (count < 0)
@@ -195,7 +199,7 @@ void KileDocumentInfo::updateStruct()
 
 	QString s, cap;
 
-	QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*\\{");
+	QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
 	QRegExp reComments("([^\\\\]%|^%).*$");
 	QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
 	QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
@@ -239,7 +243,7 @@ void KileDocumentInfo::updateStruct()
 			{
 				//kdDebug() << "Found command " <<  reCommand.cap(0) << " at " << i << endl;
 				cap = reCommand.cap(1);
-				tagEnd = tagStart + reCommand.cap(0).length();
+				tagEnd = tagStart + reCommand.cap(0).length()-1;
 
 				//look up the command in the dictionary
 				it = m_dictStructLevel.find(cap);
@@ -247,7 +251,7 @@ void KileDocumentInfo::updateStruct()
 				//if it is was a structure element, find the title (or label)
 				if (it != m_dictStructLevel.end())
 				{
-					tagLine=i; tagCol =  tagEnd;
+					tagLine=i+1; tagCol = tagEnd+1;
 					m = matchBracket(i, static_cast<uint&>(tagEnd));
 					kdDebug() << "grabbed : " << m << endl;
 				}
@@ -290,7 +294,7 @@ void KileDocumentInfo::updateStruct()
 						Child = Child->nextSibling();
 					}
 
-					Child=new KileListViewItem( parent,lastChild,m.stripWhiteSpace(), tagLine+1, tagCol,(*it).type);
+					Child=new KileListViewItem(parent,lastChild,m.stripWhiteSpace(), tagLine, tagCol,(*it).type);
 					if (! (*it).pix.isNull()) Child->setPixmap(0,UserIcon((*it).pix));
 
 					//update the parent levels, such that section etc. get inserted at the correct level

@@ -54,7 +54,7 @@ public:
 
     QComboBox *comboDvi, *comboPs, *comboPdf;
 
-    QCheckBox *checkAutosave;
+    QCheckBox *checkAutosave, *checkEnv;
 
     QRadioButton *checkLatex, *checkPdflatex,
         *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
@@ -67,6 +67,7 @@ public:
     QFrame* toolsPage;
     QFrame* quickPage;
     QFrame* spellingPage;
+	QFrame* editPage;
     KSpellConfig *ksc;
 };
 #endif

@@ -227,6 +227,11 @@ private:
 	bool 			htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
+	bool			m_bCompleteEnvironment;
+
+signals:
+	void completeConfigChanged(bool);
+
 private slots:
 	void ReadSettings();
 	void ReadRecentFileSettings();
@@ -263,6 +268,7 @@ private slots:
 
 private:
 	Kate::View* currentView() const;
+	Kate::View					*m_activeView;
 	QPtrList<Kate::View> 		m_viewList;
 
 /* document handling */
@@ -442,11 +448,14 @@ class KileEventFilter : public QObject
 public:
 	KileEventFilter();
 
+public slots:
+	void setComplete(bool e) { m_bCompleteEnvironment = e; }
+
 protected:
 	bool eventFilter(QObject *o, QEvent *e);
 
 private:
-	bool	m_bHandleEnter;
+	bool	m_bHandleEnter, m_bCompleteEnvironment;
 	QRegExp	m_regexpEnter;
 	
 };

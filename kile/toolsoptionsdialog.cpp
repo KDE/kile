@@ -194,7 +194,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 	// ************************************************************************************************
 
 	spellingPage = addPage(i18n("Spelling"),i18n("Spelling Configuration"),
-	KGlobal::instance()->iconLoader()->loadIcon( "spellcheck", KIcon::NoGroup, KIcon::SizeMedium ));
+		KGlobal::instance()->iconLoader()->loadIcon( "spellcheck", KIcon::NoGroup, KIcon::SizeMedium ));
 
 	QGridLayout *gbox2 = new QGridLayout( spellingPage,2,2,5,5,"" );
 	gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
@@ -204,6 +204,16 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 	ksc = new KSpellConfig(GroupBox3, "spell",0, false );
 
 	gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);
+
+	editPage = addPage(i18n("Edit"),i18n("LaTeX specific editing options"),
+		KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
+
+	QVBoxLayout *lay = new QVBoxLayout(editPage);
+	QVBox *gbox4 = new QVBox(editPage);
+
+	checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),gbox4);
+
+	lay->addWidget(gbox4);
 }
 
 

@@ -77,7 +77,7 @@
 #include "kilestdactions.h"
 #include "usermenudialog.h"
 
-Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose)
+Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), m_activeView(0)
 {
 config = KGlobal::config();
 m_AutosaveTimer= new QTimer();
@@ -326,6 +326,7 @@ void Kile::setupActions()
   (void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"146" );
   (void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
   (void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
+
   StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
   MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
 
@@ -438,6 +439,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
 	KileEventFilter *fil = new KileEventFilter();
+	fil->setComplete(m_bCompleteEnvironment);
+	connect(this,SIGNAL(completeConfigChanged(bool)), fil, SLOT(setComplete(bool)));
 	view->installEventFilter(fil);
 
 	//set the default encoding
@@ -620,26 +623,29 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 void Kile::activateView(QWidget* w, bool checkModified /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	Kate::View* view = (Kate::View*)w;
-	Kate::View* current_view = currentView();
 
-	kdDebug() << "activateView : current : " << current_view->getDoc()->url().path() << endl;
-	kdDebug() << "activateView : activate: " << view->getDoc()->url().path() << endl;
-	if (!view) return;
-
-	kdDebug() << "activateView : changing" << endl;
-	if (current_view)
+	if ( m_activeView != view)
 	{
-		kdDebug() << "activateView : removing" << endl;
-		guiFactory()->removeClient(current_view );
+		kdDebug() << "activateView : activate: " << view->getDoc()->docName() << endl;
+		if (!view) return;
+
+		kdDebug() << "activateView : changing" << endl;
+		if (m_activeView)
+		{
+			kdDebug() << "activateView : removing" << endl;
+			guiFactory()->removeClient(m_activeView);
+		}
+
+		kdDebug() << "activateView : adding" << endl;
+		guiFactory()->addClient( view );
+
+		m_activeView = view;
+
+		if( checkModified )
+			view->getDoc()->isModOnHD();
+
+		UpdateStructure();
 	}
-
-	kdDebug() << "activateView : adding" << endl;
-	guiFactory()->addClient( view );
-
-	if( checkModified )
-		view->getDoc()->isModOnHD();
-
-	UpdateStructure();
 }
 
 void Kile::replaceTemplateVariables(QString &line)
@@ -3241,6 +3247,10 @@ document_encoding=config->readEntry("Encoding","latin1");
 ams_packages=config->readBoolEntry( "AMS",true);
 makeidx_package=config->readBoolEntry( "MakeIndex",false);
 author=config->readEntry("Author","");
+
+config->setGroup( "Editor Ext" );
+m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", false);
+
 }
 
 void Kile::ReadRecentFileSettings()
@@ -3379,6 +3389,9 @@ config->writeEntry( "Encoding",document_encoding);
 config->writeEntry( "AMS",ams_packages);
 config->writeEntry( "MakeIndex",makeidx_package);
 config->writeEntry( "Author",author);
+
+config->setGroup( "Editor Ext" );
+config->writeEntry( "Complete Environment", m_bCompleteEnvironment );
 
 actionCollection()->writeShortcutSettings();
 saveMainWindowSettings(config, "KileMainWindow" );
@@ -3586,6 +3599,7 @@ void Kile::GeneralOptions()
 	toDlg = new toolsoptionsdialog(this,"Configure Kile");
 
 	//initialize dialog with current settings
+	kdDebug() << "autosaveinterval = " << autosaveinterval << endl;
 	toDlg->asIntervalInput->setValue(autosaveinterval/60000);
 	toDlg->templAuthor->setText(templAuthor);
 	toDlg->templDocClassOpt->setText(templDocClassOpt);
@@ -3601,6 +3615,7 @@ void Kile::GeneralOptions()
 	toDlg->comboDvi->lineEdit()->setText(viewdvi_command );
 	toDlg->comboPdf->lineEdit()->setText(viewpdf_command );
 	toDlg->comboPs->lineEdit()->setText(viewps_command );
+	toDlg->checkEnv->setChecked(m_bCompleteEnvironment);
 
 	if (quickmode==1) {toDlg->checkLatex->setChecked(true);}
 	if (quickmode==2) {toDlg->checkDvi->setChecked(true);}
@@ -3636,6 +3651,8 @@ void Kile::GeneralOptions()
 		ps2pdf_command   = toDlg->LineEdit11->text();
 		makeindex_command   = toDlg->LineEdit12->text();
 		bibtex_command   = toDlg->LineEdit13->text();
+		m_bCompleteEnvironment = toDlg->checkEnv->isChecked();
+		emit completeConfigChanged(m_bCompleteEnvironment);
 	}
 	delete toDlg;
 }
@@ -3954,6 +3971,7 @@ while(i < currentView()->getDoc()->numLines())
 KileEventFilter::KileEventFilter()
 {
 	m_bHandleEnter = true;
+	m_bCompleteEnvironment = false;
 	m_regexpEnter  = QRegExp("(.*)(\\\\begin\\s*\\{[^\\{\\}]*\\})\\s*$");
 }
 
@@ -3966,16 +3984,7 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 		kdDebug() << "              type          : " << ke->type() << endl;
 		kdDebug() << "              state         : " << ke->state() << endl;
 
-		if ( ke->text() == "{" )
-		{
-			Kate::View *view = (Kate::View*) o;
-			view->getDoc()->insertText(view->cursorLine(),view->cursorColumnReal(),"}");
-
-			//we're done with this event
-			return true;
-		}
-
-		if ( ke->key() == Qt::Key_Return && ke->state() == 0)
+		if ( m_bCompleteEnvironment &&  ke->key() == Qt::Key_Return && ke->state() == 0)
 		{
 			if (m_bHandleEnter)
 			{

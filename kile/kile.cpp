@@ -738,7 +738,7 @@ void Kile::enableAutosave(bool as)
 	{
 		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
 		int interval = KileConfig::autosaveInterval();
-		if ( interval < 1 ) interval = 10;
+		if ( interval < 1 || interval > 99 ) interval = 10;
 		m_AutosaveTimer->start(interval * 60000);
 	}
 	else m_AutosaveTimer->stop();

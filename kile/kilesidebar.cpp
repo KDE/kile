@@ -18,6 +18,7 @@
 #include <qwidgetstack.h>
 #include <qlayout.h>
 
+#include <kdeversion.h>
 #include <kdebug.h>
 #include <kmultitabbar.h>
 
@@ -60,7 +61,12 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 
 	m_tabBar = new KMultiTabBar(tabbarori, this);
 	m_tabBar->setPosition(tabbarpos);
-	m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3 : KMultiTabBar::VSNET);
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
+		m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3ICON : KMultiTabBar::VSNET);
+	#else
+		m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3 : KMultiTabBar::VSNET);
+	#endif
+	
 
 	if ( orientation == Qt::Horizontal )
 	{

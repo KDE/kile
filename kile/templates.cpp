@@ -37,7 +37,7 @@ Templates::Templates(){
    for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); i++) {
    
      templates = QDir(*i, "template_*.tex");
-     for ( int j=0; j< templates.count(); j++) {
+     for ( uint j=0; j< templates.count(); j++) {
         ti.path=templates.path()+"/"+templates[j];
 	//we need QRegExp here because replace(QString,QString) only works for Qt3.1
         ti.name=templates[j].replace("template_","");

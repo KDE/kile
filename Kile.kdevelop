@@ -35,6 +35,12 @@
       <toc>python</toc>
       <toc>php</toc>
       <toc>perl</toc>
+      <toc>gnome1</toc>
+      <toc>w3c-svg</toc>
+      <toc>w3c-uaag10</toc>
+      <toc>w3c-dom-level2-html</toc>
+      <toc>sw</toc>
+      <toc>ruby</toc>
     </ignoretocs>
     <projectdoc>
       <userdocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html/</userdocDir>
@@ -103,14 +109,14 @@
   </kdevclassview>
   <kdevcvs>
     <cvsoptions>-f</cvsoptions>
-    <commitoptions></commitoptions>
-    <addoptions></addoptions>
-    <logoptions></logoptions>
+    <commitoptions/>
+    <addoptions/>
+    <logoptions/>
     <updateoptions>-dP</updateoptions>
     <removeoptions>-f</removeoptions>
     <revertoptions>-C -d -P</revertoptions>
     <diffoptions>-u3 -p</diffoptions>
-    <rshoptions></rshoptions>
+    <rshoptions/>
   </kdevcvs>
   <kdevcppsupport>
     <codecompletion>

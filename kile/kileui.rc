@@ -1,1143 +1,1145 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="kile" version="1.5.2b">
 <MenuBar noMerge="1">
-  <Menu name="file"><text>&amp;File</text>
-    <Action name="New"/>
-    <Action name="Open"/>
-    <Separator/>
-    <Action name="Recent"/>
-    <Separator/>
-    <DefineGroup name="save_merge" append="save_merge" />
-    <Action name="SaveAll"/>
-    <DefineGroup name="revert_merge" append="revert_merge"/>
-    <Separator/>
-    <Action name="CreateTemplate"/>
-    <Separator/>
-    <DefineGroup name="print_merge" append="print_merge"/>
-    <Separator/>
-    <Action name="Close"/>
-    <Action name="CloseAll"/>
-    <Merge/>
-    <Separator/>
-    <Action name="Exit"/>
-  </Menu>
-  <Menu name="edit"><text>&amp;Edit</text>
-  <!-- there seem to be a bug in kdelibs, so that seperators surrounding only merged items aren't displayed. Look a kwrite - same problem. Haven't filed bug yet, because I'm not sure.-->
-    <DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
-    <Separator/>
-    <DefineGroup name="edit_paste_merge" append="edit_paste_merge"/>
-    <Separator/>
-    <DefineGroup name="edit_select_merge" append="edit_select_merge"/>
-    <Separator/>
-    <DefineGroup name="edit_find_merge" append="edit_find_merge"/>
-    <Separator/>
-    <Action name="Spell"/>
-    <Action name="RefreshStructure"/>
-  </Menu>
-   <Menu name="view"><text>View</text>
-   <Action name="EditorView"/>
-   <Merge/>
-   <Separator/>
-   <Action name="gotoPrevDocument"/>
-   <Action name="gotoNextDocument"/>
-  </Menu>
-    <Menu name="menu3"><text>&amp;Build</text>
-    <Action name="QuickBuild"/>
-    <Action name="WatchFile"/>
-    <Separator/>
-    <Action name="Latex"/>
-    <Action name="ViewDvi"/>
-    <Action name="DvitoPS"/>
-    <Action name="ViewPS"/>
-    <Separator/>
-    <Action name="KdviForwardSearch"/>
-    <Separator/>
-    <Action name="PDFLatex"/>
-    <Action name="ViewPDF"/>
-    <Action name="PStoPDF"/>
-    <Action name="DVItoPDF"/>
-    <Separator/>
-    <Action name="ViewLog"/>
-    <Action name="PreviousError"/>
-    <Action name="NextError"/>
-    <Action name="Stop"/>
-    <Separator/>
-    <Action name="MakeBib"/>
-    <Action name="MakeIndex"/>
-    <Separator/>
-    <Action name="LaTeXtoHtml"/>
-    <Action name="HtmlPreview"/>
-    <Separator/>
-    <Action name="MetaPost"/>
-    <Separator/>
-    <Action name="CleanAll"/>
-  </Menu>
-  <Menu name="menu_latex"><text>LaTeX</text><!-- menu4 !-->
-    <Action name="tag_documentclass"/>
-    <Action name="tag_usepackage"/>
-    <Action name="tag_amspackages"/>
-    <Action name="tag_env_document"/>
-    <Action name="tag_author"/>
-    <Action name="tag_title"/>
-    <Action name="tag_maketitle"/>
-    <Action name="tag_tableofcontents"/>
-    <Menu name="references"><text>References</text>
-    <Action name="tag_label"/>
-    <Action name="tag_ref"/>
-    <Action name="tag_pageref"/>
-    <Action name="tag_index"/>
-    <Action name="tag_cite"/>
-    </Menu>
-        <Menu name="menu_sectioning"><text>Sectioning</text><!-- menu41 !-->
-	<Action name="tag_part"/>
-	<Action name="tag_chapter"/>
-	<Action name="tag_section"/>
-	<Action name="tag_subsection"/>
-	<Action name="tag_subsubsection"/>
-	<Action name="tag_paragraph"/>
-	<Action name="tag_subparagraph"/>
-      </Menu>
-      <Menu name="menu_environment"><text>Environment</text><!-- menu42 !-->
-	<Action name="tag_center"/>
-	<Action name="tag_flushleft"/>
-	<Action name="tag_flushright"/>
-	<Action name="tag_quote"/>
-	<Action name="tag_quotation"/>
-	<Action name="tag_verse"/>
-	<Action name="tag_verbatim"/>
-	<Action name="tag_table"/>
-	<Action name="tag_figure"/>
-	<Action name="tag_titlepage"/>
-      </Menu>
-       <Menu name="menu_listenv"><text>List Environment</text><!-- menu43 !-->
-	<Action name="tag_env_itemize"/>
-	<Action name="tag_env_enumerate"/>
-	<Action name="tag_env_description"/>
-	<Action name="tag_env_list"/>
-	<Action name="tag_item"/>
-      </Menu>
-      <Menu name="menu_fontstyles"><text>Font Styles</text><!-- menu44 !-->
-	<Action name="tag_textit"/>
-	<Action name="tag_textsl"/>
-	<Action name="tag_textbf"/>
-	<Action name="tag_texttt"/>
-	<Action name="tag_textsc"/>
-      </Menu>
-      <Menu name="menu_tabularenv"><text>Tabular Environment</text><!-- menu45 !-->
-	<Action name="tag_env_tabbing"/>
-	<Action name="tag_env_tabular"/>
-	<Action name="tag_multicolumn"/>
-	<Action name="tag_hline"/>
-	<Action name="tag_vline"/>
-	<Action name="tag_cline"/>
-      </Menu>
-      <Menu name="menu_spacing"><text>Spacing</text><!-- menu46 !-->
-	<Action name="tag_newpage"/>
-	<Action name="tag_linebreak"/>
-	<Action name="tag_pagebreak"/>
-	<Action name="tag_bigskip"/>
-	<Action name="tag_medskip"/>
-      </Menu>
-    <Separator/>
-    <Action name="tag_includegraphics"/>
-    <Action name="tag_include"/>
-    <Action name="tag_input"/>
-    <Separator/>
-    <Action name="tag_bibliographystyle"/>
-    <Action name="tag_bibliography"/>
-  </Menu>
-  <Menu name="menu_math"><text>Math</text><!-- menu5 !-->
-    <Action name="tag_mathmode"/><!-- 52 - 63 !-->
-    <Action name="tag_equation"/>
-    <Action name="tag_env_equation"/>
-    <Action name="tag_env_eqnarray"/>
-    <Separator/>
-    <Action name="tag_subscript"/>
-    <Action name="tag_superscript"/>
-    <Action name="tag_frac"/>
-    <Action name="tag_dfrac"/>
-    <Action name="tag_sqrt"/>
-    <Action name="tag_left"/>
-    <Action name="tag_right"/>
-    <Action name="tag_env_array"/>
-    <Separator/>
-       <Menu name="menu_mathfontstyles"><text>Math Font Styles</text><!-- menu51 !-->
-	<Action name="tag_mathrm"/><!-- 64 - 70 !-->
-	<Action name="tag_mathit"/>
-	<Action name="tag_mathbf"/>
-	<Action name="tag_mathsf"/>
-	<Action name="tag_mathtt"/>
-	<Action name="tag_mathcal"/>
-	<Action name="tag_mathbb"/>
-	<Action name="tag_mathfrak"/>
-      </Menu>
-      <Menu name="menu_mathaccents"><text>Math Accents</text><!-- menu52 !-->
-	<Action name="tag_acute"/><!-- 72 - 81 !-->
-	<Action name="tag_grave"/>
-	<Action name="tag_tilde"/>
-	<Action name="tag_bar"/>
-	<Action name="tag_vec"/>
-	<Action name="tag_hat"/>
-	<Action name="tag_check"/>
-	<Action name="tag_breve"/>
-	<Action name="tag_dot"/>
-	<Action name="tag_ddot"/>
-      </Menu>
-       <Menu name="menu_mathspaces"><text>Math Spaces</text><!-- menu53 !-->
-	<Action name="tag_space_small"/><!-- 82 - 86 !-->
-	<Action name="tag_space_medium"/>
-	<Action name="tag_space_large"/>
-	<Action name="tag_quad"/>
-	<Action name="tag_qquad"/>
-      </Menu>
-  </Menu>
-  <Menu name="menu7"><text>Wizard</text>
-    <Action name="127"/>
-    <Action name="128"/>
-    <Separator/>
-    <Action name="129"/>
-    <Action name="130"/>
-    <Action name="149"/>
-  </Menu>
-  <Menu name="menu8"><text>Bibliography</text>
-    <Action name="131"/>
-    <Action name="132"/>
-    <Action name="133"/>
-    <Action name="134"/>
-    <Action name="135"/>
-    <Action name="136"/>
-    <Action name="137"/>
-    <Action name="138"/>
-    <Action name="139"/>
-    <Action name="140"/>
-    <Action name="141"/>
-    <Action name="142"/>
-    <Action name="143"/>
-    <Separator/>
-    <Action name="CleanBib"/>
-  </Menu>
-  <Menu name="menu9"><text>User</text>
-    <Action name="menuUserTags"/>
-    <Action name="menuUserTools"/>
-  </Menu>
-  <Menu name="menu10"><text>Graph</text>
-    <Action name="144"/>
-    <Action name="145"/>
-  </Menu>
-  <Menu name="bookmarks" noMerge="1"><text>&amp;Bookmarks</text>
-    <Action name="bookmarks_toggle" group="bookmarks" />
-    <Action name="bookmarks_clear" group="bookmarks" />
-    <Action name="bookmarks_next" group="bookmarks" />
-    <Action name="bookmarks_previous" group="bookmarks" />
-  </Menu>
-  <Menu name="tools" noMerge="1"><text>&amp;Tools</text>
-    <Action name="set_highlight" group="tools_operations" />
-    <Action name="set_eol" group="tools_operations" />
-    <Separator group="tools_operations" />
-    <Action name="tools_indent" group="tools_operations" />
-    <Action name="tools_unindent" group="tools_operations" />
-    <Action name="tools_cleanIndent" group="tools_operations" />
-    <Separator group="tools_operations" />
-    <Action name="tools_comment" group="tools_operations" />
-    <Action name="tools_uncomment" group="tools_operations" />
-    <Separator group="tools_operations" />
-    <Action name="tools_apply_wordwrap" group="tools_operations" />
-    <Action name="tools_cmd" group="tools_operations" />
-  </Menu>
-  <Menu name="settings"><text>Settings</text>
-    <Action name="MenuAccels"/>
-    <Action name="Mode"/>
-    <Action name="removetemplates"/>
-     <Separator/>
-   <Action name="StructureView"/>
-   <Action name="MessageView"/>
-   <Menu name="ShowToolbars"><text>Show Toolbars</text>
-      <Action name="ShowMainToolbar"/>
-      <Action name="ShowToolsToolbar"/>
-      <Action name="ShowEditToolbar"/>
-      <Action name="ShowMathToolbar"/>
-   </Menu>
-    <Separator/>
-    <Action name="147"/>
-    <Action name="148"/>
-    <Action name="146"/>
-  </Menu>
-  <Menu name="help"><text>Help</text>
-    <Action name="help1"/>
-    <Action name="help2"/>
-    <Merge/>
-    <Separator/>
-    <Action name="help4"/>
-    <Action name="help5"/>
-  </Menu>
+<Menu name="file"><text>&amp;File</text>
+	<Action name="New"/>
+	<Action name="Open"/>
+	<Separator/>
+	<Action name="Recent"/>
+	<Separator/>
+	<DefineGroup name="save_merge" append="save_merge" />
+	<Action name="SaveAll"/>
+	<DefineGroup name="revert_merge" append="revert_merge"/>
+	<Separator/>
+	<Action name="CreateTemplate"/>
+	<Separator/>
+	<DefineGroup name="print_merge" append="print_merge"/>
+	<Separator/>
+	<Action name="Close"/>
+	<Action name="CloseAll"/>
+	<Merge/>
+	<Separator/>
+	<Action name="Exit"/>
+</Menu>
+<Menu name="edit"><text>&amp;Edit</text>
+<!-- there seem to be a bug in kdelibs, so that seperators surrounding only merged items aren't displayed. Look a kwrite - same problem. Haven't filed bug yet, because I'm not sure.-->
+	<DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
+	<Separator/>
+	<DefineGroup name="edit_paste_merge" append="edit_paste_merge"/>
+	<Separator/>
+	<DefineGroup name="edit_select_merge" append="edit_select_merge"/>
+	<Separator/>
+	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
+	<Separator/>
+	<Action name="Spell"/>
+	<Action name="RefreshStructure"/>
+</Menu>
+<Menu name="view"><text>View</text>
+<Action name="EditorView"/>
+<Merge/>
+<Separator/>
+<Action name="gotoPrevDocument"/>
+<Action name="gotoNextDocument"/>
+</Menu>
+<Menu name="menu3"><text>&amp;Build</text>
+	<Action name="QuickBuild"/>
+	<Action name="WatchFile"/>
+	<Separator/>
+	<Action name="Latex"/>
+	<Action name="ViewDvi"/>
+	<Action name="DvitoPS"/>
+	<Action name="ViewPS"/>
+	<Separator/>
+	<Action name="KdviForwardSearch"/>
+	<Separator/>
+	<Action name="PDFLatex"/>
+	<Action name="ViewPDF"/>
+	<Action name="PStoPDF"/>
+	<Action name="DVItoPDF"/>
+	<Separator/>
+	<Action name="ViewLog"/>
+	<Action name="PreviousError"/>
+	<Action name="NextError"/>
+	<Action name="Stop"/>
+	<Separator/>
+	<Action name="MakeBib"/>
+	<Action name="MakeIndex"/>
+	<Separator/>
+	<Action name="LaTeXtoHtml"/>
+	<Action name="HtmlPreview"/>
+	<Separator/>
+	<Action name="MetaPost"/>
+	<Separator/>
+	<Action name="CleanAll"/>
+</Menu>
+<Menu name="menu_latex"><text>LaTeX</text><!-- menu4 !-->
+	<Action name="tag_documentclass"/>
+	<Action name="tag_usepackage"/>
+	<Action name="tag_amspackages"/>
+	<Action name="tag_env_document"/>
+	<Action name="tag_author"/>
+	<Action name="tag_title"/>
+	<Action name="tag_maketitle"/>
+	<Action name="tag_tableofcontents"/>
+	<Menu name="menu_math"><text>Math</text><!-- menu5 !-->
+		<Action name="tag_mathmode"/><!-- 52 - 63 !-->
+		<Action name="tag_equation"/>
+		<Action name="tag_env_equation"/>
+		<Action name="tag_env_eqnarray"/>
+		<Separator/>
+		<Action name="tag_subscript"/>
+		<Action name="tag_superscript"/>
+		<Action name="tag_frac"/>
+		<Action name="tag_dfrac"/>
+		<Action name="tag_sqrt"/>
+		<Action name="tag_left"/>
+		<Action name="tag_right"/>
+		<Action name="tag_env_array"/>
+		<Separator/>
+		<Menu name="menu_mathfontstyles"><text>Math Font Styles</text><!-- menu51 !-->
+			<Action name="tag_mathrm"/><!-- 64 - 70 !-->
+			<Action name="tag_mathit"/>
+			<Action name="tag_mathbf"/>
+			<Action name="tag_mathsf"/>
+			<Action name="tag_mathtt"/>
+			<Action name="tag_mathcal"/>
+			<Action name="tag_mathbb"/>
+			<Action name="tag_mathfrak"/>
+		</Menu>
+		<Menu name="menu_mathaccents"><text>Math Accents</text><!-- menu52 !-->
+			<Action name="tag_acute"/><!-- 72 - 81 !-->
+			<Action name="tag_grave"/>
+			<Action name="tag_tilde"/>
+			<Action name="tag_bar"/>
+			<Action name="tag_vec"/>
+			<Action name="tag_hat"/>
+			<Action name="tag_check"/>
+			<Action name="tag_breve"/>
+			<Action name="tag_dot"/>
+			<Action name="tag_ddot"/>
+		</Menu>
+		<Menu name="menu_mathspaces"><text>Math Spaces</text><!-- menu53 !-->
+			<Action name="tag_space_small"/><!-- 82 - 86 !-->
+			<Action name="tag_space_medium"/>
+			<Action name="tag_space_large"/>
+			<Action name="tag_quad"/>
+			<Action name="tag_qquad"/>
+		</Menu>
+	</Menu>
+	<Menu name="references"><text>References</text>
+		<Action name="tag_label"/>
+		<Action name="tag_ref"/>
+		<Action name="tag_pageref"/>
+		<Action name="tag_index"/>
+		<Action name="tag_cite"/>
+	</Menu>
+	<Menu name="menu_sectioning"><text>Sectioning</text><!-- menu41 !-->
+		<Action name="tag_part"/>
+		<Action name="tag_chapter"/>
+		<Action name="tag_section"/>
+		<Action name="tag_subsection"/>
+		<Action name="tag_subsubsection"/>
+		<Action name="tag_paragraph"/>
+		<Action name="tag_subparagraph"/>
+	</Menu>
+	<Menu name="menu_environment"><text>Environment</text><!-- menu42 !-->
+		<Action name="tag_center"/>
+		<Action name="tag_flushleft"/>
+		<Action name="tag_flushright"/>
+		<Action name="tag_quote"/>
+		<Action name="tag_quotation"/>
+		<Action name="tag_verse"/>
+		<Action name="tag_verbatim"/>
+		<Action name="tag_table"/>
+		<Action name="tag_figure"/>
+		<Action name="tag_titlepage"/>
+	</Menu>
+	<Menu name="menu_listenv"><text>List Environment</text><!-- menu43 !-->
+		<Action name="tag_env_itemize"/>
+		<Action name="tag_env_enumerate"/>
+		<Action name="tag_env_description"/>
+		<Action name="tag_env_list"/>
+		<Action name="tag_item"/>
+	</Menu>
+	<Menu name="menu_fontstyles"><text>Font Styles</text><!-- menu44 !-->
+		<Action name="tag_textit"/>
+		<Action name="tag_textsl"/>
+		<Action name="tag_textbf"/>
+		<Action name="tag_texttt"/>
+		<Action name="tag_textsc"/>
+	</Menu>
+	<Menu name="menu_tabularenv"><text>Tabular Environment</text><!-- menu45 !-->
+		<Action name="tag_env_tabbing"/>
+		<Action name="tag_env_tabular"/>
+		<Action name="tag_multicolumn"/>
+		<Action name="tag_hline"/>
+		<Action name="tag_vline"/>
+		<Action name="tag_cline"/>
+	</Menu>
+	<Menu name="menu_spacing"><text>Spacing</text><!-- menu46 !-->
+		<Action name="tag_newpage"/>
+		<Action name="tag_linebreak"/>
+		<Action name="tag_pagebreak"/>
+		<Action name="tag_bigskip"/>
+		<Action name="tag_medskip"/>
+	</Menu>
+	<Separator/>
+	<Action name="tag_includegraphics"/>
+	<Action name="tag_include"/>
+	<Action name="tag_input"/>
+	<Separator/>
+	<Action name="tag_bibliographystyle"/>
+	<Action name="tag_bibliography"/>
+	<Menu name="menu8"><text>Bibliography</text>
+		<Action name="131"/>
+		<Action name="132"/>
+		<Action name="133"/>
+		<Action name="134"/>
+		<Action name="135"/>
+		<Action name="136"/>
+		<Action name="137"/>
+		<Action name="138"/>
+		<Action name="139"/>
+		<Action name="140"/>
+		<Action name="141"/>
+		<Action name="142"/>
+		<Action name="143"/>
+		<Separator/>
+		<Action name="CleanBib"/>
+	</Menu>
+</Menu>
+
+<Menu name="menu7"><text>Wizard</text>
+	<Action name="127"/>
+	<Action name="128"/>
+	<Separator/>
+	<Action name="129"/>
+	<Action name="130"/>
+	<Action name="149"/>
+</Menu>
+
+<Menu name="menu9"><text>User</text>
+	<Action name="menuUserTags"/>
+	<Action name="menuUserTools"/>
+</Menu>
+<Menu name="menu10"><text>Graph</text>
+	<Action name="144"/>
+	<Action name="145"/>
+</Menu>
+<Menu name="bookmarks" noMerge="1"><text>&amp;Bookmarks</text>
+	<Action name="bookmarks_toggle" group="bookmarks" />
+	<Action name="bookmarks_clear" group="bookmarks" />
+	<Action name="bookmarks_next" group="bookmarks" />
+	<Action name="bookmarks_previous" group="bookmarks" />
+</Menu>
+<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+	<Action name="set_highlight" group="tools_operations" />
+	<Action name="set_eol" group="tools_operations" />
+	<Separator group="tools_operations" />
+	<Action name="tools_indent" group="tools_operations" />
+	<Action name="tools_unindent" group="tools_operations" />
+	<Action name="tools_cleanIndent" group="tools_operations" />
+	<Separator group="tools_operations" />
+	<Action name="tools_comment" group="tools_operations" />
+	<Action name="tools_uncomment" group="tools_operations" />
+	<Separator group="tools_operations" />
+	<Action name="tools_apply_wordwrap" group="tools_operations" />
+	<Action name="tools_cmd" group="tools_operations" />
+</Menu>
+<Menu name="settings"><text>Settings</text>
+	<Action name="MenuAccels"/>
+	<Action name="Mode"/>
+	<Action name="removetemplates"/>
+	<Separator/>
+	<Action name="StructureView"/>
+	<Action name="MessageView"/>
+	<Menu name="ShowToolbars"><text>Show Toolbars</text>
+		<Action name="ShowMainToolbar"/>
+		<Action name="ShowToolsToolbar"/>
+		<Action name="ShowEditToolbar"/>
+		<Action name="ShowMathToolbar"/>
+	</Menu>
+	<Separator/>
+	<Action name="147"/>
+	<Action name="148"/>
+	<Action name="146"/>
+</Menu>
+<Menu name="help"><text>Help</text>
+	<Action name="help1"/>
+	<Action name="help2"/>
+	<Merge/>
+	<Separator/>
+	<Action name="help4"/>
+	<Action name="help5"/>
+</Menu>
 </MenuBar>
-  <ToolBar name="mainToolBar" fullWidth="false" index="1">
-  <text>Main</text>
-    <Action name="New"/>
-    <Action name="Open"/>
-    <Action name="Close"/>
-    <Merge/>
-    <Action name="Mode"/>
-  </ToolBar>
-  <ToolBar name="ToolBar2" fullWidth="false" index="2">
-  <text>Tools</text>
-    <Action name="QuickBuild"/>
-    <Action name="WatchFile"/>
-   <Separator lineSeparator="true"/>
-    <Action name="ViewLog"/>
-    <Action name="PreviousError"/>
-    <Action name="NextError"/>
-    <Action name="Stop"/>
-   <Separator lineSeparator="true"/>
-    <Action name="Latex"/>
-    <Action name="ViewDvi"/>
-    <Action name="DvitoPS"/>
-    <Action name="ViewPS"/>
-   <Separator lineSeparator="true"/>
-    <Action name="PDFLatex"/>
-    <Action name="ViewPDF"/>
-   <Separator lineSeparator="true"/>
-    <Action name="DVItoPDF"/>
-    <Action name="PStoPDF"/>
-   <Separator lineSeparator="true"/>
-    <Action name="LaTeXtoHtml"/>
-    <Action name="HtmlPreview"/>
-   <Separator lineSeparator="true"/>
-    <Action name="KdviForwardSearch"/>
-  <ToolBar name="ToolBar4" fullWidth="false" index="3">
-  <text>Edit</text>
-    <Action name="structure_list"/>
-   <Separator lineSeparator="true"/>
-    <Action name="other_list"/>
-   <Separator lineSeparator="true"/>
-    <Action name="size_list"/>
-   <Separator lineSeparator="true"/>
-    <Action name="tag_textbf"/>
-    <Action name="tag_textit"/>
-    <Action name="tag_underline"/><!-- 150 !-->
-    <Action name="tag_flushleft"/><!-- 15 !-->
-    <Action name="tag_center"/><!-- 14 !-->
-    <Action name="tag_flushright"/><!-- 15 !-->
-  </ToolBar>
-  <ToolBar name="ToolBar5" fullWidth="false">
-  <text>Math</text>
-    <Action name="tag_mathmode"/>
-    <Action name="tag_subscript"/>
-    <Action name="tag_superscript"/>
-    <Action name="tag_frac"/>
-    <Action name="tag_dfrac"/>
-    <Action name="tag_sqrt"/>
-   <Separator lineSeparator="true"/>
-    <Action name="left_list"/>
-   <Separator lineSeparator="true"/>
-    <Action name="right_list"/>
-    <Separator lineSeparator="true"/>
-    <Action name="tag_newline"/>
-  </ToolBar>
-   <ToolBar name="Extra">
-   <Action name="print"/>
-   <Separator lineSeparator="true"/>
-    <Action name="Back"/>
-    <Action name="Forward"/>
-    <Action name="Home"/>
-    <Separator lineSeparator="true"/>
-    <Action name="EditorView"/>
-   </ToolBar>
-  <State name="State1">
-  <Disable>
-  <Action name="New"/>
-  <Action name="Open"/>
-  <Action name="Recent"/>
-  <Action name="Save"/>
-  <Action name="SaveAs"/>
-  <Action name="SaveAll"/>
-  <Action name="Close"/>
-  <Action name="CloseAll"/>
-  <Action name="Undo"/>
-  <Action name="Redo"/>
-  <Action name="Copy"/>
-  <Action name="Cut"/>
-  <Action name="Paste"/>
-  <Action name="selectAll"/>
-  <Action name="Spell"/>
-  <Action name="Comment"/>
-  <Action name="Uncomment"/>
-  <Action name="Indent"/>
-  <Action name="find"/>
-  <Action name="findnext"/>
-  <Action name="Replace"/>
-  <Action name="GotoLine"/>
-  <Action name="RefreshStructure"/>
-  <Action name="QuickBuild"/>
-  <Action name="WatchFile"/>
-  <Action name="Latex"/>
-  <Action name="ViewDvi"/>
-  <Action name="DvitoPS"/>
-  <Action name="ViewPS"/>
-  <Action name="KdviForwardSearch"/>
-  <Action name="PDFLatex"/>
-  <Action name="ViewPDF"/>
-  <Action name="PStoPDF"/>
-  <Action name="DVItoPDF"/>
-  <Action name="ViewLog"/>
-  <Action name="PreviousError"/>
-  <Action name="NextError"/>
-  <Action name="MakeBib"/>
-  <Action name="MakeIndex"/>
-  <Action name="LaTeXtoHtml"/>
-  <Action name="HtmlPreview"/>
-  <Action name="CleanAll"/>
-  <Action name="MetaPost"/>
-  <Action name="1"/>
-  <Action name="2"/>
-  <Action name="tag_amspackages"/>
-  <Action name="tag_env_document"/>
-  <Action name="tag_maketitle"/>
-  <Action name="tag_title"/>
-  <Action name="tag_author"/>
-  <Action name="tag_tableofcontents"/>
-  <Action name="tag_part"/>
-  <Action name="tag_chapter"/>
-  <Action name="tag_section"/>
-  <Action name="tag_subsection"/>
-  <Action name="tag_subsubsection"/>
-  <Action name="tag_paragraph"/>
-  <Action name="tag_subparagraph"/>
-  <Action name="tag_center"/>
-  <Action name="tag_flushleft"/>
-  <Action name="tag_flushright"/>
-  <Action name="tag_quote"/>
-  <Action name="tag_quotation"/>
-  <Action name="tag_verse"/>
-  <Action name="tag_verbatim"/>
-  <Action name="tag_table"/>
-  <Action name="tag_figure"/>
-  <Action name="tag_titlepage"/>
-  <Action name="tag_env_itemize"/>
-  <Action name="tag_env_enumerate"/>
-  <Action name="tag_env_description"/>
-  <Action name="tag_env_list"/>
-  <Action name="tag_item"/>
-  <Action name="tag_textit"/>
-  <Action name="tag_textsl"/>
-  <Action name="tag_textbf"/>
-  <Action name="tag_texttt"/>
-  <Action name="tag_textsc"/>
-  <Action name="tag_env_tabbing"/>
-  <Action name="tag_env_tabular"/>
-  <Action name="tag_multicolumn"/>
-  <Action name="tag_hline"/>
-  <Action name="tag_vline"/>
-  <Action name="tag_cline"/>
-  <Action name="tag_newpage"/>
-  <Action name="tag_linebreak"/>
-  <Action name="tag_pagebreak"/>
-  <Action name="tag_bigskip"/>
-  <Action name="tag_medskip"/>
-  <Action name="tag_includegraphics"/>
-  <Action name="tag_include"/>
-  <Action name="tag_input"/>
-  <Action name="tag_bibliographystyle"/>
-  <Action name="tag_bibliography"/>
-  <Action name="tag_mathmode"/>
-  <Action name="tag_equation"/>
-  <Action name="tag_env_equation"/>
-  <Action name="tag_env_eqnarray"/>
-  <Action name="tag_subscript"/>
-  <Action name="tag_superscript"/>
-  <Action name="tag_frac"/>
-  <Action name="tag_dfrac"/>
-  <Action name="tag_sqrt"/>
-  <Action name="tag_left"/>
-  <Action name="tag_right"/>
-  <Action name="tag_env_array"/>
-  <Action name="tag_mathrm"/>
-  <Action name="tag_mathit"/>
-  <Action name="tag_mathbf"/>
-  <Action name="tag_mathsf"/>
-  <Action name="tag_mathtt"/>
-  <Action name="tag_mathcal"/>
-  <Action name="tag_mathbb"/>
-  <Action name="tag_mathfrak"/>
-  <Action name="tag_acute"/><!-- 72 - 81 !-->
-  <Action name="tag_grave"/>
-  <Action name="tag_tilde"/>
-  <Action name="tag_bar"/>
-  <Action name="tag_vec"/>
-  <Action name="tag_hat"/>
-  <Action name="tag_check"/>
-  <Action name="tag_breve"/>
-  <Action name="tag_dot"/>
-  <Action name="tag_ddot"/>
-  <Action name="tag_space_small"/><!-- 82 - 86 !-->
-  <Action name="tag_space_medium"/>
-  <Action name="tag_space_large"/>
-  <Action name="tag_quad"/>
-  <Action name="tag_qquad"/>
-  <Action name="127"/>
-  <Action name="128"/>
-  <Action name="149"/>
-  <Action name="129"/>
-  <Action name="130"/>
-  <Action name="131"/>
-  <Action name="132"/>
-  <Action name="133"/>
-  <Action name="134"/>
-  <Action name="135"/>
-  <Action name="136"/>
-  <Action name="137"/>
-  <Action name="138"/>
-  <Action name="139"/>
-  <Action name="140"/>
-  <Action name="141"/>
-  <Action name="142"/>
-  <Action name="143"/>
-  <Action name="CleanBib"/>
-  <Action name="user1"/>
-  <Action name="user2"/>
-  <Action name="user3"/>
-  <Action name="user4"/>
-  <Action name="user5"/>
-  <Action name="user6"/>
-  <Action name="user7"/>
-  <Action name="user8"/>
-  <Action name="user9"/>
-  <Action name="user10"/>
-  <Action name="usertool1"/>
-  <Action name="usertool2"/>
-  <Action name="usertool3"/>
-  <Action name="usertool4"/>
-  <Action name="usertool5"/>
-  <Action name="144"/>
-  <Action name="145"/>
-  <Action name="146"/>
-  <Action name="147"/>
-  <Action name="148"/>
-  <Action name="Mode"/>
-  <Action name="structure_list"/>
-  <Action name="size_list"/>
-  <Action name="other_list"/>
-  <Action name="tag_underline"/>
-  <Action name="left_list"/>
-  <Action name="right_list"/>
-  <Action name="tag_newline"/>
-  <Action name="tag_label"/>
-  <Action name="tag_ref"/>
-  <Action name="tag_pageref"/>
-  <Action name="tag_index"/>
-  <Action name="tag_cite"/>
-  <Action name="tag_footnote"/>
-  <Action name="StructureView"/>
-  <Action name="MessageView"/>
-  <Action name="EditUserMenu"/>
-  <Action name="PrintSource"/>
-  <Action name="print"/>
-  <Action name="gotoNextDocument"/>
-  <Action name="gotoPrevDocument"/>
-  </Disable>
-  <Enable>
-  <Action name="EditorView"/>
-  <Action name="Back"/>
-  <Action name="Forward"/>
-  <Action name="Home"/>
-  </Enable>
-  </State>
-  <State name="State2">
-  <Disable>
-  <Action name="New"/>
-  <Action name="Open"/>
-  <Action name="Recent"/>
-  <Action name="Save"/>
-  <Action name="SaveAs"/>
-  <Action name="SaveAll"/>
-  <Action name="Close"/>
-  <Action name="CloseAll"/>
-  <Action name="Undo"/>
-  <Action name="Redo"/>
-  <Action name="Copy"/>
-  <Action name="Cut"/>
-  <Action name="Paste"/>
-  <Action name="selectAll"/>
-  <Action name="Spell"/>
-  <Action name="Comment"/>
-  <Action name="Uncomment"/>
-  <Action name="Indent"/>
-  <Action name="find"/>
-  <Action name="findnext"/>
-  <Action name="Replace"/>
-  <Action name="GotoLine"/>
-  <Action name="RefreshStructure"/>
-  <Action name="QuickBuild"/>
-  <Action name="WatchFile"/>
-  <Action name="Latex"/>
-  <Action name="ViewDvi"/>
-  <Action name="DvitoPS"/>
-  <Action name="ViewPS"/>
-  <Action name="KdviForwardSearch"/>
-  <Action name="PDFLatex"/>
-  <Action name="ViewPDF"/>
-  <Action name="PStoPDF"/>
-  <Action name="DVItoPDF"/>
-  <Action name="ViewLog"/>
-  <Action name="PreviousError"/>
-  <Action name="NextError"/>
-  <Action name="MakeBib"/>
-  <Action name="MakeIndex"/>
-  <Action name="LaTeXtoHtml"/>
-  <Action name="HtmlPreview"/>
-  <Action name="CleanAll"/>
-  <Action name="MetaPost"/>
-  <Action name="1"/>
-  <Action name="2"/>
-  <Action name="tag_amspackages"/>
-  <Action name="tag_env_document"/>
-  <Action name="tag_maketitle"/>
-  <Action name="tag_title"/>
-  <Action name="tag_author"/>
-  <Action name="tag_tableofcontents"/>
-  <Action name="tag_part"/>
-  <Action name="tag_chapter"/>
-  <Action name="tag_section"/>
-  <Action name="tag_subsection"/>
-  <Action name="tag_subsubsection"/>
-  <Action name="tag_paragraph"/>
-  <Action name="tag_subparagraph"/>
-  <Action name="tag_center"/>
-  <Action name="tag_flushleft"/>
-  <Action name="tag_flushright"/>
-  <Action name="tag_quote"/>
-  <Action name="tag_quotation"/>
-  <Action name="tag_verse"/>
-  <Action name="tag_verbatim"/>
-  <Action name="tag_table"/>
-  <Action name="tag_figure"/>
-  <Action name="tag_titlepage"/>
-  <Action name="tag_env_itemize"/>
-  <Action name="tag_env_enumerate"/>
-  <Action name="tag_env_description"/>
-  <Action name="tag_env_list"/>
-  <Action name="tag_item"/>
-  <Action name="tag_textit"/>
-  <Action name="tag_textsl"/>
-  <Action name="tag_textbf"/>
-  <Action name="tag_texttt"/>
-  <Action name="tag_textsc"/>
-  <Action name="tag_env_tabbing"/>
-  <Action name="tag_env_tabular"/>
-  <Action name="tag_multicolumn"/>
-  <Action name="tag_hline"/>
-  <Action name="tag_vline"/>
-  <Action name="tag_cline"/>
-  <Action name="tag_newpage"/>
-  <Action name="tag_linebreak"/>
-  <Action name="tag_pagebreak"/>
-  <Action name="tag_bigskip"/>
-  <Action name="tag_medskip"/>
-  <Action name="tag_includegraphics"/>
-  <Action name="tag_include"/>
-  <Action name="tag_input"/>
-  <Action name="tag_bibliographystyle"/>
-  <Action name="tag_bibliography"/>
-  <Action name="tag_mathmode"/>
-  <Action name="tag_equation"/>
-  <Action name="tag_env_equation"/>
-  <Action name="tag_env_eqnarray"/>
-  <Action name="tag_subscript"/>
-  <Action name="tag_superscript"/>
-  <Action name="tag_frac"/>
-  <Action name="tag_dfrac"/>
-  <Action name="tag_sqrt"/>
-  <Action name="tag_left"/>
-  <Action name="tag_right"/>
-  <Action name="tag_env_array"/>
-  <Action name="tag_mathrm"/>
-  <Action name="tag_mathit"/>
-  <Action name="tag_mathbf"/>
-  <Action name="tag_mathsf"/>
-  <Action name="tag_mathtt"/>
-  <Action name="tag_mathcal"/>
-  <Action name="tag_mathbb"/>
-  <Action name="tag_mathfrak"/>
-  <Action name="tag_acute"/><!-- 72 - 81 !-->
-  <Action name="tag_grave"/>
-  <Action name="tag_tilde"/>
-  <Action name="tag_bar"/>
-  <Action name="tag_vec"/>
-  <Action name="tag_hat"/>
-  <Action name="tag_check"/>
-  <Action name="tag_breve"/>
-  <Action name="tag_dot"/>
-  <Action name="tag_ddot"/>
-  <Action name="tag_space_small"/><!-- 82 - 86 !-->
-  <Action name="tag_space_medium"/>
-  <Action name="tag_space_large"/>
-  <Action name="tag_quad"/>
-  <Action name="tag_qquad"/>
-  <Action name="127"/>
-  <Action name="128"/>
-  <Action name="149"/>
-  <Action name="129"/>
-  <Action name="130"/>
-  <Action name="131"/>
-  <Action name="132"/>
-  <Action name="133"/>
-  <Action name="134"/>
-  <Action name="135"/>
-  <Action name="136"/>
-  <Action name="137"/>
-  <Action name="138"/>
-  <Action name="139"/>
-  <Action name="140"/>
-  <Action name="141"/>
-  <Action name="142"/>
-  <Action name="143"/>
-  <Action name="CleanBib"/>
-  <Action name="user1"/>
-  <Action name="user2"/>
-  <Action name="user3"/>
-  <Action name="user4"/>
-  <Action name="user5"/>
-  <Action name="user6"/>
-  <Action name="user7"/>
-  <Action name="user8"/>
-  <Action name="user9"/>
-  <Action name="user10"/>
-  <Action name="usertool1"/>
-  <Action name="usertool2"/>
-  <Action name="usertool3"/>
-  <Action name="usertool4"/>
-  <Action name="usertool5"/>
-  <Action name="144"/>
-  <Action name="145"/>
-  <Action name="146"/>
-  <Action name="147"/>
-  <Action name="148"/>
-  <Action name="Mode"/>
-  <Action name="structure_list"/>
-  <Action name="size_list"/>
-  <Action name="other_list"/>
-  <Action name="tag_underline"/>
-  <Action name="left_list"/>
-  <Action name="right_list"/>
-  <Action name="tag_newline"/>
-  <Action name="tag_label"/>
-  <Action name="tag_ref"/>
-  <Action name="tag_pageref"/>
-  <Action name="tag_index"/>
-  <Action name="tag_cite"/>
-  <Action name="tag_footnote"/>
-  <Action name="StructureView"/>
-  <Action name="MessageView"/>
-  <Action name="EditUserMenu"/>
-  <Action name="PrintSource"/>
-  <Action name="Back"/>
-  <Action name="Forward"/>
-  <Action name="Home"/>
-  <Action name="gotoNextDocument"/>
-  <Action name="gotoPrevDocument"/>
-  </Disable>
-  <Enable>
-  <Action name="EditorView"/>
-  <Action name="print"/>
-  </Enable>
-  </State>
-    <State name="State3">
-  <Disable>
-  <Action name="New"/>
-  <Action name="Open"/>
-  <Action name="Recent"/>
-  <Action name="Save"/>
-  <Action name="SaveAs"/>
-  <Action name="SaveAll"/>
-  <Action name="Close"/>
-  <Action name="CloseAll"/>
-  <Action name="Undo"/>
-  <Action name="Redo"/>
-  <Action name="Copy"/>
-  <Action name="Cut"/>
-  <Action name="Paste"/>
-  <Action name="selectAll"/>
-  <Action name="Spell"/>
-  <Action name="Comment"/>
-  <Action name="Uncomment"/>
-  <Action name="Indent"/>
-  <Action name="find"/>
-  <Action name="findnext"/>
-  <Action name="Replace"/>
-  <Action name="GotoLine"/>
-  <Action name="RefreshStructure"/>
-  <Action name="QuickBuild"/>
-  <Action name="WatchFile"/>
-  <Action name="Latex"/>
-  <Action name="ViewDvi"/>
-  <Action name="DvitoPS"/>
-  <Action name="ViewPS"/>
-  <Action name="KdviForwardSearch"/>
-  <Action name="PDFLatex"/>
-  <Action name="ViewPDF"/>
-  <Action name="PStoPDF"/>
-  <Action name="DVItoPDF"/>
-  <Action name="ViewLog"/>
-  <Action name="PreviousError"/>
-  <Action name="NextError"/>
-  <Action name="MakeBib"/>
-  <Action name="MakeIndex"/>
-  <Action name="LaTeXtoHtml"/>
-  <Action name="HtmlPreview"/>
-  <Action name="CleanAll"/>
-  <Action name="MetaPost"/>
-  <Action name="1"/>
-  <Action name="2"/>
-  <Action name="tag_amspackages"/>
-  <Action name="tag_env_document"/>
-  <Action name="tag_maketitle"/>
-  <Action name="tag_title"/>
-  <Action name="tag_author"/>
-  <Action name="tag_tableofcontents"/>
-  <Action name="tag_part"/>
-  <Action name="tag_chapter"/>
-  <Action name="tag_section"/>
-  <Action name="tag_subsection"/>
-  <Action name="tag_subsubsection"/>
-  <Action name="tag_paragraph"/>
-  <Action name="tag_subparagraph"/>
-  <Action name="tag_center"/>
-  <Action name="tag_flushleft"/>
-  <Action name="tag_flushright"/>
-  <Action name="tag_quote"/>
-  <Action name="tag_quotation"/>
-  <Action name="tag_verse"/>
-  <Action name="tag_verbatim"/>
-  <Action name="tag_table"/>
-  <Action name="tag_figure"/>
-  <Action name="tag_titlepage"/>
-  <Action name="tag_env_itemize"/>
-  <Action name="tag_env_enumerate"/>
-  <Action name="tag_env_description"/>
-  <Action name="tag_env_list"/>
-  <Action name="tag_item"/>
-  <Action name="tag_textit"/>
-  <Action name="tag_textsl"/>
-  <Action name="tag_textbf"/>
-  <Action name="tag_texttt"/>
-  <Action name="tag_textsc"/>
-  <Action name="tag_env_tabbing"/>
-  <Action name="tag_env_tabular"/>
-  <Action name="tag_multicolumn"/>
-  <Action name="tag_hline"/>
-  <Action name="tag_vline"/>
-  <Action name="tag_cline"/>
-  <Action name="tag_newpage"/>
-  <Action name="tag_linebreak"/>
-  <Action name="tag_pagebreak"/>
-  <Action name="tag_bigskip"/>
-  <Action name="tag_medskip"/>
-  <Action name="tag_includegraphics"/>
-  <Action name="tag_include"/>
-  <Action name="tag_input"/>
-  <Action name="tag_bibliographystyle"/>
-  <Action name="tag_bibliography"/>
-  <Action name="tag_mathmode"/>
-  <Action name="tag_equation"/>
-  <Action name="tag_env_equation"/>
-  <Action name="tag_env_eqnarray"/>
-  <Action name="tag_subscript"/>
-  <Action name="tag_superscript"/>
-  <Action name="tag_frac"/>
-  <Action name="tag_dfrac"/>
-  <Action name="tag_sqrt"/>
-  <Action name="tag_left"/>
-  <Action name="tag_right"/>
-  <Action name="tag_env_array"/>
-  <Action name="tag_mathrm"/>
-  <Action name="tag_mathit"/>
-  <Action name="tag_mathbf"/>
-  <Action name="tag_mathsf"/>
-  <Action name="tag_mathtt"/>
-  <Action name="tag_mathcal"/>
-  <Action name="tag_mathbb"/>
-  <Action name="tag_mathfrak"/>
-  <Action name="tag_acute"/><!-- 72 - 81 !-->
-  <Action name="tag_grave"/>
-  <Action name="tag_tilde"/>
-  <Action name="tag_bar"/>
-  <Action name="tag_vec"/>
-  <Action name="tag_hat"/>
-  <Action name="tag_check"/>
-  <Action name="tag_breve"/>
-  <Action name="tag_dot"/>
-  <Action name="tag_ddot"/>
-  <Action name="tag_space_small"/><!-- 82 - 86 !-->
-  <Action name="tag_space_medium"/>
-  <Action name="tag_space_large"/>
-  <Action name="tag_quad"/>
-  <Action name="tag_qquad"/>
-  <Action name="127"/>
-  <Action name="128"/>
-  <Action name="149"/>
-  <Action name="129"/>
-  <Action name="130"/>
-  <Action name="131"/>
-  <Action name="132"/>
-  <Action name="133"/>
-  <Action name="134"/>
-  <Action name="135"/>
-  <Action name="136"/>
-  <Action name="137"/>
-  <Action name="138"/>
-  <Action name="139"/>
-  <Action name="140"/>
-  <Action name="141"/>
-  <Action name="142"/>
-  <Action name="143"/>
-  <Action name="CleanBib"/>
-  <Action name="user1"/>
-  <Action name="user2"/>
-  <Action name="user3"/>
-  <Action name="user4"/>
-  <Action name="user5"/>
-  <Action name="user6"/>
-  <Action name="user7"/>
-  <Action name="user8"/>
-  <Action name="user9"/>
-  <Action name="user10"/>
-  <Action name="usertool1"/>
-  <Action name="usertool2"/>
-  <Action name="usertool3"/>
-  <Action name="usertool4"/>
-  <Action name="usertool5"/>
-  <Action name="144"/>
-  <Action name="145"/>
-  <Action name="146"/>
-  <Action name="147"/>
-  <Action name="148"/>
-  <Action name="Mode"/>
-  <Action name="structure_list"/>
-  <Action name="size_list"/>
-  <Action name="other_list"/>
-  <Action name="tag_underline"/>
-  <Action name="left_list"/>
-  <Action name="right_list"/>
-  <Action name="tag_newline"/>
-  <Action name="tag_label"/>
-  <Action name="tag_ref"/>
-  <Action name="tag_pageref"/>
-  <Action name="tag_index"/>
-  <Action name="tag_cite"/>
-  <Action name="tag_footnote"/>
-  <Action name="StructureView"/>
-  <Action name="MessageView"/>
-  <Action name="EditUserMenu"/>
-  <Action name="PrintSource"/>
-  <Action name="Back"/>
-  <Action name="Forward"/>
-  <Action name="Home"/>
-  <Action name="print"/>
-  <Action name="gotoNextDocument"/>
-  <Action name="gotoPrevDocument"/>
-  </Disable>
-  <Enable>
-  <Action name="EditorView"/>
-  </Enable>
-  </State>
-  <State name="State4">
-  <Disable>
-  <Action name="Back"/>
-  <Action name="Forward"/>
-  <Action name="Home"/>
-  <Action name="print"/>
-  </Disable>
-  <Enable>
-  <Action name="EditorView"/>
-  <Action name="PrintSource"/>
-  <Action name="New"/>
-  <Action name="Open"/>
-  <Action name="Recent"/>
-  <Action name="Save"/>
-  <Action name="SaveAs"/>
-  <Action name="SaveAll"/>
-  <Action name="Close"/>
-  <Action name="CloseAll"/>
-  <Action name="Undo"/>
-  <Action name="Redo"/>
-  <Action name="Copy"/>
-  <Action name="Cut"/>
-  <Action name="Paste"/>
-  <Action name="selectAll"/>
-  <Action name="Spell"/>
-  <Action name="Comment"/>
-  <Action name="Uncomment"/>
-  <Action name="Indent"/>
-  <Action name="find"/>
-  <Action name="findnext"/>
-  <Action name="Replace"/>
-  <Action name="GotoLine"/>
-  <Action name="RefreshStructure"/>
-  <Action name="QuickBuild"/>
-  <Action name="WatchFile"/>
-  <Action name="Latex"/>
-  <Action name="ViewDvi"/>
-  <Action name="DvitoPS"/>
-  <Action name="ViewPS"/>
-  <Action name="KdviForwardSearch"/>
-  <Action name="PDFLatex"/>
-  <Action name="ViewPDF"/>
-  <Action name="PStoPDF"/>
-  <Action name="DVItoPDF"/>
-  <Action name="ViewLog"/>
-  <Action name="PreviousError"/>
-  <Action name="NextError"/>
-  <Action name="MakeBib"/>
-  <Action name="MakeIndex"/>
-  <Action name="LaTeXtoHtml"/>
-  <Action name="HtmlPreview"/>
-  <Action name="CleanAll"/>
-  <Action name="MetaPost"/>
-  <Action name="1"/>
-  <Action name="2"/>
-  <Action name="tag_amspackages"/>
-  <Action name="tag_env_document"/>
-  <Action name="tag_maketitle"/>
-  <Action name="tag_title"/>
-  <Action name="tag_author"/>
-  <Action name="tag_tableofcontents"/>
-  <Action name="tag_part"/>
-  <Action name="tag_chapter"/>
-  <Action name="tag_section"/>
-  <Action name="tag_subsection"/>
-  <Action name="tag_subsubsection"/>
-  <Action name="tag_paragraph"/>
-  <Action name="tag_subparagraph"/>
-  <Action name="tag_center"/>
-  <Action name="tag_flushleft"/>
-  <Action name="tag_flushright"/>
-  <Action name="tag_quote"/>
-  <Action name="tag_quotation"/>
-  <Action name="tag_verse"/>
-  <Action name="tag_verbatim"/>
-  <Action name="tag_table"/>
-  <Action name="tag_figure"/>
-  <Action name="tag_titlepage"/>
-  <Action name="tag_env_itemize"/>
-  <Action name="tag_env_enumerate"/>
-  <Action name="tag_env_description"/>
-  <Action name="tag_env_list"/>
-  <Action name="tag_item"/>
-  <Action name="tag_textit"/>
-  <Action name="tag_textsl"/>
-  <Action name="tag_textbf"/>
-  <Action name="tag_texttt"/>
-  <Action name="tag_textsc"/>
-  <Action name="tag_env_tabbing"/>
-  <Action name="tag_env_tabular"/>
-  <Action name="tag_multicolumn"/>
-  <Action name="tag_hline"/>
-  <Action name="tag_vline"/>
-  <Action name="tag_cline"/>
-  <Action name="tag_newpage"/>
-  <Action name="tag_linebreak"/>
-  <Action name="tag_pagebreak"/>
-  <Action name="tag_bigskip"/>
-  <Action name="tag_medskip"/>
-  <Action name="tag_includegraphics"/>
-  <Action name="tag_include"/>
-  <Action name="tag_input"/>
-  <Action name="tag_bibliographystyle"/>
-  <Action name="tag_bibliography"/>
-  <Action name="tag_mathmode"/>
-  <Action name="tag_equation"/>
-  <Action name="tag_env_equation"/>
-  <Action name="tag_env_eqnarray"/>
-  <Action name="tag_subscript"/>
-  <Action name="tag_superscript"/>
-  <Action name="tag_frac"/>
-  <Action name="tag_dfrac"/>
-  <Action name="tag_sqrt"/>
-  <Action name="tag_left"/>
-  <Action name="tag_right"/>
-  <Action name="tag_env_array"/>
-  <Action name="tag_mathrm"/>
-  <Action name="tag_mathit"/>
-  <Action name="tag_mathbf"/>
-  <Action name="tag_mathsf"/>
-  <Action name="tag_mathtt"/>
-  <Action name="tag_mathcal"/>
-  <Action name="tag_mathbb"/>
-  <Action name="tag_mathfrak"/>
-  <Action name="tag_acute"/><!-- 72 - 81 !-->
-  <Action name="tag_grave"/>
-  <Action name="tag_tilde"/>
-  <Action name="tag_bar"/>
-  <Action name="tag_vec"/>
-  <Action name="tag_hat"/>
-  <Action name="tag_check"/>
-  <Action name="tag_breve"/>
-  <Action name="tag_dot"/>
-  <Action name="tag_ddot"/>
-  <Action name="tag_space_small"/><!-- 82 - 86 !-->
-  <Action name="tag_space_medium"/>
-  <Action name="tag_space_large"/>
-  <Action name="tag_quad"/>
-  <Action name="tag_qquad"/>
-  <Action name="127"/>
-  <Action name="128"/>
-  <Action name="149"/>
-  <Action name="129"/>
-  <Action name="130"/>
-  <Action name="131"/>
-  <Action name="132"/>
-  <Action name="133"/>
-  <Action name="134"/>
-  <Action name="135"/>
-  <Action name="136"/>
-  <Action name="137"/>
-  <Action name="138"/>
-  <Action name="139"/>
-  <Action name="140"/>
-  <Action name="141"/>
-  <Action name="142"/>
-  <Action name="143"/>
-  <Action name="CleanBib"/>
-  <Action name="user1"/>
-  <Action name="user2"/>
-  <Action name="user3"/>
-  <Action name="user4"/>
-  <Action name="user5"/>
-  <Action name="user6"/>
-  <Action name="user7"/>
-  <Action name="user8"/>
-  <Action name="user9"/>
-  <Action name="user10"/>
-  <Action name="usertool1"/>
-  <Action name="usertool2"/>
-  <Action name="usertool3"/>
-  <Action name="usertool4"/>
-  <Action name="usertool5"/>
-  <Action name="144"/>
-  <Action name="145"/>
-  <Action name="146"/>
-  <Action name="147"/>
-  <Action name="148"/>
-  <Action name="Mode"/>
-  <Action name="structure_list"/>
-  <Action name="size_list"/>
-  <Action name="other_list"/>
-  <Action name="tag_underline"/>
-  <Action name="left_list"/>
-  <Action name="right_list"/>
-  <Action name="tag_newline"/>
-  <Action name="tag_label"/>
-  <Action name="tag_ref"/>
-  <Action name="tag_pageref"/>
-  <Action name="tag_index"/>
-  <Action name="tag_cite"/>
-  <Action name="tag_footnote"/>
-  <Action name="StructureView"/>
-  <Action name="MessageView"/>
-  <Action name="EditUserMenu"/>
-  <Action name="gotoNextDocument"/>
-  <Action name="gotoPrevDocument"/>
-  </Enable>
-  </State>
+<ToolBar name="mainToolBar" fullWidth="false" index="1">
+	<text>Main</text>
+	<Action name="New"/>
+	<Action name="Open"/>
+	<Action name="Close"/>
+	<Merge/>
+	<Action name="Mode"/>
+</ToolBar>
+<ToolBar name="ToolBar2" fullWidth="false" index="2">
+	<text>Tools</text>
+	<Action name="QuickBuild"/>
+	<Action name="WatchFile"/>
+	<Separator lineSeparator="true"/>
+	<Action name="ViewLog"/>
+	<Action name="PreviousError"/>
+	<Action name="NextError"/>
+	<Action name="Stop"/>
+	<Separator lineSeparator="true"/>
+	<Action name="Latex"/>
+	<Action name="ViewDvi"/>
+	<Action name="DvitoPS"/>
+	<Action name="ViewPS"/>
+	<Separator lineSeparator="true"/>
+	<Action name="PDFLatex"/>
+	<Action name="ViewPDF"/>
+	<Separator lineSeparator="true"/>
+	<Action name="DVItoPDF"/>
+	<Action name="PStoPDF"/>
+	<Separator lineSeparator="true"/>
+	<Action name="LaTeXtoHtml"/>
+	<Action name="HtmlPreview"/>
+	<Separator lineSeparator="true"/>
+	<Action name="KdviForwardSearch"/>
+<ToolBar name="ToolBar4" fullWidth="false" index="3">
+	<text>Edit</text>
+	<Action name="structure_list"/>
+	<Separator lineSeparator="true"/>
+	<Action name="other_list"/>
+	<Separator lineSeparator="true"/>
+	<Action name="size_list"/>
+	<Separator lineSeparator="true"/>
+	<Action name="tag_textbf"/>
+	<Action name="tag_textit"/>
+	<Action name="tag_underline"/><!-- 150 !-->
+	<Action name="tag_flushleft"/><!-- 15 !-->
+	<Action name="tag_center"/><!-- 14 !-->
+	<Action name="tag_flushright"/><!-- 15 !-->
+</ToolBar>
+<ToolBar name="ToolBar5" fullWidth="false">
+	<text>Math</text>
+	<Action name="tag_mathmode"/>
+	<Action name="tag_subscript"/>
+	<Action name="tag_superscript"/>
+	<Action name="tag_frac"/>
+	<Action name="tag_dfrac"/>
+	<Action name="tag_sqrt"/>
+	<Separator lineSeparator="true"/>
+	<Action name="left_list"/>
+	<Separator lineSeparator="true"/>
+	<Action name="right_list"/>
+	<Separator lineSeparator="true"/>
+	<Action name="tag_newline"/>
+</ToolBar>
+<ToolBar name="Extra">
+	<Action name="print"/>
+	<Separator lineSeparator="true"/>
+	<Action name="Back"/>
+	<Action name="Forward"/>
+	<Action name="Home"/>
+	<Separator lineSeparator="true"/>
+	<Action name="EditorView"/>
+</ToolBar>
+<State name="State1">
+<Disable>
+<Action name="New"/>
+<Action name="Open"/>
+<Action name="Recent"/>
+<Action name="Save"/>
+<Action name="SaveAs"/>
+<Action name="SaveAll"/>
+<Action name="Close"/>
+<Action name="CloseAll"/>
+<Action name="Undo"/>
+<Action name="Redo"/>
+<Action name="Copy"/>
+<Action name="Cut"/>
+<Action name="Paste"/>
+<Action name="selectAll"/>
+<Action name="Spell"/>
+<Action name="Comment"/>
+<Action name="Uncomment"/>
+<Action name="Indent"/>
+<Action name="find"/>
+<Action name="findnext"/>
+<Action name="Replace"/>
+<Action name="GotoLine"/>
+<Action name="RefreshStructure"/>
+<Action name="QuickBuild"/>
+<Action name="WatchFile"/>
+<Action name="Latex"/>
+<Action name="ViewDvi"/>
+<Action name="DvitoPS"/>
+<Action name="ViewPS"/>
+<Action name="KdviForwardSearch"/>
+<Action name="PDFLatex"/>
+<Action name="ViewPDF"/>
+<Action name="PStoPDF"/>
+<Action name="DVItoPDF"/>
+<Action name="ViewLog"/>
+<Action name="PreviousError"/>
+<Action name="NextError"/>
+<Action name="MakeBib"/>
+<Action name="MakeIndex"/>
+<Action name="LaTeXtoHtml"/>
+<Action name="HtmlPreview"/>
+<Action name="CleanAll"/>
+<Action name="MetaPost"/>
+<Action name="1"/>
+<Action name="2"/>
+<Action name="tag_amspackages"/>
+<Action name="tag_env_document"/>
+<Action name="tag_maketitle"/>
+<Action name="tag_title"/>
+<Action name="tag_author"/>
+<Action name="tag_tableofcontents"/>
+<Action name="tag_part"/>
+<Action name="tag_chapter"/>
+<Action name="tag_section"/>
+<Action name="tag_subsection"/>
+<Action name="tag_subsubsection"/>
+<Action name="tag_paragraph"/>
+<Action name="tag_subparagraph"/>
+<Action name="tag_center"/>
+<Action name="tag_flushleft"/>
+<Action name="tag_flushright"/>
+<Action name="tag_quote"/>
+<Action name="tag_quotation"/>
+<Action name="tag_verse"/>
+<Action name="tag_verbatim"/>
+<Action name="tag_table"/>
+<Action name="tag_figure"/>
+<Action name="tag_titlepage"/>
+<Action name="tag_env_itemize"/>
+<Action name="tag_env_enumerate"/>
+<Action name="tag_env_description"/>
+<Action name="tag_env_list"/>
+<Action name="tag_item"/>
+<Action name="tag_textit"/>
+<Action name="tag_textsl"/>
+<Action name="tag_textbf"/>
+<Action name="tag_texttt"/>
+<Action name="tag_textsc"/>
+<Action name="tag_env_tabbing"/>
+<Action name="tag_env_tabular"/>
+<Action name="tag_multicolumn"/>
+<Action name="tag_hline"/>
+<Action name="tag_vline"/>
+<Action name="tag_cline"/>
+<Action name="tag_newpage"/>
+<Action name="tag_linebreak"/>
+<Action name="tag_pagebreak"/>
+<Action name="tag_bigskip"/>
+<Action name="tag_medskip"/>
+<Action name="tag_includegraphics"/>
+<Action name="tag_include"/>
+<Action name="tag_input"/>
+<Action name="tag_bibliographystyle"/>
+<Action name="tag_bibliography"/>
+<Action name="tag_mathmode"/>
+<Action name="tag_equation"/>
+<Action name="tag_env_equation"/>
+<Action name="tag_env_eqnarray"/>
+<Action name="tag_subscript"/>
+<Action name="tag_superscript"/>
+<Action name="tag_frac"/>
+<Action name="tag_dfrac"/>
+<Action name="tag_sqrt"/>
+<Action name="tag_left"/>
+<Action name="tag_right"/>
+<Action name="tag_env_array"/>
+<Action name="tag_mathrm"/>
+<Action name="tag_mathit"/>
+<Action name="tag_mathbf"/>
+<Action name="tag_mathsf"/>
+<Action name="tag_mathtt"/>
+<Action name="tag_mathcal"/>
+<Action name="tag_mathbb"/>
+<Action name="tag_mathfrak"/>
+<Action name="tag_acute"/><!-- 72 - 81 !-->
+<Action name="tag_grave"/>
+<Action name="tag_tilde"/>
+<Action name="tag_bar"/>
+<Action name="tag_vec"/>
+<Action name="tag_hat"/>
+<Action name="tag_check"/>
+<Action name="tag_breve"/>
+<Action name="tag_dot"/>
+<Action name="tag_ddot"/>
+<Action name="tag_space_small"/><!-- 82 - 86 !-->
+<Action name="tag_space_medium"/>
+<Action name="tag_space_large"/>
+<Action name="tag_quad"/>
+<Action name="tag_qquad"/>
+<Action name="127"/>
+<Action name="128"/>
+<Action name="149"/>
+<Action name="129"/>
+<Action name="130"/>
+<Action name="131"/>
+<Action name="132"/>
+<Action name="133"/>
+<Action name="134"/>
+<Action name="135"/>
+<Action name="136"/>
+<Action name="137"/>
+<Action name="138"/>
+<Action name="139"/>
+<Action name="140"/>
+<Action name="141"/>
+<Action name="142"/>
+<Action name="143"/>
+<Action name="CleanBib"/>
+<Action name="user1"/>
+<Action name="user2"/>
+<Action name="user3"/>
+<Action name="user4"/>
+<Action name="user5"/>
+<Action name="user6"/>
+<Action name="user7"/>
+<Action name="user8"/>
+<Action name="user9"/>
+<Action name="user10"/>
+<Action name="usertool1"/>
+<Action name="usertool2"/>
+<Action name="usertool3"/>
+<Action name="usertool4"/>
+<Action name="usertool5"/>
+<Action name="144"/>
+<Action name="145"/>
+<Action name="146"/>
+<Action name="147"/>
+<Action name="148"/>
+<Action name="Mode"/>
+<Action name="structure_list"/>
+<Action name="size_list"/>
+<Action name="other_list"/>
+<Action name="tag_underline"/>
+<Action name="left_list"/>
+<Action name="right_list"/>
+<Action name="tag_newline"/>
+<Action name="tag_label"/>
+<Action name="tag_ref"/>
+<Action name="tag_pageref"/>
+<Action name="tag_index"/>
+<Action name="tag_cite"/>
+<Action name="tag_footnote"/>
+<Action name="StructureView"/>
+<Action name="MessageView"/>
+<Action name="EditUserMenu"/>
+<Action name="PrintSource"/>
+<Action name="print"/>
+<Action name="gotoNextDocument"/>
+<Action name="gotoPrevDocument"/>
+</Disable>
+<Enable>
+<Action name="EditorView"/>
+<Action name="Back"/>
+<Action name="Forward"/>
+<Action name="Home"/>
+</Enable>
+</State>
+<State name="State2">
+<Disable>
+<Action name="New"/>
+<Action name="Open"/>
+<Action name="Recent"/>
+<Action name="Save"/>
+<Action name="SaveAs"/>
+<Action name="SaveAll"/>
+<Action name="Close"/>
+<Action name="CloseAll"/>
+<Action name="Undo"/>
+<Action name="Redo"/>
+<Action name="Copy"/>
+<Action name="Cut"/>
+<Action name="Paste"/>
+<Action name="selectAll"/>
+<Action name="Spell"/>
+<Action name="Comment"/>
+<Action name="Uncomment"/>
+<Action name="Indent"/>
+<Action name="find"/>
+<Action name="findnext"/>
+<Action name="Replace"/>
+<Action name="GotoLine"/>
+<Action name="RefreshStructure"/>
+<Action name="QuickBuild"/>
+<Action name="WatchFile"/>
+<Action name="Latex"/>
+<Action name="ViewDvi"/>
+<Action name="DvitoPS"/>
+<Action name="ViewPS"/>
+<Action name="KdviForwardSearch"/>
+<Action name="PDFLatex"/>
+<Action name="ViewPDF"/>
+<Action name="PStoPDF"/>
+<Action name="DVItoPDF"/>
+<Action name="ViewLog"/>
+<Action name="PreviousError"/>
+<Action name="NextError"/>
+<Action name="MakeBib"/>
+<Action name="MakeIndex"/>
+<Action name="LaTeXtoHtml"/>
+<Action name="HtmlPreview"/>
+<Action name="CleanAll"/>
+<Action name="MetaPost"/>
+<Action name="1"/>
+<Action name="2"/>
+<Action name="tag_amspackages"/>
+<Action name="tag_env_document"/>
+<Action name="tag_maketitle"/>
+<Action name="tag_title"/>
+<Action name="tag_author"/>
+<Action name="tag_tableofcontents"/>
+<Action name="tag_part"/>
+<Action name="tag_chapter"/>
+<Action name="tag_section"/>
+<Action name="tag_subsection"/>
+<Action name="tag_subsubsection"/>
+<Action name="tag_paragraph"/>
+<Action name="tag_subparagraph"/>
+<Action name="tag_center"/>
+<Action name="tag_flushleft"/>
+<Action name="tag_flushright"/>
+<Action name="tag_quote"/>
+<Action name="tag_quotation"/>
+<Action name="tag_verse"/>
+<Action name="tag_verbatim"/>
+<Action name="tag_table"/>
+<Action name="tag_figure"/>
+<Action name="tag_titlepage"/>
+<Action name="tag_env_itemize"/>
+<Action name="tag_env_enumerate"/>
+<Action name="tag_env_description"/>
+<Action name="tag_env_list"/>
+<Action name="tag_item"/>
+<Action name="tag_textit"/>
+<Action name="tag_textsl"/>
+<Action name="tag_textbf"/>
+<Action name="tag_texttt"/>
+<Action name="tag_textsc"/>
+<Action name="tag_env_tabbing"/>
+<Action name="tag_env_tabular"/>
+<Action name="tag_multicolumn"/>
+<Action name="tag_hline"/>
+<Action name="tag_vline"/>
+<Action name="tag_cline"/>
+<Action name="tag_newpage"/>
+<Action name="tag_linebreak"/>
+<Action name="tag_pagebreak"/>
+<Action name="tag_bigskip"/>
+<Action name="tag_medskip"/>
+<Action name="tag_includegraphics"/>
+<Action name="tag_include"/>
+<Action name="tag_input"/>
+<Action name="tag_bibliographystyle"/>
+<Action name="tag_bibliography"/>
+<Action name="tag_mathmode"/>
+<Action name="tag_equation"/>
+<Action name="tag_env_equation"/>
+<Action name="tag_env_eqnarray"/>
+<Action name="tag_subscript"/>
+<Action name="tag_superscript"/>
+<Action name="tag_frac"/>
+<Action name="tag_dfrac"/>
+<Action name="tag_sqrt"/>
+<Action name="tag_left"/>
+<Action name="tag_right"/>
+<Action name="tag_env_array"/>
+<Action name="tag_mathrm"/>
+<Action name="tag_mathit"/>
+<Action name="tag_mathbf"/>
+<Action name="tag_mathsf"/>
+<Action name="tag_mathtt"/>
+<Action name="tag_mathcal"/>
+<Action name="tag_mathbb"/>
+<Action name="tag_mathfrak"/>
+<Action name="tag_acute"/><!-- 72 - 81 !-->
+<Action name="tag_grave"/>
+<Action name="tag_tilde"/>
+<Action name="tag_bar"/>
+<Action name="tag_vec"/>
+<Action name="tag_hat"/>
+<Action name="tag_check"/>
+<Action name="tag_breve"/>
+<Action name="tag_dot"/>
+<Action name="tag_ddot"/>
+<Action name="tag_space_small"/><!-- 82 - 86 !-->
+<Action name="tag_space_medium"/>
+<Action name="tag_space_large"/>
+<Action name="tag_quad"/>
+<Action name="tag_qquad"/>
+<Action name="127"/>
+<Action name="128"/>
+<Action name="149"/>
+<Action name="129"/>
+<Action name="130"/>
+<Action name="131"/>
+<Action name="132"/>
+<Action name="133"/>
+<Action name="134"/>
+<Action name="135"/>
+<Action name="136"/>
+<Action name="137"/>
+<Action name="138"/>
+<Action name="139"/>
+<Action name="140"/>
+<Action name="141"/>
+<Action name="142"/>
+<Action name="143"/>
+<Action name="CleanBib"/>
+<Action name="user1"/>
+<Action name="user2"/>
+<Action name="user3"/>
+<Action name="user4"/>
+<Action name="user5"/>
+<Action name="user6"/>
+<Action name="user7"/>
+<Action name="user8"/>
+<Action name="user9"/>
+<Action name="user10"/>
+<Action name="usertool1"/>
+<Action name="usertool2"/>
+<Action name="usertool3"/>
+<Action name="usertool4"/>
+<Action name="usertool5"/>
+<Action name="144"/>
+<Action name="145"/>
+<Action name="146"/>
+<Action name="147"/>
+<Action name="148"/>
+<Action name="Mode"/>
+<Action name="structure_list"/>
+<Action name="size_list"/>
+<Action name="other_list"/>
+<Action name="tag_underline"/>
+<Action name="left_list"/>
+<Action name="right_list"/>
+<Action name="tag_newline"/>
+<Action name="tag_label"/>
+<Action name="tag_ref"/>
+<Action name="tag_pageref"/>
+<Action name="tag_index"/>
+<Action name="tag_cite"/>
+<Action name="tag_footnote"/>
+<Action name="StructureView"/>
+<Action name="MessageView"/>
+<Action name="EditUserMenu"/>
+<Action name="PrintSource"/>
+<Action name="Back"/>
+<Action name="Forward"/>
+<Action name="Home"/>
+<Action name="gotoNextDocument"/>
+<Action name="gotoPrevDocument"/>
+</Disable>
+<Enable>
+<Action name="EditorView"/>
+<Action name="print"/>
+</Enable>
+</State>
+	<State name="State3">
+<Disable>
+<Action name="New"/>
+<Action name="Open"/>
+<Action name="Recent"/>
+<Action name="Save"/>
+<Action name="SaveAs"/>
+<Action name="SaveAll"/>
+<Action name="Close"/>
+<Action name="CloseAll"/>
+<Action name="Undo"/>
+<Action name="Redo"/>
+<Action name="Copy"/>
+<Action name="Cut"/>
+<Action name="Paste"/>
+<Action name="selectAll"/>
+<Action name="Spell"/>
+<Action name="Comment"/>
+<Action name="Uncomment"/>
+<Action name="Indent"/>
+<Action name="find"/>
+<Action name="findnext"/>
+<Action name="Replace"/>
+<Action name="GotoLine"/>
+<Action name="RefreshStructure"/>
+<Action name="QuickBuild"/>
+<Action name="WatchFile"/>
+<Action name="Latex"/>
+<Action name="ViewDvi"/>
+<Action name="DvitoPS"/>
+<Action name="ViewPS"/>
+<Action name="KdviForwardSearch"/>
+<Action name="PDFLatex"/>
+<Action name="ViewPDF"/>
+<Action name="PStoPDF"/>
+<Action name="DVItoPDF"/>
+<Action name="ViewLog"/>
+<Action name="PreviousError"/>
+<Action name="NextError"/>
+<Action name="MakeBib"/>
+<Action name="MakeIndex"/>
+<Action name="LaTeXtoHtml"/>
+<Action name="HtmlPreview"/>
+<Action name="CleanAll"/>
+<Action name="MetaPost"/>
+<Action name="1"/>
+<Action name="2"/>
+<Action name="tag_amspackages"/>
+<Action name="tag_env_document"/>
+<Action name="tag_maketitle"/>
+<Action name="tag_title"/>
+<Action name="tag_author"/>
+<Action name="tag_tableofcontents"/>
+<Action name="tag_part"/>
+<Action name="tag_chapter"/>
+<Action name="tag_section"/>
+<Action name="tag_subsection"/>
+<Action name="tag_subsubsection"/>
+<Action name="tag_paragraph"/>
+<Action name="tag_subparagraph"/>
+<Action name="tag_center"/>
+<Action name="tag_flushleft"/>
+<Action name="tag_flushright"/>
+<Action name="tag_quote"/>
+<Action name="tag_quotation"/>
+<Action name="tag_verse"/>
+<Action name="tag_verbatim"/>
+<Action name="tag_table"/>
+<Action name="tag_figure"/>
+<Action name="tag_titlepage"/>
+<Action name="tag_env_itemize"/>
+<Action name="tag_env_enumerate"/>
+<Action name="tag_env_description"/>
+<Action name="tag_env_list"/>
+<Action name="tag_item"/>
+<Action name="tag_textit"/>
+<Action name="tag_textsl"/>
+<Action name="tag_textbf"/>
+<Action name="tag_texttt"/>
+<Action name="tag_textsc"/>
+<Action name="tag_env_tabbing"/>
+<Action name="tag_env_tabular"/>
+<Action name="tag_multicolumn"/>
+<Action name="tag_hline"/>
+<Action name="tag_vline"/>
+<Action name="tag_cline"/>
+<Action name="tag_newpage"/>
+<Action name="tag_linebreak"/>
+<Action name="tag_pagebreak"/>
+<Action name="tag_bigskip"/>
+<Action name="tag_medskip"/>
+<Action name="tag_includegraphics"/>
+<Action name="tag_include"/>
+<Action name="tag_input"/>
+<Action name="tag_bibliographystyle"/>
+<Action name="tag_bibliography"/>
+<Action name="tag_mathmode"/>
+<Action name="tag_equation"/>
+<Action name="tag_env_equation"/>
+<Action name="tag_env_eqnarray"/>
+<Action name="tag_subscript"/>
+<Action name="tag_superscript"/>
+<Action name="tag_frac"/>
+<Action name="tag_dfrac"/>
+<Action name="tag_sqrt"/>
+<Action name="tag_left"/>
+<Action name="tag_right"/>
+<Action name="tag_env_array"/>
+<Action name="tag_mathrm"/>
+<Action name="tag_mathit"/>
+<Action name="tag_mathbf"/>
+<Action name="tag_mathsf"/>
+<Action name="tag_mathtt"/>
+<Action name="tag_mathcal"/>
+<Action name="tag_mathbb"/>
+<Action name="tag_mathfrak"/>
+<Action name="tag_acute"/><!-- 72 - 81 !-->
+<Action name="tag_grave"/>
+<Action name="tag_tilde"/>
+<Action name="tag_bar"/>
+<Action name="tag_vec"/>
+<Action name="tag_hat"/>
+<Action name="tag_check"/>
+<Action name="tag_breve"/>
+<Action name="tag_dot"/>
+<Action name="tag_ddot"/>
+<Action name="tag_space_small"/><!-- 82 - 86 !-->
+<Action name="tag_space_medium"/>
+<Action name="tag_space_large"/>
+<Action name="tag_quad"/>
+<Action name="tag_qquad"/>
+<Action name="127"/>
+<Action name="128"/>
+<Action name="149"/>
+<Action name="129"/>
+<Action name="130"/>
+<Action name="131"/>
+<Action name="132"/>
+<Action name="133"/>
+<Action name="134"/>
+<Action name="135"/>
+<Action name="136"/>
+<Action name="137"/>
+<Action name="138"/>
+<Action name="139"/>
+<Action name="140"/>
+<Action name="141"/>
+<Action name="142"/>
+<Action name="143"/>
+<Action name="CleanBib"/>
+<Action name="user1"/>
+<Action name="user2"/>
+<Action name="user3"/>
+<Action name="user4"/>
+<Action name="user5"/>
+<Action name="user6"/>
+<Action name="user7"/>
+<Action name="user8"/>
+<Action name="user9"/>
+<Action name="user10"/>
+<Action name="usertool1"/>
+<Action name="usertool2"/>
+<Action name="usertool3"/>
+<Action name="usertool4"/>
+<Action name="usertool5"/>
+<Action name="144"/>
+<Action name="145"/>
+<Action name="146"/>
+<Action name="147"/>
+<Action name="148"/>
+<Action name="Mode"/>
+<Action name="structure_list"/>
+<Action name="size_list"/>
+<Action name="other_list"/>
+<Action name="tag_underline"/>
+<Action name="left_list"/>
+<Action name="right_list"/>
+<Action name="tag_newline"/>
+<Action name="tag_label"/>
+<Action name="tag_ref"/>
+<Action name="tag_pageref"/>
+<Action name="tag_index"/>
+<Action name="tag_cite"/>
+<Action name="tag_footnote"/>
+<Action name="StructureView"/>
+<Action name="MessageView"/>
+<Action name="EditUserMenu"/>
+<Action name="PrintSource"/>
+<Action name="Back"/>
+<Action name="Forward"/>
+<Action name="Home"/>
+<Action name="print"/>
+<Action name="gotoNextDocument"/>
+<Action name="gotoPrevDocument"/>
+</Disable>
+<Enable>
+<Action name="EditorView"/>
+</Enable>
+</State>
+<State name="State4">
+<Disable>
+<Action name="Back"/>
+<Action name="Forward"/>
+<Action name="Home"/>
+<Action name="print"/>
+</Disable>
+<Enable>
+<Action name="EditorView"/>
+<Action name="PrintSource"/>
+<Action name="New"/>
+<Action name="Open"/>
+<Action name="Recent"/>
+<Action name="Save"/>
+<Action name="SaveAs"/>
+<Action name="SaveAll"/>
+<Action name="Close"/>
+<Action name="CloseAll"/>
+<Action name="Undo"/>
+<Action name="Redo"/>
+<Action name="Copy"/>
+<Action name="Cut"/>
+<Action name="Paste"/>
+<Action name="selectAll"/>
+<Action name="Spell"/>
+<Action name="Comment"/>
+<Action name="Uncomment"/>
+<Action name="Indent"/>
+<Action name="find"/>
+<Action name="findnext"/>
+<Action name="Replace"/>
+<Action name="GotoLine"/>
+<Action name="RefreshStructure"/>
+<Action name="QuickBuild"/>
+<Action name="WatchFile"/>
+<Action name="Latex"/>
+<Action name="ViewDvi"/>
+<Action name="DvitoPS"/>
+<Action name="ViewPS"/>
+<Action name="KdviForwardSearch"/>
+<Action name="PDFLatex"/>
+<Action name="ViewPDF"/>
+<Action name="PStoPDF"/>
+<Action name="DVItoPDF"/>
+<Action name="ViewLog"/>
+<Action name="PreviousError"/>
+<Action name="NextError"/>
+<Action name="MakeBib"/>
+<Action name="MakeIndex"/>
+<Action name="LaTeXtoHtml"/>
+<Action name="HtmlPreview"/>
+<Action name="CleanAll"/>
+<Action name="MetaPost"/>
+<Action name="1"/>
+<Action name="2"/>
+<Action name="tag_amspackages"/>
+<Action name="tag_env_document"/>
+<Action name="tag_maketitle"/>
+<Action name="tag_title"/>
+<Action name="tag_author"/>
+<Action name="tag_tableofcontents"/>
+<Action name="tag_part"/>
+<Action name="tag_chapter"/>
+<Action name="tag_section"/>
+<Action name="tag_subsection"/>
+<Action name="tag_subsubsection"/>
+<Action name="tag_paragraph"/>
+<Action name="tag_subparagraph"/>
+<Action name="tag_center"/>
+<Action name="tag_flushleft"/>
+<Action name="tag_flushright"/>
+<Action name="tag_quote"/>
+<Action name="tag_quotation"/>
+<Action name="tag_verse"/>
+<Action name="tag_verbatim"/>
+<Action name="tag_table"/>
+<Action name="tag_figure"/>
+<Action name="tag_titlepage"/>
+<Action name="tag_env_itemize"/>
+<Action name="tag_env_enumerate"/>
+<Action name="tag_env_description"/>
+<Action name="tag_env_list"/>
+<Action name="tag_item"/>
+<Action name="tag_textit"/>
+<Action name="tag_textsl"/>
+<Action name="tag_textbf"/>
+<Action name="tag_texttt"/>
+<Action name="tag_textsc"/>
+<Action name="tag_env_tabbing"/>
+<Action name="tag_env_tabular"/>
+<Action name="tag_multicolumn"/>
+<Action name="tag_hline"/>
+<Action name="tag_vline"/>
+<Action name="tag_cline"/>
+<Action name="tag_newpage"/>
+<Action name="tag_linebreak"/>
+<Action name="tag_pagebreak"/>
+<Action name="tag_bigskip"/>
+<Action name="tag_medskip"/>
+<Action name="tag_includegraphics"/>
+<Action name="tag_include"/>
+<Action name="tag_input"/>
+<Action name="tag_bibliographystyle"/>
+<Action name="tag_bibliography"/>
+<Action name="tag_mathmode"/>
+<Action name="tag_equation"/>
+<Action name="tag_env_equation"/>
+<Action name="tag_env_eqnarray"/>
+<Action name="tag_subscript"/>
+<Action name="tag_superscript"/>
+<Action name="tag_frac"/>
+<Action name="tag_dfrac"/>
+<Action name="tag_sqrt"/>
+<Action name="tag_left"/>
+<Action name="tag_right"/>
+<Action name="tag_env_array"/>
+<Action name="tag_mathrm"/>
+<Action name="tag_mathit"/>
+<Action name="tag_mathbf"/>
+<Action name="tag_mathsf"/>
+<Action name="tag_mathtt"/>
+<Action name="tag_mathcal"/>
+<Action name="tag_mathbb"/>
+<Action name="tag_mathfrak"/>
+<Action name="tag_acute"/><!-- 72 - 81 !-->
+<Action name="tag_grave"/>
+<Action name="tag_tilde"/>
+<Action name="tag_bar"/>
+<Action name="tag_vec"/>
+<Action name="tag_hat"/>
+<Action name="tag_check"/>
+<Action name="tag_breve"/>
+<Action name="tag_dot"/>
+<Action name="tag_ddot"/>
+<Action name="tag_space_small"/><!-- 82 - 86 !-->
+<Action name="tag_space_medium"/>
+<Action name="tag_space_large"/>
+<Action name="tag_quad"/>
+<Action name="tag_qquad"/>
+<Action name="127"/>
+<Action name="128"/>
+<Action name="149"/>
+<Action name="129"/>
+<Action name="130"/>
+<Action name="131"/>
+<Action name="132"/>
+<Action name="133"/>
+<Action name="134"/>
+<Action name="135"/>
+<Action name="136"/>
+<Action name="137"/>
+<Action name="138"/>
+<Action name="139"/>
+<Action name="140"/>
+<Action name="141"/>
+<Action name="142"/>
+<Action name="143"/>
+<Action name="CleanBib"/>
+<Action name="user1"/>
+<Action name="user2"/>
+<Action name="user3"/>
+<Action name="user4"/>
+<Action name="user5"/>
+<Action name="user6"/>
+<Action name="user7"/>
+<Action name="user8"/>
+<Action name="user9"/>
+<Action name="user10"/>
+<Action name="usertool1"/>
+<Action name="usertool2"/>
+<Action name="usertool3"/>
+<Action name="usertool4"/>
+<Action name="usertool5"/>
+<Action name="144"/>
+<Action name="145"/>
+<Action name="146"/>
+<Action name="147"/>
+<Action name="148"/>
+<Action name="Mode"/>
+<Action name="structure_list"/>
+<Action name="size_list"/>
+<Action name="other_list"/>
+<Action name="tag_underline"/>
+<Action name="left_list"/>
+<Action name="right_list"/>
+<Action name="tag_newline"/>
+<Action name="tag_label"/>
+<Action name="tag_ref"/>
+<Action name="tag_pageref"/>
+<Action name="tag_index"/>
+<Action name="tag_cite"/>
+<Action name="tag_footnote"/>
+<Action name="StructureView"/>
+<Action name="MessageView"/>
+<Action name="EditUserMenu"/>
+<Action name="gotoNextDocument"/>
+<Action name="gotoPrevDocument"/>
+</Enable>
+</State>
 </kpartgui>
 

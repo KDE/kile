@@ -1,5 +1,5 @@
 # KDE Config File
-[KDE Desktop Entry]
+[Desktop Entry]
 Type=Application
 Exec=kile
 Icon=kile
@@ -14,7 +14,7 @@ Comment[es]=Entorno de desarrollo de (La)TeX
 Comment[et]=(La)TeX arenduskeskkond
 Comment[fi]=(La)TeX-kehitysympäristö
 Comment[fr]=Environnement de développement pour (La)TeX
-Comment[hi]=(La)TeX डेवलपमेंट वातावरण
+Comment[hi]=(ले)टेक्स डेवलपमेंट वातावरण
 Comment[hu]=(La)TeX fejlesztőkörnyezet
 Comment[it]=Ambiente di sviluppo (La)TeX
 Comment[nl]=(La)TeX-ontwikkelingsomgeving
@@ -37,11 +37,13 @@ GenericName[da]=Forende for LaTeX
 GenericName[es]=Interfaz para LaTeX
 GenericName[et]=LaTeXi kasutajaliides
 GenericName[fr]=Interface graphique LaTeX
+GenericName[hi]=लेटेक्स फ्रंटएण्ड
 GenericName[hu]=LaTeX-felület
 GenericName[it]=Interfaccia LaTeX
 GenericName[nl]=LaTeX-tekstverwerking
 GenericName[pt]=Interface para o LaTeX
 GenericName[pt_BR]=Interface do LaTeX
+GenericName[ru]=Интерфейс к LaTeX
 GenericName[sr]=LaTeX интерфејс
 GenericName[sv]=Latex-gränssnitt
 GenericName[ta]=(லா)டெக்ஸ்  

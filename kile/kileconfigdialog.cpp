@@ -68,6 +68,7 @@ namespace KileDialog
 
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(generalPage);
+		vbox->addStretch();
 
 		addPage(page, i18n("General"), "configure");
 	}
@@ -114,6 +115,10 @@ namespace KileDialog
 	{
 		QFrame *page = new QFrame(this, "codecompframe");
 		latexPage = new KileWidgetLatexConfig(page, "LaTeX");
+
+		QVBoxLayout *vbox = new QVBoxLayout(page);
+		vbox->addWidget(latexPage);
+		vbox->addStretch();
 
 		addPage(page, i18n("LaTeX"), "tex");
 	}

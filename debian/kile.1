@@ -1,0 +1,53 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH KILE 1 "May 11, 2003"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+kile \- the KDE Integrated LaTeX Environment
+.SH SYNOPSIS
+.B kile [ \fIgeneric-options\fP ] [ \fB\-\-line\fP \fIline\fP ] [ \fIfile\fP ]
+.SH DESCRIPTION
+\fBKile\fP (the KDE Integrated LaTeX Environment) is a LaTeX source editor,
+TeX shell and Gnuplot front end for KDE.
+.PP
+The source editor is a multi-document editor designed for .tex and .bib
+files.  Menus and wizards are provided to assist with tag insertion and
+code generation.  A structure view of the document assists with navigation
+within source files.
+.PP
+The TeX shell assists with LaTeX and BibTeX compilation as well as
+DVI and postscript document viewing.  It supports documents divided
+into several files.
+.PP
+The Gnuplot front end is an adaptation of the Xgfe program (an X front
+end to Gnuplot) created by David Ishee.  A good knowledge of Gnuplot
+is required to use this tool.
+.SH OPTIONS
+Below are the kile-specific options.
+For a full summary of options, run \fIkile \-\-help\fP.
+.TP
+[ \fB\-\-line\fP \fIline\fP ]
+Jump to the given line in the file that is opened.
+.SH SEE ALSO
+Full user documentation is available in HTML format in
+\fI/usr/share/doc/kile/html/\fP.  This documentation can also be viewed
+from within the KDE Help Centre.
+.SH AUTHOR
+Kile was written by Pascal Brachet <pascal.brachet@free.fr> with
+contributions from Christophe Caignaert, Marika Bourg and others.
+.br
+This manual page was prepared by Ben Burton <bab@debian.org>
+for the Debian GNU/Linux system (but may be used by others).

@@ -786,7 +786,12 @@ void Kile::autoSaveAll()
 void Kile::enableAutosave(bool as)
 {
 	autosave=as;
-	if (as) m_AutosaveTimer->start(autosaveinterval);
+	if (as)
+	{
+		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
+		if ( autosaveinterval < 1 ) autosaveinterval = 10;
+		m_AutosaveTimer->start(autosaveinterval * 60000);
+	}
 	else m_AutosaveTimer->stop();
 }
 
@@ -1841,7 +1846,7 @@ void Kile::readConfig()
 
 	m_bRestore = KileConfig::restore();
 	autosave = KileConfig::autosave();
-	autosaveinterval = KileConfig::autosaveInterval() * 60000;
+	autosaveinterval = KileConfig::autosaveInterval();
 	enableAutosave(autosave);
 	setAutosaveInterval(autosaveinterval);
 

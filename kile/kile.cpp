@@ -709,6 +709,9 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		m_infoList.append(docinfo);
 	}
 
+	if (docinfo == 0)
+		kdWarning() << "no docinfo for " << url.path() << endl;
+
 	if (doc) 
 	{
 		mapInfo(doc, docinfo);
@@ -1043,13 +1046,13 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 
 bool Kile::isOpen(const KURL & url)
 {
-	Kate::Document *doc = docFor(url);
-	if ( doc == 0)
-		return false;
-	else
+	for ( uint i = 0; i < m_viewList.count(); i++)
 	{
-		return true;
+		if ( url == m_viewList.at(i)->getDoc()->url() )
+			return true;
 	}
+
+	return false;
 }
 
 void Kile::fileSaveAll(bool amAutoSaving)
@@ -1502,15 +1505,8 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 			kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << isOpen(item->url()) << endl;
 			item->setOpenState(isOpen(item->url()));
 			docinfo = infoFor(item);
-			if (docinfo)
-			{
-				doc = docinfo->getDoc();
-			}
-
-			if (doc)
-			{
-				storeProjectItem(item, doc);
-			}
+			if (docinfo) doc = docinfo->getDoc();
+			if (doc) storeProjectItem(item, doc);
 		}
 
 		project->save();
@@ -1692,6 +1688,7 @@ bool Kile::projectClose(const KURL & url)
 		KileDocumentInfo *docinfo;
 		for (uint i =0; i < list->count(); i++)
 		{
+			docinfo = 0L; doc = 0L;
 			docinfo = infoFor(list->at(i));
 			if (docinfo) doc = docinfo->getDoc();
 			if (doc)
@@ -1823,10 +1820,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		KileDocumentInfo *docinfo= infoFor(doc);
 		KileProjectItem *item = itemFor(docinfo);
 
-		if (item && doc)
-		{
-			storeProjectItem(item,doc);
-		}
+		if (item && doc) storeProjectItem(item,doc);
 
 		if (doc->closeURL() )
 		{
@@ -1835,19 +1829,9 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			removeView((Kate::View*)doc->views().first());
 			//remove the decorations
 
-			kdDebug() << "Seans code being called" << endl; 
-			
 			config->setGroup( "Files" );
-			if ( config->readBoolEntry("CleanUpAfterClose") )
-			{
-				kdDebug() << "Seans code CLEANING up" << endl;
-				CleanAll(docinfo, true);
-			}
-			else
-			{
-				kdDebug() << "Seans code NOT CLEANING up" << endl;
-			}
-			
+			if ( config->readBoolEntry("CleanUpAfterClose") ) CleanAll(docinfo, true);
+
 			if ( (item == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
@@ -1868,8 +1852,6 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 	}
 
 	kdDebug() << "\t" << m_docList.count() << " documents open." << endl;
-	if (m_docList.count() == 0)
-		showVertPage(0);
 
 	return true;
 }

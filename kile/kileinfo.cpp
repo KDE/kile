@@ -34,13 +34,16 @@ void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 
 void KileInfo::trash(Kate::Document *doc)
 {
-	kdDebug() << "\tTRASHING " <<  doc << endl;
+	kdDebug() << "\tTRASHING " <<  doc  << endl;
 	if (doc == 0) return;
-	
+
+	kdDebug() << "\tremoving from m_docList: " << doc->url().path() << endl;
+	m_docList.remove(doc);
+
 	KileDocumentInfo *docinfo =  infoFor(doc);
 	if (docinfo) docinfo->detach();
 	removeMap(doc);
-	m_docList.remove(doc);
+
 	if (doc) doc->closeURL();
 	delete doc;
 }
@@ -83,8 +86,6 @@ KileProject* KileInfo::projectFor(const QString &name)
 
 KileProjectItem* KileInfo::itemFor(const KURL &url)
 {
-	KileProjectItem *projectitem = 0;
-
 	QPtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
@@ -95,7 +96,7 @@ KileProjectItem* KileInfo::itemFor(const KURL &url)
 		++it;
 	}
 
-	return projectitem;
+	return 0;
 }
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)

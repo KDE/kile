@@ -289,7 +289,7 @@ public:
 
 private:
 	QPtrList<Kate::View> 		m_viewList;
-	Kate::View						*m_activeView;
+	Kate::View				*m_activeView;
 
 /* document handling */
 public slots:

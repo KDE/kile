@@ -30,9 +30,9 @@
 class TeXFilter : public KSpell2::Filter
 {
 public:
-    virtual KSpell2::Word nextWord() const;
-    virtual KSpell2::Word previousWord() const;
-    virtual KSpell2::Word wordAtPosition( unsigned int pos ) const;
+	virtual KSpell2::Word nextWord() const;
+	virtual KSpell2::Word previousWord() const;
+	virtual KSpell2::Word wordAtPosition( unsigned int pos ) const;
 };
 
 #endif

@@ -1,6 +1,6 @@
 /* -------------------------- multiFuncData class --------------------------
 
-   This class handles all operations related to the storage and manipulation of 
+   This class handles all operations related to the storage and manipulation of
    multiple functions and their options from the GUI.
 
    Note* This file has been modified by hand for geometry management
@@ -52,7 +52,7 @@ multiFuncData::multiFuncData
 	multiFuncList->setMaximumSize( 32767, 20 );
 	connect( multiFuncList, SIGNAL(activated(const QString&)), SLOT(funcChanged(const QString&)) );
 	multiFuncList->setSizeLimit( 100 );
-	multiFuncList->setAutoResize( FALSE );
+	//multiFuncList->setAutoResize( FALSE );
 
 	QLabel* Label_16;
 	Label_16 = new QLabel( this, "Label_16" );
@@ -82,7 +82,7 @@ multiFuncData::multiFuncData
 	funcStyleList->setMinimumSize( 100, 20 );
 	funcStyleList->setMaximumSize( 32767, 20 );
 	funcStyleList->setSizeLimit( 8 );
-	funcStyleList->setAutoResize( FALSE );
+	//funcStyleList->setAutoResize( FALSE );
 	funcStyleList->insertItem( "points" );
 	funcStyleList->insertItem( "lines" );
 	funcStyleList->insertItem( "linespoints" );
@@ -109,21 +109,21 @@ multiFuncData::multiFuncData
     Label_17->setText( "Function Legend Title:" );
     Label_17->setAlignment( 289 );
     Label_17->setMargin( -1 );
-    
+
     legendTitleEdit = new QLineEdit(ButtonGroup_3, "LineEdit_9" );
     legendTitleEdit->setMinimumSize( 270, 20 );
     legendTitleEdit->setMaximumSize( 32767, 20 );
     legendTitleEdit->setText( "" );
     legendTitleEdit->setMaxLength( 32767 );
     legendTitleEdit->setEchoMode( QLineEdit::Normal );
-    legendTitleEdit->setFrame( TRUE );  
+    legendTitleEdit->setFrame( TRUE );
 
     legendTitleDefaultButton = new QCheckBox(ButtonGroup_3, "CheckBox_6" );
     legendTitleDefaultButton->setMinimumSize( 70, 20 );
     legendTitleDefaultButton->setMaximumSize( 32767, 20 );
     legendTitleDefaultButton->setText( "&default" );
     legendTitleDefaultButton->setAutoRepeat( FALSE );
-    legendTitleDefaultButton->setAutoResize( FALSE );
+    //legendTitleDefaultButton->setAutoResize( FALSE );
     legendTitleDefaultButton->setChecked( TRUE );
 
     legendTitlenotitleButton = new QCheckBox(ButtonGroup_3, "CheckBox_7" );
@@ -131,7 +131,7 @@ multiFuncData::multiFuncData
     legendTitlenotitleButton->setMaximumSize( 32767, 20 );
     legendTitlenotitleButton->setText( "&notitle" );
     legendTitlenotitleButton->setAutoRepeat( FALSE );
-    legendTitlenotitleButton->setAutoResize( FALSE ); 
+    //legendTitlenotitleButton->setAutoResize( FALSE );
 
 	QPushButton* PushButton_6;
 	PushButton_6 = new QPushButton( this, "PushButton_6" );
@@ -139,7 +139,7 @@ multiFuncData::multiFuncData
 	connect( PushButton_6, SIGNAL(clicked()), SLOT(insertNewFunction()) );
 	PushButton_6->setText( "&Add Function" );
 	PushButton_6->setAutoRepeat( FALSE );
-	PushButton_6->setAutoResize( FALSE );
+	//PushButton_6->setAutoResize( FALSE );
 	PushButton_6->setDefault( TRUE );
 
 	QPushButton* PushButton_7;
@@ -148,7 +148,7 @@ multiFuncData::multiFuncData
 	connect( PushButton_7, SIGNAL(clicked()), SLOT(deleteFunction()) );
 	PushButton_7->setText( "Delete &Function" );
 	PushButton_7->setAutoRepeat( FALSE );
-	PushButton_7->setAutoResize( FALSE );
+	//PushButton_7->setAutoResize( FALSE );
 
 	QPushButton* PushButton_12;
 	PushButton_12 = new QPushButton( this, "PushButton_12" );
@@ -156,7 +156,7 @@ multiFuncData::multiFuncData
 	connect( PushButton_12, SIGNAL(clicked()), SLOT(setFuncOptions()) );
 	PushButton_12->setText( "&Modify Options" );
 	PushButton_12->setAutoRepeat( FALSE );
-	PushButton_12->setAutoResize( FALSE );
+	//PushButton_12->setAutoResize( FALSE );
 
 	QPushButton* PushButton_13;
 	PushButton_13 = new QPushButton( this, "PushButton_13" );
@@ -164,7 +164,7 @@ multiFuncData::multiFuncData
 	connect( PushButton_13, SIGNAL(clicked()), SLOT(closeMultiFunc()) );
 	PushButton_13->setText( "&Close" );
 	PushButton_13->setAutoRepeat( FALSE );
-	PushButton_13->setAutoResize( FALSE );
+	//PushButton_13->setAutoResize( FALSE );
 
     // ------------------------ create layouts
 
@@ -177,9 +177,9 @@ multiFuncData::multiFuncData
     // row for edit function
     QHBoxLayout* editFuncRowLayout = new QHBoxLayout();
 
-    // row for style 
+    // row for style
     QHBoxLayout* styleRowLayout = new QHBoxLayout();
-    
+
     // column for inside button group
     QVBoxLayout* insideBGColLayout = new QVBoxLayout(ButtonGroup_3, 5);
 
@@ -193,7 +193,7 @@ multiFuncData::multiFuncData
     QHBoxLayout* bottomRowLayout = new QHBoxLayout();
 
     // ------------------------ assemble layouts and widgets
-    
+
     mainColLayout->addLayout(funcListRowLayout,1);
     funcListRowLayout->addWidget(Label_7,0);
     funcListRowLayout->addWidget(multiFuncList,0);

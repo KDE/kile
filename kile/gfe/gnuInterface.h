@@ -10,7 +10,7 @@
    It is intended that all commands be passed through gnuInterface so one
    should only have to look at this header file to see all commands that
    are available. This class may pass the commands on and call equivalent
-   commands from other classes if necessary. 
+   commands from other classes if necessary.
 
    This file is part of Xgfe: X Windows GUI front end to Gnuplot
    Copyright (C) 1998 David Ishee
@@ -62,8 +62,8 @@ public:
               See "man popen" for details
       Description:
         Opens a write only named pipe to gnuplot.*/
-  
-  void doCommand(QString c);
+
+  void doCommand(const QString &c);
   /* Incoming arguments:
        none
      Outgoing arguments:
@@ -71,7 +71,7 @@ public:
      Description:
        Issues all necessary commands for a plot. This does all the work of
        setting labels, variables, etc. */
-  
+
   void setPlotFileFlag(int flag);
   /* Incoming arguments:
        int flag: 0 for false or 1 for true
@@ -97,7 +97,7 @@ public:
   int getPlotMultipleFileFlag();
   /* Description:
        Gets flag */
-  
+
   void setPlotFuncFlag(int flag);
   /* Incoming arguments:
        int flag: 0 for false or 1 for true
@@ -123,7 +123,7 @@ public:
   int getPlotMultipleFuncFlag();
   /* Description:
        Gets flag */
-  
+
   void setPlotFilename(QString filename);
   /* Incoming arguments:
        QString filename: Path and name of file to plot
@@ -2168,7 +2168,7 @@ private:
 
   QString getValue(QTextStream& in);
 
-  
+
 
 };
 

@@ -5,7 +5,7 @@
 	File: ticsOpData.cpp
 
     This file has been converted to geometry management and tab dialog by
-    hand. Dialog file will not re-create this exactly. 
+    hand. Dialog file will not re-create this exactly.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ ticsOpData::ticsOpData
   xticsOnRButton->setMaximumSize( 32767, 20 );
   xticsOnRButton->setText( "X Tics ON" );
   xticsOnRButton->setAutoRepeat( FALSE );
-  xticsOnRButton->setAutoResize( FALSE );
+  //xticsOnRButton->setAutoResize( FALSE );
   xticsOnRButton->setChecked( TRUE );
 
   xticsOffRButton = new QRadioButton( xticsActiveButtonGroup, "xticsOffRadioButton" );
@@ -64,7 +64,7 @@ ticsOpData::ticsOpData
   xticsOffRButton->setMaximumSize( 32767, 20 );
   xticsOffRButton->setText( "X Tics OFF" );
   xticsOffRButton->setAutoRepeat( FALSE );
-  xticsOffRButton->setAutoResize( FALSE );
+  //xticsOffRButton->setAutoResize( FALSE );
 
   QLabel* xticsLocationLabel;
   xticsLocationLabel = new QLabel( xticsTab, "xticsLocationLabel" );
@@ -78,7 +78,7 @@ ticsOpData::ticsOpData
   xticsLocationCBox->setMinimumSize( 100, 20 );
   xticsLocationCBox->setMaximumSize( 32767, 20 );
   xticsLocationCBox->setSizeLimit( 2 );
-  xticsLocationCBox->setAutoResize( FALSE );
+  //xticsLocationCBox->setAutoResize( FALSE );
   xticsLocationCBox->insertItem( "border" );
   xticsLocationCBox->insertItem( "axis" );
 
@@ -94,7 +94,7 @@ ticsOpData::ticsOpData
   xticsMirrorCBox->setMinimumSize( 100, 20 );
   xticsMirrorCBox->setMaximumSize( 32767, 20 );
   xticsMirrorCBox->setSizeLimit( 2 );
-  xticsMirrorCBox->setAutoResize( FALSE );
+  //xticsMirrorCBox->setAutoResize( FALSE );
   xticsMirrorCBox->insertItem( "mirror" );
   xticsMirrorCBox->insertItem( "nomirror" );
 
@@ -110,7 +110,7 @@ ticsOpData::ticsOpData
   xticsRotationCBox->setMinimumSize( 100, 20 );
   xticsRotationCBox->setMaximumSize( 32767, 20 );
   xticsRotationCBox->setSizeLimit( 2 );
-  xticsRotationCBox->setAutoResize( FALSE );
+  //xticsRotationCBox->setAutoResize( FALSE );
   xticsRotationCBox->insertItem( "norotate" );
   xticsRotationCBox->insertItem( "rotate" );
 
@@ -127,7 +127,7 @@ ticsOpData::ticsOpData
   xticsSIERadioButton->setMaximumSize( 32767, 20 );
   xticsSIERadioButton->setText( "Start/Inc/End" );
   xticsSIERadioButton->setAutoRepeat( FALSE );
-  xticsSIERadioButton->setAutoResize( FALSE );
+  //xticsSIERadioButton->setAutoResize( FALSE );
   xticsSIERadioButton->setChecked( TRUE );
 
   QLabel* xticsStartPosLabel;
@@ -183,7 +183,7 @@ ticsOpData::ticsOpData
   xticsLabelPosRButton->setMaximumSize( 32767, 20 );
   xticsLabelPosRButton->setText( "Labels/Positions" );
   xticsLabelPosRButton->setAutoRepeat( FALSE );
-  xticsLabelPosRButton->setAutoResize( FALSE );
+  //xticsLabelPosRButton->setAutoResize( FALSE );
 
   xticsLabelsPosEdit = new QLineEdit( xticsPosButtonGroup, "xticsLabelsPosLineEdit" );
   xticsLabelsPosEdit->setMinimumSize( 330, 20 );
@@ -197,7 +197,7 @@ ticsOpData::ticsOpData
 
   // main col layout
   QVBoxLayout* xticsMainColLayout = new QVBoxLayout(xticsTab,5);
-  
+
   // activate button group
   xticsMainColLayout->addWidget(xticsActiveButtonGroup);
   QHBoxLayout* xticsActiveRowLayout = new QHBoxLayout(xticsActiveButtonGroup,5);
@@ -211,7 +211,7 @@ ticsOpData::ticsOpData
   // combo box row
   QHBoxLayout* xticsComboRowLayout = new QHBoxLayout();
   xticsMainColLayout->addLayout(xticsComboRowLayout);
-  
+
   xticsComboRowLayout->addWidget(xticsLocationLabel);
   xticsComboRowLayout->addWidget(xticsLocationCBox);
   //xticsComboRowLayout->addStretch(1);
@@ -223,12 +223,12 @@ ticsOpData::ticsOpData
 
   // position button group
   xticsMainColLayout->addWidget(xticsPosButtonGroup);
-  
+
   QVBoxLayout* xticsPosColLayout = new QVBoxLayout(xticsPosButtonGroup,5);
 
   QHBoxLayout* xticsTopPosRowLayout = new QHBoxLayout();
   xticsPosColLayout->addLayout(xticsTopPosRowLayout);
-  
+
   xticsTopPosRowLayout->addWidget(xticsSIERadioButton);
   xticsTopPosRowLayout->addWidget(xticsStartPosLabel);
   xticsTopPosRowLayout->addWidget(xticsStartPosEdit);
@@ -267,7 +267,7 @@ ticsOpData::ticsOpData
   yticsOnRButton->setMaximumSize( 32767, 20 );
   yticsOnRButton->setText( "Y Tics ON" );
   yticsOnRButton->setAutoRepeat( FALSE );
-  yticsOnRButton->setAutoResize( FALSE );
+  //yticsOnRButton->setAutoResize( FALSE );
   yticsOnRButton->setChecked( TRUE );
 
   yticsOffRButton = new QRadioButton( yticsActiveButtonGroup, "yticsOffRadioButton" );
@@ -275,7 +275,7 @@ ticsOpData::ticsOpData
   yticsOffRButton->setMaximumSize( 32767, 20 );
   yticsOffRButton->setText( "Y Tics OFF" );
   yticsOffRButton->setAutoRepeat( FALSE );
-  yticsOffRButton->setAutoResize( FALSE );
+  //yticsOffRButton->setAutoResize( FALSE );
 
   QLabel* yticsLocationLabel;
   yticsLocationLabel = new QLabel( yticsTab, "yticsLocationLabel" );
@@ -289,7 +289,7 @@ ticsOpData::ticsOpData
   yticsLocationCBox->setMinimumSize( 100, 20 );
   yticsLocationCBox->setMaximumSize( 32767, 20 );
   yticsLocationCBox->setSizeLimit( 2 );
-  yticsLocationCBox->setAutoResize( FALSE );
+  //yticsLocationCBox->setAutoResize( FALSE );
   yticsLocationCBox->insertItem( "border" );
   yticsLocationCBox->insertItem( "axis" );
 
@@ -305,7 +305,7 @@ ticsOpData::ticsOpData
   yticsMirrorCBox->setMinimumSize( 100, 20 );
   yticsMirrorCBox->setMaximumSize( 32767, 20 );
   yticsMirrorCBox->setSizeLimit( 2 );
-  yticsMirrorCBox->setAutoResize( FALSE );
+  //yticsMirrorCBox->setAutoResize( FALSE );
   yticsMirrorCBox->insertItem( "mirror" );
   yticsMirrorCBox->insertItem( "nomirror" );
 
@@ -321,7 +321,7 @@ ticsOpData::ticsOpData
   yticsRotationCBox->setMinimumSize( 100, 20 );
   yticsRotationCBox->setMaximumSize( 32767, 20 );
   yticsRotationCBox->setSizeLimit( 2 );
-  yticsRotationCBox->setAutoResize( FALSE );
+  //yticsRotationCBox->setAutoResize( FALSE );
   yticsRotationCBox->insertItem( "norotate" );
   yticsRotationCBox->insertItem( "rotate" );
 
@@ -338,7 +338,7 @@ ticsOpData::ticsOpData
   yticsSIERadioButton->setMaximumSize( 32767, 20 );
   yticsSIERadioButton->setText( "Start/Inc/End" );
   yticsSIERadioButton->setAutoRepeat( FALSE );
-  yticsSIERadioButton->setAutoResize( FALSE );
+  //yticsSIERadioButton->setAutoResize( FALSE );
   yticsSIERadioButton->setChecked( TRUE );
 
   QLabel* yticsStartPosLabel;
@@ -394,7 +394,7 @@ ticsOpData::ticsOpData
   yticsLabelPosRButton->setMaximumSize( 32767, 20 );
   yticsLabelPosRButton->setText( "Labels/Positions" );
   yticsLabelPosRButton->setAutoRepeat( FALSE );
-  yticsLabelPosRButton->setAutoResize( FALSE );
+  //yticsLabelPosRButton->setAutoResize( FALSE );
 
   yticsLabelsPosEdit = new QLineEdit( yticsPosButtonGroup, "yticsLabelsPosLineEdit" );
   yticsLabelsPosEdit->setMinimumSize( 330, 20 );
@@ -408,7 +408,7 @@ ticsOpData::ticsOpData
 
   // main col layout
   QVBoxLayout* yticsMainColLayout = new QVBoxLayout(yticsTab,5);
-  
+
   // activate button group
   yticsMainColLayout->addWidget(yticsActiveButtonGroup);
   QHBoxLayout* yticsActiveRowLayout = new QHBoxLayout(yticsActiveButtonGroup,5);
@@ -422,7 +422,7 @@ ticsOpData::ticsOpData
   // combo box row
   QHBoxLayout* yticsComboRowLayout = new QHBoxLayout();
   yticsMainColLayout->addLayout(yticsComboRowLayout);
-  
+
   yticsComboRowLayout->addWidget(yticsLocationLabel);
   yticsComboRowLayout->addWidget(yticsLocationCBox);
   //yticsComboRowLayout->addStretch(1);
@@ -434,12 +434,12 @@ ticsOpData::ticsOpData
 
   // position button group
   yticsMainColLayout->addWidget(yticsPosButtonGroup);
-  
+
   QVBoxLayout* yticsPosColLayout = new QVBoxLayout(yticsPosButtonGroup,5);
 
   QHBoxLayout* yticsTopPosRowLayout = new QHBoxLayout();
   yticsPosColLayout->addLayout(yticsTopPosRowLayout);
-  
+
   yticsTopPosRowLayout->addWidget(yticsSIERadioButton);
   yticsTopPosRowLayout->addWidget(yticsStartPosLabel);
   yticsTopPosRowLayout->addWidget(yticsStartPosEdit);
@@ -478,7 +478,7 @@ ticsOpData::ticsOpData
   zticsOnRButton->setMaximumSize( 32767, 20 );
   zticsOnRButton->setText( "Z Tics ON" );
   zticsOnRButton->setAutoRepeat( FALSE );
-  zticsOnRButton->setAutoResize( FALSE );
+  //zticsOnRButton->setAutoResize( FALSE );
   zticsOnRButton->setChecked( TRUE );
 
   zticsOffRButton = new QRadioButton( zticsActiveButtonGroup, "zticsOffRadioButton" );
@@ -486,7 +486,7 @@ ticsOpData::ticsOpData
   zticsOffRButton->setMaximumSize( 32767, 20 );
   zticsOffRButton->setText( "Z Tics OFF" );
   zticsOffRButton->setAutoRepeat( FALSE );
-  zticsOffRButton->setAutoResize( FALSE );
+  //zticsOffRButton->setAutoResize( FALSE );
 
 //  QLabel* zticsLocationLabel;
 //  zticsLocationLabel = new QLabel( zticsTab, "zticsLocationLabel" );
@@ -516,7 +516,7 @@ ticsOpData::ticsOpData
   zticsMirrorCBox->setMinimumSize( 100, 20 );
   zticsMirrorCBox->setMaximumSize( 32767, 20 );
   zticsMirrorCBox->setSizeLimit( 2 );
-  zticsMirrorCBox->setAutoResize( FALSE );
+  //zticsMirrorCBox->setAutoResize( FALSE );
   zticsMirrorCBox->insertItem( "mirror" );
   zticsMirrorCBox->insertItem( "nomirror" );
 
@@ -532,7 +532,7 @@ ticsOpData::ticsOpData
   zticsRotationCBox->setMinimumSize( 100, 20 );
   zticsRotationCBox->setMaximumSize( 32767, 20 );
   zticsRotationCBox->setSizeLimit( 2 );
-  zticsRotationCBox->setAutoResize( FALSE );
+  //zticsRotationCBox->setAutoResize( FALSE );
   zticsRotationCBox->insertItem( "norotate" );
   zticsRotationCBox->insertItem( "rotate" );
 
@@ -549,7 +549,7 @@ ticsOpData::ticsOpData
   zticsSIERadioButton->setMaximumSize( 32767, 20 );
   zticsSIERadioButton->setText( "Start/Inc/End" );
   zticsSIERadioButton->setAutoRepeat( FALSE );
-  zticsSIERadioButton->setAutoResize( FALSE );
+  //zticsSIERadioButton->setAutoResize( FALSE );
   zticsSIERadioButton->setChecked( TRUE );
 
   QLabel* zticsStartPosLabel;
@@ -605,7 +605,7 @@ ticsOpData::ticsOpData
   zticsLabelPosRButton->setMaximumSize( 32767, 20 );
   zticsLabelPosRButton->setText( "Labels/Positions" );
   zticsLabelPosRButton->setAutoRepeat( FALSE );
-  zticsLabelPosRButton->setAutoResize( FALSE );
+  //zticsLabelPosRButton->setAutoResize( FALSE );
 
   zticsLabelsPosEdit = new QLineEdit( zticsPosButtonGroup, "zticsLabelsPosLineEdit" );
   zticsLabelsPosEdit->setMinimumSize( 330, 20 );
@@ -619,7 +619,7 @@ ticsOpData::ticsOpData
 
   // main col layout
   QVBoxLayout* zticsMainColLayout = new QVBoxLayout(zticsTab,5);
-  
+
   // activate button group
   zticsMainColLayout->addWidget(zticsActiveButtonGroup);
   QHBoxLayout* zticsActiveRowLayout = new QHBoxLayout(zticsActiveButtonGroup,5);
@@ -633,7 +633,7 @@ ticsOpData::ticsOpData
   // combo box row
   QHBoxLayout* zticsComboRowLayout = new QHBoxLayout();
   zticsMainColLayout->addLayout(zticsComboRowLayout);
-  
+
 //  zticsComboRowLayout->addWidget(zticsLocationLabel);
 //  zticsComboRowLayout->addWidget(zticsLocationCBox);
 //  zticsComboRowLayout->addStretch(1);
@@ -646,12 +646,12 @@ ticsOpData::ticsOpData
 
   // position button group
   zticsMainColLayout->addWidget(zticsPosButtonGroup);
-  
+
   QVBoxLayout* zticsPosColLayout = new QVBoxLayout(zticsPosButtonGroup,5);
 
   QHBoxLayout* zticsTopPosRowLayout = new QHBoxLayout();
   zticsPosColLayout->addLayout(zticsTopPosRowLayout);
-  
+
   zticsTopPosRowLayout->addWidget(zticsSIERadioButton);
   zticsTopPosRowLayout->addWidget(zticsStartPosLabel);
   zticsTopPosRowLayout->addWidget(zticsStartPosEdit);
@@ -690,7 +690,7 @@ ticsOpData::ticsOpData
   x2ticsOnRButton->setMaximumSize( 32767, 20 );
   x2ticsOnRButton->setText( "X2 Tics ON" );
   x2ticsOnRButton->setAutoRepeat( FALSE );
-  x2ticsOnRButton->setAutoResize( FALSE );
+  //x2ticsOnRButton->setAutoResize( FALSE );
   x2ticsOnRButton->setChecked( TRUE );
 
   x2ticsOffRButton = new QRadioButton( x2ticsActiveButtonGroup, "x2ticsOffRadioButton" );
@@ -698,7 +698,7 @@ ticsOpData::ticsOpData
   x2ticsOffRButton->setMaximumSize( 32767, 20 );
   x2ticsOffRButton->setText( "X2 Tics OFF" );
   x2ticsOffRButton->setAutoRepeat( FALSE );
-  x2ticsOffRButton->setAutoResize( FALSE );
+  //x2ticsOffRButton->setAutoResize( FALSE );
 
   QLabel* x2ticsLocationLabel;
   x2ticsLocationLabel = new QLabel( x2ticsTab, "x2ticsLocationLabel" );
@@ -712,7 +712,7 @@ ticsOpData::ticsOpData
   x2ticsLocationCBox->setMinimumSize( 100, 20 );
   x2ticsLocationCBox->setMaximumSize( 32767, 20 );
   x2ticsLocationCBox->setSizeLimit( 2 );
-  x2ticsLocationCBox->setAutoResize( FALSE );
+  //x2ticsLocationCBox->setAutoResize( FALSE );
   x2ticsLocationCBox->insertItem( "border" );
   x2ticsLocationCBox->insertItem( "axis" );
 
@@ -728,7 +728,7 @@ ticsOpData::ticsOpData
   x2ticsMirrorCBox->setMinimumSize( 100, 20 );
   x2ticsMirrorCBox->setMaximumSize( 32767, 20 );
   x2ticsMirrorCBox->setSizeLimit( 2 );
-  x2ticsMirrorCBox->setAutoResize( FALSE );
+  //x2ticsMirrorCBox->setAutoResize( FALSE );
   x2ticsMirrorCBox->insertItem( "mirror" );
   x2ticsMirrorCBox->insertItem( "nomirror" );
 
@@ -744,7 +744,7 @@ ticsOpData::ticsOpData
   x2ticsRotationCBox->setMinimumSize( 100, 20 );
   x2ticsRotationCBox->setMaximumSize( 32767, 20 );
   x2ticsRotationCBox->setSizeLimit( 2 );
-  x2ticsRotationCBox->setAutoResize( FALSE );
+  //x2ticsRotationCBox->setAutoResize( FALSE );
   x2ticsRotationCBox->insertItem( "norotate" );
   x2ticsRotationCBox->insertItem( "rotate" );
 
@@ -761,7 +761,7 @@ ticsOpData::ticsOpData
   x2ticsSIERadioButton->setMaximumSize( 32767, 20 );
   x2ticsSIERadioButton->setText( "Start/Inc/End" );
   x2ticsSIERadioButton->setAutoRepeat( FALSE );
-  x2ticsSIERadioButton->setAutoResize( FALSE );
+  //x2ticsSIERadioButton->setAutoResize( FALSE );
   x2ticsSIERadioButton->setChecked( TRUE );
 
   QLabel* x2ticsStartPosLabel;
@@ -817,7 +817,7 @@ ticsOpData::ticsOpData
   x2ticsLabelPosRButton->setMaximumSize( 32767, 20 );
   x2ticsLabelPosRButton->setText( "Labels/Positions" );
   x2ticsLabelPosRButton->setAutoRepeat( FALSE );
-  x2ticsLabelPosRButton->setAutoResize( FALSE );
+  //x2ticsLabelPosRButton->setAutoResize( FALSE );
 
   x2ticsLabelsPosEdit = new QLineEdit( x2ticsPosButtonGroup, "x2ticsLabelsPosLineEdit" );
   x2ticsLabelsPosEdit->setMinimumSize( 330, 20 );
@@ -831,7 +831,7 @@ ticsOpData::ticsOpData
 
   // main col layout
   QVBoxLayout* x2ticsMainColLayout = new QVBoxLayout(x2ticsTab,5);
-  
+
   // activate button group
   x2ticsMainColLayout->addWidget(x2ticsActiveButtonGroup);
   QHBoxLayout* x2ticsActiveRowLayout = new QHBoxLayout(x2ticsActiveButtonGroup,5);
@@ -845,7 +845,7 @@ ticsOpData::ticsOpData
   // combo box row
   QHBoxLayout* x2ticsComboRowLayout = new QHBoxLayout();
   x2ticsMainColLayout->addLayout(x2ticsComboRowLayout);
-  
+
   x2ticsComboRowLayout->addWidget(x2ticsLocationLabel);
   x2ticsComboRowLayout->addWidget(x2ticsLocationCBox);
   //x2ticsComboRowLayout->addStretch(1);
@@ -857,12 +857,12 @@ ticsOpData::ticsOpData
 
   // position button group
   x2ticsMainColLayout->addWidget(x2ticsPosButtonGroup);
-  
+
   QVBoxLayout* x2ticsPosColLayout = new QVBoxLayout(x2ticsPosButtonGroup,5);
 
   QHBoxLayout* x2ticsTopPosRowLayout = new QHBoxLayout();
   x2ticsPosColLayout->addLayout(x2ticsTopPosRowLayout);
-  
+
   x2ticsTopPosRowLayout->addWidget(x2ticsSIERadioButton);
   x2ticsTopPosRowLayout->addWidget(x2ticsStartPosLabel);
   x2ticsTopPosRowLayout->addWidget(x2ticsStartPosEdit);
@@ -901,7 +901,7 @@ ticsOpData::ticsOpData
   y2ticsOnRButton->setMaximumSize( 32767, 20 );
   y2ticsOnRButton->setText( "Y2 Tics ON" );
   y2ticsOnRButton->setAutoRepeat( FALSE );
-  y2ticsOnRButton->setAutoResize( FALSE );
+  //y2ticsOnRButton->setAutoResize( FALSE );
   y2ticsOnRButton->setChecked( TRUE );
 
   y2ticsOffRButton = new QRadioButton( y2ticsActiveButtonGroup, "y2ticsOffRadioButton" );
@@ -909,7 +909,7 @@ ticsOpData::ticsOpData
   y2ticsOffRButton->setMaximumSize( 32767, 20 );
   y2ticsOffRButton->setText( "Y2 Tics OFF" );
   y2ticsOffRButton->setAutoRepeat( FALSE );
-  y2ticsOffRButton->setAutoResize( FALSE );
+  //y2ticsOffRButton->setAutoResize( FALSE );
 
   QLabel* y2ticsLocationLabel;
   y2ticsLocationLabel = new QLabel( y2ticsTab, "y2ticsLocationLabel" );
@@ -923,7 +923,7 @@ ticsOpData::ticsOpData
   y2ticsLocationCBox->setMinimumSize( 100, 20 );
   y2ticsLocationCBox->setMaximumSize( 32767, 20 );
   y2ticsLocationCBox->setSizeLimit( 2 );
-  y2ticsLocationCBox->setAutoResize( FALSE );
+  //y2ticsLocationCBox->setAutoResize( FALSE );
   y2ticsLocationCBox->insertItem( "border" );
   y2ticsLocationCBox->insertItem( "axis" );
 
@@ -939,7 +939,7 @@ ticsOpData::ticsOpData
   y2ticsMirrorCBox->setMinimumSize( 100, 20 );
   y2ticsMirrorCBox->setMaximumSize( 32767, 20 );
   y2ticsMirrorCBox->setSizeLimit( 2 );
-  y2ticsMirrorCBox->setAutoResize( FALSE );
+  //y2ticsMirrorCBox->setAutoResize( FALSE );
   y2ticsMirrorCBox->insertItem( "mirror" );
   y2ticsMirrorCBox->insertItem( "nomirror" );
 
@@ -955,7 +955,7 @@ ticsOpData::ticsOpData
   y2ticsRotationCBox->setMinimumSize( 100, 20 );
   y2ticsRotationCBox->setMaximumSize( 32767, 20 );
   y2ticsRotationCBox->setSizeLimit( 2 );
-  y2ticsRotationCBox->setAutoResize( FALSE );
+  //y2ticsRotationCBox->setAutoResize( FALSE );
   y2ticsRotationCBox->insertItem( "norotate" );
   y2ticsRotationCBox->insertItem( "rotate" );
 
@@ -972,7 +972,7 @@ ticsOpData::ticsOpData
   y2ticsSIERadioButton->setMaximumSize( 32767, 20 );
   y2ticsSIERadioButton->setText( "Start/Inc/End" );
   y2ticsSIERadioButton->setAutoRepeat( FALSE );
-  y2ticsSIERadioButton->setAutoResize( FALSE );
+  //y2ticsSIERadioButton->setAutoResize( FALSE );
   y2ticsSIERadioButton->setChecked( TRUE );
 
   QLabel* y2ticsStartPosLabel;
@@ -1028,7 +1028,7 @@ ticsOpData::ticsOpData
   y2ticsLabelPosRButton->setMaximumSize( 32767, 20 );
   y2ticsLabelPosRButton->setText( "Labels/Positions" );
   y2ticsLabelPosRButton->setAutoRepeat( FALSE );
-  y2ticsLabelPosRButton->setAutoResize( FALSE );
+  //y2ticsLabelPosRButton->setAutoResize( FALSE );
 
   y2ticsLabelsPosEdit = new QLineEdit( y2ticsPosButtonGroup, "y2ticsLabelsPosLineEdit" );
   y2ticsLabelsPosEdit->setMinimumSize( 330, 20 );
@@ -1042,7 +1042,7 @@ ticsOpData::ticsOpData
 
   // main col layout
   QVBoxLayout* y2ticsMainColLayout = new QVBoxLayout(y2ticsTab,5);
-  
+
   // activate button group
   y2ticsMainColLayout->addWidget(y2ticsActiveButtonGroup);
   QHBoxLayout* y2ticsActiveRowLayout = new QHBoxLayout(y2ticsActiveButtonGroup,5);
@@ -1056,7 +1056,7 @@ ticsOpData::ticsOpData
   // combo box row
   QHBoxLayout* y2ticsComboRowLayout = new QHBoxLayout();
   y2ticsMainColLayout->addLayout(y2ticsComboRowLayout);
-  
+
   y2ticsComboRowLayout->addWidget(y2ticsLocationLabel);
   y2ticsComboRowLayout->addWidget(y2ticsLocationCBox);
   //y2ticsComboRowLayout->addStretch(1);
@@ -1068,12 +1068,12 @@ ticsOpData::ticsOpData
 
   // position button group
   y2ticsMainColLayout->addWidget(y2ticsPosButtonGroup);
-  
+
   QVBoxLayout* y2ticsPosColLayout = new QVBoxLayout(y2ticsPosButtonGroup,5);
 
   QHBoxLayout* y2ticsTopPosRowLayout = new QHBoxLayout();
   y2ticsPosColLayout->addLayout(y2ticsTopPosRowLayout);
-  
+
   y2ticsTopPosRowLayout->addWidget(y2ticsSIERadioButton);
   y2ticsTopPosRowLayout->addWidget(y2ticsStartPosLabel);
   y2ticsTopPosRowLayout->addWidget(y2ticsStartPosEdit);
@@ -1093,13 +1093,13 @@ ticsOpData::ticsOpData
   y2ticsMainColLayout->activate();
 
   // insert tab
-  addTab(y2ticsTab, "Y2 T&ics");  
+  addTab(y2ticsTab, "Y2 T&ics");
 
 
   // add buttons
   setOKButton("OK");
   setCancelButton("Cancel");
-  
+
   connect(this, SIGNAL(applyButtonPressed()), SLOT(setTicsOptions()));
 
   resize( 520,240 );

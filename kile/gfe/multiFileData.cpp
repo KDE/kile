@@ -1,10 +1,10 @@
 /* -------------------------- multiFileData class --------------------------
 
-   This class handles all operations related to the storage and manipulation of 
+   This class handles all operations related to the storage and manipulation of
    multiple files and their options from the GUI.
 
-   *Note: This file has been converted to geometry management by hand. 
-   Qtarch will not regenerate this file exactly as is exists now. 
+   *Note: This file has been converted to geometry management by hand.
+   Qtarch will not regenerate this file exactly as is exists now.
 
    This file is part of Xgfe: X Windows GUI front end to Gnuplot
    Copyright (C) 1998 David Ishee
@@ -60,7 +60,7 @@ multiFileData::multiFileData
   connect( multiFileList, SIGNAL(activated(const QString&)), this,
            SLOT(fileChanged(const QString&)) );
   multiFileList->setSizeLimit( 100 );
-  multiFileList->setAutoResize( FALSE );
+  //multiFileList->setAutoResize( FALSE );
 
   QPushButton* NewFileButton;
   NewFileButton = new QPushButton( mainMultiFileOptions, "NewFileButton" );
@@ -68,16 +68,16 @@ multiFileData::multiFileData
   connect( NewFileButton, SIGNAL(clicked()), this, SLOT(getNewFile()) );
   NewFileButton->setText( "New File" );
   NewFileButton->setAutoRepeat( FALSE );
-  NewFileButton->setAutoResize( FALSE );
-  
+  //NewFileButton->setAutoResize( FALSE );
+
   QPushButton* deleteFileButton;
   deleteFileButton = new QPushButton( mainMultiFileOptions, "deleteFileButton" );
   deleteFileButton->setMinimumSize( 100, 26 );
   connect( deleteFileButton, SIGNAL(clicked()), this, SLOT(deleteFile()) );
   deleteFileButton->setText( "Delete File" );
   deleteFileButton->setAutoRepeat( FALSE );
-  deleteFileButton->setAutoResize( FALSE );
-  
+  //deleteFileButton->setAutoResize( FALSE );
+
   fileStyleList = new QComboBox( FALSE, mainMultiFileOptions, "ComboBox_4" );
   fileStyleList->setMinimumSize( 120, 20 );
   fileStyleList->setMaximumSize( 32767, 20 );
@@ -115,8 +115,8 @@ multiFileData::multiFileData
   legendButtonGroup->setFrameStyle( 49 );
   legendButtonGroup->setTitle( "Legend Options" );
   legendButtonGroup->setAlignment( AlignCenter );
-  legendButtonGroup->setExclusive( TRUE ); 
-  
+  legendButtonGroup->setExclusive( TRUE );
+
   QLabel* legendTitleLabel;
   legendTitleLabel = new QLabel(legendButtonGroup, "legendTitleLabel" );
   legendTitleLabel->setMinimumSize( 110, 20 );
@@ -131,25 +131,25 @@ multiFileData::multiFileData
   legendTitleEdit->setText( "" );
   legendTitleEdit->setMaxLength( 32767 );
   legendTitleEdit->setEchoMode( QLineEdit::Normal );
-  legendTitleEdit->setFrame( TRUE ); 
+  legendTitleEdit->setFrame( TRUE );
 
   legendTitleDefaultButton = new QCheckBox(legendButtonGroup , "CheckBox_4" );
   legendTitleDefaultButton->setMinimumSize( 70, 20 );
   legendTitleDefaultButton->setMaximumSize( 32767, 20 );
   legendTitleDefaultButton->setText( "&default" );
   legendTitleDefaultButton->setAutoRepeat( FALSE );
-  legendTitleDefaultButton->setAutoResize( FALSE );
+  //legendTitleDefaultButton->setAutoResize( FALSE );
   legendTitleDefaultButton->setChecked( TRUE );
-  
+
   legendTitlenotitleButton = new QCheckBox(legendButtonGroup, "CheckBox_5" );
   legendTitlenotitleButton->setMinimumSize( 60, 20 );
   legendTitlenotitleButton->setMaximumSize( 32767, 20 );
   legendTitlenotitleButton->setText( "&notitle" );
   legendTitlenotitleButton->setAutoRepeat( FALSE );
-  legendTitlenotitleButton->setAutoResize( FALSE );  
+  //legendTitlenotitleButton->setAutoResize( FALSE );
 
   // ------------------------ create layouts
-  
+
   // main column layout for whole dialog
   QVBoxLayout* mainColLayout = new QVBoxLayout(mainMultiFileOptions, 5, -1, "mainCol");
 
@@ -158,20 +158,20 @@ multiFileData::multiFileData
 
   // row for file manipulation pushbuttons
   QHBoxLayout* fileManipRowLayout = new QHBoxLayout(-1, "fileManipRow");
-    
+
   // row for style options
   QHBoxLayout* styleRowLayout = new QHBoxLayout(-1, "styleRow");
 
   // column for inside button group
-  QVBoxLayout* legendBGInsideColLayout = new QVBoxLayout(legendButtonGroup, 10, -1, 
+  QVBoxLayout* legendBGInsideColLayout = new QVBoxLayout(legendButtonGroup, 10, -1,
                                                          "legendBGInsideCol");
-    
+
   // row for legend title inside button group
   QHBoxLayout* legendTitleRowLayout = new QHBoxLayout(-1, "legendTitleRow");
 
   // row for legend options pushbuttons
   QHBoxLayout* legendOptionsRowLayout = new QHBoxLayout(-1, "legendOptionsRow");
-    
+
   // ----------- assemble layouts and widgets
 
   mainColLayout->addLayout(fileComboRowLayout ,0);
@@ -207,7 +207,7 @@ multiFileData::multiFileData
   // ----------------------- set up page two of the tab dialog ---------------
 
   QWidget* multiFileOptions = new QWidget(this, "File Options");
-  
+
   QButtonGroup* interpButtonGroup;
   interpButtonGroup = new QButtonGroup(multiFileOptions, "interpButtonGroup" );
   interpButtonGroup->setMinimumSize( 460, 60 );
@@ -484,25 +484,25 @@ multiFileData::multiFileData
 
   // main column layout
   QVBoxLayout* mainColFileOptionsLayout = new QVBoxLayout(multiFileOptions,5);
-    
+
   // row layout for inside data set button group
   QHBoxLayout* insideDataSetBGRowLayout = new QHBoxLayout(dataSetButtonGroup,5);
-    
+
   // column layout for inside periodic sampling button group
   QVBoxLayout* insidePeriodicBGTopColLayout = new QVBoxLayout(samplingButtonGroup,5);
-    
+
   // top row layout for inside periodic sampling button group
   QHBoxLayout* insidePeriodicBGTopRowLayout = new QHBoxLayout(-1);
-    
+
   // bottom row layout for inside periodic sampling button group
   QHBoxLayout* insidePeriodicBGBottomRowLayout = new QHBoxLayout(-1);
-    
+
   // column layout for inside columns and formats button group
   QVBoxLayout* colFormatBGColLayout = new QVBoxLayout(colFormatButtonGroup,5);
 
   // top row layout for inside columns and formats button group
   QHBoxLayout* colFormatBGTopRowLayout = new QHBoxLayout(-1);
-    
+
   // middle row layout for inside columns and formats button group
   QHBoxLayout* colFormatBGMiddleRowLayout = new QHBoxLayout(-1);
 
@@ -576,7 +576,7 @@ multiFileData::multiFileData
 
   // ----------------------- set up page three of the tab dialog ---------------
 
-  QWidget* multiFileFiltering = new QWidget(this, "Filtering Options" );    
+  QWidget* multiFileFiltering = new QWidget(this, "Filtering Options" );
 
   QButtonGroup* QuoteButtonGroup;
   QuoteButtonGroup = new QButtonGroup( multiFileFiltering, "QuoteButtonGroup" );
@@ -593,7 +593,7 @@ multiFileData::multiFileData
   filterCmdLabel->setText( "Filter Command:" );
   filterCmdLabel->setAlignment( 289 );
   filterCmdLabel->setMargin( -1 );
-  
+
   filterEdit = new QLineEdit( multiFileFiltering, "FilterLineEdit" );
   filterEdit->setMinimumSize( 280, 20 );
   filterEdit->setMaximumSize( 32767, 20 );
@@ -601,13 +601,13 @@ multiFileData::multiFileData
   filterEdit->setMaxLength( 32767 );
   filterEdit->setEchoMode( QLineEdit::Normal );
   filterEdit->setFrame( TRUE );
-  
+
   doubleQuoteRB = new QRadioButton(QuoteButtonGroup,"doubleQuoteRadioButton" );
   doubleQuoteRB->setMinimumSize( 110, 20 );
   doubleQuoteRB->setMaximumSize( 32767, 20 );
   doubleQuoteRB->setText( "Double Quotes" );
   doubleQuoteRB->setAutoRepeat( FALSE );
-  doubleQuoteRB->setAutoResize( FALSE );
+  //doubleQuoteRB->setAutoResize( FALSE );
   doubleQuoteRB->setChecked( TRUE );
 
   singleQuoteRB = new QRadioButton(QuoteButtonGroup,"SingleQuoteRadioButton" );
@@ -615,35 +615,35 @@ multiFileData::multiFileData
   singleQuoteRB->setMaximumSize( 32767, 20 );
   singleQuoteRB->setText( "Single Quotes" );
   singleQuoteRB->setAutoRepeat( FALSE );
-  singleQuoteRB->setAutoResize( FALSE );
-  
+  //singleQuoteRB->setAutoResize( FALSE );
+
   QPushButton* InsertCurrentPushButton;
   InsertCurrentPushButton = new QPushButton( multiFileFiltering, "InsertCurrentPushButton" );
   InsertCurrentPushButton->setMinimumSize( 150, 26 );
   connect( InsertCurrentPushButton, SIGNAL(clicked()), SLOT(insertCurrentFilename()) );
   InsertCurrentPushButton->setText( "Insert &Current Filename" );
   InsertCurrentPushButton->setAutoRepeat( FALSE );
-  InsertCurrentPushButton->setAutoResize( FALSE );
-  
+  //InsertCurrentPushButton->setAutoResize( FALSE );
+
   QPushButton* insertNewButton;
   insertNewButton = new QPushButton( multiFileFiltering, "insertNewButton" );
   insertNewButton->setMinimumSize( 150, 26 );
   connect( insertNewButton, SIGNAL(clicked()), SLOT(insertNewFilename()) );
   insertNewButton->setText( "Insert &New Filename" );
   insertNewButton->setAutoRepeat( FALSE );
-  insertNewButton->setAutoResize( FALSE );
+  //insertNewButton->setAutoResize( FALSE );
 
   // ------------------------ create layouts
 
   // main column layout for whole dialog
-  QVBoxLayout* filterMainColLayout = new QVBoxLayout(multiFileFiltering, 
+  QVBoxLayout* filterMainColLayout = new QVBoxLayout(multiFileFiltering,
                                                      5, -1, "mainCol");
 
   // row for filter command
   QHBoxLayout* filterCmdRowLayout = new QHBoxLayout(-1, "filterCmdRow");
 
   // row inside button group
-  QHBoxLayout* quoteBoxRowLayout = new QHBoxLayout(QuoteButtonGroup, 
+  QHBoxLayout* quoteBoxRowLayout = new QHBoxLayout(QuoteButtonGroup,
                                                    4, -1, "quoteBoxRow");
 
   // row for filename buttons

@@ -88,6 +88,7 @@ bool KileProject::load()
 
 			m_config->setGroup(groups[i]);
 			item->setOpenState(m_config->readBoolEntry("open", true));
+			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
 			item->changePath(groups[i].mid(5));
 
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
@@ -114,6 +115,7 @@ bool KileProject::save()
 		item = m_projectitems.at(i);
 		m_config->setGroup("item:"+item->path());
 		m_config->writeEntry("open", item->isOpen());
+		if (m_rootItem = item) m_config->writeEntry("master", true);
 	}
 
 	m_config->sync();

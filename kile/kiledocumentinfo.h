@@ -114,7 +114,7 @@ public:
 	KileListViewItem* structViewItem() { return m_struct; }
 	void setListView(KListView *lv) { m_structview = lv;}
 
-	bool isLaTeXRoot();
+	bool isLaTeXRoot() { return m_bIsRoot; }
 
 public slots:
 	void updateStruct();
@@ -133,6 +133,7 @@ protected:
 private:
 	Kate::Document	*m_doc;
 	long						*m_arStatistics;
+	bool						m_bIsRoot;
 	QStringList			m_labels;
 	QStringList			m_bibItems;
 	QStringList			m_deps;

@@ -15,10 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qfileinfo.h>
+
 #include <kate/document.h>
 
 #include "kileproject.h"
 #include "kileinfo.h"
+
+KileDocumentInfo *KileInfo::infoFor(const QString & path)
+{
+	for (uint i=0; i < m_docList.count(); i++)
+	{
+		if ( m_docList.at(i)->url().path() == path)
+			return infoFor(m_docList.at(i));
+	}
+
+	return 0;
+}
 
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
@@ -36,6 +49,37 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 		title="";
 
 	return title;
+}
+
+QString KileInfo::getCompileName(bool shrt /* = false */)
+{
+	KileProject *project = activeProject();
+
+	if (project)
+	{
+		KileProjectItem *item = project->rootItem();
+		KURL url;
+		if (item)
+			url = item->url();
+		else
+			return QString::null;
+
+		if (shrt) return url.fileName();
+		else return url.path();
+	}
+	else
+	{
+		if (m_singlemode)
+			return getName(activeDocument(), shrt);
+		else
+		{
+			QFileInfo fi(m_masterName);
+			if (shrt)
+				return fi.fileName();
+			else
+				return m_masterName;
+		}
+	}
 }
 
 KileProject* KileInfo::activeProject()

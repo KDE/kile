@@ -219,8 +219,8 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	lastvtab=1;
 	newCaption();
 	showVertPage(0);
-	singlemode=true;
-	MasterName=getName();
+	m_singlemode=true;
+	m_masterName=getName();
 
 	partManager->setActivePart( 0L );
 
@@ -361,7 +361,7 @@ void Kile::setupActions()
   ShowMathToolbarAction=new KToggleAction(i18n("Show Math Toolbar"),0 , this, SLOT(ToggleShowMathToolbar()), actionCollection(),"ShowMathToolbar" );
   ShowMathToolbarAction->setChecked(showmathtoolbar);
 
-  if (singlemode) {ModeAction->setChecked(false);}
+  if (m_singlemode) {ModeAction->setChecked(false);}
   else {ModeAction->setChecked(true);}
   if (showstructview) {StructureAction->setChecked(true);}
   else {StructureAction->setChecked(false);}
@@ -455,6 +455,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 
 	//create a new document
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
+	m_docList.append(doc);
 
 	//install a documentinfo class for this doc
 	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
@@ -784,13 +785,13 @@ void Kile::fileSaveAll(bool amAutoSaving)
 void Kile::autoSaveAll()
 {
 	fileSaveAll(true);
-	if (singlemode)
+	if (m_singlemode)
 	{
 		statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
 	}
 	else
 	{
-		QString shortName = MasterName;
+		QString shortName = m_masterName;
       		int pos = shortName.findRev('/');
       		shortName.remove(0,pos+1);
 		statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
@@ -979,6 +980,8 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 			//remove the decorations
 			removeMap(doc);
 			removeMap(doc, itemFor(doc));
+
+			m_docList.remove(doc);
 		}
 		else
 			return false;
@@ -1523,7 +1526,7 @@ QString Kile::prepareForCompile(const QString & command) {
   Kate::View *view = currentView();
 
   //warn if there is no active view
-  if (singlemode && !view)
+  if (m_singlemode && !view)
   {
      KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on.\n"
                                    "Make sure you have the file you want to compile open and saved.")
@@ -1531,7 +1534,8 @@ QString Kile::prepareForCompile(const QString & command) {
      return QString::null;
   }
 
-  QString finame = getShortName();
+  //QString finame = getShortName();
+  QString finame = getCompileName(true);
   if (finame == "untitled" || finame == "") {
      if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
                                              "Do you want to save it? Click Yes to save and No to abort.").arg(command),
@@ -1544,7 +1548,7 @@ QString Kile::prepareForCompile(const QString & command) {
   if (view) view->save();
 
   //determine the name of the file to be compiled
-  if (singlemode)
+  /*if (m_singlemode)
   {
 	finame=getName();
 	bool isRoot = true;
@@ -1559,10 +1563,19 @@ QString Kile::prepareForCompile(const QString & command) {
 	}
   }
   else {
-     finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
-  }
+     finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
+  }*/
+	finame = getCompileName();
+	bool isRoot = true;
+	KileDocumentInfo *docinfo = infoFor(finame);
+	if (docinfo) isRoot = docinfo->isLaTeXRoot();
 
-
+	if (view && ! isRoot )
+	{
+		if (KMessageBox::warningYesNo(this,i18n("This document doesn't contain a LaTeX header.\nIt should probably be used with a master document.\nContinue anyway?"))
+			== KMessageBox::No)
+			return QString::null;
+	}
 
   QFileInfo fic(finame);
 
@@ -1589,7 +1602,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    QString finame, fromName, toName;
 
    //warn if there is no active view
-   if (singlemode && !view)
+   if (m_singlemode && !view)
    {
      KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on. "
                                    "Make sure you have the source file of the file you want to convert open and saved.")
@@ -1597,12 +1610,13 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
      return empty;
    }
 
-   if (singlemode) {finame=getName();}
+   finame = getCompileName();
+/*  if (m_singlemode) {finame=getName();}
    else {
-     finame=MasterName;
-   }
+     finame=m_masterName;
+   }*/
 
-   if (getShortName() == "untitled" || finame == "") {
+   if (getCompileName(true) == "untitled" || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can turn it into a %2 file.")
                                    .arg(from.upper()).arg(to.upper()),
@@ -1630,21 +1644,24 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
 QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext, const QString &target = QString::null)
 {
    Kate::View *view = currentView();
+
    QString finame;
-   if (singlemode) {finame=getName();}
+   finame = getCompileName();
+
+   /*if (m_singlemode) {finame=getName();}
    else {
-     finame=MasterName;
-   }
+     finame=m_masterName;
+   }*/
 
    //warn if there is no active view
-   if (singlemode && !view)
+   if (m_singlemode && !view)
    {
      KMessageBox::error( this, i18n("Unable to determine which %1 file to show. Please open the source file of the %1 file to want to view.")
                          .arg(ext.upper()).arg(ext.upper()));
      return QString::null;
    }
 
-   if (getShortName() == "untitled" || finame == "") {
+   if (getCompileName(true) == "untitled" || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can view the %1 file.")
                                    .arg(ext.upper()).arg(ext.upper()),
@@ -1753,27 +1770,24 @@ void Kile::ViewDvi()
 
 void Kile::KdviForwardSearch()
 {
-  QString finame;
-  if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
+	QString finame;
+	if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
 
-  LogWidget->clear();
-  logpresent=false;
-  LogWidget->insertLine(i18n("You must be in 'Normal mode' to use this command."));
-  LogWidget->insertLine(i18n("If you do not have a TeX-binary which includes inverse search information natively :"));
-  LogWidget->insertLine(i18n("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides."));
-  LogWidget->insertLine(i18n("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file."));
-  LogWidget->insertLine(i18n("(see the kdvi handbook for more details)"));
+	LogWidget->clear();
+	logpresent=false;
+	//LogWidget->insertLine(i18n("You must be in 'Normal mode' to use this command."));
+	LogWidget->insertLine(i18n("If you do not have a TeX-binary which includes inverse search information natively :"));
+	LogWidget->insertLine(i18n("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides."));
+	LogWidget->insertLine(i18n("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file."));
+	LogWidget->insertLine(i18n("(see the kdvi handbook for more details)"));
 
-  QFileInfo fic(finame);
-  QString dviname=finame;
-	QString texname;
-	QString finame_cur = getName();
-	QFileInfo fic_cur(finame_cur);
+	//this is the DVI file
+	QFileInfo fic(finame);
+	QString dviname=finame;
 
-	if (singlemode)
-		texname=fic.baseName(TRUE)+".tex";
-	else
-		texname=fic_cur.fileName();
+	//this is the current file, forward search is done for this file (in the DVI file finame)
+	QString texname = getName();
+	QFileInfo fic_cur(texname);
 
 	int para=0;
 	int index=0;
@@ -1804,11 +1818,12 @@ void Kile::KdviForwardSearch()
    partManager->addPart(dvipart, true);
    partManager->setActivePart( dvipart);
 
-   dvipart->openURL("file:"+finame+"#src:"+QString::number(para+1)+"./"+texname);
+   dvipart->openURL("file:"+finame+"#src:"+QString::number(para+1)+texname);
    }
    else
    {
-    QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./"+ texname;
+    //QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./"+ texname;
+	QStringList command; command << "kdvi" <<"--unique" <<"file:"+finame+"#src:"+QString::number(para + 1)+  texname;
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
@@ -1982,14 +1997,14 @@ void Kile::MakeBib()
      return;
   }
 
-  if (singlemode) {finame=getName();}
+  if (m_singlemode) {finame=getName();}
   else {
-     finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
+     finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
   //we need to check for finame=="untitled" etc. because the user could have
   //escaped the file save dialog
-  if ((singlemode && !currentView()) || finame=="")
+  if ((m_singlemode && !currentView()) || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine on which file to run %1. Make sure you have the source file "
                                    "of the file you want to run %1 on open and saved.")
@@ -2041,14 +2056,14 @@ void Kile::MakeIndex()
      return;
   }
 
-  if (singlemode) {finame=getName();}
+  if (m_singlemode) {finame=getName();}
   else {
-     finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
+     finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
   //we need to check for finame=="untitled" etc. because the user could have
   //escaped the file save dialog
-  if ((singlemode && !currentView()) || finame=="")
+  if ((m_singlemode && !currentView()) || finame=="")
   {
      KMessageBox::error(this,i18n("Unable to determine on which file to run %1. "
                                   "Make sure you have the source file of the file you want to run %1 on open and saved.")
@@ -2153,8 +2168,8 @@ void Kile::MetaPost()
   }
   fileSave();
 
-  if (singlemode) { finame= getName();}
-  else { finame = MasterName;}
+  if (m_singlemode) { finame= getName();}
+  else { finame = m_masterName;}
 
   QFileInfo fi(finame);
   QString name=fi.dirPath()+"/"+fi.baseName(TRUE)+".mp";
@@ -2186,7 +2201,7 @@ void Kile::CleanAll()
 {
   QString finame = getShortName();
 
-  if ((singlemode && !currentView()) ||finame=="untitled" || finame=="")
+  if ((m_singlemode && !currentView()) ||finame=="untitled" || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
      return;
@@ -2246,8 +2261,8 @@ void Kile::syncTerminal()
 	if (view)
 	{
 		QString finame;
-		if (singlemode) {finame=view->getDoc()->url().path();}
-    		else {finame=MasterName;}
+		if (m_singlemode) {finame=view->getDoc()->url().path();}
+    		else {finame=m_masterName;}
 
 		if (finame == "" || finame == "untitled" ) return;
 
@@ -2387,9 +2402,9 @@ void Kile::execUserTool(int i)
 
 	bool documentpresent=true;
 
-	if (singlemode) {finame=getName();}
-	else {finame=MasterName;}
-	if ((singlemode && !view) ||getShortName()=="untitled" || getShortName()=="")
+	if (m_singlemode) {finame=getName();}
+	else {finame=m_masterName;}
+	if ((m_singlemode && !view) ||getShortName()=="untitled" || getShortName()=="")
 	{
 		documentpresent=false;
 	}
@@ -2488,10 +2503,10 @@ void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 	if ( ! view ) return;
 
 	QString fn;
-	if (singlemode)
+	if (m_singlemode)
 		fn = getName();
 	else
-		fn = MasterName;
+		fn = m_masterName;
 
 	QString fname = item->title();
 
@@ -3156,7 +3171,7 @@ void Kile::ReadSettings()
 	//in the kilerc file
 	if (version<KILERC_VERSION) old=true;
 
-	singlemode=true;
+	m_singlemode=true;
 	QRect screen = QApplication::desktop()->screenGeometry();
 	config->setGroup( "Geometries" );
 	int w= config->readNumEntry( "MainwindowWidth",screen.width()-100);
@@ -3413,7 +3428,7 @@ config->sync();
 /////////////////  OPTIONS ////////////////////
 void Kile::ToggleMode()
 {
-if (!singlemode)
+if (!m_singlemode)
      {
      ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
      ModeAction->setChecked(false);
@@ -3421,25 +3436,25 @@ if (!singlemode)
      OutputWidget->clear();
      Outputview->showPage(OutputWidget);
      logpresent=false;
-     singlemode=true;
+     m_singlemode=true;
      return;
      }
-if (singlemode && currentView())  {
-      MasterName=getName();
-      if (MasterName=="untitled" || MasterName=="")
+if (m_singlemode && currentView())  {
+      m_masterName=getName();
+      if (m_masterName=="untitled" || m_masterName=="")
        {
        ModeAction->setChecked(false);
        KMessageBox::error( this,i18n("Could not start the command."));
        return;
        }
-      QString shortName = MasterName;
+      QString shortName = m_masterName;
       int pos;
       while ( (pos = (int)shortName.find('/')) != -1 )
       shortName.remove(0,pos+1);
       ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
       ModeAction->setChecked(true);
       statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
-      singlemode=false;
+      m_singlemode=false;
       return;
       }
 ModeAction->setChecked(false);

@@ -230,7 +230,7 @@ private:
 	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
-	QString 		lastDocument,MasterName, input_encoding;
+	QString 		lastDocument, input_encoding;
    	QString 		templAuthor, templDocClassOpt, templEncoding;
    	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
    	QStringList 	recentFilesList;
@@ -366,9 +366,6 @@ public:
 
 	const QStringList* labels() const;
 	const QStringList* bibItems() const;
-
-private:
-	bool singlemode;
 
 /* autosave */
 private slots:

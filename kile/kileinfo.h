@@ -37,6 +37,7 @@ public:
 public:
 	QString getName(Kate::Document *doc = 0, bool shrt = false);
 	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
+	QString getCompileName(bool shrt = false);
 
 	virtual Kate::Document* activeDocument() const = 0;
 
@@ -44,6 +45,7 @@ public:
 	virtual const QStringList* bibItems() const =0;
 
 	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (doc) return m_mapDocInfo[doc]; else return 0;}
+	KileDocumentInfo* infoFor(const QString &path);
 	KileDocumentInfo* infoFor(Kate::Document* doc) const { return m_mapDocInfo[doc];}
 
 	KileProject*	activeProject();
@@ -61,6 +63,11 @@ protected:
 	QPtrList<KileProject>		m_projects;
 	QMap<Kate::Document*, KileProjectItem* >	m_mapDocToItem;
 	QMap<KileProjectItem*, Kate::Document* >	m_mapItemToDoc;
+
+	bool 			m_singlemode;
+	QString	m_masterName;
+
+	QPtrList<Kate::Document> 		m_docList;
 };
 
 #endif

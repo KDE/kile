@@ -31,6 +31,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
 	kdDebug() << "KileDocumentInfo created for " << doc->docName() << endl;
 
 	m_struct = 0;
+	m_bIsRoot = false;
 	m_arStatistics = new long[5];
 
 	//TODO: make this configurable
@@ -43,17 +44,6 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
 	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
 	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
-}
-
-bool KileDocumentInfo::isLaTeXRoot()
-{
-	if (	!m_doc->text().contains("\\documentclass", true) &&
-		!m_doc->text().contains("\\documentstyle", true))
-	{
-		return false;
-	}
-
-	return true;
 }
 
 const long* KileDocumentInfo::getStatistics()
@@ -186,6 +176,7 @@ void KileDocumentInfo::updateStruct()
 	m_labels.clear();
 	m_bibItems.clear();
 	m_deps.clear();
+	m_bIsRoot = false;
 
 	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
 
@@ -206,30 +197,47 @@ void KileDocumentInfo::updateStruct()
 
 	QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*\\{");
 	QRegExp reComments("([^\\\\]%|^%).*$");
+	QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
+	QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 
 	int tagStart;
 	uint tagEnd;
 	uint tagLine = 0, tagCol = 0;
 	QString m;
+	bool foundBD = false; // found \begin { document }
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
 	{
 		tagStart=tagEnd=0;
 		s=m_doc->textLine(i);
 
+		//remove escaped \ characters
+		s.replace("\\\\", "  ");
+
 		//remove comments
 		s.replace(reComments, "");
-		//kdDebug() << "us() : " << s << endl;
 
 		//find all commands in this line
 		while (tagStart != -1)
 		{
+			if ( (!foundBD) && s.contains(reBD))
+			{
+				kdDebug() << "found \\begin{document}" << endl;
+				foundBD = true;
+			}
+
+			if ((!foundBD) && s.contains(reRoot))
+			{
+				kdDebug() << "setting m_bIsRoot to TRUE" << endl;
+				m_bIsRoot = true;
+			}
+
 			tagStart = reCommand.search(s,tagEnd);
 			m=QString::null;
 
 			if (tagStart != -1)
 			{
-				kdDebug() << "Found command " <<  reCommand.cap(0) << " at " << i << endl;
+				//kdDebug() << "Found command " <<  reCommand.cap(0) << " at " << i << endl;
 				cap = reCommand.cap(1);
 				tagEnd = tagStart + reCommand.cap(0).length();
 

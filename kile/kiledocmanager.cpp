@@ -72,15 +72,18 @@ Manager::~Manager()
 	kdDebug() << "==KileDocument::Manager::~Manager()=========" << endl;
 }
 
-void Manager::trashDoc(Info *docinfo)
+void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 {
-	kdDebug() << "==void Manager::trashDoc(Info *docinfo)=====" << endl;
+	kdDebug() << "==void Manager::trashDoc(" << docinfo->url().path() << ")=====" << endl;
 	if ( m_ki->isOpen(docinfo->url()) ) return;
 
+	//look for doc before we detach the docinfo
+	//if we do it the other way around, docFor will always return nil
+	if ( doc == 0L ) doc = docFor(docinfo->url());
+	
 	kdDebug() << "DETACHING " << docinfo << endl;
 	docinfo->detach();
-
-	Kate::Document *doc = docFor(docinfo->url());
+	
 	kdDebug() << "\tTRASHING " <<  doc  << endl;
 	if ( doc == 0L ) return;
 
@@ -96,6 +99,7 @@ void Manager::trashDoc(Info *docinfo)
 		}
 	}
 
+	kdDebug() << "DELETING doc" << endl;
 	delete doc;
 }
  
@@ -768,7 +772,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 			m_ki->viewManager()->removeView(static_cast<Kate::View*>(doc->views().first()));
 			//remove the decorations
 
-			trashDoc(docinfo);
+			trashDoc(docinfo, doc);
             m_ki->structureWidget()->clean(docinfo);
 			removeDocumentInfo(docinfo, closingproject);
 

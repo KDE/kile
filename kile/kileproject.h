@@ -141,7 +141,7 @@ public:
 	KileProject(const QString& name, const KURL& url);
 	KileProject(const KURL& url);
 
-	~KileProject() {}
+	~KileProject();
 
 	void setName(const QString & name) { m_name = name; emit (nameChanged(name));}
 	const QString& name() const { return m_name; }

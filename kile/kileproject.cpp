@@ -122,6 +122,12 @@ KileProject::KileProject(const KURL& url) : QObject(0,url.fileName().ascii())
 	init(url.fileName(), url);
 }
 
+KileProject::~KileProject()
+{
+	kdDebug() << "DELETING KILEPROJECT " <<  m_projecturl.url() << endl;
+	delete m_config;
+}
+
 void KileProject::init(const QString& name, const KURL& url)
 {
 	m_name = name;

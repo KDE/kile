@@ -139,7 +139,7 @@ public:
 	QPtrList<KileProject>* projects() { return &m_projects; }
 	QPtrList<Info>* documentInfos() { return &m_infoList; }
 
-	void trashDoc(Info *docinfo);
+	void trashDoc(Info *docinfo, Kate::Document *doc = 0L);
 	Kate::Document* docFor(const KURL &url);
 
 	Info* getInfo() const;

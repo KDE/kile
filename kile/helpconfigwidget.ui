@@ -1,0 +1,108 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>KileWidgetHelpConfig</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KileWidgetHelpConfig</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>162</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Help</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>m_lbLocation</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Location of TeX documentation:</string>
+            </property>
+            <property name="buddy" stdset="0">
+                <cstring>m_leLocation</cstring>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Insert the path to the TeX documentation directory here. For example /usr/share/texmf/doc.</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="0" column="1">
+            <property name="name">
+                <cstring>m_leLocation</cstring>
+            </property>
+        </widget>
+        <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_bgContext</cstring>
+            </property>
+            <property name="title">
+                <string>Context Sensitive Help</string>
+            </property>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>m_rbKileRef</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>60</y>
+                        <width>220</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>use the &amp;Kile LaTeX reference</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+K</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>m_rbTeTeX</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>30</y>
+                        <width>280</width>
+                        <height>21</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>use your systems &amp;TeX documentation</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+T</string>
+                </property>
+            </widget>
+        </widget>
+    </grid>
+</widget>
+<includes>
+    <include location="local" impldecl="in declaration">helpconfig.h</include>
+    <include location="global" impldecl="in implementation">kapplication.h</include>
+    <include location="local" impldecl="in implementation">helpconfigwidget.ui.h</include>
+</includes>
+<variables>
+    <variable>::HelpConfig *m_hconfig;</variable>
+</variables>
+<slots>
+    <slot>readConfig()</slot>
+    <slot>writeConfig()</slot>
+</slots>
+<functions>
+    <function access="private" specifier="non virtual">init()</function>
+</functions>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>

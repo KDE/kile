@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
+    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003-2005 Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -70,7 +70,7 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile",	"1.7b2", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+	KAboutData aboutData( "kile", "Kile",	"1.8b1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
 						I18N_NOOP("by the Kile Team (2003 - 2004)"),
 						0,
 						"http://kile.sourceforge.net");

@@ -25,7 +25,6 @@
 #include <kurl.h>
 
 #include "kileinfo.h"
-#include "kiledocumentinfo.h"
 #include "kiledocmanager.h"
 
 #include "kilestructurewidget.h"
@@ -64,31 +63,49 @@ namespace KileWidget
 
 	void StructureList::cleanUp()
 	{
+		saveState();
 		clear();
 		disconnect(m_docinfo, 0, this, 0);
 		init();
 	}
 
+	void StructureList::saveState()
+	{
+		m_openByTitle.clear();
+		QListViewItemIterator it(this);
+		KileListViewItem *item = 0L;
+		while ( it.current() ) 
+		{
+			item = (KileListViewItem*)it.current();
+			if ( item->firstChild() ) m_openByTitle [ item->title() ] = item->isOpen();
+			it++;
+		}
+	}
+
+	bool StructureList::shouldBeOpen(KileListViewItem *item, QString folder, int level)
+	{
+		//FIXME what do we do when there are multiple section with the same title?
+		if ( m_openByTitle.contains(item->title()) )
+			return m_openByTitle [ item->title() ];
+		else
+			return ((folder == "root") && level <= m_stack->level());
+	}
+
 	QListViewItem* StructureList::createFolder(const QString &folder)
 	{
-		kdDebug() << "==QListViewItem* Structure::createFolder(" << folder << ")=====" << endl;
-
 		QListViewItem *fldr=  new KileListViewItem(m_root, folder.upper());
 		fldr->setOpen(false);
 		if ( folder == "labels" )
 			fldr->setPixmap(0, SmallIcon("label"));
 
 		m_folders[ folder ] = fldr;
-		kdDebug() << "\tcreated " << folder << " = " << m_folders[folder] << " should be " << fldr << endl;
 
 		return m_folders[folder];
 	}
 
 	QListViewItem* StructureList::folder(const QString &folder)
 	{
-		kdDebug() << "==QListViewItem* Structure::folder(const QString &folder)=======" << endl;
 		QListViewItem *item = m_folders[folder];
-		kdDebug() << "\tfolder " << folder << " is " << item << endl;
 		if ( item == 0L ) item = createFolder(folder);
 		return item;
 	}
@@ -133,8 +150,7 @@ namespace KileWidget
 
 			//if the level is not greater than the defaultLevel
 			//open the m_parent to make this item visible
-			if ( (fldr == "m_root") && lev <= m_stack->level() )
-				m_current->setOpen(true);
+			m_current->setOpen(shouldBeOpen((KileListViewItem*)m_current, fldr, lev));
 
 			//update the m_parent levels, such that section etc. get inserted at the correct level
 			if ( lev > 0)

@@ -62,33 +62,6 @@ public:
 };
 
 /**
- * ListView items that can hold some additional information appropriate for the Structure View. The
- * additional information is: line number, title string.
- **/
-class KileListViewItem : public KListViewItem
-{
-public:
-	KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint m_column, int type);
-	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label), m_title(label), m_line(0),  m_column(0),m_type(KileStruct::None) {}
-	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label), m_title(label), m_line(0),  m_column(0), m_type(KileStruct::None) {}
-
-	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
-	const QString& title() { return m_title; }
-	/** @returns the line number of the structure element. **/
-	const uint line() { return m_line; }
-	/** @returns the column number of the structure element, right after the { **/
-	const uint column() { return m_column; }
-	/** @returns the type of element, see @ref KileStruct **/
-	const int type() { return m_type; }
-
-private:
-	QString		m_title;
-	uint			m_line;
-	uint			m_column;
-	int			m_type;
-};
-
-/**
  * KileDocument::Info is a decorator class for the Document class. We can't derive a class from an interface
  * without implementing the interface, a decorator class is a way to add some functionality to the Document class.
  **/

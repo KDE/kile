@@ -24,13 +24,43 @@
 
 #include <qwidgetstack.h>
 #include <qvbox.h>
+
 #include <klistview.h>
+
+#include "kiledocumentinfo.h"
 
 class QString;
 class KURL;
 class KileInfo;
-namespace KileDocument {class Info;}
 class QListViewItem;
+
+/**
+ * ListView items that can hold some additional information appropriate for the Structure View. The
+ * additional information is: line number, title string.
+ **/
+ 
+class KileListViewItem : public KListViewItem
+{
+public:
+	KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint m_column, int type);
+	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label), m_title(label), m_line(0),  m_column(0),m_type(KileStruct::None) {}
+	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label), m_title(label), m_line(0),  m_column(0), m_type(KileStruct::None) {}
+
+	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
+	const QString& title() { return m_title; }
+	/** @returns the line number of the structure element. **/
+	const uint line() { return m_line; }
+	/** @returns the column number of the structure element, right after the { **/
+	const uint column() { return m_column; }
+	/** @returns the type of element, see @ref KileStruct **/
+	const int type() { return m_type; }
+
+private:
+	QString		m_title;
+	uint			m_line;
+	uint			m_column;
+	int			m_type;
+};
 
 namespace KileWidget
 {
@@ -53,10 +83,14 @@ namespace KileWidget
 		QListViewItem* createFolder(const QString &folder);
 		QListViewItem* folder(const QString &folder);
 
+		void saveState();
+		bool shouldBeOpen(KileListViewItem *item, QString folder, int level);
+
 	private:
 		Structure *m_stack;
 		KileDocument::Info *m_docinfo;
 		QMap<QString, QListViewItem *> m_folders;
+		QMap<QString, bool> m_openByTitle;
 		QListViewItem	*m_parent[5], *m_current, *m_root, *m_child, *m_lastChild;
 	};
 

@@ -1,9 +1,15 @@
-version 1.6.3 -> 1.7a1
+version 1.6.3 -> 1.7a2
+major:
+ - smart LaTeX: rerun automatically when needed, runs BibTeX and/or MakeIndex if required
  - a more flexible and powerful tool system
- - find in files dialog
  - automatic completion of LaTeX commands
  - access to teTeX help system
- - several LaTeX specific editing options
+minor:
+ - BibTeX files are now parsed as well, references in a BibTeX file can be used in \cite autocompletion now as well
+ - user defined commands (using \newcommand) are added to the autocompletion list
+ - improved structure view, it doesn't collapse anymore after a save
+ - find in files dialog
+ - several LaTeX specific editing options (close environment for example)
  - convert accented letters (like Ë) to ASCII TeX commands (like \"E) and vice versa
  
 version 1.6.2 -> 1.6.3

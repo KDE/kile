@@ -44,7 +44,7 @@
 	<group name="Structure">
 		<entry name="DefaultLevel" type="Int">
 			<label>The expansion level for the structure view.</label>
-			<default>1</default>
+			<default>5</default>
 		</entry>
 		<entry name="StructureLevel1" type="String">
 			<label></label>

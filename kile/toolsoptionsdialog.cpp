@@ -33,7 +33,8 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
-
+#include <knuminput.h>
+#include <knumvalidator.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <ksconfig.h>
@@ -54,12 +55,10 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 	checkAutosave->setText(i18n("Auto&save"));
 
 	QLabel *lb= new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
-	asIntervalInput = new QLineEdit(autosaveGroup,"asIntervalInput");
-	asIntervalInput->setMaxLength(4);
-	asIntervalInput->setMaximumWidth(50);
-	lb->setBuddy(asIntervalInput);
-	intervalValidator *validatorAsInterval = new intervalValidator(this,1,9999);
-	asIntervalInput->setValidator(validatorAsInterval);
+
+
+        asIntervalInput=new KIntNumInput(autosaveGroup,"asIntervalInput");
+        asIntervalInput->setRange(1, 9999, 1, false);
 
 	genLayout->addWidget(autosaveGroup);
 
@@ -167,27 +166,5 @@ toolsoptionsdialog::~toolsoptionsdialog()
 {
 }
 
-intervalValidator::intervalValidator(QObject * parent, int bottom, int top, const char * name)
-	: QIntValidator( parent,  name )
-{
-	setBottom(bottom);
-	setTop(top);
-}
-
-intervalValidator::~intervalValidator()
-{
-}
-
-void intervalValidator::fixup(QString & input) const
-{
-	bool ok;
-	int value = input.toInt(&ok);
-
-	if (ok)
-	{
-		if (value < bottom()) input.setNum(bottom());
-		if (value > top()) input.setNum(top());
-	}
-}
 
 #include "toolsoptionsdialog.moc"

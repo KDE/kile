@@ -44,6 +44,7 @@
 #include <kwin.h>
 #include <kparts/browserextension.h>
 #include <kaccel.h>
+#include <knuminput.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -2500,9 +2501,9 @@ if ( !currentView() ) return;
 			 (i>10) ) return;
 	 } while (  s.find(QRegExp("l.[0-9]"),0) < 0 ) ;
  }
- 
+
  //// l. ///
- 
+
  Start=End=0;
  Start=s.find(QRegExp("l.[0-9]"), End);
  if (Start!=-1)
@@ -3817,7 +3818,7 @@ void Kile::GeneralOptions()
 	toDlg = new toolsoptionsdialog(this,"Configure Kile");
 
 	//initialize dialog with current settings
-	toDlg->asIntervalInput->setText(QString::number(autosaveinterval/60000));
+	toDlg->asIntervalInput->setValue(autosaveinterval/60000);
 	toDlg->templAuthor->setText(templAuthor);
 	toDlg->templDocClassOpt->setText(templDocClassOpt);
 	toDlg->templEncoding->setText(templEncoding);
@@ -3839,7 +3840,7 @@ void Kile::GeneralOptions()
 	if (toDlg->exec())
 	{
 		toDlg->ksc->writeGlobalSettings ();
-		autosaveinterval=60000*(toDlg->asIntervalInput->text().toLong());
+		autosaveinterval=60000*(toDlg->asIntervalInput->value());
 		setAutosaveInterval(autosaveinterval);
 		autosave=toDlg->checkAutosave->isChecked();
 		enableAutosave(autosave);

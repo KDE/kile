@@ -34,19 +34,10 @@ class QRadioButton;
 class QFrame;
 class KSpellConfig;
 class KColorButton;
-
+class KIntNumInput;
 
 //typedef  QColor ListColors[8];
 
-class intervalValidator : public QIntValidator
-{
-	Q_OBJECT
-public:
-	intervalValidator(QObject * parent, int bottom, int top, const char * name = 0);
-	~intervalValidator();
-
-	void fixup ( QString & input ) const;
-};
 
 class toolsoptionsdialog : public KDialogBase
 {
@@ -71,7 +62,7 @@ public:
     QRadioButton *checkLatex, *checkPdflatex,
         *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
 
-    QLineEdit *asIntervalInput;
+    KIntNumInput *asIntervalInput;
 
     QLineEdit *templAuthor, *templDocClassOpt, *templEncoding;
 

@@ -76,13 +76,13 @@ namespace KileDialog
 
 	void Config::setupTools()
 	{
-		toolsPage = new QFrame(0, "Tools");
+		toolsPage = new QFrame(0, "build");
 
 		QVBoxLayout *toolsLayout = new QVBoxLayout(toolsPage, 5);
 		m_toolConfig = new KileWidget::ToolConfig(m_toolMngr, toolsPage);
 		toolsLayout->addWidget(m_toolConfig);
 
-		addPage(toolsPage, i18n("Tools"), "gear");
+		addPage(toolsPage, i18n("Build"), "gear");
 	}
 
 	//////////////////// Spelling Configuration ////////////////////

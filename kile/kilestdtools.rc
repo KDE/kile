@@ -152,6 +152,11 @@ class=Sequence
 type=Sequence
 sequence=LaTeX,ForwardDVI
 
+[Tool/QuickBuild/LaTeX+DVItoPS+PStoPDF+ViewPDF]
+class=Sequence
+sequence=LaTeX,DVItoPS,PStoPDF,ViewPDF
+type=Sequence
+
 [Tool/TeX/Default]
 class=Compile
 command=tex

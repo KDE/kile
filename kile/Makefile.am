@@ -5,7 +5,6 @@ bin_PROGRAMS = kile
 
 kile_SOURCES = includegraphicsdialog.cpp newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp kileapplication.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp kileedit.cpp cleandialog.cpp kilehelp.cpp configstructure.cpp configenvironment.cpp kileappIface.skel convert.cpp helpconfigwidget.ui kiletoolcapability.cpp kiledocmanager.cpp kileviewmanager.cpp kileeventfilter.cpp kileautosavejob.cpp latexconfigwidget.ui kileconfig.kcfgc generalconfigwidget.ui kxtrcconverter.cpp
 
-#kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 kile_LDADD   = -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 
 SUBDIRS = icons pics symbols templates syntax complete help encodings test

@@ -130,7 +130,7 @@ Tester::Tester(QObject *parent, const char *name) : QObject(parent, name), m_pro
 
 	ConfigTest::addPrettyName("srcpkg", i18n("Source Specials Package"));
 	ConfigTest::addSuccessMessage("srcpkg", i18n("Package is functional, include '\\usepackage[active]{srcltx}' in your preamble to enable the inverse and forward search capabilities."));
-	ConfigTest::addFailureMessage("srcpkg", i18n("The srcltx.sty package is not in your TeX input-path. Download this file from http://ctan.org and save it in $HOME/.TeX."));
+	ConfigTest::addFailureMessage("srcpkg", i18n("The srcltx.sty package is not in your TeX input-path. Download all files containing \"srcltx\" from \"http://www.ctan.org\". Use the command \"tex srcltx.ins\" in the command line to generate the files \"srcltx.sty\" and \"srctex.sty\" and save them in $HOME/.TeX."));
 }
 
 

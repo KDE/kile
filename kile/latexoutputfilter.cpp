@@ -96,7 +96,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//TeX is opening a file
 			if ( strLine.startsWith(":<+ ") )
 			{
-				kdDebug() << "filename detected" << endl;
+// 				kdDebug() << "filename detected" << endl;
 				//grab the filename, it might be a partial name (i.e. continued on the next line)
 				strPartialFileName = strLine.mid(4).stripWhiteSpace();
 
@@ -106,7 +106,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//TeX closed a file
 			else if ( strLine.startsWith(":<-") )
 			{
-				kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
+// 				kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
 				m_stackFile.pop();
 				dwCookie = Start;
 			}
@@ -123,7 +123,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			{
 				//push the filename on the stack and mark it as 'reliable'
 				m_stackFile.push(LOFStackItem(strPartialFileName, true));
-				kdDebug() << "\tpushed : " << strPartialFileName << endl;
+// 				kdDebug() << "\tpushed : " << strPartialFileName << endl;
 				strPartialFileName = QString::null;
 				dwCookie = Start;
 			}
@@ -131,14 +131,14 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//Don't push it on the stack, instead try to detect the error.
 			else if ( strLine.startsWith("!") )
 			{
-				kdDebug() << "oops!" << endl;
+// 				kdDebug() << "oops!" << endl;
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				detectError(strLine, dwCookie);
 			}
 			else if ( strLine.startsWith("No file") )
 			{
-				kdDebug() << "No file: " << strLine << endl;
+// 				kdDebug() << "No file: " << strLine << endl;
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				detectWarning(strLine, dwCookie);
@@ -146,7 +146,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//Partial filename still isn't complete.
 			else
 			{
-				kdDebug() << "\tpartial file name, adding" << endl;
+// 				kdDebug() << "\tpartial file name, adding" << endl;
 				strPartialFileName = strPartialFileName + strLine.stripWhiteSpace();
 			}
 		break;
@@ -166,7 +166,6 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
     // handle special case (bug fix for 101810)
     if ( expectFileName && strLine[0] == ')' )
     {
-        kdDebug() << "SPECIAL CASE" << endl;
         m_stackFile.push(LOFStackItem(strPartialFileName));
         expectFileName = false;
         dwCookie = Start;
@@ -192,14 +191,14 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 				fileExists(strPartialFileName) )
 			{
 				m_stackFile.push(LOFStackItem(strPartialFileName));
-				kdDebug() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+				// kdDebug() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
 				expectFileName = false;
 				dwCookie = Start;
 			}
 			//Guess the filename is continued on the next line.
 			else if ( i+1 == strLine.length() )
 			{
-				kdDebug() << "\tFilename spans more than one line." << endl;
+				// kdDebug() << "\tFilename spans more than one line." << endl;
 				dwCookie = FileNameHeuristic;
 			}
 			//bail out
@@ -224,7 +223,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 	    //TeX is closing a file
 		else if ( strLine[i] == ')' )
 		{
-			kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
+			// kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
 			//If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
 			//a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
 			//from the stack too soon.

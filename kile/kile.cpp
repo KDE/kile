@@ -449,7 +449,14 @@ void Kile::setupUserToolActions()
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 {
 	if ( url.path() != "untitled" && isOpen(url))
-		return static_cast<Kate::View*>(docFor(url)->views().first());
+	{
+		Kate::View *view = static_cast<Kate::View*>(docFor(url)->views().first());
+		//bring up the view to the already opened doc
+		tabWidget->showPage(view);
+
+		//return this view
+		return view;
+	}
 
 	kdDebug() << QString("load(%1,%2,%3)").arg(url.path()).arg(encoding).arg(create) << endl;
 
@@ -755,7 +762,6 @@ bool Kile::isOpen(const KURL & url)
 		return false;
 	else
 	{
-		tabWidget->showPage(doc->views().first());
 		return true;
 	}
 }
@@ -883,6 +889,7 @@ void Kile::projectSave()
 		//update the open-state of the items
 		for (uint i=0; i < list->count(); i++)
 		{
+			kdDebug() << "Kile::projectSave() setOpenState(" << list->at(i)->url().path() << ")" << endl;
 			list->at(i)->setOpenState(isOpen(list->at(i)->url()));
 		}
 
@@ -1033,10 +1040,9 @@ bool Kile::queryClose()
 
 void Kile::fileSelected(const KFileItem *file)
 {
-    	QString encoding =KileFS->comboEncoding->lineEdit()->text();
+    QString encoding =KileFS->comboEncoding->lineEdit()->text();
 
-	if (!isOpen(file->url()) )
-		load(file->url(), encoding);
+	load(file->url(), encoding);
 }
 
 void Kile::showDocInfo(Kate::Document *doc)

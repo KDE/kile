@@ -3362,7 +3362,7 @@ void Kile::UpdateStructure(bool parse /* = false */)
 			docinfo->updateStruct(m_defaultLevel);
 			item = (QListViewItem*)docinfo->structViewItem();
 		}
-		outstruct->insertItem(item);
+		if (item) outstruct->insertItem(item);
 	}
 
 	Kate::View *view = currentView();

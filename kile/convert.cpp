@@ -293,22 +293,41 @@ QString ConvertASCIIToEnc::nextSequence(uint &i)
 
 bool ConvertASCIIToEnc::isModifier(const QString & seq)
 {
-	static QRegExp reModifier("\\\\([a-zA-Z]|\\\"|\\'|\\^|\\`|\\~)");
+	static QRegExp reModifier("\\\\([cHkruv]|\"|\'|\\^|`|~|=|\\.)");
 	return reModifier.exactMatch(seq);
 }
 
 QString ConvertASCIIToEnc::getSequence(uint &i)
 {
 	QString seq = nextSequence(i);
+	static QRegExp reBraces("\\{([a-zA-Z]?)\\}");
 
 	if ( isModifier(seq) )
 	{
+		kdDebug() << "\tisModifier true : " << seq << endl;
 		if ( seq[seq.length() - 1].isLetter() ) seq += " ";
+
 		while ( m_io->currentLine()[i].isSpace() ) i++;
+
+		if ( m_io->currentLine().mid(i,2) == "{}" ) i = i + 2;
+
 		if ( m_io->currentLine()[i] == '\\' )
 			seq += nextSequence(i);
 		else
-			seq += (QString)m_io->currentLine()[i++];
+		{
+			if ( reBraces.exactMatch(m_io->currentLine().mid(i,3)) )
+			{
+				kdDebug() << "\tbraces detected" << endl;
+				i = i + 3;
+				seq += reBraces.cap(1);
+			}
+				seq += (QString)m_io->currentLine()[i++];
+		}
+	}
+	else if ( m_map->canEncode(seq) )
+	{
+		if ( m_io->currentLine().mid(i,2) == "{}" ) i = i + 2;
+		if ( m_io->currentLine()[i].isSpace() ) i++;
 	}
 
 	return seq;
@@ -319,10 +338,11 @@ QString ConvertASCIIToEnc::mapNext(uint &i)
 	if ( m_io->currentLine()[i] == '\\' )
 	{ 
 		QString seq = getSequence(i);
-		//kdDebug() << "'\tsequence: " << seq << endl;
+		kdDebug() << "'\tsequence: " << seq << endl;
 		if ( m_map->canEncode(seq) )
 		{
-			if ( m_io->currentLine().mid(i, 2) == "{}" ) i = i + 2;
+			kdDebug() << "\tcan encode this" << endl;
+			//if ( m_io->currentLine().mid(i, 2) == "{}" ) i = i + 2;
 			return m_map->toEncoding(seq);
 		}
 		else

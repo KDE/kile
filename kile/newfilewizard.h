@@ -33,9 +33,9 @@ public:
 	TemplateItem( QIconView * parent, const TemplateInfo & info);
 	~TemplateItem();
 
-	QString name() { return m_info.name; }
-	QString path() { return m_info.path; }
-	QString icon() { return m_info.icon; }
+	QString name() const { return m_info.name; }
+	QString path() const { return m_info.path; }
+	QString icon() const { return m_info.icon; }
 
 private:
 	TemplateInfo m_info;

@@ -47,8 +47,8 @@ public:
     usermenudialog( const QValueList<userItem> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
     ~usermenudialog();
 
-    int index() { return previous_index; }
-    int result();
+    int index() const { return previous_index; }
+    int result() const;
     
     QStringList Name,Tag;
 

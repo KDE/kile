@@ -42,8 +42,8 @@ public:
 	usertooldialog(const QValueList<userItem> &list, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~usertooldialog();
 
-	int index() { return previous_index; }
-	int result();
+	int index() const { return previous_index; }
+	int result() const ;
 	enum Result { Edit, Add, Remove};
 	
       QStringList Name,Tool;

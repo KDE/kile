@@ -41,6 +41,7 @@
 
 #include "linenumberwidget.h"
 #include "paragdata.h"
+#include "latexeditor.h"
 
 #include <private/qrichtext_p.h>
 
@@ -98,6 +99,6 @@ void LineNumberWidget::resizeEvent( QResizeEvent *e )
 void LineNumberWidget::setFont(QFont efont)
 {
 numfont=efont;
-}  
+}
 
 #include "linenumberwidget.moc"

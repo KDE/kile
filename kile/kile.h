@@ -112,8 +112,8 @@ class Kile : public KParts::MainWindow, public KileAppDCOPIface
 public:
     Kile( QWidget *parent = 0, const char *name = 0 );
     ~Kile();
-    QString getName();
-    QString getShortName();
+    QString getName() const;
+    QString getShortName() const;
     QFont EditorFont;
 
 public slots:
@@ -126,7 +126,7 @@ private:
     LatexEditor* currentEditor() const;
     QFileInfo * currentFileInfo() const;
     void doConnections( LatexEditor *e );
-    bool FileAlreadyOpen(QString f);
+    bool FileAlreadyOpen(const QString &f);
     void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
     void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
 

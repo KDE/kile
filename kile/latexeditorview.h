@@ -21,8 +21,9 @@
 #include <qwidget.h>
 #include <qfont.h>
 #include <qcolor.h>
-#include "latexeditor.h"
-#include "linenumberwidget.h"
+
+class LineNumberWidget;
+class LatexEditor;
 
 typedef  QColor ListColors[8];
 class LatexEditorView : public QWidget  {

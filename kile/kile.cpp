@@ -740,7 +740,7 @@ void Kile::fileOpen(const KURL& url)
 }
 
 
-bool Kile::FileAlreadyOpen(QString f)
+bool Kile::FileAlreadyOpen(const QString &f)
 {
 bool rep=false;
 FilesMap::Iterator it;
@@ -1244,7 +1244,7 @@ if (m) tabWidget->changeTab( currentEditorView(),UserIcon("modified"), QFileInfo
 else tabWidget->changeTab( currentEditorView(),UserIcon("empty"), QFileInfo( getName() ).fileName() );
 }
 
-QString Kile::getName()
+QString Kile::getName() const
 {
 QString title;
 //if ( !currentEditorView() )	{title="";}
@@ -1264,7 +1264,7 @@ else
 return title;
 }
 
-QString Kile::getShortName()
+QString Kile::getShortName() const
 {
 QString title;
 //if ( !currentEditorView() )	{title="";}

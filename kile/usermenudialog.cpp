@@ -119,7 +119,7 @@ Name[previous_index]=itemedit->text();
 accept();
 }
 
-int usermenudialog::result()
+int usermenudialog::result() const
 {
 	if (radioEdit->isChecked()) return Edit;
 	if (radioAdd->isChecked()) return Add;

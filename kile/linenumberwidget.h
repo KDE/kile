@@ -45,8 +45,8 @@
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qfont.h>
-#include "latexeditor.h"
 
+class LatexEditor;
 
 class LineNumberWidget: public QWidget
 {

@@ -17,6 +17,8 @@
 
 #include "latexeditorview.h"
 #include <qlayout.h>
+#include "latexeditor.h"
+#include "linenumberwidget.h"
 
 LatexEditorView::LatexEditorView(QWidget *parent, const char *name,QFont & efont,bool parmatch, bool line, ListColors col ) : QWidget(parent,name)
 {

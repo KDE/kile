@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Jun 3 2001
     copyright            : (C) 2001 by Brachet Pascal
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,6 +18,10 @@
 #include "l2hdialog.h"
 #include <klocale.h>
 #include <qlayout.h>
+#include <qlineedit.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
+#include <qdialog.h>
 
 l2hdialog::l2hdialog(QWidget *parent, const char *name, const QString &caption)
     : QDialog(parent,name,true)

@@ -236,7 +236,7 @@ KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) co
 
 KileProjectItemList* Manager::itemsFor(Info *docinfo) const
 {
-	if ( docinfo == 0 ) return;
+	if ( docinfo == 0 ) return 0L;
 
 	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
 	KileProjectItemList *list = new KileProjectItemList();

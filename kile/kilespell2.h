@@ -19,7 +19,7 @@
 
 #include <kdeversion.h>
 
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 
 #include <qobject.h>
 #include <qwidget.h>

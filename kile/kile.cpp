@@ -70,7 +70,7 @@
 #include "kileerrorhandler.h"
 #include "configcheckerdlg.h"
 #include "kilespell.h"
-#include "kilespell2.h"
+//#include "kilespell2.h"
 #include "kilesidebar.h"
 #include "symbolview.h"
 

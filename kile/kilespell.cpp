@@ -16,8 +16,6 @@
  ***************************************************************************/
 #include "kilespell.h"
 
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-
 #include <kspell.h>
 #include <kconfig.h>
 #include <kate/document.h>
@@ -162,5 +160,3 @@ void KileSpell::corrected (const QString & originalword, const QString & newword
 }
 
 #include "kilespell.moc"
-
-#endif

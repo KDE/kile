@@ -17,9 +17,6 @@
 #ifndef KILESPELL_H
 #define KILESPELL_H
 
-#include <kdeversion.h>
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-
 #include <qobject.h>
 #include <qwidget.h>
 #include <kspell.h>
@@ -61,5 +58,4 @@ private:
 
 #endif
 
-#endif
 

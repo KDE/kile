@@ -653,6 +653,10 @@ Kate::View * Kile::createView(Kate::Document *doc)
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), this, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
 
+	// install a working kate part popup dialog thingy
+	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))
+		static_cast<Kate::View*>(view->qt_cast("Kate::View"))->installPopup((QPopupMenu*)(factory()->container("ktexteditor_popup", this)) );
+
 	//activate the newly created view
 	activateView(view, false, false);
 
@@ -846,8 +850,8 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 	guiFactory()->addClient(view);
 	view->setActive( true );
 
-	KParts::GUIActivateEvent ev( true );
-   	QApplication::sendEvent( view, &ev );
+	//KParts::GUIActivateEvent ev( true );
+   	//QApplication::sendEvent( view, &ev );
 
 	if( checkModified )
 		if (view) view->getDoc()->isModOnHD();

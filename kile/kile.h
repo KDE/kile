@@ -374,6 +374,7 @@ private:
 
 private:
 	KileHelp::Help *m_help;
+
 	KileSpell		*m_spell;
 };
 

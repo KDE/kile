@@ -14,15 +14,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KILESPELL_H
-#define KILESPELL_H
+#ifndef KILESPELL2_H
+#define KILESPELL2_H
 
 #include <kdeversion.h>
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
+
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
 
 #include <qobject.h>
 #include <qwidget.h>
-#include <kspell.h>
+
+#include <kspell2/broker.h>
+namespace KSpell2 { class Dialog; class BackgroundChecker; }
 
 #include "kileinfo.h"
 
@@ -42,21 +45,18 @@ public slots:
 	void spellcheck();
 
 private slots:
-	void spell_started ( KSpell *);
-	void spell_done(const QString&);
-	void spell_finished();
-	void corrected (const QString & originalword, const QString & newword, unsigned int pos);
-	void misspelling (const QString & originalword, const QStringList & suggestions,unsigned int pos);
+	void slotDone (const QString&);
+	void slotCorrected (const QString & originalword, int start, const QString & newword);
+	void slotMisspelling (const QString & originalword, int pos);
 
 private:
 	KileInfo					*m_ki;
 	QWidget					*m_parent;
 	int						m_spellCorrected;
-	KSpell 					*kspell;
-	int 						ks_corrected;
+	KSpell2::Broker::Ptr			m_broker;
+	KSpell2::Dialog			*m_dialog;
+	KSpell2::BackgroundChecker	*m_checker;
 	int 						par_start, par_end, index_start, index_end;
-	QString 					spell_text;
-
 };
 
 #endif

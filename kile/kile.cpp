@@ -109,7 +109,9 @@
 #include "kileautosavejob.h"
 #include "kileconfig.h"
 #include "kxtrcconverter.h"
+
 #include "kilespell.h"
+#include "kilespell2.h"
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),

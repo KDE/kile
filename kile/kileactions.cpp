@@ -218,8 +218,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	setMainWidget(page);
 	QGridLayout *gbox = new QGridLayout( page, 3, 4,5,5,"");
 
-	gbox->addMultiCellWidget(new QLabel(hint, page),0,0,0,3);
-
+	QLabel *lb = new QLabel(hint, page);
+	gbox->addMultiCellWidget(lb,0,0,0,3);
 
 	m_tag=QString::null;
 	QWidget *focus;
@@ -263,10 +263,13 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setText(const QString&)));
 		gbox->addWidget(input,1,0);
-		
+
 		input->setText(ki->getSelection());
 		m_usedSelection=true;
 	}
+
+	if (focus)
+		lb->setBuddy(focus);
 
 	if ( options & KileAction::ShowBrowseButton)
 	{

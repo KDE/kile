@@ -212,7 +212,7 @@ private slots:
 	void invokeHelp();
 
 private:
-	bool 			showoutputview, showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, switchtostructure;
+	bool 			showoutputview, showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar;
 
 private slots:
 	void ResetPart();

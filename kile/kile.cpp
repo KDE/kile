@@ -521,8 +521,6 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		tabWidget->showPage(view);
 
 		UpdateStructure(true);
-		if (switchtostructure)
-			ShowStructure();
 
 		//return this view
 		return view;
@@ -626,9 +624,6 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
-
-	if (switchtostructure)
-		ShowStructure();
 
 	return view;
 }
@@ -4164,7 +4159,6 @@ void Kile::ReadRecentFileSettings()
 void Kile::readConfig()
 {
 	config->setGroup( "Structure" );
-	switchtostructure = config->readBoolEntry("SwitchToStructure", true);
 	m_defaultLevel = config->readNumEntry("DefaultLevel", 1);
 
 	config->setGroup( "Files" );
@@ -4290,7 +4284,6 @@ for (uint i=0; i<m_listUserTools.size(); i++)
 }
 
 config->setGroup( "Structure" );
-config->writeEntry("SwitchToStructure", switchtostructure );
 config->writeEntry("Structure Level 1",struct_level1);
 config->writeEntry("Structure Level 2",struct_level2);
 config->writeEntry("Structure Level 3",struct_level3);

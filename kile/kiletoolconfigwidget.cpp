@@ -226,12 +226,14 @@ namespace KileWidget
 		if ( m_configWidget->m_stackBasic->widget(basicPage) )
 		{
 			QSize szHint = m_configWidget->m_stackBasic->widget(basicPage)->sizeHint();
-			m_configWidget->m_stackBasic->setMaximumHeight(szHint.height());
+            if (szHint.height() > 0)
+			     m_configWidget->m_stackBasic->setMaximumHeight(szHint.height());
 		}
 		if ( m_configWidget->m_stackExtra->widget(extraPage) )
 		{
 			QSize szHint = m_configWidget->m_stackExtra->widget(extraPage)->sizeHint();
-			m_configWidget->m_stackExtra->setMaximumHeight(szHint.height());
+            if (szHint.height() > 0)
+			     m_configWidget->m_stackExtra->setMaximumHeight(szHint.height());
 		}
 		m_configWidget->layout()->invalidate();
 	}

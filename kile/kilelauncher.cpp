@@ -32,6 +32,7 @@
 #include <kstandarddirs.h>
 #include <klibloader.h>
 #include <kparts/part.h>
+#include <kparts/factory.h>
 #include <kparts/partmanager.h>
 
  namespace KileTool
@@ -324,7 +325,14 @@
 		QString msg =  shrt+ " (KHTML)";
 		emit(message(Info, msg));
 		emit(output(out));
-		
+
+		KLibFactory *factory = KLibLoader::self()->factory("libkhtmlpart");
+		if (factory == 0)
+		{
+			emit(message(Error, i18n("Couldn't find the %1 library!").arg(m_libName)));
+			return false;
+		}
+
 		QWidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 

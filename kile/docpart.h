@@ -19,8 +19,6 @@
 #define DOCPART_H
 
 #include <khtml_part.h>
-#include <kparts/part.h>
-#include <kparts/browserextension.h>
 #include <qstringlist.h>
 
 /**
@@ -45,7 +43,7 @@ signals:
 	void updateStatus( bool back, bool forward );
 
 protected:
-  virtual void urlSelected( const QString &url, int button=0, int state=0,const QString &_target= QString::null, KParts::URLArgs args = KParts::URLArgs());
+	virtual void urlSelected( const QString &url, int button=0, int state=0,const QString &_target= QString::null, KParts::URLArgs args = KParts::URLArgs());
 
 private:
 	QStringList history;

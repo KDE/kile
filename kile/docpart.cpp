@@ -2,8 +2,8 @@
                           docpart.cpp  -  description
                              -------------------
     begin                : Sun Jul 29 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
+    copyright            : (C) 2001 by Brachet Pascal, (C) 2004 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,25 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docpart.h"
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kglobal.h>
 #include <kdebug.h>
 #include <kstandarddirs.h>
-#include <kparts/part.h>
-#include <kparts/browserextension.h>
+#include <kmimemagic.h>
+#include <ktrader.h>
+#include <krun.h>
 #include <khtml_settings.h>
+
+#include "docpart.h"
 
 docpart::docpart(QWidget *parent, const char *name ) : KHTMLPart(parent,name)
 {
-   hpos = 0;
-   KConfig konqConfig("konquerorrc");
-   konqConfig.setGroup("HTML Settings");
-   const KHTMLSettings * set = settings();
-   ( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
+	hpos = 0;
+	KConfig konqConfig("konquerorrc");
+	konqConfig.setGroup("HTML Settings");
+	const KHTMLSettings * set = settings();
+	( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
 	QString rc = KGlobal::dirs()->findResource("appdata", "docpartui.rc");
-	kdDebug() << "using XML file " << rc << endl;
 	setXMLFile(rc);
 	(void) KStdAction::back(this, SLOT(back()), actionCollection(),"Back" );
 	(void) KStdAction::forward(this, SLOT(forward()), actionCollection(),"Forward" );
@@ -42,13 +43,33 @@ docpart::docpart(QWidget *parent, const char *name ) : KHTMLPart(parent,name)
 }
 docpart::~docpart(){
 }
-void docpart::urlSelected( const QString &url, int button, int state,const QString &_target, KParts::URLArgs args )
+
+void docpart::urlSelected(const QString &url, int button, int state,const QString & target, KParts::URLArgs args)
 {
-  KHTMLPart::urlSelected (url, button, state,_target,args);
-  KURL cURL = completeURL( url );
-  openURL( cURL ) ;
-  addToHistory( cURL.url() );
+	KURL cURL = completeURL( url );
+
+	KMimeMagicResult *mm = KMimeMagic::self()->findFileType(cURL.path());
+
+	KTrader::OfferList offers = KTrader::self()->query(mm->mimeType(), "Library == 'libkhtmlpart'");
+
+	//load this URL in the embedded viewer if KHTML can handle it, or when mimetype detection failed
+	if ( !mm->isValid() || offers.count() > 0 )
+	{
+		KHTMLPart::urlSelected(url, button, state, target, args);
+		openURL(cURL) ;
+		addToHistory(cURL.url());
+	}
+	//KHTML can't handle it, look for an appropriate application
+	else
+	{
+		KTrader::OfferList offers = KTrader::self()->query(mm->mimeType(), "Type == 'Application'");
+		KService::Ptr ptr = offers.first();
+		KURL::List lst;
+		lst.append(cURL);
+		KRun::run(*ptr, lst);
+	}
 }
+
 void docpart::home()
 {
 if ( !history.isEmpty() ) openURL( KURL(history.first()) );

@@ -17,8 +17,15 @@
 
 #include <qlayout.h>
 
+#include <kdeversion.h>
 #include <klocale.h>
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
+#include <kspell2/configwidget.h>
+#include <kspell2/broker.h>
+using namespace KSpell2;
+#else
 #include <ksconfig.h>
+#endif
 
 #include "kiletoolmanager.h"
 #include "kiletoolconfigwidget.h"
@@ -67,7 +74,7 @@ namespace KileDialog
 
 	//////////////////// Tools Configuration ////////////////////
 
-	void Config::setupTools() 
+	void Config::setupTools()
 	{
 		toolsPage = new QFrame(0, "Tools");
 
@@ -80,7 +87,7 @@ namespace KileDialog
 
 	//////////////////// Spelling Configuration ////////////////////
 
-	void Config::setupSpelling() 
+	void Config::setupSpelling()
 	{
 		spellingPage = new QFrame(0, "Spelling");
 
@@ -88,14 +95,19 @@ namespace KileDialog
 		gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
 		QGroupBox* GroupBox3= new QGroupBox(2,Qt::Horizontal,i18n("Spelling"),spellingPage, "ButtonGroup" );
-
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
+		m_spellWidget = new ConfigWidget( Broker::openBroker( KSharedConfig::openConfig( "kilerc" ) ),
+																			GroupBox3 );
+#else
 		ksc = new KSpellConfig(GroupBox3, "spell",0, false );
+#endif
+
 
 		gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);
 
 		addPage(spellingPage, i18n("Spelling"), "spellcheck");
 	}
-	
+
 	//////////////////// LaTeX specific editing options ////////////////////
 
 	void Config::setupLatex()
@@ -105,10 +117,10 @@ namespace KileDialog
 
 		addPage(page, i18n("LaTeX"), "tex");
 	}
-	
-	
+
+
 	//////////////////// Complete configuration (dani) ////////////////////
-	
+
 	void Config::setupCodeCompletion()
 	{
 		QFrame *page = new QFrame(this, "codecompframe");
@@ -125,7 +137,7 @@ namespace KileDialog
 	{
 		QFrame *page = new QFrame(this, "helpframe");
 		helpPage = new KileWidgetHelpConfig(page);
-		
+
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(helpPage);
 		vbox->addStretch();
@@ -134,7 +146,7 @@ namespace KileDialog
 	}
 
 	//////////////////// write new configuration ////////////////////
-	
+
 	void Config::slotOk()
 	{
 		writeToolsConfig();
@@ -146,21 +158,25 @@ namespace KileDialog
 		emit okClicked(); // Otherwise, the KConfigXT machine doesn't start...
 		accept();
 	}
-	
+
 	void Config::slotCancel()
 	{
 		m_config->rollback();
 		accept();
 	}
-	
+
 	void Config::writeToolsConfig()
 	{
 		m_toolConfig->writeConfig();
 	}
-	
+
 	void Config::writeSpellingConfig()
 	{
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
+		m_spellWidget->save();
+#else
 		ksc->writeGlobalSettings();
+#endif
 	}
 }
 

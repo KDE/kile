@@ -267,7 +267,7 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 	
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		view->getDoc()->insertText( row,col,"\\end{"+name+"}\n" );
+		view->getDoc()->insertText( row,col,"\\end{"+name+"}" );
 		view->setCursorPositionReal(row+1,0);
 	}
 }

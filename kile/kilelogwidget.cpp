@@ -142,7 +142,7 @@ namespace KileWidget
 			break;
 			case KileTool::ProblemBadBox :
 				if ( KileConfig::hideProblemBadBox() ) return;
-				ot = "<font color='grey'>";
+				ot = "<font color='#666666'>";
 			break;
 			default : ot = "<font color='black'>"; break;
 		}

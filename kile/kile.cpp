@@ -1719,8 +1719,7 @@ bool Kile::fileCloseAll()
 	while( ! m_viewList.isEmpty() )
     {
 		view = m_viewList.first();
-
-		fileClose(view->getDoc());
+		if (!fileClose(view->getDoc())) return false;
     }
 
 	return true;

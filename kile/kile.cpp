@@ -436,7 +436,7 @@ void Kile::setupTools()
 	kdDebug() << "==Kile::setupTools()===================" << endl;
 	QStringList tools = KileTool::toolList(config);
 	QString toolMenu;
-	int toolPos;
+	int toolPos, noSeps = 0;
 	bool ok;
 	QPtrList<KAction> *pl;
 
@@ -473,7 +473,12 @@ void Kile::setupTools()
 		if (ok)
 		{
 			kdDebug() << "\tplugging " << tools[i] << endl;
-			act->plug(m_toolsToolBar, toolPos);
+			act->plug(m_toolsToolBar, toolPos + noSeps);
+			if ( config->readEntry("toolbarSep", "false") == "true" )
+			{
+				int p = m_toolsToolBar->insertLineSeparator(toolPos+  ++noSeps);
+				kdDebug() << "\tinsert separator at " << p << endl;
+			}
 		}
 
 		pl->append(act);

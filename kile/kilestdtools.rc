@@ -8,6 +8,7 @@ type=Process
 icon=
 shortcut=
 toolbarPos=none
+toolbarSep=false
 menu=none
 
 [Tool/BibTeX]
@@ -20,6 +21,7 @@ type=Process
 icon=bibtex
 shortcut=Alt+-
 toolbarPos=none
+toolbarSep=false
 menu=Compile
 
 [Tool/DVItoPDF]
@@ -32,6 +34,7 @@ type=Process
 icon=dvipdf
 shortcut=Alt+9
 toolbarPos=7
+toolbarSep=false
 menu=Convert
 
 [Tool/DVItoPS]
@@ -44,6 +47,7 @@ type=Process
 icon=dvips
 shortcut=ALt+4
 toolbarPos=3
+toolbarSep=false
 menu=Convert
 
 [Tool/LaTeX]
@@ -56,6 +60,7 @@ type=Process
 icon=latex
 shortcut=Alt+2
 toolbarPos=1
+toolbarSep=false
 menu=Compile
 
 [Tool/LaTeX2HTML]
@@ -68,6 +73,7 @@ type=Process
 icon=l2h
 shortcut=
 toolbarPos=9
+toolbarSep=false
 menu=Compile
 
 [Tool/MakeIndex]
@@ -80,6 +86,7 @@ type=Process
 icon=latex
 shortcut=Alt+=
 toolbarPos=none
+toolbarSep=false
 menu=Compile
 
 [Tool/MetaPost]
@@ -92,6 +99,7 @@ type=Process
 icon=latex
 shortcut=
 toolbarPos=none
+toolbarSep=false
 menu=Compile
 
 [Tool/PDFLaTeX]
@@ -104,6 +112,7 @@ type=Process
 icon=latex
 shortcut=Alt+6
 toolbarPos=5
+toolbarSep=false
 menu=Compile
 
 [Tool/PStoPDF]
@@ -116,6 +125,7 @@ type=Process
 icon=ps2pdf
 shortcut=Alt+8
 toolbarPos=8
+toolbarSep=true
 menu=Convert
 
 [Tool/QuickBuild]
@@ -124,6 +134,7 @@ sequence=LaTeX,ViewDVI
 icon=quick
 shortcut=Alt+1
 toolbarPos=0
+toolbarSep=true
 menu=Quick
 
 [Tool/TeX]
@@ -136,6 +147,7 @@ type=Process
 icon=latex
 shortcut=
 toolbarPos=none
+toolbarSep=false
 menu=Compile
 
 [Tool/ViewBib]
@@ -148,6 +160,7 @@ to=bib
 icon=bibtex
 shortcut=
 toolbarPos=none
+toolbarSep=false
 menu=View
 
 [Tool/ViewHTML]
@@ -157,6 +170,7 @@ state=HTMLpreview
 icon=viewhtml
 shortcut=
 toolbarPos=10
+toolbarSep=true
 menu=View
 
 [Tool/ViewDVI]
@@ -171,6 +185,7 @@ libOptions=dvi
 icon=viewdvi
 shortcut=Alt+3
 toolbarPos=2
+toolbarSep=false
 menu=View
 
 [Tool/ForwardDVI]
@@ -185,6 +200,7 @@ libOptions=dvi
 icon=dvisearch
 shortcut=
 toolbarPos=11
+toolbarSep=false
 menu=View
 
 [Tool/ViewPDF]
@@ -198,6 +214,7 @@ type=Part
 icon=viewpdf
 shortcut=Alt+7
 toolbarPos=6
+toolbarSep=true
 menu=View
 
 [Tool/ViewPS]
@@ -211,6 +228,7 @@ type=Part
 icon=viewps
 shortcut=Alt+5
 toolbarPos=4
+toolbarSep=true
 menu=View
 
 [Tools]

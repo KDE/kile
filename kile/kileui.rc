@@ -285,8 +285,8 @@
 	<Action name="PreviousBadBox"/>
 	<Action name="NextBadBox"/>
 </ToolBar>
-<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
-</ToolBar>
+<!--<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
+</ToolBar>-->
 <ToolBar name="editToolBar" fullWidth="false" index="5"><text>Edit</text>
 	<Action name="structure_list"/>
 	<Separator lineSeparator="true"/>

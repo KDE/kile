@@ -34,7 +34,7 @@
 
 QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
-QString whatsthisArchive = i18n("Enter the command to create an archive of all the project files here. %S will be replaced with the project name, %F with a list of all the project files (items are separated by a space). This command will be executed from the base directory of the project (i.e. the directory where the .kilepr file resides).");
+QString whatsthisArchive = i18n("Enter the command to create an archive of all the project files here. %S will be replaced with the project name, %F with a list of all the project files (items are separated by a space). This command will be executed from the base folder of the project (i.e. the folder where the .kilepr file resides).");
 QString whatsthisExt = i18n("Insert a list (separated with spaces) of the extensions of the files in your project that are not TeX source files. These files will be put in a separate place in the Project View. You can also use a regular expression to detect which files are non-source files.");
 
 /*
@@ -68,7 +68,7 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	QWhatsThis::add(lb, whatsthisPath);
 	QWhatsThis::add(m_location, whatsthisPath);
 	lb->setBuddy(m_location);
-	KPushButton *pb = new KPushButton(i18n("Select a directory..."), plainPage());
+	KPushButton *pb = new KPushButton(i18n("Select a folder..."), plainPage());
 	connect(pb, SIGNAL(clicked()), this, SLOT(browseLocation()));
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_location, 1,1, 1,2);
@@ -225,7 +225,7 @@ void KileNewProjectDlg::slotOk()
 
 				if (!suc)
 				{
-					KMessageBox::error(this, i18n("Could not create the project directory, check your permissions."));
+					KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
 					return;
 				}
 			}
@@ -233,7 +233,7 @@ void KileNewProjectDlg::slotOk()
 
 		if (! dr.isWritable())
 		{
-			KMessageBox::error(this, i18n("The project directory is not writable, check your permissions."));
+			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
 			return;
 		}
 	}

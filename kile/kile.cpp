@@ -1309,6 +1309,7 @@ void Kile::projectOpen()
 void Kile::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 {
 	kdDebug() << "===Kile::storeProjectItem==============" << endl;
+	kdDebug() << "\titem==0 " << (item==0) << "\tdoc==0 " << (doc==0) << endl;
 	item->setEncoding( doc->encoding());
 	item->setHighlight( doc->hlModeName(doc->hlMode()));
 
@@ -1651,23 +1652,26 @@ bool Kile::fileClose(const KURL & url, bool delDocinfo /* = false */ )
 
 bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */)
 {
-	Kate::View *view = currentView();
+	//Kate::View *view = currentView();
 
 	if (doc == 0)
 		doc = activeDocument();
 
-	if (doc)
+	/*if (doc)
 		view = static_cast<Kate::View*>(doc->views().first());
 	else
+		return true;*/
+	
+	if (doc == 0)
 		return true;
 
 	//TODO: remove from docinfo map, remove from dirwatch
-	if (view)
+	if (doc)
 	{
 		kdDebug() << "==Kile::fileClose==========================" << endl;
-		kdDebug() << "\t" << view->getDoc()->docName() << endl;
+		kdDebug() << "\t" << doc->docName() << endl;
 
-		KURL url = view->getDoc()->url();
+		KURL url = doc->url();
 
 		KileDocumentInfo *docinfo= infoFor(doc);
 		KileProjectItem *item = itemFor(docinfo);
@@ -1677,11 +1681,11 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			storeProjectItem(item,doc);
 		}
 
-		if (view->getDoc()->closeURL() )
+		if (doc->closeURL() )
 		{
 			//KMessageBox::information(this,"closing "+url.path());
 			kdDebug() << "\tclosed" << endl;
-			removeView(view);
+			removeView((Kate::View*)doc->views().first());
 			//remove the decorations
 
 			if ( (item == 0) || delDocinfo)
@@ -1720,11 +1724,11 @@ bool Kile::fileCloseAll()
 
 	//assumes one view per doc here
 	while( ! m_viewList.isEmpty() )
-    {
+	 {
 		view = m_viewList.first();
 
-		fileClose(view->getDoc());
-    }
+		if (!fileClose(view->getDoc())) fileClose(view->getDoc());
+	}
 
 	return true;
 }
@@ -1737,6 +1741,9 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
+	m_listProjectsOpenOnStart.clear();
+	m_listDocsOpenOnStart.clear();
+	
 	for (uint i=0; i < m_projects.count(); i++)
 	{
 		m_listProjectsOpenOnStart.append(m_projects.at(i)->url().path());
@@ -2582,7 +2589,7 @@ void Kile::KdviForwardSearch()
 	logpresent=false;
 	//LogWidget->insertLine(i18n("You must be in 'Normal mode' to use this command."));
 	LogWidget->insertLine(i18n("If you do not have a TeX-binary which includes inverse search information natively :"));
-	LogWidget->insertLine(i18n("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides."));
+	LogWidget->insertLine(i18n("- copy the files srcltx.sty and srctex.sty to the folder where your TeX-file resides."));
 	LogWidget->insertLine(i18n("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file."));
 	LogWidget->insertLine(i18n("(see the kdvi handbook for more details)"));
 

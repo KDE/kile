@@ -3568,6 +3568,7 @@ if (!currentEditorView()->editor->hasSelectedText())
    }
 else
    {
+   currentEditorView()->editor->cut();
    InsertTag("\\textit{",8,0);
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);

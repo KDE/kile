@@ -37,7 +37,7 @@ LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool pa
     document()->setSelectionColor( ParenMatcher::Match,col[7]  );
     document()->setSelectionColor( ParenMatcher::Mismatch, Qt::magenta );
 
-    SyntaxLatex *sy=new SyntaxLatex(efont,col);
+    SyntaxLatex *sy=new SyntaxLatex(this,col,efont);
     setTextFormat(Qt::PlainText);
     parenMatcher = new ParenMatcher;
     connect( this, SIGNAL( cursorPositionChanged( QTextCursor * ) ),
@@ -52,11 +52,11 @@ LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool pa
     document()->setInvertSelectionText( ParenMatcher::Match, FALSE );
     document()->setInvertSelectionText( ParenMatcher::Mismatch, FALSE );
 
-    document()->setPreProcessor(sy);
     document()->setFormatter( new QTextFormatterBreakWords );
     setVScrollBarMode( QScrollView::AlwaysOn );
     document()->setUseFormatCollection( FALSE );
-    setTabStopWidth( sy->format(0)->width('x') * 4 );
+    QFontMetrics fmet(efont);
+    setTabStopWidth( fmet.width('x') * 4 );
 }
 LatexEditor::~LatexEditor(){
 delete parenMatcher;
@@ -207,9 +207,8 @@ void LatexEditor::changeSettings(QFont & new_font,bool new_parmatch,ListColors n
     document()->setSelectionColor( ParenMatcher::Match,new_col[7] );
     document()->setSelectionColor( ParenMatcher::Mismatch, Qt::magenta );
     viewport()->repaint( FALSE );   
-    SyntaxLatex *new_sy=new SyntaxLatex(new_font,new_col);
+    SyntaxLatex *new_sy=new SyntaxLatex(this,new_col,new_font);
     parenMatcher->setEnabled(new_parmatch);
-    document()->setPreProcessor(new_sy);
 }
 
 QString LatexEditor::getEncoding()

@@ -197,8 +197,10 @@ corresponding code.</para>
 </mediaobject>
 </screenshot>
 
-<para>The menu <guimenu>User</guimenu> is also at your disposal to
-insert your own source code extracts.</para>
+<para>
+In addition to the many standard LaTeX tags you can insert into your document by selecting them in the LaTeX and Math menus, you can also define
+your own tags. Tags you frequently use for example. The first twelve tags can be accessed via the keyboard shortcuts Shift+F1 to Shift+F12.
+</para>
 
 <note><para>If the code saved in the menu is
 <quote>%environment</quote> then &kile; will directly insert:</para>
@@ -220,6 +222,10 @@ insert your own source code extracts.</para>
 </caption>
 </mediaobject>
 </screenshot>
+
+<para>
+To edit the tags choose <guimenuitem>Edit User Tags</guimenuitem> from the <menuchoice><guimenu>User</guimenu><guimenu>User Tags</guimenu></menuchoice> menu. To add a tag, select the "Add" radiobutton and enter a short descriptive name for the tag and enter the tag itself. When you're done simply click on the Ok button. To change or remove a tag, select the tag from the drop-down menu and select the "Edit" or "Remove" radiobutton.
+</para>
 
 <para>For <quote>bib</quote> files, the
 <guimenu>Bibliography</guimenu> menu enables you to directly insert
@@ -257,6 +263,7 @@ possible via the
 menu item.</para>
 
 </sect2>
+
 </sect1>
 
 <sect1 id="latex-shell">
@@ -396,6 +403,15 @@ Specials</guimenuitem></menuchoice>
 </mediaobject>
 </screenshot>
 
+</para>
+</sect2>
+
+<sect2>
+<title>Define your own tools</title>
+<para>
+If the standard tools Kile provides access to (e.g. latex, dvips, etc.) do not satisfy your needs, you can add define your own tools. Editing these tools is essentially the same as editing the user tags (see <link linkend="tags-and-math-symbols">LaTeX tags and Mathematical Symbols</link>). The shortcuts for the first twelve tools are Alt+Shift+F1 to Alt+Shift+F12.
+</para>
+<para>It is possible to pass the name of the current document to the user tool, this is done via the sequence <screen><computeroutput>%S</computeroutput></screen>. For example <screen><computeroutput>lpr %S.ps</computeroutput></screen> would print the file <screen><computeroutput>test.ps</computeroutput></screen> if the current document was <screen><computeroutput>test.tex</computeroutput></screen>.
 </para>
 </sect2>
 

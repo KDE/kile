@@ -1660,19 +1660,11 @@ if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 void Kile::LatexHelp()
 {
 	QString loc = locate("html","en/kile/latexhelp.html");
-	if (viewlatexhelp_command == i18n("Embedded Viewer") )
-	{
-		KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
-		tool->setSource(loc);
-		tool->setRelativeBaseDir("");
-		tool->setTarget("latexhelp.html");
-		m_manager->run(tool);
-	}
-	else if (viewlatexhelp_command == i18n("External Browser") )
-	{
-// 		kdDebug() << "HTML: " << loc << endl;
-		kapp->invokeBrowser(loc);
-	}
+	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
+	tool->setSource(loc);
+	tool->setRelativeBaseDir("");
+	tool->setTarget("latexhelp.html");
+	m_manager->run(tool);
 }
 
 ///////////////////// USER ///////////////
@@ -1857,22 +1849,6 @@ void Kile::readConfig()
 	m_templDocClassOpt = KileConfig::documentClassOptions();
 	m_templEncoding = KileConfig::templateEncoding();
 
-	config->setGroup("Tools");
-	viewdvi_command=config->readEntry("Dvi",i18n("Embedded Viewer"));
-	viewlatexhelp_command=config->readEntry("LatexHelp",i18n("Embedded Viewer"));
-	viewps_command=config->readEntry("Ps",i18n("Embedded Viewer"));
-	viewpdf_command=config->readEntry("Pdf",i18n("Embedded Viewer"));
-
-	quickmode = KileConfig::quickMode();
-	latex_command = KileConfig::latex();
-	dvips_command = KileConfig::dvips();
-	ps2pdf_command = KileConfig::ps2pdf();
-	makeindex_command = KileConfig::makeindex();
-	bibtex_command = KileConfig::bibtex();
-	pdflatex_command = KileConfig::pdflatex();
-	dvipdf_command = KileConfig::dvipdf();
-	l2h_options = KileConfig::l2hOptions();
-	bibtexeditor_command = KileConfig::bibtexeditor();
 	m_runlyxserver = KileConfig::runLyxServer();
 
 //////////////////// code completion (dani) ////////////////////
@@ -1926,7 +1902,6 @@ void Kile::SaveSettings()
 
 	actionCollection()->writeShortcutSettings();
 	saveMainWindowSettings(config, "KileMainWindow" );
-	config->sync();
 
 	KileConfig::setRCVersion(KILERC_VERSION);
 	QValueList<int> sizes;
@@ -1958,6 +1933,9 @@ void Kile::SaveSettings()
 	KileConfig::setStructureLevel3(struct_level3);
 	KileConfig::setStructureLevel4(struct_level4);
 	KileConfig::setStructureLevel5(struct_level5);
+
+	KileConfig::writeConfig();
+	config->sync();
 }
 
 /////////////////  OPTIONS ////////////////////

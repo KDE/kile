@@ -70,46 +70,6 @@
 		</entry>
 	</group>
 	<group name="Tools">
-		<entry name="QuickMode" type="Int">
-			<label></label>
-			<default>1</default>
-		</entry>
-		<entry name="Latex" type="String">
-			<label>Command to run LaTeX.</label>
-			<default>latex -interaction=nonstopmode '%S.tex'</default>
-		</entry>
-		<entry name="Dvips" type="String">
-			<label>Command to run dvips.</label>
-			<default>dvips -o '%S.ps' '%S.dvi'</default>
-		</entry>
-		<entry name="Ps2pdf" type="String">
-			<label>Command to run ps2pdf.</label>
-			<default>ps2pdf '%S.ps' '%S.pdf'</default>
-		</entry>
-		<entry name="Makeindex" type="String">
-			<label>Command to run makeindex.</label>
-			<default>makeindex '%S.idx'</default>
-		</entry>
-		<entry name="Bibtex" type="String">
-			<label>Command to run BibTeX.</label>
-			<default>bibtex '%S'</default>
-		</entry>
-		<entry name="Pdflatex" type="String">
-			<label>Command to run pdflatex.</label>
-			<default>pdflatex -interaction=nonstopmode '%S.tex'</default>
-		</entry>
-		<entry name="Dvipdf" type="String">
-			<label>Command to run dvipdf</label>
-			<default>dvipdfm '%S.dvi'</default>
-		</entry>
-		<entry name="L2hOptions" type="String">
-			<label></label>
-			<default></default>
-		</entry>
-		<entry name="Bibtexeditor" type="String">
-			<label>Command to run the BibTeX editor.</label>
-			<default>gbib '%S.bib'</default>
-		</entry>
 		<entry name="RunLyxServer" type="Bool">
 			<label>Whether to run the Lyx server.</label>
 			<default>true</default>

@@ -247,11 +247,11 @@ private slots:
 	void misspelling (const QString & originalword, const QStringList & suggestions,unsigned int pos);
 
 private:
+	int                  m_spellCorrected;
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
 	KSpell2::Broker::Ptr        m_broker;
 	KSpell2::Dialog            *m_dialog;
 	KSpell2::BackgroundChecker *m_checker;
-	int                  m_spellCorrected;
 	int 				par_start, par_end, index_start, index_end;
 #else
 	KSpell 			*kspell;
@@ -347,13 +347,6 @@ private:
 private:
 	long autosaveinterval;
 	bool autosave;
-
-/* tools */
-private:
-	QString 		latex_command, viewdvi_command, dvips_command, dvipdf_command,
-					viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
-					pdflatex_command, viewpdf_command, l2h_options, bibtexeditor_command,
-					viewlatexhelp_command;
 
 private slots:
 	void runTool();

@@ -25,7 +25,7 @@ class KileProject;
 class KileDocumentInfo;
 class KileInfo;
 
-namespace KileType {enum ProjectView { Project=0, ProjectItem, File};}
+namespace KileType {enum ProjectView { Project=0, ProjectItem, ProjectExtra, File};}
 
 class KileProjectViewItem : public QObject, public KListViewItem 
 {
@@ -71,6 +71,7 @@ signals:
 	void closeURL(const KURL&);
 	void projectOptions(const KURL &);
 	void projectArchive(const KURL &);
+	void addFiles(const KURL &);
 	void closeProject(const KURL &);
 	void addToProject(const KURL &);
 	void removeFromProject(const KURL &, const KURL &);

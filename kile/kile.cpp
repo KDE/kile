@@ -162,6 +162,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	connect(m_projectview, SIGNAL(projectOptions(const KURL&)), this, SLOT(projectOptions(const KURL&)));
 	connect(m_projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(projectArchive(const KURL&)));
 	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
+	connect(m_projectview, SIGNAL(addFiles(const KURL &)), this, SLOT(projectAddFiles(const KURL &)));
 	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 	connect(m_projectview, SIGNAL(saveURL(const KURL &)), this, SLOT(saveURL(const KURL &)));
 	connect(m_projectview, SIGNAL(buildProjectTree(const KURL &)), this, SLOT(buildProjectTree(const KURL &)));
@@ -288,6 +289,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, this, SLOT(projectNew()), actionCollection(), "project_new");
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, this, SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
+	(void) new KAction(i18n("A&dd files to project..."), 0, this, SLOT(projectAddFiles()), actionCollection(), "project_add");
 	(void) new KAction(i18n("Build Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
 	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(projectArchive()), actionCollection(), "project_archive");
 	(void) new KAction(i18n("Project &Options..."), "configure", 0, this, SLOT(projectOptions()), actionCollection(), "project_options");
@@ -550,9 +552,10 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		kdDebug() << "\t" << url.path() <<" belongs to the project " << item->project()->name()  << endl;
 		//decorate the doc with the KileProjectItem
 		docinfo = infoFor(item);
-		docinfo->setDoc(doc);
-		//mapItem(docinfo, item);
-		item->setOpenState(true);
+		if (docinfo)
+			docinfo->setDoc(doc);
+  		//mapItem(docinfo, item);
+		item->setOpenState(create);
 	}
 
 	//no docinfo generated before, reasons
@@ -845,7 +848,7 @@ void Kile::fileOpen()
 	}
 
 	//get the URLs
-	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
+	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File(s)") );
 
 	//open them
 	for (uint i=0; i < urls.count(); i++)
@@ -1038,6 +1041,7 @@ void Kile::addToProject(const KURL & url)
 void Kile::addToProject(KileProject* project, const KURL & url)
 {
 	KileProjectItem *item = new KileProjectItem(project, url);
+	item->setOpenState(isOpen(url));
 	projectOpenItem(item);
 	m_projectview->add(item);
 	buildProjectTree(project);
@@ -1204,6 +1208,45 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 	}
 	else
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could determine active project."));
+}
+
+void Kile::projectAddFiles(const KURL & url)
+{
+	KileProject *project = projectFor(url);
+
+	if (project)
+		return projectAddFiles(project);
+	else
+		return false;
+}
+
+void Kile::projectAddFiles(KileProject *project)
+{
+	kdDebug() << "==Kile::projectAddFiles()==========================" << endl;
+ 	if (project ==0 )
+		project = activeProject();
+
+	if (project)
+	{
+		//determine the starting dir for the file dialog
+		QString currentDir=KileFS->dirOperator()->url().path();
+		QFileInfo fi;
+		if (currentView())
+		{
+			fi.setFile(currentView()->getDoc()->url().path());
+			if (fi.exists()) currentDir= fi.dirPath();
+		}
+
+		KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*|All files"), this,i18n("Add File(s)") );
+
+		//open them
+		for (uint i=0; i < urls.count(); i++)
+		{
+			addToProject(project, urls[i]);
+		}
+	}
+	else
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
 }
 
 bool Kile::projectArchive(const KURL & url)

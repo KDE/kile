@@ -28,7 +28,7 @@
 #include "kileproject.h"
 #include "kileprojectview.h"
 
-const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5, KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7;
+const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5, KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8;
 
 /*
  * KileProjectViewItem
@@ -147,6 +147,7 @@ void KileProjectView::slotProject(int id)
 			case KPV_ID_OPTIONS : emit(projectOptions(item->url())); break;
 			case KPV_ID_CLOSE : emit(closeProject(item->url())); break;
 			case KPV_ID_ARCHIVE : emit(projectArchive(item->url())); break;
+			case KPV_ID_ADDFILES : emit(addFiles(item->url())); break;
 			default : break;
 		}
 	}
@@ -162,26 +163,28 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
 		kdDebug() << "popup " << itm->url().path() << endl;
 
-		if (itm->type() == KileType::File)
+		if (itm->type() == KileType::File || itm->type() == KileType::ProjectItem)
 		{
 			m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
 			m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
 			m_popup->insertSeparator();
+		}
+
+		if (itm->type() == KileType::File)
+		{
 			if (m_nProjects>0) m_popup->insertItem(i18n("&Add To Project"), KPV_ID_ADD);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotFile(int)));
 		}
-		else if (itm->type() == KileType::ProjectItem)
+		else if (itm->type() == KileType::ProjectItem || itm->type() == KileType::ProjectExtra)
 		{
-			m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
-			m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
-			m_popup->insertSeparator();
 			m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
 		}
 		else if (itm->type() == KileType::Project)
 		{
+			m_popup->insertItem(i18n("A&dd Files..."), KPV_ID_ADDFILES);
 			m_popup->insertItem(UserIcon("relation"),i18n("Build Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertItem(SmallIcon("package"),i18n("&Archive"), KPV_ID_ARCHIVE);
@@ -308,7 +311,11 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 
 	kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
 	KileProjectViewItem *item =  new KileProjectViewItem(projvi, projitem->url().fileName());
-	item->setType(KileType::ProjectItem);
+	if (projitem->type() == KileProjectItem::Other)
+		item->setType(KileType::ProjectExtra);
+	else
+		item->setType(KileType::ProjectItem);
+
 	item->setURL(projitem->url());
 	makeTheConnection(item);
 

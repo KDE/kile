@@ -38,10 +38,18 @@ class KileProjectItem : public QObject
 	Q_OBJECT
 
 public:
-	KileProjectItem(KileProject *project = 0, const KURL &url = KURL());
+	KileProjectItem(KileProject *project = 0, const KURL &url = KURL(), int type = Source);
 	~KileProjectItem() { kdDebug() << "DELETING PROJITEM" << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
+
+	enum Type { ProjectFile = 0, Source, Other};
+
+	int type() const { return m_type; }
+	void setType(int type) { m_type = type; }
+
+	bool archive() const { return m_archive; }
+	void setArchive(bool ar) { m_archive = ar; }
 
 	void setInfo(KileDocumentInfo * docinfo);
 	KileDocumentInfo*	getInfo() { return m_docinfo; }
@@ -95,7 +103,8 @@ private:
 	QString				m_path;
 	QString				m_encoding;
 	QString				m_highlight;
-	bool						m_bOpen;
+	bool						m_bOpen, m_archive;
+	int							m_type;
 	KileDocumentInfo *m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
 };

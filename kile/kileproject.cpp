@@ -28,9 +28,10 @@
 /*
  * KileProjectItem
  */
-KileProjectItem::KileProjectItem(KileProject *project, const KURL & url) :
+KileProjectItem::KileProjectItem(KileProject *project, const KURL & url, int type) :
 	m_project(project),
 	m_url(url),
+	m_type(type),
 	m_docinfo(0),
 	m_parent(0),
 	m_child(0),
@@ -176,6 +177,8 @@ bool KileProject::load()
 			item->setOpenState(m_config->readBoolEntry("open", true));
 			item->setEncoding(m_config->readEntry("encoding", QString::null));
 			item->setHighlight(m_config->readEntry("highlight",QString::null));
+			item->setType(m_config->readNumEntry("type", KileProjectItem::Source));
+			item->setArchive(m_config->readBoolEntry("archive", true));
 //			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
 			item->changePath(groups[i].mid(5));
 
@@ -207,6 +210,8 @@ bool KileProject::save()
 		m_config->writeEntry("open", item->isOpen());
 		m_config->writeEntry("encoding", item->encoding());
 		m_config->writeEntry("highlight", item->highlight());
+		m_config->writeEntry("type", item->type());
+		m_config->writeEntry("archive", item->archive());
 		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 

@@ -84,6 +84,7 @@
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
 	<Separator/>
+	<Action name="project_add"/>
 	<Action name="project_buildtree"/>
 	<Action name="project_options"/>
 	<Action name="project_archive"/>

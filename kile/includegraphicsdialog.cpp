@@ -128,7 +128,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
    lb_label = new QLabel(i18n("Label:"), widget_fig);
    lb_caption = new QLabel(i18n("Caption:"), widget_fig);
    cb_figure = new QCheckBox(i18n("Use figure environment"),widget_fig);
-   edit_label = new KLineEdit("Fig:",widget_fig);
+   edit_label = new KLineEdit("fig:",widget_fig);
    edit_caption = new KLineEdit("",widget_fig);
 
    grid_fig->addWidget( label4,0,0);

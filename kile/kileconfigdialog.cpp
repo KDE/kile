@@ -52,10 +52,11 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     generalPage = addPage(i18n("General"),i18n("General options"),
                           KGlobal::instance()->iconLoader()->loadIcon( "configure", KIcon::NoGroup, KIcon::SizeMedium ));
 
-    QVBoxLayout *genLayout = new QVBoxLayout(generalPage);
+    QVBoxLayout *genLayout = new QVBoxLayout(generalPage,5);
 
     //autosave options
     QGroupBox *autosaveGroup = new QGroupBox(3,Qt::Horizontal,i18n("Autosave options"),generalPage);
+
     checkAutosave = new QCheckBox(autosaveGroup, "Autosave");
 	checkAutosave->setText(i18n("Auto&save"));
 
@@ -65,6 +66,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	lb->setBuddy(asIntervalInput);
 
 	genLayout->addWidget(autosaveGroup);
+	genLayout->setStretchFactor(autosaveGroup,0);
 
 	//fill in autosave
 	m_config->setGroup("Files");
@@ -73,6 +75,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
 	QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure view options"), generalPage);
 	genLayout->addWidget(structGroup);
+	genLayout->setStretchFactor(structGroup,0);
 
 	//checkSwitchStruct
 	checkSwitchStruct = new QCheckBox(i18n("Switch to structure view after &opening a file."), structGroup );
@@ -90,6 +93,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	//reopen files and projects
 	checkRestore = new QCheckBox(i18n("Reopen files and projects on startup."), generalPage );
 	genLayout->addWidget(checkRestore);
+	genLayout->setStretchFactor(checkRestore,5);
 	m_config->setGroup("Files");
 	checkRestore->setChecked(m_config->readBoolEntry("Restore",true));
 
@@ -107,6 +111,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     lbEnc->setBuddy(templEncoding);
 
     genLayout->addWidget(templateGroup);
+	genLayout->setStretchFactor(templateGroup,0);
 
 	//fill in template variables
 	m_config->setGroup( "User" );
@@ -121,93 +126,76 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     QGridLayout *gbox1 = new QGridLayout( toolsPage,13,2,5,5,"" );
     gbox1->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
-    TextLabel1 = new QLabel( toolsPage, "label1" );
-    TextLabel1->setText(i18n( "Dvi Viewer") );
-    gbox1->addWidget( TextLabel1,0,0 );
-    comboDvi = new QComboBox( FALSE, toolsPage, "comboDvi" );
+	QGroupBox *gb = new QGroupBox(2, Qt::Horizontal, i18n("Compile tools"), toolsPage);
+	gbox1->addWidget(gb,0,0);
+    TextLabel6 = new QLabel( gb, "label6" );
+    TextLabel6->setText("LaTeX");
+    LineEdit6 = new QLineEdit( gb, "le6" );
 
+	lb = new QLabel(gb,"");
+	checkForRoot = new QCheckBox(i18n("Check if root document is a LaTeX root before running LaTeX on it."), gb );
+
+	TextLabel7 = new QLabel( gb, "label7" );
+    TextLabel7->setText("PdfLaTeX");
+    LineEdit7 = new QLineEdit( gb, "le7" );
+
+	TextLabel12 = new QLabel( gb, "label11" );
+    TextLabel12->setText(i18n("Make Index"));
+     LineEdit12 = new QLineEdit( gb, "le112" );
+
+	TextLabel13 = new QLabel( gb, "label13" );
+    TextLabel13->setText("BibTeX");
+    LineEdit13 = new QLineEdit( gb, "le113" );
+
+	TextLabel14 = new QLabel( gb, "label14" );
+    TextLabel14->setText(i18n("BibTeX Editor"));
+    LineEdit14 = new QLineEdit( gb, "le114" );
+	lb = new QLabel(gb, "");
+	m_runlyxserver = new QCheckBox(i18n("Let Kile process LyX commands sent by bibliography editors/viewers."), gb);
+
+	gb = new QGroupBox(2, Qt::Horizontal, i18n("Convert tools"), toolsPage);
+	gbox1->addWidget(gb,1,0);
+    TextLabel9 = new QLabel( gb, "label9" );
+    TextLabel9->setText(i18n("DVI to PDF"));
+    LineEdit9 = new QLineEdit( gb, "le9" );
+
+    TextLabel10 = new QLabel( gb, "label10" );
+    TextLabel10->setText(i18n("DVI to PS"));
+    LineEdit10 = new QLineEdit( gb, "le10" );
+
+    TextLabel11 = new QLabel( gb, "label11" );
+    TextLabel11->setText(i18n("PS to PDF"));
+    LineEdit11 = new QLineEdit( gb, "le11" );
+
+	gb = new QGroupBox(2, Qt::Horizontal, i18n("View tools"), toolsPage);
+	gbox1->addWidget(gb,2,0);
+
+    TextLabel1 = new QLabel( gb, "label1" );
+    TextLabel1->setText(i18n( "Dvi Viewer") );
+
+	comboDvi = new QComboBox( FALSE, gb, "comboDvi" );
     comboDvi->setEditable( true );
     comboDvi->insertItem("xdvi -editor \'kile %f -line %l\' %S.dvi");
     comboDvi->insertItem("kdvi '%S.dvi'");
     comboDvi->insertItem("kdvi --unique '%S.dvi'");
     comboDvi->insertItem("Embedded Viewer");
-    gbox1->addWidget( comboDvi,0,1 );
 
-
-    TextLabel2 = new QLabel( toolsPage, "label2" );
+    TextLabel2 = new QLabel(gb, "label2" );
     TextLabel2->setText(i18n( "PS Viewer") );
-    gbox1->addWidget( TextLabel2,1,0 );
-    comboPs = new QComboBox( FALSE, toolsPage, "comboPs" );
+    comboPs = new QComboBox( FALSE, gb, "comboPs" );
     comboPs->setEditable( true );
     comboPs->insertItem("gv '%S.ps'");
     comboPs->insertItem("kghostview '%S.ps'");
     comboPs->insertItem("Embedded Viewer");
-    gbox1->addWidget( comboPs,1,1 );
 
-    TextLabel3 = new QLabel( toolsPage, "label3" );
+    TextLabel3 = new QLabel( gb, "label3" );
     TextLabel3->setText(i18n( "Pdf Viewer" ));
-    gbox1->addWidget( TextLabel3,2,0 );
-    comboPdf = new QComboBox( FALSE, toolsPage, "comboPdf" );
+    comboPdf = new QComboBox( FALSE, gb, "comboPdf" );
     comboPdf->setEditable( true );
     comboPdf->insertItem("xpdf '%S.pdf'");
     comboPdf->insertItem("acroread '%S.pdf'");
     comboPdf->insertItem("kghostview '%S.pdf'");
     comboPdf->insertItem("Embedded Viewer");
-    gbox1->addWidget( comboPdf,2,1 );
-
-    TextLabel6 = new QLabel( toolsPage, "label6" );
-    TextLabel6->setText("LaTeX");
-    gbox1->addWidget( TextLabel6,3,0 );
-    LineEdit6 = new QLineEdit( toolsPage, "le6" );
-    gbox1->addWidget( LineEdit6,3,1 );
-
-	checkForRoot = new QCheckBox(i18n("Check if document is a LaTeX root before running LaTeX on it."), toolsPage );
-	gbox1->addMultiCellWidget(checkForRoot,4,4,0,1);
-
-    TextLabel7 = new QLabel( toolsPage, "label7" );
-    TextLabel7->setText("PdfLaTeX");
-    gbox1->addWidget( TextLabel7,5,0 );
-    LineEdit7 = new QLineEdit( toolsPage, "le7" );
-    gbox1->addWidget( LineEdit7,5,1 );
-
-    TextLabel9 = new QLabel( toolsPage, "label9" );
-    TextLabel9->setText(i18n("DVI to PDF"));
-    gbox1->addWidget( TextLabel9,6,0 );
-    LineEdit9 = new QLineEdit( toolsPage, "le9" );
-    gbox1->addWidget( LineEdit9,6,1 );
-
-    TextLabel10 = new QLabel( toolsPage, "label10" );
-    TextLabel10->setText(i18n("DVI to PS"));
-    gbox1->addWidget( TextLabel10,7,0 );
-    LineEdit10 = new QLineEdit( toolsPage, "le10" );
-    gbox1->addWidget( LineEdit10,7,1 );
-
-    TextLabel11 = new QLabel( toolsPage, "label11" );
-    TextLabel11->setText(i18n("PS to PDF"));
-    gbox1->addWidget( TextLabel11,8,0 );
-    LineEdit11 = new QLineEdit( toolsPage, "le11" );
-    gbox1->addWidget( LineEdit11,8,1 );
-
-    TextLabel12 = new QLabel( toolsPage, "label11" );
-    TextLabel12->setText(i18n("Make Index"));
-    gbox1->addWidget( TextLabel12,9,0 );
-    LineEdit12 = new QLineEdit( toolsPage, "le112" );
-    gbox1->addWidget( LineEdit12,9,1 );
-
-    TextLabel13 = new QLabel( toolsPage, "label13" );
-    TextLabel13->setText("BibTeX");
-    gbox1->addWidget( TextLabel13,10,0 );
-    LineEdit13 = new QLineEdit( toolsPage, "le113" );
-    gbox1->addWidget( LineEdit13,10,1 );
-
-    TextLabel14 = new QLabel( toolsPage, "label14" );
-    TextLabel14->setText(i18n("BibTeX Editor"));
-    gbox1->addWidget( TextLabel14,11,0 );
-    LineEdit14 = new QLineEdit( toolsPage, "le114" );
-    gbox1->addWidget( LineEdit14,11,1 );
-	m_runlyxserver = new QCheckBox(i18n("Let Kile process LyX commands sent by bibliography editors/viewers."), toolsPage);
-	gbox1->addMultiCellWidget( m_runlyxserver, 12,12, 0,1);
-
 
 	//fill in tools
 	m_config->setGroup("Tools");
@@ -274,11 +262,12 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	//LaTeX specific editing options
 	editPage = addPage(i18n("LaTeX"),i18n("LaTeX specific editing options"),KGlobal::instance()->iconLoader()->loadIcon( "tex", KIcon::NoGroup, KIcon::SizeMedium ));
 
-	QVBoxLayout *lay = new QVBoxLayout(editPage);
-	QVBox *gbox4 = new QVBox(editPage);
+	QGridLayout *lay = new QGridLayout(editPage, 2,1);
+	lay->setRowStretch(0,0);
+	//QVBox *gbox4 = new QVBox(editPage);
 
-	checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),gbox4);
-	lay->addWidget(gbox4);
+	checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),editPage);
+	lay->addWidget(checkEnv,0,0);
 
 	//fill in
 	m_config->setGroup( "Editor Ext" );

@@ -1399,7 +1399,7 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 		}
 
 		command.replace("%F", files);
-		command.replace("%S", project->name());
+		command.replace("%S", project->url().fileName().replace(".kilepr",""));
 
 		QFileInfo fic(project->url().path());
 

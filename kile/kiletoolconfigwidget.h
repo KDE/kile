@@ -151,6 +151,7 @@ namespace KileWidget
 		void removeTool();
 		void removeConfig();
 		void writeStdConfig(const QString &, const QString &);
+		void writeDefaults();
 
 	private:
 		KileTool::Manager	*m_manager;

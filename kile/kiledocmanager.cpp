@@ -395,7 +395,7 @@ void Manager::setHighlightMode(Kate::Document * doc, const QString &highlight)
 
 	if ( (hl != QString::null) || doc->url().isEmpty() || pMime->name() == "text/x-tex" || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls")
 	{
-		if (hl == QString::null) hl = "latex-kile";
+		if (hl == "") hl = "latex-kile";
 		for (i = 0; i < c; i++)
 		{
 			kdDebug() << "\tCOMPARING " << doc->hlModeName(i).lower() << " with " << hl << endl;

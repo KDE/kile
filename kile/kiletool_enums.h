@@ -33,6 +33,6 @@ namespace KileTool
 
 	enum { Running, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
 	
-	enum { Success, Failed, AbnormalExit, Aborted, Silent };
+	enum { Success = 0, Failed = 1, AbnormalExit = 2, Aborted = 3, Silent = 4 };
 }
 #endif

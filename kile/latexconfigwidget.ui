@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>797</width>
-            <height>272</height>
+            <width>590</width>
+            <height>247</height>
         </rect>
     </property>
     <property name="caption">
@@ -92,6 +92,14 @@
                     <property name="name">
                         <cstring>m_tlResolutionHelp</cstring>
                     </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
                     <property name="text">
                         <string>(used when the picture offers no resolution)</string>
                     </property>
@@ -125,4 +133,7 @@
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+</includehints>
 </UI>

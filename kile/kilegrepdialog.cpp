@@ -28,14 +28,13 @@
 #include <qpushbutton.h>
 #include <qlineedit.h>
 #include <qlabel.h>
-#include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qevent.h>
-#include <qlistbox.h>
 #include <qregexp.h>
 #include <qwhatsthis.h>
 #include <qcursor.h>
 
+#include <kcombobox.h>
 #include <kapplication.h>
 #include <kaccelmanager.h>
 #include <kbuttonbox.h>
@@ -48,7 +47,7 @@
 #include <kurlcompletion.h>
 #include <kcombobox.h>
 #include <klineedit.h>
-
+#include <klistbox.h>
 #include <kdebug.h>
 
 #include "kileconfig.h"
@@ -81,10 +80,10 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	pattern_label->setFixedSize(pattern_label->sizeHint());
 	input_layout->addWidget(pattern_label, 0, 0, AlignRight | AlignVCenter);
 
-	pattern_combo = new QComboBox(true, this);
+	pattern_combo = new KComboBox(true, this);
 	pattern_combo->insertStringList(lastSearchItems);
 	pattern_combo->setEditText(QString::null);
-	pattern_combo->setInsertionPolicy(QComboBox::NoInsertion);
+	pattern_combo->setInsertionPolicy(KComboBox::NoInsertion);
 	pattern_label->setBuddy(pattern_combo);
 	pattern_combo->setFocus();
 	pattern_combo->setMinimumSize(pattern_combo->sizeHint());
@@ -97,14 +96,14 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	QBoxLayout *template_layout = new QHBoxLayout(4);
 	input_layout->addLayout(template_layout, 1, 1);
 
-	template_combo = new QComboBox(false, this);
+	template_combo = new KComboBox(false, this);
 	template_combo->insertItem(i18n("Normal"));
 	template_list.append("%s");
 	template_combo->adjustSize();
 	template_combo->setFixedSize(template_combo->size());
 	template_layout->addWidget(template_combo);
 
-	template_edit = new QLineEdit(this);
+	template_edit = new KLineEdit(this);
 	template_label->setBuddy(template_edit);
 	template_edit->setText("%s");
 	template_edit->setMinimumSize(template_edit->sizeHint());
@@ -114,7 +113,7 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	files_label->setFixedSize(files_label->sizeHint());
 	input_layout->addWidget(files_label, 2, 0, AlignRight | AlignVCenter);
 
-	filter_combo = new QComboBox(true, this);
+	filter_combo = new KComboBox(true, this);
 	files_label->setBuddy(filter_combo->focusProxy());
 	filter_combo->setMinimumSize(filter_combo->sizeHint());
 	input_layout->addWidget(filter_combo, 2, 1);
@@ -129,7 +128,7 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	dir_combo = new KURLRequester( new KComboBox(true, this), this, "dir combo" );
 	dir_combo->completionObject()->setMode(KURLCompletion::DirCompletion);
 	dir_combo->comboBox()->insertStringList(lastSearchPaths);
-	dir_combo->setMode( KFile::Directory|KFile::LocalOnly );
+	dir_combo->setMode(KFile::Directory|KFile::LocalOnly|KFile::ExistingOnly);
 	if (dirname.right(0) == "/")
 		{ dir_combo->setURL(dirname); }
 	else { dir_combo->setURL(dirname + "/"); }
@@ -151,7 +150,7 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	actionbox->addStretch();
 	actionbox->layout();
 
-	resultbox = new QListBox(this);
+	resultbox = new KListBox(this);
 	input_layout->addMultiCellWidget(resultbox, 6, 6, 0, 2);
 	resultbox->setMinimumHeight(70);
 

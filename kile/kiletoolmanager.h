@@ -42,15 +42,17 @@ namespace KileTool
 	class QueueItem
 	{
 	public:
-		QueueItem(Base *tool, const QString & cfg = QString::null);
+		QueueItem(Base *tool, const QString & cfg = QString::null, bool block = false);
 		~QueueItem();
 
 		Base* tool() const { return m_tool; }
 		const QString cfg() const { return m_cfg; }
+		bool shouldBlock() { return m_bBlock; }
 
 	private:
 		Base	*m_tool;
 		QString	m_cfg;
+		bool		m_bBlock;
 	};
 
 	class Queue : public QPtrQueue<QueueItem>
@@ -58,6 +60,7 @@ namespace KileTool
 	public:
 		Base* tool() const;
 		const QString cfg() const;
+		bool shouldBlock() const;
 
 		void enqueueNext(QueueItem *);
 	};
@@ -76,8 +79,6 @@ namespace KileTool
 		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
 		void saveEntryMap(const QString & name, Config & map, bool usequeue = true);
 		QString currentGroup(const QString &name, bool usequeue = true);
-		//QString configName(const QString & tool);
-		//void setConfigName(const QString & tool, const QString & name);
 
 		void wantGUIState(const QString &);
 		
@@ -92,15 +93,21 @@ namespace KileTool
 
 		bool queryContinue(const QString & question, const QString & caption = QString::null);
 
+		bool shouldBlock();
+		int lastResult() { return m_nLastResult; }
+
 	public slots:
 		void started(Base*);
 		void done(Base *, int);
 
-		int run(const QString &, const QString & = QString::null, bool insertAtTop = false);
-		int run(Base *, const QString & = QString::null, bool insertAtTop = false);
+		int run(const QString &, const QString & = QString::null, bool insertAtTop = false, bool block = false);
+		int run(Base *, const QString & = QString::null, bool insertAtTop = false, bool block = false);
 
-		int runNext(const QString & t , const QString & c = QString::null) { return run(t,c,true); }
-		int runNext(Base * t, const QString & c = QString::null) { return run(t,c,true); }
+		int runNext(const QString &, const QString & = QString::null, bool block = false);
+		int runNext(Base *, const QString & = QString::null, bool block = false);
+
+		int runBlocking(const QString &, const QString & = QString::null, bool = false);
+		int runNextBlocking(const QString &, const QString & = QString::null);
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 
@@ -126,6 +133,7 @@ namespace KileTool
 		Queue				m_queue;
 		QTimer				*m_timer;
 		bool					m_bClear;
+		int					m_nLastResult;
 		uint					m_nTimeout;
 	};
 

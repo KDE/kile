@@ -119,13 +119,7 @@
 			out += "*****\n";
 			emit(output(out));
 
-			//if ( KGlobal::dirs()->findExe(KRun::binaryName(m_cmd, false)) == QString::null ) return false;
-
-			bool r = m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
-			if (r) kdDebug() << "launch successful" << endl;
-			else kdDebug() << "launch failed" << endl;
-
-			return r;
+			return m_proc->start(tool()->manager()->shouldBlock() ? KProcess::Block : KProcess::NotifyOnExit, KProcess::AllOutput);
 		}
 		else
 			return false;
@@ -174,8 +168,7 @@
 
 	void ProcessLauncher::slotProcessOutput(KProcess*, char* buf, int len)
 	{
-		QString s = QCString(buf, len+1);
-		emit(output(s));
+		emit(output(QCString(buf, len+1)));
 	}
 
 	void ProcessLauncher::slotProcessExited(KProcess*)

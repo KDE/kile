@@ -21,8 +21,8 @@
 
 #include <qwidget.h>
 #include <qtabwidget.h>
-#include <qlistview.h>
-#include <qpushbutton.h>
+#include <klistview.h>
+#include <kpushbutton.h>
 #include <qcheckbox.h>
 #include <qstring.h>
 
@@ -43,9 +43,9 @@ public:
 private:
     // tabs, views and pages
     QTabWidget *tab;
-    QListView *list1,*list2,*list3;         
+    KListView *list1,*list2,*list3;         
     QWidget *page1,*page2,*page3;           
-    QPushButton *add,*remove;                
+    KPushButton *add,*remove;                
 
     // Checkboxes
     QCheckBox *cb_usecomplete, *cb_autocomplete;
@@ -57,11 +57,11 @@ private:
     QStringList m_dictlist;
     QStringList m_abbrevlist;
     
-    QListView *getListview(QWidget *page);        
+    KListView *getListview(QWidget *page);        
     QString getListname(QWidget *page);         
 
-    void setListviewEntries(QListView *listview, const QStringList &files);
-    bool getListviewEntries(QListView *listview, QStringList &files);
+    void setListviewEntries(KListView *listview, const QStringList &files);
+    bool getListviewEntries(KListView *listview, QStringList &files);
     
 private slots:
    void showPage(QWidget *page);

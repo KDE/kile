@@ -27,15 +27,16 @@
 #include <kdialog.h>
 #include <qstringlist.h>
 
-class QLineEdit;
-class QComboBox;
 class QCheckBox;
-class QListBox;
 class QPushButton;
 class QLabel;
+class QEvent;
+
+class KComboBox;
+class KLineEdit;
 class KProcess;
 class KURLRequester;
-class QEvent;
+class KListBox;
 
 class KileGrepDialog : public KDialog
 {
@@ -66,11 +67,11 @@ private:
 	void processOutput();
 	void finish();
 
-	QLineEdit *template_edit;
-	QComboBox *filter_combo, *pattern_combo, *template_combo;
+	KLineEdit *template_edit;
+	KComboBox *filter_combo, *pattern_combo, *template_combo;
 	KURLRequester *dir_combo;
 	QCheckBox *recursive_box;
-	QListBox *resultbox;
+	KListBox *resultbox;
 	QPushButton *search_button, *clear_button, *cancel_button;
 	KProcess *childproc;
 	QString buf;

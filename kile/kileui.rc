@@ -306,6 +306,7 @@
 	<Action name="147"/>
 	<Action name="148"/>
 	<Action name="settings_configure" />
+	<Action name="settings_perform_check" />
 </Menu>
 <Menu name="help"><text>&amp;Help</text>
 	<Action name="help1"/>

@@ -38,6 +38,7 @@
 
 #include "kiletoolconfigwidget.h"
 #include "kiletoolmanager.h"
+#include "kilestdtools.h"
 
 namespace KileWidget
 {
@@ -48,8 +49,7 @@ namespace KileWidget
 		m_advanced(0L),
 		m_bAdvanced(false)
 	{
-		//kdDebug() << "==ToolConfig::ToolConfig()====================" << endl;
-		m_layout = new QGridLayout(this, 6, 4, 0, 10); m_layout->setColStretch(0, 0);
+		m_layout = new QGridLayout(this, 6, 6, 0, 10); m_layout->setColStretch(0, 0);
 		m_layout->setRowStretch(0, 1); m_layout->setRowStretch(1, 1); m_layout->setRowStretch(2, 0); m_layout->setRowStretch(3, 2);
 		m_layout->setRowStretch(4, 1); m_layout->setRowStretch(5, 1);
 
@@ -61,7 +61,7 @@ namespace KileWidget
 		m_lbName = new QLabel(this); m_layout->addMultiCellWidget(m_lbName, 0, 0, 1, 4);
 
 		QLabel *lb = new QLabel(i18n("C&hoose a predefined configuration: "), this); m_layout->addWidget(lb, 1, 1, Qt::AlignLeft);
-		m_cbPredef = new KComboBox(this); m_layout->addMultiCellWidget(m_cbPredef, 1, 1, 2, 3/*, Qt::AlignLeft*/);
+		m_cbPredef = new KComboBox(this); m_layout->addMultiCellWidget(m_cbPredef, 1, 1, 2, 4/*, Qt::AlignLeft*/);
 		lb->setBuddy(m_cbPredef);
 		connect(m_cbPredef, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
@@ -80,8 +80,8 @@ namespace KileWidget
 		connect(m_cbMenu, SIGNAL(activated(const QString &)), this, SLOT(setMenu(const QString &)));
 		connect(m_pshbIcon, SIGNAL(clicked()), this, SLOT(selectIcon()));
 
-		QHBox *box = new QHBox(this); box->setSpacing(10);
-		m_layout->addMultiCellWidget(box, m_layout->numRows(), m_layout->numRows(), 0, m_layout->numCols()-1);
+		QVBox *box = new QVBox(this); box->setSpacing(10);
+		m_layout->addMultiCellWidget(box, 0, m_layout->numRows() - 1, m_layout->numCols()-1, m_layout->numCols()-1);
 		KPushButton *pb = new KPushButton(i18n("Remove Tool"), box); pb->setMaximumHeight(pb->sizeHint().height());
 		connect(pb, SIGNAL(clicked()), this, SLOT(removeTool()));
 
@@ -89,12 +89,13 @@ namespace KileWidget
 		connect(pb, SIGNAL(clicked()), this, SLOT(newTool()));
 
 		pb = new KPushButton(i18n("Remove Config"), box); pb->setMaximumHeight(pb->sizeHint().height());
-		//pb->setMaximumWidth(pb->sizeHint().width());
 		connect(pb, SIGNAL(clicked()), this, SLOT(removeConfig()));
 
 		pb = new KPushButton(i18n("New Config..."), box); pb->setMaximumHeight(pb->sizeHint().height());
 		connect(pb, SIGNAL(clicked()), this, SLOT(newConfig()));
-		//pb->setMaximumWidth(pb->sizeHint().width());
+
+		pb = new KPushButton(i18n("&Default Settings"), box); pb->setMaximumHeight(pb->sizeHint().height());
+		connect(pb, SIGNAL(clicked()), this, SLOT(writeDefaults()));
 
 		m_current = m_lstbTools->text(0); m_manager->retrieveEntryMap(m_current, m_map, false, false);
 		QString cfg = KileTool::configName(m_current, m_manager->config());
@@ -102,6 +103,17 @@ namespace KileWidget
 		switchConfig(cfg);
 		switchTo(m_current, false);
 		connect(m_lstbTools, SIGNAL(highlighted(const QString &)), this, SLOT(switchTo(const QString &)));
+	}
+
+	void ToolConfig::writeDefaults()
+	{
+		if ( KMessageBox::warningContinueCancel(this, i18n("All your tool settings will be overwritten with the default settings, are you sure you want to continue?")) == KMessageBox::Continue )
+		{
+			m_manager->factory()->writeStdConfig();
+			QStringList tools = KileTool::toolList(m_manager->config(), true);
+			for ( uint i = 0; i < tools.count(); i++)
+				switchTo(tools[i], false);
+		}
 	}
 
 	void ToolConfig::updateToollist()
@@ -174,13 +186,13 @@ namespace KileWidget
 		updateConfiglist();
 
 		m_basic = new BasicTool(m_current, m_manager->config(), &m_map, this);
-		m_layout->addMultiCellWidget(m_basic, 2, 2, 1, 3, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(m_basic, 2, 2, 1, m_layout->numCols()-2, Qt::AlignLeft);
 		m_basic->show();
 		//kdDebug() << "after new BasicTool()" << endl;
 
 		m_advanced = new AdvancedTool(m_current, &m_map, this);
 		connect(m_advanced, SIGNAL(changed()), this, SLOT(switchConfig()));
-		m_layout->addMultiCellWidget(m_advanced, 4, 4, 1, 3, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(m_advanced, 4, 4, 1, m_layout->numCols()-2, Qt::AlignLeft);
 		if (m_bAdvanced) m_advanced->show();
 		else m_advanced->hide();
 		m_layout->invalidate();
@@ -334,7 +346,8 @@ namespace KileWidget
 		QWidget(parent), m_tool(tool), m_map(map),  m_config(config),m_elbSequence(0L)
 	{
 		//kdDebug() << "==BasicTool::BasicTool()=====================" << endl;
-		m_layout = new QGridLayout(this, 1, 1, 0, 10);
+		m_layout = new QGridLayout(this, 3, 2, 0, 10);
+		m_layout->setColStretch(0, 0); m_layout->setColStretch(1, 1);
 		QString type = (*m_map)["type"];
 		if ( type == "Process" ) createProcess("");
 		else if ( type == "Konsole" ) createKonsole();
@@ -358,19 +371,17 @@ namespace KileWidget
 	{
 		//kdDebug() << "==BasicTool::createProcess(const QString & str)=====================" << endl;
 		int row = 0;
-		QLabel *lb = new QLabel(str, this); m_layout->addMultiCellWidget(lb, row, row, 0, 5, Qt::AlignLeft);
+		QLabel *lb = new QLabel(str, this); m_layout->addMultiCellWidget(lb, row, row, 0, 1, Qt::AlignLeft);
 
 		lb = new QLabel(i18n("Co&mmand:"), this); m_layout->addWidget(lb, row+1, 0, Qt::AlignLeft);
-		KLineEdit *le = new KLineEdit(this); m_layout->addWidget(le, row+1, 1, Qt::AlignLeft);
-		lb->setBuddy(le);
-		le->setMinimumWidth(150);
+		KLineEdit *le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row+1, row+1, 1, 1, Qt::AlignLeft);
+		lb->setBuddy(le); le->setMinimumWidth(250);
 		le->setText((*m_map)["command"]);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setCommand(const QString &)));
 
-		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row+1, 2, Qt::AlignLeft);
-		le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row+1, row+1, 3, 5, Qt::AlignLeft);
-		lb->setBuddy(le);
-		le->setMinimumWidth(300);
+		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row+2, 0, Qt::AlignLeft);
+		le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row+2, row+2, 1, 1, Qt::AlignLeft);
+		lb->setBuddy(le); le->setMinimumWidth(250);
 		le->setText((*m_map)["options"]);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setOptions(const QString &)));
 	}
@@ -383,7 +394,7 @@ namespace KileWidget
 		int row = m_layout->numRows();
 
 		QCheckBox *ckClose = new QCheckBox(i18n("Close Konsole when tool is finished"), this);
-		m_layout->addMultiCellWidget(ckClose, row, row, 1, 2, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(ckClose, row, row, 0, 1, Qt::AlignLeft);
 		connect(ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
 		ckClose->setChecked((*m_map)["close"] == "yes");
 		setClose(ckClose->isChecked());
@@ -397,20 +408,20 @@ namespace KileWidget
 		int row = m_layout->numRows();
 
 		lb = new QLabel(i18n("&Library:"), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
-		KLineEdit *le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row, row, 1, 2, Qt::AlignLeft);
-		lb->setBuddy(le);
+		KLineEdit *le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row, row, 1, 1, Qt::AlignLeft);
+		lb->setBuddy(le); le->setMinimumWidth(250);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setLibrary(const QString &)));
 		le->setText((*m_map)["libName"]);
 
-		lb = new QLabel(i18n("C&lass:"), this); m_layout->addWidget(lb, row, 3, Qt::AlignLeft);
-		le = new KLineEdit(this); m_layout->addWidget(le, row, 4, Qt::AlignLeft);
-		lb->setBuddy(le);
+		lb = new QLabel(i18n("C&lass:"), this); m_layout->addWidget(lb, row + 1, 0, Qt::AlignLeft);
+		le = new KLineEdit(this); m_layout->addMultiCellWidget(le, row+1, row+1, 1, 1,Qt::AlignLeft);
+		lb->setBuddy(le); le->setMinimumWidth(250);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setClassName(const QString &)));
 		le->setText((*m_map)["className"]);
 
-		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row, 5, Qt::AlignLeft);
-		le = new KLineEdit(this); m_layout->addWidget(le, row, 6, Qt::AlignLeft);
-		lb->setBuddy(le);
+		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
+		le = new KLineEdit(this); m_layout->addWidget(le, row, 1, Qt::AlignLeft);
+		lb->setBuddy(le); le->setMinimumWidth(250);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setLibOptions(const QString &)));
 		le->setText((*m_map)["libOptions"]);
 	}
@@ -434,17 +445,17 @@ namespace KileWidget
 		int row = m_layout->numRows();
 
 		QCheckBox *cbRoot = new QCheckBox(i18n("Check if root document is a LaTeX root before running LaTeX on it."), this);
-		m_layout->addMultiCellWidget(cbRoot, row, row, 1, m_layout->numCols()-1, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(cbRoot, row, row, 0, m_layout->numCols()-1, Qt::AlignLeft);
 		cbRoot->setChecked((*m_map)["checkForRoot"] == "yes");
 		connect(cbRoot, SIGNAL(toggled(bool)), this, SLOT(setLaTeXCheckRoot(bool)));
 
 		QCheckBox *cbJump = new QCheckBox(i18n("Jump to first error in case running LaTeX failed."), this);
-		m_layout->addMultiCellWidget(cbJump, row + 1, row + 1, 1, m_layout->numCols()-1, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(cbJump, row + 1, row + 1, 0, m_layout->numCols()-1, Qt::AlignLeft);
 		cbJump->setChecked((*m_map)["jumpToFirstError"] == "yes");
 		connect(cbJump, SIGNAL(toggled(bool)), this, SLOT(setLaTeXJump(bool)));
 
 		QCheckBox *cbAuto = new QCheckBox(i18n("Automatically run BibTeX, MakeIndex, rerun LaTeX when necessary."), this);
-		m_layout->addMultiCellWidget(cbAuto, row + 2, row + 2, 1, m_layout->numCols()-1, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(cbAuto, row + 2, row + 2, 0, m_layout->numCols()-1, Qt::AlignLeft);
 		cbAuto->setChecked((*m_map)["autoRun"] == "yes");
 		connect(cbAuto, SIGNAL(toggled(bool)), this, SLOT(setLaTeXAuto(bool)));
 	}
@@ -455,7 +466,7 @@ namespace KileWidget
 		int row = m_layout->numRows();
 
 		QCheckBox *cbLyxServer = new QCheckBox(i18n("Let Kile process LyX commands sent by bibliography editors/viewers."), this);
-		m_layout->addMultiCellWidget(cbLyxServer, row, row, 1, m_layout->numCols()-1, Qt::AlignLeft);
+		m_layout->addMultiCellWidget(cbLyxServer, row, row, 0, m_layout->numCols()-1, Qt::AlignLeft);
 		m_config->setGroup("Tools");
 		cbLyxServer->setChecked(m_config->readBoolEntry("RunLyxServer", true));
 		connect(cbLyxServer, SIGNAL(toggled(bool)), this, SLOT(setRunLyxServer(bool)));

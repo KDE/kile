@@ -24,10 +24,13 @@ class KileAppDCOPIface : virtual public DCOPObject
 	K_DCOP
 
 	k_dcop:
-		virtual void fileSelected(const QString &)=0;
+		virtual void open(const QString &)=0;
+		virtual void close()=0;
 		virtual void projectOpen(const QString &)=0;
 		virtual void setLine( const QString &)=0;
 		virtual void setActive()=0;
+		virtual int run(const QString &)=0;
+		virtual int runWith(const QString &, const QString &)=0;
 };
 
 #endif

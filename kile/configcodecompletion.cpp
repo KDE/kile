@@ -50,7 +50,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
    page1 = new QWidget(tab);
    QGridLayout *grid1 = new QGridLayout(page1, 1,1, 10,10);
 
-   list1 = new QListView(page1);
+   list1 = new KListView(page1);
    list1->addColumn(i18n("Complete Files for TeX/LaTeX Mode"));
    grid1->addWidget(list1,0,0);
 
@@ -58,7 +58,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
    page2 = new QWidget(tab);
    QGridLayout *grid2 = new QGridLayout(page2, 1,1, 10,10);
 
-   list2 = new QListView(page2);
+   list2 = new KListView(page2);
    list2->addColumn(i18n("Complete Files for Dictionary Mode"));
    grid2->addWidget(list2,0,0);
 
@@ -66,7 +66,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
    page3 = new QWidget(tab);
    QGridLayout *grid3 = new QGridLayout(page3, 1,1, 10,10);
 
-   list3 = new QListView(page3);
+   list3 = new KListView(page3);
    list3->addColumn(i18n("Complete Files for Abbreviation Mode"));
    grid3->addWidget(list3,0,0);
 
@@ -76,8 +76,8 @@ ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
    tab->addTab(page3,i18n("Abbreviation"));
 
    // add two centered button
-   add = new QPushButton(i18n("Add..."),gb_tab);
-   remove = new QPushButton(i18n("Remove"),gb_tab);
+   add = new KPushButton(i18n("Add..."),gb_tab);
+   remove = new KPushButton(i18n("Remove"),gb_tab);
 
    grid_tab->addMultiCellWidget(tab,1,1,0,1);
    grid_tab->addWidget(add,2,0,Qt::AlignRight);
@@ -169,7 +169,7 @@ void ConfigCodeCompletion::writeConfig(void)
 
 // ListView fr den Konfigurationsdialog einstellen
 
-void ConfigCodeCompletion::setListviewEntries(QListView *listview, const QStringList &files)
+void ConfigCodeCompletion::setListviewEntries(KListView *listview, const QStringList &files)
 {
    // Daten aus der Konfigurationsliste in das ListView-Widget eintragen
    listview->setUpdatesEnabled(false);
@@ -183,7 +183,7 @@ void ConfigCodeCompletion::setListviewEntries(QListView *listview, const QString
    listview->setUpdatesEnabled(true);
 }
 
-bool ConfigCodeCompletion::getListviewEntries(QListView *listview, QStringList &files)
+bool ConfigCodeCompletion::getListviewEntries(KListView *listview, QStringList &files)
 {
    bool changed = false;
 
@@ -227,7 +227,7 @@ bool ConfigCodeCompletion::getListviewEntries(QListView *listview, QStringList &
 
 //////////////////// tabpages parameter ////////////////////
 
-QListView *ConfigCodeCompletion::getListview(QWidget *page)
+KListView *ConfigCodeCompletion::getListview(QWidget *page)
 {
    if ( page == page1 )
       return list1;
@@ -255,7 +255,7 @@ QString ConfigCodeCompletion::getListname(QWidget *page)
 
 void ConfigCodeCompletion::showPage(QWidget *page)
 {
-   QListView *list = getListview(page);
+   KListView *list = getListview(page);
    if ( list ) {
       if ( list->childCount() == 0 )
          remove->setEnabled(false);
@@ -285,7 +285,7 @@ void ConfigCodeCompletion::addClicked()
            QString basename = filename.mid(len,filename.length()-len-4);
 
            // add new entry
-           QListView *list = getListview(tab->currentPage());     // get current page
+           KListView *list = getListview(tab->currentPage());     // get current page
            QCheckListItem *item = new QCheckListItem(list,basename,QCheckListItem::CheckBox);
            item->setOn(true);
            list->insertItem(item);
@@ -301,7 +301,7 @@ void ConfigCodeCompletion::addClicked()
 void ConfigCodeCompletion::removeClicked()
 {
    QWidget *page = tab->currentPage();
-   QListView *list = getListview(page);                              // determine page
+   KListView *list = getListview(page);                              // determine page
    QCheckListItem *item = (QCheckListItem *)list->selectedItem();    // determine entry
 
    if ( item ) {

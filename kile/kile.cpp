@@ -109,7 +109,7 @@
 #include "kileconfig.h"
 #include "kxtrcconverter.h"
 #include "kileerrorhandler.h"
-
+#include "configcheckerdlg.h"
 #include "kilespell.h"
 #include "kilespell2.h"
 
@@ -456,10 +456,10 @@ void Kile::setupActions()
 
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
 
-	ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
+	ModeAction=new KToggleAction(i18n("Define Current Document as '&Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
 
-	StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
-	MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
+	StructureAction=new KToggleAction(i18n("Show Str&ucture View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
+	MessageAction=new KToggleAction(i18n("Show Mess&ages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
 
 	//FIXME: obsolete for KDE 4
 	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
@@ -485,7 +485,7 @@ void Kile::setupActions()
 	if (showoutputview) {MessageAction->setChecked(true);}
 	else {MessageAction->setChecked(false);}
 
-	(void) new KAction(i18n("Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "removetemplates");
+	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "removetemplates");
 
 	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(), "WatchFile");
 	if (m_bWatchFile) {WatchFileAction->setChecked(true);}
@@ -502,6 +502,7 @@ void Kile::setupActions()
 	(void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"settings_configure" );
 	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
 	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
+	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
@@ -681,6 +682,16 @@ void Kile::load(const QString &path)
 	docManager()->load(KURL::fromPathOrURL(path));
 }
 
+int Kile::run(const QString & tool)
+{
+	return m_manager->runBlocking(tool);
+}
+
+int Kile::runWith(const QString &tool, const QString &config)
+{
+	return m_manager->runBlocking(tool, config);
+}
+
 //TODO: move to KileView::Manager
 void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
@@ -730,11 +741,15 @@ void Kile::updateModeStatus()
 	}
 }
 
-void Kile::fileSelected(const QString & url)
+void Kile::open(const QString & url)
 {
 	docManager()->fileSelected(KURL::fromPathOrURL(url));
 }
 
+void Kile::close()
+{
+	docManager()->fileClose();
+}
 
 void Kile::autoSaveAll()
 {
@@ -1686,6 +1701,13 @@ void Kile::GeneralOptions()
 			m_lyxserver->stop();
 	}
 
+	delete dlg;
+}
+
+void Kile::slotPerformCheck()
+{
+	KileDialog::ConfigChecker *dlg = new KileDialog::ConfigChecker(this);
+	dlg->exec();
 	delete dlg;
 }
 

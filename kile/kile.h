@@ -115,6 +115,7 @@ public:
 	Kile( bool restore = true, QWidget *parent = 0, const char *name = 0 );
 	~Kile();
 
+//DCOP calls:
 public slots:
 	/**
 	 * @param line : Jump to give line in current editor (can be called via DCOP interface).
@@ -122,6 +123,10 @@ public slots:
 	void setLine( const QString &line);
 	void setCursor(const KURL &, int, int);
 	void setActive();
+	int run(const QString &);
+	int runWith(const QString &, const QString &);
+	void open(const QString & url);
+	void close();
 
 /* actions */
 private:
@@ -222,6 +227,7 @@ private slots:
 	void GeneralOptions();
 	void ConfigureKeys();
 	void ConfigureToolbars();
+	void slotPerformCheck();
 
 private slots:
 	/**
@@ -237,17 +243,9 @@ private slots:
 
 /* document handling */
 public slots:
-	/**
-	 * Creates a document/view pair and loads the URL with the specified encoding
-	 * (default encoding is the encoding corresponding to the current locale).
-	 *
-	 * @returns pointer to the new view
-	 **/
 	void load(const QString &path);
 
 public slots:
-	void fileSelected(const QString & url);
-
 	bool queryExit();
 	bool queryClose();
 

@@ -200,7 +200,7 @@
 		</entry>
 		<entry name="CompleteAuto" type="Bool">
 			<label></label>
-			<default>false</default>
+			<default>true</default>
 		</entry>
 		<entry name="CompleteChangedLists" type="Bool">
 			<label></label>

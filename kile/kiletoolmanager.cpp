@@ -19,6 +19,7 @@
 #include <qwidgetstack.h>
 #include <qtimer.h>
 #include <qregexp.h>
+#include <qthread.h>
 
 #include <kaction.h>
 #include <ktextedit.h>
@@ -27,6 +28,7 @@
 #include <klocale.h>
 #include <kparts/partmanager.h>
 #include <kmessagebox.h>
+#include <kapplication.h>
 #include <ksimpleconfig.h>
 
 #include "kileinfo.h"
@@ -40,7 +42,7 @@
  
 namespace KileTool
 {
-	QueueItem::QueueItem(Base *tool, const QString & cfg) : m_tool(tool), m_cfg(cfg)
+	QueueItem::QueueItem(Base *tool, const QString & cfg, bool block) : m_tool(tool), m_cfg(cfg), m_bBlock(block)
 	{
 	}
 
@@ -63,6 +65,14 @@ namespace KileTool
 			return head()->cfg();
 		else
 			return QString::null;
+	}
+
+	bool Queue::shouldBlock() const
+	{
+		if ( head() )
+			return head()->shouldBlock();
+		else
+			return false;
 	}
 
 	void Queue::enqueueNext(QueueItem *item)
@@ -96,6 +106,7 @@ namespace KileTool
 		m_stack(stack),
 		m_stop(stop),
 		m_bClear(true),
+		m_nLastResult(Success),
 		m_nTimeout(to)
 	{
 		m_timer = new QTimer(this);
@@ -105,6 +116,11 @@ namespace KileTool
 	
 	Manager::~Manager()
 	{
+	}
+
+	bool Manager::shouldBlock()
+	{
+		return m_queue.shouldBlock();
 	}
 
 	void Manager::enableClear()
@@ -117,7 +133,7 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption) == KMessageBox::Continue);
 	}
 
-	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/)
+	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
 		if (!m_factory)
 		{
@@ -132,10 +148,10 @@ namespace KileTool
 			return ConfigureFailed;
 		}
 		
-		return run(pTool, cfg, insertNext);
+		return run(pTool, cfg, insertNext, block);
 	}
 
-	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/)
+	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
 		kdDebug() << "==KileTool::Manager::run(Base*)============" << endl;
 		if (m_bClear && (m_queue.count() == 0) )
@@ -145,15 +161,17 @@ namespace KileTool
 			m_output->clear();
 		}
 
+		//blocking
+
 		//FIXME: shouldn't restart timer if a Sequence command takes longer than the 10 secs
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
 
 		if ( insertNext )
-			m_queue.enqueueNext(new QueueItem(tool, cfg));
+			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
 		else
-			m_queue.enqueue(new QueueItem(tool, cfg));
+			m_queue.enqueue(new QueueItem(tool, cfg, block));
 
 		kdDebug() << "\tin queue: " << m_queue.count() << endl;
 		if ( m_queue.count() == 1 )
@@ -162,6 +180,29 @@ namespace KileTool
 			return Running;
 		else
 			return ConfigureFailed;
+	}
+
+	int Manager::runNext(const QString &tool , const QString &config, bool block /*= false*/) 
+	{
+		return run(tool, config, true, block);
+	}
+
+	int Manager::runNext(Base *tool, const QString &config, bool block /*= false*/) 
+	{
+		return run(tool, config, true, block); 
+	}
+
+	int Manager::runBlocking(const QString &tool, const QString &config /*= QString::null*/, bool insertAtTop /*= false*/)
+	{
+		if ( run(tool, config, insertAtTop, true) == Running )
+			return lastResult();
+		else
+			return Failed;
+	}
+
+	int Manager::runNextBlocking(const QString &tool, const QString &config)
+	{
+		return runBlocking(tool, config, true);
 	}
 
 	int Manager::runNextInQueue()
@@ -223,6 +264,7 @@ namespace KileTool
 	void Manager::done(Base *tool, int result)
 	{
 		m_stop->setEnabled(false);
+		m_nLastResult = result;
 
 		if ( tool != m_queue.tool() ) //oops, tool finished async, could happen with view tools
 		{

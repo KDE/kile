@@ -46,7 +46,6 @@
 #include "librarytoolconfigwidget.h"
 #include "quicktoolconfigwidget.h"
 #include "latextoolconfigwidget.h"
-#include "viewbibtoolconfigwidget.h"
 #include "newtoolwizard.h"
 
 namespace KileWidget

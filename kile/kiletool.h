@@ -49,7 +49,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		Base(const QString &name, Manager *manager);
+		Base(const QString &name, Manager *manager, bool prepare = true);
 		~Base();
 
 		/**
@@ -98,7 +98,9 @@ namespace KileTool
 		/**
 		 * Allows you to set the target file explicitly (filename only).
 		 **/
-		void setTarget(const QString & target) { m_target = target; }
+		void setTarget(const QString & target);
+		void setTargetDir(const QString & target);
+		void setTargetPath(const QString & target);
 
 		/**
 		 * Sets the target directory relative to the source directory.
@@ -251,7 +253,7 @@ namespace KileTool
 	class Compile : public Base
 	{
 	public:
-		Compile(const QString &name, Manager * manager);
+		Compile(const QString &name, Manager * manager, bool prepare = true);
 		~Compile();
 		
 	protected:
@@ -264,7 +266,7 @@ namespace KileTool
 	class View : public Base
 	{
 	public:
-		View(const QString &name, Manager * manager);
+		View(const QString &name, Manager * manager, bool prepare = true);
 		~View();
 
 		bool isViewer() { return true; }
@@ -276,7 +278,7 @@ namespace KileTool
 	class Convert : public Base
 	{
 	public:
-		Convert(const QString &name, Manager * manager);
+		Convert(const QString &name, Manager * manager, bool prepare = true);
 		~Convert();
 		
 		bool determineSource();
@@ -294,7 +296,7 @@ namespace KileTool
 		Q_OBJECT
 		
 	public:
-		Sequence(const QString &name, Manager * manager);
+		Sequence(const QString &name, Manager * manager, bool prepare = true);
 
 	public slots:
 		int run();

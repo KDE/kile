@@ -198,7 +198,9 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		m_popup->disconnect();
 
 		KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
-		kdDebug() << "popup " << itm->url().path() << endl;
+		bool isKilePrFile = false;
+		if (itm->type() != KileType::Project && itm->projectItem() && itm->projectItem()->project())
+			isKilePrFile = itm->projectItem()->project()->url() == itm->url();
 
 		if (itm->type() == KileType::ProjectExtra)
 		{
@@ -218,7 +220,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		if (itm->type() == KileType::File || itm->type() == KileType::ProjectItem)
 		{
 			m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
-			m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
+			if (!isKilePrFile) m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
 			m_popup->insertSeparator();
 		}
 
@@ -237,7 +239,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 				m_popup->insertSeparator();
 				m_popup->setItemChecked(KPV_ID_INCLUDE, pi->archive());
 			}
-			m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
+			if (!isKilePrFile) m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
 		}

@@ -34,7 +34,7 @@ namespace KileTool
 		Factory(Manager *mngr, KConfig *config) : m_manager(mngr), m_config(config) {}
 		~Factory() {}
 
-		Base* create(const QString & tool);
+		Base* create(const QString & tool, bool prepare = true);
 
 		void writeStdConfig();
 
@@ -48,7 +48,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		LaTeX(const QString & tool, Manager *mngr) : Compile(tool, mngr) {}
+		LaTeX(const QString & tool, Manager *mngr, bool prepare) : Compile(tool, mngr, prepare) {}
 
 	signals:
 		void jumpToFirstError();
@@ -67,7 +67,7 @@ namespace KileTool
 	class ForwardDVI : public View
 	{
 	public:
-		ForwardDVI(const QString & tool, Manager *mngr) : View(tool, mngr) {}
+		ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true) : View(tool, mngr, prepare) {}
 
 	protected:
 		bool determineTarget();
@@ -79,7 +79,7 @@ namespace KileTool
 	class ViewBib : public View
 	{
 	public:
-		ViewBib(const QString & tool, Manager *mngr) : View(tool, mngr) {}
+		ViewBib(const QString & tool, Manager *mngr, bool prepare = true) : View(tool, mngr, prepare) {}
 
 	protected:
 		bool determineSource();
@@ -90,7 +90,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		ViewHTML(const QString & tool, Manager *mngr) : View(tool, mngr) {}
+		ViewHTML(const QString & tool, Manager *mngr, bool prepare = true) : View(tool, mngr, prepare) {}
 
 	protected:
 		bool determineTarget();

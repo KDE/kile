@@ -35,7 +35,7 @@
 
 namespace KileTool
 {
-	Base::Base(const QString &name, Manager * manager) :
+	Base::Base(const QString &name, Manager * manager, bool prepare /* = true */) :
 		m_manager(manager),
 		m_name(name),
 		m_from(QString::null),
@@ -64,7 +64,7 @@ namespace KileTool
 		setMsg(NeedSourceRead, i18n("Sorry, the file %1 is not readable."));
 
 		m_bPrepared = false;
-		prepareToRun();
+		if (prepare) prepareToRun();
 	}
 
 	Base::~Base()
@@ -296,8 +296,8 @@ namespace KileTool
 		url.cleanPath();
 		m_targetdir = url.path();
 		
-		addDict("%dir_target", m_targetdir);
-		addDict("%target", m_target);
+		setTarget(m_target);
+		setTargetDir(m_targetdir);		
 		
 		kdDebug() << "==KileTool::Base::determineTarget()=========" << endl;
 		kdDebug() << "\tm_targetdir=" << m_targetdir << endl;
@@ -338,6 +338,25 @@ namespace KileTool
 		}
 
 		return true;
+	}
+	
+	void Base::setTarget(const QString &target)
+	{
+		m_target = target;
+		addDict("%target", m_target);
+	}
+	
+	void Base::setTargetDir(const QString &target)
+	{
+		m_targetdir = target;
+		addDict("%dir_target", m_targetdir);
+	}
+
+	void Base::setTargetPath(const QString &target)
+	{
+		QFileInfo fi(target);
+		setTarget(fi.fileName());
+		setTargetDir(fi.dirPath(true));
 	}
 	
 	bool Base::checkPrereqs()
@@ -486,8 +505,8 @@ sourceinfo.lastModified()) << endl;
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
 
-	Compile::Compile(const QString &name, Manager * manager)
-		: Base(name, manager)
+	Compile::Compile(const QString &name, Manager * manager, bool prepare /*= true*/)
+		: Base(name, manager, prepare)
 	{
 		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite);
 	}
@@ -511,8 +530,8 @@ sourceinfo.lastModified()) << endl;
 		return true;
 	}
 	
-	View::View(const QString &name, Manager * manager)
-		: Base(name, manager)
+	View::View(const QString &name, Manager * manager, bool prepare /*= true*/)
+		: Base(name, manager, prepare)
 	{
 		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
@@ -524,8 +543,8 @@ sourceinfo.lastModified()) << endl;
 	{
 	}
 	
-	Convert::Convert(const QString &name, Manager * manager)
-		: Base(name, manager)
+	Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)
+		: Base(name, manager,prepare)
 	{
 		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite );
 	}
@@ -541,8 +560,8 @@ sourceinfo.lastModified()) << endl;
 		return br;
 	}
 
-	Sequence::Sequence(const QString &name, Manager * manager) : 
-		Base(name, manager)
+	Sequence::Sequence(const QString &name, Manager * manager, bool prepare /*= true*/) : 
+		Base(name, manager, prepare)
 	{
 	}
 

@@ -35,7 +35,7 @@
 
 namespace KileTool
 {
-	Base* Factory::create(const QString & tool)
+	Base* Factory::create(const QString & tool, bool prepare /* = true */)
 	{
 		//perhaps we can find the tool in the config file
 		if (m_config->hasGroup(groupFor(tool, m_config)))
@@ -44,31 +44,31 @@ namespace KileTool
 			QString toolClass = m_config->readEntry("class", "");
 
 			if ( toolClass == "LaTeX")
-				return new LaTeX(tool, m_manager);
+				return new LaTeX(tool, m_manager, prepare);
 
 			if ( toolClass == "ForwardDVI" )
-				return new ForwardDVI(tool, m_manager);
+				return new ForwardDVI(tool, m_manager, prepare);
 
 			if ( toolClass == "ViewHTML" )
-				return new ViewHTML(tool, m_manager);
+				return new ViewHTML(tool, m_manager, prepare);
 
 			if ( toolClass == "ViewBib" )
-				return new ViewBib(tool, m_manager);
+				return new ViewBib(tool, m_manager, prepare);
 
 			if ( toolClass == "Base" )
-				return new Base(tool, m_manager);
+				return new Base(tool, m_manager, prepare);
 
 			if ( toolClass == "Compile" )
-				return new Compile(tool, m_manager);
+				return new Compile(tool, m_manager, prepare);
 
 			if ( toolClass == "Convert" )
-				return new Convert(tool, m_manager);
+				return new Convert(tool, m_manager, prepare);
 
 			if ( toolClass == "View" )
-				return new View(tool, m_manager);
+				return new View(tool, m_manager, prepare);
 
 			if ( toolClass == "Sequence" )
-				return new Sequence(tool, m_manager);
+				return new Sequence(tool, m_manager, prepare);
 		}
 
 		//unknown tool, return 0

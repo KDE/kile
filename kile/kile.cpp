@@ -1454,7 +1454,7 @@ void Kile::toggleMode()
 	else if (m_singlemode && viewManager()->currentView())
 	{
 		m_masterName=getName();
-		if (m_masterName==i18n("Untitled") || m_masterName=="")
+		if (m_masterName==i18n("Untitled") || m_masterName.isEmpty())
 		{
 			ModeAction->setChecked(false);
 			KMessageBox::error(this, i18n("In order to define the current document as a master document, it has to be saved first."));

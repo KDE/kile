@@ -533,7 +533,7 @@ void Kile::setupActions()
   const KAboutData *aboutData = KGlobal::instance()->aboutData();
   help_menu = new KHelpMenu( this, aboutData);
   (void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
-  (void) new KAction(i18n("User Manual"),"help",0 , this, SLOT(UserManualHelp()), actionCollection(),"help2" );
+  (void) new KAction(i18n("Kile Handbook"),"contents",0 , this, SLOT(invokeHelp()), actionCollection(),"help2" );
   (void) new KAction(i18n("About Kile"),QIconSet(kapp->miniIcon()),0 , help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
   (void) new KAction(i18n("About KDE"),"about_kde",0 , help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
 
@@ -4945,23 +4945,9 @@ QFileInfo fic(locate("appdata","doc/latexhelp.html"));
     else { KMessageBox::error( this,i18n("File not found"));}
 }
 
-void Kile::UserManualHelp()
+void Kile::invokeHelp()
 {
-QFileInfo fic(locate("appdata","doc/usermanual.html"));
-    if (fic.exists() && fic.isReadable() )
-      {
-      ResetPart();
-      htmlpart = new docpart(topWidgetStack,"help");
-      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-      htmlpresent=true;
-      topWidgetStack->addWidget(htmlpart->widget() , 1 );
-      topWidgetStack->raiseWidget(1);
-      partManager->addPart(htmlpart, true);
-      partManager->setActivePart( htmlpart);
-      htmlpart->openURL(locate("appdata","doc/usermanual.html"));
-      htmlpart->addToHistory(locate("appdata","doc/usermanual.html"));
-      }
-    else { KMessageBox::error( this,i18n("File not found"));}
+	kapp->invokeHelp();
 }
 
 ///////////////////// USER ///////////////

@@ -425,7 +425,7 @@ private slots:
    void BrowserForward();
    void BrowserHome();
    void LatexHelp();
-   void UserManualHelp();
+   void invokeHelp();
 
    void spellcheck();
    void spell_started ( KSpell *);

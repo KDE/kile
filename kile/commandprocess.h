@@ -31,6 +31,8 @@ public:
 	CommandProcess();
 	~CommandProcess();
 
+	QString command();
+	
 public slots:
    void terminate();
 };

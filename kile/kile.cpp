@@ -153,7 +153,7 @@ LogWidget = new MessageWidget( Outputview );
 LogWidget->setFocusPolicy(QWidget::ClickFocus);
 LogWidget->setMinimumHeight(40);
 LogWidget->setReadOnly(true);
-Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log File"));
+Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log"));
 
 OutputWidget = new MessageWidget( Outputview );
 OutputWidget->setFocusPolicy(QWidget::ClickFocus);
@@ -1143,12 +1143,13 @@ else
 setCaption(title);
 UpdateStructure();
 if (Outputview->currentPage()->inherits("TexKonsoleWidget")) syncTerminal();
-if (singlemode)
+/*if (singlemode)
  {
  OutputWidget->clear();
  LogWidget->clear();
  logpresent=false;
  }
+ */
 UpdateLineColStatus();
 }
 
@@ -1367,8 +1368,8 @@ void Kile::QuickBuild()
       LogWidget->clear();
       Outputview->showPage(LogWidget);
       logpresent=false;
-      LogWidget->insertLine(i18n("Quick build "));
-      LogWidget->insertLine(i18n("Process launched"));
+      LogWidget->insertLine(i18n("Quick build..."));
+      LogWidget->insertLine(i18n("Launched: ") + proc->command());
       LogWidget->insertLine(i18n("Compilation..."));
    }
 
@@ -1553,7 +1554,8 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
     connect(proc, SIGNAL(processExited(KProcess*)), this, SLOT(slotDisableStop()));
     StopAction->setEnabled(true);
  }
- 
+
+ LogWidget->clear();
  return proc;
 }
 
@@ -1698,7 +1700,7 @@ void Kile::Latex()
      LogWidget->clear();
      Outputview->showPage(LogWidget);
      logpresent=false;
-     LogWidget->insertLine(i18n("Process launched"));
+     LogWidget->insertLine(i18n("Launched: ") + proc->command());
   }
 
   UpdateLineColStatus();
@@ -1744,7 +1746,7 @@ void Kile::ViewDvi()
          LogWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ") + proc->command());
      }
   }
  
@@ -1803,7 +1805,7 @@ void Kile::KdviForwardSearch()
     }
     else
     {
-       LogWidget->insertLine(i18n("Process launched"));
+       LogWidget->insertLine(i18n("Launched: ") + "kdvi");
     }
    }
 
@@ -1833,7 +1835,7 @@ void Kile::DviToPS()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ") + proc->command());
 
   }
 
@@ -1880,7 +1882,7 @@ void Kile::ViewPS()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched:")+proc->command());
          }
     }
 
@@ -1907,7 +1909,7 @@ void Kile::PDFLatex()
      OutputWidget->clear();
      Outputview->showPage(LogWidget);
      logpresent=false;
-     LogWidget->insertLine(i18n("Process launched"));
+     LogWidget->insertLine(i18n("Launched: ")+ proc->command());
   }
 
   UpdateLineColStatus();
@@ -1952,7 +1954,7 @@ void Kile::ViewPDF()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ") + proc->command());
          }
     }
 
@@ -1977,7 +1979,7 @@ void Kile::MakeBib()
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="")
   {
-     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +bibtex_command+i18n(" . Make sure you have the file you want to run ")+bibtex_command+i18n(" on  open and saved."));
+     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +bibtex_command+i18n(" . Make sure you have the source file of the file you want to run ")+bibtex_command+i18n(" on  open and saved."));
      return;
   }
 
@@ -2007,7 +2009,7 @@ void Kile::MakeBib()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ")+proc->command());
          }
 
 
@@ -2034,7 +2036,7 @@ void Kile::MakeIndex()
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="")
   {
-     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +makeindex_command+i18n(" . Make sure you have the file you want to run ")+makeindex_command+i18n(" on  open and saved."));
+     KMessageBox::error( this,i18n("Unable to determine on which file to run ") +makeindex_command+i18n(" . Make sure you have the source file of the file you want to run ")+makeindex_command+i18n(" on  open and saved."));
      return;
   }
 
@@ -2059,7 +2061,7 @@ void Kile::MakeIndex()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ")+ proc->command());
          }
 
   UpdateLineColStatus();
@@ -2088,7 +2090,7 @@ void Kile::PStoPDF()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ")+proc->command());
          }
     UpdateLineColStatus();
 }
@@ -2116,7 +2118,7 @@ void Kile::DVItoPDF()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ")+ proc->command());
          }
 
   UpdateLineColStatus();
@@ -2153,7 +2155,7 @@ void Kile::MetaPost()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ") + "mpost");
          }
   }
  else
@@ -2215,7 +2217,7 @@ void Kile::CleanAll()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Cleaning up..."));
          }
    }
 
@@ -2268,7 +2270,7 @@ void Kile::LatexToHtml()
          OutputWidget->clear();
          Outputview->showPage(LogWidget);
          logpresent=false;
-         LogWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Launched: ")+ "latex2html");
         }
     }
     delete (l2hDlg);
@@ -4996,7 +4998,7 @@ else
   LogWidget->clear();
   Outputview->showPage(LogWidget);
   logpresent=false;
-  LogWidget->insertLine(i18n("Process launched"));
+  LogWidget->insertLine(i18n("Launched: ")+ "xfig");
   }
 }
 

@@ -8,6 +8,8 @@ BUGS
    as a section.
    
 TODO
+ - clean up usertool/usermenutag code
+
  - trying to compile an untitled document should initiate a
    'Save As' dialog instead of the error 'could not start command'
 

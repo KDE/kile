@@ -27,4 +27,19 @@ void CommandProcess::terminate() {
    this->kill();
 }
 
+
+QString CommandProcess::command()
+{
+	QValueList<QCString> list = this->args();
+	QString ret;
+	for ( QValueListIterator<QCString> item=list.begin();
+		item != list.end();
+		item++ )
+	{
+		ret += QString(*item)+" ";
+	}
+
+	return ret;
+}
+
 #include "commandprocess.moc"

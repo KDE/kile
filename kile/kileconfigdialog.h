@@ -26,18 +26,15 @@
 #include "configcodecompletion.h"     // code completion (dani)
 
 class QLabel;
-class QLineEdit;
 
-class QLabel;
 class QComboBox;
 class QSpinBox;
-
 class QCheckBox;
 class QRadioButton;
 class QButtonGroup;
-class QSpinBox;
 class QFrame;
 
+class KLineEdit;
 class KSpellConfig;
 class KColorButton;
 class KIntNumInput;
@@ -65,21 +62,22 @@ namespace KileDialog
 		
 		QLabel    *TextLabel6, *TextLabel7, *TextLabel8, *TextLabel9, *TextLabel10, *TextLabel11;
 		QLabel    *TextLabel12, *TextLabel13, *TextLabel14;
-		QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13, *LineEdit14;
+		KLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13, *LineEdit14;
 		
 		QComboBox *comboDvi, *comboPs, *comboPdf, *comboLatexHelp;
 		QButtonGroup *ButtonGroup2;
 		QSpinBox *spinLevel;
-		QCheckBox *checkAutosave, *checkEnv, *checkRestore, *checkForRoot, *m_runlyxserver;
+		QCheckBox *checkAutosave, *checkEnv, *checkRestore, *checkForRoot, *m_runlyxserver, *checkCleanUpAfterClose;
 		QCheckBox *cb_boundingbox;
-		
+
+		KLineEdit* fileExtensionList;
+
 		QRadioButton *checkLatex, *checkPdflatex,
 		*checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
 		
 		KIntNumInput *asIntervalInput;
 		
-		QLineEdit *templAuthor, *templDocClassOpt, *templEncoding;
-		QLineEdit *edit_res;
+		KLineEdit *templAuthor, *templDocClassOpt, *templEncoding, *edit_res;
 		
 		QFrame* generalPage;
 		QFrame* toolsPage;

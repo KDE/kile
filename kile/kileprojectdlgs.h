@@ -43,11 +43,6 @@ public:
 	const QString projectTitle()
 		{ return m_title->text(); }
 
-	void setArchiveCommand(const QString &archive)
-		{ m_archive->setText(archive); }
-	const QString archiveCommand()
-		{ return m_archive->text(); }
-
 	void setExtensions(KileProjectItem::Type type, const QString & ext);
 	const QString extensions(KileProjectItem::Type type)
 		{ return m_val_extensions[type-1]; }
@@ -66,13 +61,13 @@ private slots:
 	void slotRegExpToggled(bool on);
 
 protected:
-	KLineEdit	*m_title, *m_archive, *m_extensions;
+	KLineEdit	*m_title, *m_extensions;
 	QCheckBox	*m_isregexp;
 	KileProject	*m_project;
 	KComboBox	*m_sel_extensions;
 
-	QString		m_val_extensions[KileProjectItem::Unknown - 1];
-	bool		m_val_isregexp[KileProjectItem::Unknown - 1];
+	QString		m_val_extensions[KileProjectItem::Other - 1];
+	bool		m_val_isregexp[KileProjectItem::Other - 1];
 };
 
 class KileNewProjectDlg : public KileProjectDlgBase
@@ -120,7 +115,7 @@ private slots:
 	void slotOk();
 
 private:
-	KComboBox	*m_master;
+	KComboBox	*m_master, *m_cbQuick;
 };
 
 #endif

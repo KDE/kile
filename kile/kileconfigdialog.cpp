@@ -88,7 +88,7 @@ namespace KileDialog
 		QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure view options"), generalPage);
 		genLayout->addWidget(structGroup);
 		genLayout->setStretchFactor(structGroup,0);
-	
+
 		//default structure level
 		lb = new QLabel(i18n("Default expansion &level for the structure view (1 part - 5 subsubsection) : "),structGroup);
 		spinLevel = new QSpinBox(1,5, 1, structGroup);
@@ -107,19 +107,31 @@ namespace KileDialog
 		QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);
 		
 		QLabel *lbAuthor = new QLabel(i18n("&Author"),templateGroup);
-		templAuthor = new QLineEdit(templateGroup, "templAuthor");
+		templAuthor = new KLineEdit(templateGroup, "templAuthor");
 		lbAuthor->setBuddy(templAuthor);
 		QLabel *lbDocClassOpt = new QLabel(i18n("&Documentclass options"),templateGroup);
-		templDocClassOpt = new QLineEdit(templateGroup, "templDocClassOpt");
+		templDocClassOpt = new KLineEdit(templateGroup, "templDocClassOpt");
 		lbDocClassOpt->setBuddy(templDocClassOpt);
 		QLabel *lbEnc = new QLabel(i18n("Input &encoding"), templateGroup);
-		templEncoding = new QLineEdit(templateGroup, "templEncoding");
+		templEncoding = new KLineEdit(templateGroup, "templEncoding");
 		lbEnc->setBuddy(templEncoding);
 		
 		genLayout->addWidget(templateGroup);
 		//	genLayout->setStretchFactor(templateGroup,0);
+
+		// Fixme Start of seans cleanup
+		QGroupBox *cleanUpGroup = new QGroupBox(1, Qt::Horizontal, i18n("File clean up details"), generalPage);
+		genLayout->addWidget(cleanUpGroup);
+		genLayout->setStretchFactor(cleanUpGroup,0);
+		checkCleanUpAfterClose = new QCheckBox(i18n("Automatic clean up files after close."), cleanUpGroup );
+		fileExtensionList = new KLineEdit( cleanUpGroup, "fileExtensionList" );
+
+		m_config->setGroup("Files");
+		checkCleanUpAfterClose->setChecked(m_config->readBoolEntry("CleanUpAfterClose",false));
+		fileExtensionList->setText(m_config->readListEntry("CleanUpFileExtensions").join(" "));
+
 		genLayout->addStretch();                     // looks better (dani)
-		
+
 		//fill in template variables
 		m_config->setGroup( "User" );
 		templAuthor->setText(m_config->readEntry("Author",""));
@@ -181,7 +193,7 @@ namespace KileDialog
 		
 		QLabel *label1 = new QLabel(i18n("default resolution:"), widget);
 		grid->addWidget( label1, 0,0 );
-		edit_res= new QLineEdit("",widget);
+		edit_res= new KLineEdit("",widget);
 		grid->addWidget( edit_res, 0,1 );
 		
 		QLabel *label2 = new QLabel(i18n("(used when the picture offers no resolution)"), widget);
@@ -260,6 +272,8 @@ namespace KileDialog
 		m_config->writeEntry("Restore", checkRestore->isChecked());
 		m_config->writeEntry("Autosave",checkAutosave->isChecked());
 		m_config->writeEntry("AutosaveInterval",asIntervalInput->value()*60000);
+		m_config->writeEntry("CleanUpAfterClose", checkCleanUpAfterClose->isChecked());
+		m_config->writeEntry("CleanUpFileExtensions", QStringList::split(" ", fileExtensionList->text()));
 	
 		m_config->setGroup( "User" );
 		m_config->writeEntry("Author",templAuthor->text());

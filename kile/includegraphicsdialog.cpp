@@ -1,8 +1,8 @@
 /***************************************************************************
                            includegraphicsdialog.cpp
 ----------------------------------------------------------------------------
-    date                 : Jan 17 2004
-    version              : 0.10.1
+    date                 : Jan 23 2004
+    version              : 0.10.2
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -80,12 +80,12 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent, KConfig *config,
    grid->addWidget( infolabel, 1,1 );
 
    // line 3: some output options
-   QLabel *label3 = new QLabel(i18n("Output"), widget);
+   QLabel *label3 = new QLabel(i18n("Output:"), widget);
 
    QWidget *cb_widget = new QWidget(widget);
    QGridLayout *cb_grid = new QGridLayout( cb_widget, 1,2, 5,5,"");
    cb_center = new QCheckBox(i18n("center picture"),cb_widget);
-   cb_pdftex = new QCheckBox("pdftex/pdflatex",cb_widget);
+   cb_pdftex = new QCheckBox(i18n("pdftex/pdflatex"),cb_widget);
    cb_center->setChecked(true);                             // default: always on
    cb_pdftex->setChecked(m_pdflatex);                       // default: on when using pdftex
    cb_grid->addWidget(cb_center,0,0);
@@ -102,7 +102,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent, KConfig *config,
    QLabel *label7 = new QLabel(i18n("width:"), widget_opt);
    QLabel *label8 = new QLabel(i18n("height:"),widget_opt);
    QLabel *label9 = new QLabel(i18n("angle:"), widget_opt);
-   lb_bb = new QLabel(i18n("bounding box:"), widget_opt);
+   QLabel *label10= new QLabel(i18n("bounding box:"), widget_opt);
    edit_width = new QLineEdit("",widget_opt);
    edit_height = new QLineEdit("",widget_opt);
    edit_angle = new QLineEdit("",widget_opt);
@@ -115,7 +115,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent, KConfig *config,
 
    grid_opt->addWidget( label8,      1,0, Qt::AlignRight );
    grid_opt->addWidget( edit_height, 1,1 );
-   grid_opt->addWidget( lb_bb,       1,2, Qt::AlignRight );
+   grid_opt->addWidget( label10,     1,2, Qt::AlignRight );
    grid_opt->addWidget( edit_bb,     1,3 );
 
     // third groupbox: figure environment
@@ -175,13 +175,9 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent, KConfig *config,
 
    // read configuration
    config->setGroup("IncludeGraphics");
-   m_boundingbox = config->readBoolEntry("imagemagick",false) &&
-                   config->readBoolEntry("boundingbox",true);
-   if ( ! m_boundingbox ) {                
-      lb_bb->setEnabled(false);      // disable Widgets
-      edit_bb->setEnabled(false);
-   }
-                   
+   m_imagemagick = config->readBoolEntry("imagemagick",false);
+   m_boundingbox = config->readBoolEntry("boundingbox",true);
+               
    bool convert;
    m_defaultresolution = config->readEntry("resolution","300").toFloat( &convert );
    if ( !convert )
@@ -415,9 +411,9 @@ void IncludegraphicsDialog::chooseFile()
 
 void IncludegraphicsDialog::execute(const QString &command)
 {
-   if ( ! m_boundingbox )
+   if ( !m_boundingbox || (!m_imagemagick && command.left(8)=="identify") )
       return;
-     
+      
    KShellProcess* proc = new KShellProcess("/bin/sh");
    proc->clearArguments();
    (*proc) << QStringList::split(' ',command);

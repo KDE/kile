@@ -1,8 +1,8 @@
 /***************************************************************************
                            codecompletion.h 
 ----------------------------------------------------------------------------
-    date                 : Jan 10 2004
-    version              : 0.10
+    date                 : Jan 24 2004
+    version              : 0.10.3
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -39,12 +39,23 @@ public:
       cmLatex,
       cmEnvironment,
       cmDictionary,
-      cmAbbreviation
+      cmAbbreviation,
+      cmLabel
+    };
+
+  enum Type
+    {
+      ctNone,
+      ctReference,
+      ctCitation
     };
 
   bool isActive();
   bool inProgress();
   bool autoComplete();
+  CodeCompletion::Mode getMode();
+  CodeCompletion::Type getType();
+  CodeCompletion::Type getType(const QString &text);
   
   void readConfig(KConfig *config);
 
@@ -54,6 +65,8 @@ public:
   void CompletionDone();
   void CompletionAborted();
 
+  void completeFromList(Kate::View *view,const QStringList *list);
+
   const QString getBullet();
   
 private:
@@ -61,6 +74,7 @@ private:
    QValueList<KTextEditor::CompletionEntry> m_texlist;
    QValueList<KTextEditor::CompletionEntry> m_dictlist;
    QValueList<KTextEditor::CompletionEntry> m_abbrevlist;
+   QValueList<KTextEditor::CompletionEntry> m_labellist;
    
    // some flags
    bool m_isenabled;
@@ -69,17 +83,20 @@ private:
    bool m_closeenv;
    bool m_autocomplete;
    
-   // Flag zum Status von Complete
+   // state of complete: some flags
    bool m_firstconfig;
    bool m_inprogress;
 
-   // Flag zum Wiederherstellen von Text
+   // undo text
    bool m_undo;
 
-   // das aktuelle Bullet-Zeichen
+   // character which is used as bullet
    QString m_bullet;
+
+   // special types: ref, bib
+   CodeCompletion::Type m_type;
    
-   // internal Parameter
+   // internal parameter
    Kate::View *m_view;                  // View
    QString m_text;                      // current pattern
    uint m_textlen;                      // length of current pattern
@@ -90,6 +107,7 @@ private:
    QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
    QString buildEnvironmentText(const QString &text, const QString &type, uint &ypos, uint &xpos);
    QString buildAbbreviationText(const QString &text);
+   QString buildLabelText(const QString &text);
    
    QString parseText(const QString &text, uint &ypos, uint &xpos, bool checkgroup);
    QString stripParameter(const QString &text);

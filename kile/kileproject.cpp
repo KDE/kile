@@ -24,6 +24,7 @@
 #include <kdebug.h>
 
 #include "kiledocumentinfo.h"
+#include "kiletoolmanager.h"
 
 /*
  * KileProjectItem
@@ -115,7 +116,7 @@ void KileProjectItem::setInfo(KileDocumentInfo *docinfo)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii())
+KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii()), m_masterDocument(QString::null)
 {
 	init(name,url);
 }
@@ -194,7 +195,7 @@ void KileProject::setType(KileProjectItem *item)
 	kdDebug() << "==KileProject::setType()================" << endl;
 
 	bool unknown = true;
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Unknown; i++)
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++)
 		if ( (extensions((KileProjectItem::Type) i) != "") &&
 			m_reExtensions[i-1].search(item->url().fileName()) != -1)
 		{
@@ -207,7 +208,7 @@ void KileProject::setType(KileProjectItem *item)
 		if (item->url().fileName().right(7) == ".kilepr")
 			item->setType(KileProjectItem::ProjectFile);
 		else
-			item->setType(KileProjectItem::Unknown);
+			item->setType(KileProjectItem::Other);
 	}
 
 	kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
@@ -222,8 +223,7 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
-	m_archiveCommand = m_config->readEntry("archive", "tar zcvf '%S'.tar.gz %F");
-	setMasterDocument(m_config->readEntry("masterDocument", ""));
+	setMasterDocument(m_config->readEntry("masterDocument", QString::null));
 
 	// IsRegExp has to be loaded _before_ the Extensions
 	setExtIsRegExp(KileProjectItem::Source, m_config->readBoolEntry("src_extIsRegExp", false));
@@ -232,8 +232,10 @@ bool KileProject::load()
 	setExtensions(KileProjectItem::Package, m_config->readEntry("pkg_extensions", PACKAGE_EXTENSIONS));
 	setExtIsRegExp(KileProjectItem::Image, m_config->readBoolEntry("img_extIsRegExp", false));
 	setExtensions(KileProjectItem::Image, m_config->readEntry("img_extensions", IMAGE_EXTENSIONS));
-	setExtIsRegExp(KileProjectItem::Other, m_config->readBoolEntry("oth_extIsRegExp", false));
-	setExtensions(KileProjectItem::Other, m_config->readEntry("oth_extensions", OTHER_EXTENSIONS));
+	//setExtIsRegExp(KileProjectItem::Other, m_config->readBoolEntry("oth_extIsRegExp", false));
+	//setExtensions(KileProjectItem::Other, m_config->readEntry("oth_extensions", OTHER_EXTENSIONS));
+
+	setQuickBuildConfig(KileTool::configName("QuickBuild", m_config));
 
 	KURL url;
 	KileProjectItem *item;
@@ -282,7 +284,6 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
-	m_config->writeEntry("archive", m_archiveCommand);
 	m_config->writeEntry("masterDocument", m_masterDocument);
 
 	m_config->writeEntry("src_extensions", extensions(KileProjectItem::Source));
@@ -291,8 +292,8 @@ bool KileProject::save()
 	m_config->writeEntry("pkg_extIsRegExp", extIsRegExp(KileProjectItem::Package));
 	m_config->writeEntry("img_extensions", extensions(KileProjectItem::Image));
 	m_config->writeEntry("img_extIsRegExp", extIsRegExp(KileProjectItem::Image));
-	m_config->writeEntry("oth_extensions", extensions(KileProjectItem::Other));
-	m_config->writeEntry("oth_extIsRegExp", extIsRegExp(KileProjectItem::Other));
+	//m_config->writeEntry("oth_extensions", extensions(KileProjectItem::Other));
+	//m_config->writeEntry("oth_extIsRegExp", extIsRegExp(KileProjectItem::Other));
 
 	KileProjectItem *item;
 	for (uint i=0; i < m_projectitems.count(); i++)
@@ -306,6 +307,8 @@ bool KileProject::save()
 		m_config->writeEntry("archive", item->archive());
 		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
+
+	KileTool::setConfigName("QuickBuild", quickBuildConfig(), m_config);
 
 	m_config->sync();
 

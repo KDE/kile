@@ -371,10 +371,25 @@ toolbarSep=true
 menu=View
 
 [Tools]
-ViewDVI=Embedded Viewer
-ViewPDF=Embedded Viewer
+Archive=Default
+BibTeX=Default
+DVItoPDF=Default
+DVItoPS=Default
+LaTeX=Default
+LaTeX2HTML=Default
 TeX4ht=HTML
+MakeIndex=Default
+MetaPost=Default
+PDFLaTeX=Default
+PStoPDF=Default
 QuickBuild=LaTeX+ViewDVI
+TeX=Default
+ViewBib=Default
+ViewHTML=Default
+ViewDVI=Embedded Viewer
+ForwardDVI=Default
+ViewPDF=Embedded Viewer
+ViewPS=Default
 
 [ToolsGUI]
 Archive=none,none,false,

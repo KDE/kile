@@ -69,6 +69,14 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 	}
 }
 
+int KileProjectViewItem::compare(QListViewItem * i, int col, bool ascending) const
+{
+	KileProjectViewItem *item = dynamic_cast<KileProjectViewItem*>(i);
+	if ( (item->type() == KileType::Folder) &&  (type() != KileType::Folder) ) return 1;
+	else if ( (item->type() != KileType::Folder) &&  (type() == KileType::Folder) ) return -1;
+	else return QListViewItem::compare(i, col, ascending);
+}
+
 /*
  * KileProjectView
  */
@@ -303,11 +311,8 @@ KileProjectViewItem* KileProjectView::folder(const KileProjectItem *pi, KileProj
 	case (KileProjectItem::Image):
 		folder = new KileProjectViewItem(parent, i18n("images"));
 		break;
-	case (KileProjectItem::Other):
+	case (KileProjectItem::Other): default :
 		folder = new KileProjectViewItem(parent, i18n("other"));
-		break;
-	default:
-		folder = new KileProjectViewItem(parent, i18n("non-sources"));
 		break;
 	}
 

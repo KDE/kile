@@ -2,11 +2,12 @@
                            configcodecompletion.cpp 
 ----------------------------------------------------------------------------
     date                 : Jan 17 2004
-    version              : 0.10.1
+    version              : 0.10.2
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
+ 
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -122,8 +123,8 @@ void ConfigCodeCompletion::readConfig(KConfig *config)
    
    // read selected and deselected filenames with wordlists
    m_texlist = config->readListEntry("tex");
-//   if ( m_texlist.isEmpty() )
-//      m_texlist = QStringList::split(",","1-Latex,1-Tex");
+   if ( m_texlist.isEmpty() )
+      m_texlist = QStringList::split(",","1-Latex,1-Tex");
    m_dictlist = config->readListEntry("dict");
    m_abbrevlist = config->readListEntry("abbrev");
 

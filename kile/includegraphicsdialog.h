@@ -1,8 +1,8 @@
 /***************************************************************************
                            includegraphicsdialog.h
 ----------------------------------------------------------------------------
-    date                 : Jan 17 2004
-    version              : 0.10.1
+    date                 : Jan 23 2004
+    version              : 0.10.2
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -63,7 +63,7 @@ private:
    QLineEdit *edit_angle;
    QLineEdit *edit_bb;
    QCheckBox *cb_center, *cb_pdftex, *cb_figure;
-   QLabel *lb_bb, *lb_label, *lb_caption;
+   QLabel *lb_label, *lb_caption;
    
    QString m_startdir;
    QString m_output;
@@ -73,6 +73,7 @@ private:
    float m_resolution;
 
    // default
+   bool m_imagemagick;
    bool m_boundingbox;
    float m_defaultresolution;
    

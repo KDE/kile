@@ -14,11 +14,15 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// last change: 24.01.2004 (dani)
+
 #include "kile.h"
 
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/codecompletioninterface.h>    
+#include <ktexteditor/searchinterface.h>
 #include <kparts/componentfactory.h>
 
 #include <kdebug.h>
@@ -103,6 +107,8 @@
 
 #include "codecompletion.h"                         // code completion (dani)
 #include "includegraphicsdialog.h"                  // new dialog (dani)
+#include "cleandialog.h"                            // clean dialog (dani)
+#include "kileedit.h"                               // advanced editor (dani)
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -200,6 +206,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
   // CodeCompletion (dani)
   m_complete = new CodeCompletion();  
+  // advanced editor (dani)
+  m_edit = new KileEdit();
 
   // check requirements for IncludeGraphicsDialog (dani)
 	config->setGroup("IncludeGraphics");
@@ -315,8 +323,9 @@ Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
 
-  // CodeCompletion (dani)
+  // CodeCompletion  and edvanced editor (dani)
   delete m_complete;
+  delete m_edit;
 
 	delete m_AutosaveTimer;
 }
@@ -373,12 +382,22 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
 
  // CodeCompletion (dani)
-	(void) new KAction(i18n("Complete La(TeX) Command"), CTRL+Key_Space, this, SLOT(editCompleteWord()), actionCollection(), "edit_complete_word");
-	(void) new KAction(i18n("Complete Environment"), ALT+Key_Space, this, SLOT(editCompleteEnvironment()), actionCollection(), "edit_complete_env");
-	(void) new KAction(i18n("Complete Abbreviation"), CTRL+ALT+Key_Space, this, SLOT(editCompleteAbbreviation()), actionCollection(), "edit_complete_abbrev");
-	(void) new KAction(i18n("Next Bullet"), CTRL+ALT+Key_Right, this, SLOT(editNextBullet()), actionCollection(), "edit_next_bullet");
-	(void) new KAction(i18n("Prev Bullet"), CTRL+ALT+Key_Left, this, SLOT(editPrevBullet()), actionCollection(), "edit_prev_bullet");
+	(void) new KAction(i18n("La(TeX) Command"),"complete1",CTRL+Key_Space, this, SLOT(editCompleteWord()), actionCollection(), "edit_complete_word");
+	(void) new KAction(i18n("Environment"),"complete2",ALT+Key_Space, this, SLOT(editCompleteEnvironment()), actionCollection(), "edit_complete_env");
+	(void) new KAction(i18n("Abbreviation"),"complete3",CTRL+ALT+Key_Space, this, SLOT(editCompleteAbbreviation()), actionCollection(), "edit_complete_abbrev");
+	(void) new KAction(i18n("Next Bullet"),"nextbullet",CTRL+ALT+Key_Right, this, SLOT(editNextBullet()), actionCollection(), "edit_next_bullet");
+	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, this, SLOT(editPrevBullet()), actionCollection(), "edit_prev_bullet");
 
+ // advanced editor (dani)
+	(void) new KAction(i18n("Select (inside)"),KShortcut("Alt+Y,S"), this, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
+	(void) new KAction(i18n("Select (outside)"),KShortcut("Alt+Y,T"),this, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
+	(void) new KAction(i18n("Delete (inside)"),"delete",KShortcut("Alt+Y,D"), this, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
+	(void) new KAction(i18n("Delete (outside)"),KShortcut("Alt+Y,Y"),this, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
+	(void) new KAction(i18n("Goto Begin Tag"),KShortcut("Alt+Y,B"), this, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
+	(void) new KAction(i18n("Goto End Tag"),KShortcut("Alt+Y,E"), this, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
+	(void) new KAction(i18n("Match Tag"),"matchenv",KShortcut("Alt+Y,M"), this, SLOT(matchEnv()), actionCollection(), "edit_match_env");
+	(void) new KAction(i18n("Close"),"closeenv",KShortcut("Alt+Y,C"), this, SLOT(closeEnv()), actionCollection(), "edit_close_env");
+ 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
@@ -729,14 +748,14 @@ Kate::View * Kile::createView(Kate::Document *doc)
 	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
 
   // code completion (dani)
-  connect( doc,  SIGNAL(charactersInteractivelyInserted (int ,int ,const QString&)),
-           this,  SLOT(slotCharactersInserted(int ,int ,const QString&)) );
-  connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)),
-           this,  SLOT(  slotCompletionDone(KTextEditor::CompletionEntry)) );
+  connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)),
+           this,  SLOT(slotCharactersInserted(int,int,const QString&)) );
+  connect( view, SIGNAL(completionDone()),
+           this,  SLOT( slotCompletionDone()) );
   connect( view, SIGNAL(completionAborted()),
-           this,  SLOT(  slotCompletionAborted()) );
+           this,  SLOT( slotCompletionAborted()) );
   connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)),
-           this,  SLOT(  slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
+           this,  SLOT( slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// install a working kate part popup dialog thingy
 	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))
@@ -1568,7 +1587,7 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 	if (project)
 	{
 		//TODO: this should be in the KileProject class
-		QString command = project->archiveCommand();
+		//QString command = project->archiveCommand();
 		QString files, path;
 		QPtrListIterator<KileProjectItem> it(*project->items());
 		while (it.current())
@@ -1787,15 +1806,8 @@ bool Kile::fileClose(const KURL & url, bool delDocinfo /* = false */ )
 
 bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */)
 {
-	//Kate::View *view = currentView();
-
 	if (doc == 0)
 		doc = activeDocument();
-
-	/*if (doc)
-		view = static_cast<Kate::View*>(doc->views().first());
-	else
-		return true;*/
 
 	if (doc == 0)
 		return true;
@@ -1823,6 +1835,19 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			removeView((Kate::View*)doc->views().first());
 			//remove the decorations
 
+			kdDebug() << "Seans code being called" << endl; 
+			
+			config->setGroup( "Files" );
+			if ( config->readBoolEntry("CleanUpAfterClose") )
+			{
+				kdDebug() << "Seans code CLEANING up" << endl;
+				CleanAll(docinfo, true);
+			}
+			else
+			{
+				kdDebug() << "Seans code NOT CLEANING up" << endl;
+			}
+			
 			if ( (item == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
@@ -1877,7 +1902,6 @@ bool Kile::queryExit()
 bool Kile::queryClose()
 {
 	//don't close Kile if embedded viewers are present
-	//if ((htmlpresent && htmlpart) || (pspresent && pspart) || (dvipresent && dvipart))
 	if ( m_currentState != "Editor" )
 	{
 		ResetPart();
@@ -1897,10 +1921,8 @@ bool Kile::queryClose()
 
 	if (stage1)
 	{
-		//KMessageBox::information(this,QString::number(m_viewList.count()));
 		for (uint i=0; i < m_viewList.count(); i++)
 		{
-			//KMessageBox::information(this, "adding "+m_viewList.at(i)->getDoc()->url().path());
 			m_listDocsOpenOnStart.append(m_viewList.at(i)->getDoc()->url().path());
 		}
 		stage2 = fileCloseAll();
@@ -2312,60 +2334,70 @@ void Kile::runTool()
 	m_manager->run(name);
 }
 
-void Kile::CleanAll()
+// changed clean dialog with selectable items (dani)
+
+void Kile::CleanAll(KileDocumentInfo *docinfo, bool silent)
 {
-	//TODO: make project aware
-	QString finame = getShortName();
-	
-	if ((m_singlemode && !currentView()) ||finame==i18n("Untitled") || finame=="")
+	static QString noactivedoc = i18n("There is no active document or it is not saved.");
+	if (docinfo == 0) 
 	{
-		KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
-		return;
-	}
-	
-	finame=getName();
-	
-	QFileInfo fic(finame);
-	if ( ! (fic.exists() && fic.isReadable() ) )
-	{
-		KMessageBox::sorry(this,i18n("The current document does not exists or is not readable. I'm not sure if it is ok to go ahead, bailing out."));
-		return;
+		Kate::Document *doc = activeDocument();
+		if (doc) 
+			docinfo = infoFor(doc);
+		else
+		{
+			LogWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
+			return;
+		}
 	}
 
-	QStringList extlist; 
-	extlist << ".log" << ".aux" << ".dvi" << ".aux" << ".lof" << ".lot" << ".bit" << ".idx" << ".glo" << ".bbl" << ".ilg" << ".toc" << ".ind"; 
-	
-	QStringList fileList; 
-	
-	QString baseName = fic.baseName(TRUE); 
-	
-	for (uint i=0; i< extlist.count(); i++) 
-	{ 
-		fileList.append(baseName+extlist[i]); 
-	} 
-	
-	int query = KMessageBox::warningContinueCancelList( this, 
-		i18n( "Do you really want to delete these files?" ), 
-		fileList, 
-		i18n( "Delete Files" ), 
-		i18n( "Delete" )); 
-	
-	if(query==KMessageBox::Continue) 
-	{ 
-		LogWidget->clear(); 
-		logpresent=false; 
-		LogWidget->append(i18n("Cleaning up...")); 
-		
-		QDir::setCurrent( fic.dirPath() ); 
-		for (uint i=0; i < fileList.count(); i++) 
-		{ 
-			QFile file(fileList[i]); 
-			file.remove(); 
-		} 
-		
-		LogWidget->append(i18n("Done")); 
- 	} 
- }
+	if (docinfo)
+	{
+		config->setGroup( "Files" );
+		QStringList extlist, templist = config->readListEntry("CleanUpFileExtensions");
+		QString str;
+		QFileInfo file(docinfo->url().path()), fi;
+		for (uint i=0; i <  templist.count(); i++)
+		{
+			str = file.dirPath(true) + "/" + file.baseName(true) + templist[i];
+			fi.setFile(str);
+			if ( fi.exists() )
+				extlist.append(templist[i]);
+		}
+
+		str = file.fileName();
+		if (!silent &&  (str==i18n("Untitled") || str == "" ) )
+		{
+			LogWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
+			return;
+		}
+
+		if (!silent && extlist.count() > 0 )
+		{
+			kdDebug() << "\tnot silent" << endl;
+			KileDialog::Clean *dialog = new KileDialog::Clean(this, str, extlist);
+			if ( dialog->exec() ) 
+				extlist = dialog->getCleanlist();
+			else
+			{
+				delete dialog;
+				return;
+			}
+
+			delete dialog;
+		}
+
+		if ( extlist.count() == 0 )
+		{
+			LogWidget->printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
+			return;
+		}
+
+		LogWidget->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
+
+		docinfo->cleanTempFiles(extlist);
+	}
+}
 
 void Kile::execUserTool(int i)
 {
@@ -2616,20 +2648,6 @@ void Kile::insertTag(const KileAction::TagData& data)
 	LogWidget->append(data.description);
 }
 
-void Kile::insertGraphic(const KileAction::TagData& data)
-{
-	insertTag(data);
-
-	QFileInfo fi(data.tagBegin.mid(data.tagBegin.find('{')+1));
-	kdDebug() << "insertGraphic : filename " << fi.fileName() << endl;
-
-	if (fi.extension(false) =="eps")
-	{
-		LogWidget->append("*************  ABOUT THIS IMAGE  *************");
-		LogWidget->append(DetectEpsSize(fi.absFilePath()));
-	}
-}
-
 void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 {
 	insertTag(KileAction::TagData(QString::null,tagB,tagE,dx,dy));
@@ -2864,6 +2882,26 @@ void Kile::ReadSettings()
 	struct_level3=config->readEntry("Structure Level 3","section");
 	struct_level4=config->readEntry("Structure Level 4","subsection");
 	struct_level5=config->readEntry("Structure Level 5","subsubsection");
+	
+	config->setGroup( "Files" );
+	if ( !config->hasKey("CleanUpFileExtensions") ) // no rc file or old version
+	{
+		QStringList extensionList;// = new QStringList();
+		extensionList.append(".log");
+		extensionList.append(".aux");
+		extensionList.append(".dvi");
+		extensionList.append(".aux");
+		extensionList.append(".lof");
+		extensionList.append(".lot");
+		extensionList.append(".bit");
+		extensionList.append(".idx");
+		extensionList.append(".glo");
+		extensionList.append(".bbl");
+		extensionList.append(".ilg");
+		extensionList.append(".toc");
+		extensionList.append(".ind");
+		config->writeEntry("CleanUpFileExtensions", extensionList );
+	}
 }
 
 void Kile::ReadRecentFileSettings()
@@ -3398,84 +3436,6 @@ void Kile::changeInputEncoding()
 	}
 }
 
-////////////////// EPS SIZE ///////////////////
-QString Kile::DetectEpsSize(const QString &epsfile)
-{
-int tagStart;
-float  el, et, er, eb, w1, h1, w2, h2;
-QString win, hin, wcm, hcm;
-QString l="0";
-QString t="0";
-QString r="0";
-QString b="0";
-bool ok;
-QFileInfo fic(epsfile);
-if (fic.exists() && fic.isReadable() )
-  {
-  QFile f( epsfile );
-  if ( !f.open( IO_ReadOnly ) )
-  {
-  return "";
-  }
-  QTextStream text(&f);
-    while ( !text.eof() )
-    {
-    QString line = text.readLine();
-    tagStart=0;
-    tagStart=line.find("%%BoundingBox: ",0);
-    if (tagStart!=-1)
-       {
-       line=line.right(line.length()-15);
-       /// l ///
-       tagStart=line.find(" ",0);
-       if (tagStart!=-1)
-           {
-           l=line.left(tagStart);
-           line=line.right(line.length()-tagStart-1);
-           }
-       /// t ///
-       tagStart=line.find(" ",0);
-       if (tagStart!=-1)
-           {
-           t=line.left(tagStart);
-           line=line.right(line.length()-tagStart-1);
-           }
-       /// r ///
-       tagStart=line.find(" ",0);
-       if (tagStart!=-1)
-           {
-           r=line.left(tagStart);
-           line=line.right(line.length()-tagStart-1);
-           }
-       /// b ///
-       b=line;
-       break;
-       }
-    }
- f.close();
- }
-el = l.toFloat( &ok );
-if (!ok) return "";
-et = t.toFloat( &ok);
-if (!ok) return "";
-er = r.toFloat( &ok);
-if (!ok) return "";
-eb = b.toFloat( &ok);
-if (!ok) return "";
-if ((er-el>0) && (eb-et>0))
-   {
-     w1= (float) ((er-el)/72.27);
-     h1= (float) ((eb-et)/72.27);
-     w2= (float) (w1*2.54);
-     h2= (float) (h1*2.54);
-     win=win.setNum(w1,'f',2);
-     hin=hin.setNum(h1,'f',2);
-     wcm=wcm.setNum(w2,'f',2);
-     hcm=hcm.setNum(h2,'f',2);
-     return "Original size : [width="+win+"in,height="+hin+"in] or [width="+wcm+"cm,height="+hcm+"cm]";
-    }
-else return "";
-}
 
 //////////////////// CLEAN BIB /////////////////////
 void Kile::CleanBib()
@@ -3596,8 +3556,7 @@ KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after
 
 void Kile::editCompleteWord()
 {
-   if ( m_complete && !m_complete->autoComplete() )
-      editComplete(CodeCompletion::cmLatex);
+   editComplete(CodeCompletion::cmLatex);
 }
 
 void Kile::editCompleteEnvironment()
@@ -3613,26 +3572,54 @@ void Kile::editCompleteAbbreviation()
 void Kile::editComplete(CodeCompletion::Mode mode)
 {
    Kate::View *view = currentView();
-   if ( !view || !m_complete || !m_complete->isActive() ) return;
+   if ( !view || !m_complete || !m_complete->isActive() || m_complete->inProgress() ) return;
 
-   QString word = getCompleteWord( ( mode == CodeCompletion::cmLatex )  ? true : false );
-
-   if ( ! word.isEmpty() ) {
+   QString word;
+   CodeCompletion::Type type;
+   if ( getCompleteWord( ( mode == CodeCompletion::cmLatex ) ? true : false, word,type ) ) {
       if ( mode==CodeCompletion::cmLatex && word.at(0)!='\\' ) {
          mode = CodeCompletion::cmDictionary;
       }
       kdDebug() << "=== code completion start ====================" << endl;
-      kdDebug() << "   completion word: " << word << " (len=" << word.length() << ")" << endl;
-      m_complete->completeWord(view,word,mode);
+      kdDebug() << "   completion word: " << word << endl;
+      if ( type == CodeCompletion::ctNone )
+         m_complete->completeWord(view,word,mode);
+      else
+         editCompleteList(view,type);
    }
+}
+
+void Kile::editCompleteList(Kate::View *view, CodeCompletion::Type type)
+{
+   if ( type == CodeCompletion::ctReference )
+      m_complete->completeFromList( view,labels() );
+   else if ( type == CodeCompletion::ctCitation )
+      m_complete->completeFromList( view,bibItems() );
+   // else do nothing
 }
 
 //////////////////// slots for code completion ////////////////////
 
-void Kile::slotCompletionDone( KTextEditor::CompletionEntry completion )
+void Kile::slotCompletionDone()
 {
-   kdDebug() << "   completion done: " << completion.text << endl;
+   kdDebug() << "   completion done " << endl;
    m_complete->CompletionDone();
+
+   if ( m_complete->getMode() == CodeCompletion::cmLatex ) {
+        m_completetimer = new QTimer( this );
+        connect( m_completetimer, SIGNAL(timeout()),
+                 this, SLOT(slotCompleteValueList()) );
+        m_completetimer->start( 0, false );
+   }
+}
+
+void Kile::slotCompleteValueList()
+{
+	kdDebug() << "   completion restart (timerslot): " << endl;
+	m_completetimer->stop();
+	delete m_completetimer;
+
+	editCompleteList( currentView(), m_complete->getType());
 }
 
 void Kile::slotCompletionAborted()
@@ -3650,19 +3637,23 @@ void Kile::slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s)
 
 void Kile::slotCharactersInserted(int,int,const QString& string)
 {
-   if ( !string.at(0).isLetter() ||
-        !m_complete || !m_complete->isActive() ||
-        !m_complete->autoComplete() || m_complete->inProgress()
+  if ( !m_complete || !m_complete->isActive() ||
+        !m_complete->autoComplete()  // || m_complete->inProgress()
       )
       return;
 
-   QString word = getCompleteWord(true);
-   if ( ! word.isEmpty() && word.at(0)=='\\' ) {
-      kdDebug() << "=== code completion start ====================" << endl;
-      kdDebug() << "   auto completion: " << word << endl;
-      m_complete->completeWord(currentView(),word,CodeCompletion::cmLatex);
+   QString word;
+   CodeCompletion::Type type;
+   if ( getCompleteWord(true,word,type) && word.at(0)=='\\' ) {
+      kdDebug() << "   auto completion: word=" << word << endl;
+      if ( string.at(0).isLetter() ) {
+         m_complete->completeWord(currentView(),word,CodeCompletion::cmLatex);
+      } else if ( string.at(0) == '{' ) {
+         editCompleteList( currentView(),type);
+      }
    }
 }
+
 //////////////////// testing characters (dani) ////////////////////
 
 static bool isBackslash ( QChar ch )
@@ -3674,42 +3665,43 @@ static bool isBackslash ( QChar ch )
 
 // (Buchstaben, je nach Modus mit/ohne Backslash)
 
-QString Kile::getCompleteWord(bool with_backslash)
+bool Kile::getCompleteWord(bool latexmode, QString &text, CodeCompletion::Type &type)
 {
     uint row,col;
     QChar ch;
 
-    // aktuellen Position und Text bestimmen
+    // get current position
     currentView()->cursorPositionReal(&row,&col);
 
-    // mindestens 1 Zeichen muss vorliegen
+    // there must be et least one sign
     if ( col < 1) return "";
 
-    // Textzeile bestimmen
+    // get current text line
     QString textline = currentView()->getDoc()->textLine(row);
 
-    // Ergebnis festlegen
-    QString s = "";
-
-    int n = 0;                           // gelesene Zeichen
-    int index = col;                     // ab hier rückwärts suchen
+    //
+    int n = 0;                           // number of characters
+    int index = col;                     // go back from here
     while ( --index >= 0 )
     {
-       // aktuelle Zeichen lesen
+       // get current character
        ch = textline.at(index);
 
-       if ( ch.isLetter() )
-          n++;                           // Buchstabe: akzeptieren und weitermachen
+       if ( ch.isLetter() || (latexmode && (index+1==(int)col) && ch=='{') )
+          n++;                           // accept letters and '{' as first character in latexmode
        else
        {
-          if ( isBackslash(ch) && with_backslash && oddBackslashes(textline,index) )    // Backslash?
+          if ( latexmode && isBackslash(ch) && oddBackslashes(textline,index) )    // Backslash?
              n++;
-          break;                         // sonst: beenden
+          break;                         // stop when a backslash was found
        }
     }
 
-    // gefundenes Wort heraustrennen und zurückgeben
-    return textline.mid(col-n,n);
+    // select pattern and set type of match
+    text = textline.mid(col-n,n);
+    type = m_complete->getType(text);
+
+    return !text.isEmpty();
 }
 
 //////////////////// counting backslashes (dani) ////////////////////
@@ -3728,51 +3720,12 @@ bool Kile::oddBackslashes(const QString& text, int index)
 
 void Kile::editNextBullet()
 {
-   gotoBullet(false);
+   m_edit->gotoBullet(currentView(),m_complete->getBullet(),false);
 }
 
 void Kile::editPrevBullet()
 {
-   gotoBullet(true);
-}
-
-void Kile::gotoBullet(bool backwards)
-{
-   Kate::View *view = currentView();
-   if ( !view ) return;   
-   Kate::Document *doc = view->getDoc();
-   
-   uint row,col;
-   uint ypos,xpos,len;
-   // get current position
-   view->cursorPositionReal(&row,&col);
-
-   // change the start position or we will stay at this place
-   if ( backwards )
-   {
-      if (col > 0)
-         col--;
-      else
-      {
-         col = doc->lineLength(row-1) - 1;
-         row = ( row>0 ) ? row-1 : 0;
-      }
-   }
-   else
-   {
-      if ( (int)col < doc->lineLength(row)-1 )
-        col++;
-      else
-      {
-        row++;
-        col=0;
-      }
-   }
-   
-   if ( doc->searchText(row,col, m_complete->getBullet(),& ypos,&xpos,&len,true,backwards) ) {
-      doc->setSelection(ypos,xpos,ypos,xpos+1);
-      view->setCursorPositionReal(ypos,xpos);
-   }
+   m_edit->gotoBullet(currentView(),m_complete->getBullet(),true);
 }
 
 //////////////////// include graphics (dani) ////////////////////
@@ -3792,5 +3745,48 @@ void Kile::includeGraphics()
 
    delete dialog;
 }
+
+//////////////////// environment commands (dani) ////////////////////
+
+void Kile::selectEnvInside()
+{
+   m_edit->selectEnvironment( currentView(),true );
+}
+
+void Kile::selectEnvOutside()
+{
+   m_edit->selectEnvironment( currentView(),false );
+}
+
+void Kile::deleteEnvInside()
+{
+   m_edit->deleteEnvironment( currentView(),true );
+}
+
+void Kile::deleteEnvOutside()
+{
+   m_edit->deleteEnvironment( currentView(),false );
+}
+
+void Kile::gotoBeginEnv()
+{
+   m_edit->gotoEnvironmentTag( currentView(),true );
+}
+
+void Kile::gotoEndEnv()
+{
+   m_edit->gotoEnvironmentTag( currentView(),false );
+}
+
+void Kile::matchEnv()
+{
+   m_edit->matchEnvironmentTag( currentView() );
+}
+
+void Kile::closeEnv()
+{
+   m_edit->closeEnvironment( currentView() );
+}
+
 
 #include "kile.moc"

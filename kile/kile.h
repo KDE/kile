@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+// last change: 24.01.2004 (dani)
+
 #ifndef KILE_H
 #define KILE_H
 
@@ -36,6 +38,7 @@
 #include <kfileitem.h>
 #include <klistview.h>
 #include <kio/job.h>
+#include <kurl.h>
 
 #include <qmap.h>
 #include <qsplitter.h>
@@ -65,7 +68,8 @@
 #include "latexoutputinfo.h"
 #include "latexoutputfilter.h"
 
-#include "codecompletion.h"
+#include "codecompletion.h"        // code completion (dani)
+#include "kileedit.h"              // advanced editor (dani)
 
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
@@ -422,9 +426,8 @@ private:
 private slots:
 	void runTool();
 
-	void CleanAll();
+	void CleanAll(KileDocumentInfo *docinfo = 0, bool silent = false);
 	void CleanBib();
-	QString DetectEpsSize(const QString &epsfile);
 
 	void execUserTool(int);
 	void EditUserTool();
@@ -466,7 +469,6 @@ private slots:
 	 * An overloaded member function, behaves essentially as above.
 	 **/
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
-	void insertGraphic(const KileAction::TagData&);
 
 	void QuickTabular();
 	void QuickArray();
@@ -488,30 +490,47 @@ private:
 	KileEventFilter*	m_eventFilter;
 
 private:
-// CodeCompletion  (dani)
+   // advanced editor (dani)
+   KileEdit *m_edit;
+
+   // CodeCompletion  (dani)
    CodeCompletion *m_complete;
+   QTimer *m_completetimer;
+   
    void editComplete(CodeCompletion::Mode mode);
-   QString getCompleteWord(bool with_backslash);
+   void editCompleteList(Kate::View *view, CodeCompletion::Type type);
+   bool getCompleteWord(bool latexmode, QString &text, CodeCompletion::Type &type);
    bool oddBackslashes(const QString& text, int index);
    void gotoBullet(bool backwards);
    
-// CodeCompletion action slots (dani)
 private slots:
+   // CodeCompletion action slots (dani)
    void editCompleteWord();
    void editCompleteEnvironment();
    void editCompleteAbbreviation();
    void editNextBullet();
    void editPrevBullet();
-   
-// CodeCompletion public slots (dani)
-public slots:
-   void slotCharactersInserted(int ,int ,const QString&);
-   void slotCompletionDone( KTextEditor::CompletionEntry completion );
-   void slotCompletionAborted();
-   void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
 
    // includegraphics (dani)
    void includeGraphics();
+
+   // advanced editor (dani)
+   void selectEnvInside();
+   void selectEnvOutside();
+   void deleteEnvInside();
+   void deleteEnvOutside();
+   void gotoBeginEnv();
+   void gotoEndEnv();
+   void matchEnv();
+   void closeEnv();
+  
+public slots:
+  // CodeCompletion public slots (dani)
+   void slotCharactersInserted(int,int,const QString&);
+   void slotCompletionDone( );
+   void slotCompleteValueList();
+   void slotCompletionAborted();
+   void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
 
 };
 

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>
@@ -28,6 +29,7 @@
 
 KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 {
+	m_config = kapp->config();
 	if (m_doc)
 		kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
 
@@ -177,6 +179,29 @@ const long* KileDocumentInfo::getStatistics()
 
 	return m_arStatistics;
 }
+
+void KileDocumentInfo::cleanTempFiles(const QStringList &extlist )
+{
+	QString finame = url().fileName();
+	QFileInfo fic(finame);
+	
+	QString baseName = fic.baseName(true); 
+	
+	QStringList fileList;
+	for (uint i=0; i< extlist.count(); i++) 
+	{ 
+		fileList.append(baseName+extlist[i]); 
+	}
+
+	QString path = url().directory(false); 
+	for (uint i=0; i < fileList.count(); i++) 
+	{ 
+		QFile file( path + fileList[i] );
+		kdDebug() << "About to remove file = " << file.name() << endl;
+		file.remove(); 
+	} 
+}
+
 
 // match a { with the corresponding }
 // pos is the positon of the {

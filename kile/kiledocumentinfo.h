@@ -25,6 +25,8 @@
 #include <kurl.h>
 #include <kdialogbase.h>
 
+#include <kconfig.h>
+
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
 #define TEX_CAT2 '}'
@@ -129,6 +131,8 @@ public:
 	void setURL(const KURL& url) { m_oldurl = m_url; m_url = url; emit nameChanged(url); }
 	const KURL& url() {return m_url;}
 	const KURL& oldURL() {return m_oldurl;}
+	
+	void cleanTempFiles(const QStringList &  );
 
 public slots:
 	/**
@@ -159,19 +163,20 @@ protected:
 	};
 
 private:
-	Kate::Document	*m_doc;
-	long						*m_arStatistics;
-	bool						m_bIsRoot;
-	QStringList			m_labels;
-	QStringList			m_bibItems;
-	QStringList			m_deps;
-	QStringList			m_bibliography;
-	QStringList			m_packages;
-	KListView				*m_structview;
-	KileListViewItem	*m_struct;
-	QMap<QString,KileStructData>		m_dictStructLevel;
-	KURL					m_url, m_oldurl;
-	bool				m_bContinueUpdate;
+	Kate::Document					*m_doc;
+	long							*m_arStatistics;
+	bool							m_bIsRoot;
+	QStringList						m_labels;
+	QStringList						m_bibItems;
+	QStringList						m_deps;
+	QStringList						m_bibliography;
+	QStringList						m_packages;
+	KListView						*m_structview;
+	KileListViewItem				*m_struct;
+	QMap<QString,KileStructData>	m_dictStructLevel;
+	KURL							m_url, m_oldurl;
+	bool							m_bContinueUpdate;
+	KConfig							*m_config;
 };
 
 class KileDocInfoDlg : public KDialogBase

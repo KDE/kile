@@ -48,7 +48,9 @@ namespace KileWidget
 		m_advanced(0L),
 		m_bAdvanced(false)
 	{
-		m_layout = new QGridLayout(this, 6, 4, 0, 10); m_layout->setColStretch(0, 0); m_layout->setRowStretch(2, 2);
+		m_layout = new QGridLayout(this, 6, 4, 0, 10); m_layout->setColStretch(0, 0);
+		m_layout->setRowStretch(0, 1); m_layout->setRowStretch(1, 1); m_layout->setRowStretch(2, 0); m_layout->setRowStretch(3, 2);
+		m_layout->setRowStretch(4, 1); m_layout->setRowStretch(5, 1);
 
 		m_lstbTools = new KListBox(this, "listbox"); m_layout->addMultiCellWidget(m_lstbTools, 0, 5, 0, 0, Qt::AlignLeft);
 		m_lstbTools->setMaximumWidth(120);
@@ -80,7 +82,6 @@ namespace KileWidget
 		m_spinPosition->setMinValue(-1); m_spinPosition->setMaxValue(99);
 		m_ckSeparator = new QCheckBox(i18n("&Separator"), grp);
 		connect(m_cbMenu, SIGNAL(activated(const QString &)), this, SLOT(setMenu(const QString &)));
-		//connect(m_ckToolbar, SIGNAL(toggled(bool)), this, SLOT(setPlaceOnToolbar(bool)));
 		connect(m_spinPosition, SIGNAL(valueChanged(int)), this, SLOT(updateToolbar()));
 		connect(m_ckSeparator, SIGNAL(clicked()), this, SLOT(toggleSeparator()));
 		connect(m_ckToolbar, SIGNAL(clicked()), this, SLOT(updateToolbar()));
@@ -113,7 +114,7 @@ namespace KileWidget
 	void ToolConfig::updateToollist()
 	{
 		m_lstbTools->clear();
-		m_lstbTools->insertStringList(KileTool::toolList(m_manager->config(), true)); m_lstbTools->sort();
+		m_lstbTools->insertStringList(KileTool::toolList(m_manager->config(), false)); m_lstbTools->sort();
 	}
 
 	void ToolConfig::setMenu(const QString & menu)

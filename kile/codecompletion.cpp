@@ -1,12 +1,12 @@
 /***************************************************************************
                            codecompletion.cpp
 ----------------------------------------------------------------------------
-    date                 : Jan 17 2004
-    version              : 0.10.1
+    date                 : Jan 24 2004
+    version              : 0.10.3
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
-
+  
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,6 +66,25 @@ const QString CodeCompletion::getBullet()
    return m_bullet;
 }
 
+CodeCompletion::Type CodeCompletion::getType()
+{
+   return m_type;
+}
+
+CodeCompletion::Type CodeCompletion::getType(const QString &text)
+{
+   if ( text.left(5)=="\\ref{" || text.left(9)=="\\pageref{" )
+      return CodeCompletion::ctReference;
+   else if ( text.left(6)=="\\cite{" )
+     return CodeCompletion::ctCitation;
+   else
+     return CodeCompletion::ctNone;
+}
+
+CodeCompletion::Mode CodeCompletion::getMode()
+{
+   return m_mode;
+}
 
 //////////////////// configuration ////////////////////
 
@@ -76,34 +95,34 @@ void CodeCompletion::readConfig(KConfig *config)
    // config section
    config->setGroup( "Complete" );
 
-  // die normalen Parameter werden hier gespeichert
+  // save normal parameter
    kdDebug() << "   read bool entries" << endl;
    m_isenabled = config->readBoolEntry("enabled",true);
    m_setcursor = config->readBoolEntry("cursor",true);
    m_setbullets = config->readBoolEntry("bullets",true);
    m_closeenv = config->readBoolEntry("closeenv",true);
    m_autocomplete = config->readBoolEntry("autocomplete",false);
- 
-   // die Konfigurationslisten werden nur beim ersten Mal 
-   // und bei Änderungen neu gelesen
+
+   // reading the wordlists is only necessary at the first start
+   // and when the list of files changes
    if ( m_firstconfig || config->readBoolEntry("changedlists",true) ) {
       kdDebug() << "   read wordlists..." << endl;
 
-      // Wortliste für Tex/Latex
+      // wordlists for Tex/Latex mode
       QStringList files = config->readListEntry("tex");
- //     if ( files.isEmpty() )
- //       files = QStringList::split(",","1-Latex,1-Tex");
+      if ( files.isEmpty() )
+        files = QStringList::split(",","1-Latex,1-Tex");
       setWordlist(files,"tex",&m_texlist);
       
-      // Wortliste für Dictionary
+      // wordlist for dictionary mode
       files = config->readListEntry("dict");
       setWordlist(files,"dictionary",&m_dictlist);
        
-      // Wortliste für Abbreviation
+      // wordlist for abbreviation mode
       files = config->readListEntry("abbrev");
       setWordlist(files,"abbreviation",&m_abbrevlist);
  
-      // Update der Wortlisten markieren
+      // remember changed lists
       m_firstconfig = false;
       config->writeEntry("changedlists",false);
    }
@@ -116,16 +135,16 @@ void CodeCompletion::setWordlist(const QStringList &files,const QString &dir,
 {
    QStringList wordlist;
    for (uint i=0; i<files.count(); i++) {
-      // wenn gecheckt, dann Wörter einlesen
+      // if checked, the wordlist has to be read
       if ( files[i].at(0) == '1' ) {
          readWordlist(wordlist,dir+"/"+files[i].right(files[i].length()-2)+".cwl");
       }
    }
 
-   // Wortliste sortieren
-   wordlist.sort();
+   // sort the wordlist
+   // wordlist.sort();
 
-   // in CompletionEntry umwandeln
+   // build all completion entries
    setCompletionEntries(entrylist,wordlist);
 }
 
@@ -134,7 +153,8 @@ void CodeCompletion::setWordlist(const QStringList &files,const QString &dir,
 
 void CodeCompletion::completeWord(Kate::View *view, const QString &text, CodeCompletion::Mode mode)
 {
-   // remember all parameters (view, pattern, length of pattern, mode)
+   kdDebug() << "   complete start: mode=" << mode << endl;
+  // remember all parameters (view, pattern, length of pattern, mode)
    m_view = view;
    m_text = text;
    m_textlen = text.length();
@@ -154,19 +174,26 @@ void CodeCompletion::completeWord(Kate::View *view, const QString &text, CodeCom
       case cmEnvironment:  list = m_texlist;    break;
       case cmDictionary:   list = m_dictlist;   break;
       case cmAbbreviation: list = m_abbrevlist; break;
+      case cmLabel:        list = m_labellist;  break;
    }
+   kdDebug() << "   complete : " << " listentries=" << list.count() << endl;
 
    // is it necessary to show the complete dialog?
       QString entry,type;
       QString pattern = ( m_mode != cmEnvironment ) ? text : "\\begin{"+text;
       uint n = countEntries(pattern,&list,&entry,&type);
-
+   
       // nothing to do
       if ( n == 0)
          return;
 
       // only one entry: insert without dialog
-      if ( n == 1) {
+      // remark: this doesn't work anymore with the second complete
+      // call, when '\ref', '\pageref' or '\cite' is inserted. Since
+      // this is only a workaround for KDE 3.1, which misses this feature,
+      // we could wait for KDE 3.2, which checks the number or entries.
+      /*
+      if ( n==1 ) {
          QString s = filterCompletionText(entry,type);
          if ( ! s.isEmpty() ) {
             if ( m_mode == cmEnvironment ) {
@@ -179,7 +206,8 @@ void CodeCompletion::completeWord(Kate::View *view, const QString &text, CodeCom
          }
          return;
       }
- 
+      */
+
    // Add a prefix ('\\begin{', length=7) in cmEnvironment mode,
    // because KateCompletion reads from the current line, This also
    // means that the original text has to be restored, if the user
@@ -193,24 +221,51 @@ void CodeCompletion::completeWord(Kate::View *view, const QString &text, CodeCom
       m_xcursor += 7;
       m_view->setCursorPositionReal(m_ycursor,m_xcursor);
 
-      // Flag zum Wiederherstellen setzen
+      // set restore mode
       m_undo = true;
    }
 
-   // Flag zum Wiederherstellen setzen
+   //  set restore mode
    if ( m_mode == cmAbbreviation ) {
        m_undo = true;
    }
-     
+
+   if ( m_mode == cmLabel ) {
+      doc->insertText(m_ycursor,m_xstart," ");
+
+      // set the cursor to the new position
+      m_textlen++;
+      m_xcursor++;
+      m_view->setCursorPositionReal(m_ycursor,m_xcursor);
+
+      // set restore mode
+      m_undo = true;
+   }
+        
    // show the completion dialog
    m_inprogress = true;
-   
+
+   kdDebug() << "   completion: " << "start showCompletionBox" << endl;
    KTextEditor::CodeCompletionInterface *iface;
    iface = dynamic_cast<KTextEditor::CodeCompletionInterface *>(view);
    iface->showCompletionBox(list,m_textlen);
 }
 
-//////////////////// Cursorposition anpassen ////////////////////
+void CodeCompletion::completeFromList(Kate::View *view,const QStringList *list)
+{
+   KTextEditor::CompletionEntry e;
+
+   m_labellist.clear();
+		QStringList::ConstIterator it;
+		for ( it=list->begin(); it!=list->end(); ++it ) {
+      e.text = QString(" ") + (*it);
+      m_labellist.append(e);
+		}
+
+    completeWord(view,"",cmLabel);
+}
+
+//////////////////// completion was done ////////////////////
 
 void CodeCompletion::CompletionDone()
 {
@@ -243,16 +298,18 @@ void CodeCompletion::CompletionAborted()
    m_inprogress = false;
 }
 
-//////////////////// Text für CodeCompletion aufbereiten ////////////////////
+//////////////////// build the text for completion ////////////////////
 
-// einen String parsen:
-// - Parameter entfernen
-// - Cursorposition merken
-// - Bullets einfügen
-// - ev. Klammerterme aufbereiten
+// parse an entry:
+// - delete arguments/parameters
+// - set cursor position
+// - insert bullets
 
 QString CodeCompletion::filterCompletionText(const QString &text,const QString &type)
 {
+   kdDebug() << "   complete filter: " << text << endl;
+   m_type = getType(text);    // remember current type
+
    // check the cursor position, because the user may have
    // typed some characters or the backspace key. This also
    // changes the length of the current pattern.
@@ -286,6 +343,10 @@ QString CodeCompletion::filterCompletionText(const QString &text,const QString &
                s = buildAbbreviationText(text);
                m_undo = false;
                break;
+      case cmLabel:
+               s = buildLabelText(text);
+               m_undo = false;
+               break;
   }
 
    if ( s.length() > m_textlen )
@@ -294,14 +355,14 @@ QString CodeCompletion::filterCompletionText(const QString &text,const QString &
        return "";
 }
 
-//////////////////// Text im Modus cmLatex ////////////////////
+//////////////////// text in cmLatex mode ////////////////////
 
 QString CodeCompletion::buildLatexText(const QString &text, uint &ypos, uint &xpos)
 {
    return parseText(stripParameter(text),ypos,xpos,true);
 }
 
-//////////////////// Text im Modus cmEnvironment ////////////////////
+////////////////////  text in cmEnvironment mode ////////////////////
 
 QString CodeCompletion::buildEnvironmentText(const QString &text, const QString &type,
                                              uint &ypos, uint &xpos)
@@ -354,7 +415,7 @@ QString CodeCompletion::buildEnvironmentText(const QString &text, const QString 
    return s;
 }
 
-//////////////////// Text im Modus cmAbbreviation ////////////////////
+//////////////////// text in  cmAbbreviation mode ////////////////////
 
 QString CodeCompletion::buildAbbreviationText(const QString &text)
 {
@@ -379,6 +440,25 @@ QString CodeCompletion::buildAbbreviationText(const QString &text)
 
    return s;
 }
+
+//////////////////// text in cmLabel mode ////////////////////
+
+QString CodeCompletion::buildLabelText(const QString &text)
+{
+   if ( text.at(0) == ' ' ) {
+      // delete space
+      Kate::Document *doc = m_view->getDoc();
+      doc->removeText(m_ycursor,m_xstart,m_ycursor,m_xstart+1);
+      m_view->setCursorPositionReal(m_ycursor,m_xstart);
+      m_xcursor = m_xstart;
+
+      m_textlen = 0;
+      return text.right(text.length()-1);
+   }
+   else
+      return text;
+}
+
 
 //////////////////// Hilfsroutinen ////////////////////
 

@@ -32,7 +32,7 @@ class KileDocumentInfo;
 const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
 const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
 const QString IMAGE_EXTENSIONS = ".eps .pdf .dvi .ps .fig .gif .jpg .png";
-const QString OTHER_EXTENSIONS = ".log .aux";
+//const QString OTHER_EXTENSIONS = ".log .aux";
 
 /**
  * KileProjectItem
@@ -49,7 +49,7 @@ public:
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
-	enum Type { ProjectFile = 0, Source, Package, Image, Other, Unknown };
+	enum Type { ProjectFile = 0, Source, Package, Image, Other /* should be the last item*/ };
 
 	int type() const { return m_type; }
 	void setType(int type) { m_type = type; }
@@ -104,14 +104,14 @@ signals:
 	void urlChanged(KileProjectItem*);
 
 private:
-	KileProject			*m_project;
-	KURL					m_url;
-	QString				m_path;
-	QString				m_encoding;
-	QString				m_highlight;
-	bool						m_bOpen, m_archive;
-	int							m_type;
-	KileDocumentInfo *m_docinfo;
+	KileProject		*m_project;
+	KURL			m_url;
+	QString			m_path;
+	QString			m_encoding;
+	QString			m_highlight;
+	bool				m_bOpen, m_archive;
+	int				m_type;
+	KileDocumentInfo	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
 };
 
@@ -138,9 +138,6 @@ public:
 	void setName(const QString & name) { m_name = name; emit (nameChanged(name));}
 	const QString& name() const { return m_name; }
 
-	void setArchiveCommand(const QString &command) { m_archiveCommand = command;}
-	const QString& archiveCommand() { return m_archiveCommand;}
-
 	void setMasterDocument(const QString & master) { m_masterDocument = master; emit (masterDocumentChanged(master));}
 	const QString& masterDocument() const { return m_masterDocument; }
 
@@ -149,11 +146,16 @@ public:
 	void setExtIsRegExp(KileProjectItem::Type type, bool is) { m_extIsRegExp[type-1] = is; }
 	bool extIsRegExp(KileProjectItem::Type type) { return m_extIsRegExp[type-1]; }
 
+	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
+	const QString & quickBuildConfig() { return m_quickBuildConfig; }
+
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
 	KileProjectItem* item(const KURL &);
 	KileProjectItemList* items() { return &m_projectitems; }
+
+	KSimpleConfig *config() { return m_config; }
 
 	bool contains(const KURL&);
 	KileProjectItem *rootItem(KileProjectItem *) const;
@@ -187,16 +189,16 @@ private:
 	void setType(KileProjectItem *item);
 
 private:
-	QString		m_name, m_archiveCommand;
+	QString		m_name, m_quickBuildConfig;
 	KURL			m_projecturl;
 	KURL			m_baseurl;
 
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
 
-	QString		m_extensions[4];
-	QRegExp		m_reExtensions[4];
-	bool		m_extIsRegExp[4];
+	QString		m_extensions[3];
+	QRegExp		m_reExtensions[3];
+	bool			m_extIsRegExp[3];
 
 	QString		m_masterDocument;
 

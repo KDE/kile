@@ -48,7 +48,9 @@ public:
 	KileDocumentInfo * getInfo() { return m_docinfo;}
 
 	void setType(KileType::ProjectView type) {m_type = type;}
-	KileType::ProjectView type() { return m_type;}
+	KileType::ProjectView type() const { return m_type;}
+
+	int compare(QListViewItem * i, int col, bool ascending) const;
 
 	void setURL(const KURL & url) { m_url=url;}
 	const KURL& url() { return m_url;}

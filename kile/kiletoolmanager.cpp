@@ -27,8 +27,10 @@
 #include <klocale.h>
 #include <kparts/partmanager.h>
 #include <kmessagebox.h>
+#include <ksimpleconfig.h>
 
 #include "kileinfo.h"
+#include "kileproject.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
 #include "kilestdtools.h"
@@ -203,6 +205,13 @@ namespace KileTool
 
 	QString Manager::currentGroup(const QString &name, bool usequeue)
 	{
+		KileProject *project = m_ki->activeProject();
+		if (project)
+		{
+			QString cfg = configName(name, dynamic_cast<KConfig*>(project->config()));
+			if ( cfg.length() > 0 ) return groupFor(name, cfg);
+		}
+
 		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (m_queue.cfg() != QString::null) )
 			return  groupFor(name, m_queue.cfg());
 		else
@@ -306,7 +315,7 @@ namespace KileTool
 	QString configName(const QString & tool, KConfig *config)
 	{
 		config->setGroup("Tools");
-		return config->readEntry(tool, "Default");
+		return config->readEntry(tool, "");
 	}
 
 	void setConfigName(const QString & tool, const QString & name, KConfig *config)

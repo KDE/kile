@@ -184,7 +184,7 @@ void setupMathTags(KMainWindow *parent, QPtrList<KAction>* plist)
 	(void) new KileAction::Tag("\\qquad",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_qquad", "\\qquad ", QString::null, 7);
 
 	plist->append(new KileAction::Tag("$...$","mathmode",Qt::ALT+Qt::Key_M, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathmode","$","$",1));
-	plist->append(new KileAction::Tag("$$...$$",Qt::ALT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "$$","$$", 2));
+	plist->append(new KileAction::Tag("\\[...\\]",Qt::ALT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "\\[","\\]", 2));
   	(void) new KileAction::Tag("\\begin{equation}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","\n\\end{equation} ",0,1);
   	(void) new KileAction::Tag("\\begin{eqnarray}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
 	plist->append(new KileAction::Tag("subscript  _{}","indice",Qt::ALT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2));

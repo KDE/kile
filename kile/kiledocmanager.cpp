@@ -236,6 +236,8 @@ KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) co
 
 KileProjectItemList* Manager::itemsFor(Info *docinfo) const
 {
+	if ( docinfo == 0 ) return;
+
 	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
 	KileProjectItemList *list = new KileProjectItemList();
 	list->setAutoDelete(false);
@@ -791,6 +793,12 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 		KURL url = doc->url();
 
 		Info *docinfo= infoFor(doc);
+		if (docinfo == 0L)
+		{
+			kdWarning() << "no DOCINFO for " << 
+url.url() << endl;
+			return true;
+		}
 		KileProjectItemList *items = itemsFor(docinfo);
 
 		while ( items->current() )

@@ -148,6 +148,7 @@ the standard "LaTeX" tool.</string>
 </tabstops>
 <includes>
     <include location="global" impldecl="in implementation">qstringlist.h</include>
+    <include location="global" impldecl="in implementation">qregexp.h</include>
     <include location="global" impldecl="in implementation">kglobal.h</include>
     <include location="local" impldecl="in implementation">kiletoolmanager.h</include>
     <include location="global" impldecl="in implementation">klocale.h</include>

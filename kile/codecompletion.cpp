@@ -1,8 +1,8 @@
 /***************************************************************************
                       codecompletion.cpp
 ----------------------------------------------------------------------------
-date                 : Jan 24 2004
-version              : 0.10.3
+date                 : Sep 28 2004
+version              : 0.10.4
 copyright            : (C) 2004 by Holger Danielsson
 email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -756,9 +756,11 @@ namespace KileDocument
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
-		kdDebug() << "==CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )==" << endl;
-		kdDebug() << "\ts = " << *s << " type = " << c->type << " text = " << c->text << " prefix = " << c->prefix << " postfix = " << c->postfix << " comment = " << c->comment << endl;
-		*s = filterCompletionText( c->text, c->type );
+		if ( inProgress() ) {                // dani 28.09.2004
+			kdDebug() << "==CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )==" << endl;
+			kdDebug() << "\ts = " << *s << " type = " << c->type << " text = " << c->text << " prefix = " << c->prefix << " postfix = " << c->postfix << " comment = " << c->comment << endl;
+			*s = filterCompletionText( c->text, c->type );
+		}
 	}
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )

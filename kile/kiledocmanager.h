@@ -161,7 +161,7 @@ public:
 	void mapItem(Info *docinfo, KileProjectItem *item);
 	
 private:
-	QPtrList<Info>	m_infoList;
+	QPtrList<Info>				m_infoList;
 	KileInfo					*m_ki;
 	QPtrList<KileProject>		m_projects;
 };

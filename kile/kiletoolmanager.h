@@ -155,6 +155,8 @@ namespace KileTool
 	QString categoryFor(const QString &clss);
 
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config);
+	
+	QString expandEnvironmentVars(const QString &);
 }
 
 #endif

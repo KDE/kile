@@ -80,7 +80,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
    connect(m_iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(accept()));
 
    kapp->config()->setGroup("NewFileWizard");
-   m_ckWizard->setChecked(kapp->config()->readBoolEntry("UseWizardWhenCreatingEmptyFile", true));
+   m_ckWizard->setChecked(kapp->config()->readBoolEntry("UseWizardWhenCreatingEmptyFile", false));
    int w = kapp->config()->readNumEntry("width", -1);
    if ( w != -1 ) resize(w, height());
 

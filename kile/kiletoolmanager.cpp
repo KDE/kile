@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdlib.h> //for getenv()
+ 
 #include <qstring.h>
 #include <qwidgetstack.h>
 #include <qtimer.h>
@@ -168,7 +170,7 @@ namespace KileTool
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
-
+		
 		if ( insertNext )
 			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
 		else
@@ -488,6 +490,16 @@ namespace KileTool
 		return "Base";
 	}
 
+	QString expandEnvironmentVars(const QString &str)
+	{
+        static QRegExp reEnvVars("\\$(\\w+)");
+        QString result = str;
+        int index = -1;
+        while ( (index = str.find(reEnvVars, index + 1)) != -1 )
+                result.replace(reEnvVars.cap(0),getenv(reEnvVars.cap(1).local8Bit()));
+
+        return result;
+	}
 }
 
 #include "kiletoolmanager.moc"

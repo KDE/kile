@@ -31,7 +31,7 @@ namespace KileTool
 	enum { NeedTargetDirExec = 0x01, NeedTargetDirWrite = 0x02, NeedTargetExists = 0x04, NeedTargetRead = 0x08,
 	NeedActiveDoc = 0x10, NeedMasterDoc = 0x20, NoUntitledDoc = 0x40 };
 
-	enum { Running, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
+	enum { Running = 0, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
 	
 	enum { Success = 0, Failed = 1, AbnormalExit = 2, Aborted = 3, Silent = 4 };
 }

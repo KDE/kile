@@ -60,6 +60,9 @@ namespace KileTool
 		setMsg(NeedActiveDoc, i18n("Could not determine on which file to run %1, because there is no active document."));
 		setMsg(NeedMasterDoc, i18n("Could not determine the master file for this document."));
 		setMsg(NoUntitledDoc, i18n("Please save the untitled document first."));
+
+		m_bPrepared = false;
+		prepareToRun();
 	}
 
 	Base::~Base()
@@ -95,38 +98,71 @@ namespace KileTool
 		}
 	}
 
-	int Base::run()
+	void Base::prepareToRun()
 	{
-		kdDebug() << "==KileTool::Base::run()=================" << endl;
+		kdDebug() << "==Base::prepareToRun()=======" << endl;
 		
+		m_nPreparationResult = Running;
+
 		//configure me
 		if (!configure())
-			return ConfigureFailed;
+		{
+			m_nPreparationResult = ConfigureFailed;
+			return;
+		}
 		
 		//install a launcher
 		if (!installLauncher())
-			return NoLauncherInstalled;
+		{
+			m_nPreparationResult = NoLauncherInstalled;
+			return;
+		}
 		
 		if (!determineSource())
-			return NoValidSource;
+		{
+			m_nPreparationResult = NoValidSource;
+			return;
+		}
 			
 		if (!determineTarget())
-			return NoValidTarget;
+		{
+			m_nPreparationResult = NoValidTarget;
+			return;
+		}
 			
 		if (!checkTarget())
-			return TargetHasWrongPermissions;
+		{
+			m_nPreparationResult = TargetHasWrongPermissions;
+			return;
+		}
 		
 		if (!checkPrereqs())
-			return NoValidPrereqs;
-			
+		{
+			m_nPreparationResult = NoValidPrereqs;
+			return;
+		}
+
 		if ( m_launcher == 0 )
-			return NoLauncherInstalled;
-		
+		{
+			m_nPreparationResult = NoLauncherInstalled;
+			return;
+		}
+
 		m_launcher->setWorkingDirectory(workingDir());
-				
+
 		//fill in the dictionary
 		addDict("%options", m_options);
+		
+		m_bPrepared = true;
+	}
 
+	int Base::run()
+	{
+		kdDebug() << "==KileTool::Base::run()=================" << endl;
+	
+		if ( m_nPreparationResult != 0 )
+			return m_nPreparationResult;
+		
 		//everythin ok so far
 		emit(start(this));
 		
@@ -502,16 +538,7 @@ sourceinfo.lastModified()) << endl;
 	{
 		kdDebug() << "==KileTool::Sequence::run()==================" << endl;
 
-		configure();
-
-		//determine source file (don't let the tools figure it out themselves, the result of determineTarget() could change during execution)
-		if (! determineSource())
-		{
-			emit(done(this,Failed));
-			return NoValidSource;
-		}
-
-		kdDebug() << "\tsource " << source() << endl;
+ 		configure();
 
 		QStringList tools = QStringList::split(',',readEntry("sequence"));
 		QString tl, cfg;
@@ -525,10 +552,7 @@ sourceinfo.lastModified()) << endl;
 			if (tool)
 			{
 				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
-				{
-					tool->setSource(source());
 					manager()->run(tool, cfg);
-				}
 			}
 			else
 			{

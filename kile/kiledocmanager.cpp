@@ -96,7 +96,7 @@ void Manager::trashDoc(Info *docinfo)
 	delete doc;
 }
  
-Kate::Document* Manager::docFor(const KURL& url)
+Kate::Document* Manager::docFor(const KURL & url)
 {
 	for (uint i=0; i < m_infoList.count(); i++)
 	{
@@ -118,12 +118,10 @@ Info* Manager::getInfo() const
 
 Info *Manager::infoFor(const QString & path) const
 {
-	kdDebug() << "==KileInfo::infoFor==========================" << endl;
-	kdDebug() << "\t" << path << endl;
+	kdDebug() << "==KileInfo::infoFor(" << path << ")==========================" << endl;
 	QPtrListIterator<Info> it(m_infoList);
 	while ( true )
 	{
-		kdDebug() << "\tconsidering " << it.current()->url().path() << endl;
 		if ( it.current()->url().path() == path)
 			return it.current();
 
@@ -704,7 +702,7 @@ void Manager::fileSaveAll(bool amAutoSaving)
 void Manager::fileOpen(const KURL & url, const QString & encoding)
 {
 	kdDebug() << "==Kile::fileOpen==========================" << endl;
-	kdDebug() << "\t" << url.fileName() << endl;
+	kdDebug() << "\t" << url.url() << endl;
 	bool isopen = m_ki->isOpen(url);
 
 	load(url, encoding);

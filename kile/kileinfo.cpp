@@ -252,9 +252,11 @@ QString KileInfo::lastModifiedFile(KileDocument::Info * info)
 
 bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
 {
+	if ( testurl.isEmpty() ) return false;
+
+	kdDebug() << "==KileInfo::similarOrEqualURL(" << validurl.url() << "," << testurl.url() << ")===========" << endl;
 	bool absolute = testurl.path().startsWith("/");
-	return (!testurl.isEmpty()) & 
-	       (
+	return (
 		     (validurl == testurl) ||
 		     (!absolute && validurl.path().endsWith(testurl.path()))
 		   );

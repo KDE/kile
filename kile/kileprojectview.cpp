@@ -507,7 +507,6 @@ void KileProjectView::add(const KURL & url)
 	while ( it.current())
 	{
 		item = static_cast<KileProjectViewItem*>(*it);
-		kdDebug() << "\tcomparing " << url.path() << " with " << item->url().path() << endl;
 		if ( (item->type() != KileType::Project) && (item->url() == url) )
 			return;
 		it++;

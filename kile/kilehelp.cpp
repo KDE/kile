@@ -1,8 +1,8 @@
 /***************************************************************************
                            kilehelp.cpp
 ----------------------------------------------------------------------------
-    date                 : Feb 09 2004
-    version              : 0.10.0
+    date                 : Aug 04 2004
+    version              : 0.10.1
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -112,25 +112,21 @@ namespace KileHelp
 
 	////////////////////// Help: Keyword //////////////////////
 
-	//FIXME: the url passed to konqueror is ok, but konqueror doesn't jump to the label!?!?!
-	void Help::helpKeyword(Kate::View *view)
+	// Context help: user either Kile LaTeX help orthe help file shipped with teTeX,
+	void Help::helpKeyword(Kate::View *view)                   // dani 04.08.2004
 	{
 		int type = (0 == KileConfig::use()) ? HelpLatex : HelpTetex;
 		switch ( type )
 		{
 		case HelpTetex:
-			kdDebug() << "!ok" << endl;
 			helpTetexKeyword(view);
 			break;
 		case HelpLatex:
+		default:
 			kdDebug() << "ok" << endl;
 			helpLatexKeyword(view);
 			break;
-		default:
-			kdDebug() << "!ok" << endl;
-			break;
 		}
-		kdDebug() << "!!!ok" << endl;
 	}
 
 	void Help::helpTetexKeyword(Kate::View *view)
@@ -159,7 +155,7 @@ namespace KileHelp
 		}
 	}
 
-	QString Help::getKeyword(Kate::View *view)
+	QString Help::getKeyword(Kate::View *view)         
 	{
 		if ( !view )
 			return QString::null;
@@ -171,7 +167,12 @@ namespace KileHelp
 		view->cursorPositionReal(&row,&col);
 		
 		if ( m_edit->getCurrentWord(doc,row,col,KileDocument::EditorExtension::smTex,word,col1,col2) )
-			return word;
+		   // There is no starred keyword in the references. So if     // dani 04.08.2004
+			// we find one, we better try the unstarred keyword.
+			if ( word.right(1) == "*" )
+				return word.left( word.length()-1 );
+			else
+				return word;
 		else
 			return QString::null;
 	}

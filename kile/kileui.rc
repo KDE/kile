@@ -314,6 +314,7 @@
 <Menu name="help"><text>&amp;Help</text>
 	<Action name="help_latex_reference"/>
 	<Action name="help_handbook"/>
+	<Action name="help_tipofday"/>
 	<Merge/>
 	<Separator/>
 	<Action name="help_context" />

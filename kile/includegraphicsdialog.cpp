@@ -217,11 +217,13 @@ QString IncludeGraphics::getTemplate()
       s += "\\end{center}\n";
 
    // close figure environment?
-   if ( m_figure ) {
-      if ( !edit_label->text().isEmpty() && edit_label->text()!="fig:" )
-         s +=  "\\label{" + edit_label->text() + "}\n";
+   if ( m_figure ) 
+   {
       if ( ! edit_caption->text().isEmpty() )
          s +=  "\\caption{" + edit_caption->text() + "}\n";
+	  if ( !edit_label->text().isEmpty() && edit_label->text()!="fig:" )
+         s +=  "\\label{" + edit_label->text() + "}\n";
+
       s += "\\end{figure}\n";
    }
 

@@ -52,6 +52,11 @@
 			<label>Whether to run the Lyx server.</label>
 			<default>true</default>
 		</entry>
+		<entry name="TeXPaths" type="String">
+			<label>Holds the TEXINPUTS environment variable.</label>
+			<default></default>
+			<whatsthis>Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon separate list of all paths TeX should look for additional packages and/or files. You don't have to add :$TEXINPUTS at the end.</whatsthis>
+		</entry>
 	</group>
 	<group name="Show">
 		<entry name="BottomBar" type="Bool">
@@ -153,12 +158,6 @@
 		<entry name="TemplateEncoding" type="String">
 			<label>The Input encoding template variable.</label>
 			<default></default>
-		</entry>
-	</group>
-	<group name="TipOfDay">
-		<entry name="RunOnStart" type="Bool">
-			<label>Whether to show the tips on startup.</label>
-			<default>true</default>
 		</entry>
 	</group>
 	<group name="Complete">

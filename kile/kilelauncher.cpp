@@ -20,6 +20,7 @@
 #include "kiletool_enums.h"
 #include "kilelauncher.h"
 #include "docpart.h"
+#include "kileconfig.h"
 
 #include <qwidgetstack.h>
 #include <qregexp.h>
@@ -102,7 +103,6 @@
 		
 		if (m_proc)
 		{
-			
 			out += QString("*****     ")+ m_cmd+ " " + m_options +QString("\n");
 
 			QString src = tool()->source(false);
@@ -115,6 +115,9 @@
 			msg += " ("+m_proc->args()[0]+")";
 			 
 			emit(message(Info,msg));
+
+			if (KileConfig::teXPaths() != "")
+				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(KileConfig::teXPaths() + ":$TEXINPUTS"));
 
 			out += "*****\n";
 			emit(output(out));

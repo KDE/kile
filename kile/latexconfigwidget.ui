@@ -9,17 +9,17 @@
             <x>0</x>
             <y>0</y>
             <width>590</width>
-            <height>247</height>
+            <height>300</height>
         </rect>
     </property>
     <property name="caption">
         <string>LaTeX</string>
     </property>
-    <grid>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QButtonGroup" row="0" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>m_bgEnv</cstring>
             </property>
@@ -48,7 +48,7 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup" row="1" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>m_bgGraphics</cstring>
             </property>
@@ -130,10 +130,33 @@
                 </widget>
             </grid>
         </widget>
-    </grid>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox5</cstring>
+            </property>
+            <property name="title">
+                <string>Library Path</string>
+            </property>
+            <hbox>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Paths</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>kcfg_TeXPaths</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>

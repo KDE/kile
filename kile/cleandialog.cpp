@@ -61,12 +61,8 @@ namespace KileDialog
 		for (uint i=0; i <  m_extlist.count(); i++)
 		{
 			QCheckListItem *item = new QCheckListItem(listview, base + m_extlist[i], QCheckListItem::CheckBox);
-			if ( m_extlist[i] == ".pdf" || m_extlist[i] == ".ps" )
-				item->setOn(false);
-			else
 			item->setOn(true);
 			listview->insertItem(item);
-			kdDebug() << "inserting " << i << " : " << m_extlist[i] << endl;
 		}
 
 		vbox->addWidget(labelwidget,0,Qt::AlignHCenter);
@@ -87,10 +83,8 @@ namespace KileDialog
 		while ( item )
 		{
 			if ( item->isOn() && item->text(0).endsWith(m_extlist[i]) )
-			{
 				templist.append(m_extlist[i]);
-				kdDebug() << "appending " << i << " : " << m_extlist[i] << endl;
-			}
+
 			item = (QCheckListItem *)item->nextSibling();
 			i--;
 		}

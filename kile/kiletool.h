@@ -166,6 +166,9 @@ namespace KileTool
 		void setEntryMap(Config map) { m_entryMap = map; }
 		const QString readEntry(const QString & key) { return m_entryMap[key]; }
 
+	public:
+		void prepareToRun();
+
 	protected:
 		/**
 		 * Checks if the prerequisites are in order.
@@ -229,10 +232,12 @@ namespace KileTool
 		Launcher			*m_launcher;
 
 	private:
-		QDict<QString>	m_dictParams;
-		Config			m_entryMap;
+		QDict<QString>		m_dictParams;
+		Config				m_entryMap;
 
-		uint				m_flags;
+		uint		    	m_flags;
+		int					m_nPreparationResult;
+		bool				m_bPrepared;
 
 		//messages
 		QMap<long,QString>	m_messages;

@@ -34,6 +34,7 @@
 #include <kstandarddirs.h>
 #include <kmultitabbar.h>
 #include <ktabwidget.h>
+#include <ktip.h>
 
 #include "kileapplication.h"
 #include "kiledocumentinfo.h"
@@ -124,11 +125,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	setupBottomBar();
 
-	// check requirements for IncludeGraphicsDialog (dani)
 	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify") == QString::null));
-
-	//workaround for kdvi crash when started with Tooltips
-	KileConfig::setRunOnStart(false);
 
 	setupActions();
 	setupTools();
@@ -184,16 +181,16 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you have defined, is moved to the LaTeX menu."));
 	}
 
+	KTipDialog::showTip(this, "kile/tips");
+
 	m_singlemode = true;
-	m_masterName = getName();
+	m_masterName = QString::null;
 	restoreFilesAndProjects(allowRestore);
 }
 
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
-
-	// CodeCompletion  and edvanced editor (dani)
 	delete m_edit;
 	delete m_AutosaveTimer;
 }
@@ -404,14 +401,6 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
 	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
-	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexGuide()), actionCollection(), "help_tetex_guide");
-	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexDoc()), actionCollection(), "help_tetex_doc");
-	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "help_latex_index");
-	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "help_latex_command");
-	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
-	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
-	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
-
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
@@ -465,6 +454,17 @@ void Kile::setupActions()
 	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
+	
+	KStdAction::tipOfDay(this, SLOT(showTip()), actionCollection(), "help_tipofday");
+
+	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexGuide()), actionCollection(), "help_tetex_guide");
+	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexDoc()), actionCollection(), "help_tetex_doc");
+	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "help_latex_index");
+	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "help_latex_command");
+	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
+	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
+	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
+
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
 	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
@@ -612,7 +612,10 @@ void Kile::setActive()
 	kapp->mainWidget()->setActiveWindow();
 }
 
-////////////////////////////// FILE /////////////////////////////
+void Kile::showTip()
+{
+    KTipDialog::showTip(this, "kile/tips", true);
+}
 
 void Kile::setLine( const QString &line )
 {
@@ -711,6 +714,7 @@ void Kile::updateModeStatus()
 
 void Kile::openDocument(const QString & url)
 {
+	kdDebug() << "==Kile::openDocument(" << url << ")==========" << endl;
 	docManager()->fileSelected(KURL::fromPathOrURL(url));
 }
 

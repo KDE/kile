@@ -288,7 +288,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
 	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
 	(void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
-	(void) new KAction(i18n("Statistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
+	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
@@ -325,7 +325,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Make Index"),ALT+Key_Equal, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
 	(void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
 	(void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
-	(void) new KAction(i18n("View Bibtex"),0 , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
+	(void) new KAction(i18n("View Bibtex"),"bibtex" , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
 	(void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
@@ -512,7 +512,7 @@ void Kile::restore()
 }
 
 ////////////////////////////// FILE /////////////////////////////
-Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load)
+Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, const QString &text)
 {
 	QString hl = highlight;
 
@@ -553,6 +553,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	else
 	{
 		doc->setDocName(i18n("Untitled"));
+		if (text != QString::null)
+			doc->insertText(0,0,text);
 	}
 
 
@@ -739,8 +741,8 @@ void Kile::fileNew()
 
 Kate::View* Kile::loadTemplate(TemplateItem *sel)
 {
-	Kate::View *view = load(KURL());
-
+	QString text = QString::null;
+	
 	if (sel->name() != DEFAULT_EMPTY_CAPTION)
 	{
 		//create a new document to open the template in
@@ -753,18 +755,19 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 		else
 		{
 			//substitute templates variables
-			QString text = tempdoc->text();
+			text = tempdoc->text();
 			delete tempdoc;
 			replaceTemplateVariables(text);
-			view->getDoc()->setText(text);
-			view->getDoc()->setModified(false);
+			
+			//view->getDoc()->setText(text);
+			//view->getDoc()->setModified(false);
 
 			//set the highlight mode (this was already done in load, but somehow after setText this is forgotten)
-			setHighlightMode(view->getDoc());
+			//setHighlightMode(view->getDoc());
 		}
 	}
-
-	return view;
+	
+	return load(KURL(), QString::null, true, QString::null, true, text);
 }
 //TODO: connect to modifiedondisc() when using KDE 3.2
 bool Kile::eventFilter(QObject* o, QEvent* e)

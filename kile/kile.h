@@ -326,7 +326,7 @@ public slots:
 	 *
 	 * @returns pointer to the new view
 	 **/
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, bool load = true);
+	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, bool load = true, const QString &text = QString::null);
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 

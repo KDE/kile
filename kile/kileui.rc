@@ -371,8 +371,9 @@
 <Action name="New"/>
 <Action name="Open"/>
 <Action name="Recent"/>
-<Action name="Save"/>
-<Action name="SaveAs"/>
+<Action name="file_save"/>
+<Action name="file_save_as"/>
+<Action name="file_print"/>
 <Action name="SaveAll"/>
 <Action name="Close"/>
 <Action name="CloseAll"/>
@@ -573,8 +574,9 @@
 <Action name="New"/>
 <Action name="Open"/>
 <Action name="Recent"/>
-<Action name="Save"/>
-<Action name="SaveAs"/>
+<Action name="file_ave"/>
+<Action name="file_print"/>
+<Action name="file_save_as"/>
 <Action name="SaveAll"/>
 <Action name="Close"/>
 <Action name="CloseAll"/>
@@ -770,13 +772,14 @@
 <Action name="print"/>
 </Enable>
 </State>
-	<State name="State3">
+<State name="State3">
 <Disable>
 <Action name="New"/>
 <Action name="Open"/>
 <Action name="Recent"/>
-<Action name="Save"/>
-<Action name="SaveAs"/>
+<Action name="file_save"/>
+<Action name="file_print"/>
+<Action name="file_save_as"/>
 <Action name="SaveAll"/>
 <Action name="Close"/>
 <Action name="CloseAll"/>
@@ -985,8 +988,9 @@
 <Action name="New"/>
 <Action name="Open"/>
 <Action name="Recent"/>
-<Action name="Save"/>
-<Action name="SaveAs"/>
+<Action name="file_save"/>
+<Action name="file_save_as"/>
+<Action name="file_print"/>
 <Action name="SaveAll"/>
 <Action name="Close"/>
 <Action name="CloseAll"/>

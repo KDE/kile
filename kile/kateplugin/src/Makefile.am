@@ -18,5 +18,5 @@ plugins_DATA = plugin_kile.rc plugin_kile_compile.rc
 kde_services_DATA = kile.desktop
 
 messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kile.pot
+	$(XGETTEXT) *.cpp -o $(podir)/kateplugin_kile.pot
 

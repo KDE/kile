@@ -31,6 +31,8 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
+
+#include <kconfig.h>
 #include <knuminput.h>
 #include <knumvalidator.h>
 #include <klocale.h>
@@ -40,11 +42,10 @@
 #include <kcolorbutton.h>
 #include <qvbox.h>
 
-#include "kile.h"
-#include "toolsoptionsdialog.h"
+#include "kileconfigdialog.h"
 
-KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
-        :KDialogBase( KDialogBase::TreeList, i18n("Configure Kile"), Ok|Cancel,Ok, parent, name, true, true ), m_kile(parent)
+KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char* name)
+        :KDialogBase( KDialogBase::IconList, i18n("Configure Kile"), Ok|Cancel,Ok, parent, name, true, true ), m_config(config)
 {
     setShowIconsInTreeList(true);
 
@@ -55,16 +56,20 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
 
     //autosave options
     QGroupBox *autosaveGroup = new QGroupBox(3,Qt::Horizontal,i18n("Autosave options"),generalPage);
-
     checkAutosave = new QCheckBox(autosaveGroup, "Autosave");
-    checkAutosave->setText(i18n("Auto&save"));
+	checkAutosave->setText(i18n("Auto&save"));
 
-    (void) new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
-
+	QLabel *lb = new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
     asIntervalInput=new KIntNumInput(autosaveGroup,"asIntervalInput");
     asIntervalInput->setRange(1, 9999, 1, false);
+	lb->setBuddy(asIntervalInput);
 
-    genLayout->addWidget(autosaveGroup);
+	genLayout->addWidget(autosaveGroup);
+
+	//fill in autosave
+	m_config->setGroup("Files");
+	checkAutosave->setChecked(m_config->readBoolEntry("Autosave",true));
+	asIntervalInput->setValue(m_config->readLongNumEntry("AutosaveInterval",600000)/60000);
 
     //template variables
     QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);
@@ -81,6 +86,11 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
 
     genLayout->addWidget(templateGroup);
 
+	//fill in template variables
+	m_config->setGroup( "User" );
+	templAuthor->setText(m_config->readEntry("Author",""));
+	templDocClassOpt->setText(m_config->readEntry("DocumentClassOptions","a4paper,10pt"));
+	templEncoding->setText(m_config->readEntry("Template Encoding",""));
     // ****************************************************************
 
     toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
@@ -165,6 +175,20 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
     LineEdit13 = new QLineEdit( toolsPage, "le113" );
     gbox1->addWidget( LineEdit13,9,1 );
 
+	//fill in tools
+	m_config->setGroup("Tools");
+	comboDvi->setCurrentText(m_config->readEntry("Dvi","Embedded Viewer"));
+	comboPdf->setCurrentText(m_config->readEntry("Pdf","Embedded Viewer"));
+	comboPs->setCurrentText(m_config->readEntry("Ps","Embedded Viewer"));
+	LineEdit6->setText(m_config->readEntry("Latex","latex -interaction=nonstopmode %S.tex"));
+	LineEdit7->setText(m_config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode %S.tex"));
+	LineEdit9->setText(m_config->readEntry("Dvipdf","dvipdfm %S.dvi"));
+	LineEdit10->setText(m_config->readEntry("Dvips","dvips -o %S.ps %S.dvi"));
+	LineEdit11->setText(m_config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf"));
+	LineEdit12->setText(m_config->readEntry("Makeindex","makeindex %S.idx"));
+	LineEdit13->setText(m_config->readEntry("Bibtex","bibtex %S"));
+
+
     // ************************************************************************************************
     quickPage = addPage(i18n("Quick"),i18n("Quick Build"),
                         KGlobal::instance()->iconLoader()->loadIcon( "clock", KIcon::NoGroup, KIcon::SizeMedium ));
@@ -172,7 +196,7 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
     QGridLayout *gbox3 = new QGridLayout( quickPage,2,1,5,5,"" );
     gbox3->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
-    QVBox* ButtonGroup2= new QVBox( quickPage, "Bu22", 0);
+    ButtonGroup2= new QButtonGroup(6, Qt::Vertical, quickPage);
 
     checkLatex = new QRadioButton(ButtonGroup2 , "checkLatex" );
     checkLatex->setText(i18n("LaTeX + dvips + View PS") );
@@ -193,6 +217,9 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
     checkPsPdf->setText(i18n("LaTeX + dvips + ps2pdf + View PDF"));
 
     gbox3->addMultiCellWidget(ButtonGroup2,0,0,0,1,0);
+
+	m_config->setGroup("Tools");
+	ButtonGroup2->setButton(m_config->readNumEntry( "Quick Mode",1)-1);
     // ************************************************************************************************
 
     spellingPage = addPage(i18n("Spelling"),i18n("Spelling Configuration"),
@@ -207,43 +234,19 @@ KileConfigDialog::KileConfigDialog( Kile* parent,  const char* name)
 
     gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);
 
-   // editPage = addPage(i18n("Edit"),i18n("LaTeX specific editing options"),
-   //                    KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
+	//LaTeX specific editing options
+	editPage = addPage(i18n("LaTeX"),i18n("LaTeX specific editing options"),KGlobal::instance()->iconLoader()->loadIcon( "tex", KIcon::NoGroup, KIcon::SizeMedium ));
 
+	QVBoxLayout *lay = new QVBoxLayout(editPage);
+	QVBox *gbox4 = new QVBox(editPage);
 
-    m_view = m_kile->currentView();
-	QStringList path;
+	checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),gbox4);
+	lay->addWidget(gbox4);
 
-	checkEnv=0;
-	
-	if (m_view)
-	{
-		QVBox *page;
+	//fill in
+	m_config->setGroup( "Editor Ext" );
+	checkEnv->setChecked(m_config->readBoolEntry( "Complete Environment", false));
 
-		addPage(i18n("Editor"), i18n("Editor options"), KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
-
-		for (uint i = 0; i < KTextEditor::configInterfaceExtension (m_view->document())->configPages (); i++)
-		{
-			path.clear();
-			path << i18n("Editor") << KTextEditor::configInterfaceExtension (m_view->document())->configPageName (i);
-			page = addVBoxPage(path, KTextEditor::configInterfaceExtension (m_view->document())->configPageFullName (i),
-							KTextEditor::configInterfaceExtension (m_view->document())->configPagePixmap(i, KIcon::SizeSmall) );
-
-			KTextEditor::ConfigPage *cPage = KTextEditor::configInterfaceExtension (m_view->document())->configPage(i, page);
-			//connect( cPage, SIGNAL( changed() ), this, SLOT( slotChanged() ) );
-			editorPages.append (cPage);
-		}
-		path.clear();
-		path << i18n("Editor") << "LaTeX";
-		editPage = addVBoxPage(path, i18n("LaTeX specific editing options"),KGlobal::instance()->iconLoader()->loadIcon( "tex", KIcon::NoGroup, KIcon::SizeSmall ));
-
-		QVBoxLayout *lay = new QVBoxLayout(editPage);
-		QVBox *gbox4 = new QVBox(editPage);
-
-		checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),gbox4);
-
-		lay->addWidget(gbox4);
-	}
 }
 
 
@@ -252,18 +255,39 @@ KileConfigDialog::~KileConfigDialog()
 
 void KileConfigDialog::slotOk()
 {
-	if (m_view)
-	{
-		for (uint i=0; i<editorPages.count(); i++)
-		{
-			editorPages.at(i)->apply();
-		}
+	m_config->setGroup( "Files" );
 
-		m_view->getDoc()->writeConfig();
-	}
+	m_config->writeEntry("Autosave",checkAutosave->isChecked());
+	m_config->writeEntry("AutosaveInterval",asIntervalInput->value()*60000);
 
+	m_config->setGroup( "User" );
+
+	m_config->writeEntry("Author",templAuthor->text());
+	m_config->writeEntry("DocumentClassOptions",templDocClassOpt->text());
+	m_config->writeEntry("Template Encoding",templEncoding->text());
+
+	m_config->setGroup("Tools");
+
+	m_config->writeEntry("Latex",LineEdit6->text());
+	m_config->writeEntry("Dvi",comboDvi->currentText());
+	m_config->writeEntry("Dvips",LineEdit10->text());
+	m_config->writeEntry("Ps",comboPs->currentText());
+	m_config->writeEntry("Ps2pdf",LineEdit11->text());
+	m_config->writeEntry("Makeindex",LineEdit12->text());
+	m_config->writeEntry("Bibtex",LineEdit13->text());
+	m_config->writeEntry("Pdflatex",LineEdit7->text());
+	m_config->writeEntry("Pdf",comboPdf->currentText());
+	m_config->writeEntry("Dvipdf",LineEdit9->text());
+
+	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
+
+	m_config->setGroup( "Editor Ext" );
+	m_config->writeEntry("Complete Environment", checkEnv->isChecked());
+
+	m_config->sync();
+	
 	accept();
 }
 
 
-#include "toolsoptionsdialog.moc"
+#include "kileconfigdialog.moc"

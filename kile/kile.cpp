@@ -76,159 +76,162 @@
 #include "managetemplatesdialog.h"
 #include "kilestdactions.h"
 #include "usermenudialog.h"
+#include "kileconfigdialog.h"
 
 Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), m_activeView(0)
 {
-config = KGlobal::config();
-m_AutosaveTimer= new QTimer();
-connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
+	partManager = new KParts::PartManager( this );
+	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
 
-//workaround for kdvi crash when started with Tooltips
-config->setGroup("TipOfDay");
-config->writeEntry( "RunOnStart",false);
-setXMLFile( "kileui.rc" );
-htmlpresent=false;
-pspresent=false;
-dvipresent=false;
-watchfile=false;
-partManager = new KParts::PartManager( this );
-connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
-kspell = 0;
+	m_AutosaveTimer= new QTimer();
+	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
-ReadSettings();
-setupActions();
+	m_eventFilter = new KileEventFilter();
+	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
 
-// Read Settings should be after setupActions() because fileOpenRecentAction needs to be
-// initialized before calling ReadSettnigs().
-ReadRecentFileSettings();
+	config = KGlobal::config();
 
-statusBar()->insertItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN,0,true );
-statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
-statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
-statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
-statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
-topWidgetStack = new QWidgetStack( this );
-topWidgetStack->setFocusPolicy(QWidget::NoFocus);
-splitter1=new QSplitter(QSplitter::Horizontal,topWidgetStack, "splitter1" );
+	//workaround for kdvi crash when started with Tooltips
+	config->setGroup("TipOfDay");
+	config->writeEntry( "RunOnStart",false);
+	setXMLFile( "kileui.rc" );
 
+	htmlpresent=false;
+	pspresent=false;
+	dvipresent=false;
+	watchfile=false;
+	htmlpart=0L;
+	pspart=0L;
+	dvipart=0L;
+	m_bNewErrorlist=true;
+	m_bCheckForLaTeXErrors=false;
+	m_bBlockWindowActivateEvents=false;
+	kspell = 0;
 
-Structview=new QFrame(splitter1);
-Structview->setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
-Structview->setLineWidth( 2 );
-Structview_layout=0;
-ButtonBar=new KMultiVertTabBar(Structview);
+	ReadSettings();
+	setupActions();
 
-ButtonBar->insertTab(SmallIcon("fileopen"),0,i18n("Open File"));
-connect(ButtonBar->getTab(0),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-KileFS= new KileFileSelect(Structview,"File Selector");
-connect(KileFS->dirOperator(),SIGNAL(fileSelected(const KFileItem*)),this,SLOT(fileSelected(const KFileItem*)));
-connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-QString currentDir=QDir::currentDirPath();
-if (!lastDocument.isEmpty())
-  {
-  QFileInfo fi(lastDocument);
-  if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
-  }
-KileFS->setDir(KURL(currentDir));
-KileFS->comboEncoding->lineEdit()->setText(input_encoding);
+	// Read Settings should be after setupActions() because fileOpenRecentAction needs to be
+	// initialized before calling ReadSettnigs().
+	ReadRecentFileSettings();
 
-ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
-connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-outstruct = new QListView( Structview );
-outstruct->setFocusPolicy(QWidget::ClickFocus);
-outstruct->header()->hide();
-outstruct->addColumn(i18n("Structure"),-1);
-outstruct->setSorting(-1,true);
-connect( outstruct, SIGNAL(clicked(QListViewItem *)), SLOT(ClickedOnStructure(QListViewItem *)));
-connect( outstruct, SIGNAL(doubleClicked(QListViewItem *)), SLOT(DoubleClickedOnStructure(QListViewItem *)));
-QToolTip::add(outstruct, i18n("Click to jump to the line"));
-mpview = new metapostview( Structview );
-connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
+	statusBar()->insertItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN,0,true );
+	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
+	statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
+	statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
+	statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
+	topWidgetStack = new QWidgetStack( this );
+	topWidgetStack->setFocusPolicy(QWidget::NoFocus);
+	splitter1=new QSplitter(QSplitter::Horizontal,topWidgetStack, "splitter1" );
 
+	Structview=new QFrame(splitter1);
+	Structview->setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
+	Structview->setLineWidth( 2 );
+	Structview_layout=0;
+	ButtonBar=new KMultiVertTabBar(Structview);
 
-symbol_present=false;
-ButtonBar->insertTab(UserIcon("math1"),2,i18n("Relation Symbols"));
-connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math2"),3,i18n("Arrow Symbols"));
-connect(ButtonBar->getTab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math3"),4,i18n("Miscellaneous Symbols"));
-connect(ButtonBar->getTab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math4"),5,i18n("Delimiters"));
-connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math5"),6,i18n("Greek Letters"));
-connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math6"),7,"Foreign characters");
-connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("metapost"),8,i18n("MetaPost Commands"));
-connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(SmallIcon("fileopen"),0,i18n("Open File"));
+	connect(ButtonBar->getTab(0),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	KileFS= new KileFileSelect(Structview,"File Selector");
+	connect(KileFS->dirOperator(),SIGNAL(fileSelected(const KFileItem*)),this,SLOT(fileSelected(const KFileItem*)));
+	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
+	QString currentDir=QDir::currentDirPath();
+	if (!lastDocument.isEmpty())
+	{
+		QFileInfo fi(lastDocument);
+		if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
+	}
+	KileFS->setDir(KURL(currentDir));
+	KileFS->comboEncoding->lineEdit()->setText(input_encoding);
 
-splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
-tabWidget=new QTabWidget(splitter2);
-tabWidget->setFocusPolicy(QWidget::ClickFocus);
-tabWidget->setFocus();
-connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(newCaption()) );
-connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(activateView( QWidget * )) );
+	ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
+	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	outstruct = new QListView( Structview );
+	outstruct->setFocusPolicy(QWidget::ClickFocus);
+	outstruct->header()->hide();
+	outstruct->addColumn(i18n("Structure"),-1);
+	outstruct->setSorting(-1,true);
+	connect( outstruct, SIGNAL(clicked(QListViewItem *)), SLOT(ClickedOnStructure(QListViewItem *)));
+	connect( outstruct, SIGNAL(doubleClicked(QListViewItem *)), SLOT(DoubleClickedOnStructure(QListViewItem *)));
+	QToolTip::add(outstruct, i18n("Click to jump to the line"));
+	mpview = new metapostview( Structview );
+	connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
 
-//Log/Messages/KShell widgets
-Outputview=new QTabWidget(splitter2);
-Outputview->setFocusPolicy(QWidget::ClickFocus);
+	symbol_present=false;
+	ButtonBar->insertTab(UserIcon("math1"),2,i18n("Relation Symbols"));
+	connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(UserIcon("math2"),3,i18n("Arrow Symbols"));
+	connect(ButtonBar->getTab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(UserIcon("math3"),4,i18n("Miscellaneous Symbols"));
+	connect(ButtonBar->getTab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(UserIcon("math4"),5,i18n("Delimiters"));
+	connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(UserIcon("math5"),6,i18n("Greek Letters"));
+	connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(UserIcon("math6"),7,"Foreign characters");
+	connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->insertTab(UserIcon("metapost"),8,i18n("MetaPost Commands"));
+	connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 
-LogWidget = new MessageWidget( Outputview );
-LogWidget->setFocusPolicy(QWidget::ClickFocus);
-LogWidget->setMinimumHeight(40);
-LogWidget->setReadOnly(true);
-Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log/Messages"));
+	splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
+	tabWidget=new QTabWidget(splitter2);
+	tabWidget->setFocusPolicy(QWidget::ClickFocus);
+	tabWidget->setFocus();
+	connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(newCaption()) );
+	connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(activateView( QWidget * )) );
 
-OutputWidget = new MessageWidget( Outputview );
-OutputWidget->setFocusPolicy(QWidget::ClickFocus);
-OutputWidget->setMinimumHeight(40);
-OutputWidget->setReadOnly(true);
-Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Output"));
+	//Log/Messages/KShell widgets
+	Outputview=new QTabWidget(splitter2);
+	Outputview->setFocusPolicy(QWidget::ClickFocus);
 
+	LogWidget = new MessageWidget( Outputview );
+	LogWidget->setFocusPolicy(QWidget::ClickFocus);
+	LogWidget->setMinimumHeight(40);
+	LogWidget->setReadOnly(true);
+	Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log/Messages"));
 
-logpresent=false;
-errorlist=new QStrList();
-connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
+	OutputWidget = new MessageWidget( Outputview );
+	OutputWidget->setFocusPolicy(QWidget::ClickFocus);
+	OutputWidget->setMinimumHeight(40);
+	OutputWidget->setReadOnly(true);
+	Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Output"));
 
-texkonsole=new TexKonsoleWidget(Outputview,"konsole");
-Outputview->addTab(texkonsole,SmallIcon("konsole"),i18n("Konsole"));
+	logpresent=false;
+	errorlist=new QStrList();
+	connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
-QValueList<int> sizes;
-sizes << split2_top << split2_bottom;
-splitter2->setSizes( sizes );
-sizes.clear();
-sizes << split1_left << split1_right;
-splitter1->setSizes( sizes );
+	texkonsole=new TexKonsoleWidget(Outputview,"konsole");
+	Outputview->addTab(texkonsole,SmallIcon("konsole"),i18n("Konsole"));
 
-topWidgetStack->addWidget(splitter1 , 0);
-setCentralWidget(topWidgetStack);
-ShowOutputView(false);
-ShowStructView(false);
-Outputview->showPage(LogWidget);
-lastvtab=1;
-newCaption();
-showVertPage(0);
-singlemode=true;
-MasterName=getName();
-applyMainWindowSettings(config, "KileMainWindow" );
-partManager->setActivePart( 0L );
-htmlpart=0L;
-pspart=0L;
-dvipart=0L;
-m_bNewErrorlist=true;
-m_bCheckForLaTeXErrors=false;
-m_bBlockWindowActivateEvents=false;
+	QValueList<int> sizes;
+	sizes << split2_top << split2_bottom;
+	splitter2->setSizes( sizes );
+	sizes.clear();
+	sizes << split1_left << split1_right;
+	splitter1->setSizes( sizes );
 
-showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
-showtoolstoolbar=!showtoolstoolbar;ToggleShowToolsToolbar();
-showedittoolbar=!showedittoolbar;ToggleShowEditToolbar();
-showmathtoolbar=!showmathtoolbar;ToggleShowMathToolbar();
+	topWidgetStack->addWidget(splitter1 , 0);
+	setCentralWidget(topWidgetStack);
+	ShowOutputView(false);
+	ShowStructView(false);
+	Outputview->showPage(LogWidget);
+	lastvtab=1;
+	newCaption();
+	showVertPage(0);
+	singlemode=true;
+	MasterName=getName();
+	applyMainWindowSettings(config, "KileMainWindow" );
+	partManager->setActivePart( 0L );
 
-KileApplication::closeSplash();
-show();
-ToggleAccels();
-connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTerminal(QWidget * )) );
+	showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
+	showtoolstoolbar=!showtoolstoolbar;ToggleShowToolsToolbar();
+	showedittoolbar=!showedittoolbar;ToggleShowEditToolbar();
+	showmathtoolbar=!showmathtoolbar;ToggleShowMathToolbar();
 
+	KileApplication::closeSplash();
+	show();
+	ToggleAccels();
+	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTerminal(QWidget * )) );
 }
 
 Kile::~Kile()
@@ -445,10 +448,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
 
 	//install event filter on the view
-	KileEventFilter *fil = new KileEventFilter();
-	fil->setComplete(m_bCompleteEnvironment);
-	connect(this,SIGNAL(completeConfigChanged(bool)), fil, SLOT(setComplete(bool)));
-	view->installEventFilter(fil);
+	view->installEventFilter(m_eventFilter);
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
@@ -3173,130 +3173,102 @@ void Kile::RunGfe()
 void Kile::ReadSettings()
 {
 
-//test for old kilerc
-config->setGroup("VersionInfo");
-int version = config->readNumEntry("RCVersion",0);
-bool old=false;
+	//test for old kilerc
+	config->setGroup("VersionInfo");
+	int version = config->readNumEntry("RCVersion",0);
+	bool old=false;
 
-//if the kilerc file is old some of the configuration
-//date must be set by kile, even if the keys are present
-//in the kilerc file
-if (version<KILERC_VERSION) old=true;
+	//if the kilerc file is old some of the configuration
+	//date must be set by kile, even if the keys are present
+	//in the kilerc file
+	if (version<KILERC_VERSION) old=true;
 
-singlemode=true;
-QRect screen = QApplication::desktop()->screenGeometry();
-config->setGroup( "Geometries" );
-int w= config->readNumEntry( "MainwindowWidth",screen.width()-100);
-int h= config->readNumEntry( "MainwindowHeight",screen.height()-100) ;
-resize(w,h);
-split1_left=config->readNumEntry("Splitter1_left",100);
-split1_right=config->readNumEntry("Splitter1_right",350);
-split2_top=config->readNumEntry("Splitter2_top",350);
-split2_bottom=config->readNumEntry("Splitter2_bottom",100);
+	singlemode=true;
+	QRect screen = QApplication::desktop()->screenGeometry();
+	config->setGroup( "Geometries" );
+	int w= config->readNumEntry( "MainwindowWidth",screen.width()-100);
+	int h= config->readNumEntry( "MainwindowHeight",screen.height()-100) ;
+	resize(w,h);
+	split1_left=config->readNumEntry("Splitter1_left",100);
+	split1_right=config->readNumEntry("Splitter1_right",350);
+	split2_top=config->readNumEntry("Splitter2_top",350);
+	split2_bottom=config->readNumEntry("Splitter2_bottom",100);
 
-//delete old editor key
-if (config->hasGroup("Editor") )
-{
-	config->deleteGroup("Editor");
-}
+	//delete old editor key
+	if (config->hasGroup("Editor") )
+	{
+		config->deleteGroup("Editor");
+	}
 
-config->setGroup( "Show" );
-showoutputview=config->readBoolEntry("Outputview",true);
-showstructview=config->readBoolEntry( "Structureview",true);
-showmaintoolbar=config->readBoolEntry("ShowMainToolbar",true);
-showtoolstoolbar=config->readBoolEntry("ShowToolsToolbar",true);
-showedittoolbar=config->readBoolEntry("ShowEditToolbar",true);
-showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
-m_menuaccels=config->readBoolEntry("MenuAccels", false);
+	config->setGroup( "Show" );
+	showoutputview=config->readBoolEntry("Outputview",true);
+	showstructview=config->readBoolEntry( "Structureview",true);
+	showmaintoolbar=config->readBoolEntry("ShowMainToolbar",true);
+	showtoolstoolbar=config->readBoolEntry("ShowToolsToolbar",true);
+	showedittoolbar=config->readBoolEntry("ShowEditToolbar",true);
+	showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
+	m_menuaccels=config->readBoolEntry("MenuAccels", false);
 
-config->setGroup( "Tools" );
-quickmode=config->readNumEntry( "Quick Mode",1);
-if (old)
-{
-	latex_command="latex -interaction=nonstopmode %S.tex";
-	viewdvi_command="Embedded Viewer";
-	dvips_command="dvips -o %S.ps %S.dvi";
-	viewps_command="Embedded Viewer";
-	ps2pdf_command="ps2pdf %S.ps %S.pdf";
-	makeindex_command="makeindex %S.idx";
-	bibtex_command="bibtex %S";
-	pdflatex_command="pdflatex -interaction=nonstopmode %S.tex";
-	viewpdf_command="Embedded Viewer";
-	dvipdf_command="dvipdfm %S.dvi";
-	l2h_options="";
-}
-else
-{
-	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode %S.tex");
-	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
-	dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
-	viewps_command=config->readEntry("Ps","Embedded Viewer");
-	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
-	makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
-	bibtex_command=config->readEntry("Bibtex","bibtex %S");
-	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode %S.tex");
-	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
-	dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
-	l2h_options=config->readEntry("L2h Options","");
-	userClassList=config->readListEntry("User Class", ':');
-	userPaperList=config->readListEntry("User Paper", ':');
-	userEncodingList=config->readListEntry("User Encoding", ':');
-	userOptionsList=config->readListEntry("User Options", ':');
-}
+	config->setGroup( "Tools" );
+	if (old)
+	{
+		latex_command="latex -interaction=nonstopmode %S.tex";
+		viewdvi_command="Embedded Viewer";
+		dvips_command="dvips -o %S.ps %S.dvi";
+		viewps_command="Embedded Viewer";
+		ps2pdf_command="ps2pdf %S.ps %S.pdf";
+		makeindex_command="makeindex %S.idx";
+		bibtex_command="bibtex %S";
+		pdflatex_command="pdflatex -interaction=nonstopmode %S.tex";
+		viewpdf_command="Embedded Viewer";
+		dvipdf_command="dvipdfm %S.dvi";
+		l2h_options="";
+	}
+	//new configuration scheme is read in readConfig()
 
-config->setGroup( "User" );
-templAuthor=config->readEntry("Author","");
-templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
-templEncoding=config->readEntry("Template Encoding","");
+	config->setGroup( "User" );
+	userItem tempItem;
+	int len = config->readNumEntry("nUserTags",0);
+	for (int i = 0; i < len; i++)
+	{
+		tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
+		tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
+		m_listUserTags.append(tempItem);
+	}
 
-userItem tempItem;
-int len = config->readNumEntry("nUserTags",0);
-for (int i = 0; i < len; i++)
-{
-	tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
-	m_listUserTags.append(tempItem);
-}
+	len= config->readNumEntry("nUserTools",0);
+	for (int i=0; i< len; i++)
+	{
+		tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
+		tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
+		m_listUserTools.append(tempItem);
+	}
 
-len= config->readNumEntry("nUserTools",0);
-for (int i=0; i< len; i++)
-{
-	tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
-	m_listUserTools.append(tempItem);
-}
+	config->setGroup( "Structure" );
+	struct_level1=config->readEntry("Structure Level 1","part");
+	struct_level2=config->readEntry("Structure Level 2","chapter");
+	struct_level3=config->readEntry("Structure Level 3","section");
+	struct_level4=config->readEntry("Structure Level 4","subsection");
+	struct_level5=config->readEntry("Structure Level 5","subsubsection");
 
-config->setGroup( "Structure" );
-struct_level1=config->readEntry("Structure Level 1","part");
-struct_level2=config->readEntry("Structure Level 2","chapter");
-struct_level3=config->readEntry("Structure Level 3","section");
-struct_level4=config->readEntry("Structure Level 4","subsection");
-struct_level5=config->readEntry("Structure Level 5","subsubsection");
+	config->setGroup( "Quick" );
+	document_class=config->readEntry("Class","article");
+	typeface_size=config->readEntry("Typeface","10pt");
+	paper_size=config->readEntry("Papersize","a4paper");
+	document_encoding=config->readEntry("Encoding","latin1");
+	ams_packages=config->readBoolEntry( "AMS",true);
+	makeidx_package=config->readBoolEntry( "MakeIndex",false);
+	author=config->readEntry("Author","");
 
-config->setGroup( "Quick" );
-document_class=config->readEntry("Class","article");
-typeface_size=config->readEntry("Typeface","10pt");
-paper_size=config->readEntry("Papersize","a4paper");
-document_encoding=config->readEntry("Encoding","latin1");
-ams_packages=config->readBoolEntry( "AMS",true);
-makeidx_package=config->readBoolEntry( "MakeIndex",false);
-author=config->readEntry("Author","");
-
-config->setGroup( "Editor Ext" );
-m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", false);
-
+	readConfig();
 }
 
 void Kile::ReadRecentFileSettings()
 {
 	config->setGroup( "Files" );
+
 	lastDocument=config->readPathEntry("Last Document","");
 	input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
-	autosave=config->readBoolEntry("Autosave",true);
-	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
-	enableAutosave(autosave);
-	setAutosaveInterval(autosaveinterval);
-	// Loading of Recent Files
 
 	// Load recent files from "Recent Files" group
 	// using the KDE standard action for recent files
@@ -3317,6 +3289,42 @@ void Kile::ReadRecentFileSettings()
 		// group for recent files
 		config->deleteEntry("Recent Files");
 	}
+}
+
+//reads options that can be set in the configuration dialog
+void Kile::readConfig()
+{
+	config->setGroup( "Files" );
+
+	autosave=config->readBoolEntry("Autosave",true);
+	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
+	enableAutosave(autosave);
+	setAutosaveInterval(autosaveinterval);
+
+	config->setGroup( "User" );
+	templAuthor=config->readEntry("Author","");
+	templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
+	templEncoding=config->readEntry("Template Encoding","");
+
+	config->setGroup("Tools");
+
+	quickmode=config->readNumEntry( "Quick Mode",1);
+
+	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode %S.tex");
+	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
+	dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
+	viewps_command=config->readEntry("Ps","Embedded Viewer");
+	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
+	makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
+	bibtex_command=config->readEntry("Bibtex","bibtex %S");
+	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode %S.tex");
+	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
+	dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
+	l2h_options=config->readEntry("L2h Options","");
+	userClassList=config->readListEntry("User Class", ':');
+	userPaperList=config->readListEntry("User Paper", ':');
+	userEncodingList=config->readListEntry("User Encoding", ':');
+	userOptionsList=config->readListEntry("User Options", ':');
 }
 
 void Kile::SaveSettings()
@@ -3356,18 +3364,18 @@ config->writeEntry("ShowEditToolbar",showedittoolbar);
 config->writeEntry("ShowMathToolbar",showmathtoolbar);
 config->writeEntry("MenuAccels", m_menuaccels);
 
-config->setGroup("Tools");
-config->writeEntry( "Quick Mode",quickmode);
-config->writeEntry("Latex",latex_command);
-config->writeEntry("Dvi",viewdvi_command);
-config->writeEntry("Dvips",dvips_command);
-config->writeEntry("Ps",viewps_command);
-config->writeEntry("Ps2pdf",ps2pdf_command);
-config->writeEntry("Makeindex",makeindex_command);
-config->writeEntry("Bibtex",bibtex_command);
-config->writeEntry("Pdflatex",pdflatex_command);
-config->writeEntry("Pdf",viewpdf_command);
-config->writeEntry("Dvipdf",dvipdf_command);
+//config->setGroup("Tools");
+//config->writeEntry( "Quick Mode",quickmode);
+//config->writeEntry("Latex",latex_command);
+//config->writeEntry("Dvi",viewdvi_command);
+//config->writeEntry("Dvips",dvips_command);
+//config->writeEntry("Ps",viewps_command);
+//config->writeEntry("Ps2pdf",ps2pdf_command);
+//config->writeEntry("Makeindex",makeindex_command);
+//config->writeEntry("Bibtex",bibtex_command);
+//config->writeEntry("Pdflatex",pdflatex_command);
+//config->writeEntry("Pdf",viewpdf_command);
+//config->writeEntry("Dvipdf",dvipdf_command);
 config->writeEntry("L2h Options",l2h_options);
 config->writeEntry("User Class",userClassList, ':');
 config->writeEntry("User Paper",userPaperList, ':');
@@ -3380,16 +3388,13 @@ if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
 config->writeEntry("Last Document",lastDocument);
 input_encoding=KileFS->comboEncoding->lineEdit()->text();
 config->writeEntry("Input Encoding", input_encoding);
-config->writeEntry("Autosave",autosave);
-config->writeEntry("AutosaveInterval",autosaveinterval);
+//config->writeEntry("Autosave",autosave);
+//config->writeEntry("AutosaveInterval",autosaveinterval);
 
   // Store recent files
   fileOpenRecentAction->saveEntries(config,"Recent Files");
 
 config->setGroup( "User" );
-config->writeEntry("Author",templAuthor);
-config->writeEntry("DocumentClassOptions",templDocClassOpt);
-config->writeEntry("Template Encoding",templEncoding);
 
 userItem tempItem;
 config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
@@ -3424,8 +3429,8 @@ config->writeEntry( "AMS",ams_packages);
 config->writeEntry( "MakeIndex",makeidx_package);
 config->writeEntry( "Author",author);
 
-config->setGroup( "Editor Ext" );
-config->writeEntry( "Complete Environment", m_bCompleteEnvironment );
+//config->setGroup( "Editor Ext" );
+//config->writeEntry( "Complete Environment", m_bCompleteEnvironment );
 
 actionCollection()->writeShortcutSettings();
 saveMainWindowSettings(config, "KileMainWindow" );
@@ -3630,65 +3635,18 @@ else
 
 void Kile::GeneralOptions()
 {
-	toDlg = new KileConfigDialog(this,"Configure Kile");
+	KileConfigDialog *dlg = new KileConfigDialog(config,this,"Configure Kile");
 
-	//initialize dialog with current settings
-	kdDebug() << "autosaveinterval = " << autosaveinterval << endl;
-	toDlg->asIntervalInput->setValue(autosaveinterval/60000);
-	toDlg->templAuthor->setText(templAuthor);
-	toDlg->templDocClassOpt->setText(templDocClassOpt);
-	toDlg->templEncoding->setText(templEncoding);
-	toDlg->checkAutosave->setChecked(autosave);
-	toDlg->LineEdit6->setText(latex_command);
-	toDlg->LineEdit7->setText(pdflatex_command);
-	toDlg->LineEdit9->setText(dvipdf_command);
-	toDlg->LineEdit10->setText(dvips_command);
-	toDlg->LineEdit11->setText(ps2pdf_command);
-	toDlg->LineEdit12->setText(makeindex_command);
-	toDlg->LineEdit13->setText(bibtex_command);
-	toDlg->comboDvi->lineEdit()->setText(viewdvi_command );
-	toDlg->comboPdf->lineEdit()->setText(viewpdf_command );
-	toDlg->comboPs->lineEdit()->setText(viewps_command );
-	if (toDlg->checkEnv) toDlg->checkEnv->setChecked(m_bCompleteEnvironment);
-
-	if (quickmode==1) {toDlg->checkLatex->setChecked(true);}
-	if (quickmode==2) {toDlg->checkDvi->setChecked(true);}
-	if (quickmode==3) {toDlg->checkDviSearch->setChecked(true);}
-	if (quickmode==4)  {toDlg->checkPdflatex->setChecked(true);}
-	if (quickmode==5)  {toDlg->checkDviPdf->setChecked(true);}
-	if (quickmode==6)  {toDlg->checkPsPdf->setChecked(true);}
-
-	//execute the dialog
-	if (toDlg->exec())
+	if (dlg->exec())
 	{
-		toDlg->ksc->writeGlobalSettings ();
-		autosaveinterval=60000*(toDlg->asIntervalInput->value());
-		setAutosaveInterval(autosaveinterval);
-		autosave=toDlg->checkAutosave->isChecked();
-		enableAutosave(autosave);
-		templAuthor=toDlg->templAuthor->text();
-		templDocClassOpt=toDlg->templDocClassOpt->text();
-		templEncoding=toDlg->templEncoding->text().stripWhiteSpace();
-		if (toDlg->checkLatex->isChecked()) quickmode=1;
-		if (toDlg->checkDvi->isChecked()) quickmode=2;
-		if (toDlg->checkDviSearch->isChecked()) quickmode=3;
-		if (toDlg->checkPdflatex->isChecked()) quickmode=4;
-		if (toDlg->checkDviPdf->isChecked()) quickmode=5;
-		if (toDlg->checkPsPdf->isChecked()) quickmode=6;
-		viewdvi_command=toDlg->comboDvi->lineEdit()->text();
-		viewps_command=toDlg->comboPs->lineEdit()->text();
-		viewpdf_command=toDlg->comboPdf->lineEdit()->text();
-		latex_command=toDlg->LineEdit6->text();
-		pdflatex_command=toDlg->LineEdit7->text();
-		dvipdf_command   = toDlg->LineEdit9->text();
-		dvips_command    = toDlg->LineEdit10->text();
-		ps2pdf_command   = toDlg->LineEdit11->text();
-		makeindex_command   = toDlg->LineEdit12->text();
-		bibtex_command   = toDlg->LineEdit13->text();
-		if (toDlg->checkEnv) m_bCompleteEnvironment = toDlg->checkEnv->isChecked();
-		emit completeConfigChanged(m_bCompleteEnvironment);
+		dlg->ksc->writeGlobalSettings ();
+
+		readConfig();
+
+		emit(configChanged());
 	}
-	delete toDlg;
+
+	delete dlg;
 }
 ////////////// SPELL ///////////////
 void Kile::spellcheck()
@@ -4005,8 +3963,17 @@ while(i < currentView()->getDoc()->numLines())
 KileEventFilter::KileEventFilter()
 {
 	m_bHandleEnter = true;
-	m_bCompleteEnvironment = false;
+	//m_bCompleteEnvironment = false;
 	m_regexpEnter  = QRegExp("(.*)(\\\\begin\\s*\\{[^\\{\\}]*\\})\\s*$");
+
+	readConfig();
+}
+
+void KileEventFilter::readConfig()
+{
+	KConfig *config = KGlobal::config();
+	config->setGroup( "Editor Ext" );
+	m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", false);
 }
 
 bool KileEventFilter::eventFilter(QObject *o, QEvent *e)

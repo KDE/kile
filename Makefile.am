@@ -3,8 +3,3 @@
 SUBDIRS = kile
 
 EXTRA_DIST = kile.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kile.lsm 
-
- 
-
-
-_SOURCES =  kile.h

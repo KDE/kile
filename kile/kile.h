@@ -58,7 +58,6 @@
 #include "tabdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
-#include "toolsoptionsdialog.h"
 #include "l2hdialog.h"
 #include "gfe/qplotmaker.h"
 #include "gfe/qplotdialog.h"
@@ -85,7 +84,8 @@ class QFileInfo;
 class QTimer;
 class QSignalMapper;
 class KActionMenu;
-class KDirWatch;
+
+class KileEventFilter;
 
 //typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
@@ -217,7 +217,6 @@ private slots:
 /* config */
 private:
 	KConfig				*config;
-	KileConfigDialog 	*toDlg;
 	int 				split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
@@ -232,12 +231,15 @@ private:
 	bool			m_bCompleteEnvironment;
 
 signals:
-	void completeConfigChanged(bool);
+	void configChanged();
 
 private slots:
 	void ReadSettings();
 	void ReadRecentFileSettings();
 	void SaveSettings();
+
+	void readConfig();
+
 	void GeneralOptions();
 	void ConfigureKeys();
    	void ConfigureToolbars();
@@ -443,6 +445,10 @@ private slots:
 	void insertUserTag(int i);
 	void EditUserMenu();
 
+/* editor extensions */
+private:
+	KileEventFilter*	m_eventFilter;
+
 /* external programs */
 private slots:
 	void RunXfig();
@@ -463,7 +469,7 @@ public:
 	KileEventFilter();
 
 public slots:
-	void setComplete(bool e) { m_bCompleteEnvironment = e; }
+	void readConfig();
 
 protected:
 	bool eventFilter(QObject *o, QEvent *e);

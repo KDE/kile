@@ -32,20 +32,20 @@ class QSpinBox;
 
 class QCheckBox;
 class QRadioButton;
+class QButtonGroup;
 
 class QFrame;
 class KSpellConfig;
 class KColorButton;
 class KIntNumInput;
-
-class Kile;
+class KConfig;
 
 class KileConfigDialog : public KDialogBase
 {
     Q_OBJECT
 
 public:
-    KileConfigDialog( Kile* parent = 0, const char* name = 0);
+    KileConfigDialog( KConfig *config, QWidget* parent = 0, const char* name = 0);
     ~KileConfigDialog();
 
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
@@ -54,6 +54,7 @@ public:
     QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13;
 
     QComboBox *comboDvi, *comboPs, *comboPdf;
+	QButtonGroup *ButtonGroup2;
 
     QCheckBox *checkAutosave, *checkEnv;
 
@@ -68,15 +69,13 @@ public:
     QFrame* toolsPage;
     QFrame* quickPage;
     QFrame* spellingPage;
-	QVBox* editPage;
+	QFrame* editPage;
     KSpellConfig *ksc;
 
 private slots:
 	void slotOk();
 
 private:
-	Kile								*m_kile;
-	QPtrList<KTextEditor::ConfigPage>	editorPages;
-	Kate::View							*m_view;
+	KConfig								*m_config;
 };
 #endif

@@ -1,8 +1,7 @@
 BUGS
- - Spell checking for ISO-whatever character codes.
+ - shell quote filenames in tools (filenames with spaces etc.)
  - When "\section" is re-defined in the preamble of a document, the structure view considers it
    as a section.
- - F3 is assigned to two actions
 
 TODO
  - use KDirWatch to check for modified files on disk

@@ -27,7 +27,7 @@
 namespace KileAction
 {
 
-enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromList=8};
+enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList = 16};
 /*
 	TagData
 */
@@ -40,7 +40,7 @@ public:
 
 	QString		text;
 	QString		tagBegin, tagEnd;
-	int		dx,dy;
+	int			dx,dy;
 	QString		description;
 };
 
@@ -88,17 +88,17 @@ class InputTag : public Tag
 
 public:
 	//constructors
-	InputTag(const KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, QStringList *list = 0, const QString &alter = QString::null);
+	InputTag(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
 
-	InputTag(const KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, QStringList *list = 0, const QString &alter = QString::null);
+	InputTag(KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
 
-	InputTag(const KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-			, const TagData& data, const QString &hint = QString::null, QStringList *list = 0, const QString &alter = QString::null);
+	InputTag(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+			, const TagData& data, const QString &hint = QString::null, const QString &alter = QString::null);
 
-	InputTag(const KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-			, const TagData& data, const QString &hint = QString::null, QStringList *list = 0, const QString &alter = QString::null);
+	InputTag(KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+			, const TagData& data, const QString &hint = QString::null, const QString &alter = QString::null);
 
 	~InputTag();
 
@@ -121,7 +121,6 @@ private:
 	QWidget				*m_parent;
 	uint				m_options;
 	QString				m_hint;
-	QStringList			*m_list;
 	QString				m_alter;
 };
 
@@ -133,7 +132,7 @@ class InputDialog : public KDialogBase
 	Q_OBJECT
 
 public:
-	InputDialog(const QString &caption, uint options, const QStringList& history, const QString &hint, const QString &alter, QStringList* list, const KileInfoInterface *kii, QWidget *parent=0, const char *name=0);
+	InputDialog(const QString &caption, uint options, const QStringList& history, const QString &hint, const QString &alter, KileInfoInterface *kii, QWidget *parent=0, const char *name=0);
 	~InputDialog();
 
 	bool useAlternative() {return m_useAlternative;}

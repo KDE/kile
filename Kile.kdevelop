@@ -89,13 +89,13 @@
       <useconfiguration>default</useconfiguration>
     </general>
     <run>
-      <mainprogram>./kile/kile</mainprogram>
+      <mainprogram>../../bin/startkile</mainprogram>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
-      <directoryradio>executable</directoryradio>
-      <customdirectory/>
+      <directoryradio>build</directoryradio>
+      <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
     </run>
   </kdevautoproject>
   <cppsupportpart>

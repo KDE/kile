@@ -31,6 +31,9 @@ public:
 	virtual QString getName() =0;
 	virtual QString getShortName() =0;
 
+	virtual const QStringList* getLabelList() const =0;
+	virtual const QStringList* getBibItemList() const =0;
+
 private:
 	QString m_name;
 };

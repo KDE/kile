@@ -309,6 +309,9 @@ public:
 	QString getName() { return getName(0); }
     QString getShortName() { return getShortName(0); }
 
+	const QStringList* getLabelList() const { return &labelitem;}
+	const QStringList* getBibItemList() const { return &labelitem; }
+
 private:
 	bool singlemode;
 
@@ -432,6 +435,21 @@ private:
 
 };
 
+class KileEventFilter : public QObject
+{
+	Q_OBJECT
+
+public:
+	KileEventFilter();
+
+protected:
+	bool eventFilter(QObject *o, QEvent *e);
+
+private:
+	bool	m_bHandleEnter;
+	QRegExp	m_regexpEnter;
+	
+};
 
 #endif
 

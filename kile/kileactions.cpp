@@ -89,36 +89,36 @@ void Tag::emitData()
 ////////////////
 //    InputTag     //
 ////////////////
-InputTag::InputTag(const KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent, uint options
+InputTag::InputTag(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent, uint options
 	, const QString &tagBegin, const QString &tagEnd
-	, int dx, int dy, const QString &description, const QString &hint, QStringList *list, const QString &alter)
-	: m_kii(kii), Tag(text, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description),
-	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
+	, int dx, int dy, const QString &description, const QString &hint, const QString &alter)
+	: Tag(text, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_kii(kii),
+	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag( const KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+InputTag::InputTag( KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 	, const QString &tagBegin, const QString &tagEnd
-	, int dx, int dy, const QString &description, const QString &hint, QStringList *list, const QString &alter)
-	: m_kii(kii), Tag(text, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description),
-	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
+	, int dx, int dy, const QString &description, const QString &hint, const QString &alter)
+	: Tag(text, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_kii(kii),
+	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag( const KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-	, const TagData& data, const QString &hint, QStringList *list, const QString &alter)
-	: m_kii(kii), Tag(text,cut,receiver, slot, parent, name,data),
-	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
+InputTag::InputTag( KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	, const TagData& data, const QString &hint, const QString &alter)
+	: Tag(text,cut,receiver, slot, parent, name,data),  m_kii(kii),
+	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag( const KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-	, const TagData& data, const QString &hint, QStringList *list, const QString &alter)
-	: m_kii(kii), Tag(text, pix, cut,receiver, slot, parent, name,data),
-	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
+InputTag::InputTag( KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	, const TagData& data, const QString &hint, const QString &alter)
+	: Tag(text, pix, cut,receiver, slot, parent, name,data), m_kii(kii),
+	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
@@ -136,7 +136,7 @@ void InputTag::emitData()
 {
 	kdDebug() << "InputTag::emitData() " << m_kii->getName() << endl;
 
-	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_list, m_kii, m_parent, "input_dialog");
+	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_kii, m_parent, "input_dialog");
 	if (dlg->exec())
 	{
 		kdDebug() << "een" << endl;
@@ -162,8 +162,8 @@ void InputTag::emitData()
 /*
 	InputDialog
 */
-InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, QStringList *list, const KileInfoInterface *kii, QWidget *parent, const char *name)
-	: m_kii(kii), KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true)
+InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, KileInfoInterface *kii, QWidget *parent, const char *name)
+	: KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true), m_kii(kii)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -173,20 +173,27 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 
 	m_tag=QString::null;
-	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromList) )
+	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList) )
 	{
 		KComboBox *input = new KComboBox(true, page, "input_dialog_input");
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setEditText(const QString&)));
 		gbox->addMultiCellWidget(input,1,1,0,2);
 
-		if (options & KileAction::FromList)
+		const QStringList *list;
+
+		if (options & KileAction::FromLabelList)
 		{
-			if (list)
-			{
-				input->insertStringList(*list);
-				m_tag = list->first();
-			}
+			list = kii->getLabelList();
+			input->insertStringList(*list);
+			m_tag = list->first();
+		}
+		else
+		if (options & KileAction::FromBibItemList)
+		{
+			list = kii->getBibItemList();
+			input->insertStringList(*list);
+			m_tag = list->first();
 		}
 		else
 		{

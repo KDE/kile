@@ -21,7 +21,7 @@ class KMainWindow;
 
 namespace KileStdActions
 {
-	void setupStdTags(KileInfoInterface *kii, KMainWindow *parent, QPtrList<KAction>*, QStringList*);
+	void setupStdTags(KileInfoInterface *kii, KMainWindow *parent, QPtrList<KAction>*);
 	void setupBibTags(KMainWindow *parent);
 	void setupMathTags(KMainWindow *parent, QPtrList<KAction>*);
 };

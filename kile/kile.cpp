@@ -283,7 +283,7 @@ void Kile::setupActions()
   HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
 	QPtrList<KAction> alt_list;
-	KileStdActions::setupStdTags(this,this, &alt_list, &labelitem);
+	KileStdActions::setupStdTags(this,this, &alt_list);
 	altI_action = alt_list.at(0);
 	altA_action = alt_list.at(1);
 	altB_action = alt_list.at(2);
@@ -437,6 +437,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
+	KileEventFilter *fil = new KileEventFilter();
+	view->installEventFilter(fil);
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
@@ -3946,6 +3948,70 @@ while(i < currentView()->getDoc()->numLines())
         }
     else i++;
    }
+}
+
+/////// editor extensions /////////////
+KileEventFilter::KileEventFilter()
+{
+	m_bHandleEnter = true;
+	m_regexpEnter  = QRegExp("(.*)(\\\\begin\\s*\\{[^\\{\\}]*\\})\\s*$");
+}
+
+bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
+{
+	if ( e->type() == QEvent::AccelOverride)
+	{
+		QKeyEvent *ke = (QKeyEvent*) e;
+		kdDebug() << "eventFilter : AccelOverride : " << ke->key() << endl;
+		kdDebug() << "              type          : " << ke->type() << endl;
+		kdDebug() << "              state         : " << ke->state() << endl;
+
+		if ( ke->text() == "{" )
+		{
+			Kate::View *view = (Kate::View*) o;
+			view->getDoc()->insertText(view->cursorLine(),view->cursorColumnReal(),"}");
+
+			//we're done with this event
+			return true;
+		}
+
+		if ( ke->key() == Qt::Key_Return && ke->state() == 0)
+		{
+			if (m_bHandleEnter)
+			{
+				kdDebug() << "              enter" << endl;
+				Kate::View *view = (Kate::View*) o;
+
+				QString line = view->getDoc()->textLine(view->cursorLine()).left(view->cursorColumnReal());
+				int pos = m_regexpEnter.search(line);
+				kdDebug() << "              line     : " << line << endl;
+				kdDebug() << "              pos      : " << pos << endl;
+				kdDebug() << "              captured : " << m_regexpEnter.cap(1) << "+" << m_regexpEnter.cap(2) << endl;
+				if (pos != -1 )
+				{
+					line = m_regexpEnter.cap(1);
+					for (uint i=0; i < line.length(); i++)
+						if ( ! line[i].isSpace() ) line[i] = ' ';
+
+					line += m_regexpEnter.cap(2).replace("\\begin","\\end")+"\n";
+
+					view->getDoc()->insertText(view->cursorLine()+1, 0, line);
+				}
+
+				m_bHandleEnter=false;
+
+				return true;
+			}
+			else
+				m_bHandleEnter = true;
+		}
+
+		m_bHandleEnter = true;
+		return false;
+	}
+
+	//pass this event on
+	return false;
 }
 
 #include "kile.moc"

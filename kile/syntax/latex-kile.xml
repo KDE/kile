@@ -87,7 +87,7 @@
 				<RegExpr String="\\end(?=\s*\{\s*eqnarray\s*\})" attribute="Structure" context="MathFindEnd"/>
 				<RegExpr String="\\end(?=\s*\{\s*math\s*\})" attribute="Structure" context="MathFindEnd"/>
 				<RegExpr String="\\end(?=\s*\{\s*multline\s*\})" attribute="Structure" context="MathFindEnd"/>
-				
+
 				<DetectChar char="\" attribute="Keyword Mathmode" context="MathContrSeq"/>
 
 				<StringDetect String="$$" attribute="Math" context="Normal Text"/>
@@ -115,13 +115,13 @@
 		</contexts>
 		<itemDatas>
 			<itemData name="Normal Text" defStyleNum="dsNormal"/>
-			<itemData name="Keyword" defStyleNum="dsKeyword" color="#800000" selColor="#60FFFF" bold="0" italic="0"/>
-			<itemData name="Comment" defStyleNum="dsComment"/>
-			<itemData name="Math" defStyleNum="dsOthers" color="#00A000" selColor="#FF40FF"  bold="0" italic="0"/>
+			<itemData name="Keyword" defStyleNum="dsNormal" color="#800000" selColor="#60FFFF" bold="0" italic="0"/>
+			<itemData name="Comment" defStyleNum="dsNormal"/>
+			<itemData name="Math" defStyleNum="dsNormal" color="#00A000" selColor="#FF40FF"  bold="0" italic="0"/>
 			<itemData name="Structure" defStyleNum="dsNormal" color="#F00000" selColor="#80FFD0" bold="0" italic="0"/>
-			<itemData name="Keyword Mathmode" defStyleNum="dsOthers" color="#606000" selColor="#FFD0FF" bold="0" italic="0"/>
-			<itemData name="Environment" defStyleNum="dsString" color="#0000D0" selColor="#FFFF90" bold="0" italic="0"/>
-			<itemData name="Verbatim" defStyleNum="dsDataType" color="#a08000" selColor="#80D0FF" bold="0" italic="0"/>
+			<itemData name="Keyword Mathmode" defStyleNum="dsNormal" color="#606000" selColor="#FFD0FF" bold="0" italic="0"/>
+			<itemData name="Environment" defStyleNum="dsNormal" color="#0000D0" selColor="#FFFF90" bold="0" italic="0"/>
+			<itemData name="Verbatim" defStyleNum="dsNormal" color="#a08000" selColor="#80D0FF" bold="0" italic="0"/>
 
 		</itemDatas>
 	</highlighting>

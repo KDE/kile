@@ -3085,7 +3085,8 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-QFileInfo fic(locate("appdata","doc/latexhelp.html"));
+QFileInfo fic(locate("html","en/kile/latexhelp.html"));
+kdDebug() << "latexhelp: " << fic.absFilePath() << endl;
     if (fic.exists() && fic.isReadable() )
       {
       ResetPart();
@@ -3096,8 +3097,8 @@ QFileInfo fic(locate("appdata","doc/latexhelp.html"));
       topWidgetStack->raiseWidget(1);
       partManager->addPart(htmlpart, true);
       partManager->setActivePart( htmlpart);
-      htmlpart->openURL(locate("appdata","doc/latexhelp.html"));
-      htmlpart->addToHistory(locate("appdata","doc/latexhelp.html"));
+      htmlpart->openURL(locate("html","en/kile/latexhelp.html"));
+      htmlpart->addToHistory(locate("html","en/kile/latexhelp.html"));
       }
     else { KMessageBox::error( this,i18n("File not found"));}
 }

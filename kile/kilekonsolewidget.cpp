@@ -16,18 +16,24 @@
  ***************************************************************************/
 
 #include "kilekonsolewidget.h"
+#include "kileinfo.h"
 
+#include <qfileinfo.h>
 #include <qframe.h>
 
+#include <klocale.h>
 #include <klibloader.h>
 #include <kurl.h>
 #include <kparts/part.h>
+#include <kate/document.h>
+#include <kate/view.h>
 
 namespace KileWidget
 {
-	Konsole::Konsole(QWidget *parent, const char *name) : 
+	Konsole::Konsole(KileInfo * info, QWidget *parent, const char *name) : 
 		QVBox(parent, name),
-		m_bPresent(false)
+		m_bPresent(false),
+		m_ki(info)
 	{
 		spawn();
 	}
@@ -53,6 +59,36 @@ namespace KileWidget
 	
 		m_part->widget()->show();
 		show();
+	}
+
+
+	void Konsole::sync()
+	{
+		Kate::Document *doc = m_ki->activeDocument();
+		Kate::View *view = 0;
+
+		if (doc)
+			view = static_cast<Kate::View*>(doc->views().first());
+
+		kdDebug() << "==KileWidget::Konsole::syncTerminal()===========" <<  endl;
+	
+		if (view)
+		{
+			QString finame;
+			KURL url = view->getDoc()->url();
+
+			if ( url.path() == "" || url.path() == i18n("Untitled") ) return;
+
+			QFileInfo fic(url.directory());
+			if ( fic.isReadable() )
+			{
+				kdDebug() << "\t" << url.directory() << endl;
+				setDirectory(url.directory());
+				activate();
+			}
+
+			view->setFocus();
+		}
 	}
 
 	void Konsole::setDirectory(const QString &dirname)

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          commandprocess.h  -  description
+                          kilewizard.h  -  description
                              -------------------
-    begin                : Wed Apr 23 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
+    begin                : Tue Dec 23 2003
+    copyright            : (C) 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,26 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMMANDPROCESS_H
-#define COMMANDPROCESS_H
+#ifndef KILEWIZARD_H
+#define KILEWIZARD_H
 
-#include <kprocess.h>
+#include <kdialogbase.h>
+#include "kileactions.h"
 
-/**
-  *@author Jeroen Wijnhout
-  */
+class KConfig;
 
-class CommandProcess : public KShellProcess  {
-   Q_OBJECT
-   
-public: 
-	CommandProcess();
-	~CommandProcess();
+namespace KileDialog
+{
+	class Wizard : public KDialogBase
+	{
+	public:
+		Wizard(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		~Wizard();
 
-	QString command();
-	
-public slots:
-   void terminate();
-};
+	public:
+		const KileAction::TagData & tagData() const { return m_td; }
+
+	protected:
+		KileAction::TagData		m_td;
+		KConfig				*m_config;
+	};
+}
 
 #endif

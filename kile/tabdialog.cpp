@@ -16,104 +16,129 @@
  ***************************************************************************/
 
 #include "tabdialog.h"
-#include <klocale.h>
+
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qcombobox.h>
 #include <qtable.h>
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 
-tabdialog::tabdialog(QWidget *parent, const char *name, const QString &caption)
-    :QDialog( parent,name, true)
+#include <klocale.h>
+#include <kcombobox.h>
+
+namespace KileDialog
 {
-	setCaption(caption);
+	QuickTabular::QuickTabular(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
+		Wizard(config, parent,name, caption)
+	{
+		QWidget *page = new QWidget(this);
+		setMainWidget(page);
 
-  QGridLayout *gbox = new QGridLayout( this, 7, 2,5,5,"");
-  gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
-  gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
+		QGridLayout *gbox = new QGridLayout( page, 7, 2,5,5,"");
+		gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
+		gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
+		
+		m_table = new QTable(page);
+		m_table->setNumRows( 2 );
+		m_table->setNumCols( 2 );
+		gbox->addMultiCellWidget(m_table,0,0,0,1,0);
+		
+		m_spRows = new QSpinBox(page);
+		m_spRows->setValue(2);
+		m_spRows->setRange(1,99);
+		gbox->addWidget(m_spRows , 1, 1 );
+		connect( m_spRows, SIGNAL(valueChanged(int)),m_table, SLOT(setNumRows(int)));
+		
+		m_spCols = new QSpinBox(page);
+		m_spCols->setValue(2);
+		m_spCols->setRange(1,99);
+		connect( m_spCols, SIGNAL(valueChanged(int)),m_table, SLOT(setNumCols(int)));
+		gbox->addWidget(m_spCols, 2, 1 );
+		
+		QLabel *lb = new QLabel(page);
+		lb->setText(i18n("Num of rows:"));
+		gbox->addWidget(lb, 1, 0 );
+		
+		lb = new QLabel(page);
+		lb->setText(i18n("Num of columns:"));
+		gbox->addWidget(lb, 2, 0 );
+		
+		lb = new QLabel(page);
+		lb->setText(i18n("Columns alignment:"));
+		gbox->addWidget(lb, 3, 0 );
+		
+		m_cbAlign = new KComboBox( page );
+		m_cbAlign->insertItem(i18n( "Center") );
+		m_cbAlign->insertItem(i18n( "Left" ));
+		m_cbAlign->insertItem(i18n( "Right" ));
+		m_cbAlign->insertItem( "p{}");
+		gbox->addWidget(m_cbAlign , 3, 1 );
+		
+		lb = new QLabel(page);
+		lb->setText(i18n("Vertical separator:"));
+		gbox->addWidget(lb , 4, 0 );
+		
+		m_cbSeparator = new KComboBox( page );
+		m_cbSeparator->insertItem("|");
+		m_cbSeparator->insertItem("||");
+		m_cbSeparator->insertItem("none");
+		m_cbSeparator->insertItem( "@{text}" );
+		gbox->addWidget(m_cbSeparator , 4, 1 );
+		
+		m_ckHSeparator = new QCheckBox( page);
+		m_ckHSeparator->setFocusPolicy( QWidget::TabFocus );
+		m_ckHSeparator->setText( i18n("Horizontal separator") );
+		m_ckHSeparator->setAutoRepeat( false);
+		m_ckHSeparator->setChecked( true );
+		gbox->addMultiCellWidget(m_ckHSeparator,5,5,0,1,0);
 
-  Table1 = new QTable( this, "Table1" );
-  Table1->setNumRows( 2 );
-  Table1->setNumCols( 2 );
+		page->resize(460,350);
+	}
+	
+	QuickTabular::~QuickTabular()
+	{
+	}
 
-  spinBoxRows= new QSpinBox(this,"NoName");
-  spinBoxRows->setValue(2);
-  spinBoxRows->setRange(1,99);
-  connect( spinBoxRows, SIGNAL(valueChanged(int)),this, SLOT(NewRows(int)));
+	void QuickTabular::slotOk()
+	{
+		QString hs = m_ckHSeparator->isChecked() ? " \\hline \n" : "\n";
+		QString vs;
+		if  ( m_cbSeparator->currentItem () == 0) vs = "|";
+		if  ( m_cbSeparator->currentItem () == 1) vs = "||";
+		if  ( m_cbSeparator->currentItem () == 2) vs = "";
+		if  ( m_cbSeparator->currentItem () == 3) vs = "@{}";
 
-  spinBoxCollums= new QSpinBox(this,"NoName");
-  spinBoxCollums->setValue(2);
-  spinBoxCollums->setRange(1,99);
-  connect( spinBoxCollums, SIGNAL(valueChanged(int)),this, SLOT(NewCollums(int)));
+		int y = m_spRows->value();
+		int x = m_spCols->value();
 
-  QLabel_1= new QLabel(this,"NoName");
-  QLabel_1->setText(i18n("Num of rows:"));
+		QString al = m_cbAlign->currentText();
+		if  ( m_cbAlign->currentItem() == 0 ) al = "c"+vs;
+		if  ( m_cbAlign->currentItem() == 1 ) al = "l" + vs;
+		if  ( m_cbAlign->currentItem() == 2 ) al = "r" + vs;
+		if  ( m_cbAlign->currentItem() == 3 ) al = "p{}" + vs;
 
-  QLabel_2= new QLabel(this,"NoName");
-  QLabel_2->setText(i18n("Num of columns:"));
+		m_td.tagBegin = "\\begin{tabular}{" + vs;
+		for ( int j=0; j<x; j++) m_td.tagBegin += al;
+		m_td.tagBegin += "}\n";
 
-  QLabel_3= new QLabel(this,"NoName");
-  QLabel_3->setText(i18n("Columns alignment:"));
+		for ( int i=0; i < y; i++) 
+		{
+			for ( int j = 0; j<x-1; j++)
+			{
+				m_td.tagBegin += m_table->text(i,j)+ " & ";
+				m_td.tagBegin += m_table->text(i,x-1)+ " \\\\";
+			}
+			m_td.tagBegin += hs;
+		}
 
-  combo1 = new QComboBox( FALSE, this, "comboBox1" );
-  combo1->insertItem(i18n( "Center") );
-  combo1->insertItem(i18n( "Left" ));
-  combo1->insertItem(i18n( "Right" ));
-  combo1->insertItem( "p{}");
+		m_td.tagBegin += "\\end{tabular} ";
+		m_td.dy=1; 
+		m_td.dx=0;
 
-  QLabel_4= new QLabel(this,"NoName");
-  QLabel_4->setText(i18n("Vertical separator:"));
-
-  combo2 = new QComboBox( FALSE, this, "comboBox2" );
-  combo2->insertItem("|");
-  combo2->insertItem("||");
-  combo2->insertItem("none");
-  combo2->insertItem( "@{text}" );
-
-  checkbox1 = new QCheckBox( this, "checkbox");
-  checkbox1->setFocusPolicy( QWidget::TabFocus );
-  checkbox1->setText( i18n("Horizontal separator") );
-  checkbox1->setAutoRepeat( FALSE );
-  checkbox1->setChecked( TRUE );
-
-  buttonOk= new QPushButton(this,"NoName");
-  buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("&OK"));
-  buttonOk->setDefault(true);
-
-  buttonCancel= new QPushButton(this,"NoName");
-  buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("&Cancel"));
-
-	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
-	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );
-
-  gbox->addMultiCellWidget(Table1,0,0,0,1,0);
-  gbox->addWidget(QLabel_1 , 1, 0 );
-  gbox->addWidget(spinBoxRows , 1, 1 );
-  gbox->addWidget(QLabel_2 , 2, 0 );
-  gbox->addWidget(spinBoxCollums , 2, 1 );
-  gbox->addWidget(QLabel_3 , 3, 0 );
-  gbox->addWidget(combo1 , 3, 1 );
-  gbox->addWidget(QLabel_4 , 4, 0 );
-  gbox->addWidget(combo2 , 4, 1 );
-  gbox->addMultiCellWidget(checkbox1,5,5,0,1,0);
-  gbox->addWidget(buttonOk , 6, 0,Qt::AlignLeft );
-  gbox->addWidget(buttonCancel , 6, 1,Qt::AlignRight );
-  this->resize(460,350);
-}
-
-tabdialog::~tabdialog(){
-}
-void tabdialog::NewRows(int num)
-{
-  Table1->setNumRows( num );
-}
-void tabdialog::NewCollums(int num)
-{
-  Table1->setNumCols( num );
+		accept();
+	}
 }
 
 #include "tabdialog.moc"
+

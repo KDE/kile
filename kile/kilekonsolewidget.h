@@ -26,6 +26,7 @@
 #include <qvbox.h>
 
 namespace KParts { class ReadOnlyPart; }
+class KileInfo;
 
 namespace KileWidget
 {
@@ -34,12 +35,13 @@ namespace KileWidget
 		Q_OBJECT
 
 		public:
-			Konsole(QWidget* parent, const char* name=0);
+			Konsole(KileInfo *, QWidget* parent, const char* name=0);
 			~Konsole();
 
 		public slots:
 			void setDirectory(const QString & dir);
 			void activate();
+			void sync();
 
 		private slots:
 			void slotDestroyed();
@@ -51,6 +53,7 @@ namespace KileWidget
 		private:
 			KParts::ReadOnlyPart	*m_part;
 			bool					m_bPresent;
+			KileInfo				*m_ki;
 	};
 
 }

@@ -364,7 +364,7 @@ namespace KileTool
 		//this should be done by a OutputFilter class
 
 		//idea: store the buffer until a complete line (or more) has been received then parse these lines
-		//just send the buf immediately to the output widget, the results of the paring are displayed in
+		//just send the buf immediately to the output widget, the results of the parsing are displayed in
 		//the log widget anyway.
 		emit(output(str));
 	}
@@ -407,7 +407,7 @@ namespace KileTool
 	View::View(const QString &name, Manager * manager)
 		: Base(name, manager)
 	{
-		setFlags( flags() | NeedTargetExists | NeedTargetRead);
+		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
 		setMsg(NeedTargetExists, i18n("The file %2/%3 does not exist. Did you compile the source file?"));
 	}

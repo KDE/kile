@@ -2,8 +2,8 @@
                           letterdialog.h  -  description
                              -------------------
     begin                : Tue Oct 30 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
+    copyright            : (C) 2001 by Brachet Pascal, (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,38 +17,36 @@
 
 #ifndef LETTERDIALOG_H
 #define LETTERDIALOG_H
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <qdialog.h>
 
+#include "quickdocumentdialog.h"
+
+#include <qcheckbox.h>
+
+#include <kcombobox.h>
 
 /**
   *@author Brachet Pascal
+  *@author Jeroen Wijnhout
   */
 
-class letterdialog : public QDialog  {
-   Q_OBJECT
-public:
-	letterdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-	~letterdialog();
+namespace KileDialog
+{
+	class QuickLetter : public QuickDocument
+	{
+		Q_OBJECT
 
-public:
-	QLabel *QLabel_2;
-	QLabel *QLabel_3;
-	QLabel *QLabel_4;
+	public:
+		QuickLetter(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		~QuickLetter();
 
-  QComboBox *combo2;
-  QComboBox *combo3;
-  QComboBox *combo4;
-  QCheckBox* checkbox1;
-	QPushButton *buttonOk;
-	QPushButton *buttonCancel;
+	public slots:
+		void slotOk();
 
-};
-
+	public:
+		KComboBox *combo2, *combo3, *combo4;
+		QCheckBox* checkbox1;
+	};
+}
 
 #endif
 

@@ -197,7 +197,6 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     comboLatexHelp->setEditable( true );
     comboLatexHelp->insertItem(i18n("Embedded Viewer"));
     comboLatexHelp->insertItem(i18n("External Browser"));
-    comboLatexHelp->insertItem(i18n("KDE Help"));
 
 	//fill in tools
 	m_config->setGroup("Tools");
@@ -300,7 +299,6 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	//fill in
 	m_config->setGroup( "Editor Ext" );
 	checkEnv->setChecked(m_config->readBoolEntry( "Complete Environment", true));
-
 }
 
 
@@ -393,8 +391,6 @@ void KileConfigDialog::slotOk()
 		m_config->writeEntry("options",comboPs->currentText().section(' ',1));
 	}
 
-	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
-
 	m_config->setGroup("Tool/QuickBuild");
 	switch ( ButtonGroup2->id(ButtonGroup2->selected()) + 1)
 	{
@@ -409,12 +405,14 @@ void KileConfigDialog::slotOk()
 
 	m_config->setGroup("Tools");
  	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
-
+	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
+	
 	m_config->setGroup( "Editor Ext" );
 	m_config->writeEntry("Complete Environment", checkEnv->isChecked());
 
 	m_config->setGroup("Structure");
 	m_config->writeEntry("DefaultLevel", spinLevel->value());
+
 	m_config->sync();
 
 	accept();

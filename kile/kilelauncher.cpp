@@ -235,7 +235,7 @@
 
 		if (m_part == 0)
 		{
-			emit(message(Error, i18n("Couldn't start %1! %2 is not started.").arg(QString(m_name)+" "+m_options).arg(m_name)));
+			emit(message(Error, i18n("Couldn't start %1").arg(QString(m_name)+" "+m_options).arg(m_name)));
 			emit(done(Failed));
 			return false;
 		}
@@ -250,6 +250,14 @@
 
 		out += "*****\n";
 		emit(output(out));
+
+		/*KParts::BrowserExtension *bex = KParts::BrowserExtension::childObject(m_part);
+		if (bex)
+		{
+			//has browser extension
+			kdDebug() << "ENABLING print" << endl;
+			bex->enableAction("print", true);
+		}*/
 
 		tool()->manager()->wantGUIState(m_state);
 

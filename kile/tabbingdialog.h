@@ -2,8 +2,8 @@
                           tabbingdialog.h  -  description
                              -------------------
     begin                : dim jui 14 2002
-    copyright            : (C) 2002 by Pascal Brachet
-    email                :
+    copyright            : (C) 2002 by Pascal Brachet, (C) 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,29 +18,35 @@
 #ifndef TABBINGDIALOG_H
 #define TABBINGDIALOG_H
 
+#include "kilewizard.h"
+
 #include <qdialog.h>
 
-
 class QSpinBox;
-class QLabel;
-class QLineEdit;
-class QPushButton;
+class KLineEdit;
+
 /**
   *@author Pascal Brachet
+  *@author Jeroen Wijnhout
   */
 
-class tabbingdialog : public QDialog  {
-   Q_OBJECT
-public:
-	tabbingdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-	~tabbingdialog();
+namespace KileDialog
+{
+	class QuickTabbing : public Wizard  
+	{
+		Q_OBJECT
 
-public:
-	QSpinBox *spinBoxCollums, *spinBoxRows;
-	QLabel *Label1, *Label2, *Label3;
-  QLineEdit *LineEdit1;
-	QPushButton *buttonOk;
-	QPushButton *buttonCancel;
-};
+	public:
+		QuickTabbing(KConfig *config, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		~QuickTabbing();
+
+	public slots:
+		void slotOk();
+	
+	public:
+		QSpinBox		*m_spCols, *m_spRows;
+		KLineEdit		*m_leSpacing;
+	};
+}
 
 #endif

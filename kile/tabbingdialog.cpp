@@ -16,67 +16,84 @@
  ***************************************************************************/
 
 #include "tabbingdialog.h"
-#include <klocale.h>
+
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qpushbutton.h>
-#include <qlineedit.h>
 
-tabbingdialog::tabbingdialog(QWidget *parent, const char *name, const QString &caption )
-: QDialog(parent,name,true)
+#include <klineedit.h>
+#include <kpushbutton.h>
+#include <klocale.h>
+
+
+namespace KileDialog
 {
-	setCaption(caption);
-  QGridLayout *gbox = new QGridLayout( this, 4, 2,5,5,"");
-  gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
+	QuickTabbing::QuickTabbing(KConfig *config, QWidget *parent, const char *name, const QString &caption ) : Wizard(config, parent,name, caption)
+	{
+		QWidget *page = new QWidget(this);
+		setMainWidget(page);
 
-  Label1= new QLabel(this,"Label1");
-  Label1->setText(i18n("Num of columns:"));
+		QGridLayout *gbox = new QGridLayout( page, 4, 2,5,5,"");
+		gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
+		
+		QLabel *lb = new QLabel(page);
+		lb->setText(i18n("Num of columns:"));
+		gbox->addWidget(lb, 0, 0);
+		m_spCols = new QSpinBox(page);
+		lb->setBuddy(m_spCols);
+		m_spCols ->setValue(2);
+		m_spCols ->setRange(2,99);
+		gbox->addWidget( m_spCols , 0, 1 );
+		
+		lb = new QLabel(page);
+		lb->setText(i18n("Num of &rows:"));
+		gbox->addWidget(lb, 1, 0 );
+		m_spRows = new QSpinBox(page);
+		lb->setBuddy(m_spRows);
+		m_spRows->setValue(1);
+		m_spRows->setRange(1,99);
+		gbox->addWidget( m_spRows, 1, 1 );
+		
+		lb= new QLabel(page);
+		lb->setText(i18n("&Spacing:"));
+		gbox->addWidget(lb, 2, 0 );
+		m_leSpacing = new KLineEdit(page);
+		m_leSpacing->setFixedWidth(80);
+		lb->setBuddy(m_leSpacing);
+		gbox->addWidget(m_leSpacing, 2, 1 );
 
-  spinBoxCollums= new QSpinBox(this,"SpinBox1");
-  spinBoxCollums->setValue(2);
-  spinBoxCollums->setRange(2,99);
+		resize(130,120);
+	}
+	
+	QuickTabbing::~QuickTabbing()
+	{}
 
-  Label2= new QLabel(this,"Label2");
-  Label2->setText(i18n("Num of rows:"));
+	void QuickTabbing::slotOk()
+	{
+		int x = m_spCols->value();
+		int y = m_spRows->value();
+		QString s= m_leSpacing->text();
+		
+		m_td.tagBegin = "\\begin{tabbing}\n";
 
-  spinBoxRows= new QSpinBox(this,"SpinBox2");
-  spinBoxRows->setValue(1);
-  spinBoxRows->setRange(1,99);
+		for ( int j=1; j<x ; j++) m_td.tagBegin += "\\hspace{"+s+"}\\=";
 
-  Label3= new QLabel(this,"Label3");
-  Label3->setText(i18n("Spacing:"));
+		m_td.tagBegin += "\\kill\n";
 
-  LineEdit1 = new QLineEdit( this, "LineEdit1" );
-  LineEdit1->setFixedWidth(80);
+		for ( int i=0;i<y-1;i++)
+		{
+			for ( int j=1;j<x;j++) m_td.tagBegin +=" \\> ";
+			m_td.tagBegin += "\\\\ \n";
+		}
 
-  buttonOk= new QPushButton(this,"NoName");
-  buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("&OK"));
-  buttonOk->setDefault(true);
+		for ( int j=1;j<x;j++)  m_td.tagBegin += " \\> ";
 
-  buttonCancel= new QPushButton(this,"NoName");
-  buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("&Cancel"));
+		m_td.tagEnd = "\n\\end{tabbing}";
+		m_td.dy=1;
+		m_td.dx=0;
 
-	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
-	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );
-
-  gbox->addWidget(Label1 , 0, 0 );
-  gbox->addWidget( spinBoxCollums, 0, 1 );
-
-  gbox->addWidget(Label2 , 1, 0 );
-  gbox->addWidget( spinBoxRows, 1, 1 );
-
-  gbox->addWidget(Label3 , 2, 0 );
-  gbox->addWidget( LineEdit1, 2, 1 );
-
-  gbox->addWidget(buttonOk , 3, 0,Qt::AlignLeft );
-  gbox->addWidget(buttonCancel , 3, 1,Qt::AlignRight );
-  resize(130,120);
-
-}
-tabbingdialog::~tabbingdialog(){
+		accept();
+	}
 }
 
 #include "tabbingdialog.moc"

@@ -27,7 +27,7 @@
 namespace KileStdActions
 {
 
-void setupStdTags(KileInfo *ki, KMainWindow *parent, QPtrList<KAction>* plist )
+void setupStdTags(KileInfo *ki, KMainWindow *parent)
 {
 	(void) new KileAction::Tag("\\documentclass",0,parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "tag_documentclass",
   		"\\documentclass[10pt]{}",QString::null,21,0,i18n("\\documentclass[options]{class}\nclass : article,report,book,letter\nsize options : 10pt, 11pt, 12pt\npaper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper\n"
@@ -72,12 +72,12 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent, QPtrList<KAction>* plist )
 	(void) new KileAction::Tag("\\begin{titlepage}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_titlepage" ,"\\begin{titlepage}\n","\n\\end{titlepage} ",0,1,
 		i18n("\\begin{titlepage}\ntext\n\\end{titlepage}\nThe titlepage environment creates a title page, i.e. a page with no printed page number or heading."));
 
-	plist->append(new KileAction::Tag(i18n("\\textit - Italics"),"text_italic",Qt::ALT+Qt::Key_I, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textit","\\textit{","}",8,0,i18n("\\textit{italic text}")));
-	plist->append(new KileAction::Tag(i18n("\\textsl - Slanted"),Qt::ALT+Qt::Key_A, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textsl","\\textsl{","}",8,0,i18n("\\textsl{slanted text}")));
-	plist->append(new KileAction::Tag(i18n("\\textbf - Boldface"),"text_bold",Qt::ALT+Qt::Key_B, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textbf","\\textbf{","}",8,0,i18n("\\textbf{boldface text}")));
-	plist->append(new KileAction::Tag(i18n("\\texttt - Typewriter"),Qt::ALT+Qt::Key_T, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_texttt","\\texttt{","}",8,0,i18n("\\texttt{typewriter text}")));
-	plist->append(new KileAction::Tag(i18n("\\textsc - Small caps"),Qt::ALT+Qt::Key_C, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textsc","\\textsc{","}",8,0,i18n("\\textsc{small caps text}")));
- 	plist->append(new KileAction::Tag("\\item","item",Qt::ALT+Qt::Key_H, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_item","\\item ",QString::null,6,0, i18n("\\item[label] Hello!")));
+	new KileAction::Tag(i18n("\\textit - Italics"),"text_italic",Qt::ALT+Qt::Key_I, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textit","\\textit{","}",8,0,i18n("\\textit{italic text}"));
+	new KileAction::Tag(i18n("\\textsl - Slanted"),Qt::ALT+Qt::Key_A, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textsl","\\textsl{","}",8,0,i18n("\\textsl{slanted text}"));
+	new KileAction::Tag(i18n("\\textbf - Boldface"),"text_bold",Qt::ALT+Qt::Key_B, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textbf","\\textbf{","}",8,0,i18n("\\textbf{boldface text}"));
+	new KileAction::Tag(i18n("\\texttt - Typewriter"),Qt::ALT+Qt::Key_T, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_texttt","\\texttt{","}",8,0,i18n("\\texttt{typewriter text}"));
+	new KileAction::Tag(i18n("\\textsc - Small caps"),Qt::ALT+Qt::Key_C, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textsc","\\textsc{","}",8,0,i18n("\\textsc{small caps text}"));
+ 	new KileAction::Tag("\\item","item",Qt::ALT+Qt::Key_H, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_item","\\item ",QString::null,6,0, i18n("\\item[label] Hello!"));
 
 	(void) new KileAction::Tag("\\begin{tabbing}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_tabbing" ,"\\begin{tabbing}\n","\n\\end{tabbing} ",0,1,i18n("The tabbing environment provides a way to align text in columns.\n\\begin{tabbing}\ntext \\= more text \\= still more text \\= last text \\\\\nsecond row \\>  \\> more \\\\\n\\end{tabbing}\nCommands :\n\\=  Sets a tab stop at the current position.\n\\>  Advances to the next tab stop.\n\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.\n\\+  Moves the left margin of the next and all the following commands one tab stop to the right\n\\-  Moves the left margin of the next and all the following commands one tab stop to the left\n\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. \n\\`  Allows you to put text flush right against any tab stop, including tab stop 0\n\\kill  Sets tab stops without producing text.\n\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used."));
 	(void) new KileAction::Tag("\\begin{tabular}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_tabular" ,"\\begin{tabular}{","}\n\n\\end{tabular} ",16,0,i18n("\\begin{tabular}[pos]{cols}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\\n...\n\\end{tabular}\npos : Specifies the vertical position; default is alignment on the center of the environment.\n     t - align on top row\n     b - align on bottom row\ncols : Specifies the column formatting.\n     l - A column of left-aligned items.\n     r - A column of right-aligned items.\n     c - A column of centered items.\n     | - A vertical line the full height and depth of the environment.\n     @{text} - this inserts text in every row.\nThe \\hline command draws a horizontal line the width of the table.\nThe \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,\nThe \\vline command draws a vertical line extending the full height and depth of its row."));
@@ -155,7 +155,7 @@ void setupBibTags(KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("Miscellaneous"),0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bib_misc","@Misc{,\nOPTkey = {},\nOPTauthor = {},\nOPTtitle = {},\nOPThowpublished = {},\nOPTmonth = {},\nOPTyear = {},\nOPTnote = {},\nOPTannote = {}\n}\n",QString::null,6,0,i18n("Bib fields - Miscellaneous\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
 }
 
-void setupMathTags(KMainWindow *parent, QPtrList<KAction>* plist)
+void setupMathTags(KMainWindow *parent)
 {
 	(void) new KileAction::Tag("\\mathrm{}",  0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathrm","\\mathrm{","}",8);
 	(void) new KileAction::Tag("\\mathit{}",  0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathit" ,"\\mathit{","}",8);
@@ -183,17 +183,17 @@ void setupMathTags(KMainWindow *parent, QPtrList<KAction>* plist)
 	(void) new KileAction::Tag("\\quad", 0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_quad", "\\quad ", QString::null, 6);
 	(void) new KileAction::Tag("\\qquad",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_qquad", "\\qquad ", QString::null, 7);
 
-	plist->append(new KileAction::Tag("$...$","mathmode",Qt::ALT+Qt::Key_M, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathmode","$","$",1));
-	plist->append(new KileAction::Tag("$$...$$",Qt::ALT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "$$","$$", 2));
+	(void) new KileAction::Tag("$...$","mathmode",Qt::ALT+Qt::Key_M, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathmode","$","$",1);
+	(void) new KileAction::Tag("$$...$$",Qt::ALT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "$$","$$", 2);
   	(void) new KileAction::Tag("\\begin{equation}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","\n\\end{equation} ",0,1);
   	(void) new KileAction::Tag("\\begin{eqnarray}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
-	plist->append(new KileAction::Tag("subscript  _{}","indice",Qt::ALT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2));
-	plist->append(new KileAction::Tag("superscript  ^{}","puissance",Qt::ALT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2));
-	plist->append(new KileAction::Tag("\\frac{}{}","smallfrac",Qt::ALT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6));
-	plist->append(new KileAction::Tag("\\dfrac{}{}","dfrac",Qt::ALT+Qt::Key_Q, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7));
-	plist->append(new KileAction::Tag("\\sqrt{}","racine",Qt::ALT+Qt::Key_S, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_sqrt", "\\sqrt{","}", 6));
-	plist->append(new KileAction::Tag("\\left",Qt::ALT+Qt::Key_L, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_left", "\\left", QString::null, 5));
-	plist->append(new KileAction::Tag("\\right",Qt::ALT+Qt::Key_R, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_right", "\\right", QString::null, 6));
+	(void) new KileAction::Tag("subscript  _{}","indice",Qt::ALT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
+	(void) new KileAction::Tag("superscript  ^{}","puissance",Qt::ALT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
+	(void) new KileAction::Tag("\\frac{}{}","smallfrac",Qt::ALT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);
+	(void) new KileAction::Tag("\\dfrac{}{}","dfrac",Qt::ALT+Qt::Key_Q, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7);
+	(void) new KileAction::Tag("\\sqrt{}","racine",Qt::ALT+Qt::Key_S, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_sqrt", "\\sqrt{","}", 6);
+	(void) new KileAction::Tag("\\left",Qt::ALT+Qt::Key_L, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_left", "\\left", QString::null, 5);
+	(void) new KileAction::Tag("\\right",Qt::ALT+Qt::Key_R, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_right", "\\right", QString::null, 6);
 	(void) new KileAction::Tag("\\begin{array}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_array", "\\begin{array}{}\n", "\n\\end{array}", 14, 0,
 		i18n("\\begin{array}{col1col2...coln}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\ \n...\n\\end{array}\nEach column, coln, is specified by a single letter that tells how items in that column should be formatted.\n"
 		"     c -- for centered \n     l -- for flush left \n     r -- for flush right\n"));

@@ -25,6 +25,7 @@
 #include "kileinfo.h"
 
 class QCheckBox;
+class QLineEdit;
 
 namespace KileAction
 {

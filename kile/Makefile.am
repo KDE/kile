@@ -3,7 +3,7 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp 	commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp 	usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp 	quickdocumentdialog.cpp letterdialog.cpp 	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp 	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp 	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp 	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp 	kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp 	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp
+kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp refdialog.cpp usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp 	quickdocumentdialog.cpp letterdialog.cpp 	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp 	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp 	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp 	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp 	kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp 	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp
 
 #kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 kile_LDADD   = -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
@@ -11,23 +11,14 @@ kile_LDADD   = -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 SUBDIRS = pics symbols templates syntax
 
 EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h \
-	docpart.cpp docpart.h kileappIface.h kileappIface_skel.cpp \
-	kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp \
-	kilefileselect.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h \
-	l2hdialog.cpp l2hdialog.h letterdialog.cpp letterdialog.h \
-	quickdocumentdialog.cpp \
-	quickdocumentdialog.h structdialog.cpp structdialog.h symbolview.cpp \
-	symbolview.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp \
+	docpart.cpp docpart.h kileappIface.h kileappIface_skel.cpp kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp 	kilefileselect.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h l2hdialog.cpp l2hdialog.h letterdialog.cpp letterdialog.h quickdocumentdialog.cpp quickdocumentdialog.h structdialog.cpp structdialog.h symbolview.cpp symbolview.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp \
 	tabdialog.h kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp \
-	usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp \
-	refdialog.h kile22x22.png metapostview.cpp metapostview.h \
-	commandprocess.cpp commandprocess.h newfilewizard.cpp newfilewizard.h \
-	templates.cpp templates.h managetemplatesdialog.cpp \
+	usermenudialog.h refdialog.cpp refdialog.h kile22x22.png metapostview.cpp metapostview.h \
+	newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp \
 	managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp \
 	kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp \
 	kileprojectdlgs.h kileprojectview.cpp kileprojectview.h \
-	kilelistselector.cpp kilelistselector.h \
-	kilelyxserver.cpp kilelyxserver.h \
+	kilelistselector.cpp kilelistselector.h kilelyxserver.cpp kilelyxserver.h \
 	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp \
 	outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h \
 	outputfilter.h kilegrepdialog.cpp kilegrepdialog.h
@@ -76,4 +67,4 @@ messages: rc.cpp
 	fi
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
-noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h
+noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h

@@ -1,12 +1,16 @@
 TODO
+ - need a project manager class, too much of the code is in KileInfo and Kile
+ 
+ - probably need a doc manager as well
+ 
+ - get rid of the KMultiVertTab code, should be done using standard KDE widgets
+ 
  - use KDirWatch to check for modified files on disk
 
  - version control for the kilerc file, now users have to delete
    the old kilerc file when they upgrade to a new version
 
  - inherit QListView for the structureview (current code is very inefficient)
-
- - also handle .ltx files
 
  - recursive sectioning: also parse sections that were inserted with
    \input or \include (optional)

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          addoptiondialog.h  -  description
+                          kilewizard.cpp  -  description
                              -------------------
-    begin                : Sun Oct 20 2002
-    copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    begin                : Tue Dec 23 2003
+    copyright            : (C) 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,27 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ADDOPTIONDIALOG_H
-#define ADDOPTIONDIALOG_H
+#include "kilewizard.h"
 
-#include <qdialog.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
-
-/**
-  *@author Pascal Brachet
-  */
-
-class AddOptionDialog : public QDialog
+namespace KileDialog
 {
-    Q_OBJECT
-public: 
-	AddOptionDialog(QWidget *parent = 0, const char *name = 0, const QString &caption = QString::null);
-	~AddOptionDialog();
-   QLineEdit *lineEdit;
-private:
-	  QPushButton *buttonOk;
-	  QPushButton *buttonCancel;
-};
+	Wizard::Wizard(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
+		KDialogBase(parent,name,true,caption,KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true),
+		m_td(QString::null, QString::null, QString::null, 0, 0, QString::null),
+		m_config(config)
+	{
+	}
 
-#endif
+	Wizard::~Wizard()
+	{}
+}

@@ -27,7 +27,7 @@
 #include <kstatusbar.h>
 #include <khelpmenu.h>
 #include <kpopupmenu.h>
-#include <kparts/mainwindow.h>
+#include <kparts/dockmainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
 #include <kspell.h>
@@ -53,11 +53,6 @@
 
 #include "kileappIface.h"
 #include "structdialog.h"
-#include "quickdocumentdialog.h"
-#include "letterdialog.h"
-#include "tabdialog.h"
-#include "arraydialog.h"
-#include "tabbingdialog.h"
 #include "l2hdialog.h"
 #include "docpart.h"
 #include "symbolview.h"
@@ -65,12 +60,7 @@
 #include "kilefileselect.h"
 #include "refdialog.h"
 #include "metapostview.h"
-
 #include "kileinfo.h"
-#include "kiledocumentinfo.h"
-#include "kileactions.h"
-
-#include "commandprocess.h"
 
 #include "latexoutputinfo.h"
 #include "latexoutputfilter.h"
@@ -85,6 +75,7 @@ class QTimer;
 class QSignalMapper;
 class KActionMenu;
 class KRecentFilesAction;
+class KToggleToolBarAction;
 
 class KileLyxServer;
 class KileEventFilter;
@@ -93,6 +84,7 @@ class KileProjectItem;
 class KileProjectView;
 class TemplateItem;
 
+namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; }
 
@@ -111,7 +103,7 @@ struct userItem
 /**
  * The Kile main class. It acts as the mainwindow, information manager and DCOP interface.
  **/
-class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
+class Kile : public KParts::DockMainWindow, public KileAppDCOPIface, public KileInfo
 {
 	Q_OBJECT
 
@@ -133,38 +125,23 @@ private:
 	void setupUserTagActions();
 	void setupUserToolActions();
 
-	/**
-	 * Toggle between standard KDE shortcuts for the menus (such as Alt-F for the file menu) or no shortcuts.
-	 **/
-	void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
-	/**
-	 * Toggle between old (non-KDE compliant) shortcuts or KDE-compliant shortcuts
-	 **/
-	void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
-	bool									m_menuaccels; //TRUE : we're using KDE compliant shortcuts
-
 	KActionMenu 					*m_menuUserTags, *m_menuUserTools;
 	QSignalMapper 				*m_mapUserTagSignals, *m_mapUserToolsSignals;
 	QValueList<userItem> 	m_listUserTags, m_listUserTools;
 	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions;
 	KAction							*m_actionEditTag, *m_actionEditTool;
 	KAction						*PrintAction;
+	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowEditTB, *m_paShowMathTB;
 
-	KPopupMenu			*help;
-	KHelpMenu				*help_menu;
 	KAction 					*BackAction, *ForwardAction, *HomeAction, *StopAction;
-	KToggleAction 		*ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
-									*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
-	KAction 					*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
-	KAction 					*altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
-	KRecentFilesAction	*fileOpenRecentAction;
+	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
+	KRecentFilesAction			*fileOpenRecentAction;
 
 
 
 /* GUI */
 private:
 	//widgets
-	KStatusBar 					*StatusBar;
 	KileFileSelect 				*KileFS;
 	KMultiVertTabBar 		*ButtonBar;
 	SymbolView 				*symbol_view;
@@ -183,42 +160,26 @@ private:
 
 	//dialogs
 	structdialog 					*stDlg;
-	quickdocumentdialog 	*startDlg;
 	refdialog 						*refDlg;
-	letterdialog 					*ltDlg;
-	tabdialog 						*quickDlg;
-	arraydialog 					*arrayDlg;
-	tabbingdialog 				*tabDlg;
 	l2hdialog 						*l2hDlg;
 
 	//parts
-	docpart 						*htmlpart;
 	KParts::PartManager 	*partManager;
-	KParts::ReadOnlyPart 	*pspart, *dvipart;
 	QString 		m_wantState, m_currentState;
 
 private slots:
 	void ToggleMode();
-	void ToggleAccels();
 	void ToggleStructView();
 	void ToggleOutputView();
 	void ToggleWatchFile();
-	void ToggleShowMainToolbar();
-	void ToggleShowToolsToolbar();
-	void ToggleShowEditToolbar();
-	void ToggleShowMathToolbar();
 	void ShowOutputView(bool change);
 	void ShowEditorWidget();
 	void showVertPage(int page);
 
-	void BrowserBack();
-	void BrowserForward();
-	void BrowserHome();
 	void LatexHelp();
-	void invokeHelp();
 
 private:
-	bool 			showoutputview, showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar;
+	bool 			showoutputview, m_bShowMainTB, m_bShowToolsTB, m_bShowEditTB, m_bShowMathTB;
 
 private slots:
 	void ResetPart();
@@ -251,8 +212,7 @@ private:
    	QString 		templAuthor, templDocClassOpt, templEncoding;
    	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
    	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
-	bool 				ams_packages, makeidx_package;
-	bool 				htmlpresent,pspresent, dvipresent, symbol_present, color_mode;
+	bool 				symbol_present;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
 	bool				m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
@@ -425,7 +385,7 @@ public:
 	const QStringList* labels(KileDocumentInfo * info = 0);
 	const QStringList* bibItems(KileDocumentInfo * info = 0);
 	const QStringList* bibliographies(KileDocumentInfo * info = 0);
-	
+
 	int lineNumber();
 
 private:
@@ -453,7 +413,6 @@ private slots:
 
 /* tools */
 private:
-	KShellProcess 		*currentProcess;
 	QString 		latex_command, viewdvi_command, dvips_command, dvipdf_command,
 					viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
 					pdflatex_command, viewpdf_command, l2h_options, bibtexeditor_command,
@@ -474,7 +433,6 @@ private slots:
 	void MakeIndex();
 	void PStoPDF();
 	void DVItoPDF();
-	void syncTerminal();
 	void LatexToHtml();
 	void MetaPost();
 	void HtmlPreview();
@@ -488,9 +446,6 @@ private slots:
 
 	void FindInFiles();
 	void GrepItemSelected(const QString &abs_filename, int line);
-
-public slots:
-	void recvOutput(char *buf, int len);
 
 /* log view, error handling */
 private slots:
@@ -506,16 +461,11 @@ private:
 	void jumpToProblem(int type, bool);
 
 private:
-	QString 		tempLog;
+	int			m_nCurrentError;
 	bool 			logpresent;
 
-	QStrList 		*errorlist;
-	QStrList		*warnlist;
-	int 				m_nErrors,m_nWarnings,m_nBadBoxes, m_nCurrentError;
 	bool 				m_bCheckForLaTeXErrors;
 	bool 				m_bNewInfolist;
-	//LatexOutputInfoArray	*m_OutputInfo;
-	//LatexOutputFilter		*m_OutputFilter;
 	KileTool::Manager		*m_manager;
 	KileTool::Factory		*m_toolFactory;
 
@@ -545,12 +495,6 @@ private slots:
 
 	void insertUserTag(int i);
 	void EditUserMenu();
-
-/*LyX server*/
-public slots:
-	void insertCite(const QString&);
-	void insertBibTeX(const QString&);
-	void insertBibTeXDatabaseAdd(const QString&);
 
 private:
 	KileLyxServer		*m_lyxserver;

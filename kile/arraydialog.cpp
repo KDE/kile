@@ -16,91 +16,119 @@
  ***************************************************************************/
 
 #include "arraydialog.h"
-#include "klocale.h"
 
-arraydialog::arraydialog(QWidget *parent, const char *name, const QString &caption)
-    :QDialog( parent,name, true)
+#include <qlayout.h>
+#include <qspinbox.h>
+#include <qtable.h>
+#include <qlabel.h>
+
+#include <kcombobox.h>
+#include <klocale.h>
+
+namespace KileDialog
 {
-	setCaption(caption);
+	QuickArray::QuickArray(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
+		Wizard(config, parent,name, caption)
+	{
+		QWidget *page = new QWidget(this);
+		setMainWidget(page);
 
-  QGridLayout *gbox = new QGridLayout( this, 6, 2,5,5,"");
-  gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
-  gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
+		QGridLayout *gbox = new QGridLayout( page, 6, 2,5,5,"");
+		gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
+		gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 
-  Table1 = new QTable( this, "Table1" );
-  Table1->setNumRows( 2 );
-  Table1->setNumCols( 2 );
+		m_table = new QTable(page);
+		m_table->setNumRows( 2 );
+		m_table->setNumCols( 2 );
+		gbox->addMultiCellWidget(m_table,0,0,0,1,0);
 
-  spinBoxRows= new QSpinBox(this,"NoName");
-  spinBoxRows->setValue(2);
-  spinBoxRows->setRange(1,99);
-  connect( spinBoxRows, SIGNAL(valueChanged(int)),this, SLOT(NewRows(int)));
+		QLabel *lb = new QLabel(page);
+		lb->setText(i18n("Number of &rows:"));
+		gbox->addWidget(lb , 1, 0 );
+		m_spRows= new QSpinBox(page);
+		lb->setBuddy(m_spRows);
+		m_spRows->setValue(2);
+		m_spRows->setRange(1,99);
+		connect( m_spRows, SIGNAL(valueChanged(int)), m_table , SLOT(setNumRows(int)));
+		gbox->addWidget(m_spRows , 1, 1 );
 
-  spinBoxCollums= new QSpinBox(this,"NoName");
-  spinBoxCollums->setValue(2);
-  spinBoxCollums->setRange(1,99);
-  connect( spinBoxCollums, SIGNAL(valueChanged(int)),this, SLOT(NewCollums(int)));
+		lb = new QLabel(page);
+		lb->setText(i18n("Number of co&lumns:"));
+		gbox->addWidget(lb , 2, 0 );
+		m_spCols = new QSpinBox(page);
+		lb->setBuddy(m_spCols);
+		m_spCols->setValue(2);
+		m_spCols->setRange(1,99);
+		connect( m_spCols, SIGNAL(valueChanged(int)), m_table, SLOT(setNumCols(int)));
+		gbox->addWidget(m_spCols , 2, 1 );
 
-  QLabel_1= new QLabel(this,"NoName");
-  QLabel_1->setText(i18n("Number of rows:"));
+		lb = new QLabel(page);
+		lb->setText(i18n("Columns &alignment:"));
+		gbox->addWidget(lb , 3, 0 );
+		m_cbAlign = new KComboBox(page);
+		lb->setBuddy(m_cbAlign);
+		m_cbAlign->insertItem(i18n( "Center") );
+		m_cbAlign->insertItem(i18n( "Left" ));
+		m_cbAlign->insertItem(i18n( "Right" ));
+		gbox->addWidget(m_cbAlign , 3, 1 );
 
-  QLabel_2= new QLabel(this,"NoName");
-  QLabel_2->setText(i18n("Number of columns:"));
+		lb = new QLabel(page);
+		lb->setText(i18n("&Environment:"));
+		gbox->addWidget(lb, 4, 0 );
+		m_cbEnv = new KComboBox(page);
+		lb->setBuddy(m_cbEnv);
+		m_cbEnv->insertItem("array");
+		m_cbEnv->insertItem("matrix");
+		m_cbEnv->insertItem("pmatrix");
+		m_cbEnv->insertItem("bmatrix");
+		m_cbEnv->insertItem("vmatrix");
+		m_cbEnv->insertItem("Vmatrix");
+		gbox->addWidget(m_cbEnv , 4, 1 );
 
-  QLabel_3= new QLabel(this,"NoName");
-  QLabel_3->setText(i18n("Columns alignment:"));
+		page->resize(460,320);
+	}
+	
+	QuickArray::~QuickArray()
+	{}
 
-  combo = new QComboBox( FALSE, this, "comboBox" );
-  combo->insertItem(i18n( "Center") );
-  combo->insertItem(i18n( "Left" ));
-  combo->insertItem(i18n( "Right" ));
+	void QuickArray::slotOk()
+	{
+		int y = m_spRows->value();
+		int x = m_spCols->value();
+		QString env = m_cbEnv->currentText();
+		QString al;
+		m_td.tagBegin =  "\\begin{"+env+"}";
 
-  QLabel_4= new QLabel(this,"NoName");
-  QLabel_4->setText(i18n("Environment:"));
+		if (env == "array")
+		{
+			m_td.tagBegin += "{";
+			if  ( m_cbAlign->currentItem () ==0 ) al = "c";
+			if  ( m_cbAlign->currentItem () == 1) al = "l";
+			if  ( m_cbAlign->currentItem () == 2) al = "r";
+			for ( int j=0; j<x; j++) m_td.tagBegin +=al;
+			m_td.tagBegin+="}";
+		}
 
-  combo2 = new QComboBox( FALSE, this, "comboBox2" );
-  combo2->insertItem("array");
-  combo2->insertItem("matrix");
-  combo2->insertItem("pmatrix");
-  combo2->insertItem("bmatrix");
-  combo2->insertItem("vmatrix");
-  combo2->insertItem("Vmatrix");
+		m_td.tagBegin += "\n";
+		for ( int i=0;i<y-1;i++) 
+		{
+			for ( int j=0;j<x-1;j++)
+				m_td.tagBegin += m_table->text(i,j)+ " & ";
 
-  buttonOk= new QPushButton(this,"NoName");
-  buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("&OK"));
-  buttonOk->setDefault(true);
+			m_td.tagBegin += m_table->text(i,x-1)+ " \\\\ \n";
+		}
 
-  buttonCancel= new QPushButton(this,"NoName");
-  buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("&Cancel"));
+		for ( int j=0;j<x-1;j++)
+			m_td.tagBegin += m_table->text(y-1,j)+ " & ";
 
-	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
-	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );
+		m_td.tagBegin += m_table->text(y-1,x-1);
+		m_td.tagEnd = "\n\\end{"+env+"}";
+ 
+		m_td.dx = 0;
+		m_td.dy = 1;
 
-  gbox->addMultiCellWidget(Table1,0,0,0,1,0);
-  gbox->addWidget(QLabel_1 , 1, 0 );
-  gbox->addWidget(spinBoxRows , 1, 1 );
-  gbox->addWidget(QLabel_2 , 2, 0 );
-  gbox->addWidget(spinBoxCollums , 2, 1 );
-  gbox->addWidget(QLabel_3 , 3, 0 );
-  gbox->addWidget(combo , 3, 1 );
-  gbox->addWidget(QLabel_4 , 4, 0 );
-  gbox->addWidget(combo2 , 4, 1 );
-  gbox->addWidget(buttonOk , 5, 0,Qt::AlignLeft );
-  gbox->addWidget(buttonCancel , 5, 1,Qt::AlignRight );
-  this->resize(460,320);
-}
-
-arraydialog::~arraydialog(){
-}
-void arraydialog::NewRows(int num)
-{
-  Table1->setNumRows( num );
-}
-void arraydialog::NewCollums(int num)
-{
-  Table1->setNumCols( num );
+		accept();
+	}
 }
 
 

@@ -38,15 +38,6 @@ namespace KileTool
 		if ( tool == "LaTeX")
 			return new LaTeX(m_manager);
 
-		/*if ( tool == "TeX" )
-			return new TeX(m_manager);
-
-		if ( tool == "ViewDVI" )
-			return new ViewDVI(m_manager);
-			
-		if ( tool == "DVItoPS" )
-			return new DVItoPS(m_manager);*/
-
 		if ( tool == "ForwardDVI" )
 			return new ForwardDVI(m_manager);
 
@@ -326,9 +317,12 @@ namespace KileTool
 	
 	bool ViewHTML::determineTarget()
 	{
-		setRelativeBaseDir(S());
-		setTarget("index.html");
-		
+		if (target() == QString::null)
+		{
+			setRelativeBaseDir(S());
+			setTarget("index.html");
+		}
+
 		return View::determineTarget();
 	}
 

@@ -18,10 +18,10 @@
 #ifndef KILEPROJECTDLGS_H
 #define KILEPROJECTDLGS_H
 
+#include <qcheckbox.h>
 #include <kdialogbase.h>
 
 class NewFileWidget;
-class QCheckBox;
 class QLabel;
 class KLineEdit;
 class KileProject;

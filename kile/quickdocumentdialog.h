@@ -2,8 +2,8 @@
                           quickdocumentdialog.h  -  description
                              -------------------
     begin                : Tue Oct 30 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
+    copyright            : (C) 2001 by Brachet Pascal, (C) 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,60 +17,64 @@
 
 #ifndef QUICKDOCUMENTDIALOG_H
 #define QUICKDOCUMENTDIALOG_H
-#include <qdialog.h>
-#include <qstringlist.h>
-#include "addoptiondialog.h"
 
+#include <qstringlist.h>
+
+#include "kilewizard.h"
 
 class QLabel;
-class QLineEdit;
-class QComboBox;
 class QCheckBox;
-class QPushButton;
+class QGridLayout;
 
-class QListBox;
+class KPushButton;
+class KConfig;
+class KComboBox;
+class KLineEdit;
+class KListBox;
+
+class AddOptionDialog;
 
 /**
   *@author Brachet Pascal
+  *@author Jeroen Wijnhout
   */
 
-class quickdocumentdialog : public QDialog  {
-    Q_OBJECT
-public:
-    quickdocumentdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-    ~quickdocumentdialog();
+namespace KileDialog
+{
+	class QuickDocument : public Wizard
+	{
+		Q_OBJECT
 
-public:
-    QLabel *QLabel_1;
-    QLabel *QLabel_2;
-    QLabel *QLabel_3;
-    QLabel *QLabel_4;
-    QLabel *QLabel_5;
-    QLabel *QLabel_6;
-    QLabel *QLabel_7;
-    QLineEdit *LineEdit1,*LineEdit2 ;
-    QComboBox *combo1;
-    QComboBox *combo2;
-    QComboBox *combo3;
-    QComboBox *combo4;
-    QCheckBox* checkbox1, *checkbox2;
-    QPushButton *buttonOk;
-    QPushButton *buttonCancel;
-    QPushButton *userClassBtn, *userPaperBtn, *userEncodingBtn, *userOptionsBtn;
+	public:
+		QuickDocument(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		~QuickDocument();
 
-    QListBox *availableBox;
-    QStringList otherClassList, otherPaperList, otherEncodingList, otherOptionsList;
+	public slots:
+		void init();
+		void slotOk();
 
-public slots:
-    void Init();
-private slots:
-    void addUserClass();
-    void addUserPaper();
-    void addUserEncoding();
-    void addUserOptions();
-private:
-    AddOptionDialog *dlg;
-};
+	private slots:
+		void addUserClass();
+		void addUserPaper();
+		void addUserEncoding();
+		void addUserOptions();
 
+	private:
+		void add(QStringList & list);
+		void readConfig();
+		void writeConfig();
+
+	protected:
+		QGridLayout	*m_layout;
+		KLineEdit		*m_leAuthor,*m_leTitle ;
+		KComboBox	*m_cbDocClass,  *m_cbFontSize, *m_cbPaperSize,  *m_cbEncoding;
+		QCheckBox	*m_ckAMS, *m_ckIdx;
+		KPushButton	*userClassBtn, *userPaperBtn, *userEncodingBtn, *userOptionsBtn;
+		QLabel		*m_lbDocClass, *m_lbAuthor, *m_lbTitle, *m_lbOptions;
+
+		KListBox		*m_bxOptions;
+		QStringList	m_otherClassList, m_otherPaperList, m_otherEncodingList, m_otherOptionsList;
+	};
+}
 
 #endif

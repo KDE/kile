@@ -71,6 +71,8 @@
 #include <qtextstream.h>
 #include <qsignalmapper.h>
 
+#include "kiledocumentinfo.h"
+#include "kileactions.h"
 #include "templates.h"
 #include "newfilewizard.h"
 #include "managetemplatesdialog.h"
@@ -90,13 +92,19 @@
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
 #include "kilekonsolewidget.h"
+#include "quickdocumentdialog.h"
+#include "tabdialog.h"
+#include "letterdialog.h"
+#include "arraydialog.h"
+#include "tabbingdialog.h"
 
-Kile::Kile( bool rest, QWidget *, const char *name ) :
+Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
-	KParts::MainWindow( name, WDestructiveClose),
+	KParts::DockMainWindow( parent, name),
 	KileInfo(),
 	m_bQuick(false),
-	m_activeView(0)
+	m_activeView(0),
+	m_nCurrentError(-1)
 {
 	m_docList.setAutoDelete(false);
 	m_infoList.setAutoDelete(false);
@@ -118,13 +126,7 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	setXMLFile( "kileui.rc" );
 
 	m_currentState=m_wantState="Editor";
-	htmlpresent=false;
-	pspresent=false;
-	dvipresent=false;
 	m_bWatchFile=false;
-	htmlpart=0L;
-	pspart=0L;
-	dvipart=0L;
 	m_bNewInfolist=true;
 	m_bCheckForLaTeXErrors=false;
 	m_bBlockWindowActivateEvents=false;
@@ -242,17 +244,11 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Output"));
 
 	logpresent=false;
-	errorlist=new QStrList();
-	warnlist=new QStrList();
-	m_nCurrentError=-1;
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter( m_outputInfo );
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), LogWidget, SLOT(printProblem(int, const QString& )));
-//	m_outputFilter->setLog(&tempLog);
-	//m_outputFilter=new LatexOutputFilter( m_outputInfo );
-	//connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
-	texkonsole=new KileWidget::Konsole(Outputview,"konsole");
+	texkonsole=new KileWidget::Konsole(this, Outputview,"konsole");
 	Outputview->addTab(texkonsole,SmallIcon("konsole"),i18n("Konsole"));
 
 	QValueList<int> sizes;
@@ -275,20 +271,13 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 
 	partManager->setActivePart( 0L );
 
-	showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
-	showtoolstoolbar=!showtoolstoolbar;ToggleShowToolsToolbar();
-	showedittoolbar=!showedittoolbar;ToggleShowEditToolbar();
-	showmathtoolbar=!showmathtoolbar;ToggleShowMathToolbar();
-
 	m_lyxserver = new KileLyxServer(m_runlyxserver);
-	connect(m_lyxserver, SIGNAL(insertCite(const QString&)), this, SLOT(insertCite(const QString& )));
-	connect(m_lyxserver, SIGNAL(insertBibTeX(const QString&)), this, SLOT(insertBibTeX(const QString& )));
-	connect(m_lyxserver, SIGNAL(insertBibTeXDatabaseAdd(const QString&)), this, SLOT(insertBibTeXDatabaseAdd(const QString& )));
+	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
 
 	KileApplication::closeSplash();
 	show();
-	ToggleAccels();
-	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(syncTerminal()));
+
+	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), texkonsole, SLOT(sync()));
 
 	applyMainWindowSettings(config, "KileMainWindow" );
 
@@ -298,14 +287,13 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 
 	m_toolFactory = new KileTool::Factory(m_manager, config);
 	m_manager->setFactory(m_toolFactory);
-	
+
 	if (rest) restore();
 }
 
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
-	delete errorlist;
 	delete m_AutosaveTimer;
 }
 
@@ -372,32 +360,12 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
 	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
 
-	BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
-	ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
-	HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
+// 	BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
+// 	ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
+// 	HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
-	QPtrList<KAction> alt_list;
-	KileStdActions::setupStdTags(this,this, &alt_list);
-	altI_action = alt_list.at(0);
-	altA_action = alt_list.at(1);
-	altB_action = alt_list.at(2);
-	altT_action = alt_list.at(3);
-	altC_action = alt_list.at(4);
-	altH_action = alt_list.at(5);
-
-	alt_list.clear();
-	KileStdActions::setupMathTags(this, &alt_list);
-
-	altM_action = alt_list.at(0);
-	altE_action = alt_list.at(1);
- 	altD_action = alt_list.at(2);
-	altU_action = alt_list.at(3);
-	altF_action = alt_list.at(4);
-	altQ_action = alt_list.at(5);
-	altS_action = alt_list.at(6);
-	altL_action = alt_list.at(7);
-	altR_action = alt_list.at(8);
-
+	KileStdActions::setupStdTags(this,this);
+	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
 
   (void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
@@ -411,27 +379,21 @@ void Kile::setupActions()
 
   ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
 
-  MenuAccelsAction = new KToggleAction(i18n("Standard Menu Shortcuts"), 0, this,SLOT(ToggleAccels()),actionCollection(),"MenuAccels" );
-  MenuAccelsAction->setChecked(m_menuaccels);
-
-  (void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"settings_configure" );
-  (void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
-  (void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
-
   StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
   MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
 
-  ShowMainToolbarAction=new KToggleAction(i18n("Show Main Toolbar"),0 , this, SLOT(ToggleShowMainToolbar()), actionCollection(),"ShowMainToolbar" );
-  ShowMainToolbarAction->setChecked(showmaintoolbar);
+	//FIXME: obsolete for KDE 4
+	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
+	m_paShowToolsTB = new KToggleToolBarAction("toolsToolBar", i18n("Tools"), actionCollection(), "ShowToolsToolbar");
+	m_paShowEditTB = new KToggleToolBarAction("editToolBar", i18n("Edit"), actionCollection(), "ShowEditToolbar");
+	m_paShowMathTB = new KToggleToolBarAction("mathToolBar", i18n("Math"), actionCollection(), "ShowMathToolbar");
 
-  ShowToolsToolbarAction=new KToggleAction(i18n("Show Tools Toolbar"),0 , this, SLOT(ToggleShowToolsToolbar()), actionCollection(),"ShowToolsToolbar" );
-  ShowToolsToolbarAction->setChecked(showtoolstoolbar);
-
-  ShowEditToolbarAction=new KToggleAction(i18n("Show Edit Toolbar"),0 , this, SLOT(ToggleShowEditToolbar()), actionCollection(),"ShowEditToolbar" );
-  ShowEditToolbarAction->setChecked(showedittoolbar);
-
-  ShowMathToolbarAction=new KToggleAction(i18n("Show Math Toolbar"),0 , this, SLOT(ToggleShowMathToolbar()), actionCollection(),"ShowMathToolbar" );
-  ShowMathToolbarAction->setChecked(showmathtoolbar);
+	//Save the toolbar settings, we need to know if the toolbars should be visible or not. We can't use KToggleToolBarAction->isChecked()
+	//since this will return false if we hide the toolbar when switching to Viewer mode for example.
+	m_bShowMainTB = m_paShowMainTB->isChecked();
+	m_bShowToolsTB = m_paShowToolsTB->isChecked();
+	m_bShowEditTB = m_paShowEditTB->isChecked();
+	m_bShowMathTB = m_paShowMathTB->isChecked();
 
   if (m_singlemode) {ModeAction->setChecked(false);}
   else {ModeAction->setChecked(true);}
@@ -446,14 +408,17 @@ void Kile::setupActions()
   if (m_bWatchFile) {WatchFileAction->setChecked(true);}
   else {WatchFileAction->setChecked(false);}
 
+	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
-	help_menu = new KHelpMenu( this, aboutData);
+	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
-	(void) new KAction(i18n("Kile Handbook"),"contents",0 , this, SLOT(invokeHelp()), actionCollection(),"help2" );
-
+	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help2");
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
 	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
+	(void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"settings_configure" );
+	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
+	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), UserIcon("usertag"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
@@ -467,10 +432,7 @@ void Kile::setupActions()
 	setupUserToolActions();
 	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
 
-
-  	actionCollection()->readShortcutSettings();
-
-  	setHelpMenuEnabled(false);
+	actionCollection()->readShortcutSettings();
 }
 
 void Kile::setupUserTagActions()
@@ -726,25 +688,10 @@ Kate::View *Kile::currentView() const
 void Kile::setLine( const QString &line )
 {
 	bool ok;
-	uint l=line.toUInt(&ok,10), para, col;
+	uint l=line.toUInt(&ok,10);
 	Kate::View *view = currentView();
 	if (view && ok)
   	{
-		view->cursorPosition(&para,&col);
-  		view->setCursorPosition(l,0);
-
-		if ( l > para)
-		{
-			view->down();view->down();view->down();
-			view->up();view->up();view->up();
-		}
-
-		if ( l < para)
-		{
-			view->up();view->up();view->up();
-			view->down();view->down();view->down();
-		}
-
 		this->show();
 		this->raise();
 		view->setFocus();
@@ -766,7 +713,7 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 
 	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
 
-	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
 		if (hl == QString::null) hl = "latex-kile";
 		for (i = 0; i < c; i++)
@@ -1516,11 +1463,6 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 			++it;
 		}
 
-		//command.replace("%F", files);
-		//command.replace("%S", project->url().fileName().replace(".kilepr",""));
-
-		//QFileInfo fic(project->url().path());
-
 		KileTool::Base *tool = new KileTool::Base("Archive", m_manager);
 		tool->setSource(project->url().path());
 		tool->addDict("%F", files);
@@ -1890,7 +1832,7 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 		kdDebug() << "\t" << doc->docName() << endl;
 
 		//sync terminal
-		syncTerminal();
+		texkonsole->sync();
 
 		QPtrList<KTextEditor::View> list = doc->views();
 
@@ -2005,7 +1947,7 @@ void Kile::newCaption()
 	if (view)
 	{
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
-		if (Outputview->currentPage()->inherits("KileWidget::Konsole")) syncTerminal();
+		if (Outputview->currentPage()->inherits("KileWidget::Konsole")) texkonsole->sync();
 	}
 }
 
@@ -2168,6 +2110,15 @@ void Kile::ActivePartGUI(KParts::Part * the_part)
 			}
 		}
 	}*/
+	//save the toolbar state
+	if ( m_wantState == "HTMLpreview" || m_wantState == "Viewer" )
+	{
+		kdDebug() << "\tsaving toolbar status" << endl;
+		m_bShowMainTB = m_paShowMainTB->isChecked();
+		m_bShowToolsTB = m_paShowToolsTB->isChecked();
+		m_bShowEditTB = m_paShowEditTB->isChecked();
+		m_bShowMathTB = m_paShowMathTB->isChecked();
+	}
 
 	createGUI(the_part);
 
@@ -2176,10 +2127,10 @@ void Kile::ActivePartGUI(KParts::Part * the_part)
 		kdDebug() << "\tchanged to: HTMLpreview" << endl;
 		stateChanged( "HTMLpreview");
 		toolBar("mainToolBar")->hide();
-		toolBar("ToolBar2")->hide();
-		toolBar("Extra")->show();
-		toolBar("ToolBar4")->hide();
-		toolBar("ToolBar5")->hide();
+		toolBar("toolsToolBar")->hide();
+		toolBar("editToolBar")->hide();
+		toolBar("mathToolBar")->hide();
+		toolBar("extraToolBar")->show();
 		enableKileGUI(false);
 	}
 	else if ( m_wantState == "Viewer" )
@@ -2187,10 +2138,10 @@ void Kile::ActivePartGUI(KParts::Part * the_part)
 		kdDebug() << "\tchanged to: Viewer" << endl;
 		stateChanged( "Viewer" );
 		toolBar("mainToolBar")->show();
-		toolBar("ToolBar2")->hide();
-		toolBar("Extra")->show();
-		toolBar("ToolBar4")->hide();
-		toolBar("ToolBar5")->hide();
+		toolBar("toolsToolBar")->hide();
+		toolBar("mathToolBar")->hide();
+		toolBar("extraToolBar")->show();
+		toolBar("editToolBar")->hide();
 		enableKileGUI(false);
 	}
 	else
@@ -2199,16 +2150,17 @@ void Kile::ActivePartGUI(KParts::Part * the_part)
 		stateChanged( "Editor" );
 		m_wantState="Editor";
 		topWidgetStack->raiseWidget(0);
-		if (showmaintoolbar) {toolBar("mainToolBar")->show();}
-		if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
-		if (showedittoolbar) {toolBar("ToolBar4")->show();}
-		if (showmathtoolbar) {toolBar("ToolBar5")->show();}
-		toolBar("Extra")->hide();
+		if (m_bShowMainTB) toolBar("mainToolBar")->show();
+		if (m_bShowEditTB) toolBar("editToolBar")->show();
+		if (m_bShowToolsTB) toolBar("toolsToolBar")->show();
+		if (m_bShowMathTB) toolBar("mathToolBar")->show();
+		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
-	
+
 	//set the current state
 	m_currentState = m_wantState;
+	m_wantState = "Editor";
 }
 
 void Kile::enableKileGUI(bool enable)
@@ -2246,41 +2198,6 @@ void Kile::prepareForPart(const QString & state)
 		guiFactory()->removeClient(m_viewList.at(i));
 		m_viewList.at(i)->setActive(false);
 	}
-}
-
-void Kile::BrowserBack()
-{
-if (htmlpresent)
- {
- ((docpart *)partManager->activePart())->back();
- }
-}
-
-void Kile::BrowserForward()
-{
-if (htmlpresent)
- {
-  ((docpart *)partManager->activePart())->forward();
- }
-}
-
-void Kile::BrowserHome()
-{
-if (htmlpresent)
- {
- ((docpart *)partManager->activePart())->home();
- }
-}
-
-void Kile::recvOutput(char *buffer, int buflen)
-{
-	kdDebug() << "received output: " << buffer << endl;
-
-	int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
-	int col = OutputWidget->paragraphLength(row);
-	QString s=QCString(buffer,buflen+1);
-	OutputWidget->setCursorPosition(row,col);
-	OutputWidget->insertAt(s, row, col);
 }
 
 void Kile::QuickBuild()
@@ -2403,34 +2320,6 @@ void Kile::CleanAll()
  	} 
  }
 
-void Kile::syncTerminal()
-{
-	Kate::View *view = currentView();
-
-	kdDebug() << "==Kile::syncTerminal()===========" <<  endl;
-
-	if (view)
-	{
-		QString finame;
-		//if (m_singlemode) {finame=view->getDoc()->url().path();}
-		//else {finame=m_masterName;}
-		//finame = getCompileName();
-		KURL url = view->getDoc()->url();
-
-		if ( url.path() == "" || url.path() == i18n("Untitled") ) return;
-
- 		QFileInfo fic(url.directory());
- 		if ( fic.isReadable() )
- 		{
-			kdDebug() << "\t" << url.directory() << endl;
-			texkonsole->setDirectory(url.directory());
-			texkonsole->activate();
-		}
-
-		view->setFocus();
-	}
-}
-
 void Kile::LatexToHtml()
 {
 	//FIXME: need a way to give options (perhaps just in the config dialog)?
@@ -2485,21 +2374,6 @@ void Kile::execUserTool(int i)
 
 		}
 	}
-
-	/*command << commandline;
-	CommandProcess* proc = execCommand(command,fi,true, documentpresent);
-	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-
-	if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-	{
-		KMessageBox::error( this,i18n("Could not start the command."));
-	}
-	else
-	{
-		OutputWidget->clear();
-		logpresent=false;
-		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-	}*/
 
 	m_manager->run(m_listUserTools[i].name);
 }
@@ -2611,15 +2485,12 @@ void Kile::ViewLog()
 		LogWidget->setText(log);
 		LogWidget->highlight();
 		LogWidget->scrollToBottom();
-		//newStatus();
 		logpresent=true;
 	}
 	else
 	{
-		LogWidget->append(i18n("Cannot open log file! Did you run LaTeX?"));
+		LogWidget->printProblem(KileTool::Error, i18n("Cannot open log file! Did you run LaTeX?"));
 	}
-
-	tempLog=QString::null;
 }
 
 ////////////////////////// ERRORS /////////////////////////////
@@ -2797,200 +2668,57 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 
 void Kile::QuickDocument()
 {
-QString opt="";
-int li=3;
-  if ( !currentView() )	return;
-  QString tag=QString("\\documentclass[");
-  startDlg = new quickdocumentdialog(this,"Quick Start",i18n("Quick Start"));
-  startDlg->otherClassList=userClassList;
-  startDlg->otherPaperList=userPaperList;
-  startDlg->otherEncodingList=userEncodingList;
-  startDlg->otherOptionsList=userOptionsList;
-  startDlg->Init();
-  startDlg->combo1->setCurrentText(document_class);
-  startDlg->combo2->setCurrentText(typeface_size);
-  startDlg->combo3->setCurrentText(paper_size);
-  startDlg->combo4->setCurrentText(document_encoding);
-  startDlg->checkbox1->setChecked(ams_packages);
-  startDlg->checkbox2->setChecked(makeidx_package);
-  startDlg->LineEdit1->setText(author);
-  if ( startDlg->exec() )
-  {
-  tag+=startDlg->combo2->currentText()+QString(",");
-  tag+=startDlg->combo3->currentText();
-  for ( uint j=0;j<=startDlg->availableBox->count();j++)
-      {
-      if (startDlg->availableBox->isSelected(j)) opt+=QString(",")+startDlg->availableBox->item(j)->text();
-      }
-  tag+=opt+QString("]{");
-  tag+=startDlg->combo1->currentText()+QString("}");
-  tag+=QString("\n");
-  if (startDlg->combo4->currentText()!="NONE") tag+=QString("\\usepackage[")+startDlg->combo4->currentText()+QString("]{inputenc}");
-  tag+=QString("\n");
-  if (startDlg->checkbox1->isChecked())
-     {
-     tag+=QString("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n");
-     li=li+3;
-     }
-  if (startDlg->checkbox2->isChecked())
-     {
-     tag+=QString("\\usepackage{makeidx}\n");
-     li=li+1;
-     }
-  if (startDlg->LineEdit1->text()!="")
-     {
-     tag+="\\author{"+startDlg->LineEdit1->text()+"}\n";
-     li=li+1;
-     }
-  if (startDlg->LineEdit2->text()!="")
-     {
-     tag+="\\title{"+startDlg->LineEdit2->text()+"}\n";
-     li=li+1;
-     }
-  tag+= "\\begin{document}\n";
-  QString tagE = "\n\\end{document}";
-  insertTag(tag,tagE,0,li);
-  document_class=startDlg->combo1->currentText();
-  typeface_size=startDlg->combo2->currentText();
-  paper_size=startDlg->combo3->currentText();
-  document_encoding=startDlg->combo4->currentText();
-  ams_packages=startDlg->checkbox1->isChecked();
-  makeidx_package=startDlg->checkbox2->isChecked();
-  author=startDlg->LineEdit1->text();
-  userClassList=startDlg->otherClassList;
-  userPaperList=startDlg->otherPaperList;
-  userEncodingList=startDlg->otherEncodingList;
-  userOptionsList=startDlg->otherOptionsList;
-  }
-  delete( startDlg);
+	if ( !currentView() ) return;
+	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(config, this,"Quick Start",i18n("Quick Start"));
+	if ( dlg->exec() )
+	{
+		insertTag( dlg->tagData() );
+	}
+	delete dlg;
 }
-
 
 void Kile::QuickTabular()
 {
-  if ( !currentView() )	return;
-  QString al="";
-  QString vs="";
-  QString hs="";
-	quickDlg = new tabdialog(this,"Tabular",i18n("Tabular"));
-  if ( quickDlg->exec() )
-  {
-    int	y = quickDlg->spinBoxRows->value();
-    int	x = quickDlg->spinBoxCollums->value();
-    if  ((quickDlg->combo2->currentItem ())==0) vs=QString("|");
-    if  ((quickDlg->combo2->currentItem ())==1) vs=QString("||");
-    if  ((quickDlg->combo2->currentItem ())==2) vs=QString("");
-    if  ((quickDlg->combo2->currentItem ())==3) vs=QString("@{}");
-  	QString tag = QString("\\begin{tabular}{")+vs;
-    if  ((quickDlg->combo1->currentItem ())==0) al=QString("c")+vs;
-    if  ((quickDlg->combo1->currentItem ())==1) al=QString("l")+vs;
-    if  ((quickDlg->combo1->currentItem ())==2) al=QString("r")+vs;
-    if  ((quickDlg->combo1->currentItem ())==3) al=QString("p{}")+vs;
-    if (quickDlg->checkbox1->isChecked()) hs=QString("\\hline ");
- 		for ( int j=0;j<x;j++) {tag +=al;}
-    tag +=QString("}\n");
- 	  for ( int i=0;i<y;i++) {
- 		  tag +=hs;
- 		  for ( int j=0;j<x-1;j++)
- 			  tag +=quickDlg->Table1->text(i,j)+ QString(" & ");
- 		  tag +=quickDlg->Table1->text(i,x-1)+ QString(" \\\\ \n");
- 	  }
- 	  if (quickDlg->checkbox1->isChecked()) tag +=hs+QString("\n\\end{tabular} ");
-    else tag +=QString("\\end{tabular} ");
-  insertTag(tag,QString::null,0,0);
-  }
-
-  delete( quickDlg);
-
+	if ( !currentView() ) return;
+	KileDialog::QuickTabular *dlg = new KileDialog::QuickTabular(config, this,"Tabular", i18n("Tabular"));
+	if ( dlg->exec() )
+	{
+		insertTag(dlg->tagData());
+	}
+	delete dlg;
 }
 
 void Kile::QuickTabbing()
 {
-  if ( !currentView() )	return;
-  tabDlg = new tabbingdialog(this,"Tabbing",i18n("Tabbing"));
-  if ( tabDlg->exec() )
- {
-  int	x = tabDlg->spinBoxCollums->value();
-  int	y = tabDlg->spinBoxRows->value();
-  QString s=tabDlg->LineEdit1->text();
-  QString tag = QString("\\begin{tabbing}\n");
-  for ( int j=1;j<x;j++) {tag +="\\hspace{"+s+"}\\=";}
-  tag+="\\kill\n";
- 	for ( int i=0;i<y-1;i++)
-   {
-   for ( int j=1;j<x;j++) {tag +=" \\> ";}
-   tag+="\\\\ \n";
-   }
-   for ( int j=1;j<x;j++) {tag +=" \\> ";}
-
-  insertTag(tag,"\n\\end{tabbing} ",0,2);
- }
-  delete( tabDlg);
+	if ( !currentView() ) return;
+	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(config, this,"Tabbing", i18n("Tabbing"));
+	if ( dlg->exec() )
+	{
+		insertTag(dlg->tagData());
+	}
+	delete dlg;
 }
 
 void Kile::QuickArray()
 {
-  if ( !currentView() )	return;
-  QString al;
-	arrayDlg = new arraydialog(this,"Array",i18n("Array"));
-  if ( arrayDlg->exec() ) {
-  	int y = arrayDlg->spinBoxRows->value();
-  	int x = arrayDlg->spinBoxCollums->value();
-    QString env=arrayDlg->combo2->currentText();
-  	QString tag = QString("\\begin{")+env+"}";
-    if (env=="array")
-    {
-      tag+="{";
-      if  ((arrayDlg->combo->currentItem ())==0) al=QString("c");
-      if  ((arrayDlg->combo->currentItem ())==1) al=QString("l");
-      if  ((arrayDlg->combo->currentItem ())==2) al=QString("r");
-   		for ( int j=0;j<x;j++) {tag +=al;}
-      tag+="}";
-    }
-    tag +=QString("\n");
- 	  for ( int i=0;i<y-1;i++) {
-  		  for ( int j=0;j<x-1;j++)
- 			  tag +=arrayDlg->Table1->text(i,j)+ QString(" & ");
- 		  tag +=arrayDlg->Table1->text(i,x-1)+ QString(" \\\\ \n");
- 	  }
-  		  for ( int j=0;j<x-1;j++)
- 			  tag +=arrayDlg->Table1->text(y-1,j)+ QString(" & ");
- 	  tag +=arrayDlg->Table1->text(y-1,x-1)+ QString("\n\\end{")+env+"} ";
-  insertTag(tag,QString::null,0,0);
-  }
-  delete( arrayDlg);
-
+	if ( !currentView() ) return;
+	KileDialog::QuickArray *dlg = new KileDialog::QuickArray(config, this,"Array", i18n("Array"));
+	if ( dlg->exec() )
+	{
+		insertTag(dlg->tagData());
+	}
+	delete dlg;
 }
 
 void Kile::QuickLetter()
 {
-  if ( !currentView() )	return;
-  QString tag=QString("\\documentclass[");
-	ltDlg = new letterdialog(this,"Letter",i18n("Letter"));
-  if ( ltDlg->exec() )
-  {
-  tag+=ltDlg->combo2->currentText()+QString(",");
-  tag+=ltDlg->combo3->currentText()+QString("]{letter}");
-  tag+=QString("\n");
-  if (ltDlg->combo4->currentText()!="NONE") tag+=QString("\\usepackage[")+ltDlg->combo4->currentText()+QString("]{inputenc}");
-  tag+=QString("\n");
-  if (ltDlg->checkbox1->isChecked()) tag+=QString("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n");
-  tag+="\\address{your name and address} \n";
-  tag+="\\signature{your signature} \n";
-  tag+="\\begin{document} \n";
-  tag+="\\begin{letter}{name and address of the recipient} \n";
-  tag+="\\opening{saying hello} \n \n";
-  tag+="write your letter here \n \n";
-  tag+="\\closing{saying goodbye} \n";
-  tag+="%\\cc{Cclist} \n";
-  tag+="%\\ps{adding a postscript} \n";
-  tag+="%\\encl{list of enclosed material} \n";
-  tag+="\\end{letter} \n";
-  tag+="\\end{document}";
-  if (ltDlg->checkbox1->isChecked()) {insertTag(tag,QString::null,9,5);}
-  else {insertTag(tag,QString::null,9,2);}
-  }
-  delete( ltDlg);
+	if ( !currentView() ) return;
+	KileDialog::QuickLetter *dlg = new KileDialog::QuickLetter(config, this, "Letter", i18n("Letter"));
+	if (dlg->exec())
+	{
+		insertTag(dlg->tagData());
+	}
+	delete dlg;
 }
 
 //////////////////////////// MATHS TAGS/////////////////////////////////////
@@ -3027,34 +2755,21 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-      if (viewlatexhelp_command == i18n("Embedded Viewer") )
-      {
-	      prepareForPart("HTMLpreview");
-	      htmlpart = new docpart(topWidgetStack,"help");
-	      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-	      htmlpresent=true;
-	      topWidgetStack->addWidget(htmlpart->widget() , 1 );
-	      topWidgetStack->raiseWidget(1);
-	      partManager->addPart(htmlpart, true);
-	      partManager->setActivePart( htmlpart);
-	      htmlpart->openURL("help:kile/latexhelp.html");
-	      htmlpart->addToHistory("help:kile/latexhelp.html");
-      }
+	QString loc = locate("html","en/kile/latexhelp.html");
+	if (viewlatexhelp_command == i18n("Embedded Viewer") )
+	{
+		KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
+		tool->setSource(loc);
+		tool->setRelativeBaseDir("");
+		tool->setTarget("latexhelp.html");
+		connect(tool, SIGNAL(updateStatus(bool, bool)), this, SLOT(updateNavAction( bool, bool)));
+		m_manager->run(tool);
+	}
       else if (viewlatexhelp_command == i18n("External Browser") )
       {
-      	QString loc = locate("html","en/kile/latexhelp.html");
 	kdDebug() << "HTML: " << loc << endl;
 	kapp->invokeBrowser(loc);
       }
-      else
-      {
-	kapp->invokeHTMLHelp("kile/latexhelp.html");
-      }
-}
-
-void Kile::invokeHelp()
-{
-	kapp->invokeHelp();
 }
 
 ///////////////////// USER ///////////////
@@ -3156,11 +2871,6 @@ void Kile::ReadSettings()
 	config->setGroup( "Show" );
 	showoutputview=config->readBoolEntry("Outputview",true);
 	showstructview=config->readBoolEntry( "Structureview",true);
-	showmaintoolbar=config->readBoolEntry("ShowMainToolbar",true);
-	showtoolstoolbar=config->readBoolEntry("ShowToolsToolbar",true);
-	showedittoolbar=config->readBoolEntry("ShowEditToolbar",true);
-	showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
-	m_menuaccels=config->readBoolEntry("MenuAccels", true);
 
 	if (old)
 	{
@@ -3218,15 +2928,6 @@ void Kile::ReadSettings()
 	struct_level3=config->readEntry("Structure Level 3","section");
 	struct_level4=config->readEntry("Structure Level 4","subsection");
 	struct_level5=config->readEntry("Structure Level 5","subsubsection");
-
-	config->setGroup( "Quick" );
-	document_class=config->readEntry("Class","article");
-	typeface_size=config->readEntry("Typeface","10pt");
-	paper_size=config->readEntry("Papersize","a4paper");
-	document_encoding=config->readEntry("Encoding","latin1");
-	ams_packages=config->readBoolEntry( "AMS",true);
-	makeidx_package=config->readBoolEntry( "MakeIndex",false);
-	author=config->readEntry("Author","");
 }
 
 void Kile::ReadRecentFileSettings()
@@ -3305,10 +3006,6 @@ void Kile::readConfig()
 	l2h_options=config->readEntry("L2h Options","");
 	bibtexeditor_command=config->readEntry("Bibtexeditor","gbib '%S.bib'");
 	m_runlyxserver = config->readBoolEntry("RunLyxServer", true);
-	userClassList=config->readListEntry("User Class", ':');
-	userPaperList=config->readListEntry("User Paper", ':');
-	userEncodingList=config->readListEntry("User Encoding", ':');
-	userOptionsList=config->readListEntry("User Options", ':');
 }
 
 void Kile::SaveSettings()
@@ -3342,18 +3039,6 @@ config->writeEntry("Splitter2_bottom", split2_bottom );
 config->setGroup( "Show" );
 config->writeEntry("Outputview",showoutputview);
 config->writeEntry( "Structureview",showstructview);
-config->writeEntry("ShowMainToolbar",showmaintoolbar);
-config->writeEntry("ShowToolsToolbar",showtoolstoolbar);
-config->writeEntry("ShowEditToolbar",showedittoolbar);
-config->writeEntry("ShowMathToolbar",showmathtoolbar);
-config->writeEntry("MenuAccels", m_menuaccels);
-
-config->writeEntry("L2h Options",l2h_options);
-config->writeEntry("User Class",userClassList, ':');
-config->writeEntry("User Paper",userPaperList, ':');
-config->writeEntry("User Encoding",userEncodingList, ':');
-config->writeEntry("User Options",userOptionsList, ':');
-
 
 	config->setGroup( "Files" );
 	if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
@@ -3415,15 +3100,6 @@ config->writeEntry("Structure Level 3",struct_level3);
 config->writeEntry("Structure Level 4",struct_level4);
 config->writeEntry("Structure Level 5",struct_level5);
 
-config->setGroup("Quick");
-config->writeEntry( "Class",document_class);
-config->writeEntry( "Typeface",typeface_size);
-config->writeEntry( "Papersize",paper_size);
-config->writeEntry( "Encoding",document_encoding);
-config->writeEntry( "AMS",ams_packages);
-config->writeEntry( "MakeIndex",makeidx_package);
-config->writeEntry( "Author",author);
-
 //config->setGroup( "Editor Ext" );
 //config->writeEntry( "Complete Environment", m_bCompleteEnvironment );
 
@@ -3470,80 +3146,6 @@ void Kile::ToggleMode()
 	ModeAction->setChecked(false);
 }
 
-void Kile::ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText)
-{
-  QString from = (accelOn) ? noAccelText : accelText;
-  QString to   = (accelOn) ? accelText   : noAccelText;
-
-  for ( int i = 0; i < (int) bar->count(); i++ )
-    if (bar->text( bar->idAt( i ) ) == from) {
-      bar->changeItem( bar->idAt( i ), to );
-      break;
-    }
-}
-
-void Kile::ToggleKeyShortcut(KAction *action, bool addShiftModifier)
-{
-  KShortcut cut = action->shortcut();
-  KKey key = cut.seq( 0 ).key( 0 );
-
-  // Add SHIFT modifier to first key with only ALT modifier
-  if (addShiftModifier && key.modFlags() == KKey::ALT) {
-     KKey newKey( "SHIFT+" + key.toString() );
-     KKeySequence newSeq( cut.seq( 0 ) );
-     newSeq.setKey( 0, newKey );
-     KShortcut newCut( cut );
-     newCut.setSeq( 0, newSeq );
-     action->setShortcut( newCut );
-   }
-
-   // Remove SHIFT modifier from first key with only SHIFT+ALT modifiers
-   if (!addShiftModifier && key.modFlags() == KKey::SHIFT | KKey::ALT) {
-     KKey newKey( key.toString().remove( key.modFlagLabel(KKey::SHIFT) + "+" ) );
-     KKeySequence newSeq( cut.seq( 0 ) );
-     newSeq.setKey( 0, newKey );
-     KShortcut newCut( cut );
-     newCut.setSeq( 0, newSeq );
-     action->setShortcut( newCut );
-   }
-}
-
-void Kile::ToggleAccels()
-{
-  KMenuBar *bar = menuBar();
-
-  // Toggle KDE standard menu shortcuts or special Kile shortcuts
-  m_menuaccels = MenuAccelsAction->isChecked();
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&File"),         i18n("File"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Edit"),         i18n("Edit"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Tools"),        i18n("Tools"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&LaTeX"),        i18n("LaTeX"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Math"),         i18n("Math"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Wizard"),       i18n("Wizard"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Bibliography"), i18n("Bibliography"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&User"),         i18n("User"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Graph"),        i18n("Graph"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&View"),         i18n("View"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Settings"),     i18n("Settings"));
-  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Help"),         i18n("Help"));
-
-  ToggleKeyShortcut(altH_action, m_menuaccels);
-  ToggleKeyShortcut(altI_action, m_menuaccels);
-  ToggleKeyShortcut(altA_action, m_menuaccels);
-  ToggleKeyShortcut(altB_action, m_menuaccels);
-  ToggleKeyShortcut(altT_action, m_menuaccels);
-  ToggleKeyShortcut(altC_action, m_menuaccels);
-  ToggleKeyShortcut(altM_action, m_menuaccels);
-  ToggleKeyShortcut(altE_action, m_menuaccels);
-  ToggleKeyShortcut(altD_action, m_menuaccels);
-  ToggleKeyShortcut(altU_action, m_menuaccels);
-  ToggleKeyShortcut(altF_action, m_menuaccels);
-  ToggleKeyShortcut(altQ_action, m_menuaccels);
-  ToggleKeyShortcut(altS_action, m_menuaccels);
-  ToggleKeyShortcut(altL_action, m_menuaccels);
-  ToggleKeyShortcut(altR_action, m_menuaccels);
-}
-
 void Kile::ToggleOutputView()
 {
 ShowOutputView(true);
@@ -3552,46 +3154,6 @@ ShowOutputView(true);
 void Kile::ToggleStructView()
 {
 ShowStructView(true);
-}
-
-void Kile::ToggleShowMainToolbar() {
-  showmaintoolbar = !showmaintoolbar;
-
-  if (showmaintoolbar ) {
-      toolBar("mainToolBar")->show();
-  } else {
-    toolBar("mainToolBar")->hide();
-  }
-}
-
-void Kile::ToggleShowToolsToolbar() {
-  showtoolstoolbar = !showtoolstoolbar;
-
-  if (showtoolstoolbar ) {
-      toolBar("ToolBar2")->show();
-  } else {
-    toolBar("ToolBar2")->hide();
-  }
-}
-
-void Kile::ToggleShowEditToolbar() {
-  showedittoolbar = !showedittoolbar;
-
-  if (showedittoolbar ) {
-      toolBar("ToolBar4")->show();
-  } else {
-    toolBar("ToolBar4")->hide();
-  }
-}
-
-void Kile::ToggleShowMathToolbar() {
-  showmathtoolbar = !showmathtoolbar;
-
-  if (showmathtoolbar ) {
-      toolBar("ToolBar5")->show();
-  } else {
-    toolBar("ToolBar5")->hide();
-  }
 }
 
 void Kile::ToggleWatchFile()
@@ -3982,25 +3544,6 @@ if ((er-el>0) && (eb-et>0))
      return "Original size : [width="+win+"in,height="+hin+"in] or [width="+wcm+"cm,height="+hcm+"cm]";
     }
 else return "";
-}
-
-/*
- * LyX server commands
- */
-
-void Kile::insertCite(const QString &cite)
-{
-	insertTag(KileAction::TagData("cite", "\\cite{"+cite+"}", QString::null, 7+cite.length()));
-}
-
-void Kile::insertBibTeX(const QString& bib)
-{
-	insertTag(KileAction::TagData("bibliography", "\\bibliography{"+bib+"}", QString::null, 15+bib.length()));
-}
-
-void Kile::insertBibTeXDatabaseAdd(const QString& bib)
-{
-	insertTag(KileAction::TagData("bibliography", "\\bibliography{"+bib+"}", QString::null, 15+bib.length()));
 }
 
 //////////////////// CLEAN BIB /////////////////////

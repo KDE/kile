@@ -18,39 +18,35 @@
 #ifndef TABDIALOG_H
 #define TABDIALOG_H
 
-#include <qdialog.h>
+#include "kilewizard.h"
 
 class QTable;
 class QSpinBox;
-class QLabel;
-class QComboBox;
-class QPushButton;
 class QCheckBox;
 
-class tabdialog : public QDialog  {
-    Q_OBJECT
-public:
-    tabdialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-    ~tabdialog();
+class KComboBox;
+class KConfig;
 
-public:
-    QTable* Table1;
-    QSpinBox *spinBoxRows;
-    QSpinBox *spinBoxCollums;
-    QLabel *QLabel_1;
-    QLabel *QLabel_2;
-    QLabel *QLabel_3;
-    QLabel *QLabel_4;
-    QComboBox *combo1;
-    QComboBox *combo2;
-    QCheckBox* checkbox1;
-    QPushButton *buttonOk;
-    QPushButton *buttonCancel;
-protected slots:
-    void NewRows(int num);
-    void NewCollums(int num);
-};
+namespace KileDialog
+{
+	class QuickTabular : public Wizard
+	{
+		Q_OBJECT
 
+	public:
+		QuickTabular(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		~QuickTabular();
+
+	public slots:
+		void slotOk();
+
+	private:
+		KComboBox	*m_cbAlign, *m_cbSeparator;
+		QSpinBox		*m_spRows, *m_spCols;
+		QCheckBox	*m_ckHSeparator;
+		QTable		*m_table;
+	};
+}
 
 #endif
 

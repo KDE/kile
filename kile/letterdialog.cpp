@@ -16,88 +16,64 @@
  ***************************************************************************/
 
 #include "letterdialog.h"
+
+#include <qcheckbox.h>
+#include <qlayout.h>
+#include <qlabel.h>
+
 #include <klocale.h>
+#include <klineedit.h>
+#include <kpushbutton.h>
 
-letterdialog::letterdialog(QWidget *parent, const char *name, const QString &caption)
-    :QDialog( parent, name, true)
+namespace KileDialog
 {
-	setCaption(caption);
-  QGridLayout *gbox = new QGridLayout( this, 5, 2,5,5,"");
-  gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
-  gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
+	QuickLetter::QuickLetter(KConfig *config, QWidget *parent, const char *name, const QString &caption) : 
+		QuickDocument(config, parent, name, caption)
+	{
+		m_layout->remove(m_cbDocClass); m_cbDocClass->hide();
+		m_layout->remove(m_lbDocClass); m_lbDocClass->hide();
+		m_layout->remove(m_leTitle); m_leTitle->hide();
+		m_layout->remove(m_lbTitle); m_lbTitle->hide();
+		m_layout->remove(m_leAuthor); m_leAuthor->hide();
+		m_layout->remove(m_lbAuthor); m_lbAuthor->hide();
+		m_layout->remove(m_ckIdx); m_ckIdx->hide();
+		m_layout->remove(m_bxOptions); m_bxOptions->hide();
+		m_layout->remove(m_lbOptions); m_lbOptions->hide();
+		m_layout->remove(userClassBtn); userClassBtn->hide();
+		m_layout->remove(userOptionsBtn); userOptionsBtn->hide();
+		this->resize(300,150);
+	}
+	
+	QuickLetter::~QuickLetter()
+	{}
 
-  QLabel_2= new QLabel(this,"NoName");
-  QLabel_2->setText(i18n("Typeface size:"));
+	void QuickLetter::slotOk()
+	{
+		m_td.dy = 7;
+		m_td.tagBegin = "\\documentclass[" + m_cbPaperSize->currentText()+",";
+		m_td.tagBegin += m_cbFontSize->currentText()+"]{letter}\n";
 
-  QLabel_3= new QLabel(this,"NoName");
-  QLabel_3->setText(i18n("Paper size:"));
+		if ( m_cbEncoding->currentText() != "NONE")
+		{
+			m_td.tagBegin += "\\usepackage["+ m_cbEncoding->currentText() + "]{inputenc}\n";
+			m_td.dy++;
+		}
 
-  QLabel_4= new QLabel(this,"NoName");
-  QLabel_4->setText(i18n("Encoding:"));
+		if ( m_ckAMS->isChecked())
+		{
+			m_td.tagBegin +=  "\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n";
+			m_td.dy += 3;
+		}
 
-  combo2 = new QComboBox( FALSE, this, "comboBox" );
-  combo2->insertItem( "10pt" );
-  combo2->insertItem( "11pt" );
-  combo2->insertItem( "12pt" );
+		m_td.tagBegin += "\\address{your name and address} \n\\signature{your signature} \n";
+		m_td.tagBegin += "\\begin{document} \n\\begin{letter}{name and address of the recipient} \n";
+		m_td.tagBegin += "\\opening{saying hello} \n \nwrite your letter here \n \n";
+		m_td.tagBegin += "\\closing{saying goodbye} \n%\\cc{Cclist} \n";
+		m_td.tagBegin += "%\\ps{adding a postscript} \n%\\encl{list of enclosed material} \n";
+		m_td.tagEnd = "\n\\end{letter}\n\\end{document}";
 
-  combo3 = new QComboBox( FALSE, this, "comboBox" );
-  combo3->insertItem( "a4paper" );
-  combo3->insertItem( "a5paper" );
-  combo3->insertItem( "b5paper" );
-  combo3->insertItem( "letterpaper" );
-  combo3->insertItem( "legalpaper" );
-  combo3->insertItem( "executivepaper" );
-
-  combo4 = new QComboBox( FALSE, this, "comboBox" );
-  combo4->insertItem( "latin1" );
-  combo4->insertItem( "latin2" );
-  combo4->insertItem( "latin3" );
-  combo4->insertItem( "latin5" );
-  combo4->insertItem( "ascii" );
-  combo4->insertItem( "decmulti" );
-  combo4->insertItem( "cp850" );
-  combo4->insertItem( "cp852" );
-  combo4->insertItem( "cp437" );
-  combo4->insertItem( "cp437de" );
-  combo4->insertItem( "cp865" );
-  combo4->insertItem( "applemac" );
-  combo4->insertItem( "next" );
-  combo4->insertItem( "ansinew" );
-  combo4->insertItem( "cp1252" );
-  combo4->insertItem( "cp1250" );
-  combo4->insertItem( "NONE" );
-
-  checkbox1 = new QCheckBox( this, "checkbox");
-  checkbox1->setFocusPolicy( QWidget::TabFocus );
-  checkbox1->setText(i18n("AMS packages"));
-  checkbox1->setAutoRepeat( FALSE );
-  checkbox1->setChecked( TRUE );
-
-  buttonOk= new QPushButton(this,"NoName");
-  buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("&OK"));
-  buttonOk->setDefault(true);
-
-  buttonCancel= new QPushButton(this,"NoName");
-  buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("&Cancel"));
-
-	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
-	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );
-
-  gbox->addWidget(QLabel_2 , 0, 0 );
-  gbox->addWidget(combo2 , 0, 1 );
-  gbox->addWidget(QLabel_3 , 1, 0 );
-  gbox->addWidget(combo3 , 1, 1 );
-  gbox->addWidget(QLabel_4 , 2, 0 );
-  gbox->addWidget(combo4 , 2, 1 );
-  gbox->addWidget(checkbox1 , 3, 1 );
-  gbox->addWidget(buttonOk , 4, 0,Qt::AlignLeft );
-  gbox->addWidget(buttonCancel , 4, 1,Qt::AlignRight );
-  this->resize(300,150);
-}
-
-letterdialog::~letterdialog(){
+		accept();
+	}
 }
 
 #include "letterdialog.moc"

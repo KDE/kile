@@ -34,6 +34,7 @@
 
 class QFile;
 class QSocketNotifier;
+namespace KileAction { class TagData; }
 
 class KileLyxServer : public QObject
 {
@@ -54,16 +55,14 @@ protected slots:
 	bool openPipes();
 
 signals:
-	void insertCite(const QString&);
-	void insertBibTeX(const QString&);
-	void insertBibTeXDatabaseAdd(const QString&);
+	void insert(const KileAction::TagData &);
 
 private:
 	QPtrList<QFile>					m_pipeIn;
-	QPtrList<QSocketNotifier>	m_notifier;
+	QPtrList<QSocketNotifier>			m_notifier;
 	QIntDict<QFile>					m_file;
-	bool										m_running;
-	int											m_count;
+	bool								m_running;
+	int								m_count;
 };
 
 #endif // _LYXSERVER_H_

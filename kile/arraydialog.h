@@ -23,37 +23,32 @@
   *@author Pascal Brachet
   */
 
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcombobox.h>
-#include <qtable.h>
-#include <qpushbutton.h>
-#include <qdialog.h>
+#include "kilewizard.h"
 
+class QTable;
+class QSpinBox;
 
-class arraydialog : public QDialog  {
-   Q_OBJECT
-public:
-	arraydialog(QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-	~arraydialog();
+class KComboBox;
+class KConfig;
 
-public:
-  QTable* Table1;
-	QSpinBox *spinBoxRows;
-	QSpinBox *spinBoxCollums;
-	QLabel *QLabel_1;
-	QLabel *QLabel_2;
-	QLabel *QLabel_3;
-  QLabel *QLabel_4;
-  QComboBox *combo, *combo2;
-	QPushButton *buttonOk;
-	QPushButton *buttonCancel;
+namespace KileDialog
+{
+	class QuickArray : public Wizard  
+	{
+		Q_OBJECT
 
-protected slots:
-  void NewRows(int num);
-  void NewCollums(int num);
-};
+	public:
+		QuickArray(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		~QuickArray();
 
+	public slots:
+		void slotOk();
+
+	public:
+		QTable *m_table;
+		QSpinBox *m_spRows, *m_spCols;
+		KComboBox *m_cbAlign, *m_cbEnv;
+	};
+}
 
 #endif

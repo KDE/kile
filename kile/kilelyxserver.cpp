@@ -20,6 +20,7 @@
 #include <stdlib.h> //getenv
 
 #include "kilelyxserver.h"
+#include "kileactions.h"
 
 #include <qlayout.h>
 #include <qfile.h>
@@ -158,15 +159,12 @@ void KileLyxServer::receive(int fd)
 		kdDebug() << m_count++ << ":" << line << endl;
 
 		QRegExp cite(":citation-insert:(.*)$");
-		QRegExp bibtexins(":bibtex-insert:(.*)$");
 		QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
-		
+
 		if (cite.search(line) > -1)
-			emit(insertCite(cite.cap(1)));
-		else if ( bibtexins.search(line) > -1)
-			emit(insertBibTeX(bibtexins.cap(1)));
-		else if ( bibtexdbadd.search(line) )
-			emit(insertBibTeXDatabaseAdd(bibtexdbadd.cap(1)));
+			emit(insert(KileAction::TagData("Cite", "\\cite{"+cite.cap(1)+"}", QString::null, 7+cite.cap(1).length())));
+		else if ( bibtexdbadd.search(line) > -1 )
+			emit(insert(KileAction::TagData("BibTeX db add", "\\bibliography{"+ bibtexdbadd.cap(1) + "}", QString::null, 15+bibtexdbadd.cap(1).length())));
 	}
 }
 

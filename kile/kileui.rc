@@ -249,7 +249,6 @@
 <Merge/>
 
 <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-	<Action name="MenuAccels"/>
 	<Action name="Mode"/>
 	<Action name="removetemplates"/>
 	<Separator/>
@@ -277,16 +276,14 @@
 	<Action name="help5"/>
 </Menu>
 </MenuBar>
-<ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1">
-	<text>Main</text>
+<ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1"><text>Main</text>
 	<Action name="file_new"/>
 	<Action name="file_open"/>
 	<Action name="file_close"/>
 	<Merge/>
 	<Action name="Mode"/>
 </ToolBar>
-<ToolBar name="ToolBar2" fullWidth="false" index="2">
-	<text>Tools</text>
+<ToolBar name="toolsToolBar" fullWidth="false" index="2"><text>Tools</text>
 	<Action name="QuickBuild"/>
 	<Action name="WatchFile"/>
 	<Separator lineSeparator="true"/>
@@ -315,8 +312,7 @@
 	<Separator lineSeparator="true"/>
 	<Action name="KdviForwardSearch"/>
 </ToolBar>
-<ToolBar name="ToolBar4" fullWidth="false" index="3">
-	<text>Edit</text>
+<ToolBar name="editToolBar" fullWidth="false" index="3"><text>Edit</text>
 	<Action name="structure_list"/>
 	<Separator lineSeparator="true"/>
 	<Action name="other_list"/>
@@ -330,8 +326,7 @@
 	<Action name="tag_center"/><!-- 14 !-->
 	<Action name="tag_flushright"/><!-- 15 !-->
 </ToolBar>
-<ToolBar name="ToolBar5" fullWidth="false" index="4">
-	<text>Math</text>
+<ToolBar name="mathToolBar" fullWidth="false" index="4"><text>Math</text>
 	<Action name="tag_mathmode"/>
 	<Action name="tag_subscript"/>
 	<Action name="tag_superscript"/>
@@ -345,7 +340,7 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
 </ToolBar>
-<ToolBar name="Extra" index="5">
+<ToolBar name="extraToolBar" index="5"><text>Extra</text>
 	<Action name="print"/>
 	<Action name="info"/>
 	<DefineGroup name="print" />

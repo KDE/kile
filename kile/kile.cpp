@@ -600,6 +600,11 @@ void Kile::setHighlightMode(Kate::Document * doc)
 	int c = doc->hlModeCount();
 	bool found = false;
 	int i;
+
+	QString ext = doc->url().fileName().right(4);
+
+	if ( ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	{
 	for (i = 0; i < c; i++)
 	{
 		if (doc->hlModeName(i) == "LaTeX-Kile") { found = true; break; }
@@ -613,6 +618,7 @@ void Kile::setHighlightMode(Kate::Document * doc)
 	{
 		//doc->setHlMode(0);
 		kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
+	}
 	}
 }
 
@@ -2721,7 +2727,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 	}
 
 	QString ins = data.tagBegin;
-
+	
 	//cut the selected text
 	if (wrap)
 	{
@@ -2994,7 +3000,8 @@ void Kile::insertUserTag(int i)
 	}
 	else
 	{
-		insertTag(m_listUserTags[i].tag,QString::null,0,0);
+		QStringList parts = QStringList::split("%M",m_listUserTags[i].tag);
+		insertTag(parts[0],parts[1],0,0);
 	}
 }
 

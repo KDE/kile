@@ -269,13 +269,18 @@ protected:
 
 private slots:
 	void activateView(QWidget* view ,bool checkModified = true);
+	void removeView(Kate::View *view);
 
+	void focusLog();
+	void focusOutput();
+	void focusKonsole();
+	void focusEditor();
+	
 public:
 	Kate::View* currentView() const;
 	QPtrList<Kate::View>& views() {return m_viewList;}
 
 private:
-	Kate::View					*m_activeView;
 	QPtrList<Kate::View> 		m_viewList;
 
 /* document handling */

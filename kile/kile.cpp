@@ -78,7 +78,7 @@
 #include "usermenudialog.h"
 #include "kileconfigdialog.h"
 
-Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), m_activeView(0)
+Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose)
 {
 	partManager = new KParts::PartManager( this );
 	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
@@ -243,48 +243,53 @@ Kile::~Kile()
 
 void Kile::setupActions()
 {
-  (void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
-  (void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
-  fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
-  (void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
-  (void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
-  (void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
-  (void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
-  (void) new KAction(i18n("Statistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
-  (void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
+	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
+	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
+	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
+	(void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
+	(void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
+	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
+	(void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
+	(void) new KAction(i18n("Statistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
+	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
-  (void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
-  (void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
+	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
+	(void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
 
-  (void) new KAction(i18n("Quick Build"),"quick", Key_F1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
-  (void) new KAction(i18n("View Log File"),"viewlog", Key_F10, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
-  (void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
-  (void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
-  StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
-  StopAction->setEnabled(false);
-  (void) new KAction("LaTeX","latex", Key_F2, this, SLOT(Latex()), actionCollection(),"Latex" );
-  (void) new KAction(i18n("View Dvi"),"viewdvi", Key_F3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
-  (void) new KAction(i18n("Dvi to PS"),"dvips", Key_F4, this, SLOT(DviToPS()), actionCollection(),"DvitoPS" );
-  (void) new KAction(i18n("View PS"),"viewps", Key_F5, this, SLOT(ViewPS()), actionCollection(),"ViewPS" );
-  (void) new KAction(i18n("PDFLaTeX"),"latex", Key_F6, this, SLOT(PDFLatex()), actionCollection(),"PDFLatex" );
-  (void) new KAction(i18n("View PDF"),"viewpdf", Key_F7, this, SLOT(ViewPDF()), actionCollection(),"ViewPDF" );
-  (void) new KAction(i18n("PS to PDF"),"ps2pdf", Key_F8, this, SLOT(PStoPDF()), actionCollection(),"PStoPDF" );
-  (void) new KAction(i18n("DVI to PDF"),"dvipdf",Key_F9, this, SLOT(DVItoPDF()), actionCollection(),"DVItoPDF" );
-  (void) new KAction(i18n("BibTeX"),Key_F11, this, SLOT(MakeBib()), actionCollection(),"MakeBib" );
-  (void) new KAction(i18n("Make Index"),Key_F12, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
-  (void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
-  (void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
-  (void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
-  (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
-  (void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
+	(void) new KAction(i18n("Quick Build"),"quick", Key_F1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
+	(void) new KAction(i18n("View Log File"),"viewlog", Key_F10, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
+	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
+	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
+	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
+	StopAction->setEnabled(false);
+	(void) new KAction("LaTeX","latex", Key_F2, this, SLOT(Latex()), actionCollection(),"Latex" );
+	(void) new KAction(i18n("View Dvi"),"viewdvi", Key_F3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
+	(void) new KAction(i18n("Dvi to PS"),"dvips", Key_F4, this, SLOT(DviToPS()), actionCollection(),"DvitoPS" );
+	(void) new KAction(i18n("View PS"),"viewps", Key_F5, this, SLOT(ViewPS()), actionCollection(),"ViewPS" );
+	(void) new KAction(i18n("PDFLaTeX"),"latex", Key_F6, this, SLOT(PDFLatex()), actionCollection(),"PDFLatex" );
+	(void) new KAction(i18n("View PDF"),"viewpdf", Key_F7, this, SLOT(ViewPDF()), actionCollection(),"ViewPDF" );
+	(void) new KAction(i18n("PS to PDF"),"ps2pdf", Key_F8, this, SLOT(PStoPDF()), actionCollection(),"PStoPDF" );
+	(void) new KAction(i18n("DVI to PDF"),"dvipdf",Key_F9, this, SLOT(DVItoPDF()), actionCollection(),"DVItoPDF" );
+	(void) new KAction(i18n("BibTeX"),Key_F11, this, SLOT(MakeBib()), actionCollection(),"MakeBib" );
+	(void) new KAction(i18n("Make Index"),Key_F12, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
+	(void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
+	(void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
+	(void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
+	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
+	(void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
 
-  (void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
-  (void) new KAction(i18n("Next Document"),"down",ALT+Key_PageDown, this, SLOT(gotoNextDocument()), actionCollection(), "gotoNextDocument" );
-  (void) new KAction(i18n("Previous Document"),"up",ALT+Key_PageUp, this, SLOT(gotoPrevDocument()), actionCollection(), "gotoPrevDocument" );
+	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
+	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, this, SLOT(gotoNextDocument()), actionCollection(), "gotoNextDocument" );
+	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, this, SLOT(gotoPrevDocument()), actionCollection(), "gotoPrevDocument" );
 
-  BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
-  ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
-  HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
+	(void) new KAction(i18n("Focus Log/Messages view"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
+	(void) new KAction(i18n("Focus Output view"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
+	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
+	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
+
+	BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
+	ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
+	HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
 	QPtrList<KAction> alt_list;
 	KileStdActions::setupStdTags(this,this, &alt_list);
@@ -633,26 +638,7 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/  )  //Needs to
 {
 	Kate::View* view = (Kate::View*)w;
 
-	kdDebug() << "+++++++++++++++++++" << endl;
-
-/*	if ( m_activeView != view)
-	{
-		kdDebug() << "activateView : activate : " << view->getDoc()->docName() << endl;
-
-		if (m_activeView != 0)
-		{
-			kdDebug() << "activateView : removing : " << m_activeView->getDoc()->docName() << endl;
-			guiFactory()->removeClient(m_activeView);
-		}
-
-		kdDebug() << "activateView : adding : " << view->getDoc()->docName() << endl;
-		guiFactory()->addClient( view );
-
-		if( checkModified )
-			view->getDoc()->isModOnHD();
-	}
-
-	m_activeView = view;*/
+	kdDebug() << "activateView" << endl;
 
 	for (uint i=0; i<m_viewList.count(); i++)
 	{
@@ -661,9 +647,10 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/  )  //Needs to
 
 	guiFactory()->addClient( view );
 
-	UpdateStructure();
+	if( checkModified )
+		if (view) view->getDoc()->isModOnHD();
 
-	kdDebug() << "==================" << endl;
+	UpdateStructure();
 }
 
 void Kile::replaceTemplateVariables(QString &line)
@@ -782,6 +769,38 @@ void Kile::removeTemplate() {
 	mtd.exec();
 }
 
+void Kile::removeView(Kate::View *view)
+{
+	guiFactory()->removeClient( view );
+	tabWidget->removePage(view);
+	m_viewList.remove(view);
+	delete view;
+
+	//if viewlist is empty, not currentChanged() signal is emitted
+	//call UpdateStructure such that the structure view is emptied
+	if (m_viewList.isEmpty()) UpdateStructure();
+}
+
+void Kile::focusLog()
+{
+	Outputview->showPage(LogWidget);
+}
+
+void Kile::focusOutput()
+{
+	Outputview->showPage(OutputWidget);
+}
+
+void Kile::focusKonsole()
+{
+	Outputview->showPage(texkonsole);
+}
+
+void Kile::focusEditor()
+{
+	Kate::View *view = currentView();
+	if (view) view->setFocus();
+}
 
 void Kile::fileClose()
 {
@@ -792,13 +811,7 @@ void Kile::fileClose()
 		kdDebug() << "fileClose : " << view->getDoc()->docName() << endl;
 		if (view->getDoc()->closeURL() )
 		{
-			m_activeView=0;
-
-			guiFactory()->removeClient( view );
-			tabWidget->removePage(view);
-
-			m_viewList.remove(view);
-			delete view;
+			removeView(view);
 		}
 	}
 }
@@ -812,17 +825,14 @@ bool Kile::fileCloseAll()
 		lastDocument = view->getDoc()->url().path();
 	}
 
+	//assumes one view per doc here
 	while( ! m_viewList.isEmpty() )
     {
 		view = m_viewList.first();
 
 		if (view->getDoc()->closeURL())
 		{
-			m_activeView=0;
-
-			guiFactory()->removeClient( view );
-			m_viewList.removeFirst();
-			delete view;
+			removeView(view);
 		}
 		else //user chose CANCEL
 		{
@@ -981,15 +991,19 @@ void Kile::gotoPrevDocument()
 /////////////////// PART & EDITOR WIDGET //////////
 void Kile::ShowEditorWidget()
 {
-ResetPart();
-setCentralWidget(topWidgetStack);
-topWidgetStack->show();
-splitter1->show();
-splitter2->show();
-if (showstructview)  Structview->show();
-if (showoutputview)   Outputview->show();
-newStatus();
-newCaption();
+	ResetPart();
+	setCentralWidget(topWidgetStack);
+	topWidgetStack->show();
+	splitter1->show();
+	splitter2->show();
+	if (showstructview)  Structview->show();
+	if (showoutputview)   Outputview->show();
+
+	Kate::View *view=currentView();
+	if (view) view->setFocus();
+
+	newStatus();
+	newCaption();
 }
 
 

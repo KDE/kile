@@ -228,7 +228,7 @@ void Kile::setupActions()
   (void) new KAction(i18n("Indent Selection"),0, this, SLOT(editIndent()), actionCollection(),"Indent" );
   (void) new KAction(i18n("Find..."),"find",CTRL+Key_F , this, SLOT(editFind()), actionCollection(),"find" );
   (void) new KAction(i18n("Find Next"),"next",CTRL+Key_M , this, SLOT(editFindNext()), actionCollection(),"findnext" );
-  (void) new KAction(i18n("Replace"),CTRL+Key_R , this, SLOT(editReplace()), actionCollection(),"Replace" );
+  (void) new KAction(i18n("Replace..."),CTRL+Key_R , this, SLOT(editReplace()), actionCollection(),"Replace" );
   (void) new KAction(i18n("Goto Line..."),"goto",CTRL+Key_G , this, SLOT(editGotoLine()), actionCollection(),"GotoLine" );
   (void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
 
@@ -248,8 +248,8 @@ void Kile::setupActions()
   (void) new KAction(i18n("DVI to PDF"),"dvipdf",Key_F9, this, SLOT(DVItoPDF()), actionCollection(),"DVItoPDF" );
   (void) new KAction(i18n("BibTeX"),Key_F11, this, SLOT(MakeBib()), actionCollection(),"MakeBib" );
   (void) new KAction(i18n("Make Index"),Key_F12, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
-  (void) new KAction(i18n("LaTeX to Html"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
-  (void) new KAction(i18n("View Html"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
+  (void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
+  (void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
   (void) new KAction("Kdvi Forward Search","dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
   (void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
@@ -2387,7 +2387,7 @@ if (fih.exists() && fih.isReadable() )
   }
 else
   {
-   KMessageBox::error(this, i18n("Html file not found!"));
+   KMessageBox::error(this, i18n("HTML file not found!"));
   }
 }
 

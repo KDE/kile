@@ -68,7 +68,7 @@ curveFitData::curveFitData
 	yRangeButtonGroup->setMinimumSize( 380, 60 );
 	yRangeButtonGroup->setMaximumSize( 32767, 32767 );
 	yRangeButtonGroup->setFrameStyle( 49 );
-	yRangeButtonGroup->setTitle( i18n("Y range:") );
+	yRangeButtonGroup->setTitle( i18n("Y Range") );
 	yRangeButtonGroup->setAlignment( 1 );
 
 	QButtonGroup* xRangeButtonGroup;
@@ -76,7 +76,7 @@ curveFitData::curveFitData
 	xRangeButtonGroup->setMinimumSize( 380, 60 );
 	xRangeButtonGroup->setMaximumSize( 32767, 32767 );
 	xRangeButtonGroup->setFrameStyle( 49 );
-	xRangeButtonGroup->setTitle( i18n("X range:") );
+	xRangeButtonGroup->setTitle( i18n("X Range") );
 	xRangeButtonGroup->setAlignment( 1 );
 
 	QLabel* FunctionLabel;
@@ -131,7 +131,7 @@ curveFitData::curveFitData
 	getDatafilePushButton = new QPushButton(mainCurveFit , "getDatafilePushButton" );
 	getDatafilePushButton->setMinimumSize( 40, 26 );
 	connect(getDatafilePushButton , SIGNAL(clicked()), SLOT(dataFileOpen()) );
-	getDatafilePushButton->setText( i18n("&Get") );
+	getDatafilePushButton->setText( i18n("&Get...") );
 	getDatafilePushButton->setAutoRepeat( FALSE );
 	getDatafilePushButton->setAutoResize( FALSE );
 
@@ -250,7 +250,7 @@ curveFitData::curveFitData
 	getParamFilePushButton = new QPushButton(paramButtonGroup, "getParamFilePushButton" );
 	getParamFilePushButton->setMinimumSize( 40, 26 );
 	connect( getParamFilePushButton, SIGNAL(clicked()), SLOT(paramFileOpen()) );
-	getParamFilePushButton->setText( i18n("G&et") );
+	getParamFilePushButton->setText( i18n("G&et...") );
 	getParamFilePushButton->setAutoRepeat( FALSE );
 	getParamFilePushButton->setAutoResize(TRUE );
 

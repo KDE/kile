@@ -630,7 +630,7 @@ multiFileData::multiFileData
   insertNewButton = new QPushButton( multiFileFiltering, "insertNewButton" );
   insertNewButton->setMinimumSize( 150, 26 );
   connect( insertNewButton, SIGNAL(clicked()), SLOT(insertNewFilename()) );
-  insertNewButton->setText( i18n("Insert &New Filename") );
+  insertNewButton->setText( i18n("Insert &New Filename...") );
   insertNewButton->setAutoRepeat( FALSE );
   //insertNewButton->setAutoResize( FALSE );
 

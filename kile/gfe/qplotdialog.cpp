@@ -70,7 +70,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 	QPushButton* PushButton_6;
 	PushButton_6 = new QPushButton( page, "PushButton_6" );
   connect( PushButton_6, SIGNAL(clicked()), this, SLOT(dataFileOpen()) );
-	PushButton_6->setText( i18n("Open") );
+	PushButton_6->setText( i18n("Open...") );
   gbox->addMultiCellWidget(PushButton_6,1,1,4,5,Qt::AlignLeft);
 
 	multiFileCheckbox = new QCheckBox( page, "CheckBox_3" );
@@ -80,7 +80,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 	QPushButton* PushButton_4;
 	PushButton_4 = new QPushButton( page, "PushButton_4" );
   connect( PushButton_4, SIGNAL(clicked()), this, SLOT(getMultiFile()) );
-	PushButton_4->setText( i18n("Define") );
+	PushButton_4->setText( i18n("Define...") );
   gbox->addMultiCellWidget(PushButton_4,2,2,4,5,Qt::AlignLeft);
 
 	functionCB = new QCheckBox( page, "CheckBox_2" );
@@ -101,7 +101,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 	QPushButton* PushButton_5;
 	PushButton_5 = new QPushButton( page, "PushButton_5" );
   connect( PushButton_5, SIGNAL(clicked()), this, SLOT(getMultiFunction()) );
-	PushButton_5->setText( i18n("Define") );
+	PushButton_5->setText( i18n("Define...") );
   gbox->addMultiCellWidget(PushButton_5,4,4,4,5,Qt::AlignLeft);
 
 
@@ -372,7 +372,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QPushButton* PushButton_7;
 	PushButton_7 = new QPushButton( page, "PushButton_7" );
-	PushButton_7->setText( i18n("Output File") );
+	PushButton_7->setText( i18n("Output File...") );
   connect( PushButton_7, SIGNAL(clicked()), this, SLOT(getOutput()) );
   gbox->addMultiCellWidget(PushButton_7,16,16,0,1,Qt::AlignCenter);
 
@@ -391,14 +391,14 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QPushButton* PushButton_1;
 	PushButton_1 = new QPushButton( page, "PushButton_1" );
-	PushButton_1->setText( i18n("Plot") );
+	PushButton_1->setText( i18n("Plot...") );
     PushButton_1->setDefault(TRUE);
     connect( PushButton_1, SIGNAL(clicked()), this, SLOT(plot()) );
     gbox->addMultiCellWidget(PushButton_1,18,18,0,1,Qt::AlignCenter);
 
 	QPushButton* PushButton_2;
 	PushButton_2 = new QPushButton( page, "PushButton_2" );
-	PushButton_2->setText( i18n("Replot") );
+	PushButton_2->setText( i18n("Replot...") );
     connect(PushButton_2, SIGNAL(clicked()), this, SLOT(replot()));
     gbox->addMultiCellWidget(PushButton_2,18,18,2,3,Qt::AlignCenter);
 
@@ -413,11 +413,11 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
     // file menu
     file = new QPopupMenu;
-    file->insertItem(i18n("Save Gnuplot"), this, SLOT(save()));
-    file->insertItem(i18n("Load Gnuplot"), this, SLOT(load()));
+    file->insertItem(i18n("Save Gnuplot..."), this, SLOT(save()));
+    file->insertItem(i18n("Load Gnuplot..."), this, SLOT(load()));
     file->insertSeparator();
-    file->insertItem(i18n("Save Xgfe"), this, SLOT(saveXgfe()));
-    file->insertItem(i18n("Load Xgfe"), this, SLOT(loadXgfe()));
+    file->insertItem(i18n("Save Xgfe..."), this, SLOT(saveXgfe()));
+    file->insertItem(i18n("Load Xgfe..."), this, SLOT(loadXgfe()));
     file->insertSeparator();
     file->insertItem(i18n("Quit"), this, SLOT(xgfeQuit()));
 

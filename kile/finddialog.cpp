@@ -26,7 +26,7 @@ FindDialog::FindDialog(QWidget* parent,  const char* name, bool modal, WFlags fl
     Layout1 = new QHBoxLayout( 0, 0, 6, "Layout1"); 
 
     TextLabel1 = new QLabel( this, "TextLabel1" );
-    TextLabel1->setText( i18n("Find" ) );
+    TextLabel1->setText( i18n("Find:" ) );
     Layout1->addWidget( TextLabel1 );
 
     comboFind = new QComboBox( FALSE, this, "comboFind" );
@@ -41,12 +41,12 @@ FindDialog::FindDialog(QWidget* parent,  const char* name, bool modal, WFlags fl
     Layout2->addItem( spacer );
 
     PushButton1 = new QPushButton( this, "PushButton1" );
-    PushButton1->setText( i18n( "Find")  );
+    PushButton1->setText( i18n( "&Find")  );
     PushButton1->setDefault( TRUE );
     Layout2->addWidget( PushButton1 );
 
     PushButton2 = new QPushButton( this, "PushButton2" );
-    PushButton2->setText( i18n( "Close")  );
+    PushButton2->setText( i18n( "&Close")  );
     Layout2->addWidget( PushButton2 );
 
     FindDialogLayout->addMultiCellLayout( Layout2, 2, 2, 0, 1 );

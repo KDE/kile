@@ -182,7 +182,7 @@ ticsOpData::ticsOpData
   xticsLabelPosRButton = new QRadioButton( xticsPosButtonGroup, "xticsLabelPosRadioButton" );
   xticsLabelPosRButton->setMinimumSize( 150, 20 );
   xticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  xticsLabelPosRButton->setText( i18n("Labels/Positions") );
+  xticsLabelPosRButton->setText( i18n("Labels/Positions:") );
   xticsLabelPosRButton->setAutoRepeat( FALSE );
   //xticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -393,7 +393,7 @@ ticsOpData::ticsOpData
   yticsLabelPosRButton = new QRadioButton( yticsPosButtonGroup, "yticsLabelPosRadioButton" );
   yticsLabelPosRButton->setMinimumSize( 150, 20 );
   yticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  yticsLabelPosRButton->setText( i18n("Labels/Positions") );
+  yticsLabelPosRButton->setText( i18n("Labels/Positions:") );
   yticsLabelPosRButton->setAutoRepeat( FALSE );
   //yticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -604,7 +604,7 @@ ticsOpData::ticsOpData
   zticsLabelPosRButton = new QRadioButton( zticsPosButtonGroup, "zticsLabelPosRadioButton" );
   zticsLabelPosRButton->setMinimumSize( 150, 20 );
   zticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  zticsLabelPosRButton->setText( i18n("Labels/Positions") );
+  zticsLabelPosRButton->setText( i18n("Labels/Positions:") );
   zticsLabelPosRButton->setAutoRepeat( FALSE );
   //zticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -816,7 +816,7 @@ ticsOpData::ticsOpData
   x2ticsLabelPosRButton = new QRadioButton( x2ticsPosButtonGroup, "x2ticsLabelPosRadioButton" );
   x2ticsLabelPosRButton->setMinimumSize( 150, 20 );
   x2ticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  x2ticsLabelPosRButton->setText( i18n("Labels/Positions") );
+  x2ticsLabelPosRButton->setText( i18n("Labels/Positions:") );
   x2ticsLabelPosRButton->setAutoRepeat( FALSE );
   //x2ticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -1027,7 +1027,7 @@ ticsOpData::ticsOpData
   y2ticsLabelPosRButton = new QRadioButton( y2ticsPosButtonGroup, "y2ticsLabelPosRadioButton" );
   y2ticsLabelPosRButton->setMinimumSize( 150, 20 );
   y2ticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  y2ticsLabelPosRButton->setText( i18n("Labels/Positions") );
+  y2ticsLabelPosRButton->setText( i18n("Labels/Positions:") );
   y2ticsLabelPosRButton->setAutoRepeat( FALSE );
   //y2ticsLabelPosRButton->setAutoResize( FALSE );
 

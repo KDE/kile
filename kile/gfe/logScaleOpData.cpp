@@ -62,23 +62,23 @@ logScaleOpData::logScaleOpData
   gbox->addWidget(logBaseEdit,0,1, Qt::AlignLeft );
 
 	logAxisX = new QCheckBox( dlgedit_logAxisButtonGroup, "logAxisCheckBoxX" );
-	logAxisX->setText( "X:" );
+	logAxisX->setText( "X" );
 	logAxisX->setAutoRepeat( FALSE );
 
 	logAxisY = new QCheckBox( dlgedit_logAxisButtonGroup, "logAxisCheckBoxY" );
-	logAxisY->setText( "Y:" );
+	logAxisY->setText( "Y" );
 	logAxisY->setAutoRepeat( FALSE );
 
 	logAxisZ = new QCheckBox( dlgedit_logAxisButtonGroup, "logAxisCheckBoxZ" );
-	logAxisZ->setText( "Z:" );
+	logAxisZ->setText( "Z" );
 	logAxisZ->setAutoRepeat( FALSE );
 
 	logAxisX2 = new QCheckBox( dlgedit_logAxisButtonGroup, "logAxisCheckBoxX2" );
-	logAxisX2->setText( "X2:" );
+	logAxisX2->setText( "X2" );
 	logAxisX2->setAutoRepeat( FALSE );
 
 	logAxisY2 = new QCheckBox( dlgedit_logAxisButtonGroup, "logAxisCheckBoxY2" );
-	logAxisY2->setText( "Y2:" );
+	logAxisY2->setText( "Y2" );
 	logAxisY2->setAutoRepeat( FALSE );
   gbox->addMultiCellWidget(dlgedit_logAxisButtonGroup,1,1,0,1,Qt::AlignCenter);
 

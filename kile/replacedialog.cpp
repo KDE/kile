@@ -28,12 +28,12 @@ ReplaceDialog::ReplaceDialog(QWidget* parent,  const char* name, bool modal, WFl
     Layout3 = new QGridLayout( 0, 1, 1, 0, 6, "Layout3"); 
 
     TextLabel2 = new QLabel( this, "TextLabel2" );
-    TextLabel2->setText( i18n( "Replace" ) );
+    TextLabel2->setText( i18n( "Replace:" ) );
 
     Layout3->addWidget( TextLabel2, 1, 0 );
 
     TextLabel1 = new QLabel( this, "TextLabel1" );
-    TextLabel1->setText( i18n( "Find")  );
+    TextLabel1->setText( i18n( "Find:")  );
 
     Layout3->addWidget( TextLabel1, 0, 0 );
 
@@ -56,16 +56,16 @@ ReplaceDialog::ReplaceDialog(QWidget* parent,  const char* name, bool modal, WFl
     Layout5->addItem( spacer );
 
     buttonReplace = new QPushButton( this, "buttonReplace" );
-    buttonReplace->setText(  i18n("Find")  );
+    buttonReplace->setText(  i18n("&Find")  );
     buttonReplace->setDefault( TRUE );
     Layout5->addWidget( buttonReplace );
 
     buttonReplaceAll = new QPushButton( this, "buttonReplaceAll" );
-    buttonReplaceAll->setText( i18n("Replace All")  );
+    buttonReplaceAll->setText( i18n("&Replace All")  );
     Layout5->addWidget( buttonReplaceAll );
 
     PushButton2 = new QPushButton( this, "PushButton2" );
-    PushButton2->setText( i18n( "Close")  );
+    PushButton2->setText( i18n( "&Close")  );
     Layout5->addWidget( PushButton2 );
 
     ReplaceDialogLayout->addMultiCellLayout( Layout5, 2, 2, 0, 1 );

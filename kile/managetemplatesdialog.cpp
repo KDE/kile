@@ -58,7 +58,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const char *caption,
    KListView *tlist = new KListView(page);
    tlist->setSorting(-1);
    tlist->addColumn("M");
-   tlist->addColumn("Existing templates");
+   tlist->addColumn("Existing Templates");
    tlist->setColumnWidthMode(0,QListView::Manual);
    tlist->setFullWidth(true);
    tlist->setAllColumnsShowFocus(true);

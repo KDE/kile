@@ -8,6 +8,10 @@ BUGS
    as a section.
    
 TODO
+ - fix compile (Mandrake) for gfe
+
+ - add a check for libfam in configure.in.in (?)
+
  - clean up usertool/usermenutag code
 
  - trying to compile an untitled document should initiate a

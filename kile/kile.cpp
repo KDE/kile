@@ -19,6 +19,7 @@
 
 #include "kile.h"
 
+#include <kdebug.h>
 #include <kaboutdata.h>
 #include <kiconloader.h>
 #include <kileapplication.h>
@@ -153,13 +154,13 @@ LogWidget = new MessageWidget( Outputview );
 LogWidget->setFocusPolicy(QWidget::ClickFocus);
 LogWidget->setMinimumHeight(40);
 LogWidget->setReadOnly(true);
-Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log"));
+Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log/Messages"));
 
 OutputWidget = new MessageWidget( Outputview );
 OutputWidget->setFocusPolicy(QWidget::ClickFocus);
 OutputWidget->setMinimumHeight(40);
 OutputWidget->setReadOnly(true);
-Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Messages"));
+Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Output"));
 
 
 logpresent=false;
@@ -1463,7 +1464,7 @@ void Kile::QuickDviToPS()
   else
   {
       logpresent=false;
-      LogWidget->insertLine("DviPs...");
+      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
   UpdateLineColStatus();
@@ -1492,10 +1493,9 @@ void Kile::QuickDviPDF()
   else
   {
      logpresent=false;
-     LogWidget->insertLine("DviPdf ...");
+     LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
-  UpdateLineColStatus();
 }
 
 void Kile::QuickPS2PDF()
@@ -1520,11 +1520,9 @@ void Kile::QuickPS2PDF()
   }
   else
   {
-     logpresent=false;
-     LogWidget->insertLine(i18n("Ps2Pdf..."));
+	  logpresent=false;
+	  LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
-
-  UpdateLineColStatus();
 }
 
 
@@ -1653,7 +1651,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    if (!(fic.exists() && fic.isReadable()))
    {
       KMessageBox::error(this, i18n("The %1 file does not exist or you do not have read permission. "
-                                    "Did you forget to compile to source file to turn it into a %1 file?").arg(from.upper()));
+                                    "Did you forget to compile to source file to turn it into a %1 file?").arg(from.upper()).arg(from.upper()));
    }
 
    list.append(fromName);
@@ -1681,7 +1679,7 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
    if ((singlemode && !currentEditorView()) || finame=="")
    {
      KMessageBox::error( this, i18n("Unable to determine which %1 file to show. Please open the source file of the %1 file to want to view.")
-                         .arg(ext.upper()));
+                         .arg(ext.upper()).arg(ext.upper()));
      return QString::null;
    }
 
@@ -2865,57 +2863,65 @@ else if (s=="input")
 //////////////// MESSAGES - LOG FILE///////////////////////
 void Kile::ViewLog()
 {
-Outputview->showPage(LogWidget);
-LogWidget->clear();
-logpresent=false;
-QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-   {
-   KMessageBox::error( this,i18n("Could not start the command."));
-   return;
-   }
-QFileInfo fi(finame);
-QString name=fi.dirPath()+"/"+fi.baseName()+".log";
-QString logname=fi.baseName()+".log";
-QFileInfo fic(name);
-if (fic.exists() && fic.isReadable() )
-  {
-  LogWidget->insertLine("************** LOG FILE *************** :");
-  QFile f(name);
-		if ( f.open(IO_ReadOnly) )
-      {
-			QTextStream t( &f );
-			QString s;
-			while ( !t.eof() )
-       {
-				s = t.readLine();
-        int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
-        int col = LogWidget->text(row).length();
-        if (s.left(1) == "\n" && col == 0)  s = QString(" ")+s;
-        LogWidget->insertLine(s);
-        }
-		  }
-  	f.close();
-    logpresent=true;
-    LogWidget->highlight();
-    LatexError();
-  }
-else {KMessageBox::error( this,i18n("Log file not found!"));}
-UpdateLineColStatus();
+	Outputview->showPage(LogWidget);
+	LogWidget->clear();
+	logpresent=false;
+	QString finame;
+	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
+
+	QFileInfo fic(finame);
+
+	LogWidget->insertLine("************** LOG FILE *************** :");
+	QFile f(finame);
+	if ( f.open(IO_ReadOnly) )
+	{
+		QTextStream t( &f );
+		QString s;
+		while ( !t.eof() )
+		{
+			s = t.readLine();
+			int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
+			int col = LogWidget->text(row).length();
+			if (s.left(1) == "\n" && col == 0)  s = QString(" ")+s;
+			LogWidget->insertLine(s);
+		}
+		f.close();
+		logpresent=true;
+		LogWidget->highlight();
+		LatexError();
+	}
+	
+	UpdateLineColStatus();
 }
 
 void Kile::ClickedOnOutput(int parag, int /*index*/)
 {
 
 if ( !currentEditorView() ) return;
+
  int Start, End;
  bool ok;
  QString s;
  QString line="";
- //// l. ///
  s = LogWidget->text(parag);
+ //check for ! first
+ //the line number where the error occurred is below the !
+ if (s.find("!",0) == 0)
+ {
+	 int i=0;
+	 //error found jump to the following lines (somewhere we hope to find the line-number)
+	 //assumptions: line number occurs within 10 lines of the !
+	 do {
+		 s = LogWidget->text(++parag);  i++;
+		 if ( (s.at(0) == '!') ||
+			 (s.find("LaTeX Warning",0) == 0 ) ||
+			 (parag >= LogWidget->paragraphs()) ||
+			 (i>10) ) return;
+	 } while (  s.find(QRegExp("l.[0-9]"),0) < 0 ) ;
+ }
+ 
+ //// l. ///
+ 
  Start=End=0;
  Start=s.find(QRegExp("l.[0-9]"), End);
  if (Start!=-1)
@@ -2956,7 +2962,10 @@ if ( !currentEditorView() ) return;
   else
     line=s.mid(0,s.length());
   };
+
+
 int l=line.toInt(&ok,10)-1;
+kdDebug() << "gotoline " << l << endl;
 if (ok && l<=currentEditorView()->editor->paragraphs())
  {
  currentEditorView()->editor->viewport()->setFocus();
@@ -2968,9 +2977,11 @@ if (ok && l<=currentEditorView()->editor->paragraphs())
 void Kile::LatexError()
 {
 errorlist->clear();
-QString s;
+
+QString s,num;
+
 for(int i = 0; i < LogWidget->paragraphs(); i++)
- {
+ {      
  s = LogWidget->text(i);
  int tagStart, tagEnd;
  //// ! ////
@@ -2978,14 +2989,16 @@ for(int i = 0; i < LogWidget->paragraphs(); i++)
  tagStart=s.find("!", tagEnd);
  if (tagStart==0)
  {
-     errorlist->append((char *)i);
+	  num = QString::number(i,10);
+     errorlist->append(num);
  }
  //// latex warning ////
  tagStart=tagEnd=0;
  tagStart=s.find("LaTeX Warning", tagEnd);
  if (tagStart!=-1)
   {
-    errorlist->append((char *)i);
+    num = QString::number(i,10);
+    errorlist->append(num);
   }
  }
 }
@@ -2993,7 +3006,7 @@ for(int i = 0; i < LogWidget->paragraphs(); i++)
 void Kile::QuickLatexError()
 {
     errorlist->clear();
-    QString s;
+    QString s,num;
     for(int i = 0; i < LogWidget->paragraphs(); i++)
     {
         s = LogWidget->text(i);
@@ -3003,7 +3016,8 @@ void Kile::QuickLatexError()
         tagStart=s.find("!", tagEnd);
         if (tagStart==0)
         {
-            errorlist->append((char *)i);
+				num = QString::number(i,10);
+            errorlist->append(num);
         }
     }
 }
@@ -5092,7 +5106,7 @@ dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
 viewps_command=config->readEntry("Ps","Embedded viewer");
 ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
 makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
-bibtex_command=config->readEntry("Bibtex","bibtex %S.aux");
+bibtex_command=config->readEntry("Bibtex","bibtex %S");
 pdflatex_command=config->readEntry("Pdflatex","pdflatex %S.tex");
 viewpdf_command=config->readEntry("Pdf","Embedded viewer");
 dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");

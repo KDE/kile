@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
-	<kcfgfile name="kilerc"/>
 	<include>qapplication.h</include>
 	<include>qstring.h</include>
 	<include>qtextcodec.h</include>
 	<include>qdir.h</include>
+
+	<kcfgfile name="kilerc"/>
+
 	<group name="VersionInfo">
 		<entry name="RCVersion" type="Int">
 			<label>The resource file version.</label>
@@ -55,8 +57,8 @@
 		</entry>
 		<entry name="TeXPaths" type="String">
 			<label>Holds the TEXINPUTS environment variable.</label>
-			<default></default>
 			<whatsthis>Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$TEXINPUTS at the end.</whatsthis>
+			<default></default>
 		</entry>
 	</group>
 	<group name="Show">

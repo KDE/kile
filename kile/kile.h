@@ -221,6 +221,7 @@ private:
 private slots:
 	void ResetPart();
 	void ActivePartGUI(KParts::Part * the_part);
+	void enableKileGUI(bool enable);
 
 public slots:
 	void prepareForPart();

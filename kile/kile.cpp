@@ -281,15 +281,15 @@ Kile::~Kile()
 
 void Kile::setupActions()
 {
-	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
-	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
-	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
-	(void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
-	(void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
-	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
-	(void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
+	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "file_new" );
+	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"file_open" );
+	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
+	(void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
+	(void) new KAction(i18n("Create Template From Document..."), 0, this, SLOT(createTemplate()), actionCollection(),"CreateTemplate");
+	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"file_close" );
+	(void) new KAction(i18n("Close All"), 0, this, SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
-	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
+	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
 	(void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
@@ -2053,33 +2053,57 @@ else
     createGUI( the_part );  
     if (htmlpresent && htmlpart)
     {
-    stateChanged( "State1");
+    stateChanged( "HTMLpreview");
     toolBar("mainToolBar")->hide();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
     toolBar("ToolBar5")->hide();
+    enableKileGUI(false);
     }
     else if ( (pspresent && pspart) || (dvipresent && dvipart) )
     {
-    stateChanged( "State2" );
+    stateChanged( "Viewer" );
     toolBar("mainToolBar")->show();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
     toolBar("ToolBar5")->hide();
+    enableKileGUI(false);
     }
     else
     {
-    stateChanged( "State4" );
+    stateChanged( "Editor" );
     topWidgetStack->raiseWidget(0);
     if (showmaintoolbar) {toolBar("mainToolBar")->show();}
     if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
     if (showedittoolbar) {toolBar("ToolBar4")->show();}
     if (showmathtoolbar) {toolBar("ToolBar5")->show();}
     toolBar("Extra")->hide();
+    enableKileGUI(true);
     }
 
+}
+
+void Kile::enableKileGUI(bool enable)
+{
+	int id;
+	QString text;
+	for (uint i=0; i < menuBar()->count(); i++)
+	{
+		id = menuBar()->idAt(i);
+		text = menuBar()->text(id);
+		if ( 
+			text == i18n("&Build") ||
+			text == i18n("&Project") ||
+			text == i18n("&LaTeX") ||
+			text == i18n("&Wizard") ||
+			text == i18n("&User") ||
+			text == i18n("&Graph") ||
+			text == i18n("&Tools")
+		)
+			menuBar()->setItemEnabled(id, enable);
+	}
 }
 
 void Kile::prepareForPart()

@@ -1,6 +1,6 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-<language name="LaTeX-Kile" version="0.5" section="Markup" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls" mimetype="text/x-tex" casesensitive="1">
+<language name="LaTeX-Kile" version="0.6" section="Markup" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls" mimetype="text/x-tex" casesensitive="1">
 	<highlighting>
 		<contexts>
 			<context name="Normal Text" attribute="Normal Text" lineEndContext="#stay">

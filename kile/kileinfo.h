@@ -23,6 +23,8 @@
 
 #include <kdebug.h>
 
+class KURL;
+
 class KileDocumentInfo;
 class KileProject;
 class KileProjectItem;

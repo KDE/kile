@@ -26,9 +26,10 @@
 
 namespace KileTool
 {
-	Custom::Custom(const QString &name, const QString &from, const QString &to, KileInfo *ki, KConfig *config) :
+	Custom::Custom(const QString &name, int type, const QString &from, const QString &to, KileInfo *ki, KConfig *config) :
 		m_ki(ki),
 		m_config(config),
+		m_type(type),
 		m_name(name),
 		m_from(from),
 		m_to(to),
@@ -69,10 +70,14 @@ namespace KileTool
 	bool Custom::determineTarget()
 	{
 		//determine the basedir
+		
+		//the basedir is determined from the current compile target
+		//determined by getCompileName()
 		QString name = m_ki->getCompileName();
 		QFileInfo info(name);
 		m_basedir = info.dirPath(true);
 
+		//if the target is not explicitly set, use the result of getCompileName()
 		if (m_target == QString::null)
 		{
 			m_target = info.fileName();
@@ -82,18 +87,19 @@ namespace KileTool
 		url.addPath(m_relativedir);
 		m_targetdir = url.path();
 
+		//check if the target directory is accessible
 		info.setFile(m_targetdir);
 
 		if (! info.isExecutable())
 		{
 			QString warning = i18n("WARNING: It is not possible to change to the directory %1, this could cause problems.").arg(m_targetdir);
-			emit(message(warning));
+			emit(message(Warning, warning));
 		}
 
 		if (! info.isWritable())
 		{
 			QString warning = i18n("ERROR: It appears that the directory %1 is not writable, therefore %2 will not be able to save its results.").arg(m_targetdir).arg(m_name);
-			emit(message(warning));
+			emit(message(Error, warning));
 
 			return false;
 		}
@@ -130,7 +136,6 @@ namespace KileTool
 		return true;
 	}
 
-
 	void Custom::readConfig()
 	{
 	}
@@ -139,7 +144,20 @@ namespace KileTool
 	{
 	}
 
-
+	bool Custom::setupProcess()
+	{
+		return true;
+	}
+		
+	bool Custom::setupKRun()
+	{
+		return true;
+	}
+		
+	bool Custom::setupPart()
+	{
+		return true;
+	}
 }
 
 #include "kiletool.moc"

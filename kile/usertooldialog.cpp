@@ -56,7 +56,14 @@ usertooldialog::usertooldialog(const QValueList<userItem> &list, QWidget *parent
   radioEdit = new QRadioButton(i18n("Edit"),bgroup);
   radioAdd = new QRadioButton(i18n("Add"),bgroup);
   radioRemove = new QRadioButton(i18n("Remove"),bgroup);
-  radioEdit->setChecked(true);
+  if (list.size()==0)
+  {
+  	radioAdd->setChecked(true);
+  }
+  else
+  {
+  	radioEdit->setChecked(true);
+  }
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);

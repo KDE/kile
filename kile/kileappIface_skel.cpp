@@ -9,10 +9,11 @@
 #include "kileappIface.h"
 
 #include <kdatastream.h>
+#include <kurl.h>
 
 
 static const char* const KileAppDCOPIface_ftable[3][3] = {
-    { "void", "load(QString)", "load(QString f)" },
+    { "Kate::View*", "load(KURL,QString)", "load(KURL f, QString encoding)" },
     { "void", "setLine(QString)", "setLine(QString line)" },
     { 0, 0, 0 }
 };
@@ -24,7 +25,7 @@ bool KileAppDCOPIface::process(const QCString &fun, const QByteArray &data, QCSt
 	QDataStream arg( data, IO_ReadOnly );
 	arg >> arg0;
 	replyType = KileAppDCOPIface_ftable[0][0]; 
-	load(arg0 );
+	load(KURL(arg0),QString::null);
     } else if ( fun == KileAppDCOPIface_ftable[1][1] ) { // void setLine(QString)
 	QString arg0;
 	QDataStream arg( data, IO_ReadOnly );

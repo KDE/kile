@@ -19,14 +19,14 @@
 #define L2HDIALOG_H
 
 #include <qwidget.h>
+#include <qlineedit.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
 #include <qdialog.h>
+
 /**
   *@author Brachet Pascal
   */
-
-class QLabel;
-class QPushButton;
-class QLineEdit;
 
 class l2hdialog : public QDialog  {
    Q_OBJECT

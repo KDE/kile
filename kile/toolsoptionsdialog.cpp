@@ -44,7 +44,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 {
 
 	generalPage = addPage(i18n("General"),i18n("General options"),
-		KGlobal::instance()->iconLoader()->loadIcon( "favorites", KIcon::NoGroup, KIcon::SizeMedium ));
+		KGlobal::instance()->iconLoader()->loadIcon( "configure", KIcon::NoGroup, KIcon::SizeMedium ));
 	QVBoxLayout *genLayout = new QVBoxLayout(generalPage);
 
 	//autosave options
@@ -149,58 +149,16 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    gbox1->addMultiCellWidget(ButtonGroup,0,0,0,1,0);
    gbox1->addMultiCellWidget(GroupBox1,1,1,0,1,0);
 
-   editorPage = addPage(i18n("Editor"),i18n("Editor Configuration"),
-   	KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
+   spellingPage = addPage(i18n("Spelling"),i18n("Spelling Configuration"),
+   	KGlobal::instance()->iconLoader()->loadIcon( "spellcheck", KIcon::NoGroup, KIcon::SizeMedium ));
 
-   QGridLayout *gbox2 = new QGridLayout( editorPage,2,2,5,5,"" );
+   QGridLayout *gbox2 = new QGridLayout( spellingPage,2,2,5,5,"" );
    gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
-   QGroupBox* GroupBox2= new QGroupBox(2,Qt::Horizontal,i18n("Editor"),editorPage, "ButtonGroup" );
 
-   TextLabel4 = new QLabel( GroupBox2, "label4" );
-   TextLabel4->setText( i18n("Editor font family:") );
-
-   comboFamily = new QComboBox( FALSE, GroupBox2, "comboFamily" );
-   comboFamily->setEditable( true );
-   QFontDatabase fdb;
-   comboFamily->insertStringList( fdb.families() );
-
-   TextLabel5 = new QLabel( GroupBox2, "label5" );
-   TextLabel5->setText( i18n("Editor font size:") );
-   spinSize = new QSpinBox( GroupBox2, "spinSize" );
-   spinSize->setMinValue( 1 );
-
-   checkWordWrap = new QCheckBox( GroupBox2, "checkWordWrap" );
-   checkWordWrap->setText(i18n( "Word wrap") );
-
-   checkParen = new QCheckBox( GroupBox2, "checkParen" );
-   checkParen->setText(i18n( "Braces matching") );
-
-   checkLine = new QCheckBox( GroupBox2, "checkLine" );
-   checkLine->setText(i18n( "Show line numbers") );
-
-   TextLabel8 = new QLabel( GroupBox2, "label8" );
-   TextLabel8->setText( "" );
-
-   comboColor = new QComboBox( FALSE, GroupBox2, "comboColor" );
-   comboColor->insertItem(i18n("Color Background"));
-   comboColor->insertItem(i18n("Color Text"));
-   comboColor->insertItem(i18n("Color Comment"));
-   comboColor->insertItem(i18n("Color Math"));
-   comboColor->insertItem(i18n("Color Command"));
-   comboColor->insertItem(i18n("Color Structure"));
-   comboColor->insertItem(i18n("Color Environment"));
-   comboColor->insertItem(i18n("Bracket Highlight"));
-   connect(comboColor, SIGNAL(activated(int)),this,SLOT(slotChangeColor(int)));
-
-   buttonColor = new KColorButton(GroupBox2 , "buttonColor" );
-
-
-   QGroupBox* GroupBox3= new QGroupBox(2,Qt::Horizontal,i18n("Spelling"),editorPage, "ButtonGroup" );
+   QGroupBox* GroupBox3= new QGroupBox(2,Qt::Horizontal,i18n("Spelling"),spellingPage, "ButtonGroup" );
    ksc = new KSpellConfig(GroupBox3, "spell",0, false );
 
-   gbox2->addMultiCellWidget(GroupBox2,0,0,0,1,0);
-   gbox2->addMultiCellWidget(GroupBox3,1,1,0,1,0);
-   connect( this, SIGNAL(okClicked()), SLOT(slotEnd()) );
+   gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);
 
 }
 
@@ -208,26 +166,6 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 toolsoptionsdialog::~toolsoptionsdialog()
 {
 }
-
-void toolsoptionsdialog::init()
-{
-previous_index=0;
-comboColor->setCurrentItem(0);
-buttonColor->setColor(colors[0]);
-}
-
-void toolsoptionsdialog::slotChangeColor(int index)
-{
-colors[previous_index]=buttonColor->color();
-buttonColor->setColor(colors[index]);
-previous_index=index;
-}
-
-void toolsoptionsdialog::slotEnd()
-{
-colors[previous_index]=buttonColor->color();
-}
-
 
 intervalValidator::intervalValidator(QObject * parent, int bottom, int top, const char * name)
 	: QIntValidator( parent,  name )

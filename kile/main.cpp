@@ -25,6 +25,8 @@
 
 #include "kile.h"
 
+#include <kdebug.h>
+
 static KCmdLineOptions options[] =
 {
   { "line <line>", "line", "0" },
@@ -88,7 +90,9 @@ if (!running)
     {
       QString sa = args->arg(0);
       if ( sa.left(5) == "file:" ) sa = sa.remove(0, 5);
-      mw->load(sa);
+      kdDebug() << QString("main: load(%1)").arg(sa) << endl;
+      QFileInfo fi(sa);
+      mw->load(KURL::fromPathOrURL(fi.absFilePath()));
       if (args->getOption("line")!="0") mw->setLine(args->getOption("line"));
     }
     args->clear();
@@ -104,7 +108,7 @@ else
       QString sa = args->arg(0);
       if ( sa.left(5) == "file:" ) sa = sa.remove(0, 5);
       arg_file << sa;
-      client->send (appID, "Kile", "load(QString)", data_file);
+      client->send (appID, "Kile", "load(KURL,QString)", data_file);
       if (args->getOption("line")!="0")
          {
          QString li=args->getOption("line");

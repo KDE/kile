@@ -21,110 +21,143 @@
 #include <qlayout.h>
 #include <ktextedit.h>
 #include <qcombobox.h>
-#include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qbuttongroup.h>
 
+#include <kpushbutton.h>
 #include <klocale.h>
 
-
+#include <kdebug.h>
 
 usermenudialog::usermenudialog(const QValueList<userItem> &list, QWidget* parent,  const char* name, const QString &caption)
-    : QDialog( parent, name, true)
+    : 	KDialogBase(parent,name,true,caption,KDialogBase::Apply|KDialogBase::Cancel, KDialogBase::Apply, true),
+	m_list(list)
 {
-  setCaption(caption);
-  previous_index=0;
-  QGridLayout *gbox = new QGridLayout( this, 7, 2,5,5,"");
-  gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
+ 	QWidget *page = new QWidget( this );
+	setMainWidget(page);
+	QGridLayout *gbox = new QGridLayout( page, 6, 3,5,5,"");
+  	gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
-  combo1=new QComboBox(this,"combo");
-  for (uint i=0; i<list.size(); i++)
-  {
-	combo1->insertItem( QString::number(i+1)+": "+list[i].name );
-  }
-  connect(combo1, SIGNAL(activated(int)),this,SLOT(change(int)));
+	m_combo=new QComboBox(page,"combo");
+	connect(m_combo, SIGNAL(activated(int)),this,SLOT(change(int)));
 
-  label1 = new QLabel( this, "label1" );
-  label1->setText(i18n("Menu item:"));
-  itemedit=new QLineEdit(this,"tag");
+	m_labelName = new QLabel( page, "label1" );
+	m_labelName->setText(i18n("Menu item:"));
+	m_editName =new QLineEdit(page,"name");
 
-  label2 = new QLabel( this, "label2" );
-  label2->setText(i18n("LaTeX content:"));
-  tagedit=new KTextEdit(this,"tag");
-  tagedit->setTextFormat(Qt::PlainText);
+	m_labelTag = new QLabel( page, "label2" );
+	m_labelTag->setText(i18n("Value:"));
+	m_editTag=new KTextEdit(page,"tag");
+	m_editTag->setTextFormat(Qt::PlainText);
 
-  QLabel *label3 = new QLabel( i18n("Action"), this,"label3");
-  QButtonGroup *bgroup = new QButtonGroup(3,Qt::Horizontal,this);
-  radioEdit = new QRadioButton(i18n("Edit"),bgroup);
-  radioAdd = new QRadioButton(i18n("Add"),bgroup);
-  radioRemove = new QRadioButton(i18n("Remove"),bgroup);
-  if (list.size()==0)
-  {
-  	radioAdd->setChecked(true);
-  }
-  else
-  {
-  	radioEdit->setChecked(true);
-  }
+	m_buttonAdd = new KPushButton(i18n("Add"),page);
+	m_buttonInsert = new KPushButton(i18n("Insert"),page);
+	m_buttonRemove = new KPushButton(i18n("Remove"),page);
 
-  buttonOk= new QPushButton(this,"NoName");
-  buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("&OK"));
-  buttonOk->setDefault(true);
+	connect(m_buttonAdd, SIGNAL(clicked()) , this , SLOT(slotAdd()));
+	connect(m_buttonInsert, SIGNAL(clicked()) , this , SLOT(slotInsert()));
+	connect(m_buttonRemove, SIGNAL(clicked()) , this , SLOT(slotRemove()));
 
-  buttonCancel= new QPushButton(this,"NoName");
-  buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("&Cancel"));
+	gbox->addMultiCellWidget(m_combo,0,0,0,2,0);
+	gbox->addMultiCellWidget(m_labelName,1,1,0,2,0);
+	gbox->addMultiCellWidget(m_editName,2,2,0,2,0);
+	gbox->addMultiCellWidget(m_labelTag,3,3,0,2,0);
+	gbox->addMultiCellWidget(m_editTag,4,4,0,2,0);
+	gbox->addWidget(m_buttonAdd, 5,0, Qt::AlignLeft);
+	gbox->addWidget(m_buttonInsert, 5,1, Qt::AlignLeft);
+	gbox->addWidget(m_buttonRemove, 5,2, Qt::AlignLeft);
 
-  connect( buttonOk, SIGNAL(clicked()), SLOT(slotOk()) );
-  connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );
+	resize(350,150);
 
-  gbox->addMultiCellWidget(combo1,0,0,0,1,0);
-  gbox->addMultiCellWidget(label1,1,1,0,1,0);
-  gbox->addMultiCellWidget(itemedit,2,2,0,1,0);
-  gbox->addMultiCellWidget(label2,3,3,0,1,0);
-  gbox->addMultiCellWidget(tagedit,4,4,0,1,0);
-  gbox->addWidget(label3, 5,0, Qt::AlignRight);
-  gbox->addWidget(bgroup, 5,1, Qt::AlignLeft);
-  gbox->addWidget(buttonOk , 6, 0,Qt::AlignLeft );
-  gbox->addWidget(buttonCancel , 6, 1,Qt::AlignRight );
-  resize(350,150);
-
+	m_prevIndex=0;
+	redraw();
 }
 
 usermenudialog::~usermenudialog()
 {
 }
 
-void usermenudialog::init()
+void usermenudialog::redraw()
 {
-tagedit->setText(Tag[0]);
-itemedit->setText(Name[0]);
-combo1->setCurrentItem(0);
+	kdDebug() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
+	m_combo->clear();
+
+	if (m_list.size() > 0)
+	{
+		for (uint i=0; i<m_list.size(); i++)
+		{
+			m_combo->insertItem( QString::number(i+1)+": "+m_list[i].name );
+		}
+		m_combo->setCurrentItem(m_prevIndex);
+
+		m_editTag->setText(m_list[m_prevIndex].tag);
+		m_editName->setText(m_list[m_prevIndex].name);
+	}
+	else
+	{
+		m_editTag->setText("");
+		m_editName->setText("");
+	}
 }
 
 void usermenudialog::change(int index)
 {
-Tag[previous_index]=tagedit->text();
-Name[previous_index]=itemedit->text();
-tagedit->setText(Tag[index]);
-itemedit->setText(Name[index]);
-previous_index=index;
+	kdDebug() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex) << endl;
+	m_list[m_prevIndex].tag=m_editTag->text();
+	m_list[m_prevIndex].name=m_editName->text();
+	m_combo->changeItem(QString::number(m_prevIndex+1)+": "+m_list[m_prevIndex].name, m_prevIndex);
+
+	m_editTag->setText(m_list[index].tag);
+	m_editName->setText(m_list[index].name);
+
+	m_prevIndex=index;
 }
 
-void usermenudialog::slotOk()
+void usermenudialog::slotApply()
 {
-Tag[previous_index]=tagedit->text();
-Name[previous_index]=itemedit->text();
-accept();
+	//store current values before exiting
+	if (m_list.count() > 0 )
+	{
+		m_list[m_prevIndex].tag=m_editTag->text();
+		m_list[m_prevIndex].name=m_editName->text();
+	}
+
+	kdDebug() << "usermenudialog: slotApply" << endl;
+	accept();
 }
 
-int usermenudialog::result() const
+void usermenudialog::slotAdd()
 {
-	if (radioEdit->isChecked()) return Edit;
-	if (radioAdd->isChecked()) return Add;
-	if (radioRemove->isChecked()) return Remove;
-	return Edit;
+	userItem cur;
+	cur.name = m_editName->text();
+	cur.tag  = m_editTag->text();
+
+	m_list.append(cur);
+	m_prevIndex = m_list.count() - 1;
+	redraw();
 }
 
+void usermenudialog::slotInsert()
+{
+	userItem cur;
+	cur.name = m_editName->text();
+	cur.tag  = m_editTag->text();
+
+	m_list.insert(m_list.at(m_prevIndex),cur);
+	redraw();
+}
+
+void usermenudialog::slotRemove()
+{
+	if (m_list.size() > 0)
+	{
+		m_list.remove( m_list.at(m_prevIndex) );
+
+		m_prevIndex--;
+		if (m_prevIndex < 0 ) m_prevIndex=0;
+		if (m_prevIndex >= m_list.count() ) m_prevIndex = m_list.count()-1;
+
+		redraw();
+	}
+}
 #include "usermenudialog.moc"

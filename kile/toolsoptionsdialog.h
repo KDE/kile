@@ -18,10 +18,6 @@
 #ifndef TOOLSOPTIONSDIALOG_H
 #define TOOLSOPTIONSDIALOG_H
 
-/**
-  *@author Brachet Pascal
-  */
-
 #include <kdialogbase.h>
 #include <qvalidator.h>
 
@@ -40,7 +36,7 @@ class KSpellConfig;
 class KColorButton;
 
 
-typedef  QColor ListColors[8];
+//typedef  QColor ListColors[8];
 
 class intervalValidator : public QIntValidator
 {
@@ -62,22 +58,15 @@ public:
 
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
 
-
     QLabel* TextLabel6;
     QLineEdit* LineEdit6;
 
     QLabel* TextLabel7;
     QLineEdit* LineEdit7;
 
-    QLabel* TextLabel4;
+    QComboBox *comboDvi, *comboPs, *comboPdf;
 
-    QComboBox *comboFamily, *comboDvi, *comboPs, *comboPdf, *comboColor;
-
-    QLabel* TextLabel5;
-    QSpinBox *spinSize;
-    QLabel* TextLabel8;
-
-    QCheckBox *checkLine, *checkWordWrap, *checkParen, *checkAutosave;
+    QCheckBox *checkAutosave;
 
     QRadioButton *checkLatex, *checkPdflatex,
         *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
@@ -88,19 +77,7 @@ public:
 
     QFrame* generalPage;
     QFrame* toolsPage;
-    QFrame* editorPage;
+    QFrame* spellingPage;
     KSpellConfig *ksc;
-    KColorButton* buttonColor;
-    ListColors colors;
-
-public slots:
-    void init();
-
-private:
-    int previous_index;
-
-private slots:
-    void slotChangeColor(int index);
-    void slotEnd();
 };
 #endif

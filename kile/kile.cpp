@@ -19,6 +19,9 @@
 
 #include "kile.h"
 
+#include <ktexteditor/editorchooser.h>
+#include <ktexteditor/encodinginterface.h>
+
 #include <kdebug.h>
 #include <kaboutdata.h>
 #include <kiconloader.h>
@@ -70,8 +73,10 @@
 #include "templates.h"
 #include "newfilewizard.h"
 #include "managetemplatesdialog.h"
+#include "kilestdactions.h"
+#include "usermenudialog.h"
 
-Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose)
+Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), m_activeView(NULL)
 {
 config = KGlobal::config();
 m_AutosaveTimer= new QTimer();
@@ -88,13 +93,15 @@ watchfile=false;
 partManager = new KParts::PartManager( this );
 connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
 kspell = 0;
+
+ReadSettings();
 setupActions();
 
 // Read Settings should be after setupActions() because fileOpenRecentAction needs to be
 // initialized before calling ReadSettnigs().
-ReadSettings();
+ReadRecentFileSettings();
 
-statusBar()->insertFixedItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN );
+statusBar()->insertItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN,0,true );
 statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
 statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
 statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
@@ -121,7 +128,7 @@ if (!lastDocument.isEmpty())
   QFileInfo fi(lastDocument);
   if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
   }
-KileFS->setDir(KURL::fromPathOrURL(currentDir));
+KileFS->setDir(KURL(currentDir));
 KileFS->comboEncoding->lineEdit()->setText(input_encoding);
 
 ButtonBar->insertTab(UserIcon("structure"),1,i18n("Structure"));
@@ -156,7 +163,8 @@ splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
 tabWidget=new QTabWidget(splitter2);
 tabWidget->setFocusPolicy(QWidget::ClickFocus);
 tabWidget->setFocus();
-connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(UpdateCaption()) );
+connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(newCaption()) );
+connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(activateView( QWidget * )) );
 
 //Log/Messages/KShell widgets
 Outputview=new QTabWidget(splitter2);
@@ -195,7 +203,7 @@ ShowOutputView(false);
 ShowStructView(false);
 Outputview->showPage(LogWidget);
 lastvtab=1;
-UpdateCaption();
+newCaption();
 showVertPage(0);
 singlemode=true;
 MasterName=getName();
@@ -221,40 +229,23 @@ connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTermina
 
 Kile::~Kile()
 {
+	kdDebug() << "cleaning up..." << endl;
+	if (errorlist !=0 ) delete errorlist;
+	if (m_AutosaveTimer != 0) delete m_AutosaveTimer;
 }
 
 void Kile::setupActions()
 {
-  KSelectAction *ListAction1, *ListAction2, *ListAction3, *ListAction4, *ListAction5;
-  QStringList list;
-
-  PrintAction=KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
   (void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
   fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
-  (void) KStdAction::save(this, SLOT(fileSave()), actionCollection(),"Save" );
-  (void) KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
   (void) new KAction(i18n("Save All"),0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
   (void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
-  (void) new KAction(i18n("Print Source..."),"fileprint",CTRL+Key_P, this, SLOT(filePrint()), actionCollection(),"PrintSource");
   (void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
   (void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
-  (void) KStdAction::quit(this, SLOT(fileExit()), actionCollection(),"Exit" );
+  (void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
-  (void) KStdAction::undo(this, SLOT(editUndo()), actionCollection(),"Undo" );
-  (void) KStdAction::redo(this, SLOT(editRedo()), actionCollection(),"Redo" );
-  (void) KStdAction::copy(this, SLOT(editCopy()), actionCollection(),"Copy" );
-  (void) KStdAction::cut(this, SLOT(editCut()), actionCollection(),"Cut" );
-  (void) KStdAction::paste(this, SLOT(editPaste()), actionCollection(),"Paste" );
-  (void) KStdAction::selectAll(this, SLOT(editSelectAll()), actionCollection(),"selectAll" );
   (void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
-  (void) new KAction(i18n("Comment Selection"),0, this, SLOT(editComment()), actionCollection(),"Comment" );
-  (void) new KAction(i18n("Uncomment Selection"),0, this, SLOT(editUncomment()), actionCollection(),"Uncomment" );
-  (void) new KAction(i18n("Indent Selection"),0, this, SLOT(editIndent()), actionCollection(),"Indent" );
-  (void) KStdAction::find(this, SLOT(editFind()), actionCollection(),"find" );
-  (void) KStdAction::findNext(this, SLOT(editFindNext()), actionCollection(),"findnext" );
-  (void) KStdAction::replace(this, SLOT(editReplace()), actionCollection(),"Replace" );
-  (void) new KAction(i18n("Goto Line..."),"goto",CTRL+Key_G , this, SLOT(editGotoLine()), actionCollection(),"GotoLine" );
   (void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
 
   (void) new KAction(i18n("Quick Build"),"quick", Key_F1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
@@ -287,106 +278,27 @@ void Kile::setupActions()
   ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
   HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
-  (void) new KAction("\\documentclass",0, this, SLOT(Insert1()), actionCollection(),"1" );
-  (void) new KAction("\\usepackage{}",0, this, SLOT(Insert1bis()), actionCollection(),"2" );
-  (void) new KAction(i18n("AMS Packages"),0, this, SLOT(Insert1ter()), actionCollection(),"3" );
-  (void) new KAction("\\begin{document}",0, this, SLOT(Insert2()), actionCollection(),"4" );
-  (void) new KAction("\\author{}",0, this, SLOT(Insert45()), actionCollection(),"5" );
-  (void) new KAction("\\title{}",0, this, SLOT(Insert46()), actionCollection(),"6" );
-  (void) new KAction("\\maketitle",0, this, SLOT(Insert51()), actionCollection(),"158" );
-  (void) new KAction("\\tableofcontents",0, this, SLOT(Insert52()), actionCollection(),"159" );
+	QPtrList<KAction> alt_list;
+	KileStdActions::setupStdTags(this, &alt_list, &labelitem);
+	altI_action = alt_list.at(0);
+	altA_action = alt_list.at(1);
+	altB_action = alt_list.at(2);
+	altT_action = alt_list.at(3);
+	altC_action = alt_list.at(4);
+	altH_action = alt_list.at(5);
 
-  (void) new KAction("\\part","part",0 , this, SLOT(Insert3()), actionCollection(),"7" );
-  (void) new KAction("\\chapter","chapter",0 , this, SLOT(Insert4()), actionCollection(),"8" );
-  (void) new KAction("\\section","section",0 , this, SLOT(Insert5()), actionCollection(),"9" );
-  (void) new KAction("\\subsection","subsection",0 , this, SLOT(Insert6()), actionCollection(),"10" );
-  (void) new KAction("\\subsubsection","subsubsection",0 , this, SLOT(Insert6bis()), actionCollection(),"11" );
-  (void) new KAction("\\paragraph",0, this, SLOT(Insert7()), actionCollection(),"12" );
-  (void) new KAction("\\subparagraph",0, this, SLOT(Insert8()), actionCollection(),"13" );
+	alt_list.clear();
+	KileStdActions::setupMathTags(this, &alt_list);
 
-
-  (void) new KAction("\\begin{center}","text_center",0, this, SLOT(Insert9()), actionCollection(),"14" );
-  (void) new KAction("\\begin{flushleft}","text_left",0, this, SLOT(Insert10()), actionCollection(),"15" );
-  (void) new KAction("\\begin{flushright}","text_right",0, this, SLOT(Insert11()), actionCollection(),"16" );
-  (void) new KAction("\\begin{quote}",0, this, SLOT(Insert12()), actionCollection(),"17" );
-  (void) new KAction("\\begin{quotation}",0, this, SLOT(Insert13()), actionCollection(),"18" );
-  (void) new KAction("\\begin{verse}",0, this, SLOT(Insert14()), actionCollection(),"19" );
-  (void) new KAction("\\begin{verbatim}",0, this, SLOT(Insert15()), actionCollection(),"20" );
-  (void) new KAction("\\begin{table}",0, this, SLOT(Insert42()), actionCollection(),"21" );
-  (void) new KAction("\\begin{figure}",0, this, SLOT(Insert43()), actionCollection(),"22" );
-  (void) new KAction("\\begin{titlepage}",0, this, SLOT(Insert44()), actionCollection(),"23" );
-
-  (void) new KAction("\\begin{itemize}","itemize",0, this, SLOT(Insert16()), actionCollection(),"24" );
-  (void) new KAction("\\begin{enumerate}","enumerate",0, this, SLOT(Insert17()), actionCollection(),"25" );
-  (void) new KAction("\\begin{description}",0, this, SLOT(Insert18()), actionCollection(),"26" );
-  (void) new KAction("\\begin{list}",0, this, SLOT(Insert19()), actionCollection(),"27" );
-  altH_action = new KAction("\\item","item",ALT+Key_H, this, SLOT(Insert20()), actionCollection(),"28" );
-
-  altI_action = new KAction(i18n("\\textit - Italics"),"text_italic",ALT+Key_I, this, SLOT(Insert21()), actionCollection(),"29" );
-  altA_action = new KAction(i18n("\\textsl - Slanted"),ALT+Key_A, this, SLOT(Insert22()), actionCollection(),"30" );
-  altB_action = new KAction(i18n("\\textbf - Boldface"),"text_bold",ALT+Key_B, this, SLOT(Insert23()), actionCollection(),"31" );
-  altT_action = new KAction(i18n("\\texttt - Typewriter"),ALT+Key_T, this, SLOT(Insert24()), actionCollection(),"32" );
-  altC_action = new KAction(i18n("\\textsc - Small caps"),ALT+Key_C, this, SLOT(Insert25()), actionCollection(),"33" );
-
-  (void) new KAction("\\begin{tabbing}",0, this, SLOT(Insert26()), actionCollection(),"34" );
-  (void) new KAction("\\begin{tabular}",0, this, SLOT(Insert27()), actionCollection(),"35" );
-  (void) new KAction("\\multicolumn",0, this, SLOT(Insert28()), actionCollection(),"36" );
-  (void) new KAction("\\hline",0, this, SLOT(Insert29()), actionCollection(),"37" );
-  (void) new KAction("\\vline",0, this, SLOT(Insert30()), actionCollection(),"38" );
-  (void) new KAction("\\cline",0, this, SLOT(Insert31()), actionCollection(),"39" );
-
-  (void) new KAction("\\newpage",0, this, SLOT(Insert32()), actionCollection(),"40" );
-  (void) new KAction("\\linebreak",0, this, SLOT(Insert33()), actionCollection(),"41" );
-  (void) new KAction("\\pagebreak",0, this, SLOT(Insert34()), actionCollection(),"42" );
-  (void) new KAction("\\bigskip",0, this, SLOT(Insert35()), actionCollection(),"43" );
-  (void) new KAction("\\medskip",0, this, SLOT(Insert36()), actionCollection(),"44" );
-
-  (void) new KAction("\\includegraphics{file.eps}",0, this, SLOT(Insert37()), actionCollection(),"45" );
-  (void) new KAction("\\include{file}","include",0 , this, SLOT(Insert37bis()), actionCollection(),"46" );
-  (void) new KAction("\\input{file}","include",0 , this, SLOT(Insert37ter()), actionCollection(),"47" );
-
-  (void) new KAction("\\bibliographystyle{}",0, this, SLOT(Insert39()), actionCollection(),"50" );
-  (void) new KAction("\\bibliography{}",0, this, SLOT(Insert40()), actionCollection(),"51" );
-
-
-  altM_action = new KAction("$...$","mathmode",ALT+Key_M, this, SLOT(InsertMath1()), actionCollection(),"52" );
-  altE_action = new KAction("$$...$$",ALT+Key_E, this, SLOT(InsertMath2()), actionCollection(),"53" );
-  (void) new KAction("\\begin{equation}",0, this, SLOT(InsertMath74()), actionCollection(),"54" );
-  (void) new KAction("\\begin{eqnarray}",0, this, SLOT(InsertMath75()), actionCollection(),"55" );
-  altD_action = new KAction("subscript  _{}","indice",ALT+Key_D, this, SLOT(InsertMath3()), actionCollection(),"56" );
-  altU_action = new KAction("superscript  ^{}","puissance",ALT+Key_U, this, SLOT(InsertMath4()), actionCollection(),"57" );
-  altF_action = new KAction("\\frac{}{}","smallfrac",ALT+Key_F, this, SLOT(InsertMath5()), actionCollection(),"58" );
-  altQ_action = new KAction("\\dfrac{}{}","dfrac",ALT+Key_Q, this, SLOT(InsertMath6()), actionCollection(),"59" );
-  altS_action = new KAction("\\sqrt{}","racine",ALT+Key_S, this, SLOT(InsertMath7()), actionCollection(),"60" );
-  altL_action = new KAction("\\left",ALT+Key_L, this, SLOT(InsertMath8()), actionCollection(),"61" );
-  altR_action = new KAction("\\right",ALT+Key_R, this, SLOT(InsertMath9()), actionCollection(),"62" );
-  (void) new KAction("\\begin{array}",0, this, SLOT(InsertMath10()), actionCollection(),"63" );
-
-  (void) new KAction("\\mathrm{}",0, this, SLOT(InsertMath66()), actionCollection(),"64" );
-  (void) new KAction("\\mathit{}",0, this, SLOT(InsertMath67()), actionCollection(),"65" );
-  (void) new KAction("\\mathbf{}",0, this, SLOT(InsertMath68()), actionCollection(),"66" );
-  (void) new KAction("\\mathsf{}",0, this, SLOT(InsertMath69()), actionCollection(),"67" );
-  (void) new KAction("\\mathtt{}",0, this, SLOT(InsertMath70()), actionCollection(),"68" );
-  (void) new KAction("\\mathcal{}",0, this, SLOT(InsertMath71()), actionCollection(),"69" );
-  (void) new KAction("\\mathbb{}",0, this, SLOT(InsertMath72()), actionCollection(),"70" );
-  (void) new KAction("\\mathfrak{}",0, this, SLOT(InsertMath73()), actionCollection(),"71" );
-
-  (void) new KAction("\\acute{}","acute",0 , this, SLOT(InsertMath76()), actionCollection(),"72" );
-  (void) new KAction("\\grave{}","grave",0 , this, SLOT(InsertMath77()), actionCollection(),"73" );
-  (void) new KAction("\\tilde{}","tilde",0 , this, SLOT(InsertMath78()), actionCollection(),"74" );
-  (void) new KAction("\\bar{}","bar",0 , this, SLOT(InsertMath79()), actionCollection(),"75" );
-  (void) new KAction("\\vec{}","vec",0 , this, SLOT(InsertMath80()), actionCollection(),"76" );
-  (void) new KAction("\\hat{}","hat",0 , this, SLOT(InsertMath81()), actionCollection(),"77" );
-  (void) new KAction("\\check{}","check",0 , this, SLOT(InsertMath82()), actionCollection(),"78" );
-  (void) new KAction("\\breve{}","breve",0 , this, SLOT(InsertMath83()), actionCollection(),"79" );
-  (void) new KAction("\\dot{}","dot",0 , this, SLOT(InsertMath84()), actionCollection(),"80" );
-  (void) new KAction("\\ddot{}","ddot",0 , this, SLOT(InsertMath85()), actionCollection(),"81" );
-
-  (void) new KAction("small",0, this, SLOT(InsertMath86()), actionCollection(),"82" );
-  (void) new KAction("medium",0, this, SLOT(InsertMath87()), actionCollection(),"83" );
-  (void) new KAction("large",0, this, SLOT(InsertMath88()), actionCollection(),"84" );
-  (void) new KAction("\\quad",0, this, SLOT(InsertMath89()), actionCollection(),"85" );
-  (void) new KAction("\\qquad",0, this, SLOT(InsertMath90()), actionCollection(),"86" );
+	altM_action = alt_list.at(0);
+	altE_action = alt_list.at(1);
+ 	altD_action = alt_list.at(2);
+	altU_action = alt_list.at(3);
+	altF_action = alt_list.at(4);
+	altQ_action = alt_list.at(5);
+	altS_action = alt_list.at(6);
+	altL_action = alt_list.at(7);
+	altR_action = alt_list.at(8);
 
   (void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
   (void) new KAction(i18n("Letter"),"wizard",0 , this, SLOT(QuickLetter()), actionCollection(),"128" );
@@ -409,57 +321,13 @@ void Kile::setupActions()
   (void) new KAction(i18n("Miscellaneous"),0 , this, SLOT(InsertBib13()), actionCollection(),"143" );
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
 
-   menuUserTags = new KActionMenu(i18n("User Tags"),actionCollection(),"menuUserTags");
-   mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
-   KAction *menuItem;
-
-   KShortcut tagaccels[12] = {SHIFT+Key_F1, SHIFT+Key_F2,SHIFT+Key_F3,SHIFT+Key_F4,SHIFT+Key_F5,SHIFT+Key_F6,SHIFT+Key_F7,
-   	SHIFT+Key_F8,SHIFT+Key_F9,SHIFT+Key_F10,SHIFT+Key_F11,SHIFT+Key_F12};
-
-   KShortcut toolaccels[12] = {SHIFT+ALT+Key_F1, SHIFT+ALT+Key_F2,SHIFT+ALT+Key_F3,SHIFT+ALT+Key_F4,SHIFT+ALT+Key_F5,SHIFT+ALT+Key_F6,SHIFT+ALT+Key_F7,
-   	SHIFT+ALT+Key_F8,SHIFT+ALT+Key_F9,SHIFT+ALT+Key_F10,SHIFT+ALT+Key_F11,SHIFT+ALT+Key_F12};
-
-   KShortcut sc=0;
-   QString name;
-
-   menuUserTags->insert(new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), menuUserTags,"EditUserMenu" ));
-   for (uint i=0; i<listUserTags.size(); i++)
-   {
-   	if (i<12) sc = tagaccels[i];
-	else sc=0;
-	name=QString::number(i+1)+": "+listUserTags[i].name;
-	menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
-	listUserTagsActions.append(menuItem);
-	menuUserTags->insert(menuItem);
-	mapUserTagSignals->setMapping(menuItem,i);
-   }
-   connect(mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
-
-   menuUserTools = new KActionMenu(i18n("User Tools"), actionCollection(), "menuUserTools");
-   mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
-
-
-   menuUserTools->insert(new KAction(i18n("Edit User Tools"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" ));
-   for (uint i=0; i<listUserTools.size(); i++)
-   {
-   	if (i<12) sc = toolaccels[i];
-	else sc=0;
-	name=QString::number(i+1)+": "+listUserTools[i].name;
-	menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
-	listUserToolsActions.append(menuItem);
-	menuUserTools->insert(menuItem);
-	mapUserToolsSignals->setMapping(menuItem,i);
-   }
-   connect(mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
-
-
   (void) new KAction("Xfig","xfig",0 , this, SLOT(RunXfig()), actionCollection(),"144" );
   (void) new KAction(i18n("Gnuplot Front End"),"xgfe",0 , this, SLOT(RunGfe()), actionCollection(),"145" );
 
   ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
 
   MenuAccelsAction = new KToggleAction(i18n("Standard Menu Shortcuts"), 0, this,SLOT(ToggleAccels()),actionCollection(),"MenuAccels" );
-  MenuAccelsAction->setChecked(menuaccels);
+  MenuAccelsAction->setChecked(m_menuaccels);
 
   (void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"146" );
   (void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
@@ -492,221 +360,246 @@ void Kile::setupActions()
   if (watchfile) {WatchFileAction->setChecked(true);}
   else {WatchFileAction->setChecked(false);}
 
-  list.clear();
-  list.append("part");
-  list.append("chapter");
-  list.append("section");
-  list.append("subsection");
-  list.append("subsubsection");
-  list.append("paragraph");
-  list.append("subparagraph");
-  ListAction1 = new KSelectAction(i18n("Sectionning"), 0, actionCollection(), "structure_list");
-  ListAction1->setItems(list);
-  connect(ListAction1, SIGNAL(activated(const QString&)),this,SLOT(SectionCommand(const QString&)));
 
-  list.clear();
-  list.append("tiny");
-  list.append("scriptsize");
-  list.append("footnotesize");
-  list.append("small");
-  list.append("normalsize");
-  list.append("large");
-  list.append("Large");
-  list.append("LARGE");
-  list.append("huge");
-  list.append("Huge");
-  ListAction2 = new KSelectAction("Size", 0, actionCollection(), "size_list");
-  ListAction2->setItems(list);
-  connect(ListAction2, SIGNAL(activated(const QString&)),this,SLOT(SizeCommand(const QString&)));
-
-  (void) new KAction("\\label{}",0, this, SLOT(Insert41()), actionCollection(),"152" );
-  (void) new KAction("\\ref{}",0, this, SLOT(Insert48()), actionCollection(),"153" );
-  (void) new KAction("\\pageref{}",0, this, SLOT(Insert49()), actionCollection(),"154" );
-  (void) new KAction("\\index{}",0, this, SLOT(Insert47()), actionCollection(),"155" );
-  (void) new KAction("\\cite{}",0, this, SLOT(Insert38()), actionCollection(),"156" );
-  (void) new KAction("\\footnote{}",0, this, SLOT(Insert50()), actionCollection(),"157" );
-  list.clear();
-  list.append("label");
-  list.append("ref");
-  list.append("pageref");
-  list.append("index");
-  list.append("cite");
-  list.append("footnote");
-  ListAction5 = new KSelectAction(i18n("Other"), 0, actionCollection(), "other_list");
-  ListAction5->setItems(list);
-  connect(ListAction5, SIGNAL(activated(const QString&)),this,SLOT(OtherCommand(const QString&)));
-
-
-  (void) new KAction(i18n("Underline"),"text_under",0 , this, SLOT(InsertMath16()), actionCollection(),"150" );
-
-  list.clear();
-  list.append("left (");
-  list.append("left [");
-  list.append("left {");
-  list.append("left <");
-  list.append("left )");
-  list.append("left ]");
-  list.append("left }");
-  list.append("left >");
-  list.append("left.");
-  ListAction3 = new KSelectAction(i18n("Left Delimiter"), 0, actionCollection(), "left_list");
-  ListAction3->setItems(list);
-  connect(ListAction3,SIGNAL(activated(const QString&)),this,SLOT(LeftDelimiter(const QString&)));
-
-
-  list.clear();
-  list.append("right )");
-  list.append("right ]");
-  list.append("right }");
-  list.append("right >");
-  list.append("right (");
-  list.append("right [");
-  list.append("right {");
-  list.append("right <");
-  list.append("right.");
-  ListAction4 = new KSelectAction(i18n("Right Delimiter"), 0, actionCollection(), "right_list");
-  ListAction4->setItems(list);
-  connect(ListAction4,SIGNAL(activated(const QString&)),this,SLOT(RightDelimiter(const QString&)));
-
-  (void) new KAction(i18n("New Line"),"newline",SHIFT+Key_Return , this, SLOT(NewLine()), actionCollection(),"151" );
 
   const KAboutData *aboutData = KGlobal::instance()->aboutData();
   help_menu = new KHelpMenu( this, aboutData);
   (void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
   (void) new KAction(i18n("Kile Handbook"),"contents",0 , this, SLOT(invokeHelp()), actionCollection(),"help2" );
+
   (void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
   (void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
+
+
+	m_menuUserTags = new KActionMenu(i18n("User Tags"),actionCollection(),"menuUserTags");
+	m_mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
+	setupUserTagActions();
+	connect(m_mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
+
+	m_menuUserTools = new KActionMenu(i18n("User Tools"), actionCollection(), "menuUserTools");
+	m_mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
+	setupUserToolActions();
+	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
+
 
   actionCollection()->readShortcutSettings();
 
   setHelpMenuEnabled(false);
+
+
+}
+
+void Kile::setupUserTagActions()
+{
+	KShortcut sc=0;
+	QString name;
+	KAction *menuItem;
+
+	KShortcut tagaccels[12] = {CTRL+SHIFT+Key_F1, SHIFT+CTRL+Key_F2,SHIFT+CTRL+Key_F3,SHIFT+CTRL+Key_F4,SHIFT+CTRL+Key_F5,SHIFT+CTRL+Key_F6,SHIFT+CTRL+Key_F7,
+		SHIFT+CTRL+Key_F8,SHIFT+CTRL+Key_F9,SHIFT+CTRL+Key_F10,SHIFT+CTRL+Key_F11,SHIFT+CTRL+Key_F12};
+
+	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), m_menuUserTags,"EditUserMenu" );
+	m_menuUserTags->insert(m_actionEditTag);
+	for (uint i=0; i<m_listUserTags.size(); i++)
+	{
+		if (i<12) sc = tagaccels[i];
+		else sc=0;
+		name=QString::number(i+1)+": "+m_listUserTags[i].name;
+		menuItem = new KAction(name,sc,m_mapUserTagSignals,SLOT(map()), m_menuUserTags, name.ascii());
+		m_listUserTagsActions.append(menuItem);
+		m_menuUserTags->insert(menuItem);
+		m_mapUserTagSignals->setMapping(menuItem,i);
+	}
+}
+
+void Kile::setupUserToolActions()
+{
+	KShortcut sc=0;
+	QString name;
+	KAction *menuItem;
+
+	KShortcut toolaccels[12] = {SHIFT+ALT+Key_F1, SHIFT+ALT+Key_F2,SHIFT+ALT+Key_F3,SHIFT+ALT+Key_F4,SHIFT+ALT+Key_F5,SHIFT+ALT+Key_F6,SHIFT+ALT+Key_F7,
+		SHIFT+ALT+Key_F8,SHIFT+ALT+Key_F9,SHIFT+ALT+Key_F10,SHIFT+ALT+Key_F11,SHIFT+ALT+Key_F12};
+
+	m_actionEditTool = new KAction(i18n("Edit User Tools"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
+	m_menuUserTools->insert(m_actionEditTool);
+	for (uint i=0; i<m_listUserTools.size(); i++)
+	{
+		if (i<12) sc = toolaccels[i];
+		else sc=0;
+		name=QString::number(i+1)+": "+m_listUserTools[i].name;
+		menuItem = new KAction(name,sc,m_mapUserToolsSignals,SLOT(map()), m_menuUserTools, name.ascii());
+		m_listUserToolsActions.append(menuItem);
+		m_menuUserTools->insert(menuItem);
+		m_mapUserToolsSignals->setMapping(menuItem,i);
+	}
 }
 
 ////////////////////////////// FILE /////////////////////////////
-void Kile::load( const QString &f )
+Kate::View* Kile::load( const KURL &url , const QString & encoding)
 {
-    raise();
-    KWin::setActiveWindow(this->winId());
-    ShowEditorWidget();
-    if (FileAlreadyOpen(f) || !QFile::exists( f )) return;
-    LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
-    edit->editor->setReadOnly(false);
-    edit->editor->setEncoding(input_encoding);
-    edit->editor->setFile(f);
+	//create a new document and a view
+	Kate::View *view;
+	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 
-    if (wordwrap) {edit->editor->setWordWrap(LatexEditor::WidgetWidth);}
-    else {edit->editor->setWordWrap(LatexEditor::NoWrap);}
-    tabWidget->addTab( edit, QFileInfo( f ).fileName() );
-    QFile file( f );
-    if ( !file.open( IO_ReadOnly ) )
-       {
-       KMessageBox::sorry(this, i18n("You do not have read permission to this file."));
-       return;
-       }
-    QTextStream ts( &file );
-    QTextCodec* codec = QTextCodec::codecForName(input_encoding.latin1());
-    if(!codec) codec = QTextCodec::codecForLocale();
-    ts.setEncoding(QTextStream::Locale);
-    ts.setCodec(codec);
-    edit->editor->setText( ts.read() );
-    tabWidget->showPage( edit );
-    edit->editor->viewport()->setFocusPolicy(StrongFocus);
-    edit->editor->viewport()->setFocus();
-    filenames.replace( edit, f );
-    edit->editor->setModified(false);
-    doConnections( edit->editor );
-    UpdateCaption();
-    UpdateLineColStatus();
-    fileOpenRecentAction->addURL(KURL::fromPathOrURL(f));
-    ShowStructure();
+	view = (Kate::View*) doc->createView (tabWidget, 0L);
+
+	//set the default encoding
+	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
+	KileFS->comboEncoding->lineEdit()->setText(enc);
+	doc->setEncoding(enc);
+
+	//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
+	doc->openURL(url);
+	if ( !url.isEmpty() )
+	{
+		doc->setDocName(url.path());
+		fileOpenRecentAction->addURL(url);
+	}
+	else
+	{
+		//doc->openURL(KURL("file:untitled"));
+		doc->setDocName("untitled");
+	}
+
+ 	setHighlightMode(doc);
+
+	//insert the view in the tab widget
+	tabWidget->addTab( view, getShortName(doc) );
+	tabWidget->showPage( view );
+	m_viewList.append(view);
+
+	//handle changes of the document
+	connect(view, SIGNAL(viewStatusMsg(const QString&)), this, SLOT(newStatus(const QString&)));
+	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(slotNameChanged(Kate::Document *)));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
+	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
+
+	//activate the newly created view
+	activateView(view);
+	KParts::GUIActivateEvent ev( true );
+	QApplication::sendEvent( view, &ev );
+
+    	newStatus();
+	newCaption();
+
+	view->setFocusPolicy(QWidget::StrongFocus);
+	view->setFocus();
+
+    	ShowStructure();
+
+	return view;
 }
 
-LatexEditorView *Kile::currentEditorView() const
+void Kile::slotNameChanged(Kate::Document * doc)
 {
-    if ( tabWidget->currentPage() &&
-	 tabWidget->currentPage()->inherits( "LatexEditorView" ) )
-	return (LatexEditorView*)tabWidget->currentPage();
-    return 0;
+	//set the doc name so we can use the docname to set the caption
+	//(we want the caption to be untitled for an new document not ""
+	//doc->setDocName(doc->url().path());
+	QPtrList<KTextEditor::View> list = doc->views();
+	for (uint i=0; i < list.count(); i++)
+	{
+		tabWidget->setTabLabel((Kate::View*) list.at(i), getShortName(doc));
+	}
 }
 
-LatexEditor *Kile::currentEditor() const
+Kate::View *Kile::currentView() const
 {
-    if ( tabWidget->currentPage() &&
-	 tabWidget->currentPage()->inherits( "LatexEditorView" ) )
-	return ((LatexEditorView*)tabWidget->currentPage())->editor;
-    return 0;
-}
+	if ( 	tabWidget->currentPage() &&
+		tabWidget->currentPage()->inherits( "Kate::View" ) )
+	{
+		return (Kate::View*)tabWidget->currentPage();
+	}
 
-QFileInfo *Kile::currentFileInfo() const
-{
-    if ( tabWidget->currentPage() &&
-	 tabWidget->currentPage()->inherits( "LatexEditorView" ) )
-	return ((LatexEditorView*)tabWidget->currentPage())->editor->fileInfo();
-    return 0;
+	return 0;
 }
 
 void Kile::setLine( const QString &line )
 {
-bool ok;
-int l=line.toInt(&ok,10);
-if (currentEditorView() && ok)
-  {
-    if ( !gotoLineDialog ) gotoLineDialog = new GotoLineDialog(this, 0,TRUE );
-    gotoLineDialog->SetEditor(currentEditorView()->editor);
-    gotoLineDialog->show();
-    gotoLineDialog->raise();
-    gotoLineDialog->spinLine->setFocus();
-    gotoLineDialog->spinLine->setMinValue( 1 );
-    gotoLineDialog->spinLine->setMaxValue( currentEditorView()->editor->paragraphs() );
-    gotoLineDialog->spinLine->setValue(l );
-    gotoLineDialog->spinLine->selectAll();
-  }
+	bool ok;
+	int l=line.toInt(&ok,10);
+	Kate::View *view = currentView();
+	if (view && ok)
+  	{
+		this->show();
+		this->raise();
+		view->setFocus();
+		view->gotoLineNumber(l);
+		ShowEditorWidget();
+		newStatus();
+  	}
 }
 
-void Kile::doConnections( LatexEditor *e )
+void Kile::setHighlightMode(Kate::Document * doc)
 {
-connect(e, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(UpdateLineColStatus()));
-connect(e, SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
+	int c = doc->hlModeCount();
+	bool found = false;
+	int i;
+	for (i = 0; i < c; i++)
+	{
+		if (doc->hlModeName(i) == "LaTeX-Kile") { found = true; break; }
+	}
+
+	if (found)
+	{
+		doc->setHlMode(i);
+	}
+	else
+	{
+		doc->setHlMode(0);
+		kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
+	}
 }
 
 void Kile::fileNew()
 {
+
     NewFileWizard *nfw = new NewFileWizard(this);
 
     if (nfw->exec()) {
-    LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
-    edit->editor->setReadOnly(false);
-    edit->editor->setEncoding(input_encoding);
-    doConnections( edit->editor );
-    tabWidget->addTab( edit, "untitled" );
-    tabWidget->showPage( edit );
-    edit->editor->viewport()->setFocusPolicy(StrongFocus);
-    edit->editor->viewport()->setFocus();
-    if (wordwrap) {edit->editor->setWordWrap(LatexEditor::WidgetWidth);}
-    else {edit->editor->setWordWrap(LatexEditor::NoWrap);}
-    filenames.replace( edit, "untitled" );
-    edit->editor->setFile("untitled");
-    edit->editor->setModified(false);
-    doConnections( edit->editor );
+	Kate::View *view = load(KURL());
 
-    TemplateItem *sel = nfw->getSelection();
-    kdDebug() << "filenew start read" << endl;
-    if (sel->name() != DEFAULT_EMPTY_CAPTION) {
-       QFile f(sel->path());
-       if (f.open(IO_ReadOnly) ) {
-       QString line;
-       while (f.readLine(line,80)>0) {
-          replaceTemplateVariables(line);
-          edit->editor->append(line);
-       }
-       f.close();
-       } else { KMessageBox::error(this, i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!")); }
-    }
-    kdDebug() << "filenew end read" << endl;
+	TemplateItem *sel = nfw->getSelection();
 
-    UpdateCaption();
-    UpdateLineColStatus();
+	if (sel->name() != DEFAULT_EMPTY_CAPTION)
+	{
+		//create a new document to open the template in
+		Kate::Document *tempdoc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
+
+		if (!tempdoc->openURL(sel->path()))
+		{
+			KMessageBox::error(this, i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!"));
+		}
+		else
+		{
+			//substitute templates variables
+			QString text = tempdoc->text();
+			delete tempdoc;
+			replaceTemplateVariables(text);
+			view->getDoc()->setText(text);
+			view->getDoc()->setModified(false);
+
+			//set the highlight mode (this was already done in load, but somehow after setText this is forgotten)
+			setHighlightMode(view->getDoc());
+		}
+	}
     }
+}
+
+void Kile::activateView(QWidget* w)  //Needs to be QWidget because of QTabWidget::currentChanged
+{
+	Kate::View* view = (Kate::View*)w;
+	if (!view) return;
+	if (view != m_activeView ) //Pointer comp. OK?!?
+	{
+		if (m_activeView)
+		{
+			guiFactory()->removeClient( m_activeView );
+		}
+		m_activeView=view;
+		guiFactory()->addClient( view );
+	}
 }
 
 void Kile::replaceTemplateVariables(QString &line)
@@ -719,120 +612,64 @@ void Kile::replaceTemplateVariables(QString &line)
 
 void Kile::fileOpen()
 {
+	//determine the starting dir for the file dialog
 	QString currentDir=KileFS->dirOperator()->url().path();
-	QFileInfo *fi = currentFileInfo();
-	if (fi != 0)
+	QFileInfo fi;
+	if (currentView())
 	{
-		if (fi->exists() && fi->isReadable()) currentDir=fi->dirPath();
+		fi.setFile(currentView()->getDoc()->url().path());
+		if (fi.exists()) currentDir= fi.dirPath();
 	}
-	QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
-	if ( !fn.isEmpty() ) load( fn );
+
+	//get the URLs
+	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
+
+	//open them
+	for (uint i=0; i < urls.count(); i++)
+	{
+		fileOpen(urls[i]);
+	}
 }
+
 
 void Kile::fileOpen(const KURL& url)
 {
-  // Convert from URL to QString
-  // TODO : QString everywhere should be replaced by KURL eventually!
-  QString fn;
-  fn = url.path();
-  kdDebug() << "DEBUG: Got Path: " << fn << endl;
-  load( fn );
+	if ( url.path() == "untitled" || !isOpen(url)) load(url);
 }
 
 
-bool Kile::FileAlreadyOpen(const QString &f)
+bool Kile::isOpen(const KURL & url)
 {
-bool rep=false;
-FilesMap::Iterator it;
-for( it = filenames.begin(); it != filenames.end(); ++it )
- {
- if (filenames[it.key()]==f)
-    {
-     tabWidget->showPage( it.key() );
-     rep=true;
-    }
- }
-return rep;
-}
-
-void Kile::fileSave(bool amAutoSaving )
-{
-	if ( !currentEditorView() )	return;
-	QString fn;
-	if ( getShortName()=="untitled" )
+	for ( uint i = 0; i < m_viewList.count();  i++ )
 	{
-		if (!amAutoSaving) fileSaveAs();
-	}
-	else
-	{
-		QFile file( *filenames.find( currentEditorView() ) );
-		if (amAutoSaving)
+		if ( m_viewList.at(i)->getDoc()->url()  == url )
 		{
-			file.setName(file.name()+i18n(".backup"));
-			statusBar()->changeItem(i18n("Autosaving %1 ...").arg(file.name()),ID_HINTTEXT);
-		}
-
-		if ( !file.open( IO_WriteOnly ) )
-		{
-      if(!amAutoSaving) {
-        // do not annoy user by giving error messages if auto save is not possible
-  			QString cap = i18n("Sorry");
-	  		KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."),cap);
-      }
-			return;
-		}
-
-		QTextStream ts( &file );
-		ts.setEncoding(QTextStream::Locale);
-		QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().latin1());
-		ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
-		ts << currentEditorView()->editor->text();
-
-		if (!amAutoSaving)
-		{
-			currentEditorView()->editor->setModified(false);
-			fn=getName();
-			fileOpenRecentAction->addURL(KURL::fromPathOrURL(fn));
+			tabWidget->showPage(m_viewList.at(i));
+			return true;
 		}
 	}
-	UpdateCaption();
-	UpdateLineColStatus();
-}
 
-void Kile::fileSaveAs()
-{
-	int query=KMessageBox::Yes;
-	if ( !currentEditorView() ) 	return;
-	QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.dtx *.ltx *.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
-	if ( !fn.isEmpty() )
-	{
-		currentEditor()->setFile(fn);
-		QFileInfo fic(fn);
-		if( fic.exists() ) query = KMessageBox::warningYesNoCancel( this,i18n( "A document with this name already exists.\nDo you want to overwrite it?" ) );
-		if (query==KMessageBox::Yes)
-		{
-			filenames.replace( currentEditorView(), fn );
-			fileSave();
-			tabWidget->setTabLabel( currentEditorView(), fic.fileName() );
-		}
-	}
-	UpdateCaption();
-	UpdateLineColStatus();
+	return false;
 }
 
 void Kile::fileSaveAll(bool amAutoSaving)
 {
-LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
-temp=currentEditorView();
-FilesMap::Iterator it;
-for( it = filenames.begin(); it != filenames.end(); ++it )
-   {
-   tabWidget->showPage( it.key() );
-   fileSave(amAutoSaving);
-   }
-tabWidget->showPage(temp);
-UpdateCaption();
-UpdateLineColStatus();
+	Kate::View *view;
+	QFileInfo fi;
+
+	for (uint i = 0; i < m_viewList.count(); i++)
+	{
+		view = m_viewList.at(i);
+
+		if (view && view->getDoc()->isModified())
+		{
+			//don't save unwritable and untitled documents when autosaving
+			if ( ! (amAutoSaving && ((view->getDoc()->docName() == "untitled") || !fi.isWritable() )))
+			{
+				view->save();
+			}
+		}
+	}
 }
 
 void Kile::autoSaveAll()
@@ -861,8 +698,8 @@ void Kile::enableAutosave(bool as)
 }
 
 void Kile::createTemplate() {
-   if (currentEditorView()){
-      if (currentEditorView()->editor->isModified() ) {
+   if (currentView()){
+      if (currentView()->getDoc()->isModified() ) {
       KMessageBox::information(this,i18n("Please save the file first!"));
       return;
       }
@@ -871,8 +708,8 @@ void Kile::createTemplate() {
       return;
    }
 
-   QFileInfo *fi=currentFileInfo();
-   ManageTemplatesDialog mtd(fi,i18n("Create Template From Document"));
+   QFileInfo fi(currentView()->getDoc()->url().path());
+   ManageTemplatesDialog mtd(&fi,i18n("Create Template From Document"));
    mtd.exec();
 }
 
@@ -881,430 +718,137 @@ void Kile::removeTemplate() {
 	mtd.exec();
 }
 
-void Kile::filePrint()
-{
-KPrinter printer;
-QString finame;
-if (!htmlpresent )
- {
-    finame=getName();
-    if ( (!currentEditorView()) ||  getShortName() =="" )
-    {
-    	KMessageBox::error(this,i18n("Please open or create the document you want to print first!"));
-	return;
-    }
-
-    if (getShortName()=="untitled")
-    {
-      if (KMessageBox::warningYesNo( this,
-      i18n("You will have to save the document before you can print it. Save it now?"),
-      "Kile",i18n("Save"),i18n("Don't save"))
-      == KMessageBox::No) return;
-    }
-    fileSave();
-    //finame=getName();
-    //QFileInfo fic(finame);
-    QFileInfo *fic = currentFileInfo();
-    if (fic->exists() && fic->isReadable() )
-       {
-         if ( !printer.setup(this, i18n("Print %1").arg(getShortName())) )
-	 {
-		return;
-	 }
-	 else
-         {
-         QSize margins = printer.margins();
-         int marginHeight = margins.height();
-         QPainter p;
-         if( !p.begin( &printer ) )
-	 {
-		KMessageBox::error(this,i18n("Could not connect to the printer!"));
-	 	return;
-	 }
-         int yPos        = 0;
-         p.setFont( EditorFont );
-         QFontMetrics fm = p.fontMetrics();
-         QPaintDeviceMetrics metrics( &printer );
-         QFile f( fic->absFilePath() );
-         if ( !f.open( IO_ReadOnly ) ) return;
-         QTextStream t(&f);
-         while ( !t.eof() )
-           {
-             QString s = t.readLine();
-             if ( marginHeight + yPos > metrics.height() - marginHeight )
-             {
-               printer.newPage();
-               yPos = 0;
-             }
-             p.drawText( marginHeight, marginHeight + yPos,metrics.width(), fm.lineSpacing(),ExpandTabs,s );
-             yPos = yPos + fm.lineSpacing();
-           }
-           f.close();
-         p.end();
-         }
-         UpdateLineColStatus();
-       }
-   }
-}
 
 void Kile::fileClose()
 {
-if ( !currentEditorView() )	return;
-if (currentEditorView()->editor->isModified())
-{
-   switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document (%1) has been modified.\nDo you want to save it before closing?").arg(getName()),"Kile",
-				     i18n("Save"), i18n("Don't Save") ) )
-   {
-       case (KMessageBox::Yes):
-	   fileSave();
-     filenames.remove(currentEditorView());
-	   delete currentEditorView();
-	   break;
-       case (KMessageBox::No):
-     filenames.remove(currentEditorView());
-	   delete currentEditorView();
-	   break;
-       case (KMessageBox::Cancel):
-       default:
-	   return;
-	   break;
-   }
-
-}
-else
-{
-filenames.remove(currentEditorView());
-delete currentEditorView();
+	Kate::View *view = currentView();
+	if (view)
+	{
+		if (view->getDoc()->closeURL() )
+		{
+			guiFactory()->removeClient( view );
+			m_viewList.remove(view);
+			m_activeView=0;
+			delete view;
+		}
+	}
 }
 
-if ( currentEditorView() )	currentEditorView()->editor->viewport()->setFocus();
-UpdateCaption();
-UpdateLineColStatus();
+bool Kile::fileCloseAll()
+{
+	m_activeView=0;
+	Kate::View * view;
+	while( ! m_viewList.isEmpty() )
+    	{
+		view = m_viewList.first();
+
+		if (view->getDoc()->closeURL())
+		{
+			guiFactory()->removeClient( view );
+			m_viewList.removeFirst();
+			delete view;
+		}
+		else //user chose CANCEL
+		{
+			return false;
+		}
+    	}
+
+	return true;
 }
 
-void Kile::fileCloseAll()
+bool Kile::queryExit()
 {
-bool go=true;
-while (currentEditorView() && go)
- {
-	if (currentEditorView()->editor->isModified())
-      {
-   switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
-				     i18n("Save"), i18n("Don't Save") ) )
-          {
-          case (KMessageBox::Yes):
-       	    fileSave();
-            filenames.remove(currentEditorView());
-       	    delete currentEditorView();
-            break;
-          case (KMessageBox::No):
-            filenames.remove(currentEditorView());
-       	    delete currentEditorView();
-            break;
-          case (KMessageBox::Cancel):
-          default:
-            go=false;
-       	    return;
-       	    break;
-          }
-			}
-	else
-			{
-      filenames.remove(currentEditorView());
-      delete currentEditorView();
-      }
-
- }
-UpdateCaption();
-UpdateLineColStatus();
+	SaveSettings();
+	return true;
 }
 
-void Kile::fileExit()
+bool Kile::queryClose()
 {
-SaveSettings();
-bool accept=true;
-    while (currentEditorView() && accept)
-    {
-      if (currentEditorView()->editor->isModified())
-      {
-   switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
-				     i18n("Save"), i18n("Don't Save") ) )
-      {
-       case (KMessageBox::Yes):
-	     fileSave();
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::No):
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::Cancel):
-       default:
-	     accept=false;
-	     break;
-     }
-     }
-     else
-        {
-        filenames.remove(currentEditorView());
-        delete currentEditorView();
-        }
-    }
-    if (accept) qApp->quit();
-}
-
-void Kile::closeEvent(QCloseEvent *e)
-{
-SaveSettings();
-bool accept=true;
-    while (currentEditorView() && accept)
-    {
-      if (currentEditorView()->editor->isModified())
-      {
-   switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
-				     i18n("Save"), i18n("Don't Save") ) )
-      {
-       case (KMessageBox::Yes):
-	     fileSave();
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::No):
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::Cancel):
-       default:
-	     accept=false;
-	     break;
-     }
-     }
-     else
-        {
-         filenames.remove(currentEditorView());
-         delete currentEditorView();
-         }
-    }
-    if (accept) e->accept();
+	return fileCloseAll();
 }
 
 void Kile::fileSelected(const KFileItem *file)
 {
-    QString sa =file->url().prettyURL() ;
-    if ( sa.left(5) == "file:" ) sa = sa.remove(0, 5);
-    input_encoding =KileFS->comboEncoding->lineEdit()->text();
-    load(sa );
-}
-//////////////////////////// EDIT ///////////////////////
-void Kile::editUndo()
-{
-    if ( !currentEditorView() )
-	return;
-    currentEditorView()->editor->undo();
+    	QString encoding =KileFS->comboEncoding->lineEdit()->text();
+
+	if (!isOpen(file->url()) )
+		load(file->url(), encoding);
 }
 
-void Kile::editRedo()
-{
-    if ( !currentEditorView() )
-	return;
-    currentEditorView()->editor->redo();
-}
-
-void Kile::editCut()
-{
-    if ( !currentEditorView() )
-	return;
-    currentEditorView()->editor->cut();
-}
-
-void Kile::editCopy()
-{
-    if ( !currentEditorView() )
-	return;
-    currentEditorView()->editor->copy();
-}
-
-void Kile::editPaste()
-{
-    if ( !currentEditorView() )
-	return;
-    currentEditorView()->editor->paste();
-}
-
-void Kile::editSelectAll()
-{
-    if ( !currentEditorView() )
-	return;
-    currentEditorView()->editor->selectAll(true);
-}
-
-void Kile::editFind()
-{
-    if ( !currentEditorView() )	return;
-    if (!findDialog) findDialog = new FindDialog(this, 0, TRUE );
-    findDialog->SetEditor(currentEditorView()->editor);
-    findDialog->show();
-    findDialog->raise();
-    findDialog->comboFind->setFocus();
-    findDialog->comboFind->lineEdit()->selectAll();
-}
-
-void Kile::editFindNext()
-{
-    if ( !currentEditorView() )	return;
-    if (!findDialog)
-       {
-       findDialog = new FindDialog(this, 0, true );
-       findDialog->SetEditor(currentEditorView()->editor);
-       findDialog->show();
-       findDialog->raise();
-       findDialog->comboFind->setFocus();
-       findDialog->comboFind->lineEdit()->selectAll();
-       }
-    else
-       {
-       findDialog->SetEditor(currentEditorView()->editor);
-       findDialog->doFind();
-       }
-}
-
-
-void Kile::editReplace()
-{
-    if ( !currentEditorView() )	return;
-    if ( !replaceDialog )  replaceDialog = new ReplaceDialog(this, 0, TRUE );
-    replaceDialog->SetEditor(currentEditorView()->editor);
-    replaceDialog->show();
-    replaceDialog->raise();
-    replaceDialog->comboFind->setFocus();
-    replaceDialog->comboFind->lineEdit()->selectAll();
-}
-
-void Kile::editGotoLine()
-{
-    if ( !currentEditorView() )	return;
-    if ( !gotoLineDialog ) gotoLineDialog = new GotoLineDialog(this, 0,TRUE );
-    gotoLineDialog->SetEditor(currentEditorView()->editor);
-    gotoLineDialog->show();
-    gotoLineDialog->raise();
-    gotoLineDialog->spinLine->setFocus();
-    gotoLineDialog->spinLine->setMinValue( 1 );
-    gotoLineDialog->spinLine->setMaxValue( currentEditorView()->editor->paragraphs() );
-    gotoLineDialog->spinLine->selectAll();
-}
-
-void Kile::editComment()
-{
-    if ( !currentEditorView() )	return;
-    currentEditorView()->editor->commentSelection();
-    UpdateLineColStatus();
-}
-
-void Kile::editUncomment()
-{
-    if ( !currentEditorView() )	return;
-    currentEditorView()->editor->uncommentSelection();
-    UpdateLineColStatus();
-}
-
-void Kile::editIndent()
-{
-    if ( !currentEditorView() )	return;
-    currentEditorView()->editor->indentSelection();
-    UpdateLineColStatus();
-}
 ////////////////// GENERAL SLOTS //////////////
-void Kile::UpdateLineColStatus()
+void Kile::newStatus(const QString & msg)
 {
- if ( !currentEditorView() )
-  {
-  statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
-  }
-else
-  {
-  QString linenumber;
-	int para=0;
-  int index=0;
-  currentEditorView()->editor->viewport()->setFocus();
-  currentEditorView()->editor->getCursorPosition( &para, &index);
-  linenumber = i18n("Line: %1 Col: %2").arg(para + 1).arg(index + 1);
-  statusBar()->changeItem(linenumber, ID_LINE_COLUMN);
-  }
+	statusBar()->changeItem(msg,ID_LINE_COLUMN);
 }
 
-void Kile::NewDocumentStatus(bool m)
+void Kile::newDocumentStatus(Kate::Document *doc)
 {
-if ( !currentEditorView() )	return;
-if (m) tabWidget->changeTab( currentEditorView(),UserIcon("modified"), QFileInfo( getName() ).fileName() );
-else tabWidget->changeTab( currentEditorView(),UserIcon("empty"), QFileInfo( getName() ).fileName() );
-}
-
-QString Kile::getName() const
-{
-QString title;
-//if ( !currentEditorView() )	{title="";}
-//else {title=filenames[currentEditorView()];}
-if ( !currentEditorView() )	{title="";}
-else
-{
-	if (currentEditor()->fileInfo() != 0)
+	if (doc)
 	{
-		title=currentEditor()->fileInfo()->absFilePath();
+		QPtrList<KTextEditor::View> list = doc->views();
+		QString icon = doc->isModified() ? "modified" : "empty";
+
+		for (uint i=0; i < list.count(); i++)
+		{
+			tabWidget->changeTab( list.at(i),UserIcon(icon), getShortName(doc) );
+		}
+	}
+}
+
+QString Kile::getName(Kate::Document *doc)
+{
+	QString title;
+	if (doc)
+	{
+		title=doc->url().path();
+		if (title == "") title = doc->docName();
+	}
+
+	Kate::View *view = currentView();
+
+	if ( view )
+	{
+		title=view->getDoc()->url().path();
+		if (title == "") title = view->getDoc()->docName();
 	}
 	else
-	{
 		title="";
-	}
-}
-return title;
+
+	return title;
 }
 
-QString Kile::getShortName() const
+QString Kile::getShortName(Kate::Document *doc)
 {
-QString title;
-//if ( !currentEditorView() )	{title="";}
-//else {title=filenames[currentEditorView()];}
-if ( !currentEditorView() )	{title="";}
-else
-{
-	if (currentEditor()->fileInfo() != 0)
+	QString title;
+	if (doc)
 	{
-		title=currentEditor()->fileInfo()->fileName();
+		title=doc->url().fileName();
+		if (title == "") title = doc->docName();
+		return title;
+	}
+
+	Kate::View *view = currentView();
+	if ( view )
+	{
+		title=view->getDoc()->url().fileName();
+		if (title == "") title = view->getDoc()->docName();
 	}
 	else
-	{
 		title="";
-	}
-}
-return title;
+
+	return title;
 }
 
-void Kile::UpdateCaption()
+void Kile::newCaption()
 {
-QString title;
-if   ( !currentEditorView() )	{title=i18n("No Document");}
-else
-   {
-   title=i18n("Document: %1").arg(getName());
-   input_encoding=currentEditorView()->editor->getEncoding();
-   KileFS->comboEncoding->lineEdit()->setText(input_encoding);
-   }
-setCaption(title);
-UpdateStructure();
-if (Outputview->currentPage()->inherits("TexKonsoleWidget")) syncTerminal();
-/*if (singlemode)
- {
- OutputWidget->clear();
- LogWidget->clear();
- logpresent=false;
- }
- */
-UpdateLineColStatus();
+	Kate::View *view = currentView();
+	if (view)
+	{
+		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
+		//UpdateStructure(); FIXME: is this necessary?
+		if (Outputview->currentPage()->inherits("TexKonsoleWidget")) syncTerminal();
+	}
 }
 
 void Kile::gotoNextDocument()
@@ -1341,8 +885,8 @@ splitter1->show();
 splitter2->show();
 if (showstructview)  Structview->show();
 if (showoutputview)   Outputview->show();
-UpdateLineColStatus();
-UpdateCaption();
+newStatus();
+newCaption();
 }
 
 
@@ -1436,7 +980,7 @@ else
     if (htmlpresent && htmlpart)
     {
     stateChanged( "State1" );
-    toolBar("ToolBar1")->hide();
+    toolBar("mainToolBar")->hide();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
@@ -1445,7 +989,7 @@ else
     else if (pspresent && pspart)
     {
     stateChanged( "State2" );
-    toolBar("ToolBar1")->hide();
+    toolBar("mainToolBar")->hide();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
@@ -1454,7 +998,7 @@ else
     else if (dvipresent && dvipart)
     {
     stateChanged( "State3" );
-    toolBar("ToolBar1")->hide();
+    toolBar("mainToolBar")->hide();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
@@ -1464,7 +1008,7 @@ else
     {
     stateChanged( "State4" );
     topWidgetStack->raiseWidget(0);
-    if (showmaintoolbar) {toolBar("ToolBar1")->show();}
+    if (showmaintoolbar) {toolBar("mainToolBar")->show();}
     if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
     if (showedittoolbar) {toolBar("ToolBar4")->show();}
     if (showmathtoolbar) {toolBar("ToolBar5")->show();}
@@ -1529,7 +1073,7 @@ void Kile::QuickBuild()
       LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
    }
 
-   UpdateLineColStatus();
+   //newStatus();
 }
 
 void Kile::EndQuickCompile()
@@ -1604,7 +1148,7 @@ void Kile::QuickDviToPS()
       LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 void Kile::QuickDviPDF()
@@ -1708,6 +1252,17 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  return proc;
 }
 
+bool Kile::isLaTeXRoot(Kate::Document *doc)
+{
+	if (	!doc->text().contains("\\documentclass", true) &&
+		!doc->text().contains("\\documentstyle", true))
+	{
+		return false;
+	}
+
+	return true;
+}
+
 //This function prepares files for compiling by the command <command>.
 // - untitled document -> warn user that he needs to save the file
 // - save the file (if untitled a file save dialog is opened)
@@ -1715,8 +1270,19 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
 // -
 // - return the name of the file to be compiled (master document)
 QString Kile::prepareForCompile(const QString & command) {
+  Kate::View *view = currentView();
+
+  //warn if there is no active view
+  if (singlemode && !view)
+  {
+     KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on.\n"
+                                   "Make sure you have the file you want to compile open and saved.")
+                         .arg(command).arg(command));
+     return QString::null;
+  }
+
   QString finame = getShortName();
-  if (finame == "untitled") {
+  if (finame == "untitled" || finame == "") {
      if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
                                              "Do you want to save it? Click Yes to save and No to abort.").arg(command),
                                    i18n("File Needs to be Saved!"))
@@ -1725,13 +1291,13 @@ QString Kile::prepareForCompile(const QString & command) {
 
   //save the file before doing anything
   //attempting to save an untitled document will result in a file-save dialog pop-up
-  fileSave();
+  if (view) view->save();
 
   //determine the name of the file to be compiled
   if (singlemode)
   {
 	finame=getName();
-	if (!currentEditor()->isLaTeXRoot())
+	if (view && !isLaTeXRoot(view->getDoc()))
 	{
 		if (KMessageBox::warningYesNo(this,i18n("This document doesn't contain a LaTeX header.\nIt should probably be used with a master document.\nContinue anyway?"))
 			== KMessageBox::No)
@@ -1742,15 +1308,7 @@ QString Kile::prepareForCompile(const QString & command) {
      finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
-  //we need to check for finame=="untitled" etc. because the user could have
-  //escaped the file save dialog
-  if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
-  {
-     KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on.\n"
-                                   "Make sure you have the file you want to compile open and saved.")
-                         .arg(command).arg(command));
-     return QString::null;
-  }
+
 
   QFileInfo fic(finame);
 
@@ -1772,27 +1330,30 @@ QString Kile::prepareForCompile(const QString & command) {
 
 QStringList Kile::prepareForConversion(const QString &command, const QString &from, const QString &to)
 {
+   Kate::View *view = currentView();
    QStringList list,empty;
    QString finame, fromName, toName;
-   if (singlemode) {finame=getName();}
-   else {
-     finame=MasterName;
-   }
 
-   if (getShortName() == "untitled") {
-      KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
-                                   "file out of it. After you have done this, you can turn it into a %2 file.")
-                                   .arg(from.upper()).arg(to.upper()),
-                         i18n("File needs to be saved and compiled!"));
-      return empty;
-   }
-
-   if ((singlemode && !currentEditorView()) || finame=="")
+   //warn if there is no active view
+   if (singlemode && !view)
    {
      KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on. "
                                    "Make sure you have the source file of the file you want to convert open and saved.")
                          .arg(command).arg(command));
      return empty;
+   }
+
+   if (singlemode) {finame=getName();}
+   else {
+     finame=MasterName;
+   }
+
+   if (getShortName() == "untitled" || finame == "") {
+      KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
+                                   "file out of it. After you have done this, you can turn it into a %2 file.")
+                                   .arg(from.upper()).arg(to.upper()),
+                         i18n("File needs to be saved and compiled!"));
+      return empty;
    }
 
    QFileInfo fic(finame);
@@ -1814,25 +1375,27 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
 
 QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext, const QString &target = QString::null)
 {
+   Kate::View *view = currentView();
    QString finame;
    if (singlemode) {finame=getName();}
    else {
      finame=MasterName;
    }
 
-   if (getShortName() == "untitled") {
+   //warn if there is no active view
+   if (singlemode && !view)
+   {
+     KMessageBox::error( this, i18n("Unable to determine which %1 file to show. Please open the source file of the %1 file to want to view.")
+                         .arg(ext.upper()).arg(ext.upper()));
+     return QString::null;
+   }
+
+   if (getShortName() == "untitled" || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can view the %1 file.")
                                    .arg(ext.upper()).arg(ext.upper()),
                          i18n("File needs to be saved and compiled!"));
       return QString::null;
-   }
-
-   if ((singlemode && !currentEditorView()) || finame=="")
-   {
-     KMessageBox::error( this, i18n("Unable to determine which %1 file to show. Please open the source file of the %1 file to want to view.")
-                         .arg(ext.upper()).arg(ext.upper()));
-     return QString::null;
    }
 
    QFileInfo fic(finame);
@@ -1849,7 +1412,7 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
 
    fic.setFile(finame);
 
-   if ( ! (fic.exists() && fic.isReadable() ) )
+   if ( ! ( fic.isReadable() ) )
    {
       KMessageBox::error(this,i18n("The %1 file does not exist or you do not have read permission. "
                                    "Maybe you forgot to create the %1 file?")
@@ -1885,7 +1448,7 @@ void Kile::Latex()
      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 
@@ -1931,7 +1494,7 @@ void Kile::ViewDvi()
      }
   }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 void Kile::KdviForwardSearch()
@@ -1949,11 +1512,27 @@ void Kile::KdviForwardSearch()
 
   QFileInfo fic(finame);
   QString dviname=finame;
-  QString texname=fic.baseName(TRUE)+".tex";
-  int para=0;
-  int index=0;
-  currentEditorView()->editor->viewport()->setFocus();
-  currentEditorView()->editor->getCursorPosition( &para, &index);
+	QString texname;
+	QString finame_cur = getName();
+	QFileInfo fic_cur(finame_cur);
+
+	if (singlemode)
+		texname=fic.baseName(TRUE)+".tex";
+	else
+		texname=fic_cur.fileName();
+
+	int para=0;
+	int index=0;
+
+	Kate::View *view = currentView();
+
+	if (view)
+	{
+		view->setFocus();
+		para = view->cursorLine();
+		index = view->cursorColumn();
+	}
+
   if (viewdvi_command=="Embedded Viewer")
   {
    ResetPart();
@@ -1990,7 +1569,7 @@ void Kile::KdviForwardSearch()
    }
 
 
-   UpdateLineColStatus();
+   //newStatus();
 }
 
 void Kile::DviToPS()
@@ -2018,7 +1597,7 @@ void Kile::DviToPS()
 
   }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 void Kile::ViewPS()
@@ -2064,7 +1643,7 @@ void Kile::ViewPS()
          }
     }
 
-    UpdateLineColStatus();
+    //newStatus();
 }
 
 void Kile::PDFLatex()
@@ -2091,7 +1670,7 @@ void Kile::PDFLatex()
      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 void Kile::ViewPDF()
@@ -2137,7 +1716,7 @@ void Kile::ViewPDF()
     }
 
 
- UpdateLineColStatus();
+ //newStatus();
 }
 
 void Kile::MakeBib()
@@ -2156,7 +1735,7 @@ void Kile::MakeBib()
 
   //we need to check for finame=="untitled" etc. because the user could have
   //escaped the file save dialog
-  if ((singlemode && !currentEditorView()) || finame=="")
+  if ((singlemode && !currentView()) || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine on which file to run %1. Make sure you have the source file "
                                    "of the file you want to run %1 on open and saved.")
@@ -2192,7 +1771,7 @@ void Kile::MakeBib()
          }
 
 
- UpdateLineColStatus();
+ //newStatus();
 }
 
 void Kile::MakeIndex()
@@ -2215,7 +1794,7 @@ void Kile::MakeIndex()
 
   //we need to check for finame=="untitled" etc. because the user could have
   //escaped the file save dialog
-  if ((singlemode && !currentEditorView()) || finame=="")
+  if ((singlemode && !currentView()) || finame=="")
   {
      KMessageBox::error(this,i18n("Unable to determine on which file to run %1. "
                                   "Make sure you have the source file of the file you want to run %1 on open and saved.")
@@ -2247,7 +1826,7 @@ void Kile::MakeIndex()
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 void Kile::PStoPDF()
@@ -2274,7 +1853,7 @@ void Kile::PStoPDF()
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
-    UpdateLineColStatus();
+    //newStatus();
 }
 
 void Kile::DVItoPDF()
@@ -2302,18 +1881,18 @@ void Kile::DVItoPDF()
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
     }
 
-  UpdateLineColStatus();
+  //newStatus();
 }
 
 void Kile::MetaPost()
-{
+{/*
   //TODO: what the h*ll is MetaPost, how should we deal with the
   //error messages?
 
   QString finame;
 
   finame=getShortName();
-  if (!currentEditorView() ||finame=="untitled" || finame=="")
+  if (!currentView() ||finame=="untitled" || finame=="")
   {
   KMessageBox::error( this,i18n("Could not start the command."));
   return;
@@ -2346,14 +1925,14 @@ void Kile::MetaPost()
  {
   KMessageBox::error(this, i18n("MetaPost file not found!"));
  }
-UpdateLineColStatus();
+//newStatus();*/
 }
 
 void Kile::CleanAll()
 {
   QString finame = getShortName();
 
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+  if ((singlemode && !currentView()) ||finame=="untitled" || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
      return;
@@ -2403,25 +1982,30 @@ void Kile::CleanAll()
          }
    }
 
-   UpdateLineColStatus();
+   //newStatus();
 }
 
 void Kile::syncTerminal()
 {
-    QString finame;
-    if (singlemode) {finame=getName();}
-    else {finame=MasterName;}
-    if ((singlemode && !currentEditorView()) ||getShortName()=="untitled" || getShortName()=="") {return;}
+	Kate::View *view = currentView();
 
-    QFileInfo fi(finame);
-    QString texname=fi.dirPath()+"/"+fi.baseName(TRUE)+".tex";
-    QFileInfo fic(texname);
-  	if (fic.exists() && fic.isReadable() )
-    {
-    texkonsole->SetDirectory(fic.dirPath());
-    texkonsole->activate();
-    }
+	if (view)
+	{
+		QString finame;
+		if (singlemode) {finame=view->getDoc()->url().path();}
+    		else {finame=MasterName;}
+
+		if (finame == "" || finame == "untitled" ) return;
+
+    		QFileInfo fic(finame);
+  		if ( fic.isReadable() )
+    		{
+    			texkonsole->SetDirectory(fic.dirPath());
+    			texkonsole->activate();
+		}
+	}
 }
+
 void Kile::RunTerminal(QWidget* w)
 {
 if (w->inherits ("TexKonsoleWidget")) syncTerminal();
@@ -2457,7 +2041,7 @@ void Kile::LatexToHtml()
     }
     delete (l2hDlg);
 
-   UpdateLineColStatus();
+   //newStatus();
 }
 
 void Kile::slotProcessOutput(KProcess* /*proc*/,char* buffer,int buflen)
@@ -2496,7 +2080,7 @@ else
 //LogWidget->setCursorPosition(row,col);
 //LogWidget->insertAt(result, row, col);
 LogWidget->append(result);
-UpdateLineColStatus();
+//newStatus();
 currentProcess=0;
 }
 
@@ -2515,7 +2099,7 @@ int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
 int col = LogWidget->paragraphLength(row);
 LogWidget->setCursorPosition(row,col);
 LogWidget->insertAt(result, row, col);
-UpdateLineColStatus();
+//newStatus();
 HtmlPreview();
 }
 
@@ -2543,15 +2127,16 @@ void Kile::HtmlPreview()
 
 void Kile::execUserTool(int i)
 {
+	Kate::View *view = currentView();
 	QString finame;
-	QString commandline=listUserTools[i].tag;
+	QString commandline=m_listUserTools[i].tag;
 	QFileInfo fi;
 
 	bool documentpresent=true;
 
 	if (singlemode) {finame=getName();}
 	else {finame=MasterName;}
-	if ((singlemode && !currentEditorView()) ||getShortName()=="untitled" || getShortName()=="")
+	if ((singlemode && !view) ||getShortName()=="untitled" || getShortName()=="")
 	{
 		documentpresent=false;
 	}
@@ -2560,7 +2145,7 @@ void Kile::execUserTool(int i)
 	if (documentpresent)
 	{
 		fi.setFile(finame);
-		fileSave();
+		view->save();
 	}
 	else
 	{
@@ -2592,7 +2177,7 @@ void Kile::execUserTool(int i)
 		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
 	}
 
-	UpdateLineColStatus();
+	newStatus();
 }
 
 ////////////////// STRUCTURE ///////////////////
@@ -2603,7 +2188,7 @@ showVertPage(1);
 void Kile::UpdateStructure()
 {
 outstruct->clear();
-if ( !currentEditorView() ) return;
+if ( !currentView() ) return;
 QString shortName = getShortName();
 if ((shortName.right(4)!=".tex") && (shortName!="untitled"))  return;
 
@@ -2620,12 +2205,12 @@ QListViewItem *toplabel=  new QListViewItem(top,"LABELS","0",0 );
 structlist.append(QString::number(0));
 structitem.append("LABELS");
 QString s;
-for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
+for(uint i = 0; i < currentView()->getDoc()->numLines(); i++)
  {
   int tagStart, tagEnd;
  //// label ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find("\\label{", tagEnd);
  if (tagStart!=-1)
   {
@@ -2649,7 +2234,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
 
  //// include ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find("\\include{", tagEnd);
  if (tagStart!=-1)
   {
@@ -2671,7 +2256,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   };
  //// input ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find("\\input{", tagEnd);
  if (tagStart!=-1)
   {
@@ -2693,7 +2278,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   };
  //// part ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
  if (tagStart!=-1)
   {
@@ -2713,7 +2298,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   };
  //// chapter ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
  if (tagStart!=-1)
   {
@@ -2733,7 +2318,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   };
  //// section ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
  if (tagStart!=-1)
   {
@@ -2753,7 +2338,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   };
  //// subsection ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
  if (tagStart!=-1)
   {
@@ -2773,7 +2358,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
   };
  //// subsubsection ////
  tagStart=tagEnd=0;
- s=currentEditorView()->editor->text(i);
+ s=currentView()->getDoc()->textLine(i);
  tagStart=s.find(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
  if (tagStart!=-1)
   {
@@ -2791,7 +2376,7 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
     parent_level[4]->setPixmap(0,UserIcon("subsubsection"));
   };
  }
-if (currentEditorView() ){currentEditorView()->editor->viewport()->setFocus();}
+if (currentView() ){currentView()->setFocus();}
 }
 
 void Kile::ClickedOnStructure(QListViewItem * item)
@@ -2800,7 +2385,7 @@ void Kile::ClickedOnStructure(QListViewItem * item)
 if (item==0) return;
 
 bool ok = false;
-if ( !currentEditorView() ) return;
+if ( !currentView() ) return;
 QString it;
 if ((item) && (!structlist.isEmpty()))
  {
@@ -2817,12 +2402,12 @@ if (!ok) return;
 QString s=*it2;
 if (s!="include" && s!="input" && s!="LABELS")
  {
- int l=s.toInt(&ok,10);
- if (ok && l<=currentEditorView()->editor->paragraphs())
+ uint l=s.toInt(&ok,10);
+ if (ok && l<=currentView()->getDoc()->numLines())
   {
-  currentEditorView()->editor->viewport()->setFocus();
-  currentEditorView()->editor->setCursorPosition(l, 0);
-  UpdateLineColStatus();
+  currentView()->setFocus();
+  currentView()->setCursorPosition(l, 0);
+  //newStatus();
   }
  }
  }
@@ -2830,7 +2415,7 @@ if (s!="include" && s!="input" && s!="LABELS")
 
 void Kile::DoubleClickedOnStructure(QListViewItem *)
 {
-if ( !currentEditorView() ) return;
+if ( !currentView() ) return;
 QListViewItem *item = outstruct->currentItem();
 QString it;
 if ((item) && (!structlist.isEmpty()))
@@ -2875,11 +2460,10 @@ void Kile::ViewLog()
 	LatexError();
 	if (tempLog != QString::null)
 	{
-		kdDebug() << "about to show log" << endl;
 		LogWidget->setText(tempLog);
 		LogWidget->highlight();
 		LogWidget->scrollToBottom();
-		UpdateLineColStatus();
+		//newStatus();
 		logpresent=true;
 	}
 	else
@@ -2892,7 +2476,7 @@ void Kile::ViewLog()
 void Kile::ClickedOnOutput(int parag, int /*index*/)
 {
 
-if ( !currentEditorView() ) return;
+if ( !currentView() ) return;
 
  int Start, End;
  bool ok;
@@ -2914,9 +2498,9 @@ if ( !currentEditorView() ) return;
 			 (i>10) ) return;
 	 } while (  s.find(QRegExp("l.[0-9]"),0) < 0 ) ;
  }
-
+ 
  //// l. ///
-
+ 
  Start=End=0;
  Start=s.find(QRegExp("l.[0-9]"), End);
  if (Start!=-1)
@@ -2959,13 +2543,13 @@ if ( !currentEditorView() ) return;
   };
 
 
-int l=line.toInt(&ok,10)-1;
+uint l=line.toInt(&ok,10)-1;
 
-if (ok && l<=currentEditorView()->editor->paragraphs())
+if (ok && l<=currentView()->getDoc()->numLines())
  {
- currentEditorView()->editor->viewport()->setFocus();
- currentEditorView()->editor->setCursorPosition(l, 0);
- UpdateLineColStatus();
+ currentView()->setFocus();
+ currentView()->setCursorPosition(l, 0);
+ //newStatus();
  }
 }
 ////////////////////////// ERRORS /////////////////////////////
@@ -2980,7 +2564,6 @@ void Kile::LatexError(bool warnings)
 
 	QString finame;
 	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
-	kdDebug() << "starting to read log" << endl;
 	QFileInfo fic(finame);
 	QFile f(finame);
 	if ( f.open(IO_ReadOnly) )
@@ -3013,7 +2596,6 @@ void Kile::LatexError(bool warnings)
 		}
 		f.close();
 	}
-	kdDebug() << "log read" << endl;
 }
 
 void Kile::NextError()
@@ -3045,7 +2627,6 @@ void Kile::NextError()
 			LogWidget->setCursorPosition(l+3 , 0);
 			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
-		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
 	}
 
 	if (logpresent && errorlist->isEmpty())
@@ -3086,7 +2667,6 @@ void Kile::PreviousError()
 			LogWidget->setCursorPosition(l+3 , 0);
 			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
-		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
 	}
 
 	if (logpresent && errorlist->isEmpty())
@@ -3097,27 +2677,95 @@ void Kile::PreviousError()
 	m_bNewErrorlist=false;
 }
 /////////////////////// LATEX TAGS ///////////////////
+void Kile::insertTag(const KileAction::TagData& data)
+{
+	Kate::View *view = currentView();
+	int para,index;
+
+	if ( !view ) return;
+
+	view->setFocus();
+
+	//whether or not to wrap tag around selection
+	bool wrap = (data.tagEnd != QString::null && view->getDoc()->hasSelection());
+
+	//save current cursor position
+	para=view->cursorLine();
+	index=view->cursorColumn();
+
+	//if there is a selection act as if cursor is at the beginning of selection
+	if (wrap)
+	{
+		index = view->getDoc()->selStartCol();
+		para  = view->getDoc()->selStartLine();
+	}
+
+	QString ins = data.tagBegin;
+
+	//cut the selected text
+	if (wrap)
+	{
+		ins += view->getDoc()->selection();
+		view->getDoc()->removeSelectedText();
+	}
+
+	ins += data.tagEnd;
+
+	//do some replacements
+	QFileInfo fi( view->getDoc()->url().path());
+	ins.replace("%S", fi.baseName(true));
+
+	//insert first part of tag at cursor position
+	kdDebug() << QString("insertTag: inserting %1 at (%2,%3)").arg(ins).arg(para).arg(index) << endl;
+	view->getDoc()->insertText(para,index,ins);
+
+	//move cursor to the new position
+	view->setCursorPosition(para+data.dy,index+data.dx);
+
+	view->getDoc()->clearSelection();
+
+	LogWidget->clear();
+	Outputview->showPage(LogWidget);
+	logpresent=false;
+
+	LogWidget->append(data.description);
+}
+
+void Kile::insertGraphic(const KileAction::TagData& data)
+{
+	insertTag(data);
+
+	QFileInfo fi(data.tagBegin.mid(data.tagBegin.find('{')+1));
+	kdDebug() << "insertGraphic : filename " << fi.fileName() << endl;
+
+	if (fi.extension(false) =="eps")
+	{
+		LogWidget->insertLine("*************  ABOUT THIS IMAGE  *************");
+		LogWidget->insertLine(DetectEpsSize(fi.absFilePath()));
+	}
+}
+
 void Kile::InsertTag(QString Entity, int dx, int dy)
 {
- if ( !currentEditorView() )	return;
+	Kate::View *view = currentView();
+	if ( !view ) return;
 	int para=0;
-  int index=0;
-  currentEditorView()->editor->viewport()->setFocus();
-  currentEditorView()->editor->getCursorPosition( &para, &index);
-  currentEditorView()->editor->insertAt(Entity,para,index);
-  currentEditorView()->editor->setCursorPosition(para+dy,index+dx);
-  currentEditorView()->editor->viewport()->setFocus();
-  LogWidget->clear();
-  Outputview->showPage(LogWidget);
-  logpresent=false;
-  UpdateLineColStatus();
+	int index=0;
+	view->setFocus();
+	para=view->cursorLine();
+	index=view->cursorColumn();
+	view->getDoc()->insertText(para,index,Entity);
+	view->setCursorPosition(para+dy,index+dx);
+	LogWidget->clear();
+	Outputview->showPage(LogWidget);
+	logpresent=false;
 }
 
 void Kile::QuickDocument()
 {
 QString opt="";
 int li=3;
-  if ( !currentEditorView() )	return;
+  if ( !currentView() )	return;
   QString tag=QString("\\documentclass[");
   startDlg = new quickdocumentdialog(this,"Quick Start",i18n("Quick Start"));
   startDlg->otherClassList=userClassList;
@@ -3185,7 +2833,7 @@ int li=3;
 
 void Kile::QuickTabular()
 {
-  if ( !currentEditorView() )	return;
+  if ( !currentView() )	return;
   QString al="";
   QString vs="";
   QString hs="";
@@ -3223,7 +2871,7 @@ void Kile::QuickTabular()
 
 void Kile::QuickTabbing()
 {
-  if ( !currentEditorView() )	return;
+  if ( !currentView() )	return;
   tabDlg = new tabbingdialog(this,"Tabbing",i18n("Tabbing"));
   if ( tabDlg->exec() )
  {
@@ -3247,7 +2895,7 @@ void Kile::QuickTabbing()
 
 void Kile::QuickArray()
 {
-  if ( !currentEditorView() )	return;
+  if ( !currentView() )	return;
   QString al;
 	arrayDlg = new arraydialog(this,"Array",i18n("Array"));
   if ( arrayDlg->exec() ) {
@@ -3281,7 +2929,7 @@ void Kile::QuickArray()
 
 void Kile::QuickLetter()
 {
-  if ( !currentEditorView() )	return;
+  if ( !currentView() )	return;
   QString tag=QString("\\documentclass[");
 	ltDlg = new letterdialog(this,"Letter",i18n("Letter"));
   if ( ltDlg->exec() )
@@ -3310,1209 +2958,7 @@ void Kile::QuickLetter()
   delete( ltDlg);
 }
 
-void Kile::Insert1()
-{
-InsertTag("\\documentclass[10pt]{}",21,0);
-LogWidget->insertLine( "\\documentclass[options]{class}" );
-LogWidget->insertLine( "class : article,report,book,letter" );
-LogWidget->insertLine( "size options : 10pt, 11pt, 12pt" );
-LogWidget->insertLine( "paper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper" );
-LogWidget->insertLine("other options: ");
-LogWidget->insertLine("landscape -- selects landscape format. Default is portrait. ");
-LogWidget->insertLine("titlepage, notitlepage -- selects if there should be a separate title page.");
-LogWidget->insertLine("leqno -- equation number on left side of equations. Default is right side.");
-LogWidget->insertLine("fleqn -- displayed formulas flush left. Default is centred.");
-LogWidget->insertLine("onecolumn, twocolumn -- one or two columns. Defaults to one column");
-LogWidget->insertLine("oneside, twoside -- selects one- or twosided layout.");
-}
-void Kile::Insert1bis()
-{
-InsertTag("\\usepackage{} ",12,0);
-LogWidget->insertLine("\\usepackage[options]{pkg}");
-LogWidget->insertLine("Any options given in the \\documentclass command that are unknown by the selected document class");
-LogWidget->insertLine("are passed on to the packages loaded with \\usepackage.");
-}
-void Kile::Insert1ter()
-{
-InsertTag("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n",0,3);
-LogWidget->insertLine("The principal American Mathematical Society packages");
-}
-void Kile::Insert2()
-{
-InsertTag("\\begin{document}\n\n\\end{document} ",0,1);
-LogWidget->insertLine("Text is allowed only between \\begin{document} and \\end{document}.");
-LogWidget->insertLine("The 'preamble' (before \\begin{document}} ) may contain declarations only.");
-}
-
-void Kile::Insert3()
-{
-if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\part");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\part{");}
-  else
-  {tag=QString("\\part*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\part{title}");
-LogWidget->insertLine( "\\part*{title} : do not include a number and do not make an entry in the table of contents");
-delete( stDlg);
-}
-
-void Kile::Insert4()
-{
- if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\chapter");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\chapter{");}
-  else
-  {tag=QString("\\chapter*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\chapter{title}");
-LogWidget->insertLine( "\\chapter*{title} : do not include a number and do not make an entry in the table of contents");
-LogWidget->insertLine( "Only for 'report' and 'book' class document.");
-delete( stDlg);
-}
-
-void Kile::Insert5()
-{
- if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\section");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\section{");}
-  else
-  {tag=QString("\\section*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\section{title}");
-LogWidget->insertLine( "\\section*{title} : do not include a number and do not make an entry in the table of contents");
-delete( stDlg);
-}
-
-void Kile::Insert6()
-{
- if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\subsection");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\subsection{");}
-  else
-  {tag=QString("\\subsection*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\subsection{title}");
-LogWidget->insertLine( "\\subsection*{title} : do not include a number and do not make an entry in the table of contents");
-delete( stDlg);
-}
-
-void Kile::Insert6bis()
-{
- if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\subsubsection");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\subsubsection{");}
-  else
-  {tag=QString("\\subsubsection*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\subsubsection{title}");
-LogWidget->insertLine( "\\subsubsection*{title} : do not include a number and do not make an entry in the table of contents");
-delete( stDlg);
-}
-
-void Kile::Insert7()
-{
- if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\paragraph");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\paragraph{");}
-  else
-  {tag=QString("\\paragraph*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\paragraph{title}");
-LogWidget->insertLine( "\\paragraph*{title} : do not include a number and do not make an entry in the table of contents");
-delete( stDlg);
-}
-
-void Kile::Insert8()
-{
- if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-stDlg = new structdialog(this," \\subparagraph");
-if ( stDlg->exec() )
-  {
-  if (stDlg->checkbox->isChecked())
-  {tag=QString("\\subparagraph{");}
-  else
-  {tag=QString("\\subparagraph*{");}
-  tag +=stDlg->title_edit->text();
-  tag +=QString("}\n");
-  InsertTag(tag,0,1);
-  UpdateStructure();
-  }
-LogWidget->insertLine( "\\subparagraph{title}");
-LogWidget->insertLine( "\\subparagraph*{title} : do not include a number and do not make an entry in the table of contents");
-delete( stDlg);
-}
-
-void Kile::Insert9()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-   InsertTag("\\begin{center}\n\n\\end{center} ",0,1);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\begin{center}\n",0,1);
-   currentEditorView()->editor->paste();
-   InsertTag("\n\\end{center}",0,0);
-   }
-LogWidget->insertLine( "Each line must be terminated with the string \\\\.");
-}
-
-void Kile::Insert10()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-   InsertTag("\\begin{flushleft}\n\n\\end{flushleft} ",0,1);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\begin{flushleft}\n",0,1);
-   currentEditorView()->editor->paste();
-   InsertTag("\n\\end{flushleft}",0,0);
-   }
-LogWidget->insertLine( "Each line must be terminated with the string \\\\.");
-}
-
-void Kile::Insert11()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-   InsertTag("\\begin{flushright}\n\n\\end{flushright} ",0,1);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\begin{flushright}\n",0,1);
-   currentEditorView()->editor->paste();
-   InsertTag("\n\\end{flushright}",0,0);
-   }
-LogWidget->insertLine( "Each line must be terminated with the string \\\\.");
-}
-
-void Kile::Insert12()
-{
-InsertTag("\\begin{quote}\n\n\\end{quote} ",0,1);
-LogWidget->insertLine("The text is justified at both margins.");
-LogWidget->insertLine(" Leaving a blank line between text produces a new paragraph.");
-}
-
-void Kile::Insert13()
-{
-InsertTag("\\begin{quotation}\n\n\\end{quotation} ",0,1);
-LogWidget->insertLine("The text is justified at both margins and there is paragraph indentation.");
-LogWidget->insertLine(" Leaving a blank line between text produces a new paragraph.");
-}
-
-void Kile::Insert14()
-{
-InsertTag("\\begin{verse}\n\n\\end{verse} ",0,1);
-LogWidget->insertLine("The verse environment is designed for poetry.");
-LogWidget->insertLine("Separate the lines of each stanza with \\\\, and use one or more blank lines to separate the stanzas.");
-}
-
-void Kile::Insert15()
-{
-InsertTag("\\begin{verbatim}\n\n\\end{verbatim} ",0,1);
-LogWidget->insertLine("Environment that gets LaTeX to print exactly what you type in.");
-}
-
-void Kile::Insert16()
-{
-InsertTag("\\begin{itemize}\n\\item \n\\end{itemize} ",6,1);
-LogWidget->insertLine("The itemize environment produces a 'bulleted' list.");
-LogWidget->insertLine("Each item of an itemized list begins with an \\item command.");
-}
-
-void Kile::Insert17()
-{
-InsertTag("\\begin{enumerate}\n\\item \n\\end{enumerate} ",6,1);
-LogWidget->insertLine("The enumerate environment produces a numbered list.");
-LogWidget->insertLine("Each item of an enumerated list begins with an \\item command.");
-}
-
-void Kile::Insert18()
-{
-InsertTag("\\begin{description}\n\\item[]\n\\end{description} ",6,1);
-LogWidget->insertLine("The description environment is used to make labelled lists.");
-LogWidget->insertLine("Each item of the list begins with an \\item[label] command.");
-LogWidget->insertLine("The 'label' is bold face and flushed right.");
-}
-
-void Kile::Insert19()
-{
-InsertTag("\\begin{list}{}{}\n\\item \n\\end{list} ",13,0);
-LogWidget->insertLine("\\begin{list}{label}{spacing}");
-LogWidget->insertLine("The {label} argument is a piece of text that is inserted in a box to form the label. ");
-LogWidget->insertLine("The {spacing} argument contains commands to change the spacing parameters for the list.");
-LogWidget->insertLine("Each item of the list begins with an \\item command.");
-}
-
-void Kile::Insert20()
-{
-InsertTag("\\item ",6,0);
-LogWidget->insertLine("\\item[label] Hello!");
-}
-
-void Kile::Insert21()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\textit{} ",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\textit{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",0,0);
-   }
-LogWidget->insertLine("\\textit{italic text}");
-}
-
-void Kile::Insert22()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\textsl{} ",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\textsl{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",0,0);
-   }
-LogWidget->insertLine("\\textsl{slanted text}");
-}
-
-void Kile::Insert23()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\textbf{} ",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\textbf{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",0,0);
-   }
-LogWidget->insertLine("\\textbf{boldface text}");
-}
-
-void Kile::Insert24()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\texttt{} ",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\texttt{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",0,0);
-   }
-LogWidget->insertLine("\\texttt{typewriter text}");
-}
-
-void Kile::Insert25()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\textsc{} ",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\textsc{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",0,0);
-   }
-LogWidget->insertLine("\\textsc{small caps text}");
-}
-
-void Kile::Insert26()
-{
-InsertTag("\\begin{tabbing}\n\n\\end{tabbing} ",0,1);
-LogWidget->insertLine("The tabbing environment provides a way to align text in columns.");
-LogWidget->insertLine("\\begin{tabbing}");
-LogWidget->insertLine("text \\= more text \\= still more text \\= last text \\\\");
-LogWidget->insertLine("second row \\>  \\> more \\\\");
-LogWidget->insertLine("\\end{tabbing}");
-LogWidget->insertLine("Commands :");
-LogWidget->insertLine("\\=  Sets a tab stop at the current position.");
-LogWidget->insertLine("\\>  Advances to the next tab stop.");
-LogWidget->insertLine("\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.");
-LogWidget->insertLine("\\+  Moves the left margin of the next and all the following commands one tab stop to the right");
-LogWidget->insertLine("\\-  Moves the left margin of the next and all the following commands one tab stop to the left");
-LogWidget->insertLine("\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. ");
-LogWidget->insertLine("\\`  Allows you to put text flush right against any tab stop, including tab stop 0");
-LogWidget->insertLine("\\kill  Sets tab stops without producing text.");
-LogWidget->insertLine("\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used.");
-}
-
-void Kile::Insert27()
-{
-InsertTag("\\begin{tabular}{}\n\n\\end{tabular} ",16,0);
-LogWidget->insertLine("\\begin{tabular}[pos]{cols}");
-LogWidget->insertLine("column 1 entry & column 2 entry ... & column n entry \\\\");
-LogWidget->insertLine("...");
-LogWidget->insertLine("\\end{tabular}");
-LogWidget->insertLine("pos : Specifies the vertical position; default is alignment on the centre of the environment.");
-LogWidget->insertLine("     t - align on top row");
-LogWidget->insertLine("     b - align on bottom row");
-LogWidget->insertLine("cols : Specifies the column formatting.");
-LogWidget->insertLine("     l - A column of left-aligned items.");
-LogWidget->insertLine("     r - A column of right-aligned items.");
-LogWidget->insertLine("     c - A column of centred items.");
-LogWidget->insertLine("     | - A vertical line the full height and depth of the environment.");
-LogWidget->insertLine("     @{text} - This inserts text in every row.");
-LogWidget->insertLine("The \\hline command draws a horizontal line the width of the table.");
-LogWidget->insertLine("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,");
-LogWidget->insertLine("The \\vline command draws a vertical line extending the full height and depth of its row.");
-
-}
-
-void Kile::Insert28()
-{
-InsertTag("\\multicolumn{}{}{} ",13,0);
-LogWidget->insertLine("\\multicolumn{cols}{pos}{text}");
-LogWidget->insertLine("col, specifies the number of columns to span.");
-LogWidget->insertLine("pos specifies the formatting of the entry: c for centred, l for flushleft, r for flushright.");
-LogWidget->insertLine("text specifies what text is to make up the entry.");
-}
-
-void Kile::Insert29()
-{
-InsertTag("\\hline ",7,0);
-LogWidget->insertLine("The \\hline command draws a horizontal line the width of the table.");
-}
-
-void Kile::Insert30()
-{
-InsertTag("\\vline ",7,0);
-LogWidget->insertLine("The \\vline command draws a vertical line extending the full height and depth of its row.");
-}
-
-void Kile::Insert31()
-{
-InsertTag("\\cline{-} ",7,0);
-LogWidget->insertLine("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,");
-}
-
-void Kile::Insert32()
-{
-InsertTag("\\newpage ",9,0);
-LogWidget->insertLine("The \\newpage command ends the current page");
-}
-
-void Kile::Insert33()
-{
-InsertTag("\\linebreak ",11,0);
-LogWidget->insertLine("The \\linebreak command tells LaTeX to break the current line at the point of the command.");
-}
-
-void Kile::Insert34()
-{
-InsertTag("\\pagebreak ",11,0);
-LogWidget->insertLine("The \\pagebreak command tells LaTeX to break the current page at the point of the command.");
-}
-
-void Kile::Insert35()
-{
-InsertTag("\\bigskip ",9,0);
-LogWidget->insertLine("The \\bigskip command adds a 'big' vertical space.");
-}
-
-void Kile::Insert36()
-{
-InsertTag("\\medskip ",9,0);
-LogWidget->insertLine("The \\medskip command adds a 'medium' vertical space.");
-}
-
-void Kile::Insert37()
-{
-if ( !currentEditorView() )	return;
-QString currentDir=QDir::currentDirPath();
-QString finame;
-if (singlemode) {finame=getName();}
-else {finame=MasterName;}
-QFileInfo fi(finame);
-if (getShortName() !="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,"Select Image File",i18n("Select Image File"));
-sfDlg->setFilter(i18n("*.eps *.pdf *.png|Graphic Files\n*|All Files"));
-sfDlg->setDir(currentDir);
-if (sfDlg->exec() )
-  {
-   QString fn=sfDlg->fileName();
-   QFileInfo fi(fn);
-   InsertTag("\\includegraphics[scale=1]{"+fi.baseName(TRUE)+"."+fi.extension()+"} ",26,0);
-   LogWidget->insertLine("This command is used to import image files (\\usepackage{graphicx} is required)");
-   LogWidget->insertLine("Examples :");
-   LogWidget->insertLine("\\includegraphics{file} ; \\includegraphics[width=10cm]{file} ; \\includegraphics*[scale=0.75]{file}");
-   if (fi.extension()=="eps")
-     {
-     if (fi.dirPath()==".") fn=currentDir+"/"+fn;
-     LogWidget->insertLine("*************  ABOUT THIS IMAGE  *************");
-     LogWidget->insertLine(DetectEpsSize(fn));
-     }
-  }
-delete sfDlg;
-}
-
-void Kile::Insert37bis()
-{
-if ( !currentEditorView() )	return;
-QString currentDir=QDir::currentDirPath();
-QString finame;
-if (singlemode) {finame=getName();}
-else {finame=MasterName;}
-QFileInfo fi(finame);
-if (getShortName()!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,"Select File",i18n("Select File"));
-sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
-sfDlg->setDir(currentDir);
-if (sfDlg->exec() )
-  {
-QString fn=sfDlg->fileName();
-QFileInfo fi(fn);
-InsertTag("\\include{"+fi.baseName(TRUE)+"}",9,0);
-  }
-delete sfDlg;
-UpdateStructure();
-LogWidget->insertLine("\\include{file}");
-LogWidget->insertLine("The \\include command is used in conjunction with the \\includeonly command for selective inclusion of files.");
-}
-
-void Kile::Insert37ter()
-{
-if ( !currentEditorView() )	return;
-QString currentDir=QDir::currentDirPath();
-QString finame;
-if (singlemode) {finame=getName();}
-else {finame=MasterName;}
-QFileInfo fi(finame);
-if (getShortName()!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,"Select File",i18n("Select File"));
-sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
-sfDlg->setDir(currentDir);
-if (sfDlg->exec() )
-  {
-QString fn=sfDlg->fileName();
-QFileInfo fi(fn);
-InsertTag("\\input{"+fi.baseName(TRUE)+"}",7,0);
-  }
-delete sfDlg;
-UpdateStructure();
-OutputWidget->insertLine("\\input{file}");
-OutputWidget->insertLine("The \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point.");
-}
-
-void Kile::Insert38()
-{
-InsertTag("\\cite{} ",6,0);
-LogWidget->insertLine("\\cite{ref} :");
-LogWidget->insertLine("This command generates an in-text citation to the reference associated with the ref entry in the bib file");
-LogWidget->insertLine("You can open the bib file with Kile to see all the available references");
-}
-
-void Kile::Insert39()
-{
-InsertTag("\\bibliographystyle{} ",19,0);
-LogWidget->insertLine("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look");
-LogWidget->insertLine("The standard styles distributed with BibTeX are:");
-LogWidget->insertLine("alpha : sorted alphabetically. Labels are formed from name of author and year of publication.");
-LogWidget->insertLine("plain  : sorted alphabetically. Labels are numeric.");
-LogWidget->insertLine("unsrt : like plain, but entries are in order of citation.");
-LogWidget->insertLine("abbrv  : like plain, but more compact labels.");
-}
-void Kile::Insert40()
-{
-if ( !currentEditorView() )	return;
-currentEditorView()->editor->viewport()->setFocus();
-QString tag;
-QFileInfo fi(getName());
-tag=QString("\\bibliography{");
-tag +=fi.baseName(TRUE);
-tag +=QString("}\n");
-InsertTag(tag,0,1);
-LogWidget->insertLine("The argument to \\bibliography refers to the bib file (without extension)");
-LogWidget->insertLine("which should contain your database in BibTeX format.");
-LogWidget->insertLine("Kile inserts automatically the base name of the TeX file");
-}
-void Kile::Insert41()
-{
-InsertTag("\\label{} ",7,0);
-LogWidget->insertLine("\\label{key}");
-}
-void Kile::Insert42()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-   InsertTag("\\begin{table}\n\n\\caption{}\n\\end{table} ",0,1);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\begin{table}\n",0,1);
-   currentEditorView()->editor->paste();
-   InsertTag("\n\\caption{}\n\\end{table}",9,1);
-   }
-LogWidget->insertLine( "\\begin{table}[placement]");
-LogWidget->insertLine( "body of the table");
-LogWidget->insertLine( "\\caption{table title}");
-LogWidget->insertLine( "\\end{table}");
-LogWidget->insertLine( "Tables are objects that are not part of the normal text, and are usually floated to a convenient place");
-LogWidget->insertLine( "The optional argument [placement] determines where LaTeX will try to place your table");
-LogWidget->insertLine( "h : Here - at the position in the text where the table environment appear");
-LogWidget->insertLine( "t : Top - at the top of a text page");
-LogWidget->insertLine( "b : Bottom - at the bottom of a text page");
-LogWidget->insertLine( "p : Page of floats - on a separate float page, which is a page containing no text, only floats");
-LogWidget->insertLine( "The body of the table is made up of whatever text, LaTeX commands, etc., you wish.");
-LogWidget->insertLine( "The \\caption command allows you to title your table.");
-
-}
-void Kile::Insert43()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-   InsertTag("\\begin{figure}\n\n\\caption{}\n\\end{figure} ",0,1);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\begin{figure}\n",0,1);
-   currentEditorView()->editor->paste();
-   InsertTag("\n\\caption{}\n\\end{figure}",9,1);
-   }
-LogWidget->insertLine( "\\begin{figure}[placement]");
-LogWidget->insertLine( "body of the figure");
-LogWidget->insertLine( "\\caption{figure title}");
-LogWidget->insertLine( "\\end{figure}");
-LogWidget->insertLine( "Figures are objects that are not part of the normal text, and are usually floated to a convenient place");
-LogWidget->insertLine( "The optional argument [placement] determines where LaTeX will try to place your figure");
-LogWidget->insertLine( "h : Here - at the position in the text where the figure environment appear");
-LogWidget->insertLine( "t : Top - at the top of a text page");
-LogWidget->insertLine( "b : Bottom - at the bottom of a text page");
-LogWidget->insertLine( "p : Page of floats - on a separate float page, which is a page containing no text, only floats");
-LogWidget->insertLine( "The body of the figure is made up of whatever text, LaTeX commands, etc., you wish.");
-LogWidget->insertLine( "The \\caption command allows you to title your figure.");
-}
-void Kile::Insert44()
-{
-InsertTag("\\begin{titlepage}\n\n\\end{titlepage} ",0,1);
-LogWidget->insertLine( "\\begin{titlepage}");
-LogWidget->insertLine( "text");
-LogWidget->insertLine( "\\end{titlepage}");
-LogWidget->insertLine( "The titlepage environment creates a title page, i.e. a page with no printed page number or heading.");
-}
-void Kile::Insert45()
-{
-InsertTag("\\author{}",8,0);
-LogWidget->insertLine( "\\author{names}");
-LogWidget->insertLine( "The \\author command declares the author(s), where names is a list of authors separated by \\and commands.");
-}
-void Kile::Insert46()
-{
-InsertTag("\\title{}",7,0);
-LogWidget->insertLine( "\\title{text}");
-LogWidget->insertLine( "The \\title command declares text to be the title.");
-LogWidget->insertLine( "Use \\\\ to tell LaTeX where to start a new line in a long title.");
-}
-void Kile::Insert47()
-{
-InsertTag("\\index{}",7,0);
-LogWidget->insertLine( "\\index{word}");
-}
-
-void Kile::Insert48()
-{
-UpdateStructure();
-QString tag="";
-refDlg = new refdialog(this,"Labels");
-refDlg->combo1->insertStringList(labelitem);
-if (!labelitem.isEmpty() && refDlg->exec() )
-  {
-  tag="\\ref{"+refDlg->combo1->currentText()+"}";
-  InsertTag(tag,tag.length(),0);
-  }
-else InsertTag("\\ref{}",5,0);
-delete refDlg;
-LogWidget->insertLine( "\\ref{key}");
-}
-
-void Kile::Insert49()
-{
-UpdateStructure();
-QString tag="";
-refDlg = new refdialog(this,"Labels");
-refDlg->combo1->insertStringList(labelitem);
-if (!labelitem.isEmpty() && refDlg->exec() )
-  {
-  tag="\\pageref{"+refDlg->combo1->currentText()+"}";
-  InsertTag(tag,tag.length(),0);
-  }
-else InsertTag("\\pageref{}",9,0);
-delete refDlg;
-LogWidget->insertLine( "\\pageref{key}");
-}
-
-void Kile::Insert50()
-{
-InsertTag("\\footnote{}",10,0);
-LogWidget->insertLine( "\\footnote{text}");
-}
-
-void Kile::Insert51()
-{
-InsertTag("\\maketitle",10,0);
-LogWidget->insertLine( "This command generates a title on a separate title page\n- except in the article class, where the title normally goes at the top of the first page.");
-}
-
-void Kile::Insert52()
-{
-InsertTag("\\tableofcontents",16,0);
-LogWidget->insertLine( "Put this command where you want the table of contents to go");
-}
-
-void Kile::SizeCommand(const QString& text)
-{
-if ( !currentEditorView() )	return;
-if (text=="tiny")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{tiny}\\end{tiny}",12,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{tiny}",12,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{tiny}",0,0);
-       }
-    }
-
-if (text=="scriptsize")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{scriptsize}\\end{scriptsize}",18,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{scriptsize}",18,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{scriptsize}",0,0);
-       }
-    }
-
-if (text=="footnotesize")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{footnotesize}\\end{footnotesize}",20,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{footnotesize}",20,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{footnotesize}",0,0);
-       }
-    }
-
-if (text=="small")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{small}\\end{small}",13,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{small}",13,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{small}",0,0);
-       }
-    }
-
-if (text=="normalsize")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{normalsize}\\end{normalsize}",18,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{normalsize}",18,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{normalsize}",0,0);
-       }
-    }
-
-if (text=="large")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{large}\\end{large}",13,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{large}",13,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{large}",0,0);
-       }
-    }
-
-if (text=="Large")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{Large}\\end{Large}",13,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{Large}",13,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{Large}",0,0);
-       }
-    }
-
-if (text=="LARGE")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{LARGE}\\end{LARGE}",13,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{LARGE}",13,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{LARGE}",0,0);
-       }
-    }
-
-if (text=="huge")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{huge}\\end{huge}",12,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{huge}",12,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{huge}",0,0);
-       }
-    }
-
-if (text=="Huge")
-    {
-    if (!currentEditorView()->editor->hasSelectedText())
-       {
-       InsertTag("\\begin{Huge}\\end{Huge}",12,0);
-       }
-    else
-       {
-       currentEditorView()->editor->cut();
-       InsertTag("\\begin{Huge}",12,0);
-       currentEditorView()->editor->paste();
-       InsertTag("\\end{Huge}",0,0);
-       }
-    }
-}
-
-void Kile::SectionCommand(const QString& text)
-{
-if ( !currentEditorView() )	return;
-if (text=="part") Insert3();
-if (text=="chapter") Insert4();
-if (text=="section") Insert5();
-if (text=="subsection") Insert6();
-if (text=="subsubsection") Insert6bis();
-if (text=="paragraph") Insert7();
-if (text=="subparagraph") Insert8();
-}
-
-void Kile::OtherCommand(const QString& text)
-{
-if ( !currentEditorView() )	return;
-if (text=="label") Insert41();
-if (text=="ref") Insert48();
-if (text=="pageref") Insert49();
-if (text=="index") Insert47();
-if (text=="cite") Insert38();
-if (text=="footnote") Insert50();
-}
-
-void Kile::NewLine()
-{
-InsertTag("\\\\\n",0,1);
-}
 //////////////////////////// MATHS TAGS/////////////////////////////////////
-void Kile::InsertMath1()
-{
-InsertTag("$  $",2,0);
-}
-
-void Kile::InsertMath2()
-{
-InsertTag("$$  $$",3,0);
-}
-
-void Kile::InsertMath3()
-{
-InsertTag("_{}",2,0);
-}
-
-void Kile::InsertMath4()
-{
-InsertTag("^{}",2,0);
-}
-
-void Kile::InsertMath5()
-{
-InsertTag("\\frac{}{}",6,0);
-}
-
-void Kile::InsertMath6()
-{
-InsertTag("\\dfrac{}{}",7,0);
-}
-
-void Kile::InsertMath7()
-{
-InsertTag("\\sqrt{}",6,0);
-}
-void Kile::InsertMath8()
-{
-InsertTag("\\left ",6,0);
-}
-
-void Kile::InsertMath9()
-{
-InsertTag("\\right ",7,0);
-}
-
-void Kile::InsertMath10()
-{
-InsertTag("\\begin{array}{}\n\n\\end{array}",14,0);
-LogWidget->insertLine("\\begin{array}{col1col2...coln}");
-LogWidget->insertLine("column 1 entry & column 2 entry ... & column n entry \\\\");
-LogWidget->insertLine("...");
-LogWidget->insertLine("\\end{array}");
-LogWidget->insertLine("Each column, coln, is specified by a single letter that tells how items in that row should be formatted.");
-LogWidget->insertLine("     c -- for centered ");
-LogWidget->insertLine("     l -- for flush left ");
-LogWidget->insertLine("     r -- for flush right");
-}
-void Kile::InsertMath16()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\underline{}",11,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\underline{",11,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-
-void Kile::InsertMath66()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathrm{}",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathrm{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath67()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathit{}",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathit{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath68()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathbf{}",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathbf{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath69()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathsf{}",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathsf{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath70()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathtt{}",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathtt{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath71()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathcal{}",9,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathcal{",9,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath72()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathbb{}",8,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathbb{",8,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath73()
-{
-if ( !currentEditorView() )	return;
-if (!currentEditorView()->editor->hasSelectedText())
-   {
-    InsertTag("\\mathfrak{} ",10,0);
-   }
-else
-   {
-   currentEditorView()->editor->cut();
-   InsertTag("\\mathfrak{",10,0);
-   currentEditorView()->editor->paste();
-   InsertTag("}",1,0);
-   }
-}
-void Kile::InsertMath74()
-{
-InsertTag("\\begin{equation}\n\n\\end{equation} ",0,1);
-}
-void Kile::InsertMath75()
-{
-InsertTag("\\begin{eqnarray}\n\n\\end{eqnarray} ",0,1);
-}
-void Kile::InsertMath76()
-{
-InsertTag("\\acute{}",7,0);
-}
-void Kile::InsertMath77()
-{
-InsertTag("\\grave{}",7,0);
-}
-void Kile::InsertMath78()
-{
-InsertTag("\\tilde{}",7,0);
-}
-void Kile::InsertMath79()
-{
-InsertTag("\\bar{}",5,0);
-}
-void Kile::InsertMath80()
-{
-InsertTag("\\vec{}",5,0);
-}
-void Kile::InsertMath81()
-{
-InsertTag("\\hat{}",5,0);
-}
-void Kile::InsertMath82()
-{
-InsertTag("\\check{}",7,0);
-}
-void Kile::InsertMath83()
-{
-InsertTag("\\breve{}",7,0);
-}
-void Kile::InsertMath84()
-{
-InsertTag("\\dot{}",5,0);
-}
-void Kile::InsertMath85()
-{
-InsertTag("\\ddot{}",6,0);
-}
-void Kile::InsertMath86()
-{
-InsertTag("\\,",2,0);
-}
-void Kile::InsertMath87()
-{
-InsertTag("\\:",2,0);
-}
-void Kile::InsertMath88()
-{
-InsertTag("\\;",2,0);
-}
-void Kile::InsertMath89()
-{
-InsertTag("\\quad",5,0);
-}
-void Kile::InsertMath90()
-{
-InsertTag("\\qquad",6,0);
-}
-
-void Kile::LeftDelimiter(const QString& text)
-{
-if (text=="left (") InsertTag("\\left( ",7,0);
-if (text=="left [") InsertTag("\\left[ ",7,0);
-if (text=="left {") InsertTag("\\left\\lbrace ",13,0);
-if (text=="left <") InsertTag("\\left\\langle ",13,0);
-if (text=="left )") InsertTag("\\left) ",7,0);
-if (text=="left ]") InsertTag("\\left] ",7,0);
-if (text=="left }") InsertTag("\\left\\rbrace ",13,0);
-if (text=="left >") InsertTag("\\left\\rangle ",13,0);
-if (text=="left.") InsertTag("\\left. ",7,0);
-}
-void Kile::RightDelimiter(const QString& text)
-{
-if (text=="right (") InsertTag("\\right( ",8,0);
-if (text=="right [") InsertTag("\\right[ ",8,0);
-if (text=="right {") InsertTag("\\right\\lbrace ",14,0);
-if (text=="right <") InsertTag("\\right\\langle ",14,0);
-if (text=="right )") InsertTag("\\right) ",8,0);
-if (text=="right ]") InsertTag("\\right] ",8,0);
-if (text=="right }") InsertTag("\\right\\rbrace ",14,0);
-if (text=="right >") InsertTag("\\right\\rangle ",14,0);
-if (text=="right.") InsertTag("\\right. ",8,0);
-}
-
 void Kile::InsertSymbol()
 {
 QString code_symbol=symbol_view->getSymbolCode();
@@ -4791,16 +3237,16 @@ LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to r
 //////////////// USER //////////////////
 void Kile::insertUserTag(int i)
 {
-	if (listUserTags[i].tag.left(1)=="%")
+	if (m_listUserTags[i].tag.left(1)=="%")
 	{
-		QString t=listUserTags[i].tag;
+		QString t=m_listUserTags[i].tag;
 		t=t.remove(0,1);
 		QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
 		InsertTag(s,0,1);
 	}
 	else
 	{
-		InsertTag(listUserTags[i].tag,0,0);
+		InsertTag(m_listUserTags[i].tag,0,0);
 	}
 }
 
@@ -4832,74 +3278,25 @@ void Kile::invokeHelp()
 ///////////////////// USER ///////////////
 void Kile::EditUserMenu()
 {
-	umDlg = new usermenudialog(listUserTags,this,"Edit User Tags", i18n("Edit User Tags"));
-	for ( uint i = 0; i < listUserTags.size(); i++ )
-	{
-		umDlg->Name.append(listUserTags[i].name);
-		umDlg->Tag.append(listUserTags[i].tag);
-	}
-	umDlg->init();
+	usermenudialog *umDlg = new usermenudialog(m_listUserTags,this,"Edit User Tags", i18n("Edit User Tags"));
+
 	if ( umDlg->exec() )
 	{
-		userItem item;
+		//remove all actions
 		KAction *menuItem;
-		QString name;
-		KShortcut sc;
-		int i=0;
-		KShortcut tagaccels[12] = {SHIFT+Key_F1, SHIFT+Key_F2,SHIFT+Key_F3,SHIFT+Key_F4,SHIFT+Key_F5,SHIFT+Key_F6,SHIFT+Key_F7,
-   		SHIFT+Key_F8,SHIFT+Key_F9,SHIFT+Key_F10,SHIFT+Key_F11,SHIFT+Key_F12};
-		switch (umDlg->result())
+		uint len = m_listUserTagsActions.count();
+		for (uint j=0; j< len; j++)
 		{
-			case usermenudialog::Add :
-				item.name=umDlg->Name[umDlg->index()];
-				item.tag=umDlg->Tag[umDlg->index()];
-				listUserTags.append(item);
-				if (listUserTags.size() <13) sc = tagaccels[listUserTags.size()-1];
-				else sc=0;
-				name=QString::number(listUserTags.size())+": "+listUserTags[listUserTags.size()-1].name;
-				menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
-				listUserTagsActions.append(menuItem);
-				menuUserTags->insert(menuItem);
-				mapUserTagSignals->setMapping(menuItem,listUserTags.size()-1);
-			break;
-			case usermenudialog::Remove :
-				i=listUserTagsActions.count();
-				kdDebug() << "index " << umDlg->index() << endl;
-				//remove all actions below and including the removed one (they need to be recreated)
-				for (int j=umDlg->index(); j< i; j++)
-				{
-					menuItem = listUserTagsActions.getLast();
-					mapUserTagSignals->removeMappings(menuItem);
-					menuUserTags->remove(menuItem);
-					listUserTagsActions.removeLast();
-					delete menuItem;
-				}
-				//remove the tag from the list
-				listUserTags.erase(listUserTags.at(umDlg->index()));
-				//recreate the action below the removed one
-				for (int j=umDlg->index(); j < (i-1); j++)
-				{
-					if (j <12) sc = tagaccels[j];
-					else sc=0;
-					name=QString::number(j+1)+": "+listUserTags[j].name;
-					kdDebug() << "adding " << name << " at " << j<< endl;
-					menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
-					listUserTagsActions.append(menuItem);
-					menuUserTags->insert(menuItem);
-					mapUserTagSignals->setMapping(menuItem,j);
-				}
-			break;
-			case usermenudialog::Edit :
-			for ( uint i = 0; i < listUserTags.size(); i++ )
-			{
-				listUserTags[i].name=umDlg->Name[i];
-				listUserTags[i].tag=umDlg->Tag[i];
-				listUserTagsActions.at(i)->setText(QString::number(i+1)+": "+umDlg->Name[i]);
-			}
-			break;
-			default : break;
+			menuItem = m_listUserTagsActions.getLast();
+			m_mapUserTagSignals->removeMappings(menuItem);
+			m_menuUserTags->remove(menuItem);
+			m_listUserTagsActions.removeLast();
+			delete menuItem;
 		}
+		m_menuUserTags->remove(m_actionEditTag);
 
+		m_listUserTags = umDlg->result();
+		setupUserTagActions();
 	}
 
 	delete umDlg;
@@ -4907,78 +3304,30 @@ void Kile::EditUserMenu()
 
 void Kile::EditUserTool()
 {
-	utDlg = new usertooldialog(listUserTools,this,"Edit User Tools", i18n("Edit User Tools"));
-	for ( uint i = 0; i < listUserTools.size(); i++ )
+	usermenudialog *umDlg = new usermenudialog(m_listUserTools,this,"Edit User Tools", i18n("Edit User Tools"));
+
+	if ( umDlg->exec() )
 	{
-		utDlg->Name.append(listUserTools[i].name);
-		utDlg->Tool.append(listUserTools[i].tag);
-	}
-	utDlg->init();
-	if ( utDlg->exec() )
-	{
-		userItem item;
+		//remove all actions
 		KAction *menuItem;
-		QString name;
-		int i=0;
-		KShortcut sc;
-		KShortcut toolaccels[12] = {SHIFT+ALT+Key_F1, SHIFT+ALT+Key_F2,SHIFT+ALT+Key_F3,SHIFT+ALT+Key_F4,SHIFT+ALT+Key_F5,SHIFT+ALT+Key_F6,SHIFT+ALT+Key_F7,
-		   	SHIFT+ALT+Key_F8,SHIFT+ALT+Key_F9,SHIFT+ALT+Key_F10,SHIFT+ALT+Key_F11,SHIFT+ALT+Key_F12};
-
-
-		switch (utDlg->result())
+		uint len = m_listUserToolsActions.count();
+		for (uint j=0; j< len; j++)
 		{
-			case usertooldialog::Add :
-				item.name=utDlg->Name[utDlg->index()];
-				item.tag=utDlg->Tool[utDlg->index()];
-				listUserTools.append(item);
-				if (listUserTools.size() <13) sc = toolaccels[listUserTools.size()-1];
-				else sc=0;
-				name=QString::number(listUserTools.size())+": "+listUserTools[listUserTools.size()-1].name;
-				menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
-				listUserToolsActions.append(menuItem);
-				menuUserTools->insert(menuItem);
-				mapUserToolsSignals->setMapping(menuItem,listUserTools.size()-1);
-			break;
-			case usertooldialog::Remove :
-				i=listUserToolsActions.count();
-				kdDebug() << "index " << utDlg->index() << endl;
-				//remove all actions below and including the removed one (they need to be recreated)
-				for (int j=utDlg->index(); j< i; j++)
-				{
-					menuItem = listUserToolsActions.getLast();
-					mapUserToolsSignals->removeMappings(menuItem);
-					menuUserTools->remove(menuItem);
-					listUserToolsActions.removeLast();
-					delete menuItem;
-				}
-				//remove the tag from the list
-				listUserTools.erase(listUserTools.at(utDlg->index()));
-				//recreate the action below the removed one
-				for (int j=utDlg->index(); j < (i-1); j++)
-				{
-					if (j <12) sc = toolaccels[j];
-					else sc=0;
-					name=QString::number(j+1)+": "+listUserTools[j].name;
-					kdDebug() << "adding " << name << " at " << j<< endl;
-					menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
-					listUserToolsActions.append(menuItem);
-					menuUserTools->insert(menuItem);
-					mapUserToolsSignals->setMapping(menuItem,j);
-				}
-			break;
-			case usertooldialog::Edit :
-			for ( uint i = 0; i < listUserTools.size(); i++ )
-			{
-				listUserTools[i].name=utDlg->Name[i];
-				listUserTools[i].tag=utDlg->Tool[i];
-				listUserToolsActions.at(i)->setText(QString::number(i+1)+": "+utDlg->Name[i]);
-			}
-			break;
-			default : break;
+			menuItem = m_listUserToolsActions.getLast();
+			m_mapUserToolsSignals->removeMappings(menuItem);
+			m_menuUserTools->remove(menuItem);
+			m_listUserToolsActions.removeLast();
+			delete menuItem;
 		}
+		m_menuUserTools->remove(m_actionEditTool);
+
+		m_listUserTools = umDlg->result();
+		setupUserToolActions();
 	}
-	delete utDlg;
+
+	delete umDlg;
 }
+
 /////////////// GRAF ////////////////////
 void Kile::RunXfig()
 {
@@ -5003,7 +3352,7 @@ void Kile::RunGfe()
   LogWidget->clear();
   Outputview->showPage(LogWidget);
   logpresent=false;
-  UpdateLineColStatus();
+  //newStatus();
   if (!gfe_widget) gfe_widget=new Qplotmaker(0,"Gnuplot Front End");
   gfe_widget->setIcon(kapp->miniIcon());
   gfe_widget->raise();
@@ -5034,30 +3383,11 @@ split1_right=config->readNumEntry("Splitter1_right",350);
 split2_top=config->readNumEntry("Splitter2_top",350);
 split2_bottom=config->readNumEntry("Splitter2_bottom",100);
 
-config->setGroup( "Editor" );
-QString fam=config->readEntry("Font Family",KGlobalSettings::fixedFont().family());
-int si=config->readNumEntry( "Font Size",KGlobalSettings::fixedFont().pointSize());
-QFont F(fam,si);
-EditorFont=F;
-wordwrap=config->readBoolEntry( "WordWrap",true);
-parenmatch=config->readBoolEntry( "Parentheses Matching",true);
-showline=config->readBoolEntry( "Line Numbers",true);
-editor_color[0]=QColor(0xFF, 0xFF, 0xFF);
-editor_color[1]=QColor(0x00, 0x00, 0x00);
-editor_color[2]=QColor(0x83, 0x81, 0x83);
-editor_color[3]=QColor(0x00,0x80, 0x00);
-editor_color[4]=QColor(0x80, 0x00, 0x00);
-editor_color[5]=QColor(0x00, 0x00, 0xCC);
-editor_color[6]=QColor(0xCC, 0x00, 0x00);
-editor_color[7]=QColor(0xCC, 0xE8, 0xC3);
-editor_color[0] = config->readColorEntry("Color Background",&editor_color[0]);
-editor_color[1] = config->readColorEntry("Color Foreground",&editor_color[1]);
-editor_color[2] = config->readColorEntry("Color Comment",&editor_color[2]);
-editor_color[3] = config->readColorEntry("Color Math",&editor_color[3]);
-editor_color[4] = config->readColorEntry("Color Command",&editor_color[4]);
-editor_color[5] = config->readColorEntry("Color Structure",&editor_color[5]);
-editor_color[6] = config->readColorEntry("Color Environment",&editor_color[6]);
-editor_color[7] = config->readColorEntry("racket Highlight",&editor_color[7]);
+//delete old editor key
+if (config->hasGroup("Editor") )
+{
+	config->deleteGroup("Editor");
+}
 
 config->setGroup( "Show" );
 showoutputview=config->readBoolEntry("Outputview",true);
@@ -5066,7 +3396,7 @@ showmaintoolbar=config->readBoolEntry("ShowMainToolbar",true);
 showtoolstoolbar=config->readBoolEntry("ShowToolsToolbar",true);
 showedittoolbar=config->readBoolEntry("ShowEditToolbar",true);
 showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
-menuaccels=config->readBoolEntry("MenuAccels", false);
+m_menuaccels=config->readBoolEntry("MenuAccels", false);
 
 config->setGroup( "Tools" );
 quickmode=config->readNumEntry( "Quick Mode",1);
@@ -5103,56 +3433,26 @@ else
 	userOptionsList=config->readListEntry("User Options", ':');
 }
 
-config->setGroup( "Files" );
-lastDocument=config->readPathEntry("Last Document");
-//recentFilesList=config->readPathEntry("Recent Files", ':');
-input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
-autosave=config->readBoolEntry("Autosave",true);
-autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
-enableAutosave(autosave);
-setAutosaveInterval(autosaveinterval);
-
-  // Loading of Recent Files
-
-  // Load recent files from "Recent Files" group
-  // using the KDE standard action for recent files
-  fileOpenRecentAction->loadEntries(config,"Recent Files");
-
-  // Now check if user is using an old rc file that has "Recent Files" under
-  // the "Files" group
-  if(config->hasKey("Recent Files")) {
-    // If so, then read the entry in, add it to fileOpenRecentAction
-    QStringList recentFilesList = config->readListEntry("Recent Files", ':');
-    QStringList::ConstIterator it = recentFilesList.begin();
-    for ( ; it != recentFilesList.end(); ++it )
-    {
-      fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
-    }
-    // Now delete this recent files entry as we are now using a separate
-    // group for recent files
-    config->deleteEntry("Recent Files");
-  }
-
 config->setGroup( "User" );
-templAuthor=config->readEntry("Author");
+templAuthor=config->readEntry("Author","");
 templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
-templEncoding=config->readEntry("Template Encoding");
+templEncoding=config->readEntry("Template Encoding","");
 
 userItem tempItem;
 int len = config->readNumEntry("nUserTags",0);
 for (int i = 0; i < len; i++)
 {
 	tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTag"+QString::number(i));
-	listUserTags.append(tempItem);
+	tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
+	m_listUserTags.append(tempItem);
 }
 
 len= config->readNumEntry("nUserTools",0);
 for (int i=0; i< len; i++)
 {
 	tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTool"+QString::number(i));
-	listUserTools.append(tempItem);
+	tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
+	m_listUserTools.append(tempItem);
 }
 
 config->setGroup( "Structure" );
@@ -5169,7 +3469,39 @@ paper_size=config->readEntry("Papersize","a4paper");
 document_encoding=config->readEntry("Encoding","latin1");
 ams_packages=config->readBoolEntry( "AMS",true);
 makeidx_package=config->readBoolEntry( "MakeIndex",false);
-author=config->readEntry("Author");
+author=config->readEntry("Author","");
+}
+
+void Kile::ReadRecentFileSettings()
+{
+	config->setGroup( "Files" );
+	lastDocument=config->readEntry("Last Document","");
+	input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
+	autosave=config->readBoolEntry("Autosave",true);
+	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
+	enableAutosave(autosave);
+	setAutosaveInterval(autosaveinterval);
+	// Loading of Recent Files
+
+	// Load recent files from "Recent Files" group
+	// using the KDE standard action for recent files
+	fileOpenRecentAction->loadEntries(config,"Recent Files");
+
+	// Now check if user is using an old rc file that has "Recent Files" under
+	// the "Files" group
+	if(config->hasKey("Recent Files"))
+	{
+		// If so, then read the entry in, add it to fileOpenRecentAction
+		QStringList recentFilesList = config->readListEntry("Recent Files", ':');
+		QStringList::ConstIterator it = recentFilesList.begin();
+		for ( ; it != recentFilesList.end(); ++it )
+		{
+		fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
+		}
+		// Now delete this recent files entry as we are now using a separate
+		// group for recent files
+		config->deleteEntry("Recent Files");
+	}
 }
 
 void Kile::SaveSettings()
@@ -5200,21 +3532,6 @@ config->writeEntry("Splitter1_right", split1_right );
 config->writeEntry("Splitter2_top", split2_top );
 config->writeEntry("Splitter2_bottom", split2_bottom );
 
-config->setGroup( "Editor" );
-config->writeEntry("Font Family",EditorFont.family());
-config->writeEntry( "Font Size",EditorFont.pointSize());
-config->writeEntry( "WordWrap",wordwrap);
-config->writeEntry( "Parentheses Matching",parenmatch);
-config->writeEntry( "Line Numbers",showline);
-config->writeEntry("Color Background", editor_color[0]);
-config->writeEntry("Color Foreground", editor_color[1]);
-config->writeEntry("Color Comment", editor_color[2]);
-config->writeEntry("Color Math", editor_color[3]);
-config->writeEntry("Color Command", editor_color[4]);
-config->writeEntry("Color Structure", editor_color[5]);
-config->writeEntry("Color Environment", editor_color[6]);
-config->writeEntry("Bracket Highlight", editor_color[7]);
-
 config->setGroup( "Show" );
 config->writeEntry("Outputview",showoutputview);
 config->writeEntry( "Structureview",showstructview);
@@ -5222,7 +3539,7 @@ config->writeEntry("ShowMainToolbar",showmaintoolbar);
 config->writeEntry("ShowToolsToolbar",showtoolstoolbar);
 config->writeEntry("ShowEditToolbar",showedittoolbar);
 config->writeEntry("ShowMathToolbar",showmathtoolbar);
-config->writeEntry("MenuAccels", menuaccels);
+config->writeEntry("MenuAccels", m_menuaccels);
 
 config->setGroup("Tools");
 config->writeEntry( "Quick Mode",quickmode);
@@ -5244,8 +3561,9 @@ config->writeEntry("User Options",userOptionsList, ':');
 
 
 config->setGroup( "Files" );
-config->writePathEntry("Last Document",lastDocument);
-//config->writePathEntry("Recent Files", recentFilesList, ":");
+if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
+config->writeEntry("Last Document",lastDocument);
+input_encoding=KileFS->comboEncoding->lineEdit()->text();
 config->writeEntry("Input Encoding", input_encoding);
 config->writeEntry("Autosave",autosave);
 config->writeEntry("AutosaveInterval",autosaveinterval);
@@ -5259,18 +3577,18 @@ config->writeEntry("DocumentClassOptions",templDocClassOpt);
 config->writeEntry("Template Encoding",templEncoding);
 
 userItem tempItem;
-config->writeEntry("nUserTags",static_cast<int>(listUserTags.size()));
-for (uint i=0; i<listUserTags.size(); i++)
+config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
+for (uint i=0; i<m_listUserTags.size(); i++)
 {
-	tempItem = listUserTags[i];
+	tempItem = m_listUserTags[i];
 	config->writeEntry("userTagName"+QString::number(i),tempItem.name);
 	config->writeEntry("userTag"+QString::number(i),tempItem.tag);
 }
 
-config->writeEntry("nUserTools",static_cast<int>(listUserTools.size()));
-for (uint i=0; i<listUserTools.size(); i++)
+config->writeEntry("nUserTools",static_cast<int>(m_listUserTools.size()));
+for (uint i=0; i<m_listUserTools.size(); i++)
 {
-	tempItem = listUserTools[i];
+	tempItem = m_listUserTools[i];
 	config->writeEntry("userToolName"+QString::number(i),tempItem.name);
 	config->writeEntry("userTool"+QString::number(i),tempItem.tag);
 }
@@ -5310,7 +3628,7 @@ if (!singlemode)
      singlemode=true;
      return;
      }
-if (singlemode && currentEditorView())  {
+if (singlemode && currentView())  {
       MasterName=getName();
       if (MasterName=="untitled" || MasterName=="")
        {
@@ -5374,35 +3692,35 @@ void Kile::ToggleAccels()
   KMenuBar *bar = menuBar();
 
   // Toggle KDE standard menu shortcuts or special Kile shortcuts
-  menuaccels = MenuAccelsAction->isChecked();
-  ToggleMenuShortcut(bar, menuaccels, i18n("&File"),         i18n("File"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Edit"),         i18n("Edit"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Tools"),        i18n("Tools"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&LaTeX"),        i18n("LaTeX"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Math"),         i18n("Math"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Wizard"),       i18n("Wizard"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Bibliography"), i18n("Bibliography"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&User"),         i18n("User"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Graph"),        i18n("Graph"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&View"),         i18n("View"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Settings"),     i18n("Settings"));
-  ToggleMenuShortcut(bar, menuaccels, i18n("&Help"),         i18n("Help"));
+  m_menuaccels = MenuAccelsAction->isChecked();
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&File"),         i18n("File"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Edit"),         i18n("Edit"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Tools"),        i18n("Tools"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&LaTeX"),        i18n("LaTeX"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Math"),         i18n("Math"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Wizard"),       i18n("Wizard"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Bibliography"), i18n("Bibliography"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&User"),         i18n("User"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Graph"),        i18n("Graph"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&View"),         i18n("View"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Settings"),     i18n("Settings"));
+  ToggleMenuShortcut(bar, m_menuaccels, i18n("&Help"),         i18n("Help"));
 
-  ToggleKeyShortcut(altH_action, menuaccels);
-  ToggleKeyShortcut(altI_action, menuaccels);
-  ToggleKeyShortcut(altA_action, menuaccels);
-  ToggleKeyShortcut(altB_action, menuaccels);
-  ToggleKeyShortcut(altT_action, menuaccels);
-  ToggleKeyShortcut(altC_action, menuaccels);
-  ToggleKeyShortcut(altM_action, menuaccels);
-  ToggleKeyShortcut(altE_action, menuaccels);
-  ToggleKeyShortcut(altD_action, menuaccels);
-  ToggleKeyShortcut(altU_action, menuaccels);
-  ToggleKeyShortcut(altF_action, menuaccels);
-  ToggleKeyShortcut(altQ_action, menuaccels);
-  ToggleKeyShortcut(altS_action, menuaccels);
-  ToggleKeyShortcut(altL_action, menuaccels);
-  ToggleKeyShortcut(altR_action, menuaccels);
+  ToggleKeyShortcut(altH_action, m_menuaccels);
+  ToggleKeyShortcut(altI_action, m_menuaccels);
+  ToggleKeyShortcut(altA_action, m_menuaccels);
+  ToggleKeyShortcut(altB_action, m_menuaccels);
+  ToggleKeyShortcut(altT_action, m_menuaccels);
+  ToggleKeyShortcut(altC_action, m_menuaccels);
+  ToggleKeyShortcut(altM_action, m_menuaccels);
+  ToggleKeyShortcut(altE_action, m_menuaccels);
+  ToggleKeyShortcut(altD_action, m_menuaccels);
+  ToggleKeyShortcut(altU_action, m_menuaccels);
+  ToggleKeyShortcut(altF_action, m_menuaccels);
+  ToggleKeyShortcut(altQ_action, m_menuaccels);
+  ToggleKeyShortcut(altS_action, m_menuaccels);
+  ToggleKeyShortcut(altL_action, m_menuaccels);
+  ToggleKeyShortcut(altR_action, m_menuaccels);
 }
 
 void Kile::ToggleOutputView()
@@ -5419,9 +3737,9 @@ void Kile::ToggleShowMainToolbar() {
   showmaintoolbar = !showmaintoolbar;
 
   if (showmaintoolbar ) {
-      toolBar("ToolBar1")->show();
+      toolBar("mainToolBar")->show();
   } else {
-    toolBar("ToolBar1")->hide();
+    toolBar("mainToolBar")->hide();
   }
 }
 
@@ -5494,94 +3812,56 @@ else
 
 void Kile::GeneralOptions()
 {
-toDlg = new toolsoptionsdialog(this,"Configure Kile");
-for ( int i = 0; i <= 7; i++ )
-    {
-    toDlg->colors[i]=editor_color[i];
-    }
-toDlg->init();
-toDlg->asIntervalInput->setText(QString::number(autosaveinterval/60000));
-toDlg->templAuthor->setText(templAuthor);
-toDlg->templDocClassOpt->setText(templDocClassOpt);
-toDlg->templEncoding->setText(templEncoding);
-toDlg->checkAutosave->setChecked(autosave);
-toDlg->LineEdit6->setText(latex_command);
-toDlg->LineEdit7->setText(pdflatex_command);
-toDlg->comboFamily->lineEdit()->setText(EditorFont.family() );
-toDlg->comboDvi->lineEdit()->setText(viewdvi_command );
-toDlg->comboPdf->lineEdit()->setText(viewpdf_command );
-toDlg->comboPs->lineEdit()->setText(viewps_command );
-toDlg->spinSize->setValue(EditorFont.pointSize() );
-if (quickmode==1) {toDlg->checkLatex->setChecked(true);}
-if (quickmode==2) {toDlg->checkDvi->setChecked(true);}
-if (quickmode==3) {toDlg->checkDviSearch->setChecked(true);}
-if (quickmode==4)  {toDlg->checkPdflatex->setChecked(true);}
-if (quickmode==5)  {toDlg->checkDviPdf->setChecked(true);}
-if (quickmode==6)  {toDlg->checkPsPdf->setChecked(true);}
-toDlg->checkWordWrap->setChecked(wordwrap);
-toDlg->checkParen->setChecked(parenmatch);
-toDlg->checkLine->setChecked(showline);
-if (toDlg->exec())
-  {
-   toDlg->ksc->writeGlobalSettings ();
-   autosaveinterval=60000*(toDlg->asIntervalInput->text().toLong());
-   setAutosaveInterval(autosaveinterval);
-   autosave=toDlg->checkAutosave->isChecked();
-   enableAutosave(autosave);
-   templAuthor=toDlg->templAuthor->text();
-   templDocClassOpt=toDlg->templDocClassOpt->text();
-   templEncoding=toDlg->templEncoding->text().stripWhiteSpace();
-   if (toDlg->checkLatex->isChecked()) quickmode=1;
-   if (toDlg->checkDvi->isChecked()) quickmode=2;
-   if (toDlg->checkDviSearch->isChecked()) quickmode=3;
-   if (toDlg->checkPdflatex->isChecked()) quickmode=4;
-   if (toDlg->checkDviPdf->isChecked()) quickmode=5;
-   if (toDlg->checkPsPdf->isChecked()) quickmode=6;
-   viewdvi_command=toDlg->comboDvi->lineEdit()->text();
-   viewps_command=toDlg->comboPs->lineEdit()->text();
-   viewpdf_command=toDlg->comboPdf->lineEdit()->text();
-   latex_command=toDlg->LineEdit6->text();
-   pdflatex_command=toDlg->LineEdit7->text();
-   QString fam=toDlg->comboFamily->lineEdit()->text();
-   int si=toDlg->spinSize->value();
-   QFont F(fam,si);
-   EditorFont=F;
-   wordwrap=toDlg->checkWordWrap->isChecked();
-   parenmatch=toDlg->checkParen->isChecked();
-   showline=toDlg->checkLine->isChecked();
-   for ( int i = 0; i <= 7; i++ )
-    {
-    editor_color[i]=toDlg->colors[i];
-    }
-   if (currentEditorView())
-  {
-   LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color );
-   temp=currentEditorView();
-   FilesMap::Iterator it;
-   for( it = filenames.begin(); it != filenames.end(); ++it )
-      {
-        tabWidget->showPage( it.key() );
-        bool  MODIFIED =currentEditorView()->editor->isModified();
-        QString tmp =currentEditorView()->editor->text();
-        if (wordwrap) {currentEditorView()->editor->setWordWrap(LatexEditor::WidgetWidth);}
-        else {currentEditorView()->editor->setWordWrap(LatexEditor::NoWrap);}
-        currentEditorView()->changeSettings(EditorFont,parenmatch, showline, editor_color);
-        currentEditorView()->editor->clear();
-        currentEditorView()->editor->setText( tmp );
-        if( MODIFIED ) currentEditorView()->editor->setModified(TRUE );
-        else currentEditorView()->editor->setModified( FALSE );
-      }
-   tabWidget->showPage(temp);
-   UpdateCaption();
-   UpdateLineColStatus();
-   }
-  }
-delete toDlg;
+	toDlg = new toolsoptionsdialog(this,"Configure Kile");
+
+	//initialize dialog with current settings
+	toDlg->asIntervalInput->setText(QString::number(autosaveinterval/60000));
+	toDlg->templAuthor->setText(templAuthor);
+	toDlg->templDocClassOpt->setText(templDocClassOpt);
+	toDlg->templEncoding->setText(templEncoding);
+	toDlg->checkAutosave->setChecked(autosave);
+	toDlg->LineEdit6->setText(latex_command);
+	toDlg->LineEdit7->setText(pdflatex_command);
+	toDlg->comboDvi->lineEdit()->setText(viewdvi_command );
+	toDlg->comboPdf->lineEdit()->setText(viewpdf_command );
+	toDlg->comboPs->lineEdit()->setText(viewps_command );
+
+	if (quickmode==1) {toDlg->checkLatex->setChecked(true);}
+	if (quickmode==2) {toDlg->checkDvi->setChecked(true);}
+	if (quickmode==3) {toDlg->checkDviSearch->setChecked(true);}
+	if (quickmode==4)  {toDlg->checkPdflatex->setChecked(true);}
+	if (quickmode==5)  {toDlg->checkDviPdf->setChecked(true);}
+	if (quickmode==6)  {toDlg->checkPsPdf->setChecked(true);}
+
+	//execute the dialog
+	if (toDlg->exec())
+	{
+		toDlg->ksc->writeGlobalSettings ();
+		autosaveinterval=60000*(toDlg->asIntervalInput->text().toLong());
+		setAutosaveInterval(autosaveinterval);
+		autosave=toDlg->checkAutosave->isChecked();
+		enableAutosave(autosave);
+		templAuthor=toDlg->templAuthor->text();
+		templDocClassOpt=toDlg->templDocClassOpt->text();
+		templEncoding=toDlg->templEncoding->text().stripWhiteSpace();
+		if (toDlg->checkLatex->isChecked()) quickmode=1;
+		if (toDlg->checkDvi->isChecked()) quickmode=2;
+		if (toDlg->checkDviSearch->isChecked()) quickmode=3;
+		if (toDlg->checkPdflatex->isChecked()) quickmode=4;
+		if (toDlg->checkDviPdf->isChecked()) quickmode=5;
+		if (toDlg->checkPsPdf->isChecked()) quickmode=6;
+		viewdvi_command=toDlg->comboDvi->lineEdit()->text();
+		viewps_command=toDlg->comboPs->lineEdit()->text();
+		viewpdf_command=toDlg->comboPdf->lineEdit()->text();
+		latex_command=toDlg->LineEdit6->text();
+		pdflatex_command=toDlg->LineEdit7->text();
+	}
+	delete toDlg;
 }
 ////////////// SPELL ///////////////
 void Kile::spellcheck()
 {
-	if ( !currentEditorView() ) return;
+	if ( !currentView() ) return;
 
   	if ( kspell )
   	{
@@ -5601,16 +3881,15 @@ void Kile::spellcheck()
 void Kile::spell_started( KSpell *)
 {
 	kspell->setProgressResolution(2);
-	if ( currentEditorView()->editor->hasSelectedText() )
+	if ( currentView()->getDoc()->hasSelection() )
 	{
-		kspell->check(currentEditorView()->editor->selectedText());
-		currentEditorView()->editor->getSelection(&par_start,&index_start,&par_end,&index_end,0);
+		kspell->check(currentView()->getDoc()->selection());
 	}
 	else
 	{
-		kspell->check(currentEditorView()->editor->text());
+		kspell->check(currentView()->getDoc()->text());
 		par_start=0;
-		par_end=currentEditorView()->editor->paragraphs()-1;
+		par_end=currentView()->getDoc()->numLines()-1;
 	}
 }
 
@@ -5620,14 +3899,14 @@ void Kile::spell_progress (unsigned int /*percent*/)
 
 void Kile::spell_done(const QString& /*newtext*/)
 {
-  currentEditorView()->editor->removeSelection(0);
+  currentView()->getDoc()->clearSelection();
   kspell->cleanUp();
 	KMessageBox::information(this,i18n("Corrected %1 words.").arg(ks_corrected),i18n("Spell checking done"));
 }
 
 void Kile::spell_finished( )
 {
-	UpdateLineColStatus();
+	//newStatus();
 	KSpell::spellStatus status = kspell->status();
 
 	delete kspell;
@@ -5638,7 +3917,7 @@ void Kile::spell_finished( )
   }
 	else if (status == KSpell::Crashed)
   {
-     currentEditorView()->editor->removeSelection(0);
+     currentView()->getDoc()->clearSelection();
      KMessageBox::sorry(this, i18n("I(A)Spell seems to have crashed."));
   }
 }
@@ -5650,14 +3929,14 @@ void Kile::misspelling (const QString & originalword, const QStringList & /*sugg
   int col=0;
   int p=pos;
 
-  while ((cnt+currentEditorView()->editor->paragraphLength(l)<=p) && (l < par_end))
+  while ((cnt+currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))
   {
-  cnt+=currentEditorView()->editor->paragraphLength(l)+1;
+  cnt+=currentView()->getDoc()->lineLength(l)+1;
   l++;
   }
   col=p-cnt;
-  currentEditorView()->editor->setCursorPosition(l,col);
-  currentEditorView()->editor->setSelection( l,col,l,col+originalword.length(),0);
+  currentView()->setCursorPosition(l,col);
+  currentView()->getDoc()->setSelection( l,col,l,col+originalword.length());
 }
 
 
@@ -5669,19 +3948,19 @@ void Kile::corrected (const QString & originalword, const QString & newword, uns
   int p=pos;
   if( newword != originalword )
   {
-    while ((cnt+currentEditorView()->editor->paragraphLength(l)<=p) && (l < par_end))
+    while ((cnt+currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))
     {
-    cnt+=currentEditorView()->editor->paragraphLength(l)+1;
+    cnt+=currentView()->getDoc()->lineLength(l)+1;
     l++;
     }
     col=p-cnt;
-    currentEditorView()->editor->setCursorPosition(l,col);
-    currentEditorView()->editor->setSelection( l,col,l,col+originalword.length(),0);
-    currentEditorView()->editor->removeSelectedText();
-    currentEditorView()->editor->insert( newword, FALSE, FALSE );
-    currentEditorView()->editor->setModified( TRUE );
+    currentView()->setCursorPosition(l,col);
+    currentView()->getDoc()->setSelection( l,col,l,col+originalword.length());
+    currentView()->getDoc()->removeSelectedText();
+    currentView()->getDoc()->insertText( l,col,newword );
+    currentView()->getDoc()->setModified( TRUE );
   }
-  currentEditorView()->editor->removeSelection(0);
+  currentView()->getDoc()->clearSelection();
 
   ks_corrected++;
 }
@@ -5775,21 +4054,21 @@ else
 
 void Kile::changeInputEncoding()
 {
-input_encoding=KileFS->comboEncoding->lineEdit()->text();
-if (currentEditorView())
-  {
-   QTextCodec* codec1 = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().latin1());
-   if(!codec1) codec1 = QTextCodec::codecForLocale();
-   QString tmp =currentEditorView()->editor->text();
-   QString unicodetmp=codec1->toUnicode(tmp.latin1());
-   QTextCodec* codec2 = QTextCodec::codecForName(input_encoding.latin1());
-   if(!codec2) codec2 = QTextCodec::codecForLocale();
-   QString newtmp= codec2->fromUnicode( unicodetmp );
-   currentEditorView()->editor->clear();
-   currentEditorView()->editor->setText( newtmp );
-   currentEditorView()->editor->setModified(TRUE );
-   currentEditorView()->editor->setEncoding(input_encoding);
-  }
+	Kate::View *view = currentView();
+	if (view)
+	{
+		bool modified = view->getDoc()->isModified();
+
+  		QString encoding=KileFS->comboEncoding->lineEdit()->text();
+		QString text = view->getDoc()->text();
+
+		view->getDoc()->setEncoding(encoding);
+		//reload the document so that the new encoding takes effect
+		view->getDoc()->openURL(view->getDoc()->url());
+
+		setHighlightMode(view->getDoc());
+		view->getDoc()->setModified(modified);
+	}
 }
 
 ////////////////// EPS SIZE ///////////////////
@@ -5875,16 +4154,16 @@ else return "";
 void Kile::CleanBib()
 {
 QString s;
-if ( !currentEditorView() )	return;
-int i=0;
-while(i < currentEditorView()->editor->paragraphs())
+if ( !currentView() )	return;
+uint i=0;
+while(i < currentView()->getDoc()->numLines())
    {
-    s = currentEditorView()->editor->text(i);
+    s = currentView()->getDoc()->textLine(i);
     s=s.left(3);
     if (s=="OPT" || s=="ALT")
         {
-        currentEditorView()->editor->removeParagraph (i );
-        currentEditorView()->editor->setModified(true);
+        currentView()->getDoc()->removeLine(i );
+        currentView()->getDoc()->setModified(true);
         }
     else i++;
    }

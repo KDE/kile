@@ -3,12 +3,12 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = managetemplatesdialog.cpp templates.cpp newfilewizard.cpp projectwizard.cpp commandprocess.cpp linenumberwidget.cpp latexeditorview.cpp usertooldialog.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp toolsoptionsdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp syntaxlatex.cpp symbolview.cpp structdialog.cpp replacedialog.cpp quickdocumentdialog.cpp parenmatcher.cpp messagewidget.cpp letterdialog.cpp latexeditor.cpp l2hdialog.cpp kmultiverttabbar.cpp kileiconview.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp gotolinedialog.cpp finddialog.cpp filechooser.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp 
-kile_LDADD   = ./gfe/libgfe.a -lkdeprint $(LIB_KSPELL) $(LIB_KHTML)
+kile_SOURCES = managetemplatesdialog.cpp templates.cpp newfilewizard.cpp commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp toolsoptionsdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp l2hdialog.cpp kmultiverttabbar.cpp kileiconview.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp filechooser.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.h kilestdactions.cpp
+kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 
-SUBDIRS = pics symbols gfe templates
+SUBDIRS = pics symbols gfe templates syntax
 
-EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h docpart.cpp docpart.h filechooser.cpp filechooser.h finddialog.cpp finddialog.h gotolinedialog.cpp gotolinedialog.h kile16x16.png kile32x32.png kile48x48.png kileappIface.h kileappIface_skel.cpp kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp kilefileselect.h kileiconview.cpp kileiconview.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h l2hdialog.cpp l2hdialog.h latexeditor.cpp latexeditor.h letterdialog.cpp letterdialog.h messagewidget.cpp messagewidget.h paragdata.h parenmatcher.cpp parenmatcher.h quickdocumentdialog.cpp quickdocumentdialog.h replacedialog.cpp replacedialog.h structdialog.cpp structdialog.h symbolview.cpp symbolview.h syntaxlatex.cpp syntaxlatex.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp tabdialog.h texkonsolewidget.cpp texkonsolewidget.h toolsoptionsdialog.cpp toolsoptionsdialog.h usermenudialog.cpp usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp refdialog.h kile22x22.png metapostview.cpp metapostview.h usertooldialog.cpp usertooldialog.h latexeditorview.cpp latexeditorview.h linenumberwidget.cpp linenumberwidget.h commandprocess.cpp commandprocess.h projectwizard.cpp projectwizard.h newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp managetemplatesdialog.h 
+EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h docpart.cpp docpart.h filechooser.cpp filechooser.h finddialog.cpp finddialog.h gotolinedialog.cpp gotolinedialog.h kile16x16.png kile32x32.png kile48x48.png kileappIface.h kileappIface_skel.cpp kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp kilefileselect.h kileiconview.cpp kileiconview.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h l2hdialog.cpp l2hdialog.h latexeditor.cpp latexeditor.h letterdialog.cpp letterdialog.h messagewidget.cpp messagewidget.h paragdata.h parenmatcher.cpp parenmatcher.h quickdocumentdialog.cpp quickdocumentdialog.h replacedialog.cpp replacedialog.h structdialog.cpp structdialog.h symbolview.cpp symbolview.h syntaxlatex.cpp syntaxlatex.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp tabdialog.h texkonsolewidget.cpp texkonsolewidget.h toolsoptionsdialog.cpp toolsoptionsdialog.h usermenudialog.cpp usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp refdialog.h kile22x22.png metapostview.cpp metapostview.h usertooldialog.cpp usertooldialog.h latexeditorview.cpp latexeditorview.h linenumberwidget.cpp linenumberwidget.h commandprocess.cpp commandprocess.h projectwizard.cpp projectwizard.h newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp managetemplatesdialog.h
 
 apps_DATA = kile.desktop
 appsdir = $(kde_appsdir)/Applications
@@ -52,7 +52,7 @@ uninstall-local:
 # kde_designerdir     Where Qt Designer plugins should go to (new in KDE 3).
 
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes)
+INCLUDES = $(all_includes)
 
 METASOURCES = AUTO
 
@@ -68,3 +68,4 @@ messages: rc.cpp
 	 $(XGETTEXT) $$LIST -o $(podir)/kile.pot; \
 	fi
 
+syntaxdir = $(kde_appsdir)/katepart/syntax

@@ -69,8 +69,18 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
 
   dir = new KDirOperator(QString::null, this, "operator");
   dir->setView(KFile::Simple);
-  dir->setNameFilter( "*.tex *.bib *.sty *.cls *.mp" );
-//  dir->actionCollection()->action( "delete" )-> (KShortcut (ALT+Key_Delete));
+  dir->setNameFilter( "*.tex *.ltx *.dtx *.bib *.sty *.cls *.mp" );
+
+  KActionCollection *coll = dir->actionCollection();
+  // some shortcuts of diroperator that clashes with Kate
+  coll->action( "delete" )->setShortcut( KShortcut( ALT + Key_Delete ) );
+  coll->action( "reload" )->setShortcut( KShortcut( ALT + Key_F5 ) );
+  coll->action( "back" )->setShortcut( KShortcut( ALT + SHIFT + Key_Left ) );
+  coll->action( "forward" )->setShortcut( KShortcut( ALT + SHIFT + Key_Right ) );
+  // some consistency - reset up for dir too
+  coll->action( "up" )->setShortcut( KShortcut( ALT + SHIFT + Key_Up ) );
+  coll->action( "home" )->setShortcut( KShortcut( CTRL + ALT + Key_Home ) );
+
   lo->addWidget(dir);
   lo->setStretchFactor(dir, 2);
 

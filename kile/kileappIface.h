@@ -19,12 +19,18 @@
 
 #include <dcopobject.h>
 
+namespace Kate {
+class View;
+}
+
+class KURL;
+
 class KileAppDCOPIface : virtual public DCOPObject
 {
   K_DCOP
 
   k_dcop:
-    virtual void load( const QString &f )=0;
+    virtual Kate::View* load( const KURL &url , const QString & encoding )=0;
     virtual void setLine( const QString &line )=0;
 };
 

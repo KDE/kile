@@ -18,6 +18,8 @@
 #ifndef KILE_H
 #define KILE_H
 
+#include <kate/view.h>
+#include <kate/document.h>
 
 #include <kmainwindow.h>
 #include <dcopobject.h>
@@ -30,10 +32,8 @@
 #include <kparts/part.h>
 #include <kspell.h>
 #include <kprocess.h>
-#include <kurl.h>
 #include <kaction.h>
 #include <kfileitem.h>
-
 
 #include <qmap.h>
 #include <qsplitter.h>
@@ -51,8 +51,6 @@
 #include <qcolor.h>
 
 #include "kileappIface.h"
-#include "latexeditorview.h"
-#include "latexeditor.h"
 #include "messagewidget.h"
 #include "structdialog.h"
 #include "quickdocumentdialog.h"
@@ -60,11 +58,6 @@
 #include "tabdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
-#include "usermenudialog.h"
-#include "usertooldialog.h"
-#include "gotolinedialog.h"
-#include "replacedialog.h"
-#include "finddialog.h"
 #include "toolsoptionsdialog.h"
 #include "l2hdialog.h"
 #include "filechooser.h"
@@ -77,6 +70,7 @@
 #include "kilefileselect.h"
 #include "refdialog.h"
 #include "metapostview.h"
+#include "kileactions.h"
 
 #include "commandprocess.h"
 
@@ -90,7 +84,7 @@ class QTimer;
 class QSignalMapper;
 class KActionMenu;
 
-typedef  QMap<LatexEditorView*, QString> FilesMap;
+//typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
 typedef  QString UserCd[5];
 typedef  QColor ListColors[8];
@@ -107,372 +101,337 @@ struct userItem
 
 class Kile : public KParts::MainWindow, public KileAppDCOPIface
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    Kile( QWidget *parent = 0, const char *name = 0 );
-    ~Kile();
-    QString getName() const;
-    QString getShortName() const;
-    QFont EditorFont;
+	Kile( QWidget *parent = 0, const char *name = 0 );
+	~Kile();
 
 public slots:
-    void load( const QString &f );
-    void setLine( const QString &line );
+	//jumps to give line (can be called via DCOP interface)
+	void setLine( const QString &line );
+
+/* actions */
 private:
-    void setupActions();
-    void closeEvent(QCloseEvent *e);
-    LatexEditorView *currentEditorView() const;
-    LatexEditor* currentEditor() const;
-    QFileInfo * currentFileInfo() const;
-    void doConnections( LatexEditor *e );
-    bool FileAlreadyOpen(const QString &f);
-    void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
-    void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
+	void setupActions();
+	void setupUserTagActions();
+	void setupUserToolActions();
 
-    KStatusBar *StatusBar;
-    KConfig* config;
-    KSpell *kspell;
-    int ks_corrected;
+	//toggle between old (non-KDE compliant) shortcuts or KDE-compliant shortcuts
+	void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
+	void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
+	bool			m_menuaccels; //TRUE : we're using KDE compliant shortcuts
 
-    QString tempLog;
-    KileFileSelect *KileFS;
-    KMultiVertTabBar *ButtonBar;
-    structdialog *stDlg;
-    quickdocumentdialog *startDlg;
-    refdialog *refDlg;
-    letterdialog *ltDlg;
-    tabdialog *quickDlg;
-    arraydialog *arrayDlg;
-    tabbingdialog *tabDlg;
-    usermenudialog *umDlg;
-    usertooldialog *utDlg;
-    l2hdialog *l2hDlg;
-    QGuardedPtr<FindDialog> findDialog;
-    QGuardedPtr<ReplaceDialog> replaceDialog;
-    QGuardedPtr<GotoLineDialog> gotoLineDialog;
-    toolsoptionsdialog *toDlg;
-    FileChooser *sfDlg;
-    QGuardedPtr<Qplotmaker> gfe_widget;
-    SymbolView *symbol_view;
-    docpart *htmlpart;
-    KParts::PartManager *partManager;
-    KParts::ReadOnlyPart *pspart, *dvipart;
-    QString document_class, typeface_size, paper_size, document_encoding, author;
-    bool ams_packages, makeidx_package;
-    QString latex_command, viewdvi_command, dvips_command, dvipdf_command;
-    QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, l2h_options;
-    QString lastDocument,MasterName, input_encoding;
-    QString templAuthor, templDocClassOpt, templEncoding;
-    QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-    //Userlist UserMenuName, UserMenuTag;
-    //UserCd UserToolName, UserToolCommand;
+	KActionMenu 		*m_menuUserTags, *m_menuUserTools;
+	QSignalMapper 		*m_mapUserTagSignals, *m_mapUserToolsSignals;
+	QValueList<userItem> 	m_listUserTags, m_listUserTools;
+	QPtrList<KAction> 	m_listUserTagsActions, m_listUserToolsActions;
+	KAction			*m_actionEditTag, *m_actionEditTool;
 
-    KActionMenu *menuUserTags, *menuUserTools;
-    QSignalMapper *mapUserTagSignals, *mapUserToolsSignals;
-    QValueList<userItem> listUserTags, listUserTools;
-    QPtrList<KAction> listUserTagsActions, listUserToolsActions;
+	KPopupMenu		*help;
+	KHelpMenu		*help_menu;
+	KAction 		*BackAction, *ForwardAction, *HomeAction, *StopAction;
+	KToggleAction 		*ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
+				*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
+	KAction 		*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
+	KAction 		*altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
+	KRecentFilesAction	*fileOpenRecentAction;
 
-    ListColors editor_color;
-    bool logpresent, singlemode, showstructview,showoutputview, wordwrap, parenmatch,showline,
-      showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, menuaccels, autosave;
-    bool m_bNewErrorlist;
-    bool htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
-    int split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
-    long autosaveinterval;
-    QTabWidget *tabWidget, *Outputview;
-    QFrame *Structview;
-    QHBoxLayout *Structview_layout;
-    QWidgetStack *topWidgetStack;
-    QSplitter *splitter1, *splitter2 ;
-    QListView* outstruct;
-    QListViewItem *parent_level[5],*lastChild, *Child;
-    metapostview *mpview;
-    MessageWidget *OutputWidget, *LogWidget;
-    TexKonsoleWidget* texkonsole;
-    QStrList *errorlist;
-    int m_nErrors,m_nWarnings;
-    bool m_bCheckForLaTeXErrors;
-    QStringList structlist, labelitem, structitem, userClassList, userPaperList, userEncodingList, userOptionsList;
-    FilesMap filenames;
-    KPopupMenu*help;
-    KHelpMenu* help_menu;
-    KAction *PrintAction, *BackAction, *ForwardAction, *HomeAction, *StopAction;
-    KAction *UserAction1, *UserAction2, *UserAction3, *UserAction4, *UserAction5, *UserAction6, *UserAction7, *UserAction8, *UserAction9, *UserAction10;
-    KAction *UserToolAction1, *UserToolAction2, *UserToolAction3, *UserToolAction4, *UserToolAction5;
-    KToggleAction *ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
-      *ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
-    KAction *altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
-    KAction *altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
-    KRecentFilesAction* fileOpenRecentAction;
 
-    int par_start, par_end, index_start, index_end;
-    QString spell_text;
 
-    KShellProcess *currentProcess;
-    QTimer *m_AutosaveTimer;
+/* GUI */
+private:
+	//widgets
+	KStatusBar 		*StatusBar;
+	KileFileSelect 		*KileFS;
+	KMultiVertTabBar 	*ButtonBar;
+	SymbolView 		*symbol_view;
+	metapostview 		*mpview;
+    	MessageWidget 		*OutputWidget, *LogWidget;
+    	TexKonsoleWidget	*texkonsole;
+	QTabWidget 		*tabWidget, *Outputview;
+	QFrame 			*Structview;
+	QHBoxLayout 		*Structview_layout;
+	QWidgetStack 		*topWidgetStack;
+	QSplitter 		*splitter1, *splitter2 ;
+	QListView		*outstruct;
+	QListViewItem 		*parent_level[5],*lastChild, *Child;
 
-signals:
-   void stopProcess();
+	//dialogs
+	structdialog 		*stDlg;
+	quickdocumentdialog 	*startDlg;
+	refdialog 		*refDlg;
+	letterdialog 		*ltDlg;
+	tabdialog 		*quickDlg;
+	arraydialog 		*arrayDlg;
+	tabbingdialog 		*tabDlg;
+	l2hdialog 		*l2hDlg;
+	FileChooser 		*sfDlg;
+
+	//parts
+	docpart 		*htmlpart;
+	KParts::PartManager 	*partManager;
+	KParts::ReadOnlyPart 	*pspart, *dvipart;
 
 private slots:
-    void fileNew();
-    void fileOpen();
-    void fileOpen(const KURL& url);
-    void fileSave(bool amAutoSaving = false);
-    void fileSaveAll(bool amAutoSaving = false);
-    void autoSaveAll();
-    void fileSaveAs();
-    void createTemplate();
-    void replaceTemplateVariables(QString &line);
-    void filePrint();
-    void fileClose();
-    void fileCloseAll();
-    void fileExit();
-    void fileSelected(const KFileItem *file);
+	void ToggleMode();
+	void ToggleAccels();
+	void ToggleStructView();
+	void ToggleOutputView();
+	void ToggleWatchFile();
+	void ToggleShowMainToolbar();
+	void ToggleShowToolsToolbar();
+	void ToggleShowEditToolbar();
+	void ToggleShowMathToolbar();
+	void ShowOutputView(bool change);
+	void ShowEditorWidget();
+	void showVertPage(int page);
 
-    void editUndo();
-    void editRedo();
-    void editCut();
-    void editCopy();
-    void editPaste();
-    void editSelectAll();
-    void editFind();
-    void editFindNext();
-    void editReplace();
-    void editGotoLine();
-    void editComment();
-    void editUncomment();
-    void editIndent();
+	void BrowserBack();
+	void BrowserForward();
+	void BrowserHome();
+	void LatexHelp();
+	void invokeHelp();
 
-    void InsertTag(QString Entity, int dx, int dy);
-    void UpdateLineColStatus();
-    void UpdateCaption();
-    void NewDocumentStatus(bool m);
-    void gotoNextDocument();
-    void gotoPrevDocument();
+private:
+	bool 			showoutputview, showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar;
 
-    void ReadSettings();
-    void SaveSettings();
-    void GeneralOptions();
-    void removeTemplate();
+private slots:
+	void ResetPart();
+	void ActivePartGUI(KParts::Part * the_part);
 
-    void QuickBuild();
-    void EndQuickCompile();
-    void QuickDviToPS();
-    void QuickDviPDF();
-    void QuickPS2PDF();
+/* structure view */
+private:
+	QStringList		structlist,labelitem, structitem;
+	bool 			showstructview;
 
-    CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop, bool runonfile = true);
-    QString prepareForCompile(const QString & command);
-    QStringList prepareForConversion(const QString &command, const QString &from, const QString &to);
-    QString prepareForViewing(const QString & command, const QString &ext, const QString &target);
-    void Latex();
-    void ViewDvi();
-    void KdviForwardSearch();
-    void DviToPS();
-    void ViewPS();
-    void PDFLatex();
-    void ViewPDF();
-    void CleanAll();
-    void MakeBib();
-    void MakeIndex();
-    void PStoPDF();
-    void DVItoPDF();
-    void syncTerminal();
-    void RunTerminal(QWidget *w);
-    void LatexToHtml();
-    void MetaPost();
-    void slotProcessOutput(KProcess* proc,char* buffer,int buflen);
-    void slotProcessExited(KProcess* proc);
-    void slotDisableStop();
-    void slotl2hExited(KProcess* proc);
-    void HtmlPreview();
-    void execUserTool(int);
+private slots:
+	void ShowStructView(bool change);
+	void ShowStructure();
+	void UpdateStructure();
+	void ClickedOnStructure(QListViewItem *);
+	void DoubleClickedOnStructure(QListViewItem *);
 
-   void UpdateStructure();
-   void ShowStructure();
-   void ClickedOnStructure(QListViewItem *);
-   void DoubleClickedOnStructure(QListViewItem *);
+/* config */
+private:
+	KConfig			*config;
+	toolsoptionsdialog 	*toDlg;
+	int 			split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
-   void ViewLog();
-   void ClickedOnOutput(int parag, int index);
-   void QuickLatexError() { LatexError(false);}
-   void LatexError(bool warnings=true);
-   void NextError();
-   void PreviousError();
+	QString 		document_class, typeface_size, paper_size, document_encoding, author;
+	QString 		lastDocument,MasterName, input_encoding;
+    	QString 		templAuthor, templDocClassOpt, templEncoding;
+    	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
+    	QStringList 		recentFilesList;
+	bool 			ams_packages, makeidx_package;
+	bool 			htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
+	QStringList 		userClassList, userPaperList, userEncodingList, userOptionsList;
 
-   void QuickTabular();
-   void QuickArray();
-   void QuickTabbing();
-   void QuickLetter();
-   void QuickDocument();
-   void Insert1();
-   void Insert1bis();
-   void Insert1ter();
-   void Insert2();
-   void Insert3();
-   void Insert4();
-   void Insert5();
-   void Insert6();
-   void Insert6bis();
-   void Insert7();
-   void Insert8();
-   void Insert9();
-   void Insert10();
-   void Insert11();
-   void Insert12();
-   void Insert13();
-   void Insert14();
-   void Insert15();
-   void Insert16();
-   void Insert17();
-   void Insert18();
-   void Insert19();
-   void Insert20();
-   void Insert21();
-   void Insert22();
-   void Insert23();
-   void Insert24();
-   void Insert25();
-   void Insert26();
-   void Insert27();
-   void Insert28();
-   void Insert29();
-   void Insert30();
-   void Insert31();
-   void Insert32();
-   void Insert33();
-   void Insert34();
-   void Insert35();
-   void Insert36();
-   void Insert37();
-   void Insert37bis();
-   void Insert37ter();
-   void Insert38();
-   void Insert39();
-   void Insert40();
-   void Insert41();
-   void Insert42();
-   void Insert43();
-   void Insert44();
-   void Insert45();
-   void Insert46();
-   void Insert47();
-   void Insert48();
-   void Insert49();
-   void Insert50();
-   void Insert51();
-   void Insert52();
-   void SizeCommand(const QString& text);
-   void SectionCommand(const QString& text);
-   void OtherCommand(const QString& text);
-   void NewLine();
+private slots:
+	void ReadSettings();
+	void ReadRecentFileSettings();
+	void SaveSettings();
+	void GeneralOptions();
+	void ConfigureKeys();
+   	void ConfigureToolbars();
+   	void updateNavAction( bool, bool);
 
-   void InsertMath1();
-   void InsertMath2();
-   void InsertMath3();
-   void InsertMath4();
-   void InsertMath5();
-   void InsertMath6();
-   void InsertMath7();
-   void InsertMath8();
-   void InsertMath9();
-   void InsertMath10();
-   void InsertMath16();
-   void InsertMath66();
-   void InsertMath67();
-   void InsertMath68();
-   void InsertMath69();
-   void InsertMath70();
-   void InsertMath71();
-   void InsertMath72();
-   void InsertMath73();
-   void InsertMath74();
-   void InsertMath75();
-   void InsertMath76();
-   void InsertMath77();
-   void InsertMath78();
-   void InsertMath79();
-   void InsertMath80();
-   void InsertMath81();
-   void InsertMath82();
-   void InsertMath83();
-   void InsertMath84();
-   void InsertMath85();
-   void InsertMath86();
-   void InsertMath87();
-   void InsertMath88();
-   void InsertMath89();
-   void InsertMath90();
-   void LeftDelimiter(const QString& text);
-   void RightDelimiter(const QString& text);
-   void InsertSymbol();
-   void InsertMetaPost(QListBoxItem *);
+/* spell check */
+private slots:
+	void spellcheck();
+	void spell_started ( KSpell *);
+	void spell_progress (unsigned int percent);
+	void spell_done(const QString&);
+	void spell_finished();
+	void corrected (const QString & originalword, const QString & newword, unsigned int pos);
+	void misspelling (const QString & originalword, const QStringList & suggestions,unsigned int pos);
+
+private:
+	KSpell 			*kspell;
+    	int 			ks_corrected;
+	int 			par_start, par_end, index_start, index_end;
+    	QString 		spell_text;
 
 
-   void InsertBib1();
-   void InsertBib2();
-   void InsertBib3();
-   void InsertBib4();
-   void InsertBib5();
-   void InsertBib6();
-   void InsertBib7();
-   void InsertBib8();
-   void InsertBib9();
-   void InsertBib10();
-   void InsertBib11();
-   void InsertBib12();
-   void InsertBib13();
+/* views */
+private slots:
+	void activateView(QWidget* view);
 
-   void insertUserTag(int i);
-   void EditUserMenu();
-   void EditUserTool();
+private:
+	Kate::View* currentView() const;
+	QPtrList<Kate::View> 		m_viewList;
+    	Kate::View			*m_activeView;
 
-   void RunXfig();
-   void RunGfe();
+/* document handling */
+public slots:
+	//creates a document/view pair and loads the URL with the specified encoding
+	//(default encoding is the encoding corresponding to the current locale)
+	//returns a pointer to the new view
+	Kate::View* load( const KURL &url , const QString & encoding = 0);
+
+private slots:
+	void fileNew();
+	void fileOpen();
+	void fileOpen(const KURL& url);
+	void fileSaveAll(bool amAutoSaving = false);
+	void fileClose();
+	bool fileCloseAll();
+	void fileSelected(const KFileItem *file);
+
+	bool queryExit();
+	bool queryClose();
+
+	bool isOpen(const KURL & url);
+
+	void setHighlightMode(Kate::Document * doc);
+	void changeInputEncoding();
+
+	void newStatus(const QString& = QString::null);
+	void newCaption();
+
+	void slotNameChanged(Kate::Document *);
+	void newDocumentStatus(Kate::Document *);
+
+	void gotoNextDocument();
+	void gotoPrevDocument();
+
+	QString getName(Kate::Document *doc = 0);
+    	QString getShortName(Kate::Document *doc = 0);
+
+private:
+	bool singlemode;
+
+/* autosave */
+private slots:
+	void autoSaveAll();
+	void enableAutosave(bool);
+	void setAutosaveInterval(long interval) { autosaveinterval=interval;}
+
+private:
+	QTimer *m_AutosaveTimer;
+
+private:
+	long autosaveinterval;
+	bool autosave;
+
+/* templates */
+private slots:
+	void createTemplate();
+	void removeTemplate();
+	void replaceTemplateVariables(QString &line);
+
+/* tools */
+private:
+	KShellProcess 		*currentProcess;
+	QString 		latex_command, viewdvi_command, dvips_command, dvipdf_command,
+				viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
+				pdflatex_command, viewpdf_command, l2h_options;
+
+signals:
+	void stopProcess();
+
+private slots:
+	void slotProcessOutput(KProcess* proc,char* buffer,int buflen);
+	void slotProcessExited(KProcess* proc);
+	void slotDisableStop();
+	void slotl2hExited(KProcess* proc);
+
+	void QuickBuild();
+	void EndQuickCompile();
+	void QuickDviToPS();
+	void QuickDviPDF();
+	void QuickPS2PDF();
+
+	CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop, bool runonfile = true);
+	QString 	prepareForCompile(const QString & command);
+	QStringList 	prepareForConversion(const QString &command, const QString &from, const QString &to);
+	QString 	prepareForViewing(const QString & command, const QString &ext, const QString &target);
+
+	bool isLaTeXRoot(Kate::Document *);
+	void Latex();
+	void ViewDvi();
+	void KdviForwardSearch();
+	void DviToPS();
+	void ViewPS();
+	void PDFLatex();
+	void ViewPDF();
+	void CleanAll();
+	void MakeBib();
+	void MakeIndex();
+	void PStoPDF();
+	void DVItoPDF();
+	void syncTerminal();
+	void RunTerminal(QWidget *w);
+	void LatexToHtml();
+	void MetaPost();
+	void HtmlPreview();
+
+	void CleanBib();
+	QString DetectEpsSize(const QString &epsfile);
+
+	void execUserTool(int);
+	void EditUserTool();
+
+/* log view, error handling */
+private slots:
+	void ViewLog();
+	void ClickedOnOutput(int parag, int index);
+	void QuickLatexError() { LatexError(false);}
+	void LatexError(bool warnings=true);
+	void NextError();
+	void PreviousError();
+
+private:
+	QString 		tempLog;
+	bool 			logpresent;
+
+	QStrList 		*errorlist;
+	int 			m_nErrors,m_nWarnings;
+	bool 			m_bCheckForLaTeXErrors;
+	bool 			m_bNewErrorlist;
 
 
-   void ToggleMode();
-   void ToggleAccels();
-   void ToggleStructView();
-   void ToggleOutputView();
-   void ToggleWatchFile();
-   void ToggleShowMainToolbar();
-   void ToggleShowToolsToolbar();
-   void ToggleShowEditToolbar();
-   void ToggleShowMathToolbar();
-   void ShowStructView(bool change);
-   void ShowOutputView(bool change);
+/* insert tags */
+private slots:
+	void InsertTag(QString Entity, int dx, int dy);
+	void insertTag(const KileAction::TagData&);
+	void insertGraphic(const KileAction::TagData&);
 
-   void ResetPart();
-   void ActivePartGUI(KParts::Part * the_part);
-   void ShowEditorWidget();
-   void BrowserBack();
-   void BrowserForward();
-   void BrowserHome();
-   void LatexHelp();
-   void invokeHelp();
+	void QuickTabular();
+	void QuickArray();
+	void QuickTabbing();
+	void QuickLetter();
+	void QuickDocument();
 
-   void spellcheck();
-   void spell_started ( KSpell *);
-   void spell_progress (unsigned int percent);
-   void spell_done(const QString&);
-   void spell_finished();
-   void corrected (const QString & originalword, const QString & newword, unsigned int pos);
-   void misspelling (const QString & originalword, const QStringList & suggestions,unsigned int pos);
-   void ConfigureKeys();
-   void ConfigureToolbars();
-   void updateNavAction( bool, bool);
+	void InsertSymbol();
+	void InsertMetaPost(QListBoxItem *);
 
-   void showVertPage(int page);
-   void changeInputEncoding();
+	void InsertBib1();
+	void InsertBib2();
+	void InsertBib3();
+	void InsertBib4();
+	void InsertBib5();
+	void InsertBib6();
+	void InsertBib7();
+	void InsertBib8();
+	void InsertBib9();
+	void InsertBib10();
+	void InsertBib11();
+	void InsertBib12();
+	void InsertBib13();
 
-   QString DetectEpsSize(const QString &epsfile);
-   void CleanBib();
+	void insertUserTag(int i);
+	void EditUserMenu();
 
-   void enableAutosave(bool);
-   void setAutosaveInterval(long interval) { autosaveinterval=interval;}
+/* external programs */
+private slots:
+	void RunXfig();
+	void RunGfe();
+
+private:
+	QGuardedPtr<Qplotmaker> gfe_widget;
+
+
 
 };
 

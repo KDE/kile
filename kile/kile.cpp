@@ -506,6 +506,12 @@ void Kile::restore()
 		if (fi.isReadable()) fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
 
+	config->setGroup("FilesOpenOnStart");
+	m_masterName = config->readEntry("Master", "");
+	m_singlemode = (m_masterName == "");
+	if (ModeAction) ModeAction->setChecked(!m_singlemode);
+	updateModeStatus();
+
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 }
@@ -4240,6 +4246,11 @@ config->writeEntry("User Options",userOptionsList, ':');
 		config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
 		for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
 			config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+
+		if (!m_singlemode)
+			config->writeEntry("Master", m_masterName);
+		else
+			config->writeEntry("Master", "");
 	}
 
 config->setGroup( "User" );
@@ -4292,8 +4303,6 @@ void Kile::ToggleMode()
 	{
 		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
 		ModeAction->setChecked(false);
-		OutputWidget->clear();
-		Outputview->showPage(OutputWidget);
 		logpresent=false;
 		m_singlemode=true;
 

@@ -1,8 +1,8 @@
 /***************************************************************************
                            includegraphicsdialog.cpp
 ----------------------------------------------------------------------------
-    date                 : Jan 23 2004
-    version              : 0.10.2
+    date                 : Jul 31 2004
+    version              : 0.10.3
     copyright            : (C) 2004 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -152,7 +152,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
 
    // read configuration
    m_imagemagick = KileConfig::imagemagick();
-   m_imagemagick = KileConfig::boundingbox();
+   m_boundingbox = KileConfig::boundingbox();                     // dani 31.7.2004
 
    m_defaultresolution = KileConfig::resolution();
 
@@ -347,11 +347,13 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &
 void IncludeGraphics::chooseFile()
 {
    QString filter = ( m_pdflatex )
-                  ? QString("*.png,*.jpg,*.pdf|Graphics\n*.png|PNG files\n")
+                  ? QString("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
+                          + "*.png|PNG files\n"
                           + "*.jpg|JPG files\n"
                           + "*.pdf|PDF files\n"
                           + "*|All files"
-                  : QString("*.[ng,*.jpg,*.eps.gz,*.eps|Graphics\n*.png|PNG files\n")
+                  : QString("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
+                          + "*.png|PNG files\n" 
                           + "*.jpg|JPG files\n"
                           + "*.eps.gz|zipped EPS files\n"
                           + "*.eps|EPS files\n"
@@ -378,6 +380,9 @@ void IncludeGraphics::chooseFile()
          execute( "gunzip -c " + fn + grep);
       else
          execute( "identify -format \"w=%w h=%h dpi=%x\" " + fn);
+   } else {
+      kdDebug() << "=== IncludeGraphics::error ====================" << endl;              
+      kdDebug() << "   filename: '" << fn << "'" << endl;
    }
 }
 
@@ -416,7 +421,7 @@ void IncludeGraphics::slotProcessOutput(KProcess*,char* buffer,int buflen)
 void IncludeGraphics::slotProcessExited(KProcess* proc)
 {
   if ( proc->normalExit() &&  !proc->exitStatus() ) {
-      kdDebug() << "   result:" << m_output << endl;
+      kdDebug() << "   result: " << m_output << endl;
 
       // set the default resolution
       m_resolution = m_defaultresolution;
@@ -431,15 +436,35 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
       }
       else if ( m_output.left(2) == "w=" )
       {
-          QRegExp reg("w=(\\d+)\\s+h=(\\d+)\\s+dpi=(\\d+)");
+         // dani  31.7.2004
+         // older version of imagemagick (pre 6.0):                       
+         //  - doesn't care of PixelsPerCentimeter, but always works with PixelsPerInch
+         //  - doesn't use floating numbers as resolution
+	 // so the bounding box has to be calculated in a different way
+
+         // this regexp will accept floating point numbers as resolution  
+         QRegExp reg("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)");
          if ( reg.search(m_output) == -1 )
              return;
-
-         // remember resolution
+ 
+         // get bounding box and resolution                               
          bool ok;
-         float res = 2.54 * (float)reg.cap(3).toFloat( &ok);
+	 int bbw = (int)reg.cap(1).toInt( &ok);
+         if (!ok) return;
+	 
+	 int bbh = (int)reg.cap(2).toInt( &ok);
+         if (!ok) return;
+	 
+         float res = (float)reg.cap(3).toFloat( &ok);
          if (!ok) return;
 
+	 // look, if res is in PixelsPerCentimeter
+	 if ( reg.cap(4).stripWhiteSpace() == "PixelsPerCentimeter" ) {
+	    bbw = (int)( (float)bbw/2.54 + 0.5 ); 
+	    bbh = (int)( (float)bbh/2.54 + 0.5 );
+	    res *= 2.54;
+	 }
+	    
          // There is no resolution in jpeg files f.e., so if
          // the calculated resolution is acceptable, take it.
          // Otherwise use the default resolution;
@@ -447,10 +472,14 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
             m_resolution = res;
 
          // take width and height as parameters for the bounding box
-         edit_bb->setText( "0 0 " + reg.cap(1) + " " +reg.cap(2) );
+	 edit_bb->setText( QString("0 0 ") + QString("%1").arg(bbw) 
+	                                   + " " 
+	                                   + QString("%1").arg(bbh)
+                         );
 
          // show information
          setInfo();
+      
       }
     }
 }

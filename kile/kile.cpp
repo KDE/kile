@@ -430,6 +430,7 @@ void Kile::setupActions()
 	tact->setChecked(KileConfig::sideBar());
 	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
 	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
+
 	tact = new KToggleAction(i18n("Show Mess&ages Bar"), 0, 0, 0, actionCollection(),"MessageView" );
 	tact->setChecked(KileConfig::bottomBar());
 	connect(tact, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));

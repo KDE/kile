@@ -195,7 +195,7 @@ void setupMathTags(KMainWindow *parent, QPtrList<KAction>* plist)
 	plist->append(new KileAction::Tag("\\left",Qt::ALT+Qt::Key_L, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_left", "\\left", QString::null, 5));
 	plist->append(new KileAction::Tag("\\right",Qt::ALT+Qt::Key_R, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_right", "\\right", QString::null, 6));
 	(void) new KileAction::Tag("\\begin{array}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_array", "\\begin{array}{}\n", "\n\\end{array}", 14, 0,
-		i18n("column 1 entry & column 2 entry ... & column n entry \\\\ \n...\n\\end{array}\nEach column, coln, is specified by a single letter that tells how items in that row should be formatted.\n"
+		i18n("\\begin{array}{col1col2...coln}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\ \n...\n\\end{array}\nEach column, coln, is specified by a single letter that tells how items in that column should be formatted.\n"
 		"     c -- for centered \n     l -- for flush left \n     r -- for flush right\n"));
 
 	QPtrList<KAction> alist;

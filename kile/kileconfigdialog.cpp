@@ -75,7 +75,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	genLayout->addWidget(structGroup);
 
 	//checkSwitchStruct
-	checkSwitchStruct = new QCheckBox("Switch to structure view after &opening a file.", structGroup );
+	checkSwitchStruct = new QCheckBox(i18n("Switch to structure view after &opening a file."), structGroup );
 	m_config->setGroup("Structure");
 	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure",true));
 	lb = new QLabel("", structGroup);
@@ -88,7 +88,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	lb->setBuddy(spinLevel);
 
 	//reopen files and projects
-	checkRestore = new QCheckBox("Reopen files and projects on startup.", generalPage );
+	checkRestore = new QCheckBox(i18n("Reopen files and projects on startup."), generalPage );
 	genLayout->addWidget(checkRestore);
 	m_config->setGroup("Files");
 	checkRestore->setChecked(m_config->readBoolEntry("Restore",true));
@@ -161,7 +161,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     LineEdit6 = new QLineEdit( toolsPage, "le6" );
     gbox1->addWidget( LineEdit6,3,1 );
 
-	checkForRoot = new QCheckBox("Check if document is a LaTeX root before running LaTeX on it.", toolsPage );
+	checkForRoot = new QCheckBox(i18n("Check if document is a LaTeX root before running LaTeX on it."), toolsPage );
 	gbox1->addMultiCellWidget(checkForRoot,4,4,0,1);
 
     TextLabel7 = new QLabel( toolsPage, "label7" );

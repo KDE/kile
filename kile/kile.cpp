@@ -193,7 +193,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(UserIcon("math5"),6,i18n("Greek Letters"));
 	connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("math6"),7,"Foreign characters");
+	ButtonBar->insertTab(UserIcon("math6"),7,i18n("Foreign characters"));
 	connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(UserIcon("metapost"),8,i18n("MetaPost Commands"));
 	connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));

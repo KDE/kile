@@ -18,13 +18,15 @@
 #ifndef NEWFILEWIZARD_H
 #define NEWFILEWIZARD_H
 
+#include <qstring.h>
+
 #include <kstandarddirs.h>
 #include <kiconview.h>
 #include <kdialogbase.h>
 
 #include "templates.h"
 
-#define DEFAULT_EMPTY_CAPTION i18n("Empty Document")
+const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
 #define DEFAULT_EMPTY_ICON "type_Empty"
 
 class TemplateItem : public QIconViewItem

@@ -33,20 +33,16 @@ void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 
 void KileInfo::trashDoc(KileDocumentInfo *docinfo)
 {
-	Kate::Document *doc = docFor(docinfo->url());
+// 	kdDebug() << "==void KileInfo::trashDoc(KileDocumentInfo *docinfo)======" << endl;
 
-// 	kdDebug() << "DETACHING " << docinfo << ", " << docinfo->url().fileName() << endl;
+	if ( isOpen(docinfo->url()) ) return;
+
 	docinfo->detach();
 
-// 	kdDebug() << "\tTRASHING " <<  doc  << endl;
-	if ( (doc == 0L) || isOpen(docinfo->url()) ) return;
+	Kate::Document *doc = docFor(docinfo->url());
+	if ( doc == 0L) return;
 
-// 	kdDebug() << "DELETING " << doc << endl;
 	m_docList.remove(doc);
-
-// 	kdDebug() << "just checking: " << docinfo->getDoc() << endl;
-// 	kdDebug() << "just checking: " << docFor(docinfo->url()) << endl;
-
 	delete doc;
 }
 

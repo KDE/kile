@@ -128,7 +128,7 @@
 	<Separator/>
 	<Action name="project_close"/>
 </Menu>
-<Menu name="menu_latex"><text>&amp;LaTeX</text><!-- menu4 !-->
+<Menu name="menu_latex"><text>&amp;LaTeX</text>
 	<Action name="menuUserTags"/>
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>
@@ -138,8 +138,8 @@
 	<Action name="tag_title"/>
 	<Action name="tag_maketitle"/>
 	<Action name="tag_tableofcontents"/>
-	<Menu name="menu_math"><text>Math</text><!-- menu5 !-->
-		<Action name="tag_mathmode"/><!-- 52 - 63 !-->
+	<Menu name="menu_math"><text>Math</text>
+		<Action name="tag_mathmode"/>
 		<Action name="tag_equation"/>
 		<Action name="tag_env_equation"/>
 		<Action name="tag_env_eqnarray"/>
@@ -153,8 +153,8 @@
 		<Action name="tag_right"/>
 		<Action name="tag_env_array"/>
 		<Separator/>
-		<Menu name="menu_mathfontstyles"><text>Math Font Styles</text><!-- menu51 !-->
-			<Action name="tag_mathrm"/><!-- 64 - 70 !-->
+		<Menu name="menu_mathfontstyles"><text>Math Font Styles</text>
+			<Action name="tag_mathrm"/>
 			<Action name="tag_mathit"/>
 			<Action name="tag_mathbf"/>
 			<Action name="tag_mathsf"/>
@@ -163,8 +163,8 @@
 			<Action name="tag_mathbb"/>
 			<Action name="tag_mathfrak"/>
 		</Menu>
-		<Menu name="menu_mathaccents"><text>Math Accents</text><!-- menu52 !-->
-			<Action name="tag_acute"/><!-- 72 - 81 !-->
+		<Menu name="menu_mathaccents"><text>Math Accents</text>
+			<Action name="tag_acute"/>
 			<Action name="tag_grave"/>
 			<Action name="tag_tilde"/>
 			<Action name="tag_bar"/>
@@ -175,8 +175,8 @@
 			<Action name="tag_dot"/>
 			<Action name="tag_ddot"/>
 		</Menu>
-		<Menu name="menu_mathspaces"><text>Math Spaces</text><!-- menu53 !-->
-			<Action name="tag_space_small"/><!-- 82 - 86 !-->
+		<Menu name="menu_mathspaces"><text>Math Spaces</text>
+			<Action name="tag_space_small"/>
 			<Action name="tag_space_medium"/>
 			<Action name="tag_space_large"/>
 			<Action name="tag_quad"/>
@@ -190,7 +190,7 @@
 		<Action name="tag_index"/>
 		<Action name="tag_cite"/>
 	</Menu>
-	<Menu name="menu_sectioning"><text>Sectioning</text><!-- menu41 !-->
+	<Menu name="menu_sectioning"><text>Sectioning</text>
 		<Action name="tag_part"/>
 		<Action name="tag_chapter"/>
 		<Action name="tag_section"/>
@@ -199,7 +199,7 @@
 		<Action name="tag_paragraph"/>
 		<Action name="tag_subparagraph"/>
 	</Menu>
-	<Menu name="menu_environment"><text>Environment</text><!-- menu42 !-->
+	<Menu name="menu_environment"><text>Environment</text>
 		<Action name="tag_center"/>
 		<Action name="tag_flushleft"/>
 		<Action name="tag_flushright"/>
@@ -211,21 +211,21 @@
 		<Action name="tag_figure"/>
 		<Action name="tag_titlepage"/>
 	</Menu>
-	<Menu name="menu_listenv"><text>List Environment</text><!-- menu43 !-->
+	<Menu name="menu_listenv"><text>List Environment</text>
 		<Action name="tag_env_itemize"/>
 		<Action name="tag_env_enumerate"/>
 		<Action name="tag_env_description"/>
 		<Action name="tag_env_list"/>
 		<Action name="tag_item"/>
 	</Menu>
-	<Menu name="menu_fontstyles"><text>Font Styles</text><!-- menu44 !-->
+	<Menu name="menu_fontstyles"><text>Font Styles</text>
 		<Action name="tag_textit"/>
 		<Action name="tag_textsl"/>
 		<Action name="tag_textbf"/>
 		<Action name="tag_texttt"/>
 		<Action name="tag_textsc"/>
 	</Menu>
-	<Menu name="menu_tabularenv"><text>Tabular Environment</text><!-- menu45 !-->
+	<Menu name="menu_tabularenv"><text>Tabular Environment</text>
 		<Action name="tag_env_tabbing"/>
 		<Action name="tag_env_tabular"/>
 		<Action name="tag_multicolumn"/>
@@ -233,7 +233,7 @@
 		<Action name="tag_vline"/>
 		<Action name="tag_cline"/>
 	</Menu>
-	<Menu name="menu_spacing"><text>Spacing</text><!-- menu46 !-->
+	<Menu name="menu_spacing"><text>Spacing</text>
 		<Action name="tag_newpage"/>
 		<Action name="tag_linebreak"/>
 		<Action name="tag_pagebreak"/>
@@ -338,10 +338,25 @@
 	<Action name="PreviousBadBox"/>
 	<Action name="NextBadBox"/>
 </ToolBar>
-<!--<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
+<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
+	<Action name="tool_QuickBuild"/>
+	<Separator lineSeparator="true"/>
 	<Action name="tool_LaTeX"/>
 	<Action name="tool_ViewDVI"/>
-</ToolBar>-->
+	<Action name="tool_DVItoPS"/>
+	<Action name="tool_ViewPS"/>
+	<Separator lineSeparator="true"/>
+	<Action name="tool_PDFLaTeX"/>
+	<Action name="tool_ViewPDF"/>
+	<Separator lineSeparator="true"/>
+	<Action name="tool_DVItoPDF"/>
+	<Action name="tool_PStoPDF"/>
+	<Separator lineSeparator="true"/>
+	<Action name="tool_LaTeX2HTML"/>
+	<Action name="tool_ViewHTML"/>
+	<Separator lineSeparator="true"/>
+	<Action name="tool_ForwardDVI"/>
+</ToolBar>
 <ToolBar name="editToolBar" fullWidth="false" index="5"><text>Edit</text>
 	<Action name="structure_list"/>
 	<Separator lineSeparator="true"/>
@@ -351,10 +366,10 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_textbf"/>
 	<Action name="tag_textit"/>
-	<Action name="tag_underline"/><!-- 150 !-->
-	<Action name="tag_flushleft"/><!-- 15 !-->
-	<Action name="tag_center"/><!-- 14 !-->
-	<Action name="tag_flushright"/><!-- 15 !-->
+	<Action name="tag_underline"/>
+	<Action name="tag_flushleft"/>
+	<Action name="tag_center"/>
+	<Action name="tag_flushright"/>
 </ToolBar>
 <ToolBar name="mathToolBar" fullWidth="false" index="6"><text>Math</text>
 	<Action name="tag_mathmode"/>

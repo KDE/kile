@@ -26,7 +26,6 @@
 
 class QGridLayout;
 class QCheckBox;
-class QSpinBox;
 class QLabel;
 
 class KListBox;
@@ -135,8 +134,6 @@ namespace KileWidget
 	public slots:
 		void switchTo(const QString & tool, bool save = true);
 		void toggleAdvanced();
-		void toggleSeparator();
-		void updateToolbar();
 		void updateToollist();
 		void updateConfiglist();
 		void selectIcon();
@@ -160,10 +157,8 @@ namespace KileWidget
 		KListBox			*m_lstbTools;
 		QLabel			*m_lbName, *m_lbPosition;
 		KComboBox		*m_cbPredef, *m_cbMenu;
-		QCheckBox		*m_ckToolbar, *m_ckSeparator;
 		QString			m_current, m_icon;
 		KPushButton		*m_pshbAdvanced, *m_pshbIcon;
-		QSpinBox			*m_spinPosition;
 		bool				m_bAdvanced;
 	};
 }

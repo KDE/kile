@@ -70,22 +70,14 @@ namespace KileWidget
 		connect(m_pshbAdvanced, SIGNAL(clicked()), this, SLOT(toggleAdvanced()));
 
 		QGroupBox *grp = new QGroupBox(1, Qt::Vertical, this); m_layout->addMultiCellWidget(grp, 5, 5, 1, 2, Qt::AlignLeft);
+		grp->setFrameStyle(QFrame::NoFrame);
 		lb = new QLabel(i18n("&Menu"), grp);
 		m_cbMenu = new KComboBox(grp);
 		QStringList lst; lst << "Quick" << "Compile" << "Convert" << "View" << "Other";
 		m_cbMenu->insertStringList(lst);
 		lb->setBuddy(m_cbMenu);
 		m_pshbIcon = new KPushButton(grp);
-		m_ckToolbar = new QCheckBox(i18n("Pl&ace on toolbar"), grp);
-		m_lbPosition = new QLabel(i18n("&Position: "), grp);
-		m_spinPosition = new QSpinBox(grp);
-		m_lbPosition->setBuddy(m_spinPosition);
-		m_spinPosition->setMinValue(-1); m_spinPosition->setMaxValue(99);
-		m_ckSeparator = new QCheckBox(i18n("&Separator"), grp);
 		connect(m_cbMenu, SIGNAL(activated(const QString &)), this, SLOT(setMenu(const QString &)));
-		connect(m_spinPosition, SIGNAL(valueChanged(int)), this, SLOT(updateToolbar()));
-		connect(m_ckSeparator, SIGNAL(clicked()), this, SLOT(toggleSeparator()));
-		connect(m_ckToolbar, SIGNAL(clicked()), this, SLOT(updateToolbar()));
 		connect(m_pshbIcon, SIGNAL(clicked()), this, SLOT(selectIcon()));
 
 		QHBox *box = new QHBox(this); box->setSpacing(10);
@@ -130,7 +122,7 @@ namespace KileWidget
 		kdDebug() << "==ToolConfig::writeConfig()====================" << endl;
 		//save config
 		m_manager->saveEntryMap(m_current, m_map, false);
-		KileTool::setGUIOptions(m_current, m_cbMenu->currentText(), m_spinPosition->value(), m_ckToolbar->isChecked(), m_ckSeparator->isChecked(), m_icon, m_manager->config());
+		KileTool::setGUIOptions(m_current, m_cbMenu->currentText(), m_icon, m_manager->config());
 	}
 
 	void ToolConfig::switchConfig(int /*index*/)
@@ -194,20 +186,10 @@ namespace KileWidget
 		m_layout->invalidate();
 		kdDebug() << "after new AdvancedTool()" << endl;
 
-		//show toolbar info
+		//show GUI info
 		m_cbMenu->setCurrentText(KileTool::menuFor(m_current, m_manager->config()));
 		m_icon=KileTool::iconFor(m_current, m_manager->config());
 		m_pshbIcon->setPixmap(SmallIcon(m_icon));
-
-		int pos;
-		bool place, separator;
-		KileTool::toolbarInfoFor(m_current, pos, place, separator, m_manager->config());
-		m_ckToolbar->setChecked(place);
-		m_ckSeparator->setChecked(separator);
-
-		if (place) m_spinPosition->setValue(pos);
-		updateToolbar();
-		kdDebug() << "after updateToolbar()" << endl;
 	}
 
 	void ToolConfig::updateConfiglist()
@@ -230,21 +212,6 @@ namespace KileWidget
 			else m_advanced->hide();
 		}
 		m_pshbAdvanced->setText( m_bAdvanced ? i18n("Advanced") + " <<" : i18n("Advanced") + " >>" );
-	}
-
-	void ToolConfig::updateToolbar()
-	{
-		kdDebug() << "==ToolConfig::updateToolbar()=====================" << endl;
-		bool place = m_ckToolbar->isChecked();
-		m_lbPosition->setEnabled(place);
-		m_spinPosition->setEnabled(place);
-		m_ckSeparator->setEnabled(place);
-	}
-
-	void ToolConfig::toggleSeparator()
-	{
-		kdDebug() << "==ToolConfig::toggleSeparator()=====================" << endl;
-		m_map["toolbarSep"] = m_ckSeparator->isChecked() ? "true" : "false";
 	}
 
 	void ToolConfig::selectIcon()

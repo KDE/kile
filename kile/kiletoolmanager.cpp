@@ -299,8 +299,6 @@ namespace KileTool
 	{
 		kdDebug() << "==KileTool::toolList()==================" << endl;
 
-		int index;
-		bool place, separator;
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
 
@@ -310,31 +308,18 @@ namespace KileTool
 			{
 				if ( ! groups[i].endsWith(configName(re.cap(1), config)) ) continue;
 
-				config->setGroup(groups[i]);
-				toolbarInfoFor(re.cap(1), index, place, separator, config);
-				if (!place) index=1000; //some large number, assumption: #tools < 1000
-				index += 1000;
-				//append number to tool name, little trick to make sorting easy
-
 				if ( (! menuOnly) || ( menuFor(re.cap(1),config) != "none" ) )
 				{
-					tools.append(QString::number(index)+"/"+ re.cap(1));
+					tools.append(re.cap(1));
 				}
 			}
 		}
 
 		tools.sort();
 
-		for ( uint i = 0; i < tools.count(); i++ )
-		{
-			tools[i] = tools[i].section('/',1,1);
-			kdDebug() << i << " : " << tools[i] << endl;
-		}
-
 		return tools;
 	}
 
-	
 	QString configName(const QString & tool, KConfig *config)
 	{
 		config->setGroup("Tools");
@@ -400,36 +385,18 @@ namespace KileTool
 	QString menuFor(const QString &tool, KConfig *config)
 	{
 		config->setGroup("ToolsGUI");
-		return config->readEntry(tool, "Other,none,false").section(',',0,0);
-	}
-
-	void toolbarInfoFor(const QString &tool, int &pos, bool &place, bool &separator, KConfig *config)
-	{
-		config->setGroup("ToolsGUI");
-		QString entry = config->readEntry(tool, "Other,none,false,gear");
-
-		bool ok;
-		QString strpos = entry.section(',',1,1);
-		place = (strpos != "none");
-		pos = strpos.toInt(&ok);
-		if (!ok) pos = -1;
-		separator = entry.section(',',2,2) == "true";
+		return config->readEntry(tool, "Other,gear").section(',',0,0);
 	}
 
 	QString iconFor(const QString &tool, KConfig *config)
 	{
 		config->setGroup("ToolsGUI");
-		return config->readEntry(tool, "Other,none,false,gear").section(',',3,3);
+		return config->readEntry(tool, "Other,gear").section(',',1,1);
 	}
 
-	void setGUIOptions(const QString &tool, const QString &menu, int pos, bool place, bool separator, const QString &icon, KConfig *config)
+	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config)
 	{
-		QString entry = menu+",";
-		if (place) entry += QString::number(pos)+",";
-		else entry += "none,";
-
-		entry += separator ? "true" : "false";
-		entry += ","+icon;
+		QString entry = menu + "," + icon;
 
 		config->setGroup("ToolsGUI");
 		config->writeEntry(tool, entry);

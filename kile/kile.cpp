@@ -52,6 +52,7 @@
 #include <kprogress.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
+#include <ktoolbarbutton.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -375,8 +376,9 @@ void Kile::setupActions()
 	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	m_paStop->setEnabled(false);
 
-	m_toolsToolBar = new KToolBar(this, Qt::DockTop, false, "toolsToolBar");
-	m_toolsToolBar->setXMLGUIClient(this);
+// 	m_toolsToolBar = new KToolBar(this, Qt::DockTop, false, "toolsToolBar");
+// 	m_toolsToolBar->setXMLGUIClient(this);
+//	connect(toolBar("toolsToolBar"), SIGNAL(clicked(int)), this, SLOT(test(int)));
 	setupTools();
 
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
@@ -502,17 +504,16 @@ void Kile::setupTools()
 	kdDebug() << "==Kile::setupTools()===================" << endl;
 	QStringList tools = KileTool::toolList(config);
 	QString toolMenu;
-	int toolPos, noSeps = 0;
-	bool place, separator;
 	QPtrList<KAction> *pl;
 
 	unplugActionList("list_compilers"); m_listCompilerActions.setAutoDelete(true); m_listCompilerActions.clear(); m_listCompilerActions.setAutoDelete(false);
-	unplugActionList("list_converters"); m_listConverterActions.setAutoDelete(true); m_listConverterActions.clear(); m_listConverterActions.setAutoDelete(false);
-	unplugActionList("list_quickies"); m_listQuickActions.setAutoDelete(true); m_listQuickActions.clear(); m_listQuickActions.setAutoDelete(false);
-	unplugActionList("list_viewers"); m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
-	unplugActionList("list_other"); m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
+ 	unplugActionList("list_converters"); m_listConverterActions.setAutoDelete(true); m_listConverterActions.clear(); m_listConverterActions.setAutoDelete(false);
+ 	unplugActionList("list_quickies"); m_listQuickActions.setAutoDelete(true); m_listQuickActions.clear(); m_listQuickActions.setAutoDelete(false);
+ 	unplugActionList("list_viewers"); m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
+ 	unplugActionList("list_other"); m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
 
-	m_toolsToolBar->clear();
+	//reloadXML();
+	//m_toolsToolBar->clear();
 
 	for ( uint i = 0; i < tools.count(); i++)
 	{
@@ -537,20 +538,20 @@ void Kile::setupTools()
 		kdDebug() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
 		KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
-
 		//toolPos = config->readEntry("toolbarPos", "none").toInt(&ok);
-		KileTool::toolbarInfoFor(tools[i], toolPos, place, separator, config);
-		if (place)
-		{
-			kdDebug() << "\tplugging " << tools[i] << endl;
-			act->plug(m_toolsToolBar, toolPos + noSeps);
-			if ( separator )
-			{
-				int p = m_toolsToolBar->insertLineSeparator(toolPos+  ++noSeps);
-				kdDebug() << "\tinsert separator at " << p << endl;
-			}
-		}
+// 		KileTool::toolbarInfoFor(tools[i], toolPos, place, separator, config);
+// 		if (place)
+// 		{
+// 			kdDebug() << "\tplugging " << tools[i] << endl;
+// 			act->plug(m_toolsToolBar, toolPos + noSeps);
+// 			if ( separator )
+// 			{
+// 				int p = m_toolsToolBar->insertLineSeparator(toolPos+  ++noSeps);
+// 				kdDebug() << "\tinsert separator at " << p << endl;
+// 			}
+// 		}
 
+		//act->plug(toolBar("toolsToolBar"));
 		pl->append(act);
 	}
 
@@ -2232,7 +2233,7 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		kdDebug() << "\tchanged to: HTMLpreview" << endl;
 		stateChanged( "HTMLpreview");
 		toolBar("mainToolBar")->hide(); 
-		m_toolsToolBar->hide(); 
+		toolBar("toolsToolBar")->hide(); 
 		toolBar("buildToolBar")->hide(); 
 		toolBar("errorToolBar")->hide(); 
 		toolBar("editToolBar")->hide(); 
@@ -2245,7 +2246,7 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		kdDebug() << "\tchanged to: Viewer" << endl;
 		stateChanged( "Viewer" );
 		toolBar("mainToolBar")->show(); 
-		m_toolsToolBar->hide(); 
+		toolBar("toolsToolBar")->hide(); 
 		toolBar("buildToolBar")->hide(); 
 		toolBar("errorToolBar")->hide();
 		toolBar("mathToolBar")->hide();
@@ -2261,7 +2262,7 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		topWidgetStack->raiseWidget(0);
 		if (m_bShowMainTB) toolBar("mainToolBar")->show();
 		if (m_bShowEditTB) toolBar("editToolBar")->show();
-		if (m_bShowToolsTB) m_toolsToolBar->show(); 
+		if (m_bShowToolsTB) toolBar("toolsToolBar")->show(); 
 		if (m_bShowBuildTB) toolBar("buildToolBar")->show(); 
 		if (m_bShowErrorTB) toolBar("errorToolBar")->show();
 		if (m_bShowMathTB) toolBar("mathToolBar")->show();
@@ -2333,8 +2334,8 @@ void Kile::runTool()
 	kdDebug() << "==Kile::runTool()============" << endl;
 	QString name = sender()->name();
 	kdDebug() << "\tname: " << name << endl;
-	name.replace("tool_", "");
-	kdDebug() << "\t" << name << endl;
+	name.replace(QRegExp("^.*tool_"), "");
+	kdDebug() << "\ttool: " << name << endl;
 	m_manager->run(name);
 }
 
@@ -2824,7 +2825,7 @@ void Kile::ReadSettings()
 			config->setGroup("Tools");
 			config->writeEntry(tempItem.name, "Default");
 
-			KileTool::setGUIOptions(tempItem.name, "Other", 0, false, false, "gear", config);
+			KileTool::setGUIOptions(tempItem.name, "Other", "gear", config);
 
 			config->setGroup(KileTool::groupFor(tempItem.name, "Default"));
 			QString bin = KRun::binaryName(tempItem.tag, false);
@@ -3126,7 +3127,6 @@ void Kile::GeneralOptions()
 	if (dlg->exec())
 	{
 		readConfig();
-		setupTools();
 
 		emit(configChanged());
 

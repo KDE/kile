@@ -412,9 +412,9 @@ void Kile::setupActions()
 
 	(void) new KAction(i18n("Quick Start"),"quickwizard",0 , this, SLOT(quickDocument()), actionCollection(),"wizard_document" );
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
-	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(quickTabular()), actionCollection(),"wizard_tabular" );
-	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(quickArray()), actionCollection(),"wizard_array" );
-	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
+	(void) new KAction(i18n("Tabular"),"wizard_tabular",0 , this, SLOT(quickTabular()), actionCollection(),"wizard_tabular" );
+	(void) new KAction(i18n("Array"),"wizard_array",0 , this, SLOT(quickArray()), actionCollection(),"wizard_array" );
+	(void) new KAction(i18n("Tabbing"),"wizard_tabbing",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
 
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
 

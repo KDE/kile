@@ -124,7 +124,7 @@
 		</entry>
 		<entry name="CleanUpFileExtensions" type="String">
 			<label>The file extensions to clean on exit.</label>
-			<default>.log .aux .dvi .lof .lot .bit .idx .glo .bbl .ilg .toc .ind</default>
+			<default>.log .aux .lof .lot .bit .idx .glo .bbl .ilg .toc .ind</default>
 		</entry>
 		<entry name="LastDocument" type="Path">
 			<label></label>

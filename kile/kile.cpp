@@ -1105,11 +1105,8 @@ void Kile::prepareForPart(const QString & state)
 
 void Kile::runTool()
 {
-	kdDebug() << "==void Kile::runTool()===" << endl;
 	QString name = sender()->name();
-	kdDebug() << "\tname: " << name << endl;
 	name.replace(QRegExp("^.*tool_"), "");
-	kdDebug() << "\ttool: " << name << endl;
 	m_manager->run(name);
 }
 

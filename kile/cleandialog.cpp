@@ -61,7 +61,7 @@ namespace KileDialog
 		for (uint i=0; i <  m_extlist.count(); i++)
 		{
 			QCheckListItem *item = new QCheckListItem(listview, base + m_extlist[i], QCheckListItem::CheckBox);
-			if ( m_extlist[i] == ".dvi" || m_extlist[i] == ".pdf" || m_extlist[i] == ".ps" )
+			if ( m_extlist[i] == ".pdf" || m_extlist[i] == ".ps" )
 				item->setOn(false);
 			else
 			item->setOn(true);

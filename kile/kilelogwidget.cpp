@@ -91,14 +91,14 @@ namespace KileWidget
 
 	void LogMsg::slotClicked(int parag, int /*index*/)
 	{
-		int l = -1;
+		int l = 0;
 		QString s = text(parag), file = QString::null;
 	
 		static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
 		//maybe there is an error summary
 		if (  reES.search(s) != -1 ) 
 		{
-			l = reES.cap(2).toInt() - 1;
+			l = reES.cap(2).toInt();
 			file = reES.cap(1);
 		}
 		else
@@ -109,7 +109,7 @@ namespace KileWidget
 				if ( (*m_info->outputInfo())[i].outputLine() == parag)
 				{
 					file = (*m_info->outputInfo())[i].source();
-					l = (*m_info->outputInfo())[i].sourceLine() - 1;
+					l = (*m_info->outputInfo())[i].sourceLine();
 					break;
 				}
 			}
@@ -120,7 +120,7 @@ namespace KileWidget
 		if ( file != QString::null )
 		{
 			emit(fileOpen(KURL::fromPathOrURL(file), QString::null));
-			if ( l >= 0 ) emit(setLine(QString::number(l)));
+			if ( l > 0 ) emit(setLine(QString::number(l)));
 		}
 	}
 

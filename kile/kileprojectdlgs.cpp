@@ -373,17 +373,10 @@ void KileNewProjectDlg::slotOk()
 				return;
 		}
 
-		KURL fileURL; fileURL.setFileName(file());
-		if(KileDocument::Info::containsInvalidCharacters(fileURL)) {
-			KURL newURL = KileDocument::Info::repairInvalidCharacters(fileURL);
-			m_file->setText(newURL.fileName());
-		}
-
-		fileURL.setFileName(file());
-		if(!KileDocument::Info::isTeXFile(fileURL)) {
-			KURL newURL = KileDocument::Info::repairExtension(fileURL);
-			m_file->setText(newURL.fileName());
-		}
+		KURL fileURL = KURL::fromPathOrURL(file());
+		KURL validURL = KileDocument::Info::makeValidTeXURL(fileURL);
+		if ( validURL != fileURL )
+			m_file->setText(validURL.fileName());
 	}
 
 	if (QFileInfo(location()).exists())

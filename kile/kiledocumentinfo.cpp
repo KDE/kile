@@ -63,6 +63,16 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 			url.filename());
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
+	
+	while ( QFileInfo(ret.path()).exists() )
+	{
+		QString newURL = KInputDialog::getText(
+			i18n("File already exists."),
+			i18n("A file with filename %1 already exists; please provide another one.").arg(ret.fileName()),
+			url.filename());
+		ret.setFileName(newURL);
+	}
+
 	return ret;
 }
 
@@ -84,6 +94,21 @@ KURL Info::repairExtension(const KURL& url)
 		ret.setFileName(url.fileName() + ".tex");	
 	}
 	return ret;
+}
+
+KURL Info::makeValidTeXURL(const KURL & url)
+{
+	KURL newURL(url);
+
+	//add a .tex extension
+	if(!isTeXFile(newURL)) 
+		newURL = repairExtension(newURL);
+		
+	//remove characters TeX does not accept, make sure the newURL does not exists yet
+	if(containsInvalidCharacters(newURL)) 
+		newURL = repairInvalidCharacters(newURL);
+
+	return newURL;
 }
 
 Info::Info(Kate::Document *doc) : m_doc(doc)
@@ -530,7 +555,7 @@ void TeXInfo::updateStruct()
 							if ( ok )
 							{
 								for ( int noo_index = 0; noo_index < noo; noo_index++)
-									m +=  "{" + BULLET + "}";
+									m +=  "{" + s_bullet + "}";
 							}
 						}
 						m_newCommands.append(m);

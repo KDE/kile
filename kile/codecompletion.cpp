@@ -47,9 +47,6 @@ namespace KileDocument
 		m_inprogress = false;
 		m_undo = false;
 
-		// default bullet char
-		m_bullet = BULLET;
-
 		m_completeTimer = new QTimer( this );
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
 	}
@@ -70,11 +67,6 @@ namespace KileDocument
 	bool CodeCompletion::autoComplete()
 	{
 		return m_autocomplete;
-	}
-
-	const QString CodeCompletion::getBullet()
-	{
-		return m_bullet;
 	}
 
 	CodeCompletion::Type CodeCompletion::getType()
@@ -413,7 +405,7 @@ namespace KileDocument
 		if ( item )
 			s += "\\item ";
 		if ( m_setbullets && !parameter.isEmpty() )
-			s += getBullet();
+			s += s_bullet;
 		s += '\n';
 
 		// 3. Zeile
@@ -508,11 +500,11 @@ namespace KileDocument
 						// ein Bullet nur dann einfgen, wenn der Cursor
 						// nicht hierhin gesetzt werden soll
 						if ( ( ! m_setcursor ) && m_setbullets )
-							s += getBullet();
+							s += s_bullet;
 					}
 					// an allen weiteren Klammern ev. ein Bullet einfgen
 					else if ( m_setbullets )
-						s += getBullet();
+						s += s_bullet;
 					break;
 					case '}':
 					case ')':
@@ -523,7 +515,7 @@ namespace KileDocument
 					s += text[ i ];
 					// ev. Bullet einfgen
 					if ( m_setbullets )
-						s += getBullet();
+						s += s_bullet;
 					break;
 					case '.':      // wenn das letzte Zeichen auch ein Punkt ist, also ein
 					// Bereichsoperator angegeben ist, wird dieser ersetzt und
@@ -534,7 +526,7 @@ namespace KileDocument
 						foundgroup = true;
 						s.truncate( s.length() - 1 );
 						if ( m_setbullets )
-							s += " " + getBullet() + " ";
+							s += " " + s_bullet + " ";
 						else
 							s += " ";
 					}
@@ -582,8 +574,8 @@ namespace KileDocument
 				if ( m_setbullets )
 				{
 					if ( ! m_setcursor )
-						s.insert( pos, getBullet() );
-					s.append( getBullet() );
+						s.insert( pos, s_bullet );
+					s.append( s_bullet );
 				}
 			}
 		}

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qpopupmenu.h>
+#include <qtimer.h> //for QTimer::singleShot trick
 
 #include <kdeversion.h>
 #include <kglobal.h>
@@ -101,6 +102,7 @@ Kate::View* Manager::createView(Kate::Document *doc)
 
 	//insert the view in the tab widget
 	m_tabs->addTab( view, m_ki->getShortName(doc) );
+	m_tabs->setTabToolTip(view, doc->url().url() );
 	m_tabs->showPage( view );
 	m_viewList.append(view);
 
@@ -130,6 +132,8 @@ Kate::View* Manager::createView(Kate::Document *doc)
 
 	//activate the newly created view
 	emit(activateView(view, false));
+	QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
+	
 	reflectDocumentStatus(view->getDoc(), false, 0);
 
 	view->setFocusPolicy(QWidget::StrongFocus);
@@ -149,7 +153,8 @@ void Manager::removeView(Kate::View *view)
 		m_tabs->removePage(view);
 		m_viewList.remove(view);
 		delete view;
-
+		
+		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
 		if (views().isEmpty()) m_ki->structureWidget()->clear();
 	}
 }

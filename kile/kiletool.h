@@ -192,6 +192,8 @@ namespace KileTool
 		 **/
 		virtual bool checkTarget();
 		
+		virtual bool checkSource();
+
 		/**
 		 * Configures the tool object.
 		 **/
@@ -253,7 +255,7 @@ namespace KileTool
 		~Compile();
 		
 	protected:
-		bool determineSource();
+		bool checkSource();
 	};
 
 	/**

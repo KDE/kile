@@ -56,7 +56,7 @@ public:
 	void insertTag(const KileAction::TagData& data, Kate::View *view);
 
 	QString getTextLineReal(Kate::Document *doc, uint row);
-	void gotoBullet(const QString &bullet, bool backwards, Kate::View *view = 0L);
+	void gotoBullet(bool backwards, Kate::View *view = 0L);
 
 	void gotoEnvironment(bool backwards, Kate::View *view = 0L);
 	void matchEnvironment(Kate::View *view = 0L);

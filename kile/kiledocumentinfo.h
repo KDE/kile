@@ -93,6 +93,7 @@ public:
 	static bool containsInvalidCharacters(const KURL&);
 	static KURL repairInvalidCharacters(const KURL&);
 	static KURL repairExtension(const KURL&);
+	static KURL makeValidTeXURL(const KURL & url);
 
 public:
 	Info(Kate::Document *doc = 0L);

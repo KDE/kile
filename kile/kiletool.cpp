@@ -51,7 +51,7 @@ namespace KileTool
 	{
 		m_manager->initTool(this);
 		
-		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc;
+		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead;
 
 		setMsg(NeedTargetDirExec, i18n("Could not change to the folder %1."));
 		setMsg(NeedTargetDirWrite, i18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
@@ -60,6 +60,8 @@ namespace KileTool
 		setMsg(NeedActiveDoc, i18n("Could not determine on which file to run %1, because there is no active document."));
 		setMsg(NeedMasterDoc, i18n("Could not determine the master file for this document."));
 		setMsg(NoUntitledDoc, i18n("Please save the untitled document first."));
+		setMsg(NeedSourceExists, i18n("Sorry, the file %1 does not exist."));
+		setMsg(NeedSourceRead, i18n("Sorry, the file %1 is not readable."));
 
 		m_bPrepared = false;
 		prepareToRun();
@@ -130,18 +132,6 @@ namespace KileTool
 			return;
 		}
 			
-		if (!checkTarget())
-		{
-			m_nPreparationResult = TargetHasWrongPermissions;
-			return;
-		}
-		
-		if (!checkPrereqs())
-		{
-			m_nPreparationResult = NoValidPrereqs;
-			return;
-		}
-
 		if ( m_launcher == 0 )
 		{
 			m_nPreparationResult = NoLauncherInstalled;
@@ -163,7 +153,17 @@ namespace KileTool
 		if ( m_nPreparationResult != 0 )
 			return m_nPreparationResult;
 		
+		if (!checkSource())
+			return NoValidSource;
+		
+		if (!checkTarget())
+			return TargetHasWrongPermissions;
+		
+		if (!checkPrereqs())
+			return NoValidPrereqs;
+		
 		//everythin ok so far
+		emit(requestSaveAll());
 		emit(start(this));
 		
 		if (!m_launcher->launch())
@@ -184,25 +184,27 @@ namespace KileTool
 	bool Base::determineSource()
 	{
 		QString src = source();
-		//determine the basedir
 
+		//the basedir is determined from the current compile target
+		//determined by getCompileName()
+		if ( src == QString::null) src = m_ki->getCompileName();
+
+		setSource(src);
+
+		return true;
+	}
+	
+	bool Base::checkSource()
+	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if ( (src == QString::null) && (m_manager->info()->activeDocument() == 0)  )
+		if ( (m_source == QString::null) && (m_manager->info()->activeDocument() == 0L)  )
 		{ 
 			sendMessage(Error, msg(NeedActiveDoc).arg(name()));
 			return false;
 		}
-				
-		//the basedir is determined from the current compile target
-		//determined by getCompileName()
-		if ( src == QString::null)
-		{
-			src= m_ki->getCompileName();
-			kdDebug() << "SOURCE " << src << endl;
-		}
 
-		if ( src == QString::null)
+		if ( (m_source == QString::null) && (m_manager->info()->activeDocument() != 0L) )
 		{
 			//couldn't find a source file, huh?
 			//we know there is an active document, the only reason is could have failed is because
@@ -211,19 +213,29 @@ namespace KileTool
 			return false;
 		}
 		
-		if ( src == i18n("Untitled") )
+		if ( m_source == i18n("Untitled") )
 		{
 			sendMessage(Error, msg(NoUntitledDoc));
+			emit(requestSaveAll());
+			return false;
+		}
+		
+		QFileInfo fi(source());
+		if ( (flags() & NeedSourceExists) && !fi.exists() )
+		{
+			sendMessage(Error, msg(NeedSourceExists).arg(fi.absFilePath()));
+			return false;
+		}
+		
+		if ( (flags() & NeedSourceRead) && !fi.isReadable() )
+		{
+			sendMessage(Error, msg(NeedSourceRead).arg(fi.absFilePath()));
 			return false;
 		}
 
-		setSource(src);
-
-		emit(requestSaveAll());
-
-		return true;
+		return true;		
 	}
-	
+
 	void Base::setSource(const QString &source)
 	{
 		m_from = readEntry("from");
@@ -233,7 +245,8 @@ namespace KileTool
 		if (m_from != QString::null)
 		{
 			QString src = source;
-			if ( m_from.length() > 0) src.replace(QRegExp(info.extension(false)+"$"),m_from);
+			if ( (m_from.length() > 0) && (info.extension(false).length() > 0) )
+				src.replace(QRegExp(info.extension(false)+"$"),m_from);
 			info.setFile(src);
 		}
 
@@ -480,13 +493,11 @@ sourceinfo.lastModified()) << endl;
 	}
 
 	Compile::~Compile()
-	{
-	}
+	{}
 	
-	bool Compile::determineSource()
+	bool Compile::checkSource()
 	{
-		if (!Base::determineSource())
-			return false;
+		if ( !Base::checkSource() ) return false;
 
 		bool isRoot = true;
 		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
@@ -505,6 +516,7 @@ sourceinfo.lastModified()) << endl;
 	{
 		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
+		kdDebug() << "View: flag " << (flags() & NeedTargetExists) << endl;
 		setMsg(NeedTargetExists, i18n("The file %2/%3 does not exist; did you compile the source file?"));
 	}
 
@@ -515,7 +527,7 @@ sourceinfo.lastModified()) << endl;
 	Convert::Convert(const QString &name, Manager * manager)
 		: Base(name, manager)
 	{
-		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite);
+		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite );
 	}
 	
 	Convert::~ Convert()

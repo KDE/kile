@@ -25,12 +25,14 @@
 #include <kate/document.h>
 #include <ktexteditor/codecompletioninterface.h>
 
-#define BULLET QString("×")
-
+//default bullet char (a cross)
+static const QChar s_bullet_char = QChar(0xd7);
+static const QString s_bullet = QString(&s_bullet_char, 1);
+		
 /**
   *@author Holger Danielsson
   */
-
+  
 class QTimer;
 
 class KileInfo;
@@ -76,8 +78,6 @@ public:
 	void readConfig(void);
 
 public slots:
-	const QString getBullet();
-
 	//in these two methods we should set m_view
 	void slotCharactersInserted(int, int, const QString&);
 	void editComplete(Kate::View *view, KileDocument::CodeCompletion::Mode mode);
@@ -125,9 +125,6 @@ private:
 
 	// undo text
 	bool m_undo;
-
-	// character which is used as bullet
-	QString m_bullet;
 
 	// special types: ref, bib
 	CodeCompletion::Type m_type;

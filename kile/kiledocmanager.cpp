@@ -614,24 +614,12 @@ void Manager::slotNameChanged(Kate::Document * doc)
 {
 	kdDebug() << "==Kile::slotNameChanged==========================" << endl;
 
-	// If there are invalid characters, we request a new name
-	if(KileDocument::Info::containsInvalidCharacters(doc->url())) {
+	KURL validURL = Info::makeValidTeXURL(doc->url());
+	if(validURL != doc->url()) 
+	{
 		QFile oldFile(doc->url().path());
-		KURL newUrl = KileDocument::Info::repairInvalidCharacters(doc->url());
-		if(newUrl != doc->url()) {
-			if(doc->saveAs(newUrl))
-				oldFile.remove();
-		}
-	}
-
-	// If the extension is missing, we ask the user to automatically add one
-	if(!KileDocument::Info::isTeXFile(doc->url())) {
-		QFile oldFile(doc->url().path());
-		KURL newURL = KileDocument::Info::repairExtension(doc->url());
-		if(newURL != doc->url()) {
-			if(doc->saveAs(newURL))
-				oldFile.remove();
-		}
+		if(doc->saveAs(validURL))
+			oldFile.remove();
 	}
 
 	emit(documentStatusChanged(doc, doc->isModified(), 0));

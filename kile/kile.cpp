@@ -457,8 +457,8 @@ void Kile::setupActions()
 	
 	KStdAction::tipOfDay(this, SLOT(showTip()), actionCollection(), "help_tipofday");
 
-	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexGuide()), actionCollection(), "help_tetex_guide");
-	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexDoc()), actionCollection(), "help_tetex_doc");
+	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTetexGuide()), actionCollection(), "help_tetex_guide");
+	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,D"), m_help, SLOT(helpTetexDoc()), actionCollection(), "help_tetex_doc");
 	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "help_latex_index");
 	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "help_latex_command");
 	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
@@ -891,6 +891,8 @@ void Kile::newCaption()
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
 		if (m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) m_texKonsole->sync();
 	}
+	else
+		setCaption("");
 }
 
 void Kile::grepItemSelected(const QString &abs_filename, int line)
@@ -1216,6 +1218,7 @@ void Kile::quickDocument()
 			return;
 
 		insertTag( dlg->tagData() );
+		viewManager()->updateStructure(true);		
 	}
 	delete dlg;
 }

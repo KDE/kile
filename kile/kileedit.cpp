@@ -677,7 +677,7 @@ bool EditorExtension::isValidBackslash(Kate::Document *doc, uint row, uint col)
 
 //////////////////// goto next bullet ////////////////////
 
-void EditorExtension::gotoBullet(const QString &bullet, bool backwards, Kate::View *view)
+void EditorExtension::gotoBullet(bool backwards, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -700,7 +700,7 @@ void EditorExtension::gotoBullet(const QString &bullet, bool backwards, Kate::Vi
 		return;
 	}
 	
-	if ( doc->searchText(row,col,bullet,&ypos,&xpos,&len,true,backwards) )
+	if ( doc->searchText(row,col,s_bullet,&ypos,&xpos,&len,true,backwards) )
 	{
 		doc->setSelection(ypos,xpos,ypos,xpos+1);
 		view->setCursorPositionReal(ypos,xpos);
@@ -1470,12 +1470,12 @@ void EditorExtension::deleteWord(EditorExtension::SelectMode mode, Kate::View *v
 
 void EditorExtension::nextBullet()
 {
-	gotoBullet(complete()->getBullet(), false);
+	gotoBullet(false);
 }
 
 void EditorExtension::prevBullet()
 {
-	gotoBullet(complete()->getBullet(), true);
+	gotoBullet(true);
 }
 
 void EditorExtension::completeWord()

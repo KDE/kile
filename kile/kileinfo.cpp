@@ -245,6 +245,14 @@ const QStringList* KileInfo::allNewCommands(KileDocument::Info * info)
 	return list;
 }
 
+const QStringList* KileInfo::allPackages(KileDocument::Info * info)
+{
+	kdDebug() << "Kile::allPackages()" << endl;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::packages;
+	const QStringList* list = retrieveList(p, info);
+	return list;
+}
+
 QString KileInfo::lastModifiedFile(KileDocument::Info * info)
 {
 	if (info == 0) info = docManager()->getInfo();

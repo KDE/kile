@@ -71,6 +71,7 @@ public:
 	virtual const QStringList* allBibliographies(KileDocument::Info * info = 0L);
 	virtual const QStringList* allDependencies(KileDocument::Info * info = 0L);
 	virtual const QStringList* allNewCommands(KileDocument::Info * info = 0L);
+	virtual const QStringList* allPackages(KileDocument::Info * info = 0L);
 
 	QString lastModifiedFile(KileDocument::Info * info = 0L);
 

@@ -1801,7 +1801,8 @@ void Kile::quickPreviewEnvironment()
 	Kate::Document *doc = view->getDoc();
 	if ( doc ) {
 		QStringList mathlist;
-		mathlist << "aligned," << "alignedat" << "array" << "cases"
+		mathlist << "aligned," << "alignedat" << "gathered" 
+		         << "array" << "cases"
 		         << "matrix"   << "bmatrix"   << "pmatrix"
 		         << "vmatrix"  << "Vmatrix"
 		         ;
@@ -1812,6 +1813,8 @@ void Kile::quickPreviewEnvironment()
 		{
 			if ( mathlist.findIndex(envname) >= 0 )
 				m_quickPreview->run( "$"+text+"$",getName(doc),row );
+			else if ( envname == "split" )
+				m_quickPreview->run( "\\[\n"+text+"\\]",getName(doc),row );
 			else
 				m_quickPreview->run( text,getName(doc),row );
 		}

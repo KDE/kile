@@ -41,6 +41,7 @@ class KIntNumInput;
 class KConfig;
 
 namespace KileWidget { class ToolConfig; }
+class KileWidgetHelpConfig;
 namespace KileTool { class Manager; }
 
 namespace KileDialog 
@@ -56,14 +57,14 @@ namespace KileDialog
 	private slots:
 		void slotOk();
 		void slotCancel();
-	
+
 	private:
 		QLabel* TextLabel1, * TextLabel2,* TextLabel3;
-		
+
 		QLabel    *TextLabel6, *TextLabel7, *TextLabel8, *TextLabel9, *TextLabel10, *TextLabel11;
 		QLabel    *TextLabel12, *TextLabel13, *TextLabel14;
 		KLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13, *LineEdit14;
-		
+
 		QComboBox *comboDvi, *comboPs, *comboPdf, *comboLatexHelp;
 		QButtonGroup *ButtonGroup2;
 		QSpinBox *spinLevel;
@@ -74,38 +75,39 @@ namespace KileDialog
 
 		QRadioButton *checkLatex, *checkPdflatex,
 		*checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
-		
+
 		KIntNumInput *asIntervalInput;
-		
+
 		KLineEdit *templAuthor, *templDocClassOpt, *templEncoding, *edit_res;
-		
+
 		QFrame* generalPage;
 		QFrame* toolsPage;
 		QFrame* quickPage;
 		QFrame* spellingPage;
 		QFrame* editPage;
-		
+
 		KConfig *m_config;
 		KSpellConfig *ksc;
 		KileWidget::ToolConfig	*m_toolConfig;
 		KileTool::Manager		*m_toolMngr;
-		
+	
 		// CodeCompletion (dani)
 		ConfigCodeCompletion *completePage;
-		
+		KileWidgetHelpConfig *helpPage;
+
 		// setup configuration
 		void setupGeneralOptions();
 		void setupTools();
 		void setupSpelling();
 		void setupLatex();
 		void setupCodeCompletion();
-		
+		void setupHelp();
+
 		// write configuration
 		void writeGeneralOptionsConfig();
 		void writeToolsConfig();
 		void writeSpellingConfig();
 		void writeLatexConfig();
-	
 	};
 }
 #endif

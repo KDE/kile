@@ -144,6 +144,24 @@ state=HTMLpreview
 relDir=%S
 target=index.html
 
+[Tool/ViewHTML/Konqueror]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=%S
+command=konqueror
+options='file:%dir_target/%target'
+target=index.html
+
+[Tool/ViewHTML/Mozilla]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=%S
+command=mozilla
+options='file:%dir_target/%target'
+target=index.html
+
 [Tool/ViewHTML/TeX4ht]
 type=DocPart
 class=ViewHTML
@@ -151,6 +169,28 @@ state=HTMLpreview
 relDir=
 from=
 to=html
+target=
+
+[Tool/ViewHTML/Konqueror (TeX4ht)]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+from=
+to=html
+command=konqueror
+options='file:%dir_target/%target'
+target=
+
+[Tool/ViewHTML/Mozilla (TeX4ht)]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+from=
+to=html
+command=mozilla
+options='%dir_target/%target'
 target=
 
 [Tool/ViewDVI/Embedded Viewer]

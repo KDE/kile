@@ -61,7 +61,7 @@ namespace KileWidget
 		m_lbName = new QLabel(this); m_layout->addMultiCellWidget(m_lbName, 0, 0, 1, 4);
 
 		QLabel *lb = new QLabel(i18n("C&hoose a predefined configuration: "), this); m_layout->addWidget(lb, 1, 1, Qt::AlignLeft);
-		m_cbPredef = new KComboBox(this); m_layout->addWidget(m_cbPredef, 1, 2/*, Qt::AlignLeft*/);
+		m_cbPredef = new KComboBox(this); m_layout->addMultiCellWidget(m_cbPredef, 1, 1, 2, 3/*, Qt::AlignLeft*/);
 		lb->setBuddy(m_cbPredef);
 		connect(m_cbPredef, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 

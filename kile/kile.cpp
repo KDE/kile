@@ -197,6 +197,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	// new features
 	m_complete = new CodeCompletion();                 // code completion (dani)
 	m_edit = new KileEdit();                           // advanced editor (dani)
+	m_help = new KileHelp::Help(m_edit);     // kile help (dani)
 
 	config = KGlobal::config();
 
@@ -308,8 +309,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	m_toolFactory = new KileTool::Factory(m_manager, config);
 	m_manager->setFactory(m_toolFactory);
-
-	m_help = new KileHelp::Help(m_manager, m_edit);     // kile help (dani)
+	m_help->setManager(m_manager);     // kile help (dani)
 
 	if ( m_listUserTools.count() > 0 )
 	{
@@ -430,8 +430,8 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), this, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
 	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), this, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
-	(void) new KAction(i18n("TeTeX Guide"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexGuide()), actionCollection(), "edit_help_tetex_guide");
-	(void) new KAction(i18n("TeTeX Doc"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexDoc()), actionCollection(), "edit_help_tetex_doc");
+	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexGuide()), actionCollection(), "edit_help_tetex_guide");
+	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexDoc()), actionCollection(), "edit_help_tetex_doc");
 	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), this, SLOT(helpLatexIndex()), actionCollection(), "edit_help_latex_index");
 	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), this, SLOT(helpLatexCommand()), actionCollection(), "edit_help_latex_command");
 	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), this, SLOT(helpLatexSubject()), actionCollection(), "edit_help_latex_subject");
@@ -1299,41 +1299,24 @@ void Kile::projectOpenItem(KileProjectItem *item)
 
 	Kate::View *view = 0;
 	if (isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
-	{
 		m_projectview->remove(item->url());
-	}
 
 	view = load(item->url(),item->encoding(), item->isOpen(), item->highlight(), (item->type() == KileProjectItem::Source) || (item->type() == KileProjectItem::ProjectFile) );
 
 	if (view) //there is a view for this projectitem, get docinfo by doc
-	{
 		docinfo = infoFor(view->getDoc());
-	}
 	else //there is no view for this item, get docinfo by path of this file
-	{
 		docinfo = infoFor(item->url().path());
-		kdDebug() << "0 docinfo " << docinfo << " doc " << docinfo->getDoc() <<  endl;
-	}
-
-	kdDebug() << "1 docinfo for " << docinfo->url().path() << " doc " << docinfo->getDoc() << endl;
 
 	mapItem(docinfo, item);
 	UpdateStructure(false, docinfo);
 
-	kdDebug() << "2 docinfo for " << docinfo->url().path() << " doc " << docinfo->getDoc() << endl;
-
-	kdDebug() << "item->isOpen() " << item->isOpen() << " Kile::isOpen " << isOpen(item->url()) <<  " for " << item->url().path() << endl;
 	if ((!item->isOpen()) && (view != 0)) //oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
-	{
-			item->setOpenState(true);
-	}
+		item->setOpenState(true);
 
-	kdDebug() << "3 docinfo for " << docinfo->url().path() << " doc " << docinfo->getDoc() << endl;
 	if ( (!item->isOpen()) && (view == 0) ) //doc shouldn't be displayed, trash the doc
 	{
-		kdDebug() << "trashing doc for projectitem " << item->url().path() << endl;
 		//since we've parsed it, trash the document
-		if ( !docinfo->getDoc() ) kdError() << "NO DOCUMENT TO TRASH" << endl;
 		trash(docinfo->getDoc());
 	}
 
@@ -3004,7 +2987,8 @@ void Kile::readConfig()
 	m_runlyxserver = config->readBoolEntry("RunLyxServer", true);
 
 //////////////////// code completion (dani) ////////////////////
-   m_complete->readConfig(config);
+	m_complete->readConfig(config);
+	m_help->readConfig();
 }
 
 void Kile::SaveSettings()

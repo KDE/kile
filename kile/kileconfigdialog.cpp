@@ -34,6 +34,7 @@
 #include "kiletoolmanager.h"
 #include "kiletoolconfigwidget.h"
 #include "kileconfigdialog.h"
+#include "helpconfigwidget.h"
 
 namespace KileDialog
 {
@@ -51,6 +52,7 @@ namespace KileDialog
 		setupSpelling();
 		setupLatex();
 		setupCodeCompletion();   // complete configuration (dani)
+		setupHelp();
 	}
 	
 	
@@ -119,7 +121,6 @@ namespace KileDialog
 		genLayout->addWidget(templateGroup);
 		//	genLayout->setStretchFactor(templateGroup,0);
 
-		// Fixme Start of seans cleanup
 		QGroupBox *cleanUpGroup = new QGroupBox(1, Qt::Horizontal, i18n("File clean-up details"), generalPage);
 		genLayout->addWidget(cleanUpGroup);
 		genLayout->setStretchFactor(cleanUpGroup,0);
@@ -244,7 +245,17 @@ namespace KileDialog
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(completePage);
 	}
-	
+
+	void Config::setupHelp()
+	{
+		QFrame *page = addPage(i18n("Help"),i18n("Help Configuration"),
+					KGlobal::instance()->iconLoader()->loadIcon("help",KIcon::NoGroup,KIcon::SizeMedium)
+					);
+
+		helpPage = new KileWidgetHelpConfig(page);
+		helpPage->readConfig();
+	}
+
 	//////////////////// write new configuration ////////////////////
 	
 	void Config::slotOk()
@@ -254,9 +265,10 @@ namespace KileDialog
 		writeSpellingConfig();
 		writeLatexConfig();
 		completePage->writeConfig(m_config);  // Complete configuration (dani)
-		
+		helpPage->writeConfig();
+
 		m_config->sync();
-		
+
 		accept();
 	}
 	

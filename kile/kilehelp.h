@@ -29,6 +29,7 @@
 #include "usermenudialog.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
+#include "helpconfig.h"
 
 /**
   *@author Holger Danielsson
@@ -52,21 +53,24 @@ namespace KileHelp
 	class Help
 	{
 	public:
-		Help(KileTool::Manager *manager,KileEdit *edit);
-		~Help()
-		{}
+		Help(KileEdit *edit);
+		~Help() {}
 		
+		void setManager(KileTool::Manager *manager) { m_manager = manager; }
+
 		// calls for help
 		void helpLatex(KileHelp::Type type);
 		void helpTetex(KileHelp::Type type);
 		void helpKeyword(Kate::View *view);
 
+		void readConfig() { m_hconfig->readConfig(); }
+
 	private:
 		KileTool::Manager *m_manager;
-		KConfig *m_config;
 		KileEdit *m_edit;
-		
-		QString m_texmfDir;
+		bool m_use;
+		HelpConfig *m_hconfig;
+
 		QMap<QString,QString> m_dictHelpKile;
 		QMap<QString,QString> m_dictHelpTetex;
 

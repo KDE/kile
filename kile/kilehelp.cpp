@@ -34,12 +34,10 @@
 namespace KileHelp
 {
 
-	Help::Help(KileTool::Manager *manager,KileEdit *edit)
-		: m_manager(manager), m_edit(edit)
+	Help::Help(KileEdit *edit) : m_edit(edit)
 	{
-		m_config = kapp->config();
-		//FIXME: make this configurable asap
-		m_texmfDir = "/usr/share/texmf/doc";
+		m_hconfig = new HelpConfig(kapp->config());
+		m_hconfig->readConfig();
 
 		readHelpList("latex-kile.lst",m_dictHelpKile);
 		readHelpList("latex-tetex.lst",m_dictHelpTetex);
@@ -51,6 +49,7 @@ namespace KileHelp
 	{
 		KileTool::View *tool = new KileTool::View("ViewHTML", m_manager);
 		tool->setFlags(0);
+		kdDebug() << "==Help::showHelpFile(" << parameter << ")============" << endl;
 		tool->setSource(parameter);
 		tool->setTarget(QFileInfo(parameter).fileName());
 		m_manager->run(tool);
@@ -74,7 +73,7 @@ namespace KileHelp
 				return;
 		}
 
-		showHelpFile( m_texmfDir + "/" + filename );
+		showHelpFile( m_hconfig->location() + "/" + filename );
 	}
 
 ////////////////////// Help: LaTeX //////////////////////
@@ -101,15 +100,14 @@ namespace KileHelp
 		}
 
 		kdDebug() << "subject " << subject << endl;
-		showHelpFile( m_texmfDir + "/latex/latex2e-html/ltx-2.html" + subject );
+		showHelpFile( m_hconfig->location() + "/latex/latex2e-html/ltx-2.html" + subject );
 	}
 
 	////////////////////// Help: Keyword //////////////////////
 
 	void Help::helpKeyword(Kate::View *view)
 	{
-		//FIXME: read this variable from config file
-		int type = HelpLatex;
+		int type = m_hconfig->useKileRefForContext() ? HelpLatex : HelpTetex;
 		switch ( type )
 		{
 		case HelpTetex:
@@ -134,7 +132,7 @@ namespace KileHelp
 		if ( !word.isNull() && m_dictHelpTetex.contains(word) )
 		{
 			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTetex[word] << " )" << endl;
-			showHelpFile( m_texmfDir + "/latex/latex2e-html/" + m_dictHelpTetex[word] );
+			showHelpFile( m_hconfig->location() + "/latex/latex2e-html/" + m_dictHelpTetex[word] );
 		}
 	}
 

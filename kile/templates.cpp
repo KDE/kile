@@ -44,15 +44,14 @@ Templates::Templates()
         ti.path=templates.path()+"/"+templates[j];
         ti.name=templates[j].replace("template_","");
         ti.name.replace(".tex","");
-	//FIXME: don't hardcode these paths
-	ti.icon = KGlobal::dirs()->findResource("appdata", "icons/hicolor/48x48/actions/type_"+ ti.name + ".png");
+	ti.icon=KGlobal::dirs()->findResource("appdata","pics/type_"+ti.name+".png");
 
 		if (m_TemplateList.contains(ti))
 			kdDebug() << "\tignoring: " << ti.path << endl;
 		else
 		{
 			m_TemplateList.append(ti);
-			kdDebug() << "\tadding: " << ti.path << endl;
+			kdDebug() << "\tadding: " << ti.name << " " << ti.path << endl;
 		}
 
      }

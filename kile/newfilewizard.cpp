@@ -45,15 +45,12 @@ NewFileWidget::NewFileWidget(QWidget *parent , char *name) : KIconView(parent,na
 
    TemplateInfo info;
    info.name =DEFAULT_EMPTY_CAPTION;
-   //FIXME: don't hardcode these paths
-   info.icon = KGlobal::dirs()->findResource("appdata", "icons/hicolor/48x48/actions/"+ QString(DEFAULT_EMPTY_ICON) + ".png");
-   kdDebug() << "USING ICON : " << info.icon << endl;
+   info.icon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
    info.path="";
    TemplateItem * emp = new TemplateItem( this, info);
 
    Templates templ;
    for (int i=0; i< templ.count(); i++) {
-      //(void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );
       (void) new TemplateItem(this, *templ.at(i));
    }
 

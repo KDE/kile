@@ -2990,7 +2990,7 @@ for(int i = 0; i < LogWidget->paragraphs(); i++)
  if (tagStart==0)
  {
 	  num = QString::number(i,10);
-     errorlist->append(num);
+     errorlist->append(num.ascii());
  }
  //// latex warning ////
  tagStart=tagEnd=0;
@@ -2998,7 +2998,7 @@ for(int i = 0; i < LogWidget->paragraphs(); i++)
  if (tagStart!=-1)
   {
     num = QString::number(i,10);
-    errorlist->append(num);
+    errorlist->append(num.ascii());
   }
  }
 }
@@ -3016,8 +3016,8 @@ void Kile::QuickLatexError()
         tagStart=s.find("!", tagEnd);
         if (tagStart==0)
         {
-				num = QString::number(i,10);
-            errorlist->append(num);
+		num = QString::number(i,10);
+		errorlist->append(num.ascii());
         }
     }
 }

@@ -35,12 +35,11 @@ int main( int argc, char ** argv )
 {
   KAboutData aboutData( "kile", "Kile",
     "1.5", "KDE Integrated LaTeX Environment", KAboutData::License_GPL,
-    "Brachet Pascal 2002-2003",
-    "Jeroen Wijnhout 2003-",
+    "Jeroen Wijnhout 2003",
     0,
-    "http://perso.club-internet.fr/pascal.brachet/kile/");
+    "http://www.science.uva.nl/~wijnhout/Kile");
+  aboutData.addAuthor("Jeroen Wijnhout","maintainer/developer","wijnhout@science.uva.nl");    
   aboutData.addAuthor("Brachet Pascal",0,"");
-  aboutData.addAuthor("Jeroen Wijnhout","maintainer/developer","wijnhout@science.uva.nl");
   aboutData.addCredit("David Ishee (Xgfe)");
   aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
   aboutData.addCredit("AceLan, Edward Lee, Haoxiang Lin (chinese translation)");

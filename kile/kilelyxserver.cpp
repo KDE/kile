@@ -92,10 +92,11 @@ bool KileLyxServer::openPipes()
 		{
 			mode_t perms = S_IRUSR | S_IWUSR | S_IRGRP| S_IROTH;
 			//create the dir first
-			if (mkdir(QFile::encodeName( info.dirPath() ), perms | S_IXUSR) == -1)
-				perror( "Could not create directory for pipe ");
-			else
-				kdDebug() << "Created directory " << info.dirPath() << endl;
+            if ( ! QFileInfo(info.dirPath(true)).exists() )
+				if (mkdir(QFile::encodeName( info.dirPath() ), perms | S_IXUSR) == -1)
+					perror( "Could not create directory for pipe ");
+				else
+					kdDebug() << "Created directory " << info.dirPath() << endl;
 
 			if (mkfifo(QFile::encodeName( m_pipes[i] ), perms) == -1)
    				perror( "Could not create pipe ");

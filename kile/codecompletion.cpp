@@ -187,9 +187,13 @@ namespace KileDocument
 		switch ( m_mode )
 		{
 				case cmLatex:
+        kdDebug() << "mode = cmLatex" << endl;
+        list = m_texlist;
+        appendNewCommands(list);
+        break;
 				case cmEnvironment:
-				list = m_texlist;
-				appendNewCommands(list);
+        kdDebug() << "mode = cmEnvironment" << endl;
+				list = m_texlist;				
 				break;
 				case cmDictionary:
 				list = m_dictlist;
@@ -321,9 +325,12 @@ namespace KileDocument
 
 	QString CodeCompletion::filterCompletionText( const QString &text, const QString &type )
 	{
-		kdDebug() << "   complete filter: " << text << endl;
+    static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
+		kdDebug() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
-
+    
+    if ( reEnv.search(text) != -1 ) m_mode = cmEnvironment;
+    
 		// check the cursor position, because the user may have
 		// typed some characters or the backspace key. This also
 		// changes the length of the current pattern.
@@ -343,10 +350,7 @@ namespace KileDocument
 		switch ( m_mode )
 		{
 				case cmLatex:
-				if ( text.left( 7 ) == "\\begin{" ) //FIXME replace with a regexp
-					s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
-				else
-					s = buildLatexText( text, m_yoffset, m_xoffset );
+  			s = buildLatexText( text, m_yoffset, m_xoffset );
 				break;
 				case cmEnvironment:
 				s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
@@ -360,6 +364,7 @@ namespace KileDocument
 				case cmLabel:
 				s = buildLabelText( text );
 				break;
+        default : s = text; break;
 		}
 
 		if ( s.length() > m_textlen )
@@ -380,37 +385,27 @@ namespace KileDocument
 	QString CodeCompletion::buildEnvironmentText( const QString &text, const QString &type,
 	        uint &ypos, uint &xpos )
 	{
-		// find first '}' 
-		int pos = text.find( '}' );
-		if ( pos == -1 )
-			return "";
-
-		// extract name of environment
-		QString envname = text.mid( 7, pos - 7 );
-		QString parameter = stripParameter( text.mid( pos + 1, text.length() - pos ) );
-
-		// parse parameter
-		if ( ! parameter.isEmpty() )
-			parameter = parseText( parameter, ypos, xpos, false );
-
-		// list environment ?
-		bool item = ( type == "\\item" ) ? true : false;
-
-		// first line of result
-		QString s = "\\begin{" + envname + '}' + parameter + '\n';
-
-		// second line
-		if ( item )
+    static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
+    
+    if (reEnv.search(text) == -1) return text;
+    
+    QString parameter = stripParameter( reEnv.cap(3) );
+    QString start = reEnv.cap(1);
+    QString envname = reEnv.cap(2);
+    
+    QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
+    
+    bool item = (type == "list" );
+    if ( item )
 			s += "\\item ";
+      
 		if ( m_setbullets && !parameter.isEmpty() )
 			s += s_bullet;
-		s += "\n";
-
-		// third line
-		if ( m_closeenv )
-			s += "\\end{" + envname + "}";
-
-		// place cursor
+      
+    if ( m_closeenv && start != "end" )
+			s += "\n\\end{" + envname + "}\n";
+    
+    // place cursor
 		if ( m_setcursor )
 		{
 			if ( parameter.isEmpty() )
@@ -424,9 +419,8 @@ namespace KileDocument
 				xpos = 9 + envname.length();
 			}
 		}
-
-		// Ergebnis
-		return s;
+    
+    return s;
 	}
 
 	//////////////////// text in  cmAbbreviation mode ////////////////////
@@ -654,7 +648,7 @@ namespace KileDocument
 			if ( s.left( 7 ) == "\\begin{" && s.right( 5 ) == "\\item" )
 			{
 				e.text = s.left( s.length() - 5 );     // list environment entry
-				e.type = "\\item";
+				e.type = "list";
 			}
 			else
 			{
@@ -732,6 +726,8 @@ namespace KileDocument
 			completeFromList(info()->allLabels());
 		else if ( type == ctCitation )
 			completeFromList(info()->allBibItems());
+    else
+      kdWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
 	}
 
 	//////////////////// slots for code completion ////////////////////

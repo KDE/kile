@@ -74,6 +74,7 @@
 #include "managetemplatesdialog.h"
 #include "kilestdactions.h"
 #include "usermenudialog.h"
+#include "usertooldialog.h"
 #include "kileconfigdialog.h"
 #include "kileproject.h"
 #include "kileprojectview.h"
@@ -439,25 +440,21 @@ void Kile::setupActions()
 
 void Kile::setupUserTagActions()
 {
-	KShortcut sc=0;
-	QString name;
-	KAction *menuItem;
-
 	KShortcut tagaccels[10] = {CTRL+SHIFT+Key_1, CTRL+SHIFT+Key_2,CTRL+SHIFT+Key_3,CTRL+SHIFT+Key_4,CTRL+SHIFT+Key_5,CTRL+SHIFT+Key_6,CTRL+SHIFT+Key_7,
 		CTRL+SHIFT+Key_8,CTRL+SHIFT+Key_9,CTRL+SHIFT+Key_0};
 
-	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), m_menuUserTags,"EditUserMenu" );
+	m_actionEditTag = new KAction(i18n("Edit User Tags") + "...",0 , this, SLOT(EditUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
 	for (uint i=0; i<m_listUserTags.size(); i++)
 	{
-		if (i<10) sc = tagaccels[i];
-		else sc=0;
-		name=QString::number(i+1)+": "+m_listUserTags[i].name;
-		menuItem = new KAction(name,sc,m_mapUserTagSignals,SLOT(map()), m_menuUserTags, name.ascii());
+		KShortcut sc; if (i<10)  { sc = tagaccels[i]; } else { sc = 0; }
+		QString name = m_listUserTags[i].text;
+		KileAction::Tag *menuItem = new KileAction::Tag(name, sc, this, SLOT(insertTag(const KileAction::TagData &)), actionCollection(), QString("tag_user_" + m_listUserTags[i].text).ascii(), m_listUserTags[i]);
 		m_listUserTagsActions.append(menuItem);
 		m_menuUserTags->insert(menuItem);
-		m_mapUserTagSignals->setMapping(menuItem,i);
 	}
+
+	actionCollection()->readShortcutSettings("Shortcuts", config);
 }
 
 void Kile::setupUserToolActions()
@@ -469,18 +466,20 @@ void Kile::setupUserToolActions()
 	KShortcut toolaccels[10] = {SHIFT+ALT+Key_1, SHIFT+ALT+Key_2,SHIFT+ALT+Key_3,SHIFT+ALT+Key_4,SHIFT+ALT+Key_5,SHIFT+ALT+Key_6,SHIFT+ALT+Key_7,
 		SHIFT+ALT+Key_8,SHIFT+ALT+Key_9,SHIFT+ALT+Key_0};
 
-	m_actionEditTool = new KAction(i18n("Edit User Tools"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
+	m_actionEditTool = new KAction(i18n("Edit User Tools") + "...", 0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
 	m_menuUserTools->insert(m_actionEditTool);
 	for (uint i=0; i<m_listUserTools.size(); i++)
 	{
 		if (i<10) sc = toolaccels[i];
 		else sc=0;
-		name=QString::number(i+1)+": "+m_listUserTools[i].name;
-		menuItem = new KAction(name,sc,m_mapUserToolsSignals,SLOT(map()), m_menuUserTools, name.ascii());
+		name=m_listUserTools[i].name;
+		menuItem = new KAction(name,sc,m_mapUserToolsSignals,SLOT(map()), actionCollection(), name.ascii());
 		m_listUserToolsActions.append(menuItem);
 		m_menuUserTools->insert(menuItem);
 		m_mapUserToolsSignals->setMapping(menuItem,i);
 	}
+
+	actionCollection()->readShortcutSettings("Shortcuts", config);
 }
 
 void Kile::restore()
@@ -3916,24 +3915,6 @@ QString mpcode=mpview->currentText();
 if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 }
 
-////////////////////////// BIBLIOGRAPHY //////////////////////////
-
-//////////////// USER //////////////////
-void Kile::insertUserTag(int i)
-{
-	if (m_listUserTags[i].tag.left(1)=="%")
-	{
-		QString t=m_listUserTags[i].tag;
-		t=t.remove(0,1);
-		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
-	}
-	else
-	{
-		QStringList parts = QStringList::split("%M",m_listUserTags[i].tag);
-		insertTag(parts[0],parts[1],0,0);
-	}
-}
-
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
@@ -3949,28 +3930,26 @@ void Kile::invokeHelp()
 ///////////////////// USER ///////////////
 void Kile::EditUserMenu()
 {
-	usermenudialog *umDlg = new usermenudialog(m_listUserTags,this,"Edit User Tags", i18n("Edit User Tags"));
+	KileDialog::UserTags *dlg = new KileDialog::UserTags(m_listUserTags, this, "Edit User Tags", i18n("Edit User Tags"));
 
-	if ( umDlg->exec() )
+	if ( dlg->exec() )
 	{
 		//remove all actions
-		KAction *menuItem;
 		uint len = m_listUserTagsActions.count();
 		for (uint j=0; j< len; j++)
 		{
-			menuItem = m_listUserTagsActions.getLast();
-			m_mapUserTagSignals->removeMappings(menuItem);
+			KAction *menuItem = m_listUserTagsActions.getLast();
 			m_menuUserTags->remove(menuItem);
 			m_listUserTagsActions.removeLast();
 			delete menuItem;
 		}
 		m_menuUserTags->remove(m_actionEditTag);
 
-		m_listUserTags = umDlg->result();
+		m_listUserTags = dlg->result();
 		setupUserTagActions();
 	}
 
-	delete umDlg;
+	delete dlg;
 }
 
 void Kile::EditUserTool()
@@ -4087,12 +4066,11 @@ void Kile::ReadSettings()
 
 	config->setGroup( "User" );
 	userItem tempItem;
+
 	int len = config->readNumEntry("nUserTags",0);
 	for (int i = 0; i < len; i++)
 	{
-		tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
-		tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
-		m_listUserTags.append(tempItem);
+		m_listUserTags.append(KileDialog::UserTags::splitTag(config->readEntry("userTagName"+QString::number(i),i18n("no name")) , config->readEntry("userTag"+QString::number(i),"") ));
 	}
 
 	len= config->readNumEntry("nUserTools",0);
@@ -4278,15 +4256,15 @@ config->writeEntry("User Options",userOptionsList, ':');
 
 config->setGroup( "User" );
 
-userItem tempItem;
-config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
-for (uint i=0; i<m_listUserTags.size(); i++)
-{
-	tempItem = m_listUserTags[i];
-	config->writeEntry("userTagName"+QString::number(i),tempItem.name);
-	config->writeEntry("userTag"+QString::number(i),tempItem.tag);
-}
+	config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
+	for (uint i=0; i < m_listUserTags.size(); i++)
+	{
+		KileAction::TagData td( m_listUserTags[i]);
+		config->writeEntry( "userTagName"+QString::number(i),  td.text );
+		config->writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
+	}
 
+userItem tempItem;
 config->writeEntry("nUserTools",static_cast<int>(m_listUserTools.size()));
 for (uint i=0; i<m_listUserTools.size(); i++)
 {
@@ -4668,6 +4646,7 @@ void Kile::ConfigureKeys()
 		dlg.insert( (*it)->actionCollection() );
 	}
 	dlg.configure();
+	actionCollection()->writeShortcutSettings("Shortcuts", config);
 }
 
 void Kile::ConfigureToolbars()

@@ -145,9 +145,10 @@ private:
 
 	KActionMenu 					*m_menuUserTags, *m_menuUserTools;
 	QSignalMapper 				*m_mapUserTagSignals, *m_mapUserToolsSignals;
-	QValueList<userItem> 	m_listUserTags, m_listUserTools;
-	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions;
-	KAction							*m_actionEditTag, *m_actionEditTool;
+	QValueList<KileAction::TagData>	m_listUserTags;
+	QValueList<userItem> 			m_listUserTools;
+	QPtrList<KAction> 				m_listUserTagsActions, m_listUserToolsActions;
+	KAction						*m_actionEditTag, *m_actionEditTool;
 
 	KPopupMenu			*help;
 	KHelpMenu				*help_menu;
@@ -562,7 +563,6 @@ private slots:
 	void insertSymbol(QIconViewItem*);
 	void InsertMetaPost(QListBoxItem *);
 
-	void insertUserTag(int i);
 	void EditUserMenu();
 
 /*LyX server*/

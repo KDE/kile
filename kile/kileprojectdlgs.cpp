@@ -237,10 +237,19 @@ void KileNewProjectDlg::slotOk()
 		}
 	}
 
-	if (createNewFile() && file().stripWhiteSpace() == "")
+	if ( createNewFile() )
 	{
-		KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project"), i18n("No file name give"));
-		return;
+		if ( file().stripWhiteSpace() == "")
+		{
+			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project"), i18n("No file name give"));
+				return;
+		}
+
+		if ( QFileInfo(file().stripWhiteSpace()).exists() )
+		{
+			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()), i18n("File already exists")) == KMessageBox::No)
+				return;
+		}
 	}
 
 	if (QFileInfo(location()).exists())

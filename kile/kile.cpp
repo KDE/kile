@@ -530,7 +530,7 @@ Kate::Document* Kile::createDocument(KileDocumentInfo *docinfo, const QString & 
 	KileFS->comboEncoding->lineEdit()->setText(enc);
 	doc->setEncoding(encoding);
 
-	kdDebug() << "opening url: " << docinfo->url().path() << endl;
+// 	kdDebug() << "opening url: " << docinfo->url().path() << endl;
 
 	doc->openURL(docinfo->url());
 	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
@@ -556,7 +556,7 @@ Kate::Document* Kile::createDocument(KileDocumentInfo *docinfo, const QString & 
 	docinfo->setDoc(doc);
 // 	mapInfo(doc, docinfo);
 
-	kdDebug() << "SANITY check: " << (docinfo->getDoc() == docFor(docinfo->url())) << endl;
+// 	kdDebug() << "SANITY check: " << (docinfo->getDoc() == docFor(docinfo->url())) << endl;
 	return doc;
 }
 
@@ -576,7 +576,7 @@ KileDocumentInfo* Kile::createDocumentInfo(const KURL & url)
 		m_infoList.append(docinfo);
 	}
 
-	kdDebug() << "DOCINFO: returning " << docinfo << " " << docinfo->url().fileName() << endl;
+// 	kdDebug() << "DOCINFO: returning " << docinfo << " " << docinfo->url().fileName() << endl;
 	return docinfo;
 }
 
@@ -1076,6 +1076,7 @@ void Kile::projectNew()
 
 			//save the new file
 			view->getDoc()->saveAs(url);
+			newDocumentStatus(view->getDoc());
 
 			//add this file to the project
 			item = new KileProjectItem(project, url);
@@ -1163,7 +1164,7 @@ void Kile::removeFromProject(const KileProjectItem *item)
 {
 	if (item->project())
 	{
-		kdDebug() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
+// 		kdDebug() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
 
 		if (item->project()->url() == item->url())
 		{
@@ -1182,8 +1183,8 @@ void Kile::removeFromProject(const KileProjectItem *item)
 
 void Kile::projectOpenItem(KileProjectItem *item)
 {
-	kdDebug() << "==Kile::projectOpenItem==========================" << endl;
-	kdDebug() << "\titem:" << item->url().path() << endl;
+// 	kdDebug() << "==Kile::projectOpenItem==========================" << endl;
+// 	kdDebug() << "\titem:" << item->url().path() << endl;
 
 	if (isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
 		m_projectview->remove(item->url());
@@ -1203,8 +1204,8 @@ void Kile::projectOpenItem(KileProjectItem *item)
 
 void Kile::projectOpen(const KURL &url)
 {
-	kdDebug() << "==Kile::projectOpen==========================" << endl;
-	kdDebug() << "\tfilename: " << url.fileName() << endl;
+// 	kdDebug() << "==Kile::projectOpen==========================" << endl;
+// 	kdDebug() << "\tfilename: " << url.fileName() << endl;
 	if (projectIsOpen(url))
 	{
 		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
@@ -1245,17 +1246,14 @@ void Kile::projectOpen()
 
 void Kile::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 {
-	kdDebug() << "===Kile::storeProjectItem==============" << endl;
+// 	kdDebug() << "===Kile::storeProjectItem==============" << endl;
 	item->setEncoding( doc->encoding());
 	item->setHighlight( doc->hlModeName(doc->hlMode()));
-
-	kdDebug() << "\ttest2" << endl;
-	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
 }
 
 void Kile::projectSave(KileProject *project /* = 0 */)
 {
-	kdDebug() << "==Kile::projectSave==========================" << endl;
+// 	kdDebug() << "==Kile::projectSave==========================" << endl;
 	if (project == 0)
 	{
 		//find the project that corresponds to the active doc
@@ -1276,12 +1274,12 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 		for (uint i=0; i < list->count(); i++)
 		{
 			item = list->at(i);
-			kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << isOpen(item->url()) << endl;
+// 			kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << isOpen(item->url()) << endl;
 			item->setOpenState(isOpen(item->url()));
 			docinfo = item->getInfo();
 
-			kdDebug() << "test" << endl;
-			kdDebug() << "\t\tDOCINFO = " << docinfo << ", DOC = " << docinfo->getDoc() << endl;
+// 			kdDebug() << "test" << endl;
+// 			kdDebug() << "\t\tDOCINFO = " << docinfo << ", DOC = " << docinfo->getDoc() << endl;
 			if (docinfo != 0L) doc = docinfo->getDoc();
 			if (doc != 0L) storeProjectItem(item, doc);
 
@@ -3302,7 +3300,7 @@ void Kile::RefreshStructure()
 
 void Kile::UpdateStructure(bool parse /* = false */)
 {
-	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
+// 	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
 
 	KileDocumentInfo *docinfo = getInfo();
 

@@ -87,6 +87,14 @@ Kile::Kile( QWidget *, const char *name ) :
 	m_bQuick(false),
 	m_activeView(0)
 {
+	watchfile=false;
+	m_bNewErrorlist=true;
+	m_bCheckForLaTeXErrors=false;
+	m_bBlockWindowActivateEvents=false;
+	kspell = 0;
+	symbol_present=false;
+	symbol_view=0L;
+
 	m_docList.setAutoDelete(false);
 	m_infoList.setAutoDelete(false);
 
@@ -109,14 +117,9 @@ Kile::Kile( QWidget *, const char *name ) :
 	htmlpresent=false;
 	pspresent=false;
 	dvipresent=false;
-	watchfile=false;
 	htmlpart=0L;
 	pspart=0L;
 	dvipart=0L;
-	m_bNewErrorlist=true;
-	m_bCheckForLaTeXErrors=false;
-	m_bBlockWindowActivateEvents=false;
-	kspell = 0;
 
 	ReadSettings();
 	setupActions();
@@ -184,7 +187,6 @@ Kile::Kile( QWidget *, const char *name ) :
 	mpview = new metapostview( Structview );
 	connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
 
-	symbol_present=false;
 	ButtonBar->insertTab(UserIcon("math1"),2,i18n("Relation Symbols"));
 	connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(UserIcon("math2"),3,i18n("Arrow Symbols"));
@@ -709,6 +711,8 @@ void Kile::setLine( const QString &line )
 
 void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 {
+	kdDebug() << "==Kile::setHighlightMode()==================" << endl;
+
 	int c = doc->hlModeCount();
 	bool found = false;
 	int i;
@@ -716,9 +720,12 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	QString hl = highlight.lower();
 	QString ext = doc->url().fileName().right(4);
 
+	KMimeType::Ptr pMime = KMimeType::findByURL(doc->url(), 0, false, true);
+	kdDebug() << "\tmimeType name: " << pMime->name() << endl;
+
 	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
 
-	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	if ( (hl != QString::null) || doc->url().isEmpty() || pMime->name() == "text/x-tex" || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls")
 	{
 		if (hl == QString::null) hl = "latex-kile";
 		for (i = 0; i < c; i++)

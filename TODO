@@ -5,8 +5,6 @@ BUGS
  - shortcuts are severely broken since we use the katepart
 
 TODO
- - use iterators instead of [] (especially for qstringlist and alike)
-
  - use KDirWatch to check for modified files on disk
  
  - version control for the kilerc file, now users have to delete

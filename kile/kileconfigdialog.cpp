@@ -254,6 +254,10 @@ namespace KileDialog
 
 		helpPage = new KileWidgetHelpConfig(page);
 		helpPage->readConfig();
+		
+		QVBoxLayout *vbox = new QVBoxLayout(page);
+		vbox->addWidget(helpPage);
+		vbox->addStretch();
 	}
 
 	//////////////////// write new configuration ////////////////////

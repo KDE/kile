@@ -45,44 +45,30 @@
             <property name="title">
                 <string>Context Sensitive Help</string>
             </property>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>m_rbKileRef</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>60</y>
-                        <width>220</width>
-                        <height>31</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>use the &amp;Kile LaTeX reference</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+K</string>
-                </property>
-            </widget>
-            <widget class="QRadioButton">
-                <property name="name">
-                    <cstring>m_rbTeTeX</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>20</x>
-                        <y>30</y>
-                        <width>280</width>
-                        <height>21</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>use your system's &amp;TeX documentation</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+T</string>
-                </property>
-            </widget>
+            <grid>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>m_rbKileRef</cstring>
+                    </property>
+                    <property name="text">
+                        <string>use the &amp;Kile LaTeX reference</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+K</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>m_rbTeTeX</cstring>
+                    </property>
+                    <property name="text">
+                        <string>use your system's &amp;TeX documentation</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+T</string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>

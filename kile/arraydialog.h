@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// dani 15.09.2004: don't override existing rows or columns,  
+//                  when changing the size of the table
+
 #ifndef ARRAYDIALOG_H
 #define ARRAYDIALOG_H
 
@@ -44,10 +47,19 @@ namespace KileDialog
 	public slots:
 		void slotOk();
 
-	public:
+	private:
 		QTable *m_table;
 		QSpinBox *m_spRows, *m_spCols;
 		KComboBox *m_cbAlign, *m_cbEnv;
+		
+		int m_rows;
+		int m_cols;
+		bool isTableRowEmpty(int row);
+		bool isTableColEmpty(int col);
+		
+	private slots:
+		void slotRowValueChanged(int value);
+		void slotColValueChanged(int value);
 	};
 }
 

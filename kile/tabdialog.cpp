@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// dani 17.09.2004: don't override existing rows or columns,  
+//                  when changing the size of the table
+
 #include "tabdialog.h"
 #include "kiledocumentinfo.h"
 
@@ -49,12 +52,14 @@ namespace KileDialog
 		m_spRows->setValue(2);
 		m_spRows->setRange(1,99);
 		gbox->addWidget(m_spRows , 1, 1 );
-		connect( m_spRows, SIGNAL(valueChanged(int)),m_table, SLOT(setNumRows(int)));
+		//connect( m_spRows, SIGNAL(valueChanged(int)),m_table, SLOT(setNumRows(int)));
+		connect( m_spRows, SIGNAL(valueChanged(int)), this , SLOT(slotRowValueChanged(int)));
 		
 		m_spCols = new QSpinBox(page);
 		m_spCols->setValue(2);
 		m_spCols->setRange(1,99);
-		connect( m_spCols, SIGNAL(valueChanged(int)),m_table, SLOT(setNumCols(int)));
+		//connect( m_spCols, SIGNAL(valueChanged(int)),m_table, SLOT(setNumCols(int)));
+		connect( m_spCols, SIGNAL(valueChanged(int)), this, SLOT(slotColValueChanged(int)));
 		gbox->addWidget(m_spCols, 2, 1 );
 		
 		QLabel *lb = new QLabel(page);
@@ -95,6 +100,10 @@ namespace KileDialog
 		gbox->addMultiCellWidget(m_ckHSeparator,5,5,0,1,0);
 
 		page->resize(460,350);
+		
+		// remember current values
+		m_rows = m_spRows->value();
+		m_cols = m_spCols->value();
 	}
 	
 	QuickTabular::~QuickTabular()
@@ -138,6 +147,62 @@ namespace KileDialog
 		m_td.dx=0;
 
 		accept();
+	}
+	
+	void QuickTabular::slotRowValueChanged(int value)
+	{
+		if ( value < m_rows ) {         // problems may only happen when decreasing
+			int testvalue = value;
+			value = m_rows;
+			for ( int row=m_rows; row>=testvalue; row-- ) {
+				if ( isTableRowEmpty(row) )
+					value = row;
+				else
+					break;
+			}
+			m_spRows->setValue(value);      // perhaps corrected
+		}
+		
+		m_rows = value;
+		m_table->setNumRows(value);
+		
+	}
+	
+	void QuickTabular::slotColValueChanged(int value)
+	{
+		if ( value < m_cols ) {            // problems may only happen when decreasing
+			int testvalue = value;
+			value = m_cols;
+			for ( int col=m_cols; col>=testvalue; col-- ) {
+				if ( isTableColEmpty(col) )
+					value = col;
+				else
+					break;
+			}
+			m_spCols->setValue(value);      // perhaps corrected
+		}
+		
+		m_cols = value;
+		m_table->setNumCols(value);
+		
+	}
+	
+	bool QuickTabular::isTableRowEmpty(int row)
+	{
+		for ( int col=0; col<m_cols; col++ ) {
+			if ( ! m_table->text(row,col).stripWhiteSpace().isEmpty() )
+				return false;
+		}
+		return true;
+	}
+	
+	bool QuickTabular::isTableColEmpty(int col)
+	{
+		for ( int row=0; row<m_rows; row++ ) {
+			if ( ! m_table->text(row,col).stripWhiteSpace().isEmpty() )
+				return false;
+		}
+		return true;
 	}
 }
 

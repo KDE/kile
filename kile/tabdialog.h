@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// dani 17.09.2004: don't override existing rows or columns,  
+//                  when changing the size of the table
+
 #ifndef TABDIALOG_H
 #define TABDIALOG_H
 
@@ -45,6 +48,15 @@ namespace KileDialog
 		QSpinBox		*m_spRows, *m_spCols;
 		QCheckBox	*m_ckHSeparator;
 		QTable		*m_table;
+		
+		int m_rows;
+		int m_cols;
+		bool isTableRowEmpty(int row);
+		bool isTableColEmpty(int col);
+		
+	private slots:
+		void slotRowValueChanged(int value);
+		void slotColValueChanged(int value);
 	};
 }
 

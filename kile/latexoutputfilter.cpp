@@ -168,7 +168,7 @@ void LatexOutputFilter::UpdateFileStack(const QString &strLine)
                 // Mostly TeX prints out some parts of the processed tex-file after reporting a bad box.
                 // And sometimes not! But if this part contains a closing brace ')', we will get
                 // an assertion here somewhat after a wrong poping caused by this ')'. Any Idea?
-                assert(!m_stackFile.empty());
+                //assert(!m_stackFile.empty());
                 if (!m_stackFile.empty())
                 {
                     m_stackFile.pop();

@@ -692,17 +692,17 @@ void QuickDocument::initStandardOptions(const QString &classname,QStringList &op
 			<< QString("halfparskip- => ") + i18n("Spacing 1/2 line, at least 1/3 of the last line is free")
 			<< QString("halfparskip+ => ") + i18n("Spacing 1/2 line, at least 1/4 of the last line is free")
 			<< QString("halfparskip* => ") + i18n("Spacing 1/2 line, no special provision for the last line")
-			<< QString("parindent => ") + i18n("No spacing between paragraphs) indent the first line by 1 em")
-			<< QString("onelinecaption => ") + i18n("One-line captions are centered) multi-line left-justified")
+			<< QString("parindent => ") + i18n("No spacing between paragraphs, indent the first line by 1 em")
+			<< QString("onelinecaption => ") + i18n("One-line captions are centered, multi-line left-justified")
 			<< QString("noonelinecaption => ") + i18n("No special handling of one-line captions")
 			<< QString("bigheading => ") + i18n("Normal great title font sizes")
-			<< QString("normalheadings => ") + i18n("Small font sizes for tiles")
-			<< QString("smallheadings => ") + i18n("Even smaller font sizes for tiles")
-			<< QString("liststotoc => ") + i18n("Include lists of figures and tables to toc")
-			<< QString("bibtotoc => ") + i18n("Include the bibliography to toc")
-			<< QString("idxtotoc => ") + i18n("Include the index to toc")
-			<< QString("liststotocnumbered => ") + i18n("Number the lists of figures and tables in the toc")
-			<< QString("bibtotocnumbered => ") + i18n("Number the bibliography in the toc")
+			<< QString("normalheadings => ") + i18n("Small font sizes for titles")
+			<< QString("smallheadings => ") + i18n("Even smaller font sizes for titles")
+			<< QString("liststotoc => ") + i18n("Include lists of figures and tables in the TOC")
+			<< QString("bibtotoc => ") + i18n("Include the bibliography in the TOC")
+			<< QString("idxtotoc => ") + i18n("Include the index in the TOC")
+			<< QString("liststotocnumbered => ") + i18n("Number the lists of figures and tables in the TOC")
+			<< QString("bibtotocnumbered => ") + i18n("Number the bibliography in the TOC")
 			<< QString("tocleft => ") + i18n("All numbers and titles are set in a left-justified column")
 			<< QString("tocindent => ") + i18n("Different sectional units have different indentations")
 			<< QString("listsleft => ") + i18n("All numbers and captions are set in a left-justified column")
@@ -757,7 +757,7 @@ void QuickDocument::initStandardOptions(const QString &classname,QStringList &op
 		optionlist 
 			<< QString("slidestop => ") + i18n("Place text of slides at the (vertical) top of the slides")
 			<< QString("slidescentered => ") + i18n("Place text of slides at the (vertical) center of the slides")
-			<< QString("draft => ") + i18n("Headlines, footlines and sidebars are replaced by gray rectangles") 
+			<< QString("draft => ") + i18n("Headlines, footlines, and sidebars are replaced by gray rectangles") 
 			<< QString("compress => ") + i18n("Make all navigation bars as small as possible")
 			<< QString("usepdftitle=false => ") + i18n("Suppresses generation of some entries in the pdf information")
 			<< QString("notheorems => ") + i18n("Switches off the definition of default blocks like theorem")
@@ -967,7 +967,7 @@ bool QuickDocument::addComboboxEntries(KComboBox *combo, const QString &title,co
 		QString s = list[i].stripWhiteSpace();
 		// entries must match a regular expression
 		if ( combolist.findIndex(s) != -1 ) 
-			KMessageBox::error( this, i18n("%1 '%2' already exists!").arg(title).arg(s) );
+			KMessageBox::error( this, i18n("%1 '%2' already exists.").arg(title).arg(s) );
 		else { 
 			combolist += s;
 			kdDebug() << "\tinsert new " << title << ": " << s << endl;
@@ -1662,7 +1662,7 @@ void QuickDocument::slotTypefaceSizeAdd()
 	QStringList list;
 	list << i18n("Add Fontsize")
 	     << "label,edit"
-	     << i18n("Please enter the &fontsizes (comma separated list):")
+	     << i18n("Please enter the &fontsizes (comma-separated list):")
 	     << QString::null             // 3
 	     ;
 		  
@@ -1693,7 +1693,7 @@ void QuickDocument::slotPaperSizeAdd()
 	QStringList list;
 	list << i18n("Add Papersize")
 	     << "label,edit"
-	     << i18n("Please enter the &papersizes (comma separated list):")
+	     << i18n("Please enter the &papersizes (comma-separated list):")
 	     << QString::null                 // 3
 	     ;
 		  
@@ -2147,7 +2147,7 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 		// entries must match a regular expression
 		QRegExp reg(pattern);
 		if ( ! reg.exactMatch(s) ) {
-			KMessageBox::error( this, i18n("%1 '%2' is not allowed!").arg(title).arg(s) );
+			KMessageBox::error( this, i18n("%1 '%2' is not allowed.").arg(title).arg(s) );
 			return false;
 		}
 	}
@@ -2164,39 +2164,39 @@ void QuickDocumentInputDialog::slotOk()
 		
 		// should we check for an empty string
 		if ( (m_check & qd_CheckNotEmpty) && input.isEmpty() ) {
-			KMessageBox::error( this, i18n("An empty string is not allowed!") );
+			KMessageBox::error( this, i18n("An empty string is not allowed.") );
 			return;
 		}
 			
 		// should we check for an existing document class
 		if ( m_check & qd_CheckDocumentClass ) {
 			if ( m_parent->isDocumentClass(input) ) {
-				KMessageBox::error( this, i18n("This document class already exists!") );
+				KMessageBox::error( this, i18n("This document class already exists.") );
 				return;
 			}
 			
 			QRegExp reg("\\w+");
 			if ( ! reg.exactMatch(input) ) {
-				KMessageBox::error( this, i18n("This is not an allowed name for a document class!") );
+				KMessageBox::error( this, i18n("This is not an allowed name for a document class.") );
 				return;
 			}
 			
 			QString baseclass = ((KLineEdit *)m_objectlist[3])->text().simplifyWhiteSpace(); 
 			if ( !baseclass.isEmpty() && !m_parent->isStandardClass(baseclass) ) {
-				KMessageBox::error( this, i18n("The base class is not a standard class!") );
+				KMessageBox::error( this, i18n("The base class is not a standard class.") );
 				return;
 			}	
 		}
 		
 		// should we check for an existing document class option
 		if ( (m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input) ) {
-			KMessageBox::error( this, i18n("This document class option already exists!") );
+			KMessageBox::error( this, i18n("This document class option already exists.") );
 			return;
 		}
 		
 		// should we check for an existing package
 		if ( (m_check & qd_CheckPackage) && m_parent->isPackage(input) ) {
-			KMessageBox::error( this, i18n("This package already exists!") );
+			KMessageBox::error( this, i18n("This package already exists.") );
 			return;
 		}
 		
@@ -2204,11 +2204,11 @@ void QuickDocumentInputDialog::slotOk()
 		if ( m_check & qd_CheckPackageOption ) {
 			QString package = getPackageName(inputlabel);
 			if ( package.isEmpty() ) {
-				KMessageBox::error( this, i18n("Could not identify the package name!") );
+				KMessageBox::error( this, i18n("Could not identify the package name.") );
 				return;
 			}
 			if ( m_parent->isPackageOption(package,input) ) {
-				KMessageBox::error( this, i18n("This package option already exists!") );
+				KMessageBox::error( this, i18n("This package option already exists.") );
 				return;
 			}
 		}

@@ -1,3 +1,9 @@
+kile (1:1.5.1-1) unstable; urgency=low
+
+  * New upstream release (now from kdeextragear-2).
+
+ -- Ben Burton <bab@debian.org>  Sun, 11 May 2003 10:19:49 +1000
+
 kile (1:1.5-1) unstable; urgency=low
 
   * New upstream release.

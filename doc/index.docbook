@@ -230,6 +230,28 @@
 
 		</sect2>
 
+		<sect2>
+
+			<title>How do you pronounce it? Why that strange typesetting?</title>
+
+			<para>There is a funny traditions of &tex;-related packages to have the strangest pronounciation
+			and typesetting possible. &tex; was supposed to be brought in from the greek <emphasis>τεχ</emphasis>,
+			in latin letters <emphasis>tech</emphasis>. There are a lot of explanations why, but most likely it's because
+			&latex; was originally conceived for technical reports, and indeed its foremost ability was the correct and
+			easy typesetting of mathematical formulae, then an extremely expensive, time-consuming and
+			frustrating business.</para>
+			<para>The pronounciation is supposed to be as follows: <emphasis>T</emphasis> as you would expect,
+			<emphasis>E</emphasis> as in <emphasis>get</emphasis>, and <emphasis>X</emphasis> as in the
+			German i<emphasis>ch</emphasis>. If you don't know what <emphasis>ch</emphasis> sounds like,
+			it is more or less as an hissing cat; the IPA symbol is /ç/. Many people report the different pronounciation
+			of <emphasis>ach</emphasis> (IPA symbol /x/), but I have personally asked some Greeks, and can
+			confirm the first version. You should be aware that a lot of people mispronounce /teks/ or /tek/.</para>
+			<para>Last, in &latex; the first L<superscript>A</superscript> is pronounced as
+			<emphasis>lay</emphasis>: the idea is that, while raw &tex; is difficult, even a <emphasis>lay</emphasis>man
+			can use &latex; macros. Now you know!</para>
+
+		</sect2>
+
 	</sect1>
 
 	<sect1 id="intro_latexbasics">
@@ -245,7 +267,7 @@
 		</para>
 
 		<para>
-		While we will try to give you a good idea of what &latex; is, but this is not The Definitive
+		While we will try to give you a good idea of what &latex; is, this is not The Definitive
 		Book on &latex;. If you want to learn &latex; well, you may want to loan a book in your
 		library. The writer has had a good experience with A Guide to &latex; by H. Kopka
 		and.P. W. Daly, and still keeps it on the shelf.
@@ -284,7 +306,7 @@
 				<listitem><para><guilabel>Typeface Size</guilabel>: what point size are you using?</para></listitem>
 				<listitem><para><guilabel>Paper Size</guilabel>: what size or style of paper will you be using for your document?</para></listitem>
 				<listitem><para><guilabel>Encoding</guilabel>: what encoding will you be using for you source file? You will almost always want
-				to use Latin 1 encoding, to allow you to enter words like <userinput>naïveté</userinput>
+				to use Latin 1 or Utf-8 encodings, to allow you to enter words like <userinput>naïveté</userinput>
 				directly, and not through the ASCII-fication <userinput>na\"\ivet\'e</userinput>.</para></listitem>
 				<listitem><para><guilabel>Author's name</guilabel>: put your name here.</para></listitem>
 				<listitem><para><guilabel>Title of Document</guilabel>: add your document title here.</para></listitem>
@@ -522,10 +544,12 @@
 		would like to create and the options such as font size, paper size, etc.; the other option
 		you have is to write code by hand.</para>
 
-		<para><userinput>\documentclass[12pt]{article}</userinput></para>
-		<para><userinput>\begin{document}</userinput></para>
-		<para><userinput>Here is a bunch of text coded in LaTeX.</userinput></para>
-		<para><userinput>\end{document}</userinput></para>
+		<screen><userinput>
+		\documentclass[12pt]{article}
+		\begin{document}
+		Here is a bunch of text coded in LaTeX.
+		\end{document}
+		</userinput></screen>
 
 		<para>Every document in &latex; begins with the command <userinput>\documentclass{TypeOfDocument}</userinput>,
 		unless you are using an older version of &latex;, then the command is <userinput>\documentstyle{TypeOfDocument}</userinput>.
@@ -536,7 +560,9 @@
 
 		<para>Typing in the code example above from the text box gives you the following output:</para>
 
-		<para><computeroutput>Here is a bunch of text coded in LaTeX.</computeroutput></para>
+		<screen><computeroutput>
+		Here is a bunch of text coded in LaTeX.
+		</computeroutput></screen>
 
 		<para>The brackets that come after the command <userinput>\documentclass</userinput>
 		denote an option for the command. The option <userinput>[12pt]</userinput> sets the size
@@ -701,16 +727,18 @@
 			You will have to do a search of your files to check if your distribution has <filename>scrltx.sty</filename> included.
 			If it is included, then you must set the following command in the preamble.</para>
 
-			<para><computeroutput>\documentstyle[12pt, a4paper]{book}</computeroutput></para>
-			<para><computeroutput> \usepackage[active]{scrltx}</computeroutput></para>
-			<para><computeroutput>\pagestyle{empty}</computeroutput></para>
-			<para><computeroutput>\renewcommand{\baselinestretch}{2}</computeroutput></para>
-			<para><computeroutput>\begin{document}</computeroutput></para>
-			<para><computeroutput>\begin{verse}</computeroutput></para>
-			<para><computeroutput>The KDE \LaTeX\ source code editor &kile; is my favorite.</computeroutput></para>
-			<para><computeroutput>\em{Because} it is easy to use!</computeroutput></para>
-			<para><computeroutput>\end{verse}</computeroutput></para>
-			<para><computeroutput>\end{document}</computeroutput></para>
+			<screen><userinput>
+		\documentstyle[12pt, a4paper]{book}
+		\usepackage[active]{scrltx}
+		\pagestyle{empty}
+		\renewcommand{\baselinestretch}{2}
+		\begin{document}
+		\begin{verse}
+		The KDE \LaTeX\ source code editor &kile; is my favorite.
+		\em{Because} it is easy to use!
+		\end{verse}
+		\end{document}
+			</userinput></screen>
 
 			<para>Once you have added the package <filename>scrltx</filename>, you can leave &kdvi; open.
 			Forward search will allow you to click on a specific section of text in the &latex; code, and jump to
@@ -1072,15 +1100,20 @@
 		<para>The bibliography is a section apart from your main document, and an example of
 		code for the bibliography would look like the following:</para>
 
-		<para><userinput>\begin{thebibliography}{50}</userinput></para>
-		<para><userinput>\bibitem{Simpson} Homer J. Simpson. \texts]{Mmmmm...doughnuts}.</userinput></para>
-		<para><userinput>Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998</userinput></para>
-		<para><userinput>\end{thebibliography)</userinput></para>
+		<screen><userinput>
+		\begin{thebibliography}{50}
+		\bibitem{Simpson} Homer J. Simpson. \texts]{Mmmmm...doughnuts}.
+		Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998
+		\end{thebibliography)
+		</userinput></screen>
 
 		<para>Then, your main source code would contain the location of the information relating to
 		the <userinput>\bibitem</userinput> using <userinput>\cite</userinput>. That source code would look similar to this:</para>
 
-		<para><userinput>My thesis, about the philosophy of The Simpsons\copyright comes from my favorite book \cite{Simpson}.</userinput></para>
+		<screen><userinput>
+		My thesis, about the philosophy of The Simpsons\copyright
+		comes from my favorite book \cite{Simpson}.
+		</userinput></screen>
 
 		<para>The final product in your document's bybliography would then look like this:</para>
 
@@ -1675,9 +1708,23 @@
 			</mediaobject>
 	</screenshot>
 
-	<para>Ideally you would use a <application>inputenc</application> version
-	that understands the omnicomprehensive Unicode utf-8, however
-	this is not yet available on most systems.</para>
+	<para>The host of different characters has been creating problems on many
+	applications, and there is general agreement that, sooner or later, everybody is
+	going to switch to <ulink url="http://www.unicode.org">Unicode</ulink>. There
+	are many implementations of Unicode, and <abbrev>utf-8</abbrev> is the most
+	successful in Linux; Windows&reg; relies instead on the more cumbersome and
+	less flexible <abbrev>ucs-2</abbrev>. Some distributions, as RedHat, have already
+	begun setting their default encoding to <abbrev>utf-8</abbrev>, and therefore you
+	may be very interested in using a <userinput>utf8</userinput> argument to the
+	<userinput>inputenc</userinput> package.</para>
+
+	<para>The bad news is, it's not yet included in &tetex; at the time of writing this
+	document; the good news is, there <emphasis>is</emphasis> a &latex; package
+	that can do just that, and you can install it yourself.</para>
+
+	<para>Just go to the home page of <ulink url="http://www.unruh.de/DniQ/latex/unicode/">Unicode
+	support for &latex;</ulink>, by Dominique Unruh from the university of Karlsruhe.
+	Follow the instructions there to install the package and use it.</para>
 
 </chapter>
 

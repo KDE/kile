@@ -32,15 +32,7 @@
 #include <kstddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-#include <kspell2/dialog.h>
-#include <kspell2/backgroundchecker.h>
-#include <kspell2/broker.h>
-#include "texfilter.h"
-using namespace KSpell2;
-#else
-#include <kspell.h>
-#endif
+
 #include <ksconfig.h>
 #include <klocale.h>
 #include <kglobalsettings.h>
@@ -117,6 +109,7 @@ using namespace KSpell2;
 #include "kileautosavejob.h"
 #include "kileconfig.h"
 #include "kxtrcconverter.h"
+#include "kilespell.h"
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -133,16 +126,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_bNewInfolist=true;
 	m_bCheckForLaTeXErrors=false;
 	m_bBlockWindowActivateEvents=false;
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-	m_broker = Broker::openBroker( KSharedConfig::openConfig( "kilerc" ) );
-	m_checker = new BackgroundChecker( m_broker, this );
-	TeXFilter *filter = new TeXFilter();
-	filter->setSettings( m_broker->settings() );
-	m_checker->setFilter( filter );
-	m_dialog = 0;
-#else
-	kspell = 0;
-#endif
+
+	m_spell = new KileSpell(this, this, "kilespell");
 
 	symbol_view = 0L;
 	symbol_present=false;
@@ -379,13 +364,8 @@ void Kile::setupActions()
 
 	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
 
-	//TODO fix #if's here and in spellcheck() once we depend on KDE 3.2.x
-	#if KDE_VERSION < KDE_MAKE_VERSION(3,2,0)
-		(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
-	#elif KDE_VERSION < KDE_MAKE_VERSION(3,3,0)
-		kdDebug() << "CONNECTING SPELLCHECKER" << endl;
-		connect ( viewManager(), SIGNAL(startSpellCheck()), this, SLOT(spellcheck()) );
-	#endif
+	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
+	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
 	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
 
@@ -2049,257 +2029,6 @@ void Kile::GeneralOptions()
 	}
 
 	delete dlg;
-}
-
-////////////// SPELL ///////////////
-
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-void Kile::spellcheck()
-{
-	kdDebug() <<"==Kile::spellcheck()==============" << endl;
-
-	if ( !viewManager()->currentView() ) return;
-
-	if ( !m_dialog )
-	{
-		m_dialog = new Dialog( m_checker, this, "spelling dialog" );
-		connect (m_dialog, SIGNAL(done(const QString&)), SLOT(slotDone(const QString&)));
-		connect (m_dialog, SIGNAL(misspelling(const QString&, int)), SLOT(slotMisspelling(const QString&, int)));
-		connect (m_dialog, SIGNAL(replace(const QString&, int, const QString&)),
-						 SLOT(slotCorrected(const QString&, int, const QString&)));
-	}
-
-	Kate::View *view = viewManager()->currentView();
-
-	m_spellCorrected = 0;
-
-	if ( view->getDoc()->hasSelection() )
-	{
-		m_dialog->setBuffer(view->getDoc()->selection());
-		par_start = view->getDoc()->selStartLine();
-		par_end =  view->getDoc()->selEndLine();
-		index_start =  view->getDoc()->selStartCol();
-		index_end =  view->getDoc()->selEndCol();
-	}
-	else
-	{
-		m_dialog->setBuffer(view->getDoc()->text());
-		par_start=0;
-		par_end=view->getDoc()->numLines()-1;
-		index_start=0;
-		index_end=view->getDoc()->textLine(par_end).length();
-	}
-	m_dialog->show();
-}
-#else
-void Kile::spellcheck()
-{
-	kdDebug() <<"==Kile::spellcheck()==============" << endl;
-
-	if ( !viewManager()->currentView() ) return;
-
-	if ( kspell )
-	{
-		kdDebug() << "kspell wasn't deleted before!" << endl;
-		delete kspell;
-	}
-
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,0)
-		kdDebug() << "KSPELL: using NEW kspell " << KDE_VERSION_STRING << endl;
-		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false, KSpell::TeX);
-	#else
-		kdDebug() << "KSPELL: using OLD kspell " << KDE_VERSION_STRING << endl;
-		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false);
-	#endif
-	ks_corrected=0;
-	connect (kspell, SIGNAL ( death()),this, SLOT ( spell_finished( )));
-	connect (kspell, SIGNAL (progress (unsigned int)),this, SLOT (spell_progress (unsigned int)));
-	connect (kspell, SIGNAL (misspelling (const QString & , const QStringList & , unsigned int )),this, SLOT (misspelling (const QString & , const QStringList & , unsigned int )));
-	connect (kspell, SIGNAL (corrected (const QString & , const QString & , unsigned int )),this, SLOT (corrected (const QString & , const QString & , unsigned int )));
-	connect (kspell, SIGNAL (done(const QString&)), this, SLOT (spell_done(const QString&)));
-}
-
-#endif
-
-void Kile::slotMisspelling (const QString & originalword, int pos)
-{
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-	Kate::View *view = viewManager()->currentView();
-	if ( view == 0L ) return;
-
-	int l=par_start;
-	int cnt=0;
-	int col=0;
-	int p=pos+index_start;
-
-	while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
-	{
-		cnt+=view->getDoc()->lineLength(l)+1;
-		l++;
-	}
-
-	col=p-cnt;
-	view->setCursorPosition(l,col);
-	view->getDoc()->setSelection( l,col,l,col+originalword.length());
-#endif
-}
-
-
-void Kile::slotCorrected (const QString & originalword, int pos, const QString & newword)
-{
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-	Kate::View *view = viewManager()->currentView();
-	if ( view == 0L ) return;
-
-	int l=par_start;
-	int cnt=0;
-	int col=0;
-	int p=pos+index_start;
-
-	if( newword != originalword )
-	{
-		while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
-		{
-			cnt+=view->getDoc()->lineLength(l)+1;
-			l++;
-		}
-
-		col=p-cnt;
-		view->setCursorPosition(l,col);
-		view->getDoc()->setSelection( l,col,l,col+originalword.length());
-		view->getDoc()->removeSelectedText();
-		view->getDoc()->insertText( l,col,newword );
-		view->getDoc()->setModified( true );
-	}
-
-	view->getDoc()->clearSelection();
-	++m_spellCorrected;
-#endif
-}
-
-void Kile::slotDone(const QString& /*newtext*/)
-{
-	viewManager()->currentView()->getDoc()->clearSelection();
-	KMessageBox::information(this,i18n("Corrected %1 words.").arg(m_spellCorrected),i18n("Spell checking done"));
-}
-
-void Kile::spell_started( KSpell *)
-{
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-	kspell->setProgressResolution(2);
-	Kate::View *view = viewManager()->currentView();
-
-	if ( view->getDoc()->hasSelection() )
-	{
-		kspell->check(view->getDoc()->selection());
-		par_start = view->getDoc()->selStartLine();
-		par_end =  view->getDoc()->selEndLine();
-		index_start =  view->getDoc()->selStartCol();
-		index_end =  view->getDoc()->selEndCol();
-	}
-	else
-	{
-		kspell->check(view->getDoc()->text());
-		par_start=0;
-		par_end=view->getDoc()->numLines()-1;
-		index_start=0;
-		index_end=view->getDoc()->textLine(par_end).length();
-	}
-#endif
-}
-
-void Kile::spell_progress (unsigned int /*percent*/)
-{
-}
-
-void Kile::spell_done(const QString& /*newtext*/)
-{
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-	viewManager()->currentView()->getDoc()->clearSelection();
-	kspell->cleanUp();
-	KMessageBox::information(this,i18n("Corrected %1 words.").arg(ks_corrected),i18n("Spell checking done"));
-#endif
-}
-
-void Kile::spell_finished( )
-{
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-	//newStatus();
-	KSpell::spellStatus status = kspell->status();
-
-	delete kspell;
-	kspell = 0;
-	if (status == KSpell::Error)
-		KMessageBox::sorry(this, i18n("I(A)Spell could not be started."));
-	else if (status == KSpell::Crashed)
-	{
-		viewManager()->currentView()->getDoc()->clearSelection();
-		KMessageBox::sorry(this, i18n("I(A)Spell seems to have crashed."));
-	}
-#endif
-}
-
-void Kile::misspelling (const QString & originalword, const QStringList & /*suggestions*/,unsigned int pos)
-{
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-	Kate::View *view = viewManager()->currentView();
-	if ( view == 0L ) return;
-
-	int l=par_start;
-	int cnt=0;
-	int col=0;
-	int p=pos+index_start;
-
-	while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
-	{
-		cnt+=view->getDoc()->lineLength(l)+1;
-		l++;
-	}
-
-	col=p-cnt;
-	view->setCursorPosition(l,col);
-	view->getDoc()->setSelection( l,col,l,col+originalword.length());
-#else
-	Q_UNUSED(originalword);
-	Q_UNUSED(pos);
-#endif
-}
-
-
-void Kile::corrected (const QString & originalword, const QString & newword, unsigned int pos)
-{
-#if KDE_VERSION < KDE_MAKE_VERSION(3,2,90)
-	Kate::View *view = viewManager()->currentView();
-	if ( view == 0L ) return;
-
-	int l=par_start;
-	int cnt=0;
-	int col=0;
-	int p=pos+index_start;
-
-	if( newword != originalword )
-	{
-		while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
-		{
-			cnt+=view->getDoc()->lineLength(l)+1;
-			l++;
-		}
-
-		col=p-cnt;
-		view->setCursorPosition(l,col);
-		view->getDoc()->setSelection( l,col,l,col+originalword.length());
-		view->getDoc()->removeSelectedText();
-		view->getDoc()->insertText( l,col,newword );
-		view->getDoc()->setModified( TRUE );
-	}
-
-	view->getDoc()->clearSelection();
-	ks_corrected++;
-#else
-	Q_UNUSED(originalword);
-	Q_UNUSED(newword);
-	Q_UNUSED(pos);
-#endif
 }
 
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////

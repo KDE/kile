@@ -38,8 +38,29 @@ namespace KileWidget { class LogMsg; class Output; }
 namespace KileTool
 {
 	class Factory;
+
+	class QueueItem
+	{
+	public:
+		QueueItem(Base *tool, const QString & cfg = QString::null);
+		~QueueItem();
+
+		Base* tool() const { return m_tool; }
+		const QString cfg() const { return m_cfg; }
+
+	private:
+		Base	*m_tool;
+		QString	m_cfg;
+	};
+
+	class Queue : public QPtrQueue<QueueItem>
+	{
+	public:
+		Base* tool() const;
+		const QString cfg() const;
+	};
 	
- 	class Manager : public QObject
+	class Manager : public QObject
 	{
 		Q_OBJECT
 		
@@ -50,10 +71,11 @@ namespace KileTool
 	public:
 		void initTool(Base*);
 		bool configure(Base*);
-		bool retrieveEntryMap(const QString & name, Config & map);
-		void saveEntryMap(const QString & name, Config & map);
-		QString configName(const QString & tool);
-		void setConfigName(const QString & tool, const QString & name);
+		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true);
+		void saveEntryMap(const QString & name, Config & map, bool usequeue = true);
+		QString currentGroup(const QString &name, bool usequeue = true);
+		//QString configName(const QString & tool);
+		//void setConfigName(const QString & tool, const QString & name);
 
 		void wantGUIState(const QString &);
 		
@@ -94,7 +116,7 @@ namespace KileTool
 		QWidgetStack 			*m_stack;
 		KAction				*m_stop;
 		Factory				*m_factory;
-		QPtrQueue<Base>		m_queue;
+		Queue				m_queue;
 		QTimer				*m_timer;
 		bool					m_bClear;
 		uint					m_nTimeout;

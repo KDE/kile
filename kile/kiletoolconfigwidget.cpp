@@ -102,8 +102,8 @@ namespace KileWidget
 		connect(pb, SIGNAL(clicked()), this, SLOT(newConfig()));
 		//pb->setMaximumWidth(pb->sizeHint().width());
 
-		m_current = m_lstbTools->text(0); m_manager->retrieveEntryMap(m_current, m_map);
-		QString cfg = m_manager->configName(m_current);
+		m_current = m_lstbTools->text(0); m_manager->retrieveEntryMap(m_current, m_map, false);
+		QString cfg = KileTool::configName(m_current, m_manager->config());
 		m_cbPredef->insertItem(cfg);
 		switchConfig(cfg);
 		switchTo(m_current, false);
@@ -124,7 +124,7 @@ namespace KileWidget
 	void ToolConfig::writeConfig()
 	{
 		//save config
-		m_manager->saveEntryMap(m_current, m_map);
+		m_manager->saveEntryMap(m_current, m_map, false);
 		KileTool::setGUIOptions(m_current, m_cbMenu->currentText(), m_spinPosition->value(), m_ckToolbar->isChecked(), m_ckSeparator->isChecked(), m_icon, m_manager->config());
 	}
 
@@ -151,7 +151,7 @@ namespace KileWidget
 		
 			//update the config number
 			QString cf = m_cbPredef->currentText();
-			m_manager->setConfigName(m_current, cf);
+			KileTool::setConfigName(m_current, cf, m_manager->config());
 		}
 
 		m_current = tool;
@@ -166,7 +166,7 @@ namespace KileWidget
 			m_layout->remove(m_advanced); delete m_advanced;
 		}
 		m_map.clear();
-		if (!m_manager->retrieveEntryMap(m_current, m_map)) 
+		if (!m_manager->retrieveEntryMap(m_current, m_map, false)) 
 			kdWarning() << "no entrymap" << endl;
 
 		updateConfiglist();
@@ -201,7 +201,7 @@ namespace KileWidget
 	{
 		m_cbPredef->clear();
 		m_cbPredef->insertStringList(KileTool::configNames(m_current, m_manager->config()));
-		QString cfg = m_manager->configName(m_current);
+		QString cfg = KileTool::configName(m_current, m_manager->config());
 		switchConfig(cfg);
 		m_cbPredef->setEnabled(m_cbPredef->count() > 1);
 	}

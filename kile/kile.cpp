@@ -3616,6 +3616,7 @@ void Kile::editComplete(CodeCompletion::Mode mode)
    if ( !view || !m_complete || !m_complete->isActive() ) return;
 
    QString word = getCompleteWord( ( mode == CodeCompletion::cmLatex )  ? true : false );
+
    if ( ! word.isEmpty() ) {
       if ( mode==CodeCompletion::cmLatex && word.at(0)!='\\' ) {
          mode = CodeCompletion::cmDictionary;

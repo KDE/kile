@@ -37,6 +37,31 @@
  
 namespace KileTool
 {
+	QueueItem::QueueItem(Base *tool, const QString & cfg) : m_tool(tool), m_cfg(cfg)
+	{
+	}
+
+	QueueItem::~QueueItem()
+	{
+		delete m_tool;
+	}
+
+	Base* Queue::tool() const
+	{
+		if ( head() )
+			return head()->tool();
+		else
+			return 0;
+	}
+
+	const QString Queue::cfg() const
+	{
+		if ( head() )
+			return head()->cfg();
+		else
+			return QString::null;
+	}
+
 	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop, uint to) :
 		m_ki(ki),
 		m_config(config),
@@ -99,7 +124,7 @@ namespace KileTool
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
 
-		m_queue.enqueue(tool);
+		m_queue.enqueue(new QueueItem(tool, cfg));
 		kdDebug() << "\tin queue: " << m_queue.count() << endl;
 		if ( m_queue.count() == 1 )
 			runNextInQueue();
@@ -107,7 +132,7 @@ namespace KileTool
 
 	void Manager::runNextInQueue()
 	{
-		Base *head = m_queue.head();
+		Base *head = m_queue.tool();
 		if (head)
 		{
 			if (m_log->lines() > 1) 
@@ -140,7 +165,7 @@ namespace KileTool
 
 		if (tool->isViewer()) 
 		{
-			if ( tool == m_queue.head() ) m_queue.dequeue();
+			if ( tool == m_queue.tool() ) m_queue.dequeue();
 			m_stop->setEnabled(false);
 			runNextInQueue();
 		}
@@ -149,15 +174,15 @@ namespace KileTool
 	void Manager::stop()
 	{
 		m_stop->setEnabled(false);
-		if ( m_queue.head() )
-			m_queue.head()->stop();
+		if ( m_queue.tool() )
+			m_queue.tool()->stop();
 	}
 
 	void Manager::done(Base *tool, int result)
 	{
 		m_stop->setEnabled(false);
 
-		if ( tool != m_queue.head() ) //oops, tool finished async, could happen with view tools
+		if ( tool != m_queue.tool() ) //oops, tool finished async, could happen with view tools
 		{
 			delete tool;
 			return;
@@ -176,9 +201,17 @@ namespace KileTool
 			runNextInQueue();
 	}
 
-	bool Manager::retrieveEntryMap(const QString & name, Config & map)
+	QString Manager::currentGroup(const QString &name, bool usequeue)
 	{
-		QString group = groupFor(name, m_config);
+		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (m_queue.cfg() != QString::null) )
+			return  groupFor(name, m_queue.cfg());
+		else
+			return groupFor(name, m_config);
+	}
+
+	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue)
+	{
+		QString group = currentGroup(name, usequeue);
 
 		kdDebug() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
 		kdDebug() << "\t" << name << " => " << group << endl;
@@ -192,10 +225,10 @@ namespace KileTool
 		return true;
 	}
 
-	void Manager::saveEntryMap(const QString & name, Config & map)
+	void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue)
 	{
 		kdDebug() << "==KileTool::Manager::saveEntryMap=============" << endl;
-		QString group = groupFor(name, m_config);
+		QString group = currentGroup(name, usequeue);
 		kdDebug() << "\t" << name << " => " << group << endl;
 		m_config->setGroup(group);
 
@@ -228,16 +261,6 @@ namespace KileTool
 	{
 		kdDebug() << "REQUESTED state: " << state << endl;
 		emit(requestGUIState(state));
-	}
-
-	QString Manager::configName(const QString & tool)
-	{
-		return KileTool::configName(tool, m_config);
-	}
-
-	void Manager::setConfigName(const QString & tool, const QString & name)
-	{
-		KileTool::setConfigName(tool, name, m_config);
 	}
 
 	QStringList toolList(KConfig *config, bool menuOnly)

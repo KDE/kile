@@ -3,7 +3,7 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp 	commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp 	usermenudialog.cpp kileconfigdialog.cpp texkonsolewidget.cpp 	tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp 	quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp 	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp 	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp 	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp 	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp 	kileprojectview.cpp kilelistselector.cpp bibtexdialog.cpp 	kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp 	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp toolsdesign.txt kiletool.cpp
+kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp 	commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp 	usermenudialog.cpp kileconfigdialog.cpp texkonsolewidget.cpp 	tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp 	quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp 	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp 	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp 	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp 	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp 	kileprojectview.cpp kilelistselector.cpp bibtexdialog.cpp 	kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp 	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp
 
 kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 

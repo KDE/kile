@@ -77,7 +77,7 @@ void KatePluginKile::addView(Kate::MainWindow *win)
    Kate::ToolViewManager *tool_view_manager = win->toolViewManager();
    for (int i=0; i<5; i++) {
    	pixmap.load(locate("data","kile/pics/math"+QString::number(i+1)+".png"));
-		SymbolView* symbolview = new SymbolView(i+1, NULL, "symbolview"+QString::number(i+1));
+		SymbolView* symbolview = new SymbolView(i+1, 0,("symbolview"+QString::number(i+1)).ascii());
       symbolview->setFocusPolicy(QWidget::NoFocus);
       tool_view_manager->addToolViewWidget(KDockWidget::DockLeft, symbolview, pixmap, i18n("Kile Symbol View"));
 		connect(symbolview, SIGNAL(SymbolSelected(QString)), SLOT(InsertSymbol(QString)));

@@ -1743,6 +1743,13 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
+	//don't close Kile if embedded viewers are present
+	if ((htmlpresent && htmlpart) || (pspresent && pspart) || (dvipresent && dvipart))
+	{
+		ResetPart();
+		return false;
+	}
+	
 	for (uint i=0; i < m_projects.count(); i++)
 	{
 		m_listProjectsOpenOnStart.append(m_projects.at(i)->url().path());
@@ -3988,7 +3995,8 @@ void Kile::LatexHelp()
       }
       else if (viewlatexhelp_command == i18n("External Browser") )
       {
-	kapp->invokeBrowser("help:kile/latexhelp.html");
+        QString loc = locate("html","en/kile/latexhelp.html");
+	kapp->invokeBrowser(loc);
       }
       else
       {

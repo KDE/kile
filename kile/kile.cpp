@@ -3055,6 +3055,7 @@ void Kile::NextError()
 		{
 			//LogWidget->setCursorPosition(0 , 0);
 			LogWidget->setCursorPosition(l+3 , 0);
+			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
 		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
 	}
@@ -3095,6 +3096,7 @@ void Kile::PreviousError()
 		{
 			//LogWidget->setCursorPosition(0 , 0 );
 			LogWidget->setCursorPosition(l+3 , 0);
+			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
 		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
 	}

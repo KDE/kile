@@ -50,7 +50,7 @@ void docpart::urlSelected(const QString &url, int button, int state,const QStrin
 
 	KMimeMagicResult *mm = KMimeMagic::self()->findFileType(cURL.path());
 
-	KTrader::OfferList offers = KTrader::self()->query(mm->mimeType(), "Library == 'libkhtmlpart'");
+	KTrader::OfferList offers = KTrader::self()->query(mm->mimeType(), "Library == 'libkhtml' || Library == 'libkhtmlpart' ");
 
 	//load this URL in the embedded viewer if KHTML can handle it, or when mimetype detection failed
 	if ( !mm->isValid() || offers.count() > 0 )

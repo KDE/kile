@@ -228,4 +228,4 @@ void setupMathTags(KMainWindow *parent, QPtrList<KAction>* plist)
   	actionright_list->setItems(alist);
 }
 
-};
+}

@@ -87,7 +87,7 @@ int main( int argc, char ** argv )
 	    if (sa.right(7) == ".kilepr")
 	    	mw->projectOpen(fi.absFilePath());
 	    else
-            	mw->load(KURL::fromPathOrURL(fi.absFilePath()));
+            	mw->fileSelected(fi.absFilePath());
             if (args->getOption("line")!="0")
                 mw->setLine(args->getOption("line"));
         }
@@ -111,7 +111,7 @@ int main( int argc, char ** argv )
 	    if (sa.right(7) == ".kilepr")
 	    	client->send (appID, "Kile", "projectOpen(QString)", data_file);
 	    else
-            	client->send (appID, "Kile", "load(QString)", data_file);
+            	client->send (appID, "Kile", "fileSelected(QString)", data_file);
 		
             if (args->getOption("line")!="0")
             {

@@ -14,7 +14,7 @@
 
 
 static const char* const KileAppDCOPIface_ftable[5][3] = {
-    { "void", "load(QString)", "load(QString f)" },
+    { "void", "fileSelected(QString)", "fileSelected(QString f)" },
     { "void", "projectOpen(QString)", "projectOpen(QString f)" },
     { "void", "setLine(QString)", "setLine(QString line)" },
     { "void", "setActive()", "setActive()" },
@@ -31,7 +31,7 @@ bool KileAppDCOPIface::process(const QCString &fun, const QByteArray &data, QCSt
 	//kdDebug() << "KileAppDCOPIface::process load: " << arg0 << endl;
 	replyType = KileAppDCOPIface_ftable[0][0]; 
 	
-	load(arg0);
+	fileSelected(arg0);
    }
    else
     if ( fun == KileAppDCOPIface_ftable[1][1] ) { 

@@ -336,6 +336,10 @@ public slots:
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 
+public slots:
+	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }
+	void fileSelected(const KURL &);
+
 private slots:
 	void fileNew();
 	void fileOpen();
@@ -346,7 +350,6 @@ private slots:
 	bool fileCloseAll();
 
 	void saveURL(const KURL &);
-	void fileSelected(const KURL &);
 	void fileSelected(const KFileItem *file);
 
 	bool queryExit();

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="6">
+<kpartgui name="kile" version="7">
 <Menu name="ktexteditor_popup" noMerge="1">
   <DefineGroup name="popup_operations" />
 </Menu>

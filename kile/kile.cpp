@@ -720,7 +720,7 @@ void Kile::fileOpen()
 	{
 		if (fi->exists() && fi->isReadable()) currentDir=fi->dirPath();
 	}
-	QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.ltx *.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
+	QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
 	if ( !fn.isEmpty() ) load( fn );
 }
 
@@ -810,7 +810,7 @@ void Kile::fileSaveAs()
 {
 	int query=KMessageBox::Yes;
 	if ( !currentEditorView() ) 	return;
-	QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.ltx *.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
+	QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.dtx *.ltx *.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
 	if ( !fn.isEmpty() )
 	{
 		currentEditor()->setFile(fn);

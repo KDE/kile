@@ -33,13 +33,16 @@ class KileInfo
 {
 
 public:
-	KileInfo() {}
+	KileInfo() : m_currentTarget(QString::null) { }
 	virtual ~KileInfo() {}
 
 public:
 	QString getName(Kate::Document *doc = 0, bool shrt = false);
 	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);
+
+	QString getCurrentTarget() const { return m_currentTarget; }
+	void setTarget(const QString &target) { m_currentTarget=target; }
 
 	virtual Kate::Document* activeDocument() const = 0;
 
@@ -84,6 +87,8 @@ protected:
 
 	QPtrList<Kate::Document> 		m_docList;
 	QPtrList<KileDocumentInfo>	m_infoList;
+
+	QString			m_currentTarget;
 };
 
 #endif

@@ -2482,6 +2482,7 @@ QString Kile::prepareForCompile(const QString & command) {
      return QString::null;
   }
 
+  setTarget(fic.absFilePath());
   return fic.absFilePath();
 }
 
@@ -3542,8 +3543,6 @@ void Kile::ViewLog()
 
 void Kile::ClickedOnOutput(int parag, int /*index*/)
 {
-	if ( !currentView() ) return;
-
 	int l = parag;
 
 	QString s = LogWidget->text(parag);
@@ -3556,7 +3555,7 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 		l = reES.cap(2).toInt() - 1;
 		file = reES.cap(1);
 	}
-
+	else
 	if (logpresent)
 	{
 		//look for error at line parag
@@ -3569,24 +3568,36 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 			}
 		}
 	}
+	else
+		return;
 
 	if (file.left(2) == "./" )
 	{
-		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file.mid(2);
+		file = QFileInfo(getCurrentTarget()).dirPath(true) + "/" + file.mid(2);
 	}
 
 	if (file[0] != '/' )
 	{
-		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file;
+		file = QFileInfo(getCurrentTarget()).dirPath(true) + "/" + file;
 	}
 
 	kdDebug() << "==Kile::ClickedOnOutput()====================" << endl;
+	kdDebug() << "\tfile="<<file<<endl;
 
-	if (file != QString::null)
+	QFileInfo fi(file);
+	if ( (file == QString::null) || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
+	{
+		file = getCurrentTarget();
+		l=-1;
+	}
+
+	fi.setFile(file);
+
+	if ( fi.isReadable() )
 	{
 		kdDebug() << "jumping to (" << l << ") " << file << endl;
 		fileOpen(KURL::fromPathOrURL(file));
-		setLine(QString::number(l));
+		if (l >= 0) setLine(QString::number(l));
 	}
 }
 ////////////////////////// ERRORS /////////////////////////////

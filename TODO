@@ -1,14 +1,6 @@
-BUGS
- - shell quote filenames in tools (filenames with spaces etc.)
- - When "\section" is re-defined in the preamble of a document, the structure view considers it
-   as a section.
- - shortcuts are severely broken since we use the katepart
-
 TODO
- - use iterators instead of [] (especially for qstringlist and alike)
-
  - use KDirWatch to check for modified files on disk
- 
+
  - version control for the kilerc file, now users have to delete
    the old kilerc file when they upgrade to a new version
 
@@ -25,9 +17,6 @@ TODO
  - file_selector could use a configurable filter. Now only *.tex files are
    shown,  some people might use a .ltx extension for their LaTeX files (or
   something  completely different).
-
- - project management (start a project, adds files to the project, use make
-   to build the project)
 
  - It would be nice if the postscript/dvi/pdf files are automatically update
    when they are "outdated", similar to the way "make" works.

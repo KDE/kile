@@ -1,6 +1,6 @@
 /* -------------------------- multiFunc class --------------------------
 
-   This class handles all operations related to the storage and manipulation of 
+   This class handles all operations related to the storage and manipulation of
    multiple functions and their options from the GUI.
 
    This file is part of Xgfe: X Windows GUI front end to Gnuplot
@@ -24,6 +24,7 @@
 
 
 #include "multiFunc.h"
+#include <klocale.h>
 
 multiFunc::multiFunc
 (
@@ -33,7 +34,7 @@ multiFunc::multiFunc
 	:
 	multiFuncData( parent, name )
 {
-	setCaption( "Multiple Function" );
+	setCaption( i18n("Multiple Function") );
 }
 
 

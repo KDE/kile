@@ -23,6 +23,7 @@
 
 #include <kfiledialog.h>
 #include "qplotmaker.h"
+#include <klocale.h>
 
 Qplotmaker::Qplotmaker
 (
@@ -32,7 +33,7 @@ Qplotmaker::Qplotmaker
 	:
 	Qplotdialog( parent, name )
 {
-  setCaption( "Gnuplot Front End" );
+  setCaption( i18n("Gnuplot Front End") );
 }
 
 
@@ -238,7 +239,7 @@ void Qplotmaker::setFuncPlotType3d()
 void Qplotmaker::dataFileOpen()
 {
   QString temp;
-QString filename = KFileDialog::getOpenFileName(QDir::currentDirPath(), "", this,"Open File" );
+QString filename = KFileDialog::getOpenFileName(QDir::currentDirPath(), "", this,i18n("Open File") );
   if ( !filename.isNull() )
   {
     filenameEdit->setText(filename); // set label to filename
@@ -254,7 +255,7 @@ void Qplotmaker::save()
   QString saveFile;
   QString temp;
 
-saveFile = KFileDialog::getSaveFileName(QDir::currentDirPath() ,"", this,"Save File" );
+saveFile = KFileDialog::getSaveFileName(QDir::currentDirPath() ,"", this,i18n("Save File") );
   if (!saveFile.isEmpty())
   {
     temp = saveFile;
@@ -268,7 +269,7 @@ void Qplotmaker::load()
   QString loadFile;
   QString temp;
 
-loadFile= KFileDialog::getOpenFileName(QDir::currentDirPath(), "", this,"Open File" );
+loadFile= KFileDialog::getOpenFileName(QDir::currentDirPath(), "", this,i18n("Open File") );
   if (!loadFile.isEmpty())
   {
     temp = loadFile;
@@ -282,7 +283,7 @@ void Qplotmaker::saveXgfe()
   QString saveFile;
   QString temp;
 
-saveFile = KFileDialog::getSaveFileName(QDir::currentDirPath() ,"", this,"Save File" );
+saveFile = KFileDialog::getSaveFileName(QDir::currentDirPath() ,"", this,i18n("Save File") );
   if (!saveFile.isEmpty())
   {
     temp = saveFile;
@@ -295,7 +296,7 @@ void Qplotmaker::loadXgfe()
   QString loadFile;
   QString temp;
 
-loadFile = KFileDialog::getOpenFileName(QDir::currentDirPath(), "", this,"Open File" );
+loadFile = KFileDialog::getOpenFileName(QDir::currentDirPath(), "", this,i18n("Open File") );
 
   if (!loadFile.isEmpty())
   {

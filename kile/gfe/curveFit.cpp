@@ -36,7 +36,7 @@ curveFit::curveFit
 	:
 	curveFitData( parent, name )
 {
-	setCaption( "Curve Fitting" );
+	setCaption( i18n("Curve Fitting") );
 }
 
 

@@ -19,7 +19,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.    
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 ticsLevelData::ticsLevelData
 (
@@ -42,7 +43,7 @@ ticsLevelData::ticsLevelData
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 	QLabel* dlgedit_ticsLevelLabel;
 	dlgedit_ticsLevelLabel = new QLabel( this, "ticsLevelLabel" );
-	dlgedit_ticsLevelLabel->setText( "Tics Level:" );
+	dlgedit_ticsLevelLabel->setText( i18n("Tics level:") );
 	dlgedit_ticsLevelLabel->setAlignment( 289 );
 	dlgedit_ticsLevelLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_ticsLevelLabel , 0,0, Qt::AlignLeft );
@@ -57,7 +58,7 @@ ticsLevelData::ticsLevelData
 	QPushButton* dlgedit_OKPushButton;
 	dlgedit_OKPushButton = new QPushButton( this, "OKPushButton" );
 	connect( dlgedit_OKPushButton, SIGNAL(clicked()), SLOT(setTicsLevel()) );
-	dlgedit_OKPushButton->setText( "OK" );
+	dlgedit_OKPushButton->setText( "&OK" );
 	dlgedit_OKPushButton->setAutoRepeat( FALSE );
   dlgedit_OKPushButton->setDefault( TRUE );
 	dlgedit_OKPushButton->setAutoDefault( TRUE );
@@ -66,7 +67,7 @@ ticsLevelData::ticsLevelData
 	QPushButton* dlgedit_cancelPushButton;
 	dlgedit_cancelPushButton = new QPushButton( this, "cancelPushButton" );
 	connect( dlgedit_cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_cancelPushButton->setText( "Cancel" );
+	dlgedit_cancelPushButton->setText( "&Cancel" );
 	dlgedit_cancelPushButton->setAutoRepeat( FALSE );
   gbox->addWidget( dlgedit_cancelPushButton, 1,1, Qt::AlignCenter );
 

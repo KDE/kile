@@ -1,6 +1,6 @@
 /* -------------------------- multiFile class --------------------------
 
-   This class handles all operations related to the storage and manipulation of 
+   This class handles all operations related to the storage and manipulation of
    multiple files and their options from the GUI.
 
    This file is part of Xgfe: X Windows GUI front end to Gnuplot
@@ -36,7 +36,7 @@ multiFile::multiFile
 	:
 	multiFileData( parent, name )
 {
-	setCaption( "Multiple Files" );
+	setCaption( i18n("Multiple Files") );
 }
 
 

@@ -19,7 +19,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.       
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
@@ -29,6 +29,7 @@
 #include <qbttngrp.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 fileOptionsData::fileOptionsData
 (
@@ -44,34 +45,34 @@ fileOptionsData::fileOptionsData
 	dataSetButtonGroup->setMinimumSize( 460, 60 );
 	dataSetButtonGroup->setMaximumSize( 32767, 32767 );
 	dataSetButtonGroup->setFrameStyle( 49 );
-	dataSetButtonGroup->setTitle( "Data Set Selection" );
+	dataSetButtonGroup->setTitle( i18n("Data Set Selection") );
 
 	QButtonGroup* samplingButtonGroup;
 	samplingButtonGroup = new QButtonGroup( this, "samplingButtonGroup" );
 	samplingButtonGroup->setMinimumSize( 460, 110 );
 	samplingButtonGroup->setMaximumSize( 32767, 32767 );
 	samplingButtonGroup->setFrameStyle( 49 );
-	samplingButtonGroup->setTitle( "Periodic Sampling" );
+	samplingButtonGroup->setTitle(i18n( "Periodic Sampling") );
 
 	QButtonGroup* colFormatButtonGroup;
 	colFormatButtonGroup = new QButtonGroup( this, "colFormatButtonGroup" );
 	colFormatButtonGroup->setMinimumSize( 460, 150 );
 	colFormatButtonGroup->setMaximumSize( 32767, 32767 );
 	colFormatButtonGroup->setFrameStyle( 49 );
-	colFormatButtonGroup->setTitle( "Columns and Format" );
+	colFormatButtonGroup->setTitle( i18n("Columns && Format") );
 
 	QButtonGroup* interpButtonGroup;
 	interpButtonGroup = new QButtonGroup( this, "interpButtonGroup" );
 	interpButtonGroup->setMinimumSize( 460, 60 );
 	interpButtonGroup->setMaximumSize( 32767, 32767 );
 	interpButtonGroup->setFrameStyle( 49 );
-	interpButtonGroup->setTitle( "Interpolation and Approximation" );
+	interpButtonGroup->setTitle( i18n("Interpolation && Approximation") );
 
 	QLabel* dataSetStartLabel;
 	dataSetStartLabel = new QLabel(dataSetButtonGroup, "dataSetStartLabel" );
 	dataSetStartLabel->setMinimumSize( 40, 20 );
 	dataSetStartLabel->setMaximumSize( 32767, 20 );
-	dataSetStartLabel->setText( "Start:" );
+	dataSetStartLabel->setText( i18n("Start:") );
 	dataSetStartLabel->setAlignment( 289 );
 	dataSetStartLabel->setMargin( -1 );
 
@@ -87,7 +88,7 @@ fileOptionsData::fileOptionsData
 	dataSetEndLabel = new QLabel(dataSetButtonGroup, "dataSetEndLabel" );
 	dataSetEndLabel->setMinimumSize( 40, 20 );
 	dataSetEndLabel->setMaximumSize( 32767, 20 );
-	dataSetEndLabel->setText( "End:" );
+	dataSetEndLabel->setText( i18n("End:") );
 	dataSetEndLabel->setAlignment( 289 );
 	dataSetEndLabel->setMargin( -1 );
 
@@ -103,7 +104,7 @@ fileOptionsData::fileOptionsData
 	dataSetIncLabel = new QLabel(dataSetButtonGroup, "dataSetIncLabel" );
 	dataSetIncLabel->setMinimumSize( 70, 20 );
 	dataSetIncLabel->setMaximumSize( 32767, 20 );
-	dataSetIncLabel->setText( "Increment:" );
+	dataSetIncLabel->setText( i18n("Increment:") );
 	dataSetIncLabel->setAlignment( 289 );
 	dataSetIncLabel->setMargin( -1 );
 
@@ -119,7 +120,7 @@ fileOptionsData::fileOptionsData
 	pointIncLabel = new QLabel(samplingButtonGroup, "pointIncLabel" );
 	pointIncLabel->setMinimumSize( 100, 20 );
 	pointIncLabel->setMaximumSize( 32767, 20 );
-	pointIncLabel->setText( "Point Increment:" );
+	pointIncLabel->setText( i18n("Point increment:") );
 	pointIncLabel->setAlignment( 289 );
 	pointIncLabel->setMargin( -1 );
 
@@ -135,7 +136,7 @@ fileOptionsData::fileOptionsData
 	lineIncLabel = new QLabel(samplingButtonGroup, "lineIncLabel" );
 	lineIncLabel->setMinimumSize( 100, 20 );
 	lineIncLabel->setMaximumSize( 32767, 20 );
-	lineIncLabel->setText( "Line Increment:" );
+	lineIncLabel->setText( i18n("Line increment:") );
 	lineIncLabel->setAlignment( 289 );
 	lineIncLabel->setMargin( -1 );
 
@@ -151,7 +152,7 @@ fileOptionsData::fileOptionsData
 	startPointLabel = new QLabel(samplingButtonGroup, "startPointLabel" );
 	startPointLabel->setMinimumSize( 70, 20 );
 	startPointLabel->setMaximumSize( 32767, 20 );
-	startPointLabel->setText( "Start point:" );
+	startPointLabel->setText( i18n("Start point:") );
 	startPointLabel->setAlignment( 289 );
 	startPointLabel->setMargin( -1 );
 
@@ -167,7 +168,7 @@ fileOptionsData::fileOptionsData
 	startLineLabel = new QLabel(samplingButtonGroup, "startLineLabel" );
 	startLineLabel->setMinimumSize( 70, 20 );
 	startLineLabel->setMaximumSize( 32767, 20 );
-	startLineLabel->setText( "Start line:" );
+	startLineLabel->setText( i18n("Start line:") );
 	startLineLabel->setAlignment( 289 );
 	startLineLabel->setMargin( -1 );
 
@@ -183,7 +184,7 @@ fileOptionsData::fileOptionsData
 	endPointLabel = new QLabel(samplingButtonGroup, "endPointLabel" );
 	endPointLabel->setMinimumSize( 70, 20 );
 	endPointLabel->setMaximumSize( 32767, 20 );
-	endPointLabel->setText( "End point:" );
+	endPointLabel->setText( i18n("End point:") );
 	endPointLabel->setAlignment( 289 );
 	endPointLabel->setMargin( -1 );
 
@@ -199,7 +200,7 @@ fileOptionsData::fileOptionsData
 	endLineLabel = new QLabel(samplingButtonGroup, "endLineLabel" );
 	endLineLabel->setMinimumSize( 60, 20 );
 	endLineLabel->setMaximumSize( 32767, 20 );
-	endLineLabel->setText( "End line:" );
+	endLineLabel->setText( i18n("End line:") );
 	endLineLabel->setAlignment( 289 );
 	endLineLabel->setMargin( -1 );
 
@@ -215,7 +216,7 @@ fileOptionsData::fileOptionsData
 	xColLabel = new QLabel(colFormatButtonGroup , "xColLabel" );
 	xColLabel->setMinimumSize( 70, 20 );
 	xColLabel->setMaximumSize( 32767, 20 );
-	xColLabel->setText( "X Column:" );
+	xColLabel->setText( i18n("X column:") );
 	xColLabel->setAlignment( 289 );
 	xColLabel->setMargin( -1 );
 
@@ -231,7 +232,7 @@ fileOptionsData::fileOptionsData
 	yColLabel = new QLabel(colFormatButtonGroup, "yColLabel" );
 	yColLabel->setMinimumSize( 70, 20 );
 	yColLabel->setMaximumSize( 32767, 20 );
-	yColLabel->setText( "Y Column:" );
+	yColLabel->setText( i18n("Y column:") );
 	yColLabel->setAlignment( 289 );
 	yColLabel->setMargin( -1 );
 
@@ -247,7 +248,7 @@ fileOptionsData::fileOptionsData
 	zColLabel = new QLabel(colFormatButtonGroup, "zColLabel" );
 	zColLabel->setMinimumSize( 70, 20 );
 	zColLabel->setMaximumSize( 32767, 20 );
-	zColLabel->setText( "Z Column:" );
+	zColLabel->setText( i18n("Z column:") );
 	zColLabel->setAlignment( 289 );
 	zColLabel->setMargin( -1 );
 
@@ -263,7 +264,7 @@ fileOptionsData::fileOptionsData
 	formatLabel = new QLabel(colFormatButtonGroup, "formatLabel" );
 	formatLabel->setMinimumSize( 80, 20 );
 	formatLabel->setMaximumSize( 32767, 20 );
-	formatLabel->setText( "Format:" );
+	formatLabel->setText( i18n("Format:") );
 	formatLabel->setAlignment( 289 );
 	formatLabel->setMargin( -1 );
 
@@ -279,7 +280,7 @@ fileOptionsData::fileOptionsData
 	rawFormatLabel = new QLabel(colFormatButtonGroup, "rawFormatLabel" );
 	rawFormatLabel->setMinimumSize( 80, 20 );
 	rawFormatLabel->setMaximumSize( 32767, 20 );
-	rawFormatLabel->setText( "Raw Format:" );
+	rawFormatLabel->setText( i18n("Raw format:") );
 	rawFormatLabel->setAlignment( 289 );
 	rawFormatLabel->setMargin( -1 );
 
@@ -295,7 +296,7 @@ fileOptionsData::fileOptionsData
 	interpLabel = new QLabel(interpButtonGroup, "interpLabel" );
 	interpLabel->setMinimumSize( 100, 20 );
 	interpLabel->setMaximumSize( 32767, 20 );
-	interpLabel->setText( "Smoothing:" );
+	interpLabel->setText( i18n("Smoothing:") );
 	interpLabel->setAlignment( 289 );
 	interpLabel->setMargin( -1 );
 
@@ -315,7 +316,7 @@ fileOptionsData::fileOptionsData
 	OKPushButton = new QPushButton( this, "OKPushButton" );
 	OKPushButton->setMinimumSize( 100, 26 );
 	connect( OKPushButton, SIGNAL(clicked()), SLOT(setFormat()) );
-	OKPushButton->setText( "OK" );
+	OKPushButton->setText( i18n("&OK") );
 	OKPushButton->setAutoRepeat( FALSE );
 	OKPushButton->setAutoResize( FALSE );
 	OKPushButton->setAutoDefault( TRUE );
@@ -325,7 +326,7 @@ fileOptionsData::fileOptionsData
 	cancelPushButton = new QPushButton( this, "cancelPushButton" );
 	cancelPushButton->setMinimumSize( 100, 26 );
 	connect( cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
-	cancelPushButton->setText( "&Cancel" );
+	cancelPushButton->setText( i18n("&Cancel") );
 	cancelPushButton->setAutoRepeat( FALSE );
 	cancelPushButton->setAutoResize( FALSE );
 

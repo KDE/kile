@@ -84,7 +84,7 @@ setupActions();
 statusBar()->insertFixedItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN );
 statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
 statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
-statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT,10);
+statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
 statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
 topWidgetStack = new QWidgetStack( this );
 topWidgetStack->setFocusPolicy(QWidget::NoFocus);
@@ -126,15 +126,15 @@ connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxIte
 
 
 symbol_present=false;
-ButtonBar->insertTab(UserIcon("math1"),2,"Relation symbols");
+ButtonBar->insertTab(UserIcon("math1"),2,"Relation Symbols");
 connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math2"),3,"Arrow symbols");
+ButtonBar->insertTab(UserIcon("math2"),3,"Arrow Symbols");
 connect(ButtonBar->getTab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math3"),4,"Miscellaneous symbols");
+ButtonBar->insertTab(UserIcon("math3"),4,"Miscellaneous Symbols");
 connect(ButtonBar->getTab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 ButtonBar->insertTab(UserIcon("math4"),5,"Delimiters");
 connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("math5"),6,"Greek letters");
+ButtonBar->insertTab(UserIcon("math5"),6,"Greek Letters");
 connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 ButtonBar->insertTab(UserIcon("metapost"),7,"MetaPost Commands");
 connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
@@ -151,7 +151,7 @@ OutputWidget = new MessageWidget( Outputview );
 OutputWidget->setFocusPolicy(QWidget::ClickFocus);
 OutputWidget->setMinimumHeight(40);
 OutputWidget->setReadOnly(true);
-Outputview->addTab(OutputWidget,UserIcon("viewlog"), i18n("Messages / Log File"));
+Outputview->addTab(OutputWidget,UserIcon("viewlog"), i18n("Messages/Log File"));
 logpresent=false;
 errorlist=new QStrList();
 connect(OutputWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
@@ -203,15 +203,15 @@ void Kile::setupActions()
 
   PrintAction=KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) new KAction(i18n("New"),"filenew", CTRL+Key_N, this, SLOT(fileNew()), actionCollection(),"New" );
-  (void) new KAction(i18n("Open"),"fileopen", CTRL+Key_O, this, SLOT(fileOpen()), actionCollection(),"Open" );
+  (void) new KAction(i18n("Open..."),"fileopen", CTRL+Key_O, this, SLOT(fileOpen()), actionCollection(),"Open" );
   RecentAction=new KSelectAction(i18n("Open Recent"), 0, actionCollection(), "Recent");
   RecentAction->setItems(recentFilesList);
   connect(RecentAction, SIGNAL(activated(const QString &)), SLOT(fileOpenRecent(const QString &)));
   (void) new KAction(i18n("Save"),"filesave", CTRL+Key_S, this, SLOT(fileSave()), actionCollection(),"Save" );
-  (void) new KAction(i18n("Save As"),0, this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
+  (void) new KAction(i18n("Save As..."),0, this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
   (void) new KAction(i18n("Save All"),0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
-  (void) new KAction(i18n("Create Template From Document"),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
-  (void) new KAction(i18n("Print Source"),"fileprint",CTRL+Key_P, this, SLOT(filePrint()), actionCollection(),"PrintSource");
+  (void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
+  (void) new KAction(i18n("Print Source..."),"fileprint",CTRL+Key_P, this, SLOT(filePrint()), actionCollection(),"PrintSource");
   (void) new KAction(i18n("Close"),"fileclose", CTRL+Key_W, this, SLOT(fileClose()), actionCollection(),"Close" );
   (void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
   (void) new KAction(i18n("Exit"),"exit", CTRL+Key_Q, this, SLOT(fileExit()), actionCollection(),"Exit" );
@@ -226,10 +226,10 @@ void Kile::setupActions()
   (void) new KAction(i18n("Comment Selection"),0, this, SLOT(editComment()), actionCollection(),"Comment" );
   (void) new KAction(i18n("Uncomment Selection"),0, this, SLOT(editUncomment()), actionCollection(),"Uncomment" );
   (void) new KAction(i18n("Indent Selection"),0, this, SLOT(editIndent()), actionCollection(),"Indent" );
-  (void) new KAction(i18n("Find"),"find",CTRL+Key_F , this, SLOT(editFind()), actionCollection(),"find" );
+  (void) new KAction(i18n("Find..."),"find",CTRL+Key_F , this, SLOT(editFind()), actionCollection(),"find" );
   (void) new KAction(i18n("Find Next"),"next",CTRL+Key_M , this, SLOT(editFindNext()), actionCollection(),"findnext" );
   (void) new KAction(i18n("Replace"),CTRL+Key_R , this, SLOT(editReplace()), actionCollection(),"Replace" );
-  (void) new KAction(i18n("Goto Line"),"goto",CTRL+Key_G , this, SLOT(editGotoLine()), actionCollection(),"GotoLine" );
+  (void) new KAction(i18n("Goto Line..."),"goto",CTRL+Key_G , this, SLOT(editGotoLine()), actionCollection(),"GotoLine" );
   (void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
 
   (void) new KAction(i18n("Quick Build"),"quick", Key_F1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
@@ -371,8 +371,8 @@ void Kile::setupActions()
 
   (void) new KAction("Article in Journal",0 , this, SLOT(InsertBib1()), actionCollection(),"131" );
   (void) new KAction("Article in Conference Proceedings",0 , this, SLOT(InsertBib2()), actionCollection(),"132" );
-  (void) new KAction("Article in a collection",0 , this, SLOT(InsertBib3()), actionCollection(),"133" );
-  (void) new KAction("Chapter or Pages in a Book",0 , this, SLOT(InsertBib4()), actionCollection(),"134" );
+  (void) new KAction("Article in Collection",0 , this, SLOT(InsertBib3()), actionCollection(),"133" );
+  (void) new KAction("Chapter or Pages in Book",0 , this, SLOT(InsertBib4()), actionCollection(),"134" );
   (void) new KAction("Conference Proceedings",0 , this, SLOT(InsertBib5()), actionCollection(),"135" );
   (void) new KAction("Book",0 , this, SLOT(InsertBib6()), actionCollection(),"136" );
   (void) new KAction("Booklet",0 , this, SLOT(InsertBib7()), actionCollection(),"137" );
@@ -403,14 +403,14 @@ void Kile::setupActions()
   UserToolAction5=new KAction("5: "+UserToolName[4],SHIFT+ALT+Key_F5 , this, SLOT(UserTool5()), actionCollection(),"usertool5" );
   (void) new KAction(i18n("Edit User Commands"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
 
-  
+
   (void) new KAction("Xfig","xfig",0 , this, SLOT(RunXfig()), actionCollection(),"144" );
   (void) new KAction(i18n("Gnuplot Front End"),"xgfe",0 , this, SLOT(RunGfe()), actionCollection(),"145" );
 
-  (void) new KAction(i18n("Configure Kile"),"configure",0 , this, SLOT(GeneralOptions()), actionCollection(),"146" );
-  (void) new KAction(i18n("Configure Shortcuts"),"configure_shortcuts",0 , this, SLOT(ConfigureKeys()), actionCollection(),"147" );
-  (void) new KAction(i18n("Configure Toolbars"),"configure_toolbars",0 , this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
-  ModeAction=new KToggleAction(i18n("Define the current document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
+  ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
+  (void) new KAction(i18n("Configure Kile..."),"configure",0 , this, SLOT(GeneralOptions()), actionCollection(),"146" );
+  (void) new KAction(i18n("Configure Shortcuts..."),"configure_shortcuts",0 , this, SLOT(ConfigureKeys()), actionCollection(),"147" );
+  (void) new KAction(i18n("Configure Toolbars..."),"configure_toolbars",0 , this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
   StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
   MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
 
@@ -422,10 +422,10 @@ void Kile::setupActions()
 
   ShowEditToolbarAction=new KToggleAction(i18n("Show Edit Toolbar"),0 , this, SLOT(ToggleShowEditToolbar()), actionCollection(),"ShowEditToolbar" );
   ShowEditToolbarAction->setChecked(showedittoolbar);
-  
+
   ShowMathToolbarAction=new KToggleAction(i18n("Show Math Toolbar"),0 , this, SLOT(ToggleShowMathToolbar()), actionCollection(),"ShowMathToolbar" );
   ShowMathToolbarAction->setChecked(showmathtoolbar);
-    
+
   if (singlemode) {ModeAction->setChecked(false);}
   else {ModeAction->setChecked(true);}
   if (showstructview) {StructureAction->setChecked(true);}
@@ -625,9 +625,9 @@ void Kile::fileNew()
           edit->editor->append(line);
        }
        f.close();
-       } else { KMessageBox::error(this,"Couldn't find template: " + name,"File not found!"); }
+       } else { KMessageBox::error(this, i18n("Couldn't find template: %1").arg(name),i18n("File Not Found!")); }
     }
-        
+
     UpdateCaption();
     UpdateLineColStatus();
     }
@@ -716,11 +716,11 @@ void Kile::fileSaveAs()
 {
 int query=KMessageBox::Yes;
 if ( !currentEditorView() ) 	return;
-QString fn = KFileDialog::getSaveFileName( QString::null,"*.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files", this,i18n("Save As") );
+QString fn = KFileDialog::getSaveFileName( QString::null,"*.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files", this,i18n("Save As") );
 if ( !fn.isEmpty() )
     {
      QFileInfo fic(fn);
-     if( fic.exists() ) query = KMessageBox::warningYesNoCancel( this,i18n( "A Document with this Name already exists.\nDo you want to overwrite it?" ) );
+     if( fic.exists() ) query = KMessageBox::warningYesNoCancel( this,i18n( "A document with this name already exists.\nDo you want to overwrite it?" ) );
      if (query==KMessageBox::Yes)
          {
          filenames.replace( currentEditorView(), fn );
@@ -750,20 +750,20 @@ UpdateLineColStatus();
 void Kile::createTemplate() {
    if (currentEditorView()){
       if (currentEditorView()->editor->isModified() ) {
-      KMessageBox::information(this,"Please save the file first!");
+      KMessageBox::information(this,i18n("Please save the file first!"));
       return;
       }
    } else {
-      KMessageBox::information(this,"Open/create a document first!");
+      KMessageBox::information(this,i18n("Open/create a document first!"));
       return;
-      
+
    }
-   
+
    QFileInfo fi(getName());
-   ManageTemplatesDialog mtd(fi,"Create template from document");
-   mtd.exec(); 
+   ManageTemplatesDialog mtd(fi,i18n("Create Template From Document"));
+   mtd.exec();
 }
-   
+
 void Kile::filePrint()
 {
 KPrinter printer;
@@ -819,7 +819,7 @@ if ( !currentEditorView() )	return;
 if (currentEditorView()->editor->isModified())
 {
    switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing ?"),"Kile",
+				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
 				     i18n("Save"), i18n("Don't Save") ) )
    {
        case (KMessageBox::Yes):
@@ -857,7 +857,7 @@ while (currentEditorView() && go)
 	if (currentEditorView()->editor->isModified())
       {
    switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing ?"),"Kile",
+				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
 				     i18n("Save"), i18n("Don't Save") ) )
           {
           case (KMessageBox::Yes):
@@ -896,7 +896,7 @@ bool accept=true;
       if (currentEditorView()->editor->isModified())
       {
    switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing ?"),"Kile",
+				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
 				     i18n("Save"), i18n("Don't Save") ) )
       {
        case (KMessageBox::Yes):
@@ -932,7 +932,7 @@ bool accept=true;
       if (currentEditorView()->editor->isModified())
       {
    switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing ?"),"Kile",
+				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
 				     i18n("Save"), i18n("Don't Save") ) )
       {
        case (KMessageBox::Yes):
@@ -1363,14 +1363,14 @@ QString finame;
          OutputWidget->clear();
          Outputview->showPage(OutputWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Quick Build "));
+         OutputWidget->insertLine(i18n("Quick build "));
          OutputWidget->insertLine(i18n("Process launched"));
-         OutputWidget->insertLine(i18n("Compilation ..."));
+         OutputWidget->insertLine(i18n("Compilation..."));
          }
    }
  else
  {
-  KMessageBox::error(this, i18n("TeX file not found !"));
+  KMessageBox::error(this, i18n("TeX file not found!"));
  }
 UpdateLineColStatus();
 }
@@ -1461,7 +1461,7 @@ void Kile::QuickDviToPS()
      }
  else
  {
-  KMessageBox::error(this, i18n("Dvi file not found !"));
+  KMessageBox::error(this, i18n("Dvi file not found!"));
  }
 UpdateLineColStatus();
 }
@@ -1496,7 +1496,7 @@ void Kile::QuickDviPDF()
      }
  else
  {
-  KMessageBox::error(this, i18n("Dvi file not found !"));
+  KMessageBox::error(this, i18n("Dvi file not found!"));
  }
 UpdateLineColStatus();
 }
@@ -1530,7 +1530,7 @@ void Kile::QuickPS2PDF()
      }
  else
  {
-  KMessageBox::error(this, i18n("Dvi file not found !"));
+  KMessageBox::error(this, i18n("Dvi file not found!"));
  }
 UpdateLineColStatus();
 }
@@ -1583,7 +1583,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
 QString Kile::prepareForCompile(const QString & command) {
   QString finame = getName();
   if (finame == "untitled") {
-     if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run ")+command+i18n(" on it. Do you want to save it? Click Yes to save and No to abort."),"File needs to be saved!")
+     if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run ")+command+i18n(" on it. Do you want to save it? Click Yes to save and No to abort."),"File Needs to be Saved!")
          == KMessageBox::No) return QString::null;
   }
 
@@ -1716,18 +1716,18 @@ void Kile::Latex()
      logpresent=false;
      OutputWidget->insertLine(i18n("Process launched"));
   }
-    
+
   UpdateLineColStatus();
 }
 
- 
+
 void Kile::ViewDvi()
 {
   QString finame;
   if ( (finame=prepareForViewing("ViewDvi","dvi")) == QString::null) return;
-  
+
   QFileInfo fic(finame);
-  
+
   if (viewdvi_command=="Embedded viewer")
   {
    ResetPart();
@@ -1774,7 +1774,7 @@ void Kile::KdviForwardSearch()
   OutputWidget->clear();
   Outputview->showPage(OutputWidget);
   logpresent=false;
-  OutputWidget->insertLine("You must be in 'Normal Mode' to use this command.");
+  OutputWidget->insertLine("You must be in 'Normal mode' to use this command.");
   OutputWidget->insertLine("If you do not have a TeX-binary which includes inverse search information natively :");
   OutputWidget->insertLine("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides.");
   OutputWidget->insertLine("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file.");
@@ -1830,7 +1830,7 @@ void Kile::DviToPS()
 {
   QStringList files;
   if ( (files = prepareForConversion("DviPs","dvi", "ps")).size() == 0) return;
-   
+
   QString dviname=files[0];
   QString psname=files[1];
   QFileInfo fic(dviname);
@@ -1849,7 +1849,7 @@ void Kile::DviToPS()
          Outputview->showPage(OutputWidget);
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
-         
+
   }
 
   UpdateLineColStatus();
@@ -1924,7 +1924,7 @@ void Kile::PDFLatex()
      logpresent=false;
      OutputWidget->insertLine(i18n("Process launched"));
   }
-     
+
   UpdateLineColStatus();
 }
 
@@ -1970,8 +1970,8 @@ void Kile::ViewPDF()
          OutputWidget->insertLine(i18n("Process launched"));
          }
     }
-  
- 
+
+
  UpdateLineColStatus();
 }
 
@@ -2024,8 +2024,8 @@ void Kile::MakeBib()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  
- 
+
+
  UpdateLineColStatus();
 }
 
@@ -2076,7 +2076,7 @@ void Kile::MakeIndex()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  
+
   UpdateLineColStatus();
 }
 
@@ -2133,7 +2133,7 @@ void Kile::DVItoPDF()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-  
+
   UpdateLineColStatus();
 }
 
@@ -2173,7 +2173,7 @@ void Kile::MetaPost()
   }
  else
  {
-  KMessageBox::error(this, i18n("MetaPost file not found !"));
+  KMessageBox::error(this, i18n("MetaPost file not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2212,7 +2212,7 @@ void Kile::CleanAll()
    }
    
    int query = KMessageBox::warningContinueCancelList( this,
-            i18n( "Do you really want to delete these files ?" ),
+            i18n( "Do you really want to delete these files?" ),
             prettyList,
             i18n( "Delete Files" ),
             i18n( "Delete" ));
@@ -2232,8 +2232,8 @@ void Kile::CleanAll()
          logpresent=false;
          OutputWidget->insertLine(i18n("Process launched"));
          }
-   }       
-   
+   }
+
    UpdateLineColStatus();
 }
 
@@ -2279,7 +2279,7 @@ void Kile::LatexToHtml()
   QFileInfo fic(name);
 	if (fic.exists() && fic.isReadable() )
   {
-    l2hDlg = new l2hdialog(this,i18n("LaTex2Html options"));
+    l2hDlg = new l2hdialog(this,i18n("LaTex2Html Options"));
     l2hDlg->options_edit->setText(l2h_options);
     if ( l2hDlg->exec() )
     {
@@ -2301,7 +2301,7 @@ void Kile::LatexToHtml()
    }
  else
  {
-  KMessageBox::error(this, i18n("TeX file not found !"));
+  KMessageBox::error(this, i18n("TeX file not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2387,7 +2387,7 @@ if (fih.exists() && fih.isReadable() )
   }
 else
   {
-   KMessageBox::error(this, i18n("Html file not found !"));
+   KMessageBox::error(this, i18n("Html file not found!"));
   }
 }
 
@@ -2427,7 +2427,7 @@ void Kile::UserTool1()
   }
  else
  {
-  KMessageBox::error(this, i18n("file not found !"));
+  KMessageBox::error(this, i18n("File not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2468,7 +2468,7 @@ void Kile::UserTool2()
   }
  else
  {
-  KMessageBox::error(this, i18n("file not found !"));
+  KMessageBox::error(this, i18n("File not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2509,7 +2509,7 @@ void Kile::UserTool3()
   }
  else
  {
-  KMessageBox::error(this, i18n("file not found !"));
+  KMessageBox::error(this, i18n("File not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2550,7 +2550,7 @@ void Kile::UserTool4()
   }
  else
  {
-  KMessageBox::error(this, i18n("file not found !"));
+  KMessageBox::error(this, i18n("File not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2591,7 +2591,7 @@ void Kile::UserTool5()
   }
  else
  {
-  KMessageBox::error(this, i18n("file not found !"));
+  KMessageBox::error(this, i18n("File not found!"));
  }
 UpdateLineColStatus();
 }
@@ -2904,7 +2904,7 @@ if (fic.exists() && fic.isReadable() )
     OutputWidget->highlight();
     LatexError();
   }
-else {KMessageBox::error( this,i18n("Log File not found !"));}
+else {KMessageBox::error( this,i18n("Log file not found!"));}
 UpdateLineColStatus();
 }
 
@@ -3037,7 +3037,7 @@ if (logpresent && !errorlist->isEmpty())
   }
 if (logpresent && errorlist->isEmpty())
   {
-OutputWidget->insertLine(i18n("No LaTeX errors detected !"));
+OutputWidget->insertLine(i18n("No LaTeX errors detected!"));
   }
 }
 
@@ -3068,7 +3068,7 @@ if (logpresent && !errorlist->isEmpty())
 
 if (logpresent && errorlist->isEmpty())
   {
-OutputWidget->insertLine(i18n("No LaTeX errors detected !"));
+OutputWidget->insertLine(i18n("No LaTeX errors detected!"));
   }
 }
 /////////////////////// LATEX TAGS ///////////////////
@@ -3782,8 +3782,8 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select an image File"));
-sfDlg->setFilter("*.eps *.pdf *.png|Graphic files\n*|All files");
+sfDlg = new FileChooser(this,i18n("Select Image File"));
+sfDlg->setFilter("*.eps *.pdf *.png|Graphic Files\n*|All Files");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
   {
@@ -3812,8 +3812,8 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select a File"));
-sfDlg->setFilter("*.tex|TeX files\n*|All files");
+sfDlg = new FileChooser(this,i18n("Select File"));
+sfDlg->setFilter("*.tex|TeX Files\n*|All Files");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
   {
@@ -3836,8 +3836,8 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.dirPath();
-sfDlg = new FileChooser(this,i18n("Select a File"));
-sfDlg->setFilter("*.tex|TeX files\n*|All files");
+sfDlg = new FileChooser(this,i18n("Select File"));
+sfDlg->setFilter("*.tex|TeX Files\n*|All Files");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
   {
@@ -5290,7 +5290,7 @@ if (!singlemode)
      {
      ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
      ModeAction->setChecked(false);
-     statusBar()->changeItem(i18n("Normal Mode"), ID_HINTTEXT);
+     statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
      OutputWidget->clear();
      Outputview->showPage(OutputWidget);
      logpresent=false;
@@ -5309,9 +5309,9 @@ if (singlemode && currentEditorView())  {
       int pos;
       while ( (pos = (int)shortName.find('/')) != -1 )
       shortName.remove(0,pos+1);
-      ModeAction->setText(i18n("Normal Mode (current master document :")+shortName+")");
+      ModeAction->setText(i18n("Normal mode (current master document:")+shortName+")");
       ModeAction->setChecked(true);
-      statusBar()->changeItem(i18n("Master Document : ")+shortName, ID_HINTTEXT);
+      statusBar()->changeItem(i18n("Master document: ")+shortName, ID_HINTTEXT);
       singlemode=false;
       return;
       }

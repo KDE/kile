@@ -29,6 +29,7 @@
 #include <qbttngrp.h>
 #include <qradiobt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 ticsOpData::ticsOpData
 (
@@ -48,13 +49,13 @@ ticsOpData::ticsOpData
   xticsActiveButtonGroup->setMinimumSize( 500, 60 );
   xticsActiveButtonGroup->setMaximumSize( 32767, 32767 );
   xticsActiveButtonGroup->setFrameStyle( 49 );
-  xticsActiveButtonGroup->setTitle( "X Tics Activation" );
+  xticsActiveButtonGroup->setTitle( i18n("X Tics Activation") );
   xticsActiveButtonGroup->setExclusive( TRUE );
 
   xticsOnRButton = new QRadioButton( xticsActiveButtonGroup, "xticsOnRadioButton" );
   xticsOnRButton->setMinimumSize( 90, 20 );
   xticsOnRButton->setMaximumSize( 32767, 20 );
-  xticsOnRButton->setText( "X Tics ON" );
+  xticsOnRButton->setText( i18n("X Tics on") );
   xticsOnRButton->setAutoRepeat( FALSE );
   //xticsOnRButton->setAutoResize( FALSE );
   xticsOnRButton->setChecked( TRUE );
@@ -62,7 +63,7 @@ ticsOpData::ticsOpData
   xticsOffRButton = new QRadioButton( xticsActiveButtonGroup, "xticsOffRadioButton" );
   xticsOffRButton->setMinimumSize( 100, 20 );
   xticsOffRButton->setMaximumSize( 32767, 20 );
-  xticsOffRButton->setText( "X Tics OFF" );
+  xticsOffRButton->setText( i18n("X Tics off") );
   xticsOffRButton->setAutoRepeat( FALSE );
   //xticsOffRButton->setAutoResize( FALSE );
 
@@ -70,7 +71,7 @@ ticsOpData::ticsOpData
   xticsLocationLabel = new QLabel( xticsTab, "xticsLocationLabel" );
   xticsLocationLabel->setMinimumSize( 60, 20 );
   xticsLocationLabel->setMaximumSize( 32767, 20 );
-  xticsLocationLabel->setText( "Location:" );
+  xticsLocationLabel->setText( i18n("Location:") );
   xticsLocationLabel->setAlignment( 289 );
   xticsLocationLabel->setMargin( -1 );
 
@@ -86,7 +87,7 @@ ticsOpData::ticsOpData
   xticsMirrorLabel = new QLabel( xticsTab, "xticsMirrorLabel" );
   xticsMirrorLabel->setMinimumSize( 60, 20 );
   xticsMirrorLabel->setMaximumSize( 32767, 20 );
-  xticsMirrorLabel->setText( "Mirroring:" );
+  xticsMirrorLabel->setText( i18n("Mirroring:") );
   xticsMirrorLabel->setAlignment( 289 );
   xticsMirrorLabel->setMargin( -1 );
 
@@ -102,7 +103,7 @@ ticsOpData::ticsOpData
   xticsRotationLabel = new QLabel( xticsTab, "xticsRotationLabel" );
   xticsRotationLabel->setMinimumSize( 60, 20 );
   xticsRotationLabel->setMaximumSize( 32767, 20 );
-  xticsRotationLabel->setText( "Rotation:" );
+  xticsRotationLabel->setText( i18n("Rotation:") );
   xticsRotationLabel->setAlignment( 289 );
   xticsRotationLabel->setMargin( -1 );
 
@@ -119,13 +120,13 @@ ticsOpData::ticsOpData
   xticsPosButtonGroup->setMinimumSize( 500, 110 );
   xticsPosButtonGroup->setMaximumSize( 32767, 32767 );
   xticsPosButtonGroup->setFrameStyle( 49 );
-  xticsPosButtonGroup->setTitle( "X Tics Position" );
+  xticsPosButtonGroup->setTitle( i18n("X Tics Position") );
   xticsPosButtonGroup->setExclusive( TRUE );
 
   xticsSIERadioButton = new QRadioButton(xticsPosButtonGroup , "xticsSIERadioButton" );
   xticsSIERadioButton->setMinimumSize( 150, 20 );
   xticsSIERadioButton->setMaximumSize( 32767, 20 );
-  xticsSIERadioButton->setText( "Start/Inc/End" );
+  xticsSIERadioButton->setText( i18n("Start/Inc/End") );
   xticsSIERadioButton->setAutoRepeat( FALSE );
   //xticsSIERadioButton->setAutoResize( FALSE );
   xticsSIERadioButton->setChecked( TRUE );
@@ -134,7 +135,7 @@ ticsOpData::ticsOpData
   xticsStartPosLabel = new QLabel( xticsPosButtonGroup, "xticsStartPosLabel" );
   xticsStartPosLabel->setMinimumSize( 40, 20 );
   xticsStartPosLabel->setMaximumSize( 32767, 20 );
-  xticsStartPosLabel->setText( "Start:" );
+  xticsStartPosLabel->setText( i18n("Start:") );
   xticsStartPosLabel->setAlignment( 289 );
   xticsStartPosLabel->setMargin( -1 );
 
@@ -150,7 +151,7 @@ ticsOpData::ticsOpData
   xticsIncPosLabel = new QLabel( xticsPosButtonGroup, "xticsIncPosLabel" );
   xticsIncPosLabel->setMinimumSize( 65, 20 );
   xticsIncPosLabel->setMaximumSize( 32767, 20 );
-  xticsIncPosLabel->setText( "Increment:" );
+  xticsIncPosLabel->setText( i18n("Increment:") );
   xticsIncPosLabel->setAlignment( 289 );
   xticsIncPosLabel->setMargin( -1 );
 
@@ -166,7 +167,7 @@ ticsOpData::ticsOpData
   xticsEndPosLabel = new QLabel( xticsPosButtonGroup, "xticsEndPosLabel" );
   xticsEndPosLabel->setMinimumSize( 35, 20 );
   xticsEndPosLabel->setMaximumSize( 32767, 20 );
-  xticsEndPosLabel->setText( "End:" );
+  xticsEndPosLabel->setText( i18n("End:") );
   xticsEndPosLabel->setAlignment( 289 );
   xticsEndPosLabel->setMargin( -1 );
 
@@ -181,7 +182,7 @@ ticsOpData::ticsOpData
   xticsLabelPosRButton = new QRadioButton( xticsPosButtonGroup, "xticsLabelPosRadioButton" );
   xticsLabelPosRButton->setMinimumSize( 150, 20 );
   xticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  xticsLabelPosRButton->setText( "Labels/Positions" );
+  xticsLabelPosRButton->setText( i18n("Labels/Positions") );
   xticsLabelPosRButton->setAutoRepeat( FALSE );
   //xticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -248,7 +249,7 @@ ticsOpData::ticsOpData
   xticsMainColLayout->activate();
 
   // insert tab
-  addTab(xticsTab, "&X Tics");
+  addTab(xticsTab, i18n("&X Tics"));
 
   // --------------------- setup page two of dialog; ytics ----------------
 
@@ -259,13 +260,13 @@ ticsOpData::ticsOpData
   yticsActiveButtonGroup->setMinimumSize( 500, 60 );
   yticsActiveButtonGroup->setMaximumSize( 32767, 32767 );
   yticsActiveButtonGroup->setFrameStyle( 49 );
-  yticsActiveButtonGroup->setTitle( "Y Tics Activation" );
+  yticsActiveButtonGroup->setTitle( i18n("Y Tics Activation") );
   yticsActiveButtonGroup->setExclusive( TRUE );
 
   yticsOnRButton = new QRadioButton( yticsActiveButtonGroup, "yticsOnRadioButton" );
   yticsOnRButton->setMinimumSize( 90, 20 );
   yticsOnRButton->setMaximumSize( 32767, 20 );
-  yticsOnRButton->setText( "Y Tics ON" );
+  yticsOnRButton->setText( i18n("Y Tics on") );
   yticsOnRButton->setAutoRepeat( FALSE );
   //yticsOnRButton->setAutoResize( FALSE );
   yticsOnRButton->setChecked( TRUE );
@@ -273,7 +274,7 @@ ticsOpData::ticsOpData
   yticsOffRButton = new QRadioButton( yticsActiveButtonGroup, "yticsOffRadioButton" );
   yticsOffRButton->setMinimumSize( 100, 20 );
   yticsOffRButton->setMaximumSize( 32767, 20 );
-  yticsOffRButton->setText( "Y Tics OFF" );
+  yticsOffRButton->setText( i18n("Y Tics off") );
   yticsOffRButton->setAutoRepeat( FALSE );
   //yticsOffRButton->setAutoResize( FALSE );
 
@@ -281,7 +282,7 @@ ticsOpData::ticsOpData
   yticsLocationLabel = new QLabel( yticsTab, "yticsLocationLabel" );
   yticsLocationLabel->setMinimumSize( 60, 20 );
   yticsLocationLabel->setMaximumSize( 32767, 20 );
-  yticsLocationLabel->setText( "Location:" );
+  yticsLocationLabel->setText( i18n("Location:") );
   yticsLocationLabel->setAlignment( 289 );
   yticsLocationLabel->setMargin( -1 );
 
@@ -297,7 +298,7 @@ ticsOpData::ticsOpData
   yticsMirrorLabel = new QLabel( yticsTab, "yticsMirrorLabel" );
   yticsMirrorLabel->setMinimumSize( 60, 20 );
   yticsMirrorLabel->setMaximumSize( 32767, 20 );
-  yticsMirrorLabel->setText( "Mirroring:" );
+  yticsMirrorLabel->setText( i18n("Mirroring:") );
   yticsMirrorLabel->setAlignment( 289 );
   yticsMirrorLabel->setMargin( -1 );
 
@@ -313,7 +314,7 @@ ticsOpData::ticsOpData
   yticsRotationLabel = new QLabel( yticsTab, "yticsRotationLabel" );
   yticsRotationLabel->setMinimumSize( 60, 20 );
   yticsRotationLabel->setMaximumSize( 32767, 20 );
-  yticsRotationLabel->setText( "Rotation:" );
+  yticsRotationLabel->setText( i18n("Rotation:") );
   yticsRotationLabel->setAlignment( 289 );
   yticsRotationLabel->setMargin( -1 );
 
@@ -330,13 +331,13 @@ ticsOpData::ticsOpData
   yticsPosButtonGroup->setMinimumSize( 500, 110 );
   yticsPosButtonGroup->setMaximumSize( 32767, 32767 );
   yticsPosButtonGroup->setFrameStyle( 49 );
-  yticsPosButtonGroup->setTitle( "Y Tics Position" );
+  yticsPosButtonGroup->setTitle( i18n("Y Tics Position") );
   yticsPosButtonGroup->setExclusive( TRUE );
 
   yticsSIERadioButton = new QRadioButton(yticsPosButtonGroup , "yticsSIERadioButton" );
   yticsSIERadioButton->setMinimumSize( 150, 20 );
   yticsSIERadioButton->setMaximumSize( 32767, 20 );
-  yticsSIERadioButton->setText( "Start/Inc/End" );
+  yticsSIERadioButton->setText( i18n("Start/Inc/End") );
   yticsSIERadioButton->setAutoRepeat( FALSE );
   //yticsSIERadioButton->setAutoResize( FALSE );
   yticsSIERadioButton->setChecked( TRUE );
@@ -345,7 +346,7 @@ ticsOpData::ticsOpData
   yticsStartPosLabel = new QLabel( yticsPosButtonGroup, "yticsStartPosLabel" );
   yticsStartPosLabel->setMinimumSize( 40, 20 );
   yticsStartPosLabel->setMaximumSize( 32767, 20 );
-  yticsStartPosLabel->setText( "Start:" );
+  yticsStartPosLabel->setText( i18n("Start:") );
   yticsStartPosLabel->setAlignment( 289 );
   yticsStartPosLabel->setMargin( -1 );
 
@@ -361,7 +362,7 @@ ticsOpData::ticsOpData
   yticsIncPosLabel = new QLabel( yticsPosButtonGroup, "yticsIncPosLabel" );
   yticsIncPosLabel->setMinimumSize( 65, 20 );
   yticsIncPosLabel->setMaximumSize( 32767, 20 );
-  yticsIncPosLabel->setText( "Increment:" );
+  yticsIncPosLabel->setText( i18n("Increment:") );
   yticsIncPosLabel->setAlignment( 289 );
   yticsIncPosLabel->setMargin( -1 );
 
@@ -377,7 +378,7 @@ ticsOpData::ticsOpData
   yticsEndPosLabel = new QLabel( yticsPosButtonGroup, "yticsEndPosLabel" );
   yticsEndPosLabel->setMinimumSize( 35, 20 );
   yticsEndPosLabel->setMaximumSize( 32767, 20 );
-  yticsEndPosLabel->setText( "End:" );
+  yticsEndPosLabel->setText( i18n("End:") );
   yticsEndPosLabel->setAlignment( 289 );
   yticsEndPosLabel->setMargin( -1 );
 
@@ -392,7 +393,7 @@ ticsOpData::ticsOpData
   yticsLabelPosRButton = new QRadioButton( yticsPosButtonGroup, "yticsLabelPosRadioButton" );
   yticsLabelPosRButton->setMinimumSize( 150, 20 );
   yticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  yticsLabelPosRButton->setText( "Labels/Positions" );
+  yticsLabelPosRButton->setText( i18n("Labels/Positions") );
   yticsLabelPosRButton->setAutoRepeat( FALSE );
   //yticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -459,7 +460,7 @@ ticsOpData::ticsOpData
   yticsMainColLayout->activate();
 
   // insert tab
-  addTab(yticsTab, "&Y Tics");
+  addTab(yticsTab, i18n("&Y Tics") );
 
   // ------------------- page three of tab dialog: z tics -----------------
 
@@ -470,13 +471,13 @@ ticsOpData::ticsOpData
   zticsActiveButtonGroup->setMinimumSize( 500, 60 );
   zticsActiveButtonGroup->setMaximumSize( 32767, 32767 );
   zticsActiveButtonGroup->setFrameStyle( 49 );
-  zticsActiveButtonGroup->setTitle( "Z Tics Activation" );
+  zticsActiveButtonGroup->setTitle( i18n("Z Tics Activation") );
   zticsActiveButtonGroup->setExclusive( TRUE );
 
   zticsOnRButton = new QRadioButton( zticsActiveButtonGroup, "zticsOnRadioButton" );
   zticsOnRButton->setMinimumSize( 90, 20 );
   zticsOnRButton->setMaximumSize( 32767, 20 );
-  zticsOnRButton->setText( "Z Tics ON" );
+  zticsOnRButton->setText( i18n("Z Tics on") );
   zticsOnRButton->setAutoRepeat( FALSE );
   //zticsOnRButton->setAutoResize( FALSE );
   zticsOnRButton->setChecked( TRUE );
@@ -484,7 +485,7 @@ ticsOpData::ticsOpData
   zticsOffRButton = new QRadioButton( zticsActiveButtonGroup, "zticsOffRadioButton" );
   zticsOffRButton->setMinimumSize( 100, 20 );
   zticsOffRButton->setMaximumSize( 32767, 20 );
-  zticsOffRButton->setText( "Z Tics OFF" );
+  zticsOffRButton->setText( i18n("Z Tics off") );
   zticsOffRButton->setAutoRepeat( FALSE );
   //zticsOffRButton->setAutoResize( FALSE );
 
@@ -508,7 +509,7 @@ ticsOpData::ticsOpData
   zticsMirrorLabel = new QLabel( zticsTab, "zticsMirrorLabel" );
   zticsMirrorLabel->setMinimumSize( 60, 20 );
   zticsMirrorLabel->setMaximumSize( 32767, 20 );
-  zticsMirrorLabel->setText( "Mirroring:" );
+  zticsMirrorLabel->setText( i18n("Mirroring:") );
   zticsMirrorLabel->setAlignment( 289 );
   zticsMirrorLabel->setMargin( -1 );
 
@@ -524,7 +525,7 @@ ticsOpData::ticsOpData
   zticsRotationLabel = new QLabel( zticsTab, "zticsRotationLabel" );
   zticsRotationLabel->setMinimumSize( 60, 20 );
   zticsRotationLabel->setMaximumSize( 32767, 20 );
-  zticsRotationLabel->setText( "Rotation:" );
+  zticsRotationLabel->setText( i18n("Rotation:") );
   zticsRotationLabel->setAlignment( 289 );
   zticsRotationLabel->setMargin( -1 );
 
@@ -541,13 +542,13 @@ ticsOpData::ticsOpData
   zticsPosButtonGroup->setMinimumSize( 500, 110 );
   zticsPosButtonGroup->setMaximumSize( 32767, 32767 );
   zticsPosButtonGroup->setFrameStyle( 49 );
-  zticsPosButtonGroup->setTitle( "Z Tics Position" );
+  zticsPosButtonGroup->setTitle( i18n("Z Tics Position") );
   zticsPosButtonGroup->setExclusive( TRUE );
 
   zticsSIERadioButton = new QRadioButton(zticsPosButtonGroup , "zticsSIERadioButton" );
   zticsSIERadioButton->setMinimumSize( 150, 20 );
   zticsSIERadioButton->setMaximumSize( 32767, 20 );
-  zticsSIERadioButton->setText( "Start/Inc/End" );
+  zticsSIERadioButton->setText( i18n("Start/Inc/End") );
   zticsSIERadioButton->setAutoRepeat( FALSE );
   //zticsSIERadioButton->setAutoResize( FALSE );
   zticsSIERadioButton->setChecked( TRUE );
@@ -556,7 +557,7 @@ ticsOpData::ticsOpData
   zticsStartPosLabel = new QLabel( zticsPosButtonGroup, "zticsStartPosLabel" );
   zticsStartPosLabel->setMinimumSize( 40, 20 );
   zticsStartPosLabel->setMaximumSize( 32767, 20 );
-  zticsStartPosLabel->setText( "Start:" );
+  zticsStartPosLabel->setText( i18n("Start:") );
   zticsStartPosLabel->setAlignment( 289 );
   zticsStartPosLabel->setMargin( -1 );
 
@@ -572,7 +573,7 @@ ticsOpData::ticsOpData
   zticsIncPosLabel = new QLabel( zticsPosButtonGroup, "zticsIncPosLabel" );
   zticsIncPosLabel->setMinimumSize( 65, 20 );
   zticsIncPosLabel->setMaximumSize( 32767, 20 );
-  zticsIncPosLabel->setText( "Increment:" );
+  zticsIncPosLabel->setText( i18n("Increment:") );
   zticsIncPosLabel->setAlignment( 289 );
   zticsIncPosLabel->setMargin( -1 );
 
@@ -588,7 +589,7 @@ ticsOpData::ticsOpData
   zticsEndPosLabel = new QLabel( zticsPosButtonGroup, "zticsEndPosLabel" );
   zticsEndPosLabel->setMinimumSize( 35, 20 );
   zticsEndPosLabel->setMaximumSize( 32767, 20 );
-  zticsEndPosLabel->setText( "End:" );
+  zticsEndPosLabel->setText( i18n("End:") );
   zticsEndPosLabel->setAlignment( 289 );
   zticsEndPosLabel->setMargin( -1 );
 
@@ -603,7 +604,7 @@ ticsOpData::ticsOpData
   zticsLabelPosRButton = new QRadioButton( zticsPosButtonGroup, "zticsLabelPosRadioButton" );
   zticsLabelPosRButton->setMinimumSize( 150, 20 );
   zticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  zticsLabelPosRButton->setText( "Labels/Positions" );
+  zticsLabelPosRButton->setText( i18n("Labels/Positions") );
   zticsLabelPosRButton->setAutoRepeat( FALSE );
   //zticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -671,7 +672,7 @@ ticsOpData::ticsOpData
   zticsMainColLayout->activate();
 
   // insert tab
-  addTab(zticsTab, "&Z Tics");
+  addTab(zticsTab, i18n("&Z Tics") );
 
   // ------------------- page four of tab dialog: x2 tics -----------------
 
@@ -682,13 +683,13 @@ ticsOpData::ticsOpData
   x2ticsActiveButtonGroup->setMinimumSize( 500, 60 );
   x2ticsActiveButtonGroup->setMaximumSize( 32767, 32767 );
   x2ticsActiveButtonGroup->setFrameStyle( 49 );
-  x2ticsActiveButtonGroup->setTitle( "X2 Tics Activation" );
+  x2ticsActiveButtonGroup->setTitle( i18n("X2 Tics Activation") );
   x2ticsActiveButtonGroup->setExclusive( TRUE );
 
   x2ticsOnRButton = new QRadioButton( x2ticsActiveButtonGroup, "x2ticsOnRadioButton" );
   x2ticsOnRButton->setMinimumSize( 90, 20 );
   x2ticsOnRButton->setMaximumSize( 32767, 20 );
-  x2ticsOnRButton->setText( "X2 Tics ON" );
+  x2ticsOnRButton->setText( i18n("X2 Tics on") );
   x2ticsOnRButton->setAutoRepeat( FALSE );
   //x2ticsOnRButton->setAutoResize( FALSE );
   x2ticsOnRButton->setChecked( TRUE );
@@ -696,7 +697,7 @@ ticsOpData::ticsOpData
   x2ticsOffRButton = new QRadioButton( x2ticsActiveButtonGroup, "x2ticsOffRadioButton" );
   x2ticsOffRButton->setMinimumSize( 100, 20 );
   x2ticsOffRButton->setMaximumSize( 32767, 20 );
-  x2ticsOffRButton->setText( "X2 Tics OFF" );
+  x2ticsOffRButton->setText( i18n("X2 Tics off") );
   x2ticsOffRButton->setAutoRepeat( FALSE );
   //x2ticsOffRButton->setAutoResize( FALSE );
 
@@ -704,7 +705,7 @@ ticsOpData::ticsOpData
   x2ticsLocationLabel = new QLabel( x2ticsTab, "x2ticsLocationLabel" );
   x2ticsLocationLabel->setMinimumSize( 60, 20 );
   x2ticsLocationLabel->setMaximumSize( 32767, 20 );
-  x2ticsLocationLabel->setText( "Location:" );
+  x2ticsLocationLabel->setText( i18n("Location:") );
   x2ticsLocationLabel->setAlignment( 289 );
   x2ticsLocationLabel->setMargin( -1 );
 
@@ -720,7 +721,7 @@ ticsOpData::ticsOpData
   x2ticsMirrorLabel = new QLabel( x2ticsTab, "x2ticsMirrorLabel" );
   x2ticsMirrorLabel->setMinimumSize( 60, 20 );
   x2ticsMirrorLabel->setMaximumSize( 32767, 20 );
-  x2ticsMirrorLabel->setText( "Mirroring:" );
+  x2ticsMirrorLabel->setText( i18n("Mirroring:") );
   x2ticsMirrorLabel->setAlignment( 289 );
   x2ticsMirrorLabel->setMargin( -1 );
 
@@ -736,7 +737,7 @@ ticsOpData::ticsOpData
   x2ticsRotationLabel = new QLabel( x2ticsTab, "x2ticsRotationLabel" );
   x2ticsRotationLabel->setMinimumSize( 60, 20 );
   x2ticsRotationLabel->setMaximumSize( 32767, 20 );
-  x2ticsRotationLabel->setText( "Rotation:" );
+  x2ticsRotationLabel->setText( i18n("Rotation:") );
   x2ticsRotationLabel->setAlignment( 289 );
   x2ticsRotationLabel->setMargin( -1 );
 
@@ -753,13 +754,13 @@ ticsOpData::ticsOpData
   x2ticsPosButtonGroup->setMinimumSize( 500, 110 );
   x2ticsPosButtonGroup->setMaximumSize( 32767, 32767 );
   x2ticsPosButtonGroup->setFrameStyle( 49 );
-  x2ticsPosButtonGroup->setTitle( "X2 Tics Position" );
+  x2ticsPosButtonGroup->setTitle( i18n("X2 Tics Position") );
   x2ticsPosButtonGroup->setExclusive( TRUE );
 
   x2ticsSIERadioButton = new QRadioButton(x2ticsPosButtonGroup , "x2ticsSIERadioButton" );
   x2ticsSIERadioButton->setMinimumSize( 150, 20 );
   x2ticsSIERadioButton->setMaximumSize( 32767, 20 );
-  x2ticsSIERadioButton->setText( "Start/Inc/End" );
+  x2ticsSIERadioButton->setText( i18n("Start/Inc/End") );
   x2ticsSIERadioButton->setAutoRepeat( FALSE );
   //x2ticsSIERadioButton->setAutoResize( FALSE );
   x2ticsSIERadioButton->setChecked( TRUE );
@@ -768,7 +769,7 @@ ticsOpData::ticsOpData
   x2ticsStartPosLabel = new QLabel( x2ticsPosButtonGroup, "x2ticsStartPosLabel" );
   x2ticsStartPosLabel->setMinimumSize( 40, 20 );
   x2ticsStartPosLabel->setMaximumSize( 32767, 20 );
-  x2ticsStartPosLabel->setText( "Start:" );
+  x2ticsStartPosLabel->setText( i18n("Start:") );
   x2ticsStartPosLabel->setAlignment( 289 );
   x2ticsStartPosLabel->setMargin( -1 );
 
@@ -784,7 +785,7 @@ ticsOpData::ticsOpData
   x2ticsIncPosLabel = new QLabel( x2ticsPosButtonGroup, "x2ticsIncPosLabel" );
   x2ticsIncPosLabel->setMinimumSize( 65, 20 );
   x2ticsIncPosLabel->setMaximumSize( 32767, 20 );
-  x2ticsIncPosLabel->setText( "Increment:" );
+  x2ticsIncPosLabel->setText( i18n("Increment:") );
   x2ticsIncPosLabel->setAlignment( 289 );
   x2ticsIncPosLabel->setMargin( -1 );
 
@@ -800,7 +801,7 @@ ticsOpData::ticsOpData
   x2ticsEndPosLabel = new QLabel( x2ticsPosButtonGroup, "x2ticsEndPosLabel" );
   x2ticsEndPosLabel->setMinimumSize( 35, 20 );
   x2ticsEndPosLabel->setMaximumSize( 32767, 20 );
-  x2ticsEndPosLabel->setText( "End:" );
+  x2ticsEndPosLabel->setText( i18n("End:") );
   x2ticsEndPosLabel->setAlignment( 289 );
   x2ticsEndPosLabel->setMargin( -1 );
 
@@ -815,7 +816,7 @@ ticsOpData::ticsOpData
   x2ticsLabelPosRButton = new QRadioButton( x2ticsPosButtonGroup, "x2ticsLabelPosRadioButton" );
   x2ticsLabelPosRButton->setMinimumSize( 150, 20 );
   x2ticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  x2ticsLabelPosRButton->setText( "Labels/Positions" );
+  x2ticsLabelPosRButton->setText( i18n("Labels/Positions") );
   x2ticsLabelPosRButton->setAutoRepeat( FALSE );
   //x2ticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -882,7 +883,7 @@ ticsOpData::ticsOpData
   x2ticsMainColLayout->activate();
 
   // insert tab
-  addTab(x2ticsTab, "X2 &Tics");
+  addTab(x2ticsTab, i18n("X2 &Tics") );
 
   // ------------------- page five of tab dialog: y2tics  -----------------
 
@@ -893,13 +894,13 @@ ticsOpData::ticsOpData
   y2ticsActiveButtonGroup->setMinimumSize( 500, 60 );
   y2ticsActiveButtonGroup->setMaximumSize( 32767, 32767 );
   y2ticsActiveButtonGroup->setFrameStyle( 49 );
-  y2ticsActiveButtonGroup->setTitle( "Y2 Tics Activation" );
+  y2ticsActiveButtonGroup->setTitle( i18n("Y2 Tics Activation") );
   y2ticsActiveButtonGroup->setExclusive( TRUE );
 
   y2ticsOnRButton = new QRadioButton( y2ticsActiveButtonGroup, "y2ticsOnRadioButton" );
   y2ticsOnRButton->setMinimumSize( 90, 20 );
   y2ticsOnRButton->setMaximumSize( 32767, 20 );
-  y2ticsOnRButton->setText( "Y2 Tics ON" );
+  y2ticsOnRButton->setText( i18n("Y2 Tics on") );
   y2ticsOnRButton->setAutoRepeat( FALSE );
   //y2ticsOnRButton->setAutoResize( FALSE );
   y2ticsOnRButton->setChecked( TRUE );
@@ -907,7 +908,7 @@ ticsOpData::ticsOpData
   y2ticsOffRButton = new QRadioButton( y2ticsActiveButtonGroup, "y2ticsOffRadioButton" );
   y2ticsOffRButton->setMinimumSize( 100, 20 );
   y2ticsOffRButton->setMaximumSize( 32767, 20 );
-  y2ticsOffRButton->setText( "Y2 Tics OFF" );
+  y2ticsOffRButton->setText( i18n("Y2 Tics off") );
   y2ticsOffRButton->setAutoRepeat( FALSE );
   //y2ticsOffRButton->setAutoResize( FALSE );
 
@@ -915,7 +916,7 @@ ticsOpData::ticsOpData
   y2ticsLocationLabel = new QLabel( y2ticsTab, "y2ticsLocationLabel" );
   y2ticsLocationLabel->setMinimumSize( 60, 20 );
   y2ticsLocationLabel->setMaximumSize( 32767, 20 );
-  y2ticsLocationLabel->setText( "Location:" );
+  y2ticsLocationLabel->setText( i18n("Location:") );
   y2ticsLocationLabel->setAlignment( 289 );
   y2ticsLocationLabel->setMargin( -1 );
 
@@ -931,7 +932,7 @@ ticsOpData::ticsOpData
   y2ticsMirrorLabel = new QLabel( y2ticsTab, "y2ticsMirrorLabel" );
   y2ticsMirrorLabel->setMinimumSize( 60, 20 );
   y2ticsMirrorLabel->setMaximumSize( 32767, 20 );
-  y2ticsMirrorLabel->setText( "Mirroring:" );
+  y2ticsMirrorLabel->setText( i18n("Mirroring:") );
   y2ticsMirrorLabel->setAlignment( 289 );
   y2ticsMirrorLabel->setMargin( -1 );
 
@@ -947,7 +948,7 @@ ticsOpData::ticsOpData
   y2ticsRotationLabel = new QLabel( y2ticsTab, "y2ticsRotationLabel" );
   y2ticsRotationLabel->setMinimumSize( 60, 20 );
   y2ticsRotationLabel->setMaximumSize( 32767, 20 );
-  y2ticsRotationLabel->setText( "Rotation:" );
+  y2ticsRotationLabel->setText( i18n("Rotation:") );
   y2ticsRotationLabel->setAlignment( 289 );
   y2ticsRotationLabel->setMargin( -1 );
 
@@ -964,13 +965,13 @@ ticsOpData::ticsOpData
   y2ticsPosButtonGroup->setMinimumSize( 500, 110 );
   y2ticsPosButtonGroup->setMaximumSize( 32767, 32767 );
   y2ticsPosButtonGroup->setFrameStyle( 49 );
-  y2ticsPosButtonGroup->setTitle( "Y2 Tics Position" );
+  y2ticsPosButtonGroup->setTitle( i18n("Y2 Tics Position") );
   y2ticsPosButtonGroup->setExclusive( TRUE );
 
   y2ticsSIERadioButton = new QRadioButton(y2ticsPosButtonGroup , "y2ticsSIERadioButton" );
   y2ticsSIERadioButton->setMinimumSize( 150, 20 );
   y2ticsSIERadioButton->setMaximumSize( 32767, 20 );
-  y2ticsSIERadioButton->setText( "Start/Inc/End" );
+  y2ticsSIERadioButton->setText( i18n("Start/Inc/End") );
   y2ticsSIERadioButton->setAutoRepeat( FALSE );
   //y2ticsSIERadioButton->setAutoResize( FALSE );
   y2ticsSIERadioButton->setChecked( TRUE );
@@ -979,7 +980,7 @@ ticsOpData::ticsOpData
   y2ticsStartPosLabel = new QLabel( y2ticsPosButtonGroup, "y2ticsStartPosLabel" );
   y2ticsStartPosLabel->setMinimumSize( 40, 20 );
   y2ticsStartPosLabel->setMaximumSize( 32767, 20 );
-  y2ticsStartPosLabel->setText( "Start:" );
+  y2ticsStartPosLabel->setText( i18n("Start:") );
   y2ticsStartPosLabel->setAlignment( 289 );
   y2ticsStartPosLabel->setMargin( -1 );
 
@@ -995,7 +996,7 @@ ticsOpData::ticsOpData
   y2ticsIncPosLabel = new QLabel( y2ticsPosButtonGroup, "y2ticsIncPosLabel" );
   y2ticsIncPosLabel->setMinimumSize( 65, 20 );
   y2ticsIncPosLabel->setMaximumSize( 32767, 20 );
-  y2ticsIncPosLabel->setText( "Increment:" );
+  y2ticsIncPosLabel->setText( i18n("Increment:") );
   y2ticsIncPosLabel->setAlignment( 289 );
   y2ticsIncPosLabel->setMargin( -1 );
 
@@ -1011,7 +1012,7 @@ ticsOpData::ticsOpData
   y2ticsEndPosLabel = new QLabel( y2ticsPosButtonGroup, "y2ticsEndPosLabel" );
   y2ticsEndPosLabel->setMinimumSize( 35, 20 );
   y2ticsEndPosLabel->setMaximumSize( 32767, 20 );
-  y2ticsEndPosLabel->setText( "End:" );
+  y2ticsEndPosLabel->setText( i18n("End:") );
   y2ticsEndPosLabel->setAlignment( 289 );
   y2ticsEndPosLabel->setMargin( -1 );
 
@@ -1026,7 +1027,7 @@ ticsOpData::ticsOpData
   y2ticsLabelPosRButton = new QRadioButton( y2ticsPosButtonGroup, "y2ticsLabelPosRadioButton" );
   y2ticsLabelPosRButton->setMinimumSize( 150, 20 );
   y2ticsLabelPosRButton->setMaximumSize( 32767, 20 );
-  y2ticsLabelPosRButton->setText( "Labels/Positions" );
+  y2ticsLabelPosRButton->setText( i18n("Labels/Positions") );
   y2ticsLabelPosRButton->setAutoRepeat( FALSE );
   //y2ticsLabelPosRButton->setAutoResize( FALSE );
 
@@ -1093,12 +1094,12 @@ ticsOpData::ticsOpData
   y2ticsMainColLayout->activate();
 
   // insert tab
-  addTab(y2ticsTab, "Y2 T&ics");
+  addTab(y2ticsTab, i18n("Y2 T&ics") );
 
 
   // add buttons
-  setOKButton("OK");
-  setCancelButton("Cancel");
+  setOKButton("&OK");
+  setCancelButton("&Cancel");
 
   connect(this, SIGNAL(applyButtonPressed()), SLOT(setTicsOptions()));
 

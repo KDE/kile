@@ -34,16 +34,16 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 
   QLabel_1= new QLabel(this,"NoName");
-  QLabel_1->setText(i18n("Document Class"));
+  QLabel_1->setText(i18n("Document class:"));
 
   QLabel_2= new QLabel(this,"NoName");
-  QLabel_2->setText(i18n("Typeface Size"));
+  QLabel_2->setText(i18n("Typeface size:"));
 
   QLabel_3= new QLabel(this,"NoName");
-  QLabel_3->setText(i18n("Paper Size"));
+  QLabel_3->setText(i18n("Paper size:"));
 
   QLabel_4= new QLabel(this,"NoName");
-  QLabel_4->setText(i18n("Encoding"));
+  QLabel_4->setText(i18n("Encoding:"));
 
   combo1 = new QComboBox( FALSE, this, "comboBox" );
   combo1->insertItem( "article" );
@@ -103,18 +103,18 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
 
   checkbox1 = new QCheckBox( this, "checkbox1");
   checkbox1->setFocusPolicy( QWidget::TabFocus );
-  checkbox1->setText( i18n("AMS Packages") );
+  checkbox1->setText( i18n("AMS packages") );
   checkbox1->setAutoRepeat( FALSE );
   checkbox1->setChecked( TRUE );
 
   checkbox2 = new QCheckBox( this, "checkbox2");
   checkbox2->setFocusPolicy( QWidget::TabFocus );
-  checkbox2->setText( i18n("makeidx Package") );
+  checkbox2->setText( i18n("makeidx package") );
   checkbox2->setAutoRepeat( FALSE );
   checkbox2->setChecked( FALSE );
 
   QLabel_5= new QLabel(this,"NoName");
-  QLabel_5->setText(i18n("Other Options"));
+  QLabel_5->setText(i18n("Other options:"));
 
   availableBox=new QListBox(this);
   availableBox->setSelectionMode(QListBox::Multi);
@@ -140,22 +140,22 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
   connect(userOptionsBtn , SIGNAL(clicked()), SLOT(addUserOptions()) );
 
   QLabel_6= new QLabel(this,"NoName");
-  QLabel_6->setText(i18n("Author"));
+  QLabel_6->setText(i18n("Author:"));
   LineEdit1 = new QLineEdit(this, "le1" );
 
   QLabel_7= new QLabel(this,"NoName");
-  QLabel_7->setText(i18n("Title"));
+  QLabel_7->setText(i18n("Title:"));
   LineEdit2 = new QLineEdit(this, "le2" );
 
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
 	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
 	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );
@@ -177,7 +177,7 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
   gbox->addWidget(LineEdit1 ,5,1 );
   gbox->addWidget(QLabel_7 , 6, 0 );
   gbox->addWidget(LineEdit2 , 6,1);
-  gbox->addMultiCellWidget(QLabel_5,7,7,0,1,Qt::AlignCenter);
+  gbox->addMultiCellWidget(QLabel_5,7,7,0,1,Qt::AlignLeft);
   gbox->addMultiCellWidget(availableBox,8,8,0,1,0);
   gbox->addWidget(userOptionsBtn , 8, 2,Qt::AlignLeft );
   gbox->addWidget(buttonOk , 9, 0,Qt::AlignLeft );

@@ -19,11 +19,12 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.    
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
 #include "pbmOp.h"
+#include <klocale.h>
 
 pbmOp::pbmOp
 (
@@ -33,7 +34,7 @@ pbmOp::pbmOp
 	:
 	pbmOpData( parent, name )
 {
-	setCaption( "PBM Options" );
+	setCaption( i18n("PBM Options") );
 }
 
 

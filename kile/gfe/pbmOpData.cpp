@@ -19,7 +19,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.    
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbt.h>
+#include <klocale.h>
 
 pbmOpData::pbmOpData
 (
@@ -42,7 +43,7 @@ pbmOpData::pbmOpData
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 	QLabel* dlgedit_Label_1;
 	dlgedit_Label_1 = new QLabel( this, "Label_1" );
-	dlgedit_Label_1->setText( "Font size:" );
+	dlgedit_Label_1->setText( i18n("Font size:") );
 	dlgedit_Label_1->setAlignment( 289 );
 	dlgedit_Label_1->setMargin( -1 );
   gbox->addWidget(dlgedit_Label_1 , 0,0, Qt::AlignLeft );
@@ -56,7 +57,7 @@ pbmOpData::pbmOpData
 
 	QLabel* dlgedit_Label_2;
 	dlgedit_Label_2 = new QLabel( this, "Label_2" );
-	dlgedit_Label_2->setText( "Color Mode:" );
+	dlgedit_Label_2->setText( i18n("Color mode:") );
 	dlgedit_Label_2->setAlignment( 289 );
 	dlgedit_Label_2->setMargin( -1 );
   gbox->addWidget(dlgedit_Label_2 , 1,0, Qt::AlignLeft );
@@ -69,7 +70,7 @@ pbmOpData::pbmOpData
 
 	QLabel* dlgedit_Label_4;
 	dlgedit_Label_4 = new QLabel( this, "Label_4" );
-	dlgedit_Label_4->setText( "Horizontal Size:" );
+	dlgedit_Label_4->setText( i18n("Horizontal size:") );
 	dlgedit_Label_4->setAlignment( 289 );
 	dlgedit_Label_4->setMargin( -1 );
   gbox->addWidget(dlgedit_Label_4 , 0,2, Qt::AlignLeft );
@@ -83,7 +84,7 @@ pbmOpData::pbmOpData
 
 	QLabel* dlgedit_Label_5;
 	dlgedit_Label_5 = new QLabel( this, "Label_5" );
-	dlgedit_Label_5->setText( "Vertical Size:" );
+	dlgedit_Label_5->setText( i18n("Vertical size:") );
 	dlgedit_Label_5->setAlignment( 289 );
 	dlgedit_Label_5->setMargin( -1 );
   gbox->addWidget(dlgedit_Label_5 , 1,2, Qt::AlignLeft );
@@ -98,15 +99,15 @@ pbmOpData::pbmOpData
 	QPushButton* dlgedit_PushButton_1;
 	dlgedit_PushButton_1 = new QPushButton( this, "PushButton_1" );
 	connect( dlgedit_PushButton_1, SIGNAL(clicked()), SLOT(setTerm()) );
-	dlgedit_PushButton_1->setText( "OK" );
+	dlgedit_PushButton_1->setText( i18n("&OK") );
 	dlgedit_PushButton_1->setAutoRepeat( FALSE );
   dlgedit_PushButton_1->setDefault(TRUE);
   gbox->addMultiCellWidget(dlgedit_PushButton_1,2,2,0,1,Qt::AlignCenter);
-    
+
 	QPushButton* dlgedit_PushButton_2;
 	dlgedit_PushButton_2 = new QPushButton( this, "PushButton_2" );
 	connect( dlgedit_PushButton_2, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_PushButton_2->setText( "Cancel" );
+	dlgedit_PushButton_2->setText( i18n("&Cancel") );
 	dlgedit_PushButton_2->setAutoRepeat( FALSE );
   gbox->addMultiCellWidget(dlgedit_PushButton_2,2,2,2,3,Qt::AlignCenter);
 

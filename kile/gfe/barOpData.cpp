@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbt.h>
+#include <klocale.h>
 
 barOpData::barOpData
 (
@@ -42,7 +43,7 @@ barOpData::barOpData
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 	QLabel* dlgedit_barLabel;
 	dlgedit_barLabel = new QLabel( this, "barLabel" );
-	dlgedit_barLabel->setText( "Bar Size:" );
+	dlgedit_barLabel->setText( i18n("Bar size:") );
 	dlgedit_barLabel->setAlignment( 289 );
 	dlgedit_barLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_barLabel , 0,0, Qt::AlignLeft );
@@ -56,7 +57,7 @@ barOpData::barOpData
 
 	QLabel* dlgedit_synLabel;
 	dlgedit_synLabel = new QLabel( this, "synLabel" );
-	dlgedit_synLabel->setText( "Synonym:" );
+	dlgedit_synLabel->setText( i18n("Synonym:") );
 	dlgedit_synLabel->setAlignment( 289 );
 	dlgedit_synLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_synLabel , 1,0, Qt::AlignLeft );
@@ -69,7 +70,7 @@ barOpData::barOpData
 	QPushButton* dlgedit_okPushButton;
 	dlgedit_okPushButton = new QPushButton( this, "okPushButton" );
 	connect( dlgedit_okPushButton, SIGNAL(clicked()), SLOT(setBarOption()) );
-	dlgedit_okPushButton->setText( "OK" );
+	dlgedit_okPushButton->setText( i18n("&OK") );
 	dlgedit_okPushButton->setAutoRepeat( FALSE );
     dlgedit_okPushButton->setAutoDefault( TRUE );
     dlgedit_okPushButton->setDefault( TRUE );
@@ -78,7 +79,7 @@ barOpData::barOpData
 	QPushButton* dlgedit_cancelPushButton;
 	dlgedit_cancelPushButton = new QPushButton( this, "cancelPushButton" );
 	connect( dlgedit_cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_cancelPushButton->setText( "Cancel" );
+	dlgedit_cancelPushButton->setText( i18n("&Cancel") );
 	dlgedit_cancelPushButton->setAutoRepeat( FALSE );
   gbox->addWidget(dlgedit_cancelPushButton , 2,1, Qt::AlignCenter );
 

@@ -23,7 +23,7 @@ fileFilter::fileFilter
 	:
 	fileFilterData( parent, name )
 {
-	setCaption( "Data File Filtering Command" );
+	setCaption( i18n("Data File Filtering Command") );
 }
 
 

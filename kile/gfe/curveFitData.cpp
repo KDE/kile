@@ -32,6 +32,7 @@
 #include <qpushbt.h>
 #include <qradiobt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 curveFitData::curveFitData
 (
@@ -51,7 +52,7 @@ curveFitData::curveFitData
 	specVarButtonGroup->setMinimumSize( 380, 60 );
 	specVarButtonGroup->setMaximumSize( 32767, 32767 );
 	specVarButtonGroup->setFrameStyle( 49 );
-	specVarButtonGroup->setTitle( "Special Variables" );
+	specVarButtonGroup->setTitle( i18n("Special Variables") );
 	specVarButtonGroup->setAlignment( 1 );
 
 	QButtonGroup* paramButtonGroup;
@@ -59,7 +60,7 @@ curveFitData::curveFitData
 	paramButtonGroup->setMinimumSize( 380, 80 );
 	paramButtonGroup->setMaximumSize( 32767, 32767 );
 	paramButtonGroup->setFrameStyle( 49 );
-	paramButtonGroup->setTitle( "Parameters" );
+	paramButtonGroup->setTitle( i18n("Parameters") );
 	paramButtonGroup->setAlignment( 1 );
 
 	QButtonGroup* yRangeButtonGroup;
@@ -67,7 +68,7 @@ curveFitData::curveFitData
 	yRangeButtonGroup->setMinimumSize( 380, 60 );
 	yRangeButtonGroup->setMaximumSize( 32767, 32767 );
 	yRangeButtonGroup->setFrameStyle( 49 );
-	yRangeButtonGroup->setTitle( "Y Range" );
+	yRangeButtonGroup->setTitle( i18n("Y range:") );
 	yRangeButtonGroup->setAlignment( 1 );
 
 	QButtonGroup* xRangeButtonGroup;
@@ -75,14 +76,14 @@ curveFitData::curveFitData
 	xRangeButtonGroup->setMinimumSize( 380, 60 );
 	xRangeButtonGroup->setMaximumSize( 32767, 32767 );
 	xRangeButtonGroup->setFrameStyle( 49 );
-	xRangeButtonGroup->setTitle( "X Range" );
+	xRangeButtonGroup->setTitle( i18n("X range:") );
 	xRangeButtonGroup->setAlignment( 1 );
 
 	QLabel* FunctionLabel;
 	FunctionLabel = new QLabel( mainCurveFit, "FunctionLabel" );
 	FunctionLabel->setMinimumSize( 60, 20 );
 	FunctionLabel->setMaximumSize( 32767, 20 );
-	FunctionLabel->setText( "Function:" );
+	FunctionLabel->setText( i18n("Function:") );
 	FunctionLabel->setAlignment( 289 );
 	FunctionLabel->setMargin( -1 );
 
@@ -114,7 +115,7 @@ curveFitData::curveFitData
 	dataFileLabel = new QLabel( mainCurveFit, "dataFileLabel" );
 	dataFileLabel->setMinimumSize( 60, 20 );
 	dataFileLabel->setMaximumSize( 32767, 20 );
-	dataFileLabel->setText( "Data file:" );
+	dataFileLabel->setText( i18n("Data file:") );
 	dataFileLabel->setAlignment( 289 );
 	dataFileLabel->setMargin( -1 );
 
@@ -130,7 +131,7 @@ curveFitData::curveFitData
 	getDatafilePushButton = new QPushButton(mainCurveFit , "getDatafilePushButton" );
 	getDatafilePushButton->setMinimumSize( 40, 26 );
 	connect(getDatafilePushButton , SIGNAL(clicked()), SLOT(dataFileOpen()) );
-	getDatafilePushButton->setText( "&Get" );
+	getDatafilePushButton->setText( i18n("&Get") );
 	getDatafilePushButton->setAutoRepeat( FALSE );
 	getDatafilePushButton->setAutoResize( FALSE );
 
@@ -138,7 +139,7 @@ curveFitData::curveFitData
 	varXRangeNameLabel = new QLabel(xRangeButtonGroup , "varXRangeNameLabel" );
 	varXRangeNameLabel->setMinimumSize( 90, 20 );
 	varXRangeNameLabel->setMaximumSize( 32767, 20 );
-	varXRangeNameLabel->setText( "Variable Name:" );
+	varXRangeNameLabel->setText( i18n("Variable name:") );
 	varXRangeNameLabel->setAlignment( 289 );
 	varXRangeNameLabel->setMargin( -1 );
 
@@ -154,7 +155,7 @@ curveFitData::curveFitData
 	varXRangeMinLabel = new QLabel( xRangeButtonGroup, "varXRangeMinLabel" );
 	varXRangeMinLabel->setMinimumSize( 30, 20 );
 	varXRangeMinLabel->setMaximumSize( 32767, 20 );
-	varXRangeMinLabel->setText( "Min:" );
+	varXRangeMinLabel->setText( i18n("Min:") );
 	varXRangeMinLabel->setAlignment( 289 );
 	varXRangeMinLabel->setMargin( -1 );
 
@@ -170,7 +171,7 @@ curveFitData::curveFitData
 	varXRangeMaxLabel = new QLabel( xRangeButtonGroup, "varXRangeMaxLabel" );
 	varXRangeMaxLabel->setMinimumSize( 30, 20 );
 	varXRangeMaxLabel->setMaximumSize( 32767, 20 );
-	varXRangeMaxLabel->setText( "Max:" );
+	varXRangeMaxLabel->setText( i18n("Max:") );
 	varXRangeMaxLabel->setAlignment( 289 );
 	varXRangeMaxLabel->setMargin( -1 );
 
@@ -186,7 +187,7 @@ curveFitData::curveFitData
 	varYRangeNameLabel = new QLabel( yRangeButtonGroup, "varYRangeNameLabel" );
 	varYRangeNameLabel->setMinimumSize( 90, 20 );
 	varYRangeNameLabel->setMaximumSize( 32767, 20 );
-	varYRangeNameLabel->setText( "Variable Name:" );
+	varYRangeNameLabel->setText( i18n("Variable name:") );
 	varYRangeNameLabel->setAlignment( 289 );
 	varYRangeNameLabel->setMargin( -1 );
 
@@ -202,7 +203,7 @@ curveFitData::curveFitData
 	varYRangeMinLabel = new QLabel( yRangeButtonGroup, "varYRangeMinLabel" );
 	varYRangeMinLabel->setMinimumSize( 30, 20 );
 	varYRangeMinLabel->setMaximumSize( 32767, 20 );
-	varYRangeMinLabel->setText( "Min:" );
+	varYRangeMinLabel->setText( i18n("Min:") );
 	varYRangeMinLabel->setAlignment( 289 );
 	varYRangeMinLabel->setMargin( -1 );
 
@@ -218,7 +219,7 @@ curveFitData::curveFitData
 	varYRangeMaxLabel = new QLabel( yRangeButtonGroup, "varYRangeMaxLabel" );
 	varYRangeMaxLabel->setMinimumSize( 30, 20 );
 	varYRangeMaxLabel->setMaximumSize( 32767, 20 );
-	varYRangeMaxLabel->setText( "Max:" );
+	varYRangeMaxLabel->setText( i18n("Max:") );
 	varYRangeMaxLabel->setAlignment( 289 );
 	varYRangeMaxLabel->setMargin( -1 );
 
@@ -233,7 +234,7 @@ curveFitData::curveFitData
 	paramFileRB = new QRadioButton( paramButtonGroup, "paramFileRadioButton" );
 	paramFileRB->setMinimumSize( 160, 20 );
 	paramFileRB->setMaximumSize( 32767, 20 );
-	paramFileRB->setText( "&Parameter File:" );
+	paramFileRB->setText( i18n("&Parameter file:") );
 	paramFileRB->setAutoRepeat( FALSE );
 	paramFileRB->setAutoResize( FALSE );
 
@@ -249,14 +250,14 @@ curveFitData::curveFitData
 	getParamFilePushButton = new QPushButton(paramButtonGroup, "getParamFilePushButton" );
 	getParamFilePushButton->setMinimumSize( 40, 26 );
 	connect( getParamFilePushButton, SIGNAL(clicked()), SLOT(paramFileOpen()) );
-	getParamFilePushButton->setText( "G&et" );
+	getParamFilePushButton->setText( i18n("G&et") );
 	getParamFilePushButton->setAutoRepeat( FALSE );
 	getParamFilePushButton->setAutoResize(TRUE );
 
 	paramCSLRB = new QRadioButton( paramButtonGroup, "paramCSLRadioButton" );
 	paramCSLRB->setMinimumSize( 160, 20 );
 	paramCSLRB->setMaximumSize( 32767, 20 );
-	paramCSLRB->setText( "Co&mma Seperated List:" );
+	paramCSLRB->setText( i18n("Co&mma seperated list:") );
 	paramCSLRB->setAutoRepeat( FALSE );
 	paramCSLRB->setAutoResize( FALSE );
 
@@ -274,7 +275,7 @@ curveFitData::curveFitData
 	fitLimitLabel = new QLabel(specVarButtonGroup, "fitLimitLabel" );
 	fitLimitLabel->setMinimumSize( 70, 20 );
 	fitLimitLabel->setMaximumSize( 32767, 20 );
-	fitLimitLabel->setText( "Fit Limit:" );
+	fitLimitLabel->setText( i18n("Fit limit:") );
 	fitLimitLabel->setAlignment( 289 );
 	fitLimitLabel->setMargin( -1 );
 
@@ -290,7 +291,7 @@ curveFitData::curveFitData
 	fitMaxIterLabel = new QLabel(specVarButtonGroup , "fitMaxIterLabel" );
 	fitMaxIterLabel->setMinimumSize( 110, 20 );
 	fitMaxIterLabel->setMaximumSize( 32767, 20 );
-	fitMaxIterLabel->setText( "Fit Max Iterations:" );
+	fitMaxIterLabel->setText( i18n("Fit max iterations:") );
 	fitMaxIterLabel->setAlignment( 289 );
 	fitMaxIterLabel->setMargin( -1 );
 
@@ -306,7 +307,7 @@ curveFitData::curveFitData
 	fitPushButton = new QPushButton(mainCurveFit , "getDatafilePushButton" );
 	fitPushButton->setMinimumSize( 100, 26 );
 	connect(fitPushButton , SIGNAL(clicked()), SLOT(doFit()) );
-	fitPushButton->setText( "&Fit" );
+	fitPushButton->setText( i18n("&Fit") );
 	fitPushButton->setAutoRepeat( FALSE );
 	fitPushButton->setAutoResize( FALSE );
 
@@ -396,7 +397,7 @@ curveFitData::curveFitData
 
     mainColLayout->activate();
 
-    addTab(mainCurveFit, "&Main");
+    addTab(mainCurveFit, i18n("&Main"));
 
   // -------------------- setup page two of tab dialog --------------------
 
@@ -407,27 +408,27 @@ curveFitData::curveFitData
 	dataSetButtonGroup->setMinimumSize( 460, 60 );
 	dataSetButtonGroup->setMaximumSize( 32767, 32767 );
 	dataSetButtonGroup->setFrameStyle( 49 );
-	dataSetButtonGroup->setTitle( "Data Set Selection" );
+	dataSetButtonGroup->setTitle( i18n("Data Set Selection") );
 
 	QButtonGroup* samplingButtonGroup;
 	samplingButtonGroup = new QButtonGroup( datafileMods, "samplingButtonGroup" );
 	samplingButtonGroup->setMinimumSize( 460, 110 );
 	samplingButtonGroup->setMaximumSize( 32767, 32767 );
 	samplingButtonGroup->setFrameStyle( 49 );
-	samplingButtonGroup->setTitle( "Periodic Sampling" );
+	samplingButtonGroup->setTitle( i18n("Periodic Sampling") );
 
 	QButtonGroup* colFormatButtonGroup;
 	colFormatButtonGroup = new QButtonGroup( datafileMods, "colFormatButtonGroup" );
 	colFormatButtonGroup->setMinimumSize( 460, 150 );
 	colFormatButtonGroup->setMaximumSize( 32767, 32767 );
 	colFormatButtonGroup->setFrameStyle( 49 );
-	colFormatButtonGroup->setTitle( "Columns and Format" );
+	colFormatButtonGroup->setTitle( i18n("Columns && Format") );
 
 	QLabel* dataSetStartLabel;
 	dataSetStartLabel = new QLabel(dataSetButtonGroup, "dataSetStartLabel" );
 	dataSetStartLabel->setMinimumSize( 40, 20 );
 	dataSetStartLabel->setMaximumSize( 32767, 20 );
-	dataSetStartLabel->setText( "Start:" );
+	dataSetStartLabel->setText( i18n("Start:") );
 	dataSetStartLabel->setAlignment( 289 );
 	dataSetStartLabel->setMargin( -1 );
 
@@ -443,7 +444,7 @@ curveFitData::curveFitData
 	dataSetEndLabel = new QLabel(dataSetButtonGroup, "dataSetEndLabel" );
 	dataSetEndLabel->setMinimumSize( 40, 20 );
 	dataSetEndLabel->setMaximumSize( 32767, 20 );
-	dataSetEndLabel->setText( "End:" );
+	dataSetEndLabel->setText( i18n("End:") );
 	dataSetEndLabel->setAlignment( 289 );
 	dataSetEndLabel->setMargin( -1 );
 
@@ -459,7 +460,7 @@ curveFitData::curveFitData
 	dataSetIncLabel = new QLabel(dataSetButtonGroup, "dataSetIncLabel" );
 	dataSetIncLabel->setMinimumSize( 70, 20 );
 	dataSetIncLabel->setMaximumSize( 32767, 20 );
-	dataSetIncLabel->setText( "Increment:" );
+	dataSetIncLabel->setText( i18n("Increment:") );
 	dataSetIncLabel->setAlignment( 289 );
 	dataSetIncLabel->setMargin( -1 );
 
@@ -475,7 +476,7 @@ curveFitData::curveFitData
 	pointIncLabel = new QLabel(samplingButtonGroup, "pointIncLabel" );
 	pointIncLabel->setMinimumSize( 100, 20 );
 	pointIncLabel->setMaximumSize( 32767, 20 );
-	pointIncLabel->setText( "Point Increment:" );
+	pointIncLabel->setText( i18n("Point increment:") );
 	pointIncLabel->setAlignment( 289 );
 	pointIncLabel->setMargin( -1 );
 
@@ -491,7 +492,7 @@ curveFitData::curveFitData
 	lineIncLabel = new QLabel(samplingButtonGroup, "lineIncLabel" );
 	lineIncLabel->setMinimumSize( 100, 20 );
 	lineIncLabel->setMaximumSize( 32767, 20 );
-	lineIncLabel->setText( "Line Increment:" );
+	lineIncLabel->setText( i18n("Line increment:") );
 	lineIncLabel->setAlignment( 289 );
 	lineIncLabel->setMargin( -1 );
 
@@ -507,7 +508,7 @@ curveFitData::curveFitData
 	startPointLabel = new QLabel(samplingButtonGroup, "startPointLabel" );
 	startPointLabel->setMinimumSize( 70, 20 );
 	startPointLabel->setMaximumSize( 32767, 20 );
-	startPointLabel->setText( "Start point:" );
+	startPointLabel->setText( i18n("Start point:") );
 	startPointLabel->setAlignment( 289 );
 	startPointLabel->setMargin( -1 );
 
@@ -523,7 +524,7 @@ curveFitData::curveFitData
 	startLineLabel = new QLabel(samplingButtonGroup, "startLineLabel" );
 	startLineLabel->setMinimumSize( 70, 20 );
 	startLineLabel->setMaximumSize( 32767, 20 );
-	startLineLabel->setText( "Start line:" );
+	startLineLabel->setText( i18n("Start line:") );
 	startLineLabel->setAlignment( 289 );
 	startLineLabel->setMargin( -1 );
 
@@ -539,7 +540,7 @@ curveFitData::curveFitData
 	endPointLabel = new QLabel(samplingButtonGroup, "endPointLabel" );
 	endPointLabel->setMinimumSize( 70, 20 );
 	endPointLabel->setMaximumSize( 32767, 20 );
-	endPointLabel->setText( "End point:" );
+	endPointLabel->setText( i18n("End point:") );
 	endPointLabel->setAlignment( 289 );
 	endPointLabel->setMargin( -1 );
 
@@ -555,7 +556,7 @@ curveFitData::curveFitData
 	endLineLabel = new QLabel(samplingButtonGroup, "endLineLabel" );
 	endLineLabel->setMinimumSize( 60, 20 );
 	endLineLabel->setMaximumSize( 32767, 20 );
-	endLineLabel->setText( "End line:" );
+	endLineLabel->setText( i18n("End line:") );
 	endLineLabel->setAlignment( 289 );
 	endLineLabel->setMargin( -1 );
 
@@ -571,7 +572,7 @@ curveFitData::curveFitData
 	xColLabel = new QLabel(colFormatButtonGroup , "xColLabel" );
 	xColLabel->setMinimumSize( 70, 20 );
 	xColLabel->setMaximumSize( 32767, 20 );
-	xColLabel->setText( "X Column:" );
+	xColLabel->setText( i18n("X column:") );
 	xColLabel->setAlignment( 289 );
 	xColLabel->setMargin( -1 );
 
@@ -587,7 +588,7 @@ curveFitData::curveFitData
 	yColLabel = new QLabel(colFormatButtonGroup, "yColLabel" );
 	yColLabel->setMinimumSize( 70, 20 );
 	yColLabel->setMaximumSize( 32767, 20 );
-	yColLabel->setText( "Y Column:" );
+	yColLabel->setText( i18n("Y column:") );
 	yColLabel->setAlignment( 289 );
 	yColLabel->setMargin( -1 );
 
@@ -603,7 +604,7 @@ curveFitData::curveFitData
 	zColLabel = new QLabel(colFormatButtonGroup, "zColLabel" );
 	zColLabel->setMinimumSize( 70, 20 );
 	zColLabel->setMaximumSize( 32767, 20 );
-	zColLabel->setText( "Z Column:" );
+	zColLabel->setText( i18n("Z column:") );
 	zColLabel->setAlignment( 289 );
 	zColLabel->setMargin( -1 );
 
@@ -619,7 +620,7 @@ curveFitData::curveFitData
 	formatLabel = new QLabel(colFormatButtonGroup, "formatLabel" );
 	formatLabel->setMinimumSize( 80, 20 );
 	formatLabel->setMaximumSize( 32767, 20 );
-	formatLabel->setText( "Format:" );
+	formatLabel->setText( i18n("Format:") );
 	formatLabel->setAlignment( 289 );
 	formatLabel->setMargin( -1 );
 
@@ -635,7 +636,7 @@ curveFitData::curveFitData
 	rawFormatLabel = new QLabel(colFormatButtonGroup, "rawFormatLabel" );
 	rawFormatLabel->setMinimumSize( 80, 20 );
 	rawFormatLabel->setMaximumSize( 32767, 20 );
-	rawFormatLabel->setText( "Raw Format:" );
+	rawFormatLabel->setText( i18n("Raw format:") );
 	rawFormatLabel->setAlignment( 289 );
 	rawFormatLabel->setMargin( -1 );
 
@@ -729,9 +730,9 @@ curveFitData::curveFitData
     colFormatBGBottomRowLayout->addWidget(rawFormatEdit,1);
 
     mainColModLayout->activate();
-    addTab(datafileMods, "&Datafile Modifiers");
+    addTab(datafileMods, i18n("&Datafile Modifiers"));
 
-    setOKButton("&Close");
+    setOKButton(i18n("&Close"));
     resize(500,470);
 }
 

@@ -15,12 +15,12 @@ GotoLineDialog::GotoLineDialog(QWidget* parent,  const char* name, bool modal, W
 {
     if ( !name )
 	setName( "GotoLineDialog" );
-    resize( 243, 85 ); 
+    resize( 243, 85 );
     setCaption(  i18n("Goto Line")  );
-    GotoLineDialogLayout = new QGridLayout( this, 1, 1, 11, 6, "GotoLineDialogLayout"); 
+    GotoLineDialogLayout = new QGridLayout( this, 1, 1, 11, 6, "GotoLineDialogLayout");
 
     TextLabel1 = new QLabel( this, "TextLabel1" );
-    TextLabel1->setText( i18n( "Line")  );
+    TextLabel1->setText( i18n( "Line:")  );
 
     GotoLineDialogLayout->addWidget( TextLabel1, 0, 0 );
 
@@ -29,17 +29,17 @@ GotoLineDialog::GotoLineDialog(QWidget* parent,  const char* name, bool modal, W
 
     GotoLineDialogLayout->addWidget( spinLine, 0, 1 );
 
-    Layout1 = new QHBoxLayout( 0, 0, 6, "Layout1"); 
+    Layout1 = new QHBoxLayout( 0, 0, 6, "Layout1");
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
     Layout1->addItem( spacer );
 
     PushButton2 = new QPushButton( this, "PushButton2" );
-    PushButton2->setText( i18n( "Goto")  );
+    PushButton2->setText( i18n( "&Goto")  );
     PushButton2->setDefault( TRUE );
     Layout1->addWidget( PushButton2 );
 
     PushButton1 = new QPushButton( this, "PushButton1" );
-    PushButton1->setText( i18n("Close")  );
+    PushButton1->setText( i18n("&Close")  );
     Layout1->addWidget( PushButton1 );
 
     GotoLineDialogLayout->addMultiCellLayout( Layout1, 2, 2, 0, 1 );

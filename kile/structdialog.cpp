@@ -54,12 +54,12 @@ structdialog::structdialog(QWidget *parent, const char *name)
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
   gbox->addWidget(buttonOk , 2, 1,Qt::AlignLeft );
   gbox->addWidget(buttonCancel , 2, 2,Qt::AlignRight );

@@ -40,12 +40,12 @@ l2hdialog::l2hdialog(QWidget *parent, const char *name)
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
   gbox->addWidget(buttonOk , 1, 1,Qt::AlignLeft);
   gbox->addWidget(buttonCancel , 1, 2,Qt::AlignRight );

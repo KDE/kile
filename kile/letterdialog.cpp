@@ -27,13 +27,13 @@ letterdialog::letterdialog(QWidget *parent, const char *name)
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 
   QLabel_2= new QLabel(this,"NoName");
-  QLabel_2->setText(i18n("Typeface Size"));
+  QLabel_2->setText(i18n("Typeface size:"));
 
   QLabel_3= new QLabel(this,"NoName");
-  QLabel_3->setText(i18n("Paper Size"));
+  QLabel_3->setText(i18n("Paper size:"));
 
   QLabel_4= new QLabel(this,"NoName");
-  QLabel_4->setText(i18n("Encoding"));
+  QLabel_4->setText(i18n("Encoding:"));
 
   combo2 = new QComboBox( FALSE, this, "comboBox" );
   combo2->insertItem( "10pt" );
@@ -69,18 +69,18 @@ letterdialog::letterdialog(QWidget *parent, const char *name)
 
   checkbox1 = new QCheckBox( this, "checkbox");
   checkbox1->setFocusPolicy( QWidget::TabFocus );
-  checkbox1->setText(i18n("AMS Packages"));
+  checkbox1->setText(i18n("AMS packages"));
   checkbox1->setAutoRepeat( FALSE );
   checkbox1->setChecked( TRUE );
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
 	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
 	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );

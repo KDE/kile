@@ -40,14 +40,14 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const char *caption,
 
    QHBoxLayout *nameLayout = new QHBoxLayout( 0,0,spacingHint() );
    topLayout->addLayout(nameLayout);
-   nameLayout->addWidget(new QLabel(i18n("Name :"),page));
+   nameLayout->addWidget(new QLabel(i18n("Name:"),page));
 
    m_nameEdit = new KLineEdit(m_sourceTemplate.name,page);
    nameLayout->addWidget(m_nameEdit);
 
    QHBoxLayout *iconLayout = new QHBoxLayout(0 ,0,spacingHint());
    topLayout->addLayout(iconLayout);
-   iconLayout->addWidget(new QLabel(i18n("Icon :"),page));
+   iconLayout->addWidget(new QLabel(i18n("Icon:"),page));
 
    m_iconEdit = new KLineEdit(m_sourceTemplate.icon,page);
    iconLayout->addWidget(m_iconEdit);
@@ -102,7 +102,7 @@ void ManageTemplatesDialog::slotSelectIcon() {
    KIconDialog *dlg = new KIconDialog();
    QString res = dlg->openDialog();
    KIconLoader kil;
-   
+
    if (res != QString::null ) {
          m_sourceTemplate.icon = kil.iconPath(res,-KIcon::SizeLarge,false);
          m_iconEdit->setText(m_sourceTemplate.icon);
@@ -120,7 +120,7 @@ void ManageTemplatesDialog::addTemplate() {
   QFileInfo fi(dstTemplate.path);
 
   if (!fi.isFile()) {
-     KMessageBox::error(0,i18n("Sorry but the file: "+dstTemplate.path+"\ndoes not seem to exist. Maybe you forgot to save the file?"));
+     KMessageBox::error(0,i18n("Sorry but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?").arg(dstTemplate.path));
      return;
   }
 

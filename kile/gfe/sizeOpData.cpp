@@ -19,7 +19,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.    
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 sizeOpData::sizeOpData
 (
@@ -42,7 +43,7 @@ sizeOpData::sizeOpData
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 	QLabel* dlgedit_Label_1;
 	dlgedit_Label_1 = new QLabel( this, "Label_1" );
-	dlgedit_Label_1->setText( "Horizontal Size:" );
+	dlgedit_Label_1->setText( i18n("Horizontal size:") );
 	dlgedit_Label_1->setAlignment( 289 );
 	dlgedit_Label_1->setMargin( -1 );
   gbox->addWidget(dlgedit_Label_1 , 0,0, Qt::AlignLeft );
@@ -56,7 +57,7 @@ sizeOpData::sizeOpData
 
 	QLabel* dlgedit_Label_2;
 	dlgedit_Label_2 = new QLabel( this, "Label_2" );
-	dlgedit_Label_2->setText( "Vertical Size:" );
+	dlgedit_Label_2->setText( i18n("Vertical size:") );
 	dlgedit_Label_2->setAlignment( 289 );
 	dlgedit_Label_2->setMargin( 1 );
   gbox->addWidget(dlgedit_Label_2  , 1,0, Qt::AlignLeft );
@@ -71,7 +72,7 @@ sizeOpData::sizeOpData
 	QPushButton* dlgedit_PushButton_1;
 	dlgedit_PushButton_1 = new QPushButton( this, "PushButton_1" );
 	connect( dlgedit_PushButton_1, SIGNAL(clicked()), SLOT(setSize()) );
-	dlgedit_PushButton_1->setText( "OK" );
+	dlgedit_PushButton_1->setText( "&OK" );
 	dlgedit_PushButton_1->setAutoRepeat( FALSE );
   dlgedit_PushButton_1->setDefault(TRUE);
   gbox->addWidget(dlgedit_PushButton_1 , 2,0, Qt::AlignCenter );
@@ -79,7 +80,7 @@ sizeOpData::sizeOpData
 	QPushButton* dlgedit_PushButton_2;
 	dlgedit_PushButton_2 = new QPushButton( this, "PushButton_2" );
 	connect( dlgedit_PushButton_2, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_PushButton_2->setText( "Cancel" );
+	dlgedit_PushButton_2->setText( "&Cancel" );
 	dlgedit_PushButton_2->setAutoRepeat( FALSE );
   gbox->addWidget(dlgedit_PushButton_2 , 2,1, Qt::AlignCenter );
 

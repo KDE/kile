@@ -23,6 +23,7 @@
 
  *********************************************************************/
 
+#include <klocale.h>
 #include "ticsOp.h"
 
 ticsOp::ticsOp
@@ -33,7 +34,7 @@ ticsOp::ticsOp
 	:
 	ticsOpData( parent, name )
 {
-	setCaption( "Tics Options" );
+	setCaption( i18n("Tics Options") );
 }
 
 

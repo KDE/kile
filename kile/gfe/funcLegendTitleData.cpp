@@ -31,6 +31,7 @@
 #include <qbttngrp.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 funcLegendTitleData::funcLegendTitleData
 (
@@ -53,7 +54,7 @@ funcLegendTitleData::funcLegendTitleData
 	Label_3 = new QLabel( this, "Label_3" );
 	Label_3->setMinimumSize( 140, 20 );
 	Label_3->setMaximumSize( 32767, 20 );
-	Label_3->setText( "Function Legend Title:" );
+	Label_3->setText( i18n("Function legend title:") );
 	Label_3->setAlignment( 289 );
 	Label_3->setMargin( -1 );
 
@@ -84,7 +85,7 @@ funcLegendTitleData::funcLegendTitleData
 	PushButton_5 = new QPushButton( this, "PushButton_5" );
 	PushButton_5->setMinimumSize( 100, 26 );
 	connect( PushButton_5, SIGNAL(clicked()), SLOT(setFuncLegendTitleOK()) );
-	PushButton_5->setText( "OK" );
+	PushButton_5->setText( i18n("&OK") );
 	PushButton_5->setAutoRepeat( FALSE );
 	PushButton_5->setAutoResize( FALSE );
     PushButton_5->setDefault(TRUE);
@@ -94,7 +95,7 @@ funcLegendTitleData::funcLegendTitleData
 	PushButton_6 = new QPushButton( this, "PushButton_6" );
 	PushButton_6->setMinimumSize( 100, 26 );
 	connect( PushButton_6, SIGNAL(clicked()), SLOT(reject()) );
-	PushButton_6->setText( "&Cancel" );
+	PushButton_6->setText( i18n("&Cancel") );
 	PushButton_6->setAutoRepeat( FALSE );
 	PushButton_6->setAutoResize( FALSE );
 
@@ -107,13 +108,13 @@ funcLegendTitleData::funcLegendTitleData
 
     // row for legend title edit box
     QHBoxLayout* titleRowLayout = new QHBoxLayout();
-    
+
     // row for inside button group
     QHBoxLayout* insideBGRowLayout = new QHBoxLayout(ButtonGroup_2,5);
-    
+
     // row for pushbuttons
     QHBoxLayout* buttonRowLayout = new QHBoxLayout();
-    
+
     // ------------------------ assemble layouts and widgets
     mainColLayout->addLayout(titleRowLayout);
     titleRowLayout->addWidget(Label_3);

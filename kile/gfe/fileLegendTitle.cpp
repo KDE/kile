@@ -3,7 +3,7 @@
 	--- Qt Architect generated file ---
 
 	File: fileLegendTitle.cpp
-	
+
     Xgfe: X Windows GUI front end to Gnuplot
     Copyright (C) 1998 David Ishee
 
@@ -24,6 +24,7 @@
  *********************************************************************/
 
 #include "fileLegendTitle.h"
+#include <klocale.h>
 
 fileLegendTitle::fileLegendTitle
 (
@@ -33,7 +34,7 @@ fileLegendTitle::fileLegendTitle
 	:
 	fileLegendTitleData( parent, name )
 {
-	setCaption( "File Legend Title" );
+	setCaption( i18n("File Legend Title") );
 }
 
 

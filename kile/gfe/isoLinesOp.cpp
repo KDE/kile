@@ -24,6 +24,7 @@
  *********************************************************************/
 
 #include "isoLinesOp.h"
+#include <klocale.h>
 
 isoLinesOp::isoLinesOp
 (
@@ -33,7 +34,7 @@ isoLinesOp::isoLinesOp
 	:
 	isoLinesOpData( parent, name )
 {
-	setCaption( "Isoline Options" );
+	setCaption( i18n("Isoline Options") );
 }
 
 
@@ -44,7 +45,7 @@ isoLinesOp::~isoLinesOp()
 void isoLinesOp::setGnuInterface(gnuInterface* gnu)
 {
   gnuInt = gnu;
-  
+
   // get options
   QString isoU = gnuInt->getIsolineU();
   QString isoV = gnuInt->getIsolineV();

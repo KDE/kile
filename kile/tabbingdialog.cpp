@@ -31,33 +31,33 @@ tabbingdialog::tabbingdialog(QWidget *parent, const char *name )
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
   Label1= new QLabel(this,"Label1");
-  Label1->setText(i18n("Num of Columns"));
+  Label1->setText(i18n("Num of columns:"));
 
   spinBoxCollums= new QSpinBox(this,"SpinBox1");
   spinBoxCollums->setValue(2);
   spinBoxCollums->setRange(2,99);
 
   Label2= new QLabel(this,"Label2");
-  Label2->setText(i18n("Num of Rows"));
+  Label2->setText(i18n("Num of rows:"));
 
   spinBoxRows= new QSpinBox(this,"SpinBox2");
   spinBoxRows->setValue(1);
   spinBoxRows->setRange(1,99);
 
   Label3= new QLabel(this,"Label3");
-  Label3->setText(i18n("Spacing"));
+  Label3->setText(i18n("Spacing:"));
 
   LineEdit1 = new QLineEdit( this, "LineEdit1" );
   LineEdit1->setFixedWidth(80);
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
 	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
 	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );

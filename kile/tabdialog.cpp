@@ -49,13 +49,13 @@ tabdialog::tabdialog(QWidget *parent, const char *name)
   connect( spinBoxCollums, SIGNAL(valueChanged(int)),this, SLOT(NewCollums(int)));
 
   QLabel_1= new QLabel(this,"NoName");
-  QLabel_1->setText(i18n("Num of Rows"));
+  QLabel_1->setText(i18n("Num of rows:"));
 
   QLabel_2= new QLabel(this,"NoName");
-  QLabel_2->setText(i18n("Num of Columns"));
+  QLabel_2->setText(i18n("Num of columns:"));
 
   QLabel_3= new QLabel(this,"NoName");
-  QLabel_3->setText(i18n("Columns Alignment"));
+  QLabel_3->setText(i18n("Columns alignment:"));
 
   combo1 = new QComboBox( FALSE, this, "comboBox1" );
   combo1->insertItem(i18n( "Center") );
@@ -64,7 +64,7 @@ tabdialog::tabdialog(QWidget *parent, const char *name)
   combo1->insertItem( "p{}");
 
   QLabel_4= new QLabel(this,"NoName");
-  QLabel_4->setText(i18n("Vertical Separator"));
+  QLabel_4->setText(i18n("Vertical separator:"));
 
   combo2 = new QComboBox( FALSE, this, "comboBox2" );
   combo2->insertItem("|");
@@ -74,18 +74,18 @@ tabdialog::tabdialog(QWidget *parent, const char *name)
 
   checkbox1 = new QCheckBox( this, "checkbox");
   checkbox1->setFocusPolicy( QWidget::TabFocus );
-  checkbox1->setText( i18n("Horizontal Separator") );
+  checkbox1->setText( i18n("Horizontal separator") );
   checkbox1->setAutoRepeat( FALSE );
   checkbox1->setChecked( TRUE );
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
 	connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
 	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );

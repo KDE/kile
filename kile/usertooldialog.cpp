@@ -35,29 +35,29 @@ usertooldialog::usertooldialog(QWidget *parent, const char *name ) : QDialog(par
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
   combo1=new QComboBox(this,"combo");
-  combo1->insertItem( i18n("Command")+" 1" );
-  combo1->insertItem( i18n("Command")+" 2" );
-  combo1->insertItem( i18n("Command")+" 3" );
-  combo1->insertItem( i18n("Command")+" 4" );
-  combo1->insertItem( i18n("Command")+" 5" );
+  combo1->insertItem( i18n("Command 1") );
+  combo1->insertItem( i18n("Command 2") );
+  combo1->insertItem( i18n("Command 3") );
+  combo1->insertItem( i18n("Command 4") );
+  combo1->insertItem( i18n("Command 5") );
   connect(combo1, SIGNAL(activated(int)),this,SLOT(change(int)));
 
   label1 = new QLabel( this, "label1" );
-  label1->setText(i18n("Menu Item"));
+  label1->setText(i18n("Menu item:"));
   itemedit=new QLineEdit(this,"item");
 
   label2 = new QLabel( this, "label2" );
-  label2->setText(i18n("Command")+" (% : filename without extension)");
+  label2->setText(i18n("Command (% : filename without extension):"));
   tooledit=new QLineEdit(this,"tool");
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
-  buttonOk->setText(i18n("Ok"));
+  buttonOk->setText(i18n("&OK"));
   buttonOk->setDefault(true);
 
   buttonCancel= new QPushButton(this,"NoName");
   buttonCancel->setMinimumSize(0,0);
-  buttonCancel->setText(i18n("Cancel"));
+  buttonCancel->setText(i18n("&Cancel"));
 
 	connect( buttonOk, SIGNAL(clicked()), SLOT(slotOk()) );
 	connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );

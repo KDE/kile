@@ -31,6 +31,7 @@
 #include <qpushbt.h>
 #include <qbttngrp.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 multiFileData::multiFileData
 (
@@ -40,7 +41,7 @@ multiFileData::multiFileData
 	:
 	QTabDialog( parent, name, TRUE, 36864 )
 {
-  setCaption( "Multiple Files" );
+  setCaption( i18n("Multiple Files") );
 
   // ----------------------- set up page one of the tab dialog ---------------
 
@@ -50,7 +51,7 @@ multiFileData::multiFileData
   FilesLabel = new QLabel( mainMultiFileOptions, "FilesLabel" );
   FilesLabel->setMinimumSize( 80, 20 );
   FilesLabel->setMaximumSize( 32767, 20 );
-  FilesLabel->setText( "Files:" );
+  FilesLabel->setText( i18n("Files:") );
   FilesLabel->setAlignment( 289 );
   FilesLabel->setMargin( -1 );
 
@@ -66,7 +67,7 @@ multiFileData::multiFileData
   NewFileButton = new QPushButton( mainMultiFileOptions, "NewFileButton" );
   NewFileButton->setMinimumSize( 100, 26 );
   connect( NewFileButton, SIGNAL(clicked()), this, SLOT(getNewFile()) );
-  NewFileButton->setText( "New File" );
+  NewFileButton->setText( i18n("New File") );
   NewFileButton->setAutoRepeat( FALSE );
   //NewFileButton->setAutoResize( FALSE );
 
@@ -74,7 +75,7 @@ multiFileData::multiFileData
   deleteFileButton = new QPushButton( mainMultiFileOptions, "deleteFileButton" );
   deleteFileButton->setMinimumSize( 100, 26 );
   connect( deleteFileButton, SIGNAL(clicked()), this, SLOT(deleteFile()) );
-  deleteFileButton->setText( "Delete File" );
+  deleteFileButton->setText( i18n("Delete File") );
   deleteFileButton->setAutoRepeat( FALSE );
   //deleteFileButton->setAutoResize( FALSE );
 
@@ -104,7 +105,7 @@ multiFileData::multiFileData
   styleLabel = new QLabel( mainMultiFileOptions, "styleLabel" );
   styleLabel->setMinimumSize( 80, 20 );
   styleLabel->setMaximumSize( 32767, 20 );
-  styleLabel->setText( "Style:" );
+  styleLabel->setText( i18n("Style:") );
   styleLabel->setAlignment( 289 );
   styleLabel->setMargin( -1 );
 
@@ -113,7 +114,7 @@ multiFileData::multiFileData
   legendButtonGroup->setMinimumSize( 250, 120 );
   legendButtonGroup->setMaximumSize( 32767, 32767 );
   legendButtonGroup->setFrameStyle( 49 );
-  legendButtonGroup->setTitle( "Legend Options" );
+  legendButtonGroup->setTitle( i18n("Legend Options") );
   legendButtonGroup->setAlignment( AlignCenter );
   legendButtonGroup->setExclusive( TRUE );
 
@@ -121,7 +122,7 @@ multiFileData::multiFileData
   legendTitleLabel = new QLabel(legendButtonGroup, "legendTitleLabel" );
   legendTitleLabel->setMinimumSize( 110, 20 );
   legendTitleLabel->setMaximumSize( 32767, 20 );
-  legendTitleLabel->setText( "File Legend Title:" );
+  legendTitleLabel->setText( i18n("File legend title:") );
   legendTitleLabel->setAlignment( 289 );
   legendTitleLabel->setMargin( -1 );
 
@@ -201,7 +202,7 @@ multiFileData::multiFileData
   legendOptionsRowLayout->addWidget(legendTitlenotitleButton ,0);
   legendOptionsRowLayout->addStretch(1);
 
-  addTab(mainMultiFileOptions, "&Main" );
+  addTab(mainMultiFileOptions, i18n("&Main") );
   mainColLayout->activate();
 
   // ----------------------- set up page two of the tab dialog ---------------
@@ -213,34 +214,34 @@ multiFileData::multiFileData
   interpButtonGroup->setMinimumSize( 460, 60 );
   interpButtonGroup->setMaximumSize( 32767, 32767 );
   interpButtonGroup->setFrameStyle( 49 );
-  interpButtonGroup->setTitle( "Interpolation and Approximation" );
+  interpButtonGroup->setTitle( i18n("Interpolation && Approximation") );
 
   QButtonGroup* colFormatButtonGroup;
   colFormatButtonGroup = new QButtonGroup(multiFileOptions, "colFormatButtonGroup" );
   colFormatButtonGroup->setMinimumSize( 460, 150 );
   colFormatButtonGroup->setMaximumSize( 32767, 32767 );
   colFormatButtonGroup->setFrameStyle( 49 );
-  colFormatButtonGroup->setTitle( "Columns and Format" );
+  colFormatButtonGroup->setTitle( i18n("Columns && Format") );
 
   QButtonGroup* samplingButtonGroup;
   samplingButtonGroup = new QButtonGroup( multiFileOptions, "samplingButtonGroup" );
   samplingButtonGroup->setMinimumSize( 460, 110 );
   samplingButtonGroup->setMaximumSize( 32767, 32767 );
   samplingButtonGroup->setFrameStyle( 49 );
-  samplingButtonGroup->setTitle( "Periodic Sampling" );
+  samplingButtonGroup->setTitle( i18n("Periodic Sampling") );
 
   QButtonGroup* dataSetButtonGroup;
   dataSetButtonGroup = new QButtonGroup( multiFileOptions, "dataSetButtonGroup" );
   dataSetButtonGroup->setMinimumSize( 460, 60 );
   dataSetButtonGroup->setMaximumSize( 32767, 32767 );
   dataSetButtonGroup->setFrameStyle( 49 );
-  dataSetButtonGroup->setTitle( "Data Set Selection" );
+  dataSetButtonGroup->setTitle( i18n("Data Set Selection") );
 
   QLabel* xColLabel;
   xColLabel = new QLabel(colFormatButtonGroup , "xColLabel" );
   xColLabel->setMinimumSize( 70, 20 );
   xColLabel->setMaximumSize( 32767, 20 );
-  xColLabel->setText( "X Column:" );
+  xColLabel->setText( i18n("X column:") );
   xColLabel->setAlignment( 289 );
   xColLabel->setMargin( -1 );
 
@@ -256,7 +257,7 @@ multiFileData::multiFileData
   yColLabel = new QLabel(colFormatButtonGroup, "yColLabel" );
   yColLabel->setMinimumSize( 70, 20 );
   yColLabel->setMaximumSize( 32767, 20 );
-  yColLabel->setText( "Y Column:" );
+  yColLabel->setText( i18n("Y column:") );
   yColLabel->setAlignment( 289 );
   yColLabel->setMargin( -1 );
 
@@ -272,7 +273,7 @@ multiFileData::multiFileData
   zColLabel = new QLabel(colFormatButtonGroup, "zColLabel" );
   zColLabel->setMinimumSize( 70, 20 );
   zColLabel->setMaximumSize( 32767, 20 );
-  zColLabel->setText( "Z Column:" );
+  zColLabel->setText( i18n("Z column:") );
   zColLabel->setAlignment( 289 );
   zColLabel->setMargin( -1 );
 
@@ -288,7 +289,7 @@ multiFileData::multiFileData
   formatLabel = new QLabel(colFormatButtonGroup, "formatLabel" );
   formatLabel->setMinimumSize( 80, 20 );
   formatLabel->setMaximumSize( 32767, 20 );
-  formatLabel->setText( "Format:" );
+  formatLabel->setText( i18n("Format:") );
   formatLabel->setAlignment( 289 );
   formatLabel->setMargin( -1 );
 
@@ -304,7 +305,7 @@ multiFileData::multiFileData
   rawFormatLabel = new QLabel(colFormatButtonGroup, "rawFormatLabel" );
   rawFormatLabel->setMinimumSize( 80, 20 );
   rawFormatLabel->setMaximumSize( 32767, 20 );
-  rawFormatLabel->setText( "Raw Format:" );
+  rawFormatLabel->setText( i18n("Raw format:") );
   rawFormatLabel->setAlignment( 289 );
   rawFormatLabel->setMargin( -1 );
 
@@ -336,7 +337,7 @@ multiFileData::multiFileData
   dataSetStartLabel = new QLabel(dataSetButtonGroup, "dataSetStartLabel" );
   dataSetStartLabel->setMinimumSize( 40, 20 );
   dataSetStartLabel->setMaximumSize( 32767, 20 );
-  dataSetStartLabel->setText( "Start:" );
+  dataSetStartLabel->setText( i18n("Start:") );
   dataSetStartLabel->setAlignment( 289 );
   dataSetStartLabel->setMargin( -1 );
 
@@ -344,7 +345,7 @@ multiFileData::multiFileData
   dataSetEndLabel = new QLabel(dataSetButtonGroup, "dataSetEndLabel" );
   dataSetEndLabel->setMinimumSize( 40, 20 );
   dataSetEndLabel->setMaximumSize( 32767, 20 );
-  dataSetEndLabel->setText( "End:" );
+  dataSetEndLabel->setText( i18n("End:") );
   dataSetEndLabel->setAlignment( 289 );
   dataSetEndLabel->setMargin( -1 );
 
@@ -352,7 +353,7 @@ multiFileData::multiFileData
   dataSetIncLabel = new QLabel(dataSetButtonGroup, "dataSetIncLabel" );
   dataSetIncLabel->setMinimumSize( 70, 20 );
   dataSetIncLabel->setMaximumSize( 32767, 20 );
-  dataSetIncLabel->setText( "Increment:" );
+  dataSetIncLabel->setText( i18n("Increment:") );
   dataSetIncLabel->setAlignment( 289 );
   dataSetIncLabel->setMargin( -1 );
 
@@ -368,7 +369,7 @@ multiFileData::multiFileData
   pointIncLabel = new QLabel(samplingButtonGroup, "pointIncLabel" );
   pointIncLabel->setMinimumSize( 100, 20 );
   pointIncLabel->setMaximumSize( 32767, 20 );
-  pointIncLabel->setText( "Point Increment:" );
+  pointIncLabel->setText( i18n("Point increment:") );
   pointIncLabel->setAlignment( 289 );
   pointIncLabel->setMargin( -1 );
 
@@ -384,7 +385,7 @@ multiFileData::multiFileData
   lineIncLabel = new QLabel(samplingButtonGroup, "lineIncLabel" );
   lineIncLabel->setMinimumSize( 100, 20 );
   lineIncLabel->setMaximumSize( 32767, 20 );
-  lineIncLabel->setText( "Line Increment:" );
+  lineIncLabel->setText( i18n("Line increment:") );
   lineIncLabel->setAlignment( 289 );
   lineIncLabel->setMargin( -1 );
 
@@ -400,7 +401,7 @@ multiFileData::multiFileData
   startPointLabel = new QLabel(samplingButtonGroup, "startPointLabel" );
   startPointLabel->setMinimumSize( 70, 20 );
   startPointLabel->setMaximumSize( 32767, 20 );
-  startPointLabel->setText( "Start point:" );
+  startPointLabel->setText( i18n("Start point:") );
   startPointLabel->setAlignment( 289 );
   startPointLabel->setMargin( -1 );
 
@@ -416,7 +417,7 @@ multiFileData::multiFileData
   startLineLabel = new QLabel(samplingButtonGroup, "startLineLabel" );
   startLineLabel->setMinimumSize( 70, 20 );
   startLineLabel->setMaximumSize( 32767, 20 );
-  startLineLabel->setText( "Start line:" );
+  startLineLabel->setText( i18n("Start line:") );
   startLineLabel->setAlignment( 289 );
   startLineLabel->setMargin( -1 );
 
@@ -432,7 +433,7 @@ multiFileData::multiFileData
   endPointLabel = new QLabel(samplingButtonGroup, "endPointLabel" );
   endPointLabel->setMinimumSize( 70, 20 );
   endPointLabel->setMaximumSize( 32767, 20 );
-  endPointLabel->setText( "End point:" );
+  endPointLabel->setText( i18n("End point:") );
   endPointLabel->setAlignment( 289 );
   endPointLabel->setMargin( -1 );
 
@@ -448,7 +449,7 @@ multiFileData::multiFileData
   endLineLabel = new QLabel(samplingButtonGroup, "endLineLabel" );
   endLineLabel->setMinimumSize( 60, 20 );
   endLineLabel->setMaximumSize( 32767, 20 );
-  endLineLabel->setText( "End line:" );
+  endLineLabel->setText( i18n("End line:") );
   endLineLabel->setAlignment( 289 );
   endLineLabel->setMargin( -1 );
 
@@ -464,7 +465,7 @@ multiFileData::multiFileData
   interpLabel = new QLabel(interpButtonGroup, "interpLabel" );
   interpLabel->setMinimumSize( 100, 20 );
   interpLabel->setMaximumSize( 32767, 20 );
-  interpLabel->setText( "Smoothing:" );
+  interpLabel->setText( i18n("Smoothing:") );
   interpLabel->setAlignment( 289 );
   interpLabel->setMargin( -1 );
 
@@ -572,7 +573,7 @@ multiFileData::multiFileData
   insideInterpBGRowLayout->addStretch(1);
 
   mainColFileOptionsLayout->activate();
-  addTab(multiFileOptions, "Mo&difiers" );
+  addTab(multiFileOptions, i18n("Mo&difiers") );
 
   // ----------------------- set up page three of the tab dialog ---------------
 
@@ -583,14 +584,14 @@ multiFileData::multiFileData
   QuoteButtonGroup->setMinimumSize( 380, 60 );
   QuoteButtonGroup->setMaximumSize( 32767, 32767 );
   QuoteButtonGroup->setFrameStyle( 49 );
-  QuoteButtonGroup->setTitle( "Filter Command Quoting" );
+  QuoteButtonGroup->setTitle( i18n("Filter Command Quoting") );
   QuoteButtonGroup->setExclusive( TRUE );
 
   QLabel* filterCmdLabel;
   filterCmdLabel = new QLabel( multiFileFiltering, "filterCmdLabel" );
   filterCmdLabel->setMinimumSize( 100, 20 );
   filterCmdLabel->setMaximumSize( 32767, 20 );
-  filterCmdLabel->setText( "Filter Command:" );
+  filterCmdLabel->setText( i18n("Filter command:") );
   filterCmdLabel->setAlignment( 289 );
   filterCmdLabel->setMargin( -1 );
 
@@ -605,7 +606,7 @@ multiFileData::multiFileData
   doubleQuoteRB = new QRadioButton(QuoteButtonGroup,"doubleQuoteRadioButton" );
   doubleQuoteRB->setMinimumSize( 110, 20 );
   doubleQuoteRB->setMaximumSize( 32767, 20 );
-  doubleQuoteRB->setText( "Double Quotes" );
+  doubleQuoteRB->setText( i18n("Double duotes") );
   doubleQuoteRB->setAutoRepeat( FALSE );
   //doubleQuoteRB->setAutoResize( FALSE );
   doubleQuoteRB->setChecked( TRUE );
@@ -613,7 +614,7 @@ multiFileData::multiFileData
   singleQuoteRB = new QRadioButton(QuoteButtonGroup,"SingleQuoteRadioButton" );
   singleQuoteRB->setMinimumSize( 110, 20 );
   singleQuoteRB->setMaximumSize( 32767, 20 );
-  singleQuoteRB->setText( "Single Quotes" );
+  singleQuoteRB->setText( i18n("Single quotes") );
   singleQuoteRB->setAutoRepeat( FALSE );
   //singleQuoteRB->setAutoResize( FALSE );
 
@@ -621,7 +622,7 @@ multiFileData::multiFileData
   InsertCurrentPushButton = new QPushButton( multiFileFiltering, "InsertCurrentPushButton" );
   InsertCurrentPushButton->setMinimumSize( 150, 26 );
   connect( InsertCurrentPushButton, SIGNAL(clicked()), SLOT(insertCurrentFilename()) );
-  InsertCurrentPushButton->setText( "Insert &Current Filename" );
+  InsertCurrentPushButton->setText( i18n("Insert &Current Filename") );
   InsertCurrentPushButton->setAutoRepeat( FALSE );
   //InsertCurrentPushButton->setAutoResize( FALSE );
 
@@ -629,7 +630,7 @@ multiFileData::multiFileData
   insertNewButton = new QPushButton( multiFileFiltering, "insertNewButton" );
   insertNewButton->setMinimumSize( 150, 26 );
   connect( insertNewButton, SIGNAL(clicked()), SLOT(insertNewFilename()) );
-  insertNewButton->setText( "Insert &New Filename" );
+  insertNewButton->setText( i18n("Insert &New Filename") );
   insertNewButton->setAutoRepeat( FALSE );
   //insertNewButton->setAutoResize( FALSE );
 
@@ -670,10 +671,10 @@ multiFileData::multiFileData
   filenamePBRowLayout->addStretch(1);
 
   filterMainColLayout->activate();
-  addTab(multiFileFiltering, "&Filtering" );
+  addTab(multiFileFiltering, i18n("&Filtering") );
 
-  setApplyButton("&Apply");
-  setOKButton("&Close");
+  setApplyButton(i18n("&Apply"));
+  setOKButton(i18n("&Close"));
   connect(this, SIGNAL(applyButtonPressed()), SLOT(apply()) );
 resize(500,500);
 

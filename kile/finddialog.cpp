@@ -87,7 +87,7 @@ FindDialog::FindDialog(QWidget* parent,  const char* name, bool modal, WFlags fl
     ButtonGroup1Layout->addWidget( checkCase );
 
     checkBegin = new QCheckBox( ButtonGroup1, "checkBegin" );
-    checkBegin->setText( i18n( "Start at Beginning" ) );
+    checkBegin->setText( i18n( "Start at beginning" ) );
     ButtonGroup1Layout->addWidget( checkBegin );
 
     FindDialogLayout->addWidget( ButtonGroup1, 1, 0 );

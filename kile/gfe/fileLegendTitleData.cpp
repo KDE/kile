@@ -31,6 +31,7 @@
 #include <qbttngrp.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 fileLegendTitleData::fileLegendTitleData
 (
@@ -44,7 +45,7 @@ fileLegendTitleData::fileLegendTitleData
 	Label_1 = new QLabel( this, "Label_1" );
 	Label_1->setMinimumSize( 110, 20 );
 	Label_1->setMaximumSize( 32767, 20 );
-	Label_1->setText( "File Legend Title:" );
+	Label_1->setText( i18n("File legend title:") );
 	Label_1->setAlignment( 289 );
 	Label_1->setMargin( -1 );
 
@@ -72,7 +73,7 @@ fileLegendTitleData::fileLegendTitleData
     defaultCButton->setAutoRepeat( FALSE );
     defaultCButton->setAutoResize( FALSE );
     defaultCButton->setChecked(TRUE);
-    
+
     noTitleCButton = new QCheckBox(ButtonGroup_1, "CheckBox_3" );
     noTitleCButton->setMinimumSize( 60, 20 );
     noTitleCButton->setMaximumSize( 32767, 20 );
@@ -84,7 +85,7 @@ fileLegendTitleData::fileLegendTitleData
 	PushButton_1 = new QPushButton( this, "PushButton_1" );
 	PushButton_1->setMinimumSize( 100, 26 );
 	connect( PushButton_1, SIGNAL(clicked()), SLOT(setFileLegendTitleOK()) );
-	PushButton_1->setText( "OK" );
+	PushButton_1->setText( i18n("&OK") );
 	PushButton_1->setAutoRepeat( FALSE );
 	PushButton_1->setAutoResize( FALSE );
     PushButton_1->setDefault(TRUE);
@@ -93,7 +94,7 @@ fileLegendTitleData::fileLegendTitleData
 	QPushButton* PushButton_2;
 	PushButton_2 = new QPushButton( this, "PushButton_2" );
 	PushButton_2->setMinimumSize( 100, 26 );
-	PushButton_2->setText( "&Cancel" );
+	PushButton_2->setText( i18n("&Cancel") );
 	PushButton_2->setAutoRepeat( FALSE );
 	PushButton_2->setAutoResize( FALSE );
     connect( PushButton_2, SIGNAL(clicked()), SLOT(reject()) );

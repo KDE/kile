@@ -77,7 +77,7 @@ bool Templates::copyAppData(QString src, QString subdir, QString file) {
       job->setAutoErrorHandlingEnabled(true);
    }
    else {
-      KMessageBox::error(0,i18n("Could not find a directory to save ") + file + i18n("to.\nCheck whether you have a .kde directory with write permissions in your home directory."));
+      KMessageBox::error(0,i18n("Could not find a directory to save %1 to.\nCheck whether you have a .kde directory with write permissions in your home directory.").arg(file));
       return false;
    }
 

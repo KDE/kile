@@ -19,7 +19,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.    
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 rotationData::rotationData
 (
@@ -42,7 +43,7 @@ rotationData::rotationData
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 	QLabel* dlgedit_xaxisLabel;
 	dlgedit_xaxisLabel = new QLabel( this, "xaxisLabel" );
-	dlgedit_xaxisLabel->setText( "X Axis:" );
+	dlgedit_xaxisLabel->setText( i18n("X axis:") );
 	dlgedit_xaxisLabel->setAlignment( 289 );
 	dlgedit_xaxisLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_xaxisLabel , 0,0, Qt::AlignLeft );
@@ -69,7 +70,7 @@ rotationData::rotationData
 
 	QLabel* dlgedit_zAxisLabel;
 	dlgedit_zAxisLabel = new QLabel( this, "zAxisLabel" );
-	dlgedit_zAxisLabel->setText( "Z Axis:" );
+	dlgedit_zAxisLabel->setText( i18n("Z axis:") );
 	dlgedit_zAxisLabel->setAlignment( 289 );
 	dlgedit_zAxisLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_zAxisLabel , 1,0, Qt::AlignLeft );
@@ -96,7 +97,7 @@ rotationData::rotationData
 
 	QLabel* dlgedit_plotScalingLabel;
 	dlgedit_plotScalingLabel = new QLabel( this, "plotScalingLabel" );
-	dlgedit_plotScalingLabel->setText( "Plot Scaling:" );
+	dlgedit_plotScalingLabel->setText( i18n("Plot scaling:") );
 	dlgedit_plotScalingLabel->setAlignment( 289 );
 	dlgedit_plotScalingLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_plotScalingLabel , 2,0, Qt::AlignLeft );
@@ -110,7 +111,7 @@ rotationData::rotationData
 
 	QLabel* dlgedit_xAxisScalingLabel;
 	dlgedit_xAxisScalingLabel = new QLabel( this, "xAxisScalingLabel" );
-	dlgedit_xAxisScalingLabel->setText( "Z Axis Scaling:" );
+	dlgedit_xAxisScalingLabel->setText( i18n("Z axis scaling:") );
 	dlgedit_xAxisScalingLabel->setAlignment( 289 );
 	dlgedit_xAxisScalingLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_xAxisScalingLabel , 3,0, Qt::AlignLeft );
@@ -125,7 +126,7 @@ rotationData::rotationData
 	QPushButton* dlgedit_plotPushButton;
 	dlgedit_plotPushButton = new QPushButton( this, "plotPushButton" );
 	connect( dlgedit_plotPushButton, SIGNAL(clicked()), SLOT(doOK()) );
-	dlgedit_plotPushButton->setText( "OK" );
+	dlgedit_plotPushButton->setText( i18n("&OK") );
 	dlgedit_plotPushButton->setAutoRepeat( FALSE );
 	dlgedit_plotPushButton->setAutoDefault( TRUE );
     dlgedit_plotPushButton->setDefault( TRUE );
@@ -134,14 +135,14 @@ rotationData::rotationData
 	QPushButton* dlgedit_defaultsPushButton;
 	dlgedit_defaultsPushButton = new QPushButton( this, "defaultsPushButton" );
 	connect( dlgedit_defaultsPushButton, SIGNAL(clicked()), SLOT(setDefaults()) );
-	dlgedit_defaultsPushButton->setText( "Defaults" );
+	dlgedit_defaultsPushButton->setText( i18n("&Defaults") );
 	dlgedit_defaultsPushButton->setAutoRepeat( FALSE );
   gbox->addWidget(dlgedit_defaultsPushButton , 4,1, Qt::AlignCenter );
 
 	QPushButton* dlgedit_closePushButton;
 	dlgedit_closePushButton = new QPushButton( this, "closePushButton" );
 	connect( dlgedit_closePushButton, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_closePushButton->setText( "Cancel" );
+	dlgedit_closePushButton->setText( i18n("&Cancel") );
 	dlgedit_closePushButton->setAutoRepeat( FALSE );
   gbox->addWidget( dlgedit_closePushButton, 4,2, Qt::AlignCenter );
 

@@ -87,7 +87,7 @@ ReplaceDialog::ReplaceDialog(QWidget* parent,  const char* name, bool modal, WFl
     ButtonGroup1Layout->addWidget( checkCase );
 
     checkBegin = new QCheckBox( ButtonGroup1, "checkBegin" );
-    checkBegin->setText( i18n( "Start at Beginning")  );
+    checkBegin->setText( i18n( "Start at beginning")  );
     ButtonGroup1Layout->addWidget( checkBegin );
 
     ReplaceDialogLayout->addWidget( ButtonGroup1, 1, 0 );

@@ -30,6 +30,7 @@
 #include <qbttngrp.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 multiFuncData::multiFuncData
 (
@@ -43,7 +44,7 @@ multiFuncData::multiFuncData
 	Label_7 = new QLabel( this, "Label_7" );
 	Label_7->setMinimumSize( 90, 20 );
 	Label_7->setMaximumSize( 32767, 20 );
-	Label_7->setText( "Functions:" );
+	Label_7->setText( i18n("Functions:") );
 	Label_7->setAlignment( 289 );
 	Label_7->setMargin( -1 );
 
@@ -58,7 +59,7 @@ multiFuncData::multiFuncData
 	Label_16 = new QLabel( this, "Label_16" );
 	Label_16->setMinimumSize( 90, 20 );
 	Label_16->setMaximumSize( 32767, 20 );
-	Label_16->setText( "Edit Function:" );
+	Label_16->setText( i18n("Edit function:") );
 	Label_16->setAlignment( 289 );
 	Label_16->setMargin( -1 );
 
@@ -74,7 +75,7 @@ multiFuncData::multiFuncData
 	Label_15 = new QLabel( this, "Label_15" );
 	Label_15->setMinimumSize( 90, 20 );
 	Label_15->setMaximumSize( 32767, 20 );
-	Label_15->setText( "Style:" );
+	Label_15->setText( i18n("Style:") );
 	Label_15->setAlignment( 289 );
 	Label_15->setMargin( -1 );
 
@@ -106,7 +107,7 @@ multiFuncData::multiFuncData
     Label_17 = new QLabel(ButtonGroup_3, "Label_17" );
     Label_17->setMinimumSize( 140, 20 );
     Label_17->setMaximumSize( 32767, 20 );
-    Label_17->setText( "Function Legend Title:" );
+    Label_17->setText( i18n("Function legend title:") );
     Label_17->setAlignment( 289 );
     Label_17->setMargin( -1 );
 
@@ -137,7 +138,7 @@ multiFuncData::multiFuncData
 	PushButton_6 = new QPushButton( this, "PushButton_6" );
 	PushButton_6->setMinimumSize( 100, 26 );
 	connect( PushButton_6, SIGNAL(clicked()), SLOT(insertNewFunction()) );
-	PushButton_6->setText( "&Add Function" );
+	PushButton_6->setText( i18n("&Add Function") );
 	PushButton_6->setAutoRepeat( FALSE );
 	//PushButton_6->setAutoResize( FALSE );
 	PushButton_6->setDefault( TRUE );
@@ -146,7 +147,7 @@ multiFuncData::multiFuncData
 	PushButton_7 = new QPushButton( this, "PushButton_7" );
 	PushButton_7->setMinimumSize( 100, 26 );
 	connect( PushButton_7, SIGNAL(clicked()), SLOT(deleteFunction()) );
-	PushButton_7->setText( "Delete &Function" );
+	PushButton_7->setText( i18n("Delete &Function") );
 	PushButton_7->setAutoRepeat( FALSE );
 	//PushButton_7->setAutoResize( FALSE );
 
@@ -154,7 +155,7 @@ multiFuncData::multiFuncData
 	PushButton_12 = new QPushButton( this, "PushButton_12" );
 	PushButton_12->setMinimumSize( 100, 26 );
 	connect( PushButton_12, SIGNAL(clicked()), SLOT(setFuncOptions()) );
-	PushButton_12->setText( "&Modify Options" );
+	PushButton_12->setText( i18n("&Modify Options") );
 	PushButton_12->setAutoRepeat( FALSE );
 	//PushButton_12->setAutoResize( FALSE );
 
@@ -162,7 +163,7 @@ multiFuncData::multiFuncData
 	PushButton_13 = new QPushButton( this, "PushButton_13" );
 	PushButton_13->setMinimumSize( 100, 26 );
 	connect( PushButton_13, SIGNAL(clicked()), SLOT(closeMultiFunc()) );
-	PushButton_13->setText( "&Close" );
+	PushButton_13->setText( i18n("&Close") );
 	PushButton_13->setAutoRepeat( FALSE );
 	//PushButton_13->setAutoResize( FALSE );
 

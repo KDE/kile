@@ -25,7 +25,7 @@
 #include <qframe.h>
 #include <qlayout.h>
 #include <kfiledialog.h>
-
+#include <klocale.h>
 
 Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 : QMainWindow( parent, name, WDestructiveClose )
@@ -40,8 +40,8 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
   if (gnuRC == NULL) // trouble opening gnuplot
   {
     QMessageBox::critical(0, "Kile",
-                          "Could not open pipe to Gnuplot!\n"
-                          "Application will now exit");
+                          i18n("Could not open pipe to Gnuplot!\n"
+                          "Application will now exit"));
   }
   // end setup of gnuplot
 
@@ -54,37 +54,37 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
   GfeLabel = new QLabel( page, "GfeLabel" );
   GfeLabel->setAlignment( AlignCenter );
-  GfeLabel->setText( "<b>Gnuplot Front End for Kile</b>" );
+  GfeLabel->setText( i18n("<b>Gnuplot Front End for Kile</b>") );
   GfeLabel->setMinimumWidth(425);
   gbox->addMultiCellWidget(GfeLabel,0,0,0,5,Qt::AlignCenter);
 
 	filenameCB = new QCheckBox( page, "CheckBox_1" );
-	filenameCB->setText( "Data File :" );
+	filenameCB->setText( i18n("Data file:") );
   gbox->addWidget(filenameCB , 1, 0 );
 
   filenameEdit = new QLineEdit( page, "LineEdit_23" );
-	filenameEdit->setText( "none" );
+	filenameEdit->setText( i18n("none") );
 	filenameEdit->setMaxLength( 32767 );
   gbox->addMultiCellWidget(filenameEdit,1,1,1,3,Qt::AlignLeft);
 
 	QPushButton* PushButton_6;
 	PushButton_6 = new QPushButton( page, "PushButton_6" );
   connect( PushButton_6, SIGNAL(clicked()), this, SLOT(dataFileOpen()) );
-	PushButton_6->setText( "Open" );
+	PushButton_6->setText( i18n("Open") );
   gbox->addMultiCellWidget(PushButton_6,1,1,4,5,Qt::AlignLeft);
 
 	multiFileCheckbox = new QCheckBox( page, "CheckBox_3" );
-	multiFileCheckbox->setText( "Multiple Data Files" );
+	multiFileCheckbox->setText( i18n("Multiple data files") );
   gbox->addMultiCellWidget(multiFileCheckbox,2,2,0,3,Qt::AlignLeft);
-  
+
 	QPushButton* PushButton_4;
 	PushButton_4 = new QPushButton( page, "PushButton_4" );
   connect( PushButton_4, SIGNAL(clicked()), this, SLOT(getMultiFile()) );
-	PushButton_4->setText( "Define" );
+	PushButton_4->setText( i18n("Define") );
   gbox->addMultiCellWidget(PushButton_4,2,2,4,5,Qt::AlignLeft);
 
 	functionCB = new QCheckBox( page, "CheckBox_2" );
-	functionCB->setText( "Function" );
+	functionCB->setText( i18n("Function") );
   gbox->addWidget(functionCB , 3, 0 );
 
 
@@ -94,14 +94,14 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
   gbox->addMultiCellWidget(functionEdit,3,3,1,5,Qt::AlignLeft);
 
 	multiFuncCheckbox = new QCheckBox( page, "CheckBox_4" );
-	multiFuncCheckbox->setText( "Multiple Functions" );
+	multiFuncCheckbox->setText( i18n("Multiple functions") );
   gbox->addMultiCellWidget(multiFuncCheckbox,4,4,0,3,Qt::AlignLeft);
 
 
 	QPushButton* PushButton_5;
 	PushButton_5 = new QPushButton( page, "PushButton_5" );
   connect( PushButton_5, SIGNAL(clicked()), this, SLOT(getMultiFunction()) );
-	PushButton_5->setText( "Define" );
+	PushButton_5->setText( i18n("Define") );
   gbox->addMultiCellWidget(PushButton_5,4,4,4,5,Qt::AlignLeft);
 
 
@@ -113,7 +113,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
   QLabel* Label_4;
 	Label_4 = new QLabel( page, "Label_4" );
-	Label_4->setText( "Variable X:" );
+	Label_4->setText( i18n("Variable X:") );
   gbox->addWidget(Label_4 , 6, 0 );
 
 
@@ -127,7 +127,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_5;
 	Label_5 = new QLabel( page, "Label_5" );
-	Label_5->setText( "Start:" );
+	Label_5->setText( i18n("Start:") );
   gbox->addWidget( Label_5, 6, 2,Qt::AlignRight );
 
 
@@ -140,7 +140,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_6;
 	Label_6 = new QLabel( page, "Label_6" );
-	Label_6->setText( "End:" );
+	Label_6->setText( i18n("End:") );
   gbox->addWidget( Label_6, 6, 4,Qt::AlignRight );
 
 
@@ -153,7 +153,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_10;
 	Label_10 = new QLabel( page, "Label_10" );
-	Label_10->setText( "Variable Y:" );
+	Label_10->setText( i18n("Variable Y:") );
   gbox->addWidget( Label_10, 7, 0 );
 
 
@@ -167,7 +167,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_12;
 	Label_12 = new QLabel( page, "Label_12" );
-	Label_12->setText( "Start:" );
+	Label_12->setText( i18n("Start:") );
   gbox->addWidget( Label_12, 7, 2 ,Qt::AlignRight);
 
 
@@ -181,7 +181,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_13;
 	Label_13 = new QLabel( page, "Label_13" );
-	Label_13->setText( "End:" );
+	Label_13->setText( i18n("End:") );
   gbox->addWidget( Label_13, 7, 4,Qt::AlignRight );
 
 
@@ -194,14 +194,14 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_14;
 	Label_14 = new QLabel( page, "Label_14" );
-	Label_14->setText( "Variable Z:" );
+	Label_14->setText( i18n("Variable Z:") );
   gbox->addWidget( Label_14, 8, 0 );
 
 
 
 	QLabel* Label_15;
 	Label_15 = new QLabel( page, "Label_15" );
-	Label_15->setText( "Start:" );
+	Label_15->setText( i18n("Start:") );
   gbox->addWidget( Label_15, 8, 2,Qt::AlignRight );
 
 
@@ -215,7 +215,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_16;
 	Label_16 = new QLabel( page, "Label_16" );
-	Label_16->setText( "End:" );
+	Label_16->setText( i18n("End:") );
   gbox->addWidget( Label_16, 8, 4,Qt::AlignRight );
 
 
@@ -230,26 +230,26 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
     Line2->setFrameStyle( QFrame::HLine | QFrame::Sunken );
     Line2->setMinimumWidth(425);
     gbox->addMultiCellWidget(Line2,9,9,0,5,Qt::AlignCenter);
-    
+
 
 
 
     QLabel* Label_22;
 	Label_22 = new QLabel( page, "Label_20" );
-	Label_22->setText( "Xoffset" );
+	Label_22->setText( i18n("X offset:") );
   gbox->addWidget( Label_22, 10, 4 );
 
 
     QLabel* Label_23;
 	Label_23 = new QLabel( page, "Label_23" );
-	Label_23->setText( "Yoffset" );
+	Label_23->setText( i18n("Y offset:") );
   gbox->addWidget( Label_23, 10, 5 );
 
 
 
 	QLabel* Label_7;
 	Label_7 = new QLabel( page, "Label_7" );
-	Label_7->setText( "X Label:" );
+	Label_7->setText( i18n("X label:") );
   gbox->addWidget( Label_7, 11, 0 );
 
 
@@ -275,7 +275,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_8;
 	Label_8 = new QLabel( page, "Label_8" );
-	Label_8->setText( "Y Label:" );
+	Label_8->setText( i18n("Y label:") );
   gbox->addWidget( Label_8, 12, 0 );
 
 
@@ -301,7 +301,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QLabel* Label_9;
 	Label_9 = new QLabel( page, "Label_9" );
-	Label_9->setText( "Z Label:" );
+	Label_9->setText( i18n("Z label:") );
   gbox->addWidget( Label_9, 13, 0 );
 
 
@@ -328,7 +328,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
     QLabel* Label_21;
 	Label_21 = new QLabel( page, "Label_21" );
-	Label_21->setText( "Title:" );
+	Label_21->setText( i18n("Title:") );
   gbox->addWidget( Label_21, 14, 0 );
 
 
@@ -351,7 +351,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
   QLabel* Label_19;
   Label_19 = new QLabel( page, "Label_19" );
-  Label_19->setText( "Terminal:" );
+  Label_19->setText( i18n("Terminal:") );
   gbox->addWidget(Label_19 , 15, 0 );
 
 
@@ -362,7 +362,7 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
   QLabel* Label_17;
   Label_17 = new QLabel( page, "Label_17" );
-  Label_17->setText( "Output:" );
+  Label_17->setText( i18n("Output:") );
   gbox->addWidget(Label_17 , 15, 3,Qt::AlignRight );
 
   outputLabel = new QLineEdit( page, "Label_18" );
@@ -372,13 +372,13 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QPushButton* PushButton_7;
 	PushButton_7 = new QPushButton( page, "PushButton_7" );
-	PushButton_7->setText( "Output File" );
+	PushButton_7->setText( i18n("Output File") );
   connect( PushButton_7, SIGNAL(clicked()), this, SLOT(getOutput()) );
   gbox->addMultiCellWidget(PushButton_7,16,16,0,1,Qt::AlignCenter);
 
  	QPushButton* PushButton_8;
 	PushButton_8 = new QPushButton( page, "PushButton_8" );
-	PushButton_8->setText( "Reset Output" );
+	PushButton_8->setText( i18n("Reset Output") );
   connect( PushButton_8, SIGNAL(clicked()), this, SLOT(resetOutput()) );
   gbox->addMultiCellWidget(PushButton_8,16,16,4,5,Qt::AlignCenter);
 
@@ -391,14 +391,14 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
 	QPushButton* PushButton_1;
 	PushButton_1 = new QPushButton( page, "PushButton_1" );
-	PushButton_1->setText( "Plot" );
+	PushButton_1->setText( i18n("Plot") );
     PushButton_1->setDefault(TRUE);
     connect( PushButton_1, SIGNAL(clicked()), this, SLOT(plot()) );
     gbox->addMultiCellWidget(PushButton_1,18,18,0,1,Qt::AlignCenter);
 
 	QPushButton* PushButton_2;
 	PushButton_2 = new QPushButton( page, "PushButton_2" );
-	PushButton_2->setText( "Replot" );
+	PushButton_2->setText( i18n("Replot") );
     connect(PushButton_2, SIGNAL(clicked()), this, SLOT(replot()));
     gbox->addMultiCellWidget(PushButton_2,18,18,2,3,Qt::AlignCenter);
 
@@ -406,67 +406,67 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 	QPushButton* PushButton_3;
 	PushButton_3 = new QPushButton( page, "PushButton_3" );
     connect( PushButton_3, SIGNAL(clicked()), this, SLOT(xgfeQuit()) );
-	PushButton_3->setText( "Quit" );
+	PushButton_3->setText( i18n("Quit") );
   gbox->addMultiCellWidget(PushButton_3,18,18,4,5,Qt::AlignCenter);
 
 // create menubar
 
     // file menu
     file = new QPopupMenu;
-    file->insertItem("Save Gnuplot", this, SLOT(save()));
-    file->insertItem("Load Gnuplot", this, SLOT(load()));
+    file->insertItem(i18n("Save Gnuplot"), this, SLOT(save()));
+    file->insertItem(i18n("Load Gnuplot"), this, SLOT(load()));
     file->insertSeparator();
-    file->insertItem("Save Xgfe", this, SLOT(saveXgfe()));
-    file->insertItem("Load Xgfe", this, SLOT(loadXgfe()));
+    file->insertItem(i18n("Save Xgfe"), this, SLOT(saveXgfe()));
+    file->insertItem(i18n("Load Xgfe"), this, SLOT(loadXgfe()));
     file->insertSeparator();
-    file->insertItem("Quit", this, SLOT(xgfeQuit()));
+    file->insertItem(i18n("Quit"), this, SLOT(xgfeQuit()));
 
     // file plotting style popup menu
     fileStyle = new QPopupMenu;
-    file_p_id = fileStyle->insertItem("Points", this, SLOT(setFilePoints()));
-    file_l_id = fileStyle->insertItem("Lines", this, SLOT(setFileLines()));
-    file_lp_id = fileStyle->insertItem("Linespoints", this, SLOT(setFileLinesPoints()));
-    file_i_id = fileStyle->insertItem("Impulses", this, SLOT(setFileImpulses()));
-    file_d_id = fileStyle->insertItem("Dots", this, SLOT(setFileDots()));
-    file_s_id = fileStyle->insertItem("Steps", this, SLOT(setFileSteps()));
-    file_fs_id = fileStyle->insertItem("Fsteps", this, SLOT(setFileFsteps()));
-    file_hs_id = fileStyle->insertItem("Histeps", this, SLOT(setFileHisteps()));
-    file_eb_id = fileStyle->insertItem("Errorbars", this, SLOT(setFileErrorbars()));
-    file_xeb_id = fileStyle->insertItem("Xerrorbars", this, SLOT(setFileXerrorbars()));
-    file_yeb_id = fileStyle->insertItem("Yerrorbars", this, SLOT(setFileYerrorbars()));
-    file_xyeb_id = fileStyle->insertItem("Xyerrorbars", this, SLOT(setFileXyerrorbars()));
-    file_b_id = fileStyle->insertItem("Boxes", this, SLOT(setFileBoxes()));
-    file_be_id = fileStyle->insertItem("Boxerrorbars", this, SLOT(setFileBoxerrorbars()));
-    file_bxye_id = fileStyle->insertItem("Boxxyerrorbars", this, SLOT(setFileBoxxyerrorbars()));
-    file_fin_id = fileStyle->insertItem("Financebars", this, SLOT(setFileFinancebars()));
-    file_cs_id = fileStyle->insertItem("Candlesticks", this, SLOT(setFileCandlesticks()));
+    file_p_id = fileStyle->insertItem(i18n("Points"), this, SLOT(setFilePoints()));
+    file_l_id = fileStyle->insertItem(i18n("Lines"), this, SLOT(setFileLines()));
+    file_lp_id = fileStyle->insertItem(i18n("Linespoints"), this, SLOT(setFileLinesPoints()));
+    file_i_id = fileStyle->insertItem(i18n("Impulses"), this, SLOT(setFileImpulses()));
+    file_d_id = fileStyle->insertItem(i18n("Dots"), this, SLOT(setFileDots()));
+    file_s_id = fileStyle->insertItem(i18n("Steps"), this, SLOT(setFileSteps()));
+    file_fs_id = fileStyle->insertItem(i18n("Fsteps"), this, SLOT(setFileFsteps()));
+    file_hs_id = fileStyle->insertItem(i18n("Histeps"), this, SLOT(setFileHisteps()));
+    file_eb_id = fileStyle->insertItem(i18n("Errorbars"), this, SLOT(setFileErrorbars()));
+    file_xeb_id = fileStyle->insertItem(i18n("Xerrorbars"), this, SLOT(setFileXerrorbars()));
+    file_yeb_id = fileStyle->insertItem(i18n("Yerrorbars"), this, SLOT(setFileYerrorbars()));
+    file_xyeb_id = fileStyle->insertItem(i18n("Xyerrorbars"), this, SLOT(setFileXyerrorbars()));
+    file_b_id = fileStyle->insertItem(i18n("Boxes"), this, SLOT(setFileBoxes()));
+    file_be_id = fileStyle->insertItem(i18n("Boxerrorbars"), this, SLOT(setFileBoxerrorbars()));
+    file_bxye_id = fileStyle->insertItem(i18n("Boxxyerrorbars"), this, SLOT(setFileBoxxyerrorbars()));
+    file_fin_id = fileStyle->insertItem(i18n("Financebars"), this, SLOT(setFileFinancebars()));
+    file_cs_id = fileStyle->insertItem(i18n("Candlesticks"), this, SLOT(setFileCandlesticks()));
     fileStyle->setCheckable(TRUE);
     fileStyle->setItemChecked(file_p_id, TRUE);
 
     // function plotting style popup menu
     funcStyle = new QPopupMenu;
-    func_p_id = funcStyle->insertItem("Points", this, SLOT(setFuncPoints()));
-    func_l_id = funcStyle->insertItem("Lines", this, SLOT(setFuncLines()));
-    func_lp_id = funcStyle->insertItem("Linespoints", this, SLOT(setFuncLinesPoints()));
-    func_i_id = funcStyle->insertItem("Impulses", this, SLOT(setFuncImpulses()));
-    func_d_id = funcStyle->insertItem("Dots", this, SLOT(setFuncDots()));
-    func_s_id = funcStyle->insertItem("Steps", this, SLOT(setFuncSteps()));
-    func_eb_id = funcStyle->insertItem("Errorbars", this, SLOT(setFuncErrorbars()));
-    func_b_id = funcStyle->insertItem("Boxes", this, SLOT(setFuncBoxes()));
+    func_p_id = funcStyle->insertItem(i18n("Points"), this, SLOT(setFuncPoints()));
+    func_l_id = funcStyle->insertItem(i18n("Lines"), this, SLOT(setFuncLines()));
+    func_lp_id = funcStyle->insertItem(i18n("Linespoints"), this, SLOT(setFuncLinesPoints()));
+    func_i_id = funcStyle->insertItem(i18n("Impulses"), this, SLOT(setFuncImpulses()));
+    func_d_id = funcStyle->insertItem(i18n("Dots"), this, SLOT(setFuncDots()));
+    func_s_id = funcStyle->insertItem(i18n("Steps"), this, SLOT(setFuncSteps()));
+    func_eb_id = funcStyle->insertItem(i18n("Errorbars"), this, SLOT(setFuncErrorbars()));
+    func_b_id = funcStyle->insertItem(i18n("Boxes"), this, SLOT(setFuncBoxes()));
     funcStyle->setCheckable(TRUE);
     funcStyle->setItemChecked(func_l_id, TRUE);
 
     // file plotting type menu
     filePlotType = new QPopupMenu();
-    file2d_id = filePlotType->insertItem("2D", this, SLOT(setFilePlotType2d()));
-    file3d_id = filePlotType->insertItem("3D", this, SLOT(setFilePlotType3d()));
+    file2d_id = filePlotType->insertItem(i18n("2D"), this, SLOT(setFilePlotType2d()));
+    file3d_id = filePlotType->insertItem(i18n("3D"), this, SLOT(setFilePlotType3d()));
     filePlotType->setCheckable(TRUE);
     filePlotType->setItemChecked(file2d_id, TRUE);
 
     // function plotting type menu
     funcPlotType = new QPopupMenu();
-    func2d_id = funcPlotType->insertItem("2D", this, SLOT(setFuncPlotType2d()));
-    func3d_id = funcPlotType->insertItem("3D", this, SLOT(setFuncPlotType3d()));
+    func2d_id = funcPlotType->insertItem(i18n("2D"), this, SLOT(setFuncPlotType2d()));
+    func3d_id = funcPlotType->insertItem(i18n("3D"), this, SLOT(setFuncPlotType3d()));
     funcPlotType->setCheckable(TRUE);
     funcPlotType->setItemChecked(func2d_id, TRUE);
 
@@ -496,49 +496,49 @@ Qplotdialog::Qplotdialog(QWidget *parent, const char *name )
 
     // datafile menu
     datafileOpMenu = new QPopupMenu;
-    datafileOpMenu->insertItem("Type (2D/3D)", filePlotType);
-    datafileOpMenu->insertItem("Style", fileStyle);
-    datafileOpMenu->insertItem("Legend Title",this, SLOT(setFileLegendTitle()));
-    datafileOpMenu->insertItem("Modifiers", this, SLOT(getFileOptions()) );
-    datafileOpMenu->insertItem("Filtering", this, SLOT(setFileFilter()));
+    datafileOpMenu->insertItem(i18n("Type (2D/3D)"), filePlotType);
+    datafileOpMenu->insertItem(i18n("Style"), fileStyle);
+    datafileOpMenu->insertItem(i18n("Legend Title"),this, SLOT(setFileLegendTitle()));
+    datafileOpMenu->insertItem(i18n("Modifiers"), this, SLOT(getFileOptions()) );
+    datafileOpMenu->insertItem(i18n("Filtering"), this, SLOT(setFileFilter()));
 
     // functions menu
     funcOpMenu = new QPopupMenu;
-    funcOpMenu->insertItem("Type (2D/3D)",funcPlotType);
-    funcOpMenu->insertItem("Style",funcStyle );
-    funcOpMenu->insertItem("Legend Title", this, SLOT(setFuncLegendTitle()));
+    funcOpMenu->insertItem(i18n("Type (2D/3D)"),funcPlotType);
+    funcOpMenu->insertItem(i18n("Style"),funcStyle );
+    funcOpMenu->insertItem(i18n("Legend Title"), this, SLOT(setFuncLegendTitle()));
 
     d3Menu = new QPopupMenu;
-    d3Menu->insertItem("Rotation", this, SLOT(getRotation()));
-    d3Menu->insertItem("Tics Level", this, SLOT(getTicsLevel()));
-    d3HiddenLine_id = d3Menu->insertItem("Hidden Line Removal", this,SLOT(set3dHiddenLine()));
-    d3Menu->insertItem("Isolines", this, SLOT(setIsolines()));
+    d3Menu->insertItem(i18n("Rotation"), this, SLOT(getRotation()));
+    d3Menu->insertItem(i18n("Tics Level"), this, SLOT(getTicsLevel()));
+    d3HiddenLine_id = d3Menu->insertItem(i18n("Hidden Line Removal"), this,SLOT(set3dHiddenLine()));
+    d3Menu->insertItem(i18n("Isolines"), this, SLOT(setIsolines()));
     d3Menu->setCheckable(TRUE);
 
     // option menu
     options = new QPopupMenu;
-    options->insertItem("Plot Size", this, SLOT(setPlotSize()));
-    options->insertItem("Reset Size", this, SLOT(resetSize()));
-    options->insertItem("Legend", this, SLOT(getLegendOps()));
-    options->insertItem("Log Scale", this, SLOT(setLogScaleOptions()));
-    options->insertItem("Bar Size", this, SLOT(setBarOptions()));
-    options->insertItem("Reset Bar Size", this, SLOT(resetBarOptions()));
-    options->insertItem("Box Width", this, SLOT(setBoxWidthOption()));
-    options->insertItem("Reset Box Width", this, SLOT(resetBoxWidthOption()));
-    options->insertItem("Tics", this, SLOT(setTicsOptions()));
-    options->insertItem("Curve Fitting", this, SLOT(getCurveFit()));
+    options->insertItem(i18n("Plot Size"), this, SLOT(setPlotSize()));
+    options->insertItem(i18n("Reset Size"), this, SLOT(resetSize()));
+    options->insertItem(i18n("Legend"), this, SLOT(getLegendOps()));
+    options->insertItem(i18n("Log Scale"), this, SLOT(setLogScaleOptions()));
+    options->insertItem(i18n("Bar Size"), this, SLOT(setBarOptions()));
+    options->insertItem(i18n("Reset Bar Size"), this, SLOT(resetBarOptions()));
+    options->insertItem(i18n("Box Width"), this, SLOT(setBoxWidthOption()));
+    options->insertItem(i18n("Reset Box Width"), this, SLOT(resetBoxWidthOption()));
+    options->insertItem(i18n("Tics"), this, SLOT(setTicsOptions()));
+    options->insertItem(i18n("Curve Fitting"), this, SLOT(getCurveFit()));
 
     // help menu
     help = new QPopupMenu;
-    help->insertItem("About", this, SLOT(showAbout()));
+    help->insertItem(i18n("About"), this, SLOT(showAbout()));
 
-    menuBar()->insertItem("File", file);
-    menuBar()->insertItem("Terminal", terminals);
-    menuBar()->insertItem("Datafile", datafileOpMenu);
-    menuBar()->insertItem("Function", funcOpMenu);
-    menuBar()->insertItem("3DPlots", d3Menu);
-    menuBar()->insertItem("Options", options);
-    menuBar()->insertItem("About",help);
+    menuBar()->insertItem(i18n("File"), file);
+    menuBar()->insertItem(i18n("Terminal"), terminals);
+    menuBar()->insertItem(i18n("Datafile"), datafileOpMenu);
+    menuBar()->insertItem(i18n("Function"), funcOpMenu);
+    menuBar()->insertItem(i18n("3DPlots"), d3Menu);
+    menuBar()->insertItem(i18n("Options"), options);
+    menuBar()->insertItem(i18n("About"),help);
 
     this->resize(400,500);
 
@@ -763,7 +763,7 @@ void Qplotdialog::setTermX11()
 void Qplotdialog::getOutput()
 {
   QString temp;
-  QString f = KFileDialog::getSaveFileName( QDir::currentDirPath(),"", this,"Output File" );
+  QString f = KFileDialog::getSaveFileName( QDir::currentDirPath(),"", this,i18n("Output File") );
   if (!f.isEmpty())
   {
     temp = f;
@@ -790,8 +790,8 @@ void Qplotdialog::resetSize()
 
 void Qplotdialog::showAbout()
 {
-  QMessageBox::information(this, "About","Gnuplot Front End for Kile\n"
-                           "Special version of the Xgfe program created by David Ishee");
+  QMessageBox::information(this, i18n("About"),i18n("Gnuplot Front End for Kile\n"
+                           "Special version of the Xgfe program created by David Ishee"));
 
 }
 

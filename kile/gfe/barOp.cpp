@@ -24,6 +24,7 @@
  *********************************************************************/
 
 #include "barOp.h"
+#include <klocale.h>
 
 barOp::barOp
 (
@@ -33,7 +34,7 @@ barOp::barOp
 	:
 	barOpData( parent, name )
 {
-	setCaption( "Bar Options" );
+	setCaption( i18n("Bar Options") );
 }
 
 

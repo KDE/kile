@@ -51,62 +51,62 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    ButtonGroup->setExclusive( TRUE );
 
    checkLatex = new QCheckBox(ButtonGroup , "checkLatex" );
-   checkLatex->setText("LaTeX + dvips + " + i18n("View PS") );
+   checkLatex->setText(i18n("LaTeX + dvips + View PS") );
 
    checkDvi = new QCheckBox(ButtonGroup , "checkDvi" );
-   checkDvi->setText("LaTeX + "+i18n("View Dvi") );
+   checkDvi->setText(i18n("LaTeX + View Dvi") );
 
    checkDviSearch = new QCheckBox(ButtonGroup , "checkDviSearch" );
-   checkDviSearch->setText("LaTeX + Kdvi Forward Search");
+   checkDviSearch->setText(i18n("LaTeX + Kdvi forward search"));
 
    checkPdflatex = new QCheckBox(ButtonGroup , "checkPdflatex" );
-   checkPdflatex->setText("PDFLaTeX + "+i18n("View PDF"));
+   checkPdflatex->setText(i18n("PDFLaTeX + View PDF"));
 
    checkDviPdf = new QCheckBox(ButtonGroup , "checkPdflatex" );
-   checkDviPdf->setText("LaTeX + dvipdfm + "+i18n("View PDF"));
+   checkDviPdf->setText(i18n("LaTeX + dvipdfm + View PDF"));
 
    checkPsPdf = new QCheckBox(ButtonGroup , "checkPdflatex" );
-   checkPsPdf->setText("LaTeX + dvips + ps2pdf + "+i18n("View PDF"));
+   checkPsPdf->setText(i18n("LaTeX + dvips + ps2pdf + View PDF"));
 
    QGroupBox* GroupBox1= new QGroupBox(2,Qt::Horizontal,i18n("Tools"),toolsPage, "ButtonGroup" );
 
    TextLabel1 = new QLabel( GroupBox1, "label1" );
-   TextLabel1->setText(i18n( "Dvi Viewer") );
+   TextLabel1->setText(i18n( "Dvi viewer:") );
    comboDvi = new QComboBox( FALSE, GroupBox1, "comboDvi" );
    comboDvi->setEditable( true );
    comboDvi->insertItem("xdvi %S.dvi");
    comboDvi->insertItem("kdvi %S.dvi");
    comboDvi->insertItem("kdvi --unique %S.dvi");
-   comboDvi->insertItem("Embedded viewer");
+   comboDvi->insertItem("Embedded Viewer");
 
 
    TextLabel2 = new QLabel( GroupBox1, "label2" );
-   TextLabel2->setText(i18n( "PS Viewer") );
+   TextLabel2->setText(i18n( "PS viewer:") );
    comboPs = new QComboBox( FALSE, GroupBox1, "comboPs" );
    comboPs->setEditable( true );
    comboPs->insertItem("gv %S.ps");
    comboPs->insertItem("kghostview %S.ps");
-   comboPs->insertItem("Embedded viewer");
+   comboPs->insertItem("Embedded Viewer");
 
 
 
    TextLabel3 = new QLabel( GroupBox1, "label3" );
-   TextLabel3->setText(i18n( "Pdf Viewer" ));
+   TextLabel3->setText(i18n( "Pdf viewer:" ));
    comboPdf = new QComboBox( FALSE, GroupBox1, "comboPdf" );
    comboPdf->setEditable( true );
    comboPdf->insertItem("xpdf %S.pdf");
    comboPdf->insertItem("acroread %S.pdf");
    comboPdf->insertItem("kghostview %S.pdf");
-   comboPdf->insertItem("Embedded viewer");
+   comboPdf->insertItem("Embedded Viewer");
 
 
 
    TextLabel6 = new QLabel( GroupBox1, "label6" );
-   TextLabel6->setText("LaTeX");
+   TextLabel6->setText(i18n("LaTeX:"));
    LineEdit6 = new QLineEdit( GroupBox1, "le6" );
 
    TextLabel7 = new QLabel( GroupBox1, "label7" );
-   TextLabel7->setText("PdfLaTeX");
+   TextLabel7->setText(i18n("PdfLaTeX:"));
    LineEdit7 = new QLineEdit( GroupBox1, "le7" );
 
    gbox1->addMultiCellWidget(ButtonGroup,0,0,0,1,0);
@@ -120,7 +120,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    QGroupBox* GroupBox2= new QGroupBox(2,Qt::Horizontal,i18n("Editor"),editorPage, "ButtonGroup" );
 
    TextLabel4 = new QLabel( GroupBox2, "label4" );
-   TextLabel4->setText( i18n("Editor Font Family") );
+   TextLabel4->setText( i18n("Editor font family:") );
 
    comboFamily = new QComboBox( FALSE, GroupBox2, "comboFamily" );
    comboFamily->setEditable( true );
@@ -128,31 +128,31 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    comboFamily->insertStringList( fdb.families() );
 
    TextLabel5 = new QLabel( GroupBox2, "label5" );
-   TextLabel5->setText( i18n("Editor Font Size") );
+   TextLabel5->setText( i18n("Editor font size:") );
    spinSize = new QSpinBox( GroupBox2, "spinSize" );
    spinSize->setMinValue( 1 );
 
    checkWordWrap = new QCheckBox( GroupBox2, "checkWordWrap" );
-   checkWordWrap->setText(i18n( "Word Wrap") );
+   checkWordWrap->setText(i18n( "Word wrap") );
 
    checkParen = new QCheckBox( GroupBox2, "checkParen" );
-   checkParen->setText(i18n(  "Braces Matching") );
+   checkParen->setText(i18n( "Braces matching") );
 
    checkLine = new QCheckBox( GroupBox2, "checkLine" );
-   checkLine->setText(i18n(  "Show Line Numbers") );
+   checkLine->setText(i18n( "Show line numbers") );
 
    TextLabel8 = new QLabel( GroupBox2, "label8" );
    TextLabel8->setText( "" );
 
    comboColor = new QComboBox( FALSE, GroupBox2, "comboColor" );
-   comboColor->insertItem("Color Background");
-   comboColor->insertItem("Color Text");
-   comboColor->insertItem("Color Comment");
-   comboColor->insertItem("Color Math");
-   comboColor->insertItem("Color Command");
-   comboColor->insertItem("Color Structure");
-   comboColor->insertItem("Color Environment");
-   comboColor->insertItem("Bracket Highlight");
+   comboColor->insertItem(i18n("Color Background"));
+   comboColor->insertItem(i18n("Color Text"));
+   comboColor->insertItem(i18n("Color Comment"));
+   comboColor->insertItem(i18n("Color Math"));
+   comboColor->insertItem(i18n("Color Command"));
+   comboColor->insertItem(i18n("Color Structure"));
+   comboColor->insertItem(i18n("Color Environment"));
+   comboColor->insertItem(i18n("Bracket Highlight"));
    connect(comboColor, SIGNAL(activated(int)),this,SLOT(slotChangeColor(int)));
 
    buttonColor = new KColorButton(GroupBox2 , "buttonColor" );

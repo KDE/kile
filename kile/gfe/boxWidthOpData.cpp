@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbt.h>
+#include <klocale.h>
 
 boxWidthOpData::boxWidthOpData
 (
@@ -42,7 +43,7 @@ boxWidthOpData::boxWidthOpData
   gbox->addColSpacing( 0, fontMetrics().lineSpacing() );
 	QLabel* dlgedit_boxWidthLabel;
 	dlgedit_boxWidthLabel = new QLabel( this, "boxWidthLabel" );
-	dlgedit_boxWidthLabel->setText( "Box Width:" );
+	dlgedit_boxWidthLabel->setText( i18n("Box width:") );
 	dlgedit_boxWidthLabel->setAlignment( 289 );
 	dlgedit_boxWidthLabel->setMargin( -1 );
   gbox->addWidget(dlgedit_boxWidthLabel , 0,0, Qt::AlignLeft );
@@ -58,7 +59,7 @@ boxWidthOpData::boxWidthOpData
 	QPushButton* dlgedit_okPushButton;
 	dlgedit_okPushButton = new QPushButton( this, "okPushButton" );
 	connect( dlgedit_okPushButton, SIGNAL(clicked()), SLOT(setBoxWidth()) );
-	dlgedit_okPushButton->setText( "OK" );
+	dlgedit_okPushButton->setText( i18n("&OK") );
 	dlgedit_okPushButton->setAutoRepeat( FALSE );
 	dlgedit_okPushButton->setAutoDefault( TRUE );
     dlgedit_okPushButton->setDefault( TRUE );
@@ -67,7 +68,7 @@ boxWidthOpData::boxWidthOpData
 	QPushButton* dlgedit_cancelPushButton;
 	dlgedit_cancelPushButton = new QPushButton( this, "cancelPushButton" );
 	connect( dlgedit_cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
-	dlgedit_cancelPushButton->setText( "Cancel" );
+	dlgedit_cancelPushButton->setText( i18n("&Cancel") );
 	dlgedit_cancelPushButton->setAutoRepeat( FALSE );
   gbox->addWidget( dlgedit_cancelPushButton, 1,1, Qt::AlignCenter ); 
 

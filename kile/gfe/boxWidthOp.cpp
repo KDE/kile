@@ -26,6 +26,7 @@ using namespace std;
 
 #include "boxWidthOp.h"
 #include <qstring.h>
+#include <klocale.h>
 
 boxWidthOp::boxWidthOp
 (
@@ -35,7 +36,7 @@ boxWidthOp::boxWidthOp
 	:
 	boxWidthOpData( parent, name )
 {
-	setCaption( "Box Width" );
+	setCaption( i18n("Box Width") );
 }
 
 

@@ -149,7 +149,7 @@ FILE* gnuInterface::openGnuplot()
   return gnuCommand;
 }
 
-void gnuInterface::doCommand(QString c)
+void gnuInterface::doCommand(const QString &c)
 {
   fprintf(gnuCommand,c+"\n");
   fflush(gnuCommand);

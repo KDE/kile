@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Oct 20 2002
     copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -33,12 +33,12 @@ AddOptionDialog::AddOptionDialog(QWidget *parent, const char *name)
 
    buttonOk= new QPushButton(this,"NoName");
    buttonOk->setMinimumSize(0,0);
-   buttonOk->setText(i18n("Ok"));
+   buttonOk->setText(i18n("&OK"));
    buttonOk->setDefault(true);
 
    buttonCancel= new QPushButton(this,"NoName");
    buttonCancel->setMinimumSize(0,0);
-   buttonCancel->setText(i18n("Cancel"));
+   buttonCancel->setText(i18n("&Cancel"));
 
    connect( buttonOk, SIGNAL(clicked()), SLOT(accept()) );
    connect( buttonCancel, SIGNAL(clicked()), SLOT(reject()) );

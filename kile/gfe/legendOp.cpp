@@ -9,6 +9,7 @@
 
 #include "legendOp.h"
 #include <qmsgbox.h>
+#include <klocale.h>
 
 legendOp::legendOp
 (
@@ -18,7 +19,7 @@ legendOp::legendOp
 	:
 	legendOpData( parent, name )
 {
-	setCaption( "Legend Options" );
+	setCaption( i18n("Legend Options") );
 }
 
 
@@ -159,7 +160,7 @@ void legendOp::setLegendOptions()
       (positionBelowButton->isChecked() == FALSE))
   {
     QMessageBox::information( this, "Xgfe",
-                              "You must select at least one position button!");
+                              i18n("You must select at least one position button!"));
     return;
   }
 

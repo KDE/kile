@@ -19,7 +19,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.    
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
  *********************************************************************/
 
@@ -28,6 +28,7 @@
 #include <qlabel.h>
 #include <qpushbt.h>
 #include <qlayout.h>
+#include <klocale.h>
 
 isoLinesOpData::isoLinesOpData
 (
@@ -39,7 +40,7 @@ isoLinesOpData::isoLinesOpData
 {
 	QLabel* isoULabel;
 	isoULabel = new QLabel( this, "isoULabel" );
-	isoULabel->setText( "U Isolines:" );
+	isoULabel->setText( i18n("U isolines:") );
 	isoULabel->setAlignment( 289 );
 	isoULabel->setMargin( -1 );
 
@@ -51,7 +52,7 @@ isoLinesOpData::isoLinesOpData
 
 	QLabel* isoVLabel;
 	isoVLabel = new QLabel( this, "isoVLabel" );
-	isoVLabel->setText( "V Isolines:" );
+	isoVLabel->setText( i18n("V isolines:") );
 	isoVLabel->setAlignment( 289 );
 	isoVLabel->setMargin( -1 );
 
@@ -64,20 +65,20 @@ isoLinesOpData::isoLinesOpData
 	QPushButton* OKPushButton;
 	OKPushButton = new QPushButton( this, "OKPushButton" );
 	connect( OKPushButton, SIGNAL(clicked()), SLOT(setIsolinesOp()) );
-	OKPushButton->setText( "OK" );
+	OKPushButton->setText( i18n("&OK") );
 	OKPushButton->setAutoRepeat( FALSE );
 	OKPushButton->setAutoDefault( TRUE );
 
 	QPushButton* defaultsPushButton;
 	defaultsPushButton = new QPushButton( this, "defaultsPushButton" );
 	connect( defaultsPushButton, SIGNAL(clicked()), SLOT(setIsolineDefaults()) );
-	defaultsPushButton->setText( "Defaults" );
+	defaultsPushButton->setText( i18n("&Defaults") );
 	defaultsPushButton->setAutoRepeat( FALSE );
 
 	QPushButton* cancelPushButton;
 	cancelPushButton = new QPushButton( this, "cancelPushButton" );
 	connect( cancelPushButton, SIGNAL(clicked()), SLOT(reject()) );
-	cancelPushButton->setText( "Cancel" );
+	cancelPushButton->setText( i18n("&Cancel") );
 	cancelPushButton->setAutoRepeat( FALSE );
 
 
@@ -101,7 +102,7 @@ isoLinesOpData::isoLinesOpData
 
     // create row layout for pushbuttons
     QHBoxLayout* buttonRowLayout = new QHBoxLayout(-1,"buttonRowLayout");
-    
+
     // add to main column layout
     mainCol->addLayout(buttonRowLayout,0);
 

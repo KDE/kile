@@ -18,12 +18,13 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qdir.h>
+#include <klocale.h>
 
 #include <kmessagebox.h>
 #include "projectwizard.h"
 
 ProjectWizard::ProjectWizard(QWidget *parent, const char *name )
-  : KDialogBase(parent,name,true,"New File",KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true)
+  : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true)
 {
 
     

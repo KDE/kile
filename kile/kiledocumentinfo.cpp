@@ -153,6 +153,12 @@ Info::Info(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
 }
 
+Info::~Info(void)
+{
+	kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;
+	delete [] m_arStatistics;
+}
+
 void Info::emitNameChanged(Kate::Document * /*doc*/)
 {
 	kdDebug() << "==Info::emitNameChanged=========================="  << endl;

@@ -97,7 +97,7 @@ public:
 
 public:
 	Info(Kate::Document *doc = 0L);
-	~Info() {kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;}
+	~Info();
 
 	/**
 	 * @returns the document for which this class is a decorator

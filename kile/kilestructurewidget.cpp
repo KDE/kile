@@ -35,7 +35,7 @@ KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after
 	KListViewItem(parent,after),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level)
 {
-	this->setText(0, m_title+" (line "+QString::number(m_line)+")");
+	this->setText(0, m_title + " (" + i18n("line") + " " + QString::number(m_line) + ")");
 }
 
 KileListViewItem::KileListViewItem(QListView * parent, QString label) : 

@@ -113,7 +113,8 @@ KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.
 	init(name,url);
 }
 
-KileProject::KileProject(const KURL& url) : QObject(0,url.fileName().ascii())
+KileProject::KileProject(const KURL& url) :
+	QObject(0,url.fileName().ascii()), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
 	init(url.fileName(), url);
 }

@@ -2,8 +2,8 @@
                           symbolview.h  -  description
                              -------------------
     begin                : Fri Aug 1 2003
-    copyright            : (C) 2002 by Pascal Brachet
-    email                :  Jeroen.Wijnhout@kdemail.net
+    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************

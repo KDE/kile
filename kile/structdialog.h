@@ -2,8 +2,8 @@
                           structdialog.h  -  description
                              -------------------
     begin                : Mon Apr 30 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
+    copyright            : (C) 2001 - 2003  by Brachet Pascal, 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************

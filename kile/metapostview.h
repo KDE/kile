@@ -2,8 +2,8 @@
                           metapostview.h  -  description
                              -------------------
     begin                : mar avr 8 2003
-    copyright            : (C) 2003 by Pascal Brachet
-    email                : 
+    copyright            : (C) 2003 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************

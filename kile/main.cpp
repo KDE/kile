@@ -2,8 +2,8 @@
                           main.cpp  -  description
                              -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 by Pascal Brachet
-    email                :
+    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************

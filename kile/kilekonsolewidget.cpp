@@ -2,7 +2,7 @@
                           kilekonsolewidget.cpp  -  description
                              -------------------
     begin                : Mon Dec 22 2003
-    copyright            : (C) 2001 by Brachet Pascal, 2003 by Jeroen Wijnhout
+    copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 

@@ -12,7 +12,7 @@
     </keywords>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
+    <description></description>
     <ignoreparts>
       <part>KDevClearCase</part>
       <part>KDevPerforce</part>
@@ -93,19 +93,20 @@
   <kdevdebugger>
     <general>
       <dbgshell>libtool</dbgshell>
-      <programargs/>
-      <gdbpath/>
+      <programargs></programargs>
+      <gdbpath></gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
     </general>
     <display>
       <staticmembers>false</staticmembers>
       <demanglenames>true</demanglenames>
+      <outputradix>10</outputradix>
     </display>
   </kdevdebugger>
   <kdevfilecreate>
@@ -131,33 +132,31 @@
       <useconfiguration>default</useconfiguration>
     </general>
     <run>
-      <mainprogram>/home/kde-dev/kde/kile/head/build/kde_3_2/qt_3_3/kdeextragear-2/kile/kile/kile</mainprogram>
-      <programargs/>
+      <mainprogram>kile/kile/kile</mainprogram>
+      <programargs></programargs>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
-      <envvars>
-        <envvar value="/opt/kde_cvs" name="KDEDIR" />
-        <envvar value="$HOME/.kde_cvs" name="KDEHOME" />
-      </envvars>
-      <directoryradio>custom</directoryradio>
+      <envvars/>
+      <directoryradio>build</directoryradio>
       <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
     </run>
     <configurations>
       <default>
         <configargs>--enable-debug=full --prefix=/opt/kde3</configargs>
-        <builddir>/home/kde-dev/kde/kile/head/build/kde_3_2/qt_3_3/kdeextragear-2</builddir>
-        <topsourcedir>/home/kde-dev/kde/kile/head/src/kdeextragear-2</topsourcedir>
-        <cppflags/>
-        <ldflags/>
+        <builddir>/home/wijnhout/Devel/kile/head/build/kde_3_3_qt_3_3</builddir>
+        <topsourcedir>/home/wijnhout/Devel/kile/head/kdeextragear-2</topsourcedir>
+        <cppflags></cppflags>
+        <ldflags></ldflags>
         <ccompiler>kdevgccoptions</ccompiler>
         <cxxcompiler>kdevgppoptions</cxxcompiler>
         <f77compiler>kdevpgf77options</f77compiler>
-        <ccompilerbinary/>
-        <cxxcompilerbinary/>
-        <f77compilerbinary/>
-        <cflags/>
+        <ccompilerbinary></ccompilerbinary>
+        <cxxcompilerbinary></cxxcompilerbinary>
+        <f77compilerbinary></f77compilerbinary>
+        <cflags></cflags>
         <cxxflags>-pg</cxxflags>
-        <f77flags/>
+        <f77flags></f77flags>
+        <envvars/>
       </default>
     </configurations>
   </kdevautoproject>

@@ -70,4 +70,4 @@ messages: rc.cpp
 	fi
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
-noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h 	kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h 	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h 	kileautosavejob.h latexconfigwidget.h kilespell.h kilespell2.h kileerrorhandler.h 	configcheckerdlg.h configtester.h kilesidebar.h plaintolatexconverter.h encodingconfigwidget.ui.h
+noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h 	kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h 	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h 	kileautosavejob.h latexconfigwidget.h kilespell.h  kileerrorhandler.h 	configcheckerdlg.h configtester.h kilesidebar.h plaintolatexconverter.h encodingconfigwidget.ui.h

@@ -178,8 +178,8 @@ public:
 	
 	bool isVLine(int row,int col, bool left);
 	TabularCell::Count countCells(int x1,int y1,int x2,int y2);
-	TabularCell::CountLines TabularTable::countHLines(int row, bool top);
-	TabularCell::CountLines TabularTable::countVLines(int col, bool left);
+	TabularCell::CountLines countHLines(int row, bool top);
+	TabularCell::CountLines countVLines(int col, bool left);
 
 protected:
 	void endEdit(int row,int col,bool accept,bool replace);

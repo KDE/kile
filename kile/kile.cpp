@@ -189,6 +189,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_kwStructure->setSorting(-1,true);
 	connect(m_kwStructure, SIGNAL(setCursor(int,int)), this, SLOT(setCursor(int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), this, SLOT(fileOpen(const KURL&, const QString& )));
+	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), this, SLOT(fileNew(const KURL&)));
 	connect(this, SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocument(KileDocumentInfo *)));
 	QToolTip::add(m_kwStructure, i18n("Click to jump to the line"));
 
@@ -515,14 +516,11 @@ void Kile::setupTools()
 	QString toolMenu;
 	QPtrList<KAction> *pl;
 
-	unplugActionList("list_compilers"); m_listCompilerActions.setAutoDelete(true); m_listCompilerActions.clear(); m_listCompilerActions.setAutoDelete(false);
- 	unplugActionList("list_converters"); m_listConverterActions.setAutoDelete(true); m_listConverterActions.clear(); m_listConverterActions.setAutoDelete(false);
- 	unplugActionList("list_quickies"); m_listQuickActions.setAutoDelete(true); m_listQuickActions.clear(); m_listQuickActions.setAutoDelete(false);
- 	unplugActionList("list_viewers"); m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
- 	unplugActionList("list_other"); m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
-
-	//reloadXML();
-	//m_toolsToolBar->clear();
+	unplugActionList("list_compilers"); //m_listCompilerActions.setAutoDelete(true); m_listCompilerActions.clear(); m_listCompilerActions.setAutoDelete(false);
+ 	unplugActionList("list_converters"); //m_listConverterActions.setAutoDelete(true); m_listConverterActions.clear(); m_listConverterActions.setAutoDelete(false);
+ 	unplugActionList("list_quickies"); //m_listQuickActions.setAutoDelete(true); m_listQuickActions.clear(); m_listQuickActions.setAutoDelete(false);
+ 	unplugActionList("list_viewers"); //m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
+ 	unplugActionList("list_other"); //m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
 
 	for ( uint i = 0; i < tools.count(); i++)
 	{
@@ -546,23 +544,18 @@ void Kile::setupTools()
 
 		kdDebug() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-		KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
-		//toolPos = config->readEntry("toolbarPos", "none").toInt(&ok);
-// 		KileTool::toolbarInfoFor(tools[i], toolPos, place, separator, config);
-// 		if (place)
-// 		{
-// 			kdDebug() << "\tplugging " << tools[i] << endl;
-// 			act->plug(m_toolsToolBar, toolPos + noSeps);
-// 			if ( separator )
-// 			{
-// 				int p = m_toolsToolBar->insertLineSeparator(toolPos+  ++noSeps);
-// 				kdDebug() << "\tinsert separator at " << p << endl;
-// 			}
-// 		}
-
-		//act->plug(toolBar("toolsToolBar"));
-		pl->append(act);
+		if ( action(QString("tool_"+tools[i]).ascii()) == 0L )
+		{
+			KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
+			pl->append(act);
+		}
 	}
+
+	cleanUpActionList(m_listCompilerActions, tools);
+	cleanUpActionList(m_listViewerActions, tools);
+	cleanUpActionList(m_listConverterActions, tools);
+	cleanUpActionList(m_listQuickActions, tools);
+	cleanUpActionList(m_listOtherActions, tools);
 
 	plugActionList("list_compilers", m_listCompilerActions);
 	plugActionList("list_viewers", m_listViewerActions);
@@ -571,6 +564,18 @@ void Kile::setupTools()
 	plugActionList("list_other", m_listOtherActions);
 
 	actionCollection()->readShortcutSettings("Shortcuts", config);
+}
+
+void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
+{
+	for ( KAction *act = list.first(); act; act = list.next() )
+	{
+		if ( action(act->name()) != 0L && !tools.contains(QString(act->name()).mid(5)) )
+		{
+			list.remove(act);
+			if ( act->isPlugged(toolBar("toolsToolBar")) ) act->unplug(toolBar("toolsToolBar"));
+		}
+	}
 }
 
 void Kile::setupUserTagActions()
@@ -900,11 +905,21 @@ void Kile::fileNew()
 	}
 }
 
+void Kile::fileNew(const KURL & url)
+{
+	//create an empty file
+	QFile file(url.path());
+	file.open(IO_ReadWrite);
+	file.close();
+
+	fileOpen(url, QString::null);
+}
+
 Kate::View* Kile::loadTemplate(TemplateItem *sel)
 {
 	QString text = QString::null;
 
-	if (sel->name() != DEFAULT_EMPTY_CAPTION)
+	if (sel && sel->name() != DEFAULT_EMPTY_CAPTION)
 	{
 		//create a new document to open the template in
 		Kate::Document *tempdoc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
@@ -3168,6 +3183,7 @@ void Kile::GeneralOptions()
 	if (dlg->exec())
 	{
 		readConfig();
+		setupTools();
 
 		emit(configChanged());
 

@@ -75,7 +75,13 @@ namespace KileWidget
 			emit(fileOpen(KURL::fromPathOrURL(fname), QString::null));
 		}
 		else
-			KMessageBox::error(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1").arg(fname), i18n("Cannot find file!"));
+		{
+			if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot find file!"))
+			== KMessageBox::Yes)
+			{
+				emit(fileNew(KURL::fromPathOrURL(fname)));
+			}
+		}
 	}
 
 	void Structure::init()

@@ -130,6 +130,7 @@ private:
 	void setupActions();
 	void setupTools();
 	void setupUserTagActions();
+	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
 
 	KToolBar					*m_toolsToolBar;
 	KActionMenu 				*m_menuUserTags;
@@ -295,6 +296,7 @@ public slots:
 public slots:
 	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }
 	void fileSelected(const KURL &);
+	void fileNew(const KURL &);
 
 private slots:
 	void fileNew();

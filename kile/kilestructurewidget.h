@@ -53,6 +53,7 @@ namespace KileWidget
 		signals:
 			void setCursor(int, int);
 			void fileOpen(const KURL &, const QString &);
+			void fileNew(const KURL &);
 
 		private:
 			void init();

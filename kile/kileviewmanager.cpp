@@ -162,7 +162,7 @@ Kate::View* Manager::switchToView(const KURL & url)
 	return view;
 }
 
-void Manager::updateStructure(bool parse /* = false */, KileDocumentInfo *docinfo /* = 0L */)
+void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = 0L */)
 {
 	if (docinfo == 0L)
 		docinfo = m_ki->docManager()->getInfo();

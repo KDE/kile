@@ -27,11 +27,27 @@
 
 #include "kiledocumentinfo.h"
 
-KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
+namespace KileDocument
+{
+
+bool Info::isTeXFile(const KURL & url)
+{
+	//TODO use mimetype
+	QString shortName = url.fileName();
+	return (shortName.right(4) == ".tex" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex") && (shortName != i18n("Untitled"));
+}
+
+bool Info::isBibFile(const KURL & url)
+{
+	QString shortName = url.fileName();
+	return ( shortName.right(4) == ".bib" );
+}
+
+Info::Info(Kate::Document *doc) : m_doc(doc)
 {
 	m_config = kapp->config();
 	if (m_doc)
-		kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
+		kdDebug() << "Info created for " << m_doc->docName() << endl;
 
 	m_struct = 0;
 	m_bIsRoot = false;
@@ -58,9 +74,9 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\usepackage"]=KileStructData(-3,KileStruct::Package);
 }
 
-void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
+void Info::emitNameChanged(Kate::Document * /*doc*/)
 {
-	kdDebug() << "==KileDocumentInfo::emitNameChanged=========================="  << endl;
+	kdDebug() << "==Info::emitNameChanged=========================="  << endl;
 	if (m_doc)
 	{
 		kdDebug() << "\tfrom: " << m_url.path() << endl;
@@ -77,7 +93,7 @@ void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
 	}
 }
 
-void KileDocumentInfo::count(const QString line, long *stat)
+void Info::count(const QString line, long *stat)
 {
 	QChar c;
 	int state = stStandard;
@@ -156,31 +172,15 @@ void KileDocumentInfo::count(const QString line, long *stat)
 	}
 }
 
-const long* KileDocumentInfo::getStatistics()
+const long* Info::getStatistics()
 {
 	//#c in words    , #c in commands,  #c whitespace,    #words,           #latex_commands
 	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=0;
 
-	QString line;
-
-	//FIXME : counts environment names as words
-	if ( m_doc && m_doc->hasSelection() )
-	{
-		line = m_doc->selection();
-		count(line, m_arStatistics);
-	}
-	else if (m_doc)
-	for (uint l=0; l < m_doc->numLines(); l++)
-	{
-		line = m_doc->textLine(l);
-		kdDebug() << "getStat : line : " << line << endl;
-		count(line, m_arStatistics);
-	}
-
 	return m_arStatistics;
 }
 
-void KileDocumentInfo::cleanTempFiles(const QStringList &extlist )
+void Info::cleanTempFiles(const QStringList &extlist )
 {
 	QString finame = url().fileName();
 	QFileInfo fic(finame);
@@ -205,7 +205,7 @@ void KileDocumentInfo::cleanTempFiles(const QStringList &extlist )
 
 // match a { with the corresponding }
 // pos is the positon of the {
-QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
+QString Info::matchBracket(uint &l, uint &pos)
 {
 	QChar obracket = m_doc->textLine(l)[pos], cbracket;
 	if (obracket == '{') cbracket = '}';
@@ -239,11 +239,9 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 	return QString::null;
 }
 
-void KileDocumentInfo::updateStruct()
+void Info::updateStruct()
 {
 	m_bContinueUpdate = true;
-
-	if ( getDoc() == 0L ) return;
 
 	m_labels.clear();
 	m_bibItems.clear();
@@ -251,27 +249,55 @@ void KileDocumentInfo::updateStruct()
 	m_bibliography.clear();
 	m_packages.clear();
 	m_bIsRoot = false;
+}
 
-	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
+void Info::updateBibItems()
+{
+}
 
-	QString shortName = getDoc()->url().fileName();
-	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
+const long* TeXInfo::getStatistics()
+{
+	//#c in words    , #c in commands,  #c whitespace,    #words,           #latex_commands
+	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=0;
+	QString line;
+
+	//FIXME : counts environment names as words
+	if ( m_doc && m_doc->hasSelection() )
+	{
+		line = m_doc->selection();
+		count(line, m_arStatistics);
+	}
+	else if (m_doc)
+	for (uint l=0; l < m_doc->numLines(); l++)
+	{
+		line = m_doc->textLine(l);
+		kdDebug() << "getStat : line : " << line << endl;
+		count(line, m_arStatistics);
+	}
+	return m_arStatistics;
+}
+
+void TeXInfo::updateStruct()
+{
+	if ( getDoc() == 0L ) return;
+
+	Info::updateStruct();
+
+	kdDebug() << "==void TeXInfo::updateStruct()=========." << endl;
 
 	QMapConstIterator<QString,KileStructData> it;
 
-	QString s, cap;
-
-	QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
-	QRegExp reComments("([^\\\\]%|^%).*$");
-	QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
-	QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
-	QRegExp reNewCommand("\\\\(re)?newcommand.*$");
+	static QRegExp::QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
+	static QRegExp::QRegExp reComments("([^\\\\]%|^%).*$");
+	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
+	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
+	static QRegExp::QRegExp reNewCommand("\\\\(re)?newcommand.*$");
 
 	int teller=0;
 	int tagStart;
 	uint tagEnd;
 	uint tagLine = 0, tagCol = 0;
-	QString m;
+	QString m, s, cap;
 	bool foundBD = false; // found \begin { document }
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
@@ -371,6 +397,7 @@ void KileDocumentInfo::updateStruct()
 						m_packages.append(m);
 
 					if ( ! okToContinue() ) return;
+					kdDebug() << "emitting foundItem " << m << endl;
 					emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix));
 				} //if m
 			} // if tagStart
@@ -378,11 +405,77 @@ void KileDocumentInfo::updateStruct()
 	} //for
 
 	emit(isrootChanged(isLaTeXRoot()));
-
 }
 
-void KileDocumentInfo::updateBibItems()
+void BibInfo::updateStruct()
 {
+	if ( getDoc() == 0L ) return;
+
+	Info::updateStruct();
+
+	kdDebug() << "==void BibInfo::updateStruct()========" << endl;
+
+	static QRegExp::QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
+	static QRegExp::QRegExp reSpecial("string|preamble|comment");
+
+	QString s, key;
+	int col = 0, startcol, startline;
+
+	for(uint i = 0; i < m_doc->numLines(); i++)
+	{
+		s = m_doc->textLine(i);
+		if ( (s.find(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).lower()) )
+		{
+			kdDebug() << "found: " << reItem.cap(2) << endl;
+			//start looking for key
+			key = "";
+			bool keystarted = false;
+			int state = 0;
+			startcol = reItem.cap(1).length();
+			col  = startcol + reItem.cap(2).length();
+
+			while ( col <  static_cast<int>(s.length()) )
+			{
+				col++;
+				if ( col == static_cast<int>(s.length()) )
+				{
+					do
+					{
+						i++;
+						s = m_doc->textLine(i);
+					} while  ( (s.length() == 0) && (i < m_doc->numLines()) );
+
+					if ( i == m_doc->numLines() ) break;
+					col = 0;
+				}
+
+				if ( state == 0 )
+				{
+					if ( s[col] == '{' ) state = 1;
+					else if ( ! s[col].isSpace() ) break;
+				}
+				else if ( state == 1 )
+				{
+					if ( s[col] == ',' ) 
+					{
+						key = key.stripWhiteSpace();
+						kdDebug() << "found: " << key << endl;
+						m_bibItems.append(key);
+						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "bibtex"));
+						break;
+					}
+					else 
+					{
+						key += s[col];
+						if (!keystarted) { startcol = col; startline = i; }
+						keystarted=true;
+					}
+				}
+			}
+		}
+	}
+}
+
 }
 
 /*
@@ -392,7 +485,7 @@ void KileDocumentInfo::updateBibItems()
  *
  */
 
-KileDocInfoDlg::KileDocInfoDlg(KileDocumentInfo *docinfo, QWidget* parent,  const char* name, const QString &caption)
+KileDocInfoDlg::KileDocInfoDlg(KileDocument::Info *docinfo, QWidget* parent,  const char* name, const QString &caption)
 	: KDialogBase(parent,name,true,caption,KDialogBase::Ok, KDialogBase::Ok, true)
 {
 	QWidget *page = new QWidget( this );

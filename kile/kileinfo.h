@@ -34,7 +34,7 @@ class QWidget;
 
 class KURL;
 
-class KileDocumentInfo;
+namespace KileDocument { class Info; }
 class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
@@ -67,9 +67,9 @@ public:
 	QString getSelection() const;
 	void clearSelection() const;
 
-	virtual const QStringList* labels(KileDocumentInfo * info = 0) =0;
-	virtual const QStringList* bibItems(KileDocumentInfo * info = 0) =0;
-	virtual const QStringList* bibliographies(KileDocumentInfo * info = 0) = 0;
+	virtual const QStringList* labels(KileDocument::Info * info = 0) =0;
+	virtual const QStringList* bibItems(KileDocument::Info * info = 0) =0;
+	virtual const QStringList* bibliographies(KileDocument::Info * info = 0) = 0;
 
 	bool isOpen(const KURL & url);
 	bool	projectIsOpen(const KURL & );

@@ -90,16 +90,24 @@ private:
 };
 
 /**
- * KileDocumentInfo is a decorator class for the Document class. We can't derive a class from an interface
+ * KileDocument::Info is a decorator class for the Document class. We can't derive a class from an interface
  * without implementing the interface, a decorator class is a way to add some functionality to the Document class.
  **/
-class KileDocumentInfo : public QObject
+ 
+namespace KileDocument
+{
+
+class Info : public QObject
 {
 	Q_OBJECT
 
 public:
-	KileDocumentInfo(Kate::Document *doc = 0L);
-	~KileDocumentInfo() {kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;}
+	static bool isTeXFile(const KURL &);
+	static bool isBibFile(const KURL &);
+
+public:
+	Info(Kate::Document *doc = 0L);
+	~Info() {kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;}
 
 	/**
 	 * @returns the document for which this class is a decorator
@@ -114,7 +122,7 @@ public:
 	 * The array is filled as follows: #chars in words, #chars in LaTeX commands,
 	 * #chars in whitespace, #words, #commands.
 	 **/
-	const long* getStatistics();
+	virtual const long* getStatistics();
 
 	const QStringList* labels() const{ return &m_labels; }
 	const QStringList* bibItems() const { return &m_bibItems; }
@@ -125,7 +133,7 @@ public:
 	KileListViewItem* structViewItem() { return m_struct; }
 	void setListView(KListView *lv) { m_structview = lv;}
 
-	bool isLaTeXRoot() { return m_bIsRoot; }
+	virtual bool isLaTeXRoot() { return m_bIsRoot; }
 
 	void setURL(const KURL& url) { m_oldurl = m_url; m_url = url; emit nameChanged(url); }
 	const KURL& url() {return m_url;}
@@ -135,10 +143,10 @@ public:
 
 public slots:
 	/**
-	 * Never call this function directly, use KileWidget::Structure::update(KileDocumentInfo *, bool) instead
+	 * Never call this function directly, use KileWidget::Structure::update(KileDocument::Info *, bool) instead
 	 **/
-	void updateStruct();
-	void updateBibItems();
+	virtual void updateStruct();
+	virtual void updateBibItems();
 	void emitNameChanged(Kate::Document *);
 	void stopUpdate() { m_bContinueUpdate = false; }
 
@@ -149,7 +157,7 @@ signals:
 
 	void foundItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
 
-private:
+protected:
 	void count(const QString line, long *stat);
 	QString matchBracket(uint&, uint&);
 	bool okToContinue() { return m_bContinueUpdate; }
@@ -161,7 +169,7 @@ protected:
 	 	stCommand=5
 	};
 
-private:
+protected:
 	Kate::Document				*m_doc;
 	long							*m_arStatistics;
 	bool							m_bIsRoot;
@@ -178,10 +186,38 @@ private:
 	KConfig						*m_config;
 };
 
+class TeXInfo : public Info
+{
+	Q_OBJECT
+
+public:
+	TeXInfo ( Kate::Document * doc ) : Info(doc) {}
+
+public:
+	const long* getStatistics();
+
+public slots:
+	void updateStruct();
+};
+
+class BibInfo : public Info
+{
+	Q_OBJECT
+
+public:
+	BibInfo ( Kate::Document * doc ) : Info(doc) {}
+	bool isLaTeXRoot() { return false; }
+
+public slots:
+	void updateStruct();
+};
+
+}
+
 class KileDocInfoDlg : public KDialogBase
 {
 public:
-	KileDocInfoDlg(KileDocumentInfo* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
+	KileDocInfoDlg(KileDocument::Info* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
 	~KileDocInfoDlg() {}
 };
 

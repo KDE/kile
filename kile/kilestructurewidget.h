@@ -27,7 +27,7 @@
 class QString;
 class KURL;
 class KileInfo;
-class KileDocumentInfo;
+namespace KileDocument {class Info;}
 class QListViewItem;
 
 namespace KileWidget
@@ -46,12 +46,12 @@ namespace KileWidget
 			void slotClicked(QListViewItem *);
 			void slotDoubleClicked(QListViewItem *);
 
-			void closeDocumentInfo(KileDocumentInfo *);
-			void update(KileDocumentInfo *, bool);
+			void closeDocumentInfo(KileDocument::Info *);
+			void update(KileDocument::Info *, bool);
 			void addItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
 
 			/**
-			* Clears the structure widget and empties the map between KileDocumentInfo objects and their structure trees (QListViewItem).
+			* Clears the structure widget and empties the map between KileDocument::Info objects and their structure trees (QListViewItem).
 			**/
 			void clear();
 
@@ -66,8 +66,8 @@ namespace KileWidget
 		private:
 			KileInfo	*m_ki;
 			int		m_level;
-			KileDocumentInfo	*m_docinfo;
-			QMap<KileDocumentInfo *, QListViewItem *> m_map;
+			KileDocument::Info	*m_docinfo;
+			QMap<KileDocument::Info *, QListViewItem *> m_map;
 			QListViewItem	*m_parent[5], *m_label, *m_current, *m_root, *m_child, *m_lastChild;
 	};
 }

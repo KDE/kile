@@ -27,7 +27,7 @@
 class QString;
 class QStringList;
 class KSimpleConfig;
-class KileDocumentInfo;
+namespace KileDocument { class Info; }
 
 const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
 const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
@@ -57,8 +57,8 @@ public:
 	bool archive() const { return m_archive; }
 	void setArchive(bool ar) { m_archive = ar; }
 
-	void setInfo(KileDocumentInfo * docinfo);
-	KileDocumentInfo* getInfo() { return m_docinfo; }
+	void setInfo(KileDocument::Info * docinfo);
+	KileDocument::Info* getInfo() { return m_docinfo; }
 
 	KileProject* project() const { return m_project;}
 
@@ -111,7 +111,7 @@ private:
 	QString			m_highlight;
 	bool				m_bOpen, m_archive;
 	int				m_type;
-	KileDocumentInfo	*m_docinfo;
+	KileDocument::Info	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
 };
 

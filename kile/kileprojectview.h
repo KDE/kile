@@ -25,7 +25,7 @@
 class KURL;
 class KPopupMenu;
 class KToggleAction;
-class KileDocumentInfo;
+class KileDocument::Info;
 class KileInfo;
 
 namespace KileType {enum ProjectView { Project=0, ProjectItem, ProjectExtra, File, Folder};}
@@ -53,8 +53,8 @@ public:
 	KileProjectViewItem* firstChild() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::firstChild()); }
 	KileProjectViewItem* nextSibling() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::nextSibling()); }
 
-	void setInfo(KileDocumentInfo *docinfo) { m_docinfo = docinfo;}
-	KileDocumentInfo * getInfo() { return m_docinfo;}
+	void setInfo(KileDocument::Info *docinfo) { m_docinfo = docinfo;}
+	KileDocument::Info * getInfo() { return m_docinfo;}
 
 	void setType(KileType::ProjectView type) {m_type = type;}
 	KileType::ProjectView type() const { return m_type;}
@@ -77,7 +77,7 @@ public slots:
 private:
 	KURL	m_url;
 	KileType::ProjectView	m_type;
-	KileDocumentInfo	*m_docinfo;
+	KileDocument::Info	*m_docinfo;
 	int   m_folder;
 	KileProjectItem *m_projectItem;
 };

@@ -108,7 +108,7 @@ void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
 	}
 }
 
-void KileProjectItem::setInfo(KileDocumentInfo *docinfo)
+void KileProjectItem::setInfo(KileDocument::Info *docinfo)
 {
 	m_docinfo = docinfo;
 	connect(docinfo,SIGNAL(nameChanged(const KURL &)), this, SLOT(changeURL(const KURL &)));
@@ -554,7 +554,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 	else
 	{
 		QPtrListIterator<KileProjectItem> it(m_projectitems);
-		KileDocumentInfo *docinfo;
+		KileDocument::Info *docinfo;
 		while (it.current())
 		{
 			docinfo = (*it)->getInfo();

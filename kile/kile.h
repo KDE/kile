@@ -289,14 +289,14 @@ private slots:
 	// KileInfo
 	//
 public:
-	const QStringList* labels(KileDocumentInfo * info = 0);
-	const QStringList* bibItems(KileDocumentInfo * info = 0);
-	const QStringList* bibliographies(KileDocumentInfo * info = 0);
+	const QStringList* labels(KileDocument::Info * info = 0);
+	const QStringList* bibItems(KileDocument::Info * info = 0);
+	const QStringList* bibliographies(KileDocument::Info * info = 0);
 
 	int lineNumber();
 
 private:
-	const QStringList* retrieveList(const QStringList* (KileDocumentInfo::*getit)() const, KileDocumentInfo * docinfo = 0);
+	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0);
 	QStringList m_listTemp;
 
 /* autosave */
@@ -315,7 +315,7 @@ private:
 private slots:
 	void runTool();
 
-	void CleanAll(KileDocumentInfo *docinfo = 0, bool silent = false);
+	void CleanAll(KileDocument::Info *docinfo = 0, bool silent = false);
 	void CleanBib();
 
 	void FindInFiles();

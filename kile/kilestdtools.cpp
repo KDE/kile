@@ -99,7 +99,7 @@ namespace KileTool
 
 	bool LaTeX::updateBibs()
 	{
-		KileDocumentInfo *info = manager()->info()->docManager()->infoFor(source());
+		KileDocument::Info *info = manager()->info()->docManager()->infoFor(source());
 		if ( info )
 		{
 			const QStringList *bibs = info->bibliographies();
@@ -115,7 +115,7 @@ namespace KileTool
 
 	bool LaTeX::updateIndex()
 	{
-		KileDocumentInfo *info = manager()->info()->docManager()->infoFor(source());
+		KileDocument::Info *info = manager()->info()->docManager()->infoFor(source());
 		if ( info )
 		{
 			const QStringList *pckgs = info->packages();

@@ -29,14 +29,13 @@ namespace Kate { class Document; class View;}
 
 class TemplateItem;
 class KileInfo;
-class KileDocumentInfo;
 class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
 
 namespace KileDocument 
 {
-
+class Info;
 /**
 @author Jeroen Wijnhout
 */
@@ -50,9 +49,9 @@ public:
 public slots:
 
 //files
-	KileDocumentInfo* createDocumentInfo(const KURL &url);
-	bool removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject = false);
-	Kate::Document* createDocument(KileDocumentInfo *docinfo, const QString & encoding, const QString & highlight);
+	Info* createDocumentInfo(const KURL &url);
+	bool removeDocumentInfo(Info *docinfo, bool closingproject = false);
+	Kate::Document* createDocument(Info *docinfo, const QString & encoding, const QString & highlight);
 
 	Kate::View* createDocumentWithText(const QString & text);
 
@@ -118,9 +117,9 @@ public slots:
 
 signals:
 	void projectTreeChanged(const KileProject *);
-	void closingDocument(KileDocumentInfo *);
+	void closingDocument(KileDocument::Info *);
 
-	void updateStructure(bool, KileDocumentInfo*);
+	void updateStructure(bool, KileDocument::Info*);
 	void updateModeStatus();
 
 	void addToRecentFiles(const KURL &);
@@ -131,14 +130,14 @@ signals:
 
 public:
 	QPtrList<KileProject>* projects() { return &m_projects; }
-	QPtrList<KileDocumentInfo>* documentInfos() { return &m_infoList; }
+	QPtrList<Info>* documentInfos() { return &m_infoList; }
 
-	void trashDoc(KileDocumentInfo *docinfo);
+	void trashDoc(Info *docinfo);
 	Kate::Document* docFor(const KURL &url);
 
-	KileDocumentInfo* getInfo() const;
-	KileDocumentInfo* infoFor(const QString &path) const;
-	KileDocumentInfo* infoFor(Kate::Document* doc) const;
+	Info* getInfo() const;
+	Info* infoFor(const QString &path) const;
+	Info* infoFor(Kate::Document* doc) const;
 
 	KileProject* projectFor(const KURL &projecturl);
 	KileProject* projectFor(const QString & name);
@@ -150,18 +149,18 @@ public:
 	 * @returns a pointer to the project item, 0 if this file does not belong to a project
 	 **/
 	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
-	KileProjectItem* itemFor(KileDocumentInfo *docinfo, KileProject *project = 0) const;
+	KileProjectItem* itemFor(Info *docinfo, KileProject *project = 0) const;
 
-	KileProjectItemList* itemsFor(KileDocumentInfo *docinfo) const;
+	KileProjectItemList* itemsFor(Info *docinfo) const;
 
-	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item);
+	void mapItem(Info *docinfo, KileProjectItem *item);
 
 private:
-	QPtrList<KileDocumentInfo>	m_infoList;
+	QPtrList<Info>	m_infoList;
 	KileInfo					*m_ki;
 	QPtrList<KileProject>		m_projects;
 };
 
-};
+}
 
 #endif

@@ -110,7 +110,7 @@ namespace KileWidget
 		m_map.insert(m_docinfo, m_root, true); //FIXME: when closing a document, item should be removed from map, tree should be deleted
 	}
 
-	void Structure::closeDocumentInfo(KileDocumentInfo *docinfo)
+	void Structure::closeDocumentInfo(KileDocument::Info *docinfo)
 	{
 		m_docinfo = 0L;
 		if ( m_map.contains(docinfo) )
@@ -123,8 +123,8 @@ namespace KileWidget
 
 	void Structure::clear()
 	{
-		QMapIterator<KileDocumentInfo *, QListViewItem *> it;
-		QMapIterator<KileDocumentInfo *, QListViewItem *> itend(m_map.end());
+		QMapIterator<KileDocument::Info *, QListViewItem *> it;
+		QMapIterator<KileDocument::Info *, QListViewItem *> itend(m_map.end());
 		for ( it = m_map.begin(); it != itend; it++)
 			if ( it.data() != 0L ) delete it.data();
 
@@ -132,7 +132,7 @@ namespace KileWidget
 		m_docinfo = 0L;
 	}
 
-	void Structure::update(KileDocumentInfo *docinfo, bool parse)
+	void Structure::update(KileDocument::Info *docinfo, bool parse)
 	{
 		kdDebug() << "==KileWidget::Structure::update()=============" << endl;
 		if (m_docinfo)
@@ -174,6 +174,7 @@ namespace KileWidget
 	
 	void Structure::addItem(const QString &title, uint line, uint column, int type, int lev, const QString & pix)
 	{
+		kdDebug() << "==void Structure::addItem(" << title << ")=========" << endl;
 		if ( lev > -2)
 		{
 			//find the parent for the new element

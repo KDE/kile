@@ -323,10 +323,10 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	}
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
-	connect(docManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), viewManager(), SLOT(updateStructure(bool, KileDocumentInfo*)));
-	connect(docManager(), SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocumentInfo *)));
+	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
+	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
 
-// 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), this, SLOT(UpdateStructure(bool, KileDocumentInfo*)));
+// 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), this, SLOT(UpdateStructure(bool, KileDocument::Info*)));
 
 	if (rest) restore();
 }
@@ -856,7 +856,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 		else return;
 	}
 
-	KileDocumentInfo *docinfo = docManager()->infoFor(doc);
+	KileDocument::Info *docinfo = docManager()->infoFor(doc);
 
 	if (docinfo)
 	{
@@ -864,7 +864,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 		dlg->exec();
 	}
 	else
-		kdWarning() << "There is know KileDocumentInfo object belonging to this document!" << endl;
+		kdWarning() << "There is know KileDocument::Info object belonging to this document!" << endl;
 }
 
 void Kile::convertToASCII(Kate::Document *doc)
@@ -909,7 +909,7 @@ void Kile::newStatus(const QString & msg)
 	statusBar()->changeItem(msg,ID_LINE_COLUMN);
 }
 
-const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*getit)() const, KileDocumentInfo * docinfo /* = 0 */)
+const QStringList* Kile::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0 */)
 {
 	m_listTemp.clear();
 
@@ -959,26 +959,26 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 		return &m_listTemp;
 }
 
-const QStringList* Kile::labels(KileDocumentInfo * info)
+const QStringList* Kile::labels(KileDocument::Info * info)
 {
 	kdDebug() << "Kile::labels()" << endl;
-	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::labels;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::labels;
 	const QStringList* list = retrieveList(p, info);
 	return list;
 }
 
-const QStringList* Kile::bibItems(KileDocumentInfo * info)
+const QStringList* Kile::bibItems(KileDocument::Info * info)
 {
 	kdDebug() << "Kile::bibItems()" << endl;
-	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibItems;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibItems;
 	const QStringList* list = retrieveList(p, info);
 	return list;
 }
 
-const QStringList* Kile::bibliographies(KileDocumentInfo * info)
+const QStringList* Kile::bibliographies(KileDocument::Info * info)
 {
 	kdDebug() << "Kile::bibliographies()" << endl;
-	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibliographies;
+	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibliographies;
 	const QStringList* list = retrieveList(p, info);
 	return list;
 }
@@ -1237,7 +1237,7 @@ void Kile::runTool()
 
 // changed clean dialog with selectable items (dani)
 
-void Kile::CleanAll(KileDocumentInfo *docinfo, bool silent)
+void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
 {
 	static QString noactivedoc = i18n("There is no active document or it is not saved.");
 	if (docinfo == 0)

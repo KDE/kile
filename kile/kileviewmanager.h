@@ -30,7 +30,7 @@ class KXMLGUIClient;
 class KileInfo;
 class KileEventFilter;
 class KileProjectView;
-class KileDocumentInfo;
+class KileDocument::Info;
 
 namespace KileView 
 {
@@ -67,7 +67,7 @@ public slots:
 	void setTabLabel(QWidget *view, const QString & name) { m_tabs->setTabLabel(view, name); }
 	void changeTab(QWidget *view, const QPixmap & icon, const QString & name) { m_tabs->changeTab(view, icon, name); }
 
-	void updateStructure(bool parse = false, KileDocumentInfo *docinfo = 0L);
+	void updateStructure(bool parse = false, KileDocument::Info *docinfo = 0L);
 
 	void gotoNextView();
 	void gotoPrevView();
@@ -77,19 +77,17 @@ signals:
 	void prepareForPart(const QString &);
 	void startSpellCheck();
 
-	//TODO: make private after refactoring
-public:
+
+private:
 	KileInfo				*m_ki;
 	Kate::View			*m_activeView;
 	KileProjectView		*m_projectview;
-
-private:
 	QPtrList<Kate::View> 	m_viewList;
 	QTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;
 };
 
-};
+}
 
 #endif

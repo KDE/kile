@@ -425,7 +425,7 @@ namespace KileTool
 			return false;
 
 		bool isRoot = true;
-		KileDocumentInfo *docinfo = manager()->info()->docManager()->infoFor(source());
+		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
 		if (docinfo) isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
 
 		if (!isRoot)

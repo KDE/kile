@@ -281,7 +281,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	}
 	else
 	{
-		KileDocumentInfo *docinfo = m_ki->docManager()->infoFor(item->url().path());
+		KileDocument::Info *docinfo = m_ki->docManager()->infoFor(item->url().path());
 		item->setInfo(docinfo);
 		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
 		connect(docinfo, SIGNAL(nameChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));

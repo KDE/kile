@@ -67,9 +67,9 @@ Manager::~Manager()
 	kdDebug() << "==KileDocument::Manager::~Manager()=========" << endl;
 }
 
-void Manager::trashDoc(KileDocumentInfo *docinfo)
+void Manager::trashDoc(Info *docinfo)
 {
-	kdDebug() << "==void Manager::trashDoc(KileDocumentInfo *docinfo)=====" << endl;
+	kdDebug() << "==void Manager::trashDoc(Info *docinfo)=====" << endl;
 	if ( m_ki->isOpen(docinfo->url()) ) return;
 
 	kdDebug() << "DETACHING " << docinfo << endl;
@@ -105,7 +105,7 @@ Kate::Document* Manager::docFor(const KURL& url)
 	return 0L;
 }
 
-KileDocumentInfo* Manager::getInfo() const
+Info* Manager::getInfo() const
 {
 	Kate::Document *doc = m_ki->activeDocument(); 
 	if ( doc != 0L )
@@ -114,11 +114,11 @@ KileDocumentInfo* Manager::getInfo() const
 		return 0L;
 }
 
-KileDocumentInfo *Manager::infoFor(const QString & path) const
+Info *Manager::infoFor(const QString & path) const
 {
 	kdDebug() << "==KileInfo::infoFor==========================" << endl;
 	kdDebug() << "\t" << path << endl;
-	QPtrListIterator<KileDocumentInfo> it(m_infoList);
+	QPtrListIterator<Info> it(m_infoList);
 	while ( true )
 	{
 		kdDebug() << "\tconsidering " << it.current()->url().path() << endl;
@@ -134,12 +134,12 @@ KileDocumentInfo *Manager::infoFor(const QString & path) const
 	return 0L;
 }
 
-KileDocumentInfo* Manager::infoFor(Kate::Document* doc) const
+Info* Manager::infoFor(Kate::Document* doc) const
 {
 	return infoFor(doc->url().path());
 }
 
-void Manager::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
+void Manager::mapItem(Info *docinfo, KileProjectItem *item)
 {
 	item->setInfo(docinfo);
 }
@@ -206,12 +206,12 @@ KileProjectItem* Manager::itemFor(const KURL &url, KileProject *project /*=0L*/)
 	return 0L;
 }
 
-KileProjectItem* Manager::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
+KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) const
 {
 	return itemFor(docinfo->url(), project);
 }
 
-KileProjectItemList* Manager::itemsFor(KileDocumentInfo *docinfo) const
+KileProjectItemList* Manager::itemsFor(Info *docinfo) const
 {
 	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
 	KileProjectItemList *list = new KileProjectItemList();
@@ -275,9 +275,9 @@ KileProjectItem* Manager::activeProjectItem()
 	return item;
 }
 
-KileDocumentInfo* Manager::createDocumentInfo(const KURL & url)
+Info* Manager::createDocumentInfo(const KURL & url)
 {
-	KileDocumentInfo *docinfo = 0L;
+	Info *docinfo = 0L;
 
 	//see if this file belongs to an opened project
 	KileProjectItem *item = itemFor(url);
@@ -285,7 +285,21 @@ KileDocumentInfo* Manager::createDocumentInfo(const KURL & url)
 
 	if ( docinfo == 0L )
 	{
-		docinfo = new KileDocumentInfo(0L);
+		if ( Info::isTeXFile(url) )
+		{
+			kdDebug() << "CREATING TeXInfo for " << url.url() << endl;
+			docinfo = new TeXInfo(0L);
+		}
+		else if ( Info::isBibFile(url) )
+		{
+			kdDebug() << "CREATING BibInfo for " << url.url() << endl;
+			docinfo = new BibInfo(0L);
+		}
+		else
+		{
+			kdDebug() << "CREATING Info for " << url.url() << endl;
+			docinfo = new Info(0L);
+		}
 		docinfo->setURL(url);
 		docinfo->setListView(m_ki->structureWidget());
 		m_infoList.append(docinfo);
@@ -295,9 +309,9 @@ KileDocumentInfo* Manager::createDocumentInfo(const KURL & url)
 	return docinfo;
 }
 
-bool Manager::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject /* = false */)
+bool Manager::removeDocumentInfo(Info *docinfo, bool closingproject /* = false */)
 {
-	kdDebug() << "==Manager::removeDocumentInfo(KileDocumentInfo *docinfo)=====" << endl;
+	kdDebug() << "==Manager::removeDocumentInfo(Info *docinfo)=====" << endl;
 	KileProjectItemList *itms = itemsFor(docinfo);
 
 	if ( itms->count() == 0 || (closingproject && itms->count() == 1))
@@ -318,7 +332,7 @@ bool Manager::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject 
 	return false;
 }
 
-Kate::Document* Manager::createDocument(KileDocumentInfo *docinfo, const QString & encoding, const QString & highlight)
+Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding, const QString & highlight)
 {
 	kdDebug() << "==Kate::Document* Manager::createDocument()===========" << endl;
 
@@ -412,7 +426,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 		view = load(item->url(), item->encoding(), item->isOpen(), item->highlight(), text);
 		kdDebug() << "\tloadItem: docfor = " << docFor(item->url().path()) << endl;
 
-		KileDocumentInfo *docinfo = infoFor(item->url().path());
+		Info *docinfo = infoFor(item->url().path());
 		item->setInfo(docinfo);
 
 		kdDebug() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
@@ -421,7 +435,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 	else
 	{
 		kdDebug() << "\tloadItem: no document generated" << endl;
-		KileDocumentInfo *docinfo = createDocumentInfo(item->url());
+		Info *docinfo = createDocumentInfo(item->url());
 		item->setInfo(docinfo);
 
 		kdDebug() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
@@ -444,7 +458,7 @@ Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QStrin
 	if ( url.path() != i18n("Untitled") && m_ki->isOpen(url))
 		return m_ki->viewManager()->switchToView(url);
 
-	KileDocumentInfo *docinfo = createDocumentInfo(url);
+	Info *docinfo = createDocumentInfo(url);
 	Kate::Document *doc = createDocument(docinfo, encoding, highlight);
 
 	docinfo->updateStruct();
@@ -621,7 +635,7 @@ void Manager::slotNameChanged(Kate::Document * doc)
  		m_ki->viewManager()->setTabLabel(list.at(i), m_ki->getShortName(doc));
  	}
 
-	KileDocumentInfo *docinfo = infoFor(doc);
+	Info *docinfo = infoFor(doc);
 
 	//add to project view if doc was Untitled before
 	if (docinfo->oldURL().isEmpty())
@@ -752,7 +766,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 
 		KURL url = doc->url();
 
-		KileDocumentInfo *docinfo= infoFor(doc);
+		Info *docinfo= infoFor(doc);
 		KileProjectItemList *items = itemsFor(docinfo);
 
 		while ( items->current() )
@@ -837,7 +851,7 @@ void Manager::projectNew()
 			KURL url = project->baseURL();
 			url.addPath(dlg->file());
 
-			KileDocumentInfo *docinfo = infoFor(view->getDoc());
+			Info *docinfo = infoFor(view->getDoc());
 			docinfo->setURL(url);
 
 			//save the new file
@@ -1052,7 +1066,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		Kate::Document *doc = 0L;
 
 		KileProjectItem *item;
-		KileDocumentInfo *docinfo;
+		Info *docinfo;
 		//update the open-state of the items
 		for (uint i=0; i < list->count(); i++)
 		{
@@ -1243,7 +1257,7 @@ bool Manager::projectClose(const KURL & url)
 		KileProjectItemList *list = project->items();
 
 		bool close = true;
-		KileDocumentInfo *docinfo;
+		Info *docinfo;
 		for (uint i =0; i < list->count(); i++)
 		{
 			docinfo = list->at(i)->getInfo();

@@ -158,7 +158,7 @@ void KileLyxServer::receive(int fd)
 			emit(insertCite(cite.cap(1)));
 		else if ( bibtexins.search(line) > -1)
 			emit(insertBibTeX(bibtexins.cap(1)));
-		else if ( bibtexdbadd.search(line) )
+		else if ( bibtexdbadd.search(line) > -1 )
 			emit(insertBibTeXDatabaseAdd(bibtexdbadd.cap(1)));
 	}
 }

@@ -5,6 +5,7 @@
 	<include>qapplication.h</include>
 	<include>qstring.h</include>
 	<include>qtextcodec.h</include>
+	<include>qdir.h</include>
 	<group name="VersionInfo">
 		<entry name="RCVersion" type="Int">
 			<label>The resource file version.</label>
@@ -158,6 +159,12 @@
 		<entry name="TemplateEncoding" type="String">
 			<label>The Input encoding template variable.</label>
 			<default></default>
+		</entry>
+		<entry name="DefaultProjectLocation" type="String">
+			<label>The default location where the projects must be created.</label>
+			<default code="true">
+				QDir::home().absPath()
+			</default>
 		</entry>
 	</group>
 	<group name="Complete">

@@ -37,6 +37,7 @@
 #include "kileprojectdlgs.h"
 #include "kiletoolmanager.h"
 #include "kiledocumentinfo.h"
+#include "kileconfig.h"
 
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 const QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
@@ -179,9 +180,6 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
 	m_location->setMinimumWidth(200);
-	m_dir = QDir::home().absPath()+"/";
-	kdDebug() << "M_DIR " << m_dir << endl;
-	m_location->setText(m_dir);
 
 	lb = new QLabel(i18n("Project &file:"), plainPage());
 	QWhatsThis::add(lb, whatsthisPath);
@@ -373,7 +371,7 @@ void KileNewProjectDlg::slotOk()
 				return;
 		}
 
-		KURL fileURL = KURL::fromPathOrURL(file());
+		KURL fileURL; fileURL.setFileName(file());
 		KURL validURL = KileDocument::Info::makeValidTeXURL(fileURL);
 		if ( validURL != fileURL )
 			m_file->setText(validURL.fileName());
@@ -390,7 +388,7 @@ void KileNewProjectDlg::slotOk()
 
 void KileNewProjectDlg::fillProjectDefaults()
 {
-	m_dir = QDir::home().absPath()+"/";
+	m_dir = KileConfig::defaultProjectLocation() + "/";
 	kdDebug() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);
 	m_cb->setChecked(true);

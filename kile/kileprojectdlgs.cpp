@@ -34,7 +34,7 @@
 QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
 QString whatsthisArchive = i18n("Enter the command to create an archive of all the project files here. %S will be replaced with the project name, %F with a list of all the project files (items are separated by a space). This command will be executed from the base directory of the project (i.e. the directory where the .kilepr file resides).");
-
+QString whatsthisExt = i18n("");
 /*
  * KileNewProjectDlg
  */
@@ -156,7 +156,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
  	KDialogBase(KDialogBase::Plain, i18n("Project Options"), Ok|Cancel,Ok, parent, name, true, true ),
 	m_project(project)
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),4,2, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(),4,3, 10);
 
 	m_name = new KLineEdit(plainPage(), "le_projectname");
 	m_name->setText(m_project->name());
@@ -175,6 +175,15 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	QWhatsThis::add(lb,whatsthisArchive);
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_archive, 1,1,1,3);
+
+	m_extensions = new KLineEdit(plainPage(), "le_ext");
+	m_extensions->setText(project->extensions());
+	lb = new QLabel(i18n("&Extensions for non-source files"), plainPage());
+	lb->setBuddy(m_extensions);
+	QWhatsThis::add(m_extensions, whatsthisExt);
+	QWhatsThis::add(lb,whatsthisExt);
+	layout->addWidget(lb, 2,0);
+	layout->addMultiCellWidget(m_extensions, 2,2,1,3);
 }
 
 KileProjectOptionsDlg::~KileProjectOptionsDlg()
@@ -185,6 +194,7 @@ void KileProjectOptionsDlg::slotOk()
 {
 	m_project->setName(m_name->text());
 	m_project->setArchiveCommand(m_archive->text());
+	m_project->setExtensions(m_extensions->text());
 	accept();
 }
 

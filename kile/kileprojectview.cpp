@@ -28,7 +28,8 @@
 #include "kileproject.h"
 #include "kileprojectview.h"
 
-const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5, KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8;
+const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4,	KPV_ID_REMOVE = 5,
+	KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8, KPV_ID_INCLUDE = 9;
 
 /*
  * KileProjectViewItem
@@ -67,9 +68,10 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 /*
  * KileProjectView
  */
-KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(parent), m_ki(ki), m_nProjects(0)
+KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
 {
 	addColumn(i18n("Files and Projects"),-1);
+	addColumn(i18n("Include in Archive"),10);
 	setSorting(-1);
 	setFocusPolicy(QWidget::ClickFocus);
 	header()->hide();
@@ -115,6 +117,8 @@ void KileProjectView::slotFile(int id)
 
 void KileProjectView::slotProjectItem(int id)
 {
+	kdDebug() << "===KileProjectView::slotProjectItem()===============" << endl;
+	kdDebug() << "\tid: " << id << endl;
 	KileProjectViewItem *item = static_cast<KileProjectViewItem*>(currentItem());
 	if (item && item->type() == KileType::ProjectItem)
 	{
@@ -129,6 +133,12 @@ void KileProjectView::slotProjectItem(int id)
 				itm = m_ki->itemFor(url);
 				projecturl = itm->project()->url();
 				emit(removeFromProject(projecturl , url));
+				break;
+			case KPV_ID_INCLUDE :
+				if (item->text(1) == "*") item->setText(1,"");
+				else item->setText(1,"*");
+
+				emit(toggleArchive(item->url()));
 				break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
 			default : break;
@@ -178,6 +188,13 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		}
 		else if (itm->type() == KileType::ProjectItem || itm->type() == KileType::ProjectExtra)
 		{
+			KileProjectItem *pi  = m_ki->itemFor(itm->url());
+			if (pi)
+			{
+				m_popup->insertItem(i18n("&Include in Archive"), KPV_ID_INCLUDE);
+				m_popup->insertSeparator();
+				m_popup->setItemChecked(KPV_ID_INCLUDE, pi->archive())	;
+			}
 			m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
@@ -191,6 +208,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
 		}
+
 		m_popup->insertItem(SmallIcon("fileclose"), i18n("&Close"), KPV_ID_CLOSE);
 
 		m_popup->exec(point);
@@ -311,6 +329,7 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 
 	kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
 	KileProjectViewItem *item =  new KileProjectViewItem(projvi, projitem->url().fileName());
+	item->setArchiveState(projitem->archive());
 	if (projitem->type() == KileProjectItem::Other)
 		item->setType(KileType::ProjectExtra);
 	else

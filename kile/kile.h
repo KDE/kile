@@ -368,6 +368,7 @@ private slots:
 	void projectSave(KileProject * project = 0);
 	void projectAddFiles(const KURL &);
 	void projectAddFiles(KileProject * project = 0);
+	void toggleArchive(const KURL &);
 	bool projectArchive(const KURL &);
 	bool projectArchive(KileProject *project  = 0);
 	void buildProjectTree(KileProject *project = 0);

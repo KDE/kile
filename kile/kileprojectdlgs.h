@@ -66,7 +66,7 @@ private slots:
 	void slotOk();
 
 private:
-	KLineEdit		*m_name, *m_archive;
+	KLineEdit		*m_name, *m_archive, *m_extensions;
 	KileProject	*m_project;
 };
 

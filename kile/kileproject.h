@@ -19,6 +19,7 @@
 
 #include <qobject.h>
 #include <qptrlist.h>
+#include <qregexp.h>
 
 #include <kdebug.h>
 #include <kurl.h>
@@ -135,6 +136,9 @@ public:
 	void setArchiveCommand(const QString &command) { m_archiveCommand = command;}
 	const QString& archiveCommand() { return m_archiveCommand;}
 
+	void setExtensions(const QString & ext) { m_extensions = ext; m_reExtensions.setPattern(ext);}
+	const QString & extensions() { return m_extensions; }
+
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
@@ -177,6 +181,9 @@ private:
 
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
+
+	QString		m_extensions;
+	QRegExp		m_reExtensions;
 
 	KSimpleConfig	*m_config;
 };

@@ -37,7 +37,7 @@ KileProjectItem::KileProjectItem(KileProject *project, const KURL & url, int typ
 	m_child(0),
 	m_sibling(0)
 {
-	m_highlight=m_encoding=QString::null; m_bOpen = true;
+	m_highlight=m_encoding=QString::null; m_bOpen = m_archive = true;
 
 	if (project)
 		project->add(this);
@@ -145,7 +145,10 @@ void KileProject::init(const QString& name, const KURL& url)
 	}
 	else
 	{
-		save();
+		//create the project file
+		m_config->setGroup("General");
+		m_config->writeEntry("name", m_name);
+		m_config->sync();
 	}
 }
 
@@ -158,6 +161,7 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
+	m_extensions = m_config->readEntry("extensions", ".eps .pdf .dvi .ps .fig .log .aux .gif .jpg .png .fig");
 	m_archiveCommand = m_config->readEntry("archive", "tar zcvf '%S'.tar.gz %F");
 
 	KURL url;
@@ -200,6 +204,7 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
+	m_config->writeEntry("extensions", m_extensions);
 	m_config->writeEntry("archive", m_archiveCommand);
 
 	KileProjectItem *item;

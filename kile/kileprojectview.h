@@ -21,6 +21,7 @@
 
 class KURL;
 class KPopupMenu;
+class KToggleAction;
 class KileProject;
 class KileDocumentInfo;
 class KileInfo;
@@ -32,7 +33,7 @@ class KileProjectViewItem : public QObject, public KListViewItem
 	Q_OBJECT
 
 public:
-	KileProjectViewItem (QListView *parent, const QString & name) : KListViewItem(parent, name) {}
+	KileProjectViewItem (QListView *parent, const QString & name, bool ar = false) : KListViewItem(parent, name) { setArchiveState(ar);}
 	KileProjectViewItem (QListViewItem *parent, const QString & name) : KListViewItem(parent, name) {}
 	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 
@@ -46,6 +47,8 @@ public:
 
 	void setURL(const KURL & url) { m_url=url;}
 	const KURL& url() { return m_url;}
+
+	void setArchiveState(bool ar) { setText(1,ar ? "*" : "");}
 
 public slots:
 	void urlChanged(const KURL & url);
@@ -72,6 +75,7 @@ signals:
 	void projectOptions(const KURL &);
 	void projectArchive(const KURL &);
 	void addFiles(const KURL &);
+	void toggleArchive(const KURL &);
 	void closeProject(const KURL &);
 	void addToProject(const KURL &);
 	void removeFromProject(const KURL &, const KURL &);
@@ -110,6 +114,7 @@ private:
 	KileInfo					*m_ki;
 	KPopupMenu		*m_popup;
 	uint						m_nProjects;
+	KToggleAction		*m_toggle;
 };
 
 #endif

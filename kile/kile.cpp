@@ -163,6 +163,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	connect(m_projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(projectArchive(const KURL&)));
 	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
 	connect(m_projectview, SIGNAL(addFiles(const KURL &)), this, SLOT(projectAddFiles(const KURL &)));
+	connect(m_projectview, SIGNAL(toggleArchive(const KURL &)), this, SLOT(toggleArchive(const KURL &)));
 	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 	connect(m_projectview, SIGNAL(saveURL(const KURL &)), this, SLOT(saveURL(const KURL &)));
 	connect(m_projectview, SIGNAL(buildProjectTree(const KURL &)), this, SLOT(buildProjectTree(const KURL &)));
@@ -1247,6 +1248,13 @@ void Kile::projectAddFiles(KileProject *project)
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
 }
 
+void Kile::toggleArchive(const KURL & url)
+{
+	KileProjectItem *item = itemFor(url);
+	if (item)
+		item->setArchive(!item->archive());
+}
+
 bool Kile::projectArchive(const KURL & url)
 {
 	KileProject *project = projectFor(url);
@@ -1269,9 +1277,12 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 		QPtrListIterator<KileProjectItem> it(*project->items());
 		while (it.current())
 		{
-			path = (*it)->path();
-			KRun::shellQuote(path);
-			files += path+" ";
+			if ((*it)->archive())
+			{
+				path = (*it)->path();
+				KRun::shellQuote(path);
+				files += path+" ";
+			}
 			++it;
 		}
 

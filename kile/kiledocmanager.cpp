@@ -349,7 +349,8 @@ Info* Manager::recreateDocInfo(Info *oldinfo, const KURL & url)
 {
 	KileProjectItemList *list = itemsFor(oldinfo);
 	Info *newinfo = createDocumentInfo(url);
-	newinfo->setDoc(oldinfo->getDoc());
+ 
+    newinfo->setDoc(oldinfo->getDoc());
 
 	KileProjectItem *pritem = 0L;
 	for ( pritem = list->first(); pritem; pritem = list->next() )
@@ -359,6 +360,10 @@ Info* Manager::recreateDocInfo(Info *oldinfo, const KURL & url)
 	delete oldinfo;
 
 	m_infoList.append(newinfo);
+
+    // parse the document
+    newinfo->updateStruct();
+
 	return newinfo;
 }
 
@@ -677,20 +682,18 @@ void Manager::slotNameChanged(Kate::Document * doc)
 		m_ki->viewManager()->projectView()->add(doc->url());
 	}
 
-	emit(documentStatusChanged(doc, doc->isModified(), 0));
-
 	Info *docinfo = infoFor(doc);
 
-	//add to project view if doc was Untitled before
+	// take special care if doc was Untitled before
 	if (docinfo->oldURL().isEmpty())
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_ki->viewManager()->projectView()->add(doc->url());
 		
-		//hack: by default a TeX docinfo is created, if a newly created file is save as
-		//a .bib file, recreate the docinfo (now as a BibTeX docinfo)
-		if (doc->url().path().endsWith(".bib")) recreateDocInfo(docinfo, doc->url());
+        recreateDocInfo(docinfo, doc->url());
 	}
+
+    emit(documentStatusChanged(doc, doc->isModified(), 0));
 }
 
 void Manager::newDocumentStatus(Kate::Document *doc)

@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<kpartplugin name="kile" library="libkileplugin" version="1">
+<MenuBar>
+ <Menu name="tools"><Text>&amp;Tools</Text>
+  <Action name="Latex"/>
+  <Action name="Stop"/>
+ </Menu>
+</MenuBar>
+</kpartplugin>

@@ -65,7 +65,7 @@
 
 			<context name="Label" attribute="Normal Text" lineEndContext="#pop#pop" fallthrough="true" fallthroughContext="#pop#pop">
 				<RegExpr String="\s*\{\s*" attribute="Normal Text" context="#stay"/>
-				<RegExpr String="[^\}]+" attribute="Environment" context="#stay"/>
+				<RegExpr String="[^\}\{]+" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*\}\s*" attribute="Normal Text" context="#pop"/>
 			</context>
 

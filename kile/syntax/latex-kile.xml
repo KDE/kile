@@ -4,7 +4,8 @@
 	<highlighting>
 		<contexts>
 			<context name="Normal Text" attribute="Normal Text" lineEndContext="#stay">
-				<RegExpr String="\\(begin|end)(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment"/>
+				<RegExpr String="\\begin(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" beginRegion="Environment"/>
+				<RegExpr String="\\end(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" endRegion="Environment"/>
 				<RegExpr String="\\(label|pageref|ref|cite)(?=[^a-zA-Z])" attribute="Structure" context="Label"/>
 				<RegExpr String="\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)(?=[^a-zA-Z])" attribute="Structure" context="#stay"/>
 				<StringDetect String="\renewcommand" attribute="Keyword" context="ToEndOfLine"/>

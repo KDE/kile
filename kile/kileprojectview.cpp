@@ -105,7 +105,7 @@ void KileProjectView::slotClicked(QListViewItem *item)
 			emit(fileSelected(itm->url()));
 		else if ( itm->type() == KileType::ProjectItem )
 			emit(fileSelected(itm->projectItem()));
-		else
+		else if ( itm->type() != KileType::Folder )
 		{
 			//determine mimeType and open file with preferred application
 			KMimeType::Ptr pMime = KMimeType::findByURL(itm->url());

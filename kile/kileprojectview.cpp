@@ -260,8 +260,10 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	if (item->type() == KileType::Project)
 	{
 		KileProject *project = m_ki->projectFor(item->url());
-		//make some connections
-		connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
+		if (project==0)
+			kdWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path() << endl;
+		else
+			connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
 	}
 	else
 	{

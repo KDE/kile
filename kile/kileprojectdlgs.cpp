@@ -41,7 +41,8 @@ QString whatsthisExt = i18n("Insert a list (separated with spaces) of the extens
  * KileNewProjectDlg
  */
 KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
-        : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true )
+        : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true ),
+		m_filename(QString::null)
 {
 	QGridLayout *layout = new QGridLayout(plainPage(),4,8, 10);
 	layout->setColStretch(2,1);
@@ -55,16 +56,23 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	layout->addWidget(lb, 0,0);
 	layout->addWidget(m_name, 0,1);
 
+	connect(m_name, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
+
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
+	m_dir = QDir::home().absPath()+"/";
+	kdDebug() << "M_DIR " << m_dir << endl;
+	m_location->setText(m_dir);
 	lb = new QLabel(i18n("Project &file"), plainPage());
 	QWhatsThis::add(lb, whatsthisPath);
 	QWhatsThis::add(m_location, whatsthisPath);
 	lb->setBuddy(m_location);
-	KPushButton *pb = new KPushButton(i18n("Browse..."), plainPage());
+	KPushButton *pb = new KPushButton(i18n("Select a directory..."), plainPage());
 	connect(pb, SIGNAL(clicked()), this, SLOT(browseLocation()));
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_location, 1,1, 1,2);
 	layout->addWidget(pb,1,3);
+
+	//connect(m_location, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project."),plainPage());
 	m_cb->setChecked(true);
@@ -121,12 +129,36 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 	}
 }
 
+QString KileNewProjectDlg::bare()
+{
+	return name().lower().stripWhiteSpace().replace(QRegExp("\\s*"),"")+".kilepr";
+}
+
 void KileNewProjectDlg::browseLocation()
 {
-	QString filename = KFileDialog::getOpenFileName();
+	QString dir = m_dir;
+	if (!QFileInfo(m_dir).exists())
+		dir = QString::null;
 
-	if (!filename.isNull())
-		m_location->setText(filename);
+	dir = KFileDialog::getExistingDirectory(dir, this);
+
+	if (! dir.isNull())
+	{
+		m_dir = dir;
+		if (m_dir.right(1) != "/") m_dir = m_dir+"/";
+		m_location->setText(m_dir+bare());
+	}
+}
+
+void KileNewProjectDlg::makeProjectPath()
+{
+	m_filename=bare();
+	kdDebug() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
+	m_dir = QFileInfo(location()).dirPath();
+	if (m_dir.right(1) != "/") m_dir = m_dir+"/";
+
+	kdDebug() << "LOCATION " << location() << " AND " << m_dir << endl;
+	m_location->setText(m_dir+m_filename);
 }
 
 void KileNewProjectDlg::slotOk()
@@ -139,10 +171,12 @@ void KileNewProjectDlg::slotOk()
 	m_file->setText(uc.replacedPath(file()));
 
 	if ( name().stripWhiteSpace() == "")
+	{
 		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No name")) == KMessageBox::Yes)
 			m_name->setText(i18n("Untitled"));
 		else
 			return;
+	}
 
 	if ( location().stripWhiteSpace() == "" )
 	{
@@ -154,6 +188,52 @@ void KileNewProjectDlg::slotOk()
 	{
 		KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong filename extension."));
 		return;
+	}
+	else
+	{
+		QFileInfo file(location().stripWhiteSpace());
+		QFileInfo dr(file.dirPath());
+		QDir dir = dr.dir();
+
+		if (dir.isRelative())
+		{
+			KMessageBox::error(this, i18n("The path for the project file is not an absolute path, absolute paths always begin with an /"),i18n("Relative path"));
+			return;
+		}
+
+		kdDebug() << "==KileNewProjectDlg::slotOk()==============" << endl;
+		kdDebug() << "\t" << location() << " " << file.dirPath() << endl;
+		if (! dr.exists())
+		{
+			bool suc = true;
+			QStringList dirs = QStringList::split("/", file.dirPath());
+			QString path;
+
+			for (uint i=0; i < dirs.count(); i++)
+			{
+				path += "/"+dirs[i];
+				dir.setPath(path);
+				kdDebug() << "\tchecking : " << dir.absPath() << endl;
+				if ( ! dir.exists() )
+				{
+					dir.mkdir(dir.absPath());
+					suc = dir.exists();
+					kdDebug() << "\t\tcreated : " << dir.absPath() << " suc = " << suc << endl;
+				}
+
+				if (!suc)
+				{
+					KMessageBox::error(this, i18n("Could not create the project directory, check your permissions."));
+					return;
+				}
+			}
+		}
+
+		if (! dr.isWritable())
+		{
+			KMessageBox::error(this, i18n("The project directory is not writable, check your permissions."));
+			return;
+		}
 	}
 
 	if (createNewFile() && file().stripWhiteSpace() == "")

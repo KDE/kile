@@ -1449,17 +1449,7 @@ bool Kile::projectClose(const KURL & url)
 		 project = activeProject();
 	else
 	{
-		QPtrListIterator<KileProject> it(m_projects);
-		while ( it.current() )
-		{
-			if ((*it)->url() == url)
-			{
-				project = (*it);
-				break;
-			}
-
-			++it;
-		}
+		project = projectFor(url);
 	}
 
  	if (project)

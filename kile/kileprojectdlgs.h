@@ -35,6 +35,7 @@ public:
 	~KileNewProjectDlg();
 
 	QString name() {return m_name->text();}
+	QString bare();
 	QString location() { return m_location->text(); }
 	QString archiveCommand() { return m_archive->text(); }
 	QString extensions() { return m_extensions->text(); }
@@ -49,6 +50,8 @@ public slots:
 	void clickedCreateNewFileCb();
 	void browseLocation();
 
+	void makeProjectPath();
+
 	void slotOk();
 
 private:
@@ -56,6 +59,8 @@ private:
 	NewFileWidget *m_nfw;
 	QCheckBox	*m_cb, *m_isregexp;
 	QLabel *m_lb;
+
+	QString m_dir, m_filename;
 };
 
 class KileProjectOptionsDlg : public KDialogBase

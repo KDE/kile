@@ -129,6 +129,11 @@ class=Sequence
 type=Sequence
 sequence=LaTeX,DVItoPDF,ViewPDF
 
+[Tool/QuickBuild/LaTeX+BibTeX+ViewDVI]
+class=Sequence
+type=Sequence
+sequence=LaTeX,BibTeX,LaTeX,LaTeX,ViewDVI
+
 [Tool/QuickBuild/PDFLaTeX+ViewPDF]
 class=Sequence
 type=Sequence

@@ -33,7 +33,7 @@
 class ManageTemplatesDialog : public KDialogBase  {
    Q_OBJECT
 public: 
-	ManageTemplatesDialog(QFileInfo src, const QString &caption,QWidget *parent=0, const char *name=0);
+	ManageTemplatesDialog(QFileInfo *src, const QString &caption,QWidget *parent=0, const char *name=0);
 	ManageTemplatesDialog(const QString &caption,QWidget *parent=0, const char *name=0);	
 	~ManageTemplatesDialog();
 

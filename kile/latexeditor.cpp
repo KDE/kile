@@ -354,16 +354,13 @@ void LatexEditor::setEncoding(QString enc)
 
 void LatexEditor::setFile(const QString &name)
 {
-	if ( QFile::exists(name) )
+	if(!m_FileInfo)
 	{
-		if(!m_FileInfo)
-		{
-			m_FileInfo = new QFileInfo(name);
-		}
-		else
-		{
-			m_FileInfo->setFile(name);
-		}
+		m_FileInfo = new QFileInfo(name);
+	}
+	else
+	{
+		m_FileInfo->setFile(name);
 	}
 }
 

@@ -109,6 +109,7 @@ public:
     Kile( QWidget *parent = 0, const char *name = 0 );
     ~Kile();
     QString getName();
+    QString getShortName();
     QFont EditorFont;
 
 public slots:

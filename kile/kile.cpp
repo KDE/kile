@@ -683,10 +683,12 @@ void Kile::fileNew()
     if (wordwrap) {edit->editor->setWordWrap(LatexEditor::WidgetWidth);}
     else {edit->editor->setWordWrap(LatexEditor::NoWrap);}
     filenames.replace( edit, "untitled" );
+    edit->editor->setFile("untitled");
     edit->editor->setModified(false);
     doConnections( edit->editor );
 
     TemplateItem *sel = nfw->getSelection();
+    kdDebug() << "filenew start read" << endl;
     if (sel->name() != DEFAULT_EMPTY_CAPTION) {
        QFile f(sel->path());
        if (f.open(IO_ReadOnly) ) {
@@ -698,6 +700,7 @@ void Kile::fileNew()
        f.close();
        } else { KMessageBox::error(this, i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!")); }
     }
+    kdDebug() << "filenew end read" << endl;
 
     UpdateCaption();
     UpdateLineColStatus();
@@ -769,7 +772,7 @@ void Kile::fileSave(bool amAutoSaving )
 {
 	if ( !currentEditorView() )	return;
 	QString fn;
-	if ( getName()=="untitled" )
+	if ( getShortName()=="untitled" )
 	{
 		if (!amAutoSaving) fileSaveAs();
 	}
@@ -851,7 +854,7 @@ void Kile::autoSaveAll()
 	}
 	else
 	{
-		QString shortName = getName();
+		QString shortName = MasterName;
       		int pos = shortName.findRev('/');
       		shortName.remove(0,pos+1);
 		statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
@@ -878,7 +881,7 @@ void Kile::createTemplate() {
       return;
    }
 
-   QFileInfo fi(getName());
+   QFileInfo *fi=currentFileInfo();
    ManageTemplatesDialog mtd(fi,i18n("Create Template From Document"));
    mtd.exec();
 }
@@ -895,13 +898,13 @@ QString finame;
 if (!htmlpresent )
  {
     finame=getName();
-    if ( (!currentEditorView()) ||  finame =="" )
+    if ( (!currentEditorView()) ||  getShortName() =="" )
     {
     	KMessageBox::error(this,i18n("Please open or create the document you want to print first!"));
 	return;
     }
 
-    if (finame=="untitled")
+    if (getShortName()=="untitled")
     {
       if (KMessageBox::warningYesNo( this,
       i18n("You will have to save the document before you can print it. Save it now?"),
@@ -909,9 +912,10 @@ if (!htmlpresent )
       == KMessageBox::No) return;
     }
     fileSave();
-    finame=getName();
-    QFileInfo fic(finame);
-    if (fic.exists() && fic.isReadable() )
+    //finame=getName();
+    //QFileInfo fic(finame);
+    QFileInfo *fic = currentFileInfo();
+    if (fic->exists() && fic->isReadable() )
        {
          if ( !printer.setup(this) )
 	 {
@@ -931,7 +935,7 @@ if (!htmlpresent )
          p.setFont( EditorFont );
          QFontMetrics fm = p.fontMetrics();
          QPaintDeviceMetrics metrics( &printer );
-         QFile f( finame );
+         QFile f( fic->absFilePath() );
          if ( !f.open( IO_ReadOnly ) ) return;
          QTextStream t(&f);
          while ( !t.eof() )
@@ -1253,8 +1257,40 @@ else tabWidget->changeTab( currentEditorView(),UserIcon("empty"), QFileInfo( get
 QString Kile::getName()
 {
 QString title;
+//if ( !currentEditorView() )	{title="";}
+//else {title=filenames[currentEditorView()];}
 if ( !currentEditorView() )	{title="";}
-else {title=filenames[currentEditorView()];}
+else
+{
+	if (currentEditor()->fileInfo() != 0)
+	{
+		title=currentEditor()->fileInfo()->absFilePath();
+	}
+	else
+	{
+		title="";
+	}
+}
+return title;
+}
+
+QString Kile::getShortName()
+{
+QString title;
+//if ( !currentEditorView() )	{title="";}
+//else {title=filenames[currentEditorView()];}
+if ( !currentEditorView() )	{title="";}
+else
+{
+	if (currentEditor()->fileInfo() != 0)
+	{
+		title=currentEditor()->fileInfo()->fileName();
+	}
+	else
+	{
+		title="";
+	}
+}
 return title;
 }
 
@@ -1696,7 +1732,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
 // -
 // - return the name of the file to be compiled (master document)
 QString Kile::prepareForCompile(const QString & command) {
-  QString finame = getName();
+  QString finame = getShortName();
   if (finame == "untitled") {
      if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
                                              "Do you want to save it? Click Yes to save and No to abort.").arg(command),
@@ -1714,6 +1750,7 @@ QString Kile::prepareForCompile(const QString & command) {
      finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
 
+  kdDebug() << "prepareForCompile finame " << finame << endl;
   //we need to check for finame=="untitled" etc. because the user could have
   //escaped the file save dialog
   if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
@@ -1729,17 +1766,17 @@ QString Kile::prepareForCompile(const QString & command) {
   if (!fic.exists() )
   {
      KMessageBox::error(this,i18n("The file %1 does not exist. Are you working with a master document which is accidently deleted?")
-                        .arg(finame));
+                        .arg(fic.absFilePath()));
      return QString::null;
   }
 
   if (!fic.isReadable() )
   {
-     KMessageBox::error(this, i18n("You do not have read permission for the file: %1").arg(finame));
+     KMessageBox::error(this, i18n("You do not have read permission for the file: %1").arg(fic.absFilePath()));
      return QString::null;
   }
 
-  return finame;
+  return fic.absFilePath();
 }
 
 QStringList Kile::prepareForConversion(const QString &command, const QString &from, const QString &to)
@@ -1751,7 +1788,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
      finame=MasterName;
    }
 
-   if (finame == "untitled") {
+   if (getShortName() == "untitled") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can turn it into a %2 file.")
                                    .arg(from.upper()).arg(to.upper()),
@@ -1792,7 +1829,7 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
      finame=MasterName;
    }
 
-   if (finame == "untitled") {
+   if (getShortName() == "untitled") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
                                    "file out of it. After you have done this, you can view the %1 file.")
                                    .arg(ext.upper()).arg(ext.upper()),
@@ -1812,7 +1849,7 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
    if (!target.isNull())
    {
 		finame += target;
-		finame.replace(QRegExp("%S"),fic.baseName());
+		finame.replace("%S",fic.baseName());
 	}
    else
    {
@@ -2110,7 +2147,7 @@ void Kile::ViewPDF()
 
 void Kile::MakeBib()
 {
-  QString finame = getName();
+  QString finame = getShortName();
   if (finame == "untitled") {
      KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an AUX file which is required to run %1").arg(bibtex_command),
                         i18n("File needs to be saved!"));
@@ -2171,7 +2208,7 @@ void Kile::MakeIndex()
   //TODO: figure out how makeindex works ;-))
   //I'm just guessing here
 
-  QString finame = getName();
+  QString finame = getShortName();
   if (finame == "untitled") {
      KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an idx file "
                                   "which is required to run %1.").arg(makeindex_command),
@@ -2283,13 +2320,17 @@ void Kile::MetaPost()
 
   QString finame;
 
-  finame=getName();
+  finame=getShortName();
   if (!currentEditorView() ||finame=="untitled" || finame=="")
   {
   KMessageBox::error( this,i18n("Could not start the command."));
   return;
   }
   fileSave();
+
+  if (singlemode) { finame= getName();}
+  else { finame = MasterName;}
+
   QFileInfo fi(finame);
   QString name=fi.dirPath()+"/"+fi.baseName()+".mp";
   QString mpname=fi.baseName()+".mp";
@@ -2318,16 +2359,15 @@ UpdateLineColStatus();
 
 void Kile::CleanAll()
 {
-  QString finame;
-
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
+  QString finame = getShortName();
 
   if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
   {
      KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
      return;
   }
+
+  finame=getName();
 
   QFileInfo fic(finame);
   if ( ! (fic.exists() && fic.isReadable() ) )
@@ -2379,7 +2419,8 @@ void Kile::syncTerminal()
     QString finame;
     if (singlemode) {finame=getName();}
     else {finame=MasterName;}
-    if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="") {return;}
+    if ((singlemode && !currentEditorView()) ||getShortName()=="untitled" || getShortName()=="") {return;}
+
     QFileInfo fi(finame);
     QString texname=fi.dirPath()+"/"+fi.baseName()+".tex";
     QFileInfo fic(texname);
@@ -2506,7 +2547,7 @@ void Kile::execUserTool(int i)
 
 	if (singlemode) {finame=getName();}
 	else {finame=MasterName;}
-	if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+	if ((singlemode && !currentEditorView()) ||getShortName()=="untitled" || getShortName()=="")
 	{
 		documentpresent=false;
 	}
@@ -2559,11 +2600,9 @@ void Kile::UpdateStructure()
 {
 outstruct->clear();
 if ( !currentEditorView() ) return;
-QString shortName = getName();
+QString shortName = getShortName();
 if ((shortName.right(4)!=".tex") && (shortName!="untitled"))  return;
-int pos;
-while ( (pos = (int)shortName.find('/')) != -1 )
-shortName.remove(0,pos+1);
+
 QListViewItem *top=  new QListViewItem( outstruct, shortName,"0",0 );
 top->setOpen(TRUE);
 top->setPixmap(0,UserIcon("doc"));
@@ -2751,10 +2790,13 @@ for(int i = 0; i < currentEditorView()->editor->paragraphs(); i++)
 if (currentEditorView() ){currentEditorView()->editor->viewport()->setFocus();}
 }
 
-void Kile::ClickedOnStructure(QListViewItem *)
+void Kile::ClickedOnStructure(QListViewItem * item)
 {
+//return if user didn't click on an item
+if (item==0) return;
+
+bool ok = false;
 if ( !currentEditorView() ) return;
-QListViewItem *item = outstruct->currentItem();
 QString it;
 if ((item) && (!structlist.isEmpty()))
  {
@@ -2762,12 +2804,14 @@ if ((item) && (!structlist.isEmpty()))
  QStringList::ConstIterator it2 = structlist.begin();
  for ( ; it1 !=structitem.end(); ++it1 )
     {
-    if (*it1==item->text(0)) break;
+    if (*it1==item->text(0)) {ok=true; break;}
     ++it2;
     }
-bool ok;
+
+if (!ok) return;
+
 QString s=*it2;
-if (s!="include" && s!="input")
+if (s!="include" && s!="input" && s!="LABELS")
  {
  int l=s.toInt(&ok,10);
  if (ok && l<=currentEditorView()->editor->paragraphs())
@@ -3751,7 +3795,7 @@ QString finame;
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
-if (finame!="untitled") currentDir=fi.dirPath();
+if (getShortName() !="untitled") currentDir=fi.dirPath();
 sfDlg = new FileChooser(this,"Select Image File",i18n("Select Image File"));
 sfDlg->setFilter(i18n("*.eps *.pdf *.png|Graphic Files\n*|All Files"));
 sfDlg->setDir(currentDir);
@@ -3781,7 +3825,7 @@ QString finame;
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
-if (finame!="untitled") currentDir=fi.dirPath();
+if (getShortName()!="untitled") currentDir=fi.dirPath();
 sfDlg = new FileChooser(this,"Select File",i18n("Select File"));
 sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
 sfDlg->setDir(currentDir);
@@ -3805,7 +3849,7 @@ QString finame;
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
-if (finame!="untitled") currentDir=fi.dirPath();
+if (getShortName()!="untitled") currentDir=fi.dirPath();
 sfDlg = new FileChooser(this,"Select File",i18n("Select File"));
 sfDlg->setFilter(i18n("*.tex|TeX Files\n*|All Files"));
 sfDlg->setDir(currentDir);

@@ -31,9 +31,9 @@
 #include "templates.h"
 #include "managetemplatesdialog.h"
 
-ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true) {
-   m_sourceTemplate.name=src.baseName().replace(".tex","");
-   m_sourceTemplate.path=src.absFilePath();
+ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo *src, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true) {
+   m_sourceTemplate.name=src->baseName();
+   m_sourceTemplate.path=src->absFilePath();
    m_sourceTemplate.icon=KGlobal::dirs()->findResource("appdata","pics/type_Default.png");
 
    QWidget *page = new QWidget( this , "managetemplates_mainwidget");

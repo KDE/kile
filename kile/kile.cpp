@@ -2466,7 +2466,7 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
 		finame = finame.replace("%S",fic.baseName(TRUE));
 		if (finame.right(ext.length()+1) != "."+ext)
 			finame += "."+ext;
-			
+
 		kdDebug() << "\t resulting in " << finame << endl;
    }
    else
@@ -2484,6 +2484,7 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
       return QString::null;
    }
 
+   kdDebug() << "\treturning " << finame << endl;
    return finame;
 }
 
@@ -2950,22 +2951,22 @@ void Kile::DVItoPDF()
 }
 
 void Kile::MetaPost()
-{/*
+{
   //TODO: what the h*ll is MetaPost, how should we deal with the
   //error messages?
 
   QString finame;
+	Kate::View *view = currentView();
 
   finame=getShortName();
-  if (!currentView() ||finame==i18n("Untitled") || finame=="")
+  if (!view ||finame==i18n("Untitled") || finame=="")
   {
   KMessageBox::error( this,i18n("Could not start the command."));
   return;
   }
-  fileSave();
+  view->save();
 
-  if (m_singlemode) { finame= getName();}
-  else { finame = m_masterName;}
+  getCompileName();
 
   QFileInfo fi(finame);
   QString name=fi.dirPath()+"/"+fi.baseName(TRUE)+".mp";
@@ -2983,14 +2984,13 @@ void Kile::MetaPost()
         {
          OutputWidget->clear();
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg("mpost"));
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
   }
  else
  {
   KMessageBox::error(this, i18n("MetaPost file not found!"));
  }
-//newStatus();*/
 }
 
 void Kile::CleanAll()
@@ -3094,7 +3094,7 @@ void Kile::LatexToHtml()
     if ( l2hDlg->exec() )
     {
     l2h_options=l2hDlg->options_edit->text();
-    QStringList command; command <<  "konsole" << "-e" << "latex2html" << "%S.tex" << l2h_options;
+    QStringList command; command <<  "konsole" << "-e" << "latex2html" << "'%S.tex'" << l2h_options;
     CommandProcess* proc = execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotl2hExited(KProcess*)));
 
@@ -3103,7 +3103,7 @@ void Kile::LatexToHtml()
         {
          OutputWidget->clear();
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg("latex2html"));
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
         }
     }
     delete (l2hDlg);
@@ -3169,8 +3169,12 @@ HtmlPreview();
 
 void Kile::HtmlPreview()
 {
+	kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
+
 	QString finame;
 	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
+
+	kdDebug() << "\tfiname=" << finame << endl;
 
 	LogWidget->clear();
 	logpresent=false;

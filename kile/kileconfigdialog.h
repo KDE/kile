@@ -51,10 +51,11 @@ public:
 
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
 
-    QLabel    *TextLabel6, *TextLabel7, *TextLabel9, *TextLabel10, *TextLabel11, *TextLabel12, *TextLabel13, *TextLabel14;
+    QLabel    *TextLabel6, *TextLabel7, *TextLabel8, *TextLabel9, *TextLabel10, *TextLabel11;
+    QLabel    *TextLabel12, *TextLabel13, *TextLabel14;
     QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13, *LineEdit14;
 
-    QComboBox *comboDvi, *comboPs, *comboPdf;
+    QComboBox *comboDvi, *comboPs, *comboPdf, *comboLatexHelp;
 	QButtonGroup *ButtonGroup2;
 	QSpinBox *spinLevel;
     QCheckBox *checkAutosave, *checkEnv, *checkSwitchStruct, *checkRestore, *checkForRoot, *m_runlyxserver;

@@ -3916,22 +3916,23 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-QFileInfo fic(locate("html","en/kile/latexhelp.html"));
-kdDebug() << "latexhelp: " << fic.absFilePath() << endl;
-    if (fic.exists() && fic.isReadable() )
+      if (viewlatexhelp_command=="Embedded Viewer") 
       {
-      ResetPart();
-      htmlpart = new docpart(topWidgetStack,"help");
-      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-      htmlpresent=true;
-      topWidgetStack->addWidget(htmlpart->widget() , 1 );
-      topWidgetStack->raiseWidget(1);
-      partManager->addPart(htmlpart, true);
-      partManager->setActivePart( htmlpart);
-      htmlpart->openURL(locate("html","en/kile/latexhelp.html"));
-      htmlpart->addToHistory(locate("html","en/kile/latexhelp.html"));
+	      ResetPart();
+	      htmlpart = new docpart(topWidgetStack,"help");
+	      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
+	      htmlpresent=true;
+	      topWidgetStack->addWidget(htmlpart->widget() , 1 );
+	      topWidgetStack->raiseWidget(1);
+	      partManager->addPart(htmlpart, true);
+	      partManager->setActivePart( htmlpart);
+	      htmlpart->openURL("help:/kile/latexhelp.html");
+	      htmlpart->addToHistory("help:/kile/latexhelp.html");
       }
-    else { KMessageBox::error( this,i18n("File not found"));}
+      else
+      {
+             kapp->invokeHTMLHelp("kile/latexhelp.html");
+      }
 }
 
 void Kile::invokeHelp()
@@ -4068,6 +4069,7 @@ void Kile::ReadSettings()
 		viewdvi_command="Embedded Viewer";
 		dvips_command="dvips -o '%S.ps' '%S.dvi'";
 		viewps_command="Embedded Viewer";
+		viewlatexhelp_command="Embedded Viewer";
 		ps2pdf_command="ps2pdf '%S.ps' '%S.pdf'";
 		makeindex_command="makeindex '%S.idx'";
 		bibtex_command="bibtex '%S'";
@@ -4178,6 +4180,7 @@ void Kile::readConfig()
 	quickmode=config->readNumEntry( "Quick Mode",1);
 	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
 	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
+	viewlatexhelp_command=config->readEntry("LatexHelp","Embedded Viewer");
 	dvips_command=config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'");
 	viewps_command=config->readEntry("Ps","Embedded Viewer");
 	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'");

@@ -173,7 +173,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     TextLabel1 = new QLabel( gb, "label1" );
     TextLabel1->setText(i18n( "Dvi Viewer") );
 
-	comboDvi = new QComboBox( FALSE, gb, "comboDvi" );
+    comboDvi = new QComboBox( FALSE, gb, "comboDvi" );
     comboDvi->setEditable( true );
     comboDvi->insertItem("xdvi -editor \'kile %f -line %l\' %S.dvi");
     comboDvi->insertItem("kdvi '%S.dvi'");
@@ -197,12 +197,20 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     comboPdf->insertItem("kghostview '%S.pdf'");
     comboPdf->insertItem("Embedded Viewer");
 
+    TextLabel8 = new QLabel( gb, "label8" );
+    TextLabel8->setText(i18n( "Latex Reference" ));
+    comboLatexHelp = new QComboBox( FALSE, gb, "comboPdf" );
+    comboLatexHelp->setEditable( true );
+    comboLatexHelp->insertItem("Embedded Viewer");
+    comboLatexHelp->insertItem("KDE Help");
+
 	//fill in tools
 	m_config->setGroup("Tools");
 	checkForRoot->setChecked(m_config->readBoolEntry("CheckForRoot",true));
 	comboDvi->setCurrentText(m_config->readEntry("Dvi","Embedded Viewer"));
 	comboPdf->setCurrentText(m_config->readEntry("Pdf","Embedded Viewer"));
 	comboPs->setCurrentText(m_config->readEntry("Ps","Embedded Viewer"));
+	comboLatexHelp->setCurrentText(m_config->readEntry("LatexHelp","Embedded Viewer"));
 	LineEdit6->setText(m_config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'"));
 	LineEdit7->setText(m_config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode '%S.tex'"));
 	LineEdit9->setText(m_config->readEntry("Dvipdf","dvipdfm '%S.dvi'"));
@@ -296,6 +304,7 @@ void KileConfigDialog::slotOk()
 	m_config->setGroup("Tools");
 	m_config->writeEntry("CheckForRoot",checkForRoot->isChecked());
 	m_config->writeEntry("Latex",LineEdit6->text());
+	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
 	m_config->writeEntry("Dvi",comboDvi->currentText());
 	m_config->writeEntry("Dvips",LineEdit10->text());
 	m_config->writeEntry("Ps",comboPs->currentText());

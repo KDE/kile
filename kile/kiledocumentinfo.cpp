@@ -20,6 +20,7 @@
 #include <qregexp.h>
 
 #include <klocale.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 
@@ -49,6 +50,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\bibliography"]=KileStructData(-2,KileStruct::Bibliography);
+	m_dictStructLevel["\\usepackage"]=KileStructData(-3,KileStruct::Package);
 }
 
 void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
@@ -223,6 +225,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	m_bibItems.clear();
 	m_deps.clear();
 	m_bibliography.clear();
+	m_packages.clear();
 	m_bIsRoot = false;
 
 	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
@@ -251,6 +254,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 	QRegExp reNewCommand("\\\\(re)?newcommand.*$");
 
+	int teller=0;
 	int tagStart;
 	uint tagEnd;
 	uint tagLine = 0, tagCol = 0;
@@ -262,6 +266,14 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 		tagStart=tagEnd=0;
 		s=m_doc->textLine(i);
 
+		if (teller > 100)
+		{
+			teller=0;
+			kapp->processEvents();
+		}
+		else
+			teller++;
+		
 		//remove escaped \ characters
 		s.replace("\\\\", "  ");
 
@@ -331,12 +343,16 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					if ((*it).type == KileStruct::Label)
 						m_labels.append(m.stripWhiteSpace());
 
-					//update the label list
+					//update the bibitem list
 					if ((*it).type == KileStruct::BibItem)
 					{
 						kdDebug() << "\tappending bibitem " << m << endl;
 						m_bibItems.append(m.stripWhiteSpace());
 					}
+
+					//update the package list
+					if ((*it).type == KileStruct::Package)
+						m_packages.append(m.stripWhiteSpace());
 
 					if ((*it).level > -2)
 					{

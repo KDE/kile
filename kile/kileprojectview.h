@@ -29,18 +29,20 @@ class KileInfo;
 
 namespace KileType {enum ProjectView { Project=0, ProjectItem, ProjectExtra, File, Folder};}
 
-class KileProjectViewItem : public QObject, public KListViewItem 
+class KileProjectViewItem : public QObject, public KListViewItem
 {
 	Q_OBJECT
 
 public:
-	KileProjectViewItem (QListView *parent, const QString & name, bool ar = false) : KListViewItem(parent, name), m_nonsrc(0) { setArchiveState(ar);}
-	KileProjectViewItem (QListView *parent, QListViewItem *after, const QString & name, bool ar = false) : KListViewItem(parent, after, name), m_nonsrc(0) { setArchiveState(ar);}
+	KileProjectViewItem (QListView *parent, const QString & name, bool ar = false) : KListViewItem(parent, name), m_folder(-1) { setArchiveState(ar);}
+	KileProjectViewItem (QListView *parent, QListViewItem *after, const QString & name, bool ar = false) : KListViewItem(parent, after, name), m_folder(-1) { setArchiveState(ar);}
 	KileProjectViewItem (QListViewItem *parent, const QString & name) : KListViewItem(parent, name) {}
-	
+
 	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 
 	KileProjectViewItem* parent() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::parent()); }
+	KileProjectViewItem* firstChild() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::firstChild()); }
+	KileProjectViewItem* nextSibling() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::nextSibling()); }
 
 	void setInfo(KileDocumentInfo *docinfo) { m_docinfo = docinfo;}
 	KileDocumentInfo * getInfo() { return m_docinfo;}
@@ -53,8 +55,8 @@ public:
 
 	void setArchiveState(bool ar) { setText(1,ar ? "*" : "");}
 
-	void setNonSrc(KileProjectViewItem *nonsrc) { m_nonsrc = nonsrc; }
-	KileProjectViewItem* nonSrc() { return m_nonsrc; }
+	void setFolder(int folder) { m_folder = folder; }
+	int folder() { return m_folder; }
 
 public slots:
 	void urlChanged(const KURL & url);
@@ -63,9 +65,9 @@ public slots:
 
 private:
 	KURL	m_url;
-	KileType::ProjectView m_type;
+	KileType::ProjectView	m_type;
 	KileDocumentInfo	*m_docinfo;
-	KileProjectViewItem	*m_nonsrc;
+	int   m_folder;
 };
 
 class KileProjectView : public KListView
@@ -118,7 +120,7 @@ private slots:
 
 private:
 	void makeTheConnection(KileProjectViewItem *);
-	KileProjectViewItem* nonSrc(const KileProjectItem *item, KileProjectViewItem *);
+	KileProjectViewItem* folder(const KileProjectItem *item, KileProjectViewItem *);
 
 private:
 	KileInfo					*m_ki;

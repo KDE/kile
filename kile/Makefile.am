@@ -3,12 +3,45 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp kileconfigdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp kileprojectview.cpp kilelistselector.cpp bibtexdialog.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp
+kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp \
+	commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp \
+	usermenudialog.cpp kileconfigdialog.cpp texkonsolewidget.cpp \
+	tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp \
+	quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp \
+	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp \
+	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp \
+	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp \
+	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp \
+	kileprojectview.cpp kilelistselector.cpp bibtexdialog.cpp \
+	kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp \
+	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp
+
 kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 
 SUBDIRS = pics symbols gfe templates syntax
 
-EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h docpart.cpp docpart.h kileappIface.h kileappIface_skel.cpp kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp kilefileselect.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h l2hdialog.cpp l2hdialog.h letterdialog.cpp letterdialog.h messagewidget.cpp messagewidget.h quickdocumentdialog.cpp quickdocumentdialog.h structdialog.cpp structdialog.h symbolview.cpp symbolview.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp tabdialog.h texkonsolewidget.cpp texkonsolewidget.h kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp refdialog.h kile22x22.png metapostview.cpp metapostview.h commandprocess.cpp commandprocess.h newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp kileprojectdlgs.h kileprojectview.cpp kileprojectview.h kilelistselector.cpp kilelistselector.h bibtexdialog.cpp bibtexdialog.h kilelyxserver.cpp kilelyxserver.h latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h outputfilter.h
+EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h \
+	docpart.cpp docpart.h kileappIface.h kileappIface_skel.cpp \
+	kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp \
+	kilefileselect.h kileui.rc kmultiverttabbar.cpp kmultiverttabbar.h \
+	l2hdialog.cpp l2hdialog.h letterdialog.cpp letterdialog.h \
+	messagewidget.cpp messagewidget.h quickdocumentdialog.cpp \
+	quickdocumentdialog.h structdialog.cpp structdialog.h symbolview.cpp \
+	symbolview.h tabbingdialog.cpp tabbingdialog.h tabdialog.cpp \
+	tabdialog.h texkonsolewidget.cpp texkonsolewidget.h \
+	kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp \
+	usermenudialog.h addoptiondialog.cpp addoptiondialog.h refdialog.cpp \
+	refdialog.h kile22x22.png metapostview.cpp metapostview.h \
+	commandprocess.cpp commandprocess.h newfilewizard.cpp newfilewizard.h \
+	templates.cpp templates.h managetemplatesdialog.cpp \
+	managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp \
+	kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp \
+	kileprojectdlgs.h kileprojectview.cpp kileprojectview.h \
+	kilelistselector.cpp kilelistselector.h bibtexdialog.cpp \
+	bibtexdialog.h kilelyxserver.cpp kilelyxserver.h \
+	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp \
+	outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h \
+	outputfilter.h kilegrepdialog.cpp kilegrepdialog.h
 
 xdg_apps_DATA = kile.desktop
 
@@ -41,7 +74,7 @@ INCLUDES = $(all_includes)
 
 METASOURCES = AUTO
 
-# the library search path. 
+# the library search path.
 kile_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 rcdir = $(kde_datadir)/kile

@@ -493,6 +493,9 @@ private slots:
 	void execUserTool(int);
 	void EditUserTool();
 
+	void FindInFiles();
+	void GrepItemSelected(const QString &abs_filename, int line);
+
 /* log view, error handling */
 private slots:
 	void ViewLog();

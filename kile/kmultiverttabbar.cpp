@@ -10,19 +10,19 @@ from Konqueror
 #include <kdebug.h>
 #include <qtooltip.h>
 
-KMultiVertTabBarInternal::KMultiVertTabBarInternal(QWidget *parent):QScrollView(parent)
-	{
-		tabs.setAutoDelete(true);
-		setHScrollBarMode(AlwaysOff);
-		setVScrollBarMode(AlwaysOff);
-		box=new QVBox(viewport());
-		box->setFixedWidth(24);
-		setFixedWidth(24);
-		addChild(box);
-		setFrameStyle(NoFrame);
-		viewport()->setBackgroundMode(Qt::PaletteBackground);
-
-	}
+KMultiVertTabBarInternal::KMultiVertTabBarInternal(QWidget *parent)
+	: QScrollView(parent)
+{
+	tabs.setAutoDelete(true);
+	setHScrollBarMode(AlwaysOff);
+	setVScrollBarMode(AlwaysOff);
+	box = new QVBox(viewport());
+	box->setFixedWidth(24);
+	setFixedWidth(24);
+	addChild(box);
+	setFrameStyle(NoFrame);
+	viewport()->setBackgroundMode(Qt::PaletteBackground);
+}
 
 void KMultiVertTabBarInternal::drawContents ( QPainter * paint, int clipx, int clipy, int clipw, int cliph )
 {
@@ -127,9 +127,6 @@ void KMultiVertTabBarButton::setPosition(KMultiVertTabBar::KMultiVertTabBarPosit
 	repaint();
 }
 
-
-
-
 KMultiVertTabBarTab::KMultiVertTabBarTab(const QPixmap& pic, const QString& text,
 		int id,QWidget *parent,KMultiVertTabBar::KMultiVertTabBarPosition pos)
 	:KMultiVertTabBarButton(pic,text,0,id,parent,pos)
@@ -141,10 +138,9 @@ KMultiVertTabBarTab::KMultiVertTabBarTab(const QPixmap& pic, const QString& text
 void KMultiVertTabBarTab::drawButton(QPainter *paint)
 {
         QPixmap pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
-    paint->fillRect(0, 0, 24, 24, colorGroup().background());
-	if (!isOn())
-	{
+	paint->fillRect(0, 0, 24, 24, colorGroup().background());
 
+	if (!isOn()) {
 		if (position==KMultiVertTabBar::Right)
 		{
 			paint->fillRect(0,0,21,21,QBrush(colorGroup().background()));
@@ -156,7 +152,7 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 
 			paint->setPen(colorGroup().shadow());
 			paint->drawLine(0,0,0,23);
-      paint->drawLine(23,0,23,23);
+			paint->drawLine(23,0,23,23);
 			paint->setPen(colorGroup().background().dark(120));
 			paint->drawLine(1,0,1,23);
 
@@ -177,11 +173,8 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 
 
 		}
-
-
 	}
-	else
-	{
+	else {
 		if (position==KMultiVertTabBar::Right)
 		{
 			paint->setPen(colorGroup().shadow());
@@ -193,15 +186,13 @@ void KMultiVertTabBarTab::drawButton(QPainter *paint)
 			paint->drawPixmap(10-pixmap.width()/2,10-pixmap.height()/2,pixmap);
 
 		}
-		else
-		{
+		else {
 			paint->setPen(colorGroup().shadow());
 			paint->drawLine(0,23,23,23);
 			paint->drawLine(0,22,23,22);
 			paint->fillRect(0,0,23,21,QBrush(colorGroup().light()));
 			paint->drawPixmap(10-pixmap.width()/2,10-pixmap.height()/2,pixmap);
 		}
-
 	}
 }
 
@@ -218,7 +209,7 @@ KMultiVertTabBar::KMultiVertTabBar(QWidget *parent):QWidget(parent)
 	l=new QVBoxLayout(this);
 	l->setMargin(0);
 	l->setAutoAdd(false);
-	
+
 	internal=new KMultiVertTabBarInternal(this);
 	l->insertWidget(0,internal);
 	l->insertWidget(0,btnTabSep=new QFrame(this));

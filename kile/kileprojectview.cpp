@@ -30,8 +30,10 @@
 #include "kileproject.h"
 #include "kileprojectview.h"
 
-const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4,	KPV_ID_REMOVE = 5,
-	KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8, KPV_ID_INCLUDE = 9, KPV_ID_OPENWITH = 10;
+const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
+	KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5,
+	KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8,
+	KPV_ID_INCLUDE = 9, KPV_ID_OPENWITH = 10;
 
 /*
  * KileProjectViewItem
@@ -277,25 +279,43 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	}
 }
 
-KileProjectViewItem* KileProjectView::nonSrc(const KileProjectItem *pi, KileProjectViewItem *item)
+KileProjectViewItem* KileProjectView::folder(const KileProjectItem *pi, KileProjectViewItem *item)
 {
 	KileProjectViewItem *parent = parentFor(pi, item);
-	
+
 	if (parent == 0)
 	{
 		kdError() << "no parent for " << pi->url().path() << endl;
 		return 0;
 	}
 
-	if (parent->nonSrc())
-		return parent->nonSrc();
+	if (parent->type() == KileType::Folder)
+		return parent;
 
-	//create the non-source item
-	KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-sources"));
-	parent->setNonSrc(nonsrc);
-	nonsrc->setType(KileType::Folder);
+	//create the folder item
+	KileProjectViewItem *folder;
 
-	return nonsrc;
+	switch (pi->type()) {
+	case (KileProjectItem::Package):
+		folder = new KileProjectViewItem(parent, i18n("packages"));
+		break;
+	case (KileProjectItem::Image):
+		folder = new KileProjectViewItem(parent, i18n("images"));
+		break;
+	case (KileProjectItem::Other):
+		folder = new KileProjectViewItem(parent, i18n("other"));
+		break;
+	default:
+		folder = new KileProjectViewItem(parent, i18n("non-sources"));
+		break;
+	}
+
+	kdDebug() << "new folder: " << parent->url().url() << endl;
+
+	folder->setFolder(pi->type());
+	folder->setType(KileType::Folder);
+
+	return folder;
 }
 
 void KileProjectView::add(const KileProject *project)
@@ -355,8 +375,7 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 	KileProjectItem *parpi = projitem->parent();
 	KileProjectViewItem *parpvi = projvi, *vi;
 
-	if (parpi)
-	{
+	if (parpi) {
 		//find parent viewitem that has an URL parpi->url()
 		QListViewItemIterator it( projvi );
 		kdDebug() << "\tlooking for " << parpi->url().path() << endl;
@@ -375,8 +394,20 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 
 		kdDebug() << "\t\tnot found" << endl;
 	}
+	else {
+		kdDebug() << "\tlooking for folder type " << projitem->type() << endl;
+		for (parpvi = parpvi->firstChild(); parpvi; parpvi = parpvi->nextSibling())
+		{
+			if ((parpvi->type() == KileType::Folder) &&
+				(parpvi->folder() == projitem->type()))
+			{
+				kdDebug() << "\t\tfound" << endl;
+				break;
+			}
+		}
+	}
 
-	return parpvi;
+	return (parpvi == 0) ? projvi : parpvi;
 }
 
 KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileProjectViewItem * projvi /* = 0*/)
@@ -390,22 +421,26 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 		projvi= projectViewItemFor(project->url());
 	}
 
-	//KileProjectViewItem *parpvi = parentFor(projitem, projvi);
-
 	kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
 
-	KileProjectViewItem *item;
+	KileProjectViewItem *item, *parent;
 
-	if (projitem->type() == KileProjectItem::Other)
-	{
-		KileProjectViewItem *parent= nonSrc(projitem, projvi);
-		item =  new KileProjectViewItem(parent,projitem->url().fileName());
-		item->setType(KileType::ProjectExtra);
-	}
-	else
-	{
-		item =  new KileProjectViewItem(projvi, projitem->url().fileName());
+	switch (projitem->type()) {
+	case (KileProjectItem::ProjectFile):
+	case (KileProjectItem::Source):
+		item = new KileProjectViewItem(projvi, projitem->url().fileName());
 		item->setType(KileType::ProjectItem);
+		break;
+	case (KileProjectItem::Package):
+		parent = folder(projitem, projvi);
+		item = new KileProjectViewItem(parent, projitem->url().fileName());
+		item->setType(KileType::ProjectItem);
+		break;
+	default:
+		parent = folder(projitem, projvi);
+		item = new KileProjectViewItem(parent, projitem->url().fileName());
+		item->setType(KileType::ProjectExtra);
+		break;
 	}
 
 	item->setArchiveState(projitem->archive());
@@ -447,7 +482,7 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 	if (parent)
 	{
 		kdDebug() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
-		parent->setNonSrc(0);
+		parent->setFolder(-1);
 		QListViewItem *vi = parent->firstChild(), *next;
 		while (vi)
 		{
@@ -460,7 +495,7 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 		return;
 
 	//create the non-sources dir
-	//KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-source"));
+	//KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-sources"));
 	//parent->setNonSrc(nonsrc);
 
 	QPtrList<KileProjectItem> list = *(project->rootItems());

@@ -29,7 +29,10 @@ class QStringList;
 class KSimpleConfig;
 class KileDocumentInfo;
 
-const QString DEFAULT_EXTENSIONS = ".eps .pdf .dvi .ps .fig .log .aux .gif .jpg .png .fig";
+const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
+const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
+const QString IMAGE_EXTENSIONS = ".eps .pdf .dvi .ps .fig .gif .jpg .png";
+const QString OTHER_EXTENSIONS = ".log .aux";
 
 /**
  * KileProjectItem
@@ -46,7 +49,7 @@ public:
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
-	enum Type { ProjectFile = 0, Source, Other};
+	enum Type { ProjectFile = 0, Source, Package, Image, Other, Unknown };
 
 	int type() const { return m_type; }
 	void setType(int type) { m_type = type; }
@@ -138,11 +141,14 @@ public:
 	void setArchiveCommand(const QString &command) { m_archiveCommand = command;}
 	const QString& archiveCommand() { return m_archiveCommand;}
 
-	void setExtensions(const QString & ext);
-	const QString & extensions() { return m_extensions; }
+	void setMasterDocument(const QString & master) { m_masterDocument = master; emit (masterDocumentChanged(master));}
+	const QString& masterDocument() const { return m_masterDocument; }
 
-	void setExtIsRegExp(bool is) { m_extIsRegExp = is; }
-	bool extIsRegExp() { return m_extIsRegExp; }
+	void setExtensions(KileProjectItem::Type type, const QString & ext);
+	const QString & extensions(KileProjectItem::Type type) { return m_extensions[type-1]; }
+	void setExtIsRegExp(KileProjectItem::Type type, bool is) { m_extIsRegExp[type-1] = is; }
+	bool extIsRegExp(KileProjectItem::Type type) { return m_extIsRegExp[type-1]; }
+
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
@@ -157,6 +163,7 @@ public:
 
 signals:
 	void nameChanged(const QString &);
+	void masterDocumentChanged(const QString &);
 	void projectTreeChanged(const KileProject *);
 
 public slots:
@@ -187,9 +194,11 @@ private:
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
 
-	QString		m_extensions;
-	QRegExp		m_reExtensions;
-	bool		m_extIsRegExp;
+	QString		m_extensions[4];
+	QRegExp		m_reExtensions[4];
+	bool		m_extIsRegExp[4];
+
+	QString		m_masterDocument;
 
 	KSimpleConfig	*m_config;
 };

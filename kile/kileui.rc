@@ -32,6 +32,7 @@
 	<DefineGroup name="edit_select_merge" append="edit_select_merge"/>
 	<Separator/>
 	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
+	<Action name="FindInFiles"/>
 	<Separator/>
 	<Action name="Spell"/>
 	<Action name="RefreshStructure"/>
@@ -395,6 +396,7 @@
 <Action name="Indent"/>
 <Action name="find"/>
 <Action name="findnext"/>
+<Action name="FindInFiles"/>
 <Action name="Replace"/>
 <Action name="GotoLine"/>
 <Action name="RefreshStructure"/>
@@ -599,6 +601,7 @@
 <Action name="Indent"/>
 <Action name="find"/>
 <Action name="findnext"/>
+<Action name="FindInFiles"/>
 <Action name="Replace"/>
 <Action name="GotoLine"/>
 <Action name="RefreshStructure"/>
@@ -803,6 +806,7 @@
 <Action name="Indent"/>
 <Action name="find"/>
 <Action name="findnext"/>
+<Action name="FindInFiles"/>
 <Action name="Replace"/>
 <Action name="GotoLine"/>
 <Action name="RefreshStructure"/>
@@ -1015,6 +1019,7 @@
 <Action name="Indent"/>
 <Action name="find"/>
 <Action name="findnext"/>
+<Action name="FindInFiles"/>
 <Action name="Replace"/>
 <Action name="GotoLine"/>
 <Action name="RefreshStructure"/>

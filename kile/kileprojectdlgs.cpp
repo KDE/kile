@@ -20,6 +20,7 @@
 #include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qfileinfo.h>
+#include <qptrlist.h>
 
 #include <klocale.h>
 #include <klineedit.h>
@@ -27,6 +28,7 @@
 #include <kmessagebox.h>
 #include <kurlcompletion.h>
 #include <kfiledialog.h>
+#include <kcombobox.h>
 
 #include "newfilewizard.h"
 #include "kileproject.h"
@@ -36,27 +38,147 @@ QString whatsthisName = i18n("Insert a short descriptive name of your project he
 QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
 QString whatsthisArchive = i18n("Enter the command to create an archive of all the project files here. %S will be replaced with the project name, %F with a list of all the project files (items are separated by a space). This command will be executed from the base folder of the project (i.e. the folder where the .kilepr file resides).");
 QString whatsthisExt = i18n("Insert a list (separated with spaces) of the extensions of the files in your project that are not TeX source files. These files will be put in a separate place in the Project View. You can also use a regular expression to detect which files are non-source files.");
+QString whatsthisMaster = i18n("Select the default master document. Leave empty for auto detection.");
+
+KileProjectDlgBase::KileProjectDlgBase(const QString &caption, QWidget *parent, const char * name)
+	: KDialogBase( KDialogBase::Plain, caption, (Ok | Cancel), Ok, parent, name, true, true),
+	m_project(0)
+{
+	m_title = new KLineEdit(plainPage(), "le_projectname");
+	QWhatsThis::add(m_title, whatsthisName);
+
+	m_archive = new KLineEdit(plainPage(), "le_archive");
+	QWhatsThis::add(m_archive, whatsthisArchive);
+
+	m_extensions = new KLineEdit(plainPage(), "le_ext");
+	m_sel_extensions = new KComboBox(false, plainPage(), "le_sel_ext");
+	m_sel_extensions->insertItem(i18n("Extensions for source files"));
+	m_sel_extensions->insertItem(i18n("Extensions for package files"));
+	m_sel_extensions->insertItem(i18n("Extensions for image files"));
+	m_sel_extensions->insertItem(i18n("Extensions for other files"));
+	m_isregexp = new QCheckBox(i18n("use extension list as a regular expression"), plainPage());
+	QWhatsThis::add(m_sel_extensions, whatsthisExt);
+	QWhatsThis::add(m_extensions, whatsthisExt);
+	QWhatsThis::add(m_isregexp, whatsthisExt);
+	QWhatsThis::add(m_sel_extensions,whatsthisExt);
+
+	connect(m_sel_extensions, SIGNAL(highlighted(int)),
+		this, SLOT(slotExtensionsHighlighted(int)));
+
+	connect(m_extensions, SIGNAL(textChanged(const QString&)),
+		this, SLOT(slotExtensionsTextChanged(const QString&)));
+
+	connect(m_isregexp, SIGNAL(toggled(bool)),
+		this, SLOT(slotRegExpToggled(bool)));
+}
+
+KileProjectDlgBase::~KileProjectDlgBase()
+{
+}
+
+void KileProjectDlgBase::slotExtensionsHighlighted(int index)
+{
+	disconnect(m_extensions, SIGNAL(textChanged(const QString&)),
+		this, SLOT(slotExtensionsTextChanged(const QString&)));
+	m_extensions->setText(m_val_extensions[index]);
+	connect(m_extensions, SIGNAL(textChanged(const QString&)),
+		this, SLOT(slotExtensionsTextChanged(const QString&)));
+
+	disconnect(m_isregexp, SIGNAL(toggled(bool)),
+		this, SLOT(slotRegExpToggled(bool)));
+	m_isregexp->setChecked(m_val_isregexp[index]);
+	connect(m_isregexp, SIGNAL(toggled(bool)),
+		this, SLOT(slotRegExpToggled(bool)));
+}
+
+void KileProjectDlgBase::slotExtensionsTextChanged(const QString &text)
+{
+	m_val_extensions[m_sel_extensions->currentItem()] = text;
+}
+
+void KileProjectDlgBase::slotRegExpToggled(bool on)
+{
+	m_val_isregexp[m_sel_extensions->currentItem()] = on;
+}
+
+void KileProjectDlgBase::setExtensions(KileProjectItem::Type type, const QString & ext)
+{
+	if (m_sel_extensions->currentItem() == type-1)
+		m_extensions->setText(ext);
+	else
+		m_val_extensions[type-1] = ext;
+}
+
+void KileProjectDlgBase::setExtIsRegExp(KileProjectItem::Type type, bool is)
+{
+	if (m_sel_extensions->currentItem() == type-1)
+		m_isregexp->setChecked(is);
+	else
+		m_val_isregexp[type-1] = is;
+}
+
+void KileProjectDlgBase::setProject(KileProject *project, bool override)
+{
+	m_project = project;
+
+	if ((!override) || (project == 0))
+		return;
+
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Unknown; i++) {
+		m_val_extensions[i - 1] =
+			project->extensions((KileProjectItem::Type) i);
+		m_val_isregexp[i - 1] =
+			project->extIsRegExp((KileProjectItem::Type) i);
+	}
+
+	m_title->setText(m_project->name());
+	m_archive->setText(m_project->archiveCommand());
+	m_extensions->setText(m_val_extensions[0]);
+	m_isregexp->setChecked(m_val_isregexp[0]);
+}
+
+KileProject* KileProjectDlgBase::project()
+{
+	return m_project;
+}
+
+void KileProjectDlgBase::fillProjectDefaults()
+{
+	m_archive->setText("tar zcvf '%S.tar.gz' %F");
+
+	m_val_isregexp[0] = false;
+	m_val_isregexp[1] = false;
+	m_val_isregexp[2] = false;
+	m_val_isregexp[3] = false;
+
+	m_val_extensions[0] = SOURCE_EXTENSIONS;
+	m_val_extensions[1] = PACKAGE_EXTENSIONS;
+	m_val_extensions[2] = IMAGE_EXTENSIONS;
+	m_val_extensions[3] = OTHER_EXTENSIONS;
+
+	m_extensions->setText(m_val_extensions[0]);
+	m_isregexp->setChecked(m_val_isregexp[0]);
+}
+
 
 /*
  * KileNewProjectDlg
  */
-KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
-        : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true ),
+KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
+        : KileProjectDlgBase( i18n("Create a new project"), parent, name),
 		m_filename(QString::null)
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),4,8, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(), 4,8, 10);
 	layout->setColStretch(2,1);
 	layout->setColStretch(3,1);
 
-	m_name = new KLineEdit(plainPage(), "le_projectname");
 	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
-	lb->setBuddy(m_name);
+	lb->setBuddy(m_title);
 	QWhatsThis::add(lb, whatsthisName);
-	QWhatsThis::add(m_name, whatsthisName);
 	layout->addWidget(lb, 0,0);
-	layout->addWidget(m_name, 0,1);
+	layout->addWidget(m_title, 0,1);
 
-	connect(m_name, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
+	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
 	m_location->setMinimumWidth(200);
@@ -72,7 +194,7 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	connect(pb, SIGNAL(clicked()), this, SLOT(browseLocation()));
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_location, 1,1, 1,2);
-	layout->addWidget(pb,1,3);
+	layout->addWidget(pb, 1,3);
 
 	//connect(m_location, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
@@ -83,37 +205,45 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	m_lb->setBuddy(m_file);
 	m_nfw = new NewFileWidget(plainPage());
 	QWhatsThis::add(m_cb, i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
-	layout->addMultiCellWidget(m_cb, 2,2,0,3);
-	layout->addMultiCellWidget(m_lb, 3,3,0,1);
+	layout->addMultiCellWidget(m_cb, 2,2, 0,3);
+	layout->addMultiCellWidget(m_lb, 3,3, 0,1);
 	layout->addMultiCellWidget(m_file, 3,3, 2,3);
-	layout->addMultiCellWidget(m_nfw, 4,4,0,3);
+	layout->addMultiCellWidget(m_nfw, 4,4, 0,3);
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
 
-	m_archive = new KLineEdit(plainPage(), "le_archive");
-	m_archive->setText("tar zcvf '%S.tar.gz' %F");
 	lb = new QLabel(i18n("&Archive command"), plainPage());
 	lb->setBuddy(m_archive);
-	QWhatsThis::add(m_archive, whatsthisArchive);
 	QWhatsThis::add(lb, whatsthisArchive);
 	layout->addWidget(lb, 5,0);
-	layout->addMultiCellWidget(m_archive, 5,5,1,3);
+	layout->addMultiCellWidget(m_archive, 5,5, 1,3);
 
-	m_extensions = new KLineEdit(plainPage(), "le_ext");
-	m_extensions->setText(DEFAULT_EXTENSIONS);
-	lb = new QLabel(i18n("&Extensions for non-source files"), plainPage());
-	lb->setBuddy(m_extensions);
-	m_isregexp = new QCheckBox(i18n("use extension list as a regular expression"), plainPage());
-	m_isregexp->setChecked(false);
-	QWhatsThis::add(m_extensions, whatsthisExt);
-	QWhatsThis::add(m_isregexp, whatsthisExt);
-	QWhatsThis::add(lb,whatsthisExt);
-	layout->addWidget(lb, 6,0);
-	layout->addMultiCellWidget(m_extensions, 6,6,1,3);
-	layout->addMultiCellWidget(m_isregexp, 7,7,1,3);
+	layout->addWidget(m_sel_extensions, 6,0);
+	layout->addMultiCellWidget(m_extensions, 6,6, 1,3);
+	layout->addMultiCellWidget(m_isregexp, 7,7, 1,3);
+
+	fillProjectDefaults();
 }
 
 KileNewProjectDlg::~KileNewProjectDlg()
 {}
+
+KileProject* KileNewProjectDlg::project()
+{
+	if (!m_project) {
+		m_project = new KileProject(projectTitle(), location());
+
+		KileProjectItem::Type type;
+		for (int i = KileProjectItem::Source; i < KileProjectItem::Unknown; i++) {
+			type = (KileProjectItem::Type) i;
+			m_project->setExtIsRegExp(type, extIsRegExp(type));
+			m_project->setExtensions(type, extensions(type));
+		}
+		m_project->setArchiveCommand(archiveCommand());
+		m_project->buildProjectTree();
+	}
+
+	return m_project;
+}
 
 void KileNewProjectDlg::clickedCreateNewFileCb()
 {
@@ -133,7 +263,7 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 
 QString KileNewProjectDlg::bare()
 {
-	return name().lower().stripWhiteSpace().replace(QRegExp("\\s*"),"")+".kilepr";
+	return projectTitle().lower().stripWhiteSpace().replace(QRegExp("\\s*"),"")+".kilepr";
 }
 
 void KileNewProjectDlg::browseLocation()
@@ -172,10 +302,10 @@ void KileNewProjectDlg::slotOk()
 	m_location->setText(uc.replacedPath(location()));
 	m_file->setText(uc.replacedPath(file()));
 
-	if ( name().stripWhiteSpace() == "")
+	if ( projectTitle().stripWhiteSpace() == "")
 	{
 		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No name")) == KMessageBox::Yes)
-			m_name->setText(i18n("Untitled"));
+			m_title->setText(i18n("Untitled"));
 		else
 			return;
 	}
@@ -253,45 +383,63 @@ void KileNewProjectDlg::slotOk()
 	accept();
 }
 
+void KileNewProjectDlg::fillProjectDefaults()
+{
+	m_dir = QDir::home().absPath()+"/";
+	kdDebug() << "M_DIR " << m_dir << endl;
+	m_location->setText(m_dir);
+	m_cb->setChecked(true);
+
+	KileProjectDlgBase::fillProjectDefaults();
+}
+
+
 /*
  * KileProjectOptionsDlg
  */
 KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *parent, const char * name) :
- 	KDialogBase(KDialogBase::Plain, i18n("Project Options"), Ok|Cancel,Ok, parent, name, true, true ),
-	m_project(project)
+ 	KileProjectDlgBase(i18n("Project Options"), parent, name )
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),4,4, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(), 5,4, 10);
 
-	m_name = new KLineEdit(plainPage(), "le_projectname");
-	m_name->setText(m_project->name());
 	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
-	lb->setBuddy(m_name);
+	lb->setBuddy(m_title);
 	QWhatsThis::add(lb, whatsthisArchive);
-	QWhatsThis::add(m_name, whatsthisArchive);
 	layout->addWidget(lb, 0,0);
-	layout->addMultiCellWidget(m_name, 0,0,1,3);
+	layout->addMultiCellWidget(m_title, 0,0, 1,3);
 
-	m_archive = new KLineEdit(plainPage(), "le_archive");
-	m_archive->setText(project->archiveCommand());
 	lb = new QLabel(i18n("&Archive command"), plainPage());
 	lb->setBuddy(m_archive);
-	QWhatsThis::add(m_archive, whatsthisArchive);
 	QWhatsThis::add(lb,whatsthisArchive);
 	layout->addWidget(lb, 1,0);
-	layout->addMultiCellWidget(m_archive, 1,1,1,3);
+	layout->addMultiCellWidget(m_archive, 1,1, 1,3);
 
-	m_extensions = new KLineEdit(plainPage(), "le_ext");
-	m_extensions->setText(project->extensions());
-	lb = new QLabel(i18n("&Extensions for non-source files"), plainPage());
-	lb->setBuddy(m_extensions);
-	m_isregexp = new QCheckBox(i18n("use extension list as a regular expression"), plainPage());
-	m_isregexp->setChecked(project->extIsRegExp());
-	QWhatsThis::add(m_extensions, whatsthisExt);
-	QWhatsThis::add(m_isregexp, whatsthisExt);
-	QWhatsThis::add(lb,whatsthisExt);
-	layout->addWidget(lb, 2,0);
-	layout->addMultiCellWidget(m_extensions, 2,2,1,3);
-	layout->addMultiCellWidget(m_isregexp, 3,3,1,3);
+	layout->addWidget(m_sel_extensions, 2,0);
+	layout->addMultiCellWidget(m_extensions, 2,2, 1,3);
+	layout->addMultiCellWidget(m_isregexp, 3,3, 1,3);
+
+	m_master = new KComboBox(false, plainPage(), "le_archive");
+	m_master->setDisabled(true);
+	lb = new QLabel(i18n("&Master document"), plainPage());
+	lb->setBuddy(m_master);
+	QWhatsThis::add(m_master, whatsthisMaster);
+	QWhatsThis::add(lb,whatsthisMaster);
+	layout->addWidget(lb, 4,0);
+	layout->addMultiCellWidget(m_master, 4,4, 1,3);
+
+	m_master->insertItem(i18n("(auto-detect)"));
+	QPtrListIterator<KileProjectItem> rit(*(project->rootItems()));
+	while (rit.current())
+	{
+		if ((*rit)->type() == KileProjectItem::Source)
+			m_master->insertItem((*rit)->url().fileName());
+		++rit;
+	}
+
+	if (project->masterDocument() == 0)
+		m_master->setCurrentItem(0);
+
+	setProject(project, true);
 }
 
 KileProjectOptionsDlg::~KileProjectOptionsDlg()
@@ -300,11 +448,24 @@ KileProjectOptionsDlg::~KileProjectOptionsDlg()
 
 void KileProjectOptionsDlg::slotOk()
 {
-	m_project->setName(m_name->text());
+	this->m_project->setName(m_title->text());
 	m_project->setArchiveCommand(m_archive->text());
-	m_project->setExtensions(m_extensions->text());
-	m_project->setExtIsRegExp(m_isregexp->isChecked());
+	m_project->setMasterDocument(m_master->currentText());
+
+	m_val_extensions[m_sel_extensions->currentItem()]
+		= m_extensions->text();
+	m_val_isregexp[m_sel_extensions->currentItem()]
+		= m_isregexp->isChecked();
+
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Unknown; i++) {
+		m_project->setExtensions
+			((KileProjectItem::Type) i, m_val_extensions[i-1]);
+		m_project->setExtIsRegExp
+			((KileProjectItem::Type) i, m_val_isregexp[i-1]);
+	}
+
 	accept();
 }
+
 
 #include "kileprojectdlgs.moc"

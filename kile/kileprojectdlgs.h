@@ -25,8 +25,57 @@ class QCheckBox;
 class QLabel;
 class KLineEdit;
 class KileProject;
+class KComboBox;
 
-class KileNewProjectDlg : public KDialogBase
+class KileProjectDlgBase : public KDialogBase
+{
+	Q_OBJECT
+
+public:
+	KileProjectDlgBase(const QString &caption = QString::null, QWidget *parent = 0, const char * name = 0);
+	virtual ~KileProjectDlgBase();
+
+	void setProject(KileProject *project, bool override);
+	virtual KileProject* project();
+
+	void setProjectTitle(const QString &title)
+		{ m_title->setText(title); }
+	const QString projectTitle()
+		{ return m_title->text(); }
+
+	void setArchiveCommand(const QString &archive)
+		{ m_archive->setText(archive); }
+	const QString archiveCommand()
+		{ return m_archive->text(); }
+
+	void setExtensions(KileProjectItem::Type type, const QString & ext);
+	const QString extensions(KileProjectItem::Type type)
+		{ return m_val_extensions[type-1]; }
+
+	void setExtIsRegExp(KileProjectItem::Type type, bool is);
+	bool extIsRegExp(KileProjectItem::Type type)
+		{ return m_val_isregexp[type-1]; }
+
+protected slots:
+	virtual void slotOk() = 0;
+	virtual void fillProjectDefaults();
+
+private slots:
+	void slotExtensionsHighlighted(int index);
+	void slotExtensionsTextChanged(const QString &text);
+	void slotRegExpToggled(bool on);
+
+protected:
+	KLineEdit	*m_title, *m_archive, *m_extensions;
+	QCheckBox	*m_isregexp;
+	KileProject	*m_project;
+	KComboBox	*m_sel_extensions;
+
+	QString		m_val_extensions[KileProjectItem::Unknown - 1];
+	bool		m_val_isregexp[KileProjectItem::Unknown - 1];
+};
+
+class KileNewProjectDlg : public KileProjectDlgBase
 {
 	Q_OBJECT
 
@@ -34,39 +83,35 @@ public:
 	KileNewProjectDlg(QWidget* parent = 0, const char* name = 0);
 	~KileNewProjectDlg();
 
-	QString name() {return m_name->text();}
+	KileProject* project();
+
 	QString bare();
 	QString location() { return m_location->text(); }
-	QString archiveCommand() { return m_archive->text(); }
-	QString extensions() { return m_extensions->text(); }
-	bool useRegExp() { return m_isregexp->isChecked(); }
 
 	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_nfw->currentItem());}
 	QString file() { return m_file->text();}
 	bool createNewFile() { return m_cb->isChecked(); }
-	bool extIsRegExp() { return m_isregexp->isChecked(); }
 
-public slots:
+private slots:
 	void clickedCreateNewFileCb();
 	void browseLocation();
-
 	void makeProjectPath();
-
 	void slotOk();
+	void fillProjectDefaults();
 
 private:
-	KLineEdit	*m_name, *m_location, *m_file, *m_archive, *m_extensions;
+	KLineEdit	*m_location, *m_file;
 	NewFileWidget *m_nfw;
-	QCheckBox	*m_cb, *m_isregexp;
+	QCheckBox	*m_cb;
 	QLabel *m_lb;
 
 	QString m_dir, m_filename;
 };
 
-class KileProjectOptionsDlg : public KDialogBase
+class KileProjectOptionsDlg : public KileProjectDlgBase
 {
 	Q_OBJECT
-	
+
 public:
 	KileProjectOptionsDlg(KileProject *project, QWidget *parent = 0, const char * name = 0);
 	~KileProjectOptionsDlg();
@@ -75,9 +120,7 @@ private slots:
 	void slotOk();
 
 private:
-	KLineEdit		*m_name, *m_archive, *m_extensions;
-	QCheckBox		*m_isregexp;
-	KileProject	*m_project;
+	KComboBox	*m_master;
 };
 
 #endif

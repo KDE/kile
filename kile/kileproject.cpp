@@ -120,7 +120,7 @@ KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.
 	init(name,url);
 }
 
-KileProject::KileProject(const KURL& url) :  QObject(0,url.fileName().ascii())
+KileProject::KileProject(const KURL& url) : QObject(0,url.fileName().ascii())
 {
 	init(url.fileName(), url);
 }
@@ -128,7 +128,7 @@ KileProject::KileProject(const KURL& url) :  QObject(0,url.fileName().ascii())
 void KileProject::init(const QString& name, const KURL& url)
 {
 //	m_rootItem = 0;
-    m_name = name;
+	m_name = name;
 	m_projecturl = url;
 	m_projectitems.setAutoDelete(true);
 
@@ -152,9 +152,14 @@ void KileProject::init(const QString& name, const KURL& url)
 	}
 }
 
-void KileProject::setExtensions(const QString & ext)
+void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
 	QString pattern = ext;
+
+	if (type < 1) {
+		kdDebug() << "ERROR: TYPE < 1" << endl;
+		return;
+	}
 
 	if (ext.stripWhiteSpace().length() == 0)
 	{
@@ -162,7 +167,7 @@ void KileProject::setExtensions(const QString & ext)
 		pattern = "";
 	}
 
-	if ( (pattern != "") && !extIsRegExp())
+	if ( (pattern != "") && !extIsRegExp(type))
 	{
 		QStringList lst = QStringList::split(" ", ext);
 		pattern = lst.join("|");
@@ -170,16 +175,16 @@ void KileProject::setExtensions(const QString & ext)
 		pattern ="("+ pattern +")$";
 	}
 
-	if ( extIsRegExp() )
+	if ( extIsRegExp(type) )
 		pattern = ext.stripWhiteSpace();
 
 	kdDebug() << "==KileProject::setExtensions"<<endl;
 	kdDebug() << "\tsetting pattern to: " << pattern << endl;
-	m_reExtensions.setPattern(pattern);
+	m_reExtensions[type-1].setPattern(pattern);
 
-	if (m_extensions != ext)
+	if (m_extensions[type-1] != ext)
 	{
-		m_extensions = ext.stripWhiteSpace();
+		m_extensions[type-1] = ext.stripWhiteSpace();
 		buildProjectTree();
 	}
 }
@@ -187,11 +192,24 @@ void KileProject::setExtensions(const QString & ext)
 void KileProject::setType(KileProjectItem *item)
 {
 	kdDebug() << "==KileProject::setType()================" << endl;
-	if ( (extensions() != "") && m_reExtensions.search(item->path()) 
-!= -1)
-		item->setType(KileProjectItem::Other);
-	else
-		item->setType(KileProjectItem::Source);
+
+	bool unknown = true;
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Unknown; i++)
+		if ( (extensions((KileProjectItem::Type) i) != "") &&
+			m_reExtensions[i-1].search(item->url().fileName()) != -1)
+		{
+			item->setType(i);
+			unknown = false;
+			break;
+		}
+
+	if (unknown) {
+		if (item->url().fileName().right(7) == ".kilepr")
+			item->setType(KileProjectItem::ProjectFile);
+		else
+			item->setType(KileProjectItem::Unknown);
+	}
+
 	kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
 }
 
@@ -204,9 +222,18 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
-	setExtIsRegExp( m_config->readBoolEntry("extIsRegExp", false));
-	setExtensions(m_config->readEntry("extensions", DEFAULT_EXTENSIONS));
 	m_archiveCommand = m_config->readEntry("archive", "tar zcvf '%S'.tar.gz %F");
+	setMasterDocument(m_config->readEntry("masterDocument", ""));
+
+	// IsRegExp has to be loaded _before_ the Extensions
+	setExtIsRegExp(KileProjectItem::Source, m_config->readBoolEntry("src_extIsRegExp", false));
+	setExtensions(KileProjectItem::Source, m_config->readEntry("src_extensions", SOURCE_EXTENSIONS));
+	setExtIsRegExp(KileProjectItem::Package, m_config->readBoolEntry("pkg_extIsRegExp", false));
+	setExtensions(KileProjectItem::Package, m_config->readEntry("pkg_extensions", PACKAGE_EXTENSIONS));
+	setExtIsRegExp(KileProjectItem::Image, m_config->readBoolEntry("img_extIsRegExp", false));
+	setExtensions(KileProjectItem::Image, m_config->readEntry("img_extensions", IMAGE_EXTENSIONS));
+	setExtIsRegExp(KileProjectItem::Other, m_config->readBoolEntry("oth_extIsRegExp", false));
+	setExtensions(KileProjectItem::Other, m_config->readEntry("oth_extensions", OTHER_EXTENSIONS));
 
 	KURL url;
 	KileProjectItem *item;
@@ -247,9 +274,17 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
-	m_config->writeEntry("extIsRegExp", extIsRegExp());
-	m_config->writeEntry("extensions", m_extensions);
 	m_config->writeEntry("archive", m_archiveCommand);
+	m_config->writeEntry("masterDocument", m_masterDocument);
+
+	m_config->writeEntry("src_extensions", extensions(KileProjectItem::Source));
+	m_config->writeEntry("src_extIsRegExp", extIsRegExp(KileProjectItem::Source));
+	m_config->writeEntry("pkg_extensions", extensions(KileProjectItem::Package));
+	m_config->writeEntry("pkg_extIsRegExp", extIsRegExp(KileProjectItem::Package));
+	m_config->writeEntry("img_extensions", extensions(KileProjectItem::Image));
+	m_config->writeEntry("img_extIsRegExp", extIsRegExp(KileProjectItem::Image));
+	m_config->writeEntry("oth_extensions", extensions(KileProjectItem::Other));
+	m_config->writeEntry("oth_extIsRegExp", extIsRegExp(KileProjectItem::Other));
 
 	KileProjectItem *item;
 	for (uint i=0; i < m_projectitems.count(); i++)

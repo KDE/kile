@@ -43,6 +43,7 @@
 #include <kaccel.h>
 #include <knuminput.h>
 #include <klistview.h>
+#include <kprogress.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -79,6 +80,7 @@
 #include "kileprojectdlgs.h"
 #include "kilelistselector.h"
 #include "kilelyxserver.h"
+#include "kilegrepdialog.h"
 
 Kile::Kile( QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -290,14 +292,15 @@ void Kile::setupActions()
 	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
 	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
 	(void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
-	(void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
+	(void) new KAction(i18n("Create Template From Document..."), 0, this, SLOT(createTemplate()), actionCollection(),"CreateTemplate");
 	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
-	(void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
+	(void) new KAction(i18n("Close All"), 0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
-	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
-	(void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Find &in files..."), CTRL+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
+	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
+	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, this, SLOT(projectNew()), actionCollection(), "project_new");
@@ -748,7 +751,7 @@ void Kile::fileNew()
 Kate::View* Kile::loadTemplate(TemplateItem *sel)
 {
 	QString text = QString::null;
-	
+
 	if (sel->name() != DEFAULT_EMPTY_CAPTION)
 	{
 		//create a new document to open the template in
@@ -764,7 +767,7 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 			text = tempdoc->text();
 			delete tempdoc;
 			replaceTemplateVariables(text);
-			
+
 			//view->getDoc()->setText(text);
 			//view->getDoc()->setModified(false);
 
@@ -772,7 +775,7 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 			//setHighlightMode(view->getDoc());
 		}
 	}
-	
+
 	return load(KURL(), QString::null, true, QString::null, true, text);
 }
 //TODO: connect to modifiedondisc() when using KDE 3.2
@@ -867,6 +870,7 @@ void Kile::fileOpen()
 {
 	//determine the starting dir for the file dialog
 	QString currentDir=KileFS->dirOperator()->url().path();
+	QString filter;
 	QFileInfo fi;
 	if (currentView())
 	{
@@ -875,7 +879,15 @@ void Kile::fileOpen()
 	}
 
 	//get the URLs
-	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File(s)") );
+	filter.append(SOURCE_EXTENSIONS);
+	filter.append(" ");
+	filter.append(PACKAGE_EXTENSIONS);
+	filter.append("|");
+	filter.append(i18n("TeX files"));
+	filter.append("\n*|");
+	filter.append(i18n("All files"));
+	KURL::List urls = KFileDialog::getOpenURLs( currentDir,
+		filter, this,i18n("Open File(s)") );
 
 	//open them
 	for (uint i=0; i < urls.count(); i++)
@@ -1009,8 +1021,7 @@ void Kile::projectNew()
 		kdDebug() << "==Kile::projectNew==========================" << endl;
 		kdDebug() << "\t" << dlg->name() << " " << dlg->location() << endl;
 
-		KileProject *project = new KileProject(dlg->name(), dlg->location());
-
+		KileProject *project = dlg->project();
 
 		//add the project file to the project
 		//TODO: shell expand the filename
@@ -1042,11 +1053,7 @@ void Kile::projectNew()
 			docinfo->updateStruct(m_defaultLevel);
 		}
 
-		project->setArchiveCommand(dlg->archiveCommand());
-		project->setExtIsRegExp(dlg->useRegExp());
-		project->setExtensions(dlg->extensions());
 		project->buildProjectTree();
-
 		//project->save();
 		addProject(project);
 	}
@@ -1206,26 +1213,45 @@ void Kile::projectOpen(const KURL &url)
 		return;
 	}
 
+	KProgressDialog *kpd = new KProgressDialog
+		(this, 0, i18n("Open Project..."), QString::null, true);
+	kpd->showCancelButton(false);
+	kpd->setLabel(i18n("Scaning project files..."));
+	kpd->setAutoClose(true);
+	kpd->setMinimumDuration(2000);
+	kpd->show();
+
 	KileProject *kp = new KileProject(url);
 
 	m_actRecentProjects->addURL(url);
 
 	KileProjectItemList *list = kp->items();
 
+	kpd->progressBar()->setTotalSteps(list->count() + 1);
+
 	kdDebug() << "\t" << list->count() << " items" << endl;
 
 	KileProjectItem *item;
-	for ( uint i=0; i < list->count(); i++)
+	uint i = 0;
+	for ( ; i < list->count(); i++)
 	{
 		item = list->at(i);
 		projectOpenItem(item);
+
+		kpd->progressBar()->setValue(i);
+		qApp->processEvents();
 	}
 
 	kp->buildProjectTree();
 	addProject(kp);
 
+	kpd->progressBar()->setValue(i);
+	qApp->processEvents();
+
 	UpdateStructure();
 	updateModeStatus();
+
+	kpd->cancel();
 }
 
 void Kile::sanityCheck()
@@ -1661,7 +1687,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		view = static_cast<Kate::View*>(doc->views().first());
 	else
 		return true;*/
-	
+
 	if (doc == 0)
 		return true;
 
@@ -1743,7 +1769,7 @@ bool Kile::queryClose()
 {
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
-	
+
 	for (uint i=0; i < m_projects.count(); i++)
 	{
 		m_listProjectsOpenOnStart.append(m_projects.at(i)->url().path());
@@ -1933,6 +1959,45 @@ void Kile::gotoPrevDocument()
     tabWidget->setCurrentPage( tabWidget->count() - 1 );
   else
     tabWidget->setCurrentPage( cPage );
+}
+
+void Kile::GrepItemSelected(const QString &abs_filename, int line)
+{
+	kdDebug() << "Open file: "
+		<< abs_filename << " (" << line << ")" << endl;
+	fileOpen(KURL::fromPathOrURL(abs_filename));
+	setLine(QString::number(line));
+}
+
+void Kile::FindInFiles()
+{
+	static KileGrepDialog *dlg = 0;
+
+	if (dlg != 0) {
+		dlg->show();
+		return;
+	}
+
+	dlg = new KileGrepDialog
+		((activeProject() != 0)
+		? activeProject()->baseURL().path()
+		: QDir::home().absPath() + "/");
+
+	QString filter(SOURCE_EXTENSIONS);
+	filter.append(" ");
+	filter.append(PACKAGE_EXTENSIONS);
+	filter.replace(".", "*.");
+	filter.replace(" ", ",");
+	filter.append("|");
+	filter.append(i18n("TeX files"));
+	filter.append("\n*|");
+	filter.append(i18n("All files"));
+	dlg->setFilter(filter);
+
+	dlg->show();
+
+	connect(dlg, SIGNAL(itemSelected(const QString &, int)),
+		this, SLOT(GrepItemSelected(const QString &, int)));
 }
 
 /////////////////// PART & EDITOR WIDGET //////////
@@ -3430,7 +3495,7 @@ void Kile::ViewLog()
 		//newStatus();
 		logpresent=true;
 	}
-	else       
+	else
 	{
 		LogWidget->insertLine(i18n("Cannot open log file! Did you run LaTeX?"));
 	}
@@ -3442,10 +3507,10 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 	if ( !currentView() ) return;
 
 	int l = parag;
-	
+
 	QString s = LogWidget->text(parag);
 	QString file = QString::null;
-	
+
 	static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
 	//log not present, maybe there is an error summary
 	if ( (!logpresent) && ( reES.search(s) != -1 ) )
@@ -3453,7 +3518,7 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 		l = reES.cap(2).toInt() - 1;
 		file = reES.cap(1);
 	}
- 
+
 	if (logpresent)
 	{
 		//look for error at line parag
@@ -3466,7 +3531,7 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 			}
 		}
 	}
-	
+
 	if (file.left(2) == "./" )
 	{
 		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file.mid(2);
@@ -3476,9 +3541,9 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 	{
 		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file;
 	}
-		
+
 	kdDebug() << "==Kile::ClickedOnOutput()====================" << endl;
-	
+
 	if (file != QString::null)
 	{
 		kdDebug() << "jumping to (" << l << ") " << file << endl;
@@ -3515,16 +3580,16 @@ void Kile::LatexError(bool /*warnings*/)
 void Kile::jumpToProblem(int type, bool forward)
 {
 	static LatexOutputInfoArray::iterator it;
-	
+
 	if (!logpresent) {ViewLog();}
 
 	if (logpresent && !m_OutputInfo->isEmpty())
 	{
 		Outputview->showPage(LogWidget);
-		
+
 		int sz = m_OutputInfo->size();
 		int pl = forward ? 1 : -1;
-		
+
 		//look for next problem of type
 		for (int i=m_nCurrentError+pl; (i < sz) && (i >= 0); i += pl )
 		{
@@ -3534,7 +3599,7 @@ void Kile::jumpToProblem(int type, bool forward)
 				int l= (*m_OutputInfo)[i].outputLine();
 				LogWidget->setCursorPosition(l+pl * 3 , 0);
 				LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
-				
+
 				break;
 			}
 		}
@@ -3916,7 +3981,7 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-      if (viewlatexhelp_command == i18n("Embedded Viewer") ) 
+      if (viewlatexhelp_command == i18n("Embedded Viewer") )
       {
 	      ResetPart();
 	      htmlpart = new docpart(topWidgetStack,"help");
@@ -4533,6 +4598,7 @@ void Kile::GeneralOptions()
 
 	delete dlg;
 }
+
 ////////////// SPELL ///////////////
 void Kile::spellcheck()
 {

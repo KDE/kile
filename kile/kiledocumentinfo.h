@@ -38,7 +38,10 @@
 
 namespace KileStruct
 {
-	enum  { None = 0x1, Label = 0x2, Sect = 0x4, Input =0x8, BibItem = 0x10, Bibliography = 0x12};
+	enum  {
+		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
+		BibItem = 0x10, Bibliography = 0x12, Package = 0x14,
+	};
 }
 
 /**
@@ -116,7 +119,7 @@ public:
 	const QStringList* bibItems() const { return &m_bibItems; }
 	const QStringList* dependencies() const {return &m_deps; }
 	const QStringList* bibliographies() const { return &m_bibliography; }
-
+	const QStringList* packages() const { return &m_packages; }
 
 	KileListViewItem* structViewItem() { return m_struct; }
 	void setListView(KListView *lv) { m_structview = lv;}
@@ -156,6 +159,7 @@ private:
 	QStringList			m_bibItems;
 	QStringList			m_deps;
 	QStringList			m_bibliography;
+	QStringList			m_packages;
 	KListView				*m_structview;
 	KileListViewItem	*m_struct;
 	QMap<QString,KileStructData>		m_dictStructLevel;

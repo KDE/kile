@@ -392,9 +392,10 @@ namespace KileDocument
 
 		// 2. Zeile
 		if ( item )
-			s += "\\item \n";
+			s += "\\item ";
 		if ( m_setbullets && !parameter.isEmpty() )
-			s += s_bullet + "\n";
+			s += s_bullet;
+		s += "\n";
 
 		// 3. Zeile
 		if ( m_closeenv )

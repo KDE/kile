@@ -67,7 +67,7 @@ public:
 	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None;}
 	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None; }
 
-	/** @returns the title of this element (for a label it return the label), without the (line ???) part **/
+	/** @returns the title of this element (for a label it return the label), without the (line ?) part **/
 	const QString& title() { return m_title; }
 	/** @returns the line number of the structure element. **/
 	const uint line() { return m_line; }

@@ -19,6 +19,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>
+#include <qdatetime.h>
 
 #include <klocale.h>
 #include <kapplication.h>
@@ -200,6 +201,29 @@ void Info::cleanTempFiles(const QStringList &extlist )
 	} 
 }
 
+QString Info::lastModifiedFile()
+{
+	kdDebug() << "==QString Info::lastModifiedFile()=====" << endl;
+	QFileInfo fileinfo ( url().path() );
+	QString basepath = fileinfo.dirPath(true), last = fileinfo.absFilePath();
+	QDateTime time ( fileinfo.lastModified() );
+
+	kdDebug() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
+	for ( uint i = 0; i < m_deps.count(); i++ )
+	{
+		fileinfo.setFile( basepath + "/" + m_deps[i]);
+		kdDebug() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
+		if ( fileinfo.lastModified() >  time ) 
+		{
+			time = fileinfo.lastModified();
+			last = fileinfo.absFilePath();
+			kdDebug() << "\t\tlater" << endl;
+		}
+	}
+
+	kdDebug() << "\treturning " << fileinfo.absFilePath() << endl;
+	return last;
+}
 
 // match a { with the corresponding }
 // pos is the positon of the {

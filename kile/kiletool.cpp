@@ -399,8 +399,8 @@ namespace KileTool
 	{
 		kdDebug() << "==Base::needsUpdate(" << target << "," << source << 
 endl;
-		QFileInfo targetinfo(baseDir() + "/" + target);
-		QFileInfo sourceinfo(baseDir() + "/" + source);
+		QFileInfo targetinfo(target);
+		QFileInfo sourceinfo(source);
 
 		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
 		{

@@ -19,7 +19,6 @@
 #define KILEDOCUMENTINFO_H
 
 #include <kate/document.h>
-
 #include <kdebug.h>
 #include <klistview.h>
 #include <kurl.h>
@@ -135,6 +134,8 @@ public:
 	const QStringList* dependencies() const {return &m_deps; }
 	const QStringList* bibliographies() const { return &m_bibliography; }
 	const QStringList* packages() const { return &m_packages; }
+
+	QString lastModifiedFile();
 
 	const QString & preamble() const { return m_preamble; }
 

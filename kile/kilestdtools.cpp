@@ -103,7 +103,7 @@ namespace KileTool
                 if ( info )
                 {
 			if ( info->bibliographies()->count() > 0 )
-				return needsUpdate ( S() + ".bbl" , source(false) );
+				return needsUpdate ( baseDir() + "/" + S() + ".bbl" , info->lastModifiedFile() );
 		}
 
 		return false;
@@ -117,7 +117,7 @@ namespace KileTool
 			const QStringList *pckgs = info->packages();
 			for ( uint i = 0; i < pckgs->count(); i++)
 				if ( (*pckgs->at(i)) == "makeidx" )
-					return needsUpdate ( S() + ".ind", source(false) );
+					return needsUpdate ( baseDir() + "/" + S() + ".ind", info->lastModifiedFile() );
 		}
 
 		return false;

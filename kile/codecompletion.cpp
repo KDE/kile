@@ -656,7 +656,8 @@ namespace KileDocument
 				e.type = "";
 			}
 			// add new entry
-			list->append( e );
+			if ( list->findIndex(e) == -1 )
+				list->append(e);
 		}
 	}
 

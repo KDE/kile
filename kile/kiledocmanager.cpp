@@ -58,6 +58,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent, name),
 	m_ki(info)
 {
+	m_infoList.setAutoDelete(false);
 }
 
 
@@ -77,8 +78,8 @@ void Manager::trashDoc(KileDocumentInfo *docinfo)
 
 	kdDebug() << "just checking: docinfo->getDoc() =  " << docinfo->getDoc() << endl;
 	kdDebug() << "just checking: docFor(docinfo->url()) = " << docFor(docinfo->url()) << endl;
-	if (m_ki->itemFor(docinfo))
-		kdDebug() << "just checking:  m_ki->itemFor(docinfo)->getInfo() =" << m_ki->itemFor(docinfo)->getInfo() << endl;
+	if (itemFor(docinfo))
+		kdDebug() << "just checking:  itemFor(docinfo)->getInfo() =" << itemFor(docinfo)->getInfo() << endl;
 
 	delete doc;
 }
@@ -94,12 +95,182 @@ Kate::Document* Manager::docFor(const KURL& url)
 	return 0L;
 }
 
+KileDocumentInfo* Manager::getInfo() const
+{
+	Kate::Document *doc = m_ki->activeDocument(); 
+	if ( doc != 0L )
+		return infoFor(doc);
+	else
+		return 0L;
+}
+
+KileDocumentInfo *Manager::infoFor(const QString & path) const
+{
+	kdDebug() << "==KileInfo::infoFor==========================" << endl;
+	kdDebug() << "\t" << path << endl;
+	QPtrListIterator<KileDocumentInfo> it(m_infoList);
+	while ( true )
+	{
+		kdDebug() << "\tconsidering " << it.current()->url().path() << endl;
+		if ( it.current()->url().path() == path)
+			return it.current();
+
+		if (it.atLast()) break;
+
+		++it;
+	}
+
+	kdDebug() << "\tCOULD NOT find info for " << path << endl;
+	return 0L;
+}
+
+KileDocumentInfo* Manager::infoFor(Kate::Document* doc) const
+{
+	return infoFor(doc->url().path());
+}
+
+void Manager::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
+{
+	item->setInfo(docinfo);
+}
+
+KileProject* Manager::projectFor(const KURL &projecturl)
+{
+	KileProject *project = 0;
+
+	//find project with url = projecturl
+	QPtrListIterator<KileProject> it(m_projects);
+	while ( it.current() )
+	{
+		if ((*it)->url() == projecturl)
+		{
+			return *it;
+		}
+		++it;
+	}
+
+	return project;
+}
+
+KileProject* Manager::projectFor(const QString &name)
+{
+	KileProject *project = 0;
+
+	//find project with url = projecturl
+	QPtrListIterator<KileProject> it(m_projects);
+	while ( it.current() )
+	{
+		if ((*it)->name() == name)
+		{
+			return *it;
+		}
+		++it;
+	}
+
+	return project;
+}
+
+KileProjectItem* Manager::itemFor(const KURL &url, KileProject *project /*=0L*/) const
+{
+	if (project == 0L)
+	{
+		QPtrListIterator<KileProject> it(m_projects);
+		while ( it.current() )
+		{
+			kdDebug() << "looking in project " << (*it)->name() << endl;
+			if ((*it)->contains(url))
+			{
+				kdDebug() << "\t\tfound!" << endl;
+				return (*it)->item(url);
+			}
+			++it;
+		}
+		kdDebug() << "\t nothing found" << endl;
+	}
+	else
+	{
+		if ( project->contains(url) )
+			return project->item(url);
+	}
+
+	return 0L;
+}
+
+KileProjectItem* Manager::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
+{
+	return itemFor(docinfo->url(), project);
+}
+
+KileProjectItemList* Manager::itemsFor(KileDocumentInfo *docinfo) const
+{
+	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
+	KileProjectItemList *list = new KileProjectItemList();
+	list->setAutoDelete(false);
+
+	QPtrListIterator<KileProject> it(m_projects);
+	while ( it.current() )
+	{
+		kdDebug() << "\tproject: " << (*it)->name() << endl;
+		if ((*it)->contains(docinfo->url()))
+		{
+			kdDebug() << "\t\tcontains" << endl;
+			list->append((*it)->item(docinfo->url()));
+		}
+		++it;
+	}
+
+	return list;
+}
+
+KileProject* Manager::activeProject()
+{
+	KileProject *curpr=0;
+	Kate::Document *doc = m_ki->activeDocument();
+
+	if (doc)
+	{
+		for (uint i=0; i < m_projects.count(); i++)
+		{
+			if (m_projects.at(i)->contains(doc->url()) )
+			{
+				curpr = m_projects.at(i);
+				break;
+			}
+		}
+	}
+
+	return curpr;
+}
+
+KileProjectItem* Manager::activeProjectItem()
+{
+	KileProject *curpr = activeProject();
+	Kate::Document *doc = m_ki->activeDocument();
+	KileProjectItem *item = 0;
+
+	if (curpr && doc)
+	{
+		KileProjectItemList *list = curpr->items();
+
+		for (uint i=0; i < list->count(); i++)
+		{
+			if (list->at(i)->url() == doc->url())
+			{
+				item = list->at(i);
+				break;
+			}
+		}
+	}
+
+	return item;
+}
+
 KileDocumentInfo* Manager::createDocumentInfo(const KURL & url)
 {
 	KileDocumentInfo *docinfo = 0L;
 
 	//see if this file belongs to an opened project
-	KileProjectItem *item = m_ki->itemFor(url);
+	KileProjectItem *item = itemFor(url);
 	if ( item != 0L ) docinfo = item->getInfo();
 
 	if ( docinfo == 0L )
@@ -117,17 +288,12 @@ KileDocumentInfo* Manager::createDocumentInfo(const KURL & url)
 bool Manager::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject /* = false */)
 {
 	kdDebug() << "==Manager::removeDocumentInfo(KileDocumentInfo *docinfo)=====" << endl;
-	KileProjectItemList *itms = m_ki->itemsFor(docinfo);
+	KileProjectItemList *itms = itemsFor(docinfo);
 
 	if ( itms->count() == 0 || (closingproject && itms->count() == 1))
 	{
 		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_infoList.count() << endl;
 		m_infoList.remove(docinfo);
-		kdDebug() << "\tafter count = " << m_infoList.count() << endl;
-
-		kdDebug() << "\t\t*******" << endl;
-		for ( uint i = 0 ; i < m_infoList.count(); i++) kdDebug() << "\t\tm_infoList[" << i << "] = " << m_infoList.at(i)->url().fileName() << endl;
-		kdDebug() << "\t\t*******" << endl;
 
 		delete docinfo;
 		delete itms;
@@ -234,7 +400,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 		view = load(item->url(), item->encoding(), item->isOpen(), item->highlight(), text);
 		kdDebug() << "\tloadItem: docfor = " << docFor(item->url().path()) << endl;
 
-		KileDocumentInfo *docinfo = m_ki->infoFor(item->url().path());
+		KileDocumentInfo *docinfo = infoFor(item->url().path());
 		item->setInfo(docinfo);
 
 		kdDebug() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
@@ -423,7 +589,7 @@ void Manager::slotNameChanged(Kate::Document * doc)
  		m_ki->viewManager()->setTabLabel(list.at(i), m_ki->getShortName(doc));
  	}
 
-	KileDocumentInfo *docinfo = m_ki->infoFor(doc);
+	KileDocumentInfo *docinfo = infoFor(doc);
 
 	//add to project view if doc was Untitled before
 	if (docinfo->oldURL().isEmpty())
@@ -508,7 +674,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 
 	//URL wasn't open before loading, add it to the project view
 	//FIXME: use signal/slot
-	if (!isopen && (m_ki->itemFor(url) == 0) ) m_ki->viewManager()->projectView()->add(url);
+	if (!isopen && (itemFor(url) == 0) ) m_ki->viewManager()->projectView()->add(url);
 
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
@@ -555,8 +721,8 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 
 		KURL url = doc->url();
 
-		KileDocumentInfo *docinfo= m_ki->infoFor(doc);
-		KileProjectItemList *items = m_ki->itemsFor(docinfo);
+		KileDocumentInfo *docinfo= infoFor(doc);
+		KileProjectItemList *items = itemsFor(docinfo);
 
 		while ( items->current() )
 		{
@@ -589,7 +755,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 void Manager::buildProjectTree(const KURL & url)
 {
 	//FIXME: projectFor should be in the Manager class?
-	KileProject * project = m_ki->projectFor(url);
+	KileProject * project = projectFor(url);
 
 	if (project)
 		buildProjectTree(project);
@@ -598,7 +764,7 @@ void Manager::buildProjectTree(const KURL & url)
 void Manager::buildProjectTree(KileProject *project)
 {
 	if (project == 0)
-		project = m_ki->activeProject();
+		project = activeProject();
 
 	if (project == 0 )
 		project = selectProject(i18n("Refresh project tree..."));
@@ -608,7 +774,7 @@ void Manager::buildProjectTree(KileProject *project)
 		//TODO: update structure for all docs
 		project->buildProjectTree();
 	}
-	else if (m_ki->projects()->count() == 0)
+	else if (m_projects.count() == 0)
 		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could not refresh project tree."));
 }
 
@@ -641,7 +807,7 @@ void Manager::projectNew()
 			KURL url = project->baseURL();
 			url.addPath(dlg->file());
 
-			KileDocumentInfo *docinfo = m_ki->infoFor(view->getDoc());
+			KileDocumentInfo *docinfo = infoFor(view->getDoc());
 			docinfo->setURL(url);
 
 			//save the new file
@@ -650,7 +816,7 @@ void Manager::projectNew()
 			//add this file to the project
 			item = new KileProjectItem(project, url);
 			//project->add(item);
-			m_ki->mapItem(docinfo, item);
+			mapItem(docinfo, item);
 
 			//docinfo->updateStruct(m_kwStructure->level());
 			emit(updateStructure(true, docinfo));
@@ -665,8 +831,8 @@ void Manager::projectNew()
 void Manager::addProject(const KileProject *project)
 {
 	kdDebug() << "==void Manager::addProject(const KileProject *project)==========" << endl;
-	m_ki->projects()->append(project);
-	kdDebug() << "\tnow " << m_ki->projects()->count() << " projects" << endl;
+	m_projects.append(project);
+	kdDebug() << "\tnow " << m_projects.count() << " projects" << endl;
 	m_ki->viewManager()->projectView()->add(project);
 	connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
 }
@@ -674,7 +840,7 @@ void Manager::addProject(const KileProject *project)
 KileProject* Manager::selectProject(const QString& caption)
 {
 	QStringList list;
-	QPtrListIterator<KileProject> it(*m_ki->projects());
+	QPtrListIterator<KileProject> it(m_projects);
 	while (it.current())
 	{
 		list.append((*it)->name());
@@ -696,9 +862,9 @@ KileProject* Manager::selectProject(const QString& caption)
 		return 0;
 	}
 	else
-		name = m_ki->projects()->first()->name();
+		name = m_projects.first()->name();
 
-	project = m_ki->projectFor(name);
+	project = projectFor(name);
 
 	return project;
 }
@@ -844,7 +1010,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 	if (project == 0)
 	{
 		//find the project that corresponds to the active doc
-		project= m_ki->activeProject();
+		project= activeProject();
 	}
 
 	if (project == 0 )
@@ -881,7 +1047,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 
 void Manager::projectAddFiles(const KURL & url)
 {
-	KileProject *project = m_ki->projectFor(url);
+	KileProject *project = projectFor(url);
 
 	if (project)
 		projectAddFiles(project);
@@ -891,7 +1057,7 @@ void Manager::projectAddFiles(KileProject *project)
 {
 	kdDebug() << "==Kile::projectAddFiles()==========================" << endl;
  	if (project == 0 )
-		project = m_ki->activeProject();
+		project = activeProject();
 
 	if (project == 0 )
 		project = selectProject(i18n("Add files to project..."));
@@ -915,7 +1081,7 @@ void Manager::projectAddFiles(KileProject *project)
 			addToProject(project, urls[i]);
 		}
 	}
-	else if (m_ki->projects()->count() == 0)
+	else if (m_projects.count() == 0)
 		KMessageBox::error(m_ki->parentWidget(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
 }
 
@@ -926,7 +1092,7 @@ void Manager::toggleArchive(KileProjectItem *item)
 
 bool Manager::projectArchive(const KURL & url)
 {
-	KileProject *project = m_ki->projectFor(url);
+	KileProject *project = projectFor(url);
 
 	if (project)
 		return projectArchive(project);
@@ -937,7 +1103,7 @@ bool Manager::projectArchive(const KURL & url)
 bool Manager::projectArchive(KileProject *project /* = 0*/)
 {
 	if (project == 0)
-		project = m_ki->activeProject();
+		project = activeProject();
 
 	if (project == 0 )
 		project = selectProject(i18n("Archive project..."));
@@ -964,7 +1130,7 @@ bool Manager::projectArchive(KileProject *project /* = 0*/)
 		tool->addDict("%F", files);
 		m_ki->toolManager()->run(tool);
 	}
-	else if (m_ki->projects()->count() == 0)
+	else if (m_projects.count() == 0)
 		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could not determine active project."));
 
 	return true;
@@ -972,7 +1138,7 @@ bool Manager::projectArchive(KileProject *project /* = 0*/)
 
 void Manager::projectOptions(const KURL & url)
 {
-	KileProject *project = m_ki->projectFor(url);
+	KileProject *project = projectFor(url);
 
 	if (project)
 		projectOptions(project);
@@ -982,7 +1148,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 {
 	kdDebug() << "==Kile::projectOptions==========================" << endl;
 	if (project ==0 )
-		project = m_ki->activeProject();
+		project = activeProject();
 
 	if (project == 0 )
 		project = selectProject(i18n("Project options for..."));
@@ -993,7 +1159,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->parentWidget());
 		dlg->exec();
 	}
-	else if (m_ki->projects()->count() == 0)
+	else if (m_projects.count() == 0)
 		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could not determine active project."));
 }
 
@@ -1002,13 +1168,12 @@ bool Manager::projectCloseAll()
 	kdDebug() << "==Kile::projectCloseAll==========================" << endl;
 	bool close = true;
 
-	//copy the list, since projectClose() changes the list
-	QPtrList<KileProject> *list = m_ki->projects();
-	QPtrListIterator<KileProject> it(*list);
-	while ( it.current() )
+	QPtrListIterator<KileProject> it(m_projects);
+	int i = m_projects.count() + 1;
+	while ( it.current() && close && (i > 0))
 	{
-		close = close && projectClose((*it)->url());
-		++it;
+		close = close && projectClose(it.current()->url());
+		i--;
 	}
 
 	return close;
@@ -1021,14 +1186,14 @@ bool Manager::projectClose(const KURL & url)
 
 	if (url.isEmpty())
 	{
-		 project = m_ki->activeProject();
+		 project = activeProject();
 
 		 if (project == 0 )
 			project = selectProject(i18n("Close project..."));
 	}
 	else
 	{
-		project = m_ki->projectFor(url);
+		project = projectFor(url);
 	}
 
  	if (project)
@@ -1069,8 +1234,8 @@ bool Manager::projectClose(const KURL & url)
 
 		if (close)
 		{
-			//FIXME: yuk!
-			m_ki->projects()->remove(project);
+			m_projects.remove(project);
+			//FIXME: use signal/slot
 			m_ki->viewManager()->projectView()->remove(project);
 			delete project;
 			return true;
@@ -1078,7 +1243,7 @@ bool Manager::projectClose(const KURL & url)
 		else
 			return false;
 	}
-	else if (m_ki->projects()->count() == 0)
+	else if (m_projects.count() == 0)
 		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could not close project."));
 
 	return true;

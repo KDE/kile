@@ -131,9 +131,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	viewManager()->setClient(this, this);
 
-// 	docManager()->m_docList.setAutoDelete(false);
-	docManager()->m_infoList.setAutoDelete(false);
-
 	partManager = new KParts::PartManager( this );
 	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
 
@@ -210,7 +207,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
   // check requirements for IncludeGraphicsDialog (dani)
 	config->setGroup("IncludeGraphics");
-	config->writeEntry("imagemagick", ! ( KStandardDirs::findExe("identify")==QString::null ) );
+	config->writeEntry("imagemagick", ! ( KStandardDirs::findExe("identify") == QString::null ) );
   
 	//workaround for kdvi crash when started with Tooltips
 	config->setGroup("TipOfDay");
@@ -328,9 +325,9 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	}
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
-	connect(docManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), this, SLOT(UpdateStructure(bool, KileDocumentInfo*)));
+	connect(docManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), viewManager(), SLOT(updateStructure(bool, KileDocumentInfo*)));
 
-	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), this, SLOT(UpdateStructure(bool, KileDocumentInfo*)));
+// 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), this, SLOT(UpdateStructure(bool, KileDocumentInfo*)));
 
 	if (rest) restore();
 }
@@ -715,12 +712,6 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 	return QWidget::eventFilter(o,e);
 }
 
-Kate::Document * Kile::activeDocument() const
-{
-	Kate::View *view = viewManager()->currentView();
-	if (view) return view->getDoc(); else return 0L;
-}
-
 //TODO: move to KileView::Manager
 void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateStruct /* = true */  )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
@@ -747,14 +738,14 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 	if( checkModified )
 		if (view) view->getDoc()->isModOnHD();
 
-	if (updateStruct) UpdateStructure();
+	if (updateStruct) viewManager()->updateStructure();
 
 	toolBar ()->setUpdatesEnabled (true);
 }
 
 void Kile::updateModeStatus()
 {
-	KileProject *project = activeProject();
+	KileProject *project = docManager()->activeProject();
 
 	if (project)
 	{
@@ -842,10 +833,10 @@ bool Kile::queryClose()
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-	kdDebug() << "#projects = " << projects()->count() << endl;
-	for (uint i=0; i < projects()->count(); i++)
+	kdDebug() << "#projects = " << docManager()->projects()->count() << endl;
+	for (uint i=0; i < docManager()->projects()->count(); i++)
 	{
-		m_listProjectsOpenOnStart.append(projects()->at(i)->url().path());
+		m_listProjectsOpenOnStart.append(docManager()->projects()->at(i)->url().path());
 	}
 
 	bool stage1 = docManager()->projectCloseAll();
@@ -873,7 +864,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 		else return;
 	}
 
-	KileDocumentInfo *docinfo = infoFor(doc);
+	KileDocumentInfo *docinfo = docManager()->infoFor(doc);
 
 	if (docinfo)
 	{
@@ -932,9 +923,9 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 
 	if (docinfo == 0)
 	{
-		docinfo = getInfo();
+		docinfo = docManager()->getInfo();
 	}
-	KileProjectItem *item = itemFor(docinfo, activeProject());
+	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
 
 	kdDebug() << "Kile::retrieveList()" << endl;
 	if (item)
@@ -1038,8 +1029,8 @@ void Kile::FindInFiles()
 
 	if (dlg != 0) {
 		if (!dlg->isVisible())
-			dlg->setDirName((activeProject() != 0)
-				? activeProject()->baseURL().path()
+			dlg->setDirName((docManager()->activeProject() != 0)
+				? docManager()->activeProject()->baseURL().path()
 				: QDir::home().absPath() + "/");
 
 		dlg->show();
@@ -1047,8 +1038,8 @@ void Kile::FindInFiles()
 	}
 
 	dlg = new KileGrepDialog
-		((activeProject() != 0)
-		? activeProject()->baseURL().path()
+		((docManager()->activeProject() != 0)
+		? docManager()->activeProject()->baseURL().path()
 		: QDir::home().absPath() + "/");
 
 	QString filter(SOURCE_EXTENSIONS);
@@ -1261,7 +1252,7 @@ void Kile::CleanAll(KileDocumentInfo *docinfo, bool silent)
 	{
 		Kate::Document *doc = activeDocument();
 		if (doc) 
-			docinfo = infoFor(doc);
+			docinfo = docManager()->infoFor(doc);
 		else
 		{
 			LogWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
@@ -1326,27 +1317,9 @@ void Kile::ShowStructure()
 void Kile::RefreshStructure()
 {
 	showVertPage(1);
-	UpdateStructure(true);
+	viewManager()->updateStructure(true);
 }
 
-
-//FIXME: move to viewmanager
-void Kile::UpdateStructure(bool parse /* = false */, KileDocumentInfo *docinfo /* = 0L */)
-{
-// 	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
-
-	if (docinfo == 0L)
-		docinfo = getInfo();
-
-	if (docinfo)
-		m_kwStructure->update(docinfo, parse);
-
-	Kate::View *view = viewManager()->currentView();
-	if (view) {view->setFocus();}
-
-	if ( viewManager()->views().count() == 0 )
-		m_kwStructure->clear();
-}
 
 //////////////// MESSAGES - LOG FILE///////////////////////
 void Kile::ViewLog()
@@ -2524,15 +2497,15 @@ void Kile::includeGraphics()
 {
 	Kate::View *view = viewManager()->currentView();
 	if ( !view ) return;
-	
+
 	QFileInfo fi( view->getDoc()->url().path() );
-	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this,config,fi.dirPath(),false);
-	
-	if ( dialog->exec() == QDialog::Accepted ) {
-	insertTag( dialog->getTemplate(),"%C",0,0 );
-	// updateStructure();
+	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this, config, fi.dirPath(), false);
+
+	if ( dialog->exec() == QDialog::Accepted ) 
+	{
+		insertTag( dialog->getTemplate(),"%C",0,0 );
 	}
-	
+
 	delete dialog;
 }
 

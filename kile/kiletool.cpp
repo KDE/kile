@@ -28,6 +28,7 @@
 #include "kiletool.h"
 #include "kilestdtools.h" //for the factory
 #include "kiletoolmanager.h"
+#include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
 
@@ -409,7 +410,7 @@ namespace KileTool
 			return false;
 
 		bool isRoot = true;
-		KileDocumentInfo *docinfo = manager()->info()->infoFor(source());
+		KileDocumentInfo *docinfo = manager()->info()->docManager()->infoFor(source());
 		if (docinfo) isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
 
 		if (!isRoot)

@@ -147,10 +147,24 @@ Kate::View* Manager::switchToView(const KURL & url)
 	{
 		view = static_cast<Kate::View*>(doc->views().first());
 		m_tabs->showPage(view);
-// 		UpdateStructure(true);
 	}
 
 	return view;
+}
+
+void Manager::updateStructure(bool parse /* = false */, KileDocumentInfo *docinfo /* = 0L */)
+{
+	if (docinfo == 0L)
+		docinfo = m_ki->docManager()->getInfo();
+
+	if (docinfo)
+		m_ki->structureWidget()->update(docinfo, parse);
+
+	Kate::View *view = currentView();
+	if (view) {view->setFocus();}
+
+	if ( views().count() == 0 )
+		m_ki->structureWidget()->clear();
 }
 
 void Manager::gotoNextView()

@@ -157,8 +157,8 @@ private:
 protected:
 	enum State
 	{
-    	stStandard=0, stComment=1, stControlSequence=3, stControlSymbol=4,
-    	stCommand=5
+		stStandard=0, stComment=1, stControlSequence=3, stControlSymbol=4,
+	 	stCommand=5
 	};
 
 private:

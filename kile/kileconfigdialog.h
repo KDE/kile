@@ -42,6 +42,7 @@ class KConfig;
 
 namespace KileWidget { class ToolConfig; }
 class KileWidgetHelpConfig;
+class KileWidgetLatexConfig;
 namespace KileTool { class Manager; }
 
 namespace KileDialog 
@@ -68,7 +69,7 @@ namespace KileDialog
 		QComboBox *comboDvi, *comboPs, *comboPdf, *comboLatexHelp;
 		QButtonGroup *ButtonGroup2;
 		QSpinBox *spinLevel;
-		QCheckBox *checkAutosave, *checkEnv, *checkRestore, *checkForRoot, *m_runlyxserver, *checkCleanUpAfterClose;
+		QCheckBox *checkAutosave, *checkRestore, *checkForRoot, *m_runlyxserver, *checkCleanUpAfterClose;
 		QCheckBox *cb_boundingbox;
 
 		KLineEdit* fileExtensionList;
@@ -84,7 +85,6 @@ namespace KileDialog
 		QFrame* toolsPage;
 		QFrame* quickPage;
 		QFrame* spellingPage;
-		QFrame* editPage;
 
 		KConfig *m_config;
 		KSpellConfig *ksc;
@@ -94,6 +94,7 @@ namespace KileDialog
 		// CodeCompletion (dani)
 		ConfigCodeCompletion *completePage;
 		KileWidgetHelpConfig *helpPage;
+		KileWidgetLatexConfig *latexPage;
 
 		// setup configuration
 		void setupGeneralOptions();
@@ -107,7 +108,6 @@ namespace KileDialog
 		void writeGeneralOptionsConfig();
 		void writeToolsConfig();
 		void writeSpellingConfig();
-		void writeLatexConfig();
 	};
 }
 #endif

@@ -66,14 +66,14 @@ public slots:
 	void setTabLabel(QWidget *view, const QString & name) { m_tabs->setTabLabel(view, name); }
 	void changeTab(QWidget *view, const QPixmap & icon, const QString & name) { m_tabs->changeTab(view, icon, name); }
 
+	void updateStructure(bool parse = false, KileDocumentInfo *docinfo = 0L);
+
 	void gotoNextView();
 	void gotoPrevView();
 
 signals:
 	void activateView(QWidget *, bool, bool);
 	void prepareForPart(const QString &);
-
-	void updateStructure(bool, KileDocumentInfo*);
 
 	//TODO: make private after refactoring
 public:

@@ -25,13 +25,14 @@
 
 class KURL;
 class KFileItem;
-namespace Kate { class Document;}
+namespace Kate { class Document; class View;}
 
 class TemplateItem;
 class KileInfo;
 class KileDocumentInfo;
 class KileProject;
 class KileProjectItem;
+class KileProjectItemList;
 
 namespace KileDocument 
 {
@@ -125,15 +126,36 @@ signals:
 	void removeFromRecentProjects(const KURL &);
 
 public:
+	QPtrList<KileProject>* projects() { return &m_projects; }
+	QPtrList<KileDocumentInfo>* documentInfos() { return &m_infoList; }
+
 	void trashDoc(KileDocumentInfo *docinfo);
 	Kate::Document* docFor(const KURL &url);
 
-	//make private after refactoring
-// 	QPtrList<Kate::Document> 		m_docList;
-	QPtrList<KileDocumentInfo>		m_infoList;
+	KileDocumentInfo* getInfo() const;
+	KileDocumentInfo* infoFor(const QString &path) const;
+	KileDocumentInfo* infoFor(Kate::Document* doc) const;
+
+	KileProject* projectFor(const KURL &projecturl);
+	KileProject* projectFor(const QString & name);
+	KileProject* activeProject();
+
+	KileProjectItem* activeProjectItem();
+	/**
+	 * Finds the project item for the file with URL @param url.
+	 * @returns a pointer to the project item, 0 if this file does not belong to a project
+	 **/
+	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
+	KileProjectItem* itemFor(KileDocumentInfo *docinfo, KileProject *project = 0) const;
+
+	KileProjectItemList* itemsFor(KileDocumentInfo *docinfo) const;
+
+	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item);
 
 private:
-	KileInfo		*m_ki;
+	QPtrList<KileDocumentInfo>	m_infoList;
+	KileInfo					*m_ki;
+	QPtrList<KileProject>		m_projects;
 };
 
 };

@@ -61,7 +61,7 @@ public:
 	QString getCurrentTarget() const { return m_currentTarget; }
 	void setTarget(const QString &target) { m_currentTarget=target; }
 
-	virtual Kate::Document* activeDocument() const = 0;
+	virtual Kate::Document* activeDocument() const;
 
 	QString getSelection() const;
 	void clearSelection() const;
@@ -70,30 +70,8 @@ public:
 	virtual const QStringList* bibItems(KileDocumentInfo * info = 0) =0;
 	virtual const QStringList* bibliographies(KileDocumentInfo * info = 0) = 0;
 
-	//FIXME: refactor, many of these need to be in KileDocument::Manager
-	KileDocumentInfo* getInfo() const;
-	KileDocumentInfo* infoFor(const QString &path) const;
-	KileDocumentInfo* infoFor(Kate::Document* doc) const;
-
 	bool isOpen(const KURL & url);
 	bool	projectIsOpen(const KURL & );
-
-	KileProject* projectFor(const KURL &projecturl);
-	KileProject* projectFor(const QString & name);
-
-	KileProject*	activeProject();
-	KileProjectItem* activeProjectItem();
-	KileProjectItem* itemFor(KileDocumentInfo *docinfo, KileProject *project = 0) const;
-	KileProjectItemList* itemsFor(KileDocumentInfo *docinfo) const;
-
-	/**
-	 * Finds the project item for the file with URL @param url.
-	 * @returns a pointer to the project item, 0 if this file does not belong to a project
-	 **/
-	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
-	KileDocumentInfo* infoFor(KileProjectItem *item);
-
-	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item);
 
 	bool watchFile() { return m_bWatchFile; }
 
@@ -116,8 +94,6 @@ public:
 	KileFileSelect* fileSelector() const { return KileFS; }
 	KileEventFilter* eventFilter() const { return m_eventFilter; }
 
-	QPtrList<KileProject>* projects() { return &m_projects; } 
-
 	QWidget *parentWidget() const { return m_parentWidget; }
 
 	//FIXME: should be in separate template class
@@ -133,8 +109,6 @@ protected:
 	KileWidget::Konsole		*m_texKonsole;
 
 	QWidget *m_parentWidget;
-
-	QPtrList<KileProject>	m_projects;
 
 	bool 		m_singlemode;
 	QString	m_masterName;

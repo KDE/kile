@@ -27,6 +27,7 @@
 
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
+#include "kiledocmanager.h"
 #include "kileprojectview.h"
 
 const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
@@ -272,7 +273,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 
 	if (item->type() == KileType::Project)
 	{
-		KileProject *project = m_ki->projectFor(item->url());
+		KileProject *project = m_ki->docManager()->projectFor(item->url());
 		if (project==0)
 			kdWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path() << endl;
 		else
@@ -280,7 +281,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	}
 	else
 	{
-		KileDocumentInfo *docinfo = m_ki->infoFor(item->url().path());
+		KileDocumentInfo *docinfo = m_ki->docManager()->infoFor(item->url().path());
 		item->setInfo(docinfo);
 		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
 		connect(docinfo, SIGNAL(nameChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));

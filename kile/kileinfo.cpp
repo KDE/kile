@@ -43,131 +43,10 @@ KileInfo::~KileInfo()
 	delete m_docManager; m_docManager = 0L;
 }
 
-void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
+Kate::Document * KileInfo::activeDocument() const
 {
-	item->setInfo(docinfo);
-}
-
-KileProject* KileInfo::projectFor(const KURL &projecturl)
-{
-	KileProject *project = 0;
-
-	//find project with url = projecturl
-	QPtrListIterator<KileProject> it(m_projects);
-	while ( it.current() )
-	{
-		if ((*it)->url() == projecturl)
-		{
-			return *it;
-		}
-		++it;
-	}
-
-	return project;
-}
-
-KileProject* KileInfo::projectFor(const QString &name)
-{
-	KileProject *project = 0;
-
-	//find project with url = projecturl
-	QPtrListIterator<KileProject> it(m_projects);
-	while ( it.current() )
-	{
-		if ((*it)->name() == name)
-		{
-			return *it;
-		}
-		++it;
-	}
-
-	return project;
-}
-
-KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0L*/) const
-{
-	if (project == 0L)
-	{
-		QPtrListIterator<KileProject> it(m_projects);
-		while ( it.current() )
-		{
-			kdDebug() << "looking in project " << (*it)->name() << endl;
-			if ((*it)->contains(url))
-			{
-				kdDebug() << "\t\tfound!" << endl;
-				return (*it)->item(url);
-			}
-			++it;
-		}
-		kdDebug() << "\t nothing found" << endl;
-	}
-	else
-	{
-		if ( project->contains(url) )
-			return project->item(url);
-	}
-
-	return 0L;
-}
-
-KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
-{
-	return itemFor(docinfo->url(), project);
-}
-
-KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
-{
-	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
-	KileProjectItemList *list = new KileProjectItemList();
-	list->setAutoDelete(false);
-
-	QPtrListIterator<KileProject> it(m_projects);
-	while ( it.current() )
-	{
-		kdDebug() << "\tproject: " << (*it)->name() << endl;
-		if ((*it)->contains(docinfo->url()))
-		{
-			kdDebug() << "\t\tcontains" << endl;
-			list->append((*it)->item(docinfo->url()));
-		}
-		++it;
-	}
-
-	return list;
-}
-
-KileDocumentInfo* KileInfo::getInfo() const
-{
-	Kate::Document *doc = activeDocument(); 
-	if ( doc != 0L )
-		return infoFor(doc);
-	else
-		return 0L;
-}
-
-KileDocumentInfo *KileInfo::infoFor(const QString & path) const
-{
-	kdDebug() << "==KileInfo::infoFor==========================" << endl;
-	kdDebug() << "\t" << path << endl;
-	QPtrListIterator<KileDocumentInfo> it(docManager()->m_infoList);
-	while ( true )
-	{
-		kdDebug() << "\tconsidering " << it.current()->url().path() << endl;
-		if ( it.current()->url().path() == path)
-			return it.current();
-
-		if (it.atLast()) break;
-
-		++it;
-	}
-
-	kdDebug() << "\tCOULD NOT find info for " << path << endl;
-	return 0L;
-}
-
-KileDocumentInfo* KileInfo::infoFor(Kate::Document* doc) const
-{
-	return infoFor(doc->url().path());
+	Kate::View *view = viewManager()->currentView();
+	if (view) return view->getDoc(); else return 0L;
 }
 
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
@@ -191,7 +70,7 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 
 QString KileInfo::getCompileName(bool shrt /* = false */)
 {
-	KileProject *project = activeProject();
+	KileProject *project = docManager()->activeProject();
 
 	//TODO: handle the case where not master document is specified in a project (sick)
 	if (project)
@@ -204,7 +83,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 		}
 		else
 		{
-			KileProjectItem *item = project->rootItem(activeProjectItem());
+			KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
 			if (item)
 			{
 				KURL url = item->url();
@@ -247,52 +126,9 @@ bool KileInfo::isOpen(const KURL & url)
 
 bool	KileInfo::projectIsOpen(const KURL & url)
 {
-	KileProject *project = projectFor(url);
+	KileProject *project = docManager()->projectFor(url);
 
 	return project != 0 ;
-}
-
-KileProject* KileInfo::activeProject()
-{
-	KileProject *curpr=0;
-	Kate::Document *doc = activeDocument();
-
-	if (doc)
-	{
-		for (uint i=0; i < m_projects.count(); i++)
-		{
-			if (m_projects.at(i)->contains(doc->url()) )
-			{
-				curpr = m_projects.at(i);
-				break;
-			}
-		}
-	}
-
-	return curpr;
-}
-
-KileProjectItem* KileInfo::activeProjectItem()
-{
-	KileProject *curpr = activeProject();
-	Kate::Document *doc = activeDocument();
-	KileProjectItem *item = 0;
-
-	if (curpr && doc)
-	{
-		KileProjectItemList *list = curpr->items();
-
-		for (uint i=0; i < list->count(); i++)
-		{
-			if (list->at(i)->url() == doc->url())
-			{
-				item = list->at(i);
-				break;
-			}
-		}
-	}
-
-	return item;
 }
 
 QString KileInfo::getSelection() const

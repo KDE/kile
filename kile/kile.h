@@ -192,7 +192,6 @@ private slots:
 	void ShowStructView(bool change);
 	void ShowStructure();
 	void RefreshStructure();
-	void UpdateStructure(bool parse = false, KileDocumentInfo * docinfo = 0L);
 
 /* config */
 private:
@@ -307,8 +306,6 @@ private slots:
 	// KileInfo
 	//
 public:
-	Kate::Document * activeDocument() const;
-
 	const QStringList* labels(KileDocumentInfo * info = 0);
 	const QStringList* bibItems(KileDocumentInfo * info = 0);
 	const QStringList* bibliographies(KileDocumentInfo * info = 0);

@@ -35,6 +35,7 @@
 #include "kiletoolconfigwidget.h"
 #include "kileconfigdialog.h"
 #include "helpconfigwidget.h"
+#include "latexconfigwidget.h"
 
 namespace KileDialog
 {
@@ -174,60 +175,17 @@ namespace KileDialog
 	
 	void Config::setupLatex()
 	{
-		editPage = addPage(i18n("LaTeX"),i18n("LaTeX specific editing options"),
-			KGlobal::instance()->iconLoader()->loadIcon( "tex", KIcon::NoGroup, KIcon::SizeMedium ));
-	
-		// Layout
-		QVBoxLayout *vbox = new QVBoxLayout(editPage, 5,KDialog::spacingHint() );
+		QFrame *page =  addPage(i18n("LaTeX"),i18n("LaTeX specific editing options"),
+					KGlobal::instance()->iconLoader()->loadIcon("tex",
+					KIcon::NoGroup, KIcon::SizeMedium)
+					);
+
+		latexPage = new KileWidgetLatexConfig(page);
+		latexPage->readConfig();
 		
-		// first groupbox: environments
-		QGroupBox *group1 = new QGroupBox(1, Qt::Horizontal, i18n("Environments"), editPage);
-		checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),group1);
-		
-		// second groupbox: include graphics
-		QVGroupBox* group2= new QVGroupBox(i18n("Include Graphics"),editPage );
-		QWidget *widget = new QWidget(group2);
-		QGridLayout *grid = new QGridLayout( widget, 5,2, 6,6, "");
-		grid->addRowSpacing( 0, fontMetrics().lineSpacing() );
-		grid->addColSpacing( 0, fontMetrics().lineSpacing() );
-		// grid->setColStretch(1,1);
-		
-		QLabel *label1 = new QLabel(i18n("default resolution:"), widget);
-		grid->addWidget( label1, 0,0 );
-		edit_res= new KLineEdit("",widget);
-		grid->addWidget( edit_res, 0,1 );
-		
-		QLabel *label2 = new QLabel(i18n("(used when the picture offers no resolution)"), widget);
-		grid->addWidget( label2, 1,1 );
-		
-		QLabel *label3 = new QLabel(i18n("bounding box:"), widget);
-		grid->addWidget( label3, 2,0 );
-		cb_boundingbox = new QCheckBox(i18n("try to determine from the picture"),widget);
-		grid->addWidget( cb_boundingbox, 2,1);
-		
-		QLabel *label4 = new QLabel(i18n("(you have to install the ImageMagick package to use this option)"), widget);
-		grid->addWidget( label4, 3,1 );
-		
-		QLabel *label5 = new QLabel(i18n("ImageMagick:"), widget);
-		grid->addWidget( label5, 4,0 );
-		QLabel *lb_imagemagick = new QLabel("",widget);
-		grid->addWidget( lb_imagemagick, 4,1);
-		
-		vbox->addWidget(group1);
-		vbox->addWidget(group2);
+		QVBoxLayout *vbox = new QVBoxLayout(page);
+		vbox->addWidget(latexPage);
 		vbox->addStretch();
-		
-		//fill in
-		m_config->setGroup( "Editor Ext" );
-		checkEnv->setChecked(m_config->readBoolEntry( "Complete Environment", true));
-		
-		m_config->setGroup("IncludeGraphics");
-		cb_boundingbox->setChecked( m_config->readBoolEntry("boundingbox", true) );
-		edit_res->setText( m_config->readEntry("resolution","300") );
-		if ( m_config->readBoolEntry("imagemagick", true) )
-			lb_imagemagick->setText("installed");
-		else
-			lb_imagemagick->setText("not installed");
 	}
 	
 	
@@ -267,9 +225,9 @@ namespace KileDialog
 		writeGeneralOptionsConfig();
 		writeToolsConfig();
 		writeSpellingConfig();
-		writeLatexConfig();
 		completePage->writeConfig(m_config);  // Complete configuration (dani)
 		helpPage->writeConfig();
+		latexPage->writeConfig();
 
 		m_config->sync();
 
@@ -308,16 +266,6 @@ namespace KileDialog
 	void Config::writeSpellingConfig()
 	{
 		ksc->writeGlobalSettings();
-	}
-	
-	void Config::writeLatexConfig()
-	{
-		m_config->setGroup( "Editor Ext" );
-		m_config->writeEntry("Complete Environment", checkEnv->isChecked());
-	
-		m_config->setGroup("IncludeGraphics");
-		m_config->writeEntry("boundingbox",cb_boundingbox->isChecked());
-		m_config->writeEntry("resolution",edit_res->text());  
 	}
 }
 

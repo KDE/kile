@@ -36,6 +36,7 @@
 #include "kilestdtools.h"
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
+#include "kiledocmanager.h"
 #include "kiletoolcapability.h"
  
 namespace KileTool
@@ -213,7 +214,7 @@ namespace KileTool
 
 	QString Manager::currentGroup(const QString &name, bool usequeue)
 	{
-		KileProject *project = m_ki->activeProject();
+		KileProject *project = m_ki->docManager()->activeProject();
 		if (project)
 		{
 			QString cfg = configName(name, dynamic_cast<KConfig*>(project->config()));
@@ -237,7 +238,7 @@ namespace KileTool
 			map = m_config->entryMap(group);
 
 			//use project overrides
-			KileProject *project = m_ki->activeProject();
+			KileProject *project = m_ki->docManager()->activeProject();
 			if ( useproject && project)
 			{
 				KConfig *prjcfg = dynamic_cast<KConfig*>(project->config());

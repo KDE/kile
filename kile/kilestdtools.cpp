@@ -29,6 +29,7 @@
 #include "kilestdtools.h"
 #include "kileinfo.h"
 #include "kilelistselector.h"
+#include "kiledocmanager.h"
 
 #include "latexoutputinfo.h"
 
@@ -144,7 +145,7 @@ namespace KileTool
 		QString path = source(true);
 
 		//get the bibliographies for this source
-		const QStringList *bibs = manager()->info()->bibliographies(manager()->info()->infoFor(path));
+		const QStringList *bibs = manager()->info()->bibliographies(manager()->info()->docManager()->infoFor(path));
 		if (bibs->count() > 0)
 		{
 			QString bib = bibs->front();

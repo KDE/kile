@@ -25,8 +25,8 @@
     <Action name="Undo"/>
     <Action name="Redo"/>
     <Separator/>
-    <Action name="Copy"/>
     <Action name="Cut"/>
+    <Action name="Copy"/>
     <Action name="Paste"/>
     <Separator/>
     <Action name="selectAll"/>
@@ -263,8 +263,8 @@
    <Separator lineSeparator="true"/>
     <Action name="Undo"/>
     <Action name="Redo"/>
-    <Action name="Copy"/>
     <Action name="Cut"/>
+    <Action name="Copy"/>
     <Action name="Paste"/>
    <Separator lineSeparator="true"/>
     <Action name="Mode"/>
@@ -544,8 +544,8 @@
   <Action name="CloseAll"/>
   <Action name="Undo"/>
   <Action name="Redo"/>
-  <Action name="Copy"/>
   <Action name="Cut"/>
+  <Action name="Copy"/>
   <Action name="Paste"/>
   <Action name="selectAll"/>
   <Action name="Spell"/>

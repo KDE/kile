@@ -263,8 +263,8 @@ void setupMathTags(KMainWindow *parent)
   	(void) new KileAction::Tag(i18n("Eqnarray - \\begin{eqnarray}"),"eqnarray",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
 	(void) new KileAction::Tag(i18n("Subscript - _{}"),"math_lsup",Qt::ALT+Qt::SHIFT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
 	(void) new KileAction::Tag(i18n("Superscript - ^{}"),"math_lsub",Qt::ALT+Qt::SHIFT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
-	(void) new KileAction::Tag(i18n("Fraction - \\frac{}{}"),"smallfrac",Qt::ALT+Qt::SHIFT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);
-	(void) new KileAction::Tag(i18n("Displaystyle fraction - \\dfrac{}{}"),"dfrac",Qt::ALT+Qt::SHIFT+Qt::Key_Q, parent, SLOT(insertAmsTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7);
+	(void) new KileAction::Tag(i18n("Normal - \\frac{}{}"),"smallfrac",Qt::ALT+Qt::SHIFT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);
+	(void) new KileAction::Tag(i18n("Displaystyle - \\dfrac{}{}"),"dfrac",Qt::ALT+Qt::SHIFT+Qt::Key_Q, parent, SLOT(insertAmsTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7);
 	(void) new KileAction::Tag(i18n("Square root - \\sqrt{}"),"math_sqrt",Qt::ALT+Qt::SHIFT+Qt::Key_S, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_sqrt", "\\sqrt{","}", 6);
 	(void) new KileAction::Tag("\\left",Qt::ALT+Qt::SHIFT+Qt::Key_L, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_left", "\\left", QString::null, 5);
 	(void) new KileAction::Tag("\\right",Qt::ALT+Qt::SHIFT+Qt::Key_R, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_right", "\\right", QString::null, 6);
@@ -306,7 +306,7 @@ void setupMathTags(KMainWindow *parent)
 	
 	(void) new KileAction::Tag(i18n("Textstyle - \\tfrac{}{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_tfrac", "\\tfrac{","}{}", 7);
 	
-	(void) new KileAction::Tag(i18n("Normal- \\binom{}{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_binom", "\\binom{","}{}", 7);
+	(void) new KileAction::Tag(i18n("Normal - \\binom{}{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_binom", "\\binom{","}{}", 7);
 	
 	(void) new KileAction::Tag(i18n("Displaystyle - \\dbinom{}{}"),0, parent,SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_dbinom", "\\dbinom{","}{}", 8);
 	
@@ -356,7 +356,7 @@ void setupMathTags(KMainWindow *parent)
  	(void) new KileAction::Tag(i18n("Align* - \\begin{align*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_align*","\\begin{align*}\n","\n\\end{align*}\n", 0,1);
 
 	(void) new KileAction::Tag(i18n("Flalign - \\begin{flalign}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign","\\begin{flalign}\n","\n\\end{flalign}\n", 0,1);
- 	(void) new KileAction::Tag(i18n("Flalign* - \\begin{align*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign*","\\begin{flalign*}\n","\n\\end{flalign*}\n", 0,1);
+ 	(void) new KileAction::Tag(i18n("Flalign* - \\begin{flalign*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign*","\\begin{flalign*}\n","\n\\end{flalign*}\n", 0,1);
 	
 	(void) new KileAction::Tag(i18n("Alignat - \\begin{alignat}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignat","\\begin{alignat}{","}\n\n\\end{alignat}\n", 16,0);
  	(void) new KileAction::Tag(i18n("Alignat* - \\begin{alignat*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignat*","\\begin{alignat*}{","}\n\n\\end{alignat*}\n", 17,0);

@@ -80,14 +80,28 @@ void MessageWidget::highlight()
 	blockSignals(false); // block signals to avoid recursion
 }
 
-void MessageWidget::insertLine(QString l)
+void MessageWidget::insertLine(const QString &l)
 {
 	int para=0;
-  int index=0;
-  getCursorPosition( &para, &index);
+  	int index=0;
+  	getCursorPosition( &para, &index);
 	setColor(Qt::black);
-  insertAt(l+"\n",para,index);
-  setCursorPosition(para+1,0);
+	setPaper(white);
+  	insertAt(l+"\n",para,index);
+  	setCursorPosition(para+1,0);
 }
 
+void MessageWidget::append(const QString &l)
+{
+	setColor(black);
+	setPaper(white);
+  	KTextEdit::append(l);
+}
+
+void MessageWidget::insertAt(const QString &l, int para, int index)
+{
+	setColor(black);
+	setPaper(white);
+  	KTextEdit::insertAt(l,para,index);
+}
 #include "messagewidget.moc"

@@ -1598,16 +1598,18 @@ void Kile::removeTemplate() {
 
 void Kile::removeView(Kate::View *view)
 {
-	guiFactory()->removeClient( view );
-	tabWidget->removePage(view);
-	m_viewList.remove(view);
-	delete view;
-
-	//if viewlist is empty, no currentChanged() signal is emitted
-	//call UpdateStructure such that the structure view is emptied
-	if (m_viewList.isEmpty()) UpdateStructure();
+	if (view)
+	{
+		guiFactory()->removeClient( view );
+		tabWidget->removePage(view);
+		m_viewList.remove(view);
+		delete view;
+	
+		//if viewlist is empty, no currentChanged() signal is emitted
+		//call UpdateStructure such that the structure view is emptied
+		if (m_viewList.isEmpty()) UpdateStructure();
+	}
 }
-
 void Kile::focusLog()
 {
 	Outputview->showPage(LogWidget);

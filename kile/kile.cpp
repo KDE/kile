@@ -3026,60 +3026,58 @@ void Kile::MetaPost()
 
 void Kile::CleanAll()
 {
-  QString finame = getShortName();
+	//TODO: make project aware
+	QString finame = getShortName();
+	
+	if ((m_singlemode && !currentView()) ||finame==i18n("Untitled") || finame=="")
+	{
+		KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
+		return;
+	}
+	
+	finame=getName();
+	
+	QFileInfo fic(finame);
+	if ( ! (fic.exists() && fic.isReadable() ) )
+	{
+		KMessageBox::sorry(this,i18n("The current document does not exists or is not readable. I'm not sure if it is ok to go ahead, bailing out."));
+		return;
+	}
 
-  if ((m_singlemode && !currentView()) ||finame==i18n("Untitled") || finame=="")
-  {
-     KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
-     return;
-  }
-
-  finame=getName();
-
-  QFileInfo fic(finame);
-  if ( ! (fic.exists() && fic.isReadable() ) )
-  {
-        KMessageBox::sorry(this,i18n("The current document does not exists or is not readable. I'm not sure if it is ok to go ahead, bailing out."));
-        return;
-  }
-
-  QString extlist[] = {".log",".aux",".dvi",".aux",".lof",".lot",".bit",".idx" ,".glo",".bbl",".ilg",".toc",".ind"};
-
-    QStringList prettyList;
-   QStringList command;
-
-   command << "cd " << "'"+fic.dirPath()+"'" << "&&";
-
-   for (int i=0; i< 13; i++) {
-      prettyList.append(fic.baseName(TRUE)+extlist[i]);
-      command << "rm -f" << fic.baseName(TRUE)+extlist[i];
-      if (i<12) {command << "&&"; }
-   }
-
-   int query = KMessageBox::warningContinueCancelList( this,
-            i18n( "Do you really want to delete these files?" ),
-            prettyList,
-            i18n( "Delete Files" ),
-            i18n( "Delete" ));
-
-   if (query==KMessageBox::Continue)
-   {
-     CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-    {
-       KMessageBox::error( this,i18n("Could not start the command."));
-    }
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Cleaning up..."));
-         }
-   }
-
-   //newStatus();
-}
+	QStringList extlist; 
+	extlist << ".log" << ".aux" << ".dvi" << ".aux" << ".lof" << ".lot" << ".bit" << ".idx" << ".glo" << ".bbl" << ".ilg" << ".toc" << ".ind"; 
+	
+	QStringList fileList; 
+	
+	QString baseName = fic.baseName(TRUE); 
+	
+	for (uint i=0; i< extlist.count(); i++) 
+	{ 
+		fileList.append(baseName+extlist[i]); 
+	} 
+	
+	int query = KMessageBox::warningContinueCancelList( this, 
+		i18n( "Do you really want to delete these files?" ), 
+		fileList, 
+		i18n( "Delete Files" ), 
+		i18n( "Delete" )); 
+	
+	if(query==KMessageBox::Continue) 
+	{ 
+		LogWidget->clear(); 
+		logpresent=false; 
+		LogWidget->insertLine(i18n("Cleaning up...")); 
+		
+		QDir::setCurrent( fic.dirPath() ); 
+		for (uint i=0; i < fileList.count(); i++) 
+		{ 
+			QFile file(fileList[i]); 
+			file.remove(); 
+		} 
+		
+		LogWidget->insertLine(i18n("Done")); 
+ 	} 
+ }
 
 void Kile::syncTerminal()
 {

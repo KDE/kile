@@ -108,6 +108,16 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_activeView(0),
 	m_nCurrentError(-1)
 {
+	// do initializations first
+	m_currentState=m_wantState="Editor";
+	m_bWatchFile=false;
+	m_bNewInfolist=true;
+	m_bCheckForLaTeXErrors=false;
+	m_bBlockWindowActivateEvents=false;
+	kspell = 0;
+	symbol_view = 0L;
+	symbol_present=false;
+
 	m_docList.setAutoDelete(false);
 	m_infoList.setAutoDelete(false);
 
@@ -187,12 +197,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	config->writeEntry( "RunOnStart",false);
 	setXMLFile( "kileui.rc" );
 
-	m_currentState=m_wantState="Editor";
-	m_bWatchFile=false;
-	m_bNewInfolist=true;
-	m_bCheckForLaTeXErrors=false;
-	m_bBlockWindowActivateEvents=false;
-	kspell = 0;
 
 	ReadSettings();
 
@@ -203,7 +207,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	ReadRecentFileSettings();
 
 	
-	symbol_present=false;
 	ButtonBar->insertTab(SmallIcon("math1"),2,i18n("Relation Symbols"));
 	connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(SmallIcon("math2"),3,i18n("Arrow Symbols"));

@@ -36,6 +36,7 @@
 #include "kileproject.h"
 #include "kileprojectdlgs.h"
 #include "kiletoolmanager.h"
+#include "kiledocumentinfo.h"
 
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 const QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
@@ -360,14 +361,28 @@ void KileNewProjectDlg::slotOk()
 	{
 		if ( file().stripWhiteSpace() == "")
 		{
-			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
-				return;
+			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
+				i18n("No File Name Given"));
+			return;
 		}
 
 		if ( QFileInfo(file().stripWhiteSpace()).exists() )
 		{
-			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()), i18n("File Already Exists")) == KMessageBox::No)
+			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()),
+				i18n("File Already Exists")) == KMessageBox::No)
 				return;
+		}
+
+		KURL fileURL; fileURL.setFileName(file());
+		if(KileDocument::Info::containsInvalidCharacters(fileURL)) {
+			KURL newURL = KileDocument::Info::repairInvalidCharacters(fileURL);
+			m_file->setText(newURL.fileName());
+		}
+
+		fileURL.setFileName(file());
+		if(!KileDocument::Info::isTeXFile(fileURL)) {
+			KURL newURL = KileDocument::Info::repairExtension(fileURL);
+			m_file->setText(newURL.fileName());
 		}
 	}
 

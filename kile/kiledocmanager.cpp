@@ -613,7 +613,28 @@ void Manager::saveURL(const KURL & url)
 
 void Manager::slotNameChanged(Kate::Document * doc)
 {
-	kdDebug() << "==Kile::slotNameChagned==========================" << endl;
+	kdDebug() << "==Kile::slotNameChanged==========================" << endl;
+
+	// If there are invalid characters, we request a new name
+	if(KileDocument::Info::containsInvalidCharacters(doc->url())) {
+		QFile oldFile(doc->url().path());
+		KURL newUrl = KileDocument::Info::repairInvalidCharacters(doc->url());
+		if(newUrl != doc->url()) {
+			if(doc->saveAs(newUrl))
+				oldFile.remove();
+		}
+	}
+
+	// If the extension is missing, we ask the user to automatically add one
+	if(!KileDocument::Info::isTeXFile(doc->url())) {
+		QFile oldFile(doc->url().path());
+		KURL newURL = KileDocument::Info::repairExtension(doc->url());
+		if(newURL != doc->url()) {
+			if(doc->saveAs(newURL))
+				oldFile.remove();
+		}
+	}
+
 	emit(documentStatusChanged(doc, doc->isModified(), 0));
 
 	Info *docinfo = infoFor(doc);
@@ -812,13 +833,20 @@ void Manager::projectNew()
 
 		if (dlg->createNewFile())
 		{
+			QString filename = dlg->file();
+			KURL fileURL; fileURL.setFileName(filename);
+			if(KileDocument::Info::containsInvalidCharacters(fileURL)) {
+				KURL newURL = KileDocument::Info::repairInvalidCharacters(fileURL);
+				filename = newURL.fileName();
+			}
+
 			//create the new document and fill it with the template
 			//TODO: shell expand the filename
 			Kate::View *view = loadTemplate(dlg->getSelection());
 
 			//derive the URL from the base url of the project
 			KURL url = project->baseURL();
-			url.addPath(dlg->file());
+			url.addPath(filename);
 
 			Info *docinfo = infoFor(view->getDoc());
 			docinfo->setURL(url);

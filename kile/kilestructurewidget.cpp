@@ -91,7 +91,8 @@ namespace KileWidget
 	{
 		saveState();
 		clear();
-		disconnect(m_docinfo, 0, this, 0);
+		if(NULL != m_docinfo)
+			disconnect(m_docinfo, 0, this, 0);
 		init();
 	}
 

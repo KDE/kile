@@ -25,6 +25,8 @@
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <kmessagebox.h>
+#include <kinputdialog.h>
 
 #include "codecompletion.h"
 #include "kiledocumentinfo.h"
@@ -43,6 +45,45 @@ bool Info::isBibFile(const KURL & url)
 {
 	QString shortName = url.fileName();
 	return ( shortName.right(4) == ".bib" );
+}
+
+bool Info::containsInvalidCharacters(const KURL& url)
+{
+	QString filename = url.fileName();
+	return filename.contains(" ") || filename.contains("~") || filename.contains("$") || filename.contains("#");
+}
+
+KURL Info::repairInvalidCharacters(const KURL& url)
+{
+	KURL ret(url);
+	do {
+		QString newURL = KInputDialog::getText(
+			i18n("Invalid characters"),
+			i18n("The filename contains invalid characters. Please provide another one."),
+			url.filename());
+		ret.setFileName(newURL);
+	} while(containsInvalidCharacters(ret));
+	return ret;
+}
+
+KURL Info::repairExtension(const KURL& url)
+{
+	KURL ret(url);
+
+	QString filename = url.fileName();
+	if(filename.contains(".") && filename[0] != '.') // There already is an extension
+		return ret;
+
+	if(KMessageBox::Yes == KMessageBox::questionYesNo(NULL,
+		i18n("The given filename has no extension. Do you want one to be automatically added ?"),
+		i18n("Missing extension"),
+		KStdGuiItem::yes(),
+		KStdGuiItem::no(),
+		"AutomaticallyAddExtension"))
+	{
+		ret.setFileName(url.fileName() + ".tex");	
+	}
+	return ret;
 }
 
 Info::Info(Kate::Document *doc) : m_doc(doc)

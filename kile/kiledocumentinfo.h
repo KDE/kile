@@ -90,6 +90,9 @@ class Info : public QObject
 public:
 	static bool isTeXFile(const KURL &);
 	static bool isBibFile(const KURL &);
+	static bool containsInvalidCharacters(const KURL&);
+	static KURL repairInvalidCharacters(const KURL&);
+	static KURL repairExtension(const KURL&);
 
 public:
 	Info(Kate::Document *doc = 0L);

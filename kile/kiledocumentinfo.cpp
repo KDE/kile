@@ -146,23 +146,32 @@ const long* KileDocumentInfo::getStatistics()
 
 // match a { with the corresponding }
 // pos is the positon of the {
-int KileDocumentInfo::matchBracket(const QString &line, int pos)
+QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 {
-	int count=0, len = line.length();
+	QString line, grab;
+	int count=0, len;
 
-	for (int i=pos+1; i < len; i++)
+	while ( l <= m_doc->numLines() )
 	{
-		if (line[i] == '\\') i++;
-		else if (line[i] == '{') count++;
-		else if (line[i] == '}')
+		line = m_doc->textLine(l);
+		len = line.length();
+		for (int i=pos; i < len; i++)
 		{
-			count--;
-			if (count < 0)
-				return i;
+			if (line[i] == '\\') i++;
+			else if (line[i] == '{') count++;
+			else if (line[i] == '}')
+			{
+				count--;
+				if (count < 0)
+					return grab;
+			}
+
+			grab += line[i];
 		}
+		l++;
 	}
 
-	return -1;
+	return QString::null;
 }
 
 void KileDocumentInfo::updateStruct()
@@ -194,7 +203,10 @@ void KileDocumentInfo::updateStruct()
 	QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*\\{");
 	QRegExp reComments("([^\\\\]%|^%).*$");
 
-	int tagStart, tagEnd, m;
+	int tagStart;
+	uint tagEnd;
+	uint tagLine = 0, tagCol = 0;
+	QString m;
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
 	{
@@ -209,7 +221,7 @@ void KileDocumentInfo::updateStruct()
 		while (tagStart != -1)
 		{
 			tagStart = reCommand.search(s,tagEnd);
-			m=-1;
+			m=QString::null;
 
 			if (tagStart != -1)
 			{
@@ -223,11 +235,12 @@ void KileDocumentInfo::updateStruct()
 				//if it is was a structure element, find the title (or label)
 				if (it != m_dictStructLevel.end())
 				{
-					m = matchBracket(s, tagEnd);
+					tagLine=i; tagCol =  tagEnd;
+					m = matchBracket(i, static_cast<uint&>(tagEnd));
 				}
 
 				//title (or label) found, add the element to the listview
-				if (m != -1)
+				if (m != QString::null)
 				{
 					//find the parent for the new element
 					switch ((*it).level)
@@ -246,19 +259,16 @@ void KileDocumentInfo::updateStruct()
 						Child = Child->nextSibling();
 					}
 
-					Child=new KileListViewItem( parent,lastChild,s.mid(tagEnd, m-tagEnd).stripWhiteSpace(), i+1, tagEnd,(*it).type);
+					Child=new KileListViewItem( parent,lastChild,m.stripWhiteSpace(), tagLine+1, tagCol,(*it).type);
 					if (! (*it).pix.isNull()) Child->setPixmap(0,UserIcon((*it).pix));
 
 					//update the label list
 					if ((*it).type == KileStruct::Label)
-						m_labels.append(s.mid(tagEnd, m-tagEnd).stripWhiteSpace());
+						m_labels.append(m.stripWhiteSpace());
 
 					//update the dependencies
 					if ((*it).type == KileStruct::Input)
-						m_deps.append(s.mid(tagEnd, m-tagEnd).stripWhiteSpace());
-
-					//start the next search at the end of this tag
-					tagEnd = m;
+						m_deps.append(m.stripWhiteSpace());
 
 					//update the parent levels, such that section etc. get inserted at the correct level
 					if ((*it).level > 0)

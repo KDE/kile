@@ -121,7 +121,7 @@ public slots:
 	void updateBibItems();
 
 private:
-	int		matchBracket(const QString&, int);
+	QString		matchBracket(uint&, uint&);
 
 protected:
 	enum State

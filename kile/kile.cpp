@@ -4957,6 +4957,7 @@ void KileAutoSaveJob::slotResult(KIO::Job *job)
 	{
 		emit(success());
 	}
+	deleteLater();
 }
 
 /////// editor extensions /////////////

@@ -223,6 +223,7 @@ short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
 
     //Catching Errors
     static QRegExp::QRegExp  error1("^! LaTeX Error: (.*)$", true);
+    static QRegExp::QRegExp  error1b("^Error: pdflatex (.*)$", true);
     static QRegExp::QRegExp  error2("^! (.*)$", true);                          // This could catch warnings, so run it last
 
     //Catching Warnings
@@ -331,7 +332,7 @@ short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
             warning3.cap(1),
             itmWarning);
     }
-    else if (error1.search(strLine) > -1)
+    else if (error1.search(strLine) > -1 || error1b.search(strLine) > -1)
     {
         FlushCurrentItem();
         m_currentItem = LatexOutputInfo(

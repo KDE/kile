@@ -22,7 +22,6 @@
 
 #include <kdebug.h>
 #include <kaboutdata.h>
-#include <kiconloader.h>
 #include <kileapplication.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
@@ -1908,8 +1907,7 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 
 		QPtrList<KTextEditor::View> list = doc->views();
 
-		KIconLoader *loader = KGlobal::iconLoader();
-		QPixmap icon = doc->isModified() ? loader->loadIcon("filesave", KIcon::User, KIcon::SizeSmall, KIcon::DefaultState, 0, true) : QPixmap();
+		QPixmap icon = doc->isModified() ? SmallIcon("filesave") : QPixmap();
 
 		for (uint i=0; i < list.count(); i++)
 		{

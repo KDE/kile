@@ -221,6 +221,9 @@ private slots:
 	void ResetPart();
 	void ActivePartGUI(KParts::Part * the_part);
 
+public slots:
+	void prepareForPart();
+	
 /* structure view */
 private:
 	bool 								showstructview;

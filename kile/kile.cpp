@@ -2050,29 +2050,20 @@ else
       if (act) act->setEnabled( false );
     }
 }
-    createGUI( the_part );
+    createGUI( the_part );  
     if (htmlpresent && htmlpart)
     {
-    stateChanged( "State1" );
+    stateChanged( "State1");
     toolBar("mainToolBar")->hide();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
     toolBar("ToolBar5")->hide();
     }
-    else if (pspresent && pspart)
+    else if ( (pspresent && pspart) || (dvipresent && dvipart) )
     {
     stateChanged( "State2" );
-    toolBar("mainToolBar")->hide();
-    toolBar("ToolBar2")->hide();
-    toolBar("Extra")->show();
-    toolBar("ToolBar4")->hide();
-    toolBar("ToolBar5")->hide();
-    }
-    else if (dvipresent && dvipart)
-    {
-    stateChanged( "State3" );
-    toolBar("mainToolBar")->hide();
+    toolBar("mainToolBar")->show();
     toolBar("ToolBar2")->hide();
     toolBar("Extra")->show();
     toolBar("ToolBar4")->hide();
@@ -2089,6 +2080,18 @@ else
     toolBar("Extra")->hide();
     }
 
+}
+
+void Kile::prepareForPart()
+{
+	ResetPart();
+	
+	//deactivate kateparts
+	for (uint i=0; i<m_viewList.count(); i++)
+	{
+		guiFactory()->removeClient(m_viewList.at(i));
+		m_viewList.at(i)->setActive(false);
+	}
 }
 
 void Kile::BrowserBack()
@@ -2553,7 +2556,7 @@ void Kile::ViewDvi()
 
   if (viewdvi_command=="Embedded Viewer")
   {
-   ResetPart();
+   prepareForPart();
    KLibFactory *dvifactory;
    dvifactory = KLibLoader::self()->factory("kviewerpart");
    if (!dvifactory)    {
@@ -2624,7 +2627,7 @@ void Kile::KdviForwardSearch()
 
   if (viewdvi_command=="Embedded Viewer")
   {
-   ResetPart();
+   prepareForPart();
    KLibFactory *dvifactory;
    dvifactory = KLibLoader::self()->factory("kviewerpart");
    if (!dvifactory)
@@ -2699,7 +2702,7 @@ void Kile::ViewPS()
 
    if (viewps_command=="Embedded Viewer")
    {
-   ResetPart();
+   prepareForPart();
    KLibFactory *psfactory;
    psfactory = KLibLoader::self()->factory("libkghostviewpart");
    if (!psfactory)
@@ -2771,7 +2774,7 @@ void Kile::ViewPDF()
   QFileInfo fic(finame);
    if (viewpdf_command=="Embedded Viewer")
    {
-   ResetPart();
+   prepareForPart();
    KLibFactory *psfactory;
    psfactory = KLibLoader::self()->factory("libkghostviewpart");
    if (!psfactory)
@@ -3210,7 +3213,7 @@ void Kile::HtmlPreview()
 
 	QFileInfo fih(finame);
 
-	ResetPart();
+	prepareForPart();
    htmlpart = new docpart(topWidgetStack,"help");
    connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
    htmlpresent=true;
@@ -3984,7 +3987,7 @@ void Kile::LatexHelp()
 {
       if (viewlatexhelp_command == i18n("Embedded Viewer") )
       {
-	      ResetPart();
+	      prepareForPart();
 	      htmlpart = new docpart(topWidgetStack,"help");
 	      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
 	      htmlpresent=true;

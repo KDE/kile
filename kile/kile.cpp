@@ -661,6 +661,9 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	if (!w->inherits("Kate::View"))
 		return;
 
+	//disable gui updates to avoid flickering of toolbars
+	setUpdatesEnabled(false);
+	
 	Kate::View* view = (Kate::View*)w;
 
 	for (uint i=0; i< viewManager()->views().count(); i++)
@@ -669,14 +672,12 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 		viewManager()->view(i)->setActive(false);
 	}
 
-	toolBar ()->setUpdatesEnabled (false);
-
 	guiFactory()->addClient(view);
 	view->setActive( true );
 
-	if (updateStruct) viewManager()->updateStructure();
+	setUpdatesEnabled(true);
 
-	toolBar ()->setUpdatesEnabled (true);
+	if (updateStruct) viewManager()->updateStructure();
 }
 
 void Kile::updateModeStatus()

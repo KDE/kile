@@ -31,7 +31,7 @@
 #include <kpushbutton.h>
 #include <klistbox.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 
 #include "configenvironment.h"
 #include "kileconfig.h"
@@ -164,28 +164,28 @@ void ConfigEnvironment::highlightedListbox(int index)
 
 void ConfigEnvironment::clickedAdd()
 {
-	KLineEditDlg *dialog = new KLineEditDlg(i18n("Please enter the name of the new environment:"),"",this);
-	if ( dialog->exec() ) {
-	QString envname = dialog->text().stripWhiteSpace();
-	QMap<QString,bool> *map = getDictionary();
-	if ( !envname.isEmpty() ) 
+	bool ok;
+	QString envname = KInputDialog::getText(i18n("New Environment"), i18n("Please enter the name of the new environment:"), "", &ok, this).stripWhiteSpace();
+	if (ok && envname != QString::null)
 	{
-		QRegExp reg("[a-zA-Z]+\\*?");
-		if ( reg.search(envname)==0 && reg.cap(0)==envname ) 
+		QMap<QString,bool> *map = getDictionary();
+		if ( !envname.isEmpty() ) 
 		{
-			if ( ! map->contains(envname) ) 
-			{      
-				listbox->insertItem(envname);
-				listbox->sort();
-				(*map)[envname] = true;
+			QRegExp reg("[a-zA-Z]+\\*?");
+			if ( reg.search(envname)==0 && reg.cap(0)==envname ) 
+			{
+				if ( ! map->contains(envname) ) 
+				{      
+					listbox->insertItem(envname);
+					listbox->sort();
+					(*map)[envname] = true;
+				}
+				else
+					KMessageBox::error(this, i18n("An environment by the name '%1' already exists.").arg(envname));
+				} else 
+					KMessageBox::error(this, i18n("An environment by the name '%1' has illegal characters.").arg(envname));            
 			}
-			else
-				KMessageBox::error(this, i18n("An environment by the name '%1' already exists.").arg(envname));
-			} else 
-				KMessageBox::error(this, i18n("An environment by the name '%1' has illegal characters.").arg(envname));            
-		}
 	}
-	delete dialog;
 }
 
 void ConfigEnvironment::clickedRemove()

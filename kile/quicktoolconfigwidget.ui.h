@@ -9,7 +9,7 @@
 
 void QuickToolConfigWidget::updateSequence(const QString &sequence)
 {
-	QStringList toollist = KileTool::toolList(KGlobal::config(), false);
+	QStringList toollist = KileTool::toolList(KGlobal::config(), true);
 	toollist.sort();
 	m_cbTools->clear();
 	m_cbTools->insertStringList(toollist);

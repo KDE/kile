@@ -548,25 +548,26 @@ bool LatexOutputFilter::Run(QString logfile)
 	int type;
 
 	//print detailed error info
+	uint cnt = 0;
 	for (uint i=0; i < m_InfoList->count() ; i++)
 	{
 		Message = QString("%1:%2:%3").arg((*m_InfoList)[i].source()).arg((*m_InfoList)[i].sourceLine()).arg((*m_InfoList)[i].message());
 		switch ( (*m_InfoList)[i].type()  )
 		{
 			case LatexOutputInfo::itmBadBox	: type = KileTool::Info; break;
-			case LatexOutputInfo::itmError	: type = KileTool::Error; break;
+			case LatexOutputInfo::itmError	: type = KileTool::Error; cnt++; break;
 			case LatexOutputInfo::itmWarning	: type = KileTool::Warning; break;
 			default : type = KileTool::Info; break;
 		}
 		emit(problem(type, Message));
-		if ( i > 25 )
+		if ( cnt > 25 )
 		{
-			emit(problem(KileTool::Error, i18n("More than 25 problems detected, stopping output.")));
+			emit(problem(KileTool::Error, i18n("More than 25 errors detected, stopping output.")));
 			break;
 		}
 	}
 
-    return result;
+	return result;
 }
 
 

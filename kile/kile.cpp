@@ -4575,7 +4575,7 @@ void Kile::misspelling (const QString & originalword, const QStringList & /*sugg
   int l=par_start;
   int cnt=0;
   int col=0;
-  int p=pos;
+  int p=pos+index_start;
 
   while ((cnt+currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))
   {
@@ -4593,7 +4593,7 @@ void Kile::corrected (const QString & originalword, const QString & newword, uns
   int l=par_start;
   int cnt=0;
   int col=0;
-  int p=pos;
+  int p=pos+index_start;
   if( newword != originalword )
   {
     while ((cnt+currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))

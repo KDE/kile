@@ -156,7 +156,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	m_projectview = new KileProjectView(Structview, this);
 	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
 	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileOpen(const KURL&)));
+	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileSelected(const KURL&)));
 	connect(m_projectview, SIGNAL(closeURL(const KURL&)), this, SLOT(fileClose(const KURL&)));
 	connect(m_projectview, SIGNAL(closeProject(const KURL&)), this, SLOT(projectClose(const KURL&)));
 	connect(m_projectview, SIGNAL(projectOptions(const KURL&)), this, SLOT(projectOptions(const KURL&)));
@@ -1727,10 +1727,21 @@ bool Kile::queryClose()
 
 void Kile::fileSelected(const KFileItem *file)
 {
-    QString encoding =KileFS->comboEncoding->lineEdit()->text();
+	fileSelected(file->url());
+}
+
+void Kile::fileSelected(const KURL & url)
+{
+	KileProjectItem * item = itemFor(url);
+	QString encoding;
+	if ( item )
+		encoding = item->encoding();
+	else
+	 	encoding =KileFS->comboEncoding->lineEdit()->text();
+
 	//kdDebug() << "==Kile::fileSelected==========================" << endl;
-	//kdDebug() << "\t" << file->url().fileName() << endl;
-	fileOpen(file->url(), encoding);
+	//kdDebug() << "\t" << url.fileName() << ", " << encoding << endl;
+	fileOpen(url, encoding);
 }
 
 void Kile::showDocInfo(Kate::Document *doc)

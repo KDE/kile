@@ -346,6 +346,7 @@ private slots:
 	bool fileCloseAll();
 
 	void saveURL(const KURL &);
+	void fileSelected(const KURL &);
 	void fileSelected(const KFileItem *file);
 
 	bool queryExit();

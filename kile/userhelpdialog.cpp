@@ -370,7 +370,7 @@ void UserHelpAddDialog::slotChooseFile()
 		
 	QFileInfo fi(filename);
 	if ( ! fi.exists() ) {
-		KMessageBox::error(0,QString(i18n("File '%1' doesn't exist.")).arg(filename));
+		KMessageBox::error(0,QString(i18n("File '%1' does not exist.")).arg(filename));
 		return;
 	}
 	

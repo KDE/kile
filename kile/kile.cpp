@@ -603,7 +603,7 @@ void Kile::setHighlightMode(Kate::Document * doc)
 
 	QString ext = doc->url().fileName().right(4);
 
-	if ( ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	if ( doc->url().isEmpty() || doc->docName() == "untitled" || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
 	for (i = 0; i < c; i++)
 	{

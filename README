@@ -1,1 +1,3 @@
-Don't forget to delete the old kite config file (./kde(3)/share/config/kiterc) before installing a new version.
+Experiencing problems after installing a new version? Try the following
+- Delete ~/.kde/share/apps/kile/kileui.rc (be aware, this will also delete your toolbar settings)
+- Delete ~/.kde/share/config/kilerc (this will delete your configuration settings)

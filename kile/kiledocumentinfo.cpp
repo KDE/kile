@@ -44,6 +44,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
 	m_struct = 0;
 	m_arStatistics = new long[5];
 
+	//TODO: make this configurable
 	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
 	m_dictStructLevel["\\input"]=KileStructData(0, KileStruct::Input, "include");
 	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");

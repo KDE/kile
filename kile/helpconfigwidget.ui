@@ -63,6 +63,9 @@
                 <property name="accel">
                     <string>Alt+T</string>
                 </property>
+                <property name="buttonGroupId">
+                    <number>1</number>
+                </property>
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
@@ -81,6 +84,9 @@
                 </property>
                 <property name="accel">
                     <string>Alt+K</string>
+                </property>
+                <property name="buttonGroupId">
+                    <number>0</number>
                 </property>
             </widget>
         </widget>

@@ -22,7 +22,7 @@
 #include <kate/document.h>
 #include <ktexteditor/searchinterface.h>
 #include <klocale.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 
 #include "kileinfo.h"
 #include "kileviewmanager.h"
@@ -1146,13 +1146,12 @@ void EditorExtension::stringSelection(bool insert, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
-	
-	KLineEditDlg *dialog = new KLineEditDlg(i18n("Please enter the text to insert:"),"",view);
-	if ( dialog->exec() )
+	bool ok;
+	QString text = KInputDialog::getText(i18n("Insert Text"), i18n("Please enter the text to insert:"),"", &ok, view);
+	if ( ok && text != "")
 	{
-		moveSelection(dialog->text(),insert,view);
+		moveSelection(text, insert, view);
 	}
-	delete dialog;
 }
 
 void EditorExtension::moveSelection(const QString &prefix,bool insertmode, Kate::View *view)

@@ -34,7 +34,7 @@
 #include <kconfig.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 
 #include "kiletoolconfigwidget.h"
 #include "kiletoolmanager.h"
@@ -230,7 +230,7 @@ namespace KileWidget
 		//kdDebug() << "==ToolConfig::newTool()=====================" << endl;
 		bool ok;
 		KConfig *config = m_manager->config();
-		QString tool = KLineEditDlg::getText(i18n("New Tool"), i18n("Enter new tool name:"),"", &ok, this);
+		QString tool = KInputDialog::getText(i18n("New Tool"), i18n("Enter new tool name:"),"", &ok, this);
 		if ( ok && tool != "")
 		{
 			if ( config->hasGroup(KileTool::groupFor(tool, config)) )
@@ -259,7 +259,7 @@ namespace KileWidget
 		//kdDebug() << "==ToolConfig::newConfig()=====================" << endl;
 		writeConfig();
 		bool ok;
-		QString cfg = KLineEditDlg::getText(i18n("New Configuration"), i18n("Enter new configuration name:"), "", &ok, this);
+		QString cfg = KInputDialog::getText(i18n("New Configuration"), i18n("Enter new configuration name:"), "", &ok, this);
 		if (ok && cfg != "")
 		{
 			//copy config

@@ -123,6 +123,8 @@ signals:
 	void updateStructure(bool, KileDocument::Info*);
 	void updateModeStatus();
 
+	void documentStatusChanged(Kate::Document *, bool, unsigned char);
+
 	void addToRecentFiles(const KURL &);
 	void addToRecentProjects(const KURL &);
 	void removeFromRecentProjects(const KURL &);

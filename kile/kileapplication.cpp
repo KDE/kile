@@ -19,6 +19,7 @@
 
 #include <kglobal.h>
 #include <kstandarddirs.h>
+#include <kate/document.h>
 
 #include <qframe.h>
 #include <qpixmap.h>

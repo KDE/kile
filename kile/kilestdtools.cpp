@@ -80,19 +80,7 @@ namespace KileTool
 		QString from_cfg = KGlobal::dirs()->findResource("appdata", "kilestdtools.rc");
 		QString to_cfg = KGlobal::dirs()->saveLocation("config") + "/kilerc";
 		KConfig *pCfg = new KConfig(from_cfg, false, false);
-		//FIXME: use copyTo 
-		//pCfg->copyTo(to_cfg, m_config);
-		QStringList groups = pCfg->groupList();
-		for(QStringList::ConstIterator it = groups.begin(); it != groups.end(); ++it)
-		{
-			QMap<QString, QString> map = pCfg->entryMap(*it);
-			m_config->setGroup(*it);
-			for (QMap<QString,QString>::Iterator it2  = map.begin(); it2 != map.end(); ++it2)
-			{
-				m_config->writeEntry(it2.key(), it2.data());
-			}
-		}
-
+		pCfg->copyTo(to_cfg, m_config);
 	}
 
 	int LaTeX::m_reRun = 0;

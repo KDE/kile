@@ -15,14 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kileapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kstartupinfo.h>
 #include <dcopclient.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kglobal.h>
+#include <kinstance.h>
 
+#include "kileapplication.h"
 #include "kile.h"
 
 #include <kdebug.h>
@@ -36,14 +38,15 @@ static KCmdLineOptions options[] =
 
 int main( int argc, char ** argv )
 {
-   KAboutData aboutData( "kile", "Kile",
-                          "1.7a2", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-                          I18N_NOOP("by the Kile Team (2003)"),
+    KAboutData aboutData( "kile", "Kile",
+                          "1.7a3", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+                          I18N_NOOP("by the Kile Team (2003 - 2004)"),
                           0,
                           "http://kile.sourceforge.net");
     aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
     aboutData.addAuthor("Brachet Pascal",0,"");
     aboutData.addCredit("Holger Danielsson", I18N_NOOP("Code Completion, Advanced Editing, Help system"));
+    aboutData.addCredit("Simon Martin", I18N_NOOP("KConfig XT configuration system"));
     aboutData.addCredit("Roland Schulz", I18N_NOOP("KatePart integration"));
     aboutData.addCredit("Thorsten Lück", I18N_NOOP("Log Parsing"));
     aboutData.addCredit("Jan-Marek Glogowski", I18N_NOOP("Find in Files dialog"));

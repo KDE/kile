@@ -72,8 +72,10 @@ public slots:
 	void gotoNextView();
 	void gotoPrevView();
 
+	void reflectDocumentStatus(Kate::Document*, bool, unsigned char);
+
 signals:
-	void activateView(QWidget *, bool, bool);
+	void activateView(QWidget *, bool);
 	void prepareForPart(const QString &);
 	void startSpellCheck();
 

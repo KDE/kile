@@ -17,6 +17,7 @@
 
 #include "kile.h"
 
+#include <ktexteditor/editinterfaceext.h>
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/codecompletioninterface.h>
@@ -122,7 +123,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 {
 	// do initializations first
 	m_currentState = m_wantState="Editor";
-	m_bWatchFile = m_bBlockWindowActivateEvents = m_logPresent = false;
+	m_bWatchFile = m_logPresent = false;
 
 	m_spell = new KileSpell(this, this, "kilespell");
 
@@ -236,7 +237,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
 
 	viewManager()->createTabs(splitter2);
-	connect(viewManager(), SIGNAL(activateView(QWidget*, bool, bool )), this, SLOT(activateView(QWidget*, bool, bool )));
+	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 
 	//Log/Messages/KShell widgets
@@ -678,28 +679,8 @@ void Kile::load(const QString &path)
 	docManager()->load(KURL::fromPathOrURL(path));
 }
 
-//FIXME: connect to modifiedondisc() when using KDE 3.2
-bool Kile::eventFilter(QObject* o, QEvent* e)
-{
-	if ( (!m_bBlockWindowActivateEvents) && e->type() == QEvent::WindowActivate && o == this )
-	{
-		//block windowactivate events since the popup window (isModOnHD) takes focus
-		//away from the mainwindow
-		m_bBlockWindowActivateEvents = true;
-
-		for (uint i=0; i < viewManager()->views().count(); i++)
-		{
-			viewManager()->view(i)->getDoc()->isModOnHD();
-		}
-
-		m_bBlockWindowActivateEvents = false;
-	}
-
-	return QWidget::eventFilter(o,e);
-}
-
 //TODO: move to KileView::Manager
-void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateStruct /* = true */  )  //Needs to be QWidget because of QTabWidget::currentChanged
+void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	//kdDebug() << "==Kile::activateView==========================" << endl;
 	if (!w->inherits("Kate::View"))
@@ -717,12 +698,6 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 
 	guiFactory()->addClient(view);
 	view->setActive( true );
-
-	//KParts::GUIActivateEvent ev( true );
-   	//QApplication::sendEvent( view, &ev );
-
-	if( checkModified )
-		if (view) view->getDoc()->isModOnHD();
 
 	if (updateStruct) viewManager()->updateStructure();
 
@@ -1245,11 +1220,13 @@ void Kile::insertTag(const KileAction::TagData& data)
 	int para,index, para_end=0, para_begin, index_begin;
 
 	if ( !view ) return;
+	Kate::Document *doc = view->getDoc();
+	if ( !doc) return;
 
 	view->setFocus();
 
 	//whether or not to wrap tag around selection
-	bool wrap = (data.tagEnd != QString::null && view->getDoc()->hasSelection());
+	bool wrap = (data.tagEnd != QString::null && doc->hasSelection());
 
 	//%C before or after the selection
 	bool before = data.tagBegin.contains("%C");
@@ -1262,43 +1239,45 @@ void Kile::insertTag(const KileAction::TagData& data)
 	//if there is a selection act as if cursor is at the beginning of selection
 	if (wrap)
 	{
-		index = view->getDoc()->selStartCol();
-		para  = view->getDoc()->selStartLine();
-		para_end = view->getDoc()->selEndLine();
+		index = doc->selStartCol();
+		para  = doc->selStartLine();
+		para_end = doc->selEndLine();
 	}
 
 	QString ins = data.tagBegin;
 
+	//start an atomic editing sequence
+// 	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt( doc );
+// 	if ( editInterfaceExt ) editInterfaceExt->editBegin();
+
 	//cut the selected text
 	if (wrap)
 	{
-		ins += view->getDoc()->selection();
-		view->getDoc()->removeSelectedText();
+		ins += doc->selection();
+		doc->removeSelectedText();
 	}
 
 	ins += data.tagEnd;
 
 	//do some replacements
-	QFileInfo fi( view->getDoc()->url().path());
+	QFileInfo fi( doc->url().path());
 	ins.replace("%S", fi.baseName(true));
 
 	//insert first part of tag at cursor position
-	//kdDebug() << QString("insertTag: inserting %1 at (%2,%3)").arg(ins).arg(para).arg(index) << endl;
-	view->getDoc()->insertText(para,index,ins);
+	doc->insertText(para,index,ins);
 
 	//move cursor to the new position
 	if ( before || after )
 	{
-// 		kdDebug() << "before || after" << endl;
 		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
 		if (wrap) n += para_end > para ? para_end-para : para-para_end;
 		for (int line = para_begin; line <= para_begin+n; line++)
 		{
-			if (view->getDoc()->textLine(line).contains("%C"))
+			if (doc->textLine(line).contains("%C"))
 			{
-				int i=view->getDoc()->textLine(line).find("%C");
+				int i=doc->textLine(line).find("%C");
 				view->setCursorPositionReal(line,i);
-				view->getDoc()->removeText(line,i,line,i+2);
+				doc->removeText(line,i,line,i+2);
 				break;
 			}
 			view->setCursorPositionReal(line,index);
@@ -1313,11 +1292,13 @@ void Kile::insertTag(const KileAction::TagData& data)
 			px = index;
 		}
 
-		kdDebug() << "py = " << py << " px = " << px << endl;
 		view->setCursorPositionReal(py+data.dy,px+data.dx);
 	}
 
-	view->getDoc()->clearSelection();
+	//end the atomic editing sequence
+// 	if ( editInterfaceExt ) editInterfaceExt->editEnd();
+
+	doc->clearSelection();
 
 	m_logWidget->clear();
 	m_outputView->showPage(m_logWidget);
@@ -1387,58 +1368,9 @@ void Kile::insertSymbol(QIconViewItem *item)
 
 void Kile::InsertMetaPost(QListBoxItem *)
 {
-QString mpcode=mpview->currentText();
-if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
+	QString mpcode=mpview->currentText();
+	if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 }
-
-////////////////////////// BIBLIOGRAPHY //////////////////////////
-
-//////////////// USER //////////////////
-// void Kile::insertUserTag(int i)
-// {
-// 	if (m_listUserTags[i].tag.left(1)=="%")
-// 	{
-// 		QString t=m_listUserTags[i].tag;
-// 		t=t.remove(0,1);
-// 		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
-// 	}
-// 	else
-// 	{
-// 		QStringList parts = QStringList::split("%M",m_listUserTags[i].tag);
-// 		int dx = parts[0].length();
-// 		if ( parts[1].length() == 0 )
-// 		{
-// 			int i = parts[0].find('{');
-// 			if ( i != -1 )
-// 				dx = i + 1;
-// 		}
-// 		insertTag(parts[0],parts[1], dx, 0);
-// 	}
-// }
-
-// void Kile::insertUserTag(const KileAction::TagData& td)
-// {
-// 	QString tag = td.tagBegin;
-//
-// 	if ( tag.left(1)=="%" )
-// 	{
-// 		QString t= tag;
-// 		t=t.remove(0,1);
-// 		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
-// 	}
-// 	else
-// 	{
-// 		QStringList parts = QStringList::split("%M", tag);
-// 		int dx = parts[0].length();
-// 		if ( parts[1].length() == 0 )
-// 		{
-// 			int i = parts[0].find('{');
-// 			if ( i != -1 )
-// 				dx = i + 1;
-// 		}
-// 		insertTag(parts[0],parts[1], dx, 0);
-// 	}
-// }
 
 //////////////// HELP /////////////////
 void Kile::LatexHelp()

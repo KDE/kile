@@ -17,6 +17,7 @@
 
 #include <qwidget.h>
 #include <qfileinfo.h>
+#include <qobject.h>
 
 #include <kate/document.h>
 #include <klocale.h>
@@ -40,6 +41,7 @@ KileInfo::KileInfo(QWidget *parent) :
 {
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
+	QObject::connect(m_docManager, SIGNAL(documentStatusChanged(Kate::Document*, bool, unsigned char)), m_viewManager, SLOT(reflectDocumentStatus(Kate::Document*, bool, unsigned char)));
 }
 
 KileInfo::~KileInfo()

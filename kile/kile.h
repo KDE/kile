@@ -87,7 +87,6 @@ class KileProject;
 class KileProjectItem;
 class KileProjectView;
 class TemplateItem;
-class KileEventFilter;
 class KileAutoSaveJob;
 class KileSpell;
 class KileErrorHandler;
@@ -223,23 +222,12 @@ private slots:
 	void ConfigureKeys();
 	void ConfigureToolbars();
 
-/* views */
-protected:
-	/**
-	 * This event filter captures WindowActivate events. On window activating it checks if
-	 * any files were modified on disc. This function will be obsolete once we decide to use
-	 * KDE3.2.
-	 **/
-	bool eventFilter (QObject* o, QEvent* e);
-	bool m_bBlockWindowActivateEvents;
-
 private slots:
 	/**
 	 * Activates (sets up the GUI for the editor part) the view.
-	 * @param checkModified If true, check if the document that corresponds to this view is modified on disc.
 	 * @param updateStruct  If true, force an update of the structure view.
 	 **/
-	void activateView(QWidget* view , bool checkModified = true, bool updateStruct = true);
+	void activateView(QWidget* view , bool updateStruct = true);
 
 	void focusLog();
 	void focusOutput();

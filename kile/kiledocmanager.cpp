@@ -27,10 +27,9 @@
 #include <kmimetype.h>
 #include <kmessagebox.h>
 #include <kprogress.h>
+#include <kfile.h>
 #include <kfiledialog.h>
 #include <krun.h>
-#include <kfile.h>
-#include <kiconloader.h>
 
 #include "templates.h"
 #include "newfilewizard.h"
@@ -59,6 +58,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_ki(info)
 {
 	m_infoList.setAutoDelete(false);
+	Kate::Document::setFileChangedDialogsActivated (true);
 }
 
 
@@ -342,8 +342,6 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 	else
 		kdDebug() << "\tappending document " <<  doc << endl;
 
-// 	m_docList.append(doc);
-
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
 	m_ki->fileSelector()->comboEncoding->lineEdit()->setText(enc);
@@ -371,6 +369,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
 	connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), m_ki->parentWidget(), SLOT(newCaption()));
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
+	connect(doc, SIGNAL(modifiedOnDisc(Kate::Document*, bool, unsigned char)), this, SIGNAL(documentStatusChanged(Kate::Document*, bool, unsigned char)));
 
 	docinfo->setDoc(doc);
 
@@ -623,14 +622,7 @@ void Manager::saveURL(const KURL & url)
 void Manager::slotNameChanged(Kate::Document * doc)
 {
 	kdDebug() << "==Kile::slotNameChagned==========================" << endl;
-	//set the doc name so we can use the docname to set the caption
-	//(we want the caption to be untitled for an new document not ""
-	//doc->setDocName(doc->url().path());
-	QPtrList<KTextEditor::View> list = doc->views();
-	for (uint i=0; i < list.count(); i++)
-	{
- 		m_ki->viewManager()->setTabLabel(list.at(i), m_ki->getShortName(doc));
- 	}
+	emit(documentStatusChanged(doc, doc->isModified(), 0));
 
 	Info *docinfo = infoFor(doc);
 
@@ -644,28 +636,16 @@ void Manager::slotNameChanged(Kate::Document * doc)
 
 void Manager::newDocumentStatus(Kate::Document *doc)
 {
-	if (doc)
-	{
-		kdDebug() << "==Kile::newDocumentStatus==========================" << endl;
-		kdDebug() << "\t" << doc->docName() << endl;
+	if (doc == 0L) return;
 
-		//sync terminal
-		m_ki->texKonsole()->sync();
+	//sync terminal
+	m_ki->texKonsole()->sync();
 
-		QPtrList<KTextEditor::View> list = doc->views();
+	emit(documentStatusChanged(doc,  doc->isModified(), 0));
 
-		QPixmap icon = doc->isModified() ? SmallIcon("filesave") : QPixmap();
-
-		for (uint i=0; i < list.count(); i++)
-		{
-			//tabWidget->changeTab( list.at(i),SmallIcon(icon), getShortName(doc) );
-			m_ki->viewManager()->changeTab( list.at(i), icon, m_ki->getShortName(doc) );
-		}
-
-		//updatestructure if active document changed from modified to unmodified (typically after a save)
-		if (doc == m_ki->activeDocument() && !doc->isModified())
-			emit(updateStructure(true,0L));
-	}
+	//updatestructure if active document changed from modified to unmodified (typically after a save)
+	if (!doc->isModified())
+		emit(updateStructure(true, infoFor(doc)));
 }
 
 void Manager::fileSaveAll(bool amAutoSaving)

@@ -24,6 +24,7 @@
 #include <kparts/componentfactory.h>
 #include <kxmlguiclient.h>
 #include <kxmlguifactory.h>
+#include <kiconloader.h>
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
@@ -100,7 +101,7 @@ Kate::View* Manager::createView(Kate::Document *doc)
 		static_cast<Kate::View*>(view->qt_cast("Kate::View"))->installPopup((QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client)) );
 
 	//activate the newly created view
-	emit(activateView(view, false, false));
+	emit(activateView(view, false));
 
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
@@ -191,6 +192,19 @@ void Manager::gotoPrevView()
 		m_tabs->setCurrentPage( m_tabs->count() - 1 );
 	else
 		m_tabs->setCurrentPage( cPage );
+}
+
+void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsigned char reason)
+{
+	QPixmap icon;
+	if ( reason == 0 ) //nothing
+		icon = isModified ? SmallIcon("filesave") : QPixmap();
+	else if ( reason == 1 || reason == 2 ) //dirty file
+		icon = SmallIcon("revert");
+	else if ( reason == 3 ) //file deleted
+		icon = SmallIcon("stop");
+
+	changeTab(doc->views().first(), icon, m_ki->getShortName(doc));
 }
 
 };

@@ -54,8 +54,8 @@ public:
    bool remove(TemplateInfo ti);
 
 private:
-   bool copyAppData(QString src, QString subdir, QString file);
-
+   bool copyAppData(const QString &src, const QString &subdir, const QString &file);
+   bool removeAppData(const QString &file);
 
 private:
    TemplateList m_TemplateList;

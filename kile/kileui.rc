@@ -261,6 +261,7 @@
     <Action name="146"/>
     <Action name="147"/>
     <Action name="148"/>
+    <Action name="removetemplates"/>
      <Separator/>
     <Action name="Mode"/>
   </Menu>

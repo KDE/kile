@@ -445,6 +445,8 @@ void Kile::setupActions()
   if (showoutputview) {MessageAction->setChecked(true);}
   else {MessageAction->setChecked(false);}
 
+  (void) new KAction(i18n("Remove a template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
+  
   WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(),"WatchFile" );
   if (watchfile) {WatchFileAction->setChecked(true);}
   else {WatchFileAction->setChecked(false);}
@@ -773,6 +775,11 @@ void Kile::createTemplate() {
 
    QFileInfo fi(getName());
    ManageTemplatesDialog mtd(fi,i18n("Create Template From Document"));
+   mtd.exec();
+}
+
+void Kile::removeTemplate() {
+	ManageTemplatesDialog mtd(i18n("Remove a template."));
    mtd.exec();
 }
 
@@ -1645,7 +1652,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    return list;
 }
 
-QString Kile::prepareForViewing(const QString & command, const QString &ext)
+QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target = QString::null)
 {
    QString finame;
    if (singlemode) {finame=getName();}
@@ -1667,7 +1674,17 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext)
    }
 
    QFileInfo fic(finame);
-   finame = fic.dirPath() + "/" + fic.baseName() + "." + ext;
+   finame = fic.dirPath() + "/";
+   if (target)
+   {
+		finame += target;
+		finame.replace("%S",fic.baseName());
+	}
+   else
+   {
+		finame += fic.baseName() + "." + ext;
+	}
+		
    fic.setFile(finame);
 
    if ( ! (fic.exists() && fic.isReadable() ) )
@@ -2327,41 +2344,25 @@ HtmlPreview();
 
 void Kile::HtmlPreview()
 {
-LogWidget->clear();
-Outputview->showPage(LogWidget);
-logpresent=false;
-QString finame;
+	QString finame;
+	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
+	       
+	LogWidget->clear();
+	Outputview->showPage(LogWidget);
+	logpresent=false;
 
-//TODO: add sanity tests here (make error messages more specific)
-if (singlemode) {finame=getName();}
-else {finame=MasterName;}
-if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" )
- {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
- }
-fileSave();
-QFileInfo fi(finame);
-QString name=fi.baseName();
-QString htmlname=fi.dirPath()+"/"+name+"/index.html";
-QFileInfo fih(htmlname);
-if (fih.exists() && fih.isReadable() )
-  {
-    ResetPart();
-    htmlpart = new docpart(topWidgetStack,"help");
-    connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-    htmlpresent=true;
-    htmlpart->openURL(htmlname);
-    htmlpart->addToHistory(htmlname);
-    topWidgetStack->addWidget(htmlpart->widget() , 1 );
-    topWidgetStack->raiseWidget(1);
-    partManager->addPart(htmlpart, true);
-    partManager->setActivePart( htmlpart);
-  }
-else
-  {
-   KMessageBox::error(this, i18n("HTML file not found!"));
-  }
+	QFileInfo fih(finame);
+	
+	ResetPart();
+   htmlpart = new docpart(topWidgetStack,"help");
+   connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
+   htmlpresent=true;
+   htmlpart->openURL(finame);
+   htmlpart->addToHistory(finame);
+   topWidgetStack->addWidget(htmlpart->widget() , 1 );
+   topWidgetStack->raiseWidget(1);
+   partManager->addPart(htmlpart, true);
+   partManager->setActivePart( htmlpart);
 }
 
 void Kile::UserTool1()

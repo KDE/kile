@@ -29,11 +29,6 @@
 #include "templates.h"
 
 Templates::Templates(){
-   //get the template directories
-   //typically: /home/user/.kde/share/apps/kile/templates
-   //and /kderoot/share/apps/kile/template
-   //WARNING: I assume that the /home/user/.../templates directory is the
-   //first int the list.
    QStringList dirs = KGlobal::dirs()->findDirs("appdata","templates");
    QDir templates;
    TemplateInfo ti;
@@ -55,21 +50,19 @@ Templates::Templates(){
         m_TemplateList.append(ti);
      }
    }
-
-   
 }
 
 Templates::~Templates(){
 }
 
-bool Templates::copyAppData(QString src, QString subdir, QString file) {
+bool Templates::copyAppData(const QString &src, const QString &subdir, const QString &file) {
    KIO::Job *job;
    QString dst,dir;
 
    //let saveLocation find and create the appropriate place to
    //store the templates (usually $HOME/.kde/share/apps/kile/templates)
    dir = KGlobal::dirs()->saveLocation("appdata",subdir,true);
-   //if a directory if found
+   //if a directory is found
    if (dir != QString::null ) {
       dst = dir + "/"+ file;
       job = KIO::file_copy(KURL(src),KURL(dst),-1,true,false,false);
@@ -83,7 +76,22 @@ bool Templates::copyAppData(QString src, QString subdir, QString file) {
 
    return true;
 }
-   
+
+bool Templates::removeAppData(const QString &file) {
+	KIO::Job *job;
+	QString src = KGlobal::dirs()->findResource("appdata",file);
+
+	if (!src) return false;
+
+	QFileInfo fi(src);
+	if ( ! fi.exists() ) return true;
+	
+	job = KIO::file_delete(KURL(src),false);
+	job->setAutoErrorHandlingEnabled(true);
+
+	return true;
+}
+
 bool Templates::add(TemplateInfo ti) {
    
    return
@@ -93,7 +101,9 @@ bool Templates::add(TemplateInfo ti) {
 }
 
 bool Templates::remove(TemplateInfo ti) {
-   return 0;
+   
+   return
+   removeAppData(ti.path) && removeAppData(ti.icon);
 }
 
 TemplateListIterator Templates::find(QString name) {

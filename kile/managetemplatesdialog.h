@@ -34,16 +34,21 @@ class ManageTemplatesDialog : public KDialogBase  {
    Q_OBJECT
 public: 
 	ManageTemplatesDialog(QFileInfo src, const char *caption,QWidget *parent=0, const char *name=0);
+	ManageTemplatesDialog(const char *caption,QWidget *parent=0, const char *name=0);	
 	~ManageTemplatesDialog();
 
 public slots:
    void slotSelectedTemplate(QListViewItem *item);
+   void slotSelectedTemplate();
    void slotSelectIcon();
    void addTemplate();
+   void removeTemplate();
 
 private:
+	bool selected;
    TemplateInfo m_sourceTemplate;
    KLineEdit *m_nameEdit, *m_iconEdit;
+   KListView *tlist;
    Templates *m_Templates;
 };
 

@@ -216,6 +216,7 @@ private slots:
     void ReadSettings();
     void SaveSettings();
     void GeneralOptions();
+    void removeTemplate();
 
     void QuickBuild();
     void EndQuickCompile();
@@ -226,7 +227,7 @@ private slots:
     CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop);
     QString prepareForCompile(const QString & command);
     QStringList prepareForConversion(const QString &command, const QString &from, const QString &to);
-    QString prepareForViewing(const QString & command, const QString &ext);
+    QString prepareForViewing(const QString & command, const QString &ext, const QString &target);
     void Latex();
     void ViewDvi();
     void KdviForwardSearch();

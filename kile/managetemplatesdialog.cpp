@@ -55,7 +55,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const char *caption,
    KPushButton *iconbut = new KPushButton("Select...",page);
    iconLayout->addWidget(iconbut);
 
-   KListView *tlist = new KListView(page);
+   tlist = new KListView(page);
    tlist->setSorting(-1);
    tlist->addColumn("M");
    tlist->addColumn("Existing Templates");
@@ -80,7 +80,47 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo src, const char *caption,
    connect(tlist,SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(slotSelectedTemplate(QListViewItem*)));
    connect(iconbut,SIGNAL(clicked()),this, SLOT(slotSelectIcon()));
    connect(this,SIGNAL(okClicked()),this,SLOT(addTemplate()));
+
+   //nobody selected anything yet
+   selected=false;
 }
+
+ManageTemplatesDialog::ManageTemplatesDialog(const char *caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true)
+{
+	QWidget *page = new QWidget( this , "managetemplates_mainwidget");
+   setMainWidget(page);
+   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
+
+   tlist = new KListView(page);
+   tlist->setSorting(-1);
+   tlist->addColumn("M");
+   tlist->addColumn("Existing Templates");
+   tlist->setColumnWidthMode(0,QListView::Manual);
+   tlist->setFullWidth(true);
+   tlist->setAllColumnsShowFocus(true);
+
+   m_Templates = new Templates();
+   QFileInfo fi;
+   QString mode;
+
+   for (int i=m_Templates->count()-1; i>=0; i--) {
+      fi.setFile((*m_Templates->at(i)).path);
+      mode = fi.isWritable() ? " " : "*";
+      (void) new QListViewItem( tlist, mode,(*m_Templates->at(i)).name );
+   }
+
+   topLayout->addWidget(tlist);
+   topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to remove it.\nNote that you cannot delete templates marked with an asterix (you don't have write access)."),page));
+
+   connect(this,SIGNAL(okClicked()),this,SLOT(removeTemplate()));
+
+   //we need the following connection because it will update "selected" for us
+   connect(tlist,SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(slotSelectedTemplate()));
+    
+   //nobody selected anything yet
+   selected=false;
+}
+	
 
 ManageTemplatesDialog::~ManageTemplatesDialog(){
 }
@@ -96,6 +136,12 @@ void ManageTemplatesDialog::slotSelectedTemplate(QListViewItem *item) {
       m_nameEdit->setText((*result).name);
       m_iconEdit->setText((*result).icon);
    }
+
+   selected=true;
+}
+
+void ManageTemplatesDialog::slotSelectedTemplate() {
+	selected=true;
 }
 
 void ManageTemplatesDialog::slotSelectIcon() {
@@ -127,9 +173,24 @@ void ManageTemplatesDialog::addTemplate() {
   if (!m_Templates->add(dstTemplate) ) {
      KMessageBox::error(0,i18n("Failed to create the template."));
   }
-  else
-  {
-     KMessageBox::information(0,i18n("Template successfully created."));
-  }
 }
+
+void ManageTemplatesDialog::removeTemplate()
+{
+	//somehow if you don't select an item from the list
+	//currentItem() returns the last item, so we need to check
+	//if the user actually selected something
+   if (!( (selected) && (tlist->currentItem()!=0) )) return;
+      
+	TemplateListIterator result= m_Templates->find(tlist->currentItem()->text(1));
+
+	if (KMessageBox::warningYesNo(0,i18n("You are about to remove the template %1. Are you sure?").arg((*result).name) )
+		== KMessageBox::No) return;
+
+	if (!m_Templates->remove(*result) )
+	{
+		KMessageBox::error(0,i18n("Failed to remove the template completely."));
+	}
+}
+
 #include "managetemplatesdialog.moc"

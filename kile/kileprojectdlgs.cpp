@@ -306,7 +306,7 @@ void KileNewProjectDlg::slotOk()
 
 	if ( location().stripWhiteSpace().right(7) != ".kilepr")
 	{
-		KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong filename extension."));
+		KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong Filename Extension"));
 		return;
 	}
 	else

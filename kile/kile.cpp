@@ -166,7 +166,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	KileProjectView *projectview = new KileProjectView(Structview, this);
 	viewManager()->setProjectView(projectview);
-	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
+	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files & Projects"));
 	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)), this,SLOT(showVertPage(int)));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
@@ -228,7 +228,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(SmallIcon("math5"),6,i18n("Greek Letters"));
 	connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math6"),7,i18n("Special characters"));
+	ButtonBar->insertTab(SmallIcon("math6"),7,i18n("Special Characters"));
 	connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(SmallIcon("metapost"),8,i18n("MetaPost Commands"));
 	connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
@@ -397,10 +397,10 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
 	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, viewManager(), SLOT(gotoNextView()), actionCollection(), "gotoNextDocument" );
 	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, viewManager(), SLOT(gotoPrevView()), actionCollection(), "gotoPrevDocument" );
-	(void) new KAction(i18n("Focus Log/Messages view"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
-	(void) new KAction(i18n("Focus Output view"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
-	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
-	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
+	(void) new KAction(i18n("Focus Log/Messages View"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
+	(void) new KAction(i18n("Focus Output View"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
+	(void) new KAction(i18n("Focus Konsole View"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
+	(void) new KAction(i18n("Focus Editor View"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
 
  // CodeCompletion (dani)
 	(void) new KAction(i18n("La(TeX) Command"),"complete1",CTRL+Key_Space, m_edit, SLOT(completeWord()), actionCollection(), "edit_complete_word");

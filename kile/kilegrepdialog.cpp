@@ -98,7 +98,7 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	input_layout->addLayout(template_layout, 1, 1);
 
 	template_combo = new QComboBox(false, this);
-	template_combo->insertItem(i18n("normal"));
+	template_combo->insertItem(i18n("Normal"));
 	template_list.append("%s");
 	template_combo->adjustSize();
 	template_combo->setFixedSize(template_combo->size());
@@ -144,10 +144,10 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	KButtonBox *actionbox = new KButtonBox(this, Qt::Horizontal);
 	input_layout->addMultiCellWidget(actionbox, 5, 5, 0, 2);
 	actionbox->addStretch();
-	search_button = actionbox->addButton(i18n("Search"));
+	search_button = actionbox->addButton(i18n("&Search"));
 	search_button->setDefault(true);
-	clear_button = actionbox->addButton(i18n("Clear"));
-	cancel_button = actionbox->addButton(i18n("Cancel"));
+	clear_button = actionbox->addButton(i18n("&Clear"));
+	cancel_button = actionbox->addButton(i18n("&Close"));
 	actionbox->addStretch();
 	actionbox->layout();
 
@@ -345,7 +345,7 @@ void KileGrepDialog::slotSearch()
 	// actually it should be checked whether the process was started successfully
 	resultbox->setCursor( QCursor(Qt::WaitCursor) );
 	clear_button->setEnabled( false );
-	search_button->setText( i18n("Cancel") );
+	search_button->setText( i18n("&Cancel") );
 	childproc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
@@ -397,13 +397,13 @@ void KileGrepDialog::childExited()
 //	 int status = childproc->exitStatus();
 	resultbox->unsetCursor();
 	clear_button->setEnabled( true );
-	search_button->setText( i18n("Search") );
+	search_button->setText( i18n("&Search") );
 
 	if ( ! errbuf.isEmpty() )
 	{
 		KMessageBox::information( parentWidget(),
 			i18n("<strong>Error:</strong><p>") + errbuf,
-			i18n("Grep tool error") );
+			i18n("Grep Tool Error") );
 		errbuf.truncate(0);
 	}
 	else

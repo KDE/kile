@@ -808,7 +808,7 @@ void Manager::buildProjectTree(KileProject *project)
 		project = activeProject();
 
 	if (project == 0 )
-		project = selectProject(i18n("Refresh project tree..."));
+		project = selectProject(i18n("Refresh Project Tree"));
 
 	if (project)
 	{

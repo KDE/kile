@@ -1,6 +1,6 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language>
-<language name="BibTeX-Kile" version="0.2" extensions="*.bib" section="Markup" mimetype="text/x-bib" casesensitive="1">
+<language name="BibTeX-Kile" version="0.1" extensions="*.bib" section="Markup" mimetype="text/x-bib" casesensitive="1">
 	<highlighting>
 		<contexts>
 			<context name="Normal" attribute="Normal Text" lineEndContext="#stay">
@@ -20,7 +20,7 @@
 
 			<context name="Keyword" attribute="Keyword" lineEndContext="#stay">
 				<RegExpr String="\\." attribute="Keyword" context="#stay"/>
-				<DetectChar char="@" attribute="Bib Item" context="#pop#pop"/>
+				<DetectChar char="@" attribute="Bib Item" context="Bib Item"/>
 				<DetectChar char="=" attribute="Normal Text" context="#stay"/>
 				<DetectChar char="," attribute="Normal Text" context="#stay"/>
 				<DetectChar char='"' attribute="Value" context="Value"/>
@@ -29,9 +29,9 @@
 
 			<context name="Value" attribute="Value" lineEndContext="#stay">
 				<Detect2Chars char="\" char1='"' attribute="Value" context="#stay"/>
-				<DetectChar char='"' attribute="Value" context="#pop"/>
+				<DetectChar char='"' attribute="Value" context="Keyword"/>
 			</context>
-
+			
 			<context name="Comment" attribute="5" lineEndContext="#pop">
 			</context>
 		</contexts>

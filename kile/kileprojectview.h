@@ -113,6 +113,7 @@ private slots:
 
 private:
 	void makeTheConnection(KileProjectViewItem *);
+	KileProjectViewItem* nonSrc(const KileProjectItem *item, KileProjectViewItem *);
 
 private:
 	KileInfo					*m_ki;

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "tabdialog.h"
+#include "kiledocumentinfo.h"
 
 #include <qspinbox.h>
 #include <qlabel.h>

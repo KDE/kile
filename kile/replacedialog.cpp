@@ -147,7 +147,7 @@ bool go=true;
 while (go && editor->search( comboFind->currentText(), checkCase->isChecked(),
 	checkWords->isChecked(), radioForward->isChecked(), !checkBegin->isChecked()) )
        {
-       switch(  KMessageBox::questionYesNoCancel(this,i18n("Replace this occurence?"),"Kile") )
+       switch(  KMessageBox::questionYesNoCancel(this,i18n("Replace this occurrence?"),"Kile") )
          {
          case (KMessageBox::Yes):
          editor->replace(comboReplace->currentText() );

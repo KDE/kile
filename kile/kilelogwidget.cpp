@@ -31,6 +31,7 @@ namespace KileWidget
 		KTextEdit(parent,name),
 		m_info(info)
 	{
+		setTabStopWidth(10);
 		connect(this, SIGNAL(clicked(int, int)), this, SLOT(slotClicked(int, int)));
 	}
 	
@@ -109,8 +110,16 @@ namespace KileWidget
 		QFileInfo fi(file);
 		if ( (file == QString::null) || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
 		{
-			file = m_info->outputFilter()->source();
-			l=-1;
+			if ( QFileInfo(file+".tex").exists() )
+			{
+				file += ".tex";
+				fi.setFile(file);
+			}
+			else
+			{
+				file = m_info->outputFilter()->source();
+				l=-1;
+			}
 		}
 
 		fi.setFile(file);

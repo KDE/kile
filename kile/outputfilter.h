@@ -49,15 +49,16 @@ public:
     //void setLog(const QString &log) { m_log = log; }
     const QString & log() const { return m_log; }
 
-    void setSource(const QString &src) { m_source = src; }
+    void setSource(const QString &src);
     const QString & source() const  { return m_source; }
+    const QString & path() const { return m_srcPath; }
 
 signals:
     void problem(int, const QString &);
     void output(const QString &);
 
 protected:
-    virtual short ParseLine(QString strLine, short dwCookie);
+    virtual short parseLine(const QString & strLine, short dwCookie);
     virtual bool OnTerminate();
     /**
     Returns the zero based index of the currently parsed line in the
@@ -67,7 +68,7 @@ protected:
 
 private:
     /** Number of current line in output file */
-    unsigned int	m_nOutputLines;
-    QString		m_log, m_source;
+    unsigned int		m_nOutputLines;
+    QString		m_log, m_source, m_srcPath;
 };
 #endif

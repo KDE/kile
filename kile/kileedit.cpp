@@ -1,8 +1,8 @@
 /***************************************************************************
                            kileedit.cpp
 ----------------------------------------------------------------------------
-    date                 : Jan 24 2004
-    version              : 0.10
+    date                 : Feb 09 2004
+    version              : 0.10.2
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -21,22 +21,75 @@
 #include <kate/view.h>
 #include <kate/document.h>
 #include <ktexteditor/searchinterface.h>
+#include <klocale.h>
+#include <klineeditdlg.h>
 
 
 KileEdit::KileEdit()
 {
+   // init regexp
    m_reg.setPattern("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
+
+   // init environments
+   listenv << "description" << "enumerate" << "itemize";
+   mathenv << "align"  << "alignat" << "aligned"
+           << "bmatrix"
+           << "eqnarray" << "eqnarray*"
+           << "gather" << "gathered"
+           << "matrix" << "multline"
+           << "pmatrix"
+           << "split"
+           << "vmatrix" << "Vmatrix"
+           << "xalignat" << "xxalignat";
+   tabularenv << "array" << "longtable" << "supertabular" << "supertabular*"
+              << "tabbing" << "tabular" << "tabular*" << "tabularx";
+
 }
 
-KileEdit::~KileEdit()
+//////////////////// read configuration ////////////////////
+
+void KileEdit::readConfig(KConfig *config)
 {
+   // standard environments
+   setEnvironment(listenv,m_dictListEnv);
+   setEnvironment(mathenv,m_dictMathEnv);
+   setEnvironment(tabularenv,m_dictTabularEnv);
+
+   // config section
+   config->setGroup( "Environments" );
+   setEnvironment(config->readListEntry("list"),m_dictListEnv);
+   setEnvironment(config->readListEntry("math"),m_dictMathEnv);
+   setEnvironment(config->readListEntry("tabular"),m_dictTabularEnv);
+}
+
+//////////////////// list/math/tabular environments ////////////////////
+
+void KileEdit::setEnvironment(const QStringList &list, QMap<QString,bool> &map)
+{
+   for (uint i=0; i<list.count(); i++)
+      map[list[i]] = true;
+}
+
+bool KileEdit::isListEnvironment(const QString &name)
+{
+   return m_dictListEnv.contains(name);
+}
+
+bool KileEdit::isMathEnvironment(const QString &name)
+{
+   return m_dictMathEnv.contains(name);
+}
+
+bool KileEdit::isTabEnvironment(const QString &name)
+{
+   return m_dictTabularEnv.contains(name);
 }
 
 //////////////////// goto environment tag (begin or end) ////////////////////
 
 // goto the next non-nested environment tag
 
-void KileEdit::gotoEnvironmentTag(Kate::View *view, bool backwards)
+void KileEdit::gotoEnvironment(Kate::View *view, bool backwards)
 {
    if ( !view ) return;
 
@@ -47,10 +100,21 @@ void KileEdit::gotoEnvironmentTag(Kate::View *view, bool backwards)
    // get current position
    Kate::Document *doc = view->getDoc();
    view->cursorPositionReal(&row,&col);
+   m_overwritemode = view->isOverwriteMode();
+
+   // start searching
    if ( backwards )
+   {
       found = findBeginEnvironment(doc,row,col,env);
+      //kdDebug() << "   goto begin env:  " << env.row << "/" << env.col << endl;
+
+   }
    else
+   {
       found = findEndEnvironment(doc,row,col,env);
+      if ( !m_overwritemode )
+         env.col += env.len;
+   }
       
    if ( found )
       view->setCursorPositionReal(env.row,env.col);
@@ -58,7 +122,7 @@ void KileEdit::gotoEnvironmentTag(Kate::View *view, bool backwards)
 
 // match the opposite environment tag
 
-void KileEdit::matchEnvironmentTag(Kate::View *view)
+void KileEdit::matchEnvironment(Kate::View *view)
 {
    if ( !view ) return;
 
@@ -68,57 +132,96 @@ void KileEdit::matchEnvironmentTag(Kate::View *view)
    // get current position
    Kate::Document *doc = view->getDoc();
    view->cursorPositionReal(&row,&col);
+
+   // we only start, when we are at an environment tag
    if ( !isEnvironmentPosition(doc,row,col,env) )
       return;
 
+   gotoEnvironment(view, env.tag != EnvBegin);
+
+   /*
+   // start searching
    bool found = false;   
    if ( env.tag == EnvBegin ) {
-      found = findEndEnvironment(doc,env.row,env.col+1,env);     
+      found = findEnvironmentTag(doc,env.row,env.col+1,env,false);     
+      if ( !m_overwritemode )
+         env.col += env.len;
    } else {
-      found = findBeginEnvironment(doc,row,col,env);        
+      if ( !decreaseCursorPosition(doc,env.row,env.col) ) return;
+      found = findEnvironmentTag(doc,env.row,env.col,env,true);
    }
       
    if ( found )
       view->setCursorPositionReal(env.row,env.col);;
+   */
 }
 
 //////////////////// close an open environment  ////////////////////
 
+// search for the last opened environment and close it
+
 void KileEdit::closeEnvironment(Kate::View *view)
 {
-   if ( !view ) return;
-
    uint row,col;
-   EnvData env;
+   QString name;
 
-   Kate::Document *doc = view->getDoc();
-   view->cursorPositionReal(&row,&col);
-   if ( !isEnvironmentPosition(doc,row,col,env) && findBeginEnvironment(doc,row,col,env) ) {
-      doc->insertText( row,col,"\\end{"+env.name+"}\n" );
+   if ( findOpenedEnvironment(view,row,col,name) ) {
+      view->getDoc()->insertText( row,col,"\\end{"+name+"}\n" );
       view->setCursorPositionReal(row+1,0);
-   }     
+   }
 }
 
-//////////////////// get the type of an open environment ////////////////////
+//////////////////// insert newlines inside an environment ////////////////////
 
-void KileEdit::insertEnvironmentNewline(Kate::View *view)
+// intelligent newlines: look for the last opened environment 
+// and decide what to insert
+
+void KileEdit::insertIntelligentNewline(Kate::View *view)
 {
-   if ( !view ) return;
-
    uint row,col;
-   EnvData env;
+   QString name;
 
-   Kate::Document *doc = view->getDoc();
-   view->cursorPositionReal(&row,&col);
-   if ( !isEnvironmentPosition(doc,row,col,env) && findBeginEnvironment(doc,row,col,env) ) {
-      if ( isListEnvironment(env.name) ) {      
-         doc->insertText( row,col,"\n\\item " );
+   if ( findOpenedEnvironment(view,row,col,name) ) {
+      if ( isListEnvironment(name) ) {      
+         view->getDoc()->insertText( row,col,"\n\\item " );
          view->setCursorPositionReal(row+1,6);
-      } else if ( isTabEnvironment(env.name) ) {
-         doc->insertText( row,col,"\\\\\n" );
+      } else if ( isTabEnvironment(name) || isMathEnvironment(name) ) {
+         view->getDoc()->insertText( row,col,"\\\\\n" );
          view->setCursorPositionReal(row+1,0);
       } 
    }
+}
+
+bool KileEdit::findOpenedEnvironment(Kate::View *view,uint &row,uint &col, QString &envname)
+{
+   if ( !view ) return false;
+
+   // get current cursor position
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   EnvData env;
+   uint startrow = row;
+   uint startcol = col;
+
+   //kdDebug() << "   close - start " << endl;
+   // accept a starting place outside an environment
+   bool env_position = isEnvironmentPosition(doc,row,col,env);
+
+   // We can also accept a column, if we are on the left side of an environment.
+   // But we should decrease the current cursor position for the search.
+   if ( env_position && env.cpos!=EnvInside ) {
+      if ( env.cpos==EnvLeft && !decreaseCursorPosition(doc,startrow,startcol) )
+          return false;
+      env_position = false;
+   }
+
+   if ( !env_position && findEnvironmentTag(doc,startrow,startcol,env,true) ) {
+      //kdDebug() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+      envname = env.name;
+      return true;
+   } else
+      return false;
 }
 
 //////////////////// select an environment  ////////////////////
@@ -128,8 +231,7 @@ void KileEdit::selectEnvironment(Kate::View *view, bool inside)
    EnvData envbegin,envend;
 
    if ( getEnvironment(view,inside,envbegin,envend) ) {
-      Kate::Document *doc = view->getDoc();
-      doc->setSelection(envbegin.row,envbegin.col,envend.row,envend.col);
+       view->getDoc()->setSelection(envbegin.row,envbegin.col,envend.row,envend.col);
    }
 }
 
@@ -139,12 +241,13 @@ void KileEdit::deleteEnvironment(Kate::View *view, bool inside)
 
    if ( getEnvironment(view,inside,envbegin,envend) ) {
       Kate::Document *doc = view->getDoc();
-      if ( doc->hasSelection() )
-         doc->clearSelection();
-
-      doc->removeText(envbegin.row,envbegin.col,envend.row,envend.col);       
+      doc->clearSelection();
+      doc->removeText(envbegin.row,envbegin.col,envend.row,envend.col);
+      view->setCursorPosition(envbegin.row,0);
    }
 }
+
+// calculate start and end of an environment
 
 bool KileEdit::getEnvironment(Kate::View *view, bool inside,
                               EnvData &envbegin, EnvData &envend)
@@ -165,13 +268,13 @@ bool KileEdit::getEnvironment(Kate::View *view, bool inside,
          envbegin.row++;
          envbegin.col = 0;
       }
-      // check last line
-      if ( envend.col == 0 ) {
-        envend.row--;
-        envend.col = doc->lineLength(envend.row);
-      } 
-   } else {
+    } else {
       envend.col += envend.len;
+      // check last line
+      if ( envbegin.col==0 && envend.col==(uint)doc->lineLength(envend.row) ) {
+        envend.row++;
+        envend.col = 0;
+      }
    }
 
    return true;
@@ -179,14 +282,23 @@ bool KileEdit::getEnvironment(Kate::View *view, bool inside,
 
 //////////////////// search for \begin{env}  ////////////////////
 
+// Find the last \begin{env} tag. If the current cursor is over
+//  - \begin{env} tag: we will stop immediately
+//  - \end{env} tag: we will start before this tag
+
 bool KileEdit::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
 {
+  // kdDebug() << "   find begin:  " << endl;
   if ( isEnvironmentPosition(doc,row,col,env) ) {
      // already found position?
-     if ( env.tag == EnvBegin )
+      //kdDebug() << "   found env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+     if ( env.tag == EnvBegin ) {
+        //kdDebug() << "   is begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
         return true;
+     }
 
      // go one position back
+      //kdDebug() << "   is end env at:  " << env.row << "/" << env.col << " " << env.name << endl;
      row = env.row;
      col = env.col;
      if ( ! decreaseCursorPosition(doc,row,col) )
@@ -194,10 +306,15 @@ bool KileEdit::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvD
   }
 
   // looking back for last environment
-  return findEnvironment(doc,row,col,env,true);
+  //kdDebug() << "   looking back from pos:  " << row << "/" << col << " " << env.name << endl;
+  return findEnvironmentTag(doc,row,col,env,true);
 }
 
 //////////////////// search for \end{env}  ////////////////////
+
+// Find the last \begin{env} tag. If the current cursor is over
+//  - \end{env} tag: we will stop immediately
+//  - \begin{env} tag: we will start behind this tag
 
 bool KileEdit::findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
 {
@@ -211,28 +328,31 @@ bool KileEdit::findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvDat
      col = env.col + 1;
   }
 
-  // looking forward for next environment
-  return findEnvironment(doc,row,col,env,false);
+  // looking forward for the next environment
+  return findEnvironmentTag(doc,row,col,env,false);
 }
 
-//////////////////// search for the last non-nested environment  ////////////////////
+//////////////////// search for an environment tag ////////////////////
 
-bool KileEdit::findEnvironment(Kate::Document *doc, uint row, uint col,
-                           EnvData &env,bool backwards)
+// find the last/next non-nested environment tag
+
+bool KileEdit::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
+                                  EnvData &env,bool backwards)
 {   
   KTextEditor::SearchInterface *iface;
   iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
-  QRegExp reg("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
+  //QRegExp reg("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
 
   uint envcount = 0;
   QString wrong_env = ( backwards ) ? "end" : "begin";
-  while ( iface->searchText(row,col,reg,&env.row,&env.col,&env.len,backwards) ) {
+  while ( iface->searchText(row,col,m_reg,&env.row,&env.col,&env.len,backwards) ) {
+  //   kdDebug() << "   iface " << env.row << "/" << env.col << endl;
      if ( isValidBackslash(doc,env.row,env.col) )
      {
-       if ( reg.cap(1) == wrong_env )
+       if ( m_reg.cap(1) == wrong_env )
        {
-             envcount++;
-        }
+            envcount++;
+       }
        else
        {
           if ( envcount > 0 )
@@ -241,7 +361,7 @@ bool KileEdit::findEnvironment(Kate::Document *doc, uint row, uint col,
           }
           else
           {
-            env.name = reg.cap(2);
+           env.name = m_reg.cap(2);
             return true;
           }
        }
@@ -260,141 +380,92 @@ bool KileEdit::findEnvironment(Kate::Document *doc, uint row, uint col,
    }
 
    return false;
-
-  /*
-  // B -->
-  bool found = false;  
-  uint brackets = 0;
-  for ( uint line=row; line<doc->numLines() && !found; line++ ) {
-     QString textline = doc->textLine(line);
-     bool valid_char = true;
-     uint start = ( line == row ) ? col : 0;
-     for ( uint i=start; i<textline.length(); i++ ) {
-        bool value = true;
-        if ( textline[i] == '%' )
-        {
-           if ( valid_char )
-              break;                          
-        }
-        else if ( textline[i] == '{' )
-        {
-          if ( valid_char )
-             brackets++;
-        }
-        else if ( textline[i] == '}' )
-        {
-          if ( valid_char ) {
-             if ( brackets > 0 )
-                brackets--;
-             else
-                { found=true; row=line; col=i; break; }
-          }
-        }
-        else if ( textline[i] == '\\' )
-        {
-           value = !valid_char;
-        }
-
-        valid_char = value;
-     }      
-   }
-   */
-
-   /*
-  // B <-- 
-  bool found = false;
-  uint brackets = 0;
-  for ( int line=row; line>0 && !found; line-- ) {
-     QString textline = doc->textLine(line);
-     bool valid_char = true;
-     uint start = ( line == row ) ? col : textline.length() - 1;
-     for ( int i=start; i>=0; i-- ) {
-        bool value = true;
-        if ( textline[i] == '{' )
-        {
-          if ( valid_char )
-             brackets++;
-        }
-        else if ( textline[i] == '}' )
-        {
-          if ( valid_char ) {
-             if ( brackets > 0 )
-                brackets--;
-             else
-                { found=true; row=line; col=i; break; }
-          }
-        }
-        else if ( textline[i] == '\\' )
-        {
-           value = !valid_char;
-        }
-
-        valid_char = value;
-     }
-   }
-
-   if ( found ) {
-       kdDebug() << "   found: " << row << "/" << col << endl;
-       view->setCursorPositionReal(row,col);
-   }
-   */
    
 }
 
 //////////////////// check for an environment position ////////////////////
 
-// check if the current position belongs to an environment
+// Check if the current position belongs to an environment. The result is set
+// to the beginning backslash of the environment tag. The same algorithms as
+// matching brackets is used.
 
 bool KileEdit::isEnvironmentPosition(Kate::Document *doc, uint row, uint col, EnvData &env)
 {
-  // get real textline without comments, quoted comment signs and pairs of backslashes
+  // get real textline without comments, quoted characters and pairs of backslashes
   QString textline = getTextLineReal(doc,row);
 
   if ( col > textline.length() )
      return false;
 
+  EnvData envright;
+  bool left = false;
+  bool right = false;
+  
   KTextEditor::SearchInterface *iface;
   iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
-  QRegExp reg("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
+  
+  // check if there is a match in this line from the current position to the left
+  int startcol = ( textline[col] == '\\' ) ? col - 1 : col;
+  if ( startcol > 6 ) {
+     int pos = textline.findRev(m_reg,startcol);
+     env.len = m_reg.matchedLength();
+     //kdDebug() << "   is - search to left:  pos=" << pos << " col=" << col << endl;
+     if ( pos!=-1 && (uint)pos<col && col<=(uint)pos+env.len ) {
+        env.row = row;
+        env.col = pos;
+        env.tag = ( textline.at(pos+1) == 'b' ) ? EnvBegin : EnvEnd;
+        env.name = m_reg.cap(2);
+        env.cpos =  ( col < (uint)pos+env.len ) ? EnvInside : EnvRight;
+        // we have already found a tag, if the cursor is inside, but not behind this tag
+        if ( env.cpos == EnvInside )
+           return true;
+        left = true;
+               //kdDebug() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1)) << endl;
+     }
+  }
 
   // check if there is a match in this line from the current position to the right
-  if ( textline[col]=='\\' && col==(uint)textline.find(reg,col) ) {
-     env.row = row;
-     env.col = col;
-     env.len = reg.matchedLength();
-     env.tag = ( textline.at(env.col+1) == 'b' ) ? EnvBegin : EnvEnd;
-     env.name = reg.cap(2);
-     return true;
+  if ( textline[col]=='\\' && col==(uint)textline.find(m_reg,col) ) {
+     envright.row = row;
+     envright.col = col;
+     envright.len = m_reg.matchedLength();
+     envright.tag = ( textline.at(col+1) == 'b' ) ? EnvBegin : EnvEnd;
+     envright.name = m_reg.cap(2);
+     envright.cpos = EnvLeft;
+     right = true;
+     //kdDebug() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
   }
 
-  // no, then check if there is a match in this line from the current position to the left
-  int pos = textline.findRev(reg,col);
-  env.len = reg.matchedLength();
-  if ( pos!=-1 && (uint)pos<=col && col<(uint)pos+env.len ) {
-     env.row = row;
-     env.col = pos;
-     env.tag = ( textline.at(env.col+1) == 'b' ) ? EnvBegin : EnvEnd;
-     env.name = reg.cap(2);
+  // did we find a tag?
+  if ( ! (left || right) )     
+     return false;
+
+  // now check, which tag we should be taken (algorithm like matching brackets)
+
+  if ( m_overwritemode ) {
+       if ( right && envright.tag==EnvBegin ) {
+          env = envright;
+          return true;
+       } else if ( left && env.tag==EnvEnd )
+          return true;
+       else
+          return false;
+   } else if ( left && env.tag==EnvEnd ) {
+       //kdDebug() << "   1: accept left end:  " << env.name << endl;    
+      return true;
+   } else if ( right && envright.tag==EnvBegin ) {
+       //kdDebug() << "   2: accept right begin:  " << envright.name << endl;
+      env = envright;
+   } else if ( left && env.tag==EnvBegin ) {
+       // kdDebug() << "   3: accept left begin:  " << env.name << endl;
      return true;
-  }
-       
-  return false;
-}
+   } else if ( right && envright.tag==EnvEnd ) {
+       //kdDebug() << "   4: accept right end:  " << envright.name << endl;
+       env = envright;       
+   } else
+      return false;
 
-//////////////////// get real text ////////////////////
-
-// get current textline and remove
-//  - all paurs of backslashes
-//  - all quoted comment signs
-//  - all comment
-
-QString KileEdit::getTextLineReal(Kate::Document *doc, uint row)
-{
-   QString textline = doc->textLine(row);
-   textline.replace("\\\\","&&");
-   textline.replace("\\%","&&");
-   int pos = textline.find('%');
-   return (pos == -1 ) ? textline : textline.left(pos);   
+   return true;
 }
 
 //////////////////// check for a comment ////////////////////
@@ -507,16 +578,702 @@ bool KileEdit::decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
    return ok;
 }
 
-//////////////////// check the current type of environment ////////////////////
+//////////////////// texgroups ////////////////////
 
-bool KileEdit::isListEnvironment(const QString &name)
+// goto the next non-nested bracket
+
+void KileEdit::gotoTexgroup(Kate::View *view, bool backwards)
 {
-   return (name=="description" || name=="enumerate" || name=="itemize" ) ? true : false;
+   if ( !view ) return;
+
+   uint row,col;
+   bool found;
+   BracketData bracket;
+   
+   // get current position
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+   m_overwritemode = view->isOverwriteMode();
+
+   // start searching
+   if ( backwards )
+      found = findOpenBracket(doc,row,col,bracket);
+   else
+   {
+      found = findCloseBracket(doc,row,col,bracket);
+      // go behind the bracket
+      if ( ! m_overwritemode )
+         bracket.col++;
+   }
+
+   if ( found )
+      view->setCursorPositionReal(bracket.row,bracket.col);
 }
 
-bool KileEdit::isTabEnvironment(const QString &name)
+// match the opposite bracket
+
+void KileEdit::matchTexgroup(Kate::View *view)
 {
-   return (name=="tabular" || name=="tabular*" || name=="tabbing" || name=="array" ) ? true : false;
+   if ( !view ) return;
+
+   uint row,col;
+   BracketData bracket;
+
+   // get current position
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+   m_overwritemode = view->isOverwriteMode();
+
+   // this operation is only allowed at a bracket position
+   if ( !isBracketPosition(doc,row,col,bracket) )
+      return;
+
+   // start searching
+   bool found = false;
+   if ( bracket.open ) {
+      found = findCloseBracketTag(doc,bracket.row,bracket.col+1,bracket);
+      // go behind the bracket
+      if ( ! m_overwritemode )
+         bracket.col++;
+   } else {
+      if ( !decreaseCursorPosition(doc,bracket.row,bracket.col) ) return;
+      found = findOpenBracketTag(doc,bracket.row,bracket.col,bracket);
+   }
+
+   if ( found )
+      view->setCursorPositionReal(bracket.row,bracket.col);;
+}
+
+//////////////////// close an open texgroup  ////////////////////
+
+// search for the last opened texgroup and close it
+
+void KileEdit::closeTexgroup(Kate::View *view)
+{
+   if ( !view ) return;
+
+   uint row,col;
+   BracketData bracket;
+
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   uint rowtemp = row;
+   uint coltemp = col;
+   if ( !decreaseCursorPosition(doc,rowtemp,coltemp) ) return;
+   
+   if ( findOpenBracketTag(doc,rowtemp,coltemp,bracket) )  {
+      doc->insertText( row,col,"}" );
+      view->setCursorPositionReal(row,col+1);
+   }  
+}
+
+//////////////////// select a texgroup  ////////////////////
+
+void KileEdit::selectTexgroup(Kate::View *view, bool inside)
+{
+   BracketData open,close;
+
+   if ( getTexgroup(view,inside,open,close) ) {
+      Kate::Document *doc = view->getDoc();      
+      doc->setSelection(open.row,open.col,close.row,close.col);
+   }
+}
+
+void KileEdit::deleteTexgroup(Kate::View *view, bool inside)
+{
+   BracketData open,close;
+
+   if ( getTexgroup(view,inside,open,close) ) {
+      Kate::Document *doc = view->getDoc();
+      doc->clearSelection();
+      doc->removeText(open.row,open.col,close.row,close.col);
+      view->setCursorPositionReal(open.row,open.col+1);
+   }
+}
+
+// calculate start and end of an environment
+
+bool KileEdit::getTexgroup(Kate::View *view, bool inside,
+                           BracketData &open, BracketData &close)
+{
+   if ( !view ) return false;
+
+    uint row,col;
+
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   if ( !findOpenBracket(doc,row,col,open) ) return false;
+   if ( !findCloseBracket(doc,row,col,close) ) return false;
+
+   if ( inside )
+      open.col++;
+   else
+      close.col++;
+   return true;
+}
+
+//////////////////// search for a bracket position  ////////////////////
+
+// Find the last opening bracket. If the current cursor is over
+//  - '{': we will stop immediately
+//  - '}': we will start before this character
+
+bool KileEdit::findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+{
+  if ( isBracketPosition(doc,row,col,bracket) ) {
+     // already found position?
+     if ( bracket.open ) {
+       return true;
+     }
+
+    // go one position back
+    row = bracket.row;
+    col = bracket.col;
+    if ( ! decreaseCursorPosition(doc,row,col) )
+       return false;
+  }
+
+  // looking back for last bracket
+  return findOpenBracketTag(doc,row,col,bracket);
+
+}
+
+// Find the last closing bracket. If the current cursor is over
+//  - '}': we will stop immediately
+//  - '{': we will start behind this character
+
+bool KileEdit::findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+{
+   if ( isBracketPosition(doc,row,col,bracket) ) {
+     // already found position?
+     if ( ! bracket.open ) {
+        return true;
+     }
+
+     // go one position forward
+     row = bracket.row;
+     col = bracket.col + 1;
+   }
+ 
+   // looking forward for next bracket
+   return findCloseBracketTag(doc,row,col,bracket);
+}
+
+/*
+   Bracket matching uses the following algorithm (taken from Kate):
+   1) If in overwrite mode, match the bracket currently underneath the cursor.
+   2) Otherwise, if the character to the left of the cursor is an ending bracket,
+      match it.
+   3) Otherwise if the character to the right of the cursor is a
+      starting bracket, match it.
+   4) Otherwise, if the the character to the left of the cursor is an
+      starting bracket, match it.
+   5) Otherwise, if the character to the right of the cursor is an
+      ending bracket, match it.
+   6) Otherwise, don't match anything.
+*/
+
+bool KileEdit::isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+{
+   // default results
+   bracket.row = row;
+   bracket.col = col;
+    
+   QString textline = getTextLineReal(doc,row);
+   QChar right = textline[col];
+   QChar left  = ( col > 0 ) ? textline[col-1] : QChar(' ');
+ 
+   if ( m_overwritemode ) {
+      if ( right == '{' ) {
+         bracket.open = true;
+      } else if ( left == '}' ) {
+         bracket.open = false;
+      } else
+        return false;
+   } else if ( left == '}' ) {
+      bracket.open = false;
+      bracket.col--;
+   } else if ( right == '{' ) {
+      bracket.open = true;
+   } else if ( left == '{' ) {
+      bracket.open = true;
+      bracket.col--;
+   } else if ( right == '}' ) {
+      bracket.open = false;
+   } else
+      return false;
+      
+   return true;
+}
+         
+// find next non-nested closing bracket
+
+bool KileEdit::findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket)
+{
+   uint brackets = 0;
+   for ( uint line=row; line<doc->numLines(); line++ ) {
+     uint start = ( line == row ) ? col : 0;
+     QString textline = getTextLineReal(doc,line);
+     for ( uint i=start; i<textline.length(); i++ ) {
+        if ( textline[i] == '{' )
+        {
+           brackets++;
+        }
+        else if ( textline[i] == '}' )
+        {
+           if ( brackets > 0 )
+              brackets--;
+           else
+           {
+              bracket.row = line;
+              bracket.col = i;
+              bracket.open = false;
+              return true;
+           }
+        }
+     }
+   }
+
+   return false;
+}
+
+// find next non-nested opening bracket
+
+bool KileEdit::findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+{
+   uint brackets = 0;
+   for ( int line=row; line>=0; line-- ) {
+      QString textline = getTextLineReal(doc,line);
+      int start = ( line == (int)row ) ? col : textline.length()-1;
+      for ( int i=start; i>=0; i-- ) {
+         if ( textline[i] == '{' )
+         {
+             if ( brackets > 0 )
+                brackets--;
+             else
+             {
+                bracket.row = line;
+                bracket.col = i;
+                bracket.open = true;
+                return true;
+             }
+         }
+         else if ( textline[i] == '}' )
+         {
+            brackets++;
+         }
+      }
+   }
+
+   return false;
+}
+
+//////////////////// get real text ////////////////////
+
+// get current textline and remove
+//  - all pairs of backslashes: '\\'
+//  - all quoted comment signs: '\%'
+//  - all quoted brackets: '\{' and '\}'
+//  - all comments
+// replace these characters one one, which never will be looked for
+
+QString KileEdit::getTextLineReal(Kate::Document *doc, uint row)
+{
+   QString textline = doc->textLine(row);
+   uint len = textline.length();
+   if ( len == 0)
+      return QString::null;
+
+   bool backslash = false;
+   for (uint i=0; i<len; i++ ) {
+      if ( textline[i]=='{' ||textline[i]=='}' ) {
+         if ( backslash ) {
+            textline[i-1] = '&';
+            textline[i] = '&';
+         }
+         backslash = false;
+      } else if ( textline[i]=='\\' ) {
+         if ( backslash ) {
+            textline[i-1] = '&';
+            textline[i] = '&';
+            backslash = false;
+         } else
+            backslash = true;
+      } else if ( textline[i]=='%' ) {
+         if ( backslash ) {
+            textline[i-1] = '&';
+            textline[i] = '&';
+         } else {
+            len = i;
+            break;
+         }
+         backslash = false;
+      } else
+         backslash = false;
+      
+   }
+
+   // return real text
+   return textline.left(len);
+}
+
+ //////////////////// convert a selected range ////////////////////
+  
+void KileEdit::convertSelection(Kate::View *view, KileEdit::ConvertMode mode)              
+{
+   if ( !view ) return;
+
+   // get current position
+   uint row,col;
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+    
+   if ( doc->hasSelection() ) {                  // work on selected text
+      uint row1 = doc->selStartLine();
+      uint col1 = doc->selStartCol();
+      uint row2 = doc->selEndLine();
+      uint col2 = doc->selEndCol();
+ 
+      uint x1 = col1;
+      uint x2 = col2;
+      bool blockselectionmode = doc->blockSelectionMode();
+
+      QString s;
+      for (uint line=row1; line<=row2; line++) {      
+         s = doc->textLine(line);
+         // calculate start and end for each line in block selection mode 
+         if ( !blockselectionmode ) {
+            x1 = ( line == row1 ) ? col1 : 0;
+            x2 = ( line == row2 ) ? col2 : s.length();
+         }
+         if ( x1 < x2 ) 
+            replaceConvertText(doc,line,x1,x2,s.mid(x1,x2-x1),mode);
+       }
+   } else {                                      // or take the current word
+      uint col1,col2;
+      QString word;
+      if ( getCurrentWord(doc,row,col,smWord,word,col1,col2) )  {
+        // kdDebug() << "   convert: word=" << word << " pos=" << col1 << "/" << col2 << endl;      
+         replaceConvertText(doc,row,col1,col2,word,mode);
+       }
+   }
+   view->setCursorPositionReal(row,col);
+}
+
+void KileEdit::replaceConvertText(Kate::Document *doc,uint row,uint col1,uint col2,
+                                  const QString &text,KileEdit::ConvertMode mode)
+{
+   QString s;
+   switch ( mode ) {
+      case cvUpperCase:   s = text.upper();       break;
+      case cvLowerCase:   s = text.lower();       break;
+      case cvInitialCase: s = initialCase(text);  break;
+   }
+   doc->removeText(row,col1,row,col2);
+   doc->insertText(row,col1,s);
+}
+
+// convert a string to initial case
+
+QString KileEdit::initialCase(const QString &s)
+{
+   QString result = "";
+
+   bool start = true;
+   for (uint i=0; i<s.length(); i++) {
+      if ( s[i].isSpace() )
+      {
+         result += s[i];
+         start = true;
+      }
+      else
+      {
+         if ( start )
+            result += s[i].upper();
+         else
+            result += s[i].lower();
+         start = false;
+      }
+   }
+
+   return result;
+}
+
+//////////////////// capture the current word ////////////////////
+
+// Capture the current word from the cursor position to the left and right.
+// The result depens on the given search mode;
+// - smTex       only letters, except backslash as first and star as last  character
+// - smLetter:   only letters
+// - smWord:     letters and digits
+// - smNospace:  everything except white space
+
+bool KileEdit::getCurrentWord(Kate::Document *doc, uint row, uint col, KileEdit::SelectMode mode,
+                              QString &word,uint &x1,uint &x2)
+{
+   // get real textline without comments, quoted characters and pairs of backslashes
+   QString textline = getTextLineReal(doc,row);
+   if ( col > textline.length() )
+      return false;
+     
+   QRegExp reg;
+   QString pattern1,pattern2;
+   switch ( mode )
+   {
+      case smLetter : pattern1 = "[^a-zA-Z]+";       pattern2 = "[a-zA-Z]+";            break;
+      case smWord   : pattern1 = "[^a-zA-Z0-9]";     pattern2 = "[a-zA-Z0-9]+";         break;
+      case smNospace: pattern1 = "\\s";              pattern2 = "\\S+";                 break;
+      default       : pattern1 = "[^a-zA-Z]";        pattern2 = "\\\\?[a-zA-Z]+\\*?";   break;
+   }
+   x1 = x2 = col;
+   
+   int pos;
+   // search to the left side
+   if ( col > 0 ) {
+      reg.setPattern(pattern1);
+      pos = textline.findRev(reg,col-1);
+      if ( pos != -1 ) {
+         x1 = pos + 1;
+         if ( mode == smTex ) {
+            if ( textline[pos] == '\\' ) 
+               x1 = pos;
+            col = x1;
+         } 
+      }
+   }
+
+   // search at the current position
+   reg.setPattern(pattern2);
+   pos = textline.find(reg,col);
+   if ( pos!=-1 && (uint)pos==col ) {
+      x2 = pos + reg.matchedLength();
+   }
+
+   // get all characters
+   if ( x1 != x2 ) {
+      word = textline.mid(x1,x2-x1);
+      return true;
+   } else
+      return false;
 }
 
 
+//////////////////// move/unmove selections ////////////////////
+
+void KileEdit::commentSelection(Kate::View *view, bool insert)
+{
+   moveSelection(view,"%",insert);
+}
+
+void KileEdit::spaceSelection(Kate::View *view, bool insert)
+{
+   moveSelection(view," ",insert);
+}
+
+void KileEdit::tabSelection(Kate::View *view, bool insert)
+{
+   moveSelection(view,"\t",insert);
+}
+
+void KileEdit::stringSelection(Kate::View *view, bool insert)
+{
+   if ( !view ) return;
+   
+   KLineEditDlg *dialog = new KLineEditDlg(i18n("Please enter the text to insert:"),"",view);
+   if ( dialog->exec() ) {
+       moveSelection(view,dialog->text(),insert);
+   }
+   delete dialog;
+
+}
+
+void KileEdit::moveSelection(Kate::View *view, const QString &prefix,bool insertmode)      
+{
+   if ( !view ) return;
+   
+   // get current position
+   uint row,col,row1,col1,row2,col2;
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+   bool blockselectionmode = doc->blockSelectionMode();
+
+   if ( doc->hasSelection() ) {             // selection: all lines in the selected range
+      row1 = doc->selStartLine();
+      col1 = doc->selStartCol();
+      row2 = doc->selEndLine();
+      col2 = doc->selEndCol();
+      if ( !blockselectionmode ) {
+         if ( col1 >= doc->textLine(row1).length() ) 
+            (void) increaseCursorPosition(doc,row1,col1);
+         if ( col2 == 0 )
+            (void) decreaseCursorPosition(doc,row2,col2);
+      }
+   } else {                                // no selection: only one line 
+      row1 = row2 = row;
+      col1 = col2 = col;
+   }
+  //    kdDebug() << "   selection:  " << row1 << "/" << col1 << " " << row2 << "/" << col2 << endl;
+
+   // we always start at column 0, if not in blockselection mode
+   uint startcol = ( blockselectionmode ) ? col1 : 0;
+   uint prefixlen = prefix.length();
+
+   int changecol  = 0;
+   int changecol1 = 0;
+   int changecol2 = 0;
+   int change = ( insertmode ) ? prefixlen : -prefixlen;
+   for (uint line=row1; line<=row2; line++) {
+      bool action = true;
+      if ( insertmode )
+         doc->insertText(line,startcol,prefix);
+      else if ( doc->textLine(line).mid(startcol,prefixlen) == prefix )
+         doc->removeText(line,startcol,line,startcol+prefixlen);
+      else
+         action = false;
+
+      // calculate changes of selection range and cursor position
+      if ( action ) {
+          if ( line == row )
+            changecol = change;
+          if ( line == row1 )
+            changecol1 = change;
+         if ( line == row2 )
+            changecol2 = change;
+       }
+   }
+
+   // also move the selection and the cursor position
+   if ( doc->hasSelection() ) {
+     if ( blockselectionmode )
+        doc->setSelection(row1,col1,row2,col2+change);
+     else {
+        if ( col1 > 0 )
+           col1 += changecol1;
+        if ( row > row2 ) {
+           row2++;
+           col2 = 0;
+        } else
+           col2 += changecol2;
+        doc->setSelection(row1,col1,row2,col2);
+     }
+   }
+
+   // finally update cursor position
+   view->setCursorPositionReal(row,col+changecol);
+}
+
+//////////////////// paragraph ////////////////////
+
+void KileEdit::selectParagraph(Kate::View *view)
+{
+   uint startline,endline;
+
+   if ( findCurrentTexParagraph(view,startline,endline) ) {
+      view->getDoc()->setSelection(startline,0,endline+1,0);
+   }
+}
+
+void KileEdit::deleteParagraph(Kate::View *view)
+{
+   uint startline,endline;
+ 
+   if ( findCurrentTexParagraph(view,startline,endline) ) {
+      Kate::Document *doc = view->getDoc();
+      doc->clearSelection();
+      if ( startline > 0 )
+         startline--;
+      else if ( endline < doc->numLines()-1 )
+         endline++;      
+      doc->removeText(startline,0,endline+1,0);
+      view->setCursorPosition(startline,0);
+   }
+}
+
+// get the range of the current paragraph
+
+bool KileEdit::findCurrentTexParagraph(Kate::View *view,uint &startline, uint &endline)     
+{
+   if ( !view ) return false;
+
+   uint row,col;
+
+   // get current position
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   // don't accept an empty line as part of a paragraph
+   if ( doc->textLine(row).stripWhiteSpace().isEmpty() )
+      return false;
+
+   // settings default results 
+   startline = row;
+   endline = row;
+    
+  // find the previous empty line 
+   for ( int line=row-1; line>=0; line-- ) {
+      if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
+         break;
+      startline = line;
+   }
+
+   // find the next empty line
+   for ( uint line=row+1; line<doc->numLines(); line++ ) {
+      if ( doc->textLine(line).stripWhiteSpace().isEmpty() ) 
+         break;
+      endline = line;
+   }
+ 
+   // settings result
+   return true;
+}
+
+//////////////////// one line of text////////////////////
+
+void KileEdit::selectLine(Kate::View *view)
+{
+   if ( !view ) return;
+
+   // get current position
+   uint row,col;
+   QString word;
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   if ( doc->lineLength(row) > 0 ) {
+       doc->setSelection(row,0,row+1,0);
+   }
+}
+
+//////////////////// LaTeX command ////////////////////
+
+void KileEdit::selectWord(Kate::View *view,KileEdit::SelectMode mode)
+{
+   if ( !view ) return;
+
+   // get current position
+   uint row,col,col1,col2;
+   QString word;
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   if ( getCurrentWord(doc,row,col,mode,word,col1,col2) )  {
+       doc->setSelection(row,col1,row,col2);
+   }
+}
+
+void KileEdit::deleteWord(Kate::View *view,KileEdit::SelectMode mode)
+{
+   if ( !view ) return;
+
+   // get current position
+   uint row,col,col1,col2;
+   QString word;
+   Kate::Document *doc = view->getDoc();
+   view->cursorPositionReal(&row,&col);
+
+   if ( getCurrentWord(doc,row,col,mode,word,col1,col2) )  {
+       doc->removeText(row,col1,row,col2);
+   }
+}

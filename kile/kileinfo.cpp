@@ -41,6 +41,7 @@ void KileInfo::trash(Kate::Document *doc)
 	if (docinfo) docinfo->detach();
 	removeMap(doc);
 	m_docList.remove(doc);
+	if (doc) doc->closeURL();
 	delete doc;
 }
 

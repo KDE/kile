@@ -174,7 +174,7 @@
 
 	void ProcessLauncher::slotProcessOutput(KProcess*, char* buf, int len)
 	{
-		QString s = QCString(buf, len);
+		QString s = QCString(buf, len+1);
 		emit(output(s));
 	}
 

@@ -64,12 +64,12 @@ class OutputInfo
         /** Clears all attributes. */
         void Clear();
 
-	private:
-        QString m_strSrcFile, m_file;
-        int m_nSrcLine;
-        QString m_strError;
-        int m_nErrorID;
-        int m_nOutputLine;
+private:
+	QString m_strSrcFile, m_file;
+	int m_nSrcLine;
+	QString m_strError;
+	int m_nOutputLine;
+	int m_nErrorID;
 };
 
 /**Array of OutputInfo

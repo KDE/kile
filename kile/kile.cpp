@@ -273,7 +273,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	logpresent=false;
 	m_outputInfo=new LatexOutputInfoArray();
-	m_outputFilter=new LatexOutputFilter( m_outputInfo );
+	m_outputFilter=new LatexOutputFilter(m_outputInfo);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), LogWidget, SLOT(printProblem(int, const QString& )));
 
 	texkonsole=new KileWidget::Konsole(this, Outputview,"konsole");
@@ -3770,17 +3770,17 @@ void Kile::deleteEnvOutside()
 
 void Kile::gotoBeginEnv()
 {
-   m_edit->gotoEnvironmentTag( currentView(),true );
+   m_edit->gotoEnvironment( currentView(),true );
 }
 
 void Kile::gotoEndEnv()
 {
-   m_edit->gotoEnvironmentTag( currentView(),false );
+   m_edit->gotoEnvironment( currentView(),false );
 }
 
 void Kile::matchEnv()
 {
-   m_edit->matchEnvironmentTag( currentView() );
+   m_edit->matchEnvironment( currentView() );
 }
 
 void Kile::closeEnv()

@@ -17,7 +17,7 @@
 
 #include <qfile.h>
 #include <qregexp.h>
-#include <assert.h>
+#include <qfileinfo.h>
 
 #include <kdebug.h>
 #include <ktextedit.h>
@@ -34,7 +34,7 @@ OutputFilter::~ OutputFilter()
 {
 }
 
-short OutputFilter::ParseLine(QString strLine, short dwCookie)
+short OutputFilter::parseLine(const QString & /*strLine*/, short /*dwCookie*/)
 {
     return 0;
 }
@@ -45,6 +45,11 @@ bool OutputFilter::OnTerminate()
     return true;
 }
 
+void OutputFilter::setSource(const QString &src)
+{
+	m_source = src;
+	m_srcPath = QFileInfo(src).dirPath();
+}
 
 unsigned int OutputFilter::Run(QString logfile)
 {
@@ -60,9 +65,12 @@ unsigned int OutputFilter::Run(QString logfile)
 		QTextStream t( &f );
 		while ( !t.eof() )
 		{
+			kdDebug() << "output line: " << m_nOutputLines+1 << endl;
+
 			s=t.readLine()+"\n";
-			sCookie = ParseLine(s,sCookie);
+			sCookie = parseLine(s.stripWhiteSpace(), sCookie);
 			m_nOutputLines++;
+
 			m_log += s;
 		}
 		f.close();

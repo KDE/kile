@@ -17,7 +17,7 @@
 
 #include <qfile.h>
 #include <qregexp.h>
-#include <assert.h>
+#include <qfileinfo.h>
 
 #include <kdebug.h>
 #include <ktextedit.h>
@@ -27,12 +27,10 @@
 
 using namespace std;
 
-LatexOutputFilter::LatexOutputFilter(   LatexOutputInfoArray* LatexOutputInfoArray ):
+LatexOutputFilter::LatexOutputFilter(LatexOutputInfoArray* LatexOutputInfoArray) :
 	m_nErrors(0),
 	m_nWarnings(0),
 	m_nBadBoxes(0),
-	m_nOutputPages(0),
-	m_bFileNameOverLines(false),
 	m_InfoList(LatexOutputInfoArray)
 {
 }
@@ -41,366 +39,499 @@ LatexOutputFilter::~ LatexOutputFilter()
 {
 }
 
-/**
-Returns the number of output pages, that have been created by LaTeX.
-*/
-int LatexOutputFilter::GetNumberOfOutputPages() const
-{
-    return m_nOutputPages;
-}
-
-
-QString LatexOutputFilter::GetResultString()
-{
-    QString  strResult;
-    //strResult.Format(STE_LATEX_RESULT, m_nErrors, m_nWarnings, m_nBadBoxes, m_nOutputPages);
-    return strResult;
-}
-
-
 bool LatexOutputFilter::OnPreCreate()
 {
-    m_nErrors = 0;
-    m_nWarnings = 0;
-    m_nBadBoxes = 0;
-    m_nOutputPages = 0;
+	m_nErrors = 0;
+	m_nWarnings = 0;
+	m_nBadBoxes = 0;
 
-    return true;
+	return true;
 }
 
 
-void LatexOutputFilter::UpdateFileStack(const QString &strLine)
+bool LatexOutputFilter::fileExists(const QString & name)
 {
-    /*
-    With the code in this function we catch non-file-related stuff as well.
-    Consider the following output from TeX:
+	static QFileInfo::QFileInfo fi;
 
-        Underfull \hbox (badness 3323) in paragraph at lines 87--88
+	if (name[0] == '/' )
+	{
+		fi.setFile(name);
+		if ( fi.exists() && !fi.isDir() ) return true;
+		else return false;
+	}
 
-    This pushes the wrong filename "badness 3323" on our filestack.
-    But that does not matter. We will pop it before detecting the bad box
-    in ParseLine - so we have the correct filename again (reported by TeX
-    somewhat earlier).
-    Lets call all braces "(...)", which are not related to files, "non-file-braces".
+	fi.setFile(path() + "/" + name);
+	if ( fi.exists() && !fi.isDir() ) return true;
 
-    For this function, we need the assumption, that TeX closes all non-file-braces
-    before reporting an error; at least before we detect it in ParseLine.
-    I did not see any other behaviour of TeX and I can not imagine it.
-    So I think, this assumption is correct. The assertion	"ASSERT(!m_stackFile.empty());"
-    below will help us to find out, whether I am right or not.
-    */
+	fi.setFile(path() + "/" + name + ".tex");
+	if ( fi.exists() && !fi.isDir() ) return true;
 
-    int i=0, pos=0;
-    int j;
-    int nStrMax = strLine.length();
+	return false;
+}
 
-    //If the last run of this func discovered a filename, that
-    // was printed out over more than one line, we will directly
-    // continue to read it in.
-    if (m_bFileNameOverLines)
-        goto ScanNextLine;
+// There are basically two ways to detect the current file TeX is processing:
+//	1) Use \Input (i.c.w. srctex.sty or srcltx.sty) and \include exclusively. This will
+//	cause (La)TeX to print the line ":<+ filename"  in the log file when opening a file, 
+//	":<-" when closing a file. Filenames pushed on the stack in this mode are marked
+//	as reliable.
+//
+//	2) Since people will probably also use the \input command, we also have to be
+//	to detect the old-fashioned way. TeX prints '(filename' when opening a file and a ')'
+//	when closing one. It is impossible to detect this with 100% certainty (TeX prints many messages
+//	and even text (a context) from the TeX source file, there could be unbalanced parentheses), 
+//	so we use a heuristic algorithm. In heuristic mode a ')' will only be considered as a signal that 
+//	TeX is closing a file if the top of the stack is not marked as "reliable". 
+//	Also, when scanning for a TeX error linenumber (which sometimes causes a context to be printed
+//	to the log-file), updateFileStack is not called, helping not to pick up unbalanced parentheses
+//	from the context.
+void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::updateFileStack()================" << endl;
 
-    for (; i < nStrMax; i++)
-    {
-        switch (strLine[i])
-        {
-            case '(':
-            {
-                ScanNextLine:
-                for ( j = i+1;
-                    ( j < nStrMax )
-                    && ( strLine[j] != '[' )
-                    && ( strLine[j] != ')' )
-                    && ( strLine[j] != '(' )
-                    && ( strLine[j] != '{' );
-                    j++);
+	static QString::QString strPartialFileName;
 
-                /*
-                We need to push even empty strings on the stack, because only this
-                assures, that we get every starting and closing brace.
-                Consider the following output from TeX (it is ONE! line of output):
+	switch (dwCookie)
+	{
+		//we're looking for a filename
+		case Start :
+			//TeX is opening a file
+			if ( strLine.startsWith(":<+ ") )
+			{
+				kdDebug() << "filename detected" << endl;
+				//grab the filename, it might be a partial name (i.e. continued on the next line)
+				strPartialFileName = strLine.mid(4).stripWhiteSpace();
 
-                    \OT1/cmr/m/n/8 Punk-ten. $\OML/cmm/m/it/8 K[] \OT1/cmr/m/n/8 = ([]\OML/cmm/m/it
-                    /8 ; []; []\OT1/cmr/m/n/8 )$. $\OML/cmm/m/it/8 K[] \OT1/cmr/m/n/8 =
+				//change the cookie so we remember we aren't sure the filename is complete
+				dwCookie = FileName;
+			}
+			//TeX closed a file
+			else if ( strLine.startsWith(":<-") )
+			{
+				kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
+				m_stackFile.pop();
+			}
+			else
+			//fallback to the heuristic detection of filenames
+				updateFileStackHeuristic(strLine, dwCookie);
+		break;
 
-                The first line has a starting brace '(' directly followed by a '['.
-                This will produce an empty string (i.e. i == j-1) due to the code
-                in the for-next-loop above. But we need the code above - no chance to change it.
-                Certainly, adding empty strings, will somehow corrupt our file stack, but as mentioned
-                above, we catch other non-file-related stuff as well.
-                And the hope/knowledge is, that TeX closes the brace before reporting an error.
-                */
+		case FileName :
+			//The partial filename was followed by '(', this means that TeX is signalling it is
+			//opening the file. We are sure the filename is complete now. Don't call updateFileStackHeuristic
+			//since we don't want the filename on the stack twice.
+			if ( strLine.startsWith("(") || strLine.startsWith("\\openout") )
+			{
+				//push the filename on the stack and mark it as 'reliable'
+				m_stackFile.push(LOFStackItem(strPartialFileName, true));
+				kdDebug() << "\tpushed : " << strPartialFileName << endl;
+				strPartialFileName = QString::null;
+				dwCookie = Start;
+			}
+			//The partial filename was followed by an TeX error, meaning the file doesn't exist.
+			//Don't push it on the stack, instead try to detect the error.
+			else if ( strLine.startsWith("!") )
+			{
+				kdDebug() << "oops!" << endl;
+				dwCookie = Start;
+				strPartialFileName = QString::null;
+				detectError(strLine, dwCookie);
+			}
+			//Partial filename still isn't complete.
+			else
+			{
+				kdDebug() << "\tpartial file name, adding" << endl;
+				strPartialFileName = strPartialFileName + strLine.stripWhiteSpace();
+			}
+		break;
 
-                QString  strFile(strLine.mid(i+1, (j-1) - (i+1) + 1));
+		default : break;
+	}
+}
 
-                if (m_bFileNameOverLines)
-                {
-                    strFile = m_strPartialFileName + strLine[0] + strFile;
-                    m_bFileNameOverLines = false;
-                }
+void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::updateFileStackHeuristic()================" << endl;
 
-                //Has the filename been broken up over two or even more lines?
-                if ( (j == nStrMax) && (nStrMax >= 79)
-                    && ((pos=strFile.findRev('.'))> 0 && strFile.length() - pos < 3 ) || pos < 0)
-                {
-                    //Yes - save it and wait for the next line to read
-                    m_strPartialFileName = strFile;
-                    m_bFileNameOverLines = true;
-                    i = j-1;
-                }
-                else
-                {
-                    //No - push it
-                    m_stackFile.push(strFile.stripWhiteSpace());
-                    kdDebug() << "Push Filestack (" << m_stackFile.size() << ") " << strFile.stripWhiteSpace() << endl;
-                    i = j-1;
-                }
-            }
-            break;
+	static QString::QString strPartialFileName;
+	bool expectFileName = (dwCookie == FileNameHeuristic);
+	int index = 0;
 
-            case ')':
-                //If we are good in parsing, this ASSERT should not happen.
-                //Comment this out, if it always asserts or try to find the error,
-                //where we pop something from the stackFile, what should not be poped.
-                //
-                // Yeah, well, I found a case:
-                // Mostly TeX prints out some parts of the processed tex-file after reporting a bad box.
-                // And sometimes not! But if this part contains a closing brace ')', we will get
-                // an assertion here somewhat after a wrong poping caused by this ')'. Any Idea?
-                //assert(!m_stackFile.empty());
-                if (!m_stackFile.empty())
-                {
-                    m_stackFile.pop();
-                    kdDebug() << "Pop Filestack (" << m_stackFile.size() << ") " << m_stackFile.top()  << endl;
-                }
-                break;
-        }
-    }
+	//scan for parentheses and grab filenames
+	for ( uint i = 0; i < strLine.length(); i ++)
+	{
+		//We're expecting a filename. If a filename really ends at this position one of the following must be true:
+		//	1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
+		//	path, this is a TeX limitation).
+		//	2) We're at the end of the line, the filename is probably continued on the next line.
+		//	3) The TeX was closed already, signalled by the ')'.
+		if ( expectFileName && ( strLine[i+1].isSpace() || i +1  == strLine.length() || strLine[i+1] == ')' ))
+		{
+			//update the partial filename
+			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
+
+			//FIXME: improve these heuristics
+			if ( 	strLine[i+1].isSpace() || ( (i < 78) && (i +1  == strLine.length()) ) ||
+				strLine[i+1] == ')' ||
+				fileExists(strPartialFileName) )
+			{
+				m_stackFile.push(LOFStackItem(strPartialFileName));
+				kdDebug() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+				expectFileName = false;
+				dwCookie = Start;
+			}
+			//Guess the filename is continued on the next line.
+			else if ( i+1 == strLine.length() )
+			{
+				kdDebug() << "\tFilename spans more than one line." << endl;
+				dwCookie = FileNameHeuristic;
+			}
+		}
+		//TeX is opening a file
+		else if ( strLine[i] == '(' )
+		{
+			//we need to extract the filename
+			expectFileName = true;
+			strPartialFileName = QString::null;
+			dwCookie = Start;
+
+			//this is were the filename is supposed to start
+			index = i + 1;
+		}
+		//TeX is closing a file
+		else if ( strLine[i] == ')' )
+		{
+			kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
+			//If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
+			//a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
+			//from the stack too soon.
+			if ( ! m_stackFile.top().reliable() )
+				m_stackFile.pop();
+			else
+				kdDebug() << "\t\toh no, forget about it!" << endl;
+		}
+	}
 }
 
 
-void LatexOutputFilter::FlushCurrentItem()
+void LatexOutputFilter::flushCurrentItem()
 {
-    int nItemType = m_currentItem.type();
-    found=true;
+	kdDebug() << "==LatexOutputFilter::flushCurrentItem()================" << endl;
+	int nItemType = m_currentItem.type();
 
-    switch (nItemType)
-    {
-        case itmError:
-            m_nErrors++;
-            m_InfoList->push_back(m_currentItem);
-            kdDebug() << "Flushing Error in" << m_currentItem.source()
-                << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() <<  endl;
-            break;
-        case itmWarning:
-            m_nWarnings++;
-            m_InfoList->push_back(m_currentItem);
-            kdDebug() << "Flushing Warning in " << m_currentItem.source()
-                << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
-            break;
-        case itmBadBox:
-            m_nBadBoxes++;
-            m_InfoList->push_back(m_currentItem);
-            kdDebug() << "Flushing BadBox in " << m_currentItem.source()
-                << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
-            break;
+	while (  (! fileExists(m_stackFile.top().file()) ) && (m_stackFile.count() > 1) )
+		m_stackFile.pop();
 
-        default:                                                                //no important item -> do nothing
-            ;
-    }
+	m_currentItem.setSource(m_stackFile.top().file());
 
-    m_currentItem.Clear();
+	switch (nItemType)
+	{
+		case itmError:
+			m_nErrors++;
+			m_InfoList->push_back(m_currentItem);
+			kdDebug() << "Flushing Error in" << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() <<  endl;
+		break;
+
+		case itmWarning:
+			m_nWarnings++;
+			m_InfoList->push_back(m_currentItem);
+			kdDebug() << "Flushing Warning in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
+		break;
+
+		case itmBadBox:
+			m_nBadBoxes++;
+			m_InfoList->push_back(m_currentItem);
+			kdDebug() << "Flushing BadBox in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
+		break;
+
+		default: break;
+	}
+	m_currentItem.Clear();
 }
 
-
-short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
+bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 {
-    UpdateFileStack(strLine);
-    found=false;
+	kdDebug() << "==LatexOutputFilter::detectError(" << strLine.length() << ")================" << endl;
 
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // parse for new error, warning or bad box
+	bool found = false, flush = false;
 
-    //Catching Errors
-    static QRegExp::QRegExp  error1("^! LaTeX Error: (.*)$", true);
-    static QRegExp::QRegExp  error1b("^Error: pdflatex (.*)$", true);
-    static QRegExp::QRegExp  error2("^! (.*)$", true);                          // This could catch warnings, so run it last
+	static QRegExp::QRegExp reLaTeXError("^! LaTeX Error: (.*)$", false);
+	static QRegExp::QRegExp rePDFLaTeXError("^Error: pdflatex (.*)$", false);
+	static QRegExp::QRegExp reTeXError("^! (.*)");
+	static QRegExp::QRegExp reLineNumber("^l\\.([0-9]+)(.*)");
 
-    //Catching Warnings
-    static QRegExp::QRegExp  warning1("^(! )?(La|pdf)TeX .*(W|w)arning.*: (.*)", true);
-    static QRegExp::QRegExp  warning2("^LaTeX .*(W|w)arning: (.*) on input line ([0-9]+)", true);
-    static QRegExp::QRegExp  warning3(".*(W|w)arning.*: (.*)", true);           //Catches package warnings
+	switch (dwCookie)
+	{
+		case Start :
+			if ( (reLaTeXError.search(strLine) != -1) || (rePDFLaTeXError.search(strLine) != -1) )
+			{
+				kdDebug() << "\tError : " <<  reLaTeXError.cap(1) << endl;
+				m_currentItem.setMessage(reLaTeXError.cap(1));
+				found = true;
+				dwCookie = strLine.endsWith(".") ? LineNumber : Error;
+			}
+			else if (reTeXError.search(strLine) != -1 )
+			{
+				kdDebug() << "\tError : " <<  reTeXError.cap(1) << endl;
+				m_currentItem.setMessage(reTeXError.cap(1));
+				found = true;
+				dwCookie = strLine.endsWith(".") ? LineNumber : Error;
+			}
+		break;
 
-    //Catching Bad Boxes
-    static QRegExp::QRegExp  badBox1("^(Over|Under)(full \\\\[hv]box .*)at lines ([0-9]+)--([0-9]+)", true);
-	static QRegExp::QRegExp  badBox3("^(Over|Under)(full \\\\[hv]box .*)at line ([0-9]+)", true);
-    //Use the following only, if you know how to get the source line for it.
-    // This is not simple, as TeX is not reporting it.
-    //static QRegExp::QRegExp	badBox2("^(Over|Under)full \\\\[hv]box .* has occurred while \\output is active", true);
+		case Error :
+			kdDebug() << "\tError (cont'd): " << strLine << endl;
+			if ( strLine.endsWith(".") )
+			{
+				dwCookie = LineNumber;
+				m_currentItem.setMessage(m_currentItem.message() + strLine);
+			}
+			else if ( GetCurrentOutputLine() - m_currentItem.outputLine() > 3 )
+			{
+				kdWarning() << "\tBAILING OUT: error description spans more than three lines" << endl;
+				dwCookie = Start;
+				flush = true;
+			}
+		break;
 
-    //Catching the source line numbers of error/warning types
-    // which are reported over more than one line in the output
-    static QRegExp::QRegExp  line1("l\\.([0-9]+)", true);
-    static QRegExp::QRegExp  line2("line ([0-9]+)", true);
+		case LineNumber :
+			kdDebug() << "\tLineNumber " << endl;
+			if ( reLineNumber.search(strLine) != -1 )
+			{
+				dwCookie = Start;
+				flush = true;
+				kdDebug() << "\tline number: " << reLineNumber.cap(1) << endl;
+				m_currentItem.setSourceLine(reLineNumber.cap(1).toInt());
+				m_currentItem.setMessage(m_currentItem.message() + reLineNumber.cap(2));
+			}
+			else if ( GetCurrentOutputLine() - m_currentItem.outputLine() > 10 )
+			{
+				dwCookie = Start;
+				flush = true;
+				kdWarning() << "\tBAILING OUT: did not detect a TeX line number for an error" << endl;
+				m_currentItem.setSourceLine(0);
+			}
+		break;
 
-    //Catching the number of output pages
-    static QRegExp::QRegExp  output1("Output written on .* \\((\\d*) page.*\\)", true);
-    static QRegExp::QRegExp  output2("No pages of output", true);
+		default : break;
+	}
 
-    /* ABOUT THE ORDER OF SEARCHING THE OUTPUT
+	if (found)
+	{
+		m_currentItem.setType(itmError);
+		m_currentItem.setOutputLine(GetCurrentOutputLine());
+	}
 
-            Every TeX-User needs to correct an error, if he wants to have a valid document.
-            Therefore, errors are quite rare.
-            For some warnings, but not all, there is also a need to correct them - to get a better document.
-            Therefore, warnings may occure more often than errors.
-            Most users are not going to correct a bad box. Sometimes it is not possible at all (at least
-            for the average TeX-user).
-            Therefore, bad boxes are the most common type of catched entities.
+	if (flush) flushCurrentItem();
 
-            To speed up parsing the output, it is preferable to look for the common stuff first.
-    ==> 1. bad boxes; 2. warnings; 3. errors; 4. srcline-numbers; 5. other stuff
+	return found;
+}
 
-    */
-    if (badBox1.search(strLine) > -1)
-    {
-        FlushCurrentItem();
+bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::detectWarning(" << strLine.length() << ")================" << endl;
 
-        //Get the srcline for it.
-        // - Mostly TeX reports something like "100--103" ==> so it is the first one.
-        // - Sometimes TeX reports "167--47". This comes up, if an input
-        // - file was just closed. The first number (n1) means the last line of the input file,
-        // - whereas the second number (n2) means the line after the \input-command in the
-        // - "master"-file. Certainly there is no need, that we always have (n1 > n2),
-        // - but we will not catch the case (n1 < n2) correctly anyway, because we do not
-        // - have enough information about "closing files by TeX" here.
-        // -
-        // - So I make the assumption, that the last line of the input file is very likely
-        // - to be greater than the line of the \input-command.
-        // - ==> Take min(n1,n2) as the srcline. This will do a good job for more cases than
-        // - just taking the first number. But the problem still remains for some (rare) cases.
-        // -
-        int n1 = badBox1.cap(3).toInt();
-        int n2 = badBox1.cap(4).toInt();
+	bool found = false, flush = false;
+	QString warning;
 
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            (n1 < n2) ? n1 : n2,
-            GetCurrentOutputLine(),
-            badBox1.cap(1)+badBox1.cap(2),
-            itmBadBox);
-    }
-	else   if (badBox3.search(strLine) > -1)
-    {
-        FlushCurrentItem();
+	static QRegExp::QRegExp reLaTeXWarning("^(! )?(La|pdf)TeX .*Warning.*:(.*)", false);
+	//static QRegExp::QRegExp warning3(".*warning.*: (.*)", false);  
 
-		int n1 = badBox3.cap(3).toInt();
+	switch (dwCookie)
+	{
+		case Start :
+			if ( reLaTeXWarning.search(strLine) != -1 )
+			{
+				warning = reLaTeXWarning.cap(3);
+				kdDebug() << "\tWarning found: " << warning << endl;
 
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            n1,
-            GetCurrentOutputLine(),
-            badBox3.cap(1)+badBox3.cap(2),
-            itmBadBox);
-    }
-    else if (warning2.search(strLine) > -1)
-    {
-        FlushCurrentItem();
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            warning2.cap(3).toInt(),
-            GetCurrentOutputLine(),
-            warning2.cap(2),
-            itmWarning);
-    }
-    else if (warning1.search(strLine) > -1)
-    {
-        FlushCurrentItem();
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            0,
-            GetCurrentOutputLine(),
-            warning1.cap(4),
-            itmWarning);
-    }
-    else if (warning3.search(strLine) > -1)
-    {
-        FlushCurrentItem();
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            0,
-            GetCurrentOutputLine(),
-            warning3.cap(1),
-            itmWarning);
-    }
-    else if (error1.search(strLine) > -1 || error1b.search(strLine) > -1)
-    {
-        FlushCurrentItem();
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            0,
-            GetCurrentOutputLine(),
-            error1.cap(1),
-            itmError);
-    }
-    else if (error2.search(strLine) > -1)
-    {
-        FlushCurrentItem();
-        m_currentItem = LatexOutputInfo(
-            m_stackFile.empty()? "" : m_stackFile.top(),
-            0,
-            GetCurrentOutputLine(),
-            error2.cap(1),
-            itmError);
-    }
-    else if (line1.search(strLine) > -1)
-    {
-        //Catching the line number of some errors/warnings types, which do not
-        // report their place of occurence in their first line. Consider the
-        // following example (catched by line1):
-        //
-        //! Undefined control sequence.
-        //<argument> \pa
-        //               rskip
-        //l.2 \setlength{\pa rskip}{0.5ex}
-        if (m_currentItem.sourceLine() == 0)
-        {
-            m_currentItem.setSourceLine(line1.cap(1).toInt());
-        }
-    }
-    else if (line2.search(strLine) > -1)
-    {
-        //Only change the SrcLine, if it could not been assigned yet (== 0), !!!
-        // because TeX or a TeX-Package is reporting the errorneus input line
-        // one line after reporting the error itself. Consider the following
-        // example (catched by line2):
-        //
-        //Package amsmath Warning: Cannot use `split' here;
-        //(amsmath)                trying to recover with `aligned' on input line 65.
-        //
-        //But: Do not change an Item, if the SrcLine could be retrieved from the output!!!
-        if (m_currentItem.sourceLine() == 0)
-        {
-            m_currentItem.setSourceLine(line2.cap(1).toInt());
-        }
-    }
-    else if (output1.search(strLine) > -1)
-    {
-        //LaTeX said 'Output written on _file_ (%m_nOutputPages% pages, _number_ bytes)'
-        m_nOutputPages = output1.cap(1).toInt();
-    }
-    else if (output2.search(strLine) > -1)
-    {
-        //LaTeX said 'No pages of output'
-        m_nOutputPages = 0;
-    }
+				found = true;
+				dwCookie = Start;
 
-    return dwCookie;
+				//do we expect a line number?
+				flush = detectLaTeXLineNumber(warning, dwCookie);
+
+				m_currentItem.setMessage(warning);
+			}
+		break;
+
+		case Warning :
+			warning = m_currentItem.message() + strLine;
+			kdDebug() << "'\tWarning (cont'd) : " << warning << endl;
+			flush = detectLaTeXLineNumber(warning, dwCookie);
+			m_currentItem.setMessage(warning);
+		break;
+
+		default : break;
+	}
+
+	if ( found )
+	{
+		m_currentItem.setType(itmWarning);
+		m_currentItem.setOutputLine(GetCurrentOutputLine());
+	}
+
+	if (flush) flushCurrentItem();
+
+	return found;
+}
+
+bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
+
+	static QRegExp::QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", false);
+	if ( reLaTeXLineNumber.search(warning) != -1 )
+	{
+		m_currentItem.setSourceLine(reLaTeXLineNumber.cap(2).toInt());
+		warning = reLaTeXLineNumber.cap(1);
+		dwCookie = Start;
+		return true;
+	}
+	else if ( warning.endsWith(".") )
+	{
+		m_currentItem.setSourceLine(0);
+		dwCookie = Start;
+		return true;
+	}
+	//error message is continued on the other line
+	else
+	{
+		dwCookie = Warning;
+		return false;
+	}
+}
+
+bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::detectBadBox(" << strLine.length() << ")================" << endl;
+
+	bool found = false, flush = false;
+	QString badbox;
+
+	static QRegExp::QRegExp reBadBox("^(Over|Under)(full \\\\[hv]box .*)", false);
+
+	switch (dwCookie)
+	{
+		case Start :
+			if ( reBadBox.search(strLine) != -1)
+			{
+				found = true;
+				dwCookie = Start;
+				badbox = strLine;
+				flush = detectBadBoxLineNumber(badbox, dwCookie);
+				m_currentItem.setMessage(badbox);
+			}
+		break;
+
+		case BadBox :
+			badbox = m_currentItem.message() + strLine;
+			flush = detectBadBoxLineNumber(badbox, dwCookie);
+			m_currentItem.setMessage(badbox);
+		break;
+
+		default : break;
+	}
+
+	if ( found )
+	{
+		m_currentItem.setType(itmBadBox);
+		m_currentItem.setOutputLine(GetCurrentOutputLine());
+	}
+
+	if (flush) flushCurrentItem();
+
+	return found;
+}
+
+bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
+
+	static QRegExp::QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", false);
+	static QRegExp::QRegExp reBadBoxLine("(.*) at line ([0-9]+)", false);
+	//Use the following only, if you know how to get the source line for it.
+	// This is not simple, as TeX is not reporting it.
+	static QRegExp::QRegExp reBadBoxOutput("(.*)has occurred while \\output is active^", false);
+
+	if ( reBadBoxLines.search(strLine) != -1)
+	{
+		dwCookie = Start;
+		strLine = reBadBoxLines.cap(1);
+		int n1 = reBadBoxLines.cap(2).toInt();
+		int n2 = reBadBoxLines.cap(3).toInt();
+		m_currentItem.setSourceLine(n1 < n2 ? n1 : n2);
+		return true;
+	}
+	else if ( reBadBoxLine.search(strLine) != -1)
+	{
+		dwCookie = Start;
+		strLine = reBadBoxLine.cap(1);
+		m_currentItem.setSourceLine(reBadBoxLine.cap(2).toInt());
+		kdDebug() << "\tBadBox@" << reBadBoxLine.cap(2) << "." << endl;
+		return true;
+	}
+	else if ( reBadBoxOutput.search(strLine) != -1)
+	{
+		dwCookie = Start;
+		strLine = reBadBoxLines.cap(1);
+		m_currentItem.setSourceLine(0);
+		return true;
+	}
+	else if ( GetCurrentOutputLine() - m_currentItem.outputLine() > 3 )
+	{
+		dwCookie = Start;
+		m_currentItem.setSourceLine(reBadBoxLines.cap(2).toInt());
+		return true;
+	}
+	else
+	{
+		dwCookie = BadBox;
+	}
+
+	return false;
+}
+
+short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
+{
+	kdDebug() << "==LatexOutputFilter::parseLine(" << strLine.length() << ")================" << endl;
+
+	switch (dwCookie)
+	{
+		case Start :
+			updateFileStack(strLine, dwCookie);
+			(detectBadBox(strLine, dwCookie) || detectWarning(strLine, dwCookie) || detectError(strLine, dwCookie));
+		break;
+
+		case Warning :
+			detectWarning(strLine, dwCookie);
+		break;
+
+		case Error : case LineNumber :
+			detectError(strLine, dwCookie);
+		break;
+
+		case BadBox :
+			detectBadBox(strLine, dwCookie);
+		break;
+
+		case FileName :
+			updateFileStack(strLine, dwCookie);
+		break;
+
+		case FileNameHeuristic :
+			updateFileStackHeuristic(strLine, dwCookie);
+		break;
+
+		default: dwCookie = Start; break;
+	}
+
+	return dwCookie;
 }
 
 
 bool LatexOutputFilter::OnTerminate()
 {
-    FlushCurrentItem();
+    flushCurrentItem();
 
     return m_nErrors == 0;
 }
@@ -409,7 +540,10 @@ bool LatexOutputFilter::OnTerminate()
 unsigned int LatexOutputFilter::Run(QString logfile)
 {
 	m_InfoList->clear();
-	m_nErrors = m_nWarnings = m_nBadBoxes = 0;
+	m_nErrors = m_nWarnings = m_nBadBoxes = m_nParens = 0;
+	m_stackFile.clear();
+	m_stackFile.push(LOFStackItem(QFileInfo(source()).fileName(), true));
+
 	unsigned int result = OutputFilter::Run(logfile);
 
 	QString Message;

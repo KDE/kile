@@ -45,7 +45,11 @@
 			<itemData name="Field" defStyleNum="dsNormal" color="#aa0022" selColor="#880000" bold="0" italic="0"/>
 			<itemData name="Ref Key" defStyleNum="dsNormal" color="#007700" selColor="#005500" bold="1" italic="0"/>
 		</itemDatas>
-	</highlighting><general>
-	<keywords casesensitive="0"/>
+	</highlighting>
+	<general>
+		<keywords casesensitive="0"/>
+		<comments>
+			<comment name="singleLine" start="%" />
+		</comments>
 	</general>
 </language>

@@ -35,7 +35,7 @@ class KileProjectItem : public QObject
 	Q_OBJECT
 
 public:
-	KileProjectItem(const KURL &url = KURL()) : m_url(url) { m_bOpen = true;}
+	KileProjectItem(const KURL &url = KURL()) : m_url(url) { m_encoding=QString::null; m_bOpen = true;}
 	~KileProjectItem() { kdDebug() << "DELETING " << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
@@ -52,6 +52,9 @@ public:
 	bool	isOpen() const { return m_bOpen; }
 	void setOpenState(bool state) { m_bOpen = state; }
 
+	const QString& encoding() { return m_encoding;}
+	void setEncoding(const QString& encoding) {m_encoding = encoding;}
+
 	void changeURL(const KURL &url) { m_url = url;  emit(urlChanged(this));}
 	void changePath(const QString& path) { m_path = path;}
 
@@ -61,6 +64,7 @@ signals:
 private:
 	KURL		m_url;
 	QString	m_path;
+	QString	m_encoding;
 	bool			m_bOpen;
 };
 

@@ -206,7 +206,7 @@ private slots:
 	void invokeHelp();
 
 private:
-	bool 			showoutputview, showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar;
+	bool 			showoutputview, showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, switchtostructure;
 
 private slots:
 	void ResetPart();
@@ -338,6 +338,7 @@ private slots:
 	void changeInputEncoding();
 
 	void newStatus(const QString& = QString::null);
+	void updateModeStatus();
 	void newCaption();
 
 	void slotNameChanged(Kate::Document *);

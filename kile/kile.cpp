@@ -134,7 +134,7 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	ButtonBar->insertTab(SmallIcon("fileopen"),0,i18n("Open File"));
 	connect(ButtonBar->getTab(0),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	KileFS= new KileFileSelect(Structview,"File Selector");
-	connect(KileFS->dirOperator(),SIGNAL(fileSelected(const KFileItem*)),this,SLOT(fileSelected(const KFileItem*)));
+	connect(KileFS,SIGNAL(fileSelected(const KFileItem*)),this,SLOT(fileSelected(const KFileItem*)));
 	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
 	QString currentDir=QDir::currentDirPath();
 	if (!lastDocument.isEmpty())
@@ -180,6 +180,7 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	tabWidget->setFocus();
 	connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(newCaption()) );
 	connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(activateView( QWidget * )) );
+	connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(updateModeStatus()) );
 
 	//Log/Messages/KShell widgets
 	Outputview=new QTabWidget(splitter2);
@@ -450,9 +451,15 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 {
 	if ( url.path() != "untitled" && isOpen(url))
 	{
+		kdDebug() << "load : already opened " << url.path() << endl;
 		Kate::View *view = static_cast<Kate::View*>(docFor(url)->views().first());
 		//bring up the view to the already opened doc
 		tabWidget->showPage(view);
+
+		if (switchtostructure)
+			ShowStructure();
+		else
+			UpdateStructure(true);
 
 		//return this view
 		return view;
@@ -463,12 +470,6 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 	//create a new document
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 	m_docList.append(doc);
-
-	//install a documentinfo class for this doc
-	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
-	//decorate the document with the KileDocumentInfo class
-	mapInfo(doc, docinfo);
-	docinfo->setListView(outstruct);
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
@@ -497,6 +498,12 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
+	//install a documentinfo class for this doc
+	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
+	//decorate the document with the KileDocumentInfo class
+	mapInfo(doc, docinfo);
+	docinfo->setListView(outstruct);
+
 	//see if this file really belongs to a project
 	KileProjectItemList *list;
 	for (uint i=0; i < m_projects.count(); i++)
@@ -510,7 +517,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 				{
 					kdDebug() << "Kile::load(" << url.path() <<") belongs to the project " << m_projects.at(i)->name()  << endl;
 					//decorate the doc with the KileProjectItem
-					mapItem(doc,list->at(j));
+					mapItem(docinfo,list->at(j));
+					list->at(j)->setOpenState(true);
 				}
 			}
 			break;
@@ -548,7 +556,10 @@ Kate::View * Kile::createView(Kate::Document *doc)
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
 
-	ShowStructure();
+	if (switchtostructure)
+		ShowStructure();
+	else
+		UpdateStructure(true);
 
 	return view;
 }
@@ -564,7 +575,7 @@ void Kile::slotNameChanged(Kate::Document * doc)
 		tabWidget->setTabLabel((Kate::View*) list.at(i), getShortName(doc));
 	}
 
-	KileProjectItem *item = itemFor(doc);
+	KileProjectItem *item = itemFor(infoFor(doc));
 
 	if (item)
 	{
@@ -719,6 +730,30 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 	if (updateStruct) UpdateStructure();
 }
 
+void Kile::updateModeStatus()
+{
+	KileProject *project = activeProject();
+
+	if (project)
+	{
+		statusBar()->changeItem(i18n("Project: %1").arg(project->name()), ID_HINTTEXT);
+	}
+	else
+	{
+		if (m_singlemode)
+		{
+			statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
+		}
+		else
+		{
+			QString shortName = m_masterName;
+			int pos = shortName.findRev('/');
+			shortName.remove(0,pos+1);
+			statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
+		}
+	}
+}
+
 void Kile::replaceTemplateVariables(QString &line)
 {
 	line=line.replace("$$AUTHOR$$",templAuthor);
@@ -752,6 +787,7 @@ void Kile::fileOpen()
 void Kile::fileOpen(const KURL& url)
 {
 	load(url);
+	updateModeStatus();
 }
 
 
@@ -789,7 +825,7 @@ void Kile::fileSaveAll(bool amAutoSaving)
 void Kile::autoSaveAll()
 {
 	fileSaveAll(true);
-	if (m_singlemode)
+	/*if (m_singlemode)
 	{
 		statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
 	}
@@ -799,7 +835,7 @@ void Kile::autoSaveAll()
       		int pos = shortName.findRev('/');
       		shortName.remove(0,pos+1);
 		statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
-	}
+	}*/
 }
 
 void Kile::enableAutosave(bool as)
@@ -834,7 +870,7 @@ void Kile::projectNew()
 			//add this file to the project
 			KileProjectItem *item = new KileProjectItem(url);
 			project->add(item);
-			mapItem(view->getDoc(), item);
+			mapItem(infoFor(view->getDoc()), item);
 		}
 
 		project->save();
@@ -845,36 +881,67 @@ void Kile::projectOpen()
 {
 	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project files\n*|All files"), this,i18n("Open Project") );
 
+	if (projectIsOpen(url))
+	{
+		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
+		return;
+	}
+
 	KileProject *kp = new KileProject(url);
 
 	KileProjectItemList *list = kp->items();
 
 	kdDebug() << "projectOpen " << list->count() << " items" << endl;
 
-	Kate::Document *doc;
+	KileDocumentInfo *docinfo;
 	for ( uint i=0; i < list->count(); i++)
 	{
 		kdDebug() << "projectOpen " << list->at(i)->url().path() << endl;
 		if (list->at(i)->isOpen())
 		{
-			//don't reload if the file was already open
-			if (docFor(list->at(i)) == 0)
+			Kate::View *view = load(list->at(i)->url(),list->at(i)->encoding());
+			docinfo = infoFor(view->getDoc());
+
+			mapItem(docinfo, list->at(i));
+		}
+		else
+		{
+			//document shouldn't be displayed, but we need to parse it anyway (need to know the dependencies, labels, etc.)
+			Kate::View *view = load(list->at(i)->url(), list->at(i)->encoding(), false);
+
+			//find the doc (this is not very efficient, but load returns the view, which in this case is zero)
+			docinfo = infoFor(list->at(i)->url().path());
+			mapItem(docinfo, list->at(i));
+			docinfo->updateStruct();
+
+			if (view) //oops, doc apparently was open, don't trash it, update openstate instead
 			{
-				Kate::View *view = load(list->at(i)->url());
-				doc = view->getDoc();
+				list->at(i)->setOpenState(true);
 			}
 			else
 			{
-				doc = docFor(list->at(i));
-				removeMap(doc, list->at(i));
+				//since we've parsed it, trash the document
+				kdDebug() << "TRASHING" << endl;
+				trash(docinfo->getDoc());
 			}
 
-			mapItem(doc, list->at(i));
-
+			//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
+			outstruct->takeItem(outstruct->firstChild());
 		}
 	}
 
 	m_projects.append(kp);
+
+	UpdateStructure();
+	updateModeStatus();
+
+	kdDebug() << "project loaded, result: " <<endl;
+	for ( uint i=0; i < list->count(); i++)
+	{
+		docinfo = infoFor(list->at(i));
+		if (docinfo != 0)
+			kdDebug() << i << " : " << docinfo->isLaTeXRoot() << endl;
+	}
 }
 
 void Kile::projectSave()
@@ -885,12 +952,16 @@ void Kile::projectSave()
 	if (project)
 	{
 		KileProjectItemList *list = project->items();
+		Kate::Document *doc;
 
 		//update the open-state of the items
 		for (uint i=0; i < list->count(); i++)
 		{
 			kdDebug() << "Kile::projectSave() setOpenState(" << list->at(i)->url().path() << ")" << endl;
 			list->at(i)->setOpenState(isOpen(list->at(i)->url()));
+			doc = infoFor(list->at(i))->getDoc();
+			if (doc)
+				list->at(i)->setEncoding( doc->encoding());
 		}
 
 		project->save();
@@ -906,12 +977,14 @@ void Kile::projectClose()
 
 	if (project)
 	{
+		project->save();
+
 		KileProjectItemList *list = project->items();
 
 		bool close = true;
 		for (uint i =0; i < list->count(); i++)
 		{
-			close = close && fileClose(docFor(list->at(i)));
+			close = close && fileClose(infoFor(list->at(i))->getDoc());
 		}
 
 		if (close)
@@ -921,7 +994,7 @@ void Kile::projectClose()
 		}
 	}
 	else
-		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could not save project."));
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could not close project."));
 
 }
 
@@ -996,13 +1069,17 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 
 			//remove the decorations
 			removeMap(doc);
-			removeMap(doc, itemFor(doc));
+			removeMap(infoFor(doc), itemFor(infoFor(doc)));
 
 			m_docList.remove(doc);
 		}
 		else
 			return false;
 	}
+
+	kdDebug() << "fileClose " << m_docList.count() << " documents open." << endl;
+	if (m_docList.count() == 0)
+		showVertPage(0);
 
 	return true;
 }
@@ -1551,9 +1628,20 @@ QString Kile::prepareForCompile(const QString & command) {
   }
 
   //QString finame = getShortName();
-  QString finame = getCompileName(true);
-  if (finame == "untitled" || finame == "") {
-     if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
+	QString finame = getCompileName(true);
+	if (finame == QString::null)
+	{
+		KileProject *project = activeProject();
+		if (project)
+		{
+			KMessageBox::error(this, i18n("The active project does not have a master file. Therefore Kile cannot determine which file to run %1 on. Please define a master file.").arg(command), i18n("No master file defined."));
+			return QString::null;
+		}
+	}
+
+  if (finame == "untitled" || finame == "")
+  {
+  	   if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
                                              "Do you want to save it? Click Yes to save and No to abort.").arg(command),
                                    i18n("File Needs to be Saved!"))
          == KMessageBox::No) return QString::null;
@@ -1563,25 +1651,7 @@ QString Kile::prepareForCompile(const QString & command) {
   //attempting to save an untitled document will result in a file-save dialog pop-up
   if (view) view->save();
 
-  //determine the name of the file to be compiled
-  /*if (m_singlemode)
-  {
-	finame=getName();
-	bool isRoot = true;
-	KileDocumentInfo *docinfo = getInfo();
-	if (docinfo) isRoot = docinfo->isLaTeXRoot();
-
-	if (view && ! isRoot )
-	{
-		if (KMessageBox::warningYesNo(this,i18n("This document doesn't contain a LaTeX header.\nIt should probably be used with a master document.\nContinue anyway?"))
-			== KMessageBox::No)
-			return QString::null;
-	}
-  }
-  else {
-     finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
-  }*/
-	finame = getCompileName();
+  	finame = getCompileName();
 	bool isRoot = true;
 	KileDocumentInfo *docinfo = infoFor(finame);
 	if (docinfo) isRoot = docinfo->isLaTeXRoot();
@@ -1626,11 +1696,16 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
      return empty;
    }
 
-   finame = getCompileName();
-/*  if (m_singlemode) {finame=getName();}
-   else {
-     finame=m_masterName;
-   }*/
+	finame = getCompileName();
+	if (finame == QString::null)
+	{
+		KileProject *project = activeProject();
+		if (project)
+		{
+			KMessageBox::error(this, i18n("The active project does not have a master file. Therefore Kile cannot determine which file to run %1 on. Please define a master file.").arg(command), i18n("No master file defined."));
+			return empty;
+		}
+	}
 
    if (getCompileName(true) == "untitled" || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
@@ -1657,7 +1732,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    return list;
 }
 
-QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext, const QString &target = QString::null)
+QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target = QString::null)
 {
    Kate::View *view = currentView();
 
@@ -1676,6 +1751,16 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
                          .arg(ext.upper()).arg(ext.upper()));
      return QString::null;
    }
+
+   	if (finame == QString::null)
+	{
+		KileProject *project = activeProject();
+		if (project)
+		{
+			KMessageBox::error(this, i18n("The active project does not have a master file. Therefore Kile cannot determine which file to run %1 on. Please define a master file.").arg(command), i18n("No master file defined."));
+			return QString::null;
+		}
+	}
 
    if (getCompileName(true) == "untitled" || finame == "") {
       KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
@@ -2478,15 +2563,15 @@ void Kile::UpdateStructure(bool parse /* = false */)
 
 	KileDocumentInfo *docinfo = getInfo();
 
+	kdDebug() << "taking item" <<endl;
+	outstruct->takeItem(outstruct->firstChild());
+
 	if (docinfo)
 	{
-		//outstruct->clear();
-		outstruct->takeItem(outstruct->firstChild());
 		if (parse) docinfo->updateStruct();
+		kdDebug() << "inserting item" <<endl;
 		outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
 	}
-	else
-		outstruct->clear();
 
 	Kate::View *view = currentView();
 	if (view) {view->setFocus();}
@@ -3300,6 +3385,9 @@ void Kile::ReadRecentFileSettings()
 //reads options that can be set in the configuration dialog
 void Kile::readConfig()
 {
+	config->setGroup( "Structure" );
+	switchtostructure = config->readBoolEntry("SwitchToStructure", true);
+	
 	config->setGroup( "Files" );
 
 	autosave=config->readBoolEntry("Autosave",true);
@@ -3420,6 +3508,7 @@ for (uint i=0; i<m_listUserTools.size(); i++)
 }
 
 config->setGroup( "Structure" );
+config->writeEntry("SwitchToStructure", switchtostructure );
 config->writeEntry("Structure Level 1",struct_level1);
 config->writeEntry("Structure Level 2",struct_level2);
 config->writeEntry("Structure Level 3",struct_level3);
@@ -3446,36 +3535,39 @@ config->sync();
 /////////////////  OPTIONS ////////////////////
 void Kile::ToggleMode()
 {
-if (!m_singlemode)
-     {
-     ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
-     ModeAction->setChecked(false);
-     statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
-     OutputWidget->clear();
-     Outputview->showPage(OutputWidget);
-     logpresent=false;
-     m_singlemode=true;
-     return;
-     }
-if (m_singlemode && currentView())  {
-      m_masterName=getName();
-      if (m_masterName=="untitled" || m_masterName=="")
-       {
-       ModeAction->setChecked(false);
-       KMessageBox::error( this,i18n("Could not start the command."));
-       return;
-       }
-      QString shortName = m_masterName;
-      int pos;
-      while ( (pos = (int)shortName.find('/')) != -1 )
-      shortName.remove(0,pos+1);
-      ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
-      ModeAction->setChecked(true);
-      statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
-      m_singlemode=false;
-      return;
-      }
-ModeAction->setChecked(false);
+	if (!m_singlemode)
+	{
+		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
+		ModeAction->setChecked(false);
+		OutputWidget->clear();
+		Outputview->showPage(OutputWidget);
+		logpresent=false;
+		m_singlemode=true;
+
+		updateModeStatus();
+		return;
+	}
+	if (m_singlemode && currentView())
+	{
+		m_masterName=getName();
+		if (m_masterName=="untitled" || m_masterName=="")
+		{
+			ModeAction->setChecked(false);
+			KMessageBox::error( this,i18n("Could not start the command."));
+			return;
+		}
+		QString shortName = m_masterName;
+		int pos;
+		while ( (pos = (int)shortName.find('/')) != -1 )
+		shortName.remove(0,pos+1);
+		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
+		ModeAction->setChecked(true);
+		m_singlemode=false;
+
+		updateModeStatus();
+		return;
+	}
+	ModeAction->setChecked(false);
 }
 
 void Kile::ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText)

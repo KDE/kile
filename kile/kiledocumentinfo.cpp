@@ -25,10 +25,9 @@
 
 #include "kiledocumentinfo.h"
 
-KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
+KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 {
-	m_doc = doc;
-	kdDebug() << "KileDocumentInfo created for " << doc->docName() << endl;
+	kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
 
 	m_struct = 0;
 	m_bIsRoot = false;
@@ -172,7 +171,7 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 
 void KileDocumentInfo::updateStruct()
 {
-	kdDebug() << "KileDocumentInfo::updateStruct()" << endl;
+	//kdDebug() << "KileDocumentInfo::updateStruct() " << getDoc()->url().path() << endl;
 
 	QString shortName = m_doc->url().fileName();
 	if ((shortName.right(4)!=".tex") && (shortName!="untitled"))  return;
@@ -224,15 +223,16 @@ void KileDocumentInfo::updateStruct()
 		//find all commands in this line
 		while (tagStart != -1)
 		{
-			if ( (!foundBD) && s.contains(reBD))
+			if ( (!foundBD) && (s.find(reBD, i) != -1))
 			{
 				kdDebug() << "found \\begin{document}" << endl;
 				foundBD = true;
 			}
 
-			if ((!foundBD) && s.contains(reRoot))
+			if ((!foundBD) && (s.find(reRoot, i) != -1))
 			{
 				kdDebug() << "setting m_bIsRoot to TRUE" << endl;
+				tagEnd += reRoot.cap(0).length();
 				m_bIsRoot = true;
 			}
 

@@ -98,6 +98,7 @@ public:
 	 * @returns the document for which this class is a decorator
 	 **/
 	Kate::Document* getDoc() { return m_doc; }
+	void detach() { m_doc = 0; }
 
 	/**
 	 * Used by @ref KileDocInfoDlg to display statistics of the Document.

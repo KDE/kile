@@ -42,6 +42,7 @@ KileProject::KileProject(const KURL& url) :  QObject(0,url.fileName().ascii())
 
 void KileProject::init(const QString& name, const KURL& url)
 {
+	m_rootItem = 0;
     m_name = name;
 	m_projecturl = url;
 	m_projectitems.setAutoDelete(true);
@@ -88,6 +89,7 @@ bool KileProject::load()
 
 			m_config->setGroup(groups[i]);
 			item->setOpenState(m_config->readBoolEntry("open", true));
+			item->setEncoding(m_config->readEntry("encoding",""));
 			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
 			item->changePath(groups[i].mid(5));
 
@@ -102,6 +104,7 @@ bool KileProject::load()
 	return true;
 }
 
+//TODO: restore encoding for documents
 bool KileProject::save()
 {
 	kdDebug() << "saving..." <<endl;
@@ -115,7 +118,8 @@ bool KileProject::save()
 		item = m_projectitems.at(i);
 		m_config->setGroup("item:"+item->path());
 		m_config->writeEntry("open", item->isOpen());
-		if (m_rootItem = item) m_config->writeEntry("master", true);
+		m_config->writeEntry("encoding", item->encoding());
+		if (m_rootItem == item) m_config->writeEntry("master", true);
 	}
 
 	m_config->sync();

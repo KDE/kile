@@ -19,8 +19,17 @@
 
 #include <kate/document.h>
 
+#include "kiledocumentinfo.h"
 #include "kileproject.h"
 #include "kileinfo.h"
+
+void KileInfo::trash(Kate::Document *doc)
+{
+	 infoFor(doc)->detach();
+	 m_docList.remove(doc);
+	 removeMap(doc);
+	 delete doc;
+}
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
 {
@@ -92,6 +101,17 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 				return m_masterName;
 		}
 	}
+}
+
+bool	KileInfo::projectIsOpen(const KURL & url)
+{
+	for (uint i=0; i < m_projects.count(); i++)
+	{
+		if (m_projects.at(i)->url() == url)
+			return true;
+	}
+
+	return false;
 }
 
 KileProject* KileInfo::activeProject()

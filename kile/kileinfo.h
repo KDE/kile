@@ -21,6 +21,8 @@
 #include <qstring.h>
 #include <qmap.h>
 
+#include <kdebug.h>
+
 class KileDocumentInfo;
 class KileProject;
 class KileProjectItem;
@@ -44,26 +46,30 @@ public:
 	virtual const QStringList* labels() const =0;
 	virtual const QStringList* bibItems() const =0;
 
-	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (doc) return m_mapDocInfo[doc]; else return 0;}
+	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
 	KileDocumentInfo* infoFor(const QString &path);
-	KileDocumentInfo* infoFor(Kate::Document* doc) const { return m_mapDocInfo[doc];}
+	KileDocumentInfo* infoFor(Kate::Document* doc) const { if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
 
+	bool	projectIsOpen(const KURL & );
+	
 	KileProject*	activeProject();
 	KileProjectItem* activeProjectItem();
-	KileProjectItem* itemFor(Kate::Document *doc) { return m_mapDocToItem[doc]; }
-	Kate::Document* docFor(KileProjectItem *item) { return m_mapItemToDoc[item]; }
+	KileProjectItem* itemFor(KileDocumentInfo *docinfo) { if (m_mapDocInfoToItem.contains(docinfo)) return m_mapDocInfoToItem[docinfo];  else return 0;}
+	KileDocumentInfo* infoFor(KileProjectItem *item) { if (m_mapItemToDocInfo.contains(item))  return m_mapItemToDocInfo[item];  else return 0;}
 	Kate::Document* docFor(const KURL &url);
 
 	void mapInfo(Kate::Document *doc, KileDocumentInfo *info) { m_mapDocInfo[doc] = info; }
-	void mapItem(Kate::Document *doc, KileProjectItem *item) { m_mapDocToItem[doc]=item; m_mapItemToDoc[item]=doc;}
-	void removeMap(Kate::Document *doc, KileProjectItem *item) { m_mapDocToItem.remove(doc); m_mapItemToDoc.remove(item); }
+	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem[docinfo]=item; m_mapItemToDocInfo[item]=docinfo;}
+	void removeMap(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem.remove(docinfo); m_mapItemToDocInfo.remove(item); }
 	void removeMap(Kate::Document *doc) { m_mapDocInfo.remove(doc); }
+
+	void trash(Kate::Document* doc);
 
 protected:
 	QMap< Kate::Document*, KileDocumentInfo* >      m_mapDocInfo;
 	QPtrList<KileProject>		m_projects;
-	QMap<Kate::Document*, KileProjectItem* >	m_mapDocToItem;
-	QMap<KileProjectItem*, Kate::Document* >	m_mapItemToDoc;
+	QMap<KileDocumentInfo*, KileProjectItem* >	m_mapDocInfoToItem;
+	QMap<KileProjectItem*, KileDocumentInfo* >	m_mapItemToDocInfo;
 
 	bool 			m_singlemode;
 	QString	m_masterName;

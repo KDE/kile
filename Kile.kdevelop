@@ -48,7 +48,7 @@
     </ignoretocs>
     <projectdoc>
       <userdocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/doc/kile</userdocDir>
-      <apidocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html/</apidocDir>
+      <apidocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html</apidocDir>
     </projectdoc>
   </kdevdoctreeview>
   <kdevdebugger>

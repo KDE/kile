@@ -30,8 +30,10 @@ from Kate (C) 2001 by Matt Newell
 #include <qcombobox.h>
 
 /**
-  *@author Pascal Brachet
+  *@author Jeroen Wijnhout
   */
+
+class KFileItem;
 
 class KileFileSelect : public QWidget  {
    Q_OBJECT
@@ -50,10 +52,14 @@ public:
     void cmbPathActivated( const KURL& u );
     void cmbPathReturnPressed( const QString& u );
     void dirUrlEntered( const KURL& u );
-    void dirFinishedLoading();
+
+	void clickedToolbar(int);
 
   protected:
     void focusInEvent(QFocusEvent*);
+
+  signals:
+  	void fileSelected(const KFileItem*);
 
   private:
     KURLComboBox *cmbPath;

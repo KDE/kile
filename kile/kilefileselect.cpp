@@ -2,8 +2,8 @@
                           kilefileselect.cpp  -  description
                              -------------------
     begin                : Wed Aug 14 2002
-    copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                :
 
 from Kate (C) 2001 by Matt Newell
 
@@ -21,12 +21,11 @@ from Kate (C) 2001 by Matt Newell
 #include "kilefileselect.h"
 
 #include <qlayout.h>
-#include <qtoolbutton.h>
-#include <qhbox.h>
 #include <qlabel.h>
 #include <qstrlist.h>
 #include <qtooltip.h>
 
+#include <ktoolbar.h>
 #include <kiconloader.h>
 #include <kurlcompletion.h>
 #include <kprotocolinfo.h>
@@ -35,31 +34,14 @@ from Kate (C) 2001 by Matt Newell
 #include <kcombobox.h>
 #include <kcharsets.h>
 #include <kglobal.h>
+#include <kdebug.h>
 
 KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(parent,name)
 {
   QVBoxLayout* lo = new QVBoxLayout(this);
 
-  QHBox *hlow = new QHBox (this);
-  hlow->setPaletteBackgroundColor(colorGroup().background());
-  lo->addWidget(hlow);
-
-  home = new QToolButton( hlow );
-  home->setIconSet(SmallIconSet("gohome"));
-  QToolTip::add(home, i18n("Home"));
-  up = new QToolButton( hlow );
-  up->setIconSet(SmallIconSet("up"));
-  QToolTip::add(up, i18n("Up"));
-  back = new QToolButton( hlow );
-  back->setIconSet(SmallIconSet("back"));
-  QToolTip::add(back, i18n("Back"));
-  forward = new QToolButton( hlow );
-  forward->setIconSet(SmallIconSet("forward"));
-  QToolTip::add(forward, i18n("Forward"));
-
-  QWidget* spacer = new QWidget(hlow);
-  hlow->setStretchFactor(spacer, 1);
-  hlow->setMaximumHeight(up->height());
+  KToolBar *toolbar = new KToolBar(this, "fileselectortoolbar");
+  lo->addWidget(toolbar);
 
   cmbPath = new KURLComboBox( KURLComboBox::Directories, true, this, "path combo" );
   cmbPath->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
@@ -68,7 +50,9 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   lo->addWidget(cmbPath);
 
   dir = new KDirOperator(QString::null, this, "operator");
+  connect(dir, SIGNAL(fileSelected(const KFileItem*)), this, SIGNAL(fileSelected(const KFileItem*)));
   dir->setView(KFile::Simple);
+  dir->setMode(KFile::Files);
   dir->setNameFilter( "*.tex *.ltx *.dtx *.bib *.sty *.cls *.mp" );
 
   KActionCollection *coll = dir->actionCollection();
@@ -81,6 +65,14 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   coll->action( "up" )->setShortcut( KShortcut( ALT + SHIFT + Key_Up ) );
   coll->action( "home" )->setShortcut( KShortcut( CTRL + ALT + Key_Home ) );
 
+  coll->action("home")->plug(toolbar);
+  coll->action("up")->plug(toolbar);
+  coll->action("back")->plug(toolbar);
+  coll->action("forward")->plug(toolbar);
+
+  toolbar->insertButton("fileopen", 0, true , "Open selected");
+  connect(toolbar, SIGNAL(clicked(int)), this, SLOT(clickedToolbar(int)));
+
   lo->addWidget(dir);
   lo->setStretchFactor(dir, 2);
 
@@ -91,19 +83,9 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   QToolTip::add(comboEncoding, i18n("Set encoding"));
   lo->addWidget(comboEncoding);
 
-
-  connect( home, SIGNAL( clicked() ), dir, SLOT( home() ) );
-  connect( up, SIGNAL( clicked() ), dir, SLOT( cdUp() ) );
-  connect( back, SIGNAL( clicked() ), dir, SLOT( back() ) );
-  connect( forward, SIGNAL( clicked() ), dir, SLOT( forward() ) );
-
   connect( cmbPath, SIGNAL( urlActivated( const KURL&  )),this,  SLOT( cmbPathActivated( const KURL& ) ));
   connect( cmbPath, SIGNAL( returnPressed( const QString&  )), this,  SLOT( cmbPathReturnPressed( const QString& ) ));
   connect(dir, SIGNAL(urlEntered(const KURL&)), this, SLOT(dirUrlEntered(const KURL&)) );
-
-  connect(dir, SIGNAL(finishedLoading()),this, SLOT(dirFinishedLoading()) );
-
-
 }
 
 KileFileSelect::~KileFileSelect()
@@ -136,14 +118,6 @@ void KileFileSelect::dirUrlEntered( const KURL& u )
    cmbPath->setURLs( urls );
 }
 
-void KileFileSelect::dirFinishedLoading()
-{
-   up->setEnabled( dir->actionCollection()->action( "up" )->isEnabled() );
-   back->setEnabled( dir->actionCollection()->action( "back" )->isEnabled() );
-   forward->setEnabled( dir->actionCollection()->action( "forward" )->isEnabled() );
-   home->setEnabled( dir->actionCollection()->action( "home" )->isEnabled() );
-}
-
 void KileFileSelect::focusInEvent(QFocusEvent*)
 {
    dir->setFocus();
@@ -154,5 +128,19 @@ void KileFileSelect::setDir( KURL u )
   dir->setURL(u, true);
 }
 
+void KileFileSelect::clickedToolbar(int i)
+{
+	if (i == 0)
+	{
+		QPtrListIterator<KFileItem> it(*dir->selectedItems());
+		while (  it.current() != 0 )
+		{
+			emit(fileSelected(*it));
+        	++it;
+		}
+
+		dir->view()->clearSelection();
+	}
+}
 
 #include "kilefileselect.moc"

@@ -20,7 +20,6 @@
 #include <qvbox.h>
 #include <qhbuttongroup.h>
 #include <qgroupbox.h>
-//#include <qfontdatabase.h>
 #include <qframe.h>
 #include <qpixmap.h>
 #include <qlabel.h>
@@ -70,6 +69,12 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	m_config->setGroup("Files");
 	checkAutosave->setChecked(m_config->readBoolEntry("Autosave",true));
 	asIntervalInput->setValue(m_config->readLongNumEntry("AutosaveInterval",600000)/60000);
+
+	//checkSwitchStruct
+	checkSwitchStruct = new QCheckBox("Switch to structure view after opening a file.", generalPage );
+	genLayout->addWidget(checkSwitchStruct);
+	m_config->setGroup("Structure");
+	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure"));
 
     //template variables
     QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);
@@ -284,6 +289,8 @@ void KileConfigDialog::slotOk()
 	m_config->setGroup( "Editor Ext" );
 	m_config->writeEntry("Complete Environment", checkEnv->isChecked());
 
+	m_config->setGroup("Structure");
+	m_config->writeEntry("SwitchToStructure", checkSwitchStruct->isChecked());
 	m_config->sync();
 	
 	accept();

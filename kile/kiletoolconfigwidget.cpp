@@ -48,7 +48,7 @@ namespace KileWidget
 		m_advanced(0L),
 		m_bAdvanced(false)
 	{
-		kdDebug() << "==ToolConfig::ToolConfig()====================" << endl;
+		//kdDebug() << "==ToolConfig::ToolConfig()====================" << endl;
 		m_layout = new QGridLayout(this, 6, 4, 0, 10); m_layout->setColStretch(0, 0);
 		m_layout->setRowStretch(0, 1); m_layout->setRowStretch(1, 1); m_layout->setRowStretch(2, 0); m_layout->setRowStretch(3, 2);
 		m_layout->setRowStretch(4, 1); m_layout->setRowStretch(5, 1);
@@ -106,20 +106,20 @@ namespace KileWidget
 
 	void ToolConfig::updateToollist()
 	{
-		kdDebug() << "==ToolConfig::updateToollist()====================" << endl;
+		//kdDebug() << "==ToolConfig::updateToollist()====================" << endl;
 		m_lstbTools->clear();
 		m_lstbTools->insertStringList(KileTool::toolList(m_manager->config(), true)); m_lstbTools->sort();
 	}
 
 	void ToolConfig::setMenu(const QString & menu)
 	{
-		kdDebug() << "==ToolConfig::setMenu(const QString & menu)====================" << endl;
+		//kdDebug() << "==ToolConfig::setMenu(const QString & menu)====================" << endl;
 		m_map["menu"] = menu;
 	}
 
 	void ToolConfig::writeConfig()
 	{
-		kdDebug() << "==ToolConfig::writeConfig()====================" << endl;
+		//kdDebug() << "==ToolConfig::writeConfig()====================" << endl;
 		//save config
 		m_manager->saveEntryMap(m_current, m_map, false);
 		KileTool::setGUIOptions(m_current, m_cbMenu->currentText(), m_icon, m_manager->config());
@@ -127,13 +127,13 @@ namespace KileWidget
 
 	void ToolConfig::switchConfig(int /*index*/)
 	{
-		kdDebug() << "==ToolConfig::switchConfig(int /*index*/)====================" << endl;
+		//kdDebug() << "==ToolConfig::switchConfig(int /*index*/)====================" << endl;
 		switchTo(m_current);
 	}
 
 	void ToolConfig::switchConfig(const QString & cfg)
 	{
-		kdDebug() << "==ToolConfig::switchConfig(const QString & cfg)==========" << endl;
+		//kdDebug() << "==ToolConfig::switchConfig(const QString & cfg)==========" << endl;
 		for ( int i = 0; i < m_cbPredef->count(); i++)
 		{
 			if ( m_cbPredef->text(i) == cfg )
@@ -143,7 +143,7 @@ namespace KileWidget
 
 	void ToolConfig::switchTo(const QString & tool, bool save /* = true */)
 	{
-		kdDebug() << "==ToolConfig::switchTo(const QString & tool, bool save /* = true */)====================" << endl;
+		//kdDebug() << "==ToolConfig::switchTo(const QString & tool, bool save /* = true */)====================" << endl;
 		//save config
 		if (save) 
 		{
@@ -176,7 +176,7 @@ namespace KileWidget
 		m_basic = new BasicTool(m_current, m_manager->config(), &m_map, this);
 		m_layout->addMultiCellWidget(m_basic, 2, 2, 1, 3, Qt::AlignLeft);
 		m_basic->show();
-		kdDebug() << "after new BasicTool()" << endl;
+		//kdDebug() << "after new BasicTool()" << endl;
 
 		m_advanced = new AdvancedTool(m_current, &m_map, this);
 		connect(m_advanced, SIGNAL(changed()), this, SLOT(switchConfig()));
@@ -184,7 +184,7 @@ namespace KileWidget
 		if (m_bAdvanced) m_advanced->show();
 		else m_advanced->hide();
 		m_layout->invalidate();
-		kdDebug() << "after new AdvancedTool()" << endl;
+		//kdDebug() << "after new AdvancedTool()" << endl;
 
 		//show GUI info
 		m_cbMenu->setCurrentText(KileTool::menuFor(m_current, m_manager->config()));
@@ -194,7 +194,7 @@ namespace KileWidget
 
 	void ToolConfig::updateConfiglist()
 	{
-		kdDebug() << "==ToolConfig::updateConfiglist()=====================" << endl;
+		//kdDebug() << "==ToolConfig::updateConfiglist()=====================" << endl;
 		m_cbPredef->clear();
 		m_cbPredef->insertStringList(KileTool::configNames(m_current, m_manager->config()));
 		QString cfg = KileTool::configName(m_current, m_manager->config());
@@ -204,7 +204,7 @@ namespace KileWidget
 
 	void ToolConfig::toggleAdvanced()
 	{
-		kdDebug() << "==ToolConfig::toggleAdvanced()=====================" << endl;
+		//kdDebug() << "==ToolConfig::toggleAdvanced()=====================" << endl;
 		m_bAdvanced = !m_bAdvanced;
 		if (m_advanced)
 		{
@@ -216,7 +216,7 @@ namespace KileWidget
 
 	void ToolConfig::selectIcon()
 	{
-		kdDebug() << "==ToolConfig::selectIcon()=====================" << endl;
+		//kdDebug() << "==ToolConfig::selectIcon()=====================" << endl;
 		KIconDialog *dlg = new KIconDialog(this);
 		QString res = dlg->openDialog();
 		m_icon=res;
@@ -227,7 +227,7 @@ namespace KileWidget
 
 	void ToolConfig::newTool()
 	{
-		kdDebug() << "==ToolConfig::newTool()=====================" << endl;
+		//kdDebug() << "==ToolConfig::newTool()=====================" << endl;
 		bool ok;
 		KConfig *config = m_manager->config();
 		QString tool = KLineEditDlg::getText(i18n("New tool"), "", &ok, this);
@@ -256,7 +256,7 @@ namespace KileWidget
 
 	void ToolConfig::newConfig()
 	{
-		kdDebug() << "==ToolConfig::newConfig()=====================" << endl;
+		//kdDebug() << "==ToolConfig::newConfig()=====================" << endl;
 		writeConfig();
 		bool ok;
 		QString cfg = KLineEditDlg::getText(i18n("New Configuration"), "", &ok, this);
@@ -276,7 +276,7 @@ namespace KileWidget
 
 	void ToolConfig::writeStdConfig(const QString & tool, const QString & cfg)
 	{
-		kdDebug() << "==ToolConfig::writeStdConfig(const QString & tool, const QString & cfg)=====================" << endl;
+		//kdDebug() << "==ToolConfig::writeStdConfig(const QString & tool, const QString & cfg)=====================" << endl;
 		KConfig *config = m_manager->config();
 		config->setGroup(KileTool::groupFor(tool, cfg));
 		config->writeEntry("class", "Compile");
@@ -290,7 +290,7 @@ namespace KileWidget
 
 	void ToolConfig::removeTool()
 	{
-		kdDebug() << "==ToolConfig::removeTool()=====================" << endl;
+		//kdDebug() << "==ToolConfig::removeTool()=====================" << endl;
 		if ( KMessageBox::questionYesNo(this, i18n("Are you sure you want to remove the tool %1?").arg(m_current)) == KMessageBox::Yes )
 		{
 			KConfig *config = m_manager->config();
@@ -314,7 +314,7 @@ namespace KileWidget
 
 	void ToolConfig::removeConfig()
 	{
-		kdDebug() << "==ToolConfig::removeConfig()=====================" << endl;
+		//kdDebug() << "==ToolConfig::removeConfig()=====================" << endl;
 		writeConfig();
 		if ( m_cbPredef->count() > 1)
 		{
@@ -333,7 +333,7 @@ namespace KileWidget
 	BasicTool::BasicTool(const QString & tool, KConfig *config, KileTool::Config *map, QWidget *parent) : 
 		QWidget(parent), m_tool(tool), m_map(map),  m_config(config),m_elbSequence(0L)
 	{   
-		kdDebug() << "==BasicTool::BasicTool()=====================" << endl;
+		//kdDebug() << "==BasicTool::BasicTool()=====================" << endl;
 		m_layout = new QGridLayout(this, 1, 1, 0, 10);
 		QString type = (*m_map)["type"];
 		if ( type == "Process" ) createProcess("");
@@ -356,7 +356,7 @@ namespace KileWidget
 
 	void BasicTool::createProcess(const QString & str)
 	{
-		kdDebug() << "==BasicTool::createProcess(const QString & str)=====================" << endl;
+		//kdDebug() << "==BasicTool::createProcess(const QString & str)=====================" << endl;
 		int row = 0;
 		QLabel *lb = new QLabel(str, this); m_layout->addMultiCellWidget(lb, row, row, 0, 5, Qt::AlignLeft);
 
@@ -377,7 +377,7 @@ namespace KileWidget
 
 	void BasicTool::createKonsole()
 	{
-		kdDebug() << "==BasicTool::createKonsole()=====================" << endl;
+		//kdDebug() << "==BasicTool::createKonsole()=====================" << endl;
 		createProcess(i18n("A Konsole window will be opened to start this tool in."));
 
 		int row = m_layout->numRows();
@@ -391,7 +391,7 @@ namespace KileWidget
 
 	void BasicTool::createPart()
 	{
-		kdDebug() << "==BasicTool::createPart()=====================" << endl;
+		//kdDebug() << "==BasicTool::createPart()=====================" << endl;
 		QLabel *lb = new QLabel(i18n("This tool will be started as an embedded component in Kile."), this); m_layout->addMultiCellWidget(lb, 0, 0, 0, 6, Qt::AlignLeft);
 
 		int row = m_layout->numRows();
@@ -417,12 +417,12 @@ namespace KileWidget
 
 	void BasicTool::createDocPart()
 	{
-		kdDebug() << "==BasicTool::createDocPart()=====================" << endl;
+		//kdDebug() << "==BasicTool::createDocPart()=====================" << endl;
 	}
 
 	void BasicTool::createSequence()
 	{
-		kdDebug() << "==BasicTool::createSequence()=====================" << endl;
+		//kdDebug() << "==BasicTool::createSequence()=====================" << endl;
 		int row = m_layout->numRows();
 
 		m_layout->addMultiCellWidget(new QuickTool(m_map, m_config, this), row, row, 0, m_layout->numCols()-1);
@@ -430,7 +430,7 @@ namespace KileWidget
 
 	void BasicTool::createLaTeX()
 	{
-		kdDebug() << "==BasicTool::createLaTeX()=====================" << endl;
+		//kdDebug() << "==BasicTool::createLaTeX()=====================" << endl;
 		int row = m_layout->numRows();
 
 		QCheckBox *cbRoot = new QCheckBox(i18n("Check if root document is a LaTeX root before running LaTeX on it."), this);
@@ -441,7 +441,7 @@ namespace KileWidget
 
 	void BasicTool::createViewBib()
 	{
-		kdDebug() << "==BasicTool::createViewBib()=====================" << endl;
+		//kdDebug() << "==BasicTool::createViewBib()=====================" << endl;
 		int row = m_layout->numRows();
 
 		QCheckBox *cbLyxServer = new QCheckBox(i18n("Let Kile process LyX commands sent by bibliography editors/viewers."), this);
@@ -451,26 +451,26 @@ namespace KileWidget
 		connect(cbLyxServer, SIGNAL(toggled(bool)), this, SLOT(setRunLyxServer(bool)));
 	}
 
-	void BasicTool::setCommand(const QString & command) { kdDebug() << "setCommand" << endl; (*m_map)["command"] = command; }
-	void BasicTool::setOptions(const QString & options) { kdDebug() << "setOptions" << endl; (*m_map)["options"] = options; }
-	void BasicTool::setLibrary(const QString & lib) { kdDebug() << "setLibrary" << endl; (*m_map)["libName"] = lib; }
-	void BasicTool::setLibOptions(const QString & options) { kdDebug() << "setLibOptions" << endl; (*m_map)["libOptions"] = options; }
-	void BasicTool::setClassName(const QString & name) { kdDebug() << "setClassName" << endl;(*m_map)["className"] = name; }
-	void BasicTool::setSequence(const QString & /*sequence*/) { kdDebug() << "setSequence" << endl;if (m_elbSequence) (*m_map)["sequence"] = m_elbSequence->items().join(","); }
-	void BasicTool::setClose(bool on) { kdDebug() << "setClose" << endl;(*m_map)["close"] = on ? "yes" : "no"; }
-	void BasicTool::setTarget(const QString & trg) { kdDebug() << "setTarget" << endl;(*m_map)["target"] = trg; }
-	void BasicTool::setRelDir(const QString & rd) { kdDebug() << "setRelDir" << endl;(*m_map)["relDir"] = rd; }
-	void BasicTool::setLaTeXCheckRoot(bool ck) { kdDebug() << "setLaTeXCheckRoot" << endl;(*m_map)["checkForRoot"] = ck ? "yes" : "no"; }
+	void BasicTool::setCommand(const QString & command) { (*m_map)["command"] = command; }
+	void BasicTool::setOptions(const QString & options) { (*m_map)["options"] = options; }
+	void BasicTool::setLibrary(const QString & lib) { (*m_map)["libName"] = lib; }
+	void BasicTool::setLibOptions(const QString & options) { (*m_map)["libOptions"] = options; }
+	void BasicTool::setClassName(const QString & name) { (*m_map)["className"] = name; }
+	void BasicTool::setSequence(const QString & /*sequence*/) { if (m_elbSequence) (*m_map)["sequence"] = m_elbSequence->items().join(","); }
+	void BasicTool::setClose(bool on) { (*m_map)["close"] = on ? "yes" : "no"; }
+	void BasicTool::setTarget(const QString & trg) { (*m_map)["target"] = trg; }
+	void BasicTool::setRelDir(const QString & rd) { (*m_map)["relDir"] = rd; }
+	void BasicTool::setLaTeXCheckRoot(bool ck) { (*m_map)["checkForRoot"] = ck ? "yes" : "no"; }
 	void BasicTool::setRunLyxServer(bool ck)
 	{
-		kdDebug() << "setRunLyxServer" << endl;
+		//kdDebug() << "setRunLyxServer" << endl;
 		m_config->setGroup("Tools");
 		m_config->writeEntry("RunLyxServer", ck);
 	}
 
 	AdvancedTool::AdvancedTool(const QString & /*tool*/, KileTool::Config  *map, QWidget *parent) : QWidget(parent), m_map(map)
 	{
-		kdDebug() << "==AdvancedTool::AdvancedTool()====================" << endl;
+		//kdDebug() << "==AdvancedTool::AdvancedTool()====================" << endl;
 		m_layout = new QGridLayout(this, 2, 4, 0, 10);
 		QLabel *lb = new QLabel(i18n("&Type"), this); m_layout->addWidget(lb, 0, 0, Qt::AlignLeft);
 		m_cbType = new KComboBox(this); m_layout->addWidget(m_cbType, 0, 1, Qt::AlignLeft);
@@ -507,7 +507,7 @@ namespace KileWidget
 
 	void AdvancedTool::switchType(int index)
 	{
-		kdDebug() << "==AdvancedTool::switchType()===========" << endl;
+		//kdDebug() << "==AdvancedTool::switchType()===========" << endl;
 		switch (index)
 		{
 		case 0 : (*m_map)["type"] = "Process"; break;
@@ -517,13 +517,13 @@ namespace KileWidget
 		case 4 : (*m_map)["type"] = "Sequence"; break;
 		default : (*m_map)["type"] = "Process"; break;
 		}
-		kdDebug() << "\temitting changed()" << endl;
+		//kdDebug() << "\temitting changed()" << endl;
 		emit(changed());
 	}
 
 	void AdvancedTool::createViewHTML()
 	{
-		kdDebug() << "==AdvancedTool::createViewHTML()====================" << endl;
+		//kdDebug() << "==AdvancedTool::createViewHTML()====================" << endl;
 		int row = m_layout->numRows();
 
 		QLabel *lb = new QLabel(i18n("&File to view: "), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
@@ -539,7 +539,7 @@ namespace KileWidget
 
 	void AdvancedTool::createFromTo()
 	{
-		kdDebug() << "==AdvancedTool::createFromTo()====================" << endl;
+		//kdDebug() << "==AdvancedTool::createFromTo()====================" << endl;
 		int row = m_layout->numRows();
 
 		QHBox *box = new QHBox(this); m_layout->addMultiCellWidget(box, row, row, 0, m_layout->numCols()-1, Qt::AlignLeft);
@@ -577,25 +577,27 @@ namespace KileWidget
 
 	void AdvancedTool::switchClass(const QString & cls)
 	{
-		kdDebug() << "==AdvancedTool::switchClass(" << cls << ")=====" << endl;
+		//kdDebug() << "==AdvancedTool::switchClass(" << cls << ")=====" << endl;
 		if ( (*m_map)["class"] != cls )
 		{
 			setClass(cls);
-			kdDebug() << "\temitting changed()" << endl;
+			//kdDebug() << "\temitting changed()" << endl;
 			emit(changed());
 		}
 	}
 
-	void AdvancedTool::setFrom(const QString & from) { kdDebug() << "setFrom" << endl;(*m_map)["from"] = from; }
-	void AdvancedTool::setTo(const QString & to) { kdDebug() << "setTo" << endl;(*m_map)["to"] = to; }
-	void AdvancedTool::setClass(const QString & cls) { kdDebug() << "setClass" << endl;(*m_map)["class"] = cls; }
+	void AdvancedTool::setFrom(const QString & from) { (*m_map)["from"] = from; }
+	void AdvancedTool::setTo(const QString & to) { (*m_map)["to"] = to; }
+	void AdvancedTool::setClass(const QString & cls) { (*m_map)["class"] = cls; }
+	void AdvancedTool::setTarget(const QString & trg) { (*m_map)["target"] = trg; }
+	void AdvancedTool::setRelDir(const QString & rd) { (*m_map)["relDir"] = rd; }
 
 	QuickTool::QuickTool(KileTool::Config *map, KConfig *config, QWidget *parent, const char *name) : 
 		QWidget(parent,name),
 		m_config(config),
 		m_map(map)
 	{
-		kdDebug() << "==QuickTool::QuickTool()====================" << endl;
+		//kdDebug() << "==QuickTool::QuickTool()====================" << endl;
 		QGridLayout *layout = new QGridLayout(this, 7, 5, 5, 5);
 		layout->setRowStretch(1, 2);
 
@@ -638,7 +640,7 @@ namespace KileWidget
 
 	void QuickTool::updateConfigs(const QString &tool)
 	{
-		kdDebug() << "==QuickTool::updateConfigs(const QString &tool)====================" << endl;
+		//kdDebug() << "==QuickTool::updateConfigs(const QString &tool)====================" << endl;
 		m_cbConfigs->clear();
 		m_cbConfigs->insertItem(i18n("not specified"));
 		m_cbConfigs->insertStringList(KileTool::configNames(tool, m_config));
@@ -691,14 +693,14 @@ namespace KileWidget
 
 	void QuickTool::changed()
 	{
-		kdDebug() << "==QuickTool::changed()====================" << endl;
+		//kdDebug() << "==QuickTool::changed()====================" << endl;
 		QString sequence, tool, cfg;
 
 		for (uint i = 0; i < m_lstbSeq->count(); i++)
 		{
 			KileTool::extract(m_lstbSeq->text(i), tool, cfg);
 			sequence += KileTool::format(tool,cfg)+",";
-			kdDebug() << "SEQUENCE: " << sequence << endl;
+			//kdDebug() << "SEQUENCE: " << sequence << endl;
 		}
 		if (sequence.endsWith(",") ) sequence = sequence.left(sequence.length()-1);
 		(*m_map)["sequence"] = sequence;

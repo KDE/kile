@@ -94,6 +94,8 @@ namespace KileWidget
 		void setFrom(const QString &);
 		void setTo(const QString &);
 		void setClass(const QString &);
+		void setTarget(const QString &);
+		void setRelDir(const QString &);
 
 	private:
 		KileTool::Config	*m_map;

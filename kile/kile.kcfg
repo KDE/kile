@@ -92,6 +92,18 @@
 		</entry>
 	</group>
 	<group name="IncludeGraphics">
+		<entry name="igCenter" type="Bool">
+			<label>Center the graphics.</label>
+			<default>true</default> 
+		</entry>
+		<entry name="igGraphicspath" type="Bool">
+			<label>Filename is relative to a path given in graphicspath command.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igFigure" type="Bool">
+			<label>Embed the graphics in a figure environment.</label>
+			<default>false</default>
+		</entry>
 		<entry name="imagemagick" type="Bool">
 			<label>Whether ImageMagick is installed.</label>
 			<default>false</default>

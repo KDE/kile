@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 23 2004
-    version              : 0.10.2
+    date                 : Jan 28 2005
+    version              : 0.11
     copyright            : (C) 2004 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -22,7 +22,7 @@
 #include <kdialogbase.h>
 
 /**
-  *@author dani
+  *@author dani 
   */
 
 class QLabel;
@@ -56,6 +56,8 @@ private slots:
 	void slotOk();
 
 private:
+	void readConfig();
+	void writeConfig();
 	bool checkParameter();
 	QString getOptions();
 	QString getInfo();
@@ -64,10 +66,10 @@ private:
 
 	QLabel *infolabel;
 	KLineEdit *edit_file, *edit_label, *edit_caption, *edit_width, *edit_height, *edit_angle, *edit_bb;
-	QCheckBox *cb_center, *cb_pdftex, *cb_figure;
+	QCheckBox *cb_center, *cb_pdftex, *cb_figure, *cb_graphicspath;
 	QLabel *lb_label, *lb_caption;
 
-	QString m_startdir;
+	QString m_startdir;  
 	QString m_output;
 
 	// current picture

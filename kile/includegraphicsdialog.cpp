@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 31 2004
-    version              : 0.10.3
+    date                 : Jan 28 2005
+    version              : 0.11
     copyright            : (C) 2004 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "includegraphicsdialog.h"
+#include "includegraphicsdialog.h"  
 
 #include <qregexp.h>
 #include <qfileinfo.h>
@@ -25,7 +25,7 @@
 #include <qcheckbox.h>
 #include <qlabel.h>
 
-#include <klocale.h>
+#include <klocale.h> 
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
@@ -54,7 +54,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
    QVGroupBox* group= new QVGroupBox(i18n("File"), plainPage());
 
    QWidget *widget = new QWidget(group);
-   QGridLayout *grid = new QGridLayout( widget, 3,3, 6,6, "");
+   QGridLayout *grid = new QGridLayout( widget, 4,3, 6,6, "");
    grid->addRowSpacing( 0, fontMetrics().lineSpacing() );
    grid->addColSpacing( 0, fontMetrics().lineSpacing() );
    grid->setColStretch(1,1);
@@ -87,16 +87,22 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
    QLabel *label3 = new QLabel(i18n("Output:"), widget);
 
    QWidget *cb_widget = new QWidget(widget);
-   QGridLayout *cb_grid = new QGridLayout( cb_widget, 1,2, 5,5,"");
+   QGridLayout *cb_grid = new QGridLayout( cb_widget, 1,2, 0,0,"");
    cb_center = new QCheckBox(i18n("Center picture"),cb_widget);
    cb_pdftex = new QCheckBox(i18n("pdftex/pdflatex"),cb_widget);
-   cb_center->setChecked(true);                             // default: always on
    cb_pdftex->setChecked(m_pdflatex);                       // default: on when using pdftex
    cb_grid->addWidget(cb_center,0,0);
    cb_grid->addWidget(cb_pdftex,0,1);
 
    grid->addWidget( label3, 2,0 );
    grid->addWidget( cb_widget, 2,1 );
+
+   // line 4: graphics path
+   QLabel *label5 = new QLabel(i18n("Path:"), widget);
+   cb_graphicspath = new QCheckBox(i18n("Use \\graphicspath command of LaTeX"),widget);
+
+   grid->addWidget( label5, 3,0 );
+   grid->addWidget( cb_graphicspath, 3,1 );
 
    // second groupbox: options
    QVGroupBox* gb_opt= new QVGroupBox(i18n("Options"), plainPage());
@@ -141,32 +147,46 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
    grid_fig->addWidget( lb_caption,2,0);
    grid_fig->addWidget( edit_caption, 2,1);
 
-   // init
-   cb_figure->setChecked(false);
-   updateFigure();
-
    // add to layout
    vbox->addWidget(group);
    vbox->addWidget(gb_opt);
    vbox->addWidget(gb_fig);
    vbox->addStretch();
 
+   // read configuration
+   readConfig();
+   updateFigure();
+
    // connect
    connect( pb_choose, SIGNAL( clicked() ), this, SLOT( chooseFile() ) );
    connect( cb_figure, SIGNAL(clicked()), this, SLOT(updateFigure() ) );
 
-   // read configuration
-   m_imagemagick = KileConfig::imagemagick();
-   m_boundingbox = KileConfig::boundingbox();                     // dani 31.7.2004
-
-   m_defaultresolution = KileConfig::resolution();
-
    setFocusProxy( edit_file );
 }
 
-IncludeGraphics::~IncludeGraphics()
+IncludeGraphics::~IncludeGraphics() 
 {
    delete m_proc;
+}
+
+////////////////////////////// configuration data //////////////////////////////
+
+void IncludeGraphics::readConfig()
+{
+	cb_center->setChecked( KileConfig::igCenter() );                             
+	cb_graphicspath->setChecked( KileConfig::igGraphicspath() );                             
+	cb_figure->setChecked( KileConfig::igFigure() );
+	
+	m_imagemagick = KileConfig::imagemagick();
+	m_boundingbox = KileConfig::boundingbox();                  
+	m_defaultresolution = KileConfig::resolution();
+}
+
+void IncludeGraphics::writeConfig()
+{
+	KileConfig::setIgCenter( cb_center->isChecked() );                             
+	KileConfig::setIgGraphicspath( cb_graphicspath->isChecked() );                             
+	KileConfig::setIgFigure( cb_figure->isChecked() );
 }
 
 ////////////////////////////// update figure environment //////////////////////////////
@@ -189,7 +209,7 @@ QString IncludeGraphics::getTemplate()
 
    // state of figure environment
    bool m_figure = cb_figure->isChecked();
-
+ 
    // add start of figure environment ?
    if ( m_figure )
       s += "\\begin{figure}\n";
@@ -203,19 +223,19 @@ QString IncludeGraphics::getTemplate()
 
    // add inclucegraphics command
    s += "\t\\includegraphics";
-
+ 
    // add some options
    QString options = getOptions();
    if ( !options.isEmpty() )
       s += "[" + options + "]";
-
+ 
    // add name of picture
-   // (try to take the relative part of the name)
-   QString filename = m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
-//    if ( filename.find(m_startdir+"/",0) == 0 )
-//        filename = filename.remove(0,m_startdir.length()+1);
+   // either take the filename or try to take the relative part of the name
+   QString filename = ( cb_graphicspath->isChecked() ) 
+                    ? QFileInfo(edit_file->text()).fileName() 
+                    : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
    s += "{" + filename + "}\n";
-
+ 
    // add some comments (depending of given resolution, this may be wrong!)
    QString info = getInfo();
    if (info.length() > 0) s += getInfo() + "\n";
@@ -499,7 +519,10 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
 
 void IncludeGraphics::slotOk()
 {
-	if ( checkParameter() ) accept();
+	if ( checkParameter() )  {
+		writeConfig();
+		accept();
+	}
 }
 
 bool IncludeGraphics::checkParameter()

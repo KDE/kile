@@ -149,7 +149,7 @@ document.</para>
 <title>Structure of your Document</title>
 
 <para>With the toolbar or the
-<menuchoice><guimenu>Latex</guimenu><guisubmenu>Sectionning</guisubmenu></menuchoice>
+<menuchoice><guimenu>Latex</guimenu><guisubmenu>Sectioning</guisubmenu></menuchoice>
 menu, you can insert the title of a section or of a paragraph with a
 dialog box.  The <guilabel>Structure</guilabel> view is automatically
 updated.  While clicking on one item in the

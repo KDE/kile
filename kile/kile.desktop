@@ -22,5 +22,6 @@ Comment[xx]=xx(La)TeX development environmentxx
 Terminal=false
 Name=Kile
 Name[xx]=xxKilexx
+GenericName=LaTeX Frontend
 MimeType=text/x-tex;text/x-kilepr
 Categories=Qt;KDE;Office

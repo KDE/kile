@@ -106,27 +106,6 @@ namespace KileTool
 		void setRelativeBaseDir(const QString & dir) { m_relativedir = dir; }
 
 		/**
-		 * Explicitly adds a prerequisite to the list (absolute path).
-		 **/
-		void addPrereq(const QString & prereq) { m_prereqs.append(prereq); }
-
-		/**
-		 * Clears the list of prerequisites.
-		 **/
-		void clearPrereqs() { m_prereqs.clear(); }
-
-		/**
-		 * Determines whether or not to build prerequisites if there are out
-		 * of date.
-		 **/
-		void setBuildPrereqs(bool build) { m_buildPrereqs = build; }
-		
-		/**
-		 * Builds the prerequisites for the current source file.
-		 **/
-		bool buildPrereqs() const { return m_buildPrereqs; }
-
-		/**
 		 * Installs a launcher object that will be responsible for actually starting the tool. The
 		 * tool can be a command-line tool or a kpart, the KileTool class doesn't need to know
 		 * about the specifics of the launcher.
@@ -166,6 +145,9 @@ namespace KileTool
 
 		void setMsg(long n, QString msg);
 		QString msg(long n) const { return m_messages[n]; }
+
+	protected:
+		bool needsUpdate(const QString &target, const QString &source);
 
 	public slots:
 		void sendMessage(int, const QString &);
@@ -238,8 +220,7 @@ namespace KileTool
 
 		QString			m_name, m_from, m_to;
 		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_options;
-		QStringList		m_prereqs;
-		
+
 		QString			m_message;
 
 		bool				m_buildPrereqs;

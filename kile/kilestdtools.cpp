@@ -30,7 +30,7 @@
 #include "kileinfo.h"
 #include "kilelistselector.h"
 #include "kiledocmanager.h"
-
+#include "kiledocumentinfo.h"
 #include "latexoutputinfo.h"
 
 namespace KileTool
@@ -93,19 +93,51 @@ namespace KileTool
 			}
 		}
 
-		//test for src special capability of (pdf)(la)tex
-		useSrcSpecialsIfAvailable();
+	}
+
+	int LaTeX::m_reRun = 0;
+
+	bool LaTeX::updateBibs()
+	{
+		KileDocumentInfo *info = manager()->info()->docManager()->infoFor(source());
+		if ( info )
+		{
+			const QStringList *bibs = info->bibliographies();
+			for ( uint i = 0; i < bibs->count(); i++)
+				if ( needsUpdate ( QString(*bibs->at(i)) + ".bbl" , source(false) ) )
+				{
+					return true;
+				}
+		}
+
+		return false;
+	}
+
+	bool LaTeX::updateIndex()
+	{
+		KileDocumentInfo *info = manager()->info()->docManager()->infoFor(source());
+		if ( info )
+		{
+			const QStringList *pckgs = info->packages();
+			for ( uint i = 0; i < pckgs->count(); i++)
+				if ( (*pckgs->at(i)) == "makeidx" )
+					return needsUpdate ( S() + ".ind", source(false) );
+		}
+
+		return false;
 	}
 
 	bool LaTeX::finish(int r)
 	{
+		kdDebug() << "==bool LaTeX::finish(" << r << ")=====" << endl;
+
 		manager()->info()->outputFilter()->setSource(source());
 		QString log = baseDir() + "/" + S() + ".log";
 
 		//manager()->info()->outputFilter()->Run( "/home/wijnhout/test.log" );
+		int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
 		if ( manager()->info()->outputFilter()->Run(log) )
 		{
-			int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
 			manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
 			QString es = i18n("%n error", "%n errors", nErrors);
 			QString ws = i18n("%n warning", "%n warnings", nWarnings);
@@ -113,10 +145,64 @@ namespace KileTool
 
 			sendMessage(Info, es +", " + ws + ", " + bs);
 
+			//jump to first error
 			if ( nErrors > 0 && (readEntry("jumpToFirstError") == "yes") )
 			{
 				connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
 				emit(jumpToFirstError());
+			}
+		}
+
+		if ( readEntry("autoRun") == "yes" )
+		{
+			//check for "rerun LaTeX" warnings
+			bool reRan = false;
+			if ( (m_reRun < 3) && (nErrors == 0) && (nWarnings > 0) )
+			{
+				int sz =  manager()->info()->outputInfo()->size();
+				for (int i = 0; i < sz; i++ )
+				{
+					if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
+					&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun") )
+					{
+						reRan = true;
+						break;
+					}
+				}
+			}
+
+			if ( reRan ) m_reRun++;
+			else m_reRun = 0;
+
+			bool bibs = updateBibs();
+			bool index = updateIndex();
+
+			if ( reRan )
+			{
+				Base *tool = manager()->factory()->create(name());
+				tool->setSource(source());
+				manager()->runNext(tool);
+			}
+
+			if ( bibs || index )
+			{
+				Base *tool = manager()->factory()->create(name());
+				tool->setSource(source());
+				manager()->runNext(tool);
+
+				if ( bibs ) 
+				{
+					tool = manager()->factory()->create("BibTeX");
+					tool->setSource(source());
+					manager()->runNext(tool);
+				}
+
+				if ( index ) 
+				{
+					tool = manager()->factory()->create("MakeIndex");
+					tool->setSource(source());
+					manager()->runNext(tool);
+				}
 			}
 		}
 

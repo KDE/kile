@@ -37,7 +37,6 @@
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
 #include "kiledocmanager.h"
-#include "kiletoolcapability.h"
  
 namespace KileTool
 {
@@ -64,6 +63,28 @@ namespace KileTool
 			return head()->cfg();
 		else
 			return QString::null;
+	}
+
+	void Queue::enqueueNext(QueueItem *item)
+	{
+		if ( count() < 2 )
+			enqueue(item);
+		else
+		{
+			QueueItem *headitem = dequeue();
+			Queue *oldqueue = new Queue(*this);
+
+			setAutoDelete(false); clear();
+			kdDebug() << "\tenqueueing: " << item->tool()->name() << endl;
+			enqueue(headitem);
+			kdDebug() << "\tenqueueing: " << item->tool()->name() << endl;
+			enqueue(item);
+			while ( oldqueue->head() )
+			{
+				kdDebug() << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
+				enqueue(oldqueue->dequeue());
+			}
+		}
 	}
 
 	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop, uint to) :
@@ -96,7 +117,7 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption) == KMessageBox::Continue);
 	}
 
-	int Manager::run(const QString &tool, const QString & cfg)
+	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/)
 	{
 		if (!m_factory)
 		{
@@ -111,10 +132,10 @@ namespace KileTool
 			return ConfigureFailed;
 		}
 		
-		return run(pTool, cfg);
+		return run(pTool, cfg, insertNext);
 	}
 
-	int Manager::run(Base *tool, const QString & cfg)
+	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/)
 	{
 		kdDebug() << "==KileTool::Manager::run(Base*)============" << endl;
 		if (m_bClear)
@@ -128,10 +149,16 @@ namespace KileTool
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
 
-		m_queue.enqueue(new QueueItem(tool, cfg));
+		if ( insertNext )
+			m_queue.enqueueNext(new QueueItem(tool, cfg));
+		else
+			m_queue.enqueue(new QueueItem(tool, cfg));
+
 		kdDebug() << "\tin queue: " << m_queue.count() << endl;
 		if ( m_queue.count() == 1 )
 			return runNextInQueue();
+		else if ( m_queue.count() > 1 )
+			return Running;
 		else
 			return ConfigureFailed;
 	}
@@ -413,24 +440,6 @@ namespace KileTool
 		return "Base";
 	}
 
-	void setCapability(const QString &name, bool value)
-	{
-		KGlobal::config()->setGroup("Capabilities");
-		KGlobal::config()->writeEntry(name, value);
-	}
-
-	bool getCapability(const QString &name)
-	{
-		KGlobal::config()->setGroup("Capabilities");
-		return KGlobal::config()->readBoolEntry(name, false);
-	}
-
-	void useSrcSpecialsIfAvailable()
-	{
-		KileTool::SrcSpecialCapability *capability = new KileTool::SrcSpecialCapability();
-		KileTool::CapabilityTester *tester = new KileTool::CapabilityTester(capability);
-		tester->startTest();
-	}
 }
 
 #include "kiletoolmanager.moc"

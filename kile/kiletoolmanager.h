@@ -58,6 +58,8 @@ namespace KileTool
 	public:
 		Base* tool() const;
 		const QString cfg() const;
+
+		void enqueueNext(QueueItem *);
 	};
 	
 	class Manager : public QObject
@@ -93,9 +95,12 @@ namespace KileTool
 	public slots:
 		void started(Base*);
 		void done(Base *, int);
-		
-		int run(const QString &, const QString & = QString::null);
-		int run(Base *, const QString & = QString::null);
+
+		int run(const QString &, const QString & = QString::null, bool insertAtTop = false);
+		int run(Base *, const QString & = QString::null, bool insertAtTop = false);
+
+		int runNext(const QString & t , const QString & c = QString::null) { return run(t,c,true); }
+		int runNext(Base * t, const QString & c = QString::null) { return run(t,c,true); }
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 
@@ -141,11 +146,6 @@ namespace KileTool
 	QString categoryFor(const QString &clss);
 
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config);
-
-	void setCapability(const QString &name, bool value);
-	bool getCapability(const QString &name);
-
-	void useSrcSpecialsIfAvailable();
 }
 
 #endif

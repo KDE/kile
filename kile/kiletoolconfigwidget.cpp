@@ -442,6 +442,11 @@ namespace KileWidget
 		m_layout->addMultiCellWidget(cbJump, row + 1, row + 1, 1, m_layout->numCols()-1, Qt::AlignLeft);
 		cbJump->setChecked((*m_map)["jumpToFirstError"] == "yes");
 		connect(cbJump, SIGNAL(toggled(bool)), this, SLOT(setLaTeXJump(bool)));
+
+		QCheckBox *cbAuto = new QCheckBox(i18n("Automatically run BibTeX, MakeIndex, rerun LaTeX when necessary."), this);
+		m_layout->addMultiCellWidget(cbAuto, row + 2, row + 2, 1, m_layout->numCols()-1, Qt::AlignLeft);
+		cbAuto->setChecked((*m_map)["autoRun"] == "yes");
+		connect(cbAuto, SIGNAL(toggled(bool)), this, SLOT(setLaTeXAuto(bool)));
 	}
 
 	void BasicTool::createViewBib()
@@ -467,6 +472,7 @@ namespace KileWidget
 	void BasicTool::setRelDir(const QString & rd) { (*m_map)["relDir"] = rd; }
 	void BasicTool::setLaTeXCheckRoot(bool ck) { (*m_map)["checkForRoot"] = ck ? "yes" : "no"; }
 	void BasicTool::setLaTeXJump(bool ck) { (*m_map)["jumpToFirstError"] = ck ? "yes" : "no"; }
+	void BasicTool::setLaTeXAuto(bool ck) { (*m_map)["autoRun"] = ck ? "yes" : "no"; }
 	void BasicTool::setRunLyxServer(bool ck)
 	{
 		//kdDebug() << "setRunLyxServer" << endl;

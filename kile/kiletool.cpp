@@ -395,6 +395,20 @@ namespace KileTool
 		return e;
 	}
 
+	bool Base::needsUpdate(const QString &target, const QString &source)
+	{
+		QFileInfo targetinfo(baseDir() + "/" + target);
+		QFileInfo sourceinfo(baseDir() + "/" + source);
+
+		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
+			return false;
+
+		if ( ! targetinfo.exists() )
+			return true;
+
+		return targetinfo.lastModified() < sourceinfo.lastModified();
+	}
+
 	Compile::Compile(const QString &name, Manager * manager)
 		: Base(name, manager)
 	{

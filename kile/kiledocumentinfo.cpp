@@ -54,7 +54,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
 	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\bibliography"]=KileStructData(-2,KileStruct::Bibliography);
+	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "bibtex");
 	m_dictStructLevel["\\usepackage"]=KileStructData(-3,KileStruct::Package);
 }
 
@@ -352,6 +352,7 @@ void KileDocumentInfo::updateStruct()
 					{
 						kdDebug() << "\tappending Bibiliograph file " << m << endl;
 						m_bibliography.append(m);
+						m_deps.append(m + ".bib");
 					}
 
 					//update the label list

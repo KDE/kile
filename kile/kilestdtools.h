@@ -55,6 +55,13 @@ namespace KileTool
 
 	public slots:
 		bool finish(int);
+
+	private:
+		bool updateBibs();
+		bool updateIndex();
+
+	private:
+		static int m_reRun;
 	};
 
 	class ForwardDVI : public View

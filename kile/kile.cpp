@@ -102,7 +102,6 @@
 #include "convert.h"
 #include "includegraphicsdialog.h"
 #include "cleandialog.h"
-#include "kiletoolcapability.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "kileeventfilter.h"

@@ -61,3 +61,27 @@
 <p>...Kile now contains several editing tools to help you type in LaTeX faster and easier? Check out the <b>Complete, Select, Delete, Environment and TeX Group</b> menus in the <b>Edit</b> menu.</p>
 </html>
 </tip>
+
+<tip category="Kile|General">
+<html>
+<p>...that the Quick Preview tool will compile and select a part of a document? This can be a <b>selected text</b>, the <b>current environment</b> or the <b>current subdocument</b>.</p>
+
+<p>You can configure Quick preview by going to <b>Settings->Configure Kile->Preview</b>. There, you can select one of the predefined configurations.</p>
+</html>
+</tip>
+
+<tip category="Kile|General">
+<html>
+<p>...that a new wizard will help to create tabulars and arrays?</p>
+
+<p>A right click with the mouse will open a dialog or a popup menu, where a lot of attributes like <b>alignment</b>, <b>colors</b>, <b>horizontal and vertical lines</b> and more can be set. Also <b>multicolumn cells</b> are supported.</p>
+</html>
+</tip>
+
+<tip category="Kile|General">
+<html>
+<p>...that Kile can show user defined help files?</p>
+
+<p>Go to <b>Settings->Configure Kile->Help</b> and configure your help files, which are integrated into the help menu.</p>
+</html>
+</tip>

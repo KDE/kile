@@ -54,7 +54,6 @@
 #include "kileappIface.h"
 #include "docpart.h"
 #include "symbolview.h"
-#include "kmultiverttabbar.h"
 #include "kilefileselect.h"
 #include "metapostview.h"
 #include "kileinfo.h"
@@ -79,6 +78,7 @@ class KToolBar;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleToolBarAction;
+class KMultiTabBar;
 
 class KileLyxServer;
 class KileEventFilter;
@@ -150,7 +150,7 @@ private:
 /* GUI */
 private:
 	//widgets
-	KMultiVertTabBar 		*ButtonBar;
+	KMultiTabBar 			*ButtonBar;
 	SymbolView 			*symbol_view;
 	metapostview 			*mpview;
 	QFrame 				*Structview;
@@ -179,7 +179,7 @@ private:
 
 private slots:
 	void ResetPart();
-	void ActivePartGUI(KParts::Part * the_part);
+	void activePartGUI(KParts::Part * the_part);
 	void showToolBars(const QString &);
 	void enableKileGUI(bool enable);
 	void slotToggleFullScreen();
@@ -199,15 +199,14 @@ private slots:
 /* config */
 private:
 	KConfig		*config;
-	int 			split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
-	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-	QString 		document_class, typeface_size, paper_size, document_encoding, author;
-	QString 		lastDocument, input_encoding;
+	int 		split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
+	QString 	document_class, typeface_size, paper_size, document_encoding, author;
+	QString 	lastDocument, input_encoding;
 	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
-	bool 			symbol_present;
+	bool 		symbol_present;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
-	bool			m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
+	bool		m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
 
 signals:
 	/**

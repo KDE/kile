@@ -55,6 +55,8 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 	<< "xalignat" << "xxalignat";
 	tabularenv << "array" << "longtable" << "supertabular" << "supertabular*"
 	<< "tabbing" << "tabular" << "tabular*" << "tabularx";
+
+	readConfig();
 }
 
 EditorExtension::~EditorExtension()
@@ -267,8 +269,8 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 	
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		view->getDoc()->insertText( row,col,"\\end{"+name+"}" );
-		view->setCursorPositionReal(row+1,0);
+		view->getDoc()->insertText( row,col, "\\end{"+name+"}" );
+// 		view->setCursorPositionReal(row+1,0);
 	}
 }
 
@@ -284,20 +286,25 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 
 	uint row,col;
 	QString name;
-	
+
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
 		if ( isListEnvironment(name) )
 		{
-		view->getDoc()->insertText( row,col,"\n\\item " );
-		view->setCursorPositionReal(row+1,6);
+			view->getDoc()->insertText( row,col,"\n\\item " );
+			view->setCursorPositionReal(row + 1,6);
 		}
 		else if ( isTabEnvironment(name) || isMathEnvironment(name) )
 		{
-		view->getDoc()->insertText( row,col,"\\\\\n" );
-		view->setCursorPositionReal(row+1,0);
+			view->getDoc()->insertText( row,col,"\\\\\n" );
+			view->setCursorPositionReal(row + 1,0);
 		}
+		else
+			view->getDoc()->insertText( row,col,"\n" );
 	}
+	else
+		view->getDoc()->insertText( row,col,"\n" );
+
 }
 
 bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view)
@@ -451,13 +458,13 @@ bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col
 	{
 		// already found position?
 		if ( env.tag == EnvEnd )
-		return true;
-	
+			return true;
+
 		// go one position forward
 		row = env.row;
 		col = env.col + 1;
 	}
-	
+
 	// looking forward for the next environment
 	return findEnvironmentTag(doc,row,col,env,false);
 }
@@ -480,39 +487,37 @@ bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col
 		//   kdDebug() << "   iface " << env.row << "/" << env.col << endl;
 		if ( isValidBackslash(doc,env.row,env.col) )
 		{
-		if ( m_reg.cap(1) == wrong_env )
-		{
-			envcount++;
-		}
-		else
-		{
-			if ( envcount > 0 )
+			if ( m_reg.cap(1) == wrong_env )
 			{
-			envcount--;
+				envcount++;
 			}
 			else
 			{
-			env.name = m_reg.cap(2);
-			return true;
+				if ( envcount > 0 )
+					envcount--;
+				else
+				{
+					env.name = m_reg.cap(2);
+					return true;
+				}
 			}
-		}
 		}
 	
 		// new start position
 		if ( !backwards )
 		{
-		row = env.row;
-		col = env.col + 1;
+			row = env.row;
+			col = env.col + 1;
 		}
 		else
 		{
-		row = env.row;
-		col = env.col;
-		if ( ! decreaseCursorPosition(doc,row,col) )
-			return false;
+			row = env.row;
+			col = env.col;
+			if ( ! decreaseCursorPosition(doc,row,col) )
+				return false;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -546,15 +551,15 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		//kdDebug() << "   is - search to left:  pos=" << pos << " col=" << col << endl;
 		if ( pos!=-1 && (uint)pos<col && col<=(uint)pos+env.len )
 		{
-		env.row = row;
-		env.col = pos;
-		env.tag = ( textline.at(pos+1) == 'b' ) ? EnvBegin : EnvEnd;
-		env.name = m_reg.cap(2);
-		env.cpos =  ( col < (uint)pos+env.len ) ? EnvInside : EnvRight;
-		// we have already found a tag, if the cursor is inside, but not behind this tag
-		if ( env.cpos == EnvInside )
-			return true;
-		left = true;
+			env.row = row;
+			env.col = pos;
+			env.tag = ( textline.at(pos+1) == 'b' ) ? EnvBegin : EnvEnd;
+			env.name = m_reg.cap(2);
+			env.cpos =  ( col < (uint)pos+env.len ) ? EnvInside : EnvRight;
+			// we have already found a tag, if the cursor is inside, but not behind this tag
+			if ( env.cpos == EnvInside )
+				return true;
+			left = true;
 		//kdDebug() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1)) << endl;
 		}
 	}

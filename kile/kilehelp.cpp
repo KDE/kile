@@ -48,7 +48,7 @@ namespace KileHelp
 	
 	void Help::showHelpFile(const QString &parameter)
 	{
-		KileTool::View *tool = new KileTool::View("ViewHTML", m_manager);
+		KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager);
 		tool->setFlags(0);
 		kdDebug() << "==Help::showHelpFile(" << parameter << ")============" << endl;
 		tool->setSource(parameter);

@@ -17,6 +17,8 @@
 
 class QEvent;
 
+namespace Kate {class View; }
+
 /**
  * This class is capable of intercepting key-strokes from the editor. It can complete a \begin{env}
  * with a \end{env} when enter is pressed.
@@ -35,7 +37,7 @@ protected:
 	bool eventFilter(QObject *o, QEvent *e);
 
 private:
-	bool			m_bHandleEnter, m_bCompleteEnvironment;
+	bool		m_bHandleEnter, m_bCompleteEnvironment;
 	QRegExp		m_regexpEnter;
 
 };

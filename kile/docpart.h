@@ -21,15 +21,13 @@
 #include <khtml_part.h>
 #include <qstringlist.h>
 
-/**
-  *@author Brachet Pascal
-  */
+class DocumentationViewer : public KHTMLPart
+{
+	Q_OBJECT
 
-class docpart : public KHTMLPart  {
-   Q_OBJECT
 public:
-	docpart(QWidget *parent=0, const char *name=0);
-	~docpart();
+	DocumentationViewer(QWidget *parent=0, const char *name=0);
+	~DocumentationViewer();
 	bool backEnable();
 	bool forwardEnable();
 
@@ -46,8 +44,8 @@ protected:
 	virtual void urlSelected( const QString &url, int button=0, int state=0,const QString &_target= QString::null, KParts::URLArgs args = KParts::URLArgs());
 
 private:
-	QStringList history;
-	unsigned int hpos;
+	QStringList	m_history;
+	unsigned int	m_hpos;
 
 };
 

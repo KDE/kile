@@ -24,28 +24,28 @@
 #include <kmimetype.h>
 #include <ktrader.h>
 #include <krun.h>
+#include <khtml_part.h>
 #include <khtml_settings.h>
 
 #include "docpart.h"
 
-docpart::docpart(QWidget *parent, const char *name ) : KHTMLPart(parent,name)
+DocumentationViewer::DocumentationViewer(QWidget *parent, const char *name ) : KHTMLPart(parent,name, 0, 0, BrowserViewGUI)
 {
-	hpos = 0;
+	m_hpos = 0;
 	KConfig konqConfig("konquerorrc");
 	konqConfig.setGroup("HTML Settings");
-	const KHTMLSettings * set = settings();
-	( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
+	//const KHTMLSettings * set = settings();
+	//( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
 	QString rc = KGlobal::dirs()->findResource("appdata", "docpartui.rc");
 	setXMLFile(rc);
 	(void) KStdAction::back(this, SLOT(back()), actionCollection(),"Back" );
 	(void) KStdAction::forward(this, SLOT(forward()), actionCollection(),"Forward" );
 	(void) KStdAction::home(this, SLOT(home()), actionCollection(),"Home" );
-
-}
-docpart::~docpart(){
 }
 
-void docpart::urlSelected(const QString &url, int button, int state,const QString & target, KParts::URLArgs args)
+DocumentationViewer::~DocumentationViewer() {}
+
+void DocumentationViewer::urlSelected(const QString &url, int button, int state,const QString & target, KParts::URLArgs args)
 {
 	KURL cURL = completeURL(url);
 	QString mime = KMimeType::findByURL(cURL).data()->name();
@@ -69,55 +69,58 @@ void docpart::urlSelected(const QString &url, int button, int state,const QStrin
 	}
 }
 
-void docpart::home()
+void DocumentationViewer::home()
 {
-if ( !history.isEmpty() ) openURL( KURL(history.first()) );
-}
-void docpart::forward()
-{
-  if ( forwardEnable() ) {
-  	hpos++;
-  	openURL( KURL( history[hpos]) );
-    emit updateStatus( backEnable() , forwardEnable() );
-  }
+	if ( !m_history.isEmpty() ) openURL( KURL(m_history.first()) );
 }
 
-
-void docpart::back()
+void DocumentationViewer::forward()
 {
-  if ( backEnable() ) {
-  	hpos--;
-  	openURL( KURL(history[hpos]) );
-    emit updateStatus( backEnable() , forwardEnable() );
-  }
+	if ( forwardEnable() ) 
+	{
+		m_hpos++;
+		openURL( KURL( m_history[m_hpos]) );
+		emit updateStatus( backEnable() , forwardEnable() );
+	}
 }
 
 
-void docpart::addToHistory( QString url )
+void DocumentationViewer::back()
 {
-
-   if ( history.count() > 0 )
-	   while ( hpos < history.count()-1  )
-  	 		history.pop_back();
-
-   if ( !history.isEmpty() ) hpos++;
-
-   history.append(url);
-
-   hpos = history.count()-1;
-   emit updateStatus( backEnable() , forwardEnable() );
+	if ( backEnable() ) {
+		m_hpos--;
+		openURL( KURL(m_history[m_hpos]) );
+		emit updateStatus( backEnable() , forwardEnable() );
+	}
 }
 
 
-bool docpart::backEnable()
+void DocumentationViewer::addToHistory( QString url )
 {
-   return hpos > 0;
+	if ( m_history.count() > 0 )
+	{
+		while ( m_hpos < m_history.count()-1  )
+				m_history.pop_back();
+	}
+	
+	if ( !m_history.isEmpty() ) m_hpos++;
+	
+	m_history.append(url);
+	
+	m_hpos = m_history.count()-1;
+	emit updateStatus( backEnable() , forwardEnable() );
 }
 
 
-bool docpart::forwardEnable()
+bool DocumentationViewer::backEnable()
 {
-   return hpos < history.count()-1;
+	return m_hpos > 0;
+}
+
+
+bool DocumentationViewer::forwardEnable()
+{
+	return m_hpos < m_history.count()-1;
 }
 
 #include "docpart.moc"

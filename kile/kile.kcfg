@@ -46,26 +46,6 @@
 			<label>The expansion level for the structure view.</label>
 			<default>5</default>
 		</entry>
-		<entry name="StructureLevel1" type="String">
-			<label></label>
-			<default>part</default>
-		</entry>
-		<entry name="StructureLevel2" type="String">
-			<label></label>
-			<default>chapter</default>
-		</entry>
-		<entry name="StructureLevel3" type="String">
-			<label></label>
-			<default>section</default>
-		</entry>
-		<entry name="StructureLevel4" type="String">
-			<label></label>
-			<default>subsection</default>
-		</entry>
-		<entry name="StructureLevel5" type="String">
-			<label></label>
-			<default>subsubsection</default>
-		</entry>
 	</group>
 	<group name="Tools">
 		<entry name="RunLyxServer" type="Bool">

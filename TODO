@@ -1,8 +1,8 @@
 TODO
+ - find out why LaTeX is running slower when started within Kile (compared to starting it from the command line)
+ 
  - add more, improving existing wizards
 
- - use KDirWatch signals provided by Kate instead of old modifiedOnDisc
- 
  - allow users to set environment variables
  
  - allow users to set a preferred shell
@@ -14,8 +14,6 @@ TODO
  - create a plain text importer (one that would convert % to \%, $ to \$ etc.)
  
  - make a configuration tester, a tool that tests the TeX system, configures the build tools accordingly and makes suggestion if error are encountered
- 
- - start using the KConfig XT, clean up the current config mess
  
  - create a fast powerful (La)TeX parser
 

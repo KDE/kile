@@ -322,7 +322,7 @@
 		QWidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
-		docpart *htmlpart = new docpart(stack,"help");
+		DocumentationViewer *htmlpart = new DocumentationViewer(stack,"help");
 		m_part = static_cast<KParts::ReadOnlyPart*>(htmlpart);
 
 		connect(htmlpart, SIGNAL(updateStatus(bool, bool)), tool(), SIGNAL(updateStatus(bool, bool)));

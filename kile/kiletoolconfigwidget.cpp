@@ -419,8 +419,8 @@ namespace KileWidget
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setClassName(const QString &)));
 		le->setText((*m_map)["className"]);
 
-		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
-		le = new KLineEdit(this); m_layout->addWidget(le, row, 1, Qt::AlignLeft);
+		lb = new QLabel(i18n("&Options:"), this); m_layout->addWidget(lb, row + 2, 0, Qt::AlignLeft);
+		le = new KLineEdit(this); m_layout->addWidget(le, row + 2, 1, Qt::AlignLeft);
 		lb->setBuddy(le); le->setMinimumWidth(250);
 		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setLibOptions(const QString &)));
 		le->setText((*m_map)["libOptions"]);

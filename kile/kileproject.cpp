@@ -551,8 +551,11 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 
 		if (item)
 			kdDebug() << "\troot is " << item->url().fileName() << endl;
+		else if (m_rootItems.count() == 1)
+			item = const_cast<QPtrList<KileProjectItem> * const>(&m_rootItems)->first();
 		else
-			kdDebug() << "\tno root found" << endl;
+			item = 0L;
+		
 
 		return item;
 	}

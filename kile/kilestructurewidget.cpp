@@ -242,9 +242,6 @@ namespace KileWidget
 
 		m_default = new StructureList(this, 0L);
 		m_default->activate();
-
-		connect(this, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotClicked(QListViewItem *)));
-		connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(slotDoubleClicked(QListViewItem *)));
 	}
 
 	void Structure::addDocumentInfo(KileDocument::Info *docinfo)

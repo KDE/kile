@@ -1,0 +1,49 @@
+#Configuration Update for Kile
+#
+# Kile-1.5
+#
+Id=Kile1.5v1
+File=kilerc
+RemoveGroup=Structure
+RemoveGroup=Editor
+#
+# Kile-1.6
+#
+Id=Kile1.6v1
+File=kilerc
+Options=overwrite
+Script=kile1.6_upd.pl,perl
+#
+Group=User
+Key=Template Encoding,TemplateEncoding
+#
+Group=Editor Ext
+Key=Complete Environment,CompleteEnvironment
+#
+Group=Complete
+Key=enabled,CompleteEnabled
+Key=cursor,CompleteCursor
+Key=bullets,CompleteBullets
+Key=closeenv,CompleteCloseEnv
+Key=autocomplete,CompleteAuto
+Key=changedlists,CompleteChangedLists
+Key=tex,CompleteTex
+Key=dict,CompleteDict
+Key=abbrev,CompleteAbbrev
+#
+Group=Environments
+Key=list,EnvList
+Key=math,EnvMath
+Key=tabular,EnvTabular
+#
+Group=Files
+Key=Last Document,LastDocument
+Key=Input Encoding,InputEncoding
+#
+Group=Quick
+Key=Class,QuickClass
+Key=Typeface,QuickTypeface
+Key=Papersize,QuickPapersize
+Key=Document Classes,QuickDocumentClasses
+Key=Papersizes,QuickPapersizes
+Key=Encodings,QuickEncodings

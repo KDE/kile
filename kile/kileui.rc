@@ -143,6 +143,7 @@
 </Menu>
 <Menu name="menu_latex"><text>&amp;LaTeX</text>
 	<Action name="menuUserTags"/>
+	<Action name="tag_newline"/>
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>
 	<Action name="tag_amspackages"/>
@@ -303,32 +304,32 @@
 		<Action name="ShowMathToolbar"/>
 	</Menu>
 	<Separator/>
-	<Action name="147"/>
-	<Action name="148"/>
+	<Action name="settings_keys"/>
+	<Action name="settings_toolbars"/>
 	<Action name="settings_configure" />
 	<Action name="settings_perform_check" />
 </Menu>
 <Menu name="help"><text>&amp;Help</text>
-	<Action name="help1"/>
-	<Action name="help2"/>
+	<Action name="help_latex_reference"/>
+	<Action name="help_handbook"/>
 	<Merge/>
 	<Separator/>
-	<Action name="edit_help_context" />
+	<Action name="help_context" />
 	<Menu name="help_tetex" ><text>TeTeX Documentation</text>
-		<Action name="edit_help_tetex_guide" />
-		<Action name="edit_help_tetex_doc" />
+		<Action name="help_tetex_guide" />
+		<Action name="help_tetex_doc" />
 		<Separator/>
-		<Action name="edit_help_latex_index" />
+		<Action name="help_latex_index" />
 		<Separator/>
-		<Action name="edit_help_latex_command" />
-		<Action name="edit_help_latex_subject" />
-		<Action name="edit_help_latex_env" />
+		<Action name="help_latex_command" />
+		<Action name="help_latex_subject" />
+		<Action name="help_latex_env" />
 	</Menu>
 	<Separator/>
 	<Action name="report_bug"/>
 	<Separator/>
-	<Action name="help4"/>
-	<Action name="help5"/>
+	<Action name="help_aboutKile"/>
+	<Action name="help_aboutKDE"/>
 </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1"><text>Main</text>

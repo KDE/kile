@@ -73,12 +73,12 @@ public:
 	void tabSelection(bool insert, Kate::View *view = 0L);
 	void stringSelection( bool insert, Kate::View *view = 0L);
 
-	void insertIntelligentNewline(Kate::View *view = 0L);
-
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
 
 public slots:
+	void insertIntelligentNewline(Kate::View *view = 0L);
+
 	void selectEnvInside() { selectEnvironment(true); }
 	void selectEnvOutside() { selectEnvironment(false); }
 	void deleteEnvInside() { deleteEnvironment(true); }

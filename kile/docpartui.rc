@@ -4,5 +4,11 @@
 		<Action name="Back"/>
 		<Action name="Forward"/>
 		<Action name="Home"/>
+		<Separator lineSeparator="true"/>
+		<Action name="find" /> 
+		<Separator lineSeparator="true"/>
+		<Action name="incFontSizes" />
+		<Action name="decFontSizes" />
 	</ToolBar>
 </kpartgui>
+

@@ -4,6 +4,10 @@ SUBDIRS = kile
 mimetypetextdata_DATA = x-kilepr.desktop
 mimetypetextdatadir = $(kde_mimedir)/text
 
+update_DATA = kile.upd
+update_SCRIPTS = kile1.6_upd.pl
+updatedir = $(kde_datadir)/kconf_update
+
 EXTRA_DIST = kile.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kile.lsm $(mimetypetextdata_DATA)
 
 

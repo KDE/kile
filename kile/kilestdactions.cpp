@@ -23,6 +23,7 @@
 #include <klocale.h>
 
 #include "kileactions.h"
+#include "kileedit.h"
 
 namespace KileStdActions
 {
@@ -139,7 +140,9 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 
 	(void) new KileAction::Tag(i18n("Underline"),"text_under",0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_underline", "\\underline{","}",11);
 
-	(void) new KileAction::Tag(i18n("New Line"),"newline",Qt::SHIFT+Qt::Key_Return , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_newline","\\\\\n",QString::null,0,1);
+// 	(void) new KileAction::Tag(i18n("New Line"),"newline",Qt::SHIFT+Qt::Key_Return , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_newline","\\\\\n",QString::null,0,1);
+
+	(void) new KAction(i18n("Smart New Line"), "newline", Qt::SHIFT+Qt::Key_Return , ki->editorExtension(), SLOT(insertIntelligentNewline()), parent->actionCollection(),"tag_newline");
 }
 
 void setupBibTags(KMainWindow *parent)

@@ -51,6 +51,7 @@
 #include <kstandarddirs.h>
 #include <ktoolbarbutton.h>
 #include <kmainwindow.h>
+#include <kmultitabbar.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -107,7 +108,6 @@
 #include "kileeventfilter.h"
 #include "kileautosavejob.h"
 #include "kileconfig.h"
-#include "kxtrcconverter.h"
 #include "kileerrorhandler.h"
 #include "configcheckerdlg.h"
 #include "kilespell.h"
@@ -133,7 +133,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	viewManager()->setClient(this, this);
 
 	partManager = new KParts::PartManager( this );
-	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
+	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
 
 	m_AutosaveTimer= new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
@@ -156,10 +156,11 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	Structview->setFrameStyle( QFrame::WinPanel | QFrame::Sunken );
 	Structview->setLineWidth( 2 );
 	Structview_layout=0;
-	ButtonBar=new KMultiVertTabBar(Structview);
+// 	ButtonBar=new KMultiVertTabBar(Structview);
+	ButtonBar=new KMultiTabBar(KMultiTabBar::Vertical, Structview);
 
-	ButtonBar->insertTab(SmallIcon("fileopen"),0,i18n("Open File"));
-	connect(ButtonBar->getTab(0),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("fileopen"),0,i18n("Open File"));
+	connect(ButtonBar->tab(0),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	KileFS= new KileFileSelect(Structview,"File Selector");
 	connect(KileFS,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
 	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
@@ -167,8 +168,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	KileProjectView *projectview = new KileProjectView(Structview, this);
 	viewManager()->setProjectView(projectview);
-	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files & Projects"));
-	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)), this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab( SmallIcon("editcopy"),9,i18n("Files & Projects"));
+	connect(ButtonBar->tab(9),SIGNAL(clicked(int)), this,SLOT(showVertPage(int)));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
 	connect(projectview, SIGNAL(closeURL(const KURL&)), docManager(), SLOT(fileClose(const KURL&)));
@@ -183,8 +184,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(projectview, SIGNAL(buildProjectTree(const KURL &)), docManager(), SLOT(buildProjectTree(const KURL &)));
 	connect(docManager(), SIGNAL(projectTreeChanged(const KileProject *)), projectview, SLOT(refreshProjectTree(const KileProject *)));
 
-	ButtonBar->insertTab( SmallIcon("structure"),1,i18n("Structure"));
-	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab( SmallIcon("structure"),1,i18n("Structure"));
+	connect(ButtonBar->tab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	m_kwStructure = new KileWidget::Structure(this, Structview);
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
 	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
@@ -219,20 +220,20 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	// initialized before calling ReadSettnigs().
 	ReadRecentFileSettings();
 
-	ButtonBar->insertTab(SmallIcon("math1"),2,i18n("Relation Symbols"));
-	connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math2"),3,i18n("Arrow Symbols"));
-	connect(ButtonBar->getTab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math3"),4,i18n("Miscellaneous Symbols"));
-	connect(ButtonBar->getTab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math4"),5,i18n("Delimiters"));
-	connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math5"),6,i18n("Greek Letters"));
-	connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("math6"),7,i18n("Special Characters"));
-	connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(SmallIcon("metapost"),8,i18n("MetaPost Commands"));
-	connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("math1"),2,i18n("Relation Symbols"));
+	connect(ButtonBar->tab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("math2"),3,i18n("Arrow Symbols"));
+	connect(ButtonBar->tab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("math3"),4,i18n("Miscellaneous Symbols"));
+	connect(ButtonBar->tab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("math4"),5,i18n("Delimiters"));
+	connect(ButtonBar->tab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("math5"),6,i18n("Greek Letters"));
+	connect(ButtonBar->tab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("math6"),7,i18n("Special Characters"));
+	connect(ButtonBar->tab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+	ButtonBar->appendTab(SmallIcon("metapost"),8,i18n("MetaPost Commands"));
+	connect(ButtonBar->tab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 
 	splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
 
@@ -435,13 +436,13 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
 	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
-	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexGuide()), actionCollection(), "edit_help_tetex_guide");
-	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexDoc()), actionCollection(), "edit_help_tetex_doc");
-	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "edit_help_latex_index");
-	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "edit_help_latex_command");
-	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "edit_help_latex_subject");
-	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "edit_help_latex_env");
-	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "edit_help_context");
+	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexGuide()), actionCollection(), "help_tetex_guide");
+	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexDoc()), actionCollection(), "help_tetex_doc");
+	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "help_latex_index");
+	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "help_latex_command");
+	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
+	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
+	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -494,14 +495,14 @@ void Kile::setupActions()
 	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
-	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
-	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help2");
+	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help_latex_reference" );
+	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
-	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
-	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
+	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
+	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
 	(void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"settings_configure" );
-	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
-	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
+	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"settings_keys" );
+	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"settings_toolbars" );
 	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
@@ -976,8 +977,8 @@ void Kile::ShowEditorWidget()
 	topWidgetStack->show();
 	splitter1->show();
 	splitter2->show();
-	if (showstructview)  Structview->show();
-	if (showoutputview)   m_outputView->show();
+	if (showstructview) Structview->show();
+	if (showoutputview) m_outputView->show();
 
 	Kate::View *view = viewManager()->currentView();
 	if (view) view->setFocus();
@@ -1009,9 +1010,9 @@ void Kile::ResetPart()
 	partManager->setActivePart( 0L);
 }
 
-void Kile::ActivePartGUI(KParts::Part * part)
+void Kile::activePartGUI(KParts::Part * part)
 {
-	kdDebug() << "==Kile::ActivePartGUI()=============================" << endl;
+	kdDebug() << "==Kile::activePartGUI()=============================" << endl;
 	kdDebug() << "\tcurrent state " << m_currentState << endl;
 	kdDebug() << "\twant state " << m_wantState << endl;
 
@@ -1036,17 +1037,18 @@ void Kile::ActivePartGUI(KParts::Part * part)
 
 	showToolBars(m_wantState);
 
+	//manually plug the print action into the toolbar for
+	//kghostview (which has the print action defined in
+	//a KParts::BrowserExtension)
 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
 	if (ext && ext->metaObject()->slotNames().contains( "print()" ) ) //part is a BrowserExtension, connect printAction()
 	{
-// 		kdDebug() << "HAS BrowserExtension + print" << endl;
 		connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
 		m_paPrint->plug(toolBar("mainToolBar"),3); //plug this action into its default location
 		m_paPrint->setEnabled(true);
 	}
 	else
 	{
-// 		kdDebug() << "NO BrowserExtension + print" << endl;
 		if (m_paPrint->isPlugged(toolBar("mainToolBar")))
 			m_paPrint->unplug(toolBar("mainToolBar"));
 
@@ -1062,7 +1064,6 @@ void Kile::showToolBars(const QString & wantState)
 {
 	if ( wantState == "HTMLpreview" )
 	{
-// 		kdDebug() << "\tchanged to: HTMLpreview" << endl;
 		stateChanged( "HTMLpreview");
 		toolBar("mainToolBar")->hide();
 		toolBar("toolsToolBar")->hide();
@@ -1075,7 +1076,6 @@ void Kile::showToolBars(const QString & wantState)
 	}
 	else if ( wantState == "Viewer" )
 	{
-// 		kdDebug() << "\tchanged to: Viewer" << endl;
 		stateChanged( "Viewer" );
 		toolBar("mainToolBar")->show();
 		toolBar("toolsToolBar")->hide();
@@ -1088,7 +1088,6 @@ void Kile::showToolBars(const QString & wantState)
 	}
 	else
 	{
-// 		kdDebug() << "\tchanged to: Editor" << endl;
 		stateChanged( "Editor" );
 		m_wantState="Editor";
 		topWidgetStack->raiseWidget(0);
@@ -1127,11 +1126,11 @@ void Kile::enableKileGUI(bool enable)
 //TODO: move to KileView::Manager
 void Kile::prepareForPart(const QString & state)
 {
-// 	kdDebug() << "==Kile::prepareForPart====================" << endl;
-	if ( state == m_currentState ) return;
+	kdDebug() << "==Kile::prepareForPart====================" << endl;
+
+	if ( m_currentState == "Editor" && state == "Editor" ) return;
 
 	ResetPart();
-
 	m_wantState = state;
 
 	//deactivate kateparts
@@ -1144,15 +1143,13 @@ void Kile::prepareForPart(const QString & state)
 
 void Kile::runTool()
 {
-// 	kdDebug() << "==Kile::runTool()============" << endl;
+	kdDebug() << "==void Kile::runTool()===" << endl;
 	QString name = sender()->name();
 	kdDebug() << "\tname: " << name << endl;
 	name.replace(QRegExp("^.*tool_"), "");
 	kdDebug() << "\ttool: " << name << endl;
 	m_manager->run(name);
 }
-
-// changed clean dialog with selectable items (dani)
 
 void Kile::CleanAll(KileDocument::Info *docinfo, bool silent)
 {
@@ -1421,13 +1418,6 @@ void Kile::ReadSettings()
 		}
 	}
 
-	//convert old config names containing spaces to KConfig XT compliant names
-	if((0 != version) && (version < 5))
-	{
-		KxtRcConverter cvt(config, KILERC_VERSION);
-		cvt.Convert();
-	}
-
 	//reads options that can be set in the configuration dialog
 	readConfig();
 
@@ -1442,12 +1432,6 @@ void Kile::ReadSettings()
 
 	showoutputview = KileConfig::outputview();
 	showstructview = KileConfig::structureview();
-
-	struct_level1 = KileConfig::structureLevel1();
-	struct_level2 = KileConfig::structureLevel2();
-	struct_level3 = KileConfig::structureLevel3();
-	struct_level4 = KileConfig::structureLevel4();
-	struct_level5 = KileConfig::structureLevel5();
 
 	lastvtab = KileConfig::selectedLeftView();
 }
@@ -1584,13 +1568,11 @@ void Kile::SaveSettings()
 	KileConfig::setOutputview(showoutputview);
 	KileConfig::setStructureview(showstructview);
 
-	KileConfig::setStructureLevel1(struct_level1);
-	KileConfig::setStructureLevel2(struct_level2);
-	KileConfig::setStructureLevel3(struct_level3);
-	KileConfig::setStructureLevel4(struct_level4);
-	KileConfig::setStructureLevel5(struct_level5);
-
-	KileConfig::setSelectedLeftView(ButtonBar->getRaisedTab());
+	for ( uint i = 0; i < 10; i++)
+	{
+		if ( ButtonBar->isTabRaised(i) )
+			KileConfig::setSelectedLeftView(i);
+	}
 
 	KileConfig::writeConfig();
 	config->sync();
@@ -1734,6 +1716,7 @@ void Kile::ConfigureToolbars()
 }
 
 ////////////// VERTICAL TAB /////////////////
+//FIXME create a KileSideBar class, move this mess in there, then refactor
 void Kile::showVertPage(int page)
 {
 	ButtonBar->setTab(lastvtab,false);
@@ -1751,7 +1734,7 @@ void Kile::showVertPage(int page)
 		Structview_layout=new QHBoxLayout(Structview);
 		Structview_layout->add(KileFS);
 		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		ButtonBar->setPosition(KMultiTabBar::Right);
 		KileFS->show();
 	}
 	else if (page==1)
@@ -1766,7 +1749,7 @@ void Kile::showVertPage(int page)
 		Structview_layout=new QHBoxLayout(Structview);
 		Structview_layout->add(m_kwStructure);
 		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		ButtonBar->setPosition(KMultiTabBar::Right);
 		m_kwStructure->show();
 	}
 	else if (page==8)
@@ -1780,7 +1763,7 @@ void Kile::showVertPage(int page)
 		Structview_layout=new QHBoxLayout(Structview);
 		Structview_layout->add(mpview);
 		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		ButtonBar->setPosition(KMultiTabBar::Right);
 		mpview->show();
 	}
 	else if (page==9)
@@ -1795,7 +1778,7 @@ void Kile::showVertPage(int page)
 		Structview_layout=new QHBoxLayout(Structview);
 		Structview_layout->add(viewManager()->projectView());
 		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		ButtonBar->setPosition(KMultiTabBar::Right);
 		viewManager()->projectView()->show();
 	}
 	else
@@ -1812,7 +1795,7 @@ void Kile::showVertPage(int page)
 		symbol_present=true;
 		Structview_layout->add(symbol_view);
 		Structview_layout->add(ButtonBar);
-		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		ButtonBar->setPosition(KMultiTabBar::Right);
 		symbol_view->show();
 	}
 }

@@ -14,7 +14,6 @@
 
 #include <kate/view.h>
 #include <kate/document.h>
-#include <kapplication.h>
 
 #include "kileeventfilter.h"
 #include "kileconfig.h"
@@ -22,8 +21,7 @@
 KileEventFilter::KileEventFilter()
 {
 	m_bHandleEnter = true;
-	//m_bCompleteEnvironment = false;
-	m_regexpEnter  = QRegExp("(.*)(\\\\begin\\s*\\{[^\\{\\}]*\\})\\s*$");
+	m_regexpEnter  = QRegExp("^(.*)(\\\\begin\\s*\\{[^\\{\\}]*\\})");
 
 	readConfig();
 }
@@ -38,22 +36,15 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 	if ( e->type() == QEvent::AccelOverride)
 	{
 		QKeyEvent *ke = (QKeyEvent*) e;
-		//kdDebug() << "eventFilter : AccelOverride : " << ke->key() << endl;
-		//kdDebug() << "              type          : " << ke->type() << endl;
-		//kdDebug() << "              state         : " << ke->state() << endl;
 
 		if ( m_bCompleteEnvironment &&  ke->key() == Qt::Key_Return && ke->state() == 0)
 		{
 			if (m_bHandleEnter)
 			{
-				//kdDebug() << "              enter" << endl;
 				Kate::View *view = (Kate::View*) o;
 
 				QString line = view->getDoc()->textLine(view->cursorLine()).left(view->cursorColumnReal());
 				int pos = m_regexpEnter.search(line);
-				//kdDebug() << "              line     : " << line << endl;
-				//kdDebug() << "              pos      : " << pos << endl;
-				//kdDebug() << "              captured : " << m_regexpEnter.cap(1) << "+" << m_regexpEnter.cap(2) << endl;
 				if (pos != -1 )
 				{
 					line = m_regexpEnter.cap(1);

@@ -393,12 +393,11 @@ void Manager::setHighlightMode(Kate::Document * doc, const QString &highlight)
 
 	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
 
-	if ( (hl != QString::null) || doc->url().isEmpty() || pMime->name() == "text/x-tex" || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls")
+	if ( (hl != QString::null) || doc->url().isEmpty() || doc->docName() == i18n("Untitled")|| pMime->name() == "text/x-tex" || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls")
 	{
 		if (hl == "") hl = "latex-kile";
 		for (i = 0; i < c; i++)
 		{
-			kdDebug() << "\tCOMPARING " << doc->hlModeName(i).lower() << " with " << hl << endl;
 			if (doc->hlModeName(i).lower() == hl) { found = true; break; }
 		}
 
@@ -623,6 +622,7 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	emit(documentStatusChanged(doc, doc->isModified(), 0));
 
 	Info *docinfo = infoFor(doc);
+	
 
 	//add to project view if doc was Untitled before
 	if (docinfo->oldURL().isEmpty())

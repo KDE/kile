@@ -223,13 +223,13 @@ void KileDocumentInfo::updateStruct()
 		//find all commands in this line
 		while (tagStart != -1)
 		{
-			if ( (!foundBD) && (s.find(reBD, i) != -1))
+			if ( (!foundBD) && (s.find(reBD, tagEnd) != -1))
 			{
 				kdDebug() << "found \\begin{document}" << endl;
 				foundBD = true;
 			}
 
-			if ((!foundBD) && (s.find(reRoot, i) != -1))
+			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
 			{
 				kdDebug() << "setting m_bIsRoot to TRUE" << endl;
 				tagEnd += reRoot.cap(0).length();

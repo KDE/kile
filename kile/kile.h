@@ -281,8 +281,6 @@ private slots:
 	void insertSymbol(QIconViewItem*);
 	void insertMetaPost(QListBoxItem *);
 
-// 	void insertUserTag(int i);
-// 	void insertUserTag(const KileAction::TagData& td);
 	void editUserMenu();
 
 	void includeGraphics();

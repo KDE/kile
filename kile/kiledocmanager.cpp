@@ -508,7 +508,7 @@ void Manager::replaceTemplateVariables(QString &line)
 {
 	line=line.replace("$$AUTHOR$$", KileConfig::author());
 	line=line.replace("$$DOCUMENTCLASSOPTIONS$$", KileConfig::documentClassOptions());
-	if (KileConfig::templateEncoding() != "") { line=line.replace("$$INPUTENCODING$$", "\\input["+ KileConfig::templateEncoding() +"]{inputenc}");}
+	if (KileConfig::templateEncoding() != "") { line=line.replace("$$INPUTENCODING$$", "\\usepackage["+ KileConfig::templateEncoding() +"]{inputenc}");}
 	else { line = line.replace("$$INPUTENCODING$$","");}
 }
 

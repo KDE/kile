@@ -6,6 +6,7 @@ Id=Kile1.5v1
 File=kilerc
 RemoveGroup=Structure
 RemoveGroup=Editor
+RemoveGroup=Files
 #
 # Kile-1.6
 #

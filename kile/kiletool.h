@@ -166,8 +166,8 @@ namespace KileTool
 		const QString readEntry(const QString & key) { return m_entryMap[key]; }
 
 	public:
-		virtual void prepareToRun();
-        bool isPrepared() { return m_bPrepared; }
+		virtual void prepareToRun(const QString &cfg = QString::null);
+    bool isPrepared() { return m_bPrepared; }
 		bool needsToBePrepared() { return m_bPrepareToRun; }
 
 	protected:
@@ -195,10 +195,11 @@ namespace KileTool
 		
 		virtual bool checkSource();
 
+  public:
 		/**
 		 * Configures the tool object.
 		 **/
-		 virtual bool configure();
+		 virtual bool configure(const QString & cfg = QString::null);
 
 	public slots:
 		/**

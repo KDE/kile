@@ -161,7 +161,9 @@ namespace KileTool
 		}
 
 		if ( tool->needsToBePrepared() )
-			tool->prepareToRun();
+			tool->prepareToRun(cfg);
+    else
+      tool->configure(cfg);
 
 		//FIXME: shouldn't restart timer if a Sequence command takes longer than the 10 secs
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
@@ -307,9 +309,10 @@ namespace KileTool
 			return groupFor(name, m_config);
 	}
 
-	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
+	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject, const QString & cfg /*= QString::null*/)
 	{
-		QString group = currentGroup(name, usequeue, useproject);
+		QString group = (cfg == QString::null )
+                    ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
 
 		kdDebug() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
 		kdDebug() << "\t" << name << " => " << group << endl;
@@ -353,14 +356,14 @@ namespace KileTool
 		}
 	}
 
-	bool Manager::configure(Base *tool)
+	bool Manager::configure(Base *tool, const QString & cfg /*=QString::null*/)
 	{
 		kdDebug() << "==KileTool::Manager::configure()===============" << endl;
 		//configure the tool
 
 		Config map;
 
-		if ( ! retrieveEntryMap(tool->name(), map) )
+		if ( ! retrieveEntryMap(tool->name(), map, true, true, cfg) )
 		{
 			m_log->printMsg(Error, i18n("Cannot find the tool %1 in the configuration database.").arg(tool->name()));
 			return false;

@@ -47,7 +47,7 @@ namespace KileTool
 		m_S(QString::null),
 		m_options(QString::null),
 		m_launcher(0L),
-        m_bPrepareToRun(prepare)
+    m_bPrepareToRun(prepare)
 	{
 		m_manager->initTool(this);
 		
@@ -99,7 +99,7 @@ namespace KileTool
 		}
 	}
 
-	void Base::prepareToRun()
+	void Base::prepareToRun(const QString &cfg)
 	{
 		kdDebug() << "==Base::prepareToRun()=======" << endl;
 		
@@ -107,7 +107,7 @@ namespace KileTool
 		m_nPreparationResult = Running;
 
 		//configure me
-		if (!configure())
+		if (!configure(cfg))
 		{
 			m_nPreparationResult = ConfigureFailed;
 			m_bPrepared = false;
@@ -367,11 +367,9 @@ namespace KileTool
 		return true;
 	}
 
-	bool Base::configure()
+	bool Base::configure(const QString &cfg)
 	{
-		m_manager->configure(this);
-		
-		return true;
+		return m_manager->configure(this, cfg);
 	}
 	
 	void Base::stop()

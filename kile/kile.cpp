@@ -5115,8 +5115,8 @@ else
 }
 
 config->setGroup( "Files" );
-lastDocument=config->readEntry("Last Document","");
-recentFilesList=config->readListEntry("Recent Files", ':');
+lastDocument=config->readPathEntry("Last Document");
+recentFilesList=config->readPathListEntry("Recent Files", ':');
 input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
 autosave=config->readBoolEntry("Autosave",true);
 autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
@@ -5124,16 +5124,16 @@ enableAutosave(autosave);
 setAutosaveInterval(autosaveinterval);
 
 config->setGroup( "User" );
-templAuthor=config->readEntry("Author","");
+templAuthor=config->readEntry("Author");
 templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
-templEncoding=config->readEntry("Template Encoding","");
+templEncoding=config->readEntry("Template Encoding");
 
 userItem tempItem;
 int len = config->readNumEntry("nUserTags",0);
 for (int i = 0; i < len; i++)
 {
 	tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
+	tempItem.tag =config->readEntry("userTag"+QString::number(i));
 	listUserTags.append(tempItem);
 }
 
@@ -5141,7 +5141,7 @@ len= config->readNumEntry("nUserTools",0);
 for (int i=0; i< len; i++)
 {
 	tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
+	tempItem.tag =config->readEntry("userTool"+QString::number(i));
 	listUserTools.append(tempItem);
 }
 
@@ -5159,7 +5159,7 @@ paper_size=config->readEntry("Papersize","a4paper");
 document_encoding=config->readEntry("Encoding","latin1");
 ams_packages=config->readBoolEntry( "AMS",true);
 makeidx_package=config->readBoolEntry( "MakeIndex",false);
-author=config->readEntry("Author","");
+author=config->readEntry("Author");
 }
 
 void Kile::SaveSettings()
@@ -5234,8 +5234,8 @@ config->writeEntry("User Options",userOptionsList, ':');
 
 
 config->setGroup( "Files" );
-config->writeEntry("Last Document",lastDocument);
-config->writeEntry("Recent Files",recentFilesList, ':');
+config->writePathEntry("Last Document",lastDocument);
+config->writePathEntry("Recent Files", recentFilesList, ':');
 config->writeEntry("Input Encoding", input_encoding);
 config->writeEntry("Autosave",autosave);
 config->writeEntry("AutosaveInterval",autosaveinterval);

@@ -29,6 +29,8 @@ class QStringList;
 class KSimpleConfig;
 class KileDocumentInfo;
 
+const QString DEFAULT_EXTENSIONS = ".eps .pdf .dvi .ps .fig .log .aux .gif .jpg .png .fig";
+
 /**
  * KileProjectItem
  **/
@@ -139,6 +141,8 @@ public:
 	void setExtensions(const QString & ext);
 	const QString & extensions() { return m_extensions; }
 
+	void setExtIsRegExp(bool is) { m_extIsRegExp = is; }
+	bool extIsRegExp() { return m_extIsRegExp; }
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
@@ -185,6 +189,7 @@ private:
 
 	QString		m_extensions;
 	QRegExp		m_reExtensions;
+	bool		m_extIsRegExp;
 
 	KSimpleConfig	*m_config;
 };

@@ -34,14 +34,15 @@
 QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
 QString whatsthisArchive = i18n("Enter the command to create an archive of all the project files here. %S will be replaced with the project name, %F with a list of all the project files (items are separated by a space). This command will be executed from the base directory of the project (i.e. the directory where the .kilepr file resides).");
-QString whatsthisExt = i18n("");
+QString whatsthisExt = i18n("Insert a list (separated with spaces) of the extensions of the files in your project that are not TeX source files. These files will be put in a separate place in the Project View. You can also use a regular expression to detect which files are non-source files.");
+
 /*
  * KileNewProjectDlg
  */
 KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
         : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true )
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),4,6, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(),4,8, 10);
 	layout->setColStretch(2,1);
 	layout->setColStretch(3,1);
 
@@ -85,6 +86,19 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	QWhatsThis::add(lb, whatsthisArchive);
 	layout->addWidget(lb, 5,0);
 	layout->addMultiCellWidget(m_archive, 5,5,1,3);
+
+	m_extensions = new KLineEdit(plainPage(), "le_ext");
+	m_extensions->setText(DEFAULT_EXTENSIONS);
+	lb = new QLabel(i18n("&Extensions for non-source files"), plainPage());
+	lb->setBuddy(m_extensions);
+	m_isregexp = new QCheckBox(i18n("use extension list as a regular expression"), plainPage());
+	m_isregexp->setChecked(false);
+	QWhatsThis::add(m_extensions, whatsthisExt);
+	QWhatsThis::add(m_isregexp, whatsthisExt);
+	QWhatsThis::add(lb,whatsthisExt);
+	layout->addWidget(lb, 6,0);
+	layout->addMultiCellWidget(m_extensions, 6,6,1,3);
+	layout->addMultiCellWidget(m_isregexp, 7,7,1,3);
 }
 
 KileNewProjectDlg::~KileNewProjectDlg()
@@ -156,7 +170,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
  	KDialogBase(KDialogBase::Plain, i18n("Project Options"), Ok|Cancel,Ok, parent, name, true, true ),
 	m_project(project)
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),4,3, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(),4,4, 10);
 
 	m_name = new KLineEdit(plainPage(), "le_projectname");
 	m_name->setText(m_project->name());
@@ -180,10 +194,14 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	m_extensions->setText(project->extensions());
 	lb = new QLabel(i18n("&Extensions for non-source files"), plainPage());
 	lb->setBuddy(m_extensions);
+	m_isregexp = new QCheckBox(i18n("use extension list as a regular expression"), plainPage());
+	m_isregexp->setChecked(project->extIsRegExp());
 	QWhatsThis::add(m_extensions, whatsthisExt);
+	QWhatsThis::add(m_isregexp, whatsthisExt);
 	QWhatsThis::add(lb,whatsthisExt);
 	layout->addWidget(lb, 2,0);
 	layout->addMultiCellWidget(m_extensions, 2,2,1,3);
+	layout->addMultiCellWidget(m_isregexp, 3,3,1,3);
 }
 
 KileProjectOptionsDlg::~KileProjectOptionsDlg()
@@ -195,6 +213,7 @@ void KileProjectOptionsDlg::slotOk()
 	m_project->setName(m_name->text());
 	m_project->setArchiveCommand(m_archive->text());
 	m_project->setExtensions(m_extensions->text());
+	m_project->setExtIsRegExp(m_isregexp->isChecked());
 	accept();
 }
 

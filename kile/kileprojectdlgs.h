@@ -37,9 +37,13 @@ public:
 	QString name() {return m_name->text();}
 	QString location() { return m_location->text(); }
 	QString archiveCommand() { return m_archive->text(); }
+	QString extensions() { return m_extensions->text(); }
+	bool useRegExp() { return m_isregexp->isChecked(); }
+
 	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_nfw->currentItem());}
 	QString file() { return m_file->text();}
 	bool createNewFile() { return m_cb->isChecked(); }
+	bool extIsRegExp() { return m_isregexp->isChecked(); }
 
 public slots:
 	void clickedCreateNewFileCb();
@@ -48,9 +52,9 @@ public slots:
 	void slotOk();
 
 private:
-	KLineEdit	*m_name, *m_location, *m_file, *m_archive;
+	KLineEdit	*m_name, *m_location, *m_file, *m_archive, *m_extensions;
 	NewFileWidget *m_nfw;
-	QCheckBox	*m_cb;
+	QCheckBox	*m_cb, *m_isregexp;
 	QLabel *m_lb;
 };
 
@@ -67,6 +71,7 @@ private slots:
 
 private:
 	KLineEdit		*m_name, *m_archive, *m_extensions;
+	QCheckBox		*m_isregexp;
 	KileProject	*m_project;
 };
 

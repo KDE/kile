@@ -154,21 +154,32 @@ void KileProject::init(const QString& name, const KURL& url)
 
 void KileProject::setExtensions(const QString & ext)
 {
-	bool retype = false;
-	if (ext != m_extensions)
-		retype = true; //determine the types of the project items again
+	QString pattern = ext;
 
-	m_extensions = ext;
-	QStringList lst = QStringList::split(" ", ext);
-	QString pattern = lst.join("|");
-	pattern.replace(".","\\.");
-	pattern ="("+ pattern +")$";
+	if (ext.stripWhiteSpace().length() == 0)
+	{
+		kdDebug() << "NO EXTENSIONS!!!!!!!" << endl;
+		pattern = "";
+	}
+
+	if ( (pattern != "") && !extIsRegExp())
+	{
+		QStringList lst = QStringList::split(" ", ext);
+		pattern = lst.join("|");
+		pattern.replace(".","\\.");
+		pattern ="("+ pattern +")$";
+	}
+
+	if ( extIsRegExp() )
+		pattern = ext.stripWhiteSpace();
+
 	kdDebug() << "==KileProject::setExtensions"<<endl;
 	kdDebug() << "\tsetting pattern to: " << pattern << endl;
 	m_reExtensions.setPattern(pattern);
 
-	if (retype)
+	if (m_extensions != ext)
 	{
+		m_extensions = ext.stripWhiteSpace();
 		buildProjectTree();
 	}
 }
@@ -176,7 +187,8 @@ void KileProject::setExtensions(const QString & ext)
 void KileProject::setType(KileProjectItem *item)
 {
 	kdDebug() << "==KileProject::setType()================" << endl;
-	if (m_reExtensions.search(item->url().fileName()) != -1)
+	if ( (extensions() != "") && m_reExtensions.search(item->path()) 
+!= -1)
 		item->setType(KileProjectItem::Other);
 	else
 		item->setType(KileProjectItem::Source);
@@ -192,7 +204,8 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
-	setExtensions(m_config->readEntry("extensions", ".eps .pdf .dvi .ps .fig .log .aux .gif .jpg .png .fig"));
+	setExtIsRegExp( m_config->readBoolEntry("extIsRegExp", false));
+	setExtensions(m_config->readEntry("extensions", DEFAULT_EXTENSIONS));
 	m_archiveCommand = m_config->readEntry("archive", "tar zcvf '%S'.tar.gz %F");
 
 	KURL url;
@@ -234,6 +247,7 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
+	m_config->writeEntry("extIsRegExp", extIsRegExp());
 	m_config->writeEntry("extensions", m_extensions);
 	m_config->writeEntry("archive", m_archiveCommand);
 
@@ -279,6 +293,8 @@ void KileProject::buildProjectTree()
 	it.toFirst();
 	while (it.current())
 	{
+		//set the type correctly (changing m_extensions causes a call to buildProjectTree)
+		setType(*it);
 		deps = (*it)->getInfo()->dependencies();
 		for (uint i=0; i < deps->count(); i++)
 		{

@@ -966,9 +966,9 @@ void Kile::projectNew()
 
 		KileProject *project = new KileProject(dlg->name(), dlg->location());
 
-		project->setArchiveCommand(dlg->archiveCommand());
 
 		//add the project file to the project
+		//TODO: shell expand the filename
 		KileProjectItem *item = new KileProjectItem(project, project->url());
 		item->setOpenState(false);
 		projectOpenItem(item);
@@ -976,6 +976,7 @@ void Kile::projectNew()
 		if (dlg->createNewFile())
 		{
 			//create the new document and fill it with the template
+			//TODO: shell expand the filename
 			Kate::View *view = loadTemplate(dlg->getSelection());
 
 			//derive the URL from the base url of the project
@@ -996,6 +997,9 @@ void Kile::projectNew()
 			docinfo->updateStruct(m_defaultLevel);
 		}
 
+		project->setArchiveCommand(dlg->archiveCommand());
+		project->setExtIsRegExp(dlg->useRegExp());
+		project->setExtensions(dlg->extensions());
 		project->buildProjectTree();
 
 		//project->save();

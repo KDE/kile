@@ -27,7 +27,7 @@
 #include "kileproject.h"
 #include "kileprojectview.h"
 
-const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5;
+const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5, KPV_ID_BUILDTREE = 6;
 
 /*
  * KileProjectViewItem
@@ -118,13 +118,15 @@ void KileProjectView::slotProjectItem(int id)
 	if (item && item->type() == KileType::ProjectItem)
 	{
 		KURL projecturl,url;
+		KileProjectItem *itm;
 		switch (id)
 		{
 			case KPV_ID_OPEN : emit(fileSelected(item->url())); break;
 			case KPV_ID_SAVE : emit(saveURL(item->url())); break;
 			case KPV_ID_REMOVE :
-				projecturl = item->parent()->url();
 				url = item->url();
+				itm = m_ki->itemFor(url);
+				projecturl = itm->project()->url();
 				emit(removeFromProject(projecturl , url));
 				break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
@@ -140,6 +142,7 @@ void KileProjectView::slotProject(int id)
 	{
 		switch (id)
 		{
+			case KPV_ID_BUILDTREE : emit(buildProjectTree(item->url())); break;
 			case KPV_ID_OPTIONS : emit(projectOptions(item->url())); break;
 			case KPV_ID_CLOSE : emit(closeProject(item->url())); break;
 			default : break;
@@ -177,6 +180,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		}
 		else if (itm->type() == KileType::Project)
 		{
+			m_popup->insertItem(SmallIcon("relation"),i18n("Build Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
@@ -209,7 +213,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	}
 }
 
-void KileProjectView::add(KileProject *project)
+void KileProjectView::add(const KileProject *project)
 {
 	KileProjectViewItem *item, *parent = new KileProjectViewItem(this, project->name());
 	parent->setType(KileType::Project);
@@ -218,39 +222,129 @@ void KileProjectView::add(KileProject *project)
 	parent->setPixmap(0,SmallIcon("relation"));
 	makeTheConnection(parent);
 
-	KileProjectItemList *list = project->items();
-	for (uint i = 0; i < list->count(); i++)
-	{
-		kdDebug() << "adding ITEM " << list->at(i)->url().fileName() << endl;
-		item =  new KileProjectViewItem(parent, list->at(i)->url().fileName());
-		item->setType(KileType::ProjectItem);
-		item->setURL(list->at(i)->url());
-		makeTheConnection(item);
-	}
+	refreshProjectTree(project);
 
 	m_nProjects++;
 }
 
-void KileProjectView::add(const KileProjectItem *projitem)
+KileProjectViewItem * KileProjectView::projectViewItemFor(const KURL & url)
 {
-	kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
-	//find project first
-	const KileProject *project = projitem->project();
+	KileProjectViewItem *item = 0;
 
-	KileProjectViewItem *item = static_cast<KileProjectViewItem*>(firstChild());
+	//find project view item
+	 item = static_cast<KileProjectViewItem*>(firstChild());
 
 	while ( item)
 	{
-		if ( (item->type() == KileType::Project) && (item->url() == project->url()) )
-		{
-			item =  new KileProjectViewItem(item, projitem->url().fileName());
-			item->setType(KileType::ProjectItem);
-			item->setURL(projitem->url());
-			makeTheConnection(item);
+		if ( (item->type() == KileType::Project) && (item->url() == url) )
 			break;
-		}
 		item = static_cast<KileProjectViewItem*>(item->nextSibling());
 	}
+
+	return item;
+}
+
+KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem, KileProjectViewItem *projvi)
+{
+	//find parent projectviewitem of projitem
+	KileProjectItem *parpi = projitem->parent();
+	KileProjectViewItem *parpvi = projvi, *vi;
+
+	if (parpi)
+	{
+		//find parent viewitem that has an URL parpi->url()
+		QListViewItemIterator it( projvi );
+		kdDebug() << "\tlooking for " << parpi->url().path() << endl;
+		while (it.current())
+		{
+			vi = static_cast<KileProjectViewItem*>(*it);
+			kdDebug() << "\t\t" << vi->url().path() << endl;
+			if (vi->url() == parpi->url())
+			{
+				parpvi = vi;
+				kdDebug() << "\t\tfound" <<endl;
+				break;
+			}
+			++it;
+		}
+
+		kdDebug() << "\t\tnot found" << endl;
+	}
+
+	return parpvi;
+}
+
+KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileProjectViewItem * projvi /* = 0*/)
+{
+	kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
+
+	const KileProject *project = projitem->project();
+
+	if (projvi == 0 )
+	{
+		projvi= projectViewItemFor(project->url());
+	}
+
+	//KileProjectViewItem *parpvi = parentFor(projitem, projvi);
+
+	kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
+	KileProjectViewItem *item =  new KileProjectViewItem(projvi, projitem->url().fileName());
+	item->setType(KileType::ProjectItem);
+	item->setURL(projitem->url());
+	makeTheConnection(item);
+
+	return item;
+}
+
+const KileProjectViewItem* KileProjectView::addTree(const KileProjectItem *projitem, KileProjectViewItem * projvi)
+{
+	KileProjectViewItem * item = add(projitem, projvi);
+
+	if (projitem->firstChild())
+		return addTree(projitem->firstChild(), item);
+
+	if (projitem->sibling())
+		return addTree(projitem->sibling(), projvi);
+
+	if (projitem->parent())
+	{
+		if (projitem->parent()->sibling())
+		{
+			return addTree(projitem->parent()->sibling(), projvi->parent());
+		}
+	}
+
+	return 0;
+}
+
+void KileProjectView::refreshProjectTree(const KileProject *project)
+{
+	kdDebug() << "\tKileProjectView::refreshProjectTree(" << project->name() << ")" << endl;
+	KileProjectViewItem *parent= projectViewItemFor(project->url());
+
+	if (parent)
+	{
+		kdDebug() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
+		QListViewItem *vi = parent->firstChild(), *next;
+		while (vi)
+		{
+			next = vi->nextSibling();
+			delete vi;
+			vi = next;
+		}
+	}
+	else
+		return;
+
+	QPtrList<KileProjectItem> list = *(project->rootItems());
+	QPtrListIterator<KileProjectItem> it(list);
+	while (it.current())
+	{
+		addTree(*it, parent);
+		++it;
+	}
+
+	parent->sortChildItems(0, true);
 }
 
 void KileProjectView::add(const KURL & url)

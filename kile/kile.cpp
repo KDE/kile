@@ -163,6 +163,8 @@ Kile::Kile( QWidget *, const char *name ) :
 	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
 	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 	connect(m_projectview, SIGNAL(saveURL(const KURL &)), this, SLOT(saveURL(const KURL &)));
+	connect(m_projectview, SIGNAL(buildProjectTree(const KURL &)), this, SLOT(buildProjectTree(const KURL &)));
+	connect(this, SIGNAL(projectTreeChanged(const KileProject *)),m_projectview, SLOT(refreshProjectTree(const KileProject *)));
 
 	ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
 	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
@@ -283,6 +285,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, this, SLOT(projectNew()), actionCollection(), "project_new");
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, this, SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
+	(void) new KAction(i18n("Build Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
 	(void) new KAction(i18n("Project &Options..."), "configure", 0, this, SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
 
@@ -514,7 +517,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 
 	setHighlightMode(doc, highlight);
 
-	KileDocumentInfo *docinfo;
+	KileDocumentInfo *docinfo = 0;
 
 	//see if this file belongs to an opened project
 	//if so, make the project class aware
@@ -528,7 +531,11 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		//mapItem(docinfo, item);
 		item->setOpenState(true);
 	}
-	else
+
+	//no docinfo generated before, reasons
+	// 1. file does not belong to a project, so a docinfo has not been created
+	// 2. file does belong to a project and a "Close Project" has been aborted
+	if (docinfo == 0)
 	{
 		//install a documentinfo class for this doc
 		docinfo = new KileDocumentInfo(doc);
@@ -815,7 +822,7 @@ void Kile::fileOpen()
 	}
 
 	//get the URLs
-	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All Files"), this,i18n("Open File") );
+	KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*.ltx *.tex *.dtx *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
 
 	//open them
 	for (uint i=0; i < urls.count(); i++)
@@ -892,8 +899,30 @@ void Kile::autoSaveAll()
 void Kile::enableAutosave(bool as)
 {
 	autosave=as;
-	if (autosave) m_AutosaveTimer->start(autosaveinterval);
+	if (as) m_AutosaveTimer->start(autosaveinterval);
 	else m_AutosaveTimer->stop();
+}
+
+void Kile::buildProjectTree(const KURL & url)
+{
+	KileProject * project = projectFor(url);
+
+	if (project)
+		buildProjectTree(project);
+}
+
+void Kile::buildProjectTree(KileProject *project)
+{
+	if (project == 0)
+		project = activeProject();
+
+	if (project)
+	{
+		//TODO: update structure for all docs
+		project->buildProjectTree();
+	}
+	else
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Build Project Tree again."),i18n( "Could not build project tree."));
 }
 
 void Kile::projectNew()
@@ -907,15 +936,14 @@ void Kile::projectNew()
 
 		KileProject *project = new KileProject(dlg->name(), dlg->location());
 
+		//add the project file to the project
+		KileProjectItem *item = new KileProjectItem(project, project->url());
+		item->setOpenState(false);
+		//project->add(item);
+		projectOpenItem(item);
+
 		if (dlg->createNewFile())
 		{
-			//add the project file to the project
-
-			KileProjectItem *item = new KileProjectItem(project, project->url());
-			item->setOpenState(false);
-			project->add(item);
-			projectOpenItem(item);
-
 			//create the new document and fill it with the template
 			Kate::View *view = loadTemplate(dlg->getSelection());
 
@@ -931,14 +959,20 @@ void Kile::projectNew()
 
 			//add this file to the project
 			item = new KileProjectItem(project, url);
-			project->add(item);
+			//project->add(item);
 			mapItem(docinfo, item);
 		}
 
 		//project->save();
-		m_projects.append(project);
-		m_projectview->add(project);
+		addProject(project);
 	}
+}
+
+void Kile::addProject(const KileProject *project)
+{
+	m_projects.append(project);
+	m_projectview->add(project);
+	connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
 }
 
 void Kile::addToProject(const KURL & url)
@@ -978,6 +1012,7 @@ void Kile::addToProject(KileProject* project, const KURL & url)
 	KileProjectItem *item = new KileProjectItem(project, url);
 	projectOpenItem(item);
 	m_projectview->add(item);
+	buildProjectTree(project);
 }
 
 void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
@@ -991,12 +1026,21 @@ void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
 		if (item)
 		{
 			kdDebug() << "\tprojecturl = " << projecturl.path() << ", url = " << item->url().path() << endl;
+
+			if (project->url() == item->url())
+			{
+				KMessageBox::error(this, i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot remove file from project"));
+				return;
+			}
+
 			removeMap(infoFor(item), item);
 			project->remove(item);
 
 			//move projectviewitem to a place outside of this project tree
 			m_projectview->removeItem(url);
-			m_projectview->add(url);
+			if (isOpen(url)) m_projectview->add(url);
+
+			buildProjectTree(project);
 		}
 	}
 }
@@ -1077,8 +1121,8 @@ void Kile::projectOpen(const KURL &url)
 		projectOpenItem(item);
 	}
 
-	m_projects.append(kp);
-	m_projectview->add(kp);
+	kp->buildProjectTree();
+	addProject(kp);
 
 	UpdateStructure();
 	updateModeStatus();
@@ -1206,7 +1250,7 @@ bool Kile::projectClose(const KURL & url)
 		if (doc)
 		{
 			doc->save();
-			doc->closeURL();
+			fileClose(doc);
 		}
 		projectSave(project);
 
@@ -1215,7 +1259,7 @@ bool Kile::projectClose(const KURL & url)
 		bool close = true;
 		for (uint i =0; i < list->count(); i++)
 		{
-			close = close && fileClose(infoFor(list->at(i))->getDoc());
+			close = close && fileClose(infoFor(list->at(i))->getDoc(), true);
 		}
 
 		if (close)
@@ -1298,13 +1342,13 @@ void Kile::saveURL(const KURL & url)
 	}
 }
 
-bool Kile::fileClose(const KURL & url )
+bool Kile::fileClose(const KURL & url, bool delDocinfo /* = false */ )
 {
 	QPtrListIterator<Kate::Document> it(m_docList);
 	while ( it.current())
 	{
 		if ((*it)->url() == url )
-			return fileClose((*it));
+			return fileClose((*it), delDocinfo);
 
 		++it;
 	}
@@ -1312,7 +1356,7 @@ bool Kile::fileClose(const KURL & url )
 	return true;
 }
 
-bool Kile::fileClose(Kate::Document *doc /* = 0*/)
+bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */)
 {
 	Kate::View *view = currentView();
 
@@ -1334,9 +1378,10 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 			//remove the decorations
 			docinfo = infoFor(doc);
 			item = itemFor(docinfo);
-			if (item == 0)
+			if (item == 0 || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
+				//or we're closing the project itself (delDocinfo is true)
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
@@ -2808,7 +2853,7 @@ void Kile::execUserTool(int i)
 			if (KMessageBox::warningContinueCancel(this,i18n("Please open or create a document before you execute this tool."))
 				== KMessageBox::Cancel)
 			{
-				LogWidget->insertLine(i18n("Process canceled by user."));
+				LogWidget->insertLine(i18n("Process cancelled by user."));
 				return;
 			}
 
@@ -3145,7 +3190,7 @@ void Kile::PreviousError()
 void Kile::insertTag(const KileAction::TagData& data)
 {
 	Kate::View *view = currentView();
-	int para,index;
+	int para,index, para_end, para_begin, index_begin;
 
 	if ( !view ) return;
 
@@ -3154,19 +3199,24 @@ void Kile::insertTag(const KileAction::TagData& data)
 	//whether or not to wrap tag around selection
 	bool wrap = (data.tagEnd != QString::null && view->getDoc()->hasSelection());
 
+	//%C before or after the selection
+	bool before = data.tagBegin.contains("%C");
+	bool after = data.tagEnd.contains("%C");
+
 	//save current cursor position
-	para=view->cursorLine();
-	index=view->cursorColumnReal();
+	para=para_begin=view->cursorLine();
+	index=index_begin=view->cursorColumnReal();
 
 	//if there is a selection act as if cursor is at the beginning of selection
 	if (wrap)
 	{
 		index = view->getDoc()->selStartCol();
 		para  = view->getDoc()->selStartLine();
+		para_end = view->getDoc()->selEndLine();
 	}
 
 	QString ins = data.tagBegin;
-	
+
 	//cut the selected text
 	if (wrap)
 	{
@@ -3185,7 +3235,34 @@ void Kile::insertTag(const KileAction::TagData& data)
 	view->getDoc()->insertText(para,index,ins);
 
 	//move cursor to the new position
-	view->setCursorPositionReal(para+data.dy,index+data.dx);
+	if ( before || after )
+	{
+		kdDebug() << "before || after" << endl;
+		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
+		if (wrap) n += para_end > para ? para_end-para : para-para_end;
+		for (int line = para_begin; line <= para_begin+n; line++)
+		{
+			if (view->getDoc()->textLine(line).contains("%C"))
+			{
+				int i=view->getDoc()->textLine(line).find("%C");
+				view->setCursorPositionReal(line,i);
+				view->getDoc()->removeText(line,i,line,i+2);
+				break;
+			}
+			view->setCursorPositionReal(line,index);
+		}
+	}
+	else
+	{
+		int py = para_begin, px = index_begin;
+		if (wrap) //act as if cursor was at beginning of selected text (which is the point where the tagBegin is inserted)
+		{
+			py = para;
+			px = index;
+		}
+		kdDebug() << "py = " << py << " px = " << px << endl;
+		view->setCursorPositionReal(py+data.dy,px+data.dx);
+	}
 
 	view->getDoc()->clearSelection();
 

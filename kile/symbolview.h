@@ -473,9 +473,8 @@ const codelist code=
 "\\^E",//"img432.png"
 "\\c{c}"//"img433ng"
   };
-//////////////////////////////
 
-/////////////////////////////////////
+//////////////////////////////
 class SymbolView : public KIconView  {
 Q_OBJECT
 public:

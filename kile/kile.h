@@ -330,8 +330,8 @@ private slots:
 	void fileOpen();
 	void fileOpen(const KURL& url, const QString & = QString::null);
 	void fileSaveAll(bool amAutoSaving = false);
-	bool fileClose(const KURL & url);
-	bool fileClose(Kate::Document *doc = 0);
+	bool fileClose(const KURL & url, bool delDocinfo = false);
+	bool fileClose(Kate::Document *doc = 0, bool delDocinfo = false );
 	bool fileCloseAll();
 
 	void saveURL(const KURL &);
@@ -363,14 +363,20 @@ private slots:
 	 * Saves the state of the project, if @param project is zero, the active project is saved.
 	 **/
 	void projectSave(KileProject * project = 0);
+	void buildProjectTree(KileProject *project = 0);
+	void buildProjectTree(const KURL &);
 	void projectOptions(const KURL &);
 	void projectOptions(KileProject *project = 0);
 	bool projectClose(const KURL & url = KURL());
 	bool projectCloseAll();
 
+	void addProject(const KileProject *project);
 	void addToProject(const KURL &);
 	void addToProject(KileProject *, const KURL &);
 	void removeFromProject(const KURL &, const KURL &);
+
+signals:
+	void projectTreeChanged(const KileProject *);
 
 private:
 	KRecentFilesAction *m_actRecentProjects;

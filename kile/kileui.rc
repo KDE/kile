@@ -83,6 +83,7 @@
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
 	<Separator/>
+	<Action name="project_buildtree"/>
 	<Action name="project_options"/>
 	<Separator/>
 	<Action name="project_close"/>

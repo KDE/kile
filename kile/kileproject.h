@@ -61,7 +61,7 @@ class KileProjectItem : public QObject
 
 public:
 	KileProjectItem(KileProject *project = 0, const KURL &url = KURL());
-	~KileProjectItem() { kdDebug() << "DELETING " << m_path << endl;}
+	~KileProjectItem() { kdDebug() << "DELETING PROJITEM" << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
@@ -88,8 +88,19 @@ public:
 	const QString& highlight() { return m_highlight;}
 	void setHighlight(const QString& highlight) {m_highlight = highlight;}
 
-	void setParent(KileProjectItem * item) { m_parent = item;}
-	KileProjectItem* parent() { return m_parent; }
+	//project tree functions
+	void setParent(KileProjectItem * item);
+
+protected:
+	void setChild(KileProjectItem *item) { m_child = item; }
+	void setSibling(KileProjectItem *item) { m_sibling = item; }
+
+public:
+	KileProjectItem* parent() const { return m_parent; }
+	KileProjectItem* firstChild() const { return m_child;}
+	KileProjectItem* sibling() const { return m_sibling; }
+
+	KileProjectItem * print(int level);
 
 public slots:
 	void changeURL(const KURL &url) { m_url = url;  kdDebug() << "changeURL " << url.path() << endl; emit(urlChanged(this));}
@@ -106,7 +117,7 @@ private:
 	QString				m_highlight;
 	bool						m_bOpen;
 	KileDocumentInfo *m_docinfo;
-	KileProjectItem		*m_parent;
+	KileProjectItem		*m_parent, *m_child, *m_sibling;
 };
 
 class  KileProjectItemList : public QPtrList<KileProjectItem>
@@ -139,13 +150,15 @@ public:
 	KileProjectItemList* items() { return &m_projectitems; }
 
 	bool contains(const KURL&);
-	KileProjectItem *rootItem();
+	KileProjectItem *rootItem(KileProjectItem *);
+	const QPtrList<KileProjectItem>* rootItems() const { return &m_rootItems;}
 
 	void buildProjectTree();
 	const KileURLTree* projectTree() { return m_projecttree; }
 
 signals:
 	void nameChanged(const QString &);
+	void projectTreeChanged(const KileProject *);
 
 public slots:
 	bool load();
@@ -171,7 +184,8 @@ private:
 	KURL			m_projecturl;
 	KURL			m_baseurl;
 
-	KileProjectItem			*m_rootItem;
+	//KileProjectItem			*m_rootItem;
+	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
 	KileURLTree			*m_projecttree;
 

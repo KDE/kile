@@ -34,7 +34,7 @@ class KileProjectViewItem : public QObject, public KListViewItem
 public:
 	KileProjectViewItem (QListView *parent, const QString & name) : KListViewItem(parent, name) {}
 	KileProjectViewItem (QListViewItem *parent, const QString & name) : KListViewItem(parent, name) {}
-	~KileProjectViewItem() {kdDebug() << "DELETING " << m_url.fileName() << endl;}
+	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 
 	KileProjectViewItem* parent() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::parent()); }
 
@@ -73,6 +73,7 @@ signals:
 	void closeProject(const KURL &);
 	void addToProject(const KURL &);
 	void removeFromProject(const KURL &, const KURL &);
+	void buildProjectTree(const KURL &);
 
 public slots:
 	void slotClicked(QListViewItem * item = 0);
@@ -81,14 +82,20 @@ public slots:
 	void slotProjectItem(int id);
 	void slotProject(int id);
 
+	void refreshProjectTree(const KileProject *);
+
 public:
-	void add(KileProject *project);
-	void add(const KileProjectItem *item);
+	void add(const KileProject *project);
+	KileProjectViewItem* add(const KileProjectItem *item, KileProjectViewItem * projvi  = 0);
+	const KileProjectViewItem* addTree(const KileProjectItem *item, KileProjectViewItem * projvi );
 	void add(const KURL & url);
 
 	void remove(const KileProject *project);
 	void removeItem(const KURL &url);
 	void remove(const KURL & url);
+
+	KileProjectViewItem* projectViewItemFor(const KURL &);
+	KileProjectViewItem* parentFor(const KileProjectItem *projitem, KileProjectViewItem *projvi);
 
 private slots:
 	void popup(KListView *, QListViewItem *, const QPoint &);

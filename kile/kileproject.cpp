@@ -59,12 +59,64 @@ KileURLTree::~KileURLTree()
 KileProjectItem::KileProjectItem(KileProject *project, const KURL & url) :
 	m_project(project),
 	m_url(url),
-	m_docinfo(0)
+	m_docinfo(0),
+	m_parent(0),
+	m_child(0),
+	m_sibling(0)
 {
 	m_highlight=m_encoding=QString::null; m_bOpen = true;
 
 	if (project)
 		project->add(this);
+}
+
+void KileProjectItem::setParent(KileProjectItem * item)
+{
+	m_parent = item;
+
+	//update parent info
+	if (m_parent)
+	{
+		if (m_parent->firstChild())
+		{
+			//get last child
+			KileProjectItem *sib = m_parent->firstChild();
+			while (sib->sibling())
+				sib = sib->sibling();
+
+			sib->setSibling(this);
+		}
+		else
+		{
+			m_parent->setChild(this);
+		}
+	}
+	else
+	{
+		setChild(0);
+		setSibling(0);
+	}
+}
+
+KileProjectItem* KileProjectItem::print(int level)
+{
+	QString str;
+	str.fill('\t', level);
+	kdDebug() << str << "+" << url().fileName() << endl;
+
+	if (firstChild())
+		return firstChild()->print(++level);
+
+	if (sibling())
+		return sibling()->print(level);
+
+	if (parent())
+	{
+		if (parent()->sibling())
+			parent()->sibling()->print(--level);
+	}
+
+	return 0;
 }
 
 void KileProjectItem::setInfo(KileDocumentInfo *docinfo)
@@ -88,7 +140,7 @@ KileProject::KileProject(const KURL& url) :  QObject(0,url.fileName().ascii())
 
 void KileProject::init(const QString& name, const KURL& url)
 {
-	m_rootItem = 0;
+//	m_rootItem = 0;
     m_name = name;
 	m_projecturl = url;
 	m_projectitems.setAutoDelete(true);
@@ -137,7 +189,7 @@ bool KileProject::load()
 			item->setOpenState(m_config->readBoolEntry("open", true));
 			item->setEncoding(m_config->readEntry("encoding", QString::null));
 			item->setHighlight(m_config->readEntry("highlight",QString::null));
-			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
+//			if (m_config->readBoolEntry("master", false)) m_rootItem = item;
 			item->changePath(groups[i].mid(5));
 
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
@@ -179,6 +231,57 @@ bool KileProject::save()
 
 void KileProject::buildProjectTree()
 {
+	kdDebug() << "==KileProject::buildProjectTree==========================" << endl;
+
+	//determine the parent doc for each item (TODO:an item can only have one parent, not necessarily true for LaTeX docs)
+
+	const QStringList *deps;
+	KileProjectItem *itm;
+	KURL url;
+	QPtrListIterator<KileProjectItem> it(m_projectitems);
+
+	//clean first
+	while (it.current())
+	{
+		(*it)->setParent(0);
+		++it;
+	}
+
+	//use the dependencies list of the documentinfo object to determine the parent
+	it.toFirst();
+	while (it.current())
+	{
+		deps = (*it)->getInfo()->dependencies();
+		for (uint i=0; i < deps->count(); i++)
+		{
+			url = m_baseurl;
+			url.addPath((*deps)[i]);
+			itm = item(url);
+			if (itm && (itm->parent() == 0)) itm->setParent(*it);
+			else kdDebug() << "\tcould not find " << url.path() << " in projectlist"<< endl;
+		}
+		++it;
+	}
+
+	//make a list of all the root items (items with parent == 0)
+	m_rootItems.clear();
+	it.toFirst();
+	while (it.current())
+	{
+		if ((*it)->parent() == 0)
+			m_rootItems.append(*it);
+
+		++it;
+	}
+
+	QPtrListIterator<KileProjectItem> rit(m_rootItems);
+	while (rit.current())
+	{
+		(*rit)->print(1);
+		++rit;
+	}
+
+	emit(projectTreeChanged(this));
 }
 
 KileProjectItem* KileProject::item(const KURL & url)
@@ -196,7 +299,7 @@ KileProjectItem* KileProject::item(const KURL & url)
 
 void KileProject::add(KileProjectItem* item)
 {
-	kdDebug() << "KileProject::add " << item->url().path() << endl;
+	kdDebug() << "KileProject::add projectitem" << item->url().path() << endl;
 
 	item->changePath(findRelativePath(item->url()));
 	connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
@@ -213,9 +316,8 @@ void KileProject::remove(KileProjectItem* item)
 	else
 		kdWarning() << "KileProject::remove() Failed to delete the group corresponding to this item!!!" <<endl;
 
-	m_projectitems.remove(item);
-	
 	kdDebug() << "KileProject::remove" << endl;
+	m_projectitems.remove(item);
 
 	dump();
 }
@@ -280,27 +382,37 @@ bool KileProject::contains(const KURL &url)
 	return false;
 }
 
-KileProjectItem *KileProject::rootItem()
+KileProjectItem *KileProject::rootItem(KileProjectItem *item)
 {
-	//FIXME: don't set the master document statically, but
-	//use the updateStructure() to build the project tree
-
-	QPtrListIterator<KileProjectItem> it(m_projectitems);
-	KileDocumentInfo *docinfo;
-	while (it.current())
+	if (item)
 	{
-		docinfo = (*it)->getInfo();
-		//kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
-		if (docinfo && docinfo->isLaTeXRoot())
-		{
-			return *it;
-		}
-		++it;
+		kdDebug() << "\trootItem use buildProjectTree results" << endl;
+		while ( item->parent() != 0)
+			item = item->parent();
+
+		if (item)
+			kdDebug() << "\troot is " << item->url().fileName() << endl;
+		else
+			kdDebug() << "\tno root found" << endl;
+
+		return item;
 	}
-
+	else
+	{
+		QPtrListIterator<KileProjectItem> it(m_projectitems);
+		KileDocumentInfo *docinfo;
+		while (it.current())
+		{
+			docinfo = (*it)->getInfo();
+			//kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
+			if (docinfo && docinfo->isLaTeXRoot())
+			{
+				return *it;
+			}
+			++it;
+		}
+	}
 	return 0;
-
-	return m_rootItem;
 }
 
 void KileProject::dump()

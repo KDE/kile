@@ -97,7 +97,8 @@ KileProjectItem* KileInfo::itemFor(const KURL &url)
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
 {
-	kdDebug() << "==KileDocumentInfo::infoFor==========================" << endl;
+	kdDebug() << "==KileInfo::infoFor==========================" << endl;
+	kdDebug() << "\t" << path << endl;
 	for (uint i=0; i < m_infoList.count(); i++)
 	{
 		kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
@@ -145,7 +146,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 	//TODO: handle the case where not master document is specified in a project (sick)
 	if (project)
 	{
-		KileProjectItem *item = project->rootItem();
+		KileProjectItem *item = project->rootItem(activeProjectItem());
 		if (item)
 		{
 			KURL url = item->url();

@@ -294,7 +294,12 @@ void KileDocumentInfo::updateStruct()
 
 					//update the dependencies
 					if ((*it).type == KileStruct::Input)
-						m_deps.append(m.stripWhiteSpace());
+					{
+						QString dep = m.stripWhiteSpace();
+						if (dep.right(4) != ".tex")
+							dep += ".tex";
+						m_deps.append(dep);
+					}
 
 					//update the label list
 					if ((*it).type == KileStruct::Label)

@@ -37,14 +37,21 @@ static KCmdLineOptions options[] =
 int main( int argc, char ** argv )
 {
   KAboutData aboutData( "kile", "Kile",
-    "1.5.2b", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+    "1.6a", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
     "Jeroen Wijnhout 2003",
     0,
-    "http://www.science.uva.nl/~wijnhout/Kile");
+    "http://kile.sourceforge.net");
   aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
   aboutData.addAuthor("Brachet Pascal",0,"");
+  aboutData.addCredit("Thanks to all the patchers, packagers from all over the world!","");
   aboutData.addCredit("David Ishee", I18N_NOOP("Xgfe"));
   aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
+  aboutData.addCredit("Goon", I18N_NOOP("french translation"));
+  aboutData.addCredit("Kris Luyten", I18N_NOOP("dutch translation"));
+  aboutData.addCredit("Alexander Hunziger, Roland Riegel", I18N_NOOP("german translation"));
+  aboutData.addCredit("Stefan Asserhall", I18N_NOOP("swedish translation"));
+  aboutData.addCredit("Alfredo Beaumont", I18N_NOOP("basque translation"));
+  aboutData.addCredit("Leopold Palomo Avellaneda", I18N_NOOP("catalan translation"));
   aboutData.addCredit("AceLan, Edward Lee, Haoxiang Lin", I18N_NOOP("chinese translation"));
   aboutData.addCredit("Nikos Galanis", I18N_NOOP("greek translation"));
   aboutData.addCredit("Emerson Ribeiro de Mello", I18N_NOOP("portuguese-brazil translation"));
@@ -52,13 +59,10 @@ int main( int argc, char ** argv )
   aboutData.addCredit("Masayuki SANO", I18N_NOOP("japanese translation"));
   aboutData.addCredit("Victor Kozyakin", I18N_NOOP("russian translation"));
   aboutData.addCredit("Marian Janiga, Stanislav Visnovsky", I18N_NOOP("slovak translation"));
-  aboutData.addCredit("Roland Riegel", I18N_NOOP("german translation"));
-  aboutData.addCredit("Alfredo Beaumont", I18N_NOOP("basque translation"));
   aboutData.addCredit("Marcel Hilzinger", I18N_NOOP("hungarian translation"));
-  aboutData.addCredit("Leopold Palomo Avellaneda", I18N_NOOP("catalan translation"));
   aboutData.addCredit("Petr Sidlo", I18N_NOOP("czech translation"));
   aboutData.addCredit("Daniele A.Morano", I18N_NOOP("italian translation"));
-  aboutData.addCredit("Kris Luyten", I18N_NOOP("dutch translation"));
+
   KCmdLineArgs::init( argc, argv, &aboutData );
   KCmdLineArgs::addCmdLineOptions( options );
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

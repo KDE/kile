@@ -266,6 +266,8 @@
 	<Action name="help2"/>
 	<Merge/>
 	<Separator/>
+	<Action name="report_bug"/>
+	<Separator/>
 	<Action name="help4"/>
 	<Action name="help5"/>
 </Menu>
@@ -318,7 +320,7 @@
 	<Action name="tag_center"/><!-- 14 !-->
 	<Action name="tag_flushright"/><!-- 15 !-->
 </ToolBar>
-<ToolBar name="ToolBar5" fullWidth="false">
+<ToolBar name="ToolBar5" fullWidth="false" index="4">
 	<text>Math</text>
 	<Action name="tag_mathmode"/>
 	<Action name="tag_subscript"/>
@@ -333,7 +335,7 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
 </ToolBar>
-<ToolBar name="Extra">
+<ToolBar name="Extra" index="5">
 	<Action name="print"/>
 	<Separator lineSeparator="true"/>
 	<Action name="Back"/>

@@ -359,16 +359,14 @@ void Kile::setupActions()
   if (watchfile) {WatchFileAction->setChecked(true);}
   else {WatchFileAction->setChecked(false);}
 
+	const KAboutData *aboutData = KGlobal::instance()->aboutData();
+	help_menu = new KHelpMenu( this, aboutData);
+	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
+	(void) new KAction(i18n("Kile Handbook"),"contents",0 , this, SLOT(invokeHelp()), actionCollection(),"help2" );
 
-
-  const KAboutData *aboutData = KGlobal::instance()->aboutData();
-  help_menu = new KHelpMenu( this, aboutData);
-  (void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
-  (void) new KAction(i18n("Kile Handbook"),"contents",0 , this, SLOT(invokeHelp()), actionCollection(),"help2" );
-
-  (void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
-  (void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
-
+	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
+	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
+	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"),actionCollection(),"menuUserTags");
 	m_mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
@@ -381,11 +379,9 @@ void Kile::setupActions()
 	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
 
 
-  actionCollection()->readShortcutSettings();
+  	actionCollection()->readShortcutSettings();
 
-  setHelpMenuEnabled(false);
-
-
+  	setHelpMenuEnabled(false);
 }
 
 void Kile::setupUserTagActions()
@@ -437,6 +433,10 @@ void Kile::setupUserToolActions()
 ////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding)
 {
+
+	if ( url.path() != "untitled" && isOpen(url))
+		return 0;
+
 	//create a new document and a view
 	Kate::View *view;
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
@@ -633,28 +633,37 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/  )  //Needs to
 {
 	Kate::View* view = (Kate::View*)w;
 
-	if ( m_activeView != view)
-	{
-		kdDebug() << "activateView : activate: " << view->getDoc()->docName() << endl;
-		if (!view) return;
+	kdDebug() << "+++++++++++++++++++" << endl;
 
-		kdDebug() << "activateView : changing" << endl;
-		if (m_activeView)
+/*	if ( m_activeView != view)
+	{
+		kdDebug() << "activateView : activate : " << view->getDoc()->docName() << endl;
+
+		if (m_activeView != 0)
 		{
-			kdDebug() << "activateView : removing" << endl;
+			kdDebug() << "activateView : removing : " << m_activeView->getDoc()->docName() << endl;
 			guiFactory()->removeClient(m_activeView);
 		}
 
-		kdDebug() << "activateView : adding" << endl;
+		kdDebug() << "activateView : adding : " << view->getDoc()->docName() << endl;
 		guiFactory()->addClient( view );
-
-		m_activeView = view;
 
 		if( checkModified )
 			view->getDoc()->isModOnHD();
-
-		UpdateStructure();
 	}
+
+	m_activeView = view;*/
+
+	for (uint i=0; i<m_viewList.count(); i++)
+	{
+		guiFactory()->removeClient(m_viewList.at(i));
+	}
+
+	guiFactory()->addClient( view );
+
+	UpdateStructure();
+
+	kdDebug() << "==================" << endl;
 }
 
 void Kile::replaceTemplateVariables(QString &line)
@@ -689,7 +698,7 @@ void Kile::fileOpen()
 
 void Kile::fileOpen(const KURL& url)
 {
-	if ( url.path() == "untitled" || !isOpen(url)) load(url);
+	load(url);
 }
 
 
@@ -780,9 +789,14 @@ void Kile::fileClose()
 	Kate::View *view = currentView();
 	if (view)
 	{
+		kdDebug() << "fileClose : " << view->getDoc()->docName() << endl;
 		if (view->getDoc()->closeURL() )
 		{
+			m_activeView=0;
+
 			guiFactory()->removeClient( view );
+			tabWidget->removePage(view);
+
 			m_viewList.remove(view);
 			delete view;
 		}
@@ -804,6 +818,8 @@ bool Kile::fileCloseAll()
 
 		if (view->getDoc()->closeURL())
 		{
+			m_activeView=0;
+
 			guiFactory()->removeClient( view );
 			m_viewList.removeFirst();
 			delete view;
@@ -869,11 +885,16 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	{
 		kdDebug() << "newDocumentStatus " << doc->docName() << endl;
 		QPtrList<KTextEditor::View> list = doc->views();
-		QString icon = doc->isModified() ? "modified" : "empty";
+
+		KIconLoader *loader = KGlobal::iconLoader();
+		QPixmap icon = doc->isModified() ? loader->loadIcon("modified", KIcon::User, KIcon::SizeSmall, KIcon::DefaultState, 0, true) : QPixmap();
+
+		//QString icon = doc->isModified() ? "modified" : "empty";
 
 		for (uint i=0; i < list.count(); i++)
 		{
-			tabWidget->changeTab( list.at(i),UserIcon(icon), getShortName(doc) );
+			//tabWidget->changeTab( list.at(i),UserIcon(icon), getShortName(doc) );
+			tabWidget->changeTab( list.at(i), icon, getShortName(doc) );
 		}
 	}
 }

@@ -84,8 +84,8 @@ Kile::Kile( QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
 	KParts::MainWindow( name, WDestructiveClose),
 	KileInfo(),
-	m_activeView(0),
-	m_bQuick(false)
+	m_bQuick(false),
+	m_activeView(0)
 {
 	m_docList.setAutoDelete(false);
 	m_infoList.setAutoDelete(false);
@@ -4616,7 +4616,15 @@ void Kile::corrected (const QString & originalword, const QString & newword, uns
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////
 void Kile::ConfigureKeys()
 {
-  KKeyDialog::configure(actionCollection(), this, true);
+	KKeyDialog dlg( false, this );
+	QPtrList<KXMLGUIClient> clients = guiFactory()->clients();
+	for( QPtrListIterator<KXMLGUIClient> it( clients );	it.current(); ++it )
+	{
+		dlg.insert( (*it)->actionCollection() );
+	}
+	dlg.configure();
+	//KKeyDialog::configure(actionCollection(), this, true);
+
 }
 
 void Kile::ConfigureToolbars()

@@ -44,12 +44,8 @@ Templates::Templates()
         ti.path=templates.path()+"/"+templates[j];
         ti.name=templates[j].replace("template_","");
         ti.name.replace(".tex","");
-        ti.icon=ti.path;
-        ti.icon.replace("templates","pics");
-        ti.icon.replace("template_","type_");
-        ti.icon.replace(".tex",".png");
-        //NOTE: off limit strings in the templates names are
-        //templates,template_,.tex.,.png,_template
+	//FIXME: don't hardcode these paths
+	ti.icon = KGlobal::dirs()->findResource("appdata", "icons/hicolor/48x48/actions/type_"+ ti.name + ".png");
 
 		if (m_TemplateList.contains(ti))
 			kdDebug() << "\tignoring: " << ti.path << endl;

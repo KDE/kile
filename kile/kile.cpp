@@ -97,11 +97,13 @@
 #include "letterdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
+#include "kilestructurewidget.h"
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
-	KParts::DockMainWindow( parent, name),
+	KParts::MainWindow( parent, name),
 	KileInfo(),
+	m_paPrint(0L),
 	m_bQuick(false),
 	m_activeView(0),
 	m_nCurrentError(-1)
@@ -117,28 +119,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	m_eventFilter = new KileEventFilter();
 	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
-
-	config = KGlobal::config();
-
-	//workaround for kdvi crash when started with Tooltips
-	config->setGroup("TipOfDay");
-	config->writeEntry( "RunOnStart",false);
-	setXMLFile( "kileui.rc" );
-
-	m_currentState=m_wantState="Editor";
-	m_bWatchFile=false;
-	m_bNewInfolist=true;
-	m_bCheckForLaTeXErrors=false;
-	m_bBlockWindowActivateEvents=false;
-	kspell = 0;
-
-	ReadSettings();
-
-	setupActions();
-
-	// Read Settings should be after setupActions() because fileOpenRecentAction needs to be
-	// initialized before calling ReadSettnigs().
-	ReadRecentFileSettings();
 
 	statusBar()->insertItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN,0,true );
 	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
@@ -186,33 +166,57 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(m_projectview, SIGNAL(buildProjectTree(const KURL &)), this, SLOT(buildProjectTree(const KURL &)));
 	connect(this, SIGNAL(projectTreeChanged(const KileProject *)),m_projectview, SLOT(refreshProjectTree(const KileProject *)));
 
-	ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
+	ButtonBar->insertTab( SmallIcon("structure"),1,i18n("Structure"));
 	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	outstruct = new KListView( Structview );
-	outstruct->setFocusPolicy(QWidget::ClickFocus);
-	outstruct->header()->hide();
-	outstruct->addColumn(i18n("Structure"),-1);
-	outstruct->setSorting(-1,true);
-	connect( outstruct, SIGNAL(clicked(QListViewItem *)), SLOT(ClickedOnStructure(QListViewItem *)));
-	connect( outstruct, SIGNAL(doubleClicked(QListViewItem *)), SLOT(DoubleClickedOnStructure(QListViewItem *)));
-	QToolTip::add(outstruct, i18n("Click to jump to the line"));
+	m_kwStructure = new KileWidget::Structure(this, Structview);
+	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
+	m_kwStructure->header()->hide();
+	m_kwStructure->addColumn(i18n("Structure"),-1);
+	m_kwStructure->setSorting(-1,true);
+	connect(m_kwStructure, SIGNAL(setCursor(int,int)), this, SLOT(setCursor(int,int)));
+	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), this, SLOT(fileOpen(const KURL&, const QString& )));
+	QToolTip::add(m_kwStructure, i18n("Click to jump to the line"));
+
 	mpview = new metapostview( Structview );
 	connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
 
+	config = KGlobal::config();
+
+	//workaround for kdvi crash when started with Tooltips
+	config->setGroup("TipOfDay");
+	config->writeEntry( "RunOnStart",false);
+	setXMLFile( "kileui.rc" );
+
+	m_currentState=m_wantState="Editor";
+	m_bWatchFile=false;
+	m_bNewInfolist=true;
+	m_bCheckForLaTeXErrors=false;
+	m_bBlockWindowActivateEvents=false;
+	kspell = 0;
+
+	ReadSettings();
+
+	setupActions();
+
+	// ReadRecentFileSettings should be after setupActions() because fileOpenRecentAction needs to be
+	// initialized before calling ReadSettnigs().
+	ReadRecentFileSettings();
+
+	
 	symbol_present=false;
-	ButtonBar->insertTab(UserIcon("math1"),2,i18n("Relation Symbols"));
+	ButtonBar->insertTab(SmallIcon("math1"),2,i18n("Relation Symbols"));
 	connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("math2"),3,i18n("Arrow Symbols"));
+	ButtonBar->insertTab(SmallIcon("math2"),3,i18n("Arrow Symbols"));
 	connect(ButtonBar->getTab(3),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("math3"),4,i18n("Miscellaneous Symbols"));
+	ButtonBar->insertTab(SmallIcon("math3"),4,i18n("Miscellaneous Symbols"));
 	connect(ButtonBar->getTab(4),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("math4"),5,i18n("Delimiters"));
+	ButtonBar->insertTab(SmallIcon("math4"),5,i18n("Delimiters"));
 	connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("math5"),6,i18n("Greek Letters"));
+	ButtonBar->insertTab(SmallIcon("math5"),6,i18n("Greek Letters"));
 	connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("math6"),7,i18n("Foreign characters"));
+	ButtonBar->insertTab(SmallIcon("math6"),7,i18n("Foreign characters"));
 	connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	ButtonBar->insertTab(UserIcon("metapost"),8,i18n("MetaPost Commands"));
+	ButtonBar->insertTab(SmallIcon("metapost"),8,i18n("MetaPost Commands"));
 	connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 
 	splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
@@ -235,13 +239,13 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	LogWidget->setFocusPolicy(QWidget::ClickFocus);
 	LogWidget->setMinimumHeight(40);
 	LogWidget->setReadOnly(true);
-	Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log/Messages"));
+	Outputview->addTab(LogWidget,SmallIcon("viewlog"), i18n("Log/Messages"));
 
 	OutputWidget = new KileWidget::Output(Outputview);
 	OutputWidget->setFocusPolicy(QWidget::ClickFocus);
 	OutputWidget->setMinimumHeight(40);
 	OutputWidget->setReadOnly(true);
-	Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Output"));
+	Outputview->addTab(OutputWidget,SmallIcon("output_win"), i18n("Output"));
 
 	logpresent=false;
 	m_outputInfo=new LatexOutputInfoArray();
@@ -281,7 +285,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	applyMainWindowSettings(config, "KileMainWindow" );
 
-	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, StopAction);
+	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, m_paStop);
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(requestSaveAll()), this, SLOT(fileSaveAll()));
 
@@ -299,7 +303,7 @@ Kile::~Kile()
 
 void Kile::setupActions()
 {
-	//PrintAction = KStdAction::print( this, SLOT(print()), actionCollection(), "file_print" );
+	m_paPrint = KStdAction::print(0,0, actionCollection(), "print");
 	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "file_new" );
 	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"file_open" );
 	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
@@ -333,8 +337,8 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, this, SLOT(NextWarning()), actionCollection(),"NextWarning" );
 	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, this, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
 	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, this, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
-	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
-	StopAction->setEnabled(false);
+	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
+	m_paStop->setEnabled(false);
 
 	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
 	(void) new KAction(i18n("View Dvi"),"viewdvi", ALT+Key_3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
@@ -359,10 +363,6 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Output view"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
 	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
 	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
-
-// 	BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
-// 	ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
-// 	HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -420,13 +420,13 @@ void Kile::setupActions()
 	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
 	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
 
-	m_menuUserTags = new KActionMenu(i18n("User Tags"), UserIcon("usertag"), actionCollection(),"menuUserTags");
+	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("usertag"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
 	m_mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
 	setupUserTagActions();
 	connect(m_mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
 
-	m_menuUserTools = new KActionMenu(i18n("User Tools"), UserIcon("usertool"), actionCollection(), "menuUserTools");
+	m_menuUserTools = new KActionMenu(i18n("User Tools"), SmallIcon("usertool"), actionCollection(), "menuUserTools");
 	m_menuUserTools->setDelayed(false);
 	m_mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
 	setupUserToolActions();
@@ -593,7 +593,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		if (doc == 0) docinfo->setURL(url);
 		
 		//decorate the document with the KileDocumentInfo class
-		docinfo->setListView(outstruct);
+		docinfo->setListView(m_kwStructure);
 		docinfo->setURL(url);
 		m_infoList.append(docinfo);
 	}
@@ -700,6 +700,16 @@ void Kile::setLine( const QString &line )
 		ShowEditorWidget();
 		newStatus();
   	}
+}
+
+void Kile::setCursor(int parag, int index)
+{
+	Kate::View *view = currentView();
+	if (view)
+	{
+		view->setCursorPositionReal(parag, index);
+		view->setFocus();
+	}
 }
 
 void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
@@ -895,13 +905,12 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 	kdDebug() << "\t" << url.fileName() << endl;
 	bool isopen = isOpen(url);
 
-	Kate::View *view = load(url, encoding);
+	load(url, encoding);
 
 	//URL wasn't open before loading, add it to the project view
 	if (!isopen) m_projectview->add(url);
 
-	if (view)
-		infoFor(view->getDoc())->updateStruct(m_defaultLevel);
+	UpdateStructure(true);
 	updateModeStatus();
 }
 
@@ -1031,7 +1040,7 @@ void Kile::projectNew()
 			//project->add(item);
 			mapItem(docinfo, item);
 
-			docinfo->updateStruct(m_defaultLevel);
+			docinfo->updateStruct(m_kwStructure->level());
 		}
 
 		project->buildProjectTree();
@@ -1158,7 +1167,7 @@ void Kile::projectOpenItem(KileProjectItem *item)
 	}
 
 	mapItem(docinfo, item);
-	docinfo->updateStruct(m_defaultLevel);
+	docinfo->updateStruct(m_kwStructure->level());
 
 	if ((!item->isOpen()) && (view != 0)) //oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
 	{
@@ -1172,7 +1181,7 @@ void Kile::projectOpenItem(KileProjectItem *item)
 	}
 
 	//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
-	outstruct->takeItem(outstruct->firstChild());
+	m_kwStructure->takeItem(m_kwStructure->firstChild());
 }
 
 void Kile::projectOpen(const KURL &url, int step, int max)
@@ -1837,13 +1846,11 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 		QPtrList<KTextEditor::View> list = doc->views();
 
 		KIconLoader *loader = KGlobal::iconLoader();
-		QPixmap icon = doc->isModified() ? loader->loadIcon("modified", KIcon::User, KIcon::SizeSmall, KIcon::DefaultState, 0, true) : QPixmap();
-
-		//QString icon = doc->isModified() ? "modified" : "empty";
+		QPixmap icon = doc->isModified() ? loader->loadIcon("filesave", KIcon::User, KIcon::SizeSmall, KIcon::DefaultState, 0, true) : QPixmap();
 
 		for (uint i=0; i < list.count(); i++)
 		{
-			//tabWidget->changeTab( list.at(i),UserIcon(icon), getShortName(doc) );
+			//tabWidget->changeTab( list.at(i),SmallIcon(icon), getShortName(doc) );
 			tabWidget->changeTab( list.at(i), icon, getShortName(doc) );
 		}
 
@@ -2045,26 +2052,6 @@ void Kile::ResetPart()
 	kdDebug() << "\twant state " << m_wantState << endl;
 	
 	KParts::ReadOnlyPart *part = (KParts::ReadOnlyPart*)partManager->activePart();
-	
-	//work around:
-	//disconnect from all slots provided by the BrowserExtension
-	/*KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-	KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
-	KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
-	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-	
-	if (ext)
-	{
-		QStrList slotNames =  ext->metaObject()->slotNames();
-		for ( ; it != itEnd ; ++it )
-		{
-			KAction * act = actionCollection()->action( it.key() );
-			if ( act && slotNames.contains( it.key()+"()" ) )
-			{
-				act->disconnect( ext );
-			}
-		}
-	}*/
 
 	if (part && m_currentState != "Editor")
 	{
@@ -2080,36 +2067,12 @@ void Kile::ResetPart()
 	partManager->setActivePart( 0L);
 }
 
-void Kile::ActivePartGUI(KParts::Part * the_part)
+void Kile::ActivePartGUI(KParts::Part * part)
 {
 	kdDebug() << "==Kile::ActivePartGUI()=============================" << endl;
 	kdDebug() << "\tcurrent state " << m_currentState << endl;
 	kdDebug() << "\twant state " << m_wantState << endl;
-	
-	//work around, connect all actions provided by the BrowserExtension of the active part
-	/*KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-	KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
-	KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
-	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(the_part);
-		
-	if (ext)
-	{
-		QStrList slotNames = ext->metaObject()->slotNames();
-		for ( ; it != itEnd ; ++it )
-		{
-			KAction * act = actionCollection()->action( it.key() );
-			if ( act )
-			{
-				if ( slotNames.contains( it.key()+"()" ) )
-				{
-					connect( act, SIGNAL( activated() ), ext, it.data() );
-					act->setEnabled( ext->isActionEnabled( it.key() ) );
-				} 
-				else
-					act->setEnabled(false);
-			}
-		}
-	}*/
+
 	//save the toolbar state
 	if ( m_wantState == "HTMLpreview" || m_wantState == "Viewer" )
 	{
@@ -2120,7 +2083,7 @@ void Kile::ActivePartGUI(KParts::Part * the_part)
 		m_bShowMathTB = m_paShowMathTB->isChecked();
 	}
 
-	createGUI(the_part);
+	createGUI(part);
 
 	if ( m_wantState == "HTMLpreview" )
 	{
@@ -2156,6 +2119,30 @@ void Kile::ActivePartGUI(KParts::Part * the_part)
 		if (m_bShowMathTB) toolBar("mathToolBar")->show();
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
+	}
+
+	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
+	if (ext) //part is a BrowserExtension, connect printAction()
+	{
+		kdDebug() << "HAS BrowserExtension" << endl;
+		//KParts::BrowserExtension::ActionSlotMap * map = KParts::BrowserExtension::actionSlotMapPtr();
+		//KParts::BrowserExtension::ActionSlotMap::ConstIterator it = map->find("print");
+		if ( ext->metaObject()->slotNames().contains( "print()" ))
+		{
+			kdDebug() << "SLOT print" << endl;
+			connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
+			m_paPrint->setEnabled(true);
+		}
+		else 
+		{
+			kdDebug() << "no SLOT print()" << endl;
+			m_paPrint->setEnabled(false);
+		}
+	}
+	else
+	{
+		kdDebug() << "NO BrowserExtension" << endl;
+		m_paPrint->setEnabled(false);
 	}
 
 	//set the current state
@@ -2329,7 +2316,6 @@ void Kile::LatexToHtml()
 void Kile::HtmlPreview()
 {
 	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
-	connect(tool, SIGNAL(updateStatus(bool, bool)), this, SLOT(updateNavAction( bool, bool)));
 	m_manager->run(tool);
 }
 
@@ -2398,71 +2384,12 @@ void Kile::UpdateStructure(bool parse /* = false */)
 	KileDocumentInfo *docinfo = getInfo();
 
 	kdDebug() << "\ttaking item" <<endl;
-	outstruct->takeItem(outstruct->firstChild());
 
 	if (docinfo)
-	{
-		QListViewItem *item = (QListViewItem*)docinfo->structViewItem();
-		if ((item == 0) || parse)
-		{
-			docinfo->updateStruct(m_defaultLevel);
-			item = (QListViewItem*)docinfo->structViewItem();
-		}
-		if (item) outstruct->insertItem(item);
-	}
+		m_kwStructure->update(docinfo, parse);
 
 	Kate::View *view = currentView();
 	if (view) {view->setFocus();}
-}
-
-void Kile::ClickedOnStructure(QListViewItem * itm)
-{
-	kdDebug() << "==Kile::ClickedOnStructure==========================" << endl;
-	KileListViewItem *item = (KileListViewItem *)itm;
-	//return if user didn't click on an item
-	if (! item)
-	{
-		kdDebug() << "\t(empty)" << endl;
-		return;
-	}
-
-	kdDebug() << "\t" << item->title() << endl;
-
-	if (! (item->type() & (KileStruct::None | KileStruct::Input)))
-	{
-		Kate::View *view = currentView();
-		view->setCursorPositionReal(item->line()-1, item->column());
-		view->setFocus();
-	}
-}
-
-void Kile::DoubleClickedOnStructure(QListViewItem * itm)
-{
-	kdDebug() << "==Kile::DoubleClickedOnStructure==========================" << endl;
-	KileListViewItem *item = (KileListViewItem*)(itm);
-	if (! item) return;
-	if (! (item->type() & KileStruct::Input)) return;
-
-	kdDebug() << "\t " << itm->text(0) << endl;
-
-	Kate::View *view = currentView();
-	if ( ! view ) return;
-
-	QString fn = getCompileName();
-	QString fname = item->title();
-	if (fname.right(4)==".tex")
-		fname =QFileInfo(fn).dirPath()+"/" + fname;
-	else
-		fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
-
-	QFileInfo fi(fname);
-	kdDebug() << "\ttrying : " << fname << endl;
-	if (fi.isReadable())
-	{
-		fileOpen(KURL::fromPathOrURL(fname));
-	}
-	else
-		KMessageBox::error(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1").arg(fname), i18n("Cannot find file!"));
 }
 
 //////////////// MESSAGES - LOG FILE///////////////////////
@@ -2762,7 +2689,6 @@ void Kile::LatexHelp()
 		tool->setSource(loc);
 		tool->setRelativeBaseDir("");
 		tool->setTarget("latexhelp.html");
-		connect(tool, SIGNAL(updateStatus(bool, bool)), this, SLOT(updateNavAction( bool, bool)));
 		m_manager->run(tool);
 	}
       else if (viewlatexhelp_command == i18n("External Browser") )
@@ -2872,38 +2798,6 @@ void Kile::ReadSettings()
 	showoutputview=config->readBoolEntry("Outputview",true);
 	showstructview=config->readBoolEntry( "Structureview",true);
 
-	if (old)
-	{
-		kdWarning() << "old RC file, ignoring tools entries, using defaults" << endl;
-	
-		latex_command="latex -interaction=nonstopmode '%S.tex'";
-		viewdvi_command=i18n("Embedded Viewer");
-		viewlatexhelp_command=i18n("Embedded Viewer");
-		dvips_command="dvips -o '%S.ps' '%S.dvi'";
-		viewps_command=i18n("Embedded Viewer");
-		ps2pdf_command="ps2pdf '%S.ps' '%S.pdf'";
-		makeindex_command="makeindex '%S.idx'";
-		bibtex_command="bibtex '%S'";
-		pdflatex_command="pdflatex -interaction=nonstopmode '%S.tex'";
-		viewpdf_command=i18n("Embedded Viewer");
-		dvipdf_command="dvipdfm '%S.dvi'";
-		l2h_options="";
-		bibtexeditor_command="gbib '%S.bib'";
-		
-		config->setGroup("Tools");
-		config->writeEntry("Latex",latex_command);
-		config->writeEntry("Dvi",viewdvi_command);
-		config->writeEntry("Dvips",dvips_command);
-		config->writeEntry("Ps",viewps_command);
-		config->writeEntry("Ps2pdf",ps2pdf_command);
-		config->writeEntry("Makeindex",makeindex_command);
-		config->writeEntry("Bibtex",bibtex_command);
-		config->writeEntry("Pdflatex",pdflatex_command);
-		config->writeEntry("Pdf",viewpdf_command);
-		config->writeEntry("Dvipdf",dvipdf_command);
-		config->writeEntry("Bibtexeditor",bibtexeditor_command);
-	}
-	
 	config->setGroup( "User" );
 	userItem tempItem;
 	int len = config->readNumEntry("nUserTags",0);
@@ -2975,7 +2869,7 @@ void Kile::readConfig()
 	kdDebug() << "==Kile::readConfig()=======================" << endl;
 	
 	config->setGroup( "Structure" );
-	m_defaultLevel = config->readNumEntry("DefaultLevel", 1);
+	m_kwStructure->setLevel(config->readNumEntry("DefaultLevel", 1));
 
 	config->setGroup( "Files" );
 	m_bRestore=config->readBoolEntry("Restore",true);
@@ -3359,12 +3253,6 @@ void Kile::ConfigureToolbars()
     }
 }
 
-///////////// NAVIGATION - DOC ////////////////////
-void Kile::updateNavAction(bool back, bool forward)
-{
-BackAction->setEnabled(back);
-ForwardAction->setEnabled(forward);
-}
 ////////////// VERTICAL TAB /////////////////
 void Kile::showVertPage(int page)
 {
@@ -3374,7 +3262,7 @@ lastvtab=page;
 if (page==0)
    {
    m_projectview->hide();
-   outstruct->hide();
+   m_kwStructure->hide();
    mpview->hide();
    if (symbol_view && symbol_present) delete symbol_view;
    symbol_present=false;
@@ -3395,16 +3283,16 @@ else if (page==1)
    symbol_present=false;
    if (Structview_layout) delete Structview_layout;
    Structview_layout=new QHBoxLayout(Structview);
-   Structview_layout->add(outstruct);
+   Structview_layout->add(m_kwStructure);
    Structview_layout->add(ButtonBar);
    ButtonBar->setPosition(KMultiVertTabBar::Right);
-   outstruct->show();
+   m_kwStructure->show();
    }
 else if (page==8)
    {
    m_projectview->hide();
    KileFS->hide();
-   outstruct->hide();
+   m_kwStructure->hide();
    if (symbol_view && symbol_present) delete symbol_view;
    symbol_present=false;
    if (Structview_layout) delete Structview_layout;
@@ -3420,7 +3308,7 @@ else if (page==9)
 	if (symbol_view && symbol_present) delete symbol_view;
    symbol_present=false;
 	KileFS->hide();
-    outstruct->hide();
+    m_kwStructure->hide();
     mpview->hide();
 	delete Structview_layout;
 	Structview_layout=new QHBoxLayout(Structview);
@@ -3433,7 +3321,7 @@ else
    {
 	m_projectview->hide();
       KileFS->hide();
-      outstruct->hide();
+      m_kwStructure->hide();
       mpview->hide();
       if (symbol_view && symbol_present) delete symbol_view;
       if (Structview_layout) delete Structview_layout;

@@ -187,11 +187,11 @@ void setupMathTags(KMainWindow *parent)
 	(void) new KileAction::Tag("$$...$$",Qt::ALT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "$$","$$", 2);
   	(void) new KileAction::Tag("\\begin{equation}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","\n\\end{equation} ",0,1);
   	(void) new KileAction::Tag("\\begin{eqnarray}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
-	(void) new KileAction::Tag("subscript  _{}","indice",Qt::ALT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
-	(void) new KileAction::Tag("superscript  ^{}","puissance",Qt::ALT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
+	(void) new KileAction::Tag("subscript  _{}","math_lsup",Qt::ALT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
+	(void) new KileAction::Tag("superscript  ^{}","math_lsub",Qt::ALT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
 	(void) new KileAction::Tag("\\frac{}{}","smallfrac",Qt::ALT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);
 	(void) new KileAction::Tag("\\dfrac{}{}","dfrac",Qt::ALT+Qt::Key_Q, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7);
-	(void) new KileAction::Tag("\\sqrt{}","racine",Qt::ALT+Qt::Key_S, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_sqrt", "\\sqrt{","}", 6);
+	(void) new KileAction::Tag("\\sqrt{}","math_sqrt",Qt::ALT+Qt::Key_S, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_sqrt", "\\sqrt{","}", 6);
 	(void) new KileAction::Tag("\\left",Qt::ALT+Qt::Key_L, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_left", "\\left", QString::null, 5);
 	(void) new KileAction::Tag("\\right",Qt::ALT+Qt::Key_R, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_right", "\\right", QString::null, 6);
 	(void) new KileAction::Tag("\\begin{array}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_array", "\\begin{array}{}\n", "\n\\end{array}", 14, 0,

@@ -57,7 +57,7 @@ public:
 	int				level;
 	/** The type of element (see @ref KileStruct) **/
 	int 			type;
-	/** The name of the icon that goes with this element. The icon is located using UserIcon(pix). **/
+	/** The name of the icon that goes with this element. The icon is located using SmallIcon(pix). **/
 	QString 	pix;
 };
 

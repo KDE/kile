@@ -27,7 +27,7 @@
 #include <kstatusbar.h>
 #include <khelpmenu.h>
 #include <kpopupmenu.h>
-#include <kparts/dockmainwindow.h>
+#include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
 #include <kspell.h>
@@ -86,7 +86,7 @@ class TemplateItem;
 
 namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogMsg; class Output; class Konsole; }
+namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 
 #ifndef KILE_USERITEM
 struct userItem
@@ -103,7 +103,7 @@ struct userItem
 /**
  * The Kile main class. It acts as the mainwindow, information manager and DCOP interface.
  **/
-class Kile : public KParts::DockMainWindow, public KileAppDCOPIface, public KileInfo
+class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
 {
 	Q_OBJECT
 
@@ -116,7 +116,7 @@ public slots:
 	 * @param line : Jump to give line in current editor (can be called via DCOP interface).
 	 **/
 	void setLine( const QString &line);
-	
+	void setCursor(int, int);
 	void setActive();
 
 /* actions */
@@ -130,10 +130,8 @@ private:
 	QValueList<userItem> 	m_listUserTags, m_listUserTools;
 	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions;
 	KAction							*m_actionEditTag, *m_actionEditTool;
-	KAction						*PrintAction;
 	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowEditTB, *m_paShowMathTB;
-
-	KAction 					*BackAction, *ForwardAction, *HomeAction, *StopAction;
+	KAction 					*m_paStop, *m_paPrint;
 	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
 	KRecentFilesAction			*fileOpenRecentAction;
 
@@ -155,7 +153,7 @@ private:
 	QHBoxLayout 				*Structview_layout;
 	QWidgetStack 				*topWidgetStack;
 	QSplitter 						*splitter1, *splitter2 ;
-	KListView						*outstruct;
+	KileWidget::Structure		*m_kwStructure;
 	QWidgetStack				*m_tabbarStack;
 
 	//dialogs
@@ -199,13 +197,10 @@ private slots:
 	void RefreshStructure();
 	void UpdateStructure(bool parse = false);
 
-	void ClickedOnStructure(QListViewItem *);
-	void DoubleClickedOnStructure(QListViewItem *);
-
 /* config */
 private:
 	KConfig				*config;
-	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab, m_defaultLevel;
+	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument, input_encoding;
@@ -234,8 +229,7 @@ private slots:
 
 	void GeneralOptions();
 	void ConfigureKeys();
-   	void ConfigureToolbars();
-   	void updateNavAction( bool, bool);
+	void ConfigureToolbars();
 
 /* spell check */
 private slots:
@@ -468,7 +462,6 @@ private:
 	bool 				m_bNewInfolist;
 	KileTool::Manager		*m_manager;
 	KileTool::Factory		*m_toolFactory;
-
 
 /* insert tags */
 private slots:

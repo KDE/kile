@@ -25,7 +25,7 @@
 #include "templates.h"
 
 #define DEFAULT_EMPTY_CAPTION i18n("Empty Document")
-#define DEFAULT_EMPTY_ICON "pics/type_Empty.png"
+#define DEFAULT_EMPTY_ICON "type_Empty"
 
 class TemplateItem : public QIconViewItem
 {

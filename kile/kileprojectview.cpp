@@ -53,7 +53,7 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 	kdDebug() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
 	if (isroot)
 	{
-		setPixmap(0,UserIcon("masteritem"));
+		setPixmap(0,SmallIcon("masteritem"));
 	}
 	else
 	{
@@ -62,10 +62,10 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 			if ( text(0).right(7) == ".kilepr" )
 				setPixmap(0,SmallIcon("kile"));
 			else
-				setPixmap(0,UserIcon("projectitem"));
+				setPixmap(0,SmallIcon("projectitem"));
 		}
 		else
-			setPixmap(0,UserIcon("file"));
+			setPixmap(0,SmallIcon("file"));
 	}
 }
 
@@ -243,7 +243,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		else if (itm->type() == KileType::Project)
 		{
 			m_popup->insertItem(i18n("A&dd Files..."), KPV_ID_ADDFILES);
-			m_popup->insertItem(UserIcon("relation"),i18n("Refresh Project &Tree"), KPV_ID_BUILDTREE);
+			m_popup->insertItem(SmallIcon("relation"),i18n("Refresh Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertItem(SmallIcon("package"),i18n("&Archive"), KPV_ID_ARCHIVE);
 			m_popup->insertSeparator();
@@ -326,7 +326,7 @@ void KileProjectView::add(const KileProject *project)
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
 	parent->setOpen(true);
-	parent->setPixmap(0,UserIcon("relation"));
+	parent->setPixmap(0,SmallIcon("relation"));
 	makeTheConnection(parent);
 
 	//KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-source"));

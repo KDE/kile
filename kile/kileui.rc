@@ -340,15 +340,10 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
 </ToolBar>
-<ToolBar name="extraToolBar" index="5"><text>Extra</text>
+<ToolBar name="extraToolBar" index="5" noMerge="1"><text>Extra</text>
+	<Merge/>
+	<Separator lineSeparator="true"/>
 	<Action name="print"/>
-	<Action name="info"/>
-	<DefineGroup name="print" />
-	<Separator lineSeparator="true"/>
-	<Action name="Back"/>
-	<Action name="Forward"/>
-	<Action name="Home"/>
-	<Separator lineSeparator="true"/>
 	<Action name="EditorView"/>
 </ToolBar>
 <State name="HTMLpreview">
@@ -399,19 +394,14 @@
 <Action name="Home"/>
 <Action name="gotoNextDocument"/>
 <Action name="gotoPrevDocument"/>
+<Action name="print"/>
 </Disable>
 <Enable>
 <Action name="EditorView"/>
 <Action name="file_print"/>
-<Action name="print"/>
 </Enable>
 </State>
 <State name="Editor">
-<Disable>
-<Action name="Back"/>
-<Action name="Forward"/>
-<Action name="Home"/>
-</Disable>
 <Enable>
 <Action name="EditorView"/>
 <Action name="file_new"/>

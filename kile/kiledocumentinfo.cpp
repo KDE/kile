@@ -235,7 +235,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 
 	m_struct=  new KileListViewItem( m_structview, shortName );
 	m_struct->setOpen(TRUE);
-	m_struct->setPixmap(0,UserIcon("doc"));
+	m_struct->setPixmap(0,SmallIcon("contents"));
 
 	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
 
@@ -375,7 +375,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					}
 
 					Child=new KileListViewItem(parent,lastChild,m.stripWhiteSpace(), tagLine, tagCol,(*it).type);
-					if (! (*it).pix.isNull()) Child->setPixmap(0,UserIcon((*it).pix));
+					if (! (*it).pix.isNull()) Child->setPixmap(0,SmallIcon((*it).pix));
 
 					//if the level is not greater than the defaultLevel
 					//open the parent to make this item visible

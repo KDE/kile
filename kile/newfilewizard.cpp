@@ -20,10 +20,13 @@
 #include <qdir.h>
 
 #include <klocale.h>
+#include <kdebug.h>
 #include <kmessagebox.h>
+#include <kiconloader.h>
+
 #include "newfilewizard.h"
 
-TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIconViewItem(parent,info.name,QPixmap(info.icon))
+TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIconViewItem(parent,info.name, QPixmap(info.icon))
 {
 	m_info = info;
 }
@@ -42,7 +45,9 @@ NewFileWidget::NewFileWidget(QWidget *parent , char *name) : KIconView(parent,na
 
    TemplateInfo info;
    info.name =DEFAULT_EMPTY_CAPTION;
-   info.icon =KGlobal::dirs()->findResource("appdata",DEFAULT_EMPTY_ICON );
+   //FIXME: don't hardcode these paths
+   info.icon = KGlobal::dirs()->findResource("appdata", "icons/hicolor/48x48/actions/"+ QString(DEFAULT_EMPTY_ICON) + ".png");
+   kdDebug() << "USING ICON : " << info.icon << endl;
    info.path="";
    TemplateItem * emp = new TemplateItem( this, info);
 

@@ -99,16 +99,16 @@ KileProjectItem* KileInfo::itemFor(const KURL &url)
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
 {
-	kdDebug() << "==KileInfo::infoFor==========================" << endl;
-	kdDebug() << "\t" << path << endl;
+	//kdDebug() << "==KileInfo::infoFor==========================" << endl;
+	//kdDebug() << "\t" << path << endl;
 	for (uint i=0; i < m_infoList.count(); i++)
 	{
-		kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
+		//kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
 		if ( m_infoList.at(i)->url().path() == path)
 			return m_infoList.at(i);
 	}
 
-	kdDebug() << "\tCOULD NOT find info for " << path << endl;
+	//kdDebug() << "\tCOULD NOT find info for " << path << endl;
 	return 0;
 }
 
@@ -130,7 +130,7 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 
 	if (doc)
 	{
-		kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
+		//kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
 		title = shrt ? doc->url().fileName() : doc->url().path();
 
 		if (title == "") title = i18n("Untitled");
@@ -267,7 +267,7 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 		basedirs.pop_front();
 	}
 
-	kdDebug() << "\tafter" << endl;
+	/*kdDebug() << "\tafter" << endl;
 	for (uint i=0; i < basedirs.count(); i++)
 	{
 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
@@ -276,14 +276,13 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 	for (uint i=0; i < dirs.count(); i++)
 	{
 		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
-	}
+	}*/
 
 	if (nDirs != dirs.count() )
 	{
 		path = dirs.join("/");
 
-		kdDebug() << "\tpath : " << path << endl;
-		//kdDebug() << "\tdiff : " << diff << endl;
+		//kdDebug() << "\tpath : " << path << endl;
 
 		if (basedirs.count() > 0)
 		{
@@ -302,7 +301,7 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 		path = url.path();
 	}
 
-	kdDebug() << "\tpath : " << path << endl;
+	kdDebug() << "\trelative path : " << path << endl;
 
 	return path;
 }

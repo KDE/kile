@@ -967,13 +967,12 @@ void Manager::projectOpenItem(KileProjectItem *item)
 
 	if ( (!item->isOpen()) && (view == 0L) && (item->getInfo()) ) //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());
+	else if (view != 0L)
+		view->setCursorPosition(item->lineNumber(), item->columnNumber());
 
 	//oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
 	if ((!item->isOpen()) && (view != 0L)) 
 		item->setOpenState(true);
-
-	//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
-//	m_ki->structureWidget()->takeItem(m_ki->structureWidget()->firstChild());
 }
 
 void Manager::projectOpen(const KURL & url, int step, int max)
@@ -1297,8 +1296,13 @@ void Manager::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 {
 	kdDebug() << "===Kile::storeProjectItem==============" << endl;
 	kdDebug() << "\titem = " << item << ", doc = " << doc << endl;
-	item->setEncoding( doc->encoding());
-	item->setHighlight( doc->hlModeName(doc->hlMode()));
+	item->setEncoding(doc->encoding());
+	item->setHighlight(doc->hlModeName(doc->hlMode()));
+	Kate::View *view = static_cast<Kate::View*>(doc->views().first());
+	uint l = 0, c = 0;
+	if (view) view->cursorPosition(&l,&c);
+	item->setLineNumber(l);
+	item->setColumnNumber(c);
 
 	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
 }

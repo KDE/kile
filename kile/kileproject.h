@@ -80,6 +80,13 @@ public:
 	const QString& highlight() { return m_highlight;}
 	void setHighlight(const QString& highlight) {m_highlight = highlight;}
 
+	uint lineNumber() { return m_nLine; }
+	void setLineNumber(uint l) { m_nLine = l; }
+
+	uint columnNumber() { return m_nColumn; }
+	void setColumnNumber(uint l) { m_nColumn = l; }
+
+
 	//project tree functions
 	void setParent(KileProjectItem * item);
 
@@ -113,6 +120,7 @@ private:
 	int				m_type;
 	KileDocument::Info	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
+	uint				m_nLine, m_nColumn;
 };
 
 class  KileProjectItemList : public QPtrList<KileProjectItem>

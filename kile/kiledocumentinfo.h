@@ -97,6 +97,12 @@ private:
 namespace KileDocument
 {
 
+struct BracketResult 
+{
+	BracketResult() : option(QString::null), value(QString::null) {}
+	QString option, value;
+};
+
 class Info : public QObject
 {
 	Q_OBJECT
@@ -157,7 +163,7 @@ signals:
 
 protected:
 	void count(const QString line, long *stat);
-	QString matchBracket(uint&, uint&);
+	QString matchBracket(QChar c, uint &, uint &);
 
 protected:
 	enum State
@@ -193,6 +199,9 @@ public:
 
 public slots:
 	void updateStruct();
+
+private:
+	BracketResult matchBracket(uint &, uint &);
 };
 
 class BibInfo : public Info

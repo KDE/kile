@@ -37,7 +37,8 @@ KileProjectItem::KileProjectItem(KileProject *project, const KURL & url, int typ
 	m_docinfo(0L),
 	m_parent(0L),
 	m_child(0L),
-	m_sibling(0L)
+	m_sibling(0L),
+	m_nLine(0)
 {
 	m_highlight=m_encoding=QString::null; m_bOpen = m_archive = true;
 
@@ -291,6 +292,8 @@ bool KileProject::load()
 			item->setEncoding(m_config->readEntry("encoding", QString::null));
 			item->setHighlight(m_config->readEntry("highlight",QString::null));
 			item->setArchive(m_config->readBoolEntry("archive", true));
+			item->setLineNumber(m_config->readNumEntry("line", 0));
+			item->setColumnNumber(m_config->readNumEntry("column", 0));
 			item->changePath(groups[i].mid(5));
 
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
@@ -327,6 +330,8 @@ bool KileProject::save()
 		m_config->writeEntry("encoding", item->encoding());
 		m_config->writeEntry("highlight", item->highlight());
 		m_config->writeEntry("archive", item->archive());
+		m_config->writeEntry("line", item->lineNumber());
+		m_config->writeEntry("column", item->columnNumber());
 		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 

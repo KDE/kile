@@ -203,11 +203,12 @@ void Info::cleanTempFiles(const QStringList &extlist )
 
 // match a { with the corresponding }
 // pos is the positon of the {
-QString Info::matchBracket(uint &l, uint &pos)
+QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 {
-	QChar obracket = m_doc->textLine(l)[pos], cbracket;
-	if (obracket == '{') cbracket = '}';
-	if (obracket == '[') cbracket = ']';
+	QChar cbracket;
+	if ( obracket == '{' ) cbracket = '}';
+	if ( obracket == '[' ) cbracket = ']';
+	if ( obracket == '(' ) cbracket = ')';
 
 	QString line, grab = "";
 	int count=0, len;
@@ -274,6 +275,35 @@ const long* TeXInfo::getStatistics()
 	return m_arStatistics;
 }
 
+BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
+{
+	BracketResult result;
+
+	if ( m_doc->textLine(l)[pos] == '[' )
+	{
+		result.option = Info::matchBracket('[', l, pos);
+		int p = 0;
+		while ( l < m_doc->numLines() )
+		{
+			if ( (p = m_doc->textLine(l).find('{', pos)) != -1 )
+			{
+				pos = p;
+				break;
+			}
+			else
+			{
+				pos = 0;
+				l++;
+			}
+		}
+	}
+
+	if ( m_doc->textLine(l)[pos] == '{' )
+		result.value  = Info::matchBracket('{', l, pos);
+
+	return result;
+}
+
 void TeXInfo::updateStruct()
 {
 	if ( getDoc() == 0L ) return;
@@ -292,14 +322,17 @@ void TeXInfo::updateStruct()
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
-	QString m, s, cap, folder = "root";
+	BracketResult result;
+	QString m, s, cap, folder = "root", shorthand;
 	bool foundBD = false; // found \begin { document }
+	bool fire = true; //whether or not we should emit a foundItem signal
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
 	{
 		tagStart=tagEnd=0;
 		folder = "root";
 		s=m_doc->textLine(i);
+		fire = true;
 
 		if (teller > 100)
 		{
@@ -338,6 +371,7 @@ void TeXInfo::updateStruct()
 
 			tagStart = reCommand.search(s,tagEnd);
 			m=QString::null;
+			shorthand = QString::null;
 
 			if (tagStart != -1)
 			{
@@ -352,7 +386,9 @@ void TeXInfo::updateStruct()
 				if (it != m_dictStructLevel.end())
 				{
 					tagLine=i+1; tagCol = tagEnd+1;
-					m = matchBracket(i, static_cast<uint&>(tagEnd)).stripWhiteSpace();
+					result = matchBracket(i, static_cast<uint&>(tagEnd));
+					m = result.value.stripWhiteSpace();
+					shorthand = result.option.stripWhiteSpace();
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
 					kdDebug() << "\tgrabbed : " << m << endl;
@@ -375,8 +411,16 @@ void TeXInfo::updateStruct()
 					if((*it).type == KileStruct::Bibliography)
 					{
 						kdDebug() << "\tappending Bibiliograph file " << m << endl;
-						m_bibliography.append(m);
-						m_deps.append(m + ".bib");
+						QStringList bibs = QStringList::split(",", m);
+						uint cumlen = 0;
+						for (uint b = 0; b < bibs.count(); b++)
+						{
+							m_bibliography.append(bibs[b]);
+							m_deps.append(bibs[b] + ".bib");
+							emit(foundItem(bibs[b], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, folder));
+							cumlen += bibs[b].length() + 1;
+						}
+						fire = false;
 					}
 
 					//update the label list
@@ -395,10 +439,23 @@ void TeXInfo::updateStruct()
 
 					//update the package list
 					if ((*it).type == KileStruct::Package)
-						m_packages.append(m);
+					{
+						QStringList pckgs = QStringList::split(",", m);
+						uint cumlen = 0;
+						for (uint p = 0; p < pckgs.count(); p++)
+						{
+							m_packages.append(pckgs[p]);
+							emit(foundItem(pckgs[p], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, folder));
+							cumlen += pckgs[p].length() + 1;
+						}
+						fire = false;
+					}
+
+					if ( ((*it).type == KileStruct::Sect) && (shorthand != QString::null) )
+						m = shorthand;
 
 					kdDebug() << "emitting foundItem " << m << endl;
-					emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, folder));
+					if (fire) emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, folder));
 				} //if m
 			} // if tagStart
 		} // while tagStart

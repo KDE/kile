@@ -195,7 +195,7 @@ namespace KileTool
 		if (m_from != QString::null)
 		{
 			QString src = source;
-			if ( m_from.length() > 0) src.replace(QRegExp(info.extension()+"$"),m_from);
+			if ( m_from.length() > 0) src.replace(QRegExp(info.extension(false)+"$"),m_from);
 			info.setFile(src);
 		}
 

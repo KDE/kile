@@ -368,6 +368,7 @@ void KileProject::buildProjectTree()
 			{
 				url = m_baseurl;
 				url.addPath((*deps)[i]);
+                url.cleanPath();
 				itm = item(url);
 				if (itm && (itm->parent() == 0)) itm->setParent(*it);
 			}

@@ -1546,10 +1546,11 @@ void Kile::changeInputEncoding()
 		QString text = view->getDoc()->text();
 
 		view->getDoc()->setEncoding(encoding);
+        unsigned int mode = view->getDoc()->hlMode(); //remember the highlighting mode
+
 		//reload the document so that the new encoding takes effect
 		view->getDoc()->openURL(view->getDoc()->url());
-
-		docManager()->setHighlightMode(view->getDoc());
+        view->getDoc()->setHlMode(mode);
 		view->getDoc()->setModified(modified);
 	}
 }

@@ -386,7 +386,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
-	m_ki->fileSelector()->comboEncoding()->lineEdit()->setText(enc);
+	//m_ki->fileSelector()->comboEncoding()->lineEdit()->setText(enc);
 	doc->setEncoding(encoding);
 
 	kdDebug() << "opening url: " << docinfo->url().path() << endl;
@@ -606,16 +606,14 @@ void Manager::fileNew(const KURL & url)
 void Manager::fileOpen()
 {
 	//determine the starting dir for the file dialog
-	QString currentDir= m_ki->fileSelector()->dirOperator()->url().path();
+    QString compileName = m_ki->getCompileName();
+	QString currentDir;
+    if ( QFileInfo(compileName).exists() )
+        currentDir = QFileInfo(compileName).dirPath(true);
+    else
+        currentDir = m_ki->fileSelector()->dirOperator()->url().path();
+    
 	QString filter;
-	QFileInfo fi;
-	if (m_ki->viewManager()->currentView())
-	{
-		fi.setFile(m_ki->viewManager()->currentView()->getDoc()->url().path());
-		if (fi.exists()) currentDir= fi.dirPath();
-	}
-
-	//get the URLs
 	filter.append(SOURCE_EXTENSIONS);
 	filter.append(" ");
 	filter.append(PACKAGE_EXTENSIONS);
@@ -624,8 +622,9 @@ void Manager::fileOpen()
 	filter.append(i18n("TeX Files"));
 	filter.append("\n*|");
 	filter.append(i18n("All Files"));
-	kdDebug() << "using FILTER " << filter << endl;
-	KURL::List urls = KFileDialog::getOpenURLs( currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
+
+    //get the URLs
+    KURL::List urls = KFileDialog::getOpenURLs( currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
 
 	//open them
 	for (uint i=0; i < urls.count(); i++)

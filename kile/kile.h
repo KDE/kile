@@ -141,6 +141,7 @@ private:
 	KAction 					*m_paStop, *m_paPrint;
 	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
 	KRecentFilesAction			*fileOpenRecentAction;
+	KAction* m_pFullScreen;
 
 /* GUI */
 private:
@@ -157,7 +158,7 @@ private:
 	//parts
 	KParts::PartManager 	*partManager;
 	QString 				m_wantState, m_currentState;
-
+	
 private slots:
 	void ToggleMode();
 	void ToggleStructView();
@@ -170,13 +171,14 @@ private slots:
 	void LatexHelp();
 
 private:
-	bool 			showoutputview, m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
+	bool 	showoutputview, m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB, m_bFullScreen;
 
 private slots:
 	void ResetPart();
 	void ActivePartGUI(KParts::Part * the_part);
 	void showToolBars(const QString &);
 	void enableKileGUI(bool enable);
+	void slotToggleFullScreen();
 
 public slots:
 	void prepareForPart(const QString &);

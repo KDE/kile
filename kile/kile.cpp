@@ -50,6 +50,7 @@
 #include <kapplication.h>
 #include <kstandarddirs.h>
 #include <ktoolbarbutton.h>
+#include <kmainwindow.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -508,6 +509,9 @@ void Kile::setupActions()
 	setupUserTagActions();
 
 	actionCollection()->readShortcutSettings();
+	
+	m_bFullScreen = false;
+  	m_pFullScreen = KStdAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
 }
 
 void Kile::setupTools()
@@ -1844,6 +1848,25 @@ void Kile::includeGraphics()
 		insertTag( dialog->getTemplate(),"%C",0,0 );
 
 	delete dialog;
+}
+
+void Kile::slotToggleFullScreen()
+{
+	m_bFullScreen = !m_bFullScreen;
+	if( m_bFullScreen )
+	{
+		this->showFullScreen();
+		m_pFullScreen->setText( i18n( "Exit Full-Screen Mode" ) );
+		m_pFullScreen->setToolTip( i18n( "Exit full-screen mode" ) );
+		m_pFullScreen->setIcon( "window_nofullscreen" );
+	}
+	else 
+	{
+		this->showNormal();
+		m_pFullScreen->setText( i18n( "&Full-Screen Mode" ) );
+		m_pFullScreen->setToolTip(i18n("Full-screen mode"));
+		m_pFullScreen->setIcon( "window_fullscreen" );
+	}
 }
 
 #include "kile.moc"

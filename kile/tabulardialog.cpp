@@ -439,7 +439,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	QWhatsThis::add(m_cbPre,i18n("Insert decl directly in front of the column entry."));
 	QWhatsThis::add(m_cbPost,i18n("Insert decl right after the column entry."));
 	QWhatsThis::add(m_cbAt,i18n("Suppresses inter-column space and inserts decl directly."));
-	QWhatsThis::add(m_cbSep,i18n("Inserts decl, but doesn't suppress the normally inserted space between columns in contrast to @{decl}."));
+	QWhatsThis::add(m_cbSep,i18n("Inserts decl, but does not suppress the normally inserted space between columns in contrast to @{decl}."));
 	QWhatsThis::add(m_pbFrame1,i18n("Clear all border lines."));
 	QWhatsThis::add(m_pbFrame2,i18n("Set left and right border lines."));
 	QWhatsThis::add(m_pbFrame3,i18n("Set upper and lower border line."));
@@ -1841,7 +1841,7 @@ void TabularDialog::slotRowValueChanged(int value)
 			{	
 				if ( ! askBeforeDelete ) break;
 				if ( firstwarning ) {
-					QString message  = i18n("Do you want do delete this row?");
+					QString message  = i18n("Do you want to delete this row?");
 					if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))!=KMessageBox::Continue) 
 						break;
 					firstwarning = false;
@@ -1873,7 +1873,7 @@ void TabularDialog::slotColValueChanged(int value)
 			{	
 				if ( ! askBeforeDelete ) break;
 				if ( firstwarning ) {
-					QString message  = i18n("Do you want do delete this column?");
+					QString message  = i18n("Do you want to delete this column?");
 					if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))!=KMessageBox::Continue) 
 						break;
 					firstwarning = false;

@@ -207,7 +207,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	QWhatsThis::add(m_edInfile,i18n("Input file, which should be converted."));
 	QWhatsThis::add(m_edOutfile,i18n("The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked."));
 	QWhatsThis::add(m_edParameter,i18n("'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here"));
-	QWhatsThis::add(m_spCopies,i18n("When you want to copy pages, you must eneter the number of copies"));
+	QWhatsThis::add(m_spCopies,i18n("When you want to copy pages, you must enter the number of copies"));
 	QWhatsThis::add(m_cbView,i18n("View the result of the conversion process. KGhostview is always taken as an external viewer."));
 
 	// some connections
@@ -290,7 +290,7 @@ void PostscriptDialog::slotProcessOutput(KProcess*,char* buf,int len)
 void PostscriptDialog::slotProcessExited (KProcess *proc)
 {
 	if ( ! proc->normalExit() ) 
-		showError(i18n("An error occured, while rearranging the file."));
+		showError(i18n("An error occurred, while rearranging the file."));
 		
 	QFile::remove(m_tempfile);
 }
@@ -478,7 +478,7 @@ bool PostscriptDialog::checkParameter()
 	}
 
 	if ( ! fi.exists() ) {
-		showError( i18n("This input file doesn't exist.")  );
+		showError( i18n("This input file does not exist.")  );
 		return false;
 	}
 
@@ -486,17 +486,17 @@ bool PostscriptDialog::checkParameter()
 	int index = m_cbTask->currentItem();
 	if ( m_edParameter->text().isEmpty() ) {
 		if ( index == PS_PSSELECT_FREE ) {
-			showError( i18n("psselect needs some parameter in this mode.") );
+			showError( i18n("psselect needs some parameters in this mode.") );
 			return false;
 		} else if ( index == PS_PSTOPS_FREE ) {
-			showError( i18n("pstops needs some parameter in this mode.") );
+			showError( i18n("pstops needs some parameters in this mode.") );
 			return false;
 		}
 	}
    
 	QString outfile = m_edOutfile->text();
 	if ( outfile.isEmpty() && !m_cbView->isChecked() ) {
-		showError( i18n("You better define an output file or select the viewer.") );
+		showError( i18n("You need to define an output file or select the viewer.") );
 		return false;
 	}
 

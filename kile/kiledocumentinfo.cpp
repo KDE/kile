@@ -59,7 +59,7 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 	do {
 		QString newURL = KInputDialog::getText(
 			i18n("Invalid characters"),
-			i18n("The filename contains invalid characters. Please provide another one."),
+			i18n("The filename contains invalid characters; please provide another one."),
 			url.filename());
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
@@ -75,7 +75,7 @@ KURL Info::repairExtension(const KURL& url)
 		return ret;
 
 	if(KMessageBox::Yes == KMessageBox::questionYesNo(NULL,
-		i18n("The given filename has no extension. Do you want one to be automatically added ?"),
+		i18n("The given filename has no extension; do you want one to be automatically added?"),
 		i18n("Missing extension"),
 		KStdGuiItem::yes(),
 		KStdGuiItem::no(),

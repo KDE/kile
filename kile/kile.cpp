@@ -353,7 +353,7 @@ void Kile::setupActions()
   altE_action = new KAction("$$...$$",ALT+Key_E, this, SLOT(InsertMath2()), actionCollection(),"53" );
   (void) new KAction("\\begin{equation}",0, this, SLOT(InsertMath74()), actionCollection(),"54" );
   (void) new KAction("\\begin{eqnarray}",0, this, SLOT(InsertMath75()), actionCollection(),"55" );
-  altD_action = new KAction("subscript  _{}","index",ALT+Key_D, this, SLOT(InsertMath3()), actionCollection(),"56" );
+  altD_action = new KAction("subscript  _{}","indice",ALT+Key_D, this, SLOT(InsertMath3()), actionCollection(),"56" );
   altU_action = new KAction("superscript  ^{}","puissance",ALT+Key_U, this, SLOT(InsertMath4()), actionCollection(),"57" );
   altF_action = new KAction("\\frac{}{}","smallfrac",ALT+Key_F, this, SLOT(InsertMath5()), actionCollection(),"58" );
   altQ_action = new KAction("\\dfrac{}{}","dfrac",ALT+Key_Q, this, SLOT(InsertMath6()), actionCollection(),"59" );

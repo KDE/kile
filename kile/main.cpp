@@ -43,7 +43,7 @@ int main( int argc, char ** argv )
     "http://kile.sourceforge.net");
   aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
   aboutData.addAuthor("Brachet Pascal",0,"");
-  aboutData.addCredit("Thanks to all the patchers, packagers from all over the world!","");
+  aboutData.addCredit(I18N_NOOP("Thanks to all the patchers, packagers from all over the world!"),"");
   aboutData.addCredit("David Ishee", I18N_NOOP("Xgfe"));
   aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
   aboutData.addCredit("Thomas Basset", I18N_NOOP("french translation"));

@@ -145,7 +145,7 @@ multiFileData::multiFileData
   legendTitlenotitleButton = new QCheckBox(legendButtonGroup, "CheckBox_5" );
   legendTitlenotitleButton->setMinimumSize( 60, 20 );
   legendTitlenotitleButton->setMaximumSize( 32767, 20 );
-  legendTitlenotitleButton->setText( "&notitle" );
+  legendTitlenotitleButton->setText( i18n("&notitle") );
   legendTitlenotitleButton->setAutoRepeat( FALSE );
   //legendTitlenotitleButton->setAutoResize( FALSE );
 

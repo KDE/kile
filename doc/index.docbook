@@ -71,11 +71,10 @@ for users who want to retain control over their LaTeX documents.</para>
 <title>&kile; Features</title>
 
 <para>In addition to the usual commands of an editor, &kile; provides
-other commands in order to facilitate the edition of your source
-files.</para>
+other commands to assist you in editing your source files.</para>
 
 <sect2 id="encoding">
-<title>Dealing with documents with non-standard characters</title>
+<title>Non-English documents and special characters</title>
 
 <para>If you want to edit or create documents that contain non-standard letters (such as accented letters), you will have to set
 the encoding for the file. This can be done by selecting the appropriate encoding (iso 8859-2 for most European
@@ -476,7 +475,7 @@ into your document.</para>
 <para>&kile;</para>
 
 <para>Program copyright 2003 and currently maintained by Jeroen
-Wijnhout <email>wijnhout@science.uva.nl</email></para>
+Wijnhout <email>Jeroen.Wijnhout@kdemail.net</email></para>
 
 <para>Program copyright 2002-2003 Brachet Pascal</para>
 

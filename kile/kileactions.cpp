@@ -209,6 +209,9 @@ void InputFigure::emitData()
 InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, KileInfo *ki, QWidget *parent, const char *name)
 	: KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true), m_ki(ki)
 {
+	QString newcaption = caption;
+	setCaption(newcaption.remove("&"));
+	
 	Env = 0L;
 	figLabel = 0L;
 	

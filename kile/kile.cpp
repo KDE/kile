@@ -19,6 +19,7 @@
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
 
+#include <kdirwatch.h>
 #include <kdebug.h>
 #include <kaboutdata.h>
 #include <kiconloader.h>
@@ -798,6 +799,7 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 	{
 		//block windowactivate events since the popup window (isModOnHD) takes focus
 		//away from the mainwindow
+
 		m_bBlockWindowActivateEvents = true;
 
 		for (uint i=0; i < m_viewList.count(); i++)
@@ -1612,7 +1614,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 	if (view)
 	{
 		//kdDebug() << "==Kile::fileClose==========================" << endl;
-		//kdDebug() << "\t" << view->getDoc()->docName() << endl;
+		//kdDebug() << "\t" << view->getDoc()->url().path() << endl;
 
 		KURL url = view->getDoc()->url();
 
@@ -1628,6 +1630,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		{
 			//KMessageBox::information(this,"closing "+url.path());
 			//kdDebug() << "\tclosed" << endl;
+			KDirWatch::statistics();
 			removeView(view);
 			//remove the decorations
 
@@ -1761,8 +1764,6 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 
 		KIconLoader *loader = KGlobal::iconLoader();
 		QPixmap icon = doc->isModified() ? loader->loadIcon("modified", KIcon::User, KIcon::SizeSmall, KIcon::DefaultState, 0, true) : QPixmap();
-
-		//QString icon = doc->isModified() ? "modified" : "empty";
 
 		for (uint i=0; i < list.count(); i++)
 		{
@@ -2297,7 +2298,7 @@ QString Kile::prepareForCompile(const QString & command) {
 
   //save the file before doing anything
   //attempting to save an untitled document will result in a file-save dialog pop-up
-  if (view) view->save();
+	if (view) view->save();
 
   	finame = getCompileName();
 	bool isRoot = true;
@@ -2491,6 +2492,7 @@ void Kile::ViewDvi()
       return;
    }
    dvipart =(KParts::ReadOnlyPart *)dvifactory->create(topWidgetStack, "kviewerpart", "KViewPart", "dvi");
+   if ( dvipart == 0 ) return;
    dvipresent=true;
    topWidgetStack->addWidget(dvipart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
@@ -2564,6 +2566,7 @@ void Kile::KdviForwardSearch()
       return;
       }
    dvipart =(KParts::ReadOnlyPart *)dvifactory->create(topWidgetStack, "kviewerpart", "KViewPart", "dvi");
+   if ( dvipart == 0 ) return;
    dvipresent=true;
    topWidgetStack->addWidget(dvipart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
@@ -2642,6 +2645,7 @@ void Kile::ViewPS()
       return;
       }
    pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
+   if ( pspart == 0 ) return;
    pspresent=true;
    topWidgetStack->addWidget(pspart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
@@ -2714,6 +2718,7 @@ void Kile::ViewPDF()
       return;
       }
    pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
+   if ( pspart == 0 ) return;
    pspresent=true;
    topWidgetStack->addWidget(pspart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
@@ -3019,10 +3024,7 @@ void Kile::syncTerminal()
 
 	if (view)
 	{
-		QString finame;
-		if (m_singlemode) {finame=view->getDoc()->url().path();}
-    		else {finame=m_masterName;}
-
+		QString finame = getCompileName();
 		if (finame == "" || finame == i18n("Untitled") ) return;
 
     		QFileInfo fic(finame);
@@ -3146,6 +3148,7 @@ void Kile::HtmlPreview()
 
 	prepareForPart();
    htmlpart = new docpart(topWidgetStack,"help");
+   if (htmlpart == 0 ) return;
    htmlpresent=true;
    htmlpart->openURL(finame);
    htmlpart->addToHistory(finame);

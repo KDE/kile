@@ -842,7 +842,7 @@ if ( !currentEditorView() )	return;
 if (currentEditorView()->editor->isModified())
 {
    switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
+				     i18n("The current document (%1) has been modified.\nDo you want to save it before closing?").arg(getName()),"Kile",
 				     i18n("Save"), i18n("Don't Save") ) )
    {
        case (KMessageBox::Yes):

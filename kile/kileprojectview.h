@@ -95,6 +95,7 @@ public:
 	void remove(const KURL & url);
 
 	KileProjectViewItem* projectViewItemFor(const KURL &);
+	KileProjectViewItem* itemFor(const KURL &);
 	KileProjectViewItem* parentFor(const KileProjectItem *projitem, KileProjectViewItem *projvi);
 
 private slots:

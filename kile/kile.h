@@ -237,14 +237,14 @@ private:
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument, input_encoding;
-  QString 		templAuthor, templDocClassOpt, templEncoding;
-  QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-  QStringList 	recentFilesList;
+   	QString 		templAuthor, templDocClassOpt, templEncoding;
+   	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
+   	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 	bool 				ams_packages, makeidx_package;
 	bool 				htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
-	bool			m_bCompleteEnvironment;
+	bool			m_bCompleteEnvironment, m_bRestore, m_bCheckForRoot;
 
 signals:
 	/**
@@ -254,6 +254,7 @@ signals:
 	void configChanged();
 
 private slots:
+	void restore();
 	void ReadSettings();
 	void ReadRecentFileSettings();
 	void SaveSettings();
@@ -396,9 +397,13 @@ private slots:
 public:
 	Kate::Document * activeDocument() const { Kate::View *view = currentView(); if (view) return view->getDoc(); else return 0;}
 
-	const QStringList* labels() const;
-	const QStringList* bibItems() const;
-	const QStringList* bibliographies() const;
+	const QStringList* labels();
+	const QStringList* bibItems();
+	const QStringList* bibliographies();
+
+private:
+	const QStringList* retrieveList(const QStringList* (KileDocumentInfo::*getit)() const);
+	QStringList m_listTemp;
 
 /* autosave */
 private slots:
@@ -444,7 +449,7 @@ private slots:
 	CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop, bool runonfile = true);
 	QString 		prepareForCompile(const QString & command);
 	QStringList 	prepareForConversion(const QString &command, const QString &from, const QString &to);
-	QString 		prepareForViewing(const QString & command, const QString &ext, const QString &target);
+	QString 		prepareForViewing(const QString & command, const QString &ext, const QString &target = QString::null);
 
 	void Latex();
 	void ViewDvi();

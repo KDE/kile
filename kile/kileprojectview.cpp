@@ -18,6 +18,7 @@
 #include <qheader.h>
 
 #include <klocale.h>
+#include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kurl.h>
@@ -180,7 +181,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		}
 		else if (itm->type() == KileType::Project)
 		{
-			m_popup->insertItem(SmallIcon("relation"),i18n("Build Project &Tree"), KPV_ID_BUILDTREE);
+			m_popup->insertItem(UserIcon("relation"),i18n("Build Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
@@ -219,7 +220,7 @@ void KileProjectView::add(const KileProject *project)
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
 	parent->setOpen(true);
-	parent->setPixmap(0,SmallIcon("relation"));
+	parent->setPixmap(0,UserIcon("relation"));
 	makeTheConnection(parent);
 
 	refreshProjectTree(project);
@@ -239,6 +240,22 @@ KileProjectViewItem * KileProjectView::projectViewItemFor(const KURL & url)
 		if ( (item->type() == KileType::Project) && (item->url() == url) )
 			break;
 		item = static_cast<KileProjectViewItem*>(item->nextSibling());
+	}
+
+	return item;
+}
+
+KileProjectViewItem * KileProjectView::itemFor(const KURL & url)
+{
+	KileProjectViewItem *item=0;
+
+	QListViewItemIterator it(this);
+	while (it.current())
+	{
+		item = static_cast<KileProjectViewItem*>(*it);
+		if (item->url() == url)
+			break;
+		++it;
 	}
 
 	return item;

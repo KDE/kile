@@ -257,6 +257,8 @@ Kile::Kile( QWidget *, const char *name ) :
 	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTerminal(QWidget * )) );
 
 	applyMainWindowSettings(config, "KileMainWindow" );
+
+	restore();
 }
 
 Kile::~Kile()
@@ -470,6 +472,26 @@ void Kile::setupUserToolActions()
 	}
 }
 
+void Kile::restore()
+{
+	if (!m_bRestore) return;
+
+	for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
+	{
+		kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
+		projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
+	}
+
+	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
+	{
+		kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
+		fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
+	}
+
+	m_listProjectsOpenOnStart.clear();
+	m_listDocsOpenOnStart.clear();
+}
+
 ////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight)
 {
@@ -546,7 +568,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	mapInfo(doc, docinfo);
 
 	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged()));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
 	//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
 	//updates the docinfo, on which all decisions are bases in slotNameChanged
 	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
@@ -1256,9 +1278,16 @@ bool Kile::projectClose(const KURL & url)
 		KileProjectItemList *list = project->items();
 
 		bool close = true;
+		KileDocumentInfo *docinfo;
 		for (uint i =0; i < list->count(); i++)
 		{
-			close = close && fileClose(infoFor(list->at(i))->getDoc(), true);
+			docinfo = infoFor(list->at(i));
+			if (docinfo) doc = docinfo->getDoc();
+			if (doc)
+			{
+				kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
+				close = close && fileClose(doc, true);
+			}
 		}
 
 		if (close)
@@ -1373,6 +1402,8 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		KileProjectItem *item;
 		if (view->getDoc()->closeURL() )
 		{
+			//KMessageBox::information(this,"closing "+url.path());
+			kdDebug() << "\tclosed" << endl;
 			removeView(view);
 			//remove the decorations
 			docinfo = infoFor(doc);
@@ -1430,10 +1461,26 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
-	//bool stage1 = projectCloseAll();
-	//bool stage2 = fileCloseAll();
-	//return stage1 && stage2;
-	return projectCloseAll() && fileCloseAll();
+	for (uint i=0; i < m_projects.count(); i++)
+	{
+		m_listProjectsOpenOnStart.append(m_projects.at(i)->url().path());
+	}
+
+	bool stage1 = projectCloseAll();
+	bool stage2 = true;
+
+	if (stage1)
+	{
+		//KMessageBox::information(this,QString::number(m_viewList.count()));
+		for (uint i=0; i < m_viewList.count(); i++)
+		{
+			//KMessageBox::information(this, "adding "+m_viewList.at(i)->getDoc()->url().path());
+			m_listDocsOpenOnStart.append(m_viewList.at(i)->getDoc()->url().path());
+		}
+		stage2 = fileCloseAll();
+	}
+
+	return stage1 && stage2;
 }
 
 void Kile::fileSelected(const KFileItem *file)
@@ -1496,33 +1543,75 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	}
 }
 
-const QStringList* Kile::labels() const
+const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*getit)() const)
 {
-	const KileDocumentInfo *docinfo = getInfo();
+	m_listTemp.clear();
 
-	if (docinfo)
-		return docinfo->labels();
+	KileDocumentInfo *docinfo = getInfo();
+	KileProjectItem *item = itemFor(docinfo);
+
+	kdDebug() << "Kile::retrieveList()" << endl;
+	if (item)
+	{
+		const KileProject *project = item->project();
+		const KileProjectItem *root = project->rootItem(item);
+		if (root)
+		{
+			kdDebug() << "\tusing root item " << root->url().fileName() << endl;
+
+			QPtrList<KileProjectItem> children;
+			children.append(root);
+			root->allChildren(&children);
+
+			const QStringList *list;
+
+			for (uint i=0; i < children.count(); i++)
+			{
+				kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
+				list = (children.at(i)->getInfo()->*getit)();
+				if (list)
+				{
+					for (uint i=0; i < list->count(); i++)
+						m_listTemp << (*list)[i];
+				}
+			}
+
+			return &m_listTemp;
+		}
+		else
+			return &m_listTemp;
+	}
+	else	if (docinfo)
+	{
+		m_listTemp = *((docinfo->*getit)());
+		return &m_listTemp;
+	}
 	else
-		return 0;
+		return &m_listTemp;
 }
 
-const QStringList* Kile::bibItems() const
+const QStringList* Kile::labels()
 {
-	const KileDocumentInfo *docinfo = getInfo();
-
-	if (docinfo)
-		return docinfo->bibItems();
-	else
-		return 0;
+	kdDebug() << "Kile::labels()" << endl;
+	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::labels;
+	const QStringList* list = retrieveList(p);
+	return list;
 }
 
-const QStringList* Kile::bibliographies() const
+const QStringList* Kile::bibItems()
 {
-	const KileDocumentInfo *docinfo = getInfo();
-	if (docinfo)
-		return docinfo->bibliographies();
-	else
-		return 0;
+	kdDebug() << "Kile::bibItems()" << endl;
+	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibItems;
+	const QStringList* list = retrieveList(p);
+	return list;
+}
+
+const QStringList* Kile::bibliographies()
+{
+	kdDebug() << "Kile::bibliographies()" << endl;
+	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibliographies;
+	const QStringList* list = retrieveList(p);
+	return list;
 }
 
 void Kile::newCaption()
@@ -1986,7 +2075,7 @@ QString Kile::prepareForCompile(const QString & command) {
   	finame = getCompileName();
 	bool isRoot = true;
 	KileDocumentInfo *docinfo = infoFor(finame);
-	if (docinfo) isRoot = docinfo->isLaTeXRoot();
+	if (docinfo) isRoot = m_bCheckForRoot ? docinfo->isLaTeXRoot() : true;
 
 	if (view && ! isRoot )
 	{
@@ -2064,17 +2153,13 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    return list;
 }
 
-QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target = QString::null)
+QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target /*= QString::null*/)
 {
-   Kate::View *view = currentView();
+	kdDebug() << "==Kile::prepareForViewing==========================" << endl;
+	Kate::View *view = currentView();
 
    QString finame;
    finame = getCompileName();
-
-   /*if (m_singlemode) {finame=getName();}
-   else {
-     finame=m_masterName;
-   }*/
 
    //warn if there is no active view
    if (m_singlemode && !view)
@@ -2106,8 +2191,13 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
    finame = fic.dirPath() + "/";
    if (!target.isNull())
    {
+   		kdDebug() << "\t using target " << target << endl;
 		finame += target;
 		finame = finame.replace("%S",fic.baseName(TRUE));
+		if (finame.right(ext.length()+1) != "."+ext)
+			finame += "."+ext;
+			
+		kdDebug() << "\t resulting in " << finame << endl;
    }
    else
    {
@@ -2834,69 +2924,67 @@ void Kile::HtmlPreview()
 
 void Kile::Bibtexeditor()
 {
+	kdDebug() << "==Bibtexeditor()========================" << endl;
   //check if a file is opened
 	Kate::View *view = currentView();
-	if (m_singlemode && !view) {
-     KMessageBox::error( this, i18n("Unable to determine which Bibtex file to show. Please open a source file with a reference."));
+	if (m_singlemode && !view)
+	{
+     KMessageBox::error( this, i18n("Unable to determine which BibTeX file to show. Please open a source file that uses a BibTeX bibliography."));
      return;
    }
-	
+
 	QString finame_t = getCompileName();
 	kdDebug() << "Compile name: " << finame_t <<endl;
-	
 
-  //get the referenced bibliograph files
+	//get the referenced bibliograph files
 	const QStringList *filesbib = bibliographies();
-  int NumberOfBibtexFiles = filesbib->count();
-  //If there are more references, show dialog to choose
-	if(NumberOfBibtexFiles > 1 ){
+	int NumberOfBibtexFiles = filesbib->count();
+	QString finame_a;
+
+	kdDebug() << "\tno. of files: " << NumberOfBibtexFiles << endl;
+	if (NumberOfBibtexFiles == 0)
+	{
+		KMessageBox::error(this, i18n("Could not find any bibliographies for this document (or any master documents for this document). Refreshing the structure view might help."), i18n("No bibliographies found!"));
+		return;
+	}
+
+	//If there are more references, show dialog to choose
+	if(NumberOfBibtexFiles > 1 )
+	{
 		kdDebug() << "Opening Bibtex dialog " << endl;
 		bibtexdialog *BibtexDlg = new bibtexdialog( (*filesbib),"Bibtex file Selector",i18n("Bibtex"),this );
-		if ( BibtexDlg->exec() ){
-  	    QString currentDir = getName();
-				QFileInfo fica(currentDir);
-				QString path = fica.dirPath(); 
-				QString finame_a = (*filesbib)[BibtexDlg->currentItem()];
-				QString finame = path+"/"+finame_a+".bib";
-				QFileInfo fic(finame);
-        if( (finame= prepareForViewing("ViewBibtex","bib")) == QString::null) return;
-				QStringList command; command << bibtexeditor_command;
-	    	CommandProcess *proc=execCommand(command,fic,false);
-  	  	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-				if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) ){
-      	 		KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(bibtexeditor_command));
-	    	}
-  	  	else{
-					OutputWidget->clear();
-					logpresent=false;
-					LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-				}
+		if ( BibtexDlg->exec() )
+		{
+			finame_a = BibtexDlg->currentItem();
 		}
+		else
+			return;
 	}
-  //only one reference is found, so show the damm thing
-	else {
-				QString currentDir = getName();
-				QFileInfo fica(currentDir);
-				QString path = fica.dirPath();
 
-     		QStringList::ConstIterator it = filesbib->begin();
-				QString finame_a = *it;
-  	    QString finame = path+"/"+finame_a+".bib";
-				QFileInfo fic(finame);
-        if( (finame= prepareForViewing("ViewBibtex","bib")) == QString::null) return;
-				QStringList command; command << bibtexeditor_command;
-	    	CommandProcess *proc=execCommand(command,fic,false);
-  	  	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-				if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) ){
-      	 		KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(bibtexeditor_command));
-	    	}
-  	  	else{
-					OutputWidget->clear();
-					logpresent=false;
-					LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-				}
+  	QString currentDir = getName();
+	QFileInfo fica(currentDir);
+	QString path = fica.dirPath();
+
+    QStringList::ConstIterator it = filesbib->begin();
+	finame_a = *it;
+  	QString finame = path+"/"+finame_a+".bib";
+	QFileInfo fic(finame);
+
+	if( (finame= prepareForViewing("ViewBibtex","bib", finame_a)) == QString::null) return;
+
+	QStringList command; command << bibtexeditor_command;
+	CommandProcess *proc=execCommand(command,fic,false);
+  	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+	if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
+	{
+    	KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(bibtexeditor_command));
 	}
- 
+  	else
+	{
+		OutputWidget->clear();
+		logpresent=false;
+		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
+	}
 }
 
 void Kile::execUserTool(int i)
@@ -3799,6 +3887,15 @@ void Kile::ReadSettings()
 
 void Kile::ReadRecentFileSettings()
 {
+	config->setGroup("FilesOpenOnStart");
+	int n = config->readNumEntry("NoDOOS", 0);
+	for (int i=0; i < n; i++)
+		m_listDocsOpenOnStart.append(config->readPathEntry("DocsOpenOnStart"+QString::number(i), ""));
+
+	n = config->readNumEntry("NoPOOS", 0);
+	for (int i=0; i < n; i++)
+		m_listProjectsOpenOnStart.append(config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
+
 	config->setGroup( "Files" );
 
 	lastDocument=config->readPathEntry("Last Document","");
@@ -3834,7 +3931,7 @@ void Kile::readConfig()
 	switchtostructure = config->readBoolEntry("SwitchToStructure", true);
 
 	config->setGroup( "Files" );
-
+	m_bRestore=config->readBoolEntry("Restore",true);
 	autosave=config->readBoolEntry("Autosave",true);
 	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
 	enableAutosave(autosave);
@@ -3846,7 +3943,7 @@ void Kile::readConfig()
 	templEncoding=config->readEntry("Template Encoding","");
 
 	config->setGroup("Tools");
-
+	m_bCheckForRoot = config->readBoolEntry("CheckForRoot",true);
 	quickmode=config->readNumEntry( "Quick Mode",1);
 
 	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
@@ -3904,18 +4001,6 @@ config->writeEntry("ShowEditToolbar",showedittoolbar);
 config->writeEntry("ShowMathToolbar",showmathtoolbar);
 config->writeEntry("MenuAccels", m_menuaccels);
 
-//config->setGroup("Tools");
-//config->writeEntry( "Quick Mode",quickmode);
-//config->writeEntry("Latex",latex_command);
-//config->writeEntry("Dvi",viewdvi_command);
-//config->writeEntry("Dvips",dvips_command);
-//config->writeEntry("Ps",viewps_command);
-//config->writeEntry("Ps2pdf",ps2pdf_command);
-//config->writeEntry("Makeindex",makeindex_command);
-//config->writeEntry("Bibtex",bibtex_command);
-//config->writeEntry("Pdflatex",pdflatex_command);
-//config->writeEntry("Pdf",viewpdf_command);
-//config->writeEntry("Dvipdf",dvipdf_command);
 config->writeEntry("L2h Options",l2h_options);
 config->writeEntry("User Class",userClassList, ':');
 config->writeEntry("User Paper",userPaperList, ':');
@@ -3923,17 +4008,30 @@ config->writeEntry("User Encoding",userEncodingList, ':');
 config->writeEntry("User Options",userOptionsList, ':');
 
 
-config->setGroup( "Files" );
-if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
-config->writeEntry("Last Document",lastDocument);
-input_encoding=KileFS->comboEncoding->lineEdit()->text();
-config->writeEntry("Input Encoding", input_encoding);
-//config->writeEntry("Autosave",autosave);
-//config->writeEntry("AutosaveInterval",autosaveinterval);
+	config->setGroup( "Files" );
+	if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
+	config->writeEntry("Last Document",lastDocument);
+	input_encoding=KileFS->comboEncoding->lineEdit()->text();
+	config->writeEntry("Input Encoding", input_encoding);
 
 	// Store recent files
 	fileOpenRecentAction->saveEntries(config,"Recent Files");
 	m_actRecentProjects->saveEntries(config,"Projects");
+
+	config->deleteGroup("FilesOpenOnStart");
+	kdDebug() << "deleting FilesOpenOnStart" << endl;
+	if (m_bRestore)
+	{
+		kdDebug() << "saving Restore info" << endl;
+		config->setGroup("FilesOpenOnStart");
+		config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
+		for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
+			config->writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
+
+		config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
+		for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
+			config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+	}
 
 config->setGroup( "User" );
 

@@ -56,7 +56,7 @@ public:
     QComboBox *comboDvi, *comboPs, *comboPdf;
 	QButtonGroup *ButtonGroup2;
 
-    QCheckBox *checkAutosave, *checkEnv, *checkSwitchStruct;
+    QCheckBox *checkAutosave, *checkEnv, *checkSwitchStruct, *checkRestore, *checkForRoot;
 
     QRadioButton *checkLatex, *checkPdflatex,
         *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;

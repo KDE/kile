@@ -76,6 +76,11 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	m_config->setGroup("Structure");
 	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure",true));
 
+	checkRestore = new QCheckBox("Reopen files and projects on startup.", generalPage );
+	genLayout->addWidget(checkRestore);
+	m_config->setGroup("Files");
+	checkRestore->setChecked(m_config->readBoolEntry("Restore",true));
+
     //template variables
     QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);
 
@@ -144,41 +149,44 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     LineEdit6 = new QLineEdit( toolsPage, "le6" );
     gbox1->addWidget( LineEdit6,3,1 );
 
+	checkForRoot = new QCheckBox("Check if document is a LaTeX root before running LaTeX on it.", toolsPage );
+	gbox1->addMultiCellWidget(checkForRoot,4,4,0,1);
+
     TextLabel7 = new QLabel( toolsPage, "label7" );
     TextLabel7->setText("PdfLaTeX");
-    gbox1->addWidget( TextLabel7,4,0 );
+    gbox1->addWidget( TextLabel7,5,0 );
     LineEdit7 = new QLineEdit( toolsPage, "le7" );
-    gbox1->addWidget( LineEdit7,4,1 );
+    gbox1->addWidget( LineEdit7,5,1 );
 
     TextLabel9 = new QLabel( toolsPage, "label9" );
     TextLabel9->setText(i18n("DVI to PDF"));
-    gbox1->addWidget( TextLabel9,5,0 );
+    gbox1->addWidget( TextLabel9,6,0 );
     LineEdit9 = new QLineEdit( toolsPage, "le9" );
-    gbox1->addWidget( LineEdit9,5,1 );
+    gbox1->addWidget( LineEdit9,6,1 );
 
     TextLabel10 = new QLabel( toolsPage, "label10" );
     TextLabel10->setText(i18n("DVI to PS"));
-    gbox1->addWidget( TextLabel10,6,0 );
+    gbox1->addWidget( TextLabel10,7,0 );
     LineEdit10 = new QLineEdit( toolsPage, "le10" );
-    gbox1->addWidget( LineEdit10,6,1 );
+    gbox1->addWidget( LineEdit10,7,1 );
 
     TextLabel11 = new QLabel( toolsPage, "label11" );
     TextLabel11->setText(i18n("PS to PDF"));
-    gbox1->addWidget( TextLabel11,7,0 );
+    gbox1->addWidget( TextLabel11,8,0 );
     LineEdit11 = new QLineEdit( toolsPage, "le11" );
-    gbox1->addWidget( LineEdit11,7,1 );
+    gbox1->addWidget( LineEdit11,8,1 );
 
     TextLabel12 = new QLabel( toolsPage, "label11" );
     TextLabel12->setText(i18n("Make Index"));
-    gbox1->addWidget( TextLabel12,8,0 );
+    gbox1->addWidget( TextLabel12,9,0 );
     LineEdit12 = new QLineEdit( toolsPage, "le112" );
-    gbox1->addWidget( LineEdit12,8,1 );
+    gbox1->addWidget( LineEdit12,9,1 );
 
     TextLabel13 = new QLabel( toolsPage, "label13" );
     TextLabel13->setText("BibTeX");
-    gbox1->addWidget( TextLabel13,9,0 );
+    gbox1->addWidget( TextLabel13,10,0 );
     LineEdit13 = new QLineEdit( toolsPage, "le113" );
-    gbox1->addWidget( LineEdit13,9,1 );
+    gbox1->addWidget( LineEdit13,10,1 );
 
     TextLabel14 = new QLabel( toolsPage, "label14" );
     TextLabel14->setText("BibTeX Editor");
@@ -188,6 +196,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
 	//fill in tools
 	m_config->setGroup("Tools");
+	checkForRoot->setChecked(m_config->readBoolEntry("CheckForRoot",true));
 	comboDvi->setCurrentText(m_config->readEntry("Dvi","Embedded Viewer"));
 	comboPdf->setCurrentText(m_config->readEntry("Pdf","Embedded Viewer"));
 	comboPs->setCurrentText(m_config->readEntry("Ps","Embedded Viewer"));
@@ -269,6 +278,7 @@ KileConfigDialog::~KileConfigDialog()
 void KileConfigDialog::slotOk()
 {
 	m_config->setGroup( "Files" );
+	m_config->writeEntry("Restore", checkRestore->isChecked());
 
 	m_config->writeEntry("Autosave",checkAutosave->isChecked());
 	m_config->writeEntry("AutosaveInterval",asIntervalInput->value()*60000);
@@ -280,7 +290,7 @@ void KileConfigDialog::slotOk()
 	m_config->writeEntry("Template Encoding",templEncoding->text());
 
 	m_config->setGroup("Tools");
-
+	m_config->writeEntry("CheckForRoot",checkForRoot->isChecked());
 	m_config->writeEntry("Latex",LineEdit6->text());
 	m_config->writeEntry("Dvi",comboDvi->currentText());
 	m_config->writeEntry("Dvips",LineEdit10->text());

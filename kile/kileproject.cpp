@@ -26,34 +26,6 @@
 #include "kiledocumentinfo.h"
 
 /*
- * KileURLTree
- */
-KileURLTree::KileURLTree(KileURLTree *parent, const KURL & url)  : m_parent(parent), m_url(url), m_sibling(0), m_child(0)
-{
-	if (m_parent)
-	{
-		//set this item as child, if parent didn't have a child yet
-		if (m_parent->firstChild() == 0)
-			m_parent->setChild(this);
-		else
-		{
-			KileURLTree *item = m_parent->firstChild();
-			while (item->sibling())
-				item = item->sibling();
-
-			item->setSibling(this);
-		}
-	}
-}
-
-KileURLTree::~KileURLTree()
-{
-	kdDebug() << "~KileURLTree() " << m_url.path() << endl;
-	delete m_sibling;
-	delete m_child;
-}
-
-/*
  * KileProjectItem
  */
 KileProjectItem::KileProjectItem(KileProject *project, const KURL & url) :
@@ -117,6 +89,20 @@ KileProjectItem* KileProjectItem::print(int level)
 	}
 
 	return 0;
+}
+
+void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
+{
+	KileProjectItem *item = firstChild();
+
+	kdDebug() << "\tKileProjectItem::allChildren(" << list->count() << ")" << endl;
+	while(item != 0)
+	{
+		list->append(item);
+		kdDebug() << "\t\tappending " << item->url().fileName() << endl;
+		item->allChildren(list);
+		item = item->sibling();
+	}
 }
 
 void KileProjectItem::setInfo(KileDocumentInfo *docinfo)
@@ -382,7 +368,7 @@ bool KileProject::contains(const KURL &url)
 	return false;
 }
 
-KileProjectItem *KileProject::rootItem(KileProjectItem *item)
+KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 {
 	if (item)
 	{

@@ -29,32 +29,10 @@ class KSimpleConfig;
 class KileDocumentInfo;
 
 /**
- * KileURLTree
- **/
-class KileURLTree
-{
-public:
-	KileURLTree(KileURLTree *parent, const KURL & url);
-	~KileURLTree();
-
-	KileURLTree*	firstChild() {return m_child; }
-	KileURLTree*	sibling() { return m_sibling;}
-	KileURLTree*	parent() { return m_parent;}
-
-	void setChild(KileURLTree *item) { m_child = item; }
-	void setSibling(KileURLTree *item) { m_sibling = item; }
-
-private:
-	KileURLTree	*m_parent;
-	KURL				m_url;
-	KileURLTree	*m_sibling;
-	KileURLTree	*m_child;
-};
-
-/**
  * KileProjectItem
  **/
 class KileProject;
+class KileProjectItemList;
 class KileProjectItem : public QObject
 {
 	Q_OBJECT
@@ -99,6 +77,8 @@ public:
 	KileProjectItem* parent() const { return m_parent; }
 	KileProjectItem* firstChild() const { return m_child;}
 	KileProjectItem* sibling() const { return m_sibling; }
+
+	void allChildren(QPtrList<KileProjectItem> *) const;
 
 	KileProjectItem * print(int level);
 
@@ -150,11 +130,10 @@ public:
 	KileProjectItemList* items() { return &m_projectitems; }
 
 	bool contains(const KURL&);
-	KileProjectItem *rootItem(KileProjectItem *);
+	KileProjectItem *rootItem(KileProjectItem *) const;
 	const QPtrList<KileProjectItem>* rootItems() const { return &m_rootItems;}
 
 	void buildProjectTree();
-	const KileURLTree* projectTree() { return m_projecttree; }
 
 signals:
 	void nameChanged(const QString &);
@@ -184,10 +163,8 @@ private:
 	KURL			m_projecturl;
 	KURL			m_baseurl;
 
-	//KileProjectItem			*m_rootItem;
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
-	KileURLTree			*m_projecttree;
 
 	KSimpleConfig	*m_config;
 };

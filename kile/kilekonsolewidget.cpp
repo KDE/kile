@@ -70,8 +70,6 @@ namespace KileWidget
 		if (doc)
 			view = static_cast<Kate::View*>(doc->views().first());
 
-		kdDebug() << "==KileWidget::Konsole::syncTerminal()===========" <<  endl;
-	
 		if (view)
 		{
 			QString finame;
@@ -82,7 +80,6 @@ namespace KileWidget
 			QFileInfo fic(url.directory());
 			if ( fic.isReadable() )
 			{
-				kdDebug() << "\t" << url.directory() << endl;
 				setDirectory(url.directory());
 				activate();
 			}

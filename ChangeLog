@@ -1,3 +1,5 @@
+version 1.5.2 -> 1.6
+- button to view the bibtex file & interaction with gBib and pyBliographer
 - restore files and projects on start up (optional)
 - checking whether or not the document is a LaTeX root before compile is optional now
 - launch you favorite BibTeX editor using the bilbiographies found in your document

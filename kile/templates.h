@@ -30,6 +30,8 @@ public:
    QString name;
    QString path;
    QString icon;
+
+   bool operator==(const TemplateInfo ti) { return name==ti.name; }
 };
 
 typedef QValueList<TemplateInfo> TemplateList;

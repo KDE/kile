@@ -14,8 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <iostream>
-
+#include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -26,20 +25,23 @@
 #include <qfileinfo.h>
 #include <qstringlist.h>
 #include <qregexp.h>
- 
+
 #include "templates.h"
 
-Templates::Templates(){
+Templates::Templates()
+{
+	kdDebug() << "===Templates()===================" << endl;
    QStringList dirs = KGlobal::dirs()->findDirs("appdata","templates");
    QDir templates;
    TemplateInfo ti;
   
-   for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); i++) {
-   
+   for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); i++)
+   {
+
      templates = QDir(*i, "template_*.tex");
-     for ( uint j=0; j< templates.count(); j++) {
+     for ( uint j=0; j< templates.count(); j++)
+	 {
         ti.path=templates.path()+"/"+templates[j];
-	//we need QRegExp here because replace(QString,QString) only works for Qt3.1
         ti.name=templates[j].replace("template_","");
         ti.name.replace(".tex","");
         ti.icon=ti.path;
@@ -49,7 +51,14 @@ Templates::Templates(){
         //NOTE: off limit strings in the templates names are
         //templates,template_,.tex.,.png,_template
 
-        m_TemplateList.append(ti);
+		if (m_TemplateList.contains(ti))
+			kdDebug() << "\tignoring: " << ti.path << endl;
+		else
+		{
+			m_TemplateList.append(ti);
+			kdDebug() << "\tadding: " << ti.path << endl;
+		}
+
      }
    }
 }

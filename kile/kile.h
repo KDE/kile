@@ -245,7 +245,7 @@ private:
 	bool 				htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
-	bool			m_bCompleteEnvironment, m_bRestore, m_bCheckForRoot, m_runlyxserver;
+	bool				m_bCompleteEnvironment, m_bRestore, m_bCheckForRoot, m_runlyxserver, m_bQuick;
 
 signals:
 	/**
@@ -384,8 +384,9 @@ private slots:
 	void addToProject(KileProject *, const KURL &);
 	void removeFromProject(const KURL &, const KURL &);
 
+private:
 	void sanityCheck();
-	
+
 signals:
 	void projectTreeChanged(const KileProject *);
 

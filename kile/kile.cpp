@@ -84,7 +84,8 @@ Kile::Kile( QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
 	KParts::MainWindow( name, WDestructiveClose),
 	KileInfo(),
-	m_activeView(0)
+	m_activeView(0),
+	m_bQuick(false)
 {
 	m_docList.setAutoDelete(false);
 	m_infoList.setAutoDelete(false);
@@ -2026,6 +2027,7 @@ if (htmlpresent)
 /////////////////// QUICK /////////////////////////
 void Kile::QuickBuild()
 {
+   m_bQuick = true;
    QStringList command;
    QString compile_command;
    if (quickmode==4) {compile_command = pdflatex_command;} else {compile_command = latex_command;}
@@ -4519,15 +4521,23 @@ void Kile::spellcheck()
 void Kile::spell_started( KSpell *)
 {
 	kspell->setProgressResolution(2);
-	if ( currentView()->getDoc()->hasSelection() )
+	Kate::View *view = currentView();
+
+	if ( view->getDoc()->hasSelection() )
 	{
-		kspell->check(currentView()->getDoc()->selection());
+		kspell->check(view->getDoc()->selection());
+		par_start = view->getDoc()->selStartLine();
+		par_end =  view->getDoc()->selEndLine();
+		index_start =  view->getDoc()->selStartCol();
+		index_end =  view->getDoc()->selEndCol();
 	}
 	else
 	{
-		kspell->check(currentView()->getDoc()->text());
+		kspell->check(view->getDoc()->text());
 		par_start=0;
-		par_end=currentView()->getDoc()->numLines()-1;
+		par_end=view->getDoc()->numLines()-1;
+		index_start=0;
+		index_end=view->getDoc()->textLine(par_end).length();
 	}
 }
 
@@ -4569,8 +4579,8 @@ void Kile::misspelling (const QString & originalword, const QStringList & /*sugg
 
   while ((cnt+currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))
   {
-  cnt+=currentView()->getDoc()->lineLength(l)+1;
-  l++;
+  	cnt+=currentView()->getDoc()->lineLength(l)+1;
+  	l++;
   }
   col=p-cnt;
   currentView()->setCursorPosition(l,col);

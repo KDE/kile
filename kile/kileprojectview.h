@@ -44,6 +44,9 @@ public:
 
 	//use this to create non-project files
 	KileProjectViewItem (QListView *parent, const QString & name) : KListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
+	
+	KileProjectViewItem (QListView *parent, const KileProject *project) : KListViewItem(parent, project->name()), m_folder(-1), m_projectItem(0L) {}
+	
 
 	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 

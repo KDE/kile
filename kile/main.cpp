@@ -98,21 +98,23 @@ int main( int argc, char ** argv )
 				mw->openProject(url.path());
 			else
 				mw->openDocument(url.path());
-
-			if (args->getOption("line") != "0")
-				mw->setLine(args->getOption("line"));
 		}
+		
+		if (args->getOption("line") != "0")
+			mw->setLine(args->getOption("line"));
+	
 		args->clear();
 		return a.exec();
 	}
 	else
 	{
+		
+		QByteArray data_file, data_line;
+		QDataStream arg_file(data_file, IO_WriteOnly);
+		QDataStream arg_line(data_line, IO_WriteOnly);
+
 		if (args->count()>0)
 		{
-			QByteArray data_file, data_line;
-			QDataStream arg_file(data_file, IO_WriteOnly);
-			QDataStream arg_line(data_line, IO_WriteOnly);
-
 			KURL url = KURL::fromPathOrURL(args->arg(0));
 
 			arg_file << url.path();
@@ -121,19 +123,19 @@ int main( int argc, char ** argv )
 				client->send (appID, "Kile", "openProject(QString)", data_file);
 			else
 				client->send (appID, "Kile", "openDocument(QString)", data_file);
-
-			if (args->getOption("line") != "0")
-			{
-				QString li = args->getOption("line");
-				arg_line << li;
-				client->send (appID, "Kile", "setLine(QString)", data_line);
-			}
-
-			KStartupInfo::appStarted();
-			QByteArray empty;
-			client->send (appID, "Kile", "setActive()", empty);
 		}
-	}
+
+		if (args->getOption("line") != "0")
+		{
+			QString li = args->getOption("line");
+			arg_line << li;
+			client->send (appID, "Kile", "setLine(QString)", data_line);
+		}
+
+		KStartupInfo::appStarted();
+		QByteArray empty;
+		client->send (appID, "Kile", "setActive()", empty);
+	}	
 
 	return 0;
 }

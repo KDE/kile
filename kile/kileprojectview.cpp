@@ -84,15 +84,14 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 {
 	addColumn(i18n("Files & Projects"),-1);
 	addColumn(i18n("Include in Archive"),10);
-	setSorting(-1);
+ 	setSorting(-1);
 	setFocusPolicy(QWidget::ClickFocus);
 	header()->hide();
 	setRootIsDecorated(true);
 
 	m_popup = new KPopupMenu(this, "projectview_popup");
 
-	connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )),
-		this,SLOT(popup(KListView *, QListViewItem * , const QPoint & )));
+	connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )), this,SLOT(popup(KListView *, QListViewItem * , const QPoint & )));
 
 	connect(this, SIGNAL(executed(QListViewItem*)), this, SLOT(slotClicked(QListViewItem*)));
 }
@@ -320,8 +319,8 @@ KileProjectViewItem* KileProjectView::folder(const KileProjectItem *pi, KileProj
 
 void KileProjectView::add(const KileProject *project)
 {
-	KileProjectViewItem *parent = new KileProjectViewItem(this, project->name());
-
+	KileProjectViewItem *parent = new KileProjectViewItem(this, project);
+	
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
 	parent->setOpen(true);

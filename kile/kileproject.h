@@ -31,7 +31,7 @@ namespace KileDocument { class Info; }
 
 const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
 const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
-const QString IMAGE_EXTENSIONS = ".eps .pdf .dvi .ps .fig .gif .jpg .png";
+const QString IMAGE_EXTENSIONS = ".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png";
 //const QString OTHER_EXTENSIONS = ".log .aux";
 
 /**
@@ -66,6 +66,7 @@ public:
 	 * @returns absolute URL of this item
 	 **/
 	const KURL&	url() const { return m_url; }
+
 	/**
 	 * @returns path of this item relative to the project file
 	 **/
@@ -164,6 +165,7 @@ public:
 	bool useMakeIndexOptions() { return m_useMakeIndexOptions; }
 
 	const KURL& url() const { return m_projecturl; }
+	void setURL(const KURL & url ) { m_projecturl = url; }
 	const KURL& baseURL() const { return m_baseurl; }
 
 	KileProjectItem* item(const KURL &);

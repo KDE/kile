@@ -23,6 +23,8 @@
 
 #include <qobject.h>
 
+#include <klocale.h>
+
 class KURL;
 class KFileItem;
 namespace Kate { class Document; class View;}
@@ -87,8 +89,8 @@ public slots:
 
 //projects
 	void projectNew();
-	void projectOpen();
-	void projectOpen(const KURL&, int = 0, int = 1);
+	KileProject* projectOpen();
+	KileProject* projectOpen(const KURL&, int = 0, int = 1);
 	void projectOpenItem(KileProjectItem *item);
 
 	/**
@@ -157,7 +159,7 @@ public:
 	KileProjectItemList* itemsFor(Info *docinfo) const;
 
 	void mapItem(Info *docinfo, KileProjectItem *item);
-
+	
 private:
 	QPtrList<Info>	m_infoList;
 	KileInfo					*m_ki;

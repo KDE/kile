@@ -534,38 +534,34 @@ bool KileProject::contains(const KURL &url)
 
 KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 {
-	if (item)
-	{
-		kdDebug() << "\trootItem use buildProjectTree results" << endl;
-		while ( item->parent() != 0)
-			item = item->parent();
+	//find the root item (i.e. the eldest parent)
+	KileProjectItem *root = item;
+	while ( root->parent() != 0)
+		root = root->parent();
 
-		if (item)
-			kdDebug() << "\troot is " << item->url().fileName() << endl;
-		else if (m_rootItems.count() == 1)
-			item = const_cast<QPtrList<KileProjectItem> * const>(&m_rootItems)->first();
+	//check if this root item is a LaTeX root
+	if ( root->getInfo() )
+	{
+		if (root->getInfo()->isLaTeXRoot())
+			return root;
 		else
-			item = 0L;
-		
-
-		return item;
-	}
-	else
-	{
-		QPtrListIterator<KileProjectItem> it(m_projectitems);
-		KileDocument::Info *docinfo;
-		while (it.current())
 		{
-			docinfo = (*it)->getInfo();
-			//kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
-			if (docinfo && docinfo->isLaTeXRoot())
+			//if not, see if we can find another root item that is a LaTeX root
+			QPtrListIterator<KileProjectItem> it(m_rootItems);
+			while ( it.current() )
 			{
-				return *it;
+				if ( it.current()->getInfo() && it.current()->getInfo()->isLaTeXRoot() )
+					return it.current();
+				++it;
 			}
-			++it;
 		}
+
+		//no LaTeX root found, return previously found root
+		return root;
 	}
-	return 0;
+	
+	//root is not a valid item (getInfo() return 0L), return original item	
+	return item;
 }
 
 void KileProject::dump()

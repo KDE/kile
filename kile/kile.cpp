@@ -74,7 +74,7 @@
 #include "kilesidebar.h"
 #include "symbolview.h"
 
-Kile::Kile( bool rest, QWidget *parent, const char *name ) :
+Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
 	KParts::MainWindow( parent, name),
 	KileInfo(this),
@@ -186,7 +186,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	m_singlemode = true;
 	m_masterName = getName();
-	if (rest) restoreFilesAndProjects();
+	restoreFilesAndProjects(allowRestore);
 }
 
 Kile::~Kile()
@@ -571,24 +571,22 @@ void Kile::setupUserTagActions()
 	actionCollection()->readShortcutSettings("Shortcuts", m_config);
 }
 
-void Kile::restoreFilesAndProjects()
+void Kile::restoreFilesAndProjects(bool allowRestore)
 {
-	if (!KileConfig::restore()) return;
+	if (! (allowRestore && KileConfig::restore()) )
+	  return;
 
 	QFileInfo fi;
 
+	KURL url;
 	for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
 	{
-		kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
 		fi.setFile(m_listProjectsOpenOnStart[i]);
-		if (fi.isReadable())
-			docManager()->projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]),
-				i, m_listProjectsOpenOnStart.count());
+		if (fi.isReadable()) docManager()->projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count());
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
 	{
-		kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
 		fi.setFile(m_listDocsOpenOnStart[i]);
 		if (fi.isReadable())
 			docManager()->fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
@@ -625,7 +623,7 @@ void Kile::setLine( const QString &line )
 		this->show();
 		this->raise();
 		view->setFocus();
-		view->gotoLineNumber(l);
+		view->gotoLineNumber(l-1);
 
 		showEditorWidget();
 		newStatus();

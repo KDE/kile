@@ -37,8 +37,7 @@ KileInfo::KileInfo(QWidget *parent) :
 	m_texKonsole(0L),
 	m_edit(0L),
 	m_parentWidget(parent),
-	m_currentTarget(QString::null),
-	m_defaultProject(0L)
+	m_currentTarget(QString::null)
 {
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
@@ -100,17 +99,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 					else return url.path();
 				}
 				else
-				{
-					QPtrList<KileProjectItem> items = *(project->rootItems());
-					if ( items.first() )
-					{
-						KURL url = items.first()->url();
-						if (shrt) return url.fileName();
-						else return url.path();
-					}
-	
 					return QString::null;
-				}				
 			}
 		}
 		else
@@ -261,22 +250,31 @@ QString KileInfo::lastModifiedFile(KileDocument::Info * info)
 	return info->lastModifiedFile(list);
 }
 
+bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
+{
+	bool absolute = testurl.path().startsWith("/");
+	return (!testurl.isEmpty()) & 
+	       (
+		     (validurl == testurl) ||
+		     (!absolute && validurl.path().endsWith(testurl.path()))
+		   );
+}
+
 bool KileInfo::isOpen(const KURL & url)
 {
 	kdDebug() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
 	uint cnt = viewManager()->views().count();
-	kdDebug() << "\t" << cnt << " views" << endl;
+	
 	for ( uint i = 0; i < cnt; i++)
 	{
-		kdDebug() << "\t" << i << " " << viewManager()->view(i) << " url " << &url << endl;
-		if ( viewManager()->view(i)->getDoc() && (url == viewManager()->view(i)->getDoc()->url()) )
+		if ( viewManager()->view(i)->getDoc() && similarOrEqualURL(viewManager()->view(i)->getDoc()->url(), url) )
 			return true;
 	}
 
 	return false;
 }
 
-bool	KileInfo::projectIsOpen(const KURL & url)
+bool KileInfo::projectIsOpen(const KURL & url)
 {
 	KileProject *project = docManager()->projectFor(url);
 

@@ -95,7 +95,7 @@ class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
 	Q_OBJECT
 
 public:
-	Kile( bool restore = true, QWidget *parent = 0, const char *name = 0 );
+	Kile( bool allowRestore = true, QWidget *parent = 0, const char *name = 0 );
 	~Kile();
 
 //DCOP calls:
@@ -183,7 +183,7 @@ signals:
 	void configChanged();
 
 private slots:
-	void restoreFilesAndProjects();
+	void restoreFilesAndProjects(bool allowRestore);
 	void readGUISettings();
 	void readUserSettings();
 	void readRecentFileSettings();

@@ -82,8 +82,9 @@ private:
 	QStringList m_listTemp;
 
 public:
+	bool similarOrEqualURL(const KURL &validurl, const KURL &testurl);
 	bool isOpen(const KURL & url);
-	bool	projectIsOpen(const KURL & );
+	bool projectIsOpen(const KURL & );
 
 	bool watchFile() { return m_bWatchFile; }
 	bool logPresent() { return m_logPresent; }
@@ -136,13 +137,11 @@ protected:
 	bool m_bWatchFile, m_logPresent;
 
 	LatexOutputFilter		*m_outputFilter;
-	LatexOutputInfoArray		*m_outputInfo;
+	LatexOutputInfoArray	*m_outputInfo;
 
-	KileWidget::Structure		*m_kwStructure;
+	KileWidget::Structure	*m_kwStructure;
 	KileFileSelect 			*m_fileSelector;
 	KileEventFilter*		m_eventFilter;
-
-	KileProject			*m_defaultProject;
 };
 
 #endif

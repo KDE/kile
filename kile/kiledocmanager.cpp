@@ -30,6 +30,7 @@
 #include <kfile.h>
 #include <kfiledialog.h>
 #include <krun.h>
+#include <kstandarddirs.h>
 
 #include "templates.h"
 #include "newfilewizard.h"
@@ -94,12 +95,12 @@ void Manager::trashDoc(Info *docinfo)
 
 	delete doc;
 }
-
+ 
 Kate::Document* Manager::docFor(const KURL& url)
 {
 	for (uint i=0; i < m_infoList.count(); i++)
 	{
-		if (m_infoList.at(i)->url() == url)
+		if (m_ki->similarOrEqualURL(m_infoList.at(i)->url(),url))
 			return m_infoList.at(i)->getDoc();
 	}
 
@@ -972,7 +973,7 @@ void Manager::projectOpenItem(KileProjectItem *item)
 		item->setOpenState(true);
 }
 
-void Manager::projectOpen(const KURL & url, int step, int max)
+KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 {
 	static KProgressDialog *kpd = 0;
 
@@ -983,7 +984,7 @@ void Manager::projectOpen(const KURL & url, int step, int max)
 		if (kpd != 0) kpd->cancel();
 
 		KMessageBox::information(m_ki->parentWidget(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
-		return;
+		return 0L;
 	}
 
 	QFileInfo fi(url.path());
@@ -994,7 +995,7 @@ void Manager::projectOpen(const KURL & url, int step, int max)
 		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
 			emit(removeFromRecentProjects(url));
 
-		return;
+		return 0L;
 	}
 
 	if (kpd == 0)
@@ -1033,16 +1034,21 @@ void Manager::projectOpen(const KURL & url, int step, int max)
 
 	if (step == (max - 1))
 		kpd->cancel();
+		
+	return kp;
 }
 
-void Manager::projectOpen()
+KileProject* Manager::projectOpen()
 {
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
 	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
 
 	if (!url.isEmpty())
-		projectOpen(url);
+		return projectOpen(url);
+	else
+		return 0L;
 }
+
 
 void Manager::projectSave(KileProject *project /* = 0 */)
 {

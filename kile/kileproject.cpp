@@ -187,7 +187,7 @@ void KileProject::setExtensions(const QString & ext)
 void KileProject::setType(KileProjectItem *item)
 {
 	kdDebug() << "==KileProject::setType()================" << endl;
-	if ( (extensions() != "") && m_reExtensions.search(item->path()) 
+	if ( (extensions() != "") && m_reExtensions.search(item->path())
 != -1)
 		item->setType(KileProjectItem::Other);
 	else
@@ -216,9 +216,17 @@ bool KileProject::load()
 	{
 		if (groups[i].left(5) == "item:")
 		{
-			url = m_baseurl;
-			url.addPath(groups[i].mid(5));
-			url.cleanPath(true);
+			QString path = groups[i].mid(5);
+			if (path[0] == '/' )
+			{
+				url = KURL::fromPathOrURL(path);
+			}
+			else
+			{
+				url = m_baseurl;
+				url.addPath(path);
+				url.cleanPath(true);
+			}
 			item = new KileProjectItem(this, url);
 
 			m_config->setGroup(groups[i]);
@@ -390,6 +398,9 @@ QString KileProject::findRelativePath(const KURL &url)
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);
 
+	uint nDirs = dirs.count();
+	//uint nBaseDirs = basedirs.count();
+
 	for (uint i=0; i < basedirs.count(); i++)
 	{
 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
@@ -417,24 +428,27 @@ QString KileProject::findRelativePath(const KURL &url)
 		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}
 
-	int diff = basedirs.count()  - dirs.count() ;
-
-	path = dirs.join("/");
-	kdDebug() << "\tpath : " << path << endl;
-	kdDebug() << "\tdiff : " << diff << endl;
-
-	if (diff > 0)
+	if (nDirs != dirs.count() )
 	{
-		for (int j=0; j < diff; j++)
+		path = dirs.join("/");
+
+		kdDebug() << "\tpath : " << path << endl;
+		//kdDebug() << "\tdiff : " << diff << endl;
+
+		if (basedirs.count() > 0)
 		{
-			path = "../" + path;
+			for (uint j=0; j < basedirs.count(); j++)
+			{
+				path = "../" + path;
+			}
 		}
+
+		path = path+"/"+filename;
 	}
-
-	if (diff <0)
-		path += "/";
-
-	path += filename;
+	else //assume an absolute path was requested
+	{
+		path = url.path();
+	}
 
 	kdDebug() << "\tpath : " << path << endl;
 

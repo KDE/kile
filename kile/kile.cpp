@@ -917,13 +917,13 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 
 bool Kile::isOpen(const KURL & url)
 {
-	Kate::Document *doc = docFor(url);
-	if ( doc == 0)
-		return false;
-	else
+	for ( uint i = 0; i < m_viewList.count(); i++)
 	{
-		return true;
+		if ( url == m_viewList.at(i)->getDoc()->url() )
+			return true;
 	}
+
+	return false;
 }
 
 void Kile::fileSaveAll(bool amAutoSaving)

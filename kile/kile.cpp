@@ -231,7 +231,7 @@ void Kile::setupActions()
   PrintAction=KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
   (void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
-  fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");  
+  fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
   (void) KStdAction::save(this, SLOT(fileSave()), actionCollection(),"Save" );
   (void) KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
   (void) new KAction(i18n("Save All"),0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
@@ -735,7 +735,7 @@ void Kile::fileOpen(const KURL& url)
   // TODO : QString everywhere should be replaced by KURL eventually!
   QString fn;
   fn = url.path();
-  std::cout << "DEBUG: Got Path: " << fn << std::endl;
+  kdDebug() << "DEBUG: Got Path: " << fn << endl;
   load( fn );
 }
 
@@ -2914,9 +2914,9 @@ if ( !currentEditorView() ) return;
 			 (i>10) ) return;
 	 } while (  s.find(QRegExp("l.[0-9]"),0) < 0 ) ;
  }
- 
+
  //// l. ///
- 
+
  Start=End=0;
  Start=s.find(QRegExp("l.[0-9]"), End);
  if (Start!=-1)
@@ -5117,7 +5117,7 @@ setAutosaveInterval(autosaveinterval);
   // Load recent files from "Recent Files" group
   // using the KDE standard action for recent files
   fileOpenRecentAction->loadEntries(config,"Recent Files");
- 
+
   // Now check if user is using an old rc file that has "Recent Files" under
   // the "Files" group
   if(config->hasKey("Recent Files")) {
@@ -5131,7 +5131,7 @@ setAutosaveInterval(autosaveinterval);
     // Now delete this recent files entry as we are now using a separate
     // group for recent files
     config->deleteEntry("Recent Files");
-  } 
+  }
 
 config->setGroup( "User" );
 templAuthor=config->readEntry("Author");

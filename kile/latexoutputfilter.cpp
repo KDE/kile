@@ -349,7 +349,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 	bool found = false, flush = false;
 	QString warning;
 
-	static QRegExp::QRegExp reLaTeXWarning("^(! )?(La|pdf)TeX .*Warning.*:(.*)", false);
+	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package) .*Warning.*:(.*)", false);
 	static QRegExp::QRegExp reNoFile("No file (.*)");
 
 	switch (dwCookie)
@@ -358,7 +358,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 		case Start :
 			if ( reLaTeXWarning.search(strLine) != -1 )
 			{
-				warning = reLaTeXWarning.cap(3);
+				warning = reLaTeXWarning.cap(5);
 // 				kdDebug() << "\tWarning found: " << warning << endl;
 
 				found = true;

@@ -57,19 +57,29 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 {
 	KURL ret(url);
 	do {
+		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("Invalid characters"),
-			i18n("The filename contains invalid characters; please provide another one."),
-			url.filename());
+			i18n("The filename contains invalid characters.<br>Please provide \
+				another one, or click on \"Cancel\" to save anyway."),
+			url.filename(),
+			&isOK);
+		if(!isOK)
+			return ret;
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
 	
 	while ( QFileInfo(ret.path()).exists() )
 	{
+		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("File already exists."),
-			i18n("A file with filename %1 already exists; please provide another one.").arg(ret.fileName()),
-			url.filename());
+			i18n("A file with filename %1 already exists.<br>Please provide \
+				another one, or click on \"Cancel\" to overwrite.").arg(ret.fileName()),
+			url.filename(),
+			&isOK);
+		if(!isOK)
+			return ret;
 		ret.setFileName(newURL);
 	}
 
@@ -91,7 +101,7 @@ KURL Info::repairExtension(const KURL& url)
 		KStdGuiItem::no(),
 		"AutomaticallyAddExtension"))
 	{
-		ret.setFileName(url.fileName() + ".tex");	
+		ret.setFileName(filename + ".tex");	
 	}
 	return ret;
 }

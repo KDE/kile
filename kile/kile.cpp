@@ -44,6 +44,7 @@
 #include <knuminput.h>
 #include <klistview.h>
 #include <kprogress.h>
+#include <kapplication.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -507,21 +508,23 @@ void Kile::restore()
 	{
 		kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
 		fi.setFile(m_listProjectsOpenOnStart[i]);
-		if (fi.isReadable()) projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
+		if (fi.isReadable())
+			projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]),
+				i, m_listProjectsOpenOnStart.count());
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
 	{
 		kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
 		fi.setFile(m_listDocsOpenOnStart[i]);
-		if (fi.isReadable()) fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
+		if (fi.isReadable())
+			fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 }
 
-////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, const QString &text)
 {
 	QString hl = highlight;
@@ -1196,12 +1199,17 @@ void Kile::projectOpenItem(KileProjectItem *item)
 	outstruct->takeItem(outstruct->firstChild());
 }
 
-void Kile::projectOpen(const KURL &url)
+void Kile::projectOpen(const KURL &url, int step, int max)
 {
+	static KProgressDialog *kpd = 0;
+
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
 	kdDebug() << "\tfilename: " << url.fileName() << endl;
+
 	if (projectIsOpen(url))
 	{
+		if (kpd != 0)
+			kpd->cancel();
 		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
 		return;
 	}
@@ -1209,19 +1217,25 @@ void Kile::projectOpen(const KURL &url)
 	QFileInfo fi(url.path());
 	if ( ! fi.isReadable() )
 	{
+		if (kpd != 0)
+			kpd->cancel();
 		if (KMessageBox::warningYesNo(this, i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could not load the project file"))  == KMessageBox::Yes)
 			m_actRecentProjects->removeURL(url);
-
 		return;
 	}
 
-	KProgressDialog *kpd = new KProgressDialog
-		(this, 0, i18n("Open Project..."), QString::null, true);
-	kpd->showCancelButton(false);
-	kpd->setLabel(i18n("Scaning project files..."));
-	kpd->setAutoClose(true);
-	kpd->setMinimumDuration(2000);
+	if (kpd == 0) {
+		kpd = new KProgressDialog
+			(this, 0, i18n("Open Project..."),
+			QString::null, true);
+		kpd->showCancelButton(false);
+		kpd->setLabel(i18n("Scaning project files..."));
+		kpd->setAutoClose(true);
+		kpd->setMinimumDuration(2000);
+	}
 	kpd->show();
+
+	kapp->processEvents();
 
 	KileProject *kp = new KileProject(url);
 
@@ -1229,7 +1243,10 @@ void Kile::projectOpen(const KURL &url)
 
 	KileProjectItemList *list = kp->items();
 
-	kpd->progressBar()->setTotalSteps(list->count() + 1);
+	int project_steps = list->count() + 1;
+	kpd->progressBar()->setTotalSteps(project_steps * max);
+	project_steps *= step;
+	kpd->progressBar()->setValue(project_steps);
 
 	kdDebug() << "\t" << list->count() << " items" << endl;
 
@@ -1240,20 +1257,21 @@ void Kile::projectOpen(const KURL &url)
 		item = list->at(i);
 		projectOpenItem(item);
 
-		kpd->progressBar()->setValue(i);
-		qApp->processEvents();
+		kpd->progressBar()->setValue(i + project_steps);
+		kapp->processEvents();
 	}
 
 	kp->buildProjectTree();
 	addProject(kp);
 
-	kpd->progressBar()->setValue(i);
-	qApp->processEvents();
+	kpd->progressBar()->setValue(i + project_steps);
+	kapp->processEvents();
 
 	UpdateStructure();
 	updateModeStatus();
 
-	kpd->cancel();
+	if (step == (max - 1))
+		kpd->cancel();
 }
 
 void Kile::sanityCheck()
@@ -1975,6 +1993,11 @@ void Kile::FindInFiles()
 	static KileGrepDialog *dlg = 0;
 
 	if (dlg != 0) {
+		if (!dlg->isVisible())
+			dlg->setDirName((activeProject() != 0)
+				? activeProject()->baseURL().path()
+				: QDir::home().absPath() + "/");
+
 		dlg->show();
 		return;
 	}

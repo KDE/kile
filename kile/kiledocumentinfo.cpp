@@ -28,7 +28,8 @@
 
 KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 {
-	kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
+	if (m_doc)
+		kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
 
 	m_struct = 0;
 	m_bIsRoot = false;

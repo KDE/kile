@@ -41,7 +41,6 @@
 #include <kbuttonbox.h>
 #include <kfiledialog.h>
 #include <kprocess.h>
-#include <kapplication.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
@@ -52,14 +51,27 @@
 
 #include <kdebug.h>
 
+static void clear_dups(QStringList &strings)
+{
+	QStringList result;
+	while (strings.count() > 0) {
+		result.append(strings[0]);
+		strings.remove(strings[0]);
+	}
+	strings = result;
+}
+
 KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const char *name)
 	: KDialog( parent, name ), childproc(0)
 {
 	setCaption(i18n("Find in Files"));
 	config = KGlobal::config();
 	config->setGroup("KileGrepDialog");
+
 	lastSearchItems = config->readListEntry("LastSearchItems");
+	clear_dups(lastSearchItems);
 	lastSearchPaths = config->readListEntry("LastSearchPaths");
+	clear_dups(lastSearchPaths);
 
 	QGridLayout *input_layout = new QGridLayout(this, 7, 3, 4, 4);
 	input_layout->setColStretch(0, 0);
@@ -141,11 +153,12 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 
 	resultbox = new QListBox(this);
 	input_layout->addMultiCellWidget(resultbox, 6, 6, 0, 2);
+	resultbox->setMinimumHeight(70);
 
-	// Produces error messages
+	// Produces error messages like
 	// QListBox::property( "text" ) failed:
 	// 	property invalid or does not exist
-	// Any idea?
+	// Anyone an idea?
 	KAcceleratorManager::manage( this );
 
 	QWhatsThis::add(pattern_combo,
@@ -300,24 +313,27 @@ void KileGrepDialog::slotSearch()
 	pattern.replace("%s", pattern_combo->currentText());
 	pattern.replace("'", "'\\''");
 
-	QString filepattern = "`find ";
-	filepattern += KProcess::quote(dir_combo->url());
+	QString shell_command;
+	shell_command += "find ";
+	shell_command += KProcess::quote(dir_combo->url());
+	shell_command += " \\( -name ";
+	shell_command += files;
+	shell_command += " \\)";
 	if (!recursive_box->isChecked())
-		filepattern += " -maxdepth 1";
-	filepattern += " \\( -name ";
-	filepattern += files;
-	filepattern += " \\) -print";
-	filepattern += "`";
+		shell_command += " -maxdepth 1";
+	shell_command += " -exec";
+	shell_command += " grep";
+	shell_command += " -n";
+	shell_command += " -I";
+	shell_command += " -H";
+	shell_command += (QString(" -e ") + KProcess::quote(pattern));
+	shell_command += " {} \\;";
 
-	kdDebug() << "\t" << filepattern << endl;
+	kdDebug() << "\t" << shell_command << endl;
 
-	childproc = new KShellProcess();
-	*childproc << "grep";
-	*childproc << "-n";
-	*childproc << "-I";
-	*childproc << (QString("-e ") + KProcess::quote(pattern));
-	*childproc << filepattern;
-	*childproc << "/dev/null";
+	childproc = new KProcess();
+	childproc->setUseShell(true);
+	*childproc << shell_command;
 
 	connect( childproc, SIGNAL(processExited(KProcess *)),
 		SLOT(childExited()) );
@@ -351,26 +367,29 @@ void KileGrepDialog::finish()
 
 	config->setGroup("KileGrepDialog");
 
-	if (lastSearchItems.contains(pattern_combo->currentText()) == 0)
-	{
-		pattern_combo->insertItem(pattern_combo->currentText(), 0);
-		lastSearchItems.prepend(pattern_combo->currentText());
-		if (lastSearchItems.count() > 10) {
-			lastSearchItems.remove(lastSearchItems.fromLast());
-			pattern_combo->removeItem(pattern_combo->count() - 1);
+	int dup_idx = lastSearchItems.findIndex(pattern_combo->currentText());
+	if (dup_idx != 0) {
+		if ((dup_idx != -1) || (lastSearchItems.count() == 10)) {
+			if (dup_idx == -1)
+				dup_idx = lastSearchItems.count() - 1;
+			lastSearchItems.remove(pattern_combo->currentText());
+			pattern_combo->removeItem(dup_idx);
 		}
+		lastSearchItems.prepend(pattern_combo->currentText());
+		pattern_combo->insertItem(pattern_combo->currentText(), 0);
 		config->writeEntry("LastSearchItems", lastSearchItems);
 	}
 
-	if (lastSearchPaths.contains(dir_combo->url()) == 0)
-	{
-		dir_combo->comboBox()->insertItem(dir_combo->url(), 0);
-		lastSearchPaths.prepend(dir_combo->url());
-		if (lastSearchPaths.count() > 10)
-		{
-			lastSearchPaths.remove(lastSearchPaths.fromLast());
-			dir_combo->comboBox()->removeItem(dir_combo->comboBox()->count() - 1);
+	dup_idx = lastSearchPaths.findIndex(dir_combo->url());
+	if (dup_idx != 0) {
+		if ((dup_idx != -1) || (lastSearchPaths.count() == 10)) {
+			if (dup_idx == -1)
+				dup_idx = lastSearchPaths.count() - 1;
+			lastSearchPaths.remove(dir_combo->url());
+			dir_combo->comboBox()->removeItem(dup_idx);
 		}
+		lastSearchPaths.prepend(dir_combo->url());
+		dir_combo->comboBox()->insertItem(dir_combo->url(), 0);
 		config->writeEntry("LastSearchPaths", lastSearchPaths);
 	}
 }
@@ -418,9 +437,13 @@ void KileGrepDialog::slotCancel()
 
 void KileGrepDialog::setDirName(const QString &dir)
 {
+	QString fixed_dir;
 	if (dir.right(0) == "/")
-		{ dir_combo->setURL(dir); }
-	else { dir_combo->setURL(dir + "/"); }
+		{ fixed_dir = dir; }
+	else { fixed_dir = dir + "/"; }
+	dir_combo->setURL(fixed_dir);
+	if (dir_combo->comboBox()->text(0) != fixed_dir)
+		slotClear();
 }
 
 void KileGrepDialog::setFilter(const QString &filter)

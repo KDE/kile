@@ -365,7 +365,7 @@ private slots:
 
 	void projectNew();
 	void projectOpen();
-	void projectOpen(const KURL&);
+	void projectOpen(const KURL&, int = 0, int = 1);
 	void projectOpenItem(KileProjectItem *item);
 	/**
 	 * Saves the state of the project, if @param project is zero, the active project is saved.

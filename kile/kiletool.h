@@ -18,6 +18,12 @@
 #ifndef KILETOOL_H
 #define KILETOOL_H
 
+#include <qobject.h>
+
+#include <qstring.h>
+#include <qstringlist.h>
+
+class KConfig;
 class KileInfo;
 
 namespace KileTool
@@ -34,7 +40,7 @@ namespace KileTool
 		Q_OBJECT;
 
 	public:
-		Custom(const QString &from, const QString &to, KileInfo *ki, KConfig *config);
+		Custom(const QString &name, const QString &from, const QString &to, KileInfo *ki, KConfig *config);
 		~Custom();
 
 		/**
@@ -51,6 +57,9 @@ namespace KileTool
 		 * Explicitly adds a prerequisite to the list (absolute path).
 		 **/
 		void addPrereq(const QString & prereq) { m_prereqs.append(prereq); }
+
+	signals:
+		void message(const QString &);
 
 	public:
 		virtual void readConfig();
@@ -104,39 +113,40 @@ namespace KileTool
 		KileInfo		*m_ki;
 		KConfig			*m_config;
 
+		QString			m_name;
 		QString			m_from;
 		QString			m_to;
-		QString			m_target, m_basedir, m_relativedir;
+		QString			m_target, m_basedir, m_relativedir, m_targetdir;
 		QStringList		m_prereqs;
 	};
 
 	/**
 	 * A class that represents a compile tool (such as latex, pdflatex).
 	 **/
-	class Compile : public Custom
-	{
-	};
+	//class Compile : public Custom
+	//{
+	//};
 
 	/**
 	 * A class that represents a view tool (such as KDVI, gv, etc.).
 	 **/
-	class View : public Custom
-	{
-	};
+	//class View : public Custom
+	//{
+	//};
 
 	/**
 	 * A class that represents a conversion tool (such as dvips).
 	 **/
-	class Convert : public Custom
-	{
-	};
+	//class Convert : public Custom
+	//{
+	//};
 
 	/**
 	 * A class that represents a tool based on the (GNU) make program.
 	 **/
-	class Make : public Custom
-	{
-	};
+	//class Make : public Custom
+	//{
+	//};
 
 }
 

@@ -18,16 +18,24 @@
 #include "kiletool.h"
 #include "kileinfo.h"
 
+#include <qfileinfo.h>
+
+#include <klocale.h>
+#include <kconfig.h>
+#include <kurl.h>
+
 namespace KileTool
 {
-	Custom::Custom(const QString &from, const QString &to, KileInfo *ki, KConfig *config) :
+	Custom::Custom(const QString &name, const QString &from, const QString &to, KileInfo *ki, KConfig *config) :
 		m_ki(ki),
 		m_config(config),
-		m_target(QString::null),
+		m_name(name),
 		m_from(from),
 		m_to(to),
+		m_target(QString::null),
 		m_basedir(QString::null),
-		m_relativedir(QString::null)
+		m_relativedir(QString::null),
+		m_targetdir(QString::null)
 	{
 	}
 
@@ -65,11 +73,68 @@ namespace KileTool
 		QFileInfo info(name);
 		m_basedir = info.dirPath(true);
 
-		if (m_target != QString::null)
+		if (m_target == QString::null)
 		{
 			m_target = info.fileName();
 		}
+
+		KURL url = KURL::fromPathOrURL(m_basedir);
+		url.addPath(m_relativedir);
+		m_targetdir = url.path();
+
+		info.setFile(m_targetdir);
+
+		if (! info.isExecutable())
+		{
+			QString warning = i18n("WARNING: It is not possible to change to the directory %1, this could cause problems.").arg(m_targetdir);
+			emit(message(warning));
+		}
+
+		if (! info.isWritable())
+		{
+			QString warning = i18n("ERROR: It appear that the directory %1 is not writable, therefore %2 will not be able to save its results.").arg(m_targetdir).arg(m_name);
+			emit(message(warning));
+		}
+
+		return true;
 	}
+
+	bool Custom::selfCheck()
+	{
+		return true;
+	}
+
+	bool Custom::checkPrereqs()
+	{
+		return true;
+	}
+
+	bool Custom::launch()
+	{
+		return true;
+	}
+
+	void Custom::stop()
+	{
+	}
+
+	bool Custom::finish()
+	{
+		return true;
+	}
+
+
+	void Custom::readConfig()
+	{
+	}
+
+	void Custom::writeConfig()
+	{
+	}
+
+
 }
 
 #include "kiletool.moc"
+
+

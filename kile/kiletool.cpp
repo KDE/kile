@@ -219,20 +219,32 @@ namespace KileTool
 	bool Base::determineTarget()
 	{
 		QFileInfo info(source());
-		
+
 		m_to = readEntry("to");
 		
-		//if the target is not explicitly set, use the source filename
+		//if the target is not set previously, use the source filename
 		if (m_target == QString::null)
 		{
-			if ( to().length() > 0)
+			//test for explicit override
+			if ( readEntry("target") != "" )
+			{
+				kdDebug() << "USING target SETTING" << endl;
+				m_target = readEntry("target");
+			}
+			else if ( to().length() > 0)
 				m_target = S()+"."+to();
 			else
 				m_target = source(false);
 		}
 
+		if ( m_relativedir == QString::null && readEntry("relDir") != "" )
+		{
+			m_relativedir = readEntry("relDir");
+		}
+
 		KURL url = KURL::fromPathOrURL(m_basedir);
 		url.addPath(m_relativedir);
+		url.cleanPath();
 		m_targetdir = url.path();
 		
 		addDict("%dir_target", m_targetdir);

@@ -30,13 +30,14 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	m_nTabs(0),
 	m_nCurrent(0),
 	m_bMinimized(false),
-	m_nMinSize(100),
+	m_nMinSize(0),
 	m_nMaxSize(1000),
 	m_nSize(400)
 {
 	setFrameStyle(QFrame::Box|QFrame::Plain);
 	setLineWidth(1);
-
+	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+ 
 	QLayout *layout;
 
 	m_tabStack = new QWidgetStack(this);
@@ -60,15 +61,17 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	m_tabBar->setPosition(tabbarpos);
 	m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3 : KMultiTabBar::VSNET);
 
-	if ( orientation == Qt::Vertical )
+	if ( orientation == Qt::Horizontal )
 	{
-		layout->add(m_tabStack);
+		setMinimumHeight(m_tabBar->height());
 		layout->add(m_tabBar);
+		layout->add(m_tabStack);
 	}
-	else if ( orientation == Qt::Horizontal )
+	else if ( orientation == Qt::Vertical )
 	{
-		layout->add(m_tabBar);
+		setMinimumWidth(m_tabBar->width());
 		layout->add(m_tabStack);
+		layout->add(m_tabBar);
 	}
 
 	m_symbolTab = new SymbolView(m_tabStack);

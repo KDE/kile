@@ -27,46 +27,50 @@ from Kate (C) 2001 by Matt Newell
 #include <kdiroperator.h>
 #include <kurlcombobox.h>
 #include <kurl.h>
-#include <qcombobox.h>
+
 
 /**
   *@author Jeroen Wijnhout
   */
 
 class KFileItem;
+class KComboBox;
 
-class KileFileSelect : public QWidget  {
-   Q_OBJECT
+class KileFileSelect : public QWidget
+{
+	Q_OBJECT
+
 public: 
 	KileFileSelect(QWidget *parent=0, const char *name=0);
 	~KileFileSelect();
 
-    void setView(KFile::FileView);
-    KDirOperator * dirOperator(){return dir;}
-    QComboBox *comboEncoding;
+	void setView(KFile::FileView);
+	KDirOperator * dirOperator(){return dir;}
+	KComboBox* comboEncoding() { return m_comboEncoding; }
 
-  public slots:
-    void setDir(KURL);
-    void readConfig();
-    void writeConfig();
+public slots:
+	void setDir(KURL);
+	void readConfig();
+	void writeConfig();
 
-  private slots:
-    void cmbPathActivated( const KURL& u );
-    void cmbPathReturnPressed( const QString& u );
-    void dirUrlEntered( const KURL& u );
+private slots:
+	void cmbPathActivated( const KURL& u );
+	void cmbPathReturnPressed( const QString& u );
+	void dirUrlEntered( const KURL& u );
 
 	void clickedToolbar(int);
 
-  protected:
-    void focusInEvent(QFocusEvent*);
+protected:
+	void focusInEvent(QFocusEvent*);
 
-  signals:
-  	void fileSelected(const KFileItem*);
+signals:
+	void fileSelected(const KFileItem*);
 
-  private:
-    KURLComboBox *cmbPath;
-    KDirOperator * dir;
-    QToolButton *home, *up, *back, *forward;
+private:
+	KURLComboBox	*cmbPath;
+	KDirOperator	* dir;
+	KComboBox		*m_comboEncoding;
+	QToolButton		*home, *up, *back, *forward;
 };
 
 #endif

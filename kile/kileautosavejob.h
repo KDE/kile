@@ -1,5 +1,5 @@
 //
-// C++ Interface: kileautosavejob
+// C++ Interface: kileKileConfig::autosave()job
 //
 // Description: 
 //

@@ -79,12 +79,12 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   lo->addWidget(dir);
   lo->setStretchFactor(dir, 2);
 
-  comboEncoding = new QComboBox( FALSE, this, "comboEncoding" );
+  m_comboEncoding = new KComboBox( FALSE, this, "comboEncoding" );
   QStringList availableEncodingNames(KGlobal::charsets()->availableEncodingNames());
-  comboEncoding->setEditable( true );
-  comboEncoding->insertStringList( availableEncodingNames );
-  QToolTip::add(comboEncoding, i18n("Set encoding"));
-  lo->addWidget(comboEncoding);
+  m_comboEncoding->setEditable( true );
+  m_comboEncoding->insertStringList( availableEncodingNames );
+  QToolTip::add(m_comboEncoding, i18n("Set encoding"));
+  lo->addWidget(m_comboEncoding);
 
   connect( cmbPath, SIGNAL( urlActivated( const KURL&  )),this,  SLOT( cmbPathActivated( const KURL& ) ));
   connect( cmbPath, SIGNAL( returnPressed( const QString&  )), this,  SLOT( cmbPathReturnPressed( const QString& ) ));

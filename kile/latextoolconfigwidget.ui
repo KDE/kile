@@ -1,0 +1,60 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>LaTeXToolConfigWidget</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>LaTeXToolConfigWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>14</y>
+            <width>482</width>
+            <height>83</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>m_ckRootDoc</cstring>
+            </property>
+            <property name="text">
+                <string>Check if root document is a LaTeX root before running LaTeX on it.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>m_ckJump</cstring>
+            </property>
+            <property name="text">
+                <string>Jump to first error in case running LaTeX failed.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>m_ckAutoRun</cstring>
+            </property>
+            <property name="text">
+                <string>Automatically run BibTeX, MakeIndex, rerun LaTeX when necessary.</string>
+            </property>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

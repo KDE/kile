@@ -19,6 +19,10 @@
 
 #include <qtooltip.h>
 
+#include <kaction.h>
+#include <khelpmenu.h>
+#include <kmenubar.h>
+#include <kstatusbar.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
@@ -78,8 +82,10 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_bShowUserMovedMessage(false)
 {
 	m_config = KGlobal::config();
-	
-	m_AutosaveTimer= new QTimer();
+	readUserSettings();
+	readRecentFileSettings();
+
+	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
 	m_edit = new KileDocument::EditorExtension(this);
@@ -125,6 +131,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	KileConfig::setRunOnStart(false);
 
 	setupActions();
+	setupTools();
 
 	QValueList<int> sizes;
 	sizes << m_verSplitTop << m_verSplitBottom;
@@ -139,7 +146,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	m_partManager->setActivePart( 0L );
 
-	m_lyxserver = new KileLyxServer(m_runlyxserver);
+	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
 	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
 
 	applyMainWindowSettings(m_config, "KileMainWindow" );
@@ -154,18 +161,16 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_manager->setFactory(m_toolFactory);
 	m_help->setManager(m_manager);     // kile help (dani)
 
-	readConfig();
-	// ReadRecentFileSettings should be after setupActions() because fileOpenRecentAction needs to be
-	// initialized before calling ReadSettnigs().
-	readRecentFileSettings();
-	readUserSettings();
-
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
 	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
 	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
 
+	readConfig();
+
 	KileApplication::closeSplash();
+
+	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	show();
 
 	if ( m_listUserTools.count() > 0 )
@@ -206,12 +211,12 @@ void Kile::setupSideBar()
 {
 	m_sideBar = new KileSideBar(m_horizontalSplitter);
 
-	KileFS= new KileFileSelect(m_sideBar,"File Selector");
-	m_sideBar->addTab(KileFS, SmallIcon("fileopen"), i18n("Open File"));
-	connect(KileFS,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
-	connect(KileFS->comboEncoding, SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	KileFS->comboEncoding->lineEdit()->setText(m_inputEncoding);
-	KileFS->readConfig();
+	m_fileSelector= new KileFileSelect(m_sideBar,"File Selector");
+	m_sideBar->addTab(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
+	connect(m_fileSelector,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
+	connect(m_fileSelector->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
+	m_fileSelector->comboEncoding()->lineEdit()->setText(KileConfig::inputEncoding());
+	m_fileSelector->readConfig();
 
 	setupProjectView();
 	setupStructureView();
@@ -305,8 +310,9 @@ void Kile::setupActions()
 	m_paPrint = KStdAction::print(0,0, actionCollection(), "print");
 	(void) KStdAction::openNew(docManager(), SLOT(fileNew()), actionCollection(), "file_new" );
 	(void) KStdAction::open(docManager(), SLOT(fileOpen()), actionCollection(),"file_open" );
-	fileOpenRecentAction = KStdAction::openRecent(docManager(), SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
-	connect(docManager(), SIGNAL(addToRecentFiles(const KURL& )), fileOpenRecentAction, SLOT(addURL(const KURL& )));
+	m_actRecentFiles = KStdAction::openRecent(docManager(), SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
+	connect(docManager(), SIGNAL(addToRecentFiles(const KURL& )), m_actRecentFiles, SLOT(addURL(const KURL& )));
+	m_actRecentFiles->loadEntries(m_config, "Recent Files");
 
 	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
 	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"CreateTemplate");
@@ -337,6 +343,7 @@ void Kile::setupActions()
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project"),  0, docManager(), SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	connect(docManager(), SIGNAL(removeFromRecentProjects(const KURL& )), m_actRecentProjects, SLOT(removeURL(const KURL& )));
 	connect(docManager(), SIGNAL(addToRecentProjects(const KURL& )), m_actRecentProjects, SLOT(addURL(const KURL& )));
+	m_actRecentProjects->loadEntries(m_config, "Projects");
 
 	(void) new KAction(i18n("A&dd Files to Project..."), 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
 	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
@@ -355,8 +362,6 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, m_errorHandler, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
 	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	m_paStop->setEnabled(false);
-
-	setupTools();
 
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(showEditorWidget()), actionCollection(),"EditorView" );
 	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, viewManager(), SLOT(gotoNextView()), actionCollection(), "gotoNextDocument" );
@@ -568,7 +573,7 @@ void Kile::setupUserTagActions()
 
 void Kile::restoreFilesAndProjects()
 {
-	if (!m_bRestore) return;
+	if (!KileConfig::restore()) return;
 
 	QFileInfo fi;
 
@@ -597,7 +602,7 @@ void Kile::restoreFilesAndProjects()
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(m_lastDocument));
+	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
 	if (doc) activateView(doc->views().first());
 }
 
@@ -722,12 +727,12 @@ void Kile::autoSaveAll()
 
 void Kile::enableAutosave(bool as)
 {
-	autosave=as;
 	if (as)
 	{
 		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
-		if ( autosaveinterval < 1 ) autosaveinterval = 10;
-		m_AutosaveTimer->start(autosaveinterval * 60000);
+		int interval = KileConfig::autosaveInterval();
+		if ( interval < 1 ) interval = 10;
+		m_AutosaveTimer->start(interval * 60000);
 	}
 	else m_AutosaveTimer->stop();
 }
@@ -773,10 +778,6 @@ bool Kile::queryClose()
 		resetPart();
 		return false;
 	}
-
-	Kate::View *view = viewManager()->currentView();
-	if (view)
-		m_lastDocument = view->getDoc()->url().path();
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -1304,9 +1305,6 @@ void Kile::editUserMenu()
 /////////////// CONFIG ////////////////////
 void Kile::readGUISettings()
 {
-	//now read the other config data
-	QRect screen = QApplication::desktop()->screenGeometry();
-	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	m_horSplitLeft = KileConfig::horizontalSplitterLeft();
 	m_horSplitRight = KileConfig::horizontalSplitterRight();
 	m_verSplitTop = KileConfig::verticalSplitterTop();
@@ -1396,49 +1394,11 @@ void Kile::readRecentFileSettings()
 	n = m_config->readNumEntry("NoPOOS", 0);
 	for (int i=0; i < n; i++)
 		m_listProjectsOpenOnStart.append(m_config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
-
-	m_lastDocument = KileConfig::lastDocument();
-	m_inputEncoding = KileConfig::inputEncoding();
-
-	// Load recent files from "Recent Files" group
-	// using the KDE standard action for recent files
-	fileOpenRecentAction->loadEntries(m_config, "Recent Files");
-
-	// Now check if user is using an old rc file that has "Recent Files" under
-	// the "Files" group
-	if(m_config->hasKey("Recent Files"))
-	{
-		// If so, then read the entry in, add it to fileOpenRecentAction
-		QStringList m_recentFilesList = m_config->readListEntry("Recent Files", ':');
-		QStringList::ConstIterator it = m_recentFilesList.begin();
-		for ( ; it != m_recentFilesList.end(); ++it )
-		{
-			fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
-		}
-		// Now delete this recent files entry as we are now using a separate
-		// group for recent files
-		m_config->deleteEntry("Recent Files");
-	}
-
-	m_actRecentProjects->loadEntries(m_config, "Projects");
 }
 
-//reads options that can be set in the configuration dialog
 void Kile::readConfig()
 {
-// 	kdDebug() << "==Kile::readConfig()=======================" << endl;
-	m_bRestore = KileConfig::restore();
-	autosave = KileConfig::autosave();
-	autosaveinterval = KileConfig::autosaveInterval();
-	enableAutosave(autosave);
-	setAutosaveInterval(autosaveinterval);
-
-	m_templAuthor = KileConfig::author();
-	m_templDocClassOpt = KileConfig::documentClassOptions();
-	m_templEncoding = KileConfig::templateEncoding();
-
-	m_runlyxserver = KileConfig::runLyxServer();
-
+	enableAutosave(KileConfig::autosave());
 	m_edit->complete()->readConfig();
 }
 
@@ -1446,18 +1406,20 @@ void Kile::saveSettings()
 {
 	showEditorWidget();
 
-	KileFS->writeConfig();
+	m_fileSelector->writeConfig();
 
-	KileConfig::setLastDocument(m_lastDocument);
-	m_inputEncoding=KileFS->comboEncoding->lineEdit()->text();
-	KileConfig::setInputEncoding(m_inputEncoding);
+	Kate::View *view = viewManager()->currentView();
+	if (view) KileConfig::setLastDocument(view->getDoc()->url().path());
+	else KileConfig::setLastDocument("");
+
+	KileConfig::setInputEncoding(m_fileSelector->comboEncoding()->lineEdit()->text());
 
 	// Store recent files
-	fileOpenRecentAction->saveEntries(m_config, "Recent Files");
+	m_actRecentFiles->saveEntries(m_config, "Recent Files");
 	m_actRecentProjects->saveEntries(m_config, "Projects");
 
 	m_config->deleteGroup("FilesOpenOnStart");
-	if (m_bRestore)
+	if (KileConfig::restore())
 	{
 		m_config->setGroup("FilesOpenOnStart");
 		m_config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
@@ -1576,10 +1538,10 @@ void Kile::generalOptions()
 		emit configChanged();
 
 		//stop/restart LyX server if necessary
-		if (m_runlyxserver && !m_lyxserver->isRunning())
+		if (KileConfig::runLyxServer() && !m_lyxserver->isRunning())
 			m_lyxserver->start();
 
-		if (!m_runlyxserver && m_lyxserver->isRunning())
+		if (!KileConfig::runLyxServer() && m_lyxserver->isRunning())
 			m_lyxserver->stop();
 	}
 
@@ -1622,7 +1584,7 @@ void Kile::changeInputEncoding()
 	{
 		bool modified = view->getDoc()->isModified();
 
-  		QString encoding=KileFS->comboEncoding->lineEdit()->text();
+		QString encoding=m_fileSelector->comboEncoding()->lineEdit()->text();
 		QString text = view->getDoc()->text();
 
 		view->getDoc()->setEncoding(encoding);
@@ -1646,11 +1608,10 @@ void Kile::cleanBib()
 
 	while(i < view->getDoc()->numLines())
 	{
-		s = view->getDoc()->textLine(i);
-		s=s.left(3);
-		if (s=="OPT" || s=="ALT")
+		s = view->getDoc()->textLine(i).left(3);
+		if (s == "OPT" || s == "ALT")
 		{
-			view->getDoc()->removeLine(i );
+			view->getDoc()->removeLine(i);
 			view->getDoc()->setModified(true);
 		}
 		else
@@ -1674,8 +1635,8 @@ void Kile::includeGraphics()
 
 void Kile::slotToggleFullScreen()
 {
-//FIXME for Qt 3.3.x we can do: setWindowState(windowState() ^ WindowFullScreen);
-	if (isFullScreen())
+	//FIXME for Qt 3.3.x we can do: setWindowState(windowState() ^ WindowFullScreen);
+	if (!m_pFullScreen->isChecked())
 		showNormal();
 	else
 		showFullScreen();

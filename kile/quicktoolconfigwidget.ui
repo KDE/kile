@@ -1,0 +1,233 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>QuickToolConfigWidget</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>QuickToolConfigWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>407</width>
+            <height>216</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>1</hsizetype>
+            <vsizetype>1</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Form4</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_cbTools</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>2</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>100</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>m_lbTool</cstring>
+            </property>
+            <property name="text">
+                <string>Tool:</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="3">
+            <property name="name">
+                <cstring>m_lbConfig</cstring>
+            </property>
+            <property name="text">
+                <string>Configuration:</string>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="0" column="4">
+            <property name="name">
+                <cstring>m_cbConfigs</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>2</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>150</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_pshbAdd</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>&amp;Add</string>
+            </property>
+            <property name="accel">
+                <string>Alt+A</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_pshbRemove</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>&amp;Remove</string>
+            </property>
+            <property name="accel">
+                <string>Alt+R</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_pshbDown</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>&amp;Down</string>
+            </property>
+            <property name="accel">
+                <string>Alt+D</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_pshbUp</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>&amp;Up</string>
+            </property>
+            <property name="accel">
+                <string>Alt+U</string>
+            </property>
+        </widget>
+        <spacer row="3" column="0">
+            <property name="name">
+                <cstring>spacer5</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="KListBox" row="1" column="2" rowspan="5" colspan="3">
+            <property name="name">
+                <cstring>m_lstbSeq</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>m_pshbAdd</sender>
+        <signal>clicked()</signal>
+        <receiver>QuickToolConfigWidget</receiver>
+        <slot>add()</slot>
+    </connection>
+    <connection>
+        <sender>m_pshbRemove</sender>
+        <signal>clicked()</signal>
+        <receiver>QuickToolConfigWidget</receiver>
+        <slot>remove()</slot>
+    </connection>
+    <connection>
+        <sender>m_pshbUp</sender>
+        <signal>clicked()</signal>
+        <receiver>QuickToolConfigWidget</receiver>
+        <slot>up()</slot>
+    </connection>
+    <connection>
+        <sender>m_pshbDown</sender>
+        <signal>clicked()</signal>
+        <receiver>QuickToolConfigWidget</receiver>
+        <slot>down()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in implementation">klocale.h</include>
+    <include location="local" impldecl="in implementation">kiletoolmanager.h</include>
+    <include location="global" impldecl="in implementation">qstring.h</include>
+    <include location="global" impldecl="in implementation">kglobal.h</include>
+    <include location="local" impldecl="in implementation">quicktoolconfigwidget.ui.h</include>
+</includes>
+<variables>
+    <variable access="private">QString m_sequence;</variable>
+</variables>
+<signals>
+    <signal>sequenceChanged(const QString &amp;)</signal>
+</signals>
+<slots>
+    <slot>updateSequence( const QString &amp; sequence )</slot>
+    <slot>updateConfigs( const QString &amp; tool )</slot>
+    <slot access="private" specifier="non virtual">down()</slot>
+    <slot access="private" specifier="non virtual">up()</slot>
+    <slot access="private" specifier="non virtual">remove()</slot>
+    <slot access="private" specifier="non virtual">add()</slot>
+    <slot access="private" specifier="non virtual">changed()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

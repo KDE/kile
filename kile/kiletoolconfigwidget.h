@@ -18,131 +18,49 @@
 #ifndef KILETOOLCONFIGWIDGET_H
 #define KILETOOLCONFIGWIDGET_H
 
-#include <qhbox.h>
+#include <qstringlist.h>
 
 #include <keditlistbox.h>
 
 #include "kiletool.h"
 
 class QGridLayout;
-class QCheckBox;
-class QLabel;
 
-class KListBox;
-class KComboBox;
-class KPushButton;
 namespace KileTool { class Manager; }
+class ToolConfigWidget;
+class ProcessToolConfigWidget;
+class LibraryToolConfigWidget;
+class QuickToolConfigWidget;
+class LaTeXToolConfigWidget;
+class ViewBibToolConfigWidget;
 
 namespace KileWidget
 {
-	class BasicTool : public QWidget
-	{
-		Q_OBJECT
-
-	public:
-		BasicTool(const QString & tool, KConfig *, KileTool::Config *map, QWidget *parent);
-
-		void createProcess(const QString &);
-		void createKonsole();
-		void createPart();
-		void createDocPart();
-		void createSequence();
-
-		void createLaTeX();
-		void createViewBib();
-
-	private slots:
-		void setCommand(const QString &);
-		void setOptions(const QString &);
-		void setLibrary(const QString &);
-		void setLibOptions(const QString &);
-		void setClassName(const QString &);
-		void setSequence(const QString &);
-		void setClose(bool);
-		void setTarget(const QString &);
-		void setRelDir(const QString &);
-		void setLaTeXCheckRoot(bool);
-		void setLaTeXJump(bool);
-		void setLaTeXAuto(bool);
-		void setRunLyxServer(bool);
-
-	private:
-		QString			m_tool;
-		KileTool::Config	*m_map;
-		QGridLayout		*m_layout;
-		KConfig			*m_config;
-		KComboBox		*m_cbTools;
-		KEditListBox		*m_elbSequence;
-	};
-
-	class AdvancedTool : public QWidget
-	{
-		Q_OBJECT
-
-	public:
-		AdvancedTool(const QString & tool, KileTool::Config *map, QWidget *parent);
-
-		void createFromTo();
-		void createViewHTML();
-
-	signals:
-		void changed();
-
-	public slots:
-		void switchType(int);
-		void switchClass(const QString &);
-
-	private slots:
-		void setFrom(const QString &);
-		void setTo(const QString &);
-		void setClass(const QString &);
-		void setTarget(const QString &);
-		void setRelDir(const QString &);
-
-	private:
-		KileTool::Config	*m_map;
-		KComboBox		*m_cbType, *m_cbClasses;
-		QGridLayout		*m_layout;
-	};
-
-	class QuickTool : public QWidget
-	{
-		Q_OBJECT
-
-	public:
-		QuickTool(KileTool::Config *map, KConfig *, QWidget *parent, const char *name = 0);
-
-	public slots:
-		void updateConfigs(const QString &);
-		void up();
-		void down();
-		void add();
-		void remove();
-		void changed();
-
-	private:
-		KConfig			*m_config;
-		KileTool::Config	*m_map;
-		KComboBox		*m_cbTools, *m_cbConfigs;
-		KPushButton		*m_pbAdd, *m_pbRemove, *m_pbUp, *m_pbDown;
-		KListBox			*m_lstbSeq;
-	};
-
 	class ToolConfig : public QWidget
 	{
 		Q_OBJECT
+
+		enum GeneralBasicStack { GBS_None = 1, GBS_Process, GBS_Library, GBS_DocPart, GBS_Sequence, GBS_Error };
+		enum GeneralExtraStack { GES_None = 1, GES_LaTeX, GES_ViewBib };
 
 	public:
 		ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
 
 	public slots:
+		void writeConfig();
+
+	private:
+		void setupAdvanced();
+		void setupGeneral();
+
+	private slots:
+		void updateGeneral();
+		void updateAdvanced();
 		void switchTo(const QString & tool, bool save = true);
-		void toggleAdvanced();
 		void updateToollist();
 		void updateConfiglist();
 		void selectIcon();
 		void setMenu(const QString &);
-		void writeConfig();
 		void switchConfig(int index = -1);
 		void switchConfig(const QString &);
 
@@ -153,18 +71,43 @@ namespace KileWidget
 		void writeStdConfig(const QString &, const QString &);
 		void writeDefaults();
 
+		void setCommand(const QString &);
+		void setOptions(const QString &);
+		void setLibrary(const QString &);
+		void setLibOptions(const QString &);
+		void setClassName(const QString &);
+		void setState(const QString &);
+		void setSequence(const QString &);
+		void setClose(bool);
+		void setTarget(const QString &);
+		void setRelDir(const QString &);
+		void setLaTeXCheckRoot(bool);
+		void setLaTeXJump(bool);
+		void setLaTeXAuto(bool);
+		void setRunLyxServer(bool);
+		void setFrom(const QString &);
+		void setTo(const QString &);
+		void setClass(const QString &);
+		void switchClass(const QString &);
+		void switchType(int);
+
+	signals:
+		void changed();
+
 	private:
+		ToolConfigWidget	*m_configWidget;
 		KileTool::Manager	*m_manager;
+		KConfig			*m_config;
 		KileTool::Config	m_map;
-		BasicTool			*m_basic;
-		AdvancedTool		*m_advanced;
 		QGridLayout		*m_layout;
-		KListBox			*m_lstbTools;
-		QLabel			*m_lbName, *m_lbPosition;
-		KComboBox		*m_cbPredef, *m_cbMenu;
 		QString			m_current, m_icon;
-		KPushButton		*m_pshbAdvanced, *m_pshbIcon;
-		bool				m_bAdvanced;
+		QStringList		m_classes;
+		QWidget			*m_tabGeneral, *m_tabAdvanced, *m_tabMenu;
+		ProcessToolConfigWidget	*m_ptcw;
+		LibraryToolConfigWidget	*m_ltcw;
+		QuickToolConfigWidget	*m_qtcw;
+		LaTeXToolConfigWidget	*m_LaTeXtcw;
+		ViewBibToolConfigWidget	*m_ViewBibtcw;
 	};
 }
 

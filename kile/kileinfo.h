@@ -109,15 +109,10 @@ public:
 	KileDocument::EditorExtension *editorExtension() const { return m_edit; }
 
 	//FIXME:refactor
-	KileFileSelect* fileSelector() const { return KileFS; }
+	KileFileSelect* fileSelector() const { return m_fileSelector; }
 	KileEventFilter* eventFilter() const { return m_eventFilter; }
 
 	QWidget *parentWidget() const { return m_parentWidget; }
-
-	//FIXME: should be in separate template class
-	const QString & templAuthor() const { return m_templAuthor; }
-	const QString & templDocClassOpt() const { return m_templDocClassOpt; }
-	const QString & templEncoding() const { return m_templEncoding; }
 
 protected:
 	KileDocument::Manager	*m_docManager;
@@ -144,10 +139,8 @@ protected:
 	LatexOutputInfoArray	*m_outputInfo;
 
 	KileWidget::Structure	*m_kwStructure;
-	KileFileSelect 			*KileFS;
+	KileFileSelect 			*m_fileSelector;
 	KileEventFilter*		m_eventFilter;
-
-	QString m_templAuthor, m_templDocClassOpt, m_templEncoding;
 };
 
 #endif

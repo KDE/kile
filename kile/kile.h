@@ -20,36 +20,16 @@
 
 #include <kate/view.h>
 #include <kate/document.h>
-
-#include <kmainwindow.h>
 #include <dcopobject.h>
-#include <kmenubar.h>
-#include <kstatusbar.h>
-#include <khelpmenu.h>
-#include <kpopupmenu.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
-#include <kdeversion.h>
 
-#include <kprocess.h>
-#include <kaction.h>
-#include <kfileitem.h>
-#include <klistview.h>
-#include <kurl.h>
-
-#include <qmap.h>
 #include <qsplitter.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <qstrlist.h>
 #include <qwidgetstack.h>
-#include <qcombobox.h>
-#include <qguardedptr.h>
-#include <qlayout.h>
-#include <qframe.h>
 #include <qstring.h>
-#include <qcolor.h>
 
 #include "kileappIface.h"
 #include "docpart.h"
@@ -75,6 +55,7 @@ class QSignalMapper;
 class QIconViewItem;
 
 class KToolBar;
+class KAction;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleFullScreenAction;
@@ -152,7 +133,7 @@ private:
 	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
 	KAction 						*m_paStop, *m_paPrint;
 	KToggleAction 					*ModeAction, *WatchFileAction;
-	KRecentFilesAction				*fileOpenRecentAction;
+	KRecentFilesAction				*m_actRecentFiles;
 	KToggleFullScreenAction			*m_pFullScreen;
 
 /* GUI */
@@ -189,10 +170,8 @@ public slots:
 private:
 	KConfig			*m_config;
 	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
-	QString 		m_lastDocument, m_inputEncoding;
 	QStringList 	m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
-	bool			m_bRestore, m_runlyxserver;
 	bool 			m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
 
 
@@ -268,14 +247,9 @@ public:
 private slots:
 	void autoSaveAll();
 	void enableAutosave(bool);
-	void setAutosaveInterval(long interval) { autosaveinterval=interval;}
 
 private:
 	QTimer *m_AutosaveTimer;
-
-private:
-	long autosaveinterval;
-	bool autosave;
 
 private slots:
 	void runTool();

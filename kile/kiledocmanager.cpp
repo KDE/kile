@@ -49,6 +49,7 @@
 #include "kiletoolmanager.h"
 #include "kileautosavejob.h"
 #include "kilekonsolewidget.h"
+#include "kileconfig.h"
 
 namespace KileDocument
 {
@@ -344,7 +345,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
-	m_ki->fileSelector()->comboEncoding->lineEdit()->setText(enc);
+	m_ki->fileSelector()->comboEncoding()->lineEdit()->setText(enc);
 	doc->setEncoding(encoding);
 
 	kdDebug() << "opening url: " << docinfo->url().path() << endl;
@@ -505,9 +506,9 @@ Kate::View* Manager::createDocumentWithText(const QString & text)
 
 void Manager::replaceTemplateVariables(QString &line)
 {
-	line=line.replace("$$AUTHOR$$", m_ki->templAuthor());
-	line=line.replace("$$DOCUMENTCLASSOPTIONS$$", m_ki->templDocClassOpt());
-	if (m_ki->templEncoding() != "") { line=line.replace("$$INPUTENCODING$$", "\\input["+ m_ki->templEncoding() +"]{inputenc}");}
+	line=line.replace("$$AUTHOR$$", KileConfig::author());
+	line=line.replace("$$DOCUMENTCLASSOPTIONS$$", KileConfig::documentClassOptions());
+	if (KileConfig::templateEncoding() != "") { line=line.replace("$$INPUTENCODING$$", "\\input["+ KileConfig::templateEncoding() +"]{inputenc}");}
 	else { line = line.replace("$$INPUTENCODING$$","");}
 }
 
@@ -601,7 +602,7 @@ void Manager::fileSelected(const KileProjectItem * item)
 
 void Manager::fileSelected(const KURL & url)
 {
-	fileOpen(url, m_ki->fileSelector()->comboEncoding->lineEdit()->text());
+	fileOpen(url, m_ki->fileSelector()->comboEncoding()->lineEdit()->text());
 }
 
 void Manager::saveURL(const KURL & url)

@@ -1,8 +1,8 @@
 /***************************************************************************
                       codecompletion.cpp
 ----------------------------------------------------------------------------
-date                 : Sep 28 2004
-version              : 0.10.4
+date                 : Oct 05 2004
+version              : 0.10.5
 copyright            : (C) 2004 by Holger Danielsson
 email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -173,6 +173,20 @@ namespace KileDocument
 		// and the current document
 		Kate::Document *doc = m_view->getDoc();
 
+		// switch to cmLatex mode, if cmLabel is chosen without any entries
+		if ( mode==cmLabel && m_labellist.count()==0 ) {
+			QString s = doc->textLine(m_ycursor);
+			int pos = s.findRev("\\",m_xcursor);
+			if (pos < 0) {
+				kdDebug() << "\tfound no backslash! s=" << s << endl;
+				return;
+			}
+			m_xstart = pos;
+			m_text = doc->text(m_ycursor,m_xstart,m_ycursor,m_xcursor);
+			m_textlen = m_text.length();
+			m_mode = cmLatex;
+		}
+
 		// determine the current list
 		QValueList<KTextEditor::CompletionEntry> list;
 		switch ( m_mode )
@@ -224,7 +238,7 @@ namespace KileDocument
 		}
 
 		//  set restore mode
-		if ( m_mode == cmAbbreviation || m_mode == cmLabel) m_undo = true;
+		if ( m_mode == cmAbbreviation ) m_undo = true;
 
 		// show the completion dialog
 		m_inprogress = true;
@@ -281,6 +295,7 @@ namespace KileDocument
 			m_view->setCursorPositionReal( newy, newx );
 		}
 
+		m_undo = false;
 		m_inprogress = false;
 	}
 
@@ -296,9 +311,9 @@ namespace KileDocument
 			doc->insertText( m_ycursor, m_xstart, m_text );
 
 			m_view->setCursorPositionReal( m_ycursor, m_xstart + m_text.length() );
-			m_undo = false;
 		}
 
+		m_undo = false;
 		m_inprogress = false;
 	}
 
@@ -340,18 +355,15 @@ namespace KileDocument
 				break;
 				case cmEnvironment:
 				s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
-				m_undo = false;
 				break;
 				case cmDictionary:
 				s = text;
 				break;
 				case cmAbbreviation:
 				s = buildAbbreviationText( text );
-				m_undo = false;
 				break;
 				case cmLabel:
 				s = buildLabelText( text );
-				m_undo = false;
 				break;
 		}
 
@@ -373,37 +385,37 @@ namespace KileDocument
 	QString CodeCompletion::buildEnvironmentText( const QString &text, const QString &type,
 	        uint &ypos, uint &xpos )
 	{
-		// die erste Klammer '}' suchen
+		// find first '}' 
 		int pos = text.find( '}' );
 		if ( pos == -1 )
 			return "";
 
-		// Namen des Environments extrahieren
+		// extract name of environment
 		QString envname = text.mid( 7, pos - 7 );
 		QString parameter = stripParameter( text.mid( pos + 1, text.length() - pos ) );
 
-		// ev. die Parameter aufbereiten
+		// parse parameter
 		if ( ! parameter.isEmpty() )
 			parameter = parseText( parameter, ypos, xpos, false );
 
 		// list environment ?
 		bool item = ( type == "\\item" ) ? true : false;
 
-		// Ergebnis zusammensetzen: 1. Zeile
+		// first line of result
 		QString s = "\\begin{" + envname + '}' + parameter + '\n';
 
-		// 2. Zeile
+		// second line
 		if ( item )
 			s += "\\item ";
 		if ( m_setbullets && !parameter.isEmpty() )
 			s += s_bullet;
 		s += "\n";
 
-		// 3. Zeile
+		// third line
 		if ( m_closeenv )
 			s += "\\end{" + envname + "}";
 
-		// Cursor positionieren
+		// place cursor
 		if ( m_setcursor )
 		{
 			if ( parameter.isEmpty() )
@@ -468,7 +480,7 @@ namespace KileDocument
 	}
 
 
-	//////////////////// Hilfsroutinen ////////////////////
+	//////////////////// some functions ////////////////////
 
 	QString CodeCompletion::parseText( const QString &text, uint &ypos, uint &xpos, bool checkgroup )
 	{
@@ -482,36 +494,33 @@ namespace KileDocument
 			{
 					case '{':
 					case '(':
-					case '[':      // Zeichen einfgen
+					case '[':                    // insert character
 					s += text[ i ];
 					if ( xpos == 0 )
 					{
-						// hinter der ersten Klammer die Cursorposition merken
+						// remember position after first brace
 						xpos = i + 1;
-						// ein Bullet nur dann einfgen, wenn der Cursor
-						// nicht hierhin gesetzt werden soll
+						// insert bullet, if this is no cursorposition
 						if ( ( ! m_setcursor ) && m_setbullets )
 							s += s_bullet;
 					}
-					// an allen weiteren Klammern ev. ein Bullet einfgen
+					// insert bullets after following braces
 					else if ( m_setbullets )
 						s += s_bullet;
 					break;
 					case '}':
 					case ')':
-					case ']':      // Zeichen einfgen
+					case ']':                    // insert character
 					s += text[ i ];
 					break;
-					case ',':      // Zeichen einfgen
+					case ',':                    // insert character
 					s += text[ i ];
-					// ev. Bullet einfgen
+					// insert bullet?
 					if ( m_setbullets )
 						s += s_bullet;
 					break;
-					case '.':      // wenn das letzte Zeichen auch ein Punkt ist, also ein
-					// Bereichsoperator angegeben ist, wird dieser ersetzt und
-					// durch ein einzelnes Leerzeichen oder durch ein von
-					// Leerzeichen umgebenden Bullet ersetzt
+					case '.':      // if the last character is a point of a range operator,
+					// it will be replaced by a space or a bullet surrounded by spaces
 					if ( checkgroup && ( s.right( 1 ) == "." ) )
 					{
 						foundgroup = true;
@@ -524,19 +533,18 @@ namespace KileDocument
 					else
 						s += text[ i ];
 					break;
-					default:       // alle anderen Zeichen ausgeben
+					default:                      // insert all other characters
 					s += text[ i ];
 					break;
 			}
 		}
 
-		// bei einer Gruppe wird noch nachbearbeitet, wenn auch Bullets
-		// eingefgt werden sollen
+		// some more work with groups and bullets
 		if ( checkgroup && foundgroup && ( m_setbullets | m_setcursor ) )
 		{
 			int pos = 0;
 
-			// Klammerbefehl suchen
+			// search for braces, brackets and parens
 			switch ( QChar( s[ 1 ] ) )
 			{
 					case 'l' :
@@ -557,7 +565,7 @@ namespace KileDocument
 					break;
 			}
 
-			// Position des Cursors und Bullets
+			// update cursorposition and set bullet
 			if ( pos > 0 )
 			{
 				if ( m_setcursor )
@@ -575,7 +583,7 @@ namespace KileDocument
 		return s;
 	}
 
-	// alle in Klammern eingeschlossenene Parameternamen entfernen
+	// astrip all names enclosed in braces
 
 	QString CodeCompletion::stripParameter( const QString &text )
 	{
@@ -612,7 +620,7 @@ namespace KileDocument
 		return s;
 	}
 
-	//////////////////// Daten fr CodeCompletion lesen ////////////////////
+	//////////////////// read wordlists  ////////////////////
 
 	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename )
 	{
@@ -663,7 +671,7 @@ namespace KileDocument
 		}
 	}
 
-	//////////////////// Anzahl der Eintr�e lesen ////////////////////
+	//////////////////// determine number of entries ////////////////////
 
 	// Count the number of entries. Stop, wenn there are 2 entries,
 	// because special functions are only called, when there are 0
@@ -825,7 +833,7 @@ namespace KileDocument
 				n++;                           // accept letters and '{' as first character in latexmode
 			else
 			{
-				if ( latexmode && isBackslash( ch ) && oddBackslashes( textline, index ) )         // Backslash?
+				if ( latexmode && isBackslash( ch ) && oddBackslashes( textline, index ) )         // backslash?
 					n++;
 				break;                         // stop when a backslash was found
 			}

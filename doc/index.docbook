@@ -1115,6 +1115,15 @@
 		comes from my favorite book \cite{Simpson}.
 		</userinput></screen>
 
+		<para>As it is often difficult to remember the 
+exact citation key once you have many references, &kile; provides 
+an easy way to insert a citation. On the edit toolbar click on the 
+second drop-down box (usually it reads "label") and select "cite". 
+A list with all the citation keys will show, select the correct 
+reference and a citation will be inserted in your document. To 
+update the list of keys, either save the file or choose "Refresh 
+Structure" from the Edit menu.</para>
+
 		<para>The final product in your document's bybliography would then look like this:</para>
 
 		<para><computeroutput>[1] Homer J. Simpson. Mmmmm...doughnuts. Evergreen Terrace Printing Co.,
@@ -1267,14 +1276,16 @@
 			the PDF, but is not able to handle EPS files.
 			Conversely, the process of compiling to DVI and converting to PS and PDF supports EPS,
 			and does not support PNG and JPG. To overcome this frustrating loop, in case you have both
-			EPS and PNG og JPG files, you have a number of workarounds:</para>
+			EPS and PNG or JPG files, you have a number of workarounds:</para>
 
 			<itemizedlist>
 				<listitem><para>You can convert EPS files to PNG or other formats with utilities as the
 				<ulink url="http://www.gimp.org/"><application>Gimp</application></ulink>, and use PDF&latex;.</para></listitem>
 				<listitem><para>You can convert the other way around, and use &latex; and PS-PDF conversion;
-				this is not recommended as EPS representation of JPG or PNG files yields generally huge EPS
-				files, that in turn yield unnecessarily huge documents.</para></listitem>
+				this is not recommended as EPS encapsulation of JPG or PNG files yields generally larger EPS
+				files, that in turn yield unnecessarily large documents; this is however dependent on the graphic utility
+				that you use, since EPS can encapsulate other graphics, but not all applications support this perfectly;
+				you can for istance use the program jpg2ps.</para></listitem>
 				<listitem><para>If you need a file in PS format, but have JPG or PNG graphics, you can
 				simply use PDF&latex; first, and then use the command-line instruction pdftops, or better
 				yet, implement your own user tag (See <xref linkend="latex_usertags"/>).</para></listitem>
@@ -1285,8 +1296,8 @@
 		 	<itemizedlist>
 			 	<listitem><para>EPS is sort of a graphic vector scripting language, describing
 				all the lines and dots the graph is made of; it does not lose much when magnified, and suits
-				best diagrams and vectorial graphic natively produced in EPS. It is terrible, however, for
-				pictures, as it will try to describe every single pixel, becoming rapidly of gigantic size.</para></listitem>
+				best diagrams and vectorial graphic natively produced in EPS. You can convert JPG graphics with
+				the program jpg2ps, but they will be a bit larger.</para></listitem>
 				<listitem><para>PNG (or GIF) is a non-lossy file format, with good compression and quality. It is
 				very good for diagrams, scans of drawings, or anything whose sharpness you want to retain.
 				It is sometimes overkill when used for photos, and cannot be scaled up as EPS.</para></listitem>

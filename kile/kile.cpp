@@ -450,7 +450,7 @@ void Kile::setupActions()
   if (showoutputview) {MessageAction->setChecked(true);}
   else {MessageAction->setChecked(false);}
 
-  (void) new KAction(i18n("Remove a template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
+  (void) new KAction(i18n("Remove Template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
 
   WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(),"WatchFile" );
   if (watchfile) {WatchFileAction->setChecked(true);}

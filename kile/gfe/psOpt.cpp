@@ -34,7 +34,7 @@ psOpt::psOpt
 	:
 	psOptData( parent, name )
 {
-	setCaption( i18n("Postscript Options") );
+	setCaption( i18n("PostScript Options") );
 }
 
 

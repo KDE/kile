@@ -36,7 +36,7 @@ logScaleOp::logScaleOp
 	:
 	logScaleOpData( parent, name )
 {
-	setCaption( i18n("Log Scale options") );
+	setCaption( i18n("Log Scale Options") );
 }
 
 

@@ -37,7 +37,7 @@ namespace KileDialog
 ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const QValueList<ConfigTest> &tests) : QListBoxItem(lb)
 {
 	QString rt = "<hr><b><font color=\"%1\">%2</font></b> (%3)<br><ul>";
-	for ( uint i = 0; i < tests.count(); i++)
+	for ( uint i = 0; i < tests.count(); ++i)
 	{
 		QString itemcolor = "black";
 		if ( tests[i].status() == ConfigTest::Failure ) itemcolor = "#FFA201";
@@ -145,7 +145,7 @@ void ConfigChecker::finished(bool ok)
 
 		QStringList tools = m_tester->testedTools();
 		QStringList critical, failure;
-		for ( uint i = 0; i < tools.count(); i++ )
+		for ( uint i = 0; i < tools.count(); ++i )
 		{
 			int status = m_tester->statusForTool(tools[i]);
 			if ( status == ConfigTest::Critical ) critical.append(tools[i]);

@@ -166,7 +166,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 	int index = 0;
 
 	//scan for parentheses and grab filenames
-	for ( uint i = 0; i < strLine.length(); i ++)
+	for ( uint i = 0; i < strLine.length(); ++i)
 	{
 		//We're expecting a filename. If a filename really ends at this position one of the following must be true:
 		//	1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
@@ -242,19 +242,19 @@ void LatexOutputFilter::flushCurrentItem()
 	switch (nItemType)
 	{
 		case itmError:
-			m_nErrors++;
+			++m_nErrors;
 			m_InfoList->push_back(m_currentItem);
 			//kdDebug() << "Flushing Error in" << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() <<  endl;
 		break;
 
 		case itmWarning:
-			m_nWarnings++;
+			++m_nWarnings;
 			m_InfoList->push_back(m_currentItem);
 			//kdDebug() << "Flushing Warning in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
 		break;
 
 		case itmBadBox:
-			m_nBadBoxes++;
+			++m_nBadBoxes;
 			m_InfoList->push_back(m_currentItem);
 			//kdDebug() << "Flushing BadBox in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
 		break;
@@ -573,7 +573,7 @@ short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 	return dwCookie;
 }
 
-bool LatexOutputFilter::Run(QString logfile)
+bool LatexOutputFilter::Run(const QString & logfile)
 {
 	m_InfoList->clear();
 	m_nErrors = m_nWarnings = m_nBadBoxes = m_nParens = 0;
@@ -586,7 +586,7 @@ bool LatexOutputFilter::Run(QString logfile)
 	int type;
 
 	//print detailed error info
-	for (uint i=0; i < m_InfoList->count() ; i++)
+	for (uint i=0; i < m_InfoList->count() ; ++i)
 	{
 		Message = QString("%1:%2:%3").arg((*m_InfoList)[i].source()).arg((*m_InfoList)[i].sourceLine()).arg((*m_InfoList)[i].message());
 		switch ( (*m_InfoList)[i].type()  )

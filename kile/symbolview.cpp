@@ -60,7 +60,7 @@ void SymbolView::initPage(int page)
     {
     case Relation:
         {
-            for ( uint i = 0; i <= 225; i++ )
+            for ( uint i = 0; i <= 225; ++i )
             {
                 icon_name="img"+QString::number(i+1)+".png";
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
@@ -75,7 +75,7 @@ void SymbolView::initPage(int page)
         break;
     case Arrow:
         {
-            for ( uint i = 247; i <=313 ; i++ )
+            for ( uint i = 247; i <=313 ; ++i )
             {
                 icon_name="img"+QString::number(i+1)+".png";
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
@@ -90,7 +90,7 @@ void SymbolView::initPage(int page)
         break;
     case Misc:
         {
-            for ( uint i = 314; i <= 371; i++ )
+            for ( uint i = 314; i <= 371; ++i )
             {
                 icon_name="img"+QString::number(i+1)+".png";
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
@@ -105,7 +105,7 @@ void SymbolView::initPage(int page)
         break;
     case Delimiters:
         {
-            for ( uint i = 226; i <= 246; i++ )
+            for ( uint i = 226; i <= 246; ++i )
             {
                 icon_name="img"+QString::number(i+1)+".png";
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
@@ -120,7 +120,7 @@ void SymbolView::initPage(int page)
         break;
     case Greek:
         {
-            for ( uint i = 0; i <= 39; i++ )
+            for ( uint i = 0; i <= 39; ++i )
             {
                 icon_name="img"+QString::number(i+1)+"greek.png";
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
@@ -135,7 +135,7 @@ void SymbolView::initPage(int page)
         break;
     case Special:
         {
-            for ( uint i = 401; i <= 433; i++ )
+            for ( uint i = 401; i <= 433; ++i )
             {
                 icon_name="img"+QString::number(i)+".png";
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )

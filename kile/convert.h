@@ -36,7 +36,7 @@ public:
 	QChar toEncoding(const QString & enc) { return m_toEncoding[enc]; }
 	QString toASCII(const QChar & c) { return m_toASCII[c]; }
 
-	void addPair(QChar c, QString enc);
+	void addPair(QChar c, const QString & enc);
 
 	bool canDecode(const QChar & c) { return ( m_toASCII.contains(c) > 0 ); }
 	bool canEncode(const QString & enc) { return ( m_toEncoding.contains(enc) > 0 ); }

@@ -35,11 +35,11 @@ Templates::Templates()
    QDir templates;
    TemplateInfo ti;
   
-   for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); i++)
+   for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); ++i)
    {
 
      templates = QDir(*i, "template_*.tex");
-     for ( uint j=0; j< templates.count(); j++)
+     for ( uint j=0; j< templates.count(); ++j)
 	 {
         ti.path=templates.path()+"/"+templates[j];
         ti.name=templates[j].replace("template_","");
@@ -69,7 +69,7 @@ bool Templates::copyAppData(const QString &src, const QString &subdir, const QSt
    //store the templates (usually $HOME/.kde/share/apps/kile/templates)
    dir = KGlobal::dirs()->saveLocation("appdata",subdir,true);
    //if a directory is found
-   if (dir != QString::null ) {
+   if (!dir.isNull()) {
       dst = dir + "/"+ file;
       job = KIO::file_copy(KURL(src),KURL(dst),-1,true,false,false);
       //let KIO show the error messages
@@ -112,8 +112,8 @@ bool Templates::remove(TemplateInfo ti) {
    removeAppData(ti.path) && removeAppData(ti.icon);
 }
 
-TemplateListIterator Templates::find(QString name) {
-   for (TemplateListIterator i=m_TemplateList.begin(); i != m_TemplateList.end(); i++) {
+TemplateListIterator Templates::find(const QString & name) {
+   for (TemplateListIterator i=m_TemplateList.begin(); i != m_TemplateList.end(); ++i) {
       if ( (*i).name == name ) { return i; }      
    }
 

@@ -204,7 +204,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		{
 			KPopupMenu *apps = new KPopupMenu( m_popup);
 			m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
-			for (uint i=0; i < m_offerList.count(); i++)
+			for (uint i=0; i < m_offerList.count(); ++i)
 				apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
 
 			apps->insertSeparator();
@@ -330,7 +330,7 @@ void KileProjectView::add(const KileProject *project)
 
 	refreshProjectTree(project);
 
-	m_nProjects++;
+	++m_nProjects;
 }
 
 KileProjectViewItem * KileProjectView::projectViewItemFor(const KURL & url)
@@ -507,7 +507,7 @@ void KileProjectView::add(const KURL & url)
 		item = static_cast<KileProjectViewItem*>(*it);
 		if ( (item->type() != KileType::Project) && (item->url() == url) )
 			return;
-		it++;
+		++it;
 	}
 
 	item = new KileProjectViewItem(this, url.fileName());
@@ -526,7 +526,7 @@ void KileProjectView::remove(const KileProject *project)
 		{
 			takeItem(item);
 			delete item;
-			m_nProjects--;
+			--m_nProjects;
 			break;
 		}
 		item = static_cast<KileProjectViewItem*>(item->nextSibling());
@@ -565,7 +565,7 @@ void KileProjectView::removeItem(const KileProjectItem *projitem, bool open)
 			item->parent()->takeItem(item);
 			delete item;
 		}
-		it++;
+		++it;
 	}
 
 	if ( open )

@@ -27,7 +27,7 @@
 /**An object of this class is used to parse the output messages
 of any third-party tool.
  
-@author Thorsten Lück
+@author Thorsten Lck
   *@author Jeroen Wijnhout
   */
 
@@ -44,7 +44,7 @@ public:
 protected:
 
 public:
-    virtual bool Run(QString logfile);
+    virtual bool Run(const QString & logfile);
 
     //void setLog(const QString &log) { m_log = log; }
     const QString & log() const { return m_log; }

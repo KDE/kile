@@ -21,10 +21,10 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 	QStringList list = QStringList::split(",",sequence);
 	QString tl,cfg;
 	m_lstbSeq->clear();
-	for ( uint i=0; i < list.count(); i++)
+	for ( uint i=0; i < list.count(); ++i)
 	{
 		KileTool::extract(list[i], tl, cfg);
-		if ( cfg != QString::null )
+		if ( !cfg.isNull() )
 			m_lstbSeq->insertItem(tl+" ("+cfg+")");
 		else
 			m_lstbSeq->insertItem(tl);
@@ -87,7 +87,7 @@ void QuickToolConfigWidget::add()
 void QuickToolConfigWidget::changed()
 {
 	QString sequence, tool, cfg;
-	for (uint i = 0; i < m_lstbSeq->count(); i++)
+	for (uint i = 0; i < m_lstbSeq->count(); ++i)
 	{
 	    KileTool::extract(m_lstbSeq->text(i), tool, cfg);
 	    sequence += KileTool::format(tool,cfg)+",";

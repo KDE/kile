@@ -21,14 +21,14 @@
 #include <outputinfo.h>
 
 /**A class to keep output info from LaTeX.
- *@author Thorsten Lück
+ *@author Thorsten Lck
  */
 
 class LatexOutputInfo : public OutputInfo
 {
     public:
         LatexOutputInfo();
-        LatexOutputInfo(QString strSrcFile, int nSrcLine, int nOutputLine, QString strError="", int nErrorID=-1);
+        LatexOutputInfo(const QString & strSrcFile, int nSrcLine, int nOutputLine, const QString & strError="", int nErrorID=-1);
         /** No descriptions */
         LatexOutputInfo operator=(const LatexOutputInfo &a) ;
 
@@ -48,7 +48,7 @@ class LatexOutputInfo : public OutputInfo
 
 /**Array of OutputInfo
 
-@author Thorsten Lück
+@author Thorsten Lck
 */
 typedef QValueList<LatexOutputInfo> LatexOutputInfoArray;
 #endif

@@ -100,7 +100,7 @@ void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 	kdDebug() << "just checking: docinfo->getDoc() =  " << docinfo->getDoc() << endl;
 	kdDebug() << "just checking: docFor(docinfo->url()) = " << docFor(docinfo->url()) << endl;
 
-	for ( uint i = 0; i < m_infoList.count(); i++ )
+	for ( uint i = 0; i < m_infoList.count(); ++i )
 	{
 		if ( (m_infoList.at(i) != docinfo) && (m_infoList.at(i)->getDoc() == doc) )
 		{
@@ -115,7 +115,7 @@ void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 
 Kate::Document* Manager::docFor(const KURL & url)
 {
-	for (uint i=0; i < m_infoList.count(); i++)
+	for (uint i=0; i < m_infoList.count(); ++i)
 	{
 		if (m_ki->similarOrEqualURL(m_infoList.at(i)->url(),url))
 			return m_infoList.at(i)->getDoc();
@@ -272,7 +272,7 @@ KileProject* Manager::activeProject()
 
 	if (doc)
 	{
-		for (uint i=0; i < m_projects.count(); i++)
+		for (uint i=0; i < m_projects.count(); ++i)
 		{
 			if (m_projects.at(i)->contains(doc->url()) )
 			{
@@ -295,7 +295,7 @@ KileProjectItem* Manager::activeProjectItem()
 	{
 		KileProjectItemList *list = curpr->items();
 
-		for (uint i=0; i < list->count(); i++)
+		for (uint i=0; i < list->count(); ++i)
 		{
 			if (list->at(i)->url() == doc->url())
 			{
@@ -414,7 +414,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 	//handle changes of the document
 	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
-	//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
+	//why not connect doc->nameChanged directly to slotNameChanged ? : the function emitNameChanged
 	//updates the docinfo, on which all decisions are bases in slotNameChanged
 	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
 	connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), m_ki->parentWidget(), SLOT(newCaption()));
@@ -434,17 +434,17 @@ void Manager::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	int c = doc->hlModeCount();
 	int nHlLaTeX = 0;
 	//determine default highlighting mode (LaTeX)
-	for (int i = 0; i < c; i++)
+	for (int i = 0; i < c; ++i)
 	{
 		if (doc->hlModeName(i) == "LaTeX") { nHlLaTeX = i; break; }
 	}
 
 	//don't let KatePart determine the highlighting
-	if ( highlight != QString::null )
+	if ( !highlight.isNull() )
 	{
 		bool found = false;
 		int mode = 0;
-		for (int i = 0; i < c; i++)
+		for (int i = 0; i < c; ++i)
 		{
 			if (doc->hlModeName(i) == highlight) { found = true; mode = i; }
 		}
@@ -503,7 +503,7 @@ Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QStrin
 	m_ki->structureWidget()->clean(docinfo);
 	docinfo->updateStruct();
 
-	if ( text != QString::null ) doc->setText(text);
+	if ( !text.isNull() ) doc->setText(text);
 
 	//FIXME: use signal/slot
 	if (doc && create)
@@ -558,7 +558,7 @@ void Manager::replaceTemplateVariables(QString &line)
 {
 	line=line.replace("$$AUTHOR$$", KileConfig::author());
 	line=line.replace("$$DOCUMENTCLASSOPTIONS$$", KileConfig::documentClassOptions());
-	if (KileConfig::templateEncoding() != "") { line=line.replace("$$INPUTENCODING$$", "\\usepackage["+ KileConfig::templateEncoding() +"]{inputenc}");}
+	if (!KileConfig::templateEncoding().isEmpty()) { line=line.replace("$$INPUTENCODING$$", "\\usepackage["+ KileConfig::templateEncoding() +"]{inputenc}");}
 	else { line = line.replace("$$INPUTENCODING$$","");}
 }
 
@@ -635,7 +635,7 @@ void Manager::fileOpen()
     KURL::List urls = KFileDialog::getOpenURLs( currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
 
 	//open them
-	for (uint i=0; i < urls.count(); i++)
+	for (uint i=0; i < urls.count(); ++i)
 		fileOpen(urls[i]);
 }
 
@@ -712,7 +712,7 @@ void Manager::fileSaveAll(bool amAutoSaving)
 	kdDebug() << "==Kile::fileSaveAll=================" << endl;
 	kdDebug() << "\tautosaving = " << amAutoSaving << endl;
 
-	for (uint i = 0; i < m_ki->viewManager()->views().count(); i++)
+	for (uint i = 0; i < m_ki->viewManager()->views().count(); ++i)
 	{
 		view = m_ki->viewManager()->view(i);
 
@@ -1060,7 +1060,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	project_steps *= step;
 	m_kpd->progressBar()->setValue(project_steps);
 
-	for ( uint i=0; i < list->count(); i++)
+	for ( uint i=0; i < list->count(); ++i)
 	{
 		projectOpenItem(list->at(i));
 		m_kpd->progressBar()->setValue(i + project_steps);
@@ -1111,7 +1111,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		KileProjectItem *item;
 		Info *docinfo;
 		//update the open-state of the items
-		for (uint i=0; i < list->count(); i++)
+		for (uint i=0; i < list->count(); ++i)
 		{
 			item = list->at(i);
 			kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << m_ki->isOpen(item->url()) << endl;
@@ -1163,7 +1163,7 @@ void Manager::projectAddFiles(KileProject *project)
 		KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*|All Files"), m_ki->parentWidget(), i18n("Add Files") );
 
 		//open them
-		for (uint i=0; i < urls.count(); i++)
+		for (uint i=0; i < urls.count(); ++i)
 		{
 			addToProject(project, urls[i]);
 		}
@@ -1260,7 +1260,7 @@ bool Manager::projectCloseAll()
 	while ( it.current() && close && (i > 0))
 	{
 		close = close && projectClose(it.current()->url());
-		i--;
+		--i;
 	}
 
 	return close;
@@ -1301,7 +1301,7 @@ bool Manager::projectClose(const KURL & url)
 
 		bool close = true;
 		Info *docinfo;
-		for (uint i =0; i < list->count(); i++)
+		for (uint i =0; i < list->count(); ++i)
 		{
 			docinfo = list->at(i)->getInfo();
 			if (docinfo) doc = docinfo->getDoc();
@@ -1357,7 +1357,7 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
 	QString str;
 	QFileInfo file(docinfo->url().path()), fi;
-	for (uint i=0; i <  templist.count(); i++)
+	for (uint i=0; i <  templist.count(); ++i)
 	{
 		str = file.dirPath(true) + "/" + file.baseName(true) + templist[i];
 		fi.setFile(str);
@@ -1366,7 +1366,7 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	}
 
 	str = file.fileName();
-	if (!silent &&  (str==i18n("Untitled") || str == "" ) )	return;
+	if (!silent &&  (str==i18n("Untitled") || str.isEmpty() ) )	return;
 
 	if (!silent && extlist.count() > 0 )
 	{

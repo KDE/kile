@@ -50,7 +50,7 @@ bool ConvertMap::create(const QString & encoding)
 QString ConvertMap::encodingNameFor(const QString & name)
 {
 	QString std;
-	for ( uint i = 0; i < name.length(); i ++ )
+	for ( uint i = 0; i < name.length(); ++i )
 		if ( !name[i].isSpace() )
 			std += name[i];
 
@@ -68,7 +68,7 @@ QString ConvertMap::encodingNameFor(const QString & name)
 QString ConvertMap::isoNameFor(const QString & name)
 {
 	QString std;
-	for ( uint i = 0; i < name.length(); i ++ )
+	for ( uint i = 0; i < name.length(); ++i )
 		if ( !name[i].isSpace() )
 			std += name[i];
 
@@ -89,7 +89,7 @@ ConvertMap::ConvertMap(const QString & enc )
 	m_aliases.append(isoNameFor(enc));
 }
 
-void ConvertMap::addPair(QChar c, QString enc)
+void ConvertMap::addPair(QChar c, const QString & enc)
 {
 	m_toASCII[c] = commandIsTerminated(enc) ? enc : enc + "{}" ;
 	m_toEncoding[enc] = c;
@@ -328,7 +328,7 @@ QString ConvertASCIIToEnc::getSequence(uint &i)
 	else if ( m_map->canEncode(seq) )
 	{
 		if ( m_io->currentLine().mid(i,2) == "{}" ) i = i + 2;
-		else if ( m_io->currentLine()[i].isSpace() ) i++;
+		else if ( m_io->currentLine()[i].isSpace() ) ++i;
 	}
 
 	return seq;

@@ -392,7 +392,7 @@ void Select::setItems(QPtrList<KAction>& list)
 {
 	QStringList tmp;
 
-	for (uint i=0; i < list.count(); i++)
+	for (uint i=0; i < list.count(); ++i)
 	{
 		tmp.append(list.at(i)->text());
 		m_dict.insert(list.at(i)->text(), list.at(i));

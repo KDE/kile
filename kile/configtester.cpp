@@ -244,7 +244,7 @@ int Tester::statusForTool(const QString & tool)
 {
 	QValueList<ConfigTest> tests = m_results[tool];
 	int status = ConfigTest::Success;
-	for ( uint i = 0; i < tests.count(); i++)
+	for ( uint i = 0; i < tests.count(); ++i)
 	{
 		if ( (tests[i].status() == ConfigTest::Failure) && (status == ConfigTest::Success)) status = ConfigTest::Failure;
 		if (tests[i].status() == ConfigTest::Critical) status = ConfigTest::Critical;

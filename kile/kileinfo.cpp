@@ -67,7 +67,7 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 		//reloading the file after is it changed on disc by another application
 		//cause the URL to be empty for a short while
 		title = shrt ? QFileInfo(doc->docName()).fileName() : doc->url().path();
-		if (title == "") title = i18n("Untitled");
+		if (title.isEmpty()) title = i18n("Untitled");
 	}
 	else
 		title=QString::null;
@@ -133,7 +133,7 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 	}
 
 	QFileInfo fi(file);
-	if ( (file == QString::null) || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
+	if ( file.isNull() || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
 	{
 		if ( QFileInfo(file+".tex").exists() )
 		{
@@ -153,7 +153,7 @@ KURL::List KileInfo::getParentsFor(KileDocument::Info *info)
 {
 	KileProjectItemList *items = docManager()->itemsFor(info);
 	KURL::List list;
-	for ( uint i = 0; i < items->count(); i++)
+	for ( uint i = 0; i < items->count(); ++i)
 		if (items->at(i)->parent()) list.append(items->at(i)->parent()->url());
 
 	return list;
@@ -181,13 +181,13 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 
 			const QStringList *list;
 
-			for (uint i=0; i < children.count(); i++)
+			for (uint i=0; i < children.count(); ++i)
 			{
 				kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
 				list = (children.at(i)->getInfo()->*getit)();
 				if (list)
 				{
-					for (uint i=0; i < list->count(); i++)
+					for (uint i=0; i < list->count(); ++i)
 						m_listTemp << (*list)[i];
 				}
 			}
@@ -269,7 +269,7 @@ bool KileInfo::isOpen(const KURL & url)
 	kdDebug() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
 	uint cnt = viewManager()->views().count();
 	
-	for ( uint i = 0; i < cnt; i++)
+	for ( uint i = 0; i < cnt; ++i)
 	{
 		if ( viewManager()->view(i)->getDoc() && similarOrEqualURL(viewManager()->view(i)->getDoc()->url(), url) )
 			return true;
@@ -329,12 +329,12 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 	}
 
 	/*kdDebug() << "\tafter" << endl;
-	for (uint i=0; i < basedirs.count(); i++)
+	for (uint i=0; i < basedirs.count(); ++i)
 	{
 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 	}
 
-	for (uint i=0; i < dirs.count(); i++)
+	for (uint i=0; i < dirs.count(); ++i)
 	{
 		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}*/
@@ -347,7 +347,7 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 
 		if (basedirs.count() > 0)
 		{
-			for (uint j=0; j < basedirs.count(); j++)
+			for (uint j=0; j < basedirs.count(); ++j)
 			{
 				path = "../" + path;
 			}

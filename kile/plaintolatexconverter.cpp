@@ -48,7 +48,8 @@ QString PlainToLaTeXConverter::ConvertToLaTeX(const QString& toConv) const
 	// Replacing what must be...
 	uint sSize = result.length();
 	QMapConstIterator<QChar, QString> mapEnd = m_replaceMap.end();
-	for(uint i = 0 ; i < sSize ; i++) {
+	for(uint i = 0 ; i < sSize ; ++i) 
+	{
 		QMapConstIterator<QChar, QString> it = m_replaceMap.find(result.at(i));
 
 		if(it != mapEnd) { // The character must be replaced

@@ -201,7 +201,7 @@ QString IncludeGraphics::getTemplate()
 
    // add some options
    QString options = getOptions();
-   if ( options != "" )
+   if ( !options.isEmpty() )
       s += "[" + options + "]";
 
    // add name of picture
@@ -315,7 +315,8 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &
    if ( reg.search(boundingbox) == -1 )
       return false;
 
-   for (uint i=0; i<4; i++) {
+   for (uint i=0; i<4; ++i)
+   {
       eps[i] = reg.cap(i+1).toFloat( &ok );
       if (!ok) return false;
    }

@@ -50,7 +50,7 @@ namespace KileWidget
 		getCursorPosition( &cursorParagraph, &cursorIndex );
 
 		int line=0;
-		for(uint i = 0 ; i < m_info->outputInfo()->size() ; i++ )
+		for(uint i = 0 ; i < m_info->outputInfo()->size() ; ++i )
 		{
 			line = (*m_info->outputInfo())[i].outputLine();
 
@@ -85,9 +85,9 @@ namespace KileWidget
 		
 		//start from the bottom (most recent error) because
 		//there could very well be errors with the same name
-		for ( int i = parags - 1; i >= 0;  i-- )
+		for ( int i = parags - 1; i >= 0;  --i )
 		{
-			if ( reProblem.exactMatch(text(i)) ) problemsFound++;
+			if ( reProblem.exactMatch(text(i)) ) ++problemsFound;
 			
 			if ( problemsFound == targetProblemNumber )
 			{
@@ -112,7 +112,7 @@ namespace KileWidget
 		else
 		{
 			//look for error at line parag
-			for (uint i=0; i< m_info->outputInfo()->size(); i++)
+			for (uint i=0; i< m_info->outputInfo()->size(); ++i)
 			{
 				if ( (*m_info->outputInfo())[i].outputLine() == parag)
 				{
@@ -157,7 +157,7 @@ namespace KileWidget
 			default : ot = "<font color='black'>"; break;
 		}
 
-		if ( tool == QString::null)
+		if (tool.isNull())
 			append(ot + message + ct);
 		else
 			append(ot + "<b>[" + tool + "]</b> " + message + ct );

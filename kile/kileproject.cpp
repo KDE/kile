@@ -163,7 +163,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 
 	if (ext.stripWhiteSpace().length() == 0) pattern = "";
 
-	if ( (pattern != "") && !extIsRegExp(type))
+	if ( (!pattern.isEmpty()) && !extIsRegExp(type))
 	{
 		QStringList lst = QStringList::split(" ", ext);
 		pattern = lst.join("|");
@@ -186,8 +186,8 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 void KileProject::setType(KileProjectItem *item)
 {
 	bool unknown = true;
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++)
-		if ( (extensions((KileProjectItem::Type) i) != "") &&
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i)
+		if ( (!extensions((KileProjectItem::Type) i).isEmpty()) &&
 			m_reExtensions[i-1].search(item->url().fileName()) != -1)
 		{
 			item->setType(i);
@@ -252,7 +252,7 @@ bool KileProject::load()
 	KileProjectItem *item;
 
 	//retrieve all the project files and create and initialize project items for them
-	for (uint i=0; i < groups.count(); i++)
+	for (uint i=0; i < groups.count(); ++i)
 	{
 		if (groups[i].left(5) == "item:")
 		{
@@ -305,7 +305,7 @@ bool KileProject::save()
 	m_config->writeEntry("img_extIsRegExp", extIsRegExp(KileProjectItem::Image));
 
 	KileProjectItem *item;
-	for (uint i=0; i < m_projectitems.count(); i++)
+	for (uint i=0; i < m_projectitems.count(); ++i)
 	{
 		item = m_projectitems.at(i);
 		m_config->setGroup("item:"+item->path());
@@ -364,7 +364,7 @@ void KileProject::buildProjectTree()
 		if ( (*it)->getInfo() )
 		{
 			deps = (*it)->getInfo()->dependencies();
-			for (uint i=0; i < deps->count(); i++)
+			for (uint i=0; i < deps->count(); ++i)
 			{
 				url = m_baseurl;
 				url.addPath((*deps)[i]);
@@ -454,12 +454,12 @@ QString KileProject::findRelativePath(const KURL &url)
 	uint nDirs = dirs.count();
 	//uint nBaseDirs = basedirs.count();
 
-// 	for (uint i=0; i < basedirs.count(); i++)
+// 	for (uint i=0; i < basedirs.count(); ++i)
 // 	{
 // 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 // 	}
 
-// 	for (uint i=0; i < dirs.count(); i++)
+// 	for (uint i=0; i < dirs.count(); ++i)
 // 	{
 //  		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 // 	}
@@ -471,12 +471,12 @@ QString KileProject::findRelativePath(const KURL &url)
 	}
 
 // 	kdDebug() << "\tafter" << endl;
-// 	for (uint i=0; i < basedirs.count(); i++)
+// 	for (uint i=0; i < basedirs.count(); ++i)
 // 	{
 // 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 // 	}
 // 
-// 	for (uint i=0; i < dirs.count(); i++)
+// 	for (uint i=0; i < dirs.count(); ++i)
 // 	{
 // 		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 // 	}
@@ -487,7 +487,7 @@ QString KileProject::findRelativePath(const KURL &url)
 
 		if (basedirs.count() > 0)
 		{
-			for (uint j=0; j < basedirs.count(); j++)
+			for (uint j=0; j < basedirs.count(); ++j)
 			{
 				path = "../" + path;
 			}
@@ -509,7 +509,7 @@ QString KileProject::findRelativePath(const KURL &url)
 
 bool KileProject::contains(const KURL &url)
 {
-	for (uint i=0; i < m_projectitems.count(); i++)
+	for (uint i=0; i < m_projectitems.count(); ++i)
 	{
 		if ( m_projectitems.at(i)->url() == url )
 			return true;
@@ -553,7 +553,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 void KileProject::dump()
 {
 	kdDebug() << "KileProject::dump() " << m_name << endl;
-	for ( uint i=0; i < m_projectitems.count(); i++)
+	for ( uint i=0; i < m_projectitems.count(); ++i)
 		kdDebug() << "\titem " << i << " : "  << m_projectitems.at(i)->path() << endl;
 }
 

@@ -54,7 +54,7 @@ void OutputFilter::setSource(const QString &src)
 	m_srcPath = QFileInfo(src).dirPath();
 }
 
-bool OutputFilter::Run(QString logfile)
+bool OutputFilter::Run(const QString & logfile)
 {
 	short sCookie = 0;
 	QString s;
@@ -71,7 +71,7 @@ bool OutputFilter::Run(QString logfile)
 // 			kdDebug() << "line " << m_nOutputLines << endl;
 			s=t.readLine()+"\n";
 			sCookie = parseLine(s.stripWhiteSpace(), sCookie);
-			m_nOutputLines++;
+			++m_nOutputLines;
 
 			m_log += s;
 		}

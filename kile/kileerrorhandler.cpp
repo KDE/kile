@@ -65,7 +65,7 @@ void KileErrorHandler::ViewLog()
 
 	QString log = m_ki->outputFilter()->log();
 
-	if (log != QString::null)
+	if (!log.isNull())
 	{
 		m_ki->logWidget()->setText(log);
 		m_ki->logWidget()->highlight();
@@ -81,7 +81,7 @@ void KileErrorHandler::ViewLog()
 void KileErrorHandler::jumpToFirstError()
 {
 	int sz = m_ki->outputInfo()->size();
-	for (int i = 0; i < sz; i++ )
+	for (int i = 0; i < sz; ++i )
 	{
 		if ( (*m_ki->outputInfo())[i].type() == LatexOutputInfo::itmError )
 		{
@@ -97,7 +97,7 @@ void KileErrorHandler::jumpToProblem(OutputInfo *info)
 {
 	QString file = m_ki->getFullFromPrettyName(info->source());
 
-	if ( file != QString::null )
+	if ( !file.isNull() )
 	{
 		m_ki->docManager()->fileOpen(KURL::fromPathOrURL(file));
 		int line = info->sourceLine() > 0 ? (info->sourceLine() - 1) : 0;
@@ -146,7 +146,7 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 		bool found = false;
 
 		//look for next problem of requested type
-		for ( int i = 0; i < sz; i ++ )
+		for ( int i = 0; i < sz; ++i )
 		{
 			//always look at the whole outputInfo array, but start
 			//at the problem adjacent to the current error

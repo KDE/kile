@@ -135,7 +135,7 @@ namespace KileWidget
 		m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
 
 		QString state = m_map["state"];
-		if ( state == "" ) state = "Editor";
+		if ( state.isEmpty() ) state = "Editor";
 		m_configWidget->m_cbState->setCurrentText(state);
 
 		int index = m_classes.findIndex(m_map["class"]);
@@ -244,7 +244,7 @@ namespace KileWidget
 		{
 			m_manager->factory()->writeStdConfig();
 			QStringList tools = KileTool::toolList(m_config, true);
-			for ( uint i = 0; i < tools.count(); i++)
+			for ( uint i = 0; i < tools.count(); ++i)
 				switchTo(tools[i], false);
 				
 			switchTo(tools[0], false);
@@ -283,7 +283,7 @@ namespace KileWidget
 	void ToolConfig::switchConfig(const QString & cfg)
 	{
 		//kdDebug() << "==ToolConfig::switchConfig(const QString & cfg)==========" << endl;
-		for ( int i = 0; i < m_configWidget->m_cbConfig->count(); i++)
+		for ( int i = 0; i < m_configWidget->m_cbConfig->count(); ++i)
 		{
 			if ( m_configWidget->m_cbConfig->text(i) == cfg )
 				m_configWidget->m_cbConfig->setCurrentItem(i);
@@ -368,7 +368,7 @@ namespace KileWidget
 			m_configWidget->m_lstbTools->blockSignals(true);
 			updateToollist();
 			switchTo(toolName);
-			for ( uint i = 0; i < m_configWidget->m_lstbTools->count(); i++)
+			for ( uint i = 0; i < m_configWidget->m_lstbTools->count(); ++i)
 				if ( m_configWidget->m_lstbTools->text(i) == toolName )
 				{
 					m_configWidget->m_lstbTools->setCurrentItem(i);
@@ -384,7 +384,7 @@ namespace KileWidget
 		writeConfig();
 		bool ok;
 		QString cfg = KInputDialog::getText(i18n("New Configuration"), i18n("Enter new configuration name:"), "", &ok, this);
-		if (ok && cfg != "")
+		if (ok && (!cfg.isEmpty()))
 		{
 			//copy config
 			m_config->setGroup(KileTool::groupFor(m_current, cfg));
@@ -418,7 +418,7 @@ namespace KileWidget
 		{
 			KConfig *config = m_config;
 			QStringList cfgs = KileTool::configNames(m_current, config);
-			for ( uint i = 0; i < cfgs.count(); i++)
+			for ( uint i = 0; i < cfgs.count(); ++i)
 			{
 				config->deleteGroup(KileTool::groupFor(m_current, cfgs[i]));
 			}
@@ -484,7 +484,7 @@ namespace KileWidget
 	void ToolConfig::setState(const QString & state) 
 	{
 		QString str = state.stripWhiteSpace();
-		if ( str == "" ) str = "Editor";
+		if ( str .isEmpty() ) str = "Editor";
 		m_map["state"] = str;
 	}
 	void ToolConfig::setSequence(const QString & sequence) { m_map["sequence"] = sequence.stripWhiteSpace(); }

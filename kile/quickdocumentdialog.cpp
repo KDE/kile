@@ -451,7 +451,8 @@ void QuickDocument::readDocumentClassConfig()
 	                   KileConfig::optionsBeamer() );
 	
 	// init all user classes
-	for ( uint i=0; i<m_userClasslist.count(); i++ ) {
+	for ( uint i=0; i<m_userClasslist.count(); ++i ) 
+	{
 		kdDebug() << "\tinit user class: " << m_userClasslist[i] << endl;
 		QStringList list;
 		// read dour default entries for this user class
@@ -462,7 +463,7 @@ void QuickDocument::readDocumentClassConfig()
 		list.append( m_config->readEntry("selectedOptions") );
 		// now read all user defined options
 		QStringList options = QStringList::split(",", m_config->readEntry("options") );
-		for ( uint j=0; j<options.count(); j++ ) {
+		for ( uint j=0; j<options.count(); ++j ) {
 			list.append( options[j] + " => " + m_config->readEntry(options[j]) );
 		}
 			
@@ -487,7 +488,7 @@ void QuickDocument::fillDocumentClassCombobox()
 	
 	// set classes combobox (standard and user defined classes)
 	QStringList classlist = QStringList::split(",",stdUserClasses);
-	for ( uint i=0; i< m_userClasslist.count(); i++ ) 
+	for ( uint i=0; i< m_userClasslist.count(); ++i ) 
 		classlist.append( m_userClasslist[i] );
 	classlist.sort();
 	fillCombobox(m_cbDocumentClass,stdClasses + ","  + classlist.join(","),m_currentClass);
@@ -498,14 +499,14 @@ void QuickDocument::writeDocumentClassConfig()
 	kdDebug() << "\twrite config: document class" << endl;
 
 	// first delete all marked document classes
-	for ( uint i=0; i<m_deleteDocumentClasses.count(); i++ ) {
+	for ( uint i=0; i<m_deleteDocumentClasses.count(); ++i ) {
 		kdDebug() << "\tdelete class: " << m_deleteDocumentClasses[i] << endl;
 		m_config->deleteGroup( QString("QuickDocument/")+m_deleteDocumentClasses[i] );
 	}
 
 	// write document classes and encoding
 	QStringList userclasses;
-	for ( int i=0; i<m_cbDocumentClass->count(); i++) {
+	for ( int i=0; i<m_cbDocumentClass->count(); ++i) {
 		if ( !m_cbDocumentClass->text(i).isEmpty() && !isStandardClass(m_cbDocumentClass->text(i)) ) {
 			userclasses.append( m_cbDocumentClass->text(i) );
 		}
@@ -528,7 +529,7 @@ void QuickDocument::writeDocumentClassConfig()
 	
 	// write config of user packages
 	QRegExp reg("(\\S+)\\s+=>\\s+(.*)");
-	for ( uint i=0; i< userclasses.count(); i++ ) {
+	for ( uint i=0; i< userclasses.count(); ++i ) {
 		// get the stringlist with all information
 		kdDebug() << "\twrite user class: " << userclasses[i] << endl;
 		QStringList list = m_dictDocumentClasses[ userclasses[i] ];
@@ -542,7 +543,7 @@ void QuickDocument::writeDocumentClassConfig()
 		
 		// write user defined options
 		QString options;	
-		for ( uint j=qd_OptionsStart; j<list.count(); j++ ) {
+		for ( uint j=qd_OptionsStart; j<list.count(); ++j ) {
 			int pos = reg.search( list[j] );
 			if ( pos != -1 ) {
 				m_config->writeEntry( reg.cap(1),reg.cap(2) );
@@ -804,7 +805,7 @@ void QuickDocument::setDefaultClassOptions(const QString &defaultoptions)
 {
 	QStringList list = QStringList::split(",",defaultoptions);	
 	m_currentDefaultOptions.clear();
-	for ( uint i=0; i<list.count(); i++ ) {
+	for ( uint i=0; i<list.count(); ++i ) {
 		if ( ! list[i].isEmpty() )
 			m_currentDefaultOptions[ list[i] ] = true;
 	}
@@ -822,7 +823,7 @@ void QuickDocument::setSelectedClassOptions(const QString &selectedoptions)
 	m_currentPapersize = ( nlist >= 2 ) ? list[1] : "";
 	
 	m_currentSelectedOptions.clear();
-	for ( uint i=0; i<nlist; i++ ) {
+	for ( uint i=0; i<nlist; ++i ) {
 		if ( ! list[i].isEmpty() )
 			m_currentSelectedOptions[ list[i] ] = true;
 	}
@@ -837,7 +838,7 @@ void QuickDocument::setClassOptions(const QStringList &list, uint start)
 	QRegExp reg("(\\S+)\\s+=>\\s+(.*)");
 	
 	m_lvClassOptions->clear();
-	for (uint i=start; i<list.count(); i++) {
+	for (uint i=start; i<list.count(); ++i) {
 		int pos = reg.search( list[i] );
 		if ( pos != -1 ) {
 			QCheckListItem *cli = new QCheckListItem(m_lvClassOptions, reg.cap(1), QCheckListItem::CheckBox);
@@ -935,7 +936,7 @@ void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const 
 		list.sort();
 	
 	combo->clear();
-	for (uint i=0; i<list.count(); i++) {
+	for (uint i=0; i<list.count(); ++i) {
 		if ( !documentclasscombo &&  isDefaultClassOption(list[i]) ) 
 			combo->insertItem( QString(list[i]) + " [default]" );
 		else if ( list[i] != "-" ) 
@@ -958,12 +959,12 @@ bool QuickDocument::addComboboxEntries(KComboBox *combo, const QString &title,co
 {
 	// read current comboxbox entries
 	QStringList combolist;
-	for (int i=0; i<combo->count(); i++) 
+	for (int i=0; i<combo->count(); ++i) 
 		combolist += combo->text(i);
 		
 	// add new entries (one or a comma separated list)
 	QStringList list = QStringList::split(",",entry);
-	for ( uint i=0; i<list.count(); i++ ) {
+	for ( uint i=0; i<list.count(); ++i ) {
 		QString s = list[i].stripWhiteSpace();
 		// entries must match a regular expression
 		if ( combolist.findIndex(s) != -1 ) 
@@ -987,7 +988,7 @@ bool QuickDocument::addComboboxEntries(KComboBox *combo, const QString &title,co
 QString QuickDocument::getComboxboxList(KComboBox *combo)
 {
 	QStringList list;
-	for ( int i=0; i<combo->count(); i++ ) {
+	for ( int i=0; i<combo->count(); ++i ) {
 		list += combo->text(i);
 	}
 	
@@ -1096,7 +1097,7 @@ bool QuickDocument::readPackagesListview()
 	QRegExp reg("([^,]*),([^,]*),([^,]*),([^,]*),(.*)");
 		
 	m_config->setGroup( "QuickDocument/Packages" );
-	for ( QStringList::Iterator it=elements.begin(); it!=elements.end(); it++ ) {
+	for ( QStringList::Iterator it=elements.begin(); it!=elements.end(); ++it ) {
 		QCheckListItem *cli;
 		
 		// look, if this is a main or a child entry
@@ -1335,7 +1336,7 @@ void QuickDocument::initHyperref()
 	QStringList list = QStringList::split(",",driver);
 	
 	m_dictHyperrefDriver.clear();
-	for ( uint i=0; i<list.count(); i++ ) 
+	for ( uint i=0; i<list.count(); ++i ) 
 		m_dictHyperrefDriver[list[i]] = true;
 }
 
@@ -1348,7 +1349,7 @@ bool QuickDocument::isHyperrefDriver(const QString &name)
 
 bool QuickDocument::isDocumentClass(const QString &name)
 {
-	for ( int i=0; i<m_cbDocumentClass->count(); i++ ) {
+	for ( int i=0; i<m_cbDocumentClass->count(); ++i ) {
 		if ( m_cbDocumentClass->text(i) == name )
 			return true;
 	}
@@ -1587,7 +1588,7 @@ void QuickDocument::slotDocumentClassAdd()
 			// then add all baseclass options
 			QStringList optionlist;
 			initStandardOptions(list[5],optionlist);
-			for (uint i=0; i<optionlist.count(); i++) 
+			for (uint i=0; i<optionlist.count(); ++i) 
 				classlist.append(optionlist[i]);
 		}
 		
@@ -1639,7 +1640,7 @@ void QuickDocument::slotDocumentClassDelete()
 void QuickDocument::slotDocumentClassChanged(int index)  
 {
 	kdDebug() << "==QuickDocument::slotDocumentClassChanged()============" << endl;
-	if ( m_cbDocumentClass->text(index) == QString::null ) {
+	if ( m_cbDocumentClass->text(index).isNull() ) {
 		kdDebug() << "\tnull" << endl;
 		return;
 	}
@@ -2088,7 +2089,7 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int c
 
 	int firstlinedit = -1;
 	m_description = QStringList::split(",",list[1]);
-	for ( uint i=0; i<m_description.count(); i++ ) {
+	for ( uint i=0; i<m_description.count(); ++i ) {
 		// create the object
 		if ( m_description[i] == "label" ) {
 			m_objectlist.append( new QLabel(list[i+2],page) );
@@ -2127,7 +2128,7 @@ QuickDocumentInputDialog::~QuickDocumentInputDialog()
 
 void QuickDocumentInputDialog::getResults(QStringList &list)
 {
-	for ( uint i=0; i<m_description.count(); i++ ) {
+	for ( uint i=0; i<m_description.count(); ++i ) {
 		if ( m_description[i] == "label" ) {
 			list[i+2] = ((QLabel *)m_objectlist[i])->text(); 
 		} else if ( m_description[i] == "checkbox" ) {
@@ -2153,7 +2154,7 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 	// split entries (one or a comma separated list)
 	QStringList list = QStringList::split(",",textlist);
 	
-	for ( uint i=0; i<list.count(); i++ ) {
+	for ( uint i=0; i<list.count(); ++i ) {
 		QString s = list[i].stripWhiteSpace();
 		// entries must match a regular expression
 		QRegExp reg(pattern);

@@ -132,7 +132,7 @@ namespace KileDocument
 	                                )
 	{
 		QStringList wordlist;
-		for ( uint i = 0; i < files.count(); i++ )
+		for ( uint i = 0; i < files.count(); ++i )
 		{
 			// if checked, the wordlist has to be read
 			if ( files[ i ].at( 0 ) == '1' )
@@ -485,7 +485,7 @@ namespace KileDocument
 		QString s = "";
 
 		xpos = ypos = 0;
-		for ( uint i = 0; i < text.length(); i++ )
+		for ( uint i = 0; i < text.length(); ++i )
 		{
 			switch ( text[ i ] )
 			{
@@ -588,7 +588,7 @@ namespace KileDocument
 		const QChar *ch = text.unicode();
 		bool ignore = false;
 
-		for ( uint i = 0; i < text.length(); i++ )
+		for ( uint i = 0; i < text.length(); ++i )
 		{
 			switch ( *ch )
 			{
@@ -612,7 +612,7 @@ namespace KileDocument
 						s += *ch;
 					break;
 			}
-			ch++;
+			++ch;
 		}
 		return s;
 	}
@@ -650,7 +650,7 @@ namespace KileDocument
 
 		// build new entries: if the last 5 chars of an environment are '\item',
 		// it is a list environment, where the '\item' tag is also inserted
-		for ( uint i = 0; i < wordlist.count(); i++ )
+		for ( uint i = 0; i < wordlist.count(); ++i )
 		{
 			QString s = wordlist[ i ];
 			if ( s.left( 7 ) == "\\begin{" && s.right( 5 ) == "\\item" )
@@ -687,7 +687,7 @@ namespace KileDocument
 			{
 				*entry = ( *it ).text;
 				*type = ( *it ).type;
-				n++;
+				++n;
 			}
 		}
 
@@ -827,11 +827,11 @@ namespace KileDocument
 			ch = textline.at( index );
 
 			if ( ch.isLetter() || ( latexmode && ( index + 1 == ( int ) col ) && ch == '{' ) )
-				n++;                           // accept letters and '{' as first character in latexmode
+				++n;                           // accept letters and '{' as first character in latexmode
 			else
 			{
 				if ( latexmode && isBackslash( ch ) && oddBackslashes( textline, index ) )         // backslash?
-					n++;
+					++n;
 				break;                         // stop when a backslash was found
 			}
 		}
@@ -850,8 +850,8 @@ namespace KileDocument
 		uint n = 0;
 		while ( index >= 0 && isBackslash( text.at( index ) ) )
 		{
-			n++;
-			index--;
+			++n;
+			--index;
 		}
 		return ( n % 2 ) ? true : false;
 	}

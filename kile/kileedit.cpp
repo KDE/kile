@@ -85,7 +85,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	if ( !doc) return;
 
 	//whether or not to wrap tag around selection
-	bool wrap = (data.tagEnd != QString::null && doc->hasSelection());
+	bool wrap = ( (!data.tagEnd.isNull()) && doc->hasSelection());
 
 	//%C before or after the selection
 	bool before = data.tagBegin.contains("%C");
@@ -135,7 +135,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	{
 		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
 		if (wrap) n += para_end > para ? para_end-para : para-para_end;
-		for (int line = para_begin; line <= para_begin+n; line++)
+		for (int line = para_begin; line <= para_begin+n; ++line)
 		{
 			if (doc->textLine(line).contains("%C"))
 			{
@@ -171,7 +171,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 
 void EditorExtension::setEnvironment(const QStringList &list, QMap<QString,bool> &map)
 {
-	for (uint i=0; i<list.count(); i++)
+	for (uint i=0; i<list.count(); ++i)
 		map[list[i]] = true;
 }
 
@@ -397,7 +397,7 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 		envbegin.col += envbegin.len;
 		if ( envbegin.col >= (uint)doc->lineLength(envbegin.row) )
 		{
-		envbegin.row++;
+		++envbegin.row;
 		envbegin.col = 0;
 		}
 	}
@@ -407,7 +407,7 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 		// check last line
 		if ( envbegin.col==0 && envend.col==(uint)doc->lineLength(envend.row) )
 		{
-		envend.row++;
+		++envend.row;
 		envend.col = 0;
 		}
 	}
@@ -490,12 +490,12 @@ bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col
 		{
 			if ( m_reg.cap(1) == wrong_env )
 			{
-				envcount++;
+				++envcount;
 			}
 			else
 			{
 				if ( envcount > 0 )
-					envcount--;
+					--envcount;
 				else
 				{
 					env.name = m_reg.cap(2);
@@ -631,7 +631,7 @@ bool EditorExtension::isCommentPosition(Kate::Document *doc, uint row, uint col)
 	QString textline = doc->textLine(row);
 	
 	bool backslash = false;
-	for ( uint i=0; i<col; i++ )
+	for ( uint i=0; i<col; ++i )
 	{
 		if ( textline[i] == '%' )
 		{
@@ -658,7 +658,7 @@ bool EditorExtension::isValidBackslash(Kate::Document *doc, uint row, uint col)
 	QString textline = doc->textLine(row);
 	
 	bool backslash = false;
-	for ( uint i=0; i<col; i++ )
+	for ( uint i=0; i<col; ++i )
 	{
 		if ( textline[i] == '%' )
 		{
@@ -715,10 +715,10 @@ bool EditorExtension::increaseCursorPosition(Kate::Document *doc, uint &row, uin
 	bool ok = true;
 	
 	if ( (int)col < doc->lineLength(row)-1 )
-		col++;
+		++col;
 	else if ( row < doc->numLines() - 1 )
 	{
-		row++;
+		++row;
 		col=0;
 	}
 	else
@@ -732,10 +732,10 @@ bool EditorExtension::decreaseCursorPosition(Kate::Document *doc, uint &row, uin
 	bool ok = true;
 	
 	if (col > 0)
-		col--;
+		--col;
 	else if ( row > 0 )
 	{
-		row--;
+		--row;
 		col = doc->lineLength(row) - 1;
 	}
 	else
@@ -770,7 +770,7 @@ void EditorExtension::gotoTexgroup(bool backwards, Kate::View *view)
 		found = findCloseBracket(doc,row,col,bracket);
 		// go behind the bracket
 		if ( ! m_overwritemode )
-		bracket.col++;
+		++bracket.col;
 	}
 	
 	if ( found )
@@ -803,7 +803,7 @@ void EditorExtension::matchTexgroup(Kate::View *view)
 		found = findCloseBracketTag(doc,bracket.row,bracket.col+1,bracket);
 		// go behind the bracket
 		if ( ! m_overwritemode )
-		bracket.col++;
+		++bracket.col;
 	}
 	else
 	{
@@ -891,9 +891,9 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 	if ( !findCloseBracket(doc,row,col,close) ) { kdDebug() << "no close bracket" << endl; return false;}
 	
 	if ( inside )
-		open.col++;
+		++open.col;
 	else
-		close.col++;
+		++close.col;
 
 	return true;
 }
@@ -983,7 +983,7 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 	else if ( left == '}' )
 	{
 		bracket.open = false;
-		bracket.col--;
+		--bracket.col;
 	}
 	else if ( right == '{' )
 	{
@@ -992,7 +992,7 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 	else if ( left == '{' )
 	{
 		bracket.open = true;
-		bracket.col--;
+		--bracket.col;
 	}
 	else if ( right == '}' )
 	{
@@ -1009,20 +1009,20 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 bool EditorExtension::findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket)
 {
 	uint brackets = 0;
-	for ( uint line=row; line<doc->numLines(); line++ )
+	for ( uint line=row; line<doc->numLines(); ++line )
 	{
 		uint start = ( line == row ) ? col : 0;
 		QString textline = getTextLineReal(doc,line);
-		for ( uint i=start; i<textline.length(); i++ )
+		for ( uint i=start; i<textline.length(); ++i )
 		{
 		if ( textline[i] == '{' )
 		{
-			brackets++;
+			++brackets;
 		}
 		else if ( textline[i] == '}' )
 		{
 			if ( brackets > 0 )
-			brackets--;
+				--brackets;
 			else
 			{
 			bracket.row = line;
@@ -1042,17 +1042,17 @@ bool EditorExtension::findCloseBracketTag(Kate::Document *doc, uint row, uint co
 bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	uint brackets = 0;
-	for ( int line=row; line>=0; line-- )
+	for ( int line=row; line>=0; --line )
 	{
 		QString textline = getTextLineReal(doc,line);
 		int start = ( line == (int)row ) ? col : textline.length()-1;
-		for ( int i=start; i>=0; i-- )
+		for ( int i=start; i>=0; --i )
 		{
 			kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
 			if ( textline[i] == '{' )
 			{
 				if ( brackets > 0 )
-					brackets--;
+					--brackets;
 				else
 				{
 					bracket.row = line;
@@ -1063,7 +1063,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 			}
 			else if ( textline[i] == '}' )
 			{
-				brackets++;
+				++brackets;
 			}
 		}
 	}
@@ -1089,7 +1089,7 @@ QString EditorExtension::getTextLineReal(Kate::Document *doc, uint row)
 		return QString::null;
 	
 	bool backslash = false;
-	for (uint i=0; i<len; i++ )
+	for (uint i=0; i<len; ++i )
 	{
 		if ( textline[i]=='{' ||textline[i]=='}' )
 		{
@@ -1242,7 +1242,7 @@ void EditorExtension::stringSelection(bool insert, Kate::View *view)
 	if ( !view ) return;
 	bool ok;
 	QString text = KInputDialog::getText(i18n("Insert Text"), i18n("Please enter the text to insert:"),"", &ok, view);
-	if ( ok && text != "")
+	if ( ok && (!text.isEmpty()))
 	{
 		moveSelection(text, insert, view);
 	}
@@ -1288,7 +1288,7 @@ void EditorExtension::moveSelection(const QString &prefix,bool insertmode, Kate:
 	int changecol1 = 0;
 	int changecol2 = 0;
 	int change = ( insertmode ) ? prefixlen : -prefixlen;
-	for (uint line=row1; line<=row2; line++)
+	for (uint line=row1; line<=row2; ++line)
 	{
 		bool action = true;
 		if ( insertmode )
@@ -1321,7 +1321,7 @@ void EditorExtension::moveSelection(const QString &prefix,bool insertmode, Kate:
 			col1 += changecol1;
 		if ( row > row2 )
 		{
-			row2++;
+			++row2;
 			col2 = 0;
 		}
 		else
@@ -1361,9 +1361,9 @@ void EditorExtension::deleteParagraph(Kate::View *view)
 		Kate::Document *doc = view->getDoc();
 		doc->clearSelection();
 		if ( startline > 0 )
-		startline--;
+		--startline;
 		else if ( endline < doc->numLines()-1 )
-		endline++;
+		++endline;
 		doc->removeText(startline,0,endline+1,0);
 		view->setCursorPosition(startline,0);
 	}
@@ -1391,7 +1391,7 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	endline = row;
 	
 	// find the previous empty line
-	for ( int line=row-1; line>=0; line-- )
+	for ( int line=row-1; line>=0; --line )
 	{
 		if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
 		break;
@@ -1399,7 +1399,7 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	}
 	
 	// find the next empty line
-	for ( uint line=row+1; line<doc->numLines(); line++ )
+	for ( uint line=row+1; line<doc->numLines(); ++line )
 	{
 		if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
 		break;

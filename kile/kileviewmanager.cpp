@@ -317,7 +317,7 @@ void Manager::convertSelectionToLaTeX(void)
 	newSelEndCol = selStartCol + firstLineCvt.length();
 
 	// Processing the intermediate lines
-	for(uint nLine = selStartLine + 1 ; nLine < selEndLine ; nLine++) {
+	for(uint nLine = selStartLine + 1 ; nLine < selEndLine ; ++nLine) {
 		QString line = doc->textLine(nLine);
 		QString newLine = cvt.ConvertToLaTeX(line);
 		doc->removeLine(nLine);

@@ -184,7 +184,7 @@ void Info::count(const QString line, long *stat)
 	int state = stStandard;
 	bool word = false;
 
-	for (uint p=0; p < line.length(); p++)
+	for (uint p=0; p < line.length(); ++p)
 	{
 		c = line[p];
 
@@ -195,8 +195,8 @@ void Info::count(const QString line, long *stat)
 			{
 				case TEX_CAT0	:
 					state = stControlSequence;
-					stat[1]++;
-					stat[4]++;
+					++stat[1];
+					++stat[4];
 
 					//look ahead to avoid counting words like K\"ahler as two words
 					if (! line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )
@@ -215,14 +215,14 @@ void Info::count(const QString line, long *stat)
 						if (c.isLetter() && !word)
 						{
 							word=true;
-							stat[3]++;
+							++stat[3];
 						}
 
-						stat[0]++;
+						++stat[0];
 					}
 					else
 					{
-						stat[2]++;
+						++stat[2];
 						word = false;
 					}
 
@@ -233,19 +233,19 @@ void Info::count(const QString line, long *stat)
 		case stControlSequence	:
 			if ( c.isLetter() )	state = stCommand;
 			else state = stStandard;
-			stat[1]++;
+			++stat[1];
 		break;
 
 		case stCommand :
-			if ( c.isLetter() ) { stat[1]++; }
-			else if ( c == TEX_CAT0 ) stat[4]++;
+			if ( c.isLetter() ) { ++stat[1]; }
+			else if ( c == TEX_CAT0 ) ++stat[4];
 			else if ( c == TEX_CAT14 )
 			{
 				p=line.length();
 			}
 			else
 			{
-				stat[2]++;
+				++stat[2];
 				state = stStandard;
 			}
 		break;
@@ -273,13 +273,13 @@ void Info::cleanTempFiles(const QStringList &extlist )
 	QString baseName = fic.baseName(true);
 
 	QStringList fileList;
-	for (uint i=0; i< extlist.count(); i++)
+	for (uint i=0; i< extlist.count(); ++i)
 	{
 		fileList.append(baseName+extlist[i]);
 	}
 
 	QString path = url().directory(false);
-	for (uint i=0; i < fileList.count(); i++)
+	for (uint i=0; i < fileList.count(); ++i)
 	{
 		QFile file( path + fileList[i] );
 		kdDebug() << "About to remove file = " << file.name() << endl;
@@ -297,7 +297,7 @@ QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 	if ( list == 0L ) list = &m_deps;
 
 	kdDebug() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
-	for ( uint i = 0; i < list->count(); i++ )
+	for ( uint i = 0; i < list->count(); ++i )
 	{
 		fileinfo.setFile( basepath + "/" + (*list)[i] );
 		kdDebug() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
@@ -324,26 +324,26 @@ QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 
 	QString line, grab = "";
 	int count=0, len;
-	pos++;
+	++pos;
 
 	while ( l <= m_doc->numLines() )
 	{
 		line = m_doc->textLine(l);
 		len = line.length();
-		for (int i=pos; i < len; i++)
+		for (int i=pos; i < len; ++i)
 		{
-			if (line[i] == '\\' && ( line[i+1] == obracket || line[i+1] == cbracket) ) i++;
-			else if (line[i] == obracket) count++;
+			if (line[i] == '\\' && ( line[i+1] == obracket || line[i+1] == cbracket) ) ++i;
+			else if (line[i] == obracket) ++count;
 			else if (line[i] == cbracket)
 			{
-				count--;
+				--count;
 				if (count < 0)
 					return grab;
 			}
 
 			grab += line[i];
 		}
-		l++;
+		++l;
 		pos=0;
 	}
 
@@ -380,7 +380,7 @@ const long* TeXInfo::getStatistics()
 		count(line, m_arStatistics);
 	}
 	else if (m_doc)
-	for (uint l=0; l < m_doc->numLines(); l++)
+	for (uint l=0; l < m_doc->numLines(); ++l)
 	{
 		line = m_doc->textLine(l);
 		kdDebug() << "getStat : line : " << line << endl;
@@ -407,7 +407,7 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 			else
 			{
 				pos = 0;
-				l++;
+				++l;
 			}
 		}
 	}
@@ -442,7 +442,7 @@ void TeXInfo::updateStruct()
 	bool foundBD = false; // found \begin { document }
 	bool fire = true; //whether or not we should emit a foundItem signal
 
-	for(uint i = 0; i < m_doc->numLines(); i++)
+	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
 		tagStart=tagEnd=0;
 		s=m_doc->textLine(i);
@@ -454,7 +454,7 @@ void TeXInfo::updateStruct()
 			kapp->processEvents();
 		}
 		else
-			teller++;
+			++teller;
 
 		//remove escaped \ characters
 		s.replace("\\\\", "  ");
@@ -507,7 +507,7 @@ void TeXInfo::updateStruct()
 				}
 
 				//title (or label) found, add the element to the listview
-				if (m != QString::null)
+				if (!m.isNull())
 				{
 
 					//update the dependencies
@@ -525,7 +525,7 @@ void TeXInfo::updateStruct()
 						kdDebug() << "\tappending Bibiliograph file " << m << endl;
 						QStringList bibs = QStringList::split(",", m);
 						uint cumlen = 0;
-						for (uint b = 0; b < bibs.count(); b++)
+						for (uint b = 0; b < bibs.count(); ++b)
 						{
 							m_bibliography.append(bibs[b]);
 							m_deps.append(bibs[b] + ".bib");
@@ -551,7 +551,7 @@ void TeXInfo::updateStruct()
 					{
 						QStringList pckgs = QStringList::split(",", m);
 						uint cumlen = 0;
-						for (uint p = 0; p < pckgs.count(); p++)
+						for (uint p = 0; p < pckgs.count(); ++p)
 						{
 							m_packages.append(pckgs[p]);
 							emit(foundItem(pckgs[p], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
@@ -570,7 +570,7 @@ void TeXInfo::updateStruct()
 							int noo = reNumOfParams.cap(1).toInt(&ok);
 							if ( ok )
 							{
-								for ( int noo_index = 0; noo_index < noo; noo_index++)
+								for ( int noo_index = 0; noo_index < noo; ++noo_index)
 									m +=  "{" + s_bullet + "}";
 							}
 						}
@@ -579,7 +579,7 @@ void TeXInfo::updateStruct()
 						continue;
 					}
 
-					if ( ((*it).type == KileStruct::Sect) && (shorthand != QString::null) )
+					if ( ((*it).type == KileStruct::Sect) && (!shorthand.isNull()) )
 						m = shorthand;
 
 					kdDebug() << "emitting foundItem " << m << endl;
@@ -607,7 +607,7 @@ void BibInfo::updateStruct()
 	QString s, key;
 	int col = 0, startcol, startline = 0;
 
-	for(uint i = 0; i < m_doc->numLines(); i++)
+	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
 		s = m_doc->textLine(i);
 		if ( (s.find(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).lower()) )
@@ -622,12 +622,12 @@ void BibInfo::updateStruct()
 
 			while ( col <  static_cast<int>(s.length()) )
 			{
-				col++;
+				++col;
 				if ( col == static_cast<int>(s.length()) )
 				{
 					do
 					{
-						i++;
+						++i;
 						s = m_doc->textLine(i);
 					} while  ( (s.length() == 0) && (i < m_doc->numLines()) );
 

@@ -103,7 +103,7 @@ namespace KileTool
 		if ( docinfo )
 		{
 			const QStringList *pckgs = docinfo->packages();
-			for ( uint i = 0; i < pckgs->count(); i++)
+			for ( uint i = 0; i < pckgs->count(); ++i)
 				if ( (*pckgs->at(i)) == "makeidx" )
 					return needsUpdate ( baseDir() + "/" + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
 		}
@@ -144,7 +144,7 @@ namespace KileTool
 			if ( (m_reRun < 1) && (nErrors == 0) && (nWarnings > 0) )
 			{
 				int sz =  manager()->info()->outputInfo()->size();
-				for (int i = 0; i < sz; i++ )
+				for (int i = 0; i < sz; ++i )
 				{
 					if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
 					&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun") )
@@ -155,7 +155,7 @@ namespace KileTool
 				}
 			}
 
-			if ( reRan ) m_reRun++;
+			if ( reRan ) ++m_reRun;
 			else m_reRun = 0;
 
 			bool bibs = updateBibs();
@@ -265,26 +265,26 @@ endl;
 
 	bool ViewHTML::determineTarget()
 	{
-		if (target() == QString::null)
+		if (target().isNull())
 		{
 			//setRelativeBaseDir(S());
 			QString dir = readEntry("relDir");
 			QString trg = readEntry("target");
 
-			if ( dir != "")
+			if ( !dir.isEmpty() )
 			{
 				translate(dir);
 				setRelativeBaseDir(dir);
 			}
 
-			if ( trg != "" )
+			if ( !trg.isEmpty() )
 			{
 				translate(trg);
 				setTarget(trg);
 			}
 
 			//auto-detect the file to view
-			if ( dir == "" && trg == "" )
+			if ( dir.isEmpty() && trg.isEmpty() )
 			{
 				QFileInfo file1 = QFileInfo(baseDir() + "/" + S() + "/index.html");
 				QFileInfo file2 = QFileInfo(baseDir() + "/" + S() + ".html");

@@ -16,6 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef KILESTDACTIONS_H
+#define KILESTDACTIONS_H
 class KAction;
 class KMainWindow;
 
@@ -25,3 +27,5 @@ namespace KileStdActions
 	void setupBibTags(KMainWindow *parent);
 	void setupMathTags(KMainWindow *parent);
 }
+
+#endif

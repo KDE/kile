@@ -58,7 +58,7 @@ namespace KileDialog
 		
 		// insert items into listview
 		QString base = QFileInfo(filename).baseName(true);
-		for (uint i=0; i <  m_extlist.count(); i++)
+		for (uint i=0; i <  m_extlist.count(); ++i)
 		{
 			QCheckListItem *item = new QCheckListItem(listview, base + m_extlist[i], QCheckListItem::CheckBox);
 			item->setOn(true);
@@ -86,7 +86,7 @@ namespace KileDialog
 				templist.append(m_extlist[i]);
 
 			item = (QCheckListItem *)item->nextSibling();
-			i--;
+			--i;
 		}
 
 		m_extlist = templist;

@@ -174,7 +174,7 @@ void ConfigCodeCompletion::setListviewEntries(KListView *listview, const QString
    // Daten aus der Konfigurationsliste in das ListView-Widget eintragen
    listview->setUpdatesEnabled(false);
    listview->clear();
-   for (uint i=0; i<files.count(); i++) {
+   for (uint i=0; i<files.count(); ++i) {
       QString s = files[i];
       QCheckListItem *item = new QCheckListItem(listview,s.right(s.length()-2),QCheckListItem::CheckBox);
       item->setOn( s.at(0) == '1' ? true : false );
@@ -215,7 +215,7 @@ bool ConfigCodeCompletion::getListviewEntries(KListView *listview, QStringList &
 
       // go on
       item = (QCheckListItem *)item->nextSibling();
-      index++;
+      ++index;
    }
 
    // only update if there are changes

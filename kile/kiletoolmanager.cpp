@@ -303,7 +303,7 @@ namespace KileTool
 			}
 		}
 
-		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (m_queue.cfg() != QString::null) )
+		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isNull()) )
 			return groupFor(name, m_queue.cfg());
 		else
 			return groupFor(name, m_config);
@@ -349,7 +349,7 @@ namespace KileTool
 		m_config->setGroup(group);
 
 		Config::Iterator it;
-		for ( it = map.begin() ; it != map.end(); it ++)
+		for ( it = map.begin() ; it != map.end(); ++it)
 		{
 			m_config->writeEntry(it.key(), it.data());
 		}
@@ -386,7 +386,7 @@ namespace KileTool
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
 
-		for ( uint i = 0; i < groups.count(); i++ )
+		for ( uint i = 0; i < groups.count(); ++i )
 		{
 			if ( re.exactMatch(groups[i]) )
 			{
@@ -444,7 +444,7 @@ namespace KileTool
 
 	QString format(const QString & tool, const QString &cfg)
 	{
-		if (cfg != QString::null)
+		if (!cfg.isNull())
 			return tool+"("+cfg+")";
 		else
 			return tool;
@@ -455,7 +455,7 @@ namespace KileTool
 		QStringList groups = config->groupList(), configs;
 		QRegExp re = QRegExp("Tool/"+ tool +"/(.+)");
 
-		for ( uint i = 0; i < groups.count(); i++ )
+		for ( uint i = 0; i < groups.count(); ++i )
 		{
 			if ( re.exactMatch(groups[i]) )
 			{

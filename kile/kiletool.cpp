@@ -76,7 +76,7 @@ namespace KileTool
 
 	const QString Base::source(bool absolute /* = true */) const
 	{
-		if (m_source == QString::null)
+		if (m_source.isNull())
 			return QString::null;
 
 		QString src = m_source;
@@ -86,7 +86,7 @@ namespace KileTool
 		return src;
 	}
 	
-	void Base::setMsg(long n, QString msg)
+	void Base::setMsg(long n, const QString & msg)
 	{
 		m_messages[n] = msg;
 	}
@@ -192,7 +192,7 @@ namespace KileTool
 
 		//the basedir is determined from the current compile target
 		//determined by getCompileName()
-		if ( src == QString::null) src = m_ki->getCompileName();
+		if (src.isNull()) src = m_ki->getCompileName();
 
 		setSource(src);
 
@@ -203,13 +203,13 @@ namespace KileTool
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if ( (m_source == QString::null) && (m_manager->info()->activeDocument() == 0L)  )
+		if ( (m_source.isNull()) && (m_manager->info()->activeDocument() == 0L)  )
 		{ 
 			sendMessage(Error, msg(NeedActiveDoc).arg(name()));
 			return false;
 		}
 
-		if ( (m_source == QString::null) && (m_manager->info()->activeDocument() != 0L) )
+		if ( (m_source.isNull()) && (m_manager->info()->activeDocument() != 0L) )
 		{
 			//couldn't find a source file, huh?
 			//we know there is an active document, the only reason is could have failed is because
@@ -247,7 +247,7 @@ namespace KileTool
 
 		QFileInfo info(source);
 		
-		if (m_from != QString::null)
+		if (!m_from.isNull())
 		{
 			QString src = source;
 			if ( (m_from.length() > 0) && (info.extension(false).length() > 0) )
@@ -277,10 +277,10 @@ namespace KileTool
 		m_to = readEntry("to");
 		
 		//if the target is not set previously, use the source filename
-		if (m_target == QString::null)
+		if (m_target.isNull())
 		{
 			//test for explicit override
-			if ( readEntry("target") != "" )
+			if ( !readEntry("target").isEmpty() )
 			{
 				kdDebug() << "USING target SETTING" << endl;
 				m_target = readEntry("target");
@@ -291,7 +291,7 @@ namespace KileTool
 				m_target = source(false);
 		}
 
-		if ( m_relativedir == QString::null && readEntry("relDir") != "" )
+		if ( m_relativedir.isNull() && (!readEntry("relDir").isEmpty()) )
 		{
 			m_relativedir = readEntry("relDir");
 		}
@@ -584,7 +584,7 @@ sourceinfo.lastModified()) << endl;
 		QStringList tools = QStringList::split(',',readEntry("sequence"));
 		QString tl, cfg;
 		Base *tool;
-		for (uint i=0; i < tools.count(); i++)
+		for (uint i=0; i < tools.count(); ++i)
 		{
 			tools[i] = tools[i].stripWhiteSpace();
 			extract(tools[i], tl, cfg);

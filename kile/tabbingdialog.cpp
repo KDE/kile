@@ -76,17 +76,17 @@ namespace KileDialog
 		
 		m_td.tagBegin = "\\begin{tabbing}\n";
 
-		for ( int j=1; j<x ; j++) m_td.tagBegin += "\\hspace{"+s+"}\\=";
+		for ( int j=1; j<x ; ++j) m_td.tagBegin += "\\hspace{"+s+"}\\=";
 
 		m_td.tagBegin += "\\kill\n";
 
-		for ( int i=0;i<y-1;i++)
+		for ( int i=0;i<y-1;++i)
 		{
-			for ( int j=1;j<x;j++) m_td.tagBegin +=" \\> ";
+			for ( int j=1;j<x;++j) m_td.tagBegin +=" \\> ";
 			m_td.tagBegin += "\\\\ \n";
 		}
 
-		for ( int j=1;j<x;j++)  m_td.tagBegin += " \\> ";
+		for ( int j=1;j<x;++j)  m_td.tagBegin += " \\> ";
 
 		m_td.tagEnd = "\n\\end{tabbing}";
 		m_td.dy=1;

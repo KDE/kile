@@ -23,7 +23,7 @@
 
 /**Class for output-information of third program (e.g. Latex-Output, C-Compiler output)
 
-@author Thorsten Lück
+@author Thorsten Lck
   *@author Jeroen Wijnhout
   */
 
@@ -33,13 +33,13 @@ class OutputInfo
 {
     public:
         OutputInfo();
-        OutputInfo(QString strSrcFile, int nSrcLine, int nOutputLine, QString strError="", int nErrorID=-1);
+        OutputInfo(const QString & strSrcFile, int nSrcLine, int nOutputLine, const QString & strError ="", int nErrorID=-1);
 
 	public:
 		/** Source file where error occured. */
 		QString source() const { return m_strSrcFile; }
 		/** Source file where error occured. */
-		void setSource(QString src) { m_strSrcFile = src; }
+		void setSource(const QString & src) { m_strSrcFile = src; }
 
 		/** Line number in source file of the current message */
 		int sourceLine() const { return m_nSrcLine; }
@@ -49,7 +49,7 @@ class OutputInfo
 		/** Error message */
 		QString message() const { return m_strError; }
 		/** Error message */
-		void setMessage(QString message) { m_strError = message; }
+		void setMessage(const QString & message) { m_strError = message; }
 
 		/** Error code */
 		int type() const { return m_nErrorID; }
@@ -74,7 +74,7 @@ private:
 
 /**Array of OutputInfo
 
-@author Thorsten Lück
+@author Thorsten Lck
 */
 typedef QValueList<OutputInfo> OutputInfoArray;
 #endif

@@ -75,7 +75,7 @@ namespace KileWidget
 			QString finame;
 			KURL url = view->getDoc()->url();
 
-			if ( url.path() == "" || url.path() == i18n("Untitled") ) return;
+			if ( url.path().isEmpty() || url.path() == i18n("Untitled") ) return;
 
 			QFileInfo fic(url.directory());
 			if ( fic.isReadable() )

@@ -48,7 +48,7 @@ public:
    TemplateListIterator at(int i) { return m_TemplateList.at(i);}
 
    //find the template with name name
-   TemplateListIterator find(QString name);
+   TemplateListIterator find(const QString & name);
 
    //add a template in $HOME/kile/templates/
    bool add(TemplateInfo ti);

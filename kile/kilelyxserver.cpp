@@ -86,7 +86,7 @@ bool KileLyxServer::openPipes()
 	QFileInfo info;
 	QFile *file;
 
-	for (uint i=0; i < m_pipes.count(); i++)
+	for (uint i=0; i < m_pipes.count(); ++i)
 	{
 		info.setFile(m_pipes[i]);
 		if ( ! info.exists() )
@@ -140,7 +140,7 @@ void KileLyxServer::stop()
 
 void KileLyxServer::removePipes()
 {
- 	for ( uint i = 0; i < m_pipes.count(); i++) 
+ 	for ( uint i = 0; i < m_pipes.count(); ++i) 
 		QFile::remove(m_pipes[i]);
 }
 
@@ -166,7 +166,7 @@ void KileLyxServer::receive(int fd)
  		{
   			buffer[bytesRead] = '\0'; // turn it into a c string
             QStringList cmds = QStringList::split('\n', QString(buffer).stripWhiteSpace());
-			for ( uint i = 0; i < cmds.count(); i++ )
+			for ( uint i = 0; i < cmds.count(); ++i )
 				processLine(cmds[i]);
 		}
  	}

@@ -129,12 +129,12 @@ namespace KileDialog
 		if  ( m_cbAlign->currentItem() == 3 ) al = "p{}" + vs;
 
 		m_td.tagBegin = "\\begin{tabular}{" + vs;
-		for ( int j=0; j<x; j++) m_td.tagBegin += al;
+		for ( int j=0; j<x; ++j) m_td.tagBegin += al;
 		m_td.tagBegin += "}\n";
 
-		for ( int i=0; i < y; i++) 
+		for ( int i=0; i < y; ++i) 
 		{
-			for ( int j = 0; j<x-1; j++)
+			for ( int j = 0; j<x-1; ++j)
 			{
 				m_td.tagBegin += m_table->text(i,j)+ " & ";
 				m_td.tagBegin += m_table->text(i,x-1)+ " \\\\";
@@ -154,7 +154,7 @@ namespace KileDialog
 		if ( value < m_rows ) {         // problems may only happen when decreasing
 			int testvalue = value;
 			value = m_rows;
-			for ( int row=m_rows; row>=testvalue; row-- ) {
+			for ( int row=m_rows; row>=testvalue; --row ) {
 				if ( isTableRowEmpty(row) )
 					value = row;
 				else
@@ -173,7 +173,7 @@ namespace KileDialog
 		if ( value < m_cols ) {            // problems may only happen when decreasing
 			int testvalue = value;
 			value = m_cols;
-			for ( int col=m_cols; col>=testvalue; col-- ) {
+			for ( int col=m_cols; col>=testvalue; --col ) {
 				if ( isTableColEmpty(col) )
 					value = col;
 				else
@@ -189,7 +189,7 @@ namespace KileDialog
 	
 	bool QuickTabular::isTableRowEmpty(int row)
 	{
-		for ( int col=0; col<m_cols; col++ ) {
+		for ( int col=0; col<m_cols; ++col ) {
 			if ( ! m_table->text(row,col).stripWhiteSpace().isEmpty() )
 				return false;
 		}
@@ -198,7 +198,7 @@ namespace KileDialog
 	
 	bool QuickTabular::isTableColEmpty(int col)
 	{
-		for ( int row=0; row<m_rows; row++ ) {
+		for ( int row=0; row<m_rows; ++row ) {
 			if ( ! m_table->text(row,col).stripWhiteSpace().isEmpty() )
 				return false;
 		}

@@ -104,7 +104,7 @@ void KileSpell::slotMisspelling (const QString & originalword, int pos)
 	while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
 	{
 		cnt+=view->getDoc()->lineLength(l)+1;
-		l++;
+		++l;
 	}
 
 	col=p-cnt;
@@ -128,7 +128,7 @@ void KileSpell::slotCorrected (const QString & originalword, int pos, const QStr
 		while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
 		{
 			cnt+=view->getDoc()->lineLength(l)+1;
-			l++;
+			++l;
 		}
 
 		col=p-cnt;

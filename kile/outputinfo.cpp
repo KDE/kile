@@ -23,8 +23,8 @@ OutputInfo::OutputInfo()
 }
 
 
-OutputInfo::OutputInfo(QString strSrcFile, int nSrcLine, int nOutputLine,
-QString strError , int nErrorID /*=-1*/) :
+OutputInfo::OutputInfo(const QString & strSrcFile, int nSrcLine, int nOutputLine,
+const QString & strError , int nErrorID /*=-1*/) :
     m_strSrcFile(strSrcFile),
     m_nSrcLine(nSrcLine),
     m_strError(strError),

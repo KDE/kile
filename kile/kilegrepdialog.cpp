@@ -303,9 +303,12 @@ void KileGrepDialog::slotSearch()
 	QStringList tokens = QStringList::split ( ",", files_temp, FALSE );
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end())
-	files = " '"+(*it++)+"'" ;
+	{
+		files = " '"+(*it)+"'" ;
+		++it;
+	}
 
-	for ( ; it != tokens.end(); it++ )
+	for ( ; it != tokens.end(); ++it )
 	files = files + " -o -name " + "'"+(*it)+ "'";
 
 	QString pattern = template_edit->text();
@@ -447,7 +450,7 @@ void KileGrepDialog::setFilter(const QString &filter)
 {
 	filter_list.clear();
 	filter_combo->clear();
-	if ( (filter != "") )
+	if ( !filter.isEmpty() )
 	{
 		QStringList filter_lst = QStringList::split("\n", filter);
 		for (QStringList::Iterator it = filter_lst.begin();

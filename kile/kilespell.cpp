@@ -120,7 +120,7 @@ void KileSpell::misspelling (const QString & originalword, const QStringList & /
 	while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
 	{
 		cnt+=view->getDoc()->lineLength(l)+1;
-		l++;
+		++l;
 	}
 
 	col=p-cnt;
@@ -144,7 +144,7 @@ void KileSpell::corrected (const QString & originalword, const QString & newword
 		while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
 		{
 			cnt+=view->getDoc()->lineLength(l)+1;
-			l++;
+			++l;
 		}
 
 		col=p-cnt;
@@ -156,7 +156,7 @@ void KileSpell::corrected (const QString & originalword, const QString & newword
 	}
 
 	view->getDoc()->clearSelection();
-	ks_corrected++;
+	++ks_corrected;
 }
 
 #include "kilespell.moc"

@@ -35,7 +35,7 @@ public slots:
 	void home();
 	void forward();
 	void back();
-	void addToHistory( QString url );
+	void addToHistory( const QString & url );
 
 signals:
 	void updateStatus( bool back, bool forward );

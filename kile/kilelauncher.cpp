@@ -84,13 +84,13 @@
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
-		if ( m_cmd == QString::null ) 
+		if ( m_cmd.isNull() ) 
 			m_cmd = tool()->readEntry("command");
 
-		if ( m_options == QString::null )
+		if ( m_options.isNull() )
 			m_options = tool()->readEntry("options");
 		
-		if ( m_changeTo && (m_wd != QString::null ) )
+		if ( m_changeTo && (!m_wd.isNull()) )
 		{
 			m_proc->setWorkingDirectory(m_wd);
 			out += QString("*****     cd '")+ m_wd +QString("'\n");
@@ -116,7 +116,7 @@
 			 
 			emit(message(Info,msg));
 
-			if (KileConfig::teXPaths() != "")
+			if (!KileConfig::teXPaths().isEmpty())
 				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(KileConfig::teXPaths() + ":$TEXINPUTS"));
 
 			out += "*****\n";
@@ -150,7 +150,7 @@
 		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
 		QString path = KGlobal::dirs()->findExe(exe, QString::null, true);
 
-		if ( path == QString::null )
+		if ( path.isNull() )
 		{
 			emit(message(Error, i18n("There is no executable named \"%1\" in your path.").arg(exe)));
 			return false;
@@ -221,7 +221,7 @@
 		setCommand("konsole");
 		setOptions(noclose + " -T \"" + cmd + " (Kile)\" -e " + cmd + " " + tool()->readEntry("options"));
 
-		if ( KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)) == QString::null ) return false;
+		if ( KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)).isNull() ) return false;
 
 		return ProcessLauncher::launch();
 	}

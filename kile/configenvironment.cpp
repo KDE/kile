@@ -131,7 +131,7 @@ void ConfigEnvironment::fillListbox(const QMap<QString,bool> *map)
 
 void ConfigEnvironment::setEnvironments(const QStringList &list, QMap<QString,bool> &map)
 {
-	for (uint i=0; i<list.count(); i++)
+	for (uint i=0; i<list.count(); ++i)
 	map[list[i]] = true;
 }
 
@@ -166,7 +166,7 @@ void ConfigEnvironment::clickedAdd()
 {
 	bool ok;
 	QString envname = KInputDialog::getText(i18n("New Environment"), i18n("Please enter the name of the new environment:"), "", &ok, this).stripWhiteSpace();
-	if (ok && envname != QString::null)
+	if (ok && (!envname.isNull()))
 	{
 		QMap<QString,bool> *map = getDictionary();
 		if ( !envname.isEmpty() ) 

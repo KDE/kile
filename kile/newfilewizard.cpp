@@ -52,7 +52,7 @@ NewFileWidget::NewFileWidget(QWidget *parent , char *name) : KIconView(parent,na
    TemplateItem * emp = new TemplateItem( this, info);
 
    Templates templ;
-    for (int i=0; i< templ.count(); i++)
+    for (int i=0; i< templ.count(); ++i)
     {
       new TemplateItem(this, *templ.at(i));
     }

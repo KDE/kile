@@ -125,7 +125,7 @@ void KileProjectDlgBase::setProject(KileProject *project, bool override)
 	if ((!override) || (project == 0))
 		return;
 
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++) {
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 		m_val_extensions[i - 1] =
 			project->extensions((KileProjectItem::Type) i);
 		m_val_isregexp[i - 1] =
@@ -220,7 +220,7 @@ KileProject* KileNewProjectDlg::project()
 		m_project = new KileProject(projectTitle(), KURL(location()));
 
 		KileProjectItem::Type type;
-		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++) {
+		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 			type = (KileProjectItem::Type) i;
 			m_project->setExtIsRegExp(type, extIsRegExp(type));
 			m_project->setExtensions(type, extensions(type));
@@ -289,7 +289,7 @@ void KileNewProjectDlg::slotOk()
 	m_location->setText(uc.replacedPath(location()));
 	m_file->setText(uc.replacedPath(file()));
 
-	if ( projectTitle().stripWhiteSpace() == "")
+	if ( projectTitle().stripWhiteSpace().isEmpty())
 	{
 		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes)
 			m_title->setText(i18n("Untitled"));
@@ -297,7 +297,7 @@ void KileNewProjectDlg::slotOk()
 			return;
 	}
 
-	if ( location().stripWhiteSpace() == "" )
+	if ( location().stripWhiteSpace().isEmpty() )
 	{
 		KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty Location"));
 		return;
@@ -328,7 +328,7 @@ void KileNewProjectDlg::slotOk()
 			QStringList dirs = QStringList::split("/", fi.dirPath());
 			QString path;
 
-			for (uint i=0; i < dirs.count(); i++)
+			for (uint i=0; i < dirs.count(); ++i)
 			{
 				path += "/"+dirs[i];
 				dir.setPath(path);
@@ -357,7 +357,7 @@ void KileNewProjectDlg::slotOk()
 
 	if ( createNewFile() )
 	{
-		if ( file().stripWhiteSpace() == "")
+		if ( file().stripWhiteSpace().isEmpty())
 		{
 			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
 				i18n("No File Name Given"));
@@ -437,14 +437,14 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 		if ((*rit)->type() == KileProjectItem::Source)
 		{
 			m_master->insertItem((*rit)->url().fileName());
-			index++;
+			++index;
 			if ( (*rit)->url().path() == project->masterDocument() )
 				m_master->setCurrentItem(index);
 		}
 		++rit;
 	}
 
-	if (project->masterDocument() == QString::null)
+	if (project->masterDocument().isNull())
 		m_master->setCurrentItem(0);
 
 	lb = new QLabel(i18n("&QuickBuild configuration:"), plainPage()); layout->addWidget(lb, 5, 0);
@@ -496,7 +496,7 @@ void KileProjectOptionsDlg::slotOk()
 	m_val_isregexp[m_sel_extensions->currentItem()]
 		= m_isregexp->isChecked();
 
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++) {
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 		m_project->setExtensions
 			((KileProjectItem::Type) i, m_val_extensions[i-1]);
 		m_project->setExtIsRegExp

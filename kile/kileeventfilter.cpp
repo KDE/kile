@@ -49,7 +49,7 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 				if (pos != -1 )
 				{
 					line = m_regexpEnter.cap(1);
-					for (uint i=0; i < line.length(); i++)
+					for (uint i=0; i < line.length(); ++i)
 						if ( ! line[i].isSpace() ) line[i] = ' ';
 
 					line += m_regexpEnter.cap(2).replace("\\begin","\\end")+"\n";
@@ -84,7 +84,7 @@ bool KileEventFilter::shouldCompleteEnv(const QString &env, Kate::View *view)
     int numEndsFound = 0;
     uint realLine, realColumn;
     view->cursorPositionReal(&realLine, &realColumn);
-    for ( int i = realLine; i < num; i++)
+    for ( int i = realLine; i < num; ++i)
     {
         numBeginsFound += view->getDoc()->textLine(i).contains(reTestBegin);
         numEndsFound += view->getDoc()->textLine(i).contains(reTestEnd);

@@ -116,7 +116,7 @@ int main( int argc, char ** argv )
 		Kile * mw = new Kile(restore);
 		a.setMainWidget(mw);
 
-		for ( int i = 0; i < args->count(); i++)
+		for ( int i = 0; i < args->count(); ++i)
 		{
 			if ( isProject(args->arg(i)) )
 				mw->openProject(completePath(args->arg(i)));
@@ -132,7 +132,7 @@ int main( int argc, char ** argv )
 	}
 	else
 	{
-		for ( int i = 0; i < args->count(); i++ )
+		for ( int i = 0; i < args->count(); ++i )
 		{
 			if ( isProject(args->arg(i)) )
 				client->send (appID, "Kile", "openProject(QString)", completePath(args->arg(i)));

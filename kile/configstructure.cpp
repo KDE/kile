@@ -109,7 +109,7 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_entriestable->horizontalHeader()->setLabel(1,SmallIcon("structure"),"Visible");
    m_entriestable->horizontalHeader()->setLabel(2,SmallIcon("structure"),"Node");
    
-   for ( uint i=0; i<m_entries.count(); i++ ) {
+   for ( uint i=0; i<m_entries.count(); ++i ) {
        QTableItem *item = new QTableItem(m_entriestable,QTableItem::Never,i18n(m_entries[i].ascii()));
        m_entriestable->setItem( i,0,item  );
        m_visible[i] = new QCheckTableItem(m_entriestable,"");
@@ -255,7 +255,7 @@ void ConfigStructure::comboboxChanged(const QString &name)
 
 void ConfigStructure::changeSectioning(const QStringList *list)
 {
-   for (uint i=0; i<list->count(); i++) {
+   for (uint i=0; i<list->count(); ++i) {
       QString label =  ( i < (uint)m_structurelevel->value() ) ? "open" : "close";
       m_sectioningtable->setText(i,2,label);
    }
@@ -264,7 +264,7 @@ void ConfigStructure::changeSectioning(const QStringList *list)
 void ConfigStructure::showSectioning(const QStringList *list)
 {
    QString label1,label2,label3;
-   for (uint i=0; i<5; i++) {
+   for (uint i=0; i<5; ++i) {
       if ( i < list->count() ) {
          label1 = QString("%1").arg(i+1);
          label2 = (*list)[i];
@@ -292,7 +292,7 @@ void ConfigStructure::readConfig(KConfig *config)
 {
    // config section
    config->setGroup( "Structure Entries" );
-   for ( uint i=0; i<m_entries.count(); i++ ) {
+   for ( uint i=0; i<m_entries.count(); ++i ) {
       int defaultvalue = ( m_entries[i] == "Sectioning" ) ? KileStructure::Visible | KileStructure::Opened
                                                           : KileStructure::Visible;
       int num = config->readNumEntry(m_entries[i],defaultvalue);
@@ -306,7 +306,7 @@ void ConfigStructure::readConfig(KConfig *config)
    config->setGroup( "Structure Sectioning" );
    QStringList classlist = config->readListEntry("classes");
    classlist.sort();
-   for ( uint i=0; i<classlist.count(); i++ ) {
+   for ( uint i=0; i<classlist.count(); ++i ) {
       QStringList list = config->readListEntry(classlist[i]);
       if ( list.count() > 0 ) {
          comboclasses->insertItem(classlist[i]);
@@ -322,7 +322,7 @@ void ConfigStructure::writeConfig(KConfig *config)
 {
    // config section
    config->setGroup( "Structure Entries" );
-   for ( uint i=0; i<m_entries.count(); i++ ) {
+   for ( uint i=0; i<m_entries.count(); ++i ) {
       int num = ( m_visible[i]->isChecked() ) ?  KileStructure::Visible : KileStructure::None;
       if  ( m_defaultopen[i]->isChecked() )
          num += KileStructure::Opened;
@@ -331,7 +331,7 @@ void ConfigStructure::writeConfig(KConfig *config)
 
    config->setGroup( "Structure Sectioning" );
    QStringList classlist;
-   for ( int i=0; i<comboclasses->count(); i++ ) {
+   for ( int i=0; i<comboclasses->count(); ++i ) {
       QString entry = comboclasses->text(i);
       if ( entry != "latex" ) {
          classlist << entry;

@@ -38,12 +38,12 @@ KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after
 	this->setText(0, m_title + " (" + i18n("line") + " " + QString::number(m_line) + ")");
 }
 
-KileListViewItem::KileListViewItem(QListView * parent, QString label) : 
+KileListViewItem::KileListViewItem(QListView * parent, const QString & label) : 
 	KListViewItem(parent,label),
 	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
 
-KileListViewItem::KileListViewItem(QListViewItem * parent, QString label) :
+KileListViewItem::KileListViewItem(QListViewItem * parent, const QString & label) :
 	KListViewItem(parent,label),
 	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
@@ -117,11 +117,11 @@ namespace KileWidget
 
 				m_openByLine [ item->line() ] = item->isOpen();
 			}
-			it++;
+			++it;
 		}
 	}
 
-	bool StructureList::shouldBeOpen(KileListViewItem *item, QString folder, int level)
+	bool StructureList::shouldBeOpen(KileListViewItem *item, const QString & folder, int level)
 	{
 		if ( item->parent() == 0L ) return true;
 
@@ -228,12 +228,12 @@ namespace KileWidget
 		if ( lev > 0)
 		{
 			m_parent[lev-1] = m_child;
-			for (int l = lev; l < 7; l++)
+			for (int l = lev; l < 7; ++l)
 				m_parent[l] = m_child;
 		}
 		else if ( lev == 0 )
 		{
-			for ( int l = 0; l < 7; l++ ) m_parent[l] = m_root;
+			for ( int l = 0; l < 7; ++l ) m_parent[l] = m_root;
 		}
 	}
 
@@ -340,7 +340,7 @@ namespace KileWidget
 	{
 		QMapIterator<KileDocument::Info *, StructureList *> it;
 		QMapIterator<KileDocument::Info *, StructureList *> itend(m_map.end());
-		for ( it = m_map.begin(); it != itend; it++)
+		for ( it = m_map.begin(); it != itend; ++it)
 			if ( it.data() != 0L ) delete it.data();
 
 		m_map.clear();

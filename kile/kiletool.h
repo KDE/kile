@@ -145,7 +145,7 @@ namespace KileTool
 		void setFlags(uint flags) { m_flags = flags; }
 		uint flags() { return m_flags; }
 
-		void setMsg(long n, QString msg);
+		void setMsg(long n, const QString & msg);
 		QString msg(long n) const { return m_messages[n]; }
 
 	protected:

@@ -22,8 +22,8 @@ LatexOutputInfo::LatexOutputInfo()
 }
 
 
-LatexOutputInfo::LatexOutputInfo(QString strSrcFile, int nSrcLine, int nOutputLine,
-QString strError, int nErrorID)
+LatexOutputInfo::LatexOutputInfo(const QString & strSrcFile, int nSrcLine, int nOutputLine,
+const QString & strError, int nErrorID)
 {
     setSource(strSrcFile);
     setSourceLine(nSrcLine);

@@ -78,7 +78,7 @@ void DocumentationViewer::forward()
 {
 	if ( forwardEnable() ) 
 	{
-		m_hpos++;
+		++m_hpos;
 		openURL( KURL( m_history[m_hpos]) );
 		emit updateStatus( backEnable() , forwardEnable() );
 	}
@@ -88,14 +88,14 @@ void DocumentationViewer::forward()
 void DocumentationViewer::back()
 {
 	if ( backEnable() ) {
-		m_hpos--;
+		--m_hpos;
 		openURL( KURL(m_history[m_hpos]) );
 		emit updateStatus( backEnable() , forwardEnable() );
 	}
 }
 
 
-void DocumentationViewer::addToHistory( QString url )
+void DocumentationViewer::addToHistory( const QString & url )
 {
 	if ( m_history.count() > 0 )
 	{
@@ -103,7 +103,7 @@ void DocumentationViewer::addToHistory( QString url )
 				m_history.pop_back();
 	}
 	
-	if ( !m_history.isEmpty() ) m_hpos++;
+	if ( !m_history.isEmpty() ) ++m_hpos;
 	
 	m_history.append(url);
 	

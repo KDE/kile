@@ -86,7 +86,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readRecentFileSettings();
 	
 	m_masterName = KileConfig::master();
-	m_singlemode = (m_masterName == "");
+	m_singlemode = (m_masterName.isEmpty());
 
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
@@ -128,7 +128,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	setupBottomBar();
 
-	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify") == QString::null));
+	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify").isNull()));
 
 	setupActions();
 	setupTools();
@@ -497,7 +497,7 @@ void Kile::setupTools()
 	unplugActionList("list_viewers");
 	unplugActionList("list_other");
 
-	for ( uint i = 0; i < tools.count(); i++)
+	for ( uint i = 0; i < tools.count(); ++i)
 	{
 		QString grp = KileTool::groupFor(tools[i], m_config);
 		kdDebug() << tools[i] << " is using group: " << grp << endl;
@@ -560,7 +560,7 @@ void Kile::setupUserTagActions()
 
 	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
-	for (uint i=0; i<m_listUserTags.size(); i++)
+	for (uint i=0; i<m_listUserTags.size(); ++i)
 	{
 		KShortcut sc; if (i<10)  { sc = tagaccels[i]; } else { sc = 0; }
 		QString name = QString::number(i+1)+": "+m_listUserTags[i].text;
@@ -580,13 +580,13 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	QFileInfo fi;
 
 	KURL url;
-	for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
+	for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i)
 	{
 		fi.setFile(m_listProjectsOpenOnStart[i]);
 		if (fi.isReadable()) docManager()->projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count());
 	}
 
-	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
+	for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i)
 	{
 		fi.setFile(m_listDocsOpenOnStart[i]);
 		if (fi.isReadable())
@@ -673,7 +673,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	Kate::View* view = (Kate::View*)w;
 	if (view->isActive()) return;
 
-	for (uint i=0; i< viewManager()->views().count(); i++)
+	for (uint i=0; i< viewManager()->views().count(); ++i)
 	{
 		guiFactory()->removeClient(viewManager()->view(i));
 		viewManager()->view(i)->setActive(false);
@@ -795,7 +795,7 @@ bool Kile::queryClose()
 	m_listDocsOpenOnStart.clear();
 
 	kdDebug() << "#projects = " << docManager()->projects()->count() << endl;
-	for (uint i=0; i < docManager()->projects()->count(); i++)
+	for (uint i=0; i < docManager()->projects()->count(); ++i)
 	{
 		m_listProjectsOpenOnStart.append(docManager()->projects()->at(i)->url().path());
 	}
@@ -805,7 +805,7 @@ bool Kile::queryClose()
 
 	if (stage1)
 	{
-		for (uint i=0; i < viewManager()->views().count(); i++)
+		for (uint i=0; i < viewManager()->views().count(); ++i)
 		{
 			m_listDocsOpenOnStart.append(viewManager()->view(i)->getDoc()->url().path());
 		}
@@ -1080,7 +1080,7 @@ void Kile::enableKileGUI(bool enable)
 {
 	int id;
 	QString text;
-	for (uint i=0; i < menuBar()->count(); i++)
+	for (uint i=0; i < menuBar()->count(); ++i)
 	{
 		id = menuBar()->idAt(i);
 		text = menuBar()->text(id);
@@ -1108,7 +1108,7 @@ void Kile::prepareForPart(const QString & state)
 	m_wantState = state;
 
 	//deactivate kateparts
-	for (uint i=0; i<viewManager()->views().count(); i++)
+	for (uint i=0; i<viewManager()->views().count(); ++i)
 	{
 		guiFactory()->removeClient(viewManager()->view(i));
 		viewManager()->view(i)->setActive(false);
@@ -1248,7 +1248,7 @@ void Kile::editUserMenu()
 	{
 		//remove all actions
 		uint len = m_listUserTagsActions.count();
-		for (uint j=0; j< len; j++)
+		for (uint j=0; j< len; ++j)
 		{
 			KAction *menuItem = m_listUserTagsActions.getLast();
 			m_menuUserTags->remove(menuItem);
@@ -1301,7 +1301,7 @@ void Kile::readUserSettings()
 
 	m_config->setGroup( "User" );
 	int len = m_config->readNumEntry("nUserTags",0);
-	for (int i = 0; i < len; i++)
+	for (int i = 0; i < len; ++i)
 	{
 		m_listUserTags.append(KileDialog::UserTags::splitTag(m_config->readEntry("userTagName"+QString::number(i),i18n("no name")) , m_config->readEntry("userTag"+QString::number(i),"") ));
 	}
@@ -1309,7 +1309,7 @@ void Kile::readUserSettings()
 	//convert user tools to new KileTool classes
 	userItem tempItem;
 	len= m_config->readNumEntry("nUserTools",0);
-	for (int i=0; i< len; i++)
+	for (int i=0; i< len; ++i)
 	{
 		tempItem.name=m_config->readEntry("userToolName"+QString::number(i),i18n("no name"));
 		tempItem.tag =m_config->readEntry("userTool"+QString::number(i),"");
@@ -1319,7 +1319,7 @@ void Kile::readUserSettings()
 	{
  		//move the tools
 		m_config->writeEntry("nUserTools", 0);
-		for ( int i = 0; i < len; i++)
+		for ( int i = 0; i < len; ++i)
 		{
 			tempItem = m_listUserTools[i];
 			m_config->setGroup("Tools");
@@ -1349,11 +1349,11 @@ void Kile::readRecentFileSettings()
 {
 	m_config->setGroup("FilesOpenOnStart");
 	int n = m_config->readNumEntry("NoDOOS", 0);
-	for (int i=0; i < n; i++)
+	for (int i=0; i < n; ++i)
 		m_listDocsOpenOnStart.append(m_config->readPathEntry("DocsOpenOnStart"+QString::number(i), ""));
 
 	n = m_config->readNumEntry("NoPOOS", 0);
-	for (int i=0; i < n; i++)
+	for (int i=0; i < n; ++i)
 		m_listProjectsOpenOnStart.append(m_config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
 }
 
@@ -1384,11 +1384,11 @@ void Kile::saveSettings()
 	{
 		m_config->setGroup("FilesOpenOnStart");
 		m_config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
-		for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
+		for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i)
 			m_config->writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
 
 		m_config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
-		for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
+		for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i)
 			m_config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
 
 		if (!m_singlemode)
@@ -1400,7 +1400,7 @@ void Kile::saveSettings()
 	m_config->setGroup( "User" );
 
 	m_config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
-	for (uint i=0; i < m_listUserTags.size(); i++)
+	for (uint i=0; i < m_listUserTags.size(); ++i)
 	{
 		KileAction::TagData td( m_listUserTags[i]);
 		m_config->writeEntry( "userTagName"+QString::number(i),  td.text );
@@ -1589,11 +1589,11 @@ void Kile::cleanBib()
 					type.append( " = " );
 					type.append( entry );
 					view->getDoc()->insertLine( i, type );
-					i++;
+					++i;
 				}
 		}
 		else
-			i++;
+			++i;
 	}
 }
 

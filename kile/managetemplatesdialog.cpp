@@ -69,7 +69,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo *src, const QString &capt
    QFileInfo fi;
    QString mode;
 
-   for (int i=m_Templates->count()-1; i>=0; i--) {
+   for (int i=m_Templates->count()-1; i>=0; --i) {
       fi.setFile((*m_Templates->at(i)).path);
       mode = fi.isWritable() ? " " : "*";
       (void) new QListViewItem( tlist, mode,(*m_Templates->at(i)).name );
@@ -105,7 +105,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(const QString &caption, QWidget *pa
    QFileInfo fi;
    QString mode;
 
-   for (int i=m_Templates->count()-1; i>=0; i--) {
+   for (int i=m_Templates->count()-1; i>=0; --i) {
       fi.setFile((*m_Templates->at(i)).path);
       mode = fi.isWritable() ? " " : "*";
       (void) new QListViewItem( tlist, mode,(*m_Templates->at(i)).name );
@@ -151,7 +151,7 @@ void ManageTemplatesDialog::slotSelectIcon() {
    QString res = dlg->openDialog();
    KIconLoader kil;
 
-   if (res != QString::null ) {
+   if (!res.isNull() ) {
          m_sourceTemplate.icon = kil.iconPath(res,-KIcon::SizeLarge,false);
          m_iconEdit->setText(m_sourceTemplate.icon);
    }

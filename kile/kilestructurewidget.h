@@ -43,8 +43,8 @@ class KileListViewItem : public KListViewItem
 {
 public:
 	KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint m_column, int type, int level);
-	KileListViewItem(QListView * parent, QString label);
-	KileListViewItem(QListViewItem * parent, QString label);
+	KileListViewItem(QListView * parent, const QString & label);
+	KileListViewItem(QListViewItem * parent, const QString & label);
 
 	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() const { return m_title; }
@@ -96,7 +96,7 @@ namespace KileWidget
 		KileListViewItem* folder(const QString &folder);
 
 		void saveState();
-		bool shouldBeOpen(KileListViewItem *item, QString folder, int level);
+		bool shouldBeOpen(KileListViewItem *item, const QString & folder, int level);
 
 	private:
 		Structure							*m_stack;

@@ -166,21 +166,28 @@ QWidget* KileSideBar::currentPage()
 void KileSideBar::showPage(QWidget *widget)
 {
 	if ( m_widgetToIndex.contains(widget) )
-		showTab(m_widgetToIndex[widget], false);
+		switchToTab(m_widgetToIndex[widget]);
 }
 
-void KileSideBar::showTab(int id, bool toggle /*= true*/)
+void KileSideBar::showTab(int id)
 {
-	if ( toggle & (id == m_nCurrent) )
+	if ( id != m_nCurrent)
 	{
+		switchToTab(id);
 		if (m_bMinimized) expand();
-		else shrink();
-
-		return;
 	}
+	else
+		toggleTab();
+}
 
-	if (m_bMinimized) { expand(); m_bMinimized = false; }
+void KileSideBar::toggleTab()
+{
+	if (m_bMinimized) expand();
+	else shrink();
+}
 
+void KileSideBar::switchToTab(int id)
+{
 	m_tabBar->setTab(m_nCurrent, false);
 	m_tabBar->setTab(id, true);
 

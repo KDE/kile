@@ -131,7 +131,7 @@
       <useconfiguration>default</useconfiguration>
     </general>
     <run>
-      <mainprogram>kile/kile/kile</mainprogram>
+      <mainprogram>/home/kde-dev/kde/kile/head/build/kde_3_2/qt_3_3/kdeextragear-2/kile/kile/kile</mainprogram>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
@@ -139,7 +139,7 @@
         <envvar value="/opt/kde_cvs" name="KDEDIR" />
         <envvar value="$HOME/.kde_cvs" name="KDEHOME" />
       </envvars>
-      <directoryradio>executable</directoryradio>
+      <directoryradio>custom</directoryradio>
       <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
     </run>
     <configurations>

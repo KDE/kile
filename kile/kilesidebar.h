@@ -55,8 +55,10 @@ public slots:
 	virtual void shrink();
 	virtual void expand();
 
-	void showTab(int, bool = true);
+	void showTab(int);
 	void showPage(QWidget *);
+	void toggleTab();
+	void switchToTab(int id);
 	bool isSymbolView(int id) { return m_isSymbolView[id]; }
 
 protected:

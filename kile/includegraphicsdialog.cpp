@@ -206,7 +206,7 @@ QString IncludeGraphics::getTemplate()
 
    // add name of picture
    // (try to take the relative part of the name)
-   QString filename = m_ki->relativePath(QFileInfo(m_ki->getName()).dirPath(), edit_file->text());
+   QString filename = m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
 //    if ( filename.find(m_startdir+"/",0) == 0 )
 //        filename = filename.remove(0,m_startdir.length()+1);
    s += "{" + filename + "}\n";

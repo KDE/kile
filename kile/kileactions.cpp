@@ -324,7 +324,7 @@ InputDialog::~InputDialog()
 void InputDialog::slotBrowse()
 {
 	QString fn;
-	QFileInfo fi(m_ki->getName());
+	QFileInfo fi(m_ki->getCompileName());
 	fn = KFileDialog::getOpenFileName(fi.absFilePath(), QString::null, this,i18n("Select File") );
   	if ( !fn.isEmpty() )
     {

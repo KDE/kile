@@ -50,10 +50,10 @@ public:
 
 	QString getSelection() const;
 	void clearSelection() const;
-	
-	virtual const QStringList* labels() =0;
-	virtual const QStringList* bibItems() =0;
-	virtual const QStringList* bibliographies() = 0;
+
+	virtual const QStringList* labels(KileDocumentInfo * info = 0) =0;
+	virtual const QStringList* bibItems(KileDocumentInfo * info = 0) =0;
+	virtual const QStringList* bibliographies(KileDocumentInfo * info = 0) = 0;
 
 	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
 	KileDocumentInfo* infoFor(const QString &path);
@@ -81,6 +81,13 @@ public:
 
 	void trash(Kate::Document* doc);
 
+	bool checkForRoot() { return m_bCheckForRoot; }
+	bool watchFile() { return m_bWatchFile; }
+	
+	virtual int lineNumber() = 0;
+	
+	QString relativePath(const QString basepath, const QString & file);
+
 protected:
 	QMap< Kate::Document*, KileDocumentInfo* >      m_mapDocInfo;
 	QPtrList<KileProject>		m_projects;
@@ -94,6 +101,8 @@ protected:
 	QPtrList<KileDocumentInfo>	m_infoList;
 
 	QString			m_currentTarget;
+	
+	bool m_bCheckForRoot, m_bWatchFile;
 };
 
 #endif

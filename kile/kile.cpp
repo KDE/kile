@@ -18,6 +18,7 @@
 
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
+#include <kparts/componentfactory.h>
 
 #include <kdebug.h>
 #include <kaboutdata.h>
@@ -82,8 +83,12 @@
 #include "kilelistselector.h"
 #include "kilelyxserver.h"
 #include "kilegrepdialog.h"
+#include "kiletool_enums.h"
+#include "kiletool.h"
+#include "kiletoolmanager.h"
+#include "kilestdtools.h"
 
-Kile::Kile( QWidget *, const char *name ) :
+Kile::Kile( bool rest, QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
 	KParts::MainWindow( name, WDestructiveClose),
 	KileInfo(),
@@ -109,10 +114,11 @@ Kile::Kile( QWidget *, const char *name ) :
 	config->writeEntry( "RunOnStart",false);
 	setXMLFile( "kileui.rc" );
 
+	m_currentState=m_wantState="Editor";
 	htmlpresent=false;
 	pspresent=false;
 	dvipresent=false;
-	watchfile=false;
+	m_bWatchFile=false;
 	htmlpart=0L;
 	pspart=0L;
 	dvipart=0L;
@@ -122,6 +128,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	kspell = 0;
 
 	ReadSettings();
+
 	setupActions();
 
 	// Read Settings should be after setupActions() because fileOpenRecentAction needs to be
@@ -277,7 +284,14 @@ Kile::Kile( QWidget *, const char *name ) :
 
 	applyMainWindowSettings(config, "KileMainWindow" );
 
-	restore();
+	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, StopAction);
+	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
+	connect(m_manager, SIGNAL(requestSaveAll()), this, SLOT(fileSaveAll()));
+
+	m_toolFactory = new KileTool::Factory(m_manager, config);
+	m_manager->setFactory(m_toolFactory);
+	
+	if (rest) restore();
 }
 
 Kile::~Kile()
@@ -289,15 +303,16 @@ Kile::~Kile()
 
 void Kile::setupActions()
 {
-	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
-	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
-	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
-	(void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
+	//PrintAction = KStdAction::print( this, SLOT(print()), actionCollection(), "file_print" );
+	(void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "file_new" );
+	(void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"file_open" );
+	fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
+	(void) new KAction(i18n("Save All"),"save_all", 0, this, SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
 	(void) new KAction(i18n("Create Template From Document..."), 0, this, SLOT(createTemplate()), actionCollection(),"CreateTemplate");
-	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
-	(void) new KAction(i18n("Close All"), 0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
+	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"file_close" );
+	(void) new KAction(i18n("Close All"), 0, this, SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
-	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
+	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
 	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
@@ -324,6 +339,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, this, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
 	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
 	StopAction->setEnabled(false);
+
 	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
 	(void) new KAction(i18n("View Dvi"),"viewdvi", ALT+Key_3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
 	(void) new KAction(i18n("Dvi to PS"),"dvips", ALT+Key_4, this, SLOT(DviToPS()), actionCollection(),"DvitoPS" );
@@ -422,7 +438,7 @@ void Kile::setupActions()
   (void) new KAction(i18n("Remove Template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
 
   WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(),"WatchFile" );
-  if (watchfile) {WatchFileAction->setChecked(true);}
+  if (m_bWatchFile) {WatchFileAction->setChecked(true);}
   else {WatchFileAction->setChecked(false);}
 
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
@@ -914,6 +930,7 @@ void Kile::fileOpen()
 	filter.append(i18n("TeX files"));
 	filter.append("\n*|");
 	filter.append(i18n("All files"));
+	kdDebug() << "using FILTER " << filter << endl;
 	KURL::List urls = KFileDialog::getOpenURLs( currentDir,
 		filter, this,i18n("Open File(s)") );
 
@@ -1510,25 +1527,15 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 			++it;
 		}
 
-		command.replace("%F", files);
-		command.replace("%S", project->url().fileName().replace(".kilepr",""));
+		//command.replace("%F", files);
+		//command.replace("%S", project->url().fileName().replace(".kilepr",""));
 
-		QFileInfo fic(project->url().path());
+		//QFileInfo fic(project->url().path());
 
-		CommandProcess *proc=execCommand(command,fic,true, true);
- 		connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-		if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-		{
-			KMessageBox::error( this,i18n("Could not start the archive command, check the archive command in Project Options for any mistakes."));
-		}
-		else
-		{
-			OutputWidget->clear();
-			LogWidget->clear();
-			logpresent=false;
-			LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-		}
+		KileTool::Base *tool = new KileTool::Base("Archive", m_manager);
+		tool->setSource(project->url().path());
+		tool->addDict("%F", files);
+		m_manager->run(tool);
 	}
 	else if (m_projects.count() == 0)
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could not determine active project."));
@@ -1813,8 +1820,12 @@ bool Kile::queryExit()
 bool Kile::queryClose()
 {
 	//don't close Kile if embedded viewers are present
-	if ((htmlpresent && htmlpart) || (pspresent && pspart) || (dvipresent && dvipart))
+	//if ((htmlpresent && htmlpart) || (pspresent && pspart) || (dvipresent && dvipart))
+	if ( m_currentState != "Editor" )
+	{
+		ResetPart();
 		return false;
+	}
 	
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -1905,11 +1916,14 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	}
 }
 
-const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*getit)() const)
+const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*getit)() const, KileDocumentInfo * docinfo /* = 0 */)
 {
 	m_listTemp.clear();
 
-	KileDocumentInfo *docinfo = getInfo();
+	if (docinfo == 0)
+	{
+		docinfo = getInfo();
+	}
 	KileProjectItem *item = itemFor(docinfo);
 
 	kdDebug() << "Kile::retrieveList()" << endl;
@@ -1952,28 +1966,42 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 		return &m_listTemp;
 }
 
-const QStringList* Kile::labels()
+const QStringList* Kile::labels(KileDocumentInfo * info)
 {
 	kdDebug() << "Kile::labels()" << endl;
 	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::labels;
-	const QStringList* list = retrieveList(p);
+	const QStringList* list = retrieveList(p, info);
 	return list;
 }
 
-const QStringList* Kile::bibItems()
+const QStringList* Kile::bibItems(KileDocumentInfo * info)
 {
 	kdDebug() << "Kile::bibItems()" << endl;
 	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibItems;
-	const QStringList* list = retrieveList(p);
+	const QStringList* list = retrieveList(p, info);
 	return list;
 }
 
-const QStringList* Kile::bibliographies()
+const QStringList* Kile::bibliographies(KileDocumentInfo * info)
 {
 	kdDebug() << "Kile::bibliographies()" << endl;
 	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibliographies;
-	const QStringList* list = retrieveList(p);
+	const QStringList* list = retrieveList(p, info);
 	return list;
+}
+
+int Kile::lineNumber()
+{
+	Kate::View *view = currentView();
+
+	int para = 0;
+
+	if (view)
+	{
+		para = view->cursorLine();
+	}
+	
+	return para;
 }
 
 void Kile::newCaption()
@@ -2075,129 +2103,154 @@ void Kile::ShowEditorWidget()
 
 void Kile::ResetPart()
 {
-KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
-KParts::BrowserExtension *ext =0L;
-if (dvipresent && dvipart) ext = KParts::BrowserExtension::childObject(dvipart);
-if (pspresent && pspart) ext = KParts::BrowserExtension::childObject(pspart);
-if (ext)
-{
-  QStrList slotNames =  ext->metaObject()->slotNames();
-  for ( ; it != itEnd ; ++it )
-  {
-    KAction * act = actionCollection()->action( it.key() );
-    if ( act && slotNames.contains( it.key()+"()" ) )
-    {
-        act->disconnect( ext );
-    }
-  }
-}
+	kdDebug() << "==Kile::ResetPart()=============================" << endl;
+	kdDebug() << "\tcurrent state " << m_currentState << endl;
+	kdDebug() << "\twant state " << m_wantState << endl;
+	
+	KParts::ReadOnlyPart *part = (KParts::ReadOnlyPart*)partManager->activePart();
+	
+	//work around:
+	//disconnect from all slots provided by the BrowserExtension
+	/*KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
+	KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
+	KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
+	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
+	
+	if (ext)
+	{
+		QStrList slotNames =  ext->metaObject()->slotNames();
+		for ( ; it != itEnd ; ++it )
+		{
+			KAction * act = actionCollection()->action( it.key() );
+			if ( act && slotNames.contains( it.key()+"()" ) )
+			{
+				act->disconnect( ext );
+			}
+		}
+	}*/
 
-if (htmlpresent  && htmlpart)
- {
-   htmlpart->closeURL();
-   partManager->removePart(htmlpart) ;
-   topWidgetStack->removeWidget(htmlpart->widget());
-   delete htmlpart;
-   htmlpart=0L;
- }
-else if (dvipresent && dvipart)
- {
-   dvipart->closeURL();
-   partManager->removePart(dvipart) ;
-   topWidgetStack->removeWidget(dvipart->widget());
-   delete dvipart;
-   dvipart=0L;
- }
-else if (pspresent && pspart)
- {
-   pspart->closeURL();
-   partManager->removePart(pspart) ;
-   topWidgetStack->removeWidget(pspart->widget());
-   delete pspart;
-   pspart=0L;
- }
-
-pspresent=false;
-htmlpresent=false;
-dvipresent=false;
-partManager->setActivePart( 0L);
+	if (part && m_currentState != "Editor")
+	{
+		kdDebug() << "\tclosing current part" << endl;
+		part->closeURL();
+		partManager->removePart(part) ;
+		topWidgetStack->removeWidget(part->widget());
+		delete part;
+	}
+	
+	m_currentState = "Editor";
+	m_wantState = "Editor";
+	partManager->setActivePart( 0L);
 }
 
 void Kile::ActivePartGUI(KParts::Part * the_part)
 {
-KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
-KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
-KParts::BrowserExtension *ext =0L;
-if (dvipresent && dvipart) ext = KParts::BrowserExtension::childObject(dvipart);
-if (pspresent && pspart) ext = KParts::BrowserExtension::childObject(pspart);
+	kdDebug() << "==Kile::ActivePartGUI()=============================" << endl;
+	kdDebug() << "\tcurrent state " << m_currentState << endl;
+	kdDebug() << "\twant state " << m_wantState << endl;
+	
+	//work around, connect all actions provided by the BrowserExtension of the active part
+	/*KParts::BrowserExtension::ActionSlotMap * actionSlotMap = KParts::BrowserExtension::actionSlotMapPtr();
+	KParts::BrowserExtension::ActionSlotMap::ConstIterator it = actionSlotMap->begin();
+	KParts::BrowserExtension::ActionSlotMap::ConstIterator itEnd = actionSlotMap->end();
+	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(the_part);
+		
+	if (ext)
+	{
+		QStrList slotNames = ext->metaObject()->slotNames();
+		for ( ; it != itEnd ; ++it )
+		{
+			KAction * act = actionCollection()->action( it.key() );
+			if ( act )
+			{
+				if ( slotNames.contains( it.key()+"()" ) )
+				{
+					connect( act, SIGNAL( activated() ), ext, it.data() );
+					act->setEnabled( ext->isActionEnabled( it.key() ) );
+				} 
+				else
+					act->setEnabled(false);
+			}
+		}
+	}*/
 
-if (ext)
-{
-    QStrList slotNames = ext->metaObject()->slotNames();
-    for ( ; it != itEnd ; ++it )
-    {
-    KAction * act = actionCollection()->action( it.key() );
-    if ( act )
-    {
-      if ( slotNames.contains( it.key()+"()" ) )
-      {
-          connect( act, SIGNAL( activated() ), ext, it.data() /* SLOT(slot name) */ );
-          act->setEnabled( ext->isActionEnabled( it.key() ) );
-      } else
-          act->setEnabled(false);
-    }
-  }
-}
-else
-{
-    for ( ; it != itEnd ; ++it )
-    {
-      KAction * act = actionCollection()->action( it.key() );
-      if (act) act->setEnabled( false );
-    }
-}
-    createGUI( the_part );  
-    if (htmlpresent && htmlpart)
-    {
-    stateChanged( "State1" );
-    toolBar("mainToolBar")->hide();
-    toolBar("ToolBar2")->hide();
-    toolBar("Extra")->show();
-    toolBar("ToolBar4")->hide();
-    toolBar("ToolBar5")->hide();
-    }
-    else if (pspresent && pspart)
-    {
-    stateChanged( "State2" );
-    toolBar("mainToolBar")->hide();
-    toolBar("ToolBar2")->hide();
-    toolBar("Extra")->show();
-    toolBar("ToolBar4")->hide();
-    toolBar("ToolBar5")->hide();
-    }
-    else if (dvipresent && dvipart)
-    {
-    stateChanged( "State3" );
-    toolBar("mainToolBar")->hide();
-    toolBar("ToolBar2")->hide();
-    toolBar("Extra")->show();
-    toolBar("ToolBar4")->hide();
-    toolBar("ToolBar5")->hide();
-    }
-    else
-    {
-    stateChanged( "State4" );
-    topWidgetStack->raiseWidget(0);
-    if (showmaintoolbar) {toolBar("mainToolBar")->show();}
-    if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
-    if (showedittoolbar) {toolBar("ToolBar4")->show();}
-    if (showmathtoolbar) {toolBar("ToolBar5")->show();}
-    toolBar("Extra")->hide();
-    }
+	createGUI(the_part);
 
+	if ( m_wantState == "HTMLpreview" )
+	{
+		kdDebug() << "\tchanged to: HTMLpreview" << endl;
+		stateChanged( "HTMLpreview");
+		toolBar("mainToolBar")->hide();
+		toolBar("ToolBar2")->hide();
+		toolBar("Extra")->show();
+		toolBar("ToolBar4")->hide();
+		toolBar("ToolBar5")->hide();
+		enableKileGUI(false);
+	}
+	else if ( m_wantState == "Viewer" )
+	{
+		kdDebug() << "\tchanged to: Viewer" << endl;
+		stateChanged( "Viewer" );
+		toolBar("mainToolBar")->show();
+		toolBar("ToolBar2")->hide();
+		toolBar("Extra")->show();
+		toolBar("ToolBar4")->hide();
+		toolBar("ToolBar5")->hide();
+		enableKileGUI(false);
+	}
+	else
+	{
+		kdDebug() << "\tchanged to: Editor" << endl;
+		stateChanged( "Editor" );
+		m_wantState="Editor";
+		topWidgetStack->raiseWidget(0);
+		if (showmaintoolbar) {toolBar("mainToolBar")->show();}
+		if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
+		if (showedittoolbar) {toolBar("ToolBar4")->show();}
+		if (showmathtoolbar) {toolBar("ToolBar5")->show();}
+		toolBar("Extra")->hide();
+		enableKileGUI(true);
+	}
+	
+	//set the current state
+	m_currentState = m_wantState;
+}
+
+void Kile::enableKileGUI(bool enable)
+{
+	int id;
+	QString text;
+	for (uint i=0; i < menuBar()->count(); i++)
+	{
+		id = menuBar()->idAt(i);
+		text = menuBar()->text(id);
+		if ( 
+			text == i18n("&Build") ||
+			text == i18n("&Project") ||
+			text == i18n("&LaTeX") ||
+			text == i18n("&Wizard") ||
+			text == i18n("&User") ||
+			text == i18n("&Graph") ||
+			text == i18n("&Tools")
+		)
+			menuBar()->setItemEnabled(id, enable);
+	}
+}
+
+void Kile::prepareForPart(const QString & state)
+{
+	kdDebug() << "==Kile::prepareForPart====================" << endl;
+	
+	ResetPart();
+	
+	m_wantState = state;
+	
+	//deactivate kateparts
+	for (uint i=0; i<m_viewList.count(); i++)
+	{
+		guiFactory()->removeClient(m_viewList.at(i));
+		m_viewList.at(i)->setActive(false);
+	}
 }
 
 void Kile::BrowserBack()
@@ -2224,977 +2277,160 @@ if (htmlpresent)
  }
 }
 
+void Kile::recvMessage(int type, const QString & msg)
+{
+	kdDebug() << "received message (" << type << "): " << msg << endl;
+	QString ot = "", ct = "";
 
-/////////////////// QUICK /////////////////////////
+	switch (type)
+	{
+		case KileTool::Warning :
+			ot = "<font color='blue'>";
+			ct = "</font>";
+			break;
+		case KileTool::Error :
+			ot = "<font color='red'>";
+			ct = "</font>";
+			break;
+		default :
+			ot = ""; ct = "";
+			break;
+	}
+
+	LogWidget->append(ot+msg+ct);
+}
+
+void Kile::recvOutput(char *buffer, int buflen)
+{
+	kdDebug() << "received output: " << buffer << endl;
+
+	int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
+	int col = OutputWidget->paragraphLength(row);
+	QString s=QCString(buffer,buflen+1);
+	OutputWidget->setCursorPosition(row,col);
+	OutputWidget->insertAt(s, row, col);
+}
+
 void Kile::QuickBuild()
 {
-   m_bQuick = true;
-   QStringList command;
-   QString compile_command;
-   if (quickmode==4) {compile_command = pdflatex_command;} else {compile_command = latex_command;}
-
-   QString finame;
-   if ( (finame = prepareForCompile(compile_command) ) == QString::null ) return;
-
-   QFileInfo fic(finame);
-
-   command << compile_command;
-   CommandProcess* proc= execCommand(command,fic,true);
-   connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(EndQuickCompile()));
-
-   if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-   {
-      KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.")
-                          .arg(compile_command));
-   }
-   else
-   {
-      OutputWidget->clear();
-      LogWidget->clear();
-      logpresent=false;
-      LogWidget->insertLine(i18n("Quick build..."));
-      LogWidget->insertLine(i18n("Compilation..."));
-      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-   }
-
-   //newStatus();
-}
-
-void Kile::EndQuickCompile()
-{
-QuickLatexError();
-LogWidget->insertLine(i18n("Viewing..."));
-switch (quickmode)
- {
-  case 1:
-    {
-    if (m_nErrors == 0) {QuickDviToPS();}
-    else {NextError();}
-    }break;
-  case 2:
-    {
-    if ( (m_nErrors == 0) && !watchfile) {ViewDvi();}
-    else {NextError();}
-    }break;
- case 3:
-    {
-    if ( m_nErrors == 0) {KdviForwardSearch();}
-    else {NextError();}
-    }break;
- case 4:
-    {
-    if ( (m_nErrors == 0) && !watchfile) {ViewPDF();}
-    else {NextError();}
-    }break;
- case 5:
-    {
-    if  (m_nErrors == 0) {QuickDviPDF();}
-    else {NextError();}
-    }break;
- case 6:
-    {
-    if  (m_nErrors == 0) {QuickDviToPS();}
-    else {NextError();}
-    }break;
- }
-}
-
-void Kile::QuickDviToPS()
-{
-  QStringList files;
-  if ( (files = prepareForConversion("DviPs","dvi", "ps")).size() == 0) return;
-
-  QString dviname=files[0];
-  QString psname=files[1];
-  QFileInfo fic(dviname);
-
-  QStringList command; command << dvips_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-
-  if (quickmode==1)
-  {
-     if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-     else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPS()));
-  }
-  else
-  {
-     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(QuickPS2PDF()));
-  }
-
-
-  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-  {
-      KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvips_command));
-  }
-  else
-  {
-      logpresent=false;
-      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-  }
-
-  //newStatus();
-}
-
-void Kile::QuickDviPDF()
-{
-  QStringList files;
-  if ( (files=prepareForConversion("DVItoPDF","dvi","pdf")).size() ==0) return;
-
-  QString dviname=files[0];
-  QString pdfname=files[1];
-
-  QFileInfo fic(dviname);
-
-  QStringList command; command << dvipdf_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-
-  if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-  else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
-
-  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-  {
-     KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvipdf_command));
-  }
-  else
-  {
-     logpresent=false;
-     LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-  }
-
-}
-
-void Kile::QuickPS2PDF()
-{
-  QStringList files;
-  if ( (files=prepareForConversion("PStoPDF","ps","pdf")).size() ==0) return;
-
-  QString psname=files[0];
-  QString pdfname=files[1];
-
-  QFileInfo fic(psname);
-
-  QStringList command; command << ps2pdf_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-
-  if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-  else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
-
-  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-  {
-     KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(ps2pdf_command));
-  }
-  else
-  {
-	  logpresent=false;
-	  LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-  }
-}
-
-
-/////////////////// TOOLS /////////////////////////
-
-//command : a list representing the command to be started
-//          i.e. latex %.tex -interactionmode=nonstop
-//          is represented by the list (latex,%S.tex,-interactionmode=nonstop)
-//file    : the file to be passed as an argument to the command, %S is substituted
-//          by the basename of this file
-//enablestop : whether or not this process can be stopped by pressing the STOP button
-CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &file, bool enablestop,bool runonfile) {
- //substitute %S for the basename of the file
- QStringList cmmnd = command;
- QString dir = file.dirPath();
- QString name = file.baseName(TRUE);
-
- m_nErrors=m_nWarnings=m_nBadBoxes=0;
- m_OutputFilter->clearErrorCount();
-
- CommandProcess* proc = new CommandProcess();
- currentProcess=proc;
- proc->clearArguments();
-
- if (runonfile)
- {
- 	KRun::shellQuote(const_cast<QString&>(dir));
- 	(*proc) << "cd " << dir << "&&";
- }
-
- for ( QValueListIterator<QString> i = cmmnd.begin(); i != cmmnd.end(); i++) {
-   if (runonfile) (*i).replace("%S",name);
-   (*proc) << *i;
- }
-
-
- connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
- connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
- connect(this, SIGNAL( stopProcess() ), proc, SLOT(terminate()));
-
- if (enablestop) {
-    connect(proc, SIGNAL(processExited(KProcess*)), this, SLOT(slotDisableStop()));
-    StopAction->setEnabled(true);
- }
-
- LogWidget->clear();
- return proc;
-}
-
-//This function prepares files for compiling by the command <command>.
-// - untitled document -> warn user that he needs to save the file
-// - save the file (if untitled a file save dialog is opened)
-// - determine the file to be compile (this file could be a child of the master document)
-// -
-// - return the name of the file to be compiled (master document)
-QString Kile::prepareForCompile(const QString & command) {
-  Kate::View *view = currentView();
-
-  //warn if there is no active view
-  if (m_singlemode && !view)
-  {
-     KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on.\n"
-                                   "Make sure you have the file you want to compile open and saved.")
-                         .arg(command).arg(command));
-     return QString::null;
-  }
-
-  //QString finame = getShortName();
-	QString finame = getCompileName(true);
-	if (finame == QString::null)
-	{
-		KileProject *project = activeProject();
-		if (project)
-		{
-			KMessageBox::error(this, i18n("The active project does not have a master file. Therefore Kile cannot determine which file to run %1 on. Please define a master file.").arg(command), i18n("No master file defined."));
-			return QString::null;
-		}
-	}
-
-  if ( finame == i18n("Untitled") || finame == "")
-  {
-  	   if (KMessageBox::warningYesNo(this,i18n("You need to save an untitled document before you run %1 on it.\n"
-                                             "Do you want to save it? Click Yes to save and No to abort.").arg(command),
-                                   i18n("File Needs to be Saved!"))
-         == KMessageBox::No) return QString::null;
-  }
-
-  //save the file before doing anything
-  //attempting to save an untitled document will result in a file-save dialog pop-up
-  if (view) view->save();
-
-  	finame = getCompileName();
-	bool isRoot = true;
-	KileDocumentInfo *docinfo = infoFor(finame);
-	if (docinfo) isRoot = m_bCheckForRoot ? docinfo->isLaTeXRoot() : true;
-
-	if (view && ! isRoot )
-	{
-		if (KMessageBox::warningYesNo(this,i18n("This document doesn't contain a LaTeX header.\nIt should probably be used with a master document.\nContinue anyway?"))
-			== KMessageBox::No)
-			return QString::null;
-	}
-
-  QFileInfo fic(finame);
-
-  if (!fic.exists() )
-  {
-     KMessageBox::error(this,i18n("The file %1 does not exist. Are you working with a master document which is accidently deleted?")
-                        .arg(fic.absFilePath()));
-     return QString::null;
-  }
-
-  if (!fic.isReadable() )
-  {
-     KMessageBox::error(this, i18n("You do not have read permission for the file: %1").arg(fic.absFilePath()));
-     return QString::null;
-  }
-
-  setTarget(fic.absFilePath());
-  return fic.absFilePath();
-}
-
-QStringList Kile::prepareForConversion(const QString &command, const QString &from, const QString &to)
-{
-   Kate::View *view = currentView();
-   QStringList list,empty;
-   QString finame, fromName, toName;
-
-   //warn if there is no active view
-   if (m_singlemode && !view)
-   {
-     KMessageBox::error( this,i18n("Could not start the %1 command, because there is no file to run %1 on. "
-                                   "Make sure you have the source file of the file you want to convert open and saved.")
-                         .arg(command).arg(command));
-     return empty;
-   }
-
-	finame = getCompileName();
-	if (finame == QString::null)
-	{
-		KileProject *project = activeProject();
-		if (project)
-		{
-			KMessageBox::error(this, i18n("The active project does not have a master file. Therefore Kile cannot determine which file to run %1 on. Please define a master file.").arg(command), i18n("No master file defined."));
-			return empty;
-		}
-	}
-
-   if ( finame == i18n("Untitled") || finame == "") {
-      KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
-                                   "file out of it. After you have done this, you can turn it into a %2 file.")
-                                   .arg(from.upper()).arg(to.upper()),
-                         i18n("File needs to be saved and compiled!"));
-      return empty;
-   }
-
-   QFileInfo fic(finame);
-   fromName = fic.dirPath() + "/" +fic.baseName(TRUE) + "." + from;
-   toName = fic.dirPath() + "/" +fic.baseName(TRUE) + "." + to;
-
-   fic.setFile(fromName);
-   if (!(fic.exists() && fic.isReadable()))
-   {
-      KMessageBox::error(this, i18n("The %1 file does not exist or you do not have read permission. "
-                                    "Did you forget to compile to source file to turn it into a %1 file?").arg(from.upper()).arg(from.upper()));
-   }
-
-   list.append(fromName);
-   list.append(toName);
-
-   return list;
-}
-
-QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target /*= QString::null*/)
-{
-	kdDebug() << "==Kile::prepareForViewing==========================" << endl;
-	Kate::View *view = currentView();
-
-   QString finame;
-   finame = getCompileName();
-
-   //warn if there is no active view
-   if (m_singlemode && !view)
-   {
-     KMessageBox::error( this, i18n("Unable to determine which %1 file to show. Please open the source file of the %1 file to want to view.")
-                         .arg(ext.upper()).arg(ext.upper()));
-     return QString::null;
-   }
-
-   	if (finame == QString::null)
-	{
-		KileProject *project = activeProject();
-		if (project)
-		{
-			KMessageBox::error(this, i18n("The active project does not have a master file. Therefore Kile cannot determine which file to run %1 on. Please define a master file.").arg(command), i18n("No master file defined."));
-			return QString::null;
-		}
-	}
-
-   if ( finame == i18n("Untitled") || finame == "") {
-      KMessageBox::error(this,i18n("You need to save an untitled document and make a %1 "
-                                   "file out of it. After you have done this, you can view the %1 file.")
-                                   .arg(ext.upper()).arg(ext.upper()),
-                         i18n("File needs to be saved and compiled!"));
-      return QString::null;
-   }
-
-   QFileInfo fic(finame);
-   finame = fic.dirPath() + "/";
-   if (!target.isNull())
-   {
-   		kdDebug() << "\t using target " << target << endl;
-		finame += target;
-		finame = finame.replace("%S",fic.baseName(TRUE));
-		if (finame.right(ext.length()+1) != "."+ext)
-			finame += "."+ext;
-
-		kdDebug() << "\t resulting in " << finame << endl;
-   }
-   else
-   {
-		finame += fic.baseName(TRUE) + "." + ext;
-   }
-
-   fic.setFile(finame);
-
-   if ( ! ( fic.isReadable() ) )
-   {
-      KMessageBox::error(this,i18n("The %1 file does not exist or you do not have read permission. "
-                                   "Maybe you forgot to create the %1 file?")
-                         .arg(ext.upper()).arg(ext.upper()));
-      return QString::null;
-   }
-
-   kdDebug() << "\treturning " << finame << endl;
-   return finame;
+	//TODO: implement Watch File feature
+	m_manager->run("QuickBuild");
 }
 
 void Kile::Latex()
 {
-  QString finame;
-  if ( (finame=prepareForCompile("LaTeX")) == QString::null)  return;
-
-  m_bCheckForLaTeXErrors=true;
-
-  QFileInfo fic(finame);
-  QStringList command;
-  command << latex_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-  {
-     KMessageBox::error( this,i18n("Could not start LaTeX, make sure you have installed the LaTeX package on your system."));
-  }
-  else
-  {
-     OutputWidget->clear();
-     LogWidget->clear();
-     logpresent=false;
-     LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-  }
-
-  //newStatus();
+	m_manager->run("LaTeX");
 }
-
 
 void Kile::ViewDvi()
 {
-  QString finame;
-  if ( (finame=prepareForViewing("ViewDvi","dvi")) == QString::null) return;
-
-  QFileInfo fic(finame);
-
-  if (viewdvi_command== i18n("Embedded Viewer") )
-  {
-   ResetPart();
-   KLibFactory *dvifactory;
-   dvifactory = KLibLoader::self()->factory("kviewerpart");
-   if (!dvifactory)    {
-      KMessageBox::error(this, i18n("Couldn't find the DVI embedded viewer! Please install kviewshell."));
-      return;
-   }
-   dvipart =(KParts::ReadOnlyPart *)dvifactory->create(topWidgetStack, "kviewerpart", "KViewPart", "dvi");
-   dvipresent=true;
-   topWidgetStack->addWidget(dvipart->widget() , 1 );
-   topWidgetStack->raiseWidget(1);
-   dvipart->openURL(finame);
-   partManager->addPart(dvipart, true);
-   partManager->setActivePart( dvipart);
-  }
-  else {
-    QStringList command; command << viewdvi_command;
-    CommandProcess *proc=execCommand(command,fic,false);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
-    {
-       KMessageBox::error( this,i18n("Could not start %1. Make sure you have this package installed.").arg(viewdvi_command) );
-    }
-    else
-    {
-         OutputWidget->clear();
-         LogWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-     }
-  }
-
-  //newStatus();
+	m_manager->run("ViewDVI");
 }
 
 void Kile::KdviForwardSearch()
 {
-	QString finame;
-	if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
-
-	LogWidget->clear();
-	logpresent=false;
-	//LogWidget->insertLine(i18n("You must be in 'Normal mode' to use this command."));
-	LogWidget->insertLine(i18n("If you do not have a TeX-binary which includes inverse search information natively :"));
-	LogWidget->insertLine(i18n("- copy the files srcltx.sty and srctex.sty to the folder where your TeX-file resides."));
-	LogWidget->insertLine(i18n("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file."));
-	LogWidget->insertLine(i18n("(see the kdvi handbook for more details)"));
-
-	//this is the DVI file
-	QFileInfo fic(finame);
-	QString dviname=finame;
-
-	//this is the current file, forward search is done for this file (in the DVI file finame)
-	QString texname = getName();
-	texname = relativePath(fic.dirPath(), texname);
-	//QFileInfo fic_cur(texname);
-
-	int para=0;
-	int index=0;
-
-	Kate::View *view = currentView();
-
-	if (view)
-	{
-		view->setFocus();
-		para = view->cursorLine();
-		index = view->cursorColumn();
-	}
-
-  if (viewdvi_command== i18n("Embedded Viewer") )
-  {
-   ResetPart();
-   KLibFactory *dvifactory;
-   dvifactory = KLibLoader::self()->factory("kviewerpart");
-   if (!dvifactory)
-      {
-      KMessageBox::error(this, i18n("Couldn't find the DVI embedded viewer! Please install kviewshell."));
-      return;
-      }
-   dvipart =(KParts::ReadOnlyPart *)dvifactory->create(topWidgetStack, "kviewerpart", "KViewPart", "dvi");
-   dvipresent=true;
-   topWidgetStack->addWidget(dvipart->widget() , 1 );
-   topWidgetStack->raiseWidget(1);
-   partManager->addPart(dvipart, true);
-   partManager->setActivePart( dvipart);
-
-   QString file = "file:"+finame+"#src:"+QString::number(para+1)+texname;
-   kdDebug() << "FORWARD SEARCH: " << file << endl;
-   
-   dvipart->openURL(file);
-   }
-   else
-   {
-    //QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./"+ texname;
-	QStringList command; command << "kdvi" <<"--unique" <<"file:"+finame+"#src:"+QString::number(para + 1)+  texname;
-    CommandProcess *proc=execCommand(command,fic,false);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
-    {
-       KMessageBox::error( this,i18n("Could not start KDVI. Are you sure KDVI is installed on your system?"));
-    }
-    else
-    {
-       LogWidget->insertLine(i18n("Launched: %1").arg("kdvi"));
-    }
-   }
-
-
-   //newStatus();
+	m_manager->run("ForwardDVI");
 }
 
 void Kile::DviToPS()
 {
-  QStringList files;
-  if ( (files = prepareForConversion("DviPs","dvi", "ps")).size() == 0) return;
-
-  QString dviname=files[0];
-  QString psname=files[1];
-  QFileInfo fic(dviname);
-
-  QStringList command; command << dvips_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-  {
-      KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvips_command));
-  }
-  else
-  {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-
-  }
-
-  //newStatus();
+	m_manager->run("DVItoPS");
 }
 
 void Kile::ViewPS()
 {
-  QString finame;
-  if ( (finame=prepareForViewing("ViewPS","ps")) == QString::null) return;
-
-  QFileInfo fic(finame);
-
-   if (viewps_command== i18n("Embedded Viewer") )
-   {
-   ResetPart();
-   KLibFactory *psfactory;
-   psfactory = KLibLoader::self()->factory("libkghostviewpart");
-   if (!psfactory)
-      {
-      KMessageBox::error(this, i18n("Couldn't find the embedded PostScript viewer! Install kviewshell."));
-      return;
-      }
-   pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
-   pspresent=true;
-   topWidgetStack->addWidget(pspart->widget() , 1 );
-   topWidgetStack->raiseWidget(1);
-   pspart->openURL(finame);
-   partManager->addPart(pspart, true);
-   partManager->setActivePart( pspart);
-   }
-   else
-    {
-    QStringList command; command << viewps_command;
-    CommandProcess *proc=execCommand(command,fic,false);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
-    {
-       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(viewps_command));
-    }
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
-    }
-
-    //newStatus();
+	m_manager->run("ViewPS");
 }
 
 void Kile::PDFLatex()
 {
-  QString finame;
-  if ( (finame= prepareForCompile("PDFLaTeX")) == QString::null) return;
-
-  m_bCheckForLaTeXErrors=true;
-
-  QFileInfo fic(finame);
-
-  QStringList command; command << pdflatex_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-  {
-     KMessageBox::error( this,i18n("Could not start PDFLaTeX. Make sure you have this package installed on your system."));
-  }
-  else
-  {
-     OutputWidget->clear();
-     logpresent=false;
-     LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-  }
-
-  //newStatus();
+	m_manager->run("PDFLaTeX");
 }
 
 void Kile::ViewPDF()
 {
-  QString finame;
-  if ( (finame = prepareForViewing("ViewPDF","pdf")) == QString::null ) return;
-
-  QFileInfo fic(finame);
-   if (viewpdf_command== i18n("Embedded Viewer") )
-   {
-   ResetPart();
-   KLibFactory *psfactory;
-   psfactory = KLibLoader::self()->factory("libkghostviewpart");
-   if (!psfactory)
-      {
-      KMessageBox::error(this, i18n("Couldn't find the embedded PDF viewer! Install kviewshell."));
-      return;
-      }
-   pspart =(KParts::ReadOnlyPart *)psfactory->create(topWidgetStack, "kgvpart", "KParts::ReadOnlyPart" );
-   pspresent=true;
-   topWidgetStack->addWidget(pspart->widget() , 1 );
-   topWidgetStack->raiseWidget(1);
-   pspart->openURL(finame);
-   partManager->addPart(pspart, true);
-   partManager->setActivePart( pspart);
-   }
-   else
-   {
-    QStringList command; command << viewpdf_command;
-    CommandProcess *proc=execCommand(command,fic,false);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
-    {
-       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(viewpdf_command));
-    }
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
-    }
-
-
- //newStatus();
+	m_manager->run("ViewPDF");
 }
 
 void Kile::MakeBib()
 {
-  Kate::View *view = currentView();
-  if (!view) return;
-
-  QString finame = getShortName();
-  if (finame == i18n("Untitled")) {
-     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an AUX file which is required to run %1").arg(bibtex_command),
-                        i18n("File needs to be saved!"));
-     return;
-  }
-
-  finame = getCompileName();
-
-  //we need to check for finame==i18n("Untitled") etc. because the user could have
-  //escaped the file save dialog
-  if ((m_singlemode && !currentView()) || finame=="")
-  {
-     KMessageBox::error( this,i18n("Unable to determine on which file to run %1. Make sure you have the source file "
-                                   "of the file you want to run %1 on open and saved.")
-                         .arg(bibtex_command).arg(bibtex_command));
-     return;
-  }
-
-  QFileInfo fic(finame);
-  finame = fic.dirPath()+"/"+fic.baseName(TRUE)+".aux";
-  fic.setFile(finame);
-
-  if (!(fic.exists() && fic.isReadable()) )
-  {
-     KMessageBox::error(this,i18n("The file %1 does not exist or you do not have read permission. "
-                                  "You need to run LaTeX to create this file.").arg(finame));
-     return;
-  }
-
-    QStringList command; command << bibtex_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-    {
-       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.")
-                           .arg(bibtex_command));
-    }
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
-
-
- //newStatus();
+	m_manager->run("BibTeX");
 }
 
 void Kile::MakeIndex()
 {
-  //TODO: figure out how makeindex works ;-))
-  //I'm just guessing here
-
-  Kate::View *view = currentView();
-  if (!view) return;
-
-  QString finame = getShortName();
-  if (finame == i18n("Untitled")) {
-     KMessageBox::error(this,i18n("You need to save this file first. Then run LaTeX to create an idx file "
-                                  "which is required to run %1.").arg(makeindex_command),
-                        i18n("File needs to be saved!"));
-     return;
-  }
-
-  if (m_singlemode) {finame=getName();}
-  else {
-     finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
-  }
-
-  //we need to check for finame==i18n("Untitled") etc. because the user could have
-  //escaped the file save dialog
-  if ((m_singlemode && !currentView()) || finame=="")
-  {
-     KMessageBox::error(this,i18n("Unable to determine on which file to run %1. "
-                                  "Make sure you have the source file of the file you want to run %1 on open and saved.")
-                        .arg(makeindex_command).arg(makeindex_command));
-     return;
-  }
-
-  QFileInfo fic(finame);
-  finame = fic.dirPath()+"/"+fic.baseName(TRUE)+".idx";
-  fic.setFile(finame);
-
-  if (!(fic.exists() && fic.isReadable()) )
-  {
-     KMessageBox::error(this,i18n("The file %1 does not exist or you do not have read permission. "
-                                  "You need to run LaTeX to create this file.").arg(finame));
-     return;
-  }
-
-
-    QStringList command; command << makeindex_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
-
-  //newStatus();
+	m_manager->run("MakeIndex");
 }
 
 void Kile::PStoPDF()
 {
-  QStringList files;
-  if ( (files=prepareForConversion("PStoPDF","ps","pdf")).size() ==0) return;
-
-  QString psname=files[0];
-  QString pdfname=files[1];
-
-  QFileInfo fic(psname);
-
-  QStringList command; command << ps2pdf_command;
-  CommandProcess *proc=execCommand(command,fic,true);
-  connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-    {
-       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(ps2pdf_command));
-    }
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
-    //newStatus();
+	m_manager->run("PStoPDF");
 }
 
 void Kile::DVItoPDF()
 {
-  QStringList files;
-  if ( (files=prepareForConversion("DVItoPDF","dvi","pdf")).size() ==0) return;
-
-  QString dviname=files[0];
-  QString pdfname=files[1];
-
-  QFileInfo fic(dviname);
-
-    QStringList command; command << dvipdf_command;
-    CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-    {
-       KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvipdf_command));
-    }
-    else
-    {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-    }
-
-  //newStatus();
+	m_manager->run("DVItoPDF");
 }
 
 void Kile::MetaPost()
 {
-  //TODO: what the h*ll is MetaPost, how should we deal with the
-  //error messages?
-
-  QString finame;
-	Kate::View *view = currentView();
-
-  finame=getShortName();
-  if (!view ||finame==i18n("Untitled") || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  view->save();
-
-  finame = getName();
-
-  QFileInfo fi(finame);
-  //QString name=fi.dirPath(true)+"/"+fi.baseName(TRUE)+".mp";
-  //QString mpname=fi.baseName(TRUE)+".mp";
-  //QFileInfo fic(name);
-
-  kdDebug() << "==MetaPost============" << endl;
-  kdDebug() << "\tfiname: " << finame << endl;
-
-  if (fi.exists() && fi.isReadable() )
-  {
-    QStringList command;
-    command << "mpost" << "--interaction" << "nonstopmode" << fi.fileName();
-    CommandProcess *proc=execCommand(command,fi,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
-  }
- else
- {
-  KMessageBox::error(this, i18n("MetaPost file not found!"));
- }
+	m_manager->run("MetaPost");
 }
 
 void Kile::CleanAll()
 {
-  QString finame = getShortName();
+	//TODO: make project aware
+	QString finame = getShortName();
+	
+	if ((m_singlemode && !currentView()) ||finame==i18n("Untitled") || finame=="")
+	{
+		KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
+		return;
+	}
+	
+	finame=getName();
+	
+	QFileInfo fic(finame);
+	if ( ! (fic.exists() && fic.isReadable() ) )
+	{
+		KMessageBox::sorry(this,i18n("The current document does not exists or is not readable. I'm not sure if it is ok to go ahead, bailing out."));
+		return;
+	}
 
-  if ((m_singlemode && !currentView()) ||finame==i18n("Untitled") || finame=="")
-  {
-     KMessageBox::error( this,i18n("Unable to determine what to clean-up. Make sure you have the file opened and saved, then choose Clean All."));
-     return;
-  }
-
-  finame=getName();
-
-  QFileInfo fic(finame);
-  if ( ! (fic.exists() && fic.isReadable() ) )
-  {
-        KMessageBox::sorry(this,i18n("The current document does not exists or is not readable. I'm not sure if it is ok to go ahead, bailing out."));
-        return;
-  }
-
-  QString extlist[] = {".log",".aux",".dvi",".aux",".lof",".lot",".bit",".idx" ,".glo",".bbl",".ilg",".toc",".ind"};
-
-    QStringList prettyList;
-   QStringList command;
-
-   command << "cd " << "'"+fic.dirPath()+"'" << "&&";
-
-   for (int i=0; i< 13; i++) {
-      prettyList.append(fic.baseName(TRUE)+extlist[i]);
-      command << "rm -f" << fic.baseName(TRUE)+extlist[i];
-      if (i<12) {command << "&&"; }
-   }
-
-   int query = KMessageBox::warningContinueCancelList( this,
-            i18n( "Do you really want to delete these files?" ),
-            prettyList,
-            i18n( "Delete Files" ),
-            i18n( "Delete" ));
-
-   if (query==KMessageBox::Continue)
-   {
-     CommandProcess *proc=execCommand(command,fic,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
-    {
-       KMessageBox::error( this,i18n("Could not start the command."));
-    }
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Cleaning up..."));
-         }
-   }
-
-   //newStatus();
-}
+	QStringList extlist; 
+	extlist << ".log" << ".aux" << ".dvi" << ".aux" << ".lof" << ".lot" << ".bit" << ".idx" << ".glo" << ".bbl" << ".ilg" << ".toc" << ".ind"; 
+	
+	QStringList fileList; 
+	
+	QString baseName = fic.baseName(TRUE); 
+	
+	for (uint i=0; i< extlist.count(); i++) 
+	{ 
+		fileList.append(baseName+extlist[i]); 
+	} 
+	
+	int query = KMessageBox::warningContinueCancelList( this, 
+		i18n( "Do you really want to delete these files?" ), 
+		fileList, 
+		i18n( "Delete Files" ), 
+		i18n( "Delete" )); 
+	
+	if(query==KMessageBox::Continue) 
+	{ 
+		LogWidget->clear(); 
+		logpresent=false; 
+		LogWidget->insertLine(i18n("Cleaning up...")); 
+		
+		QDir::setCurrent( fic.dirPath() ); 
+		for (uint i=0; i < fileList.count(); i++) 
+		{ 
+			QFile file(fileList[i]); 
+			file.remove(); 
+		} 
+		
+		LogWidget->insertLine(i18n("Done")); 
+ 	} 
+ }
 
 void Kile::syncTerminal()
 {
@@ -3230,38 +2466,15 @@ void Kile::slotDisableStop() {
 
 void Kile::LatexToHtml()
 {
-  QString finame;
-  if ( (finame=prepareForCompile("latex2html")) == QString::null ) return;
-
-  QFileInfo fic(finame);
-
-    l2hDlg = new l2hdialog(this,"LaTex2Html Options",i18n("LaTex2Html Options"));
-    l2hDlg->options_edit->setText(l2h_options);
-    if ( l2hDlg->exec() )
-    {
-    l2h_options=l2hDlg->options_edit->text();
-    QStringList command; command <<  "konsole" << "-e" << "latex2html" << "'%S.tex'" << l2h_options;
-    CommandProcess* proc = execCommand(command,fic,false);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotl2hExited(KProcess*)));
-
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-        }
-    }
-    delete (l2hDlg);
-
-   //newStatus();
+	m_manager->run("LaTeX2HTML");
 }
 
 void Kile::slotProcessOutput(KProcess* /*proc*/,char* buffer,int buflen)
 {
 int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
 int col = OutputWidget->paragraphLength(row);
-QString s=QCString(buffer,buflen+1);
+//QString s=QCString(buffer,buflen+1);
+QString s=QString::fromLocal8Bit(buffer,buflen+1);
 OutputWidget->setCursorPosition(row,col);
 OutputWidget->insertAt(s, row, col);
 }
@@ -3317,10 +2530,14 @@ HtmlPreview();
 
 void Kile::HtmlPreview()
 {
-	kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
+	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
+	connect(tool, SIGNAL(updateStatus(bool, bool)), this, SLOT(updateNavAction( bool, bool)));
+	m_manager->run(tool);
+
+/*	kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
 
 	QString finame;
-	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
+	//if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
 
 	kdDebug() << "\tfiname=" << finame << endl;
 
@@ -3330,6 +2547,8 @@ void Kile::HtmlPreview()
 	QFileInfo fih(finame);
 
 	ResetPart();
+	m_wantState = "HTMLpreview";
+	
    htmlpart = new docpart(topWidgetStack,"help");
    connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
    htmlpresent=true;
@@ -3338,76 +2557,17 @@ void Kile::HtmlPreview()
    topWidgetStack->addWidget(htmlpart->widget() , 1 );
    topWidgetStack->raiseWidget(1);
    partManager->addPart(htmlpart, true);
-   partManager->setActivePart( htmlpart);
+   partManager->setActivePart( htmlpart);*/
 }
 
 void Kile::Bibtexeditor()
 {
-	kdDebug() << "==Bibtexeditor()========================" << endl;
-  //check if a file is opened
-	Kate::View *view = currentView();
-	if (m_singlemode && !view)
-	{
-     KMessageBox::error( this, i18n("Unable to determine which BibTeX file to show. Please open a source file that uses a BibTeX bibliography."));
-     return;
-   }
-
-	QString finame_t = getCompileName();
-	kdDebug() << "Compile name: " << finame_t <<endl;
-
-	//get the referenced bibliograph files
-	const QStringList *filesbib = bibliographies();
-	int NumberOfBibtexFiles = filesbib->count();
-	QString finame_a;
-
-	kdDebug() << "\tno. of files: " << NumberOfBibtexFiles << endl;
-	if (NumberOfBibtexFiles == 0)
-	{
-		KMessageBox::error(this, i18n("Could not find any bibliographies for this document (or any master documents for this document). Refreshing the structure view might help."), i18n("No bibliographies found!"));
-		return;
-	}
-
-	//If there are more references, show dialog to choose
-	if(NumberOfBibtexFiles > 1 )
-	{
-		kdDebug() << "Opening Bibtex dialog " << endl;
-		bibtexdialog *BibtexDlg = new bibtexdialog( (*filesbib),"Bibtex file Selector",i18n("Bibtex"),this );
-		if ( BibtexDlg->exec() )
-		{
-			finame_a = BibtexDlg->currentItem();
-		}
-		else
-			return;
-	}
-
-  	QString currentDir = getName();
-	QFileInfo fica(currentDir);
-	QString path = fica.dirPath();
-
-    QStringList::ConstIterator it = filesbib->begin();
-	finame_a = *it;
-  	QString finame = path+"/"+finame_a+".bib";
-	QFileInfo fic(finame);
-
-	if( (finame= prepareForViewing("ViewBibtex","bib", finame_a)) == QString::null) return;
-
-	QStringList command; command << bibtexeditor_command;
-	CommandProcess *proc=execCommand(command,fic,false);
-  	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
-	if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
-	{
-    	KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(bibtexeditor_command));
-	}
-  	else
-	{
-		OutputWidget->clear();
-		logpresent=false;
-		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-	}
+	m_manager->run("ViewBib");
 }
 
 void Kile::execUserTool(int i)
 {
+	//TODO: port this to new KileTool classes
 	Kate::View *view = currentView();
 	QString finame;
 	QString commandline=m_listUserTools[i].tag;
@@ -3442,7 +2602,7 @@ void Kile::execUserTool(int i)
 		}
 	}
 
-	command << commandline;
+	/*command << commandline;
 	CommandProcess* proc = execCommand(command,fi,true, documentpresent);
 	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
 
@@ -3455,7 +2615,7 @@ void Kile::execUserTool(int i)
 		OutputWidget->clear();
 		logpresent=false;
 		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-	}
+	}*/
 
 	newStatus();
 }
@@ -3490,7 +2650,7 @@ void Kile::UpdateStructure(bool parse /* = false */)
 			docinfo->updateStruct(m_defaultLevel);
 			item = (QListViewItem*)docinfo->structViewItem();
 		}
-		outstruct->insertItem(item);
+		if (item) outstruct->insertItem(item);
 	}
 
 	Kate::View *view = currentView();
@@ -3638,7 +2798,8 @@ void Kile::LatexError(bool /*warnings*/)
 	tempLog=QString::null;
 
 	QString finame;
-	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
+	//TODO: port to new KileTool classes
+//	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
 	QFileInfo fic(finame);
 	QFile f(finame);
 
@@ -4065,7 +3226,7 @@ void Kile::LatexHelp()
 {
       if (viewlatexhelp_command == i18n("Embedded Viewer") )
       {
-	      ResetPart();
+	      prepareForPart("HTMLpreview");
 	      htmlpart = new docpart(topWidgetStack,"help");
 	      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
 	      htmlpresent=true;
@@ -4078,7 +3239,9 @@ void Kile::LatexHelp()
       }
       else if (viewlatexhelp_command == i18n("External Browser") )
       {
-	kapp->invokeBrowser("help:kile/latexhelp.html");
+      	QString loc = locate("html","en/kile/latexhelp.html");
+	kdDebug() << "HTML: " << loc << endl;
+	kapp->invokeBrowser(loc);
       }
       else
       {
@@ -4191,6 +3354,13 @@ void Kile::ReadSettings()
 	//date must be set by kile, even if the keys are present
 	//in the kilerc file
 	if (version<KILERC_VERSION) old=true;
+	
+	if (version < 3 )
+	{
+		KileTool::Factory *factory = new KileTool::Factory(0,config);
+		kdDebug() << "WRITING STD TOOL CONFIG" << endl;
+		factory->writeStdConfig();
+	}
 
 	m_singlemode=true;
 	QRect screen = QApplication::desktop()->screenGeometry();
@@ -4643,8 +3813,8 @@ void Kile::ToggleShowMathToolbar() {
 
 void Kile::ToggleWatchFile()
 {
-watchfile=!watchfile;
-if (watchfile) {WatchFileAction->setChecked(true);}
+m_bWatchFile=!m_bWatchFile;
+if (m_bWatchFile) {WatchFileAction->setChecked(true);}
 else {WatchFileAction->setChecked(false);}
 }
 
@@ -5069,66 +4239,7 @@ while(i < currentView()->getDoc()->numLines())
    }
 }
 
-QString Kile::relativePath(const QString basepath, const QString & file)
-{
-	KURL url = KURL::fromPathOrURL(file);
-	QString path = url.directory();
-	QString filename = url.fileName();
 
-	kdDebug() <<"===findRelativeURL==================" << endl;
-	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
-
-	QStringList basedirs = QStringList::split("/", basepath, false);
-	QStringList dirs = QStringList::split("/", path, false);
-
-	uint nDirs = dirs.count();
-	//uint nBaseDirs = basedirs.count();
-
-	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] )
-	{
-		dirs.pop_front();
-		basedirs.pop_front();
-	}
-
-	kdDebug() << "\tafter" << endl;
-	for (uint i=0; i < basedirs.count(); i++)
-	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
-	}
-
-	for (uint i=0; i < dirs.count(); i++)
-	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
-	}
-
-	if (nDirs != dirs.count() )
-	{
-		path = dirs.join("/");
-
-		kdDebug() << "\tpath : " << path << endl;
-		//kdDebug() << "\tdiff : " << diff << endl;
-
-		if (basedirs.count() > 0)
-		{
-			for (uint j=0; j < basedirs.count(); j++)
-			{
-				path = "../" + path;
-			}
-		}
-
-		if ( path.length()>0 && path.right(1) != "/" ) path = path + "/";
-
-		path = path+filename;
-	}
-	else //assume an absolute path was requested
-	{
-		path = url.path();
-	}
-
-	kdDebug() << "\tpath : " << path << endl;
-
-	return path;
-}
 
 ////////KileAutoSaveJob
 KileAutoSaveJob::KileAutoSaveJob(const KURL &url)

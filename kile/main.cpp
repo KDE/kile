@@ -37,8 +37,8 @@ static KCmdLineOptions options[] =
 int main( int argc, char ** argv )
 {
     KAboutData aboutData( "kile", "Kile",
-                          "1.6.1a1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-                          "Jeroen Wijnhout 2003",
+                          "1.6.1a2", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+                          "by the Kile Team (2003)",
                           0,
                           "http://kile.sourceforge.net");
     aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
@@ -88,7 +88,8 @@ int main( int argc, char ** argv )
     {
         KileApplication a;
         a.dcopClient()->registerAs("kile", false);
-        Kile * mw = new Kile();
+	bool restore = (args->count() == 0);
+        Kile * mw = new Kile(restore);
         a.setMainWidget(mw);
         if (args->count()>0)
         {
@@ -97,7 +98,10 @@ int main( int argc, char ** argv )
                 sa = sa.remove(0, 5);
             kdDebug() << QString("main: load(%1)").arg(sa) << endl;
             QFileInfo fi(sa);
-            mw->load(KURL::fromPathOrURL(fi.absFilePath()));
+	    if (sa.right(7) == ".kilepr")
+	    	mw->projectOpen(fi.absFilePath());
+	    else
+            	mw->load(KURL::fromPathOrURL(fi.absFilePath()));
             if (args->getOption("line")!="0")
                 mw->setLine(args->getOption("line"));
         }
@@ -117,7 +121,12 @@ int main( int argc, char ** argv )
 	    QFileInfo fi(sa);
             arg_file << fi.absFilePath();
             kdDebug() << QString("main: load(%1)").arg(sa) << endl;
-            client->send (appID, "Kile", "load(QString)", data_file);
+	    
+	    if (sa.right(7) == ".kilepr")
+	    	client->send (appID, "Kile", "projectOpen(QString)", data_file);
+	    else
+            	client->send (appID, "Kile", "load(QString)", data_file);
+		
             if (args->getOption("line")!="0")
             {
                 QString li=args->getOption("line");

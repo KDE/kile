@@ -3,7 +3,7 @@
                              -------------------
     begin                : mon 3-11 20:40:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,9 +18,13 @@
 #ifndef KILETOOL_H
 #define KILETOOL_H
 
-#include <qobject.h>
+#include "kilelauncher.h"
 
+#include <qobject.h>
+#include <qmap.h>
+#include <qptrlist.h>
 #include <qstring.h>
+#include <qdict.h>
 #include <qstringlist.h>
 
 class KConfig;
@@ -29,6 +33,8 @@ class KShellProcess;
 
 namespace KileTool
 {
+	class Manager;
+	
 	/**
  	* A class that defines a general tool (latex, dvips etc.) to be launched from
 	* within Kile.
@@ -36,46 +42,70 @@ namespace KileTool
 	* @author Jeroen Wijnhout
 	**/
 
-	class Custom : public QObject
+	class Base : public QObject
 	{
 		Q_OBJECT;
 
 	public:
-		Custom(const QString &name, int type, const QString &from, const QString &to, KileInfo *ki, KConfig *config);
-		~Custom();
+		Base(const QString &name, Manager *manager);
+		~Base();
 
 		/**
-		 * The type of the tool:
-		 * Shell - tool needs to be run in its own shell (most common)
-		 * Konsole - run the tool in Kile's Konsole, useful if the process needs user interaction
-		 * Run - start the tool with KRun
-		 * Part - the tool is started using a KPart
+		 * Sets the KileInfo object, this is already taken care of by the Manager.
 		 **/
-		enum { Shell, Konsole, Run, Part };
+		void setInfo(KileInfo *ki) { m_ki = ki; }
 		
 		/**
-		 * KileTool can send several types of messages
-		 * Error
-		 * Warning
-		 * Info
+		 * Sets the KConfig object, this is already taken care of by the Manager.
 		 **/
-		enum { Error, Warning, Info };
+		void setConfig(KConfig *config) { m_config = config; }
 		
+		/**
+		 * @returns the Manager object for this tool.
+		 **/
+		Manager* manager() const { return m_manager; }
+		
+		/**
+		 * @returns a short descriptive name for this tool.
+		 **/
+		const QString& name() const { return m_name; }
+		
+		/**
+		 * Allows you to set the source file explicitly (absolute path).
+		 **/
+		void setSource(const QString & source);
+		
+		/**
+		 * @returns the source file that is used to run the tool on.
+		 **/
+		const QString source(bool absolute = true) const;
+		
+		const QString S() const { return m_S; }
+		const QString baseDir() const { return m_basedir; }
+		const QString relativeDir() const { return m_relativedir; }
+		const QString targetDir() const { return m_targetdir; }
+		const QString from() const { return m_from; }
+		const QString to() const { return m_to; }
+		const QString target() const { return m_target; }
+		const QString options() const { return m_options; }
+
+		void setOptions(const QString &opt) { m_options = opt; }
+
 		/**
 		 * Allows you to set the target file explicitly (filename only).
 		 **/
-		void setTarget(const QString & target);
+		void setTarget(const QString & target) { m_target = target; }
 
 		/**
 		 * Sets the target directory relative to the source directory.
 		 **/
-		void setRelativeBaseDir(const QString & dir);
+		void setRelativeBaseDir(const QString & dir) { m_relativedir = dir; }
 
 		/**
 		 * Explicitly adds a prerequisite to the list (absolute path).
 		 **/
 		void addPrereq(const QString & prereq) { m_prereqs.append(prereq); }
-		
+
 		/**
 		 * Clears the list of prerequisites.
 		 **/
@@ -86,33 +116,67 @@ namespace KileTool
 		 * of date.
 		 **/
 		void setBuildPrereqs(bool build) { m_buildPrereqs = build; }
+		
+		/**
+		 * Builds the prerequisites for the current source file.
+		 **/
 		bool buildPrereqs() const { return m_buildPrereqs; }
+
+		/**
+		 * Installs a launcher object that will be responsible for actually starting the tool. The
+		 * tool can be a command-line tool or a kpart, the KileTool class doesn't need to know
+		 * about the specifics of the launcher.
+		 **/
+		void installLauncher(Launcher *lr );
 		
 		/**
-		 * Add an option for this tool (for example a command line option)
+		 * Installs a launcher as indicated by the tool type. This creates a launcher object.
 		 **/
-		void addOption(const QString & option) { m_options.append(option); }
-		
+		bool installLauncher();
+
 		/**
-		 * Clears the list of options.
+		 * @returns a pointer to the launcher object, returns 0 if no launcher is installed.
 		 **/
-		void clearOptions() { m_options.clear(); }
-		
-		void setTool(const QString & tool) { m_tool = tool; }
-		const QString& tool() const { return m_tool; }
-		
+		Launcher *launcher() { return m_launcher; }
+
+		/**
+		 * @returns the working dir for this tool.
+		 **/
+		const QString &workingDir() const { return m_basedir; }
+
+		/**
+		 * @returns the dictionary that translates the following keys
+		 * %dir_base : the directory of the root file
+		 * %dir_target : same as %dir_base, except when the relativeDir has been set explicitly, then %dir_target= %dir_base/relativedir
+		 * %source : the source file (no path)
+		 * %S : the source filename without an extension (no path)
+		 **/
+		QDict<QString>* paramDict() { return &m_dictParams; }
+
+		bool addDict(const QString & key, const QString & value);
+
+		void setFlags(uint flags) { m_flags = flags; }
+		uint flags() { return m_flags; }
+
+		void setMsg(long n, QString msg);
+		QString msg(long n) const { return m_messages[n]; }
+
+	public slots:
+		void sendMessage(int, const QString &);
+		void filterOutput(char *, int);
+
 	signals:
-		void message(int type, const QString &);
+		void message(int, const QString &);
+		void output(char *, int);
+
+		void start(Base*);
+		void done(Base*, int);
+		
+		void requestSaveAll();
 
 	public:
-		virtual void readConfig();
-		virtual void writeConfig();
-		
-		/**
-		 * Performs a self-check: should check if the tool can be launched, if not
-		 * it should analyze why.
-		 **/
-		virtual bool selfCheck();
+		void setEntryMap(QMap<QString,QString> map) { m_entryMap = map; }
+		const QString readEntry(const QString & key) { return m_entryMap[key]; }
 
 	protected:
 		/**
@@ -122,31 +186,25 @@ namespace KileTool
 		virtual bool checkPrereqs();
 
 		/**
+		 * Determines on which file to run the tool.
+		 **/
+		virtual bool determineSource();
+		
+		/**
 		 * Determines the target of the tool (i.e. a DVI for latex, PS for dvips) and
 		 * checks if the target file can be written to the specified location.
 		 **/
 		virtual bool determineTarget();
 
 		/**
-		 * Launch the process/lib and connect signals for stdout and stderr to the
-		 * specified slots.
+		 * Check if the target dir and file have the correct permissions (according to the flags set).
 		 **/
-		virtual bool launch();
+		virtual bool checkTarget();
 		
 		/**
-		 * Setup a KShellProcess object that is used to run the tool.
+		 * Configures the tool object.
 		 **/
-		virtual bool setupProcess();
-		
-		/**
-		 * Setup a KRun object that is used to run the tool.
-		 **/
-		virtual bool setupKRun();
-		
-		/**
-		 * Setup the part to load.
-		 **/
-		virtual bool setupPart();
+		 virtual bool configure();
 
 	public slots:
 		/**
@@ -165,58 +223,103 @@ namespace KileTool
 		/**
 		 * Clean up after the process/lib has finished.
 		 **/
-		virtual bool finish();
+		virtual bool finish(int);
 
 	private:
-		KileInfo		*m_ki;
+		Manager			*m_manager;
+		KileInfo			*m_ki;
 		KConfig			*m_config;
 
-		int 			m_type;
-		
-		QString			m_name;
-		QString			m_from;
-		QString			m_to;
-		QString			m_target, m_basedir, m_relativedir, m_targetdir;
+		QString			m_name, m_from, m_to;
+		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_options;
 		QStringList		m_prereqs;
 		
-		QString 		m_tool;
-		QStringList		m_options;
-		
 		QString			m_message;
-		
-		bool			m_buildPrereqs;
-		
-		KShellProcess		*m_shellProcess;
-		
+
+		bool				m_buildPrereqs;
+
+	protected:
+		Launcher			*m_launcher;
+
+	private:
+		QDict<QString>	m_dictParams;
+		QMap<QString,QString>	m_entryMap;
+
+		uint				m_flags;
+
+		//messages
+		QMap<long,QString>	m_messages;
 	};
 
 	/**
 	 * A class that represents a compile tool (such as latex, pdflatex).
 	 **/
-	//class Compile : public Custom
-	//{
-	//};
+	class Compile : public Base
+	{
+	public:
+		Compile(const QString &name, Manager * manager);
+		~Compile();
+		
+	protected:
+		bool determineSource();
+	};
 
 	/**
 	 * A class that represents a view tool (such as KDVI, gv, etc.).
 	 **/
-	//class View : public Custom
-	//{
-	//};
+	class View : public Base
+	{
+	public:
+		View(const QString &name, Manager * manager);
+		~View();
+	};
 
 	/**
 	 * A class that represents a conversion tool (such as dvips).
 	 **/
-	//class Convert : public Custom
-	//{
-	//};
+	class Convert : public Base
+	{
+	public:
+		Convert(const QString &name, Manager * manager);
+		~Convert();
+		
+		bool determineSource();
+	};
 
 	/**
 	 * A class that represents a tool based on the (GNU) make program.
 	 **/
-	//class Make : public Custom
+	//class Make : public Base
 	//{
 	//};
+	
+	class Sequence : public Base
+	{
+		Q_OBJECT
+		
+	public:
+		Sequence(const QString &name, Manager * manager, bool autoDelete = false);
+
+		void append(Base *);
+
+		uint index() { return m_index; }
+		uint count() { return m_tools.count(); }
+		void next() { m_index++; }
+
+	public slots:
+		int run();
+		bool finish(int);
+		void stop();
+		void started(Base*);
+		
+		int runNext(Base *, int);
+
+	private:
+		QPtrList<Base>	m_tools;
+		uint				m_index;
+		uint				m_count;
+		Base			*m_current;
+	};
 
 }
 

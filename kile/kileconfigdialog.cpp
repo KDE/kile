@@ -202,19 +202,44 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	//fill in tools
 	m_config->setGroup("Tools");
 	checkForRoot->setChecked(m_config->readBoolEntry("CheckForRoot",true));
-	comboDvi->setCurrentText(m_config->readEntry("Dvi","Embedded Viewer"));
-	comboPdf->setCurrentText(m_config->readEntry("Pdf","Embedded Viewer"));
-	comboPs->setCurrentText(m_config->readEntry("Ps","Embedded Viewer"));
-	comboLatexHelp->setCurrentText(m_config->readEntry("LatexHelp","Embedded Viewer"));
-	LineEdit6->setText(m_config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'"));
-	LineEdit7->setText(m_config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode '%S.tex'"));
-	LineEdit9->setText(m_config->readEntry("Dvipdf","dvipdfm '%S.dvi'"));
-	LineEdit10->setText(m_config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'"));
-	LineEdit11->setText(m_config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'"));
-	LineEdit12->setText(m_config->readEntry("Makeindex","makeindex '%S.idx'"));
-	LineEdit13->setText(m_config->readEntry("Bibtex","bibtex '%S'"));
-	LineEdit14->setText(m_config->readEntry("Bibtexeditor","gbib '%S.bib'"));
 	m_runlyxserver->setChecked(m_config->readBoolEntry("RunLyxServer", true));
+	comboLatexHelp->setCurrentText(m_config->readEntry("LatexHelp","Embedded Viewer"));
+	
+	m_config->setGroup("Tool/ViewDVI");
+	if ( m_config->readEntry("type","Part") == "Part" )
+		comboDvi->setCurrentText(i18n("Embedded Viewer"));
+	else
+		comboDvi->setCurrentText(m_config->readEntry("command") + " " + m_config->readEntry("options"));
+
+	m_config->setGroup("Tool/ViewPDF");
+	if ( m_config->readEntry("type","Part") == "Part" )
+		comboPdf->setCurrentText(i18n("Embedded Viewer"));
+	else
+		comboPdf->setCurrentText(m_config->readEntry("command") + " " + m_config->readEntry("options"));
+
+	m_config->setGroup("Tool/ViewPS");
+	if ( m_config->readEntry("type","Part") == "Part" )
+		comboPs->setCurrentText(i18n("Embedded Viewer"));
+	else
+		comboPs->setCurrentText(m_config->readEntry("command") + " " + m_config->readEntry("options"));
+
+	m_config->setGroup("Tool/LaTeX");
+	LineEdit6->setText(m_config->readEntry("command","latex") + " " + m_config->readEntry("options","-interaction=nonstopmode '%source'"));
+	m_config->setGroup("Tool/PDFLaTeX");
+	LineEdit7->setText(m_config->readEntry("command","pdflatex") + " " + m_config->readEntry("options","-interaction=nonstopmode '%source'"));
+	m_config->setGroup("Tool/DVItoPDF");
+	LineEdit9->setText(m_config->readEntry("command","dvipdfm") + " " + m_config->readEntry("options"," '%S.dvi'"));
+	m_config->setGroup("Tool/DVItoPS");
+	LineEdit10->setText(m_config->readEntry("command","dvips") + " " + m_config->readEntry("options"," -o '%S.ps' '%S.dvi'"));
+	m_config->setGroup("Tool/PStoPDF");
+	LineEdit11->setText(m_config->readEntry("command","ps2pdf") + " " + m_config->readEntry("options"," '%S.ps' '%S.pdf'"));
+	m_config->setGroup("Tool/MakeIndex");
+	LineEdit12->setText(m_config->readEntry("command","makeindex") + " " + m_config->readEntry("options"," '%S.idx'"));
+	m_config->setGroup("Tool/BibTeX");
+	LineEdit13->setText(m_config->readEntry("command","bibtex") + " " + m_config->readEntry("options"," '%S'"));
+	m_config->setGroup("Tool/ViewBib");
+	LineEdit14->setText(m_config->readEntry("command","gbib") + " " + m_config->readEntry("options"," '%S.bib'"));
+	
 
 
     // ************************************************************************************************
@@ -298,21 +323,92 @@ void KileConfigDialog::slotOk()
 
 	m_config->setGroup("Tools");
 	m_config->writeEntry("CheckForRoot",checkForRoot->isChecked());
-	m_config->writeEntry("Latex",LineEdit6->text());
-	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
-	m_config->writeEntry("Dvi",comboDvi->currentText());
-	m_config->writeEntry("Dvips",LineEdit10->text());
-	m_config->writeEntry("Ps",comboPs->currentText());
-	m_config->writeEntry("Ps2pdf",LineEdit11->text());
-	m_config->writeEntry("Makeindex",LineEdit12->text());
-	m_config->writeEntry("Bibtex",LineEdit13->text());
-	m_config->writeEntry("Pdflatex",LineEdit7->text());
-	m_config->writeEntry("Pdf",comboPdf->currentText());
-	m_config->writeEntry("Dvipdf",LineEdit9->text());
-	m_config->writeEntry("Bibtexeditor",LineEdit14->text());
 	m_config->writeEntry("RunLyxServer", m_runlyxserver->isChecked());
 
-	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
+	m_config->setGroup("Tool/LaTeX");
+	m_config->writeEntry("command",LineEdit6->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit6->text().section(' ',1));
+
+	m_config->setGroup("Tool/DVItoPS");
+	m_config->writeEntry("command",LineEdit10->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit10->text().section(' ',1));
+
+	m_config->setGroup("Tool/ViewBib");
+	m_config->writeEntry("command",LineEdit14->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit14->text().section(' ',1));
+
+	m_config->setGroup("Tool/PStoPDF");
+	m_config->writeEntry("command",LineEdit11->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit11->text().section(' ',1));
+
+	m_config->setGroup("Tool/MakeIndex");
+	m_config->writeEntry("command",LineEdit12->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit12->text().section(' ',1));
+
+	m_config->setGroup("Tool/BibTeX");
+	m_config->writeEntry("command",LineEdit13->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit13->text().section(' ',1));
+
+	m_config->setGroup("Tool/PDFLaTeX");
+	m_config->writeEntry("command",LineEdit7->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit7->text().section(' ',1));
+
+	m_config->setGroup("Tool/DVItoPDF");
+	m_config->writeEntry("command",LineEdit9->text().section(' ',0,0));
+	m_config->writeEntry("options",LineEdit9->text().section(' ',1));
+
+	m_config->setGroup("Tool/ViewPDF");
+	if (comboPdf->currentText() == i18n("Embedded Viewer"))
+	{
+		m_config->writeEntry("type","Part");
+	}
+	else
+	{
+		m_config->writeEntry("type","Process");
+		m_config->writeEntry("command",comboPdf->currentText().section(' ',0,0));
+		m_config->writeEntry("options",comboPdf->currentText().section(' ',1));
+	}
+
+	m_config->setGroup("Tool/ViewDVI");
+	if (comboDvi->currentText() == i18n("Embedded Viewer"))
+	{
+		m_config->writeEntry("type","Part");
+	}
+	else
+	{
+		m_config->writeEntry("type","Process");
+		m_config->writeEntry("command",comboDvi->currentText().section(' ',0,0));
+		m_config->writeEntry("options",comboDvi->currentText().section(' ',1));
+	}
+
+	m_config->setGroup("Tool/ViewPS");
+	if (comboPs->currentText() == i18n("Embedded Viewer"))
+	{
+		m_config->writeEntry("type","Part");
+	}
+	else
+	{
+		m_config->writeEntry("type","Process");
+		m_config->writeEntry("command",comboPs->currentText().section(' ',0,0));
+		m_config->writeEntry("options",comboPs->currentText().section(' ',1));
+	}
+
+	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
+
+	m_config->setGroup("Tool/QuickBuild");
+	switch ( ButtonGroup2->id(ButtonGroup2->selected()) + 1)
+	{
+		case 1: m_config->writeEntry("sequence","LaTeX,DVItoPS,ViewPS");break;
+		case 2: m_config->writeEntry("sequence","LaTeX,ViewDVI");break;
+		case 3: m_config->writeEntry("sequence","LaTeX,ForwardDVI");break;
+		case 4: m_config->writeEntry("sequence","PDFLaTeX,ViewPDF");break;
+		case 5: m_config->writeEntry("sequence","LaTeX,DVItoPDF,ViewPDF");break;
+		case 6: m_config->writeEntry("sequence","LaTeX,DVItoPS,PStoPDF,ViewPDF");break;
+		default: m_config->writeEntry("sequence", "LaTeX,ViewDVI"); break;
+	}
+
+	m_config->setGroup("Tools");
+ 	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
 
 	m_config->setGroup( "Editor Ext" );
 	m_config->writeEntry("Complete Environment", checkEnv->isChecked());

@@ -87,12 +87,14 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name, cons
   combo4->insertItem( "cp852" );
   combo4->insertItem( "cp437" );
   combo4->insertItem( "cp437de" );
+  combo4->insertItem( "cp1252" );
+  combo4->insertItem( "cp1250" );
+  combo4->insertItem( "cp1251" );
   combo4->insertItem( "cp865" );
+  combo4->insertItem( "koi8-r" );
   combo4->insertItem( "applemac" );
   combo4->insertItem( "next" );
   combo4->insertItem( "ansinew" );
-  combo4->insertItem( "cp1252" );
-  combo4->insertItem( "cp1250" );
   combo4->insertItem( "NONE" );
 
   userEncodingBtn= new QPushButton(this,"NoName");

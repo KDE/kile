@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=Kile Project
+Comment[nl]=Kile Project
+Icon=kile
+MimeType=text/x-kilepr
+Patterns=*.kilepr;
+Type=MimeType
+
+[Property::X-KDE-text]
+Type=bool
+Value=true

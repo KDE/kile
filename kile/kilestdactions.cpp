@@ -215,14 +215,14 @@ void setupMathTags(KMainWindow *parent, QPtrList<KAction>* plist)
 
   	KileAction::Select *actionright_list = new KileAction::Select(i18n("Right Delimiter"), 0, parent->actionCollection(), "right_list");
   	alist.clear();
+  	alist.append(new KileAction::Tag("right )",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right) ",QString::null,8,0));
+  	alist.append(new KileAction::Tag("right ]",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right] ",QString::null,8,0));
+  	alist.append(new KileAction::Tag("right }",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right\\rbrace ",QString::null,14,0));
+	  alist.append(new KileAction::Tag("right >",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right\\rangle ",QString::null,14,0));
   	alist.append(new KileAction::Tag("right (",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right( ",QString::null,8,0));
   	alist.append(new KileAction::Tag("right [",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right[ ",QString::null,8,0));
   	alist.append(new KileAction::Tag("right {",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right\\lbrace ",QString::null,14,0));
   	alist.append(new KileAction::Tag("right <",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right\\langle ",QString::null,14,0));
-  	alist.append(new KileAction::Tag("right )",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right) ",QString::null,8,0));
-  	alist.append(new KileAction::Tag("right ]",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right] ",QString::null,8,0));
-  	alist.append(new KileAction::Tag("right }",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right\\rbrace ",QString::null,14,0));
-  	alist.append(new KileAction::Tag("right >",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right\\rangle ",QString::null,14,0));
   	alist.append(new KileAction::Tag("right.",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right. ",QString::null,8,0));
 
   	actionright_list->setItems(alist);

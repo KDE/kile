@@ -26,6 +26,7 @@
 #include <qfileinfo.h>
 #include <qstringlist.h>
 #include <qsocketnotifier.h>
+#include <qregexp.h>
 
 #include <kdebug.h>
 #include <ktextedit.h>
@@ -156,18 +157,16 @@ void KileLyxServer::receive(int fd)
 		line=line.stripWhiteSpace();
 		kdDebug() << m_count++ << ":" << line << endl;
 
-		QString from = line.section(':',0,0);
-		QString command = line.section(':',1,1);
-		QString arg = line.section(":",2);
-
-		kdDebug() << "received " << command << "(" << arg << ") from " << from << endl;
-
-		if (command == "citation-insert")
-			emit(insertCite(arg));
-		else if (command == "bibtex-insert")
-			emit(insertBibTeX(arg));
-		else if (command == "bibtex-database-add")
-			emit(insertBibTeXDatabaseAdd(arg));
+		QRegExp cite(":citation-insert:(.*)$");
+		QRegExp bibtexins(":bibtex-insert:(.*)$");
+		QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
+		
+		if (cite.search(line) > -1)
+			emit(insertCite(cite.cap(1)));
+		else if ( bibtexins.search(line) > -1)
+			emit(insertBibTeX(bibtexins.cap(1)));
+		else if ( bibtexdbadd.search(line) )
+			emit(insertBibTeXDatabaseAdd(bibtexdbadd.cap(1)));
 	}
 }
 

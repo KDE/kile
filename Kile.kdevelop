@@ -16,8 +16,8 @@
     <ignoreparts>
       <part>KDevClearCase</part>
       <part>KDevPerforce</part>
-      <part>KDevVisualBoyAdvance</part>
     </ignoreparts>
+    <secondaryLanguages/>
   </general>
   <kdevfileview>
     <groups>
@@ -47,11 +47,25 @@
       <toc>w3c-dom-level2-html</toc>
       <toc>sw</toc>
       <toc>ruby</toc>
+      <toc>haskell</toc>
+      <toc>kdev3api</toc>
+      <toc>opengl</toc>
+      <toc>ada</toc>
+      <toc>clanlib</toc>
     </ignoretocs>
     <projectdoc>
-      <userdocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/doc/kile</userdocDir>
-      <apidocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html</apidocDir>
+      <userdocDir>/home/kde-dev/kde/src/kile/head/kdeextragear-2/doc/kile/</userdocDir>
+      <apidocDir>/home/kde-dev/kde/build/kile/head/kdeextragear-2/kile/html/</apidocDir>
     </projectdoc>
+    <ignoreqt_xml>
+      <toc>qmake User Guide</toc>
+      <toc>Guide to the Qt Translation Tools</toc>
+      <toc>Qt Assistant Manual</toc>
+      <toc>Qt Designer Manual</toc>
+    </ignoreqt_xml>
+    <ignoredoxygen/>
+    <ignorekdocs/>
+    <ignoredevhelp/>
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
@@ -62,6 +76,9 @@
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
       <runappinappdirectory>true</runappinappdirectory>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
     </general>
     <display>
       <staticmembers>false</staticmembers>
@@ -91,16 +108,34 @@
       <useconfiguration>default</useconfiguration>
     </general>
     <run>
-      <mainprogram>/home/wijnhout/Devel/KDE/bin/kile</mainprogram>
+      <mainprogram/>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars>
         <envvar value="/home/wijnhout/Devel/KDE" name="KDEDIR" />
       </envvars>
-      <directoryradio>custom</directoryradio>
+      <directoryradio>executable</directoryradio>
       <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
     </run>
+    <configurations>
+      <default>
+        <configargs>--with-debug=full --prefix=/opt/kde_cvs</configargs>
+        <builddir>/home/kde-dev/kde/build/kile/head/kdeextragear-2</builddir>
+        <topsourcedir>/home/kde-dev/kde/src/kile/head/kdeextragear-2</topsourcedir>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevpgf77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags/>
+        <f77flags/>
+      </default>
+    </configurations>
   </kdevautoproject>
   <cppsupportpart>
     <codecompletion/>
@@ -143,4 +178,11 @@
     </codecompletion>
     <references/>
   </kdevcppsupport>
+  <kdevcvsservice>
+    <recursivewhenupdate>true</recursivewhenupdate>
+    <prunedirswhenupdate>true</prunedirswhenupdate>
+    <createdirswhenupdate>true</createdirswhenupdate>
+    <recursivewhencommitremove>true</recursivewhencommitremove>
+    <revertoptions>-C</revertoptions>
+  </kdevcvsservice>
 </kdevelop>

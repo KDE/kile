@@ -83,7 +83,7 @@
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
-#define KILERC_VERSION 2
+#define KILERC_VERSION 3
 
 class QFileInfo;
 class QTimer;
@@ -97,6 +97,8 @@ class KileProject;
 class KileProjectItem;
 class KileProjectView;
 class TemplateItem;
+
+namespace KileTool { class Manager; class Factory; }
 
 #ifndef KILE_USERITEM
 struct userItem
@@ -118,8 +120,7 @@ class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
 	Q_OBJECT
 
 public:
-	QString relativePath(const QString basepath, const QString & file);
-	Kile( QWidget *parent = 0, const char *name = 0 );
+	Kile( bool restore = true, QWidget *parent = 0, const char *name = 0 );
 	~Kile();
 
 public slots:
@@ -151,6 +152,7 @@ private:
 	QValueList<userItem> 	m_listUserTags, m_listUserTools;
 	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions;
 	KAction							*m_actionEditTag, *m_actionEditTool;
+	KAction						*PrintAction;
 
 	KPopupMenu			*help;
 	KHelpMenu				*help_menu;
@@ -197,6 +199,7 @@ private:
 	docpart 						*htmlpart;
 	KParts::PartManager 	*partManager;
 	KParts::ReadOnlyPart 	*pspart, *dvipart;
+	QString 		m_wantState, m_currentState;
 
 private slots:
 	void ToggleMode();
@@ -224,7 +227,11 @@ private:
 private slots:
 	void ResetPart();
 	void ActivePartGUI(KParts::Part * the_part);
+	void enableKileGUI(bool enable);
 
+public slots:
+	void prepareForPart(const QString &);
+	
 /* structure view */
 private:
 	bool 								showstructview;
@@ -249,10 +256,10 @@ private:
    	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
    	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 	bool 				ams_packages, makeidx_package;
-	bool 				htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
+	bool 				htmlpresent,pspresent, dvipresent, symbol_present, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
-	bool				m_bCompleteEnvironment, m_bRestore, m_bCheckForRoot, m_runlyxserver, m_bQuick;
+	bool				m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
 
 signals:
 	/**
@@ -394,6 +401,9 @@ private slots:
 	void addToProject(KileProject *, const KURL &);
 	void removeFromProject(const KURL &, const KURL &);
 
+public slots:
+	void projectOpen(const QString& proj) { projectOpen(KURL::fromPathOrURL(proj)); }
+
 private:
 	void sanityCheck();
 
@@ -416,12 +426,14 @@ private slots:
 public:
 	Kate::Document * activeDocument() const { Kate::View *view = currentView(); if (view) return view->getDoc(); else return 0;}
 
-	const QStringList* labels();
-	const QStringList* bibItems();
-	const QStringList* bibliographies();
+	const QStringList* labels(KileDocumentInfo * info = 0);
+	const QStringList* bibItems(KileDocumentInfo * info = 0);
+	const QStringList* bibliographies(KileDocumentInfo * info = 0);
+	
+	int lineNumber();
 
 private:
-	const QStringList* retrieveList(const QStringList* (KileDocumentInfo::*getit)() const);
+	const QStringList* retrieveList(const QStringList* (KileDocumentInfo::*getit)() const, KileDocumentInfo * docinfo = 0);
 	QStringList m_listTemp;
 
 /* autosave */
@@ -461,15 +473,6 @@ private slots:
 	void slotl2hExited(KProcess* proc);
 
 	void QuickBuild();
-	void EndQuickCompile();
-	void QuickDviToPS();
-	void QuickDviPDF();
-	void QuickPS2PDF();
-
-	CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop, bool runonfile = true);
-	QString 		prepareForCompile(const QString & command);
-	QStringList 	prepareForConversion(const QString &command, const QString &from, const QString &to);
-	QString 		prepareForViewing(const QString & command, const QString &ext, const QString &target = QString::null);
 
 	void Latex();
 	void ViewDvi();
@@ -499,6 +502,10 @@ private slots:
 	void FindInFiles();
 	void GrepItemSelected(const QString &abs_filename, int line);
 
+public slots:
+	void recvMessage(int type, const QString & msg);
+	void recvOutput(char *buf, int len);
+
 /* log view, error handling */
 private slots:
 	void ViewLog();
@@ -526,6 +533,8 @@ private:
 	bool 				m_bNewInfolist;
 	LatexOutputInfoArray	*m_OutputInfo;
 	LatexOutputFilter		*m_OutputFilter;
+	KileTool::Manager		*m_manager;
+	KileTool::Factory		*m_toolFactory;
 
 
 /* insert tags */

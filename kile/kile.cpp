@@ -665,8 +665,8 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	//disable gui updates to avoid flickering of toolbars
 	setUpdatesEnabled(false);
-	
 	Kate::View* view = (Kate::View*)w;
+	if (view->isActive()) return;
 
 	for (uint i=0; i< viewManager()->views().count(); i++)
 	{

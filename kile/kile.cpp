@@ -511,10 +511,25 @@ Kate::View *Kile::currentView() const
 void Kile::setLine( const QString &line )
 {
 	bool ok;
-	int l=line.toInt(&ok,10);
+	uint l=line.toUInt(&ok,10), para, col;
 	Kate::View *view = currentView();
 	if (view && ok)
   	{
+		view->cursorPosition(&para,&col);
+		view->setCursorPosition(l,0);
+
+		if ( l > para)
+		{
+			view->down();view->down();view->down();
+			view->up();view->up();view->up();
+		}
+
+		if ( l < para)
+		{
+			view->up();view->up();view->up();
+			view->down();view->down();view->down();
+		}
+
 		this->show();
 		this->raise();
 		view->setFocus();
@@ -2406,9 +2421,10 @@ if (s!="include" && s!="input" && s!="LABELS")
  uint l=s.toInt(&ok,10);
  if (ok && l<=currentView()->getDoc()->numLines())
   {
-  currentView()->setFocus();
-  currentView()->setCursorPosition(l, 0);
+  //currentView()->setFocus();
+  //currentView()->setCursorPosition(l, 0);
   //newStatus();
+  setLine(QString::number(l));
   }
  }
  }

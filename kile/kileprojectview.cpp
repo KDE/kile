@@ -240,7 +240,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		else if (itm->type() == KileType::Project)
 		{
 			m_popup->insertItem(i18n("A&dd Files..."), KPV_ID_ADDFILES);
-			m_popup->insertItem(UserIcon("relation"),i18n("Build Project &Tree"), KPV_ID_BUILDTREE);
+			m_popup->insertItem(UserIcon("relation"),i18n("Refresh Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertItem(SmallIcon("package"),i18n("&Archive"), KPV_ID_ARCHIVE);
 			m_popup->insertSeparator();

@@ -299,7 +299,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, this, SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	(void) new KAction(i18n("A&dd files to project..."), 0, this, SLOT(projectAddFiles()), actionCollection(), "project_add");
-	(void) new KAction(i18n("Build Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
+	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
 	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(projectArchive()), actionCollection(), "project_archive");
 	(void) new KAction(i18n("Project &Options..."), "configure", 0, this, SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
@@ -993,7 +993,7 @@ void Kile::buildProjectTree(KileProject *project)
 		project = activeProject();
 
 	if (project == 0 )
-		project = selectProject(i18n("Build project tree..."));
+		project = selectProject(i18n("Refresh project tree..."));
 
 	if (project)
 	{
@@ -1001,7 +1001,7 @@ void Kile::buildProjectTree(KileProject *project)
 		project->buildProjectTree();
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Build Project Tree again."),i18n( "Could not build project tree."));
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could not refresh project tree."));
 }
 
 void Kile::projectNew()
@@ -3971,22 +3971,27 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-QFileInfo fic(locate("html","en/kile/latexhelp.html"));
-kdDebug() << "latexhelp: " << fic.absFilePath() << endl;
-    if (fic.exists() && fic.isReadable() )
+      if (viewlatexhelp_command == i18n("Embedded Viewer") )
       {
-      ResetPart();
-      htmlpart = new docpart(topWidgetStack,"help");
-      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
-      htmlpresent=true;
-      topWidgetStack->addWidget(htmlpart->widget() , 1 );
-      topWidgetStack->raiseWidget(1);
-      partManager->addPart(htmlpart, true);
-      partManager->setActivePart( htmlpart);
-      htmlpart->openURL(locate("html","en/kile/latexhelp.html"));
-      htmlpart->addToHistory(locate("html","en/kile/latexhelp.html"));
+	      ResetPart();
+	      htmlpart = new docpart(topWidgetStack,"help");
+	      connect(htmlpart,    SIGNAL(updateStatus(bool, bool)), SLOT(updateNavAction( bool, bool)));
+	      htmlpresent=true;
+	      topWidgetStack->addWidget(htmlpart->widget() , 1 );
+	      topWidgetStack->raiseWidget(1);
+	      partManager->addPart(htmlpart, true);
+	      partManager->setActivePart( htmlpart);
+	      htmlpart->openURL("help:kile/latexhelp.html");
+	      htmlpart->addToHistory("help:kile/latexhelp.html");
       }
-    else { KMessageBox::error( this,i18n("File not found"));}
+      else if (viewlatexhelp_command == i18n("External Browser") )
+      {
+	kapp->invokeBrowser("help:kile/latexhelp.html");
+      }
+      else
+      {
+	kapp->invokeHTMLHelp("kile/latexhelp.html");
+      }
 }
 
 void Kile::invokeHelp()

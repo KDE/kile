@@ -183,12 +183,13 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 
 	QString line, grab = "";
 	int count=0, len;
+	pos++;
 
 	while ( l <= m_doc->numLines() )
 	{
 		line = m_doc->textLine(l);
 		len = line.length();
-		for (int i=pos+1; i < len; i++)
+		for (int i=pos; i < len; i++)
 		{
 			if (line[i] == '\\') i++;
 			else if (line[i] == obracket) count++;
@@ -202,6 +203,7 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 			grab += line[i];
 		}
 		l++;
+		pos=0;
 	}
 
 	return QString::null;

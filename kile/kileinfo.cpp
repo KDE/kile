@@ -15,37 +15,37 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qwidget.h>
 #include <qfileinfo.h>
 
 #include <kate/document.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
+#include "kilefileselect.h"
+#include "kilestructurewidget.h"
+#include "kiledocmanager.h"
+#include "kileviewmanager.h"
 #include "kiledocumentinfo.h"
 #include "kileproject.h"
 #include "kileinfo.h"
 
-void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
+KileInfo::KileInfo(QWidget *parent) :
+	m_parentWidget(parent),
+	m_currentTarget(QString::null)
 {
-/*	m_mapDocInfoToItem[docinfo]=item;
-	m_mapItemToDocInfo[item]=docinfo;*/
-	item->setInfo(docinfo);
+	m_docManager = new KileDocument::Manager(this, 0L, "KileDocument::Manager");
+	m_viewManager= new KileView::Manager(this, 0L, "KileView::Manager");
 }
 
-void KileInfo::trash(Kate::Document *doc)
+KileInfo::~KileInfo()
 {
-	kdDebug() << "\tTRASHING " <<  doc  << endl;
-	if (doc == 0) return;
+	delete m_docManager; m_docManager = 0L;
+}
 
-	kdDebug() << "\tremoving from m_docList: " << doc->url().path() << endl;
-	m_docList.remove(doc);
-
-	KileDocumentInfo *docinfo =  infoFor(doc);
-	if (docinfo) docinfo->detach();
-	removeMap(doc);
-
-	//if (doc) doc->closeURL();
-	delete doc;
+void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
+{
+	item->setInfo(docinfo);
 }
 
 KileProject* KileInfo::projectFor(const KURL &projecturl)
@@ -84,19 +84,22 @@ KileProject* KileInfo::projectFor(const QString &name)
 	return project;
 }
 
-KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0*/) const
+KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0L*/) const
 {
 	if (project == 0L)
 	{
 		QPtrListIterator<KileProject> it(m_projects);
 		while ( it.current() )
 		{
+			kdDebug() << "looking in project " << (*it)->name() << endl;
 			if ((*it)->contains(url))
 			{
+				kdDebug() << "\t\tfound!" << endl;
 				return (*it)->item(url);
 			}
 			++it;
 		}
+		kdDebug() << "\t nothing found" << endl;
 	}
 	else
 	{
@@ -104,7 +107,7 @@ KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0*/)
 			return project->item(url);
 	}
 
-	return 0;
+	return 0L;
 }
 
 KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
@@ -114,13 +117,17 @@ KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *proje
 
 KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
 {
+	kdDebug() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
 	KileProjectItemList *list = new KileProjectItemList();
+	list->setAutoDelete(false);
 
 	QPtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
+		kdDebug() << "\tproject: " << (*it)->name() << endl;
 		if ((*it)->contains(docinfo->url()))
 		{
+			kdDebug() << "\t\tcontains" << endl;
 			list->append((*it)->item(docinfo->url()));
 		}
 		++it;
@@ -129,36 +136,40 @@ KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
 	return list;
 }
 
-KileDocumentInfo* KileInfo::infoFor(KileProjectItem *item)
+KileDocumentInfo* KileInfo::getInfo() const
 {
-	return infoFor(item->url().path());
+	Kate::Document *doc = activeDocument(); 
+	if ( doc != 0L )
+		return infoFor(doc);
+	else
+		return 0L;
 }
 
-KileDocumentInfo *KileInfo::infoFor(const QString & path)
+KileDocumentInfo *KileInfo::infoFor(const QString & path) const
 {
-	//kdDebug() << "==KileInfo::infoFor==========================" << endl;
-	//kdDebug() << "\t" << path << endl;
-	for (uint i=0; i < m_infoList.count(); i++)
+	kdDebug() << "==KileInfo::infoFor==========================" << endl;
+	kdDebug() << "\t" << path << endl;
+	QPtrListIterator<KileDocumentInfo> it(docManager()->m_infoList);
+	while ( true )
 	{
-		//kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
-		if ( m_infoList.at(i)->url().path() == path)
-			return m_infoList.at(i);
+		kdDebug() << "\tconsidering " << it.current()->url().path() << endl;
+		if ( it.current()->url().path() == path)
+			return it.current();
+
+		if (it.atLast()) break;
+
+		++it;
 	}
 
-	//kdDebug() << "\tCOULD NOT find info for " << path << endl;
-	return 0;
+	kdDebug() << "\tCOULD NOT find info for " << path << endl;
+	return 0L;
 }
 
-Kate::Document* KileInfo::docFor(const KURL& url)
+KileDocumentInfo* KileInfo::infoFor(Kate::Document* doc) const
 {
-	for (uint i=0; i < m_docList.count(); i++)
-	{
-		if (m_docList.at(i)->url() == url)
-			return m_docList.at(i);
-	}
-
-	return 0;
+	return infoFor(doc->url().path());
 }
+
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
 	QString title;
@@ -217,6 +228,21 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 				return m_masterName;
 		}
 	}
+}
+
+bool KileInfo::isOpen(const KURL & url)
+{
+	kdDebug() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
+	uint cnt = viewManager()->views().count();
+	kdDebug() << "\t" << cnt << " views" << endl;
+	for ( uint i = 0; i < cnt; i++)
+	{
+		kdDebug() << "\t" << i << " " << viewManager()->view(i) << " url " << &url << endl;
+		if ( viewManager()->view(i)->getDoc() && (url == viewManager()->view(i)->getDoc()->url()) )
+			return true;
+	}
+
+	return false;
 }
 
 bool	KileInfo::projectIsOpen(const KURL & url)

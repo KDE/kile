@@ -103,10 +103,13 @@ void KileProjectView::slotClicked(QListViewItem *item)
 
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
 	kdDebug() << "KileProjectView:: clicked(" << itm->url().fileName() << ")" << endl;
-	if (itm && (itm->type() == KileType::File || itm->type() == KileType::ProjectItem ))
+	if (itm)
 	{
 		kdDebug() << "KileProjectView:: emit fileSelected" << endl;
-		emit fileSelected(itm->projectItem());
+		if (itm->type() == KileType::File )
+			emit fileSelected(itm->url());
+		else if ( itm->type() == KileType::ProjectItem )
+			emit fileSelected(itm->projectItem());
 	}
 }
 

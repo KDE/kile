@@ -29,10 +29,9 @@
 		</list>
 		<contexts>
 			<context name="Normal Text" attribute="Normal Text" lineEndContext="#stay">
-				<RegExpr String="\\begin(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" beginRegion="Environment"/>
-				<RegExpr String="\\end(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" endRegion="Environment"/>
+				<RegExpr String="\\(begin|end)(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment"/>
 				<RegExpr String="\\(label|pageref|ref|cite)(?=[^a-zA-Z])" attribute="Structure" context="Label"/>
-				<RegExpr String="\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)(?=[^a-zA-Z])" attribute="Structure" context="#stay" />
+				<RegExpr String="\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)(?=[^a-zA-Z])" attribute="Structure" context="#stay"/>
 				<StringDetect String="\renewcommand" attribute="Keyword" context="ToEndOfLine"/>
 				<StringDetect String="\newcommand" attribute="Keyword" context="ToEndOfLine"/>
 				<StringDetect String="\(" attribute="Math" context="MathMode"/>
@@ -54,7 +53,7 @@
 
 			<context name="FindEnvironment" attribute="Normal Text" lineEndContext="#stay">
 				<DetectChar char="{" attribute="Normal Text" context="Environment"/>
-				<RegExpr String="[^\s]" attribute="Normal Text" context="#pop" endRegion="Environment"/>
+				<RegExpr String="[^\s]" attribute="Normal Text" context="#pop"/>
 			</context>
 			<context name="Environment" attribute="Environment" lineEndContext="#stay">
 				<DetectChar char="}" attribute="Normal Text" context="#pop#pop"/>
@@ -86,7 +85,7 @@
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<StringDetect String="verbatim*" attribute="Environment" context="#stay"/>
 				<StringDetect String="verbatim" attribute="Environment" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop" endRegion="Environment"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"/>
 			</context>
 
 			<context name="SpecialEnv" attribute="Verbatim" lineEndContext="#stay">
@@ -97,7 +96,7 @@
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<keyword String="kw_verbenv" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*" attribute="Normal Text" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop" endRegion="Environment"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop"/>
 			</context>
 
 			<context name="MathMode" attribute="Math" lineEndContext="#stay">
@@ -129,7 +128,7 @@
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<keyword String="kw_mathenv" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*" attribute="Normal Text" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop" endRegion="Environment"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"/>
 			</context>
 			<context name="MathContrSeq" attribute="Keyword Mathmode" lineEndContext="#pop">
 				<RegExpr String="[a-zA-Z]+" attribute="Keyword Mathmode" context="#pop"/>

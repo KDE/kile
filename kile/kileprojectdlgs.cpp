@@ -381,6 +381,10 @@ void KileNewProjectDlg::fillProjectDefaults()
 	KileProjectDlgBase::fillProjectDefaults();
 }
 
+TemplateItem* KileNewProjectDlg::getSelection() const
+{
+	return static_cast<TemplateItem*>(m_nfw->currentItem());
+}
 
 /*
  * KileProjectOptionsDlg

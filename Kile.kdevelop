@@ -131,7 +131,7 @@
       <useconfiguration>default</useconfiguration>
     </general>
     <run>
-      <mainprogram/>
+      <mainprogram>kile/kile/kile</mainprogram>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
@@ -144,7 +144,7 @@
     </run>
     <configurations>
       <default>
-        <configargs>--with-debug=full --prefix=/opt/kde_cvs</configargs>
+        <configargs>--enable-debug=full --prefix=/opt/kde_cvs</configargs>
         <builddir>/home/kde-dev/kde/kile/head/build/kde_3_2/qt_3_2/kdeextragear-2</builddir>
         <topsourcedir>/home/kde-dev/kde/kile/head/src/kdeextragear-2</topsourcedir>
         <cppflags/>

@@ -243,13 +243,7 @@ void KileDocumentInfo::updateStruct()
 {
 	m_bContinueUpdate = true;
 
-	if (getDoc())
-		kdDebug() << "==KileDocumentInfo::updateStruct==================" << getDoc()->url().path() << endl;
-	else
-	{
-		kdDebug() << "KileDocumentInfo::updateStruct() no Document for " << url().path() <<endl;
-		return;
-	}
+	if ( getDoc() == 0L ) return;
 
 	m_labels.clear();
 	m_bibItems.clear();

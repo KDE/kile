@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// last change: 24.01.2004 (dani)
-
 #ifndef KILE_H
 #define KILE_H
 
@@ -37,7 +35,6 @@
 #include <kaction.h>
 #include <kfileitem.h>
 #include <klistview.h>
-#include <kio/job.h>
 #include <kurl.h>
 
 #include <qmap.h>
@@ -89,6 +86,8 @@ class KileProject;
 class KileProjectItem;
 class KileProjectView;
 class TemplateItem;
+class KileEventFilter;
+class KileAutoSaveJob;
 
 namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
@@ -146,25 +145,21 @@ private:
 /* GUI */
 private:
 	//widgets
-	KileFileSelect 				*KileFS;
 	KMultiVertTabBar 		*ButtonBar;
-	SymbolView 				*symbol_view;
-	metapostview 				*mpview;
+	SymbolView 			*symbol_view;
+	metapostview 			*mpview;
 	KileWidget::Output		*OutputWidget;
 	KileWidget::LogMsg		*LogWidget;
-	KileWidget::Konsole		*texkonsole;
-	QTabWidget 				*tabWidget, *Outputview;
-	QFrame 						*Structview;
-	KileProjectView			*m_projectview;
-	QHBoxLayout 				*Structview_layout;
-	QWidgetStack 				*topWidgetStack;
-	QSplitter 						*splitter1, *splitter2 ;
-	KileWidget::Structure		*m_kwStructure;
-	QWidgetStack				*m_tabbarStack;
+	QTabWidget 			 *Outputview;
+	QFrame 				*Structview;
+	QHBoxLayout 			*Structview_layout;
+	QWidgetStack 			*topWidgetStack;
+	QSplitter 				*splitter1, *splitter2 ;
+	QWidgetStack			*m_tabbarStack;
 
 	//parts
 	KParts::PartManager 	*partManager;
-	QString 		m_wantState, m_currentState;
+	QString 				m_wantState, m_currentState;
 
 private slots:
 	void ToggleMode();
@@ -197,21 +192,20 @@ private slots:
 	void ShowStructView(bool change);
 	void ShowStructure();
 	void RefreshStructure();
-	void UpdateStructure(bool parse = false, KileDocumentInfo * docinfo = 0);
+	void UpdateStructure(bool parse = false, KileDocumentInfo * docinfo = 0L);
 
 /* config */
 private:
-	KConfig				*config;
-	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
+	KConfig		*config;
+	int 			split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument, input_encoding;
-   	QString 		templAuthor, templDocClassOpt, templEncoding;
-   	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
-	bool 				symbol_present;
+	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
+	bool 			symbol_present;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
-	bool				m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
+	bool			m_bCompleteEnvironment, m_bRestore, m_runlyxserver, m_bQuick;
 
 signals:
 	/**
@@ -251,7 +245,6 @@ private:
 
 /* views */
 protected:
-	Kate::View* createView(Kate::Document *doc);
 	/**
 	 * This event filter captures WindowActivate events. On window activating it checks if
 	 * any files were modified on disc. This function will be obsolete once we decide to use
@@ -266,21 +259,12 @@ private slots:
 	 * @param checkModified If true, check if the document that corresponds to this view is modified on disc.
 	 * @param updateStruct  If true, force an update of the structure view.
 	 **/
-	void activateView(QWidget* view ,bool checkModified = true, bool updateStruct = true);
-	void removeView(Kate::View *view);
+	void activateView(QWidget* view , bool checkModified = true, bool updateStruct = true);
 
 	void focusLog();
 	void focusOutput();
 	void focusKonsole();
 	void focusEditor();
-
-public:
-	Kate::View* currentView() const;
-	QPtrList<Kate::View>& views() {return m_viewList;}
-
-private:
-	QPtrList<Kate::View> 		m_viewList;
-	Kate::View				*m_activeView;
 
 /* document handling */
 public slots:
@@ -290,83 +274,22 @@ public slots:
 	 *
 	 * @returns pointer to the new view
 	 **/
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, bool load = true, const QString &text = QString::null);
-	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
-	Kate::View* loadTemplate(TemplateItem*);
+	void load(const QString &path);
 
 public slots:
-	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }
-	void fileSelected(const KURL &);
-	void fileSelected(const KileProjectItem * item);
-	void fileNew(const KURL &);
-
-private slots:
-	void fileNew();
-	void fileOpen();
-	void fileOpen(const KURL& url, const QString & = QString::null);
-	void fileSaveAll(bool amAutoSaving = false);
-	bool fileClose(const KURL & url, bool delDocinfo = false);
-	bool fileClose(Kate::Document *doc = 0, bool delDocinfo = false );
-	bool fileCloseAll();
-
-	void saveURL(const KURL &);
-	void fileSelected(const KFileItem *file);
+	void fileSelected(const QString & url);
 
 	bool queryExit();
 	bool queryClose();
 
-	bool isOpen(const KURL & url);
-
-	void setHighlightMode(Kate::Document * doc, const QString & highlight = QString::null);
 	void changeInputEncoding();
 
 	void newStatus(const QString& = QString::null);
 	void updateModeStatus();
 	void newCaption();
 
-	void slotNameChanged(Kate::Document *);
-	void newDocumentStatus(Kate::Document *);
-
-	void gotoNextDocument();
-	void gotoPrevDocument();
-
-	void projectNew();
-	void projectOpen();
-	void projectOpen(const KURL&, int = 0, int = 1);
-	void projectOpenItem(KileProjectItem *item);
-	/**
-	 * Saves the state of the project, if @param project is zero, the active project is saved.
-	 **/
-	void projectSave(KileProject * project = 0);
-	void projectAddFiles(const KURL &);
-	void projectAddFiles(KileProject * project = 0);
-	void toggleArchive(KileProjectItem *);
-	bool projectArchive(const KURL &);
-	bool projectArchive(KileProject *project  = 0);
-	void buildProjectTree(KileProject *project = 0);
-	void buildProjectTree(const KURL &);
-	void projectOptions(const KURL &);
-	void projectOptions(KileProject *project = 0);
-	bool projectClose(const KURL & url = KURL());
-	bool projectCloseAll();
-
-	KileProject* selectProject(const QString &);
-	void storeProjectItem(KileProjectItem *item, Kate::Document *doc);
-
-	void addProject(const KileProject *project);
-	void addToProject(const KURL &);
-	void addToProject(KileProject *, const KURL &);
-	void removeFromProject(const KileProjectItem *);
-
 public slots:
-	void projectOpen(const QString& proj) { projectOpen(KURL::fromPathOrURL(proj)); }
-
-private:
-	void sanityCheck();
-
-signals:
-	void projectTreeChanged(const KileProject *);
-	void closingDocument(KileDocumentInfo *);
+	void projectOpen(const QString& proj);
 
 private:
 	KRecentFilesAction *m_actRecentProjects;
@@ -384,7 +307,7 @@ private slots:
 	// KileInfo
 	//
 public:
-	Kate::Document * activeDocument() const { Kate::View *view = currentView(); if (view) return view->getDoc(); else return 0;}
+	Kate::Document * activeDocument() const;
 
 	const QStringList* labels(KileDocumentInfo * info = 0);
 	const QStringList* bibItems(KileDocumentInfo * info = 0);
@@ -408,12 +331,6 @@ private:
 private:
 	long autosaveinterval;
 	bool autosave;
-
-/* templates */
-private slots:
-	void createTemplate();
-	void removeTemplate();
-	void replaceTemplateVariables(QString &line);
 
 /* tools */
 private:
@@ -450,8 +367,6 @@ private:
 
 	bool 				m_bCheckForLaTeXErrors;
 	bool 				m_bNewInfolist;
-	KileTool::Manager		*m_manager;
-	KileTool::Factory		*m_toolFactory;
 
 /* insert tags */
 private slots:
@@ -483,8 +398,6 @@ private:
 	bool				m_bShowUserMovedMessage;
 
 /* editor extensions */
-private:
-	KileEventFilter*	m_eventFilter;
 
 private:
 	KileEdit *m_edit;                // advanced editor (dani)
@@ -510,32 +423,7 @@ private slots:
 	
 	// includegraphics (dani)
 	void includeGraphics();
-	
-	// advanced editor (dani)
-	void selectEnvInside();
-	void selectEnvOutside();
-	void deleteEnvInside();
-	void deleteEnvOutside();
-	void gotoBeginEnv();
-	void gotoEndEnv();
-	void matchEnv();
-	void closeEnv();
-	
-	void selectTexgroupInside();
-	void selectTexgroupOutside();
-	void deleteTexgroupInside();
-	void deleteTexgroupOutside();
-	void gotoBeginTexgroup();
-	void gotoEndTexgroup();
-	void matchTexgroup();
-	void closeTexgroup();
 
-	void selectParagraph();
-	void selectLine();
-	void selectWord();
-	void deleteParagraph();
-	void deleteWord();
-	
 	void helpTetexGuide();
 	void helpTetexDoc();
 	void helpLatexIndex();
@@ -551,44 +439,6 @@ private slots:
 	void slotCompleteValueList();
 	void slotCompletionAborted();
 	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
-};
-
-class KileAutoSaveJob : public QObject
-{
-	Q_OBJECT
-
-public:
-	KileAutoSaveJob(const KURL& from);
-	~KileAutoSaveJob();
-
-protected slots:
-	void slotResult(KIO::Job *);
-
-signals:
-	void success();
-};
-
-/**
- * This class is capable of intercepting key-strokes from the editor. It can complete a \begin{env}
- * with a \end{env} when enter is pressed.
- **/
-class KileEventFilter : public QObject
-{
-	Q_OBJECT
-
-public:
-	KileEventFilter();
-
-public slots:
-	void readConfig();
-
-protected:
-	bool eventFilter(QObject *o, QEvent *e);
-
-private:
-	bool				m_bHandleEnter, m_bCompleteEnvironment;
-	QRegExp		m_regexpEnter;
-
 };
 
 #endif

@@ -26,6 +26,7 @@
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
 #include "kilestructurewidget.h"
+#include "kiledocmanager.h"
 
 namespace KileWidget
 {
@@ -91,7 +92,10 @@ namespace KileWidget
 
 		if (firstChild()) takeItem(firstChild());
 
-		kdDebug() << "ALIVE!" << endl;
+		kdDebug() << "ALIVE! " << endl;
+		kdDebug() << "\t url " << m_docinfo->url().path() << endl;
+		kdDebug() << "\tm_docinfo = " << m_docinfo << " doc = " << m_docinfo->getDoc() << " docfor = " << m_ki->docManager()->docFor(m_docinfo->url().path()) << endl;
+
 		QString shortName = m_docinfo->getDoc()->url().fileName();
 		kdDebug() << "ALIVE! (2)" << endl;
 		m_root =  new KileListViewItem(this, shortName);
@@ -112,17 +116,27 @@ namespace KileWidget
 		if ( m_map.contains(docinfo) )
 		{
 			QListViewItem *item = m_map[docinfo];
-			delete item;
+			delete item; //we don't have to set item to 0L, since we'll remove it from the map anyway
 			m_map.remove(docinfo);
 		}
 	}
-	
+
+	void Structure::clear()
+	{
+		QMapIterator<KileDocumentInfo *, QListViewItem *> it;
+		QMapIterator<KileDocumentInfo *, QListViewItem *> itend(m_map.end());
+		for ( it = m_map.begin(); it != itend; it++)
+			if ( it.data() != 0L ) delete it.data();
+
+		m_map.clear();
+		m_docinfo = 0L;
+	}
+
 	void Structure::update(KileDocumentInfo *docinfo, bool parse)
 	{
 		kdDebug() << "==KileWidget::Structure::update()=============" << endl;
 		if (m_docinfo)
 		{
-			kdDebug() << "\tdisconnecting " << m_docinfo->url().fileName() << endl;
 			disconnect(m_docinfo, 0, this, 0);
 			m_docinfo->stopUpdate();
 		}
@@ -130,16 +144,14 @@ namespace KileWidget
 		m_docinfo = docinfo;
 
 		//find structview-item for this docinfo
-		QListViewItem *item;
+		QListViewItem *item = 0L;
 		if ( m_map.contains(m_docinfo) )
 		{
 			kdDebug() << "\tfound in map" << endl;
 			item =  m_map[m_docinfo];
 		}
-		else
-			item = 0;
 
-		if ((item == 0) || parse) //need to reparse the doc
+		if ((item == 0L) || parse) //need to reparse the doc
 		{
 			kdDebug() << "calling init" << endl;
 			init();

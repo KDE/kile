@@ -50,6 +50,11 @@ namespace KileWidget
 			void update(KileDocumentInfo *, bool);
 			void addItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
 
+			/**
+			* Clears the structure widget and empties the map between KileDocumentInfo objects and their structure trees (QListViewItem).
+			**/
+			void clear();
+
 		signals:
 			void setCursor(int, int);
 			void fileOpen(const KURL &, const QString &);

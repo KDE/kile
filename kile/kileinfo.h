@@ -25,8 +25,12 @@
 
 #include <kdebug.h>
 
+#include "kiletoolmanager.h"
+#include "kilestdtools.h"
 #include "latexoutputfilter.h"
 #include "latexoutputinfo.h"
+
+class QWidget;
 
 class KURL;
 
@@ -34,15 +38,20 @@ class KileDocumentInfo;
 class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
+class KileFileSelect;
+class KileEventFilter;
 
 namespace Kate { class Document;}
+namespace KileDocument { class Manager; }
+namespace KileView { class Manager; }
+namespace KileWidget { class Structure; class Konsole; }
 
 class KileInfo
 {
 
 public:
-	KileInfo() : m_currentTarget(QString::null) { }
-	virtual ~KileInfo() {}
+	KileInfo(QWidget *parent);
+	virtual ~KileInfo();
 
 public:
 	QString getName(Kate::Document *doc = 0, bool shrt = false);
@@ -61,11 +70,14 @@ public:
 	virtual const QStringList* bibItems(KileDocumentInfo * info = 0) =0;
 	virtual const QStringList* bibliographies(KileDocumentInfo * info = 0) = 0;
 
-	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
-	KileDocumentInfo* infoFor(const QString &path);
-	KileDocumentInfo* infoFor(Kate::Document* doc) const { if (m_mapDocInfo.contains(doc) > 0) return m_mapDocInfo[doc]; else return 0;}
+	//FIXME: refactor, many of these need to be in KileDocument::Manager
+	KileDocumentInfo* getInfo() const;
+	KileDocumentInfo* infoFor(const QString &path) const;
+	KileDocumentInfo* infoFor(Kate::Document* doc) const;
 
+	bool isOpen(const KURL & url);
 	bool	projectIsOpen(const KURL & );
+
 	KileProject* projectFor(const KURL &projecturl);
 	KileProject* projectFor(const QString & name);
 
@@ -80,14 +92,8 @@ public:
 	 **/
 	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
 	KileDocumentInfo* infoFor(KileProjectItem *item);
-	Kate::Document* docFor(const KURL &url);
 
-	void mapInfo(Kate::Document *doc, KileDocumentInfo *info) { m_mapDocInfo[doc] = info; }
 	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item);
-// 	void removeMap(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem.remove(docinfo); m_mapItemToDocInfo.remove(item); }
-	void removeMap(Kate::Document *doc) { m_mapDocInfo.remove(doc); }
-
-	void trash(Kate::Document* doc);
 
 	bool watchFile() { return m_bWatchFile; }
 
@@ -98,24 +104,53 @@ public:
 	
 	QString relativePath(const QString basepath, const QString & file);
 
+	KileWidget::Structure *structureWidget() { return m_kwStructure; }
+	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
+
+	KileDocument::Manager* docManager() const { return m_docManager; }
+	KileView::Manager* viewManager() const { return m_viewManager; }
+	KileTool::Manager* toolManager() const { return m_manager; }
+	KileTool::Factory* toolFactory() const { return m_toolFactory; }
+
+	//FIXME:refactor
+	KileFileSelect* fileSelector() const { return KileFS; }
+	KileEventFilter* eventFilter() const { return m_eventFilter; }
+
+	QPtrList<KileProject>* projects() { return &m_projects; } 
+
+	QWidget *parentWidget() const { return m_parentWidget; }
+
+	//FIXME: should be in separate template class
+	const QString & templAuthor() const { return m_templAuthor; }
+	const QString & templDocClassOpt() const { return m_templDocClassOpt; }
+	const QString & templEncoding() const { return m_templEncoding; }
+
 protected:
-	QMap< Kate::Document*, KileDocumentInfo* >	m_mapDocInfo;
-	QPtrList<KileProject>						m_projects;
-// 	QMap<KileDocumentInfo*, KileProjectItem* >		m_mapDocInfoToItem;
-// 	QMap<KileProjectItem*, KileDocumentInfo* >		m_mapItemToDocInfo;
+	KileDocument::Manager	*m_docManager;
+	KileView::Manager		*m_viewManager;
+	KileTool::Manager		*m_manager;
+	KileTool::Factory		*m_toolFactory;
+	KileWidget::Konsole		*m_texKonsole;
+
+	QWidget *m_parentWidget;
+
+	QPtrList<KileProject>	m_projects;
 
 	bool 		m_singlemode;
 	QString	m_masterName;
 
-	QPtrList<Kate::Document> 		m_docList;
-	QPtrList<KileDocumentInfo>		m_infoList;
-
-	QString			m_currentTarget;
+	QString	m_currentTarget;
 	
 	bool m_bWatchFile;
 
 	LatexOutputFilter		*m_outputFilter;
 	LatexOutputInfoArray	*m_outputInfo;
+
+	KileWidget::Structure	*m_kwStructure;
+	KileFileSelect 			*KileFS;
+	KileEventFilter*		m_eventFilter;
+
+	QString m_templAuthor, m_templDocClassOpt, m_templEncoding;
 };
 
 #endif

@@ -1,4 +1,18 @@
 TODO
+ - add more, improving existing wizards
+ 
+ - improving template support
+ 
+ - finishing the ASCII <-> encoding converters (convert accented letters into TeX sequences)
+ 
+ - create a plain text importer (one that would convert % to \%, $ to \$ etc.)
+ 
+ - make a configuration tester, a tool that tests the TeX system, configures the build tools accordingly and makes suggestion if error are encountered
+ 
+ - start using the KConfig XT, clean up the current config mess
+ 
+ - create a fast powerful (La)TeX parser
+
  - need a project manager class, too much of the code is in KileInfo and Kile
  
  - probably need a doc manager as well

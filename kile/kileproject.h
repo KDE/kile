@@ -58,9 +58,9 @@ public:
 	void setArchive(bool ar) { m_archive = ar; }
 
 	void setInfo(KileDocumentInfo * docinfo);
-	KileDocumentInfo*	getInfo() { return m_docinfo; }
+	KileDocumentInfo* getInfo() { return m_docinfo; }
 
-	KileProject* project() const{ return m_project;}
+	KileProject* project() const { return m_project;}
 
 	/**
 	 * @returns absolute URL of this item

@@ -19,22 +19,27 @@
 #ifndef KILEEDIT_H
 #define KILEEDIT_H
 
-#include <kate/document.h>
-#include <kconfig.h>
-
+#include <qobject.h>
 #include <qregexp.h>
 #include <qmap.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
+#include <kate/document.h>
+#include <kconfig.h>
+
 /**
   *@author Holger Danielsson
   */
 
-class KileEdit
+ class KileInfo;
+  
+class KileEdit : public QObject
 {
+	Q_OBJECT
+
 public:
-	KileEdit();
+	KileEdit(KileInfo *);
 	~KileEdit() {}
 
 	enum EnvType { EnvNone, EnvList, EnvTab, EnvCrTab };
@@ -44,37 +49,62 @@ public:
 	void readConfig(KConfig *config);
 
 	QString getTextLineReal(Kate::Document *doc, uint row);
-	void gotoBullet(Kate::View *view, const QString &bullet, bool backwards);
+	void gotoBullet(const QString &bullet, bool backwards, Kate::View *view = 0L);
 
-	void gotoEnvironment(Kate::View *view, bool backwards);
-	void matchEnvironment(Kate::View *view);
-	void closeEnvironment(Kate::View *view);
-	void selectEnvironment(Kate::View *view, bool inside);
-	void deleteEnvironment(Kate::View *view, bool inside);
+	void gotoEnvironment(bool backwards, Kate::View *view = 0L);
+	void matchEnvironment(Kate::View *view = 0L);
+	void closeEnvironment(Kate::View *view = 0L);
+	void selectEnvironment(bool inside, Kate::View *view = 0L);
+	void deleteEnvironment(bool inside, Kate::View *view = 0L);
 
-	void gotoTexgroup(Kate::View *view, bool backwards);
-	void matchTexgroup(Kate::View *view);
-	void closeTexgroup(Kate::View *view);
-	void selectTexgroup(Kate::View *view, bool inside);
-	void deleteTexgroup(Kate::View *view, bool inside);
+	void gotoTexgroup(bool backwards, Kate::View *view = 0L);
+// 	void matchTexgroup(Kate::View *view = 0L);
+// 	void closeTexgroup(Kate::View *view = 0L);
+	void selectTexgroup(bool inside, Kate::View *view = 0L);
+	void deleteTexgroup(bool inside, Kate::View *view = 0L);
 
-	void commentSelection(Kate::View *view, bool insert);
-	void spaceSelection(Kate::View *view, bool insert);
-	void tabSelection(Kate::View *view, bool insert);
-	void stringSelection(Kate::View *view, bool insert);
+	void commentSelection(bool insert, Kate::View *view = 0L);
+	void spaceSelection(bool insert, Kate::View *view = 0L);
+	void tabSelection(bool insert, Kate::View *view = 0L);
+	void stringSelection( bool insert, Kate::View *view = 0L);
 
-	void selectParagraph(Kate::View *view);
-	void deleteParagraph(Kate::View *view);
-	void selectLine(Kate::View *view);
-	void selectWord(Kate::View *view,KileEdit::SelectMode mode);
-	void deleteWord(Kate::View *view,KileEdit::SelectMode mode);
+// 	void selectParagraph(Kate::View *view = 0L);
+// 	void deleteParagraph(Kate::View *view = 0L);
+// 	void selectLine(Kate::View *view = 0L);
+// 	void selectWord(KileEdit::SelectMode mode, Kate::View *view = 0L);
+// 	void deleteWord(KileEdit::SelectMode mode, Kate::View *view = 0L);
 
-	void insertIntelligentNewline(Kate::View *view);
+	void insertIntelligentNewline(Kate::View *view = 0L);
 
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col,KileEdit::SelectMode mode,QString &word,uint &x1,uint &x2);
 
-	private:
+public slots:
+	void selectEnvInside() { selectEnvironment(true); }
+	void selectEnvOutside() { selectEnvironment(false); }
+	void deleteEnvInside() { deleteEnvironment(true); }
+	void deleteEnvOutside() {deleteEnvironment(false); }
+	void gotoBeginEnv() { gotoEnvironment(true); }
+	void gotoEndEnv() { gotoEnvironment(false); }
+	void matchEnv() { matchEnvironment(); }
+	void closeEnv() {closeEnvironment(); }
+	
+	void selectTexgroupInside() { selectTexgroup(true); }
+	void selectTexgroupOutside() { selectTexgroup(false); }
+	void deleteTexgroupInside() { deleteTexgroup(true); }
+	void deleteTexgroupOutside() { deleteTexgroup(false); }
+	void gotoBeginTexgroup() { gotoTexgroup(true); }
+	void gotoEndTexgroup() { gotoTexgroup(false); }
+	void matchTexgroup(Kate::View *view = 0L);
+	void closeTexgroup(Kate::View *view = 0L);
+
+	void selectParagraph(Kate::View *view = 0L);
+	void selectLine(Kate::View *view = 0L);
+	void selectWord(KileEdit::SelectMode mode = smTex, Kate::View *view = 0L);
+	void deleteParagraph(Kate::View *view = 0L);
+	void deleteWord(KileEdit::SelectMode mode = smTex, Kate::View *view = 0L);
+
+private:
 
 	enum EnvTag { EnvBegin, EnvEnd };
 
@@ -115,10 +145,10 @@ public:
 	bool findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
 	bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env,
 				bool backwards=false);
-	bool findOpenedEnvironment(Kate::View *view,uint &row,uint &col, QString &envname);
+	bool findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view);
 
 	// get current environment
-	bool getEnvironment(Kate::View *view, bool inside, EnvData &envbegin, EnvData &envend);
+	bool getEnvironment(bool inside, EnvData &envbegin, EnvData &envend,Kate::View *view);
 
 	// find brackets
 	bool isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket);
@@ -128,13 +158,13 @@ public:
 	bool findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket);
 
 	// get current Texgroup
-	bool getTexgroup(Kate::View *view, bool inside, BracketData &open, BracketData &close);
+	bool getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view);
 
 	// insert/remove selection
-	void moveSelection(Kate::View *view, const QString &prefix,bool insertmode);
+	void moveSelection(const QString &prefix,bool insertmode, Kate::View *view);
 
 	// find current paragraph
-	bool findCurrentTexParagraph(Kate::View *view,uint &startline, uint &endline);
+	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
 
 	// environments
 	QStringList listenv, mathenv,tabularenv;
@@ -150,6 +180,10 @@ public:
 
 	// help
 	void readHelpList(QString const &filename);
+
+	Kate::View *determineView(Kate::View *);
+
+	KileInfo	*m_ki;
 };
 
 #endif

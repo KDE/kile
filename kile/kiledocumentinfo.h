@@ -24,7 +24,6 @@
 #include <klistview.h>
 #include <kurl.h>
 #include <kdialogbase.h>
-
 #include <kconfig.h>
 
 #define TEX_CAT0 '\\'
@@ -99,7 +98,7 @@ class KileDocumentInfo : public QObject
 	Q_OBJECT
 
 public:
-	KileDocumentInfo(Kate::Document *doc);
+	KileDocumentInfo(Kate::Document *doc = 0L);
 	~KileDocumentInfo() {kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;}
 
 	/**
@@ -107,7 +106,7 @@ public:
 	 **/
 	Kate::Document* getDoc() { return m_doc; }
 	void setDoc(Kate::Document *doc) { m_doc = doc; m_url=m_oldurl=doc->url();}
-	void detach() { m_doc = 0; }
+	void detach() { m_doc = 0L; }
 
 	/**
 	 * Used by @ref KileDocInfoDlg to display statistics of the Document.
@@ -163,20 +162,20 @@ protected:
 	};
 
 private:
-	Kate::Document					*m_doc;
+	Kate::Document				*m_doc;
 	long							*m_arStatistics;
 	bool							m_bIsRoot;
-	QStringList						m_labels;
-	QStringList						m_bibItems;
-	QStringList						m_deps;
-	QStringList						m_bibliography;
-	QStringList						m_packages;
+	QStringList					m_labels;
+	QStringList					m_bibItems;
+	QStringList					m_deps;
+	QStringList					m_bibliography;
+	QStringList					m_packages;
 	KListView						*m_structview;
 	KileListViewItem				*m_struct;
 	QMap<QString,KileStructData>	m_dictStructLevel;
-	KURL							m_url, m_oldurl;
+	KURL						m_url, m_oldurl;
 	bool							m_bContinueUpdate;
-	KConfig							*m_config;
+	KConfig						*m_config;
 };
 
 class KileDocInfoDlg : public KDialogBase

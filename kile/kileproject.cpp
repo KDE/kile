@@ -34,10 +34,10 @@ KileProjectItem::KileProjectItem(KileProject *project, const KURL & url, int typ
 	m_project(project),
 	m_url(url),
 	m_type(type),
-	m_docinfo(0),
-	m_parent(0),
-	m_child(0),
-	m_sibling(0)
+	m_docinfo(0L),
+	m_parent(0L),
+	m_child(0L),
+	m_sibling(0L)
 {
 	m_highlight=m_encoding=QString::null; m_bOpen = m_archive = true;
 
@@ -284,6 +284,7 @@ bool KileProject::load()
 				url.cleanPath(true);
 			}
 			item = new KileProjectItem(this, url);
+			setType(item);
 
 			m_config->setGroup(groups[i]);
 			item->setOpenState(m_config->readBoolEntry("open", true));
@@ -357,10 +358,8 @@ void KileProject::buildProjectTree()
 	const QStringList *deps;
 	KileProjectItem *itm;
 	KURL url;
-
 	QPtrListIterator<KileProjectItem> it(m_projectitems);
 
-	kdDebug() << "cleaning" << endl;
 	//clean first
 	while (it.current())
 	{
@@ -368,23 +367,26 @@ void KileProject::buildProjectTree()
 		++it;
 	}
 
-	kdDebug() << "parenting" << endl;
 	//use the dependencies list of the documentinfo object to determine the parent
 	it.toFirst();
 	while (it.current())
 	{
-		kdDebug() << "\t" << (*it)->url().fileName() << endl;
 		//set the type correctly (changing m_extensions causes a call to buildProjectTree)
 		setType(*it);
-		deps = (*it)->getInfo()->dependencies();
-		for (uint i=0; i < deps->count(); i++)
+
+		if ( (*it)->getInfo() )
 		{
-			url = m_baseurl;
-			url.addPath((*deps)[i]);
-			itm = item(url);
-			if (itm && (itm->parent() == 0)) itm->setParent(*it);
-			else kdDebug() << "\tcould not find " << url.path() << " in projectlist"<< endl;
+			deps = (*it)->getInfo()->dependencies();
+			for (uint i=0; i < deps->count(); i++)
+			{
+				url = m_baseurl;
+				url.addPath((*deps)[i]);
+				itm = item(url);
+				if (itm && (itm->parent() == 0)) itm->setParent(*it);
+				//else kdDebug() << "\tcould not find " << url.path() << " in projectlist"<< endl;
+			}
 		}
+
 		++it;
 	}
 
@@ -397,13 +399,6 @@ void KileProject::buildProjectTree()
 			m_rootItems.append(*it);
 
 		++it;
-	}
-
-	QPtrListIterator<KileProjectItem> rit(m_rootItems);
-	while (rit.current())
-	{
-		(*rit)->print(1);
-		++rit;
 	}
 
 	emit(projectTreeChanged(this));

@@ -24,8 +24,11 @@
 #include <klocale.h>
 #include <klineeditdlg.h>
 
+#include "kileinfo.h"
+#include "kileviewmanager.h"
 
-KileEdit::KileEdit()
+
+KileEdit::KileEdit(KileInfo *info) : m_ki(info)
 {
 	// init regexp
 	m_reg.setPattern("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
@@ -88,10 +91,18 @@ bool KileEdit::isTabEnvironment(const QString &name)
 
 // goto the next non-nested environment tag
 
-void KileEdit::gotoEnvironment(Kate::View *view, bool backwards)
+Kate::View* KileEdit::determineView(Kate::View *view)
 {
-	if ( !view )
-		return;
+	if (view == 0L)
+		view = m_ki->viewManager()->currentView();
+
+	return view;
+}
+
+void KileEdit::gotoEnvironment(bool backwards, Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
 	
 	uint row,col;
 	EnvData env;
@@ -124,8 +135,8 @@ void KileEdit::gotoEnvironment(Kate::View *view, bool backwards)
 
 void KileEdit::matchEnvironment(Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	uint row,col;
 	EnvData env;
@@ -138,7 +149,7 @@ void KileEdit::matchEnvironment(Kate::View *view)
 	if ( !isEnvironmentPosition(doc,row,col,env) )
 		return;
 	
-	gotoEnvironment(view, env.tag != EnvBegin);
+	gotoEnvironment( env.tag != EnvBegin,view);
 }
 
 //////////////////// close an open environment  ////////////////////
@@ -147,10 +158,13 @@ void KileEdit::matchEnvironment(Kate::View *view)
 
 void KileEdit::closeEnvironment(Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	uint row,col;
 	QString name;
 	
-	if ( findOpenedEnvironment(view,row,col,name) )
+	if ( findOpenedEnvironment(row,col,name,view) )
 	{
 		view->getDoc()->insertText( row,col,"\\end{"+name+"}\n" );
 		view->setCursorPositionReal(row+1,0);
@@ -164,10 +178,13 @@ void KileEdit::closeEnvironment(Kate::View *view)
 
 void KileEdit::insertIntelligentNewline(Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	uint row,col;
 	QString name;
 	
-	if ( findOpenedEnvironment(view,row,col,name) )
+	if ( findOpenedEnvironment(row,col,name,view) )
 	{
 		if ( isListEnvironment(name) )
 		{
@@ -182,10 +199,10 @@ void KileEdit::insertIntelligentNewline(Kate::View *view)
 	}
 }
 
-bool KileEdit::findOpenedEnvironment(Kate::View *view,uint &row,uint &col, QString &envname)
+bool KileEdit::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view)
 {
-	if ( !view )
-		return false;
+	view = determineView(view);
+	if ( !view ) return false;
 	
 	// get current cursor position
 	Kate::Document *doc = view->getDoc();
@@ -220,21 +237,27 @@ bool KileEdit::findOpenedEnvironment(Kate::View *view,uint &row,uint &col, QStri
 
 //////////////////// select an environment  ////////////////////
 
-void KileEdit::selectEnvironment(Kate::View *view, bool inside)
+void KileEdit::selectEnvironment(bool inside, Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	EnvData envbegin,envend;
 	
-	if ( getEnvironment(view,inside,envbegin,envend) )
+	if ( getEnvironment(inside,envbegin,envend, view) )
 	{
 		view->getDoc()->setSelection(envbegin.row,envbegin.col,envend.row,envend.col);
 	}
 }
 
-void KileEdit::deleteEnvironment(Kate::View *view, bool inside)
+void KileEdit::deleteEnvironment(bool inside, Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	EnvData envbegin,envend;
 	
-	if ( getEnvironment(view,inside,envbegin,envend) )
+	if ( getEnvironment(inside,envbegin,envend,view) )
 	{
 		Kate::Document *doc = view->getDoc();
 		doc->clearSelection();
@@ -245,11 +268,10 @@ void KileEdit::deleteEnvironment(Kate::View *view, bool inside)
 
 // calculate start and end of an environment
 
-bool KileEdit::getEnvironment(Kate::View *view, bool inside,
-                              EnvData &envbegin, EnvData &envend)
+bool KileEdit::getEnvironment(bool inside, EnvData &envbegin, EnvData &envend, Kate::View *view)
 {
-	if ( !view )
-		return false;
+	view = determineView(view);
+	if ( !view ) return false;
 	
 	uint row,col;
 	
@@ -549,10 +571,10 @@ bool KileEdit::isValidBackslash(Kate::Document *doc, uint row, uint col)
 
 //////////////////// goto next bullet ////////////////////
 
-void KileEdit::gotoBullet(Kate::View *view, const QString &bullet, bool backwards)
+void KileEdit::gotoBullet(const QString &bullet, bool backwards, Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	uint row,col,ypos,xpos,len;
 	
@@ -619,10 +641,10 @@ bool KileEdit::decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
 
 // goto the next non-nested bracket
 
-void KileEdit::gotoTexgroup(Kate::View *view, bool backwards)
+void KileEdit::gotoTexgroup(bool backwards, Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	uint row,col;
 	bool found;
@@ -652,8 +674,8 @@ void KileEdit::gotoTexgroup(Kate::View *view, bool backwards)
 
 void KileEdit::matchTexgroup(Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	uint row,col;
 	BracketData bracket;
@@ -693,8 +715,8 @@ void KileEdit::matchTexgroup(Kate::View *view)
 
 void KileEdit::closeTexgroup(Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	uint row,col;
 	BracketData bracket;
@@ -716,22 +738,28 @@ void KileEdit::closeTexgroup(Kate::View *view)
 
 //////////////////// select a texgroup  ////////////////////
 
-void KileEdit::selectTexgroup(Kate::View *view, bool inside)
+void KileEdit::selectTexgroup(bool inside, Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	BracketData open,close;
 	
-	if ( getTexgroup(view,inside,open,close) )
+	if ( getTexgroup(inside,open,close,view) )
 	{
 		Kate::Document *doc = view->getDoc();
 		doc->setSelection(open.row,open.col,close.row,close.col);
 	}
 }
 
-void KileEdit::deleteTexgroup(Kate::View *view, bool inside)
+void KileEdit::deleteTexgroup(bool inside, Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	BracketData open,close;
 	
-	if ( getTexgroup(view,inside,open,close) )
+	if ( getTexgroup(inside,open,close,view) )
 	{
 		Kate::Document *doc = view->getDoc();
 		doc->clearSelection();
@@ -742,11 +770,10 @@ void KileEdit::deleteTexgroup(Kate::View *view, bool inside)
 
 // calculate start and end of an environment
 
-bool KileEdit::getTexgroup(Kate::View *view, bool inside,
-                           BracketData &open, BracketData &close)
+bool KileEdit::getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view)
 {
-	if ( !view )
-		return false;
+	view = determineView(view);
+	if ( !view ) return false;
 	
 	uint row,col;
 	
@@ -1013,8 +1040,7 @@ QString KileEdit::getTextLineReal(Kate::Document *doc, uint row)
 // - smWord:     letters and digits
 // - smNospace:  everything except white space
 
-bool KileEdit::getCurrentWord(Kate::Document *doc, uint row, uint col, KileEdit::SelectMode mode,
-                              QString &word,uint &x1,uint &x2)
+bool KileEdit::getCurrentWord(Kate::Document *doc, uint row, uint col, KileEdit::SelectMode mode, QString &word,uint &x1,uint &x2)
 {
     // get real textline without comments, quoted characters and pairs of backslashes
 	QString textline = getTextLineReal(doc,row);
@@ -1083,38 +1109,47 @@ bool KileEdit::getCurrentWord(Kate::Document *doc, uint row, uint col, KileEdit:
 
 //////////////////// move/unmove selections ////////////////////
 
-void KileEdit::commentSelection(Kate::View *view, bool insert)
+void KileEdit::commentSelection(bool insert, Kate::View *view)
 {
-	moveSelection(view,"%",insert);
+	view = determineView(view);
+	if ( !view ) return;
+
+	moveSelection("%",insert,view);
 }
 
-void KileEdit::spaceSelection(Kate::View *view, bool insert)
+void KileEdit::spaceSelection(bool insert, Kate::View *view)
 {
-	moveSelection(view," ",insert);
+	view = determineView(view);
+	if ( !view ) return;
+
+	moveSelection(" ",insert,view);
 }
 
-void KileEdit::tabSelection(Kate::View *view, bool insert)
+void KileEdit::tabSelection(bool insert, Kate::View *view)
 {
-	moveSelection(view,"\t",insert);
+	view = determineView(view);
+	if ( !view ) return;
+
+	moveSelection("\t",insert,view);
 }
 
-void KileEdit::stringSelection(Kate::View *view, bool insert)
+void KileEdit::stringSelection(bool insert, Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	KLineEditDlg *dialog = new KLineEditDlg(i18n("Please enter the text to insert:"),"",view);
 	if ( dialog->exec() )
 	{
-		moveSelection(view,dialog->text(),insert);
+		moveSelection(dialog->text(),insert,view);
 	}
 	delete dialog;
 }
 
-void KileEdit::moveSelection(Kate::View *view, const QString &prefix,bool insertmode)
+void KileEdit::moveSelection(const QString &prefix,bool insertmode, Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	// get current position
 	uint row,col,row1,col1,row2,col2;
@@ -1201,9 +1236,12 @@ void KileEdit::moveSelection(Kate::View *view, const QString &prefix,bool insert
 
 void KileEdit::selectParagraph(Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	uint startline,endline;
 	
-	if ( findCurrentTexParagraph(view,startline,endline) )
+	if ( findCurrentTexParagraph(startline,endline,view) )
 	{
 		view->getDoc()->setSelection(startline,0,endline+1,0);
 	}
@@ -1211,9 +1249,12 @@ void KileEdit::selectParagraph(Kate::View *view)
 
 void KileEdit::deleteParagraph(Kate::View *view)
 {
+	view = determineView(view);
+	if ( !view ) return;
+
 	uint startline,endline;
 	
-	if ( findCurrentTexParagraph(view,startline,endline) )
+	if ( findCurrentTexParagraph(startline,endline,view) )
 	{
 		Kate::Document *doc = view->getDoc();
 		doc->clearSelection();
@@ -1228,10 +1269,10 @@ void KileEdit::deleteParagraph(Kate::View *view)
 
 // get the range of the current paragraph
 
-bool KileEdit::findCurrentTexParagraph(Kate::View *view,uint &startline, uint &endline)
+bool KileEdit::findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view)
 {
-	if ( !view )
-		return false;
+	view = determineView(view);
+	if ( !view ) return false;
 	
 	uint row,col;
 	
@@ -1271,8 +1312,8 @@ bool KileEdit::findCurrentTexParagraph(Kate::View *view,uint &startline, uint &e
 
 void KileEdit::selectLine(Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	// get current position
 	uint row,col;
@@ -1288,10 +1329,10 @@ void KileEdit::selectLine(Kate::View *view)
 
 //////////////////// LaTeX command ////////////////////
 
-void KileEdit::selectWord(Kate::View *view,KileEdit::SelectMode mode)
+void KileEdit::selectWord(KileEdit::SelectMode mode, Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	// get current position
 	uint row,col,col1,col2;
@@ -1305,10 +1346,10 @@ void KileEdit::selectWord(Kate::View *view,KileEdit::SelectMode mode)
 	}
 }
 
-void KileEdit::deleteWord(Kate::View *view,KileEdit::SelectMode mode)
+void KileEdit::deleteWord(KileEdit::SelectMode mode, Kate::View *view)
 {
-	if ( !view )
-		return;
+	view = determineView(view);
+	if ( !view ) return;
 	
 	// get current position
 	uint row,col,col1,col2;
@@ -1321,3 +1362,5 @@ void KileEdit::deleteWord(Kate::View *view,KileEdit::SelectMode mode)
 		doc->removeText(row,col1,row,col2);
 	}
 }
+
+#include "kileedit.moc"

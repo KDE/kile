@@ -20,10 +20,12 @@
 
 #include <qcheckbox.h>
 #include <kdialogbase.h>
+#include <klineedit.h>
+
+#include "templates.h"
 
 class NewFileWidget;
 class QLabel;
-class KLineEdit;
 class KileProject;
 class KComboBox;
 
@@ -38,10 +40,8 @@ public:
 	void setProject(KileProject *project, bool override);
 	virtual KileProject* project();
 
-	void setProjectTitle(const QString &title)
-		{ m_title->setText(title); }
-	const QString projectTitle()
-		{ return m_title->text(); }
+	void setProjectTitle(const QString &title) { m_title->setText(title); }
+	const QString projectTitle() { return m_title->text(); }
 
 	void setExtensions(KileProjectItem::Type type, const QString & ext);
 	const QString extensions(KileProjectItem::Type type)
@@ -83,7 +83,7 @@ public:
 	QString bare();
 	QString location() { return m_location->text(); }
 
-	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_nfw->currentItem());}
+	TemplateItem* getSelection() const;
 	QString file() { return m_file->text();}
 	bool createNewFile() { return m_cb->isChecked(); }
 

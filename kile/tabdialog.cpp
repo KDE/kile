@@ -133,10 +133,9 @@ namespace KileDialog
 		for ( int i=0; i < y; ++i) 
 		{
 			for ( int j = 0; j<x-1; ++j)
-			{
 				m_td.tagBegin += m_table->text(i,j)+ " & ";
-				m_td.tagBegin += m_table->text(i,x-1)+ " \\\\";
-			}
+			
+			m_td.tagBegin += m_table->text(i,x-1)+ " \\\\";
 			m_td.tagBegin += hs;
 		}
 

@@ -1215,9 +1215,7 @@ void Kile::projectAddFiles(const KURL & url)
 	KileProject *project = projectFor(url);
 
 	if (project)
-		return projectAddFiles(project);
-	else
-		return false;
+		projectAddFiles(project);
 }
 
 void Kile::projectAddFiles(KileProject *project)

@@ -182,6 +182,24 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 	      		state = stMath;
 	      break; //mathcontrolsequence
 
+	      case stDisplayMath :
+	      		if (ch == TEX_CAT0 )	state = stPossibleMathEnding;
+	      break;
+
+	      case stPossibleMathEnding :
+	      		if (ch == ']' ) state = stMathEnded;
+	        	else state =stDisplayMath;
+	      break;
+
+        case stEquation :
+	      		if (ch == TEX_CAT0 )	state = stPossibleEquationEnding;
+	      break;
+
+	      case stPossibleEquationEnding :
+	      		if (ch == ']' ) state = stMathEnded;
+	        	else state =stEquation;
+	      break;
+	      
 	      case stControlSequence :
 			      //determine whether to expect a symbol or a command
 			      if ( ch.isLetter() )
@@ -190,7 +208,18 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 							cmmnd_start=i;
 							//kdDebug() << "starting command at : " << cmmnd_start << endl;
 						}
-			      else state = stControlSymbol;
+			      else
+			      {
+							switch (ch)
+							{
+									case '['	: state = stDisplayMath;
+															if (i>0) { setLaTeXFormat(i-1,1,fmtMath);}
+									case '('	: state = stEquation;
+															if (i>0) { setLaTeXFormat(i-1,1,fmtMath);}
+									break;
+									default 	: state = stControlSymbol;break;
+							}
+						}
 			  break; //controlsequence
 
 			  case stControlSymbol :
@@ -344,6 +373,10 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 
 				case stMath :
 				case stMathEnded :
+				case stPossibleMathEnding :
+				case stDisplayMath :
+				case stEquation :
+				case stPossibleEquationEnding :
 				case stMathControlSequence : fmt = fmtMath; break;
 
 				case stKeywordDetected : fmt = fmtKeyword; break;

@@ -32,6 +32,7 @@ namespace KileWidget
 		int col = paragraphLength(row);
 		setCursorPosition(row,col);
 		insertAt(str, row, col);
+		scrollToBottom();
 	}
 }
 

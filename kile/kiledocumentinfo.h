@@ -69,10 +69,10 @@ class KileListViewItem : public KListViewItem
 {
 public:
 	KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint m_column, int type);
-	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None;}
-	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None; }
+	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label), m_title(label), m_line(0),  m_column(0),m_type(KileStruct::None) {}
+	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label), m_title(label), m_line(0),  m_column(0), m_type(KileStruct::None) {}
 
-	/** @returns the title of this element (for a label it return the label), without the (line ?) part **/
+	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() { return m_title; }
 	/** @returns the line number of the structure element. **/
 	const uint line() { return m_line; }
@@ -83,9 +83,9 @@ public:
 
 private:
 	QString		m_title;
-	uint 				m_line;
-	uint				m_column;
-	int					m_type;
+	uint			m_line;
+	uint			m_column;
+	int			m_type;
 };
 
 /**
@@ -131,18 +131,25 @@ public:
 	const KURL& oldURL() {return m_oldurl;}
 
 public slots:
-	void updateStruct(int defaultLevel = 0);
+	/**
+	 * Never call this function directly, use KileWidget::Structure::update(KileDocumentInfo *, bool) instead
+	 **/
+	void updateStruct();
 	void updateBibItems();
 	void emitNameChanged(Kate::Document *);
+	void stopUpdate() { m_bContinueUpdate = false; }
 
 signals:
 	void nameChanged(const KURL &);
 	void nameChanged(Kate::Document *);
 	void isrootChanged(bool);
 
+	void foundItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
+
 private:
-	void				count(const QString line, long *stat);
-	QString		matchBracket(uint&, uint&);
+	void count(const QString line, long *stat);
+	QString matchBracket(uint&, uint&);
+	bool okToContinue() { return m_bContinueUpdate; }
 
 protected:
 	enum State
@@ -164,6 +171,7 @@ private:
 	KileListViewItem	*m_struct;
 	QMap<QString,KileStructData>		m_dictStructLevel;
 	KURL					m_url, m_oldurl;
+	bool				m_bContinueUpdate;
 };
 
 class KileDocInfoDlg : public KDialogBase

@@ -185,6 +185,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_kwStructure->setSorting(-1,true);
 	connect(m_kwStructure, SIGNAL(setCursor(int,int)), this, SLOT(setCursor(int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), this, SLOT(fileOpen(const KURL&, const QString& )));
+	connect(this, SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocument(KileDocumentInfo *)));
 	QToolTip::add(m_kwStructure, i18n("Click to jump to the line"));
 
 	mpview = new metapostview( Structview );
@@ -288,7 +289,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	applyMainWindowSettings(config, "KileMainWindow" );
 
-	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, m_paStop);
+	m_manager  = new KileTool::Manager(this, config, LogWidget, OutputWidget, partManager, topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(requestSaveAll()), this, SLOT(fileSaveAll()));
 
@@ -332,7 +333,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
 
 	//build actions
-	(void) new KAction(i18n("Quick Build"),"quick", ALT+Key_1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
+	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
 	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
 	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
@@ -343,22 +344,10 @@ void Kile::setupActions()
 	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	m_paStop->setEnabled(false);
 
-	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
-	(void) new KAction(i18n("View Dvi"),"viewdvi", ALT+Key_3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
-	(void) new KAction(i18n("Dvi to PS"),"dvips", ALT+Key_4, this, SLOT(DviToPS()), actionCollection(),"DvitoPS" );
-	(void) new KAction(i18n("View PS"),"viewps", ALT+Key_5, this, SLOT(ViewPS()), actionCollection(),"ViewPS" );
-	(void) new KAction(i18n("PDFLaTeX"),"latex", ALT+Key_6, this, SLOT(PDFLatex()), actionCollection(),"PDFLatex" );
-	(void) new KAction(i18n("View PDF"),"viewpdf", ALT+Key_7, this, SLOT(ViewPDF()), actionCollection(),"ViewPDF" );
-	(void) new KAction(i18n("PS to PDF"),"ps2pdf", ALT+Key_8, this, SLOT(PStoPDF()), actionCollection(),"PStoPDF" );
-	(void) new KAction(i18n("DVI to PDF"),"dvipdf",ALT+Key_9, this, SLOT(DVItoPDF()), actionCollection(),"DVItoPDF" );
-	(void) new KAction(i18n("BibTeX"),ALT+Key_Minus, this, SLOT(MakeBib()), actionCollection(),"MakeBib" );
-	(void) new KAction(i18n("Make Index"),ALT+Key_Equal, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
-	(void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
-	(void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
-	(void) new KAction(i18n("View Bibtex"),"bibtex" , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
-	(void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
-	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
-	(void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
+	m_toolsToolBar = new KToolBar(this, Qt::DockTop, false, "toolsToolBar");
+	m_toolsToolBar->setXMLGUIClient(this);
+	setupTools();
+
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
 	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, this, SLOT(gotoNextDocument()), actionCollection(), "gotoNextDocument" );
 	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, this, SLOT(gotoPrevDocument()), actionCollection(), "gotoPrevDocument" );
@@ -388,6 +377,8 @@ void Kile::setupActions()
 	//FIXME: obsolete for KDE 4
 	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
 	m_paShowToolsTB = new KToggleToolBarAction("toolsToolBar", i18n("Tools"), actionCollection(), "ShowToolsToolbar");
+	m_paShowBuildTB = new KToggleToolBarAction("buildToolBar", i18n("Build"), actionCollection(), "ShowQuickToolbar");
+	m_paShowErrorTB = new KToggleToolBarAction("errorToolBar", i18n("Error"), actionCollection(), "ShowErrorToolbar");
 	m_paShowEditTB = new KToggleToolBarAction("editToolBar", i18n("Edit"), actionCollection(), "ShowEditToolbar");
 	m_paShowMathTB = new KToggleToolBarAction("mathToolBar", i18n("Math"), actionCollection(), "ShowMathToolbar");
 
@@ -395,6 +386,8 @@ void Kile::setupActions()
 	//since this will return false if we hide the toolbar when switching to Viewer mode for example.
 	m_bShowMainTB = m_paShowMainTB->isChecked();
 	m_bShowToolsTB = m_paShowToolsTB->isChecked();
+	m_bShowErrorTB = m_paShowErrorTB->isChecked();
+	m_bShowBuildTB = m_paShowBuildTB->isChecked();
 	m_bShowEditTB = m_paShowEditTB->isChecked();
 	m_bShowMathTB = m_paShowMathTB->isChecked();
 
@@ -436,6 +429,61 @@ void Kile::setupActions()
 	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
 
 	actionCollection()->readShortcutSettings();
+}
+
+void Kile::setupTools()
+{
+	kdDebug() << "==Kile::setupTools()===================" << endl;
+	QStringList tools = KileTool::toolList(config);
+	QString toolMenu;
+	int toolPos;
+	bool ok;
+	QPtrList<KAction> *pl;
+
+	unplugActionList("list_compilers"); m_listCompilerActions.setAutoDelete(true); m_listCompilerActions.clear(); m_listCompilerActions.setAutoDelete(false);
+	unplugActionList("list_converters"); m_listConverterActions.setAutoDelete(true); m_listConverterActions.clear(); m_listConverterActions.setAutoDelete(false);
+	unplugActionList("list_quickies"); m_listQuickActions.setAutoDelete(true); m_listQuickActions.clear(); m_listQuickActions.setAutoDelete(false);
+	unplugActionList("list_viewers"); m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
+	unplugActionList("list_other"); m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
+
+	m_toolsToolBar->clear();
+
+	for ( uint i = 0; i < tools.count(); i++)
+	{
+		config->setGroup("Tool/"+tools[i]);
+		toolMenu = config->readEntry("menu", "Other");
+		if ( toolMenu == "none" ) continue;
+
+		if ( toolMenu == "Compile" )
+			pl = &m_listCompilerActions;
+		else if ( toolMenu == "View" )
+			pl = &m_listViewerActions;
+		else if ( toolMenu == "Convert" )
+			pl = &m_listConverterActions;
+		else if ( toolMenu == "Quick" )
+			pl = &m_listQuickActions;
+		else
+			pl = &m_listOtherActions;
+
+		kdDebug() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
+
+		KAction *act = new KAction(tools[i], config->readEntry("icon", "latex"), config->readEntry("shortcut", ""), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
+
+		toolPos = config->readEntry("toolbarPos", "none").toInt(&ok);
+		if (ok)
+		{
+			kdDebug() << "\tplugging " << tools[i] << endl;
+			act->plug(m_toolsToolBar, toolPos);
+		}
+
+		pl->append(act);
+	}
+
+	plugActionList("list_compilers", m_listCompilerActions);
+	plugActionList("list_viewers", m_listViewerActions);
+	plugActionList("list_converters", m_listConverterActions);
+	plugActionList("list_quickies", m_listQuickActions);
+	plugActionList("list_other", m_listOtherActions);
 }
 
 void Kile::setupUserTagActions()
@@ -717,6 +765,8 @@ void Kile::setCursor(int parag, int index)
 
 void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 {
+	kdDebug() << "==Kile::setHighlightMode()==================" << endl;
+
 	int c = doc->hlModeCount();
 	bool found = false;
 	int i;
@@ -724,9 +774,12 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	QString hl = highlight.lower();
 	QString ext = doc->url().fileName().right(4);
 
+	KMimeType::Ptr pMime = KMimeType::findByURL(doc->url(), 0, false, true);
+	kdDebug() << "\tmimeType name: " << pMime->name() << endl;
+
 	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
 
-	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
+	if ( (hl != QString::null) || doc->url().isEmpty() || pMime->name() == "text/x-tex" || ext == ".tex" || ext == ".ltx" || ext == ".latex" || ext == ".dtx" || ext == ".sty" || ext == ".cls")
 	{
 		if (hl == QString::null) hl = "latex-kile";
 		for (i = 0; i < c; i++)
@@ -1043,7 +1096,8 @@ void Kile::projectNew()
 			//project->add(item);
 			mapItem(docinfo, item);
 
-			docinfo->updateStruct(m_kwStructure->level());
+			//docinfo->updateStruct(m_kwStructure->level());
+			UpdateStructure(true, docinfo);
 		}
 
 		project->buildProjectTree();
@@ -1170,7 +1224,7 @@ void Kile::projectOpenItem(KileProjectItem *item)
 	}
 
 	mapItem(docinfo, item);
-	docinfo->updateStruct(m_kwStructure->level());
+	UpdateStructure(false, docinfo);
 
 	if ((!item->isOpen()) && (view != 0)) //oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
 	{
@@ -1183,7 +1237,7 @@ void Kile::projectOpenItem(KileProjectItem *item)
 		trash(docinfo->getDoc());
 	}
 
-	//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
+	//FIXME: workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
 	m_kwStructure->takeItem(m_kwStructure->firstChild());
 }
 
@@ -1728,6 +1782,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			//remove entry in projectview
 			m_projectview->remove(url);
 
+			emit(closingDocument(docinfo));
 			trash(doc);
 		}
 		else
@@ -2082,19 +2137,28 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		kdDebug() << "\tsaving toolbar status" << endl;
 		m_bShowMainTB = m_paShowMainTB->isChecked();
 		m_bShowToolsTB = m_paShowToolsTB->isChecked();
+		m_bShowBuildTB = m_paShowBuildTB->isChecked();
+		m_bShowErrorTB = m_paShowErrorTB->isChecked();
 		m_bShowEditTB = m_paShowEditTB->isChecked();
 		m_bShowMathTB = m_paShowMathTB->isChecked();
 	}
 
 	createGUI(part);
+	unplugActionList("list_quickies"); plugActionList("list_quickies", m_listQuickActions);
+	unplugActionList("list_compilers"); plugActionList("list_compilers", m_listCompilerActions);
+	unplugActionList("list_converters"); plugActionList("list_converters", m_listConverterActions);
+	unplugActionList("list_viewers"); plugActionList("list_viewers", m_listViewerActions);
+	unplugActionList("list_other"); plugActionList("list_other", m_listOtherActions);
 
 	if ( m_wantState == "HTMLpreview" )
 	{
 		kdDebug() << "\tchanged to: HTMLpreview" << endl;
 		stateChanged( "HTMLpreview");
-		toolBar("mainToolBar")->hide();
-		toolBar("toolsToolBar")->hide();
-		toolBar("editToolBar")->hide();
+		toolBar("mainToolBar")->hide(); 
+		m_toolsToolBar->hide(); 
+		toolBar("buildToolBar")->hide(); 
+		toolBar("errorToolBar")->hide(); 
+		toolBar("editToolBar")->hide(); 
 		toolBar("mathToolBar")->hide();
 		toolBar("extraToolBar")->show();
 		enableKileGUI(false);
@@ -2103,8 +2167,10 @@ void Kile::ActivePartGUI(KParts::Part * part)
 	{
 		kdDebug() << "\tchanged to: Viewer" << endl;
 		stateChanged( "Viewer" );
-		toolBar("mainToolBar")->show();
-		toolBar("toolsToolBar")->hide();
+		toolBar("mainToolBar")->show(); 
+		m_toolsToolBar->hide(); 
+		toolBar("buildToolBar")->hide(); 
+		toolBar("errorToolBar")->hide();
 		toolBar("mathToolBar")->hide();
 		toolBar("extraToolBar")->show();
 		toolBar("editToolBar")->hide();
@@ -2118,33 +2184,28 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		topWidgetStack->raiseWidget(0);
 		if (m_bShowMainTB) toolBar("mainToolBar")->show();
 		if (m_bShowEditTB) toolBar("editToolBar")->show();
-		if (m_bShowToolsTB) toolBar("toolsToolBar")->show();
+		if (m_bShowToolsTB) m_toolsToolBar->show(); 
+		if (m_bShowBuildTB) toolBar("buildToolBar")->show(); 
+		if (m_bShowErrorTB) toolBar("errorToolBar")->show();
 		if (m_bShowMathTB) toolBar("mathToolBar")->show();
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
 
 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-	if (ext) //part is a BrowserExtension, connect printAction()
+	if (ext && ext->metaObject()->slotNames().contains( "print()" ) ) //part is a BrowserExtension, connect printAction()
 	{
-		kdDebug() << "HAS BrowserExtension" << endl;
-		//KParts::BrowserExtension::ActionSlotMap * map = KParts::BrowserExtension::actionSlotMapPtr();
-		//KParts::BrowserExtension::ActionSlotMap::ConstIterator it = map->find("print");
-		if ( ext->metaObject()->slotNames().contains( "print()" ))
-		{
-			kdDebug() << "SLOT print" << endl;
-			connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
-			m_paPrint->setEnabled(true);
-		}
-		else 
-		{
-			kdDebug() << "no SLOT print()" << endl;
-			m_paPrint->setEnabled(false);
-		}
+		kdDebug() << "HAS BrowserExtension + print" << endl;
+		connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
+		m_paPrint->plug(toolBar("mainToolBar"),3); //plug this action into its default location
+		m_paPrint->setEnabled(true);
 	}
 	else
 	{
-		kdDebug() << "NO BrowserExtension" << endl;
+		kdDebug() << "NO BrowserExtension + print" << endl;
+		if (m_paPrint->isPlugged(toolBar("mainToolBar")))
+			m_paPrint->unplug(toolBar("mainToolBar"));
+
 		m_paPrint->setEnabled(false);
 	}
 
@@ -2190,69 +2251,13 @@ void Kile::prepareForPart(const QString & state)
 	}
 }
 
-void Kile::QuickBuild()
+void Kile::runTool()
 {
-	m_manager->run("QuickBuild");
-}
-
-void Kile::Latex()
-{
-	m_manager->run("LaTeX");
-}
-
-void Kile::ViewDvi()
-{
-	m_manager->run("ViewDVI");
-}
-
-void Kile::KdviForwardSearch()
-{
-	m_manager->run("ForwardDVI");
-}
-
-void Kile::DviToPS()
-{
-	m_manager->run("DVItoPS");
-}
-
-void Kile::ViewPS()
-{
-	m_manager->run("ViewPS");
-}
-
-void Kile::PDFLatex()
-{
-	m_manager->run("PDFLaTeX");
-}
-
-void Kile::ViewPDF()
-{
-	m_manager->run("ViewPDF");
-}
-
-void Kile::MakeBib()
-{
-	m_manager->run("BibTeX");
-}
-
-void Kile::MakeIndex()
-{
-	m_manager->run("MakeIndex");
-}
-
-void Kile::PStoPDF()
-{
-	m_manager->run("PStoPDF");
-}
-
-void Kile::DVItoPDF()
-{
-	m_manager->run("DVItoPDF");
-}
-
-void Kile::MetaPost()
-{
-	m_manager->run("MetaPost");
+	kdDebug() << "==Kile::runTool()============" << endl;
+	QString name = sender()->name();
+	name.replace("tool_", "");
+	kdDebug() << "\t" << name << endl;
+	m_manager->run(name);
 }
 
 void Kile::CleanAll()
@@ -2310,23 +2315,6 @@ void Kile::CleanAll()
  	} 
  }
 
-void Kile::LatexToHtml()
-{
-	//FIXME: need a way to give options (perhaps just in the config dialog)?
-	m_manager->run("LaTeX2HTML");
-}
-
-void Kile::HtmlPreview()
-{
-	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
-	m_manager->run(tool);
-}
-
-void Kile::Bibtexeditor()
-{
-	m_manager->run("ViewBib");
-}
-
 void Kile::execUserTool(int i)
 {
 	//FIXME: port this to new KileTool classes
@@ -2380,13 +2368,12 @@ void Kile::RefreshStructure()
 }
 
 
-void Kile::UpdateStructure(bool parse /* = false */)
+void Kile::UpdateStructure(bool parse /* = false */, KileDocumentInfo *docinfo /* = 0 */)
 {
 	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
 
-	KileDocumentInfo *docinfo = getInfo();
-
-	kdDebug() << "\ttaking item" <<endl;
+	if (docinfo == 0)
+		docinfo = getInfo();
 
 	if (docinfo)
 		m_kwStructure->update(docinfo, parse);
@@ -3099,6 +3086,7 @@ void Kile::GeneralOptions()
 		dlg->ksc->writeGlobalSettings ();
 
 		readConfig();
+		setupTools();
 		emit(configChanged());
 
 		//stop/restart LyX server if necessary

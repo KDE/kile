@@ -146,6 +146,8 @@ namespace KileWidget
 			append(ot + message + ct);
 		else
 			append(ot + "<b>[" + tool + "]</b> " + message + ct );
+
+		scrollToBottom();
 	}
 
 	void LogMsg::printProblem(int type, const QString & problem)

@@ -28,20 +28,11 @@ namespace KileTool
 	 **/
 	enum { Error = 0, Warning, Info };
 
-	/**
-	 * The type of the tool:
-	 * Shell - tool needs to be run in its own shell (most common)
-	 * Konsole - run the tool in Kile's Konsole, useful if the process needs user interaction
-	 * Run - start the tool with KRun
-	 * Part - the tool is started using a KPart
-	 **/
-	enum { Shell, Konsole, Run, Part };
-
 	enum { NeedTargetDirExec = 0x01, NeedTargetDirWrite = 0x02, NeedTargetExists = 0x04, NeedTargetRead = 0x08,
 	NeedActiveDoc = 0x10, NeedMasterDoc = 0x20, NoUntitledDoc = 0x40 };
 
 	enum { Running, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
 	
-	enum { Success, Failed, AbnormalExit, Aborted };
+	enum { Success, Failed, AbnormalExit, Aborted, Silent };
 }
 #endif

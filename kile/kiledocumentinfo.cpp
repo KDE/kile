@@ -34,6 +34,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_struct = 0;
 	m_bIsRoot = false;
 	m_arStatistics = new long[5];
+	m_bContinueUpdate = true;
 
 	if (m_doc)
 		m_url=m_oldurl = doc->url();
@@ -211,8 +212,10 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 	return QString::null;
 }
 
-void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
+void KileDocumentInfo::updateStruct()
 {
+	m_bContinueUpdate = true;
+
 	if (getDoc())
 		kdDebug() << "==KileDocumentInfo::updateStruct==================" << getDoc()->url().path() << endl;
 	else
@@ -220,8 +223,6 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 		kdDebug() << "KileDocumentInfo::updateStruct() no Document for " << url().path() <<endl;
 		return;
 	}
-
-	QString shortName = getDoc()->url().fileName();
 
 	m_labels.clear();
 	m_bibItems.clear();
@@ -232,21 +233,10 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 
 	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
 
-	delete m_struct;
-
-	m_struct=  new KileListViewItem( m_structview, shortName );
-	m_struct->setOpen(TRUE);
-	m_struct->setPixmap(0,SmallIcon("contents"));
-
+	QString shortName = getDoc()->url().fileName();
 	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
 
-	QListViewItem *parent_level[5],*lastChild, *Child, *parent;
-	Child=lastChild=parent_level[0]=parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=m_struct;
-
 	QMapConstIterator<QString,KileStructData> it;
-
-	KileListViewItem *toplabel=  new KileListViewItem(m_struct,"LABELS");
-	toplabel->setOpen(false);
 
 	QString s, cap;
 
@@ -317,7 +307,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 				if (it != m_dictStructLevel.end())
 				{
 					tagLine=i+1; tagCol = tagEnd+1;
-					m = matchBracket(i, static_cast<uint&>(tagEnd));
+					m = matchBracket(i, static_cast<uint&>(tagEnd)).stripWhiteSpace();
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
 					kdDebug() << "\tgrabbed : " << m << endl;
@@ -330,7 +320,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					//update the dependencies
 					if ((*it).type == KileStruct::Input)
 					{
-						QString dep = m.stripWhiteSpace();
+						QString dep = m;
 						if (dep.right(4) != ".tex")
 							dep += ".tex";
 						m_deps.append(dep);
@@ -340,62 +330,26 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					if((*it).type == KileStruct::Bibliography)
 					{
 						kdDebug() << "\tappending Bibiliograph file " << m << endl;
-						m_bibliography.append(m.stripWhiteSpace());
+						m_bibliography.append(m);
 					}
 
 					//update the label list
 					if ((*it).type == KileStruct::Label)
-						m_labels.append(m.stripWhiteSpace());
+						m_labels.append(m);
 
 					//update the bibitem list
 					if ((*it).type == KileStruct::BibItem)
 					{
 						kdDebug() << "\tappending bibitem " << m << endl;
-						m_bibItems.append(m.stripWhiteSpace());
+						m_bibItems.append(m);
 					}
 
 					//update the package list
 					if ((*it).type == KileStruct::Package)
-						m_packages.append(m.stripWhiteSpace());
+						m_packages.append(m);
 
-					if ((*it).level > -2)
-					{
-					//find the parent for the new element
-					switch ((*it).level)
-					{
-					case	-1	:	parent = toplabel;break;
-					case	0	:
-					case	1	: 	parent= m_struct; break;
-					default	:	parent = parent_level[(*it).level-2]; break;
-					}
-
-					//find last element at this level
-					Child = parent->firstChild();
-					while( Child )
-					{
-						lastChild=Child;
-						Child = Child->nextSibling();
-					}
-
-					Child=new KileListViewItem(parent,lastChild,m.stripWhiteSpace(), tagLine, tagCol,(*it).type);
-					if (! (*it).pix.isNull()) Child->setPixmap(0,SmallIcon((*it).pix));
-
-					//if the level is not greater than the defaultLevel
-					//open the parent to make this item visible
-					if ( ( parent != toplabel ) && (*it).level <= defaultLevel )
-					{
-						parent->setOpen(true);
-					}
-
-					//update the parent levels, such that section etc. get inserted at the correct level
-					if ((*it).level > 0)
-					{
-						parent_level[(*it).level-1]=Child;
-						for (int l = (*it).level; l < 5; l++)
-							parent_level[l] = Child;
-					}
-					}
-
+					if ( ! okToContinue() ) return;
+					emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix));
 				} //if m
 			} // if tagStart
 		} // while tagStart

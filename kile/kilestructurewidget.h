@@ -28,6 +28,7 @@ class QString;
 class KURL;
 class KileInfo;
 class KileDocumentInfo;
+class QListViewItem;
 
 namespace KileWidget
 {
@@ -44,15 +45,24 @@ namespace KileWidget
 		public slots:
 			void slotClicked(QListViewItem *);
 			void slotDoubleClicked(QListViewItem *);
+
+			void closeDocument(KileDocumentInfo *);
 			void update(KileDocumentInfo *, bool);
+			void addItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
 
 		signals:
 			void setCursor(int, int);
 			void fileOpen(const KURL &, const QString &);
 
 		private:
+			void init();
+
+		private:
 			KileInfo	*m_ki;
 			int		m_level;
+			KileDocumentInfo	*m_docinfo;
+			QMap<KileDocumentInfo *, QListViewItem *> m_map;
+			QListViewItem	*m_parent[5], *m_label, *m_current, *m_root, *m_child, *m_lastChild;
 	};
 }
 

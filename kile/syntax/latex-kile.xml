@@ -1,6 +1,6 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-<language name="LaTeX-Kile" version="0.3" section="Markup" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls" mimetype="text/x-tex" casesensitive="1">
+<language name="LaTeX-Kile" version="0.4" section="Markup" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls" mimetype="text/x-tex" casesensitive="1">
 	<highlighting>
 		<list name="kw_structure">
 			<item>label</item>
@@ -102,18 +102,26 @@
 			<context name="MathMode" attribute="Math" lineEndContext="#stay">
 				<Detect2Chars char="\" char1="]" attribute="Math" context="#pop"/>
 				<Detect2Chars char="\" char1=")" attribute="Math" context="#pop"/>
-				<RegExpr String="\\end(?=\s*\{\s*equation\s*\})" attribute="Structure" context="MathFindEnd"/>
-				<RegExpr String="\\end(?=\s*\{\s*displaymath\s*\})" attribute="Structure" context="MathFindEnd"/>
-				<RegExpr String="\\end(?=\s*\{\s*eqnarray\s*\})" attribute="Structure" context="MathFindEnd"/>
-				<RegExpr String="\\end(?=\s*\{\s*math\s*\})" attribute="Structure" context="MathFindEnd"/>
-				<RegExpr String="\\end(?=\s*\{\s*multline\s*\})" attribute="Structure" context="MathFindEnd"/>
 				<DetectChar char="\" attribute="Keyword Mathmode" context="MathContrSeq"/>
 				<StringDetect String="$$" attribute="Math" context="#pop"/>
 				<DetectChar char="$" attribute="Math" context="#pop"/>
 				<DetectChar char="%" attribute="Comment" context="Comment"/>
 			</context>
+			<context name="MathModeEnv" attribute="Math" lineEndContext="#stay">
+				<RegExpr String="\\end(?=\s*\{\s*equation\s*\})" attribute="Structure" context="MathFindEnd"/>
+				<RegExpr String="\\end(?=\s*\{\s*displaymath\s*\})" attribute="Structure" context="MathFindEnd"/>
+				<RegExpr String="\\end(?=\s*\{\s*eqnarray\s*\})" attribute="Structure" context="MathFindEnd"/>
+				<RegExpr String="\\end(?=\s*\{\s*math\s*\})" attribute="Structure" context="MathFindEnd"/>
+				<RegExpr String="\\end(?=\s*\{\s*multline\s*\})" attribute="Structure" context="MathFindEnd"/>
+				<StringDetect String="\(" attribute="Math" context="MathMode"/>
+				<StringDetect String="\[" attribute="Math" context="MathMode"/>
+				<DetectChar char="\" attribute="Keyword Mathmode" context="MathContrSeq"/>
+				<StringDetect String="$$" attribute="Math" context="MathMode"/>
+				<DetectChar char="$" attribute="Math" context="MathMode"/>
+				<DetectChar char="%" attribute="Comment" context="Comment"/>
+			</context>
 			<context name="MathEnv" attribute="Environment" lineEndContext="#stay">
-				<DetectChar char="}" attribute="Normal Text" context="MathMode"/>
+				<DetectChar char="}" attribute="Normal Text" context="MathModeEnv"/>
 				<RegExpr String="[^\s]" attribute="Normal Text" context="#pop"/>
 			</context>
 			<context name="MathFindEnd" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">

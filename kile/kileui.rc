@@ -46,33 +46,20 @@
 <Action name="gotoNextDocument"/>
 </Menu>
 <Menu name="menu_build"><text>&amp;Build</text>
-	<Action name="QuickBuild"/>
-	<Action name="WatchFile"/>
-	<Separator/>
+	<ActionList name="list_quickies"/>
 	<Menu name="menu_compile"><text>&amp;Compile</text>
-		<Action name="Latex"/>
-		<Action name="PDFLatex"/>
-		<Separator/>
-		<Action name="MakeBib"/>
-		<Action name="MakeIndex"/>
-		<Separator/>
-		<Action name="MetaPost"/>
+		<ActionList name="list_compilers"/>
 	</Menu>
 	<Menu name="menu_convert"><text>C&amp;onvert</text>
-		<Action name="DvitoPS"/>
-		<Action name="PStoPDF"/>
-		<Action name="DVItoPDF"/>
-		<Action name="LaTeXtoHtml"/>
+		<ActionList name="list_converters"/>
 	</Menu>
 	<Menu name="menu_viewers"><text>&amp;View</text>
-		<Action name="ViewDvi"/>
-		<Action name="ViewPS"/>
-		<Action name="ViewPDF"/>
-		<Action name="HtmlPreview"/>
-		<Action name="Bibtexeditor"/>
+		<ActionList name="list_viewers"/>
 	</Menu>
-	<Separator/>
-	<Action name="KdviForwardSearch"/>
+	<Menu name="menu_other"><text>O&amp;ther</text>
+		<ActionList name="list_other"/>
+	</Menu>
+	<Action name="WatchFile"/>
 	<Separator/>
 	<Action name="ViewLog"/>
 	<Action name="PreviousError"/>
@@ -256,6 +243,8 @@
 	<Action name="MessageView"/>
 	<Menu name="ShowToolbars"><text>Show Toolbars</text>
 		<Action name="ShowMainToolbar"/>
+		<Action name="ShowQuickToolbar"/>
+		<Action name="ShowErrorToolbar"/>
 		<Action name="ShowToolsToolbar"/>
 		<Action name="ShowEditToolbar"/>
 		<Action name="ShowMathToolbar"/>
@@ -283,10 +272,11 @@
 	<Merge/>
 	<Action name="Mode"/>
 </ToolBar>
-<ToolBar name="toolsToolBar" fullWidth="false" index="2"><text>Tools</text>
-	<Action name="QuickBuild"/>
+<ToolBar name="buildToolBar" fullWidth="false" index="2"><text>Build</text>
 	<Action name="WatchFile"/>
-	<Separator lineSeparator="true"/>
+	<Action name="Stop"/>
+</ToolBar>
+<ToolBar name="errorToolBar" fullWidth="false" index="3"><text>Error</text>
 	<Action name="ViewLog"/>
 	<Action name="PreviousError"/>
 	<Action name="NextError"/>
@@ -294,25 +284,10 @@
 	<Action name="NextWarning"/>
 	<Action name="PreviousBadBox"/>
 	<Action name="NextBadBox"/>
-	<Action name="Stop"/>
-	<Separator lineSeparator="true"/>
-	<Action name="Latex"/>
-	<Action name="ViewDvi"/>
-	<Action name="DvitoPS"/>
-	<Action name="ViewPS"/>
-	<Separator lineSeparator="true"/>
-	<Action name="PDFLatex"/>
-	<Action name="ViewPDF"/>
-	<Separator lineSeparator="true"/>
-	<Action name="DVItoPDF"/>
-	<Action name="PStoPDF"/>
-	<Separator lineSeparator="true"/>
-	<Action name="LaTeXtoHtml"/>
-	<Action name="HtmlPreview"/>
-	<Separator lineSeparator="true"/>
-	<Action name="KdviForwardSearch"/>
 </ToolBar>
-<ToolBar name="editToolBar" fullWidth="false" index="3"><text>Edit</text>
+<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
+</ToolBar>
+<ToolBar name="editToolBar" fullWidth="false" index="5"><text>Edit</text>
 	<Action name="structure_list"/>
 	<Separator lineSeparator="true"/>
 	<Action name="other_list"/>
@@ -326,7 +301,7 @@
 	<Action name="tag_center"/><!-- 14 !-->
 	<Action name="tag_flushright"/><!-- 15 !-->
 </ToolBar>
-<ToolBar name="mathToolBar" fullWidth="false" index="4"><text>Math</text>
+<ToolBar name="mathToolBar" fullWidth="false" index="6"><text>Math</text>
 	<Action name="tag_mathmode"/>
 	<Action name="tag_subscript"/>
 	<Action name="tag_superscript"/>
@@ -340,88 +315,87 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
 </ToolBar>
-<ToolBar name="extraToolBar" index="5" noMerge="1"><text>Extra</text>
+<ToolBar name="extraToolBar" index="7" noMerge="1"><text>Extra</text>
 	<Merge/>
 	<Separator lineSeparator="true"/>
-	<Action name="print"/>
 	<Action name="EditorView"/>
 </ToolBar>
 <State name="HTMLpreview">
 <Disable>
-<Action name="file_new"/>
-<Action name="file_open"/>
-<Action name="file_open_recent"/>
-<Action name="file_save"/>
-<Action name="file_save_as"/>
-<Action name="file_save_all"/>
-<Action name="file_close"/>
-<Action name="file_close_all"/>
-<Action name="CreateTemplate"/>
-<Action name="RefreshStructure"/>
-<Action name="Spell"/>
-<Action name="FindInFiles"/>
-<Action name="RefreshStructure"/>
-<Action name="gotoNextDocument"/>
-<Action name="gotoPrevDocument"/>
+	<Action name="file_new"/>
+	<Action name="file_open"/>
+	<Action name="file_open_recent"/>
+	<Action name="file_save"/>
+	<Action name="file_save_as"/>
+	<Action name="file_save_all"/>
+	<Action name="file_close"/>
+	<Action name="file_close_all"/>
+	<Action name="CreateTemplate"/>
+	<Action name="RefreshStructure"/>
+	<Action name="Spell"/>
+	<Action name="FindInFiles"/>
+	<Action name="RefreshStructure"/>
+	<Action name="gotoNextDocument"/>
+	<Action name="gotoPrevDocument"/>
 </Disable>
 <Enable>
-<Action name="EditorView"/>
-<Action name="file_print"/>
-<Action name="print"/>
-<Action name="Back"/>
-<Action name="Forward"/>
-<Action name="Home"/>
+	<Action name="EditorView"/>
+	<Action name="file_print"/>
+	<Action name="print"/>
+	<Action name="Back"/>
+	<Action name="Forward"/>
+	<Action name="Home"/>
 </Enable>
 </State>
 <State name="Viewer">
 <Disable>
-<Action name="file_new"/>
-<Action name="file_open"/>
-<Action name="file_open_recent"/>
-<Action name="file_save"/>
-<Action name="file_save_as"/>
-<Action name="file_save_all"/>
-<Action name="file_close"/>
-<Action name="file_close_all"/>
-<Action name="CreateTemplate"/>
-<Action name="RefreshStructure"/>
-<Action name="Spell"/>
-<Action name="FindInFiles"/>
-<Action name="settings_configure"/>
-<Action name="Mode"/>
-<Action name="Back"/>
-<Action name="Forward"/>
-<Action name="Home"/>
-<Action name="gotoNextDocument"/>
-<Action name="gotoPrevDocument"/>
-<Action name="print"/>
+	<Action name="file_new"/>
+	<Action name="file_open"/>
+	<Action name="file_open_recent"/>
+	<Action name="file_save"/>
+	<Action name="file_save_as"/>
+	<Action name="file_save_all"/>
+	<Action name="file_close"/>
+	<Action name="file_close_all"/>
+	<Action name="CreateTemplate"/>
+	<Action name="RefreshStructure"/>
+	<Action name="Spell"/>
+	<Action name="FindInFiles"/>
+	<Action name="settings_configure"/>
+	<Action name="Mode"/>
+	<Action name="Back"/>
+	<Action name="Forward"/>
+	<Action name="Home"/>
+	<Action name="gotoNextDocument"/>
+	<Action name="gotoPrevDocument"/>
+	<Action name="print"/>
 </Disable>
 <Enable>
-<Action name="EditorView"/>
-<Action name="file_print"/>
+	<Action name="EditorView"/>
+	<Action name="file_print"/>
 </Enable>
 </State>
 <State name="Editor">
 <Enable>
-<Action name="EditorView"/>
-<Action name="file_new"/>
-<Action name="file_open"/>
-<Action name="file_open_recent"/>
-<Action name="file_save"/>
-<Action name="file_save_as"/>
-<Action name="file_print"/>
-<Action name="RefreshStructure"/>
-<Action name="CreateTemplate"/>
-<Action name="file_save_all"/>
-<Action name="file_close"/>
-<Action name="file_close_all"/>
-<Action name="Spell"/>
-<Action name="FindInFiles"/>
-<Action name="RefreshStructure"/>
-<Action name="settings_configure"/>
-<Action name="Mode"/>
-<Action name="gotoNextDocument"/>
-<Action name="gotoPrevDocument"/>
+	<Action name="EditorView"/>
+	<Action name="file_new"/>
+	<Action name="file_open"/>
+	<Action name="file_open_recent"/>
+	<Action name="file_save"/>
+	<Action name="file_save_as"/>
+	<Action name="file_print"/>
+	<Action name="RefreshStructure"/>
+	<Action name="CreateTemplate"/>
+	<Action name="file_save_all"/>
+	<Action name="file_close"/>
+	<Action name="file_close_all"/>
+	<Action name="Spell"/>
+	<Action name="FindInFiles"/>
+	<Action name="RefreshStructure"/>
+	<Action name="settings_configure"/>
+	<Action name="Mode"/>
+	<Action name="gotoNextDocument"/>
+	<Action name="gotoPrevDocument"/>
 </Enable>
 </State>
 </kpartgui>

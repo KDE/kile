@@ -73,6 +73,8 @@
 class QFileInfo;
 class QTimer;
 class QSignalMapper;
+
+class KToolBar;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleToolBarAction;
@@ -122,15 +124,17 @@ public slots:
 /* actions */
 private:
 	void setupActions();
+	void setupTools();
 	void setupUserTagActions();
 	void setupUserToolActions();
 
+	KToolBar					*m_toolsToolBar;
 	KActionMenu 					*m_menuUserTags, *m_menuUserTools;
 	QSignalMapper 				*m_mapUserTagSignals, *m_mapUserToolsSignals;
 	QValueList<userItem> 	m_listUserTags, m_listUserTools;
-	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions;
+	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KAction							*m_actionEditTag, *m_actionEditTool;
-	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowEditTB, *m_paShowMathTB;
+	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
 	KAction 					*m_paStop, *m_paPrint;
 	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
 	KRecentFilesAction			*fileOpenRecentAction;
@@ -177,7 +181,7 @@ private slots:
 	void LatexHelp();
 
 private:
-	bool 			showoutputview, m_bShowMainTB, m_bShowToolsTB, m_bShowEditTB, m_bShowMathTB;
+	bool 			showoutputview, m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
 
 private slots:
 	void ResetPart();
@@ -195,7 +199,7 @@ private slots:
 	void ShowStructView(bool change);
 	void ShowStructure();
 	void RefreshStructure();
-	void UpdateStructure(bool parse = false);
+	void UpdateStructure(bool parse = false, KileDocumentInfo * docinfo = 0);
 
 /* config */
 private:
@@ -359,6 +363,7 @@ private:
 
 signals:
 	void projectTreeChanged(const KileProject *);
+	void closingDocument(KileDocumentInfo *);
 
 private:
 	KRecentFilesAction *m_actRecentProjects;
@@ -413,25 +418,9 @@ private:
 					viewlatexhelp_command;
 
 private slots:
-	void QuickBuild();
+	void runTool();
 
-	void Latex();
-	void ViewDvi();
-	void KdviForwardSearch();
-	void DviToPS();
-	void ViewPS();
-	void PDFLatex();
-	void ViewPDF();
 	void CleanAll();
-	void MakeBib();
-	void MakeIndex();
-	void PStoPDF();
-	void DVItoPDF();
-	void LatexToHtml();
-	void MetaPost();
-	void HtmlPreview();
-	void Bibtexeditor();
-
 	void CleanBib();
 	QString DetectEpsSize(const QString &epsfile);
 

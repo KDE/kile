@@ -17,6 +17,7 @@
 
 #include <qdir.h>
 #include <qfileinfo.h>
+#include <qmetaobject.h>
 #include <qregexp.h>
 
 #include <klocale.h>
@@ -25,6 +26,7 @@
 
 #include "kiletool_enums.h"
 #include "kiletool.h"
+#include "kilestdtools.h" //for the factory
 #include "kiletoolmanager.h"
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
@@ -61,6 +63,7 @@ namespace KileTool
 
 	Base::~Base()
 	{
+		kdDebug() << "DELETING TOOL: " << name() << endl;
 		delete m_launcher;
 	}
 
@@ -332,7 +335,11 @@ namespace KileTool
 		{
 			lr = new ProcessLauncher();
 		}
-		else if (type == "Part" )
+		else if ( type == "Konsole" )
+		{
+			lr = new KonsoleLauncher();
+		}
+		else if ( type == "Part" )
 		{	
 			lr = new PartLauncher();
 		}
@@ -433,122 +440,50 @@ namespace KileTool
 		return br;
 	}
 
-	Sequence::Sequence(const QString &name, Manager * manager, bool autoDelete /* = false */) : 
-		Base(name, manager),
-		m_index(0),
-		m_current(0L)
+	Sequence::Sequence(const QString &name, Manager * manager) : 
+		Base(name, manager)
 	{
-		m_tools.setAutoDelete(autoDelete);
 	}
 
-	void Sequence::append(Base *tool)
-	{
-		m_tools.append(tool);
-	}
-	
 	int Sequence::run()
 	{
 		kdDebug() << "==KileTool::Sequence::run()==================" << endl;
-		
+
+		configure();
+
 		//determine source file (don't let the tools figure it out themselves, the result of determineTarget() could change during execution)
-		if (!determineSource())
+		if (! determineSource())
+		{
+			emit(done(this,Failed));
 			return NoValidSource;
-		
+		}
+
 		kdDebug() << "\tsource " << source() << endl;
-		
-		if (m_tools.first())
-		{
-			m_launcher=m_tools.first()->launcher();
-			emit(start(this));
-			return runNext(m_tools.first(), Success);
-		}
-		else
-		{
-			sendMessage(Warning, i18n("Empty tool list."));
-			return Failed;
-		}
-	}
-	
-	void Sequence::started(Base *tool)
-	{
-		m_current = tool;
-	}
 
-	bool Sequence::finish(int result)
-	{
-		kdDebug() << "==KileTool::Sequence::finish()====================" << endl;
-		emit(done(this,result));
-		return true;
-	}
-	
-	void Sequence::stop()
-	{
-		kdDebug() << "==KileTool::Sequence::stop()=====================" << endl;
-		//Base *current = m_tools.at(index());
-		if (m_current)
+		QStringList tools = QStringList::split(',',readEntry("sequence"));
+		Base *tool;
+		for (uint i=0; i < tools.count(); i++)
 		{
-			kdDebug() << "\tstopping " << m_current->name() << endl;
-			m_current->stop();
-		}
-			
-		finish(Aborted);
-	}
-	
-	int Sequence::runNext(Base *tool, int r)
-	{
-		kdDebug() << "==KileTool::Sequence::runNext()=================" << endl;
-		kdDebug() << "\tindex " << index() << endl;
-
-		//stop if the last tool was executed
-		if ( index() > count() )
-		{
-			//disconnect(current(), SIGNAL(done(Base*, int)), this, SLOT(runNext(Base*, int)));
-			kdDebug() << "\tthat's all folks!" << endl;
-			finish(Success);
-			return Success;
-		}
-		
-		//update current and next
-		Base *current = m_tools.at(index());
-		next();
-
-		//stop if there is no tool queued anymore
-		if ( current == 0 )
-		{
-			kdDebug() << "\tcurrent == 0" << endl;
-			finish(Failed);
-			return Failed;
-		}
-		
-		//or if last tool finished unsuccessfully
-		if ( r != Success )
-		{
-			kdDebug() << "\tprocess failed" << endl;
-			finish(Failed);
-			return Failed;
-		}
-		
-		
-		kdDebug() << "\tabout to run: " << current->name() << endl;
-		kdDebug() << "\tusing source: " << source() << endl;
-
-		current->setSource(source());
-
-		disconnect(current, SIGNAL(done(Base*, int)), manager(), SLOT(done(Base*, int))); //disconnect from manager
-		disconnect(current, SIGNAL(start(Base* )), this, SLOT(started(Base* )));
-		connect(current, SIGNAL(done(Base*, int)), this, SLOT(runNext(Base*, int))); //instead connect to the Sequence tool
-
-		int result;
-		if ( (result = current->run())  != KileTool::Running )
-		{
-			kdDebug() << "\t\tOOPS! ("<< result << ")" << current->name() << endl;
-			QObject::disconnect(0, 0, this, SLOT(runNext(Base*, int)));
-			finish(Failed);
+			tool = manager()->factory()->create(tools[i]);
+			if (tool)
+			{
+				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
+				{
+					tool->setSource(source());
+					manager()->run(tool);
+				}
+			}
+			else
+			{
+				sendMessage(Error, i18n("Unknown tool %1.").arg(tools[i]));
+				emit(done(this, Failed));
+				return ConfigureFailed;
+			}
 		}
 
-		//m_launcher=current->launcher();
+		emit(done(this,Silent));
 
-		return result;
+		return Success;
 	}
 }
 

@@ -23,10 +23,13 @@
 
 #include <qwidgetstack.h>
 #include <qregexp.h>
+#include <qfileinfo.h>
 
 #include <kdebug.h>
+#include <krun.h>
 #include <kprocess.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 #include <klibloader.h>
 #include <kparts/part.h>
 #include <kparts/partmanager.h>
@@ -48,13 +51,15 @@
 		QDictIterator<QString> it(*paramDict());
 		for( it.toFirst() ; it.current(); ++it )
 		{
-			kdDebug() << "translate: " << str << " key " << it.currentKey() << " value " << *(it.current()) << endl;
+			//kdDebug() << "translate: " << str << " key " << it.currentKey() << " value " << *(it.current()) << endl;
 			str.replace(it.currentKey(), *( it.current() ) );
 		}
 	}
 
 	ProcessLauncher::ProcessLauncher(const char * shellname /* =0 */) :
 		m_wd(QString::null),
+		m_cmd(QString::null),
+		m_options(QString::null),
 		m_changeTo(true)
 	{
 		kdDebug() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
@@ -87,8 +92,11 @@
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
-		m_cmd = tool()->readEntry("command");
-		QString opt = tool()->readEntry("options");
+		if ( m_cmd == QString::null ) 
+			m_cmd = tool()->readEntry("command");
+
+		if ( m_options == QString::null )
+			m_options = tool()->readEntry("options");
 		
 		if ( m_changeTo && (m_wd != QString::null ) )
 		{
@@ -98,13 +106,13 @@
 
 		QString str;
 		translate(m_cmd);
-		translate(opt);
-        	*m_proc  << m_cmd << opt;
+		translate(m_options);
+        	*m_proc  << m_cmd << m_options;
 		
 		if (m_proc)
 		{
 			
-			out += QString("*****     ")+ m_cmd+ " " +opt +QString("\n");
+			out += QString("*****     ")+ m_cmd+ " " + m_options +QString("\n");
 
 
 			QString src = tool()->source(false);
@@ -121,9 +129,12 @@
 			out += "*****\n";
 			emit(output(out));
 
+			if ( KGlobal::dirs()->findExe(KRun::binaryName(m_cmd, false)) == QString::null ) return false;
+
 			bool r = m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 			if (r) kdDebug() << "launch successful" << endl;
 			else kdDebug() << "launch failed" << endl;
+
 			return r;
 		}
 		else
@@ -143,6 +154,32 @@
 			kdDebug() << "\tno process or process not running" << endl;
 			return false;
 		}
+	}
+
+	bool ProcessLauncher::selfCheck()
+	{
+		emit(message(Error, i18n("Launching failed, diagnostics:")));
+
+		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
+		QString path = KGlobal::dirs()->findExe(exe, QString::null, true);
+
+		if ( path == QString::null )
+		{
+			emit(message(Error, i18n("There is no executable named %1 in your path.").arg(exe)));
+			return false;
+		}
+		else
+		{
+			QFileInfo fi(path);
+			if ( ! fi.isExecutable() )
+			{
+				emit(message(Error, i18n("You don't have the permission to run %1.").arg(path)));
+				return false;
+			}
+		}
+
+		emit(message(Info, i18n("Diagnostics could not find any obvious problems.")));
+		return true;
 	}
 
 	void ProcessLauncher::slotProcessOutput(KProcess*, char* buf, int len)
@@ -177,7 +214,6 @@
 			{
 				kdDebug() << "\tabnormal exit" << endl;
 				emit(message(Error,i18n("finished abruptedly")));
-				//emit(abnormalExit());
 				emit(done(AbnormalExit));
 			}
 		}
@@ -186,6 +222,22 @@
 			kdWarning() << "\tNO PROCESS, emitting done" << endl;
 			emit(done(Success));
 		}
+	}
+
+	KonsoleLauncher::KonsoleLauncher(const char * shellname) : ProcessLauncher(shellname)
+	{
+	}
+
+	bool KonsoleLauncher::launch()
+	{
+		QString cmd = tool()->readEntry("command");
+		QString noclose = (tool()->readEntry("close") == "yes") ? "--noclose" : "";
+		setCommand("konsole");
+		setOptions(noclose + " -T \"" + cmd + " (Kile)\" -e " + cmd + " " + tool()->readEntry("options"));
+
+		if ( KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)) == QString::null ) return false;
+		
+		return ProcessLauncher::launch();
 	}
 
 	PartLauncher::PartLauncher(const char *name /* = 0*/ ) :
@@ -204,7 +256,6 @@
 
 	bool PartLauncher::launch()
 	{
-
 		m_libName = tool()->readEntry("libName").ascii();
 		m_className = tool()->readEntry("className").ascii();
 		m_options=tool()->readEntry("libOptions");
@@ -224,7 +275,7 @@
 		KLibFactory *factory = KLibLoader::self()->factory(m_libName);
 		if (factory == 0)
 		{
-			emit(message(Error, i18n("Couldn't find the %1 library! %2 is not started.").arg(m_libName).arg(tool()->name())));
+			emit(message(Error, i18n("Couldn't find the %1 library!").arg(m_libName)));
 			return false;
 		}
 
@@ -235,7 +286,7 @@
 
 		if (m_part == 0)
 		{
-			emit(message(Error, i18n("Couldn't start %1").arg(QString(m_name)+" "+m_options).arg(m_name)));
+			emit(message(Error, i18n("Couldn't create component %1 from the library %2.").arg(m_className).arg(m_libName)));
 			emit(done(Failed));
 			return false;
 		}
@@ -250,14 +301,6 @@
 
 		out += "*****\n";
 		emit(output(out));
-
-		/*KParts::BrowserExtension *bex = KParts::BrowserExtension::childObject(m_part);
-		if (bex)
-		{
-			//has browser extension
-			kdDebug() << "ENABLING print" << endl;
-			bex->enableAction("print", true);
-		}*/
 
 		tool()->manager()->wantGUIState(m_state);
 

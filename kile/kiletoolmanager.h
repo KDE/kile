@@ -17,16 +17,21 @@
 
 #ifndef KILETOOLMANAGER_H
 #define KILETOOLMANAGER_H
-#include <qobject.h>
 
-class KileInfo;
-namespace KileWidget { class LogMsg; class Output; }
+#include <qobject.h>
+#include <qstringlist.h>
+#include <qptrqueue.h>
+
+class QTimer;
+class QWidgetStack;
 
 class KConfig;
 class KTextEdit;
 class KAction;
 namespace KParts { class PartManager; }
-class QWidgetStack;
+
+class KileInfo;
+namespace KileWidget { class LogMsg; class Output; }
 
 namespace KileTool
 {
@@ -38,7 +43,7 @@ namespace KileTool
 		Q_OBJECT
 		
 	public:
-		Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *, QWidgetStack *, KAction *);
+		Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *, QWidgetStack *, KAction *, uint to);
 		~Manager();
 
 	public:
@@ -63,11 +68,15 @@ namespace KileTool
 		void run(const QString &);
 		void run(Base *);
 
+		void stop(); //should be a slot that stops the active tool and clears the queue
+
+	private slots:
+		void runNextInQueue();
+		void enableClear();
+
 	signals:
 		void requestGUIState(const QString &);
 		void requestSaveAll();
-
-		void stop();
 
 	private:
 		KileInfo		*m_ki;
@@ -78,7 +87,13 @@ namespace KileTool
 		QWidgetStack 			*m_stack;
 		KAction				*m_stop;
 		Factory				*m_factory;
+		QPtrQueue<Base>		m_queue;
+		QTimer				*m_timer;
+		bool					m_bClear;
+		uint					m_nTimeout;
 	};
+
+	QStringList toolList(KConfig *config);
 }
 
 #endif

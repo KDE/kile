@@ -91,6 +91,8 @@ namespace KileTool
 
 		void setOptions(const QString &opt) { m_options = opt; }
 
+		virtual bool isViewer() { return false; }
+
 		/**
 		 * Allows you to set the target file explicitly (filename only).
 		 **/
@@ -171,7 +173,7 @@ namespace KileTool
 
 		void start(Base*);
 		void done(Base*, int);
-		
+
 		void requestSaveAll();
 
 	public:
@@ -272,6 +274,8 @@ namespace KileTool
 	public:
 		View(const QString &name, Manager * manager);
 		~View();
+
+		bool isViewer() { return true; }
 	};
 
 	/**
@@ -298,27 +302,10 @@ namespace KileTool
 		Q_OBJECT
 		
 	public:
-		Sequence(const QString &name, Manager * manager, bool autoDelete = false);
-
-		void append(Base *);
-
-		uint index() { return m_index; }
-		uint count() { return m_tools.count(); }
-		void next() { m_index++; }
+		Sequence(const QString &name, Manager * manager);
 
 	public slots:
 		int run();
-		bool finish(int);
-		void stop();
-		void started(Base*);
-		
-		int runNext(Base *, int);
-
-	private:
-		QPtrList<Base>	m_tools;
-		uint				m_index;
-		uint				m_count;
-		Base			*m_current;
 	};
 
 }

@@ -27,7 +27,7 @@ namespace KileTool
 	class View;
 	class Compile;
 	class Manager;
-	
+
 	class Factory
 	{
 	public:
@@ -71,7 +71,7 @@ namespace KileTool
 	public:
 		ViewDVI(Manager *mngr) : View("ViewDVI", mngr) {}
 	};*/
-	
+
 	class ForwardDVI : public View
 	{
 	public:
@@ -79,7 +79,7 @@ namespace KileTool
 
 	protected:
 		bool determineTarget();
-		
+
 	private:
 		QString	m_urlstr;
 	};
@@ -105,17 +105,6 @@ namespace KileTool
 
 	signals:
 		void updateStatus(bool, bool);
-	};
-
-	class QuickBuild : public Sequence
-	{
-		Q_OBJECT
-		
-	public:
-		QuickBuild(Manager *mngr) : Sequence("QuickBuild", mngr) {}
-		
-	public slots:
-		int run();
 	};
 }
 

@@ -35,9 +35,9 @@ namespace KileTool
 	class Base;
 	
 	/**
-	 * This class represents a way to launch a tool (this could be a commandline tool
+	 * This class represents a way to launch a tool. This could be a commandline tool
 	 * running in a Konsole, running as a separate process, it could even be responsible
-	 * for starting a kpart.
+	 * for starting a KPart.
 	 *
 	 * @author Jeroen Wijnhout
 	 **/
@@ -90,20 +90,32 @@ namespace KileTool
 		void setWorkingDirectory(const QString &wd);
 		void changeToWorkingDirectory(bool change) { m_changeTo = change; }
 		void setCommand(const QString & cmd) { m_cmd = cmd; }
-		
+		void setOptions(const QString & opt) { m_options = opt; }
+
 	public slots:
 		bool launch();
 		bool kill();
-		bool selfCheck() { return true; }
+		bool selfCheck();
 
 	private slots:
 		void slotProcessOutput(KProcess*, char*, int );
 		void slotProcessExited(KProcess*);
-		
+
 	private:
-		QString			m_wd, m_cmd;
+		QString			m_wd, m_cmd, m_options;
 		KShellProcess		*m_proc;
 		bool				m_changeTo;
+	};
+
+	class KonsoleLauncher : public ProcessLauncher
+	{
+		Q_OBJECT
+
+	public:
+		KonsoleLauncher(const char * shellname =0);
+
+	public slots:
+		bool launch();
 	};
 
 	class PartLauncher : public Launcher
@@ -121,7 +133,7 @@ namespace KileTool
 	public slots:
 		bool launch();
 		bool kill();
-		bool selfCheck() { return true; }
+		bool selfCheck() { return true; } //no additional self-checks, all of them are done in launch()
 
 		KParts::ReadOnlyPart* part() { return m_part; }
 

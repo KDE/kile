@@ -37,9 +37,9 @@ namespace KileDocument
 {
 
 	static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
-	static QRegExp::QRegExp reCite("^\\\\(c|C)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
+	static QRegExp::QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
 	static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
-	static QRegExp::QRegExp reCiteExt("^\\\\(c|C)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
+	static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
 	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{

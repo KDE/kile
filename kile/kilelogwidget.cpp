@@ -35,7 +35,6 @@ namespace KileWidget
 		m_info(info)
 	{
 		setTabStopWidth(10);
-		setTextFormat(Qt::LogText);
 		connect(this, SIGNAL(clicked(int, int)), this, SLOT(slotClicked(int, int)));
 	}
 	

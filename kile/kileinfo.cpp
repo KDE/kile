@@ -15,3 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kate/document.h>
+
+#include "kileinfo.h"
+
+QString KileInfo::getName(Kate::Document *doc, bool shrt)
+{
+	QString title;
+	if (doc == 0)
+		doc = activeDocument();
+
+	if (doc)
+	{
+		title = shrt ? doc->url().fileName() : doc->url().path();
+
+		if (title == "") title = doc->docName();
+	}
+	else
+		title="";
+
+	return title;
+}

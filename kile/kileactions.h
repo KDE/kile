@@ -22,7 +22,7 @@
 #include <kaction.h>
 #include <kdialogbase.h>
 
-#include "kileinfointerface.h"
+#include "kileinfo.h"
 
 class QCheckBox;
 
@@ -92,16 +92,16 @@ friend class InputFigure;
 
 public:
 	//constructors
-	InputTag(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	InputTag(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
 
-	InputTag(KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	InputTag(KileInfo* ki, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
 
-	InputTag(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	InputTag(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 			, const TagData& data, const QString &hint = QString::null, const QString &alter = QString::null);
 
-	InputTag(KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	InputTag(KileInfo* ki, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 			, const TagData& data, const QString &hint = QString::null, const QString &alter = QString::null);
 
 	~InputTag();
@@ -120,7 +120,7 @@ private slots:
 	virtual void emitData();
 
 private:
-	KileInfoInterface	*m_kii;
+	KileInfo	*m_ki;
 	QStringList			m_history;
 	QWidget				*m_parent;
 	uint				m_options;
@@ -138,7 +138,7 @@ class InputFigure : public InputTag
 
 public:
 	//constructors
-	InputFigure(KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+	InputFigure(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
 
 private slots:
@@ -156,7 +156,7 @@ class InputDialog : public KDialogBase
 	Q_OBJECT
 
 public:
-	InputDialog(const QString &caption, uint options, const QStringList& history, const QString &hint, const QString &alter, KileInfoInterface *kii, QWidget *parent=0, const char *name=0);
+	InputDialog(const QString &caption, uint options, const QStringList& history, const QString &hint, const QString &alter, KileInfo *ki, QWidget *parent=0, const char *name=0);
 	~InputDialog();
 
 	bool useAlternative() {return m_useAlternative;}
@@ -180,7 +180,7 @@ public:
 private:
 	QString 			m_tag;
 	bool				m_useAlternative;
-	KileInfoInterface	*m_kii;
+	KileInfo	*m_ki;
 	QLabel *Text2;
 	QLabel *Text3;
 };

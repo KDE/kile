@@ -43,34 +43,38 @@
 <Action name="gotoPrevDocument"/>
 <Action name="gotoNextDocument"/>
 </Menu>
-<Menu name="menu3"><text>&amp;Build</text>
+<Menu name="menu_build"><text>&amp;Build</text>
 	<Action name="QuickBuild"/>
 	<Action name="WatchFile"/>
 	<Separator/>
-	<Action name="Latex"/>
-	<Action name="ViewDvi"/>
-	<Action name="DvitoPS"/>
-	<Action name="ViewPS"/>
+	<Menu name="menu_compile"><text>&amp;Compile</text>
+		<Action name="Latex"/>
+		<Action name="PDFLatex"/>
+		<Separator/>
+		<Action name="MakeBib"/>
+		<Action name="MakeIndex"/>
+		<Separator/>
+		<Action name="MetaPost"/>
+	</Menu>
+	<Menu name="menu_convert"><text>C&amp;onvert</text>
+		<Action name="DvitoPS"/>
+		<Action name="PStoPDF"/>
+		<Action name="DVItoPDF"/>
+		<Action name="LaTeXtoHtml"/>
+	</Menu>
+	<Menu name="menu_viewers"><text>&amp;View</text>
+		<Action name="ViewDvi"/>
+		<Action name="ViewPS"/>
+		<Action name="ViewPDF"/>
+		<Action name="HtmlPreview"/>
+	</Menu>
 	<Separator/>
 	<Action name="KdviForwardSearch"/>
-	<Separator/>
-	<Action name="PDFLatex"/>
-	<Action name="ViewPDF"/>
-	<Action name="PStoPDF"/>
-	<Action name="DVItoPDF"/>
 	<Separator/>
 	<Action name="ViewLog"/>
 	<Action name="PreviousError"/>
 	<Action name="NextError"/>
 	<Action name="Stop"/>
-	<Separator/>
-	<Action name="MakeBib"/>
-	<Action name="MakeIndex"/>
-	<Separator/>
-	<Action name="LaTeXtoHtml"/>
-	<Action name="HtmlPreview"/>
-	<Separator/>
-	<Action name="MetaPost"/>
 	<Separator/>
 	<Action name="CleanAll"/>
 </Menu>

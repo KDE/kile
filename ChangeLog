@@ -1,3 +1,6 @@
+- structure view: jump to line AND column, allow multiple labels on one line, allow space between \struct and { }, don't parse
+  structure elemented that are out-commented
+- configurable shortcuts to focus log/messages, output, konsole, editor views (resp. ctrl+alt+m,o,k,e)
 - statistics dialog for document (word count)
 - more advanced \includegraphics dialog (thx Michael Margraf)
 - check for modified on disc

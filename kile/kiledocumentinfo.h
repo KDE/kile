@@ -20,6 +20,7 @@
 
 #include <kate/document.h>
 
+#include <klistview.h>
 #include <kdialogbase.h>
 
 #define TEX_CAT0 '\\'
@@ -33,6 +34,43 @@
 #define TEX_CAT13 '~'
 #define TEX_CAT14 '%'
 
+namespace KileStruct
+{
+	enum  { None = 0x1, Label = 0x2, Sect = 0x4, Input =0x8};
+}
+
+class KileStructData
+{
+public:
+	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString::null)  : level(lvl), type(tp), pix(px) {}
+	int				level;
+	int 			type;
+	QString 	pix;
+};
+
+/**
+ * ListView items that can hold some additional information appropriate for the Structure View. The
+ * additional information is: line number, title string.
+ **/
+class KileListViewItem : public KListViewItem
+{
+public:
+	KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint m_column, int type);
+	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None;}
+	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None; }
+
+	const QString& title() { return m_title; }
+	const uint line() { return m_line; }
+	const uint column() { return m_column; }
+	const int type() { return m_type; }
+
+private:
+	QString		m_title;
+	uint 				m_line;
+	uint				m_column;
+	int					m_type;
+};
+
 class KileDocumentInfo : public QObject
 {
 	Q_OBJECT
@@ -44,6 +82,19 @@ public:
 
 	const long* getStatistics();
 
+	const QStringList* getLabelList() const{ return &m_labels; }
+	const QStringList* getBibItemList() const { return &m_bibItems; }
+
+	KileListViewItem* structViewItem() { return m_struct; }
+	void setListView(KListView *lv) { m_structview = lv;}
+
+public slots:
+	void updateStruct();
+	void updateBibItems();
+
+private:
+	int		matchBracket(const QString&, int);
+
 protected:
 	enum State
 	{
@@ -53,7 +104,12 @@ protected:
 
 private:
 	Kate::Document	*m_doc;
-	long*			m_arStatistics;
+	long						*m_arStatistics;
+	QStringList			m_labels;
+	QStringList			m_bibItems;
+	KListView				*m_structview;
+	KileListViewItem	*m_struct;
+	QMap<QString,KileStructData>		m_dictStructLevel;
 };
 
 class KileDocInfoDlg : public KDialogBase

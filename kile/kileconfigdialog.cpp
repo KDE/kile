@@ -106,8 +106,8 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
     comboDvi->setEditable( true );
     comboDvi->insertItem("xdvi -editor \'kile %f -line %l\' %S.dvi");
-    comboDvi->insertItem("kdvi %S.dvi");
-    comboDvi->insertItem("kdvi --unique %S.dvi");
+    comboDvi->insertItem("kdvi '%S.dvi'");
+    comboDvi->insertItem("kdvi --unique '%S.dvi'");
     comboDvi->insertItem("Embedded Viewer");
     gbox1->addWidget( comboDvi,0,1 );
 
@@ -117,8 +117,8 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     gbox1->addWidget( TextLabel2,1,0 );
     comboPs = new QComboBox( FALSE, toolsPage, "comboPs" );
     comboPs->setEditable( true );
-    comboPs->insertItem("gv %S.ps");
-    comboPs->insertItem("kghostview %S.ps");
+    comboPs->insertItem("gv '%S.ps'");
+    comboPs->insertItem("kghostview '%S.ps'");
     comboPs->insertItem("Embedded Viewer");
     gbox1->addWidget( comboPs,1,1 );
 
@@ -127,9 +127,9 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     gbox1->addWidget( TextLabel3,2,0 );
     comboPdf = new QComboBox( FALSE, toolsPage, "comboPdf" );
     comboPdf->setEditable( true );
-    comboPdf->insertItem("xpdf %S.pdf");
-    comboPdf->insertItem("acroread %S.pdf");
-    comboPdf->insertItem("kghostview %S.pdf");
+    comboPdf->insertItem("xpdf '%S.pdf'");
+    comboPdf->insertItem("acroread '%S.pdf'");
+    comboPdf->insertItem("kghostview '%S.pdf'");
     comboPdf->insertItem("Embedded Viewer");
     gbox1->addWidget( comboPdf,2,1 );
 
@@ -180,13 +180,13 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	comboDvi->setCurrentText(m_config->readEntry("Dvi","Embedded Viewer"));
 	comboPdf->setCurrentText(m_config->readEntry("Pdf","Embedded Viewer"));
 	comboPs->setCurrentText(m_config->readEntry("Ps","Embedded Viewer"));
-	LineEdit6->setText(m_config->readEntry("Latex","latex -interaction=nonstopmode %S.tex"));
-	LineEdit7->setText(m_config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode %S.tex"));
-	LineEdit9->setText(m_config->readEntry("Dvipdf","dvipdfm %S.dvi"));
-	LineEdit10->setText(m_config->readEntry("Dvips","dvips -o %S.ps %S.dvi"));
-	LineEdit11->setText(m_config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf"));
-	LineEdit12->setText(m_config->readEntry("Makeindex","makeindex %S.idx"));
-	LineEdit13->setText(m_config->readEntry("Bibtex","bibtex %S"));
+	LineEdit6->setText(m_config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'"));
+	LineEdit7->setText(m_config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode '%S.tex'"));
+	LineEdit9->setText(m_config->readEntry("Dvipdf","dvipdfm '%S.dvi'"));
+	LineEdit10->setText(m_config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'"));
+	LineEdit11->setText(m_config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'"));
+	LineEdit12->setText(m_config->readEntry("Makeindex","makeindex '%S.idx'"));
+	LineEdit13->setText(m_config->readEntry("Bibtex","bibtex '%S'"));
 
 
     // ************************************************************************************************
@@ -245,7 +245,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
 	//fill in
 	m_config->setGroup( "Editor Ext" );
-	checkEnv->setChecked(m_config->readBoolEntry( "Complete Environment", false));
+	checkEnv->setChecked(m_config->readBoolEntry( "Complete Environment", true));
 
 }
 

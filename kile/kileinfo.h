@@ -15,27 +15,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEINFOINTERFACE_H
-#define KILEINFOINTERFACE_H
+#ifndef KILEINFO_H
+#define KILEINFO_H
 
 #include <qstring.h>
+#include <qmap.h>
 
-class KileInfoInterface
+class KileDocumentInfo;
+namespace Kate { class Document;}
+
+class KileInfo
 {
 
 public:
-	KileInfoInterface() {m_name=QString::null;}
-	virtual ~KileInfoInterface() {}
+	KileInfo() {}
+	virtual ~KileInfo() {}
 
 public:
-	virtual QString getName() =0;
-	virtual QString getShortName() =0;
+	QString getName(Kate::Document *doc = 0, bool shrt = false);
+	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
+
+	virtual Kate::Document* activeDocument() const = 0;
 
 	virtual const QStringList* getLabelList() const =0;
 	virtual const QStringList* getBibItemList() const =0;
 
-private:
-	QString m_name;
+	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (doc) return m_mapDocInfo[doc]; else return 0;}
+
+protected:
+	QMap< Kate::Document*, KileDocumentInfo* >      m_mapDocInfo;
 };
 
 #endif

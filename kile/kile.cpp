@@ -43,6 +43,7 @@
 #include <kparts/browserextension.h>
 #include <kaccel.h>
 #include <knuminput.h>
+#include <klistview.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -76,7 +77,7 @@
 #include "usermenudialog.h"
 #include "kileconfigdialog.h"
 
-Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose)
+Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), KileInfo()
 {
 	partManager = new KParts::PartManager( this );
 	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
@@ -144,7 +145,7 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 
 	ButtonBar->insertTab( UserIcon("structure"),1,i18n("Structure"));
 	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	outstruct = new QListView( Structview );
+	outstruct = new KListView( Structview );
 	outstruct->setFocusPolicy(QWidget::ClickFocus);
 	outstruct->header()->hide();
 	outstruct->addColumn(i18n("Structure"),-1);
@@ -218,7 +219,7 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	showVertPage(0);
 	singlemode=true;
 	MasterName=getName();
-	applyMainWindowSettings(config, "KileMainWindow" );
+
 	partManager->setActivePart( 0L );
 
 	showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
@@ -230,6 +231,8 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 	show();
 	ToggleAccels();
 	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTerminal(QWidget * )) );
+
+	applyMainWindowSettings(config, "KileMainWindow" );
 }
 
 Kile::~Kile()
@@ -446,6 +449,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	//install a documentinfo class for this doc
 	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
 	m_mapDocInfo[doc]=docinfo;
+	docinfo->setListView(outstruct);
 
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
 
@@ -459,6 +463,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 
 	//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
 	doc->openURL(url);
+	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
+
 	if ( !url.isEmpty() )
 	{
 		doc->setDocName(url.path());
@@ -470,7 +476,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 		doc->setDocName("untitled");
 	}
 
- 	setHighlightMode(doc);
+	setHighlightMode(doc);
 
 	//insert the view in the tab widget
 	tabWidget->addTab( view, getShortName(doc) );
@@ -485,7 +491,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
 	//activate the newly created view
-	activateView(view, false);
+	activateView(view, false, false);
 	KParts::GUIActivateEvent ev( true );
 	QApplication::sendEvent( view, &ev );
 
@@ -531,7 +537,7 @@ void Kile::setLine( const QString &line )
 	if (view && ok)
   	{
 		view->cursorPosition(&para,&col);
-		view->setCursorPosition(l,0);
+  		view->setCursorPosition(l,0);
 
 		if ( l > para)
 		{
@@ -631,7 +637,7 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 }
 
 
-void Kile::activateView(QWidget* w ,bool checkModified /*= true*/  )  //Needs to be QWidget because of QTabWidget::currentChanged
+void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateStruct /* = true */  )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	Kate::View* view = (Kate::View*)w;
 
@@ -647,7 +653,7 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/  )  //Needs to
 	if( checkModified )
 		if (view) view->getDoc()->isModOnHD();
 
-	UpdateStructure();
+	if (updateStruct) UpdateStructure();
 }
 
 void Kile::replaceTemplateVariables(QString &line)
@@ -906,48 +912,14 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	}
 }
 
-QString Kile::getName(Kate::Document *doc)
+const QStringList* Kile::getLabelList() const
 {
-	QString title;
-	if (doc)
-	{
-		title=doc->url().path();
-		if (title == "") title = doc->docName();
-	}
+	const KileDocumentInfo *docinfo = getInfo();
 
-	Kate::View *view = currentView();
-
-	if ( view )
-	{
-		title=view->getDoc()->url().path();
-		if (title == "") title = view->getDoc()->docName();
-	}
+	if (docinfo)
+		return docinfo->getLabelList();
 	else
-		title="";
-
-	return title;
-}
-
-QString Kile::getShortName(Kate::Document *doc)
-{
-	QString title;
-	if (doc)
-	{
-		title=doc->url().fileName();
-		if (title == "") title = doc->docName();
-		return title;
-	}
-
-	Kate::View *view = currentView();
-	if ( view )
-	{
-		title=view->getDoc()->url().fileName();
-		if (title == "") title = view->getDoc()->docName();
-	}
-	else
-		title="";
-
-	return title;
+		return 0;
 }
 
 void Kile::newCaption()
@@ -2299,282 +2271,72 @@ void Kile::ShowStructure()
 	showVertPage(1);
 }
 
+
 void Kile::UpdateStructure()
 {
-outstruct->clear();
-if ( !currentView() ) return;
-QString shortName = getShortName();
-if ((shortName.right(4)!=".tex") && (shortName!="untitled"))  return;
+	kdDebug() << "Kile::UpdateStructure()" << endl;
 
-QListViewItem *top=  new QListViewItem( outstruct, shortName,"0",0 );
-top->setOpen(TRUE);
-top->setPixmap(0,UserIcon("doc"));
-Child=lastChild=parent_level[0]=parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=top;
-structlist.clear();
-structitem.clear();
-labelitem.clear();
-structlist.append(QString::number(0));
-structitem.append(shortName);
-QListViewItem *toplabel=  new QListViewItem(top,"LABELS","0",0 );
-structlist.append(QString::number(0));
-structitem.append("LABELS");
-QString s;
-for(uint i = 0; i < currentView()->getDoc()->numLines(); i++)
- {
-  int tagStart, tagEnd;
- //// label ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find("\\label{", tagEnd);
- if (tagStart!=-1)
-  {
-    s=s.mid(tagStart+7,s.length());
-    tagStart=s.find("}", tagEnd);
-    if (tagStart!=-1)
-    {
-    s=s.mid(0,tagStart);
-    labelitem.append(s);
-    structlist.append(QString::number(i));
-    s=s+" (line "+QString::number(i+1)+")";
-    structitem.append(s);
-    Child = toplabel->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    Child=new QListViewItem( toplabel,lastChild,s );
-    }
-  };
+	KileDocumentInfo *docinfo = getInfo();
 
- //// include ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find("\\include{", tagEnd);
- if (tagStart!=-1)
-  {
-    s=s.mid(tagStart+8,s.length());
-    tagStart=s.find("}", tagEnd);
-    if (tagStart!=-1)
-    {
-    s=s.mid(0,tagStart+1);
-    structlist.append("include");
-    structitem.append(s);
-    Child = top->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    Child=new QListViewItem( top,lastChild,s );
-    Child->setPixmap(0,UserIcon("include"));
-    }
-  };
- //// input ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find("\\input{", tagEnd);
- if (tagStart!=-1)
-  {
-    s=s.mid(tagStart+6,s.length());
-    tagStart=s.find("}", tagEnd);
-    if (tagStart!=-1)
-    {
-    s=s.mid(0,tagStart+1);
-    structlist.append("input");
-    structitem.append(s);
-    Child = top->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    Child=new QListViewItem( top,lastChild,s );
-    Child->setPixmap(0,UserIcon("include"));
-    }
-  };
- //// part ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
- if (tagStart!=-1)
-  {
-    structlist.append(QString::number(i));
-    tagStart=s.find(struct_level1, tagEnd);
-    s=s.mid(tagStart+struct_level1.length(),s.length());
-    s=s+" (line "+QString::number(i+1)+")";
-    structitem.append(s);
-    Child = top->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    parent_level[0]=new QListViewItem( top,lastChild,s );
-    parent_level[0]->setPixmap(0,UserIcon("part"));
-    parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=parent_level[0];
-  };
- //// chapter ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
- if (tagStart!=-1)
-  {
-    structlist.append(QString::number(i));
-    tagStart=s.find(struct_level2, tagEnd);
-    s=s.mid(tagStart+struct_level2.length(),s.length());
-    s=s+" (line "+QString::number(i+1)+")";
-    structitem.append(s);
-    Child = parent_level[0]->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    parent_level[1]=new QListViewItem(parent_level[0],lastChild , s );
-    parent_level[1]->setPixmap(0,UserIcon("chapter"));
-    parent_level[2]=parent_level[3]=parent_level[4]=parent_level[1];
-  };
- //// section ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
- if (tagStart!=-1)
-  {
-    structlist.append(QString::number(i));
-    tagStart=s.find(struct_level3, tagEnd);
-    s=s.mid(tagStart+struct_level3.length(),s.length());
-    s=s+" (line "+QString::number(i+1)+")";
-    structitem.append(s);
-    Child = parent_level[1]->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    parent_level[2]=new QListViewItem( parent_level[1],lastChild, s);
-    parent_level[2]->setPixmap(0,UserIcon("section"));
-    parent_level[3]=parent_level[4]=parent_level[2];
-  };
- //// subsection ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
- if (tagStart!=-1)
-  {
-    structlist.append(QString::number(i));
-    tagStart=s.find(struct_level4, tagEnd);
-    s=s.mid(tagStart+struct_level4.length(),s.length());
-    s=s+" (line "+QString::number(i+1)+")";
-    structitem.append(s);
-    Child = parent_level[2]->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    parent_level[3]=new QListViewItem( parent_level[2],lastChild, s);
-    parent_level[3]->setPixmap(0,UserIcon("subsection"));
-    parent_level[4]=parent_level[3];
-  };
- //// subsubsection ////
- tagStart=tagEnd=0;
- s=currentView()->getDoc()->textLine(i);
- tagStart=s.find(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
- if (tagStart!=-1)
-  {
-    structlist.append(QString::number(i));
-    tagStart=s.find(struct_level5, tagEnd);
-    s=s.mid(tagStart+struct_level5.length(),s.length());
-    s=s+" (line "+QString::number(i+1)+")";
-    structitem.append(s);
-    Child = parent_level[3]->firstChild();
-    while( Child ) {
-    lastChild=Child;
-    Child = Child->nextSibling();
-    };
-    parent_level[4]=new QListViewItem( parent_level[3],lastChild, s);
-    parent_level[4]->setPixmap(0,UserIcon("subsubsection"));
-  };
- }
-if (currentView() ){currentView()->setFocus();}
+	if (docinfo)
+	{
+		outstruct->clear();
+		docinfo->updateStruct();
+		outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
+	}
+
+	Kate::View *view = currentView();
+	if (view) {view->setFocus();}
 }
 
-void Kile::ClickedOnStructure(QListViewItem * item)
+void Kile::ClickedOnStructure(QListViewItem * itm)
 {
-//return if user didn't click on an item
-if (item==0) return;
+	kdDebug() << "ClickedOnStructure" << endl;
+	KileListViewItem *item = (KileListViewItem *)itm;
+	//return if user didn't click on an item
+	if (! item)
+	{
+		kdDebug() << "ClickedOnStructure (empty)" << endl;
+		return;
+	}
 
-bool ok = false;
-if ( !currentView() ) return;
-QString it;
-if ((item) && (!structlist.isEmpty()))
- {
- QStringList::ConstIterator it1 = structitem.begin();
- QStringList::ConstIterator it2 = structlist.begin();
- for ( ; it1 !=structitem.end(); ++it1 )
-    {
-    if (*it1==item->text(0)) {ok=true; break;}
-    ++it2;
-    }
-
-if (!ok) return;
-
-QString s=*it2;
-if (s!="include" && s!="input" && s!="LABELS")
- {
- uint l=s.toInt(&ok,10);
- if (ok && l<=currentView()->getDoc()->numLines())
-  {
-  //currentView()->setFocus();
-  //currentView()->setCursorPosition(l, 0);
-  //newStatus();
-  setLine(QString::number(l));
-  }
- }
- }
+	if (! (item->type() & (KileStruct::None | KileStruct::Input)))
+	{
+		Kate::View *view = currentView();
+		view->setCursorPositionReal(item->line()-1, item->column());
+		view->setFocus();
+	}
 }
 
-void Kile::DoubleClickedOnStructure(QListViewItem *)
+void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 {
-if ( !currentView() ) return;
-QListViewItem *item = outstruct->currentItem();
-QString it;
-if ((item) && (!structlist.isEmpty()))
- {
- QStringList::ConstIterator it1 = structitem.begin();
- QStringList::ConstIterator it2 = structlist.begin();
- for ( ; it1 !=structitem.end(); ++it1 )
-    {
-    if (*it1==item->text(0)) break;
-    ++it2;
-    }
-QString s=*it2;
-QString fn;
-if (singlemode)
-	fn = getName();
-else
-	fn = MasterName;
-if (s=="include")
-    {
-    QString fname=*it1;
+	KileListViewItem *item = (KileListViewItem*)(itm);
+	if (! item) return;
+	if (! (item->type() & KileStruct::Input)) return;
 
-    if (fname.right(5)==".tex}")
-    	fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2);
-    else
-    	fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
-    QFileInfo fi(fname);
-    if (fi.exists() && fi.isReadable())
-      {
-      load(fname);
-      }
-    }
-else if (s=="input")
-    {
-    QString fname=*it1;
-    if (fname.right(5)==".tex}") fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2);
-    else fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
-    QFileInfo fi(fname);
-    if (fi.exists() && fi.isReadable())
-      {
-      load(fname);
-      }
-    }
+	Kate::View *view = currentView();
+	if ( ! view ) return;
+
+	QString fn;
+	if (singlemode)
+		fn = getName();
+	else
+		fn = MasterName;
+
+	QString fname = item->title();
+
+	if (fname.right(5)==".tex")
+		fname =QFileInfo(fn).dirPath()+"/" + fname;
+	else
+		fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
+
+	QFileInfo fi(fname);
+	if (fi.exists() && fi.isReadable())
+	{
+		load(fname);
+	}
 }
-}
+
 //////////////// MESSAGES - LOG FILE///////////////////////
 void Kile::ViewLog()
 {
@@ -3213,7 +2975,6 @@ void Kile::RunGfe()
 /////////////// CONFIG ////////////////////
 void Kile::ReadSettings()
 {
-
 	//test for old kilerc
 	config->setGroup("VersionInfo");
 	int version = config->readNumEntry("RCVersion",0);
@@ -3253,16 +3014,16 @@ void Kile::ReadSettings()
 	config->setGroup( "Tools" );
 	if (old)
 	{
-		latex_command="latex -interaction=nonstopmode %S.tex";
+		latex_command="latex -interaction=nonstopmode '%S.tex'";
 		viewdvi_command="Embedded Viewer";
-		dvips_command="dvips -o %S.ps %S.dvi";
+		dvips_command="dvips -o '%S.ps' '%S.dvi'";
 		viewps_command="Embedded Viewer";
-		ps2pdf_command="ps2pdf %S.ps %S.pdf";
-		makeindex_command="makeindex %S.idx";
-		bibtex_command="bibtex %S";
-		pdflatex_command="pdflatex -interaction=nonstopmode %S.tex";
+		ps2pdf_command="ps2pdf '%S.ps' '%S.pdf'";
+		makeindex_command="makeindex '%S.idx'";
+		bibtex_command="bibtex '%S'";
+		pdflatex_command="pdflatex -interaction=nonstopmode '%S.tex'";
 		viewpdf_command="Embedded Viewer";
-		dvipdf_command="dvipdfm %S.dvi";
+		dvipdf_command="dvipdfm '%S.dvi'";
 		l2h_options="";
 	}
 	//new configuration scheme is read in readConfig()
@@ -3351,16 +3112,16 @@ void Kile::readConfig()
 
 	quickmode=config->readNumEntry( "Quick Mode",1);
 
-	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode %S.tex");
+	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
 	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
-	dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
+	dvips_command=config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'");
 	viewps_command=config->readEntry("Ps","Embedded Viewer");
-	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
-	makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
-	bibtex_command=config->readEntry("Bibtex","bibtex %S");
-	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode %S.tex");
+	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'");
+	makeindex_command=config->readEntry("Makeindex","makeindex '%S.idx'");
+	bibtex_command=config->readEntry("Bibtex","bibtex '%S'");
+	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode '%S.tex'");
 	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
-	dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
+	dvipdf_command=config->readEntry("Dvipdf","dvipdfm '%S.dvi'");
 	l2h_options=config->readEntry("L2h Options","");
 	userClassList=config->readListEntry("User Class", ':');
 	userPaperList=config->readListEntry("User Paper", ':');
@@ -4020,7 +3781,7 @@ void KileEventFilter::readConfig()
 {
 	KConfig *config = kapp->config();
 	config->setGroup( "Editor Ext" );
-	m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", false);
+	m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", true);
 }
 
 bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
@@ -4069,6 +3830,12 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 
 	//pass this event on
 	return false;
+}
+
+KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint column, int type)
+	: KListViewItem(parent,after), m_title(title), m_line(line), m_column(column), m_type(type)
+{
+	this->setText(0, m_title+" (line "+QString::number(m_line)+")");
 }
 
 #include "kile.moc"

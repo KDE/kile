@@ -34,13 +34,13 @@
 #include <kprocess.h>
 #include <kaction.h>
 #include <kfileitem.h>
+#include <klistview.h>
 
 #include <qmap.h>
 #include <qsplitter.h>
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qstrlist.h>
-#include <qlistview.h>
 #include <qtabwidget.h>
 #include <qwidgetstack.h>
 #include <qcombobox.h>
@@ -69,7 +69,7 @@
 #include "refdialog.h"
 #include "metapostview.h"
 
-#include "kileinfointerface.h"
+#include "kileinfo.h"
 #include "kiledocumentinfo.h"
 #include "kileactions.h"
 
@@ -100,9 +100,14 @@ struct userItem
 #define KILE_USERITEM
 #endif
 
+/**
+ * @author Jeroen Wijnhout
+ **/
 
-
-class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfoInterface
+/**
+ * The Kile main class. It acts as the mainwindow, information manager and DCOP interface.
+ **/
+class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
 {
 	Q_OBJECT
 
@@ -111,8 +116,10 @@ public:
 	~Kile();
 
 public slots:
-	//jumps to give line (can be called via DCOP interface)
-	void setLine( const QString &line );
+	/**
+	 * @param line : Jump to give line in current editor (can be called via DCOP interface).
+	 **/
+	void setLine( const QString &line);
 
 /* actions */
 private:
@@ -120,8 +127,14 @@ private:
 	void setupUserTagActions();
 	void setupUserToolActions();
 
-	//toggle between old (non-KDE compliant) shortcuts or KDE-compliant shortcuts
+
+	/**
+	 * Toggle between standard KDE shortcuts for the menus (such as Alt-F for the file menu) or no shortcuts.
+	 **/
 	void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
+	/**
+	 * Toggle between old (non-KDE compliant) shortcuts or KDE-compliant shortcuts
+	 **/
 	void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
 	bool					m_menuaccels; //TRUE : we're using KDE compliant shortcuts
 
@@ -145,33 +158,32 @@ private:
 /* GUI */
 private:
 	//widgets
-	KStatusBar 				*StatusBar;
-	KileFileSelect 			*KileFS;
+	KStatusBar 					*StatusBar;
+	KileFileSelect 				*KileFS;
 	KMultiVertTabBar 		*ButtonBar;
 	SymbolView 				*symbol_view;
-	metapostview 			*mpview;
+	metapostview 				*mpview;
     MessageWidget 			*OutputWidget, *LogWidget;
     TexKonsoleWidget		*texkonsole;
 	QTabWidget 				*tabWidget, *Outputview;
-	QFrame 					*Structview;
-	QHBoxLayout 			*Structview_layout;
-	QWidgetStack 			*topWidgetStack;
-	QSplitter 				*splitter1, *splitter2 ;
-	QListView				*outstruct;
-	QListViewItem 			*parent_level[5],*lastChild, *Child;
+	QFrame 						*Structview;
+	QHBoxLayout 				*Structview_layout;
+	QWidgetStack 				*topWidgetStack;
+	QSplitter 						*splitter1, *splitter2 ;
+	KListView						*outstruct;
 
 	//dialogs
-	structdialog 			*stDlg;
+	structdialog 					*stDlg;
 	quickdocumentdialog 	*startDlg;
-	refdialog 				*refDlg;
-	letterdialog 			*ltDlg;
-	tabdialog 				*quickDlg;
-	arraydialog 			*arrayDlg;
-	tabbingdialog 			*tabDlg;
-	l2hdialog 				*l2hDlg;
+	refdialog 						*refDlg;
+	letterdialog 					*ltDlg;
+	tabdialog 						*quickDlg;
+	arraydialog 					*arrayDlg;
+	tabbingdialog 				*tabDlg;
+	l2hdialog 						*l2hDlg;
 
 	//parts
-	docpart 				*htmlpart;
+	docpart 						*htmlpart;
 	KParts::PartManager 	*partManager;
 	KParts::ReadOnlyPart 	*pspart, *dvipart;
 
@@ -204,13 +216,13 @@ private slots:
 
 /* structure view */
 private:
-	QStringList		structlist,labelitem, structitem;
-	bool 			showstructview;
+	bool 								showstructview;
 
 private slots:
 	void ShowStructView(bool change);
 	void ShowStructure();
 	void UpdateStructure();
+
 	void ClickedOnStructure(QListViewItem *);
 	void DoubleClickedOnStructure(QListViewItem *);
 
@@ -231,6 +243,10 @@ private:
 	bool			m_bCompleteEnvironment;
 
 signals:
+	/**
+	 * Emit this signal when the configuration is changed. Classes that read and write to the global KConfig object
+	 * should connect to this signal so they can update their settings.
+	 **/
 	void configChanged();
 
 private slots:
@@ -264,18 +280,27 @@ private:
 
 /* views */
 protected:
+	/**
+	 * This event filter captures WindowActivate events. On window activating it checks if
+	 * any files were modified on disc. This function will be obsolete once we decide to use
+	 * KDE3.2.
+	 **/
 	bool eventFilter (QObject* o, QEvent* e);
 	bool m_bBlockWindowActivateEvents;
 
 private slots:
-	void activateView(QWidget* view ,bool checkModified = true);
+	/**
+	 * Activates (sets up the GUI for the editor part) the view.
+	 * @param checkModified If true, check if the document that corresponds to this view is modified on disc.
+	 **/
+	void activateView(QWidget* view ,bool checkModified = true, bool updateStruct = true);
 	void removeView(Kate::View *view);
 
 	void focusLog();
 	void focusOutput();
 	void focusKonsole();
 	void focusEditor();
-	
+
 public:
 	Kate::View* currentView() const;
 	QPtrList<Kate::View>& views() {return m_viewList;}
@@ -285,11 +310,14 @@ private:
 
 /* document handling */
 public slots:
-	//creates a document/view pair and loads the URL with the specified encoding
-	//(default encoding is the encoding corresponding to the current locale)
-	//returns a pointer to the new view
+	/**
+	 * Creates a document/view pair and loads the URL with the specified encoding
+	 * (default encoding is the encoding corresponding to the current locale).
+	 *
+	 * @returns pointer to the new view
+	 **/
 	Kate::View* load( const KURL &url , const QString & encoding = 0);
-
+	
 private slots:
 	void fileNew();
 	void fileOpen();
@@ -316,28 +344,21 @@ private slots:
 	void gotoNextDocument();
 	void gotoPrevDocument();
 
-	QString getName(Kate::Document *doc);
-    QString getShortName(Kate::Document *doc);
-
 	//
 	// documentinfo
 	//
 private slots:
 	void showDocInfo(Kate::Document *doc = 0);
 
-private:
-	QMap< Kate::Document*, KileDocumentInfo* >	m_mapDocInfo;
-
 	//
 	// implementation of:
-	// KileInfoInterface
+	// KileInfo
 	//
 public:
-	QString getName() { return getName(0); }
-    QString getShortName() { return getShortName(0); }
+	Kate::Document * activeDocument() const { Kate::View *view = currentView(); if (view) return view->getDoc(); else return 0;}
 
-	const QStringList* getLabelList() const { return &labelitem;}
-	const QStringList* getBibItemList() const { return &labelitem; }
+	const QStringList* getLabelList() const;
+	const QStringList* getBibItemList() const { return 0L; }
 
 private:
 	bool singlemode;
@@ -364,9 +385,9 @@ private slots:
 /* tools */
 private:
 	KShellProcess 		*currentProcess;
-	QString 		latex_command, viewdvi_command, dvips_command, dvipdf_command,
-				viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
-				pdflatex_command, viewpdf_command, l2h_options;
+	QString 			latex_command, viewdvi_command, dvips_command, dvipdf_command,
+						viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
+						pdflatex_command, viewpdf_command, l2h_options;
 
 signals:
 	void stopProcess();
@@ -384,9 +405,9 @@ private slots:
 	void QuickPS2PDF();
 
 	CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop, bool runonfile = true);
-	QString 	prepareForCompile(const QString & command);
+	QString 		prepareForCompile(const QString & command);
 	QStringList 	prepareForConversion(const QString &command, const QString &from, const QString &to);
-	QString 	prepareForViewing(const QString & command, const QString &ext, const QString &target);
+	QString 		prepareForViewing(const QString & command, const QString &ext, const QString &target);
 
 	bool isLaTeXRoot(Kate::Document *);
 	void Latex();
@@ -434,8 +455,16 @@ private:
 
 /* insert tags */
 private slots:
+	/**
+	 * @param td Inserts the TagData td into the current editor.
+	 *
+	 * It can wrap a tag around selected text.
+	 **/
+	void insertTag(const KileAction::TagData& td);
+	/**
+	 * An overloaded member function, behaves essentially as above.
+	 **/
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
-	void insertTag(const KileAction::TagData&);
 	void insertGraphic(const KileAction::TagData&);
 
 	void QuickTabular();
@@ -462,10 +491,12 @@ private slots:
 private:
 	QGuardedPtr<Qplotmaker> gfe_widget;
 
-
-
 };
 
+/**
+ * This class is capable of intercepting key-strokes from the editor. It can complete a \begin{env}
+ * with a \end{env} when enter is pressed.
+ **/
 class KileEventFilter : public QObject
 {
 	Q_OBJECT
@@ -480,10 +511,11 @@ protected:
 	bool eventFilter(QObject *o, QEvent *e);
 
 private:
-	bool	m_bHandleEnter, m_bCompleteEnvironment;
-	QRegExp	m_regexpEnter;
-	
+	bool				m_bHandleEnter, m_bCompleteEnvironment;
+	QRegExp		m_regexpEnter;
+
 };
 
 #endif
+
 

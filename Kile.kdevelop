@@ -47,7 +47,7 @@
       <toc>ruby</toc>
     </ignoretocs>
     <projectdoc>
-      <userdocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html/</userdocDir>
+      <userdocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/doc/kile</userdocDir>
       <apidocDir>/home/wijnhout/Devel/KDE/kdeextragear-2/kile/html/</apidocDir>
     </projectdoc>
   </kdevdoctreeview>
@@ -89,12 +89,14 @@
       <useconfiguration>default</useconfiguration>
     </general>
     <run>
-      <mainprogram>../../bin/startkile</mainprogram>
+      <mainprogram>/home/wijnhout/Devel/KDE/bin/kile</mainprogram>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
-      <envvars/>
-      <directoryradio>build</directoryradio>
+      <envvars>
+        <envvar value="/home/wijnhout/Devel/KDE" name="KDEDIR" />
+      </envvars>
+      <directoryradio>custom</directoryradio>
       <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
     </run>
   </kdevautoproject>

@@ -2515,6 +2515,7 @@ void Kile::execUserTool(int i)
 	if (documentpresent)
 	{
 		fi.setFile(finame);
+		fileSave();
 	}
 	else
 	{

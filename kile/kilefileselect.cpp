@@ -70,7 +70,7 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   dir = new KDirOperator(QString::null, this, "operator");
   dir->setView(KFile::Simple);
   dir->setNameFilter( "*.tex *.bib *.sty *.cls *.mp" );
-//  dir->actionCollection()->action( "delete" )->setShortcut (KShortcut (ALT+Key_Delete));
+//  dir->actionCollection()->action( "delete" )-> (KShortcut (ALT+Key_Delete));
   lo->addWidget(dir);
   lo->setStretchFactor(dir, 2);
 

@@ -5,24 +5,15 @@ BUGS
  - F3 is assigned to two actions
    
 TODO
- - improve UI of usertool/usertag dialogs
+ - also handle .ltx files
  
+ - improve UI of usertool/usertag dialogs
+
  - fix compile (Mandrake) for gfe
 
  - add a check for libfam in configure.in.in (?)
 
- - clean up usertool/usermenutag code
-
- - trying to compile an untitled document should initiate a
-   'Save As' dialog instead of the error 'could not start command'
-
- - write a Kile handbook (in the docbook format)
-
- - Automatically backup files (at a regular interval)
-
- - fix error when quickbuild is stopped
- 
- - inverse search: kile is started and a Goto dialog is presented, could do
+ - inverse search: kile is started and a Goto dialog is presented, could do
    without it the Goto dialog :-)
 
  - recursive sectioning: also parse sections that were inserted with

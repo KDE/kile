@@ -100,7 +100,7 @@ public:
 
 	void allChildren(QPtrList<KileProjectItem> *) const;
 
-	KileProjectItem * print(int level);
+	void print(int level);
 
 public slots:
 	void changeURL(const KURL &url) { m_url = url;  kdDebug() << "changeURL " << url.path() << endl; emit(urlChanged(this));}
@@ -173,7 +173,7 @@ public:
 
 	bool contains(const KURL&);
 	KileProjectItem *rootItem(KileProjectItem *) const;
-	const QPtrList<KileProjectItem>* rootItems() const { return &m_rootItems;}
+	const QPtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
 
 	void buildProjectTree();
 

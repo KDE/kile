@@ -452,25 +452,15 @@ KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProject
 	return item;
 }
 
-const KileProjectViewItem* KileProjectView::addTree(KileProjectItem *projitem, KileProjectViewItem * projvi)
+void KileProjectView::addTree(KileProjectItem *projitem, KileProjectViewItem * projvi)
 {
 	KileProjectViewItem * item = add(projitem, projvi);
 
 	if (projitem->firstChild())
-		return addTree(projitem->firstChild(), item);
+		addTree(projitem->firstChild(), item);
 
 	if (projitem->sibling())
-		return addTree(projitem->sibling(), projvi);
-
-	if (projitem->parent())
-	{
-		if (projitem->parent()->sibling())
-		{
-			return addTree(projitem->parent()->sibling(), projvi->parent());
-		}
-	}
-
-	return 0;
+		addTree(projitem->sibling(), projvi);
 }
 
 void KileProjectView::refreshProjectTree(const KileProject *project)

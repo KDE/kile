@@ -62,14 +62,14 @@ public slots:
 protected:
 	QWidgetStack		*m_tabStack;
 	KMultiTabBar		*m_tabBar;
-	SymbolView			*m_symbolTab;
-	int					m_nTabs;
-	int					m_nCurrent;
+	SymbolView		*m_symbolTab;
+	int			m_nTabs;
+	int			m_nCurrent;
 	QMap<int,int>		m_indexToPage;
 	QMap<QWidget*,int>	m_widgetToIndex;
 	QMap<int,bool>		m_isSymbolView;
-	bool				m_bMinimized;
-	int					m_nMinSize, m_nMaxSize, m_nSize;
+	bool			m_bMinimized;
+	int			m_nMinSize, m_nMaxSize, m_nSize;
 };
 
 class KileBottomBar : public KileSideBar

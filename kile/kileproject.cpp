@@ -60,10 +60,12 @@ void KileProjectItem::setParent(KileProjectItem * item)
 			while (sib->sibling())
 				sib = sib->sibling();
 
+			kdDebug() << "sibling for " << sib->url().fileName() << " is " << url().fileName() << endl;
 			sib->setSibling(this);
 		}
 		else
 		{
+			kdDebug() << "setting " << url().fileName() << " as child for " << m_parent->url().fileName() << endl;
 			m_parent->setChild(this);
 		}
 	}
@@ -74,25 +76,17 @@ void KileProjectItem::setParent(KileProjectItem * item)
 	}
 }
 
-KileProjectItem* KileProjectItem::print(int level)
+void KileProjectItem::print(int level)
 {
 	QString str;
 	str.fill('\t', level);
 	kdDebug() << str << "+" << url().fileName() << endl;
 
 	if (firstChild())
-		return firstChild()->print(++level);
+		firstChild()->print(++level);
 
 	if (sibling())
-		return sibling()->print(level);
-
-	if (parent())
-	{
-		if (parent()->sibling())
-			parent()->sibling()->print(--level);
-	}
-
-	return 0;
+		sibling()->print(level);
 }
 
 void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
@@ -388,7 +382,6 @@ void KileProject::buildProjectTree()
 				url.addPath((*deps)[i]);
 				itm = item(url);
 				if (itm && (itm->parent() == 0)) itm->setParent(*it);
-				//else kdDebug() << "\tcould not find " << url.path() << " in projectlist"<< endl;
 			}
 		}
 
@@ -400,9 +393,7 @@ void KileProject::buildProjectTree()
 	it.toFirst();
 	while (it.current())
 	{
-		if ((*it)->parent() == 0)
-			m_rootItems.append(*it);
-
+		if ((*it)->parent() == 0) m_rootItems.append(*it);
 		++it;
 	}
 

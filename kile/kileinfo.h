@@ -115,7 +115,7 @@ public:
 	QWidget *parentWidget() const { return m_parentWidget; }
 
 protected:
-	KileDocument::Manager	*m_docManager;
+	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;
 	KileTool::Factory		*m_toolFactory;
@@ -124,7 +124,7 @@ protected:
 	KileWidget::LogMsg		*m_logWidget;
 	KileBottomBar			*m_bottomBar;
 
-	KileDocument::EditorExtension *m_edit;
+	KileDocument::EditorExtension 	*m_edit;
 
 	QWidget *m_parentWidget;
 
@@ -136,11 +136,13 @@ protected:
 	bool m_bWatchFile, m_logPresent;
 
 	LatexOutputFilter		*m_outputFilter;
-	LatexOutputInfoArray	*m_outputInfo;
+	LatexOutputInfoArray		*m_outputInfo;
 
-	KileWidget::Structure	*m_kwStructure;
+	KileWidget::Structure		*m_kwStructure;
 	KileFileSelect 			*m_fileSelector;
 	KileEventFilter*		m_eventFilter;
+
+	KileProject			*m_defaultProject;
 };
 
 #endif

@@ -25,7 +25,7 @@
 #include <kate/document.h>
 #include <ktexteditor/codecompletioninterface.h>
 
-#define BULLET QString("×")
+#define BULLET QString("Ã—")
 
 /**
   *@author Holger Danielsson

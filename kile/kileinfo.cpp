@@ -37,7 +37,8 @@ KileInfo::KileInfo(QWidget *parent) :
 	m_texKonsole(0L),
 	m_edit(0L),
 	m_parentWidget(parent),
-	m_currentTarget(QString::null)
+	m_currentTarget(QString::null),
+	m_defaultProject(0L)
 {
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
@@ -79,40 +80,49 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 {
 	KileProject *project = docManager()->activeProject();
 
-	//TODO: handle the case where no master document is specified in a project (sick)
-	if (project)
+	if (m_singlemode)
 	{
-		if (project->masterDocument().length() > 0)
+		if (project)
 		{
-			KURL master = KURL::fromPathOrURL(project->masterDocument());
-			if (shrt) return master.fileName();
-			else return master.path();
-		}
-		else
-		{
-			KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
-			if (item)
+			if (project->masterDocument().length() > 0)
 			{
-				KURL url = item->url();
-				if (shrt) return url.fileName();
-				else return url.path();
+				KURL master = KURL::fromPathOrURL(project->masterDocument());
+				if (shrt) return master.fileName();
+				else return master.path();
 			}
 			else
-				return QString::null;
+			{
+				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
+				if (item)
+				{
+					KURL url = item->url();
+					if (shrt) return url.fileName();
+					else return url.path();
+				}
+				else
+				{
+					QPtrList<KileProjectItem> items = *(project->rootItems());
+					if ( items.first() )
+					{
+						KURL url = items.first()->url();
+						if (shrt) return url.fileName();
+						else return url.path();
+					}
+	
+					return QString::null;
+				}				
+			}
 		}
+		else
+			return getName(activeDocument(), shrt);
 	}
 	else
 	{
-		if (m_singlemode)
-			return getName(activeDocument(), shrt);
+		QFileInfo fi(m_masterName);
+		if (shrt)
+			return fi.fileName();
 		else
-		{
-			QFileInfo fi(m_masterName);
-			if (shrt)
-				return fi.fileName();
-			else
-				return m_masterName;
-		}
+			return m_masterName;
 	}
 }
 

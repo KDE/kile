@@ -1490,6 +1490,7 @@ void Kile::toggleMode()
 		ModeAction->setChecked(false);
 		m_logPresent=false;
 		m_singlemode=true;
+		m_masterName=QString::null;
 	}
 	else if (m_singlemode && viewManager()->currentView())
 	{
@@ -1505,7 +1506,8 @@ void Kile::toggleMode()
 		QString shortName = m_masterName;
 		int pos;
 		while ( (pos = (int)shortName.find('/')) != -1 )
-		shortName.remove(0,pos+1);
+			shortName.remove(0,pos+1);
+		
 		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
 		ModeAction->setChecked(true);
 		m_singlemode=false;
@@ -1514,6 +1516,7 @@ void Kile::toggleMode()
 		ModeAction->setChecked(false);
 
 	updateModeStatus();
+	kdDebug() << "SETTING master to " << m_masterName << " singlemode = " << m_singlemode << endl;
 }
 
 void Kile::toggleWatchFile()

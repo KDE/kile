@@ -117,7 +117,7 @@ public slots:
 public:
 	void add(const KileProject *project);
 	KileProjectViewItem* add(KileProjectItem *item, KileProjectViewItem * projvi  = 0);
-	const KileProjectViewItem* addTree(KileProjectItem *item, KileProjectViewItem * projvi );
+	void addTree(KileProjectItem *item, KileProjectViewItem * projvi );
 	void add(const KURL & url);
 
 	void remove(const KileProject *project);

@@ -170,7 +170,7 @@ public slots:
 private:
 	KConfig			*m_config;
 	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
-	QStringList 	m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
+	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
 	bool 			m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
 
@@ -236,10 +236,6 @@ private slots:
 	void convertToASCII(Kate::Document *doc = 0);
 	void convertToEnc(Kate::Document *doc = 0);
 
-	//
-	// implementation of:
-	// KileInfo
-	//
 public:
 	int lineNumber();
 

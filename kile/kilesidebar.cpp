@@ -41,6 +41,7 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	QLayout *layout;
 
 	m_tabStack = new QWidgetStack(this);
+	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
 	KMultiTabBar::KMultiTabBarMode tabbarori;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos;
@@ -64,12 +65,16 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	if ( orientation == Qt::Horizontal )
 	{
 		setMinimumHeight(m_tabBar->height());
+		m_nMinSize = m_tabBar->height();
+		m_nMaxSize = m_tabBar->maximumHeight();
 		layout->add(m_tabBar);
 		layout->add(m_tabStack);
 	}
 	else if ( orientation == Qt::Vertical )
 	{
 		setMinimumWidth(m_tabBar->width());
+		m_nMinSize = m_tabBar->width();
+		m_nMaxSize = m_tabBar->maximumWidth();
 		layout->add(m_tabStack);
 		layout->add(m_tabBar);
 	}
@@ -119,6 +124,8 @@ void KileSideBar::setVisible(bool show)
 
 void KileSideBar::shrink()
 {
+	if ( !isVisible() ) return;
+
 	m_bMinimized = true;
 
 	m_nSize = width();
@@ -133,6 +140,8 @@ void KileSideBar::shrink()
 
 void KileSideBar::expand()
 {
+	if ( isVisible() ) return;
+
 	m_bMinimized = false;
 
 	m_tabStack->show();
@@ -192,6 +201,8 @@ void KileBottomBar::shrink()
 
 	m_tabStack->hide();
 	setFixedHeight(m_tabBar->height());
+
+	emit visibilityChanged(false);
 }
 
 void KileBottomBar::expand()
@@ -203,6 +214,8 @@ void KileBottomBar::expand()
 	resize(width(), m_nSize);
 	setMinimumHeight(m_nMinSize);
 	setMaximumHeight(m_nMaxSize);
+	
+	emit visibilityChanged(true);
 }
 
 #include "kilesidebar.moc"

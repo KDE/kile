@@ -36,6 +36,11 @@ email                : holger.danielsson@t-online.de
 namespace KileDocument
 {
 
+	static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
+	static QRegExp::QRegExp reCite("^\\\\(c|C)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
+	static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
+	static QRegExp::QRegExp reCiteExt("^\\\\(c|C)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
+	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{
 		m_firstconfig = true;
@@ -79,8 +84,6 @@ namespace KileDocument
 
 	CodeCompletion::Type CodeCompletion::getType( const QString &text )
 	{
-		static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
-		static QRegExp::QRegExp reCite("^\\\\(c|C)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
 		if ( text.find( reRef ) != -1 )
 			return CodeCompletion::ctReference;
 		else if ( text.find( reCite ) != -1 )
@@ -496,29 +499,29 @@ namespace KileDocument
 			{
 					case '{':
 					case '(':
-					case '[':      // Zeichen einfügen
+					case '[':      // Zeichen einfgen
 					s += text[ i ];
 					if ( xpos == 0 )
 					{
 						// hinter der ersten Klammer die Cursorposition merken
 						xpos = i + 1;
-						// ein Bullet nur dann einfügen, wenn der Cursor
+						// ein Bullet nur dann einfgen, wenn der Cursor
 						// nicht hierhin gesetzt werden soll
 						if ( ( ! m_setcursor ) && m_setbullets )
 							s += getBullet();
 					}
-					// an allen weiteren Klammern ev. ein Bullet einfügen
+					// an allen weiteren Klammern ev. ein Bullet einfgen
 					else if ( m_setbullets )
 						s += getBullet();
 					break;
 					case '}':
 					case ')':
-					case ']':      // Zeichen einfügen
+					case ']':      // Zeichen einfgen
 					s += text[ i ];
 					break;
-					case ',':      // Zeichen einfügen
+					case ',':      // Zeichen einfgen
 					s += text[ i ];
-					// ev. Bullet einfügen
+					// ev. Bullet einfgen
 					if ( m_setbullets )
 						s += getBullet();
 					break;
@@ -545,7 +548,7 @@ namespace KileDocument
 		}
 
 		// bei einer Gruppe wird noch nachbearbeitet, wenn auch Bullets
-		// eingefügt werden sollen
+		// eingefgt werden sollen
 		if ( checkgroup && foundgroup && ( m_setbullets | m_setcursor ) )
 		{
 			int pos = 0;
@@ -626,7 +629,7 @@ namespace KileDocument
 		return s;
 	}
 
-	//////////////////// Daten für CodeCompletion lesen ////////////////////
+	//////////////////// Daten fr CodeCompletion lesen ////////////////////
 
 	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename )
 	{
@@ -677,7 +680,7 @@ namespace KileDocument
 		}
 	}
 
-	//////////////////// Anzahl der Einträge lesen ////////////////////
+	//////////////////// Anzahl der Eintrï¿½e lesen ////////////////////
 
 	// Count the number of entries. Stop, wenn there are 2 entries,
 	// because special functions are only called, when there are 0
@@ -723,6 +726,16 @@ namespace KileDocument
 				completeWord(word, mode);
 			else
 				editCompleteList(type);
+		}
+		//little hack to make multiple insertions like \cite{test1,test2} possible (only when
+		//completion is invoke explicitly using ctrl+space.
+		else if ( m_view->getDoc() )
+		{
+			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
+			if ( currentline.find(reCiteExt) != -1 )
+				editCompleteList(ctCitation);
+			else if ( currentline.find(reRefExt) != -1 )
+				editCompleteList(ctReference);
 		}
 	}
 

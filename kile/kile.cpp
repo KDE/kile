@@ -511,6 +511,13 @@ void Kile::restore()
 	m_listDocsOpenOnStart.clear();
 }
 
+void Kile::setActive()
+{
+	kdDebug() << "ACTIVATING" << endl;
+	kapp->mainWidget()->raise();
+	kapp->mainWidget()->setActiveWindow();
+}
+
 ////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, const QString &text)
 {
@@ -705,17 +712,18 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	bool found = false;
 	int i;
 
-	QString hl = highlight;
+	QString hl = highlight.lower();
 	QString ext = doc->url().fileName().right(4);
 
-	if ( hl == QString::null && ext == ".bib" ) hl = "BibTeX-Kile";
+	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
 
 	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
-		if (hl == QString::null) hl = "LaTeX-Kile";
+		if (hl == QString::null) hl = "latex-kile";
 		for (i = 0; i < c; i++)
 		{
-			if (doc->hlModeName(i) == hl) { found = true; break; }
+			kdDebug() << "\tCOMPARING " << doc->hlModeName(i).lower() << " with " << hl << endl;
+			if (doc->hlModeName(i).lower() == hl) { found = true; break; }
 		}
 
 		if (found)
@@ -725,7 +733,7 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 		else
 		{
 			//doc->setHlMode(0);
-			kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
+			kdWarning() << "could not find the LaTeX-Kile highlighting definitions" << endl;
 		}
 	}
 }
@@ -3347,7 +3355,11 @@ void Kile::UpdateStructure(bool parse /* = false */)
 	if (docinfo)
 	{
 		QListViewItem *item = (QListViewItem*)docinfo->structViewItem();
-		if ((item == 0) || parse) docinfo->updateStruct(m_defaultLevel);
+		if ((item == 0) || parse)
+		{
+			docinfo->updateStruct(m_defaultLevel);
+			item = (QListViewItem*)docinfo->structViewItem();
+		}
 		outstruct->insertItem(item);
 	}
 
@@ -3625,7 +3637,7 @@ void Kile::PreviousWarning()
 void Kile::insertTag(const KileAction::TagData& data)
 {
 	Kate::View *view = currentView();
-	int para,index, para_end, para_begin, index_begin;
+	int para,index, para_end = 0, para_begin, index_begin;
 
 	if ( !view ) return;
 

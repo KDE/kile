@@ -37,14 +37,12 @@ static KCmdLineOptions options[] =
 int main( int argc, char ** argv )
 {
     KAboutData aboutData( "kile", "Kile",
-                          "1.6", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+                          "1.6.1a1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
                           "Jeroen Wijnhout 2003",
                           0,
                           "http://kile.sourceforge.net");
     aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
     aboutData.addAuthor("Brachet Pascal",0,"");
-    aboutData.addCredit(I18N_NOOP("Thanks to all the patchers, packagers from all over the world!"),"");
-	aboutData.addCredit("Rob Lensen, Michael Margraf, Roland Schulz", "Jonathan Pechta");
     aboutData.addCredit("David Ishee", I18N_NOOP("Xgfe"));
     aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
     aboutData.addCredit("Thomas Basset", I18N_NOOP("french translation"));
@@ -75,6 +73,7 @@ int main( int argc, char ** argv )
     client  = new DCOPClient ();
     client->attach();
     QCStringList apps = client->registeredApplications();
+
     for ( QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it )
     {
         if  ((*it).contains ("kile") > 0)
@@ -115,9 +114,10 @@ int main( int argc, char ** argv )
             QString sa = args->arg(0);
             if ( sa.left(5) == "file:" )
                 sa = sa.remove(0, 5);
-            arg_file << sa;
+	    QFileInfo fi(sa);
+            arg_file << fi.absFilePath();
             kdDebug() << QString("main: load(%1)").arg(sa) << endl;
-            client->send (appID, "Kile", "load(KURL)", data_file);
+            client->send (appID, "Kile", "load(QString)", data_file);
             if (args->getOption("line")!="0")
             {
                 QString li=args->getOption("line");
@@ -125,6 +125,8 @@ int main( int argc, char ** argv )
                 client->send (appID, "Kile", "setLine(QString)", data_line);
             }
             KStartupInfo::appStarted();
+	    QByteArray empty;
+	    client->send (appID, "Kile", "setActive()", empty);
         }
     }
     return 0;

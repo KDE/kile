@@ -907,7 +907,7 @@ if (!htmlpresent )
     QFileInfo *fic = currentFileInfo();
     if (fic->exists() && fic->isReadable() )
        {
-         if ( !printer.setup(this) )
+         if ( !printer.setup(this, i18n("Print %1").arg(getShortName())) )
 	 {
 		return;
 	 }

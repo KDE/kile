@@ -225,30 +225,60 @@
 			<default></default>
 		</entry>
 	</group>
-	<group name="Quick">
-		<entry name="QuickClass" type="String">
+	<group name="QuickDocument">
+		<entry name="userClasses" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="documentClass" type="String">
 			<label></label>
 			<default>article</default>
 		</entry>
-		<entry name="QuickTypeface" type="String">
+		<entry name="encoding" type="String">
 			<label></label>
-			<default>10pt</default>
+			<default>latin1</default>
 		</entry>
-		<entry name="QuickPapersize" type="String">
+		<entry name="optionsArticle" type="String">
 			<label></label>
-			<default>a4paper</default>
+			<default></default>
 		</entry>
-		<entry name="QuickDocumentClasses" type="StringList">
+		<entry name="optionsBook" type="String">
 			<label></label>
-			<default>article,book,letter,report,scrartcl,scrbook,scrlettr,scrreprt</default>
+			<default></default>
 		</entry>
-		<entry name="QuickPapersizes" type="StringList">
+		<entry name="optionsReport" type="String">
 			<label></label>
-			<default>a4paper,a5paper,b5paper,executivepaper,legalpaper,letterpaper</default>
+			<default></default>
 		</entry>
-		<entry name="QuickEncodings" type="StringList">
+		<entry name="optionsLetter" type="String">
 			<label></label>
-			<default>ansinew,applemac,ascii,cp1252,cp1250,cp1251,cp437,cp437de,cp850,cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin5,next</default>
+			<default></default>
+		</entry>
+		<entry name="optionsScrartcl" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="optionsScrbook" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="optionsScrreprt" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="optionsProsper" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="optionsBeamer" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+	</group>
+	<group name="QuickDocument/Packages">
+		<entry name="packagesList" type="StringList">
+			<label></label>
+			<default></default>
 		</entry>
 	</group>
 	<group name="KileGrepDialog">

@@ -1,17 +1,28 @@
-//
-// C++ Interface: quickdocheader
-//
-// Description:
-//
-//
-// Author: Thomas Fischer <t-fisch@users.sourceforge.net>, (C) 2004
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+/***************************************************************************
+                      quickdocumentdialog.cpp
+----------------------------------------------------------------------------
+date                 : Sep 12 2004
+version              : 0.22
+copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
+                       restructured, improved and completed by Holger Danielsson
+                       (C) 2004 by Holger Danielsson
+email                : holger.danielsson@t-online.de
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #ifndef KILEDIALOGQUICKDOCHEADER_H
 #define KILEDIALOGQUICKDOCHEADER_H
 
+#include <qmap.h>
+#include <qvaluelist.h>
 #include "kilewizard.h"
 
 class KComboBox;
@@ -22,9 +33,17 @@ class KPushButton;
 namespace KileDialog
 {
 
-/**
-@author Jeroen Wijnhout
-*/
+// some flags to check the results of the input dialog
+enum {
+	qd_CheckNotEmpty=1,        
+	qd_CheckDocumentClass=2,
+	qd_CheckClassOption=4,
+	qd_CheckPackage=8,
+	qd_CheckPackageOption=16,
+	qd_CheckFontsize=32,
+	qd_CheckPapersize=64
+};
+
 class QuickDocument : public Wizard
 {
 	Q_OBJECT
@@ -33,10 +52,13 @@ public:
 	QuickDocument(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 	~QuickDocument();
 
-	void packageEdit(QListViewItem *cur);
-
+	bool isStandardClass(const QString &classname);             
+	bool isDocumentClass(const QString &name);
+	bool isDocumentClassOption(const QString &option);
+	bool isPackage(const QString &package);
+	bool isPackageOption(const QString &package, const QString &option);
+	
 public slots:
-	void init();
 	void slotOk();
 
 private:
@@ -45,65 +67,159 @@ private:
 	KComboBox *m_cbPaperSize;
 	KComboBox *m_cbEncoding;
 	QListView *m_lvClassOptions;
-	QListView *m_lvPackagesCommon;
-	QListView *m_lvPackagesExotic;
+	QListView *m_lvPackages;
 	KLineEdit *m_leAuthor;
 	KLineEdit *m_leTitle;
 	KLineEdit *m_leDate;
+	QLabel    *m_lbPaperSize;
+	
+	QString m_currentClass;                          
+	QString m_currentFontsize;                      
+	QString m_currentPapersize;       
+	QString m_currentEncoding;     
+	bool m_currentHyperref;
+	QString m_hyperrefdriver;
+	QString m_hyperrefsetup;      
+	QStringList m_userClasslist;           
+	QStringList m_deleteDocumentClasses;       
+	
+	QMap<QString,QStringList> m_dictDocumentClasses; 
+	QMap<QString,bool> m_dictStandardClasses;    
+	QMap<QString,bool> m_currentDefaultOptions;   
+	QMap<QString,bool> m_currentSelectedOptions;   
+	QMap<QString,bool> m_dictPackagesEditable;   
+	QMap<QString,QString> m_dictPackagesDefaultvalues;     
+	QMap<QString,bool> m_dictHyperrefDriver;   
+	
+	KPushButton *m_btnDocumentClassAdd;
+	KPushButton *m_btnDocumentClassDelete;
+	KPushButton *m_btnTypefaceSizeAdd;
+	KPushButton *m_btnTypefaceSizeDelete;
+	KPushButton *m_btnPaperSizeAdd;
+	KPushButton *m_btnPaperSizeDelete;
+	KPushButton *m_btnEncodingAdd;
+	KPushButton *m_btnEncodingDelete;
+	
+	KPushButton *m_btnClassOptionsAdd;
 	KPushButton *m_btnClassOptionsEdit;
 	KPushButton *m_btnClassOptionsDelete;
-	KPushButton *m_btnPackagesCommonAddOption;
-	KPushButton *m_btnPackagesCommonEdit;
-	KPushButton *m_btnPackagesCommonDelete;
-	KPushButton *m_btnPackagesExoticAddOption;
-	KPushButton *m_btnPackagesExoticEdit;
-	KPushButton *m_btnPackagesExoticDelete;
-	void setupGUI();
-	void writeConfig();
-	void writeListView(QString key, QListView *listView, bool saveSelected=true);
+	KPushButton *m_btnPackagesAdd;
+	KPushButton *m_btnPackagesAddOption;
+	KPushButton *m_btnPackagesEdit;
+	KPushButton *m_btnPackagesDelete;
+	KPushButton *m_btnPackagesReset;
+
+	// GUI
+	QWidget *setupClassOptions(QTabWidget *tab);           
+	QWidget *setupPackages(QTabWidget *tab);                
+	QWidget *setupProperties(QTabWidget *tab);              
+	
+	// read/write config files and init data
 	void readConfig();
-	bool readListView(QString key, QListView *listView, bool readSelected=true);
-	bool inputDialogDouble(QString caption, QString label1, QString& text1, QString label2, QString& text2);
-	void packageDelete(QListViewItem *cur);
-	void packageAddOption(QListViewItem *cur);
-	void packageAdd(QListView *listView);
-	void initClassOption();
-	void initDocumentClass();
-	void initPaperSize();
-	void initEncoding();
-	void initPackageCommon();
-	void initPackageExotic();
+	void readDocumentClassConfig();
+	void readPackagesConfig();
+	void initHyperref();
+	void writeConfig();
+	void writeDocumentClassConfig();
+	void writePackagesConfig();                
+	
+	// document class tab
+	void initDocumentClass(); 
+	void initStandardClass(const QString &classname,const QString &fontsize,      
+	                       const QString &papersize,const QString &defaultoptions,
+	                       const QString &selectedoptions);
+	void initStandardOptions(const QString &classname,QStringList &optionlist); 	
+	void setDefaultClassOptions(const QString &defaultoptions);            
+	void setSelectedClassOptions(const QString &selectedoptions);             
+	void setClassOptions(const QStringList &list,uint start);            
+	void updateClassOptions(); 
+	QString getClassOptions();  
+	void fillDocumentClassCombobox();   
+	void fillCombobox(KComboBox *combo, const QString &cslist,const QString &seltext);    
+	bool addComboboxEntries(KComboBox *combo, const QString &title,const QString &entry);
+	QString getComboxboxList(KComboBox *combo);
+		   
+	bool isDefaultClassOption(const QString &option);                   
+	bool isSelectedClassOption(const QString &option);                  
+	QString stripDefault(const QString &s);          
+	
+	// packages tab
+	void initPackages();
+	bool readPackagesListview();        
+	QCheckListItem *insertListview(QListView *listview,               
+                                  const QString &entry,
+                                  const QString &description);
+	QCheckListItem *insertListview(QCheckListItem *parent,               
+                                  const QString &entry,
+                                  const QString &description);
+	QCheckListItem *insertEditableListview(QCheckListItem *parent,               
+	                                       const QString &entry,const QString &description,
+	                                       const QString value,const QString defaultvalue);
+	bool isListviewEntry(QListView *listview,const QString &entry);
+	void setPackagesValue(QListViewItem *item,const QString &option,const QString &val);
+	QString getPackagesValue(const QString &value);
+
+	bool isListviewChild(QListView *listview,const QString &entry, const QString &option);
+	QString addPackageDefault(const QString &option,const QString &description);
+	QString stripPackageDefault(const QString &option,const QString &description);
+	bool isHyperrefDriver(const QString &name);
+	
+	// document template
 	void printTemplate();
-	void printPackage(QListView *listView);
+	void printPackages();
+	void printHyperref();
+	void printBeamerTheme();
+	
+	// input dialog
+	bool inputDialog(QStringList &list,int check=qd_CheckNotEmpty);
 
 private slots:
-	void slotClassOptionReset();
+	void slotDocumentClassAdd();
+	void slotDocumentClassDelete();
+	void slotDocumentClassChanged(int index);  
+	void slotTypefaceSizeAdd();  
+	void slotTypefaceSizeDelete();  
+	void slotPaperSizeAdd();
+	void slotPaperSizeDelete();
+	void slotOptionDoubleClicked(QListViewItem *listViewItem,const QPoint &,int); 
 	void slotClassOptionAdd();
 	void slotClassOptionEdit();
 	void slotClassOptionDelete();
-	void slotCommonPackageReset();
-	void slotCommonPackageAdd();
-	void slotCommonPackageAddOption();
-	void slotCommonPackageEdit();
-	void slotCommonPackageDelete();
-	void slotExoticPackageReset();
-	void slotExoticPackageAdd();
-	void slotExoticPackageAddOption();
-	void slotExoticPackageEdit();
-	void slotExoticPackageDelete();
-	void slotDocumentClassAdd();
-	void slotDocumentClassDelete();
-	void slotDocumentClassReset();
-	void slotPaperSizeAdd();
-	void slotPaperSizeDelete();
-	void slotPaperSizeReset();
-	void slotEncodingAdd();
-	void slotEncodingDelete();
-	void slotEncodingReset();
+	
 	void slotCheckParent(QListViewItem *listViewItem);
+	void slotPackageDoubleClicked(QListViewItem *listViewItem,const QPoint &,int);
+	void slotPackageAdd();
+	void slotPackageAddOption();
+	void slotPackageEdit();
+	void slotPackageDelete();
+	void slotPackageReset();
+	
 	void slotEnableButtons();
 };
 
+class QuickDocumentInputDialog : public KDialogBase  {
+   Q_OBJECT
+public: 
+	QuickDocumentInputDialog(const QStringList &list,int check=0,
+	                         QuickDocument *parent=0, const char *name=0);
+	~QuickDocumentInputDialog();
+
+	void getResults(QStringList &list);
+	
+private:
+	QuickDocument *m_parent;
+	int  m_check;
+	
+	QStringList m_description;
+	QValueList<QWidget *> m_objectlist;
+		
+	QString getPackageName(const QString &text);
+	bool checkListEntries(const QString &title, const QString &textlist,const QString &pattern);
+	
+private slots:
+	void slotOk();
 };
+
+} // namespace
 
 #endif

@@ -20,7 +20,7 @@
 #define KILEVIEWKILEVIEWMANAGER_H
 
 #include <qobject.h>
-#include <qtabwidget.h>
+#include <ktabwidget.h>
 #include <qpixmap.h>
 
 #include <kate/view.h>
@@ -61,6 +61,7 @@ public:
 public slots:
 	Kate::View* switchToView(const KURL & url);
 
+	void closeWidget(QWidget *);
 	void removeView(Kate::View *view);
 	void removeFromProjectView(const KURL & url);
 
@@ -85,7 +86,7 @@ private:
 	Kate::View			*m_activeView;
 	KileProjectView		*m_projectview;
 	QPtrList<Kate::View> 	m_viewList;
-	QTabWidget 			*m_tabs;
+	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;
 };

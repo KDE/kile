@@ -57,7 +57,7 @@
 #include <qiconset.h>
 #include <qtimer.h>
 #include <qpopupmenu.h>
-#include <qtabwidget.h>
+#include <ktabwidget.h>
 #include <qapplication.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
@@ -241,7 +241,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 
 	//Log/Messages/KShell widgets
-	m_outputView=new QTabWidget(splitter2);
+	m_outputView = new KTabWidget(splitter2);
 	m_outputView->setFocusPolicy(QWidget::ClickFocus);
 
 	//m_logWidget = new MessageWidget( m_outputView );

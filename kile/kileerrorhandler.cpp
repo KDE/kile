@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
  
-#include <qtabwidget.h>
+#include <ktabwidget.h>
 #include <qfileinfo.h>
 #include <qregexp.h>
 

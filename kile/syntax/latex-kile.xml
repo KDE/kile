@@ -58,7 +58,7 @@
 			<context name="VerbFindEnd" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<RegExpr String="(verbatim|lstlisting|boxedverbatim|Verbatim)\*?" attribute="Environment" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"  endRegion="Environment"/>
 			</context>
 
 			<context name="SpecialEnv" attribute="Verbatim" lineEndContext="#stay">
@@ -69,7 +69,7 @@
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<keyword String="kw_verbenv" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*" attribute="Normal Text" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop" endRegion="Environment"/>
 			</context>
 
 			<context name="MathMode" attribute="Math" lineEndContext="#stay">
@@ -95,7 +95,7 @@
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<RegExpr String="(equation|displaymath|eqnarray|math|multline)\*?" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*" attribute="Normal Text" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop" endRegion="Environment"/>
 			</context>
 			<context name="MathContrSeq" attribute="Keyword Mathmode" lineEndContext="#pop">
 				<RegExpr String="[a-zA-Z]+" attribute="Keyword Mathmode" context="#pop"/>
@@ -117,7 +117,7 @@
 		</itemDatas>
 	</highlighting>
 	<general>
-		<keywords weakDeliminator=",{}[]"/>
+		<keywords weakDeliminator="\" wordWrapDeliminator=",{}[]" />
 		<comments>
 			<comment name="singleLine" start="%" />
 		</comments>

@@ -43,7 +43,6 @@
 #include <qwidget.h>
 #include <qstringlist.h>
 #include <qstrlist.h>
-#include <qtabwidget.h>
 #include <qwidgetstack.h>
 #include <qcombobox.h>
 #include <qguardedptr.h>

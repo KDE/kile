@@ -22,8 +22,8 @@
 #include <qptrlist.h>
 #include <qmap.h>
 #include <qptrlist.h>
-#include <qtabwidget.h>
 
+#include <ktabwidget.h>
 #include <kdebug.h>
 #include <kurl.h>
 
@@ -98,7 +98,7 @@ public:
 	KileWidget::Structure *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::Output *outputWidget() { return m_outputWidget; }
-	QTabWidget *outputView() { return m_outputView; }
+	KTabWidget *outputView() { return m_outputView; }
 	KileWidget::LogMsg *logWidget() { return m_logWidget; }
 
 	KileDocument::Manager* docManager() const { return m_docManager; }
@@ -126,7 +126,7 @@ protected:
 	KileWidget::Konsole		*m_texKonsole;
 	KileWidget::Output		*m_outputWidget;
 	KileWidget::LogMsg		*m_logWidget;
-	QTabWidget 			 *m_outputView;
+	KTabWidget 			 *m_outputView;
 
 	KileDocument::EditorExtension *m_edit;
 

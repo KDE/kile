@@ -25,6 +25,7 @@
 #include <kxmlguiclient.h>
 #include <kxmlguifactory.h>
 #include <kiconloader.h>
+#include <kmimetype.h>
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
@@ -59,12 +60,25 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 
 void Manager::createTabs(QWidget *parent)
 {
-	m_tabs=new QTabWidget(parent);
+	m_tabs = new KTabWidget(parent);
 	m_tabs->setFocusPolicy(QWidget::ClickFocus);
+	m_tabs->setTabReorderingEnabled(true);
+	m_tabs->setHoverCloseButton(true);
+	m_tabs->setHoverCloseButtonDelayed(true);
 	m_tabs->setFocus();
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(newCaption()) );
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(activateView( QWidget * )) );
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(updateModeStatus()) );
+	connect( m_tabs, SIGNAL(closeRequest(QWidget *)), this, SLOT(closeWidget(QWidget *)));
+}
+
+void Manager::closeWidget(QWidget *widget)
+{
+	if (widget->inherits( "Kate::View" ))
+	{
+		Kate::View *view = static_cast<Kate::View*>(widget);
+		m_ki->docManager()->fileClose(view->getDoc()->url());
+	}
 }
 
 Kate::View* Manager::createView(Kate::Document *doc)
@@ -87,7 +101,6 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
 	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
-
 	KAction *spa = view->actionCollection()->action( "tools_spelling" );
 	if ( spa )
 	{
@@ -102,6 +115,7 @@ Kate::View* Manager::createView(Kate::Document *doc)
 
 	//activate the newly created view
 	emit(activateView(view, false));
+	reflectDocumentStatus(view->getDoc(), false, 0);
 
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
@@ -197,13 +211,15 @@ void Manager::gotoPrevView()
 void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsigned char reason)
 {
 	QPixmap icon;
-	if ( reason == 0 ) //nothing
-		icon = isModified ? SmallIcon("filesave") : QPixmap();
+	if ( reason == 0 && isModified ) //nothing
+		icon = SmallIcon("filesave");
 	else if ( reason == 1 || reason == 2 ) //dirty file
 		icon = SmallIcon("revert");
 	else if ( reason == 3 ) //file deleted
 		icon = SmallIcon("stop");
-
+	else
+		icon = KMimeType::pixmapForURL (doc->url(), 0, KIcon::Small);
+	
 	changeTab(doc->views().first(), icon, m_ki->getShortName(doc));
 }
 

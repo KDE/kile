@@ -2,8 +2,8 @@
                           latexeditorview.cpp  -  description
                              -------------------
     begin                : ven avr 11 2003
-    copyright            : (C) 2003 by Pascal Brachet
-    email                : 
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************

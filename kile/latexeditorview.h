@@ -2,8 +2,8 @@
                           latexeditorview.h  -  description
                              -------------------
     begin                : ven avr 11 2003
-    copyright            : (C) 2003 by Pascal Brachet
-    email                : 
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,17 +24,15 @@
 #include "latexeditor.h"
 #include "linenumberwidget.h"
 
-/**
-  *@author Pascal Brachet
-  */
 typedef  QColor ListColors[8];
 class LatexEditorView : public QWidget  {
    Q_OBJECT
 public: 
 	LatexEditorView(QWidget *parent, const char *name, QFont & efont,bool parmatch, bool line, ListColors col);
 	~LatexEditorView();
-  LatexEditor *editor;
-  void changeSettings(QFont & new_font,bool new_parmatch, bool line, ListColors new_col);
+	LatexEditor *editor;
+
+	void changeSettings(QFont & new_font,bool new_parmatch, bool line, ListColors new_col);
 private:
   LineNumberWidget* m_lineNumberWidget;
   void setLineNumberWidgetVisible( bool );

@@ -30,6 +30,7 @@ typedef  QColor ListColors[8];
 
 class SyntaxLatex;
 class QFileInfo;
+class QDateTime;
 
 class LatexEditor : public QTextEdit  {
    Q_OBJECT

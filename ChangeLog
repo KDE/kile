@@ -1,4 +1,7 @@
-- added an Output view, the   Output view is the location for the raw 
+version 1.5 -> 1.5.2 :
+- user can define an arbitrary number of user tools/tags.
+- autosave
+- added an Output view, the   Output view is the location for the raw
   output of the shell processes (latex,dvips, etc.)
 - more error messages/warnings when the user tries to do compile/view
   non-existing/untitled documents

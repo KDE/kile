@@ -201,6 +201,7 @@ partManager->setActivePart( 0L );
 htmlpart=0L;
 pspart=0L;
 dvipart=0L;
+m_bNewErrorlist=true;
 
 
 showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
@@ -2979,36 +2980,38 @@ if (ok && l<=currentEditorView()->editor->paragraphs())
 ////////////////////////// ERRORS /////////////////////////////
 void Kile::LatexError()
 {
-errorlist->clear();
+	errorlist->clear();
+	m_bNewErrorlist=true;
 
-QString s,num;
+	QString s,num;
 
-for(int i = 0; i < LogWidget->paragraphs(); i++)
- {      
- s = LogWidget->text(i);
- int tagStart, tagEnd;
- //// ! ////
- tagStart=tagEnd=0;
- tagStart=s.find("!", tagEnd);
- if (tagStart==0)
- {
-	  num = QString::number(i,10);
-     errorlist->append(num.ascii());
- }
- //// latex warning ////
- tagStart=tagEnd=0;
- tagStart=s.find("LaTeX Warning", tagEnd);
- if (tagStart!=-1)
-  {
-    num = QString::number(i,10);
-    errorlist->append(num.ascii());
-  }
- }
+	for (int i = 0; i < LogWidget->paragraphs(); i++)
+	{
+		s = LogWidget->text(i);
+		int tagStart, tagEnd;
+		//// ! ////
+		tagStart=tagEnd=0;
+		tagStart=s.find("!", tagEnd);
+		if (tagStart==0)
+		{
+			num = QString::number(i,10);
+			errorlist->append(num.ascii());
+		}
+		//// latex warning ////
+		tagStart=tagEnd=0;
+		tagStart=s.find("LaTeX Warning", tagEnd);
+		if (tagStart!=-1)
+		{
+			num = QString::number(i,10);
+			errorlist->append(num.ascii());
+		}
+	}
 }
 
 void Kile::QuickLatexError()
 {
     errorlist->clear();
+    m_bNewErrorlist=true;
     QString s,num;
     for(int i = 0; i < LogWidget->paragraphs(); i++)
     {
@@ -3027,63 +3030,81 @@ void Kile::QuickLatexError()
 
 void Kile::NextError()
 {
-QString line="";
-bool ok;
-if (!logpresent) {ViewLog();}
-if (logpresent && !errorlist->isEmpty())
-  {
-  Outputview->showPage(LogWidget);
-  int id=errorlist->findRef(errorlist->next());
-  if (id>=0)
-  {
-  line=errorlist->at(id);
-  }
-  else
-  {
-  line=errorlist->at(0);
-  }
-  int l=line.toInt(&ok,10);
-  if (ok && l<=LogWidget->paragraphs())
-    {
-    LogWidget->setCursorPosition(0 , 0);
-    LogWidget->setCursorPosition(l+3 , 0);
-    }
-  }
-if (logpresent && errorlist->isEmpty())
-  {
-LogWidget->insertLine(i18n("No LaTeX errors detected!"));
-  }
+	QString line="";
+	bool ok;
+	if (!logpresent) {ViewLog();}
+	if (logpresent && !errorlist->isEmpty())
+	{
+		Outputview->showPage(LogWidget);
+		uint id=errorlist->findRef(errorlist->current());
+		if (m_bNewErrorlist)
+		{
+			line=errorlist->at(0);
+		}
+		else
+		if (id < (errorlist->count()-1))
+		{
+			line=errorlist->at(id+1);
+		}
+		else
+		{
+			line=errorlist->at(id);
+		}
+		int l=line.toInt(&ok,10);
+		if (ok && l<=LogWidget->paragraphs())
+		{
+			//LogWidget->setCursorPosition(0 , 0);
+			LogWidget->setCursorPosition(l+3 , 0);
+		}
+		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
+	}
+
+	if (logpresent && errorlist->isEmpty())
+	{
+		LogWidget->insertLine(i18n("No LaTeX errors detected!"));
+	}
+
+	m_bNewErrorlist=false;
 }
 
 void Kile::PreviousError()
 {
-QString line="";
-bool ok;
-if (!logpresent) {ViewLog();}
-if (logpresent && !errorlist->isEmpty())
-  {
-  Outputview->showPage(LogWidget);
-  int id=errorlist->findRef(errorlist->prev());
-  if (id>=0)
-  {
-  line=errorlist->at(id);
-  }
-  else
-  {
-  line=errorlist->at(errorlist->count()-1);
-  }
-  int l=line.toInt(&ok,10);
-  if (ok && l<=LogWidget->paragraphs())
-    {
-    LogWidget->setCursorPosition(0 , 0 );
-    LogWidget->setCursorPosition(l+3 , 0);
-    }
-  }
+	QString line="";
+	bool ok;
+	if (!logpresent) {ViewLog();}
 
-if (logpresent && errorlist->isEmpty())
-  {
-LogWidget->insertLine(i18n("No LaTeX errors detected!"));
-  }
+	if (logpresent && !errorlist->isEmpty())
+	{
+		Outputview->showPage(LogWidget);
+		uint id=errorlist->findRef(errorlist->current());
+		if (m_bNewErrorlist)
+		{
+			line=errorlist->at(0);
+		}
+		else
+		if (id>0)
+		{
+			line=errorlist->at(id-1);
+		}
+		else
+		{
+			line=errorlist->at(0);
+		}
+		int l=line.toInt(&ok,10);
+		if (ok && l<=LogWidget->paragraphs())
+		{
+			//LogWidget->setCursorPosition(0 , 0 );
+			LogWidget->setCursorPosition(l+3 , 0);
+		}
+		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
+	}
+
+	if (logpresent && errorlist->isEmpty())
+	{
+		LogWidget->insertLine(i18n("No LaTeX errors detected!"));
+	}
+
+	m_bNewErrorlist=false;
 }
 /////////////////////// LATEX TAGS ///////////////////
 void Kile::InsertTag(QString Entity, int dx, int dy)

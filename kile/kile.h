@@ -174,6 +174,7 @@ private:
     ListColors editor_color;
     bool logpresent, singlemode, showstructview,showoutputview, wordwrap, parenmatch,showline,
       showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, menuaccels, autosave;
+    bool m_bNewErrorlist;
     bool htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
     int split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
     long autosaveinterval;

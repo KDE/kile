@@ -29,11 +29,21 @@ namespace KileWidget
 
 	void Output::receive(const QString & str)
 	{
-		int row = (paragraphs() == 0)? 0 : paragraphs()-1;
-		int col = paragraphLength(row);
-		setCursorPosition(row,col);
-		insertAt(str, row, col);
-		scrollToBottom();
+		static QString line = "";
+
+		//find newline symbol
+		//only output if we have receive one or more
+		//full lines of text
+		int newLineAt = str.findRev('\n');
+		if ( newLineAt != -1 )
+		{
+			line += str.left(newLineAt); //don't copy the newline char
+			append(line);
+			line = str.mid(newLineAt + 1);	
+		}
+		else
+			line += str;
+
 	}
 }
 

@@ -1549,42 +1549,42 @@ switch (quickmode)
  {
   case 1:
     {
-    ViewLog();
+    //ViewLog();
     QuickLatexError();
     if (errorlist->isEmpty()) {QuickDviToPS();}
     else {NextError();}
     }break;
   case 2:
     {
-    ViewLog();
+    //ViewLog();
     QuickLatexError();
     if (errorlist->isEmpty() && !watchfile) {ViewDvi();}
     else {NextError();}
     }break;
  case 3:
     {
-    ViewLog();
+    //ViewLog();
     QuickLatexError();
     if (errorlist->isEmpty()) {KdviForwardSearch();}
     else {NextError();}
     }break;
  case 4:
     {
-    ViewLog();
+    //ViewLog();
     QuickLatexError();
     if (errorlist->isEmpty() && !watchfile) {ViewPDF();}
     else {NextError();}
     }break;
  case 5:
     {
-    ViewLog();
+    //ViewLog();
     QuickLatexError();
     if (errorlist->isEmpty()) {QuickDviPDF();}
     else {NextError();}
     }break;
  case 6:
     {
-    ViewLog();
+    //ViewLog();
     QuickLatexError();
     if (errorlist->isEmpty()) {QuickDviToPS();}
     else {NextError();}

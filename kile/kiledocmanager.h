@@ -27,6 +27,7 @@
 
 class KURL;
 class KFileItem;
+class KProgressDialog;
 namespace Kate { class Document; class View;}
 
 class TemplateItem;
@@ -167,6 +168,7 @@ private:
 	QPtrList<Info>				m_infoList;
 	KileInfo					*m_ki;
 	QPtrList<KileProject>		m_projects;
+	KProgressDialog				*m_kpd;
 };
 
 }

@@ -138,6 +138,8 @@ Tester::Tester(QObject *parent, const char *name) : QObject(parent, name), m_pro
 Tester::~Tester()
 {
 	if (m_tempDir) m_tempDir->unlink();
+	delete m_tempDir;
+	delete m_process;
 }
 
 void Tester::saveResults(const KURL & dest)

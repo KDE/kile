@@ -52,7 +52,9 @@ namespace KileDocument
 	}
 
 	CodeCompletion::~CodeCompletion()
-	{}
+	{
+		delete m_completeTimer;
+	}
 
 	bool CodeCompletion::isActive()
 	{

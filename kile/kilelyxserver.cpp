@@ -36,6 +36,7 @@ KileLyxServer::KileLyxServer(bool st) :
 {
 	m_pipeIn.setAutoDelete(true);
 	m_notifier.setAutoDelete(true);
+	m_file.setAutoDelete(false);
 
 	QString home(getenv("HOME"));
 	m_pipes << home+"/.lyxpipe.in" << home+"/.lyx/lyxpipe.in";

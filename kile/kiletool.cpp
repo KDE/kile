@@ -410,6 +410,9 @@ namespace KileTool
 
 	void Base::installLauncher(Launcher *lr)
 	{
+		if(m_launcher != lr)
+			delete m_launcher;
+
 		m_launcher = lr;
 		//lr->setParamDict(paramDict());
 		lr->setTool(this);

@@ -198,6 +198,9 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
 
 ConfigStructure::~ConfigStructure()
 {
+	QMap<QString, const QStringList*>::Iterator it, end = m_docclasses.end();
+	for(it = m_docclasses.begin() ; it != end ; ++it)
+		delete *it;
 }
 
 void ConfigStructure::polish()

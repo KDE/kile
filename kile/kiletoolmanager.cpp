@@ -119,6 +119,7 @@ namespace KileTool
 	
 	Manager::~Manager()
 	{
+		delete m_timer;
 	}
 
 	bool Manager::shouldBlock()

@@ -196,6 +196,8 @@ Kile::~Kile()
 	delete m_edit;
 	delete m_AutosaveTimer;
 	delete m_lyxserver; //QObject without parent, have to delete it ourselves
+	delete m_outputInfo;
+	delete m_eventFilter;
 }
 
 

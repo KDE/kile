@@ -63,7 +63,15 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_ki(info)
 {
 	m_infoList.setAutoDelete(false);
+	m_projects.setAutoDelete(false);
 	Kate::Document::setFileChangedDialogsActivated (true);
+
+	QWidget *par = m_ki ? m_ki->parentWidget() : 0;
+	m_kpd = new KProgressDialog(par, 0, i18n("Open Project..."), QString::null, true);
+	m_kpd->showCancelButton(false);
+	m_kpd->setLabel(i18n("Scanning project files..."));
+	m_kpd->setAutoClose(true);
+	m_kpd->setMinimumDuration(2000);
 }
 
 
@@ -1018,13 +1026,11 @@ void Manager::projectOpenItem(KileProjectItem *item)
 
 KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 {
-	static KProgressDialog *kpd = 0;
-
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
 	kdDebug() << "\tfilename: " << url.fileName() << endl;
 	if (m_ki->projectIsOpen(url))
 	{
-		if (kpd != 0) kpd->cancel();
+		m_kpd->cancel();
 
 		KMessageBox::information(m_ki->parentWidget(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
 		return 0L;
@@ -1033,7 +1039,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	QFileInfo fi(url.path());
 	if ( ! fi.isReadable() )
 	{
-		if (kpd != 0) kpd->cancel();
+		m_kpd->cancel();
 
 		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
 			emit(removeFromRecentProjects(url));
@@ -1041,15 +1047,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 		return 0L;
 	}
 
-	if (kpd == 0)
-	{
-		kpd = new KProgressDialog (m_ki->parentWidget(), 0, i18n("Open Project..."), QString::null, true);
-		kpd->showCancelButton(false);
-		kpd->setLabel(i18n("Scanning project files..."));
-		kpd->setAutoClose(true);
-		kpd->setMinimumDuration(2000);
-	}
-	kpd->show();
+	m_kpd->show();
 
 	KileProject *kp = new KileProject(url);
 
@@ -1058,14 +1056,14 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	KileProjectItemList *list = kp->items();
 
 	int project_steps = list->count() + 1;
-	kpd->progressBar()->setTotalSteps(project_steps * max);
+	m_kpd->progressBar()->setTotalSteps(project_steps * max);
 	project_steps *= step;
-	kpd->progressBar()->setValue(project_steps);
+	m_kpd->progressBar()->setValue(project_steps);
 
 	for ( uint i=0; i < list->count(); i++)
 	{
 		projectOpenItem(list->at(i));
-		kpd->progressBar()->setValue(i + project_steps);
+		m_kpd->progressBar()->setValue(i + project_steps);
 		kapp->processEvents();
 	}
 
@@ -1076,7 +1074,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	emit(updateModeStatus());
 
 	if (step == (max - 1))
-		kpd->cancel();
+		m_kpd->cancel();
 		
 	return kp;
 }

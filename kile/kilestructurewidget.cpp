@@ -68,6 +68,9 @@ namespace KileWidget
 
 	StructureList::~StructureList()
 	{
+		QMap<QString, KileListViewItem*>::iterator it, end = m_folders.end();
+		for(it = m_folders.begin() ; it != end ; ++it)
+			delete *it;
 	}
 
 	void StructureList::init()

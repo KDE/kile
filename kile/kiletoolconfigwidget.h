@@ -89,6 +89,7 @@ namespace KileWidget
 
 	public slots:
 		void switchType(int);
+		void switchClass(const QString &);
 
 	private slots:
 		void setFrom(const QString &);

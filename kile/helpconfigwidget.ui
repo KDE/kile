@@ -169,7 +169,7 @@
     <include location="local" impldecl="in implementation">helpconfigwidget.ui.h</include>
 </includes>
 <forwards>
-    <forward>namespace KileHelp { class Help; }</forward>
+    <forward>namespace KileHelp { class Help; } class avoid_compile_error</forward>
 </forwards>
 <variables>
     <variable access="private">KileHelp::Help *m_help;</variable>

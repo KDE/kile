@@ -78,7 +78,7 @@ void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 	
 	//workaround: treat Untitled documents special
 	//yes, this leaks, sucks, but..., it doesn't crash ;-)
-	if (doc && doc->docName() == i18n("Untitled") )	return;
+	if (doc && m_ki->getName(doc) == i18n("Untitled") ) return;
 	
 	if ( m_ki->isOpen(docinfo->url()) ) return;
 

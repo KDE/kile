@@ -390,7 +390,7 @@ namespace KileTool
 	void toolbarInfoFor(const QString &tool, int &pos, bool &place, bool &separator, KConfig *config)
 	{
 		config->setGroup("ToolsGUI");
-		QString entry = config->readEntry(tool, "Other,none,false,latex");
+		QString entry = config->readEntry(tool, "Other,none,false,gear");
 
 		bool ok;
 		QString strpos = entry.section(',',1,1);
@@ -403,7 +403,7 @@ namespace KileTool
 	QString iconFor(const QString &tool, KConfig *config)
 	{
 		config->setGroup("ToolsGUI");
-		return config->readEntry(tool, "Other,none,false,latex").section(',',3,3);
+		return config->readEntry(tool, "Other,none,false,gear").section(',',3,3);
 	}
 
 	void setGUIOptions(const QString &tool, const QString &menu, int pos, bool place, bool separator, const QString &icon, KConfig *config)

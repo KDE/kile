@@ -52,6 +52,19 @@
       <toc>opengl</toc>
       <toc>ada</toc>
       <toc>clanlib</toc>
+      <toc>wxwindows_bugs</toc>
+      <toc>sdl</toc>
+      <toc>ruby_bugs</toc>
+      <toc>php_bugs</toc>
+      <toc>perl_bugs</toc>
+      <toc>python_bugs</toc>
+      <toc>pascal_bugs_fp</toc>
+      <toc>java_bugs_sun</toc>
+      <toc>haskell_bugs_ghc</toc>
+      <toc>java_bugs_gcc</toc>
+      <toc>gtk_bugs</toc>
+      <toc>fortran_bugs_gcc</toc>
+      <toc>ada_bugs_gcc</toc>
     </ignoretocs>
     <projectdoc>
       <userdocDir>/home/kde-dev/kde/src/kile/head/kdeextragear-2/doc/kile/</userdocDir>
@@ -65,7 +78,16 @@
     </ignoreqt_xml>
     <ignoredoxygen/>
     <ignorekdocs/>
-    <ignoredevhelp/>
+    <ignoredevhelp>
+      <toc>gdk-pixbuf</toc>
+      <toc>libbonoboui</toc>
+      <toc>libbonobo</toc>
+      <toc>gtk</toc>
+      <toc>gobject</toc>
+      <toc>glib</toc>
+      <toc>gdk</toc>
+      <toc>bonobo-activation</toc>
+    </ignoredevhelp>
   </kdevdoctreeview>
   <kdevdebugger>
     <general>

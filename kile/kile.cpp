@@ -263,6 +263,7 @@ void Kile::setupActions()
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, this, SLOT(projectNew()), actionCollection(), "project_new");
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
+	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, this, SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	(void) new KAction(i18n("&Save Project"), "filesave", 0, this, SLOT(projectSave()), actionCollection(), "project_save");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
 
@@ -877,18 +878,12 @@ void Kile::projectNew()
 	}
 }
 
-void Kile::projectOpen()
+void Kile::projectOpen(const KURL &url)
 {
-	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project files\n*|All files"), this,i18n("Open Project") );
-
-	if (projectIsOpen(url))
-	{
-		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
-		return;
-	}
-
 	KileProject *kp = new KileProject(url);
 
+	m_actRecentProjects->addURL(url);
+	
 	KileProjectItemList *list = kp->items();
 
 	kdDebug() << "projectOpen " << list->count() << " items" << endl;
@@ -942,6 +937,19 @@ void Kile::projectOpen()
 		if (docinfo != 0)
 			kdDebug() << i << " : " << docinfo->isLaTeXRoot() << endl;
 	}
+}
+
+void Kile::projectOpen()
+{
+	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project files\n*|All files"), this,i18n("Open Project") );
+
+	if (projectIsOpen(url))
+	{
+		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
+		return;
+	}
+
+	projectOpen(url);
 }
 
 void Kile::projectSave()
@@ -3380,6 +3388,8 @@ void Kile::ReadRecentFileSettings()
 		// group for recent files
 		config->deleteEntry("Recent Files");
 	}
+
+	m_actRecentProjects->loadEntries(config,"Projects");
 }
 
 //reads options that can be set in the configuration dialog
@@ -3485,8 +3495,9 @@ config->writeEntry("Input Encoding", input_encoding);
 //config->writeEntry("Autosave",autosave);
 //config->writeEntry("AutosaveInterval",autosaveinterval);
 
-  // Store recent files
-  fileOpenRecentAction->saveEntries(config,"Recent Files");
+	// Store recent files
+	fileOpenRecentAction->saveEntries(config,"Recent Files");
+	m_actRecentProjects->saveEntries(config,"Projects");
 
 config->setGroup( "User" );
 

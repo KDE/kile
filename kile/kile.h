@@ -84,6 +84,7 @@ class QFileInfo;
 class QTimer;
 class QSignalMapper;
 class KActionMenu;
+class KRecentFilesAction;
 
 class KileEventFilter;
 class KileProject;
@@ -349,8 +350,12 @@ private slots:
 
 	void projectNew();
 	void projectOpen();
+	void projectOpen(const KURL&);
 	void projectSave();
 	void projectClose();
+
+private:
+	KRecentFilesAction *m_actRecentProjects;
 
 	//
 	// documentinfo

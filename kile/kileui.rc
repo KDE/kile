@@ -81,6 +81,7 @@
 <Menu name="menu_project"><text>&amp;Project</text>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
+	<Action name="project_openrecent"/>
 	<Action name="project_save"/>
 	<Separator/>
 	<Action name="project_close"/>

@@ -391,7 +391,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 	if ( docFor(docinfo->url()) != 0L )
-		kdFatal() << docinfo->url().path() << " already has a document!" << endl;
+		kdWarning() << docinfo->url().path() << " already has a document!" << endl;
 	else
 		kdDebug() << "\tappending document " <<  doc << endl;
 

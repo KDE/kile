@@ -525,11 +525,19 @@ void Kile::restore()
 	m_listDocsOpenOnStart.clear();
 }
 
+void Kile::setActive()
+{
+	kdDebug() << "ACTIVATING" << endl;
+	kapp->mainWidget()->raise();
+	kapp->mainWidget()->setActiveWindow();
+}
+
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, const QString &text)
 {
 	QString hl = highlight;
 
 	kdDebug() << "==Kile::load==========================" << endl;
+	//if doc already opened, update the structure view and return the view
 	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
 		kdDebug() << "\talready opened " << url.path() << endl;
@@ -545,35 +553,36 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 
 	kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
 
-	KFileItem file_item(KFileItem::Unknown, KFileItem::Unknown, url);
-	bool is_image = (file_item.mimetype().section("/", 0, 0) == "image");
 	Kate::Document *doc = 0;
-
-	if (!is_image) {
-		//create a new document
+	
+	//create a new document
+	if (load)
+	{
 		doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 		m_docList.append(doc);
-
+	
 		//set the default encoding
 		QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
 		KileFS->comboEncoding->lineEdit()->setText(enc);
 		doc->setEncoding(enc);
-
+	
 		//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
 		if (load) doc->openURL(url);
 		//TODO: connect to completed() signal, now updatestructure is called before loading is completed
-
-		if ( !url.isEmpty() ) {
+	
+		if ( !url.isEmpty() ) 
+		{
 			doc->setDocName(url.path());
 			fileOpenRecentAction->addURL(url);
 		}
-		else {
+		else 
+		{
 			doc->setDocName(i18n("Untitled"));
 			if (text != QString::null)
 				doc->insertText(0,0,text);
 		}
 	}
-
+	
 	KileDocumentInfo *docinfo = 0;
 
 	//see if this file belongs to an opened project
@@ -604,7 +613,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		m_infoList.append(docinfo);
 	}
 
-	if (doc) {
+	if (doc) 
+	{
 		mapInfo(doc, docinfo);
 		setHighlightMode(doc, hl);
 
@@ -1176,7 +1186,7 @@ void Kile::projectOpenItem(KileProjectItem *item)
 		m_projectview->remove(item->url());
 	}
 
-	view = load(item->url(),item->encoding(), item->isOpen(), item->highlight());
+	view = load(item->url(),item->encoding(), item->isOpen(), item->highlight(), (item->type() == KileProjectItem::Source) || (item->type() == KileProjectItem::ProjectFile) );
 
 	if (view) //there is a view for this projectitem, get docinfo by doc
 	{
@@ -2244,7 +2254,7 @@ switch (quickmode)
  {
   case 1:
     {
-    if (errorlist->isEmpty()) {QuickDviToPS();}
+    if (m_OutputInfo->size() > 0) {QuickDviToPS();}
     else {NextError();}
     }break;
   case 2:
@@ -3620,10 +3630,15 @@ void Kile::LatexError(bool /*warnings*/)
 	kdDebug() << "Total: " << m_OutputInfo->size() << " Infos reported" << endl;
 	for (uint i =0; i<m_OutputInfo->size();i++)
 	{
+		if ( (*m_OutputInfo)[i].type() == LatexOutputInfo::itmError ) m_nErrors++;
+		if ( (*m_OutputInfo)[i].type() == LatexOutputInfo::itmWarning ) m_nWarnings++;
+		if ( (*m_OutputInfo)[i].type() == LatexOutputInfo::itmBadBox ) m_nBadBoxes++;
 		kdDebug() << (*m_OutputInfo)[i].type() << " in file <<" << (*m_OutputInfo)[i].source()
 		<< ">> (line " << (*m_OutputInfo)[i].sourceLine()
 		<< ") [Reported in line " << (*m_OutputInfo)[i].outputLine() << "]" << endl;
 	}
+	
+	kdDebug() << "\terrors="<<m_nErrors<<" warnings="<<m_nWarnings<<" badboxes="<<m_nBadBoxes<<endl;
 }
 
 void Kile::jumpToProblem(int type, bool forward)

@@ -13,9 +13,10 @@
 #include <kdebug.h>
 
 
-static const char* const KileAppDCOPIface_ftable[3][3] = {
+static const char* const KileAppDCOPIface_ftable[4][3] = {
     { "void", "load(QString)", "load(QString f)" },
     { "void", "setLine(QString)", "setLine(QString line)" },
+    { "void", "setActive()", "setActive()" },
     { 0, 0, 0 }
 };
 
@@ -23,10 +24,10 @@ bool KileAppDCOPIface::process(const QCString &fun, const QByteArray &data, QCSt
 {
 	kdDebug() << "KileAppDCOPIface::process(" << fun << ")" << endl;
     if ( fun == KileAppDCOPIface_ftable[0][1] ) { // void load(QString)
-	kdDebug() << "KileAppDCOPIface::process load" << endl;
 	QString arg0;
 	QDataStream arg( data, IO_ReadOnly );
 	arg >> arg0;
+	kdDebug() << "KileAppDCOPIface::process load: " << arg0 << endl;
 	replyType = KileAppDCOPIface_ftable[0][0]; 
 	load(arg0);
     } else if ( fun == KileAppDCOPIface_ftable[1][1] ) { // void setLine(QString)
@@ -36,6 +37,10 @@ bool KileAppDCOPIface::process(const QCString &fun, const QByteArray &data, QCSt
 	arg >> arg0;
 	replyType = KileAppDCOPIface_ftable[1][0]; 
 	setLine(arg0 );
+    } else if ( fun == KileAppDCOPIface_ftable[2][1] ) { // void setLine(QString)
+	kdDebug() << "KileAppDCOPIface::process setActive" << endl;
+	replyType = KileAppDCOPIface_ftable[2][0]; 
+	setActive();
     } else {
 	return DCOPObject::process( fun, data, replyType, replyData );
     }

@@ -114,9 +114,10 @@ int main( int argc, char ** argv )
             QString sa = args->arg(0);
             if ( sa.left(5) == "file:" )
                 sa = sa.remove(0, 5);
-            arg_file << sa;
+	    QFileInfo fi(sa);
+            arg_file << fi.absFilePath();
             kdDebug() << QString("main: load(%1)").arg(sa) << endl;
-            client->send (appID, "Kile", "load(KURL)", data_file);
+            client->send (appID, "Kile", "load(QString)", data_file);
             if (args->getOption("line")!="0")
             {
                 QString li=args->getOption("line");
@@ -124,6 +125,8 @@ int main( int argc, char ** argv )
                 client->send (appID, "Kile", "setLine(QString)", data_line);
             }
             KStartupInfo::appStarted();
+	    QByteArray empty;
+	    client->send (appID, "Kile", "setActive()", empty);
         }
     }
     return 0;

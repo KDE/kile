@@ -35,6 +35,8 @@ void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 void KileInfo::trash(Kate::Document *doc)
 {
 	kdDebug() << "\tTRASHING " <<  doc << endl;
+	if (doc == 0) return;
+	
 	KileDocumentInfo *docinfo =  infoFor(doc);
 	if (docinfo) docinfo->detach();
 	removeMap(doc);

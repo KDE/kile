@@ -126,6 +126,8 @@ public slots:
 	 * @param line : Jump to give line in current editor (can be called via DCOP interface).
 	 **/
 	void setLine( const QString &line);
+	
+	void setActive();
 
 /* actions */
 private:

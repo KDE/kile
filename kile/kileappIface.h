@@ -19,11 +19,6 @@
 
 #include <dcopobject.h>
 
-namespace Kate {
-class View;
-}
-
-class KURL;
 
 class KileAppDCOPIface : virtual public DCOPObject
 {
@@ -32,6 +27,7 @@ class KileAppDCOPIface : virtual public DCOPObject
   k_dcop:
     virtual void load( const QString &url)=0;
     virtual void setLine( const QString &line )=0;
+    virtual void setActive()=0;
 };
 
 #endif

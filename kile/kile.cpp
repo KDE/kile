@@ -299,7 +299,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
-	(void) new KAction(i18n("Find &in files..."), CTRL+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
+	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
 	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
 
@@ -308,7 +308,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, this, SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	(void) new KAction(i18n("A&dd files to project..."), 0, this, SLOT(projectAddFiles()), actionCollection(), "project_add");
-	(void) new KAction(i18n("Build Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
+	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
 	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(projectArchive()), actionCollection(), "project_archive");
 	(void) new KAction(i18n("Project &Options..."), "configure", 0, this, SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
@@ -1024,7 +1024,7 @@ void Kile::buildProjectTree(KileProject *project)
 		project = activeProject();
 
 	if (project == 0 )
-		project = selectProject(i18n("Build project tree..."));
+		project = selectProject(i18n("Refresh project tree..."));
 
 	if (project)
 	{
@@ -1032,7 +1032,7 @@ void Kile::buildProjectTree(KileProject *project)
 		project->buildProjectTree();
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Build Project Tree again."),i18n( "Could not build project tree."));
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could not refresh project tree."));
 }
 
 void Kile::projectNew()
@@ -1804,6 +1804,10 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
+	//don't close Kile if embedded viewers are present
+	if ((htmlpresent && htmlpart) || (pspresent && pspart) || (dvipresent && dvipart))
+		return false;
+	
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
@@ -2147,7 +2151,7 @@ else
       if (act) act->setEnabled( false );
     }
 }
-    createGUI( the_part );
+    createGUI( the_part );  
     if (htmlpresent && htmlpart)
     {
     stateChanged( "State1" );
@@ -4057,12 +4061,12 @@ void Kile::LatexHelp()
 	      topWidgetStack->raiseWidget(1);
 	      partManager->addPart(htmlpart, true);
 	      partManager->setActivePart( htmlpart);
-	      htmlpart->openURL("help:/kile/latexhelp.html");
-	      htmlpart->addToHistory("help:/kile/latexhelp.html");
+	      htmlpart->openURL("help:kile/latexhelp.html");
+	      htmlpart->addToHistory("help:kile/latexhelp.html");
       }
       else if (viewlatexhelp_command == i18n("External Browser") )
       {
-	kapp->invokeBrowser("help:/kile/latexhelp.html");
+	kapp->invokeBrowser("help:kile/latexhelp.html");
       }
       else
       {
@@ -4166,6 +4170,11 @@ void Kile::ReadSettings()
 	int version = config->readNumEntry("RCVersion",0);
 	bool old=false;
 
+	//reads options that can be set in the configuration dialog
+	readConfig();
+	
+	//now read the other config data
+	
 	//if the kilerc file is old some of the configuration
 	//date must be set by kile, even if the keys are present
 	//in the kilerc file
@@ -4197,24 +4206,38 @@ void Kile::ReadSettings()
 	showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
 	m_menuaccels=config->readBoolEntry("MenuAccels", true);
 
-	config->setGroup( "Tools" );
 	if (old)
 	{
+		kdWarning() << "old RC file, ignoring tools entries, using defaults" << endl;
+	
 		latex_command="latex -interaction=nonstopmode '%S.tex'";
-		viewdvi_command= i18n("Embedded Viewer");
-		dvips_command="dvips -o '%S.ps' '%S.dvi'";
-		viewps_command= i18n("Embedded Viewer") ;
+		viewdvi_command=i18n("Embedded Viewer");
 		viewlatexhelp_command=i18n("Embedded Viewer");
+		dvips_command="dvips -o '%S.ps' '%S.dvi'";
+		viewps_command=i18n("Embedded Viewer");
 		ps2pdf_command="ps2pdf '%S.ps' '%S.pdf'";
 		makeindex_command="makeindex '%S.idx'";
 		bibtex_command="bibtex '%S'";
 		pdflatex_command="pdflatex -interaction=nonstopmode '%S.tex'";
-		viewpdf_command= i18n("Embedded Viewer") ;
+		viewpdf_command=i18n("Embedded Viewer");
 		dvipdf_command="dvipdfm '%S.dvi'";
 		l2h_options="";
+		bibtexeditor_command="gbib '%S.bib'";
+		
+		config->setGroup("Tools");
+		config->writeEntry("Latex",latex_command);
+		config->writeEntry("Dvi",viewdvi_command);
+		config->writeEntry("Dvips",dvips_command);
+		config->writeEntry("Ps",viewps_command);
+		config->writeEntry("Ps2pdf",ps2pdf_command);
+		config->writeEntry("Makeindex",makeindex_command);
+		config->writeEntry("Bibtex",bibtex_command);
+		config->writeEntry("Pdflatex",pdflatex_command);
+		config->writeEntry("Pdf",viewpdf_command);
+		config->writeEntry("Dvipdf",dvipdf_command);
+		config->writeEntry("Bibtexeditor",bibtexeditor_command);
 	}
-	//new configuration scheme is read in readConfig()
-
+	
 	config->setGroup( "User" );
 	userItem tempItem;
 	int len = config->readNumEntry("nUserTags",0);
@@ -4248,8 +4271,6 @@ void Kile::ReadSettings()
 	ams_packages=config->readBoolEntry( "AMS",true);
 	makeidx_package=config->readBoolEntry( "MakeIndex",false);
 	author=config->readEntry("Author","");
-
-	readConfig();
 }
 
 void Kile::ReadRecentFileSettings()
@@ -4294,6 +4315,8 @@ void Kile::ReadRecentFileSettings()
 //reads options that can be set in the configuration dialog
 void Kile::readConfig()
 {
+	kdDebug() << "==Kile::readConfig()=======================" << endl;
+	
 	config->setGroup( "Structure" );
 	m_defaultLevel = config->readNumEntry("DefaultLevel", 1);
 

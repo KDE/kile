@@ -2,7 +2,7 @@
                           latexeditor.cpp  -  description
                              -------------------
     begin                : Sat Dec 29 2001
-    copyright            : (C) 2001 by Jeroen Wijnhout
+    copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -19,7 +19,7 @@
 #include "syntaxlatex.h"
 #include <private/qrichtext_p.h>
 #include "parenmatcher.h"
-#include <qpopupmenu.h>
+#include <qpopupmenu.h>        
 #include <kapplication.h>
 #include <qclipboard.h>
 #include <qaccel.h>
@@ -189,8 +189,8 @@ void LatexEditor::matchParen(int para, int pos, int direc)
 		//kdDebug() << "this brace is escaped, leaving" <<endl;
 		return;
 	}
-		
-	
+
+
 	if ( direc == 1)
 	{
 		target = TEX_CAT2;
@@ -203,17 +203,18 @@ void LatexEditor::matchParen(int para, int pos, int direc)
 	}
 
 	//kdDebug() << "using: target " << target.latin1() << " opposite " << opposite.latin1() << endl;
-	
+
 	while ( m_matching )
 	{
 		pos += direc;
-		
+
 		if (pos < 0 || pos > len)
 		{
+			//kdDebug() << "position " << pos << endl;
   		para += direc;
 			pos = (direc==1) ? 0 : text(para).length()-1;
 			paraprocessed++;
-
+      len = text(para).length()-1;
 			//if we processed a few paragraphs process events
 			//so that the user can abort the matching by changing the
 			//cursor position
@@ -221,30 +222,45 @@ void LatexEditor::matchParen(int para, int pos, int direc)
 			{
 				kapp->processEvents();
 			}
-			//kdDebug() << "at paragraph " << para << endl;
+			//kdDebug() << "at paragraph " << para << " length "<< text(para).length()<< endl;
 		}
-		
+
 		if (para <0 || (para == maxpar)) break;
-		
+
 		ch = text(para)[pos];
 
 		//check for TEX_CAT0 \{ is a literal { for example
 		ignore=false;
-		if (text(para)[pos-1] == TEX_CAT0 ) {ignore=true;}
+		if (text(para)[pos-1] == TEX_CAT0 )
+		{
+			ignore=true;
+			QChar charretje =  text(para)[pos-1];
+			//kdDebug() << "ignoring " << charretje.latin1() << endl;
+		}
 
 		if (!ignore)
 		{
-			if ( ch == opposite ) { howmany++; }
-			if ( ch == target ) { howmany--; }
+			if ( ch == opposite )
+			{
+				howmany++;
+				//kdDebug() << "opposite found at " << para << " " << pos << endl;
+			}
+			if ( ch == target )
+			{
+				howmany--;
+				//kdDebug() << "target found at " << para << " " << pos << endl;
+			}
 		}
 
 		if ( howmany < 0 ) break;
 	}
 
+	//kdDebug() << "how many? " << howmany << endl;
+
 	//abort if we breaked from the while loop by m_matching=false
 	//(meaning the cursor position was changed)
 	if (!m_matching) {return;}
-	
+
 	if (howmany < 0)
 	{
 		(direc==1) ? setSelection(beginpara,beginpos, para,pos+1 , selParenMatch) :

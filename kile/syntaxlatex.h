@@ -2,8 +2,8 @@
                           syntaxlatex.h  -  description
                              -------------------
     begin                : Sun Dec 30 2001
-    copyright            : (C) 2001 by Pascal Brachet
-    email                :
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************

@@ -2,8 +2,8 @@
                           syntaxlatex.cpp  -  description
                              -------------------
     begin                : Sun Dec 30 2001
-    copyright            : (C) 2001 by Pascal Brachet
-    email                :
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -125,7 +125,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
   QChar ch, verbatimDelimiter;
   QString cmmnd,env;
 
-  //kdDebug() << "new paragraph: " << text << " state " << state << endl;
+  kdDebug() << "new paragraph: " << text << " state " << state << endl;
 
   //begin of file, set to standard
   if ( state == -2) { state = stStandard;}
@@ -134,10 +134,10 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
   if (state > 31) {
 		key= state>>5;
 		verbatimDelimiter = listVerbChars[key - 1];
-		//kdDebug() << "verbatimdelim index " << key<< endl;
+		kdDebug() << "verbatimdelim index " << key<< endl;
 		state = (state - 32 * key);
-		//kdDebug() << "continuing with delimiter: " << static_cast<char>(verbatimDelimiter.latin1()) << endl;
-		//kdDebug() << "real state " << state << endl;
+		kdDebug() << "continuing with delimiter: " << static_cast<char>(verbatimDelimiter.latin1()) << endl;
+		kdDebug() << "real state " << state << endl;
 	}
 
 
@@ -145,7 +145,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 	for (int i=0; i<len; i++)
 	{
 		ch = text.at(i);
-		//kdDebug() << "considering " << static_cast<int>(ch.latin1()) << endl;
+		kdDebug() << "considering " << static_cast<int>(ch.latin1()) << endl;
 
 		//determine the state change
 		switch (state)
@@ -160,7 +160,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 							case TEX_CAT14	: state = stComment;break;
 							default : state = stStandard; break;
 						};
-						//kdDebug() << "changing from Standard/MathEnded/KeywordDetected to " << state << endl;
+						kdDebug() << "changing from Standard/MathEnded/KeywordDetected to " << state << endl;
 				break; //standard
 
 	      case stComment :
@@ -188,7 +188,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 			      {
 							state = stCommand;
 							cmmnd_start=i;
-							//kdDebug() << "starting command at : " << cmmnd_start << endl;
+							kdDebug() << "starting command at : " << cmmnd_start << endl;
 						}
 			      else state = stControlSymbol;
 			  break; //controlsequence
@@ -218,12 +218,12 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 
 								cmmnd = text.mid(cmmnd_start,i-cmmnd_start);
 
-							  //kdDebug() << "command detected: " << cmmnd << " reason " << ch.latin1() << endl;
+							  kdDebug() << "command detected: " << cmmnd << " reason " << ch.latin1() << endl;
 							  //determine what to do next
 							  switch ( *(mapCommands.find(cmmnd)) )
 							  {
 									case stKeywordDetected :
-										//kdDebug() << "keyword detected: " << cmmnd << " start " << cmmnd_start-1 << " count " << i-cmmnd_start+1 << endl;
+										kdDebug() << "keyword detected: " << cmmnd << " start " << cmmnd_start-1 << " count " << i-cmmnd_start+1 << endl;
 										//quick and dirty: reformat the command
 										setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtKeyword);
 									break;
@@ -238,7 +238,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 									break;
 
 									default:
-										//kdDebug() << "not a keyword or environment" << endl;
+										kdDebug() << "not a keyword or environment" << endl;
 										if ( cmmnd == "verb" )
 										{
 											//FIXME: there seems to be a space on the end
@@ -249,7 +249,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 											{
 												verbatimDelimiter=ch;
 												ind= listVerbChars.findIndex(ch);
-												if ( ind >= 0)
+												if ( ind < 0)
 												{
 													listVerbChars.append(ch);
 													key=listVerbChars.size();
@@ -259,10 +259,10 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 													key=ind+1;
 												}
                         state=stVerbatimDetected;
-                        //kdDebug() << "going verbatim with " << ch.latin1() << " at " << listVerbChars.size() << endl;
+                        kdDebug() << "going verbatim with " << ch.latin1() << " at " << listVerbChars.size() << endl;
                         for (QValueListIterator<QChar> i = listVerbChars.begin(); i != listVerbChars.end(); i++ )
                         {
-													//kdDebug() << static_cast<char>(*i) << endl;
+													kdDebug() << static_cast<char>(*i) << endl;
 												}
 											}
 										}
@@ -287,7 +287,7 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 						}
 						else if ( !ch.isSpace() )
 						{
-							//kdDebug() << "eaten all space" << ch.latin1() << endl;
+							kdDebug() << "eaten all space" << ch.latin1() << endl;
 							switch (ch)
 							{
 								case TEX_CAT0		: state = stControlSequence; break;
@@ -304,12 +304,12 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 						if ( ch == TEX_CAT2 )
 						{
 								env=text.mid(env_start,i-env_start);
-								//kdDebug() << "environment : " << env << endl;
+								kdDebug() << "environment : " << env << endl;
 								state=stStandard;
 								if ( env == "verbatim" )
 								{
 									state = stVerbatimEnv;
-									//kdDebug() << "verbatim environment" << endl;
+									kdDebug() << "verbatim environment" << endl;
 								}
 						}
 				break;
@@ -317,17 +317,17 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 				case stVerbatimEnv :
 						if ( ch == TEX_CAT0 )
 						{
-							//kdDebug() << "possible ending: " << text.mid(i+1,13) << " distance " << len-i << endl;
+							kdDebug() << "possible ending: " << text.mid(i+1,13) << " distance " << len-i << endl;
 							if ( ((len-i) > 13) && text.mid(i+1,13) == VERBATIM_END )
 							{
 								state=stControlSequence;
-								//kdDebug() << "verbatim environment ending" << endl;
+								kdDebug() << "verbatim environment ending" << endl;
 							}
 						}
 				break;
 
 				default :
-					//kdDebug() << "WARNING WARNING state " << state << " not handled" << endl;
+					kdDebug() << "WARNING WARNING state " << state << " not handled" << endl;
 				break;
 
 		} //switch state, change state
@@ -352,16 +352,16 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 		} //switch state, determine format
 
 		setLaTeXFormat(i,1,fmt);
-		//kdDebug() << "processed: " << ch.latin1() << " state: " << state << endl;
+		kdDebug() << "processed: " << ch.latin1() << " state: " << state << endl;
 	}// end main for loop
 
 	//if end state is verbatimdetected, encode the verbatimdelimiter in the state
-	//kdDebug() << "saving key " << key << " into the endstate " << endl;
+	kdDebug() << "saving key " << key << " into the endstate " << endl;
   if (key > 0)
 	{
 			state += (key << 5) ;
 	}
 
-  //kdDebug() << "endstate: " << state << endl;
+  kdDebug() << "endstate: " << state << endl;
 	return state;
 }

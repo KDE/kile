@@ -19,11 +19,11 @@ type=DATA
 [Config for BinMakefileAm]
 addcxxflags=-Wno-deprecated
 bin_program=kile
-cflags=
+cflags=-pg -a
 cppflags=
 cxxflags=\s-O0 -g3 -Wall
 ldadd=-lkdeprint $(LIB_KSPELL) $(LIB_KPARTS) $(LIB_KFILE) $(LIB_KHTML) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=\s        \s
+ldflags=\s         \s
 
 [General]
 AMChanged=false

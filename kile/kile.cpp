@@ -1794,6 +1794,10 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	{
 		kdDebug() << "==Kile::newDocumentStatus==========================" << endl;
 		kdDebug() << "\t" << doc->docName() << endl;
+
+		//sync terminal
+		syncTerminal();
+
 		QPtrList<KTextEditor::View> list = doc->views();
 
 		KIconLoader *loader = KGlobal::iconLoader();

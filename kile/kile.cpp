@@ -491,16 +491,20 @@ void Kile::restore()
 {
 	if (!m_bRestore) return;
 
+	QFileInfo fi;
+
 	for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
 	{
 		kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
-		projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
+		fi.setFile(m_listProjectsOpenOnStart[i]);
+		if (fi.isReadable()) projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
 	{
 		kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
-		fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
+		fi.setFile(m_listDocsOpenOnStart[i]);
+		if (fi.isReadable()) fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
 
 	m_listProjectsOpenOnStart.clear();
@@ -904,16 +908,37 @@ void Kile::fileSaveAll(bool amAutoSaving)
 	Kate::View *view;
 	QFileInfo fi;
 
+	kdDebug() << "==Kile::fileSaveAll=================" << endl;
+	kdDebug() << "\tautosaving = " << amAutoSaving << endl;
+
 	for (uint i = 0; i < m_viewList.count(); i++)
 	{
 		view = m_viewList.at(i);
 
 		if (view && view->getDoc()->isModified())
 		{
+			fi.setFile(view->getDoc()->url().path());
 			//don't save unwritable and untitled documents when autosaving
-			if ( ! (amAutoSaving && ((view->getDoc()->url().isEmpty() ) || !fi.isWritable() )))
+			if (
+			      (!amAutoSaving) ||
+				  (amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() )
+			   )
 			{
-				view->save();
+				kdDebug() << "\tsaving: " << view->getDoc()->url().path() << endl;
+
+				if (amAutoSaving)
+				{
+					//make a backup
+					KURL url = view->getDoc()->url();
+					KileAutoSaveJob *job = new KileAutoSaveJob(url);
+
+					//save the current file if job is finished succesfully
+					connect(job, SIGNAL(success()), view, SLOT(save()));
+				}
+				else
+					view->save();
+
+				//TODO: make it save to a different location (.backup)
 			}
 		}
 	}
@@ -4894,6 +4919,28 @@ while(i < currentView()->getDoc()->numLines())
         }
     else i++;
    }
+}
+
+////////KileAutoSaveJob
+KileAutoSaveJob::KileAutoSaveJob(const KURL &url)
+{
+	KIO::Job *job = KIO::file_copy(url,KURL(KURL::fromPathOrURL(url.path()+".backup")),-1,true,false,false);
+	//let KIO show the error messages
+    job->setAutoErrorHandlingEnabled(true);
+	connect(job, SIGNAL(result(KIO::Job*)), this, SLOT(slotResult(KIO::Job*)));
+}
+
+KileAutoSaveJob::~KileAutoSaveJob()
+{
+	kdDebug() << "DELETING KileAutoSaveJob" << endl;
+}
+
+void KileAutoSaveJob::slotResult(KIO::Job *job)
+{
+	if (job->error() == 0)
+	{
+		emit(success());
+	}
 }
 
 /////// editor extensions /////////////

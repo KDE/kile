@@ -60,7 +60,7 @@ void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
 		kdDebug() << "\tto: " << m_doc->url().path() << endl;
 
 		//don't emit if new URL is empty (i.e. when closing the document)
-		if (!m_doc->url().isEmpty())
+		if (!m_doc->url().isEmpty() && (m_url != m_doc->url() ) )
 		{
 			kdDebug() << "\temitting nameChanged(url)" << endl;
 			setURL(m_doc->url());
@@ -89,7 +89,10 @@ void KileDocumentInfo::count(const QString line, long *stat)
 					state = stControlSequence;
 					stat[1]++;
 					stat[4]++;
-					word=false;
+
+					//look ahead to avoid counting words like K\"ahler as two words
+					if (! line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )
+						word=false;
 				break;
 
 				case TEX_CAT14 :
@@ -100,7 +103,8 @@ void KileDocumentInfo::count(const QString line, long *stat)
 				default:
 					if (c.isLetterOrNumber())
 					{
-						if (!word)
+						//only start new word if first character is a letter (42test is still counted as a word, but 42.2 not)
+						if (c.isLetter() && !word)
 						{
 							word=true;
 							stat[3]++;
@@ -111,9 +115,9 @@ void KileDocumentInfo::count(const QString line, long *stat)
 					else
 					{
 						stat[2]++;
+						word = false;
 					}
 
-					if (c.isSpace() ) word = false;
 				break;
 			}
 		break;
@@ -126,6 +130,7 @@ void KileDocumentInfo::count(const QString line, long *stat)
 
 		case stCommand :
 			if ( c.isLetter() ) { stat[1]++; }
+			else if ( c == TEX_CAT0 ) stat[4]++;
 			else if ( c == TEX_CAT14 )
 			{
 				p=line.length();
@@ -213,7 +218,6 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	}
 
 	QString shortName = getDoc()->url().fileName();
-	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
 
 	m_labels.clear();
 	m_bibItems.clear();
@@ -228,6 +232,8 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	m_struct=  new KileListViewItem( m_structview, shortName );
 	m_struct->setOpen(TRUE);
 	m_struct->setPixmap(0,UserIcon("doc"));
+
+	if ((shortName.right(4)!=".tex") && (shortName!=i18n("Untitled")))  return;
 
 	QListViewItem *parent_level[5],*lastChild, *Child, *parent;
 	Child=lastChild=parent_level[0]=parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=m_struct;

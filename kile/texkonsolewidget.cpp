@@ -50,7 +50,8 @@ void TexKonsoleWidget::SetDirectory(QString dirname)
     if (present)
     {
       KURL url(dirname);
-      part->openURL(url);
+	  if (part->url() != url)
+      	part->openURL(url);
     }
 }
 

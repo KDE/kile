@@ -35,6 +35,7 @@
 #include <kaction.h>
 #include <kfileitem.h>
 #include <klistview.h>
+#include <kio/job.h>
 
 #include <qmap.h>
 #include <qsplitter.h>
@@ -560,6 +561,21 @@ private slots:
 private:
 	QGuardedPtr<Qplotmaker> gfe_widget;
 
+};
+
+class KileAutoSaveJob : public QObject
+{
+	Q_OBJECT
+
+public:
+	KileAutoSaveJob(const KURL& from);
+	~KileAutoSaveJob();
+
+protected slots:
+	void slotResult(KIO::Job *);
+
+signals:
+	void success();
 };
 
 /**

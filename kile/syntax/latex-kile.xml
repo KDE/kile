@@ -1,6 +1,6 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-<language name="LaTeX-Kile" version="0.2" section="Markup" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls" mimetype="text/x-tex" casesensitive="1">
+<language name="LaTeX-Kile" version="0.3" section="Markup" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls" mimetype="text/x-tex" casesensitive="1">
 	<highlighting>
 		<list name="kw_structure">
 			<item>label</item>
@@ -81,7 +81,7 @@
 			<context name="VerbFindEnd" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<StringDetect String="verbatim" attribute="Environment" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"/>
 			</context>
 
 			<context name="SpecialEnv" attribute="Verbatim" lineEndContext="#stay">

@@ -121,7 +121,7 @@ if (!lastDocument.isEmpty())
   QFileInfo fi(lastDocument);
   if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
   }
-KileFS->setDir(KURL(currentDir));
+KileFS->setDir(KURL::fromPathOrURL(currentDir));
 KileFS->comboEncoding->lineEdit()->setText(input_encoding);
 
 ButtonBar->insertTab(UserIcon("structure"),1,i18n("Structure"));
@@ -617,7 +617,7 @@ void Kile::load( const QString &f )
     doConnections( edit->editor );
     UpdateCaption();
     UpdateLineColStatus();
-    fileOpenRecentAction->addURL(KURL(f));
+    fileOpenRecentAction->addURL(KURL::fromPathOrURL(f));
     ShowStructure();
 }
 
@@ -792,7 +792,7 @@ void Kile::fileSave(bool amAutoSaving )
 		{
 			currentEditorView()->editor->setModified(false);
 			fn=getName();
-			fileOpenRecentAction->addURL(KURL(fn));
+			fileOpenRecentAction->addURL(KURL::fromPathOrURL(fn));
 		}
 	}
 	UpdateCaption();
@@ -5126,7 +5126,7 @@ setAutosaveInterval(autosaveinterval);
     QStringList::ConstIterator it = recentFilesList.begin();
     for ( ; it != recentFilesList.end(); ++it )
     {
-      fileOpenRecentAction->addURL(KURL(*it));
+      fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
     }
     // Now delete this recent files entry as we are now using a separate
     // group for recent files

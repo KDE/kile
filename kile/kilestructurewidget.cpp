@@ -76,7 +76,7 @@ namespace KileWidget
 		}
 		else
 		{
-			if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot find file!"))
+			if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
 			== KMessageBox::Yes)
 			{
 				emit(fileNew(KURL::fromPathOrURL(fname)));

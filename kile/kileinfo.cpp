@@ -117,6 +117,9 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 
 QString KileInfo::getFullFromPrettyName(const QString & name)
 {
+	if(name.isNull())
+		return name;
+
 	QString file = name;
 
 	if (file.left(2) == "./" )

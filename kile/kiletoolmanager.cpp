@@ -94,25 +94,25 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption) == KMessageBox::Continue);
 	}
 
-	void Manager::run(const QString &tool, const QString & cfg)
+	int Manager::run(const QString &tool, const QString & cfg)
 	{
 		if (!m_factory)
 		{
 			m_log->printMsg(Error, i18n("No factory installed, contact the author of Kile."));
-			return;
+			return ConfigureFailed;
 		}
 	
 		Base* pTool = m_factory->create(tool);
 		if (!pTool)
 		{
 			m_log->printMsg(Error, i18n("Unknown tool %1.").arg(tool));
-			return;
+			return ConfigureFailed;
 		}
 		
-		run(pTool, cfg);
+		return run(pTool, cfg);
 	}
 
-	void Manager::run(Base *tool, const QString & cfg)
+	int Manager::run(Base *tool, const QString & cfg)
 	{
 		kdDebug() << "==KileTool::Manager::run(Base*)============" << endl;
 		if (m_bClear)
@@ -129,10 +129,12 @@ namespace KileTool
 		m_queue.enqueue(new QueueItem(tool, cfg));
 		kdDebug() << "\tin queue: " << m_queue.count() << endl;
 		if ( m_queue.count() == 1 )
-			runNextInQueue();
+			return runNextInQueue();
+		else
+			return ConfigureFailed;
 	}
 
-	void Manager::runNextInQueue()
+	int Manager::runNextInQueue()
 	{
 		Base *head = m_queue.tool();
 		if (head)
@@ -140,12 +142,17 @@ namespace KileTool
 			if (m_log->lines() > 1) 
 				m_log->append("\n");
 
-			if ( head->run() != Running ) //tool did not even start, clear queue
+			int status;
+			if ( (status=head->run()) != Running ) //tool did not even start, clear queue
 			{
 				stop();
 				m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
+				return status;
 			}
+			return Running;
 		}
+
+		return ConfigureFailed;
 	}
 
 	void Manager::initTool(Base *tool)

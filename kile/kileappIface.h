@@ -19,17 +19,15 @@
 
 #include <dcopobject.h>
 
-class KURL;
-
 class KileAppDCOPIface : virtual public DCOPObject
 {
-  K_DCOP
+	K_DCOP
 
-  k_dcop:
-    virtual void load( const QString &url)=0;
-    virtual void projectOpen(const QString &url)=0;
-    virtual void setLine( const QString &line )=0;
-    virtual void setActive()=0;
+	k_dcop:
+		virtual void load( const QString &url)=0;
+		virtual void projectOpen(const QString &url)=0;
+		virtual void setLine( const QString &line )=0;
+		virtual void setActive()=0;
 };
 
 #endif

@@ -94,13 +94,13 @@ namespace KileTool
 		void started(Base*);
 		void done(Base *, int);
 		
-		void run(const QString &, const QString & = QString::null);
-		void run(Base *, const QString & = QString::null);
+		int run(const QString &, const QString & = QString::null);
+		int run(Base *, const QString & = QString::null);
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 
 	private slots:
-		void runNextInQueue();
+		int runNextInQueue();
 		void enableClear();
 
 	signals:

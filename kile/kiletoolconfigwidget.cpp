@@ -254,7 +254,7 @@ namespace KileWidget
 				return;
 			}
 
-			writeStdConfig(tool, KileTool::configName(tool, config));
+			writeStdConfig(tool, "Default");
 
 			m_lstbTools->blockSignals(true); 
 			updateToollist();
@@ -297,6 +297,9 @@ namespace KileWidget
 		config->writeEntry("type", "Process");
 		config->writeEntry("menu", "Compile");
 		config->writeEntry("state", "Editor");
+
+		config->setGroup("Tools");
+		config->writeEntry(tool, cfg);
 	}
 
 	void ToolConfig::removeTool()

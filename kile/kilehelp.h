@@ -30,7 +30,6 @@
 #include "usermenudialog.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
-#include "helpconfig.h"
 
 /**
   *@author Holger Danielsson
@@ -68,8 +67,6 @@ namespace KileHelp
 		void helpTetex(KileHelp::Type type);
 		void helpKeyword(Kate::View *view);
 
-		void readConfig() { m_hconfig->readConfig(); }
-
 	public slots:
 		void helpTetexGuide() { helpTetex(KileHelp::HelpTetexGuide); }
 		void helpTetexDoc() { helpTetex(KileHelp::HelpTetexDoc); }
@@ -82,9 +79,6 @@ namespace KileHelp
 	private:
 		KileTool::Manager *m_manager;
 		KileDocument::EditorExtension *m_edit;
-
-		bool m_use;
-		HelpConfig *m_hconfig;
 
 		QMap<QString,QString> m_dictHelpKile;
 		QMap<QString,QString> m_dictHelpTetex;

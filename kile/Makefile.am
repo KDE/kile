@@ -3,7 +3,7 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = includegraphicsdialog.cpp newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp kileapplication.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp kileedit.cpp cleandialog.cpp kilehelp.cpp configstructure.cpp configenvironment.cpp kileappIface.skel convert.cpp helpconfig.cpp helpconfigwidget.ui kiletoolcapability.cpp kiledocmanager.cpp kileviewmanager.cpp kileeventfilter.cpp kileautosavejob.cpp latexconfig.cpp latexconfigwidget.ui
+kile_SOURCES = includegraphicsdialog.cpp newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp kileapplication.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp kileedit.cpp cleandialog.cpp kilehelp.cpp configstructure.cpp configenvironment.cpp kileappIface.skel convert.cpp helpconfigwidget.ui kiletoolcapability.cpp kiledocmanager.cpp kileviewmanager.cpp kileeventfilter.cpp kileautosavejob.cpp latexconfigwidget.ui kileconfig.kcfgc generalconfigwidget.ui kxtrcconverter.cpp
 
 #kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 kile_LDADD   = -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
@@ -24,6 +24,8 @@ EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h \
 	includegraphicsdialog.h includegraphicsdialog.cpp kiletoolconfigwidget.cpp kiletoolconfigwidget.h outputfilter.h kilegrepdialog.cpp kilegrepdialog.h codecompletion.h codecompletion.cpp configcodecompletion.cpp configcodecompletion.h kileedit.cpp cleandialog.cpp kileedit.h cleandialog.h  kilehelp.cpp kilehelp.h configstructure.cpp configstructure.h configenvironment.cpp configenvironment.h convert.h convert.cpp
 
 xdg_apps_DATA = kile.desktop
+
+kde_kcfg_DATA = kile.kcfg
 
 KDE_ICON = AUTO
 
@@ -67,4 +69,4 @@ messages: rc.cpp
 	fi
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
-noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h kileautosavejob.h latexconfig.h latexconfigwidget.h latexconfigwidget.ui.h
+noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h kileautosavejob.h latexconfigwidget.h kxtrcconverter.h

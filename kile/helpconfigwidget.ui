@@ -27,7 +27,7 @@
                 <string>&amp;Location of TeX documentation:</string>
             </property>
             <property name="buddy" stdset="0">
-                <cstring>m_leLocation</cstring>
+                <cstring>kcfg_location</cstring>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>Insert the path to the TeX documentation directory here. For example /usr/share/texmf/doc.</string>
@@ -35,12 +35,12 @@
         </widget>
         <widget class="KLineEdit" row="0" column="1">
             <property name="name">
-                <cstring>m_leLocation</cstring>
+                <cstring>kcfg_location</cstring>
             </property>
         </widget>
         <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>m_bgContext</cstring>
+                <cstring>kcfg_use</cstring>
             </property>
             <property name="title">
                 <string>Context Sensitive Help</string>
@@ -72,23 +72,5 @@
         </widget>
     </grid>
 </widget>
-<includes>
-    <include location="local" impldecl="in declaration">helpconfig.h</include>
-    <include location="global" impldecl="in implementation">kapplication.h</include>
-    <include location="local" impldecl="in implementation">helpconfigwidget.ui.h</include>
-</includes>
-<variables>
-    <variable>::HelpConfig *m_hconfig;</variable>
-</variables>
-<slots>
-    <slot>readConfig()</slot>
-    <slot>writeConfig()</slot>
-</slots>
-<functions>
-    <function access="private" specifier="non virtual">init()</function>
-</functions>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>

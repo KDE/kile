@@ -33,15 +33,13 @@
 #include "kileviewmanager.h"
 #include "kileinfo.h"
 #include "kilestdtools.h"
+#include "kileconfig.h"
 
 namespace KileHelp
 {
 
 	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit)
 	{
-		m_hconfig = new HelpConfig(kapp->config());
-		m_hconfig->readConfig();
-
 		readHelpList("latex-kile.lst",m_dictHelpKile);
 		readHelpList("latex-tetex.lst",m_dictHelpTetex);
 	}
@@ -82,7 +80,7 @@ namespace KileHelp
 				return;
 		}
 
-		showHelpFile( m_hconfig->location() + "/" + filename );
+		showHelpFile( KileConfig::location() + "/" + filename );
 	}
 
 ////////////////////// Help: LaTeX //////////////////////
@@ -109,7 +107,7 @@ namespace KileHelp
 		}
 
 		kdDebug() << "subject " << subject << endl;
-		showHelpFile( m_hconfig->location() + "/latex/latex2e-html/ltx-2.html" + subject );
+		showHelpFile( KileConfig::location() + "/latex/latex2e-html/ltx-2.html" + subject );
 	}
 
 	////////////////////// Help: Keyword //////////////////////
@@ -117,7 +115,7 @@ namespace KileHelp
 	//FIXME: the url passed to konqueror is ok, but konqueror doesn't jump to the label!?!?!
 	void Help::helpKeyword(Kate::View *view)
 	{
-		int type = m_hconfig->useKileRefForContext() ? HelpLatex : HelpTetex;
+		int type = (0 == KileConfig::use()) ? HelpLatex : HelpTetex;
 		switch ( type )
 		{
 		case HelpTetex:
@@ -142,7 +140,7 @@ namespace KileHelp
 		if ( !word.isNull() && m_dictHelpTetex.contains(word) )
 		{
 			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTetex[word] << " )" << endl;
-			showHelpFile( m_hconfig->location() + "/latex/latex2e-html/" + m_dictHelpTetex[word] );
+			showHelpFile( KileConfig::location() + "/latex/latex2e-html/" + m_dictHelpTetex[word] );
 		}
 	}
 

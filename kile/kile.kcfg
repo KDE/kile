@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+	<kcfgfile name="kilerc"/>
+	<include>qapplication.h</include>
+	<group name="VersionInfo">
+		<entry name="RCVersion" type="Int">
+			<label>The resource file version.</label>
+			<default>0</default>
+		</entry>
+	</group>
+	<group name="Geometries">
+		<entry name="Splitter1_left" type="Int">
+			<label></label>
+			<default>100</default>
+		</entry>
+		<entry name="Splitter1_right" type="Int">
+			<label></label>
+			<default>350</default>
+		</entry>
+		<entry name="Splitter2_top" type="Int">
+			<label></label>
+			<default>350</default>
+		</entry>
+		<entry name="Splitter2_bottom" type="Int">
+			<label></label>
+			<default>100</default>
+		</entry>
+		<entry name="MainwindowWidth" type="Int">
+			<label>The main window's width.</label>
+			<default>
+				<code>
+					QApplication::desktop()->screenGeometry().width() - 100
+				</code>
+			</default>
+		</entry>
+		<entry name="MainwindowHeight" type="Int">
+			<label>The main window's height.</label>
+			<default>
+				<code>
+					QApplication::desktop()->screenGeometry().height() - 100
+				</code>
+			</default>
+		</entry>
+	</group>
+	<group name="Structure">
+		<entry name="DefaultLevel" type="Int">
+			<label>The expansion level for the structure view.</label>
+			<default>1</default>
+		</entry>
+		<entry name="StructureLevel1" type="String">
+			<label></label>
+			<default>part</default>
+		</entry>
+		<entry name="StructureLevel2" type="String">
+			<label></label>
+			<default>chapter</default>
+		</entry>
+		<entry name="StructureLevel3" type="String">
+			<label></label>
+			<default>section</default>
+		</entry>
+		<entry name="StructureLevel4" type="String">
+			<label></label>
+			<default>subsection</default>
+		</entry>
+		<entry name="StructureLevel5" type="String">
+			<label></label>
+			<default>subsubsection</default>
+		</entry>
+	</group>
+	<group name="Tools">
+		<entry name="QuickMode" type="Int">
+			<label></label>
+			<default>1</default>
+		</entry>
+		<entry name="Latex" type="String">
+			<label>Command to run LaTeX.</label>
+			<default>latex -interaction=nonstopmode '%S.tex'</default>
+		</entry>
+		<entry name="Dvips" type="String">
+			<label>Command to run dvips.</label>
+			<default>dvips -o '%S.ps' '%S.dvi'</default>
+		</entry>
+		<entry name="Ps2pdf" type="String">
+			<label>Command to run ps2pdf.</label>
+			<default>ps2pdf '%S.ps' '%S.pdf'</default>
+		</entry>
+		<entry name="Makeindex" type="String">
+			<label>Command to run makeindex.</label>
+			<default>makeindex '%S.idx'</default>
+		</entry>
+		<entry name="Bibtex" type="String">
+			<label>Command to run BibTeX.</label>
+			<default>bibtex '%S'</default>
+		</entry>
+		<entry name="Pdflatex" type="String">
+			<label>Command to run pdflatex.</label>
+			<default>pdflatex -interaction=nonstopmode '%S.tex'</default>
+		</entry>
+		<entry name="Dvipdf" type="String">
+			<label>Command to run dvipdf</label>
+			<default>dvipdfm '%S.dvi'</default>
+		</entry>
+		<entry name="L2hOptions" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="Bibtexeditor" type="String">
+			<label>Command to run the BibTeX editor.</label>
+			<default>gbib '%S.bib'</default>
+		</entry>
+		<entry name="RunLyxServer" type="Bool">
+			<label>Whether to run the Lyx server.</label>
+			<default>true</default>
+		</entry>
+	</group>
+	<group name="Show">
+		<entry name="Outputview" type="Bool">
+			<label>Whether to show the output view.</label>
+			<default>true</default>
+		</entry>
+		<entry name="Structureview" type="Bool">
+			<label>Whether to show the structure view.</label>
+			<default>true</default>
+		</entry>
+	</group>
+	<group name="Editor Ext">
+		<entry name="CompleteEnvironment" type="Bool">
+			<label>Automatic completion \begin{env} with \end{env}.</label>
+			<default>true</default>
+		</entry>
+	</group>
+	<group name="IncludeGraphics">
+		<entry name="imagemagick" type="Bool">
+			<label>Whether ImageMagick is installed.</label>
+			<default>true</default>
+		</entry>
+		<entry name="boundingbox" type="Bool">
+			<label>Try to determine the bounding box from the picture.</label>
+			<default>true</default>
+		</entry>
+		<entry name="resolution" type="Int">
+			<label>The default image resolution.</label>
+			<default>300</default>
+		</entry>
+	</group>
+	<group name="Help">
+		<entry name="location" type="String">
+			<label>Location of the TeX documentation.</label>
+			<default>/usr/share/texmf/doc</default>
+		</entry>
+		<entry name="use" type="Int">
+			<label>Use the system's TeX reference for the contextual help.</label>
+			<default>0</default>
+		</entry>
+	</group>
+	<group name="Files">
+		<entry name="Restore" type="Bool">
+			<label>Reopen files and projects on startup.</label>
+			<default>true</default>
+		</entry>
+		<entry name="Autosave" type="Bool">
+			<label>Automatic save.</label>
+			<default>true</default>
+		</entry>
+		<entry name="CleanUpAfterClose" type="Bool">
+			<label>Automatically clean-up files after close.</label>
+			<default>false</default>
+		</entry>
+		<entry name="AutosaveInterval" type="Int">
+			<label>The autosave interval in minutes.</label>
+			<default>10</default>
+		</entry>
+		<entry name="CleanUpFileExtensions" type="String">
+			<label>The file extensions to clean on exit.</label>
+			<default>.log .aux .dvi .lof .lot .bit .idx .glo .bbl .ilg .toc .ind</default>
+		</entry>
+	</group>
+	<group name="User">
+		<entry name="Author" type="String">
+			<label>The Author template variable.</label>
+			<default></default>
+		</entry>
+		<entry name="DocumentClassOptions" type="String">
+			<label>The Documentclass template variable.</label>
+			<default>a4paper,10pt</default>
+		</entry>
+		<entry name="TemplateEncoding" type="String">
+			<label>The Input encoding template variable.</label>
+			<default></default>
+		</entry>
+	</group>
+	<group name="TipOfDay">
+		<entry name="RunOnStart" type="Bool">
+			<label>Whether to show the tips on startup.</label>
+			<default>true</default>
+		</entry>
+	</group>
+</kcfg>

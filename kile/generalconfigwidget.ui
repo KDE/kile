@@ -1,0 +1,215 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>KileWidgetGeneralConfig</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KileWidgetGeneralConfig</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>866</width>
+            <height>426</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>General</string>
+    </property>
+    <vbox>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox1</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Autosave options</string>
+            </property>
+            <hbox>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_Autosave</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Auto&amp;save</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+S</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <hbox>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Interval &amp;time in minutes (1 - 9999) :</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_AutosaveInterval</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KIntNumInput">
+                            <property name="name">
+                                <cstring>kcfg_AutosaveInterval</cstring>
+                            </property>
+                            <property name="minValue">
+                                <number>1</number>
+                            </property>
+                            <property name="maxValue">
+                                <number>9999</number>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>3</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Structure view options</string>
+            </property>
+            <hbox>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Default expansion &amp;level for the structure view (1 part - 5 subsubsection) :</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_DefaultLevel</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput">
+                    <property name="name">
+                        <cstring>kcfg_DefaultLevel</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="maxValue">
+                        <number>5</number>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_Restore</cstring>
+            </property>
+            <property name="text">
+                <string>Reopen files and projects on startup.</string>
+            </property>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox3</cstring>
+            </property>
+            <property name="title">
+                <string>Template variables</string>
+            </property>
+            <grid>
+                <widget class="KLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>kcfg_Author</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>kcfg_TemplateEncoding</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_DocumentClassOptions</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Author</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_Author</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Documentclass options</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_DocumentClassOptions</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Input &amp;encoding</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_TemplateEncoding</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox4</cstring>
+            </property>
+            <property name="title">
+                <string>File clean-up details</string>
+            </property>
+            <vbox>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_CleanUpAfterClose</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Automatically clean-up files after close.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>kcfg_CleanUpFileExtensions</cstring>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </vbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>

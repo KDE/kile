@@ -1,0 +1,4 @@
+File=kile.kcfg
+ClassName=KileConfig
+Singleton=true 
+Mutators=true

@@ -19,7 +19,7 @@
 
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
-#include <ktexteditor/codecompletioninterface.h>    
+#include <ktexteditor/codecompletioninterface.h>
 #include <ktexteditor/searchinterface.h>
 #include <kparts/componentfactory.h>
 
@@ -107,6 +107,8 @@
 #include "kileviewmanager.h"
 #include "kileeventfilter.h"
 #include "kileautosavejob.h"
+#include "kileconfig.h"
+#include "kxtrcconverter.h"
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -200,12 +202,10 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	config = KGlobal::config();
 
 	// check requirements for IncludeGraphicsDialog (dani)
-	config->setGroup("IncludeGraphics");
-	config->writeEntry("imagemagick", ! ( KStandardDirs::findExe("identify") == QString::null ) );
+	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify") == QString::null));
   
 	//workaround for kdvi crash when started with Tooltips
-	config->setGroup("TipOfDay");
-	config->writeEntry( "RunOnStart",false);
+	KileConfig::setRunOnStart(false);
 
 	KileFS->readConfig();
 
@@ -1249,8 +1249,8 @@ void Kile::CleanAll(KileDocumentInfo *docinfo, bool silent)
 
 	if (docinfo)
 	{
-		config->setGroup( "Files" );
-		QStringList extlist, templist = config->readListEntry("CleanUpFileExtensions");
+		QStringList extlist;
+		QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
 		QString str;
 		QFileInfo file(docinfo->url().path()), fi;
 		for (uint i=0; i <  templist.count(); i++)
@@ -1686,14 +1686,10 @@ void Kile::EditUserMenu()
 void Kile::ReadSettings()
 {
 	//test for old kilerc
-	config->setGroup("VersionInfo");
-	int version = config->readNumEntry("RCVersion",0);
+	int version = KileConfig::rCVersion();
 	bool old=false;
 
-	//reads options that can be set in the configuration dialog
-	readConfig();
-	
-	//now read the other config data
+	m_bShowUserMovedMessage = (version < 4);
 	
 	//if the kilerc file is old some of the configuration
 	//date must be set by kile, even if the keys are present
@@ -1707,28 +1703,11 @@ void Kile::ReadSettings()
 		factory->writeStdConfig();
 	}
 
-	m_bShowUserMovedMessage = (version < 4);
-
-	m_singlemode=true;
-	QRect screen = QApplication::desktop()->screenGeometry();
-	config->setGroup( "Geometries" );
-	int w= config->readNumEntry( "MainwindowWidth",screen.width()-100);
-	int h= config->readNumEntry( "MainwindowHeight",screen.height()-100) ;
-	resize(w,h);
-	split1_left=config->readNumEntry("Splitter1_left",100);
-	split1_right=config->readNumEntry("Splitter1_right",350);
-	split2_top=config->readNumEntry("Splitter2_top",350);
-	split2_bottom=config->readNumEntry("Splitter2_bottom",100);
-
 	//delete old editor key
 	if (config->hasGroup("Editor") )
 	{
 		config->deleteGroup("Editor");
 	}
-
-	config->setGroup( "Show" );
-	showoutputview=config->readBoolEntry("Outputview",true);
-	showstructview=config->readBoolEntry( "Structureview",true);
 
 	config->setGroup( "User" );
 	int len = config->readNumEntry("nUserTags",0);
@@ -1737,6 +1716,7 @@ void Kile::ReadSettings()
 		m_listUserTags.append(KileDialog::UserTags::splitTag(config->readEntry("userTagName"+QString::number(i),i18n("no name")) , config->readEntry("userTag"+QString::number(i),"") ));
 	}
 
+	//convert user tools to new KileTool classes
 	userItem tempItem;
 	len= config->readNumEntry("nUserTools",0);
 	for (int i=0; i< len; i++)
@@ -1774,32 +1754,33 @@ void Kile::ReadSettings()
 		}
 	}
 
-	config->setGroup( "Structure" );
-	struct_level1=config->readEntry("Structure Level 1","part");
-	struct_level2=config->readEntry("Structure Level 2","chapter");
-	struct_level3=config->readEntry("Structure Level 3","section");
-	struct_level4=config->readEntry("Structure Level 4","subsection");
-	struct_level5=config->readEntry("Structure Level 5","subsubsection");
-	
-	config->setGroup( "Files" );
-	if ( !config->hasKey("CleanUpFileExtensions") ) // no rc file or old version
+	//convert old config names containing spaces to KConfig XT compliant names
+	if((0 != version) && (version < 5)) 
 	{
-		QStringList extensionList;// = new QStringList();
-		extensionList.append(".log");
-		extensionList.append(".aux");
-		extensionList.append(".dvi");
-		extensionList.append(".aux");
-		extensionList.append(".lof");
-		extensionList.append(".lot");
-		extensionList.append(".bit");
-		extensionList.append(".idx");
-		extensionList.append(".glo");
-		extensionList.append(".bbl");
-		extensionList.append(".ilg");
-		extensionList.append(".toc");
-		extensionList.append(".ind");
-		config->writeEntry("CleanUpFileExtensions", extensionList );
+		KxtRcConverter cvt(config, KILERC_VERSION);
+		cvt.Convert();
 	}
+
+	//reads options that can be set in the configuration dialog
+	readConfig();
+
+	//now read the other config data
+	m_singlemode=true;
+	QRect screen = QApplication::desktop()->screenGeometry();
+	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
+	split1_left = KileConfig::splitter1_left();
+	split1_right = KileConfig::splitter1_right();
+	split2_top = KileConfig::splitter2_top();
+	split2_bottom = KileConfig::splitter2_bottom();
+
+	showoutputview = KileConfig::outputview();
+	showstructview = KileConfig::structureview();
+
+	struct_level1 = KileConfig::structureLevel1();
+	struct_level2 = KileConfig::structureLevel2();
+	struct_level3 = KileConfig::structureLevel3();
+	struct_level4 = KileConfig::structureLevel4();
+	struct_level5 = KileConfig::structureLevel5();
 }
 
 void Kile::ReadRecentFileSettings()
@@ -1845,75 +1826,44 @@ void Kile::ReadRecentFileSettings()
 void Kile::readConfig()
 {
 // 	kdDebug() << "==Kile::readConfig()=======================" << endl;
-	
-	config->setGroup( "Structure" );
-	m_kwStructure->setLevel(config->readNumEntry("DefaultLevel", 1));
 
-	config->setGroup( "Files" );
-	m_bRestore=config->readBoolEntry("Restore",true);
-	autosave=config->readBoolEntry("Autosave",true);
-	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
+	m_kwStructure->setLevel(KileConfig::defaultLevel());
+
+	m_bRestore = KileConfig::restore();
+	autosave = KileConfig::autosave();
+	autosaveinterval = KileConfig::autosaveInterval() * 60000;
 	enableAutosave(autosave);
 	setAutosaveInterval(autosaveinterval);
 
-	config->setGroup( "User" );
-	m_templAuthor=config->readEntry("Author","");
-	m_templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
-	m_templEncoding=config->readEntry("Template Encoding","");
+	m_templAuthor = KileConfig::author();
+	m_templDocClassOpt = KileConfig::documentClassOptions();
+	m_templEncoding = KileConfig::templateEncoding();
 
 	config->setGroup("Tools");
-	quickmode=config->readNumEntry( "Quick Mode",1);
-	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
 	viewdvi_command=config->readEntry("Dvi",i18n("Embedded Viewer"));
 	viewlatexhelp_command=config->readEntry("LatexHelp",i18n("Embedded Viewer"));
-	dvips_command=config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'");
 	viewps_command=config->readEntry("Ps",i18n("Embedded Viewer"));
-	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'");
-	makeindex_command=config->readEntry("Makeindex","makeindex '%S.idx'");
-	bibtex_command=config->readEntry("Bibtex","bibtex '%S'");
-	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode '%S.tex'");
 	viewpdf_command=config->readEntry("Pdf",i18n("Embedded Viewer"));
-	dvipdf_command=config->readEntry("Dvipdf","dvipdfm '%S.dvi'");
-	l2h_options=config->readEntry("L2h Options","");
-	bibtexeditor_command=config->readEntry("Bibtexeditor","gbib '%S.bib'");
-	m_runlyxserver = config->readBoolEntry("RunLyxServer", true);
+
+	quickmode = KileConfig::quickMode();
+	latex_command = KileConfig::latex();
+	dvips_command = KileConfig::dvips();
+	ps2pdf_command = KileConfig::ps2pdf();
+	makeindex_command = KileConfig::makeindex();
+	bibtex_command = KileConfig::bibtex();
+	pdflatex_command = KileConfig::pdflatex();
+	dvipdf_command = KileConfig::dvipdf();
+	l2h_options = KileConfig::l2hOptions();
+	bibtexeditor_command = KileConfig::bibtexeditor();
+	m_runlyxserver = KileConfig::runLyxServer();
 
 //////////////////// code completion (dani) ////////////////////
 	m_edit->complete()->readConfig(config);
-	m_help->readConfig();
 }
 
 void Kile::SaveSettings()
 {
 	ShowEditorWidget();
-	QValueList<int> sizes;
-	QValueList<int>::Iterator it;
-	
-	config->setGroup("VersionInfo");
-	config->writeEntry("RCVersion",KILERC_VERSION);
-	
-	config->setGroup( "Geometries" );
-	config->writeEntry("MainwindowWidth", width() );
-	config->writeEntry("MainwindowHeight", height() );
-	sizes=splitter1->sizes();
-	it = sizes.begin();
-	split1_left=*it;
-	++it;
-	split1_right=*it;
-	sizes.clear();
-	sizes=splitter2->sizes();
-	it = sizes.begin();
-	split2_top=*it;
-	++it;
-	split2_bottom=*it;
-	config->writeEntry("Splitter1_left", split1_left );
-	config->writeEntry("Splitter1_right", split1_right );
-	config->writeEntry("Splitter2_top", split2_top );
-	config->writeEntry("Splitter2_bottom", split2_bottom );
-	
-	config->setGroup( "Show" );
-	config->writeEntry("Outputview",showoutputview);
-	config->writeEntry( "Structureview",showstructview);
 
 	KileFS->writeConfig();
 	config->setGroup( "Files" );
@@ -1956,16 +1906,40 @@ void Kile::SaveSettings()
 		config->writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
 	}
 
-	config->setGroup( "Structure" );
-	config->writeEntry("Structure Level 1",struct_level1);
-	config->writeEntry("Structure Level 2",struct_level2);
-	config->writeEntry("Structure Level 3",struct_level3);
-	config->writeEntry("Structure Level 4",struct_level4);
-	config->writeEntry("Structure Level 5",struct_level5);
-
 	actionCollection()->writeShortcutSettings();
 	saveMainWindowSettings(config, "KileMainWindow" );
 	config->sync();
+
+	KileConfig::setRCVersion(KILERC_VERSION);
+	QValueList<int> sizes;
+	QValueList<int>::Iterator it;
+	KileConfig::setMainwindowWidth(width());
+	KileConfig::setMainwindowHeight(height());
+	sizes=splitter1->sizes();
+	it = sizes.begin();
+	split1_left=*it;
+	++it;
+	split1_right=*it;
+	sizes.clear();
+	sizes=splitter2->sizes();
+	it = sizes.begin();
+	split2_top=*it;
+	++it;
+	split2_bottom=*it;
+
+	KileConfig::setSplitter1_left(split1_left);
+	KileConfig::setSplitter1_right(split1_right);
+	KileConfig::setSplitter2_top(split2_top);
+	KileConfig::setSplitter2_bottom(split2_bottom);
+
+	KileConfig::setOutputview(showoutputview);
+	KileConfig::setStructureview(showstructview);
+
+	KileConfig::setStructureLevel1(struct_level1);
+	KileConfig::setStructureLevel2(struct_level2);
+	KileConfig::setStructureLevel3(struct_level3);
+	KileConfig::setStructureLevel4(struct_level4);
+	KileConfig::setStructureLevel5(struct_level5);
 }
 
 /////////////////  OPTIONS ////////////////////
@@ -2056,7 +2030,7 @@ void Kile::ShowStructView(bool change)
 
 void Kile::GeneralOptions()
 {
-	KileDialog::Config *dlg = new KileDialog::Config(config, m_manager, this, "Configure Kile");
+	KileDialog::Config *dlg = new KileDialog::Config(config, m_manager, this);
 
 	if (dlg->exec())
 	{

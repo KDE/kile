@@ -43,7 +43,7 @@
 				<RegExpr String="[a-zA-Z]+" attribute="Keyword" context="#pop"/>
 				<RegExpr String="[^a-zA-Z]" attribute="Keyword" context="#pop" />
 			</context>
-			<context name="ToEndOfLine" attribute="Normal Text" endLineContext="#pop">
+			<context name="ToEndOfLine" attribute="Normal Text" lineEndContext="#pop">
 			</context>
 
 			<context name="FindEnvironment" attribute="Normal Text" lineEndContext="#stay">

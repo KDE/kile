@@ -1,9 +1,11 @@
 BUGS
+ - Spell checking for long documents doesn't work correctly (introduced after 1.4), haven't seen
+ - Spell checking for ISO-whatever character codes.
+ - Spell checking doesn't ignore LaTeX commands when you check selected text.
  - KShellView crashes when it is started as an embedded viewer AND it shows a
    tooltip at startup (very weird, probably a KShellView bug).
  - Handle $$ in syntax coloring correctly, $ in comments and in \verb|$|
- - Spell checking for long documents doesn't work correctly (introduced after 1.4), haven't seen
-   this bug myself.
+    this bug myself.
  - When "\section" is re-defined in the preamble of a document, the structure view considers it
    as a section.
    
@@ -42,8 +44,4 @@ TODO
  - It would be nice if the postscript/dvi/pdf files are automatically update
    when they are "outdated", similar to the way "make" works.
 
- - make error messages more specific ("could not start command" is not very
-   informative in my humble opinion)
-
- - add comments to source-code
-
+ 

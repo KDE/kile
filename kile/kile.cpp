@@ -1496,7 +1496,7 @@ void Kile::ViewDvi()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
     {
        KMessageBox::error( this,i18n("Could not start %1. Make sure you have this package installed.").arg(viewdvi_command) );
     }
@@ -1573,7 +1573,7 @@ void Kile::KdviForwardSearch()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
     {
        KMessageBox::error( this,i18n("Could not start KDVI. Are you sure KDVI is installed on your system?"));
     }
@@ -1646,7 +1646,7 @@ void Kile::ViewPS()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
     {
        KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(viewps_command));
     }
@@ -1718,7 +1718,7 @@ void Kile::ViewPDF()
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
-    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+    if ( ! proc->start(KProcess::NotifyOnExit, KProcess::Stdout) )
     {
        KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(viewpdf_command));
     }
@@ -3151,7 +3151,7 @@ if (old)
 	ps2pdf_command="ps2pdf %S.ps %S.pdf";
 	makeindex_command="makeindex %S.idx";
 	bibtex_command="bibtex %S";
-	pdflatex_command="pdflatex %S.tex";
+	pdflatex_command="pdflatex -interaction=nonstopmode %S.tex";
 	viewpdf_command="Embedded Viewer";
 	dvipdf_command="dvipdfm %S.dvi";
 	l2h_options="";
@@ -3165,7 +3165,7 @@ else
 	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
 	makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
 	bibtex_command=config->readEntry("Bibtex","bibtex %S");
-	pdflatex_command=config->readEntry("Pdflatex","pdflatex %S.tex");
+	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode %S.tex");
 	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
 	dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
 	l2h_options=config->readEntry("L2h Options","");

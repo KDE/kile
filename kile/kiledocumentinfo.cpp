@@ -42,6 +42,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
 	m_dictStructLevel["\\bibitem"]= KileStructData(-2, KileStruct::BibItem);
 	m_dictStructLevel["\\input"]=KileStructData(0, KileStruct::Input, "include");
+	m_dictStructLevel["\\Input"]=KileStructData(0, KileStruct::Input, "include");
 	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
 	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
 	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");

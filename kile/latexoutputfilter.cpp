@@ -580,8 +580,7 @@ bool LatexOutputFilter::Run(QString logfile)
 	m_stackFile.clear();
 	m_stackFile.push(LOFStackItem(QFileInfo(source()).fileName(), true));
 
-// 	bool result = OutputFilter::Run(logfile);
-bool result = OutputFilter::Run("/home/wijnhout/kile_hang_up.log");
+	bool result = OutputFilter::Run(logfile);
 
 	QString Message;
 	int type;

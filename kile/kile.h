@@ -118,6 +118,7 @@ public:
 	Kile( QWidget *parent = 0, const char *name = 0 );
 	~Kile();
 
+	QString relativePath(const QString basepath, const QString & file);
 public slots:
 	/**
 	 * @param line : Jump to give line in current editor (can be called via DCOP interface).

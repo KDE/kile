@@ -2611,7 +2611,8 @@ void Kile::KdviForwardSearch()
 
 	//this is the current file, forward search is done for this file (in the DVI file finame)
 	QString texname = getName();
-	QFileInfo fic_cur(texname);
+	texname = relativePath(fic.dirPath(), texname);
+	//QFileInfo fic_cur(texname);
 
 	int para=0;
 	int index=0;
@@ -2642,7 +2643,10 @@ void Kile::KdviForwardSearch()
    partManager->addPart(dvipart, true);
    partManager->setActivePart( dvipart);
 
-   dvipart->openURL("file:"+finame+"#src:"+QString::number(para+1)+texname);
+   QString file = "file:"+finame+"#src:"+QString::number(para+1)+texname;
+   kdDebug() << "FORWARD SEARCH: " << file << endl;
+   
+   dvipart->openURL(file);
    }
    else
    {
@@ -4970,6 +4974,66 @@ while(i < currentView()->getDoc()->numLines())
    }
 }
 
+QString Kile::relativePath(const QString basepath, const QString & file)
+{
+	KURL url = KURL::fromPathOrURL(file);
+	QString path = url.directory();
+	QString filename = url.fileName();
+
+	kdDebug() <<"===findRelativeURL==================" << endl;
+	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+
+	QStringList basedirs = QStringList::split("/", basepath, false);
+	QStringList dirs = QStringList::split("/", path, false);
+
+	uint nDirs = dirs.count();
+	//uint nBaseDirs = basedirs.count();
+
+	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] )
+	{
+		dirs.pop_front();
+		basedirs.pop_front();
+	}
+
+	kdDebug() << "\tafter" << endl;
+	for (uint i=0; i < basedirs.count(); i++)
+	{
+		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+	}
+
+	for (uint i=0; i < dirs.count(); i++)
+	{
+		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+	}
+
+	if (nDirs != dirs.count() )
+	{
+		path = dirs.join("/");
+
+		kdDebug() << "\tpath : " << path << endl;
+		//kdDebug() << "\tdiff : " << diff << endl;
+
+		if (basedirs.count() > 0)
+		{
+			for (uint j=0; j < basedirs.count(); j++)
+			{
+				path = "../" + path;
+			}
+		}
+
+		if ( path.length()>0 && path.right(1) != "/" ) path = path + "/";
+
+		path = path+filename;
+	}
+	else //assume an absolute path was requested
+	{
+		path = url.path();
+	}
+
+	kdDebug() << "\tpath : " << path << endl;
+
+	return path;
+}
 ////////KileAutoSaveJob
 KileAutoSaveJob::KileAutoSaveJob(const KURL &url)
 {

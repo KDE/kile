@@ -131,8 +131,8 @@ namespace KileTool
 		m_urlstr = "file:"+targetDir()+"/"+target()+"#src:"+QString::number(para+1)+texfile;
 		addDict("%dir_target", QString::null);
 		addDict("%target", m_urlstr);
-		kdDebug() << "==KileTool::ForwardDVI::determineTarget()=============" << endl;
-		kdDebug() << "\tusing  " << m_urlstr;
+		kdDebug() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;
+		kdDebug() << "\tusing  " << m_urlstr << endl;
 
 		return true;
 	}

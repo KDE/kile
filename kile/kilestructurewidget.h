@@ -46,7 +46,7 @@ namespace KileWidget
 			void slotClicked(QListViewItem *);
 			void slotDoubleClicked(QListViewItem *);
 
-			void closeDocument(KileDocumentInfo *);
+			void closeDocumentInfo(KileDocumentInfo *);
 			void update(KileDocumentInfo *, bool);
 			void addItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
 

@@ -228,7 +228,7 @@ options='%target'
 from=dvi
 to=dvi
 
-[Tool/ForwardDVI/Default]
+[Tool/ForwardDVI/Embedded Viewer]
 type=Part
 class=ForwardDVI
 className=KViewPart
@@ -237,6 +237,14 @@ from=dvi
 to=dvi
 state=Viewer
 libOptions=dvi
+
+[Tool/ForwardDVI/KDVI]
+class=ForwardDVI
+type=Process
+command=kdvi
+options='%target'
+from=dvi
+to=dvi
 
 [Tool/ViewPDF/Embedded Viewer]
 class=View
@@ -274,7 +282,7 @@ from=pdf
 to=pdf
 type=Process
 
-[Tool/ViewPS/Default]
+[Tool/ViewPS/Embedded Viewer]
 class=View
 className=KGVPart
 libName=libkghostviewpart
@@ -282,6 +290,24 @@ state=Viewer
 from=ps
 to=ps
 type=Part
+
+[Tool/ViewPS/KGhostView]
+class=View
+command=kghostview
+options='%target'
+state=Viewer
+from=ps
+to=ps
+type=Process
+
+[Tool/ViewPS/Gv]
+class=View
+command=gv
+options='%target'
+state=Viewer
+from=ps
+to=ps
+type=Process
 
 [Tools]
 Archive=Default
@@ -302,9 +328,9 @@ PDFTeX=Default
 ViewBib=Default
 ViewHTML=Embedded Viewer
 ViewDVI=Embedded Viewer
-ForwardDVI=Default
+ForwardDVI=Embedded Viewer
 ViewPDF=Embedded Viewer
-ViewPS=Default
+ViewPS=Embedded Viewer
 
 [ToolsGUI]
 Archive=none,package

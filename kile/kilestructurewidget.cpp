@@ -110,7 +110,7 @@ namespace KileWidget
 		m_map.insert(m_docinfo, m_root, true); //FIXME: when closing a document, item should be removed from map, tree should be deleted
 	}
 
-	void Structure::closeDocument(KileDocumentInfo *docinfo)
+	void Structure::closeDocumentInfo(KileDocumentInfo *docinfo)
 	{
 		m_docinfo = 0L;
 		if ( m_map.contains(docinfo) )
@@ -168,6 +168,7 @@ namespace KileWidget
 
 			kdDebug() << "\tinserting item" << endl;
 			insertItem(item);
+			kdDebug() << "\tafter inserting item" << endl;
 		}
 	}
 	

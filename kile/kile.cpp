@@ -188,8 +188,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
 
-	//FIXME we don't seem to use this signal
-	connect(docManager(), SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocument(KileDocumentInfo *)));
 	QToolTip::add(m_kwStructure, i18n("Click to jump to the line"));
 
 	mpview = new metapostview( Structview );
@@ -320,6 +318,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), viewManager(), SLOT(updateStructure(bool, KileDocumentInfo*)));
+	connect(docManager(), SIGNAL(closingDocument(KileDocumentInfo* )), m_kwStructure, SLOT(closeDocument(KileDocumentInfo *)));
 
 // 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocumentInfo*)), this, SLOT(UpdateStructure(bool, KileDocumentInfo*)));
 

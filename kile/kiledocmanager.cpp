@@ -69,18 +69,27 @@ Manager::~Manager()
 
 void Manager::trashDoc(KileDocumentInfo *docinfo)
 {
-	Kate::Document *doc = docFor(docinfo->url());
-
-	kdDebug() << "\tTRASHING " <<  doc  << endl;
-	if (doc == 0L) return;
+	kdDebug() << "==void Manager::trashDoc(KileDocumentInfo *docinfo)=====" << endl;
+	if ( m_ki->isOpen(docinfo->url()) ) return;
 
 	kdDebug() << "DETACHING " << docinfo << endl;
 	docinfo->detach();
 
+	Kate::Document *doc = docFor(docinfo->url());
+	kdDebug() << "\tTRASHING " <<  doc  << endl;
+	if ( doc == 0L ) return;
+
 	kdDebug() << "just checking: docinfo->getDoc() =  " << docinfo->getDoc() << endl;
 	kdDebug() << "just checking: docFor(docinfo->url()) = " << docFor(docinfo->url()) << endl;
-	if (itemFor(docinfo))
-		kdDebug() << "just checking:  itemFor(docinfo)->getInfo() =" << itemFor(docinfo)->getInfo() << endl;
+
+	for ( uint i = 0; i < m_infoList.count(); i++ )
+	{
+		if ( (m_infoList.at(i) != docinfo) && (m_infoList.at(i)->getDoc() == doc) )
+		{
+			KMessageBox::information(0, "trashing doc for " + docinfo->url().fileName() + ", docinfo with url " + m_infoList.at(i)->url().fileName() +" has a wild pointer!!!");
+			kdWarning() << "docinfo " << m_infoList.at(i) << " url " << m_infoList.at(i)->url().fileName() << " has a wild pointer!!!"<< endl;
+		}
+	}
 
 	delete doc;
 }
@@ -295,6 +304,8 @@ bool Manager::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject 
 	{
 		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_infoList.count() << endl;
 		m_infoList.remove(docinfo);
+
+		emit ( closingDocument ( docinfo ) );
 
 		delete docinfo;
 		delete itms;

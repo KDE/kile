@@ -242,6 +242,7 @@
 
 	PartLauncher::~PartLauncher()
 	{
+		kdDebug () << "DELETING PartLauncher" << endl;
 	}
 
 	bool PartLauncher::launch()

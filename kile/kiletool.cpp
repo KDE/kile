@@ -150,8 +150,9 @@ namespace KileTool
 		QString src = source();
 		//determine the basedir
 
+		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if ( (src == QString::null) && (m_manager->info()->activeDocument() == 0) )
+		if ( (src == QString::null) && (m_manager->info()->activeDocument() == 0)  )
 		{ 
 			sendMessage(Error, msg(NeedActiveDoc).arg(name()));
 			return false;

@@ -45,91 +45,99 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
 }
 
+void KileDocumentInfo::count(const QString line, long *stat)
+{
+	QChar c;
+	int state = stStandard;
+	bool word = false;
+
+	for (uint p=0; p < line.length(); p++)
+	{
+		c = line[p];
+
+		switch ( state )
+		{
+		case stStandard	:
+			switch ( c )
+			{
+				case TEX_CAT0	:
+					state = stControlSequence;
+					stat[1]++;
+					stat[4]++;
+					word=false;
+				break;
+
+				case TEX_CAT14 :
+					p=line.length();
+					word=false;
+				break;
+
+				default:
+					if (c.isLetterOrNumber())
+					{
+						if (!word)
+						{
+							word=true;
+							stat[3]++;
+						}
+
+						stat[0]++;
+					}
+					else
+					{
+						stat[2]++;
+					}
+
+					if (c.isSpace() ) word = false;
+				break;
+			}
+		break;
+
+		case stControlSequence	:
+			if ( c.isLetter() )	state = stCommand;
+			else state = stStandard;
+			stat[1]++;
+		break;
+
+		case stCommand :
+			if ( c.isLetter() ) { stat[1]++; }
+			else if ( c == TEX_CAT14 )
+			{
+				p=line.length();
+			}
+			else
+			{
+				stat[2]++;
+				state = stStandard;
+			}
+		break;
+
+		default :
+			kdWarning() << "Unhandled state in getStatistics " << state << endl;
+		break;
+		}
+	}
+}
+
 const long* KileDocumentInfo::getStatistics()
 {
 	//#c in words    , #c in commands,  #c whitespace,    #words,           #latex_commands
 	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=0;
 
 	QString line;
-	QChar c;
-	int state;
-	bool word;
 
 	//FIXME : counts environment names as words
+	if ( m_doc && m_doc->hasSelection() )
+	{
+		line = m_doc->selection();
+		count(line, m_arStatistics);
+	}
+	else
 	for (uint l=0; l < m_doc->numLines(); l++)
 	{
 		line = m_doc->textLine(l);
 		kdDebug() << "getStat : line : " << line << endl;
-
-		state = stStandard;
-		word = false;
-
-		for (uint p=0; p < line.length(); p++)
-		{
-			c = line[p];
-
-			switch ( state )
-			{
-			case stStandard	:
-				switch ( c )
-				{
-					case TEX_CAT0	:
-						state = stControlSequence;
-						m_arStatistics[1]++;
-						m_arStatistics[4]++;
-						word=false;
-					break;
-
-					case TEX_CAT14 :
-						p=line.length();
-						word=false;
-					break;
-
-					default:
-						if (c.isLetterOrNumber())
-						{
-							if (!word)
-							{
-								word=true;
-								m_arStatistics[3]++;
-							}
-
-							m_arStatistics[0]++;
-						}
-						else
-						{
-							m_arStatistics[2]++;
-						}
-
-						if (c.isSpace() ) word = false;
-					break;
-				}
-			break;
-
-			case stControlSequence	:
-				if ( c.isLetter() )	state = stCommand;
-				else state = stStandard;
-				m_arStatistics[1]++;
-			break;
-
-			case stCommand :
-				if ( c.isLetter() ) { m_arStatistics[1]++; }
-				else if ( c == TEX_CAT14 )
-				{
-					p=line.length();
-				}
-				else
-				{
-					m_arStatistics[2]++;
-					state = stStandard;
-				}
-			break;
-
-			default :
-				kdWarning() << "Unhandled state in getStatistics " << state << endl;
-			break;
-			}
-		}
+		count(line, m_arStatistics);
 	}
 
 	return m_arStatistics;
@@ -329,7 +337,7 @@ KileDocInfoDlg::KileDocInfoDlg(KileDocumentInfo *docinfo, QWidget* parent,  cons
 {
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
-	QGridLayout *layout = new QGridLayout( page, 7, 3,5,5,"");
+	QGridLayout *layout = new QGridLayout( page, 8, 3,5,5,"");
 
 	const long *list = docinfo->getStatistics();
 
@@ -353,6 +361,9 @@ KileDocInfoDlg::KileDocInfoDlg(KileDocumentInfo *docinfo, QWidget* parent,  cons
 
 	layout->addWidget(new QLabel(i18n("Total"),page), 6,1, Qt::AlignRight);
 	layout->addWidget(new QLabel(QString::number(list[3]+list[4]), page), 6,2);
+
+	if (docinfo->getDoc() && docinfo->getDoc()->hasSelection())
+		layout->addWidget(new QLabel(i18n("WARNING: These are the statistics for the selected text only."),page), 7,0, Qt::AlignRight);
 }
 
 #include "kiledocumentinfo.moc"

@@ -122,6 +122,7 @@ public slots:
 	void updateBibItems();
 
 private:
+	void				count(const QString line, long *stat);
 	QString		matchBracket(uint&, uint&);
 
 protected:

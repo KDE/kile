@@ -3,7 +3,7 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp toolsoptionsdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp l2hdialog.cpp kmultiverttabbar.cpp kileiconview.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfointerface.cpp kiledocumentinfo.h kiledocumentinfo.cpp
+kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp toolsoptionsdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp l2hdialog.cpp kmultiverttabbar.cpp kileiconview.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfointerface.cpp kiledocumentinfo.cpp
 kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 
 SUBDIRS = pics symbols gfe templates syntax

@@ -40,11 +40,14 @@ namespace KileDocument
 	static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
 	static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
 	
+	static QRegExp::QRegExp reNotRefChars("[^a-zA-z0-9_@\\+\\-\\*\\:]");
+	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{
 		m_firstconfig = true;
 		m_inprogress = false;
 		m_undo = false;
+		m_ref = false;
 
 		m_completeTimer = new QTimer( this );
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
@@ -303,6 +306,7 @@ namespace KileDocument
 
 		m_undo = false;
 		m_inprogress = false;
+		m_ref = false;
 	}
 
 	void CodeCompletion::CompletionAborted()
@@ -321,6 +325,7 @@ namespace KileDocument
 
 		m_undo = false;
 		m_inprogress = false;
+		m_ref = false;
 	}
 
 	//////////////////// build the text for completion ////////////////////
@@ -376,7 +381,7 @@ namespace KileDocument
 				break;
         default : s = text; break;
 		}
-
+		
 		if ( s.length() > m_textlen )
 			return s.right( s.length() - m_textlen );
 		else
@@ -749,8 +754,11 @@ namespace KileDocument
 
 		if ( getMode() == cmLatex ) m_completeTimer->start( 0, false );
 		
-		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) )
-				completeWord("", cmLabel);
+		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) ) 
+		{
+			m_ref = true;
+			completeWord("", cmLabel);
+		}
 		else
 			m_view = 0L;
 	}
@@ -782,14 +790,21 @@ namespace KileDocument
 
 		//FIXME this is not very efficient
 		m_view = info()->viewManager()->currentView();
-
+		
 		QString word;
 		Type type;
-		if ( getCompleteWord(true, word, type ) ) { 
+		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type ); 
+		if ( found ) { 
 			int wordlen = word.length();
-			if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
+			kdDebug() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
+			if ( inProgress() )               // continue a running mode?
 			{
-				kdDebug() << "   auto completion: texword=" << word << endl;
+				kdDebug() << "   auto completion: continue current mode" << endl;
+				completeWord(word, m_mode);     
+			}
+			else if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
+			{
+				kdDebug() << "   auto completion: latex mode" << endl;
 				if ( string.at( 0 ).isLetter() )
 				{
 					completeWord(word, cmLatex);
@@ -801,7 +816,7 @@ namespace KileDocument
 			} 
 			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold) 
 			{
-				kdDebug() << "   auto completion: word=" << word << endl;
+				kdDebug() << "   auto completion: document mode" << endl;
 				completeWord(word,cmDocumentWord);
 			}
 		}
@@ -856,6 +871,32 @@ namespace KileDocument
 		return !text.isEmpty();
 	}
 
+	bool CodeCompletion::getReferenceWord(QString &text)
+	{
+		if ( !m_view ) return false;
+
+		uint row, col;
+		QChar ch;
+
+		// get current position
+		m_view->cursorPositionReal( &row, &col );
+		// there must be et least one sign
+		if ( col < 1 )
+			return false;
+
+		// get current text line
+		QString textline = m_view->getDoc()->textLine( row );
+
+		// search the current reference string 
+		int pos = textline.findRev(reNotRefChars,col-1);
+		if ( pos < 0 )
+			pos = 0;
+			
+		// select pattern
+		text = textline.mid(pos+1,col-1-pos);
+		return ( (uint)pos < col-1 );
+	}
+	
 	void CodeCompletion::getDocumentWords(const QString &text,
 	                                      QValueList<KTextEditor::CompletionEntry> &list)
 	{

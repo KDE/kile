@@ -97,6 +97,7 @@ private:
 	void completeFromList(const QStringList *list);
 	void editCompleteList(KileDocument::CodeCompletion::Type type);
 	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
+	bool getReferenceWord(QString &text);
 	bool oddBackslashes(const QString& text, int index);
 
 	void appendNewCommands(QValueList<KTextEditor::CompletionEntry> & list);
@@ -125,7 +126,8 @@ private:
 	// state of complete: some flags
 	bool m_firstconfig;
 	bool m_inprogress;
-
+	bool m_ref;
+	
 	// undo text
 	bool m_undo;
 

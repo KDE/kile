@@ -73,6 +73,9 @@ Kile::Kile( QWidget *parent, const char *name ): KParts::MainWindow( name, WDest
 {
 config = KGlobal::config();
 ReadSettings();
+//workaround for kdvi crash when started with Tooltips 
+config->setGroup("TipOfDay");
+config->writeEntry( "RunOnStart",false);
 setXMLFile( "kileui.rc" );
 htmlpresent=false;
 pspresent=false;
@@ -1375,7 +1378,6 @@ void Kile::QuickBuild()
    {
       OutputWidget->clear();
       LogWidget->clear();
-      Outputview->showPage(LogWidget);
       logpresent=false;
       LogWidget->insertLine(i18n("Quick build..."));
       LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
@@ -1727,7 +1729,6 @@ void Kile::Latex()
   {
      OutputWidget->clear();
      LogWidget->clear();
-     Outputview->showPage(LogWidget);
      logpresent=false;
      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
@@ -1773,7 +1774,6 @@ void Kile::ViewDvi()
     {
          OutputWidget->clear();
          LogWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
      }
@@ -1788,7 +1788,6 @@ void Kile::KdviForwardSearch()
   if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
 
   LogWidget->clear();
-  Outputview->showPage(LogWidget);
   logpresent=false;
   LogWidget->insertLine(i18n("You must be in 'Normal mode' to use this command."));
   LogWidget->insertLine(i18n("If you do not have a TeX-binary which includes inverse search information natively :"));
@@ -1862,7 +1861,6 @@ void Kile::DviToPS()
   else
   {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
 
@@ -1909,7 +1907,6 @@ void Kile::ViewPS()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
@@ -1936,7 +1933,6 @@ void Kile::PDFLatex()
   else
   {
      OutputWidget->clear();
-     Outputview->showPage(LogWidget);
      logpresent=false;
      LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
   }
@@ -1981,7 +1977,6 @@ void Kile::ViewPDF()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
@@ -2041,7 +2036,6 @@ void Kile::MakeBib()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
@@ -2098,7 +2092,6 @@ void Kile::MakeIndex()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
@@ -2127,7 +2120,6 @@ void Kile::PStoPDF()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
@@ -2155,7 +2147,6 @@ void Kile::DVItoPDF()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
@@ -2192,7 +2183,6 @@ void Kile::MetaPost()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg("mpost"));
          }
@@ -2254,7 +2244,6 @@ void Kile::CleanAll()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Cleaning up..."));
          }
@@ -2307,7 +2296,6 @@ void Kile::LatexToHtml()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(LogWidget);
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg("latex2html"));
         }
@@ -2370,7 +2358,6 @@ void Kile::HtmlPreview()
 	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
 
 	LogWidget->clear();
-	Outputview->showPage(LogWidget);
 	logpresent=false;
 
 	QFileInfo fih(finame);

@@ -219,7 +219,7 @@ void Kile::setupSideBar()
 	m_sideBar->addTab(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
 	connect(m_fileSelector,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
 	connect(m_fileSelector->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	m_fileSelector->comboEncoding()->lineEdit()->setText(KileConfig::inputEncoding());
+	m_fileSelector->comboEncoding()->lineEdit()->setText(KileConfig::defaultEncoding());
 	m_fileSelector->readConfig();
 
 	setupProjectView();

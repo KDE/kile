@@ -25,6 +25,7 @@
 #include "helpconfigwidget.h"
 #include "latexconfigwidget.h"
 #include "generalconfigwidget.h"
+#include "encodingconfigwidget.h"
 #include "kileconfig.h"
 
 namespace KileDialog
@@ -39,6 +40,7 @@ namespace KileDialog
 
 		// setup all configuration pages
 		setupGeneralOptions();
+		setupEncodingOptions();
 		setupTools();
 		setupSpelling();
 		setupLatex();
@@ -63,6 +65,21 @@ namespace KileDialog
 		vbox->addStretch();
 
 		addPage(page, i18n("General"), "configure");
+	}
+	
+	void Config::setupEncodingOptions()
+	{
+		QFrame *page = new QFrame(0, "Encoding");
+
+		encodingPage = new KileWidgetEncodingConfig(page, "Encoding");
+
+		encodingPage->setEncoding(KileConfig::defaultEncoding());
+		
+		QVBoxLayout *vbox = new QVBoxLayout(page);
+		vbox->addWidget(encodingPage);
+		vbox->addStretch();
+
+		addPage(page, i18n("Encoding"), "gear");
 	}
 
 	//////////////////// Tools Configuration ////////////////////
@@ -144,6 +161,8 @@ namespace KileDialog
 		writeSpellingConfig();
 		completePage->writeConfig();  // Complete configuration (dani)
 
+		KileConfig::setDefaultEncoding(encodingPage->encoding());
+		
 		m_config->sync();
 
 		emit okClicked(); // Otherwise, the KConfigXT machine doesn't start...

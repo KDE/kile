@@ -116,6 +116,10 @@
 		</entry>
 	</group>
 	<group name="Files">
+		<entry name="DefaultEncoding" type="String">
+			<label>The default encoding.</label>
+			<default>invalid</default>
+		</entry>
 		<entry name="Restore" type="Bool">
 			<label>Reopen files and projects on startup.</label>
 			<default>true</default>

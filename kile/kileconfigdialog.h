@@ -34,6 +34,7 @@ namespace KileWidget { class ToolConfig; }
 class KileWidgetHelpConfig;
 class KileWidgetLatexConfig;
 class KileWidgetGeneralConfig;
+class KileWidgetEncodingConfig;
 namespace KileTool { class Manager; }
 
 namespace KileDialog
@@ -66,9 +67,11 @@ namespace KileDialog
 		KileWidgetHelpConfig *helpPage;
 		KileWidgetLatexConfig *latexPage;
 		KileWidgetGeneralConfig *generalPage;
+		KileWidgetEncodingConfig *encodingPage;
 
 		// setup configuration
 		void setupGeneralOptions();
+		void setupEncodingOptions();
 		void setupTools();
 		void setupSpelling();
 		void setupLatex();

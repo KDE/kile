@@ -28,7 +28,7 @@
 #include <kmessagebox.h>
 #include <kprogress.h>
 #include <kfile.h>
-#include <kfiledialog.h>
+#include <kencodingfiledialog.h>
 #include <krun.h>
 #include <kstandarddirs.h>
 
@@ -66,6 +66,9 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_projects.setAutoDelete(false);
 	Kate::Document::setFileChangedDialogsActivated (true);
 
+	if ( KileConfig::defaultEncoding() == "invalid" )
+		KileConfig::setDefaultEncoding(QString::fromLatin1(QTextCodec::codecForLocale()->name()));
+	
 	QWidget *par = m_ki ? m_ki->parentWidget() : 0;
 	m_kpd = new KProgressDialog(par, 0, i18n("Open Project..."), QString::null, true);
 	m_kpd->showCancelButton(false);
@@ -393,8 +396,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 		kdDebug() << "\tappending document " <<  doc << endl;
 
 	//set the default encoding
-	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
-	//m_ki->fileSelector()->comboEncoding()->lineEdit()->setText(enc);
+	QString enc = encoding.isNull() ? KileConfig::defaultEncoding() : encoding;
 	doc->setEncoding(encoding);
 
 	kdDebug() << "opening url: " << docinfo->url().path() << endl;
@@ -632,11 +634,12 @@ void Manager::fileOpen()
 	filter.append(i18n("All Files"));
 
     //get the URLs
-    KURL::List urls = KFileDialog::getOpenURLs( currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
+    KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenURLsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
 
 	//open them
-	for (uint i=0; i < urls.count(); ++i)
-		fileOpen(urls[i]);
+	KURL::List urls = result.URLs;
+	for (KURL::List::Iterator i=urls.begin(); i != urls.end(); ++i)
+		fileOpen(*i, result.encoding);
 }
 
 void Manager::fileSelected(const KFileItem *file)

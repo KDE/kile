@@ -26,6 +26,7 @@ from Kate (C) 2001 by Matt Newell
 #include <kfile.h>
 #include <kdiroperator.h>
 #include <kurlcombobox.h>
+#include <kurlcompletion.h>
 #include <kurl.h>
 
 
@@ -69,8 +70,9 @@ signals:
 private:
 	KURLComboBox	*cmbPath;
 	KDirOperator	* dir;
-	KComboBox		*m_comboEncoding;
-	QToolButton		*home, *up, *back, *forward;
+	KComboBox	*m_comboEncoding;
+	QToolButton	*home, *up, *back, *forward;
+	KURLCompletion	*cmpl;
 };
 
 #endif

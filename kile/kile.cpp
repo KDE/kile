@@ -196,9 +196,11 @@ Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
 	delete m_edit;
+	delete m_help;
 	delete m_AutosaveTimer;
 	delete m_lyxserver; //QObject without parent, have to delete it ourselves
 	delete m_outputInfo;
+	delete m_outputFilter;
 	delete m_eventFilter;
 }
 

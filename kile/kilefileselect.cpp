@@ -27,7 +27,6 @@ from Kate (C) 2001 by Matt Newell
 
 #include <ktoolbar.h>
 #include <kiconloader.h>
-#include <kurlcompletion.h>
 #include <kprotocolinfo.h>
 #include <kconfig.h>
 #include <kglobal.h>
@@ -48,7 +47,7 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
 
   cmbPath = new KURLComboBox( KURLComboBox::Directories, true, this, "path combo" );
   cmbPath->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
-  KURLCompletion* cmpl = new KURLCompletion(KURLCompletion::DirCompletion);
+  cmpl = new KURLCompletion(KURLCompletion::DirCompletion);
   cmbPath->setCompletionObject( cmpl );
   lo->addWidget(cmbPath);
 
@@ -93,6 +92,7 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
 
 KileFileSelect::~KileFileSelect()
 {
+  delete cmpl;
 }
 
 void KileFileSelect::readConfig()

@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Feb 09 2004
-    version              : 0.10.2
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Mar 05 2005
+    version              : 0.11
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -73,7 +73,7 @@ public:
 
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
-	QString getEnvironmentText(int &row, int &col, Kate::View *view = 0L);
+	QString getEnvironmentText(int &row, int &col, QString &name, Kate::View *view = 0L);
 
 public slots:
 	void insertIntelligentNewline(Kate::View *view = 0L);

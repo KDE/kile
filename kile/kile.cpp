@@ -1800,10 +1800,21 @@ void Kile::quickPreviewEnvironment()
 	
 	Kate::Document *doc = view->getDoc();
 	if ( doc ) {
+		QStringList mathlist;
+		mathlist << "aligned," << "alignedat" << "array" << "cases"
+		         << "matrix"   << "bmatrix"   << "pmatrix"
+		         << "vmatrix"  << "Vmatrix"
+		         ;
 		int row,col;
-		QString text = m_edit->getEnvironmentText(row,col,view);
+		QString envname;
+		QString text = m_edit->getEnvironmentText(row,col,envname,view);
 		if ( text != QString::null ) 
-			m_quickPreview->run( text,getName(doc),row );
+		{
+			if ( mathlist.findIndex(envname) >= 0 )
+				m_quickPreview->run( "$"+text+"$",getName(doc),row );
+			else
+				m_quickPreview->run( text,getName(doc),row );
+		}
 		else
 			KMessageBox::error(this, i18n("There is no surrounding environment.") );
 	}

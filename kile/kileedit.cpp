@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Aug 17 2004
-    version              : 0.10.3
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Mar 05 2005
+    version              : 0.11
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -415,7 +415,7 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 
 // determine text, startrow and startcol of current environment
 
-QString EditorExtension::getEnvironmentText(int &row, int &col, Kate::View *view)
+QString EditorExtension::getEnvironmentText(int &row, int &col, QString &name, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return QString::null;
@@ -426,6 +426,7 @@ QString EditorExtension::getEnvironmentText(int &row, int &col, Kate::View *view
 	{
 		row = envbegin.row;
 		col = envbegin.col;
+		name = envbegin.name;
 		return view->getDoc()->text(envbegin.row,envbegin.col,envend.row,envend.col);
 	}
 	else

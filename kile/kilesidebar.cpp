@@ -43,8 +43,8 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	m_tabStack = new QWidgetStack(this);
 	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-	KMultiTabBar::KMultiTabBarMode tabbarori;
-	KMultiTabBar::KMultiTabBarPosition tabbarpos;
+	KMultiTabBar::KMultiTabBarMode tabbarori = KMultiTabBar::Horizontal;
+	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
 	if ( orientation == Qt::Horizontal ) 
 	{
 		layout = new QVBoxLayout(this);

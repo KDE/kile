@@ -82,6 +82,14 @@
 			<label>Whether to show the structure view.</label>
 			<default>true</default>
 		</entry>
+		<entry name="HideProblemBadBox" type="Bool">
+			<label>Whether to show Bad Box warnings in the LogMsg view.</label>
+			<default>false</default>
+		</entry>
+		<entry name="HideProblemWarning" type="Bool">
+			<label>Whether to show (La)TeX warnings in the LogMsg view.</label>
+			<default>false</default>
+		</entry>
 	</group>
 	<group name="Editor Ext">
 		<entry name="CompleteEnvironment" type="Bool">

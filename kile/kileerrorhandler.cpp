@@ -108,6 +108,24 @@ void KileErrorHandler::jumpToProblem(OutputInfo *info)
 	}
 }
 
+void KileErrorHandler::showLogResults(const QString &src)
+{
+	m_ki->logWidget()->clear();
+	m_ki->setLogPresent(false);
+	m_ki->outputFilter()->setSource(src);
+	QFileInfo fi(src);
+	QString lf = fi.dirPath(true) + "/" + fi.baseName(true) + ".log";
+	m_ki->logWidget()->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...").arg(lf), i18n("Log") );
+	if ( ! m_ki->outputFilter()->Run( lf ) )
+	{
+		
+		m_ki->outputFilter()->setSource(QString::null);
+		return;
+	}
+	else
+		m_ki->logWidget()->printMsg(KileTool::Info, i18n("Done."), i18n("Log") );
+}
+
 void KileErrorHandler::jumpToProblem(int type, bool forward)
 {
 	static LatexOutputInfoArray::iterator it;
@@ -116,23 +134,7 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 	//reparse the correct log file
 	QString cn = m_ki->getCompileName();
 	bool correctlogfile = (cn == m_ki->outputFilter()->source());
-	if ( ! correctlogfile )
-	{
-		m_ki->logWidget()->clear();
-		m_ki->setLogPresent(false);
-		m_ki->outputFilter()->setSource(cn);
-		QFileInfo fi(cn);
-		QString lf = fi.dirPath(true) + "/" + fi.baseName(true) + ".log";
-		m_ki->logWidget()->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...").arg(lf), i18n("Log") );
-		if ( ! m_ki->outputFilter()->Run( lf ) )
-		{
-			
-			m_ki->outputFilter()->setSource(QString::null);
-			return;
-		}
-		else
-			m_ki->logWidget()->printMsg(KileTool::Info, i18n("Done."), i18n("Log") );
-	}
+	if ( ! correctlogfile ) showLogResults(cn);
 
 	if (!m_ki->outputInfo()->isEmpty())
 	{

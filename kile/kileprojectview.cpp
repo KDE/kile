@@ -40,12 +40,12 @@ const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
  */
 void KileProjectViewItem::urlChanged(const KURL &url)
 {
-	setURL(url); setText(0,url.fileName()); kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::urlChanged" << endl;
+	setURL(url); setText(0,url.fileName());
 }
 
 void KileProjectViewItem::nameChanged(const QString & name)
 {
-	setText(0,name); kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::nameChanged" << endl;
+	setText(0,name);
 }
 
 void KileProjectViewItem::isrootChanged(bool isroot)
@@ -103,14 +103,21 @@ void KileProjectView::slotClicked(QListViewItem *item)
 		item = currentItem();
 
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
-	kdDebug() << "KileProjectView:: clicked(" << itm->url().fileName() << ")" << endl;
 	if (itm)
 	{
-		kdDebug() << "KileProjectView:: emit fileSelected" << endl;
 		if (itm->type() == KileType::File )
-			emit fileSelected(itm->url());
+			emit(fileSelected(itm->url()));
 		else if ( itm->type() == KileType::ProjectItem )
-			emit fileSelected(itm->projectItem());
+			emit(fileSelected(itm->projectItem()));
+		else
+		{
+			//determine mimeType and open file with preferred application
+			KMimeType::Ptr pMime = KMimeType::findByURL(itm->url());
+			if ( pMime->name().startsWith("text/") )
+				emit(fileSelected(itm->url()));
+			else
+				KRun::runURL(itm->url(), pMime->name());
+		}
 	}
 }
 
@@ -132,22 +139,14 @@ void KileProjectView::slotFile(int id)
 
 void KileProjectView::slotProjectItem(int id)
 {
-	kdDebug() << "===KileProjectView::slotProjectItem()===============" << endl;
-	kdDebug() << "\tid: " << id << endl;
 	KileProjectViewItem *item = static_cast<KileProjectViewItem*>(currentItem());
 	if (item && (item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra))
 	{
-		KURL projecturl,url;
-		KRun *run;
 		switch (id)
 		{
 			case KPV_ID_OPEN : emit(fileSelected(item->projectItem())); break;
 			case KPV_ID_SAVE : emit(saveURL(item->url())); break;
 			case KPV_ID_REMOVE :
-// 				url = item->url();
-// 				itm = item->projectItem();
-// 				projecturl = itm->project()->url();
-// 				emit(removeFromProject(projecturl , url));
 				emit(removeFromProject(item->projectItem()));
 				break;
 			case KPV_ID_INCLUDE :
@@ -158,8 +157,7 @@ void KileProjectView::slotProjectItem(int id)
 				break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
 			case KPV_ID_OPENWITH :
-			//FIXME:use KRun::displayOpenWithDialog() for the 'open with...' menu item
-				{run = new KRun(item->url());}
+				KRun::displayOpenWithDialog(item->url());
 				break;
 			default : break;
 		}
@@ -187,17 +185,10 @@ void KileProjectView::slotRun(int id)
 {
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(currentItem());
 
-	kdDebug() << "===slotRun(" << id << ")=================" << endl;
 	if (id == 0)
-	{
-		KRun::runURL(itm->url(), "");
-	}
+		KRun::displayOpenWithDialog(itm->url());
 	else
-	{
-		KURL::List list;
-		list << itm->url();
-		KRun::run(*m_offerList[id-1], list);
-	}
+		KRun::run(*m_offerList[id-1], itm->url());
 }
 
 void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  point)
@@ -245,7 +236,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 			{
 				m_popup->insertItem(i18n("&Include in Archive"), KPV_ID_INCLUDE);
 				m_popup->insertSeparator();
-				m_popup->setItemChecked(KPV_ID_INCLUDE, pi->archive())	;
+				m_popup->setItemChecked(KPV_ID_INCLUDE, pi->archive());
 			}
 			m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
 			m_popup->insertSeparator();

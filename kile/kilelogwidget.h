@@ -19,9 +19,12 @@
 
 #include <ktextedit.h>
 
+class QString;
+class QPopupMenu;
+class QPoint;
+
 class KileInfo;
 class KURL;
-class QString;
 
 namespace KileWidget
 {
@@ -49,8 +52,15 @@ namespace KileWidget
 		void fileOpen(const KURL &, const QString &);
 		void setLine(const QString &);
 
+	protected:
+		QPopupMenu* createPopupMenu (const QPoint & pos);
+
+	protected slots:
+		void handlePopup(int);
+
 	private:
 		KileInfo	*m_info;
+		int		m_idWarning, m_idBadBox;
 	};
 }
 

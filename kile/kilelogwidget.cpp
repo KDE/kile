@@ -15,15 +15,18 @@
  *                                                                         *
  ****************************************************************************/
 
-#include "kiletool_enums.h"
-#include "kilelogwidget.h"
-#include "kileinfo.h"
+#include <qregexp.h>
+#include <qfileinfo.h>
+#include <qpopupmenu.h>
 
 #include <kdebug.h>
 #include <kurl.h>
+#include <klocale.h>
 
-#include <qregexp.h>
-#include <qfileinfo.h>
+#include "kiletool_enums.h"
+#include "kilelogwidget.h"
+#include "kileinfo.h"
+#include "kileconfig.h"
 
 namespace KileWidget
 {
@@ -75,11 +78,9 @@ namespace KileWidget
 
 	void LogMsg::highlight(const QString & begin, int direction /* = 1 */)
 	{
-		kdDebug() << "==void LogMsg::highlight(" << begin << ", int direction /* = 1 */)========" << endl;
 		int parags = paragraphs();
 		for ( int i = parags - 1; i >= 0;  i-- )
 		{
-			kdDebug() << "considering : " << text(i) << endl;
 			if ( text(i).startsWith(begin) )
 			{
 				highlight(i, direction);
@@ -125,21 +126,25 @@ namespace KileWidget
 
 	void LogMsg::printMsg(int type, const QString & message, const QString &tool)
 	{
-		QString ot = "", ct = "";
+		QString ot = "", ct = "</font>";
 
 		switch (type)
 		{
 			case KileTool::Warning :
-				ot = "<font color='blue'>";
-				ct = "</font>";
-				break;
-			case KileTool::Error :
+				ot = "<font color='blue'>"; 
+			break;
+			case KileTool::ProblemWarning : 
+				if ( KileConfig::hideProblemWarning() ) return;
+				ot = "<font color='blue'>"; 
+			break;
+			case KileTool::Error : case KileTool::ProblemError :
 				ot = "<font color='red'>";
-				ct = "</font>";
-				break;
-			default :
-				ot = "<font color='black'>"; ct = "</font>";
-				break;
+			break;
+			case KileTool::ProblemBadBox :
+				if ( KileConfig::hideProblemBadBox() ) return;
+				ot = "<font color='grey'>";
+			break;
+			default : ot = "<font color='black'>"; break;
 		}
 
 		if ( tool == QString::null)
@@ -152,9 +157,34 @@ namespace KileWidget
 
 	void LogMsg::printProblem(int type, const QString & problem)
 	{
-		kdDebug() << "==KileWidget::LogMsg::printProblem===========" << endl;
 		kdDebug() << "\t" << problem << endl;
 		printMsg(type, problem, QString::null);
+	}
+
+	QPopupMenu* LogMsg::createPopupMenu (const QPoint & pos)
+	{
+		//get standard popup menu
+		QPopupMenu * popup = KTextEdit::createPopupMenu(pos);
+
+		//add toggle operations for hiding warnings/badboxes
+		popup->insertSeparator();
+
+		m_idBadBox = popup->insertItem(i18n("Hide &Bad Boxes"));
+		popup->setItemChecked(m_idBadBox, KileConfig::hideProblemBadBox());
+
+		m_idWarning = popup->insertItem(i18n("Hide (La)TeX &Warnings"));
+		popup->setItemChecked(m_idWarning, KileConfig::hideProblemWarning());
+
+		disconnect ( popup , SIGNAL(activated(int)), this , SLOT(handlePopup(int )));
+		connect ( popup , SIGNAL(activated(int)), this , SLOT(handlePopup(int )));
+
+		return popup;
+	}
+
+	void LogMsg::handlePopup(int id)
+	{
+		if ( id == m_idBadBox ) KileConfig::setHideProblemBadBox(!KileConfig::hideProblemBadBox());
+		else if ( id == m_idWarning ) KileConfig::setHideProblemWarning(!KileConfig::hideProblemWarning());
 	}
 }
 

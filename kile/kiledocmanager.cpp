@@ -389,7 +389,7 @@ void Manager::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	QString hl = highlight.lower();
 	QString ext = doc->url().fileName().right(4);
 
-	KMimeType::Ptr pMime = KMimeType::findByURL(doc->url(), 0, false, true);
+	KMimeType::Ptr pMime = KMimeType::findByURL(doc->url());
 	kdDebug() << "\tmimeType name: " << pMime->name() << endl;
 
 	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";

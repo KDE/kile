@@ -52,6 +52,7 @@ private:
 public slots:
 	void jumpToFirstError();
 	void reset();
+	void showLogResults(const QString &);
 
 private:
 	KileInfo		*m_ki;

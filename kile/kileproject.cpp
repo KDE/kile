@@ -444,6 +444,8 @@ QString KileProject::findRelativePath(const KURL &url)
 		}
 
 		path = path+"/"+filename;
+
+		if (path[0] == '/' ) path = path.mid(1);
 	}
 	else //assume an absolute path was requested
 	{

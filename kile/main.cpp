@@ -44,7 +44,7 @@ int main( int argc, char ** argv )
     aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
     aboutData.addAuthor("Brachet Pascal",0,"");
     aboutData.addCredit(I18N_NOOP("Thanks to all the patchers, packagers from all over the world!"),"");
-	aboutData.addCredit("Rob Lensen, Michael Margraf, Roland Schulz", "");
+	aboutData.addCredit("Rob Lensen, Michael Margraf, Roland Schulz", "Jonathan Pechta");
     aboutData.addCredit("David Ishee", I18N_NOOP("Xgfe"));
     aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
     aboutData.addCredit("Thomas Basset", I18N_NOOP("french translation"));

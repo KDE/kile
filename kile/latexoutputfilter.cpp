@@ -228,11 +228,12 @@ short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
 
     //Catching Warnings
     static QRegExp::QRegExp  warning1("^(! )?(La|pdf)TeX .*(W|w)arning.*: (.*)", true);
-    static QRegExp::QRegExp  warning2("^LaTeX .*warning: (.*) on input line ([0-9]+)", true);
+    static QRegExp::QRegExp  warning2("^LaTeX .*(W|w)arning: (.*) on input line ([0-9]+)", true);
     static QRegExp::QRegExp  warning3(".*(W|w)arning.*: (.*)", true);           //Catches package warnings
 
     //Catching Bad Boxes
-    static QRegExp::QRegExp  badBox1("^(Over|Under)full \\\\[hv]box .*at lines ([0-9]+)--([0-9]+)", true);
+    static QRegExp::QRegExp  badBox1("^(Over|Under)(full \\\\[hv]box .*)at lines ([0-9]+)--([0-9]+)", true);
+	static QRegExp::QRegExp  badBox3("^(Over|Under)(full \\\\[hv]box .*)at line ([0-9]+)", true);
     //Use the following only, if you know how to get the source line for it.
     // This is not simple, as TeX is not reporting it.
     //static QRegExp::QRegExp	badBox2("^(Over|Under)full \\\\[hv]box .* has occurred while \\output is active", true);
@@ -278,14 +279,27 @@ short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
         // - ==> Take min(n1,n2) as the srcline. This will do a good job for more cases than
         // - just taking the first number. But the problem still remains for some (rare) cases.
         // -
-        int n1 = badBox1.cap(2).toInt();
-        int n2 = badBox1.cap(3).toInt();
+        int n1 = badBox1.cap(3).toInt();
+        int n2 = badBox1.cap(4).toInt();
 
         m_currentItem = LatexOutputInfo(
             m_stackFile.empty()? "" : m_stackFile.top(),
             (n1 < n2) ? n1 : n2,
             GetCurrentOutputLine(),
-            badBox1.cap(1),
+            badBox1.cap(1)+badBox1.cap(2),
+            itmBadBox);
+    }
+	else   if (badBox3.search(strLine) > -1)
+    {
+        FlushCurrentItem();
+
+		int n1 = badBox3.cap(3).toInt();
+
+        m_currentItem = LatexOutputInfo(
+            m_stackFile.empty()? "" : m_stackFile.top(),
+            n1,
+            GetCurrentOutputLine(),
+            badBox3.cap(1)+badBox3.cap(2),
             itmBadBox);
     }
     else if (warning2.search(strLine) > -1)
@@ -293,9 +307,9 @@ short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
         FlushCurrentItem();
         m_currentItem = LatexOutputInfo(
             m_stackFile.empty()? "" : m_stackFile.top(),
-            warning2.cap(2).toInt(),
+            warning2.cap(3).toInt(),
             GetCurrentOutputLine(),
-            warning2.cap(1),
+            warning2.cap(2),
             itmWarning);
     }
     else if (warning1.search(strLine) > -1)
@@ -305,7 +319,7 @@ short LatexOutputFilter::ParseLine(QString strLine, short dwCookie)
             m_stackFile.empty()? "" : m_stackFile.top(),
             0,
             GetCurrentOutputLine(),
-            warning3.cap(1),
+            warning1.cap(4),
             itmWarning);
     }
     else if (warning3.search(strLine) > -1)

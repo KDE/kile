@@ -24,9 +24,9 @@ class KileAppDCOPIface : virtual public DCOPObject
 	K_DCOP
 
 	k_dcop:
-		virtual void open(const QString &)=0;
-		virtual void close()=0;
-		virtual void projectOpen(const QString &)=0;
+		virtual void openDocument(const QString &)=0;
+		virtual void closeDocument()=0;
+		virtual void openProject(const QString &)=0;
 		virtual void setLine( const QString &)=0;
 		virtual void setActive()=0;
 		virtual int run(const QString &)=0;

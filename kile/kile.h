@@ -77,6 +77,7 @@ class QIconViewItem;
 class KToolBar;
 class KActionMenu;
 class KRecentFilesAction;
+class KToggleFullScreenAction;
 class KToggleToolBarAction;
 class KMultiTabBar;
 
@@ -126,8 +127,8 @@ public slots:
 	void setActive();
 	int run(const QString &);
 	int runWith(const QString &, const QString &);
-	void open(const QString & url);
-	void close();
+	void openDocument(const QString & url);
+	void closeDocument();
 
 /* actions */
 private:
@@ -152,7 +153,7 @@ private:
 	KAction 						*m_paStop, *m_paPrint;
 	KToggleAction 					*ModeAction, *WatchFileAction;
 	KRecentFilesAction				*fileOpenRecentAction;
-	KAction							*m_pFullScreen;
+	KToggleFullScreenAction			*m_pFullScreen;
 
 /* GUI */
 private:
@@ -176,9 +177,9 @@ private slots:
 
 private slots:
 	void resetPart();
-	void activePartGUI(KParts::Part * the_part);
+	void activePartGUI(KParts::Part *);
 	void showToolBars(const QString &);
-	void enableKileGUI(bool enable);
+	void enableKileGUI(bool);
 	void slotToggleFullScreen();
 
 public slots:
@@ -191,7 +192,7 @@ private:
 	QString 		m_lastDocument, m_inputEncoding;
 	QStringList 	m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
-	bool			m_bRestore, m_runlyxserver, m_bFullScreen;
+	bool			m_bRestore, m_runlyxserver;
 	bool 			m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
 
 
@@ -243,7 +244,7 @@ public slots:
 	void newCaption();
 
 public slots:
-	void projectOpen(const QString& proj);
+	void openProject(const QString& proj);
 
 private:
 	KRecentFilesAction *m_actRecentProjects;

@@ -6,8 +6,8 @@ basedir=$2
 goAhead=ok
 
 kileDCOP="dcop kile Kile"
-openDoc="$kileDCOP open"
-closeDoc="$kileDCOP close"
+openDoc="$kileDCOP openDocument"
+closeDoc="$kileDCOP closeDocument"
 
 declare -i totalnotests=17
 declare -i current=0

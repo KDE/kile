@@ -17,64 +17,19 @@
 
 #include "kile.h"
 
-#include <ktexteditor/editorchooser.h>
-#include <ktexteditor/encodinginterface.h>
-#include <ktexteditor/codecompletioninterface.h>
-#include <ktexteditor/searchinterface.h>
-#include <kparts/componentfactory.h>
+#include <qtooltip.h>
 
-#include <kdeversion.h>
 #include <kdebug.h>
-#include <kaboutdata.h>
-#include <kfiledialog.h>
-#include <klibloader.h>
 #include <kiconloader.h>
-#include <kstddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
-
-#include <ksconfig.h>
 #include <klocale.h>
-#include <kglobalsettings.h>
 #include <krun.h>
-#include <khtmlview.h>
 #include <kkeydialog.h>
 #include <kedittoolbar.h>
-#include <kglobal.h>
-#include <kprinter.h>
-#include <kwin.h>
-#include <kparts/browserextension.h>
-#include <kaccel.h>
-#include <knuminput.h>
-#include <klistview.h>
-#include <kapplication.h>
 #include <kstandarddirs.h>
-#include <ktoolbarbutton.h>
-#include <kmainwindow.h>
 #include <kmultitabbar.h>
-
-#include <qfileinfo.h>
-#include <qregexp.h>
-#include <qiconset.h>
-#include <qtimer.h>
-#include <qpopupmenu.h>
 #include <ktabwidget.h>
-#include <qapplication.h>
-#include <qcombobox.h>
-#include <qlineedit.h>
-#include <qfile.h>
-#include <qregexp.h>
-#include <qtooltip.h>
-#include <qvaluelist.h>
-#include <qmap.h>
-#include <qpainter.h>
-#include <qpaintdevicemetrics.h>
-#include <qtextstream.h>
-#include <qtextcodec.h>
-#include <qmetaobject.h>
-#include <qvaluelist.h>
-#include <qtextstream.h>
-#include <qsignalmapper.h>
 
 #include "kileapplication.h"
 #include "kiledocumentinfo.h"
@@ -142,7 +97,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	setXMLFile( "kileui.rc" );
 
 	// do initializations first
-	m_currentState = m_wantState="Editor";
+	m_currentState = m_wantState = "Editor";
 	m_bWatchFile = m_logPresent = false;
 
 	viewManager()->setClient(this, this);
@@ -520,8 +475,7 @@ void Kile::setupActions()
 
 	actionCollection()->readShortcutSettings();
 	
-	m_bFullScreen = false;
-  	m_pFullScreen = KStdAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
+	m_pFullScreen = KStdAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
 }
 
 void Kile::setupTools()
@@ -751,12 +705,12 @@ void Kile::updateModeStatus()
 	}
 }
 
-void Kile::open(const QString & url)
+void Kile::openDocument(const QString & url)
 {
 	docManager()->fileSelected(KURL::fromPathOrURL(url));
 }
 
-void Kile::close()
+void Kile::closeDocument()
 {
 	docManager()->fileClose();
 }
@@ -778,7 +732,7 @@ void Kile::enableAutosave(bool as)
 	else m_AutosaveTimer->stop();
 }
 
-void Kile::projectOpen(const QString& proj)
+void Kile::openProject(const QString& proj)
 {
 	docManager()->projectOpen(KURL::fromPathOrURL(proj));
 }
@@ -813,6 +767,7 @@ bool Kile::queryExit()
 bool Kile::queryClose()
 {
 	//don't close Kile if embedded viewers are present
+	kdDebug() << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
 	if ( m_currentState != "Editor" )
 	{
 		resetPart();
@@ -1719,21 +1674,11 @@ void Kile::includeGraphics()
 
 void Kile::slotToggleFullScreen()
 {
-	m_bFullScreen = !m_bFullScreen;
-	if( m_bFullScreen )
-	{
-		this->showFullScreen();
-		m_pFullScreen->setText( i18n( "Exit Full-Screen Mode" ) );
-		m_pFullScreen->setToolTip( i18n( "Exit full-screen mode" ) );
-		m_pFullScreen->setIcon( "window_nofullscreen" );
-	}
-	else 
-	{
-		this->showNormal();
-		m_pFullScreen->setText( i18n( "&Full-Screen Mode" ) );
-		m_pFullScreen->setToolTip(i18n("Full-screen mode"));
-		m_pFullScreen->setIcon( "window_fullscreen" );
-	}
+//FIXME for Qt 3.3.x we can do: setWindowState(windowState() ^ WindowFullScreen);
+	if (isFullScreen())
+		showNormal();
+	else
+		showFullScreen();
 }
 
 #include "kile.moc"

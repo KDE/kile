@@ -111,6 +111,7 @@ bool ConvertMap::makeMap(const QString & enc)
 	static QRegExp reMap("^([0-9]+):(.*)");
 
 	//if map already exists, replace it
+	//this code is used to create the .enc files, should not be called in the application
 	QFile qf("/home/wijnhout/Documents/Kile Test Area/Projects/Encodings/" + enc + ".def");
 	QFile outf("/home/wijnhout/Documents/Kile Test Area/Projects/Encodings/encoding." + enc + ".tex");
 

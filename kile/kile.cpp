@@ -599,9 +599,8 @@ connect(e, SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)
 void Kile::fileNew()
 {
     NewFileWizard *nfw = new NewFileWizard(this);
-    nfw->exec();
-
-    if (nfw->result() == QDialog::Accepted) {
+  
+    if (nfw->exec()) {
     LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
     edit->editor->setReadOnly(false);
     edit->editor->setEncoding(input_encoding);
@@ -2199,17 +2198,17 @@ void Kile::CleanAll()
         return;
   }
 
-  QString extlist[] = {".log",".aux",".dvi",".aux",".dvi",".lof",".lot",".bit",".idx" ,".glo",".bbl",".ilg",".toc",".ind"};
+  QString extlist[] = {".log",".aux",".dvi",".aux",".lof",".lot",".bit",".idx" ,".glo",".bbl",".ilg",".toc",".ind"};
   
     QStringList prettyList;
    QStringList command;
 
    command << "cd " << fic.dirPath() << "&&";
    
-   for (int i=0; i< 14; i++) {
+   for (int i=0; i< 13; i++) {
       prettyList.append(fic.baseName()+extlist[i]);
       command << "rm -f" << fic.baseName()+extlist[i];
-      if (i<13) {command << "&&"; }
+      if (i<12) {command << "&&"; }
    }
    
    int query = KMessageBox::warningContinueCancelList( this,

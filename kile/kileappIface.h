@@ -30,7 +30,7 @@ class KileAppDCOPIface : virtual public DCOPObject
   K_DCOP
 
   k_dcop:
-    virtual Kate::View* load( const KURL &url , const QString & encoding )=0;
+    virtual void load( const QString &url)=0;
     virtual void setLine( const QString &line )=0;
 };
 

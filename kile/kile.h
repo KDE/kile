@@ -125,7 +125,6 @@ private:
 	void setupUserTagActions();
 	void setupUserToolActions();
 
-
 	/**
 	 * Toggle between standard KDE shortcuts for the menus (such as Alt-F for the file menu) or no shortcuts.
 	 **/
@@ -220,7 +219,7 @@ private:
 private slots:
 	void ShowStructView(bool change);
 	void ShowStructure();
-	void UpdateStructure();
+	void UpdateStructure(bool parse = false);
 
 	void ClickedOnStructure(QListViewItem *);
 	void DoubleClickedOnStructure(QListViewItem *);
@@ -279,6 +278,7 @@ private:
 
 /* views */
 protected:
+	Kate::View* createView(Kate::Document *doc);
 	/**
 	 * This event filter captures WindowActivate events. On window activating it checks if
 	 * any files were modified on disc. This function will be obsolete once we decide to use
@@ -316,7 +316,8 @@ public slots:
 	 *
 	 * @returns pointer to the new view
 	 **/
-	Kate::View* load( const KURL &url , const QString & encoding = 0);
+	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true);
+	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 
 private slots:

@@ -32,7 +32,6 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
 
 	m_struct = 0;
 	m_arStatistics = new long[5];
-	m_bFresh = true;
 
 	//TODO: make this configurable
 	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
@@ -188,12 +187,8 @@ void KileDocumentInfo::updateStruct()
 	m_bibItems.clear();
 	m_deps.clear();
 
-	m_structview->takeItem(m_structview->firstChild());
-
-	if (m_doc->isModified() || m_bFresh)
-	{
 	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
-	m_bFresh=false;
+
 	delete m_struct;
 
 	m_struct=  new KileListViewItem( m_structview, shortName );
@@ -303,10 +298,6 @@ void KileDocumentInfo::updateStruct()
 			} // if tagStart
 		} // while tagStart
 	} //for
-	}
-
-	kdDebug() << "inserting " << m_struct->text(0) << endl;
-	m_structview->insertItem(m_struct);
 
 }
 

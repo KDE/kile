@@ -112,7 +112,8 @@ else
       QString sa = args->arg(0);
       if ( sa.left(5) == "file:" ) sa = sa.remove(0, 5);
       arg_file << sa;
-      client->send (appID, "Kile", "load(KURL,QString)", data_file);
+	  kdDebug() << QString("main: load(%1)").arg(sa) << endl;
+      client->send (appID, "Kile", "load(KURL)", data_file);
       if (args->getOption("line")!="0")
          {
          QString li=args->getOption("line");

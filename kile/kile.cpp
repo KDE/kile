@@ -383,12 +383,12 @@ void Kile::setupActions()
 	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
 
-	m_menuUserTags = new KActionMenu(i18n("User Tags"),actionCollection(),"menuUserTags");
+	m_menuUserTags = new KActionMenu(i18n("User Tags"), UserIcon("usertag"), actionCollection(),"menuUserTags");
 	m_mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
 	setupUserTagActions();
 	connect(m_mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
 
-	m_menuUserTools = new KActionMenu(i18n("User Tools"), actionCollection(), "menuUserTools");
+	m_menuUserTools = new KActionMenu(i18n("User Tools"), UserIcon("usertool"), actionCollection(), "menuUserTools");
 	m_mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
 	setupUserToolActions();
 	connect(m_mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
@@ -446,24 +446,21 @@ void Kile::setupUserToolActions()
 }
 
 ////////////////////////////// FILE /////////////////////////////
-Kate::View* Kile::load( const KURL &url , const QString & encoding)
+Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 {
 	if ( url.path() != "untitled" && isOpen(url))
 		return 0;
 
-	//create a new document and a view
-	Kate::View *view;
+	kdDebug() << QString("load(%1,%2,%3)").arg(url.path()).arg(encoding).arg(create) << endl;
+
+	//create a new document
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 
 	//install a documentinfo class for this doc
 	KileDocumentInfo *docinfo = new KileDocumentInfo(doc);
-	m_mapDocInfo[doc]=docinfo;
+	//decorate the document with the KileDocumentInfo class
+	mapInfo(doc, docinfo);
 	docinfo->setListView(outstruct);
-
-	view = (Kate::View*) doc->createView (tabWidget, 0L);
-
-	//install event filter on the view
-	view->installEventFilter(m_eventFilter);
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
@@ -487,30 +484,10 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 
 	setHighlightMode(doc);
 
-	//insert the view in the tab widget
-	tabWidget->addTab( view, getShortName(doc) );
-	tabWidget->showPage( view );
-	m_viewList.append(view);
-
 	//handle changes of the document
-	connect(view, SIGNAL(viewStatusMsg(const QString&)), this, SLOT(newStatus(const QString&)));
-	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
 	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(slotNameChanged(Kate::Document *)));
 	connect(doc, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
-
-	//activate the newly created view
-	activateView(view, false, false);
-	KParts::GUIActivateEvent ev( true );
-	QApplication::sendEvent( view, &ev );
-
-	newStatus();
-	newCaption();
-
-	view->setFocusPolicy(QWidget::StrongFocus);
-	view->setFocus();
-
-	ShowStructure();
 
 	//see if this file really belongs to a project
 	KileProjectItemList *list;
@@ -524,12 +501,46 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 				if (list->at(j)->url() == url)
 				{
 					kdDebug() << "Kile::load(" << url.path() <<") belongs to the project " << m_projects.at(i)->name()  << endl;
+					//decorate the doc with the KileProjectItem
 					mapItem(doc,list->at(j));
 				}
 			}
 			break;
 		}
 	}
+
+	if (create) return createView(doc);
+	else return 0;
+}
+
+Kate::View * Kile::createView(Kate::Document *doc)
+{
+	Kate::View *view;
+	view = (Kate::View*) doc->createView (tabWidget, 0L);
+
+	//install event filter on the view
+	view->installEventFilter(m_eventFilter);
+
+	//insert the view in the tab widget
+	tabWidget->addTab( view, getShortName(doc) );
+	tabWidget->showPage( view );
+	m_viewList.append(view);
+
+	connect(view, SIGNAL(viewStatusMsg(const QString&)), this, SLOT(newStatus(const QString&)));
+	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
+
+	//activate the newly created view
+	activateView(view, false, false);
+	KParts::GUIActivateEvent ev( true );
+	QApplication::sendEvent( view, &ev );
+
+	newStatus();
+	newCaption();
+
+	view->setFocusPolicy(QWidget::StrongFocus);
+	view->setFocus();
+
+	ShowStructure();
 
 	return view;
 }
@@ -964,7 +975,9 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 		if (view->getDoc()->closeURL() )
 		{
 			removeView(view);
-			m_mapDocInfo.remove(doc);
+
+			//remove the decorations
+			removeMap(doc);
 			removeMap(doc, itemFor(doc));
 		}
 		else
@@ -1023,7 +1036,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 		else return;
 	}
 
-	KileDocumentInfo *docinfo = m_mapDocInfo[doc];
+	KileDocumentInfo *docinfo = infoFor(doc);
 
 	if (docinfo)
 	{
@@ -1057,6 +1070,10 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 			//tabWidget->changeTab( list.at(i),UserIcon(icon), getShortName(doc) );
 			tabWidget->changeTab( list.at(i), icon, getShortName(doc) );
 		}
+
+		//updatestructure if active document changed from modified to unmodified (typically after a save)
+		if (doc == activeDocument() && !doc->isModified())
+			UpdateStructure(true);
 	}
 }
 
@@ -2420,10 +2437,11 @@ void Kile::execUserTool(int i)
 void Kile::ShowStructure()
 {
 	showVertPage(1);
+	UpdateStructure(true);
 }
 
 
-void Kile::UpdateStructure()
+void Kile::UpdateStructure(bool parse /* = false */)
 {
 	kdDebug() << "Kile::UpdateStructure()" << endl;
 
@@ -2432,8 +2450,9 @@ void Kile::UpdateStructure()
 	if (docinfo)
 	{
 		//outstruct->clear();
-		docinfo->updateStruct();
-		//outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
+		outstruct->takeItem(outstruct->firstChild());
+		if (parse) docinfo->updateStruct();
+		outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
 	}
 
 	Kate::View *view = currentView();
@@ -2727,14 +2746,14 @@ void Kile::insertTag(const KileAction::TagData& data)
 
 	//save current cursor position
 	para=view->cursorLine();
-	index=view->cursorColumn();
+	index=view->cursorColumnReal();
 
 	//if there is a selection act as if cursor is at the beginning of selection
-	if (wrap)
+	/*if (wrap)
 	{
 		index = view->getDoc()->selStartCol();
 		para  = view->getDoc()->selStartLine();
-	}
+	}*/
 
 	QString ins = data.tagBegin;
 	
@@ -2756,7 +2775,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 	view->getDoc()->insertText(para,index,ins);
 
 	//move cursor to the new position
-	view->setCursorPosition(para+data.dy,index+data.dx);
+	view->setCursorPositionReal(para+data.dy,index+data.dx);
 
 	view->getDoc()->clearSelection();
 
@@ -3759,7 +3778,7 @@ if (page==0)
    }
 else if (page==1)
    {
-   UpdateStructure();
+   //UpdateStructure();
    KileFS->hide();
    mpview->hide();
    if (symbol_view && symbol_present) delete symbol_view;

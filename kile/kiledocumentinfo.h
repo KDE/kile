@@ -133,7 +133,6 @@ protected:
 private:
 	Kate::Document	*m_doc;
 	long						*m_arStatistics;
-	bool						m_bFresh;
 	QStringList			m_labels;
 	QStringList			m_bibItems;
 	QStringList			m_deps;

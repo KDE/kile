@@ -215,9 +215,11 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 
 	m_tag=QString::null;
+	QWidget *focus;
 	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList) )
 	{
 		KComboBox *input = new KComboBox(true, page, "input_dialog_input");
+		focus = input;
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setEditText(const QString&)));
 		gbox->addMultiCellWidget(input,1,1,0,2);
@@ -249,6 +251,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	else
 	{
 		KLineEdit *input = new KLineEdit(page);
+		focus = input;
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setText(const QString&)));
 		gbox->addWidget(input,1,0);
@@ -268,6 +271,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		m_useAlternative=false;
 		gbox->addMultiCellWidget(m_checkbox,2,2,0,3);
 	}
+
 	if ( options & KileAction::ShowFigureInput)
 	{
 		Env = new QCheckBox(page, "" );
@@ -292,6 +296,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 		slotEnvClicked();
 	}
+
+	focus->setFocus();
 }
 
 

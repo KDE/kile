@@ -44,15 +44,17 @@ public:
 	virtual const QStringList* bibItems() const =0;
 
 	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (doc) return m_mapDocInfo[doc]; else return 0;}
-	KileDocumentInfo* getInfo(Kate::Document* doc) const { return m_mapDocInfo[doc];}
+	KileDocumentInfo* infoFor(Kate::Document* doc) const { return m_mapDocInfo[doc];}
 
 	KileProject*	activeProject();
 	KileProjectItem* activeProjectItem();
 	KileProjectItem* itemFor(Kate::Document *doc) { return m_mapDocToItem[doc]; }
 	Kate::Document* docFor(KileProjectItem *item) { return m_mapItemToDoc[item]; }
 
+	void mapInfo(Kate::Document *doc, KileDocumentInfo *info) { m_mapDocInfo[doc] = info; }
 	void mapItem(Kate::Document *doc, KileProjectItem *item) { m_mapDocToItem[doc]=item; m_mapItemToDoc[item]=doc;}
 	void removeMap(Kate::Document *doc, KileProjectItem *item) { m_mapDocToItem.remove(doc); m_mapItemToDoc.remove(item); }
+	void removeMap(Kate::Document *doc) { m_mapDocInfo.remove(doc); }
 
 protected:
 	QMap< Kate::Document*, KileDocumentInfo* >      m_mapDocInfo;

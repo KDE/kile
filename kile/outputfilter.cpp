@@ -78,7 +78,7 @@ bool OutputFilter::Run(QString logfile)
 	}
 	else
 	{
-		emit(problem(KileTool::Warning, i18n("Cannot open log file! Did you run LaTeX?")));
+		emit(problem(KileTool::Warning, i18n("Cannot open log file; did you run LaTeX?")));
 		return false;
 	}
 

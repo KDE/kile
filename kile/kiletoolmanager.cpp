@@ -313,7 +313,7 @@ namespace KileTool
 
 		if ( ! retrieveEntryMap(tool->name(), map) )
 		{
-			m_log->printMsg(Error, i18n("Can't find the tool %1 in the configuration database.").arg(tool->name()));
+			m_log->printMsg(Error, i18n("Cannot find the tool %1 in the configuration database.").arg(tool->name()));
 			return false;
 		}
 

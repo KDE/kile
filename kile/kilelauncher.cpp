@@ -163,7 +163,7 @@
 			QFileInfo fi(path);
 			if ( ! fi.isExecutable() )
 			{
-				emit(message(Error, i18n("You don't have the permission to run %1.").arg(path)));
+				emit(message(Error, i18n("You do not have permission to run %1.").arg(path)));
 				return false;
 			}
 		}
@@ -266,7 +266,7 @@
 		KLibFactory *factory = KLibLoader::self()->factory(m_libName);
 		if (factory == 0)
 		{
-			emit(message(Error, i18n("Couldn't find the %1 library!").arg(m_libName)));
+			emit(message(Error, i18n("Could not find the %1 library.").arg(m_libName)));
 			return false;
 		}
 
@@ -277,7 +277,7 @@
 
 		if (m_part == 0)
 		{
-			emit(message(Error, i18n("Couldn't create component %1 from the library %2.").arg(m_className).arg(m_libName)));
+			emit(message(Error, i18n("Could not create component %1 from the library %2.").arg(m_className).arg(m_libName)));
 			emit(done(Failed));
 			return false;
 		}

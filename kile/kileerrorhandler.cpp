@@ -73,7 +73,7 @@ void KileErrorHandler::ViewLog()
 	}
 	else
 	{
-		m_ki->logWidget()->printProblem(KileTool::Error, i18n("Cannot open log file! Did you run LaTeX?"));
+		m_ki->logWidget()->printProblem(KileTool::Error, i18n("Cannot open log file; did you run LaTeX?"));
 	}
 }
 
@@ -131,7 +131,7 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 			return;
 		}
 		else
-			m_ki->logWidget()->printMsg(KileTool::Info, i18n("Done!"), i18n("Log") );
+			m_ki->logWidget()->printMsg(KileTool::Info, i18n("Done."), i18n("Log") );
 	}
 
 	if (!m_ki->outputInfo()->isEmpty())
@@ -174,7 +174,7 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 
 	if (m_ki->outputInfo()->isEmpty() && correctlogfile)
 	{
-		m_ki->logWidget()->append("\n<font color=\"#008800\">"+ i18n("No LaTeX errors detected!") + "</font>");
+		m_ki->logWidget()->append("\n<font color=\"#008800\">"+ i18n("No LaTeX errors detected.") + "</font>");
 	}
 }
 

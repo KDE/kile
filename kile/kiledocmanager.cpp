@@ -487,7 +487,7 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 
 		if (!tempdoc->openURL(KURL(sel->path())))
 		{
-			KMessageBox::error(m_ki->parentWidget(), i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!"));
+			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1").arg(sel->name()),i18n("File Not Found."));
 		}
 		else
 		{
@@ -528,13 +528,13 @@ void Manager::createTemplate()
 	{
 		if (m_ki->viewManager()->currentView()->getDoc()->isModified() ) 
 		{
-			KMessageBox::information(m_ki->parentWidget(),i18n("Please save the file first!"));
+			KMessageBox::information(m_ki->parentWidget(),i18n("Please save the file first."));
 			return;
 		}
 	} 
 	else 
 	{
-		KMessageBox::information(m_ki->parentWidget(),i18n("Open/create a document first!"));
+		KMessageBox::information(m_ki->parentWidget(),i18n("Open/create a document first."));
 		return;
 	}
 	

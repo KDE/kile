@@ -3,7 +3,7 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp toolsoptionsdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp l2hdialog.cpp kmultiverttabbar.cpp kileiconview.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp filechooser.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.h kilestdactions.cpp
+kile_SOURCES = newfilewizard.cpp managetemplatesdialog.cpp templates.cpp commandprocess.cpp metapostview.cpp refdialog.cpp addoptiondialog.cpp usermenudialog.cpp toolsoptionsdialog.cpp texkonsolewidget.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp quickdocumentdialog.cpp messagewidget.cpp letterdialog.cpp l2hdialog.cpp kmultiverttabbar.cpp kileiconview.cpp kilefileselect.cpp kileapplication.cpp kileappIface_skel.cpp filechooser.cpp docpart.cpp arraydialog.cpp kile.cpp main.cpp kileactions.cpp kilestdactions.cpp
 kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 
 SUBDIRS = pics symbols gfe templates syntax
@@ -13,21 +13,7 @@ EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h docpart.cpp 
 apps_DATA = kile.desktop
 appsdir = $(kde_appsdir)/Applications
 
-install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/
-	$(INSTALL_DATA) $(srcdir)/kile16x16.png $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/kile.png
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/
-	$(INSTALL_DATA) $(srcdir)/kile32x32.png $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/kile.png
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/48x48/apps/
-	$(INSTALL_DATA) $(srcdir)/kile48x48.png $(DESTDIR)$(kde_icondir)/hicolor/48x48/apps/kile.png
-	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/22x22/apps/
-	$(INSTALL_DATA) $(srcdir)/kile22x22.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/apps/kile.png
-
-uninstall-local:
-	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/kile.png
-	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/kile.png
-	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/48x48/apps/kile.png
-	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/apps/kile.png
+KDE_ICON = AUTO
 
 ####### kdevelop will overwrite this part!!! (end)############
 # These paths are KDE specific. Use them:

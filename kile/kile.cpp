@@ -1537,8 +1537,9 @@ void Kile::configureToolbars()
 	saveMainWindowSettings(m_config, "KileMainWindow" );
 	KEditToolbar dlg(factory());
 	dlg.exec();
-
-	showToolBars(m_currentState);
+	
+	applyMainWindowSettings(m_config, "KileMainWindow" );
+ 	showToolBars(m_currentState);
 }
 
 void Kile::changeInputEncoding()

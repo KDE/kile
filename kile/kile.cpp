@@ -188,6 +188,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	restoreFilesAndProjects(allowRestore);
 	updateModeStatus();
+
+	setFocus();
 }
 
 Kile::~Kile()

@@ -299,7 +299,7 @@
 			<para>New to this version of Kile is the auto-completion of environments, this means that
 			when a user begins a new environment by typing for example: \begin{environment}
 			Kile will automatically add a \end{environment} command, with a line in between
-			for your text. (Snapshot) </para>
+			for your text.</para>
 		</sect2>
 
 		<sect2 id="intro_jump">
@@ -401,12 +401,37 @@
 			<listitem><para>Label : command that produces a label for a level.</para></listitem>
 			<listitem><para>Index : creates an entry for the index with a file suffix .idx.</para></listitem>
 			<listitem><para>Footnote : creates a footnote in your document.</para></listitem>
-			<listitem><para>Reference : used to give a heading for your bibliography, which
+			<listitem><para>Reference : used to refer to a predefined label, which
 			the user chooses from a drop down list.</para></listitem>
 			<listitem><para>Page reference : creates a page number in your document that
 			corresponds to a label.</para></listitem>
 			<listitem><para>Cite : create a citation in your document from a list of bibitems.</para></listitem>
 		</itemizedlist>
+
+		<screenshot>
+			<screeninfo></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase></phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase></phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
 		<para>When using cite, the user is presented with a drop-down list of bibitems, but if the
 		user is using BibTeX this won't work. Users will have to use gBib or pyBliographer. </para>
 
@@ -668,6 +693,18 @@
 		command line area:</para>
 
         <para><computeroutput>"kile %f --line %l" (this is %L, but lowercase)</computeroutput></para>
+
+		<screenshot>
+			<screeninfo>Configuring KDVI...</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_kdvi_settings.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Configuring KDVI...</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
 	</sect1>
 
 	<sect1 id="quick_errors">
@@ -786,6 +823,640 @@
 			<listitem><para>Templates marked with a * can not be removed without the proper permission</para></listitem>
 		</itemizedlist>
 	</sect1>
+</chapter>
+
+<chapter id="editing">
+	<title>Editing LaTeX documents</title>
+
+	<para>The internal editor Kile uses is Kate.
+     Kate is a text editor, created for programmers, which incorporates the ability to read
+     and highlight many different types of text files, among which: LaTeX and BibTeX.</para>
+
+	 <para>
+     To learn more about Kate and it's capabilities you can reference the Kate Handbook
+     <ulink url="help:kate">here</ulink>. Kile users can start reading from the <quote>Working with the Kate editor</quote>
+	 chapter.</para>
+
+	 <sect1 id="editing_cursor">
+	 	<title>Cursor movement</title>
+
+		<para>If the user would like to select text they have the following options:</para>
+
+		<itemizedlist>
+			<listitem><para>Hold left mouse button and drag mouse to highlight text</para></listitem>
+			<listitem><para>Click once on a word move the cursor to a new area</para></listitem>
+			<listitem><para>Click twice on a word selects the whole word</para></listitem>
+			<listitem><para>Click three time selects the whole sentence</para></listitem>
+		</itemizedlist>
+
+		<para>Holding the left mouse button and dragging the text you want to select
+		automatically copies the selected text to the clipboard.</para>
+
+		<para>Holding shift and using the arrow keys allows a user to select portions of the source
+		code in the editor window.</para>
+		</sect1>
+
+		<sect1 id="editing_bracket">
+			<title>Bracket completion and bracket matching</title>
+
+			<para>Bracket completion is a visual tool that the editor view uses to alert to user to
+			brackets that match each other. If you open any .tex extension file and select any
+			bracket, whether it be a (), [] or {} the bracket selected will highlight its matching
+			bracket in yellow (default color, but can be changed). So, an example would be if
+			a user clicked the open bracket in the example \section{Introduction}, they would
+			see \section{Introduction} in the default yellow highlight telling them the location
+			of the beginning and ending brackets.</para>
+		</sect1>
+
+		<sect1 id="editing_highlight">
+			<title>Highlighting</title>
+
+			<para>Kile has the ability to look for and highlight different types of code. For example, LaTeX commands
+			are distinguished from normal text, making it easy for the user to read normal text. Also formulas are highlighted
+			in a different color.
+			</para>
+		</sect1>
+
+		<sect1 id="editing_completion">
+			<title>Automatic environment completion</title>
+
+			<para>New to this version of Kile is the auto-completion of environments, this means that
+			when a user begins a new environment by typing for example: \begin{environment}
+			Kile will automatically add a \end{environment} command, with a line in between
+			for your text.</para>
+
+			<para>Auto-completion can be turned off in the LaTeX section of
+			<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile</guimenuitem></menuchoice>.
+			</para>
+
+			<screenshot>
+				<screeninfo>Completing an equation environment.</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="snap_autocomplete.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Completing an equation environment.</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+		</sect1>
+</chapter>
+
+<chapter id="latex">
+	<title>Using the LaTeX tag library</title>
+
+	<para>
+	LaTeX has hundreds of tags that can be inserted to represent symbols and special
+	characters. The easiest way to insert a specialized character is to use to menu between the
+	file viewer and the source code window.</para>
+
+	<screenshot>
+		<screeninfo>The sidebar menu.</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="snap_sidebarmenu.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>The sidebar menu.</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para>To add a special character, click on the type of character you would like to add. You can
+	add the following categories of characters:</para>
+
+	<itemizedlist>
+		<listitem><para>Relational symbols</para></listitem>
+		<listitem><para>Greek Letters</para></listitem>
+		<listitem><para>Arrows</para></listitem>
+		<listitem><para>Delimiters</para></listitem>
+		<listitem><para>Miscellaneous symbols</para></listitem>
+		<listitem><para>Foreign characters</para></listitem>
+	</itemizedlist>
+
+	<sect1 id="latex_bib">
+     	<title>Using bibitems</title>
+
+		<para><userinput>\bibite</userinput>m is a command used to enter a reference in your document to a bibliography
+		item. The syntax for using the command \bibitem is <userinput>\bibitem[label]{key}</userinput>.</para>
+
+		<para>The optional <userinput>[label]</userinput> is for the user to add their own labeling system for the
+		bibliography entry. If no label is set, the entries will be set in numerical order. [1],
+		[2],[3], etc.</para>
+
+		<para>The argument <userinput>{key}</userinput> is used to reference and link the command
+		<userinput>\bibitem</userinput> and <userinput>\cite</userinput> to
+		each other and the information they contain. The command <userinput>\cite</userinput> contains the
+		information about the source such as author, publisher, etc. whereas the <userinput>\bibitem</userinput>
+		command contains the physical location of the bibliography within the text itself .
+		Both corresponding <userinput>\bibitem</userinput> and <userinput>\cite</userinput> must
+		have the same <userinput>{key}</userinput>, the easiest way to
+		organize keys is by author's last name. The secondary <userinput>{}</userinput> in
+		<userinput>{thebibliography}</userinput>
+		denotes the maximum number of bibliography items you can have. So, having {99}
+		bibitems means I can have between 0 and 99 bibitems since the bibitem must contain
+		two-digit numbers.</para>
+
+		<para>The bibliography is a separate file from your main source code, and an example of
+		code for the bibliography would look like the following:</para>
+
+		<para><computeroutput>
+					\begin{thebibliography}{50}
+							\bibitem{Simpson} Homer J. Simpson. \texts]{Mmmmm...doughnuts}.
+							Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998
+					\end{thebibliography)
+		</computeroutput></para>
+
+		<para>Then, your main source code would contain the location of the information relating to
+		the \bibitem using <userinput>\cite</userinput>. That source code would look similar to this:</para>
+
+		<para><computeroutput>
+				My thesis, about the philosophy of The Simpsons\copyright comes from my
+				favorite book \cite{Simpson}.
+		</computeroutput></para>
+
+		<para>The final product in my document would then look like this:</para>
+
+		<para><computeroutput>
+			[1] Homer J. Simpson. Mmmmm...doughnuts. Evergreen Terrace Printing Co.,
+			Springfield, Somewhere, 1998.
+		</computeroutput></para>
+
+		<para>The easiest way to work with bibitem and cite is to use the toolbar option drop-down
+		box marked label. When you select a citation to insert, you will be given the list of
+		bibitems you have created so far and will be able to select the reference from the list.
+		Kile can now work together with BibTeX editor applications such as gBib and
+		pyBliographer to help make citations easier for the user.</para>
+	</sect1>
+
+	<sect1 id="latex_usertags">
+		<title>User defined tags</title>
+
+		<para>Kile gives the user the ability to make tags for their document. A tag is similar to a
+		shortcut, where the user can create their own commands or text they use often in their
+		document and access that tag using the keys Ctrl-Shift-1. For example, when writing I
+		often use the phrases "I prefer LaTeX to TeX" in my text and "What would I do
+		without Linux?" To create these as user defined tags I would:</para>
+
+		<itemizedlist>
+			<listitem><para>Select User from the menu</para></listitem>
+			<listitem><para>Select User Tags</para></listitem>
+			<listitem><para>Select Edit User Tags</para></listitem>
+		</itemizedlist>
+
+		<para>This will give me a dialog where I can create my own user defined tags. </para>
+
+		<screenshot>
+			<screeninfo>The edit user tag dialog.</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_editusertag.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>The edit user tag dialog.</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo>Invoking a user defined tag.</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_usertag.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Invoking a user defined tag.</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>To create my two user defined tags I use often when writing I would give each a
+		name that can clearly identify them. The name you give your tag gets entered in the
+		section marked "Menu Item" and the text of command I use often would get entered
+		into the section labeled "Value". Once I have them both entered, I can use them
+		quickly in my text by using the shortcut Ctrl-Shift-1 for my first tag to enter "I prefer
+		LaTeX to TeX" and Ctrl-Shift-2 to enter "What would I do without Linux?"</para>
+
+		<sect2 id="latex_usertags_uc">
+			<title>Unique characters in User defined tags</title>
+
+			<para>There are several unique characters in Kile, these characters have unique meaning
+			in user defined tags and they are %, %S, %M, %C and %env.</para>
+
+			<itemizedlist>
+				<listitem><para>% : A character used to comment your source code</para></listitem>
+				<listitem><para>%S : Replaces the source file name</para></listitem>
+				<listitem><para>%M : This stands for marked text; where the selected text is
+				inserted when using user defined tags</para></listitem>
+				<listitem><para>%C : This is where the cursor will be placed after using a user
+				defined tag</para></listitem>
+			</itemizedlist>
+
+			<para>To show you how this works let's say for example that I have a user defined tag,
+			which contains the value \bfseries{%M}{%C} and I have a selection of text
+			highlighted in my document that I want to turn into bold text. So, I highlight the
+			phrase "I love Friday", apply my user defined tag by pressing Ctrl-Shift-1 and I
+			get the phrase "I love Friday" with the cursor is placed at the end of the phrase.</para>
+		</sect2>
+	</sect1>
+</chapter>
+
+<chapter id="build">
+	<title>Using the build tools</title>
+
+	<sect1 id="build_compile">
+		<title>Compile LaTex, PDFLaTeX</title>
+
+		<para>To convert your document to another format you need to first need to compile the
+		source from your LaTeX environment.</para>
+
+		<para>To compile your source code for the screen through KDVI, another DVI viewer or
+		conversion to postscript (PS) you want to use the shortcut key Alt-2 or Tools
+		=>LaTeX from the menu. This compiles the source for these different formats and
+		then you have the options to:</para>
+
+		<itemizedlist>
+			<listitem><para>View DVI (this will use your default viewer); Alt-3</para></listitem>
+			<listitem><para>Convert the DVI to PS; Alt-4</para></listitem>
+			<listitem><para>View the PS file; Alt-5</para></listitem>
+		</itemizedlist>
+
+		<para>There are several ways to compile your document. For example, if you would like to
+		compile your document and turn it into a PDF, you need to run PDFLaTeX that
+		compiles your source, which then you can convert to a PDF file. This is done by
+		using the shortcut key Alt-6 or selecting Tools from the menubar and select
+		PDFLaTeX from the menu. This process of using Tools => LaTeX, builds your
+		document so your viewer, or other formats can read the information.</para>
+
+		<itemizedlist>
+			<listitem><para>View PDF; Alt-7</para></listitem>
+			<listitem><para>PS to PDF; Alt-8</para></listitem>
+			<listitem><para>DVI to PDF; Alt-9</para></listitem>
+		</itemizedlist>
+
+
+		<sect2 id="build_cl">
+        	  <title>Passing command-line parameters</title>
+
+			  <para>Perhaps you want to give some special command line parameters to the tools to compile or convert
+			  your files. The standard tools can be configured in <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile</guimenuitem></menuchoice>.
+			  </para>
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+		<title>Master document</title>
+
+		<para>To define your document as a master allows a user to work with separated files,
+		which gives you a parent document (or Master document) and child document that
+		make up a complete work. After having defined your "Master" document, with the
+		corresponding command in the Options menu, all the commands of the Tools menu
+		will apply only to this document even when you are working on the "children"
+		documents. You can even close the Master document.</para>
+	</sect1>
+
+	<sect1 id="build_error">
+		<title>Advanced error handling</title>
+
+  		<para>After you have run LaTeX, Kile takes a look at the error messages LaTeX generated. If there are
+		any errors or warnings, this will be reported in the Log/Messages window. One can take a closer look at the
+		messages by selecting <menuchoice><guimenu>Build</guimenu><guimenuitem>View Log</guimenuitem></menuchoice>,
+		or by using the keyboard shortcut Alt-0. The log LaTeX generated is then displayed in the Log/Messages view, errors and
+		warnings are highlighted.</para>
+
+		<screenshot>
+			<screeninfo>Viewing the log...</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Viewing the log...</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>One can easily jump from one message in the log file to another by using the <menuchoice><guimenu>Build</guimenu><guimenuitem>Next/Previous LaTeX Error/Warning</guimenuitem></menuchoice>
+		menu items, or by using the corresponding toolbar buttons.	</para>
+
+		<para>
+		To jump to the line in the LaTeX source where the error occurred, simply click on the error/warning in the Log/Messages view.
+		Kile will take you automatically to the offending line.
+		</para>
+	</sect1>
+
+	<sect1 id="build_view">
+		<title>Viewing your document</title>
+
+		<para>To view your document once you have compiled the source using LaTex or Alt-2,
+		you can view the document using the DVI viewer. To view the document in your
+		default DVI viewer use the View DVI button in the toolbar or Alt-3.</para>
+	</sect1>
+
+	<sect1 id="build_watch">
+		<title>Using Watch File</title>
+
+		<orderedlist>
+			<listitem><para>Launch the Quickbuild command.</para></listitem>
+			<listitem><para>Leave KDVI open and select the Watch File mode for this program.</para></listitem>
+			<listitem><para>Select the Watch File in the Tools menu in Kile.</para></listitem>
+		</orderedlist>
+
+		<para>Each time you launch the Quickbuild command, the "DVI" document will be
+		automatically updated, without KDVI being started again.</para>
+
+		<para>This mode also works with KGhostView, but will not work with the embedded
+		viewers.</para>
+	</sect1>
+
+	<sect1 id="build_convert">
+		<title>Converting your document</title>
+
+		<para>Once you have compiled your LaTeX source from the editor, you can then convert
+		into a format that fits you best.</para>
+
+		<sect2 id="build_stdconv">
+			<title>Standard conversions (dvips, pspdf, dvipdf, etc.)</title>
+
+			<para>Selecting the conversion tools from the menu or by using the shortcuts lets a user
+			convert the document into a different form. Standard conversions are:</para>
+
+			<itemizedlist>
+				<listitem><para>DVI</para></listitem>
+				<listitem><para>PS</para></listitem>
+				<listitem><para>HTML</para></listitem>
+			</itemizedlist>
+
+			<para>Note that pdflatex convert your document directly into a PDF.</para>
+		</sect2>
+	</sect1>
+</chapter>
+
+<chapter id="navigating">
+	<title>Navigating the LaTeX source</title>
+
+	<sect1 id="navigating_struct">
+		<title>Using structure view</title>
+
+		<para>The structure view shows the hierarchy of the document being created in Kile and
+		allows the user to quickly navigate the document and shows segmentation of the
+		document. To navigate around your document all a user needs to do is to left-click on
+		any label, chapter, section, subsection, etc. and you will be taken to the beginning of
+		the corresponding area.</para>
+
+		<sect2 id="navigating_labels">
+			<title>Click on labels, sections</title>
+
+			<para>When using the structure view, you can easily jump between labels, sections, and
+			subsections by clicking on the item in the structure view and you will be taken to
+			that section in the editor view. Sections and subsections are clearly marked with
+			special characters that make them easy to identify.</para>
+
+			<screenshot>
+				<screeninfo>Using the structure view.</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="snap_structview_label.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Using the structure view.</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+		</sect2>
+
+		<sect2 id="navigating_input">
+			<title>Double click on input, include</title>
+
+			<para>If you include a file into your LaTeX document using the <userinput>\input</userinput>
+			or <userinput>\include</userinput> tags, the structure view will contain an item representing
+			this file. Double-clicking on the file name will cause Kile to display this included file.</para>
+		</sect2>
+
+		<sect2 id="navigating_update">
+			<title>Update structure</title>
+
+			<para>To update your structure view you can go to
+			<menuchoice><guimenu>Edit</guimenu><guimenuitem>Refresh Structure</guimenuitem></menuchoice>
+			and this will refresh your structure view.</para>
+
+			<para>After you save your document, Kile will automatically update the structure view.</para>
+		</sect2>
+	</sect1>
+
+	<sect1 id="bookmarks">
+		<title>Bookmarks</title>
+
+		<para>Bookmarks are a user's reference to a segment of text or a line inside the Kile
+		environment. To use a bookmark, a user can select a specific line of their document
+		they would like to return to, then press Ctrl-B and Kile will automatically add a
+		bookmark to this line. Optionally, the user can also set a bookmark by highlighting
+		the line they would like to return to and choose the menu item labeled Bookmark.</para>
+
+		<para>To remove your bookmarks, select Clear Bookmarks from the menu item.</para>
+	</sect1>
+</chapter>
+
+<chapter id="projects">
+	<title>Working with projects</title>
+
+	<para>When working in Kile the user has the ability to create and work with project files. A
+	project is a grouping of LaTeX or TeX documents that manage all information related to
+	your document. A typical example of a user using a project would be if the user had a
+	document that had several chapters, they could then create a project, so each individual
+	chapter in its own separate file making the project easier to manage. Other examples of
+	when a user would use a project file would be to store non-source files such a graphic.
+	The project data is then stored in a special file with the extension .kilepr.</para>
+
+	<para>A Project adds the following functionality:</para>
+	<orderedlist>
+		<listitem><para>A user need not set a master document, Kile does this automatically</para></listitem>
+		<listitem><para>Project files can be archived</para></listitem>
+		<listitem><para>The Files and Projects view shows the relationship between files in the
+		hierarchy of your document</para></listitem>
+		<listitem><para>After opening a project, any file that was previously opened will be
+		restored with the original encoding and highlighting</para></listitem>
+	</orderedlist>
+
+	<sect1 id="projects_creating">
+		<title>Creating a project</title>
+
+		<para>To create a project, click the new project button in the toolbar. You will
+		be asked to give the following information to create your project:</para>
+		<itemizedlist>
+			<listitem><para>Title of your project</para></listitem>
+			<listitem><para>Name of the project file with .kilepr extension</para></listitem>
+			<listitem><para>Filename</para></listitem>
+			<listitem><para>Type of file creating: empty doc, book, report, article, letter</para></listitem>
+		</itemizedlist>
+
+		<para>When creating a new project the project file box is a prompt for the user to give a
+		name for your project with the extension .kilepr. When you fill out the section entitled
+		filename you must include a relative path for your documents. An example of a
+		relative path a user might use in the filename section would be
+		/usr/HomerJ/myproject.kilepr. Make sure you include the extension .kilepr.</para>
+
+		<para>A new installation of Kile might not have the buttons for creating, opening,
+		closing or project options in the toolbar. You can add these if they are not
+		included by going to Settings, then Configure Toolbars.</para>
+	</sect1>
+
+	<sect1 id="projects_view">
+		<title>Using the Files and Project view</title>
+
+		<para>The Files and Project view, is a button listed vertically that looks like two pieces
+		of paper. From this view, you can visually see the structure of your project, the
+		files in your project and the name of the .kilepr file that stores the project
+		information. Adding, removing, or changing options in your project are done via
+		the File and Projects view.</para>
+
+		<screenshot>
+			<screeninfo>The project and files view.</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>The project and files view.</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="projects_adding">
+		<title>Adding and removing files</title>
+
+		<para>
+		To add a file to your project, open any TeX file and in the project view you can
+		right-click on the TeX file and select, "Add to Project". If you have multiple
+		projects open, you will choose the project to add the file to in a dialog box.</para>
+
+		<para>Or, if you have multiple files that need to be added to a project, you can select the
+		project from the Files and Project view and right-click then select "Add Files".
+		This gives the user the option of adding multiple files at once.</para>
+
+		<screenshot>
+			<screeninfo>Adding a file to a project.</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Adding a file to a project.</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>To remove a file from a project just right click on a file and select "Remove File"
+		and your file will be removed from the project. This does not delete your file, but
+		just removes the file from the list of files contained in the .kilepr extension. You
+		will still be able to access the file later to make changes or to re-add it to a project
+		if needed.</para>
+	</sect1>
+
+	<sect1 id="projects_options">
+		<title>Changing your project options</title>
+
+		<para>Kile only has a few options that can be set related to your project. To change your
+		project options, right-click on the title of your project and select "Project Options"
+		and you will have the option of changing:</para>
+
+		<itemizedlist>
+			<listitem><para>The title of your project</para></listitem>
+ 			<listitem><para>Archive commands</para></listitem>
+ 			<listitem><para>Extensions for non-source files</para></listitem>
+ 			<listitem><para>And set the option to use files as regular expressions or not</para></listitem>
+		</itemizedlist>
+
+		<sect2 id="projects_archive">
+			<title>Archiving your project</title>
+
+			<para>Kile allows you to easily backup your project by archiving all the projects files into a single archive. To archive
+			your project right-click on the project name in the Files and Projects view or select
+			<menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice>.
+			</para>
+
+			<para>By default all files in a project are added to the archive. If you don't want to include a certain file in the
+			archive, right-click on this file in the Files and Projects view and uncheck the "Include in archive" option.</para>
+
+			<para>
+			Archive commands are shell commands that are executed from the project
+			directory (where the .kilepr file is located). Special commands when using
+			archive:</para>
+
+			<itemizedlist>
+				<listitem><para> %S : This used to replace the  filename of your project file
+				(without the .kilepr extension)</para></listitem>
+				<listitem><para> %F : This command is used to replace the list of files needed to be	included in the archive</para></listitem>
+			</itemizedlist>
+		</sect2>
+
+		<sect2 id="projects_ext">
+			<title>Extensions for non-source files</title>
+
+			<para>Non-source files are files such as pictures, PDF files, postscript, etc. that specify
+			which files are to be considered as included in the project, but aren't source files
+			such as files with the extension .tex. For example, a PDF file is a non-source file
+			because you can create a PDF from a file with a .tex extension. Users also have
+			the option to use their own regular expressions to match non-source files.</para>
+		</sect2>
+	</sect1>
+
+	<sect1 id="projects_closing">
+		<title>Closing a project</title>
+
+		<para>To close a project, select the Files and Project view from the vertical toolbar and
+		right click on your project title, then select close. This will close your project, all
+		the files associated with your project and also add the name of the project you just
+		closed to the Open Recent Project drop-down box toolbar (if you have it on your
+		toolbar, because it isn't a default toolbar option you need to add it using Settings,
+		Configure Toolbars).</para>
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+	<title>Preparing a document in an alternate language</title>
+
+	<para>One of the powerful advantages of using Kile is the ability to read, convert and set the
+	text to the encoding your document needs. This will allow your document the option of
+	using non-standard letters and symbols. This is very handy because you can setting the
+	encoding which allows the user to type and display specialized characters. An example of
+	this would be if a user need to display or use the capabilities of their keyboard to type in
+	Italian, they would set the encoding and be able to insert and display letters with accents
+	on them. Selecting the encoding for your document can be done in two ways.</para>
+
+	<para> One way to set the encoding is to use the encoding menu drop-down
+	box located at the bottom of the file view.</para>
+
+	<para>A second way to set the encoding for a document is to set the option
+	when you use the wizard to create a new document.</para>
+
+	<para>There is also separate encoding for the LaTeX typesetting system. Traditionally, LaTeX
+	only understands a very limited set of characters, so a user doesn't have the ability to use
+	accented letters directly. To use accented letters, LaTeX created some syntax to be able to
+	include an accented letter, which is \"e. There is a package to help users with this called
+	inputenc and is included  in the preamble using \usepackage[latin1]{inputenc}, where the
+	option argument is the encoding you would like to use. This tells LaTeX to translate all
+	of the \"e's in your document to ë. Please consult the inputenc documents for more
+	information on inputenc.</para>
+
+	<screenshot>
+			<screeninfo></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_encoding.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase></phrase>
+			</textobject>
+			</mediaobject>
+	</screenshot>
+
+	<para>Ideally you would use a LaTeX version that understand UNICODE, however this is not
+	available on most systems.</para>
 </chapter>
 
 <chapter id="credits">

@@ -148,6 +148,7 @@ void Tester::saveResults(const KURL & dest)
 void Tester::runTests()
 {
 	QString srcdir = KGlobal::dirs()->findResourceDir("appdata","test/runTests.sh") + "test";
+	kdDebug() << "Tester::runTests: srcdir = " << srcdir << endl;
 	m_tempDir = new KTempDir();
 	QString destdir = m_tempDir->name();
 	m_resultsFile = destdir + "results.rc";

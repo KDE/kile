@@ -74,6 +74,7 @@ namespace KileWidget
 		m_root =  new KileListViewItem(this, title);
 		if ( m_docinfo != 0L )
 		{
+			m_root->setURL(m_docinfo->url());
 			m_root->setOpen(true);
 			m_root->setPixmap(0, SmallIcon("contents"));
 			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, const QString &, const QString &)), this, SLOT(addItem(const QString&, uint, uint, int, int, const QString &, const QString &)));
@@ -271,6 +272,8 @@ namespace KileWidget
 
 		if (! (item->type() & KileStruct::None ))
 			emit(setCursor(item->url(), item->line()-1, item->column()));
+		else if ( item->parent() == 0L ) //root item
+			emit(setCursor(item->url(), 0, 0));
 	}
 
 	void Structure::slotDoubleClicked(QListViewItem * itm)

@@ -56,6 +56,7 @@ public:
 	const int type() const { return m_type; }
 	/**@returns the file in which this item was found*/
 	const KURL & url() const { return m_url; }
+	void setURL(const KURL & url) { m_url = url; }
 
 	const int level() const { return m_level; }
 

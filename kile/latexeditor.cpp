@@ -2,8 +2,8 @@
                           latexeditor.cpp  -  description
                              -------------------
     begin                : Sat Dec 29 2001
-    copyright            : (C) 2001 by Pascal Brachet
-    email                :
+    copyright            : (C) 2001 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,37 +20,41 @@
 #include <private/qrichtext_p.h>
 #include "parenmatcher.h"
 #include <qpopupmenu.h>
-#include <qapplication.h>
+#include <kapplication.h>
 #include <qclipboard.h>
 #include <qaccel.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
+#include <kdebug.h>
+
 LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool parmatch, ListColors col) : QTextEdit(parent,name), hasError( FALSE )
 {
-    encoding="";  
+    encoding="";
+    matchParens=parmatch;
+    m_matching=false;
     setPaletteBackgroundColor(col[0]);
     setPaletteForegroundColor(col[1]);
     viewport()->setBackgroundMode(PaletteBackground);
-    document()->setSelectionColor( Error, red );
-    document()->setSelectionColor( Step, yellow );
-    document()->setSelectionColor( ParenMatcher::Match,col[7]  );
-    document()->setSelectionColor( ParenMatcher::Mismatch, Qt::magenta );
+    document()->setSelectionColor( selError, red );
+    document()->setSelectionColor( selStep, yellow );
+    document()->setSelectionColor( selParenMatch,col[7]  );
+    document()->setSelectionColor( selParenMismatch, Qt::magenta );
 
     SyntaxLatex *sy=new SyntaxLatex(this,col,efont);
     setTextFormat(Qt::PlainText);
     parenMatcher = new ParenMatcher;
-    connect( this, SIGNAL( cursorPositionChanged( QTextCursor * ) ),
-	     this, SLOT( cursorPosChanged( QTextCursor * ) ) );
-    parenMatcher->setEnabled(parmatch);
-    document()->addSelection( Error );
-    document()->addSelection( Step );
-    document()->setInvertSelectionText( Error, FALSE );
-    document()->setInvertSelectionText( Step, FALSE );
-    document()->addSelection( ParenMatcher::Match );
-    document()->addSelection( ParenMatcher::Mismatch );
-    document()->setInvertSelectionText( ParenMatcher::Match, FALSE );
-    document()->setInvertSelectionText( ParenMatcher::Mismatch, FALSE );
+    connect( this, SIGNAL( cursorPositionChanged( int,int ) ),
+	     this, SLOT( cursorPosChanged( int,int ) ) );
+
+    document()->addSelection( selError );
+    document()->addSelection( selStep );
+    document()->setInvertSelectionText( selError, FALSE );
+    document()->setInvertSelectionText( selStep, FALSE );
+    document()->addSelection( selParenMatch);
+    document()->addSelection( selParenMismatch);
+    document()->setInvertSelectionText( selParenMatch ,FALSE);
+    document()->setInvertSelectionText( selParenMismatch , FALSE);
 
     document()->setFormatter( new QTextFormatterBreakWords );
     setVScrollBarMode( QScrollView::AlwaysOn );
@@ -143,16 +147,118 @@ void LatexEditor::doChangeInterval()
     QTextEdit::doChangeInterval();
 }
 
-void LatexEditor::cursorPosChanged( QTextCursor *c )
+void LatexEditor::cursorPosChanged( int para, int pos  )
 {
-  if ( parenMatcher->match( c ) )
-    repaintChanged();
+  if (m_matching)
+  {
+		m_matching=false;
+	}
+	else  
+  if (matchParens)
+  {
+		QChar ch = text(para)[pos];
+		switch (ch)
+		{
+			case TEX_CAT1 : matchParen(para,pos,1); break;
+			case TEX_CAT2 : matchParen(para,pos,-1); break;
+			default : break;
+		}
+	}
+	
   if ( hasError )
   {
     emit clearErrorMarker();
     hasError = FALSE;
   }
 }
+
+void LatexEditor::matchParen(int para, int pos, int direc)
+{
+	m_matching=true;
+
+	QChar ch, target, opposite;
+	int len = text(para).length()-1, howmany=0, beginpara=para, beginpos=pos,
+		maxpar = paragraphs(), paraprocessed=0;
+	bool ignore;
+
+	//kdDebug() << "--------------------------------------------" << endl;
+	//kdDebug() << "entering matchParen at " << para << " " << pos << endl;
+
+	if (text(para)[pos-1] == TEX_CAT0 )
+	{
+		//kdDebug() << "this brace is escaped, leaving" <<endl;
+		return;
+	}
+		
+	
+	if ( direc == 1)
+	{
+		target = TEX_CAT2;
+		opposite = TEX_CAT1;
+	}
+	else
+	{
+		target = TEX_CAT1;
+		opposite = TEX_CAT2;
+	}
+
+	//kdDebug() << "using: target " << target.latin1() << " opposite " << opposite.latin1() << endl;
+	
+	while ( m_matching )
+	{
+		pos += direc;
+		
+		if (pos < 0 || pos > len)
+		{
+  		para += direc;
+			pos = (direc==1) ? 0 : text(para).length()-1;
+			paraprocessed++;
+
+			//if we processed a few paragraphs process events
+			//so that the user can abort the matching by changing the
+			//cursor position
+			if (paraprocessed > MAX_PARAPROCESSED)
+			{
+				kapp->processEvents();
+			}
+			//kdDebug() << "at paragraph " << para << endl;
+		}
+		
+		if (para <0 || (para == maxpar)) break;
+		
+		ch = text(para)[pos];
+
+		//check for TEX_CAT0 \{ is a literal { for example
+		ignore=false;
+		if (text(para)[pos-1] == TEX_CAT0 ) {ignore=true;}
+
+		if (!ignore)
+		{
+			if ( ch == opposite ) { howmany++; }
+			if ( ch == target ) { howmany--; }
+		}
+
+		if ( howmany < 0 ) break;
+	}
+
+	//abort if we breaked from the while loop by m_matching=false
+	//(meaning the cursor position was changed)
+	if (!m_matching) {return;}
+	
+	if (howmany < 0)
+	{
+		(direc==1) ? setSelection(beginpara,beginpos, para,pos+1 , selParenMatch) :
+	  	           setSelection(para, pos, beginpara,beginpos+1 , selParenMatch);
+	}
+	else
+	{
+		setSelection(beginpara,beginpos, beginpara,beginpos+1,selParenMismatch);
+	}
+
+	m_matching=false;
+	//kdDebug() << "leaving matchParen at " << para << " " << pos << endl;
+}
+
 void LatexEditor::configChanged()
 {
   document()->invalidate();
@@ -168,10 +274,10 @@ void LatexEditor::setErrorSelection( int line )
   QTextCursor c( document() );
   c.setParagraph( p );
   c.setIndex( 0 );
-  document()->removeSelection( Error );
-  document()->setSelectionStart( Error, c );
+  document()->removeSelection( selError );
+  document()->setSelectionStart( selError, c );
   c.gotoLineEnd();
-  document()->setSelectionEnd( Error, c );
+  document()->setSelectionEnd( selError, c );
   hasError = TRUE;
   viewport()->repaint( FALSE );
 }
@@ -184,16 +290,16 @@ void LatexEditor::setStepSelection( int line )
   QTextCursor c( document() );
   c.setParagraph( p );
   c.setIndex( 0 );
-  document()->removeSelection( Step );
-  document()->setSelectionStart( Step, c );
+  document()->removeSelection( selStep );
+  document()->setSelectionStart( selStep, c );
   c.gotoLineEnd();
-  document()->setSelectionEnd( Step, c );
+  document()->setSelectionEnd( selStep, c );
   viewport()->repaint( FALSE );
 }
 
 void LatexEditor::clearStepSelection()
 {
-  document()->removeSelection( Step );
+  document()->removeSelection( selStep );
   viewport()->repaint( FALSE );
 }
 
@@ -202,13 +308,13 @@ void LatexEditor::changeSettings(QFont & new_font,bool new_parmatch,ListColors n
     setPaletteBackgroundColor(new_col[0]);
     setPaletteForegroundColor(new_col[1]);
     viewport()->setBackgroundMode(PaletteBackground);
-    document()->setSelectionColor( Error, red );
-    document()->setSelectionColor( Step, yellow );
-    document()->setSelectionColor( ParenMatcher::Match,new_col[7] );
-    document()->setSelectionColor( ParenMatcher::Mismatch, Qt::magenta );
+    document()->setSelectionColor( selError, red );
+    document()->setSelectionColor( selStep, yellow );
+    document()->setSelectionColor( selParenMatch,new_col[7] );
+    document()->setSelectionColor( selParenMismatch, Qt::magenta );
     viewport()->repaint( FALSE );   
     SyntaxLatex *new_sy=new SyntaxLatex(this,new_col,new_font);
-    parenMatcher->setEnabled(new_parmatch);
+    matchParens=new_parmatch;
 }
 
 QString LatexEditor::getEncoding()

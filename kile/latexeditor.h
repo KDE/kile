@@ -24,18 +24,18 @@
 #include <qcolor.h>
 #include "parenmatcher.h"
 
+#define MAX_PARAPROCESSED 10
 
-/**
-  *@author Pascal Brachet
-  */
 typedef  QColor ListColors[8];
 class LatexEditor : public QTextEdit  {
    Q_OBJECT
 public:
   enum Selection
   {
-    Error = 3,
-    Step = 4
+		selParenMismatch =1,
+		selParenMatch =2,
+    selError = 3,
+    selStep = 4
   };
 
 	LatexEditor(QWidget *parent, const char *name, QFont & efont,bool parmatch, ListColors col);
@@ -68,21 +68,30 @@ public:
   void changeSettings(QFont & new_font,bool new_parmatch,ListColors new_col);
   QString getEncoding();
   void setEncoding(QString enc);
-  
+
 signals:
     void clearErrorMarker();
     void intervalChanged();
 
+public slots:
+		void setParenMatching(bool b) {matchParens=b;}
+		
 private slots:
-    void cursorPosChanged( QTextCursor *c );
+    void cursorPosChanged( int para,int pos );
     void doChangeInterval();
 
+private:
+	void matchParen(int para, int pos, int direc);
+	
 protected:
   ParenMatcher *parenMatcher;
   bool hasError;
 
 private:
-  QString encoding;    
+	bool matchParens;
+	bool m_matching;
+  QString encoding;
+  QTimer *m_Timer; 
 
 };
 

@@ -489,15 +489,21 @@ private slots:
 	void LatexError(bool warnings=true);
 	void NextError();
 	void PreviousError();
+	void NextWarning();
+	void PreviousWarning();
+
+private:
+	void jumpToProblem(QStrList *, bool &, bool);
 
 private:
 	QString 		tempLog;
 	bool 				logpresent;
 
 	QStrList 		*errorlist;
+	QStrList		*warnlist;
 	int 				m_nErrors,m_nWarnings;
 	bool 				m_bCheckForLaTeXErrors;
-	bool 				m_bNewErrorlist;
+	bool 				m_bNewErrorlist, m_bNewWarninglist;
 
 
 /* insert tags */

@@ -224,6 +224,7 @@ Kile::Kile( QWidget *, const char *name ) :
 
 	logpresent=false;
 	errorlist=new QStrList();
+	warnlist=new QStrList();
 	connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
 	texkonsole=new TexKonsoleWidget(Outputview,"konsole");
@@ -301,6 +302,8 @@ void Kile::setupActions()
 	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
 	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
 	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
+	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, this, SLOT(PreviousWarning()), actionCollection(),"PreviousWarning" );
+	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, this, SLOT(NextWarning()), actionCollection(),"NextWarning" );
 	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
 	StopAction->setEnabled(false);
 	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
@@ -1182,7 +1185,7 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 	if (project)
 	{
 		KileProjectItemList *list = project->items();
-		Kate::Document *doc;
+		Kate::Document *doc = 0;
 
 		KileProjectItem *item;
 		KileDocumentInfo *docinfo;
@@ -3240,6 +3243,7 @@ void Kile::ViewLog()
 	Outputview->showPage(LogWidget);
 	logpresent=false;
 	LatexError();
+
 	if (tempLog != QString::null)
 	{
 		LogWidget->setText(tempLog);
@@ -3338,8 +3342,9 @@ if (ok && l<=currentView()->getDoc()->numLines())
 void Kile::LatexError(bool warnings)
 {
 	errorlist->clear();
+	warnlist->clear();
 	m_nErrors=m_nWarnings=0;
-	m_bNewErrorlist=true;
+	m_bNewErrorlist=m_bNewWarninglist=true;
 	int tagStart,i=0;
 	QString s,num;
 	tempLog=QString::null;
@@ -3371,7 +3376,7 @@ void Kile::LatexError(bool warnings)
 				{
 					num = QString::number(i,10);
 					m_nWarnings++;
-					errorlist->append(num.ascii());
+					warnlist->append(num.ascii());
 				}
 			}
 			i++;
@@ -3380,67 +3385,36 @@ void Kile::LatexError(bool warnings)
 	}
 }
 
-void Kile::NextError()
-{
-	QString line="";
-	bool ok;
-	if (!logpresent) {ViewLog();}
-	if (logpresent && !errorlist->isEmpty())
-	{
-		Outputview->showPage(LogWidget);
-		uint id=errorlist->findRef(errorlist->current());
-		if (m_bNewErrorlist)
-		{
-			line=errorlist->at(0);
-		}
-		else
-		if (id < (errorlist->count()-1))
-		{
-			line=errorlist->at(id+1);
-		}
-		else
-		{
-			line=errorlist->at(id);
-		}
-		int l=line.toInt(&ok,10);
-		if (ok && l<=LogWidget->paragraphs())
-		{
-			//LogWidget->setCursorPosition(0 , 0);
-			LogWidget->setCursorPosition(l+3 , 0);
-			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
-		}
-	}
-
-	if (logpresent && errorlist->isEmpty())
-	{
-		LogWidget->insertLine(i18n("No LaTeX errors detected!"));
-	}
-
-	m_bNewErrorlist=false;
-}
-
-void Kile::PreviousError()
+void Kile::jumpToProblem(QStrList *list, bool &newlist, bool forward)
 {
 	QString line="";
 	bool ok;
 	if (!logpresent) {ViewLog();}
 
-	if (logpresent && !errorlist->isEmpty())
+	if (logpresent && !list->isEmpty())
 	{
 		Outputview->showPage(LogWidget);
-		uint id=errorlist->findRef(errorlist->current());
-		if (m_bNewErrorlist)
+		uint id=list->findRef(list->current());
+		if (newlist)
 		{
-			line=errorlist->at(0);
-		}
-		else
-		if (id>0)
-		{
-			line=errorlist->at(id-1);
+			line=list->at(0);
 		}
 		else
 		{
-			line=errorlist->at(0);
+			if (forward)
+			{
+				if (id < (list->count()-1))
+					line=list->at(id+1);
+				else
+					line=list->at(id);
+			}
+			else
+			{
+				if (id>0)
+					line=list->at(id-1);
+				else
+					line=list->at(0);
+			}
 		}
 		int l=line.toInt(&ok,10);
 		if (ok && l<=LogWidget->paragraphs())
@@ -3451,13 +3425,34 @@ void Kile::PreviousError()
 		}
 	}
 
-	if (logpresent && errorlist->isEmpty())
+	if (logpresent && list->isEmpty())
 	{
 		LogWidget->insertLine(i18n("No LaTeX errors detected!"));
 	}
 
-	m_bNewErrorlist=false;
+	newlist = false;
 }
+
+void Kile::NextError()
+{
+	jumpToProblem(errorlist, m_bNewErrorlist, true);
+}
+
+void Kile::PreviousError()
+{
+	jumpToProblem(errorlist, m_bNewErrorlist, false);
+}
+
+void Kile::NextWarning()
+{
+	jumpToProblem(warnlist, m_bNewWarninglist, true);
+}
+
+void Kile::PreviousWarning()
+{
+	jumpToProblem(warnlist, m_bNewWarninglist, false);
+}
+
 /////////////////////// LATEX TAGS ///////////////////
 void Kile::insertTag(const KileAction::TagData& data)
 {

@@ -75,6 +75,8 @@
 	<Action name="ViewLog"/>
 	<Action name="PreviousError"/>
 	<Action name="NextError"/>
+	<Action name="PreviousWarning"/>
+	<Action name="NextWarning"/>
 	<Action name="Stop"/>
 	<Separator/>
 	<Action name="CleanAll"/>
@@ -305,6 +307,8 @@
 	<Action name="ViewLog"/>
 	<Action name="PreviousError"/>
 	<Action name="NextError"/>
+	<Action name="PreviousWarning"/>
+	<Action name="NextWarning"/>
 	<Action name="Stop"/>
 	<Separator lineSeparator="true"/>
 	<Action name="Latex"/>
@@ -401,6 +405,8 @@
 <Action name="ViewLog"/>
 <Action name="PreviousError"/>
 <Action name="NextError"/>
+<Action name="PreviousWarning"/>
+<Action name="NextWarning"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
@@ -601,6 +607,8 @@
 <Action name="ViewLog"/>
 <Action name="PreviousError"/>
 <Action name="NextError"/>
+<Action name="PreviousWarning"/>
+<Action name="NextWarning"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
@@ -801,6 +809,8 @@
 <Action name="ViewLog"/>
 <Action name="PreviousError"/>
 <Action name="NextError"/>
+<Action name="PreviousWarning"/>
+<Action name="NextWarning"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
@@ -1009,6 +1019,8 @@
 <Action name="ViewLog"/>
 <Action name="PreviousError"/>
 <Action name="NextError"/>
+<Action name="PreviousWarning"/>
+<Action name="NextWarning"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>

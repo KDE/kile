@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="9">
+<kpartgui name="kile" version="10">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -8,20 +8,19 @@
 <MenuBar noMerge="1">
 <Menu name="file"><text>&amp;File</text>
 	<Action name="file_new"/>
-	<Action name="file_open"/>
 	<Separator/>
+	<Action name="file_open"/>
 	<Action name="file_open_recent"/>
+	<DefineGroup name="revert_merge" append="revert_merge"/>
 	<Separator/>
 	<DefineGroup name="save_merge" append="save_merge" />
 	<Action name="file_save_all"/>
-	<DefineGroup name="revert_merge" append="revert_merge"/>
 	<Separator/>
-	<Action name="CreateTemplate"/>
-	<Action name="file_close"/>
-	<Action name="file_close_all"/>
+	<Action name="template_create"/>
+	<Action name="template_remove"/>
+	<Separator/>
 	<DefineGroup name="file_print" append="print_merge" />
 	<Merge/>
-	<Separator/>
 	<Menu name="convert"><text>Con&amp;vert To</text>
 		<Action name="file_export_ascii"/>
 		<Separator/>
@@ -35,6 +34,9 @@
 		<Action name="file_export_cp1252"/>
 	</Menu>
 	<Action name="Statistics"/>
+	<Separator/>
+	<Action name="file_close"/>
+	<Action name="file_close_all"/>
 	<Separator/>
 	<Action name="file_quit"/>
 </Menu>
@@ -93,7 +95,6 @@
 		<Action name="edit_close_group"/>
 	</Menu>
 	<Separator/>
-	<Action name="Spell"/>
 	<Action name="RefreshStructure"/>
 </Menu>
 <Menu name="view"><text>&amp;View</text>
@@ -302,19 +303,18 @@
 	<Separator/>
 	<Action name="menuUserTags"/>
 </Menu>
-<Menu name="menu7"><text>&amp;Wizard</text>
-	<Action name="127"/>
+<Menu name="wizard"><text>&amp;Wizard</text>
+	<Action name="wizard_document"/>
 	<Separator/>
-	<Action name="129"/>
-	<Action name="130"/>
-	<Action name="149"/>
+	<Action name="wizard_tabular"/>
+	<Action name="wizard_array"/>
+	<Action name="wizard_tabbing"/>
 </Menu>
 
 <Merge/>
 
 <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 	<Action name="Mode"/>
-	<Action name="removetemplates"/>
 	<Separator/>
 	<Action name="StructureView"/>
 	<Action name="MessageView"/>
@@ -440,13 +440,25 @@
 	<Action name="file_save_all"/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
-	<Action name="CreateTemplate"/>
+	<Action name="file_export_ascii"/>
+	<Action name="file_export_latin1"/>
+	<Action name="file_export_latin2"/>
+	<Action name="file_export_latin3"/>
+	<Action name="file_export_latin4"/>
+	<Action name="file_export_latin5"/>
+	<Action name="file_export_latin9"/>
+	<Action name="file_export_cp1250"/>
+	<Action name="file_export_cp1252"/>
+	<Action name="Statistics"/>
+	<Action name="template_create"/>
+	<Action name="template_remove"/>
 	<Action name="RefreshStructure"/>
-	<Action name="Spell"/>
 	<Action name="FindInFiles"/>
-	<Action name="RefreshStructure"/>
+	<Action name="settings_configure"/>
+	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
+	<Action name="edit_complete_word"/>
 	<Action name="edit_complete_env"/>
 	<Action name="edit_complete_abbrev"/>
 	<Action name="edit_next_bullet"/>
@@ -468,11 +480,15 @@
 	<Action name="edit_end_env"/>
 	<Action name="edit_match_env"/>
 	<Action name="edit_close_env"/>
+	<Action name="edit_begin_group"/>
+	<Action name="edit_end_group"/>
+	<Action name="edit_match_group"/>
+	<Action name="edit_close_group"/>
+	<Action name="help_context"/>
 </Disable>
 <Enable>
-	<Action name="EditorView"/>
 	<Action name="file_print"/>
-	<Action name="print"/>
+	<Action name="EditorView"/>
 	<Action name="Back"/>
 	<Action name="Forward"/>
 	<Action name="Home"/>
@@ -488,18 +504,25 @@
 	<Action name="file_save_all"/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
-	<Action name="CreateTemplate"/>
+	<Action name="file_export_ascii"/>
+	<Action name="file_export_latin1"/>
+	<Action name="file_export_latin2"/>
+	<Action name="file_export_latin3"/>
+	<Action name="file_export_latin4"/>
+	<Action name="file_export_latin5"/>
+	<Action name="file_export_latin9"/>
+	<Action name="file_export_cp1250"/>
+	<Action name="file_export_cp1252"/>
+	<Action name="Statistics"/>
+	<Action name="template_create"/>
+	<Action name="template_remove"/>
 	<Action name="RefreshStructure"/>
-	<Action name="Spell"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
 	<Action name="Mode"/>
-	<Action name="Back"/>
-	<Action name="Forward"/>
-	<Action name="Home"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
-	<Action name="print"/>
+	<Action name="edit_complete_word"/>
 	<Action name="edit_complete_env"/>
 	<Action name="edit_complete_abbrev"/>
 	<Action name="edit_next_bullet"/>
@@ -521,33 +544,50 @@
 	<Action name="edit_end_env"/>
 	<Action name="edit_match_env"/>
 	<Action name="edit_close_env"/>
+	<Action name="edit_begin_group"/>
+	<Action name="edit_end_group"/>
+	<Action name="edit_match_group"/>
+	<Action name="edit_close_group"/>
+	<Action name="help_context"/>
+	<Action name="Back"/>
+	<Action name="Forward"/>
+	<Action name="Home"/>
 </Disable>
 <Enable>
-	<Action name="EditorView"/>
 	<Action name="file_print"/>
+	<Action name="EditorView"/>
 </Enable>
 </State>
 <State name="Editor">
 <Enable>
-	<Action name="EditorView"/>
 	<Action name="file_new"/>
 	<Action name="file_open"/>
 	<Action name="file_open_recent"/>
 	<Action name="file_save"/>
 	<Action name="file_save_as"/>
-	<Action name="file_print"/>
-	<Action name="RefreshStructure"/>
-	<Action name="CreateTemplate"/>
 	<Action name="file_save_all"/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
-	<Action name="Spell"/>
-	<Action name="FindInFiles"/>
+	<Action name="file_print"/>
+	<Action name="file_export_ascii"/>
+	<Action name="file_export_latin1"/>
+	<Action name="file_export_latin2"/>
+	<Action name="file_export_latin3"/>
+	<Action name="file_export_latin4"/>
+	<Action name="file_export_latin5"/>
+	<Action name="file_export_latin9"/>
+	<Action name="file_export_cp1250"/>
+	<Action name="file_export_cp1252"/>
+	<Action name="Statistics"/>
+	<Action name="template_create"/>
+	<Action name="template_remove"/>
 	<Action name="RefreshStructure"/>
+	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
+	<Action name="edit_complete_word"/>
 	<Action name="edit_complete_env"/>
 	<Action name="edit_complete_abbrev"/>
 	<Action name="edit_next_bullet"/>
@@ -569,7 +609,15 @@
 	<Action name="edit_end_env"/>
 	<Action name="edit_match_env"/>
 	<Action name="edit_close_env"/>
+	<Action name="edit_begin_group"/>
+	<Action name="edit_end_group"/>
+	<Action name="edit_match_group"/>
+	<Action name="edit_close_group"/>
+	<Action name="help_context"/>
 </Enable>
+<Disable>
+	<Action name="EditorView"/>
+</Disable>
 </State>
 </kpartgui>
 

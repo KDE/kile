@@ -308,7 +308,7 @@ void Kile::setupBottomBar()
 
 void Kile::setupActions()
 {
-	m_paPrint = KStdAction::print(0,0, actionCollection(), "print");
+	m_paPrint = KStdAction::print(0,0, actionCollection(), "file_print");
 	(void) KStdAction::openNew(docManager(), SLOT(fileNew()), actionCollection(), "file_new" );
 	(void) KStdAction::open(docManager(), SLOT(fileOpen()), actionCollection(),"file_open" );
 	m_actRecentFiles = KStdAction::openRecent(docManager(), SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
@@ -316,7 +316,8 @@ void Kile::setupActions()
 	m_actRecentFiles->loadEntries(m_config, "Recent Files");
 
 	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
-	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"CreateTemplate");
+	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");
+	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
 	(void) KStdAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
 	(void) new KAction(i18n("Close All"), 0, docManager(), SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
@@ -336,7 +337,7 @@ void Kile::setupActions()
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
-	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Refresh Structure"), "structure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
@@ -380,40 +381,40 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, m_edit, SLOT(prevBullet()), actionCollection(), "edit_prev_bullet");
 
  // advanced editor (dani)
-	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
-	(void) new KAction(i18n("Environment (outside)"),KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
-	(void) new KAction(i18n("TeX Group (inside)"),KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
-	(void) new KAction(i18n("TeX Group (outside)"), KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
-	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+S,P"),m_edit, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
-	(void) new KAction(i18n("Line"),KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
-	(void) new KAction(i18n("TeX Word"),KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
+	(void) new KAction(i18n("Environment (inside)"),"selenv_i",KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
+	(void) new KAction(i18n("Environment (outside)"),"selenv_o",KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
+	(void) new KAction(i18n("TeX Group (inside)"),"selgroup_i",KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
+	(void) new KAction(i18n("TeX Group (outside)"), "selgroup_o",KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
+	(void) new KAction(i18n("Paragraph"),"selpar",KShortcut("CTRL+Alt+S,P"),m_edit, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
+	(void) new KAction(i18n("Line"),"selline",KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
+	(void) new KAction(i18n("TeX Word"),"selword",KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
 
-	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+D,E"), m_edit, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
-	(void) new KAction(i18n("Environment (outside)"),KShortcut("CTRL+Alt+D,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
-	(void) new KAction(i18n("TeX Group (inside)"),KShortcut("CTRL+Alt+D,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_inside_group");
-	(void) new KAction(i18n("TeX Group (outside)"),KShortcut("CTRL+Alt+D,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
-	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+D,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
-	(void) new KAction(i18n("TeX Word"),KShortcut("CTRL+Alt+D,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
+	(void) new KAction(i18n("Environment (inside)"),"delenv_i",KShortcut("CTRL+Alt+D,E"), m_edit, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
+	(void) new KAction(i18n("Environment (outside)"),"delenv_o",KShortcut("CTRL+Alt+D,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
+	(void) new KAction(i18n("TeX Group (inside)"),"delgroup_i",KShortcut("CTRL+Alt+D,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(),"edit_delete_inside_group");
+	(void) new KAction(i18n("TeX Group (outside)"),"delgroup_o",KShortcut("CTRL+Alt+D,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
+	(void) new KAction(i18n("Paragraph"),"delpar",KShortcut("CTRL+Alt+D,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
+	(void) new KAction(i18n("TeX Word"),"delword",KShortcut("CTRL+Alt+D,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
 
-	(void) new KAction(i18n("Goto Begin"),KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
-	(void) new KAction(i18n("Goto End"),KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
+	(void) new KAction(i18n("Goto Begin"),"gotobeginenv",KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
+	(void) new KAction(i18n("Goto End"),"gotoendenv",KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
 	(void) new KAction(i18n("Match"),"matchenv",KShortcut("CTRL+Alt+E,M"), m_edit, SLOT(matchEnv()), actionCollection(), "edit_match_env");
 	(void) new KAction(i18n("Close"),"closeenv",KShortcut("CTRL+Alt+E,C"), m_edit, SLOT(closeEnv()), actionCollection(), "edit_close_env");
 
-	(void) new KAction(i18n("Goto Begin"),KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()), actionCollection(), "edit_begin_group");
-	(void) new KAction(i18n("Goto End"),KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()), actionCollection(), "edit_end_group");
-	(void) new KAction(i18n("Match"),KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
-	(void) new KAction(i18n("Close"),KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
+	(void) new KAction(i18n("Goto Begin"),"gotobegingroup",KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()), actionCollection(), "edit_begin_group");
+	(void) new KAction(i18n("Goto End"),"gotoendgroup",KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()), actionCollection(), "edit_end_group");
+	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
+	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
 
-	(void) new KAction(i18n("Quick Start"),"quickwizard",0 , this, SLOT(quickDocument()), actionCollection(),"127" );
+	(void) new KAction(i18n("Quick Start"),"quickwizard",0 , this, SLOT(quickDocument()), actionCollection(),"wizard_document" );
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
-	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(quickTabular()), actionCollection(),"129" );
-	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(quickTabbing()), actionCollection(),"149" );
-	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(quickArray()), actionCollection(),"130" );
+	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(quickTabular()), actionCollection(),"wizard_tabular" );
+	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(quickArray()), actionCollection(),"wizard_array" );
+	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
 
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
 
@@ -439,8 +440,6 @@ void Kile::setupActions()
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
 	else {ModeAction->setChecked(true);}
-
-	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "removetemplates");
 
 	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(toggleWatchFile()), actionCollection(), "WatchFile");
 	if (m_bWatchFile) {WatchFileAction->setChecked(true);}

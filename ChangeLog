@@ -1,4 +1,8 @@
 version 1.5 -> 1.5.2 :
+- prompt user when trying to run LaTeX on a document which isn't a document root
+- better syntax highlighting (deals with \verb and verbatim environment)
+- summary of compilation results after running LaTeX
+- improved "clicking on errors in the log file jumps to corresponding line"
 - user can define an arbitrary number of user tools/tags.
 - autosave
 - added an Output view, the   Output view is the location for the raw

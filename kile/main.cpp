@@ -35,7 +35,7 @@ static KCmdLineOptions options[] =
 int main( int argc, char ** argv )
 {
   KAboutData aboutData( "kile", "Kile",
-    "1.5", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+    "1.5.2b", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
     "Jeroen Wijnhout 2003",
     0,
     "http://www.science.uva.nl/~wijnhout/Kile");

@@ -2991,7 +2991,7 @@ void Kile::LatexError(bool warnings)
 
 	QString finame;
 	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
-
+	kdDebug() << "starting to read log" << endl;
 	QFileInfo fic(finame);
 	QFile f(finame);
 	if ( f.open(IO_ReadOnly) )
@@ -3024,6 +3024,7 @@ void Kile::LatexError(bool warnings)
 		}
 		f.close();
 	}
+	kdDebug() << "log read" << endl;
 }
 
 void Kile::NextError()

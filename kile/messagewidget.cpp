@@ -26,7 +26,7 @@
 MessageWidget::MessageWidget(QWidget *parent, const char *name ) : KTextEdit(parent,name)
 {
 	setColor(black);
-    	setPaper(white);
+	setPaper(white);
 }
 
 MessageWidget::~MessageWidget(){
@@ -43,37 +43,38 @@ void MessageWidget::highlight()
 	selectAll();
 	setColor(Qt::black);
 	removeSelection();
+	int index=0;
 
 	for(int i = 0 ; i < paragraphs() ; i++ )
-   {
- 	QString line=text(i);
+	{
+		QString line=text(i);
 
-	int index=0;
-///////////// LaTeX error ///////////
-	index=line.find("!",0);
-   	if (index>=0)
-   	{
-   		setSelection( i,0, i,paragraphLength(i) );
-   		setColor(QColor(0xCC, 0x00, 0x00));
-   		removeSelection();
+
+		///////////// LaTeX error ///////////
+		index=line.find("!",0);
+		if (index>=0)
+		{
+			setSelection( i,0, i,paragraphLength(i) );
+			setColor(QColor(0xCC, 0x00, 0x00));
+			removeSelection();
+		}
+		///////////// LaTeX warning ///////////
+		index=line.find("LaTeX Warning",0);
+		if (index>=0)
+		{
+			setSelection( i, 0, i,paragraphLength(i) );
+			setColor(QColor(0x00, 0x00, 0xCC ));
+			removeSelection();
+		}
+		///////////// TeX files ///////////
+		index=line.find(".tex",0);
+		if (index>=0)
+		{
+			setSelection( i, 0, i,paragraphLength(i) );
+			setColor(QColor(0x00, 0x80, 0x00));
+			removeSelection();
+		}
    	}
-///////////// LaTeX warning ///////////
-	index=line.find("LaTeX Warning",0);
-   if (index>=0)
-   	{
-   		setSelection( i, 0, i,paragraphLength(i) );
-   		setColor(QColor(0x00, 0x00, 0xCC ));
-   		removeSelection();
-   	}
-///////////// TeX files ///////////
-	index=line.find(".tex",0);
-   	if (index>=0)
-   	{
-   		setSelection( i, 0, i,paragraphLength(i) );
-   		setColor(QColor(0x00, 0x80, 0x00));
-   		removeSelection();
-   	}
-   }
 	setCursorPosition( cursorParagraph, cursorIndex );
 	setUpdatesEnabled(true);
 	blockSignals(false); // block signals to avoid recursion

@@ -25,6 +25,7 @@
 #include <qtabwidget.h>
 
 #include <kdebug.h>
+#include <kurl.h>
 
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
@@ -32,8 +33,6 @@
 #include "latexoutputinfo.h"
 
 class QWidget;
-
-class KURL;
 
 namespace KileDocument { class Info; }
 class KileProject;
@@ -59,6 +58,7 @@ public:
 	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);
 	QString getFullFromPrettyName(const QString & name);
+	KURL::List getParentsFor(KileDocument::Info *);
 
 	QString getCurrentTarget() const { return m_currentTarget; }
 	void setTarget(const QString &target) { m_currentTarget=target; }

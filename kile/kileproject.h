@@ -86,7 +86,6 @@ public:
 	uint columnNumber() { return m_nColumn; }
 	void setColumnNumber(uint l) { m_nColumn = l; }
 
-
 	//project tree functions
 	void setParent(KileProjectItem * item);
 

@@ -60,19 +60,21 @@ Info::Info(Kate::Document *doc) : m_doc(doc)
 		m_url = m_oldurl = KURL();
 
 	//TODO: make this configurable
-	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
-	m_dictStructLevel["\\bibitem"]= KileStructData(-2, KileStruct::BibItem);
-	m_dictStructLevel["\\input"]=KileStructData(0, KileStruct::Input, "include");
-	m_dictStructLevel["\\Input"]=KileStructData(0, KileStruct::Input, "include");
+	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+	m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "refs");
+	m_dictStructLevel["\\input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
+	m_dictStructLevel["\\Input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
 	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
 	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
 	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
 	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
 	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "bibtex");
-	m_dictStructLevel["\\usepackage"]=KileStructData(-3,KileStruct::Package);
-	m_dictStructLevel["\\newcommand"]=KileStructData(-4,KileStruct::NewCommand);
+	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
+	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
 }
 
 void Info::emitNameChanged(Kate::Document * /*doc*/)
@@ -354,14 +356,13 @@ void TeXInfo::updateStruct()
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
 	BracketResult result;
-	QString m, s, folder = "root", shorthand;
+	QString m, s, shorthand;
 	bool foundBD = false; // found \begin { document }
 	bool fire = true; //whether or not we should emit a foundItem signal
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
 	{
 		tagStart=tagEnd=0;
-		folder = "root";
 		s=m_doc->textLine(i);
 		fire = true;
 
@@ -446,7 +447,7 @@ void TeXInfo::updateStruct()
 						{
 							m_bibliography.append(bibs[b]);
 							m_deps.append(bibs[b] + ".bib");
-							emit(foundItem(bibs[b], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, folder));
+							emit(foundItem(bibs[b], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
 							cumlen += bibs[b].length() + 1;
 						}
 						fire = false;
@@ -454,10 +455,7 @@ void TeXInfo::updateStruct()
 
 					//update the label list
 					if ((*it).type == KileStruct::Label)
-					{
 						m_labels.append(m);
-						folder = "labels";
-					}
 
 					//update the bibitem list
 					if ((*it).type == KileStruct::BibItem)
@@ -474,7 +472,7 @@ void TeXInfo::updateStruct()
 						for (uint p = 0; p < pckgs.count(); p++)
 						{
 							m_packages.append(pckgs[p]);
-							emit(foundItem(pckgs[p], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, folder));
+							emit(foundItem(pckgs[p], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
 							cumlen += pckgs[p].length() + 1;
 						}
 						fire = false;
@@ -503,12 +501,13 @@ void TeXInfo::updateStruct()
 						m = shorthand;
 
 					kdDebug() << "emitting foundItem " << m << endl;
-					if (fire) emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, folder));
+					if (fire) emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, (*it).folder));
 				} //if m
 			} // if tagStart
 		} // while tagStart
 	} //for
 
+	emit(doneUpdating());
 	emit(isrootChanged(isLaTeXRoot()));
 }
 
@@ -579,6 +578,8 @@ void BibInfo::updateStruct()
 			}
 		}
 	}
+
+	emit(doneUpdating());
 }
 
 }

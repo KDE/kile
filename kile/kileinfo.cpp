@@ -143,6 +143,16 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 	return file;
 }
 
+KURL::List KileInfo::getParentsFor(KileDocument::Info *info)
+{
+	KileProjectItemList *items = docManager()->itemsFor(info);
+	KURL::List list;
+	for ( uint i = 0; i < items->count(); i++)
+		if (items->at(i)->parent()) list.append(items->at(i)->parent()->url());
+
+	return list;
+}
+
 const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0L */)
 {
 	m_listTemp.clear();

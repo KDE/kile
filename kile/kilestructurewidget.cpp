@@ -17,6 +17,7 @@
 
 #include <qfileinfo.h>
 #include <qheader.h>
+#include <qregexp.h>
  
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -26,12 +27,31 @@
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
-
+#include "kiledocumentinfo.h"
 #include "kilestructurewidget.h"
+
+KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level) : 
+	KListViewItem(parent,after),
+	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level)
+{
+	this->setText(0, m_title+" (line "+QString::number(m_line)+")");
+}
+
+KileListViewItem::KileListViewItem(QListView * parent, QString label) : 
+	KListViewItem(parent,label),
+	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
+{}
+
+KileListViewItem::KileListViewItem(QListViewItem * parent, QString label) :
+	KListViewItem(parent,label),
+	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
+{}
 
 namespace KileWidget
 {
-	StructureList::StructureList(Structure *stack, KileDocument::Info *docinfo) : KListView(stack), m_stack(stack), m_docinfo(docinfo)
+	StructureList::StructureList(Structure *stack, KileDocument::Info *docinfo) : 
+		KListView(stack),
+		m_stack(stack), m_docinfo(docinfo)
 	{
 		show();
 		header()->hide();
@@ -45,6 +65,10 @@ namespace KileWidget
 		init();
 	}
 
+	StructureList::~StructureList()
+	{
+	}
+
 	void StructureList::init()
 	{
 		QString title = (m_docinfo == 0L ) ? i18n("No \"structure data\" to display.") : m_docinfo->url().fileName();
@@ -54,9 +78,10 @@ namespace KileWidget
 			m_root->setOpen(true);
 			m_root->setPixmap(0, SmallIcon("contents"));
 			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, const QString &, const QString &)), this, SLOT(addItem(const QString&, uint, uint, int, int, const QString &, const QString &)));
+// 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
 		}
 
-		m_current=m_child=m_lastChild=m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_root;
+		m_current=m_child=m_lastChild=m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[7]=m_root;
 
 		m_folders.clear();
 	}
@@ -72,93 +97,135 @@ namespace KileWidget
 	void StructureList::saveState()
 	{
 		m_openByTitle.clear();
+		m_openByLine.clear();
+
 		QListViewItemIterator it(this);
 		KileListViewItem *item = 0L;
 		while ( it.current() ) 
 		{
 			item = (KileListViewItem*)it.current();
-			if ( item->firstChild() ) m_openByTitle [ item->title() ] = item->isOpen();
+			if ( item->firstChild() )
+			{
+				//we don't accept duplicate entries in the map, remove this item alltogether
+				//and rely on the openByLine map instead
+				if ( m_openByTitle.contains ( item->title() ) )
+					m_openByTitle.remove ( item->title() );
+				else
+					m_openByTitle [ item->title() ] = item->isOpen();
+
+				m_openByLine [ item->line() ] = item->isOpen();
+			}
 			it++;
 		}
 	}
 
 	bool StructureList::shouldBeOpen(KileListViewItem *item, QString folder, int level)
 	{
-		//FIXME what do we do when there are multiple section with the same title?
 		if ( m_openByTitle.contains(item->title()) )
 			return m_openByTitle [ item->title() ];
+		else if ( m_openByLine.contains(item->line()) )
+			return m_openByLine [ item->line() ]; //TODO check surrounding lines as well
 		else
 			return ((folder == "root") && level <= m_stack->level());
 	}
 
-	QListViewItem* StructureList::createFolder(const QString &folder)
+	KileListViewItem* StructureList::createFolder(const QString &folder)
 	{
-		QListViewItem *fldr=  new KileListViewItem(m_root, folder.upper());
+		KileListViewItem *fldr=  new KileListViewItem(m_root, folder);
 		fldr->setOpen(false);
 		if ( folder == "labels" )
+		{
+			fldr->setText(0, i18n("Labels"));
 			fldr->setPixmap(0, SmallIcon("label"));
+		}
+		else if ( folder == "refs" )
+		{
+			fldr->setText(0, i18n("References"));
+			fldr->setPixmap(0, SmallIcon("bibtex"));
+		}
 
 		m_folders[ folder ] = fldr;
 
 		return m_folders[folder];
 	}
 
-	QListViewItem* StructureList::folder(const QString &folder)
+	KileListViewItem* StructureList::folder(const QString &folder)
 	{
-		QListViewItem *item = m_folders[folder];
+		KileListViewItem *item = m_folders[folder];
 		if ( item == 0L ) item = createFolder(folder);
 		return item;
 	}
 
-	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev, const QString & pix, const QString & fldr /* = "m_root" */)
+	void StructureList::activate()
+	{
+		m_stack->raiseWidget(this);
+	}
+
+	KileListViewItem *StructureList::parentFor(int lev, const QString & fldr)
+	{
+		KileListViewItem *par = m_current;
+
+		if ( fldr == "root" )
+		{
+			switch (lev)
+			{
+				case KileStruct::File :  
+					if ( !m_current ) par = m_root;
+					else if ( m_current->level() == KileStruct::File )
+						par = (KileListViewItem*)m_current->parent();
+				break;
+
+				case 0 : case 1 :
+					par = m_root;
+				break;
+
+				default:
+					par = m_parent[lev-2];
+				break;
+			}
+		}
+		else
+			par = folder(fldr);
+
+		return par;
+	}
+
+	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev, const QString & pix, const QString & fldr /* = "root" */)
 	{
  		kdDebug() << "==void Structure::addItem(" << title << ")=========" << endl;
 
-// 		StructureList *data = viewFor(info);
+		if ( lev == KileStruct::Hidden ) return;
 
-		if ( lev > -2)
+		//find the m_parent for the new element
+		m_current = parentFor(lev, fldr);
+
+		//find last element at this level
+		m_child = (KileListViewItem*)m_current->firstChild();
+		while (m_child)
 		{
-			//find the m_parent for the new element
-			if ( fldr == "root" )
-			{
-// 				kdDebug() << "\tadding to m_root folder" << endl;
-				switch (lev)
-				{
-				case -1 : m_current = folder("labels"); break;
-				case 0 : case 1 : m_current= m_root; break;
-				default : m_current = m_parent[lev-2]; break;
-				}
-			}
-			else
-			{
-				m_current = folder(fldr);
-			}
+			m_lastChild = m_child;
+			m_child = (KileListViewItem*)m_child->nextSibling();
+		}
 
-// 			kdDebug() << "\t\tm_m_current = " << m_current << endl;
+		m_child = new KileListViewItem(m_current, m_lastChild, title, m_docinfo->url(), line, column, type, lev);
 
-			//find last element at this level
-			m_child = m_current->firstChild();
-			while (m_child)
-			{
-				m_lastChild = m_child;
-				m_child = m_child->nextSibling();
-			}
+		if (! pix.isNull()) m_child->setPixmap(0,SmallIcon(pix));
 
-			m_child=new KileListViewItem(m_current, m_lastChild, title, line, column, type);
-			
-			if (! pix.isNull()) m_child->setPixmap(0,SmallIcon(pix));
+		//if the level is not greater than the defaultLevel
+		//open the m_parent to make this item visible
+		m_current->setOpen(shouldBeOpen((KileListViewItem*)m_current, fldr, lev));
 
-			//if the level is not greater than the defaultLevel
-			//open the m_parent to make this item visible
-			m_current->setOpen(shouldBeOpen((KileListViewItem*)m_current, fldr, lev));
-
-			//update the m_parent levels, such that section etc. get inserted at the correct level
-			if ( lev > 0)
-			{
-				m_parent[lev-1] = m_child;
-				for (int l = lev; l < 5; l++)
-					m_parent[l] = m_child;
-			}
+		//update the m_parent levels, such that section etc. get inserted at the correct level
+		m_current = m_child;
+		if ( lev > 0)
+		{
+			m_parent[lev-1] = m_child;
+			for (int l = lev; l < 7; l++)
+				m_parent[l] = m_child;
+		}
+		else if ( lev == 0 )
+		{
+			for ( int l = 0; l < 7; l++ ) m_parent[l] = m_root;
 		}
 	}
 
@@ -174,7 +241,7 @@ namespace KileWidget
 		setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 
 		StructureList *def = new StructureList(this, 0L);
-		raiseWidget(def);
+		def->activate();
 
 		connect(this, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(slotDoubleClicked(QListViewItem *)));
@@ -194,7 +261,7 @@ namespace KileWidget
 		if (! item) return;
 
 		if (! (item->type() & KileStruct::None ))
-			emit(setCursor(item->line()-1, item->column()));
+			emit(setCursor(item->url(), item->line()-1, item->column()));
 	}
 
 	void Structure::slotDoubleClicked(QListViewItem * itm)
@@ -229,10 +296,19 @@ namespace KileWidget
 
 	StructureList* Structure::viewFor(KileDocument::Info *info)
 	{
-		if ( !m_map.contains(info) )
+		if ( info == 0L ) return 0L;
+
+		if ( ! viewExistsFor(info) )
 			m_map.insert(info, new StructureList(this, info), true);
 
 		return  m_map[info];
+	}
+
+	bool Structure::viewExistsFor(KileDocument::Info *info)
+	{
+		if ( info == 0L ) return false;
+		else
+			return m_map.contains(info);
 	}
 
 	void Structure::closeDocumentInfo(KileDocument::Info *docinfo)
@@ -265,7 +341,7 @@ namespace KileWidget
 
 		m_docinfo = docinfo;
 
-		bool needParsing = parse || ( ! m_map.contains(m_docinfo) );
+		bool needParsing = parse || ( ! viewExistsFor(m_docinfo) );
 
 		//find structview-item for this docinfo
 		StructureList *view = viewFor(m_docinfo);
@@ -276,7 +352,7 @@ namespace KileWidget
 			m_docinfo->updateStruct();
 		}
 
-		raiseWidget(view);
+		view->activate();
 	}
 	
 

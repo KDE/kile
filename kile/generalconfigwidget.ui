@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>866</width>
-            <height>426</height>
+            <height>428</height>
         </rect>
     </property>
     <property name="caption">
@@ -109,7 +109,7 @@
                         <number>1</number>
                     </property>
                     <property name="maxValue">
-                        <number>5</number>
+                        <number>7</number>
                     </property>
                 </widget>
             </hbox>
@@ -205,11 +205,9 @@
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

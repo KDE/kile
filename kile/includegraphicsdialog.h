@@ -3,7 +3,7 @@
 ----------------------------------------------------------------------------
     date                 : Jan 23 2004
     version              : 0.10.2
-    copyright            : (C) 2004 by Holger Danielsson
+    copyright            : (C) 2004 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -19,65 +19,67 @@
 #ifndef INCLUDEGRAPHICSDIALOG_H
 #define INCLUDEGRAPHICSDIALOG_H
 
-#include <qdialog.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <qstring.h>
+
+#include <klineedit.h>
 #include <kprocess.h>
+#include <kdialogbase.h>
 
 /**
   *@author dani
   */
 
-class IncludegraphicsDialog : public QDialog  {
-    Q_OBJECT
-    
-public:
-   IncludegraphicsDialog(QWidget *parent,const QString &startdir,bool pdflatex);
-   ~IncludegraphicsDialog();
+namespace KileDialog
+{
 
-   QString getTemplate();
-   
+class IncludeGraphics : public KDialogBase  
+{
+	Q_OBJECT
+
+public:
+	IncludeGraphics(QWidget *parent,const QString &startdir,bool pdflatex);
+	~IncludeGraphics();
+
+	QString getTemplate();
+
 private slots:
-   void chooseFile();
-   void updateFigure();
-   void checkParameter();
-   
-   void slotProcessOutput(KProcess* proc,char* buffer,int buflen);
-   void slotProcessExited(KProcess* proc);
+	void chooseFile();
+	void updateFigure();
+
+	void slotProcessOutput(KProcess* proc,char* buffer,int buflen);
+	void slotProcessExited(KProcess* proc);
+
+	void slotOk();
 
 private:
-   QString getOptions();
-   QString getInfo();
-   bool getPictureSize(int &wpx, int &hpx, QString &wcm, QString &hcm);
-   void setInfo();
+	bool checkParameter();
+	QString getOptions();
+	QString getInfo();
+	bool getPictureSize(int &wpx, int &hpx, QString &wcm, QString &hcm);
+	void setInfo();
 
-   QLabel *infolabel;
-   QLineEdit *edit_file;
-   QLineEdit *edit_label;
-   QLineEdit *edit_caption;
-   QLineEdit *edit_width;
-   QLineEdit *edit_height;
-   QLineEdit *edit_angle;
-   QLineEdit *edit_bb;
-   QCheckBox *cb_center, *cb_pdftex, *cb_figure;
-   QLabel *lb_label, *lb_caption;
-   
-   QString m_startdir;
-   QString m_output;
+	QLabel *infolabel;
+	KLineEdit *edit_file, *edit_label, *edit_caption, *edit_width, *edit_height, *edit_angle, *edit_bb;
+	QCheckBox *cb_center, *cb_pdftex, *cb_figure;
+	QLabel *lb_label, *lb_caption;
 
-   // current picture
-   bool m_pdflatex;
-   float m_resolution;
+	QString m_startdir;
+	QString m_output;
 
-   // default
-   bool m_imagemagick;
-   bool m_boundingbox;
-   float m_defaultresolution;
-   
-   void execute(const QString &command);
+	// current picture
+	bool m_pdflatex;
+	float m_resolution;
 
+	// default
+	bool m_imagemagick;
+	bool m_boundingbox;
+	float m_defaultresolution;
+
+	void execute(const QString &command);
 };
+
+}
 
 #endif

@@ -38,9 +38,17 @@
 
 namespace KileStruct
 {
-	enum  {
+	//Different types of elements in the structure view
+	enum  
+	{
 		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
 		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80
+	};
+
+	//Different levels (in the parent-child hierarchy) in the structure view
+	enum
+	{
+		Hidden = -3, NotSpecified = -2, File = -1
 	};
 }
 
@@ -52,13 +60,13 @@ namespace KileStruct
 class KileStructData
 {
 public:
-	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString::null)  : level(lvl), type(tp), pix(px) {}
+	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString::null, QString fldr = "root" )  : level(lvl), type(tp), pix(px), folder(fldr) {}
 	/** At which level the element should be visible **/
 	int				level;
 	/** The type of element (see @ref KileStruct) **/
 	int 			type;
 	/** The name of the icon that goes with this element. The icon is located using SmallIcon(pix). **/
-	QString 	pix;
+	QString 	pix, folder;
 };
 
 /**
@@ -135,6 +143,7 @@ signals:
 	void isrootChanged(bool);
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString & folder);
+	void doneUpdating();
 
 protected:
 	void count(const QString line, long *stat);

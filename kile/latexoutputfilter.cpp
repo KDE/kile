@@ -125,7 +125,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			{
 				//push the filename on the stack and mark it as 'reliable'
 				m_stackFile.push(LOFStackItem(strPartialFileName, true));
-				kdDebug() << "\tpushed : " << strPartialFileName << endl;
+// 				kdDebug() << "\tpushed : " << strPartialFileName << endl;
 				strPartialFileName = QString::null;
 				dwCookie = Start;
 			}
@@ -133,7 +133,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//Don't push it on the stack, instead try to detect the error.
 			else if ( strLine.startsWith("!") )
 			{
-				kdDebug() << "oops!" << endl;
+// 				kdDebug() << "oops!" << endl;
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				detectError(strLine, dwCookie);
@@ -350,7 +350,6 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 	QString warning;
 
 	static QRegExp::QRegExp reLaTeXWarning("^(! )?(La|pdf)TeX .*Warning.*:(.*)", false);
-	//static QRegExp::QRegExp warning3(".*warning.*: (.*)", false);  
 	static QRegExp::QRegExp reNoFile("No file (.*)");
 
 	switch (dwCookie)
@@ -525,8 +524,8 @@ short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 	switch (dwCookie)
 	{
 		case Start :
-			updateFileStack(strLine, dwCookie);
-			(detectBadBox(strLine, dwCookie) || detectWarning(strLine, dwCookie) || detectError(strLine, dwCookie));
+			if ( ! (detectBadBox(strLine, dwCookie) || detectWarning(strLine, dwCookie) || detectError(strLine, dwCookie)) )
+				updateFileStack(strLine, dwCookie);
 		break;
 
 		case Warning :

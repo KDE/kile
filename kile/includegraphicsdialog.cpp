@@ -3,7 +3,7 @@
 ----------------------------------------------------------------------------
     date                 : Jan 23 2004
     version              : 0.10.2
-    copyright            : (C) 2004 by Holger Danielsson
+    copyright            : (C) 2004 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -17,39 +17,36 @@
  ***************************************************************************/
 
 #include "includegraphicsdialog.h"
+
 #include <qregexp.h>
 #include <qfileinfo.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
 #include <qgroupbox.h>
-#include "qvgroupbox.h"
+#include <qvgroupbox.h>
 #include <qlayout.h>
 #include <qpixmap.h>
+
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+#include <kpushbutton.h>
 
 #include "kileconfig.h"
 
-IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
-                                             const QString &startdir,
-                                             bool pdflatex)
-    :QDialog( parent, "includegraphics", true , WStyle_Customize | WStyle_Title | WType_Dialog ),
-    m_startdir(startdir),
-    m_pdflatex(pdflatex)
+namespace KileDialog
 {
-   // set caption of the dialog
-   setCaption(i18n("Includegraphics Dialog"));
 
+IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool pdflatex) :
+	KDialogBase( Plain, i18n("Include Graphics"), Ok | Cancel, Ok, parent, 0, true, true),
+	m_startdir(startdir),
+	m_pdflatex(pdflatex)
+{
    // Layout
-   QVBoxLayout *vbox = new QVBoxLayout(this, 6,6 );
-
+   QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
+   
    // first groupbox: choose picture
-   QVGroupBox* group= new QVGroupBox(i18n("File"),this );
+   QVGroupBox* group= new QVGroupBox(i18n("File"), plainPage());
 
    QWidget *widget = new QWidget(group);
    QGridLayout *grid = new QGridLayout( widget, 3,3, 6,6, "");
@@ -61,13 +58,13 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    QLabel *label1 = new QLabel(i18n("Picture:"), widget);
    grid->addWidget( label1, 0,0 );
 
-   // line 1: QLineEdit
-   edit_file = new QLineEdit("",widget);
+   // line 1: KLineEdit
+   edit_file = new KLineEdit("",widget);
    edit_file->setMinimumWidth(300);
    grid->addWidget( edit_file, 0,1 );
 
    // line 1: Choose-Box
-   QPushButton *pb_choose = new QPushButton("", widget, "filechooser_button" );
+   KPushButton *pb_choose = new KPushButton("", widget, "filechooser_button" );
    pb_choose->setPixmap( SmallIcon("fileopen") );
 
    pb_choose->setFixedWidth(pb_choose->sizeHint().width());      // set width
@@ -97,7 +94,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    grid->addWidget( cb_widget, 2,1 );
 
    // second groupbox: options
-   QVGroupBox* gb_opt= new QVGroupBox(i18n("Options"),this );
+   QVGroupBox* gb_opt= new QVGroupBox(i18n("Options"), plainPage());
    QWidget *widget_opt = new QWidget(gb_opt);
    QGridLayout *grid_opt = new QGridLayout( widget_opt, 2,4, 6,6, "");
 
@@ -105,10 +102,10 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    QLabel *label8 = new QLabel(i18n("Height:"),widget_opt);
    QLabel *label9 = new QLabel(i18n("Angle:"), widget_opt);
    QLabel *label10= new QLabel(i18n("Bounding box:"), widget_opt);
-   edit_width = new QLineEdit("",widget_opt);
-   edit_height = new QLineEdit("",widget_opt);
-   edit_angle = new QLineEdit("",widget_opt);
-   edit_bb = new QLineEdit("",widget_opt);
+   edit_width = new KLineEdit("",widget_opt);
+   edit_height = new KLineEdit("",widget_opt);
+   edit_angle = new KLineEdit("",widget_opt);
+   edit_bb = new KLineEdit("",widget_opt);
 
    grid_opt->addWidget( label7,     0,0, Qt::AlignRight );
    grid_opt->addWidget( edit_width, 0,1 );
@@ -121,7 +118,7 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    grid_opt->addWidget( edit_bb,     1,3 );
 
     // third groupbox: figure environment
-   QGroupBox *gb_fig= new QGroupBox(2,Qt::Horizontal,i18n("Figure Environment"), this );
+   QGroupBox *gb_fig= new QGroupBox(2,Qt::Horizontal,i18n("Figure Environment"), plainPage());
    QWidget *widget_fig = new QWidget(gb_fig);
    QGridLayout *grid_fig = new QGridLayout( widget_fig, 3,2, 6,6, "");
 
@@ -129,8 +126,8 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    lb_label = new QLabel(i18n("Label:"), widget_fig);
    lb_caption = new QLabel(i18n("Caption:"), widget_fig);
    cb_figure = new QCheckBox(i18n("Use figure environment"),widget_fig);
-   edit_label = new QLineEdit("Fig:",widget_fig);
-   edit_caption = new QLineEdit("",widget_fig);
+   edit_label = new KLineEdit("Fig:",widget_fig);
+   edit_caption = new KLineEdit("",widget_fig);
 
    grid_fig->addWidget( label4,0,0);
    grid_fig->addWidget( cb_figure, 0,1);
@@ -143,37 +140,15 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    cb_figure->setChecked(false);
    updateFigure();
 
-   // OK/Cancel widgets
-   QWidget *buttonwidget = new QWidget(this);
-   QHBoxLayout *buttons = new QHBoxLayout(buttonwidget);
-
-   QPushButton *ok = new QPushButton(i18n("&OK"),buttonwidget);
-   ok->setDefault(true);
-   QPushButton *cancel= new QPushButton(i18n("&Cancel"),buttonwidget);
-
-   int w = ok->sizeHint().width();
-   int wcancel = cancel->sizeHint().width();
-   if ( wcancel > w )
-      w = wcancel;
-   ok->setFixedWidth(w);
-   cancel->setFixedWidth(w);
-
-   buttons->addWidget(ok);
-   buttons->addSpacing(20);
-   buttons->addWidget(cancel);
-
    // add to layout
    vbox->addWidget(group);
    vbox->addWidget(gb_opt);
    vbox->addWidget(gb_fig);
-   vbox->addWidget(buttonwidget);
    vbox->addStretch();
 
    // connect
    connect( pb_choose, SIGNAL( clicked() ), this, SLOT( chooseFile() ) );
    connect( cb_figure, SIGNAL(clicked()), this, SLOT(updateFigure() ) );
-   connect( ok, SIGNAL(clicked()), SLOT(checkParameter()) );
-   connect( cancel, SIGNAL(clicked()), SLOT(reject()) );
 
    // read configuration
    m_imagemagick = KileConfig::imagemagick();
@@ -184,13 +159,12 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
    setFocusProxy( edit_file );
 }
 
-IncludegraphicsDialog::~IncludegraphicsDialog()
-{
-}
+IncludeGraphics::~IncludeGraphics()
+{}
 
 ////////////////////////////// update figure environment //////////////////////////////
 
-void IncludegraphicsDialog::updateFigure()
+void IncludeGraphics::updateFigure()
 {
    bool state = cb_figure->isChecked();
 
@@ -202,7 +176,7 @@ void IncludegraphicsDialog::updateFigure()
 
 ////////////////////////////// determine the whole tag //////////////////////////////
 
-QString IncludegraphicsDialog::getTemplate()
+QString IncludeGraphics::getTemplate()
 {
    QString s = "";
 
@@ -256,7 +230,7 @@ QString IncludegraphicsDialog::getTemplate()
 
 ////////////////////////////// some calculations //////////////////////////////
 
-QString IncludegraphicsDialog::getOptions()
+QString IncludeGraphics::getOptions()
 {
    QString s = "";
 
@@ -282,7 +256,7 @@ QString IncludegraphicsDialog::getOptions()
 
 ////////////////////////////// graphics info //////////////////////////////
 
-QString IncludegraphicsDialog::getInfo()
+QString IncludeGraphics::getInfo()
 {
    QString wcm,hcm;
    int wpx,hpx;
@@ -302,7 +276,7 @@ QString IncludegraphicsDialog::getInfo()
     }
 }
 
-void IncludegraphicsDialog::setInfo()
+void IncludeGraphics::setInfo()
 {
    QString text;
    QString wcm,hcm,dpi;
@@ -326,7 +300,7 @@ void IncludegraphicsDialog::setInfo()
    infolabel->setText(text);
 }
 
-bool IncludegraphicsDialog::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &hcm)
+bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &hcm)
 {
    float eps[4], width,height, w,h;
    bool ok;
@@ -370,14 +344,14 @@ bool IncludegraphicsDialog::getPictureSize(int &wpx, int &hpx, QString &wcm, QSt
 }
 
 
-void IncludegraphicsDialog::chooseFile()
+void IncludeGraphics::chooseFile()
 {
    QString filter = ( m_pdflatex )
-                  ? QString("*.png|PNG files\n")
+                  ? QString("*.png,*.jpg,*.pdf|Graphics\n*.png|PNG files\n")
                           + "*.jpg|JPG files\n"
                           + "*.pdf|PDF files\n"
                           + "*|All files"
-                  : QString("*.png|PNG files\n")
+                  : QString("*.[ng,*.jpg,*.eps.gz,*.eps|Graphics\n*.png|PNG files\n")
                           + "*.jpg|JPG files\n"
                           + "*.eps.gz|zipped EPS files\n"
                           + "*.eps|EPS files\n"
@@ -387,12 +361,12 @@ void IncludegraphicsDialog::chooseFile()
                                               this,i18n("Select File") );
    QFileInfo fi(fn);
 
+    // insert the chosen file
+   edit_file->setText( fn );
+   
    // could we accept the picture?
-   if ( !fn.isEmpty() && fi.exists() && fi.isReadable() )  {
-
-      // insert the chosen file
-      edit_file->setText( fn );
-
+   if ( !fn.isEmpty() && fi.exists() && fi.isReadable() )  
+   {
       // execute the command and filter the result:
       // eps|eps.gz --> %%BoundingBox: 0 0 123 456
       // bitmaps    --> w=123 h=456 dpi=789
@@ -407,7 +381,7 @@ void IncludegraphicsDialog::chooseFile()
    }
 }
 
-void IncludegraphicsDialog::execute(const QString &command)
+void IncludeGraphics::execute(const QString &command)
 {
    if ( !m_boundingbox || (!m_imagemagick && command.left(8)=="identify") )
       return;
@@ -424,7 +398,7 @@ void IncludegraphicsDialog::execute(const QString &command)
            this, SLOT(slotProcessExited(KProcess*)) );
 
    m_output = "";
-   kdDebug() << "=== IncludegraphicsDialog::execute ====================" << endl;
+   kdDebug() << "=== IncludeGraphics::execute ====================" << endl;
    kdDebug() << "   execute '" << command << "'" << endl;
 
    proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
@@ -432,14 +406,14 @@ void IncludegraphicsDialog::execute(const QString &command)
 
 // get all output of identify
 
-void IncludegraphicsDialog::slotProcessOutput(KProcess*,char* buffer,int buflen)
+void IncludeGraphics::slotProcessOutput(KProcess*,char* buffer,int buflen)
 {
    m_output += QCString(buffer,buflen+1);
 }
 
 // identify was called
 
-void IncludegraphicsDialog::slotProcessExited(KProcess* proc)
+void IncludeGraphics::slotProcessExited(KProcess* proc)
 {
   if ( proc->normalExit() &&  !proc->exitStatus() ) {
       kdDebug() << "   result:" << m_output << endl;
@@ -481,22 +455,29 @@ void IncludegraphicsDialog::slotProcessExited(KProcess* proc)
     }
 }
 
-////////////////////////////// check parameter //////////////////////////////
-
-void IncludegraphicsDialog::checkParameter()
+void IncludeGraphics::slotOk()
 {
-   if ( edit_file->text().isEmpty() ) {
-      KMessageBox::error( this, i18n("No graphics file was given.") );
-      return;
-   }
+	if ( checkParameter() ) accept();
+}
 
-   QFileInfo fi( edit_file->text() );
-   if ( ! fi.exists() ) {
-      KMessageBox::error( this, i18n("The graphics file does not exist.") );
-      return;
-   }
+bool IncludeGraphics::checkParameter()
+{
+	if ( edit_file->text().isEmpty() )
+	{
+		if ( KMessageBox::warningYesNo( this, i18n("No graphics file was given. Proceed any way?") ) == KMessageBox::No ) return false;
+	}
+	else
+	{
+		QFileInfo fi( edit_file->text() );
+		if ( ! fi.exists() )
+		{
+			if ( KMessageBox::warningYesNo( this, i18n("The graphics file does not exist. Proceed any way?") ) == KMessageBox::No )  return false;
+		}
+	}
 
-   accept();
+	return true;
+}
+
 }
 
 #include "includegraphicsdialog.moc"

@@ -186,7 +186,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	m_kwStructure = new KileWidget::Structure(this, Structview);
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
-	connect(m_kwStructure, SIGNAL(setCursor(int,int)), this, SLOT(setCursor(int,int)));
+	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
 
@@ -659,13 +659,17 @@ void Kile::setLine( const QString &line )
   	}
 }
 
-void Kile::setCursor(int parag, int index)
+void Kile::setCursor(const KURL &url, int parag, int index)
 {
-	Kate::View *view = viewManager()->currentView();
-	if (view)
+	Kate::Document *doc = docManager()->docFor(url);
+	if (doc) 
 	{
-		view->setCursorPositionReal(parag, index);
-		view->setFocus();
+		Kate::View *view = (Kate::View*)doc->views().first();
+		if (view)
+		{
+			view->setCursorPositionReal(parag, index);
+			view->setFocus();
+		}
 	}
 }
 
@@ -1973,21 +1977,13 @@ void Kile::CleanBib()
 	}
 }
 
-
-
-KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint column, int type)
-	: KListViewItem(parent,after), m_title(title), m_line(line), m_column(column), m_type(type)
-{
-	this->setText(0, m_title+" (line "+QString::number(m_line)+")");
-}
-
 void Kile::includeGraphics()
 {
 	Kate::View *view = viewManager()->currentView();
 	if ( !view ) return;
 
 	QFileInfo fi( view->getDoc()->url().path() );
-	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this, fi.dirPath(), false);
+	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), false);
 
 	if ( dialog->exec() == QDialog::Accepted )
 		insertTag( dialog->getTemplate(),"%C",0,0 );

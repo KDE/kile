@@ -29,6 +29,9 @@
 #include <kate/document.h>
 
 #include "kilehelp.h"
+#include "kiletoolmanager.h"
+#include "kileviewmanager.h"
+#include "kileinfo.h"
 #include "kilestdtools.h"
 
 namespace KileHelp
@@ -53,6 +56,12 @@ namespace KileHelp
 		tool->setSource(parameter);
 		tool->setTarget(QFileInfo(parameter).fileName());
 		m_manager->run(tool);
+	}
+
+	void Help::helpKeyword()
+	{
+		//FIXME: we should have a better way to access the current view
+		helpKeyword(m_manager->info()->viewManager()->currentView());
 	}
 
 ////////////////////// Help: TeTeX //////////////////////
@@ -105,6 +114,7 @@ namespace KileHelp
 
 	////////////////////// Help: Keyword //////////////////////
 
+	//FIXME: the url passed to konqueror is ok, but konqueror doesn't jump to the label!?!?!
 	void Help::helpKeyword(Kate::View *view)
 	{
 		int type = m_hconfig->useKileRefForContext() ? HelpLatex : HelpTetex;
@@ -202,3 +212,5 @@ namespace KileHelp
 		}
 	}
 }
+
+#include "kilehelp.moc"

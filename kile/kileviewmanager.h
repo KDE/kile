@@ -30,6 +30,7 @@ class KXMLGUIClient;
 class KileInfo;
 class KileEventFilter;
 class KileProjectView;
+class KileDocumentInfo;
 
 namespace KileView 
 {

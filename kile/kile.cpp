@@ -446,13 +446,13 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
 	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
-	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexGuide()), actionCollection(), "edit_help_tetex_guide");
-	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexDoc()), actionCollection(), "edit_help_tetex_doc");
-	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), this, SLOT(helpLatexIndex()), actionCollection(), "edit_help_latex_index");
-	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), this, SLOT(helpLatexCommand()), actionCollection(), "edit_help_latex_command");
-	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), this, SLOT(helpLatexSubject()), actionCollection(), "edit_help_latex_subject");
-	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), this, SLOT(helpLatexEnvironment()), actionCollection(), "edit_help_latex_env");
-	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), this, SLOT(helpKeyword()), actionCollection(), "edit_help_context");
+	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexGuide()), actionCollection(), "edit_help_tetex_guide");
+	(void) new KAction(i18n("teTeX Doc"),KShortcut("CTRL+Alt+H,T"), m_help, SLOT(helpTetexDoc()), actionCollection(), "edit_help_tetex_doc");
+	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "edit_help_latex_index");
+	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "edit_help_latex_command");
+	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "edit_help_latex_subject");
+	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "edit_help_latex_env");
+	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "edit_help_context");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -2507,45 +2507,6 @@ void Kile::includeGraphics()
 	}
 
 	delete dialog;
-}
-
-//////////////////// help commands (dani) ////////////////////
-
-
-void Kile::helpTetexGuide()
-{
-	m_help->helpTetex(KileHelp::HelpTetexGuide);
-}
-
-void Kile::helpTetexDoc()
-{
-	m_help->helpTetex(KileHelp::HelpTetexDoc);
-}
-
-void Kile::helpLatexIndex()
-{
-	m_help->helpLatex(KileHelp::HelpLatexIndex);
-}
-
-void Kile::helpLatexCommand()
-{
-	m_help->helpLatex(KileHelp::HelpLatexCommand);
-}
-
-void Kile::helpLatexSubject()
-{
-	kdDebug() << "HELP LATEX SUBJECT" << endl;
-	m_help->helpLatex(KileHelp::HelpLatexSubject);
-}
-
-void Kile::helpLatexEnvironment()
-{
-	m_help->helpLatex(KileHelp::HelpLatexEnvironment);
-}
-
-void Kile::helpKeyword()
-{
-	m_help->helpKeyword(viewManager()->currentView());
 }
 
 #include "kile.moc"

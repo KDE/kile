@@ -421,14 +421,6 @@ private slots:
 	// includegraphics (dani)
 	void includeGraphics();
 
-	void helpTetexGuide();
-	void helpTetexDoc();
-	void helpLatexIndex();
-	void helpLatexCommand();
-	void helpLatexSubject();
-	void helpLatexEnvironment();
-	void helpKeyword();
-
 	public slots:
 	// CodeCompletion public slots (dani)
 	void slotCharactersInserted(int,int,const QString&);

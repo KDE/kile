@@ -19,13 +19,14 @@
 #ifndef KILEHELP_H
 #define KILEHELP_H
 
-#include <kconfig.h>
-#include <kate/view.h>
-
+#include <qobject.h>
 #include <qmap.h>
 #include <qstring.h>
 
+#include <kconfig.h>
+#include <kate/view.h>
 #include <kileedit.h>
+
 #include "usermenudialog.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
@@ -50,8 +51,10 @@ namespace KileHelp
 		HelpLatexEnvironment
 	};
 
-	class Help
+	class Help : public QObject
 	{
+		Q_OBJECT
+
 	public:
 		Help(KileEdit *edit);
 		~Help() {}
@@ -64,6 +67,15 @@ namespace KileHelp
 		void helpKeyword(Kate::View *view);
 
 		void readConfig() { m_hconfig->readConfig(); }
+
+	public slots:
+		void helpTetexGuide() { helpTetex(KileHelp::HelpTetexGuide); }
+		void helpTetexDoc() { helpTetex(KileHelp::HelpTetexDoc); }
+		void helpLatexIndex() { helpLatex(KileHelp::HelpLatexIndex); }
+		void helpLatexCommand() { helpLatex(KileHelp::HelpLatexCommand); }
+		void helpLatexSubject() { helpLatex(KileHelp::HelpLatexSubject); }
+		void helpLatexEnvironment() { helpLatex(KileHelp::HelpLatexEnvironment); }
+		void helpKeyword();
 
 	private:
 		KileTool::Manager *m_manager;

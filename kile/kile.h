@@ -333,6 +333,8 @@ private slots:
 	bool fileClose(const KURL & url);
 	bool fileClose(Kate::Document *doc = 0);
 	bool fileCloseAll();
+
+	void saveURL(const KURL &);
 	void fileSelected(const KFileItem *file);
 
 	bool queryExit();
@@ -357,7 +359,12 @@ private slots:
 	void projectOpen();
 	void projectOpen(const KURL&);
 	void projectOpenItem(KileProjectItem *item);
+	/**
+	 * Saves the state of the project, if @param project is zero, the active project is saved.
+	 **/
 	void projectSave(KileProject * project = 0);
+	void projectOptions(const KURL &);
+	void projectOptions(KileProject *project = 0);
 	bool projectClose(const KURL & url = KURL());
 	bool projectCloseAll();
 

@@ -27,25 +27,39 @@
 #include "kileproject.h"
 #include "kileprojectview.h"
 
-const int KPV_ID_OPEN = 0, KPV_ID_CLOSE = 1, KPV_ID_OPTIONS = 2, KPV_ID_ADD = 3, KPV_ID_REMOVE = 4;
+const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5;
 
 /*
  * KileProjectViewItem
  */
-void KileProjectViewItem::nameChanged(const KURL &url)
+void KileProjectViewItem::urlChanged(const KURL &url)
 {
-	setURL(url); setText(0,url.fileName()); kdDebug() << "SLOT KileProjectViewItem::nameChanged" << endl;
+	setURL(url); setText(0,url.fileName()); kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::urlChanged" << endl;
+}
+
+void KileProjectViewItem::nameChanged(const QString & name)
+{
+	setText(0,name); kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::nameChanged" << endl;
 }
 
 void KileProjectViewItem::isrootChanged(bool isroot)
 {
+	kdDebug() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
 	if (isroot)
 	{
-		setPixmap(0,SmallIcon("tex"));
+		setPixmap(0,UserIcon("masteritem"));
 	}
 	else
 	{
-		setPixmap(0,SmallIcon("ascii"));
+		if (type() == KileType::ProjectItem)
+		{
+			if ( text(0).right(7) == ".kilepr" )
+				setPixmap(0,SmallIcon("kile"));
+			else
+				setPixmap(0,UserIcon("projectitem"));
+		}
+		else
+			setPixmap(0,UserIcon("file"));
 	}
 }
 
@@ -59,7 +73,6 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 	setFocusPolicy(QWidget::ClickFocus);
 	header()->hide();
 	setRootIsDecorated(true);
-	setItemMargin(3);
 
 	m_popup = new KPopupMenu(this, "projectview_popup");
 
@@ -75,8 +88,10 @@ void KileProjectView::slotClicked(QListViewItem *item)
 		item = currentItem();
 
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
+	kdDebug() << "KileProjectView:: clicked(" << itm->url().fileName() << ")" << endl;
 	if (itm && (itm->type() == KileType::File || itm->type() == KileType::ProjectItem ))
 	{
+		kdDebug() << "KileProjectView:: emit fileSelected" << endl;
 		emit fileSelected(itm->url());
 	}
 }
@@ -89,6 +104,7 @@ void KileProjectView::slotFile(int id)
 		switch (id)
 		{
 			case KPV_ID_OPEN : emit(fileSelected(item->url())); break;
+			case KPV_ID_SAVE : emit(saveURL(item->url())); break;
 			case KPV_ID_ADD : emit(addToProject(item->url())); break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
 			default : break;
@@ -105,6 +121,7 @@ void KileProjectView::slotProjectItem(int id)
 		switch (id)
 		{
 			case KPV_ID_OPEN : emit(fileSelected(item->url())); break;
+			case KPV_ID_SAVE : emit(saveURL(item->url())); break;
 			case KPV_ID_REMOVE :
 				projecturl = item->parent()->url();
 				url = item->url();
@@ -123,6 +140,7 @@ void KileProjectView::slotProject(int id)
 	{
 		switch (id)
 		{
+			case KPV_ID_OPTIONS : emit(projectOptions(item->url())); break;
 			case KPV_ID_CLOSE : emit(closeProject(item->url())); break;
 			default : break;
 		}
@@ -142,6 +160,8 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		if (itm->type() == KileType::File)
 		{
 			m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
+			m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
+			m_popup->insertSeparator();
 			if (m_nProjects>0) m_popup->insertItem(i18n("&Add To Project"), KPV_ID_ADD);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotFile(int)));
@@ -149,13 +169,15 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		else if (itm->type() == KileType::ProjectItem)
 		{
 			m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
+			m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
+			m_popup->insertSeparator();
 			m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
 		}
 		else if (itm->type() == KileType::Project)
 		{
-			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
+   			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
 		}
@@ -167,20 +189,23 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 {
-	kdDebug() << "makeTheConnection " << item->text(0) << endl;
+	kdDebug() << "\tmakeTheConnection " << item->text(0) << endl;
 
 	if (item->type() == KileType::Project)
 	{
 		KileProject *project = m_ki->projectFor(item->url());
 		//make some connections
+		connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
 	}
 	else
 	{
 		KileDocumentInfo *docinfo = m_ki->infoFor(item->url().path());
 		item->setInfo(docinfo);
-		if (docinfo ==0 ) kdDebug() << "makeTheConnection COULD NOT FIND A DOCINFO" << endl;
-		connect(item->getInfo(), SIGNAL(nameChanged(const KURL&)),  item, SLOT(nameChanged(const KURL&)));
-		connect(item->getInfo(), SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
+		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
+		connect(docinfo, SIGNAL(nameChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));
+		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
+		//set the pixmap
+		item->isrootChanged(docinfo->isLaTeXRoot());
 	}
 }
 
@@ -208,6 +233,7 @@ void KileProjectView::add(KileProject *project)
 
 void KileProjectView::add(const KileProjectItem *projitem)
 {
+	kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
 	//find project first
 	const KileProject *project = projitem->project();
 
@@ -215,7 +241,7 @@ void KileProjectView::add(const KileProjectItem *projitem)
 
 	while ( item)
 	{
-		if ( item->url() == project->url() )
+		if ( (item->type() == KileType::Project) && (item->url() == project->url()) )
 		{
 			item =  new KileProjectViewItem(item, projitem->url().fileName());
 			item->setType(KileType::ProjectItem);
@@ -229,6 +255,7 @@ void KileProjectView::add(const KileProjectItem *projitem)
 
 void KileProjectView::add(const KURL & url)
 {
+	kdDebug() << "\tKileProjectView::adding item " << url.path() << endl;
 	//check if file is already present
 	QListViewItemIterator it( this );
 	KileProjectViewItem *item;
@@ -272,7 +299,7 @@ void KileProjectView::remove(const KURL &url)
 
 	while ( item)
 	{
-		if ( item->url() == url )
+		if ( (item->type() == KileType::File) && (item->url() == url) )
 		{
 			takeItem(item);
 			delete item;
@@ -290,7 +317,7 @@ void KileProjectView::removeItem(const KURL &url)
 	while ( it.current())
 	{
 		item = static_cast<KileProjectViewItem*>(*it);
-		if ( item->type() == KileType::ProjectItem && item->url() == url )
+		if ( (item->type() == KileType::ProjectItem) && (item->url() == url) )
 		{
 			item->parent()->takeItem(item);
 			delete item;

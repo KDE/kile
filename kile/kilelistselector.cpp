@@ -34,4 +34,6 @@ KileListSelector::KileListSelector(const QStringList & list, const QString &capt
 	m_listbox = new KListBox(plainPage());
 	m_listbox->insertStringList(list);
 	layout->addWidget(m_listbox);
+
+	connect(m_listbox, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(accept()));
 }

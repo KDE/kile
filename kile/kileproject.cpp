@@ -67,6 +67,12 @@ KileProjectItem::KileProjectItem(KileProject *project, const KURL & url) :
 		project->add(this);
 }
 
+void KileProjectItem::setInfo(KileDocumentInfo *docinfo)
+{
+	m_docinfo = docinfo;
+	connect(docinfo,SIGNAL(nameChanged(const KURL &)), this, SLOT(changeURL(const KURL &)));
+}
+
 /*
  * KileProject
  */
@@ -106,7 +112,7 @@ void KileProject::init(const QString& name, const KURL& url)
 
 bool KileProject::load()
 {
-	kdDebug() << "loading..." <<endl;
+	kdDebug() << "KileProject: loading..." <<endl;
 
 	QStringList groups = m_config->groupList();
 
@@ -148,7 +154,7 @@ bool KileProject::load()
 //TODO: restore encoding for documents
 bool KileProject::save()
 {
-	kdDebug() << "saving..." <<endl;
+	kdDebug() << "KileProject: saving..." <<endl;
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
@@ -161,7 +167,7 @@ bool KileProject::save()
 		m_config->writeEntry("open", item->isOpen());
 		m_config->writeEntry("encoding", item->encoding());
 		m_config->writeEntry("highlight", item->highlight());
-		kdDebug() << "saving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
+		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 
 	m_config->sync();
@@ -216,6 +222,8 @@ void KileProject::remove(KileProjectItem* item)
 
 void KileProject::itemRenamed(KileProjectItem *item)
 {
+	kdDebug() << "==KileProject::itemRenamed==========================" << endl;
+	kdDebug() << "\t" << item->url().fileName() << endl;
 	m_config->deleteGroup("item:"+item->path());
 	//config.sync();
 
@@ -228,7 +236,7 @@ QString KileProject::findRelativePath(const KURL &url)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	kdDebug() <<"findRelativeURL " << basepath << " ; " << path << endl;
+	//kdDebug() <<"findRelativeURL " << basepath << " ; " << path << endl;
 
 	QStringList basedirs = QStringList::split("/", basepath);
 	QStringList dirs = QStringList::split("/", path);
@@ -256,7 +264,7 @@ QString KileProject::findRelativePath(const KURL &url)
 
 	path += filename;
 
-	kdDebug() << "findRelativeURL " << path << endl;
+	//kdDebug() << "findRelativeURL " << path << endl;
 
 	return path;
 }
@@ -282,7 +290,7 @@ KileProjectItem *KileProject::rootItem()
 	while (it.current())
 	{
 		docinfo = (*it)->getInfo();
-		kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
+		//kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
 		if (docinfo && docinfo->isLaTeXRoot())
 		{
 			return *it;
@@ -299,7 +307,7 @@ void KileProject::dump()
 {
 	kdDebug() << "KileProject::dump() " << m_name << endl;
 	for ( uint i=0; i < m_projectitems.count(); i++)
-		kdDebug() << "item " << i << " : "  << m_projectitems.at(i)->path() << endl;
+		kdDebug() << "\titem " << i << " : "  << m_projectitems.at(i)->path() << endl;
 }
 
 #include "kileproject.moc"

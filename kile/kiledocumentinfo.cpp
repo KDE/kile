@@ -33,7 +33,10 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_bIsRoot = false;
 	m_arStatistics = new long[5];
 
-	m_url = m_oldurl = KURL();
+	if (m_doc)
+		m_url=m_oldurl = doc->url();
+	else
+		m_url = m_oldurl = KURL();
 
 	//TODO: make this configurable
 	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
@@ -45,6 +48,19 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
 	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
+}
+
+void KileDocumentInfo::emitNameChanged()
+{
+	kdDebug() << "==KileDocumentInfo::slotNameChanged=========================="  << endl;
+	if (m_doc)
+	{
+		kdDebug() << "\tfrom: " << m_url.path() << endl;
+		kdDebug() << "\tto: " << m_doc->url().path() << endl;
+		setURL(m_doc->url());
+	}
+	emit nameChanged(m_url);
+	if (m_doc) emit nameChanged(m_doc);
 }
 
 void KileDocumentInfo::count(const QString line, long *stat)
@@ -182,10 +198,10 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 void KileDocumentInfo::updateStruct()
 {
 	if (getDoc())
-		kdDebug() << "KileDocumentInfo::updateStruct() " << getDoc()->url().path() << endl;
+		kdDebug() << "==KileDocumentInfo::updateStruct==================" << getDoc()->url().path() << endl;
 	else
 	{
-		kdDebug() << "no Document for " << url().path() <<endl;
+		kdDebug() << "KileDocumentInfo::updateStruct() no Document for " << url().path() <<endl;
 		return;
 	}
 
@@ -241,13 +257,13 @@ void KileDocumentInfo::updateStruct()
 		{
 			if ( (!foundBD) && (s.find(reBD, tagEnd) != -1))
 			{
-				kdDebug() << "found \\begin{document}" << endl;
+				kdDebug() << "\tfound \\begin{document}" << endl;
 				foundBD = true;
 			}
 
 			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
 			{
-				kdDebug() << "setting m_bIsRoot to TRUE" << endl;
+				kdDebug() << "\tsetting m_bIsRoot to TRUE" << endl;
 				tagEnd += reRoot.cap(0).length();
 				m_bIsRoot = true;
 			}
@@ -269,7 +285,7 @@ void KileDocumentInfo::updateStruct()
 				{
 					tagLine=i+1; tagCol = tagEnd+1;
 					m = matchBracket(i, static_cast<uint&>(tagEnd));
-					kdDebug() << "grabbed : " << m << endl;
+					kdDebug() << "\tgrabbed : " << m << endl;
 				}
 
 				//title (or label) found, add the element to the listview
@@ -287,7 +303,7 @@ void KileDocumentInfo::updateStruct()
 					//update the label list
 					if ((*it).type == KileStruct::BibItem)
 					{
-						kdDebug() << "appending bibitem " << m << endl;
+						kdDebug() << "\tappending bibitem " << m << endl;
 						m_bibItems.append(m.stripWhiteSpace());
 					}
 

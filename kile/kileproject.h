@@ -65,7 +65,7 @@ public:
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
-	void setInfo(KileDocumentInfo * docinfo) { m_docinfo = docinfo;}
+	void setInfo(KileDocumentInfo * docinfo);
 	KileDocumentInfo*	getInfo() { return m_docinfo; }
 
 	const KileProject* project() const{ return m_project;}
@@ -77,7 +77,7 @@ public:
 	/**
 	 * @returns path of this item relative to the project file
 	 **/
-	const QString& path() { return m_path; }
+	const QString& path() const { return m_path; }
 
 	bool	isOpen() const { return m_bOpen; }
 	void setOpenState(bool state) { m_bOpen = state; }
@@ -88,7 +88,11 @@ public:
 	const QString& highlight() { return m_highlight;}
 	void setHighlight(const QString& highlight) {m_highlight = highlight;}
 
-	void changeURL(const KURL &url) { m_url = url;  emit(urlChanged(this));}
+	void setParent(KileProjectItem * item) { m_parent = item;}
+	KileProjectItem* parent() { return m_parent; }
+
+public slots:
+	void changeURL(const KURL &url) { m_url = url;  kdDebug() << "changeURL " << url.path() << endl; emit(urlChanged(this));}
 	void changePath(const QString& path) { m_path = path;}
 
 signals:
@@ -102,6 +106,7 @@ private:
 	QString				m_highlight;
 	bool						m_bOpen;
 	KileDocumentInfo *m_docinfo;
+	KileProjectItem		*m_parent;
 };
 
 class  KileProjectItemList : public QPtrList<KileProjectItem>
@@ -124,7 +129,9 @@ public:
 
 	~KileProject() {}
 
+	void setName(const QString & name) { m_name = name; emit (nameChanged(name));}
 	const QString& name() const { return m_name; }
+
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
@@ -136,6 +143,9 @@ public:
 
 	void buildProjectTree();
 	const KileURLTree* projectTree() { return m_projecttree; }
+
+signals:
+	void nameChanged(const QString &);
 
 public slots:
 	bool load();

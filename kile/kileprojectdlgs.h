@@ -24,6 +24,7 @@ class NewFileWidget;
 class QCheckBox;
 class QLabel;
 class KLineEdit;
+class KileProject;
 
 class KileNewProjectDlg : public KDialogBase
 {
@@ -50,6 +51,22 @@ private:
 	NewFileWidget *m_nfw;
 	QCheckBox	*m_cb;
 	QLabel *m_lb;
+};
+
+class KileProjectOptionsDlg : public KDialogBase
+{
+	Q_OBJECT
+	
+public:
+	KileProjectOptionsDlg(KileProject *project, QWidget *parent = 0, const char * name = 0);
+	~KileProjectOptionsDlg();
+
+private slots:
+	void slotOk();
+
+private:
+	KLineEdit		*m_name;
+	KileProject	*m_project;
 };
 
 #endif

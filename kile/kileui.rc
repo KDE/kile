@@ -82,7 +82,8 @@
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
-	<Action name="project_save"/>
+	<Separator/>
+	<Action name="project_options"/>
 	<Separator/>
 	<Action name="project_close"/>
 </Menu>

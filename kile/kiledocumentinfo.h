@@ -101,7 +101,7 @@ public:
 	 * @returns the document for which this class is a decorator
 	 **/
 	Kate::Document* getDoc() { return m_doc; }
-	void setDoc(Kate::Document *doc) { m_doc = doc;}
+	void setDoc(Kate::Document *doc) { m_doc = doc; m_url=m_oldurl=doc->url();}
 	void detach() { m_doc = 0; }
 
 	/**
@@ -121,17 +121,18 @@ public:
 
 	bool isLaTeXRoot() { return m_bIsRoot; }
 
-	void setURL(const KURL& url) { m_oldurl = m_url = url;}
+	void setURL(const KURL& url) { m_oldurl = m_url; m_url = url; emit nameChanged(url); }
 	const KURL& url() {return m_url;}
 	const KURL& oldURL() {return m_oldurl;}
 
 public slots:
 	void updateStruct();
 	void updateBibItems();
-	void emitNameChanged(Kate::Document * doc ) { m_oldurl = m_url; if (doc) m_url = doc->url(); emit nameChanged(m_url);}
+	void emitNameChanged();
 
 signals:
 	void nameChanged(const KURL &);
+	void nameChanged(Kate::Document *);
 	void isrootChanged(bool);
 
 private:

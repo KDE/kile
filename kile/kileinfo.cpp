@@ -34,6 +34,7 @@ void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 
 void KileInfo::trash(Kate::Document *doc)
 {
+	kdDebug() << "\tTRASHING " <<  doc << endl;
 	KileDocumentInfo *docinfo =  infoFor(doc);
 	if (docinfo) docinfo->detach();
 	removeMap(doc);
@@ -96,13 +97,15 @@ KileProjectItem* KileInfo::itemFor(const KURL &url)
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
 {
+	kdDebug() << "==KileDocumentInfo::infoFor==========================" << endl;
 	for (uint i=0; i < m_infoList.count(); i++)
 	{
+		kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
 		if ( m_infoList.at(i)->url().path() == path)
 			return m_infoList.at(i);
 	}
 
-	kdDebug() << "COULD NOT find info for " << path << endl;
+	kdDebug() << "\tCOULD NOT find info for " << path << endl;
 	return 0;
 }
 

@@ -28,8 +28,12 @@
 #include <kfiledialog.h>
 
 #include "newfilewizard.h"
+#include "kileproject.h"
 #include "kileprojectdlgs.h"
 
+/*
+ * KileNewProjectDlg
+ */
 KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
         : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true )
 {
@@ -129,6 +133,35 @@ void KileNewProjectDlg::slotOk()
 		return;
 	}
 
+	accept();
+}
+
+/*
+ * KileProjectOptionsDlg
+ */
+KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *parent, const char * name) :
+ 	KDialogBase(KDialogBase::Plain, i18n("Project Options"), Ok|Cancel,Ok, parent, name, true, true ),
+	m_project(project)
+{
+	QGridLayout *layout = new QGridLayout(plainPage(),2,1, 10);
+
+	m_name = new KLineEdit(plainPage(), "le_projectname");
+	m_name->setText(m_project->name());
+	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
+	lb->setBuddy(m_name);
+	QWhatsThis::add(lb, i18n("Insert a short descriptive name of your project here."));
+	QWhatsThis::add(m_name, i18n("Insert a short descriptive name of your project here."));
+	layout->addWidget(lb, 0,0);
+	layout->addWidget(m_name, 0,1);
+}
+
+KileProjectOptionsDlg::~KileProjectOptionsDlg()
+{
+}
+
+void KileProjectOptionsDlg::slotOk()
+{
+	m_project->setName(m_name->text());
 	accept();
 }
 

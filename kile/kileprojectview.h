@@ -48,7 +48,8 @@ public:
 	const KURL& url() { return m_url;}
 
 public slots:
-	void nameChanged(const KURL & url);
+	void urlChanged(const KURL & url);
+	void nameChanged(const QString & name);
 	void isrootChanged(bool isroot);
 
 private:
@@ -66,7 +67,9 @@ public:
 
 signals:
 	void fileSelected(const KURL&);
+	void saveURL(const KURL&);
 	void closeURL(const KURL&);
+	void projectOptions(const KURL &);
 	void closeProject(const KURL &);
 	void addToProject(const KURL &);
 	void removeFromProject(const KURL &, const KURL &);

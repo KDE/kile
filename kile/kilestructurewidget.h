@@ -123,6 +123,7 @@ namespace KileWidget
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
 			void update(KileDocument::Info *, bool);
+            void clean(KileDocument::Info *);
 
 			/**
 			* Clears the structure widget and empties the map between KileDocument::Info objects and their structure trees (QListViewItem).

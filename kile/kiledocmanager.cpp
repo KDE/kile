@@ -769,6 +769,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 			//remove the decorations
 
 			trashDoc(docinfo);
+            m_ki->structureWidget()->clean(docinfo);
 			removeDocumentInfo(docinfo, closingproject);
 
 			//FIXME:remove entry in projectview

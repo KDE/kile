@@ -89,6 +89,7 @@ namespace KileWidget
 
 	void StructureList::cleanUp()
 	{
+        kdDebug() << "==void StructureList::cleanUp()========" << endl;
 		saveState();
 		clear();
 		if(NULL != m_docinfo)
@@ -364,12 +365,20 @@ namespace KileWidget
 
 		if ( needParsing ) //need to reparse the doc
 		{
+            kdDebug() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
 		}
 
+        kdDebug() << "\tStructure::update activating view" << endl;
 		view->activate();
 	}
+
+    void Structure::clean(KileDocument::Info *docinfo)
+    {
+        StructureList *view = viewFor(docinfo);
+        if (view) view->cleanUp();
+    }
 }
 
 #include "kilestructurewidget.moc"

@@ -214,6 +214,7 @@ void Kile::setupStatusBar()
 void Kile::setupSideBar()
 {
 	m_sideBar = new KileSideBar(m_horizontalSplitter);
+	m_horizontalSplitter->setResizeMode(m_sideBar, QSplitter::KeepSize);
 
 	m_fileSelector= new KileFileSelect(m_sideBar,"File Selector");
 	m_sideBar->addTab(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
@@ -280,6 +281,7 @@ void Kile::setupSymbolViews()
 void Kile::setupBottomBar()
 {
 	m_bottomBar = new KileBottomBar(m_verticalSplitter);
+	m_verticalSplitter->setResizeMode(m_bottomBar, QSplitter::KeepSize);
 	m_bottomBar->setFocusPolicy(QWidget::ClickFocus);
 
 	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );

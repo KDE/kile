@@ -1488,16 +1488,9 @@ bool Kile::projectClose(const KURL & url)
 				close = close && r;
 				if (!close) break;
 			}
-			else if (docinfo) 
-			{
-				KileProjectItemList *itms = itemsFor(docinfo);
-				if ( itms->count() == 0 )
-				{
-					m_infoList.remove(docinfo);
-					delete docinfo;
-				}
-				delete itms;
-			}
+			else 
+				removeDocumentInfo(docinfo, true);
+
 			docinfo = 0L;
 			doc = 0L;
 		}
@@ -1584,13 +1577,34 @@ void Kile::saveURL(const KURL & url)
 	}
 }
 
-bool Kile::fileClose(const KURL & url, bool delDocinfo /* = false */ )
+bool Kile::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject /* = false */)
+{
+// 	kdDebug() << "==Kile::removeDocumentInfo(KileDocumentInfo *docinfo)=====" << endl;
+	KileProjectItemList *itms = itemsFor(docinfo);
+
+	if ( itms->count() == 0 || (closingproject && itms->count() == 1))
+	{
+// 		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_infoList.count() << endl;
+		m_infoList.remove(docinfo);
+
+		delete docinfo;
+		delete itms;
+
+		return true;
+	}
+
+// 	kdDebug() << "\tnot removing " << docinfo << endl;
+	delete itms;
+	return false;
+}
+
+bool Kile::fileClose(const KURL & url, bool closingproject /* = false */ )
 {
 	QPtrListIterator<Kate::Document> it(m_docList);
 	while ( it.current())
 	{
 		if ((*it)->url() == url )
-			return fileClose((*it), delDocinfo);
+			return fileClose((*it), closingproject);
 
 		++it;
 	}
@@ -1598,7 +1612,7 @@ bool Kile::fileClose(const KURL & url, bool delDocinfo /* = false */ )
 	return true;
 }
 
-bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */)
+bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool closingproject /* = false */)
 {
 	Kate::View *view;
 
@@ -1621,7 +1635,6 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 
 		KileDocumentInfo *docinfo= infoFor(doc);
 		KileProjectItemList *items = itemsFor(docinfo);
-		int cnt = items->count();
 
 		while ( items->current() )
 		{
@@ -1637,14 +1650,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			//remove the decorations
 
 			trashDoc(docinfo);
-
-			if ( ( cnt == 0) || delDocinfo)
-			{
-				//doc doesn't belong to a project, get rid of the docinfo
-				//or we're closing the project itself (delDocinfo is true)
-				m_infoList.remove(docinfo);
-				delete docinfo;
-			}
+			removeDocumentInfo(docinfo, closingproject);
 
 			//remove entry in projectview
 			m_projectview->remove(url);

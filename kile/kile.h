@@ -361,6 +361,8 @@ private slots:
 	bool fileClose(Kate::Document *doc = 0, bool delDocinfo = false );
 	bool fileCloseAll();
 
+	bool removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject  = false);
+
 	void saveURL(const KURL &);
 	void fileSelected(const KFileItem *file);
 

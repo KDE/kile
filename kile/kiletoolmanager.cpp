@@ -117,10 +117,7 @@ namespace KileTool
 		connect(stop, SIGNAL(activated()), this, SLOT(stop()));
 	}
 	
-	Manager::~Manager()
-	{
-		delete m_timer;
-	}
+	Manager::~Manager() {}
 
 	bool Manager::shouldBlock()
 	{

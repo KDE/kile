@@ -51,10 +51,7 @@ namespace KileDocument
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
 	}
 
-	CodeCompletion::~CodeCompletion()
-	{
-		delete m_completeTimer;
-	}
+	CodeCompletion::~CodeCompletion() {}
 
 	bool CodeCompletion::isActive()
 	{

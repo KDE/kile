@@ -33,6 +33,7 @@ class KURL;
 class KileDocumentInfo;
 class KileProject;
 class KileProjectItem;
+class KileProjectItemList;
 
 namespace Kate { class Document;}
 
@@ -70,18 +71,20 @@ public:
 
 	KileProject*	activeProject();
 	KileProjectItem* activeProjectItem();
-	KileProjectItem* itemFor(KileDocumentInfo *docinfo) const { if (m_mapDocInfoToItem.contains(docinfo) > 0) return m_mapDocInfoToItem[docinfo];  else return 0;}
+	KileProjectItem* itemFor(KileDocumentInfo *docinfo, KileProject *project = 0) const;
+	KileProjectItemList* itemsFor(KileDocumentInfo *docinfo) const;
+
 	/**
 	 * Finds the project item for the file with URL @param url.
 	 * @returns a pointer to the project item, 0 if this file does not belong to a project
 	 **/
-	KileProjectItem* itemFor(const KURL &url);
-	KileDocumentInfo* infoFor(KileProjectItem *item) { if (m_mapItemToDocInfo.contains(item))  return m_mapItemToDocInfo[item];  else return 0;}
+	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
+	KileDocumentInfo* infoFor(KileProjectItem *item);
 	Kate::Document* docFor(const KURL &url);
 
 	void mapInfo(Kate::Document *doc, KileDocumentInfo *info) { m_mapDocInfo[doc] = info; }
 	void mapItem(KileDocumentInfo *docinfo, KileProjectItem *item);
-	void removeMap(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem.remove(docinfo); m_mapItemToDocInfo.remove(item); }
+// 	void removeMap(KileDocumentInfo *docinfo, KileProjectItem *item) { m_mapDocInfoToItem.remove(docinfo); m_mapItemToDocInfo.remove(item); }
 	void removeMap(Kate::Document *doc) { m_mapDocInfo.remove(doc); }
 
 	void trash(Kate::Document* doc);
@@ -96,22 +99,22 @@ public:
 	QString relativePath(const QString basepath, const QString & file);
 
 protected:
-	QMap< Kate::Document*, KileDocumentInfo* >      m_mapDocInfo;
-	QPtrList<KileProject>		m_projects;
-	QMap<KileDocumentInfo*, KileProjectItem* >	m_mapDocInfoToItem;
-	QMap<KileProjectItem*, KileDocumentInfo* >	m_mapItemToDocInfo;
+	QMap< Kate::Document*, KileDocumentInfo* >	m_mapDocInfo;
+	QPtrList<KileProject>						m_projects;
+// 	QMap<KileDocumentInfo*, KileProjectItem* >		m_mapDocInfoToItem;
+// 	QMap<KileProjectItem*, KileDocumentInfo* >		m_mapItemToDocInfo;
 
-	bool 			m_singlemode;
+	bool 		m_singlemode;
 	QString	m_masterName;
 
 	QPtrList<Kate::Document> 		m_docList;
-	QPtrList<KileDocumentInfo>	m_infoList;
+	QPtrList<KileDocumentInfo>		m_infoList;
 
 	QString			m_currentTarget;
 	
 	bool m_bWatchFile;
 
-	LatexOutputFilter	*m_outputFilter;
+	LatexOutputFilter		*m_outputFilter;
 	LatexOutputInfoArray	*m_outputInfo;
 };
 

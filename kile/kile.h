@@ -183,6 +183,7 @@ private:
 private slots:
 	void ResetPart();
 	void ActivePartGUI(KParts::Part * the_part);
+	void showToolBars(const QString &);
 	void enableKileGUI(bool enable);
 
 public slots:
@@ -296,6 +297,7 @@ public slots:
 public slots:
 	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }
 	void fileSelected(const KURL &);
+	void fileSelected(const KileProjectItem * item);
 	void fileNew(const KURL &);
 
 private slots:
@@ -338,7 +340,7 @@ private slots:
 	void projectSave(KileProject * project = 0);
 	void projectAddFiles(const KURL &);
 	void projectAddFiles(KileProject * project = 0);
-	void toggleArchive(const KURL &);
+	void toggleArchive(KileProjectItem *);
 	bool projectArchive(const KURL &);
 	bool projectArchive(KileProject *project  = 0);
 	void buildProjectTree(KileProject *project = 0);
@@ -354,7 +356,7 @@ private slots:
 	void addProject(const KileProject *project);
 	void addToProject(const KURL &);
 	void addToProject(KileProject *, const KURL &);
-	void removeFromProject(const KURL &, const KURL &);
+	void removeFromProject(const KileProjectItem *);
 
 public slots:
 	void projectOpen(const QString& proj) { projectOpen(KURL::fromPathOrURL(proj)); }

@@ -167,14 +167,15 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_projectview = new KileProjectView(Structview, this);
 	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
 	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileSelected(const KURL&)));
+	connect(m_projectview, SIGNAL(fileSelected(const KileProjectItem *)), this, SLOT(fileSelected(const KileProjectItem *)));
+	connect(m_projectview, SIGNAL(fileSelected(const KURL &)), this, SLOT(fileSelected(const KURL &)));
 	connect(m_projectview, SIGNAL(closeURL(const KURL&)), this, SLOT(fileClose(const KURL&)));
 	connect(m_projectview, SIGNAL(closeProject(const KURL&)), this, SLOT(projectClose(const KURL&)));
 	connect(m_projectview, SIGNAL(projectOptions(const KURL&)), this, SLOT(projectOptions(const KURL&)));
 	connect(m_projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(projectArchive(const KURL&)));
-	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
+	connect(m_projectview, SIGNAL(removeFromProject(const KileProjectItem *)), this, SLOT(removeFromProject(const KileProjectItem *)));
 	connect(m_projectview, SIGNAL(addFiles(const KURL &)), this, SLOT(projectAddFiles(const KURL &)));
-	connect(m_projectview, SIGNAL(toggleArchive(const KURL &)), this, SLOT(toggleArchive(const KURL &)));
+	connect(m_projectview, SIGNAL(toggleArchive(KileProjectItem *)), this, SLOT(toggleArchive(KileProjectItem *)));
 	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 	connect(m_projectview, SIGNAL(saveURL(const KURL &)), this, SLOT(saveURL(const KURL &)));
 	connect(m_projectview, SIGNAL(buildProjectTree(const KURL &)), this, SLOT(buildProjectTree(const KURL &)));
@@ -361,7 +362,11 @@ void Kile::setupActions()
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
 	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
-	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
+
+	#if KDE_VERSION <= KDE_MAKE_VERSION(3,3,0)
+		(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(), "Spell" );
+	#endif
+
 	(void) new KAction(i18n("Refresh Structure"), "structure", 0, this, SLOT(RefreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
@@ -516,11 +521,11 @@ void Kile::setupTools()
 	QString toolMenu;
 	QPtrList<KAction> *pl;
 
-	unplugActionList("list_compilers"); //m_listCompilerActions.setAutoDelete(true); m_listCompilerActions.clear(); m_listCompilerActions.setAutoDelete(false);
- 	unplugActionList("list_converters"); //m_listConverterActions.setAutoDelete(true); m_listConverterActions.clear(); m_listConverterActions.setAutoDelete(false);
- 	unplugActionList("list_quickies"); //m_listQuickActions.setAutoDelete(true); m_listQuickActions.clear(); m_listQuickActions.setAutoDelete(false);
- 	unplugActionList("list_viewers"); //m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
- 	unplugActionList("list_other"); //m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
+	unplugActionList("list_compilers");
+	unplugActionList("list_converters");
+	unplugActionList("list_quickies");
+	unplugActionList("list_viewers");
+	unplugActionList("list_other");
 
 	for ( uint i = 0; i < tools.count(); i++)
 	{
@@ -702,13 +707,10 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	KileProjectItem *item = itemFor(url);
 	if (item)
 	{
-		kdDebug() << "\t" << url.path() <<" belongs to the project " << item->project()->name()  << endl;
 		//decorate the doc with the KileProjectItem
 		docinfo = infoFor(item);
 		if (docinfo)
 			docinfo->setDoc(doc);
-
-		kdDebug() << "2 doc " << doc << endl;
 
 		hl = item->highlight();
 		item->setOpenState(create);
@@ -727,14 +729,11 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		docinfo->setListView(m_kwStructure);
 		docinfo->setURL(url);
 		m_infoList.append(docinfo);
-
-		kdDebug() << "3 doc " << doc << " " << docinfo->getDoc() << endl;
 	}
 
 	if (docinfo == 0)
 		kdWarning() << "no docinfo for " << url.path() << endl;
 
-	kdDebug() << "4 doc " << doc << " " << docinfo->getDoc() << endl;
 	if (doc) 
 	{
 		mapInfo(doc, docinfo);
@@ -747,8 +746,6 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
 		connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
 		connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
-
-		kdDebug() << "5 doc " << doc << " " << docinfo->getDoc() << endl;
 
 		if (create)
 			return createView(doc);
@@ -1067,10 +1064,11 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 	kdDebug() << "\t" << url.fileName() << endl;
 	bool isopen = isOpen(url);
 
-	load(url, encoding);
+	if ( !isOpen(url) )
+		load(url, encoding);
 
 	//URL wasn't open before loading, add it to the project view
-	if (!isopen) m_projectview->add(url);
+	if (!isopen && (itemFor(url) == 0) ) m_projectview->add(url);
 
 	UpdateStructure(true);
 	updateModeStatus();
@@ -1081,6 +1079,7 @@ bool Kile::isOpen(const KURL & url)
 {
 	for ( uint i = 0; i < m_viewList.count(); i++)
 	{
+// 		kdDebug() << "comparing " << url.path() << " with view " << i << endl;
 		if ( url == m_viewList.at(i)->getDoc()->url() )
 			return true;
 	}
@@ -1277,33 +1276,26 @@ void Kile::addToProject(KileProject* project, const KURL & url)
 	buildProjectTree(project);
 }
 
-void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
+void Kile::removeFromProject(const KileProjectItem *item)
 {
 	kdDebug() << "==Kile::removeFromProject==========================" << endl;
-	KileProject *project = projectFor(projecturl);
 
-	if (project)
+	if (item->project())
 	{
-		KileProjectItem *item = project->item(url);
-		if (item)
+		kdDebug() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
+
+		if (item->project()->url() == item->url())
 		{
-			kdDebug() << "\tprojecturl = " << projecturl.path() << ", url = " << item->url().path() << endl;
-
-			if (project->url() == item->url())
-			{
-				KMessageBox::error(this, i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot remove file from project"));
-				return;
-			}
-
-			removeMap(infoFor(item), item);
-			project->remove(item);
-
-			//move projectviewitem to a place outside of this project tree
-			m_projectview->removeItem(url);
-			if (isOpen(url)) m_projectview->add(url);
-
-			buildProjectTree(project);
+			KMessageBox::error(this, i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot remove file from project"));
+			return;
 		}
+
+		m_projectview->removeItem(item, isOpen(item->url()));
+
+		KileProject *project = item->project();
+		item->project()->remove(item);
+
+		project->buildProjectTree();
 	}
 }
 
@@ -1580,11 +1572,9 @@ void Kile::projectAddFiles(KileProject *project)
 		KMessageBox::error(this, i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
 }
 
-void Kile::toggleArchive(const KURL & url)
+void Kile::toggleArchive(KileProjectItem *item)
 {
-	KileProjectItem *item = itemFor(url);
-	if (item)
-		item->setArchive(!item->archive());
+	item->setArchive(!item->archive());
 }
 
 bool Kile::projectArchive(const KURL & url)
@@ -1848,9 +1838,13 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		KURL url = doc->url();
 
 		KileDocumentInfo *docinfo= infoFor(doc);
-		KileProjectItem *item = itemFor(docinfo);
+		KileProjectItemList *items = itemsFor(docinfo);
 
-		if (item && doc) storeProjectItem(item,doc);
+		while ( items->current() )
+		{
+			if (items->current() && doc) storeProjectItem(items->current(),doc);
+			items->next();
+		}
 
 		if (doc->closeURL() )
 		{
@@ -1862,11 +1856,11 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			config->setGroup( "Files" );
 			if ( config->readBoolEntry("CleanUpAfterClose") ) CleanAll(docinfo, true);
 
-			if ( (item == 0) || delDocinfo)
+			if ( (items->count() == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
 				//or we're closing the project itself (delDocinfo is true)
-				kdDebug() << "ABOUT TO REMOVE DOCINFO (" << (item==0) << "," << delDocinfo << " )" << endl;
+				kdDebug() << "ABOUT TO REMOVE DOCINFO (" << (items->count() ==0) << "," << delDocinfo << " )" << endl;
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
@@ -1948,18 +1942,14 @@ void Kile::fileSelected(const KFileItem *file)
 	fileSelected(file->url());
 }
 
+void Kile::fileSelected(const KileProjectItem * item)
+{
+	fileOpen(item->url(), item->encoding());
+}
+
 void Kile::fileSelected(const KURL & url)
 {
-	KileProjectItem * item = itemFor(url);
-	QString encoding;
-	if ( item )
-		encoding = item->encoding();
-	else
-	 	encoding =KileFS->comboEncoding->lineEdit()->text();
-
-	kdDebug() << "==Kile::fileSelected==========================" << endl;
-	kdDebug() << "\t" << url.fileName() << ", " << encoding << endl;
-	fileOpen(url, encoding);
+	fileOpen(url, KileFS->comboEncoding->lineEdit()->text());
 }
 
 void Kile::showDocInfo(Kate::Document *doc)
@@ -2059,7 +2049,7 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 	{
 		docinfo = getInfo();
 	}
-	KileProjectItem *item = itemFor(docinfo);
+	KileProjectItem *item = itemFor(docinfo, activeProject());
 
 	kdDebug() << "Kile::retrieveList()" << endl;
 	if (item)
@@ -2283,9 +2273,35 @@ void Kile::ActivePartGUI(KParts::Part * part)
 	unplugActionList("list_viewers"); plugActionList("list_viewers", m_listViewerActions);
 	unplugActionList("list_other"); plugActionList("list_other", m_listOtherActions);
 
-	if ( m_wantState == "HTMLpreview" )
+	showToolBars(m_wantState);
+
+	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
+	if (ext && ext->metaObject()->slotNames().contains( "print()" ) ) //part is a BrowserExtension, connect printAction()
 	{
-		kdDebug() << "\tchanged to: HTMLpreview" << endl;
+// 		kdDebug() << "HAS BrowserExtension + print" << endl;
+		connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
+		m_paPrint->plug(toolBar("mainToolBar"),3); //plug this action into its default location
+		m_paPrint->setEnabled(true);
+	}
+	else
+	{
+// 		kdDebug() << "NO BrowserExtension + print" << endl;
+		if (m_paPrint->isPlugged(toolBar("mainToolBar")))
+			m_paPrint->unplug(toolBar("mainToolBar"));
+
+		m_paPrint->setEnabled(false);
+	}
+
+	//set the current state
+	m_currentState = m_wantState;
+	m_wantState = "Editor";
+}
+
+void Kile::showToolBars(const QString & wantState)
+{
+	if ( wantState == "HTMLpreview" )
+	{
+// 		kdDebug() << "\tchanged to: HTMLpreview" << endl;
 		stateChanged( "HTMLpreview");
 		toolBar("mainToolBar")->hide(); 
 		toolBar("toolsToolBar")->hide(); 
@@ -2296,9 +2312,9 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		toolBar("extraToolBar")->show();
 		enableKileGUI(false);
 	}
-	else if ( m_wantState == "Viewer" )
+	else if ( wantState == "Viewer" )
 	{
-		kdDebug() << "\tchanged to: Viewer" << endl;
+// 		kdDebug() << "\tchanged to: Viewer" << endl;
 		stateChanged( "Viewer" );
 		toolBar("mainToolBar")->show(); 
 		toolBar("toolsToolBar")->hide(); 
@@ -2311,7 +2327,7 @@ void Kile::ActivePartGUI(KParts::Part * part)
 	}
 	else
 	{
-		kdDebug() << "\tchanged to: Editor" << endl;
+// 		kdDebug() << "\tchanged to: Editor" << endl;
 		stateChanged( "Editor" );
 		m_wantState="Editor";
 		topWidgetStack->raiseWidget(0);
@@ -2324,27 +2340,6 @@ void Kile::ActivePartGUI(KParts::Part * part)
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
-
-	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-	if (ext && ext->metaObject()->slotNames().contains( "print()" ) ) //part is a BrowserExtension, connect printAction()
-	{
-		kdDebug() << "HAS BrowserExtension + print" << endl;
-		connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
-		m_paPrint->plug(toolBar("mainToolBar"),3); //plug this action into its default location
-		m_paPrint->setEnabled(true);
-	}
-	else
-	{
-		kdDebug() << "NO BrowserExtension + print" << endl;
-		if (m_paPrint->isPlugged(toolBar("mainToolBar")))
-			m_paPrint->unplug(toolBar("mainToolBar"));
-
-		m_paPrint->setEnabled(false);
-	}
-
-	//set the current state
-	m_currentState = m_wantState;
-	m_wantState = "Editor";
 }
 
 void Kile::enableKileGUI(bool enable)
@@ -2370,12 +2365,11 @@ void Kile::enableKileGUI(bool enable)
 
 void Kile::prepareForPart(const QString & state)
 {
-	kdDebug() << "==Kile::prepareForPart====================" << endl;
-	
+// 	kdDebug() << "==Kile::prepareForPart====================" << endl;
 	ResetPart();
-	
+
 	m_wantState = state;
-	
+
 	//deactivate kateparts
 	for (uint i=0; i<m_viewList.count(); i++)
 	{
@@ -2386,7 +2380,7 @@ void Kile::prepareForPart(const QString & state)
 
 void Kile::runTool()
 {
-	kdDebug() << "==Kile::runTool()============" << endl;
+// 	kdDebug() << "==Kile::runTool()============" << endl;
 	QString name = sender()->name();
 	kdDebug() << "\tname: " << name << endl;
 	name.replace(QRegExp("^.*tool_"), "");
@@ -2474,7 +2468,7 @@ void Kile::RefreshStructure()
 
 void Kile::UpdateStructure(bool parse /* = false */, KileDocumentInfo *docinfo /* = 0 */)
 {
-	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
+// 	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
 
 	if (docinfo == 0)
 		docinfo = getInfo();
@@ -2632,7 +2626,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 	//move cursor to the new position
 	if ( before || after )
 	{
-		kdDebug() << "before || after" << endl;
+// 		kdDebug() << "before || after" << endl;
 		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
 		if (wrap) n += para_end > para ? para_end-para : para-para_end;
 		for (int line = para_begin; line <= para_begin+n; line++)
@@ -2773,7 +2767,7 @@ void Kile::LatexHelp()
 	}
 	else if (viewlatexhelp_command == i18n("External Browser") )
 	{
-		kdDebug() << "HTML: " << loc << endl;
+// 		kdDebug() << "HTML: " << loc << endl;
 		kapp->invokeBrowser(loc);
 	}
 }
@@ -2969,7 +2963,7 @@ void Kile::ReadRecentFileSettings()
 //reads options that can be set in the configuration dialog
 void Kile::readConfig()
 {
-	kdDebug() << "==Kile::readConfig()=======================" << endl;
+// 	kdDebug() << "==Kile::readConfig()=======================" << endl;
 	
 	config->setGroup( "Structure" );
 	m_kwStructure->setLevel(config->readNumEntry("DefaultLevel", 1));
@@ -3201,6 +3195,8 @@ void Kile::GeneralOptions()
 ////////////// SPELL ///////////////
 void Kile::spellcheck()
 {
+	kdDebug() <<"==Kile::spellcheck()==============" << endl;
+
 	if ( !currentView() ) return;
 
   	if ( kspell )
@@ -3209,7 +3205,7 @@ void Kile::spellcheck()
 		delete kspell;
 	}
 
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,1,90)
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,0)
 		kdDebug() << "KSPELL: using NEW kspell " << KDE_VERSION_STRING << endl;
 		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false, KSpell::TeX);
 	#else
@@ -3337,6 +3333,8 @@ void Kile::ConfigureToolbars()
 	saveMainWindowSettings(config, "KileMainWindow" );
 	KEditToolbar dlg(factory());
 	dlg.exec();
+
+	showToolBars(m_currentState);
 }
 
 ////////////// VERTICAL TAB /////////////////

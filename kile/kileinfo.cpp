@@ -27,8 +27,8 @@
 
 void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 {
-	m_mapDocInfoToItem[docinfo]=item;
-	m_mapItemToDocInfo[item]=docinfo;
+/*	m_mapDocInfoToItem[docinfo]=item;
+	m_mapItemToDocInfo[item]=docinfo;*/
 	item->setInfo(docinfo);
 }
 
@@ -84,19 +84,54 @@ KileProject* KileInfo::projectFor(const QString &name)
 	return project;
 }
 
-KileProjectItem* KileInfo::itemFor(const KURL &url)
+KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0*/) const
 {
+	if (project == 0L)
+	{
+		QPtrListIterator<KileProject> it(m_projects);
+		while ( it.current() )
+		{
+			if ((*it)->contains(url))
+			{
+				return (*it)->item(url);
+			}
+			++it;
+		}
+	}
+	else
+	{
+		if ( project->contains(url) )
+			return project->item(url);
+	}
+
+	return 0;
+}
+
+KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
+{
+	return itemFor(docinfo->url(), project);
+}
+
+KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
+{
+	KileProjectItemList *list = new KileProjectItemList();
+
 	QPtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
-		if ((*it)->contains(url))
+		if ((*it)->contains(docinfo->url()))
 		{
-			return (*it)->item(url);
+			list->append((*it)->item(docinfo->url()));
 		}
 		++it;
 	}
 
-	return 0;
+	return list;
+}
+
+KileDocumentInfo* KileInfo::infoFor(KileProjectItem *item)
+{
+	return infoFor(item->url().path());
 }
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)

@@ -357,8 +357,10 @@ void KileProject::buildProjectTree()
 	const QStringList *deps;
 	KileProjectItem *itm;
 	KURL url;
+
 	QPtrListIterator<KileProjectItem> it(m_projectitems);
 
+	kdDebug() << "cleaning" << endl;
 	//clean first
 	while (it.current())
 	{
@@ -366,10 +368,12 @@ void KileProject::buildProjectTree()
 		++it;
 	}
 
+	kdDebug() << "parenting" << endl;
 	//use the dependencies list of the documentinfo object to determine the parent
 	it.toFirst();
 	while (it.current())
 	{
+		kdDebug() << "\t" << (*it)->url().fileName() << endl;
 		//set the type correctly (changing m_extensions causes a call to buildProjectTree)
 		setType(*it);
 		deps = (*it)->getInfo()->dependencies();
@@ -432,7 +436,7 @@ void KileProject::add(KileProjectItem* item)
 	dump();
 }
 
-void KileProject::remove(KileProjectItem* item)
+void KileProject::remove(const KileProjectItem* item)
 {
 	if (m_config->hasGroup("item:"+item->path()))
 		m_config->deleteGroup("item:"+item->path());

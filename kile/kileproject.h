@@ -60,7 +60,7 @@ public:
 	void setInfo(KileDocumentInfo * docinfo);
 	KileDocumentInfo*	getInfo() { return m_docinfo; }
 
-	const KileProject* project() const{ return m_project;}
+	KileProject* project() const{ return m_project;}
 
 	/**
 	 * @returns absolute URL of this item
@@ -74,7 +74,7 @@ public:
 	bool	isOpen() const { return m_bOpen; }
 	void setOpenState(bool state) { m_bOpen = state; }
 
-	const QString& encoding() { return m_encoding;}
+	const QString& encoding() const { return m_encoding;}
 	void setEncoding(const QString& encoding) {m_encoding = encoding;}
 
 	const QString& highlight() { return m_highlight;}
@@ -180,7 +180,7 @@ public slots:
 	bool save();
 
 	void add(KileProjectItem*);
-	void remove(KileProjectItem*);
+	void remove(const KileProjectItem*);
 
 	void itemRenamed(KileProjectItem*);
 

@@ -325,7 +325,6 @@ public:
 	QPtrList<Kate::View>& views() {return m_viewList;}
 
 private:
-	QPtrList<Kate::View> 		m_viewList;
 	Kate::View						*m_activeView;
 
 /* document handling */
@@ -369,8 +368,6 @@ private slots:
 
 	bool queryExit();
 	bool queryClose();
-
-	bool isOpen(const KURL & url);
 
 	void setHighlightMode(Kate::Document * doc, const QString & highlight = QString::null);
 	void changeInputEncoding();

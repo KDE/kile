@@ -943,18 +943,6 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 	updateModeStatus();
 }
 
-
-bool Kile::isOpen(const KURL & url)
-{
-	for ( uint i = 0; i < m_viewList.count(); i++)
-	{
-		if ( url == m_viewList.at(i)->getDoc()->url() )
-			return true;
-	}
-
-	return false;
-}
-
 void Kile::fileSaveAll(bool amAutoSaving)
 {
 	Kate::View *view;
@@ -1478,11 +1466,12 @@ bool Kile::projectClose(const KURL & url)
 		KileDocumentInfo *docinfo;
 		for (uint i =0; i < list->count(); i++)
 		{
+			kdDebug() << "closing item " << list->at(i)->url().path() << endl;
 			docinfo = list->at(i)->getInfo();
 			if (docinfo) doc = docinfo->getDoc();
 			if (doc)
 			{
-				//kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
+				kdDebug() << "closing document" << endl;
 				bool r = fileClose(doc, true);
 				close = close && r;
 				if (!close) break;
@@ -1578,12 +1567,12 @@ void Kile::saveURL(const KURL & url)
 
 bool Kile::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject /* = false */)
 {
-// 	kdDebug() << "==Kile::removeDocumentInfo(KileDocumentInfo *docinfo)=====" << endl;
+	kdDebug() << "==Kile::removeDocumentInfo(KileDocumentInfo *docinfo)=====" << endl;
 	KileProjectItemList *itms = itemsFor(docinfo);
 
 	if ( itms->count() == 0 || (closingproject && itms->count() == 1))
 	{
-// 		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_infoList.count() << endl;
+		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_infoList.count() << endl;
 		m_infoList.remove(docinfo);
 
 		delete docinfo;
@@ -1592,7 +1581,7 @@ bool Kile::removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject /* 
 		return true;
 	}
 
-// 	kdDebug() << "\tnot removing " << docinfo << endl;
+	kdDebug() << "\tnot removing " << docinfo << endl;
 	delete itms;
 	return false;
 }
@@ -1648,6 +1637,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool closingproject /* = fals
 			removeView(view);
 			//remove the decorations
 
+			kdDebug() << "ABOUT to TRASH " << docinfo->url().fileName() << " which has document " << docinfo->getDoc() << endl;
 			trashDoc(docinfo);
 			removeDocumentInfo(docinfo, closingproject);
 

@@ -1,6 +1,8 @@
 version 1.6.2 -> 1.6.3
  - fix a crash when opening/closing projects with common files
  - warn if user tries to overwrite an existing file in the "New Project" dialog
+ - make usertags/tools shortcuts configurable
+ - place cursor after a bracket when inserting a usertag 
  - polished up the "New File" wizard, the size and selected template are now remembered, an option to start the Quick Start wizard after selecting an empty template is also added
  - double clicking on a non-existent file results in a dialog requesting the creating of this file, instead of just an error
 

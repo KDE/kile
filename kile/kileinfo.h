@@ -31,7 +31,7 @@ class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
 
-namespace Kate { class Document;}
+namespace Kate { class Document; class View;}
 
 class KileInfo
 {
@@ -50,6 +50,8 @@ public:
 	virtual const QStringList* labels() =0;
 	virtual const QStringList* bibItems() =0;
 	virtual const QStringList* bibliographies() = 0;
+
+	bool isOpen(const KURL & url);
 
 	KileDocumentInfo* getInfo() const;
 	KileDocumentInfo* infoFor(const QString &path) const;
@@ -82,6 +84,7 @@ protected:
 
 	QPtrList<Kate::Document> m_docList;
 	QPtrList<KileDocumentInfo> m_infoList;
+	QPtrList<Kate::View> m_viewList;
 };
 
 #endif

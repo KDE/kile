@@ -52,6 +52,11 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\bibliography"]=KileStructData(-2,KileStruct::Bibliography);
 }
 
+KileDocumentInfo::~KileDocumentInfo()
+{
+	kdDebug() << "DELETING DOCINFO " << this << " : " << url().path() << endl;
+}
+
 void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
 {
 	//kdDebug() << "==KileDocumentInfo::emitNameChanged=========================="  << endl;

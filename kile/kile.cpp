@@ -3026,7 +3026,7 @@ config->writeEntry( "Structureview",showstructview);
 	KileFS->writeConfig();
 	config->setGroup( "Files" );
 	if (m_viewList.last()) lastDocument = m_viewList.last()->getDoc()->url().path();
-	config->writeEntry("Last Document",lastDocument);
+	config->writePathEntry("Last Document",lastDocument);
 	input_encoding=KileFS->comboEncoding->lineEdit()->text();
 	config->writeEntry("Input Encoding", input_encoding);
 

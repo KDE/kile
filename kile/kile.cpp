@@ -374,7 +374,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Editor View"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
 
  // CodeCompletion (dani)
-	(void) new KAction(i18n("La(TeX) Command"),"complete1",CTRL+Key_Space, m_edit, SLOT(completeWord()), actionCollection(), "edit_complete_word");
+	(void) new KAction(i18n("(La)TeX Command"),"complete1",CTRL+Key_Space, m_edit, SLOT(completeWord()), actionCollection(), "edit_complete_word");
 	(void) new KAction(i18n("Environment"),"complete2",ALT+Key_Space, m_edit, SLOT(completeEnvironment()), actionCollection(), "edit_complete_env");
 	(void) new KAction(i18n("Abbreviation"),"complete3",CTRL+ALT+Key_Space, m_edit, SLOT(completeAbbreviation()), actionCollection(), "edit_complete_abbrev");
 	(void) new KAction(i18n("Next Bullet"),"nextbullet",CTRL+ALT+Key_Right, m_edit, SLOT(nextBullet()), actionCollection(), "edit_next_bullet");

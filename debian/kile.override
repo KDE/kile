@@ -1,2 +1,2 @@
 # This tag is required for apps already in the KDE menu.
-kile: menu-item-contains-unknown-tag kderemove /usr/lib/menu/kile:7
+kile: menu-item-contains-unknown-tag kderemove /usr/lib/menu/kile:8

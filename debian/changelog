@@ -1,8 +1,22 @@
-kile (1:1.5.1-1) unstable; urgency=low
+kile (1:1.5.2-1) unstable; urgency=low
 
-  * New upstream release (now from kdeextragear-2).
+  * New upstream release.
+  * Split title into title/longtitle for debian menu entry (closes: #196665).
+  * Updated SEE ALSO section of manpage.
+  * New upstream URL in copyright file.
+  * Bumped standards-version to 3.6.0.
 
- -- Ben Burton <bab@debian.org>  Sun, 11 May 2003 10:19:49 +1000
+ -- Ben Burton <bab@debian.org>  Wed, 27 Aug 2003 20:04:25 +1000
+
+kile (1:1.5-2) unstable; urgency=low
+
+  * Using ostringstream instead of ostrstream (closes: #194963).
+  * Building with objdir == srcdir to fix problem with missing i18n files.
+  * Fresh admin/ update from KDE CVS.
+  * Using a full colour pixmap again.
+  * Bumped standards-version to 3.5.10.0.
+
+ -- Ben Burton <bab@debian.org>  Thu,  5 Jun 2003 10:53:40 +1000
 
 kile (1:1.5-1) unstable; urgency=low
 

@@ -3,7 +3,7 @@ Section: tex
 Priority: optional
 Maintainer: Ben Burton <bab@debian.org>
 Build-Depends: debhelper (>> 4.0.0), kdelibs4-dev, libqt3-compat-headers
-Standards-Version: 3.5.8.0
+Standards-Version: 3.6.0
 
 Package: kile
 Architecture: any

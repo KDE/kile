@@ -279,3 +279,5 @@ void Select::setItems(QPtrList<KAction>& list)
 }
 
 }
+
+#include "kileactions.moc"

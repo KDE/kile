@@ -107,7 +107,6 @@ namespace KileWidget
 		LibraryToolConfigWidget	*m_ltcw;
 		QuickToolConfigWidget	*m_qtcw;
 		LaTeXToolConfigWidget	*m_LaTeXtcw;
-// 		ViewBibToolConfigWidget	*m_ViewBibtcw;
 	};
 }
 

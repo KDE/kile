@@ -170,7 +170,8 @@ namespace KileTool
 
 	public:
 		virtual void prepareToRun();
-        bool needsToBePrepared() { return !m_bPrepared; }
+        bool isPrepared() { return m_bPrepared; }
+		bool needsToBePrepared() { return m_bPrepareToRun; }
 
 	protected:
 		/**
@@ -223,7 +224,7 @@ namespace KileTool
 
 	private:
 		Manager			*m_manager;
-		KileInfo			*m_ki;
+		KileInfo		*m_ki;
 		KConfig			*m_config;
 
 		QString			m_name, m_from, m_to;
@@ -231,7 +232,7 @@ namespace KileTool
 
 		QString			m_message;
 
-		bool				m_buildPrereqs;
+		bool			m_buildPrereqs;
 
 	protected:
 		Launcher			*m_launcher;

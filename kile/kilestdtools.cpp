@@ -222,6 +222,7 @@ endl;
 
 	bool ViewBib::determineSource()
 	{
+		kdDebug() << "==ViewBib::determineSource()=======" << endl;
 		if (!View::determineSource())
 			return false;
 
@@ -229,10 +230,10 @@ endl;
 
 		//get the bibliographies for this source
 		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->infoFor(path));
+		kdDebug() << "\tfound " << bibs->count() << " bibs" << endl;
 		if (bibs->count() > 0)
 		{
 			QString bib = bibs->front();
-
 			if (bibs->count() > 1)
 			{
 				//show dialog

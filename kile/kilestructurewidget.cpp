@@ -180,6 +180,8 @@ namespace KileWidget
 						par = (KileListViewItem*)m_current->parent();
 					else if ( m_current->level() >= 0 )
 						par = m_parent[m_current->level()];
+					else
+						par = m_root;
 				break;
 
 				case 0 : case 1 :

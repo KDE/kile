@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>641</width>
+            <width>669</width>
             <height>474</height>
         </rect>
     </property>
@@ -160,6 +160,12 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>150</width>
+                            <height>0</height>
+                        </size>
+                    </property>
                     <property name="text">
                         <string>Remove Config</string>
                     </property>
@@ -207,6 +213,12 @@
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>400</width>
+                            <height>0</height>
+                        </size>
                     </property>
                     <widget class="QWidget">
                         <property name="name">

@@ -392,14 +392,13 @@ namespace KileDocument
 
 		// 2. Zeile
 		if ( item )
-			s += "\\item ";
+			s += "\\item \n";
 		if ( m_setbullets && !parameter.isEmpty() )
-			s += s_bullet;
-		s += '\n';
+			s += s_bullet + "\n";
 
 		// 3. Zeile
 		if ( m_closeenv )
-			s += "\\end{" + envname + "}\n";
+			s += "\\end{" + envname + "}";
 
 		// Cursor positionieren
 		if ( m_setcursor )

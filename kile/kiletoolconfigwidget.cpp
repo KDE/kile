@@ -64,6 +64,7 @@ namespace KileWidget
 		m_tabMenu = m_configWidget->m_tab->page(2);
 
 		updateToollist();
+		m_configWidget->m_lstbTools->setSelected(0, true);
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
 		QStringList lst; lst << "Quick" << "Compile" << "Convert" << "View" << "Other";
@@ -101,7 +102,6 @@ namespace KileWidget
 		m_configWidget->m_cbType->insertItem(i18n("Use HTML Viewer"));
 		m_configWidget->m_cbType->insertItem(i18n("Run Sequence of Tools"));
 		connect(m_configWidget->m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
-
 		connect(m_configWidget->m_ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
 
 		m_classes << "Compile" << "Convert" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
@@ -244,6 +244,9 @@ namespace KileWidget
 			QStringList tools = KileTool::toolList(m_config, true);
 			for ( uint i = 0; i < tools.count(); i++)
 				switchTo(tools[i], false);
+				
+			switchTo(tools[0], false);
+			m_configWidget->m_lstbTools->setSelected(0, true);
 		}
 	}
 
@@ -265,7 +268,7 @@ namespace KileWidget
 	{
 		//kdDebug() << "==ToolConfig::writeConfig()====================" << endl;
 		//save config
-		m_manager->saveEntryMap(m_current, m_map, false);
+		m_manager->saveEntryMap(m_current, m_map, false, false);
 		KileTool::setGUIOptions(m_current, m_configWidget->m_cbMenu->currentText(), m_icon, m_config);
 	}
 
@@ -400,6 +403,7 @@ namespace KileWidget
 		m_config->writeEntry("type", "Process");
 		m_config->writeEntry("menu", "Compile");
 		m_config->writeEntry("state", "Editor");
+		m_config->writeEntry("close", "no");
 
 		m_config->setGroup("Tools");
 		m_config->writeEntry(tool, cfg);

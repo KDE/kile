@@ -164,7 +164,8 @@ namespace KileTool
 			m_output->clear();
 		}
 
-		//blocking
+		if ( tool->needsToBePrepared() )
+			tool->prepareToRun();
 
 		//FIXME: shouldn't restart timer if a Sequence command takes longer than the 10 secs
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
@@ -216,7 +217,7 @@ namespace KileTool
 			if (m_log->lines() > 1) 
 				m_log->append("\n");
 
-	        if ( head->needsToBePrepared() )
+	        if ( ! head->isPrepared() )
     	        head->prepareToRun();
 
 			int status;
@@ -292,13 +293,16 @@ namespace KileTool
 			runNextInQueue();
 	}
 
-	QString Manager::currentGroup(const QString &name, bool usequeue)
+	QString Manager::currentGroup(const QString &name, bool usequeue, bool useproject)
 	{
-		KileProject *project = m_ki->docManager()->activeProject();
-		if (project)
+		if (useproject)
 		{
-			QString cfg = configName(name, dynamic_cast<KConfig*>(project->config()));
-			if ( cfg.length() > 0 ) return groupFor(name, cfg);
+			KileProject *project = m_ki->docManager()->activeProject();
+			if (project)
+			{
+				QString cfg = configName(name, dynamic_cast<KConfig*>(project->config()));
+				if ( cfg.length() > 0 ) return groupFor(name, cfg);
+			}
 		}
 
 		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (m_queue.cfg() != QString::null) )
@@ -309,7 +313,7 @@ namespace KileTool
 
 	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
 	{
-		QString group = currentGroup(name, usequeue);
+		QString group = currentGroup(name, usequeue, useproject);
 
 		kdDebug() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
 		kdDebug() << "\t" << name << " => " << group << endl;
@@ -339,10 +343,10 @@ namespace KileTool
 		return true;
 	}
 
-	void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue)
+	void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
 	{
 		kdDebug() << "==KileTool::Manager::saveEntryMap=============" << endl;
-		QString group = currentGroup(name, usequeue);
+		QString group = currentGroup(name, usequeue, useproject);
 		kdDebug() << "\t" << name << " => " << group << endl;
 		m_config->setGroup(group);
 

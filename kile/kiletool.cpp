@@ -66,7 +66,6 @@ namespace KileTool
 		setMsg(NeedSourceRead, i18n("Sorry, the file %1 is not readable."));
 
 		m_bPrepared = false;
-		if (prepare) prepareToRun();
 	}
 
 	Base::~Base()

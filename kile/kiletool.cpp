@@ -315,7 +315,7 @@ namespace KileTool
 		lr->setTool(this);
 		
 		connect(lr, SIGNAL(message(int, const QString &)), this, SLOT(sendMessage(int, const QString &)));
-		connect(lr, SIGNAL(output(char *, int)), this, SLOT(filterOutput(char *, int)));
+		connect(lr, SIGNAL(output(const QString &)), this, SLOT(filterOutput(const QString &)));
 		connect(lr, SIGNAL(done(int)), this, SLOT(finish(int)));
 	}
 
@@ -358,7 +358,7 @@ namespace KileTool
 		emit(message(type, msg, name()));
 	}
 
-	void Base::filterOutput(char * buf, int len)
+	void Base::filterOutput(const QString & str)
 	{
 		//here you have the change to filter the output and do some error extraction for example
 		//this should be done by a OutputFilter class
@@ -366,7 +366,7 @@ namespace KileTool
 		//idea: store the buffer until a complete line (or more) has been received then parse these lines
 		//just send the buf immediately to the output widget, the results of the paring are displayed in
 		//the log widget anyway.
-		emit(output(buf,len));
+		emit(output(str));
 	}
 
 	bool Base::addDict(const QString & key, const QString & value)

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          texkonsolewidget.h  -  description
+                          kilekonsolewidget.h  -  description
                              -------------------
     begin                : Sat Dec 8 2001
     copyright            : (C) 2001 by Brachet Pascal
@@ -15,48 +15,44 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TEXKONSOLEWIDGET_H
-#define TEXKONSOLEWIDGET_H
-
-#include <qwidget.h>
-#include <qstring.h>
-#include <qlayout.h>
-#include <qframe.h>
-#include <kparts/part.h>
+#ifndef KILEWIDGET_KONSOLE_H
+#define KILEWIDGET_KONSOLE_H
 
 /**
   *@author Brachet Pascal
   @author Jeroen Wijnhout
   */
 
-class TexKonsoleWidget : public QWidget
+#include <qvbox.h>
+
+namespace KParts { class ReadOnlyPart; }
+
+namespace KileWidget
 {
-  Q_OBJECT
+	class Konsole : public QVBox
+	{
+		Q_OBJECT
 
-public:
+		public:
+			Konsole(QWidget* parent, const char* name=0);
+			~Konsole();
 
-  TexKonsoleWidget(QWidget* parent, const char* name=0);
-  ~TexKonsoleWidget();
+		public slots:
+			void setDirectory(const QString & dir);
+			void activate();
 
+		private slots:
+			void slotDestroyed();
 
-public slots:
-  void SetDirectory(QString dirname);
-  void activate();
+		protected:
+			void showEvent(QShowEvent *ev);
+			void spawn();
 
-protected:
+		private:
+			KParts::ReadOnlyPart	*m_part;
+			bool					m_bPresent;
+	};
 
-  virtual void showEvent(QShowEvent *ev);
-	void spawn();
-
-private:
-
-    KParts::ReadOnlyPart *part;
-    QVBoxLayout *vbox;
-    bool present;
-private slots:
-    void slotDestroyed ();
-
-};
-
+}
 
 #endif

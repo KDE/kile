@@ -119,10 +119,8 @@
 			emit(message(Info,msg));
 
 			out += "*****\n";
-			char *buf = qstrdup(out.ascii());
-			emit(output(buf, out.length()));
-			delete[] buf;
-			
+			emit(output(out));
+
 			bool r = m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 			if (r) kdDebug() << "launch successful" << endl;
 			else kdDebug() << "launch failed" << endl;
@@ -149,7 +147,8 @@
 
 	void ProcessLauncher::slotProcessOutput(KProcess*, char* buf, int len)
 	{
-		emit(output(buf,len));
+		QString s = QCString(buf, len);
+		emit(output(s));
 	}
 
 	void ProcessLauncher::slotProcessExited(KProcess*)
@@ -250,10 +249,8 @@
 		}
 
 		out += "*****\n";
-		char *buf = qstrdup(out.ascii());
-		emit(output(buf, out.length()));
-		delete[] buf;
-			
+		emit(output(out));
+
 		tool()->manager()->wantGUIState(m_state);
 
 		stack->addWidget(m_part->widget() , 1 );

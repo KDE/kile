@@ -31,10 +31,11 @@
 #include "kiletool.h"
 #include "kilestdtools.h"
 #include "kilelogwidget.h"
+#include "kileoutputwidget.h"
  
 namespace KileTool
 {
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KTextEdit *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop) :
 		m_ki(ki),
 		m_config(config),
 		m_log(log),
@@ -54,14 +55,14 @@ namespace KileTool
 	{
 		if (!m_factory)
 		{
-			recvMessage(Error, i18n("No factory installed, contact the author of Kile."));
+			m_log->printMsg(Error, i18n("No factory installed, contact the author of Kile."));
 			return;
 		}
 	
 		Base* pTool = m_factory->create(tool);
 		if (!pTool)
 		{
-			recvMessage(Error, i18n("Unknown tool %1.").arg(tool));
+			m_log->printMsg(Error, i18n("Unknown tool %1.").arg(tool));
 			return;
 		}
 		
@@ -80,8 +81,8 @@ namespace KileTool
 		tool->setInfo(m_ki);
 		tool->setConfig(m_config);
 
-		connect(tool, SIGNAL(message(int, const QString &, const QString &)), this, SLOT(recvMessage(int, const QString &, const QString &)));
-		connect(tool, SIGNAL(output(char *,int)), this, SLOT(recvOutput(char *, int)));
+		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMsg(int, const QString &, const QString &)));
+		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 		connect(tool, SIGNAL(done(Base*,int)), this, SLOT(done(Base*, int)));
 		connect(tool, SIGNAL(start(Base* )), this, SLOT(started(Base*)));
 		connect(tool, SIGNAL(requestSaveAll()), this, SIGNAL(requestSaveAll()));
@@ -123,7 +124,7 @@ namespace KileTool
 		else
 		{
 			kdDebug() << "\tgroup " << group << " not found" << endl;
-			recvMessage(Error, i18n("Can't find the tool %1 in the configuration database.").arg(tool->name()));
+			m_log->printMsg(Error, i18n("Can't find the tool %1 in the configuration database.").arg(tool->name()));
 			return false;
 		}
 
@@ -136,27 +137,11 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	void Manager::wantGUIState(const QString & state)
 	{
 		kdDebug() << "REQUESTED state: " << state << endl;
 		emit(requestGUIState(state));
-	}
-	
-	void Manager::recvMessage(int type, const QString & msg, const QString & tool)
-	{
-		m_log->printMsg(type, msg, tool);
-	}
-	
-	void Manager::recvOutput(char *buffer, int buflen)
-	{
-		//kdDebug() << "received output: " << buffer << endl;
-	
-		int row = (m_output->paragraphs() == 0)? 0 : m_output->paragraphs()-1;
-		int col = m_output->paragraphLength(row);
-		QString s=QCString(buffer,buflen+1);
-		m_output->setCursorPosition(row,col);
-		m_output->insertAt(s, row, col);
 	}
 }
 

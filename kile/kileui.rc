@@ -246,11 +246,6 @@
 	<Action name="menuUserTools"/>
 </Menu>
 
-<Menu name="menu10"><text>&amp;Graph</text>
-	<Action name="144"/>
-	<Action name="145"/>
-</Menu>
-
 <Merge/>
 
 <Menu name="settings" noMerge="1"><text>&amp;Settings</text>

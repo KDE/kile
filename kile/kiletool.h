@@ -163,11 +163,11 @@ namespace KileTool
 
 	public slots:
 		void sendMessage(int, const QString &);
-		virtual void filterOutput(char *, int);
+		virtual void filterOutput(const QString &);
 
 	signals:
 		void message(int, const QString &, const QString &);
-		void output(char *, int);
+		void output(const QString &);
 
 		void start(Base*);
 		void done(Base*, int);

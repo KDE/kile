@@ -1,9 +1,9 @@
 /***************************************************************************
-                          messagewidget.h  -  description
+                          kileoutputwidget.h  -  description
                              -------------------
-    begin                : Sun Dec 30 2001
-    copyright            : (C) 2001 by Pascal Brachet
-    email                :
+    begin                : Sun Dec 21 2003
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,29 +13,27 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- ***************************************************************************/
+ ****************************************************************************/
+#ifndef KILEWIDGET_OUTPUTMSG_H
+#define KILEWIDGET_OUTPUTMSG_H
 
-#ifndef MESSAGEWIDGET_H
-#define MESSAGEWIDGET_H
-
-#include <qwidget.h>
 #include <ktextedit.h>
 
-/**
-  *@author Pascal Brachet
-  */
+namespace KileWidget
+{
+	class Output : public KTextEdit  
+	{
+		Q_OBJECT
 
-class MessageWidget : public KTextEdit  {
-   Q_OBJECT
-public: 
-	MessageWidget(QWidget *parent, const char *name=0);
-	~MessageWidget();
+	public: 
+		Output(QWidget *parent, const char *name=0);
+		~Output();
 
-public slots:
-   void highlight();
-   void insertLine(const QString &l);
-   void insertAt(const QString &l, int para, int index);
-   void append(const QString &l);
-};
+		void setReadOnly(bool r) { QTextEdit::setReadOnly(r); } //we don't want the greyed background
+
+	public slots:
+		void receive(const QString &);
+	};
+}
 
 #endif

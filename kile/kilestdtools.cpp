@@ -253,7 +253,7 @@ namespace KileTool
 		}
 
 		kdDebug() << "\terrors="<< nErrors<<" warnings="<< nWarnings<<" badboxes="<< nBadBoxes<<endl;
-		sendMessage(Info, i18n("%1 errors, %2 warings and %3 badboxes").arg(nErrors).arg(nWarnings).arg(nBadBoxes));
+		sendMessage(Info, i18n("%1 errors, %2 warnings and %3 badboxes").arg(nErrors).arg(nWarnings).arg(nBadBoxes));
 
 		return Compile::finish(r);
 	}

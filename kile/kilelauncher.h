@@ -66,7 +66,7 @@ namespace KileTool
 		
 	signals:
 		void message(int, const QString & );
-		void output(char *, int);
+		void output(const QString &);
 
 		void exitedWith(int);
 		void abnormalExit();

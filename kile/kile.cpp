@@ -88,6 +88,8 @@
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "kilelogwidget.h"
+#include "kileoutputwidget.h"
+#include "kilekonsolewidget.h"
 
 Kile::Kile( bool rest, QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -233,7 +235,7 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	LogWidget->setReadOnly(true);
 	Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log/Messages"));
 
-	OutputWidget = new MessageWidget( Outputview );
+	OutputWidget = new KileWidget::Output(Outputview);
 	OutputWidget->setFocusPolicy(QWidget::ClickFocus);
 	OutputWidget->setMinimumHeight(40);
 	OutputWidget->setReadOnly(true);
@@ -250,7 +252,7 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	//m_outputFilter=new LatexOutputFilter( m_outputInfo );
 	//connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
-	texkonsole=new TexKonsoleWidget(Outputview,"konsole");
+	texkonsole=new KileWidget::Konsole(Outputview,"konsole");
 	Outputview->addTab(texkonsole,SmallIcon("konsole"),i18n("Konsole"));
 
 	QValueList<int> sizes;
@@ -286,7 +288,7 @@ Kile::Kile( bool rest, QWidget *, const char *name ) :
 	KileApplication::closeSplash();
 	show();
 	ToggleAccels();
-	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTerminal(QWidget * )) );
+	connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(syncTerminal()));
 
 	applyMainWindowSettings(config, "KileMainWindow" );
 
@@ -343,7 +345,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, this, SLOT(NextWarning()), actionCollection(),"NextWarning" );
 	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, this, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
 	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, this, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
-	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
+	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	StopAction->setEnabled(false);
 
 	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
@@ -406,9 +408,6 @@ void Kile::setupActions()
 
 
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
-
-  (void) new KAction("Xfig","xfig",0 , this, SLOT(RunXfig()), actionCollection(),"144" );
-  (void) new KAction(i18n("Gnuplot Front End"),"xgfe",0 , this, SLOT(RunGfe()), actionCollection(),"145" );
 
   ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
 
@@ -790,11 +789,11 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 
 void Kile::fileNew()
 {
-    NewFileWizard *nfw = new NewFileWizard(this);
-
-    if (nfw->exec()) {
+	NewFileWizard *nfw = new NewFileWizard(this);
+	if (nfw->exec()) 
+	{
 		loadTemplate(nfw->getSelection());
-    }
+	}
 }
 
 Kate::View* Kile::loadTemplate(TemplateItem *sel)
@@ -816,18 +815,13 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 			text = tempdoc->text();
 			delete tempdoc;
 			replaceTemplateVariables(text);
-
-			//view->getDoc()->setText(text);
-			//view->getDoc()->setModified(false);
-
-			//set the highlight mode (this was already done in load, but somehow after setText this is forgotten)
-			//setHighlightMode(view->getDoc());
 		}
 	}
 	
 	return load(KURL(), QString::null, true, QString::null, true, text);
 }
-//TODO: connect to modifiedondisc() when using KDE 3.2
+
+//FIXME: connect to modifiedondisc() when using KDE 3.2
 bool Kile::eventFilter(QObject* o, QEvent* e)
 {
 	if ( (!m_bBlockWindowActivateEvents) && e->type() == QEvent::WindowActivate && o == this )
@@ -1018,17 +1012,6 @@ void Kile::fileSaveAll(bool amAutoSaving)
 void Kile::autoSaveAll()
 {
 	fileSaveAll(true);
-	/*if (m_singlemode)
-	{
-		statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
-	}
-	else
-	{
-		QString shortName = m_masterName;
-      		int pos = shortName.findRev('/');
-      		shortName.remove(0,pos+1);
-		statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
-	}*/
 }
 
 void Kile::enableAutosave(bool as)
@@ -1654,23 +1637,29 @@ bool Kile::projectClose(const KURL & url)
 	return true;
 }
 
-void Kile::createTemplate() {
-   if (currentView()){
-      if (currentView()->getDoc()->isModified() ) {
-      KMessageBox::information(this,i18n("Please save the file first!"));
-      return;
-      }
-   } else {
-      KMessageBox::information(this,i18n("Open/create a document first!"));
-      return;
-   }
-
-   QFileInfo fi(currentView()->getDoc()->url().path());
-   ManageTemplatesDialog mtd(&fi,i18n("Create Template From Document"));
-   mtd.exec();
+void Kile::createTemplate() 
+{
+	if (currentView())
+	{
+		if (currentView()->getDoc()->isModified() ) 
+		{
+			KMessageBox::information(this,i18n("Please save the file first!"));
+			return;
+		}
+	} 
+	else 
+	{
+		KMessageBox::information(this,i18n("Open/create a document first!"));
+		return;
+	}
+	
+	QFileInfo fi(currentView()->getDoc()->url().path());
+	ManageTemplatesDialog mtd(&fi,i18n("Create Template From Document"));
+	mtd.exec();
 }
 
-void Kile::removeTemplate() {
+void Kile::removeTemplate() 
+{
 	ManageTemplatesDialog mtd(i18n("Remove a template."));
 	mtd.exec();
 }
@@ -2016,7 +2005,7 @@ void Kile::newCaption()
 	if (view)
 	{
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
-		if (Outputview->currentPage()->inherits("TexKonsoleWidget")) syncTerminal();
+		if (Outputview->currentPage()->inherits("KileWidget::Konsole")) syncTerminal();
 	}
 }
 
@@ -2418,96 +2407,34 @@ void Kile::syncTerminal()
 {
 	Kate::View *view = currentView();
 
+	kdDebug() << "==Kile::syncTerminal()===========" <<  endl;
+
 	if (view)
 	{
 		QString finame;
-		if (m_singlemode) {finame=view->getDoc()->url().path();}
-    		else {finame=m_masterName;}
+		//if (m_singlemode) {finame=view->getDoc()->url().path();}
+		//else {finame=m_masterName;}
+		//finame = getCompileName();
+		KURL url = view->getDoc()->url();
 
-		if (finame == "" || finame == i18n("Untitled") ) return;
+		if ( url.path() == "" || url.path() == i18n("Untitled") ) return;
 
-    		QFileInfo fic(finame);
-  		if ( fic.isReadable() )
-    		{
-    			texkonsole->SetDirectory(fic.dirPath());
-    			texkonsole->activate();
+ 		QFileInfo fic(url.directory());
+ 		if ( fic.isReadable() )
+ 		{
+			kdDebug() << "\t" << url.directory() << endl;
+			texkonsole->setDirectory(url.directory());
+			texkonsole->activate();
 		}
 
 		view->setFocus();
 	}
 }
 
-void Kile::RunTerminal(QWidget* w)
-{
-if (w->inherits ("TexKonsoleWidget")) syncTerminal();
-}
-
-void Kile::slotDisableStop() {
-   StopAction->setEnabled(false);
-}
-
 void Kile::LatexToHtml()
 {
+	//FIXME: need a way to give options (perhaps just in the config dialog)?
 	m_manager->run("LaTeX2HTML");
-}
-
-void Kile::slotProcessOutput(KProcess* /*proc*/,char* buffer,int buflen)
-{
-int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
-int col = OutputWidget->paragraphLength(row);
-//QString s=QCString(buffer,buflen+1);
-QString s=QString::fromLocal8Bit(buffer,buflen+1);
-OutputWidget->setCursorPosition(row,col);
-OutputWidget->insertAt(s, row, col);
-}
-
-void Kile::slotProcessExited(KProcess* proc)
-{
-	if (m_bCheckForLaTeXErrors)
-	{
-		//LatexError();
-		m_bCheckForLaTeXErrors=false;
-	}
-
-	QString result;
-	m_outputFilter->GetErrorCount(&m_nErrors, &m_nWarnings, &m_nBadBoxes);
-	if (m_nErrors !=0 || m_nWarnings != 0 || m_nBadBoxes != 0)
-	{
-		result = i18n("Process exited with %1 errors, %2 warnings and %3 bad boxes.").
-		arg(m_nErrors).arg(m_nWarnings).arg(m_nBadBoxes);
-	}
-	else
-	if (proc->normalExit())
-	{
-		result= ((proc->exitStatus()) ? i18n("Process failed.") : i18n("Process exited without errors."));
-	}
-	else
-	{
-	result= i18n("Process exited unexpectedly.");
-	}
-	LogWidget->append(result);
-
-	delete proc;
-	currentProcess=0;
-}
-
-void Kile::slotl2hExited(KProcess* proc)
-{
-QString result;
-if (proc->normalExit())
-  {
-  result= ((proc->exitStatus()) ? i18n("Process failed") : i18n("Process exited normally"));
-  }
-else
-  {
-   result= i18n("Process exited with error(s)");
-  }
-int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
-int col = LogWidget->paragraphLength(row);
-LogWidget->setCursorPosition(row,col);
-LogWidget->insertAt(result, row, col);
-//newStatus();
-HtmlPreview();
 }
 
 void Kile::HtmlPreview()
@@ -2574,7 +2501,7 @@ void Kile::execUserTool(int i)
 		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
 	}*/
 
-	newStatus();
+	m_manager->run(m_listUserTools[i].name);
 }
 
 ////////////////// STRUCTURE ///////////////////
@@ -3178,41 +3105,12 @@ void Kile::EditUserTool()
 
 		m_listUserTools = umDlg->result();
 		setupUserToolActions();
+		SaveSettings();
 	}
 
 	delete umDlg;
 }
 
-/////////////// GRAF ////////////////////
-void Kile::RunXfig()
-{
-KShellProcess* proc = new KShellProcess("/bin/sh");
-proc->clearArguments();
-(*proc) << "xfig" ;
-connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start Xfig."));}
-else
-  {
-  LogWidget->clear();
-  Outputview->showPage(LogWidget);
-  logpresent=false;
-  LogWidget->append(i18n("Launched: %1").arg("xfig"));
-  }
-}
-
-void Kile::RunGfe()
-{
-  LogWidget->clear();
-  Outputview->showPage(LogWidget);
-  logpresent=false;
-  //newStatus();
-  if (!gfe_widget) gfe_widget=new Qplotmaker(0,"Gnuplot Front End");
-  gfe_widget->setIcon(kapp->miniIcon());
-  gfe_widget->raise();
-  gfe_widget->show();
-}
 /////////////// CONFIG ////////////////////
 void Kile::ReadSettings()
 {
@@ -3497,8 +3395,17 @@ config->writeEntry("nUserTools",static_cast<int>(m_listUserTools.size()));
 for (uint i=0; i<m_listUserTools.size(); i++)
 {
 	tempItem = m_listUserTools[i];
+	config->setGroup( "User" );
 	config->writeEntry("userToolName"+QString::number(i),tempItem.name);
 	config->writeEntry("userTool"+QString::number(i),tempItem.tag);
+
+	//temporary work-around to make this work with the new KileTool classes
+	config->setGroup("Tool/" + tempItem.name);
+	config->writeEntry("command", tempItem.tag);
+	config->writeEntry("class", "Base");
+	config->writeEntry("type", "Process");
+	config->writeEntry("from", "");
+	config->writeEntry("to", "");
 }
 
 config->setGroup( "Structure" );

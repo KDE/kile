@@ -52,20 +52,15 @@
 #include <qcolor.h>
 
 #include "kileappIface.h"
-#include "messagewidget.h"
 #include "structdialog.h"
 #include "quickdocumentdialog.h"
 #include "letterdialog.h"
-#include "bibtexdialog.h"
 #include "tabdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
 #include "l2hdialog.h"
-#include "gfe/qplotmaker.h"
-#include "gfe/qplotdialog.h"
 #include "docpart.h"
 #include "symbolview.h"
-#include "texkonsolewidget.h"
 #include "kmultiverttabbar.h"
 #include "kilefileselect.h"
 #include "refdialog.h"
@@ -99,7 +94,7 @@ class KileProjectView;
 class TemplateItem;
 
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogMsg; }
+namespace KileWidget { class LogMsg; class Output; class Konsole; }
 
 #ifndef KILE_USERITEM
 struct userItem
@@ -174,9 +169,9 @@ private:
 	KMultiVertTabBar 		*ButtonBar;
 	SymbolView 				*symbol_view;
 	metapostview 				*mpview;
-    MessageWidget 			*OutputWidget;
-    KileWidget::LogMsg *LogWidget;
-    TexKonsoleWidget		*texkonsole;
+	KileWidget::Output		*OutputWidget;
+	KileWidget::LogMsg		*LogWidget;
+	KileWidget::Konsole		*texkonsole;
 	QTabWidget 				*tabWidget, *Outputview;
 	QFrame 						*Structview;
 	KileProjectView			*m_projectview;
@@ -195,7 +190,6 @@ private:
 	arraydialog 					*arrayDlg;
 	tabbingdialog 				*tabDlg;
 	l2hdialog 						*l2hDlg;
-	bibtexdialog					*BibtexDlg;
 
 	//parts
 	docpart 						*htmlpart;
@@ -465,15 +459,7 @@ private:
 					pdflatex_command, viewpdf_command, l2h_options, bibtexeditor_command,
 					viewlatexhelp_command;
 
-signals:
-	void stopProcess();
-
 private slots:
-	void slotProcessOutput(KProcess* proc,char* buffer,int buflen);
-	void slotProcessExited(KProcess* proc);
-	void slotDisableStop();
-	void slotl2hExited(KProcess* proc);
-
 	void QuickBuild();
 
 	void Latex();
@@ -489,7 +475,6 @@ private slots:
 	void PStoPDF();
 	void DVItoPDF();
 	void syncTerminal();
-	void RunTerminal(QWidget *w);
 	void LatexToHtml();
 	void MetaPost();
 	void HtmlPreview();
@@ -573,15 +558,6 @@ private:
 /* editor extensions */
 private:
 	KileEventFilter*	m_eventFilter;
-
-/* external programs */
-private slots:
-	void RunXfig();
-	void RunGfe();
-
-private:
-	QGuardedPtr<Qplotmaker> gfe_widget;
-
 };
 
 class KileAutoSaveJob : public QObject

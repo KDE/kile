@@ -547,9 +547,9 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	mapInfo(doc, docinfo);
 
 	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged()));
+	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
 	//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
-	//updates the docinfo, on which all decisions are bases in slotNameChanged
+	//updates the docinfo, on which all decisions are based in slotNameChanged
 	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
 	connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
@@ -606,7 +606,7 @@ void Kile::slotNameChanged(Kate::Document * doc)
 	KileDocumentInfo *docinfo = infoFor(doc);
 
 	//add to project view if doc was Untitled before
-	if (docinfo->oldURL().isEmpty())
+	if ( (! docinfo->url().isEmpty()) && docinfo->oldURL().isEmpty())
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_projectview->add(doc->url());
@@ -1374,7 +1374,12 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		KileProjectItem *item;
 		if (view->getDoc()->closeURL() )
 		{
+			kdDebug() << "\tclosed" << endl;
 			removeView(view);
+
+			//remove entry in projectview
+			m_projectview->remove(url);
+
 			//remove the decorations
 			docinfo = infoFor(doc);
 			item = itemFor(docinfo);
@@ -1385,9 +1390,6 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
-
-			//remove entry in projectview
-			m_projectview->remove(url);
 
 			trash(doc);
 			//m_docList.remove(doc);

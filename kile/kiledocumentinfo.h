@@ -128,7 +128,7 @@ public:
 public slots:
 	void updateStruct();
 	void updateBibItems();
-	void emitNameChanged();
+	void emitNameChanged(Kate::Document *);
 
 signals:
 	void nameChanged(const KURL &);

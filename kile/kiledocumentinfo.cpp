@@ -50,17 +50,23 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
 }
 
-void KileDocumentInfo::emitNameChanged()
+void KileDocumentInfo::emitNameChanged(Kate::Document *doc)
 {
-	kdDebug() << "==KileDocumentInfo::slotNameChanged=========================="  << endl;
+	kdDebug() << "==KileDocumentInfo::emitNameChanged=========================="  << endl;
 	if (m_doc)
 	{
 		kdDebug() << "\tfrom: " << m_url.path() << endl;
 		kdDebug() << "\tto: " << m_doc->url().path() << endl;
-		setURL(m_doc->url());
+
+		//don't emit if new URL is empty (i.e. when closing the document)
+		if (!m_doc->url().isEmpty())
+		{
+			kdDebug() << "\temitting nameChanged(url)" << endl;
+			setURL(m_doc->url());
+			//emit(nameChanged(m_url));
+			emit(nameChanged(m_doc));
+		}
 	}
-	emit nameChanged(m_url);
-	if (m_doc) emit nameChanged(m_doc);
 }
 
 void KileDocumentInfo::count(const QString line, long *stat)

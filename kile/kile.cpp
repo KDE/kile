@@ -303,25 +303,15 @@ void Kile::setupActions()
 	altL_action = alt_list.at(7);
 	altR_action = alt_list.at(8);
 
+	KileStdActions::setupBibTags(this);
+
   (void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
   (void) new KAction(i18n("Letter"),"wizard",0 , this, SLOT(QuickLetter()), actionCollection(),"128" );
   (void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
   (void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
   (void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );
 
-  (void) new KAction(i18n("Article in Journal"),0 , this, SLOT(InsertBib1()), actionCollection(),"131" );
-  (void) new KAction(i18n("Article in Conference Proceedings"),0 , this, SLOT(InsertBib2()), actionCollection(),"132" );
-  (void) new KAction(i18n("Article in Collection"),0 , this, SLOT(InsertBib3()), actionCollection(),"133" );
-  (void) new KAction(i18n("Chapter or Pages in Book"),0 , this, SLOT(InsertBib4()), actionCollection(),"134" );
-  (void) new KAction(i18n("Conference Proceedings"),0 , this, SLOT(InsertBib5()), actionCollection(),"135" );
-  (void) new KAction(i18n("Book"),0 , this, SLOT(InsertBib6()), actionCollection(),"136" );
-  (void) new KAction(i18n("Booklet"),0 , this, SLOT(InsertBib7()), actionCollection(),"137" );
-  (void) new KAction(i18n("PhD. Thesis"),0 , this, SLOT(InsertBib8()), actionCollection(),"138" );
-  (void) new KAction(i18n("Master's Thesis"),0 , this, SLOT(InsertBib9()), actionCollection(),"139" );
-  (void) new KAction(i18n("Technical Report"),0 , this, SLOT(InsertBib10()), actionCollection(),"140" );
-  (void) new KAction(i18n("Technical Manual"),0 , this, SLOT(InsertBib11()), actionCollection(),"141" );
-  (void) new KAction(i18n("Unpublished"),0 , this, SLOT(InsertBib12()), actionCollection(),"142" );
-  (void) new KAction(i18n("Miscellaneous"),0 , this, SLOT(InsertBib13()), actionCollection(),"143" );
+
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
 
   (void) new KAction("Xfig","xfig",0 , this, SLOT(RunXfig()), actionCollection(),"144" );
@@ -484,13 +474,13 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	KParts::GUIActivateEvent ev( true );
 	QApplication::sendEvent( view, &ev );
 
-    	newStatus();
+	newStatus();
 	newCaption();
 
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
 
-    	ShowStructure();
+	ShowStructure();
 
 	return view;
 }
@@ -1564,7 +1554,7 @@ void Kile::KdviForwardSearch()
    }
    else
    {
-    QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./%S.tex";
+    QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./"+ texname;
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
@@ -2193,8 +2183,9 @@ void Kile::execUserTool(int i)
 ////////////////// STRUCTURE ///////////////////
 void Kile::ShowStructure()
 {
-showVertPage(1);
+	showVertPage(1);
 }
+
 void Kile::UpdateStructure()
 {
 outstruct->clear();
@@ -2726,7 +2717,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 	ins.replace("%S", fi.baseName(true));
 
 	//insert first part of tag at cursor position
-	kdDebug() << QString("insertTag: inserting %1 at (%2,%3)").arg(ins).arg(para).arg(index) << endl;
+	//kdDebug() << QString("insertTag: inserting %1 at (%2,%3)").arg(ins).arg(para).arg(index) << endl;
 	view->getDoc()->insertText(para,index,ins);
 
 	//move cursor to the new position
@@ -2755,20 +2746,9 @@ void Kile::insertGraphic(const KileAction::TagData& data)
 	}
 }
 
-void Kile::InsertTag(QString Entity, int dx, int dy)
+void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 {
-	Kate::View *view = currentView();
-	if ( !view ) return;
-	int para=0;
-	int index=0;
-	view->setFocus();
-	para=view->cursorLine();
-	index=view->cursorColumn();
-	view->getDoc()->insertText(para,index,Entity);
-	view->setCursorPosition(para+dy,index+dx);
-	LogWidget->clear();
-	Outputview->showPage(LogWidget);
-	logpresent=false;
+	insertTag(KileAction::TagData(QString::null,tagB,tagE,dx,dy));
 }
 
 void Kile::QuickDocument()
@@ -2823,8 +2803,9 @@ int li=3;
      tag+="\\title{"+startDlg->LineEdit2->text()+"}\n";
      li=li+1;
      }
-  tag+=QString("\\begin{document}\n\n\\end{document}");
-  InsertTag(tag,0,li);
+  tag+= "\\begin{document}\n";
+  QString tagE = "\n\\end{document}";
+  insertTag(tag,tagE,0,li);
   document_class=startDlg->combo1->currentText();
   typeface_size=startDlg->combo2->currentText();
   paper_size=startDlg->combo3->currentText();
@@ -2872,7 +2853,7 @@ void Kile::QuickTabular()
  	  }
  	  if (quickDlg->checkbox1->isChecked()) tag +=hs+QString("\n\\end{tabular} ");
     else tag +=QString("\\end{tabular} ");
-  InsertTag(tag,0,0);
+  insertTag(tag,QString::null,0,0);
   }
 
   delete( quickDlg);
@@ -2897,8 +2878,8 @@ void Kile::QuickTabbing()
    tag+="\\\\ \n";
    }
    for ( int j=1;j<x;j++) {tag +=" \\> ";}
-  tag += QString("\n\\end{tabbing} ");
-  InsertTag(tag,0,2);
+
+  insertTag(tag,"\n\\end{tabbing} ",0,2);
  }
   delete( tabDlg);
 }
@@ -2931,7 +2912,7 @@ void Kile::QuickArray()
   		  for ( int j=0;j<x-1;j++)
  			  tag +=arrayDlg->Table1->text(y-1,j)+ QString(" & ");
  	  tag +=arrayDlg->Table1->text(y-1,x-1)+ QString("\n\\end{")+env+"} ";
-  InsertTag(tag,0,0);
+  insertTag(tag,QString::null,0,0);
   }
   delete( arrayDlg);
 
@@ -2962,8 +2943,8 @@ void Kile::QuickLetter()
   tag+="%\\encl{list of enclosed material} \n";
   tag+="\\end{letter} \n";
   tag+="\\end{document}";
-  if (ltDlg->checkbox1->isChecked()) {InsertTag(tag,9,5);}
-  else {InsertTag(tag,9,2);}
+  if (ltDlg->checkbox1->isChecked()) {insertTag(tag,QString::null,9,5);}
+  else {insertTag(tag,QString::null,9,2);}
   }
   delete( ltDlg);
 }
@@ -2972,278 +2953,17 @@ void Kile::QuickLetter()
 void Kile::InsertSymbol()
 {
 QString code_symbol=symbol_view->getSymbolCode();
-InsertTag(code_symbol,code_symbol.length(),0);
+insertTag(code_symbol,QString::null,code_symbol.length(),0);
 }
 
 void Kile::InsertMetaPost(QListBoxItem *)
 {
 QString mpcode=mpview->currentText();
-if (mpcode!="----------") InsertTag(mpcode,mpcode.length(),0);
+if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 }
 
 ////////////////////////// BIBLIOGRAPHY //////////////////////////
-void Kile::InsertBib1()
-{
-QString tag = QString("@Article{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="journal = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTvolume = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTpages = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,9,0);
-LogWidget->insertLine("Bib fields - Article in Journal");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib2()
-{
-QString tag = QString("@InProceedings{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="booktitle = {},\n";
-tag+="OPTcrossref = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTpages = {},\n";
-tag+="OPTyear = {},\n";
-tag+="OPTeditor = {},\n";
-tag+="OPTvolume = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTseries = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTorganization = {},\n";
-tag+="OPTpublisher = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,15,0);
-LogWidget->insertLine("Bib fields - Article in Conference Proceedings");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib3()
-{
-QString tag = QString("@InCollection{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="booktitle = {},\n";
-tag+="OPTcrossref = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTpages = {},\n";
-tag+="OPTpublisher = {},\n";
-tag+="OPTyear = {},\n";
-tag+="OPTeditor = {},\n";
-tag+="OPTvolume = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTseries = {},\n";
-tag+="OPTtype = {},\n";
-tag+="OPTchapter = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTedition = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,14,0);
-LogWidget->insertLine("Bib fields - Article in a Collection");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib4()
-{
-QString tag = QString("@InBook{,\n");
-tag+="ALTauthor = {},\n";
-tag+="ALTeditor = {},\n";
-tag+="title = {},\n";
-tag+="chapter = {},\n";
-tag+="publisher = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTvolume = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTseries = {},\n";
-tag+="OPTtype = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTedition = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTpages = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,8,0);
-LogWidget->insertLine("Bib fields - Chapter or Pages in a Book");
-LogWidget->insertLine( "ALT.... : you have the choice between these two fields");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib5()
-{
-QString tag = QString("@Proceedings{,\n");
-tag+="title = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTeditor = {},\n";
-tag+="OPTvolume = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTseries = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTorganization = {},\n";
-tag+="OPTpublisher = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,13,0);
-LogWidget->insertLine("Bib fields - Conference Proceedings");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib6()
-{
-QString tag = QString("@Book{,\n");
-tag+="ALTauthor = {},\n";
-tag+="ALTeditor = {},\n";
-tag+="title = {},\n";
-tag+="publisher = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTvolume = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTseries = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTedition = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,6,0);
-LogWidget->insertLine("Bib fields - Book");
-LogWidget->insertLine( "ALT.... : you have the choice between these two fields");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib7()
-{
-QString tag = QString("@Booklet{,\n");
-tag+="title = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTauthor = {},\n";
-tag+="OPThowpublished = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTyear = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,9,0);
-LogWidget->insertLine("Bib fields - Booklet");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib8()
-{
-QString tag = QString("@PhdThesis{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="school = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTtype = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,11,0);
-LogWidget->insertLine("Bib fields - PhD. Thesis");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib9()
-{
-QString tag = QString("@MastersThesis{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="school = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTtype = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,15,0);
-LogWidget->insertLine("Bib fields - Master's Thesis");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib10()
-{
-QString tag = QString("@TechReport{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="institution = {},\n";
-tag+="year = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTtype = {},\n";
-tag+="OPTnumber = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,12,0);
-LogWidget->insertLine("Bib fields - Technical Report");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib11()
-{
-QString tag = QString("@Manual{,\n");
-tag+="title = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTauthor = {},\n";
-tag+="OPTorganization = {},\n";
-tag+="OPTaddress = {},\n";
-tag+="OPTedition = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTyear = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,8,0);
-LogWidget->insertLine("Bib fields - Technical Manual");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib12()
-{
-QString tag = QString("@Unpublished{,\n");
-tag+="author = {},\n";
-tag+="title = {},\n";
-tag+="note = {},\n";
-tag+="OPTkey = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTyear = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,13,0);
-LogWidget->insertLine("Bib fields - Unpublished");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
-void Kile::InsertBib13()
-{
-QString tag = QString("@Misc{,\n");
-tag+="OPTkey = {},\n";
-tag+="OPTauthor = {},\n";
-tag+="OPTtitle = {},\n";
-tag+="OPThowpublished = {},\n";
-tag+="OPTmonth = {},\n";
-tag+="OPTyear = {},\n";
-tag+="OPTnote = {},\n";
-tag+="OPTannote = {}\n";
-tag+="}\n";
-InsertTag(tag,6,0);
-LogWidget->insertLine("Bib fields - Miscellaneous");
-LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
-}
+
 //////////////// USER //////////////////
 void Kile::insertUserTag(int i)
 {
@@ -3251,12 +2971,11 @@ void Kile::insertUserTag(int i)
 	{
 		QString t=m_listUserTags[i].tag;
 		t=t.remove(0,1);
-		QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-		InsertTag(s,0,1);
+		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
 	}
 	else
 	{
-		InsertTag(m_listUserTags[i].tag,0,0);
+		insertTag(m_listUserTags[i].tag,QString::null,0,0);
 	}
 }
 

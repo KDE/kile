@@ -25,8 +25,10 @@
 		</list>
 		<contexts>
 			<context name="Normal Text" attribute="Normal Text" lineEndContext="Normal Text">
-				<StringDetect String="\begin" attribute="Structure" context="FindEnvironment"/>
-				<StringDetect String="\end" attribute="Structure" context="FindEnvironment"/>
+				<RegExpr String="\\(begin|end)(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment"/>
+				<RegExpr String="\\(label|pageref|ref|cite)(?=[^a-zA-Z])" attribute="Structure" context="Label"/>
+				<RegExpr String="\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)(?=[^a-zA-Z])" attribute="Structure" context="#stay"/>
+				<StringDetect String="\renewcommand" attribute="Keyword" context="ToEndOfLine"/>
 				<StringDetect String="\newcommand" attribute="Keyword" context="ToEndOfLine"/>
 				<StringDetect String="\(" attribute="Math" context="MathMode"/>
 				<StringDetect String="\[" attribute="Math" context="MathMode"/>
@@ -37,8 +39,6 @@
 				<DetectChar char="%" attribute="Comment" context="Comment"/>
 			</context>
 			<context name="ContrSeq" attribute="Keyword" lineEndContext="#pop">
-				<keyword String="kw_structure" attribute="Structure" context="FindEnvironment"/>
-
 				<RegExpr String="verb" attribute="Keyword" context="Verb"/>
 				<RegExpr String="[a-zA-Z]+" attribute="Keyword" context="#pop"/>
 				<RegExpr String="[^a-zA-Z]" attribute="Keyword" context="#pop" />
@@ -55,6 +55,12 @@
 				<DetectChar char="]" attribute="Normal Text" context="Normal Text"/>
 				<StringDetect String="verbatim" attribute="Environment" context="VerbatimEnv"/>
 				<keyword String="kw_mathenv" attribute="Environment" context="MathEnv"/>
+			</context>
+
+			<context name="Label" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
+				<RegExpr String="\s*\{\s*" attribute="Normal Text" context="#stay"/>
+				<RegExpr String="[^\}]+" attribute="Environment" context="#stay"/>
+				<RegExpr String="\s*\}\s*" attribute="Normal Text" context="#pop"/>
 			</context>
 
 			<context name="Verb" attribute="Verbatim" lineEndContext="Normal Text" fallthrough="true" fallthroughContext="Normal Text">
@@ -114,7 +120,7 @@
 			<itemData name="Math" defStyleNum="dsOthers" color="#00A000" selColor="#FF40FF"  bold="0" italic="0"/>
 			<itemData name="Structure" defStyleNum="dsNormal" color="#F00000" selColor="#80FFD0" bold="0" italic="0"/>
 			<itemData name="Keyword Mathmode" defStyleNum="dsOthers" color="#606000" selColor="#FFD0FF" bold="0" italic="0"/>
-			<itemData name="Environment" defStyleNum="dsString" color="#000080" selColor="#FFFF90" bold="0" italic="0"/>
+			<itemData name="Environment" defStyleNum="dsString" color="#0000D0" selColor="#FFFF90" bold="0" italic="0"/>
 			<itemData name="Verbatim" defStyleNum="dsDataType" color="#a08000" selColor="#80D0FF" bold="0" italic="0"/>
 
 		</itemDatas>

@@ -13,7 +13,11 @@
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <description/>
-    <ignoreparts/>
+    <ignoreparts>
+      <part>KDevClearCase</part>
+      <part>KDevPerforce</part>
+      <part>KDevVisualBoyAdvance</part>
+    </ignoreparts>
   </general>
   <kdevfileview>
     <groups>
@@ -90,6 +94,8 @@
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars/>
+      <directoryradio>executable</directoryradio>
+      <customdirectory/>
     </run>
   </kdevautoproject>
   <cppsupportpart>

@@ -54,11 +54,10 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 	checkAutosave = new QCheckBox(autosaveGroup, "Autosave");
 	checkAutosave->setText(i18n("Auto&save"));
 
-	QLabel *lb= new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
+	(void) new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
 
-
-        asIntervalInput=new KIntNumInput(autosaveGroup,"asIntervalInput");
-        asIntervalInput->setRange(1, 9999, 1, false);
+	asIntervalInput=new KIntNumInput(autosaveGroup,"asIntervalInput");
+	asIntervalInput->setRange(1, 9999, 1, false);
 
 	genLayout->addWidget(autosaveGroup);
 

@@ -393,7 +393,7 @@ private:
 
 /* insert tags */
 private slots:
-	void InsertTag(QString Entity, int dx, int dy);
+	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
 	void insertTag(const KileAction::TagData&);
 	void insertGraphic(const KileAction::TagData&);
 
@@ -405,20 +405,6 @@ private slots:
 
 	void InsertSymbol();
 	void InsertMetaPost(QListBoxItem *);
-
-	void InsertBib1();
-	void InsertBib2();
-	void InsertBib3();
-	void InsertBib4();
-	void InsertBib5();
-	void InsertBib6();
-	void InsertBib7();
-	void InsertBib8();
-	void InsertBib9();
-	void InsertBib10();
-	void InsertBib11();
-	void InsertBib12();
-	void InsertBib13();
 
 	void insertUserTag(int i);
 	void EditUserMenu();

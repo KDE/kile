@@ -40,6 +40,7 @@ int main( int argc, char ** argv )
     0,
     "http://perso.club-internet.fr/pascal.brachet/kile/");
   aboutData.addAuthor("Brachet Pascal",0,"");
+  aboutData.addAuthor("Jeroen Wijnhout","maintainer/developer","wijnhout@science.uva.nl");
   aboutData.addCredit("David Ishee (Xgfe)");
   aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
   aboutData.addCredit("AceLan, Edward Lee, Haoxiang Lin (chinese translation)");

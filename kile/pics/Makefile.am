@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = acute.png bar.png breve.png chapter.png check.png ddot.png dfrac.png doc.png dot.png dvips.png dvisearch.png errornext.png errorprev.png grave.png hat.png include.png indice.png latex.png master.png mathmode.png modified.png newline.png part.png puissance.png quick.png racine.png section.png smallfrac.png structure.png subsection.png subsubsection.png tilde.png vec.png viewdvi.png viewlog.png viewpdf.png viewps.png xfig.png xgfe.png dvipdf.png l2h.png ps2pdf.png enumerate.png item.png itemize.png math1.png math2.png math3.png math4.png math5.png watchfile.png viewhtml.png metapost.png type_Article.png type_Book.png type_Empty.png type_Project.png type_Letter.png type_Report.png type_Default.png kile_splash.png
+EXTRA_DIST = acute.png bar.png breve.png chapter.png check.png ddot.png dfrac.png doc.png dot.png dvips.png dvisearch.png errornext.png errorprev.png grave.png hat.png include.png indice.png latex.png master.png mathmode.png modified.png newline.png part.png puissance.png quick.png racine.png section.png smallfrac.png structure.png subsection.png subsubsection.png tilde.png vec.png viewdvi.png viewlog.png viewpdf.png viewps.png xfig.png xgfe.png dvipdf.png l2h.png ps2pdf.png enumerate.png item.png itemize.png math1.png math2.png math3.png math4.png math5.png watchfile.png viewhtml.png metapost.png type_Article.png type_Book.png type_Empty.png type_Project.png type_Letter.png type_Report.png type_Default.png kile_splash.png output_win.png
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/kile/pics/
@@ -126,6 +126,8 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/type_Default.png $(kde_datadir)/kile/pics/type_Default.png
 	$(mkinstalldirs) $(kde_datadir)/kile/pics/
 	$(INSTALL_DATA) $(srcdir)/kile_splash.png $(kde_datadir)/kile/pics/kile_splash.png
+	$(mkinstalldirs) $(kde_datadir)/kile/pics/
+	$(INSTALL_DATA) $(srcdir)/output_win.png $(kde_datadir)/kile/pics/output_win.png
 
 uninstall-local:
 	-rm -f $(kde_datadir)/kile/pics/kile_splash.png
@@ -189,5 +191,6 @@ uninstall-local:
 	-rm -f $(kde_datadir)/kile/pics/type_Letter.png
 	-rm -f $(kde_datadir)/kile/pics/type_Report.png
 	-rm -f $(kde_datadir)/kile/pics/type_Default.png
+	-rm -f $(kde_datadir)/kile/pics/output_win.png
 
 ####### kdevelop will overwrite this part!!! (end)############

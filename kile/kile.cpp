@@ -145,18 +145,30 @@ tabWidget->setFocusPolicy(QWidget::ClickFocus);
 tabWidget->setFocus();
 connect( tabWidget, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(UpdateCaption()) );
 
+//Log/Messages/KShell widgets
 Outputview=new QTabWidget(splitter2);
 Outputview->setFocusPolicy(QWidget::ClickFocus);
+
+LogWidget = new MessageWidget( Outputview );
+LogWidget->setFocusPolicy(QWidget::ClickFocus);
+LogWidget->setMinimumHeight(40);
+LogWidget->setReadOnly(true);
+Outputview->addTab(LogWidget,UserIcon("viewlog"), i18n("Log File"));
+
 OutputWidget = new MessageWidget( Outputview );
 OutputWidget->setFocusPolicy(QWidget::ClickFocus);
 OutputWidget->setMinimumHeight(40);
 OutputWidget->setReadOnly(true);
-Outputview->addTab(OutputWidget,UserIcon("viewlog"), i18n("Messages/Log File"));
+Outputview->addTab(OutputWidget,UserIcon("output_win"), i18n("Messages"));
+
+
 logpresent=false;
 errorlist=new QStrList();
-connect(OutputWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
+connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
+
 texkonsole=new TexKonsoleWidget(Outputview,"konsole");
 Outputview->addTab(texkonsole,SmallIcon("konsole"),i18n("Konsole"));
+
 QValueList<int> sizes;
 sizes << split2_top << split2_bottom;
 splitter2->setSizes( sizes );
@@ -168,7 +180,7 @@ topWidgetStack->addWidget(splitter1 , 0);
 setCentralWidget(topWidgetStack);
 ShowOutputView(false);
 ShowStructView(false);
-Outputview->showPage(OutputWidget);
+Outputview->showPage(LogWidget);
 lastvtab=1;
 UpdateCaption();
 showVertPage(0);
@@ -1134,6 +1146,7 @@ if (Outputview->currentPage()->inherits("TexKonsoleWidget")) syncTerminal();
 if (singlemode)
  {
  OutputWidget->clear();
+ LogWidget->clear();
  logpresent=false;
  }
 UpdateLineColStatus();
@@ -1299,8 +1312,6 @@ else
     if (showmaintoolbar) {toolBar("ToolBar1")->show();}
     if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
     toolBar("Extra")->hide();
-    if (showedittoolbar) {toolBar("ToolBar4")->show();}
-    if (showmathtoolbar) {toolBar("ToolBar5")->show();}
     } 
 
 }
@@ -1333,46 +1344,35 @@ if (htmlpresent)
 /////////////////// QUICK /////////////////////////
 void Kile::QuickBuild()
 {
-QStringList command;
-QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".tex";
-  QString texname=fi.baseName()+".tex";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
-  {
-    QStringList command;
-    if (quickmode==4) {command << pdflatex_command;} else {command << latex_command;}
-    
-    CommandProcess* proc= execCommand(command,fi,true);
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(EndQuickCompile()));
+   QStringList command;
+   QString compile_command;
+   if (quickmode==4) {compile_command = pdflatex_command;} else {compile_command = latex_command;}
 
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Quick build "));
-         OutputWidget->insertLine(i18n("Process launched"));
-         OutputWidget->insertLine(i18n("Compilation..."));
-         }
+   QString finame;
+   if ( (finame = prepareForCompile(compile_command) ) == QString::null ) return;
+   
+   QFileInfo fic(finame);
+	
+   command << compile_command;
+   CommandProcess* proc= execCommand(command,fic,true);
+   connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(EndQuickCompile()));
+
+   if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+   {
+      KMessageBox::error( this,i18n("Could not start ") + compile_command + i18n(". Make sure this package is installed on your system."));
    }
- else
- {
-  KMessageBox::error(this, i18n("TeX file not found!"));
- }
-UpdateLineColStatus();
+   else
+   {
+      OutputWidget->clear();
+      LogWidget->clear();
+      Outputview->showPage(LogWidget);
+      logpresent=false;
+      LogWidget->insertLine(i18n("Quick build "));
+      LogWidget->insertLine(i18n("Process launched"));
+      LogWidget->insertLine(i18n("Compilation..."));
+   }
+
+   UpdateLineColStatus();
 }
 
 void Kile::EndQuickCompile()
@@ -1426,113 +1426,96 @@ switch (quickmode)
 
 void Kile::QuickDviToPS()
 {
-  QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+  QStringList files;
+  if ( (files = prepareForConversion("DviPs","dvi", "ps")).size() == 0) return;
+
+  QString dviname=files[0];
+  QString psname=files[1];
+  QFileInfo fic(dviname);
+
+  QStringList command; command << dvips_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+  
+  if (quickmode==1)
   {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+     if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
+     else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPS()));
   }
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".dvi";
-  QString dviname=fi.baseName()+".dvi";
-  QString psname=fi.baseName()+".ps";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  else
   {
-    QStringList command; command << dvips_command;
-    CommandProcess *proc = execCommand(command,fi,true);
-    if (quickmode==1)
-      {
-      if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-      else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPS()));
-      }
-    else
-      {
-      connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(QuickPS2PDF()));
-      }
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         logpresent=false;
-         OutputWidget->insertLine("Dvips ...");
-         }
-     }
- else
- {
-  KMessageBox::error(this, i18n("Dvi file not found!"));
- }
-UpdateLineColStatus();
+     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(QuickPS2PDF()));
+  }
+
+
+  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+  {
+      KMessageBox::error( this,i18n("Could not start ")+ dvips_command + i18n(". Make sure this package is installed on your system."));
+  }
+  else
+  {
+      logpresent=false;
+      LogWidget->insertLine("DviPs...");
+  }
+
+  UpdateLineColStatus();
 }
 
 void Kile::QuickDviPDF()
 {
-  QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+  QStringList files;
+  if ( (files=prepareForConversion("DVItoPDF","dvi","pdf")).size() ==0) return;
+
+  QString dviname=files[0];
+  QString pdfname=files[1];
+
+  QFileInfo fic(dviname);
+
+  QStringList command; command << dvipdf_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+
+  if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
+  else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
+
+  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+     KMessageBox::error( this,i18n("Could not start ")+dvipdf_command+i18n(". Make sure this package is installed on your system."));
   }
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".dvi";
-  QString dviname=fi.baseName()+".dvi";
-  QString psname=fi.baseName()+".ps";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  else
   {
-    QStringList command; command << dvipdf_command;
-    CommandProcess* proc = execCommand(command,fi,true);
-    if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         logpresent=false;
-         OutputWidget->insertLine("DviPdf ...");
-         }
-     }
- else
- {
-  KMessageBox::error(this, i18n("Dvi file not found!"));
- }
-UpdateLineColStatus();
+     logpresent=false;
+     LogWidget->insertLine("DviPdf ...");
+  }
+
+  UpdateLineColStatus();
 }
 
 void Kile::QuickPS2PDF()
 {
-  QString finame;
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+  QStringList files;
+  if ( (files=prepareForConversion("PStoPDF","ps","pdf")).size() ==0) return;
+
+  QString psname=files[0];
+  QString pdfname=files[1];
+
+  QFileInfo fic(psname);
+
+  QStringList command; command << ps2pdf_command;
+  CommandProcess *proc=execCommand(command,fic,true);
+
+  if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
+  else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
+  
+  if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
+     KMessageBox::error( this,i18n("Could not start ") + ps2pdf_command + i18n(". Make sure this packages is installed on your system."));
   }
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".ps";
-  QString psname=fi.baseName()+".ps";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  else
   {
-    QStringList command; command << ps2pdf_command; 
-    CommandProcess* proc = execCommand(command,fi,true);
-    if (watchfile) connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    else connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(ViewPDF()));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         logpresent=false;
-         OutputWidget->insertLine("Ps2Pdf ...");
-         }
-     }
- else
- {
-  KMessageBox::error(this, i18n("Dvi file not found!"));
- }
-UpdateLineColStatus();
+     logpresent=false;
+     LogWidget->insertLine(i18n("Ps2Pdf..."));
+  }
+  
+  UpdateLineColStatus();
 }
 
 
@@ -1712,9 +1695,10 @@ void Kile::Latex()
   else
   {
      OutputWidget->clear();
-     Outputview->showPage(OutputWidget);
+     LogWidget->clear();
+     Outputview->showPage(LogWidget);
      logpresent=false;
-     OutputWidget->insertLine(i18n("Process launched"));
+     LogWidget->insertLine(i18n("Process launched"));
   }
 
   UpdateLineColStatus();
@@ -1757,9 +1741,10 @@ void Kile::ViewDvi()
     else
     {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         LogWidget->clear();
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
      }
   }
  
@@ -1771,14 +1756,14 @@ void Kile::KdviForwardSearch()
   QString finame;
   if ( (finame = prepareForViewing("KDVIForwardSearch","dvi")) == QString::null) return;
   
-  OutputWidget->clear();
-  Outputview->showPage(OutputWidget);
+  LogWidget->clear();
+  Outputview->showPage(LogWidget);
   logpresent=false;
-  OutputWidget->insertLine("You must be in 'Normal mode' to use this command.");
-  OutputWidget->insertLine("If you do not have a TeX-binary which includes inverse search information natively :");
-  OutputWidget->insertLine("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides.");
-  OutputWidget->insertLine("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file.");
-  OutputWidget->insertLine("(see the kdvi handbook for more details)");
+  LogWidget->insertLine("You must be in 'Normal mode' to use this command.");
+  LogWidget->insertLine("If you do not have a TeX-binary which includes inverse search information natively :");
+  LogWidget->insertLine("- copy the files srcltx.sty and srctex.sty to the directory where your TeX-file resides.");
+  LogWidget->insertLine("- add the line \\usepackage[active]{srcltx} to the preamble of your TeX-file.");
+  LogWidget->insertLine("(see the kdvi handbook for more details)");
 
   QFileInfo fic(finame);
   QString dviname=finame;
@@ -1818,7 +1803,7 @@ void Kile::KdviForwardSearch()
     }
     else
     {
-        OutputWidget->insertLine(i18n("Process launched"));
+       LogWidget->insertLine(i18n("Process launched"));
     }
    }
 
@@ -1841,14 +1826,14 @@ void Kile::DviToPS()
 
   if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
   {
-      KMessageBox::error( this,i18n("Could not start DviPs. Make sure this package is installed on your system."));
+      KMessageBox::error( this,i18n("Could not start ") + dvips_command + i18n(". Make sure this package is installed on your system."));
   }
   else
   {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
 
   }
 
@@ -1893,9 +1878,9 @@ void Kile::ViewPS()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
     }
 
@@ -1920,9 +1905,9 @@ void Kile::PDFLatex()
   else
   {
      OutputWidget->clear();
-     Outputview->showPage(OutputWidget);
+     Outputview->showPage(LogWidget);
      logpresent=false;
-     OutputWidget->insertLine(i18n("Process launched"));
+     LogWidget->insertLine(i18n("Process launched"));
   }
 
   UpdateLineColStatus();
@@ -1965,9 +1950,9 @@ void Kile::ViewPDF()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
     }
 
@@ -2020,9 +2005,9 @@ void Kile::MakeBib()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
 
 
@@ -2072,9 +2057,9 @@ void Kile::MakeIndex()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
 
   UpdateLineColStatus();
@@ -2101,16 +2086,16 @@ void Kile::PStoPDF()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
     UpdateLineColStatus();
 }
 
 void Kile::DVItoPDF()
 {
-   QStringList files;
+  QStringList files;
   if ( (files=prepareForConversion("DVItoPDF","dvi","pdf")).size() ==0) return;
 
   QString dviname=files[0];
@@ -2129,9 +2114,9 @@ void Kile::DVItoPDF()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
 
   UpdateLineColStatus();
@@ -2166,9 +2151,9 @@ void Kile::MetaPost()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
   }
  else
@@ -2228,9 +2213,9 @@ void Kile::CleanAll()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
          }
    }
 
@@ -2264,21 +2249,10 @@ void Kile::slotDisableStop() {
 void Kile::LatexToHtml()
 {
   QString finame;
+  if ( (finame=prepareForCompile("latex2html")) == QString::null ) return;
 
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".tex";
-  QString texname=fi.baseName()+".tex";
-  QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
-  {
+  QFileInfo fic(finame);
+
     l2hDlg = new l2hdialog(this,i18n("LaTex2Html Options"));
     l2hDlg->options_edit->setText(l2h_options);
     if ( l2hDlg->exec() )
@@ -2292,18 +2266,14 @@ void Kile::LatexToHtml()
     else
         {
          OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
+         Outputview->showPage(LogWidget);
          logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
+         LogWidget->insertLine(i18n("Process launched"));
         }
     }
     delete (l2hDlg);
-   }
- else
- {
-  KMessageBox::error(this, i18n("TeX file not found!"));
- }
-UpdateLineColStatus();
+  
+   UpdateLineColStatus();
 }
 
 void Kile::slotProcessOutput(KProcess* proc,char* buffer,int buflen)
@@ -2326,10 +2296,10 @@ else
   {
    result= i18n("Process exited with error(s)");
   }
-int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
-int col = OutputWidget->paragraphLength(row);
-OutputWidget->setCursorPosition(row,col);
-OutputWidget->insertAt(result, row, col);
+int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
+int col = LogWidget->paragraphLength(row);
+LogWidget->setCursorPosition(row,col);
+LogWidget->insertAt(result, row, col);
 UpdateLineColStatus();
 currentProcess=0;
 }
@@ -2345,21 +2315,22 @@ else
   {
    result= i18n("Process exited with error(s)");
   }
-int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
-int col = OutputWidget->paragraphLength(row);
-OutputWidget->setCursorPosition(row,col);
-OutputWidget->insertAt(result, row, col);
+int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
+int col = LogWidget->paragraphLength(row);
+LogWidget->setCursorPosition(row,col);
+LogWidget->insertAt(result, row, col);
 UpdateLineColStatus();
 HtmlPreview();
 }
 
 void Kile::HtmlPreview()
 {
-OutputWidget->clear();
-Outputview->showPage(OutputWidget);
+LogWidget->clear();
+Outputview->showPage(LogWidget);
 logpresent=false;
 QString finame;
 
+//TODO: add sanity tests here (make error messages more specific)
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" )
@@ -2867,8 +2838,8 @@ else if (s=="input")
 //////////////// MESSAGES - LOG FILE///////////////////////
 void Kile::ViewLog()
 {
-Outputview->showPage(OutputWidget);
-OutputWidget->clear();
+Outputview->showPage(LogWidget);
+LogWidget->clear();
 logpresent=false;
 QString finame;
   if (singlemode) {finame=getName();}
@@ -2884,7 +2855,7 @@ QString logname=fi.baseName()+".log";
 QFileInfo fic(name);
 if (fic.exists() && fic.isReadable() )
   {
-  OutputWidget->insertLine("************** LOG FILE *************** :");
+  LogWidget->insertLine("************** LOG FILE *************** :");
   QFile f(name);
 		if ( f.open(IO_ReadOnly) )
       {
@@ -2893,15 +2864,15 @@ if (fic.exists() && fic.isReadable() )
 			while ( !t.eof() )
        {
 				s = t.readLine();
-        int row = (OutputWidget->paragraphs() == 0)? 0 : OutputWidget->paragraphs()-1;
-        int col = qstrlen(OutputWidget->text(row));
+        int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
+        int col = qstrlen(LogWidget->text(row));
         if (s.left(1) == "\n" && col == 0)  s = QString(" ")+s;
-        OutputWidget->insertLine(s);
+        LogWidget->insertLine(s);
         }
 		  }
   	f.close();
     logpresent=true;
-    OutputWidget->highlight();
+    LogWidget->highlight();
     LatexError();
   }
 else {KMessageBox::error( this,i18n("Log file not found!"));}
@@ -2917,7 +2888,7 @@ if ( !currentEditorView() ) return;
  QString s;
  QString line="";
  //// l. ///
- s = OutputWidget->text(parag);
+ s = LogWidget->text(parag);
  Start=End=0;
  Start=s.find(QRegExp("l.[0-9]"), End);
  if (Start!=-1)
@@ -2931,7 +2902,7 @@ if ( !currentEditorView() ) return;
     line=s.mid(0,qstrlen(s));
   };
  //// line ///
- s = OutputWidget->text(parag);
+ s = LogWidget->text(parag);
  Start=End=0;
  Start=s.find(QRegExp("line [0-9]"), End);
  if (Start!=-1)
@@ -2945,7 +2916,7 @@ if ( !currentEditorView() ) return;
     line=s.mid(0,qstrlen(s));
   };
  //// lines ///
- s = OutputWidget->text(parag);
+ s = LogWidget->text(parag);
  Start=End=0;
  Start=s.find(QRegExp("lines [0-9]"), End);
  if (Start!=-1)
@@ -2971,9 +2942,9 @@ void Kile::LatexError()
 {
 errorlist->clear();
 QString s;
-for(int i = 0; i < OutputWidget->paragraphs(); i++)
+for(int i = 0; i < LogWidget->paragraphs(); i++)
  {
- s = OutputWidget->text(i);
+ s = LogWidget->text(i);
  int tagStart, tagEnd;
  //// ! ////
  tagStart=tagEnd=0;
@@ -2996,9 +2967,9 @@ void Kile::QuickLatexError()
 {
 errorlist->clear();
 QString s;
-for(int i = 0; i < OutputWidget->paragraphs(); i++)
+for(int i = 0; i < LogWidget->paragraphs(); i++)
  {
- s = OutputWidget->text(i);
+ s = LogWidget->text(i);
  int tagStart, tagEnd;
  //// ! ////
  tagStart=tagEnd=0;
@@ -3018,7 +2989,7 @@ bool ok;
 if (!logpresent) {ViewLog();}
 if (logpresent && !errorlist->isEmpty())
   {
-  Outputview->showPage(OutputWidget);
+  Outputview->showPage(LogWidget);
   int id=errorlist->findRef(errorlist->next());
   if (id>=0)
   {
@@ -3029,15 +3000,15 @@ if (logpresent && !errorlist->isEmpty())
   line=errorlist->at(0);
   }
   int l=line.toInt(&ok,10);
-  if (ok && l<=OutputWidget->paragraphs())
+  if (ok && l<=LogWidget->paragraphs())
     {
-    OutputWidget->setCursorPosition(0 , 0);
-    OutputWidget->setCursorPosition(l+3 , 0);
+    LogWidget->setCursorPosition(0 , 0);
+    LogWidget->setCursorPosition(l+3 , 0);
     }
   }
 if (logpresent && errorlist->isEmpty())
   {
-OutputWidget->insertLine(i18n("No LaTeX errors detected!"));
+LogWidget->insertLine(i18n("No LaTeX errors detected!"));
   }
 }
 
@@ -3048,7 +3019,7 @@ bool ok;
 if (!logpresent) {ViewLog();}
 if (logpresent && !errorlist->isEmpty())
   {
-  Outputview->showPage(OutputWidget);
+  Outputview->showPage(LogWidget);
   int id=errorlist->findRef(errorlist->prev());
   if (id>=0)
   {
@@ -3059,16 +3030,16 @@ if (logpresent && !errorlist->isEmpty())
   line=errorlist->at(errorlist->count()-1);
   }
   int l=line.toInt(&ok,10);
-  if (ok && l<=OutputWidget->paragraphs())
+  if (ok && l<=LogWidget->paragraphs())
     {
-    OutputWidget->setCursorPosition(0 , 0 );
-    OutputWidget->setCursorPosition(l+3 , 0);
+    LogWidget->setCursorPosition(0 , 0 );
+    LogWidget->setCursorPosition(l+3 , 0);
     }
   }
 
 if (logpresent && errorlist->isEmpty())
   {
-OutputWidget->insertLine(i18n("No LaTeX errors detected!"));
+LogWidget->insertLine(i18n("No LaTeX errors detected!"));
   }
 }
 /////////////////////// LATEX TAGS ///////////////////
@@ -3083,7 +3054,8 @@ void Kile::InsertTag(QString Entity, int dx, int dy)
   currentEditorView()->editor->setCursorPosition(para+dy,index+dx);
   currentEditorView()->editor->viewport()->setFocus();
   OutputWidget->clear();
-  Outputview->showPage(OutputWidget);
+  LogWidget->clear();
+  Outputview->showPage(LogWidget);
   logpresent=false;
   UpdateLineColStatus();
 }
@@ -3288,35 +3260,35 @@ void Kile::QuickLetter()
 void Kile::Insert1()
 {
 InsertTag("\\documentclass[10pt]{}",21,0);
-OutputWidget->insertLine( "\\documentclass[options]{class}" );
-OutputWidget->insertLine( "class : article,report,book,letter" );
-OutputWidget->insertLine( "size options : 10pt, 11pt, 12pt" );
-OutputWidget->insertLine( "paper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper" );
-OutputWidget->insertLine("other options: ");
-OutputWidget->insertLine("landscape -- selects landscape format. Default is portrait. ");
-OutputWidget->insertLine("titlepage, notitlepage -- selects if there should be a separate title page.");
-OutputWidget->insertLine("leqno -- equation number on left side of equations. Default is right side.");
-OutputWidget->insertLine("fleqn -- displayed formulas flush left. Default is centred.");
-OutputWidget->insertLine("onecolumn, twocolumn -- one or two columns. Defaults to one column");
-OutputWidget->insertLine("oneside, twoside -- selects one- or twosided layout.");
+LogWidget->insertLine( "\\documentclass[options]{class}" );
+LogWidget->insertLine( "class : article,report,book,letter" );
+LogWidget->insertLine( "size options : 10pt, 11pt, 12pt" );
+LogWidget->insertLine( "paper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper" );
+LogWidget->insertLine("other options: ");
+LogWidget->insertLine("landscape -- selects landscape format. Default is portrait. ");
+LogWidget->insertLine("titlepage, notitlepage -- selects if there should be a separate title page.");
+LogWidget->insertLine("leqno -- equation number on left side of equations. Default is right side.");
+LogWidget->insertLine("fleqn -- displayed formulas flush left. Default is centred.");
+LogWidget->insertLine("onecolumn, twocolumn -- one or two columns. Defaults to one column");
+LogWidget->insertLine("oneside, twoside -- selects one- or twosided layout.");
 }
 void Kile::Insert1bis()
 {
 InsertTag("\\usepackage{} ",12,0);
-OutputWidget->insertLine("\\usepackage[options]{pkg}");
-OutputWidget->insertLine("Any options given in the \\documentclass command that are unknown by the selected document class");
-OutputWidget->insertLine("are passed on to the packages loaded with \\usepackage.");
+LogWidget->insertLine("\\usepackage[options]{pkg}");
+LogWidget->insertLine("Any options given in the \\documentclass command that are unknown by the selected document class");
+LogWidget->insertLine("are passed on to the packages loaded with \\usepackage.");
 }
 void Kile::Insert1ter()
 {
 InsertTag("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n",0,3);
-OutputWidget->insertLine("The principal American Mathematical Society packages");
+LogWidget->insertLine("The principal American Mathematical Society packages");
 }
 void Kile::Insert2()
 {
 InsertTag("\\begin{document}\n\n\\end{document} ",0,1);
-OutputWidget->insertLine("Text is allowed only between \\begin{document} and \\end{document}.");
-OutputWidget->insertLine("The 'preamble' (before \\begin{document}} ) may contain declarations only.");
+LogWidget->insertLine("Text is allowed only between \\begin{document} and \\end{document}.");
+LogWidget->insertLine("The 'preamble' (before \\begin{document}} ) may contain declarations only.");
 }
 
 void Kile::Insert3()
@@ -3336,8 +3308,8 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\part{title}");
-OutputWidget->insertLine( "\\part*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "\\part{title}");
+LogWidget->insertLine( "\\part*{title} : do not include a number and do not make an entry in the table of contents");
 delete( stDlg);
 }
 
@@ -3358,9 +3330,9 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\chapter{title}");
-OutputWidget->insertLine( "\\chapter*{title} : do not include a number and do not make an entry in the table of contents");
-OutputWidget->insertLine( "Only for 'report' and 'book' class document.");
+LogWidget->insertLine( "\\chapter{title}");
+LogWidget->insertLine( "\\chapter*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "Only for 'report' and 'book' class document.");
 delete( stDlg);
 }
 
@@ -3381,8 +3353,8 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\section{title}");
-OutputWidget->insertLine( "\\section*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "\\section{title}");
+LogWidget->insertLine( "\\section*{title} : do not include a number and do not make an entry in the table of contents");
 delete( stDlg);
 }
 
@@ -3403,8 +3375,8 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\subsection{title}");
-OutputWidget->insertLine( "\\subsection*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "\\subsection{title}");
+LogWidget->insertLine( "\\subsection*{title} : do not include a number and do not make an entry in the table of contents");
 delete( stDlg);
 }
 
@@ -3425,8 +3397,8 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\subsubsection{title}");
-OutputWidget->insertLine( "\\subsubsection*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "\\subsubsection{title}");
+LogWidget->insertLine( "\\subsubsection*{title} : do not include a number and do not make an entry in the table of contents");
 delete( stDlg);
 }
 
@@ -3447,8 +3419,8 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\paragraph{title}");
-OutputWidget->insertLine( "\\paragraph*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "\\paragraph{title}");
+LogWidget->insertLine( "\\paragraph*{title} : do not include a number and do not make an entry in the table of contents");
 delete( stDlg);
 }
 
@@ -3469,8 +3441,8 @@ if ( stDlg->exec() )
   InsertTag(tag,0,1);
   UpdateStructure();
   }
-OutputWidget->insertLine( "\\subparagraph{title}");
-OutputWidget->insertLine( "\\subparagraph*{title} : do not include a number and do not make an entry in the table of contents");
+LogWidget->insertLine( "\\subparagraph{title}");
+LogWidget->insertLine( "\\subparagraph*{title} : do not include a number and do not make an entry in the table of contents");
 delete( stDlg);
 }
 
@@ -3488,7 +3460,7 @@ else
    currentEditorView()->editor->paste();
    InsertTag("\n\\end{center}",0,0);
    }
-OutputWidget->insertLine( "Each line must be terminated with the string \\\\.");
+LogWidget->insertLine( "Each line must be terminated with the string \\\\.");
 }
 
 void Kile::Insert10()
@@ -3505,7 +3477,7 @@ else
    currentEditorView()->editor->paste();
    InsertTag("\n\\end{flushleft}",0,0);
    }
-OutputWidget->insertLine( "Each line must be terminated with the string \\\\.");
+LogWidget->insertLine( "Each line must be terminated with the string \\\\.");
 }
 
 void Kile::Insert11()
@@ -3522,71 +3494,71 @@ else
    currentEditorView()->editor->paste();
    InsertTag("\n\\end{flushright}",0,0);
    }
-OutputWidget->insertLine( "Each line must be terminated with the string \\\\.");
+LogWidget->insertLine( "Each line must be terminated with the string \\\\.");
 }
 
 void Kile::Insert12()
 {
 InsertTag("\\begin{quote}\n\n\\end{quote} ",0,1);
-OutputWidget->insertLine("The text is justified at both margins.");
-OutputWidget->insertLine(" Leaving a blank line between text produces a new paragraph.");
+LogWidget->insertLine("The text is justified at both margins.");
+LogWidget->insertLine(" Leaving a blank line between text produces a new paragraph.");
 }
 
 void Kile::Insert13()
 {
 InsertTag("\\begin{quotation}\n\n\\end{quotation} ",0,1);
-OutputWidget->insertLine("The text is justified at both margins and there is paragraph indentation.");
-OutputWidget->insertLine(" Leaving a blank line between text produces a new paragraph.");
+LogWidget->insertLine("The text is justified at both margins and there is paragraph indentation.");
+LogWidget->insertLine(" Leaving a blank line between text produces a new paragraph.");
 }
 
 void Kile::Insert14()
 {
 InsertTag("\\begin{verse}\n\n\\end{verse} ",0,1);
-OutputWidget->insertLine("The verse environment is designed for poetry.");
-OutputWidget->insertLine("Separate the lines of each stanza with \\\\, and use one or more blank lines to separate the stanzas.");
+LogWidget->insertLine("The verse environment is designed for poetry.");
+LogWidget->insertLine("Separate the lines of each stanza with \\\\, and use one or more blank lines to separate the stanzas.");
 }
 
 void Kile::Insert15()
 {
 InsertTag("\\begin{verbatim}\n\n\\end{verbatim} ",0,1);
-OutputWidget->insertLine("Environment that gets LaTeX to print exactly what you type in.");
+LogWidget->insertLine("Environment that gets LaTeX to print exactly what you type in.");
 }
 
 void Kile::Insert16()
 {
 InsertTag("\\begin{itemize}\n\\item \n\\end{itemize} ",6,1);
-OutputWidget->insertLine("The itemize environment produces a 'bulleted' list.");
-OutputWidget->insertLine("Each item of an itemized list begins with an \\item command.");
+LogWidget->insertLine("The itemize environment produces a 'bulleted' list.");
+LogWidget->insertLine("Each item of an itemized list begins with an \\item command.");
 }
 
 void Kile::Insert17()
 {
 InsertTag("\\begin{enumerate}\n\\item \n\\end{enumerate} ",6,1);
-OutputWidget->insertLine("The enumerate environment produces a numbered list.");
-OutputWidget->insertLine("Each item of an enumerated list begins with an \\item command.");
+LogWidget->insertLine("The enumerate environment produces a numbered list.");
+LogWidget->insertLine("Each item of an enumerated list begins with an \\item command.");
 }
 
 void Kile::Insert18()
 {
 InsertTag("\\begin{description}\n\\item[]\n\\end{description} ",6,1);
-OutputWidget->insertLine("The description environment is used to make labelled lists.");
-OutputWidget->insertLine("Each item of the list begins with an \\item[label] command.");
-OutputWidget->insertLine("The 'label' is bold face and flushed right.");
+LogWidget->insertLine("The description environment is used to make labelled lists.");
+LogWidget->insertLine("Each item of the list begins with an \\item[label] command.");
+LogWidget->insertLine("The 'label' is bold face and flushed right.");
 }
 
 void Kile::Insert19()
 {
 InsertTag("\\begin{list}{}{}\n\\item \n\\end{list} ",13,0);
-OutputWidget->insertLine("\\begin{list}{label}{spacing}");
-OutputWidget->insertLine("The {label} argument is a piece of text that is inserted in a box to form the label. ");
-OutputWidget->insertLine("The {spacing} argument contains commands to change the spacing parameters for the list.");
-OutputWidget->insertLine("Each item of the list begins with an \\item command.");
+LogWidget->insertLine("\\begin{list}{label}{spacing}");
+LogWidget->insertLine("The {label} argument is a piece of text that is inserted in a box to form the label. ");
+LogWidget->insertLine("The {spacing} argument contains commands to change the spacing parameters for the list.");
+LogWidget->insertLine("Each item of the list begins with an \\item command.");
 }
 
 void Kile::Insert20()
 {
 InsertTag("\\item ",6,0);
-OutputWidget->insertLine("\\item[label] Hello!");
+LogWidget->insertLine("\\item[label] Hello!");
 }
 
 void Kile::Insert21()
@@ -3603,7 +3575,7 @@ else
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);
    }
-OutputWidget->insertLine("\\textit{italic text}");
+LogWidget->insertLine("\\textit{italic text}");
 }
 
 void Kile::Insert22()
@@ -3620,7 +3592,7 @@ else
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);
    }
-OutputWidget->insertLine("\\textsl{slanted text}");
+LogWidget->insertLine("\\textsl{slanted text}");
 }
 
 void Kile::Insert23()
@@ -3637,7 +3609,7 @@ else
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);
    }
-OutputWidget->insertLine("\\textbf{boldface text}");
+LogWidget->insertLine("\\textbf{boldface text}");
 }
 
 void Kile::Insert24()
@@ -3654,7 +3626,7 @@ else
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);
    }
-OutputWidget->insertLine("\\texttt{typewriter text}");
+LogWidget->insertLine("\\texttt{typewriter text}");
 }
 
 void Kile::Insert25()
@@ -3671,106 +3643,106 @@ else
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);
    }
-OutputWidget->insertLine("\\textsc{small caps text}");
+LogWidget->insertLine("\\textsc{small caps text}");
 }
 
 void Kile::Insert26()
 {
 InsertTag("\\begin{tabbing}\n\n\\end{tabbing} ",0,1);
-OutputWidget->insertLine("The tabbing environment provides a way to align text in columns.");
-OutputWidget->insertLine("\\begin{tabbing}");
-OutputWidget->insertLine("text \\= more text \\= still more text \\= last text \\\\");
-OutputWidget->insertLine("second row \\>  \\> more \\\\");
-OutputWidget->insertLine("\\end{tabbing}");
-OutputWidget->insertLine("Commands :");
-OutputWidget->insertLine("\\=  Sets a tab stop at the current position.");
-OutputWidget->insertLine("\\>  Advances to the next tab stop.");
-OutputWidget->insertLine("\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.");
-OutputWidget->insertLine("\\+  Moves the left margin of the next and all the following commands one tab stop to the right");
-OutputWidget->insertLine("\\-  Moves the left margin of the next and all the following commands one tab stop to the left");
-OutputWidget->insertLine("\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. ");
-OutputWidget->insertLine("\\`  Allows you to put text flush right against any tab stop, including tab stop 0");
-OutputWidget->insertLine("\\kill  Sets tab stops without producing text.");
-OutputWidget->insertLine("\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used.");
+LogWidget->insertLine("The tabbing environment provides a way to align text in columns.");
+LogWidget->insertLine("\\begin{tabbing}");
+LogWidget->insertLine("text \\= more text \\= still more text \\= last text \\\\");
+LogWidget->insertLine("second row \\>  \\> more \\\\");
+LogWidget->insertLine("\\end{tabbing}");
+LogWidget->insertLine("Commands :");
+LogWidget->insertLine("\\=  Sets a tab stop at the current position.");
+LogWidget->insertLine("\\>  Advances to the next tab stop.");
+LogWidget->insertLine("\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.");
+LogWidget->insertLine("\\+  Moves the left margin of the next and all the following commands one tab stop to the right");
+LogWidget->insertLine("\\-  Moves the left margin of the next and all the following commands one tab stop to the left");
+LogWidget->insertLine("\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. ");
+LogWidget->insertLine("\\`  Allows you to put text flush right against any tab stop, including tab stop 0");
+LogWidget->insertLine("\\kill  Sets tab stops without producing text.");
+LogWidget->insertLine("\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used.");
 }
 
 void Kile::Insert27()
 {
 InsertTag("\\begin{tabular}{}\n\n\\end{tabular} ",16,0);
-OutputWidget->insertLine("\\begin{tabular}[pos]{cols}");
-OutputWidget->insertLine("column 1 entry & column 2 entry ... & column n entry \\\\");
-OutputWidget->insertLine("...");
-OutputWidget->insertLine("\\end{tabular}");
-OutputWidget->insertLine("pos : Specifies the vertical position; default is alignment on the centre of the environment.");
-OutputWidget->insertLine("     t - align on top row");
-OutputWidget->insertLine("     b - align on bottom row");
-OutputWidget->insertLine("cols : Specifies the column formatting.");
-OutputWidget->insertLine("     l - A column of left-aligned items.");
-OutputWidget->insertLine("     r - A column of right-aligned items.");
-OutputWidget->insertLine("     c - A column of centred items.");
-OutputWidget->insertLine("     | - A vertical line the full height and depth of the environment.");
-OutputWidget->insertLine("     @{text} - This inserts text in every row.");
-OutputWidget->insertLine("The \\hline command draws a horizontal line the width of the table.");
-OutputWidget->insertLine("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,");
-OutputWidget->insertLine("The \\vline command draws a vertical line extending the full height and depth of its row.");
+LogWidget->insertLine("\\begin{tabular}[pos]{cols}");
+LogWidget->insertLine("column 1 entry & column 2 entry ... & column n entry \\\\");
+LogWidget->insertLine("...");
+LogWidget->insertLine("\\end{tabular}");
+LogWidget->insertLine("pos : Specifies the vertical position; default is alignment on the centre of the environment.");
+LogWidget->insertLine("     t - align on top row");
+LogWidget->insertLine("     b - align on bottom row");
+LogWidget->insertLine("cols : Specifies the column formatting.");
+LogWidget->insertLine("     l - A column of left-aligned items.");
+LogWidget->insertLine("     r - A column of right-aligned items.");
+LogWidget->insertLine("     c - A column of centred items.");
+LogWidget->insertLine("     | - A vertical line the full height and depth of the environment.");
+LogWidget->insertLine("     @{text} - This inserts text in every row.");
+LogWidget->insertLine("The \\hline command draws a horizontal line the width of the table.");
+LogWidget->insertLine("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,");
+LogWidget->insertLine("The \\vline command draws a vertical line extending the full height and depth of its row.");
 
 }
 
 void Kile::Insert28()
 {
 InsertTag("\\multicolumn{}{}{} ",13,0);
-OutputWidget->insertLine("\\multicolumn{cols}{pos}{text}");
-OutputWidget->insertLine("col, specifies the number of columns to span.");
-OutputWidget->insertLine("pos specifies the formatting of the entry: c for centred, l for flushleft, r for flushright.");
-OutputWidget->insertLine("text specifies what text is to make up the entry.");
+LogWidget->insertLine("\\multicolumn{cols}{pos}{text}");
+LogWidget->insertLine("col, specifies the number of columns to span.");
+LogWidget->insertLine("pos specifies the formatting of the entry: c for centred, l for flushleft, r for flushright.");
+LogWidget->insertLine("text specifies what text is to make up the entry.");
 }
 
 void Kile::Insert29()
 {
 InsertTag("\\hline ",7,0);
-OutputWidget->insertLine("The \\hline command draws a horizontal line the width of the table.");
+LogWidget->insertLine("The \\hline command draws a horizontal line the width of the table.");
 }
 
 void Kile::Insert30()
 {
 InsertTag("\\vline ",7,0);
-OutputWidget->insertLine("The \\vline command draws a vertical line extending the full height and depth of its row.");
+LogWidget->insertLine("The \\vline command draws a vertical line extending the full height and depth of its row.");
 }
 
 void Kile::Insert31()
 {
 InsertTag("\\cline{-} ",7,0);
-OutputWidget->insertLine("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,");
+LogWidget->insertLine("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,");
 }
 
 void Kile::Insert32()
 {
 InsertTag("\\newpage ",9,0);
-OutputWidget->insertLine("The \\newpage command ends the current page");
+LogWidget->insertLine("The \\newpage command ends the current page");
 }
 
 void Kile::Insert33()
 {
 InsertTag("\\linebreak ",11,0);
-OutputWidget->insertLine("The \\linebreak command tells LaTeX to break the current line at the point of the command.");
+LogWidget->insertLine("The \\linebreak command tells LaTeX to break the current line at the point of the command.");
 }
 
 void Kile::Insert34()
 {
 InsertTag("\\pagebreak ",11,0);
-OutputWidget->insertLine("The \\pagebreak command tells LaTeX to break the current page at the point of the command.");
+LogWidget->insertLine("The \\pagebreak command tells LaTeX to break the current page at the point of the command.");
 }
 
 void Kile::Insert35()
 {
 InsertTag("\\bigskip ",9,0);
-OutputWidget->insertLine("The \\bigskip command adds a 'big' vertical space.");
+LogWidget->insertLine("The \\bigskip command adds a 'big' vertical space.");
 }
 
 void Kile::Insert36()
 {
 InsertTag("\\medskip ",9,0);
-OutputWidget->insertLine("The \\medskip command adds a 'medium' vertical space.");
+LogWidget->insertLine("The \\medskip command adds a 'medium' vertical space.");
 }
 
 void Kile::Insert37()
@@ -3790,14 +3762,14 @@ if (sfDlg->exec() )
    QString fn=sfDlg->fileName();
    QFileInfo fi(fn);
    InsertTag("\\includegraphics[scale=1]{"+fi.baseName()+"."+fi.extension()+"} ",26,0);
-   OutputWidget->insertLine("This command is used to import image files (\\usepackage{graphicx} is required)");
-   OutputWidget->insertLine("Examples :");
-   OutputWidget->insertLine("\\includegraphics{file} ; \\includegraphics[width=10cm]{file} ; \\includegraphics*[scale=0.75]{file}");
+   LogWidget->insertLine("This command is used to import image files (\\usepackage{graphicx} is required)");
+   LogWidget->insertLine("Examples :");
+   LogWidget->insertLine("\\includegraphics{file} ; \\includegraphics[width=10cm]{file} ; \\includegraphics*[scale=0.75]{file}");
    if (fi.extension()=="eps")
      {
      if (fi.dirPath()==".") fn=currentDir+"/"+fn;
-     OutputWidget->insertLine("*************  ABOUT THIS IMAGE  *************");
-     OutputWidget->insertLine(DetectEpsSize(fn));
+     LogWidget->insertLine("*************  ABOUT THIS IMAGE  *************");
+     LogWidget->insertLine(DetectEpsSize(fn));
      }
   }
 delete sfDlg;
@@ -3823,8 +3795,8 @@ InsertTag("\\include{"+fi.baseName()+"}",9,0);
   }
 delete sfDlg;
 UpdateStructure();
-OutputWidget->insertLine("\\include{file}");
-OutputWidget->insertLine("The \\include command is used in conjunction with the \\includeonly command for selective inclusion of files.");
+LogWidget->insertLine("\\include{file}");
+LogWidget->insertLine("The \\include command is used in conjunction with the \\includeonly command for selective inclusion of files.");
 }
 
 void Kile::Insert37ter()
@@ -3854,20 +3826,20 @@ OutputWidget->insertLine("The \\input command causes the indicated file to be re
 void Kile::Insert38()
 {
 InsertTag("\\cite{} ",6,0);
-OutputWidget->insertLine("\\cite{ref} :");
-OutputWidget->insertLine("This command generates an in-text citation to the reference associated with the ref entry in the bib file");
-OutputWidget->insertLine("You can open the bib file with Kile to see all the available references");
+LogWidget->insertLine("\\cite{ref} :");
+LogWidget->insertLine("This command generates an in-text citation to the reference associated with the ref entry in the bib file");
+LogWidget->insertLine("You can open the bib file with Kile to see all the available references");
 }
 
 void Kile::Insert39()
 {
 InsertTag("\\bibliographystyle{} ",19,0);
-OutputWidget->insertLine("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look");
-OutputWidget->insertLine("The standard styles distributed with BibTeX are:");
-OutputWidget->insertLine("alpha : sorted alphabetically. Labels are formed from name of author and year of publication.");
-OutputWidget->insertLine("plain  : sorted alphabetically. Labels are numeric.");
-OutputWidget->insertLine("unsrt : like plain, but entries are in order of citation.");
-OutputWidget->insertLine("abbrv  : like plain, but more compact labels.");
+LogWidget->insertLine("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look");
+LogWidget->insertLine("The standard styles distributed with BibTeX are:");
+LogWidget->insertLine("alpha : sorted alphabetically. Labels are formed from name of author and year of publication.");
+LogWidget->insertLine("plain  : sorted alphabetically. Labels are numeric.");
+LogWidget->insertLine("unsrt : like plain, but entries are in order of citation.");
+LogWidget->insertLine("abbrv  : like plain, but more compact labels.");
 }
 void Kile::Insert40()
 {
@@ -3879,14 +3851,14 @@ tag=QString("\\bibliography{");
 tag +=fi.baseName();
 tag +=QString("}\n");
 InsertTag(tag,0,1);
-OutputWidget->insertLine("The argument to \\bibliography refers to the bib file (without extension)");
-OutputWidget->insertLine("which should contain your database in BibTeX format.");
-OutputWidget->insertLine("Kile inserts automatically the base name of the TeX file");
+LogWidget->insertLine("The argument to \\bibliography refers to the bib file (without extension)");
+LogWidget->insertLine("which should contain your database in BibTeX format.");
+LogWidget->insertLine("Kile inserts automatically the base name of the TeX file");
 }
 void Kile::Insert41()
 {
 InsertTag("\\label{} ",7,0);
-OutputWidget->insertLine("\\label{key}");
+LogWidget->insertLine("\\label{key}");
 }
 void Kile::Insert42()
 {
@@ -3902,18 +3874,18 @@ else
    currentEditorView()->editor->paste();
    InsertTag("\n\\caption{}\n\\end{table}",9,1);
    }
-OutputWidget->insertLine( "\\begin{table}[placement]");
-OutputWidget->insertLine( "body of the table");
-OutputWidget->insertLine( "\\caption{table title}");
-OutputWidget->insertLine( "\\end{table}");
-OutputWidget->insertLine( "Tables are objects that are not part of the normal text, and are usually floated to a convenient place");
-OutputWidget->insertLine( "The optional argument [placement] determines where LaTeX will try to place your table");
-OutputWidget->insertLine( "h : Here - at the position in the text where the table environment appear");
-OutputWidget->insertLine( "t : Top - at the top of a text page");
-OutputWidget->insertLine( "b : Bottom - at the bottom of a text page");
-OutputWidget->insertLine( "p : Page of floats - on a separate float page, which is a page containing no text, only floats");
-OutputWidget->insertLine( "The body of the table is made up of whatever text, LaTeX commands, etc., you wish.");
-OutputWidget->insertLine( "The \\caption command allows you to title your table.");
+LogWidget->insertLine( "\\begin{table}[placement]");
+LogWidget->insertLine( "body of the table");
+LogWidget->insertLine( "\\caption{table title}");
+LogWidget->insertLine( "\\end{table}");
+LogWidget->insertLine( "Tables are objects that are not part of the normal text, and are usually floated to a convenient place");
+LogWidget->insertLine( "The optional argument [placement] determines where LaTeX will try to place your table");
+LogWidget->insertLine( "h : Here - at the position in the text where the table environment appear");
+LogWidget->insertLine( "t : Top - at the top of a text page");
+LogWidget->insertLine( "b : Bottom - at the bottom of a text page");
+LogWidget->insertLine( "p : Page of floats - on a separate float page, which is a page containing no text, only floats");
+LogWidget->insertLine( "The body of the table is made up of whatever text, LaTeX commands, etc., you wish.");
+LogWidget->insertLine( "The \\caption command allows you to title your table.");
 
 }
 void Kile::Insert43()
@@ -3930,44 +3902,44 @@ else
    currentEditorView()->editor->paste();
    InsertTag("\n\\caption{}\n\\end{figure}",9,1);
    }
-OutputWidget->insertLine( "\\begin{figure}[placement]");
-OutputWidget->insertLine( "body of the figure");
-OutputWidget->insertLine( "\\caption{figure title}");
-OutputWidget->insertLine( "\\end{figure}");
-OutputWidget->insertLine( "Figures are objects that are not part of the normal text, and are usually floated to a convenient place");
-OutputWidget->insertLine( "The optional argument [placement] determines where LaTeX will try to place your figure");
-OutputWidget->insertLine( "h : Here - at the position in the text where the figure environment appear");
-OutputWidget->insertLine( "t : Top - at the top of a text page");
-OutputWidget->insertLine( "b : Bottom - at the bottom of a text page");
-OutputWidget->insertLine( "p : Page of floats - on a separate float page, which is a page containing no text, only floats");
-OutputWidget->insertLine( "The body of the figure is made up of whatever text, LaTeX commands, etc., you wish.");
-OutputWidget->insertLine( "The \\caption command allows you to title your figure.");
+LogWidget->insertLine( "\\begin{figure}[placement]");
+LogWidget->insertLine( "body of the figure");
+LogWidget->insertLine( "\\caption{figure title}");
+LogWidget->insertLine( "\\end{figure}");
+LogWidget->insertLine( "Figures are objects that are not part of the normal text, and are usually floated to a convenient place");
+LogWidget->insertLine( "The optional argument [placement] determines where LaTeX will try to place your figure");
+LogWidget->insertLine( "h : Here - at the position in the text where the figure environment appear");
+LogWidget->insertLine( "t : Top - at the top of a text page");
+LogWidget->insertLine( "b : Bottom - at the bottom of a text page");
+LogWidget->insertLine( "p : Page of floats - on a separate float page, which is a page containing no text, only floats");
+LogWidget->insertLine( "The body of the figure is made up of whatever text, LaTeX commands, etc., you wish.");
+LogWidget->insertLine( "The \\caption command allows you to title your figure.");
 }
 void Kile::Insert44()
 {
 InsertTag("\\begin{titlepage}\n\n\\end{titlepage} ",0,1);
-OutputWidget->insertLine( "\\begin{titlepage}");
-OutputWidget->insertLine( "text");
-OutputWidget->insertLine( "\\end{titlepage}");
-OutputWidget->insertLine( "The titlepage environment creates a title page, i.e. a page with no printed page number or heading.");
+LogWidget->insertLine( "\\begin{titlepage}");
+LogWidget->insertLine( "text");
+LogWidget->insertLine( "\\end{titlepage}");
+LogWidget->insertLine( "The titlepage environment creates a title page, i.e. a page with no printed page number or heading.");
 }
 void Kile::Insert45()
 {
 InsertTag("\\author{}",8,0);
-OutputWidget->insertLine( "\\author{names}");
-OutputWidget->insertLine( "The \\author command declares the author(s), where names is a list of authors separated by \\and commands.");
+LogWidget->insertLine( "\\author{names}");
+LogWidget->insertLine( "The \\author command declares the author(s), where names is a list of authors separated by \\and commands.");
 }
 void Kile::Insert46()
 {
 InsertTag("\\title{}",7,0);
-OutputWidget->insertLine( "\\title{text}");
-OutputWidget->insertLine( "The \\title command declares text to be the title.");
-OutputWidget->insertLine( "Use \\\\ to tell LaTeX where to start a new line in a long title.");
+LogWidget->insertLine( "\\title{text}");
+LogWidget->insertLine( "The \\title command declares text to be the title.");
+LogWidget->insertLine( "Use \\\\ to tell LaTeX where to start a new line in a long title.");
 }
 void Kile::Insert47()
 {
 InsertTag("\\index{}",7,0);
-OutputWidget->insertLine( "\\index{word}");
+LogWidget->insertLine( "\\index{word}");
 }
 
 void Kile::Insert48()
@@ -3983,7 +3955,7 @@ if (!labelitem.isEmpty() && refDlg->exec() )
   }
 else InsertTag("\\ref{}",5,0);
 delete refDlg;
-OutputWidget->insertLine( "\\ref{key}");
+LogWidget->insertLine( "\\ref{key}");
 }
 
 void Kile::Insert49()
@@ -3999,25 +3971,25 @@ if (!labelitem.isEmpty() && refDlg->exec() )
   }
 else InsertTag("\\pageref{}",9,0);
 delete refDlg;
-OutputWidget->insertLine( "\\pageref{key}");
+LogWidget->insertLine( "\\pageref{key}");
 }
 
 void Kile::Insert50()
 {
 InsertTag("\\footnote{}",10,0);
-OutputWidget->insertLine( "\\footnote{text}");
+LogWidget->insertLine( "\\footnote{text}");
 }
 
 void Kile::Insert51()
 {
 InsertTag("\\maketitle",10,0);
-OutputWidget->insertLine( "This command generates a title on a separate title page\n- except in the article class, where the title normally goes at the top of the first page.");
+LogWidget->insertLine( "This command generates a title on a separate title page\n- except in the article class, where the title normally goes at the top of the first page.");
 }
 
 void Kile::Insert52()
 {
 InsertTag("\\tableofcontents",16,0);
-OutputWidget->insertLine( "Put this command where you want the table of contents to go");
+LogWidget->insertLine( "Put this command where you want the table of contents to go");
 }
 
 void Kile::SizeCommand(const QString& text)
@@ -4249,14 +4221,14 @@ InsertTag("\\right ",7,0);
 void Kile::InsertMath10()
 {
 InsertTag("\\begin{array}{}\n\n\\end{array}",14,0);
-OutputWidget->insertLine("\\begin{array}{col1col2...coln}");
-OutputWidget->insertLine("column 1 entry & column 2 entry ... & column n entry \\\\");
-OutputWidget->insertLine("...");
-OutputWidget->insertLine("\\end{array}");
-OutputWidget->insertLine("Each column, coln, is specified by a single letter that tells how items in that row should be formatted.");
-OutputWidget->insertLine("     c -- for centered ");
-OutputWidget->insertLine("     l -- for flush left ");
-OutputWidget->insertLine("     r -- for flush right");
+LogWidget->insertLine("\\begin{array}{col1col2...coln}");
+LogWidget->insertLine("column 1 entry & column 2 entry ... & column n entry \\\\");
+LogWidget->insertLine("...");
+LogWidget->insertLine("\\end{array}");
+LogWidget->insertLine("Each column, coln, is specified by a single letter that tells how items in that row should be formatted.");
+LogWidget->insertLine("     c -- for centered ");
+LogWidget->insertLine("     l -- for flush left ");
+LogWidget->insertLine("     r -- for flush right");
 }
 void Kile::InsertMath16()
 {
@@ -4517,8 +4489,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,9,0);
-OutputWidget->insertLine("Bib fields - Article in Journal");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Article in Journal");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib2()
 {
@@ -4542,8 +4514,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,15,0);
-OutputWidget->insertLine("Bib fields - Article in Conference Proceedings");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Article in Conference Proceedings");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib3()
 {
@@ -4569,8 +4541,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,14,0);
-OutputWidget->insertLine("Bib fields - Article in a Collection");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Article in a Collection");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib4()
 {
@@ -4594,9 +4566,9 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,8,0);
-OutputWidget->insertLine("Bib fields - Chapter or Pages in a Book");
-OutputWidget->insertLine( "ALT.... : you have the choice between these two fields");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Chapter or Pages in a Book");
+LogWidget->insertLine( "ALT.... : you have the choice between these two fields");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib5()
 {
@@ -4616,8 +4588,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,13,0);
-OutputWidget->insertLine("Bib fields - Conference Proceedings");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Conference Proceedings");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib6()
 {
@@ -4638,9 +4610,9 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,6,0);
-OutputWidget->insertLine("Bib fields - Book");
-OutputWidget->insertLine( "ALT.... : you have the choice between these two fields");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Book");
+LogWidget->insertLine( "ALT.... : you have the choice between these two fields");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib7()
 {
@@ -4656,8 +4628,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,9,0);
-OutputWidget->insertLine("Bib fields - Booklet");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Booklet");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib8()
 {
@@ -4674,8 +4646,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,11,0);
-OutputWidget->insertLine("Bib fields - PhD. Thesis");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - PhD. Thesis");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib9()
 {
@@ -4692,8 +4664,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,15,0);
-OutputWidget->insertLine("Bib fields - Master's Thesis");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Master's Thesis");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib10()
 {
@@ -4711,8 +4683,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,12,0);
-OutputWidget->insertLine("Bib fields - Technical Report");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Technical Report");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib11()
 {
@@ -4729,8 +4701,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,8,0);
-OutputWidget->insertLine("Bib fields - Technical Manual");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Technical Manual");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib12()
 {
@@ -4744,8 +4716,8 @@ tag+="OPTyear = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,13,0);
-OutputWidget->insertLine("Bib fields - Unpublished");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Unpublished");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 void Kile::InsertBib13()
 {
@@ -4760,8 +4732,8 @@ tag+="OPTnote = {},\n";
 tag+="OPTannote = {}\n";
 tag+="}\n";
 InsertTag(tag,6,0);
-OutputWidget->insertLine("Bib fields - Miscellaneous");
-OutputWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
+LogWidget->insertLine("Bib fields - Miscellaneous");
+LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 //////////////// USER //////////////////
 void Kile::InsertUserTag1()
@@ -5021,17 +4993,17 @@ connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KPro
 if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start Xfig."));}
 else
   {
-  OutputWidget->clear();
-  Outputview->showPage(OutputWidget);
+  LogWidget->clear();
+  Outputview->showPage(LogWidget);
   logpresent=false;
-  OutputWidget->insertLine(i18n("Process launched"));
+  LogWidget->insertLine(i18n("Process launched"));
   }
 }
 
 void Kile::RunGfe()
 {
-  OutputWidget->clear();
-  Outputview->showPage(OutputWidget);
+  LogWidget->clear();
+  Outputview->showPage(LogWidget);
   logpresent=false;
   UpdateLineColStatus();
   if (!gfe_widget) gfe_widget=new Qplotmaker(0,i18n("Gnuplot Front End"));

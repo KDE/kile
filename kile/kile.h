@@ -155,7 +155,7 @@ private:
     QListView* outstruct;
     QListViewItem *parent_level[5],*lastChild, *Child;
     metapostview *mpview;
-    MessageWidget* OutputWidget;
+    MessageWidget *OutputWidget, *LogWidget;
     TexKonsoleWidget* texkonsole;
     QStrList *errorlist;
     QStringList structlist, labelitem, structitem, userClassList, userPaperList, userEncodingList, userOptionsList;

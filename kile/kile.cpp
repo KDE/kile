@@ -230,6 +230,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	m_nCurrentError=-1;
 	m_OutputInfo=new LatexOutputInfoArray();
 	m_OutputFilter=new LatexOutputFilter( m_OutputInfo,LogWidget,OutputWidget );
+	m_OutputFilter->setLog(&tempLog);
 	//m_OutputFilter=new LatexOutputFilter( m_OutputInfo );
 	connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
@@ -946,8 +947,6 @@ void Kile::fileSaveAll(bool amAutoSaving)
 				}
 				else
 					view->save();
-
-				//TODO: make it save to a different location (.backup)
 			}
 		}
 	}
@@ -2280,7 +2279,8 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  QString dir = file.dirPath();
  QString name = file.baseName(TRUE);
 
- m_nErrors=m_nWarnings=0;
+ m_nErrors=m_nWarnings=m_nBadBoxes=0;
+ m_OutputFilter->clearErrorCount();
 
  CommandProcess* proc = new CommandProcess();
  currentProcess=proc;
@@ -3480,12 +3480,11 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 	}
 }
 ////////////////////////// ERRORS /////////////////////////////
-void Kile::LatexError(bool warnings)
+void Kile::LatexError(bool /*warnings*/)
 {
 	m_nErrors=m_nWarnings=m_nBadBoxes=0;
 	m_bNewInfolist=true;
 
-	int tagStart,i=0;
 	QString s,num;
 	tempLog=QString::null;
 
@@ -3504,24 +3503,12 @@ void Kile::LatexError(bool warnings)
 		<< ">> (line " << (*m_OutputInfo)[i].sourceLine()
 		<< ") [Reported in line " << (*m_OutputInfo)[i].outputLine() << "]" << endl;
 	}
-
-	//TODO: for compatibility reasons !must be changed; there probably is a better way!
-	if ( f.open(IO_ReadOnly) )
-	{
-		QTextStream t( &f );
-		while ( !t.eof() )
-		{
-			s=t.readLine()+"\n";
-			tempLog += s;
-		}
-		f.close();
-	}
 }
 
 void Kile::jumpToProblem(int type, bool forward)
 {
 	static LatexOutputInfoArray::iterator it;
-	bool ok;
+	
 	if (!logpresent) {ViewLog();}
 
 	if (logpresent && !m_OutputInfo->isEmpty())
@@ -3538,7 +3525,7 @@ void Kile::jumpToProblem(int type, bool forward)
 			{
 				m_nCurrentError = i;
 				int l= (*m_OutputInfo)[i].outputLine();
-				LogWidget->setCursorPosition(l+3 , 0);
+				LogWidget->setCursorPosition(l+pl * 3 , 0);
 				LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 				
 				break;
@@ -3588,7 +3575,7 @@ void Kile::PreviousBadBox()
 void Kile::insertTag(const KileAction::TagData& data)
 {
 	Kate::View *view = currentView();
-	int para,index, para_end, para_begin, index_begin;
+	int para,index, para_end=0, para_begin, index_begin;
 
 	if ( !view ) return;
 

@@ -46,6 +46,7 @@ class OutputFilter
 
         Can be used in addition to add text to the output view (comments etc.) */
         void AddLine(QString line);
+        void setLog(QString *log) { m_log = log; }
 
     protected:
         virtual short ParseLine(QString strLine, short dwCookie);
@@ -65,6 +66,7 @@ class OutputFilter
     private:
         /** Number of current line in output file */
         unsigned int m_nOutputLines;
+	QString * m_log;
 
     protected:
         /** the view, the errors and warnings are reported to */

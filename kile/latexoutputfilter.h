@@ -59,6 +59,7 @@ class LatexOutputFilter : public OutputFilter
         virtual QString GetResultString();
         /** Return number of errors etc. found in log-file. */
         void GetErrorCount(int *errors, int *warnings, int *badboxes);
+	void clearErrorCount() { m_nErrors=m_nWarnings=m_nBadBoxes=0 ; }
 
     protected:
         virtual bool OnPreCreate();

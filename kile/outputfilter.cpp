@@ -26,6 +26,7 @@ using namespace std;
 
 OutputFilter::OutputFilter( MessageWidget* LogWidget, MessageWidget* OutputWidget)
 {
+    m_log = 0L;
     m_LogWidget = LogWidget;
     m_OutputWidget = OutputWidget;
 }
@@ -48,49 +49,26 @@ bool OutputFilter::OnTerminate()
 
 unsigned int OutputFilter::Run(QString logfile)
 {
-    char c;
-    short BytesRead;
-    QString strLine;
-    short sCookie = 0;
-    bool bLastWasNewLine = false;
-    QFile m_if;
-
-    m_nOutputLines = 0;
-    m_if.setName( logfile );
-    m_if.open( IO_ReadOnly  );
-
-    while(!m_if.atEnd() )
-    {
-        switch( c = m_if.getch() )
-        {
-            case '\n':
-            case '\r':
-                if (!bLastWasNewLine)
-                {
-                    bLastWasNewLine = true;
-                    AddLine( strLine );
-                    sCookie = ParseLine(strLine,sCookie);
-                    strLine = "";
-                }
-                m_nOutputLines++;
-                break;
-
-            default:
-                bLastWasNewLine = false;
-                strLine += c;
-                break;
-        }
-    }
-
-    if (strLine.length() > 0)
-    {
-        //AddLine( strLine );
-        ParseLine(strLine, sCookie);
-    }
-
-    m_if.close();
-
-    return !OnTerminate();
+	short sCookie = 0;
+	QString s;
+	QFile f(logfile);
+	
+	m_nOutputLines = 0;
+	
+	if ( f.open(IO_ReadOnly) )
+	{
+		QTextStream t( &f );
+		while ( !t.eof() )
+		{
+			s=t.readLine()+"\n";
+			sCookie = ParseLine(s,sCookie);
+			m_nOutputLines++;
+			if (m_log)  (*m_log) += s;
+		}
+		f.close();
+	}
+	
+	return !OnTerminate();
 }
 
 

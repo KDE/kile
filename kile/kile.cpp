@@ -1173,6 +1173,31 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 	insertTag(KileAction::TagData(QString::null,tagB,tagE,dx,dy));
 }
 
+void Kile::insertAmsTag(const KileAction::TagData& data)
+{
+	// insert AMS tag
+	insertTag(data);
+
+	// check if \usepackage{amsmath} was found in the main document
+	bool amsmath = false;
+	KileDocument::Info *docinfo = docManager()->infoFor(getCompileName());
+	if ( docinfo ) {
+		const QStringList *packagelist = allPackages(docinfo);
+		for (uint i=0; i<packagelist->count(); ++i) {
+			if ( (*packagelist)[i] == "amsmath" ) {
+				amsmath = true;
+				break;
+			}
+		}
+	}
+	
+	// if this command was not found, because it was not found or the
+	// main file is not opened, we will once give a warning 
+	if ( ! amsmath  ) {
+		KMessageBox::information(0,"<center>"+i18n("You must include '\\usepackage{amsmath}' to use an AMS command like this.")+"</center>",i18n("AMS Information"),i18n("amsmath package warning"));
+	}
+}
+
 void Kile::quickDocument()
 {
 	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(m_config, this,"Quick Start",i18n("Quick Start"));

@@ -266,6 +266,7 @@ private slots:
 	 * It can wrap a tag around selected text.
 	 **/
 	void insertTag(const KileAction::TagData& td);
+	void insertAmsTag(const KileAction::TagData& td);
 	/**
 	 * An overloaded member function, behaves essentially as above.
 	 **/

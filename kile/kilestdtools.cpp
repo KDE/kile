@@ -181,16 +181,52 @@ namespace KileTool
 		{
 			//setRelativeBaseDir(S());
 			QString dir = readEntry("relDir");
+			QString trg = readEntry("target");
+
 			if ( dir != "")
 			{
 				translate(dir);
 				setRelativeBaseDir(dir);
 			}
-			QString trg = readEntry("target");
+
 			if ( trg != "" )
 			{
 				translate(trg);
 				setTarget(trg);
+			}
+
+			//auto-detect the file to view
+			if ( dir == "" && trg == "" )
+			{
+				QFileInfo file1 = QFileInfo(baseDir() + "/" + S() + "/index.html");
+				QFileInfo file2 = QFileInfo(baseDir() + "/" + S() + ".html");
+
+				bool read1 = file1.isReadable();
+				bool read2 = file2.isReadable();
+
+				if ( !read1 && !read2 )
+				{
+					sendMessage(Error, i18n("Couldn't find %1 or %2, if you try to view some other html file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.").arg(file1.absFilePath()).arg(file2.absFilePath()));
+					return false;
+				}
+
+				//both exist, take most recent
+				if ( read1 && read2 )
+				{
+					read1 = file1.lastModified() > file2.lastModified();
+					read2 = !read1;
+				}
+
+				if ( read1 )
+				{
+					dir = S();
+					trg = "index.html";
+
+					translate(dir);
+					setRelativeBaseDir(dir);
+					translate(trg);
+					setTarget(trg);
+				}
 			}
 		}
 

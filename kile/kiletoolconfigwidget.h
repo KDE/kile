@@ -50,7 +50,6 @@ namespace KileWidget
 
 		void createLaTeX();
 		void createViewBib();
-		void createViewHTML();
 
 	private slots:
 		void setCommand(const QString &);
@@ -82,6 +81,7 @@ namespace KileWidget
 		AdvancedTool(const QString & tool, KileTool::Config *map, QWidget *parent);
 
 		void createFromTo();
+		void createViewHTML();
 
 	signals:
 		void changed();

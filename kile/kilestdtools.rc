@@ -39,7 +39,7 @@ to=dvi
 type=Process
 checkForRoot=yes
 
-[Tool/LaTeX2HTML/Default]
+[Tool/LaTeXtoHTML/latex2html]
 class=Compile
 command=latex2html
 options='%source'
@@ -47,7 +47,7 @@ from=
 to=
 type=Process
 
-[Tool/TeX4ht/HTML]
+[Tool/LaTeXtoHTML/TeX4ht]
 class=Compile
 command=htlatex.sh
 options='%source'
@@ -55,7 +55,7 @@ from=
 to=html
 type=Process
 
-[Tool/TeX4ht/DocBook]
+[Tool/LaTeXtoDocBook/Default]
 class=Compile
 command=dblatex.sh
 options='%source'
@@ -137,61 +137,36 @@ options='%source'
 from=bib
 to=bib
 
-[Tool/ViewHTML/Default]
+[Tool/ViewHTML/Embedded Viewer]
 type=DocPart
 class=ViewHTML
 state=HTMLpreview
-relDir=%S
-target=index.html
+relDir=
+target=
+from=html
+to=html
 
 [Tool/ViewHTML/Konqueror]
 type=Process
 class=ViewHTML
 state=Editor
-relDir=%S
+relDir=
 command=konqueror
 options='file:%dir_target/%target'
-target=index.html
+target=
+from=html
+to=html
 
 [Tool/ViewHTML/Mozilla]
 type=Process
 class=ViewHTML
 state=Editor
-relDir=%S
+relDir=
 command=mozilla
 options='file:%dir_target/%target'
-target=index.html
-
-[Tool/ViewHTML/TeX4ht]
-type=DocPart
-class=ViewHTML
-state=HTMLpreview
-relDir=
-from=
-to=html
 target=
-
-[Tool/ViewHTML/Konqueror (TeX4ht)]
-type=Process
-class=ViewHTML
-state=Editor
-relDir=
-from=
+from=html
 to=html
-command=konqueror
-options='file:%dir_target/%target'
-target=
-
-[Tool/ViewHTML/Mozilla (TeX4ht)]
-type=Process
-class=ViewHTML
-state=Editor
-relDir=
-from=
-to=html
-command=mozilla
-options='%dir_target/%target'
-target=
 
 [Tool/ViewDVI/Embedded Viewer]
 class=View
@@ -272,7 +247,8 @@ BibTeX=Default
 DVItoPDF=Default
 DVItoPS=Default
 LaTeX=Default
-LaTeX2HTML=Default
+LaTeXtoHTML=latex2html
+LaTeXtoDocBook=Default
 TeX4ht=HTML
 MakeIndex=Default
 MetaPost=Default
@@ -281,7 +257,7 @@ PStoPDF=Default
 QuickBuild=LaTeX+ViewDVI
 TeX=Default
 ViewBib=Default
-ViewHTML=Default
+ViewHTML=Embedded Viewer
 ViewDVI=Embedded Viewer
 ForwardDVI=Default
 ViewPDF=Embedded Viewer
@@ -293,8 +269,8 @@ BibTeX=Compile,bibtex
 DVItoPDF=Convert,dvipdf
 DVItoPS=Convert,dvips
 LaTeX=Compile,latex
-LaTeX2HTML=Compile,l2h
-TeX4ht=Compile,l2h
+LaTeXtoHTML=Compile,l2h
+LaTeXtoDocBook=Compile,l2h
 MakeIndex=Compile,makeidx
 MetaPost=Compile,mpost
 PDFLaTeX=Compile,pdflatex

@@ -348,9 +348,7 @@ namespace KileWidget
 		}
 
 		QString cls = (*m_map)["class"];
-		if ( cls == "ViewHTML" )
-			createViewHTML();
-		else if ( cls == "LaTeX" )
+		if ( cls == "LaTeX" )
 			createLaTeX();
 		else if ( cls == "ViewBib" )
 			createViewBib();
@@ -453,22 +451,6 @@ namespace KileWidget
 		connect(cbLyxServer, SIGNAL(toggled(bool)), this, SLOT(setRunLyxServer(bool)));
 	}
 
-	void BasicTool::createViewHTML()
-	{
-		kdDebug() << "==BasicTool::createViewHTML()====================" << endl;
-		int row = m_layout->numRows();
-
-		QLabel *lb = new QLabel(i18n("&File to view: "), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
-		KLineEdit *le = new KLineEdit(this); m_layout->addWidget(le, row, 1, Qt::AlignLeft);
-		le->setText((*m_map)["target"]); lb->setBuddy(le);
-		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setTarget(const QString &)));
-
-		lb = new QLabel(i18n("Relative &directory:"), this); m_layout->addWidget(lb, row, 2, Qt::AlignLeft);
-		le = new KLineEdit(this); m_layout->addWidget(le, row, 3, Qt::AlignLeft);
-		le->setText((*m_map)["relDir"]); lb->setBuddy(le);
-		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setRelDir(const QString &)));
-	}
-
 	void BasicTool::setCommand(const QString & command) { kdDebug() << "setCommand" << endl; (*m_map)["command"] = command; }
 	void BasicTool::setOptions(const QString & options) { kdDebug() << "setOptions" << endl; (*m_map)["options"] = options; }
 	void BasicTool::setLibrary(const QString & lib) { kdDebug() << "setLibrary" << endl; (*m_map)["libName"] = lib; }
@@ -517,6 +499,10 @@ namespace KileWidget
 		lb->setBuddy(m_cbClasses);
 
 		createFromTo();
+
+		QString cls = (*m_map)["class"];
+		if ( cls == "ViewHTML" )
+			createViewHTML();
 	}
 
 	void AdvancedTool::switchType(int index)
@@ -533,6 +519,22 @@ namespace KileWidget
 		}
 		kdDebug() << "\temitting changed()" << endl;
 		emit(changed());
+	}
+
+	void AdvancedTool::createViewHTML()
+	{
+		kdDebug() << "==AdvancedTool::createViewHTML()====================" << endl;
+		int row = m_layout->numRows();
+
+		QLabel *lb = new QLabel(i18n("&File to view: "), this); m_layout->addWidget(lb, row, 0, Qt::AlignLeft);
+		KLineEdit *le = new KLineEdit(this); m_layout->addWidget(le, row, 1, Qt::AlignLeft);
+		le->setText((*m_map)["target"]); lb->setBuddy(le);
+		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setTarget(const QString &)));
+
+		lb = new QLabel(i18n("Relative &directory:"), this); m_layout->addWidget(lb, row, 2, Qt::AlignLeft);
+		le = new KLineEdit(this); m_layout->addWidget(le, row, 3, Qt::AlignLeft);
+		le->setText((*m_map)["relDir"]); lb->setBuddy(le);
+		connect(le, SIGNAL(textChanged(const QString &)), this, SLOT(setRelDir(const QString &)));
 	}
 
 	void AdvancedTool::createFromTo()

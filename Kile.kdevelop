@@ -136,7 +136,8 @@
       <terminal>false</terminal>
       <autocompile>true</autocompile>
       <envvars>
-        <envvar value="/home/wijnhout/Devel/KDE" name="KDEDIR" />
+        <envvar value="/opt/kde_cvs" name="KDEDIR" />
+        <envvar value="$HOME/.kde_cvs" name="KDEHOME" />
       </envvars>
       <directoryradio>executable</directoryradio>
       <customdirectory>/home/wijnhout/Devel/KDE/bin/</customdirectory>
@@ -144,8 +145,8 @@
     <configurations>
       <default>
         <configargs>--with-debug=full --prefix=/opt/kde_cvs</configargs>
-        <builddir>/home/kde-dev/kde/build/kile/head/kdeextragear-2</builddir>
-        <topsourcedir>/home/kde-dev/kde/src/kile/head/kdeextragear-2</topsourcedir>
+        <builddir>/home/kde-dev/kde/kile/head/build/kde_3_2/qt_3_2/kdeextragear-2</builddir>
+        <topsourcedir>/home/kde-dev/kde/kile/head/src/kdeextragear-2</topsourcedir>
         <cppflags/>
         <ldflags/>
         <ccompiler>kdevgccoptions</ccompiler>

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="7">
+<kpartgui name="kile" version="8">
 <Menu name="ktexteditor_popup" noMerge="1">
   <DefineGroup name="popup_operations" />
 </Menu>
@@ -364,7 +364,7 @@
 	<Action name="tool_DVItoPDF"/>
 	<Action name="tool_PStoPDF"/>
 	<Separator lineSeparator="true"/>
-	<Action name="tool_LaTeX2HTML"/>
+	<Action name="tool_LaTeXtoHTML"/>
 	<Action name="tool_ViewHTML"/>
 	<Separator lineSeparator="true"/>
 	<Action name="tool_ForwardDVI"/>

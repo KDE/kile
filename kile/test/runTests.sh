@@ -1,7 +1,9 @@
-#!/bin/bash
+echo "Kile System Check script..."
 
 outfile=$1
 basedir=$2
+
+echo "outfile = $1, basedir = $2"
 
 goAhead=ok
 
@@ -67,9 +69,13 @@ function getTeXVersion
 }
 
 cd $basedir
+echo "current dir $PWD"
 
 testFile=test_plain.tex
+echo "opening $basedir/$testFile"
 $openDoc $basedir/$testFile
+
+echo "starting test: TeX"
 setTool TeX
 tool="tex --interaction=nonstopmode"
 setKey mustpass "where,basic,kile"
@@ -79,6 +85,7 @@ setKey version `getTeXVersion tex`
 performTest basic "$tool test_plain.tex"
 performKileTest kile "run TeX"
 
+echo "starting test: PDFTeX"
 setTool PDFTeX
 tool="pdftex --interaction=nonstopmode"
 setKey mustpass ""
@@ -90,7 +97,9 @@ $closeDoc
 
 testFileBase="test"
 testFile=$testFileBase.tex
+echo "opening $basedir/$testFile"
 $openDoc $basedir/$testFile
+echo "starting test: LaTeX"
 setTool LaTeX
 tool="latex --interaction=nonstopmode"
 setKey mustpass "where,basic,kile"
@@ -101,6 +110,7 @@ performKileTest kile "run LaTeX"
 performTest src "$tool -src $testFile"
 performTest srcpkg "$tool test_src.tex"
 
+echo "starting test: PDFLaTeX"
 setTool PDFLaTeX
 setKey mustpass ""
 setKey executable pdflatex
@@ -108,18 +118,21 @@ setKey where `which pdflatex`
 performTest basic "pdflatex $testFile"
 performKileTest kile "run PDFLaTeX"
 
+echo "starting test: DVItoPS"
 setTool DVItoPS
 setKey mustpass ""
 setKey executable dvips
 setKey where `which dvips` 
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPS"; fi
 
+echo "starting test: DVItoPDF"
 setTool DVItoPDF
 setKey mustpass ""
 setKey executable dvipdfm
 setKey where `which dvipdfm`
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPDF"; fi
 
+echo "starting test: PStoPDF"
 setTool PStoPDF
 setKey mustpass ""
 setKey executable ps2pdf
@@ -127,6 +140,7 @@ setKey where `which ps2pdf`
 if [ -r $testFileBase.ps ]; then performKileTest kile "run PStoPDF"; fi
 $closeDoc
 
+echo "starting test: BibTeX"
 setTool BibTeX
 setKey mustpass ""
 setKey executable bibtex
@@ -142,6 +156,7 @@ then
 	$closeDoc
 fi
 
+echo "starting test: MakeIndex"
 setTool MakeIndex
 setKey mustpass ""
 setKey executable makeindex
@@ -157,26 +172,31 @@ then
 	$closeDoc
 fi
 
+echo "starting test: KDVI"
 setTool KDVI
 setKey mustpass "where"
 setKey executable kdvi
 setKey where `which kdvi`
 
+echo "starting test: KGhostView"
 setTool KGhostView
 setKey mustpass ""
 setKey executable kghostview
 setKey where `which kghostview`
 
+echo "starting test: KPDF"
 setTool KPDF
 setKey mustpass ""
 setKey executable kpdf
 setKey where `which kpdf`
 
+echo "starting test: Gv"
 setTool Gv
 setKey mustpass ""
 setKey executable gv
 setKey where `which gv`
 
+echo "starting test: Acroread"
 setTool Acroread
 setKey mustpass ""
 setKey executable acroread

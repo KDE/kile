@@ -154,10 +154,12 @@ void Tester::runTests()
 	kdDebug() << "Tester::runTests: destdir = " << destdir << endl;
 	m_resultsFile = destdir + "results.rc";
 
-	QString shellname = KGlobal::dirs()->findExe("bash");
+	QString shellname = KGlobal::dirs()->findExe("sh");
 	kdDebug() << "Tester::runTests: shellname = " << shellname << endl;
 	m_process = new KShellProcess(shellname.local8Bit());
-	*m_process << "cd " + destdir + " && " << "cp " + srcdir +"/* " + destdir + " && " << "source runTests.sh " + m_resultsFile + " " + destdir;
+	*m_process << "cd " + KShellProcess::quote(destdir) + " && ";
+	*m_process << "cp " + KShellProcess::quote(srcdir) +"/* " + KShellProcess::quote(destdir) + " && ";
+	*m_process << "source runTests.sh " + KShellProcess::quote(m_resultsFile) + " " +  KShellProcess::quote(destdir);
 	connect(m_process, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(determineProgress(KProcess *, char *, int)));
 	connect(m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processTestResults(KProcess *)));
 	if (m_process->start(KProcess::NotifyOnExit, KProcess::AllOutput)) emit(started());

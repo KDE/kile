@@ -170,7 +170,10 @@ namespace KileTool
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
-		
+
+        if ( tool->needsToBePrepared() )
+            tool->prepareToRun();
+
 		if ( insertNext )
 			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
 		else

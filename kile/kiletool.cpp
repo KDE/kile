@@ -19,6 +19,7 @@
 #include <qfileinfo.h>
 #include <qmetaobject.h>
 #include <qregexp.h>
+#include <qtimer.h>
 
 #include <klocale.h>
 #include <kconfig.h>
@@ -47,7 +48,8 @@ namespace KileTool
 		m_source(QString::null),
 		m_S(QString::null),
 		m_options(QString::null),
-		m_launcher(0L)
+		m_launcher(0L),
+        m_bPrepareToRun(prepare)
 	{
 		m_manager->initTool(this);
 		
@@ -64,7 +66,6 @@ namespace KileTool
 		setMsg(NeedSourceRead, i18n("Sorry, the file %1 is not readable."));
 
 		m_bPrepared = false;
-		if (prepare) prepareToRun();
 	}
 
 	Base::~Base()

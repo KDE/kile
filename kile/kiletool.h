@@ -75,7 +75,7 @@ namespace KileTool
 		/**
 		 * Allows you to set the source file explicitly (absolute path).
 		 **/
-		void setSource(const QString & source);
+		virtual void setSource(const QString & source);
 		
 		/**
 		 * @returns the source file that is used to run the tool on.
@@ -98,9 +98,9 @@ namespace KileTool
 		/**
 		 * Allows you to set the target file explicitly (filename only).
 		 **/
-		void setTarget(const QString & target);
-		void setTargetDir(const QString & target);
-		void setTargetPath(const QString & target);
+		virtual void setTarget(const QString & target);
+		virtual void setTargetDir(const QString & target);
+		virtual void setTargetPath(const QString & target);
 
 		/**
 		 * Sets the target directory relative to the source directory.
@@ -169,7 +169,8 @@ namespace KileTool
 		const QString readEntry(const QString & key) { return m_entryMap[key]; }
 
 	public:
-		void prepareToRun();
+		virtual void prepareToRun();
+        bool needsToBePrepared() { return m_bPrepareToRun; }
 
 	protected:
 		/**
@@ -242,6 +243,7 @@ namespace KileTool
 		uint		    	m_flags;
 		int					m_nPreparationResult;
 		bool				m_bPrepared;
+        bool                m_bPrepareToRun;
 
 		//messages
 		QMap<long,QString>	m_messages;

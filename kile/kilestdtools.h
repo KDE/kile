@@ -18,6 +18,7 @@
 #ifndef KILESTDTOOLS_H
 #define KILESTDTOOLS_H
 
+#include <kdebug.h>
 #include <qstring.h>
 
 class KConfig;

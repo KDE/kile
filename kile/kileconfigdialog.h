@@ -33,8 +33,9 @@ class QSpinBox;
 class QCheckBox;
 class QRadioButton;
 class QButtonGroup;
-
+class QSpinBox;
 class QFrame;
+
 class KSpellConfig;
 class KColorButton;
 class KIntNumInput;
@@ -55,7 +56,7 @@ public:
 
     QComboBox *comboDvi, *comboPs, *comboPdf;
 	QButtonGroup *ButtonGroup2;
-
+	QSpinBox *spinLevel;
     QCheckBox *checkAutosave, *checkEnv, *checkSwitchStruct, *checkRestore, *checkForRoot;
 
     QRadioButton *checkLatex, *checkPdflatex,

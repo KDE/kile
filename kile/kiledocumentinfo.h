@@ -128,7 +128,7 @@ public:
 	const KURL& oldURL() {return m_oldurl;}
 
 public slots:
-	void updateStruct();
+	void updateStruct(int defaultLevel = 0);
 	void updateBibItems();
 	void emitNameChanged(Kate::Document *);
 

@@ -24,6 +24,7 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qlineedit.h>
+#include <qspinbox.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
@@ -70,18 +71,29 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	checkAutosave->setChecked(m_config->readBoolEntry("Autosave",true));
 	asIntervalInput->setValue(m_config->readLongNumEntry("AutosaveInterval",600000)/60000);
 
+	QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure view options"), generalPage);
+	genLayout->addWidget(structGroup);
+
 	//checkSwitchStruct
-	checkSwitchStruct = new QCheckBox("Switch to structure view after opening a file.", generalPage );
-	genLayout->addWidget(checkSwitchStruct);
+	checkSwitchStruct = new QCheckBox("Switch to structure view after &opening a file.", structGroup );
 	m_config->setGroup("Structure");
 	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure",true));
+	lb = new QLabel("", structGroup);
 
+	//default structure level
+	lb = new QLabel(i18n("Default expansion &level for the structure view (1 part - 5 subsubsection) : "),structGroup);
+	spinLevel = new QSpinBox(1,5, 1, structGroup);
+	m_config->setGroup("Structure");
+	spinLevel->setValue(m_config->readNumEntry("DefaultLevel",1));
+	lb->setBuddy(spinLevel);
+
+	//reopen files and projects
 	checkRestore = new QCheckBox("Reopen files and projects on startup.", generalPage );
 	genLayout->addWidget(checkRestore);
 	m_config->setGroup("Files");
 	checkRestore->setChecked(m_config->readBoolEntry("Restore",true));
 
-    //template variables
+	 //template variables
     QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);
 
     QLabel *lbAuthor = new QLabel(i18n("&Author"),templateGroup);
@@ -106,7 +118,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
                         KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
 
-    QGridLayout *gbox1 = new QGridLayout( toolsPage,11,2,5,5,"" );
+    QGridLayout *gbox1 = new QGridLayout( toolsPage,12,2,5,5,"" );
     gbox1->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
     TextLabel1 = new QLabel( toolsPage, "label1" );
@@ -190,9 +202,9 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
     TextLabel14 = new QLabel( toolsPage, "label14" );
     TextLabel14->setText("BibTeX Editor");
-    gbox1->addWidget( TextLabel14,10,0 );
+    gbox1->addWidget( TextLabel14,11,0 );
     LineEdit14 = new QLineEdit( toolsPage, "le114" );
-    gbox1->addWidget( LineEdit14,10,1 );
+    gbox1->addWidget( LineEdit14,11,1 );
 
 	//fill in tools
 	m_config->setGroup("Tools");
@@ -310,6 +322,7 @@ void KileConfigDialog::slotOk()
 
 	m_config->setGroup("Structure");
 	m_config->writeEntry("SwitchToStructure", checkSwitchStruct->isChecked());
+	m_config->writeEntry("DefaultLevel", spinLevel->value());
 	m_config->sync();
 
 	accept();

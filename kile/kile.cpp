@@ -865,7 +865,7 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 	if (!isopen) m_projectview->add(url);
 
 	if (view)
-		infoFor(view->getDoc())->updateStruct();
+		infoFor(view->getDoc())->updateStruct(m_defaultLevel);
 	updateModeStatus();
 }
 
@@ -1091,7 +1091,7 @@ void Kile::projectOpenItem(KileProjectItem *item)
 	}
 
 	mapItem(docinfo, item);
-	docinfo->updateStruct();
+	docinfo->updateStruct(m_defaultLevel);
 
 	if ((!item->isOpen()) && (view != 0)) //oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
 	{
@@ -3066,7 +3066,7 @@ void Kile::UpdateStructure(bool parse /* = false */)
 	if (docinfo)
 	{
 		QListViewItem *item = (QListViewItem*)docinfo->structViewItem();
-		if ((item == 0) || parse) docinfo->updateStruct();
+		if ((item == 0) || parse) docinfo->updateStruct(m_defaultLevel);
 		outstruct->insertItem(item);
 	}
 
@@ -3929,6 +3929,7 @@ void Kile::readConfig()
 {
 	config->setGroup( "Structure" );
 	switchtostructure = config->readBoolEntry("SwitchToStructure", true);
+	m_defaultLevel = config->readNumEntry("DefaultLevel", 1);
 
 	config->setGroup( "Files" );
 	m_bRestore=config->readBoolEntry("Restore",true);

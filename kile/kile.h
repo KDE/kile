@@ -233,7 +233,7 @@ private slots:
 /* config */
 private:
 	KConfig				*config;
-	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
+	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab, m_defaultLevel;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument, input_encoding;

@@ -51,7 +51,7 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\bibliography"]=KileStructData(-2,KileStruct::Bibliography);
 }
 
-void KileDocumentInfo::emitNameChanged(Kate::Document *doc)
+void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
 {
 	kdDebug() << "==KileDocumentInfo::emitNameChanged=========================="  << endl;
 	if (m_doc)
@@ -202,7 +202,7 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 	return QString::null;
 }
 
-void KileDocumentInfo::updateStruct()
+void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 {
 	if (getDoc())
 		kdDebug() << "==KileDocumentInfo::updateStruct==================" << getDoc()->url().path() << endl;
@@ -348,6 +348,13 @@ void KileDocumentInfo::updateStruct()
 
 					Child=new KileListViewItem(parent,lastChild,m.stripWhiteSpace(), tagLine, tagCol,(*it).type);
 					if (! (*it).pix.isNull()) Child->setPixmap(0,UserIcon((*it).pix));
+
+					//if the level is not greater than the defaultLevel
+					//open the parent to make this item visible
+					if ( (*it).level <= defaultLevel )
+					{
+						parent->setOpen(true);
+					}
 
 					//update the parent levels, such that section etc. get inserted at the correct level
 					if ((*it).level > 0)

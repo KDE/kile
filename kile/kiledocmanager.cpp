@@ -1402,6 +1402,6 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	docinfo->cleanTempFiles(extlist);
 }
 
-};
+}
 
 #include "kiledocmanager.moc"

@@ -173,6 +173,6 @@ void ConfigChecker::setPercentageDone(int p)
 	progressBar()->setProgress(p);
 }
 
-};
+}
 
 #include "configcheckerdlg.moc"

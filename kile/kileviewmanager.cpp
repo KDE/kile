@@ -382,6 +382,6 @@ void Manager::pasteAsLaTeX(void)
 		editInterfaceExt->editEnd();
 }
 
-};
+}
 
 #include "kileviewmanager.moc"

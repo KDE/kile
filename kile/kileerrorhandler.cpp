@@ -86,6 +86,8 @@ void KileErrorHandler::jumpToFirstError()
 		if ( (*m_ki->outputInfo())[i].type() == LatexOutputInfo::itmError )
 		{
 			jumpToProblem(&(*m_ki->outputInfo())[i]);
+			m_nCurrentError = i;
+			m_ki->logWidget()->highlightByIndex(i, sz, -1);
 			break;
 		}
 	}
@@ -141,7 +143,7 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 	{
 		int sz = m_ki->outputInfo()->size();
 		int pl = forward ? 1 : -1;
-		bool found =false;
+		bool found = false;
 
 		//look for next problem of requested type
 		for ( int i = 0; i < sz; i ++ )
@@ -163,14 +165,12 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 
 		if ( !found ) return;
 
-		m_ki->outputView()->showPage(m_ki->logWidget());
-		
 		//If the log file is being viewed, use this to jump to the errors,
 		//otherwise, use the error summary display
 		if (m_ki->logPresent())
 			m_ki->logWidget()->highlight( (*m_ki->outputInfo())[m_nCurrentError].outputLine(), pl );
-		else
-			m_ki->logWidget()->highlight( (*m_ki->outputInfo())[m_nCurrentError].source() + ":" + QString::number((*m_ki->outputInfo())[m_nCurrentError].sourceLine()), pl );
+ 		else
+ 			m_ki->logWidget()->highlightByIndex(m_nCurrentError, sz, pl);
 
 		jumpToProblem(&(*m_ki->outputInfo())[m_nCurrentError]);
 	}

@@ -87,16 +87,12 @@ ConvertMap::ConvertMap(const QString & enc )
 {
 	m_aliases.append(encodingNameFor(enc));
 	m_aliases.append(isoNameFor(enc));
-
-	kdDebug() << "map created for: " << encoding() << ", also known as " << enc << endl;
 }
 
 void ConvertMap::addPair(QChar c, QString enc)
 {
 	m_toASCII[c] = commandIsTerminated(enc) ? enc : enc + "{}" ;
 	m_toEncoding[enc] = c;
-
-	kdDebug() << "added pair " << QString(c) << " ~ " << enc << endl;
 }
 
 bool ConvertMap::commandIsTerminated(const QString & command)
@@ -322,13 +318,17 @@ QString ConvertASCIIToEnc::getSequence(uint &i)
 				i = i + 3;
 				seq += reBraces.cap(1);
 			}
-				seq += (QString)m_io->currentLine()[i++];
+			else
+			{
+				QChar nextChar = m_io->currentLine()[i++];
+				if ( !nextChar.isSpace() ) seq += (QString)nextChar;
+			}
 		}
 	}
 	else if ( m_map->canEncode(seq) )
 	{
 		if ( m_io->currentLine().mid(i,2) == "{}" ) i = i + 2;
-		if ( m_io->currentLine()[i].isSpace() ) i++;
+		else if ( m_io->currentLine()[i].isSpace() ) i++;
 	}
 
 	return seq;

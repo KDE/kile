@@ -41,7 +41,7 @@ namespace KileWidget
 	public slots:
 		void highlight(); //FIXME for compatibility, should remove it asap
 		void highlight(uint l, int direction = 1);
-		void highlight(const QString & begin, int direction = 1);
+		void highlightByIndex(int index, int size, int direction = 1);
 
 		void printMsg(int type, const QString & message, const QString &tool = "Kile" );
 		void printProblem(int type, const QString & problem);
@@ -51,6 +51,7 @@ namespace KileWidget
 	signals:
 		void fileOpen(const KURL &, const QString &);
 		void setLine(const QString &);
+		void showingErrorMessage(QWidget *);
 
 	protected:
 		QPopupMenu* createPopupMenu (const QPoint & pos);

@@ -199,6 +199,8 @@ Kate::View* EditorExtension::determineView(Kate::View *view)
 	if (view == 0L)
 		view = m_ki->viewManager()->currentView();
 
+	m_overwritemode = (view == 0L) ? false : view->isOverwriteMode();
+
 	return view;
 }
 
@@ -214,7 +216,6 @@ void EditorExtension::gotoEnvironment(bool backwards, Kate::View *view)
 	// get current position
 	Kate::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
-	m_overwritemode = view->isOverwriteMode();
 	
 	// start searching
 	if ( backwards )
@@ -886,15 +887,14 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 	Kate::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
-	if ( !findOpenBracket(doc,row,col,open) )
-		return false;
-	if ( !findCloseBracket(doc,row,col,close) )
-		return false;
+	if ( !findOpenBracket(doc,row,col,open) ) { kdDebug() << "no open bracket" << endl; return false;}
+	if ( !findCloseBracket(doc,row,col,close) ) { kdDebug() << "no close bracket" << endl; return false;}
 	
 	if ( inside )
 		open.col++;
 	else
 		close.col++;
+
 	return true;
 }
 
@@ -909,16 +909,13 @@ bool EditorExtension::findOpenBracket(Kate::Document *doc, uint row, uint col, B
 	if ( isBracketPosition(doc,row,col,bracket) )
 	{
 		// already found position?
-		if ( bracket.open )
-		{
-		return true;
-		}
-	
+		if ( bracket.open ) return true;
+		
+		
 		// go one position back
 		row = bracket.row;
 		col = bracket.col;
-		if ( ! decreaseCursorPosition(doc,row,col) )
-		return false;
+		if ( ! decreaseCursorPosition(doc,row,col) ) return false;
 	}
 	
 	// looking back for last bracket
@@ -934,10 +931,7 @@ bool EditorExtension::findCloseBracket(Kate::Document *doc, uint row, uint col, 
 	if ( isBracketPosition(doc,row,col,bracket) )
 	{
 		// already found position?
-		if ( ! bracket.open )
-		{
-		return true;
-		}
+		if ( ! bracket.open ) return true;
 	
 		// go one position forward
 		row = bracket.row;
@@ -972,6 +966,7 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 	QChar right = textline[col];
 	QChar left  = ( col > 0 ) ? textline[col-1] : QChar(' ');
 	
+	kdDebug() << QString("isBracketPosition: (%1,%2) left %3 right %4").arg(row).arg(col).arg(left).arg(right) << endl;
 	if ( m_overwritemode )
 	{
 		if ( right == '{' )
@@ -1053,25 +1048,27 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		int start = ( line == (int)row ) ? col : textline.length()-1;
 		for ( int i=start; i>=0; i-- )
 		{
-		if ( textline[i] == '{' )
-		{
-			if ( brackets > 0 )
-			brackets--;
-			else
+			kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
+			if ( textline[i] == '{' )
 			{
-			bracket.row = line;
-			bracket.col = i;
-			bracket.open = true;
-			return true;
+				if ( brackets > 0 )
+					brackets--;
+				else
+				{
+					bracket.row = line;
+					bracket.col = i;
+					bracket.open = true;
+					return true;
+				}
 			}
-		}
-		else if ( textline[i] == '}' )
-		{
-			brackets++;
-		}
+			else if ( textline[i] == '}' )
+			{
+				brackets++;
+			}
 		}
 	}
 	
+	kdDebug() << "nothting found" << endl;
 	return false;
 }
 

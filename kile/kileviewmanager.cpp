@@ -110,7 +110,7 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
 
 	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
-	connect( view, SIGNAL(completionDone()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone()) );
+	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
 	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
 	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 

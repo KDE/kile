@@ -424,7 +424,27 @@
 	<Action name="RefreshStructure"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
-</Disable>
+	<Action name="edit_complete_env"/>
+	<Action name="edit_complete_abbrev"/>
+	<Action name="edit_next_bullet"/>
+	<Action name="edit_prev_bullet"/>
+	<Action name="edit_select_inside_env"/>
+	<Action name="edit_select_outside_env"/>
+	<Action name="edit_select_inside_group"/>
+	<Action name="edit_select_outside_group"/>
+	<Action name="edit_select_paragraph"/>
+	<Action name="edit_select_line"/>
+	<Action name="edit_select_word"/>
+	<Action name="edit_delete_inside_env"/>
+	<Action name="edit_delete_outside_env"/>
+	<Action name="edit_delete_inside_group"/>
+	<Action name="edit_delete_outside_group"/>
+	<Action name="edit_delete_paragraph"/>
+	<Action name="edit_delete_word"/>
+	<Action name="edit_begin_env"/>
+	<Action name="edit_end_env"/>
+	<Action name="edit_match_env"/>
+	<Action name="edit_close_env"/>
 <Enable>
 	<Action name="EditorView"/>
 	<Action name="file_print"/>
@@ -456,6 +476,27 @@
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
 	<Action name="print"/>
+	<Action name="edit_complete_env"/>
+	<Action name="edit_complete_abbrev"/>
+	<Action name="edit_next_bullet"/>
+	<Action name="edit_prev_bullet"/>
+	<Action name="edit_select_inside_env"/>
+	<Action name="edit_select_outside_env"/>
+	<Action name="edit_select_inside_group"/>
+	<Action name="edit_select_outside_group"/>
+	<Action name="edit_select_paragraph"/>
+	<Action name="edit_select_line"/>
+	<Action name="edit_select_word"/>
+	<Action name="edit_delete_inside_env"/>
+	<Action name="edit_delete_outside_env"/>
+	<Action name="edit_delete_inside_group"/>
+	<Action name="edit_delete_outside_group"/>
+	<Action name="edit_delete_paragraph"/>
+	<Action name="edit_delete_word"/>
+	<Action name="edit_begin_env"/>
+	<Action name="edit_end_env"/>
+	<Action name="edit_match_env"/>
+	<Action name="edit_close_env"/>
 </Disable>
 <Enable>
 	<Action name="EditorView"/>
@@ -483,6 +524,27 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
+	<Action name="edit_complete_env"/>
+	<Action name="edit_complete_abbrev"/>
+	<Action name="edit_next_bullet"/>
+	<Action name="edit_prev_bullet"/>
+	<Action name="edit_select_inside_env"/>
+	<Action name="edit_select_outside_env"/>
+	<Action name="edit_select_inside_group"/>
+	<Action name="edit_select_outside_group"/>
+	<Action name="edit_select_paragraph"/>
+	<Action name="edit_select_line"/>
+	<Action name="edit_select_word"/>
+	<Action name="edit_delete_inside_env"/>
+	<Action name="edit_delete_outside_env"/>
+	<Action name="edit_delete_inside_group"/>
+	<Action name="edit_delete_outside_group"/>
+	<Action name="edit_delete_paragraph"/>
+	<Action name="edit_delete_word"/>
+	<Action name="edit_begin_env"/>
+	<Action name="edit_end_env"/>
+	<Action name="edit_match_env"/>
+	<Action name="edit_close_env"/>
 </Enable>
 </State>
 </kpartgui>

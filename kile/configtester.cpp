@@ -169,7 +169,7 @@ void Tester::determineProgress(KProcess */*proc*/, char *buf, int len)
 {
 	static QString s = QString::null;
 
-	s += QCString(buf, len+1);
+	s += QString::fromLocal8Bit(buf, len);
 	if ( s.endsWith("\n") )
 	{
 		bool ok = false;

@@ -45,12 +45,15 @@
 #include "kilestructurewidget.h"
 #include "kileprojectdlgs.h"
 #include "kiletool.h"
+#include "kiletool_enums.h"
 #include "kilestdtools.h"
 #include "kilelistselector.h"
 #include "kiletoolmanager.h"
 #include "kileautosavejob.h"
 #include "kilekonsolewidget.h"
 #include "kileconfig.h"
+#include "kilelogwidget.h"
+#include "cleandialog.h"
 
 namespace KileDocument
 {
@@ -759,6 +762,8 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 
 		if ( doc->closeURL() )
 		{
+			if ( KileConfig::cleanUpAfterClose() ) cleanUpTempFiles(docinfo, true);
+			
 			//FIXME: use signal/slot
 			m_ki->viewManager()->removeView(static_cast<Kate::View*>(doc->views().first()));
 			//remove the decorations
@@ -1296,6 +1301,49 @@ void Manager::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 	item->setColumnNumber(c);
 
 	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
+}
+
+void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
+{
+	QStringList extlist;
+	QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
+	QString str;
+	QFileInfo file(docinfo->url().path()), fi;
+	for (uint i=0; i <  templist.count(); i++)
+	{
+		str = file.dirPath(true) + "/" + file.baseName(true) + templist[i];
+		fi.setFile(str);
+		if ( fi.exists() )
+			extlist.append(templist[i]);
+	}
+
+	str = file.fileName();
+	if (!silent &&  (str==i18n("Untitled") || str == "" ) )	return;
+
+	if (!silent && extlist.count() > 0 )
+	{
+		kdDebug() << "\tnot silent" << endl;
+		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->parentWidget(), str, extlist);
+		if ( dialog->exec() )
+			extlist = dialog->getCleanlist();
+		else
+		{
+			delete dialog;
+			return;
+		}
+
+		delete dialog;
+	}
+
+	if ( extlist.count() == 0 )
+	{
+		m_ki->logWidget()->printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
+		return;
+	}
+
+	m_ki->logWidget()->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
+
+	docinfo->cleanTempFiles(extlist);
 }
 
 };

@@ -415,7 +415,7 @@ void IncludeGraphics::execute(const QString &command)
 
 void IncludeGraphics::slotProcessOutput(KProcess*,char* buffer,int buflen)
 {
-   m_output += QCString(buffer,buflen+1);
+   m_output += QString::fromLocal8Bit(buffer,buflen);
 }
 
 // identify was called

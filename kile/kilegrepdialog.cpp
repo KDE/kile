@@ -411,13 +411,13 @@ void KileGrepDialog::childExited()
 
 void KileGrepDialog::receivedOutput(KProcess */*proc*/, char *buffer, int buflen)
 {
-	buf += QCString(buffer, buflen+1);
+	buf += QString::fromLocal8Bit(buffer, buflen);
 	processOutput();
 }
 
 void KileGrepDialog::receivedErrOutput(KProcess */*proc*/, char *buffer, int buflen)
 {
-	errbuf += QCString( buffer, buflen + 1 );
+	errbuf += QString::fromLocal8Bit( buffer, buflen );
 }
 
 void KileGrepDialog::slotClear()

@@ -76,12 +76,20 @@ namespace KileWidget
 		setSelection(l, 0, l, paragraphLength(l));
 	}
 
-	void LogMsg::highlight(const QString & begin, int direction /* = 1 */)
+	void LogMsg::highlightByIndex(int index, int size, int direction /* = 1 */)
 	{
 		int parags = paragraphs();
+		int problemsFound = 0;
+		int targetProblemNumber = size - index;
+		static QRegExp reProblem(".*:[0-9]+:.*");
+		
+		//start from the bottom (most recent error) because
+		//there could very well be errors with the same name
 		for ( int i = parags - 1; i >= 0;  i-- )
 		{
-			if ( text(i).startsWith(begin) )
+			if ( reProblem.exactMatch(text(i)) ) problemsFound++;
+			
+			if ( problemsFound == targetProblemNumber )
 			{
 				highlight(i, direction);
 				break;
@@ -126,6 +134,8 @@ namespace KileWidget
 
 	void LogMsg::printMsg(int type, const QString & message, const QString &tool)
 	{
+		if ( type == KileTool::Error ) emit showingErrorMessage(this);
+
 		QString ot = "", ct = "</font>";
 
 		switch (type)

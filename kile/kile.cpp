@@ -62,7 +62,6 @@
 #include "kilestructurewidget.h"
 #include "convert.h"
 #include "includegraphicsdialog.h"
-#include "cleandialog.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "kileeventfilter.h"
@@ -85,6 +84,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_config = KGlobal::config();
 	readUserSettings();
 	readRecentFileSettings();
+	
+	m_masterName = KileConfig::master();
+	m_singlemode = (m_masterName == "");
 
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
@@ -115,11 +117,12 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_topWidgetStack->setFocusPolicy(QWidget::NoFocus);
 	
 	m_horizontalSplitter = new QSplitter(QSplitter::Horizontal,m_topWidgetStack, "horizontalSplitter" );
-
+	
 	setupSideBar();
 
-	m_verticalSplitter=new QSplitter(QSplitter::Vertical, m_horizontalSplitter, "verticalSplitter");	
+	m_verticalSplitter=new QSplitter(QSplitter::Vertical, m_horizontalSplitter, "verticalSplitter");
 	viewManager()->createTabs(m_verticalSplitter);
+
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 
@@ -183,8 +186,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	KTipDialog::showTip(this, "kile/tips");
 
-	m_singlemode = true;
-	m_masterName = QString::null;
 	restoreFilesAndProjects(allowRestore);
 }
 
@@ -276,6 +277,7 @@ void Kile::setupBottomBar()
 	m_bottomBar->setFocusPolicy(QWidget::ClickFocus);
 
 	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );
+	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
 	connect(m_logWidget, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
 
@@ -378,8 +380,8 @@ void Kile::setupActions()
  // advanced editor (dani)
 	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
 	(void) new KAction(i18n("Environment (outside)"),KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
-	(void) new KAction(i18n("TeX Group (inside)"),"selgroup_i",KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
-	(void) new KAction(i18n("TeX Group (outside)"),"selgroup_o",KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
+	(void) new KAction(i18n("TeX Group (inside)"),KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
+	(void) new KAction(i18n("TeX Group (outside)"), KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
 	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+S,P"),m_edit, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
 	(void) new KAction(i18n("Line"),KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
 	(void) new KAction(i18n("TeX Word"),KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
@@ -398,8 +400,8 @@ void Kile::setupActions()
 
 	(void) new KAction(i18n("Goto Begin"),KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()), actionCollection(), "edit_begin_group");
 	(void) new KAction(i18n("Goto End"),KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()), actionCollection(), "edit_end_group");
-	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
-	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
+	(void) new KAction(i18n("Match"),KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
+	(void) new KAction(i18n("Close"),KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -432,15 +434,6 @@ void Kile::setupActions()
 	m_paShowErrorTB = new KToggleToolBarAction("errorToolBar", i18n("Error"), actionCollection(), "ShowErrorToolbar");
 	m_paShowEditTB = new KToggleToolBarAction("editToolBar", i18n("Edit"), actionCollection(), "ShowEditToolbar");
 	m_paShowMathTB = new KToggleToolBarAction("mathToolBar", i18n("Math"), actionCollection(), "ShowMathToolbar");
-
-	//Save the toolbar settings, we need to know if the toolbars should be visible or not. We can't use KToggleToolBarAction->isChecked()
-	//since this will return false if we hide the toolbar when switching to Viewer mode for example.
-	m_bShowMainTB = m_paShowMainTB->isChecked();
-	m_bShowToolsTB = m_paShowToolsTB->isChecked();
-	m_bShowErrorTB = m_paShowErrorTB->isChecked();
-	m_bShowBuildTB = m_paShowBuildTB->isChecked();
-	m_bShowEditTB = m_paShowEditTB->isChecked();
-	m_bShowMathTB = m_paShowMathTB->isChecked();
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
 	else {ModeAction->setChecked(true);}
@@ -593,8 +586,6 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 			docManager()->fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
 
-	m_masterName = KileConfig::master();
-	m_singlemode = (m_masterName == "");
 	if (ModeAction) ModeAction->setChecked(!m_singlemode);
 	updateModeStatus();
 
@@ -966,7 +957,6 @@ void Kile::resetPart()
 
 	if (part && m_currentState != "Editor")
 	{
-		kdDebug() << "\tclosing current part" << endl;
 		part->closeURL();
 		m_partManager->removePart(part) ;
 		m_topWidgetStack->removeWidget(part->widget());
@@ -983,18 +973,6 @@ void Kile::activePartGUI(KParts::Part * part)
 	kdDebug() << "==Kile::activePartGUI()=============================" << endl;
 	kdDebug() << "\tcurrent state " << m_currentState << endl;
 	kdDebug() << "\twant state " << m_wantState << endl;
-
-	//save the toolbar state
-	if ( m_wantState == "HTMLpreview" || m_wantState == "Viewer" )
-	{
-		kdDebug() << "\tsaving toolbar status" << endl;
-		m_bShowMainTB = m_paShowMainTB->isChecked();
-		m_bShowToolsTB = m_paShowToolsTB->isChecked();
-		m_bShowBuildTB = m_paShowBuildTB->isChecked();
-		m_bShowErrorTB = m_paShowErrorTB->isChecked();
-		m_bShowEditTB = m_paShowEditTB->isChecked();
-		m_bShowMathTB = m_paShowMathTB->isChecked();
-	}
 
 	createGUI(part);
 	unplugActionList("list_quickies"); plugActionList("list_quickies", m_listQuickActions);
@@ -1030,28 +1008,38 @@ void Kile::activePartGUI(KParts::Part * part)
 
 void Kile::showToolBars(const QString & wantState)
 {
+	if ( m_currentState == "Editor" )
+	{
+		m_bShowMainTB = m_paShowMainTB->isChecked();
+		m_bShowToolsTB = m_paShowToolsTB->isChecked();
+		m_bShowBuildTB = m_paShowBuildTB->isChecked();
+		m_bShowErrorTB = m_paShowErrorTB->isChecked();
+		m_bShowEditTB = m_paShowEditTB->isChecked();
+		m_bShowMathTB = m_paShowMathTB->isChecked();
+	}
+
 	if ( wantState == "HTMLpreview" )
 	{
 		stateChanged( "HTMLpreview");
-		toolBar("mainToolBar")->hide();
-		toolBar("toolsToolBar")->hide();
-		toolBar("buildToolBar")->hide();
-		toolBar("errorToolBar")->hide();
-		toolBar("editToolBar")->hide();
-		toolBar("mathToolBar")->hide();
+		m_paShowMainTB->setChecked(false);
+		m_paShowToolsTB->setChecked(false);
+		m_paShowBuildTB->setChecked(false);
+		m_paShowErrorTB->setChecked(false);
+		m_paShowEditTB->setChecked(false);
+		m_paShowMathTB->setChecked(false);
 		toolBar("extraToolBar")->show();
 		enableKileGUI(false);
 	}
 	else if ( wantState == "Viewer" )
 	{
 		stateChanged( "Viewer" );
-		toolBar("mainToolBar")->show();
-		toolBar("toolsToolBar")->hide();
-		toolBar("buildToolBar")->hide();
-		toolBar("errorToolBar")->hide();
-		toolBar("mathToolBar")->hide();
+		m_paShowMainTB->setChecked(true);
+		m_paShowToolsTB->setChecked(false);
+		m_paShowBuildTB->setChecked(false);
+		m_paShowErrorTB->setChecked(false);
+		m_paShowEditTB->setChecked(false);
+		m_paShowMathTB->setChecked(false);
 		toolBar("extraToolBar")->show();
-		toolBar("editToolBar")->hide();
 		enableKileGUI(false);
 	}
 	else
@@ -1059,12 +1047,12 @@ void Kile::showToolBars(const QString & wantState)
 		stateChanged( "Editor" );
 		m_wantState="Editor";
 		m_topWidgetStack->raiseWidget(0);
-		if (m_bShowMainTB) toolBar("mainToolBar")->show();
-		if (m_bShowEditTB) toolBar("editToolBar")->show();
-		if (m_bShowToolsTB) toolBar("toolsToolBar")->show();
-		if (m_bShowBuildTB) toolBar("buildToolBar")->show();
-		if (m_bShowErrorTB) toolBar("errorToolBar")->show();
-		if (m_bShowMathTB) toolBar("mathToolBar")->show();
+		m_paShowMainTB->setChecked(m_bShowMainTB);
+		m_paShowToolsTB->setChecked(m_bShowToolsTB);
+		m_paShowBuildTB->setChecked(m_bShowBuildTB);
+		m_paShowErrorTB->setChecked(m_bShowErrorTB);
+		m_paShowEditTB->setChecked(m_bShowEditTB);
+		m_paShowMathTB->setChecked(m_bShowMathTB);		
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
@@ -1116,7 +1104,7 @@ void Kile::runTool()
 	m_manager->run(name);
 }
 
-void Kile::cleanAll(KileDocument::Info *docinfo, bool silent)
+void Kile::cleanAll(KileDocument::Info *docinfo)
 {
 	static QString noactivedoc = i18n("There is no active document or it is not saved.");
 	if (docinfo == 0)
@@ -1131,52 +1119,7 @@ void Kile::cleanAll(KileDocument::Info *docinfo, bool silent)
 		}
 	}
 
-	if (docinfo)
-	{
-		QStringList extlist;
-		QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
-		QString str;
-		QFileInfo file(docinfo->url().path()), fi;
-		for (uint i=0; i <  templist.count(); i++)
-		{
-			str = file.dirPath(true) + "/" + file.baseName(true) + templist[i];
-			fi.setFile(str);
-			if ( fi.exists() )
-				extlist.append(templist[i]);
-		}
-
-		str = file.fileName();
-		if (!silent &&  (str==i18n("Untitled") || str == "" ) )
-		{
-			m_logWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
-			return;
-		}
-
-		if (!silent && extlist.count() > 0 )
-		{
-			kdDebug() << "\tnot silent" << endl;
-			KileDialog::Clean *dialog = new KileDialog::Clean(this, str, extlist);
-			if ( dialog->exec() )
-				extlist = dialog->getCleanlist();
-			else
-			{
-				delete dialog;
-				return;
-			}
-
-			delete dialog;
-		}
-
-		if ( extlist.count() == 0 )
-		{
-			m_logWidget->printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
-			return;
-		}
-
-		m_logWidget->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
-
-		docinfo->cleanTempFiles(extlist);
-	}
+	if (docinfo) docManager()->cleanUpTempFiles(docinfo, false);
 }
 
 void Kile::refreshStructure()

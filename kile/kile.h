@@ -251,7 +251,7 @@ private:
 private slots:
 	void runTool();
 
-	void cleanAll(KileDocument::Info *docinfo = 0, bool silent = false);
+	void cleanAll(KileDocument::Info *docinfo = 0);
 	void cleanBib();
 
 	void findInFiles();

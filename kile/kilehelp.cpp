@@ -54,6 +54,7 @@ namespace KileHelp
 		//FIXME strip the #label part of the source (not the target),
 		//somehow this is already done somewhere (by accident), 
 		//bad to rely on it
+		tool->setMsg(KileTool::NeedSourceExists, i18n("Sorry, could not find the teTeX documentation at %1. Set the correct path in Settings->Configure Kile->Help."));
 		tool->setSource(parameter);
 		tool->setTargetPath(QFileInfo(parameter).fileName());
 		tool->prepareToRun();

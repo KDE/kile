@@ -72,18 +72,17 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	}
 	else if ( orientation == Qt::Vertical )
 	{
+		m_symbolTab = new SymbolView(m_tabStack);
+		m_tabStack->addWidget(m_symbolTab, 0);
+		m_nTabs++;
+
 		setMinimumWidth(m_tabBar->width());
 		m_nMinSize = m_tabBar->width();
 		m_nMaxSize = m_tabBar->maximumWidth();
 		layout->add(m_tabStack);
 		layout->add(m_tabBar);
 	}
-
-	m_symbolTab = new SymbolView(m_tabStack);
-	m_tabStack->addWidget(m_symbolTab, 0);
-	m_nTabs++;
 }
-
 
 KileSideBar::~KileSideBar()
 {

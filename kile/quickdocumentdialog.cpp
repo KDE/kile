@@ -14,13 +14,14 @@
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qlistview.h>
+#include <qwhatsthis.h>
 
 #include <kcombobox.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <klineedit.h>
+#include <kiconloader.h>
 #include <kpushbutton.h>
-#include <kinputdialog.h>
 #include <kmessagebox.h>
 
 #include "quickdocumentdialog.h"
@@ -33,6 +34,7 @@ QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name,
 	setupGUI();
 	init();
 	readConfig();
+	slotEnableButtons();
 }
 
 
@@ -65,15 +67,21 @@ void QuickDocument::setupGUI()
 	m_cbDocumentClass->setEditable(true);
 	m_cbDocumentClass->setDuplicatesEnabled(false);
 	hl->addWidget(m_cbDocumentClass);
-	button = new KPushButton(KGuiItem("", "edit_add", i18n("Add current text to this list")), container);
+	button = new KPushButton(SmallIcon("edit_add"), "", container);
+	QWhatsThis::add(button, i18n("Add current text to this list"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem("", "eraser", i18n("Delete current element from this list")), container);
+
+	button = new KPushButton(SmallIcon("eraser"), "", container);
+	QWhatsThis::add(button, i18n("Remove current element from this list"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem("", "reload", i18n("Reset this list to defaults")), container);
+
+	button = new KPushButton(SmallIcon("reload"), "", container);
+	QWhatsThis::add(button, i18n("Reset this list to the default values."));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotDocumentClassReset()));
 	hl->addWidget(button);
+
 	label = new QLabel(i18n("Doc&ument class:"), classOptions);
 	gl->addWidget(label, 0, 0);
 	label->setBuddy(m_cbDocumentClass);
@@ -94,13 +102,16 @@ void QuickDocument::setupGUI()
 	m_cbPaperSize->setEditable(true);
 	m_cbPaperSize->setDuplicatesEnabled(false);
 	hl->addWidget(m_cbPaperSize);
-	button = new KPushButton(KGuiItem("", "edit_add", i18n("Add current text to this list")), container);
+	button = new KPushButton(SmallIcon("edit_add"), "", container);
+	QWhatsThis::add(button, i18n("Add current text to this list"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem("", "eraser", i18n("Delete current element from this list")), container);
+	button = new KPushButton(SmallIcon("eraser"), "", container);
+	QWhatsThis::add(button, i18n("Remove current element from this list"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem("", "reload", i18n("Reset this list to defaults")), container);
+	button = new KPushButton(SmallIcon("reload"), "", container);
+	QWhatsThis::add(button, i18n("Reset this list to the default values."));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotPaperSizeReset()));
 	hl->addWidget(button);
 	label = new QLabel(i18n("Paper si&ze:"), classOptions);
@@ -116,13 +127,16 @@ void QuickDocument::setupGUI()
 	m_cbEncoding->setEditable(true);
 	m_cbEncoding->setDuplicatesEnabled(false);
 	hl->addWidget(m_cbEncoding);
-	button = new KPushButton(KGuiItem("", "edit_add", i18n("Add current text to this list")), container);
+	button = new KPushButton(SmallIcon("edit_add"), "", container);
+	QWhatsThis::add(button, i18n("Add current text to this list"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotEncodingAdd()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem("", "eraser", i18n("Delete current element from this list")), container);
+	button = new KPushButton(SmallIcon("eraser"), "", container);
+	QWhatsThis::add(button, i18n("Remove current element from this list"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotEncodingDelete()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem("", "reload", i18n("Reset this list to defaults")), container);
+	button = new KPushButton(SmallIcon("reload"), "", container);
+	QWhatsThis::add(button, i18n("Reset this list to the default values."));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotEncodingReset()));
 	hl->addWidget(button);
 	label = new QLabel(i18n("E&ncoding:"), classOptions);
@@ -134,6 +148,7 @@ void QuickDocument::setupGUI()
 	gl->addWidget(m_lvClassOptions, 7, 1);
 	m_lvClassOptions->addColumn(i18n("Option"));
 	m_lvClassOptions->addColumn(i18n("Description"));
+	connect(m_lvClassOptions, SIGNAL(selectionChanged()), this, SLOT(slotEnableButtons()));
 	label = new QLabel(i18n("C&lass options:"), classOptions);
 	gl->addWidget(label, 7, 0);
 	label->setBuddy(m_lvClassOptions);
@@ -144,16 +159,24 @@ void QuickDocument::setupGUI()
 	gl->addWidget(frame, 8, 1);
 	hl = new QHBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
-	button = new KPushButton(KGuiItem(i18n("&Add"), "edit_add", i18n("Add a new class option")), frame);
+
+	button = new KPushButton(SmallIcon("edit_add"), i18n("&Add"), frame);
+	QWhatsThis::add(button, i18n("Add a new class option"));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Ed&it"), "edit", i18n("Edit the current class option")), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("D&elete"), "eraser", i18n("Delete the current class option")), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("&Reset to defaults"), "reload", i18n("Reset this list to defaults")), frame);
+
+	m_btnClassOptionsEdit = new KPushButton(SmallIcon("edit"), i18n("Ed&it"), frame);
+	QWhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
+	connect(m_btnClassOptionsEdit, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
+	hl->addWidget(m_btnClassOptionsEdit);
+
+	m_btnClassOptionsDelete = new KPushButton(SmallIcon("eraser"), i18n("D&elete"), frame);
+	QWhatsThis::add(m_btnClassOptionsDelete, i18n("Remove the current class option"));
+	connect(m_btnClassOptionsDelete, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
+	hl->addWidget(m_btnClassOptionsDelete);
+
+	button = new KPushButton(SmallIcon("reload"), i18n("&Reset to defaults"), frame);
+	QWhatsThis::add(button, i18n("Reset this list to the default values."));
 	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionReset()));
 	hl->addWidget(button);
 
@@ -170,24 +193,25 @@ void QuickDocument::setupGUI()
 	label->setBuddy(m_lvPackagesCommon);
 	connect(m_lvPackagesCommon, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
 	connect(m_lvPackagesCommon, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
+	connect(m_lvPackagesCommon, SIGNAL(selectionChanged()), this, SLOT(slotEnableButtons()));
 
 	frame = new QWidget(packages);
 	vl->addWidget(frame);
 	hl = new QHBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
-	button = new KPushButton(KGuiItem(i18n("&Add Package"), "edit_add"), frame);
+	button = new KPushButton(SmallIcon("edit_add"), "&Add Package", frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageAdd()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Add Op&tion"), "edit_add"), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageAddOption()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Ed&it"), "edit"), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageEdit()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("De&lete"), "eraser"), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageDelete()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("&Reset to defaults"), "reload"), frame);
+	m_btnPackagesCommonAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Op&tion"), frame);
+	connect(m_btnPackagesCommonAddOption, SIGNAL(clicked()), this, SLOT(slotCommonPackageAddOption()));
+	hl->addWidget(m_btnPackagesCommonAddOption);
+	m_btnPackagesCommonEdit = new KPushButton(SmallIcon("edit"), "Ed&it", frame);
+	connect(m_btnPackagesCommonEdit, SIGNAL(clicked()), this, SLOT(slotCommonPackageEdit()));
+	hl->addWidget(m_btnPackagesCommonEdit);
+	m_btnPackagesCommonDelete = new KPushButton(SmallIcon("eraser"), i18n("De&lete"), frame);
+	connect(m_btnPackagesCommonDelete, SIGNAL(clicked()), this, SLOT(slotCommonPackageDelete()));
+	hl->addWidget(m_btnPackagesCommonDelete);
+	button = new KPushButton(SmallIcon("reload"), i18n("&Reset to defaults"), frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageReset()));
 	hl->addWidget(button);
 
@@ -202,24 +226,25 @@ void QuickDocument::setupGUI()
 	label->setBuddy(m_lvPackagesExotic);
 	connect(m_lvPackagesExotic, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
 	connect(m_lvPackagesExotic, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
+	connect(m_lvPackagesExotic, SIGNAL(selectionChanged()), this, SLOT(slotEnableButtons()));
 
 	frame = new QWidget(packages);
 	vl->addWidget(frame);
 	hl = new QHBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
-	button = new KPushButton(KGuiItem(i18n("Add Package"), "edit_add"), frame);
+	button = new KPushButton(SmallIcon("edit_add"), i18n("Add Package"), frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageAdd()));
 	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Add Option"), "edit_add"), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageAddOption()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Edit"), "edit"), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageEdit()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Delete"), "eraser"), frame);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageDelete()));
-	hl->addWidget(button);
-	button = new KPushButton(KGuiItem(i18n("Reset to defaults"), "reload"), frame);
+	m_btnPackagesExoticAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Option"), frame);
+	connect(m_btnPackagesExoticAddOption, SIGNAL(clicked()), this, SLOT(slotExoticPackageAddOption()));
+	hl->addWidget(m_btnPackagesExoticAddOption);
+	m_btnPackagesExoticEdit = new KPushButton(SmallIcon("edit"), i18n("Edit"), frame);
+	connect(m_btnPackagesExoticEdit, SIGNAL(clicked()), this, SLOT(slotExoticPackageEdit()));
+	hl->addWidget(m_btnPackagesExoticEdit);
+	m_btnPackagesExoticDelete = new KPushButton(SmallIcon("eraser"), i18n("Delete"), frame);
+	connect(m_btnPackagesExoticDelete, SIGNAL(clicked()), this, SLOT(slotExoticPackageDelete()));
+	hl->addWidget(m_btnPackagesExoticDelete);
+	button = new KPushButton(SmallIcon("reload"), i18n("Reset to defaults"), frame);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageReset()));
 	hl->addWidget(button);
 
@@ -288,8 +313,8 @@ void QuickDocument::initPaperSize()
 	m_cbPaperSize->insertItem( "a5paper" );
 	m_cbPaperSize->insertItem( "b5paper" );
 	m_cbPaperSize->insertItem( "executivepaper" );
-	m_cbPaperSize->insertItem( "letterpaper" );
 	m_cbPaperSize->insertItem( "legalpaper" );
+	m_cbPaperSize->insertItem( "letterpaper" );
 }
 
 /*!
@@ -326,20 +351,36 @@ void QuickDocument::initClassOption()
 	QCheckListItem *cli;
 
 	m_lvClassOptions->clear();
+	cli = new QCheckListItem(m_lvClassOptions, "bibtotoc", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Adds bibliography to table of content (only KOMA classes)"));
 	cli = new QCheckListItem(m_lvClassOptions, "draft", QCheckListItem::CheckBox);
-	cli = new QCheckListItem(m_lvClassOptions, "final", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Marks \"overfull hboxes\" on the output with black boxes"));
 	cli = new QCheckListItem(m_lvClassOptions, "fleqn", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Aligns formulas on the left side"));
+	cli = new QCheckListItem(m_lvClassOptions, "idxtotoc", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Adds index to table of content (only KOMA classes)"));
 	cli = new QCheckListItem(m_lvClassOptions, "landscape", QCheckListItem::CheckBox);
-	cli = new QCheckListItem(m_lvClassOptions, "leqno", QCheckListItem::CheckBox); cli->setText(1, i18n("Sets the document's orientation to landscape"));
+	cli->setText(1, i18n("Sets the document's orientation to landscape"));
+	cli = new QCheckListItem(m_lvClassOptions, "leqno", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Puts formula numbers on the left side"));
+	cli = new QCheckListItem(m_lvClassOptions, "liststotoc", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Adds list of tables and figures to table of content (only KOMA classes)"));
 	cli = new QCheckListItem(m_lvClassOptions, "notitlepage", QCheckListItem::CheckBox);
-	cli = new QCheckListItem(m_lvClassOptions, "onecolumn", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Puts title and abstract on the same page as the text (default for \"article\")"));
 	cli = new QCheckListItem(m_lvClassOptions, "oneside", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Margins are set for single side output (default for most document classes)"));
 	cli = new QCheckListItem(m_lvClassOptions, "openany", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Chapters may start on top of every page (default for \"report\")"));
 	cli = new QCheckListItem(m_lvClassOptions, "openright", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Chapters may only start on top of right pages (default for \"book\")"));
 	cli = new QCheckListItem(m_lvClassOptions, "titlepage", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Puts title and abstract on an extra page (default for most document classes)"));
 	cli = new QCheckListItem(m_lvClassOptions, "twocolumn", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Puts the text in two columns"));
 	cli = new QCheckListItem(m_lvClassOptions, "twoside", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Left and right pages differ in page margins (default for \"book\")"));
 	cli = new QCheckListItem(m_lvClassOptions, "openbib", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Formats the bibliography in open style"));
 }
 
 /*!
@@ -352,18 +393,23 @@ void QuickDocument::initPackageCommon()
 
 	m_lvPackagesCommon->clear();
 	cli = new QCheckListItem(m_lvPackagesCommon, "amsmath", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Special math environments and commands, provided by the AMS"));
 	cli = new QCheckListItem(m_lvPackagesCommon, "amsfonts", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Collection of fonts and symbols for math mode, provided by the AMS"));
 	cli = new QCheckListItem(m_lvPackagesCommon, "amssymb", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Collection of fonts and symbols for math mode, provided by the AMS"));
+	cli = new QCheckListItem(m_lvPackagesCommon, "amsthm", QCheckListItem::CheckBox);
 	cli = new QCheckListItem(m_lvPackagesCommon, "babel", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Adds language specific support"));
 	cli->setOpen(true);
 	cli->setExpandable(true);
 	clichild = new QCheckListItem(cli, "american", QCheckListItem::CheckBox);
 	clichild = new QCheckListItem(cli, "dutch", QCheckListItem::CheckBox);
 	clichild = new QCheckListItem(cli, "german", QCheckListItem::CheckBox);
 	clichild = new QCheckListItem(cli, "french", QCheckListItem::CheckBox);
-	
+
 	cli = new QCheckListItem(m_lvPackagesCommon, "srcltx", QCheckListItem::CheckBox);
-	cli->setText(1, i18n("Enable Inverse and Forward search."));
+	cli->setText(1, i18n("Enable Inverse and Forward search"));
 
 	cli = new QCheckListItem(m_lvPackagesCommon, "fontenc", QCheckListItem::CheckBox);
 	cli->setOpen(true);
@@ -371,9 +417,12 @@ void QuickDocument::initPackageCommon()
 	clichild = new QCheckListItem(cli, "T1", QCheckListItem::CheckBox);
 	clichild->setOn(true);
 	cli = new QCheckListItem(m_lvPackagesCommon, "graphicx", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Support for including graphics"));
 	cli->setOpen(true);
 	clichild = new QCheckListItem(cli, "pdftex", QCheckListItem::CheckBox);
+	clichild->setText(1, i18n("Specialize on graphic inclusion for pdftex"));
 	clichild = new QCheckListItem(cli, "dvips", QCheckListItem::CheckBox);
+	clichild->setText(1, i18n("Specialize on graphic inclusion for dvips"));
 	cli = new QCheckListItem(m_lvPackagesCommon, "helvetic", QCheckListItem::CheckBox);
 	cli->setText(1, i18n("Use Helvetica font as sans font"));
 	cli->setOpen(true);
@@ -384,7 +433,6 @@ void QuickDocument::initPackageCommon()
 	cli->setText(1, i18n("Use Times font as roman font (both text and math mode)"));
 	cli = new QCheckListItem(m_lvPackagesCommon, "makeidx", QCheckListItem::CheckBox);
 	cli->setText(1, i18n("Enable index generation"));
-	cli = new QCheckListItem(m_lvPackagesCommon, "xspace", QCheckListItem::CheckBox);
 }
 
 /*!
@@ -392,7 +440,18 @@ void QuickDocument::initPackageCommon()
  */
 void QuickDocument::initPackageExotic()
 {
-	/// @todo implement me
+	QCheckListItem *cli;
+
+	m_lvPackagesExotic->clear();
+	cli = new QCheckListItem(m_lvPackagesExotic, "multicol", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Enables multicolumn environments"));
+	cli = new QCheckListItem(m_lvPackagesExotic, "rotating", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Rotates text"));
+	cli = new QCheckListItem(m_lvPackagesExotic, "subfigure", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Enables subfigures inside figures"));
+	cli = new QCheckListItem(m_lvPackagesExotic, "wrapfig", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Lets text float around figures"));
+	cli = new QCheckListItem(m_lvPackagesExotic, "xspace", QCheckListItem::CheckBox);
 }
 
 /*!
@@ -654,7 +713,7 @@ void QuickDocument::slotOk()
 void QuickDocument::slotCheckParent(QListViewItem *listViewItem)
 {
 	QCheckListItem *cli=dynamic_cast<QCheckListItem*>(listViewItem);
-	if (listViewItem->parent() && cli->isOn()) {
+	if (cli && listViewItem->parent() && cli->isOn()) {
 		QCheckListItem *cliparent=dynamic_cast<QCheckListItem*>(listViewItem->parent());
 		if (cliparent)
 			cliparent->setOn(true);
@@ -667,7 +726,10 @@ void QuickDocument::slotCheckParent(QListViewItem *listViewItem)
 void QuickDocument::slotClassOptionReset()
 {
 	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this option list?"), i18n("Reset Option List"))==KMessageBox::Yes)
+	{
 		initClassOption();
+		slotEnableButtons();
+	}
 }
 
 /*!
@@ -718,7 +780,10 @@ void QuickDocument::slotClassOptionDelete()
 void QuickDocument::slotCommonPackageReset()
 {
 	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Yes)
+	{
 		initPackageCommon();
+		slotEnableButtons();
+	}
 }
 
 /*!
@@ -808,8 +873,11 @@ void QuickDocument::slotDocumentClassAdd()
  */
 void QuickDocument::slotDocumentClassDelete()
 {
-	int i=m_cbDocumentClass->currentItem();
-	m_cbDocumentClass->removeItem(i);
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to remove \"%1\" from the document class list?").arg(m_cbDocumentClass->currentText()), i18n("Remove Document Class"))==KMessageBox::Yes)
+	{
+		int i=m_cbDocumentClass->currentItem();
+		m_cbDocumentClass->removeItem(i);
+	}
 }
 
 /*!
@@ -818,7 +886,10 @@ void QuickDocument::slotDocumentClassDelete()
 void QuickDocument::slotDocumentClassReset()
 {
 	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the document class list?"), i18n("Reset Document Class List"))==KMessageBox::Yes)
+	{
 		initDocumentClass();
+		slotEnableButtons();
+	}
 }
 
 /*!
@@ -835,8 +906,11 @@ void QuickDocument::slotPaperSizeAdd()
  */
 void QuickDocument::slotPaperSizeDelete()
 {
-	int i=m_cbPaperSize->currentItem();
-	m_cbPaperSize->removeItem(i);
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to remove \"%1\" from the papersize list?").arg(m_cbPaperSize->currentText()), i18n("Remove Papersize"))==KMessageBox::Yes)
+	{
+		int i=m_cbPaperSize->currentItem();
+		m_cbPaperSize->removeItem(i);
+	}
 }
 
 /*!
@@ -862,8 +936,11 @@ void QuickDocument::slotEncodingAdd()
  */
 void QuickDocument::slotEncodingDelete()
 {
-	int i=m_cbEncoding->currentItem();
-	m_cbEncoding->removeItem(i);
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to remove \"%1\" from the encoding list?").arg(m_cbEncoding->currentText()), i18n("Remove Encoding"))==KMessageBox::Yes)
+	{
+		int i=m_cbEncoding->currentItem();
+		m_cbEncoding->removeItem(i);
+	}
 }
 
 /*!
@@ -873,6 +950,27 @@ void QuickDocument::slotEncodingReset()
 {
 	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the encodings list?"), i18n("Reset Encodings List"))==KMessageBox::Yes)
 		initEncoding();
+}
+
+void QuickDocument::slotEnableButtons()
+{
+	bool enable;
+
+	enable = m_lvClassOptions->selectedItem()!=NULL;
+	m_btnClassOptionsEdit->setEnabled(enable);
+	m_btnClassOptionsDelete->setEnabled(enable);
+
+	enable = (m_lvPackagesCommon->selectedItem()!=NULL) && (m_lvPackagesCommon->selectedItem()->parent()==NULL);
+	m_btnPackagesCommonAddOption->setEnabled(enable);
+	enable = m_lvPackagesCommon->selectedItem()!=NULL;
+	m_btnPackagesCommonEdit->setEnabled(enable);
+	m_btnPackagesCommonDelete->setEnabled(enable);
+
+	enable = (m_lvPackagesExotic->selectedItem()!=NULL) && (m_lvPackagesExotic->selectedItem()->parent()==NULL);
+	m_btnPackagesExoticAddOption->setEnabled(enable);
+	enable = m_lvPackagesExotic->selectedItem()!=NULL;
+	m_btnPackagesExoticEdit->setEnabled(enable);
+	m_btnPackagesExoticDelete->setEnabled(enable);
 }
 
 /*!
@@ -901,6 +999,7 @@ bool QuickDocument::inputDialogDouble(QString caption, QString label1, QString& 
 
 	lineEdit1->setFocus();
 	vl->addStretch(1);
+	page->setMinimumWidth(320);
 
 	if (dialog->exec()) {
 		text1=lineEdit1->text();

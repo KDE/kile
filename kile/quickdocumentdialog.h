@@ -17,6 +17,7 @@
 class KComboBox;
 class QListView;
 class KLineEdit;
+class KPushButton;
 
 namespace KileDialog
 {
@@ -49,6 +50,14 @@ private:
 	KLineEdit *m_leAuthor;
 	KLineEdit *m_leTitle;
 	KLineEdit *m_leDate;
+	KPushButton *m_btnClassOptionsEdit;
+	KPushButton *m_btnClassOptionsDelete;
+	KPushButton *m_btnPackagesCommonAddOption;
+	KPushButton *m_btnPackagesCommonEdit;
+	KPushButton *m_btnPackagesCommonDelete;
+	KPushButton *m_btnPackagesExoticAddOption;
+	KPushButton *m_btnPackagesExoticEdit;
+	KPushButton *m_btnPackagesExoticDelete;
 	void setupGUI();
 	void writeConfig();
 	void writeListView(QString key, QListView *listView, bool saveSelected=true);
@@ -92,6 +101,7 @@ private slots:
 	void slotEncodingDelete();
 	void slotEncodingReset();
 	void slotCheckParent(QListViewItem *listViewItem);
+	void slotEnableButtons();
 };
 
 };

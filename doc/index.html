@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Kile : user manual</title>
+<style type="text/css"><!--
+a:link {font-family:sans-serif; color: #004faf; text-decoration: none }
+a:visited {font-family:sans-serif; color: #004faf; text-decoration: none }
+body {font-family:sans-serif; background: white; color: black; }
+P        { font-family:sans-serif; }
+OL        { font-family:sans-serif; }
+UL        { font-family:sans-serif; }
+LI       { font-family:sans-serif;  }
+TD        { font-family:sans-serif; }
+H1        { font-family:sans-serif; color:#ffffff ; background:#3f5881; }
+H2        { font-family:sans-serif; color:#3f5881; }
+CODE      { font-family:monospace;  }
+--></style>
+</head>
+<body bgcolor="#ffffff">
+<h1 align=center><A NAME="top">Kile : User Manual</a></h1>
+
+<h2><a name="SECTION00010000000000000000"> </a> Contents:</h2>
+<!--Table of Contents-->
+
+<ul>
+<li><a href="#SECTION00020000000000000000"> The LaTeX editor </a><ul>
+<li><a href="#SECTION00021000000000000000"> The preamble </a></li>
+<li><a href="#SECTION00022000000000000000"> Structure of your document </a></li>
+<li><a href="#SECTION00023000000000000000"> Latex tags and Mathematical symbols </a></li>
+</ul>
+<br>
+</li><li><a href="#SECTION00030000000000000000"> The LaTeX Shell </a><ul>
+<li><a href="#SECTION00031000000000000000"> About the "log" file </a></li>
+<li><a href="#SECTION00032000000000000000"> The "Quick Build" command </a></li>
+<li><a href="#SECTION00033000000000000000"> About documents separated in several files </a></li>
+<li><a href="#SECTION00034000000000000000"> Use of the "Watch File" mode </a></li>
+<li><a href="#SECTION00035000000000000000"> Use of the "Kdvi Forward Search" command </a></li>
+<li><a href="#SECTION00036000000000000000"> Use of the "Kdvi Inverse Search" command with Kile </a></li>
+</ul>
+<br>
+</li><li><a href="#SECTION00040000000000000000"> The GnuPlot front end </a></li>
+<li><a href="#SECTION00050000000000000000"> Credits </a></li></ul>
+<!--End of Table of Contents-->
+<hr>
+<h1><a name="SECTION00020000000000000000">&nbsp;The LaTeX editor </a></h1>
+In addition to the usual commands of an editor, Kile proposes other commands in
+order to facilitate the edition of your source files.
+<h2><a name="SECTION00021000000000000000"> The preamble </a></h2>
+To define the preamble of the source file, you can:
+<ul>
+<li>use the "Quick start" wizard.
+</li>
+<li>use a template of preamble already recorded in the "User" menu.</li>
+<li>"Copy/Paste" the preamble from another document. </li>
+</ul>
+<h2><a name="SECTION00022000000000000000"> Structure of your document </a></h2>
+With the toolbar or the "LaTeX/Sectionning" menu, you can insert the title
+of a section or of a paragraph thanks to a dialog box.
+Then, the "Structure" view is automatically updated.  While clicking on one item
+in the "Structure" view, the cursor is placed on the corresponding line
+in the editor. <br>
+Note: for the file names, it is necessary to double-click. For a good work with Kile,
+ all yours files must be located in the same directory than your main document.
+<h2><a name="SECTION00023000000000000000"> Latex tags and Mathematical symbols </a></h2>
+<ul>
+<li>Kile enables you to directly insert the most current tags with the "Latex" and "Math" menus. With a simple click on a mathematical symbol, Kile inserts the corresponding code.
+</li>
+<li>The menu "User" is also at your disposal to insert your own source code extracts.<br>
+Note:  if the code of the menu is "%environment", Kile will directly insert:
+<pre>\begin{environment } <br><br>\end{environment } </pre></li>
+<li>For the "bib" files , the "Bibliography" menu enables you to directly insert
+the entries corresponding to the standard types of document.  (Note:  use the "Clean" command to delete the optional fields) </li>
+<li>Additional option:  a selected text can be directly framed by certain environments.<br>
+Example:  while clicking on the button "Bold" after having selected the word "Hello", you will obtain the code:
+<pre>\textbf{Hello } </pre>
+(this option is available for the environments of the "Font Styles" and "Math Font Styles" menus like for the "center", "flushleft", "flushright",
+"tiny", "scriptsize"... environments)  </li>
+<li>The "Tabular", "Array" and "Tabbing" wizards are also at your disposal to help you insert the code
+corresponding to these environments. </li>
+<li>A spell checking of your document  (or of the selected paragraphs) is also possible (Menu "Edit").<br>Note:
+ Kile uses the standard KDE tool for spell checking which does not allow
+the automatic use of the option "- t" of I(A)Spell. </li>
+</ul>
+<h1><a name="SECTION00030000000000000000">&nbsp;The LaTeX Shell</a></h1>The commands
+of the "Tools" menu enable you to directly launch the standard programs
+associated with LaTeX.  To configure these tools, use the "Configure Kile" command of the "Options" menu.
+<br><b>Note :</b> the commands can't be launched with an untitled document. You must save it before.
+<h2><a name="SECTION00031000000000000000">About the "log" file</a></h2>The "Next Latex Error"
+and "Previous LaTeX Error" commands allow to get to the errors detected
+during compilation.  While clicking on the number of a line in the "log" file ,
+the cursor is placed on the corresponding line in the editor.
+<h2><a name="SECTION00032000000000000000"> The "Quick Build" command</a></h2>With
+this command, the compilation and the display of the document are automatically launched unless a LaTeX error is detected
+in the "log" file .  (Note:  only errors will stop the process, warnings
+are ignored)<h2>
+<a name="SECTION00033000000000000000"> About documents separated in several files </a>
+</h2>After having defined your "master" document (with the corresponding command of the "Options" menu), all the commands of the "Tools" menu will apply only to this
+document even when working on the "children" documents . (Note:  you can even close the "master" document)
+<h2><a name="SECTION00034000000000000000"> Use of the "Watch File" mode</a>
+</h2>Example of use with Kdvi:<ul>
+<li>launch the "Quick Build" command. </li>
+<li>leave open Kdvi and select the "Watch File" mode for this program. </li>
+<li>select the "Watch File" mode (menu "Tools") for Kile. </li>
+<li>for all new launching of the "Quick Build" command, the "dvi" document will be
+automatically updated (with the same position) without Kdvi being started
+again. </li>
+</ul>
+<b>Note :</b> You can also use this mode with kghostview, but it will not work with the embedded viewers.
+<h2><a name="SECTION00035000000000000000"> Use of the "Kdvi Forward Search" command </a>
+</h2>With this command, Kdvi displays the "dvi" document directly in the place corresponding
+to the position of the cursor in Kile.  This command is not available if a "master" document is defined in Kile.  You must also insert the following
+command in the preamble to your document: <pre>\usepackage[active]{srcltx } </pre>
+ Note:  the "srcltx.sty" and "srctex.sty" files (provided with the documentation
+of Kdvi) must be copied in the current directory of your document.<h2>
+<a name="SECTION00036000000000000000"> Use of the "Kdvi Inverse Search" command with Kile </a></h2>
+Thanks to this command of Kdvi, with a middle-mouse click in the "dvi" document, Kile will open the "tex" document automatically and will propose to
+go to the corresponding line.<br>(Note:  the document "tex" must be compiled as well as the "Kdvi Forward Search" command) <br>To
+select Kile as the default editor in Kdvi, use the command "kile %f --line %l" ("Settings" Menu - "DVI options" - "DVI specials").
+<h1><a name="SECTION00040000000000000000">&nbsp;The GnuPlot front end </a></h1>
+The Gnuplot front end provided with Kile is an adaptation
+of the Xgfe program created by David Ishee.  The use of this tool requires
+a good knowledge of Gnuplot.<br><b> Example:  </b> Layout of the function "sinus"<ul>
+<li>Check the "Function" box and enter "sin(x)" in the corresponding field. </li>
+<li>Enter "X" in the "Variable X" field, "- 5" in the "Start" field and "5" in the "End" field . </li>
+<li>Click on the "Plot" button to see the graphic. </li>
+<li>To export the graphic under the format of Xfig:  select "fig" in the "Terminal"
+menu, click on the "Output File" button, enter the name of the file
+(with the extension ".fig") and click on the "Plot" button .You may then open this graphic with Xfig to modify and export it with the "eps" format before incorporating it in your document. 
+</li></ul>
+
+<h1><a name="SECTION00050000000000000000">&nbsp;Credits </a></h1>
+<p>
+<b>Kile </b> - Copyright &copy; <a href="mailto:pascal.brachet@club-internet.fr">Pascal Brachet</a> 2002/2003 - <a href="http://perso.club-internet.fr/pascal.brachet/kile/">http://perso.club-internet.fr/pascal.brachet/kile/</a>
+<p>Kile contains source code from this free (GPL) program :<br>
+<b>Xgfe</b> (X Windows GUI front end to Gnuplot) : Copyright (C) 1998 <b>David Ishee</b><br>
+<br>
+<br>This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+<br>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+<br>You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.<br><br>
+</p>
+</body></html>

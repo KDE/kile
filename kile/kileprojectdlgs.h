@@ -100,7 +100,7 @@ private slots:
 	void fillProjectDefaults();
 
 private:
-	KLineEdit	*m_location, *m_file;
+	KLineEdit	*m_location, *m_file, *m_name;
 	NewFileWidget *m_nfw;
 	QCheckBox	*m_cb;
 	QLabel *m_lb;

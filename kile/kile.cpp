@@ -521,6 +521,7 @@ void Kile::restore()
 	m_listDocsOpenOnStart.clear();
 }
 
+////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, const QString &text)
 {
 	QString hl = highlight;
@@ -775,7 +776,7 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 			//setHighlightMode(view->getDoc());
 		}
 	}
-
+	
 	return load(KURL(), QString::null, true, QString::null, true, text);
 }
 //TODO: connect to modifiedondisc() when using KDE 3.2
@@ -1752,9 +1753,8 @@ bool Kile::fileCloseAll()
 	while( ! m_viewList.isEmpty() )
 	 {
 		view = m_viewList.first();
-
-		if (!fileClose(view->getDoc())) fileClose(view->getDoc());
-	}
+		if (!fileClose(view->getDoc())) return false;
+    }
 
 	return true;
 }

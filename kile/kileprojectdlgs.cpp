@@ -180,6 +180,8 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 
 	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
+	connect(m_name, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
+
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
 	m_location->setMinimumWidth(200);
 	m_dir = QDir::home().absPath()+"/";
@@ -195,6 +197,8 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_location, 1,1, 1,2);
 	layout->addWidget(pb, 1,3);
+
+	//connect(m_location, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
 	//connect(m_location, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
@@ -419,7 +423,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	layout->addMultiCellWidget(m_isregexp, 3,3, 1,3);
 
 	m_master = new KComboBox(false, plainPage(), "le_archive");
-	m_master->setDisabled(true);
+	//m_master->setDisabled(true);
 	lb = new QLabel(i18n("&Master document"), plainPage());
 	lb->setBuddy(m_master);
 	QWhatsThis::add(m_master, whatsthisMaster);

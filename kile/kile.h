@@ -65,6 +65,8 @@
 #include "latexoutputinfo.h"
 #include "latexoutputfilter.h"
 
+#include "codecompletion.h"
+
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
@@ -484,6 +486,33 @@ private:
 /* editor extensions */
 private:
 	KileEventFilter*	m_eventFilter;
+
+private:
+// CodeCompletion  (dani)
+   CodeCompletion *m_complete;
+   void editComplete(CodeCompletion::Mode mode);
+   QString getCompleteWord(bool with_backslash);
+   bool oddBackslashes(const QString& text, int index);
+   void gotoBullet(bool backwards);
+   
+// CodeCompletion action slots (dani)
+private slots:
+   void editCompleteWord();
+   void editCompleteEnvironment();
+   void editCompleteAbbreviation();
+   void editNextBullet();
+   void editPrevBullet();
+   
+// CodeCompletion public slots (dani)
+public slots:
+   void slotCharactersInserted(int ,int ,const QString&);
+   void slotCompletionDone( KTextEditor::CompletionEntry completion );
+   void slotCompletionAborted();
+   void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
+
+   // includegraphics (dani)
+   void includeGraphics();
+
 };
 
 class KileAutoSaveJob : public QObject

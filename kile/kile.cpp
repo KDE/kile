@@ -18,6 +18,7 @@
 
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
+#include <ktexteditor/codecompletioninterface.h>    
 #include <kparts/componentfactory.h>
 
 #include <kdebug.h>
@@ -46,6 +47,7 @@
 #include <klistview.h>
 #include <kprogress.h>
 #include <kapplication.h>
+#include <kstandarddirs.h>
 
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -98,6 +100,9 @@
 #include "arraydialog.h"
 #include "tabbingdialog.h"
 #include "kilestructurewidget.h"
+
+#include "codecompletion.h"                         // code completion (dani)
+#include "includegraphicsdialog.h"                  // new dialog (dani)
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -193,6 +198,13 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 
 	config = KGlobal::config();
 
+  // CodeCompletion (dani)
+  m_complete = new CodeCompletion();  
+
+  // check requirements for IncludeGraphicsDialog (dani)
+	config->setGroup("IncludeGraphics");
+	config->writeEntry("imagemagick", ! ( KStandardDirs::findExe("identify")==QString::null ) );
+  
 	//workaround for kdvi crash when started with Tooltips
 	config->setGroup("TipOfDay");
 	config->writeEntry( "RunOnStart",false);
@@ -302,6 +314,10 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
+
+  // CodeCompletion (dani)
+  delete m_complete;
+
 	delete m_AutosaveTimer;
 }
 
@@ -355,6 +371,13 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Output view"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
 	(void) new KAction(i18n("Focus Konsole view"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
 	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
+
+ // CodeCompletion (dani)
+	(void) new KAction(i18n("Complete La(TeX) Command"), CTRL+Key_Space, this, SLOT(editCompleteWord()), actionCollection(), "edit_complete_word");
+	(void) new KAction(i18n("Complete Environment"), ALT+Key_Space, this, SLOT(editCompleteEnvironment()), actionCollection(), "edit_complete_env");
+	(void) new KAction(i18n("Complete Abbreviation"), CTRL+ALT+Key_Space, this, SLOT(editCompleteAbbreviation()), actionCollection(), "edit_complete_abbrev");
+	(void) new KAction(i18n("Next Bullet"), CTRL+ALT+Key_Right, this, SLOT(editNextBullet()), actionCollection(), "edit_next_bullet");
+	(void) new KAction(i18n("Prev Bullet"), CTRL+ALT+Key_Left, this, SLOT(editPrevBullet()), actionCollection(), "edit_prev_bullet");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -691,6 +714,16 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), this, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), this, SLOT(newCaption()));
+
+  // code completion (dani)
+  connect( doc,  SIGNAL(charactersInteractivelyInserted (int ,int ,const QString&)),
+           this,  SLOT(slotCharactersInserted(int ,int ,const QString&)) );
+  connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)),
+           this,  SLOT(  slotCompletionDone(KTextEditor::CompletionEntry)) );
+  connect( view, SIGNAL(completionAborted()),
+           this,  SLOT(  slotCompletionAborted()) );
+  connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)),
+           this,  SLOT(  slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// install a working kate part popup dialog thingy
 	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))
@@ -2894,6 +2927,9 @@ void Kile::readConfig()
 	l2h_options=config->readEntry("L2h Options","");
 	bibtexeditor_command=config->readEntry("Bibtexeditor","gbib '%S.bib'");
 	m_runlyxserver = config->readBoolEntry("RunLyxServer", true);
+
+//////////////////// code completion (dani) ////////////////////
+   m_complete->readConfig(config);
 }
 
 void Kile::SaveSettings()
@@ -3087,8 +3123,6 @@ void Kile::GeneralOptions()
 
 	if (dlg->exec())
 	{
-		dlg->ksc->writeGlobalSettings ();
-
 		readConfig();
 		setupTools();
 		emit(configChanged());
@@ -3541,6 +3575,206 @@ KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after
 	: KListViewItem(parent,after), m_title(title), m_line(line), m_column(column), m_type(type)
 {
 	this->setText(0, m_title+" (line "+QString::number(m_line)+")");
+}
+
+//////////////////// code completion (dani) ////////////////////
+
+void Kile::editCompleteWord()
+{
+   if ( m_complete && !m_complete->autoComplete() )
+      editComplete(CodeCompletion::cmLatex);
+}
+
+void Kile::editCompleteEnvironment()
+{
+    editComplete(CodeCompletion::cmEnvironment);
+}
+
+void Kile::editCompleteAbbreviation()
+{
+   editComplete(CodeCompletion::cmAbbreviation);
+}
+
+void Kile::editComplete(CodeCompletion::Mode mode)
+{
+   Kate::View *view = currentView();
+   if ( !view || !m_complete || !m_complete->isActive() ) return;
+
+   QString word = getCompleteWord( ( mode == CodeCompletion::cmLatex )  ? true : false );
+   if ( ! word.isEmpty() ) {
+      if ( mode==CodeCompletion::cmLatex && word.at(0)!='\\' ) {
+         mode = CodeCompletion::cmDictionary;
+      }
+      kdDebug() << "=== code completion start ====================" << endl;
+      kdDebug() << "   completion word: " << word << " (len=" << word.length() << ")" << endl;
+      m_complete->completeWord(view,word,mode);
+   }
+}
+
+//////////////////// slots for code completion ////////////////////
+
+void Kile::slotCompletionDone( KTextEditor::CompletionEntry completion )
+{
+   kdDebug() << "   completion done: " << completion.text << endl;
+   m_complete->CompletionDone();
+}
+
+void Kile::slotCompletionAborted()
+{
+   kdDebug() << "   completion aborted" << endl;
+   m_complete->CompletionAborted();
+}
+
+void Kile::slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s)
+{
+   kdDebug() << "   completion filter pre:  " << *s << endl;
+   *s = m_complete->filterCompletionText(c->text,c->type);
+   kdDebug() << "   completion filter post:  " << *s << endl;
+}
+
+void Kile::slotCharactersInserted(int,int,const QString& string)
+{
+   if ( !string.at(0).isLetter() ||
+        !m_complete || !m_complete->isActive() ||
+        !m_complete->autoComplete() || m_complete->inProgress()
+      )
+      return;
+
+   QString word = getCompleteWord(true);
+   if ( ! word.isEmpty() && word.at(0)=='\\' ) {
+      kdDebug() << "=== code completion start ====================" << endl;
+      kdDebug() << "   auto completion: " << word << endl;
+      m_complete->completeWord(currentView(),word,CodeCompletion::cmLatex);
+   }
+}
+//////////////////// testing characters (dani) ////////////////////
+
+static bool isBackslash ( QChar ch )
+{
+  return (ch == '\\');
+}
+
+//////////////////// das vorangehende Wort lesen ////////////////////
+
+// (Buchstaben, je nach Modus mit/ohne Backslash)
+
+QString Kile::getCompleteWord(bool with_backslash)
+{
+    uint row,col;
+    QChar ch;
+
+    // aktuellen Position und Text bestimmen
+    currentView()->cursorPositionReal(&row,&col);
+
+    // mindestens 1 Zeichen muss vorliegen
+    if ( col < 1) return "";
+
+    // Textzeile bestimmen
+    QString textline = currentView()->getDoc()->textLine(row);
+
+    // Ergebnis festlegen
+    QString s = "";
+
+    int n = 0;                           // gelesene Zeichen
+    int index = col;                     // ab hier rückwärts suchen
+    while ( --index >= 0 )
+    {
+       // aktuelle Zeichen lesen
+       ch = textline.at(index);
+
+       if ( ch.isLetter() )
+          n++;                           // Buchstabe: akzeptieren und weitermachen
+       else
+       {
+          if ( isBackslash(ch) && with_backslash && oddBackslashes(textline,index) )    // Backslash?
+             n++;
+          break;                         // sonst: beenden
+       }
+    }
+
+    // gefundenes Wort heraustrennen und zurückgeben
+    return textline.mid(col-n,n);
+}
+
+//////////////////// counting backslashes (dani) ////////////////////
+
+bool Kile::oddBackslashes(const QString& text, int index)
+{
+   uint n = 0;
+   while ( index>=0 && isBackslash(text.at(index)) ) {
+      n++;
+      index--;
+   }
+   return ( n % 2 ) ? true  : false;
+}
+
+//////////////////// bullet movements (dani) ////////////////////
+
+void Kile::editNextBullet()
+{
+   gotoBullet(false);
+}
+
+void Kile::editPrevBullet()
+{
+   gotoBullet(true);
+}
+
+void Kile::gotoBullet(bool backwards)
+{
+   Kate::View *view = currentView();
+   if ( !view ) return;   
+   Kate::Document *doc = view->getDoc();
+   
+   uint row,col;
+   uint ypos,xpos,len;
+   // get current position
+   view->cursorPositionReal(&row,&col);
+
+   // change the start position or we will stay at this place
+   if ( backwards )
+   {
+      if (col > 0)
+         col--;
+      else
+      {
+         col = doc->lineLength(row-1) - 1;
+         row = ( row>0 ) ? row-1 : 0;
+      }
+   }
+   else
+   {
+      if ( (int)col < doc->lineLength(row)-1 )
+        col++;
+      else
+      {
+        row++;
+        col=0;
+      }
+   }
+   
+   if ( doc->searchText(row,col, m_complete->getBullet(),& ypos,&xpos,&len,true,backwards) ) {
+      doc->setSelection(ypos,xpos,ypos,xpos+1);
+      view->setCursorPositionReal(ypos,xpos);
+   }
+}
+
+//////////////////// include graphics (dani) ////////////////////
+
+void Kile::includeGraphics()
+{
+  Kate::View *view = currentView();
+  if ( !view ) return;
+
+  QFileInfo fi( view->getDoc()->url().path() );
+  IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this,config,fi.dirPath(),false);
+
+   if ( dialog->exec() == QDialog::Accepted ) {
+       insertTag( dialog->getTemplate(),"%C",0,0 );
+       // updateStructure();
+   }
+
+   delete dialog;
 }
 
 #include "kile.moc"

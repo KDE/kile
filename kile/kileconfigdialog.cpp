@@ -20,6 +20,7 @@
 #include <qvbox.h>
 #include <qhbuttongroup.h>
 #include <qgroupbox.h>
+#include "qvgroupbox.h"
 #include <qframe.h>
 #include <qpixmap.h>
 #include <qlabel.h>
@@ -45,10 +46,29 @@
 #include "kileconfigdialog.h"
 
 KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char* name)
-        :KDialogBase( KDialogBase::IconList, i18n("Configure Kile"), Ok|Cancel,Ok, parent, name, true, true ), m_config(config)
+        :KDialogBase( KDialogBase::IconList, i18n("Configure Kile"),
+                      Ok|Cancel,Ok, parent, name, true, true ),
+        m_config(config)
 {
     setShowIconsInTreeList(true);
 
+    // setup all configuration pages
+    setupGeneralOptions();
+    setupTools();
+    setupQuickBuild();
+    setupSpelling();
+    setupLatex();
+    setupCodeCompletion();   // complete configuration (dani)
+}
+
+
+KileConfigDialog::~KileConfigDialog()
+{}
+
+//////////////////// General Options ////////////////////
+
+void KileConfigDialog::setupGeneralOptions()
+{
     generalPage = addPage(i18n("General"),i18n("General options"),
                           KGlobal::instance()->iconLoader()->loadIcon( "configure", KIcon::NoGroup, KIcon::SizeMedium ));
 
@@ -105,15 +125,20 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     lbEnc->setBuddy(templEncoding);
 
     genLayout->addWidget(templateGroup);
-	genLayout->setStretchFactor(templateGroup,0);
+//	genLayout->setStretchFactor(templateGroup,0);
+  genLayout->addStretch();                     // looks better (dani)
 
 	//fill in template variables
 	m_config->setGroup( "User" );
 	templAuthor->setText(m_config->readEntry("Author",""));
 	templDocClassOpt->setText(m_config->readEntry("DocumentClassOptions","a4paper,10pt"));
 	templEncoding->setText(m_config->readEntry("Template Encoding",""));
-    // ****************************************************************
+}
 
+//////////////////// Tools Configuration ////////////////////
+
+void KileConfigDialog::setupTools() 
+{
     toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
                         KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
 
@@ -126,7 +151,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     TextLabel6->setText("LaTeX");
     LineEdit6 = new QLineEdit( gb, "le6" );
 
-	lb = new QLabel(gb,"");
+	QLabel *lb = new QLabel(gb,"");
 	checkForRoot = new QCheckBox(i18n("Check if root document is a LaTeX root before running LaTeX on it."), gb );
 
 	TextLabel7 = new QLabel( gb, "label7" );
@@ -203,7 +228,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	checkForRoot->setChecked(m_config->readBoolEntry("CheckForRoot",true));
 	m_runlyxserver->setChecked(m_config->readBoolEntry("RunLyxServer", true));
 	comboLatexHelp->setCurrentText(m_config->readEntry("LatexHelp","Embedded Viewer"));
-	
+
 	m_config->setGroup("Tool/ViewDVI");
 	if ( m_config->readEntry("type","Part") == "Part" )
 		comboDvi->setCurrentText(i18n("Embedded Viewer"));
@@ -238,10 +263,12 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	LineEdit13->setText(m_config->readEntry("command","bibtex") + " " + m_config->readEntry("options"," '%S'"));
 	m_config->setGroup("Tool/ViewBib");
 	LineEdit14->setText(m_config->readEntry("command","gbib") + " " + m_config->readEntry("options"," '%S.bib'"));
-	
+}
 
+//////////////////// Quick Build ////////////////////
 
-    // ************************************************************************************************
+void KileConfigDialog::setupQuickBuild()
+{
     quickPage = addPage(i18n("Quick"),i18n("Quick Build"),
                         KGlobal::instance()->iconLoader()->loadIcon( "clock", KIcon::NoGroup, KIcon::SizeMedium ));
 
@@ -272,8 +299,12 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
 	m_config->setGroup("Tools");
 	ButtonGroup2->setButton(m_config->readNumEntry( "Quick Mode",1)-1);
-    // ************************************************************************************************
+}
 
+//////////////////// Spelling Configuration ////////////////////
+
+void KileConfigDialog::setupSpelling() 
+{
     spellingPage = addPage(i18n("Spelling"),i18n("Spelling Configuration"),
                            KGlobal::instance()->iconLoader()->loadIcon( "spellcheck", KIcon::NoGroup, KIcon::SizeMedium ));
 
@@ -286,39 +317,118 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 
     gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);
 
-	//LaTeX specific editing options
-	editPage = addPage(i18n("LaTeX"),i18n("LaTeX specific editing options"),KGlobal::instance()->iconLoader()->loadIcon( "tex", KIcon::NoGroup, KIcon::SizeMedium ));
+}
 
-	QGridLayout *lay = new QGridLayout(editPage, 2,1);
-	lay->setRowStretch(0,0);
-	//QVBox *gbox4 = new QVBox(editPage);
+//////////////////// LaTeX specific editing options ////////////////////
 
-	checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),editPage);
-	lay->addWidget(checkEnv,0,0);
+void KileConfigDialog::setupLatex()
+{
+	editPage = addPage(i18n("LaTeX"),i18n("LaTeX specific editing options"),
+                     KGlobal::instance()->iconLoader()->loadIcon( "tex", KIcon::NoGroup, KIcon::SizeMedium ));
 
+   // Layout
+    QVBoxLayout *vbox = new QVBoxLayout(editPage, 5,KDialog::spacingHint() );
+
+   // first groupbox: environments
+   QGroupBox *group1 = new QGroupBox(1, Qt::Horizontal, i18n("Environments"), editPage);
+   checkEnv = new QCheckBox(i18n("Automatically complete \\begin{env} with \\end{env}"),group1);
+
+   // second groupbox: include graphics
+   QVGroupBox* group2= new QVGroupBox(i18n("Include Graphics"),editPage );
+   QWidget *widget = new QWidget(group2);
+   QGridLayout *grid = new QGridLayout( widget, 5,2, 6,6, "");
+   grid->addRowSpacing( 0, fontMetrics().lineSpacing() );
+   grid->addColSpacing( 0, fontMetrics().lineSpacing() );
+   // grid->setColStretch(1,1);
+   
+   QLabel *label1 = new QLabel(i18n("default resolution:"), widget);
+   grid->addWidget( label1, 0,0 );
+   edit_res= new QLineEdit("",widget);
+   grid->addWidget( edit_res, 0,1 );
+
+   QLabel *label2 = new QLabel(i18n("(used when the picture offers no resolution)"), widget);
+   grid->addWidget( label2, 1,1 );
+   
+   QLabel *label3 = new QLabel(i18n("bounding box:"), widget);
+   grid->addWidget( label3, 2,0 );
+   cb_boundingbox = new QCheckBox(i18n("try to determine from the picture"),widget);
+   grid->addWidget( cb_boundingbox, 2,1);
+
+   QLabel *label4 = new QLabel(i18n("(you have to install the ImageMagick package to use this option)"), widget);
+   grid->addWidget( label4, 3,1 );
+
+   QLabel *label5 = new QLabel(i18n("ImageMagick:"), widget);
+   grid->addWidget( label5, 4,0 );
+   QLabel *lb_imagemagick = new QLabel("",widget);
+   grid->addWidget( lb_imagemagick, 4,1);
+ 
+   vbox->addWidget(group1);
+   vbox->addWidget(group2);
+   vbox->addStretch();
+    
 	//fill in
 	m_config->setGroup( "Editor Ext" );
 	checkEnv->setChecked(m_config->readBoolEntry( "Complete Environment", true));
+
+  m_config->setGroup("IncludeGraphics");
+	cb_boundingbox->setChecked( m_config->readBoolEntry("boundingbox", true) );
+  edit_res->setText( m_config->readEntry("resolution","300") );
+	if ( m_config->readBoolEntry("imagemagick", true) )
+     lb_imagemagick->setText("installed");
+  else
+     lb_imagemagick->setText("not installed");
 }
 
+ 
+//////////////////// Complete configuration (dani) ////////////////////
 
-KileConfigDialog::~KileConfigDialog()
-{}
+void KileConfigDialog::setupCodeCompletion()
+{
+   QFrame *page =  addPage(i18n("Complete"),i18n("Complete Configuration"),
+                           KGlobal::instance()->iconLoader()->loadIcon("source",KIcon::NoGroup,KIcon::SizeMedium)
+                          );
+
+   completePage = new ConfigCodeCompletion(page);
+   completePage->readConfig(m_config);
+
+   QVBoxLayout *vbox = new QVBoxLayout(page);
+   vbox->addWidget(completePage);
+}
+
+//////////////////// write new configuration ////////////////////
 
 void KileConfigDialog::slotOk()
 {
+   writeGeneralOptionsConfig();
+   writeToolsConfig();
+   writeQuickBuildConfig();
+   writeSpellingConfig();
+   writeLatexConfig();
+   completePage->writeConfig(m_config);  // Complete configuration (dani)
+
+   m_config->sync();
+
+   accept();
+}
+
+void KileConfigDialog::writeGeneralOptionsConfig()
+{
 	m_config->setGroup( "Files" );
 	m_config->writeEntry("Restore", checkRestore->isChecked());
-
 	m_config->writeEntry("Autosave",checkAutosave->isChecked());
 	m_config->writeEntry("AutosaveInterval",asIntervalInput->value()*60000);
 
 	m_config->setGroup( "User" );
-
 	m_config->writeEntry("Author",templAuthor->text());
 	m_config->writeEntry("DocumentClassOptions",templDocClassOpt->text());
 	m_config->writeEntry("Template Encoding",templEncoding->text());
 
+	m_config->setGroup("Structure");
+	m_config->writeEntry("DefaultLevel", spinLevel->value());
+}
+
+void KileConfigDialog::writeToolsConfig()
+{
 	m_config->setGroup("Tools");
 	m_config->writeEntry("CheckForRoot",checkForRoot->isChecked());
 	m_config->writeEntry("RunLyxServer", m_runlyxserver->isChecked());
@@ -391,6 +501,16 @@ void KileConfigDialog::slotOk()
 		m_config->writeEntry("options",comboPs->currentText().section(' ',1));
 	}
 
+
+	m_config->setGroup("Tools");
+	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
+}
+
+void KileConfigDialog::writeQuickBuildConfig()
+{
+	m_config->setGroup("Tools");
+ 	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
+
 	m_config->setGroup("Tool/QuickBuild");
 	switch ( ButtonGroup2->id(ButtonGroup2->selected()) + 1)
 	{
@@ -402,21 +522,21 @@ void KileConfigDialog::slotOk()
 		case 6: m_config->writeEntry("sequence","LaTeX,DVItoPS,PStoPDF,ViewPDF");break;
 		default: m_config->writeEntry("sequence", "LaTeX,ViewDVI"); break;
 	}
+}
 
-	m_config->setGroup("Tools");
- 	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
-	m_config->writeEntry("LatexHelp",comboLatexHelp->currentText());
-	
+void KileConfigDialog::writeSpellingConfig()
+{
+   ksc->writeGlobalSettings();
+}
+
+void KileConfigDialog::writeLatexConfig()
+{
 	m_config->setGroup( "Editor Ext" );
 	m_config->writeEntry("Complete Environment", checkEnv->isChecked());
 
-	m_config->setGroup("Structure");
-	m_config->writeEntry("DefaultLevel", spinLevel->value());
-
-	m_config->sync();
-
-	accept();
+  m_config->setGroup("IncludeGraphics");
+  m_config->writeEntry("boundingbox",cb_boundingbox->isChecked());
+  m_config->writeEntry("resolution",edit_res->text());  
 }
-
 
 #include "kileconfigdialog.moc"

@@ -23,6 +23,8 @@
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/configinterfaceextension.h>
 
+#include "configcodecompletion.h"     // code completion (dani)
+
 class QLabel;
 class QLineEdit;
 
@@ -49,6 +51,10 @@ public:
     KileConfigDialog( KConfig *config, QWidget* parent = 0, const char* name = 0);
     ~KileConfigDialog();
 
+private slots:
+	void slotOk();
+
+private:
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
 
     QLabel    *TextLabel6, *TextLabel7, *TextLabel8, *TextLabel9, *TextLabel10, *TextLabel11;
@@ -56,28 +62,45 @@ public:
     QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13, *LineEdit14;
 
     QComboBox *comboDvi, *comboPs, *comboPdf, *comboLatexHelp;
-	QButtonGroup *ButtonGroup2;
-	QSpinBox *spinLevel;
+    QButtonGroup *ButtonGroup2;
+    QSpinBox *spinLevel;
     QCheckBox *checkAutosave, *checkEnv, *checkRestore, *checkForRoot, *m_runlyxserver;
-
+    QCheckBox *cb_boundingbox;
+              
     QRadioButton *checkLatex, *checkPdflatex,
         *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
 
     KIntNumInput *asIntervalInput;
 
     QLineEdit *templAuthor, *templDocClassOpt, *templEncoding;
-
+    QLineEdit *edit_res;
+    
     QFrame* generalPage;
     QFrame* toolsPage;
     QFrame* quickPage;
     QFrame* spellingPage;
-	QFrame* editPage;
+    QFrame* editPage;
+    
+    KConfig *m_config;
     KSpellConfig *ksc;
 
-private slots:
-	void slotOk();
+    // CodeCompletion (dani)
+    ConfigCodeCompletion *completePage;
 
-private:
-	KConfig								*m_config;
+    // setup configuration
+    void setupGeneralOptions();
+    void setupTools();
+    void setupQuickBuild();
+    void setupSpelling();
+    void setupLatex();
+    void setupCodeCompletion();
+
+   // write configuration
+   void writeGeneralOptionsConfig();
+   void writeToolsConfig();
+   void writeQuickBuildConfig();
+   void writeSpellingConfig();
+   void writeLatexConfig();
+
 };
 #endif

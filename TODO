@@ -1,3 +1,12 @@
+BUGS
+ - KShellView crashes when it is started as an embedded viewer AND it shows a
+   tooltip at startup (very weird, probably a KShellView bug).
+ - Handle $$ in syntax coloring correctly, $ in comments and in \verb|$|
+ - Spell checking for long documents doesn't work correctly (introduced after 1.4), haven't seen
+   this bug myself.
+ - When "\section" is re-defined in the preamble of a document, the structure view considers it
+   as a section.
+   
 TODO
  - trying to compile an untitled document should initiate a
    'Save As' dialog instead of the error 'could not start command'
@@ -32,6 +41,3 @@ TODO
 
  - add comments to source-code
 
-BUGS
- - KShellView crashes when it is started as an embedded viewer AND it shows a
-   tooltip at startup (very weird, probably a KShellView bug).

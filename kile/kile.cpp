@@ -409,7 +409,7 @@ void Kile::setupActions()
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
 
-	(void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(quickDocument()), actionCollection(),"127" );
+	(void) new KAction(i18n("Quick Start"),"quickwizard",0 , this, SLOT(quickDocument()), actionCollection(),"127" );
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
 	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(quickTabular()), actionCollection(),"129" );
 	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(quickTabbing()), actionCollection(),"149" );

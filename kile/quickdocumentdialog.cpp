@@ -1,8 +1,8 @@
 /***************************************************************************
                       quickdocumentdialog.cpp
 ----------------------------------------------------------------------------
-date                 : Sep 12 2004
-version              : 0.22
+date                 : Sep 15 2004
+version              : 0.23
 copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
                        restructured, improved and completed by Holger Danielsson
                        (C) 2004 by Holger Danielsson
@@ -1558,11 +1558,11 @@ void QuickDocument::slotDocumentClassAdd()
 	kdDebug() << "==QuickDocument::slotDocumentClassAdd()============" << endl;
 	QStringList list;
 	list << i18n("Document Class")
-	     << "label,edit,label,edit,checkbox,checkbox"
+	     << "label,edit,label,combobox,checkbox,checkbox"
 	     << i18n("Please enter the new document &class:")
 	     << QString::null                                     // 3
 	     << i18n("&Set all options from this standard class (optional):")
-	     << QString::null                                     // 5
+	     << ",article,book,letter,report,scrartcl,scrbook,scrreprt"    // 5
 	     << i18n("Use standard &fontsizes")                   // 6
 	     << i18n("Use standard &papersizes")                  // 7
 	     ;
@@ -1627,6 +1627,7 @@ void QuickDocument::slotDocumentClassDelete()
 		// and finally remove it from the combobox
 		int i = m_cbDocumentClass->currentItem();
 		m_cbDocumentClass->removeItem(i);
+		m_cbDocumentClass->setCurrentItem(0);
 			
 		// init a new document class
 		m_currentClass = m_cbDocumentClass->currentText();
@@ -2093,6 +2094,14 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int c
 			m_objectlist.append( new QLabel(list[i+2],page) );
 		} else if ( m_description[i]=="checkbox" ) {
 			m_objectlist.append( new QCheckBox(list[i+2],page) );
+		} else if ( m_description[i]=="combobox" ) {
+			KComboBox *combobox = new KComboBox(page);
+			combobox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+			combobox->setDuplicatesEnabled(false);
+			combobox->insertStringList( QStringList::split(",",list[i+2],true) );
+			if ( i>0 && m_description[i-1]=="label" )
+				((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
+			m_objectlist.append( combobox );
 		} else  {
 			m_objectlist.append( new KLineEdit(list[i+2],page) );
 			if ( m_description[i] == "edit-r" )
@@ -2123,6 +2132,8 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 			list[i+2] = ((QLabel *)m_objectlist[i])->text(); 
 		} else if ( m_description[i] == "checkbox" ) {
 			list[i+2] = ( ((QCheckBox *)m_objectlist[i])->isOn() ) ? "true" : "false"; 
+		} else if ( m_description[i] == "combobox" ) {
+		   list[i+2] = ((KComboBox *)m_objectlist[i])->currentText();
 		} else  {
 			list[i+2] = ((KLineEdit *)m_objectlist[i])->text().simplifyWhiteSpace(); 
 		}
@@ -2180,12 +2191,6 @@ void QuickDocumentInputDialog::slotOk()
 				KMessageBox::error( this, i18n("This is not an allowed name for a document class.") );
 				return;
 			}
-			
-			QString baseclass = ((KLineEdit *)m_objectlist[3])->text().simplifyWhiteSpace(); 
-			if ( !baseclass.isEmpty() && !m_parent->isStandardClass(baseclass) ) {
-				KMessageBox::error( this, i18n("The base class is not a standard class.") );
-				return;
-			}	
 		}
 		
 		// should we check for an existing document class option

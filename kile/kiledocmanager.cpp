@@ -745,6 +745,10 @@ void Manager::fileSaveAll(bool amAutoSaving)
 
 void Manager::fileOpen(const KURL & url, const QString & encoding)
 {
+	//don't want to receive signals from the fileselector since 
+	//that would allow the user to open a single file twice by double-clicking on it
+	m_ki->fileSelector()->blockSignals(true); 
+	
 	kdDebug() << "==Kile::fileOpen==========================" << endl;
 	kdDebug() << "\t" << url.url() << endl;
 	bool isopen = m_ki->isOpen(url);
@@ -757,6 +761,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
+	m_ki->fileSelector()->blockSignals(false);
 }
 
 bool Manager::fileCloseAll()

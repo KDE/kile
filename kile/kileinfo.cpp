@@ -32,7 +32,11 @@
 
 KileInfo::KileInfo(QWidget *parent) :
 	m_parentWidget(parent),
-	m_currentTarget(QString::null)
+	m_currentTarget(QString::null),
+	m_manager(0L),
+	m_toolFactory(0L),
+	m_texKonsole(0L),
+	m_edit(0L)
 {
 	m_docManager = new KileDocument::Manager(this, 0L, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, 0L, "KileView::Manager");
@@ -40,7 +44,6 @@ KileInfo::KileInfo(QWidget *parent) :
 
 KileInfo::~KileInfo()
 {
-	delete m_docManager; m_docManager = 0L;
 }
 
 Kate::Document * KileInfo::activeDocument() const

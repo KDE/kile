@@ -37,7 +37,7 @@
 namespace KileHelp
 {
 
-	Help::Help(KileEdit *edit) : m_edit(edit)
+	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit)
 	{
 		m_hconfig = new HelpConfig(kapp->config());
 		m_hconfig->readConfig();
@@ -172,7 +172,7 @@ namespace KileHelp
 		Kate::Document *doc = view->getDoc();
 		view->cursorPositionReal(&row,&col);
 		
-		if ( m_edit->getCurrentWord(doc,row,col,KileEdit::smTex,word,col1,col2) )
+		if ( m_edit->getCurrentWord(doc,row,col,KileDocument::EditorExtension::smTex,word,col1,col2) )
 			return word;
 		else
 			return QString::null;

@@ -93,6 +93,7 @@ namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 
+//FIXME ugly, yuk!
 #ifndef KILE_USERITEM
 struct userItem
 {
@@ -390,44 +391,14 @@ private slots:
 	void insertUserTag(int i);
 	void EditUserMenu();
 
+	void includeGraphics();
+
 private:
 	KileLyxServer		*m_lyxserver;
 	bool				m_bShowUserMovedMessage;
 
-/* editor extensions */
-
 private:
-	KileEdit *m_edit;                // advanced editor (dani)
 	KileHelp::Help *m_help;          // kile help (dani)
-	
-	// CodeCompletion  (dani)
-	CodeCompletion *m_complete;
-	QTimer *m_completetimer;
-	
-	void editComplete(CodeCompletion::Mode mode);
-	void editCompleteList(Kate::View *view, CodeCompletion::Type type);
-	bool getCompleteWord(bool latexmode, QString &text, CodeCompletion::Type &type);
-	bool oddBackslashes(const QString& text, int index);
-	void gotoBullet(bool backwards);
-   
-private slots:
-	// CodeCompletion action slots (dani)
-	void editCompleteWord();
-	void editCompleteEnvironment();
-	void editCompleteAbbreviation();
-	void editNextBullet();
-	void editPrevBullet();
-	
-	// includegraphics (dani)
-	void includeGraphics();
-
-	public slots:
-	// CodeCompletion public slots (dani)
-	void slotCharactersInserted(int,int,const QString&);
-	void slotCompletionDone( );
-	void slotCompleteValueList();
-	void slotCompletionAborted();
-	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
 };
 
 #endif

@@ -30,6 +30,7 @@
 #include "kileprojectview.h"
 #include "kileeventfilter.h"
 #include "kilestructurewidget.h"
+#include "kileedit.h"
 
 namespace KileView 
 {
@@ -81,11 +82,10 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
 
-	// code completion (dani)
-	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_receiver,  SLOT(slotCharactersInserted(int,int,const QString&)) );
-	connect( view, SIGNAL(completionDone()), m_receiver,  SLOT( slotCompletionDone()) );
-	connect( view, SIGNAL(completionAborted()), m_receiver,  SLOT( slotCompletionAborted()) );
-	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_receiver,  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
+	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
+	connect( view, SIGNAL(completionDone()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone()) );
+	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
+	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// install a working kate part popup dialog thingy
 	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))

@@ -28,19 +28,24 @@
 #include <kate/document.h>
 #include <kconfig.h>
 
+#include "codecompletion.h"
+
 /**
   *@author Holger Danielsson
   */
 
- class KileInfo;
+class KileInfo;
+
+namespace KileDocument
+{
   
-class KileEdit : public QObject
+class EditorExtension : public QObject
 {
 	Q_OBJECT
 
 public:
-	KileEdit(KileInfo *);
-	~KileEdit() {}
+	EditorExtension(KileInfo *);
+	~EditorExtension();
 
 	enum EnvType { EnvNone, EnvList, EnvTab, EnvCrTab };
 
@@ -58,8 +63,6 @@ public:
 	void deleteEnvironment(bool inside, Kate::View *view = 0L);
 
 	void gotoTexgroup(bool backwards, Kate::View *view = 0L);
-// 	void matchTexgroup(Kate::View *view = 0L);
-// 	void closeTexgroup(Kate::View *view = 0L);
 	void selectTexgroup(bool inside, Kate::View *view = 0L);
 	void deleteTexgroup(bool inside, Kate::View *view = 0L);
 
@@ -68,16 +71,10 @@ public:
 	void tabSelection(bool insert, Kate::View *view = 0L);
 	void stringSelection( bool insert, Kate::View *view = 0L);
 
-// 	void selectParagraph(Kate::View *view = 0L);
-// 	void deleteParagraph(Kate::View *view = 0L);
-// 	void selectLine(Kate::View *view = 0L);
-// 	void selectWord(KileEdit::SelectMode mode, Kate::View *view = 0L);
-// 	void deleteWord(KileEdit::SelectMode mode, Kate::View *view = 0L);
-
 	void insertIntelligentNewline(Kate::View *view = 0L);
 
 	// get current word
-	bool getCurrentWord(Kate::Document *doc,uint row,uint col,KileEdit::SelectMode mode,QString &word,uint &x1,uint &x2);
+	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
 
 public slots:
 	void selectEnvInside() { selectEnvironment(true); }
@@ -100,9 +97,12 @@ public slots:
 
 	void selectParagraph(Kate::View *view = 0L);
 	void selectLine(Kate::View *view = 0L);
-	void selectWord(KileEdit::SelectMode mode = smTex, Kate::View *view = 0L);
+	void selectWord(SelectMode mode = smTex, Kate::View *view = 0L);
 	void deleteParagraph(Kate::View *view = 0L);
-	void deleteWord(KileEdit::SelectMode mode = smTex, Kate::View *view = 0L);
+	void deleteWord(SelectMode mode = smTex, Kate::View *view = 0L);
+
+	void nextBullet();
+	void prevBullet();
 
 private:
 
@@ -143,8 +143,7 @@ private:
 	// find environment tags
 	bool findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
 	bool findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
-	bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env,
-				bool backwards=false);
+	bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env, bool backwards=false);
 	bool findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view);
 
 	// get current environment
@@ -184,6 +183,20 @@ private:
 	Kate::View *determineView(Kate::View *);
 
 	KileInfo	*m_ki;
+
+//code completion
+public slots:
+	void completeWord();
+	void completeEnvironment();
+	void completeAbbreviation();
+
+public:
+	CodeCompletion* complete() const { return m_complete; }
+
+private:
+	CodeCompletion	*m_complete;
 };
+
+}
 
 #endif

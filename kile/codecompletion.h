@@ -19,108 +19,135 @@
 #ifndef CODECOMPLETION_H
 #define CODECOMPLETION_H
 
+#include <qobject.h>
+
 #include <kate/view.h>
 #include <kate/document.h>
-
 #include <ktexteditor/codecompletioninterface.h>
 
 /**
   *@author Holger Danielsson
   */
 
-class CodeCompletion 
+class QTimer;
+
+class KileInfo;
+
+namespace KileDocument
 {
+
+//FIXME fix the way the Kate::View is passed, I'm not 100% confident m_view doesn't turn into a wild pointer
+class CodeCompletion : public QObject
+{
+	Q_OBJECT
+
 public:        
-  CodeCompletion();
-  ~CodeCompletion();
+	CodeCompletion(KileInfo *ki);
+	~CodeCompletion();
 
-  enum Mode
-    {
-      cmLatex,
-      cmEnvironment,
-      cmDictionary,
-      cmAbbreviation,
-      cmLabel
-    };
+	enum Mode
+	{
+	cmLatex,
+	cmEnvironment,
+	cmDictionary,
+	cmAbbreviation,
+	cmLabel
+	};
 
-  enum Type
-    {
-      ctNone,
-      ctReference,
-      ctCitation
-    };
+	enum Type
+	{
+	ctNone,
+	ctReference,
+	ctCitation
+	};
 
-  bool isActive();
-  bool inProgress();
-  bool autoComplete();
-  CodeCompletion::Mode getMode();
-  CodeCompletion::Type getType();
-  CodeCompletion::Type getType(const QString &text);
-  
-  void readConfig(KConfig *config);
+	bool isActive();
+	bool inProgress();
+	bool autoComplete();
+	CodeCompletion::Mode getMode();
+	CodeCompletion::Type getType();
+	CodeCompletion::Type getType(const QString &text);
 
-  void completeWord(Kate::View *view, const QString &text, CodeCompletion::Mode mode);
-  QString filterCompletionText(const QString &text,const QString &type);
+	void setView(Kate::View *view) { m_view = view; }
+	KileInfo* info() const { return m_ki;}
 
-  void CompletionDone();
-  void CompletionAborted();
+	void readConfig(KConfig *config);
 
-  void completeFromList(Kate::View *view,const QStringList *list);
+	void completeWord(const QString &text, CodeCompletion::Mode mode);
+	QString filterCompletionText(const QString &text, const QString &type);
 
-  const QString getBullet();
-  
+	void CompletionDone();
+	void CompletionAborted();
+
+	void completeFromList(const QStringList *list);
+
+	const QString getBullet();
+
+public slots:
+	void slotCharactersInserted(int, int, const QString&);
+	void slotCompletionDone( );
+	void slotCompleteValueList();
+	void slotCompletionAborted();
+	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
+
+	void editComplete(KileDocument::CodeCompletion::Mode mode);
+	void editCompleteList(KileDocument::CodeCompletion::Type type);
+	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
+	bool oddBackslashes(const QString& text, int index);
+
 private:
-   // wordlists
-   QValueList<KTextEditor::CompletionEntry> m_texlist;
-   QValueList<KTextEditor::CompletionEntry> m_dictlist;
-   QValueList<KTextEditor::CompletionEntry> m_abbrevlist;
-   QValueList<KTextEditor::CompletionEntry> m_labellist;
-   
-   // some flags
-   bool m_isenabled;
-   bool m_setcursor;
-   bool m_setbullets;
-   bool m_closeenv;
-   bool m_autocomplete;
-   
-   // state of complete: some flags
-   bool m_firstconfig;
-   bool m_inprogress;
+	// wordlists
+	QValueList<KTextEditor::CompletionEntry> m_texlist;
+	QValueList<KTextEditor::CompletionEntry> m_dictlist;
+	QValueList<KTextEditor::CompletionEntry> m_abbrevlist;
+	QValueList<KTextEditor::CompletionEntry> m_labellist;
 
-   // undo text
-   bool m_undo;
+	KileInfo *m_ki;
+	QTimer *m_completeTimer;
 
-   // character which is used as bullet
-   QString m_bullet;
+	// some flags
+	bool m_isenabled;
+	bool m_setcursor;
+	bool m_setbullets;
+	bool m_closeenv;
+	bool m_autocomplete;
 
-   // special types: ref, bib
-   CodeCompletion::Type m_type;
-   
-   // internal parameter
-   Kate::View *m_view;                  // View
-   QString m_text;                      // current pattern
-   uint m_textlen;                      // length of current pattern
-   CodeCompletion::Mode m_mode;         // completion mode
-   uint m_ycursor,m_xcursor,m_xstart;   // current cursor position
-   uint m_yoffset,m_xoffset;            // offset of the new cursor position
+	// state of complete: some flags
+	bool m_firstconfig;
+	bool m_inprogress;
 
-   QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
-   QString buildEnvironmentText(const QString &text, const QString &type, uint &ypos, uint &xpos);
-   QString buildAbbreviationText(const QString &text);
-   QString buildLabelText(const QString &text);
-   
-   QString parseText(const QString &text, uint &ypos, uint &xpos, bool checkgroup);
-   QString stripParameter(const QString &text);
+	// undo text
+	bool m_undo;
 
-   void setWordlist(const QStringList &files,const QString &dir,
-                    QValueList<KTextEditor::CompletionEntry> *entrylist);
-   void readWordlist(QStringList &wordlist, const QString &filename);
-   void setCompletionEntries(QValueList<KTextEditor::CompletionEntry> *list,
-                             const QStringList &wordlist);
-   
-   uint countEntries(const QString &pattern,
-                     QValueList<KTextEditor::CompletionEntry> *list,
-                     QString *entry, QString *type);
+	// character which is used as bullet
+	QString m_bullet;
+
+	// special types: ref, bib
+	CodeCompletion::Type m_type;
+
+	// internal parameter
+	Kate::View *m_view;                  // View
+	QString m_text;                      // current pattern
+	uint m_textlen;                      // length of current pattern
+	CodeCompletion::Mode m_mode;         // completion mode
+	uint m_ycursor,m_xcursor,m_xstart;   // current cursor position
+	uint m_yoffset,m_xoffset;            // offset of the new cursor position
+
+	QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
+	QString buildEnvironmentText(const QString &text, const QString &type, uint &ypos, uint &xpos);
+	QString buildAbbreviationText(const QString &text);
+	QString buildLabelText(const QString &text);
+
+	QString parseText(const QString &text, uint &ypos, uint &xpos, bool checkgroup);
+	QString stripParameter(const QString &text);
+
+	void setWordlist(const QStringList &files,const QString &dir, QValueList<KTextEditor::CompletionEntry> *entrylist);
+	void readWordlist(QStringList &wordlist, const QString &filename);
+	void setCompletionEntries(QValueList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
+
+	uint countEntries(const QString &pattern, QValueList<KTextEditor::CompletionEntry> *list, QString *entry, QString *type);
 };
+
+}
 
 #endif

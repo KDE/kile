@@ -42,7 +42,7 @@ class KileFileSelect;
 class KileEventFilter;
 
 namespace Kate { class Document;}
-namespace KileDocument { class Manager; }
+namespace KileDocument { class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
 namespace KileWidget { class Structure; class Konsole; }
 
@@ -89,6 +89,7 @@ public:
 	KileView::Manager* viewManager() const { return m_viewManager; }
 	KileTool::Manager* toolManager() const { return m_manager; }
 	KileTool::Factory* toolFactory() const { return m_toolFactory; }
+	KileDocument::EditorExtension *editorExtension() const { return m_edit; }
 
 	//FIXME:refactor
 	KileFileSelect* fileSelector() const { return KileFS; }
@@ -107,6 +108,8 @@ protected:
 	KileTool::Manager		*m_manager;
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;
+
+	KileDocument::EditorExtension *m_edit;
 
 	QWidget *m_parentWidget;
 

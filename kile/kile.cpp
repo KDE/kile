@@ -198,14 +198,12 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	mpview = new metapostview( Structview );
 	connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
 
-	// new features
-	m_complete = new CodeCompletion();                 // code completion (dani)
-	m_edit = new KileEdit(this);                           // advanced editor (dani)
-	m_help = new KileHelp::Help(m_edit);     // kile help (dani)
+	m_edit = new KileDocument::EditorExtension(this);
+	m_help = new KileHelp::Help(m_edit);
 
 	config = KGlobal::config();
 
-  // check requirements for IncludeGraphicsDialog (dani)
+	// check requirements for IncludeGraphicsDialog (dani)
 	config->setGroup("IncludeGraphics");
 	config->writeEntry("imagemagick", ! ( KStandardDirs::findExe("identify") == QString::null ) );
   
@@ -337,9 +335,7 @@ Kile::~Kile()
 	kdDebug() << "cleaning up..." << endl;
 
 	// CodeCompletion  and edvanced editor (dani)
-	delete m_complete;
 	delete m_edit;
-
 	delete m_AutosaveTimer;
 }
 
@@ -414,11 +410,11 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Focus Editor view"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
 
  // CodeCompletion (dani)
-	(void) new KAction(i18n("La(TeX) Command"),"complete1",CTRL+Key_Space, this, SLOT(editCompleteWord()), actionCollection(), "edit_complete_word");
-	(void) new KAction(i18n("Environment"),"complete2",ALT+Key_Space, this, SLOT(editCompleteEnvironment()), actionCollection(), "edit_complete_env");
-	(void) new KAction(i18n("Abbreviation"),"complete3",CTRL+ALT+Key_Space, this, SLOT(editCompleteAbbreviation()), actionCollection(), "edit_complete_abbrev");
-	(void) new KAction(i18n("Next Bullet"),"nextbullet",CTRL+ALT+Key_Right, this, SLOT(editNextBullet()), actionCollection(), "edit_next_bullet");
-	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, this, SLOT(editPrevBullet()), actionCollection(), "edit_prev_bullet");
+	(void) new KAction(i18n("La(TeX) Command"),"complete1",CTRL+Key_Space, m_edit, SLOT(completeWord()), actionCollection(), "edit_complete_word");
+	(void) new KAction(i18n("Environment"),"complete2",ALT+Key_Space, m_edit, SLOT(completeEnvironment()), actionCollection(), "edit_complete_env");
+	(void) new KAction(i18n("Abbreviation"),"complete3",CTRL+ALT+Key_Space, m_edit, SLOT(completeAbbreviation()), actionCollection(), "edit_complete_abbrev");
+	(void) new KAction(i18n("Next Bullet"),"nextbullet",CTRL+ALT+Key_Right, m_edit, SLOT(nextBullet()), actionCollection(), "edit_next_bullet");
+	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, m_edit, SLOT(prevBullet()), actionCollection(), "edit_prev_bullet");
 
  // advanced editor (dani)
 	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
@@ -1839,47 +1835,44 @@ void Kile::readConfig()
 	m_runlyxserver = config->readBoolEntry("RunLyxServer", true);
 
 //////////////////// code completion (dani) ////////////////////
-	m_complete->readConfig(config);
+	m_edit->complete()->readConfig(config);
 	m_help->readConfig();
 }
 
 void Kile::SaveSettings()
 {
-ShowEditorWidget();
-QValueList<int> sizes;
-QValueList<int>::Iterator it;
-
-config->setGroup("VersionInfo");
-config->writeEntry("RCVersion",KILERC_VERSION);
-
-config->setGroup( "Geometries" );
-config->writeEntry("MainwindowWidth", width() );
-config->writeEntry("MainwindowHeight", height() );
-sizes=splitter1->sizes();
-it = sizes.begin();
-split1_left=*it;
-++it;
-split1_right=*it;
-sizes.clear();
-sizes=splitter2->sizes();
-it = sizes.begin();
-split2_top=*it;
-++it;
-split2_bottom=*it;
-config->writeEntry("Splitter1_left", split1_left );
-config->writeEntry("Splitter1_right", split1_right );
-config->writeEntry("Splitter2_top", split2_top );
-config->writeEntry("Splitter2_bottom", split2_bottom );
-
-config->setGroup( "Show" );
-config->writeEntry("Outputview",showoutputview);
-config->writeEntry( "Structureview",showstructview);
+	ShowEditorWidget();
+	QValueList<int> sizes;
+	QValueList<int>::Iterator it;
+	
+	config->setGroup("VersionInfo");
+	config->writeEntry("RCVersion",KILERC_VERSION);
+	
+	config->setGroup( "Geometries" );
+	config->writeEntry("MainwindowWidth", width() );
+	config->writeEntry("MainwindowHeight", height() );
+	sizes=splitter1->sizes();
+	it = sizes.begin();
+	split1_left=*it;
+	++it;
+	split1_right=*it;
+	sizes.clear();
+	sizes=splitter2->sizes();
+	it = sizes.begin();
+	split2_top=*it;
+	++it;
+	split2_bottom=*it;
+	config->writeEntry("Splitter1_left", split1_left );
+	config->writeEntry("Splitter1_right", split1_right );
+	config->writeEntry("Splitter2_top", split2_top );
+	config->writeEntry("Splitter2_bottom", split2_bottom );
+	
+	config->setGroup( "Show" );
+	config->writeEntry("Outputview",showoutputview);
+	config->writeEntry( "Structureview",showstructview);
 
 	KileFS->writeConfig();
 	config->setGroup( "Files" );
-
-// 	if (viewManager()->views().last())
-// 		lastDocument = viewManager()->views().last()->getDoc()->url().path();
 
 	config->writePathEntry("Last Document",lastDocument);
 	input_encoding=KileFS->comboEncoding->lineEdit()->text();
@@ -1909,27 +1902,27 @@ config->writeEntry( "Structureview",showstructview);
 			config->writeEntry("Master", "");
 	}
 
-config->setGroup( "User" );
+	config->setGroup( "User" );
 
-userItem tempItem;
-config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
-for (uint i=0; i<m_listUserTags.size(); i++)
-{
-	tempItem = m_listUserTags[i];
-	config->writeEntry("userTagName"+QString::number(i),tempItem.name);
-	config->writeEntry("userTag"+QString::number(i),tempItem.tag);
-}
+	userItem tempItem;
+	config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
+	for (uint i=0; i<m_listUserTags.size(); i++)
+	{
+		tempItem = m_listUserTags[i];
+		config->writeEntry("userTagName"+QString::number(i),tempItem.name);
+		config->writeEntry("userTag"+QString::number(i),tempItem.tag);
+	}
 
-config->setGroup( "Structure" );
-config->writeEntry("Structure Level 1",struct_level1);
-config->writeEntry("Structure Level 2",struct_level2);
-config->writeEntry("Structure Level 3",struct_level3);
-config->writeEntry("Structure Level 4",struct_level4);
-config->writeEntry("Structure Level 5",struct_level5);
+	config->setGroup( "Structure" );
+	config->writeEntry("Structure Level 1",struct_level1);
+	config->writeEntry("Structure Level 2",struct_level2);
+	config->writeEntry("Structure Level 3",struct_level3);
+	config->writeEntry("Structure Level 4",struct_level4);
+	config->writeEntry("Structure Level 5",struct_level5);
 
-actionCollection()->writeShortcutSettings();
-saveMainWindowSettings(config, "KileMainWindow" );
-config->sync();
+	actionCollection()->writeShortcutSettings();
+	saveMainWindowSettings(config, "KileMainWindow" );
+	config->sync();
 }
 
 /////////////////  OPTIONS ////////////////////
@@ -1969,49 +1962,53 @@ void Kile::ToggleMode()
 
 void Kile::ToggleOutputView()
 {
-ShowOutputView(true);
+	ShowOutputView(true);
 }
 
 void Kile::ToggleStructView()
 {
-ShowStructView(true);
+	ShowStructView(true);
 }
 
 void Kile::ToggleWatchFile()
 {
-m_bWatchFile=!m_bWatchFile;
-if (m_bWatchFile) {WatchFileAction->setChecked(true);}
-else {WatchFileAction->setChecked(false);}
+	m_bWatchFile=!m_bWatchFile;
+
+	if (m_bWatchFile) 
+		WatchFileAction->setChecked(true);
+	else 
+		WatchFileAction->setChecked(false);
 }
 
 void Kile::ShowOutputView(bool change)
 {
-if (change) showoutputview=!showoutputview;
-if (showoutputview)
-    {
-    MessageAction->setChecked(true);
-    Outputview->show();
-    }
-else
-   {
-   MessageAction->setChecked(false);
-   Outputview->hide();
-   }
+	if (change) showoutputview=!showoutputview;
+	if (showoutputview)
+	{
+		MessageAction->setChecked(true);
+		Outputview->show();
+	}
+	else
+	{
+		MessageAction->setChecked(false);
+		Outputview->hide();
+	}
 }
 
 void Kile::ShowStructView(bool change)
 {
-if (change) showstructview=!showstructview;
-if (showstructview)
-   {
-   StructureAction->setChecked(true);
-   Structview->show();
-   }
-else
-   {
-   StructureAction->setChecked(false);
-   Structview->hide();
-   }
+	if (change) showstructview=!showstructview;
+
+	if (showstructview)
+	{
+		StructureAction->setChecked(true);
+		Structview->show();
+	}
+	else
+	{
+		StructureAction->setChecked(false);
+		Structview->hide();
+	}
 }
 
 void Kile::GeneralOptions()
@@ -2093,8 +2090,8 @@ void Kile::spell_progress (unsigned int /*percent*/)
 
 void Kile::spell_done(const QString& /*newtext*/)
 {
-  viewManager()->currentView()->getDoc()->clearSelection();
-  kspell->cleanUp();
+	viewManager()->currentView()->getDoc()->clearSelection();
+	kspell->cleanUp();
 	KMessageBox::information(this,i18n("Corrected %1 words.").arg(ks_corrected),i18n("Spell checking done"));
 }
 
@@ -2106,57 +2103,64 @@ void Kile::spell_finished( )
 	delete kspell;
 	kspell = 0;
 	if (status == KSpell::Error)
-  {
-     KMessageBox::sorry(this, i18n("I(A)Spell could not be started."));
-  }
+		KMessageBox::sorry(this, i18n("I(A)Spell could not be started."));
 	else if (status == KSpell::Crashed)
-  {
-     viewManager()->currentView()->getDoc()->clearSelection();
-     KMessageBox::sorry(this, i18n("I(A)Spell seems to have crashed."));
-  }
+	{
+		viewManager()->currentView()->getDoc()->clearSelection();
+		KMessageBox::sorry(this, i18n("I(A)Spell seems to have crashed."));
+	}
 }
 
 void Kile::misspelling (const QString & originalword, const QStringList & /*suggestions*/,unsigned int pos)
 {
-  int l=par_start;
-  int cnt=0;
-  int col=0;
-  int p=pos+index_start;
+	Kate::View *view = viewManager()->currentView();
+	if ( view == 0L ) return;
 
-  while ((cnt+viewManager()->currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))
-  {
-  	cnt+=viewManager()->currentView()->getDoc()->lineLength(l)+1;
-  	l++;
-  }
-  col=p-cnt;
-  viewManager()->currentView()->setCursorPosition(l,col);
-  viewManager()->currentView()->getDoc()->setSelection( l,col,l,col+originalword.length());
+	int l=par_start;
+	int cnt=0;
+	int col=0;
+	int p=pos+index_start;
+
+	while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
+	{
+		cnt+=view->getDoc()->lineLength(l)+1;
+		l++;
+	}
+
+	col=p-cnt;
+	view->setCursorPosition(l,col);
+	view->getDoc()->setSelection( l,col,l,col+originalword.length());
 }
 
 
 void Kile::corrected (const QString & originalword, const QString & newword, unsigned int pos)
 {
-  int l=par_start;
-  int cnt=0;
-  int col=0;
-  int p=pos+index_start;
-  if( newword != originalword )
-  {
-    while ((cnt+viewManager()->currentView()->getDoc()->lineLength(l)<=p) && (l < par_end))
-    {
-    cnt+=viewManager()->currentView()->getDoc()->lineLength(l)+1;
-    l++;
-    }
-    col=p-cnt;
-    viewManager()->currentView()->setCursorPosition(l,col);
-    viewManager()->currentView()->getDoc()->setSelection( l,col,l,col+originalword.length());
-    viewManager()->currentView()->getDoc()->removeSelectedText();
-    viewManager()->currentView()->getDoc()->insertText( l,col,newword );
-    viewManager()->currentView()->getDoc()->setModified( TRUE );
-  }
-  viewManager()->currentView()->getDoc()->clearSelection();
+	Kate::View *view = viewManager()->currentView();
+	if ( view == 0L ) return;
 
-  ks_corrected++;
+	int l=par_start;
+	int cnt=0;
+	int col=0;
+	int p=pos+index_start;
+
+	if( newword != originalword )
+	{
+		while ((cnt+view->getDoc()->lineLength(l)<=p) && (l < par_end))
+		{
+			cnt+=view->getDoc()->lineLength(l)+1;
+			l++;
+		}
+
+		col=p-cnt;
+		view->setCursorPosition(l,col);
+		view->getDoc()->setSelection( l,col,l,col+originalword.length());
+		view->getDoc()->removeSelectedText();
+		view->getDoc()->insertText( l,col,newword );
+		view->getDoc()->setModified( TRUE );
+	}
+
+	view->getDoc()->clearSelection();
+	ks_corrected++;
 }
 
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////
@@ -2184,84 +2188,85 @@ void Kile::ConfigureToolbars()
 ////////////// VERTICAL TAB /////////////////
 void Kile::showVertPage(int page)
 {
-ButtonBar->setTab(lastvtab,false);
-ButtonBar->setTab(page,true);
-lastvtab=page;
-if (page==0)
-   {
-   viewManager()->projectView()->hide();
-   m_kwStructure->hide();
-   mpview->hide();
-   if (symbol_view && symbol_present) delete symbol_view;
-   symbol_present=false;
-   if (Structview_layout) delete Structview_layout;
-   Structview_layout=new QHBoxLayout(Structview);
-   Structview_layout->add(KileFS);
-   Structview_layout->add(ButtonBar);
-   ButtonBar->setPosition(KMultiVertTabBar::Right);
-   KileFS->show();
-   }
-else if (page==1)
-   {
-   //UpdateStructure();
-   viewManager()->projectView()->hide();
-   KileFS->hide();
-   mpview->hide();
-   if (symbol_view && symbol_present) delete symbol_view;
-   symbol_present=false;
-   if (Structview_layout) delete Structview_layout;
-   Structview_layout=new QHBoxLayout(Structview);
-   Structview_layout->add(m_kwStructure);
-   Structview_layout->add(ButtonBar);
-   ButtonBar->setPosition(KMultiVertTabBar::Right);
-   m_kwStructure->show();
-   }
-else if (page==8)
-   {
-   viewManager()->projectView()->hide();
-   KileFS->hide();
-   m_kwStructure->hide();
-   if (symbol_view && symbol_present) delete symbol_view;
-   symbol_present=false;
-   if (Structview_layout) delete Structview_layout;
-   Structview_layout=new QHBoxLayout(Structview);
-   Structview_layout->add(mpview);
-   Structview_layout->add(ButtonBar);
-   ButtonBar->setPosition(KMultiVertTabBar::Right);
-   mpview->show();
-   }
-else if (page==9)
-{
-	kdDebug() << "SHOWING PROJECTS VIEW" << endl;
-	if (symbol_view && symbol_present) delete symbol_view;
-   symbol_present=false;
-	KileFS->hide();
-    m_kwStructure->hide();
-    mpview->hide();
-	delete Structview_layout;
-	Structview_layout=new QHBoxLayout(Structview);
-    Structview_layout->add(viewManager()->projectView());
-    Structview_layout->add(ButtonBar);
-	ButtonBar->setPosition(KMultiVertTabBar::Right);
-	viewManager()->projectView()->show();
-}
-else
-   {
-	viewManager()->projectView()->hide();
-      KileFS->hide();
-      m_kwStructure->hide();
-      mpview->hide();
-      if (symbol_view && symbol_present) delete symbol_view;
-      if (Structview_layout) delete Structview_layout;
-      Structview_layout=new QHBoxLayout(Structview);
-      symbol_view = new SymbolView(page-1,Structview,"Symbols");
-      connect(symbol_view, SIGNAL(executed(QIconViewItem*)), SLOT(insertSymbol(QIconViewItem*)));
-      symbol_present=true;
-      Structview_layout->add(symbol_view);
-      Structview_layout->add(ButtonBar);
-      ButtonBar->setPosition(KMultiVertTabBar::Right);
-      symbol_view->show();
-   }
+	ButtonBar->setTab(lastvtab,false);
+	ButtonBar->setTab(page,true);
+	lastvtab=page;
+
+	if (page==0)
+	{
+		viewManager()->projectView()->hide();
+		m_kwStructure->hide();
+		mpview->hide();
+		if (symbol_view && symbol_present) delete symbol_view;
+		symbol_present=false;
+		if (Structview_layout) delete Structview_layout;
+		Structview_layout=new QHBoxLayout(Structview);
+		Structview_layout->add(KileFS);
+		Structview_layout->add(ButtonBar);
+		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		KileFS->show();
+	}
+	else if (page==1)
+	{
+		//UpdateStructure();
+		viewManager()->projectView()->hide();
+		KileFS->hide();
+		mpview->hide();
+		if (symbol_view && symbol_present) delete symbol_view;
+		symbol_present=false;
+		if (Structview_layout) delete Structview_layout;
+		Structview_layout=new QHBoxLayout(Structview);
+		Structview_layout->add(m_kwStructure);
+		Structview_layout->add(ButtonBar);
+		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		m_kwStructure->show();
+	}
+	else if (page==8)
+	{
+		viewManager()->projectView()->hide();
+		KileFS->hide();
+		m_kwStructure->hide();
+		if (symbol_view && symbol_present) delete symbol_view;
+		symbol_present=false;
+		if (Structview_layout) delete Structview_layout;
+		Structview_layout=new QHBoxLayout(Structview);
+		Structview_layout->add(mpview);
+		Structview_layout->add(ButtonBar);
+		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		mpview->show();
+	}
+	else if (page==9)
+	{
+		kdDebug() << "SHOWING PROJECTS VIEW" << endl;
+		if (symbol_view && symbol_present) delete symbol_view;
+		symbol_present=false;
+		KileFS->hide();
+		m_kwStructure->hide();
+		mpview->hide();
+		delete Structview_layout;
+		Structview_layout=new QHBoxLayout(Structview);
+		Structview_layout->add(viewManager()->projectView());
+		Structview_layout->add(ButtonBar);
+		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		viewManager()->projectView()->show();
+	}
+	else
+	{
+		viewManager()->projectView()->hide();
+		KileFS->hide();
+		m_kwStructure->hide();
+		mpview->hide();
+		if (symbol_view && symbol_present) delete symbol_view;
+		if (Structview_layout) delete Structview_layout;
+		Structview_layout=new QHBoxLayout(Structview);
+		symbol_view = new SymbolView(page-1,Structview,"Symbols");
+		connect(symbol_view, SIGNAL(executed(QIconViewItem*)), SLOT(insertSymbol(QIconViewItem*)));
+		symbol_present=true;
+		Structview_layout->add(symbol_view);
+		Structview_layout->add(ButtonBar);
+		ButtonBar->setPosition(KMultiVertTabBar::Right);
+		symbol_view->show();
+	}
 }
 
 void Kile::changeInputEncoding()
@@ -2287,211 +2292,34 @@ void Kile::changeInputEncoding()
 //////////////////// CLEAN BIB /////////////////////
 void Kile::CleanBib()
 {
-QString s;
-if ( !viewManager()->currentView() )	return;
-uint i=0;
-while(i < viewManager()->currentView()->getDoc()->numLines())
-   {
-    s = viewManager()->currentView()->getDoc()->textLine(i);
-    s=s.left(3);
-    if (s=="OPT" || s=="ALT")
-        {
-        viewManager()->currentView()->getDoc()->removeLine(i );
-        viewManager()->currentView()->getDoc()->setModified(true);
-        }
-    else i++;
-   }
+	Kate::View *view = viewManager()->currentView();
+	if ( ! view )
+		return;
+
+	uint i=0;
+	QString s;
+
+	while(i < view->getDoc()->numLines())
+	{
+		s = view->getDoc()->textLine(i);
+		s=s.left(3);
+		if (s=="OPT" || s=="ALT")
+		{
+			view->getDoc()->removeLine(i );
+			view->getDoc()->setModified(true);
+		}
+		else
+			i++;
+	}
 }
 
 
-
-/////// editor extensions /////////////
 
 KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, QString title, uint line, uint column, int type)
 	: KListViewItem(parent,after), m_title(title), m_line(line), m_column(column), m_type(type)
 {
 	this->setText(0, m_title+" (line "+QString::number(m_line)+")");
 }
-
-//////////////////// code completion (dani) ////////////////////
-
-//FIXME: refactor, this should be in the complete or kileedit class
-void Kile::editCompleteWord()
-{
-   editComplete(CodeCompletion::cmLatex);
-}
-
-void Kile::editCompleteEnvironment()
-{
-    editComplete(CodeCompletion::cmEnvironment);
-}
-
-void Kile::editCompleteAbbreviation()
-{
-   editComplete(CodeCompletion::cmAbbreviation);
-}
-
-void Kile::editComplete(CodeCompletion::Mode mode)
-{
-   Kate::View *view = viewManager()->currentView();
-   if ( !view || !m_complete || !m_complete->isActive() || m_complete->inProgress() ) return;
-
-   QString word;
-   CodeCompletion::Type type;
-   if ( getCompleteWord( ( mode == CodeCompletion::cmLatex ) ? true : false, word,type ) ) {
-      if ( mode==CodeCompletion::cmLatex && word.at(0)!='\\' ) {
-         mode = CodeCompletion::cmDictionary;
-      }
-      kdDebug() << "=== code completion start ====================" << endl;
-      kdDebug() << "   completion word: " << word << endl;
-      if ( type == CodeCompletion::ctNone )
-         m_complete->completeWord(view,word,mode);
-      else
-         editCompleteList(view,type);
-   }
-}
-
-void Kile::editCompleteList(Kate::View *view, CodeCompletion::Type type)
-{
-   if ( type == CodeCompletion::ctReference )
-      m_complete->completeFromList( view,labels() );
-   else if ( type == CodeCompletion::ctCitation )
-      m_complete->completeFromList( view,bibItems() );
-   // else do nothing
-}
-
-//////////////////// slots for code completion ////////////////////
-
-void Kile::slotCompletionDone()
-{
-   kdDebug() << "   completion done " << endl;
-   m_complete->CompletionDone();
-
-   if ( m_complete->getMode() == CodeCompletion::cmLatex ) {
-        m_completetimer = new QTimer( this );
-        connect( m_completetimer, SIGNAL(timeout()),
-                 this, SLOT(slotCompleteValueList()) );
-        m_completetimer->start( 0, false );
-   }
-}
-
-void Kile::slotCompleteValueList()
-{
-	kdDebug() << "   completion restart (timerslot): " << endl;
-	m_completetimer->stop();
-	delete m_completetimer;
-
-	editCompleteList( viewManager()->currentView(), m_complete->getType());
-}
-
-void Kile::slotCompletionAborted()
-{
-   kdDebug() << "   completion aborted" << endl;
-   m_complete->CompletionAborted();
-}
-
-void Kile::slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s)
-{
-   kdDebug() << "   completion filter pre:  " << *s << endl;
-   *s = m_complete->filterCompletionText(c->text,c->type);
-   kdDebug() << "   completion filter post:  " << *s << endl;
-}
-
-void Kile::slotCharactersInserted(int,int,const QString& string)
-{
-  if ( !m_complete || !m_complete->isActive() ||
-        !m_complete->autoComplete()  // || m_complete->inProgress()
-      )
-      return;
-
-   QString word;
-   CodeCompletion::Type type;
-   if ( getCompleteWord(true,word,type) && word.at(0)=='\\' ) {
-      kdDebug() << "   auto completion: word=" << word << endl;
-      if ( string.at(0).isLetter() ) {
-         m_complete->completeWord(viewManager()->currentView(),word,CodeCompletion::cmLatex);
-      } else if ( string.at(0) == '{' ) {
-         editCompleteList( viewManager()->currentView(),type);
-      }
-   }
-}
-
-//////////////////// testing characters (dani) ////////////////////
-
-static bool isBackslash ( QChar ch )
-{
-  return (ch == '\\');
-}
-
-//////////////////// das vorangehende Wort lesen ////////////////////
-
-// (Buchstaben, je nach Modus mit/ohne Backslash)
-
-bool Kile::getCompleteWord(bool latexmode, QString &text, CodeCompletion::Type &type)
-{
-    uint row,col;
-    QChar ch;
-
-    // get current position
-    viewManager()->currentView()->cursorPositionReal(&row,&col);
-
-    // there must be et least one sign
-    if ( col < 1) return "";
-
-    // get current text line
-    QString textline = viewManager()->currentView()->getDoc()->textLine(row);
-
-    //
-    int n = 0;                           // number of characters
-    int index = col;                     // go back from here
-    while ( --index >= 0 )
-    {
-       // get current character
-       ch = textline.at(index);
-
-       if ( ch.isLetter() || (latexmode && (index+1==(int)col) && ch=='{') )
-          n++;                           // accept letters and '{' as first character in latexmode
-       else
-       {
-          if ( latexmode && isBackslash(ch) && oddBackslashes(textline,index) )    // Backslash?
-             n++;
-          break;                         // stop when a backslash was found
-       }
-    }
-
-    // select pattern and set type of match
-    text = textline.mid(col-n,n);
-    type = m_complete->getType(text);
-
-    return !text.isEmpty();
-}
-
-//////////////////// counting backslashes (dani) ////////////////////
-
-bool Kile::oddBackslashes(const QString& text, int index)
-{
-   uint n = 0;
-   while ( index>=0 && isBackslash(text.at(index)) ) {
-      n++;
-      index--;
-   }
-   return ( n % 2 ) ? true  : false;
-}
-
-//////////////////// bullet movements (dani) ////////////////////
-
-//FIXME: refactor
-void Kile::editNextBullet()
-{
-   m_edit->gotoBullet(m_complete->getBullet(), false);
-}
-
-void Kile::editPrevBullet()
-{
-   m_edit->gotoBullet(m_complete->getBullet(), true);
-}
-
-//////////////////// include graphics (dani) ////////////////////
 
 void Kile::includeGraphics()
 {
@@ -2502,9 +2330,7 @@ void Kile::includeGraphics()
 	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this, config, fi.dirPath(), false);
 
 	if ( dialog->exec() == QDialog::Accepted ) 
-	{
 		insertTag( dialog->getTemplate(),"%C",0,0 );
-	}
 
 	delete dialog;
 }

@@ -36,6 +36,8 @@
   *@author Holger Danielsson
   */
 
+namespace KileDocument { class EditorExtension; }
+
 namespace KileHelp
 {
 
@@ -56,7 +58,7 @@ namespace KileHelp
 		Q_OBJECT
 
 	public:
-		Help(KileEdit *edit);
+		Help(KileDocument::EditorExtension *edit);
 		~Help() {}
 		
 		void setManager(KileTool::Manager *manager) { m_manager = manager; }
@@ -79,7 +81,8 @@ namespace KileHelp
 
 	private:
 		KileTool::Manager *m_manager;
-		KileEdit *m_edit;
+		KileDocument::EditorExtension *m_edit;
+
 		bool m_use;
 		HelpConfig *m_hconfig;
 

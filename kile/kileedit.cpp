@@ -27,9 +27,13 @@
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 
-
-KileEdit::KileEdit(KileInfo *info) : m_ki(info)
+namespace KileDocument
 {
+
+EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
+{
+	m_complete = new KileDocument::CodeCompletion(m_ki);
+
 	// init regexp
 	m_reg.setPattern("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
 
@@ -48,9 +52,14 @@ KileEdit::KileEdit(KileInfo *info) : m_ki(info)
 	<< "tabbing" << "tabular" << "tabular*" << "tabularx";
 }
 
+EditorExtension::~EditorExtension()
+{
+	delete m_complete;
+}
+
 //////////////////// read configuration ////////////////////
 
-void KileEdit::readConfig(KConfig *config)
+void EditorExtension::readConfig(KConfig *config)
 {
 	// standard environments
 	setEnvironment(listenv,m_dictListEnv);
@@ -66,23 +75,23 @@ void KileEdit::readConfig(KConfig *config)
 
 //////////////////// list/math/tabular environments ////////////////////
 
-void KileEdit::setEnvironment(const QStringList &list, QMap<QString,bool> &map)
+void EditorExtension::setEnvironment(const QStringList &list, QMap<QString,bool> &map)
 {
 	for (uint i=0; i<list.count(); i++)
 		map[list[i]] = true;
 }
 
-bool KileEdit::isListEnvironment(const QString &name)
+bool EditorExtension::isListEnvironment(const QString &name)
 {
 	return m_dictListEnv.contains(name);
 }
 
-bool KileEdit::isMathEnvironment(const QString &name)
+bool EditorExtension::isMathEnvironment(const QString &name)
 {
 	return m_dictMathEnv.contains(name);
 }
 
-bool KileEdit::isTabEnvironment(const QString &name)
+bool EditorExtension::isTabEnvironment(const QString &name)
 {
 	return m_dictTabularEnv.contains(name);
 }
@@ -91,7 +100,7 @@ bool KileEdit::isTabEnvironment(const QString &name)
 
 // goto the next non-nested environment tag
 
-Kate::View* KileEdit::determineView(Kate::View *view)
+Kate::View* EditorExtension::determineView(Kate::View *view)
 {
 	if (view == 0L)
 		view = m_ki->viewManager()->currentView();
@@ -99,7 +108,7 @@ Kate::View* KileEdit::determineView(Kate::View *view)
 	return view;
 }
 
-void KileEdit::gotoEnvironment(bool backwards, Kate::View *view)
+void EditorExtension::gotoEnvironment(bool backwards, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -133,7 +142,7 @@ void KileEdit::gotoEnvironment(bool backwards, Kate::View *view)
 
 // match the opposite environment tag
 
-void KileEdit::matchEnvironment(Kate::View *view)
+void EditorExtension::matchEnvironment(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -156,7 +165,7 @@ void KileEdit::matchEnvironment(Kate::View *view)
 
 // search for the last opened environment and close it
 
-void KileEdit::closeEnvironment(Kate::View *view)
+void EditorExtension::closeEnvironment(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -176,7 +185,7 @@ void KileEdit::closeEnvironment(Kate::View *view)
 // intelligent newlines: look for the last opened environment
 // and decide what to insert
 
-void KileEdit::insertIntelligentNewline(Kate::View *view)
+void EditorExtension::insertIntelligentNewline(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -199,7 +208,7 @@ void KileEdit::insertIntelligentNewline(Kate::View *view)
 	}
 }
 
-bool KileEdit::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view)
+bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
@@ -237,7 +246,7 @@ bool KileEdit::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate
 
 //////////////////// select an environment  ////////////////////
 
-void KileEdit::selectEnvironment(bool inside, Kate::View *view)
+void EditorExtension::selectEnvironment(bool inside, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -250,7 +259,7 @@ void KileEdit::selectEnvironment(bool inside, Kate::View *view)
 	}
 }
 
-void KileEdit::deleteEnvironment(bool inside, Kate::View *view)
+void EditorExtension::deleteEnvironment(bool inside, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -268,7 +277,7 @@ void KileEdit::deleteEnvironment(bool inside, Kate::View *view)
 
 // calculate start and end of an environment
 
-bool KileEdit::getEnvironment(bool inside, EnvData &envbegin, EnvData &envend, Kate::View *view)
+bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &envend, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
@@ -312,7 +321,7 @@ bool KileEdit::getEnvironment(bool inside, EnvData &envbegin, EnvData &envend, K
 //  - \begin{env} tag: we will stop immediately
 //  - \end{env} tag: we will start before this tag
 
-bool KileEdit::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
+bool EditorExtension::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
 {
 	// kdDebug() << "   find begin:  " << endl;
 	if ( isEnvironmentPosition(doc,row,col,env) )
@@ -344,7 +353,7 @@ bool KileEdit::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvD
 //  - \end{env} tag: we will stop immediately
 //  - \begin{env} tag: we will start behind this tag
 
-bool KileEdit::findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
+bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
 {
 	if ( isEnvironmentPosition(doc,row,col,env) )
 	{
@@ -365,7 +374,7 @@ bool KileEdit::findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvDat
 
 // find the last/next non-nested environment tag
 
-bool KileEdit::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
+bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
                                   EnvData &env,bool backwards)
 {
 	KTextEditor::SearchInterface *iface;
@@ -421,7 +430,7 @@ bool KileEdit::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
 // to the beginning backslash of the environment tag. The same algorithms as
 // matching brackets is used.
 
-bool KileEdit::isEnvironmentPosition(Kate::Document *doc, uint row, uint col, EnvData &env)
+bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint col, EnvData &env)
 {
 	// get real textline without comments, quoted characters and pairs of backslashes
 	QString textline = getTextLineReal(doc,row);
@@ -519,7 +528,7 @@ bool KileEdit::isEnvironmentPosition(Kate::Document *doc, uint row, uint col, En
 
 // check if the current position is within a comment
 
-bool KileEdit::isCommentPosition(Kate::Document *doc, uint row, uint col)
+bool EditorExtension::isCommentPosition(Kate::Document *doc, uint row, uint col)
 {
 	QString textline = doc->textLine(row);
 	
@@ -546,7 +555,7 @@ bool KileEdit::isCommentPosition(Kate::Document *doc, uint row, uint col)
 //  - there is no comment sign in this line before
 //  - there is not a odd number of backslashes directly before
 
-bool KileEdit::isValidBackslash(Kate::Document *doc, uint row, uint col)
+bool EditorExtension::isValidBackslash(Kate::Document *doc, uint row, uint col)
 {
 	QString textline = doc->textLine(row);
 	
@@ -571,7 +580,7 @@ bool KileEdit::isValidBackslash(Kate::Document *doc, uint row, uint col)
 
 //////////////////// goto next bullet ////////////////////
 
-void KileEdit::gotoBullet(const QString &bullet, bool backwards, Kate::View *view)
+void EditorExtension::gotoBullet(const QString &bullet, bool backwards, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -603,7 +612,7 @@ void KileEdit::gotoBullet(const QString &bullet, bool backwards, Kate::View *vie
 
 //////////////////// increase/decrease cursor position ////////////////////
 
-bool KileEdit::increaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
+bool EditorExtension::increaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
 {
 	bool ok = true;
 	
@@ -620,7 +629,7 @@ bool KileEdit::increaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
 	return ok;
 }
 
-bool KileEdit::decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
+bool EditorExtension::decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
 {
 	bool ok = true;
 	
@@ -641,7 +650,7 @@ bool KileEdit::decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
 
 // goto the next non-nested bracket
 
-void KileEdit::gotoTexgroup(bool backwards, Kate::View *view)
+void EditorExtension::gotoTexgroup(bool backwards, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -672,7 +681,7 @@ void KileEdit::gotoTexgroup(bool backwards, Kate::View *view)
 
 // match the opposite bracket
 
-void KileEdit::matchTexgroup(Kate::View *view)
+void EditorExtension::matchTexgroup(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -713,7 +722,7 @@ void KileEdit::matchTexgroup(Kate::View *view)
 
 // search for the last opened texgroup and close it
 
-void KileEdit::closeTexgroup(Kate::View *view)
+void EditorExtension::closeTexgroup(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -738,7 +747,7 @@ void KileEdit::closeTexgroup(Kate::View *view)
 
 //////////////////// select a texgroup  ////////////////////
 
-void KileEdit::selectTexgroup(bool inside, Kate::View *view)
+void EditorExtension::selectTexgroup(bool inside, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -752,7 +761,7 @@ void KileEdit::selectTexgroup(bool inside, Kate::View *view)
 	}
 }
 
-void KileEdit::deleteTexgroup(bool inside, Kate::View *view)
+void EditorExtension::deleteTexgroup(bool inside, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -770,7 +779,7 @@ void KileEdit::deleteTexgroup(bool inside, Kate::View *view)
 
 // calculate start and end of an environment
 
-bool KileEdit::getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view)
+bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
@@ -798,7 +807,7 @@ bool KileEdit::getTexgroup(bool inside, BracketData &open, BracketData &close, K
 //  - '{': we will stop immediately
 //  - '}': we will start before this character
 
-bool KileEdit::findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	if ( isBracketPosition(doc,row,col,bracket) )
 	{
@@ -823,7 +832,7 @@ bool KileEdit::findOpenBracket(Kate::Document *doc, uint row, uint col, BracketD
 //  - '}': we will stop immediately
 //  - '{': we will start behind this character
 
-bool KileEdit::findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	if ( isBracketPosition(doc,row,col,bracket) )
 	{
@@ -856,7 +865,7 @@ bool KileEdit::findCloseBracket(Kate::Document *doc, uint row, uint col, Bracket
    6) Otherwise, don't match anything.
 */
 
-bool KileEdit::isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	// default results
 	bracket.row = row;
@@ -905,7 +914,7 @@ bool KileEdit::isBracketPosition(Kate::Document *doc, uint row, uint col, Bracke
 
 // find next non-nested closing bracket
 
-bool KileEdit::findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket)
+bool EditorExtension::findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket)
 {
 	uint brackets = 0;
 	for ( uint line=row; line<doc->numLines(); line++ )
@@ -938,7 +947,7 @@ bool KileEdit::findCloseBracketTag(Kate::Document *doc, uint row, uint col,Brack
 
 // find next non-nested opening bracket
 
-bool KileEdit::findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	uint brackets = 0;
 	for ( int line=row; line>=0; line-- )
@@ -978,7 +987,7 @@ bool KileEdit::findOpenBracketTag(Kate::Document *doc, uint row, uint col, Brack
 //  - all comments
 // replace these characters one one, which never will be looked for
 
-QString KileEdit::getTextLineReal(Kate::Document *doc, uint row)
+QString EditorExtension::getTextLineReal(Kate::Document *doc, uint row)
 {
 	QString textline = doc->textLine(row);
 	uint len = textline.length();
@@ -1040,7 +1049,7 @@ QString KileEdit::getTextLineReal(Kate::Document *doc, uint row)
 // - smWord:     letters and digits
 // - smNospace:  everything except white space
 
-bool KileEdit::getCurrentWord(Kate::Document *doc, uint row, uint col, KileEdit::SelectMode mode, QString &word,uint &x1,uint &x2)
+bool EditorExtension::getCurrentWord(Kate::Document *doc, uint row, uint col, EditorExtension::SelectMode mode, QString &word,uint &x1,uint &x2)
 {
     // get real textline without comments, quoted characters and pairs of backslashes
 	QString textline = getTextLineReal(doc,row);
@@ -1109,7 +1118,7 @@ bool KileEdit::getCurrentWord(Kate::Document *doc, uint row, uint col, KileEdit:
 
 //////////////////// move/unmove selections ////////////////////
 
-void KileEdit::commentSelection(bool insert, Kate::View *view)
+void EditorExtension::commentSelection(bool insert, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1117,7 +1126,7 @@ void KileEdit::commentSelection(bool insert, Kate::View *view)
 	moveSelection("%",insert,view);
 }
 
-void KileEdit::spaceSelection(bool insert, Kate::View *view)
+void EditorExtension::spaceSelection(bool insert, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1125,7 +1134,7 @@ void KileEdit::spaceSelection(bool insert, Kate::View *view)
 	moveSelection(" ",insert,view);
 }
 
-void KileEdit::tabSelection(bool insert, Kate::View *view)
+void EditorExtension::tabSelection(bool insert, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1133,7 +1142,7 @@ void KileEdit::tabSelection(bool insert, Kate::View *view)
 	moveSelection("\t",insert,view);
 }
 
-void KileEdit::stringSelection(bool insert, Kate::View *view)
+void EditorExtension::stringSelection(bool insert, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1146,7 +1155,7 @@ void KileEdit::stringSelection(bool insert, Kate::View *view)
 	delete dialog;
 }
 
-void KileEdit::moveSelection(const QString &prefix,bool insertmode, Kate::View *view)
+void EditorExtension::moveSelection(const QString &prefix,bool insertmode, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1234,7 +1243,7 @@ void KileEdit::moveSelection(const QString &prefix,bool insertmode, Kate::View *
 
 //////////////////// paragraph ////////////////////
 
-void KileEdit::selectParagraph(Kate::View *view)
+void EditorExtension::selectParagraph(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1247,7 +1256,7 @@ void KileEdit::selectParagraph(Kate::View *view)
 	}
 }
 
-void KileEdit::deleteParagraph(Kate::View *view)
+void EditorExtension::deleteParagraph(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1269,7 +1278,7 @@ void KileEdit::deleteParagraph(Kate::View *view)
 
 // get the range of the current paragraph
 
-bool KileEdit::findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view)
+bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
@@ -1310,7 +1319,7 @@ bool KileEdit::findCurrentTexParagraph(uint &startline, uint &endline, Kate::Vie
 
 //////////////////// one line of text////////////////////
 
-void KileEdit::selectLine(Kate::View *view)
+void EditorExtension::selectLine(Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1329,7 +1338,7 @@ void KileEdit::selectLine(Kate::View *view)
 
 //////////////////// LaTeX command ////////////////////
 
-void KileEdit::selectWord(KileEdit::SelectMode mode, Kate::View *view)
+void EditorExtension::selectWord(EditorExtension::SelectMode mode, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1346,7 +1355,7 @@ void KileEdit::selectWord(KileEdit::SelectMode mode, Kate::View *view)
 	}
 }
 
-void KileEdit::deleteWord(KileEdit::SelectMode mode, Kate::View *view)
+void EditorExtension::deleteWord(EditorExtension::SelectMode mode, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1361,6 +1370,36 @@ void KileEdit::deleteWord(KileEdit::SelectMode mode, Kate::View *view)
 	{
 		doc->removeText(row,col1,row,col2);
 	}
+}
+
+void EditorExtension::nextBullet()
+{
+	gotoBullet(complete()->getBullet(), false);
+}
+
+void EditorExtension::prevBullet()
+{
+	gotoBullet(complete()->getBullet(), true);
+}
+
+void EditorExtension::completeWord()
+{
+	complete()->setView(m_ki->viewManager()->currentView());
+	complete()->editComplete(KileDocument::CodeCompletion::cmLatex);
+}
+
+void EditorExtension::completeEnvironment()
+{
+	complete()->setView(m_ki->viewManager()->currentView());
+	complete()->editComplete(KileDocument::CodeCompletion::cmEnvironment);
+}
+
+void EditorExtension::completeAbbreviation()
+{
+	complete()->setView(m_ki->viewManager()->currentView());
+	complete()->editComplete(KileDocument::CodeCompletion::cmAbbreviation);
+}
+
 }
 
 #include "kileedit.moc"

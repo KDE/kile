@@ -32,6 +32,31 @@ TemplateItem::~TemplateItem()
 {
 }
 
+NewFileWidget::NewFileWidget(QWidget *parent , char *name) : KIconView(parent,name)
+{
+   setItemsMovable(false);
+   setResizeMode(QIconView::Fixed);
+   setSelectionMode(QIconView::Single);
+   setResizePolicy(QScrollView::AutoOneFit);
+   setArrangement(QIconView::TopToBottom);
+
+   TemplateInfo info;
+   info.name =DEFAULT_EMPTY_CAPTION;
+   info.icon =KGlobal::dirs()->findResource("appdata",DEFAULT_EMPTY_ICON );
+   info.path="";
+   TemplateItem * emp = new TemplateItem( this, info);
+
+   Templates templ;
+   for (int i=0; i< templ.count(); i++) {
+      //(void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );
+      (void) new TemplateItem(this, *templ.at(i));
+   }
+
+   setSelected(emp,true);
+   ensureItemVisible(emp);
+   setMinimumHeight(100);
+}
+
 NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
   : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true)
 {
@@ -42,30 +67,9 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
 
    topLayout->addWidget( new QLabel(i18n("Please select the type of document you want to create:"),page));
 
-   iv = new KIconView( page );
-   iv->setItemsMovable(false);
-   iv->setResizeMode(QIconView::Fixed);
-   iv->setSelectionMode(QIconView::Single);
-   iv->setResizePolicy(QScrollView::AutoOneFit);
-   iv->setArrangement(QIconView::TopToBottom);
-
-   TemplateInfo info;
-   info.name =DEFAULT_EMPTY_CAPTION;
-   info.icon =KGlobal::dirs()->findResource("appdata",DEFAULT_EMPTY_ICON );
-   info.path="";
-   TemplateItem * emp = new TemplateItem( iv, info);
-
-   Templates templ;
-   for (int i=0; i< templ.count(); i++) {
-      //(void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );
-      (void) new TemplateItem(iv, *templ.at(i));
-   }
-
-   iv->setSelected(emp,true);
-   iv->ensureItemVisible(emp);
-   iv->setMinimumHeight(100);
-
+   iv = new NewFileWidget( page );
    topLayout->addWidget(iv);
+
    connect(iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(accept()));
 
 }

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          newfilewizard.h  -  description
+                          kileprojectdlgs.h -  description
                              -------------------
-    begin                : Sat Apr 26 2003
+    begin                : Sun Aug 3 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
@@ -15,51 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef NEWFILEWIZARD_H
-#define NEWFILEWIZARD_H
+#ifndef KILEPROJECTDLGS_H
+#define KILEPROJECTDLGS_H
 
-#include <kstandarddirs.h>
-#include <kiconview.h>
 #include <kdialogbase.h>
 
-#include "templates.h"
+class NewFileWidget;
+class QCheckBox;
+class KLineEdit;
 
-#define DEFAULT_EMPTY_CAPTION i18n("Empty Document")
-#define DEFAULT_EMPTY_ICON "pics/type_Empty.png"
-
-class TemplateItem : public QIconViewItem
+class KileNewProjectDlg : public KDialogBase
 {
-public:
-	TemplateItem( QIconView * parent, const TemplateInfo & info);
-	~TemplateItem();
+	Q_OBJECT
 
-	QString name() { return m_info.name; }
-	QString path() { return m_info.path; }
-	QString icon() { return m_info.icon; }
+public:
+	KileNewProjectDlg(QWidget* parent = 0, const char* name = 0);
+	~KileNewProjectDlg();
+
+	QString name() {return m_name->text();}
+	QString location() { return m_location->text(); }
+	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_nfw->currentItem());}
+	QString file() { return m_file->text();}
+	bool createNewFile() { return m_cb->isChecked(); }
+
+public slots:
+	void clickedCreateNewFileCb();
+	void browseLocation();
+
+	void slotOk();
 
 private:
-	TemplateInfo m_info;
-};
-
-class NewFileWidget : public KIconView
-{
-public:
-	NewFileWidget(QWidget *parent = 0, char *name = 0);
-	~NewFileWidget() {}
-};
-
-class NewFileWizard : public KDialogBase  {
-   Q_OBJECT
-public:
-	NewFileWizard(QWidget *parent=0, const char *name=0);
-	~NewFileWizard();
-
-public:
-   TemplateItem* getSelection()const { return static_cast<TemplateItem*>(iv->currentItem());}
-
-private:
-   QIconView *iv;
+	KLineEdit	*m_name, *m_location, *m_file;
+	NewFileWidget *m_nfw;
+	QCheckBox	*m_cb;
 };
 
 #endif
-

@@ -107,11 +107,14 @@ public:
 	 **/
 	const long* getStatistics();
 
-	const QStringList* getLabelList() const{ return &m_labels; }
-	const QStringList* getBibItemList() const { return &m_bibItems; }
+	const QStringList* labels() const{ return &m_labels; }
+	const QStringList* bibItems() const { return &m_bibItems; }
+	const QStringList* dependencies() const {return &m_deps; }
 
 	KileListViewItem* structViewItem() { return m_struct; }
 	void setListView(KListView *lv) { m_structview = lv;}
+
+	bool isLaTeXRoot();
 
 public slots:
 	void updateStruct();
@@ -132,6 +135,7 @@ private:
 	long						*m_arStatistics;
 	QStringList			m_labels;
 	QStringList			m_bibItems;
+	QStringList			m_deps;
 	KListView				*m_structview;
 	KileListViewItem	*m_struct;
 	QMap<QString,KileStructData>		m_dictStructLevel;

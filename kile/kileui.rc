@@ -78,6 +78,13 @@
 	<Separator/>
 	<Action name="CleanAll"/>
 </Menu>
+<Menu name="menu_project"><text>&amp;Project</text>
+	<Action name="project_new"/>
+	<Action name="project_open"/>
+	<Action name="project_save"/>
+	<Separator/>
+	<Action name="project_close"/>
+</Menu>
 <Menu name="menu_latex"><text>&amp;LaTeX</text><!-- menu4 !-->
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>

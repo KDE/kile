@@ -86,6 +86,9 @@ class QSignalMapper;
 class KActionMenu;
 
 class KileEventFilter;
+class KileProject;
+class KileProjectItem;
+class TemplateItem;
 
 #ifndef KILE_USERITEM
 struct userItem
@@ -313,13 +316,14 @@ public slots:
 	 * @returns pointer to the new view
 	 **/
 	Kate::View* load( const KURL &url , const QString & encoding = 0);
+	Kate::View* loadTemplate(TemplateItem*);
 
 private slots:
 	void fileNew();
 	void fileOpen();
 	void fileOpen(const KURL& url);
 	void fileSaveAll(bool amAutoSaving = false);
-	void fileClose();
+	bool fileClose(Kate::Document *doc = 0);
 	bool fileCloseAll();
 	void fileSelected(const KFileItem *file);
 
@@ -340,6 +344,11 @@ private slots:
 	void gotoNextDocument();
 	void gotoPrevDocument();
 
+	void projectNew();
+	void projectOpen();
+	void projectSave();
+	void projectClose();
+
 	//
 	// documentinfo
 	//
@@ -353,8 +362,8 @@ private slots:
 public:
 	Kate::Document * activeDocument() const { Kate::View *view = currentView(); if (view) return view->getDoc(); else return 0;}
 
-	const QStringList* getLabelList() const;
-	const QStringList* getBibItemList() const { return 0L; }
+	const QStringList* labels() const;
+	const QStringList* bibItems() const { return 0L; }
 
 private:
 	bool singlemode;
@@ -405,7 +414,6 @@ private slots:
 	QStringList 	prepareForConversion(const QString &command, const QString &from, const QString &to);
 	QString 		prepareForViewing(const QString & command, const QString &ext, const QString &target);
 
-	bool isLaTeXRoot(Kate::Document *);
 	void Latex();
 	void ViewDvi();
 	void KdviForwardSearch();

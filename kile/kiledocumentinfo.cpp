@@ -25,6 +25,17 @@
 
 #include "kiledocumentinfo.h"
 
+bool KileDocumentInfo::isLaTeXRoot()
+{
+	if (	!m_doc->text().contains("\\documentclass", true) &&
+		!m_doc->text().contains("\\documentstyle", true))
+	{
+		return false;
+	}
+
+	return true;
+}
+
 KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
 {
 	m_doc = doc;
@@ -162,6 +173,8 @@ void KileDocumentInfo::updateStruct()
 	if ((shortName.right(4)!=".tex") && (shortName!="untitled"))  return;
 
 	m_labels.clear();
+	m_bibItems.clear();
+	m_deps.clear();
 
 	delete m_struct;
 
@@ -239,6 +252,10 @@ void KileDocumentInfo::updateStruct()
 					//update the label list
 					if ((*it).type == KileStruct::Label)
 						m_labels.append(s.mid(tagEnd, m-tagEnd).stripWhiteSpace());
+
+					//update the dependencies
+					if ((*it).type == KileStruct::Input)
+						m_deps.append(s.mid(tagEnd, m-tagEnd).stripWhiteSpace());
 
 					//start the next search at the end of this tag
 					tagEnd = m;

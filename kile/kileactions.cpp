@@ -226,14 +226,14 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 		if (options & KileAction::FromLabelList)
 		{
-			list = ki->getLabelList();
+			list = ki->labels();
 			input->insertStringList(*list);
 			m_tag = list->first();
 		}
 		else
 		if (options & KileAction::FromBibItemList)
 		{
-			list = ki->getBibItemList();
+			list = ki->bibItems();
 			input->insertStringList(*list);
 			m_tag = list->first();
 		}

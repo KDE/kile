@@ -17,6 +17,7 @@
 
 #include <kate/document.h>
 
+#include "kileproject.h"
 #include "kileinfo.h"
 
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
@@ -36,3 +37,47 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 
 	return title;
 }
+
+KileProject* KileInfo::activeProject()
+{
+	KileProject *curpr=0;
+	Kate::Document *doc = activeDocument();
+
+	if (doc)
+	{
+		for (uint i=0; i < m_projects.count(); i++)
+		{
+			if (m_projects.at(i)->contains(doc->url()) )
+			{
+				curpr = m_projects.at(i);
+				break;
+			}
+		}
+	}
+
+	return curpr;
+}
+
+KileProjectItem* KileInfo::activeProjectItem()
+{
+	KileProject *curpr = activeProject();
+	Kate::Document *doc = activeDocument();
+	KileProjectItem *item = 0;
+
+	if (curpr && doc)
+	{
+		KileProjectItemList *list = curpr->items();
+
+		for (uint i=0; i < list->count(); i++)
+		{
+			if (list->at(i)->url() == doc->url())
+			{
+				item = list->at(i);
+				break;
+			}
+		}
+	}
+
+	return item;
+}
+

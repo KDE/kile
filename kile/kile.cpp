@@ -76,6 +76,8 @@
 #include "kilestdactions.h"
 #include "usermenudialog.h"
 #include "kileconfigdialog.h"
+#include "kileproject.h"
+#include "kileprojectdlgs.h"
 
 Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), KileInfo()
 {
@@ -257,6 +259,13 @@ void Kile::setupActions()
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
 	(void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
 
+	//project actions
+	(void) new KAction(i18n("&New Project..."), "filenew", 0, this, SLOT(projectNew()), actionCollection(), "project_new");
+	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
+	(void) new KAction(i18n("&Save Project"), "filesave", 0, this, SLOT(projectSave()), actionCollection(), "project_save");
+	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
+
+	//build actions
 	(void) new KAction(i18n("Quick Build"),"quick", Key_F1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
 	(void) new KAction(i18n("View Log File"),"viewlog", Key_F10, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
 	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
@@ -503,6 +512,25 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 
 	ShowStructure();
 
+	//see if this file really belongs to a project
+	KileProjectItemList *list;
+	for (uint i=0; i < m_projects.count(); i++)
+	{
+		if (m_projects.at(i)->contains(doc->url()) )
+		{
+			list = m_projects.at(i)->items();
+			for (uint j=0; j < list->count(); j++)
+			{
+				if (list->at(j)->url() == url)
+				{
+					kdDebug() << "Kile::load(" << url.path() <<") belongs to the project " << m_projects.at(i)->name()  << endl;
+					mapItem(doc,list->at(j));
+				}
+			}
+			break;
+		}
+	}
+
 	return view;
 }
 
@@ -515,6 +543,13 @@ void Kile::slotNameChanged(Kate::Document * doc)
 	for (uint i=0; i < list.count(); i++)
 	{
 		tabWidget->setTabLabel((Kate::View*) list.at(i), getShortName(doc));
+	}
+
+	KileProjectItem *item = itemFor(doc);
+
+	if (item)
+	{
+		item->changeURL(doc->url());
 	}
 }
 
@@ -583,13 +618,16 @@ void Kile::setHighlightMode(Kate::Document * doc)
 
 void Kile::fileNew()
 {
-
     NewFileWizard *nfw = new NewFileWizard(this);
 
     if (nfw->exec()) {
-	Kate::View *view = load(KURL());
+		loadTemplate(nfw->getSelection());
+    }
+}
 
-	TemplateItem *sel = nfw->getSelection();
+Kate::View* Kile::loadTemplate(TemplateItem *sel)
+{
+	Kate::View *view = load(KURL());
 
 	if (sel->name() != DEFAULT_EMPTY_CAPTION)
 	{
@@ -613,9 +651,9 @@ void Kile::fileNew()
 			setHighlightMode(view->getDoc());
 		}
 	}
-    }
-}
 
+	return view;
+}
 //TODO: connect to modifiedondisc() when using KDE 3.2
 bool Kile::eventFilter(QObject* o, QEvent* e)
 {
@@ -740,8 +778,6 @@ void Kile::autoSaveAll()
       		shortName.remove(0,pos+1);
 		statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
 	}
-
-
 }
 
 void Kile::enableAutosave(bool as)
@@ -749,6 +785,109 @@ void Kile::enableAutosave(bool as)
 	autosave=as;
 	if (autosave) m_AutosaveTimer->start(autosaveinterval);
 	else m_AutosaveTimer->stop();
+}
+
+void Kile::projectNew()
+{
+	KileNewProjectDlg *dlg = new KileNewProjectDlg(this);
+
+	if (dlg->exec())
+	{
+		kdDebug() << "NEW PROJECT : " << dlg->name() << " " << dlg->location() << endl;
+
+		KileProject *project = new KileProject(dlg->name(), dlg->location());
+
+		if (dlg->createNewFile())
+		{
+			//create the new document and fill it with the template
+			Kate::View *view = loadTemplate(dlg->getSelection());
+
+			//derive the URL from the base url of the project
+			KURL url = project->baseURL();
+			url.addPath(dlg->file());
+
+			//save the new file
+			view->getDoc()->saveAs(url);
+
+			//add this file to the project
+			KileProjectItem *item = new KileProjectItem(url);
+			project->add(item);
+			mapItem(view->getDoc(), item);
+		}
+
+		project->save();
+	}
+}
+
+void Kile::projectOpen()
+{
+	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project files\n*|All files"), this,i18n("Open Project") );
+
+	KileProject *kp = new KileProject(url);
+
+	KileProjectItemList *list = kp->items();
+
+	kdDebug() << "projectOpen " << list->count() << " items" << endl;
+
+	Kate::View *view;
+	for ( uint i=0; i < list->count(); i++)
+	{
+		kdDebug() << "projectOpen " << list->at(i)->url().path() << endl;
+		if (list->at(i)->isOpen())
+		{
+			view = load(list->at(i)->url());
+			mapItem(view->getDoc(), list->at(i));
+		}
+	}
+
+	m_projects.append(kp);
+}
+
+void Kile::projectSave()
+{
+	//find the project that corresponds to the active doc
+	KileProject *project= activeProject();
+
+	if (project)
+	{
+		KileProjectItemList *list = project->items();
+
+		//update the open-state of the items
+		for (uint i=0; i < list->count(); i++)
+		{
+			list->at(i)->setOpenState(isOpen(list->at(i)->url()));
+		}
+
+		project->save();
+	}
+	else
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could not save project."));
+
+}
+
+void Kile::projectClose()
+{
+	KileProject *project = activeProject();
+
+	if (project)
+	{
+		KileProjectItemList *list = project->items();
+
+		bool close = true;
+		for (uint i =0; i < list->count(); i++)
+		{
+			close = close && fileClose(docFor(list->at(i)));
+		}
+
+		if (close)
+		{
+			m_projects.remove(project);
+			delete project;
+		}
+	}
+	else
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could not save project."));
+
 }
 
 void Kile::createTemplate() {
@@ -805,18 +944,28 @@ void Kile::focusEditor()
 	if (view) view->setFocus();
 }
 
-void Kile::fileClose()
+bool Kile::fileClose(Kate::Document *doc /* = 0*/)
 {
-	//TODO: remove from docinfo map, remove from dirwatch
 	Kate::View *view = currentView();
+
+	if (doc)
+		view = static_cast<Kate::View*>(doc->views().first());
+
+	//TODO: remove from docinfo map, remove from dirwatch
 	if (view)
 	{
 		kdDebug() << "fileClose : " << view->getDoc()->docName() << endl;
 		if (view->getDoc()->closeURL() )
 		{
 			removeView(view);
+			m_mapDocInfo.remove(doc);
+			removeMap(doc, itemFor(doc));
 		}
+		else
+			return false;
 	}
+
+	return true;
 }
 
 bool Kile::fileCloseAll()
@@ -833,14 +982,7 @@ bool Kile::fileCloseAll()
     {
 		view = m_viewList.first();
 
-		if (view->getDoc()->closeURL())
-		{
-			removeView(view);
-		}
-		else //user chose CANCEL
-		{
-			return false;
-		}
+		fileClose(view->getDoc());
     }
 
 	return true;
@@ -912,12 +1054,12 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	}
 }
 
-const QStringList* Kile::getLabelList() const
+const QStringList* Kile::labels() const
 {
 	const KileDocumentInfo *docinfo = getInfo();
 
 	if (docinfo)
-		return docinfo->getLabelList();
+		return docinfo->labels();
 	else
 		return 0;
 }
@@ -1338,17 +1480,6 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  return proc;
 }
 
-bool Kile::isLaTeXRoot(Kate::Document *doc)
-{
-	if (	!doc->text().contains("\\documentclass", true) &&
-		!doc->text().contains("\\documentstyle", true))
-	{
-		return false;
-	}
-
-	return true;
-}
-
 //This function prepares files for compiling by the command <command>.
 // - untitled document -> warn user that he needs to save the file
 // - save the file (if untitled a file save dialog is opened)
@@ -1383,7 +1514,11 @@ QString Kile::prepareForCompile(const QString & command) {
   if (singlemode)
   {
 	finame=getName();
-	if (view && !isLaTeXRoot(view->getDoc()))
+	bool isRoot = true;
+	KileDocumentInfo *docinfo = getInfo();
+	if (docinfo) isRoot = docinfo->isLaTeXRoot();
+
+	if (view && ! isRoot )
 	{
 		if (KMessageBox::warningYesNo(this,i18n("This document doesn't contain a LaTeX header.\nIt should probably be used with a master document.\nContinue anyway?"))
 			== KMessageBox::No)

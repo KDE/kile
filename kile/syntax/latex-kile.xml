@@ -128,7 +128,7 @@
 		<itemDatas>
 			<itemData name="Normal Text" defStyleNum="dsNormal"/>
 			<itemData name="Keyword" defStyleNum="dsNormal" color="#800000" selColor="#60FFFF" bold="0" italic="0"/>
-			<itemData name="Comment" defStyleNum="dsNormal"/>
+			<itemData name="Comment" defStyleNum="dsComment"/>
 			<itemData name="Math" defStyleNum="dsNormal" color="#00A000" selColor="#FF40FF"  bold="0" italic="0"/>
 			<itemData name="Structure" defStyleNum="dsNormal" color="#F00000" selColor="#80FFD0" bold="0" italic="0"/>
 			<itemData name="Keyword Mathmode" defStyleNum="dsNormal" color="#606000" selColor="#FFD0FF" bold="0" italic="0"/>

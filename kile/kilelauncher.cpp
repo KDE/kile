@@ -119,7 +119,7 @@
 			out += "*****\n";
 			emit(output(out));
 
-			if ( KGlobal::dirs()->findExe(KRun::binaryName(m_cmd, false)) == QString::null ) return false;
+			//if ( KGlobal::dirs()->findExe(KRun::binaryName(m_cmd, false)) == QString::null ) return false;
 
 			bool r = m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 			if (r) kdDebug() << "launch successful" << endl;

@@ -379,6 +379,8 @@ private slots:
 	bool projectClose(const KURL & url = KURL());
 	bool projectCloseAll();
 
+	void storeProjectItem(KileProjectItem *item, Kate::Document *doc);
+
 	KileProject* selectProject(const QString &);
 	void addProject(const KileProject *project);
 	void addToProject(const KURL &);

@@ -510,6 +510,8 @@ void Kile::restore()
 ////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load)
 {
+	QString hl = highlight;
+
 	kdDebug() << "==Kile::load==========================" << endl;
 	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
@@ -551,7 +553,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		doc->setDocName(i18n("Untitled"));
 	}
 
-	setHighlightMode(doc, highlight);
+
 
 	KileDocumentInfo *docinfo = 0;
 
@@ -566,9 +568,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		if (docinfo)
 			docinfo->setDoc(doc);
 
-		//if (itemFor(docinfo) == 0)
-  			//mapItem(docinfo, item);
-
+		hl = item->highlight();
 		item->setOpenState(create);
 	}
 
@@ -585,6 +585,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		m_infoList.append(docinfo);
 	}
 	mapInfo(doc, docinfo);
+
+	setHighlightMode(doc, hl);
 
 	//handle changes of the document
 	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
@@ -704,23 +706,25 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	QString hl = highlight;
 	QString ext = doc->url().fileName().right(4);
 
+	if ( hl == QString::null && ext == ".bib" ) hl = "BibTeX-Kile";
+
 	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
-	if (hl == QString::null) hl = "LaTeX-Kile";
-	for (i = 0; i < c; i++)
-	{
-		if (doc->hlModeName(i) == hl) { found = true; break; }
-	}
+		if (hl == QString::null) hl = "LaTeX-Kile";
+		for (i = 0; i < c; i++)
+		{
+			if (doc->hlModeName(i) == hl) { found = true; break; }
+		}
 
-	if (found)
-	{
-		doc->setHlMode(i);
-	}
-	else
-	{
-		//doc->setHlMode(0);
-		kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
-	}
+		if (found)
+		{
+			doc->setHlMode(i);
+		}
+		else
+		{
+			//doc->setHlMode(0);
+			kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
+		}
 	}
 }
 
@@ -1272,6 +1276,15 @@ void Kile::projectOpen()
 		projectOpen(url);
 }
 
+void Kile::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
+{
+	kdDebug() << "===Kile::storeProjectItem==============" << endl;
+	item->setEncoding( doc->encoding());
+	item->setHighlight( doc->hlModeName(doc->hlMode()));
+
+	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
+}
+
 void Kile::projectSave(KileProject *project /* = 0 */)
 {
 	kdDebug() << "==Kile::projectSave==========================" << endl;
@@ -1305,8 +1318,7 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 
 			if (doc)
 			{
-				item->setEncoding( doc->encoding());
-				item->setHighlight( doc->hlModeName(doc->hlMode()));
+				storeProjectItem(item, doc);
 			}
 		}
 
@@ -1620,23 +1632,29 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		return true;
 
 	//TODO: remove from docinfo map, remove from dirwatch
-	KileDocumentInfo *docinfo;
+
 	if (view)
 	{
 		kdDebug() << "==Kile::fileClose==========================" << endl;
 		kdDebug() << "\t" << view->getDoc()->docName() << endl;
 
 		KURL url = view->getDoc()->url();
-		KileProjectItem *item;
+
+		KileDocumentInfo *docinfo= infoFor(doc);
+		KileProjectItem *item = itemFor(docinfo);
+
+		if (item && doc)
+		{
+			storeProjectItem(item,doc);
+		}
+
 		if (view->getDoc()->closeURL() )
 		{
 			//KMessageBox::information(this,"closing "+url.path());
 			kdDebug() << "\tclosed" << endl;
 			removeView(view);
 			//remove the decorations
-			kdDebug() << "\tfound docinfo " << docinfo << endl;
-			docinfo = infoFor(doc);
-			item = itemFor(docinfo);
+
 			if ( (item == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo

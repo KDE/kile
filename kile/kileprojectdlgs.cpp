@@ -59,6 +59,7 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	connect(m_name, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
+	m_location->setMinimumWidth(200);
 	m_dir = QDir::home().absPath()+"/";
 	kdDebug() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);

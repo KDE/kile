@@ -1,7 +1,26 @@
 [Desktop Entry]
 Encoding=UTF-8
 Comment=Kile Project
-Comment[nl]=Kile Project
+Comment[cs]=Kile projekt
+Comment[da]=Kile-projekt
+Comment[el]=Έργο Kile
+Comment[es]=Proyecto Kile
+Comment[et]=Kile projekt
+Comment[fr]=Projet Kile
+Comment[hi]=काइल परियोजना
+Comment[hu]=Kile-projekt
+Comment[it]=Progetto di Kile
+Comment[nl]=Kile-project
+Comment[pt]=Projecto do Kile
+Comment[pt_BR]=Projeto Kile
+Comment[sl]=Projekt Kile
+Comment[sr]=Kile-ов пројекат
+Comment[sr@Latn]=Kile-ов пројекат
+Comment[sv]=Kile-projekt
+Comment[ta]=க்யில் திட்டப்பணி
+Comment[tr]=Kile Projesi
+Comment[xx]=xxKile Projectxx
+Comment[zh_CN]=Kile 项目
 Icon=kile
 MimeType=text/x-kilepr
 Patterns=*.kilepr;

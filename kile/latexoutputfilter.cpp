@@ -131,12 +131,19 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			}
 			//The partial filename was followed by an TeX error, meaning the file doesn't exist.
 			//Don't push it on the stack, instead try to detect the error.
-			else if ( strLine.startsWith("!") || strLine.startsWith("No file") )
+			else if ( strLine.startsWith("!") )
 			{
 				kdDebug() << "oops!" << endl;
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				detectError(strLine, dwCookie);
+			}
+			else if ( strLine.startsWith("No file") )
+			{
+				kdDebug() << "No file: " << strLine << endl;
+				dwCookie = Start;
+				strPartialFileName = QString::null;
+				detectWarning(strLine, dwCookie);
 			}
 			//Partial filename still isn't complete.
 			else
@@ -344,6 +351,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 
 	static QRegExp::QRegExp reLaTeXWarning("^(! )?(La|pdf)TeX .*Warning.*:(.*)", false);
 	//static QRegExp::QRegExp warning3(".*warning.*: (.*)", false);  
+	static QRegExp::QRegExp reNoFile("No file (.*)");
 
 	switch (dwCookie)
 	{
@@ -362,6 +370,14 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 
 				m_currentItem.setMessage(warning);
 			}
+			else if ( reNoFile.search(strLine) != -1 )
+			{
+				found = true;
+				flush = true;
+				m_currentItem.setSourceLine(0);
+				m_currentItem.setMessage(reNoFile.cap(0));
+			}
+
 		break;
 
 		//warning spans multiple lines, detect the end

@@ -397,9 +397,6 @@ private slots:
 public slots:
 	void projectOpen(const QString& proj) { projectOpen(KURL::fromPathOrURL(proj)); }
 
-private:
-	void sanityCheck();
-
 signals:
 	void projectTreeChanged(const KileProject *);
 

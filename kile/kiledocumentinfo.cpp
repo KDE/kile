@@ -27,7 +27,7 @@
 
 KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 {
-	kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
+	//kdDebug() << "KileDocumentInfo created for " << m_doc->docName() << endl;
 
 	m_struct = 0;
 	m_bIsRoot = false;
@@ -53,16 +53,16 @@ KileDocumentInfo::KileDocumentInfo(Kate::Document *doc) : m_doc(doc)
 
 void KileDocumentInfo::emitNameChanged(Kate::Document * /*doc*/)
 {
-	kdDebug() << "==KileDocumentInfo::emitNameChanged=========================="  << endl;
+	//kdDebug() << "==KileDocumentInfo::emitNameChanged=========================="  << endl;
 	if (m_doc)
 	{
-		kdDebug() << "\tfrom: " << m_url.path() << endl;
-		kdDebug() << "\tto: " << m_doc->url().path() << endl;
+		//kdDebug() << "\tfrom: " << m_url.path() << endl;
+		//kdDebug() << "\tto: " << m_doc->url().path() << endl;
 
 		//don't emit if new URL is empty (i.e. when closing the document)
 		if (!m_doc->url().isEmpty() && (m_url != m_doc->url() ) )
 		{
-			kdDebug() << "\temitting nameChanged(url)" << endl;
+			//kdDebug() << "\temitting nameChanged(url)" << endl;
 			setURL(m_doc->url());
 			//emit(nameChanged(m_url));
 			emit(nameChanged(m_doc));
@@ -166,7 +166,7 @@ const long* KileDocumentInfo::getStatistics()
 	for (uint l=0; l < m_doc->numLines(); l++)
 	{
 		line = m_doc->textLine(l);
-		kdDebug() << "getStat : line : " << line << endl;
+		//kdDebug() << "getStat : line : " << line << endl;
 		count(line, m_arStatistics);
 	}
 
@@ -209,13 +209,8 @@ QString KileDocumentInfo::matchBracket(uint &l, uint &pos)
 
 void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 {
-	if (getDoc())
-		kdDebug() << "==KileDocumentInfo::updateStruct==================" << getDoc()->url().path() << endl;
-	else
-	{
-		kdDebug() << "KileDocumentInfo::updateStruct() no Document for " << url().path() <<endl;
+	if (! getDoc())
 		return;
-	}
 
 	QString shortName = getDoc()->url().fileName();
 
@@ -225,7 +220,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	m_bibliography.clear();
 	m_bIsRoot = false;
 
-	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
+	//kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
 
 	delete m_struct;
 
@@ -276,13 +271,13 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 		{
 			if ( (!foundBD) && (s.find(reBD, tagEnd) != -1))
 			{
-				kdDebug() << "\tfound \\begin{document}" << endl;
+				//kdDebug() << "\tfound \\begin{document}" << endl;
 				foundBD = true;
 			}
 
 			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
 			{
-				kdDebug() << "\tsetting m_bIsRoot to TRUE" << endl;
+				//kdDebug() << "\tsetting m_bIsRoot to TRUE" << endl;
 				tagEnd += reRoot.cap(0).length();
 				m_bIsRoot = true;
 			}
@@ -306,7 +301,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					m = matchBracket(i, static_cast<uint&>(tagEnd));
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
-					kdDebug() << "\tgrabbed : " << m << endl;
+					//kdDebug() << "\tgrabbed : " << m << endl;
 				}
 
 				//title (or label) found, add the element to the listview
@@ -325,7 +320,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					//update the referenced Bib files
 					if((*it).type == KileStruct::Bibliography)
 					{
-						kdDebug() << "\tappending Bibiliograph file " << m << endl;
+						//kdDebug() << "\tappending Bibiliograph file " << m << endl;
 						m_bibliography.append(m.stripWhiteSpace());
 					}
 
@@ -336,7 +331,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 					//update the label list
 					if ((*it).type == KileStruct::BibItem)
 					{
-						kdDebug() << "\tappending bibitem " << m << endl;
+						//kdDebug() << "\tappending bibitem " << m << endl;
 						m_bibItems.append(m.stripWhiteSpace());
 					}
 

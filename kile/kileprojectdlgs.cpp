@@ -61,7 +61,7 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
 	m_location->setMinimumWidth(200);
 	m_dir = QDir::home().absPath()+"/";
-	kdDebug() << "M_DIR " << m_dir << endl;
+	//kdDebug() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);
 	lb = new QLabel(i18n("Project &file"), plainPage());
 	QWhatsThis::add(lb, whatsthisPath);
@@ -154,11 +154,11 @@ void KileNewProjectDlg::browseLocation()
 void KileNewProjectDlg::makeProjectPath()
 {
 	m_filename=bare();
-	kdDebug() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
+	//kdDebug() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
 	m_dir = QFileInfo(location()).dirPath();
 	if (m_dir.right(1) != "/") m_dir = m_dir+"/";
 
-	kdDebug() << "LOCATION " << location() << " AND " << m_dir << endl;
+	//kdDebug() << "LOCATION " << location() << " AND " << m_dir << endl;
 	m_location->setText(m_dir+m_filename);
 }
 
@@ -202,8 +202,8 @@ void KileNewProjectDlg::slotOk()
 			return;
 		}
 
-		kdDebug() << "==KileNewProjectDlg::slotOk()==============" << endl;
-		kdDebug() << "\t" << location() << " " << file.dirPath() << endl;
+		//kdDebug() << "==KileNewProjectDlg::slotOk()==============" << endl;
+		//kdDebug() << "\t" << location() << " " << file.dirPath() << endl;
 		if (! dr.exists())
 		{
 			bool suc = true;
@@ -214,12 +214,12 @@ void KileNewProjectDlg::slotOk()
 			{
 				path += "/"+dirs[i];
 				dir.setPath(path);
-				kdDebug() << "\tchecking : " << dir.absPath() << endl;
+				//kdDebug() << "\tchecking : " << dir.absPath() << endl;
 				if ( ! dir.exists() )
 				{
 					dir.mkdir(dir.absPath());
 					suc = dir.exists();
-					kdDebug() << "\t\tcreated : " << dir.absPath() << " suc = " << suc << endl;
+					//kdDebug() << "\t\tcreated : " << dir.absPath() << " suc = " << suc << endl;
 				}
 
 				if (!suc)

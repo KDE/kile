@@ -34,7 +34,7 @@ void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 
 void KileInfo::trash(Kate::Document *doc)
 {
-	kdDebug() << "\tTRASHING " <<  doc << endl;
+	//kdDebug() << "\tTRASHING " <<  doc << endl;
 	KileDocumentInfo *docinfo =  infoFor(doc);
 	if (docinfo) docinfo->detach();
 	removeMap(doc);
@@ -97,16 +97,16 @@ KileProjectItem* KileInfo::itemFor(const KURL &url)
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
 {
-	kdDebug() << "==KileInfo::infoFor==========================" << endl;
-	kdDebug() << "\t" << path << endl;
+	//kdDebug() << "==KileInfo::infoFor==========================" << endl;
+	//kdDebug() << "\t" << path << endl;
 	for (uint i=0; i < m_infoList.count(); i++)
 	{
-		kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
+		//kdDebug() << "\tconsidering " << m_infoList.at(i)->url().path() << endl;
 		if ( m_infoList.at(i)->url().path() == path)
 			return m_infoList.at(i);
 	}
 
-	kdDebug() << "\tCOULD NOT find info for " << path << endl;
+	//kdDebug() << "\tCOULD NOT find info for " << path << endl;
 	return 0;
 }
 
@@ -128,7 +128,7 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 
 	if (doc)
 	{
-		kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
+		//kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
 		title = shrt ? doc->url().fileName() : doc->url().path();
 
 		if (title == "") title = i18n("Untitled");

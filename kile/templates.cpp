@@ -30,7 +30,7 @@
 
 Templates::Templates()
 {
-	kdDebug() << "===Templates()===================" << endl;
+	//kdDebug() << "===Templates()===================" << endl;
    QStringList dirs = KGlobal::dirs()->findDirs("appdata","templates");
    QDir templates;
    TemplateInfo ti;
@@ -51,14 +51,8 @@ Templates::Templates()
         //NOTE: off limit strings in the templates names are
         //templates,template_,.tex.,.png,_template
 
-		if (m_TemplateList.contains(ti))
-			kdDebug() << "\tignoring: " << ti.path << endl;
-		else
-		{
+		if ( ! m_TemplateList.contains(ti))
 			m_TemplateList.append(ti);
-			kdDebug() << "\tadding: " << ti.path << endl;
-		}
-
      }
    }
 }

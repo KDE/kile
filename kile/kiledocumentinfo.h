@@ -95,7 +95,7 @@ class KileDocumentInfo : public QObject
 
 public:
 	KileDocumentInfo(Kate::Document *doc);
-	~KileDocumentInfo() {kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;}
+	~KileDocumentInfo() {}
 
 	/**
 	 * @returns the document for which this class is a decorator

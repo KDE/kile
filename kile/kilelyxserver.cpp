@@ -55,7 +55,7 @@ bool KileLyxServer::start()
 	if (m_running)
 		stop();
 
-	kdDebug() << "starting the LyX server..." << endl;
+	//kdDebug() << "starting the LyX server..." << endl;
 
 	if (openPipes())
 	{
@@ -68,10 +68,7 @@ bool KileLyxServer::start()
 				notifier = new QSocketNotifier((*it)->handle(), QSocketNotifier::Read, this);
 				connect(notifier, SIGNAL(activated(int)), this, SLOT(receive(int)));
 				m_notifier.append(notifier);
-				kdDebug() << "Created notifier for " << (*it)->name() << endl;
 			}
-			else
-				kdDebug() << "No notifier created fro " << (*it)->name() << endl;
 			++it;
 		}
 		m_running=true;
@@ -101,13 +98,9 @@ bool KileLyxServer::openPipes()
 			//create the dir first
 			if (mkdir(info.dirPath().ascii(), perms | S_IXUSR) == -1)
 				perror( "Could not create directory for pipe ");
-			else
-				kdDebug() << "Created directory " << info.dirPath() << endl;
 
 			if (mkfifo(pipes[i].ascii(), perms) == -1)
-   				perror( "Could not create pipe ");
-			else
-				kdDebug() << "Created pipe " << pipes[i] << endl;
+				perror( "Could not create pipe ");
 		}
 
 		file  = new QFile(info.absFilePath());
@@ -117,7 +110,7 @@ bool KileLyxServer::openPipes()
 		}
 		else
 		{
-			kdDebug() << "Opened " << info.absFilePath() << endl;
+			//kdDebug() << "Opened " << info.absFilePath() << endl;
 			m_pipeIn.append(file);
 			m_file.insert(file->handle(),file);
 			opened=true;
@@ -132,7 +125,7 @@ bool KileLyxServer::openPipes()
 
 void KileLyxServer::stop()
 {
-	kdDebug() << "stopping the LyX server after " << m_count << " requests..." << endl;
+	//kdDebug() << "stopping the LyX server after " << m_count << " requests..." << endl;
 
 	QPtrListIterator<QFile> it(m_pipeIn);
 	while (it.current())
@@ -155,7 +148,7 @@ void KileLyxServer::receive(int fd)
 		QString line;
 		m_file[fd]->readLine(line, 80);
 		line=line.stripWhiteSpace();
-		kdDebug() << m_count++ << ":" << line << endl;
+		m_count++;
 
 		QRegExp cite(":citation-insert:(.*)$");
 		QRegExp bibtexins(":bibtex-insert:(.*)$");

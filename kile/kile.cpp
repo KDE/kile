@@ -276,7 +276,7 @@ Kile::Kile( QWidget *, const char *name ) :
 
 Kile::~Kile()
 {
-	kdDebug() << "cleaning up..." << endl;
+	//kdDebug() << "cleaning up..." << endl;
 	delete errorlist;
 	delete m_AutosaveTimer;
 }
@@ -494,14 +494,14 @@ void Kile::restore()
 
 	for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
 	{
-		kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
+		//kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
 		fi.setFile(m_listProjectsOpenOnStart[i]);
 		if (fi.isReadable()) projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
 	{
-		kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
+		//kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
 		fi.setFile(m_listDocsOpenOnStart[i]);
 		if (fi.isReadable()) fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
@@ -512,7 +512,7 @@ void Kile::restore()
 
 void Kile::setActive()
 {
-	kdDebug() << "ACTIVATING" << endl;
+	//kdDebug() << "ACTIVATING" << endl;
 	kapp->mainWidget()->raise();
 	kapp->mainWidget()->setActiveWindow();
 }
@@ -522,10 +522,10 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 {
 	QString hl = highlight;
 
-	kdDebug() << "==Kile::load==========================" << endl;
+	//kdDebug() << "==Kile::load==========================" << endl;
 	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
-		kdDebug() << "\talready opened " << url.path() << endl;
+		//kdDebug() << "\talready opened " << url.path() << endl;
 		Kate::View *view = static_cast<Kate::View*>(docFor(url)->views().first());
 		//bring up the view to the already opened doc
 		tabWidget->showPage(view);
@@ -536,7 +536,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		return view;
 	}
 
-	kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
+	//kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
 
 	//create a new document
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
@@ -572,7 +572,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	KileProjectItem *item = itemFor(url);
 	if (item)
 	{
-		kdDebug() << "\t" << url.path() <<" belongs to the project " << item->project()->name()  << endl;
+		//kdDebug() << "\t" << url.path() <<" belongs to the project " << item->project()->name()  << endl;
 		//decorate the doc with the KileProjectItem
 		docinfo = infoFor(item);
 		if (docinfo)
@@ -612,8 +612,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 
 Kate::View * Kile::createView(Kate::Document *doc)
 {
-	kdDebug() << "==Kile::createView==========================" << endl;
-	kdDebug() << "\t"<< doc->docName() << endl;
+	//kdDebug() << "==Kile::createView==========================" << endl;
+	//kdDebug() << "\t"<< doc->docName() << endl;
 	Kate::View *view;
 	view = (Kate::View*) doc->createView (tabWidget, 0L);
 
@@ -646,7 +646,7 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 void Kile::slotNameChanged(Kate::Document * doc)
 {
-	kdDebug() << "==Kile::slotNameChagned==========================" << endl;
+	//kdDebug() << "==Kile::slotNameChagned==========================" << endl;
 	//set the doc name so we can use the docname to set the caption
 	//(we want the caption to be untitled for an new document not ""
 	//doc->setDocName(doc->url().path());
@@ -661,7 +661,7 @@ void Kile::slotNameChanged(Kate::Document * doc)
 	//add to project view if doc was Untitled before
 	if (docinfo->oldURL().isEmpty())
 	{
-		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
+		//kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_projectview->add(doc->url());
 	}
 }
@@ -711,7 +711,7 @@ void Kile::setLine( const QString &line )
 
 void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 {
-	kdDebug() << "==Kile::setHighlightMode()==================" << endl;
+	//kdDebug() << "==Kile::setHighlightMode()==================" << endl;
 
 	int c = doc->hlModeCount();
 	bool found = false;
@@ -721,7 +721,7 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	QString ext = doc->url().fileName().right(4);
 
 	KMimeType::Ptr pMime = KMimeType::findByURL(doc->url(), 0, false, true);
-	kdDebug() << "\tmimeType name: " << pMime->name() << endl;
+	//kdDebug() << "\tmimeType name: " << pMime->name() << endl;
 
 	if ( hl == QString::null && ext == ".bib" ) hl = "bibtex-kile";
 
@@ -730,7 +730,7 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 		if (hl == QString::null) hl = "latex-kile";
 		for (i = 0; i < c; i++)
 		{
-			kdDebug() << "\tCOMPARING " << doc->hlModeName(i).lower() << " with " << hl << endl;
+			//kdDebug() << "\tCOMPARING " << doc->hlModeName(i).lower() << " with " << hl << endl;
 			if (doc->hlModeName(i).lower() == hl) { found = true; break; }
 		}
 
@@ -808,7 +808,7 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 
 void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateStruct /* = true */  )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
-	kdDebug() << "==Kile::activateView==========================" << endl;
+	//kdDebug() << "==Kile::activateView==========================" << endl;
 	if (!w->inherits("Kate::View"))
 		return;
 
@@ -816,11 +816,6 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 
 	for (uint i=0; i<m_viewList.count(); i++)
 	{
-		if (m_viewList.at(i)==0)
-			kdDebug() << "\tNULL pointer in m_viewList" << endl;
-		else
-			kdDebug() << "\tremoving client from guiFactory " << m_viewList.at(i)->getDoc()->docName() << endl;
-
 		guiFactory()->removeClient(m_viewList.at(i));
 		m_viewList.at(i)->setActive(false);
 	}
@@ -897,8 +892,8 @@ void Kile::fileOpen()
 
 void Kile::fileOpen(const KURL& url, const QString & encoding)
 {
-	kdDebug() << "==Kile::fileOpen==========================" << endl;
-	kdDebug() << "\t" << url.fileName() << endl;
+	//kdDebug() << "==Kile::fileOpen==========================" << endl;
+	//kdDebug() << "\t" << url.fileName() << endl;
 	bool isopen = isOpen(url);
 
 	Kate::View *view = load(url, encoding);
@@ -928,8 +923,8 @@ void Kile::fileSaveAll(bool amAutoSaving)
 	Kate::View *view;
 	QFileInfo fi;
 
-	kdDebug() << "==Kile::fileSaveAll=================" << endl;
-	kdDebug() << "\tautosaving = " << amAutoSaving << endl;
+	//kdDebug() << "==Kile::fileSaveAll=================" << endl;
+	//kdDebug() << "\tautosaving = " << amAutoSaving << endl;
 
 	for (uint i = 0; i < m_viewList.count(); i++)
 	{
@@ -944,7 +939,7 @@ void Kile::fileSaveAll(bool amAutoSaving)
 				  (amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() )
 			   )
 			{
-				kdDebug() << "\tsaving: " << view->getDoc()->url().path() << endl;
+				//kdDebug() << "\tsaving: " << view->getDoc()->url().path() << endl;
 
 				if (amAutoSaving)
 				{
@@ -1018,8 +1013,8 @@ void Kile::projectNew()
 
 	if (dlg->exec())
 	{
-		kdDebug() << "==Kile::projectNew==========================" << endl;
-		kdDebug() << "\t" << dlg->name() << " " << dlg->location() << endl;
+		//kdDebug() << "==Kile::projectNew==========================" << endl;
+		//kdDebug() << "\t" << dlg->name() << " " << dlg->location() << endl;
 
 		KileProject *project = new KileProject(dlg->name(), dlg->location());
 
@@ -1105,8 +1100,8 @@ KileProject* Kile::selectProject(const QString& caption)
 
 void Kile::addToProject(const KURL & url)
 {
-	kdDebug() << "==Kile::addToProject==========================" << endl;
-	kdDebug() << "\t" <<  url.fileName() << endl;
+	//kdDebug() << "==Kile::addToProject==========================" << endl;
+	//kdDebug() << "\t" <<  url.fileName() << endl;
 
 	KileProject *project = selectProject(i18n("Add to project.."));
 
@@ -1129,7 +1124,7 @@ void Kile::addToProject(KileProject* project, const KURL & url)
 
 void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
 {
-	kdDebug() << "==Kile::removeFromProject==========================" << endl;
+	//kdDebug() << "==Kile::removeFromProject==========================" << endl;
 	KileProject *project = projectFor(projecturl);
 
 	if (project)
@@ -1137,7 +1132,7 @@ void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
 		KileProjectItem *item = project->item(url);
 		if (item)
 		{
-			kdDebug() << "\tprojecturl = " << projecturl.path() << ", url = " << item->url().path() << endl;
+			//kdDebug() << "\tprojecturl = " << projecturl.path() << ", url = " << item->url().path() << endl;
 
 			if (project->url() == item->url())
 			{
@@ -1159,8 +1154,8 @@ void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
 
 void Kile::projectOpenItem(KileProjectItem *item)
 {
-	kdDebug() << "==Kile::projectOpenItem==========================" << endl;
-	kdDebug() << "\titem:" << item->url().path() << endl;
+	//kdDebug() << "==Kile::projectOpenItem==========================" << endl;
+	//kdDebug() << "\titem:" << item->url().path() << endl;
 
 	KileDocumentInfo *docinfo;
 
@@ -1201,8 +1196,8 @@ void Kile::projectOpenItem(KileProjectItem *item)
 
 void Kile::projectOpen(const KURL &url)
 {
-	kdDebug() << "==Kile::projectOpen==========================" << endl;
-	kdDebug() << "\tfilename: " << url.fileName() << endl;
+	//kdDebug() << "==Kile::projectOpen==========================" << endl;
+	//kdDebug() << "\tfilename: " << url.fileName() << endl;
 	if (projectIsOpen(url))
 	{
 		KMessageBox::information(this, i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project already open"));
@@ -1224,7 +1219,7 @@ void Kile::projectOpen(const KURL &url)
 
 	KileProjectItemList *list = kp->items();
 
-	kdDebug() << "\t" << list->count() << " items" << endl;
+	//kdDebug() << "\t" << list->count() << " items" << endl;
 
 	KileProjectItem *item;
 	for ( uint i=0; i < list->count(); i++)
@@ -1240,78 +1235,9 @@ void Kile::projectOpen(const KURL &url)
 	updateModeStatus();
 }
 
-void Kile::sanityCheck()
-{
-	kdDebug() << "===Kile::sanityCheck()=begin===============" << endl;
-	KileProject *project = 0;//= activeProject();
-
-	if (project==0)
-	{
-		if (m_projects.count() == 0)
-			kdError() << "\tNO PROJECTS" << endl;
-		for (uint i=0; i < m_projects.count(); i++)
-		{
-			project=m_projects.at(i);
-			if (project)
-				kdDebug() << "\tproject: " << project->name() << endl;
-			else
-				kdError() << "\tZERO" << endl;
-		}
-	}
-
-	KileDocumentInfo *docinfo;
-	Kate::Document *doc;
-	for (uint i=0; i< m_infoList.count(); i++)
-	{
-		docinfo=0;
-		doc=0;
-
-		docinfo = m_infoList.at(i);
-		doc = docinfo->getDoc();
-		kdDebug() << "\tdocinfo " << docinfo->url().fileName() << " has doc " << (doc != 0) << endl;
-		if (doc)
-		{
-			docinfo = infoFor(doc);
-			kdDebug() << "\tdoc " << doc->url().fileName() << " has docinfo " << (docinfo !=0 ) << endl;
-		}
-	}
-
-	if (project==0)
-		return;
-
-	//do a sanity check
-	KileProjectItemList *list = project->items();
-
-	KileProjectItem *item, *pi = 0;
-	KileDocumentInfo *di = 0;
-	Kate::Document *kdoc;
-	for ( uint i=0; i < list->count(); i++)
-	{
-		item = list->at(i);
-
-		di = infoFor(item);
-		if (di==0) kdError() << "\tNO DOCINFO for item " << item->url().fileName() << endl;
-		else
-		{
-			pi = itemFor(di);
-			if (pi==0) kdError() << "\tNO ITEM for docinfo " << item->url().fileName() << endl;
-
-			kdoc =di->getDoc();
-			if (kdoc !=0)
-			{
-				di = infoFor(kdoc);
-				if (di==0) kdError() << "\tNO DOCINFO for doc " << item->url().fileName() << endl;
-			}
-		}
-		if (di !=0 && pi != 0) kdDebug() << "\tSANE " << item->url().fileName() << endl;
-		di=0;pi=0;
-	}
-	kdDebug() << "===Kile::sanityCheck()=end===============" << endl;
-}
-
 void Kile::projectOpen()
 {
-	kdDebug() << "==Kile::projectOpen==========================" << endl;
+	//kdDebug() << "==Kile::projectOpen==========================" << endl;
 	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project files\n*|All files"), this,i18n("Open Project") );
 
 	if (!url.isEmpty())
@@ -1320,16 +1246,16 @@ void Kile::projectOpen()
 
 void Kile::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 {
-	kdDebug() << "===Kile::storeProjectItem==============" << endl;
+	//kdDebug() << "===Kile::storeProjectItem==============" << endl;
 	item->setEncoding( doc->encoding());
 	item->setHighlight( doc->hlModeName(doc->hlMode()));
 
-	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
+	//kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
 }
 
 void Kile::projectSave(KileProject *project /* = 0 */)
 {
-	kdDebug() << "==Kile::projectSave==========================" << endl;
+	//kdDebug() << "==Kile::projectSave==========================" << endl;
 	if (project == 0)
 	{
 		//find the project that corresponds to the active doc
@@ -1350,7 +1276,7 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 		for (uint i=0; i < list->count(); i++)
 		{
 			item =list->at(i);
-			kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << isOpen(item->url()) << endl;
+			//kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << isOpen(item->url()) << endl;
 			item->setOpenState(isOpen(item->url()));
 			docinfo = infoFor(item);
 			if (docinfo)
@@ -1380,7 +1306,7 @@ void Kile::projectAddFiles(const KURL & url)
 
 void Kile::projectAddFiles(KileProject *project)
 {
-	kdDebug() << "==Kile::projectAddFiles()==========================" << endl;
+	//kdDebug() << "==Kile::projectAddFiles()==========================" << endl;
  	if (project == 0 )
 		project = activeProject();
 
@@ -1488,7 +1414,7 @@ void Kile::projectOptions(const KURL & url)
 
 void Kile::projectOptions(KileProject *project /* = 0*/)
 {
-	kdDebug() << "==Kile::projectOptions==========================" << endl;
+	//kdDebug() << "==Kile::projectOptions==========================" << endl;
 	if (project ==0 )
 		project = activeProject();
 
@@ -1497,7 +1423,7 @@ void Kile::projectOptions(KileProject *project /* = 0*/)
 
 	if (project)
 	{
-		kdDebug() << "\t" << project->name() << endl;
+		//kdDebug() << "\t" << project->name() << endl;
 		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, this);
 		dlg->exec();
 	}
@@ -1507,7 +1433,7 @@ void Kile::projectOptions(KileProject *project /* = 0*/)
 
 bool Kile::projectCloseAll()
 {
-	kdDebug() << "==Kile::projectCloseAll==========================" << endl;
+	//kdDebug() << "==Kile::projectCloseAll==========================" << endl;
 	bool close = true;
 
 	//copy the list, since projectClose() changes the list
@@ -1524,7 +1450,7 @@ bool Kile::projectCloseAll()
 
 bool Kile::projectClose(const KURL & url)
 {
-	kdDebug() << "==Kile::projectClose==========================" << endl;
+	//kdDebug() << "==Kile::projectClose==========================" << endl;
 	KileProject *project = 0;
 
 	if (url.isEmpty())
@@ -1541,7 +1467,7 @@ bool Kile::projectClose(const KURL & url)
 
  	if (project)
 	{
-		kdDebug() << "\tclosing:" << project->name() << endl;
+		//kdDebug() << "\tclosing:" << project->name() << endl;
 
 		//close the project file first, projectSave, changes this file
 		Kate::Document *doc = docFor(project->url());
@@ -1562,7 +1488,7 @@ bool Kile::projectClose(const KURL & url)
 			if (docinfo) doc = docinfo->getDoc();
 			if (doc)
 			{
-				kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
+				//kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
 				close = close && fileClose(doc, true);
 			}
 		}
@@ -1679,8 +1605,8 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 
 	if (view)
 	{
-		kdDebug() << "==Kile::fileClose==========================" << endl;
-		kdDebug() << "\t" << view->getDoc()->docName() << endl;
+		//kdDebug() << "==Kile::fileClose==========================" << endl;
+		//kdDebug() << "\t" << view->getDoc()->docName() << endl;
 
 		KURL url = view->getDoc()->url();
 
@@ -1695,7 +1621,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		if (view->getDoc()->closeURL() )
 		{
 			//KMessageBox::information(this,"closing "+url.path());
-			kdDebug() << "\tclosed" << endl;
+			//kdDebug() << "\tclosed" << endl;
 			removeView(view);
 			//remove the decorations
 
@@ -1703,7 +1629,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
 				//or we're closing the project itself (delDocinfo is true)
-				kdDebug() << "ABOUT TO REMOVE DOCINFO (" << (item==0) << "," << delDocinfo << " )" << endl;
+				//kdDebug() << "ABOUT TO REMOVE DOCINFO (" << (item==0) << "," << delDocinfo << " )" << endl;
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
@@ -1717,7 +1643,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			return false;
 	}
 
-	kdDebug() << "\t" << m_docList.count() << " documents open." << endl;
+	//kdDebug() << "\t" << m_docList.count() << " documents open." << endl;
 	if (m_docList.count() == 0)
 		showVertPage(0);
 
@@ -1783,8 +1709,8 @@ bool Kile::queryClose()
 void Kile::fileSelected(const KFileItem *file)
 {
     QString encoding =KileFS->comboEncoding->lineEdit()->text();
-	kdDebug() << "==Kile::fileSelected==========================" << endl;
-	kdDebug() << "\t" << file->url().fileName() << endl;
+	//kdDebug() << "==Kile::fileSelected==========================" << endl;
+	//kdDebug() << "\t" << file->url().fileName() << endl;
 	fileOpen(file->url(), encoding);
 }
 
@@ -1819,8 +1745,8 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 {
 	if (doc)
 	{
-		kdDebug() << "==Kile::newDocumentStatus==========================" << endl;
-		kdDebug() << "\t" << doc->docName() << endl;
+		//kdDebug() << "==Kile::newDocumentStatus==========================" << endl;
+		//kdDebug() << "\t" << doc->docName() << endl;
 
 		//sync terminal
 		syncTerminal();
@@ -1851,14 +1777,14 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 	KileDocumentInfo *docinfo = getInfo();
 	KileProjectItem *item = itemFor(docinfo);
 
-	kdDebug() << "Kile::retrieveList()" << endl;
+	//kdDebug() << "Kile::retrieveList()" << endl;
 	if (item)
 	{
 		const KileProject *project = item->project();
 		const KileProjectItem *root = project->rootItem(item);
 		if (root)
 		{
-			kdDebug() << "\tusing root item " << root->url().fileName() << endl;
+			//kdDebug() << "\tusing root item " << root->url().fileName() << endl;
 
 			QPtrList<KileProjectItem> children;
 			children.append(root);
@@ -1868,7 +1794,7 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 
 			for (uint i=0; i < children.count(); i++)
 			{
-				kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
+				//kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
 				list = (children.at(i)->getInfo()->*getit)();
 				if (list)
 				{
@@ -1893,7 +1819,7 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 
 const QStringList* Kile::labels()
 {
-	kdDebug() << "Kile::labels()" << endl;
+	//kdDebug() << "Kile::labels()" << endl;
 	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::labels;
 	const QStringList* list = retrieveList(p);
 	return list;
@@ -1901,7 +1827,7 @@ const QStringList* Kile::labels()
 
 const QStringList* Kile::bibItems()
 {
-	kdDebug() << "Kile::bibItems()" << endl;
+	//kdDebug() << "Kile::bibItems()" << endl;
 	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibItems;
 	const QStringList* list = retrieveList(p);
 	return list;
@@ -1909,7 +1835,7 @@ const QStringList* Kile::bibItems()
 
 const QStringList* Kile::bibliographies()
 {
-	kdDebug() << "Kile::bibliographies()" << endl;
+	//kdDebug() << "Kile::bibliographies()" << endl;
 	const QStringList* (KileDocumentInfo::*p)() const=&KileDocumentInfo::bibliographies;
 	const QStringList* list = retrieveList(p);
 	return list;
@@ -2450,7 +2376,7 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
 
 QString Kile::prepareForViewing(const QString & command, const QString &ext, const QString &target /*= QString::null*/)
 {
-	kdDebug() << "==Kile::prepareForViewing==========================" << endl;
+	//kdDebug() << "==Kile::prepareForViewing==========================" << endl;
 	Kate::View *view = currentView();
 
    QString finame;
@@ -2486,13 +2412,13 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
    finame = fic.dirPath() + "/";
    if (!target.isNull())
    {
-   		kdDebug() << "\t using target " << target << endl;
+   		//kdDebug() << "\t using target " << target << endl;
 		finame += target;
 		finame = finame.replace("%S",fic.baseName(TRUE));
 		if (finame.right(ext.length()+1) != "."+ext)
 			finame += "."+ext;
 
-		kdDebug() << "\t resulting in " << finame << endl;
+		//kdDebug() << "\t resulting in " << finame << endl;
    }
    else
    {
@@ -2509,7 +2435,7 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
       return QString::null;
    }
 
-   kdDebug() << "\treturning " << finame << endl;
+   //kdDebug() << "\treturning " << finame << endl;
    return finame;
 }
 
@@ -2639,7 +2565,7 @@ void Kile::KdviForwardSearch()
    partManager->setActivePart( dvipart);
 
    QString file = "file:"+finame+"#src:"+QString::number(para+1)+texname;
-   kdDebug() << "FORWARD SEARCH: " << file << endl;
+   //kdDebug() << "FORWARD SEARCH: " << file << endl;
    
    dvipart->openURL(file);
    }
@@ -3002,8 +2928,8 @@ void Kile::MetaPost()
   //QString mpname=fi.baseName(TRUE)+".mp";
   //QFileInfo fic(name);
 
-  kdDebug() << "==MetaPost============" << endl;
-  kdDebug() << "\tfiname: " << finame << endl;
+  //kdDebug() << "==MetaPost============" << endl;
+  //kdDebug() << "\tfiname: " << finame << endl;
 
   if (fi.exists() && fi.isReadable() )
   {
@@ -3200,12 +3126,12 @@ HtmlPreview();
 
 void Kile::HtmlPreview()
 {
-	kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
+	//kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
 
 	QString finame;
 	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
 
-	kdDebug() << "\tfiname=" << finame << endl;
+	//kdDebug() << "\tfiname=" << finame << endl;
 
 	LogWidget->clear();
 	logpresent=false;
@@ -3225,7 +3151,7 @@ void Kile::HtmlPreview()
 
 void Kile::Bibtexeditor()
 {
-	kdDebug() << "==Bibtexeditor()========================" << endl;
+	//kdDebug() << "==Bibtexeditor()========================" << endl;
   //check if a file is opened
 	Kate::View *view = currentView();
 	if (m_singlemode && !view)
@@ -3235,14 +3161,14 @@ void Kile::Bibtexeditor()
    }
 
 	QString finame_t = getCompileName();
-	kdDebug() << "Compile name: " << finame_t <<endl;
+	//kdDebug() << "Compile name: " << finame_t <<endl;
 
 	//get the referenced bibliograph files
 	const QStringList *filesbib = bibliographies();
 	int NumberOfBibtexFiles = filesbib->count();
 	QString finame_a;
 
-	kdDebug() << "\tno. of files: " << NumberOfBibtexFiles << endl;
+	//kdDebug() << "\tno. of files: " << NumberOfBibtexFiles << endl;
 	if (NumberOfBibtexFiles == 0)
 	{
 		KMessageBox::error(this, i18n("Could not find any bibliographies for this document (or any master documents for this document). Refreshing the structure view might help."), i18n("No bibliographies found!"));
@@ -3252,7 +3178,7 @@ void Kile::Bibtexeditor()
 	//If there are more references, show dialog to choose
 	if(NumberOfBibtexFiles > 1 )
 	{
-		kdDebug() << "Opening Bibtex dialog " << endl;
+		//kdDebug() << "Opening Bibtex dialog " << endl;
 		bibtexdialog *BibtexDlg = new bibtexdialog( (*filesbib),"Bibtex file Selector",i18n("Bibtex"),this );
 		if ( BibtexDlg->exec() )
 		{
@@ -3357,11 +3283,11 @@ void Kile::RefreshStructure()
 
 void Kile::UpdateStructure(bool parse /* = false */)
 {
-	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
+	//kdDebug() << "==Kile::UpdateStructure==========================" << endl;
 
 	KileDocumentInfo *docinfo = getInfo();
 
-	kdDebug() << "\ttaking item" <<endl;
+	//kdDebug() << "\ttaking item" <<endl;
 	outstruct->takeItem(outstruct->firstChild());
 
 	if (docinfo)
@@ -3381,16 +3307,16 @@ void Kile::UpdateStructure(bool parse /* = false */)
 
 void Kile::ClickedOnStructure(QListViewItem * itm)
 {
-	kdDebug() << "==Kile::ClickedOnStructure==========================" << endl;
+	//kdDebug() << "==Kile::ClickedOnStructure==========================" << endl;
 	KileListViewItem *item = (KileListViewItem *)itm;
 	//return if user didn't click on an item
 	if (! item)
 	{
-		kdDebug() << "\t(empty)" << endl;
+		//kdDebug() << "\t(empty)" << endl;
 		return;
 	}
 
-	kdDebug() << "\t" << item->title() << endl;
+	//kdDebug() << "\t" << item->title() << endl;
 
 	if (! (item->type() & (KileStruct::None | KileStruct::Input)))
 	{
@@ -3402,12 +3328,12 @@ void Kile::ClickedOnStructure(QListViewItem * itm)
 
 void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 {
-	kdDebug() << "==Kile::DoubleClickedOnStructure==========================" << endl;
+	//kdDebug() << "==Kile::DoubleClickedOnStructure==========================" << endl;
 	KileListViewItem *item = (KileListViewItem*)(itm);
 	if (! item) return;
 	if (! (item->type() & KileStruct::Input)) return;
 
-	kdDebug() << "\t " << itm->text(0) << endl;
+	//kdDebug() << "\t " << itm->text(0) << endl;
 
 	Kate::View *view = currentView();
 	if ( ! view ) return;
@@ -3420,7 +3346,7 @@ void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 		fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
 
 	QFileInfo fi(fname);
-	kdDebug() << "\ttrying : " << fname << endl;
+	//kdDebug() << "\ttrying : " << fname << endl;
 	if (fi.isReadable())
 	{
 		fileOpen(KURL::fromPathOrURL(fname));
@@ -3690,13 +3616,13 @@ void Kile::insertTag(const KileAction::TagData& data)
 	ins.replace("%S", fi.baseName(true));
 
 	//insert first part of tag at cursor position
-	//kdDebug() << QString("insertTag: inserting %1 at (%2,%3)").arg(ins).arg(para).arg(index) << endl;
+	////kdDebug() << QString("insertTag: inserting %1 at (%2,%3)").arg(ins).arg(para).arg(index) << endl;
 	view->getDoc()->insertText(para,index,ins);
 
 	//move cursor to the new position
 	if ( before || after )
 	{
-		kdDebug() << "before || after" << endl;
+		//kdDebug() << "before || after" << endl;
 		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
 		if (wrap) n += para_end > para ? para_end-para : para-para_end;
 		for (int line = para_begin; line <= para_begin+n; line++)
@@ -3719,7 +3645,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 			py = para;
 			px = index;
 		}
-		kdDebug() << "py = " << py << " px = " << px << endl;
+		//kdDebug() << "py = " << py << " px = " << px << endl;
 		view->setCursorPositionReal(py+data.dy,px+data.dx);
 	}
 
@@ -3737,7 +3663,7 @@ void Kile::insertGraphic(const KileAction::TagData& data)
 	insertTag(data);
 
 	QFileInfo fi(data.tagBegin.mid(data.tagBegin.find('{')+1));
-	kdDebug() << "insertGraphic : filename " << fi.fileName() << endl;
+	//kdDebug() << "insertGraphic : filename " << fi.fileName() << endl;
 
 	if (fi.extension(false) =="eps")
 	{
@@ -4302,10 +4228,10 @@ config->writeEntry("User Options",userOptionsList, ':');
 	m_actRecentProjects->saveEntries(config,"Projects");
 
 	config->deleteGroup("FilesOpenOnStart");
-	kdDebug() << "deleting FilesOpenOnStart" << endl;
+	//kdDebug() << "deleting FilesOpenOnStart" << endl;
 	if (m_bRestore)
 	{
-		kdDebug() << "saving Restore info" << endl;
+		//kdDebug() << "saving Restore info" << endl;
 		config->setGroup("FilesOpenOnStart");
 		config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
 		for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
@@ -4586,15 +4512,15 @@ void Kile::spellcheck()
 
   	if ( kspell )
   	{
-		kdDebug() << "kspell wasn't deleted before!" << endl;
+		//kdDebug() << "kspell wasn't deleted before!" << endl;
 		delete kspell;
 	}
 
 	#if KDE_VERSION >= KDE_MAKE_VERSION(3,1,90)
-		kdDebug() << "KSPELL: using NEW kspell " << KDE_VERSION_STRING << endl;
+		//kdDebug() << "KSPELL: using NEW kspell " << KDE_VERSION_STRING << endl;
 		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false, KSpell::TeX);
 	#else
-		kdDebug() << "KSPELL: using OLD kspell " << KDE_VERSION_STRING << endl;
+		//kdDebug() << "KSPELL: using OLD kspell " << KDE_VERSION_STRING << endl;
 		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false);
 	#endif
 	ks_corrected=0;
@@ -4774,7 +4700,7 @@ else if (page==8)
    }
 else if (page==9)
 {
-	kdDebug() << "SHOWING PROJECTS VIEW" << endl;
+	//kdDebug() << "SHOWING PROJECTS VIEW" << endl;
 	if (symbol_view && symbol_present) delete symbol_view;
    symbol_present=false;
 	KileFS->hide();
@@ -4948,8 +4874,8 @@ QString Kile::relativePath(const QString basepath, const QString & file)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	kdDebug() <<"===findRelativeURL==================" << endl;
-	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+	//kdDebug() <<"===findRelativeURL==================" << endl;
+	//kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);
@@ -4963,23 +4889,23 @@ QString Kile::relativePath(const QString basepath, const QString & file)
 		basedirs.pop_front();
 	}
 
-	kdDebug() << "\tafter" << endl;
+	//kdDebug() << "\tafter" << endl;
 	for (uint i=0; i < basedirs.count(); i++)
 	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+		//kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 	}
 
 	for (uint i=0; i < dirs.count(); i++)
 	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+		//kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}
 
 	if (nDirs != dirs.count() )
 	{
 		path = dirs.join("/");
 
-		kdDebug() << "\tpath : " << path << endl;
-		//kdDebug() << "\tdiff : " << diff << endl;
+		//kdDebug() << "\tpath : " << path << endl;
+		////kdDebug() << "\tdiff : " << diff << endl;
 
 		if (basedirs.count() > 0)
 		{
@@ -4998,7 +4924,7 @@ QString Kile::relativePath(const QString basepath, const QString & file)
 		path = url.path();
 	}
 
-	kdDebug() << "\tpath : " << path << endl;
+	//kdDebug() << "\tpath : " << path << endl;
 
 	return path;
 }
@@ -5013,7 +4939,7 @@ KileAutoSaveJob::KileAutoSaveJob(const KURL &url)
 
 KileAutoSaveJob::~KileAutoSaveJob()
 {
-	kdDebug() << "DELETING KileAutoSaveJob" << endl;
+	//kdDebug() << "DELETING KileAutoSaveJob" << endl;
 }
 
 void KileAutoSaveJob::slotResult(KIO::Job *job)
@@ -5046,22 +4972,22 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 	if ( e->type() == QEvent::AccelOverride)
 	{
 		QKeyEvent *ke = (QKeyEvent*) e;
-		//kdDebug() << "eventFilter : AccelOverride : " << ke->key() << endl;
-		//kdDebug() << "              type          : " << ke->type() << endl;
-		//kdDebug() << "              state         : " << ke->state() << endl;
+		////kdDebug() << "eventFilter : AccelOverride : " << ke->key() << endl;
+		////kdDebug() << "              type          : " << ke->type() << endl;
+		////kdDebug() << "              state         : " << ke->state() << endl;
 
 		if ( m_bCompleteEnvironment &&  ke->key() == Qt::Key_Return && ke->state() == 0)
 		{
 			if (m_bHandleEnter)
 			{
-				//kdDebug() << "              enter" << endl;
+				////kdDebug() << "              enter" << endl;
 				Kate::View *view = (Kate::View*) o;
 
 				QString line = view->getDoc()->textLine(view->cursorLine()).left(view->cursorColumnReal());
 				int pos = m_regexpEnter.search(line);
-				//kdDebug() << "              line     : " << line << endl;
-				//kdDebug() << "              pos      : " << pos << endl;
-				//kdDebug() << "              captured : " << m_regexpEnter.cap(1) << "+" << m_regexpEnter.cap(2) << endl;
+				////kdDebug() << "              line     : " << line << endl;
+				////kdDebug() << "              pos      : " << pos << endl;
+				////kdDebug() << "              captured : " << m_regexpEnter.cap(1) << "+" << m_regexpEnter.cap(2) << endl;
 				if (pos != -1 )
 				{
 					line = m_regexpEnter.cap(1);

@@ -38,17 +38,17 @@ const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3
  */
 void KileProjectViewItem::urlChanged(const KURL &url)
 {
-	setURL(url); setText(0,url.fileName()); kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::urlChanged" << endl;
+	setURL(url); setText(0,url.fileName()); //kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::urlChanged" << endl;
 }
 
 void KileProjectViewItem::nameChanged(const QString & name)
 {
-	setText(0,name); kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::nameChanged" << endl;
+	setText(0,name); //kdDebug() << "SLOT KileProjectViewItem(" << text(0) << ")::nameChanged" << endl;
 }
 
 void KileProjectViewItem::isrootChanged(bool isroot)
 {
-	kdDebug() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
+	//kdDebug() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
 	if (isroot)
 	{
 		setPixmap(0,UserIcon("masteritem"));
@@ -93,10 +93,10 @@ void KileProjectView::slotClicked(QListViewItem *item)
 		item = currentItem();
 
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
-	kdDebug() << "KileProjectView:: clicked(" << itm->url().fileName() << ")" << endl;
+	//kdDebug() << "KileProjectView:: clicked(" << itm->url().fileName() << ")" << endl;
 	if (itm && (itm->type() == KileType::File || itm->type() == KileType::ProjectItem ))
 	{
-		kdDebug() << "KileProjectView:: emit fileSelected" << endl;
+		//kdDebug() << "KileProjectView:: emit fileSelected" << endl;
 		emit fileSelected(itm->url());
 	}
 }
@@ -119,8 +119,8 @@ void KileProjectView::slotFile(int id)
 
 void KileProjectView::slotProjectItem(int id)
 {
-	kdDebug() << "===KileProjectView::slotProjectItem()===============" << endl;
-	kdDebug() << "\tid: " << id << endl;
+	//kdDebug() << "===KileProjectView::slotProjectItem()===============" << endl;
+	//kdDebug() << "\tid: " << id << endl;
 	KileProjectViewItem *item = static_cast<KileProjectViewItem*>(currentItem());
 	if (item && (item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra))
 	{
@@ -173,7 +173,7 @@ void KileProjectView::slotRun(int id)
 {
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(currentItem());
 
-	kdDebug() << "===slotRun(" << id << ")=================" << endl;
+	//kdDebug() << "===slotRun(" << id << ")=================" << endl;
 	if (id == 0)
 	{
 		KRun::runURL(itm->url(), "");
@@ -194,7 +194,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		m_popup->disconnect();
 
 		KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
-		kdDebug() << "popup " << itm->url().path() << endl;
+		//kdDebug() << "popup " << itm->url().path() << endl;
 
 		if (itm->type() == KileType::ProjectExtra)
 		{
@@ -202,7 +202,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 			m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
 			for (uint i=0; i < m_offerList.count(); i++)
 			{
-				kdDebug() << "'\tservice: " << m_offerList[i]->name() << endl;
+				//kdDebug() << "'\tservice: " << m_offerList[i]->name() << endl;
 				apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
 			}
 			apps->insertSeparator();
@@ -255,7 +255,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 {
-	kdDebug() << "\tmakeTheConnection " << item->text(0) << endl;
+	//kdDebug() << "\tmakeTheConnection " << item->text(0) << endl;
 
 	if (item->type() == KileType::Project)
 	{
@@ -269,7 +269,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	{
 		KileDocumentInfo *docinfo = m_ki->infoFor(item->url().path());
 		item->setInfo(docinfo);
-		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
+		if (docinfo ==0 ) return;
 		connect(docinfo, SIGNAL(nameChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));
 		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
@@ -359,21 +359,21 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 	{
 		//find parent viewitem that has an URL parpi->url()
 		QListViewItemIterator it( projvi );
-		kdDebug() << "\tlooking for " << parpi->url().path() << endl;
+		//kdDebug() << "\tlooking for " << parpi->url().path() << endl;
 		while (it.current())
 		{
 			vi = static_cast<KileProjectViewItem*>(*it);
-			kdDebug() << "\t\t" << vi->url().path() << endl;
+			//kdDebug() << "\t\t" << vi->url().path() << endl;
 			if (vi->url() == parpi->url())
 			{
 				parpvi = vi;
-				kdDebug() << "\t\tfound" <<endl;
+				//kdDebug() << "\t\tfound" <<endl;
 				break;
 			}
 			++it;
 		}
 
-		kdDebug() << "\t\tnot found" << endl;
+		//kdDebug() << "\t\tnot found" << endl;
 	}
 
 	return parpvi;
@@ -381,7 +381,7 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 
 KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileProjectViewItem * projvi /* = 0*/)
 {
-	kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
+	//kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
 
 	const KileProject *project = projitem->project();
 
@@ -392,7 +392,7 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 
 	//KileProjectViewItem *parpvi = parentFor(projitem, projvi);
 
-	kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
+	//kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
 
 	KileProjectViewItem *item;
 
@@ -440,13 +440,13 @@ const KileProjectViewItem* KileProjectView::addTree(const KileProjectItem *proji
 
 void KileProjectView::refreshProjectTree(const KileProject *project)
 {
-	kdDebug() << "\tKileProjectView::refreshProjectTree(" << project->name() << ")" << endl;
+	//kdDebug() << "\tKileProjectView::refreshProjectTree(" << project->name() << ")" << endl;
 	KileProjectViewItem *parent= projectViewItemFor(project->url());
 
 	//clean the tree
 	if (parent)
 	{
-		kdDebug() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
+		//kdDebug() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
 		parent->setNonSrc(0);
 		QListViewItem *vi = parent->firstChild(), *next;
 		while (vi)
@@ -476,7 +476,7 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 
 void KileProjectView::add(const KURL & url)
 {
-	kdDebug() << "\tKileProjectView::adding item " << url.path() << endl;
+	//kdDebug() << "\tKileProjectView::adding item " << url.path() << endl;
 	//check if file is already present
 	QListViewItemIterator it( this );
 	KileProjectViewItem *item;

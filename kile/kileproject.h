@@ -42,7 +42,7 @@ class KileProjectItem : public QObject
 
 public:
 	KileProjectItem(KileProject *project = 0, const KURL &url = KURL(), int type = Source);
-	~KileProjectItem() { kdDebug() << "DELETING PROJITEM " << m_path << endl;}
+	~KileProjectItem() {}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
@@ -94,7 +94,7 @@ public:
 	KileProjectItem * print(int level);
 
 public slots:
-	void changeURL(const KURL &url) { m_url = url;  kdDebug() << "changeURL " << url.path() << endl; emit(urlChanged(this));}
+	void changeURL(const KURL &url) { m_url = url; emit(urlChanged(this));}
 	void changePath(const QString& path) { m_path = path;}
 
 signals:
@@ -116,7 +116,7 @@ class  KileProjectItemList : public QPtrList<KileProjectItem>
 {
 public:
 	KileProjectItemList() { setAutoDelete(true); }
-	~KileProjectItemList() { kdDebug() << "DELETING KILEPROJECTITEMLIST" << endl;}
+	~KileProjectItemList() {}
 };
 
 /**

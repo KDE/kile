@@ -75,7 +75,7 @@ KileProjectItem* KileProjectItem::print(int level)
 {
 	QString str;
 	str.fill('\t', level);
-	kdDebug() << str << "+" << url().fileName() << endl;
+	//kdDebug() << str << "+" << url().fileName() << endl;
 
 	if (firstChild())
 		return firstChild()->print(++level);
@@ -96,11 +96,11 @@ void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
 {
 	KileProjectItem *item = firstChild();
 
-	kdDebug() << "\tKileProjectItem::allChildren(" << list->count() << ")" << endl;
+	//kdDebug() << "\tKileProjectItem::allChildren(" << list->count() << ")" << endl;
 	while(item != 0)
 	{
 		list->append(item);
-		kdDebug() << "\t\tappending " << item->url().fileName() << endl;
+		//kdDebug() << "\t\tappending " << item->url().fileName() << endl;
 		item->allChildren(list);
 		item = item->sibling();
 	}
@@ -137,7 +137,7 @@ void KileProject::init(const QString& name, const KURL& url)
 	m_baseurl = m_projecturl.directory();
 	m_baseurl.cleanPath(true);
 
-	kdDebug() << "KileProject m_baseurl = " << m_baseurl.path() << endl;
+	//kdDebug() << "KileProject m_baseurl = " << m_baseurl.path() << endl;
 
 	if (QFileInfo(url.path()).exists())
 	{
@@ -158,7 +158,7 @@ void KileProject::setExtensions(const QString & ext)
 
 	if (ext.stripWhiteSpace().length() == 0)
 	{
-		kdDebug() << "NO EXTENSIONS!!!!!!!" << endl;
+		//kdDebug() << "NO EXTENSIONS!!!!!!!" << endl;
 		pattern = "";
 	}
 
@@ -173,8 +173,8 @@ void KileProject::setExtensions(const QString & ext)
 	if ( extIsRegExp() )
 		pattern = ext.stripWhiteSpace();
 
-	kdDebug() << "==KileProject::setExtensions"<<endl;
-	kdDebug() << "\tsetting pattern to: " << pattern << endl;
+	//kdDebug() << "==KileProject::setExtensions"<<endl;
+	//kdDebug() << "\tsetting pattern to: " << pattern << endl;
 	m_reExtensions.setPattern(pattern);
 
 	if (m_extensions != ext)
@@ -186,18 +186,18 @@ void KileProject::setExtensions(const QString & ext)
 
 void KileProject::setType(KileProjectItem *item)
 {
-	kdDebug() << "==KileProject::setType()================" << endl;
+	//kdDebug() << "==KileProject::setType()================" << endl;
 	if ( (extensions() != "") && m_reExtensions.search(item->path())
 != -1)
 		item->setType(KileProjectItem::Other);
 	else
 		item->setType(KileProjectItem::Source);
-	kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
+	//kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
 }
 
 bool KileProject::load()
 {
-	kdDebug() << "KileProject: loading..." <<endl;
+	//kdDebug() << "KileProject: loading..." <<endl;
 
 	QStringList groups = m_config->groupList();
 
@@ -219,7 +219,7 @@ bool KileProject::load()
 			QString path = groups[i].mid(5);
 			if (path[0] == '/' )
 			{
-				kdDebug() << "ABSOLUTE PATHS" << endl;
+				//kdDebug() << "ABSOLUTE PATHS" << endl;
 				url = KURL::fromPathOrURL(path);
 			}
 			else
@@ -252,7 +252,7 @@ bool KileProject::load()
 //TODO: restore encoding for documents
 bool KileProject::save()
 {
-	kdDebug() << "KileProject: saving..." <<endl;
+	//kdDebug() << "KileProject: saving..." <<endl;
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
@@ -270,7 +270,7 @@ bool KileProject::save()
 		m_config->writeEntry("highlight", item->highlight());
 		//m_config->writeEntry("type", item->type());
 		m_config->writeEntry("archive", item->archive());
-		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
+		//kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 
 	m_config->sync();
@@ -282,7 +282,7 @@ bool KileProject::save()
 
 void KileProject::buildProjectTree()
 {
-	kdDebug() << "==KileProject::buildProjectTree==========================" << endl;
+	//kdDebug() << "==KileProject::buildProjectTree==========================" << endl;
 
 	//determine the parent doc for each item (TODO:an item can only have one parent, not necessarily true for LaTeX docs)
 
@@ -311,7 +311,7 @@ void KileProject::buildProjectTree()
 			url.addPath((*deps)[i]);
 			itm = item(url);
 			if (itm && (itm->parent() == 0)) itm->setParent(*it);
-			else kdDebug() << "\tcould not find " << url.path() << " in projectlist"<< endl;
+			//else kdDebug() << "\tcould not find " << url.path() << " in projectlist"<< endl;
 		}
 		++it;
 	}
@@ -352,7 +352,7 @@ KileProjectItem* KileProject::item(const KURL & url)
 
 void KileProject::add(KileProjectItem* item)
 {
-	kdDebug() << "KileProject::add projectitem" << item->url().path() << endl;
+	//kdDebug() << "KileProject::add projectitem" << item->url().path() << endl;
 
 	setType(item);
 
@@ -371,7 +371,7 @@ void KileProject::remove(KileProjectItem* item)
 	else
 		kdWarning() << "KileProject::remove() Failed to delete the group corresponding to this item!!!" <<endl;
 
-	kdDebug() << "KileProject::remove" << endl;
+	//kdDebug() << "KileProject::remove" << endl;
 	m_projectitems.remove(item);
 
 	dump();
@@ -379,8 +379,8 @@ void KileProject::remove(KileProjectItem* item)
 
 void KileProject::itemRenamed(KileProjectItem *item)
 {
-	kdDebug() << "==KileProject::itemRenamed==========================" << endl;
-	kdDebug() << "\t" << item->url().fileName() << endl;
+	//kdDebug() << "==KileProject::itemRenamed==========================" << endl;
+	//kdDebug() << "\t" << item->url().fileName() << endl;
 	m_config->deleteGroup("item:"+item->path());
 	//config.sync();
 
@@ -393,8 +393,8 @@ QString KileProject::findRelativePath(const KURL &url)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	kdDebug() <<"===findRelativeURL==================" << endl;
-	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+	//kdDebug() <<"===findRelativeURL==================" << endl;
+	//kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);
@@ -404,12 +404,12 @@ QString KileProject::findRelativePath(const KURL &url)
 
 	for (uint i=0; i < basedirs.count(); i++)
 	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+		//kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 	}
 
 	for (uint i=0; i < dirs.count(); i++)
 	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+		//kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}
 
 	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] )
@@ -418,23 +418,23 @@ QString KileProject::findRelativePath(const KURL &url)
 		basedirs.pop_front();
 	}
 
-	kdDebug() << "\tafter" << endl;
+	//kdDebug() << "\tafter" << endl;
 	for (uint i=0; i < basedirs.count(); i++)
 	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+		//kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 	}
 
 	for (uint i=0; i < dirs.count(); i++)
 	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+		//kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}
 
 	if (nDirs != dirs.count() )
 	{
 		path = dirs.join("/");
 
-		kdDebug() << "\tpath : " << path << endl;
-		//kdDebug() << "\tdiff : " << diff << endl;
+		//kdDebug() << "\tpath : " << path << endl;
+		////kdDebug() << "\tdiff : " << diff << endl;
 
 		if (basedirs.count() > 0)
 		{
@@ -453,7 +453,7 @@ QString KileProject::findRelativePath(const KURL &url)
 		path = url.path();
 	}
 
-	kdDebug() << "\tpath : " << path << endl;
+	//kdDebug() << "\tpath : " << path << endl;
 
 	return path;
 }
@@ -473,14 +473,9 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 {
 	if (item)
 	{
-		kdDebug() << "\trootItem use buildProjectTree results" << endl;
+		//kdDebug() << "\trootItem use buildProjectTree results" << endl;
 		while ( item->parent() != 0)
 			item = item->parent();
-
-		if (item)
-			kdDebug() << "\troot is " << item->url().fileName() << endl;
-		else
-			kdDebug() << "\tno root found" << endl;
 
 		return item;
 	}
@@ -491,7 +486,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 		while (it.current())
 		{
 			docinfo = (*it)->getInfo();
-			//kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
+			////kdDebug() << "rootItem()  " << docinfo->url().path() << "is root? " << docinfo->isLaTeXRoot() << endl;
 			if (docinfo && docinfo->isLaTeXRoot())
 			{
 				return *it;
@@ -504,9 +499,9 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 
 void KileProject::dump()
 {
-	kdDebug() << "KileProject::dump() " << m_name << endl;
-	for ( uint i=0; i < m_projectitems.count(); i++)
-		kdDebug() << "\titem " << i << " : "  << m_projectitems.at(i)->path() << endl;
+	//kdDebug() << "KileProject::dump() " << m_name << endl;
+	//for ( uint i=0; i < m_projectitems.count(); i++)
+		//kdDebug() << "\titem " << i << " : "  << m_projectitems.at(i)->path() << endl;
 }
 
 #include "kileproject.moc"

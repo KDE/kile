@@ -45,7 +45,6 @@ int main( int argc, char ** argv )
     aboutData.addAuthor("Brachet Pascal",0,"");
     aboutData.addCredit("Roland Schulz", I18N_NOOP("KatePart integration"));
     aboutData.addCredit("Thorsten Lück", I18N_NOOP("log parsing"));
-    aboutData.addCredit("Jan-Marek Glogowski", I18N_NOOP("find in files"));
     aboutData.addCredit("Thomas Basset", I18N_NOOP("translations"));
     aboutData.addCredit(I18N_NOOP("Please consult the webpage for up to date translation credits."));
     aboutData.addCredit("Jonathan Pechta and Federico Zenith", I18N_NOOP("documentation"));
@@ -83,7 +82,7 @@ int main( int argc, char ** argv )
             QString sa = args->arg(0);
             if ( sa.left(5) == "file:" )
                 sa = sa.remove(0, 5);
-            kdDebug() << QString("main: load(%1)").arg(sa) << endl;
+            //kdDebug() << QString("main: load(%1)").arg(sa) << endl;
             QFileInfo fi(sa);
 	    if (sa.right(7) == ".kilepr")
 	    	mw->projectOpen(fi.absFilePath());
@@ -107,7 +106,7 @@ int main( int argc, char ** argv )
                 sa = sa.remove(0, 5);
 	    QFileInfo fi(sa);
             arg_file << fi.absFilePath();
-            kdDebug() << QString("main: load(%1)").arg(sa) << endl;
+            //kdDebug() << QString("main: load(%1)").arg(sa) << endl;
 	    
 	    if (sa.right(7) == ".kilepr")
 	    	client->send (appID, "Kile", "projectOpen(QString)", data_file);

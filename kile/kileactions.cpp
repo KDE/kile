@@ -135,26 +135,26 @@ void InputTag::init()
 
 void InputTag::emitData()
 {
-	kdDebug() << "InputTag::emitData() " << m_ki->getName() << endl;
+	//kdDebug() << "InputTag::emitData() " << m_ki->getName() << endl;
 
 	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_ki, m_parent, "input_dialog");
 	if (dlg->exec())
 	{
-		kdDebug() << "een" << endl;
+		//kdDebug() << "een" << endl;
 		if ( (! dlg->tag().isEmpty()) && hasHistory()) addToHistory(dlg->tag());
 
-		kdDebug() << "twee" << endl;
+		//kdDebug() << "twee" << endl;
 		TagData td(m_data);
 
 		td.tagBegin.replace("%R",dlg->tag());
 		td.tagEnd.replace("%R",dlg->tag());
 
-		kdDebug() << "drie" << endl;
+		//kdDebug() << "drie" << endl;
 		QString alt = dlg->useAlternative() ? "*" : "";
 		td.tagBegin.replace("%A", alt);
 		td.tagEnd.replace("%A", alt);
 
-		kdDebug() << "vier" << endl;
+		//kdDebug() << "vier" << endl;
 		emit(activated(td));
 	}
 	delete dlg;
@@ -176,10 +176,10 @@ void InputFigure::emitData()
 	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_ki, m_parent, "input_dialog");
 	if (dlg->exec())
 	{
-//		kdDebug() << "een" << endl;
+//		//kdDebug() << "een" << endl;
 		if ( (! dlg->tag().isEmpty()) && hasHistory()) addToHistory(dlg->tag());
 
-//		kdDebug() << "twee" << endl;
+//		//kdDebug() << "twee" << endl;
 		TagData td(m_data);
 
 		td.tagBegin.append(dlg->tag());
@@ -193,7 +193,7 @@ void InputFigure::emitData()
 			td.dy += 2;
 		}
 
-//		kdDebug() << "vier" << endl;
+//		//kdDebug() << "vier" << endl;
 		emit(activated(td));
 	}
 	delete dlg;

@@ -79,7 +79,7 @@ usermenudialog::~usermenudialog()
 
 void usermenudialog::redraw()
 {
-	kdDebug() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
+	//kdDebug() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
 	m_combo->clear();
 
 	if (m_list.size() > 0)
@@ -102,7 +102,7 @@ void usermenudialog::redraw()
 
 void usermenudialog::change(int index)
 {
-	kdDebug() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex) << endl;
+	//kdDebug() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex) << endl;
 	m_list[m_prevIndex].tag=m_editTag->text();
 	m_list[m_prevIndex].name=m_editName->text();
 	m_combo->changeItem(QString::number(m_prevIndex+1)+": "+m_list[m_prevIndex].name, m_prevIndex);
@@ -122,7 +122,7 @@ void usermenudialog::slotApply()
 		m_list[m_prevIndex].name=m_editName->text();
 	}
 
-	kdDebug() << "usermenudialog: slotApply" << endl;
+	//kdDebug() << "usermenudialog: slotApply" << endl;
 	accept();
 }
 

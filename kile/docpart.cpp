@@ -19,6 +19,7 @@
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kglobal.h>
+#include <kdebug.h>
 #include <kstandarddirs.h>
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
@@ -32,7 +33,7 @@ docpart::docpart(QWidget *parent, const char *name ) : KHTMLPart(parent,name)
    const KHTMLSettings * set = settings();
    ( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
 	QString rc = KGlobal::dirs()->findResource("appdata", "docpartui.rc");
-	kdDebug() << "using XML file " << rc << endl;
+	//kdDebug() << "using XML file " << rc << endl;
 	setXMLFile(rc);
 	(void) KStdAction::back(this, SLOT(back()), actionCollection(),"Back" );
 	(void) KStdAction::forward(this, SLOT(forward()), actionCollection(),"Forward" );

@@ -1739,7 +1739,16 @@ QString Kile::prepareForCompile(const QString & command) {
   fileSave();
 
   //determine the name of the file to be compiled
-  if (singlemode) {finame=getName();}
+  if (singlemode)
+  {
+	finame=getName();
+	if (!currentEditor()->isLaTeXRoot())
+	{
+		if (KMessageBox::warningYesNo(this,i18n("This document doesn't contain a LaTeX header.\nIt should probably be used with a master document.\nContinue anyway?"))
+			== KMessageBox::No)
+			return QString::null;
+	}
+  }
   else {
      finame=MasterName; //FIXME: MasterFile does not get saved if it is modified
   }
@@ -2487,7 +2496,7 @@ if (m_nErrors !=0 || m_nWarnings != 0)
 else
 if (proc->normalExit())
 {
-	result= ((proc->exitStatus()) ? i18n("Process failed.") : i18n("Process exited normally."));
+	result= ((proc->exitStatus()) ? i18n("Process failed.") : i18n("Process exited without errors."));
 }
 else
 {

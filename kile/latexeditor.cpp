@@ -327,4 +327,14 @@ void LatexEditor::setFile(const QString &name)
 	}
 }
 
+bool LatexEditor::isLaTeXRoot()
+{
+	if (	!text().contains("\\documentclass", true) &&
+		!text().contains("\\documentstyle", true))
+	{
+		return false;
+	}
+
+	return true;
+}
 #include "latexeditor.moc"

@@ -63,6 +63,8 @@ public:
   virtual bool supportsBreakPoints() const { return TRUE; }
   virtual void makeFunctionVisible( QTextParag * ) {}
 
+  bool isLaTeXRoot();
+  
   void drawCursor( bool b ) { KTextEdit::drawCursor( b ); }
   void commentSelection();
   void uncommentSelection();

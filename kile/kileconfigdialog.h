@@ -29,15 +29,7 @@
 
 
 class QFrame;
-
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-namespace KSpell2 {
-    class ConfigWidget;
-}
-#else
 class KSpellConfig;
-#endif
-
 class KConfig;
 
 namespace KileWidget { class ToolConfig; }
@@ -66,11 +58,7 @@ namespace KileDialog
 		QFrame* spellingPage;
 
 		KConfig *m_config;
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-		KSpell2::ConfigWidget *m_spellWidget;
-#else
 		KSpellConfig *ksc;
-#endif
 		KileWidget::ToolConfig	*m_toolConfig;
 		KileTool::Manager		*m_toolMngr;
 

@@ -19,13 +19,7 @@
 
 #include <kdeversion.h>
 #include <klocale.h>
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-#include <kspell2/configwidget.h>
-#include <kspell2/broker.h>
-using namespace KSpell2;
-#else
 #include <ksconfig.h>
-#endif
 
 #include "kiletoolmanager.h"
 #include "kiletoolconfigwidget.h"
@@ -96,13 +90,7 @@ namespace KileDialog
 		gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
 		QGroupBox* GroupBox3= new QGroupBox(2,Qt::Horizontal,i18n("Spelling"),spellingPage, "ButtonGroup" );
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-		m_spellWidget = new ConfigWidget( Broker::openBroker( KSharedConfig::openConfig( "kilerc" ) ),
-																			GroupBox3 );
-#else
 		ksc = new KSpellConfig(GroupBox3, "spell",0, false );
-#endif
-
 
 		gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);
 
@@ -177,11 +165,7 @@ namespace KileDialog
 
 	void Config::writeSpellingConfig()
 	{
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
-		m_spellWidget->save();
-#else
 		ksc->writeGlobalSettings();
-#endif
 	}
 }
 

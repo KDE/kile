@@ -17,7 +17,6 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <error.h>
 #include <stdlib.h> //getenv
 
 #include "kilelyxserver.h"

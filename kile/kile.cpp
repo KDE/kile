@@ -2092,7 +2092,7 @@ else
 }
 LogWidget->append(result);
 
-if (proc != 0) delete proc;
+delete proc;
 currentProcess=0;
 }
 
@@ -3564,6 +3564,11 @@ void Kile::GeneralOptions()
 	toDlg->checkAutosave->setChecked(autosave);
 	toDlg->LineEdit6->setText(latex_command);
 	toDlg->LineEdit7->setText(pdflatex_command);
+	toDlg->LineEdit9->setText(dvipdf_command);
+	toDlg->LineEdit10->setText(dvips_command);
+	toDlg->LineEdit11->setText(ps2pdf_command);
+	toDlg->LineEdit12->setText(makeindex_command);
+	toDlg->LineEdit13->setText(bibtex_command);
 	toDlg->comboDvi->lineEdit()->setText(viewdvi_command );
 	toDlg->comboPdf->lineEdit()->setText(viewpdf_command );
 	toDlg->comboPs->lineEdit()->setText(viewps_command );
@@ -3597,6 +3602,11 @@ void Kile::GeneralOptions()
 		viewpdf_command=toDlg->comboPdf->lineEdit()->text();
 		latex_command=toDlg->LineEdit6->text();
 		pdflatex_command=toDlg->LineEdit7->text();
+		dvipdf_command   = toDlg->LineEdit9->text();
+		dvips_command    = toDlg->LineEdit10->text();
+		ps2pdf_command   = toDlg->LineEdit11->text();
+		makeindex_command   = toDlg->LineEdit12->text();
+		bibtex_command   = toDlg->LineEdit13->text();
 	}
 	delete toDlg;
 }

@@ -49,11 +49,8 @@ public:
 
     QLabel* TextLabel1, * TextLabel2,* TextLabel3;
 
-    QLabel* TextLabel6;
-    QLineEdit* LineEdit6;
-
-    QLabel* TextLabel7;
-    QLineEdit* LineEdit7;
+    QLabel    *TextLabel6, *TextLabel7, *TextLabel9, *TextLabel10, *TextLabel11, *TextLabel12, *TextLabel13;
+    QLineEdit *LineEdit6,  *LineEdit7,  *LineEdit9,  *LineEdit10,  *LineEdit11, *LineEdit12, *LineEdit13;
 
     QComboBox *comboDvi, *comboPs, *comboPdf;
 
@@ -68,6 +65,7 @@ public:
 
     QFrame* generalPage;
     QFrame* toolsPage;
+    QFrame* quickPage;
     QFrame* spellingPage;
     KSpellConfig *ksc;
 };

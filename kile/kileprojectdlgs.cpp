@@ -29,6 +29,7 @@
 #include <kurlcompletion.h>
 #include <kfiledialog.h>
 #include <kcombobox.h>
+#include <kdebug.h>
 
 #include "newfilewizard.h"
 #include "kileproject.h"
@@ -180,8 +181,6 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 
 	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
-	connect(m_name, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
-
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
 	m_location->setMinimumWidth(200);
 	m_dir = QDir::home().absPath()+"/";
@@ -197,10 +196,6 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 	layout->addWidget(lb, 1,0);
 	layout->addMultiCellWidget(m_location, 1,1, 1,2);
 	layout->addWidget(pb, 1,3);
-
-	//connect(m_location, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
-
-	//connect(m_location, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project."),plainPage());
 	m_cb->setChecked(true);

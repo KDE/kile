@@ -1,6 +1,4 @@
 /***************************************************************************
-                          docpart.cpp  -  description
-                             -------------------
     begin                : Sun Jul 29 2001
     copyright            : (C) 2001 - 2003 by Brachet Pascal, (C) 2004 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

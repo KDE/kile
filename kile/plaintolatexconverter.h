@@ -1,5 +1,4 @@
 /*
- * plaintolatexconverter.h
  * Copyright (c) 2004 Simon MARTIN <simartin@users.sourceforge.net>
  *
  * This program is free software; you can redistribute it and/or modify

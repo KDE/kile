@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kilefileselect.cpp  -  description
-                             -------------------
     begin                : Wed Aug 14 2002
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                :

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kilelyxserver.h  -  description
-                             -------------------
     begin                : Sat Sept 9 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kilewizard.cpp  -  description
-                             -------------------
     begin                : Tue Dec 23 2003
     copyright            : (C) 2003 Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

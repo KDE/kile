@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kilesidebar.h  -  description
-                             -------------------
     begin                : Fri 18-06-2004
     copyright            : (C) 2004 by Jeroen Wijnhout
     email                :  Jeroen.Wijnhout@kdemail.net

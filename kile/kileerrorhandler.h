@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kileerrorhandler.h -  description
-
     begin                : Tue May 25 2004
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

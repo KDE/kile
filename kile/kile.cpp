@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kile.cpp  -  description
-                             -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                :  Jeroen.Wijnhout@kdemail.net

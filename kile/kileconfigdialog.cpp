@@ -1,6 +1,4 @@
 /***************************************************************************
-                          toolsoptionsdialog.cpp  -  description
-                             -------------------
     begin                : Wed Jun 6 2001
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          configchecker.h  -  description
-                             -------------------
     begin                : Fri Jun 4 2004
     copyright            : (C) 2004 by Jeroen Wijnout
     email                : Jeroen.Wijnhout@kdemail.net

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          latexoutputinfo.h  -  description
-                             -------------------
     begin                : Don Sep 18 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : wijnhout@science.uva.nl

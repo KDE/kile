@@ -1,6 +1,4 @@
 /***************************************************************************
-                      quickdocumentdialog.cpp
-----------------------------------------------------------------------------
 date                 : Sep 12 2004
 version              : 0.22
 copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>

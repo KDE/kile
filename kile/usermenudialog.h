@@ -1,6 +1,4 @@
 /***************************************************************************
-                          usermenudialog.h  -  description
-                             -------------------
     begin                : Sun Jun 3 2001
     copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

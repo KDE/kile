@@ -1,6 +1,4 @@
 /***************************************************************************
-                          convert.h -  description
-                             -------------------
     begin                : Sun Feb 29 2004
     copyright            : (C) 2004 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

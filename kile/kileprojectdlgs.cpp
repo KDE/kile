@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kileprojectdlgs.cpp -  description
-                             -------------------
     begin                : Sun Aug 3 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kileappIface.h  -  description
-                             -------------------
     begin                : sam sep 28 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kileproject.cpp -  description
-                             -------------------
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

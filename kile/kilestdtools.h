@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kilestdtools.h  -  description
-                             -------------------
     begin                : Thu Nov 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

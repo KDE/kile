@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kileactions.h  -  description
-                             -------------------
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                :  Jeroen.Wijnhout@kdemail.net

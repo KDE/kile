@@ -1,6 +1,4 @@
 /***************************************************************************
-                          managetemplatesdialog.h  -  description
-                             -------------------
     begin                : Sun Apr 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : wijnhout@science.uva.nl

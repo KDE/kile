@@ -1,6 +1,4 @@
 /***************************************************************************
-                          newfilewizard.h  -  description
-                             -------------------
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

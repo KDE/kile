@@ -1,6 +1,4 @@
 /***************************************************************************
-                          kiletoolconfigwidget.h  -  description
-                             -------------------
     begin                : Sat 3-1 20:40:00 CEST 2004
     copyright            : (C) 2004 by Jeroen Wijnhout
     email                : Jeroen.Wijnhout@kdemail.net

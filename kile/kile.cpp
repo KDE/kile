@@ -668,6 +668,7 @@ void Kile::fileNew()
        if (f.open(IO_ReadOnly) ) {
        QString line;
        while (f.readLine(line,80)>0) {
+          replaceTemplateVariables(line);
           edit->editor->append(line);
        }
        f.close();
@@ -679,16 +680,25 @@ void Kile::fileNew()
     }
 }
 
+void Kile::replaceTemplateVariables(QString &line)
+{
+	line=line.replace("$$AUTHOR$$",templAuthor);
+	line=line.replace("$$DOCUMENTCLASSOPTIONS$$",templDocClassOpt);
+	if (templEncoding != "") { line=line.replace("$$INPUTENCODING$$", "\\input["+templEncoding+"]{inputenc}");}
+	else { line = line.replace("$$INPUTENCODING$$","");}
+}
+
 void Kile::fileOpen()
 {
-QString currentDir=QDir::currentDirPath();
-if (!lastDocument.isEmpty())
-  {
-  QFileInfo fi(lastDocument);
-  if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
-  }
-QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
-if ( !fn.isEmpty() ) load( fn );
+	QString currentDir=KileFS->dirOperator()->url().path();
+	QFileInfo *fi = currentFileInfo();
+	if (fi != 0)
+	{
+		kdDebug() << "fileinfo exists" << endl;
+		if (fi->exists() && fi->isReadable()) currentDir=fi->dirPath();
+	}
+	QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.ltx *.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
+	if ( !fn.isEmpty() ) load( fn );
 }
 
 void Kile::fileOpenRecent(const QString &fn)
@@ -1828,7 +1838,7 @@ void Kile::ViewDvi()
 
   QFileInfo fic(finame);
 
-  if (viewdvi_command=="Embedded viewer")
+  if (viewdvi_command=="Embedded Viewer")
   {
    ResetPart();
    KLibFactory *dvifactory;
@@ -1886,7 +1896,7 @@ void Kile::KdviForwardSearch()
   int index=0;
   currentEditorView()->editor->viewport()->setFocus();
   currentEditorView()->editor->getCursorPosition( &para, &index);
-  if (viewdvi_command=="Embedded viewer")
+  if (viewdvi_command=="Embedded Viewer")
   {
    ResetPart();
    KLibFactory *dvifactory;
@@ -1960,7 +1970,7 @@ void Kile::ViewPS()
 
   QFileInfo fic(finame);
 
-   if (viewps_command=="Embedded viewer")
+   if (viewps_command=="Embedded Viewer")
    {
    ResetPart();
    KLibFactory *psfactory;
@@ -2030,7 +2040,7 @@ void Kile::ViewPDF()
   if ( (finame = prepareForViewing("ViewPDF","pdf")) == QString::null ) return;
 
   QFileInfo fic(finame);
-   if (viewpdf_command=="Embedded viewer")
+   if (viewpdf_command=="Embedded Viewer")
    {
    ResetPart();
    KLibFactory *psfactory;
@@ -3164,7 +3174,6 @@ void Kile::InsertTag(QString Entity, int dx, int dy)
   currentEditorView()->editor->insertAt(Entity,para,index);
   currentEditorView()->editor->setCursorPosition(para+dy,index+dx);
   currentEditorView()->editor->viewport()->setFocus();
-  OutputWidget->clear();
   LogWidget->clear();
   Outputview->showPage(LogWidget);
   logpresent=false;
@@ -3681,7 +3690,6 @@ if (!currentEditorView()->editor->hasSelectedText())
    }
 else
    {
-   currentEditorView()->editor->cut();
    InsertTag("\\textit{",8,0);
    currentEditorView()->editor->paste();
    InsertTag("}",0,0);
@@ -5159,14 +5167,14 @@ menuaccels=config->readBoolEntry("MenuAccels", false);
 config->setGroup( "Tools" );
 quickmode=config->readNumEntry( "Quick Mode",1);
 latex_command=config->readEntry("Latex","latex -interaction=nonstopmode %S.tex");
-viewdvi_command=config->readEntry("Dvi","Embedded viewer");
+viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
 dvips_command=config->readEntry("Dvips","dvips -o %S.ps %S.dvi");
-viewps_command=config->readEntry("Ps","Embedded viewer");
+viewps_command=config->readEntry("Ps","Embedded Viewer");
 ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf %S.ps %S.pdf");
 makeindex_command=config->readEntry("Makeindex","makeindex %S.idx");
 bibtex_command=config->readEntry("Bibtex","bibtex %S");
 pdflatex_command=config->readEntry("Pdflatex","pdflatex %S.tex");
-viewpdf_command=config->readEntry("Pdf","Embedded viewer");
+viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
 dvipdf_command=config->readEntry("Dvipdf","dvipdfm %S.dvi");
 l2h_options=config->readEntry("L2h Options","");
 userClassList=config->readListEntry("User Class", ':');
@@ -5184,6 +5192,9 @@ enableAutosave(autosave);
 setAutosaveInterval(autosaveinterval);
 
 config->setGroup( "User" );
+templAuthor=config->readEntry("Author","");
+templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
+templEncoding=config->readEntry("Template Encoding","");
 UserMenuName[0]=config->readEntry("Menu1","");
 UserMenuTag[0]=config->readEntry("Tag1","");
 UserMenuName[1]=config->readEntry("Menu2","");
@@ -5308,6 +5319,9 @@ config->writeEntry("Autosave",autosave);
 config->writeEntry("AutosaveInterval",autosaveinterval);
 
 config->setGroup( "User" );
+config->writeEntry("Author",templAuthor);
+config->writeEntry("DocumentClassOptions",templDocClassOpt);
+config->writeEntry("Template Encoding",templEncoding);
 config->writeEntry("Menu1",UserMenuName[0]);
 config->writeEntry("Tag1",UserMenuTag[0]);
 config->writeEntry("Menu2",UserMenuName[1]);
@@ -5565,6 +5579,9 @@ for ( int i = 0; i <= 7; i++ )
     }
 toDlg->init();
 toDlg->asIntervalInput->setText(QString::number(autosaveinterval/60000));
+toDlg->templAuthor->setText(templAuthor);
+toDlg->templDocClassOpt->setText(templDocClassOpt);
+toDlg->templEncoding->setText(templEncoding);
 toDlg->checkAutosave->setChecked(autosave);
 toDlg->LineEdit6->setText(latex_command);
 toDlg->LineEdit7->setText(pdflatex_command);
@@ -5589,6 +5606,9 @@ if (toDlg->exec())
    setAutosaveInterval(autosaveinterval);
    autosave=toDlg->checkAutosave->isChecked();
    enableAutosave(autosave);
+   templAuthor=toDlg->templAuthor->text();
+   templDocClassOpt=toDlg->templDocClassOpt->text();
+   templEncoding=toDlg->templEncoding->text().stripWhiteSpace();
    if (toDlg->checkLatex->isChecked()) quickmode=1;
    if (toDlg->checkDvi->isChecked()) quickmode=2;
    if (toDlg->checkDviSearch->isChecked()) quickmode=3;

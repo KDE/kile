@@ -145,6 +145,7 @@ private:
     QString latex_command, viewdvi_command, dvips_command, dvipdf_command;
     QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, l2h_options;
     QString lastDocument,MasterName, input_encoding;
+    QString templAuthor, templDocClassOpt, templEncoding;
     QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
     QStringList recentFilesList;
     Userlist UserMenuName, UserMenuTag;
@@ -197,6 +198,7 @@ private slots:
     void autoSaveAll();
     void fileSaveAs();
     void createTemplate();
+    void replaceTemplateVariables(QString &line);
     void filePrint();
     void fileClose();
     void fileCloseAll();

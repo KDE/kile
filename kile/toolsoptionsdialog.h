@@ -81,6 +81,8 @@ public:
 
     QLineEdit *asIntervalInput;
 
+    QLineEdit *templAuthor, *templDocClassOpt, *templEncoding;
+
     QFrame* generalPage;
     QFrame* toolsPage;
     QFrame* editorPage;

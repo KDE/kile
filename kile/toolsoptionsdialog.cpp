@@ -44,11 +44,13 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 
 	generalPage = addPage(i18n("General"),i18n("General options"),
 		KGlobal::instance()->iconLoader()->loadIcon( "favorites", KIcon::NoGroup, KIcon::SizeMedium ));
-	QHBoxLayout *asLayout = new QHBoxLayout(generalPage);
+	QVBoxLayout *genLayout = new QVBoxLayout(generalPage);
+
+	//autosave options
 	QGroupBox *autosaveGroup = new QGroupBox(3,Qt::Horizontal,i18n("Autosave options"),generalPage);
 
 	checkAutosave = new QCheckBox(autosaveGroup, "Autosave");
-	checkAutosave->setText(i18n("&Autosave"));
+	checkAutosave->setText(i18n("Auto&save"));
 
 	QLabel *lb= new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
 	asIntervalInput = new QLineEdit(autosaveGroup,"asIntervalInput");
@@ -57,8 +59,23 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 	lb->setBuddy(asIntervalInput);
 	intervalValidator *validatorAsInterval = new intervalValidator(this,1,9999);
 	asIntervalInput->setValidator(validatorAsInterval);
-	asLayout->addWidget(autosaveGroup);
 
+	genLayout->addWidget(autosaveGroup);
+
+	//template variables
+	QGroupBox *templateGroup = new QGroupBox(2,Qt::Horizontal, i18n("Template variables"), generalPage);
+
+	QLabel *lbAuthor = new QLabel(i18n("&Author"),templateGroup);
+	templAuthor = new QLineEdit(templateGroup, "templAuthor");
+	lbAuthor->setBuddy(templAuthor);
+	QLabel *lbDocClassOpt = new QLabel(i18n("&Documentclass options"),templateGroup);
+	templDocClassOpt = new QLineEdit(templateGroup, "templDocClassOpt");
+	lbDocClassOpt->setBuddy(templDocClassOpt);
+	QLabel *lbEnc = new QLabel(i18n("Input &encoding"), templateGroup);
+	templEncoding = new QLineEdit(templateGroup, "templEncoding");
+	lbEnc->setBuddy(templEncoding);
+
+	genLayout->addWidget(templateGroup);
 
   toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
   	KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
@@ -93,7 +110,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    TextLabel1->setText(i18n( "Dvi viewer:") );
    comboDvi = new QComboBox( FALSE, GroupBox1, "comboDvi" );
    comboDvi->setEditable( true );
-   comboDvi->insertItem("xdvi %S.dvi");
+   comboDvi->insertItem("xdvi -editor \'kile %f -line %l\' %S.dvi");
    comboDvi->insertItem("kdvi %S.dvi");
    comboDvi->insertItem("kdvi --unique %S.dvi");
    comboDvi->insertItem("Embedded Viewer");

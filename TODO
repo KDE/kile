@@ -1,13 +1,8 @@
 BUGS
- - Spell checking for long documents doesn't work correctly (introduced after 1.4), haven't seen
  - Spell checking for ISO-whatever character codes.
- - Spell checking doesn't ignore LaTeX commands when you check selected text.
- - KShellView crashes when it is started as an embedded viewer AND it shows a
-   tooltip at startup (very weird, probably a KShellView bug).
- - Handle $$ in syntax coloring correctly, $ in comments and in \verb|$|
-    this bug myself.
  - When "\section" is re-defined in the preamble of a document, the structure view considers it
    as a section.
+ - F3 is assigned to two actions
    
 TODO
  - fix compile (Mandrake) for gfe

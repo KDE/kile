@@ -92,64 +92,69 @@ ensureCursorVisible();
 
 void LatexEditor::commentSelection()
 {
-    QTextParagraph *start = document()->selectionStartCursor( QTextDocument::Standard ).paragraph();
-    QTextParagraph *end = document()->selectionEndCursor( QTextDocument::Standard ).paragraph();
-    if ( !start || !end )
-	start = end = textCursor()->paragraph();
-    while ( start ) {
-	if ( start == end && textCursor()->index() == 0 )
-	    break;
-	start->insert( 0, "%" );
-	if ( start == end )
-	    break;
-	start = start->next();
-    }
-    document()->removeSelection( QTextDocument::Standard );
-    repaintChanged();
-    setModified( TRUE );
+	int para_From, para_To, index_From, index_To;
+	getSelection(&para_From,&index_From,&para_To,&index_To);
+	if (para_From < 0) return;
+
+	for (int para = para_From; para<= para_To; para++)
+	{
+		insertAt("%",para,0);
+	}
+
+	repaintChanged();
 }
 
 void LatexEditor::indentSelection()
 {
-    QTextParagraph *start = document()->selectionStartCursor( QTextDocument::Standard ).paragraph();
-    QTextParagraph *end = document()->selectionEndCursor( QTextDocument::Standard ).paragraph();
-    if ( !start || !end )	start = end = textCursor()->paragraph();
-    while ( start ) {
-	if ( start == end && textCursor()->index() == 0 )
-	    break;
-	start->insert( 0, "\t" );
-	if ( start == end )
-	    break;
-	start = start->next();
-    }
-    document()->removeSelection( QTextDocument::Standard );
-    repaintChanged();
-    setModified( TRUE );
+	int para_From, para_To, index_From, index_To;
+	getSelection(&para_From,&index_From,&para_To,&index_To);
+	if (para_From < 0) return;
+
+	for (int para = para_From; para<= para_To; para++)
+	{
+		insertAt("\t",para,0);
+	}
+
+	repaintChanged();
 }
 
 void LatexEditor::uncommentSelection()
 {
-    QTextParagraph *start = document()->selectionStartCursor( QTextDocument::Standard ).paragraph();
-    QTextParagraph *end = document()->selectionEndCursor( QTextDocument::Standard ).paragraph();
-    if ( !start || !end )	start = end = textCursor()->paragraph();
-    while ( start ) {
-	while ( start->at( 0 )->c == "%" )
-         {
-         	setSelection( start->paragId(),0,start->paragId(),1);
-          removeSelectedText();
-         }
-	if ( start == end ) break;
-	start = start->next();
-    }
-    document()->removeSelection( QTextDocument::Standard );
-    repaintChanged();
-    setModified( TRUE );
+	QString line;
+	int para_From, para_To, index_From, index_To, i,
+		para_Cursor, index_Cursor;
+
+	//save the cursor position
+	getCursorPosition(&para_Cursor,&index_Cursor);
+
+	getSelection(&para_From,&index_From,&para_To,&index_To);
+	removeSelection();
+	if (para_From < 0) return;
+
+	for (int para=para_From; para<= para_To; para++)
+	{
+		line=text(para);
+		i=0;
+		while ( line.at(i).isSpace() )
+		{
+			i++;
+		}
+		if ( line.at(i) == '%')
+		{
+			setCursorPosition(para,i);
+			del();
+		}
+	}
+	//restore the cursor position
+	setCursorPosition(para_Cursor,index_Cursor);
+	repaintChanged();
 }
-void LatexEditor::doChangeInterval()
+
+/*void LatexEditor::doChangeInterval()
 {
     emit intervalChanged();
     QTextEdit::doChangeInterval();
-}
+}*/
 
 void LatexEditor::cursorPosChanged( int para, int pos  )
 {
@@ -157,7 +162,7 @@ void LatexEditor::cursorPosChanged( int para, int pos  )
   {
 		m_matching=false;
 	}
-	else  
+	else
   if (matchParens)
   {
 		QChar ch = text(para)[pos];
@@ -168,7 +173,7 @@ void LatexEditor::cursorPosChanged( int para, int pos  )
 			default : break;
 		}
 	}
-	
+
   if ( hasError )
   {
     emit clearErrorMarker();
@@ -215,10 +220,10 @@ void LatexEditor::matchParen(int para, int pos, int direc)
 		if (pos < 0 || pos > len)
 		{
 			//kdDebug() << "position " << pos << endl;
-  		para += direc;
+  			para += direc;
 			pos = (direc==1) ? 0 : text(para).length()-1;
 			paraprocessed++;
-      len = text(para).length()-1;
+			len = text(para).length()-1;
 			//if we processed a few paragraphs process events
 			//so that the user can abort the matching by changing the
 			//cursor position
@@ -238,7 +243,7 @@ void LatexEditor::matchParen(int para, int pos, int direc)
 		if (text(para)[pos-1] == TEX_CAT0 )
 		{
 			ignore=true;
-			QChar charretje =  text(para)[pos-1];
+			//QChar charretje =  text(para)[pos-1];
 			//kdDebug() << "ignoring " << charretje.latin1() << endl;
 		}
 

@@ -79,14 +79,14 @@ public:
 
 signals:
     void clearErrorMarker();
-    void intervalChanged();
+    //void intervalChanged();
 
 public slots:
 		void setParenMatching(bool b) {matchParens=b;}
 		
 private slots:
     void cursorPosChanged( int para,int pos );
-    void doChangeInterval();
+    //void doChangeInterval();
 
 private:
 	void matchParen(int para, int pos, int direc);

@@ -99,7 +99,14 @@ namespace KileTool
 
 	bool LaTeX::updateBibs()
 	{
-		return needsUpdate ( S() + ".bbl" , source(false) );
+		KileDocument::Info *info = manager()->info()->docManager()->infoFor(source());
+                if ( info )
+                {
+			if ( info->bibliographies()->count() > 0 )
+				return needsUpdate ( S() + ".bbl" , source(false) );
+		}
+
+		return false;
 	}
 
 	bool LaTeX::updateIndex()

@@ -46,7 +46,7 @@ int main( int argc, char ** argv )
   aboutData.addCredit("Thanks to all the patchers, packagers from all over the world!","");
   aboutData.addCredit("David Ishee", I18N_NOOP("Xgfe"));
   aboutData.addCredit("Unai Garro, Asokan, Maxim Azarov, Harald Fernengel, Stefan Kebekus");
-  aboutData.addCredit("Goon", I18N_NOOP("french translation"));
+  aboutData.addCredit("Thomas Basset", I18N_NOOP("french translation"));
   aboutData.addCredit("Kris Luyten", I18N_NOOP("dutch translation"));
   aboutData.addCredit("Alexander Hunziger, Roland Riegel", I18N_NOOP("german translation"));
   aboutData.addCredit("Stefan Asserhall", I18N_NOOP("swedish translation"));

@@ -1,0 +1,7 @@
+To compile source files :
+1.cd to the directory containing the package's source code and type :
+./configure --prefix=path to KDE3 (/usr or /opt/kde3 generally) --with-qt-dir=path to the QT3 library (/usr/lib/qt3 generally)
+2. Type make to compile the package.
+3. Type make install to install the programs and any data files and documentation.
+If you don't know what is the path to KDE 3 on your system, you can use this command with a terminal :
+kde-config --prefix

@@ -1,0 +1,37 @@
+TODO
+ - trying to compile an untitled document should initiate a
+   'Save As' dialog instead of the error 'could not start command'
+
+ - write a Kile handbook (in the docbook format)
+
+ - Automatically backup files (at a regular interval)
+
+ - fix error when quickbuild is stopped
+ 
+ - inverse search: kile is started and a Goto dialog is presented, could do
+   without it the Goto dialog :-)
+
+ - recursive sectioning: also parse sections that were inserted with
+   \input or \include (optional)
+
+ - Save As: When you do a "save as" for the first time, the directory should
+   be changed to the one visible in the file_selector.
+
+ - file_selector could use a configurable filter. Now only *.tex files are
+   shown,  some people might use a .ltx extension for their LaTeX files (or
+  something  completely different).
+
+ - project management (start a project, adds files to the project, use make
+   to build the project)
+
+ - It would be nice if the postscript/dvi/pdf files are automatically update
+   when they are "outdated", similar to the way "make" works.
+
+ - make error messages more specific ("could not start command" is not very
+   informative in my humble opinion)
+
+ - add comments to source-code
+
+BUGS
+ - KShellView crashes when it is started as an embedded viewer AND it shows a
+   tooltip at startup (very weird, probably a KShellView bug).

@@ -1,0 +1,63 @@
+- added templates support (user can select a template when creating a new
+  file, user can create templates from existing documents).
+- added a stop button, (La)TeX can now be stopped while compiling
+- added a Toolbars submenu, toolbars can be hidden now
+- output of compilations remains visible, log file can be shown
+  on request
+- inverse search now also works for documents whos name starts with a number
+- more flexible command syntax, instead of having latex and pdflatex as
+  commands, one can use
+  latex %S.tex or make %.dvi
+  now
+
+version 1.4 -> 1.5 :
+- added metapost support
+- added "user commands" menu
+- added ability to change or add gnuplot commands before plotting with the Gnuplot frontend
+- fixed the bug for files with accents in the Kite file selector
+- added the ability to show the line numbers and to choose the colors for the editor
+version 1.32 -> 1.4 :
+- added dvi and postcript embedded viewers (based on kdvi and kghostview kparts)
+- spell checking is now possible for the selected paragraphs and not only for all the document
+- overwrite an existing file must now be confirmed
+- the bug about the "report" document class in the "quick document dialog" has been fixed
+version 1.31 -> 1.32 :
+- the user can set the encoding character of the file with a combo box included in the Kite file selector.
+- two color schemes are available for the editor (Black on White/White on Black)
+- improved the "Multiple Function" dialog of the "Gnuplot frontend"
+version 1.3 -> 1.31 :
+- new dialog box for the "ref" and "pageref" tags (the user can select one of the existing labels)
+- the "--unique" option is now used for the "Kdvi Forward Search" command
+- the bug about the "report" class in the "Quick Start" wizard has been fixed
+- the GnuPlot front end code has been cleaned (only QString are used instead of string)
+version 1.3beta -> 1.3 :
+- fixed some minor bugs
+- new user manual
+- added more options for the "Quick Start" wizard
+version 1.2 -> 1.3beta :
+- the "label" tags written on the same line than a "section" tag are now detected
+- added a "find next" command
+- improved the "replace" command
+- improved the "edit user menu" command (ability to insert several lines)
+- added more options for the "quick start", "tabular" and "array" wizards
+- added new LaTeX tags (maketitle, footnote, tableofcontents, ref, pageref)
+- added DCOP support (no new instance when kite is already running - Kdvi "inverse search" should work better)
+version 1.1 -> 1.2 :
+- new panel (file selector, structure view, mathematical symbols and the greek letters)
+- no more embedded viewers
+- classical order for the "recent files" list
+- added shortcuts for the "item" tag and icons for the "enumerate" and "itemize" environments
+- added info about the size of the .eps file while using \includegraphics{}
+- the Konsole is now synchronized with the current document
+- added ability to remove the optionnal fields of a .bib file. ("Clean" command)
+- added "watch file" mode for the "quick build" command (the viewers are not launched)
+version 1.0 -> 1.1 :
+- added toolbars configuration
+- added new modes for the 'Quick build' command
+- user can now print the ps/pdf file directly with kite
+- added a wizard for the 'Tabbing' environment
+- by typing %myenvironment in the 'LaTeX content' field of an 'user menu', Kite inserts directly this code :
+\begin{myenvironment}
+
+\end{myenvironment}
+- fixed some minor bugs

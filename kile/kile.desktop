@@ -1,0 +1,10 @@
+# KDE Config File
+[KDE Desktop Entry]
+Type=Application
+Exec=kite
+Icon=kite
+DocPath=kite/index.html
+Comment=(La)TeX development environment
+Terminal=0
+Name=Kite
+MimeType=text/x-tex

@@ -43,7 +43,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("AMS Packages"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_amspackages","\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n",QString::null,0,3,i18n("The principal American Mathematical Society packages"));
 	(void) new KileAction::Tag(i18n("Start document body - \\begin{document}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_document","\\begin{document}\n", "\n\\end{document}", 0,1,i18n("Text is allowed only between \\begin{document} and \\end{document}.\nThe 'preamble' (before \\begin{document} ) may contain declarations only."));
 	(void) new KileAction::Tag(i18n("Generate title - \\maketitle"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_maketitle","\\maketitle",QString::null,10,0,i18n("This command generates a title on a separate title page\n- except in the article class, where the title normally goes at the top of the first page."));
-	(void) new KileAction::Tag(i18n("Generate table of contents - \\tableofcontents"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_tableofcontents","\\tableofcontents",QString::null,16,0,i18n("Put this command where you want the table of contents to go"));
+	(void) new KileAction::Tag(i18n("Table of contents - \\tableofcontents"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_tableofcontents","\\tableofcontents",QString::null,16,0,i18n("Put this command where you want the table of contents to go"));
 	(void) new KileAction::Tag(i18n("Title definition - \\title{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_title","\\title{","}",7,0,i18n( "\\title{text}\nThe \\title command declares text to be the title.\nUse \\\\ to tell LaTeX where to start a new line in a long title."));
 	(void) new KileAction::Tag(i18n("Author definition - \\author{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_author","\\author{","}",8,0,i18n( "\\author{names}\nThe \\author command declares the author(s), where names is a list of authors separated by \\and commands."));
 
@@ -51,16 +51,14 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_center", "\\begin{center}\n","\n\\end{center}", 0,1, i18n("Each line must be terminated with the string \\\\."));
 	(void) new KileAction::Tag(i18n("Align left - \\begin{flushleft}"),"text_left",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_flushleft", "\\begin{flushleft}\n","\n\\end{flushleft}", 0,1, i18n("Each line must be terminated with the string \\\\.") );
 	(void) new KileAction::Tag(i18n("Align right - \\begin{flushright}"),"text_right",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_flushright", "\\begin{flushright}\n","\n\\end{flushright}", 0,1, i18n("Each line must be terminated with the string \\\\.") );
-	(void) new KileAction::Tag(i18n("Quote - \\begin{quote}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_quota","\\begin{quote}\n","\n\\end{quote} ",0,1,i18n("The text is justified at both margins.\nLeaving a blank line between text produces a new paragraph.") );
+	(void) new KileAction::Tag(i18n("Quote - \\begin{quote}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_quote","\\begin{quote}\n","\n\\end{quote} ",0,1,i18n("The text is justified at both margins.\nLeaving a blank line between text produces a new paragraph.") );
 	(void) new KileAction::Tag(i18n("Quotation - \\begin{quotation}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_quotation","\\begin{quotation}\n","\n\\end{quotation} ",0,1, i18n("The text is justified at both margins and there is paragraph indentation.\nLeaving a blank line between text produces a new paragraph.") );
-	(void) new KileAction::Tag(i18n("Verse environment - \\begin{verse}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_verse", "\\begin{verse}\n","\n\\end{verse} ",0,1,i18n("The verse environment is designed for poetry.\nSeparate the lines of each stanza with \\\\, and use one or more blank lines to separate the stanzas.") );
+	(void) new KileAction::Tag(i18n("Verse - \\begin{verse}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_verse", "\\begin{verse}\n","\n\\end{verse} ",0,1,i18n("The verse environment is designed for poetry.\nSeparate the lines of each stanza with \\\\, and use one or more blank lines to separate the stanzas.") );
 
-	(void) new KileAction::Tag(i18n("Verbatim environment - \\begin{verbatim}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_verbatim","\\begin{verbatim}\n","\n\\end{verbatim} ",0,1,i18n("Environment that gets LaTeX to print exactly what you type in."));
+	(void) new KileAction::Tag(i18n("Verbatim - \\begin{verbatim}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_verbatim","\\begin{verbatim}\n","\n\\end{verbatim} ",0,1,i18n("Environment that gets LaTeX to print exactly what you type in."));
 	(void) new KileAction::Tag(i18n("Bulleted list - \\begin{itemize}"),"itemize",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_itemize","\\begin{itemize}\n\\item \n", "\\end{itemize}\n", 6,1,i18n("The itemize environment produces a 'bulleted' list.\nEach item of an itemized list begins with an \\item command."));
 	(void) new KileAction::Tag(i18n("Enumeration - \\begin{enumerate}"),"enumerate",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_enumerate","\\begin{enumerate}\n\\item \n","\\end{enumerate}\n", 6,1,i18n("The enumerate environment produces a numbered list.\nEach item of an enumerated list begins with an \\item command."));
-	(void) new KileAction::Tag(i18n("Description environment - \\begin{description}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_description","\\begin{description}\n\\item[]\n ", "\\end{description}",6,1,i18n("The description environment is used to make labeled lists.\nEach item of the list begins with an \\item[label] command.\nThe 'label' is bold face and flushed right."));
-	(void) new KileAction::Tag(i18n("List - \\begin{list}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_list","\\begin{list}{}{}\n\\item \n", "\\end{list}",13,0,i18n("\\begin{list}{label}{spacing}\nThe {label} argument is a piece of text that is inserted in a box to form the label. \nThe {spacing} argument contains commands to change the spacing parameters for the list.\nEach item of the list begins with an \\item command."));
-
+	(void) new KileAction::Tag(i18n("Description - \\begin{description}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_description","\\begin{description}\n\\item[]\n ", "\\end{description}",6,1,i18n("The description environment is used to make labeled lists.\nEach item of the list begins with an \\item[label] command.\nThe 'label' is bold face and flushed right."));
 
 	(void) new KileAction::Tag(i18n("Table - \\begin{table}"),"frame_spreadsheet",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_table","\\begin{table}\n","\n\\caption{}\n\\end{table} ",0,1,
 		i18n("\\begin{table}[placement]\nbody of the table\n\\caption{table title}\n\\end{table}\nTables are objects that are not part of the normal text, and are usually floated to a convenient place\n"
@@ -82,12 +80,12 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	new KileAction::Tag(i18n("Small caps - \\textsc{}"),Qt::ALT+Qt::SHIFT+Qt::Key_C, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_textsc","\\textsc{","}",8,0,i18n("\\textsc{small caps text}"));
  	new KileAction::Tag("\\item","item",Qt::ALT+Qt::SHIFT+Qt::Key_H, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_item","\\item ",QString::null,6,0, i18n("\\item[label] Hello!"));
 
-	(void) new KileAction::Tag(i18n("Tabbing environment - \\begin{tabbing}"),"tabbing",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_tabbing" ,"\\begin{tabbing}\n","\n\\end{tabbing} ",0,1,i18n("The tabbing environment provides a way to align text in columns.\n\\begin{tabbing}\ntext \\= more text \\= still more text \\= last text \\\\\nsecond row \\>  \\> more \\\\\n\\end{tabbing}\nCommands :\n\\=  Sets a tab stop at the current position.\n\\>  Advances to the next tab stop.\n\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.\n\\+  Moves the left margin of the next and all the following commands one tab stop to the right\n\\-  Moves the left margin of the next and all the following commands one tab stop to the left\n\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. \n\\`  Allows you to put text flush right against any tab stop, including tab stop 0\n\\kill  Sets tab stops without producing text.\n\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used."));
-	(void) new KileAction::Tag("\\begin{tabular}","tabular",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_tabular" ,"\\begin{tabular}{","}\n\n\\end{tabular} ",16,0,i18n("\\begin{tabular}[pos]{cols}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\\n...\n\\end{tabular}\npos : Specifies the vertical position; default is alignment on the center of the environment.\n     t - align on top row\n     b - align on bottom row\ncols : Specifies the column formatting.\n     l - A column of left-aligned items.\n     r - A column of right-aligned items.\n     c - A column of centered items.\n     | - A vertical line the full height and depth of the environment.\n     @{text} - this inserts text in every row.\nThe \\hline command draws a horizontal line the width of the table.\nThe \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,\nThe \\vline command draws a vertical line extending the full height and depth of its row."));
-	(void) new KileAction::Tag("\\multicolumn","multicolumn",0, parent, SLOT(insertTag(const KileAction::TagData&)),parent->actionCollection(),"tag_multicolumn","\\multicolumn{","}{}{} ",13,0,i18n("\\multicolumn{cols}{pos}{text}\ncol, specifies the number of columns to span.\npos specifies the formatting of the entry: c for centered, l for flushleft, r for flushright.\ntext specifies what text is to make up the entry."));
+	(void) new KileAction::Tag(i18n("Tabbing - \\begin{tabbing}"),"tabbing",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_tabbing" ,"\\begin{tabbing}\n","\n\\end{tabbing} ",0,1,i18n("The tabbing environment provides a way to align text in columns.\n\\begin{tabbing}\ntext \\= more text \\= still more text \\= last text \\\\\nsecond row \\>  \\> more \\\\\n\\end{tabbing}\nCommands :\n\\=  Sets a tab stop at the current position.\n\\>  Advances to the next tab stop.\n\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.\n\\+  Moves the left margin of the next and all the following commands one tab stop to the right\n\\-  Moves the left margin of the next and all the following commands one tab stop to the left\n\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. \n\\`  Allows you to put text flush right against any tab stop, including tab stop 0\n\\kill  Sets tab stops without producing text.\n\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used."));
+	(void) new KileAction::Tag("Tabular - \\begin{tabular}","tabular",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_tabular" ,"\\begin{tabular}{","}\n\n\\end{tabular} ",16,0,i18n("\\begin{tabular}[pos]{cols}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\\n...\n\\end{tabular}\npos : Specifies the vertical position; default is alignment on the center of the environment.\n     t - align on top row\n     b - align on bottom row\ncols : Specifies the column formatting.\n     l - A column of left-aligned items.\n     r - A column of right-aligned items.\n     c - A column of centered items.\n     | - A vertical line the full height and depth of the environment.\n     @{text} - this inserts text in every row.\nThe \\hline command draws a horizontal line the width of the table.\nThe \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,\nThe \\vline command draws a vertical line extending the full height and depth of its row."));
+	(void) new KileAction::Tag("Multicolumn cells - \\multicolumn","multicolumn",0, parent, SLOT(insertTag(const KileAction::TagData&)),parent->actionCollection(),"tag_multicolumn","\\multicolumn{","}{}{} ",13,0,i18n("\\multicolumn{cols}{pos}{text}\ncol, specifies the number of columns to span.\npos specifies the formatting of the entry: c for centered, l for flushleft, r for flushright.\ntext specifies what text is to make up the entry."));
 	(void) new KileAction::Tag(i18n("Horizontal line - \\hline"),"hline",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_hline" ,"\\hline ",QString::null,7,0,i18n("The \\hline command draws a horizontal line the width of the table."));
 	(void) new KileAction::Tag(i18n("Vertical line - \\vline"),"vline",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_vline" ,"\\vline ",QString::null,7,0,i18n("The \\vline command draws a vertical line extending the full height and depth of its row."));
-	(void) new KileAction::Tag(i18n("Horizontal line across columns - \\cline"),"cline",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_cline" ,"\\cline{-} ",QString::null,7,0,i18n("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,"));
+	(void) new KileAction::Tag(i18n("Horizontal line across columns - \\cline{m-n}"),"cline",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_cline" ,"\\cline{-} ",QString::null,7,0,i18n("The \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,"));
 
 	(void) new KileAction::Tag(i18n("Newpage - \\newpage"),  0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_newpage","\\newpage ",QString::null,9,0,i18n("The \\newpage command ends the current page"));
 	(void) new KileAction::Tag(i18n("Line break - \\linebreak"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_linebreak","\\linebreak ",QString::null,11,0,i18n("The \\linebreak command tells LaTeX to break the current line at the point of the command."));
@@ -145,6 +143,73 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 // 	(void) new KileAction::Tag(i18n("New Line"),"newline",Qt::SHIFT+Qt::Key_Return , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_newline","\\\\\n",QString::null,0,1);
 
 	(void) new KAction(i18n("Smart New Line"), "newline", Qt::SHIFT+Qt::Key_Return , ki->editorExtension(), SLOT(insertIntelligentNewline()), parent->actionCollection(),"tag_newline");
+	
+	// new tags (dani 29.01.2005)
+	KActionCollection* ac = parent->actionCollection();
+	
+	// environments
+	(void) new KileAction::Tag(i18n("Abstract - \\begin{abstract}"),0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_abstract","\\begin{abstract}\n","\n\\end{abstract} ",0,1, i18n("\\begin{abstract}\ntext\n\\end{abstract}\nThe abstract environment creates a title page, i.e. a page with no printed page number or heading."));
+
+	(void) new KileAction::Tag("Tabular* - \\begin{tabular*}",0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_tabular*","\\begin{tabular*}{}{","}\n\n\\end{tabular*}\n",17,0, i18n("\\begin{tabular*}{width}[pos]{cols}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\\n...\n\\end{tabular*}\nThis is an extended version of the tabular environment with an extra parameter for the width. There must be rubber space between columns that can stretch to fill out the specified width."));
+
+	(void) new KileAction::Tag(i18n("Minipage - \\begin{minipage}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_env_minipage","\\begin{minipage}[","]{}\n\n\\end{minipage} ",17,0, i18n("The minipage environment is similar to a \\parbox command. It takes the same optional position argument and mandatory width argument. You may use other paragraph-making environments inside a minipage."));
+
+	// lists
+	(void) new KileAction::Tag(i18n("Table of figures - \\listoffigures"),0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_listoffigures","\\listoffigures",QString::null,14,0, i18n("Put this command where you want the list of figures to go."));
+
+	(void) new KileAction::Tag(i18n("Table of tables - \\listoftables"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_listoftables","\\listoftables",QString::null,14,0, i18n("Put this command where you want the list of tables to go."));
+
+	(void) new KileAction::Tag(i18n("Generate the index - \\makeindex"),0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_makeindex","\\makeindex",QString::null,10,0, i18n("Put this command when you want to generate the raw index."));
+
+	(void) new KileAction::Tag(i18n("Print the index - \\printindex"),0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_printindex","\\printindex",QString::null,11,0, i18n("Put this command when you want to print the formatted index."));
+
+	(void) new KileAction::Tag(i18n("Glossary - \\makeglossary"),0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_makeglossary","\\makeglossary",QString::null,13,0, i18n("Put this command when you want to print a glossary."));
+
+	(void) new KileAction::Tag("Bibliography - \\begin{thebibliography}",0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_thebibliography" ,"\\begin{thebibliography}{","}\n\n\\end{thebibliography} ",24,0, i18n("\\begin{thebibliography}{widest-label}\n\\bibitem[label]{cite_key}\n...\n\\end{thebibliography}\n\nwidest-label : Text that, when printed, is approximately as wide as the widest item label produces by the \\bibitem commands\n\\bibitem : Specify a bibliography item"));
+
+	// verbatim code
+	(void) new KileAction::Tag(i18n("Verbatim (show spaces) - \\begin{verbatim*}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_env_verbatim*","\\begin{verbatim*}\n","\n\\end{verbatim*}\n",0,1, i18n("Environment that gets LaTeX to print exactly what you type in. In this variant, spaces are printed in a special manner."));
+
+	(void) new KileAction::Tag(i18n("Embedded Code - \\verb||"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_verb","\\verb|","|",6,0, i18n("Macro form of the verbatim environment."));
+
+	(void) new KileAction::Tag(i18n("Embedded Code (show spaces) - \\verb*||"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_verb*","\\verb*|","|",7,0, i18n("Macro form of the verbatim* environment."));
+
+	// horizontal/vertical space
+	(void) new KileAction::Tag(i18n("\"Small\" vertical space - \\smallskip"),0, parent,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_smallskip","\\smallskip ",QString::null,10,0, i18n("The \\smallskip command adds a 'small' vertical space."));
+
+	(void) new KileAction::Tag("\\enskip",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_enskip", "\\enskip ", QString::null, 8);
+	
+	(void) new KileAction::Tag(i18n("Horizontal variable space - \\hfill"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hfill","\\hfill",QString::null,6,0, i18n("The \\hfill fill command produces a \"rubber length\" which can stretch or shrink horizontally. It will be filled with spaces."));
+	
+	(void) new KileAction::Tag(i18n("Horizontal dots - \\dotfill"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_dotfill","\\dotfill",QString::null,8,0, i18n("The \\dotfill command produces a \"rubber length\" that produces dots instead of just spaces."));
+	
+	(void) new KileAction::Tag(i18n("Horizontal rule - \\hrulefill"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hrulefill","\\hrulefill",QString::null,10,0, i18n("The \\hrulefill fill command produces a \"rubber length\" which can stretch or shrink horizontally. It will be filled with a horizontal rule."));
+	
+	(void) new KileAction::Tag(i18n("Vertical variable space - \\vfill"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vfill","\\vfill",QString::null,6,0, i18n("The \\vfill fill command produces a \"rubber length\" which can stretch or shrink vertically."));
+	
+	(void) new KileAction::Tag(i18n("Horizontal space - \\hspace{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace","\\hspace{","}",8,0, i18n("The \\hspace command adds horizontal space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\hspace command. Adding negative space is like backspacing."));
+	
+	(void) new KileAction::Tag(i18n("Horizontal space (forced) - \\hspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace*","\\hspace*{","}",9,0, i18n("The \\hspace* command adds horizontal space like the \\hspace command. LaTeX removes horizontal space that comes at the end of a line. If you don't want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	
+	(void) new KileAction::Tag(i18n("Vertical space - \\vspace{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace","\\vspace{","}",8,0, i18n("The \\vspace command adds vertical space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\vspace command."));
+	
+	(void) new KileAction::Tag(i18n("Vertical space (forced) - \\vspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds horizontal space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you don't want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	
+	// fonts
+	new KileAction::Tag(i18n("Emphasized - \\emph{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_emph","\\emph{","}",6,0,i18n("\\emph{emphasized text}"));
+
+	(void) new KileAction::Tag("Roman - \\rmfamily",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_rmfamily", "\\rmfamily", QString::null, 9);
+	(void) new KileAction::Tag("Sansserif - \\sffamily",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_sffamily", "\\sffamily", QString::null, 9);
+	(void) new KileAction::Tag("Monospace - \\ttfamily",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_ttfamily", "\\ttfamily", QString::null, 9);
+
+	(void) new KileAction::Tag("Medium - \\mdseries",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_mdseries", "\\mdseries", QString::null, 9);
+	(void) new KileAction::Tag("Bold - \\bfseries",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_bfseries", "\\bfseries", QString::null, 9);
+
+	(void) new KileAction::Tag("Upright - \\upshape",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_upshape", "\\upshape", QString::null, 8);
+	(void) new KileAction::Tag("Italic - \\itshape",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_itshape", "\\itshape", QString::null, 8);
+	(void) new KileAction::Tag("Slanted - \\slshape",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_slshape", "\\slshape", QString::null, 8);
+	(void) new KileAction::Tag("Smallcaps - \\scshape",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_scshape", "\\scshape", QString::null, 8);
+	
 }
 
 void setupBibTags(KMainWindow *parent)
@@ -193,13 +258,13 @@ void setupMathTags(KMainWindow *parent)
 	(void) new KileAction::Tag("\\qquad",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_qquad", "\\qquad ", QString::null, 7);
 
 	(void) new KileAction::Tag(i18n("Math mode - $...$"),"mathmode",Qt::ALT+Qt::SHIFT+Qt::Key_M, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathmode","$","$",1);
-	(void) new KileAction::Tag("\\[...\\]","displaymathmode",Qt::ALT+Qt::SHIFT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "\\[","\\]", 2);
-  	(void) new KileAction::Tag(i18n("Equation environment - \\begin{equation}"),"equation",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","\n\\end{equation} ",0,1);
-  	(void) new KileAction::Tag(i18n("Equation array - \\begin{eqnarray}"),"eqnarray",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
+	(void) new KileAction::Tag("Displaymath mode - \\[...\\]", "displaymathmode",Qt::ALT+Qt::SHIFT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "\\[","\\]", 2);
+  	(void) new KileAction::Tag(i18n("Equation - \\begin{equation}"),"equation",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","\n\\end{equation} ",0,1);
+  	(void) new KileAction::Tag(i18n("Eqnarray - \\begin{eqnarray}"),"eqnarray",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","\n\\end{eqnarray} ",0,1);
 	(void) new KileAction::Tag(i18n("Subscript - _{}"),"math_lsup",Qt::ALT+Qt::SHIFT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
 	(void) new KileAction::Tag(i18n("Superscript - ^{}"),"math_lsub",Qt::ALT+Qt::SHIFT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
 	(void) new KileAction::Tag(i18n("Fraction - \\frac{}{}"),"smallfrac",Qt::ALT+Qt::SHIFT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);
-	(void) new KileAction::Tag(i18n("AMS fraction - \\dfrac{}{}"),"dfrac",Qt::ALT+Qt::SHIFT+Qt::Key_Q, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7);
+	(void) new KileAction::Tag(i18n("Displaystyle fraction - \\dfrac{}{}"),"dfrac",Qt::ALT+Qt::SHIFT+Qt::Key_Q, parent, SLOT(insertAmsTag(const KileAction::TagData&)), parent->actionCollection(),"tag_dfrac", "\\dfrac{","}{}", 7);
 	(void) new KileAction::Tag(i18n("Square root - \\sqrt{}"),"math_sqrt",Qt::ALT+Qt::SHIFT+Qt::Key_S, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_sqrt", "\\sqrt{","}", 6);
 	(void) new KileAction::Tag("\\left",Qt::ALT+Qt::SHIFT+Qt::Key_L, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_left", "\\left", QString::null, 5);
 	(void) new KileAction::Tag("\\right",Qt::ALT+Qt::SHIFT+Qt::Key_R, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_right", "\\right", QString::null, 6);
@@ -235,6 +300,73 @@ void setupMathTags(KMainWindow *parent)
   	alist.append(new KileAction::Tag("right.",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\right. ",QString::null,8,0));
 
   	actionright_list->setItems(alist);
+	
+	// new math tags (dani 29.01.2005)
+	KActionCollection* ac = parent->actionCollection();
+	
+	(void) new KileAction::Tag(i18n("Textstyle - \\tfrac{}{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_tfrac", "\\tfrac{","}{}", 7);
+	
+	(void) new KileAction::Tag(i18n("Normal- \\binom{}{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_binom", "\\binom{","}{}", 7);
+	
+	(void) new KileAction::Tag(i18n("Displaystyle - \\dbinom{}{}"),0, parent,SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_dbinom", "\\dbinom{","}{}", 8);
+	
+	(void) new KileAction::Tag(i18n("Textstyle - \\tbinom{}{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_tbinom", "\\tbinom{","}{}", 8);
+	
+	(void) new KileAction::Tag(i18n("n-th root - \\sqrt[]{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_nroot", "\\sqrt[]{","}", 6);
+	
+	(void) new KileAction::Tag("Left-Right - \\left(..\\right)",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_leftright", "\\left(  \\right)", QString::null, 7);
+	
+	(void) new KileAction::Tag(i18n("Extendible left arrow - \\xleftarrow{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_xleftarrow", "\\xleftarrow{","}", 12);
+
+	(void) new KileAction::Tag(i18n("Extendible right arrow - \\xrightarrow{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_xrightarrow", "\\xrightarrow{","}", 13);
+
+	(void) new KileAction::Tag(i18n("Boxed formula - \\boxed{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_boxed", "\\boxed{","}", 7);
+	
+	(void) new KileAction::Tag(i18n("bigl - \\bigl"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_bigl", "\\bigl",QString::null, 5);
+	(void) new KileAction::Tag(i18n("Bigl - \\Bigl"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_Bigl", "\\Bigl",QString::null, 5);
+	(void) new KileAction::Tag(i18n("biggl - \\biggl"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_biggl", "\\biggl",QString::null, 6);
+	(void) new KileAction::Tag(i18n("Biggl - \\Biggl"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_Biggl", "\\Biggl",QString::null, 6);
+	
+	(void) new KileAction::Tag(i18n("bigr - \\bigr"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_bigr", "\\bigr",QString::null, 5); 
+	(void) new KileAction::Tag(i18n("Bigr - \\Bigr"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_Bigr", "\\Bigr",QString::null, 5);
+	(void) new KileAction::Tag(i18n("biggr - \\biggr"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_biggr", "\\biggr",QString::null, 6);
+	(void) new KileAction::Tag(i18n("Biggr - \\Biggr"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_Biggr", "\\Biggr",QString::null, 6);
+	
+	// text in mathmode
+	(void) new KileAction::Tag(i18n("Text in mathmode - \\text{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_text", "\\text{","}", 6);
+	
+	(void) new KileAction::Tag(i18n("Intertext - \\intertext{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_intertext", "\\intertext{","}\n", 11);
+	
+	// math environments
+	(void) new KileAction::Tag(i18n("Displaymath - \\begin{displaymath}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_displaymath","\\begin{displaymath}\n","\n\\end{displaymath}\n",0,1);
+
+	(void) new KileAction::Tag(i18n("Equation (not numbered) - \\begin{equation*}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_equation*","\\begin{equation*}\n","\n\\end{equation*}\n",0,1);
+	(void) new KileAction::Tag(i18n("Eqnarray (not numbered) - \\begin{eqnarray*}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_eqnarray*","\\begin{eqnarray*}\n","\n\\end{eqnarray*}\n",0,1);
+	
+	// AMS environments
+	(void) new KileAction::Tag(i18n("Multline - \\begin{multline}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_multline","\\begin{multline}\n","\n\\end{multline}\n", 0,1);
+ 	(void) new KileAction::Tag(i18n("Multline* - \\begin{multline*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_multline*","\\begin{multline*}\n","\n\\end{multline*}\n", 0,1);
+	
+	(void) new KileAction::Tag(i18n("Split - \\begin{split}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_split","\\begin{split}\n","\n\\end{split}\n", 0,1);
+
+	(void) new KileAction::Tag(i18n("Gather - \\begin{gather}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gather","\\begin{gather}\n","\n\\end{gather}\n", 0,1);
+ 	(void) new KileAction::Tag(i18n("Gather* - \\begin{gather*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gather*","\\begin{gather*}\n","\n\\end{gather*}\n", 0,1);
+
+	(void) new KileAction::Tag(i18n("Align - \\begin{align}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_align","\\begin{align}\n","\n\\end{align}\n", 0,1);
+ 	(void) new KileAction::Tag(i18n("Align* - \\begin{align*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_align*","\\begin{align*}\n","\n\\end{align*}\n", 0,1);
+
+	(void) new KileAction::Tag(i18n("Flalign - \\begin{flalign}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign","\\begin{flalign}\n","\n\\end{flalign}\n", 0,1);
+ 	(void) new KileAction::Tag(i18n("Flalign* - \\begin{align*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign*","\\begin{flalign*}\n","\n\\end{flalign*}\n", 0,1);
+	
+	(void) new KileAction::Tag(i18n("Alignat - \\begin{alignat}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignat","\\begin{alignat}{","}\n\n\\end{alignat}\n", 16,0);
+ 	(void) new KileAction::Tag(i18n("Alignat* - \\begin{alignat*}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignat*","\\begin{alignat*}{","}\n\n\\end{alignat*}\n", 17,0);
+		
+	(void) new KileAction::Tag(i18n("Aligned - \\begin{aligned}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_aligned","\\begin{aligned}\n","\n\\end{aligned}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Gathered - \\begin{gathered}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gathered","\\begin{gathered}\n","\n\\end{gathered}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Alignedat - \\begin{alignedat}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignedat","\\begin{alignedat}\n","\n\\end{alignedat}\n", 0,1);
+
+	(void) new KileAction::Tag(i18n("Cases - \\begin{cases}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_cases","\\begin{cases}\n","\n\\end{cases}\n", 0,1);
+
 }
 
 }

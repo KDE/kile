@@ -32,9 +32,9 @@
 
 static KCmdLineOptions options[] =
 {
-	{ "line <line>", "line", "0" },
-	{ "new", "Start a new Kile mainwindow.", 0 },
-	{ "+[file]", "File to open", 0 },
+	{ "line <line>", I18N_NOOP( "Jump to line" ), "0" },
+	{ "new", I18N_NOOP( "Start a new Kile mainwindow." ), 0 },
+	{ "+[file]", I18N_NOOP( "File to open" ), 0 },
 	KCmdLineLastOption
 };
 
@@ -44,7 +44,7 @@ bool isProject(const QString &path)
 }
 
 /**
- * Complete a relative paths to absolute ones. 
+ * Complete a relative paths to absolute ones.
  * Also accepts URLs of the form file:relativepath.
  **/
 QString completePath(const QString &path)
@@ -65,7 +65,7 @@ QString completePath(const QString &path)
 	}
 
 	kdDebug() << "\t" << fullpath << endl;
-	return fullpath;	
+	return fullpath;
 }
 
 int main( int argc, char ** argv )
@@ -124,7 +124,7 @@ int main( int argc, char ** argv )
 
 		QString line = args->getOption("line");
 		if (line != "0") mw->setLine(line);
-	
+
 		args->clear();
 		return a.exec();
 	}
@@ -144,7 +144,7 @@ int main( int argc, char ** argv )
 		KStartupInfo::appStarted();
 		QByteArray empty;
 		client->send (appID, "Kile", "setActive()", empty);
-	}	
+	}
 
 	return 0;
 }

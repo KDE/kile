@@ -146,7 +146,8 @@ void KileSpell::slotCorrected (const QString & originalword, int pos, const QStr
 void KileSpell::slotDone(const QString& /*newtext*/)
 {
 	m_ki->viewManager()->currentView()->getDoc()->clearSelection();
-	KMessageBox::information(m_parent, i18n("Corrected %1 words.").arg(m_spellCorrected), i18n("Spell Checking Done"));
+	KMessageBox::information(m_parent, i18n("Corrected 1 word.", "Corrected %n words.", m_spellCorrected),
+                             i18n("Spell Checking Done"));
 }
 
 #include "kilespell2.moc"

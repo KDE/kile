@@ -69,7 +69,7 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   coll->action("back")->plug(toolbar);
   coll->action("forward")->plug(toolbar);
 
-  toolbar->insertButton("fileopen", 0, true , "Open selected");
+  toolbar->insertButton("fileopen", 0, true , i18n( "Open selected" ));
   connect(toolbar, SIGNAL(clicked(int)), this, SLOT(clickedToolbar(int)));
 
   lo->addWidget(dir);

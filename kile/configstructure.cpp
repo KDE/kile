@@ -5,7 +5,7 @@
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
- 
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -81,15 +81,15 @@ void KileTable::contentsMousePressEvent(QMouseEvent *ev)
 }
 
 //////////////////// ConfigStructure ////////////////////
-          
+
 ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    : QWidget(parent,name)
 {
-   m_entries << "Files" << "Labels"   << "References"
-             << "Index" << "Graphics" << "Sectioning";
+   m_entries << i18n( "Files" ) << i18n( "Labels" ) << i18n( "References" )
+             << i18n( "Index" ) << i18n( "Graphics" ) << i18n( "Sectioning" );
 
    QHBoxLayout *hbox = new QHBoxLayout(this, 5,KDialog::spacingHint() );
-   
+
    // Groupbox with entries
    QVGroupBox *gb_entries= new QVGroupBox(i18n("Entries"), this );
    QWidget *widget1 = new QWidget(gb_entries);
@@ -102,13 +102,13 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_entriestable->setColumnReadOnly(0,true);
 
    QStringList list1;
-   list1 << "Title" << "Visible" << "Open";
+   list1 << i18n( "Title" ) << i18n( "Visible" ) << i18n( "Open" );
    m_entriestable->setColumnLabels(list1);
-   m_entriestable->horizontalHeader()->setLabel(1,SmallIcon("structure"),"Visible");
-   m_entriestable->horizontalHeader()->setLabel(2,SmallIcon("structure"),"Node");
-   
+   m_entriestable->horizontalHeader()->setLabel(1,SmallIcon("structure"), i18n( "Visible" ));
+   m_entriestable->horizontalHeader()->setLabel(2,SmallIcon("structure"), i18n( "Node" ));
+
    for ( uint i=0; i<m_entries.count(); ++i ) {
-       QTableItem *item = new QTableItem(m_entriestable,QTableItem::Never,i18n(m_entries[i].ascii()));
+       QTableItem *item = new QTableItem(m_entriestable,QTableItem::Never, m_entries[i]);
        m_entriestable->setItem( i,0,item  );
        m_visible[i] = new QCheckTableItem(m_entriestable,"");
        m_entriestable->setItem( i,1, m_visible[i]  );
@@ -118,7 +118,7 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
 
    // groupbox with sectioning
    QVGroupBox *gb_sectioning= new QVGroupBox(i18n("Sectioning"), this );
-   QWidget *widget2 = new QWidget(gb_sectioning);   
+   QWidget *widget2 = new QWidget(gb_sectioning);
    QVBoxLayout *vbox2 = new QVBoxLayout(widget2, 5,KDialog::spacingHint() );
 
    // document class
@@ -131,18 +131,18 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    hbox3->addWidget(comboclasses);
    hbox3->setStretchFactor(comboclasses,1);
 
-   // table with sectioning commands 
+   // table with sectioning commands
    m_sectioningtable = new KileTable(this,widget2);
    m_sectioningtable->setNumCols(3);
    m_sectioningtable->setNumRows(5);
    m_sectioningtable->setColumnReadOnly(0,true);
    m_sectioningtable->setColumnReadOnly(1,true);
-   
+
    QStringList list2;
-   list2 << "Level" << "LaTeX Command" << "Structure Node";
+   list2 << i18n( "Level" ) << i18n( "LaTeX Command" ) << i18n( "Structure Node" );
    m_sectioningtable->setColumnLabels(list2);
    m_sectioningtable->horizontalHeader()->setLabel(2,SmallIcon("structure"),"Structure Node");
-    
+
    // default structure level
    QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure View"), widget2);
    QLabel *label9 = new QLabel(i18n("Default expansion &level: "),structGroup);
@@ -159,11 +159,11 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    hbox4->addStretch();
    hbox4->addWidget(add);
    hbox4->addWidget(remove);
-   
+
    // add widgets to the left vertical layout
    vbox1->addWidget(m_entriestable);
    vbox1->addStretch();
-  
+
    // add widgets to the right vertical layout
    vbox2->addWidget(widget3);
    vbox2->addSpacing(10);
@@ -186,12 +186,12 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_docclasses["latex"] = sectcommands;
    showSectioning(m_docclasses["latex"]);
    remove->setEnabled(false);
-   
+
     connect(m_structurelevel,SIGNAL(valueChanged(int)),this,SLOT(spinboxChanged(int)));
     connect(comboclasses,SIGNAL(activated(const QString &)),this,SLOT(comboboxChanged(const QString &)));
     connect(add,SIGNAL(clicked()),this,SLOT(clickedAdd()));
 
-   add->setEnabled(false); 
+   add->setEnabled(false);
 }
 
 ConfigStructure::~ConfigStructure()
@@ -222,7 +222,7 @@ void ConfigStructure::polish()
 void ConfigStructure::clickedTable(KileTable *table,int row, int col)
 {
    if ( table==m_entriestable && row>=0 && row<6 ) {
-      if ( col==1 ) 
+      if ( col==1 )
          m_visible[row]->setChecked( !m_visible[row]->isChecked() );
       else if ( col == 2 ) {
          if ( m_defaultopen[row]->isChecked() ) {
@@ -231,9 +231,9 @@ void ConfigStructure::clickedTable(KileTable *table,int row, int col)
          } else {
             m_defaultopen[row]->setChecked(true);
             m_defaultopen[row]->setText("open");
-         } 
+         }
       }
-   }   
+   }
 }
 
 void ConfigStructure::spinboxChanged(int)
@@ -291,7 +291,7 @@ void ConfigStructure::readConfig(KConfig *config)
    // config section
    config->setGroup( "Structure Entries" );
    for ( uint i=0; i<m_entries.count(); ++i ) {
-      int defaultvalue = ( m_entries[i] == "Sectioning" ) ? KileStructure::Visible | KileStructure::Opened
+      int defaultvalue = ( m_entries[i] == i18n( "Sectioning" ) ) ? KileStructure::Visible | KileStructure::Opened
                                                           : KileStructure::Visible;
       int num = config->readNumEntry(m_entries[i],defaultvalue);
       m_visible[i]->setChecked( (num & KileStructure::Visible) ? true : false );
@@ -324,7 +324,7 @@ void ConfigStructure::writeConfig(KConfig *config)
       int num = ( m_visible[i]->isChecked() ) ?  KileStructure::Visible : KileStructure::None;
       if  ( m_defaultopen[i]->isChecked() )
          num += KileStructure::Opened;
-      config->writeEntry(m_entries[i],num);   
+      config->writeEntry(m_entries[i],num);
    }
 
    config->setGroup( "Structure Sectioning" );
@@ -335,7 +335,7 @@ void ConfigStructure::writeConfig(KConfig *config)
          classlist << entry;
          QString entrylist = m_docclasses[entry]->join(",");
          config->writeEntry( entry, entrylist );
-      }    
+      }
    }
    config->writeEntry( "classes", classlist );
 

@@ -57,7 +57,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo *src, const QString &capt
 
    tlist = new KListView(page);
    tlist->setSorting(-1);
-   tlist->addColumn("M");
+   tlist->addColumn(i18n( "marked", "M" ));
    tlist->addColumn(i18n("Existing Templates"));
    tlist->setColumnWidthMode(0,QListView::Manual);
    tlist->setFullWidth(true);
@@ -93,7 +93,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(const QString &caption, QWidget *pa
 
    tlist = new KListView(page);
    tlist->setSorting(-1);
-   tlist->addColumn("M");
+   tlist->addColumn(i18n( "marked", "M" ));
    tlist->addColumn(i18n("Existing Templates"));
    tlist->setColumnWidthMode(0,QListView::Manual);
    tlist->setFullWidth(true);
@@ -166,12 +166,12 @@ void ManageTemplatesDialog::addTemplate() {
   QFileInfo fi(dstTemplate.path);
 
   if (!fi.isFile()) {
-     KMessageBox::error(0,i18n("Sorry but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?").arg(dstTemplate.path));
+     KMessageBox::error(this, i18n("Sorry but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?").arg(dstTemplate.path));
      return;
   }
 
   if (!m_Templates->add(dstTemplate) ) {
-     KMessageBox::error(0,i18n("Failed to create the template."));
+     KMessageBox::error(this, i18n("Failed to create the template."));
   }
 }
 
@@ -185,19 +185,19 @@ void ManageTemplatesDialog::removeTemplate()
 	TemplateListIterator result= m_Templates->find(tlist->currentItem()->text(1));
 
 	QFileInfo fi((*result).path);
-	
+
 	if (!fi.isWritable())
    {
-	  KMessageBox::error(0,i18n("You do not have permission to remove this template."));
+	  KMessageBox::error(this, i18n("You do not have permission to remove this template."));
 	  return;
    }
-   
-	if (KMessageBox::warningYesNo(0,i18n("You are about to remove the template %1; are you sure?").arg((*result).name) )
+
+	if (KMessageBox::warningYesNo(this, i18n("You are about to remove the template %1; are you sure?").arg((*result).name) )
 		== KMessageBox::No) return;
 
 	if (!m_Templates->remove(*result) )
 	{
-		KMessageBox::error(0,i18n("Unable to remove the template."));
+		KMessageBox::error(this, i18n("Unable to remove the template."));
 	}
 }
 

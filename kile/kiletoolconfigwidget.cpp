@@ -65,7 +65,7 @@ namespace KileWidget
 		m_configWidget->m_lstbTools->setSelected(0, true);
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
-		QStringList lst; lst << "Quick" << "Compile" << "Convert" << "View" << "Other";
+		QStringList lst; lst << i18n( "Quick" ) << i18n( "Compile" ) << i18n( "Convert" ) << i18n( "View" ) << i18n( "Other" );
 		m_configWidget->m_cbMenu->insertStringList(lst);
 		connect(m_configWidget->m_cbMenu, SIGNAL(activated(const QString &)), this, SLOT(setMenu(const QString &)));
 		connect(m_configWidget->m_pshbIcon, SIGNAL(clicked()), this, SLOT(selectIcon()));
@@ -122,9 +122,9 @@ namespace KileWidget
 		bool enablekonsoleclose = false;
 		QString type = m_map["type"];
 		if ( type == "Process" ) m_configWidget->m_cbType->setCurrentItem(0);
-		else if ( type == "Konsole" ) 
+		else if ( type == "Konsole" )
 		{
-			m_configWidget->m_cbType->setCurrentItem(1); 
+			m_configWidget->m_cbType->setCurrentItem(1);
 			enablekonsoleclose = true;
 		}
 		else if ( type == "Part" ) m_configWidget->m_cbType->setCurrentItem(2);
@@ -190,7 +190,7 @@ namespace KileWidget
 		if ( type == "Process" || type == "Konsole" ) basicPage = GBS_Process;
 		else if ( type == "Part" ) basicPage = GBS_Library;
 		else if ( type == "DocPart" ) basicPage = GBS_None;
-		else if ( type == "Sequence" ) 
+		else if ( type == "Sequence" )
 		{
 			basicPage = GBS_Sequence;
 			m_qtcw->updateSequence(m_map["sequence"]);
@@ -244,7 +244,7 @@ namespace KileWidget
 			QStringList tools = KileTool::toolList(m_config, true);
 			for ( uint i = 0; i < tools.count(); ++i)
 				switchTo(tools[i], false);
-				
+
 			switchTo(tools[0], false);
 			m_configWidget->m_lstbTools->setSelected(0, true);
 		}
@@ -479,7 +479,7 @@ namespace KileWidget
 	void ToolConfig::setLibrary(const QString & lib) { m_map["libName"] = lib.stripWhiteSpace(); }
 	void ToolConfig::setLibOptions(const QString & options) { m_map["libOptions"] = options.stripWhiteSpace(); }
 	void ToolConfig::setClassName(const QString & name) { m_map["className"] = name.stripWhiteSpace(); }
-	void ToolConfig::setState(const QString & state) 
+	void ToolConfig::setState(const QString & state)
 	{
 		QString str = state.stripWhiteSpace();
 		if ( str .isEmpty() ) str = "Editor";

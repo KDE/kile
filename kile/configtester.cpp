@@ -12,8 +12,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <qfile.h>
 
-#include <kio/netaccess.h> 
+#include <kio/netaccess.h>
 #include <klocale.h>
 #include <kprocess.h>
 #include <kstandarddirs.h>
@@ -156,7 +157,7 @@ void Tester::runTests()
 
 	QString shellname = KGlobal::dirs()->findExe("sh");
 	kdDebug() << "Tester::runTests: shellname = " << shellname << endl;
-	m_process = new KShellProcess(shellname.local8Bit());
+	m_process = new KShellProcess(QFile::encodeName( shellname ));
 	*m_process << "cd " + KShellProcess::quote(destdir) + " && ";
 	*m_process << "cp " + KShellProcess::quote(srcdir) +"/* " + KShellProcess::quote(destdir) + " && ";
 	*m_process << "source runTests.sh " + KShellProcess::quote(m_resultsFile) + " " +  KShellProcess::quote(destdir);
@@ -195,7 +196,7 @@ void Tester::processTestResults (KProcess *proc)
 		QStringList::Iterator itend = groups.end();
 		for ( QStringList::Iterator it = groups.begin(); it != itend; ++it )
 			processTool(&config, *it);
-			
+
 		emit(finished(true));
 	}
 	else

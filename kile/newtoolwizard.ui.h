@@ -27,7 +27,7 @@ void NewToolWizard::init()
 void NewToolWizard::showPage(QWidget *pg)
 {
     	QWizard::showPage(pg);
-	
+
 	if ( pg == page(0) )
 		m_leName->setFocus();
 	else if ( pg == page(1) )
@@ -48,18 +48,18 @@ QString NewToolWizard::parentTool()
 {
 	return m_cbTools->currentText();
 }
-	
+
 void NewToolWizard::nameChanged(const QString &name)
 {
 	bool ok = true;
 	if (m_toolList.contains(name))
 	{
-		m_lbWarning->setText("Error: A tool by this name already exists.");
+		m_lbWarning->setText(i18n( "Error: A tool by this name already exists." ));
 		ok = false;
 	}
 	else if (name.find("/") != -1)
 	{
-		m_lbWarning->setText("Error: The name may not contain a slash '/'.");
+		m_lbWarning->setText(i18n( "Error: The name may not contain a slash '/'." ));
 		ok = false;
 	}
 	else m_lbWarning->setText("");

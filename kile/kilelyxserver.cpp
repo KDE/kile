@@ -25,6 +25,7 @@
 #include <qfileinfo.h>
 #include <qsocketnotifier.h>
 #include <qregexp.h>
+#include <qdir.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -36,7 +37,7 @@ KileLyxServer::KileLyxServer(bool st) :
 	m_notifier.setAutoDelete(true);
 	m_file.setAutoDelete(false);
 
-	QString home(getenv("HOME"));
+	QString home(QDir::homeDirPath());
 	m_pipes << home+"/.lyxpipe.in" << home+"/.lyx/lyxpipe.in";
 	m_pipes << home+"/.lyxpipe.out" << home+"/.lyx/lyxpipe.out";
 
@@ -91,12 +92,12 @@ bool KileLyxServer::openPipes()
 		{
 			mode_t perms = S_IRUSR | S_IWUSR | S_IRGRP| S_IROTH;
 			//create the dir first
-			if (mkdir(info.dirPath().ascii(), perms | S_IXUSR) == -1)
+			if (mkdir(QFile::encodeName( info.dirPath() ), perms | S_IXUSR) == -1)
 				perror( "Could not create directory for pipe ");
 			else
 				kdDebug() << "Created directory " << info.dirPath() << endl;
 
-			if (mkfifo(m_pipes[i].ascii(), perms) == -1)
+			if (mkfifo(QFile::encodeName( m_pipes[i] ), perms) == -1)
    				perror( "Could not create pipe ");
 			else
 				kdDebug() << "Created pipe " << m_pipes[i] << endl;
@@ -138,7 +139,7 @@ void KileLyxServer::stop()
 
 void KileLyxServer::removePipes()
 {
- 	for ( uint i = 0; i < m_pipes.count(); ++i) 
+ 	for ( uint i = 0; i < m_pipes.count(); ++i)
 		QFile::remove(m_pipes[i]);
 }
 
@@ -160,7 +161,7 @@ void KileLyxServer::receive(int fd)
  		int bytesRead;
  		int const size = 256;
         char buffer[size];
- 		if ((bytesRead = read(fd, buffer, size - 1)) > 0 ) 
+ 		if ((bytesRead = read(fd, buffer, size - 1)) > 0 )
  		{
   			buffer[bytesRead] = '\0'; // turn it into a c string
             QStringList cmds = QStringList::split('\n', QString(buffer).stripWhiteSpace());

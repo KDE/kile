@@ -44,7 +44,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
 {
    // Layout
    QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
-   
+
    // first groupbox: choose picture
    QVGroupBox* group= new QVGroupBox(i18n("File"), plainPage());
 
@@ -218,7 +218,7 @@ QString IncludeGraphics::getTemplate()
       s += "\t\\end{center}\n";
 
    // close figure environment?
-   if ( m_figure ) 
+   if ( m_figure )
    {
       if ( ! edit_caption->text().isEmpty() )
          s +=  "\t\\caption{" + edit_caption->text() + "}\n";
@@ -351,13 +351,13 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &
 void IncludeGraphics::chooseFile()
 {
    QString filter = ( m_pdflatex )
-                  ? QString("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
+                  ? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
                           + "*.png|PNG files\n"
                           + "*.jpg|JPG files\n"
                           + "*.pdf|PDF files\n"
                           + "*|All files"
-                  : QString("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
-                          + "*.png|PNG files\n" 
+                  : i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
+                          + "*.png|PNG files\n"
                           + "*.jpg|JPG files\n"
                           + "*.eps.gz|zipped EPS files\n"
                           + "*.eps|EPS files\n"
@@ -368,9 +368,9 @@ void IncludeGraphics::chooseFile()
    QFileInfo fi(fn);
    // insert the chosen file
    edit_file->setText( fn );
-   
+
    // could we accept the picture?
-   if ( !fn.isEmpty() && fi.exists() && fi.isReadable() )  
+   if ( !fn.isEmpty() && fi.exists() && fi.isReadable() )
    {
       // execute the command and filter the result:
       // eps|eps.gz --> %%BoundingBox: 0 0 123 456
@@ -384,7 +384,7 @@ void IncludeGraphics::chooseFile()
       else
          execute( "identify -format \"w=%w h=%h dpi=%x\" " + fn);
    } else {
-      kdDebug() << "=== IncludeGraphics::error ====================" << endl;              
+      kdDebug() << "=== IncludeGraphics::error ====================" << endl;
       kdDebug() << "   filename: '" << fn << "'" << endl;
    }
 }
@@ -440,34 +440,34 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
       else if ( m_output.left(2) == "w=" )
       {
          // dani  31.7.2004
-         // older version of imagemagick (pre 6.0):                       
+         // older version of imagemagick (pre 6.0):
          //  - doesn't care of PixelsPerCentimeter, but always works with PixelsPerInch
          //  - doesn't use floating numbers as resolution
 	 // so the bounding box has to be calculated in a different way
 
-         // this regexp will accept floating point numbers as resolution  
+         // this regexp will accept floating point numbers as resolution
          QRegExp reg("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)");
          if ( reg.search(m_output) == -1 )
              return;
- 
-         // get bounding box and resolution                               
+
+         // get bounding box and resolution
          bool ok;
 	 int bbw = (int)reg.cap(1).toInt( &ok);
          if (!ok) return;
-	 
+
 	 int bbh = (int)reg.cap(2).toInt( &ok);
          if (!ok) return;
-	 
+
          float res = (float)reg.cap(3).toFloat( &ok);
          if (!ok) return;
 
 	 // look, if res is in PixelsPerCentimeter
 	 if ( reg.cap(4).stripWhiteSpace() == "PixelsPerCentimeter" ) {
-	    bbw = (int)( (float)bbw/2.54 + 0.5 ); 
+	    bbw = (int)( (float)bbw/2.54 + 0.5 );
 	    bbh = (int)( (float)bbh/2.54 + 0.5 );
 	    res *= 2.54;
 	 }
-	    
+
          // There is no resolution in jpeg files f.e., so if
          // the calculated resolution is acceptable, take it.
          // Otherwise use the default resolution;
@@ -475,14 +475,14 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
             m_resolution = res;
 
          // take width and height as parameters for the bounding box
-	 edit_bb->setText( QString("0 0 ") + QString("%1").arg(bbw) 
-	                                   + " " 
+	 edit_bb->setText( QString("0 0 ") + QString("%1").arg(bbw)
+	                                   + " "
 	                                   + QString("%1").arg(bbh)
                          );
 
          // show information
          setInfo();
-      
+
       }
     }
 }

@@ -89,7 +89,8 @@ void KileSpell::spell_done(const QString& /*newtext*/)
 {
 	m_ki->viewManager()->currentView()->getDoc()->clearSelection();
 	kspell->cleanUp();
-	KMessageBox::information(m_parent, i18n("Corrected %1 words.").arg(ks_corrected), i18n("Spell Checking Done"));
+	KMessageBox::information(m_parent, i18n("Corrected 1 word.", "Corrected %n words", ks_corrected),
+                             i18n("Spell Checking Done"));
 }
 
 void KileSpell::spell_finished( )

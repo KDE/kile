@@ -184,12 +184,20 @@ void ManageTemplatesDialog::removeTemplate()
 
 	TemplateListIterator result= m_Templates->find(tlist->currentItem()->text(1));
 
+	QFileInfo fi((*result).path);
+	
+	if (!fi.isWritable())
+   {
+	  KMessageBox::error(0,i18n("You don't have permission to remove this template."));
+	  return;
+   }
+   
 	if (KMessageBox::warningYesNo(0,i18n("You are about to remove the template %1. Are you sure?").arg((*result).name) )
 		== KMessageBox::No) return;
 
 	if (!m_Templates->remove(*result) )
 	{
-		KMessageBox::error(0,i18n("Failed to remove the template completely."));
+		KMessageBox::error(0,i18n("Failed to remove the template."));
 	}
 }
 

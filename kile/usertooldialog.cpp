@@ -47,7 +47,7 @@ usertooldialog::usertooldialog(QWidget *parent, const char *name ) : QDialog(par
   itemedit=new QLineEdit(this,"item");
 
   label2 = new QLabel( this, "label2" );
-  label2->setText(i18n("Command (% : filename without extension):"));
+  label2->setText(i18n("Command (%S : filename without extension):"));
   tooledit=new QLineEdit(this,"tool");
 
   buttonOk= new QPushButton(this,"NoName");

@@ -39,7 +39,7 @@ KileApplication::KileApplication()
     pix=new QFrame(splash,"pix",QWidget::WStyle_NoBorder | QWidget::WStyle_Customize);
     pix->setBackgroundPixmap(pm);
     pix->setLineWidth(0);
-    pix->setGeometry( 0,0,398, 129 );
+    pix->setGeometry( 0,0,398, 120 );
 	  splash->adjustSize();
 	  splash->setCaption( "Kile" );
 	  splash->move( screen.center() - QPoint( splash->width() / 2, splash->height() / 2 ) );

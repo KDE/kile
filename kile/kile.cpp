@@ -2406,7 +2406,7 @@ void Kile::UserTool1()
     proc->clearArguments();
     QString docdir=fi.dirPath();
     KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%"),fi.baseName());
+    commandline.replace(QRegExp("%S"),fi.baseName());
     (*proc) << "cd " << docdir << "&&";
     (*proc) << commandline ;
     connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
@@ -2447,7 +2447,7 @@ void Kile::UserTool2()
     proc->clearArguments();
     QString docdir=fi.dirPath();
     KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%"),fi.baseName());
+    commandline.replace(QRegExp("%S"),fi.baseName());
     (*proc) << "cd " << docdir << "&&";
     (*proc) << commandline ;
     connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
@@ -2488,7 +2488,7 @@ void Kile::UserTool3()
     proc->clearArguments();
     QString docdir=fi.dirPath();
     KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%"),fi.baseName());
+    commandline.replace(QRegExp("%S"),fi.baseName());
     (*proc) << "cd " << docdir << "&&";
     (*proc) << commandline ;
     connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
@@ -2529,7 +2529,7 @@ void Kile::UserTool4()
     proc->clearArguments();
     QString docdir=fi.dirPath();
     KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%"),fi.baseName());
+    commandline.replace(QRegExp("%S"),fi.baseName());
     (*proc) << "cd " << docdir << "&&";
     (*proc) << commandline ;
     connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
@@ -2570,7 +2570,7 @@ void Kile::UserTool5()
     proc->clearArguments();
     QString docdir=fi.dirPath();
     KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%"),fi.baseName());
+    commandline.replace(QRegExp("%S"),fi.baseName());
     (*proc) << "cd " << docdir << "&&";
     (*proc) << commandline ;
     connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );

@@ -1,3 +1,7 @@
+- added an Output view, the   Output view is the location for the raw 
+  output of the shell processes (latex,dvips, etc.)
+- more error messages/warnings when the user tries to do compile/view
+  non-existing/untitled documents
 - added templates support (user can select a template when creating a new
   file, user can create templates from existing documents).
 - added a stop button, (La)TeX can now be stopped while compiling
@@ -7,7 +11,7 @@
 - inverse search now also works for documents whos name starts with a number
 - more flexible command syntax, instead of having latex and pdflatex as
   commands, one can use
-  latex %S.tex or make %.dvi
+  latex %S.tex or make %S.dvi
   now
 
 version 1.4 -> 1.5 :

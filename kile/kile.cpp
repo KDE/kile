@@ -1547,19 +1547,32 @@ void Kile::changeInputEncoding()
 void Kile::cleanBib()
 {
 	Kate::View *view = viewManager()->currentView();
-	if ( ! view )
-		return;
+	if ( ! view ) return;
 
-	uint i=0;
+	QRegExp reOptional( "(ALT|OPT)(\\w+)\\s*=\\s*(\\S.*)" );
+	QRegExp reNonEmptyEntry( ".*\\w.*" );
+
 	QString s;
-
+	uint i=0;
 	while(i < view->getDoc()->numLines())
 	{
-		s = view->getDoc()->textLine(i).left(3);
-		if (s == "OPT" || s == "ALT")
+		s = view->getDoc()->textLine(i);
+
+		// do we have a line that starts with ALT or OPT?
+		if ( reOptional.search( s ) >= 0 )
 		{
-			view->getDoc()->removeLine(i);
-			view->getDoc()->setModified(true);
+				// yes! capture type and entry
+				QString type = reOptional.cap( 2 );
+				QString entry = reOptional.cap( 3 );
+				view->getDoc()->removeLine( i );
+				view->getDoc()->setModified(true);
+				if ( reNonEmptyEntry.search( entry ) >= 0 )
+				{
+					type.append( " = " );
+					type.append( entry );
+					view->getDoc()->insertLine( i, type );
+					i++;
+				}
 		}
 		else
 			i++;

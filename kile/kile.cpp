@@ -1358,6 +1358,7 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 
 	if (project)
 	{
+		//TODO: this should be in the KileProject class
 		QString command = project->archiveCommand();
 		QString files, path;
 		QPtrListIterator<KileProjectItem> it(*project->items());

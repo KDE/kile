@@ -691,6 +691,7 @@ void Kile::setLine( const QString &line )
 		this->raise();
 		view->setFocus();
 		view->gotoLineNumber(l);
+
 		ShowEditorWidget();
 		newStatus();
   	}
@@ -1098,6 +1099,8 @@ void Kile::addToProject(const KURL & url)
 
 void Kile::addToProject(KileProject* project, const KURL & url)
 {
+	if (project->contains(url)) return;
+
 	KileProjectItem *item = new KileProjectItem(project, url);
 	item->setOpenState(isOpen(url));
 	projectOpenItem(item);

@@ -18,7 +18,8 @@
 #include "symbolview.h"
 
 #include <qfileinfo.h>
-#include <qpixmap.h>
+#include <qimage.h>
+#include <kimageeffect.h>
 #include <kstddirs.h>
 
 //////////////////////////////////////////////////////////
@@ -52,8 +53,9 @@ void SymbolView::showPage(int page)
 void SymbolView::initPage(int page)
 {
     QString icon_name;
-    QPixmap pixmap;
+    QImage pixmap;
     KIconViewItem* item;
+    
     switch (page)
     {
     case Relation:
@@ -64,6 +66,7 @@ void SymbolView::initPage(int page)
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
                 {
                     item= new KIconViewItem( this);
+                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
                     item->setPixmap(pixmap);
                     item->setKey(code[i]);
                 }
@@ -78,6 +81,7 @@ void SymbolView::initPage(int page)
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
                 {
                     item= new KIconViewItem( this);
+                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
                     item->setPixmap(pixmap);
                     item->setKey(code[i]);
                 }
@@ -92,6 +96,7 @@ void SymbolView::initPage(int page)
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
                 {
                     item= new KIconViewItem( this);
+                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
                     item->setPixmap(pixmap);
                     item->setKey(code[i]);
                 }
@@ -106,6 +111,7 @@ void SymbolView::initPage(int page)
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
                 {
                     item= new KIconViewItem( this);
+                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
                     item->setPixmap(pixmap);
                     item->setKey(code[i]);
                 }
@@ -120,6 +126,7 @@ void SymbolView::initPage(int page)
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
                 {
                     item= new KIconViewItem( this);
+                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
                     item->setPixmap(pixmap);
                     item->setKey(code[i+372]);
                 }
@@ -134,6 +141,7 @@ void SymbolView::initPage(int page)
                 if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
                 {
                     item= new KIconViewItem( this);
+                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
                     item->setPixmap(pixmap);
                     item->setKey(code[i+11]);
                 }

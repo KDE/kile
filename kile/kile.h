@@ -108,6 +108,7 @@ public slots:
 	int run(const QString &);
 	int runWith(const QString &, const QString &);
 	void openDocument(const QString & url);
+	void fileSelected(const QString & url) { openDocument(url); } //backwards compatibility
 	void closeDocument();
 
 	void showTip();

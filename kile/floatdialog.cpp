@@ -42,8 +42,8 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, QWidget *parent)
 	QGridLayout *egrouplayout = new QGridLayout( egroup->layout() );
 	egrouplayout->setAlignment( Qt::AlignTop );
 
-	m_rbFigure = new QRadioButton(i18n("Figure"), egroup);
-	m_rbTable = new QRadioButton(i18n("Table"), egroup);
+	m_rbFigure = new QRadioButton(i18n("&Figure"), egroup);
+	m_rbTable = new QRadioButton(i18n("T&able"), egroup);
 	
 	egrouplayout->addWidget( m_rbFigure, 0,0 );
 	egrouplayout->addWidget( m_rbTable, 0,1 );
@@ -78,17 +78,18 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, QWidget *parent)
 	QLabel *label5 = new QLabel(i18n("Center:"),page);
 	m_cbCenter = new QCheckBox(page);
 	
-	// Label
-	QLabel *label6 = new QLabel(i18n("Label:"),page);
-	m_edLabel = new KLineEdit("",page);
-   m_edLabel->setMinimumWidth(300);
-	label6->setBuddy(m_edLabel);
-	
 	// Caption
-	QLabel *label7 = new QLabel(i18n("Caption:"),page);
+	QLabel *label6 = new QLabel(i18n("Ca&ption:"),page);
 	m_edCaption = new KLineEdit("",page);
-   m_edCaption->setMinimumWidth(300);
+	m_edCaption->setMinimumWidth(300);
 	label6->setBuddy(m_edCaption);
+	
+	// Label
+	QLabel *label7 = new QLabel(i18n("&Label:"),page);
+	m_edLabel = new KLineEdit("",page);
+	m_edLabel->setMinimumWidth(300);
+	label7->setBuddy(m_edLabel);
+	
 	
 	// add widgets
 	grid->addMultiCellWidget( egroup, 0,0,0,1 );
@@ -97,8 +98,8 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, QWidget *parent)
 	grid->addWidget(label6,3,0);
 	grid->addWidget(label7,4,0);
 	grid->addWidget(m_cbCenter,2,1);
-	grid->addWidget(m_edLabel,3,1);
-	grid->addWidget(m_edCaption,4,1);
+	grid->addWidget(m_edCaption,3,1);
+	grid->addWidget(m_edLabel,4,1);
 	
 	// default values
 	m_cbCenter->setChecked(true);
@@ -111,7 +112,7 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, QWidget *parent)
 	slotEnvironmentClicked();
 	
 	grid->setRowStretch(5,1);
-	setFocusProxy( m_edLabel );
+	setFocusProxy( m_edCaption );
 	
 	// signals and slots
 	connect(m_rbFigure, SIGNAL(clicked()), this, SLOT(slotEnvironmentClicked()));

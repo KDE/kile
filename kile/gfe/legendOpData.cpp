@@ -171,7 +171,7 @@ legendOpData::legendOpData
 
 	QLabel* dlgedit_Label_9;
 	dlgedit_Label_9 = new QLabel( this, "Label_9" );
-	dlgedit_Label_9->setText( "Box:" );
+	dlgedit_Label_9->setText( i18n("Box:") );
 	dlgedit_Label_9->setAlignment( 289 );
 	dlgedit_Label_9->setMargin( -1 );
   gbox->addWidget(dlgedit_Label_9 , 2,3, Qt::AlignLeft );

@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Service
-ServiceTypes=Kate/Plugin
-X-KDE-Library=libkileplugin
-Name=My first Kate Plugin
-Comment=Your short description about the plugin goes here
-author=Roland Schulz, mail@r2s2.de

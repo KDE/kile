@@ -29,7 +29,7 @@ GotoLineDialog::GotoLineDialog(QWidget* parent,  const char* name, bool modal, W
 
     GotoLineDialogLayout->addWidget( spinLine, 0, 1 );
 
-    Layout1 = new QHBoxLayout( 0, 0, 6, "Layout1");
+    Layout1 = new QHBoxLayout( GotoLineDialogLayout, 6, "Layout1");
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
     Layout1->addItem( spacer );
 

@@ -110,8 +110,8 @@ class Kile : public KParts::MainWindow, public KileAppDCOPIface
 public:
     Kile( QWidget *parent = 0, const char *name = 0 );
     ~Kile();
-    QString getName();
-    QString getShortName();
+    QString getName() const;
+    QString getShortName() const;
     QFont EditorFont;
 
 public slots:
@@ -119,12 +119,12 @@ public slots:
     void setLine( const QString &line );
 private:
     void setupActions();
-    void closeEvent(QCloseEvent *e);
+
     LatexEditorView *currentEditorView() const;
     LatexEditor* currentEditor() const;
     QFileInfo * currentFileInfo() const;
     void doConnections( LatexEditor *e );
-    bool FileAlreadyOpen(QString f);
+    bool FileAlreadyOpen(const QString &f);
     void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
     void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
 
@@ -164,8 +164,6 @@ private:
     QString templAuthor, templDocClassOpt, templEncoding;
     QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
     QStringList recentFilesList;
-    //Userlist UserMenuName, UserMenuTag;
-    //UserCd UserToolName, UserToolCommand;
 
     KActionMenu *menuUserTags, *menuUserTools;
     QSignalMapper *mapUserTagSignals, *mapUserToolsSignals;
@@ -203,12 +201,12 @@ private:
       *ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
     KAction *altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
     KAction *altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
+    KRecentFilesAction* fileOpenRecentAction;
 
     KSelectAction *RecentAction;
     int par_start, par_end, index_start, index_end;
     QString spell_text;
 
-    KShellProcess *currentProcess;
     QTimer *m_AutosaveTimer;
 
 signals:
@@ -217,18 +215,18 @@ signals:
 private slots:
     void fileNew();
     void fileOpen();
-    void fileOpenRecent(const QString &fn);
-    void fileSave(bool amAutoSaving = false);
+    void fileOpen(const KURL& url);
+    bool fileSave(bool amAutoSaving = false);
     void fileSaveAll(bool amAutoSaving = false);
     void autoSaveAll();
-    void fileSaveAs();
+    bool fileSaveAs();
     void createTemplate();
     void replaceTemplateVariables(QString &line);
     void filePrint();
     void fileClose();
     void fileCloseAll();
-    void fileExit();
-    void AddRecentFile(const QString &f);
+    bool queryExit();
+    bool queryClose();
     void fileSelected(const KFileItem *file);
 
     void editUndo();
@@ -253,6 +251,7 @@ private slots:
     void gotoPrevDocument();
 
     void ReadSettings();
+    void ReadRecentFileSettings();
     void SaveSettings();
     void GeneralOptions();
     void removeTemplate();

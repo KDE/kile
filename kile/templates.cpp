@@ -40,12 +40,12 @@ Templates::Templates(){
      for ( int j=0; j< templates.count(); j++) {
         ti.path=templates.path()+"/"+templates[j];
 	//we need QRegExp here because replace(QString,QString) only works for Qt3.1
-        ti.name=templates[j].replace(QRegExp("template_"),"");
-        ti.name.replace(QRegExp("\.tex"),"");
+        ti.name=templates[j].replace("template_","");
+        ti.name.replace(".tex","");
         ti.icon=ti.path;
-        ti.icon.replace(QRegExp("templates"),"pics");
-        ti.icon.replace(QRegExp("template_"),"type_");
-        ti.icon.replace(QRegExp(".tex"),".png");
+        ti.icon.replace("templates","pics");
+        ti.icon.replace("template_","type_");
+        ti.icon.replace(".tex",".png");
         //NOTE: off limit strings in the templates names are
         //templates,template_,.tex.,.png,_template
 

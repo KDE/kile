@@ -29,16 +29,17 @@
 typedef  QColor ListColors[8];
 
 class SyntaxLatex;
+class QFileInfo;
 
 class LatexEditor : public QTextEdit  {
    Q_OBJECT
 public:
   enum Selection
   {
-		selParenMismatch =1,
-		selParenMatch =2,
-    selError = 3,
-    selStep = 4
+	selParenMismatch =1,
+	selParenMatch =2,
+	selError = 3,
+	selStep = 4
   };
 
 	LatexEditor(QWidget *parent, const char *name, QFont & efont,bool parmatch, ListColors col);
@@ -46,6 +47,8 @@ public:
    void gotoLine( int line );
    bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor );
    void replace( const QString &r);
+
+   void setFile(const QString &);
 
   QTextDocument *document() const { return QTextEdit::document(); }
   void placeCursor( const QPoint &p, QTextCursor *c ) { QTextEdit::placeCursor( p, c ); }
@@ -72,6 +75,8 @@ public:
   QString getEncoding();
   void setEncoding(QString enc);
 
+  QFileInfo * fileInfo() {return m_FileInfo;}
+
 signals:
     void clearErrorMarker();
     void intervalChanged();
@@ -85,17 +90,18 @@ private slots:
 
 private:
 	void matchParen(int para, int pos, int direc);
+
 	
 protected:
   ParenMatcher *parenMatcher;
   bool hasError;
 
 private:
+	QFileInfo *m_FileInfo;
 	bool matchParens;
 	bool m_matching;
-  QString encoding;
-  QTimer *m_Timer;
-  SyntaxLatex *highlighter;
+	QString encoding;
+	SyntaxLatex *highlighter;
 
 };
 

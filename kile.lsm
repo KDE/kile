@@ -1,12 +1,12 @@
 Begin3
-Title:          Kile 
-Version:        1.5.1
-Entered-date:   
+Title:          Kile
+Version:        1.5
+Entered-date:
 Description:    LaTeX source editor - TeX shell - Gnuplot Front End for KDE   
-Keywords:        
-Author:         Pascal Brachet <pascal.brachet@club-internet.fr> 
-Maintained-by:  Jeroen Wijnhout <wijnhout@science.uva.nl>
-Primary-site:   	        
+Keywords:
+Author:         Pascal Brachet, Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
+Maintained-by:  Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
+Primary-site:   ftp://ftp.kde.org/pub/kde/stable/apps/KDE3.x/office/
 Home-page:      http://www.science.uva.nl/~wijnhout/Kile
 Original-site:  
 Platforms:       Linux and other Unices

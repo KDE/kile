@@ -2,8 +2,8 @@
                           toolsoptionsdialog.cpp  -  description
                              -------------------
     begin                : Wed Jun 6 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,15 +20,11 @@
 
 #include <qlayout.h>
 #include <qvbuttongroup.h>
+#include <qhbuttongroup.h>
 #include <qgroupbox.h>
 #include <qfontdatabase.h>
 #include <qframe.h>
 #include <qpixmap.h>
-#include <klocale.h>
-#include <kiconloader.h>
-
-#include <ksconfig.h>
-#include <kcolorbutton.h>
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlayout.h>
@@ -37,12 +33,35 @@
 #include <qcombobox.h>
 #include <qspinbox.h>
 
+#include <klocale.h>
+#include <kiconloader.h>
+#include <ksconfig.h>
+#include <kcolorbutton.h>
+
 toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 :KDialogBase( IconList, i18n("Configure Kile"), Ok|Cancel,Ok, parent, name, true, true )
 {
 
+	generalPage = addPage(i18n("General"),i18n("General options"),
+		KGlobal::instance()->iconLoader()->loadIcon( "favorites", KIcon::NoGroup, KIcon::SizeMedium ));
+	QHBoxLayout *asLayout = new QHBoxLayout(generalPage);
+	QGroupBox *autosaveGroup = new QGroupBox(3,Qt::Horizontal,i18n("Autosave options"),generalPage);
+
+	checkAutosave = new QCheckBox(autosaveGroup, "Autosave");
+	checkAutosave->setText(i18n("&Autosave"));
+
+	QLabel *lb= new QLabel(i18n("Interval &time in minutes (1 - 9999) : "),autosaveGroup);
+	asIntervalInput = new QLineEdit(autosaveGroup,"asIntervalInput");
+	asIntervalInput->setMaxLength(4);
+	asIntervalInput->setMaximumWidth(50);
+	lb->setBuddy(asIntervalInput);
+	intervalValidator *validatorAsInterval = new intervalValidator(this,1,9999);
+	asIntervalInput->setValidator(validatorAsInterval);
+	asLayout->addWidget(autosaveGroup);
+
+
   toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
-  KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
+  	KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
 
    QGridLayout *gbox1 = new QGridLayout( toolsPage,2,2,5,5,"" );
    gbox1->addRowSpacing( 0, fontMetrics().lineSpacing() );
@@ -113,7 +132,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    gbox1->addMultiCellWidget(GroupBox1,1,1,0,1,0);
 
    editorPage = addPage(i18n("Editor"),i18n("Editor Configuration"),
-   KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
+   	KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
 
    QGridLayout *gbox2 = new QGridLayout( editorPage,2,2,5,5,"" );
    gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
@@ -170,7 +189,6 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 
 toolsoptionsdialog::~toolsoptionsdialog()
 {
-
 }
 
 void toolsoptionsdialog::init()
@@ -190,6 +208,30 @@ previous_index=index;
 void toolsoptionsdialog::slotEnd()
 {
 colors[previous_index]=buttonColor->color();
+}
+
+
+intervalValidator::intervalValidator(QObject * parent, int bottom, int top, const char * name)
+	: QIntValidator( parent,  name )
+{
+	setBottom(bottom);
+	setTop(top);
+}
+
+intervalValidator::~intervalValidator()
+{
+}
+
+void intervalValidator::fixup(QString & input) const
+{
+	bool ok;
+	int value = input.toInt(&ok);
+
+	if (ok)
+	{
+		if (value < bottom()) input.setNum(bottom());
+		if (value > top()) input.setNum(top());
+	}
 }
 
 #include "toolsoptionsdialog.moc"

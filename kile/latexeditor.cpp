@@ -25,6 +25,8 @@
 #include <qaccel.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <qfile.h>
+#include <qfileinfo.h>
 
 #include <kdebug.h>
 
@@ -61,6 +63,8 @@ LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool pa
     document()->setUseFormatCollection( FALSE );
     QFontMetrics fmet(efont);
     setTabStopWidth( fmet.width('x') * 4 );
+
+    m_FileInfo=0;
 }
 LatexEditor::~LatexEditor(){
 delete parenMatcher;
@@ -343,5 +347,19 @@ void LatexEditor::setEncoding(QString enc)
  encoding=enc;
 }  
 
+void LatexEditor::setFile(const QString &name)
+{
+	if ( QFile::exists(name) )
+	{
+		if(!m_FileInfo)
+		{
+			m_FileInfo = new QFileInfo(name);
+		}
+		else
+		{
+			m_FileInfo->setFile(name);
+		}
+	}
+}
 
 #include "latexeditor.moc"

@@ -2,8 +2,8 @@
                           toolsoptionsdialog.h  -  description
                              -------------------
     begin                : Wed Jun 6 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
+    copyright            : (C) 2003 by Jeroen Wijnout
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +23,8 @@
   */
 
 #include <kdialogbase.h>
+#include <qvalidator.h>
+
 class QLabel;
 class QLineEdit;
 
@@ -38,6 +40,16 @@ class KColorButton;
 
 
 typedef  QColor ListColors[8];
+
+class intervalValidator : public QIntValidator
+{
+	Q_OBJECT
+public:
+	intervalValidator(QObject * parent, int bottom, int top, const char * name = 0);
+	~intervalValidator();
+
+	void fixup ( QString & input ) const;
+};
 
 class toolsoptionsdialog : public KDialogBase
 {
@@ -64,8 +76,12 @@ public:
     QSpinBox *spinSize;
     QLabel* TextLabel8;
 
-    QCheckBox *checkLine, *checkWordWrap, *checkLatex, *checkPdflatex, *checkParen, *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
+    QCheckBox *checkLine, *checkWordWrap, *checkLatex, *checkPdflatex, *checkParen,
+    	*checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf, *checkAutosave;
 
+    QLineEdit *asIntervalInput;
+
+    QFrame* generalPage;
     QFrame* toolsPage;
     QFrame* editorPage;
     KSpellConfig *ksc;

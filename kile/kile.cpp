@@ -42,6 +42,7 @@
 #include <kparts/browserextension.h>
 #include <kaccel.h>
 
+#include <qfileinfo.h>
 #include <qregexp.h>
 #include <qiconset.h>
 #include <qtimer.h>
@@ -51,7 +52,6 @@
 #include <qfontdatabase.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
-#include <qfileinfo.h>
 #include <qfile.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -73,8 +73,12 @@
 Kile::Kile( QWidget *, const char *name ): KParts::MainWindow( name, WDestructiveClose),DCOPObject( "Kile" )
 {
 config = KGlobal::config();
+m_AutosaveTimer= new QTimer();
+connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
+
 ReadSettings();
-//workaround for kdvi crash when started with Tooltips 
+
+//workaround for kdvi crash when started with Tooltips
 config->setGroup("TipOfDay");
 config->writeEntry( "RunOnStart",false);
 setXMLFile( "kileui.rc" );
@@ -561,6 +565,8 @@ void Kile::load( const QString &f )
     LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
     edit->editor->setReadOnly(false);
     edit->editor->setEncoding(input_encoding);
+    edit->editor->setFile(f);
+
     if (wordwrap) {edit->editor->setWordWrap(LatexEditor::WidgetWidth);}
     else {edit->editor->setWordWrap(LatexEditor::NoWrap);}
     tabWidget->addTab( edit, QFileInfo( f ).fileName() );
@@ -593,6 +599,22 @@ LatexEditorView *Kile::currentEditorView() const
     if ( tabWidget->currentPage() &&
 	 tabWidget->currentPage()->inherits( "LatexEditorView" ) )
 	return (LatexEditorView*)tabWidget->currentPage();
+    return 0;
+}
+
+LatexEditor *Kile::currentEditor() const
+{
+    if ( tabWidget->currentPage() &&
+	 tabWidget->currentPage()->inherits( "LatexEditorView" ) )
+	return ((LatexEditorView*)tabWidget->currentPage())->editor;
+    return 0;
+}
+
+QFileInfo *Kile::currentFileInfo() const
+{
+    if ( tabWidget->currentPage() &&
+	 tabWidget->currentPage()->inherits( "LatexEditorView" ) )
+	return ((LatexEditorView*)tabWidget->currentPage())->editor->fileInfo();
     return 0;
 }
 
@@ -710,53 +732,69 @@ for( it = filenames.begin(); it != filenames.end(); ++it )
 return rep;
 }
 
-void Kile::fileSave()
+void Kile::fileSave(bool amAutoSaving )
 {
-if ( !currentEditorView() )	return;
-QString fn;
-if ( getName()=="untitled" ) {fileSaveAs();}
-else
-  {
-	QFile file( *filenames.find( currentEditorView() ) );
-  if ( !file.open( IO_WriteOnly ) )
-      {
-       KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."));
-       return;
-      }
-	QTextStream ts( &file );
-	ts.setEncoding(QTextStream::Locale);
-	QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().latin1());
-  ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
-	ts << currentEditorView()->editor->text();
-  currentEditorView()->editor->setModified(false);
-  fn=getName();
-  AddRecentFile(fn);
-  }
-UpdateCaption();
-UpdateLineColStatus();
+	if ( !currentEditorView() )	return;
+	QString fn;
+	if ( getName()=="untitled" )
+	{
+		if (!amAutoSaving) fileSaveAs();
+	}
+	else
+	{
+		QFile file( *filenames.find( currentEditorView() ) );
+		if (amAutoSaving)
+		{
+			file.setName(file.name()+i18n(".backup"));
+			statusBar()->changeItem(i18n("Autosaving %1 ...").arg(file.name()),ID_HINTTEXT);
+		}
+
+		if ( !file.open( IO_WriteOnly ) )
+		{
+			QString cap = amAutoSaving ? i18n("Sorry") : i18n("Autosave");
+			KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."),cap);
+			return;
+		}
+
+		QTextStream ts( &file );
+		ts.setEncoding(QTextStream::Locale);
+		QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().latin1());
+		ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
+		ts << currentEditorView()->editor->text();
+
+		if (!amAutoSaving)
+		{
+			currentEditorView()->editor->setModified(false);
+			fn=getName();
+			AddRecentFile(fn);
+		}
+	}
+	UpdateCaption();
+	UpdateLineColStatus();
 }
 
 void Kile::fileSaveAs()
 {
-int query=KMessageBox::Yes;
-if ( !currentEditorView() ) 	return;
-QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
-if ( !fn.isEmpty() )
-    {
-     QFileInfo fic(fn);
-     if( fic.exists() ) query = KMessageBox::warningYesNoCancel( this,i18n( "A document with this name already exists.\nDo you want to overwrite it?" ) );
-     if (query==KMessageBox::Yes)
-         {
-         filenames.replace( currentEditorView(), fn );
-	       fileSave();
-	       tabWidget->setTabLabel( currentEditorView(), fic.fileName() );
-         }
-    }
-UpdateCaption();
-UpdateLineColStatus();
+	int query=KMessageBox::Yes;
+	if ( !currentEditorView() ) 	return;
+	QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.ltx *.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
+	if ( !fn.isEmpty() )
+	{
+		currentEditor()->setFile(fn);
+		QFileInfo fic(fn);
+		if( fic.exists() ) query = KMessageBox::warningYesNoCancel( this,i18n( "A document with this name already exists.\nDo you want to overwrite it?" ) );
+		if (query==KMessageBox::Yes)
+		{
+			filenames.replace( currentEditorView(), fn );
+			fileSave();
+			tabWidget->setTabLabel( currentEditorView(), fic.fileName() );
+		}
+	}
+	UpdateCaption();
+	UpdateLineColStatus();
 }
 
-void Kile::fileSaveAll()
+void Kile::fileSaveAll(bool amAutoSaving)
 {
 LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
 temp=currentEditorView();
@@ -764,11 +802,36 @@ FilesMap::Iterator it;
 for( it = filenames.begin(); it != filenames.end(); ++it )
    {
    tabWidget->showPage( it.key() );
-   fileSave();
+   fileSave(amAutoSaving);
    }
 tabWidget->showPage(temp);
 UpdateCaption();
 UpdateLineColStatus();
+}
+
+void Kile::autoSaveAll()
+{
+	fileSaveAll(true);
+	if (singlemode)
+	{
+		statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
+	}
+	else
+	{
+		QString shortName = getName();
+      		int pos = shortName.findRev('/');
+      		shortName.remove(0,pos+1);
+		statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
+	}
+
+
+}
+
+void Kile::enableAutosave(bool as)
+{
+	autosave=as;
+	if (autosave) m_AutosaveTimer->start(autosaveinterval);
+	else m_AutosaveTimer->stop();
 }
 
 void Kile::createTemplate() {
@@ -780,7 +843,6 @@ void Kile::createTemplate() {
    } else {
       KMessageBox::information(this,i18n("Open/create a document first!"));
       return;
-
    }
 
    QFileInfo fi(getName());
@@ -790,7 +852,7 @@ void Kile::createTemplate() {
 
 void Kile::removeTemplate() {
 	ManageTemplatesDialog mtd(i18n("Remove a template."));
-    mtd.exec();
+	mtd.exec();
 }
 
 void Kile::filePrint()
@@ -799,23 +861,39 @@ KPrinter printer;
 QString finame;
 if (!htmlpresent )
  {
-    if ( !currentEditorView() )	return;
     finame=getName();
-    if (finame=="untitled" || finame=="")
-      {
-      KMessageBox::error( this,i18n("Could not start the command."));
-      return;
-      }
+    if ( (!currentEditorView()) ||  finame =="" )
+    {
+    	KMessageBox::error(this,i18n("Please open or create the document you want to print first!"));
+	return;
+    }
+
+    if (finame=="untitled")
+    {
+      if (KMessageBox::warningYesNo( this,
+      i18n("You will have to save the document before you can print it. Save it now?"),
+      "Kile",i18n("Save"),i18n("Don't save"))
+      == KMessageBox::No) return;
+    }
     fileSave();
+    finame=getName();
     QFileInfo fic(finame);
     if (fic.exists() && fic.isReadable() )
        {
-         if ( printer.setup(this) )
+         if ( !printer.setup(this) )
+	 {
+		return;
+	 }
+	 else
          {
          QSize margins = printer.margins();
          int marginHeight = margins.height();
          QPainter p;
-         if( !p.begin( &printer ) )  return;
+         if( !p.begin( &printer ) )
+	 {
+		KMessageBox::error(this,i18n("Could not connect to the printer!"));
+	 	return;
+	 }
          int yPos        = 0;
          p.setFont( EditorFont );
          QFontMetrics fm = p.fontMetrics();
@@ -839,7 +917,7 @@ if (!htmlpresent )
          }
          UpdateLineColStatus();
        }
- }
+   }
 }
 
 void Kile::fileClose()
@@ -5100,6 +5178,10 @@ config->setGroup( "Files" );
 lastDocument=config->readEntry("Last Document","");
 recentFilesList=config->readListEntry("Recent Files", ':');
 input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
+autosave=config->readBoolEntry("Autosave",true);
+autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
+enableAutosave(autosave);
+setAutosaveInterval(autosaveinterval);
 
 config->setGroup( "User" );
 UserMenuName[0]=config->readEntry("Menu1","");
@@ -5222,6 +5304,8 @@ config->setGroup( "Files" );
 config->writeEntry("Last Document",lastDocument);
 config->writeEntry("Recent Files",recentFilesList, ':');
 config->writeEntry("Input Encoding", input_encoding);
+config->writeEntry("Autosave",autosave);
+config->writeEntry("AutosaveInterval",autosaveinterval);
 
 config->setGroup( "User" );
 config->writeEntry("Menu1",UserMenuName[0]);
@@ -5480,6 +5564,8 @@ for ( int i = 0; i <= 7; i++ )
     toDlg->colors[i]=editor_color[i];
     }
 toDlg->init();
+toDlg->asIntervalInput->setText(QString::number(autosaveinterval/60000));
+toDlg->checkAutosave->setChecked(autosave);
 toDlg->LineEdit6->setText(latex_command);
 toDlg->LineEdit7->setText(pdflatex_command);
 toDlg->comboFamily->lineEdit()->setText(EditorFont.family() );
@@ -5493,15 +5579,16 @@ if (quickmode==3) {toDlg->checkDviSearch->setChecked(true);}
 if (quickmode==4)  {toDlg->checkPdflatex->setChecked(true);}
 if (quickmode==5)  {toDlg->checkDviPdf->setChecked(true);}
 if (quickmode==6)  {toDlg->checkPsPdf->setChecked(true);}
-if (wordwrap) {toDlg->checkWordWrap->setChecked(true);}
-else {toDlg->checkWordWrap->setChecked(false);}
-if (parenmatch) {toDlg->checkParen->setChecked(true);}
-else {toDlg->checkParen->setChecked(false);}
-if (showline) {toDlg->checkLine->setChecked(true);}
-else {toDlg->checkLine->setChecked(false);}
+toDlg->checkWordWrap->setChecked(wordwrap);
+toDlg->checkParen->setChecked(parenmatch);
+toDlg->checkLine->setChecked(showline);
 if (toDlg->exec())
   {
    toDlg->ksc->writeGlobalSettings ();
+   autosaveinterval=60000*(toDlg->asIntervalInput->text().toLong());
+   setAutosaveInterval(autosaveinterval);
+   autosave=toDlg->checkAutosave->isChecked();
+   enableAutosave(autosave);
    if (toDlg->checkLatex->isChecked()) quickmode=1;
    if (toDlg->checkDvi->isChecked()) quickmode=2;
    if (toDlg->checkDviSearch->isChecked()) quickmode=3;
@@ -5585,11 +5672,11 @@ void Kile::spell_started( KSpell *)
 	}
 }
 
-void Kile::spell_progress (unsigned int percent)
+void Kile::spell_progress (unsigned int /*percent*/)
 {
 }
 
-void Kile::spell_done(const QString& newtext)
+void Kile::spell_done(const QString& /*newtext*/)
 {
   currentEditorView()->editor->removeSelection(0);
   kspell->cleanUp();

@@ -2,7 +2,7 @@
                           kile.h  -  description
                              -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 by Pascal Brachet, 2003 Jeroen Wijnhout
+    copyright            : (C) 2003 by Jeroen Wijnhout
     email                : wijnhout@science.uva.nl
  ***************************************************************************/
 
@@ -48,7 +48,6 @@
 #include <qstring.h>
 #include <qcolor.h>
 
-
 #include "kileappIface.h"
 #include "latexeditorview.h"
 #include "latexeditor.h"
@@ -82,6 +81,9 @@
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
+class QFileInfo;
+class QTimer;
+
 typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
 typedef  QString UserCd[5];
@@ -104,6 +106,8 @@ private:
     void setupActions();
     void closeEvent(QCloseEvent *e);
     LatexEditorView *currentEditorView() const;
+    LatexEditor* currentEditor() const;
+    QFileInfo * currentFileInfo() const;
     void doConnections( LatexEditor *e );
     bool FileAlreadyOpen(QString f);
     void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
@@ -147,9 +151,10 @@ private:
     UserCd UserToolName, UserToolCommand;
     ListColors editor_color;
     bool logpresent, singlemode, showstructview,showoutputview, wordwrap, parenmatch,showline,
-      showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, menuaccels;
+      showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, menuaccels, autosave;
     bool htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
     int split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
+    long autosaveinterval;
     QTabWidget *tabWidget, *Outputview;
     QFrame *Structview;
     QHBoxLayout *Structview_layout;
@@ -178,6 +183,7 @@ private:
     QString spell_text;
 
     KShellProcess *currentProcess;
+    QTimer *m_AutosaveTimer;
 
 signals:
    void stopProcess();
@@ -186,8 +192,9 @@ private slots:
     void fileNew();
     void fileOpen();
     void fileOpenRecent(const QString &fn);
-    void fileSave();
-    void fileSaveAll();
+    void fileSave(bool amAutoSaving = false);
+    void fileSaveAll(bool amAutoSaving = false);
+    void autoSaveAll();
     void fileSaveAs();
     void createTemplate();
     void filePrint();
@@ -449,6 +456,9 @@ private slots:
 
    QString DetectEpsSize(const QString &epsfile);
    void CleanBib();
+
+   void enableAutosave(bool);
+   void setAutosaveInterval(long interval) { autosaveinterval=interval;}
 
 };
 

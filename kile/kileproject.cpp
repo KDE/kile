@@ -21,6 +21,7 @@
 
 #include <ksimpleconfig.h>
 #include <klocale.h>
+#include <kglobal.h>
 #include <kdebug.h>
 
 #include "kiledocumentinfo.h"
@@ -116,7 +117,7 @@ void KileProjectItem::setInfo(KileDocumentInfo *docinfo)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii()), m_masterDocument(QString::null)
+KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii()), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
 	init(name,url);
 }
@@ -128,7 +129,6 @@ KileProject::KileProject(const KURL& url) : QObject(0,url.fileName().ascii())
 
 void KileProject::init(const QString& name, const KURL& url)
 {
-//	m_rootItem = 0;
 	m_name = name;
 	m_projecturl = url;
 	m_projectitems.setAutoDelete(true);
@@ -214,6 +214,34 @@ void KileProject::setType(KileProjectItem *item)
 	kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
 }
 
+void KileProject::readMakeIndexOptions()
+{
+	QString grp = KileTool::groupFor("MakeIndex", m_config);
+
+	//get the default value
+	KConfig *cfg = KGlobal::config();
+	cfg->setGroup(KileTool::groupFor("MakeIndex", KileTool::configName("MakeIndex", cfg)));
+	QString deflt = cfg->readEntry("options", "'%S'.idx");
+
+	if ( useMakeIndexOptions() && !grp.isEmpty() )
+	{
+		m_config->setGroup(grp);
+		QString val = m_config->readEntry("options", deflt);
+		if ( val.isEmpty() ) val = deflt;
+		setMakeIndexOptions(val);
+	}
+	else //use default value
+		setMakeIndexOptions(deflt);
+}
+
+void KileProject::writeUseMakeIndexOptions()
+{
+	if ( useMakeIndexOptions() )
+		KileTool::setConfigName("MakeIndex", "Default", m_config);
+	else 
+		KileTool::setConfigName("MakeIndex", "", m_config);
+}
+
 bool KileProject::load()
 {
 	kdDebug() << "KileProject: loading..." <<endl;
@@ -232,10 +260,9 @@ bool KileProject::load()
 	setExtensions(KileProjectItem::Package, m_config->readEntry("pkg_extensions", PACKAGE_EXTENSIONS));
 	setExtIsRegExp(KileProjectItem::Image, m_config->readBoolEntry("img_extIsRegExp", false));
 	setExtensions(KileProjectItem::Image, m_config->readEntry("img_extensions", IMAGE_EXTENSIONS));
-	//setExtIsRegExp(KileProjectItem::Other, m_config->readBoolEntry("oth_extIsRegExp", false));
-	//setExtensions(KileProjectItem::Other, m_config->readEntry("oth_extensions", OTHER_EXTENSIONS));
 
 	setQuickBuildConfig(KileTool::configName("QuickBuild", m_config));
+	readMakeIndexOptions();
 
 	KURL url;
 	KileProjectItem *item;
@@ -262,13 +289,10 @@ bool KileProject::load()
 			item->setOpenState(m_config->readBoolEntry("open", true));
 			item->setEncoding(m_config->readEntry("encoding", QString::null));
 			item->setHighlight(m_config->readEntry("highlight",QString::null));
-			//item->setType(m_config->readNumEntry("type", KileProjectItem::Source));
 			item->setArchive(m_config->readBoolEntry("archive", true));
 			item->changePath(groups[i].mid(5));
 
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
-
-			//m_projectitems.append(item);
 		}
 	}
 
@@ -292,8 +316,6 @@ bool KileProject::save()
 	m_config->writeEntry("pkg_extIsRegExp", extIsRegExp(KileProjectItem::Package));
 	m_config->writeEntry("img_extensions", extensions(KileProjectItem::Image));
 	m_config->writeEntry("img_extIsRegExp", extIsRegExp(KileProjectItem::Image));
-	//m_config->writeEntry("oth_extensions", extensions(KileProjectItem::Other));
-	//m_config->writeEntry("oth_extIsRegExp", extIsRegExp(KileProjectItem::Other));
 
 	KileProjectItem *item;
 	for (uint i=0; i < m_projectitems.count(); i++)
@@ -303,12 +325,21 @@ bool KileProject::save()
 		m_config->writeEntry("open", item->isOpen());
 		m_config->writeEntry("encoding", item->encoding());
 		m_config->writeEntry("highlight", item->highlight());
-		//m_config->writeEntry("type", item->type());
 		m_config->writeEntry("archive", item->archive());
 		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 
 	KileTool::setConfigName("QuickBuild", quickBuildConfig(), m_config);
+
+	writeUseMakeIndexOptions();
+	if ( useMakeIndexOptions() ) 
+	{
+		
+		QString grp = KileTool::groupFor("MakeIndex", m_config);
+		if ( grp.isEmpty() ) grp = "Default";
+		m_config->setGroup(grp);
+		m_config->writeEntry("options", makeIndexOptions() );
+	}
 
 	m_config->sync();
 

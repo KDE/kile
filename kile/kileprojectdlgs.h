@@ -95,12 +95,12 @@ private slots:
 	void fillProjectDefaults();
 
 private:
-	KLineEdit	*m_location, *m_file, *m_name;
-	NewFileWidget *m_nfw;
-	QCheckBox	*m_cb;
-	QLabel *m_lb;
+	KLineEdit			*m_location, *m_file, *m_name;
+	NewFileWidget		*m_nfw;
+	QCheckBox		*m_cb;
+	QLabel 			*m_lb;
 
-	QString m_dir, m_filename;
+	QString			m_dir, m_filename;
 };
 
 class KileProjectOptionsDlg : public KileProjectDlgBase
@@ -113,9 +113,12 @@ public:
 
 private slots:
 	void slotOk();
+	void toggleMakeIndex(bool);
 
 private:
 	KComboBox	*m_master, *m_cbQuick;
+	KLineEdit		*m_leMakeIndex;
+	QCheckBox	*m_ckMakeIndex;
 };
 
 #endif

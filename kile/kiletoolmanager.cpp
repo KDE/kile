@@ -225,7 +225,7 @@ namespace KileTool
 			return groupFor(name, m_config);
 	}
 
-	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue)
+	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
 	{
 		QString group = currentGroup(name, usequeue);
 
@@ -234,6 +234,22 @@ namespace KileTool
 		if ( m_config->hasGroup(group) )
 		{
 			map = m_config->entryMap(group);
+
+			//use project overrides
+			KileProject *project = m_ki->activeProject();
+			if ( useproject && project)
+			{
+				KConfig *prjcfg = dynamic_cast<KConfig*>(project->config());
+				if ( prjcfg )
+				{
+					QString grp = groupFor(name, prjcfg);
+					Config prjmap = prjcfg->entryMap(grp);
+					for (Config::Iterator it  = prjmap.begin(); it != prjmap.end(); ++it)
+					{
+						map[it.key()] = it.data();
+					}
+				}
+			}
 		}
 		else
 			return false;

@@ -71,7 +71,7 @@ namespace KileTool
 	public:
 		void initTool(Base*);
 		bool configure(Base*);
-		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true);
+		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
 		void saveEntryMap(const QString & name, Config & map, bool usequeue = true);
 		QString currentGroup(const QString &name, bool usequeue = true);
 		//QString configName(const QString & tool);

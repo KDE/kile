@@ -103,7 +103,7 @@ namespace KileWidget
 		connect(pb, SIGNAL(clicked()), this, SLOT(newConfig()));
 		//pb->setMaximumWidth(pb->sizeHint().width());
 
-		m_current = m_lstbTools->text(0); m_manager->retrieveEntryMap(m_current, m_map, false);
+		m_current = m_lstbTools->text(0); m_manager->retrieveEntryMap(m_current, m_map, false, false);
 		QString cfg = KileTool::configName(m_current, m_manager->config());
 		m_cbPredef->insertItem(cfg);
 		switchConfig(cfg);
@@ -167,7 +167,7 @@ namespace KileWidget
 			m_layout->remove(m_advanced); delete m_advanced;
 		}
 		m_map.clear();
-		if (!m_manager->retrieveEntryMap(m_current, m_map, false)) 
+		if (!m_manager->retrieveEntryMap(m_current, m_map, false, false)) 
 			kdWarning() << "no entrymap" << endl;
 
 		updateConfiglist();

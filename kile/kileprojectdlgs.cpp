@@ -434,11 +434,28 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", kapp->config()));
 	m_cbQuick->setCurrentText(project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default );
 
+	//don't put this after the call to toggleMakeIndex
 	setProject(project, true);
+
+	m_ckMakeIndex = new QCheckBox(i18n("&MakeIndex options"), plainPage()); layout->addWidget(m_ckMakeIndex, 6, 0);
+	connect(m_ckMakeIndex, SIGNAL(toggled(bool)), this, SLOT(toggleMakeIndex(bool)));
+	m_leMakeIndex = new KLineEdit(plainPage()); layout->addMultiCellWidget(m_leMakeIndex, 6, 6, 1, 3);
+	m_ckMakeIndex->setChecked(project->useMakeIndexOptions());
+	toggleMakeIndex(m_ckMakeIndex->isChecked());
 }
 
 KileProjectOptionsDlg::~KileProjectOptionsDlg()
 {
+}
+
+void KileProjectOptionsDlg::toggleMakeIndex(bool on)
+{
+	kdDebug() << "TOGGLED!" << endl;
+	m_leMakeIndex->setEnabled(on);
+	m_project->setUseMakeIndexOptions(on);
+	m_project->writeUseMakeIndexOptions();
+	m_project->readMakeIndexOptions();
+	m_leMakeIndex->setText(m_project->makeIndexOptions());
 }
 
 void KileProjectOptionsDlg::slotOk()
@@ -470,6 +487,10 @@ void KileProjectOptionsDlg::slotOk()
 		m_project->setQuickBuildConfig("");
 	else
 		m_project->setQuickBuildConfig(m_cbQuick->currentText());
+
+	m_project->setUseMakeIndexOptions(m_ckMakeIndex->isChecked());
+	if ( m_project->useMakeIndexOptions() )
+		m_project->setMakeIndexOptions(m_leMakeIndex->text());
 
 	m_project->save();
 

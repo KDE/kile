@@ -149,6 +149,13 @@ public:
 	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
 	const QString & quickBuildConfig() { return m_quickBuildConfig; }
 
+	void setMakeIndexOptions(const QString & opt) { m_makeIndexOptions = opt; }
+	const QString & makeIndexOptions() { return m_makeIndexOptions; }
+	void readMakeIndexOptions();
+	void setUseMakeIndexOptions(bool use) { m_useMakeIndexOptions = use; }
+	void writeUseMakeIndexOptions();
+	bool useMakeIndexOptions() { return m_useMakeIndexOptions; }
+
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
@@ -190,8 +197,7 @@ private:
 
 private:
 	QString		m_name, m_quickBuildConfig;
-	KURL			m_projecturl;
-	KURL			m_baseurl;
+	KURL		m_projecturl, m_baseurl;
 
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
@@ -200,7 +206,8 @@ private:
 	QRegExp		m_reExtensions[3];
 	bool			m_extIsRegExp[3];
 
-	QString		m_masterDocument;
+	QString		m_masterDocument, m_makeIndexOptions;
+	bool			m_useMakeIndexOptions;
 
 	KSimpleConfig	*m_config;
 };

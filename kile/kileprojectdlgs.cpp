@@ -34,6 +34,8 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
         : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true )
 {
 	QGridLayout *layout = new QGridLayout(plainPage(),4,4, 10);
+	layout->setColStretch(2,1);
+	layout->setColStretch(3,1);
 
 	m_name = new KLineEdit(plainPage(), "le_projectname");
 	QLabel *lb = new QLabel(i18n("Project &name"), plainPage());
@@ -56,14 +58,14 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project."),plainPage());
 	m_cb->setChecked(true);
-	lb  = new QLabel(i18n("File&name (relative to the project file)"), plainPage());
+	m_lb  = new QLabel(i18n("File&name (relative to the project file)"), plainPage());
 	m_file = new KLineEdit(plainPage());
-	lb->setBuddy(m_file);
+	m_lb->setBuddy(m_file);
 	m_nfw = new NewFileWidget(plainPage());
 	QWhatsThis::add(m_cb, i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
 	layout->addMultiCellWidget(m_cb, 2,2,0,3);
-	layout->addWidget(lb, 3,0);
-	layout->addMultiCellWidget(m_file, 3,3, 1,3);
+	layout->addMultiCellWidget(m_lb, 3,3,0,1);
+	layout->addMultiCellWidget(m_file, 3,3, 2,3);
 	layout->addMultiCellWidget(m_nfw, 4,4,0,3);
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
 }
@@ -76,11 +78,13 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 	if (m_cb->isChecked())
 	{
 		m_file->show();
+		m_lb->show();
 		m_nfw->show();
 	}
 	else
 	{
 		m_file->hide();
+		m_lb->hide();
 		m_nfw->hide();
 	}
 }

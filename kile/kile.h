@@ -169,6 +169,7 @@ private:
 	QWidgetStack 				*topWidgetStack;
 	QSplitter 						*splitter1, *splitter2 ;
 	KListView						*outstruct;
+	QWidgetStack				*m_tabbarStack;
 
 	//dialogs
 	structdialog 					*stDlg;
@@ -363,7 +364,7 @@ public:
 	Kate::Document * activeDocument() const { Kate::View *view = currentView(); if (view) return view->getDoc(); else return 0;}
 
 	const QStringList* labels() const;
-	const QStringList* bibItems() const { return 0L; }
+	const QStringList* bibItems() const;
 
 private:
 	bool singlemode;

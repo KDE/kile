@@ -25,6 +25,27 @@
 
 #include "kiledocumentinfo.h"
 
+KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
+{
+	m_doc = doc;
+	kdDebug() << "KileDocumentInfo created for " << doc->docName() << endl;
+
+	m_struct = 0;
+	m_arStatistics = new long[5];
+	m_bFresh = true;
+
+	//TODO: make this configurable
+	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
+	m_dictStructLevel["\\bibitem"]= KileStructData(-2, KileStruct::BibItem);
+	m_dictStructLevel["\\input"]=KileStructData(0, KileStruct::Input, "include");
+	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
+	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
+	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
+	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
+	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
+	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
+}
+
 bool KileDocumentInfo::isLaTeXRoot()
 {
 	if (	!m_doc->text().contains("\\documentclass", true) &&
@@ -34,25 +55,6 @@ bool KileDocumentInfo::isLaTeXRoot()
 	}
 
 	return true;
-}
-
-KileDocumentInfo::KileDocumentInfo(Kate::Document *doc)
-{
-	m_doc = doc;
-	kdDebug() << "KileDocumentInfo created for " << doc->docName() << endl;
-
-	m_struct = 0;
-	m_arStatistics = new long[5];
-
-	//TODO: make this configurable
-	m_dictStructLevel["\\label"]= KileStructData(-1, KileStruct::Label);
-	m_dictStructLevel["\\input"]=KileStructData(0, KileStruct::Input, "include");
-	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
-	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
-	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
-	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
-	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
-	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
 }
 
 const long* KileDocumentInfo::getStatistics()
@@ -186,9 +188,15 @@ void KileDocumentInfo::updateStruct()
 	m_bibItems.clear();
 	m_deps.clear();
 
+	m_structview->takeItem(m_structview->firstChild());
+
+	if (m_doc->isModified() || m_bFresh)
+	{
+	kdDebug() << "KileDocumentInfo::updateStruct() updating..." << endl;
+	m_bFresh=false;
 	delete m_struct;
 
-	KileListViewItem *m_struct=  new KileListViewItem( m_structview, shortName );
+	m_struct=  new KileListViewItem( m_structview, shortName );
 	m_struct->setOpen(TRUE);
 	m_struct->setPixmap(0,UserIcon("doc"));
 
@@ -244,6 +252,24 @@ void KileDocumentInfo::updateStruct()
 				//title (or label) found, add the element to the listview
 				if (m != QString::null)
 				{
+
+					//update the dependencies
+					if ((*it).type == KileStruct::Input)
+						m_deps.append(m.stripWhiteSpace());
+
+					//update the label list
+					if ((*it).type == KileStruct::Label)
+						m_labels.append(m.stripWhiteSpace());
+
+					//update the label list
+					if ((*it).type == KileStruct::BibItem)
+					{
+						kdDebug() << "appending bibitem " << m << endl;
+						m_bibItems.append(m.stripWhiteSpace());
+					}
+
+					if ((*it).level > -2)
+					{
 					//find the parent for the new element
 					switch ((*it).level)
 					{
@@ -264,14 +290,6 @@ void KileDocumentInfo::updateStruct()
 					Child=new KileListViewItem( parent,lastChild,m.stripWhiteSpace(), tagLine+1, tagCol,(*it).type);
 					if (! (*it).pix.isNull()) Child->setPixmap(0,UserIcon((*it).pix));
 
-					//update the label list
-					if ((*it).type == KileStruct::Label)
-						m_labels.append(m.stripWhiteSpace());
-
-					//update the dependencies
-					if ((*it).type == KileStruct::Input)
-						m_deps.append(m.stripWhiteSpace());
-
 					//update the parent levels, such that section etc. get inserted at the correct level
 					if ((*it).level > 0)
 					{
@@ -279,11 +297,17 @@ void KileDocumentInfo::updateStruct()
 						for (int l = (*it).level; l < 5; l++)
 							parent_level[l] = Child;
 					}
+					}
 
 				} //if m
 			} // if tagStart
 		} // while tagStart
 	} //for
+	}
+
+	kdDebug() << "inserting " << m_struct->text(0) << endl;
+	m_structview->insertItem(m_struct);
+
 }
 
 void KileDocumentInfo::updateBibItems()

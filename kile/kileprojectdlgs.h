@@ -22,6 +22,7 @@
 
 class NewFileWidget;
 class QCheckBox;
+class QLabel;
 class KLineEdit;
 
 class KileNewProjectDlg : public KDialogBase
@@ -48,6 +49,7 @@ private:
 	KLineEdit	*m_name, *m_location, *m_file;
 	NewFileWidget *m_nfw;
 	QCheckBox	*m_cb;
+	QLabel *m_lb;
 };
 
 #endif

@@ -36,7 +36,7 @@
 
 namespace KileStruct
 {
-	enum  { None = 0x1, Label = 0x2, Sect = 0x4, Input =0x8};
+	enum  { None = 0x1, Label = 0x2, Sect = 0x4, Input =0x8, BibItem = 0x10};
 }
 
 /**
@@ -133,6 +133,7 @@ protected:
 private:
 	Kate::Document	*m_doc;
 	long						*m_arStatistics;
+	bool						m_bFresh;
 	QStringList			m_labels;
 	QStringList			m_bibItems;
 	QStringList			m_deps;

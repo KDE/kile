@@ -1070,6 +1070,16 @@ const QStringList* Kile::labels() const
 		return 0;
 }
 
+const QStringList* Kile::bibItems() const
+{
+	const KileDocumentInfo *docinfo = getInfo();
+
+	if (docinfo)
+		return docinfo->bibItems();
+	else
+		return 0;
+}
+
 void Kile::newCaption()
 {
 	Kate::View *view = currentView();
@@ -2421,9 +2431,9 @@ void Kile::UpdateStructure()
 
 	if (docinfo)
 	{
-		outstruct->clear();
+		//outstruct->clear();
 		docinfo->updateStruct();
-		outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
+		//outstruct->insertItem((QListViewItem*)docinfo->structViewItem());
 	}
 
 	Kate::View *view = currentView();

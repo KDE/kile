@@ -242,6 +242,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	QRegExp reComments("([^\\\\]%|^%).*$");
 	QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
 	QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
+	QRegExp reNewCommand("\\\\(re)?newcommand.*$");
 
 	int tagStart;
 	uint tagEnd;
@@ -259,6 +260,9 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 
 		//remove comments
 		s.replace(reComments, "");
+
+		//if the command is a \renewcommand or \newcommand, ignore rest of the line
+		s.replace(reNewCommand, "");
 
 		//find all commands in this line
 		while (tagStart != -1)

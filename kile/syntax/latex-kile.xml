@@ -62,14 +62,14 @@
 				<keyword String="kw_verbenv" attribute="Environment" context="SpecialEnv"/>
 			</context>
 
-			<context name="Label" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
+			<context name="Label" attribute="Normal Text" lineEndContext="#pop#pop" fallthrough="true" fallthroughContext="#pop#pop">
 				<RegExpr String="\s*\{\s*" attribute="Normal Text" context="#stay"/>
 				<RegExpr String="[^\}]+" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*\}\s*" attribute="Normal Text" context="#pop"/>
 			</context>
 
 			<context name="Verb" attribute="Verbatim" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
-				<RegExpr String="(.).*\1" attribute="Verbatim" context="#pop" minimal="true"/>
+				<RegExpr String="(.).*\1" attribute="Verbatim" context="#pop#pop" minimal="true"/>
 			</context>
 			<context name="VerbatimEnv" attribute="Environment" lineEndContext="#stay">
 				<DetectChar char="}" attribute="Normal Text" context="Verbatim"/>
@@ -81,7 +81,7 @@
 			<context name="VerbFindEnd" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<StringDetect String="verbatim" attribute="Environment" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="#pop#pop"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop"/>
 			</context>
 
 			<context name="SpecialEnv" attribute="Verbatim" lineEndContext="#stay">

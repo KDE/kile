@@ -223,6 +223,17 @@ target=
 from=html
 to=html
 
+[Tool/ViewHTML/Firefox]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+command=firefox
+options='file:%dir_target/%target'
+target=
+from=html
+to=html
+
 [Tool/ViewDVI/Embedded Viewer]
 class=View
 type=Part
@@ -241,6 +252,14 @@ options='%target'
 from=dvi
 to=dvi
 
+[Tool/ViewDVI/KDVI Unique]
+class=View
+type=Process
+command=kdvi
+options=--unique '%target'
+from=dvi
+to=dvi
+
 [Tool/ForwardDVI/Embedded Viewer]
 type=Part
 class=ForwardDVI
@@ -255,7 +274,7 @@ libOptions=dvi
 class=ForwardDVI
 type=Process
 command=kdvi
-options='%target'
+options=--unique '%target'
 from=dvi
 to=dvi
 
@@ -271,6 +290,15 @@ type=Part
 [Tool/ViewPDF/KGhostView]
 class=View
 command=kghostview
+options='%target'
+state=Viewer
+from=pdf
+to=pdf
+type=Process
+
+[Tool/ViewPDF/KPDF]
+class=View
+command=kpdf
 options='%target'
 state=Viewer
 from=pdf

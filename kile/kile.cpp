@@ -1256,7 +1256,6 @@ void Kile::quickArray()
 	delete dlg;
 }
 
-//////////////////////////// MATHS TAGS/////////////////////////////////////
 void Kile::insertSymbol(QIconViewItem *item)
 {
 	QString code_symbol = item->key();
@@ -1269,18 +1268,17 @@ void Kile::insertMetaPost(QListBoxItem *)
 	if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 }
 
-//////////////// HELP /////////////////
 void Kile::helpLaTex()
 {
 	QString loc = locate("html","en/kile/latexhelp.html");
-	KileTool::ViewHTML *tool = dynamic_cast<KileTool::ViewHTML*>(m_toolFactory->create("ViewHTML"));
+	KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager, false);
+	tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
 	tool->setSource(loc);
-	tool->setRelativeBaseDir("");
-	tool->setTarget("latexhelp.html");
+	tool->setTargetPath(loc);
+	tool->prepareToRun();
 	m_manager->run(tool);
 }
 
-///////////////////// USER ///////////////
 void Kile::editUserMenu()
 {
 	KileDialog::UserTags *dlg = new KileDialog::UserTags(m_listUserTags, this, "Edit User Tags", i18n("Edit User Tags"));
@@ -1305,7 +1303,6 @@ void Kile::editUserMenu()
 	delete dlg;
 }
 
-/////////////// CONFIG ////////////////////
 void Kile::readGUISettings()
 {
 	m_horSplitLeft = KileConfig::horizontalSplitterLeft();

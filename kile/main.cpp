@@ -79,7 +79,7 @@ int main( int argc, char ** argv )
 	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
 	aboutData.addAuthor("Brachet Pascal",0,"");
 	aboutData.addCredit("Holger Danielsson", I18N_NOOP("Code Completion, Advanced Editing, Help system"));
-	aboutData.addCredit("Simon Martin", I18N_NOOP("KConfig XT configuration system"));
+	aboutData.addCredit("Simon Martin", I18N_NOOP("KConfig XT, various improvements and bugfixing"));
 	aboutData.addCredit("Roland Schulz", I18N_NOOP("KatePart integration"));
 	aboutData.addCredit("Thorsten Lück", I18N_NOOP("Log Parsing"));
 	aboutData.addCredit("Jan-Marek Glogowski", I18N_NOOP("Find in Files dialog"));

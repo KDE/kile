@@ -29,6 +29,7 @@
 #include <kate/document.h>
 
 #include "kilehelp.h"
+#include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 #include "kileinfo.h"
@@ -49,8 +50,10 @@ namespace KileHelp
 	void Help::showHelpFile(const QString &parameter)
 	{
 		KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager, false);
-		tool->setFlags(0);
-		kdDebug() << "==Help::showHelpFile(" << parameter << ")============" << endl;
+		tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
+		//FIXME strip the #label part of the source (not the target),
+		//somehow this is already done somewhere (by accident), 
+		//bad to rely on it
 		tool->setSource(parameter);
 		tool->setTargetPath(QFileInfo(parameter).fileName());
 		tool->prepareToRun();

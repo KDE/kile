@@ -173,13 +173,15 @@ signals:
 
 public:
 	QString tag() { return m_tag; }
+	bool usedSelection() { return m_usedSelection; }
+	
 	QLineEdit *figLabel;
 	QLineEdit *figCaption;
 	QCheckBox *Env;
 
 private:
 	QString 			m_tag;
-	bool				m_useAlternative;
+	bool				m_useAlternative, m_usedSelection;
 	KileInfo	*m_ki;
 	QLabel *Text2;
 	QLabel *Text3;

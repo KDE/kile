@@ -46,6 +46,9 @@ public:
 
 	virtual Kate::Document* activeDocument() const = 0;
 
+	QString getSelection() const;
+	void clearSelection() const;
+	
 	virtual const QStringList* labels() =0;
 	virtual const QStringList* bibItems() =0;
 	virtual const QStringList* bibliographies() = 0;

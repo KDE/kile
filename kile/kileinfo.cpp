@@ -224,3 +224,24 @@ KileProjectItem* KileInfo::activeProjectItem()
 	return item;
 }
 
+QString KileInfo::getSelection() const
+{
+	Kate::Document *doc = activeDocument();
+	
+	if (doc && doc->hasSelection())
+	{
+		return doc->selection();
+	}
+	
+	return QString::null;
+}
+
+void KileInfo::clearSelection() const
+{
+	Kate::Document *doc = activeDocument();
+	
+	if (doc && doc->hasSelection())
+	{
+		doc->removeSelectedText();
+	}
+}

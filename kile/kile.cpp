@@ -1247,7 +1247,7 @@ void Kile::projectOpen(const KURL &url, int step, int max)
 			(this, 0, i18n("Open Project..."),
 			QString::null, true);
 		kpd->showCancelButton(false);
-		kpd->setLabel(i18n("Scaning project files..."));
+		kpd->setLabel(i18n("Scanning project files..."));
 		kpd->setAutoClose(true);
 		kpd->setMinimumDuration(2000);
 	}

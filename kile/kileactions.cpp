@@ -155,6 +155,10 @@ void InputTag::emitData()
 		td.tagEnd.replace("%A", alt);
 
 		kdDebug() << "vier" << endl;
+		
+		if (dlg->usedSelection())
+			m_ki->clearSelection();
+			
 		emit(activated(td));
 	}
 	delete dlg;
@@ -207,6 +211,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 {
 	Env = NULL;
 	figLabel = NULL;
+	
+	m_usedSelection = false;
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -257,6 +263,9 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setText(const QString&)));
 		gbox->addWidget(input,1,0);
+		
+		input->setText(ki->getSelection());
+		m_usedSelection=true;
 	}
 
 	if ( options & KileAction::ShowBrowseButton)

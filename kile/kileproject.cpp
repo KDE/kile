@@ -60,14 +60,10 @@ void KileProjectItem::setParent(KileProjectItem * item)
 			while (sib->sibling())
 				sib = sib->sibling();
 
-			kdDebug() << "sibling for " << sib->url().fileName() << " is " << url().fileName() << endl;
 			sib->setSibling(this);
 		}
 		else
-		{
-			kdDebug() << "setting " << url().fileName() << " as child for " << m_parent->url().fileName() << endl;
 			m_parent->setChild(this);
-		}
 	}
 	else
 	{
@@ -93,11 +89,11 @@ void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
 {
 	KileProjectItem *item = firstChild();
 
-	kdDebug() << "\tKileProjectItem::allChildren(" << list->count() << ")" << endl;
+// 	kdDebug() << "\tKileProjectItem::allChildren(" << list->count() << ")" << endl;
 	while(item != 0)
 	{
 		list->append(item);
-		kdDebug() << "\t\tappending " << item->url().fileName() << endl;
+// 		kdDebug() << "\t\tappending " << item->url().fileName() << endl;
 		item->allChildren(list);
 		item = item->sibling();
 	}
@@ -158,16 +154,13 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
 	QString pattern = ext;
 
-	if (type < 1) {
-		kdDebug() << "ERROR: TYPE < 1" << endl;
+	if (type < 1) 
+	{
+		kdWarning() << "ERROR: TYPE < 1" << endl;
 		return;
 	}
 
-	if (ext.stripWhiteSpace().length() == 0)
-	{
-		kdDebug() << "NO EXTENSIONS!!!!!!!" << endl;
-		pattern = "";
-	}
+	if (ext.stripWhiteSpace().length() == 0) pattern = "";
 
 	if ( (pattern != "") && !extIsRegExp(type))
 	{
@@ -180,8 +173,6 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 	if ( extIsRegExp(type) )
 		pattern = ext.stripWhiteSpace();
 
-	kdDebug() << "==KileProject::setExtensions"<<endl;
-	kdDebug() << "\tsetting pattern to: " << pattern << endl;
 	m_reExtensions[type-1].setPattern(pattern);
 
 	if (m_extensions[type-1] != ext)
@@ -193,8 +184,6 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 
 void KileProject::setType(KileProjectItem *item)
 {
-	kdDebug() << "==KileProject::setType()================" << endl;
-
 	bool unknown = true;
 	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; i++)
 		if ( (extensions((KileProjectItem::Type) i) != "") &&
@@ -205,14 +194,7 @@ void KileProject::setType(KileProjectItem *item)
 			break;
 		}
 
-	if (unknown) {
-		if (item->url().fileName().right(7) == ".kilepr")
-			item->setType(KileProjectItem::ProjectFile);
-		else
-			item->setType(KileProjectItem::Other);
-	}
-
-	kdDebug() <<"\tsetting type of " << item->url().fileName() << " to " << item->type() << endl;
+	if (unknown) item->setType(KileProjectItem::Other);
 }
 
 void KileProject::readMakeIndexOptions()
@@ -332,7 +314,6 @@ bool KileProject::save()
 		m_config->writeEntry("archive", item->archive());
 		m_config->writeEntry("line", item->lineNumber());
 		m_config->writeEntry("column", item->columnNumber());
-		kdDebug() << "\tsaving " << item->path() << " " << item->isOpen() << " " << item->encoding() << " " << item->highlight()<< endl;
 	}
 
 	KileTool::setConfigName("QuickBuild", quickBuildConfig(), m_config);
@@ -462,8 +443,8 @@ QString KileProject::findRelativePath(const KURL &url)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	kdDebug() <<"===findRelativeURL==================" << endl;
-	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+// 	kdDebug() <<"===findRelativeURL==================" << endl;
+// 	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);
@@ -471,15 +452,15 @@ QString KileProject::findRelativePath(const KURL &url)
 	uint nDirs = dirs.count();
 	//uint nBaseDirs = basedirs.count();
 
-	for (uint i=0; i < basedirs.count(); i++)
-	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
-	}
+// 	for (uint i=0; i < basedirs.count(); i++)
+// 	{
+// 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+// 	}
 
-	for (uint i=0; i < dirs.count(); i++)
-	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
-	}
+// 	for (uint i=0; i < dirs.count(); i++)
+// 	{
+//  		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+// 	}
 
 	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] )
 	{
@@ -487,23 +468,20 @@ QString KileProject::findRelativePath(const KURL &url)
 		basedirs.pop_front();
 	}
 
-	kdDebug() << "\tafter" << endl;
-	for (uint i=0; i < basedirs.count(); i++)
-	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
-	}
-
-	for (uint i=0; i < dirs.count(); i++)
-	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
-	}
+// 	kdDebug() << "\tafter" << endl;
+// 	for (uint i=0; i < basedirs.count(); i++)
+// 	{
+// 		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+// 	}
+// 
+// 	for (uint i=0; i < dirs.count(); i++)
+// 	{
+// 		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+// 	}
 
 	if (nDirs != dirs.count() )
 	{
 		path = dirs.join("/");
-
-		kdDebug() << "\tpath : " << path << endl;
-		//kdDebug() << "\tdiff : " << diff << endl;
 
 		if (basedirs.count() > 0)
 		{
@@ -522,7 +500,7 @@ QString KileProject::findRelativePath(const KURL &url)
 		path = url.path();
 	}
 
-	kdDebug() << "\tpath : " << path << endl;
+// 	kdDebug() << "\tpath : " << path << endl;
 
 	return path;
 }

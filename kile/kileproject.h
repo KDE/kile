@@ -32,7 +32,6 @@ namespace KileDocument { class Info; }
 const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
 const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
 const QString IMAGE_EXTENSIONS = ".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png";
-//const QString OTHER_EXTENSIONS = ".log .aux";
 
 /**
  * KileProjectItem

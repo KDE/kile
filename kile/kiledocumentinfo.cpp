@@ -60,7 +60,7 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("Invalid characters"),
-			i18n("The filename contains invalid characters.<br>Please provide \
+			i18n("The filename contains invalid characters ($~ #).<br>Please provide \
 				another one, or click on \"Cancel\" to save anyway."),
 			url.filename(),
 			&isOK);
@@ -599,7 +599,7 @@ void BibInfo::updateStruct()
 	static QRegExp::QRegExp reSpecial("string|preamble|comment");
 
 	QString s, key;
-	int col = 0, startcol, startline;
+	int col = 0, startcol, startline = 0;
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
 	{

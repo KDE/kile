@@ -187,6 +187,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KTipDialog::showTip(this, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
+	updateModeStatus();
 }
 
 Kile::~Kile()
@@ -684,24 +685,34 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 void Kile::updateModeStatus()
 {
 	KileProject *project = docManager()->activeProject();
-
+	QString shortName = m_masterName;
+	int pos = shortName.findRev('/');
+	shortName.remove(0,pos+1);
+	
 	if (project)
 	{
-		statusBar()->changeItem(i18n("Project: %1").arg(project->name()), ID_HINTTEXT);
+		if (m_singlemode)
+			statusBar()->changeItem(i18n("Project: %1").arg(project->name()), ID_HINTTEXT);
+		else
+			statusBar()->changeItem(i18n("Project: %1 (Master document: %2)").arg(project->name()).arg(shortName), ID_HINTTEXT);
 	}
 	else
 	{
 		if (m_singlemode)
-		{
 			statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
-		}
 		else
-		{
-			QString shortName = m_masterName;
-			int pos = shortName.findRev('/');
-			shortName.remove(0,pos+1);
 			statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
-		}
+	}
+	
+	if (m_singlemode)
+	{
+		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
+		ModeAction->setChecked(false);
+	}
+	else
+	{
+		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
+		ModeAction->setChecked(true);
 	}
 }
 

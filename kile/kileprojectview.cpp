@@ -57,13 +57,10 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 	}
 	else
 	{
-		if (type() == KileType::ProjectItem)
-		{
-			if ( text(0).right(7) == ".kilepr" )
-				setPixmap(0,SmallIcon("kile"));
-			else
-				setPixmap(0,SmallIcon("projectitem"));
-		}
+		if ( text(0).right(7) == ".kilepr" )
+			setPixmap(0,SmallIcon("kile"));
+		else if (type() == KileType::ProjectItem)
+			setPixmap(0,SmallIcon("projectitem"));
 		else
 			setPixmap(0,SmallIcon("file"));
 	}

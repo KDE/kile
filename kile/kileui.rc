@@ -330,6 +330,7 @@
 	<Action name="settings_keys"/>
 	<Action name="settings_toolbars"/>
 	<Action name="settings_configure" />
+	<Action name="settings_configure_kate" />
 	<DefineGroup name="configure_merge" append="configure_merge" />
 	<Separator/>
 	<Action name="settings_perform_check" />

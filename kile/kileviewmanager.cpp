@@ -142,6 +142,14 @@ Kate::View* Manager::createView(Kate::Document *doc)
 
 	emit(prepareForPart("Editor"));
 
+	// remove 'configure editor' dialog of Kate
+	// this will be called directly from Kile
+	KAction *action = view->actionCollection()->action("set_confdlg"); 
+	if ( action ) {
+		kdDebug() << "   unplug action 'set_confdlg'..." << endl;
+		action->unplugAll();
+	}
+
 	return view;
 }
 

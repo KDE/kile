@@ -196,6 +196,18 @@
 			<label></label>
 			<default>true</default>
 		</entry>
+		<entry name="CompleteAutoText" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="CompleteAutoThreshold" type="Int">
+			<label></label>
+			<default>3</default>
+		</entry>
+		<entry name="CompleteAutoTextThreshold" type="Int">
+			<label></label>
+			<default>3</default>
+		</entry>
 		<entry name="CompleteChangedLists" type="Bool">
 			<label></label>
 			<default>true</default>

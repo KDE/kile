@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 24 2004
-    version              : 0.10.3
+    date                 : Jan 26 2005
+    version              : 0.11
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -54,7 +54,8 @@ public:
 		cmEnvironment,
 		cmDictionary,
 		cmAbbreviation,
-		cmLabel
+		cmLabel,
+		cmDocumentWord
 	};
 
 	enum Type
@@ -99,6 +100,7 @@ private:
 	bool oddBackslashes(const QString& text, int index);
 
 	void appendNewCommands(QValueList<KTextEditor::CompletionEntry> & list);
+	void getDocumentWords(const QString &text,QValueList<KTextEditor::CompletionEntry> &list);
 
 private:
 	// wordlists
@@ -116,6 +118,9 @@ private:
 	bool m_setbullets;
 	bool m_closeenv;
 	bool m_autocomplete;
+	bool m_autocompletetext;
+	int  m_latexthreshold;
+	int  m_textthreshold;
 
 	// state of complete: some flags
 	bool m_firstconfig;

@@ -192,6 +192,7 @@ private slots:
 	void readConfig();
 
 	void generalOptions();
+	void generalOptionsKate();
 	void configureKeys();
 	void configureToolbars();
 	void slotPerformCheck();

@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 11 2004
-    version              : 0.10
+    date                 : Jan 26 2005
+    version              : 0.11
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -19,10 +19,13 @@
 
 #include <qwidget.h>
 #include <qtabwidget.h>
+#include <qcheckbox.h>
+#include <qspinbox.h>
+#include <qstring.h>
+
 #include <klistview.h>
 #include <kpushbutton.h>
-#include <qcheckbox.h>
-#include <qstring.h>
+#include <kconfig.h>
 
 /**
   *@author Holger Danielsson
@@ -32,23 +35,28 @@ class ConfigCodeCompletion : public QWidget
 {
     Q_OBJECT
 public: 
-   ConfigCodeCompletion(QWidget *parent=0, const char *name=0);
+   ConfigCodeCompletion(KConfig *config, QWidget *parent=0, const char *name=0);
    ~ConfigCodeCompletion();
 
    void readConfig(void);
    void writeConfig(void);
 
 private:
+    KConfig *m_config;
+    bool m_kateplugin;
+    
     // tabs, views and pages
     QTabWidget *tab;
     KListView *list1,*list2,*list3;         
     QWidget *page1,*page2,*page3;           
     KPushButton *add,*remove;                
 
-    // Checkboxes
-    QCheckBox *cb_usecomplete, *cb_autocomplete;
+    // Checkboxes/Spinboxes
+    QCheckBox *cb_usecomplete, *cb_autocomplete, *cb_autocompletetext;
     QCheckBox *cb_setcursor, *cb_setbullets;
     QCheckBox *cb_closeenv;
+    QSpinBox *sp_latexthreshold, *sp_textthreshold;
+    QLabel *lb_latexthreshold, *lb_textthreshold;
 
     // wordlists
     QStringList m_texlist;

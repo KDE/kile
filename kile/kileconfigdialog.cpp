@@ -132,7 +132,7 @@ namespace KileDialog
 	void Config::setupCodeCompletion()
 	{
 		QFrame *page = new QFrame(this, "codecompframe");
-		completePage = new ConfigCodeCompletion(page);
+		completePage = new ConfigCodeCompletion(m_config,page);
 		completePage->readConfig();
 
 		QVBoxLayout *vbox = new QVBoxLayout(page);

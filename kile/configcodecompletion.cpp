@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 17 2004
-    version              : 0.10.2
+    date                 : Jan 26 2005
+    version              : 0.11
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -25,14 +25,19 @@
 #include <qtabwidget.h>
 #include <qgroupbox.h>
 #include <qvgroupbox.h>
+#include <qbuttongroup.h>
+#include <qlabel.h>
+#include <qspinbox.h>
 #include <qframe.h>
+#include <qwhatsthis.h>
 #include <qstringlist.h>
 
 #include "configcodecompletion.h"
 #include "kileconfig.h"
 
-ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
-   : QWidget(parent,name)
+ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, const char *name )
+   : QWidget(parent,name),
+     m_config(config)
 {
    // Layout
     QVBoxLayout *vbox = new QVBoxLayout(this, 5,KDialog::spacingHint() );
@@ -81,19 +86,58 @@ ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
    grid_tab->addWidget(add,2,0,Qt::AlignRight);
    grid_tab->addWidget(remove,2,1,Qt::AlignLeft);
 
-   // below: OptionBox
-   QGroupBox *gb_opt= new QGroupBox(2,Qt::Horizontal,i18n("Options"), this );
+	// below: OptionBox
+	QButtonGroup *bg_options = new QButtonGroup( this, "bgOptions" );
+	bg_options->setColumnLayout(0, Qt::Vertical );
+	bg_options->layout()->setSpacing( 6 );
+	bg_options->layout()->setMargin( 11 );
+	QGridLayout *bg_optionsLayout = new QGridLayout( bg_options->layout() );
+	bg_optionsLayout->setAlignment( Qt::AlignTop );
 
-   cb_setcursor = new QCheckBox(i18n("Place cursor"),gb_opt);
-   cb_usecomplete = new QCheckBox(i18n("Use complete"),gb_opt);
-   cb_setbullets = new QCheckBox(i18n("Insert bullets"),gb_opt);
-   cb_autocomplete = new QCheckBox(i18n("Auto completion"),gb_opt);
-   cb_closeenv = new QCheckBox(i18n("Close environments"),gb_opt);
+	cb_setcursor = new QCheckBox(i18n("Place cursor"),bg_options);
+	cb_setbullets = new QCheckBox(i18n("Insert bullets"),bg_options);
+	cb_closeenv = new QCheckBox(i18n("Close environments"),bg_options);
+	cb_usecomplete = new QCheckBox(i18n("Use complete"),bg_options);
+	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"),bg_options);
+	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"),bg_options);
+	lb_latexthreshold = new QLabel("Threshold:",bg_options);
+	lb_textthreshold = new QLabel("Threshold:",bg_options);
+	sp_latexthreshold = new QSpinBox(1,9,1,bg_options);
+	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
+	
+	sp_latexthreshold->setMaximumWidth( cb_autocomplete->sizeHint().width()/2 );
+	sp_textthreshold->setMaximumWidth( cb_autocomplete->sizeHint().width()/2 );
 
-   // add OptionBox and TabDialog into the layout
-   vbox->addWidget(gb_tab);
-   vbox->addWidget(gb_opt);
-   vbox->addStretch();
+	bg_optionsLayout->addWidget(cb_setcursor,0,0);
+	bg_optionsLayout->addWidget(cb_setbullets,1,0);
+	bg_optionsLayout->addWidget(cb_closeenv,2,0);
+	bg_optionsLayout->addWidget(cb_usecomplete,0,2);
+	bg_optionsLayout->addWidget(cb_autocomplete,1,2);
+	bg_optionsLayout->addWidget(cb_autocompletetext,2,2);
+	bg_optionsLayout->addWidget(lb_latexthreshold,1,4);
+	bg_optionsLayout->addWidget(lb_textthreshold,2,4);
+	bg_optionsLayout->addWidget(sp_latexthreshold,1,6);
+	bg_optionsLayout->addWidget(sp_textthreshold,2,6);
+	
+	// tune layout
+	bg_optionsLayout->setColSpacing(1,30);
+	bg_optionsLayout->setColSpacing(3,16);
+	bg_optionsLayout->setColSpacing(5,10);
+	bg_optionsLayout->setColStretch(7,1);
+	
+	QWhatsThis::add(cb_setcursor,i18n("Try to place the cursor."));
+	QWhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));
+	QWhatsThis::add(cb_closeenv,i18n("Also close an environment, when an opening command is inserted."));
+	QWhatsThis::add(cb_usecomplete,i18n("Enable components of word completion."));
+	QWhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
+	QWhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
+	QWhatsThis::add(sp_latexthreshold,i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
+	QWhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
+	
+	// add OptionBox and TabDialog into the layout
+	vbox->addWidget(gb_tab);
+	vbox->addWidget(bg_options);
+	vbox->addStretch();
 
    connect(tab,SIGNAL(currentChanged(QWidget*)),this,SLOT(showPage(QWidget*)));
    connect(add,SIGNAL(clicked()),this,SLOT(addClicked()));
@@ -127,7 +171,25 @@ void ConfigCodeCompletion::readConfig(void)
    cb_setcursor->setChecked( KileConfig::completeCursor() );
    cb_setbullets->setChecked( KileConfig::completeBullets() );
    cb_closeenv->setChecked( KileConfig::completeCloseEnv() );
-   cb_autocomplete->setChecked( KileConfig::completeAuto() );
+	
+   // set threshold for autocompletion modes
+   sp_latexthreshold->setValue( KileConfig::completeAutoThreshold() );
+   sp_textthreshold->setValue( KileConfig::completeAutoTextThreshold() );
+
+   // if autocompletion from Kate plugins is active, disable autocompletion of kile
+   m_config->setGroup("Kate Document Defaults");
+   m_kateplugin = m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
+   if ( m_kateplugin ) {
+      cb_autocomplete->setEnabled(false);
+      lb_latexthreshold->setEnabled(false);
+      sp_latexthreshold->setEnabled(false);
+      cb_autocompletetext->setEnabled(false);
+      lb_textthreshold->setEnabled(false);
+      sp_textthreshold->setEnabled(false);
+   } else {
+      cb_autocomplete->setChecked( KileConfig::completeAuto() );
+      cb_autocompletetext->setChecked( KileConfig::completeAutoText() );
+   }
 
    // insert filenames into listview
    setListviewEntries(list1,m_texlist);
@@ -156,9 +218,16 @@ void ConfigCodeCompletion::writeConfig(void)
    KileConfig::setCompleteCursor(cb_setcursor->isChecked());
    KileConfig::setCompleteBullets(cb_setbullets->isChecked());
    KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
-   KileConfig::setCompleteAuto(cb_autocomplete->isChecked());
+   if ( ! m_kateplugin ) {
+      KileConfig::setCompleteAuto(cb_autocomplete->isChecked());
+      KileConfig::setCompleteAutoText(cb_autocompletetext->isChecked());
+   }
 
-   // sind die Wortlisten ge�dert?
+   // save threshold for autocompletion modes
+   KileConfig::setCompleteAutoThreshold( sp_latexthreshold->value() );
+   KileConfig::setCompleteAutoTextThreshold( sp_textthreshold->value() );
+
+   // save changed wordlists?
    KileConfig::setCompleteChangedLists(changed);
 
 }

@@ -1,6 +1,6 @@
 /***************************************************************************
-date                 : Oct 05 2004
-version              : 0.10.5
+date                 : Jan 26 2005
+version              : 0.11
 copyright            : (C) 2004 by Holger Danielsson
 email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -17,6 +17,7 @@ email                : holger.danielsson@t-online.de
 #include <qregexp.h>
 #include <qfile.h>
 #include <qtimer.h>
+#include <qdict.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -63,7 +64,7 @@ namespace KileDocument
 
 	bool CodeCompletion::autoComplete()
 	{
-		return m_autocomplete;
+		return m_autocomplete || m_autocompletetext;
 	}
 
 	CodeCompletion::Type CodeCompletion::getType()
@@ -99,6 +100,9 @@ namespace KileDocument
 		m_setbullets = KileConfig::completeBullets();
 		m_closeenv = KileConfig::completeCloseEnv();
 		m_autocomplete = KileConfig::completeAuto();
+		m_autocompletetext = KileConfig::completeAutoText();
+		m_latexthreshold = KileConfig::completeAutoThreshold();
+		m_textthreshold = KileConfig::completeAutoTextThreshold();
 
 		// reading the wordlists is only necessary at the first start
 		// and when the list of files changes
@@ -203,6 +207,9 @@ namespace KileDocument
 				break;
 				case cmLabel:
 				list = m_labellist;
+				break;
+				case cmDocumentWord:
+				getDocumentWords(text,list);
 				break;
 		}
 
@@ -363,6 +370,9 @@ namespace KileDocument
 				break;
 				case cmLabel:
 				s = buildLabelText( text );
+				break;
+				case cmDocumentWord:
+				s = text;
 				break;
         default : s = text; break;
 		}
@@ -775,16 +785,24 @@ namespace KileDocument
 
 		QString word;
 		Type type;
-		if ( getCompleteWord(true, word, type ) && word.at( 0 ) == '\\' )
-		{
-			kdDebug() << "   auto completion: word=" << word << endl;
-			if ( string.at( 0 ).isLetter() )
+		if ( getCompleteWord(true, word, type ) ) { 
+			int wordlen = word.length();
+			if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
 			{
-				completeWord(word, cmLatex);
-			}
-			else if ( string.at( 0 ) == '{' )
+				kdDebug() << "   auto completion: texword=" << word << endl;
+				if ( string.at( 0 ).isLetter() )
+				{
+					completeWord(word, cmLatex);
+				}
+				else if ( string.at( 0 ) == '{' )
+				{
+					editCompleteList(type);
+				}
+			} 
+			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold) 
 			{
-				editCompleteList(type);
+				kdDebug() << "   auto completion: word=" << word << endl;
+				completeWord(word,cmDocumentWord);
 			}
 		}
 	}
@@ -836,6 +854,38 @@ namespace KileDocument
 		type = getType( text );
 
 		return !text.isEmpty();
+	}
+
+	void CodeCompletion::getDocumentWords(const QString &text,
+	                                      QValueList<KTextEditor::CompletionEntry> &list)
+	{
+		//kdDebug() << "getDocumentWords: " << endl;
+		list.clear();
+		
+		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");          
+		Kate::Document *doc = m_view->getDoc();
+		
+		QString s;
+		KTextEditor::CompletionEntry e;
+		QDict<bool> seen; 
+		bool alreadyseen = true;
+		               
+		for (uint i=0; i<doc->numLines(); i++) {
+			s = doc->textLine(i);
+			int pos = 0;
+			while ( pos >= 0 ) {
+				pos = reg.search(s,pos);
+				if ( pos >= 0 ) {
+					if ( reg.cap(1).at(0)!='\\' && text!=reg.cap(1) && !seen.find(reg.cap(1)) ) {
+						e.text = reg.cap(1);                        // normal entry
+						e.type = "";
+						list.append( e );
+						seen.insert(reg.cap(1),&alreadyseen);
+					}
+					pos += reg.matchedLength();
+				}
+			}
+		}
 	}
 
 	//////////////////// counting backslashes (dani) ////////////////////

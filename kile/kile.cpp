@@ -33,6 +33,7 @@
 #include <kmultitabbar.h>
 #include <ktabwidget.h>
 #include <ktip.h>
+#include <ktexteditor/configinterface.h>
 
 #include "kileapplication.h"
 #include "kiledocumentinfo.h"
@@ -469,6 +470,8 @@ void Kile::setupActions()
 	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
 	(void) KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
+	(void) new KAction(i18n("Configure &Editor"),0,this, SLOT(generalOptionsKate()), actionCollection(),"settings_configure_kate" );
+	
 	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
 	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
 	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
@@ -1341,6 +1344,13 @@ void Kile::readUserSettings()
 			}
 		}
 	}
+	
+	// check autocomplete modes
+	m_config->setGroup("Kate Document Defaults");
+	if ( m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false) ) {
+		KileConfig::setCompleteAuto(false);
+		KileConfig::setCompleteAutoText(false);
+	}
 }
 
 void Kile::readRecentFileSettings()
@@ -1508,6 +1518,65 @@ void Kile::generalOptions()
 	}
 
 	delete dlg;
+}
+
+void Kile::generalOptionsKate()
+{
+	Kate::View *view = viewManager()->currentView();
+	if ( !view ) return;
+	
+	// read configuration values for autocomplete modes
+	bool autocomplete = KileConfig::completeAuto();
+	bool autocompletetext = KileConfig::completeAutoText();
+	
+	// read plugin configuration before dialog
+	QString kateplugin_group = "Kate Document Defaults";
+	QString kateplugin_entry = "KTextEditor Plugin ktexteditor_docwordcompletion";
+	m_config->setGroup(kateplugin_group);
+	bool plugin_before = m_config->readBoolEntry(kateplugin_entry,false);
+	
+	// now execute configuration dialog 
+	KTextEditor::ConfigInterface *iface;
+	iface = dynamic_cast<KTextEditor::ConfigInterface *>(view->getDoc());
+	iface->configDialog();
+
+	// remove menu entry to config Kate, because there is
+	// already one call to this configuration dialog from Kile
+	KAction *action = view->actionCollection()->action("set_confdlg"); // name from katepartui.rc
+	if ( action ) {
+		kdDebug() << "   unplug action 'set_confdlg'..." << endl;
+		action->unplugAll();
+	}
+
+	// read plugin configuration after dialog to see if plugin state has changed
+	m_config->setGroup(kateplugin_group);
+	bool plugin_after = m_config->readBoolEntry(kateplugin_entry,false);
+
+	if ( !plugin_before && plugin_after ) {                      // false --> true
+		QString msg = ( autocomplete || autocompletetext )
+		            ? "You enabled the KTextEditor-Plugin for word completion, "
+		              "but this conflicts with the active auto completion modes of Kile. "
+		              "As one of these completion modes must be disabled, you decided to use the "
+		              "KTextEditor-Plugin and to disable the autocompletion modes of Kile. "
+		              "Are you really sure to do this?"
+		            : "You enabled the KTextEditor-Plugin for word completion, "
+		              "but this conflicts with the auto completion modes of Kile. "
+		              "As only one of these completion modes can be used, you decided to use the "
+		              "KTextEditor-Plugin and not the autocompletion modes of Kile. "
+		              "Are you really sure to do this?";
+		            
+		if ( KMessageBox::questionYesNo( this,
+			                              "<center>" + msg + "</center>",
+			                              "Autocomplete warning" ) == KMessageBox::No ) {
+			kdDebug() << "   disable KTextEditor plugin again" << endl;
+			m_config->setGroup(kateplugin_group);
+			m_config->writeEntry(kateplugin_entry,false);         // disable plugin again
+			m_config->sync();
+		} else {                                  
+			KileConfig::setCompleteAuto(false);                   // disable autocompletion of Kile
+			KileConfig::setCompleteAutoText(false);
+		}
+	}
 }
 
 void Kile::slotPerformCheck()

@@ -100,7 +100,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
   // two new shortcuts (dani)
   (void) new KileAction::InputTag(ki,"\\include{file}","include",KShortcut("Alt+I,F"), parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_include",parent, KileAction::KeepHistory | KileAction::ShowBrowseButton, "\\include{%R","}",9,0, i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),i18n("Type or select a filename: "));
 	(void) new KileAction::InputTag(ki,"\\input{file}","include",KShortcut("Alt+I,P"), parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_input", parent, KileAction::KeepHistory | KileAction::ShowBrowseButton, "\\input{%R","}",7,0,i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),i18n("Type or select a filename: "));
-  (void) new KileAction::Tag("\\bibliographystyle{}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels."));
+    (void) new KileAction::Tag("\\bibliographystyle{}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels."));
 	(void) new KileAction::Tag("\\bibliography{}",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file"));
 
 	KileAction::Select *actionstructure_list = new KileAction::Select(i18n("Sectioning"), 0, parent->actionCollection(), "structure_list");
@@ -116,16 +116,16 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 
 	KileAction::Select *actionsize_list = new KileAction::Select(i18n("Size"), 0, parent->actionCollection(), "size_list");
 	alist.clear();
-	alist.append(new KileAction::Tag("tiny",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{tiny}","\\end{tiny}",12,0));
-	alist.append(new KileAction::Tag("scriptsize",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{scriptsize}","\\end{scriptsize}",18,0));
-	alist.append(new KileAction::Tag("footnotesize",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{footnotesize}","\\end{footnotesize}",20,0));
-	alist.append(new KileAction::Tag("small",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{small}","\\end{small}",13,0));
-	alist.append(new KileAction::Tag("normalsize",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{normalsize}","\\end{normalsize}",18,0));
-	alist.append(new KileAction::Tag("large",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{large}","\\end{large}",13,0));
-	alist.append(new KileAction::Tag("Large",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{Large}","\\end{Large}",13,0));
-	alist.append(new KileAction::Tag("LARGE",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{LARGE}","\\end{LARGE}",13,0));
-	alist.append(new KileAction::Tag("huge",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{huge}","\\end{huge}",  12,0));
-	alist.append(new KileAction::Tag("Huge",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{Huge}","\\end{Huge}",  12,0));
+	alist.append(new KileAction::Tag(i18n("tiny"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{tiny}","\\end{tiny}",12,0));
+	alist.append(new KileAction::Tag(i18n("scriptsize"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{scriptsize}","\\end{scriptsize}",18,0));
+	alist.append(new KileAction::Tag(i18n("footnotesize"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{footnotesize}","\\end{footnotesize}",20,0));
+	alist.append(new KileAction::Tag(i18n("small"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{small}","\\end{small}",13,0));
+	alist.append(new KileAction::Tag(i18n("normalsize"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{normalsize}","\\end{normalsize}",18,0));
+	alist.append(new KileAction::Tag(i18n("large"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{large}","\\end{large}",13,0));
+	alist.append(new KileAction::Tag(i18n("Large"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{Large}","\\end{Large}",13,0));
+	alist.append(new KileAction::Tag(i18n("LARGE"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\begin{LARGE}","\\end{LARGE}",13,0));
+	alist.append(new KileAction::Tag(i18n("huge"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{huge}","\\end{huge}",  12,0));
+	alist.append(new KileAction::Tag(i18n("Huge"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{Huge}","\\end{Huge}",  12,0));
 	actionsize_list->setItems(alist);
 
 	KileAction::Select *actionother_list = new KileAction::Select(i18n("Other"), 0, parent->actionCollection(), "other_list");

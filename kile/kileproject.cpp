@@ -219,6 +219,7 @@ bool KileProject::load()
 			QString path = groups[i].mid(5);
 			if (path[0] == '/' )
 			{
+				kdDebug() << "ABSOLUTE PATHS" << endl;
 				url = KURL::fromPathOrURL(path);
 			}
 			else

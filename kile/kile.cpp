@@ -2972,17 +2972,21 @@ void Kile::MetaPost()
   }
   view->save();
 
-  getCompileName();
+  finame = getName();
 
   QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName(TRUE)+".mp";
-  QString mpname=fi.baseName(TRUE)+".mp";
-  QFileInfo fic(name);
-  if (fic.exists() && fic.isReadable() )
+  //QString name=fi.dirPath(true)+"/"+fi.baseName(TRUE)+".mp";
+  //QString mpname=fi.baseName(TRUE)+".mp";
+  //QFileInfo fic(name);
+
+  kdDebug() << "==MetaPost============" << endl;
+  kdDebug() << "\tfiname: " << finame << endl;
+
+  if (fi.exists() && fi.isReadable() )
   {
     QStringList command;
-    command << "mpost" << "--interaction" << "nonstopmode" <<"%S.mp";
-    CommandProcess *proc=execCommand(command,fic,true);
+    command << "mpost" << "--interaction" << "nonstopmode" << fi.fileName();
+    CommandProcess *proc=execCommand(command,fi,true);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
     if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )  { KMessageBox::error( this,i18n("Could not start the command."));}

@@ -108,6 +108,7 @@
 #include "convert.h"
 #include "includegraphicsdialog.h"                  // new dialog (dani)
 #include "cleandialog.h"                            // clean dialog (dani)
+#include "kiletoolcapability.h"
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -788,7 +789,8 @@ Kate::View * Kile::createView(Kate::Document *doc)
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
 
-	kdDebug() << "6 doc " << doc << endl;
+	if ( m_currentState != "Editor" ) prepareForPart("Editor");
+
 	return view;
 }
 

@@ -39,6 +39,15 @@ to=dvi
 type=Process
 checkForRoot=yes
 
+[Tool/LaTeX/Modern]
+class=LaTeX
+command=latex
+options=-src -interaction=nonstopmode '%source'
+from=
+to=dvi
+type=Process
+checkForRoot=yes
+
 [Tool/LaTeXtoHTML/latex2html]
 class=Compile
 command=latex2html
@@ -88,6 +97,15 @@ to=pdf
 type=Process
 checkForRoot=yes
 
+[Tool/PDFLaTeX/Modern]
+class=LaTeX
+command=pdflatex
+options=-src -interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+
 [Tool/PStoPDF/Default]
 class=Convert
 command=ps2pdf
@@ -127,6 +145,30 @@ command=tex
 options=-interaction=nonstopmode '%source'
 from=
 to=dvi
+type=Process
+
+[Tool/TeX/Modern]
+class=Compile
+command=tex
+options=-src -interaction=nonstopmode '%source'
+from=
+to=dvi
+type=Process
+
+[Tool/PDFTeX/Default]
+class=Compile
+command=pdftex
+options=-interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+
+[Tool/PDFTeX/Modern]
+class=Compile
+command=pdftex
+options=-src -interaction=nonstopmode '%source'
+from=
+to=pdf
 type=Process
 
 [Tool/ViewBib/Default]
@@ -256,6 +298,7 @@ PDFLaTeX=Default
 PStoPDF=Default
 QuickBuild=LaTeX+ViewDVI
 TeX=Default
+PDFTeX=Default
 ViewBib=Default
 ViewHTML=Embedded Viewer
 ViewDVI=Embedded Viewer
@@ -277,6 +320,7 @@ PDFLaTeX=Compile,pdflatex
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 TeX=Compile,latex
+PDFTeX=Compile,latex
 ViewBib=View,bibtex
 ViewHTML=View,viewhtml
 ViewDVI=View,viewdvi

@@ -140,6 +140,11 @@ namespace KileTool
 	QString categoryFor(const QString &clss);
 
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config);
+
+	void setCapability(const QString &name, bool value);
+	bool getCapability(const QString &name);
+
+	void useSrcSpecialsIfAvailable();
 }
 
 #endif

@@ -36,6 +36,7 @@
 #include "kilestdtools.h"
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
+#include "kiletoolcapability.h"
  
 namespace KileTool
 {
@@ -409,6 +410,25 @@ namespace KileTool
 		if ( clss == "View" || clss == "ViewBib" || clss == "ViewHTML" || clss == "ForwardDVI" ) return "View";
 		if ( clss == "Sequence" ) return "Sequence";
 		return "Base";
+	}
+
+	void setCapability(const QString &name, bool value)
+	{
+		KGlobal::config()->setGroup("Capabilities");
+		KGlobal::config()->writeEntry(name, value);
+	}
+
+	bool getCapability(const QString &name)
+	{
+		KGlobal::config()->setGroup("Capabilities");
+		return KGlobal::config()->readBoolEntry(name, false);
+	}
+
+	void useSrcSpecialsIfAvailable()
+	{
+		KileTool::SrcSpecialCapability *capability = new KileTool::SrcSpecialCapability();
+		KileTool::CapabilityTester *tester = new KileTool::CapabilityTester(capability);
+		tester->startTest();
 	}
 }
 

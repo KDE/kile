@@ -91,6 +91,9 @@ namespace KileTool
 				m_config->writeEntry(it2.key(), it2.data());
 			}
 		}
+
+		//test for src special capability of (pdf)(la)tex
+		useSrcSpecialsIfAvailable();
 	}
 
 	bool LaTeX::finish(int r)

@@ -105,7 +105,6 @@
 			
 			out += QString("*****     ")+ m_cmd+ " " + m_options +QString("\n");
 
-
 			QString src = tool()->source(false);
 			QString trgt = tool()->target();
 			if (src == trgt)

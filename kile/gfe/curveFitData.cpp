@@ -257,7 +257,7 @@ curveFitData::curveFitData
 	paramCSLRB = new QRadioButton( paramButtonGroup, "paramCSLRadioButton" );
 	paramCSLRB->setMinimumSize( 160, 20 );
 	paramCSLRB->setMaximumSize( 32767, 20 );
-	paramCSLRB->setText( i18n("Co&mma seperated list:") );
+	paramCSLRB->setText( i18n("Co&mma separated list:") );
 	paramCSLRB->setAutoRepeat( FALSE );
 	//paramCSLRB->setAutoResize( FALSE );
 

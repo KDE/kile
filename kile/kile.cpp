@@ -3218,7 +3218,7 @@ void Kile::execUserTool(int i)
 			if (KMessageBox::warningContinueCancel(this,i18n("Please open or create a document before you execute this tool."))
 				== KMessageBox::Cancel)
 			{
-				LogWidget->insertLine(i18n("Process cancelled by user."));
+				LogWidget->insertLine(i18n("Process canceled by user."));
 				return;
 			}
 

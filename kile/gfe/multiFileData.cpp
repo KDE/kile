@@ -606,7 +606,7 @@ multiFileData::multiFileData
   doubleQuoteRB = new QRadioButton(QuoteButtonGroup,"doubleQuoteRadioButton" );
   doubleQuoteRB->setMinimumSize( 110, 20 );
   doubleQuoteRB->setMaximumSize( 32767, 20 );
-  doubleQuoteRB->setText( i18n("Double duotes") );
+  doubleQuoteRB->setText( i18n("Double quotes") );
   doubleQuoteRB->setAutoRepeat( FALSE );
   //doubleQuoteRB->setAutoResize( FALSE );
   doubleQuoteRB->setChecked( TRUE );

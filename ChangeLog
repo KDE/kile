@@ -76,7 +76,7 @@ version 1.1 -> 1.2 :
 - added shortcuts for the "item" tag and icons for the "enumerate" and "itemize" environments
 - added info about the size of the .eps file while using \includegraphics{}
 - the Konsole is now synchronized with the current document
-- added ability to remove the optionnal fields of a .bib file. ("Clean" command)
+- added ability to remove the optional fields of a .bib file. ("Clean" command)
 - added "watch file" mode for the "quick build" command (the viewers are not launched)
 version 1.0 -> 1.1 :
 - added toolbars configuration

@@ -129,7 +129,7 @@ namespace KileTool
 
 	bool Manager::queryContinue(const QString & question, const QString & caption /*= QString::null*/)
 	{
-		return (KMessageBox::warningContinueCancel(m_stack, question, caption) == KMessageBox::Continue);
+		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStdGuiItem::cont(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
 	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)

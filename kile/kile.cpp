@@ -77,7 +77,7 @@
 #include "kilestdactions.h"
 #include "usermenudialog.h"
 
-Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose), m_activeView(NULL)
+Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose)
 {
 config = KGlobal::config();
 m_AutosaveTimer= new QTimer();
@@ -217,6 +217,7 @@ pspart=0L;
 dvipart=0L;
 m_bNewErrorlist=true;
 m_bCheckForLaTeXErrors=false;
+m_bBlockWindowActivateEvents=false;
 
 showmaintoolbar=!showmaintoolbar;ToggleShowMainToolbar();
 showtoolstoolbar=!showtoolstoolbar;ToggleShowToolsToolbar();
@@ -470,7 +471,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding)
 	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
 	//activate the newly created view
-	activateView(view);
+	activateView(view,false);
 	KParts::GUIActivateEvent ev( true );
 	QApplication::sendEvent( view, &ev );
 
@@ -595,20 +596,48 @@ void Kile::fileNew()
     }
 }
 
-void Kile::activateView(QWidget* w)  //Needs to be QWidget because of QTabWidget::currentChanged
+bool Kile::eventFilter(QObject* o, QEvent* e)
+{
+	if ( (!m_bBlockWindowActivateEvents) && e->type() == QEvent::WindowActivate && o == this )
+	{
+		//block windowactivate events since the popup window (isModOnHD) takes focus
+		//away from the mainwindow
+		m_bBlockWindowActivateEvents = true;
+
+		for (uint i=0; i < m_viewList.count(); i++)
+		{
+			m_viewList.at(i)->getDoc()->isModOnHD();
+		}
+
+		m_bBlockWindowActivateEvents = false;
+	}
+
+	return QWidget::eventFilter(o,e);
+}
+
+void Kile::activateView(QWidget* w, bool checkModified /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	Kate::View* view = (Kate::View*)w;
+	Kate::View* current_view = currentView();
+
+	kdDebug() << "activateView : current : " << current_view->getDoc()->url().path() << endl;
+	kdDebug() << "activateView : activate: " << view->getDoc()->url().path() << endl;
 	if (!view) return;
-	if (view != m_activeView ) //Pointer comp. OK?!?
+
+	kdDebug() << "activateView : changing" << endl;
+	if (current_view)
 	{
-		if (m_activeView)
-		{
-			guiFactory()->removeClient( m_activeView );
-		}
-		m_activeView=view;
-		guiFactory()->addClient( view );
-		UpdateStructure();
+		kdDebug() << "activateView : removing" << endl;
+		guiFactory()->removeClient(current_view );
 	}
+
+	kdDebug() << "activateView : adding" << endl;
+	guiFactory()->addClient( view );
+
+	if( checkModified )
+		view->getDoc()->isModOnHD();
+
+	UpdateStructure();
 }
 
 void Kile::replaceTemplateVariables(QString &line)
@@ -737,7 +766,6 @@ void Kile::fileClose()
 		{
 			guiFactory()->removeClient( view );
 			m_viewList.remove(view);
-			m_activeView=0;
 			delete view;
 		}
 	}
@@ -745,7 +773,6 @@ void Kile::fileClose()
 
 bool Kile::fileCloseAll()
 {
-	m_activeView=0;
 	Kate::View * view = currentView();
 
 	if (view)

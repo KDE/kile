@@ -120,21 +120,21 @@ private:
 	//toggle between old (non-KDE compliant) shortcuts or KDE-compliant shortcuts
 	void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
 	void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
-	bool			m_menuaccels; //TRUE : we're using KDE compliant shortcuts
+	bool					m_menuaccels; //TRUE : we're using KDE compliant shortcuts
 
-	KActionMenu 		*m_menuUserTags, *m_menuUserTools;
-	QSignalMapper 		*m_mapUserTagSignals, *m_mapUserToolsSignals;
+	KActionMenu 			*m_menuUserTags, *m_menuUserTools;
+	QSignalMapper 			*m_mapUserTagSignals, *m_mapUserToolsSignals;
 	QValueList<userItem> 	m_listUserTags, m_listUserTools;
-	QPtrList<KAction> 	m_listUserTagsActions, m_listUserToolsActions;
-	KAction			*m_actionEditTag, *m_actionEditTool;
+	QPtrList<KAction> 		m_listUserTagsActions, m_listUserToolsActions;
+	KAction					*m_actionEditTag, *m_actionEditTool;
 
-	KPopupMenu		*help;
-	KHelpMenu		*help_menu;
-	KAction 		*BackAction, *ForwardAction, *HomeAction, *StopAction;
+	KPopupMenu			*help;
+	KHelpMenu			*help_menu;
+	KAction 			*BackAction, *ForwardAction, *HomeAction, *StopAction;
 	KToggleAction 		*ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
-				*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
-	KAction 		*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
-	KAction 		*altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
+						*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
+	KAction 			*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
+	KAction 			*altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
 	KRecentFilesAction	*fileOpenRecentAction;
 
 
@@ -142,34 +142,34 @@ private:
 /* GUI */
 private:
 	//widgets
-	KStatusBar 		*StatusBar;
-	KileFileSelect 		*KileFS;
-	KMultiVertTabBar 	*ButtonBar;
-	SymbolView 		*symbol_view;
-	metapostview 		*mpview;
-    	MessageWidget 		*OutputWidget, *LogWidget;
-    	TexKonsoleWidget	*texkonsole;
-	QTabWidget 		*tabWidget, *Outputview;
-	QFrame 			*Structview;
-	QHBoxLayout 		*Structview_layout;
-	QWidgetStack 		*topWidgetStack;
-	QSplitter 		*splitter1, *splitter2 ;
-	QListView		*outstruct;
-	QListViewItem 		*parent_level[5],*lastChild, *Child;
+	KStatusBar 				*StatusBar;
+	KileFileSelect 			*KileFS;
+	KMultiVertTabBar 		*ButtonBar;
+	SymbolView 				*symbol_view;
+	metapostview 			*mpview;
+    MessageWidget 			*OutputWidget, *LogWidget;
+    TexKonsoleWidget		*texkonsole;
+	QTabWidget 				*tabWidget, *Outputview;
+	QFrame 					*Structview;
+	QHBoxLayout 			*Structview_layout;
+	QWidgetStack 			*topWidgetStack;
+	QSplitter 				*splitter1, *splitter2 ;
+	QListView				*outstruct;
+	QListViewItem 			*parent_level[5],*lastChild, *Child;
 
 	//dialogs
-	structdialog 		*stDlg;
+	structdialog 			*stDlg;
 	quickdocumentdialog 	*startDlg;
-	refdialog 		*refDlg;
-	letterdialog 		*ltDlg;
-	tabdialog 		*quickDlg;
-	arraydialog 		*arrayDlg;
-	tabbingdialog 		*tabDlg;
-	l2hdialog 		*l2hDlg;
-	FileChooser 		*sfDlg;
+	refdialog 				*refDlg;
+	letterdialog 			*ltDlg;
+	tabdialog 				*quickDlg;
+	arraydialog 			*arrayDlg;
+	tabbingdialog 			*tabDlg;
+	l2hdialog 				*l2hDlg;
+	FileChooser 			*sfDlg;
 
 	//parts
-	docpart 		*htmlpart;
+	docpart 				*htmlpart;
 	KParts::PartManager 	*partManager;
 	KParts::ReadOnlyPart 	*pspart, *dvipart;
 
@@ -214,18 +214,18 @@ private slots:
 
 /* config */
 private:
-	KConfig			*config;
+	KConfig				*config;
 	toolsoptionsdialog 	*toDlg;
-	int 			split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
+	int 				split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument,MasterName, input_encoding;
-    	QString 		templAuthor, templDocClassOpt, templEncoding;
-    	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-    	QStringList 		recentFilesList;
+   	QString 		templAuthor, templDocClassOpt, templEncoding;
+   	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
+   	QStringList 	recentFilesList;
 	bool 			ams_packages, makeidx_package;
 	bool 			htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
-	QStringList 		userClassList, userPaperList, userEncodingList, userOptionsList;
+	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
 private slots:
 	void ReadSettings();
@@ -248,19 +248,22 @@ private slots:
 
 private:
 	KSpell 			*kspell;
-    	int 			ks_corrected;
+    int 			ks_corrected;
 	int 			par_start, par_end, index_start, index_end;
-    	QString 		spell_text;
+    QString 		spell_text;
 
 
 /* views */
+protected:
+	bool eventFilter (QObject* o, QEvent* e);
+	bool m_bBlockWindowActivateEvents;
+
 private slots:
-	void activateView(QWidget* view);
+	void activateView(QWidget* view, bool checkModified = true);
 
 private:
 	Kate::View* currentView() const;
 	QPtrList<Kate::View> 		m_viewList;
-    	Kate::View			*m_activeView;
 
 /* document handling */
 public slots:

@@ -25,6 +25,7 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <kmessagebox.h>
+#include <kurlcompletion.h>
 #include <kfiledialog.h>
 
 #include "newfilewizard.h"
@@ -130,6 +131,13 @@ void KileNewProjectDlg::browseLocation()
 
 void KileNewProjectDlg::slotOk()
 {
+	//replace ~ and environment variables in the paths
+	KURLCompletion uc;
+	uc.setReplaceEnv(true);
+	uc.setReplaceHome(true);
+	m_location->setText(uc.replacedPath(location()));
+	m_file->setText(uc.replacedPath(file()));
+
 	if ( name().stripWhiteSpace() == "")
 		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No name")) == KMessageBox::Yes)
 			m_name->setText(i18n("Untitled"));

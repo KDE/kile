@@ -49,7 +49,7 @@ public:
 
 	KileDocumentInfo* getInfo() const {Kate::Document *doc = activeDocument(); if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
 	KileDocumentInfo* infoFor(const QString &path);
-	KileDocumentInfo* infoFor(Kate::Document* doc) const { if (m_mapDocInfo.contains(doc)) return m_mapDocInfo[doc]; else return 0;}
+	KileDocumentInfo* infoFor(Kate::Document* doc) const { if (m_mapDocInfo.contains(doc) > 0) return m_mapDocInfo[doc]; else return 0;}
 
 	bool	projectIsOpen(const KURL & );
 	KileProject* projectFor(const KURL &projecturl);
@@ -57,7 +57,7 @@ public:
 
 	KileProject*	activeProject();
 	KileProjectItem* activeProjectItem();
-	KileProjectItem* itemFor(KileDocumentInfo *docinfo) const { if (m_mapDocInfoToItem.contains(docinfo)) return m_mapDocInfoToItem[docinfo];  else return 0;}
+	KileProjectItem* itemFor(KileDocumentInfo *docinfo) const { if (m_mapDocInfoToItem.contains(docinfo) > 0) return m_mapDocInfoToItem[docinfo];  else return 0;}
 	/**
 	 * Finds the project item for the file with URL @param url.
 	 * @returns a pointer to the project item, 0 if this file does not belong to a project

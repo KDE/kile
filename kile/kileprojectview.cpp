@@ -22,6 +22,8 @@
 #include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kurl.h>
+#include <krun.h>
+#include <kmimetype.h>
 
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
@@ -29,7 +31,7 @@
 #include "kileprojectview.h"
 
 const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4,	KPV_ID_REMOVE = 5,
-	KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8, KPV_ID_INCLUDE = 9;
+	KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8, KPV_ID_INCLUDE = 9, KPV_ID_OPENWITH = 10;
 
 /*
  * KileProjectViewItem
@@ -123,6 +125,7 @@ void KileProjectView::slotProjectItem(int id)
 	if (item && (item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra))
 	{
 		KURL projecturl,url;
+		KRun *run;
 		KileProjectItem *itm;
 		switch (id)
 		{
@@ -141,6 +144,9 @@ void KileProjectView::slotProjectItem(int id)
 				emit(toggleArchive(item->url()));
 				break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
+			case KPV_ID_OPENWITH :
+				{run = new KRun(item->url());}
+				break;
 			default : break;
 		}
 	}
@@ -163,6 +169,23 @@ void KileProjectView::slotProject(int id)
 	}
 }
 
+void KileProjectView::slotRun(int id)
+{
+	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(currentItem());
+
+	kdDebug() << "===slotRun(" << id << ")=================" << endl;
+	if (id == 0)
+	{
+		KRun::runURL(itm->url(), "");
+	}
+	else
+	{
+		KURL::List list;
+		list << itm->url();
+		KRun::run(*m_offerList[id-1], list);
+	}
+}
+
 void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  point)
 {
 	if (item != 0)
@@ -172,6 +195,21 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 		KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
 		kdDebug() << "popup " << itm->url().path() << endl;
+
+		if (itm->type() == KileType::ProjectExtra)
+		{
+			KPopupMenu *apps = new KPopupMenu( m_popup);
+			m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
+			for (uint i=0; i < m_offerList.count(); i++)
+			{
+				kdDebug() << "'\tservice: " << m_offerList[i]->name() << endl;
+				apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
+			}
+			apps->insertSeparator();
+			apps->insertItem(i18n("Other..."), 0);
+			connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));
+			m_popup->insertItem(SmallIcon("fork"), i18n("&Open With"),apps);
+		}
 
 		if (itm->type() == KileType::File || itm->type() == KileType::ProjectItem)
 		{

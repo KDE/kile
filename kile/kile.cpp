@@ -86,8 +86,8 @@ Kile::Kile( QWidget *, const char *name ) :
 	KileInfo(),
 	m_activeView(0)
 {
-	//m_docList.setAutoDelete(true);
-	//m_infoList.setAutoDelete(true);
+	m_docList.setAutoDelete(false);
+	m_infoList.setAutoDelete(false);
 
 	partManager = new KParts::PartManager( this );
 	connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
@@ -507,7 +507,7 @@ void Kile::restore()
 }
 
 ////////////////////////////// FILE /////////////////////////////
-Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight)
+Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load)
 {
 	kdDebug() << "==Kile::load==========================" << endl;
 	if ( url.path() != i18n("Untitled") && isOpen(url))
@@ -537,7 +537,7 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	doc->setEncoding(enc);
 
 	//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
-	doc->openURL(url);
+	if (load) doc->openURL(url);
 	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
 
 	if ( !url.isEmpty() )
@@ -564,7 +564,10 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		docinfo = infoFor(item);
 		if (docinfo)
 			docinfo->setDoc(doc);
-  		//mapItem(docinfo, item);
+
+		//if (itemFor(docinfo) == 0)
+  			//mapItem(docinfo, item);
+
 		item->setOpenState(create);
 	}
 
@@ -1174,6 +1177,75 @@ void Kile::projectOpen(const KURL &url)
 	updateModeStatus();
 }
 
+void Kile::sanityCheck()
+{
+	kdDebug() << "===Kile::sanityCheck()=begin===============" << endl;
+	KileProject *project = 0;//= activeProject();
+
+	if (project==0)
+	{
+		if (m_projects.count() == 0)
+			kdError() << "\tNO PROJECTS" << endl;
+		for (uint i=0; i < m_projects.count(); i++)
+		{
+			project=m_projects.at(i);
+			if (project)
+				kdDebug() << "\tproject: " << project->name() << endl;
+			else
+				kdError() << "\tZERO" << endl;
+		}
+	}
+
+	KileDocumentInfo *docinfo;
+	Kate::Document *doc;
+	for (uint i=0; i< m_infoList.count(); i++)
+	{
+		docinfo=0;
+		doc=0;
+
+		docinfo = m_infoList.at(i);
+		doc = docinfo->getDoc();
+		kdDebug() << "\tdocinfo " << docinfo->url().fileName() << " has doc " << (doc != 0) << endl;
+		if (doc)
+		{
+			docinfo = infoFor(doc);
+			kdDebug() << "\tdoc " << doc->url().fileName() << " has docinfo " << (docinfo !=0 ) << endl;
+		}
+	}
+
+	if (project==0)
+		return;
+
+	//do a sanity check
+	KileProjectItemList *list = project->items();
+
+	KileProjectItem *item, *pi = 0;
+	KileDocumentInfo *di = 0;
+	Kate::Document *kdoc;
+	for ( uint i=0; i < list->count(); i++)
+	{
+		item = list->at(i);
+
+		di = infoFor(item);
+		if (di==0) kdError() << "\tNO DOCINFO for item " << item->url().fileName() << endl;
+		else
+		{
+			pi = itemFor(di);
+			if (pi==0) kdError() << "\tNO ITEM for docinfo " << item->url().fileName() << endl;
+
+			kdoc =di->getDoc();
+			if (kdoc !=0)
+			{
+				di = infoFor(kdoc);
+				if (di==0) kdError() << "\tNO DOCINFO for doc " << item->url().fileName() << endl;
+			}
+		}
+		if (di !=0 && pi != 0) kdDebug() << "\tSANE " << item->url().fileName() << endl;
+		di=0;pi=0;
+	}
+	kdDebug() << "===Kile::sanityCheck()=end===============" << endl;
+}
+
 void Kile::projectOpen()
 {
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
@@ -1460,7 +1532,7 @@ void Kile::removeView(Kate::View *view)
 	m_viewList.remove(view);
 	delete view;
 
-	//if viewlist is empty, not currentChanged() signal is emitted
+	//if viewlist is empty, no currentChanged() signal is emitted
 	//call UpdateStructure such that the structure view is emptied
 	if (m_viewList.isEmpty()) UpdateStructure();
 }
@@ -1514,8 +1586,13 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 {
 	Kate::View *view = currentView();
 
+	if (doc == 0)
+		doc = activeDocument();
+
 	if (doc)
 		view = static_cast<Kate::View*>(doc->views().first());
+	else
+		return true;
 
 	//TODO: remove from docinfo map, remove from dirwatch
 	KileDocumentInfo *docinfo;
@@ -1532,12 +1609,14 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			kdDebug() << "\tclosed" << endl;
 			removeView(view);
 			//remove the decorations
+			kdDebug() << "\tfound docinfo " << docinfo << endl;
 			docinfo = infoFor(doc);
 			item = itemFor(docinfo);
-			if (item == 0 || delDocinfo)
+			if ( (item == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
 				//or we're closing the project itself (delDocinfo is true)
+				kdDebug() << "ABOUT TO REMOVE DOCINFO (" << (item==0) << "," << delDocinfo << " )" << endl;
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
@@ -1546,7 +1625,6 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			m_projectview->remove(url);
 
 			trash(doc);
-			//m_docList.remove(doc);
 		}
 		else
 			return false;

@@ -17,6 +17,7 @@
 #ifndef KILEPROJECTVIEW_H
 #define KILEPROJECTVIEW_H
 
+#include <ktrader.h>
 #include <klistview.h>
 
 class KURL;
@@ -92,6 +93,8 @@ public slots:
 	void slotProjectItem(int id);
 	void slotProject(int id);
 
+	void slotRun(int id);
+
 	void refreshProjectTree(const KileProject *);
 
 public:
@@ -120,6 +123,8 @@ private:
 	KPopupMenu		*m_popup;
 	uint						m_nProjects;
 	KToggleAction		*m_toggle;
+
+	KTrader::OfferList m_offerList;
 };
 
 #endif

@@ -42,7 +42,7 @@ class KileProjectItem : public QObject
 
 public:
 	KileProjectItem(KileProject *project = 0, const KURL &url = KURL(), int type = Source);
-	~KileProjectItem() { kdDebug() << "DELETING PROJITEM" << m_path << endl;}
+	~KileProjectItem() { kdDebug() << "DELETING PROJITEM " << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 

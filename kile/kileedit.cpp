@@ -26,6 +26,7 @@
 
 #include "kileinfo.h"
 #include "kileviewmanager.h"
+#include "kileconfig.h"
 
 namespace KileDocument
 {
@@ -59,7 +60,7 @@ EditorExtension::~EditorExtension()
 
 //////////////////// read configuration ////////////////////
 
-void EditorExtension::readConfig(KConfig *config)
+void EditorExtension::readConfig(void)
 {
 	// standard environments
 	setEnvironment(listenv,m_dictListEnv);
@@ -67,10 +68,9 @@ void EditorExtension::readConfig(KConfig *config)
 	setEnvironment(tabularenv,m_dictTabularEnv);
 	
 	// config section
-	config->setGroup( "Environments" );
-	setEnvironment(config->readListEntry("list"),m_dictListEnv);
-	setEnvironment(config->readListEntry("math"),m_dictMathEnv);
-	setEnvironment(config->readListEntry("tabular"),m_dictTabularEnv);
+	setEnvironment(KileConfig::envList(), m_dictListEnv);
+	setEnvironment(KileConfig::envMath(), m_dictMathEnv);
+	setEnvironment(KileConfig::envTabular(), m_dictTabularEnv);
 }
 
 //////////////////// list/math/tabular environments ////////////////////

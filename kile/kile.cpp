@@ -622,8 +622,7 @@ void Kile::restore()
 			docManager()->fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
 
-	config->setGroup("FilesOpenOnStart");
-	m_masterName = config->readEntry("Master", "");
+	m_masterName = KileConfig::master();
 	m_singlemode = (m_masterName == "");
 	if (ModeAction) ModeAction->setChecked(!m_singlemode);
 	updateModeStatus();
@@ -1806,10 +1805,8 @@ void Kile::ReadRecentFileSettings()
 	for (int i=0; i < n; i++)
 		m_listProjectsOpenOnStart.append(config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
 
-	config->setGroup( "Files" );
-
-	lastDocument=config->readPathEntry("Last Document","");
-	input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
+	lastDocument = KileConfig::lastDocument();
+	input_encoding = KileConfig::inputEncoding();
 
 	// Load recent files from "Recent Files" group
 	// using the KDE standard action for recent files
@@ -1854,7 +1851,7 @@ void Kile::readConfig()
 	m_runlyxserver = KileConfig::runLyxServer();
 
 //////////////////// code completion (dani) ////////////////////
-	m_edit->complete()->readConfig(config);
+	m_edit->complete()->readConfig();
 }
 
 void Kile::SaveSettings()
@@ -1862,11 +1859,10 @@ void Kile::SaveSettings()
 	ShowEditorWidget();
 
 	KileFS->writeConfig();
-	config->setGroup( "Files" );
 
-	config->writePathEntry("Last Document",lastDocument);
+	KileConfig::setLastDocument(lastDocument);
 	input_encoding=KileFS->comboEncoding->lineEdit()->text();
-	config->writeEntry("Input Encoding", input_encoding);
+	KileConfig::setInputEncoding(input_encoding);
 
 	// Store recent files
 	fileOpenRecentAction->saveEntries(config,"Recent Files");
@@ -1887,9 +1883,9 @@ void Kile::SaveSettings()
 			config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
 
 		if (!m_singlemode)
-			config->writeEntry("Master", m_masterName);
+			KileConfig::setMaster(m_masterName);
 		else
-			config->writeEntry("Master", "");
+			KileConfig::setMaster("");
 	}
 
 	config->setGroup( "User" );
@@ -2212,7 +2208,7 @@ void Kile::includeGraphics()
 	if ( !view ) return;
 
 	QFileInfo fi( view->getDoc()->url().path() );
-	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this, config, fi.dirPath(), false);
+	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this, fi.dirPath(), false);
 
 	if ( dialog->exec() == QDialog::Accepted )
 		insertTag( dialog->getTemplate(),"%C",0,0 );

@@ -34,6 +34,7 @@
 #include <klineeditdlg.h>
 
 #include "configenvironment.h"
+#include "kileconfig.h"
 
 ConfigEnvironment::ConfigEnvironment(QWidget *parent, const char *name )
    : QWidget(parent,name)
@@ -204,13 +205,12 @@ void ConfigEnvironment::clickedRemove()
 
 //////////////////// read/write configuration ////////////////////
 
-void ConfigEnvironment::readConfig(KConfig *config)
+void ConfigEnvironment::readConfig(void)
 {
 	// config section
-	config->setGroup( "Environments" );
-	setEnvironments(config->readListEntry("list"),m_dictenvlist);
-	setEnvironments(config->readListEntry("math"),m_dictenvmath);
-	setEnvironments(config->readListEntry("tabular"),m_dictenvtab);
+	setEnvironments(KileConfig::envList(), m_dictenvlist);
+	setEnvironments(KileConfig::envMath(), m_dictenvmath);
+	setEnvironments(KileConfig::envTabular(), m_dictenvtab);
 	
 	rb_listenv->setChecked(true);
 	fillListbox(&m_dictenvlist);
@@ -218,13 +218,12 @@ void ConfigEnvironment::readConfig(KConfig *config)
    
 }
 
-void ConfigEnvironment::writeConfig(KConfig *config)
+void ConfigEnvironment::writeConfig(void)
 {
 	// config section
-	config->setGroup( "Environments" );
-	config->writeEntry("list",getEnvironments(m_dictenvlist));
-	config->writeEntry("math",getEnvironments(m_dictenvmath));
-	config->writeEntry("tabular",getEnvironments(m_dictenvtab));
+	KileConfig::setEnvList(getEnvironments(m_dictenvlist));
+	KileConfig::setEnvMath(getEnvironments(m_dictenvmath));
+	KileConfig::setEnvTabular(getEnvironments(m_dictenvtab));
 }
 
 #include "configenvironment.moc"

@@ -125,7 +125,7 @@ namespace KileDialog
 	{
 		QFrame *page = new QFrame(this, "codecompframe");
 		completePage = new ConfigCodeCompletion(page);
-		completePage->readConfig(m_config);
+		completePage->readConfig();
 
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(completePage);
@@ -151,7 +151,7 @@ namespace KileDialog
 	{
 		writeToolsConfig();
 		writeSpellingConfig();
-		completePage->writeConfig(m_config);  // Complete configuration (dani)
+		completePage->writeConfig();  // Complete configuration (dani)
 
 		m_config->sync();
 

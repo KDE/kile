@@ -25,6 +25,7 @@
 #include <kmessagebox.h>
 
 #include "quickdocumentdialog.h"
+#include "kileconfig.h"
 
 namespace KileDialog
 {
@@ -461,35 +462,34 @@ void QuickDocument::writeConfig()
 {
 	QStringList list;
 
-	m_config->setGroup( "Quick" );
-	m_config->writeEntry("Class", m_cbDocumentClass->currentText());
-	m_config->writeEntry("Typeface", m_cbTypefaceSize->currentText());
-	m_config->writeEntry("Papersize", m_cbPaperSize->currentText());
+	KileConfig::setQuickClass(m_cbDocumentClass->currentText());
+	KileConfig::setQuickTypeface(m_cbTypefaceSize->currentText());
+	KileConfig::setQuickPapersize(m_cbPaperSize->currentText());
 
 	list.clear();
 	for (int i = 0; i<m_cbDocumentClass->count(); i++)
 		list+=m_cbDocumentClass->text(i);
 	list.sort();
-	m_config->writeEntry("Document Classes", list);
+	KileConfig::setQuickDocumentClasses(list);
 
 	list.clear();
 	for (int i = 0; i<m_cbPaperSize->count(); i++)
 		list+=m_cbPaperSize->text(i);
 	list.sort();
-	m_config->writeEntry("Papersizes", list);
+	KileConfig::setQuickPapersizes(list);
 
 	list.clear();
 	for (int i = 0; i<m_cbEncoding->count(); i++)
 		list+=m_cbEncoding->text(i);
 	list.sort();
-	m_config->writeEntry("Encodings", list);
+	KileConfig::setQuickEncodings(list);
 
+	m_config->setGroup( "Quick" );
 	writeListView("Class Options", m_lvClassOptions, false);
 	writeListView("Common Packages", m_lvPackagesCommon);
 	writeListView("Exotic Packages", m_lvPackagesExotic);
 
-	m_config->setGroup( "User" );
-	m_config->writeEntry("Author", m_leAuthor->text());
+	KileConfig::setAuthor(m_leAuthor->text());
 	QString documentClassOptions;
 	for (QListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
 		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
@@ -499,8 +499,8 @@ void QuickDocument::writeConfig()
 			documentClassOptions+=cur->text(0);
 		}
 	}
-	m_config->writeEntry("DocumentClassOptions", documentClassOptions);
-	m_config->writeEntry("Template Encoding", m_cbEncoding->currentText());
+	KileConfig::setDocumentClassOptions(documentClassOptions);
+	KileConfig::setTemplateEncoding(m_cbEncoding->currentText());
 }
 
 /*!
@@ -538,36 +538,20 @@ void QuickDocument::writeListView(QString key, QListView *listView, bool saveSel
  */
 void QuickDocument::readConfig()
 {
+	m_cbDocumentClass->clear();
+	m_cbDocumentClass->insertStringList(KileConfig::quickDocumentClasses());
+
+	m_cbPaperSize->clear();
+	m_cbPaperSize->insertStringList(KileConfig::quickPapersizes());
+
+	m_cbEncoding->clear();
+	m_cbEncoding->insertStringList(KileConfig::quickEncodings());
+
+	m_cbDocumentClass->setCurrentText(KileConfig::quickClass());
+	m_cbTypefaceSize->setCurrentText(KileConfig::quickTypeface());
+	m_cbPaperSize->setCurrentText(KileConfig::quickPapersize());
+
 	m_config->setGroup( "Quick" );
-
-	QStringList docClasses=m_config->readListEntry("Document Classes");
-	if (docClasses.isEmpty())
-		initDocumentClass();
-	else {
-		m_cbDocumentClass->clear();
-		m_cbDocumentClass->insertStringList(docClasses);
-	}
-
-	QStringList paperSizes=m_config->readListEntry("Papersizes");
-	if (paperSizes.isEmpty())
-		initPaperSize();
-	else {
-		m_cbPaperSize->clear();
-		m_cbPaperSize->insertStringList(paperSizes);
-	}
-
-	QStringList encodings=m_config->readListEntry("Encodings");
-	if (encodings.isEmpty())
-		initEncoding();
-	else {
-		m_cbEncoding->clear();
-		m_cbEncoding->insertStringList(encodings);
-	}
-
-	m_cbDocumentClass->setCurrentText(m_config->readEntry("Class","article"));
-	m_cbTypefaceSize->setCurrentText(m_config->readEntry("Typeface","10pt"));
-	m_cbPaperSize->setCurrentText(m_config->readEntry("Papersize","a4paper"));
-
 	if (!readListView("Class Options", m_lvClassOptions, false))
 		initClassOption();
 	if (!readListView("Common Packages", m_lvPackagesCommon))
@@ -575,15 +559,18 @@ void QuickDocument::readConfig()
 	if (!readListView("Exotic Packages", m_lvPackagesExotic))
 		initPackageExotic();
 
-	m_config->setGroup( "User" );
-	m_leAuthor->setText(m_config->readEntry("Author"));
-	QStringList documentClassOptions=QStringList::split(',', m_config->readEntry("DocumentClassOptions"));
+	m_leAuthor->setText(KileConfig::author());
+	QStringList documentClassOptions=QStringList::split(',',
+	KileConfig::documentClassOptions());
 	for ( QStringList::Iterator it = documentClassOptions.begin(); it != documentClassOptions.end(); it++ ) {
 		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(m_lvClassOptions->findItem(*it, 0));
 		if (cli)
 			cli->setOn(true);
 	}
-	m_cbEncoding->setCurrentText(m_config->readEntry("Template Encoding","latin1"));
+	QString tmp = KileConfig::templateEncoding();
+	if(tmp == "")
+		tmp = "latin1";
+	m_cbEncoding->setCurrentText(tmp);
 }
 
 /*!

@@ -22,7 +22,6 @@
 #include <qstringlist.h>
 #include <qmap.h>
 
-#include <kconfig.h>
 #include <kdialogbase.h>
 
 class QRadioButton;
@@ -40,8 +39,8 @@ public:
 	ConfigEnvironment(QWidget *parent=0, const char *name=0);
 	~ConfigEnvironment() {}
 
-	void readConfig(KConfig *config);
-	void writeConfig(KConfig *config);
+	void readConfig(void);
+	void writeConfig(void);
 
 private:
 	QRadioButton *rb_listenv, *rb_mathenv, *rb_tabularenv;

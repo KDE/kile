@@ -19,8 +19,6 @@
 #ifndef CONFIGCODECOMPLETION_H
 #define CONFIGCODECOMPLETION_H
 
-#include <kconfig.h>
-
 #include <qwidget.h>
 #include <qtabwidget.h>
 #include <qlistview.h>
@@ -39,8 +37,8 @@ public:
    ConfigCodeCompletion(QWidget *parent=0, const char *name=0);
    ~ConfigCodeCompletion();
 
-   void readConfig(KConfig *config);
-   void writeConfig(KConfig *config);
+   void readConfig(void);
+   void writeConfig(void);
 
 private:
     // tabs, views and pages

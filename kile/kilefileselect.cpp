@@ -37,6 +37,8 @@ from Kate (C) 2001 by Matt Newell
 #include <kglobal.h>
 #include <kdebug.h>
 
+#include "kileconfig.h"
+
 KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(parent,name)
 {
   QVBoxLayout* lo = new QVBoxLayout(this);
@@ -95,9 +97,7 @@ KileFileSelect::~KileFileSelect()
 
 void KileFileSelect::readConfig()
 {
-	KConfig *config = KGlobal::config();
-	config->setGroup("Files");
-	QString lastDir = config->readPathEntry("lastDir");
+	QString lastDir = KileConfig::lastDir();
 	QFileInfo ldi(lastDir);
 	if ( ! ldi.isReadable() ) dir->home();
 	else setDir(KURL::fromPathOrURL(lastDir));
@@ -105,9 +105,7 @@ void KileFileSelect::readConfig()
 
 void KileFileSelect::writeConfig()
 {
-	KConfig *config = KGlobal::config();
-	config->setGroup("Files");
-	config->writePathEntry("lastDir", dir->url().path());
+	KileConfig::setLastDir(dir->url().path());
 }
 
 void KileFileSelect::setView(KFile::FileView view)

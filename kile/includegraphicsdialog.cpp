@@ -33,7 +33,9 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent, KConfig *config,
+#include "kileconfig.h"
+
+IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent,
                                              const QString &startdir,
                                              bool pdflatex)
     :QDialog( parent, "includegraphics", true , WStyle_Customize | WStyle_Title | WType_Dialog ),
@@ -174,14 +176,10 @@ IncludegraphicsDialog::IncludegraphicsDialog(QWidget *parent, KConfig *config,
    connect( cancel, SIGNAL(clicked()), SLOT(reject()) );
 
    // read configuration
-   config->setGroup("IncludeGraphics");
-   m_imagemagick = config->readBoolEntry("imagemagick",false);
-   m_boundingbox = config->readBoolEntry("boundingbox",true);
-               
-   bool convert;
-   m_defaultresolution = config->readEntry("resolution","300").toFloat( &convert );
-   if ( !convert )
-      m_defaultresolution = 300;
+   m_imagemagick = KileConfig::imagemagick();
+   m_imagemagick = KileConfig::boundingbox();
+
+   m_defaultresolution = KileConfig::resolution();
 
    setFocusProxy( edit_file );
 }

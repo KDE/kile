@@ -15,9 +15,9 @@
 #include <kate/view.h>
 #include <kate/document.h>
 #include <kapplication.h>
-#include <kconfig.h>
 
 #include "kileeventfilter.h"
+#include "kileconfig.h"
 
 KileEventFilter::KileEventFilter()
 {
@@ -30,9 +30,7 @@ KileEventFilter::KileEventFilter()
 
 void KileEventFilter::readConfig()
 {
-	KConfig *config = kapp->config();
-	config->setGroup( "Editor Ext" );
-	m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", true);
+	m_bCompleteEnvironment = KileConfig::completeEnvironment();
 }
 
 bool KileEventFilter::eventFilter(QObject *o, QEvent *e)

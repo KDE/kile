@@ -3,6 +3,8 @@
 <kcfg>
 	<kcfgfile name="kilerc"/>
 	<include>qapplication.h</include>
+	<include>qstring.h</include>
+	<include>qtextcodec.h</include>
 	<group name="VersionInfo">
 		<entry name="RCVersion" type="Int">
 			<label>The resource file version.</label>
@@ -28,18 +30,14 @@
 		</entry>
 		<entry name="MainwindowWidth" type="Int">
 			<label>The main window's width.</label>
-			<default>
-				<code>
-					QApplication::desktop()->screenGeometry().width() - 100
-				</code>
+			<default code="true">
+				QApplication::desktop()->screenGeometry().width() - 100
 			</default>
 		</entry>
 		<entry name="MainwindowHeight" type="Int">
 			<label>The main window's height.</label>
-			<default>
-				<code>
-					QApplication::desktop()->screenGeometry().height() - 100
-				</code>
+			<default code="true">
+				QApplication::desktop()->screenGeometry().height() - 100
 			</default>
 		</entry>
 	</group>
@@ -94,7 +92,7 @@
 	<group name="IncludeGraphics">
 		<entry name="imagemagick" type="Bool">
 			<label>Whether ImageMagick is installed.</label>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="boundingbox" type="Bool">
 			<label>Try to determine the bounding box from the picture.</label>
@@ -136,6 +134,20 @@
 			<label>The file extensions to clean on exit.</label>
 			<default>.log .aux .dvi .lof .lot .bit .idx .glo .bbl .ilg .toc .ind</default>
 		</entry>
+		<entry name="LastDocument" type="Path">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="InputEncoding" type="String">
+			<label></label>
+			<default code="true">
+				QString::fromLatin1(QTextCodec::codecForLocale()->name())
+			</default>
+		</entry>
+		<entry name="lastDir" type="Path">
+			<label></label>
+			<default></default>
+		</entry>
 	</group>
 	<group name="User">
 		<entry name="Author" type="String">
@@ -155,6 +167,100 @@
 		<entry name="RunOnStart" type="Bool">
 			<label>Whether to show the tips on startup.</label>
 			<default>true</default>
+		</entry>
+	</group>
+	<group name="Complete">
+		<entry name="CompleteEnabled" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="CompleteCursor" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="CompleteBullets" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="CompleteCloseEnv" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="CompleteAuto" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
+		<entry name="CompleteChangedLists" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="CompleteTex" type="StringList">
+			<label></label>
+			<default>1-Latex,1-Tex</default>
+		</entry>
+		<entry name="CompleteDict" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="CompleteAbbrev" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+	</group>
+	<group name="Environments">
+		<entry name="EnvList" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="EnvMath" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="EnvTabular" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+	</group>
+	<group name="FilesOpenOnStart">
+		<entry name="Master" type="String">
+			<label></label>
+			<default></default>
+		</entry>
+	</group>
+	<group name="Quick">
+		<entry name="QuickClass" type="String">
+			<label></label>
+			<default>article</default>
+		</entry>
+		<entry name="QuickTypeface" type="String">
+			<label></label>
+			<default>10pt</default>
+		</entry>
+		<entry name="QuickPapersize" type="String">
+			<label></label>
+			<default>a4paper</default>
+		</entry>
+		<entry name="QuickDocumentClasses" type="StringList">
+			<label></label>
+			<default>article,book,letter,report,scrartcl,scrbook,scrlettr,scrreprt</default>
+		</entry>
+		<entry name="QuickPapersizes" type="StringList">
+			<label></label>
+			<default>a4paper,a5paper,b5paper,executivepaper,legalpaper,letterpaper</default>
+		</entry>
+		<entry name="QuickEncodings" type="StringList">
+			<label></label>
+			<default>ansinew,applemac,ascii,cp1252,cp1250,cp1251,cp437,cp437de,cp850,cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin5,next</default>
+		</entry>
+	</group>
+	<group name="KileGrepDialog">
+		<entry name="LastSearchItems" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="LastSearchPaths" type="StringList">
+			<label></label>
+			<default></default>
 		</entry>
 	</group>
 </kcfg>

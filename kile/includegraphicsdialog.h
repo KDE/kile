@@ -25,7 +25,6 @@
 #include <qlineedit.h>
 #include <qstring.h>
 #include <kprocess.h>
-#include <kconfig.h>
 
 /**
   *@author dani
@@ -35,7 +34,7 @@ class IncludegraphicsDialog : public QDialog  {
     Q_OBJECT
     
 public:
-   IncludegraphicsDialog(QWidget *parent,KConfig *config,const QString &startdir,bool pdflatex);
+   IncludegraphicsDialog(QWidget *parent,const QString &startdir,bool pdflatex);
    ~IncludegraphicsDialog();
 
    QString getTemplate();

@@ -34,7 +34,6 @@ class QListBox;
 class QPushButton;
 class QLabel;
 class KProcess;
-class KConfig;
 class KURLRequester;
 class QEvent;
 
@@ -76,7 +75,6 @@ private:
 	KProcess *childproc;
 	QString buf;
 	QString errbuf;
-	KConfig* config;
 	QStringList lastSearchItems;
 	QStringList lastSearchPaths;
 	QStringList filter_list;

@@ -26,7 +26,6 @@
 #include <qstringlist.h>
 
 #include <kate/document.h>
-#include <kconfig.h>
 
 #include "codecompletion.h"
 
@@ -51,7 +50,7 @@ public:
 
 	enum SelectMode { smTex, smLetter, smWord, smNospace };
 
-	void readConfig(KConfig *config);
+	void readConfig(void);
 
 	QString getTextLineReal(Kate::Document *doc, uint row);
 	void gotoBullet(const QString &bullet, bool backwards, Kate::View *view = 0L);

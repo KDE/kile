@@ -51,6 +51,8 @@
 
 #include <kdebug.h>
 
+#include "kileconfig.h"
+
 static void clear_dups(QStringList &strings)
 {
 	QStringList result;
@@ -65,12 +67,10 @@ KileGrepDialog::KileGrepDialog(const QString &dirname, QWidget *parent, const ch
 	: KDialog( parent, name ), childproc(0)
 {
 	setCaption(i18n("Find in Files"));
-	config = KGlobal::config();
-	config->setGroup("KileGrepDialog");
 
-	lastSearchItems = config->readListEntry("LastSearchItems");
+	lastSearchItems = KileConfig::lastSearchItems();
 	clear_dups(lastSearchItems);
-	lastSearchPaths = config->readListEntry("LastSearchPaths");
+	lastSearchPaths = KileConfig::lastSearchPaths();
 	clear_dups(lastSearchPaths);
 
 	QGridLayout *input_layout = new QGridLayout(this, 7, 3, 4, 4);
@@ -365,8 +365,6 @@ void KileGrepDialog::finish()
 	delete childproc;
 	childproc = 0;
 
-	config->setGroup("KileGrepDialog");
-
 	int dup_idx = lastSearchItems.findIndex(pattern_combo->currentText());
 	if (dup_idx != 0) {
 		if ((dup_idx != -1) || (lastSearchItems.count() == 10)) {
@@ -377,7 +375,7 @@ void KileGrepDialog::finish()
 		}
 		lastSearchItems.prepend(pattern_combo->currentText());
 		pattern_combo->insertItem(pattern_combo->currentText(), 0);
-		config->writeEntry("LastSearchItems", lastSearchItems);
+		KileConfig::setLastSearchItems(lastSearchItems);
 	}
 
 	dup_idx = lastSearchPaths.findIndex(dir_combo->url());
@@ -390,7 +388,7 @@ void KileGrepDialog::finish()
 		}
 		lastSearchPaths.prepend(dir_combo->url());
 		dir_combo->comboBox()->insertItem(dir_combo->url(), 0);
-		config->writeEntry("LastSearchPaths", lastSearchPaths);
+		KileConfig::setLastSearchPaths(lastSearchPaths);
 	}
 }
 

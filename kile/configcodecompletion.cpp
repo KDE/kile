@@ -31,6 +31,7 @@
 #include <qstringlist.h>
 
 #include "configcodecompletion.h"
+#include "kileconfig.h"
 
 ConfigCodeCompletion::ConfigCodeCompletion(QWidget *parent, const char *name )
    : QWidget(parent,name)
@@ -116,24 +117,19 @@ ConfigCodeCompletion::~ConfigCodeCompletion()
 
 //////////////////// read/write configuration ////////////////////
 
-void ConfigCodeCompletion::readConfig(KConfig *config)
-{
-   // config section
-   config->setGroup( "Complete" );
-   
+void ConfigCodeCompletion::readConfig(void)
+{   
    // read selected and deselected filenames with wordlists
-   m_texlist = config->readListEntry("tex");
-   if ( m_texlist.isEmpty() )
-      m_texlist = QStringList::split(",","1-Latex,1-Tex");
-   m_dictlist = config->readListEntry("dict");
-   m_abbrevlist = config->readListEntry("abbrev");
+   m_texlist = KileConfig::completeTex();
+   m_dictlist = KileConfig::completeDict();
+   m_abbrevlist = KileConfig::completeAbbrev();
 
    // set checkbox status
-   cb_usecomplete->setChecked( config->readBoolEntry("enabled",true) );
-   cb_setcursor->setChecked( config->readBoolEntry("cursor",true) );
-   cb_setbullets->setChecked( config->readBoolEntry("bullets",true) );
-   cb_closeenv->setChecked( config->readBoolEntry("closeenv",true) );
-   cb_autocomplete->setChecked( config->readBoolEntry("autocomplete",false) );
+   cb_usecomplete->setChecked( KileConfig::completeEnabled() );
+   cb_setcursor->setChecked( KileConfig::completeCursor() );
+   cb_setbullets->setChecked( KileConfig::completeBullets() );
+   cb_closeenv->setChecked( KileConfig::completeCloseEnv() );
+   cb_autocomplete->setChecked( KileConfig::completeAuto() );
 
    // insert filenames into listview 
    setListviewEntries(list1,m_texlist);
@@ -142,7 +138,7 @@ void ConfigCodeCompletion::readConfig(KConfig *config)
 
 }
 
-void ConfigCodeCompletion::writeConfig(KConfig *config)
+void ConfigCodeCompletion::writeConfig(void)
 {
    // default: no changes in configuration
    bool changed = false;
@@ -151,24 +147,21 @@ void ConfigCodeCompletion::writeConfig(KConfig *config)
    changed |= getListviewEntries(list1,m_texlist);
    changed |= getListviewEntries(list2,m_dictlist);
    changed |= getListviewEntries(list3,m_abbrevlist);
-
-   // config section
-   config->setGroup( "Complete" );
    
    // Konfigurationslisten abspeichern
-   config->writeEntry( "tex", m_texlist );
-   config->writeEntry( "dict", m_dictlist );
-   config->writeEntry( "abbrev", m_abbrevlist );
+   KileConfig::setCompleteTex(m_texlist);
+   KileConfig::setCompleteDict(m_dictlist);
+   KileConfig::setCompleteAbbrev(m_abbrevlist);
    
    // save checkbox status
-   config->writeEntry("enabled",cb_usecomplete->isChecked());
-   config->writeEntry("cursor",cb_setcursor->isChecked());
-   config->writeEntry("bullets",cb_setbullets->isChecked());
-   config->writeEntry("closeenv",cb_closeenv->isChecked());
-   config->writeEntry("autocomplete",cb_autocomplete->isChecked());
+   KileConfig::setCompleteEnabled(cb_usecomplete->isChecked());
+   KileConfig::setCompleteCursor(cb_setcursor->isChecked());
+   KileConfig::setCompleteBullets(cb_setbullets->isChecked());
+   KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
+   KileConfig::setCompleteAuto(cb_autocomplete->isChecked());
 
    // sind die Wortlisten geändert?
-   config->writeEntry("changedlists",changed);
+   KileConfig::setCompleteChangedLists(changed);
 
 }
 

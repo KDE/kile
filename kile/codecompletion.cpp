@@ -31,6 +31,7 @@ email                : holger.danielsson@t-online.de
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "codecompletion.h"
+#include "kileconfig.h"
 
 #define BULLET QString("×")
 
@@ -95,44 +96,39 @@ namespace KileDocument
 
 	//////////////////// configuration ////////////////////
 
-	void CodeCompletion::readConfig( KConfig *config )
+	void CodeCompletion::readConfig(void)
 	{
 		kdDebug() << "=== CodeCompletion::readConfig ===================" << endl;
 
-		// config section
-		config->setGroup( "Complete" );
-
 		// save normal parameter
 		kdDebug() << "   read bool entries" << endl;
-		m_isenabled = config->readBoolEntry( "enabled", true );
-		m_setcursor = config->readBoolEntry( "cursor", true );
-		m_setbullets = config->readBoolEntry( "bullets", true );
-		m_closeenv = config->readBoolEntry( "closeenv", true );
-		m_autocomplete = config->readBoolEntry( "autocomplete", false );
+		m_isenabled = KileConfig::completeEnabled();
+		m_setcursor = KileConfig::completeCursor();
+		m_setbullets = KileConfig::completeBullets();
+		m_closeenv = KileConfig::completeCloseEnv();
+		m_autocomplete = KileConfig::completeAuto();
 
 		// reading the wordlists is only necessary at the first start
 		// and when the list of files changes
-		if ( m_firstconfig || config->readBoolEntry( "changedlists", true ) )
+		if ( m_firstconfig || KileConfig::completeChangedLists() )
 		{
 			kdDebug() << "   read wordlists..." << endl;
 
 			// wordlists for Tex/Latex mode
-			QStringList files = config->readListEntry( "tex" );
-			if ( files.isEmpty() )
-				files = QStringList::split( ",", "1-Latex,1-Tex" );
+			QStringList files = KileConfig::completeTex();
 			setWordlist( files, "tex", &m_texlist );
 
 			// wordlist for dictionary mode
-			files = config->readListEntry( "dict" );
+			files = KileConfig::completeDict();
 			setWordlist( files, "dictionary", &m_dictlist );
 
 			// wordlist for abbreviation mode
-			files = config->readListEntry( "abbrev" );
+			files = KileConfig::completeAbbrev();
 			setWordlist( files, "abbreviation", &m_abbrevlist );
 
 			// remember changed lists
 			m_firstconfig = false;
-			config->writeEntry( "changedlists", false );
+			KileConfig::setCompleteChangedLists(false);
 		}
 
 	}

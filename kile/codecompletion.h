@@ -71,7 +71,7 @@ public:
 
 	KileInfo* info() const { return m_ki;}
 
-	void readConfig(KConfig *config);
+	void readConfig(void);
 
 public slots:
 	const QString getBullet();

@@ -1,7 +1,7 @@
 /***************************************************************************
                                kxtconverter.h
                              -------------------
-    begin                : fri mai 14 18:09:41 CEST 2004
+    begin                : fri may 14 18:09:41 CEST 2004
     copyright            : (C) 2004 by Simon MARTIN
     email                : simartin@users.sourceforge.net
  ***************************************************************************/
@@ -45,6 +45,30 @@ bool KxtRcConverter::Convert(void)
 
 	renameEntry("User", "Template Encoding", "TemplateEncoding");
 	renameEntry("Editor Ext", "Complete Environment", "CompleteEnvironment");
+
+	renameEntry("Complete", "enabled", "CompleteEnabled");
+	renameEntry("Complete", "cursor", "CompleteCursor");
+	renameEntry("Complete", "bullets", "CompleteBullets");
+	renameEntry("Complete", "closeenv", "CompleteCloseEnv");
+	renameEntry("Complete", "autocomplete", "CompleteAuto");
+	renameEntry("Complete", "changedlists", "CompleteChangedLists");
+	renameEntry("Complete", "tex", "CompleteTex");
+	renameEntry("Complete", "dict", "CompleteDict");
+	renameEntry("Complete", "abbrev", "CompleteAbbrev");
+
+	renameEntry("Environments", "list", "EnvList");
+	renameEntry("Environments", "math", "EnvMath");
+	renameEntry("Environments", "tabular", "EnvTabular");
+
+	renameEntry("Files", "Last Document", "LastDocument");
+	renameEntry("Files", "Input Encoding", "InputEncoding");
+
+	renameEntry("Quick", "Class", "QuickClass");
+	renameEntry("Quick", "Typeface", "QuickTypeface");
+	renameEntry("Quick", "Papersize", "QuickPapersize");
+	renameEntry("Quick", "Document Classes", "QuickDocumentClasses");
+	renameEntry("Quick", "Papersizes", "QuickPapersizes");
+	renameEntry("Quick", "Encodings", "QuickEncodings");
 
 	changeFileExtensionsFormat();
 	changeAutosaveInterval();

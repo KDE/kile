@@ -78,6 +78,7 @@
 #include "kileprojectview.h"
 #include "kileprojectdlgs.h"
 #include "kilelistselector.h"
+#include "kilelyxserver.h"
 
 Kile::Kile( QWidget *, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -254,6 +255,11 @@ Kile::Kile( QWidget *, const char *name ) :
 	showtoolstoolbar=!showtoolstoolbar;ToggleShowToolsToolbar();
 	showedittoolbar=!showedittoolbar;ToggleShowEditToolbar();
 	showmathtoolbar=!showmathtoolbar;ToggleShowMathToolbar();
+
+	m_lyxserver = new KileLyxServer(m_runlyxserver);
+	connect(m_lyxserver, SIGNAL(insertCite(const QString&)), this, SLOT(insertCite(const QString& )));
+	connect(m_lyxserver, SIGNAL(insertBibTeX(const QString&)), this, SLOT(insertBibTeX(const QString& )));
+	connect(m_lyxserver, SIGNAL(insertBibTeXDatabaseAdd(const QString&)), this, SLOT(insertBibTeXDatabaseAdd(const QString& )));
 
 	KileApplication::closeSplash();
 	show();
@@ -1740,7 +1746,6 @@ void Kile::newCaption()
 	if (view)
 	{
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
-		//UpdateStructure(); FIXME: is this necessary?
 		if (Outputview->currentPage()->inherits("TexKonsoleWidget")) syncTerminal();
 	}
 }
@@ -4055,7 +4060,6 @@ void Kile::readConfig()
 	config->setGroup("Tools");
 	m_bCheckForRoot = config->readBoolEntry("CheckForRoot",true);
 	quickmode=config->readNumEntry( "Quick Mode",1);
-
 	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
 	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
 	dvips_command=config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'");
@@ -4068,6 +4072,7 @@ void Kile::readConfig()
 	dvipdf_command=config->readEntry("Dvipdf","dvipdfm '%S.dvi'");
 	l2h_options=config->readEntry("L2h Options","");
 	bibtexeditor_command=config->readEntry("Bibtexeditor","gbib '%S.bib'");
+	m_runlyxserver = config->readBoolEntry("RunLyxServer", true);
 	userClassList=config->readListEntry("User Class", ':');
 	userPaperList=config->readListEntry("User Paper", ':');
 	userEncodingList=config->readListEntry("User Encoding", ':');
@@ -4395,8 +4400,14 @@ void Kile::GeneralOptions()
 		dlg->ksc->writeGlobalSettings ();
 
 		readConfig();
-
 		emit(configChanged());
+
+		//stop/restart LyX server if necessary
+		if (m_runlyxserver && !m_lyxserver->isRunning())
+			m_lyxserver->start();
+
+		if (!m_runlyxserver && m_lyxserver->isRunning())
+			m_lyxserver->stop();
 	}
 
 	delete dlg;
@@ -4716,6 +4727,25 @@ if ((er-el>0) && (eb-et>0))
      return "Original size : [width="+win+"in,height="+hin+"in] or [width="+wcm+"cm,height="+hcm+"cm]";
     }
 else return "";
+}
+
+/*
+ * LyX server commands
+ */
+
+void Kile::insertCite(const QString &cite)
+{
+	insertTag(KileAction::TagData("cite", "\\cite{"+cite+"}", QString::null, 7+cite.length()));
+}
+
+void Kile::insertBibTeX(const QString& bib)
+{
+	insertTag(KileAction::TagData("bibliography", "\\bibliography{"+bib+"}", QString::null, 15+bib.length()));
+}
+
+void Kile::insertBibTeXDatabaseAdd(const QString& bib)
+{
+	insertTag(KileAction::TagData("bibliography", "\\bibliography{"+bib+"}", QString::null, 15+bib.length()));
 }
 
 //////////////////// CLEAN BIB /////////////////////

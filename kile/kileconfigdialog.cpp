@@ -118,7 +118,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     toolsPage = addPage(i18n("Tools"),i18n("Tools Configuration"),
                         KGlobal::instance()->iconLoader()->loadIcon( "gear", KIcon::NoGroup, KIcon::SizeMedium ));
 
-    QGridLayout *gbox1 = new QGridLayout( toolsPage,12,2,5,5,"" );
+    QGridLayout *gbox1 = new QGridLayout( toolsPage,13,2,5,5,"" );
     gbox1->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
     TextLabel1 = new QLabel( toolsPage, "label1" );
@@ -201,10 +201,13 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     gbox1->addWidget( LineEdit13,10,1 );
 
     TextLabel14 = new QLabel( toolsPage, "label14" );
-    TextLabel14->setText("BibTeX Editor");
+    TextLabel14->setText(i18n("BibTeX Editor"));
     gbox1->addWidget( TextLabel14,11,0 );
     LineEdit14 = new QLineEdit( toolsPage, "le114" );
     gbox1->addWidget( LineEdit14,11,1 );
+	m_runlyxserver = new QCheckBox(i18n("Let Kile process LyX commands sent by bibliography editors/viewers."), toolsPage);
+	gbox1->addMultiCellWidget( m_runlyxserver, 12,12, 0,1);
+
 
 	//fill in tools
 	m_config->setGroup("Tools");
@@ -220,7 +223,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	LineEdit12->setText(m_config->readEntry("Makeindex","makeindex '%S.idx'"));
 	LineEdit13->setText(m_config->readEntry("Bibtex","bibtex '%S'"));
 	LineEdit14->setText(m_config->readEntry("Bibtexeditor","gbib '%S.bib'"));
-
+	m_runlyxserver->setChecked(m_config->readBoolEntry("RunLyxServer", true));
 
 
     // ************************************************************************************************
@@ -314,6 +317,7 @@ void KileConfigDialog::slotOk()
 	m_config->writeEntry("Pdf",comboPdf->currentText());
 	m_config->writeEntry("Dvipdf",LineEdit9->text());
 	m_config->writeEntry("Bibtexeditor",LineEdit14->text());
+	m_config->writeEntry("RunLyxServer", m_runlyxserver->isChecked());
 
 	m_config->writeEntry("Quick Mode",ButtonGroup2->id(ButtonGroup2->selected())+1);
 

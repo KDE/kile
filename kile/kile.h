@@ -87,6 +87,7 @@ class QSignalMapper;
 class KActionMenu;
 class KRecentFilesAction;
 
+class KileLyxServer;
 class KileEventFilter;
 class KileProject;
 class KileProjectItem;
@@ -244,7 +245,7 @@ private:
 	bool 				htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
-	bool			m_bCompleteEnvironment, m_bRestore, m_bCheckForRoot;
+	bool			m_bCompleteEnvironment, m_bRestore, m_bCheckForRoot, m_runlyxserver;
 
 signals:
 	/**
@@ -531,6 +532,15 @@ private slots:
 
 	void insertUserTag(int i);
 	void EditUserMenu();
+
+/*LyX server*/
+public slots:
+	void insertCite(const QString&);
+	void insertBibTeX(const QString&);
+	void insertBibTeXDatabaseAdd(const QString&);
+
+private:
+	KileLyxServer		*m_lyxserver;
 
 /* editor extensions */
 private:

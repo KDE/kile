@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="docpart" version="1">
+	<ToolBar name="extraToolBar"><text>Extra</text>
+		<Action name="Back"/>
+		<Action name="Forward"/>
+		<Action name="Home"/>
+	</ToolBar>
+</kpartgui>

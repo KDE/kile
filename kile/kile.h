@@ -366,6 +366,8 @@ private slots:
 	 * Saves the state of the project, if @param project is zero, the active project is saved.
 	 **/
 	void projectSave(KileProject * project = 0);
+	bool projectArchive(const KURL &);
+	bool projectArchive(KileProject *project  = 0);
 	void buildProjectTree(KileProject *project = 0);
 	void buildProjectTree(const KURL &);
 	void projectOptions(const KURL &);

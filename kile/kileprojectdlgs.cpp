@@ -31,28 +31,32 @@
 #include "kileproject.h"
 #include "kileprojectdlgs.h"
 
+QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
+QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
+QString whatsthisArchive = i18n("Enter the command to create an archive of all the project files here. %S will be replaced with the project name, %F with a list of all the project files (items are separated by a space). This command will be executed from the base directory of the project (i.e. the directory where the .kilepr file resides).");
+
 /*
  * KileNewProjectDlg
  */
 KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
         : KDialogBase( KDialogBase::Plain, i18n("Create a new project"), Ok|Cancel,Ok, parent, name, true, true )
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),4,4, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(),4,6, 10);
 	layout->setColStretch(2,1);
 	layout->setColStretch(3,1);
 
 	m_name = new KLineEdit(plainPage(), "le_projectname");
 	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
 	lb->setBuddy(m_name);
-	QWhatsThis::add(lb, i18n("Insert a short descriptive name of your project here."));
-	QWhatsThis::add(m_name, i18n("Insert a short descriptive name of your project here."));
+	QWhatsThis::add(lb, whatsthisName);
+	QWhatsThis::add(m_name, whatsthisName);
 	layout->addWidget(lb, 0,0);
 	layout->addWidget(m_name, 0,1);
 
 	m_location = new KLineEdit(plainPage(), "le_projectlocation");
 	lb = new QLabel(i18n("Project &file"), plainPage());
-	QWhatsThis::add(lb, i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename."));
-	QWhatsThis::add(m_location, i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename."));
+	QWhatsThis::add(lb, whatsthisPath);
+	QWhatsThis::add(m_location, whatsthisPath);
 	lb->setBuddy(m_location);
 	KPushButton *pb = new KPushButton(i18n("Browse..."), plainPage());
 	connect(pb, SIGNAL(clicked()), this, SLOT(browseLocation()));
@@ -72,6 +76,15 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent,  const char* name)
 	layout->addMultiCellWidget(m_file, 3,3, 2,3);
 	layout->addMultiCellWidget(m_nfw, 4,4,0,3);
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
+
+	m_archive = new KLineEdit(plainPage(), "le_archive");
+	m_archive->setText("tar zcvf '%S.tar.gz' %F");
+	lb = new QLabel(i18n("&Archive command"), plainPage());
+	lb->setBuddy(m_archive);
+	QWhatsThis::add(m_archive, whatsthisArchive);
+	QWhatsThis::add(lb, whatsthisArchive);
+	layout->addWidget(lb, 5,0);
+	layout->addMultiCellWidget(m_archive, 5,5,1,3);
 }
 
 KileNewProjectDlg::~KileNewProjectDlg()
@@ -143,16 +156,25 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
  	KDialogBase(KDialogBase::Plain, i18n("Project Options"), Ok|Cancel,Ok, parent, name, true, true ),
 	m_project(project)
 {
-	QGridLayout *layout = new QGridLayout(plainPage(),2,1, 10);
+	QGridLayout *layout = new QGridLayout(plainPage(),4,2, 10);
 
 	m_name = new KLineEdit(plainPage(), "le_projectname");
 	m_name->setText(m_project->name());
 	QLabel *lb = new QLabel(i18n("Project &title"), plainPage());
 	lb->setBuddy(m_name);
-	QWhatsThis::add(lb, i18n("Insert a short descriptive name of your project here."));
-	QWhatsThis::add(m_name, i18n("Insert a short descriptive name of your project here."));
+	QWhatsThis::add(lb, whatsthisArchive);
+	QWhatsThis::add(m_name, whatsthisArchive);
 	layout->addWidget(lb, 0,0);
-	layout->addWidget(m_name, 0,1);
+	layout->addMultiCellWidget(m_name, 0,0,1,3);
+
+	m_archive = new KLineEdit(plainPage(), "le_archive");
+	m_archive->setText(project->archiveCommand());
+	lb = new QLabel(i18n("&Archive command"), plainPage());
+	lb->setBuddy(m_archive);
+	QWhatsThis::add(m_archive, whatsthisArchive);
+	QWhatsThis::add(lb,whatsthisArchive);
+	layout->addWidget(lb, 1,0);
+	layout->addMultiCellWidget(m_archive, 1,1,1,3);
 }
 
 KileProjectOptionsDlg::~KileProjectOptionsDlg()
@@ -162,6 +184,7 @@ KileProjectOptionsDlg::~KileProjectOptionsDlg()
 void KileProjectOptionsDlg::slotOk()
 {
 	m_project->setName(m_name->text());
+	m_project->setArchiveCommand(m_archive->text());
 	accept();
 }
 

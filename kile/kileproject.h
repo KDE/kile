@@ -123,6 +123,9 @@ public:
 	void setName(const QString & name) { m_name = name; emit (nameChanged(name));}
 	const QString& name() const { return m_name; }
 
+	void setArchiveCommand(const QString &command) { m_archiveCommand = command;}
+	const QString& archiveCommand() { return m_archiveCommand;}
+
 	const KURL& url() const { return m_projecturl; }
 	const KURL& baseURL() const { return m_baseurl; }
 
@@ -142,7 +145,7 @@ signals:
 public slots:
 	bool load();
 	bool save();
-	
+
 	void add(KileProjectItem*);
 	void remove(KileProjectItem*);
 
@@ -159,7 +162,7 @@ private:
 	QString	findRelativePath(const KURL&);
 
 private:
-	QString		m_name;
+	QString		m_name, m_archiveCommand;
 	KURL			m_projecturl;
 	KURL			m_baseurl;
 

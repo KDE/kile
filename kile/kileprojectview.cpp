@@ -28,7 +28,7 @@
 #include "kileproject.h"
 #include "kileprojectview.h"
 
-const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5, KPV_ID_BUILDTREE = 6;
+const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2, KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5, KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7;
 
 /*
  * KileProjectViewItem
@@ -146,6 +146,7 @@ void KileProjectView::slotProject(int id)
 			case KPV_ID_BUILDTREE : emit(buildProjectTree(item->url())); break;
 			case KPV_ID_OPTIONS : emit(projectOptions(item->url())); break;
 			case KPV_ID_CLOSE : emit(closeProject(item->url())); break;
+			case KPV_ID_ARCHIVE : emit(projectArchive(item->url())); break;
 			default : break;
 		}
 	}
@@ -183,6 +184,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		{
 			m_popup->insertItem(UserIcon("relation"),i18n("Build Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
+			m_popup->insertItem(SmallIcon("package"),i18n("&Archive"), KPV_ID_ARCHIVE);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
 		}
@@ -216,7 +218,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 
 void KileProjectView::add(const KileProject *project)
 {
-	KileProjectViewItem *item, *parent = new KileProjectViewItem(this, project->name());
+	KileProjectViewItem *parent = new KileProjectViewItem(this, project->name());
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
 	parent->setOpen(true);

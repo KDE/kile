@@ -70,6 +70,7 @@ signals:
 	void saveURL(const KURL&);
 	void closeURL(const KURL&);
 	void projectOptions(const KURL &);
+	void projectArchive(const KURL &);
 	void closeProject(const KURL &);
 	void addToProject(const KURL &);
 	void removeFromProject(const KURL &, const KURL &);

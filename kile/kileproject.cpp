@@ -157,6 +157,7 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
+	m_archiveCommand = m_config->readEntry("archive", "tar zcvf '%S'.tar.gz %F");
 
 	KURL url;
 	KileProjectItem *item;
@@ -196,6 +197,7 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
+	m_config->writeEntry("archive", m_archiveCommand);
 
 	KileProjectItem *item;
 	for (uint i=0; i < m_projectitems.count(); i++)

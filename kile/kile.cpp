@@ -160,6 +160,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	connect(m_projectview, SIGNAL(closeURL(const KURL&)), this, SLOT(fileClose(const KURL&)));
 	connect(m_projectview, SIGNAL(closeProject(const KURL&)), this, SLOT(projectClose(const KURL&)));
 	connect(m_projectview, SIGNAL(projectOptions(const KURL&)), this, SLOT(projectOptions(const KURL&)));
+	connect(m_projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(projectArchive(const KURL&)));
 	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
 	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 	connect(m_projectview, SIGNAL(saveURL(const KURL &)), this, SLOT(saveURL(const KURL &)));
@@ -288,26 +289,27 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, this, SLOT(projectOpen()), actionCollection(), "project_open");
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project..."),  0, this, SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	(void) new KAction(i18n("Build Project &Tree"), "relation", 0, this, SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
+	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(projectArchive()), actionCollection(), "project_archive");
 	(void) new KAction(i18n("Project &Options..."), "configure", 0, this, SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, this, SLOT(projectClose()), actionCollection(), "project_close");
 
 	//build actions
-	(void) new KAction(i18n("Quick Build"),"quick", Key_F1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
-	(void) new KAction(i18n("View Log File"),"viewlog", Key_F10, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
+	(void) new KAction(i18n("Quick Build"),"quick", ALT+Key_1, this, SLOT(QuickBuild()), actionCollection(),"QuickBuild" );
+	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, this, SLOT(ViewLog()), actionCollection(),"ViewLog" );
 	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, this, SLOT(PreviousError()), actionCollection(),"PreviousError" );
 	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
 	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
 	StopAction->setEnabled(false);
-	(void) new KAction("LaTeX","latex", Key_F2, this, SLOT(Latex()), actionCollection(),"Latex" );
-	(void) new KAction(i18n("View Dvi"),"viewdvi", Key_F3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
-	(void) new KAction(i18n("Dvi to PS"),"dvips", Key_F4, this, SLOT(DviToPS()), actionCollection(),"DvitoPS" );
-	(void) new KAction(i18n("View PS"),"viewps", Key_F5, this, SLOT(ViewPS()), actionCollection(),"ViewPS" );
-	(void) new KAction(i18n("PDFLaTeX"),"latex", Key_F6, this, SLOT(PDFLatex()), actionCollection(),"PDFLatex" );
-	(void) new KAction(i18n("View PDF"),"viewpdf", Key_F7, this, SLOT(ViewPDF()), actionCollection(),"ViewPDF" );
-	(void) new KAction(i18n("PS to PDF"),"ps2pdf", Key_F8, this, SLOT(PStoPDF()), actionCollection(),"PStoPDF" );
-	(void) new KAction(i18n("DVI to PDF"),"dvipdf",Key_F9, this, SLOT(DVItoPDF()), actionCollection(),"DVItoPDF" );
-	(void) new KAction(i18n("BibTeX"),Key_F11, this, SLOT(MakeBib()), actionCollection(),"MakeBib" );
-	(void) new KAction(i18n("Make Index"),Key_F12, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
+	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
+	(void) new KAction(i18n("View Dvi"),"viewdvi", ALT+Key_3, this, SLOT(ViewDvi()), actionCollection(),"ViewDvi" );
+	(void) new KAction(i18n("Dvi to PS"),"dvips", ALT+Key_4, this, SLOT(DviToPS()), actionCollection(),"DvitoPS" );
+	(void) new KAction(i18n("View PS"),"viewps", ALT+Key_5, this, SLOT(ViewPS()), actionCollection(),"ViewPS" );
+	(void) new KAction(i18n("PDFLaTeX"),"latex", ALT+Key_6, this, SLOT(PDFLatex()), actionCollection(),"PDFLatex" );
+	(void) new KAction(i18n("View PDF"),"viewpdf", ALT+Key_7, this, SLOT(ViewPDF()), actionCollection(),"ViewPDF" );
+	(void) new KAction(i18n("PS to PDF"),"ps2pdf", ALT+Key_8, this, SLOT(PStoPDF()), actionCollection(),"PStoPDF" );
+	(void) new KAction(i18n("DVI to PDF"),"dvipdf",ALT+Key_9, this, SLOT(DVItoPDF()), actionCollection(),"DVItoPDF" );
+	(void) new KAction(i18n("BibTeX"),ALT+Key_Minus, this, SLOT(MakeBib()), actionCollection(),"MakeBib" );
+	(void) new KAction(i18n("Make Index"),ALT+Key_Equal, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
 	(void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
 	(void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
 	(void) new KAction(i18n("View Bibtex"),0 , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
@@ -432,14 +434,14 @@ void Kile::setupUserTagActions()
 	QString name;
 	KAction *menuItem;
 
-	KShortcut tagaccels[12] = {CTRL+SHIFT+Key_F1, SHIFT+CTRL+Key_F2,SHIFT+CTRL+Key_F3,SHIFT+CTRL+Key_F4,SHIFT+CTRL+Key_F5,SHIFT+CTRL+Key_F6,SHIFT+CTRL+Key_F7,
-		SHIFT+CTRL+Key_F8,SHIFT+CTRL+Key_F9,SHIFT+CTRL+Key_F10,SHIFT+CTRL+Key_F11,SHIFT+CTRL+Key_F12};
+	KShortcut tagaccels[10] = {CTRL+SHIFT+Key_1, CTRL+SHIFT+Key_2,CTRL+SHIFT+Key_3,CTRL+SHIFT+Key_4,CTRL+SHIFT+Key_5,CTRL+SHIFT+Key_6,CTRL+SHIFT+Key_7,
+		CTRL+SHIFT+Key_8,CTRL+SHIFT+Key_9,CTRL+SHIFT+Key_0};
 
 	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
 	for (uint i=0; i<m_listUserTags.size(); i++)
 	{
-		if (i<12) sc = tagaccels[i];
+		if (i<10) sc = tagaccels[i];
 		else sc=0;
 		name=QString::number(i+1)+": "+m_listUserTags[i].name;
 		menuItem = new KAction(name,sc,m_mapUserTagSignals,SLOT(map()), m_menuUserTags, name.ascii());
@@ -455,14 +457,14 @@ void Kile::setupUserToolActions()
 	QString name;
 	KAction *menuItem;
 
-	KShortcut toolaccels[12] = {SHIFT+ALT+Key_F1, SHIFT+ALT+Key_F2,SHIFT+ALT+Key_F3,SHIFT+ALT+Key_F4,SHIFT+ALT+Key_F5,SHIFT+ALT+Key_F6,SHIFT+ALT+Key_F7,
-		SHIFT+ALT+Key_F8,SHIFT+ALT+Key_F9,SHIFT+ALT+Key_F10,SHIFT+ALT+Key_F11,SHIFT+ALT+Key_F12};
+	KShortcut toolaccels[10] = {SHIFT+ALT+Key_1, SHIFT+ALT+Key_2,SHIFT+ALT+Key_3,SHIFT+ALT+Key_4,SHIFT+ALT+Key_5,SHIFT+ALT+Key_6,SHIFT+ALT+Key_7,
+		SHIFT+ALT+Key_8,SHIFT+ALT+Key_9,SHIFT+ALT+Key_0};
 
 	m_actionEditTool = new KAction(i18n("Edit User Tools"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
 	m_menuUserTools->insert(m_actionEditTool);
 	for (uint i=0; i<m_listUserTools.size(); i++)
 	{
-		if (i<12) sc = toolaccels[i];
+		if (i<10) sc = toolaccels[i];
 		else sc=0;
 		name=QString::number(i+1)+": "+m_listUserTools[i].name;
 		menuItem = new KAction(name,sc,m_mapUserToolsSignals,SLOT(map()), m_menuUserTools, name.ascii());
@@ -957,10 +959,11 @@ void Kile::projectNew()
 
 		KileProject *project = new KileProject(dlg->name(), dlg->location());
 
+		project->setArchiveCommand(dlg->archiveCommand());
+
 		//add the project file to the project
 		KileProjectItem *item = new KileProjectItem(project, project->url());
 		item->setOpenState(false);
-		//project->add(item);
 		projectOpenItem(item);
 
 		if (dlg->createNewFile())
@@ -982,7 +985,11 @@ void Kile::projectNew()
 			item = new KileProjectItem(project, url);
 			//project->add(item);
 			mapItem(docinfo, item);
+
+			docinfo->updateStruct(m_defaultLevel);
 		}
+
+		project->buildProjectTree();
 
 		//project->save();
 		addProject(project);
@@ -1196,7 +1203,61 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 		project->save();
 	}
 	else
-		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could not save project."));
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could determine active project."));
+}
+
+bool Kile::projectArchive(const KURL & url)
+{
+	KileProject *project = projectFor(url);
+
+	if (project)
+		return projectArchive(project);
+	else
+		return false;
+}
+
+bool Kile::projectArchive(KileProject *project /* = 0*/)
+{
+	if (project == 0)
+		project = activeProject();
+
+	if (project)
+	{
+		QString command = project->archiveCommand();
+		QString files, path;
+		QPtrListIterator<KileProjectItem> it(*project->items());
+		while (it.current())
+		{
+			path = (*it)->path();
+			KRun::shellQuote(path);
+			files += path+" ";
+			++it;
+		}
+
+		command.replace("%F", files);
+		command.replace("%S", project->name());
+
+		QFileInfo fic(project->url().path());
+
+		CommandProcess *proc=execCommand(command,fic,true, true);
+ 		connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
+
+		if ( ! proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+		{
+			KMessageBox::error( this,i18n("Could not start the archive command, check the archive command in Project Options for any mistakes."));
+		}
+		else
+		{
+			OutputWidget->clear();
+			LogWidget->clear();
+			logpresent=false;
+			LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
+		}
+	}
+	else
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could not determine active project."));
+
+	return true;
 }
 
 void Kile::projectOptions(const KURL & url)
@@ -1220,7 +1281,7 @@ void Kile::projectOptions(KileProject *project /* = 0*/)
 		dlg->exec();
 	}
 	else
-		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could not close project."));
+		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could not determine active project."));
 }
 
 bool Kile::projectCloseAll()
@@ -2523,10 +2584,7 @@ void Kile::MakeBib()
      return;
   }
 
-  if (m_singlemode) {finame=getName();}
-  else {
-     finame=m_masterName; //FIXME: MasterFile does not get saved if it is modified
-  }
+  finame = getCompileName();
 
   //we need to check for finame==i18n("Untitled") etc. because the user could have
   //escaped the file save dialog
@@ -3829,7 +3887,7 @@ void Kile::ReadSettings()
 	showtoolstoolbar=config->readBoolEntry("ShowToolsToolbar",true);
 	showedittoolbar=config->readBoolEntry("ShowEditToolbar",true);
 	showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
-	m_menuaccels=config->readBoolEntry("MenuAccels", false);
+	m_menuaccels=config->readBoolEntry("MenuAccels", true);
 
 	config->setGroup( "Tools" );
 	if (old)

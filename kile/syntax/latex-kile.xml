@@ -92,7 +92,7 @@
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
 				<keyword String="kw_verbenv" attribute="Environment" context="#stay"/>
 				<RegExpr String="\s*" attribute="Normal Text" context="#stay"/>
-				<DetectChar char="}" attribute="Normal Text" context="Normal Text"/>
+				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop"/>
 			</context>
 
 			<context name="MathMode" attribute="Math" lineEndContext="#stay">

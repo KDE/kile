@@ -36,6 +36,7 @@ public:
 
 	QString name() {return m_name->text();}
 	QString location() { return m_location->text(); }
+	QString archiveCommand() { return m_archive->text(); }
 	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_nfw->currentItem());}
 	QString file() { return m_file->text();}
 	bool createNewFile() { return m_cb->isChecked(); }
@@ -47,7 +48,7 @@ public slots:
 	void slotOk();
 
 private:
-	KLineEdit	*m_name, *m_location, *m_file;
+	KLineEdit	*m_name, *m_location, *m_file, *m_archive;
 	NewFileWidget *m_nfw;
 	QCheckBox	*m_cb;
 	QLabel *m_lb;
@@ -65,7 +66,7 @@ private slots:
 	void slotOk();
 
 private:
-	KLineEdit		*m_name;
+	KLineEdit		*m_name, *m_archive;
 	KileProject	*m_project;
 };
 

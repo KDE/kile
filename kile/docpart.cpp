@@ -21,6 +21,7 @@
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <kmimemagic.h>
+#include <kmimetype.h>
 #include <ktrader.h>
 #include <krun.h>
 #include <khtml_settings.h>
@@ -46,13 +47,12 @@ docpart::~docpart(){
 
 void docpart::urlSelected(const QString &url, int button, int state,const QString & target, KParts::URLArgs args)
 {
-	KURL cURL = completeURL( url );
-
-	KMimeMagicResult *mm = KMimeMagic::self()->findFileType(cURL.path());
+	KURL cURL = completeURL(url);
+	QString mime = KMimeType::findByURL(cURL).data()->name();
 
 	//load this URL in the embedded viewer if KHTML can handle it, or when mimetype detection failed
 	KService::Ptr service = KService::serviceByDesktopName("khtml");
-	if ( (service != 0) && (!mm->isValid() || service->hasServiceType(mm->mimeType())) )
+	if ( ( mime == KMimeType::defaultMimeType() ) || (service && service->hasServiceType(mime)) )
 	{
 		KHTMLPart::urlSelected(url, button, state, target, args);
 		openURL(cURL) ;
@@ -61,11 +61,11 @@ void docpart::urlSelected(const QString &url, int button, int state,const QStrin
 	//KHTML can't handle it, look for an appropriate application
 	else
 	{
-		KTrader::OfferList offers = KTrader::self()->query(mm->mimeType(), "Type == 'Application'");
+		KTrader::OfferList offers = KTrader::self()->query(mime, "Type == 'Application'");
 		KService::Ptr ptr = offers.first();
 		KURL::List lst;
 		lst.append(cURL);
-		KRun::run(*ptr, lst);
+		if (ptr) KRun::run(*ptr, lst);
 	}
 }
 

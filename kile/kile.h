@@ -30,7 +30,17 @@
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
+#include <kdeversion.h>
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
+#include <kspell2/broker.h>
+namespace KSpell2 {
+	class Dialog;
+	class BackgroundChecker;
+}
+class KSpell;
+#else
 #include <kspell.h>
+#endif
 #include <kprocess.h>
 #include <kaction.h>
 #include <kfileitem.h>
@@ -181,7 +191,7 @@ private slots:
 
 public slots:
 	void prepareForPart(const QString &);
-	
+
 /* structure view */
 private:
 	bool 								showstructview;
@@ -226,6 +236,9 @@ private slots:
 /* spell check */
 private slots:
 	void spellcheck();
+	void slotDone (const QString&);
+	void slotCorrected (const QString & originalword, int start, const QString & newword);
+	void slotMisspelling (const QString & originalword, int pos);
 	void spell_started ( KSpell *);
 	void spell_progress (unsigned int percent);
 	void spell_done(const QString&);
@@ -234,10 +247,18 @@ private slots:
 	void misspelling (const QString & originalword, const QStringList & suggestions,unsigned int pos);
 
 private:
-	KSpell 			*kspell;
-    int 				ks_corrected;
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,2,90)
+	KSpell2::Broker::Ptr        m_broker;
+	KSpell2::Dialog            *m_dialog;
+	KSpell2::BackgroundChecker *m_checker;
+	int                  m_spellCorrected;
 	int 				par_start, par_end, index_start, index_end;
-    QString 		spell_text;
+#else
+	KSpell 			*kspell;
+	int 				ks_corrected;
+	int 				par_start, par_end, index_start, index_end;
+	QString 		spell_text;
+#endif
 
 
 /* views */

@@ -25,6 +25,7 @@
 		</list>
 		<list name="kw_verbenv">
 			<item>lstlisting</item>
+			<item>boxedverbatim</item>
 		</list>
 		<contexts>
 			<context name="Normal Text" attribute="Normal Text" lineEndContext="Normal Text">

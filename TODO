@@ -2,6 +2,7 @@ BUGS
  - shell quote filenames in tools (filenames with spaces etc.)
  - When "\section" is re-defined in the preamble of a document, the structure view considers it
    as a section.
+ - shortcuts are severely broken since we use the katepart
 
 TODO
  - use iterators instead of [] (especially for qstringlist and alike)

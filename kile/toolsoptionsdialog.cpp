@@ -200,6 +200,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 	gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
 	QGroupBox* GroupBox3= new QGroupBox(2,Qt::Horizontal,i18n("Spelling"),spellingPage, "ButtonGroup" );
+
 	ksc = new KSpellConfig(GroupBox3, "spell",0, false );
 
 	gbox2->addMultiCellWidget(GroupBox3,0,0,0,1,0);

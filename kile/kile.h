@@ -60,7 +60,6 @@
 #include "tabbingdialog.h"
 #include "toolsoptionsdialog.h"
 #include "l2hdialog.h"
-#include "filechooser.h"
 #include "gfe/qplotmaker.h"
 #include "gfe/qplotdialog.h"
 #include "docpart.h"
@@ -70,6 +69,8 @@
 #include "kilefileselect.h"
 #include "refdialog.h"
 #include "metapostview.h"
+
+#include "kileinfointerface.h"
 #include "kileactions.h"
 
 #include "commandprocess.h"
@@ -99,7 +100,7 @@ struct userItem
 
 
 
-class Kile : public KParts::MainWindow, public KileAppDCOPIface
+class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfoInterface
 {
 	Q_OBJECT
 
@@ -166,7 +167,6 @@ private:
 	arraydialog 			*arrayDlg;
 	tabbingdialog 			*tabDlg;
 	l2hdialog 				*l2hDlg;
-	FileChooser 			*sfDlg;
 
 	//parts
 	docpart 				*htmlpart;
@@ -298,8 +298,16 @@ private slots:
 	void gotoNextDocument();
 	void gotoPrevDocument();
 
-	QString getName(Kate::Document *doc = 0);
-    	QString getShortName(Kate::Document *doc = 0);
+	QString getName(Kate::Document *doc);
+    QString getShortName(Kate::Document *doc);
+
+	//
+	// implementation of:
+	// KileInfoInterface
+	//
+public:
+	QString getName() { return getName(0); }
+    QString getShortName() { return getShortName(0); }
 
 private:
 	bool singlemode;

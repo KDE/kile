@@ -283,7 +283,7 @@ void Kile::setupActions()
   HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
 	QPtrList<KAction> alt_list;
-	KileStdActions::setupStdTags(this, &alt_list, &labelitem);
+	KileStdActions::setupStdTags(this,this, &alt_list, &labelitem);
 	altI_action = alt_list.at(0);
 	altA_action = alt_list.at(1);
 	altB_action = alt_list.at(2);

@@ -89,35 +89,35 @@ void Tag::emitData()
 ////////////////
 //    InputTag     //
 ////////////////
-InputTag::InputTag( const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent, uint options
+InputTag::InputTag(const KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent, uint options
 	, const QString &tagBegin, const QString &tagEnd
 	, int dx, int dy, const QString &description, const QString &hint, QStringList *list, const QString &alter)
-	: Tag(text, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description),
+	: m_kii(kii), Tag(text, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag( const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+InputTag::InputTag( const KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 	, const QString &tagBegin, const QString &tagEnd
 	, int dx, int dy, const QString &description, const QString &hint, QStringList *list, const QString &alter)
-	: Tag(text, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description),
+	: m_kii(kii), Tag(text, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag( const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+InputTag::InputTag( const KileInfoInterface* kii, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 	, const TagData& data, const QString &hint, QStringList *list, const QString &alter)
-	: Tag(text,cut,receiver, slot, parent, name,data),
+	: m_kii(kii), Tag(text,cut,receiver, slot, parent, name,data),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag( const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
+InputTag::InputTag( const KileInfoInterface* kii, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
 	, const TagData& data, const QString &hint, QStringList *list, const QString &alter)
-	: Tag(text, pix, cut,receiver, slot, parent, name,data),
+	: m_kii(kii), Tag(text, pix, cut,receiver, slot, parent, name,data),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_list(list), m_alter(alter)
 {
 	init();
@@ -134,7 +134,9 @@ void InputTag::init()
 
 void InputTag::emitData()
 {
-	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_list,  m_parent, "input_dialog");
+	kdDebug() << "InputTag::emitData() " << m_kii->getName() << endl;
+
+	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_list, m_kii, m_parent, "input_dialog");
 	if (dlg->exec())
 	{
 		kdDebug() << "een" << endl;
@@ -160,8 +162,8 @@ void InputTag::emitData()
 /*
 	InputDialog
 */
-InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, QStringList *list, QWidget *parent, const char *name)
-	: KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true)
+InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, QStringList *list, const KileInfoInterface *kii, QWidget *parent, const char *name)
+	: m_kii(kii), KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -227,12 +229,13 @@ InputDialog::~InputDialog()
 void InputDialog::slotBrowse()
 {
 	QString fn;
-	fn = KFileDialog::getOpenFileName( QString::null, QString::null, this,i18n("Select File") );
+	QFileInfo fi(m_kii->getName());
+	fn = KFileDialog::getOpenFileName(fi.absFilePath(), QString::null, this,i18n("Select File") );
   	if ( !fn.isEmpty() )
-     	{
-     		setTag(fn);
+    {
+    	setTag(fn);
 		emit(setInput(fn));
-     	}
+    }
 }
 
 void InputDialog::slotAltClicked()

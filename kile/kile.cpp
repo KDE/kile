@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// last change: 24.01.2004 (dani)
-
 #include "kile.h"
 
 #include <ktexteditor/editorchooser.h>
@@ -96,15 +94,13 @@
 #include "kileoutputwidget.h"
 #include "kilekonsolewidget.h"
 #include "quickdocumentdialog.h"
-// #include "quickdocheader.h"
 #include "tabdialog.h"
-#include "letterdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
 #include "kilestructurewidget.h"
 #include "convert.h"
-#include "includegraphicsdialog.h"                  // new dialog (dani)
-#include "cleandialog.h"                            // clean dialog (dani)
+#include "includegraphicsdialog.h"
+#include "cleandialog.h" 
 #include "kiletoolcapability.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
@@ -456,7 +452,6 @@ void Kile::setupActions()
 	KileStdActions::setupBibTags(this);
 
 	(void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
-	(void) new KAction(i18n("Letter"),"wizard",0 , this, SLOT(QuickLetter()), actionCollection(),"128" );
 	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
 	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
 	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );
@@ -1540,9 +1535,11 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 
 void Kile::QuickDocument()
 {
-	if ( !viewManager()->currentView() ) return;
+	if ( !viewManager()->currentView() && ( docManager()->createDocumentWithText(QString::null) == 0L ) )
+		return;
+
 	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(config, this,"Quick Start",i18n("Quick Start"));
-// 	KileDialog::QuickDocHeader *dlg = new KileDialog::QuickDocHeader(config, this,"Quick Start",i18n("Quick Start"));
+
 	if ( dlg->exec() )
 	{
 		insertTag( dlg->tagData() );
@@ -1577,17 +1574,6 @@ void Kile::QuickArray()
 	if ( !viewManager()->currentView() ) return;
 	KileDialog::QuickArray *dlg = new KileDialog::QuickArray(config, this,"Array", i18n("Array"));
 	if ( dlg->exec() )
-	{
-		insertTag(dlg->tagData());
-	}
-	delete dlg;
-}
-
-void Kile::QuickLetter()
-{
-	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickLetter *dlg = new KileDialog::QuickLetter(config, this, "Letter", i18n("Letter"));
-	if (dlg->exec())
 	{
 		insertTag(dlg->tagData());
 	}

@@ -279,7 +279,6 @@
 </Menu>
 <Menu name="menu7"><text>&amp;Wizard</text>
 	<Action name="127"/>
-	<Action name="128"/>
 	<Separator/>
 	<Action name="129"/>
 	<Action name="130"/>

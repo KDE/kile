@@ -382,7 +382,6 @@ private slots:
 	void QuickTabular();
 	void QuickArray();
 	void QuickTabbing();
-	void QuickLetter();
 	void QuickDocument();
 
 	void insertSymbol(QIconViewItem*);

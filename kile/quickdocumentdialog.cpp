@@ -1,325 +1,988 @@
-/***************************************************************************
-                          quickdocumentdialog.cpp  -  description
-                             -------------------
-    begin                : Tue Oct 30 2001
-    copyright            : (C) 2001 by Brachet Pascal
-    email                :
- ***************************************************************************/
+//
+// C++ Implementation: quickdocheader
+//
+// Description:
+//
+//
+// Author: Thomas Fischer <t-fisch@users.sourceforge.net>, (C) 2004
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+//
+#include <qtabwidget.h>
+#include <qlayout.h>
+#include <qwidget.h>
+#include <qlabel.h>
+#include <qlistview.h>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+#include <kcombobox.h>
+#include <klocale.h>
+#include <kconfig.h>
+#include <klineedit.h>
+#include <kpushbutton.h>
+#include <kinputdialog.h>
+#include <kmessagebox.h>
 
 #include "quickdocumentdialog.h"
 
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcheckbox.h>
-
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <kcombobox.h>
-#include <klistbox.h>
-#include <klineedit.h>
-#include <klineeditdlg.h>
-#include <kconfig.h>
-
 namespace KileDialog
 {
-	QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
-		Wizard(config, parent,name,caption)
-	{
-		m_td.dy=3;
-		m_td.dx=0;
 
-		QWidget *page = new QWidget( this );
-		setMainWidget(page);
+QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name, const QString &caption) : Wizard(config, parent,name,caption)
+{
+	setupGUI();
+	init();
+	readConfig();
+}
 
-		m_layout = new QGridLayout( page, 10, 3,5,5,"");
-		m_layout->addRowSpacing( 0, fontMetrics().lineSpacing() );
-		m_layout->addColSpacing( 0, fontMetrics().lineSpacing() );
 
-		m_lbDocClass = new QLabel(page);
-		m_lbDocClass->setText(i18n("&Document class:"));
-		m_layout->addWidget(m_lbDocClass , 0, 0 );
-		m_cbDocClass = new KComboBox( page );
-		m_lbDocClass->setBuddy(m_cbDocClass);
-		m_cbDocClass->insertItem( "article" );
-		m_cbDocClass->insertItem( "report");
-		m_cbDocClass->insertItem( "letter" );
-		m_cbDocClass->insertItem( "book" );
+QuickDocument::~QuickDocument()
+{}
 
-		QLabel *lb= new QLabel(page);
-		lb->setText(i18n("&Typeface size:"));
-		m_layout->addWidget(lb , 1, 0 );
-		m_cbFontSize = new KComboBox( page );
-		lb->setBuddy(m_cbFontSize);
-		m_cbFontSize->insertItem( "10pt" );
-		m_cbFontSize->insertItem( "11pt" );
-		m_cbFontSize->insertItem( "12pt" );
+/*!
+    \fn QuickDocument::setupGUI
+ */
+void QuickDocument::setupGUI()
+{
+	QLabel *label;
+	KPushButton *button;
+	QGridLayout *gl;
+	QWidget *frame, *container;
+	QHBoxLayout *hl;
 
-		lb= new QLabel(page);
-		lb->setText(i18n("&Paper size:"));
-		m_layout->addWidget(lb , 2, 0 );
-		m_cbPaperSize = new KComboBox( FALSE, page);
-		lb->setBuddy(m_cbPaperSize);
+	QTabWidget *tabWidget = new QTabWidget( this );
+	setMainWidget(tabWidget);
 
-		lb= new QLabel(page);
-		lb->setText(i18n("&Encoding:"));
-		m_layout->addWidget(lb , 3, 0 );
-		m_cbEncoding = new KComboBox( FALSE, page);
-		lb->setBuddy(m_cbEncoding);
+	QWidget *classOptions = new QWidget( tabWidget );
+	tabWidget->addTab(classOptions, i18n("Cla&ss Options"));
+	gl = new QGridLayout(classOptions, 9, 2, marginHint(), spacingHint());
 
-		userClassBtn= new KPushButton(page);
-		userClassBtn->setMinimumSize(0,0);
-		userClassBtn->setText("+");
-		userClassBtn->setFixedWidth(30);
-		connect(userClassBtn , SIGNAL(clicked()), SLOT(addUserClass()) );
+	container = new QWidget(classOptions);
+	gl->addWidget(container, 0, 1);
+	hl = new QHBoxLayout(container, 0, spacingHint());
+	m_cbDocumentClass = new KComboBox(container);
+	m_cbDocumentClass->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+	m_cbDocumentClass->setEditable(true);
+	m_cbDocumentClass->setDuplicatesEnabled(false);
+	hl->addWidget(m_cbDocumentClass);
+	button = new KPushButton(KGuiItem("", "edit_add", i18n("Add current text to this list")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem("", "eraser", i18n("Delete current element from this list")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem("", "reload", i18n("Reset this list to defaults")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotDocumentClassReset()));
+	hl->addWidget(button);
+	label = new QLabel(i18n("Doc&ument class:"), classOptions);
+	gl->addWidget(label, 0, 0);
+	label->setBuddy(m_cbDocumentClass);
+	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
-		userPaperBtn= new KPushButton(page);
-		userPaperBtn->setMinimumSize(0,0);
-		userPaperBtn->setText("+");
-		userPaperBtn->setFixedWidth(30);
-		connect(userPaperBtn , SIGNAL(clicked()), SLOT(addUserPaper()) );
+	m_cbTypefaceSize = new KComboBox(classOptions);
+	gl->addWidget(m_cbTypefaceSize, 2, 1);
+	label = new QLabel(i18n("&Typeface size:"), classOptions);
+	gl->addWidget(label, 2, 0);
+	label->setBuddy(m_cbTypefaceSize);
+	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
-		userEncodingBtn= new KPushButton(page);
-		userEncodingBtn->setMinimumSize(0,0);
-		userEncodingBtn->setText("+");
-		userEncodingBtn->setFixedWidth(30);
-		connect(userEncodingBtn , SIGNAL(clicked()), SLOT(addUserEncoding()) );
+	container = new QWidget(classOptions);
+	gl->addWidget(container, 3, 1);
+	hl = new QHBoxLayout(container, 0, spacingHint());
+	m_cbPaperSize = new KComboBox(container);
+	m_cbPaperSize->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+	m_cbPaperSize->setEditable(true);
+	m_cbPaperSize->setDuplicatesEnabled(false);
+	hl->addWidget(m_cbPaperSize);
+	button = new KPushButton(KGuiItem("", "edit_add", i18n("Add current text to this list")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem("", "eraser", i18n("Delete current element from this list")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem("", "reload", i18n("Reset this list to defaults")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotPaperSizeReset()));
+	hl->addWidget(button);
+	label = new QLabel(i18n("Paper si&ze:"), classOptions);
+	gl->addWidget(label, 3, 0);
+	label->setBuddy(m_cbPaperSize);
+	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
-		m_ckAMS = new QCheckBox( page);
-		m_ckAMS->setFocusPolicy( QWidget::TabFocus );
-		m_ckAMS->setText( i18n("AM&S packages") );
-		m_ckAMS->setAutoRepeat( FALSE );
-		m_ckAMS->setChecked( TRUE );
+	container = new QWidget(classOptions);
+	gl->addWidget(container, 4, 1);
+	hl = new QHBoxLayout(container, 0, spacingHint());
+	m_cbEncoding = new KComboBox(container);
+	m_cbEncoding->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+	m_cbEncoding->setEditable(true);
+	m_cbEncoding->setDuplicatesEnabled(false);
+	hl->addWidget(m_cbEncoding);
+	button = new KPushButton(KGuiItem("", "edit_add", i18n("Add current text to this list")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotEncodingAdd()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem("", "eraser", i18n("Delete current element from this list")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotEncodingDelete()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem("", "reload", i18n("Reset this list to defaults")), container);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotEncodingReset()));
+	hl->addWidget(button);
+	label = new QLabel(i18n("E&ncoding:"), classOptions);
+	gl->addWidget(label, 4, 0);
+	label->setBuddy(m_cbEncoding);
+	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
-		m_ckIdx = new QCheckBox( page);
-		m_ckIdx->setFocusPolicy( QWidget::TabFocus );
-		m_ckIdx->setText( i18n("make&idx package") );
-		m_ckIdx->setAutoRepeat( FALSE );
-		m_ckIdx->setChecked( FALSE );
+	m_lvClassOptions = new QListView(classOptions);
+	gl->addWidget(m_lvClassOptions, 7, 1);
+	m_lvClassOptions->addColumn(i18n("Option"));
+	m_lvClassOptions->addColumn(i18n("Description"));
+	label = new QLabel(i18n("C&lass options:"), classOptions);
+	gl->addWidget(label, 7, 0);
+	label->setBuddy(m_lvClassOptions);
+	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+	label->setAlignment(Qt::AlignTop);
 
-		m_lbOptions = new QLabel(page);
-		m_lbOptions->setText(i18n("Other &options:"));
-		m_layout->addMultiCellWidget(m_lbOptions,7,7,0,1,Qt::AlignLeft);
-		m_bxOptions=new KListBox(page);
-		m_bxOptions->setSelectionMode(QListBox::Multi);
-		m_lbOptions->setBuddy(m_bxOptions);
+	frame = new QWidget(classOptions);
+	gl->addWidget(frame, 8, 1);
+	hl = new QHBoxLayout(frame, 0, spacingHint());
+	hl->addStretch(1);
+	button = new KPushButton(KGuiItem(i18n("&Add"), "edit_add", i18n("Add a new class option")), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Ed&it"), "edit", i18n("Edit the current class option")), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("D&elete"), "eraser", i18n("Delete the current class option")), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("&Reset to defaults"), "reload", i18n("Reset this list to defaults")), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotClassOptionReset()));
+	hl->addWidget(button);
 
-		userOptionsBtn= new KPushButton(page);
-		userOptionsBtn->setMinimumSize(0,0);
-		userOptionsBtn->setText("+");
-		userOptionsBtn->setFixedWidth(30);
-		connect(userOptionsBtn , SIGNAL(clicked()), SLOT(addUserOptions()) );
+	QWidget *packages = new QWidget( tabWidget );
+	tabWidget->addTab(packages, i18n("&Packages"));
+	QVBoxLayout *vl = new QVBoxLayout(packages, marginHint(), spacingHint());
 
-		m_lbAuthor = new QLabel(page);
-		m_lbAuthor->setText(i18n("&Author:"));
-		m_layout->addWidget(m_lbAuthor , 5, 0 );
-		m_leAuthor = new KLineEdit(page);
-		m_layout->addWidget(m_leAuthor ,5,1 );
-		m_lbAuthor->setBuddy(m_leAuthor);
+	label = new QLabel(i18n("Co&mmon packages:"), packages);
+	vl->addWidget(label);
+	m_lvPackagesCommon = new QListView(packages);
+	vl->addWidget(m_lvPackagesCommon);
+	m_lvPackagesCommon->addColumn(i18n("Package"));
+	m_lvPackagesCommon->addColumn(i18n("Description"));
+	label->setBuddy(m_lvPackagesCommon);
+	connect(m_lvPackagesCommon, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
+	connect(m_lvPackagesCommon, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
 
-		m_lbTitle = new QLabel(page);
-		m_lbTitle ->setText(i18n("Tit&le:"));
-		m_layout->addWidget(m_lbTitle , 6, 0 );
-		m_leTitle = new KLineEdit(page);
-		m_lbTitle->setBuddy(m_leTitle);
+	frame = new QWidget(packages);
+	vl->addWidget(frame);
+	hl = new QHBoxLayout(frame, 0, spacingHint());
+	hl->addStretch(1);
+	button = new KPushButton(KGuiItem(i18n("&Add Package"), "edit_add"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageAdd()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Add Op&tion"), "edit_add"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageAddOption()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Ed&it"), "edit"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageEdit()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("De&lete"), "eraser"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageDelete()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("&Reset to defaults"), "reload"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotCommonPackageReset()));
+	hl->addWidget(button);
 
-		m_layout->addWidget(m_cbDocClass , 0, 1 );
-		m_layout->addWidget(userClassBtn , 0, 2,Qt::AlignLeft );
-		m_layout->addWidget(m_cbFontSize , 1, 1 );
-		m_layout->addWidget(m_cbPaperSize , 2, 1 );
-		m_layout->addWidget(userPaperBtn , 2, 2,Qt::AlignLeft );
-		m_layout->addWidget(m_cbEncoding , 3, 1 );
-		m_layout->addWidget(userEncodingBtn , 3, 2,Qt::AlignLeft );
-		m_layout->addWidget(m_ckAMS , 4, 0 );
-		m_layout->addWidget(m_ckIdx , 4, 1 );
-		m_layout->addWidget(m_leTitle , 6,1);
-		m_layout->addMultiCellWidget(m_bxOptions,8,8,0,1,0);
-		m_layout->addWidget(userOptionsBtn , 8, 2,Qt::AlignLeft );
-		this->resize(280,340);
+	vl->addSpacing(spacingHint());
 
-		readConfig();
-		init();
-	}
+	label = new QLabel(i18n("&Exotic packages:"), packages);
+	vl->addWidget(label);
+	m_lvPackagesExotic = new QListView(packages);
+	vl->addWidget(m_lvPackagesExotic);
+	m_lvPackagesExotic->addColumn(i18n("Package"));
+	m_lvPackagesExotic->addColumn(i18n("Description"));
+	label->setBuddy(m_lvPackagesExotic);
+	connect(m_lvPackagesExotic, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
+	connect(m_lvPackagesExotic, SIGNAL(spacePressed(QListViewItem *)), this, SLOT(slotCheckParent(QListViewItem *)));
+
+	frame = new QWidget(packages);
+	vl->addWidget(frame);
+	hl = new QHBoxLayout(frame, 0, spacingHint());
+	hl->addStretch(1);
+	button = new KPushButton(KGuiItem(i18n("Add Package"), "edit_add"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageAdd()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Add Option"), "edit_add"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageAddOption()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Edit"), "edit"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageEdit()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Delete"), "eraser"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageDelete()));
+	hl->addWidget(button);
+	button = new KPushButton(KGuiItem(i18n("Reset to defaults"), "reload"), frame);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotExoticPackageReset()));
+	hl->addWidget(button);
+
+	QWidget *personalInfo = new QWidget( tabWidget );
+	tabWidget->addTab(personalInfo, i18n("&Document Properties"));
+	gl = new QGridLayout(personalInfo, 4, 2, marginHint(), spacingHint());
+	gl->setRowStretch(gl->numRows()-1, 1);
+
+	m_leAuthor = new KLineEdit(personalInfo);
+	gl->addWidget(m_leAuthor, 0, 1);
+	label = new QLabel(i18n("&Author:"), personalInfo);
+	gl->addWidget(label, 0, 0);
+	label->setBuddy(m_leAuthor);
+
+	m_leTitle = new KLineEdit(personalInfo);
+	gl->addWidget(m_leTitle, 1, 1);
+	label = new QLabel(i18n("&Title:"), personalInfo);
+	gl->addWidget(label, 1, 0);
+	label->setBuddy(m_leTitle);
+
+	m_leDate = new KLineEdit(personalInfo);
+	gl->addWidget(m_leDate, 2, 1);
+	label = new QLabel(i18n("Dat&e:"), personalInfo);
+	gl->addWidget(label, 2, 0);
+	label->setBuddy(m_leDate);
+}
+
+
+
+/*!
+    \fn QuickDocument::init()
+ */
+void QuickDocument::init()
+{
+	m_cbTypefaceSize->clear();
+	m_cbTypefaceSize->insertItem( "10pt" );
+	m_cbTypefaceSize->insertItem( "11pt" );
+	m_cbTypefaceSize->insertItem( "12pt" );
+
+	m_leDate->setText( KGlobal::locale()->formatDate(QDate::currentDate(), true) );
+}
+
+/*!
+    \fn QuickDocument::initClassOption()
+ */
+void QuickDocument::initDocumentClass()
+{
+	m_cbDocumentClass->clear();
+	m_cbDocumentClass->insertItem( "article" );
+	m_cbDocumentClass->insertItem( "book" );
+	m_cbDocumentClass->insertItem( "letter" );
+	m_cbDocumentClass->insertItem( "report");
+	m_cbDocumentClass->insertItem( "scrartcl" );
+	m_cbDocumentClass->insertItem( "scrbook" );
+	m_cbDocumentClass->insertItem( "scrlettr" );
+	m_cbDocumentClass->insertItem( "scrreprt" );
+}
+
+/*!
+    \fn QuickDocument::initClassOption()
+ */
+void QuickDocument::initPaperSize()
+{
+	m_cbPaperSize->clear();
+	m_cbPaperSize->insertItem( "a4paper" );
+	m_cbPaperSize->insertItem( "a5paper" );
+	m_cbPaperSize->insertItem( "b5paper" );
+	m_cbPaperSize->insertItem( "executivepaper" );
+	m_cbPaperSize->insertItem( "letterpaper" );
+	m_cbPaperSize->insertItem( "legalpaper" );
+}
+
+/*!
+    \fn QuickDocument::initClassOption()
+ */
+void QuickDocument::initEncoding()
+{
+	m_cbEncoding->clear();
+	m_cbEncoding->insertItem( "ansinew" );
+	m_cbEncoding->insertItem( "applemac" );
+	m_cbEncoding->insertItem( "ascii" );
+	m_cbEncoding->insertItem( "cp1252" );
+	m_cbEncoding->insertItem( "cp1250" );
+	m_cbEncoding->insertItem( "cp1251" );
+	m_cbEncoding->insertItem( "cp437" );
+	m_cbEncoding->insertItem( "cp437de" );
+	m_cbEncoding->insertItem( "cp850" );
+	m_cbEncoding->insertItem( "cp852" );
+	m_cbEncoding->insertItem( "cp865" );
+	m_cbEncoding->insertItem( "decmulti" );
+	m_cbEncoding->insertItem( "koi8-r" );
+	m_cbEncoding->insertItem( "latin1" );
+	m_cbEncoding->insertItem( "latin2" );
+	m_cbEncoding->insertItem( "latin3" );
+	m_cbEncoding->insertItem( "latin5" );
+	m_cbEncoding->insertItem( "next" );
+}
+
+/*!
+    \fn QuickDocument::initClassOption()
+ */
+void QuickDocument::initClassOption()
+{
+	QCheckListItem *cli;
+
+	m_lvClassOptions->clear();
+	cli = new QCheckListItem(m_lvClassOptions, "draft", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "final", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "fleqn", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "landscape", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "leqno", QCheckListItem::CheckBox); cli->setText(1, i18n("Sets the document's orientation to landscape"));
+	cli = new QCheckListItem(m_lvClassOptions, "notitlepage", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "onecolumn", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "oneside", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "openany", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "openright", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "titlepage", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "twocolumn", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "twoside", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvClassOptions, "openbib", QCheckListItem::CheckBox);
+}
+
+/*!
+    \fn KileDialog::QuickDocument::initPackageCommon()
+ */
+void QuickDocument::initPackageCommon()
+{
+	QCheckListItem *cli;
+	QCheckListItem *clichild;
+
+	m_lvPackagesCommon->clear();
+	cli = new QCheckListItem(m_lvPackagesCommon, "amsmath", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvPackagesCommon, "amsfonts", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvPackagesCommon, "amssymb", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvPackagesCommon, "babel", QCheckListItem::CheckBox);
+	cli->setOpen(true);
+	cli->setExpandable(true);
+	clichild = new QCheckListItem(cli, "american", QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "dutch", QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "german", QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "french", QCheckListItem::CheckBox);
 	
-	QuickDocument::~QuickDocument()
-	{}
+	cli = new QCheckListItem(m_lvPackagesCommon, "srcltx", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Enable Inverse and Forward search."));
 
-	void QuickDocument::slotOk()
-	{
-		m_td.tagBegin = "\\documentclass[";
-		m_td.tagBegin += m_cbFontSize->currentText();
-		m_td.tagBegin += "," + m_cbPaperSize->currentText();
-		QString opt;
-		for ( uint j=0; j<= m_bxOptions->count(); j++)
-		{
-			if (m_bxOptions->isSelected(j)) opt +=  ","+ m_bxOptions->item(j)->text();
+	cli = new QCheckListItem(m_lvPackagesCommon, "fontenc", QCheckListItem::CheckBox);
+	cli->setOpen(true);
+	cli->setOn(true);
+	clichild = new QCheckListItem(cli, "T1", QCheckListItem::CheckBox);
+	clichild->setOn(true);
+	cli = new QCheckListItem(m_lvPackagesCommon, "graphicx", QCheckListItem::CheckBox);
+	cli->setOpen(true);
+	clichild = new QCheckListItem(cli, "pdftex", QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "dvips", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvPackagesCommon, "helvetic", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Use Helvetica font as sans font"));
+	cli->setOpen(true);
+	clichild = new QCheckListItem(cli, "scaled", QCheckListItem::CheckBox);
+	cli = new QCheckListItem(m_lvPackagesCommon, "mathpazo", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Use Palatino font as roman font (both text and math mode)"));
+	cli = new QCheckListItem(m_lvPackagesCommon, "mathptmx", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Use Times font as roman font (both text and math mode)"));
+	cli = new QCheckListItem(m_lvPackagesCommon, "makeidx", QCheckListItem::CheckBox);
+	cli->setText(1, i18n("Enable index generation"));
+	cli = new QCheckListItem(m_lvPackagesCommon, "xspace", QCheckListItem::CheckBox);
+}
+
+/*!
+    \fn KileDialog::QuickDocument::initPackageExotic()
+ */
+void QuickDocument::initPackageExotic()
+{
+	/// @todo implement me
+}
+
+/*!
+    \fn QuickDocument::writeConfig()
+ */
+void QuickDocument::writeConfig()
+{
+	QStringList list;
+
+	m_config->setGroup( "Quick" );
+	m_config->writeEntry("Class", m_cbDocumentClass->currentText());
+	m_config->writeEntry("Typeface", m_cbTypefaceSize->currentText());
+	m_config->writeEntry("Papersize", m_cbPaperSize->currentText());
+
+	list.clear();
+	for (int i = 0; i<m_cbDocumentClass->count(); i++)
+		list+=m_cbDocumentClass->text(i);
+	list.sort();
+	m_config->writeEntry("Document Classes", list);
+
+	list.clear();
+	for (int i = 0; i<m_cbPaperSize->count(); i++)
+		list+=m_cbPaperSize->text(i);
+	list.sort();
+	m_config->writeEntry("Papersizes", list);
+
+	list.clear();
+	for (int i = 0; i<m_cbEncoding->count(); i++)
+		list+=m_cbEncoding->text(i);
+	list.sort();
+	m_config->writeEntry("Encodings", list);
+
+	writeListView("Class Options", m_lvClassOptions, false);
+	writeListView("Common Packages", m_lvPackagesCommon);
+	writeListView("Exotic Packages", m_lvPackagesExotic);
+
+	m_config->setGroup( "User" );
+	m_config->writeEntry("Author", m_leAuthor->text());
+	QString documentClassOptions;
+	for (QListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
+		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
+		if (cli && cli->isOn()) {
+			if (!documentClassOptions.isEmpty())
+				documentClassOptions+=',';
+			documentClassOptions+=cur->text(0);
 		}
-		m_td.tagBegin+= opt +"]{";
-		m_td.tagBegin+=m_cbDocClass->currentText()+"}\n";
-		if (m_cbEncoding->currentText() != "NONE" )
-			m_td.tagBegin += "\\usepackage["+ m_cbEncoding->currentText()+"]{inputenc}\n";
+	}
+	m_config->writeEntry("DocumentClassOptions", documentClassOptions);
+	m_config->writeEntry("Template Encoding", m_cbEncoding->currentText());
+}
 
-		if (m_ckAMS->isChecked())
-		{
-			m_td.tagBegin += "\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n";
-			m_td.dy = m_td.dy+3;
+/*!
+    \fn QuickDocument::writeListView()
+ */
+void QuickDocument::writeListView(QString key, QListView *listView, bool saveSelected)
+{
+	QStringList elements, elementsSelected;
+	QString keySelected=key+" Selected";
+
+	for (QListViewItem *cur=listView->firstChild(); cur; cur=cur->nextSibling()) {
+		elements+=cur->text(0);
+		m_config->writeEntry(key+" Description "+cur->text(0), cur->text(1));
+
+		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
+		if (cli && cli->isOn())
+			elementsSelected+=cur->text(0);
+
+		for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+			elements+=cur->text(0)+'!'+curchild->text(0);
+			m_config->writeEntry(key+" Description "+cur->text(0)+'!'+curchild->text(0), curchild->text(1));
+			QCheckListItem *clichild=dynamic_cast<QCheckListItem*>(curchild);
+			if (clichild && clichild->isOn())
+				elementsSelected+=cur->text(0)+'!'+curchild->text(0);
 		}
-
-		if (m_ckIdx->isChecked())
-		{
-			m_td.tagBegin += "\\usepackage{makeidx}\n";
-			m_td.dy++;
-		}
-
-		if ( m_leAuthor->text() != "")
-		{
-			m_td.tagBegin += "\\author{"+m_leAuthor->text()+"}\n";
-			m_td.dy++;
-		}
-
-		if ( m_leTitle->text() != "")
-		{
-			m_td.tagBegin += "\\title{"+ m_leTitle->text()+"}\n";
-			m_td.dy=m_td.dy+1;
-		}
-		m_td.tagBegin += "\\begin{document}\n";
-
-		m_td.tagEnd = "\n\\end{document}";
-
-		writeConfig();
-		accept();
 	}
 
-	void QuickDocument::init()
-	{
-		m_cbDocClass->clear();
-		m_cbDocClass->insertItem( "article" );
-		m_cbDocClass->insertItem( "report");
-		m_cbDocClass->insertItem( "letter" );
-		m_cbDocClass->insertItem( "book" );
+	m_config->writeEntry(key, elements);
+	if (saveSelected)
+		m_config->writeEntry(keySelected, elementsSelected);
+}
 
+/*!
+    \fn QuickDocument::readConfig()
+ */
+void QuickDocument::readConfig()
+{
+	m_config->setGroup( "Quick" );
+
+	QStringList docClasses=m_config->readListEntry("Document Classes");
+	if (docClasses.isEmpty())
+		initDocumentClass();
+	else {
+		m_cbDocumentClass->clear();
+		m_cbDocumentClass->insertStringList(docClasses);
+	}
+
+	QStringList paperSizes=m_config->readListEntry("Papersizes");
+	if (paperSizes.isEmpty())
+		initPaperSize();
+	else {
 		m_cbPaperSize->clear();
-		m_cbPaperSize->insertItem( "a4paper" );
-		m_cbPaperSize->insertItem( "a5paper" );
-		m_cbPaperSize->insertItem( "b5paper" );
-		m_cbPaperSize->insertItem( "letterpaper" );
-		m_cbPaperSize->insertItem( "legalpaper" );
-		m_cbPaperSize->insertItem( "executivepaper" );
-
-		m_cbEncoding->clear();
-		m_cbEncoding->insertItem( "latin1" );
-		m_cbEncoding->insertItem( "latin2" );
-		m_cbEncoding->insertItem( "latin3" );
-		m_cbEncoding->insertItem( "latin5" );
-		m_cbEncoding->insertItem( "ascii" );
-		m_cbEncoding->insertItem( "decmulti" );
-		m_cbEncoding->insertItem( "cp850" );
-		m_cbEncoding->insertItem( "cp852" );
-		m_cbEncoding->insertItem( "cp437" );
-		m_cbEncoding->insertItem( "cp437de" );
-		m_cbEncoding->insertItem( "cp1252" );
-		m_cbEncoding->insertItem( "cp1250" );
-		m_cbEncoding->insertItem( "cp1251" );
-		m_cbEncoding->insertItem( "cp865" );
-		m_cbEncoding->insertItem( "koi8-r" );
-		m_cbEncoding->insertItem( "applemac" );
-		m_cbEncoding->insertItem( "next" );
-		m_cbEncoding->insertItem( "ansinew" );
-		m_cbEncoding->insertItem( "NONE" );
-
-		m_bxOptions->clear();
-		m_bxOptions->insertItem( "landscape" );
-		m_bxOptions->insertItem( "draft" );
-		m_bxOptions->insertItem( "final" );
-		m_bxOptions->insertItem( "oneside" );
-		m_bxOptions->insertItem( "twoside" );
-		m_bxOptions->insertItem( "openright" );
-		m_bxOptions->insertItem( "openany" );
-		m_bxOptions->insertItem( "onecolumn" );
-		m_bxOptions->insertItem( "twocolumn" );
-		m_bxOptions->insertItem( "titlepage" );
-		m_bxOptions->insertItem( "notitlepage" );
-		m_bxOptions->insertItem( "openbib" );
-		m_bxOptions->insertItem( "leqno" );
-		m_bxOptions->insertItem( "fleqn" );
-
-		m_cbPaperSize->insertStringList(m_otherPaperList);
-		m_cbDocClass->insertStringList(m_otherClassList);
-		m_cbEncoding->insertStringList(m_otherEncodingList);
-		m_bxOptions->insertStringList(m_otherOptionsList);
+		m_cbPaperSize->insertStringList(paperSizes);
 	}
-	
-	void QuickDocument::add(QStringList & list)
-	{
-		bool ok;
-		QString newoption = KLineEditDlg::getText(i18n("New"), "", &ok, this);
-		if ( ok)
-		{
-			
-			if (newoption != "") list.append(newoption);
-			init();
+
+	QStringList encodings=m_config->readListEntry("Encodings");
+	if (encodings.isEmpty())
+		initEncoding();
+	else {
+		m_cbEncoding->clear();
+		m_cbEncoding->insertStringList(encodings);
+	}
+
+	m_cbDocumentClass->setCurrentText(m_config->readEntry("Class","article"));
+	m_cbTypefaceSize->setCurrentText(m_config->readEntry("Typeface","10pt"));
+	m_cbPaperSize->setCurrentText(m_config->readEntry("Papersize","a4paper"));
+
+	if (!readListView("Class Options", m_lvClassOptions, false))
+		initClassOption();
+	if (!readListView("Common Packages", m_lvPackagesCommon))
+		initPackageCommon();
+	if (!readListView("Exotic Packages", m_lvPackagesExotic))
+		initPackageExotic();
+
+	m_config->setGroup( "User" );
+	m_leAuthor->setText(m_config->readEntry("Author"));
+	QStringList documentClassOptions=QStringList::split(',', m_config->readEntry("DocumentClassOptions"));
+	for ( QStringList::Iterator it = documentClassOptions.begin(); it != documentClassOptions.end(); it++ ) {
+		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(m_lvClassOptions->findItem(*it, 0));
+		if (cli)
+			cli->setOn(true);
+	}
+	m_cbEncoding->setCurrentText(m_config->readEntry("Template Encoding","latin1"));
+}
+
+/*!
+    \fn QuickDocument::writeListView()
+ */
+bool QuickDocument::readListView(QString key, QListView *listView, bool readSelected)
+{
+	QString keySelected=key+" Selected";
+	QStringList elements=m_config->readListEntry(key);
+	QStringList elementsSelected=m_config->readListEntry(keySelected);
+
+	if (elements.empty())
+		return false;
+
+	listView->clear();
+
+	for ( QStringList::Iterator it = elements.begin(); it != elements.end(); it++ ) {
+		int pos = (*it).find('!');
+		QCheckListItem *cli, *clichild;
+
+		if (pos==-1) {
+			cli = new QCheckListItem(listView, *it, QCheckListItem::CheckBox);
+			cli->setText(1, m_config->readEntry(key+" Description "+cli->text(0)));
+		} else {
+			cli=dynamic_cast<QCheckListItem*>(listView->findItem((*it).left(pos), 0));
+			cli->setOpen(true);
+			if (!cli)
+				cli = new QCheckListItem(listView, (*it).left(pos), QCheckListItem::CheckBox);
+			clichild = new QCheckListItem(cli, (*it).mid(pos+1), QCheckListItem::CheckBox);
+			clichild->setText(1, m_config->readEntry(key+" Description "+cli->text(0)+'!'+clichild->text(0)));
 		}
 	}
 
-	void QuickDocument::addUserClass()
-	{
-		add(m_otherClassList);
+	if (readSelected)
+		for (QListViewItem *cur=listView->firstChild(); cur; cur=cur->nextSibling()) {
+			QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
+			if (cli && elementsSelected.contains(cur->text(0)))
+				cli->setOn(true);
+
+			for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+				QCheckListItem *clichild=dynamic_cast<QCheckListItem*>(curchild);
+				if (clichild && elementsSelected.contains(cur->text(0)+'!'+curchild->text(0)))
+					clichild->setOn(true);
+			}
+		}
+
+	return true;
+}
+
+/*!
+    \fn QuickDocument::printPackage()
+ */
+void QuickDocument::printPackage(QListView *listView)
+{
+	for (QListViewItem *cur=listView->firstChild(); cur; cur=cur->nextSibling()) {
+		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
+		if (cli && cli->isOn()) {
+			QString packageOptions;
+			for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+				QCheckListItem *clichild=dynamic_cast<QCheckListItem*>(curchild);
+				if (clichild && clichild->isOn()) {
+					if (!packageOptions.isEmpty())
+						packageOptions+=",";
+					packageOptions+=curchild->text(0);
+				}
+			}
+
+
+			m_td.tagBegin += "\\usepackage";
+			if (!packageOptions.isEmpty())
+				m_td.tagBegin += "[" + packageOptions + "]";
+			m_td.tagBegin += "{" + cur->text(0) + "}\n";
+		}
 	}
-	
-	void QuickDocument::addUserPaper()
-	{
-		add(m_otherPaperList);
-	}
-	
-	void QuickDocument::addUserEncoding()
-	{
-		add(m_otherEncodingList);
-	}
-	
-	void QuickDocument::addUserOptions()
-	{
-		add(m_otherOptionsList);
+}
+
+/*!
+    \fn QuickDocument::printTemplate()
+ */
+void QuickDocument::printTemplate()
+{
+	m_td.tagBegin = "\\documentclass[";
+	if (!m_cbPaperSize->currentText().isEmpty())
+		m_td.tagBegin += m_cbPaperSize->currentText()+",";
+	m_td.tagBegin += m_cbTypefaceSize->currentText();
+
+	for (QListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
+		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
+		if (cli && cli->isOn())
+			m_td.tagBegin += "," + cur->text(0);
 	}
 
-	void QuickDocument::readConfig()
-	{
-		m_config->setGroup( "Quick" );
-		m_cbDocClass->setCurrentText(m_config->readEntry("Class","article"));
-		m_cbFontSize->setCurrentText(m_config->readEntry("Typeface","10pt"));
-		m_cbPaperSize->setCurrentText(m_config->readEntry("Papersize","a4paper"));
-		m_cbEncoding->setCurrentText(m_config->readEntry("Encoding","latin1"));
-		m_otherClassList = m_config->readListEntry("User Class", ':');
-		m_otherPaperList=m_config->readListEntry("User Paper", ':');
-		m_otherEncodingList=m_config->readListEntry("User Encoding", ':');
-		m_otherOptionsList=m_config->readListEntry("User Options", ':');
-		m_ckAMS->setChecked(m_config->readBoolEntry("AMS",true));
-		m_ckIdx->setChecked(m_config->readBoolEntry( "MakeIndex",false));
-		m_leAuthor->setText(m_config->readEntry("Author",""));
+	m_td.tagBegin += "]{" + m_cbDocumentClass->currentText() + "}\n";
+
+	if (!m_cbEncoding->currentText().isEmpty())
+		m_td.tagBegin += "\\usepackage[" + m_cbEncoding->currentText()+"]{inputenc}\n";
+
+	printPackage(m_lvPackagesCommon);
+	printPackage(m_lvPackagesExotic);
+
+	m_td.tagBegin += "\n";
+	if (!m_leAuthor->text().isEmpty())
+		m_td.tagBegin += "\\author{"+m_leAuthor->text()+"}\n";
+	if (!m_leTitle->text().isEmpty())
+		m_td.tagBegin += "\\title{"+m_leTitle->text()+"}\n";
+	if (!m_leDate->text().isEmpty())
+		m_td.tagBegin += "\\date{"+m_leDate->text()+"}\n";
+	m_td.tagBegin += "\n";
+	m_td.tagBegin += "\\begin{document}\n";
+
+	m_td.tagEnd = "\n\\end{document}";
+}
+
+/*!
+    \fn QuickDocument::slotOK()
+ */
+void QuickDocument::slotOk()
+{
+	printTemplate();
+	writeConfig();
+	accept();
+}
+
+/*!
+    \fn KileDialog::QuickDocument::slotCheckParent()
+ */
+void QuickDocument::slotCheckParent(QListViewItem *listViewItem)
+{
+	QCheckListItem *cli=dynamic_cast<QCheckListItem*>(listViewItem);
+	if (listViewItem->parent() && cli->isOn()) {
+		QCheckListItem *cliparent=dynamic_cast<QCheckListItem*>(listViewItem->parent());
+		if (cliparent)
+			cliparent->setOn(true);
+	}
+}
+
+/*!
+    \fn QuickDocument::slotClassOptionReset()
+ */
+void QuickDocument::slotClassOptionReset()
+{
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this option list?"), i18n("Reset Option List"))==KMessageBox::Yes)
+		initClassOption();
+}
+
+/*!
+    \fn QuickDocument::slotClassOptionAdd()
+ */
+void QuickDocument::slotClassOptionAdd()
+{
+	QString className, description;
+
+	if (inputDialogDouble(i18n("Add Option"), i18n("&Name of option:"), className, i18n("&Description:"), description) && !className.isEmpty()) {
+		QCheckListItem *cli = new QCheckListItem(m_lvClassOptions, className, QCheckListItem::CheckBox);
+		cli->setText(1, description);
+	}
+}
+
+
+/*!
+    \fn QuickDocument::slotClassOptionEdit()
+ */
+void QuickDocument::slotClassOptionEdit()
+{
+	QListViewItem *cur=m_lvClassOptions->selectedItem();
+
+	if (cur) {
+		QString className=cur->text(0);
+		QString description=cur->text(1);
+
+		if (inputDialogDouble(i18n("Add Option"), i18n("&Name of option:"), className, i18n("&Description:"), description) && !className.isEmpty()) {
+			cur->setText(0, className);
+			cur->setText(1, description);
+		}
+	}
+}
+
+/*!
+    \fn QuickDocument::slotClassOptionDelete()
+ */
+void QuickDocument::slotClassOptionDelete()
+{
+	if (m_lvClassOptions->selectedItem() && (KMessageBox::questionYesNo(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Yes))
+		m_lvClassOptions->takeItem(m_lvClassOptions->selectedItem());
+}
+
+
+/*!
+    \fn QuickDocument::slotCommonPackageReset()
+ */
+void QuickDocument::slotCommonPackageReset()
+{
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Yes)
+		initPackageCommon();
+}
+
+/*!
+    \fn QuickDocument::slotCommonPackageAdd()
+ */
+void QuickDocument::slotCommonPackageAdd()
+{
+	packageAdd(m_lvPackagesCommon);
+}
+
+/*!
+    \fn QuickDocument::slotCommonPackageAddOption()
+ */
+void QuickDocument::slotCommonPackageAddOption()
+{
+	packageAddOption(m_lvPackagesCommon->selectedItem());
+}
+
+/*!
+    \fn QuickDocument::slotCommonPackageEdit()
+ */
+void QuickDocument::slotCommonPackageEdit()
+{
+	packageEdit(m_lvPackagesCommon->selectedItem());
+}
+
+/*!
+    \fn QuickDocument::slotCommonPackageDelete()
+ */
+void QuickDocument::slotCommonPackageDelete()
+{
+	packageDelete(m_lvPackagesCommon->selectedItem());
+}
+
+/*!
+    \fn QuickDocument::slotExoticPackageReset()
+ */
+void QuickDocument::slotExoticPackageReset()
+{
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Yes)
+		initPackageExotic();
+}
+
+/*!
+    \fn QuickDocument::slotExoticPackageAdd()
+ */
+void QuickDocument::slotExoticPackageAdd()
+{
+	packageAdd(m_lvPackagesExotic);
+}
+
+/*!
+    \fn QuickDocument::slotExoticPackageAddOption()
+ */
+void QuickDocument::slotExoticPackageAddOption()
+{
+	packageAddOption(m_lvPackagesExotic->selectedItem());
+}
+
+/*!
+    \fn QuickDocument::slotExoticPackageEdit()
+ */
+void QuickDocument::slotExoticPackageEdit()
+{
+	packageEdit(m_lvPackagesExotic->selectedItem());
+}
+
+/*!
+    \fn QuickDocument::slotExoticPackageDelete()
+ */
+void QuickDocument::slotExoticPackageDelete()
+{
+	packageDelete(m_lvPackagesExotic->selectedItem());
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassAdd()
+ */
+void QuickDocument::slotDocumentClassAdd()
+{
+	if (!m_cbDocumentClass->currentText().isEmpty())
+		m_cbDocumentClass->insertItem(m_cbDocumentClass->currentText());
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassDelete()
+ */
+void QuickDocument::slotDocumentClassDelete()
+{
+	int i=m_cbDocumentClass->currentItem();
+	m_cbDocumentClass->removeItem(i);
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassReset()
+ */
+void QuickDocument::slotDocumentClassReset()
+{
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the document class list?"), i18n("Reset Document Class List"))==KMessageBox::Yes)
+		initDocumentClass();
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassAdd()
+ */
+void QuickDocument::slotPaperSizeAdd()
+{
+	if (!m_cbPaperSize->currentText().isEmpty())
+		m_cbPaperSize->insertItem(m_cbPaperSize->currentText());
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassDelete()
+ */
+void QuickDocument::slotPaperSizeDelete()
+{
+	int i=m_cbPaperSize->currentItem();
+	m_cbPaperSize->removeItem(i);
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassReset()
+ */
+void QuickDocument::slotPaperSizeReset()
+{
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the papersize list?"), i18n("Reset Papersize List"))==KMessageBox::Yes)
+		initPaperSize();
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassAdd()
+ */
+void QuickDocument::slotEncodingAdd()
+{
+	if (!m_cbEncoding->currentText().isEmpty())
+		m_cbEncoding->insertItem(m_cbEncoding->currentText());
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassDelete()
+ */
+void QuickDocument::slotEncodingDelete()
+{
+	int i=m_cbEncoding->currentItem();
+	m_cbEncoding->removeItem(i);
+}
+
+/*!
+    \fn QuickDocument::slotDocumentClassReset()
+ */
+void QuickDocument::slotEncodingReset()
+{
+	if (KMessageBox::questionYesNo(this, i18n("Do you want to reset the encodings list?"), i18n("Reset Encodings List"))==KMessageBox::Yes)
+		initEncoding();
+}
+
+/*!
+    \fn QuickDocument::inputDialogDouble(QString& label1, QString& text1, QString& label2, QString& text2)
+ */
+bool QuickDocument::inputDialogDouble(QString caption, QString label1, QString& text1, QString label2, QString& text2)
+{
+	QLabel *label;
+
+	KDialogBase *dialog = new KDialogBase(this, "inputDialogDouble", true, caption, KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true);
+	QWidget *page = new QWidget(dialog);
+	dialog->setMainWidget(page);
+	QVBoxLayout *vl = new QVBoxLayout(page, 0, spacingHint());
+
+	label = new QLabel(label1, page);
+	vl->addWidget(label);
+	KLineEdit *lineEdit1 = new KLineEdit(text1, page);
+	vl->addWidget(lineEdit1);
+	label->setBuddy(lineEdit1);
+
+	label = new QLabel(label2, page);
+	vl->addWidget(label);
+	KLineEdit *lineEdit2 = new KLineEdit(text2, page);
+	vl->addWidget(lineEdit2);
+	label->setBuddy(lineEdit2);
+
+	lineEdit1->setFocus();
+	vl->addStretch(1);
+
+	if (dialog->exec()) {
+		text1=lineEdit1->text();
+		text2=lineEdit2->text();
+		delete dialog;
+		return true;
 	}
 
-	void QuickDocument::writeConfig()
-	{
-		m_config->setGroup( "Quick" );
-		m_config->writeEntry("Author", m_leAuthor->text());
-		m_config->writeEntry("Class", m_cbDocClass->currentText());
-		m_config->writeEntry("Typeface", m_cbFontSize->currentText());
-		m_config->writeEntry("Papersize", m_cbPaperSize->currentText());
-		m_config->writeEntry("Encoding", m_cbEncoding->currentText());
-		m_config->writeEntry("User Class", m_otherClassList);
-		m_config->writeEntry("User Paper",m_otherPaperList);
-		m_config->writeEntry("User Encoding", m_otherEncodingList);
-		m_config->writeEntry("User Options",m_otherOptionsList);
-		m_config->writeEntry("AMS", m_ckAMS->isChecked());
-		m_config->writeEntry("MakeIndex", m_ckIdx->isChecked());
+	delete dialog;
+
+	return false;
+}
+
+/*!
+    \fn QuickDocument::packageDelete(QListViewItem *cur)
+ */
+void QuickDocument::packageDelete(QListViewItem *cur)
+{
+	if (cur) {
+		QString message=cur->parent()?i18n("Do you want do delete this package option?"):i18n("Do you want to delete this package?");
+
+		if (KMessageBox::questionYesNo(this, message, i18n("Delete"))==KMessageBox::Yes) {
+			QListViewItem *childcur = cur->firstChild();
+			while (childcur) {
+				QListViewItem *nextchildcur=childcur->nextSibling();
+				delete childcur;
+				childcur = nextchildcur;
+			}
+
+			delete cur;
+		}
 	}
+}
+
+
+/*!
+    \fn QuickDocument::packageEdit(QListViewItem *cur)
+ */
+void QuickDocument::packageEdit(QListViewItem *cur)
+{
+	if (cur) {
+		QString package=cur->text(0);
+		QString description=cur->text(1);
+		QString labelText=cur->parent()?i18n("Op&tion:"):i18n("&Package:");
+		QString caption=cur->parent()?i18n("Edit Option"):i18n("Edit Package");
+
+		if (inputDialogDouble(caption, labelText, package, i18n("&Description:"), description) && !package.isEmpty()) {
+			cur->setText(0, package);
+			cur->setText(1, description);
+		}
+	}
+}
+
+
+/*!
+    \fn QuickDocument::packageAddOption(QListViewItem *cur)
+ */
+void QuickDocument::packageAddOption(QListViewItem *cur)
+{
+	QString option, description;
+
+	if (cur && !cur->parent() && inputDialogDouble(i18n("Add Option"), i18n("Op&tion:"), option, i18n("&Description:"), description) && !option.isEmpty()) {
+		QCheckListItem *cli = new QCheckListItem(cur, option, QCheckListItem::CheckBox);
+		cli->setText(1, description);
+		cur->setOpen(true);
+	}
+}
+
+
+/*!
+    \fn QuickDocument::packageAdd(QListView *listView)
+ */
+void QuickDocument::packageAdd(QListView *listView)
+{
+	QString package, description;
+
+	if (inputDialogDouble(i18n("Add Package"), i18n("&Package:"), package, i18n("&Description:"), description) && !package.isEmpty()) {
+		QCheckListItem *cli = new QCheckListItem(listView, package, QCheckListItem::CheckBox);
+		cli->setText(1, description);
+	}
+}
+
 }
 
 #include "quickdocumentdialog.moc"

@@ -54,6 +54,8 @@ public slots:
 	bool removeDocumentInfo(KileDocumentInfo *docinfo, bool closingproject = false);
 	Kate::Document* createDocument(KileDocumentInfo *docinfo, const QString & encoding, const QString & highlight);
 
+	Kate::View* createDocumentWithText(const QString & text);
+
 	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null);
 	Kate::View* loadItem(KileProjectItem *item, const QString & text = QString::null);
 

@@ -472,6 +472,11 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 		}
 	}
 	
+	return createDocumentWithText(text);
+}
+
+Kate::View* Manager::createDocumentWithText(const QString & text)
+{
 	return load(KURL(), QString::null, true, QString::null, text);
 }
 

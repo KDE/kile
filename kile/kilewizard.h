@@ -19,6 +19,7 @@
 #define KILEWIZARD_H
 
 #include <kdialogbase.h>
+
 #include "kileactions.h"
 
 class KConfig;

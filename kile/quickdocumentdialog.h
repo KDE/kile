@@ -1,80 +1,99 @@
-/***************************************************************************
-                          quickdocumentdialog.h  -  description
-                             -------------------
-    begin                : Tue Oct 30 2001
-    copyright            : (C) 2001 by Brachet Pascal, (C) 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
-#ifndef QUICKDOCUMENTDIALOG_H
-#define QUICKDOCUMENTDIALOG_H
-
-#include <qstringlist.h>
+//
+// C++ Interface: quickdocheader
+//
+// Description:
+//
+//
+// Author: Thomas Fischer <t-fisch@users.sourceforge.net>, (C) 2004
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+//
+#ifndef KILEDIALOGQUICKDOCHEADER_H
+#define KILEDIALOGQUICKDOCHEADER_H
 
 #include "kilewizard.h"
 
-class QLabel;
-class QCheckBox;
-class QGridLayout;
-
-class KPushButton;
-class KConfig;
 class KComboBox;
+class QListView;
 class KLineEdit;
-class KListBox;
-
-class AddOptionDialog;
-
-/**
-  *@author Brachet Pascal
-  *@author Jeroen Wijnhout
-  */
 
 namespace KileDialog
 {
-	class QuickDocument : public Wizard
-	{
-		Q_OBJECT
 
-	public:
-		QuickDocument(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-		~QuickDocument();
+/**
+@author Jeroen Wijnhout
+*/
+class QuickDocument : public Wizard
+{
+	Q_OBJECT
 
-	public slots:
-		void init();
-		void slotOk();
+public:
+	QuickDocument(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+	~QuickDocument();
 
-	private slots:
-		void addUserClass();
-		void addUserPaper();
-		void addUserEncoding();
-		void addUserOptions();
+	void packageEdit(QListViewItem *cur);
 
-	private:
-		void add(QStringList & list);
-		void readConfig();
-		void writeConfig();
+public slots:
+	void init();
+	void slotOk();
 
-	protected:
-		QGridLayout	*m_layout;
-		KLineEdit		*m_leAuthor,*m_leTitle ;
-		KComboBox	*m_cbDocClass,  *m_cbFontSize, *m_cbPaperSize,  *m_cbEncoding;
-		QCheckBox	*m_ckAMS, *m_ckIdx;
-		KPushButton	*userClassBtn, *userPaperBtn, *userEncodingBtn, *userOptionsBtn;
-		QLabel		*m_lbDocClass, *m_lbAuthor, *m_lbTitle, *m_lbOptions;
+private:
+	KComboBox *m_cbDocumentClass;
+	KComboBox *m_cbTypefaceSize;
+	KComboBox *m_cbPaperSize;
+	KComboBox *m_cbEncoding;
+	QListView *m_lvClassOptions;
+	QListView *m_lvPackagesCommon;
+	QListView *m_lvPackagesExotic;
+	KLineEdit *m_leAuthor;
+	KLineEdit *m_leTitle;
+	KLineEdit *m_leDate;
+	void setupGUI();
+	void writeConfig();
+	void writeListView(QString key, QListView *listView, bool saveSelected=true);
+	void readConfig();
+	bool readListView(QString key, QListView *listView, bool readSelected=true);
+	bool inputDialogDouble(QString caption, QString label1, QString& text1, QString label2, QString& text2);
+	void packageDelete(QListViewItem *cur);
+	void packageAddOption(QListViewItem *cur);
+	void packageAdd(QListView *listView);
+	void initClassOption();
+	void initDocumentClass();
+	void initPaperSize();
+	void initEncoding();
+	void initPackageCommon();
+	void initPackageExotic();
+	void printTemplate();
+	void printPackage(QListView *listView);
 
-		KListBox		*m_bxOptions;
-		QStringList	m_otherClassList, m_otherPaperList, m_otherEncodingList, m_otherOptionsList;
-	};
-}
+private slots:
+	void slotClassOptionReset();
+	void slotClassOptionAdd();
+	void slotClassOptionEdit();
+	void slotClassOptionDelete();
+	void slotCommonPackageReset();
+	void slotCommonPackageAdd();
+	void slotCommonPackageAddOption();
+	void slotCommonPackageEdit();
+	void slotCommonPackageDelete();
+	void slotExoticPackageReset();
+	void slotExoticPackageAdd();
+	void slotExoticPackageAddOption();
+	void slotExoticPackageEdit();
+	void slotExoticPackageDelete();
+	void slotDocumentClassAdd();
+	void slotDocumentClassDelete();
+	void slotDocumentClassReset();
+	void slotPaperSizeAdd();
+	void slotPaperSizeDelete();
+	void slotPaperSizeReset();
+	void slotEncodingAdd();
+	void slotEncodingDelete();
+	void slotEncodingReset();
+	void slotCheckParent(QListViewItem *listViewItem);
+};
+
+};
 
 #endif

@@ -35,6 +35,7 @@ public slots:
 
 protected:
 	bool eventFilter(QObject *o, QEvent *e);
+    bool shouldCompleteEnv(const QString &env, Kate::View *view);
 
 private:
 	bool		m_bHandleEnter, m_bCompleteEnvironment;

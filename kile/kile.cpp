@@ -682,6 +682,9 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	guiFactory()->addClient(view);
 	view->setActive( true );
+	
+	// remove menu entry to config Kate
+	unplugKateConfigMenu(view);
 
 	setUpdatesEnabled(true);
 
@@ -1540,13 +1543,8 @@ void Kile::generalOptionsKate()
 	iface = dynamic_cast<KTextEditor::ConfigInterface *>(view->getDoc());
 	iface->configDialog();
 
-	// remove menu entry to config Kate, because there is
-	// already one call to this configuration dialog from Kile
-	KAction *action = view->actionCollection()->action("set_confdlg"); // name from katepartui.rc
-	if ( action ) {
-		kdDebug() << "   unplug action 'set_confdlg'..." << endl;
-		action->unplugAll();
-	}
+	// remove menu entry to config Kate
+	unplugKateConfigMenu(view);
 
 	// read plugin configuration after dialog to see if plugin state has changed
 	m_config->setGroup(kateplugin_group);
@@ -1554,20 +1552,20 @@ void Kile::generalOptionsKate()
 
 	if ( !plugin_before && plugin_after ) {                      // false --> true
 		QString msg = ( autocomplete || autocompletetext )
-		            ? "You enabled the KTextEditor-Plugin for word completion, "
+		            ? i18n("You enabled the KTextEditor-Plugin for word completion, "
 		              "but this conflicts with the active auto completion modes of Kile. "
 		              "As one of these completion modes must be disabled, you decided to use the "
 		              "KTextEditor-Plugin and to disable the autocompletion modes of Kile. "
-		              "Are you really sure to do this?"
-		            : "You enabled the KTextEditor-Plugin for word completion, "
+		              "Are you really sure to do this?")
+		            : i18n("You enabled the KTextEditor-Plugin for word completion, "
 		              "but this conflicts with the auto completion modes of Kile. "
 		              "As only one of these completion modes can be used, you decided to use the "
 		              "KTextEditor-Plugin and not the autocompletion modes of Kile. "
-		              "Are you really sure to do this?";
+		              "Are you really sure to do this?");
 		            
 		if ( KMessageBox::questionYesNo( this,
 			                              "<center>" + msg + "</center>",
-			                              "Autocomplete warning" ) == KMessageBox::No ) {
+			                              i18n("Autocomplete warning") ) == KMessageBox::No ) {
 			kdDebug() << "   disable KTextEditor plugin again" << endl;
 			m_config->setGroup(kateplugin_group);
 			m_config->writeEntry(kateplugin_entry,false);         // disable plugin again
@@ -1575,6 +1573,19 @@ void Kile::generalOptionsKate()
 		} else {                                  
 			KileConfig::setCompleteAuto(false);                   // disable autocompletion of Kile
 			KileConfig::setCompleteAutoText(false);
+		}
+	}
+}
+
+// remove menu entry to config Kate, because there is
+// already one call to this configuration dialog from Kile
+void Kile::unplugKateConfigMenu(Kate::View* view)
+{
+	if ( view ) {
+		KAction *action = view->actionCollection()->action("set_confdlg"); // name from katepartui.rc
+		if ( action ) {
+			kdDebug() << "   unplug action 'set_confdlg'..." << endl;
+			action->unplugAll();
 		}
 	}
 }

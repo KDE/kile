@@ -123,7 +123,8 @@ private:
 	void setupTools();
 	void setupUserTagActions();
 	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
-
+	void unplugKateConfigMenu(Kate::View* view);
+	
 	KToolBar						*m_toolsToolBar;
 	KActionMenu 					*m_menuUserTags;
 	QValueList<KileAction::TagData>	m_listUserTags;

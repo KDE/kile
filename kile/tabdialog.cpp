@@ -17,6 +17,13 @@
 
 #include "tabdialog.h"
 #include <klocale.h>
+#include <qspinbox.h>
+#include <qlabel.h>
+#include <qlayout.h>
+#include <qcombobox.h>
+#include <qtable.h>
+#include <qpushbutton.h>
+#include <qcheckbox.h>
 
 tabdialog::tabdialog(QWidget *parent, const char *name)
     :QDialog( parent,name, true)

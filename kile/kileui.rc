@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kite" version="1.5.1">
+<kpartgui name="kile" version="1.5.1">
 <MenuBar noMerge="1">
   <Menu name="file"><text>File</text>
     <Action name="New"/>

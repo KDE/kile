@@ -3,7 +3,7 @@
                              -------------------
     begin                : dim déc 1 2002
     copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,10 +17,10 @@
 
 #ifndef REFDIALOG_H
 #define REFDIALOG_H
-#include <qlayout.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
 #include <qdialog.h>
+
+class QComboBox;
+class QPushButton;
 /**
   *@author Pascal Brachet
   */
@@ -33,8 +33,8 @@ public:
 
 public:
   QComboBox *combo1;
-	QPushButton *buttonOk;
-	QPushButton *buttonCancel;
+    QPushButton *buttonOk;
+    QPushButton *buttonCancel;
 };
 
 

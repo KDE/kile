@@ -3,7 +3,7 @@
                              -------------------
     begin                : mer avr 9 2003
     copyright            : (C) 2003 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,6 +17,15 @@
 
 #include "usertooldialog.h"
 #include <klocale.h>
+
+#include <qwidget.h>
+#include <qdialog.h>
+#include <qlayout.h>
+#include <qlabel.h>
+#include <qlineedit.h>
+#include <qcombobox.h>
+#include <qpushbutton.h>
+
 
 usertooldialog::usertooldialog(QWidget *parent, const char *name ) : QDialog(parent,name)
 {

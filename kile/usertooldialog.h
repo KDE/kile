@@ -3,7 +3,7 @@
                              -------------------
     begin                : mer avr 9 2003
     copyright            : (C) 2003 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,14 +18,13 @@
 #ifndef USERTOOLDIALOG_H
 #define USERTOOLDIALOG_H
 
-#include <qwidget.h>
 #include <qdialog.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
 #include <qstring.h>
+
+class QLineEdit;
+class QComboBox;
+class QLabel;
+class QPushButton;
 
 typedef QString userCd[5];
 
@@ -35,7 +34,7 @@ typedef QString userCd[5];
 
 class usertooldialog : public QDialog  {
    Q_OBJECT
-public: 
+public:
 	usertooldialog(QWidget *parent=0, const char *name=0);
 	~usertooldialog();
 
@@ -55,7 +54,7 @@ public slots:
 
 private slots:
     void change(int index);
-    void slotOk();  
+    void slotOk();
 };
 
 #endif

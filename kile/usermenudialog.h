@@ -17,14 +17,15 @@
 #ifndef USERMENUDIALOG_H
 #define USERMENUDIALOG_H
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qcombobox.h>
-#include <qtextedit.h>
 #include <qdialog.h>
-#include <qpushbutton.h>
 #include <qstring.h>
+
+class QTextEdit;
+class QLineEdit;
+class QComboBox;
+class QLabel;
+class QPushButton;
+
 
 typedef QString userlist[10];
 
@@ -49,7 +50,7 @@ private:
 	  QPushButton *buttonCancel;
 
 public slots:
-    void init();        
+    void init();
 
 private slots:
     void change(int index);

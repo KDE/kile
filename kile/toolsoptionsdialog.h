@@ -23,16 +23,19 @@
   */
 
 #include <kdialogbase.h>
-#include <ksconfig.h>
-#include <kcolorbutton.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <qframe.h>
+class QLabel;
+class QLineEdit;
+
+class QLabel;
+class QComboBox;
+class QSpinBox;
+
+class QCheckBox;
+
+class QFrame;
+class KSpellConfig;
+class KColorButton;
+
 
 typedef  QColor ListColors[8];
 
@@ -70,13 +73,13 @@ public:
     ListColors colors;
 
 public slots:
-    void init();    
+    void init();
 
 private:
     int previous_index;
 
 private slots:
-    void slotChangeColor(int index);    
+    void slotChangeColor(int index);
     void slotEnd();
 };
 #endif

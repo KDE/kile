@@ -45,7 +45,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
 
    Templates templ;
    for (int i=0; i< templ.count(); i++) {
-      (void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );      
+      (void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );
    }
 
    iv->setSelected(emp,true);
@@ -53,7 +53,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
    iv->setMinimumHeight(100);
 
    topLayout->addWidget(iv);
-
+   connect(iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(accept()));
 
 }
 

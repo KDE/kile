@@ -35,18 +35,18 @@ typedef QValueList<TemplateInfo> TemplateList;
 typedef QValueListIterator<TemplateInfo> TemplateListIterator;
 
 class Templates {
-public: 
+public:
 	Templates();
 	~Templates();
 
-   int count() { return m_TemplateList.count(); }
+   int count()const { return m_TemplateList.count(); }
 
    //returns the i-th template
    TemplateListIterator at(int i) { return m_TemplateList.at(i);}
 
    //find the template with name name
    TemplateListIterator find(QString name);
-   
+
    //add a template in $HOME/kile/templates/
    bool add(TemplateInfo ti);
 
@@ -56,7 +56,7 @@ public:
 private:
    bool copyAppData(QString src, QString subdir, QString file);
 
-   
+
 private:
    TemplateList m_TemplateList;
 };

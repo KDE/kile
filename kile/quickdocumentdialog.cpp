@@ -17,6 +17,13 @@
 
 #include "quickdocumentdialog.h"
 #include <klocale.h>
+#include <qlabel.h>
+#include <qlayout.h>
+#include <qcombobox.h>
+#include <qcheckbox.h>
+#include <qpushbutton.h>
+#include <qlistbox.h>
+#include <qlineedit.h>
 
 quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
     :QDialog( parent, name, true)
@@ -104,11 +111,11 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
   checkbox2->setFocusPolicy( QWidget::TabFocus );
   checkbox2->setText( i18n("makeidx Package") );
   checkbox2->setAutoRepeat( FALSE );
-  checkbox2->setChecked( FALSE );  
+  checkbox2->setChecked( FALSE );
 
   QLabel_5= new QLabel(this,"NoName");
   QLabel_5->setText(i18n("Other Options"));
-    
+
   availableBox=new QListBox(this);
   availableBox->setSelectionMode(QListBox::Multi);
   availableBox->insertItem( "landscape" );
@@ -135,12 +142,12 @@ quickdocumentdialog::quickdocumentdialog(QWidget *parent, const char *name)
   QLabel_6= new QLabel(this,"NoName");
   QLabel_6->setText(i18n("Author"));
   LineEdit1 = new QLineEdit(this, "le1" );
-  
+
   QLabel_7= new QLabel(this,"NoName");
   QLabel_7->setText(i18n("Title"));
   LineEdit2 = new QLineEdit(this, "le2" );
 
-      
+
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
   buttonOk->setText(i18n("Ok"));

@@ -3,7 +3,7 @@
                              -------------------
     begin                : dim déc 1 2002
     copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,6 +17,9 @@
 
 #include "refdialog.h"
 #include <klocale.h>
+#include <qlayout.h>
+#include <qcombobox.h>
+#include <qpushbutton.h>
 
 refdialog::refdialog(QWidget *parent, const char *name)
     :QDialog( parent, name, true)

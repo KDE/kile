@@ -18,39 +18,37 @@
 #ifndef TABDIALOG_H
 #define TABDIALOG_H
 
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcombobox.h>
-#include <qtable.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
 #include <qdialog.h>
 
+class QTable;
+class QSpinBox;
+class QLabel;
+class QComboBox;
+class QPushButton;
+class QCheckBox;
 
 class tabdialog : public QDialog  {
-   Q_OBJECT
+    Q_OBJECT
 public:
-	tabdialog(QWidget *parent=0, const char *name=0);
-	~tabdialog();
+    tabdialog(QWidget *parent=0, const char *name=0);
+    ~tabdialog();
 
 public:
-  QTable* Table1;
-	QSpinBox *spinBoxRows;
-	QSpinBox *spinBoxCollums;
-	QLabel *QLabel_1;
-	QLabel *QLabel_2;
-	QLabel *QLabel_3;
-  QLabel *QLabel_4;
-  QComboBox *combo1;
-  QComboBox *combo2;
-  QCheckBox* checkbox1;
-	QPushButton *buttonOk;
-	QPushButton *buttonCancel;
-
+    QTable* Table1;
+    QSpinBox *spinBoxRows;
+    QSpinBox *spinBoxCollums;
+    QLabel *QLabel_1;
+    QLabel *QLabel_2;
+    QLabel *QLabel_3;
+    QLabel *QLabel_4;
+    QComboBox *combo1;
+    QComboBox *combo2;
+    QCheckBox* checkbox1;
+    QPushButton *buttonOk;
+    QPushButton *buttonCancel;
 protected slots:
-  void NewRows(int num);
-  void NewCollums(int num);
+    void NewRows(int num);
+    void NewCollums(int num);
 };
 
 

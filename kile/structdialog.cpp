@@ -17,6 +17,11 @@
 
 #include "structdialog.h"
 #include <klocale.h>
+#include <qwidget.h>
+#include <qlineedit.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
+#include <qcheckbox.h>
 #include <qlayout.h>
 
 structdialog::structdialog(QWidget *parent, const char *name)

@@ -20,6 +20,11 @@
 #include <qlayout.h>
 #include <klocale.h>
 
+#include <qcombobox.h>
+#include <qtextedit.h>
+#include <qpushbutton.h>
+
+
 
 usermenudialog::usermenudialog( QWidget* parent,  const char* name)
     : QDialog( parent, name, true)
@@ -41,7 +46,7 @@ usermenudialog::usermenudialog( QWidget* parent,  const char* name)
   combo1->insertItem( i18n("Menu")+" 9" );
   combo1->insertItem( i18n("Menu")+" 10" );
   connect(combo1, SIGNAL(activated(int)),this,SLOT(change(int)));
-  
+
   label1 = new QLabel( this, "label1" );
   label1->setText(i18n("Menu Item"));
   itemedit=new QLineEdit(this,"tag");
@@ -49,7 +54,7 @@ usermenudialog::usermenudialog( QWidget* parent,  const char* name)
   label2 = new QLabel( this, "label2" );
   label2->setText(i18n("LaTeX Content"));
   tagedit=new QTextEdit(this,"tag");
-  tagedit->setTextFormat(Qt::PlainText); 
+  tagedit->setTextFormat(Qt::PlainText);
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
@@ -82,7 +87,7 @@ void usermenudialog::init()
 {
 tagedit->setText(Tag[0]);
 itemedit->setText(Name[0]);
-combo1->setCurrentItem(0);  
+combo1->setCurrentItem(0);
 }
 
 void usermenudialog::change(int index)
@@ -92,12 +97,12 @@ Name[previous_index]=itemedit->text();
 tagedit->setText(Tag[index]);
 itemedit->setText(Name[index]);
 previous_index=index;
-}  
+}
 
 void usermenudialog::slotOk()
 {
 Tag[previous_index]=tagedit->text();
-Name[previous_index]=itemedit->text();  
+Name[previous_index]=itemedit->text();
 accept();
 }
 

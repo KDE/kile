@@ -24,27 +24,25 @@
   *@author Pascal Brachet
   */
 
-#include <qwidget.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
 #include <qdialog.h>
 
+class QLabel;
+class QLineEdit;
+class QCheckBox;
+class QPushButton;
 
 class structdialog : public QDialog  {
-   Q_OBJECT
+    Q_OBJECT
 public:
-	structdialog(QWidget *parent=0, const char *name=0);
-	~structdialog();
+    structdialog(QWidget *parent=0, const char *name=0);
+    ~structdialog();
 
 public:
-	QLabel *QLabel_1;
-  QLineEdit* title_edit;
-  QCheckBox* checkbox;
-	QPushButton *buttonOk;
-	QPushButton *buttonCancel;
-private:
+    QLabel *QLabel_1;
+    QLineEdit* title_edit;
+    QCheckBox* checkbox;
+    QPushButton *buttonOk;
+    QPushButton *buttonCancel;
 };
 
 #endif

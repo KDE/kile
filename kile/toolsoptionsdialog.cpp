@@ -27,6 +27,15 @@
 #include <klocale.h>
 #include <kiconloader.h>
 
+#include <ksconfig.h>
+#include <kcolorbutton.h>
+#include <qlabel.h>
+#include <qlineedit.h>
+#include <qlayout.h>
+#include <qpushbutton.h>
+#include <qcheckbox.h>
+#include <qcombobox.h>
+#include <qspinbox.h>
 
 toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
 :KDialogBase( IconList, i18n("Configure Kile"), Ok|Cancel,Ok, parent, name, true, true )
@@ -107,7 +116,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    KGlobal::instance()->iconLoader()->loadIcon( "edit", KIcon::NoGroup, KIcon::SizeMedium ));
 
    QGridLayout *gbox2 = new QGridLayout( editorPage,2,2,5,5,"" );
-   gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );   
+   gbox2->addRowSpacing( 0, fontMetrics().lineSpacing() );
    QGroupBox* GroupBox2= new QGroupBox(2,Qt::Horizontal,i18n("Editor"),editorPage, "ButtonGroup" );
 
    TextLabel4 = new QLabel( GroupBox2, "label4" );
@@ -147,7 +156,7 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    connect(comboColor, SIGNAL(activated(int)),this,SLOT(slotChangeColor(int)));
 
    buttonColor = new KColorButton(GroupBox2 , "buttonColor" );
-   
+
 
    QGroupBox* GroupBox3= new QGroupBox(2,Qt::Horizontal,i18n("Spelling"),editorPage, "ButtonGroup" );
    ksc = new KSpellConfig(GroupBox3, "spell",0, false );

@@ -3,7 +3,7 @@
                              -------------------
     begin                : dim jui 14 2002
     copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,6 +17,11 @@
 
 #include "tabbingdialog.h"
 #include <klocale.h>
+#include <qspinbox.h>
+#include <qlabel.h>
+#include <qlayout.h>
+#include <qpushbutton.h>
+#include <qlineedit.h>
 
 tabbingdialog::tabbingdialog(QWidget *parent, const char *name )
 : QDialog(parent,name,true)

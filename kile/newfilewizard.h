@@ -36,7 +36,7 @@ public:
 	~NewFileWizard();
 
 public:
-   QString getSelection() { return iv->currentItem()->text();}
+   QString getSelection()const { return iv->currentItem()->text();}
 
 private:
    QIconView *iv;

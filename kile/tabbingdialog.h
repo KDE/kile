@@ -3,7 +3,7 @@
                              -------------------
     begin                : dim jui 14 2002
     copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,21 +18,20 @@
 #ifndef TABBINGDIALOG_H
 #define TABBINGDIALOG_H
 
-#include <qwidget.h>
-#include <qspinbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qpushbutton.h>
 #include <qdialog.h>
-#include <qlineedit.h>
 
+
+class QSpinBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
 /**
   *@author Pascal Brachet
   */
 
 class tabbingdialog : public QDialog  {
    Q_OBJECT
-public: 
+public:
 	tabbingdialog(QWidget *parent=0, const char *name=0);
 	~tabbingdialog();
 

@@ -114,6 +114,28 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
+[Tool/PreviewLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=latex
+from=
+jumpToFirstError=yes
+options=-interaction=nonstopmode '%source'
+to=dvi
+type=Process
+
+[Tool/PreviewPDFLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=pdflatex
+from=
+jumpToFirstError=yes
+options=-interaction=nonstopmode '%source'
+to=pdf
+type=Process
+
 [Tool/PStoPDF/Default]
 class=Convert
 command=ps2pdf
@@ -367,6 +389,8 @@ TeX4ht=HTML
 MakeIndex=Default
 MetaPost=Default
 PDFLaTeX=Default
+PreviewLaTeX=Default
+PreviewPDFLaTeX=Default
 PStoPDF=Default
 QuickBuild=LaTeX+ViewDVI
 TeX=Default
@@ -389,6 +413,8 @@ LaTeXtoDocBook=Compile,l2h
 MakeIndex=Compile,makeidx
 MetaPost=Compile,mpost
 PDFLaTeX=Compile,pdflatex
+PreviewLaTeX=none,none
+PreviewPDFLaTeX=none,none
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 TeX=Compile,latex

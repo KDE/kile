@@ -55,6 +55,11 @@ namespace KileTool
 	public slots:
 		bool finish(int);
 
+	protected:
+		bool filterLogfile();
+		void checkErrors(int &nErrors, int &nWarnings);
+		void checkAutoRun(int nErrors, int nWarnings);
+		
 	private:
 		bool updateBibs();
 		bool updateIndex();
@@ -63,6 +68,25 @@ namespace KileTool
 		static int m_reRun;
 	};
 
+	class PreviewLaTeX : public LaTeX
+	{
+		Q_OBJECT
+
+	public:
+		PreviewLaTeX(const QString & tool, Manager *mngr, bool prepare) : LaTeX(tool, mngr, prepare) {}
+		
+		void setPreviewInfo(const QString &filename, int selrow,int docrow);
+		
+	public slots:
+		bool finish(int);
+		
+	private:
+		QString m_filename;
+		int m_selrow;
+		int m_docrow;
+
+	};
+	
 	class ForwardDVI : public View
 	{
 	public:

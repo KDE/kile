@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="13">
+<kpartgui name="kile" version="14">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -107,6 +107,12 @@
 </Menu>
 <Menu name="menu_build"><text>&amp;Build</text>
 	<ActionList name="list_quickies"/>
+	<Menu name="quickpreview"><text>QuickPreview</text>
+		<Action name="quickpreview_selection"/>
+		<Action name="quickpreview_environment"/>
+		<Action name="quickpreview_subdocument"/>
+	</Menu>
+	<Separator/>
 	<Menu name="menu_compile"><text>&amp;Compile</text>
 		<ActionList name="list_compilers"/>
 	</Menu>
@@ -515,6 +521,7 @@
 </ToolBar>
 <ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
 	<Action name="tool_QuickBuild"/>
+	<Action name="quickpreview_selection"/>
 	<Separator lineSeparator="true"/>
 	<Action name="tool_LaTeX"/>
 	<Action name="tool_ViewDVI"/>

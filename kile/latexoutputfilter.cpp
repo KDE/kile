@@ -571,6 +571,13 @@ short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 	return dwCookie;
 }
 
+// split old Run() into three parts
+// - Run()             : parse the logfile
+// - updateInfoLists() : needed by QuickPreview
+// - sendProblems()    : emit signals
+//
+// dani 18.02.2005
+
 bool LatexOutputFilter::Run(const QString & logfile)
 {
 	m_InfoList->clear();
@@ -578,8 +585,31 @@ bool LatexOutputFilter::Run(const QString & logfile)
 	m_stackFile.clear();
 	m_stackFile.push(LOFStackItem(QFileInfo(source()).fileName(), true));
 
-	bool result = OutputFilter::Run(logfile);
+	return OutputFilter::Run(logfile);
+}
 
+void LatexOutputFilter::updateInfoLists(const QString &texfilename, int selrow, int docrow)
+{
+	// get a short name for the original tex file
+	QString filename = "./" + QFileInfo(texfilename).fileName();
+	setSource(texfilename);
+	
+	//print detailed error info
+	for (uint i=0; i < m_InfoList->count() ; ++i)
+	{
+		// perhaps correct filename and line number in OutputInfo
+		OutputInfo *info = &(*m_InfoList)[i];
+		info->setSource(filename);
+		
+		int linenumber = selrow + info->sourceLine() - docrow;
+		if ( linenumber < 0 )
+			linenumber = 0;
+		info->setSourceLine(linenumber);
+	}
+}
+
+void LatexOutputFilter::sendProblems()
+{
 	QString Message;
 	int type;
 
@@ -596,10 +626,7 @@ bool LatexOutputFilter::Run(const QString & logfile)
 		}
 		emit(problem(type, Message));
 	}
-
-	return result;
 }
-
 
 /** Return number of errors etc. found in log-file. */
 void LatexOutputFilter::getErrorCount(int *errors, int *warnings, int *badboxes)

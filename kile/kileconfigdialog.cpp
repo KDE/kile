@@ -26,7 +26,9 @@
 #include "latexconfigwidget.h"
 #include "generalconfigwidget.h"
 #include "encodingconfigwidget.h"
+#include "previewconfigwidget.h"
 #include "kileconfig.h"
+#include "kileinfo.h"
 
 namespace KileDialog
 {
@@ -42,6 +44,7 @@ namespace KileDialog
 		setupGeneralOptions();
 		setupEncodingOptions();
 		setupTools();
+		setupQuickPreview();     // QuickPreview (dani)
 		setupSpelling();
 		setupLatex();
 		setupCodeCompletion();   // complete configuration (dani)
@@ -126,7 +129,6 @@ namespace KileDialog
 		addPage(page, i18n("LaTeX"), "tex");
 	}
 
-
 	//////////////////// Complete configuration (dani) ////////////////////
 
 	void Config::setupCodeCompletion()
@@ -139,6 +141,20 @@ namespace KileDialog
 		vbox->addWidget(completePage);
 
 		addPage(page, i18n("Complete"), "source");
+	}
+
+	//////////////////// QuickPreview (dani) ////////////////////
+
+	void Config::setupQuickPreview()
+	{
+		QFrame *page = new QFrame(this, "quickpreview");
+		previewPage = new KileWidgetPreviewConfig(m_config,m_toolMngr->info()->quickPreview(),page);
+		previewPage->readConfig();
+
+		QVBoxLayout *vbox = new QVBoxLayout(page);
+		vbox->addWidget(previewPage);
+
+		addPage(page, i18n("Preview"), "preview");
 	}
 
 	void Config::setupHelp()
@@ -160,6 +176,7 @@ namespace KileDialog
 		writeToolsConfig();
 		writeSpellingConfig();
 		completePage->writeConfig();  // Complete configuration (dani)
+		previewPage->writeConfig();   // Quick Preview (dani)
 
 		KileConfig::setDefaultEncoding(encodingPage->encoding());
 		

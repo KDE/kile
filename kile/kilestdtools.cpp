@@ -21,6 +21,7 @@
 #include <kate/document.h>
 #include <kstandarddirs.h>
 
+#include "kileconfig.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
@@ -44,6 +45,9 @@ namespace KileTool
 			if ( toolClass == "LaTeX")
 				return new LaTeX(tool, m_manager, prepare);
 
+			if ( toolClass == "LaTeXpreview")
+				return new PreviewLaTeX(tool, m_manager, prepare);
+				
 			if ( toolClass == "ForwardDVI" )
 				return new ForwardDVI(tool, m_manager, prepare);
 
@@ -81,6 +85,8 @@ namespace KileTool
 		pCfg->copyTo(to_cfg, m_config);
 	}
 
+	/////////////// LaTeX ////////////////
+
 	int LaTeX::m_reRun = 0;
 
 	bool LaTeX::updateBibs()
@@ -112,88 +118,128 @@ namespace KileTool
 	bool LaTeX::finish(int r)
 	{
 		kdDebug() << "==bool LaTeX::finish(" << r << ")=====" << endl;
-
-		manager()->info()->outputFilter()->setSource(source());
-		QString log = baseDir() + "/" + S() + ".log";
-
-		//manager()->info()->outputFilter()->Run( "/home/wijnhout/test.log" );
-		int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
-		if ( manager()->info()->outputFilter()->Run(log) )
-		{
-			manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
-			QString es = i18n("%n error", "%n errors", nErrors);
-			QString ws = i18n("%n warning", "%n warnings", nWarnings);
-			QString bs = i18n("%n badbox", "%n badboxes", nBadBoxes);
-
-			sendMessage(Info, es +", " + ws + ", " + bs);
-
-			//jump to first error
-			if ( nErrors > 0 && (readEntry("jumpToFirstError") == "yes") )
-			{
-				connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
-				emit(jumpToFirstError());
-			}
+		
+		int nErrors = 0, nWarnings = 0;
+		if ( filterLogfile() ) {
+			checkErrors(nErrors,nWarnings);
 		}
-
+		
 		if ( readEntry("autoRun") == "yes" )
-		{
-			//check for "rerun LaTeX" warnings
-			bool reRan = false;
-			if ( (m_reRun < 1) && (nErrors == 0) && (nWarnings > 0) )
-			{
-				int sz =  manager()->info()->outputInfo()->size();
-				for (int i = 0; i < sz; ++i )
-				{
-					if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
-					&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun") )
-					{
-						reRan = true;
-						break;
-					}
-				}
-			}
-
-			if ( reRan ) ++m_reRun;
-			else m_reRun = 0;
-
-			bool bibs = updateBibs();
-			bool index = updateIndex();
-
-			if ( reRan )
-			{
-				kdDebug() << "\trerunning LaTeX " << m_reRun << 
-endl;
-				Base *tool = manager()->factory()->create(name());
-				tool->setSource(source());
-				manager()->runNext(tool);
-			}
-
-			if ( bibs || index )
-			{
-				Base *tool = manager()->factory()->create(name());
-				tool->setSource(source());
-				manager()->runNext(tool);
-
-				if ( bibs ) 
-				{
-					kdDebug() << "\tneed to run BibTeX" << endl;
-					tool = manager()->factory()->create("BibTeX");
-					tool->setSource(source());
-					manager()->runNext(tool);
-				}
-
-				if ( index ) 
-				{
-					tool = manager()->factory()->create("MakeIndex");
-					tool->setSource(source());
-					manager()->runNext(tool);
-				}
-			}
-		}
+			checkAutoRun(nErrors,nWarnings);
 
 		return Compile::finish(r);
 	}
 
+	bool LaTeX::filterLogfile()
+	{
+		manager()->info()->outputFilter()->setSource(source());
+		QString log = baseDir() + "/" + S() + ".log";
+
+		return manager()->info()->outputFilter()->Run(log);
+	}
+
+	void LaTeX::checkErrors(int &nErrors, int &nWarnings)
+	{
+		int nBadBoxes = 0;
+		
+		manager()->info()->outputFilter()->sendProblems();
+		manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
+		QString es = i18n("%n error", "%n errors", nErrors);
+		QString ws = i18n("%n warning", "%n warnings", nWarnings);
+		QString bs = i18n("%n badbox", "%n badboxes", nBadBoxes);
+
+		sendMessage(Info, es +", " + ws + ", " + bs);
+	
+		//jump to first error
+		if ( nErrors > 0 && (readEntry("jumpToFirstError") == "yes") ) {
+			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
+			emit(jumpToFirstError());
+		}
+	}
+	
+	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
+	{
+		kdDebug() << "\t check for autorun" << endl;
+		//check for "rerun LaTeX" warnings
+		bool reRan = false;
+		if ( (m_reRun < 1) && (nErrors == 0) && (nWarnings > 0) )
+		{
+			int sz =  manager()->info()->outputInfo()->size();
+			for (int i = 0; i < sz; ++i )
+			{
+				if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
+				&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun") )
+				{
+					reRan = true;
+					break;
+				}
+			}
+		}
+
+		if ( reRan ) ++m_reRun;
+		else m_reRun = 0;
+
+		bool bibs = updateBibs();
+		bool index = updateIndex();
+
+		if ( reRan )
+		{
+			kdDebug() << "\trerunning LaTeX " << m_reRun << endl;
+			Base *tool = manager()->factory()->create(name());
+			tool->setSource(source());
+			manager()->runNext(tool);
+		}
+		
+		if ( bibs || index )
+		{
+			Base *tool = manager()->factory()->create(name());
+			tool->setSource(source());
+			manager()->runNext(tool);
+
+			if ( bibs ) 
+			{
+				kdDebug() << "\tneed to run BibTeX" << endl;
+				tool = manager()->factory()->create("BibTeX");
+				tool->setSource(source());
+				manager()->runNext(tool);
+			}
+
+			if ( index ) 
+			{
+				tool = manager()->factory()->create("MakeIndex");
+				tool->setSource(source());
+				manager()->runNext(tool);
+			}
+		}
+	}
+	
+	
+	/////////////// PreviewLaTeX (dani) ////////////////
+
+	// PreviewLatex makes three steps:
+	// - filterLogfile()  : parse logfile and read info into InfoLists
+	// - updateInfoLists(): change entries of temporary file into normal tex file
+	// - checkErrors()    : count errors and warnings and emit signals   
+	bool PreviewLaTeX::finish(int r)
+	{
+		kdDebug() << "==bool PreviewLaTeX::finish(" << r << ")=====" << endl;
+		
+		int nErrors = 0, nWarnings = 0;
+		if ( filterLogfile() ) {
+			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
+			checkErrors(nErrors,nWarnings);
+		}
+		
+		return Compile::finish(r);
+	}
+
+	void PreviewLaTeX::setPreviewInfo(const QString &filename, int selrow,int docrow)
+	{
+		m_filename = filename;
+		m_selrow = selrow;
+		m_docrow = docrow;
+	}
+	
 	bool ForwardDVI::determineTarget()
 	{
 		if (!View::determineTarget())

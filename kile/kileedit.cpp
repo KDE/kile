@@ -413,6 +413,27 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 	return true;
 }
 
+// determine text, startrow and startcol of current environment
+
+QString EditorExtension::getEnvironmentText(int &row, int &col, Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return QString::null;
+
+	EnvData envbegin,envend;
+	
+	if ( getEnvironment(false,envbegin,envend,view) && envbegin.name!="document" ) 
+	{
+		row = envbegin.row;
+		col = envbegin.col;
+		return view->getDoc()->text(envbegin.row,envbegin.col,envend.row,envend.col);
+	}
+	else
+	{
+		return QString::null;
+	}
+}
+
 //////////////////// search for \begin{env}  ////////////////////
 
 // Find the last \begin{env} tag. If the current cursor is over

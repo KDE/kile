@@ -296,6 +296,12 @@ private:
 	KileHelp::Help 		*m_help;
 	KileErrorHandler 	*m_errorHandler;
 	KileSpell			*m_spell;
+	
+// QuickPreview
+private slots:
+	void quickPreviewSelection();    
+	void quickPreviewEnvironment();    
+	void quickPreviewSubdocument(); 
 };
 
 #endif

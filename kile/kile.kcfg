@@ -257,6 +257,12 @@
 			<default></default>
 		</entry>
 	</group>
+	<group name="QuickPreview">
+		<entry name="previewTask" type="String">
+			<label></label>
+			<default>LaTeX ---> DVI</default>
+		</entry>
+	</group>
 	<group name="QuickDocument">
 		<entry name="userClasses" type="StringList">
 			<label></label>

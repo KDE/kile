@@ -73,6 +73,7 @@ public:
 
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
+	QString getEnvironmentText(int &row, int &col, Kate::View *view = 0L);
 
 public slots:
 	void insertIntelligentNewline(Kate::View *view = 0L);

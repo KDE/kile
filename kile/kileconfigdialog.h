@@ -21,8 +21,7 @@
 #include <kdeversion.h>
 
 #include "configcodecompletion.h"     // code completion (dani)
-
-
+#include "previewconfigwidget.h"      // QuickPreview (dani)
 
 class QFrame;
 class KSpellConfig;
@@ -61,6 +60,7 @@ namespace KileDialog
 
 		// CodeCompletion (dani)
 		ConfigCodeCompletion *completePage;
+		KileWidgetPreviewConfig *previewPage;
 
 		KileWidgetHelpConfig *helpPage;
 		KileWidgetLatexConfig *latexPage;
@@ -74,6 +74,7 @@ namespace KileDialog
 		void setupSpelling();
 		void setupLatex();
 		void setupCodeCompletion();
+		void setupQuickPreview();
 		void setupHelp();
 
 		// write configuration

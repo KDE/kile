@@ -53,6 +53,8 @@ class LatexOutputFilter : public OutputFilter
         ~LatexOutputFilter();
 
         virtual bool Run(const QString & logfile);
+	void sendProblems();
+	void updateInfoLists(const QString &texfilename, int selrow, int docrow);
 
 	enum {Start = 0, FileName, FileNameHeuristic, Error, Warning, BadBox, LineNumber};
 

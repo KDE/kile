@@ -74,6 +74,7 @@
 #include "mathenvdialog.h"
 #include "tabulardialog.h"
 #include "postscriptdialog.h"
+#include "quickpreview.h"         
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -98,6 +99,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_eventFilter = new KileEventFilter();
 	m_errorHandler = new KileErrorHandler(this, this);
 	m_spell = new KileSpell(this, this, "kilespell");
+	m_quickPreview = new KileTool::QuickPreview(this);
 
 	connect( m_partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
 	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
@@ -196,6 +198,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
+	delete m_quickPreview;
 	delete m_edit;
 	delete m_help;
 	delete m_AutosaveTimer;
@@ -413,6 +416,10 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
 	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
+	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"quickpreview_selection" );
+	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"quickpreview_environment" );
+	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"quickpreview_subdocument" );
+	
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
@@ -1765,5 +1772,68 @@ void Kile::slotToggleFullScreen()
 	else
 		showFullScreen();
 }
+
+/////////////// QuickPreview (dani) ////////////////
+
+// compile and view current selection (singlemode and mastermode) 
+
+void Kile::quickPreviewSelection()    
+{
+	Kate::View *view = viewManager()->currentView();
+	if ( !view) return;
+	
+	Kate::Document *doc = view->getDoc();
+	if ( doc && doc->hasSelection() ) {
+		m_quickPreview->run( doc->selection(),getName(doc),doc->selStartLine() );
+		doc->clearSelection();
+	} else {
+		KMessageBox::error(this, i18n("There is no selection to compile.") );
+	}
+}
+
+// compile and view current environment (singlemode and mastermode) 
+ 
+void Kile::quickPreviewEnvironment()    
+{
+	Kate::View *view = viewManager()->currentView();
+	if ( !view) return;
+	
+	Kate::Document *doc = view->getDoc();
+	if ( doc ) {
+		int row,col;
+		QString text = m_edit->getEnvironmentText(row,col,view);
+		if ( text != QString::null ) 
+			m_quickPreview->run( text,getName(doc),row );
+		else
+			KMessageBox::error(this, i18n("There is no surrounding environment.") );
+	}
+}
+
+// compile and view current subdocument (only mastermode) 
+ 
+void Kile::quickPreviewSubdocument()   
+{
+	Kate::View *view = viewManager()->currentView();
+	if ( !view) return;
+	
+	// this mode is only useful with a master document
+	if ( !docManager()->activeProject() && m_singlemode ) {
+		KMessageBox::error( this, i18n("This job is only useful with a master document.") );
+		return;
+	}
+
+	// the current document should not be the master document
+	Kate::Document *doc = view->getDoc();
+	if ( doc ) {
+		QString filename = doc->url().path();
+		if ( filename == getCompileName() ) {
+			KMessageBox::error( this, i18n("This is not a subdocument, but the master document.") );
+			return;
+		}
+
+		m_quickPreview->run( doc->text(),getName(doc),0 );
+	}
+}
+
 
 #include "kile.moc"

@@ -161,7 +161,8 @@ namespace KileDialog
 	{
 		QFrame *page = new QFrame(this, "helpframe");
 		helpPage = new KileWidgetHelpConfig(page);
-
+		helpPage->setHelp(m_toolMngr->info()->help());
+		
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(helpPage);
 		vbox->addStretch();

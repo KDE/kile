@@ -22,9 +22,11 @@
 #include <qstring.h>
 
 #include <kconfig.h>
+#include <kmenubar.h>
 #include <kate/view.h>
 #include "kileedit.h"
 
+#include "userhelp.h"
 #include "usermenudialog.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
@@ -56,15 +58,16 @@ namespace KileHelp
 
 	public:
 		Help(KileDocument::EditorExtension *edit);
-		~Help() {}
+		~Help();
 		
-		void setManager(KileTool::Manager *manager) { m_manager = manager; }
+		void setUserhelp(KileTool::Manager *manager, KMenuBar *menubar); 
 
 		// calls for help
 		void helpLatex(KileHelp::Type type);
 		void helpTetex(KileHelp::Type type);
 		void helpKeyword(Kate::View *view);
 		void noHelpAvailableFor(const QString &word);
+		void userHelpDialog() { m_userhelp->userHelpDialog(); }
 
 	public slots:
 		void helpTetexGuide() { helpTetex(KileHelp::HelpTetexGuide); }
@@ -74,10 +77,11 @@ namespace KileHelp
 		void helpLatexSubject() { helpLatex(KileHelp::HelpLatexSubject); }
 		void helpLatexEnvironment() { helpLatex(KileHelp::HelpLatexEnvironment); }
 		void helpKeyword();
-
+		
 	private:
 		KileTool::Manager *m_manager;
 		KileDocument::EditorExtension *m_edit;
+		UserHelp *m_userhelp;
 
 		QMap<QString,QString> m_dictHelpKile;
 		QMap<QString,QString> m_dictHelpTetex;

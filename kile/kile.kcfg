@@ -126,6 +126,10 @@
 			<label>Use the system's TeX reference for the contextual help.</label>
 			<default>0</default>
 		</entry>
+		<entry name="embedded" type="Int">
+			<label>Use embedded viewer for user help.</label>
+			<default>1</default>
+		</entry>
 	</group>
 	<group name="Files">
 		<entry name="DefaultEncoding" type="String">

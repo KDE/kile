@@ -44,6 +44,7 @@ namespace KileDocument { class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
 namespace KileWidget { class Structure; class Konsole; }
 namespace KileTool { class QuickPreview; }
+namespace KileHelp { class Help; }
 
 class KileInfo
 {
@@ -107,6 +108,7 @@ public:
 	KileTool::Manager* toolManager() const { return m_manager; }
 	KileTool::Factory* toolFactory() const { return m_toolFactory; }
 	KileDocument::EditorExtension *editorExtension() const { return m_edit; }
+	KileHelp::Help *help() const { return m_help; }
 	KileTool::QuickPreview *quickPreview() const { return m_quickPreview; }
 
 	//FIXME:refactor
@@ -125,6 +127,7 @@ protected:
 	KileWidget::LogMsg		*m_logWidget;
 	KileBottomBar			*m_bottomBar;
 
+	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;
 	KileTool::QuickPreview *m_quickPreview;
 

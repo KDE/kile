@@ -162,7 +162,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config);
 	m_manager->setFactory(m_toolFactory);
-	m_help->setManager(m_manager);     // kile help (dani)
+	m_help->setUserhelp(m_manager,menuBar());     // kile user help (dani)
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));

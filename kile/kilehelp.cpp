@@ -44,6 +44,19 @@ namespace KileHelp
 		readHelpList("latex-tetex.lst",m_dictHelpTetex);
 	}
 	
+	Help::~Help() 
+	{
+		delete m_userhelp;
+	}
+	
+	////////////////////// set parameter/initialize user help //////////////////////
+	
+	void Help::setUserhelp(KileTool::Manager *manager, KMenuBar *menubar)
+	{ 
+		m_manager = manager;
+		m_userhelp = new UserHelp(manager,menubar);
+	}
+	
 	////////////////////// show help //////////////////////
 	
 	void Help::showHelpFile(const QString &parameter)
@@ -223,6 +236,7 @@ namespace KileHelp
 			f.close();
 		}
 	}
+
 }
 
 #include "kilehelp.moc"

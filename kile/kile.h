@@ -293,7 +293,6 @@ private:
 	bool				m_bShowUserMovedMessage;
 
 private:
-	KileHelp::Help 		*m_help;
 	KileErrorHandler 	*m_errorHandler;
 	KileSpell			*m_spell;
 	

@@ -1,8 +1,16 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KileWidgetHelpConfig</class>
 <widget class="QWidget">
     <property name="name">
         <cstring>KileWidgetHelpConfig</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>436</width>
+            <height>309</height>
+        </rect>
     </property>
     <property name="caption">
         <string>Help</string>
@@ -37,26 +45,143 @@
             <property name="title">
                 <string>Context Sensitive Help</string>
             </property>
-            <grid>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>m_rbKileRef</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Use the &amp;Kile LaTeX reference</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="1" column="0">
-                    <property name="name">
-                        <cstring>m_rbTeTeX</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Use your system's &amp;TeX documentation</string>
-                    </property>
-                </widget>
-            </grid>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>m_rbTeTeX</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>59</y>
+                        <width>358</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Use your system's &amp;TeX documentation</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+T</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>m_rbKileRef</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>27</y>
+                        <width>358</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Use the &amp;Kile LaTeX reference</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+K</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_embedded</cstring>
+            </property>
+            <property name="title">
+                <string>User help</string>
+            </property>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>m_rbEmbedded</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>80</y>
+                        <width>358</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Use &amp;embedded viewer</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+E</string>
+                </property>
+            </widget>
+            <widget class="QRadioButton">
+                <property name="name">
+                    <cstring>m_rbExternal</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>110</y>
+                        <width>401</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show help file in a &amp;separate window</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+S</string>
+                </property>
+                <property name="checked">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>m_pbConfigure</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>130</width>
+                        <height>34</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Con&amp;figure</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+F</string>
+                </property>
+            </widget>
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>m_pbConfigure</sender>
+        <signal>clicked()</signal>
+        <receiver>KileWidgetHelpConfig</receiver>
+        <slot>slotConfigure()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">kilehelp.h</include>
+    <include location="local" impldecl="in implementation">helpconfigwidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>namespace KileHelp { class Help; }</forward>
+</forwards>
+<variables>
+    <variable access="private">KileHelp::Help *m_help;</variable>
+</variables>
+<slots>
+    <slot access="private" specifier="nicht virtual">slotConfigure()</slot>
+</slots>
+<functions>
+    <function specifier="non virtual">setHelp( KileHelp::Help * help )</function>
+</functions>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+</includehints>
 </UI>

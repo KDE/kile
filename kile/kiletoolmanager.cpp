@@ -75,7 +75,7 @@ namespace KileTool
 			Queue *oldqueue = new Queue(*this);
 
 			setAutoDelete(false); clear();
-			kdDebug() << "\tenqueueing: " << item->tool()->name() << endl;
+			kdDebug() << "\tenqueueing: " << headitem->tool()->name() << endl;
 			enqueue(headitem);
 			kdDebug() << "\tenqueueing: " << item->tool()->name() << endl;
 			enqueue(item);

@@ -99,18 +99,7 @@ namespace KileTool
 
 	bool LaTeX::updateBibs()
 	{
-		KileDocument::Info *info = manager()->info()->docManager()->infoFor(source());
-		if ( info )
-		{
-			const QStringList *bibs = info->bibliographies();
-			for ( uint i = 0; i < bibs->count(); i++)
-				if ( needsUpdate ( QString(*bibs->at(i)) + ".bbl" , source(false) ) )
-				{
-					return true;
-				}
-		}
-
-		return false;
+		return needsUpdate ( S() + ".bbl" , source(false) );
 	}
 
 	bool LaTeX::updateIndex()
@@ -179,6 +168,8 @@ namespace KileTool
 
 			if ( reRan )
 			{
+				kdDebug() << "\trerunning LaTeX " << m_reRun << 
+endl;
 				Base *tool = manager()->factory()->create(name());
 				tool->setSource(source());
 				manager()->runNext(tool);
@@ -192,6 +183,7 @@ namespace KileTool
 
 				if ( bibs ) 
 				{
+					kdDebug() << "\tneed to run BibTeX" << endl;
 					tool = manager()->factory()->create("BibTeX");
 					tool->setSource(source());
 					manager()->runNext(tool);

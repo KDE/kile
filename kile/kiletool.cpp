@@ -397,15 +397,31 @@ namespace KileTool
 
 	bool Base::needsUpdate(const QString &target, const QString &source)
 	{
+		kdDebug() << "==Base::needsUpdate(" << target << "," << source << 
+endl;
 		QFileInfo targetinfo(baseDir() + "/" + target);
 		QFileInfo sourceinfo(baseDir() + "/" + source);
 
 		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
+		{
+			kdDebug() << "\treturning false: source doesn't exist" << 
+endl;
 			return false;
+		}
 
 		if ( ! targetinfo.exists() )
+		{
+			kdDebug() << "\treturning true: target doesn't exist" << 
+endl;
 			return true;
+		}
 
+		kdDebug() << "\ttarget: " << targetinfo.lastModified().toString() 
+<< endl;
+		kdDebug() << "\tsource: " << sourceinfo.lastModified().toString() 
+<< endl;
+		kdDebug() << "\treturning " << (targetinfo.lastModified() < 
+sourceinfo.lastModified()) << endl;
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
 

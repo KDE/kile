@@ -68,8 +68,6 @@ bool OutputFilter::Run(QString logfile)
 		QTextStream t( &f );
 		while ( !t.eof() )
 		{
-			kdDebug() << "output line: " << m_nOutputLines+1 << endl;
-
 			s=t.readLine()+"\n";
 			sCookie = parseLine(s.stripWhiteSpace(), sCookie);
 			m_nOutputLines++;

@@ -113,7 +113,7 @@ Kile::Kile( QWidget *, const char *name ) :
 	htmlpart=0L;
 	pspart=0L;
 	dvipart=0L;
-	m_bNewErrorlist=true;
+	m_bNewInfolist=true;
 	m_bCheckForLaTeXErrors=false;
 	m_bBlockWindowActivateEvents=false;
 	kspell = 0;
@@ -227,6 +227,9 @@ Kile::Kile( QWidget *, const char *name ) :
 	logpresent=false;
 	errorlist=new QStrList();
 	warnlist=new QStrList();
+  m_OutputInfo=new LatexOutputInfoArray();
+  m_OutputFilter=new LatexOutputFilter( m_OutputInfo,LogWidget,OutputWidget );
+  //m_OutputFilter=new LatexOutputFilter( m_OutputInfo );
 	connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
 	texkonsole=new TexKonsoleWidget(Outputview,"konsole");
@@ -311,6 +314,8 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, this, SLOT(NextError()), actionCollection(),"NextError" );
 	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, this, SLOT(PreviousWarning()), actionCollection(),"PreviousWarning" );
 	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, this, SLOT(NextWarning()), actionCollection(),"NextWarning" );
+	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, this, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
+	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, this, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
 	StopAction = new KAction(i18n("&Stop"),"stop",Key_Escape,this,SIGNAL(stopProcess()),actionCollection(),"Stop");
 	StopAction->setEnabled(false);
 	(void) new KAction("LaTeX","latex", ALT+Key_2, this, SLOT(Latex()), actionCollection(),"Latex" );
@@ -1620,7 +1625,7 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		return true;
 
 	//TODO: remove from docinfo map, remove from dirwatch
-	KileDocumentInfo *docinfo;
+	KileDocumentInfo *docinfo = 0;
 	if (view)
 	{
 		kdDebug() << "==Kile::fileClose==========================" << endl;
@@ -3081,30 +3086,32 @@ OutputWidget->insertAt(s, row, col);
 
 void Kile::slotProcessExited(KProcess* proc)
 {
-if (m_bCheckForLaTeXErrors)
-{
-	LatexError();
-	m_bCheckForLaTeXErrors=false;
-}
+	if (m_bCheckForLaTeXErrors)
+	{
+		LatexError();
+		m_bCheckForLaTeXErrors=false;
+	}
 
-QString result;
-if (m_nErrors !=0 || m_nWarnings != 0)
-{
-	result = i18n("Process exited with %1 errors and %1 warnings.").arg(m_nErrors).arg(m_nWarnings);
-}
-else
-if (proc->normalExit())
-{
-	result= ((proc->exitStatus()) ? i18n("Process failed.") : i18n("Process exited without errors."));
-}
-else
-{
-   result= i18n("Process exited unexpectedly.");
-}
-LogWidget->append(result);
+	QString result;
+	m_OutputFilter->GetErrorCount(&m_nErrors, &m_nWarnings, &m_nBadBoxes);
+	if (m_nErrors !=0 || m_nWarnings != 0 || m_nBadBoxes != 0)
+	{
+		result = i18n("Process exited with %1 errors, %2 warnings and %3 bad boxes.").
+		arg(m_nErrors).arg(m_nWarnings).arg(m_nBadBoxes);
+	}
+	else
+	if (proc->normalExit())
+	{
+		result= ((proc->exitStatus()) ? i18n("Process failed.") : i18n("Process exited without errors."));
+	}
+	else
+	{
+	result= i18n("Process exited unexpectedly.");
+	}
+	LogWidget->append(result);
 
-delete proc;
-currentProcess=0;
+	delete proc;
+	currentProcess=0;
 }
 
 void Kile::slotl2hExited(KProcess* proc)
@@ -3365,7 +3372,7 @@ void Kile::ViewLog()
 		//newStatus();
 		logpresent=true;
 	}
-	else
+	else       
 	{
 		LogWidget->insertLine(i18n("Cannot open log file! Did you run LaTeX?"));
 	}
@@ -3454,10 +3461,9 @@ if (ok && l<=currentView()->getDoc()->numLines())
 ////////////////////////// ERRORS /////////////////////////////
 void Kile::LatexError(bool warnings)
 {
-	errorlist->clear();
-	warnlist->clear();
-	m_nErrors=m_nWarnings=0;
-	m_bNewErrorlist=m_bNewWarninglist=true;
+	m_nErrors=m_nWarnings=m_nBadBoxes=0;
+	m_bNewInfolist=true;
+
 	int tagStart,i=0;
 	QString s,num;
 	tempLog=QString::null;
@@ -3466,6 +3472,19 @@ void Kile::LatexError(bool warnings)
 	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
 	QFileInfo fic(finame);
 	QFile f(finame);
+
+	m_OutputFilter->Run( finame );
+
+	kdDebug() << "===LatexError()===================" << endl;
+	kdDebug() << "Total: " << m_OutputInfo->size() << " Infos reported" << endl;
+	for (uint i =0; i<m_OutputInfo->size();i++)
+	{
+		kdDebug() << (*m_OutputInfo)[i].type() << " in file <<" << (*m_OutputInfo)[i].source()
+		<< ">> (line " << (*m_OutputInfo)[i].sourceLine()
+		<< ") [Reported in line " << (*m_OutputInfo)[i].outputLine() << "]" << endl;
+	}
+
+  // for compatibility reasons !must be changed; there probably is a better way!
 	if ( f.open(IO_ReadOnly) )
 	{
 		QTextStream t( &f );
@@ -3473,64 +3492,47 @@ void Kile::LatexError(bool warnings)
 		{
 			s=t.readLine()+"\n";
 			tempLog += s;
-   			//// ! ////
-			tagStart=s.find("!");
-			if (tagStart==0)
-			{
-				num = QString::number(i,10);
-				m_nErrors++;
-				errorlist->append(num.ascii());
-			}
-			//// latex warning ////
-			if (warnings)
-			{
-				tagStart=s.find("LaTeX Warning");
-				if (tagStart!=-1)
-				{
-					num = QString::number(i,10);
-					m_nWarnings++;
-					warnlist->append(num.ascii());
-				}
-			}
-			i++;
 		}
 		f.close();
 	}
 }
 
-void Kile::jumpToProblem(QStrList *list, bool &newlist, bool forward)
+void Kile::jumpToProblem(int type, bool forward)
 {
-	QString line="";
+	static LatexOutputInfoArray::iterator it;
 	bool ok;
 	if (!logpresent) {ViewLog();}
 
-	if (logpresent && !list->isEmpty())
+	if (logpresent && !m_OutputInfo->isEmpty())
 	{
 		Outputview->showPage(LogWidget);
-		uint id=list->findRef(list->current());
-		if (newlist)
+		if (m_bNewInfolist)
 		{
-			line=list->at(0);
+      // search first entry of demanded error type
+      it = m_OutputInfo->begin();
+      while ( (*it).type() != type && it != m_OutputInfo->end() ) ++it;
+      if (it == m_OutputInfo->end()) --it;    // point to last entry in list
 		}
 		else
 		{
+      // search next entry of demanded error type
 			if (forward)
 			{
-				if (id < (list->count()-1))
-					line=list->at(id+1);
-				else
-					line=list->at(id);
+        do ++it;
+        while ((*it).type() != type && it != m_OutputInfo->end() );
+        if (it == m_OutputInfo->end()) --it;    // point to last entry in list
 			}
 			else
 			{
-				if (id>0)
-					line=list->at(id-1);
-				else
-					line=list->at(0);
+				do --it;
+        while ((*it).type() != type && it != m_OutputInfo->begin() );
 			}
 		}
-		int l=line.toInt(&ok,10);
-		if (ok && l<=LogWidget->paragraphs())
+    
+		int l= (*it).outputLine();
+    // do we have the right error code and is line number valid?
+    // else keep current position
+		if ((*it).type() == type && l<=LogWidget->paragraphs())
 		{
 			//LogWidget->setCursorPosition(0 , 0 );
 			LogWidget->setCursorPosition(l+3 , 0);
@@ -3538,32 +3540,42 @@ void Kile::jumpToProblem(QStrList *list, bool &newlist, bool forward)
 		}
 	}
 
-	if (logpresent && list->isEmpty())
+	if (logpresent && m_OutputInfo->isEmpty())
 	{
 		LogWidget->insertLine(i18n("No LaTeX errors detected!"));
 	}
 
-	newlist = false;
+	m_bNewInfolist = false;
 }
 
 void Kile::NextError()
 {
-	jumpToProblem(errorlist, m_bNewErrorlist, true);
+	jumpToProblem(LatexOutputInfo::itmError, true);
 }
 
 void Kile::PreviousError()
 {
-	jumpToProblem(errorlist, m_bNewErrorlist, false);
+	jumpToProblem(LatexOutputInfo::itmError, false);
 }
 
 void Kile::NextWarning()
 {
-	jumpToProblem(warnlist, m_bNewWarninglist, true);
+	jumpToProblem(LatexOutputInfo::itmWarning, true);
 }
 
 void Kile::PreviousWarning()
 {
-	jumpToProblem(warnlist, m_bNewWarninglist, false);
+	jumpToProblem(LatexOutputInfo::itmWarning, false);
+}
+
+void Kile::NextBadBox()
+{
+	jumpToProblem(LatexOutputInfo::itmBadBox, true);
+}
+
+void Kile::PreviousBadBox()
+{
+	jumpToProblem(LatexOutputInfo::itmBadBox, false);
 }
 
 /////////////////////// LATEX TAGS ///////////////////

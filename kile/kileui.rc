@@ -77,6 +77,8 @@
 	<Action name="NextError"/>
 	<Action name="PreviousWarning"/>
 	<Action name="NextWarning"/>
+	<Action name="PreviousBadBox"/>
+	<Action name="NextBadBox"/>
 	<Action name="Stop"/>
 	<Separator/>
 	<Action name="CleanAll"/>
@@ -309,6 +311,8 @@
 	<Action name="NextError"/>
 	<Action name="PreviousWarning"/>
 	<Action name="NextWarning"/>
+	<Action name="PreviousBadBox"/>
+	<Action name="NextBadBox"/>
 	<Action name="Stop"/>
 	<Separator lineSeparator="true"/>
 	<Action name="Latex"/>
@@ -407,6 +411,8 @@
 <Action name="NextError"/>
 <Action name="PreviousWarning"/>
 <Action name="NextWarning"/>
+<Action name="PreviousBadBox"/>
+<Action name="NextBadBox"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
@@ -609,6 +615,8 @@
 <Action name="NextError"/>
 <Action name="PreviousWarning"/>
 <Action name="NextWarning"/>
+<Action name="PreviousBadBox"/>
+<Action name="NextBadBox"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
@@ -811,6 +819,8 @@
 <Action name="NextError"/>
 <Action name="PreviousWarning"/>
 <Action name="NextWarning"/>
+<Action name="PreviousBadBox"/>
+<Action name="NextBadBox"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>
@@ -1021,6 +1031,8 @@
 <Action name="NextError"/>
 <Action name="PreviousWarning"/>
 <Action name="NextWarning"/>
+<Action name="PreviousBadBox"/>
+<Action name="NextBadBox"/>
 <Action name="MakeBib"/>
 <Action name="MakeIndex"/>
 <Action name="LaTeXtoHtml"/>

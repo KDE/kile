@@ -76,6 +76,9 @@
 
 #include "commandprocess.h"
 
+#include "latexoutputinfo.h"
+#include "latexoutputfilter.h"
+
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
@@ -496,9 +499,11 @@ private slots:
 	void PreviousError();
 	void NextWarning();
 	void PreviousWarning();
+	void NextBadBox();
+	void PreviousBadBox();
 
 private:
-	void jumpToProblem(QStrList *, bool &, bool);
+	void jumpToProblem(int type, bool);
 
 private:
 	QString 		tempLog;
@@ -506,9 +511,11 @@ private:
 
 	QStrList 		*errorlist;
 	QStrList		*warnlist;
-	int 				m_nErrors,m_nWarnings;
+	int 				m_nErrors,m_nWarnings,m_nBadBoxes;
 	bool 				m_bCheckForLaTeXErrors;
-	bool 				m_bNewErrorlist, m_bNewWarninglist;
+	bool 				m_bNewInfolist;
+  LatexOutputInfoArray  *m_OutputInfo;
+  LatexOutputFilter     *m_OutputFilter;
 
 
 /* insert tags */

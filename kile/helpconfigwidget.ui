@@ -77,7 +77,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>use your systems &amp;TeX documentation</string>
+                    <string>use your system's &amp;TeX documentation</string>
                 </property>
                 <property name="accel">
                     <string>Alt+T</string>

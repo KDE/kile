@@ -4623,8 +4623,6 @@ void Kile::ConfigureKeys()
 		dlg.insert( (*it)->actionCollection() );
 	}
 	dlg.configure();
-	//KKeyDialog::configure(actionCollection(), this, true);
-
 }
 
 void Kile::ConfigureToolbars()

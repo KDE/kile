@@ -235,6 +235,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 	QMapConstIterator<QString,KileStructData> it;
 
 	KileListViewItem *toplabel=  new KileListViewItem(m_struct,"LABELS");
+	toplabel->setOpen(false);
 
 	QString s, cap;
 
@@ -355,7 +356,7 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 
 					//if the level is not greater than the defaultLevel
 					//open the parent to make this item visible
-					if ( (*it).level <= defaultLevel )
+					if ( ( parent != toplabel ) && (*it).level <= defaultLevel )
 					{
 						parent->setOpen(true);
 					}

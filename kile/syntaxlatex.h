@@ -59,7 +59,8 @@ public:
     virtual ~SyntaxLatex();
 
     int highlightParagraph ( const QString & text, int endStateOfLastPara );
-
+    void changeSettings(ListColors col, QFont &efont);
+    
 private:
 		void setLaTeXFormat(int start, int count, int format);
 

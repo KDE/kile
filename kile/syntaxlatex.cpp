@@ -57,7 +57,17 @@ const char * const SyntaxLatex::Environment[] = {
 
 SyntaxLatex::SyntaxLatex(QTextEdit *textEdit, ListColors col, QFont &efont) : QSyntaxHighlighter(textEdit)
 {
-    for ( int i=0; Keywords[i] != 0; i++)
+  changeSettings(col, efont);
+}
+
+SyntaxLatex::~SyntaxLatex()
+{
+
+}
+
+void SyntaxLatex::changeSettings(ListColors col, QFont &efont)
+{
+		for ( int i=0; Keywords[i] != 0; i++)
     {
 			mapCommands[Keywords[i]]=stKeywordDetected;
 		}
@@ -99,11 +109,6 @@ SyntaxLatex::SyntaxLatex(QTextEdit *textEdit, ListColors col, QFont &efont) : QS
     dictFormats.insert(fmtEnvironment,fmt);
 
     listVerbChars.clear();
-}
-
-SyntaxLatex::~SyntaxLatex()
-{
-
 }
 
 void SyntaxLatex::setLaTeXFormat(int start, int count, int format)

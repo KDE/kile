@@ -27,6 +27,9 @@
 #define MAX_PARAPROCESSED 10
 
 typedef  QColor ListColors[8];
+
+class SyntaxLatex;
+
 class LatexEditor : public QTextEdit  {
    Q_OBJECT
 public:
@@ -91,7 +94,8 @@ private:
 	bool matchParens;
 	bool m_matching;
   QString encoding;
-  QTimer *m_Timer; 
+  QTimer *m_Timer;
+  SyntaxLatex *highlighter;
 
 };
 

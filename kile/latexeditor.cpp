@@ -41,7 +41,7 @@ LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool pa
     document()->setSelectionColor( selParenMatch,col[7]  );
     document()->setSelectionColor( selParenMismatch, Qt::magenta );
 
-    SyntaxLatex *sy=new SyntaxLatex(this,col,efont);
+    highlighter=new SyntaxLatex(this,col,efont);
     setTextFormat(Qt::PlainText);
     parenMatcher = new ParenMatcher;
     connect( this, SIGNAL( cursorPositionChanged( int,int ) ),
@@ -313,7 +313,7 @@ void LatexEditor::changeSettings(QFont & new_font,bool new_parmatch,ListColors n
     document()->setSelectionColor( selParenMatch,new_col[7] );
     document()->setSelectionColor( selParenMismatch, Qt::magenta );
     viewport()->repaint( FALSE );   
-    SyntaxLatex *new_sy=new SyntaxLatex(this,new_col,new_font);
+    highlighter->changeSettings(new_col,new_font);
     matchParens=new_parmatch;
 }
 

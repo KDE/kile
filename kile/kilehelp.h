@@ -25,7 +25,7 @@
 
 #include <kconfig.h>
 #include <kate/view.h>
-#include <kileedit.h>
+#include "kileedit.h"
 
 #include "usermenudialog.h"
 #include "kiletool.h"

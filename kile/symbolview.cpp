@@ -20,7 +20,7 @@
 #include <qfileinfo.h>
 #include <qimage.h>
 #include <kimageeffect.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 
 //////////////////////////////////////////////////////////
 

@@ -23,7 +23,7 @@
 
 #include <kapplication.h>
 #include <kglobal.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kate/document.h>

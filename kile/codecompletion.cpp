@@ -23,7 +23,7 @@ email                : holger.danielsson@t-online.de
 #include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <ktexteditor/codecompletioninterface.h>

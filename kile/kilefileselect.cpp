@@ -33,7 +33,6 @@ from Kate (C) 2001 by Matt Newell
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kcharsets.h>
-#include <kglobal.h>
 #include <kdebug.h>
 
 #include "kileconfig.h"

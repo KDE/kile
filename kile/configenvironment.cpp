@@ -29,7 +29,6 @@
 #include <klocale.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
-#include <klistbox.h>
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 

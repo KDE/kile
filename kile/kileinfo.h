@@ -21,7 +21,6 @@
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qmap.h>
-#include <qptrlist.h>
 
 #include <kdebug.h>
 #include <kurl.h>

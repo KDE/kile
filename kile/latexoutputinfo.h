@@ -18,7 +18,7 @@
 #ifndef LATEXOUTPUTINFO_H
 #define LATEXOUTPUTINFO_H
 
-#include <outputinfo.h>
+#include "outputinfo.h"
 
 /**A class to keep output info from LaTeX.
  *@author Thorsten Lck

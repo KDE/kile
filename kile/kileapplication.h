@@ -18,7 +18,7 @@
 #ifndef KILEAPPLICATION_H
 #define KILEAPPLICATION_H
 
-#include <kapp.h>
+#include <kapplication.h>
 
 /**
   *@author Pascal Brachet

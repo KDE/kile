@@ -18,7 +18,7 @@
 #include <kio/netaccess.h> 
 #include <klocale.h>
 #include <kprocess.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <ktempdir.h>
 #include <ksimpleconfig.h>
 #include <kglobal.h>

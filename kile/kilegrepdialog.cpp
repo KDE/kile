@@ -45,7 +45,6 @@
 #include <kmessagebox.h>
 #include <kurlrequester.h>
 #include <kurlcompletion.h>
-#include <kcombobox.h>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kdebug.h>

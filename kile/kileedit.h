@@ -34,6 +34,7 @@
   */
 
 class KileInfo;
+namespace KileAction { class TagData; }
 
 namespace KileDocument
 {
@@ -51,6 +52,8 @@ public:
 	enum SelectMode { smTex, smLetter, smWord, smNospace };
 
 	void readConfig(void);
+
+	void insertTag(const KileAction::TagData& data, Kate::View *view);
 
 	QString getTextLineReal(Kate::Document *doc, uint row);
 	void gotoBullet(const QString &bullet, bool backwards, Kate::View *view = 0L);

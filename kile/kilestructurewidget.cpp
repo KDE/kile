@@ -240,8 +240,8 @@ namespace KileWidget
 		setMargin(0);
 		setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 
-		StructureList *def = new StructureList(this, 0L);
-		def->activate();
+		m_default = new StructureList(this, 0L);
+		m_default->activate();
 
 		connect(this, SIGNAL(clicked(QListViewItem *)), this, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(slotDoubleClicked(QListViewItem *)));
@@ -322,6 +322,7 @@ namespace KileWidget
 			m_map.remove(docinfo);
 			delete data;
 		}
+		if ( m_map.isEmpty() ) m_default->activate();
 	}
 
 	void Structure::clear()
@@ -338,6 +339,12 @@ namespace KileWidget
 	void Structure::update(KileDocument::Info *docinfo, bool parse)
 	{
 		kdDebug() << "==KileWidget::Structure::update(" << docinfo << ")=============" << endl;
+
+		if ( docinfo == 0L ) 
+		{
+			m_default->activate();
+			return;
+		}
 
 		m_docinfo = docinfo;
 

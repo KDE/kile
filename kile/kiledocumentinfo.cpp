@@ -270,6 +270,7 @@ QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 
 void Info::updateStruct()
 {
+	kdDebug() << "==Info::updateStruct()=======" << endl;
 	m_labels.clear();
 	m_bibItems.clear();
 	m_deps.clear();
@@ -338,14 +339,13 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 //FIXME refactor, clean this mess up
 void TeXInfo::updateStruct()
 {
+	kdDebug() << "==void TeXInfo::updateStruct()=========." << endl;
+
 	if ( getDoc() == 0L ) return;
 
 	Info::updateStruct();
 
-	kdDebug() << "==void TeXInfo::updateStruct()=========." << endl;
-
 	QMapConstIterator<QString,KileStructData> it;
-
 	static QRegExp::QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
 	static QRegExp::QRegExp reComments("([^\\\\]%|^%).*$");
 	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");

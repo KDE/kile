@@ -17,7 +17,6 @@
 
 #include "kile.h"
 
-#include <ktexteditor/editinterfaceext.h>
 #include <ktexteditor/editorchooser.h>
 #include <ktexteditor/encodinginterface.h>
 #include <ktexteditor/codecompletioninterface.h>
@@ -1216,95 +1215,19 @@ void Kile::RefreshStructure()
 /////////////////////// LATEX TAGS ///////////////////
 void Kile::insertTag(const KileAction::TagData& data)
 {
+	logWidget()->clear();
+	outputView()->showPage(logWidget());
+	setLogPresent(false);
+
+	logWidget()->append(data.description);
+
 	Kate::View *view = viewManager()->currentView();
-	int para,index, para_end=0, para_begin, index_begin;
 
 	if ( !view ) return;
-	Kate::Document *doc = view->getDoc();
-	if ( !doc) return;
 
 	view->setFocus();
 
-	//whether or not to wrap tag around selection
-	bool wrap = (data.tagEnd != QString::null && doc->hasSelection());
-
-	//%C before or after the selection
-	bool before = data.tagBegin.contains("%C");
-	bool after = data.tagEnd.contains("%C");
-
-	//save current cursor position
-	para=para_begin=view->cursorLine();
-	index=index_begin=view->cursorColumnReal();
-
-	//if there is a selection act as if cursor is at the beginning of selection
-	if (wrap)
-	{
-		index = doc->selStartCol();
-		para  = doc->selStartLine();
-		para_end = doc->selEndLine();
-	}
-
-	QString ins = data.tagBegin;
-
-	//start an atomic editing sequence
-// 	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt( doc );
-// 	if ( editInterfaceExt ) editInterfaceExt->editBegin();
-
-	//cut the selected text
-	if (wrap)
-	{
-		ins += doc->selection();
-		doc->removeSelectedText();
-	}
-
-	ins += data.tagEnd;
-
-	//do some replacements
-	QFileInfo fi( doc->url().path());
-	ins.replace("%S", fi.baseName(true));
-
-	//insert first part of tag at cursor position
-	doc->insertText(para,index,ins);
-
-	//move cursor to the new position
-	if ( before || after )
-	{
-		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
-		if (wrap) n += para_end > para ? para_end-para : para-para_end;
-		for (int line = para_begin; line <= para_begin+n; line++)
-		{
-			if (doc->textLine(line).contains("%C"))
-			{
-				int i=doc->textLine(line).find("%C");
-				view->setCursorPositionReal(line,i);
-				doc->removeText(line,i,line,i+2);
-				break;
-			}
-			view->setCursorPositionReal(line,index);
-		}
-	}
-	else
-	{
-		int py = para_begin, px = index_begin;
-		if (wrap) //act as if cursor was at beginning of selected text (which is the point where the tagBegin is inserted)
-		{
-			py = para;
-			px = index;
-		}
-
-		view->setCursorPositionReal(py+data.dy,px+data.dx);
-	}
-
-	//end the atomic editing sequence
-// 	if ( editInterfaceExt ) editInterfaceExt->editEnd();
-
-	doc->clearSelection();
-
-	m_logWidget->clear();
-	m_outputView->showPage(m_logWidget);
-	m_logPresent=false;
-
-	m_logWidget->append(data.description);
+	editorExtension()->insertTag(data, view);
 }
 
 void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)

@@ -285,7 +285,7 @@ Info* Manager::createDocumentInfo(const KURL & url)
 
 	if ( docinfo == 0L )
 	{
-		if ( Info::isTeXFile(url) )
+		if ( Info::isTeXFile(url) || url.isEmpty() )
 		{
 			kdDebug() << "CREATING TeXInfo for " << url.url() << endl;
 			docinfo = new TeXInfo(0L);
@@ -551,11 +551,9 @@ void Manager::fileNew()
 	if (nfw->exec())
 	{
 		loadTemplate(nfw->getSelection());
-
-		if ( nfw->useWizard() )
-			emit ( startWizard() );
+		if ( nfw->useWizard() ) emit ( startWizard() );
+		emit(updateStructure(false, 0L));
 	}
-
 	delete nfw;
 }
 

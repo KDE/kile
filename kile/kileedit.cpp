@@ -16,17 +16,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kileedit.h"
+#include <qfileinfo.h>
 
 #include <kate/view.h>
 #include <kate/document.h>
 #include <ktexteditor/searchinterface.h>
+#include <ktexteditor/editinterfaceext.h>
 #include <klocale.h>
 #include <kinputdialog.h>
 
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
+#include "kileactions.h"
+
+#include "kileedit.h"
 
 namespace KileDocument
 {
@@ -73,6 +77,94 @@ void EditorExtension::readConfig(void)
 	setEnvironment(KileConfig::envTabular(), m_dictTabularEnv);
 }
 
+void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *view)
+{
+	Kate::Document *doc = view->getDoc();
+	if ( !doc) return;
+
+	//whether or not to wrap tag around selection
+	bool wrap = (data.tagEnd != QString::null && doc->hasSelection());
+
+	//%C before or after the selection
+	bool before = data.tagBegin.contains("%C");
+	bool after = data.tagEnd.contains("%C");
+
+	//save current cursor position
+	int para=view->cursorLine();
+	int para_begin=para;
+	int index=view->cursorColumnReal();
+	int index_begin=index;
+	int para_end=0;
+	int index_cursor=index;
+	int para_cursor=index;
+
+	//if there is a selection act as if cursor is at the beginning of selection
+	if (wrap)
+	{
+		index = doc->selStartCol();
+		para  = doc->selStartLine();
+		para_end = doc->selEndLine();
+	}
+
+	QString ins = data.tagBegin;
+
+	//start an atomic editing sequence
+	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt( doc );
+	if ( editInterfaceExt ) editInterfaceExt->editBegin();
+
+	//cut the selected text
+	if (wrap)
+	{
+		ins += doc->selection();
+		doc->removeSelectedText();
+	}
+
+	ins += data.tagEnd;
+
+	//do some replacements
+	QFileInfo fi( doc->url().path());
+	ins.replace("%S", fi.baseName(true));
+
+	//insert first part of tag at cursor position
+	doc->insertText(para,index,ins);
+
+	//move cursor to the new position
+	if ( before || after )
+	{
+		int n = data.tagBegin.contains("\n")+ data.tagEnd.contains("\n");
+		if (wrap) n += para_end > para ? para_end-para : para-para_end;
+		for (int line = para_begin; line <= para_begin+n; line++)
+		{
+			if (doc->textLine(line).contains("%C"))
+			{
+				int i=doc->textLine(line).find("%C");
+				para_cursor = line; index_cursor = i;
+				doc->removeText(line,i,line,i+2);
+				break;
+			}
+			index_cursor=index;
+			para_cursor=line;
+		}
+	}
+	else
+	{
+		int py = para_begin, px = index_begin;
+		if (wrap) //act as if cursor was at beginning of selected text (which is the point where the tagBegin is inserted)
+		{
+			py = para;
+			px = index;
+		}
+		para_cursor = py+data.dy; index_cursor = px+data.dx;
+	}
+
+	//end the atomic editing sequence
+	if ( editInterfaceExt ) editInterfaceExt->editEnd();
+
+	//set the cursor position (it is important that this is done outside of the atomic editing sequence)
+	view->setCursorPositionReal(para_cursor, index_cursor);
+
+	doc->clearSelection();
+}
 //////////////////// list/math/tabular environments ////////////////////
 
 void EditorExtension::setEnvironment(const QStringList &list, QMap<QString,bool> &map)

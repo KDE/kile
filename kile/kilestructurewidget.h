@@ -145,6 +145,7 @@ namespace KileWidget
 			int				m_level;
 			KileDocument::Info	*m_docinfo;
 			QMap<KileDocument::Info *, StructureList *> m_map;
+			StructureList		*m_default;
 	};
 }
 

@@ -18,6 +18,7 @@
 #ifndef KILEINFO_H
 #define KILEINFO_H
 
+#include <qptrlist.h>
 #include <qstring.h>
 #include <qmap.h>
 

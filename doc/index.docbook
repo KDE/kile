@@ -1,11 +1,10 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kile "<application>Kile</application>">
-  <!ENTITY gnuplot "<application>GnuPlot</application>">
   <!ENTITY kappname "&kile;">
-  <!ENTITY package "kdenonbeta">
+  <!ENTITY package "kdeextragear-2">
   <!ENTITY % addindex "IGNORE">
-  <!ENTITY % English "INCLUDE"> 
+  <!ENTITY % English "INCLUDE">
 ]>
 
 <book lang="&language;">
@@ -14,29 +13,31 @@
 <title>The &kile; Handbook</title>
 
 <authorgroup>
-<author>
-<firstname>Pascal</firstname>
-<surname>Brachet</surname>
-</author>
-
-<othercredit role="developer">
-<firstname>Jeroen</firstname><surname>Wijnhout</surname>
-<affiliation>
-<address><email>wijnhout@science.uva.nl</email></address>
-</affiliation>
-</othercredit>
-
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
+	<author>
+		<firstname>Jonathan</firstname><surname>Pechta</surname>
+		<affiliation>
+			<address><email>jrpechta@yahoo.com</email></address>
+		</affiliation>
+	</author>
+	<othercredit role="developer">
+		<firstname>Jeroen</firstname><surname>Wijnhout</surname>
+		<affiliation>
+		<address><email>Jeroen.Wijnhout@kdemail.net</email></address>
+		</affiliation>
+	</othercredit>
 </authorgroup>
 
 <copyright>
-<year>2002</year>
-<holder>Pascal Brachet</holder>
-
+<year>2003</year>
+<holder>Jonathan Pechta</holder>
 </copyright>
 
-<date>2003-01-10</date>
-<releaseinfo>1.01.00</releaseinfo>
+<date>2003-10-23</date>
+<releaseinfo>1.6</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
 
 <abstract>
 <para>
@@ -54,425 +55,757 @@
 
 </bookinfo>
 
+<chapter id="preface">
+	<title>Preface</title>
+
+	<sect1 id="preface_req">
+		<title>Requirements</title>
+		<para>
+		To Run Kile, you will be required to have the following components installed on your Linux distribution:
+		</para>
+		<itemizedlist>
+			<listitem><para>K Desktop environment (KDE): KDE is a popular open-source desktop environment</para></listitem>
+			<listitem><para>Qt: Qt is an C++ development tool needed to compile Kile</para></listitem>
+			<listitem><para>LaTeX: High-quality document typesetting program</para></listitem>
+		</itemizedlist>
+
+		<para>Recommended Package</para>
+		<itemizedlist>
+			<listitem><para>KDVI: DVI preview for KDE</para></listitem>
+		</itemizedlist>
+
+		<para>Some of these items might be included in your Linux distribution, please refer to your
+		distribution documentation or refer to your installation CD/DVD for adding these
+		packages to your computer.</para>
+
+		<para>The Kile project includes several different packages of Kile that can be easily
+		installed and run without having to compile.</para>
+
+		<para>Suggested system requirements</para>
+		<itemizedlist>
+			<listitem><para>Pentium-compatible or faster processor</para></listitem>
+			<listitem><para>128MB RAM</para></listitem>
+			<listitem><para>400 MB to 4 GB hard disk space depending on number of programs	installed</para></listitem>
+			<listitem><para>Mouse and keyboard</para></listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="preface_about">
+		<title>About this document - Important</title>
+		<important>
+		<para><emphasis>Portions of this manual will be marked by a boxed exclamation point and
+		italicized text. These items contain cautions, warnings or notes that a reader
+		new to Kile should give special attention; these sections can be skipped by advanced
+		users, but will sometimes contain further information about LaTeX or programming
+		in LaTeX that an advanced user might consider helpful.</emphasis></para>
+		</important>
+
+		<para>Commands will NEVER be italicized, even in noted sections marked with an
+		exclamation point graphic. This is to try and make commands obvious to the user and
+		to emphasize to a new user that all command are preceded with a backslash similar to
+		the following example:</para>
+
+		<blockquote>
+				<para><emphasis>to begin a quote in LaTeX, the command always used to begin a
+				quote is </emphasis>\begin{quote}<emphasis>, and when I want to end my quote I use the
+				command </emphasis>\end{quote}<emphasis> with the text for my quote between the two
+				commands.</emphasis></para>
+		</blockquote>
+	</sect1>
+
+	<sect1 id="preface_aud">
+		<title>Intended audience</title>
+		<para>This manual can be used by any individual regardless of their experience with
+		LaTeX, KDE, Kile or Linux. New users who do not want to read this manual, but
+		dive right into using LaTeX, should consult Appendix E. Appendix E contains a brief
+		walkthrough on how to get started with LaTeX and contains sample code and
+		exercises, that will let the user begin using Kile immediately.</para>
+
+		<para>Users who are interested in learning more about Kile, and how Kile can streamline
+		your LaTeX documentation efforts should read this manual from start to finish.</para>
+
+		<para>Advanced users are not likely to read this manual, but all suggestions on
+		documentation will be regarded. If you would like to contribute to this project or the
+		documentation please consult the Kile web page at: http://kile.sourceforge.net/
+		Comments about documentation can be delivered to jrpechta@yahoo.com.</para>
+
+		<para>Need answers about Kile? Are you stuck with your compile? Want to see a new
+		feature? The preferred way to ask technical questions or start a discussion is to
+		use our mailing list: kile-devel@lists.sourceforge.net.</para>
+	</sect1>
+
+	<sect1 id="preface_new">
+		<title>What's new in Kile?</title>
+		<para>The current version of Kile is 1.6. Here are some of the more significant changes and
+		features that have been implemented since the last version of Kile (version 1.5).</para>
+
+		<para>New features:</para>
+		<itemizedlist>
+			<listitem><para>Project management</para></listitem>
+			<listitem><para>New, more powerful internal editor (katepart)</para></listitem>
+			<listitem><para>All standard tools are configurable</para></listitem>
+			<listitem><para>Files and projects restored on start-up</para></listitem>
+			<listitem><para>Improved syntax highlighting:</para>
+				<itemizedlist>
+					<listitem><para>Incorporates verbatim environments</para></listitem>
+					<listitem><para>Highlighting inside math environments</para></listitem>
+				</itemizedlist>
+			</listitem>
+			<listitem><para>Insert citations from BibTeX biblographt using gBib or pyBliographer</para></listitem>
+			<listitem><para>Word count</para></listitem>
+			<listitem><para>User configurable standard tools</para></listitem>
+			<listitem><para>User configurable tags</para></listitem>
+		</itemizedlist>
+
+		<para>Bug fixes:</para>
+		<para>Minor fixes throughout program</para>
+	</sect1>
+
+	<sect1 id="preface_license">
+		<title>License Agreement</title>
+		<para>If you use Kile, you agree to be bound by the GNU General Public License
+		Agreement. Details of the GNU General Public License Agreement can be found at
+		the following web page: http://www.gnu.org/copyleft/gpl.html.</para>
+		<para>Please read <xref linkend="credits"/> for more information.</para>
+	</sect1>
+
+</chapter>
+
 <chapter id="introduction">
-<title>Introduction</title>
+	<title>Introduction</title>
 
-<para>&kile; is a LaTeX source editor, TeX shell and GnuPlot
-frontend. It is not a <acronym>WYSIWYG</acronym> (what you see is what
-you get) interface for LaTeX; instead, its aim is to simplify the
-edition of LaTeX source code and the use of the LaTeX-related programs
-for users who want to retain control over their LaTeX documents.</para>
+	<sect1 id="intro_about">
+		<title>About Kile</title>
+		<para>
+		Kile is an integrated LaTeX environment for the KDE desktop. Kile allows the author the
+		ability to utilize all the functionality of LaTeX in a graphical shell, simplifying the
+		amount of work an author has to do to edit LaTeX source code. The software shortens the
+		work it would take an author to create a high quality piece of documentation and gives
+		the user many different formats (Postscript, PDF, HTML, etc.) to publish their text.
+		</para>
+	</sect1>
+
+	<sect1 id="intro_whatis">
+		<title>What is LaTeX</title>
+		<para>LaTeX is a text-processing system derived from Tex, a program developed originally in
+		1977, for authors or those in printing to help them layout their work professionally,
+		similar to the job function of a typesetter. A typesetter is a person who keys in text to be
+		printed and styles it according to specifications for the document is primarily concerned
+		with the look and visual quality of the work. An author writing the document is not only
+		concerned with the look of the document, but in the end is responsible for all facets of the
+		work, including the look and the content. LaTeX was created to bridge the gap between
+		the author and the typesetter, to give the creator the ability to compose complex
+		documents, but also use the professional layout and the high quality typography offered
+		by Tex.</para>
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+		<title>LaTeX basics</title>
+		<para>
+		The LaTeX typesetting system is similar to Extensible Markup language (XML) or
+		Hypertext Markup Language (HTML). Don't let these big terms scare you away. All
+		markup languages consist of symbols, which are used to give instructions, or describe
+		how information is to be displayed. A Kile user does not need to know HTML or XML to
+		use LaTeX, this is just an example.
+		</para>
+
+		<para>
+		This similarity to HTML and XML makes the LaTeX not only very flexible, but offers
+		the advanced user the ability to compose personalized functions. It also gives users who
+		are familiar with HTML the ability to see the similarities to the way coding for LaTeX
+		and HTML are laid out.
+		</para>
+
+		<para>Creating web pages in HTML gives the user some experience similar to LaTeX
+		because HTML has the advantage of breaking up sections using tags like HTML,
+		head, and body to point the user where certain information in to be located. LaTeX
+		has a similar style, because EVERY LaTeX file must contain a preamble and body.</para>
+
+		<para>
+		Preamble: A series of commands that setup the document with global command such as
+		paper size, page numbering, dimensions of the text on the page. The command
+		\documentclass is the only required preamble, but must be there to form a document.
+		</para>
+
+		<para>
+		Body: Any additional command that comes after \begin{document}. These commands
+		are considered local and will end with the end of the body of the document, which is
+		concluded by \end{document}
+		</para>
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+		<title>Kile's main features</title>
+
+		<sect2 id="intro_docwizard">
+			<title>Document wizard</title>
+
+			<para>
+			The wizard built into Kile is a unique feature to get a user started creating documents
+			right away in Kile. Choosing the wizard from the taskbar gives you several choices
+			for the creation of your document. (Insert 3 figures in this general area, a location of
+			wizard in toolbar, close-up of wizard, and segment of code generated by wizard).
+			This lets a user quickly specify the type of document they would like to produce,
+			whether that is an article, a book, letter or report and set options relating to the
+			document. The author has the ability in this section to let Kile quickly generate
+			LaTeX code based upon the settings you have defined in the wizard.
+			</para>
+
+			<para>Wizard options:</para>
+			<itemizedlist>
+			<listitem><para>Document Class; what kind of document are you creating? Letter, report,
+			book?</para></listitem>
+			<listitem><para>Typeface Size; what point size are you using?</para></listitem>
+			<listitem><para>Paper Size; What size or style of paper will you be exporting your
+			document?</para></listitem>
+			<listitem><para>Encoding; Encoding is used to automatically set packages relating to the
+			encoding (but we will get into explaining packages later)</para></listitem>
+			<listitem><para>Author's Name; put your name here</para></listitem>
+			<listitem><para>Title of Document; add your document title here</para></listitem>
+			<listitem><para>Other options; this allows you to set other options for printing, draft, etc.</para></listitem>
+			</itemizedlist>
+		</sect2>
+
+		<sect2 id="intro_templates">
+			<title>Predefined templates</title>
+			<para>Any Kile user who is continuously writing the same type of document can take
+			advantage of using templates in Kile. The predefined templates in Kile are:</para>
+			<itemizedlist>
+			<listitem><para>Empty document : a blank template</para></listitem>
+			<listitem><para>Article : sets format for an article</para></listitem>
+			<listitem><para>Book : this template sets pages up a format for book specific document
+			such as a page numbering scheme with page number on outside edges of
+			paper</para></listitem>
+			<listitem><para>Letter : sets format for a letter with address and receipt settings</para></listitem>
+			<listitem><para>Report : sets format for a report</para></listitem>
+			</itemizedlist>
+			<para>New users need not worry, these sections are just a brief description of features
+			and more attention will be paid to completing these tasks in detail in later in the
+			Quickstart section.</para>
+		</sect2>
+
+		<sect2 id="intro_highlight">
+		<title>Syntax Highlighting</title>
+			<para>Kile is similar to programs that deal with source code and editing and will
+			automatically highlight commands, options and items that are misused. Just like your
+			word processor that highlights or underlines problem areas of your document, Kile
+			has a similar feature for the LaTeX, HTML, C, C++, SQL and many other languages.
+			It will highlight areas that it believes are problems as a warning to a user that
+			segments of text need to be addressed. </para>
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+			<title>Auto-completion of environments</title>
+			<para>New to this version of Kile is the auto-completion of environments, this means that
+			when a user begins a new environment by typing for example: \begin{environment}
+			Kile will automatically add a \end{environment} command, with a line in between
+			for your text. (Snapshot) </para>
+		</sect2>
+
+		<sect2 id="intro_jump">
+			<title> Jump to sections</title>
+			<para>Sections are commands that allow a user to produce a division similar to those found
+			in books or outlines and allow the author to create a hierarchy for their
+			documentation. Kile allows users to break up documents into the following hierarchy
+			(part being the highest in the hierarchy and subparagraph being the lowest) </para>
+			<itemizedlist>
+				<listitem><para>\parts</para></listitem>
+				<listitem><para>\chapter</para></listitem>
+				<listitem><para>\section</para></listitem>
+				<listitem><para>\subsection</para></listitem>
+				<listitem><para>\subsubsection</para></listitem>
+				<listitem><para>\paragraph</para></listitem>
+				<listitem><para>\subparagraph</para></listitem>
+			</itemizedlist>
+			<para>When viewing a document in the structure view, the user can jump between sections
+			by clicking on the section they would like to view.  </para>
+		</sect2>
+
+		<sect2 id="intro_inverse">
+			<title>Inverse search</title>
+			<para>When creating your own LaTeX file, inverse search can be very helpful. Once a user
+			has created a DVI file (Device Independent File). When the user clicks the middle-
+			mouse button in the DVI viewer, Kile will jump to the corresponding line in the
+			LaTeX source code.</para>
+
+			<para>Definition of DVI: A DVI is a type of file containing a
+			description of a formatted document, along with other
+			information including character font, and is the usual output of
+			Tex/LaTeX. A number of utilties exist to view and print DVI files on
+			various systems and devices. A DVI file is sometimes also known as
+			a metafile.</para>
+		</sect2>
+
+		<sect2 id="intro_forward">
+			<title>Forward search</title>
+			<para>When using inverse search, the selection of items in the DVI file is associated with
+			the editor, so when you click on the DVI file, the main window jumps to the
+			corresponding section of LaTeX code in the editor. Forward search is the exact
+			opposite of this. Forward search will allow a user to click on a specific section of text
+			in the LaTeX code, and jump to the associated position in the DVI viewer window.</para>
+		</sect2>
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+		<title>The Toolbar : a reference guide to features</title>
+		<itemizedlist>
+		<listitem><para>New : Begin a new document.</para></listitem>
+		<listitem><para>Open : Open a new document.</para></listitem>
+		<listitem><para>Close : Close your document.</para></listitem>
+		<listitem><para>Define document as master : This is used when working with multiple files.
+		Having a master document will let you include other .tex files in your document.</para></listitem>
+		<listitem><para>Quickbuild : Compiles your LaTeX source code and displays results.
+		automatically, unless you have code errors.</para></listitem>
+		<listitem><para>Watch file mode : This mode will "watch" the DVI file for changes and
+		automatically update this file without having to re-launch KDVI</para></listitem>
+		<listitem><para>View logfile : view the .log file, so you can view errors.</para></listitem>
+		<listitem><para>Previous error : jumps backward through .log file and highlights errors in source.</para></listitem>
+		<listitem><para>Next error : jumps forward through .log file and highlights errors in source.</para></listitem>
+		<listitem><para>Stop : stops current function.</para></listitem>
+		<listitem><para>LaTeX : runs LaTeX on the active document.</para></listitem>
+		<listitem><para>View DVI : launches DVI viewe.r</para></listitem>
+		<listitem><para>DVI to PS : converts DVI file to a postscript (PS).</para></listitem>
+		<listitem><para>View PS : launches postscript (PS) viewer.</para></listitem>
+		<listitem><para>PDFLaTeX : creates PDF from LaTeX source, if you have a LaTeX header.</para></listitem>
+		<listitem><para>View PDF : views PDF.</para></listitem>
+		<listitem><para>DVI to PDF : converts DVI to a PDF.</para></listitem>
+		<listitem><para>PS to PDF : converts a PS to a PDF.</para></listitem>
+		<listitem><para>LaTeX to HTML : creates HTML code from LaTeX source.</para></listitem>
+		<listitem><para>View HTML : views HTML created.</para></listitem>
+		<listitem><para>KDVI forward Search : jump to page that corresponds to the current line in the
+		editor.</para></listitem>
+		</itemizedlist>
+
+		<para>If you look at the upper right hand end of the toolbar, you will notice three large drop-
+		down boxes. The drop-down boxes were designed for the user to be able to quickly add
+		insert features into their document. The first drop-down box (insert figure of part drop-
+		down box) is used for quickly dividing your document by parts, chapter, sections etc. The
+		available commands to add segments to your LaTeX source code are:</para>
+
+		<itemizedlist>
+			<listitem><para>Part : highest level of sectioning for a document.</para></listitem>
+			<listitem><para>Chapter : starts a new chapter.</para></listitem>
+			<listitem><para>Section : create a new section.</para></listitem>
+			<listitem><para>Subsection : create a new subsection.</para></listitem>
+			<listitem><para>Subsubsection : a secondary section coming between section and
+			paragraph.</para></listitem>
+			<listitem><para>Paragraph : create a new paragraph.</para></listitem>
+			<listitem><para>Subparagraph : create a new subparagraph.</para></listitem>
+		</itemizedlist>
+
+		<para>The drop-down box entitled label is used to insert items to your document such as
+		indexes, footnotes, references. Available commands to add items to your LaTeX source
+		code are: </para>
+
+		<itemizedlist>
+			<listitem><para>Label : command that produces a label for a level.</para></listitem>
+			<listitem><para>Index : creates an entry for the index with a file suffix .idx.</para></listitem>
+			<listitem><para>Footnote : creates a footnote in your document.</para></listitem>
+			<listitem><para>Reference : used to give a heading for your bibliography, which
+			the user chooses from a drop down list.</para></listitem>
+			<listitem><para>Page reference : creates a page number in your document that
+			corresponds to a label.</para></listitem>
+			<listitem><para>Cite : create a citation in your document from a list of bibitems.</para></listitem>
+		</itemizedlist>
+		<para>When using cite, the user is presented with a drop-down list of bibitems, but if the
+		user is using BibTeX this won't work. Users will have to use gBib or pyBliographer. </para>
+
+		<para>The last drop-down box labeled tiny is used to set the size of your text. The user has the
+		option of setting the size of the text, footnotes etc. Available commands to add a text size
+		to your LaTeX source code are:</para>
+		<itemizedlist>
+			<listitem><para>Tiny : smallest</para></listitem>
+			<listitem><para>Scriptsize : very small </para></listitem>
+			<listitem><para>Footnotesize : smaller</para></listitem>
+			<listitem><para>Small : small</para></listitem>
+			<listitem><para>Normalsize : normal</para></listitem>
+			<listitem><para>Large : large</para></listitem>
+			<listitem><para>Large : larger</para></listitem>
+			<listitem><para>LARGE : even larger</para></listitem>
+			<listitem><para>huge : still larger</para></listitem>
+			<listitem><para>Huge : largest</para></listitem>
+		</itemizedlist>
+	</sect1>
 </chapter>
 
-<chapter id="using-kile">
-<title>Using &kile;</title>
-
-<sect1 id="kile-features">
-<title>&kile; Features</title>
-
-<para>In addition to the usual commands of an editor, &kile; provides
-other commands to assist you in editing your source files.</para>
-
-<sect2 id="encoding">
-<title>Non-English documents and special characters</title>
-
-<para>If you want to edit or create documents that contain non-standard letters (such as accented letters), you will have to set
-the encoding for the file. This can be done by selecting the appropriate encoding (iso 8859-2 for most European
-countries for example) in the drop-down menu at the lower left corner of the file selector window.
-</para>
-<screenshot>
-<screeninfo>Selecting the encoding</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="enc1.png" format="PNG" />
-</imageobject>
-<textobject><phrase>Selecting the encoding</phrase></textobject>
-<caption><para>Selecting the encoding</para></caption>
-</mediaobject>
-</screenshot>
-</sect2>
-
-<sect2 id="preamble">
-<title>The Preamble</title>
-
-<para>To define the preamble of the source file, you can:</para>
-
-<itemizedlist>
-<listitem><para>Use the <quote>Quick start</quote>
-wizard.</para>
-<screenshot>
-<screeninfo>The Quick Start Wizard</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc1.png" format="PNG" />
-</imageobject>
-<textobject><phrase>The Quick Start Wizard</phrase></textobject>
-<caption><para>The Quick Start Wizard</para></caption>
-</mediaobject>
-</screenshot>
-</listitem>
-<listitem><para>Use a template of a preamble already recorded via the
-<guimenu>User</guimenu> menu.</para>
-<screenshot>
-<screeninfo>Saved Preamble Templates</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc2.png" format="PNG" />
-</imageobject>
-<textobject>
-<phrase>Saved Preamble Templates</phrase>
-</textobject>
-<caption><para>Saved Preamble Templates</para></caption>
-</mediaobject>
-</screenshot>
-</listitem>
-<listitem><para>Copy and Paste the preamble from another
-document.</para>
-<screenshot>
-<screeninfo>Reusing Another Document Preamble</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc3.png" format="PNG" />
-</imageobject>
-<textobject><phrase>Reusing Another Document Preamble</phrase>
-</textobject>
-<caption><para>Reusing Another Document Preamble</para>
-</caption>
-</mediaobject>
-</screenshot>
-</listitem>
-</itemizedlist>
-
-</sect2>
-
-<sect2 id="structure">
-<title>Structure of your Document</title>
-
-<para>With the toolbar or the
-<menuchoice><guimenu>Latex</guimenu><guisubmenu>Sectioning</guisubmenu></menuchoice>
-menu, you can insert the title of a section or of a paragraph with a
-dialog box.  The <guilabel>Structure</guilabel> view is automatically
-updated.  While clicking on one item in the
-<guilabel>Structure</guilabel> view, the cursor is placed on the
-corresponding line in the editor.</para>
-
-<note><para>For file names, it is necessary to double click.  To work
-with &kile; all your files must be located in the same directory as
-your main document.</para></note>
-
-<screenshot>
-<screeninfo>The Structure View</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc4.png" format="PNG" />
-</imageobject>
-<textobject>
-<phrase>The Structure View</phrase>
-</textobject>
-<caption><para>The Structure View</para></caption>
-</mediaobject>
-</screenshot>
-
-</sect2>
-
-<sect2 id="tags-and-math-symbols">
-<title>LaTeX Tags and Mathematical Symbols</title>
-
-<para>&kile; enables you to directly insert the most current tags with
-the <guimenu>Latex</guimenu> and <guimenu>Math</guimenu> menus. With a
-simple click on a mathematical symbol, &kile; inserts the
-corresponding code.</para>
-
-<screenshot>
-<screeninfo>Inserting Symbols</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc5.png" format="PNG" />
-</imageobject>
-<textobject>
-<phrase>Inserting Symbols</phrase>
-</textobject>
-<caption><para>Inserting Symbols</para></caption>
-</mediaobject>
-</screenshot>
-
-<para>
-In addition to the many standard LaTeX tags you can insert into your document by selecting them in the LaTeX and Math menus, you can also define
-your own tags. Tags you frequently use for example. The first twelve tags can be accessed via the keyboard shortcuts Shift+F1 to Shift+F12.
-</para>
-
-<note><para>If the code saved in the menu is
-<quote>%environment</quote> then &kile; will directly insert:</para>
-<screen><computeroutput>\begin{environment }
-\end{environment }</computeroutput></screen>
-</note>
-
-<screenshot>
-<screeninfo>A <guimenu>User</guimenu> Menu Entry</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc6.png" format="PNG" />
-</imageobject>
-<textobject>
-<phrase>A <guimenu>User</guimenu> Menu Entry</phrase>
-</textobject>
-<caption>
-<para>A <guimenu>User</guimenu> Menu Entry</para>
-</caption>
-</mediaobject>
-</screenshot>
-
-<para>
-To edit the tags choose <guimenuitem>Edit User Tags</guimenuitem> from the <menuchoice><guimenu>User</guimenu><guimenu>User Tags</guimenu></menuchoice> menu. To add a tag, select the "Add" radiobutton and enter a short descriptive name for the tag and enter the tag itself. When you're done simply click on the Ok button. To change or remove a tag, select the tag from the drop-down menu and select the "Edit" or "Remove" radiobutton.
-</para>
-
-<para>For <quote>bib</quote> files, the
-<guimenu>Bibliography</guimenu> menu enables you to directly insert
-the entries corresponding to the standard types of document. Use the
-<guimenuitem>Clean</guimenuitem> command to delete the optional
-fields.</para>
-
-<para>Selected text can be directly framed by certain
-environments.</para>
-
-<para>While clicking on the button <guiicon>Bold</guiicon> after
-having selected the word <quote>Hello</quote> you will obtain the
-code:</para>
-<screen><computeroutput>\textbf{Hello}</computeroutput></screen>
-
-<para><inlinemediaobject><imageobject> <imagedata fileref="doc7.png"
-format="PNG" /></imageobject></inlinemediaobject><inlinemediaobject><imageobject> <imagedata fileref="doc8.png"
-format="PNG" /></imageobject></inlinemediaobject></para>
-
-<!-- This doesn't make a whole lot of sense... 
-<para>This option is available for the environments of the "Font -->
-<!-- Styles" and "Math Font Styles" menus like for the "center", -->
-<!-- "flushleft", "flushright", "tiny", "scriptsize"... environments) -->
-<!-- </para> -->
-
-<para>The <guimenuitem>Tabular</guimenuitem>,
-<guimenuitem>Array</guimenuitem> and
-<guimenuitem>Tabbing</guimenuitem> wizards are at your disposal via
-the <guimenu>Wizard</guimenu> menu, to help you insert the code
-corresponding to these environments.</para>
-
-<para>Spell checking of your document (or of the selected text) is
-possible via the
-<menuchoice><guimenu>Edit</guimenu><guimenuitem>Spelling...</guimenuitem></menuchoice>
-menu item.</para>
-
-</sect2>
-
-</sect1>
-
-<sect1 id="latex-shell">
-<title>The LaTeX Shell</title>
-
-<para>The commands in the <guimenu>Tools</guimenu> menu enable you to
-directly launch the standard programs associated with LaTeX. To
-configure these tools, use the
-<menuchoice><guimenu>Options</guimenu><guimenuitem>Configure
-Kile</guimenuitem></menuchoice> menu item.</para>
-
-<sect2 id="log-file">
-<title>About the Log File</title>
-
-<para>The <guimenuitem>Next Latex Error</guimenuitem> and
-<guimenuitem>Previous LaTeX Error</guimenuitem> commands allow to get
-to the errors detected during compilation. While clicking on the
-number of a line in the <filename>log</filename> file , the cursor is
-placed on the corresponding line in the editor.</para>
-
-<screenshot>
-<screeninfo>The Log File</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc9.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase>The Log File</phrase>
-</textobject>
-<caption><para>The Log File</para></caption>
-</mediaobject>
-</screenshot>
-
-</sect2>
- 
-<sect2 id="quick-build">
-<title>The <guimenuitem>Quick Build</guimenuitem> Command</title>
-
-<para>With this command, the compilation and display of the document
-are automatically launched, unless a LaTeX error is detected in the
-log file.  Only errors will stop the process, warnings are
-ignored.</para>
-
-</sect2>
-
-<sect2 id="multiple-file-documents">
-<title>About Documents Separated in Several Files</title>
-
-<para>After having defined your <quote>Master</quote> document, with
-the corresponding command in the <guimenu>Options</guimenu> menu, all
-the commands of the <guimenu>Tools</guimenu> menu will apply only to
-this document even when you are working on the <quote>children</quote>
-documents.  You can even close the Master document.</para>
-
-<screenshot>
-<screeninfo>Master and Children Documents</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc10.png" format="PNG" />
-</imageobject>
-<textobject><phrase>Master and Children Documents</phrase>
-</textobject>
-<caption><para>Master and Children Documents</para></caption>
-</mediaobject>
-</screenshot>
-</sect2>
-
-<sect2 id="watch-file">
-<title>Use of the <quote>Watch File</quote> mode</title>
-
-<para>Example of use with &kdvi;</para>
-
-<procedure>
-<step><para>Launch the <guimenuitem>Quick Build</guimenuitem>
-command.</para></step>
-<step><para>Leave &kdvi; open and select the <guimenuitem>Watch
-File</guimenuitem> mode for this program.</para></step>
-<step><para>Select the <guimenuitem>Watch File</guimenuitem> in the
-<guimenu>Tools</guimenu> menu in &kile;.</para></step>
-<step><para>Each time you launch the <guimenuitem>Quick
-Build</guimenuitem>, the <quote>dvi</quote> document will be
-automatically updated, without &kdvi; being started again.</para></step>
-</procedure>
-
-<para>This mode also works with &kghostview;, but will not work with
-the embedded viewers.</para>
-
-</sect2>
-
-<sect2 id="kdvi-forward-search">
-<title>Use of the &kdvi; <guimenuitem>Forward Search</guimenuitem>
-Command</title>
-
-<para>With this command, &kdvi; displays the &DVI; document directly
-in the place corresponding to the position of the cursor in &kile;.
-This command is not available if a Master document is defined in
-&kile;.  You must also iset the following command into the preamble of
-your document:</para>
-
-<screen><userinput>\usepackage[active]{srcltx }</userinput></screen>
-
-<para>Finally, you must copy the <filename>srcltx.sty</filename> and
-<filename>srctex.sty</filename> files (provided with &kdvi;) into the
-same directory as your document.</para>
-
-</sect2>
-
-<sect2 id="kdvi-inverse-search">
-<title>Use of the &kdvi; <guimenuitem>Inverse Search</guimenuitem>
-with &kile;</title>
-
-<para>With this feature of &kdvi;, a middle mouse click in the &DVI;
-document will have &kile; open the corresponding tex document and
-attempt to go to the corresponding line. </para>
-
-<para>For this to work, the tex document must be already compiled, and
-the <link linkend="kdvi-forward-search">&kdvi; Forward Search</link>
-must be working.</para>
-
-<para>To select &kile; as the default editor in &kdvi; enter the
-command <userinput><command>kile</command> <parameter>%f</parameter>
-<option>--line</option> <parameter>%</parameter></userinput> in the
-&kdvi; dialog reached through
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>DVI
-Options</guisubmenu><guimenuitem>DVI
-Specials</guimenuitem></menuchoice>
-
-<screenshot>
-<screeninfo>The &kdvi; &DVI; Specials dialog</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc11.png" format="PNG" />
-</imageobject>
-<textobject><phrase>The &kdvi; &DVI; Specials dialog</phrase>
-</textobject>
-<caption><para>The &kdvi; &DVI; Specials dialog</para></caption>
-</mediaobject>
-</screenshot>
-
-</para>
-</sect2>
-
-<sect2>
-<title>Define your own tools</title>
-<para>
-If the standard tools Kile provides access to (e.g. latex, dvips, etc.) do not satisfy your needs, you can add define your own tools. Editing these tools is essentially the same as editing the user tags (see <link linkend="tags-and-math-symbols">LaTeX tags and Mathematical Symbols</link>). The shortcuts for the first twelve tools are Alt+Shift+F1 to Alt+Shift+F12.
-</para>
-<para>It is possible to pass the name of the current document to the user tool, this is done via the sequence <screen><computeroutput>%S</computeroutput></screen>. For example <screen><computeroutput>lpr %S.ps</computeroutput></screen> would print the file <screen><computeroutput>test.ps</computeroutput></screen> if the current document was <screen><computeroutput>test.tex</computeroutput></screen>.
-</para>
-</sect2>
-
-</sect1>
-
-<sect1 id="gnuplot-front-end">
-<title>The &gnuplot; Front End</title>
-
-<para>The &gnuplot; front end provided with &kile; is an adaptation of
-the <application>Xgfe</application> program created by David Ishee.
-The use of this tool requires experience of &gnuplot;.</para>
-
-<!-- <example>
-<title>Layout of the function <quote>sinus</quote> with
-&gnuplot;</title>
-
-<para></para>
--->
-
-<procedure>
-<step><para>Check the <guilabel>Function</guilabel> box and enter
-<userinput>sin(x)</userinput> in the corresponding
-field.</para></step>
-<step><para>Enter <userinput>X</userinput> in the <guilabel>Variable
-X</guilabel> field, <userinput>-5</userinput> in the
-<guilabel>Start</guilabel> and <userinput>5</userinput> in the
-<guilabel>End</guilabel> field.</para></step>
-<step><para>Click on the <guibutton>Plot</guibutton> button to see the
-graphic.</para></step>
-<step><para>To export the graphic in the Xfig format, select
-<guimenuitem>fig</guimenuitem> in the <guimenu>Terminal</guimenu>
-menu, then click on the <guibutton>Output File</guibutton> button, and
-enter the name of the file with the extension <literal
-role="extension">.fig</literal>.  Then click the
-<guibutton>Plot</guibutton>.  You may now open this graphic with
-<application>Xfig</application> to modify it, and export it with the
-<literal role="extension">eps</literal> format before incorporating it
-into your document.</para>
-</step></procedure>
-
-<screenshot>
-<screeninfo>The &gnuplot; Front End</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="doc12.png" format="PNG" />
-</imageobject>
-<textobject>
-<phrase>The &gnuplot; Front End</phrase>
-</textobject>
-<caption><para>The &gnuplot; Front End</para>
-</caption>
-</mediaobject>
-
-</screenshot>
-</sect1>
+<chapter id="quickstart">
+	<title>Quickstart</title>
+
+	<sect1 id="quick_begin">
+		<title>Writing a document with Kile for beginners</title>
+
+    	<para> Any user of Kile has two choices when wanting to start a new document. They can
+		either use to wizard to begin a new document, selecting the type of document they
+		would like to create and the options such as font size, paper size, etc. The other option
+		a user has is to write code by hand.</para>
+
+		<para>
+		<computeroutput>
+		\documentclass[12pt]{article}
+		\begin{document}
+		Here is a bunch of text coded in LaTeX.
+		\end{document}
+		</computeroutput>
+		</para>
+
+        <para>Every document in LaTeX begins with the command
+        <userinput>\documentclass{TypeOfDocument}</userinput>, unless you are using an older version of
+		LaTeX, then the command is <userinput>\documentstyle{TypeOfDocument}</userinput>. There are currently
+		two common version of LaTeX you might run into, version 2.09, which uses
+		<userinput>\documentstyle</userinput> and version 2e, which uses <userinput>\documentclass</userinput> to being a document.
+		This	command <userinput>\documentclass</userinput> always follows the syntax <userinput>\documentclass[optional	argument]{class}</userinput>.
+		</para>
+
+		<para>Typing in the code example above from the text box gives you the following output:</para>
+
+		<para>
+		<computeroutput>
+        Here is a bunch of text coded in LaTeX.
+		</computeroutput>
+		</para>
+
+		<para>The brackets that come after the command \documentclass denotes an option for the
+		command. The option <userinput>[12pt]</userinput>sets the size of the font for your article, if you do not set
+		the font size in the beginning, don't worry, you can set it later in the text.</para>
+
+		<para>Once you have typed in the code example from the box above, you will need to
+		compile your LaTeX source code. The easiest way for a user to compile LaTeX is to
+		use the build menu or using the quickbuild button.</para>
+
+         <para>Alt-2 is the keyboard shortcut to compile your source code.</para>
+
+		<para>You will need to save your source code before you can compile, but Kile will warn
+		you of this.</para>
+
+		<para>If your document didn't compile, check the log for errors. When using the quickbuild
+		key, the KDVI viewer should launch automatically, if it does not, check the log for
+		errors.</para>
+
+		<para>Now, change the text of your document, change the punctuation from a period to an
+		exclamation point, then save and run the LaTeX command again followed by the
+		name of the file.</para>
+
+		<para>If you don't save your file, when you try and view it, you will get your previous
+		version of text for your output because your document hasn't been saved or
+		recompiled; this will then update the DVI viewer.</para>
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title>Environments</title>
+
+		<para>An environment is a command that lets you manage a segment of text differently
+		than you set the variables for the rest of your document. For example, you create a
+		report with font size 12, but you need to change your font size for a few
+		sentences. The commands \begin{environment}, \huge and \end{environment}
+		will let you temporarily alter the text inside the environment commands to be the</para>
+
+		<para>size HUGE.</para>
+
+		<para>So, changes are only effective from /begin{environment} blah blah blah change
+		change change \end{environment}. There are no limits as to how make changes
+		you can make inside an environment.</para>
+
+		<para>There are many features you can add to your document that will make it more
+		readable and user friendly. Features such as fonts, bold, italics, underline etc. are
+		features you can add to your document and the commands that will make your
+		document look wonderful, but will end with either an <userinput>\end</userinput> command or the end of
+		your environment.</para>
+
+		<itemizedlist>
+			<listitem><para><userinput>\begin{emph</userinput>} or <userinput>\begin{em}</userinput> : This command makes text italicized
+			and this command is valid until the code comes across a \end{em},
+			<userinput>\end{emph}</userinput> or environment. To italicize one word in a sentence, you
+			use the syntax: This is<userinput> \em{my}</userinput> sentence; which gives you the output,
+			This is my sentence.</para></listitem>
+			<listitem><para><userinput>\bfseries{I'm making this text inside the brackets bold}</userinput> : This
+			command sets your text to I'm making this text inside the brackets
+			bold. The bold command will continue until a close bracket is found.</para></listitem>
+			<listitem><para><userinput>\qoute</userinput> : To create a quote inside your document, begin your quote
+			with <userinput>\begin{quote}</userinput> and end with <userinput>\end{quote}</userinput>.</para></listitem>
+			 <listitem><para><userinput>\center</userinput>: Centers the text.</para></listitem>
+			 <listitem><para><userinput>\verse</userinput> : Creates offset text for poems.</para></listitem>
+			<listitem><para><userinput>\itemize</userinput> : Makes an itemized list.</para></listitem>
+		</itemizedlist>
+	</sect1>
+
+    <sect1 id="quick_using">
+		<title>Using Kile</title>
+
+		<para>Now that we have given you some background as to how to write code using the
+		LaTeX mark-up language, we will show you how to create a document step-by-step
+		using Kile.</para>
+
+		<orderedlist>
+        	<listitem><para>Start Kile.</para></listitem>
+            <listitem><para>Create new document, using File, then new, then select empty	document.</para></listitem>
+           <listitem><para>Select <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Quick Start</guimenuitem></menuchoice> then choose a format and set your preferences in the wizard.</para></listitem>
+			<listitem><para>Once the wizard has entered text, do some customization to make the
+			document more readable, add a minimum of one quote, one bold,
+			italics and a verse to see the difference between the commands.</para></listitem>
+			<listitem><para>Save your file and give it the name intro.tex.</para></listitem>
+			<listitem><para>Build your document using Alt-2 or the button labeled LaTeX.</para></listitem>
+			<listitem><para>Select View DVI.</para></listitem>
+			<listitem><para>Check out all your new text.</para></listitem>
+			<listitem><para>When done viewing your document, click the Editor View button to return to the editor.</para></listitem>
+		</orderedlist>
+
+		<para>That's it! You have just created your first LaTeX document. To be able to alter the
+		file further, go to View => Editor view and you will be returned to the source code
+		editor.</para>
+
+		<para>If you build your document and don't see any text, make sure you adjust your
+		viewer in the upper left section of the screen. When compiling your source,
+		Quickbuild will center your text in the middle of the screen, but using LaTeX to build
+		and then View DVI will not automatically center your text on the screen.</para>
+
+		<para>Once you have created your DVI, you will be able to print your document or change
+		it into a postscript or PDF file if you would like. Experiment and have fun!</para>
+	</sect1>
+
+	<sect1 id="quick_dvi">
+		<title>DVI file</title>
+
+		<para>A DVI stands for device independent file. These files are produced by Tex or LaTeX
+		to be read by a driver on your computer. There are many different types of output that
+		a .DVI can take such as a printer, PDF, postscript, or your computer screen.</para>
+
+	 	<sect2 id="quick_viewdvi">
+			<title>Viewing a DVI</title>
+
+			<para>You have already seen how to view a DVI file on the screen by using the view
+			DVI button in the toolbar.</para>
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+        	<title>Printing a DVI</title>
+
+			<para>To print a DVI, you can use the same process that you used to create your
+			document earlier (if you can't remember refer to <xref linkend="quick_using"/>). At step 7, instead of
+			clicking view DVI, select print from the toolbar and if you have your printer
+			configured to print properly on your computer, the DVI should export and print
+			immediately.</para>
+		</sect2>
+
+		<sect2 id="quick_manprint">
+			<title>Manually print a DVI</title>
+
+			<para>To print a DVI manually from the Konsole, use the command DVI to PS from the
+			toolbar or type <userinput>dvips intro.dvi</userinput>. The command (if you have dvips installed)
+			will convert your DVI into a postscript file. Once your file is converted, you can
+			then print it using the print button and selecting you intro.ps file, or by typing
+			<userinput>lp intro.ps</userinput>. All files should be in the same directory where you installed Kile.</para>
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+			<title>Exporting a DVI</title>
+
+			<para>The toolbar gives the options of exporting a DVI to different formats. Once you
+			have created a DVI from your LaTeX source code you should be able to export it
+			to the format of you choosing using the toolbar buttons.</para>
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+		<title>Forward search</title>
+
+		<para>The command forward search uses KDVI and an outside file (outside files are
+		referred to as "packages" in LaTeX) called srcltx.sty. You will have to do a search of
+		your files to check if your distribution has scrltx included. If it is included, then you
+		must set the following command in the preamble.</para>
+
+		<para>
+		<computeroutput>
+                \documentstyle[14pt,a4paper]{book}
+
+                \usepackage[active]{scrltx}
+
+                \pagestyle{empty}
+                \renewcommand{\baselinestretch}{2}
+
+
+                \begin{document}
+                \begin{verse}
+                The KDE \LaTeX\ source code editor Kile is my favorite.
+                \em{because} it is easy to use!
+                \end{verse}
+                \end{document}
+		</computeroutput>
+		</para>
+
+		<para>Once you have added the package scrltx, you can leave KDVI open. Forward search
+		will allow a user to click on a specific section of text in the LaTeX code, and jump to
+		the associated position in the DVI viewer window.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+		<title>Inverse search</title>
+
+     	<para>Inverse search can not work unless:</para>
+		<itemizedlist>
+			<listitem><para>Forward search is enabled and working.</para></listitem>
+			<listitem><para>The source file must have been compiled.</para></listitem>
+			<listitem><para>KDVI must know which editor you would like to use (see <xref linkend="quick_dviprefs"/>).</para></listitem>
+		</itemizedlist>
+
+		<para>To use forward search, save and compile your LaTeX source and open the DVI
+		viewer by using the DVI Viewer button in the toolbar.</para>
+
+		<para>Once the DVI viewer is open, click with your middle button on a
+		segment of text and you should be directed back to the editor, to the
+		section of source code you middle clicked from the DVI viewer.</para>
+
+		<para>With this feature of KDVI, a middle mouse click in the DVI document will
+		have Kile open the corresponding tex document and attempt to go to the
+		corresponding line. For this to work, the tex document must be already compiled, and
+		the KDVI Forward Search must be working.</para>
+	</sect1>
+
+	<sect1 id="quick_dviprefs">
+		<title>DVI preferences and settings</title>
+
+		<para>To make Kile your default editor in KDVI, enter the following command in the shell
+		command line area:</para>
+
+        <para><computeroutput>"kile %f --line %l" (this is %L, but lowercase)</computeroutput></para>
+	</sect1>
+
+	<sect1 id="quick_errors">
+		<title>Resolving errors</title>
+
+		<para>If you are trying to use quickbuild and the DVI viewer does not open, chances are
+		you have an error. If you have an error, it will be visible in the log file / message area,
+		and the summary of the error will be given.</para>
+
+		<para>The log file will explain the source of the error in your code. In the
+		editor, you can use the buttons in the toolbar labeled "previous error"
+		and "next error" to jump to and from errors. The log file always states
+		which line the error occurred. To view the line where an error
+		occurred, click on the error and Kile will take you to the line
+		corresponding to the error.</para>
+	</sect1>
+
 </chapter>
 
+<chapter id="startnew">
+	<title>Starting a new document</title>
+
+	<para>When you click the button in the toolbar to begin a new document a dialog appears
+	asking which type of template you would like to use to write your document. Your
+	default choices are:</para>
+
+	<itemizedlist>
+		<listitem><para>Empty document</para></listitem>
+		<listitem><para>Letter</para></listitem>
+		<listitem><para>Book</para></listitem>
+		<listitem><para>Article</para></listitem>
+		<listitem><para>Report</para></listitem>
+	</itemizedlist>
+
+	<para>If you selected an Empty document, you can either start with writing a document from scratch or you can
+	use the Wizard to quickly start a new document (see <xref linkend="intro_docwizard"/>)</para>
+</chapter>
+
+<chapter id="templates">
+	<title>Templates</title>
+
+	<para>Frequent users of LaTeX typically use the same preamble for every document they use. Usually they
+	fine-tuned the preamble to their likings. When starting a new document it is convenient if Kile would start with this
+	user-defined LaTeX document right away. Templates allow you to accomplish this.</para>
+
+	<sect1 id="templ_create">
+		<title>Create a new template</title>
+
+		<para>To create a new template, you must first either open a Tex/LaTeX file, or start a file
+		of your own. Any Kile user who is continuously writing the same type of document
+		can take advantage of using Kile to create templates of their own.
+		Kile can generate a template from an existing document by open the desired document and selecting
+		<menuchoice><guimenu>File</guimenu><guimenuitem>Create Template from Document</guimenuitem></menuchoice>.</para>
+
+		<sect2 id="templ_conf">
+			<title>Configuring automatic substitutions</title>
+
+			<para>When create a new document by selecting a template from
+			<menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice>,
+			certain character combinations will be replaced by data such as: your name or the character encoding your are using.
+			These variables can be configured in <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile</guimenuitem></menuchoice>.
+			Modify the Template Variables to your wishes.</para>
+
+			<para>If you are designing your own template it is useful to known which characters combinations are replaced by which
+			template variables:</para>
+
+			<itemizedlist>
+				<listitem><para><userinput>$$AUTHOR$$</userinput> : this string will be replaced by the author variable.</para></listitem>
+				<listitem><para><userinput>$$DOCUMENTCLASSOPTIONS$$</userinput> : this string will be replaced by the documentclass
+				options variable. Typically this is used as follows: <userinput>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput>.</para></listitem>
+				<listitem><para><userinput>$$INPUTENCODING$$</userinput> : if the inputencoding variable is set to, say, <userinput>latin1</userinput> this string is
+				replaced by <userinput>\input[latin1]{inputenc}</userinput>.</para></listitem>
+			</itemizedlist>
+		</sect2>
+
+		<sect2 id="templ_wiz">
+			<title>Create a template from the wizard</title>
+
+			<para>To start a customized template of own, the easiest way to create a new template is to
+			start a wizard, then add commands to the editor on the right. Once you have your
+			document set up how you would like:</para>
+
+			<orderedlist>
+				<listitem><para>Save your file</para></listitem>
+				<listitem><para>Go to Settings</para></listitem>
+				<listitem><para>Choose Create template from document</para></listitem>
+				<listitem><para>Make any corrections necessary to template</para></listitem>
+				<listitem><para>Enter a name for your new template</para></listitem>
+				<listitem><para>Click OK to add your template to the menu</para></listitem>
+			</orderedlist>
+
+			<para>Next time you start up a new document, you will be able to choose from your
+			customized template instead of the standard letter, report, book, etc.</para>
+		</sect2>
+
+		<sect2 id="templ_file">
+			<title>Creating a template from any file</title>
+
+			<para>A template can be created from any file. If you are looking for an easy way to
+			configure a template, go find one you like on the internet and follow the same steps
+			listed in <xref linkend="templ_wiz"/>.</para>
+		</sect2>
+
+	 </sect1>
+
+	 <sect1 id="templ_rem">
+	 	<title>Removing a template</title>
+
+		<para>To remove a template from Kile, go to:</para>
+
+		<itemizedlist>
+			<listitem><para>Settings => Remove template</para></listitem>
+			<listitem><para>A dialog box will appear with all templates listed</para></listitem>
+			<listitem><para>Select a template</para></listitem>
+			<listitem><para>Click Remove, and your template will be removed</para></listitem>
+			<listitem><para>Templates marked with a * can not be removed without the proper permission</para></listitem>
+		</itemizedlist>
+	</sect1>
+</chapter>
 
 <chapter id="credits">
 <title>Credits and License</title>
 
 <para>&kile;</para>
+
+<para>
+Kile is an open-source user friendly LaTeX/Tex source code editor. It will run on systems
+with the KDE desktop environment installed. KDE is available for several architectures
+with Linux installed. Kile is also part of the Fink project, which means you can run Kile
+even on a Mac with OS-X!
+</para>
+
+<para>
+Many thanks are owed to those who strive to continue the Kile project and the many
+hours of contributions made by those who sacrifice their time to develop tools we can all
+use under the GNU license. Here is a short list of the programmers, editors, translators,
+writers, debuggers, packagers, web developers and users who make this project possible.
+</para>
 
 <para>Program copyright 2003 and currently maintained by Jeroen
 Wijnhout <email>Jeroen.Wijnhout@kdemail.net</email></para>
@@ -482,8 +815,18 @@ Wijnhout <email>Jeroen.Wijnhout@kdemail.net</email></para>
 <para>&kile; contains source code from this free (GPL) program
 <application>Xgfe</application> (X Windows GUI front end to Gnuplot),
 Copyright &copy; 1998 David Ishee</para>
- 
-<para>Documentation Copyright &copy; 2002 Brachet Pascal</para>
+
+<para>Documentation Copyright &copy; 2003 Jonathan Pechta</para>
+
+<para>Contributions from: Rob Lensen, Roland Schulz, Michael Margraf</para>
+
+<para>Translators: Thomas Basset (fr), Kris Luyten (nl), Alexander Hunziger (de), Stefan Asserhall (se),
+Alfredo Beaumont (eu), Leopold Palomo Avellaneda (ca), Federico Zenith (it), Quique (es).
+</para>
+
+<para>
+Many thanks and best wishes to all those involved!
+</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
@@ -505,5 +848,5 @@ sgml-indent-step:0
 sgml-indent-data:nil
 End:
 
-vim:tabstop=2:shiftwidth=2:expandtab 
+vim:tabstop=2:shiftwidth=2:expandtab
 -->

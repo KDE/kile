@@ -384,10 +384,21 @@ QString KileProject::findRelativePath(const KURL &url)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	//kdDebug() <<"findRelativeURL " << basepath << " ; " << path << endl;
+	kdDebug() <<"===findRelativeURL==================" << endl;
+	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
-	QStringList basedirs = QStringList::split("/", basepath);
-	QStringList dirs = QStringList::split("/", path);
+	QStringList basedirs = QStringList::split("/", basepath, false);
+	QStringList dirs = QStringList::split("/", path, false);
+
+	for (uint i=0; i < basedirs.count(); i++)
+	{
+		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+	}
+
+	for (uint i=0; i < dirs.count(); i++)
+	{
+		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+	}
 
 	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] )
 	{
@@ -395,9 +406,22 @@ QString KileProject::findRelativePath(const KURL &url)
 		basedirs.pop_front();
 	}
 
+	kdDebug() << "\tafter" << endl;
+	for (uint i=0; i < basedirs.count(); i++)
+	{
+		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+	}
+
+	for (uint i=0; i < dirs.count(); i++)
+	{
+		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+	}
+
 	int diff = basedirs.count()  - dirs.count() ;
 
 	path = dirs.join("/");
+	kdDebug() << "\tpath : " << path << endl;
+	kdDebug() << "\tdiff : " << diff << endl;
 
 	if (diff > 0)
 	{
@@ -412,7 +436,7 @@ QString KileProject::findRelativePath(const KURL &url)
 
 	path += filename;
 
-	//kdDebug() << "findRelativeURL " << path << endl;
+	kdDebug() << "\tpath : " << path << endl;
 
 	return path;
 }

@@ -170,7 +170,7 @@ namespace KileTool
 
 	public:
 		virtual void prepareToRun();
-        bool needsToBePrepared() { return m_bPrepareToRun; }
+        bool needsToBePrepared() { return !m_bPrepared; }
 
 	protected:
 		/**

@@ -66,6 +66,7 @@ namespace KileTool
 		setMsg(NeedSourceRead, i18n("Sorry, the file %1 is not readable."));
 
 		m_bPrepared = false;
+		if (prepare) prepareToRun();
 	}
 
 	Base::~Base()
@@ -105,12 +106,14 @@ namespace KileTool
 	{
 		kdDebug() << "==Base::prepareToRun()=======" << endl;
 		
+		m_bPrepared = true;		
 		m_nPreparationResult = Running;
 
 		//configure me
 		if (!configure())
 		{
 			m_nPreparationResult = ConfigureFailed;
+			m_bPrepared = false;
 			return;
 		}
 		
@@ -118,24 +121,28 @@ namespace KileTool
 		if (!installLauncher())
 		{
 			m_nPreparationResult = NoLauncherInstalled;
+			m_bPrepared = false;
 			return;
 		}
 		
 		if (!determineSource())
 		{
 			m_nPreparationResult = NoValidSource;
+			m_bPrepared = false;
 			return;
 		}
 			
 		if (!determineTarget())
 		{
 			m_nPreparationResult = NoValidTarget;
+			m_bPrepared = false;
 			return;
 		}
 			
 		if ( m_launcher == 0 )
 		{
 			m_nPreparationResult = NoLauncherInstalled;
+			m_bPrepared = false;
 			return;
 		}
 
@@ -143,8 +150,6 @@ namespace KileTool
 
 		//fill in the dictionary
 		addDict("%options", m_options);
-		
-		m_bPrepared = true;
 	}
 
 	int Base::run()
@@ -571,6 +576,8 @@ sourceinfo.lastModified()) << endl;
 		kdDebug() << "==KileTool::Sequence::run()==================" << endl;
 
  		configure();
+		determineSource();
+		if (!checkSource()) return NoValidSource;		
 
 		QStringList tools = QStringList::split(',',readEntry("sequence"));
 		QString tl, cfg;
@@ -580,11 +587,16 @@ sourceinfo.lastModified()) << endl;
 			tools[i] = tools[i].stripWhiteSpace();
 			extract(tools[i], tl, cfg);
 
-			tool = manager()->factory()->create(tl);
+			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation
+			kdDebug() << "\tool created with name " << tool->name() << endl;
 			if (tool)
 			{
 				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
+				{
+					kdDebug() << "\tqueueing " << tl << "(" << cfg << ") with " << source() << endl;
+					tool->setSource(source());
 					manager()->run(tool, cfg);
+				}
 			}
 			else
 			{

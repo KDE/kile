@@ -156,7 +156,7 @@ namespace KileTool
 
 	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
-		kdDebug() << "==KileTool::Manager::run(Base*)============" << endl;
+		kdDebug() << "==KileTool::Manager::run(Base *)============" << endl;
 		if (m_bClear && (m_queue.count() == 0) )
 		{
 			m_log->clear();
@@ -170,9 +170,6 @@ namespace KileTool
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
-
-        if ( tool->needsToBePrepared() )
-            tool->prepareToRun();
 
 		if ( insertNext )
 			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
@@ -218,6 +215,9 @@ namespace KileTool
 		{
 			if (m_log->lines() > 1) 
 				m_log->append("\n");
+
+	        if ( head->needsToBePrepared() )
+    	        head->prepareToRun();
 
 			int status;
 			if ( (status=head->run()) != Running ) //tool did not even start, clear queue
@@ -302,7 +302,7 @@ namespace KileTool
 		}
 
 		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (m_queue.cfg() != QString::null) )
-			return  groupFor(name, m_queue.cfg());
+			return groupFor(name, m_queue.cfg());
 		else
 			return groupFor(name, m_config);
 	}

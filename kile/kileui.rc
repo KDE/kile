@@ -257,12 +257,13 @@
       <Action name="ShowMathToolbar"/>
    </Menu>
   </Menu>
-  <Menu name="settings"><text>Options</text>
+  <Menu name="settings"><text>Settings</text>
     <Action name="146"/>
     <Action name="147"/>
     <Action name="148"/>
     <Action name="removetemplates"/>
      <Separator/>
+    <Action name="MenuAccels"/>
     <Action name="Mode"/>
   </Menu>
   <Menu name="help"><text>Help</text>

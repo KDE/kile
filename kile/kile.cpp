@@ -205,6 +205,7 @@ showmathtoolbar=!showmathtoolbar;ToggleShowMathToolbar();
 
 KileApplication::closeSplash();
 show();
+ToggleAccels();
 connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTerminal(QWidget * )) );
 
 }
@@ -219,33 +220,33 @@ void Kile::setupActions()
   QStringList list;
 
   PrintAction=KStdAction::print( 0, 0, actionCollection(), "print" );
-  (void) new KAction(i18n("New"),"filenew", CTRL+Key_N, this, SLOT(fileNew()), actionCollection(),"New" );
-  (void) new KAction(i18n("Open..."),"fileopen", CTRL+Key_O, this, SLOT(fileOpen()), actionCollection(),"Open" );
+  (void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
+  (void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
   RecentAction=new KSelectAction(i18n("Open Recent"), 0, actionCollection(), "Recent");
   RecentAction->setItems(recentFilesList);
   connect(RecentAction, SIGNAL(activated(const QString &)), SLOT(fileOpenRecent(const QString &)));
-  (void) new KAction(i18n("Save"),"filesave", CTRL+Key_S, this, SLOT(fileSave()), actionCollection(),"Save" );
-  (void) new KAction(i18n("Save As..."),0, this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
+  (void) KStdAction::save(this, SLOT(fileSave()), actionCollection(),"Save" );
+  (void) KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
   (void) new KAction(i18n("Save All"),0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
   (void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
   (void) new KAction(i18n("Print Source..."),"fileprint",CTRL+Key_P, this, SLOT(filePrint()), actionCollection(),"PrintSource");
-  (void) new KAction(i18n("Close"),"fileclose", CTRL+Key_W, this, SLOT(fileClose()), actionCollection(),"Close" );
+  (void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
   (void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
-  (void) new KAction(i18n("Exit"),"exit", CTRL+Key_Q, this, SLOT(fileExit()), actionCollection(),"Exit" );
+  (void) KStdAction::quit(this, SLOT(fileExit()), actionCollection(),"Exit" );
 
-  (void) new KAction(i18n("Undo"),"undo", CTRL+Key_Z, this, SLOT(editUndo()), actionCollection(),"Undo" );
-  (void) new KAction(i18n("Redo"),"redo", CTRL+Key_Y, this, SLOT(editRedo()), actionCollection(),"Redo" );
-  (void) new KAction(i18n("Copy"),"editcopy", CTRL+Key_C, this, SLOT(editCopy()), actionCollection(),"Copy" );
-  (void) new KAction(i18n("Cut"),"editcut", CTRL+Key_X, this, SLOT(editCut()), actionCollection(),"Cut" );
-  (void) new KAction(i18n("Paste"),"editpaste", CTRL+Key_V, this, SLOT(editPaste()), actionCollection(),"Paste" );
-  (void) new KAction(i18n("Select All"), CTRL+Key_A, this, SLOT(editSelectAll()), actionCollection(),"selectAll" );
-  (void) new KAction(i18n("Spelling"),"spellcheck", 0, this, SLOT(spellcheck()), actionCollection(),"Spell" );
+  (void) KStdAction::undo(this, SLOT(editUndo()), actionCollection(),"Undo" );
+  (void) KStdAction::redo(this, SLOT(editRedo()), actionCollection(),"Redo" );
+  (void) KStdAction::copy(this, SLOT(editCopy()), actionCollection(),"Copy" );
+  (void) KStdAction::cut(this, SLOT(editCut()), actionCollection(),"Cut" );
+  (void) KStdAction::paste(this, SLOT(editPaste()), actionCollection(),"Paste" );
+  (void) KStdAction::selectAll(this, SLOT(editSelectAll()), actionCollection(),"selectAll" );
+  (void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
   (void) new KAction(i18n("Comment Selection"),0, this, SLOT(editComment()), actionCollection(),"Comment" );
   (void) new KAction(i18n("Uncomment Selection"),0, this, SLOT(editUncomment()), actionCollection(),"Uncomment" );
   (void) new KAction(i18n("Indent Selection"),0, this, SLOT(editIndent()), actionCollection(),"Indent" );
-  (void) new KAction(i18n("Find..."),"find",CTRL+Key_F , this, SLOT(editFind()), actionCollection(),"find" );
-  (void) new KAction(i18n("Find Next"),"next",CTRL+Key_M , this, SLOT(editFindNext()), actionCollection(),"findnext" );
-  (void) new KAction(i18n("Replace..."),CTRL+Key_R , this, SLOT(editReplace()), actionCollection(),"Replace" );
+  (void) KStdAction::find(this, SLOT(editFind()), actionCollection(),"find" );
+  (void) KStdAction::findNext(this, SLOT(editFindNext()), actionCollection(),"findnext" );
+  (void) KStdAction::replace(this, SLOT(editReplace()), actionCollection(),"Replace" );
   (void) new KAction(i18n("Goto Line..."),"goto",CTRL+Key_G , this, SLOT(editGotoLine()), actionCollection(),"GotoLine" );
   (void) new KAction(i18n("Refresh Structure"),"structure",0 , this, SLOT(ShowStructure()), actionCollection(),"RefreshStructure" );
 
@@ -275,9 +276,9 @@ void Kile::setupActions()
   (void) new KAction(i18n("Next Document"),"down",ALT+Key_PageDown, this, SLOT(gotoNextDocument()), actionCollection(), "gotoNextDocument" );
   (void) new KAction(i18n("Previous Document"),"up",ALT+Key_PageUp, this, SLOT(gotoPrevDocument()), actionCollection(), "gotoPrevDocument" );
 
-  BackAction=new KAction(i18n("Back"),"back",0 , this, SLOT(BrowserBack()), actionCollection(),"Back" );
-  ForwardAction=new KAction(i18n("Forward"),"forward",0 , this, SLOT(BrowserForward()), actionCollection(),"Forward" );
-  HomeAction=new KAction(i18n("Home"),"gohome",0 , this, SLOT(BrowserHome()), actionCollection(),"Home" );
+  BackAction = KStdAction::back(this, SLOT(BrowserBack()), actionCollection(),"Back" );
+  ForwardAction = KStdAction::forward(this, SLOT(BrowserForward()), actionCollection(),"Forward" );
+  HomeAction = KStdAction::home(this, SLOT(BrowserHome()), actionCollection(),"Home" );
 
   (void) new KAction("\\documentclass",0, this, SLOT(Insert1()), actionCollection(),"1" );
   (void) new KAction("\\usepackage{}",0, this, SLOT(Insert1bis()), actionCollection(),"2" );
@@ -312,13 +313,13 @@ void Kile::setupActions()
   (void) new KAction("\\begin{enumerate}","enumerate",0, this, SLOT(Insert17()), actionCollection(),"25" );
   (void) new KAction("\\begin{description}",0, this, SLOT(Insert18()), actionCollection(),"26" );
   (void) new KAction("\\begin{list}",0, this, SLOT(Insert19()), actionCollection(),"27" );
-  (void) new KAction("\\item","item",ALT+Key_H, this, SLOT(Insert20()), actionCollection(),"28" );
+  altH_action = new KAction("\\item","item",ALT+Key_H, this, SLOT(Insert20()), actionCollection(),"28" );
 
-  (void) new KAction(i18n("\\textit - Italics"),"text_italic",ALT+Key_I, this, SLOT(Insert21()), actionCollection(),"29" );
-  (void) new KAction(i18n("\\textsl - Slanted"),ALT+Key_A, this, SLOT(Insert22()), actionCollection(),"30" );
-  (void) new KAction(i18n("\\textbf - Boldface"),"text_bold",ALT+Key_B, this, SLOT(Insert23()), actionCollection(),"31" );
-  (void) new KAction(i18n("\\texttt - Typewriter"),ALT+Key_T, this, SLOT(Insert24()), actionCollection(),"32" );
-  (void) new KAction(i18n("\\textsc - Small caps"),ALT+Key_C, this, SLOT(Insert25()), actionCollection(),"33" );
+  altI_action = new KAction(i18n("\\textit - Italics"),"text_italic",ALT+Key_I, this, SLOT(Insert21()), actionCollection(),"29" );
+  altA_action = new KAction(i18n("\\textsl - Slanted"),ALT+Key_A, this, SLOT(Insert22()), actionCollection(),"30" );
+  altB_action = new KAction(i18n("\\textbf - Boldface"),"text_bold",ALT+Key_B, this, SLOT(Insert23()), actionCollection(),"31" );
+  altT_action = new KAction(i18n("\\texttt - Typewriter"),ALT+Key_T, this, SLOT(Insert24()), actionCollection(),"32" );
+  altC_action = new KAction(i18n("\\textsc - Small caps"),ALT+Key_C, this, SLOT(Insert25()), actionCollection(),"33" );
 
   (void) new KAction("\\begin{tabbing}",0, this, SLOT(Insert26()), actionCollection(),"34" );
   (void) new KAction("\\begin{tabular}",0, this, SLOT(Insert27()), actionCollection(),"35" );
@@ -341,17 +342,17 @@ void Kile::setupActions()
   (void) new KAction("\\bibliography{}",0, this, SLOT(Insert40()), actionCollection(),"51" );
 
 
-  (void) new KAction("$...$","mathmode",ALT+Key_M, this, SLOT(InsertMath1()), actionCollection(),"52" );
-  (void) new KAction("$$...$$",ALT+Key_E, this, SLOT(InsertMath2()), actionCollection(),"53" );
+  altM_action = new KAction("$...$","mathmode",ALT+Key_M, this, SLOT(InsertMath1()), actionCollection(),"52" );
+  altE_action = new KAction("$$...$$",ALT+Key_E, this, SLOT(InsertMath2()), actionCollection(),"53" );
   (void) new KAction("\\begin{equation}",0, this, SLOT(InsertMath74()), actionCollection(),"54" );
   (void) new KAction("\\begin{eqnarray}",0, this, SLOT(InsertMath75()), actionCollection(),"55" );
-  (void) new KAction("subscript  _{}","indice",ALT+Key_D, this, SLOT(InsertMath3()), actionCollection(),"56" );
-  (void) new KAction("superscript  ^{}","puissance",ALT+Key_U, this, SLOT(InsertMath4()), actionCollection(),"57" );
-  (void) new KAction("\\frac{}{}","smallfrac",ALT+Key_F, this, SLOT(InsertMath5()), actionCollection(),"58" );
-  (void) new KAction("\\dfrac{}{}","dfrac",ALT+Key_Q, this, SLOT(InsertMath6()), actionCollection(),"59" );
-  (void) new KAction("\\sqrt{}","racine",ALT+Key_S, this, SLOT(InsertMath7()), actionCollection(),"60" );
-  (void) new KAction("\\left",ALT+Key_L, this, SLOT(InsertMath8()), actionCollection(),"61" );
-  (void) new KAction("\\right",ALT+Key_R, this, SLOT(InsertMath9()), actionCollection(),"62" );
+  altD_action = new KAction("subscript  _{}","indice",ALT+Key_D, this, SLOT(InsertMath3()), actionCollection(),"56" );
+  altU_action = new KAction("superscript  ^{}","puissance",ALT+Key_U, this, SLOT(InsertMath4()), actionCollection(),"57" );
+  altF_action = new KAction("\\frac{}{}","smallfrac",ALT+Key_F, this, SLOT(InsertMath5()), actionCollection(),"58" );
+  altQ_action = new KAction("\\dfrac{}{}","dfrac",ALT+Key_Q, this, SLOT(InsertMath6()), actionCollection(),"59" );
+  altS_action = new KAction("\\sqrt{}","racine",ALT+Key_S, this, SLOT(InsertMath7()), actionCollection(),"60" );
+  altL_action = new KAction("\\left",ALT+Key_L, this, SLOT(InsertMath8()), actionCollection(),"61" );
+  altR_action = new KAction("\\right",ALT+Key_R, this, SLOT(InsertMath9()), actionCollection(),"62" );
   (void) new KAction("\\begin{array}",0, this, SLOT(InsertMath10()), actionCollection(),"63" );
 
   (void) new KAction("\\mathrm{}",0, this, SLOT(InsertMath66()), actionCollection(),"64" );
@@ -425,9 +426,13 @@ void Kile::setupActions()
   (void) new KAction(i18n("Gnuplot Front End"),"xgfe",0 , this, SLOT(RunGfe()), actionCollection(),"145" );
 
   ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
-  (void) new KAction(i18n("Configure Kile..."),"configure",0 , this, SLOT(GeneralOptions()), actionCollection(),"146" );
-  (void) new KAction(i18n("Configure Shortcuts..."),"configure_shortcuts",0 , this, SLOT(ConfigureKeys()), actionCollection(),"147" );
-  (void) new KAction(i18n("Configure Toolbars..."),"configure_toolbars",0 , this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
+
+  MenuAccelsAction = new KToggleAction(i18n("Standard Menu Shortcuts"), 0, this,SLOT(ToggleAccels()),actionCollection(),"MenuAccels" );
+  MenuAccelsAction->setChecked(menuaccels);
+
+  (void) KStdAction::preferences(this, SLOT(GeneralOptions()), actionCollection(),"146" );
+  (void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
+  (void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
   StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
   MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
 
@@ -538,8 +543,8 @@ void Kile::setupActions()
   help_menu = new KHelpMenu( this, aboutData);
   (void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(LatexHelp()), actionCollection(),"help1" );
   (void) new KAction(i18n("Kile Handbook"),"contents",0 , this, SLOT(invokeHelp()), actionCollection(),"help2" );
-  (void) new KAction(i18n("About Kile"),QIconSet(kapp->miniIcon()),0 , help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
-  (void) new KAction(i18n("About KDE"),"about_kde",0 , help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
+  (void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help4" );
+  (void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help5" );
 
   actionCollection()->readShortcutSettings();
 
@@ -5071,6 +5076,7 @@ showmaintoolbar=config->readBoolEntry("ShowMainToolbar",true);
 showtoolstoolbar=config->readBoolEntry("ShowToolsToolbar",true);
 showedittoolbar=config->readBoolEntry("ShowEditToolbar",true);
 showmathtoolbar=config->readBoolEntry("ShowMathToolbar",true);
+menuaccels=config->readBoolEntry("MenuAccels", false);
 
 config->setGroup( "Tools" );
 quickmode=config->readNumEntry( "Quick Mode",1);
@@ -5191,6 +5197,7 @@ config->writeEntry("ShowMainToolbar",showmaintoolbar);
 config->writeEntry("ShowToolsToolbar",showtoolstoolbar);
 config->writeEntry("ShowEditToolbar",showedittoolbar);
 config->writeEntry("ShowMathToolbar",showmathtoolbar);
+config->writeEntry("MenuAccels", menuaccels);
 
 config->setGroup("Tools");
 config->writeEntry( "Quick Mode",quickmode);
@@ -5302,6 +5309,80 @@ if (singlemode && currentEditorView())  {
       return;
       }
 ModeAction->setChecked(false);
+}
+
+void Kile::ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText)
+{
+  QString from = (accelOn) ? noAccelText : accelText;
+  QString to   = (accelOn) ? accelText   : noAccelText;
+
+  for ( int i = 0; i < (int) bar->count(); i++ )
+    if (bar->text( bar->idAt( i ) ) == from) {
+      bar->changeItem( bar->idAt( i ), to );
+      break;
+    }
+}
+
+void Kile::ToggleKeyShortcut(KAction *action, bool addShiftModifier)
+{
+  KShortcut cut = action->shortcut();
+  KKey key = cut.seq( 0 ).key( 0 );
+
+  // Add SHIFT modifier to first key with only ALT modifier
+  if (addShiftModifier && key.modFlags() == KKey::ALT) {
+     KKey newKey( "SHIFT+" + key.toString() );
+     KKeySequence newSeq( cut.seq( 0 ) );
+     newSeq.setKey( 0, newKey );
+     KShortcut newCut( cut );
+     newCut.setSeq( 0, newSeq );
+     action->setShortcut( newCut );
+   }
+
+   // Remove SHIFT modifier from first key with only SHIFT+ALT modifiers
+   if (!addShiftModifier && key.modFlags() == KKey::SHIFT | KKey::ALT) {
+     KKey newKey( key.toString().remove( key.modFlagLabel(KKey::SHIFT) + "+" ) );
+     KKeySequence newSeq( cut.seq( 0 ) );
+     newSeq.setKey( 0, newKey );
+     KShortcut newCut( cut );
+     newCut.setSeq( 0, newSeq );
+     action->setShortcut( newCut );
+   }
+}
+
+void Kile::ToggleAccels()
+{
+  KMenuBar *bar = menuBar();
+
+  // Toggle KDE standard menu shortcuts or special Kile shortcuts
+  menuaccels = MenuAccelsAction->isChecked();
+  ToggleMenuShortcut(bar, menuaccels, i18n("&File"),         i18n("File"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Edit"),         i18n("Edit"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Tools"),        i18n("Tools"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&LaTeX"),        i18n("LaTeX"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Math"),         i18n("Math"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Wizard"),       i18n("Wizard"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Bibliography"), i18n("Bibliography"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&User"),         i18n("User"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Graph"),        i18n("Graph"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&View"),         i18n("View"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Settings"),     i18n("Settings"));
+  ToggleMenuShortcut(bar, menuaccels, i18n("&Help"),         i18n("Help"));
+
+  ToggleKeyShortcut(altH_action, menuaccels);
+  ToggleKeyShortcut(altI_action, menuaccels);
+  ToggleKeyShortcut(altA_action, menuaccels);
+  ToggleKeyShortcut(altB_action, menuaccels);
+  ToggleKeyShortcut(altT_action, menuaccels);
+  ToggleKeyShortcut(altC_action, menuaccels);
+  ToggleKeyShortcut(altM_action, menuaccels);
+  ToggleKeyShortcut(altE_action, menuaccels);
+  ToggleKeyShortcut(altD_action, menuaccels);
+  ToggleKeyShortcut(altU_action, menuaccels);
+  ToggleKeyShortcut(altF_action, menuaccels);
+  ToggleKeyShortcut(altQ_action, menuaccels);
+  ToggleKeyShortcut(altS_action, menuaccels);
+  ToggleKeyShortcut(altL_action, menuaccels);
+  ToggleKeyShortcut(altR_action, menuaccels);
 }
 
 void Kile::ToggleOutputView()

@@ -106,6 +106,8 @@ private:
     LatexEditorView *currentEditorView() const;
     void doConnections( LatexEditor *e );
     bool FileAlreadyOpen(QString f);
+    void ToggleMenuShortcut(KMenuBar *bar, bool accelOn, const QString &accelText, const QString &noAccelText);
+    void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
 
     KStatusBar *StatusBar;
     KConfig* config;
@@ -144,7 +146,7 @@ private:
     UserCd UserToolName, UserToolCommand;
     ListColors editor_color;
     bool logpresent, singlemode, showstructview,showoutputview, wordwrap, parenmatch,showline,
-      showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar;
+      showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, menuaccels;
     bool htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
     int split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
     QTabWidget *tabWidget, *Outputview;
@@ -165,8 +167,10 @@ private:
     KAction *PrintAction, *BackAction, *ForwardAction, *HomeAction, *StopAction;
     KAction *UserAction1, *UserAction2, *UserAction3, *UserAction4, *UserAction5, *UserAction6, *UserAction7, *UserAction8, *UserAction9, *UserAction10;
     KAction *UserToolAction1, *UserToolAction2, *UserToolAction3, *UserToolAction4, *UserToolAction5;
-    KToggleAction *ModeAction, *StructureAction, *MessageAction, *WatchFileAction,
+    KToggleAction *ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
       *ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
+    KAction *altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
+    KAction *altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
 
     KSelectAction *RecentAction;
     int par_start, par_end;
@@ -408,6 +412,7 @@ private slots:
 
 
    void ToggleMode();
+   void ToggleAccels();
    void ToggleStructView();
    void ToggleOutputView();
    void ToggleWatchFile();

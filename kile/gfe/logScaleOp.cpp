@@ -23,7 +23,7 @@
 
  *********************************************************************/
 using namespace std;
-
+                               
 #include "logScaleOp.h"
 #include <qstring.h>
 #include <klocale.h>

@@ -2,8 +2,8 @@
                           kile.cpp  -  description
                              -------------------
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 by Pascal Brachet, 2003 by Jeroen Wijnhout
-    email                :
+    copyright            : (C) 2003 by Jeroen Wijnhout
+    email                :  Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -5552,66 +5552,62 @@ delete toDlg;
 ////////////// SPELL ///////////////
 void Kile::spellcheck()
 {
-int index_start=0;
-int index_end=0;
-spell_text="";
-if ( !currentEditorView() ) return;
-par_start=0;
-par_end=currentEditorView()->editor->paragraphs();
-if (currentEditorView()->editor->hasSelectedText())
-   {
-    currentEditorView()->editor->getSelection( &par_start, &index_start,&par_end, &index_end, 0 );
-    currentEditorView()->editor->removeSelection(0);
-   }
-for (int i = par_start; i <= par_end; i++)
-{
-spell_text+=currentEditorView()->editor->text(i);
-}
+	if ( !currentEditorView() ) return;
 
-if (kspell) return;
-
-kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)));
-connect (kspell, SIGNAL ( death()),this, SLOT ( spell_finished( )));
-connect (kspell, SIGNAL (progress (unsigned int)),this, SLOT (spell_progress (unsigned int)));
-connect (kspell, SIGNAL (misspelling (const QString & , const QStringList & , unsigned int )),this, SLOT (misspelling (const QString & , const QStringList & , unsigned int )));
-connect (kspell, SIGNAL (corrected (const QString & , const QString & , unsigned int )),this, SLOT (corrected (const QString & , const QString & , unsigned int )));
-connect (kspell, SIGNAL (done(const QString&)), this, SLOT (spell_done(const QString&)));
+  if ( kspell )
+  {
+		kdDebug() << "kspell wasn't deleted before!" << endl;
+		delete kspell;
+	}
+	
+	kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)));
+	ks_corrected=0;
+	connect (kspell, SIGNAL ( death()),this, SLOT ( spell_finished( )));
+	connect (kspell, SIGNAL (progress (unsigned int)),this, SLOT (spell_progress (unsigned int)));
+	connect (kspell, SIGNAL (misspelling (const QString & , const QStringList & , unsigned int )),this, SLOT (misspelling (const QString & , const QStringList & , unsigned int )));
+	connect (kspell, SIGNAL (corrected (const QString & , const QString & , unsigned int )),this, SLOT (corrected (const QString & , const QString & , unsigned int )));
+	connect (kspell, SIGNAL (done(const QString&)), this, SLOT (spell_done(const QString&)));
 }
 
 void Kile::spell_started( KSpell *)
 {
-   kspell->setProgressResolution(2);
-   kspell->check(spell_text);
+	kspell->setProgressResolution(2);
+	if ( currentEditorView()->editor->hasSelectedText() )
+	{
+		kspell->check(currentEditorView()->editor->selectedText());
+		currentEditorView()->editor->getSelection(&par_start,&index_start,&par_end,&index_end,0);
+	}
+	else
+	{
+		kspell->check(currentEditorView()->editor->text());
+		par_start=0;
+		par_end=currentEditorView()->editor->paragraphs()-1;
+	}
 }
 
 void Kile::spell_progress (unsigned int percent)
 {
-  QString s;
-  s = QString(i18n("Spellcheck: %1% complete")).arg(percent);
 }
 
-void Kile::spell_done(const QString& /*newtext*/)
+void Kile::spell_done(const QString& newtext)
 {
-currentEditorView()->editor->removeSelection(0);
-//if (kspell->dlgResult() == 0)
-//  {
-//     //currentEditorView()->editor->setText( newtext);
-//  }
-kspell->cleanUp();
-UpdateLineColStatus();
+  currentEditorView()->editor->removeSelection(0);
+  kspell->cleanUp();
+	KMessageBox::information(this,i18n("Corrected %1 words.").arg(ks_corrected),i18n("Spell checking done"));
 }
 
 void Kile::spell_finished( )
 {
-UpdateLineColStatus();
-KSpell::spellStatus status = kspell->status();
-delete kspell;
-kspell = 0;
-if (status == KSpell::Error)
+	UpdateLineColStatus();
+	KSpell::spellStatus status = kspell->status();
+
+	delete kspell;
+	kspell = 0;
+	if (status == KSpell::Error)
   {
      KMessageBox::sorry(this, i18n("I(A)Spell could not be started."));
   }
-else if (status == KSpell::Crashed)
+	else if (status == KSpell::Crashed)
   {
      currentEditorView()->editor->removeSelection(0);
      KMessageBox::sorry(this, i18n("I(A)Spell seems to have crashed."));
@@ -5657,6 +5653,8 @@ void Kile::corrected (const QString & originalword, const QString & newword, uns
     currentEditorView()->editor->setModified( TRUE );
   }
   currentEditorView()->editor->removeSelection(0);
+
+  ks_corrected++;
 }
 
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////

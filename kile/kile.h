@@ -112,6 +112,7 @@ private:
     KStatusBar *StatusBar;
     KConfig* config;
     KSpell *kspell;
+    int ks_corrected;
 
     KileFileSelect *KileFS;
     KMultiVertTabBar *ButtonBar;
@@ -173,7 +174,7 @@ private:
     KAction *altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
 
     KSelectAction *RecentAction;
-    int par_start, par_end;
+    int par_start, par_end, index_start, index_end;
     QString spell_text;
 
     KShellProcess *currentProcess;

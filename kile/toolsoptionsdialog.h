@@ -33,6 +33,7 @@ class QComboBox;
 class QSpinBox;
 
 class QCheckBox;
+class QRadioButton;
 
 class QFrame;
 class KSpellConfig;
@@ -76,8 +77,10 @@ public:
     QSpinBox *spinSize;
     QLabel* TextLabel8;
 
-    QCheckBox *checkLine, *checkWordWrap, *checkLatex, *checkPdflatex, *checkParen,
-    	*checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf, *checkAutosave;
+    QCheckBox *checkLine, *checkWordWrap, *checkParen, *checkAutosave;
+
+    QRadioButton *checkLatex, *checkPdflatex,
+        *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;
 
     QLineEdit *asIntervalInput;
 

@@ -29,6 +29,7 @@
 #include <qlineedit.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
+#include <qradiobutton.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
@@ -86,22 +87,22 @@ toolsoptionsdialog::toolsoptionsdialog( QWidget* parent,  const char* name)
    QVButtonGroup* ButtonGroup= new QVButtonGroup(i18n("Quick Build"), toolsPage, "ButtonGroup" );
    ButtonGroup->setExclusive( TRUE );
 
-   checkLatex = new QCheckBox(ButtonGroup , "checkLatex" );
+   checkLatex = new QRadioButton(ButtonGroup , "checkLatex" );
    checkLatex->setText(i18n("LaTeX + dvips + View PS") );
 
-   checkDvi = new QCheckBox(ButtonGroup , "checkDvi" );
+   checkDvi = new QRadioButton(ButtonGroup , "checkDvi" );
    checkDvi->setText(i18n("LaTeX + View Dvi") );
 
-   checkDviSearch = new QCheckBox(ButtonGroup , "checkDviSearch" );
+   checkDviSearch = new QRadioButton(ButtonGroup , "checkDviSearch" );
    checkDviSearch->setText(i18n("LaTeX + Kdvi forward search"));
 
-   checkPdflatex = new QCheckBox(ButtonGroup , "checkPdflatex" );
+   checkPdflatex = new QRadioButton(ButtonGroup , "checkPdflatex" );
    checkPdflatex->setText(i18n("PDFLaTeX + View PDF"));
 
-   checkDviPdf = new QCheckBox(ButtonGroup , "checkPdflatex" );
+   checkDviPdf = new QRadioButton(ButtonGroup , "checkPdflatex" );
    checkDviPdf->setText(i18n("LaTeX + dvipdfm + View PDF"));
 
-   checkPsPdf = new QCheckBox(ButtonGroup , "checkPdflatex" );
+   checkPsPdf = new QRadioButton(ButtonGroup , "checkPdflatex" );
    checkPsPdf->setText(i18n("LaTeX + dvips + ps2pdf + View PDF"));
 
    QGroupBox* GroupBox1= new QGroupBox(2,Qt::Horizontal,i18n("Tools"),toolsPage, "ButtonGroup" );

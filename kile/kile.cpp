@@ -25,6 +25,7 @@
 #include <kileapplication.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
+#include <kiconloader.h>
 #include <kstddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>

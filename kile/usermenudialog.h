@@ -22,6 +22,8 @@
 
 #include <kdialogbase.h>
 
+#include "kileactions.h"
+
 class QRadioButton;
 class KTextEdit;
 class QLineEdit;
@@ -29,30 +31,22 @@ class QComboBox;
 class QLabel;
 class KPushButton;
 
-
-#ifndef KILE_USERITEM
-struct userItem
+namespace KileDialog
 {
-	QString name,tag;
 
-	bool operator==(const userItem item) { return name == item.name && tag == item.tag; }
-	bool operator==(userItem *item) { return name == item->name && tag == item->tag; }
-};
-#define KILE_USERITEM
-#endif
-
-
-
-class usermenudialog : public KDialogBase
+class UserTags: public KDialogBase
 {
 	Q_OBJECT
 
 public:
-	usermenudialog( const QValueList<userItem> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
-	~usermenudialog();
+	UserTags( const QValueList<KileAction::TagData> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
+	~UserTags();
 
 	int index() { return m_prevIndex; }
-	const QValueList<userItem>& result() {return m_list; }
+	const QValueList<KileAction::TagData>& result() {return m_list; }
+
+	static QString completeTag(const KileAction::TagData & td);
+	static KileAction::TagData splitTag(const QString & name, const QString & tag);
 
 private slots:
 	void change(int index);
@@ -65,7 +59,7 @@ private slots:
 	void slotApply();
 
 private:
-	int 			m_prevIndex;
+	int 				m_prevIndex;
 	KTextEdit 		*m_editTag;
 	QLineEdit 		*m_editName;
 	QComboBox 		*m_combo;
@@ -73,7 +67,9 @@ private:
 	QLabel			*m_labelTag;
 	KPushButton		*m_buttonRemove, *m_buttonAdd, *m_buttonInsert;
 
-	QValueList<userItem> 	m_list;
+	QValueList<KileAction::TagData> 	m_list;
 };
+
+}
 
 #endif // USERMENUDIALOG_H

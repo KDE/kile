@@ -93,14 +93,11 @@ namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 
-//FIXME ugly, yuk!
-#ifndef KILE_USERITEM
+//TODO remove once we stop supporting pre 1.7 user tools
 struct userItem
 {
 	QString name, tag;
 };
-#define KILE_USERITEM
-#endif
 
 /**
  * @author Jeroen Wijnhout
@@ -134,10 +131,10 @@ private:
 
 	KToolBar					*m_toolsToolBar;
 	KActionMenu 				*m_menuUserTags;
-	QSignalMapper 			*m_mapUserTagSignals;
-	QValueList<userItem> 		m_listUserTags, m_listUserTools;
+	QValueList<KileAction::TagData>	m_listUserTags;
+	QValueList<userItem>			m_listUserTools;
 	QPtrList<KAction> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KAction					*m_actionEditTag, *m_actionEditTool;
+	KAction					*m_actionEditTag;
 	KToggleToolBarAction		*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
 	KAction 					*m_paStop, *m_paPrint;
 	KToggleAction 			*ModeAction, *StructureAction, *MessageAction, *WatchFileAction;
@@ -387,7 +384,8 @@ private slots:
 	void insertSymbol(QIconViewItem*);
 	void InsertMetaPost(QListBoxItem *);
 
-	void insertUserTag(int i);
+// 	void insertUserTag(int i);
+// 	void insertUserTag(const KileAction::TagData& td);
 	void EditUserMenu();
 
 	void includeGraphics();

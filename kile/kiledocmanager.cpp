@@ -481,6 +481,7 @@ Kate::View* Manager::createDocumentWithText(const QString & text)
 	Kate::View *view = load(KURL(), QString::null, true, QString::null, text);
 	if (view) 
 	{
+		//FIXME this shouldn't be necessary!!!
 		view->getDoc()->setModified(true);
 		newDocumentStatus(view->getDoc());
 	}

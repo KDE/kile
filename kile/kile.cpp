@@ -505,9 +505,7 @@ void Kile::setupActions()
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("usertag"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
-	m_mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
 	setupUserTagActions();
-	connect(m_mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
 
 	actionCollection()->readShortcutSettings();
 }
@@ -583,10 +581,6 @@ void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
 
 void Kile::setupUserTagActions()
 {
-	KShortcut sc=0;
-	QString name;
-	KAction *menuItem;
-
 	KShortcut tagaccels[10] = {CTRL+SHIFT+Key_1, CTRL+SHIFT+Key_2,CTRL+SHIFT+Key_3,CTRL+SHIFT+Key_4,CTRL+SHIFT+Key_5,CTRL+SHIFT+Key_6,CTRL+SHIFT+Key_7,
 		CTRL+SHIFT+Key_8,CTRL+SHIFT+Key_9,CTRL+SHIFT+Key_0};
 
@@ -594,14 +588,14 @@ void Kile::setupUserTagActions()
 	m_menuUserTags->insert(m_actionEditTag);
 	for (uint i=0; i<m_listUserTags.size(); i++)
 	{
-		if (i<10) sc = tagaccels[i];
-		else sc=0;
-		name=QString::number(i+1)+": "+m_listUserTags[i].name;
-		menuItem = new KAction(name,sc,m_mapUserTagSignals,SLOT(map()), m_menuUserTags, name.ascii());
+		KShortcut sc; if (i<10)  { sc = tagaccels[i]; } else { sc = 0; }
+		QString name = QString::number(i+1)+": "+m_listUserTags[i].text;
+		KileAction::Tag *menuItem = new KileAction::Tag(name, sc, this, SLOT(insertTag(const KileAction::TagData &)), actionCollection(), QString("tag_user_" + m_listUserTags[i].text).ascii(), m_listUserTags[i]);
 		m_listUserTagsActions.append(menuItem);
 		m_menuUserTags->insert(menuItem);
-		m_mapUserTagSignals->setMapping(menuItem,i);
 	}
+
+	actionCollection()->readShortcutSettings("Shortcuts", config);
 }
 
 void Kile::restore()
@@ -1512,6 +1506,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 			py = para;
 			px = index;
 		}
+
 		kdDebug() << "py = " << py << " px = " << px << endl;
 		view->setCursorPositionReal(py+data.dy,px+data.dx);
 	}
@@ -1532,13 +1527,13 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 
 void Kile::QuickDocument()
 {
-	if ( !viewManager()->currentView() && ( docManager()->createDocumentWithText(QString::null) == 0L ) )
-		return;
-
 	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(config, this,"Quick Start",i18n("Quick Start"));
 
 	if ( dlg->exec() )
 	{
+		if ( !viewManager()->currentView() && ( docManager()->createDocumentWithText(QString::null) == 0L ) )
+			return;
+
 		insertTag( dlg->tagData() );
 	}
 	delete dlg;
@@ -1593,20 +1588,51 @@ if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 ////////////////////////// BIBLIOGRAPHY //////////////////////////
 
 //////////////// USER //////////////////
-void Kile::insertUserTag(int i)
-{
-	if (m_listUserTags[i].tag.left(1)=="%")
-	{
-		QString t=m_listUserTags[i].tag;
-		t=t.remove(0,1);
-		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
-	}
-	else
-	{
-		QStringList parts = QStringList::split("%M",m_listUserTags[i].tag);
-		insertTag(parts[0],parts[1],0,0);
-	}
-}
+// void Kile::insertUserTag(int i)
+// {
+// 	if (m_listUserTags[i].tag.left(1)=="%")
+// 	{
+// 		QString t=m_listUserTags[i].tag;
+// 		t=t.remove(0,1);
+// 		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
+// 	}
+// 	else
+// 	{
+// 		QStringList parts = QStringList::split("%M",m_listUserTags[i].tag);
+// 		int dx = parts[0].length();
+// 		if ( parts[1].length() == 0 )
+// 		{
+// 			int i = parts[0].find('{');
+// 			if ( i != -1 )
+// 				dx = i + 1;
+// 		}
+// 		insertTag(parts[0],parts[1], dx, 0);
+// 	}
+// }
+
+// void Kile::insertUserTag(const KileAction::TagData& td)
+// {
+// 	QString tag = td.tagBegin;
+// 
+// 	if ( tag.left(1)=="%" )
+// 	{
+// 		QString t= tag;
+// 		t=t.remove(0,1);
+// 		insertTag("\\begin{"+t+"}\n","\n\\end{"+t+"}\n",0,1);
+// 	}
+// 	else
+// 	{
+// 		QStringList parts = QStringList::split("%M", tag);
+// 		int dx = parts[0].length();
+// 		if ( parts[1].length() == 0 )
+// 		{
+// 			int i = parts[0].find('{');
+// 			if ( i != -1 )
+// 				dx = i + 1;
+// 		}
+// 		insertTag(parts[0],parts[1], dx, 0);
+// 	}
+// }
 
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
@@ -1630,28 +1656,26 @@ void Kile::LatexHelp()
 ///////////////////// USER ///////////////
 void Kile::EditUserMenu()
 {
-	usermenudialog *umDlg = new usermenudialog(m_listUserTags,this,"Edit User Tags", i18n("Edit User Tags"));
+	KileDialog::UserTags *dlg = new KileDialog::UserTags(m_listUserTags, this, "Edit User Tags", i18n("Edit User Tags"));
 
-	if ( umDlg->exec() )
+	if ( dlg->exec() )
 	{
 		//remove all actions
-		KAction *menuItem;
 		uint len = m_listUserTagsActions.count();
 		for (uint j=0; j< len; j++)
 		{
-			menuItem = m_listUserTagsActions.getLast();
-			m_mapUserTagSignals->removeMappings(menuItem);
+			KAction *menuItem = m_listUserTagsActions.getLast();
 			m_menuUserTags->remove(menuItem);
 			m_listUserTagsActions.removeLast();
 			delete menuItem;
 		}
 		m_menuUserTags->remove(m_actionEditTag);
 
-		m_listUserTags = umDlg->result();
+		m_listUserTags = dlg->result();
 		setupUserTagActions();
 	}
 
-	delete umDlg;
+	delete dlg;
 }
 
 /////////////// CONFIG ////////////////////
@@ -1703,15 +1727,13 @@ void Kile::ReadSettings()
 	showstructview=config->readBoolEntry( "Structureview",true);
 
 	config->setGroup( "User" );
-	userItem tempItem;
 	int len = config->readNumEntry("nUserTags",0);
 	for (int i = 0; i < len; i++)
 	{
-		tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
-		tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
-		m_listUserTags.append(tempItem);
+		m_listUserTags.append(KileDialog::UserTags::splitTag(config->readEntry("userTagName"+QString::number(i),i18n("no name")) , config->readEntry("userTag"+QString::number(i),"") ));
 	}
 
+	userItem tempItem;
 	len= config->readNumEntry("nUserTools",0);
 	for (int i=0; i< len; i++)
 	{
@@ -1922,13 +1944,12 @@ void Kile::SaveSettings()
 
 	config->setGroup( "User" );
 
-	userItem tempItem;
 	config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
-	for (uint i=0; i<m_listUserTags.size(); i++)
+	for (uint i=0; i < m_listUserTags.size(); i++)
 	{
-		tempItem = m_listUserTags[i];
-		config->writeEntry("userTagName"+QString::number(i),tempItem.name);
-		config->writeEntry("userTag"+QString::number(i),tempItem.tag);
+		KileAction::TagData td( m_listUserTags[i]);
+		config->writeEntry( "userTagName"+QString::number(i),  td.text );
+		config->writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
 	}
 
 	config->setGroup( "Structure" );

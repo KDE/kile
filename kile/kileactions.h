@@ -41,6 +41,8 @@ public:
 	TagData(const QString &t, const QString &tB = QString::null, const QString &tE = QString::null, int x = 0, int y = 0, const QString &desc = QString::null)
 		: text(t), tagBegin(tB), tagEnd(tE), dx(x), dy(y), description(desc) {}
 
+	TagData() : text(QString::null), tagBegin(QString::null), tagEnd(QString::null), dx(0), dy(0), description(QString::null) {}
+
 	QString		text;
 	QString		tagBegin, tagEnd;
 	int			dx,dy;

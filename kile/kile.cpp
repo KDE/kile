@@ -343,7 +343,7 @@ void Kile::setupActions()
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
-	(void) new KAction(i18n("Refresh Structure"), "structure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Refresh Str&ucture"), "structure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "filenew", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="10">
+<kpartgui name="kile" version="11">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -50,16 +50,16 @@
 	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
 	<Action name="FindInFiles"/>
 	<Separator/>
-	<Menu name="complete"><text>Complete</text>
+	<Menu name="complete"><text>Co&amp;mplete</text>
 		<Action name="edit_complete_word"/>
 		<Action name="edit_complete_env"/>
 		<Action name="edit_complete_abbrev"/>
 	</Menu>
-	<Menu name="bullet"><text>Bullets</text>
+	<Menu name="bullet"><text>&amp;Bullets</text>
 		<Action name="edit_next_bullet"/>
 		<Action name="edit_prev_bullet"/>
 	</Menu>
-	<Menu name="select"><text>Select</text>
+	<Menu name="select"><text>&amp;Select</text>
 		<Action name="edit_select_inside_env"/>
 		<Action name="edit_select_outside_env"/>
 	<Separator/>
@@ -70,7 +70,7 @@
 		<Action name="edit_select_line"/>
 		<Action name="edit_select_word"/>
 	</Menu>
-	<Menu name="delete"><text>Delete</text>
+	<Menu name="delete"><text>D&amp;elete</text>
 		<Action name="edit_delete_inside_env"/>
 		<Action name="edit_delete_outside_env"/>
 		<Separator/>
@@ -80,14 +80,14 @@
 		<Action name="edit_delete_paragraph"/>
 		<Action name="edit_delete_word"/>
 	</Menu>
-	<Menu name="environment"><text>Environment</text>
+	<Menu name="environment"><text>Environmen&amp;t</text>
 		<Action name="edit_begin_env"/>
 		<Action name="edit_end_env"/>
 		<Action name="edit_match_env"/>
 		<Separator/>
 		<Action name="edit_close_env"/>
 	</Menu>
-	<Menu name="texgroup"><text>TeX Group</text>
+	<Menu name="texgroup"><text>Te&amp;X Group</text>
 		<Action name="edit_begin_group"/>
 		<Action name="edit_end_group"/>
 		<Action name="edit_match_group"/>

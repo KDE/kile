@@ -956,12 +956,15 @@ void Kile::buildProjectTree(KileProject *project)
 	if (project == 0)
 		project = activeProject();
 
+	if (project == 0 )
+		project = selectProject(i18n("Build project tree..."));
+
 	if (project)
 	{
 		//TODO: update structure for all docs
 		project->buildProjectTree();
 	}
-	else
+	else if (m_projects.count() == 0)
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Build Project Tree again."),i18n( "Could not build project tree."));
 }
 
@@ -1024,10 +1027,8 @@ void Kile::addProject(const KileProject *project)
 	connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
 }
 
-void Kile::addToProject(const KURL & url)
+KileProject* Kile::selectProject(const QString& caption)
 {
-	kdDebug() << "==Kile::addToProject==========================" << endl;
-	kdDebug() << "\t" <<  url.fileName() << endl;
 	QStringList list;
 	QPtrListIterator<KileProject> it(m_projects);
 	while (it.current())
@@ -1036,19 +1037,34 @@ void Kile::addToProject(const KURL & url)
 		++it;
 	}
 
+	KileProject *project = 0;
 	QString name = QString::null;
 	if (list.count() > 1)
 	{
-		KileListSelector *dlg  = new KileListSelector(list, "Add to project..", "project", this);
+		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("project"), this);
 		if (dlg->exec())
 		{
 			name = list[dlg->currentItem()];
 		}
 	}
+	else if (list.count() == 0)
+	{
+		return 0;
+	}
 	else
 		name = m_projects.first()->name();
 
-	KileProject *project = projectFor(name);
+	project = projectFor(name);
+
+	return project;
+}
+
+void Kile::addToProject(const KURL & url)
+{
+	kdDebug() << "==Kile::addToProject==========================" << endl;
+	kdDebug() << "\t" <<  url.fileName() << endl;
+
+	KileProject *project = selectProject(i18n("Add to project.."));
 
 	if (project)
 	{
@@ -1265,6 +1281,9 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 		project= activeProject();
 	}
 
+	if (project == 0 )
+		project = selectProject(i18n("Save project..."));
+
 	if (project)
 	{
 		KileProjectItemList *list = project->items();
@@ -1308,8 +1327,11 @@ void Kile::projectAddFiles(const KURL & url)
 void Kile::projectAddFiles(KileProject *project)
 {
 	kdDebug() << "==Kile::projectAddFiles()==========================" << endl;
- 	if (project ==0 )
+ 	if (project == 0 )
 		project = activeProject();
+
+	if (project == 0 )
+		project = selectProject(i18n("Add files to project..."));
 
 	if (project)
 	{
@@ -1330,8 +1352,8 @@ void Kile::projectAddFiles(KileProject *project)
 			addToProject(project, urls[i]);
 		}
 	}
-	else
-		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
+	else if (m_projects.count() == 0)
+		KMessageBox::error(this, i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
 }
 
 void Kile::toggleArchive(const KURL & url)
@@ -1355,6 +1377,9 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 {
 	if (project == 0)
 		project = activeProject();
+
+	if (project == 0 )
+		project = selectProject(i18n("Archive project..."));
 
 	if (project)
 	{
@@ -1393,7 +1418,7 @@ bool Kile::projectArchive(KileProject *project /* = 0*/)
 			LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
 		}
 	}
-	else
+	else if (m_projects.count() == 0)
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could not determine active project."));
 
 	return true;
@@ -1413,13 +1438,16 @@ void Kile::projectOptions(KileProject *project /* = 0*/)
 	if (project ==0 )
 		project = activeProject();
 
+	if (project == 0 )
+		project = selectProject(i18n("Project options for..."));
+
 	if (project)
 	{
 		kdDebug() << "\t" << project->name() << endl;
 		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, this);
 		dlg->exec();
 	}
-	else
+	else if (m_projects.count() == 0)
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could not determine active project."));
 }
 
@@ -1446,7 +1474,12 @@ bool Kile::projectClose(const KURL & url)
 	KileProject *project = 0;
 
 	if (url.isEmpty())
+	{
 		 project = activeProject();
+
+		 if (project == 0 )
+			project = selectProject(i18n("Close project..."));
+	}
 	else
 	{
 		project = projectFor(url);
@@ -1490,7 +1523,7 @@ bool Kile::projectClose(const KURL & url)
 		else
 			return false;
 	}
-	else
+	else if (m_projects.count() == 0)
 		KMessageBox::error(this, i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could not close project."));
 
 	return true;

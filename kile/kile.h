@@ -328,7 +328,7 @@ public slots:
 	 *
 	 * @returns pointer to the new view
 	 **/
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, bool load = true);
+	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, bool load = true, const QString &text = QString::null);
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 
@@ -508,15 +508,15 @@ private:
 
 private:
 	QString 		tempLog;
-	bool 				logpresent;
+	bool 			logpresent;
 
 	QStrList 		*errorlist;
 	QStrList		*warnlist;
-	int 				m_nErrors,m_nWarnings,m_nBadBoxes;
+	int 				m_nErrors,m_nWarnings,m_nBadBoxes, m_nCurrentError;
 	bool 				m_bCheckForLaTeXErrors;
 	bool 				m_bNewInfolist;
-  LatexOutputInfoArray  *m_OutputInfo;
-  LatexOutputFilter     *m_OutputFilter;
+	LatexOutputInfoArray	*m_OutputInfo;
+	LatexOutputFilter		*m_OutputFilter;
 
 
 /* insert tags */

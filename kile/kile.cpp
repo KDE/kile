@@ -227,9 +227,10 @@ Kile::Kile( QWidget *, const char *name ) :
 	logpresent=false;
 	errorlist=new QStrList();
 	warnlist=new QStrList();
-  m_OutputInfo=new LatexOutputInfoArray();
-  m_OutputFilter=new LatexOutputFilter( m_OutputInfo,LogWidget,OutputWidget );
-  //m_OutputFilter=new LatexOutputFilter( m_OutputInfo );
+	m_nCurrentError=-1;
+	m_OutputInfo=new LatexOutputInfoArray();
+	m_OutputFilter=new LatexOutputFilter( m_OutputInfo,LogWidget,OutputWidget );
+	//m_OutputFilter=new LatexOutputFilter( m_OutputInfo );
 	connect(LogWidget, SIGNAL(clicked(int,int)),this,SLOT(ClickedOnOutput(int,int)));
 
 	texkonsole=new TexKonsoleWidget(Outputview,"konsole");
@@ -513,7 +514,8 @@ void Kile::restore()
 }
 
 ////////////////////////////// FILE /////////////////////////////
-Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load)
+Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, 
+const QString &text )
 {
 	kdDebug() << "==Kile::load==========================" << endl;
 	if ( url.path() != i18n("Untitled") && isOpen(url))
@@ -554,6 +556,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	else
 	{
 		doc->setDocName(i18n("Untitled"));
+		if (text != QString::null)
+			doc->insertText(0,0,text);
 	}
 
 	setHighlightMode(doc, highlight);
@@ -740,8 +744,8 @@ void Kile::fileNew()
 
 Kate::View* Kile::loadTemplate(TemplateItem *sel)
 {
-	Kate::View *view = load(KURL());
-
+	QString text = QString::null;
+	
 	if (sel->name() != DEFAULT_EMPTY_CAPTION)
 	{
 		//create a new document to open the template in
@@ -754,18 +758,19 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 		else
 		{
 			//substitute templates variables
-			QString text = tempdoc->text();
+			text = tempdoc->text();
 			delete tempdoc;
 			replaceTemplateVariables(text);
-			view->getDoc()->setText(text);
-			view->getDoc()->setModified(false);
+			
+			//view->getDoc()->setText(text);
+			//view->getDoc()->setModified(false);
 
 			//set the highlight mode (this was already done in load, but somehow after setText this is forgotten)
-			setHighlightMode(view->getDoc());
+			//setHighlightMode(view->getDoc());
 		}
 	}
-
-	return view;
+	
+	return load(KURL(), QString::null, true, QString::null, true, text);
 }
 //TODO: connect to modifiedondisc() when using KDE 3.2
 bool Kile::eventFilter(QObject* o, QEvent* e)
@@ -2487,7 +2492,7 @@ void Kile::ViewDvi()
 
   QFileInfo fic(finame);
 
-  if (viewdvi_command=="Embedded Viewer")
+  if (viewdvi_command== i18n("Embedded Viewer") )
   {
    ResetPart();
    KLibFactory *dvifactory;
@@ -2558,7 +2563,7 @@ void Kile::KdviForwardSearch()
 		index = view->cursorColumn();
 	}
 
-  if (viewdvi_command=="Embedded Viewer")
+  if (viewdvi_command== i18n("Embedded Viewer") )
   {
    ResetPart();
    KLibFactory *dvifactory;
@@ -2633,7 +2638,7 @@ void Kile::ViewPS()
 
   QFileInfo fic(finame);
 
-   if (viewps_command=="Embedded Viewer")
+   if (viewps_command== i18n("Embedded Viewer") )
    {
    ResetPart();
    KLibFactory *psfactory;
@@ -2705,7 +2710,7 @@ void Kile::ViewPDF()
   if ( (finame = prepareForViewing("ViewPDF","pdf")) == QString::null ) return;
 
   QFileInfo fic(finame);
-   if (viewpdf_command=="Embedded Viewer")
+   if (viewpdf_command== i18n("Embedded Viewer") )
    {
    ResetPart();
    KLibFactory *psfactory;
@@ -3381,82 +3386,47 @@ void Kile::ViewLog()
 
 void Kile::ClickedOnOutput(int parag, int /*index*/)
 {
+	if ( !currentView() ) return;
 
-if ( !currentView() ) return;
-
- int Start, End;
- bool ok;
- QString s;
- QString line="";
- s = LogWidget->text(parag);
- //check for ! first
- //the line number where the error occurred is below the !
- if (s.find("!",0) == 0)
- {
-	 int i=0;
-	 //error found jump to the following lines (somewhere we hope to find the line-number)
-	 //assumptions: line number occurs within 10 lines of the !
-	 do {
-		 s = LogWidget->text(++parag);  i++;
-		 if ( (s.at(0) == '!') ||
-			 (s.find("LaTeX Warning",0) == 0 ) ||
-			 (parag >= LogWidget->paragraphs()) ||
-			 (i>10) ) return;
-	 } while (  s.find(QRegExp("l.[0-9]"),0) < 0 ) ;
- }
-
- //// l. ///
-
- Start=End=0;
- Start=s.find(QRegExp("l.[0-9]"), End);
- if (Start!=-1)
-  {
-  Start=Start+2;
-  s=s.mid(Start,s.length());
-  End=s.find(QRegExp("[ a-zA-Z.\\-]"),0);
-  if (End!=-1)
-    line=s.mid(0,End);
-  else
-    line=s.mid(0,s.length());
-  };
- //// line ///
- s = LogWidget->text(parag);
- Start=End=0;
- Start=s.find(QRegExp("line [0-9]"), End);
- if (Start!=-1)
-  {
-  Start=Start+5;
-  s=s.mid(Start,s.length());
-  End=s.find(QRegExp("[ a-zA-Z.\\-]"),0);
-  if (End!=-1)
-    line=s.mid(0,End);
-  else
-    line=s.mid(0,s.length());
-  };
- //// lines ///
- s = LogWidget->text(parag);
- Start=End=0;
- Start=s.find(QRegExp("lines [0-9]"), End);
- if (Start!=-1)
-  {
-  Start=Start+6;
-  s=s.mid(Start,s.length());
-  End=s.find(QRegExp("[ a-zA-Z.\\-]"),0);
-  if (End!=-1)
-    line=s.mid(0,End);
-  else
-    line=s.mid(0,s.length());
-  };
-
-
-uint l=line.toInt(&ok,10)-1;
-
-if (ok && l<=currentView()->getDoc()->numLines())
- {
- currentView()->setFocus();
- currentView()->setCursorPosition(l, 0);
- //newStatus();
- }
+	int l = parag;
+	
+	QString s = LogWidget->text(parag);
+	QString file = QString::null;
+	
+	static QRegExp reES = QRegExp("(^.*):([0-9])+:.*");
+	//log not present, maybe there is an error summary
+	if ( (!logpresent) && ( reES.search(s) != -1 ) )
+	{
+		l = reES.cap(2).toInt() - 1;
+		file = reES.cap(1);
+	}
+ 
+	if (logpresent)
+	{
+		//look for error at line parag
+		for (uint i=0; i< m_OutputInfo->size(); i++)
+		{
+			if ( (*m_OutputInfo)[i].outputLine() == parag)
+			{
+				file = (*m_OutputInfo)[i].source();
+				l = (*m_OutputInfo)[i].sourceLine() - 1;
+			}
+		}
+	}
+	
+	if (file.left(2) == "./")
+	{
+		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file.mid(2);
+	}
+		
+	kdDebug() << "==Kile::ClickedOnOutput()====================" << endl;
+	
+	if (file != QString::null)
+	{
+		kdDebug() << "jumping to (" << l << ") " << file << endl;
+		fileOpen(KURL::fromPathOrURL(file));
+		setLine(QString::number(l));
+	}
 }
 ////////////////////////// ERRORS /////////////////////////////
 void Kile::LatexError(bool warnings)
@@ -3484,7 +3454,7 @@ void Kile::LatexError(bool warnings)
 		<< ") [Reported in line " << (*m_OutputInfo)[i].outputLine() << "]" << endl;
 	}
 
-  // for compatibility reasons !must be changed; there probably is a better way!
+	//TODO: for compatibility reasons !must be changed; there probably is a better way!
 	if ( f.open(IO_ReadOnly) )
 	{
 		QTextStream t( &f );
@@ -3506,37 +3476,22 @@ void Kile::jumpToProblem(int type, bool forward)
 	if (logpresent && !m_OutputInfo->isEmpty())
 	{
 		Outputview->showPage(LogWidget);
-		if (m_bNewInfolist)
+		
+		int sz = m_OutputInfo->size();
+		int pl = forward ? 1 : -1;
+		
+		//look for next problem of type
+		for (int i=m_nCurrentError+pl; (i < sz) && (i >= 0); i += pl )
 		{
-      // search first entry of demanded error type
-      it = m_OutputInfo->begin();
-      while ( (*it).type() != type && it != m_OutputInfo->end() ) ++it;
-      if (it == m_OutputInfo->end()) --it;    // point to last entry in list
-		}
-		else
-		{
-      // search next entry of demanded error type
-			if (forward)
+			if ( (*m_OutputInfo)[i].type() == type )
 			{
-        do ++it;
-        while ((*it).type() != type && it != m_OutputInfo->end() );
-        if (it == m_OutputInfo->end()) --it;    // point to last entry in list
+				m_nCurrentError = i;
+				int l= (*m_OutputInfo)[i].outputLine();
+				LogWidget->setCursorPosition(l+3 , 0);
+				LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
+				
+				break;
 			}
-			else
-			{
-				do --it;
-        while ((*it).type() != type && it != m_OutputInfo->begin() );
-			}
-		}
-    
-		int l= (*it).outputLine();
-    // do we have the right error code and is line number valid?
-    // else keep current position
-		if ((*it).type() == type && l<=LogWidget->paragraphs())
-		{
-			//LogWidget->setCursorPosition(0 , 0 );
-			LogWidget->setCursorPosition(l+3 , 0);
-			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
 	}
 
@@ -3916,7 +3871,7 @@ void Kile::insertUserTag(int i)
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
-      if (viewlatexhelp_command=="Embedded Viewer") 
+      if (viewlatexhelp_command == i18n("Embedded Viewer") ) 
       {
 	      ResetPart();
 	      htmlpart = new docpart(topWidgetStack,"help");
@@ -3929,9 +3884,13 @@ void Kile::LatexHelp()
 	      htmlpart->openURL("help:/kile/latexhelp.html");
 	      htmlpart->addToHistory("help:/kile/latexhelp.html");
       }
+      else if (viewlatexhelp_command == i18n("External Browser") )
+      {
+	kapp->invokeBrowser("help:/kile/latexhelp.html");
+      }
       else
       {
-             kapp->invokeHTMLHelp("kile/latexhelp.html");
+	kapp->invokeHTMLHelp("kile/latexhelp.html");
       }
 }
 
@@ -4066,15 +4025,15 @@ void Kile::ReadSettings()
 	if (old)
 	{
 		latex_command="latex -interaction=nonstopmode '%S.tex'";
-		viewdvi_command="Embedded Viewer";
+		viewdvi_command= i18n("Embedded Viewer");
 		dvips_command="dvips -o '%S.ps' '%S.dvi'";
-		viewps_command="Embedded Viewer";
-		viewlatexhelp_command="Embedded Viewer";
+		viewps_command= i18n("Embedded Viewer") ;
+		viewlatexhelp_command=i18n("Embedded Viewer");
 		ps2pdf_command="ps2pdf '%S.ps' '%S.pdf'";
 		makeindex_command="makeindex '%S.idx'";
 		bibtex_command="bibtex '%S'";
 		pdflatex_command="pdflatex -interaction=nonstopmode '%S.tex'";
-		viewpdf_command="Embedded Viewer";
+		viewpdf_command= i18n("Embedded Viewer") ;
 		dvipdf_command="dvipdfm '%S.dvi'";
 		l2h_options="";
 	}
@@ -4179,15 +4138,15 @@ void Kile::readConfig()
 	m_bCheckForRoot = config->readBoolEntry("CheckForRoot",true);
 	quickmode=config->readNumEntry( "Quick Mode",1);
 	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
-	viewdvi_command=config->readEntry("Dvi","Embedded Viewer");
-	viewlatexhelp_command=config->readEntry("LatexHelp","Embedded Viewer");
+	viewdvi_command=config->readEntry("Dvi",i18n("Embedded Viewer"));
+	viewlatexhelp_command=config->readEntry("LatexHelp",i18n("Embedded Viewer"));
 	dvips_command=config->readEntry("Dvips","dvips -o '%S.ps' '%S.dvi'");
-	viewps_command=config->readEntry("Ps","Embedded Viewer");
+	viewps_command=config->readEntry("Ps",i18n("Embedded Viewer"));
 	ps2pdf_command=config->readEntry("Ps2pdf","ps2pdf '%S.ps' '%S.pdf'");
 	makeindex_command=config->readEntry("Makeindex","makeindex '%S.idx'");
 	bibtex_command=config->readEntry("Bibtex","bibtex '%S'");
 	pdflatex_command=config->readEntry("Pdflatex","pdflatex -interaction=nonstopmode '%S.tex'");
-	viewpdf_command=config->readEntry("Pdf","Embedded Viewer");
+	viewpdf_command=config->readEntry("Pdf",i18n("Embedded Viewer"));
 	dvipdf_command=config->readEntry("Dvipdf","dvipdfm '%S.dvi'");
 	l2h_options=config->readEntry("L2h Options","");
 	bibtexeditor_command=config->readEntry("Bibtexeditor","gbib '%S.bib'");

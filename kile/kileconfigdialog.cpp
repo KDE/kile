@@ -178,7 +178,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     comboDvi->insertItem("xdvi -editor \'kile %f -line %l\' %S.dvi");
     comboDvi->insertItem("kdvi '%S.dvi'");
     comboDvi->insertItem("kdvi --unique '%S.dvi'");
-    comboDvi->insertItem("Embedded Viewer");
+    comboDvi->insertItem(i18n("Embedded Viewer"));
 
     TextLabel2 = new QLabel(gb, "label2" );
     TextLabel2->setText(i18n( "PS Viewer") );
@@ -186,7 +186,7 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     comboPs->setEditable( true );
     comboPs->insertItem("gv '%S.ps'");
     comboPs->insertItem("kghostview '%S.ps'");
-    comboPs->insertItem("Embedded Viewer");
+    comboPs->insertItem(i18n("Embedded Viewer"));
 
     TextLabel3 = new QLabel( gb, "label3" );
     TextLabel3->setText(i18n( "Pdf Viewer" ));
@@ -195,14 +195,15 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
     comboPdf->insertItem("xpdf '%S.pdf'");
     comboPdf->insertItem("acroread '%S.pdf'");
     comboPdf->insertItem("kghostview '%S.pdf'");
-    comboPdf->insertItem("Embedded Viewer");
+    comboPdf->insertItem(i18n("Embedded Viewer"));
 
     TextLabel8 = new QLabel( gb, "label8" );
     TextLabel8->setText(i18n( "Latex Reference" ));
     comboLatexHelp = new QComboBox( FALSE, gb, "comboPdf" );
     comboLatexHelp->setEditable( true );
-    comboLatexHelp->insertItem("Embedded Viewer");
-    comboLatexHelp->insertItem("KDE Help");
+    comboLatexHelp->insertItem(i18n("Embedded Viewer"));
+    comboLatexHelp->insertItem(i18n("External Browser"));
+    comboLatexHelp->insertItem(i18n("KDE Help"));
 
 	//fill in tools
 	m_config->setGroup("Tools");

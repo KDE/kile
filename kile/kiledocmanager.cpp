@@ -75,11 +75,17 @@ Manager::~Manager()
 void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 {
 	kdDebug() << "==void Manager::trashDoc(" << docinfo->url().path() << ")=====" << endl;
+	
+	//workaround: treat Untitled documents special
+	//yes, this leaks, sucks, but..., it doesn't crash ;-)
+	if (doc && doc->docName() == i18n("Untitled") )	return;
+	
 	if ( m_ki->isOpen(docinfo->url()) ) return;
 
+	if ( doc == 0L ) doc = docinfo->getDoc();
 	//look for doc before we detach the docinfo
 	//if we do it the other way around, docFor will always return nil
-	if ( doc == 0L ) doc = docFor(docinfo->url());
+ 	if ( doc == 0L ) doc = docFor(docinfo->url());
 	
 	kdDebug() << "DETACHING " << docinfo << endl;
 	docinfo->detach();
@@ -94,7 +100,7 @@ void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 	{
 		if ( (m_infoList.at(i) != docinfo) && (m_infoList.at(i)->getDoc() == doc) )
 		{
-			KMessageBox::information(0, "trashing doc for " + docinfo->url().fileName() + ", docinfo with url " + m_infoList.at(i)->url().fileName() +" has a wild pointer!!!");
+			KMessageBox::information(0, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
 			kdWarning() << "docinfo " << m_infoList.at(i) << " url " << m_infoList.at(i)->url().fileName() << " has a wild pointer!!!"<< endl;
 		}
 	}
@@ -141,9 +147,23 @@ Info *Manager::infoFor(const QString & path) const
 	return 0L;
 }
 
-Info* Manager::infoFor(Kate::Document* doc) const
+Info* Manager::infoFor(Kate::Document* doc, bool usepath /*= true*/ ) const
 {
-	return infoFor(doc->url().path());
+	if (usepath)
+		return infoFor(doc->url().path());
+	else
+	{
+		QPtrListIterator<Info> it(m_infoList);
+		while ( true )
+		{
+			if ( it.current()->getDoc() == doc)
+				return it.current();
+	
+			if (it.atLast()) return 0L;
+	
+			++it;
+		}
+	}
 }
 
 void Manager::mapItem(Info *docinfo, KileProjectItem *item)

@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kiletool.h"
-#include "kileinfo.h"
-
 #include <qfileinfo.h>
 
 #include <klocale.h>
 #include <kconfig.h>
 #include <kurl.h>
+
+#include "kiletool.h"
+#include "kileinfo.h"
 
 namespace KileTool
 {

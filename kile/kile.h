@@ -390,6 +390,9 @@ private slots:
 	void addToProject(KileProject *, const KURL &);
 	void removeFromProject(const KURL &, const KURL &);
 
+public slots:
+	void projectOpen(const QString& proj) { projectOpen(KURL::fromPathOrURL(proj)); }
+
 private:
 	void sanityCheck();
 

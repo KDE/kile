@@ -92,8 +92,10 @@ namespace KileTool
 
 		if (! info.isWritable())
 		{
-			QString warning = i18n("ERROR: It appear that the directory %1 is not writable, therefore %2 will not be able to save its results.").arg(m_targetdir).arg(m_name);
+			QString warning = i18n("ERROR: It appears that the directory %1 is not writable, therefore %2 will not be able to save its results.").arg(m_targetdir).arg(m_name);
 			emit(message(warning));
+
+			return false;
 		}
 
 		return true;
@@ -101,6 +103,11 @@ namespace KileTool
 
 	bool Custom::selfCheck()
 	{
+		//try to run the command with version info
+		//i.e. latex --version, latex -v
+
+		//if that doesn't work try to locate the binary
+		//and test whether or not the directory is in the path
 		return true;
 	}
 

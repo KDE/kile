@@ -545,32 +545,34 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 
 	kdDebug() << QString("\tload(%1,%2,%3, %4)").arg(url.path()).arg(encoding).arg(create).arg(create) << endl;
 
-	//create a new document
-	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
-	m_docList.append(doc);
+	KFileItem file_item(KFileItem::Unknown, KFileItem::Unknown, url);
+	bool is_image = (file_item.mimetype().section("/", 0, 0) == "image");
+	Kate::Document *doc = 0;
 
-	//set the default encoding
-	QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
-	KileFS->comboEncoding->lineEdit()->setText(enc);
-	doc->setEncoding(enc);
+	if (!is_image) {
+		//create a new document
+		doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
+		m_docList.append(doc);
 
-	//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
-	if (load) doc->openURL(url);
-	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
+		//set the default encoding
+		QString enc = encoding.isNull() ? QString::fromLatin1(QTextCodec::codecForLocale()->name()) : encoding;
+		KileFS->comboEncoding->lineEdit()->setText(enc);
+		doc->setEncoding(enc);
 
-	if ( !url.isEmpty() )
-	{
-		doc->setDocName(url.path());
-		fileOpenRecentAction->addURL(url);
+		//load the contents into the doc and set the docname (we can't always use doc::url() since this returns "" for untitled documents)
+		if (load) doc->openURL(url);
+		//TODO: connect to completed() signal, now updatestructure is called before loading is completed
+
+		if ( !url.isEmpty() ) {
+			doc->setDocName(url.path());
+			fileOpenRecentAction->addURL(url);
+		}
+		else {
+			doc->setDocName(i18n("Untitled"));
+			if (text != QString::null)
+				doc->insertText(0,0,text);
+		}
 	}
-	else
-	{
-		doc->setDocName(i18n("Untitled"));
-		if (text != QString::null)
-			doc->insertText(0,0,text);
-	}
-
-
 
 	KileDocumentInfo *docinfo = 0;
 
@@ -601,20 +603,24 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 		docinfo->setURL(url);
 		m_infoList.append(docinfo);
 	}
-	mapInfo(doc, docinfo);
 
-	setHighlightMode(doc, hl);
+	if (doc) {
+		mapInfo(doc, docinfo);
+		setHighlightMode(doc, hl);
 
-	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
-	//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
-	//updates the docinfo, on which all decisions are bases in slotNameChanged
-	connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
-	connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
-	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
+		//handle changes of the document
+		connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
+		//why not connect doc->nameChanged directly ot this->slotNameChanged ? : the function emitNameChanged
+		//updates the docinfo, on which all decisions are bases in slotNameChanged
+		connect(docinfo,SIGNAL(nameChanged(Kate::Document*)), this, SLOT(slotNameChanged(Kate::Document*)));
+		connect(docinfo, SIGNAL(nameChanged(Kate::Document *)), this, SLOT(newCaption()));
+		connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
 
-	if (create) return createView(doc);
-	else return 0;
+		if (create)
+			return createView(doc);
+	}
+
+	return 0;
 }
 
 Kate::View * Kile::createView(Kate::Document *doc)
@@ -3450,7 +3456,11 @@ void Kile::UpdateStructure(bool parse /* = false */)
 	if (docinfo)
 	{
 		QListViewItem *item = (QListViewItem*)docinfo->structViewItem();
-		if ((item == 0) || parse) docinfo->updateStruct(m_defaultLevel);
+		if ((item == 0) || parse)
+		{
+			docinfo->updateStruct(m_defaultLevel);
+			item = (QListViewItem*)docinfo->structViewItem();
+		}
 		outstruct->insertItem(item);
 	}
 

@@ -147,6 +147,7 @@ void KileProjectView::slotProjectItem(int id)
 				break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
 			case KPV_ID_OPENWITH :
+			//FIXME:use KRun::displayOpenWithDialog() for the 'open with...' menu item
 				{run = new KRun(item->url());}
 				break;
 			default : break;

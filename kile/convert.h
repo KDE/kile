@@ -18,32 +18,50 @@
 #ifndef CONVERT_H
 #define CONVERT_H
 
+#include <qstring.h>
+#include <qstringlist.h>
 #include <qmap.h>
 
 namespace Kate { class Document; }
 
 class ConvertMap
 {
+protected:
+	ConvertMap(const QString & encoding);
+
 public:
-	ConvertMap() {}
+	const QString & encoding() const { return m_aliases[0]; }
+	const QString & isoName() const { return m_aliases[1]; }
 
-	unsigned char fromEncoding(const QString & enc) { return m_fromEncoding[enc]; }
-	QString fromASCII(const unsigned char c) { return m_fromASCII[c]; }
+	QChar toEncoding(const QString & enc) { return m_toEncoding[enc]; }
+	QString toASCII(const QChar & c) { return m_toASCII[c]; }
 
-	void addPair(unsigned char c, QString enc);
+	void addPair(QChar c, QString enc);
 
-	bool contains(const unsigned char c) { return ( m_fromASCII.contains(c) > 0 ); }
-	bool contains(const QString & enc) { return ( m_fromEncoding.contains(enc) > 0 ); }
+	bool canDecode(const QChar & c) { return ( m_toASCII.contains(c) > 0 ); }
+	bool canEncode(const QString & enc) { return ( m_toEncoding.contains(enc) > 0 ); }
+
+	bool load();
 
 private:
 	bool commandIsTerminated(const QString &);
+	bool makeMap(const QString & enc);
 
 private:
-	QMap<unsigned char, QString>	m_fromASCII;
-	QMap<QString, unsigned char>	m_fromEncoding;
-};
+	QStringList				m_aliases;
+	QMap<QChar, QString>		m_toASCII;
+	QMap<QString, QChar>		m_toEncoding;
 
-typedef QMap<QString, ConvertMap*> ConvertMetaMap;
+//static members
+public:
+	static bool create(const QString & encoding);
+	static QString encodingNameFor(const QString &);
+	static QString isoNameFor(const QString &);
+	static ConvertMap * mapFor(const QString & enc) { return g_maps[enc]; }
+
+private:
+	static QMap<QString, ConvertMap*>	g_maps;
+};
 
 class ConvertIO
 {
@@ -86,7 +104,6 @@ public:
 
 protected:
 	virtual bool setMap();
-	virtual bool loadMap(const QString &);
 
 	virtual QString mapNext(uint &);
 

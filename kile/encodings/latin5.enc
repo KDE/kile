@@ -1,37 +1,33 @@
-¤:\TextSymbolUnavailable\textcurrency
-¦:\TextSymbolUnavailable\textbrokenbar
-¨:\"
-´:\'
-¸:\c
-¼:\ensuremath{\frac14}
-½:\ensuremath{\frac12}
-¾:\ensuremath{\frac34}
  :\nobreakspace
-°:\ensuremath{^\circ}
+°:\ensuremath{{^\circ}}
 ¡:\textexclamdown
 ±:\pm
-¢:\TextSymbolUnavailable\textcent
 ²:{^2}
 £:\pounds
 ³:{^3}
-¥:\TextSymbolUnavailable\textyen
+´:\'{}
 µ:\mu
 ¶:\P
 §:\S
 ·:\textperiodcentered
+¨:\"{}
+¸:\c\
 ©:\copyright
-¹:\mathonesuperior
+¹:{^1}
 ª:\textordfeminine
 º:\textordmasculine
 «:\guillemotleft
 »:\guillemotright
 ¬:\lnot
+¼:\ensuremath{\frac14}
 ­:\-
+½:\ensuremath{\frac12}
 ®:\textregistered
-¯:\=
+¾:\ensuremath{\frac34}
+¯:\={}
 ¿:\textquestiondown
 À:\`A
-Ð:\DH
+Ð:\u G
 Á:\'A
 Ñ:\~N
 Â:\^A
@@ -57,13 +53,13 @@
 Ì:\`I
 Ü:\"U
 Í:\'I
-Ý:\'Y
+Ý:\.I
 Î:\^I
-Þ:\TH
+Þ:\c S
 Ï:\"I
 ß:\ss
 à:\`a
-ð:\dh
+ð:\u g
 á:\'a
 ñ:\~n
 â:\^a
@@ -89,8 +85,8 @@
 ì:\`\i
 ü:\"u
 í:\'\i
-ý:\'y
+ý:\i
 î:\^\i
-þ:\th
+þ:\c s
 ï:\"\i
 ÿ:\"y

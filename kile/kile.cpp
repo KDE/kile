@@ -347,8 +347,15 @@ void Kile::setupActions()
 	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"file_close" );
 	(void) new KAction(i18n("Close All"), 0, this, SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
-	(void) new KAction(i18n("To &ASCII"), 0, this, SLOT(convertToASCII()), actionCollection(), "file_export_ascii" );
-	(void) new KAction(i18n("To Latin-&1"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin1" );
+	(void) new KAction(i18n("&ASCII"), 0, this, SLOT(convertToASCII()), actionCollection(), "file_export_ascii" );
+	(void) new KAction(i18n("Latin-&1 (iso 8859-1)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin1" );
+	(void) new KAction(i18n("Latin-&2 (iso 8859-2)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin2" );
+	(void) new KAction(i18n("Latin-&3 (iso 8859-3)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin3" );
+	(void) new KAction(i18n("Latin-&4 (iso 8859-4)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin4" );
+	(void) new KAction(i18n("Latin-&5 (iso 8859-5)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin5" );
+	(void) new KAction(i18n("Latin-&9 (iso 8859-9)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin9" );
+	(void) new KAction(i18n("&Central European (cp-1250)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1250" );
+	(void) new KAction(i18n("&Western European (cp-1252)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1252" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
 	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
@@ -1986,8 +1993,9 @@ void Kile::convertToASCII(Kate::Document *doc)
 		else return;
 	}
 
-	ConvertIO *io = new ConvertIO(doc);
-	ConvertEncToASCII conv = ConvertEncToASCII("latin1", io);
+	ConvertIO io(doc);
+	ConvertEncToASCII conv = ConvertEncToASCII(doc->encoding(), &io);
+	doc->setEncoding("ISO 8859-1");
 	conv.convert();
 }
 
@@ -2001,9 +2009,14 @@ void Kile::convertToEnc(Kate::Document *doc)
 		else return;
 	}
 
-	ConvertIO *io = new ConvertIO(doc);
-	ConvertASCIIToEnc conv = ConvertASCIIToEnc("latin1", io);
-	conv.convert();
+	if (sender()) 
+	{
+		ConvertIO io(doc);
+		QString name = QString(sender()->name()).section('_', -1);
+		ConvertASCIIToEnc conv = ConvertASCIIToEnc(name, &io);
+		conv.convert();
+		doc->setEncoding(ConvertMap::encodingNameFor(name));
+	}
 }
 
 ////////////////// GENERAL SLOTS //////////////

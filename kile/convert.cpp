@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
 #include <qregexp.h>
+#include <qtextcodec.h>
 #include <qfile.h>
 
+#include <kmessagebox.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kdebug.h>
@@ -26,21 +27,142 @@
 
 #include "convert.h"
 
-static ConvertMetaMap g_maps = ConvertMetaMap();
+QMap<QString, ConvertMap*> ConvertMap::g_maps;
 
-void ConvertMap::addPair(unsigned char c, QString enc)
+bool ConvertMap::create(const QString & encoding)
 {
-	m_fromASCII[c] = commandIsTerminated(enc) ? enc : enc + "{}" ;
-	m_fromEncoding[enc] = c;
+	kdDebug() << "\tlooking for map for " << encoding << endl;
+	ConvertMap * map = g_maps[encoding];
 
-	kdDebug() << "added pair " << m_fromASCII[c] << " ~ " << m_fromEncoding[enc] << endl;
+	if ( map == 0 )
+	{
+		kdDebug() << "\tcreating a map for " << encoding << endl;
+		map = new ConvertMap(encoding);
+		if ( map->load() )
+			g_maps[encoding] = map;
+
+		map = g_maps[encoding];
+	}
+
+	return ( map != 0L );
+}
+
+QString ConvertMap::encodingNameFor(const QString & name)
+{
+	QString std;
+	for ( uint i = 0; i < name.length(); i ++ )
+		if ( !name[i].isSpace() )
+			std += name[i];
+
+	std = std.lower();
+
+	if ( std.startsWith("iso8859-") )
+		return "latin" + std.right(1);
+
+	if ( std.startsWith("cp") )
+		return "cp" + std.right(4);
+
+	return name;
+}
+
+QString ConvertMap::isoNameFor(const QString & name)
+{
+	QString std;
+	for ( uint i = 0; i < name.length(); i ++ )
+		if ( !name[i].isSpace() )
+			std += name[i];
+
+	std = std.lower();
+
+	if ( std.startsWith("latin") )
+		return "ISO 8859-" + std.right(1);
+
+	if ( std.startsWith("cp" ) )
+		return "cp " + std.right(4);
+
+	return name;
+}
+
+ConvertMap::ConvertMap(const QString & enc )
+{
+	m_aliases.append(encodingNameFor(enc));
+	m_aliases.append(isoNameFor(enc));
+
+	kdDebug() << "map created for: " << encoding() << ", also known as " << enc << endl;
+}
+
+void ConvertMap::addPair(QChar c, QString enc)
+{
+	m_toASCII[c] = commandIsTerminated(enc) ? enc : enc + "{}" ;
+	m_toEncoding[enc] = c;
+
+	kdDebug() << "added pair " << QString(c) << " ~ " << enc << endl;
 }
 
 bool ConvertMap::commandIsTerminated(const QString & command)
 {
-	static QRegExp reCommandSequences("\\\\[a-zA-Z]+$");
+	static QRegExp reCommandSequences("\\\\([a-zA-Z]+|\\\"|\\')$");
 
 	return (reCommandSequences.search(command) == -1);
+}
+
+bool ConvertMap::makeMap(const QString & enc)
+{
+	static QRegExp reMap("^([0-9]+):(.*)");
+
+	//if map already exists, replace it
+	QFile qf("/home/wijnhout/Documents/Kile Test Area/Projects/Encodings/" + enc + ".def");
+	QFile outf("/home/wijnhout/Documents/Kile Test Area/Projects/Encodings/encoding." + enc + ".tex");
+
+	outf.open(IO_WriteOnly);
+	if ( qf.open(IO_ReadOnly) )
+	{
+		//read the file
+		QTextStream stream( &qf );
+		QTextStream outstream( &outf );
+
+		while ( !stream.atEnd() ) 
+		{
+			//parse the line
+			if ( stream.readLine().find(reMap) != -1)
+				outstream << QChar(reMap.cap(1).toUShort()) << ":" << reMap.cap(2) << endl;
+		}
+		qf.close();
+		outf.close();
+
+		return true;
+	}
+
+	return false;
+}
+
+bool ConvertMap::load()
+{
+	static QRegExp reMap("^(.*):(.*)");
+
+	//makeMap(encoding());
+
+	//if map already exists, replace it
+	QFile qf(KGlobal::dirs()->findResource("appdata","encodings/" + encoding() + ".enc"));
+
+	if ( qf.open(IO_ReadOnly) )
+	{
+		QTextStream stream( &qf );
+		QTextCodec *codec = QTextCodec::codecForName(isoName().ascii());
+		if ( codec ) stream.setCodec(codec);
+
+		while ( !stream.atEnd() ) 
+		{
+			//parse the line
+			if ( stream.readLine().find(reMap) != -1)
+				addPair(reMap.cap(1)[0], reMap.cap(2));
+		}
+		qf.close();
+
+		return true;
+	}
+
+	return false;
 }
 
 //BEGIN ConvertIO classes
@@ -107,7 +229,7 @@ ConvertBase::ConvertBase(const QString & encoding, ConvertIO * io) :
 //BEGIN ConvertBase
 QString ConvertBase::mapNext(uint &i)
 {
-	return (QString) m_io->currentLine()[i++];
+	return (QString)m_io->currentLine()[i++];
 }
 
 bool ConvertBase::convert()
@@ -131,51 +253,22 @@ bool ConvertBase::convert()
 	return true;
 }
 
-bool ConvertBase::loadMap(const QString & encoding)
-{
-	static QRegExp reMap("^([0-9]+):(.*)");
-
-	//if map already exists, replace it
-	QFile qf(KGlobal::dirs()->findResource("appdata","encodings/" + encoding + ".enc"));
-	if ( qf.open(IO_ReadOnly) )
-	{
-		ConvertMap * map = new ConvertMap();
-
-		//read the file
-		QTextStream stream( &qf );
-		while ( !stream.atEnd() ) 
-		{
-			//parse the line
-			if ( stream.readLine().find(reMap) != -1)
-				map->addPair((unsigned char)reMap.cap(1).toUInt(), reMap.cap(2));
-		}
-		qf.close();
-
-		//add the map
-		g_maps[encoding] = map;
-		return true;
-	}
-
-	return false;
-}
-
 bool ConvertBase::setMap()
 {
-	m_map = g_maps[m_encoding];
+	//create map (or use existing)
+	if  (ConvertMap::create(m_encoding))
+		m_map = ConvertMap::mapFor(m_encoding);
+	else
+		m_map = 0L;
 
-	if ( (m_map == 0) && loadMap(m_encoding))
-	{
-		m_map = g_maps[m_encoding];
-	}
-
-	return ( m_map != 0 );
+	return ( m_map != 0L );
 }
 //END ConvertBase
 
 //BEGIN ConvertEncToASCII
 QString ConvertEncToASCII::mapNext(uint &i)
 {
-	return m_map->contains(m_io->currentLine()[i].latin1()) ? m_map->fromASCII(m_io->currentLine()[i++].latin1()) : (QString)m_io->currentLine()[i++];
+	return m_map->canDecode(m_io->currentLine()[i]) ? m_map->toASCII(m_io->currentLine()[i++]) : (QString)m_io->currentLine()[i++];
 }
 //END ConvertEncToASCII
 
@@ -200,7 +293,7 @@ QString ConvertASCIIToEnc::nextSequence(uint &i)
 
 bool ConvertASCIIToEnc::isModifier(const QString & seq)
 {
-	static QRegExp reModifier("\\\\(r|c|\\\"|\\'|\\^|\\`|\\~)");
+	static QRegExp reModifier("\\\\([a-zA-Z]|\\\"|\\'|\\^|\\`|\\~)");
 	return reModifier.exactMatch(seq);
 }
 
@@ -226,11 +319,11 @@ QString ConvertASCIIToEnc::mapNext(uint &i)
 	if ( m_io->currentLine()[i] == '\\' )
 	{ 
 		QString seq = getSequence(i);
-		kdDebug() << "'\tsequence: " << seq << endl;
-		if ( m_map->contains(seq) )
+		//kdDebug() << "'\tsequence: " << seq << endl;
+		if ( m_map->canEncode(seq) )
 		{
 			if ( m_io->currentLine().mid(i, 2) == "{}" ) i = i + 2;
-			return (QString)(QChar)m_map->fromEncoding(seq);
+			return m_map->toEncoding(seq);
 		}
 		else
 			return seq;

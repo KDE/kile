@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="6">
+<kpartgui name="kile" version="7">
 <Menu name="ktexteditor_popup" noMerge="1">
   <DefineGroup name="popup_operations" />
 </Menu>
@@ -20,9 +20,17 @@
 	<DefineGroup name="file_print" append="print_merge" />
 	<Merge/>
 	<Separator/>
-	<Menu name="convert"><text>Con&amp;vert</text>
+	<Menu name="convert"><text>Con&amp;vert To...</text>
 		<Action name="file_export_ascii"/>
+		<Separator/>
 		<Action name="file_export_latin1"/>
+		<Action name="file_export_latin2"/>
+		<Action name="file_export_latin3"/>
+		<Action name="file_export_latin4"/>
+		<Action name="file_export_latin5"/>
+		<Action name="file_export_latin9"/>
+		<Action name="file_export_cp1250"/>
+		<Action name="file_export_cp1252"/>
 	</Menu>
 	<Action name="Statistics"/>
 	<Separator/>

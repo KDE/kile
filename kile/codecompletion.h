@@ -37,6 +37,7 @@ namespace KileDocument
 {
 
 //FIXME fix the way the Kate::View is passed, I'm not 100% confident m_view doesn't turn into a wild pointer
+//FIXME refactor the complete class, it's pretty ugly, there are too many methods with similar names suggesting that the code could be more efficient
 class CodeCompletion : public QObject
 {
 	Q_OBJECT
@@ -47,18 +48,18 @@ public:
 
 	enum Mode
 	{
-	cmLatex,
-	cmEnvironment,
-	cmDictionary,
-	cmAbbreviation,
-	cmLabel
+		cmLatex,
+		cmEnvironment,
+		cmDictionary,
+		cmAbbreviation,
+		cmLabel
 	};
 
 	enum Type
 	{
-	ctNone,
-	ctReference,
-	ctCitation
+		ctNone,
+		ctReference,
+		ctCitation
 	};
 
 	bool isActive();
@@ -68,11 +69,24 @@ public:
 	CodeCompletion::Type getType();
 	CodeCompletion::Type getType(const QString &text);
 
-	void setView(Kate::View *view) { m_view = view; }
 	KileInfo* info() const { return m_ki;}
 
 	void readConfig(KConfig *config);
 
+public slots:
+	const QString getBullet();
+
+	//in these two methods we should set m_view
+	void slotCharactersInserted(int, int, const QString&);
+	void editComplete(Kate::View *view, KileDocument::CodeCompletion::Mode mode);
+
+	void slotCompletionDone( );
+	void slotCompleteValueList();
+	void slotCompletionAborted();
+
+	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
+
+private:
 	void completeWord(const QString &text, CodeCompletion::Mode mode);
 	QString filterCompletionText(const QString &text, const QString &type);
 
@@ -80,17 +94,6 @@ public:
 	void CompletionAborted();
 
 	void completeFromList(const QStringList *list);
-
-	const QString getBullet();
-
-public slots:
-	void slotCharactersInserted(int, int, const QString&);
-	void slotCompletionDone( );
-	void slotCompleteValueList();
-	void slotCompletionAborted();
-	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
-
-	void editComplete(KileDocument::CodeCompletion::Mode mode);
 	void editCompleteList(KileDocument::CodeCompletion::Type type);
 	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
 	bool oddBackslashes(const QString& text, int index);

@@ -1384,20 +1384,17 @@ void EditorExtension::prevBullet()
 
 void EditorExtension::completeWord()
 {
-	complete()->setView(m_ki->viewManager()->currentView());
-	complete()->editComplete(KileDocument::CodeCompletion::cmLatex);
+	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmLatex);
 }
 
 void EditorExtension::completeEnvironment()
 {
-	complete()->setView(m_ki->viewManager()->currentView());
-	complete()->editComplete(KileDocument::CodeCompletion::cmEnvironment);
+	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmEnvironment);
 }
 
 void EditorExtension::completeAbbreviation()
 {
-	complete()->setView(m_ki->viewManager()->currentView());
-	complete()->editComplete(KileDocument::CodeCompletion::cmAbbreviation);
+	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmAbbreviation);
 }
 
 }

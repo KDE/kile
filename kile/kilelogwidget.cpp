@@ -67,12 +67,31 @@ namespace KileWidget
 		blockSignals(false); // block signals to avoid recursion
 	}
 
+	void LogMsg::highlight(uint l, int direction /* = 1 */)
+	{
+		setCursorPosition(l + direction * 3 , 0);
+		setSelection(l, 0, l, paragraphLength(l));
+	}
+
+	void LogMsg::highlight(const QString & begin, int direction /* = 1 */)
+	{
+		kdDebug() << "==void LogMsg::highlight(" << begin << ", int direction /* = 1 */)========" << endl;
+		int parags = paragraphs();
+		for ( int i = 0; i < parags;  i++ )
+		{
+			kdDebug() << "considering : " << text(i) << endl;
+			if ( text(i).startsWith(begin) )
+			{
+				highlight(i, direction);
+				break;
+			}
+		}
+	}
+
 	void LogMsg::slotClicked(int parag, int /*index*/)
 	{
-		int l = parag;
-	
-		QString s = text(parag);
-		QString file = QString::null;
+		int l = -1;
+		QString s = text(parag), file = QString::null;
 	
 		static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
 		//maybe there is an error summary
@@ -90,44 +109,16 @@ namespace KileWidget
 				{
 					file = (*m_info->outputInfo())[i].source();
 					l = (*m_info->outputInfo())[i].sourceLine() - 1;
+					break;
 				}
 			}
 		}
 
-		if (file.left(2) == "./" )
+		file = m_info->getFullFromPrettyName(file);
+
+		if ( file != QString::null )
 		{
-			file = QFileInfo(m_info->outputFilter()->source()).dirPath(true) + "/" + file.mid(2);
-		}
-
-		if (file[0] != '/' )
-		{
-			file = QFileInfo(m_info->outputFilter()->source()).dirPath(true) + "/" + file;
-		}
-
-		kdDebug() << "==Kile::ClickedOnOutput()====================" << endl;
-		kdDebug() << "\tfile="<<file<<endl;
-
-		QFileInfo fi(file);
-		if ( (file == QString::null) || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
-		{
-			if ( QFileInfo(file+".tex").exists() )
-			{
-				file += ".tex";
-				fi.setFile(file);
-			}
-			else
-			{
-				file = m_info->outputFilter()->source();
-				l=-1;
-			}
-		}
-
-		fi.setFile(file);
-
-		if ( fi.isReadable() )
-		{
-			kdDebug() << "jumping to (" << l << ") " << file << endl;
-			emit(fileOpen(KURL(file), QString::null));
+			emit(fileOpen(KURL::fromPathOrURL(file), QString::null));
 			if ( l >= 0 ) emit(setLine(QString::number(l)));
 		}
 	}

@@ -36,9 +36,13 @@ namespace KileWidget
 		void setReadOnly(bool r) { QTextEdit::setReadOnly(r); } //we don't want the greyed background
 
 	public slots:
-		void highlight(); //for compatibility, should remove it asap
+		void highlight(); //FIXME for compatibility, should remove it asap
+		void highlight(uint l, int direction = 1);
+		void highlight(const QString & begin, int direction = 1);
+
 		void printMsg(int type, const QString & message, const QString &tool = "Kile" );
 		void printProblem(int type, const QString & problem);
+
 		void slotClicked(int, int);
 
 	signals:

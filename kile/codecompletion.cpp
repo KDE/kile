@@ -161,9 +161,10 @@ namespace KileDocument
 
 	//////////////////// completion box ////////////////////
 
-	void CodeCompletion::completeWord(const QString &text, CodeCompletion::Mode mode )
+	void CodeCompletion::completeWord(const QString &text, CodeCompletion::Mode mode)
 	{
-		kdDebug() << "   complete start: mode=" << mode << endl;
+		if ( !m_view) return;
+
 		// remember all parameters (view, pattern, length of pattern, mode)
 		m_text = text;
 		m_textlen = text.length();
@@ -194,7 +195,6 @@ namespace KileDocument
 				list = m_labellist;
 				break;
 		}
-		kdDebug() << "   complete : " << " listentries=" << list.count() << endl;
 
 		// is it necessary to show the complete dialog?
 		QString entry, type;
@@ -205,26 +205,6 @@ namespace KileDocument
 		if ( n == 0 )
 			return ;
 
-		// only one entry: insert without dialog
-		// remark: this doesn't work anymore with the second complete
-		// call, when '\ref', '\pageref' or '\cite' is inserted. Since
-		// this is only a workaround for KDE 3.1, which misses this feature,
-		// we could wait for KDE 3.2, which checks the number or entries.
-		/*
-		if ( n==1 ) {
-		   QString s = filterCompletionText(entry,type);
-		   if ( ! s.isEmpty() ) {
-		      if ( m_mode == cmEnvironment ) {
-		         doc->removeText(m_ycursor,m_xstart,m_ycursor,m_xcursor);
-		         doc->insertText( m_ycursor,m_xstart,entry.left(m_textlen));
-		      }
-		      doc->insertText( m_ycursor,m_xcursor,s );
-		      m_view->setCursorPositionReal(m_ycursor,m_xcursor+s.length());
-		      CompletionDone();
-		   }
-		   return;
-			}
-		*/
 
 		// Add a prefix ('\\begin{', length=7) in cmEnvironment mode,
 		// because KateCompletion reads from the current line, This also
@@ -266,7 +246,6 @@ namespace KileDocument
 		// show the completion dialog
 		m_inprogress = true;
 
-		kdDebug() << "   completion: " << "start showCompletionBox" << endl;
 		KTextEditor::CodeCompletionInterface *iface;
 		iface = dynamic_cast<KTextEditor::CodeCompletionInterface *>( m_view );
 		iface->showCompletionBox( list, m_textlen );
@@ -284,7 +263,7 @@ namespace KileDocument
 			m_labellist.append( e );
 		}
 
-		completeWord("", cmLabel );
+		completeWord("", cmLabel);
 	}
 
 	//////////////////// completion was done ////////////////////
@@ -292,7 +271,7 @@ namespace KileDocument
 	void CodeCompletion::CompletionDone()
 	{
 		// is there a new cursor position?
-		if ( m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) )
+		if ( m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
 		{
 			if ( m_yoffset == 0 )
 				m_view->setCursorPositionReal( m_ycursor, m_xcursor + m_xoffset - m_textlen );
@@ -306,7 +285,7 @@ namespace KileDocument
 
 	void CodeCompletion::CompletionAborted()
 	{
-		if ( m_undo )
+		if ( m_undo && m_view )
 		{
 			uint row, col;
 			m_view->cursorPositionReal( &row, &col );
@@ -353,7 +332,7 @@ namespace KileDocument
 		switch ( m_mode )
 		{
 				case cmLatex:
-				if ( text.left( 7 ) == "\\begin{" )
+				if ( text.left( 7 ) == "\\begin{" ) //FIXME replace with a regexp
 					s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
 				else
 					s = buildLatexText( text, m_yoffset, m_xoffset );
@@ -637,13 +616,8 @@ namespace KileDocument
 	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename )
 	{
 		QString file = KGlobal::dirs() ->findResource( "appdata", "complete/" + filename );
-		if ( file.isEmpty() )
-		{
-			kdDebug() << "   file not found: " << filename << endl;
-			return ;
-		}
+		if ( file.isEmpty() ) return;
 
-		kdDebug() << "   read file: " << filename << endl;
 		QFile f( file );
 		if ( f.open( IO_ReadOnly ) )
 		{     // file opened successfully
@@ -714,8 +688,10 @@ namespace KileDocument
 		return n;
 	}
 
-	void CodeCompletion::editComplete(Mode mode)
+	void CodeCompletion::editComplete(Kate::View *view, Mode mode)
 	{
+		m_view = view;
+
 		if ( !m_view || !isActive() || inProgress() )
 			return ;
 
@@ -727,8 +703,7 @@ namespace KileDocument
 			{
 				mode = cmDictionary;
 			}
-			kdDebug() << "=== code completion start ====================" << endl;
-			kdDebug() << "   completion word: " << word << endl;
+
 			if ( type == ctNone )
 				completeWord(word, mode);
 			else
@@ -742,14 +717,12 @@ namespace KileDocument
 			completeFromList(info()->labels());
 		else if ( type == ctCitation )
 			completeFromList(info()->bibItems());
-		// else do nothing
 	}
 
 	//////////////////// slots for code completion ////////////////////
 
 	void CodeCompletion::slotCompletionDone()
 	{
-		kdDebug() << "   completion done " << endl;
 		CompletionDone();
 
 		if ( getMode() == cmLatex )
@@ -760,22 +733,18 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompleteValueList()
 	{
-		kdDebug() << "   completion restart (timerslot): " << endl;
 		m_completeTimer->stop();
 		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()
 	{
-		kdDebug() << "   completion aborted" << endl;
 		CompletionAborted();
 	}
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
-		kdDebug() << "   completion filter pre:  " << *s << endl;
 		*s = filterCompletionText( c->text, c->type );
-		kdDebug() << "   completion filter post:  " << *s << endl;
 	}
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
@@ -811,6 +780,8 @@ namespace KileDocument
 
 	bool CodeCompletion::getCompleteWord(bool latexmode, QString &text, Type &type )
 	{
+		if ( !m_view ) return false;
+
 		uint row, col;
 		QChar ch;
 

@@ -96,6 +96,7 @@
 #include "kileoutputwidget.h"
 #include "kilekonsolewidget.h"
 #include "quickdocumentdialog.h"
+// #include "quickdocheader.h"
 #include "tabdialog.h"
 #include "letterdialog.h"
 #include "arraydialog.h"
@@ -1350,33 +1351,66 @@ void Kile::jumpToProblem(int type, bool forward)
 {
 	static LatexOutputInfoArray::iterator it;
 
-	if (!logpresent) {ViewLog();}
-
-	if (logpresent && !m_outputInfo->isEmpty())
+	//if the current log file does not belong to the files the user is viewing
+	//reparse the correct log file
+	QString cn = getCompileName();
+	bool correctlogfile = (cn == outputFilter()->source());
+	if ( ! correctlogfile )
 	{
-		Outputview->showPage(LogWidget);
+		LogWidget->clear();
+		outputFilter()->setSource(cn);
+		QFileInfo fi(cn);
+		QString lf = fi.dirPath(true) + "/" + fi.baseName(true) + ".log";
+		LogWidget->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...").arg(lf), i18n("Log") );
+		if ( ! outputFilter()->Run( lf ) )
+		{
+			outputFilter()->setSource(QString::null);
+			return;
+		}
+	}
 
+	if (!m_outputInfo->isEmpty())
+	{
 		int sz = m_outputInfo->size();
 		int pl = forward ? 1 : -1;
+		bool found =false;
 
-		//look for next problem of type
-		for (int i=m_nCurrentError+pl; (i < sz) && (i >= 0); i += pl )
+		//look for next problem of requested type
+		for (int i = m_nCurrentError+pl; (i < sz) && (i >= 0); i += pl )
 		{
 			if ( (*m_outputInfo)[i].type() == type )
 			{
 				m_nCurrentError = i;
-				int l= (*m_outputInfo)[i].outputLine();
-				LogWidget->setCursorPosition(l+pl * 3 , 0);
-				LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
-
+				found = true;
 				break;
 			}
 		}
+
+		if ( !found ) return;
+
+		Outputview->showPage(LogWidget);
+
+		//If the log file is being viewed, use this to jump to the errors,
+		//otherwise, use the error summary display
+		if (logpresent)
+			LogWidget->highlight( (*m_outputInfo)[m_nCurrentError].outputLine(), pl );
+		else
+			LogWidget->highlight( (*m_outputInfo)[m_nCurrentError].source() + ":" + QString::number((*m_outputInfo)[m_nCurrentError].sourceLine()), pl );
+
+		//jump to the error
+		QString file = getFullFromPrettyName((*m_outputInfo)[m_nCurrentError].source());
+
+		if ( file != QString::null )
+		{
+			docManager()->fileOpen(file);
+			if ( (*m_outputInfo)[m_nCurrentError].sourceLine() > 0 )
+				setLine(QString::number((*m_outputInfo)[m_nCurrentError].sourceLine() - 1));
+		}
 	}
 
-	if (logpresent && m_outputInfo->isEmpty())
+	if (m_outputInfo->isEmpty() && correctlogfile)
 	{
-		LogWidget->append(i18n("No LaTeX errors detected!"));
+		LogWidget->append("\n<font color=\"green\">"+ i18n("No LaTeX errors detected!") + "</font>");
 	}
 
 	m_bNewInfolist = false;
@@ -1508,6 +1542,7 @@ void Kile::QuickDocument()
 {
 	if ( !viewManager()->currentView() ) return;
 	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(config, this,"Quick Start",i18n("Quick Start"));
+// 	KileDialog::QuickDocHeader *dlg = new KileDialog::QuickDocHeader(config, this,"Quick Start",i18n("Quick Start"));
 	if ( dlg->exec() )
 	{
 		insertTag( dlg->tagData() );

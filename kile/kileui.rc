@@ -416,7 +416,7 @@
 			<Action name="tag_vspace"/>
 			<Action name="tag_vspace*"/>
 		</Menu>
-		<Menu name="menu_rubberlength"><text>Rubber lenghts</text>
+		<Menu name="menu_rubberlength"><text>Rubber lengths</text>
 			<Action name="tag_hfill"/>
 			<Action name="tag_hrulefill"/>
 			<Action name="tag_dotfill"/>

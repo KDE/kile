@@ -189,11 +189,11 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	
 	(void) new KileAction::Tag(i18n("Horizontal space - \\hspace{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace","\\hspace{","}",8,0, i18n("The \\hspace command adds horizontal space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\hspace command. Adding negative space is like backspacing."));
 	
-	(void) new KileAction::Tag(i18n("Horizontal space (forced) - \\hspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace*","\\hspace*{","}",9,0, i18n("The \\hspace* command adds horizontal space like the \\hspace command. LaTeX removes horizontal space that comes at the end of a line. If you don't want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	(void) new KileAction::Tag(i18n("Horizontal space (forced) - \\hspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace*","\\hspace*{","}",9,0, i18n("The \\hspace* command adds horizontal space like the \\hspace command. LaTeX removes horizontal space that comes at the end of a line. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
 	
 	(void) new KileAction::Tag(i18n("Vertical space - \\vspace{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace","\\vspace{","}",8,0, i18n("The \\vspace command adds vertical space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\vspace command."));
 	
-	(void) new KileAction::Tag(i18n("Vertical space (forced) - \\vspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds horizontal space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you don't want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	(void) new KileAction::Tag(i18n("Vertical space (forced) - \\vspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds horizontal space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
 	
 	// fonts
 	new KileAction::Tag(i18n("Emphasized - \\emph{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_emph","\\emph{","}",6,0,i18n("\\emph{emphasized text}"));
@@ -316,9 +316,9 @@ void setupMathTags(KMainWindow *parent)
 	
 	(void) new KileAction::Tag("Left-Right - \\left(..\\right)",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_leftright", "\\left(  \\right)", QString::null, 7);
 	
-	(void) new KileAction::Tag(i18n("Extendible left arrow - \\xleftarrow{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_xleftarrow", "\\xleftarrow{","}", 12);
+	(void) new KileAction::Tag(i18n("Extendable left arrow - \\xleftarrow{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_xleftarrow", "\\xleftarrow{","}", 12);
 
-	(void) new KileAction::Tag(i18n("Extendible right arrow - \\xrightarrow{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_xrightarrow", "\\xrightarrow{","}", 13);
+	(void) new KileAction::Tag(i18n("Extendable right arrow - \\xrightarrow{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_xrightarrow", "\\xrightarrow{","}", 13);
 
 	(void) new KileAction::Tag(i18n("Boxed formula - \\boxed{}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_boxed", "\\boxed{","}", 7);
 	

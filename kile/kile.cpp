@@ -2090,12 +2090,9 @@ else
 {
    result= i18n("Process exited unexpectedly.");
 }
-//int row = (LogWidget->paragraphs() == 0)? 0 : LogWidget->paragraphs()-1;
-//int col = LogWidget->paragraphLength(row);
-//LogWidget->setCursorPosition(row,col);
-//LogWidget->insertAt(result, row, col);
 LogWidget->append(result);
-//newStatus();
+
+if (proc != 0) delete proc;
 currentProcess=0;
 }
 

@@ -1,55 +1,63 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language>
-<language name="BibTeX-Kile" version="0.1" extensions="*.bib" section="Markup" mimetype="text/x-bib" casesensitive="1">
-	<highlighting>
-		<list name="kw_entry">
-        <item>@article</item> 
-        <item>@book</item> 
-        <item>@booklet</item> 
-  			<item>@conference</item> 
-        <item>@inbook</item> 
-        <item>@incollection</item> 
-        <item>@inproceedings</item> 
-        <item>@manual</item> 
-        <item>@mastersthesis</item> 
-        <item>@misc</item> 
-        <item>@phdthesis</item> 
-        <item>@proceedings</item> 
-        <item>@techreport</item> 
-        <item>@unpublished</item>
-        <item>@collection</item>
-        <item>@patent</item>
-		</list>
-		<list name="kw_command">
-			  <item>@string</item>
-			  <item>@preamble</item>
-			  <item>@comment</item>
-	  </list>
-		<contexts>
-			<context name="Normal" attribute="Normal Text" lineEndContext="#stay">
-				<RegExpr String="^\s*([a-zA-Z]+)\s*=" attribute="Field" context="#stay"/>
-				<keyword String="kw_entry" attribute="Entry" context="Entry"/>
-				<keyword String="kw_command" attribute="Command" context="#stay"/>
-			</context>
+<language name="BibTeX" version="1.01" extensions="*.bib" section="Markup" mimetype="text/x-bib" casesensitive="1" author="Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)" license="LGPL">
+  <highlighting>
+    <list name="kw_entry">
+      <item>@article</item> 
+      <item>@book</item> 
+      <item>@booklet</item> 
+      <item>@conference</item> 
+      <item>@inbook</item> 
+      <item>@incollection</item> 
+      <item>@inproceedings</item> 
+      <item>@manual</item> 
+      <item>@mastersthesis</item> 
+      <item>@misc</item> 
+      <item>@phdthesis</item> 
+      <item>@proceedings</item> 
+      <item>@techreport</item> 
+      <item>@unpublished</item>
+      <item>@collection</item>
+      <item>@patent</item>
+    </list>
+    <list name="kw_command">
+      <item>@string</item>
+      <item>@preamble</item>
+      <item>@comment</item>
+    </list>
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        <RegExpr String="^\s*([a-zA-Z]+)\s*=" attribute="Field" context="#stay"/>
+        <keyword String="kw_entry" attribute="Entry" context="Entry"/>
+        <keyword String="kw_command" attribute="Command" context="#stay"/>
+        <DetectChar char="{" attribute="Normal Text" context="#stay" beginRegion="block" />
+        <DetectChar char="}" attribute="Normal Text" context="#stay" endRegion="block" />
+        <DetectChar char="&quot;" attribute="String" context="String"/>
+      </context>
 
-			<context name="Entry" attribute="Ref Key" lineEndContext="#stay">
-				<DetectChar char="," attribute="Normal Text" context="#pop"/>
-				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
-			</context>
+      <context name="Entry" attribute="Ref Key" lineEndContext="#stay">
+        <DetectChar char="," attribute="Normal Text" context="#pop"/>
+        <DetectChar char="{" attribute="Normal Text" context="#stay" beginRegion="block" />
+        <DetectChar char="}" attribute="Normal Text" context="#stay" endRegion="block" />
+        <DetectChar char="&quot;" attribute="String" context="String"/>
+      </context>
 
-		</contexts>
-		<itemDatas>
-			<itemData name="Normal Text" defStyleNum="dsNormal"/>
-			<itemData name="Entry" defStyleNum="dsNormal" color="#0000ff" selColor="#00ff00" bold="1" italic="0"/>
-			<itemData name="Command" defStyleNum="dsNormal" color="#000088" selColor="#008800" bold="1" italic="0"/>
-			<itemData name="Field" defStyleNum="dsNormal" color="#aa0022" selColor="#880000" bold="0" italic="0"/>
-			<itemData name="Ref Key" defStyleNum="dsNormal" color="#007700" selColor="#005500" bold="1" italic="0"/>
-		</itemDatas>
-	</highlighting>
-	<general>
-		<keywords casesensitive="0"/>
-		<comments>
-			<comment name="singleLine" start="%" />
-		</comments>
-	</general>
+      <context name="String" attribute="String" lineEndContext="#stay">
+        <RegExpr String="\\." attribute="Char" context="#stay"/>
+        <DetectChar char="&quot;" attribute="String" context="#pop"/>
+      </context>
+    </contexts>
+    <itemDatas>
+      <itemData name="Normal Text" defStyleNum="dsNormal"/>
+      <itemData name="Entry" defStyleNum="dsKeyword" color="#0000ff"/>
+      <itemData name="Command" defStyleNum="dsFunction"/>
+      <itemData name="Field" defStyleNum="dsDataType"/>
+      <itemData name="Ref Key" defStyleNum="dsOthers"/>
+      <itemData name="String" defStyleNum="dsString"/>
+      <itemData name="Char" defStyleNum="dsChar"/>
+    </itemDatas>
+  </highlighting>
+  <general>
+    <keywords casesensitive="0"/>
+  </general>
 </language>

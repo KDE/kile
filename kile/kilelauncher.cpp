@@ -45,16 +45,6 @@
 	{
 		kdDebug() << "DELETING launcher" << endl;
 	}
-	
-	void Launcher::translate(QString &str)
-	{
-		QDictIterator<QString> it(*paramDict());
-		for( it.toFirst() ; it.current(); ++it )
-		{
-			//kdDebug() << "translate: " << str << " key " << it.currentKey() << " value " << *(it.current()) << endl;
-			str.replace(it.currentKey(), *( it.current() ) );
-		}
-	}
 
 	ProcessLauncher::ProcessLauncher(const char * shellname /* =0 */) :
 		m_wd(QString::null),
@@ -105,8 +95,8 @@
 		}
 
 		QString str;
-		translate(m_cmd);
-		translate(m_options);
+		tool()->translate(m_cmd);
+		tool()->translate(m_options);
         	*m_proc  << m_cmd << m_options;
 		
 		if (m_proc)
@@ -165,7 +155,7 @@
 
 		if ( path == QString::null )
 		{
-			emit(message(Error, i18n("There is no executable named %1 in your path.").arg(exe)));
+			emit(message(Error, i18n("There is no executable named \"%1\" in your path.").arg(exe)));
 			return false;
 		}
 		else
@@ -231,12 +221,12 @@
 	bool KonsoleLauncher::launch()
 	{
 		QString cmd = tool()->readEntry("command");
-		QString noclose = (tool()->readEntry("close") == "yes") ? "--noclose" : "";
+		QString noclose = (tool()->readEntry("close") == "no") ? "--noclose" : "";
 		setCommand("konsole");
 		setOptions(noclose + " -T \"" + cmd + " (Kile)\" -e " + cmd + " " + tool()->readEntry("options"));
 
 		if ( KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)) == QString::null ) return false;
-		
+
 		return ProcessLauncher::launch();
 	}
 
@@ -264,8 +254,8 @@
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 		
 		QString shrt = "%target";
-		translate(shrt);
-		QString dir  = "%dir_target"; translate(dir);
+		tool()->translate(shrt);
+		QString dir  = "%dir_target"; tool()->translate(dir);
 
 		QString name = shrt;
 		if ( dir[0] == '/' )
@@ -326,10 +316,15 @@
 		m_state=tool()->readEntry("state");
 
 		QString shrt = "%target";
-		translate(shrt);
+		tool()->translate(shrt);
 		QString name="%dir_target/%target";
-		translate(name);
+		tool()->translate(name);
 
+		QString out = "*****\n*****     " + tool()->name() + i18n(" output: \n") + "*****     KHTML " + name + "\n*****\n";
+		QString msg =  shrt+ " (KHTML)";
+		emit(message(Info, msg));
+		emit(output(out));
+		
 		QWidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 

@@ -460,7 +460,7 @@ void Kile::setupTools()
 	QStringList tools = KileTool::toolList(config);
 	QString toolMenu;
 	int toolPos, noSeps = 0;
-	bool ok;
+	bool place, separator;
 	QPtrList<KAction> *pl;
 
 	unplugActionList("list_compilers"); m_listCompilerActions.setAutoDelete(true); m_listCompilerActions.clear(); m_listCompilerActions.setAutoDelete(false);
@@ -473,8 +473,11 @@ void Kile::setupTools()
 
 	for ( uint i = 0; i < tools.count(); i++)
 	{
-		config->setGroup("Tool/"+tools[i]);
-		toolMenu = config->readEntry("menu", "Other");
+		QString grp = KileTool::groupFor(tools[i], config);
+		kdDebug() << tools[i] << " is using group: " << grp << endl;
+		config->setGroup(KileTool::groupFor(tools[i], config));
+		toolMenu = KileTool::menuFor(tools[i], config);
+
 		if ( toolMenu == "none" ) continue;
 
 		if ( toolMenu == "Compile" )
@@ -490,14 +493,16 @@ void Kile::setupTools()
 
 		kdDebug() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-		KAction *act = new KAction(tools[i], config->readEntry("icon", "latex"), config->readEntry("shortcut", ""), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
+		
+		KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
 
-		toolPos = config->readEntry("toolbarPos", "none").toInt(&ok);
-		if (ok)
+		//toolPos = config->readEntry("toolbarPos", "none").toInt(&ok);
+		KileTool::toolbarInfoFor(tools[i], toolPos, place, separator, config);
+		if (place)
 		{
 			kdDebug() << "\tplugging " << tools[i] << endl;
 			act->plug(m_toolsToolBar, toolPos + noSeps);
-			if ( config->readEntry("toolbarSep", "false") == "true" )
+			if ( separator )
 			{
 				int p = m_toolsToolBar->insertLineSeparator(toolPos+  ++noSeps);
 				kdDebug() << "\tinsert separator at " << p << endl;
@@ -512,6 +517,8 @@ void Kile::setupTools()
 	plugActionList("list_converters", m_listConverterActions);
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
+
+	actionCollection()->readShortcutSettings("ToolShortcuts", config);
 }
 
 void Kile::setupUserTagActions()
@@ -582,6 +589,12 @@ void Kile::restore()
 		if (fi.isReadable())
 			fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
+
+	config->setGroup("FilesOpenOnStart");
+	m_masterName = config->readEntry("Master", "");
+	m_singlemode = (m_masterName == "");
+	if (ModeAction) ModeAction->setChecked(!m_singlemode);
+	updateModeStatus();
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -1098,11 +1111,13 @@ void Kile::buildProjectTree(KileProject *project)
 
 void Kile::projectNew()
 {
+	kdDebug() << "==Kile::projectNew==========================" << endl;
 	KileNewProjectDlg *dlg = new KileNewProjectDlg(this);
+	kdDebug()<< "\tdialog created" << endl;
 
 	if (dlg->exec())
 	{
-		kdDebug() << "==Kile::projectNew==========================" << endl;
+		kdDebug()<< "\tdialog executed" << endl;
 		kdDebug() << "\t" << dlg->name() << " " << dlg->location() << endl;
 
 		KileProject *project = dlg->project();
@@ -2911,7 +2926,6 @@ void Kile::readConfig()
 	templEncoding=config->readEntry("Template Encoding","");
 
 	config->setGroup("Tools");
-	m_bCheckForRoot = config->readBoolEntry("CheckForRoot",true);
 	quickmode=config->readNumEntry( "Quick Mode",1);
 	latex_command=config->readEntry("Latex","latex -interaction=nonstopmode '%S.tex'");
 	viewdvi_command=config->readEntry("Dvi",i18n("Embedded Viewer"));
@@ -2987,6 +3001,11 @@ config->writeEntry( "Structureview",showstructview);
 		config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
 		for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
 			config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+
+		if (!m_singlemode)
+			config->writeEntry("Master", m_masterName);
+		else
+			config->writeEntry("Master", "");
 	}
 
 config->setGroup( "User" );
@@ -3008,8 +3027,8 @@ for (uint i=0; i<m_listUserTools.size(); i++)
 	config->writeEntry("userToolName"+QString::number(i),tempItem.name);
 	config->writeEntry("userTool"+QString::number(i),tempItem.tag);
 
-	//temporary work-around to make this work with the new KileTool classes
-	config->setGroup("Tool/" + tempItem.name);
+	//FIXME: temporary work-around to make this work with the new KileTool classes
+	config->setGroup(KileTool::groupFor(tempItem.name, config));
 	config->writeEntry("command", tempItem.tag);
 	config->writeEntry("class", "Base");
 	config->writeEntry("type", "Process");
@@ -3024,9 +3043,6 @@ config->writeEntry("Structure Level 3",struct_level3);
 config->writeEntry("Structure Level 4",struct_level4);
 config->writeEntry("Structure Level 5",struct_level5);
 
-//config->setGroup( "Editor Ext" );
-//config->writeEntry( "Complete Environment", m_bCompleteEnvironment );
-
 actionCollection()->writeShortcutSettings();
 saveMainWindowSettings(config, "KileMainWindow" );
 config->sync();
@@ -3039,23 +3055,20 @@ void Kile::ToggleMode()
 	{
 		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
 		ModeAction->setChecked(false);
-		OutputWidget->clear();
-		Outputview->showPage(OutputWidget);
 		logpresent=false;
 		m_singlemode=true;
-
-		updateModeStatus();
-		return;
 	}
-	if (m_singlemode && currentView())
+	else if (m_singlemode && currentView())
 	{
 		m_masterName=getName();
 		if (m_masterName==i18n("Untitled") || m_masterName=="")
 		{
 			ModeAction->setChecked(false);
-			KMessageBox::error( this,i18n("Could not start the command."));
+			KMessageBox::error(this, i18n("In order to define the current document as a master document, it has to be saved first."));
+			m_masterName="";
 			return;
 		}
+
 		QString shortName = m_masterName;
 		int pos;
 		while ( (pos = (int)shortName.find('/')) != -1 )
@@ -3063,11 +3076,11 @@ void Kile::ToggleMode()
 		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
 		ModeAction->setChecked(true);
 		m_singlemode=false;
-
-		updateModeStatus();
-		return;
 	}
-	ModeAction->setChecked(false);
+	else 
+		ModeAction->setChecked(false);
+
+	updateModeStatus();
 }
 
 void Kile::ToggleOutputView()
@@ -3119,7 +3132,7 @@ else
 
 void Kile::GeneralOptions()
 {
-	KileConfigDialog *dlg = new KileConfigDialog(config,this,"Configure Kile");
+	KileDialog::Config *dlg = new KileDialog::Config(config, m_manager, this, "Configure Kile");
 
 	if (dlg->exec())
 	{
@@ -3269,6 +3282,7 @@ void Kile::ConfigureKeys()
 		dlg.insert( (*it)->actionCollection() );
 	}
 	dlg.configure();
+	actionCollection()->writeShortcutSettings("ToolShortcuts", config);
 }
 
 void Kile::ConfigureToolbars()

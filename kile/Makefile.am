@@ -3,7 +3,7 @@ bin_PROGRAMS = kile
 
 ## INCLUDES were found outside kdevelop specific part
 
-kile_SOURCES = includegraphicsdialog.cpp newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp refdialog.cpp usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp 	quickdocumentdialog.cpp letterdialog.cpp 	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp 	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp 	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp 	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp 	kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp 	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp codecompletion.cpp configcodecompletion.cpp
+kile_SOURCES = includegraphicsdialog.cpp newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp refdialog.cpp usermenudialog.cpp kileconfigdialog.cpp tabdialog.cpp tabbingdialog.cpp symbolview.cpp structdialog.cpp 	quickdocumentdialog.cpp letterdialog.cpp 	l2hdialog.cpp kmultiverttabbar.cpp kilefileselect.cpp 	kileapplication.cpp kileappIface_skel.cpp docpart.cpp arraydialog.cpp 	kile.cpp main.cpp kileactions.cpp kilestdactions.cpp kileinfo.cpp 	kiledocumentinfo.cpp kileproject.cpp kileprojectdlgs.cpp 	kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp latexoutputfilter.cpp outputinfo.cpp 	latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp
 
 #kile_LDADD   = ./gfe/libgfe.a -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
 kile_LDADD   = -lkdeprint -lktexteditor $(LIB_KSPELL) $(LIB_KHTML)
@@ -21,7 +21,7 @@ EXTRA_DIST = main.cpp kile.cpp kile.h arraydialog.cpp arraydialog.h \
 	kilelistselector.cpp kilelistselector.h kilelyxserver.cpp kilelyxserver.h \
 	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp \
 	outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h \
-	includegraphicsdialog.h includegraphicsdialog.cpp
+	includegraphicsdialog.h includegraphicsdialog.cpp kiletoolconfigwidget.cpp kiletoolconfigwidget.h
 	outputfilter.h kilegrepdialog.cpp kilegrepdialog.h codecompletion.h codecompletion.cpp configcodecompletion.cpp configcodecompletion.h
 
 xdg_apps_DATA = kile.desktop

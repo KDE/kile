@@ -84,6 +84,16 @@ namespace KileTool
 		m_messages[n] = msg;
 	}
 
+	void Base::translate(QString &str)
+	{
+		QDictIterator<QString> it(*paramDict());
+		for( it.toFirst() ; it.current(); ++it )
+		{
+			//kdDebug() << "translate: " << str << " key " << it.currentKey() << " value " << *(it.current()) << endl;
+			str.replace(it.currentKey(), *( it.current() ) );
+		}
+	}
+
 	int Base::run()
 	{
 		kdDebug() << "==KileTool::Base::run()=================" << endl;
@@ -314,7 +324,7 @@ namespace KileTool
 	void Base::installLauncher(Launcher *lr)
 	{
 		m_launcher = lr;
-		lr->setParamDict(paramDict());
+		//lr->setParamDict(paramDict());
 		lr->setTool(this);
 		
 		connect(lr, SIGNAL(message(int, const QString &)), this, SLOT(sendMessage(int, const QString &)));
@@ -397,17 +407,16 @@ namespace KileTool
 	{
 		if (!Base::determineSource())
 			return false;
-			
+
 		bool isRoot = true;
 		KileDocumentInfo *docinfo = manager()->info()->infoFor(source());
-		if (docinfo) isRoot = manager()->info()->checkForRoot() ? docinfo->isLaTeXRoot() : true;
-		
+		if (docinfo) isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
+
 		if (!isRoot)
 		{
-			sendMessage(Error, i18n("The current document is not a LaTeX root document; won't run %1.").arg(name()));
-			return false;
+			return  manager()->queryContinue(i18n("The document %1 is not a LaTeX root document. Continue anyway?").arg(source()), i18n("Continue?"));
 		}
-		
+
 		return true;
 	}
 	
@@ -461,16 +470,20 @@ namespace KileTool
 		kdDebug() << "\tsource " << source() << endl;
 
 		QStringList tools = QStringList::split(',',readEntry("sequence"));
+		QString tl, cfg;
 		Base *tool;
 		for (uint i=0; i < tools.count(); i++)
 		{
-			tool = manager()->factory()->create(tools[i]);
+			tools[i] = tools[i].stripWhiteSpace();
+			extract(tools[i], tl, cfg);
+
+			tool = manager()->factory()->create(tl);
 			if (tool)
 			{
 				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
 				{
 					tool->setSource(source());
-					manager()->run(tool);
+					manager()->run(tool, cfg);
 				}
 			}
 			else

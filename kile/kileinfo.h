@@ -21,6 +21,7 @@
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qmap.h>
+#include <qptrlist.h>
 
 #include <kdebug.h>
 
@@ -85,7 +86,6 @@ public:
 
 	void trash(Kate::Document* doc);
 
-	bool checkForRoot() { return m_bCheckForRoot; }
 	bool watchFile() { return m_bWatchFile; }
 
 	LatexOutputFilter * outputFilter() { return m_outputFilter; }
@@ -109,7 +109,7 @@ protected:
 
 	QString			m_currentTarget;
 	
-	bool m_bCheckForRoot, m_bWatchFile;
+	bool m_bWatchFile;
 
 	LatexOutputFilter	*m_outputFilter;
 	LatexOutputInfoArray	*m_outputInfo;

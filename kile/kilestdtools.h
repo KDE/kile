@@ -48,7 +48,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		LaTeX(Manager *mngr) : Compile("LaTeX", mngr) {}
+		LaTeX(const QString & tool, Manager *mngr) : Compile(tool, mngr) {}
 
 	public slots:
 		bool finish(int);
@@ -75,7 +75,7 @@ namespace KileTool
 	class ForwardDVI : public View
 	{
 	public:
-		ForwardDVI(Manager *mngr) : View("ForwardDVI", mngr) {}
+		ForwardDVI(const QString & tool, Manager *mngr) : View(tool, mngr) {}
 
 	protected:
 		bool determineTarget();
@@ -87,7 +87,7 @@ namespace KileTool
 	class ViewBib : public View
 	{
 	public:
-		ViewBib(Manager *mngr) : View("ViewBib", mngr) {}
+		ViewBib(const QString & tool, Manager *mngr) : View(tool, mngr) {}
 
 	protected:
 		bool determineSource();
@@ -98,7 +98,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		ViewHTML(Manager *mngr) : View("ViewHTML", mngr) {}
+		ViewHTML(const QString & tool, Manager *mngr) : View(tool, mngr) {}
 
 	protected:
 		bool determineTarget();

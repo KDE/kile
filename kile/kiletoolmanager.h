@@ -22,6 +22,8 @@
 #include <qstringlist.h>
 #include <qptrqueue.h>
 
+#include "kiletool.h"
+
 class QTimer;
 class QWidgetStack;
 
@@ -35,7 +37,6 @@ namespace KileWidget { class LogMsg; class Output; }
 
 namespace KileTool
 {
-	class Base;
 	class Factory;
 	
  	class Manager : public QObject
@@ -49,6 +50,10 @@ namespace KileTool
 	public:
 		void initTool(Base*);
 		bool configure(Base*);
+		bool retrieveEntryMap(const QString & name, Config & map);
+		void saveEntryMap(const QString & name, Config & map);
+		QString configName(const QString & tool);
+		void setConfigName(const QString & tool, const QString & name);
 
 		void wantGUIState(const QString &);
 		
@@ -61,12 +66,14 @@ namespace KileTool
 		void setFactory(Factory* fac) { m_factory = fac; }
 		Factory* factory() { return m_factory; }
 
+		bool queryContinue(const QString & question, const QString & caption = QString::null);
+
 	public slots:
 		void started(Base*);
 		void done(Base *, int);
 		
-		void run(const QString &);
-		void run(Base *);
+		void run(const QString &, const QString & = QString::null);
+		void run(Base *, const QString & = QString::null);
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 
@@ -93,7 +100,23 @@ namespace KileTool
 		uint					m_nTimeout;
 	};
 
-	QStringList toolList(KConfig *config);
+	QStringList toolList(KConfig *config, bool menuOnly = false);
+	QStringList configNames(const QString &tool, KConfig *config);
+
+	QString configName(const QString & tool, KConfig *);
+	void setConfigName(const QString & tool, const QString & name, KConfig *);
+
+	QString groupFor(const QString & tool, KConfig *);
+	QString groupFor(const QString & tool, const QString & cfg = "Default" );
+
+	void extract(const QString &str, QString &tool, QString &cfg);
+	QString format(const QString & tool, const QString &cfg);
+
+	QString menuFor(const QString &tool, KConfig *config);
+	void toolbarInfoFor(const QString &tool, int &pos, bool &place, bool &separator, KConfig *config);
+	QString iconFor(const QString &tool, KConfig *config);
+
+	void setGUIOptions(const QString &tool, const QString &menu, int pos, bool place, bool separator, const QString &icon, KConfig *config);
 }
 
 #endif

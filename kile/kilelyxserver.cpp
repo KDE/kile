@@ -150,13 +150,15 @@ void KileLyxServer::stop()
 
 void KileLyxServer::receive(int fd)
 {
+	kdDebug() << "==KileLyxServer::receive(" << fd << ")==============" << endl;
 	m_count++;
+	kdDebug() << "\tcount = " << m_count << endl;
 	if (m_file[fd])
 	{
 		QString line;
 		m_file[fd]->readLine(line, 80);
 		line=line.stripWhiteSpace();
-		kdDebug() << m_count++ << ":" << line << endl;
+		kdDebug() << m_count << ":" << line << endl;
 
 		QRegExp cite(":citation-insert:(.*)$");
 		QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");

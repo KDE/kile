@@ -36,23 +36,23 @@ namespace KileTool
 {
 	Base* Factory::create(const QString & tool)
 	{
-		if ( tool == "LaTeX")
-			return new LaTeX(m_manager);
-
-		if ( tool == "ForwardDVI" )
-			return new ForwardDVI(m_manager);
-
-		if ( tool == "ViewHTML" )
-			return new ViewHTML(m_manager);
-
-		if ( tool == "ViewBib" )
-			return new ViewBib(m_manager);
-
 		//perhaps we can find the tool in the config file
-		if (m_config->hasGroup("Tool/"+tool))
+		if (m_config->hasGroup(groupFor(tool, m_config)))
 		{
-			m_config->setGroup("Tool/"+tool);
+			m_config->setGroup(groupFor(tool, m_config));
 			QString toolClass = m_config->readEntry("class", "");
+
+			if ( toolClass == "LaTeX")
+				return new LaTeX(tool, m_manager);
+
+			if ( toolClass == "ForwardDVI" )
+				return new ForwardDVI(tool, m_manager);
+
+			if ( toolClass == "ViewHTML" )
+				return new ViewHTML(tool, m_manager);
+
+			if ( toolClass == "ViewBib" )
+				return new ViewBib(tool, m_manager);
 
 			if ( toolClass == "Base" )
 				return new Base(tool, m_manager);
@@ -149,15 +149,15 @@ namespace KileTool
 	{
 		if (!View::determineSource())
 			return false;
-			
+
 		QString path = source(true);
-		
+
 		//get the bibliographies for this source
 		const QStringList *bibs = manager()->info()->bibliographies(manager()->info()->infoFor(path));
 		if (bibs->count() > 0)
 		{
 			QString bib = bibs->front();
-			
+
 			if (bibs->count() > 1)
 			{
 				//show dialog
@@ -183,7 +183,7 @@ namespace KileTool
 			sendMessage(Error, i18n("No bibliographies found."));
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -191,8 +191,19 @@ namespace KileTool
 	{
 		if (target() == QString::null)
 		{
-			setRelativeBaseDir(S());
-			setTarget("index.html");
+			//setRelativeBaseDir(S());
+			QString dir = readEntry("relDir");
+			if ( dir != "")
+			{
+				translate(dir);
+				setRelativeBaseDir(dir);
+			}
+			QString trg = readEntry("target");
+			if ( trg != "" )
+			{
+				translate(trg);
+				setTarget(trg);
+			}
 		}
 
 		return View::determineTarget();

@@ -57,10 +57,6 @@ namespace KileTool
 	public:
 		virtual void setWorkingDirectory(const QString &) {}
 
-		void setParamDict(QDict<QString> *dict) { m_pdictParams = dict; }
-		QDict<QString>* paramDict() { return m_pdictParams; }
-		void translate(QString &str);
-
 		void setTool(Base *tool) { m_tool = tool; }
 		Base* tool() { return m_tool; }
 		
@@ -74,7 +70,7 @@ namespace KileTool
 		void done(int);
 
 	private:
-		QDict<QString>	*m_pdictParams;
+		//QDict<QString>	*m_pdictParams;
 		Base			*m_tool;
 	};
 

@@ -1,4 +1,5 @@
-[Tool/Archive]
+[Tool/Archive/Default]
+category=Base
 class=Compile
 command=tar
 options=zcvf '%S.tar.gz' %F
@@ -6,12 +7,12 @@ from=kilepr
 to=tar.gz
 type=Process
 icon=
-shortcut=
 toolbarPos=none
 toolbarSep=false
 menu=none
 
-[Tool/BibTeX]
+[Tool/BibTeX/Default]
+category=Compile
 class=Compile
 command=bibtex
 options='%S'
@@ -19,12 +20,12 @@ from=aux
 to=bbl
 type=Process
 icon=bibtex
-shortcut=Alt+-
 toolbarPos=none
 toolbarSep=false
 menu=Compile
 
-[Tool/DVItoPDF]
+[Tool/DVItoPDF/Default]
+category=Convert
 class=Convert
 command=dvipdfm
 options='%S.dvi'
@@ -32,12 +33,12 @@ from=dvi
 to=pdf
 type=Process
 icon=dvipdf
-shortcut=Alt+9
 toolbarPos=7
 toolbarSep=false
 menu=Convert
 
-[Tool/DVItoPS]
+[Tool/DVItoPS/Default]
+category=Convert
 class=Convert
 command=dvips
 options=-o '%S.ps' '%S.dvi'
@@ -45,38 +46,65 @@ from=dvi
 to=ps
 type=Process
 icon=dvips
-shortcut=ALt+4
 toolbarPos=3
 toolbarSep=false
 menu=Convert
 
-[Tool/LaTeX]
-class=Compile
+[Tool/LaTeX/Default]
+category=Compile
+class=LaTeX
 command=latex
 options=-interaction=nonstopmode '%source'
 from=
 to=dvi
 type=Process
 icon=latex
-shortcut=Alt+2
 toolbarPos=1
 toolbarSep=false
 menu=Compile
+checkForRoot=yes
 
-[Tool/LaTeX2HTML]
+[Tool/LaTeX2HTML/Default]
+category=Compile
 class=Compile
 command=latex2html
-options= '%source' %options
+options='%source'
 from=
 to=
 type=Process
 icon=l2h
-shortcut=
 toolbarPos=9
 toolbarSep=false
 menu=Compile
 
-[Tool/MakeIndex]
+[Tool/TeX4ht/HTML]
+category=Compile
+class=Compile
+command=htlatex.sh
+options='%source'
+from=
+to=html
+type=Process
+icon=l2h
+toolbarPos=none
+toolbarSep=false
+menu=Compile
+
+[Tool/TeX4ht/DocBook]
+category=Compile
+class=Compile
+command=dblatex.sh
+options='%source'
+from=
+to=xml
+type=Process
+icon=l2h
+toolbarPos=none
+toolbarSep=false
+menu=Compile
+
+[Tool/MakeIndex/Default]
+category=Compile
 class=Compile
 command=makeindex
 options='%S.idx'
@@ -84,12 +112,12 @@ from=idx
 to=idx
 type=Process
 icon=latex
-shortcut=Alt+=
 toolbarPos=none
 toolbarSep=false
 menu=Compile
 
-[Tool/MetaPost]
+[Tool/MetaPost/Default]
+category=Compile
 class=Compile
 command=mpost
 options=-interaction=nonstopmode '%source'
@@ -97,25 +125,26 @@ from=
 to=
 type=Process
 icon=latex
-shortcut=
 toolbarPos=none
 toolbarSep=false
 menu=Compile
 
-[Tool/PDFLaTeX]
-class=Compile
+[Tool/PDFLaTeX/Default]
+category=Compile
+class=LaTeX
 command=pdflatex
 options=-interaction=nonstopmode '%source'
 from=
 to=pdf
 type=Process
 icon=latex
-shortcut=Alt+6
 toolbarPos=5
 toolbarSep=false
 menu=Compile
+checkForRoot=yes
 
-[Tool/PStoPDF]
+[Tool/PStoPDF/Default]
+category=Convert
 class=Convert
 command=ps2pdf
 options='%S.ps' '%S.pdf'
@@ -123,21 +152,62 @@ from=ps
 to=pdf
 type=Process
 icon=ps2pdf
-shortcut=Alt+8
 toolbarPos=8
 toolbarSep=true
 menu=Convert
 
-[Tool/QuickBuild]
+[Tool/QuickBuild/LaTeX+ViewDVI]
+category=Sequence
 class=Sequence
+type=Sequence
 sequence=LaTeX,ViewDVI
 icon=quick
-shortcut=Alt+1
 toolbarPos=0
 toolbarSep=true
 menu=Quick
 
-[Tool/TeX]
+[Tool/QuickBuild/LaTeX+DVItoPS+ViewPS]
+category=Sequence
+class=Sequence
+type=Sequence
+sequence=LaTeX,DVItoPS,ViewPS
+icon=quick
+toolbarPos=0
+toolbarSep=true
+menu=Quick
+
+[Tool/QuickBuild/LaTeX+DVItoPDF+ViewPDF]
+category=Sequence
+class=Sequence
+type=Sequence
+sequence=LaTeX,DVItoPDF,ViewPDF
+icon=quick
+toolbarPos=0
+toolbarSep=true
+menu=Quick
+
+[Tool/QuickBuild/PDFLaTeX+ViewPDF]
+category=Sequence
+class=Sequence
+type=Sequence
+sequence=PDFLaTeX,ViewPDF
+icon=quick
+toolbarPos=0
+toolbarSep=true
+menu=Quick
+
+[Tool/QuickBuild/LaTeX+ForwardDVI]
+category=Sequence
+class=Sequence
+type=Sequence
+sequence=LaTeX,ForwardDVI
+icon=quick
+toolbarPos=0
+toolbarSep=true
+menu=Quick
+
+[Tool/TeX/Default]
+category=Compile
 class=Compile
 command=tex
 options=-interaction=nonstopmode '%source'
@@ -145,35 +215,51 @@ from=
 to=dvi
 type=Process
 icon=latex
-shortcut=
 toolbarPos=none
 toolbarSep=false
 menu=Compile
 
-[Tool/ViewBib]
+[Tool/ViewBib/Default]
+category=View
 type=Process
-class=View
+class=ViewBib
 command=pybliographic
 options='%source'
 from=bib
 to=bib
 icon=bibtex
-shortcut=
 toolbarPos=none
 toolbarSep=false
 menu=View
 
-[Tool/ViewHTML]
+[Tool/ViewHTML/Default]
+category=View
 type=DocPart
-class=View
+class=ViewHTML
 state=HTMLpreview
 icon=viewhtml
-shortcut=
+relDir=%S
+target=index.html
 toolbarPos=10
 toolbarSep=true
 menu=View
 
-[Tool/ViewDVI]
+[Tool/ViewHTML/TeX4ht]
+category=View
+type=DocPart
+class=ViewHTML
+state=HTMLpreview
+icon=viewhtml
+relDir=
+from=
+to=html
+target=
+toolbarPos=10
+toolbarSep=true
+menu=View
+
+[Tool/ViewDVI/Embedded Viewer]
+category=View
 class=View
 type=Part
 className=KViewPart
@@ -183,14 +269,27 @@ to=dvi
 state=Viewer
 libOptions=dvi
 icon=viewdvi
-shortcut=Alt+3
 toolbarPos=2
 toolbarSep=false
 menu=View
 
-[Tool/ForwardDVI]
-type=Part
+[Tool/ViewDVI/KDVI]
+category=View
 class=View
+type=Process
+command=kdvi
+options='%target'
+from=dvi
+to=dvi
+icon=viewdvi
+toolbarPos=2
+toolbarSep=false
+menu=View
+
+[Tool/ForwardDVI/Default]
+category=View
+type=Part
+class=ForwardDVI
 className=KViewPart
 libName=kviewerpart
 from=dvi
@@ -198,12 +297,12 @@ to=dvi
 state=Viewer
 libOptions=dvi
 icon=dvisearch
-shortcut=
 toolbarPos=11
 toolbarSep=false
 menu=View
 
-[Tool/ViewPDF]
+[Tool/ViewPDF/Embedded Viewer]
+category=View
 class=View
 className=KGVPart
 libName=libkghostviewpart
@@ -212,12 +311,53 @@ from=pdf
 to=pdf
 type=Part
 icon=viewpdf
-shortcut=Alt+7
 toolbarPos=6
 toolbarSep=true
 menu=View
 
-[Tool/ViewPS]
+[Tool/ViewPDF/KGhostView]
+category=View
+command=kghostview
+options='%target'
+state=Viewer
+from=pdf
+to=pdf
+type=Process
+icon=viewpdf
+toolbarPos=6
+toolbarSep=true
+menu=View
+
+[Tool/ViewPDF/KPDF (embedded)]
+category=View
+class=View
+className=KPDF::Part
+libName=libkpdfpart
+state=Viewer
+from=pdf
+to=pdf
+type=Part
+icon=viewpdf
+toolbarPos=6
+toolbarSep=true
+menu=View
+
+[Tool/ViewPDF/Acroread]
+category=View
+class=View
+command=acroread
+options='%target'
+state=Viewer
+from=pdf
+to=pdf
+type=Process
+icon=viewpdf
+toolbarPos=6
+toolbarSep=true
+menu=View
+
+[Tool/ViewPS/Default]
+category=View
 class=View
 className=KGVPart
 libName=libkghostviewpart
@@ -226,10 +366,46 @@ from=ps
 to=ps
 type=Part
 icon=viewps
-shortcut=Alt+5
 toolbarPos=4
 toolbarSep=true
 menu=View
 
 [Tools]
-Quick Mode=1
+ViewDVI=Embedded Viewer
+ViewPDF=Embedded Viewer
+TeX4ht=HTML
+QuickBuild=LaTeX+ViewDVI
+
+[ToolsGUI]
+Archive=none,none,false,
+BibTeX=Compile,none,false,bibtex
+DVItoPDF=Convert,7,false,dvipdf
+DVItoPS=Convert,3,false,dvips
+LaTeX=Compile,1,false,latex
+LaTeX2HTML=Compile,9,false,l2h
+TeX4ht=Compile,none,false,l2h
+MakeIndex=Compile,none,false,latex
+MetaPost=Compile,none,false,latex
+PDFLaTeX=Compile,5,false,latex
+PStoPDF=Convert,8,true,ps2pdf
+QuickBuild=Quick,0,true,quick
+TeX=Compile,none,false,latex,
+ViewBib=View,none,false,bibtex
+ViewHTML=View,10,true,viewhtml
+ViewDVI=View,2,false,viewdvi
+ForwardDVI=View,11,false,dvisearch
+ViewPDF=View,6,true,viewpdf
+ViewPS=View,4,true,viewps
+
+[ToolShortcuts]
+tool_QuickBuild=Alt+1
+tool_LaTeX=Alt+2
+tool_ViewDVI=Alt+3
+tool_DVItoPS=Alt+4
+tool_ViewPS=Alt+5
+tool_PDFLaTeX=Alt+6
+tool_ViewPDF=Alt+7
+tool_PStoPDF=Alt+8
+tool_DVItoPDF=Alt+9
+tool_BibTeX=Alt+-
+tool_MakeIndex=Alt+=

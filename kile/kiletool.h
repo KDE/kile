@@ -33,6 +33,8 @@ class KShellProcess;
 
 namespace KileTool
 {
+	typedef QMap<QString,QString> Config;
+
 	class Manager;
 	
 	/**
@@ -157,6 +159,8 @@ namespace KileTool
 
 		bool addDict(const QString & key, const QString & value);
 
+		void translate(QString &str);
+
 		void setFlags(uint flags) { m_flags = flags; }
 		uint flags() { return m_flags; }
 
@@ -177,7 +181,7 @@ namespace KileTool
 		void requestSaveAll();
 
 	public:
-		void setEntryMap(QMap<QString,QString> map) { m_entryMap = map; }
+		void setEntryMap(Config map) { m_entryMap = map; }
 		const QString readEntry(const QString & key) { return m_entryMap[key]; }
 
 	protected:
@@ -245,7 +249,7 @@ namespace KileTool
 
 	private:
 		QDict<QString>	m_dictParams;
-		QMap<QString,QString>	m_entryMap;
+		Config			m_entryMap;
 
 		uint				m_flags;
 
@@ -307,7 +311,6 @@ namespace KileTool
 	public slots:
 		int run();
 	};
-
 }
 
 #endif

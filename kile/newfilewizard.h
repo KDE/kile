@@ -19,6 +19,7 @@
 #define NEWFILEWIZARD_H
 
 #include <qstring.h>
+#include <qcheckbox.h>
 
 #include <kstandarddirs.h>
 #include <kiconview.h>
@@ -27,6 +28,7 @@
 #include "templates.h"
 
 const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
+
 #define DEFAULT_EMPTY_ICON "type_Empty"
 
 class TemplateItem : public QIconViewItem
@@ -50,17 +52,23 @@ public:
 	~NewFileWidget() {}
 };
 
-class NewFileWizard : public KDialogBase  {
-   Q_OBJECT
+class NewFileWizard : public KDialogBase  
+{
+	Q_OBJECT
 public:
 	NewFileWizard(QWidget *parent=0, const char *name=0);
 	~NewFileWizard();
 
 public:
-   TemplateItem* getSelection()const { return static_cast<TemplateItem*>(iv->currentItem());}
+	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_iv->currentItem());}
+	bool useWizard();
+  
+public slots:
+	void slotOk();
 
 private:
-   QIconView *iv;
+	QIconView *m_iv;
+	QCheckBox *m_ckWizard;
 };
 
 #endif

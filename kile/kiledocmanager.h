@@ -127,6 +127,8 @@ signals:
 	void addToRecentProjects(const KURL &);
 	void removeFromRecentProjects(const KURL &);
 
+	void startWizard();
+
 public:
 	QPtrList<KileProject>* projects() { return &m_projects; }
 	QPtrList<KileDocumentInfo>* documentInfos() { return &m_infoList; }

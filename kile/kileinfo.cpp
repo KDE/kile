@@ -38,8 +38,8 @@ KileInfo::KileInfo(QWidget *parent) :
 	m_parentWidget(parent),
 	m_currentTarget(QString::null)
 {
-	m_docManager = new KileDocument::Manager(this, 0L, "KileDocument::Manager");
-	m_viewManager= new KileView::Manager(this, 0L, "KileView::Manager");
+	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
+	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
 }
 
 KileInfo::~KileInfo()

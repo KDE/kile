@@ -220,7 +220,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	// initialized before calling ReadSettnigs().
 	ReadRecentFileSettings();
 
-	
 	ButtonBar->insertTab(SmallIcon("math1"),2,i18n("Relation Symbols"));
 	connect(ButtonBar->getTab(2),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	ButtonBar->insertTab(SmallIcon("math2"),3,i18n("Arrow Symbols"));
@@ -393,9 +392,6 @@ void Kile::setupActions()
 	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	m_paStop->setEnabled(false);
 
-// 	m_toolsToolBar = new KToolBar(this, Qt::DockTop, false, "toolsToolBar");
-// 	m_toolsToolBar->setXMLGUIClient(this);
-//	connect(toolBar("toolsToolBar"), SIGNAL(clicked(int)), this, SLOT(test(int)));
 	setupTools();
 
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(ShowEditorWidget()), actionCollection(),"EditorView" );
@@ -452,6 +448,7 @@ void Kile::setupActions()
 	KileStdActions::setupBibTags(this);
 
 	(void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
+	connect(docManager(), SIGNAL(startWizard()), this, SLOT(QuickDocument()));
 	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
 	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
 	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );

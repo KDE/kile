@@ -64,6 +64,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 
 Manager::~Manager()
 {
+	kdDebug() << "==KileDocument::Manager::~Manager()=========" << endl;
 }
 
 void Manager::trashDoc(KileDocumentInfo *docinfo)
@@ -477,7 +478,14 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 
 Kate::View* Manager::createDocumentWithText(const QString & text)
 {
-	return load(KURL(), QString::null, true, QString::null, text);
+	Kate::View *view = load(KURL(), QString::null, true, QString::null, text);
+	if (view) 
+	{
+		view->getDoc()->setModified(true);
+		newDocumentStatus(view->getDoc());
+	}
+
+	return view;
 }
 
 void Manager::replaceTemplateVariables(QString &line)
@@ -518,8 +526,15 @@ void Manager::removeTemplate()
 void Manager::fileNew()
 {
 	NewFileWizard *nfw = new NewFileWizard(m_ki->parentWidget());
-	if (nfw->exec()) 
+	if (nfw->exec())
+	{
 		loadTemplate(nfw->getSelection());
+
+		if ( nfw->useWizard() )
+			emit ( startWizard() );
+	}
+
+	delete nfw;
 }
 
 void Manager::fileNew(const KURL & url)
@@ -712,7 +727,6 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 {
 	kdDebug() << "==Kile::fileClose==========================" << endl;
 
-	//FIXME:refactor, this should be in the Manager class
 	if (doc == 0L)
 		doc = m_ki->activeDocument();
 
@@ -759,7 +773,6 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 
 void Manager::buildProjectTree(const KURL & url)
 {
-	//FIXME: projectFor should be in the Manager class?
 	KileProject * project = projectFor(url);
 
 	if (project)

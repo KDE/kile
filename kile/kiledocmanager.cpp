@@ -620,6 +620,8 @@ void Manager::slotNameChanged(Kate::Document * doc)
 		QFile oldFile(doc->url().path());
 		if(doc->saveAs(validURL))
 			oldFile.remove();
+
+		m_ki->viewManager()->projectView()->add(doc->url());
 	}
 
 	emit(documentStatusChanged(doc, doc->isModified(), 0));

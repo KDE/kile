@@ -190,6 +190,7 @@ void KileProjectView::slotRun(int id)
 		KRun::run(*m_offerList[id-1], itm->url());
 }
 
+//FIXME clean this mess up
 void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  point)
 {
 	if (item != 0)
@@ -207,10 +208,8 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 			KPopupMenu *apps = new KPopupMenu( m_popup);
 			m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
 			for (uint i=0; i < m_offerList.count(); i++)
-			{
-				kdDebug() << "'\tservice: " << m_offerList[i]->name() << endl;
 				apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
-			}
+
 			apps->insertSeparator();
 			apps->insertItem(i18n("Other..."), 0);
 			connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));

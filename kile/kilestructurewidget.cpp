@@ -174,9 +174,11 @@ namespace KileWidget
 			switch (lev)
 			{
 				case KileStruct::File :  
-					if ( !m_current ) par = m_root;
+					if ( m_current == 0L ) par = m_root;
 					else if ( m_current->level() == KileStruct::File )
 						par = (KileListViewItem*)m_current->parent();
+					else if ( m_current->level() >= 0 )
+						par = m_parent[m_current->level()];
 				break;
 
 				case 0 : case 1 :
@@ -184,7 +186,7 @@ namespace KileWidget
 				break;
 
 				default:
-					par = m_parent[lev-2];
+					par = m_parent[lev - 2];
 				break;
 			}
 		}
@@ -319,8 +321,6 @@ namespace KileWidget
 
 	void Structure::closeDocumentInfo(KileDocument::Info *docinfo)
 	{
-		kdDebug() << "==void Structure::closeDocumentInfo(KileDocument::Info *docinfo)======" << endl;
-		kdDebug() << "\tclosing " << docinfo->url().url() << endl;
 		m_docinfo = 0L;
 		if ( m_map.contains(docinfo) )
 		{
@@ -328,7 +328,7 @@ namespace KileWidget
 			m_map.remove(docinfo);
 			delete data;
 		}
-		kdDebug() << "\tm_map is empty " << m_map.isEmpty() << endl;
+		
 		if ( m_map.isEmpty() ) m_default->activate();
 	}
 
@@ -370,8 +370,6 @@ namespace KileWidget
 
 		view->activate();
 	}
-	
-
 }
 
 #include "kilestructurewidget.moc"

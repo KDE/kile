@@ -1,7 +1,9 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="kile" version="8">
 <Menu name="ktexteditor_popup" noMerge="1">
-  <DefineGroup name="popup_operations" />
+	<DefineGroup name="popup_operations" />
+	<Action name="popup_pasteaslatex"/>
+	<Action name="popup_converttolatex"/>
 </Menu>
 <MenuBar noMerge="1">
 <Menu name="file"><text>&amp;File</text>

@@ -76,6 +76,10 @@ public slots:
 
 	void reflectDocumentStatus(Kate::Document*, bool, unsigned char);
 
+	void onKatePopupMenuRequest(void);
+	void convertSelectionToLaTeX(void);
+	void pasteAsLaTeX(void);
+
 signals:
 	void activateView(QWidget *, bool);
 	void prepareForPart(const QString &);

@@ -26,6 +26,10 @@
 #include <kxmlguifactory.h>
 #include <kiconloader.h>
 #include <kmimetype.h>
+#include <klocale.h>
+#include <ktexteditor/editinterfaceext.h>
+#include <kapplication.h>
+#include <qclipboard.h>
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
@@ -34,6 +38,7 @@
 #include "kileeventfilter.h"
 #include "kilestructurewidget.h"
 #include "kileedit.h"
+#include "plaintolatexconverter.h"
 
 namespace KileView 
 {
@@ -56,6 +61,12 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 {
 	m_receiver = receiver;
 	m_client = client;
+	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex"))
+		new KAction(i18n("Paste as La&TeX"), 0, this,
+			SLOT(pasteAsLaTeX()), m_client->actionCollection(), "popup_pasteaslatex");
+	if(NULL == m_client->actionCollection()->action("popup_converttolatex"))
+		new KAction(i18n("Convert selection to &LaTeX"), 0, this,
+			SLOT(convertSelectionToLaTeX()), m_client->actionCollection(), "popup_converttolatex");
 }
 
 void Manager::createTabs(QWidget *parent)
@@ -110,8 +121,12 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	}
 
 	// install a working kate part popup dialog thingy
-	if (static_cast<Kate::View*>(view->qt_cast("Kate::View")))
-		static_cast<Kate::View*>(view->qt_cast("Kate::View"))->installPopup((QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client)) );
+	Kate::View *kateView = static_cast<Kate::View*>(view->qt_cast("Kate::View"));
+	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
+	if((NULL != kateView) && (NULL != viewPopupMenu))
+		kateView->installPopup(viewPopupMenu);
+	if(NULL != viewPopupMenu)
+		connect(viewPopupMenu, SIGNAL(aboutToShow()), this, SLOT(onKatePopupMenuRequest()));
 
 	//activate the newly created view
 	emit(activateView(view, false));
@@ -221,6 +236,145 @@ void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsign
 		icon = KMimeType::pixmapForURL (doc->url(), 0, KIcon::Small);
 	
 	changeTab(doc->views().first(), icon, m_ki->getShortName(doc));
+}
+
+/**
+ * Adds/removes the "Convert to LaTeX" entry in Kate's popup menu according to the selection.
+ */
+void Manager::onKatePopupMenuRequest(void)
+{
+	Kate::View *view = currentView();
+	if(NULL == view)
+		return;
+
+	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
+	if(NULL == viewPopupMenu)
+		return;
+
+	// Setting up the "Convert to LaTeX" entry
+	KAction *latexCvtAction = m_client->actionCollection()->action("popup_converttolatex");
+	if(NULL != latexCvtAction) {
+		if(!latexCvtAction->isPlugged())
+			latexCvtAction->plug(viewPopupMenu);
+
+		latexCvtAction->setEnabled(view->getDoc()->hasSelection());
+	}
+
+	// Setting up the "Paste as LaTeX" entry
+	KAction *pasteAsLaTeXAction = m_client->actionCollection()->action("popup_pasteaslatex");
+	if((NULL != pasteAsLaTeXAction)) {
+		if(!pasteAsLaTeXAction->isPlugged())
+			pasteAsLaTeXAction->plug(viewPopupMenu);
+
+		QClipboard *clip = KApplication::clipboard();
+		if(NULL != clip)
+			pasteAsLaTeXAction->setEnabled(!clip->text().isNull());
+	}
+}
+
+void Manager::convertSelectionToLaTeX(void)
+{
+	Kate::View *view = currentView();
+
+	if(NULL == view)
+		return;
+
+	Kate::Document *doc = view->getDoc();
+
+	if(NULL == doc)
+		return;
+
+	// Getting the selection
+	uint selStartLine = doc->selStartLine(), selStartCol = doc->selStartCol();
+	uint selEndLine = doc->selEndLine(), selEndCol = doc->selEndCol();
+
+	/* Variable to "restore" the selection after replacement: if {} was selected,
+	   we increase the selection of two characters */
+	uint newSelEndCol;
+
+	PlainToLaTeXConverter cvt;
+
+	// "Notifying" the editor that what we're about to do must be seen as ONE operation
+	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt(doc);
+	if(NULL != editInterfaceExt)
+		editInterfaceExt->editBegin();
+
+	// Processing the first line
+	int firstLineLength;
+	if(selStartLine != selEndLine)
+		firstLineLength = doc->lineLength(selStartLine);
+	else
+		firstLineLength = selEndCol;
+	QString firstLine = doc->text(selStartLine, selStartCol, selStartLine, firstLineLength);
+	QString firstLineCvt = cvt.ConvertToLaTeX(firstLine);
+	doc->removeText(selStartLine, selStartCol, selStartLine, firstLineLength);
+	doc->insertText(selStartLine, selStartCol, firstLineCvt);
+	newSelEndCol = selStartCol + firstLineCvt.length();
+
+	// Processing the intermediate lines
+	for(uint nLine = selStartLine + 1 ; nLine < selEndLine ; nLine++) {
+		QString line = doc->textLine(nLine);
+		QString newLine = cvt.ConvertToLaTeX(line);
+		doc->removeLine(nLine);
+		doc->insertLine(nLine, newLine);
+	}
+
+	// Processing the final line
+	if(selStartLine != selEndLine) {
+		QString lastLine = doc->text(selEndLine, 0, selEndLine, selEndCol);
+		QString lastLineCvt = cvt.ConvertToLaTeX(lastLine);
+		doc->removeText(selEndLine, 0, selEndLine, selEndCol);
+		doc->insertText(selEndLine, 0, lastLineCvt);
+		newSelEndCol = lastLineCvt.length();
+	}
+
+	// End of the "atomic edit operation"
+	if(NULL != editInterfaceExt)
+		editInterfaceExt->editEnd();
+
+	doc->setSelection(selStartLine, selStartCol, selEndLine, newSelEndCol);
+}
+
+/**
+ * Pastes the clipboard's contents as LaTeX (ie. % -> \%, etc.).
+ */
+void Manager::pasteAsLaTeX(void)
+{
+	Kate::View *view = currentView();
+
+	if(NULL == view)
+		return;
+
+	Kate::Document *doc = view->getDoc();
+
+	if(NULL == doc)
+		return;
+
+	// Getting a proper text insertion point BEFORE the atomic editing operation
+	uint cursorLine, cursorCol;
+	if(doc->hasSelection()) {
+		cursorLine = doc->selStartLine();
+		cursorCol = doc->selStartCol();
+	} else {
+		view->cursorPositionReal(&cursorLine, &cursorCol);
+	}
+
+	// "Notifying" the editor that what we're about to do must be seen as ONE operation
+	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt(doc);
+	if(NULL != editInterfaceExt)
+		editInterfaceExt->editBegin();
+
+	// If there is a selection, one must remove it
+	if(doc->hasSelection())
+		doc->removeSelectedText();
+
+	PlainToLaTeXConverter cvt;
+	QString toPaste = cvt.ConvertToLaTeX(KApplication::clipboard()->text());
+	doc->insertText(cursorLine, cursorCol, toPaste);
+
+	// End of the "atomic edit operation"
+	if(NULL != editInterfaceExt)
+		editInterfaceExt->editEnd();
 }
 
 };

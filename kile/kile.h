@@ -262,6 +262,8 @@ signals:
 	 **/
 	void configChanged();
 
+	void startWizard();
+
 private slots:
 	void restore();
 	void ReadSettings();
@@ -338,6 +340,8 @@ public slots:
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 
+	Kate::View* createDocumentWithText(const QString & text);
+
 	KileDocumentInfo* createDocumentInfo(const KURL &url);
 	Kate::Document* createDocument(KileDocumentInfo *docinfo, const QString & encoding, const QString & highlight);
 
@@ -348,6 +352,8 @@ public slots:
 
 private slots:
 	void fileNew();
+	void fileNew(const KURL & url);
+
 	void fileOpen();
 	void fileOpen(const KURL& url, const QString & = QString::null);
 	void fileSaveAll(bool amAutoSaving = false);

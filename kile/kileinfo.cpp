@@ -181,6 +181,7 @@ Kate::Document* KileInfo::docFor(const KURL& url)
 
 	return 0L;
 }
+
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
 	QString title;

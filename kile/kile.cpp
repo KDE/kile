@@ -361,6 +361,7 @@ void Kile::setupActions()
 	KileStdActions::setupBibTags(this);
 
   (void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
+  connect(this, SIGNAL(startWizard()), this, SLOT(QuickDocument()));
   (void) new KAction(i18n("Letter"),"wizard",0 , this, SLOT(QuickLetter()), actionCollection(),"128" );
   (void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
   (void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
@@ -604,6 +605,8 @@ Kate::View* Kile::load(const KURL &url , const QString & encoding /* = QString::
 	KileDocumentInfo *docinfo = createDocumentInfo(url);
 	Kate::Document *doc = createDocument(docinfo, encoding, highlight);
 
+	//ugly hack, will be refactored for version 1.7
+	if (outstruct->firstChild()) outstruct->takeItem(outstruct->firstChild());
 	docinfo->updateStruct(m_defaultLevel);
 
 	if ( text != QString::null ) doc->setText(text);
@@ -750,13 +753,29 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	}
 }
 
+void Kile::fileNew(const KURL & url)
+{
+	//create an empty file
+	QFile file(url.path());
+	file.open(IO_ReadWrite);
+	file.close();
+
+	fileOpen(url, QString::null);
+}
+
 void Kile::fileNew()
 {
-    NewFileWizard *nfw = new NewFileWizard(this);
+	NewFileWizard *nfw = new NewFileWizard(this);
 
-    if (nfw->exec()) {
+	if (nfw->exec()) 
+	{
 		loadTemplate(nfw->getSelection());
-    }
+
+		if ( nfw->useWizard() )
+			emit ( startWizard() );
+	}
+    
+	delete nfw;
 }
 
 Kate::View* Kile::loadTemplate(TemplateItem *sel)
@@ -778,17 +797,17 @@ Kate::View* Kile::loadTemplate(TemplateItem *sel)
 			text = tempdoc->text();
 			delete tempdoc;
 			replaceTemplateVariables(text);
-			
-			//view->getDoc()->setText(text);
-			//view->getDoc()->setModified(false);
-
-			//set the highlight mode (this was already done in load, but somehow after setText this is forgotten)
-			//setHighlightMode(view->getDoc());
 		}
 	}
 	
+	return createDocumentWithText(text);
+}
+
+Kate::View* Kile::createDocumentWithText(const QString & text)
+{
 	return load(KURL(), QString::null, true, QString::null, text);
 }
+
 //TODO: connect to modifiedondisc() when using KDE 3.2
 bool Kile::eventFilter(QObject* o, QEvent* e)
 {
@@ -920,7 +939,7 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 	//URL wasn't open before loading, add it to the project view
 	if (!isopen && (itemFor(url) == 0) ) m_projectview->add(url);
 
-	UpdateStructure(false);
+// 	UpdateStructure(false);
 
 	updateModeStatus();
 }
@@ -3283,11 +3302,10 @@ void Kile::RefreshStructure()
 
 void Kile::UpdateStructure(bool parse /* = false */)
 {
-	//kdDebug() << "==Kile::UpdateStructure==========================" << endl;
+	kdDebug() << "==Kile::UpdateStructure==========================" << endl;
 
 	KileDocumentInfo *docinfo = getInfo();
 
-	//kdDebug() << "\ttaking item" <<endl;
 	outstruct->takeItem(outstruct->firstChild());
 
 	if (docinfo)
@@ -3352,7 +3370,10 @@ void Kile::DoubleClickedOnStructure(QListViewItem * itm)
 		fileOpen(KURL::fromPathOrURL(fname));
 	}
 	else
-		KMessageBox::error(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1").arg(fname), i18n("Cannot find file!"));
+	{
+		if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exists, is not readable or Kile is unable to determine the correct path to this file. The filename leading to this error was: %1").arg(fname) + i18n("\nDo you want to create this file?"), i18n("Cannot find file!")) == KMessageBox::Yes);
+			fileNew(KURL::fromPathOrURL(fname));
+	}
 }
 
 //////////////// MESSAGES - LOG FILE///////////////////////
@@ -3681,7 +3702,7 @@ void Kile::QuickDocument()
 {
 QString opt="";
 int li=3;
-  if ( !currentView() )	return;
+    
   QString tag=QString("\\documentclass[");
   startDlg = new quickdocumentdialog(this,"Quick Start",i18n("Quick Start"));
   startDlg->otherClassList=userClassList;
@@ -3731,7 +3752,10 @@ int li=3;
      }
   tag+= "\\begin{document}\n";
   QString tagE = "\n\\end{document}";
+  
+  if ( !currentView() ) createDocumentWithText(QString::null);
   insertTag(tag,tagE,0,li);
+  
   document_class=startDlg->combo1->currentText();
   typeface_size=startDlg->combo2->currentText();
   paper_size=startDlg->combo3->currentText();

@@ -44,7 +44,7 @@ public:
 protected:
 
 public:
-    virtual unsigned int Run(QString logfile);
+    virtual bool Run(QString logfile);
 
     //void setLog(const QString &log) { m_log = log; }
     const QString & log() const { return m_log; }

@@ -21,6 +21,7 @@
 
 #include <kdebug.h>
 #include <ktextedit.h>
+#include <klocale.h>
 
 #include "latexoutputfilter.h"
 #include "kiletool_enums.h"
@@ -93,7 +94,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 	switch (dwCookie)
 	{
 		//we're looking for a filename
-		case Start :
+		case Start : case FileNameHeuristic :
 			//TeX is opening a file
 			if ( strLine.startsWith(":<+ ") )
 			{
@@ -109,6 +110,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			{
 				kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
 				m_stackFile.pop();
+				dwCookie = Start;
 			}
 			else
 			//fallback to the heuristic detection of filenames
@@ -184,6 +186,13 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 			{
 				kdDebug() << "\tFilename spans more than one line." << endl;
 				dwCookie = FileNameHeuristic;
+			}
+			//bail out
+			else
+			{
+				dwCookie = Start;
+				strPartialFileName = QString::null;
+				expectFileName = false;
 			}
 		}
 		//TeX is opening a file
@@ -338,6 +347,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 
 	switch (dwCookie)
 	{
+		//detect the beginning of a warning
 		case Start :
 			if ( reLaTeXWarning.search(strLine) != -1 )
 			{
@@ -354,6 +364,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 			}
 		break;
 
+		//warning spans multiple lines, detect the end
 		case Warning :
 			warning = m_currentItem.message() + strLine;
 			kdDebug() << "'\tWarning (cont'd) : " << warning << endl;
@@ -514,12 +525,8 @@ short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 			detectBadBox(strLine, dwCookie);
 		break;
 
-		case FileName :
+		case FileName : case FileNameHeuristic :
 			updateFileStack(strLine, dwCookie);
-		break;
-
-		case FileNameHeuristic :
-			updateFileStackHeuristic(strLine, dwCookie);
 		break;
 
 		default: dwCookie = Start; break;
@@ -528,23 +535,14 @@ short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 	return dwCookie;
 }
 
-
-bool LatexOutputFilter::OnTerminate()
-{
-    flushCurrentItem();
-
-    return m_nErrors == 0;
-}
-
-
-unsigned int LatexOutputFilter::Run(QString logfile)
+bool LatexOutputFilter::Run(QString logfile)
 {
 	m_InfoList->clear();
 	m_nErrors = m_nWarnings = m_nBadBoxes = m_nParens = 0;
 	m_stackFile.clear();
 	m_stackFile.push(LOFStackItem(QFileInfo(source()).fileName(), true));
 
-	unsigned int result = OutputFilter::Run(logfile);
+	bool result = OutputFilter::Run(logfile);
 
 	QString Message;
 	int type;
@@ -561,6 +559,11 @@ unsigned int LatexOutputFilter::Run(QString logfile)
 			default : type = KileTool::Info; break;
 		}
 		emit(problem(type, Message));
+		if ( i > 25 )
+		{
+			emit(problem(KileTool::Error, i18n("More than 25 problems detected, stopping output.")));
+			break;
+		}
 	}
 
     return result;
@@ -568,7 +571,7 @@ unsigned int LatexOutputFilter::Run(QString logfile)
 
 
 /** Return number of errors etc. found in log-file. */
-void LatexOutputFilter::GetErrorCount(int *errors, int *warnings, int *badboxes)
+void LatexOutputFilter::getErrorCount(int *errors, int *warnings, int *badboxes)
 {
     *errors = m_nErrors;
     *warnings = m_nWarnings;

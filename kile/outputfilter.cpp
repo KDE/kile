@@ -21,6 +21,9 @@
 
 #include <kdebug.h>
 #include <ktextedit.h>
+#include <klocale.h>
+
+#include "kiletool_enums.h"
 #include "outputfilter.h"
 
 using namespace std;
@@ -51,7 +54,7 @@ void OutputFilter::setSource(const QString &src)
 	m_srcPath = QFileInfo(src).dirPath();
 }
 
-unsigned int OutputFilter::Run(QString logfile)
+bool OutputFilter::Run(QString logfile)
 {
 	short sCookie = 0;
 	QString s;
@@ -75,8 +78,13 @@ unsigned int OutputFilter::Run(QString logfile)
 		}
 		f.close();
 	}
-	
-	return !OnTerminate();
+	else
+	{
+		emit(problem(KileTool::Warning, i18n("Could not open log file (%1).").arg(logfile)));
+		return false;
+	}
+
+	return OnTerminate();
 }
 
 

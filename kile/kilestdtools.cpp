@@ -100,23 +100,12 @@ namespace KileTool
 		finame.replace(QRegExp("\\..*$"), ".log");
 
 		//manager()->info()->outputFilter()->Run( "/home/wijnhout/test.log" );
-		manager()->info()->outputFilter()->Run(finame);
-
-		int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
-		kdDebug() << "===LatexError()===================" << endl;
-		kdDebug() << "Total: " << manager()->info()->outputInfo()->size() << " Infos reported" << endl;
-		for (uint i =0; i<manager()->info()->outputInfo()->size();i++)
+		if ( manager()->info()->outputFilter()->Run(finame) )
 		{
-			if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmError ) nErrors++;
-			if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning ) nWarnings++;
-			if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmBadBox ) nBadBoxes++;
-			kdDebug() << (*manager()->info()->outputInfo())[i].type() << " in file <<" << (*manager()->info()->outputInfo())[i].source()
-			<< ">> (line " << (*manager()->info()->outputInfo())[i].sourceLine()
-			<< ") [Reported in line " << (*manager()->info()->outputInfo())[i].outputLine() << "]" << endl;
+			int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
+			manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
+			sendMessage(Info, i18n("%1 errors, %2 warnings and %3 badboxes").arg(nErrors).arg(nWarnings).arg(nBadBoxes));
 		}
-
-		kdDebug() << "\terrors="<< nErrors<<" warnings="<< nWarnings<<" badboxes="<< nBadBoxes<<endl;
-		sendMessage(Info, i18n("%1 errors, %2 warnings and %3 badboxes").arg(nErrors).arg(nWarnings).arg(nBadBoxes));
 
 		return Compile::finish(r);
 	}

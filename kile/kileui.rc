@@ -309,6 +309,8 @@
 	<Action name="NextBadBox"/>
 </ToolBar>
 <!--<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
+	<Action name="tool_LaTeX"/>
+	<Action name="tool_ViewDVI"/>
 </ToolBar>-->
 <ToolBar name="editToolBar" fullWidth="false" index="5"><text>Edit</text>
 	<Action name="structure_list"/>

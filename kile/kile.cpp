@@ -488,8 +488,6 @@ void Kile::setupTools()
 	unplugActionList("list_viewers"); m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
 	unplugActionList("list_other"); m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
 
-	m_toolsToolBar->clear();
-
 	for ( uint i = 0; i < tools.count(); i++)
 	{
 		QString grp = KileTool::groupFor(tools[i], config);
@@ -2311,6 +2309,7 @@ void Kile::runTool()
 {
 	kdDebug() << "==Kile::runTool()============" << endl;
 	QString name = sender()->name();
+	kdDebug() << "\tname: " << name << endl;
 	name.replace("tool_", "");
 	kdDebug() << "\t" << name << endl;
 	m_manager->run(name);
@@ -3158,6 +3157,7 @@ void Kile::GeneralOptions()
 	{
 		readConfig();
 		setupTools();
+
 		emit(configChanged());
 
 		//stop/restart LyX server if necessary
@@ -3307,13 +3307,9 @@ void Kile::ConfigureKeys()
 
 void Kile::ConfigureToolbars()
 {
- saveMainWindowSettings(config, "KileMainWindow" );
- KEditToolbar dlg(factory());
-    if ( dlg.exec() )
-    {
-    partManager->setActivePart( 0L );
-    applyMainWindowSettings(config, "KileMainWindow" );
-    }
+	saveMainWindowSettings(config, "KileMainWindow" );
+	KEditToolbar dlg(factory());
+	dlg.exec();
 }
 
 ////////////// VERTICAL TAB /////////////////

@@ -54,7 +54,7 @@ class LatexOutputFilter : public OutputFilter
         LatexOutputFilter(LatexOutputInfoArray* LatexOutputInfoArray);
         ~LatexOutputFilter();
 
-        virtual unsigned int Run(QString logfile);
+        virtual bool Run(QString logfile);
 
 	enum {Start = 0, FileName, FileNameHeuristic, Error, Warning, BadBox, LineNumber};
 
@@ -74,13 +74,12 @@ class LatexOutputFilter : public OutputFilter
         // overridings
     public:
         /** Return number of errors etc. found in log-file. */
-        void GetErrorCount(int *errors, int *warnings, int *badboxes);
+	void getErrorCount(int *errors, int *warnings, int *badboxes);
 	void clearErrorCount() { m_nErrors=m_nWarnings=m_nBadBoxes=0 ; }
 
     protected:
-        virtual bool OnPreCreate();
-        virtual short parseLine(const QString & strLine, short dwCookie);
-        virtual bool OnTerminate();
+	virtual bool OnPreCreate();
+	virtual short parseLine(const QString & strLine, short dwCookie);
 
 	bool detectError(const QString & strLine, short &dwCookie);
 	bool detectWarning(const QString & strLine, short &dwCookie);

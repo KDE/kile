@@ -489,7 +489,6 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 	}
 	else
 	{
-		//doc->openURL(KURL("file:untitled"));
 		doc->setDocName(i18n("Untitled"));
 	}
 
@@ -506,7 +505,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create)
 	mapInfo(doc, docinfo);
 	docinfo->setListView(outstruct);
 
-	//see if this file really belongs to a project
+	//see if this file belongs to an opened project
+	//if so, make the project class aware
 	KileProjectItemList *list;
 	for (uint i=0; i < m_projects.count(); i++)
 	{
@@ -549,8 +549,8 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 	//activate the newly created view
 	activateView(view, false, false);
-	KParts::GUIActivateEvent ev( true );
-	QApplication::sendEvent( view, &ev );
+	//KParts::GUIActivateEvent ev( true );
+	//QApplication::sendEvent( view, &ev );
 
 	newStatus();
 	newCaption();
@@ -715,6 +715,9 @@ bool Kile::eventFilter(QObject* o, QEvent* e)
 
 void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateStruct /* = true */  )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
+	if (!w->inherits("Kate::View"))
+		return;
+
 	Kate::View* view = (Kate::View*)w;
 
 	kdDebug() << "activateView" << endl;
@@ -724,7 +727,10 @@ void Kile::activateView(QWidget* w ,bool checkModified /*= true*/, bool updateSt
 		guiFactory()->removeClient(m_viewList.at(i));
 	}
 
-	guiFactory()->addClient( view );
+	guiFactory()->addClient(view);
+
+	KParts::GUIActivateEvent ev( true );
+        QApplication::sendEvent( view, &ev );	
 
 	if( checkModified )
 		if (view) view->getDoc()->isModOnHD();

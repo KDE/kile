@@ -44,7 +44,7 @@ namespace KileTool
 
 	class Base : public QObject
 	{
-		Q_OBJECT;
+		Q_OBJECT
 
 	public:
 		Base(const QString &name, Manager *manager);

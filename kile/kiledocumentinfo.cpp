@@ -304,6 +304,8 @@ void KileDocumentInfo::updateStruct(int defaultLevel /* = 0 */)
 				{
 					tagLine=i+1; tagCol = tagEnd+1;
 					m = matchBracket(i, static_cast<uint&>(tagEnd));
+					if ( i >= tagLine ) //matching brackets spanned multiple lines
+						s = m_doc->textLine(i);
 					kdDebug() << "\tgrabbed : " << m << endl;
 				}
 

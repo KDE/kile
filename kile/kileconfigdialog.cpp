@@ -77,12 +77,6 @@ KileConfigDialog::KileConfigDialog(KConfig *config, QWidget* parent,  const char
 	genLayout->addWidget(structGroup);
 	genLayout->setStretchFactor(structGroup,0);
 
-	//checkSwitchStruct
-	checkSwitchStruct = new QCheckBox(i18n("Switch to structure view after &opening a file."), structGroup );
-	m_config->setGroup("Structure");
-	checkSwitchStruct->setChecked(m_config->readBoolEntry("SwitchToStructure",true));
-	lb = new QLabel("", structGroup);
-
 	//default structure level
 	lb = new QLabel(i18n("Default expansion &level for the structure view (1 part - 5 subsubsection) : "),structGroup);
 	spinLevel = new QSpinBox(1,5, 1, structGroup);
@@ -324,7 +318,6 @@ void KileConfigDialog::slotOk()
 	m_config->writeEntry("Complete Environment", checkEnv->isChecked());
 
 	m_config->setGroup("Structure");
-	m_config->writeEntry("SwitchToStructure", checkSwitchStruct->isChecked());
 	m_config->writeEntry("DefaultLevel", spinLevel->value());
 	m_config->sync();
 

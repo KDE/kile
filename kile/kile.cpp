@@ -292,7 +292,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Create Template From Document..."),0,this,SLOT(createTemplate()), actionCollection(),"CreateTemplate");
 	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
 	(void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
-	(void) new KAction(i18n("Statistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
+	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"Exit" );
 
 	(void) KStdAction::spelling(this, SLOT(spellcheck()), actionCollection(),"Spell" );
@@ -331,7 +331,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Make Index"),ALT+Key_Equal, this, SLOT(MakeIndex()), actionCollection(),"MakeIndex" );
 	(void) new KAction(i18n("LaTeX to HTML"),"l2h",0, this, SLOT(LatexToHtml()), actionCollection(),"LaTeXtoHtml" );
 	(void) new KAction(i18n("View HTML"),"viewhtml", 0, this, SLOT(HtmlPreview()), actionCollection(),"HtmlPreview" );
-	(void) new KAction(i18n("View Bibtex"),0 , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
+	(void) new KAction(i18n("View Bibtex"),"bibtex" , this, SLOT(Bibtexeditor()), actionCollection(),"Bibtexeditor" );
 	(void) new KAction(i18n("Kdvi Forward Search"),"dvisearch",0, this, SLOT(KdviForwardSearch()), actionCollection(),"KdviForwardSearch" );
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("Mpost"),0 , this, SLOT(MetaPost()), actionCollection(),"MetaPost" );
@@ -497,26 +497,30 @@ void Kile::restore()
 {
 	if (!m_bRestore) return;
 
+	QFileInfo fi;
+
 	for (uint i=0; i < m_listProjectsOpenOnStart.count(); i++)
 	{
 		kdDebug() << "restoring " << m_listProjectsOpenOnStart[i] << endl;
-		projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
+		fi.setFile(m_listProjectsOpenOnStart[i]);
+		if (fi.isReadable()) projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]));
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); i++)
 	{
 		kdDebug() << "restoring " << m_listDocsOpenOnStart[i] << endl;
-		fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
+		fi.setFile(m_listDocsOpenOnStart[i]);
+		if (fi.isReadable()) fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
 	}
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 }
 
-////////////////////////////// FILE /////////////////////////////
-Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, 
-const QString &text )
+Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create, const QString & highlight, bool load, const QString &text)
 {
+	QString hl = highlight;
+
 	kdDebug() << "==Kile::load==========================" << endl;
 	if ( url.path() != i18n("Untitled") && isOpen(url))
 	{
@@ -526,8 +530,6 @@ const QString &text )
 		tabWidget->showPage(view);
 
 		UpdateStructure(true);
-		if (switchtostructure)
-			ShowStructure();
 
 		//return this view
 		return view;
@@ -560,7 +562,7 @@ const QString &text )
 			doc->insertText(0,0,text);
 	}
 
-	setHighlightMode(doc, highlight);
+
 
 	KileDocumentInfo *docinfo = 0;
 
@@ -575,9 +577,7 @@ const QString &text )
 		if (docinfo)
 			docinfo->setDoc(doc);
 
-		//if (itemFor(docinfo) == 0)
-  			//mapItem(docinfo, item);
-
+		hl = item->highlight();
 		item->setOpenState(create);
 	}
 
@@ -594,6 +594,8 @@ const QString &text )
 		m_infoList.append(docinfo);
 	}
 	mapInfo(doc, docinfo);
+
+	setHighlightMode(doc, hl);
 
 	//handle changes of the document
 	connect(doc, SIGNAL(nameChanged(Kate::Document *)), docinfo, SLOT(emitNameChanged(Kate::Document *)));
@@ -633,9 +635,6 @@ Kate::View * Kile::createView(Kate::Document *doc)
 
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
-
-	if (switchtostructure)
-		ShowStructure();
 
 	return view;
 }
@@ -699,6 +698,7 @@ void Kile::setLine( const QString &line )
 		this->raise();
 		view->setFocus();
 		view->gotoLineNumber(l);
+
 		ShowEditorWidget();
 		newStatus();
   	}
@@ -713,23 +713,25 @@ void Kile::setHighlightMode(Kate::Document * doc, const QString &highlight)
 	QString hl = highlight;
 	QString ext = doc->url().fileName().right(4);
 
+	if ( hl == QString::null && ext == ".bib" ) hl = "BibTeX-Kile";
+
 	if ( (hl != QString::null) || doc->url().isEmpty() || ext == ".tex" || ext == ".ltx"  || ext == ".dtx" || ext == ".sty" || ext == ".cls" )
 	{
-	if (hl == QString::null) hl = "LaTeX-Kile";
-	for (i = 0; i < c; i++)
-	{
-		if (doc->hlModeName(i) == hl) { found = true; break; }
-	}
+		if (hl == QString::null) hl = "LaTeX-Kile";
+		for (i = 0; i < c; i++)
+		{
+			if (doc->hlModeName(i) == hl) { found = true; break; }
+		}
 
-	if (found)
-	{
-		doc->setHlMode(i);
-	}
-	else
-	{
-		//doc->setHlMode(0);
-		kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
-	}
+		if (found)
+		{
+			doc->setHlMode(i);
+		}
+		else
+		{
+			//doc->setHlMode(0);
+			kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
+		}
 	}
 }
 
@@ -915,16 +917,37 @@ void Kile::fileSaveAll(bool amAutoSaving)
 	Kate::View *view;
 	QFileInfo fi;
 
+	kdDebug() << "==Kile::fileSaveAll=================" << endl;
+	kdDebug() << "\tautosaving = " << amAutoSaving << endl;
+
 	for (uint i = 0; i < m_viewList.count(); i++)
 	{
 		view = m_viewList.at(i);
 
 		if (view && view->getDoc()->isModified())
 		{
+			fi.setFile(view->getDoc()->url().path());
 			//don't save unwritable and untitled documents when autosaving
-			if ( ! (amAutoSaving && ((view->getDoc()->url().isEmpty() ) || !fi.isWritable() )))
+			if (
+			      (!amAutoSaving) ||
+				  (amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() )
+			   )
 			{
-				view->save();
+				kdDebug() << "\tsaving: " << view->getDoc()->url().path() << endl;
+
+				if (amAutoSaving)
+				{
+					//make a backup
+					KURL url = view->getDoc()->url();
+					KileAutoSaveJob *job = new KileAutoSaveJob(url);
+
+					//save the current file if job is finished succesfully
+					connect(job, SIGNAL(success()), view, SLOT(save()));
+				}
+				else
+					view->save();
+
+				//TODO: make it save to a different location (.backup)
 			}
 		}
 	}
@@ -1084,6 +1107,8 @@ void Kile::addToProject(const KURL & url)
 
 void Kile::addToProject(KileProject* project, const KURL & url)
 {
+	if (project->contains(url)) return;
+
 	KileProjectItem *item = new KileProjectItem(project, url);
 	item->setOpenState(isOpen(url));
 	projectOpenItem(item);
@@ -1282,6 +1307,15 @@ void Kile::projectOpen()
 		projectOpen(url);
 }
 
+void Kile::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
+{
+	kdDebug() << "===Kile::storeProjectItem==============" << endl;
+	item->setEncoding( doc->encoding());
+	item->setHighlight( doc->hlModeName(doc->hlMode()));
+
+	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
+}
+
 void Kile::projectSave(KileProject *project /* = 0 */)
 {
 	kdDebug() << "==Kile::projectSave==========================" << endl;
@@ -1315,8 +1349,7 @@ void Kile::projectSave(KileProject *project /* = 0 */)
 
 			if (doc)
 			{
-				item->setEncoding( doc->encoding());
-				item->setHighlight( doc->hlModeName(doc->hlMode()));
+				storeProjectItem(item, doc);
 			}
 		}
 
@@ -1630,23 +1663,28 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		return true;
 
 	//TODO: remove from docinfo map, remove from dirwatch
-	KileDocumentInfo *docinfo = 0;
 	if (view)
 	{
 		kdDebug() << "==Kile::fileClose==========================" << endl;
 		kdDebug() << "\t" << view->getDoc()->docName() << endl;
 
 		KURL url = view->getDoc()->url();
-		KileProjectItem *item;
+
+		KileDocumentInfo *docinfo= infoFor(doc);
+		KileProjectItem *item = itemFor(docinfo);
+
+		if (item && doc)
+		{
+			storeProjectItem(item,doc);
+		}
+
 		if (view->getDoc()->closeURL() )
 		{
 			//KMessageBox::information(this,"closing "+url.path());
 			kdDebug() << "\tclosed" << endl;
 			removeView(view);
 			//remove the decorations
-			kdDebug() << "\tfound docinfo " << docinfo << endl;
-			docinfo = infoFor(doc);
-			item = itemFor(docinfo);
+
 			if ( (item == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
@@ -1763,6 +1801,10 @@ void Kile::newDocumentStatus(Kate::Document *doc)
 	{
 		kdDebug() << "==Kile::newDocumentStatus==========================" << endl;
 		kdDebug() << "\t" << doc->docName() << endl;
+
+		//sync terminal
+		syncTerminal();
+
 		QPtrList<KTextEditor::View> list = doc->views();
 
 		KIconLoader *loader = KGlobal::iconLoader();
@@ -2435,7 +2477,7 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
 		finame = finame.replace("%S",fic.baseName(TRUE));
 		if (finame.right(ext.length()+1) != "."+ext)
 			finame += "."+ext;
-			
+
 		kdDebug() << "\t resulting in " << finame << endl;
    }
    else
@@ -2453,6 +2495,7 @@ QString Kile::prepareForViewing(const QString & command, const QString &ext, con
       return QString::null;
    }
 
+   kdDebug() << "\treturning " << finame << endl;
    return finame;
 }
 
@@ -2919,22 +2962,22 @@ void Kile::DVItoPDF()
 }
 
 void Kile::MetaPost()
-{/*
+{
   //TODO: what the h*ll is MetaPost, how should we deal with the
   //error messages?
 
   QString finame;
+	Kate::View *view = currentView();
 
   finame=getShortName();
-  if (!currentView() ||finame==i18n("Untitled") || finame=="")
+  if (!view ||finame==i18n("Untitled") || finame=="")
   {
   KMessageBox::error( this,i18n("Could not start the command."));
   return;
   }
-  fileSave();
+  view->save();
 
-  if (m_singlemode) { finame= getName();}
-  else { finame = m_masterName;}
+  getCompileName();
 
   QFileInfo fi(finame);
   QString name=fi.dirPath()+"/"+fi.baseName(TRUE)+".mp";
@@ -2952,14 +2995,13 @@ void Kile::MetaPost()
         {
          OutputWidget->clear();
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg("mpost"));
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
          }
   }
  else
  {
   KMessageBox::error(this, i18n("MetaPost file not found!"));
  }
-//newStatus();*/
 }
 
 void Kile::CleanAll()
@@ -3063,7 +3105,7 @@ void Kile::LatexToHtml()
     if ( l2hDlg->exec() )
     {
     l2h_options=l2hDlg->options_edit->text();
-    QStringList command; command <<  "konsole" << "-e" << "latex2html" << "%S.tex" << l2h_options;
+    QStringList command; command <<  "konsole" << "-e" << "latex2html" << "'%S.tex'" << l2h_options;
     CommandProcess* proc = execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotl2hExited(KProcess*)));
 
@@ -3072,7 +3114,7 @@ void Kile::LatexToHtml()
         {
          OutputWidget->clear();
          logpresent=false;
-         LogWidget->insertLine(i18n("Launched: %1").arg("latex2html"));
+         LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
         }
     }
     delete (l2hDlg);
@@ -3140,8 +3182,12 @@ HtmlPreview();
 
 void Kile::HtmlPreview()
 {
+	kdDebug() << "===Kile::HtmlPreview()=====================" << endl;
+
 	QString finame;
 	if ( (finame = prepareForViewing("KHTML","html","%S/index.html") ) == QString::null ) return;
+
+	kdDebug() << "\tfiname=" << finame << endl;
 
 	LogWidget->clear();
 	logpresent=false;
@@ -3393,7 +3439,7 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 	QString s = LogWidget->text(parag);
 	QString file = QString::null;
 	
-	static QRegExp reES = QRegExp("(^.*):([0-9])+:.*");
+	static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
 	//log not present, maybe there is an error summary
 	if ( (!logpresent) && ( reES.search(s) != -1 ) )
 	{
@@ -3414,9 +3460,14 @@ void Kile::ClickedOnOutput(int parag, int /*index*/)
 		}
 	}
 	
-	if (file.left(2) == "./")
+	if (file.left(2) == "./" )
 	{
 		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file.mid(2);
+	}
+
+	if (file[0] != '/' )
+	{
+		file = QFileInfo(getCompileName()).dirPath(true) + "/" + file;
 	}
 		
 	kdDebug() << "==Kile::ClickedOnOutput()====================" << endl;
@@ -4119,7 +4170,6 @@ void Kile::ReadRecentFileSettings()
 void Kile::readConfig()
 {
 	config->setGroup( "Structure" );
-	switchtostructure = config->readBoolEntry("SwitchToStructure", true);
 	m_defaultLevel = config->readNumEntry("DefaultLevel", 1);
 
 	config->setGroup( "Files" );
@@ -4246,7 +4296,6 @@ for (uint i=0; i<m_listUserTools.size(); i++)
 }
 
 config->setGroup( "Structure" );
-config->writeEntry("SwitchToStructure", switchtostructure );
 config->writeEntry("Structure Level 1",struct_level1);
 config->writeEntry("Structure Level 2",struct_level2);
 config->writeEntry("Structure Level 3",struct_level3);
@@ -4857,6 +4906,28 @@ while(i < currentView()->getDoc()->numLines())
         }
     else i++;
    }
+}
+
+////////KileAutoSaveJob
+KileAutoSaveJob::KileAutoSaveJob(const KURL &url)
+{
+	KIO::Job *job = KIO::file_copy(url,KURL(KURL::fromPathOrURL(url.path()+".backup")),-1,true,false,false);
+	//let KIO show the error messages
+    job->setAutoErrorHandlingEnabled(true);
+	connect(job, SIGNAL(result(KIO::Job*)), this, SLOT(slotResult(KIO::Job*)));
+}
+
+KileAutoSaveJob::~KileAutoSaveJob()
+{
+	kdDebug() << "DELETING KileAutoSaveJob" << endl;
+}
+
+void KileAutoSaveJob::slotResult(KIO::Job *job)
+{
+	if (job->error() == 0)
+	{
+		emit(success());
+	}
 }
 
 /////// editor extensions /////////////

@@ -58,7 +58,7 @@ public:
     QComboBox *comboDvi, *comboPs, *comboPdf, *comboLatexHelp;
 	QButtonGroup *ButtonGroup2;
 	QSpinBox *spinLevel;
-    QCheckBox *checkAutosave, *checkEnv, *checkSwitchStruct, *checkRestore, *checkForRoot, *m_runlyxserver;
+    QCheckBox *checkAutosave, *checkEnv, *checkRestore, *checkForRoot, *m_runlyxserver;
 
     QRadioButton *checkLatex, *checkPdflatex,
         *checkDviSearch, *checkDvi, *checkDviPdf, *checkPsPdf;

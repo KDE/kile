@@ -905,6 +905,7 @@ void Kile::fileOpen()
 	filter.append(SOURCE_EXTENSIONS);
 	filter.append(" ");
 	filter.append(PACKAGE_EXTENSIONS);
+	filter.replace(".","*.");
 	filter.append("|");
 	filter.append(i18n("TeX files"));
 	filter.append("\n*|");

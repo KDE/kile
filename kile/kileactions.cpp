@@ -209,8 +209,8 @@ void InputFigure::emitData()
 InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, KileInfo *ki, QWidget *parent, const char *name)
 	: KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true), m_ki(ki)
 {
-	Env = NULL;
-	figLabel = NULL;
+	Env = 0L;
+	figLabel = 0L;
 	
 	m_usedSelection = false;
 
@@ -226,6 +226,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList) )
 	{
 		KComboBox *input = new KComboBox(true, page, "input_dialog_input");
+		input->setCompletionMode(KGlobalSettings::CompletionAuto);
 
 		focus = input;
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));

@@ -55,13 +55,10 @@
 #include <qcolor.h>
 
 #include "kileappIface.h"
-#include "structdialog.h"
-#include "l2hdialog.h"
 #include "docpart.h"
 #include "symbolview.h"
 #include "kmultiverttabbar.h"
 #include "kilefileselect.h"
-#include "refdialog.h"
 #include "metapostview.h"
 #include "kileinfo.h"
 
@@ -163,11 +160,6 @@ private:
 	QSplitter 						*splitter1, *splitter2 ;
 	KileWidget::Structure		*m_kwStructure;
 	QWidgetStack				*m_tabbarStack;
-
-	//dialogs
-	structdialog 					*stDlg;
-	refdialog 						*refDlg;
-	l2hdialog 						*l2hDlg;
 
 	//parts
 	KParts::PartManager 	*partManager;
@@ -300,6 +292,10 @@ public slots:
 	void load(const QString &path) { load(KURL::fromPathOrURL(path));}
 	Kate::View* loadTemplate(TemplateItem*);
 
+public slots:
+	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }
+	void fileSelected(const KURL &);
+
 private slots:
 	void fileNew();
 	void fileOpen();
@@ -376,6 +372,8 @@ private:
 	//
 private slots:
 	void showDocInfo(Kate::Document *doc = 0);
+	void convertToASCII(Kate::Document *doc = 0);
+	void convertToEnc(Kate::Document *doc = 0);
 
 	//
 	// implementation of:

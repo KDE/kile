@@ -20,6 +20,10 @@
 	<DefineGroup name="file_print" append="print_merge" />
 	<Merge/>
 	<Separator/>
+	<Menu name="convert"><text>Con&amp;vert</text>
+		<Action name="file_export_ascii"/>
+		<Action name="file_export_latin1"/>
+	</Menu>
 	<Action name="Statistics"/>
 	<Separator/>
 	<Action name="file_quit"/>

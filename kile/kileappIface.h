@@ -24,9 +24,9 @@ class KileAppDCOPIface : virtual public DCOPObject
 	K_DCOP
 
 	k_dcop:
-		virtual void load( const QString &url)=0;
-		virtual void projectOpen(const QString &url)=0;
-		virtual void setLine( const QString &line )=0;
+		virtual void fileSelected(const QString &)=0;
+		virtual void projectOpen(const QString &)=0;
+		virtual void setLine( const QString &)=0;
 		virtual void setActive()=0;
 };
 

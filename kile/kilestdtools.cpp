@@ -95,12 +95,11 @@ namespace KileTool
 
 	bool LaTeX::finish(int r)
 	{
-		QString finame = source();
-		manager()->info()->outputFilter()->setSource( finame);
-		finame.replace(QRegExp("\\..*$"), ".log");
+		manager()->info()->outputFilter()->setSource(source());
+		QString log = baseDir() + "/" + S() + ".log";
 
 		//manager()->info()->outputFilter()->Run( "/home/wijnhout/test.log" );
-		if ( manager()->info()->outputFilter()->Run(finame) )
+		if ( manager()->info()->outputFilter()->Run(log) )
 		{
 			int nErrors = 0, nWarnings = 0, nBadBoxes = 0;
 			manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);

@@ -105,7 +105,7 @@
 #include "arraydialog.h"
 #include "tabbingdialog.h"
 #include "kilestructurewidget.h"
-
+#include "convert.h"
 #include "includegraphicsdialog.h"                  // new dialog (dani)
 #include "cleandialog.h"                            // clean dialog (dani)
 
@@ -141,9 +141,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_eventFilter = new KileEventFilter();
 	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
 
-	statusBar()->insertItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN,0,true );
+	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
 	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
-	statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
 	statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
 	statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
 	topWidgetStack = new QWidgetStack( this );
@@ -167,7 +166,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_projectview = new KileProjectView(Structview, this);
 	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
 	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileOpen(const KURL&)));
+	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileSelected(const KURL&)));
 	connect(m_projectview, SIGNAL(closeURL(const KURL&)), this, SLOT(fileClose(const KURL&)));
 	connect(m_projectview, SIGNAL(closeProject(const KURL&)), this, SLOT(projectClose(const KURL&)));
 	connect(m_projectview, SIGNAL(projectOptions(const KURL&)), this, SLOT(projectOptions(const KURL&)));
@@ -348,6 +347,8 @@ void Kile::setupActions()
 	(void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"file_close" );
 	(void) new KAction(i18n("Close All"), 0, this, SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
+	(void) new KAction(i18n("To &ASCII"), 0, this, SLOT(convertToASCII()), actionCollection(), "file_export_ascii" );
+	(void) new KAction(i18n("To Latin-&1"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin1" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
 	(void) new KAction(i18n("Find &in files..."), ALT+SHIFT+Key_F, this, SLOT(FindInFiles()), actionCollection(),"FindInFiles" );
@@ -1937,10 +1938,21 @@ bool Kile::queryClose()
 
 void Kile::fileSelected(const KFileItem *file)
 {
-    QString encoding =KileFS->comboEncoding->lineEdit()->text();
+	fileSelected(file->url());
+}
+
+void Kile::fileSelected(const KURL & url)
+{
+	KileProjectItem * item = itemFor(url);
+	QString encoding;
+	if ( item )
+		encoding = item->encoding();
+	else
+	 	encoding =KileFS->comboEncoding->lineEdit()->text();
+
 	kdDebug() << "==Kile::fileSelected==========================" << endl;
-	kdDebug() << "\t" << file->url().fileName() << endl;
-	fileOpen(file->url(), encoding);
+	kdDebug() << "\t" << url.fileName() << ", " << encoding << endl;
+	fileOpen(url, encoding);
 }
 
 void Kile::showDocInfo(Kate::Document *doc)
@@ -1962,6 +1974,36 @@ void Kile::showDocInfo(Kate::Document *doc)
 	}
 	else
 		kdWarning() << "There is know KileDocumentInfo object belonging to this document!" << endl;
+}
+
+void Kile::convertToASCII(Kate::Document *doc)
+{
+	if (doc == 0)
+	{
+		Kate::View *view = currentView();
+
+		if (view) doc = view->getDoc();
+		else return;
+	}
+
+	ConvertIO *io = new ConvertIO(doc);
+	ConvertEncToASCII conv = ConvertEncToASCII("latin1", io);
+	conv.convert();
+}
+
+void Kile::convertToEnc(Kate::Document *doc)
+{
+	if (doc == 0)
+	{
+		Kate::View *view = currentView();
+
+		if (view) doc = view->getDoc();
+		else return;
+	}
+
+	ConvertIO *io = new ConvertIO(doc);
+	ConvertASCIIToEnc conv = ConvertASCIIToEnc("latin1", io);
+	conv.convert();
 }
 
 ////////////////// GENERAL SLOTS //////////////

@@ -18,9 +18,9 @@
 
 #include "codecompletion.h"
 
-#include "kdebug.h"
+#include <kdebug.h>
 #include <klocale.h>
-#include "kglobal.h"
+#include <kglobal.h>
 #include <kstddirs.h>
 #include <kconfig.h>
 #include <kmessagebox.h>

@@ -949,7 +949,7 @@ void Kile::fileSaveAll(bool amAutoSaving)
 	{
 		view = m_viewList.at(i);
 
-		if (view && view->getDoc()->isModified())
+		if (view && ( view->getDoc()->isModified() || amAutoSaving ))
 		{
 			fi.setFile(view->getDoc()->url().path());
 			//don't save unwritable and untitled documents when autosaving
@@ -967,12 +967,10 @@ void Kile::fileSaveAll(bool amAutoSaving)
 					KileAutoSaveJob *job = new KileAutoSaveJob(url);
 
 					//save the current file if job is finished succesfully
-					connect(job, SIGNAL(success()), view, SLOT(save()));
+					if (view->getDoc()->isModified()) connect(job, SIGNAL(success()), view, SLOT(save()));
 				}
 				else
 					view->save();
-
-				//TODO: make it save to a different location (.backup)
 			}
 		}
 	}

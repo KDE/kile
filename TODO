@@ -5,6 +5,9 @@ BUGS
  - F3 is assigned to two actions
    
 TODO
+ - version control for the kilerc file, now users have to delete
+   the old kilerc file when they upgrade to a new version
+
  - also handle .ltx files
  
  - improve UI of usertool/usertag dialogs

@@ -31,6 +31,7 @@ public:
 	void removeTab(int);
 	void setTab(int,bool);
 	bool isTabRaised(int);
+	int getRaisedTab(void);
 	class KMultiVertTabBarButton *getButton(int);
 	class KMultiVertTabBarTab *getTab(int);
 	QPtrList<class KMultiVertTabBarButton> buttons;
@@ -81,6 +82,7 @@ public:
 	int insertTab(QPixmap,int=-1,const QString& =QString::null);
 	KMultiVertTabBarTab *getTab(int);
 	void removeTab(int);
+	int getRaisedTab(void);
 	void setPosition(enum KMultiVertTabBar::KMultiVertTabBarPosition pos);
 private:
 	QVBox *box;

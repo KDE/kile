@@ -279,9 +279,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	ShowOutputView(false);
 	ShowStructView(false);
 	m_outputView->showPage(m_logWidget);
-	lastvtab=1;
 	newCaption();
-	showVertPage(0);
+	showVertPage(lastvtab);
 	m_singlemode=true;
 	m_masterName=getName();
 
@@ -1434,6 +1433,8 @@ void Kile::ReadSettings()
 	struct_level3 = KileConfig::structureLevel3();
 	struct_level4 = KileConfig::structureLevel4();
 	struct_level5 = KileConfig::structureLevel5();
+
+	lastvtab = KileConfig::selectedLeftView();
 }
 
 void Kile::ReadRecentFileSettings()
@@ -1573,6 +1574,8 @@ void Kile::SaveSettings()
 	KileConfig::setStructureLevel3(struct_level3);
 	KileConfig::setStructureLevel4(struct_level4);
 	KileConfig::setStructureLevel5(struct_level5);
+
+	KileConfig::setSelectedLeftView(ButtonBar->getRaisedTab());
 
 	KileConfig::writeConfig();
 	config->sync();

@@ -90,6 +90,10 @@
 			<label>Whether to show (La)TeX warnings in the LogMsg view.</label>
 			<default>false</default>
 		</entry>
+		<entry name="SelectedLeftView" type="Int">
+			<label>The identifier of the selected view in the left pane.</label>
+			<default>1</default>
+		</entry>
 	</group>
 	<group name="Editor Ext">
 		<entry name="CompleteEnvironment" type="Bool">

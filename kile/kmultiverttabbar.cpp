@@ -92,6 +92,16 @@ void KMultiVertTabBarInternal::removeTab(int id)
 	}
 }
 
+int KMultiVertTabBarInternal::getRaisedTab(void)
+{
+	uint sz = tabs.count();
+	for (uint pos=0 ; pos < sz ; pos++) {
+		if (tabs.at(pos)->isOn())
+			return tabs.at(pos)->id();
+	}
+	return 1;
+}
+
 void KMultiVertTabBarInternal::setPosition(enum KMultiVertTabBar::KMultiVertTabBarPosition pos)
 {
 	position=pos;
@@ -283,7 +293,7 @@ void KMultiVertTabBar::setTab(int id,bool state)
 	KMultiVertTabBarTab *tab=getTab(id);
 	if (tab)
 	{
-		if(state) tab->setOn(true); else tab->setOn(false);
+		tab->setOn(state);
 	}
 }
 
@@ -295,6 +305,11 @@ bool KMultiVertTabBar::isTabRaised(int id)
 		if (tab->isOn()) return true;
 	}
 	return false;
+}
+
+int KMultiVertTabBar::getRaisedTab(void)
+{
+	return internal->getRaisedTab();
 }
 
 

@@ -154,7 +154,10 @@ namespace KileDocument
 
 	void CodeCompletion::completeWord(const QString &text, CodeCompletion::Mode mode)
 	{
+		kdDebug() << "==CodeCompletion::completeWord(" << text << ")=========" << endl;
+		kdDebug() << "\tm_view = " << m_view << endl;
 		if ( !m_view) return;
+		kdDebug() << "ok" << endl;
 
 		// remember all parameters (view, pattern, length of pattern, mode)
 		m_text = text;
@@ -192,6 +195,8 @@ namespace KileDocument
 		QString entry, type;
 		QString pattern = ( m_mode != cmEnvironment ) ? text : "\\begin{" + text;
 		uint n = countEntries( pattern, &list, &entry, &type );
+		
+		kdDebug() << "entries = " << n << endl;
 
 		// nothing to do
 		if ( n == 0 )
@@ -217,23 +222,7 @@ namespace KileDocument
 		}
 
 		//  set restore mode
-		if ( m_mode == cmAbbreviation )
-		{
-			m_undo = true;
-		}
-
-		if ( m_mode == cmLabel )
-		{
-// 			doc->insertText( m_ycursor, m_xstart, " " );
-
-			// set the cursor to the new position
-// 			m_textlen++;
-// 			m_xcursor++;
-// 			m_view->setCursorPositionReal( m_ycursor, m_xcursor );
-
-			// set restore mode
-			m_undo = true;
-		}
+		if ( m_mode == cmAbbreviation || m_mode == cmLabel) m_undo = true;
 
 		// show the completion dialog
 		m_inprogress = true;
@@ -260,6 +249,7 @@ namespace KileDocument
 	{
 		KTextEditor::CompletionEntry e;
 
+		kdDebug() << "completeFromList: " << list->count() << " items" << endl;
 		m_labellist.clear();
 		QStringList::ConstIterator it;
 		QStringList::ConstIterator itend(list->end());
@@ -274,7 +264,7 @@ namespace KileDocument
 
 	//////////////////// completion was done ////////////////////
 
-	void CodeCompletion::CompletionDone()
+	void CodeCompletion::CompletionDone(KTextEditor::CompletionEntry)
 	{
 		// is there a new cursor position?
 		if ( m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
@@ -290,7 +280,6 @@ namespace KileDocument
 		}
 
 		m_inprogress = false;
-		m_view = 0L;
 	}
 
 	void CodeCompletion::CompletionAborted()
@@ -733,6 +722,7 @@ namespace KileDocument
 
 	void CodeCompletion::editCompleteList(Type type )
 	{
+		kdDebug() << "==editCompleteList=============" << endl;
 		if ( type == ctReference )
 			completeFromList(info()->allLabels());
 		else if ( type == ctCitation )
@@ -741,14 +731,16 @@ namespace KileDocument
 
 	//////////////////// slots for code completion ////////////////////
 
-	void CodeCompletion::slotCompletionDone()
+	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
 	{
-		CompletionDone();
+		CompletionDone(entry);
 
-		if ( getMode() == cmLatex )
-		{
-			m_completeTimer->start( 0, false );
-		}
+		if ( getMode() == cmLatex ) m_completeTimer->start( 0, false );
+		
+		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) )
+				completeWord("", cmLabel);
+		else
+			m_view = 0L;
 	}
 
 	void CodeCompletion::slotCompleteValueList()

@@ -82,7 +82,7 @@ public slots:
 	void slotCharactersInserted(int, int, const QString&);
 	void editComplete(Kate::View *view, KileDocument::CodeCompletion::Mode mode);
 
-	void slotCompletionDone( );
+	void slotCompletionDone(KTextEditor::CompletionEntry);
 	void slotCompleteValueList();
 	void slotCompletionAborted();
 
@@ -92,7 +92,7 @@ private:
 	void completeWord(const QString &text, CodeCompletion::Mode mode);
 	QString filterCompletionText(const QString &text, const QString &type);
 
-	void CompletionDone();
+	void CompletionDone(KTextEditor::CompletionEntry);
 	void CompletionAborted();
 
 	void completeFromList(const QStringList *list);

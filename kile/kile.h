@@ -30,8 +30,10 @@
 #include <kparts/part.h>
 #include <kspell.h>
 #include <kprocess.h>
+#include <kurl.h>
 #include <kaction.h>
 #include <kfileitem.h>
+
 
 #include <qmap.h>
 #include <qsplitter.h>
@@ -163,7 +165,6 @@ private:
     QString lastDocument,MasterName, input_encoding;
     QString templAuthor, templDocClassOpt, templEncoding;
     QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-    QStringList recentFilesList;
     //Userlist UserMenuName, UserMenuTag;
     //UserCd UserToolName, UserToolCommand;
 
@@ -203,8 +204,8 @@ private:
       *ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
     KAction *altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
     KAction *altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
+    KRecentFilesAction* fileOpenRecentAction;
 
-    KSelectAction *RecentAction;
     int par_start, par_end, index_start, index_end;
     QString spell_text;
 
@@ -217,7 +218,7 @@ signals:
 private slots:
     void fileNew();
     void fileOpen();
-    void fileOpenRecent(const QString &fn);
+    void fileOpen(const KURL& url);
     void fileSave(bool amAutoSaving = false);
     void fileSaveAll(bool amAutoSaving = false);
     void autoSaveAll();
@@ -228,7 +229,6 @@ private slots:
     void fileClose();
     void fileCloseAll();
     void fileExit();
-    void AddRecentFile(const QString &f);
     void fileSelected(const KFileItem *file);
 
     void editUndo();

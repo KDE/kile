@@ -77,8 +77,6 @@ config = KGlobal::config();
 m_AutosaveTimer= new QTimer();
 connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
-ReadSettings();
-
 //workaround for kdvi crash when started with Tooltips
 config->setGroup("TipOfDay");
 config->writeEntry( "RunOnStart",false);
@@ -91,6 +89,11 @@ partManager = new KParts::PartManager( this );
 connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
 kspell = 0;
 setupActions();
+
+// Read Settings should be after setupActions() because fileOpenRecentAction needs to be
+// initialized before calling ReadSettnigs().
+ReadSettings();
+
 statusBar()->insertFixedItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN );
 statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
 statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
@@ -228,9 +231,7 @@ void Kile::setupActions()
   PrintAction=KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
   (void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
-  RecentAction=new KSelectAction(i18n("Open Recent"), 0, actionCollection(), "Recent");
-  RecentAction->setItems(recentFilesList);
-  connect(RecentAction, SIGNAL(activated(const QString &)), SLOT(fileOpenRecent(const QString &)));
+  fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");  
   (void) KStdAction::save(this, SLOT(fileSave()), actionCollection(),"Save" );
   (void) KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
   (void) new KAction(i18n("Save All"),0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
@@ -616,7 +617,7 @@ void Kile::load( const QString &f )
     doConnections( edit->editor );
     UpdateCaption();
     UpdateLineColStatus();
-    AddRecentFile(f);
+    fileOpenRecentAction->addURL(KURL(f));
     ShowStructure();
 }
 
@@ -728,31 +729,16 @@ void Kile::fileOpen()
 	if ( !fn.isEmpty() ) load( fn );
 }
 
-void Kile::fileOpenRecent(const QString &fn)
+void Kile::fileOpen(const KURL& url)
 {
-if ( !fn.isEmpty() ) load( fn );
-RecentAction->clear();
-RecentAction->setItems(recentFilesList);
+  // Convert from URL to QString
+  // TODO : QString everywhere should be replaced by KURL eventually!
+  QString fn;
+  fn = url.path();
+  std::cout << "DEBUG: Got Path: " << fn << std::endl;
+  load( fn );
 }
 
-
-void Kile::AddRecentFile(const QString &f)
-{
-lastDocument=f;
-QStringList::ConstIterator it1 = recentFilesList.begin();
-for ( ; it1 != recentFilesList.end(); ++it1 )
-    {
-    if (*it1==f) return;
-    }
-if( recentFilesList.count() ==5 )
-{
-   recentFilesList.remove( recentFilesList.last() );
-}
-recentFilesList.prepend( f );
-
-RecentAction->clear();
-RecentAction->setItems(recentFilesList);
-}
 
 bool Kile::FileAlreadyOpen(QString f)
 {
@@ -788,8 +774,11 @@ void Kile::fileSave(bool amAutoSaving )
 
 		if ( !file.open( IO_WriteOnly ) )
 		{
-			QString cap = amAutoSaving ? i18n("Sorry") : i18n("Autosave");
-			KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."),cap);
+      if(!amAutoSaving) {
+        // do not annoy user by giving error messages if auto save is not possible
+  			QString cap = i18n("Sorry");
+	  		KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."),cap);
+      }
 			return;
 		}
 
@@ -803,7 +792,7 @@ void Kile::fileSave(bool amAutoSaving )
 		{
 			currentEditorView()->editor->setModified(false);
 			fn=getName();
-			AddRecentFile(fn);
+			fileOpenRecentAction->addURL(KURL(fn));
 		}
 	}
 	UpdateCaption();
@@ -5116,12 +5105,33 @@ else
 
 config->setGroup( "Files" );
 lastDocument=config->readPathEntry("Last Document");
-recentFilesList=config->readPathListEntry("Recent Files", ':');
+//recentFilesList=config->readPathEntry("Recent Files", ':');
 input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
 autosave=config->readBoolEntry("Autosave",true);
 autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
 enableAutosave(autosave);
 setAutosaveInterval(autosaveinterval);
+
+  // Loading of Recent Files
+
+  // Load recent files from "Recent Files" group
+  // using the KDE standard action for recent files
+  fileOpenRecentAction->loadEntries(config,"Recent Files");
+ 
+  // Now check if user is using an old rc file that has "Recent Files" under
+  // the "Files" group
+  if(config->hasKey("Recent Files")) {
+    // If so, then read the entry in, add it to fileOpenRecentAction
+    QStringList recentFilesList = config->readListEntry("Recent Files", ':');
+    QStringList::ConstIterator it = recentFilesList.begin();
+    for ( ; it != recentFilesList.end(); ++it )
+    {
+      fileOpenRecentAction->addURL(KURL(*it));
+    }
+    // Now delete this recent files entry as we are now using a separate
+    // group for recent files
+    config->deleteEntry("Recent Files");
+  } 
 
 config->setGroup( "User" );
 templAuthor=config->readEntry("Author");
@@ -5235,10 +5245,13 @@ config->writeEntry("User Options",userOptionsList, ':');
 
 config->setGroup( "Files" );
 config->writePathEntry("Last Document",lastDocument);
-config->writePathEntry("Recent Files", recentFilesList, ':');
+//config->writePathEntry("Recent Files", recentFilesList, ":");
 config->writeEntry("Input Encoding", input_encoding);
 config->writeEntry("Autosave",autosave);
 config->writeEntry("AutosaveInterval",autosaveinterval);
+
+  // Store recent files
+  fileOpenRecentAction->saveEntries(config,"Recent Files");
 
 config->setGroup( "User" );
 config->writeEntry("Author",templAuthor);

@@ -82,9 +82,14 @@ the encoding for the file. This can be done by selecting the appropriate encodin
 countries for example) in the drop-down menu at the lower left corner of the file selector window.
 </para>
 <screenshot>
+<screeninfo>Selecting the encoding</screeninfo>
+<mediaobject>
 <imageobject>
 <imagedata fileref="enc1.png" format="PNG" />
 </imageobject>
+<textobject><phrase>Selecting the encoding</phrase></textobject>
+<caption><para>Selecting the encoding</para></caption>
+</mediaobject>
 </screenshot>
 </sect2>
 

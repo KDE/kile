@@ -1,8 +1,8 @@
 /***************************************************************************
                            kileedit.cpp
 ----------------------------------------------------------------------------
-    date                 : Feb 09 2004
-    version              : 0.10.2
+    date                 : Aug 17 2004
+    version              : 0.10.3
     copyright            : (C) 2004 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -1179,16 +1179,16 @@ bool EditorExtension::getCurrentWord(Kate::Document *doc, uint row, uint col, Ed
 	{
 		reg.setPattern(pattern1);
 		pos = textline.findRev(reg,col-1);
-		if ( pos != -1 )
-		{
-		x1 = pos + 1;
-		if ( mode == smTex )
-		{
-			if ( textline[pos] == '\\' )
-			x1 = pos;
-			col = x1;
-		}
-		}
+		if ( pos != -1 ) {        // found an illegal character
+			x1 = pos + 1;
+			if ( mode == smTex ) {
+				if ( textline[pos] == '\\' )
+					x1 = pos;
+				col = x1;
+			}
+		} else {
+			x1 = 0;               // pattern matches from beginning of line
+		} 
 	}
 	
 	// search at the current position

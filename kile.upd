@@ -48,3 +48,9 @@ Key=Papersize,QuickPapersize
 Key=Document Classes,QuickDocumentClasses
 Key=Papersizes,QuickPapersizes
 Key=Encodings,QuickEncodings
+#
+# Kile-1.7
+#
+Id=Kile1.7v1
+File=kilerc
+Script=kile1.7_upd.pl,perl

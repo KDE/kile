@@ -39,12 +39,20 @@ namespace KileStruct
 	enum  { None = 0x1, Label = 0x2, Sect = 0x4, Input =0x8};
 }
 
+/**
+ * A convenience class to store info about how LaTeX elements should appear in the
+ * structure view. A QMap<QString, KileStructData> should be created, so that the
+ * actual LaTeX elements can be mapped to this class.
+ **/
 class KileStructData
 {
 public:
 	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString::null)  : level(lvl), type(tp), pix(px) {}
+	/** At which level the element should be visible **/
 	int				level;
+	/** The type of element (see @ref KileStruct) **/
 	int 			type;
+	/** The name of the icon that goes with this element. The icon is located using UserIcon(pix). **/
 	QString 	pix;
 };
 
@@ -59,9 +67,13 @@ public:
 	KileListViewItem(QListView * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None;}
 	KileListViewItem(QListViewItem * parent, QString label) : KListViewItem(parent,label) { m_line=0; m_column=0; m_title=label; m_type = KileStruct::None; }
 
+	/** @returns the title of this element (for a label it return the label), without the (line ???) part **/
 	const QString& title() { return m_title; }
+	/** @returns the line number of the structure element. **/
 	const uint line() { return m_line; }
+	/** @returns the column number of the structure element, right after the { **/
 	const uint column() { return m_column; }
+	/** @returns the type of element, see @ref KileStruct **/
 	const int type() { return m_type; }
 
 private:
@@ -71,6 +83,10 @@ private:
 	int					m_type;
 };
 
+/**
+ * KileDocumentInfo is a decorator class for the Document class. We can't derive a class from an interface
+ * without implementing the interface, a decorator class is a way to add some functionality to the Document class.
+ **/
 class KileDocumentInfo : public QObject
 {
 	Q_OBJECT
@@ -78,8 +94,17 @@ class KileDocumentInfo : public QObject
 public:
 	KileDocumentInfo(Kate::Document *doc);
 
+	/**
+	 * @returns the document for which this class is a decorator
+	 **/
 	Kate::Document* getDoc() { return m_doc; }
 
+	/**
+	 * Used by @ref KileDocInfoDlg to display statistics of the Document.
+	 * @returns an array with some statistical data of the document.
+	 * The array is filled as follows: #chars in words, #chars in LaTeX commands,
+	 * #chars in whitespace, #words, #commands.
+	 **/
 	const long* getStatistics();
 
 	const QStringList* getLabelList() const{ return &m_labels; }

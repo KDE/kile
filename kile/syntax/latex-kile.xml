@@ -23,6 +23,9 @@
 			<item>displaymath</item>
 			<item>multline</item>
 		</list>
+		<list name="kw_verbenv">
+			<item>lstlisting</item>
+		</list>
 		<contexts>
 			<context name="Normal Text" attribute="Normal Text" lineEndContext="Normal Text">
 				<RegExpr String="\\(begin|end)(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment"/>
@@ -55,6 +58,7 @@
 				<DetectChar char="]" attribute="Normal Text" context="Normal Text"/>
 				<StringDetect String="verbatim" attribute="Environment" context="VerbatimEnv"/>
 				<keyword String="kw_mathenv" attribute="Environment" context="MathEnv"/>
+				<keyword String="kw_verbenv" attribute="Environment" context="SpecialEnv"/>
 			</context>
 
 			<context name="Label" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
@@ -79,6 +83,17 @@
 				<DetectChar char="}" attribute="Normal Text" context="Normal Text"/>
 			</context>
 
+			<context name="SpecialEnv" attribute="Verbatim" lineEndContext="#stay">
+				<DetectChar char="}" attribute="Normal Text" context="#stay"/>
+				<RegExpr String="\\end" attribute="Structure" context="SpecialFindEnd"/>
+			</context>
+			<context name="SpecialFindEnd" attribute="Normal Text" lineEndContext="SpecialEnv" fallthrough="true" fallthroughContext="SpecialEnv">
+				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
+				<keyword String="kw_verbenv" attribute="Environment" context="#stay"/>
+				<RegExpr String="\s*" attribute="Normal Text" context="#stay"/>
+				<DetectChar char="}" attribute="Normal Text" context="Normal Text"/>
+			</context>
+
 			<context name="MathMode" attribute="Math" lineEndContext="MathMode">
 				<Detect2Chars char="\" char1="]" attribute="Math" context="Normal Text"/>
 				<Detect2Chars char="\" char1=")" attribute="Math" context="Normal Text"/>
@@ -87,12 +102,9 @@
 				<RegExpr String="\\end(?=\s*\{\s*eqnarray\s*\})" attribute="Structure" context="MathFindEnd"/>
 				<RegExpr String="\\end(?=\s*\{\s*math\s*\})" attribute="Structure" context="MathFindEnd"/>
 				<RegExpr String="\\end(?=\s*\{\s*multline\s*\})" attribute="Structure" context="MathFindEnd"/>
-
 				<DetectChar char="\" attribute="Keyword Mathmode" context="MathContrSeq"/>
-
 				<StringDetect String="$$" attribute="Math" context="Normal Text"/>
 				<DetectChar char="$" attribute="Math" context="Normal Text"/>
-
 				<DetectChar char="%" attribute="Comment" context="Comment"/>
 			</context>
 			<context name="MathEnv" attribute="Environment" lineEndContext="#stay">
@@ -122,7 +134,6 @@
 			<itemData name="Keyword Mathmode" defStyleNum="dsNormal" color="#606000" selColor="#FFD0FF" bold="0" italic="0"/>
 			<itemData name="Environment" defStyleNum="dsNormal" color="#0000D0" selColor="#FFFF90" bold="0" italic="0"/>
 			<itemData name="Verbatim" defStyleNum="dsNormal" color="#a08000" selColor="#80D0FF" bold="0" italic="0"/>
-
 		</itemDatas>
 	</highlighting>
 	<general>

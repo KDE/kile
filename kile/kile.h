@@ -87,11 +87,6 @@ class KActionMenu;
 
 class KileEventFilter;
 
-//typedef  QMap<LatexEditorView*, QString> FilesMap;
-typedef  QString Userlist[10];
-typedef  QString UserCd[5];
-typedef  QColor ListColors[8];
-
 #ifndef KILE_USERITEM
 struct userItem
 {
@@ -136,21 +131,21 @@ private:
 	 * Toggle between old (non-KDE compliant) shortcuts or KDE-compliant shortcuts
 	 **/
 	void ToggleKeyShortcut(KAction *action, bool addShiftModifier);
-	bool					m_menuaccels; //TRUE : we're using KDE compliant shortcuts
+	bool									m_menuaccels; //TRUE : we're using KDE compliant shortcuts
 
-	KActionMenu 			*m_menuUserTags, *m_menuUserTools;
-	QSignalMapper 			*m_mapUserTagSignals, *m_mapUserToolsSignals;
+	KActionMenu 					*m_menuUserTags, *m_menuUserTools;
+	QSignalMapper 				*m_mapUserTagSignals, *m_mapUserToolsSignals;
 	QValueList<userItem> 	m_listUserTags, m_listUserTools;
-	QPtrList<KAction> 		m_listUserTagsActions, m_listUserToolsActions;
-	KAction					*m_actionEditTag, *m_actionEditTool;
+	QPtrList<KAction> 			m_listUserTagsActions, m_listUserToolsActions;
+	KAction							*m_actionEditTag, *m_actionEditTool;
 
 	KPopupMenu			*help;
-	KHelpMenu			*help_menu;
-	KAction 			*BackAction, *ForwardAction, *HomeAction, *StopAction;
+	KHelpMenu				*help_menu;
+	KAction 					*BackAction, *ForwardAction, *HomeAction, *StopAction;
 	KToggleAction 		*ModeAction, *MenuAccelsAction, *StructureAction, *MessageAction, *WatchFileAction,
-						*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
-	KAction 			*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
-	KAction 			*altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
+									*ShowMainToolbarAction, *ShowToolsToolbarAction, *ShowEditToolbarAction, *ShowMathToolbarAction;
+	KAction 					*altH_action, *altI_action, *altA_action, *altB_action, *altT_action, *altC_action;
+	KAction 					*altM_action, *altE_action, *altD_action, *altU_action, *altF_action, *altQ_action, *altS_action, *altL_action, *altR_action;
 	KRecentFilesAction	*fileOpenRecentAction;
 
 
@@ -229,15 +224,15 @@ private slots:
 /* config */
 private:
 	KConfig				*config;
-	int 				split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
+	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
 
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument,MasterName, input_encoding;
    	QString 		templAuthor, templDocClassOpt, templEncoding;
    	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
    	QStringList 	recentFilesList;
-	bool 			ams_packages, makeidx_package;
-	bool 			htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
+	bool 				ams_packages, makeidx_package;
+	bool 				htmlpresent,pspresent, dvipresent, symbol_present, watchfile, color_mode;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
 
 	bool			m_bCompleteEnvironment;
@@ -273,8 +268,8 @@ private slots:
 
 private:
 	KSpell 			*kspell;
-    int 			ks_corrected;
-	int 			par_start, par_end, index_start, index_end;
+    int 				ks_corrected;
+	int 				par_start, par_end, index_start, index_end;
     QString 		spell_text;
 
 
@@ -292,6 +287,7 @@ private slots:
 	/**
 	 * Activates (sets up the GUI for the editor part) the view.
 	 * @param checkModified If true, check if the document that corresponds to this view is modified on disc.
+	 * @param updateStruct  If true, force an update of the structure view.
 	 **/
 	void activateView(QWidget* view ,bool checkModified = true, bool updateStruct = true);
 	void removeView(Kate::View *view);
@@ -317,7 +313,7 @@ public slots:
 	 * @returns pointer to the new view
 	 **/
 	Kate::View* load( const KURL &url , const QString & encoding = 0);
-	
+
 private slots:
 	void fileNew();
 	void fileOpen();
@@ -385,9 +381,9 @@ private slots:
 /* tools */
 private:
 	KShellProcess 		*currentProcess;
-	QString 			latex_command, viewdvi_command, dvips_command, dvipdf_command,
-						viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
-						pdflatex_command, viewpdf_command, l2h_options;
+	QString 				latex_command, viewdvi_command, dvips_command, dvipdf_command,
+								viewps_command, ps2pdf_command, makeindex_command, bibtex_command,
+								pdflatex_command, viewpdf_command, l2h_options;
 
 signals:
 	void stopProcess();
@@ -445,12 +441,12 @@ private slots:
 
 private:
 	QString 		tempLog;
-	bool 			logpresent;
+	bool 				logpresent;
 
 	QStrList 		*errorlist;
-	int 			m_nErrors,m_nWarnings;
-	bool 			m_bCheckForLaTeXErrors;
-	bool 			m_bNewErrorlist;
+	int 				m_nErrors,m_nWarnings;
+	bool 				m_bCheckForLaTeXErrors;
+	bool 				m_bNewErrorlist;
 
 
 /* insert tags */
@@ -473,7 +469,7 @@ private slots:
 	void QuickLetter();
 	void QuickDocument();
 
-	void InsertSymbol();
+	void insertSymbol(QIconViewItem*);
 	void InsertMetaPost(QListBoxItem *);
 
 	void insertUserTag(int i);

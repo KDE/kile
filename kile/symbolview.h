@@ -1,9 +1,9 @@
 /***************************************************************************
                           symbolview.h  -  description
                              -------------------
-    begin                : Sat Aug 17 2002
+    begin                : Fri Aug 1 2003
     copyright            : (C) 2002 by Pascal Brachet
-    email                : 
+    email                :  Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,11 +18,11 @@
 #ifndef SYMBOLVIEW_H
 #define SYMBOLVIEW_H
 
-#include <kileiconview.h>
+#include <kiconview.h>
 #include <qstring.h>
 
 /**
-  *@author Pascal Brachet
+  *@author Jeroen Wijnhout
   */
 typedef QString codelist[445];
 const codelist code=
@@ -476,19 +476,14 @@ const codelist code=
 //////////////////////////////
 
 /////////////////////////////////////
-class SymbolView : public KileIconView  {
+class SymbolView : public KIconView  {
 Q_OBJECT
-public: 
+public:
 	SymbolView(int page,QWidget *parent=0, const char *name=0);
-  QString getSymbolCode();
 	~SymbolView();
-private:
-    QString codesymbol;
+
 private slots:
-    void InitPage(int page);
-    void setSymbolCode(KileIconViewItem* item);
-signals:
-    void SymbolSelected();
+	void InitPage(int page);
 };
 ////////////////////////////////////////////
 

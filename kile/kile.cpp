@@ -2834,10 +2834,10 @@ void Kile::QuickLetter()
 }
 
 //////////////////////////// MATHS TAGS/////////////////////////////////////
-void Kile::InsertSymbol()
+void Kile::insertSymbol(QIconViewItem *item)
 {
-QString code_symbol=symbol_view->getSymbolCode();
-insertTag(code_symbol,QString::null,code_symbol.length(),0);
+	QString code_symbol= item->key();
+	insertTag(code_symbol,QString::null,code_symbol.length(),0);
 }
 
 void Kile::InsertMetaPost(QListBoxItem *)
@@ -3641,7 +3641,7 @@ else
       if (Structview_layout) delete Structview_layout;
       Structview_layout=new QHBoxLayout(Structview);
       symbol_view = new SymbolView(page-1,Structview,"Symbols");
-      connect(symbol_view, SIGNAL(SymbolSelected()), SLOT(InsertSymbol()));
+      connect(symbol_view, SIGNAL(executed(QIconViewItem*)), SLOT(insertSymbol(QIconViewItem*)));
       symbol_present=true;
       Structview_layout->add(symbol_view);
       Structview_layout->add(ButtonBar);

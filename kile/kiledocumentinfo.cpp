@@ -137,9 +137,9 @@ const long* KileDocumentInfo::getStatistics()
 // pos is the positon of the {
 int KileDocumentInfo::matchBracket(const QString &line, int pos)
 {
-	int count=0;
+	int count=0, len = line.length();
 
-	for (int i=pos+1; i < line.length(); i++)
+	for (int i=pos+1; i < len; i++)
 	{
 		if (line[i] == '\\') i++;
 		else if (line[i] == '{') count++;

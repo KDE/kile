@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
 #include "kile.h"
 
 #include <ktexteditor/editorchooser.h>
@@ -438,7 +436,6 @@ void Kile::setupUserToolActions()
 ////////////////////////////// FILE /////////////////////////////
 Kate::View* Kile::load( const KURL &url , const QString & encoding)
 {
-
 	if ( url.path() != "untitled" && isOpen(url))
 		return 0;
 
@@ -2546,11 +2543,19 @@ if ((item) && (!structlist.isEmpty()))
     ++it2;
     }
 QString s=*it2;
+QString fn;
+if (singlemode)
+	fn = getName();
+else
+	fn = MasterName;
 if (s=="include")
     {
     QString fname=*it1;
-    if (fname.right(5)==".tex}") fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2);
-    else fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
+
+    if (fname.right(5)==".tex}")
+    	fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2);
+    else
+    	fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
     QFileInfo fi(fname);
     if (fi.exists() && fi.isReadable())
       {
@@ -2560,8 +2565,8 @@ if (s=="include")
 else if (s=="input")
     {
     QString fname=*it1;
-    if (fname.right(5)==".tex}") fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2);
-    else fname=QFileInfo(getName()).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
+    if (fname.right(5)==".tex}") fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2);
+    else fname=QFileInfo(fn).dirPath()+"/"+fname.mid(1,fname.length()-2)+".tex";
     QFileInfo fi(fname);
     if (fi.exists() && fi.isReadable())
       {
@@ -3695,7 +3700,13 @@ void Kile::spellcheck()
 		delete kspell;
 	}
 
-	kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)));
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,1,90)
+		kdDebug() << "KSPELL: using NEW kspell " << KDE_VERSION_STRING << endl;
+		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false, KSpell::TeX);
+	#else
+		kdDebug() << "KSPELL: using OLD kspell " << KDE_VERSION_STRING << endl;
+		kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)), 0, true, false);
+	#endif
 	ks_corrected=0;
 	connect (kspell, SIGNAL ( death()),this, SLOT ( spell_finished( )));
 	connect (kspell, SIGNAL (progress (unsigned int)),this, SLOT (spell_progress (unsigned int)));
@@ -4007,7 +4018,7 @@ KileEventFilter::KileEventFilter()
 
 void KileEventFilter::readConfig()
 {
-	KConfig *config = KGlobal::config();
+	KConfig *config = kapp->config();
 	config->setGroup( "Editor Ext" );
 	m_bCompleteEnvironment = config->readBoolEntry( "Complete Environment", false);
 }

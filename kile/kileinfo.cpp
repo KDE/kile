@@ -27,19 +27,24 @@
 
 void KileInfo::mapItem(KileDocumentInfo *docinfo, KileProjectItem *item)
 {
-	m_mapDocInfoToItem[docinfo]=item;
-	m_mapItemToDocInfo[item]=docinfo;
+/*	m_mapDocInfoToItem[docinfo]=item;
+	m_mapItemToDocInfo[item]=docinfo;*/
 	item->setInfo(docinfo);
 }
 
 void KileInfo::trash(Kate::Document *doc)
 {
-	//kdDebug() << "\tTRASHING " <<  doc << endl;
+	kdDebug() << "\tTRASHING " <<  doc  << endl;
+	if (doc == 0) return;
+
+	kdDebug() << "\tremoving from m_docList: " << doc->url().path() << endl;
+	m_docList.remove(doc);
+
 	KileDocumentInfo *docinfo =  infoFor(doc);
 	if (docinfo) docinfo->detach();
 	removeMap(doc);
-	m_docList.remove(doc);
-	if (doc) doc->closeURL();
+
+	//if (doc) doc->closeURL();
 	delete doc;
 }
 
@@ -79,21 +84,54 @@ KileProject* KileInfo::projectFor(const QString &name)
 	return project;
 }
 
-KileProjectItem* KileInfo::itemFor(const KURL &url)
+KileProjectItem* KileInfo::itemFor(const KURL &url, KileProject *project /*=0*/) const
 {
-	KileProjectItem *projectitem = 0;
+	if (project == 0L)
+	{
+		QPtrListIterator<KileProject> it(m_projects);
+		while ( it.current() )
+		{
+			if ((*it)->contains(url))
+			{
+				return (*it)->item(url);
+			}
+			++it;
+		}
+	}
+	else
+	{
+		if ( project->contains(url) )
+			return project->item(url);
+	}
+
+	return 0;
+}
+
+KileProjectItem* KileInfo::itemFor(KileDocumentInfo *docinfo, KileProject *project /*=0*/) const
+{
+	return itemFor(docinfo->url(), project);
+}
+
+KileProjectItemList* KileInfo::itemsFor(KileDocumentInfo *docinfo) const
+{
+	KileProjectItemList *list = new KileProjectItemList();
 
 	QPtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
-		if ((*it)->contains(url))
+		if ((*it)->contains(docinfo->url()))
 		{
-			return (*it)->item(url);
+			list->append((*it)->item(docinfo->url()));
 		}
 		++it;
 	}
 
-	return projectitem;
+	return list;
+}
+
+KileDocumentInfo* KileInfo::infoFor(KileProjectItem *item)
+{
+	return infoFor(item->url().path());
 }
 
 KileDocumentInfo *KileInfo::infoFor(const QString & path)
@@ -135,7 +173,7 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 		if (title == "") title = i18n("Untitled");
 	}
 	else
-		title="";
+		title=QString::null;
 
 	return title;
 }
@@ -222,4 +260,3 @@ KileProjectItem* KileInfo::activeProjectItem()
 
 	return item;
 }
-

@@ -339,6 +339,7 @@ public slots:
 public slots:
 	void fileSelected(const QString & url) { fileSelected(KURL::fromPathOrURL(url)); }
 	void fileSelected(const KURL &);
+	void fileSelected(const KileProjectItem * item);
 
 private slots:
 	void fileNew();
@@ -380,7 +381,7 @@ private slots:
 	void projectSave(KileProject * project = 0);
 	void projectAddFiles(const KURL &);
 	void projectAddFiles(KileProject * project = 0);
-	void toggleArchive(const KURL &);
+	void toggleArchive(KileProjectItem *);
 	bool projectArchive(const KURL &);
 	bool projectArchive(KileProject *project  = 0);
 	void buildProjectTree(KileProject *project = 0);
@@ -396,7 +397,7 @@ private slots:
 	void addProject(const KileProject *project);
 	void addToProject(const KURL &);
 	void addToProject(KileProject *, const KURL &);
-	void removeFromProject(const KURL &, const KURL &);
+	void removeFromProject(const KileProjectItem *);
 
 public slots:
 	void projectOpen(const QString& proj) { projectOpen(KURL::fromPathOrURL(proj)); }

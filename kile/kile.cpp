@@ -157,13 +157,14 @@ Kile::Kile( QWidget *, const char *name ) :
 	ButtonBar->insertTab( SmallIcon("editcopy"),9,i18n("Files and Projects"));
 	connect(ButtonBar->getTab(9),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	connect(m_projectview, SIGNAL(fileSelected(const KURL&)), this, SLOT(fileSelected(const KURL&)));
+	connect(m_projectview, SIGNAL(fileSelected(const KileProjectItem *)), this, SLOT(fileSelected(const KileProjectItem *)));
 	connect(m_projectview, SIGNAL(closeURL(const KURL&)), this, SLOT(fileClose(const KURL&)));
 	connect(m_projectview, SIGNAL(closeProject(const KURL&)), this, SLOT(projectClose(const KURL&)));
 	connect(m_projectview, SIGNAL(projectOptions(const KURL&)), this, SLOT(projectOptions(const KURL&)));
 	connect(m_projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(projectArchive(const KURL&)));
-	connect(m_projectview, SIGNAL(removeFromProject(const KURL &,const KURL &)), this, SLOT(removeFromProject(const KURL &,const KURL &)));
+	connect(m_projectview, SIGNAL(removeFromProject(const KileProjectItem *)), this, SLOT(removeFromProject(const KileProjectItem *)));
 	connect(m_projectview, SIGNAL(addFiles(const KURL &)), this, SLOT(projectAddFiles(const KURL &)));
-	connect(m_projectview, SIGNAL(toggleArchive(const KURL &)), this, SLOT(toggleArchive(const KURL &)));
+	connect(m_projectview, SIGNAL(toggleArchive(KileProjectItem *)), this, SLOT(toggleArchive(KileProjectItem *)));
 	connect(m_projectview, SIGNAL(addToProject(const KURL &)), this, SLOT(addToProject(const KURL &)));
 	connect(m_projectview, SIGNAL(saveURL(const KURL &)), this, SLOT(saveURL(const KURL &)));
 	connect(m_projectview, SIGNAL(buildProjectTree(const KURL &)), this, SLOT(buildProjectTree(const KURL &)));
@@ -909,13 +910,17 @@ void Kile::fileOpen(const KURL& url, const QString & encoding)
 	//kdDebug() << "\t" << url.fileName() << endl;
 	bool isopen = isOpen(url);
 
-	Kate::View *view = load(url, encoding);
+	Kate::View *view = 0L;
+
+	if ( !isopen )
+		view = load(url, encoding);
 
 	//URL wasn't open before loading, add it to the project view
-	if (!isopen) m_projectview->add(url);
+	if (!isopen && (itemFor(url) == 0) ) m_projectview->add(url);
 
 	if (view)
 		infoFor(view->getDoc())->updateStruct(m_defaultLevel);
+
 	updateModeStatus();
 }
 
@@ -1135,33 +1140,24 @@ void Kile::addToProject(KileProject* project, const KURL & url)
 	buildProjectTree(project);
 }
 
-void Kile::removeFromProject(const KURL & projecturl, const KURL & url)
+void Kile::removeFromProject(const KileProjectItem *item)
 {
-	//kdDebug() << "==Kile::removeFromProject==========================" << endl;
-	KileProject *project = projectFor(projecturl);
-
-	if (project)
+	if (item->project())
 	{
-		KileProjectItem *item = project->item(url);
-		if (item)
+		kdDebug() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
+
+		if (item->project()->url() == item->url())
 		{
-			//kdDebug() << "\tprojecturl = " << projecturl.path() << ", url = " << item->url().path() << endl;
-
-			if (project->url() == item->url())
-			{
-				KMessageBox::error(this, i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot remove file from project"));
-				return;
-			}
-
-			removeMap(infoFor(item), item);
-			project->remove(item);
-
-			//move projectviewitem to a place outside of this project tree
-			m_projectview->removeItem(url);
-			if (isOpen(url)) m_projectview->add(url);
-
-			buildProjectTree(project);
+			KMessageBox::error(this, i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot remove file from project"));
+			return;
 		}
+
+		m_projectview->removeItem(item, isOpen(item->url()));
+
+		KileProject *project = item->project();
+		item->project()->remove(item);
+
+		project->buildProjectTree();
 	}
 }
 
@@ -1349,11 +1345,9 @@ void Kile::projectAddFiles(KileProject *project)
 		KMessageBox::error(this, i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could not determine active project."));
 }
 
-void Kile::toggleArchive(const KURL & url)
+void Kile::toggleArchive(KileProjectItem *item)
 {
-	KileProjectItem *item = itemFor(url);
-	if (item)
-		item->setArchive(!item->archive());
+	item->setArchive(!item->archive());
 }
 
 bool Kile::projectArchive(const KURL & url)
@@ -1629,11 +1623,12 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 		KURL url = view->getDoc()->url();
 
 		KileDocumentInfo *docinfo= infoFor(doc);
-		KileProjectItem *item = itemFor(docinfo);
+		KileProjectItemList *items = itemsFor(docinfo);
 
-		if (item && doc)
+		while ( items->current() )
 		{
-			storeProjectItem(item,doc);
+			if (items->current() && doc) storeProjectItem(items->current(),doc);
+			items->next();
 		}
 
 		if (view->getDoc()->closeURL() )
@@ -1644,11 +1639,10 @@ bool Kile::fileClose(Kate::Document *doc /* = 0*/, bool delDocinfo /* = false */
 			removeView(view);
 			//remove the decorations
 
-			if ( (item == 0) || delDocinfo)
+			if ( (items->count() == 0) || delDocinfo)
 			{
 				//doc doesn't belong to a project, get rid of the docinfo
 				//or we're closing the project itself (delDocinfo is true)
-				//kdDebug() << "ABOUT TO REMOVE DOCINFO (" << (item==0) << "," << delDocinfo << " )" << endl;
 				m_infoList.remove(docinfo);
 				delete docinfo;
 			}
@@ -1730,20 +1724,16 @@ void Kile::fileSelected(const KFileItem *file)
 	fileSelected(file->url());
 }
 
-void Kile::fileSelected(const KURL & url)
+void Kile::fileSelected(const KileProjectItem * item)
 {
-	KileProjectItem * item = itemFor(url);
-	QString encoding;
-	if ( item )
-		encoding = item->encoding();
-	else
-	 	encoding =KileFS->comboEncoding->lineEdit()->text();
-
-	//kdDebug() << "==Kile::fileSelected==========================" << endl;
-	//kdDebug() << "\t" << url.fileName() << ", " << encoding << endl;
-	fileOpen(url, encoding);
+	fileOpen(item->url(), item->encoding());
 }
 
+void Kile::fileSelected(const KURL & url)
+{
+	fileOpen(url, KileFS->comboEncoding->lineEdit()->text());
+}
+ 
 void Kile::showDocInfo(Kate::Document *doc)
 {
 	if (doc == 0)
@@ -1803,7 +1793,7 @@ const QStringList* Kile::retrieveList(const QStringList* (KileDocumentInfo::*get
 	m_listTemp.clear();
 
 	KileDocumentInfo *docinfo = getInfo();
-	KileProjectItem *item = itemFor(docinfo);
+	KileProjectItem *item = itemFor(docinfo, activeProject());
 
 	//kdDebug() << "Kile::retrieveList()" << endl;
 	if (item)

@@ -364,7 +364,7 @@ void KileProject::add(KileProjectItem* item)
 	dump();
 }
 
-void KileProject::remove(KileProjectItem* item)
+void KileProject::remove(const KileProjectItem* item)
 {
 	if (m_config->hasGroup("item:"+item->path()))
 		m_config->deleteGroup("item:"+item->path());

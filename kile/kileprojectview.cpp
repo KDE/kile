@@ -124,24 +124,16 @@ void KileProjectView::slotProjectItem(int id)
 	KileProjectViewItem *item = static_cast<KileProjectViewItem*>(currentItem());
 	if (item && (item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra))
 	{
-		KURL projecturl,url;
 		KRun *run;
-		KileProjectItem *itm;
 		switch (id)
 		{
-			case KPV_ID_OPEN : emit(fileSelected(item->url())); break;
+			case KPV_ID_OPEN : emit(fileSelected(item->projectItem())); break;
 			case KPV_ID_SAVE : emit(saveURL(item->url())); break;
-			case KPV_ID_REMOVE :
-				url = item->url();
-				itm = m_ki->itemFor(url);
-				projecturl = itm->project()->url();
-				emit(removeFromProject(projecturl , url));
-				break;
+			case KPV_ID_REMOVE : emit(removeFromProject(item->projectItem())); break;
 			case KPV_ID_INCLUDE :
 				if (item->text(1) == "*") item->setText(1,"");
 				else item->setText(1,"*");
-
-				emit(toggleArchive(item->url()));
+				emit(toggleArchive(item->projectItem()));
 				break;
 			case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
 			case KPV_ID_OPENWITH :
@@ -226,7 +218,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		}
 		else if (itm->type() == KileType::ProjectItem || itm->type() == KileType::ProjectExtra)
 		{
-			KileProjectItem *pi  = m_ki->itemFor(itm->url());
+			KileProjectItem *pi  = itm->projectItem();
 			if (pi)
 			{
 				m_popup->insertItem(i18n("&Include in Archive"), KPV_ID_INCLUDE);
@@ -379,7 +371,7 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 	return parpvi;
 }
 
-KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileProjectViewItem * projvi /* = 0*/)
+KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProjectViewItem * projvi /* = 0*/)
 {
 	//kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
 
@@ -399,12 +391,12 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 	if (projitem->type() == KileProjectItem::Other)
 	{
 		KileProjectViewItem *parent= nonSrc(projitem, projvi);
-		item =  new KileProjectViewItem(parent,projitem->url().fileName());
+		item =  new KileProjectViewItem(parent,projitem);
 		item->setType(KileType::ProjectExtra);
 	}
 	else
 	{
-		item =  new KileProjectViewItem(projvi, projitem->url().fileName());
+		item =  new KileProjectViewItem(projvi, projitem);
 		item->setType(KileType::ProjectItem);
 	}
 
@@ -417,7 +409,7 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 	return item;
 }
 
-const KileProjectViewItem* KileProjectView::addTree(const KileProjectItem *projitem, KileProjectViewItem * projvi)
+const KileProjectViewItem* KileProjectView::addTree(KileProjectItem *projitem, KileProjectViewItem * projvi)
 {
 	KileProjectViewItem * item = add(projitem, projvi);
 
@@ -530,7 +522,7 @@ void KileProjectView::remove(const KURL &url)
 	}
 }
 
-void KileProjectView::removeItem(const KURL &url)
+void KileProjectView::removeItem(const KileProjectItem *projitem, bool open)
 {
 	QListViewItemIterator it( this );
 	KileProjectViewItem *item;
@@ -538,13 +530,21 @@ void KileProjectView::removeItem(const KURL &url)
 	while ( it.current())
 	{
 		item = static_cast<KileProjectViewItem*>(*it);
-		if ( (item->type() == KileType::ProjectItem) && (item->url() == url) )
+		if ( (item->type() == KileType::ProjectItem) && (item->projectItem() == projitem) )
 		{
 			item->parent()->takeItem(item);
 			delete item;
 			break;
 		}
 		it++;
+	}
+
+	if ( open )
+	{
+		item = new KileProjectViewItem(this, projitem->url().fileName());
+		item->setType(KileType::File);
+		item->setURL(projitem->url());
+		makeTheConnection(item);
 	}
 }
 

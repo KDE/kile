@@ -26,11 +26,11 @@
 #define multiFileData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qcombo.h>
-#include <qchkbox.h>
-#include <qradiobt.h>
-#include <qtabdlg.h>
+#include <qlineedit.h>
+#include <qcombobox.h>
+#include <qcheckbox.h>
+#include <qradiobutton.h>
+#include <qtabdialog.h>
 
 class multiFileData : public QTabDialog
 {

@@ -27,7 +27,7 @@
 #define ticsLevelData_included
 
 #include <qdialog.h>
-#include <qlined.h>
+#include <qlineedit.h>
 
 class ticsLevelData : public QDialog
 {

@@ -52,7 +52,7 @@
 #include <qpopupmenu.h>
 #include <qtabwidget.h>
 #include <qapplication.h>
-#include <qfontdatabase.h>
+//#include <qfontdatabase.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qfile.h>

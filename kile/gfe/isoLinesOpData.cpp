@@ -26,7 +26,7 @@
 #include "isoLinesOpData.h"
 
 #include <qlabel.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <qlayout.h>
 #include <klocale.h>
 

@@ -27,7 +27,7 @@
 #define sizeOpData_included
 
 #include <qdialog.h>
-#include <qlined.h>
+#include <qlineedit.h>
 
 class sizeOpData : public QDialog
 {

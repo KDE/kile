@@ -43,10 +43,10 @@ using namespace std;
 #include "rotation.h"
 #include "ticsLevel.h"
 #include "isoLinesOp.h"
-#include <qapp.h>
-#include <qfiledlg.h>
+#include <qapplication.h>
+#include <qfiledialog.h>
 #include <qstring.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <iostream>
 #include <stdio.h>
 

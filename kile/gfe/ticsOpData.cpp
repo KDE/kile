@@ -26,8 +26,8 @@
 #include "ticsOpData.h"
 
 #include <qlabel.h>
-#include <qbttngrp.h>
-#include <qradiobt.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
 #include <qlayout.h>
 #include <klocale.h>
 

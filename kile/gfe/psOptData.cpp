@@ -27,7 +27,7 @@
 
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <klocale.h>
 
 psOptData::psOptData

@@ -27,8 +27,8 @@
 #define fileLegendTitleData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qchkbox.h>
+#include <qlineedit.h>
+#include <qcheckbox.h>
 
 class fileLegendTitleData : public QDialog
 {

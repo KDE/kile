@@ -27,8 +27,8 @@
 #define psOptData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qcombo.h>
+#include <qlineedit.h>
+#include <qcombobox.h>
 
 class psOptData : public QDialog
 {

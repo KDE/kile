@@ -26,9 +26,9 @@
 #define multiFuncData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qcombo.h>
-#include <qchkbox.h>
+#include <qlineedit.h>
+#include <qcombobox.h>
+#include <qcheckbox.h>
 
 class multiFuncData : public QDialog
 {

@@ -27,7 +27,7 @@
 
 #include "multiFileData.h"
 #include "gnuInterface.h"
-#include <qfiledlg.h>
+#include <qfiledialog.h>
 #include <qstring.h>
 
 class multiFile : public multiFileData

@@ -27,11 +27,11 @@
 #define curveFitData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qradiobt.h>
-#include <qtabdlg.h>
-#include <qcombo.h>
-#include <qchkbox.h>
+#include <qlineedit.h>
+#include <qradiobutton.h>
+#include <qtabdialog.h>
+#include <qcombobox.h>
+#include <qcheckbox.h>
 
 class curveFitData : public QTabDialog
 {

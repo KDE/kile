@@ -28,8 +28,8 @@
 #include "fileLegendTitleData.h"
 
 #include <qlabel.h>
-#include <qbttngrp.h>
-#include <qpushbt.h>
+#include <qbuttongroup.h>
+#include <qpushbutton.h>
 #include <qlayout.h>
 #include <klocale.h>
 

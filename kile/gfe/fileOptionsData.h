@@ -27,8 +27,8 @@
 #define fileOptionsData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qcombo.h>
+#include <qlineedit.h>
+#include <qcombobox.h>
 
 class fileOptionsData : public QDialog
 {

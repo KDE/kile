@@ -30,7 +30,7 @@
 #include <qhbuttongroup.h>
 #include <qlayout.h>
 #include <qgroupbox.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <klocale.h>
 
 legendOpData::legendOpData

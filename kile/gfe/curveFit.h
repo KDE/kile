@@ -28,7 +28,7 @@
 
 #include "curveFitData.h"
 #include "gnuInterface.h"
-#include <qfiledlg.h>
+#include <qfiledialog.h>
 
 class curveFit : public curveFitData
 {

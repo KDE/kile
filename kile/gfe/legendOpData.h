@@ -14,10 +14,10 @@
 #define legendOpData_included
 
 #include <qdialog.h>
-#include <qchkbox.h>
-#include <qlined.h>
-#include <qradiobt.h>
-#include <qcombo.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
+#include <qradiobutton.h>
+#include <qcombobox.h>
 
 class legendOpData : public QDialog
 {

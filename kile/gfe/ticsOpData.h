@@ -26,10 +26,10 @@
 #ifndef ticsOpData_included
 #define ticsOpData_included
 
-#include <qtabdlg.h>
-#include <qlined.h>
-#include <qradiobt.h>
-#include <qcombo.h>
+#include <qtabdialog.h>
+#include <qlineedit.h>
+#include <qradiobutton.h>
+#include <qcombobox.h>
 
 class ticsOpData : public QTabDialog
 {

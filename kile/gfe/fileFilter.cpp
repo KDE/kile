@@ -10,7 +10,7 @@ using namespace std;
 
 #include "fileFilter.h"
 #include <qstring.h>
-#include <qfiledlg.h>
+#include <qfiledialog.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 

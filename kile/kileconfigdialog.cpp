@@ -20,7 +20,7 @@
 #include <qvbox.h>
 #include <qhbuttongroup.h>
 #include <qgroupbox.h>
-#include <qfontdatabase.h>
+//#include <qfontdatabase.h>
 #include <qframe.h>
 #include <qpixmap.h>
 #include <qlabel.h>

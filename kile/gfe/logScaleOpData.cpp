@@ -28,7 +28,7 @@
 #include <qlabel.h>
 #include <qvbuttongroup.h>
 #include <qlayout.h>
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <klocale.h>
 
 logScaleOpData::logScaleOpData

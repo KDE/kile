@@ -8,7 +8,7 @@
  *********************************************************************/
 
 #include "legendOp.h"
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <klocale.h>
 
 legendOp::legendOp

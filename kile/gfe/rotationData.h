@@ -28,8 +28,8 @@
 
 #include <qdialog.h>
 #include <qslider.h>
-#include <qlined.h>
-#include <qlcdnum.h>
+#include <qlineedit.h>
+#include <qlcdnumber.h>
 
 class rotationData : public QDialog
 {

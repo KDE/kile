@@ -23,13 +23,13 @@ using namespace std;
 
 #include <qmainwindow.h>
 #include <qlabel.h>
-#include <qchkbox.h>
-#include <qlined.h>
-#include <qpopmenu.h>
-#include <qapp.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
+#include <qpopupmenu.h>
+#include <qapplication.h>
 #include <qframe.h>
-#include <qfiledlg.h>
-#include <qmsgbox.h>
+#include <qfiledialog.h>
+#include <qmessagebox.h>
 #include <qstring.h>
 #include <stdio.h>
 #include "gnuInterface.h"

@@ -27,8 +27,8 @@
 #define logScaleOpData_included
 
 #include <qdialog.h>
-#include <qchkbox.h>
-#include <qlined.h>
+#include <qcheckbox.h>
+#include <qlineedit.h>
 
 class logScaleOpData : public QDialog
 {

@@ -28,8 +28,8 @@
 #include "multiFileData.h"
 
 #include <qlabel.h>
-#include <qpushbt.h>
-#include <qbttngrp.h>
+#include <qpushbutton.h>
+#include <qbuttongroup.h>
 #include <qlayout.h>
 #include <klocale.h>
 

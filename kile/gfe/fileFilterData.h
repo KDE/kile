@@ -27,8 +27,8 @@
 #define fileFilterData_included
 
 #include <qdialog.h>
-#include <qlined.h>
-#include <qradiobt.h>
+#include <qlineedit.h>
+#include <qradiobutton.h>
 
 class fileFilterData : public QDialog
 {

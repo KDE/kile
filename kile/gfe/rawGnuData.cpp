@@ -27,7 +27,7 @@
 
 #include "rawGnuData.h"
 
-#include <qpushbt.h>
+#include <qpushbutton.h>
 #include <qlayout.h>
 #include <klocale.h>
 

@@ -65,6 +65,7 @@
 #include <qmetaobject.h>
 #include <qvaluelist.h>
 #include <qtextstream.h>
+#include <qsignalmapper.h>
 
 #include "templates.h"
 #include "newfilewizard.h"
@@ -406,24 +407,48 @@ void Kile::setupActions()
   (void) new KAction(i18n("Miscellaneous"),0 , this, SLOT(InsertBib13()), actionCollection(),"143" );
   (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
 
-  UserAction1=new KAction("1: "+UserMenuName[0],SHIFT+Key_F1 , this, SLOT(InsertUserTag1()), actionCollection(),"user1" );
-  UserAction2=new KAction("2: "+UserMenuName[1],SHIFT+Key_F2 , this, SLOT(InsertUserTag2()), actionCollection(),"user2" );
-  UserAction3=new KAction("3: "+UserMenuName[2],SHIFT+Key_F3 , this, SLOT(InsertUserTag3()), actionCollection(),"user3" );
-  UserAction4=new KAction("4: "+UserMenuName[3],SHIFT+Key_F4 , this, SLOT(InsertUserTag4()), actionCollection(),"user4" );
-  UserAction5=new KAction("5: "+UserMenuName[4],SHIFT+Key_F5 , this, SLOT(InsertUserTag5()), actionCollection(),"user5" );
-  UserAction6=new KAction("6: "+UserMenuName[5],SHIFT+Key_F6 , this, SLOT(InsertUserTag6()), actionCollection(),"user6" );
-  UserAction7=new KAction("7: "+UserMenuName[6],SHIFT+Key_F7 , this, SLOT(InsertUserTag7()), actionCollection(),"user7" );
-  UserAction8=new KAction("8: "+UserMenuName[7],SHIFT+Key_F8 , this, SLOT(InsertUserTag8()), actionCollection(),"user8" );
-  UserAction9=new KAction("9: "+UserMenuName[8],SHIFT+Key_F9 , this, SLOT(InsertUserTag9()), actionCollection(),"user9" );
-  UserAction10=new KAction("10: "+UserMenuName[9],SHIFT+Key_F10 , this, SLOT(InsertUserTag10()), actionCollection(),"user10" );
-  (void) new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), actionCollection(),"EditUserMenu" );
+   menuUserTags = new KActionMenu(i18n("User Tags"),actionCollection(),"menuUserTags");
+   mapUserTagSignals = new QSignalMapper(this,"mapUserTagSignals");
+   KAction *menuItem;
 
-  UserToolAction1=new KAction("1: "+UserToolName[0],SHIFT+ALT+Key_F1 , this, SLOT(UserTool1()), actionCollection(),"usertool1" );
-  UserToolAction2=new KAction("2: "+UserToolName[1],SHIFT+ALT+Key_F2 , this, SLOT(UserTool2()), actionCollection(),"usertool2" );
-  UserToolAction3=new KAction("3: "+UserToolName[2],SHIFT+ALT+Key_F3 , this, SLOT(UserTool3()), actionCollection(),"usertool3" );
-  UserToolAction4=new KAction("4: "+UserToolName[3],SHIFT+ALT+Key_F4 , this, SLOT(UserTool4()), actionCollection(),"usertool4" );
-  UserToolAction5=new KAction("5: "+UserToolName[4],SHIFT+ALT+Key_F5 , this, SLOT(UserTool5()), actionCollection(),"usertool5" );
-  (void) new KAction(i18n("Edit User Commands"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" );
+   KShortcut tagaccels[12] = {SHIFT+Key_F1, SHIFT+Key_F2,SHIFT+Key_F3,SHIFT+Key_F4,SHIFT+Key_F5,SHIFT+Key_F6,SHIFT+Key_F7,
+   	SHIFT+Key_F8,SHIFT+Key_F9,SHIFT+Key_F10,SHIFT+Key_F11,SHIFT+Key_F12};
+
+   KShortcut toolaccels[12] = {SHIFT+ALT+Key_F1, SHIFT+ALT+Key_F2,SHIFT+ALT+Key_F3,SHIFT+ALT+Key_F4,SHIFT+ALT+Key_F5,SHIFT+ALT+Key_F6,SHIFT+ALT+Key_F7,
+   	SHIFT+ALT+Key_F8,SHIFT+ALT+Key_F9,SHIFT+ALT+Key_F10,SHIFT+ALT+Key_F11,SHIFT+ALT+Key_F12};
+
+   KShortcut sc=0;
+   QString name;
+
+   menuUserTags->insert(new KAction(i18n("Edit User Tags"),0 , this, SLOT(EditUserMenu()), menuUserTags,"EditUserMenu" ));
+   for (uint i=0; i<listUserTags.size(); i++)
+   {
+   	if (i<12) sc = tagaccels[i];
+	else sc=0;
+	name=QString::number(i+1)+": "+listUserTags[i].name;
+	menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
+	listUserTagsActions.append(menuItem);
+	menuUserTags->insert(menuItem);
+	mapUserTagSignals->setMapping(menuItem,i);
+   }
+   connect(mapUserTagSignals,SIGNAL(mapped(int)),this,SLOT(insertUserTag(int)));
+
+   menuUserTools = new KActionMenu(i18n("User Tools"), actionCollection(), "menuUserTools");
+   mapUserToolsSignals = new QSignalMapper(this,"mapUserToolsSignals");
+
+
+   menuUserTools->insert(new KAction(i18n("Edit User Tools"),0 , this, SLOT(EditUserTool()), actionCollection(),"EditUserTool" ));
+   for (uint i=0; i<listUserTools.size(); i++)
+   {
+   	if (i<12) sc = toolaccels[i];
+	else sc=0;
+	name=QString::number(i+1)+": "+listUserTools[i].name;
+	menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
+	listUserToolsActions.append(menuItem);
+	menuUserTools->insert(menuItem);
+	mapUserToolsSignals->setMapping(menuItem,i);
+   }
+   connect(mapUserToolsSignals,SIGNAL(mapped(int)), this, SLOT(execUserTool(int)));
 
 
   (void) new KAction("Xfig","xfig",0 , this, SLOT(RunXfig()), actionCollection(),"144" );
@@ -661,10 +686,9 @@ void Kile::fileNew()
     edit->editor->setModified(false);
     doConnections( edit->editor );
 
-    QString sel = nfw->getSelection();
-    if (sel != DEFAULT_EMPTY_CAPTION) {
-       QString name = "templates/template_"+QString(sel)+".tex";
-       QFile f(KGlobal::dirs()->findResource("appdata", name));
+    TemplateItem *sel = nfw->getSelection();
+    if (sel->name() != DEFAULT_EMPTY_CAPTION) {
+       QFile f(sel->path());
        if (f.open(IO_ReadOnly) ) {
        QString line;
        while (f.readLine(line,80)>0) {
@@ -672,7 +696,7 @@ void Kile::fileNew()
           edit->editor->append(line);
        }
        f.close();
-       } else { KMessageBox::error(this, i18n("Couldn't find template: %1").arg(name),i18n("File Not Found!")); }
+       } else { KMessageBox::error(this, i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!")); }
     }
 
     UpdateCaption();
@@ -694,7 +718,6 @@ void Kile::fileOpen()
 	QFileInfo *fi = currentFileInfo();
 	if (fi != 0)
 	{
-		kdDebug() << "fileinfo exists" << endl;
 		if (fi->exists() && fi->isReadable()) currentDir=fi->dirPath();
 	}
 	QString fn = KFileDialog::getOpenFileName( currentDir, i18n("*.ltx *.tex *.bib *.sty *.cls *.mp|TeX files\n*|All files"), this,i18n("Open File") );
@@ -1417,6 +1440,8 @@ else
     topWidgetStack->raiseWidget(0);
     if (showmaintoolbar) {toolBar("ToolBar1")->show();}
     if (showtoolstoolbar) {toolBar("ToolBar2")->show();}
+    if (showedittoolbar) {toolBar("ToolBar4")->show();}
+    if (showmathtoolbar) {toolBar("ToolBar5")->show();}
     toolBar("Extra")->hide();
     }
 
@@ -1630,7 +1655,7 @@ void Kile::QuickPS2PDF()
 //file    : the file to be passed as an argument to the command, %S is substituted
 //          by the basename of this file
 //enablestop : whether or not this process can be stopped by pressing the STOP button
-CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &file, bool enablestop) {
+CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &file, bool enablestop, bool runonfile) {
  //substitute %S for the basename of the file
  QStringList cmmnd = command;
  QString dir = file.dirPath();
@@ -1640,11 +1665,14 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  currentProcess=proc;
  proc->clearArguments();
 
- KRun::shellQuote(const_cast<QString&>(dir));
- (*proc) << "cd " << dir << "&&";
+ if (runonfile)
+ {
+ 	KRun::shellQuote(const_cast<QString&>(dir));
+ 	(*proc) << "cd " << dir << "&&";
+ }
 
  for ( QValueListIterator<QString> i = cmmnd.begin(); i != cmmnd.end(); i++) {
-   (*i).replace(QRegExp("%S"),name);
+   if (runonfile) (*i).replace(QRegExp("%S"),name);
    (*proc) << *i;
  }
 
@@ -2239,11 +2267,11 @@ void Kile::DVItoPDF()
        KMessageBox::error( this,i18n("Could not start %1. Make sure this package is installed on your system.").arg(dvipdf_command));
     }
     else
-        {
+    {
          OutputWidget->clear();
          logpresent=false;
          LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
-         }
+    }
 
   UpdateLineColStatus();
 }
@@ -2468,210 +2496,59 @@ void Kile::HtmlPreview()
    partManager->setActivePart( htmlpart);
 }
 
-void Kile::UserTool1()
+void Kile::execUserTool(int i)
 {
-  QString finame;
-  QString commandline=UserToolCommand[0];
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" || commandline=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-	if (fi.exists() && fi.isReadable() )
-  {
-    KShellProcess* proc = new KShellProcess("/bin/sh");
-    proc->clearArguments();
-    QString docdir=fi.dirPath();
-    KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%S"),fi.baseName());
-    (*proc) << "cd " << docdir << "&&";
-    (*proc) << commandline ;
-    connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
-  }
- else
- {
-  KMessageBox::error(this, i18n("File not found!"));
- }
-UpdateLineColStatus();
+	QString finame;
+	QString commandline=listUserTools[i].tag;
+	QFileInfo fi;
+
+	bool documentpresent=true;
+
+	if (singlemode) {finame=getName();}
+	else {finame=MasterName;}
+	if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="")
+	{
+		documentpresent=false;
+	}
+
+	QStringList command;
+	if (documentpresent)
+	{
+		fi.setFile(finame);
+	}
+	else
+	{
+		if (commandline.contains("%S"))
+		{
+			if (KMessageBox::warningContinueCancel(this,i18n("Please open or create a document before you execute this tool."))
+				== KMessageBox::Cancel)
+			{
+				LogWidget->insertLine(i18n("Process cancelled by user."));
+				return;
+			}
+
+		}
+	}
+
+
+	command << commandline;
+	CommandProcess* proc = execCommand(command,fi,true, documentpresent);
+	connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
+
+	if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) )
+	{
+		KMessageBox::error( this,i18n("Could not start the command."));
+	}
+	else
+	{
+		OutputWidget->clear();
+		logpresent=false;
+		LogWidget->insertLine(i18n("Launched: %1").arg(proc->command()));
+	}
+
+	UpdateLineColStatus();
 }
 
-void Kile::UserTool2()
-{
-  QString finame;
-  QString commandline=UserToolCommand[1];
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" || commandline=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-	if (fi.exists() && fi.isReadable() )
-  {
-    KShellProcess* proc = new KShellProcess("/bin/sh");
-    proc->clearArguments();
-    QString docdir=fi.dirPath();
-    KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%S"),fi.baseName());
-    (*proc) << "cd " << docdir << "&&";
-    (*proc) << commandline ;
-    connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
-  }
- else
- {
-  KMessageBox::error(this, i18n("File not found!"));
- }
-UpdateLineColStatus();
-}
-
-void Kile::UserTool3()
-{
-  QString finame;
-  QString commandline=UserToolCommand[2];
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" || commandline=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-	if (fi.exists() && fi.isReadable() )
-  {
-    KShellProcess* proc = new KShellProcess("/bin/sh");
-    proc->clearArguments();
-    QString docdir=fi.dirPath();
-    KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%S"),fi.baseName());
-    (*proc) << "cd " << docdir << "&&";
-    (*proc) << commandline ;
-    connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
-  }
- else
- {
-  KMessageBox::error(this, i18n("File not found!"));
- }
-UpdateLineColStatus();
-}
-
-void Kile::UserTool4()
-{
-  QString finame;
-  QString commandline=UserToolCommand[3];
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" || commandline=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-	if (fi.exists() && fi.isReadable() )
-  {
-    KShellProcess* proc = new KShellProcess("/bin/sh");
-    proc->clearArguments();
-    QString docdir=fi.dirPath();
-    KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%S"),fi.baseName());
-    (*proc) << "cd " << docdir << "&&";
-    (*proc) << commandline ;
-    connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
-  }
- else
- {
-  KMessageBox::error(this, i18n("File not found!"));
- }
-UpdateLineColStatus();
-}
-
-void Kile::UserTool5()
-{
-  QString finame;
-  QString commandline=UserToolCommand[4];
-  if (singlemode) {finame=getName();}
-  else {finame=MasterName;}
-  if ((singlemode && !currentEditorView()) ||finame=="untitled" || finame=="" || commandline=="")
-  {
-  KMessageBox::error( this,i18n("Could not start the command."));
-  return;
-  }
-  fileSave();
-  QFileInfo fi(finame);
-	if (fi.exists() && fi.isReadable() )
-  {
-    KShellProcess* proc = new KShellProcess("/bin/sh");
-    proc->clearArguments();
-    QString docdir=fi.dirPath();
-    KRun::shellQuote(docdir);
-    commandline.replace(QRegExp("%S"),fi.baseName());
-    (*proc) << "cd " << docdir << "&&";
-    (*proc) << commandline ;
-    connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-    connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*)));
-    if ( !proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) { KMessageBox::error( this,i18n("Could not start the command."));}
-    else
-        {
-         OutputWidget->clear();
-         Outputview->showPage(OutputWidget);
-         logpresent=false;
-         OutputWidget->insertLine(i18n("Process launched"));
-         }
-  }
- else
- {
-  KMessageBox::error(this, i18n("File not found!"));
- }
-UpdateLineColStatus();
-}
 ////////////////// STRUCTURE ///////////////////
 void Kile::ShowStructure()
 {
@@ -3046,7 +2923,7 @@ if ( !currentEditorView() ) return;
 
 
 int l=line.toInt(&ok,10)-1;
-kdDebug() << "gotoline " << l << endl;
+
 if (ok && l<=currentEditorView()->editor->paragraphs())
  {
  currentEditorView()->editor->viewport()->setFocus();
@@ -4855,155 +4732,21 @@ LogWidget->insertLine("Bib fields - Miscellaneous");
 LogWidget->insertLine( "OPT.... : optionnal fields (use the 'Clean' command to remove them)");
 }
 //////////////// USER //////////////////
-void Kile::InsertUserTag1()
+void Kile::insertUserTag(int i)
 {
-if (UserMenuTag[0].left(1)=="%")
- {
- QString t=UserMenuTag[0];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[0],0,0);
- }
+	if (listUserTags[i].tag.left(1)=="%")
+	{
+		QString t=listUserTags[i].tag;
+		t=t.remove(0,1);
+		QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
+		InsertTag(s,0,1);
+	}
+	else
+	{
+		InsertTag(listUserTags[i].tag,0,0);
+	}
 }
 
-void Kile::InsertUserTag2()
-{
-if (UserMenuTag[1].left(1)=="%")
- {
- QString t=UserMenuTag[1];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[1],0,0);
- }
-}
-
-void Kile::InsertUserTag3()
-{
-if (UserMenuTag[2].left(1)=="%")
- {
- QString t=UserMenuTag[2];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[2],0,0);
- }
-}
-
-void Kile::InsertUserTag4()
-{
-if (UserMenuTag[3].left(1)=="%")
- {
- QString t=UserMenuTag[3];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[3],0,0);
- }
-}
-
-void Kile::InsertUserTag5()
-{
-if (UserMenuTag[4].left(1)=="%")
- {
- QString t=UserMenuTag[4];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[4],0,0);
- }
-}
-
-void Kile::InsertUserTag6()
-{
-if (UserMenuTag[5].left(1)=="%")
- {
- QString t=UserMenuTag[5];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[5],0,0);
- }
-}
-
-void Kile::InsertUserTag7()
-{
-if (UserMenuTag[6].left(1)=="%")
- {
- QString t=UserMenuTag[6];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[6],0,0);
- }
-}
-
-void Kile::InsertUserTag8()
-{
-if (UserMenuTag[7].left(1)=="%")
- {
- QString t=UserMenuTag[7];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[7],0,0);
- }
-}
-
-void Kile::InsertUserTag9()
-{
-if (UserMenuTag[8].left(1)=="%")
- {
- QString t=UserMenuTag[8];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[8],0,0);
- }
-}
-
-void Kile::InsertUserTag10()
-{
-if (UserMenuTag[9].left(1)=="%")
- {
- QString t=UserMenuTag[9];
- t=t.remove(0,1);
- QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
- InsertTag(s,0,1);
- }
-else
- {
- InsertTag(UserMenuTag[9],0,0);
- }
-}
 //////////////// HELP /////////////////
 void Kile::LatexHelp()
 {
@@ -5032,59 +4775,152 @@ void Kile::invokeHelp()
 ///////////////////// USER ///////////////
 void Kile::EditUserMenu()
 {
-umDlg = new usermenudialog(this,"Edit User Tags", i18n("Edit User Tags"));
-for ( int i = 0; i <= 9; i++ )
-    {
-    umDlg->Name[i]=UserMenuName[i];
-    umDlg->Tag[i]=UserMenuTag[i];
-    umDlg->init();
-    }
-if ( umDlg->exec() )
- {
-for ( int i = 0; i <= 9; i++ )
-    {
-    UserMenuName[i]=umDlg->Name[i];
-    UserMenuTag[i]=umDlg->Tag[i];
-    }
+	umDlg = new usermenudialog(listUserTags,this,"Edit User Tags", i18n("Edit User Tags"));
+	for ( uint i = 0; i < listUserTags.size(); i++ )
+	{
+		umDlg->Name.append(listUserTags[i].name);
+		umDlg->Tag.append(listUserTags[i].tag);
+	}
+	umDlg->init();
+	if ( umDlg->exec() )
+	{
+		userItem item;
+		KAction *menuItem;
+		QString name;
+		KShortcut sc;
+		int i=0;
+		KShortcut tagaccels[12] = {SHIFT+Key_F1, SHIFT+Key_F2,SHIFT+Key_F3,SHIFT+Key_F4,SHIFT+Key_F5,SHIFT+Key_F6,SHIFT+Key_F7,
+   		SHIFT+Key_F8,SHIFT+Key_F9,SHIFT+Key_F10,SHIFT+Key_F11,SHIFT+Key_F12};
+		switch (umDlg->result())
+		{
+			case usermenudialog::Add :
+				item.name=umDlg->Name[umDlg->index()];
+				item.tag=umDlg->Tag[umDlg->index()];
+				listUserTags.append(item);
+				if (listUserTags.size() <13) sc = tagaccels[listUserTags.size()-1];
+				else sc=0;
+				name=QString::number(listUserTags.size())+": "+listUserTags[listUserTags.size()-1].name;
+				menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
+				listUserTagsActions.append(menuItem);
+				menuUserTags->insert(menuItem);
+				mapUserTagSignals->setMapping(menuItem,listUserTags.size()-1);
+			break;
+			case usermenudialog::Remove :
+				i=listUserTagsActions.count();
+				kdDebug() << "index " << umDlg->index() << endl;
+				//remove all actions below and including the removed one (they need to be recreated)
+				for (int j=umDlg->index(); j< i; j++)
+				{
+					menuItem = listUserTagsActions.getLast();
+					mapUserTagSignals->removeMappings(menuItem);
+					menuUserTags->remove(menuItem);
+					listUserTagsActions.removeLast();
+					delete menuItem;
+				}
+				//remove the tag from the list
+				listUserTags.erase(listUserTags.at(umDlg->index()));
+				//recreate the action below the removed one
+				for (int j=umDlg->index(); j < (i-1); j++)
+				{
+					if (j <12) sc = tagaccels[j];
+					else sc=0;
+					name=QString::number(j+1)+": "+listUserTags[j].name;
+					kdDebug() << "adding " << name << " at " << j<< endl;
+					menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
+					listUserTagsActions.append(menuItem);
+					menuUserTags->insert(menuItem);
+					mapUserTagSignals->setMapping(menuItem,j);
+				}
+			break;
+			case usermenudialog::Edit :
+			for ( uint i = 0; i < listUserTags.size(); i++ )
+			{
+				listUserTags[i].name=umDlg->Name[i];
+				listUserTags[i].tag=umDlg->Tag[i];
+				listUserTagsActions.at(i)->setText(QString::number(i+1)+": "+umDlg->Name[i]);
+			}
+			break;
+			default : break;
+		}
 
-  UserAction1->setText("1: "+UserMenuName[0]);
-  UserAction2->setText("2: "+UserMenuName[1]);
-  UserAction3->setText("3: "+UserMenuName[2]);
-  UserAction4->setText("4: "+UserMenuName[3]);
-  UserAction5->setText("5: "+UserMenuName[4]);
-  UserAction6->setText("6: "+UserMenuName[5]);
-  UserAction7->setText("7: "+UserMenuName[6]);
-  UserAction8->setText("8: "+UserMenuName[7]);
-  UserAction9->setText("9: "+UserMenuName[8]);
-  UserAction10->setText("10: "+UserMenuName[9]);
- }
-delete umDlg;
+	}
+
+	delete umDlg;
 }
 
 void Kile::EditUserTool()
 {
-utDlg = new usertooldialog(this,"Edit User Commands", i18n("Edit User Commands"));
-for ( int i = 0; i <= 4; i++ )
-    {
-    utDlg->Name[i]=UserToolName[i];
-    utDlg->Tool[i]=UserToolCommand[i];
-    utDlg->init();
-    }
-if ( utDlg->exec() )
- {
-for ( int i = 0; i <= 4; i++ )
-    {
-    UserToolName[i]=utDlg->Name[i];
-    UserToolCommand[i]=utDlg->Tool[i];
-    }
+	utDlg = new usertooldialog(listUserTools,this,"Edit User Tools", i18n("Edit User Tools"));
+	for ( uint i = 0; i < listUserTools.size(); i++ )
+	{
+		utDlg->Name.append(listUserTools[i].name);
+		utDlg->Tool.append(listUserTools[i].tag);
+	}
+	utDlg->init();
+	if ( utDlg->exec() )
+	{
+		userItem item;
+		KAction *menuItem;
+		QString name;
+		int i=0;
+		KShortcut sc;
+		KShortcut toolaccels[12] = {SHIFT+ALT+Key_F1, SHIFT+ALT+Key_F2,SHIFT+ALT+Key_F3,SHIFT+ALT+Key_F4,SHIFT+ALT+Key_F5,SHIFT+ALT+Key_F6,SHIFT+ALT+Key_F7,
+		   	SHIFT+ALT+Key_F8,SHIFT+ALT+Key_F9,SHIFT+ALT+Key_F10,SHIFT+ALT+Key_F11,SHIFT+ALT+Key_F12};
 
-  UserToolAction1->setText("1: "+UserToolName[0]);
-  UserToolAction2->setText("2: "+UserToolName[1]);
-  UserToolAction3->setText("3: "+UserToolName[2]);
-  UserToolAction4->setText("4: "+UserToolName[3]);
-  UserToolAction5->setText("5: "+UserToolName[4]);
- }
-delete utDlg;
+
+		switch (utDlg->result())
+		{
+			case usertooldialog::Add :
+				item.name=utDlg->Name[utDlg->index()];
+				item.tag=utDlg->Tool[utDlg->index()];
+				listUserTools.append(item);
+				if (listUserTools.size() <13) sc = toolaccels[listUserTools.size()-1];
+				else sc=0;
+				name=QString::number(listUserTools.size())+": "+listUserTools[listUserTools.size()-1].name;
+				menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
+				listUserToolsActions.append(menuItem);
+				menuUserTools->insert(menuItem);
+				mapUserToolsSignals->setMapping(menuItem,listUserTools.size()-1);
+			break;
+			case usertooldialog::Remove :
+				i=listUserToolsActions.count();
+				kdDebug() << "index " << utDlg->index() << endl;
+				//remove all actions below and including the removed one (they need to be recreated)
+				for (int j=utDlg->index(); j< i; j++)
+				{
+					menuItem = listUserToolsActions.getLast();
+					mapUserToolsSignals->removeMappings(menuItem);
+					menuUserTools->remove(menuItem);
+					listUserToolsActions.removeLast();
+					delete menuItem;
+				}
+				//remove the tag from the list
+				listUserTools.erase(listUserTools.at(utDlg->index()));
+				//recreate the action below the removed one
+				for (int j=utDlg->index(); j < (i-1); j++)
+				{
+					if (j <12) sc = toolaccels[j];
+					else sc=0;
+					name=QString::number(j+1)+": "+listUserTools[j].name;
+					kdDebug() << "adding " << name << " at " << j<< endl;
+					menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
+					listUserToolsActions.append(menuItem);
+					menuUserTools->insert(menuItem);
+					mapUserToolsSignals->setMapping(menuItem,j);
+				}
+			break;
+			case usertooldialog::Edit :
+			for ( uint i = 0; i < listUserTools.size(); i++ )
+			{
+				listUserTools[i].name=utDlg->Name[i];
+				listUserTools[i].tag=utDlg->Tool[i];
+				listUserToolsActions.at(i)->setText(QString::number(i+1)+": "+utDlg->Name[i]);
+			}
+			break;
+			default : break;
+		}
+	}
+	delete utDlg;
 }
 /////////////// GRAF ////////////////////
 void Kile::RunXfig()
@@ -5195,36 +5031,23 @@ config->setGroup( "User" );
 templAuthor=config->readEntry("Author","");
 templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
 templEncoding=config->readEntry("Template Encoding","");
-UserMenuName[0]=config->readEntry("Menu1","");
-UserMenuTag[0]=config->readEntry("Tag1","");
-UserMenuName[1]=config->readEntry("Menu2","");
-UserMenuTag[1]=config->readEntry("Tag2","");
-UserMenuName[2]=config->readEntry("Menu3","");
-UserMenuTag[2]=config->readEntry("Tag3","");
-UserMenuName[3]=config->readEntry("Menu4","");
-UserMenuTag[3]=config->readEntry("Tag4","");
-UserMenuName[4]=config->readEntry("Menu5","");
-UserMenuTag[4]=config->readEntry("Tag5","");
-UserMenuName[5]=config->readEntry("Menu6","");
-UserMenuTag[5]=config->readEntry("Tag6","");
-UserMenuName[6]=config->readEntry("Menu7","");
-UserMenuTag[6]=config->readEntry("Tag7","");
-UserMenuName[7]=config->readEntry("Menu8","");
-UserMenuTag[7]=config->readEntry("Tag8","");
-UserMenuName[8]=config->readEntry("Menu9","");
-UserMenuTag[8]=config->readEntry("Tag9","");
-UserMenuName[9]=config->readEntry("Menu10","");
-UserMenuTag[9]=config->readEntry("Tag10","");
-UserToolName[0]=config->readEntry("ToolName1","");
-UserToolCommand[0]=config->readEntry("Tool1","");
-UserToolName[1]=config->readEntry("ToolName2","");
-UserToolCommand[1]=config->readEntry("Tool2","");
-UserToolName[2]=config->readEntry("ToolName3","");
-UserToolCommand[2]=config->readEntry("Tool3","");
-UserToolName[3]=config->readEntry("ToolName4","");
-UserToolCommand[3]=config->readEntry("Tool4","");
-UserToolName[4]=config->readEntry("ToolName5","");
-UserToolCommand[4]=config->readEntry("Tool5","");
+
+userItem tempItem;
+int len = config->readNumEntry("nUserTags",0);
+for (int i = 0; i < len; i++)
+{
+	tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
+	tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
+	listUserTags.append(tempItem);
+}
+
+len= config->readNumEntry("nUserTools",0);
+for (int i=0; i< len; i++)
+{
+	tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
+	tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
+	listUserTools.append(tempItem);
+}
 
 config->setGroup( "Structure" );
 struct_level1=config->readEntry("Structure Level 1","part");
@@ -5322,36 +5145,23 @@ config->setGroup( "User" );
 config->writeEntry("Author",templAuthor);
 config->writeEntry("DocumentClassOptions",templDocClassOpt);
 config->writeEntry("Template Encoding",templEncoding);
-config->writeEntry("Menu1",UserMenuName[0]);
-config->writeEntry("Tag1",UserMenuTag[0]);
-config->writeEntry("Menu2",UserMenuName[1]);
-config->writeEntry("Tag2",UserMenuTag[1]);
-config->writeEntry("Menu3",UserMenuName[2]);
-config->writeEntry("Tag3",UserMenuTag[2]);
-config->writeEntry("Menu4",UserMenuName[3]);
-config->writeEntry("Tag4",UserMenuTag[3]);
-config->writeEntry("Menu5",UserMenuName[4]);
-config->writeEntry("Tag5",UserMenuTag[4]);
-config->writeEntry("Menu6",UserMenuName[5]);
-config->writeEntry("Tag6",UserMenuTag[5]);
-config->writeEntry("Menu7",UserMenuName[6]);
-config->writeEntry("Tag7",UserMenuTag[6]);
-config->writeEntry("Menu8",UserMenuName[7]);
-config->writeEntry("Tag8",UserMenuTag[7]);
-config->writeEntry("Menu9",UserMenuName[8]);
-config->writeEntry("Tag9",UserMenuTag[8]);
-config->writeEntry("Menu10",UserMenuName[9]);
-config->writeEntry("Tag10",UserMenuTag[9]);
-config->writeEntry("ToolName1",UserToolName[0]);
-config->writeEntry("Tool1",UserToolCommand[0]);
-config->writeEntry("ToolName2",UserToolName[1]);
-config->writeEntry("Tool2",UserToolCommand[1]);
-config->writeEntry("ToolName3",UserToolName[2]);
-config->writeEntry("Tool3",UserToolCommand[2]);
-config->writeEntry("ToolName4",UserToolName[3]);
-config->writeEntry("Tool4",UserToolCommand[3]);
-config->writeEntry("ToolName5",UserToolName[4]);
-config->writeEntry("Tool5",UserToolCommand[4]);
+
+userItem tempItem;
+config->writeEntry("nUserTags",static_cast<int>(listUserTags.size()));
+for (uint i=0; i<listUserTags.size(); i++)
+{
+	tempItem = listUserTags[i];
+	config->writeEntry("userTagName"+QString::number(i),tempItem.name);
+	config->writeEntry("userTag"+QString::number(i),tempItem.tag);
+}
+
+config->writeEntry("nUserTools",static_cast<int>(listUserTools.size()));
+for (uint i=0; i<listUserTools.size(); i++)
+{
+	tempItem = listUserTools[i];
+	config->writeEntry("userToolName"+QString::number(i),tempItem.name);
+	config->writeEntry("userTool"+QString::number(i),tempItem.tag);
+}
 
 config->setGroup( "Structure" );
 config->writeEntry("Structure Level 1",struct_level1);
@@ -5661,12 +5471,12 @@ void Kile::spellcheck()
 {
 	if ( !currentEditorView() ) return;
 
-  if ( kspell )
-  {
+  	if ( kspell )
+  	{
 		kdDebug() << "kspell wasn't deleted before!" << endl;
 		delete kspell;
 	}
-	
+
 	kspell = new KSpell(this, i18n("Spellcheck"), this,SLOT( spell_started(KSpell *)));
 	ks_corrected=0;
 	connect (kspell, SIGNAL ( death()),this, SLOT ( spell_finished( )));

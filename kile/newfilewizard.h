@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
+    email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,12 +22,24 @@
 #include <kiconview.h>
 #include <kdialogbase.h>
 
-/**
-  *@author Jeroen Wijnhout
-  */
+#include "templates.h"
 
 #define DEFAULT_EMPTY_CAPTION i18n("Empty Document")
 #define DEFAULT_EMPTY_ICON "pics/type_Empty.png"
+
+class TemplateItem : public QIconViewItem
+{
+public:
+	TemplateItem( QIconView * parent, const TemplateInfo & info);
+	~TemplateItem();
+
+	QString name() { return m_info.name; }
+	QString path() { return m_info.path; }
+	QString icon() { return m_info.icon; }
+
+private:
+	TemplateInfo m_info;
+};
 
 class NewFileWizard : public KDialogBase  {
    Q_OBJECT
@@ -36,7 +48,7 @@ public:
 	~NewFileWizard();
 
 public:
-   QString getSelection()const { return iv->currentItem()->text();}
+   TemplateItem* getSelection()const { return static_cast<TemplateItem*>(iv->currentItem());}
 
 private:
    QIconView *iv;

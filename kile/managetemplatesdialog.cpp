@@ -26,6 +26,7 @@
 #include <kpushbutton.h>
 #include <kicondialog.h>
 #include <kmessagebox.h>
+#include <kdebug.h>
 
 #include "templates.h"
 #include "managetemplatesdialog.h"

@@ -25,21 +25,22 @@
 #include <qlineedit.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qbuttongroup.h>
 
 
-usertooldialog::usertooldialog(QWidget *parent, const char *name, const QString &caption ) : QDialog(parent,name)
+usertooldialog::usertooldialog(const QValueList<userItem> &list, QWidget *parent, const char *name, const QString &caption ) : QDialog(parent,name)
 {
-  	setCaption(caption);
+  setCaption(caption);
   previous_index=0;
-  QGridLayout *gbox = new QGridLayout( this, 6, 2,5,5,"");
+  QGridLayout *gbox = new QGridLayout( this, 7, 2,5,5,"");
   gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
   combo1=new QComboBox(this,"combo");
-  combo1->insertItem( i18n("Command 1") );
-  combo1->insertItem( i18n("Command 2") );
-  combo1->insertItem( i18n("Command 3") );
-  combo1->insertItem( i18n("Command 4") );
-  combo1->insertItem( i18n("Command 5") );
+  for (uint i=0; i < list.size(); i++)
+  {
+  	combo1->insertItem( QString::number(i+1)+": "+list[i].name );
+  }
   connect(combo1, SIGNAL(activated(int)),this,SLOT(change(int)));
 
   label1 = new QLabel( this, "label1" );
@@ -49,6 +50,13 @@ usertooldialog::usertooldialog(QWidget *parent, const char *name, const QString 
   label2 = new QLabel( this, "label2" );
   label2->setText(i18n("Command (%S : filename without extension):"));
   tooledit=new QLineEdit(this,"tool");
+
+  QLabel *label3 = new QLabel( i18n("Action"), this,"label3");
+  QButtonGroup *bgroup = new QButtonGroup(3,Qt::Horizontal,this);
+  radioEdit = new QRadioButton(i18n("Edit"),bgroup);
+  radioAdd = new QRadioButton(i18n("Add"),bgroup);
+  radioRemove = new QRadioButton(i18n("Remove"),bgroup);
+  radioEdit->setChecked(true);
 
   buttonOk= new QPushButton(this,"NoName");
   buttonOk->setMinimumSize(0,0);
@@ -67,8 +75,10 @@ usertooldialog::usertooldialog(QWidget *parent, const char *name, const QString 
   gbox->addMultiCellWidget(itemedit,2,2,0,1,0);
   gbox->addMultiCellWidget(label2,3,3,0,1,0);
   gbox->addMultiCellWidget(tooledit,4,4,0,1,0);
-  gbox->addWidget(buttonOk , 5, 0,Qt::AlignLeft );
-  gbox->addWidget(buttonCancel , 5, 1,Qt::AlignRight );
+  gbox->addWidget(label3 , 5, 0,Qt::AlignLeft );
+  gbox->addWidget(bgroup , 5, 1,Qt::AlignRight );
+  gbox->addWidget(buttonOk , 6, 0,Qt::AlignLeft );
+  gbox->addWidget(buttonCancel , 6, 1,Qt::AlignRight );
   resize(400,100);
 }
 usertooldialog::~usertooldialog()
@@ -95,6 +105,14 @@ void usertooldialog::slotOk()
 Tool[previous_index]=tooledit->text();
 Name[previous_index]=itemedit->text();
 accept();
+}
+
+int usertooldialog::result()
+{
+	if (radioEdit->isChecked()) return Edit;
+	if (radioAdd->isChecked()) return Add;
+	if (radioRemove->isChecked()) return Remove;
+	return Edit;
 }
 
 #include "usertooldialog.moc"

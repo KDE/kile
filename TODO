@@ -5,6 +5,8 @@ BUGS
  - F3 is assigned to two actions
    
 TODO
+ - improve UI of usertool/usertag dialogs
+ 
  - fix compile (Mandrake) for gfe
 
  - add a check for libfam in configure.in.in (?)

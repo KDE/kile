@@ -83,11 +83,23 @@
 
 class QFileInfo;
 class QTimer;
+class QSignalMapper;
+class KActionMenu;
 
 typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
 typedef  QString UserCd[5];
 typedef  QColor ListColors[8];
+
+#ifndef KILE_USERITEM
+struct userItem
+{
+	QString name, tag;
+};
+#define KILE_USERITEM
+#endif
+
+
 
 class Kile : public KParts::MainWindow, public KileAppDCOPIface
 {
@@ -148,8 +160,14 @@ private:
     QString templAuthor, templDocClassOpt, templEncoding;
     QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
     QStringList recentFilesList;
-    Userlist UserMenuName, UserMenuTag;
-    UserCd UserToolName, UserToolCommand;
+    //Userlist UserMenuName, UserMenuTag;
+    //UserCd UserToolName, UserToolCommand;
+
+    KActionMenu *menuUserTags, *menuUserTools;
+    QSignalMapper *mapUserTagSignals, *mapUserToolsSignals;
+    QValueList<userItem> listUserTags, listUserTools;
+    QPtrList<KAction> listUserTagsActions, listUserToolsActions;
+
     ListColors editor_color;
     bool logpresent, singlemode, showstructview,showoutputview, wordwrap, parenmatch,showline,
       showmaintoolbar,showtoolstoolbar, showedittoolbar, showmathtoolbar, menuaccels, autosave;
@@ -238,7 +256,7 @@ private slots:
     void QuickDviPDF();
     void QuickPS2PDF();
 
-    CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop);
+    CommandProcess* execCommand(const QStringList & command, const QFileInfo &file, bool enablestop, bool runonfile = true);
     QString prepareForCompile(const QString & command);
     QStringList prepareForConversion(const QString &command, const QString &from, const QString &to);
     QString prepareForViewing(const QString & command, const QString &ext, const QString &target);
@@ -263,11 +281,7 @@ private slots:
     void slotDisableStop();
     void slotl2hExited(KProcess* proc);
     void HtmlPreview();
-    void UserTool1();
-    void UserTool2();
-    void UserTool3();
-    void UserTool4();
-    void UserTool5();
+    void execUserTool(int);
 
    void UpdateStructure();
    void ShowStructure();
@@ -404,16 +418,7 @@ private slots:
    void InsertBib12();
    void InsertBib13();
 
-   void InsertUserTag1();
-   void InsertUserTag2();
-   void InsertUserTag3();
-   void InsertUserTag4();
-   void InsertUserTag5();
-   void InsertUserTag6();
-   void InsertUserTag7();
-   void InsertUserTag8();
-   void InsertUserTag9();
-   void InsertUserTag10();
+   void insertUserTag(int i);
    void EditUserMenu();
    void EditUserTool();
 

@@ -69,7 +69,7 @@ private:
       stCommand=5, stMath=6, stMathControlSequence=7, stMathEnded=8, stStructure=9, stEnvir=10,
       stKeywordDetected=11, stEnvironmentDetected=12, stEndDetected = 16, stVerbatimDetected=13 ,
       stDeterminingEnv =14 , stVerbatimEnv = 15,  stDisplayMath =17, stPossibleMathEnding=18,
-      stEquation=19, stPossibleEquationEnding=20, stEndState = 21
+      stEquation=19, stPossibleEquationEnding=20, stEndState = 22
     };
 
     enum Formats {

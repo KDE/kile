@@ -122,16 +122,16 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 	Formats fmt;
 	int state = endStateOfLastPara, len = text.length(),
 		cmmnd_start=0, env_start=0, key=0,ind=0;
-  QChar ch, verbatimDelimiter;
-  QString cmmnd,env;
+	QChar ch, verbatimDelimiter;
+	QString cmmnd,env;
 
-  //kdDebug() << "new paragraph: " << text << " state " << state << endl;
+	//kdDebug() << "new paragraph: " << text << " state " << state << endl;
 
-  //begin of file, set to standard
-  if ( state == -2) { state = stStandard;}
+	//begin of file, set to standard
+	if ( state == -2) { state = stStandard;}
 
-  //there is extra information stored in state : the verbatimdelimiter
-  if (state > 31) {
+	//there is extra information stored in state : the verbatimdelimiter
+	if (state > 31) {
 		key= state>>5;
 		verbatimDelimiter = listVerbChars[key - 1];
 		//kdDebug() << "verbatimdelim index " << key<< endl;
@@ -141,7 +141,6 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 	}
 
 
-
 	for (int i=0; i<len; i++)
 	{
 		ch = text.at(i);
@@ -149,239 +148,243 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 
 		//determine the state change
 		switch (state)
-    {
-				case stStandard :
-				case stMathEnded :
-				case stKeywordDetected :
-						switch (ch)
-					  {
-							case TEX_CAT0		: state = stControlSequence;break;
-							case TEX_CAT3		: state = stMath;break;
-							case TEX_CAT14	: state = stComment;break;
-							default : state = stStandard; break;
-						};
-						//kdDebug() << "changing from Standard/MathEnded/KeywordDetected to " << state << endl;
-				break; //standard
+		{
+		case stStandard :
+		case stMathEnded :
+		case stKeywordDetected :
+			switch (ch)
+			{
+				case TEX_CAT0		: state = stControlSequence;break;
+				case TEX_CAT3		: state = stMath;break;
+				case TEX_CAT14		: state = stComment;break;
+				default : state = stStandard; break;
+			};
+			//kdDebug() << "changing from Standard/MathEnded/KeywordDetected to " << state << endl;
+		break; //standard
 
-	      case stComment :
-	      		//done with line, reset to standard
-	      		if (i == len-1) state = stStandard;
-	      break; //comment
+		case stComment :
+			//done with line, reset to standard
+			if (i == len-1) state = stStandard;
+		break; //comment
 
-	      case stMath :
-	      		switch (ch)
+		case stMath :
+			switch (ch)
 	        	{
-						 	case TEX_CAT0	: state = stMathControlSequence; break;
-						  case TEX_CAT3	: state = stMathEnded; break;
-						  default : break;
-						}
-	      break; //math
+				case TEX_CAT0	: state = stMathControlSequence; break;
+				case TEX_CAT3	: state = stMathEnded; break;
+				default : break;
+			}
+		break; //math
 
-	      case stMathControlSequence :
-	      		//we need this because we should not let \$ inside $$ end the math mode
-	      		state = stMath;
-	      break; //mathcontrolsequence
+		case stMathControlSequence :
+			//we need this because we should not let \$ inside $$ end the math mode
+			state = stMath;
+		break; //mathcontrolsequence
 
-	      case stDisplayMath :
-	      		if (ch == TEX_CAT0 )	state = stPossibleMathEnding;
-	      break;
+		case stDisplayMath :
+			if (ch == TEX_CAT0 )	state = stPossibleMathEnding;
+		break;
 
-	      case stPossibleMathEnding :
-	      		if (ch == ']' ) state = stMathEnded;
-	        	else state =stDisplayMath;
-	      break;
+		case stPossibleMathEnding :
+			if (ch == ']' ) state = stMathEnded;
+			else state =stDisplayMath;
+		break;
 
-        case stEquation :
-	      		if (ch == TEX_CAT0 )	state = stPossibleEquationEnding;
-	      break;
+		case stEquation :
+			if (ch == TEX_CAT0 )	state = stPossibleEquationEnding;
+		break;
 
-	      case stPossibleEquationEnding :
-	      		if (ch == ']' ) state = stMathEnded;
-	        	else state =stEquation;
-	      break;
-	      
-	      case stControlSequence :
-			      //determine whether to expect a symbol or a command
-			      if ( ch.isLetter() )
-			      {
-							state = stCommand;
-							cmmnd_start=i;
-							//kdDebug() << "starting command at : " << cmmnd_start << endl;
-						}
-			      else
-			      {
-							switch (ch)
+		case stPossibleEquationEnding :
+			if (ch == ')' ) state = stMathEnded;
+			else state =stEquation;
+		break;
+
+		case stControlSequence :
+			//determine whether to expect a symbol or a command
+			if ( ch.isLetter() )
+			{
+				state = stCommand;
+				cmmnd_start=i;
+				//kdDebug() << "starting command at : " << cmmnd_start << endl;
+			}
+			else
+			{
+				switch (ch)
+				{
+					case '['	:
+						state = stDisplayMath;
+						if (i>0) { setLaTeXFormat(i-1,1,fmtMath);}
+					break;
+					case '('	:
+						state = stEquation;
+						if (i>0) { setLaTeXFormat(i-1,1,fmtMath);}
+					break;
+					default 	:
+						state = stControlSymbol;
+					break;
+				}
+			}
+		break; //controlsequence
+
+		case stControlSymbol :
+			switch (ch)
+			{
+				case TEX_CAT0		: state = stControlSequence; break;
+				case TEX_CAT3		: state = stMath; break;
+				case TEX_CAT14	: state = stComment; break;
+				default : state = stStandard; break;
+			};
+		break;
+
+		case stCommand :
+			//no letter signals the ending of a command
+			if ( !ch.isLetter())
+			{
+			 	//character that ends the command also changes the state
+			 	switch (ch)
+				{
+					case TEX_CAT0		: state = stControlSequence; break;
+					case TEX_CAT3		: state = stMath; break;
+					case TEX_CAT14	: state = stComment; break;
+					default : state = stStandard; break;
+				};
+
+				cmmnd = text.mid(cmmnd_start,i-cmmnd_start);
+
+				//kdDebug() << "command detected: " << cmmnd << " reason " << ch.latin1() << endl;
+				//determine what to do next
+				switch ( *(mapCommands.find(cmmnd)) )
+				{
+					case stKeywordDetected :
+					//kdDebug() << "keyword detected: " << cmmnd << " start " << cmmnd_start-1 << " count " << i-cmmnd_start+1 << endl;
+					//quick and dirty: reformat the command
+					setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtKeyword);
+					break;
+
+					case stEnvironmentDetected :
+						setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtEnvironment);
+						if ( ch.isSpace() || ( ch == TEX_CAT1 ) ) state=stEnvironmentDetected;
+					break;
+
+					case stEndDetected :
+						setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtEnvironment);
+					break;
+
+					default:
+						//kdDebug() << "not a keyword or environment" << endl;
+						if ( cmmnd == "verb" )
+						{
+							//FIXME: there seems to be a space on the end
+							//of every line, this is bothering me quite a lot
+							//since that would mean that we always detect a
+							//space as the verbatim delimiter
+							if (ch != ' ')
 							{
-									case '['	: state = stDisplayMath;
-															if (i>0) { setLaTeXFormat(i-1,1,fmtMath);}
-									case '('	: state = stEquation;
-															if (i>0) { setLaTeXFormat(i-1,1,fmtMath);}
-									break;
-									default 	: state = stControlSymbol;break;
-							}
-						}
-			  break; //controlsequence
-
-			  case stControlSymbol :
-			    	switch (ch)
-						{
-							case TEX_CAT0		: state = stControlSequence; break;
-							case TEX_CAT3		: state = stMath; break;
-							case TEX_CAT14	: state = stComment; break;
-							default : state = stStandard; break;
-						};
-			  break;
-
-	      case stCommand :
-	      			//no letter signals the ending of a command
-	      			if ( !ch.isLetter())
-	         		{
-							 	//character that ends the command also changes the state
-							 	switch (ch)
-							  {
-									case TEX_CAT0		: state = stControlSequence; break;
-									case TEX_CAT3		: state = stMath; break;
-									case TEX_CAT14	: state = stComment; break;
-									default : state = stStandard; break;
-								};
-
-								cmmnd = text.mid(cmmnd_start,i-cmmnd_start);
-
-							  //kdDebug() << "command detected: " << cmmnd << " reason " << ch.latin1() << endl;
-							  //determine what to do next
-							  switch ( *(mapCommands.find(cmmnd)) )
-							  {
-									case stKeywordDetected :
-										//kdDebug() << "keyword detected: " << cmmnd << " start " << cmmnd_start-1 << " count " << i-cmmnd_start+1 << endl;
-										//quick and dirty: reformat the command
-										setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtKeyword);
-									break;
-
-									case stEnvironmentDetected :
-										setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtEnvironment);
-										if ( ch.isSpace() || ( ch == TEX_CAT1 ) ) state=stEnvironmentDetected;
-									break;
-
-									case stEndDetected :
-										setLaTeXFormat(cmmnd_start-1,i-cmmnd_start+1,fmtEnvironment);
-									break;
-
-									default:
-										//kdDebug() << "not a keyword or environment" << endl;
-										if ( cmmnd == "verb" )
-										{
-											//FIXME: there seems to be a space on the end
-											//of every line, this is bothering me quite a lot
-											//since that would mean that we always detect a
-											//space as the verbatim delimiter
-											if (ch != ' ')
-											{
-												verbatimDelimiter=ch;
-												ind= listVerbChars.findIndex(ch);
-												if ( ind < 0)
-												{
-													listVerbChars.append(ch);
-													key=listVerbChars.size();
-												}
-												else
-												{
-													key=ind+1;
-												}
-                        state=stVerbatimDetected;
-                        //kdDebug() << "going verbatim with " << ch.latin1() << " at " << listVerbChars.size() << endl;
-                        for (QValueListIterator<QChar> i = listVerbChars.begin(); i != listVerbChars.end(); i++ )
-                        {
-													//kdDebug() << static_cast<char>(*i) << endl;
-												}
-											}
-										}
-
-									break;
-								} //switch mapCommands
-							} //if not letter
-				break; //command
-
-				case stVerbatimDetected :
-						if ( ch == verbatimDelimiter )
-						{
-							state = stStandard;
-							key=0;
-						}
-				break;
-
-				case stEnvironmentDetected :
-						if ( ch.isLetter() )
-            {
-							state = stDeterminingEnv; env_start=i;
-						}
-						else if ( !ch.isSpace() )
-						{
-							//kdDebug() << "eaten all space" << ch.latin1() << endl;
-							switch (ch)
-							{
-								case TEX_CAT0		: state = stControlSequence; break;
-								case TEX_CAT1		: state = stDeterminingEnv; env_start=i+1; break;
-								case TEX_CAT3		: state = stMath; break;
-								case TEX_CAT14	: state = stComment; break;
-								default : state = stStandard; break;
-							};
-						}
-
-				break;
-
-				case stDeterminingEnv :
-						if ( ch == TEX_CAT2 )
-						{
-								env=text.mid(env_start,i-env_start);
-								//kdDebug() << "environment : " << env << endl;
-								state=stStandard;
-								if ( env == "verbatim" )
+								verbatimDelimiter=ch;
+								ind= listVerbChars.findIndex(ch);
+								if ( ind < 0)
 								{
-									state = stVerbatimEnv;
-									//kdDebug() << "verbatim environment" << endl;
+									listVerbChars.append(ch);
+									key=listVerbChars.size();
 								}
-						}
-				break;
-
-				case stVerbatimEnv :
-						if ( ch == TEX_CAT0 )
-						{
-							//kdDebug() << "possible ending: " << text.mid(i+1,13) << " distance " << len-i << endl;
-							if ( ((len-i) > 13) && text.mid(i+1,13) == VERBATIM_END )
-							{
-								state=stControlSequence;
-								//kdDebug() << "verbatim environment ending" << endl;
+								else
+								{
+									key=ind+1;
+								}
+                        					state=stVerbatimDetected;
+                        					//kdDebug() << "going verbatim with " << ch.latin1() << " at " << listVerbChars.size() << endl;
+                       	 					for (QValueListIterator<QChar> i = listVerbChars.begin(); i != listVerbChars.end(); i++ )
+                       						{
+									//kdDebug() << static_cast<char>(*i) << endl;
+								}
 							}
 						}
-				break;
+					break;
+				} //switch mapCommands
+			} //if not letter
+		break; //command
 
-				default :
-					//kdDebug() << "WARNING WARNING state " << state << " not handled" << endl;
-				break;
+		case stVerbatimDetected :
+			if ( ch == verbatimDelimiter )
+			{
+				state = stStandard;
+				key=0;
+			}
+		break;
+
+		case stEnvironmentDetected :
+			if ( ch.isLetter() )
+			{
+				state = stDeterminingEnv; env_start=i;
+			}
+			else if ( !ch.isSpace() )
+			{
+				//kdDebug() << "eaten all space" << ch.latin1() << endl;
+				switch (ch)
+				{
+					case TEX_CAT0		: state = stControlSequence; break;
+					case TEX_CAT1		: state = stDeterminingEnv; env_start=i+1; break;
+					case TEX_CAT3		: state = stMath; break;
+					case TEX_CAT14	: state = stComment; break;
+					default : state = stStandard; break;
+				};
+			}
+
+		break;
+
+		case stDeterminingEnv :
+			if ( ch == TEX_CAT2 )
+			{
+				env=text.mid(env_start,i-env_start);
+				//kdDebug() << "environment : " << env << endl;
+				state=stStandard;
+				if ( env == "verbatim" )
+				{
+					state = stVerbatimEnv;
+					//kdDebug() << "verbatim environment" << endl;
+				}
+			}
+		break;
+
+		case stVerbatimEnv :
+			if ( ch == TEX_CAT0 )
+			{
+				//kdDebug() << "possible ending: " << text.mid(i+1,13) << " distance " << len-i << endl;
+				if ( ((len-i) > 13) && text.mid(i+1,13) == VERBATIM_END )
+				{
+					state=stControlSequence;
+					//kdDebug() << "verbatim environment ending" << endl;
+				}
+			}
+		break;
+
+		default :
+			//kdDebug() << "WARNING WARNING state " << state << " not handled" << endl;
+			break;
 
 		} //switch state, change state
 
-      //set the format corresponding to the new state
-    switch (state)
-    {
-				case stStandard: fmt = fmtStandard; break;
-				case stComment : fmt = fmtComment;  break;
+		//set the format corresponding to the new state
+		switch (state)
+		{
+			case stStandard: fmt = fmtStandard; break;
+			case stComment : fmt = fmtComment;  break;
 
-				case stControlSequence :
-				case stControlSymbol :
-				case stCommand : fmt = fmtControlSequence; break;
+			case stControlSequence :
+			case stControlSymbol :
+			case stCommand : fmt = fmtControlSequence; break;
 
-				case stMath :
-				case stMathEnded :
-				case stPossibleMathEnding :
-				case stDisplayMath :
-				case stEquation :
-				case stPossibleEquationEnding :
-				case stMathControlSequence : fmt = fmtMath; break;
+			case stMath :
+			case stMathEnded :
+			case stPossibleMathEnding :
+			case stDisplayMath :
+			case stEquation :
+			case stPossibleEquationEnding :
+			case stMathControlSequence : fmt = fmtMath; break;
 
-				case stKeywordDetected : fmt = fmtKeyword; break;
+			case stKeywordDetected : fmt = fmtKeyword; break;
 
-				default : fmt= fmtStandard; break;
+			default : fmt= fmtStandard; break;
 		} //switch state, determine format
 
 		setLaTeXFormat(i,1,fmt);
@@ -390,11 +393,11 @@ int SyntaxLatex::highlightParagraph ( const QString & text, int endStateOfLastPa
 
 	//if end state is verbatimdetected, encode the verbatimdelimiter in the state
 	//kdDebug() << "saving key " << key << " into the endstate " << endl;
-  if (key > 0)
+	if (key > 0)
 	{
-			state += (key << 5) ;
+		state += (key << 5) ;
 	}
 
-  //kdDebug() << "endstate: " << state << endl;
+	//kdDebug() << "endstate: " << state << endl;
 	return state;
 }

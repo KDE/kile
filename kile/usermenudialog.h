@@ -19,7 +19,9 @@
 
 #include <qdialog.h>
 #include <qstring.h>
+#include <qstringlist.h>
 
+class QRadioButton;
 class QTextEdit;
 class QLineEdit;
 class QComboBox;
@@ -27,17 +29,30 @@ class QLabel;
 class QPushButton;
 
 
-typedef QString userlist[10];
+#ifndef KILE_USERITEM
+struct userItem
+{
+	QString name,tag;
+};
+#define KILE_USERITEM
+#endif
+
+
 
 class usermenudialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    usermenudialog( QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
+    usermenudialog( const QValueList<userItem> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
     ~usermenudialog();
 
-    userlist Name,Tag;
+    int index() { return previous_index; }
+    int result();
+    
+    QStringList Name,Tag;
+
+    enum Result { Edit, Add, Remove};
 
 private:
     int previous_index;
@@ -46,8 +61,9 @@ private:
     QComboBox *combo1;
     QLabel* label1;
     QLabel* label2;
-	  QPushButton *buttonOk;
-	  QPushButton *buttonCancel;
+    QPushButton *buttonOk;
+    QPushButton *buttonCancel;
+    QRadioButton *radioEdit, *radioRemove, *radioAdd;
 
 public slots:
     void init();

@@ -22,7 +22,15 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include "newfilewizard.h"
-#include "templates.h"
+
+TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIconViewItem(parent,info.name,QPixmap(info.icon))
+{
+	m_info = info;
+}
+
+TemplateItem::~TemplateItem()
+{
+}
 
 NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
   : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true)
@@ -41,11 +49,16 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
    iv->setResizePolicy(QScrollView::AutoOneFit);
    iv->setArrangement(QIconView::TopToBottom);
 
-   QIconViewItem * emp = new QIconViewItem( iv, DEFAULT_EMPTY_CAPTION, QPixmap( KGlobal::dirs()->findResource("appdata",DEFAULT_EMPTY_ICON )) );
+   TemplateInfo info;
+   info.name =DEFAULT_EMPTY_CAPTION;
+   info.icon =KGlobal::dirs()->findResource("appdata",DEFAULT_EMPTY_ICON );
+   info.path="";
+   TemplateItem * emp = new TemplateItem( iv, info);
 
    Templates templ;
    for (int i=0; i< templ.count(); i++) {
-      (void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );
+      //(void) new QIconViewItem( iv, (*templ.at(i)).name, QPixmap( (*templ.at(i)).icon )  );
+      (void) new TemplateItem(iv, *templ.at(i));
    }
 
    iv->setSelected(emp,true);

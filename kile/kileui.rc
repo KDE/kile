@@ -213,32 +213,11 @@
     <Action name="CleanBib"/>
   </Menu>
   <Menu name="menu9"><text>User</text>
-    <Menu name="menu9a"><text>User Tags</text>
-    <Action name="user1"/>
-    <Action name="user2"/>
-    <Action name="user3"/>
-    <Action name="user4"/>
-    <Action name="user5"/>
-    <Action name="user6"/>
-    <Action name="user7"/>
-    <Action name="user8"/>
-    <Action name="user9"/>
-    <Action name="user10"/>
-    <Separator/>
-    <Action name="EditUserMenu"/>
-    </Menu>
-    <Menu name="menu9b"><text>User Commands</text>
-    <Action name="usertool1"/>
-    <Action name="usertool2"/>
-    <Action name="usertool3"/>
-    <Action name="usertool4"/>
-    <Action name="usertool5"/>
-    <Separator/>
-    <Action name="EditUserTool"/>
-    </Menu>    
+    <Action name="menuUserTags"/>
+    <Action name="menuUserTools"/>
   </Menu>
   <Menu name="menu10"><text>Graph</text>
-    <Action name="144"/>                          
+    <Action name="144"/>
     <Action name="145"/>
   </Menu>
   <Menu name="view"><text>View</text>

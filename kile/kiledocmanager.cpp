@@ -421,7 +421,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 
 	kdDebug() << "==loadItem(" << item->url().path() << ")======" << endl;
 
-	if ( item->type() == KileProjectItem::Source )
+	if ( item->type() != KileProjectItem::Image )
 	{
 		view = load(item->url(), item->encoding(), item->isOpen(), item->highlight(), text);
 		kdDebug() << "\tloadItem: docfor = " << docFor(item->url().path()) << endl;
@@ -437,9 +437,6 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 		kdDebug() << "\tloadItem: no document generated" << endl;
 		Info *docinfo = createDocumentInfo(item->url());
 		item->setInfo(docinfo);
-
-		kdDebug() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
-		if ( docinfo->getDoc() != docFor(docinfo->url().path()) ) kdFatal() << "docinfo->getDoc() != docFor()" << endl;
 
 		if ( docFor(item->url()) == 0L) 
 		{

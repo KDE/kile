@@ -125,6 +125,20 @@ switch (page)
         }
      }
     }break;
+ case 6:
+    {
+    for ( uint i = 401; i <= 433; i++ )
+     {
+     icon_name="img"+QString::number(i)+".png";
+     if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
+        {
+        item= new KileIconViewItem( this);
+        item->setPixmap(pixmap);
+        item->setText(code[i+11]);
+        item->setKey(code[i+11]);
+        }
+     }
+    }break;
  }
 
 }

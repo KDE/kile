@@ -24,7 +24,7 @@
 /**
   *@author Pascal Brachet
   */
-typedef QString codelist[412];
+typedef QString codelist[445];
 const codelist code=
   {
 "\\pm",//"img1.png"
@@ -438,7 +438,40 @@ const codelist code=
 "\\Upsilon",//"img37greek.png"
 "\\Phi",//"img38greek.png"
 "\\Psi",//"img39greek.png"
-"\\Omega"//"img40greek.png"
+"\\Omega",//"img40greek.png"
+"\\\"a",//"img401.png"
+"\\\"A",//"img402.png"
+"\\\"o",//"img403.png"
+"\\\"O",//"img404.png"
+"\\\"u",//"img405.png"
+"\\\"U",//"img406.png"
+"\\ss{}",//"img407.png"
+"\\~n",//"img408.png"
+"\\aa{}",//"img409.png"
+"\\AA{}",//"img410.png"
+"\\o{}",//"img411.png"
+"\\O{}",//"img412.png"
+"\\ae{}",//"img413.png"
+"\\AE{}",//"img414.png"
+"\\oe{}",//"img415.png"
+"\\OE{}",//"img416.png"
+"\\'e",//"img417.png"
+"\\'E",//"img418.png"
+"\\`e",//"img419.png"
+"\\`E",//"img420.png"
+"\\^a",//"img421.png"
+"\\^A",//"img422.png"
+"\\\"i",//"img423.png"
+"\\\"e",//"img424.png"
+"\\^i",//"img425.png"
+"\\^I",//"img426.png"
+"\\^o",//"img427.png"
+"\\^O",//"img428.png"
+"\\^u",//"img429.png"
+"\\^U",//"img430.png"
+"\\^e",//"img431.png"
+"\\^E",//"img432.png"
+"\\c{c}"//"img433ng"
   };
 //////////////////////////////
 

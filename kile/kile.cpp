@@ -156,8 +156,10 @@ ButtonBar->insertTab(UserIcon("math4"),5,i18n("Delimiters"));
 connect(ButtonBar->getTab(5),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 ButtonBar->insertTab(UserIcon("math5"),6,i18n("Greek Letters"));
 connect(ButtonBar->getTab(6),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
-ButtonBar->insertTab(UserIcon("metapost"),7,i18n("MetaPost Commands"));
+ButtonBar->insertTab(UserIcon("math6"),7,"Foreign characters");
 connect(ButtonBar->getTab(7),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
+ButtonBar->insertTab(UserIcon("metapost"),8,i18n("MetaPost Commands"));
+connect(ButtonBar->getTab(8),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 
 splitter2=new QSplitter(QSplitter::Vertical, splitter1, "splitter2");
 tabWidget=new QTabWidget(splitter2);
@@ -4021,7 +4023,7 @@ else if (page==1)
    ButtonBar->setPosition(KMultiVertTabBar::Right);
    outstruct->show();
    }
-else if (page==7)
+else if (page==8)
    {
    KileFS->hide();
    outstruct->hide();

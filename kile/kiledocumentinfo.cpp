@@ -165,7 +165,7 @@ const long* KileDocumentInfo::getStatistics()
 		line = m_doc->selection();
 		count(line, m_arStatistics);
 	}
-	else
+	else if (m_doc)
 	for (uint l=0; l < m_doc->numLines(); l++)
 	{
 		line = m_doc->textLine(l);

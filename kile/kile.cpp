@@ -607,6 +607,8 @@ Kate::View* Kile::load( const KURL &url , const QString & encoding, bool create,
 	{
 		//install a documentinfo class for this doc
 		docinfo = new KileDocumentInfo(doc);
+		if (doc == 0) docinfo->setURL(url);
+		
 		//decorate the document with the KileDocumentInfo class
 		docinfo->setListView(outstruct);
 		docinfo->setURL(url);

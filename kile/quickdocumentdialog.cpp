@@ -281,7 +281,7 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	QWidget *packages = new QWidget( tab );
 	QVBoxLayout *vl = new QVBoxLayout(packages, marginHint(), spacingHint());
 
-	QLabel *label = new QLabel(i18n("Late&x packages:"), packages);
+	QLabel *label = new QLabel(i18n("LaTe&X packages:"), packages);
 	vl->addWidget(label);
 	m_lvPackages = new QListView(packages);
 	vl->addWidget(m_lvPackages);

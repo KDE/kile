@@ -40,7 +40,7 @@ namespace KileStruct
 {
 	enum  {
 		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
-		BibItem = 0x10, Bibliography = 0x12, Package = 0x14,
+		BibItem = 0x10, Bibliography = 0x12, Package = 0x14
 	};
 }
 

@@ -33,7 +33,9 @@ public:
 
 public slots:
    void highlight();
-   void insertLine(QString l);
+   void insertLine(const QString &l);
+   void insertAt(const QString &l, int para, int index);
+   void append(const QString &l);
 };
 
 #endif

@@ -1659,14 +1659,17 @@ void Kile::removeTemplate() {
 
 void Kile::removeView(Kate::View *view)
 {
-	guiFactory()->removeClient( view );
-	tabWidget->removePage(view);
-	m_viewList.remove(view);
-	delete view;
-
-	//if viewlist is empty, no currentChanged() signal is emitted
-	//call UpdateStructure such that the structure view is emptied
-	if (m_viewList.isEmpty()) UpdateStructure();
+	if (view)
+	{
+		guiFactory()->removeClient( view );
+		tabWidget->removePage(view);
+		m_viewList.remove(view);
+		delete view;
+	
+		//if viewlist is empty, no currentChanged() signal is emitted
+		//call UpdateStructure such that the structure view is emptied
+		if (m_viewList.isEmpty()) UpdateStructure();
+	}
 }
 
 void Kile::focusLog()
@@ -2260,32 +2263,32 @@ switch (quickmode)
  {
   case 1:
     {
-    if (m_OutputInfo->size() > 0) {QuickDviToPS();}
+    if (m_nErrors == 0) {QuickDviToPS();}
     else {NextError();}
     }break;
   case 2:
     {
-    if (errorlist->isEmpty() && !watchfile) {ViewDvi();}
+    if ( (m_nErrors == 0) && !watchfile) {ViewDvi();}
     else {NextError();}
     }break;
  case 3:
     {
-    if (errorlist->isEmpty()) {KdviForwardSearch();}
+    if ( m_nErrors == 0) {KdviForwardSearch();}
     else {NextError();}
     }break;
  case 4:
     {
-    if (errorlist->isEmpty() && !watchfile) {ViewPDF();}
+    if ( (m_nErrors == 0) && !watchfile) {ViewPDF();}
     else {NextError();}
     }break;
  case 5:
     {
-    if (errorlist->isEmpty()) {QuickDviPDF();}
+    if  (m_nErrors == 0) {QuickDviPDF();}
     else {NextError();}
     }break;
  case 6:
     {
-    if (errorlist->isEmpty()) {QuickDviToPS();}
+    if  (m_nErrors == 0) {QuickDviToPS();}
     else {NextError();}
     }break;
  }

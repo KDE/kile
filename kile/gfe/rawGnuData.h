@@ -27,7 +27,7 @@
 #define rawGnuData_included
 
 #include <qdialog.h>
-#include <qtextedit.h>
+#include <ktextedit.h>
 
 class rawGnuData : public QDialog
 {
@@ -42,7 +42,7 @@ public:
     );
 
     virtual ~rawGnuData();
-    QTextEdit* rawCommand;
+    KTextEdit* rawCommand;
 
 public slots:
    

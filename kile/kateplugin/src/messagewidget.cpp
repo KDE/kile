@@ -21,7 +21,7 @@
 #include <qrect.h>
 #include <kmessagebox.h>
 
-MessageWidget::MessageWidget(QWidget *parent, const char *name ) : QTextEdit(parent,name)
+MessageWidget::MessageWidget(QWidget *parent, const char *name ) : KTextEdit(parent,name)
 {
 }
 MessageWidget::~MessageWidget(){

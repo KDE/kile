@@ -22,7 +22,7 @@
 #include <qstringlist.h>
 
 class QRadioButton;
-class QTextEdit;
+class KTextEdit;
 class QLineEdit;
 class QComboBox;
 class QLabel;
@@ -56,7 +56,7 @@ public:
 
 private:
     int previous_index;
-    QTextEdit *tagedit;
+    KTextEdit *tagedit;
     QLineEdit *itemedit;
     QComboBox *combo1;
     QLabel* label1;

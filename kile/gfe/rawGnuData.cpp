@@ -39,7 +39,7 @@ rawGnuData::rawGnuData
 	:
 	QDialog( parent, name, TRUE)
 {
-	rawCommand = new QTextEdit( this, "MultiLineEdit_1" );
+	rawCommand = new KTextEdit( this, "MultiLineEdit_1" );
   rawCommand->setTextFormat(Qt::PlainText);
 	rawCommand->insertAt( "",0,0 );
   rawCommand->setFocus();

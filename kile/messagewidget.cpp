@@ -19,11 +19,16 @@
 #include <qregexp.h>
 #include <qpainter.h>
 #include <qrect.h>
+#include <qcolor.h>
+#include <qbrush.h>
 #include <kmessagebox.h>
 
-MessageWidget::MessageWidget(QWidget *parent, const char *name ) : QTextEdit(parent,name)
+MessageWidget::MessageWidget(QWidget *parent, const char *name ) : KTextEdit(parent,name)
 {
+	setColor(black);
+    	setPaper(white);
 }
+
 MessageWidget::~MessageWidget(){
 }
 

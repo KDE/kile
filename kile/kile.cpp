@@ -71,7 +71,7 @@
 #include "newfilewizard.h"
 #include "managetemplatesdialog.h"
 
-Kile::Kile( QWidget *, const char *name ): KParts::MainWindow( name, WDestructiveClose),DCOPObject( "Kile" )
+Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWindow( name, WDestructiveClose)
 {
 config = KGlobal::config();
 m_AutosaveTimer= new QTimer();
@@ -1696,7 +1696,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  //substitute %S for the basename of the file
  QStringList cmmnd = command;
  QString dir = file.dirPath();
- QString name = file.baseName();
+ QString name = file.baseName(TRUE);
 
  CommandProcess* proc = new CommandProcess();
  currentProcess=proc;
@@ -1709,10 +1709,12 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  }
 
  for ( QValueListIterator<QString> i = cmmnd.begin(); i != cmmnd.end(); i++) {
-   if (runonfile) (*i).replace(QRegExp("%S"),name);
+   if (runonfile) (*i).replace("%S",name);
    (*proc) << *i;
  }
 
+ kdDebug() << "exec command: " << proc->command() << endl;
+ 
  connect(proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  connect(proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  connect(this, SIGNAL( stopProcess() ), proc, SLOT(terminate()));
@@ -1806,8 +1808,8 @@ QStringList Kile::prepareForConversion(const QString &command, const QString &fr
    }
 
    QFileInfo fic(finame);
-   fromName = fic.dirPath() + "/" +fic.baseName() + "." + from;
-   toName = fic.dirPath() + "/" +fic.baseName() + "." + to;
+   fromName = fic.dirPath() + "/" +fic.baseName(TRUE) + "." + from;
+   toName = fic.dirPath() + "/" +fic.baseName(TRUE) + "." + to;
 
    fic.setFile(fromName);
    if (!(fic.exists() && fic.isReadable()))
@@ -1850,12 +1852,12 @@ QString Kile::prepareForViewing(const QString & /*command*/, const QString &ext,
    if (!target.isNull())
    {
 		finame += target;
-		finame.replace("%S",fic.baseName());
-	}
+		finame = finame.replace("%S",fic.baseName(TRUE));
+   }
    else
    {
-		finame += fic.baseName() + "." + ext;
-	}
+		finame += fic.baseName(TRUE) + "." + ext;
+   }
 
    fic.setFile(finame);
 
@@ -1957,7 +1959,7 @@ void Kile::KdviForwardSearch()
 
   QFileInfo fic(finame);
   QString dviname=finame;
-  QString texname=fic.baseName()+".tex";
+  QString texname=fic.baseName(TRUE)+".tex";
   int para=0;
   int index=0;
   currentEditorView()->editor->viewport()->setFocus();
@@ -2171,7 +2173,7 @@ void Kile::MakeBib()
   }
 
   QFileInfo fic(finame);
-  finame = fic.dirPath()+"/"+fic.baseName()+".aux";
+  finame = fic.dirPath()+"/"+fic.baseName(TRUE)+".aux";
   fic.setFile(finame);
 
   if (!(fic.exists() && fic.isReadable()) )
@@ -2180,9 +2182,6 @@ void Kile::MakeBib()
                                   "You need to run LaTeX to create this file.").arg(finame));
      return;
   }
-
-  //QString name=fic.dirPath()+"/"+fic.baseName();
-  //fic.setFile(name);
 
     QStringList command; command << bibtex_command;
     CommandProcess *proc=execCommand(command,fic,true);
@@ -2233,7 +2232,7 @@ void Kile::MakeIndex()
   }
 
   QFileInfo fic(finame);
-  finame = fic.dirPath()+"/"+fic.baseName()+".idx";
+  finame = fic.dirPath()+"/"+fic.baseName(TRUE)+".idx";
   fic.setFile(finame);
 
   if (!(fic.exists() && fic.isReadable()) )
@@ -2333,10 +2332,10 @@ void Kile::MetaPost()
   else { finame = MasterName;}
 
   QFileInfo fi(finame);
-  QString name=fi.dirPath()+"/"+fi.baseName()+".mp";
-  QString mpname=fi.baseName()+".mp";
+  QString name=fi.dirPath()+"/"+fi.baseName(TRUE)+".mp";
+  QString mpname=fi.baseName(TRUE)+".mp";
   QFileInfo fic(name);
-	if (fic.exists() && fic.isReadable() )
+  if (fic.exists() && fic.isReadable() )
   {
     QStringList command;
     command << "mpost" << "--interaction" << "nonstopmode" <<"%S.mp";
@@ -2385,8 +2384,8 @@ void Kile::CleanAll()
    command << "cd " << fic.dirPath() << "&&";
 
    for (int i=0; i< 13; i++) {
-      prettyList.append(fic.baseName()+extlist[i]);
-      command << "rm -f" << fic.baseName()+extlist[i];
+      prettyList.append(fic.baseName(TRUE)+extlist[i]);
+      command << "rm -f" << fic.baseName(TRUE)+extlist[i];
       if (i<12) {command << "&&"; }
    }
 
@@ -2423,7 +2422,7 @@ void Kile::syncTerminal()
     if ((singlemode && !currentEditorView()) ||getShortName()=="untitled" || getShortName()=="") {return;}
 
     QFileInfo fi(finame);
-    QString texname=fi.dirPath()+"/"+fi.baseName()+".tex";
+    QString texname=fi.dirPath()+"/"+fi.baseName(TRUE)+".tex";
     QFileInfo fic(texname);
   	if (fic.exists() && fic.isReadable() )
     {
@@ -3826,7 +3825,7 @@ if (sfDlg->exec() )
   {
    QString fn=sfDlg->fileName();
    QFileInfo fi(fn);
-   InsertTag("\\includegraphics[scale=1]{"+fi.baseName()+"."+fi.extension()+"} ",26,0);
+   InsertTag("\\includegraphics[scale=1]{"+fi.baseName(TRUE)+"."+fi.extension()+"} ",26,0);
    LogWidget->insertLine("This command is used to import image files (\\usepackage{graphicx} is required)");
    LogWidget->insertLine("Examples :");
    LogWidget->insertLine("\\includegraphics{file} ; \\includegraphics[width=10cm]{file} ; \\includegraphics*[scale=0.75]{file}");
@@ -3856,7 +3855,7 @@ if (sfDlg->exec() )
   {
 QString fn=sfDlg->fileName();
 QFileInfo fi(fn);
-InsertTag("\\include{"+fi.baseName()+"}",9,0);
+InsertTag("\\include{"+fi.baseName(TRUE)+"}",9,0);
   }
 delete sfDlg;
 UpdateStructure();
@@ -3880,7 +3879,7 @@ if (sfDlg->exec() )
   {
 QString fn=sfDlg->fileName();
 QFileInfo fi(fn);
-InsertTag("\\input{"+fi.baseName()+"}",7,0);
+InsertTag("\\input{"+fi.baseName(TRUE)+"}",7,0);
   }
 delete sfDlg;
 UpdateStructure();
@@ -3913,7 +3912,7 @@ currentEditorView()->editor->viewport()->setFocus();
 QString tag;
 QFileInfo fi(getName());
 tag=QString("\\bibliography{");
-tag +=fi.baseName();
+tag +=fi.baseName(TRUE);
 tag +=QString("}\n");
 InsertTag(tag,0,1);
 LogWidget->insertLine("The argument to \\bibliography refers to the bib file (without extension)");

@@ -19,13 +19,13 @@
 #define MESSAGEWIDGET_H
 
 #include <qwidget.h>
-#include <qtextedit.h>
+#include <ktextedit.h>
 
 /**
   *@author Pascal Brachet
   */
 
-class MessageWidget : public QTextEdit  {
+class MessageWidget : public KTextEdit  {
    Q_OBJECT
 public: 
 	MessageWidget(QWidget *parent, const char *name=0);

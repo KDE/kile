@@ -49,7 +49,7 @@
 #include "qtimer.h"
 #include "qcursor.h"
 #include "qapplication.h"
-#include "qtextedit.h"
+#include "ktextedit.h"
 #include "qmemarray.h"
 #include "qptrlist.h"
 #include "qvbox.h"

@@ -30,18 +30,18 @@
 
 #include <kdebug.h>
 
-LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool parmatch, ListColors col) : QTextEdit(parent,name), hasError( FALSE )
+LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool parmatch, ListColors col) : KTextEdit(parent,name), hasError( FALSE )
 {
     encoding="";
     matchParens=parmatch;
     m_matching=false;
-    setPaletteBackgroundColor(col[0]);
-    setPaletteForegroundColor(col[1]);
+    setColor(col[1]);
+    setPaper(col[0]);
     viewport()->setBackgroundMode(PaletteBackground);
-    document()->setSelectionColor( selError, red );
-    document()->setSelectionColor( selStep, yellow );
-    document()->setSelectionColor( selParenMatch,col[7]  );
-    document()->setSelectionColor( selParenMismatch, Qt::magenta );
+    setSelectionAttributes( selError, red ,false);
+    setSelectionAttributes( selStep, yellow ,false);
+    setSelectionAttributes( selParenMatch,col[7]  ,false);
+    setSelectionAttributes( selParenMismatch, Qt::magenta ,false);
 
     highlighter=new SyntaxLatex(this,col,efont);
     setTextFormat(Qt::PlainText);
@@ -49,18 +49,18 @@ LatexEditor::LatexEditor(QWidget *parent, const char *name,QFont & efont,bool pa
     connect( this, SIGNAL( cursorPositionChanged( int,int ) ),
 	     this, SLOT( cursorPosChanged( int,int ) ) );
 
-    document()->addSelection( selError );
-    document()->addSelection( selStep );
-    document()->setInvertSelectionText( selError, FALSE );
-    document()->setInvertSelectionText( selStep, FALSE );
-    document()->addSelection( selParenMatch);
-    document()->addSelection( selParenMismatch);
-    document()->setInvertSelectionText( selParenMatch ,FALSE);
-    document()->setInvertSelectionText( selParenMismatch , FALSE);
+    //document()->addSelection( selError );
+    //document()->addSelection( selStep );
+    //document()->setInvertSelectionText( selError, FALSE );
+    //document()->setInvertSelectionText( selStep, FALSE );
+    //document()->addSelection( selParenMatch);
+    //document()->addSelection( selParenMismatch);
+    //document()->setInvertSelectionText( selParenMatch ,FALSE);
+    //document()->setInvertSelectionText( selParenMismatch , FALSE);
 
-    document()->setFormatter( new QTextFormatterBreakWords );
+    //document()->setFormatter( new QTextFormatterBreakWords );
     setVScrollBarMode( QScrollView::AlwaysOn );
-    document()->setUseFormatCollection( FALSE );
+    //document()->setUseFormatCollection( FALSE );
     QFontMetrics fmet(efont);
     setTabStopWidth( fmet.width('x') * 4 );
 
@@ -153,7 +153,7 @@ void LatexEditor::uncommentSelection()
 /*void LatexEditor::doChangeInterval()
 {
     emit intervalChanged();
-    QTextEdit::doChangeInterval();
+    KTextEdit::doChangeInterval();
 }*/
 
 void LatexEditor::cursorPosChanged( int para, int pos  )
@@ -161,7 +161,7 @@ void LatexEditor::cursorPosChanged( int para, int pos  )
   if (m_matching)
   {
 		m_matching=false;
-	}
+  }
 	else
   if (matchParens)
   {
@@ -286,58 +286,21 @@ void LatexEditor::matchParen(int para, int pos, int direc)
 
 void LatexEditor::configChanged()
 {
-  document()->invalidate();
+  //document()->invalidate();
+  highlighter->rehighlight();
   viewport()->repaint( FALSE );
 }
 
-
-void LatexEditor::setErrorSelection( int line )
-{
-  QTextParagraph *p = document()->paragAt( line );
-  if ( !p )
-    return;
-  QTextCursor c( document() );
-  c.setParagraph( p );
-  c.setIndex( 0 );
-  document()->removeSelection( selError );
-  document()->setSelectionStart( selError, c );
-  c.gotoLineEnd();
-  document()->setSelectionEnd( selError, c );
-  hasError = TRUE;
-  viewport()->repaint( FALSE );
-}
-
-void LatexEditor::setStepSelection( int line )
-{
-  QTextParagraph *p = document()->paragAt( line );
-  if ( !p )
-    return;
-  QTextCursor c( document() );
-  c.setParagraph( p );
-  c.setIndex( 0 );
-  document()->removeSelection( selStep );
-  document()->setSelectionStart( selStep, c );
-  c.gotoLineEnd();
-  document()->setSelectionEnd( selStep, c );
-  viewport()->repaint( FALSE );
-}
-
-void LatexEditor::clearStepSelection()
-{
-  document()->removeSelection( selStep );
-  viewport()->repaint( FALSE );
-}
 
 void LatexEditor::changeSettings(QFont & new_font,bool new_parmatch,ListColors new_col )
 {
-    setPaletteBackgroundColor(new_col[0]);
-    setPaletteForegroundColor(new_col[1]);
+    setPaper(new_col[0]);
+    setColor(new_col[1]);
     viewport()->setBackgroundMode(PaletteBackground);
-    document()->setSelectionColor( selError, red );
-    document()->setSelectionColor( selStep, yellow );
-    document()->setSelectionColor( selParenMatch,new_col[7] );
-    document()->setSelectionColor( selParenMismatch, Qt::magenta );
-    viewport()->repaint( FALSE );   
+    setSelectionAttributes( selError, red ,false);
+    setSelectionAttributes( selStep, yellow ,false);
+    setSelectionAttributes( selParenMatch,new_col[7]  ,false);
+    viewport()->repaint( FALSE );
     highlighter->changeSettings(new_col,new_font);
     matchParens=new_parmatch;
 }

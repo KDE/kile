@@ -24,7 +24,7 @@
 #include <paragdata.h>
 #include <qcolor.h>
 #include <qfont.h>
-#include <qtextedit.h>
+#include <ktextedit.h>
 
 #include "kdebug.h"
 
@@ -55,7 +55,7 @@ const char * const SyntaxLatex::Environment[] = {
     0
 };
 
-SyntaxLatex::SyntaxLatex(QTextEdit *textEdit, ListColors col, QFont &efont) : QSyntaxHighlighter(textEdit)
+SyntaxLatex::SyntaxLatex(KTextEdit *textEdit, ListColors col, QFont &efont) : QSyntaxHighlighter(textEdit)
 {
   changeSettings(col, efont);
 }

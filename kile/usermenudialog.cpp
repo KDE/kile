@@ -19,7 +19,7 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 #include <qlayout.h>
-#include <qtextedit.h>
+#include <ktextedit.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
@@ -50,7 +50,7 @@ usermenudialog::usermenudialog(const QValueList<userItem> &list, QWidget* parent
 
   label2 = new QLabel( this, "label2" );
   label2->setText(i18n("LaTeX content:"));
-  tagedit=new QTextEdit(this,"tag");
+  tagedit=new KTextEdit(this,"tag");
   tagedit->setTextFormat(Qt::PlainText);
 
   QLabel *label3 = new QLabel( i18n("Action"), this,"label3");

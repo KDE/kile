@@ -19,7 +19,7 @@
 #define LATEXEDITOR_H
 
 #include <qwidget.h>
-#include <qtextedit.h>
+#include <ktextedit.h>
 #include <qstring.h>
 #include <qcolor.h>
 #include "parenmatcher.h"
@@ -32,7 +32,7 @@ class SyntaxLatex;
 class QFileInfo;
 class QDateTime;
 
-class LatexEditor : public QTextEdit  {
+class LatexEditor : public KTextEdit  {
    Q_OBJECT
 public:
   enum Selection
@@ -51,24 +51,19 @@ public:
 
    void setFile(const QString &);
 
-  QTextDocument *document() const { return QTextEdit::document(); }
-  void placeCursor( const QPoint &p, QTextCursor *c ) { QTextEdit::placeCursor( p, c ); }
-  void setDocument( QTextDocument *doc ) { QTextEdit::setDocument( doc ); }
-  QTextCursor *textCursor() const { return QTextEdit::textCursor(); }
-  void repaintChanged() { QTextEdit::repaintChanged(); }
+  QTextDocument *document() const { return KTextEdit::document(); }
+  void placeCursor( const QPoint &p, QTextCursor *c ) { KTextEdit::placeCursor( p, c ); }
+  void setDocument( QTextDocument *doc ) { KTextEdit::setDocument( doc ); }
+  QTextCursor *textCursor() const { return KTextEdit::textCursor(); }
+  void repaintChanged() { KTextEdit::repaintChanged(); }
 
   virtual void configChanged();
-
-  void setErrorSelection( int line );
-  void setStepSelection( int line );
-  void clearStepSelection();
-  void clearSelections();
 
   virtual bool supportsErrors() const { return TRUE; }
   virtual bool supportsBreakPoints() const { return TRUE; }
   virtual void makeFunctionVisible( QTextParag * ) {}
 
-  void drawCursor( bool b ) { QTextEdit::drawCursor( b ); }
+  void drawCursor( bool b ) { KTextEdit::drawCursor( b ); }
   void commentSelection();
   void uncommentSelection();
   void indentSelection();

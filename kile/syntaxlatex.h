@@ -29,7 +29,7 @@
 
 class QColor;
 class QFont;
-class QTextEdit;
+class KTextEdit;
 
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
@@ -55,7 +55,7 @@ typedef  QColor ListColors[8];
 class SyntaxLatex : public QSyntaxHighlighter
 {
 public:
-    SyntaxLatex(QTextEdit *textEdit, ListColors col, QFont &efont);
+    SyntaxLatex(KTextEdit *textEdit, ListColors col, QFont &efont);
     virtual ~SyntaxLatex();
 
     int highlightParagraph ( const QString & text, int endStateOfLastPara );

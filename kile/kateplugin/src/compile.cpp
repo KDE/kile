@@ -105,7 +105,7 @@ CommandProcess* Compile::execCommand(const QStringList &command, const QFileInfo
  //substitute %S for the basename of the file
  QStringList cmmnd = command;
  QString dir = file.dirPath();
- QString name = file.baseName();
+ QString name = file.baseName(TRUE);
 
  CommandProcess* proc = new CommandProcess();
  currentProcess=proc;

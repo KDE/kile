@@ -72,8 +72,8 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_kpd->setLabel(i18n("Scanning project files..."));
 	m_kpd->setAutoClose(true);
 	m_kpd->setMinimumDuration(2000);
+	m_kpd->cancel();
 }
-
 
 Manager::~Manager()
 {

@@ -1,7 +1,7 @@
 /***************************************************************************
-date                 : Jan 26 2005
-version              : 0.11
-copyright            : (C) 2004 by Holger Danielsson
+date                 : Febr 18 2005
+version              : 0.12
+copyright            : (C) 2004-2005 by Holger Danielsson
 email                : holger.danielsson@t-online.de
 ***************************************************************************/
 
@@ -294,12 +294,8 @@ namespace KileDocument
 		// is there a new cursor position?
 		if ( m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
 		{
-			int newx = m_xcursor, newy = m_ycursor;
-			
-			if ( m_yoffset == 0 )
-				newx = m_xcursor + m_xoffset - m_textlen;
-			else
-				newy = m_ycursor + m_yoffset;
+			int newx = ( m_xoffset != 0 ) ? m_xcursor + m_xoffset - m_textlen : m_xcursor;
+			int newy = ( m_yoffset != 0 ) ? m_ycursor + m_yoffset : m_ycursor;
 
 			m_view->setCursorPositionReal( newy, newx );
 		}
@@ -366,6 +362,12 @@ namespace KileDocument
 				break;
 				case cmEnvironment:
 				s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
+				if ( m_xstart >= 7 ) {
+					Kate::Document *doc = m_view->getDoc();
+					if ( doc->text(row,m_xstart-7,row,m_xstart) == "\\begin{" ) {
+						m_textlen += 7;
+					}
+				}
 				break;
 				case cmDictionary:
 				s = text;
@@ -911,7 +913,7 @@ namespace KileDocument
 		QDict<bool> seen; 
 		bool alreadyseen = true;
 		               
-		for (uint i=0; i<doc->numLines(); i++) {
+		for (uint i=0; i<doc->numLines(); ++i) {
 			s = doc->textLine(i);
 			int pos = 0;
 			while ( pos >= 0 ) {

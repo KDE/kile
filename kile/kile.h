@@ -118,6 +118,7 @@ class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
 	Q_OBJECT
 
 public:
+	QString relativePath(const QString basepath, const QString & file);
 	Kile( QWidget *parent = 0, const char *name = 0 );
 	~Kile();
 

@@ -1,16 +1,20 @@
 version 1.5.2 -> 1.6
-- button to view the bibtex file & interaction with gBib and pyBliographer
+major:
+- new editor (katepart)
+- project management
+minor:
+- auto-complete environments
+- statistics dialog for document (word count)
+- can open multiple files in one go (using the open file dialog or the sidebar)
+- launch you favorite BibTeX editor using the bilbiographies found in your document
+- interaction with gBib and pyBliographer
 - restore files and projects on start up (optional)
 - checking whether or not the document is a LaTeX root before compile is optional now
-- launch you favorite BibTeX editor using the bilbiographies found in your document
-- project management
 - structure view: jump to line AND column, allow multiple labels on one line, allow space between \struct and { }, don't parse
   structure elemented that are out-commented
 - configurable shortcuts to focus log/messages, output, konsole, editor views (resp. ctrl+alt+m,o,k,e)
-- statistics dialog for document (word count)
 - more advanced \includegraphics dialog (thx Michael Margraf)
 - check for modified on disc
-- auto-complete environments
 - highligthing inside math environments
 - allow user to set PS-PDF, DVI-PS, PDF-PS, BibTeX, makeindex commands
 

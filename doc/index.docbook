@@ -74,6 +74,20 @@ for users who want to retain control over their LaTeX documents.</para>
 other commands in order to facilitate the edition of your source
 files.</para>
 
+<sect2 id="encoding">
+<title>Dealing with documents with non-standard characters</title>
+
+<para>If you want to edit or create documents that contain non-standard letters (such as accented letters), you will have to set
+the encoding for the file. This can be done by selecting the appropriate encoding (iso 8859-2 for most European
+countries for example) in the drop-down menu at the lower left corner of the file selector window.
+</para>
+<screenshot>
+<imageobject>
+<imagedata fileref="enc1.png" format="PNG" />
+</imageobject>
+</screenshot>
+</sect2>
+
 <sect2 id="preamble">
 <title>The Preamble</title>
 

@@ -550,7 +550,7 @@ void Kile::setHighlightMode(Kate::Document * doc)
 	}
 	else
 	{
-		doc->setHlMode(0);
+		//doc->setHlMode(0);
 		kdWarning() << "could not find the LaTeX2 highlighting definitions" << endl;
 	}
 }
@@ -602,6 +602,7 @@ void Kile::activateView(QWidget* w)  //Needs to be QWidget because of QTabWidget
 		}
 		m_activeView=view;
 		guiFactory()->addClient( view );
+		UpdateStructure();
 	}
 }
 

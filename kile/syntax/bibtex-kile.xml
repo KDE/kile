@@ -20,7 +20,7 @@
 
 			<context name="Keyword" attribute="Keyword" lineEndContext="#stay">
 				<RegExpr String="\\." attribute="Keyword" context="#stay"/>
-				<DetectChar char="@" attribute="Bib Item" context="Bib Item"/>
+				<DetectChar char="@" attribute="Bib Item" context="#pop#pop"/>
 				<DetectChar char="=" attribute="Normal Text" context="#stay"/>
 				<DetectChar char="," attribute="Normal Text" context="#stay"/>
 				<DetectChar char='"' attribute="Value" context="Value"/>
@@ -29,9 +29,9 @@
 
 			<context name="Value" attribute="Value" lineEndContext="#stay">
 				<Detect2Chars char="\" char1='"' attribute="Value" context="#stay"/>
-				<DetectChar char='"' attribute="Value" context="Keyword"/>
+				<DetectChar char='"' attribute="Value" context="#pop"/>
 			</context>
-			
+
 			<context name="Comment" attribute="5" lineEndContext="#pop">
 			</context>
 		</contexts>

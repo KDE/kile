@@ -135,7 +135,9 @@ namespace KileWidget
 		else if ( type == "Sequence" ) m_configWidget->m_cbType->setCurrentItem(4);
 		m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
 
-		m_configWidget->m_cbState->setCurrentText(m_map["state"]);
+		QString state = m_map["state"];
+		if ( state == "" ) state = "Editor";
+		m_configWidget->m_cbState->setCurrentText(state);
 
 		int index = m_classes.findIndex(m_map["class"]);
 		if ( index == -1 ) index = m_classes.count()-1;
@@ -474,7 +476,12 @@ namespace KileWidget
 	void ToolConfig::setLibrary(const QString & lib) { m_map["libName"] = lib.stripWhiteSpace(); }
 	void ToolConfig::setLibOptions(const QString & options) { m_map["libOptions"] = options.stripWhiteSpace(); }
 	void ToolConfig::setClassName(const QString & name) { m_map["className"] = name.stripWhiteSpace(); }
-	void ToolConfig::setState(const QString & state) { m_map["state"] = state.stripWhiteSpace(); }
+	void ToolConfig::setState(const QString & state) 
+	{
+		QString str = state.stripWhiteSpace();
+		if ( str == "" ) str = "Editor";
+		m_map["state"] = str;
+	}
 	void ToolConfig::setSequence(const QString & sequence) { m_map["sequence"] = sequence.stripWhiteSpace(); }
 	void ToolConfig::setClose(bool on) { m_map["close"] = on ? "yes" : "no"; }
 	void ToolConfig::setTarget(const QString & trg) { m_map["target"] = trg.stripWhiteSpace(); }

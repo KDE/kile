@@ -43,7 +43,8 @@
 				<DetectChar char="%" attribute="Comment" context="Comment"/>
 			</context>
 			<context name="ContrSeq" attribute="Keyword" lineEndContext="#pop">
-				<RegExpr String="verb" attribute="Keyword" context="Verb"/>
+				<StringDetect String="verb*" attribute="Keyword" context="Verb"/>
+				<StringDetect String="verb" attribute="Keyword" context="Verb"/>
 				<RegExpr String="[a-zA-Z]+" attribute="Keyword" context="#pop"/>
 				<RegExpr String="[^a-zA-Z]" attribute="Keyword" context="#pop" />
 			</context>
@@ -72,14 +73,17 @@
 				<RegExpr String="(.).*\1" attribute="Verbatim" context="#pop#pop" minimal="true"/>
 			</context>
 			<context name="VerbatimEnv" attribute="Environment" lineEndContext="#stay">
+				<DetectChar char="*" attribute="Normal Text" context="#stay"/>
 				<DetectChar char="}" attribute="Normal Text" context="Verbatim"/>
 				<RegExpr String="[^\s]" attribute="Normal Text" context="#pop"/>
 			</context>
 			<context name="Verbatim" attribute="Verbatim" lineEndContext="#stay">
-				<RegExpr String="\\end(?=\{verbatim\})" attribute="Structure" context="VerbFindEnd"/>
+				<RegExpr String="\\end(?=\{verbatim\*\})" attribute="Structure"  context="VerbFindEnd"/>
+				<RegExpr String="\\end(?=\{verbatim\})" attribute="Structure"  context="VerbFindEnd"/>
 			</context>
 			<context name="VerbFindEnd" attribute="Normal Text" lineEndContext="#pop" fallthrough="true" fallthroughContext="#pop">
 				<DetectChar char="{" attribute="Normal Text" context="#stay"/>
+				<StringDetect String="verbatim*" attribute="Environment" context="#stay"/>
 				<StringDetect String="verbatim" attribute="Environment" context="#stay"/>
 				<DetectChar char="}" attribute="Normal Text" context="#pop#pop#pop#pop#pop"/>
 			</context>

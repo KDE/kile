@@ -1,8 +1,0 @@
-?package(kile):needs=X11\
-  section=Apps/Editors\
-  hints="KDE"\
-  kderemove="1"\
-  title="Kile"\
-  longtitle="Kile (LaTeX / Gnuplot Front End)"\
-  command="/usr/bin/kile"\
-  icon="/usr/share/pixmaps/kile.xpm"

@@ -191,6 +191,7 @@ to=pdf
 type=Part
 
 [Tool/ViewPDF/KGhostView]
+class=View
 command=kghostview
 options='%target'
 state=Viewer

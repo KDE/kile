@@ -35,7 +35,9 @@ class KileProjectViewItem : public QObject, public KListViewItem
 
 public:
 	KileProjectViewItem (QListView *parent, const QString & name, bool ar = false) : KListViewItem(parent, name), m_nonsrc(0) { setArchiveState(ar);}
+	KileProjectViewItem (QListView *parent, QListViewItem *after, const QString & name, bool ar = false) : KListViewItem(parent, after, name), m_nonsrc(0) { setArchiveState(ar);}
 	KileProjectViewItem (QListViewItem *parent, const QString & name) : KListViewItem(parent, name) {}
+	
 	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 
 	KileProjectViewItem* parent() { return dynamic_cast<KileProjectViewItem*>(KListViewItem::parent()); }

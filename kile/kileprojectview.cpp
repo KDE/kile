@@ -301,6 +301,7 @@ KileProjectViewItem* KileProjectView::nonSrc(const KileProjectItem *pi, KileProj
 void KileProjectView::add(const KileProject *project)
 {
 	KileProjectViewItem *parent = new KileProjectViewItem(this, project->name());
+
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
 	parent->setOpen(true);
@@ -410,6 +411,8 @@ KileProjectViewItem* KileProjectView::add(const KileProjectItem *projitem, KileP
 	item->setArchiveState(projitem->archive());
 	item->setURL(projitem->url());
 	makeTheConnection(item);
+
+	projvi->sortChildItems(0,true);
 
 	return item;
 }

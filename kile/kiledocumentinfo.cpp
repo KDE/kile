@@ -36,7 +36,7 @@ bool Info::isTeXFile(const KURL & url)
 {
 	//TODO use mimetype
 	QString shortName = url.fileName();
-	return (shortName.right(4) == ".tex" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex") && (shortName != i18n("Untitled"));
+	return (shortName.right(4) == ".tex" || shortName.right(4) == ".sty" || shortName.right(4) == ".cls" || shortName.right(4) == ".dtx" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex") && (shortName != i18n("Untitled"));
 }
 
 bool Info::isBibFile(const KURL & url)

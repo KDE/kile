@@ -148,14 +148,14 @@ void FloatEnvironmentDialog::slotOk()
 	
 	m_td.tagEnd = "\n";
 
-	QString label = m_edLabel->text();
-	if ( !label.isEmpty() && label!=m_prefix ) 
-		m_td.tagEnd += "\\label{" + label + "}\n";
-		
 	QString caption = m_edCaption->text();
 	if ( ! caption.isEmpty() ) 
 		m_td.tagEnd += "\\caption{" + caption + "}\n";
 
+	QString label = m_edLabel->text();
+	if ( !label.isEmpty() && label!=m_prefix ) 
+		m_td.tagEnd += "\\label{" + label + "}\n";
+		
 	m_td.tagEnd += "\\end{" + envname + "}\n";
 	
 	m_td.dy=row; 

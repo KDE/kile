@@ -130,8 +130,7 @@ public:
 	const QStringList* bibliographies() const { return &m_bibliography; }
 	const QStringList* packages() const { return &m_packages; }
 
-	KileListViewItem* structViewItem() { return m_struct; }
-	void setListView(KListView *lv) { m_structview = lv;}
+	const QString & preamble() const { return m_preamble; }
 
 	virtual bool isLaTeXRoot() { return m_bIsRoot; }
 
@@ -148,19 +147,17 @@ public slots:
 	virtual void updateStruct();
 	virtual void updateBibItems();
 	void emitNameChanged(Kate::Document *);
-	void stopUpdate() { m_bContinueUpdate = false; }
 
 signals:
 	void nameChanged(const KURL &);
 	void nameChanged(Kate::Document *);
 	void isrootChanged(bool);
 
-	void foundItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
+	void foundItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString & folder);
 
 protected:
 	void count(const QString line, long *stat);
 	QString matchBracket(uint&, uint&);
-	bool okToContinue() { return m_bContinueUpdate; }
 
 protected:
 	enum State
@@ -178,11 +175,9 @@ protected:
 	QStringList					m_deps;
 	QStringList					m_bibliography;
 	QStringList					m_packages;
-	KListView						*m_structview;
-	KileListViewItem				*m_struct;
+	QString						m_preamble;
 	QMap<QString,KileStructData>	m_dictStructLevel;
 	KURL						m_url, m_oldurl;
-	bool							m_bContinueUpdate;
 	KConfig						*m_config;
 };
 

@@ -68,9 +68,7 @@ void Manager::createTabs(QWidget *parent)
 
 Kate::View* Manager::createView(Kate::Document *doc)
 {
-	kdDebug() << "\t"<< doc->docName() << endl;
-	Kate::View *view;
-	view = (Kate::View*) doc->createView (m_tabs, 0L);
+	Kate::View *view = (Kate::View*) doc->createView (m_tabs, 0L);
 
 	//install event filter on the view
 	view->installEventFilter(m_ki->eventFilter());
@@ -102,17 +100,11 @@ Kate::View* Manager::createView(Kate::Document *doc)
 		static_cast<Kate::View*>(view->qt_cast("Kate::View"))->installPopup((QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client)) );
 
 	//activate the newly created view
-// 	activateView(view, false, false);
 	emit(activateView(view, false, false));
-
-// 	newStatus();
-// 	newCaption();
-// 	emit(view->newStatus());
 
 	view->setFocusPolicy(QWidget::StrongFocus);
 	view->setFocus();
 
-// 	if ( m_currentState != "Editor" ) prepareForPart("Editor");
 	emit(prepareForPart("Editor"));
 
 	return view;

@@ -61,7 +61,6 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qfile.h>
-#include <qheader.h>
 #include <qregexp.h>
 #include <qtooltip.h>
 #include <qvaluelist.h>
@@ -188,9 +187,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(ButtonBar->getTab(1),SIGNAL(clicked(int)),this,SLOT(showVertPage(int)));
 	m_kwStructure = new KileWidget::Structure(this, Structview);
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
-	m_kwStructure->header()->hide();
-	m_kwStructure->addColumn(i18n("Structure"),-1);
-	m_kwStructure->setSorting(-1,true);
 	connect(m_kwStructure, SIGNAL(setCursor(int,int)), this, SLOT(setCursor(int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
@@ -325,6 +321,7 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
 	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
+	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
 
 // 	connect(viewManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), this, SLOT(UpdateStructure(bool, KileDocument::Info*)));
 
@@ -507,7 +504,7 @@ void Kile::setupActions()
 	(void) KStdAction::keyBindings(this, SLOT(ConfigureKeys()), actionCollection(),"147" );
 	(void) KStdAction::configureToolbars(this, SLOT(ConfigureToolbars()), actionCollection(),"148" );
 
-	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("usertag"), actionCollection(),"menuUserTags");
+	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
 	setupUserTagActions();
 

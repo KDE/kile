@@ -49,10 +49,8 @@ Info::Info(Kate::Document *doc) : m_doc(doc)
 	if (m_doc)
 		kdDebug() << "Info created for " << m_doc->docName() << endl;
 
-	m_struct = 0;
 	m_bIsRoot = false;
 	m_arStatistics = new long[5];
-	m_bContinueUpdate = true;
 
 	if (m_doc)
 		m_url=m_oldurl = doc->url();
@@ -241,14 +239,13 @@ QString Info::matchBracket(uint &l, uint &pos)
 
 void Info::updateStruct()
 {
-	m_bContinueUpdate = true;
-
 	m_labels.clear();
 	m_bibItems.clear();
 	m_deps.clear();
 	m_bibliography.clear();
 	m_packages.clear();
 	m_bIsRoot = false;
+	m_preamble = QString::null;
 }
 
 void Info::updateBibItems()
@@ -293,16 +290,15 @@ void TeXInfo::updateStruct()
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 	static QRegExp::QRegExp reNewCommand("\\\\(re)?newcommand.*$");
 
-	int teller=0;
-	int tagStart;
-	uint tagEnd;
-	uint tagLine = 0, tagCol = 0;
-	QString m, s, cap;
+	int teller=0, tagStart, bd = 0;
+	uint tagEnd, tagLine = 0, tagCol = 0;
+	QString m, s, cap, folder = "root";
 	bool foundBD = false; // found \begin { document }
 
 	for(uint i = 0; i < m_doc->numLines(); i++)
 	{
 		tagStart=tagEnd=0;
+		folder = "root";
 		s=m_doc->textLine(i);
 
 		if (teller > 100)
@@ -325,10 +321,12 @@ void TeXInfo::updateStruct()
 		//find all commands in this line
 		while (tagStart != -1)
 		{
-			if ( (!foundBD) && (s.find(reBD, tagEnd) != -1))
+			if ( (!foundBD) && ( (bd = s.find(reBD, tagEnd)) != -1))
 			{
 				kdDebug() << "\tfound \\begin{document}" << endl;
 				foundBD = true;
+				if ( bd == 0 ) m_preamble = m_doc->text(0, 0, i - 1, m_doc->textLine(i - 1).length() );
+				else m_preamble = m_doc->text(0, 0, i, bd);
 			}
 
 			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
@@ -383,7 +381,10 @@ void TeXInfo::updateStruct()
 
 					//update the label list
 					if ((*it).type == KileStruct::Label)
+					{
 						m_labels.append(m);
+						folder = "labels";
+					}
 
 					//update the bibitem list
 					if ((*it).type == KileStruct::BibItem)
@@ -396,9 +397,8 @@ void TeXInfo::updateStruct()
 					if ((*it).type == KileStruct::Package)
 						m_packages.append(m);
 
-					if ( ! okToContinue() ) return;
 					kdDebug() << "emitting foundItem " << m << endl;
-					emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix));
+					emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, folder));
 				} //if m
 			} // if tagStart
 		} // while tagStart
@@ -461,7 +461,7 @@ void BibInfo::updateStruct()
 						key = key.stripWhiteSpace();
 						kdDebug() << "found: " << key << endl;
 						m_bibItems.append(key);
-						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "bibtex"));
+						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "bibtex", reItem.cap(2).lower()));
 						break;
 					}
 					else 

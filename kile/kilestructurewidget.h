@@ -22,6 +22,8 @@
   * @author Jeroen Wijnhout
   **/
 
+#include <qwidgetstack.h>
+#include <qvbox.h>
 #include <klistview.h>
 
 class QString;
@@ -32,7 +34,33 @@ class QListViewItem;
 
 namespace KileWidget
 {
-	class Structure : public KListView
+	class Structure; //forward declaration
+
+	class StructureList : public KListView
+	{
+		Q_OBJECT
+
+	public:
+		StructureList(Structure *stack, KileDocument::Info *docinfo);
+
+		void cleanUp();
+
+	public slots:
+		void addItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString &folder = "root");
+
+	private:
+		void init();
+		QListViewItem* createFolder(const QString &folder);
+		QListViewItem* folder(const QString &folder);
+
+	private:
+		Structure *m_stack;
+		KileDocument::Info *m_docinfo;
+		QMap<QString, QListViewItem *> m_folders;
+		QListViewItem	*m_parent[5], *m_current, *m_root, *m_child, *m_lastChild;
+	};
+
+	class Structure : public QWidgetStack
 	{
 		Q_OBJECT
 
@@ -46,9 +74,9 @@ namespace KileWidget
 			void slotClicked(QListViewItem *);
 			void slotDoubleClicked(QListViewItem *);
 
+			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
 			void update(KileDocument::Info *, bool);
-			void addItem(const QString &title, uint line, uint m_column, int type, int level, const QString & pix);
 
 			/**
 			* Clears the structure widget and empties the map between KileDocument::Info objects and their structure trees (QListViewItem).
@@ -61,14 +89,13 @@ namespace KileWidget
 			void fileNew(const KURL &);
 
 		private:
-			void init();
+			StructureList* viewFor(KileDocument::Info *info);
 
 		private:
-			KileInfo	*m_ki;
-			int		m_level;
+			KileInfo			*m_ki;
+			int				m_level;
 			KileDocument::Info	*m_docinfo;
-			QMap<KileDocument::Info *, QListViewItem *> m_map;
-			QListViewItem	*m_parent[5], *m_label, *m_current, *m_root, *m_child, *m_lastChild;
+			QMap<KileDocument::Info *, StructureList *> m_map;
 	};
 }
 

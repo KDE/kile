@@ -118,6 +118,7 @@ public slots:
 signals:
 	void projectTreeChanged(const KileProject *);
 	void closingDocument(KileDocument::Info *);
+	void documentInfoCreated(KileDocument::Info *);
 
 	void updateStructure(bool, KileDocument::Info*);
 	void updateModeStatus();

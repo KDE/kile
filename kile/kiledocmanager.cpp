@@ -301,7 +301,7 @@ Info* Manager::createDocumentInfo(const KURL & url)
 			docinfo = new Info(0L);
 		}
 		docinfo->setURL(url);
-		docinfo->setListView(m_ki->structureWidget());
+		emit(documentInfoCreated(docinfo));
 		m_infoList.append(docinfo);
 	}
 
@@ -973,7 +973,7 @@ void Manager::projectOpenItem(KileProjectItem *item)
 		item->setOpenState(true);
 
 	//workaround: remove structure of this doc from structureview (shouldn't appear there in the first place)
-	m_ki->structureWidget()->takeItem(m_ki->structureWidget()->firstChild());
+//	m_ki->structureWidget()->takeItem(m_ki->structureWidget()->firstChild());
 }
 
 void Manager::projectOpen(const KURL & url, int step, int max)

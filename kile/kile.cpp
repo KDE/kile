@@ -105,10 +105,8 @@
 #include "tabbingdialog.h"
 #include "kilestructurewidget.h"
 
-#include "codecompletion.h"                         // code completion (dani)
 #include "includegraphicsdialog.h"                  // new dialog (dani)
 #include "cleandialog.h"                            // clean dialog (dani)
-#include "kileedit.h"                               // advanced editor (dani)
 
 Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -202,12 +200,11 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	mpview = new metapostview( Structview );
 	connect(mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(InsertMetaPost(QListBoxItem *)));
 
-	config = KGlobal::config();
+	// new features
+	m_complete = new CodeCompletion();                 // code completion (dani)
+	m_edit = new KileEdit();                           // advanced editor (dani)
 
-  // CodeCompletion (dani)
-  m_complete = new CodeCompletion();  
-  // advanced editor (dani)
-  m_edit = new KileEdit();
+	config = KGlobal::config();
 
   // check requirements for IncludeGraphicsDialog (dani)
 	config->setGroup("IncludeGraphics");
@@ -217,7 +214,6 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	config->setGroup("TipOfDay");
 	config->writeEntry( "RunOnStart",false);
 	setXMLFile( "kileui.rc" );
-
 
 	ReadSettings();
 
@@ -316,6 +312,8 @@ Kile::Kile( bool rest, QWidget *parent, const char *name ) :
 	m_toolFactory = new KileTool::Factory(m_manager, config);
 	m_manager->setFactory(m_toolFactory);
 
+	m_help = new KileHelp::Help(m_manager, m_edit);     // kile help (dani)
+
 	if (rest) restore();
 }
 
@@ -323,9 +321,9 @@ Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
 
-  // CodeCompletion  and edvanced editor (dani)
-  delete m_complete;
-  delete m_edit;
+	// CodeCompletion  and edvanced editor (dani)
+	delete m_complete;
+	delete m_edit;
 
 	delete m_AutosaveTimer;
 }
@@ -389,32 +387,56 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, this, SLOT(editPrevBullet()), actionCollection(), "edit_prev_bullet");
 
  // advanced editor (dani)
-	(void) new KAction(i18n("Select (inside)"),KShortcut("Alt+Y,S"), this, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
-	(void) new KAction(i18n("Select (outside)"),KShortcut("Alt+Y,T"),this, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
-	(void) new KAction(i18n("Delete (inside)"),"delete",KShortcut("Alt+Y,D"), this, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
-	(void) new KAction(i18n("Delete (outside)"),KShortcut("Alt+Y,Y"),this, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
-	(void) new KAction(i18n("Goto Begin Tag"),KShortcut("Alt+Y,B"), this, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
-	(void) new KAction(i18n("Goto End Tag"),KShortcut("Alt+Y,E"), this, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
-	(void) new KAction(i18n("Match Tag"),"matchenv",KShortcut("Alt+Y,M"), this, SLOT(matchEnv()), actionCollection(), "edit_match_env");
-	(void) new KAction(i18n("Close"),"closeenv",KShortcut("Alt+Y,C"), this, SLOT(closeEnv()), actionCollection(), "edit_close_env");
- 
+	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+S,E"), this, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
+	(void) new KAction(i18n("Environment (outside)"),KShortcut("CTRL+Alt+S,F"),this, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
+	(void) new KAction(i18n("TeX Group (inside)"),"selgroup_i",KShortcut("CTRL+Alt+S,T"), this, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
+	(void) new KAction(i18n("TeX Group (outside)"),"selgroup_o",KShortcut("CTRL+Alt+S,U"),this, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
+	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+S,P"),this, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
+	(void) new KAction(i18n("Line"),KShortcut("CTRL+Alt+S,L"),this, SLOT(selectLine()), actionCollection(), "edit_select_line");
+	(void) new KAction(i18n("TeX word"),KShortcut("CTRL+Alt+S,W"),this, SLOT(selectWord()), actionCollection(), "edit_select_word");
+
+	(void) new KAction(i18n("Environment (inside)"),KShortcut("CTRL+Alt+D,E"), this, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
+	(void) new KAction(i18n("Environment (outside)"),KShortcut("CTRL+Alt+D,F"),this, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
+	(void) new KAction(i18n("TeX Group (inside)"),KShortcut("CTRL+Alt+D,T"), this, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_inside_group");
+	(void) new KAction(i18n("TeX Group (outside)"),KShortcut("CTRL+Alt+D,U"),this, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
+	(void) new KAction(i18n("Paragraph"),KShortcut("CTRL+Alt+D,P"),this, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
+	(void) new KAction(i18n("TeX word"),KShortcut("CTRL+Alt+D,W"),this, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
+
+	(void) new KAction(i18n("Goto Begin"),KShortcut("CTRL+Alt+E,B"), this, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
+	(void) new KAction(i18n("Goto End"),KShortcut("CTRL+Alt+E,E"), this, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
+	(void) new KAction(i18n("Match"),"matchenv",KShortcut("CTRL+Alt+E,M"), this, SLOT(matchEnv()), actionCollection(), "edit_match_env");
+	(void) new KAction(i18n("Close"),"closeenv",KShortcut("CTRL+Alt+E,C"), this, SLOT(closeEnv()), actionCollection(), "edit_close_env");
+
+	(void) new KAction(i18n("Goto Begin"),KShortcut("CTRL+Alt+G,B"), this, SLOT(gotoBeginTexgroup()), actionCollection(), "edit_begin_group");
+	(void) new KAction(i18n("Goto End"),KShortcut("CTRL+Alt+G,E"), this, SLOT(gotoEndTexgroup()), actionCollection(), "edit_end_group");
+	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), this, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
+	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), this, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
+
+	(void) new KAction(i18n("TeTeX Guide"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexGuide()), actionCollection(), "edit_help_tetex_guide");
+	(void) new KAction(i18n("TeTeX Doc"),KShortcut("CTRL+Alt+H,T"), this, SLOT(helpTetexDoc()), actionCollection(), "edit_help_tetex_doc");
+	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), this, SLOT(helpLatexIndex()), actionCollection(), "edit_help_latex_index");
+	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), this, SLOT(helpLatexCommand()), actionCollection(), "edit_help_latex_command");
+	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), this, SLOT(helpLatexSubject()), actionCollection(), "edit_help_latex_subject");
+	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), this, SLOT(helpLatexEnvironment()), actionCollection(), "edit_help_latex_env");
+	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), this, SLOT(helpKeyword()), actionCollection(), "edit_help_context");
+
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
 
-  (void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
-  (void) new KAction(i18n("Letter"),"wizard",0 , this, SLOT(QuickLetter()), actionCollection(),"128" );
-  (void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
-  (void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
-  (void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );
+	(void) new KAction(i18n("Quick Start"),"wizard",0 , this, SLOT(QuickDocument()), actionCollection(),"127" );
+	(void) new KAction(i18n("Letter"),"wizard",0 , this, SLOT(QuickLetter()), actionCollection(),"128" );
+	(void) new KAction(i18n("Tabular"),"wizard",0 , this, SLOT(QuickTabular()), actionCollection(),"129" );
+	(void) new KAction(i18n("Tabbing"),"wizard",0 , this, SLOT(QuickTabbing()), actionCollection(),"149" );
+	(void) new KAction(i18n("Array"),"wizard",0 , this, SLOT(QuickArray()), actionCollection(),"130" );
 
 
-  (void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
+	(void) new KAction(i18n("Clean"),0 , this, SLOT(CleanBib()), actionCollection(),"CleanBib" );
 
-  ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
+	ModeAction=new KToggleAction(i18n("Define Current Document as 'Master Document'"),"master",0 , this, SLOT(ToggleMode()), actionCollection(),"Mode" );
 
-  StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
-  MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
+	StructureAction=new KToggleAction(i18n("Show Structure View"),0 , this, SLOT(ToggleStructView()), actionCollection(),"StructureView" );
+	MessageAction=new KToggleAction(i18n("Show Messages View"),0 , this, SLOT(ToggleOutputView()), actionCollection(),"MessageView" );
 
 	//FIXME: obsolete for KDE 4
 	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
@@ -433,18 +455,18 @@ void Kile::setupActions()
 	m_bShowEditTB = m_paShowEditTB->isChecked();
 	m_bShowMathTB = m_paShowMathTB->isChecked();
 
-  if (m_singlemode) {ModeAction->setChecked(false);}
-  else {ModeAction->setChecked(true);}
-  if (showstructview) {StructureAction->setChecked(true);}
-  else {StructureAction->setChecked(false);}
-  if (showoutputview) {MessageAction->setChecked(true);}
-  else {MessageAction->setChecked(false);}
+	if (m_singlemode) {ModeAction->setChecked(false);}
+	else {ModeAction->setChecked(true);}
+	if (showstructview) {StructureAction->setChecked(true);}
+	else {StructureAction->setChecked(false);}
+	if (showoutputview) {MessageAction->setChecked(true);}
+	else {MessageAction->setChecked(false);}
 
-  (void) new KAction(i18n("Remove Template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
+	(void) new KAction(i18n("Remove Template..."),0,this,SLOT(removeTemplate()),actionCollection(),"removetemplates");
 
-  WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(),"WatchFile" );
-  if (m_bWatchFile) {WatchFileAction->setChecked(true);}
-  else {WatchFileAction->setChecked(false);}
+	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(ToggleWatchFile()), actionCollection(),"WatchFile" );
+	if (m_bWatchFile) {WatchFileAction->setChecked(true);}
+	else {WatchFileAction->setChecked(false);}
 
 	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
@@ -488,6 +510,8 @@ void Kile::setupTools()
 	unplugActionList("list_viewers"); m_listViewerActions.setAutoDelete(true); m_listViewerActions.clear(); m_listViewerActions.setAutoDelete(false);
 	unplugActionList("list_other"); m_listOtherActions.setAutoDelete(true); m_listOtherActions.clear(); m_listOtherActions.setAutoDelete(false);
 
+	m_toolsToolBar->clear();
+
 	for ( uint i = 0; i < tools.count(); i++)
 	{
 		QString grp = KileTool::groupFor(tools[i], config);
@@ -510,7 +534,6 @@ void Kile::setupTools()
 
 		kdDebug() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-		
 		KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
 
 		//toolPos = config->readEntry("toolbarPos", "none").toInt(&ok);
@@ -2732,11 +2755,11 @@ void Kile::LatexHelp()
 		tool->setTarget("latexhelp.html");
 		m_manager->run(tool);
 	}
-      else if (viewlatexhelp_command == i18n("External Browser") )
-      {
-	kdDebug() << "HTML: " << loc << endl;
-	kapp->invokeBrowser(loc);
-      }
+	else if (viewlatexhelp_command == i18n("External Browser") )
+	{
+		kdDebug() << "HTML: " << loc << endl;
+		kapp->invokeBrowser(loc);
+	}
 }
 
 ///////////////////// USER ///////////////
@@ -3710,61 +3733,168 @@ void Kile::editPrevBullet()
 
 void Kile::includeGraphics()
 {
-  Kate::View *view = currentView();
-  if ( !view ) return;
-
-  QFileInfo fi( view->getDoc()->url().path() );
-  IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this,config,fi.dirPath(),false);
-
-   if ( dialog->exec() == QDialog::Accepted ) {
-       insertTag( dialog->getTemplate(),"%C",0,0 );
-       // updateStructure();
-   }
-
-   delete dialog;
+	Kate::View *view = currentView();
+	if ( !view ) return;
+	
+	QFileInfo fi( view->getDoc()->url().path() );
+	IncludegraphicsDialog *dialog = new IncludegraphicsDialog(this,config,fi.dirPath(),false);
+	
+	if ( dialog->exec() == QDialog::Accepted ) {
+	insertTag( dialog->getTemplate(),"%C",0,0 );
+	// updateStructure();
+	}
+	
+	delete dialog;
 }
 
 //////////////////// environment commands (dani) ////////////////////
 
 void Kile::selectEnvInside()
 {
-   m_edit->selectEnvironment( currentView(),true );
+	m_edit->selectEnvironment( currentView(),true );
 }
 
 void Kile::selectEnvOutside()
 {
-   m_edit->selectEnvironment( currentView(),false );
+	m_edit->selectEnvironment( currentView(),false );
 }
 
 void Kile::deleteEnvInside()
 {
-   m_edit->deleteEnvironment( currentView(),true );
+	m_edit->deleteEnvironment( currentView(),true );
 }
 
 void Kile::deleteEnvOutside()
 {
-   m_edit->deleteEnvironment( currentView(),false );
+	m_edit->deleteEnvironment( currentView(),false );
 }
 
 void Kile::gotoBeginEnv()
 {
-   m_edit->gotoEnvironment( currentView(),true );
+	m_edit->gotoEnvironment( currentView(),true );
 }
 
 void Kile::gotoEndEnv()
 {
-   m_edit->gotoEnvironment( currentView(),false );
+	m_edit->gotoEnvironment( currentView(),false );
 }
 
 void Kile::matchEnv()
 {
-   m_edit->matchEnvironment( currentView() );
+	m_edit->matchEnvironment( currentView() );
 }
 
 void Kile::closeEnv()
 {
-   m_edit->closeEnvironment( currentView() );
+	m_edit->closeEnvironment( currentView() );
 }
 
+//////////////////// texgroup commands (dani) ////////////////////
+
+void Kile::selectTexgroupInside()
+{
+	m_edit->selectTexgroup( currentView(),true );
+}
+
+void Kile::selectTexgroupOutside()
+{
+	m_edit->selectTexgroup( currentView(),false );
+}
+
+void Kile::deleteTexgroupInside()
+{
+	m_edit->deleteTexgroup( currentView(),true );
+}
+
+void Kile::deleteTexgroupOutside()
+{
+	m_edit->deleteTexgroup( currentView(),false );
+}
+
+void Kile::gotoBeginTexgroup()
+{
+	m_edit->gotoTexgroup( currentView(),true );
+}
+
+void Kile::gotoEndTexgroup()
+{
+	m_edit->gotoTexgroup( currentView(),false );
+}
+
+void Kile::matchTexgroup()
+{
+	m_edit->matchTexgroup( currentView() );
+}
+
+void Kile::closeTexgroup()
+{
+	m_edit->closeTexgroup( currentView() );
+}
+
+//////////////////// select/delete commands (dani) ////////////////////
+
+void Kile::selectParagraph()
+{
+	m_edit->selectParagraph( currentView() );
+}
+
+void Kile::selectLine()
+{
+	m_edit->selectLine( currentView() );
+}
+
+void Kile::selectWord()
+{
+	m_edit->selectWord( currentView(),KileEdit::smTex );
+}
+
+void Kile::deleteParagraph()
+{
+	m_edit->deleteParagraph( currentView() );
+}
+
+void Kile::deleteWord()
+{
+	m_edit->deleteWord( currentView(),KileEdit::smTex );
+}
+
+//////////////////// help commands (dani) ////////////////////
+
+
+void Kile::helpTetexGuide()
+{
+	m_help->helpTetex(KileHelp::HelpTetexGuide);
+}
+
+void Kile::helpTetexDoc()
+{
+	m_help->helpTetex(KileHelp::HelpTetexDoc);
+}
+
+void Kile::helpLatexIndex()
+{
+	m_help->helpLatex(KileHelp::HelpLatexIndex);
+}
+
+void Kile::helpLatexCommand()
+{
+	m_help->helpLatex(KileHelp::HelpLatexCommand);
+}
+
+void Kile::helpLatexSubject()
+{
+	kdDebug() << "HELP LATEX SUBJECT" << endl;
+	m_help->helpLatex(KileHelp::HelpLatexSubject);
+}
+
+void Kile::helpLatexEnvironment()
+{
+	m_help->helpLatex(KileHelp::HelpLatexEnvironment);
+}
+
+void Kile::helpKeyword()
+{
+	m_help->helpKeyword(currentView());
+}
 
 #include "kile.moc"

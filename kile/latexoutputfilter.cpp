@@ -131,7 +131,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			}
 			//The partial filename was followed by an TeX error, meaning the file doesn't exist.
 			//Don't push it on the stack, instead try to detect the error.
-			else if ( strLine.startsWith("!") )
+			else if ( strLine.startsWith("!") || strLine.startsWith("No file") )
 			{
 				kdDebug() << "oops!" << endl;
 				dwCookie = Start;

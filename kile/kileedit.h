@@ -34,150 +34,122 @@
 class KileEdit
 {
 public:
-   KileEdit();
-   ~KileEdit() {}
+	KileEdit();
+	~KileEdit() {}
 
-   enum EnvType {
-      EnvNone,
-      EnvList,
-      EnvTab,
-      EnvCrTab
-   };
+	enum EnvType { EnvNone, EnvList, EnvTab, EnvCrTab };
 
-   enum ConvertMode {
-      cvUpperCase,
-      cvLowerCase,
-      cvInitialCase
-   };
+	enum SelectMode { smTex, smLetter, smWord, smNospace };
 
-   enum SelectMode {
-     smTex,
-     smLetter,
-     smWord,
-     smNospace
-   };
-  
-   void readConfig(KConfig *config);
+	void readConfig(KConfig *config);
 
-   QString getTextLineReal(Kate::Document *doc, uint row);
-   void gotoBullet(Kate::View *view, const QString &bullet, bool backwards);
-   
-   void gotoEnvironment(Kate::View *view, bool backwards);
-   void matchEnvironment(Kate::View *view);
-   void closeEnvironment(Kate::View *view);
-   void selectEnvironment(Kate::View *view, bool inside);
-   void deleteEnvironment(Kate::View *view, bool inside);
+	QString getTextLineReal(Kate::Document *doc, uint row);
+	void gotoBullet(Kate::View *view, const QString &bullet, bool backwards);
 
-   void gotoTexgroup(Kate::View *view, bool backwards);
-   void matchTexgroup(Kate::View *view);
-   void closeTexgroup(Kate::View *view);
-   void selectTexgroup(Kate::View *view, bool inside);
-   void deleteTexgroup(Kate::View *view, bool inside);
+	void gotoEnvironment(Kate::View *view, bool backwards);
+	void matchEnvironment(Kate::View *view);
+	void closeEnvironment(Kate::View *view);
+	void selectEnvironment(Kate::View *view, bool inside);
+	void deleteEnvironment(Kate::View *view, bool inside);
 
-   void convertSelection(Kate::View *view, KileEdit::ConvertMode mode);
-   void commentSelection(Kate::View *view, bool insert);
-   void spaceSelection(Kate::View *view, bool insert);
-   void tabSelection(Kate::View *view, bool insert);
-   void stringSelection(Kate::View *view, bool insert);
+	void gotoTexgroup(Kate::View *view, bool backwards);
+	void matchTexgroup(Kate::View *view);
+	void closeTexgroup(Kate::View *view);
+	void selectTexgroup(Kate::View *view, bool inside);
+	void deleteTexgroup(Kate::View *view, bool inside);
 
-   void selectParagraph(Kate::View *view);
-   void deleteParagraph(Kate::View *view);
-   void selectLine(Kate::View *view);
-   void selectWord(Kate::View *view,KileEdit::SelectMode mode);
-   void deleteWord(Kate::View *view,KileEdit::SelectMode mode);
+	void commentSelection(Kate::View *view, bool insert);
+	void spaceSelection(Kate::View *view, bool insert);
+	void tabSelection(Kate::View *view, bool insert);
+	void stringSelection(Kate::View *view, bool insert);
 
-   void insertIntelligentNewline(Kate::View *view);
+	void selectParagraph(Kate::View *view);
+	void deleteParagraph(Kate::View *view);
+	void selectLine(Kate::View *view);
+	void selectWord(Kate::View *view,KileEdit::SelectMode mode);
+	void deleteWord(Kate::View *view,KileEdit::SelectMode mode);
 
-   // get current word
-   bool getCurrentWord(Kate::Document *doc,uint row,uint col,KileEdit::SelectMode mode,QString &word,uint &x1,uint &x2);
+	void insertIntelligentNewline(Kate::View *view);
 
-private:
-   
-   enum EnvTag {
-      EnvBegin,
-      EnvEnd
-   };
+	// get current word
+	bool getCurrentWord(Kate::Document *doc,uint row,uint col,KileEdit::SelectMode mode,QString &word,uint &x1,uint &x2);
 
-   enum EnvPos {
-      EnvLeft,
-      EnvInside,
-      EnvRight
-   };
-   
-   struct EnvData {
-      uint row;
-      uint col;
-      QString name;
-      uint len;
-      EnvPos cpos;
-      EnvTag tag;
-      EnvType type;
-   };
+	private:
 
-   struct BracketData {
-      uint row;
-      uint col;
-      bool open;
-   };
+	enum EnvTag { EnvBegin, EnvEnd };
 
-   QRegExp m_reg;
-   bool m_overwritemode;
-   
-    // change cursor position
-   bool increaseCursorPosition(Kate::Document *doc, uint &row, uint &col);
-   bool decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col);
+	enum EnvPos { EnvLeft, EnvInside, EnvRight };
 
-   // check position
-   bool isValidBackslash(Kate::Document *doc, uint row, uint col);
-   bool isCommentPosition(Kate::Document *doc, uint row, uint col);
-   bool isEnvironmentPosition(Kate::Document *doc, uint row, uint col,EnvData &env);
+	struct EnvData 
+	{
+		 uint row;
+		uint col;
+		QString name;
+		uint len;
+		EnvPos cpos;
+		EnvTag tag;
+		EnvType type;
+	};
 
-   // find environment tags
-   bool findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
-   bool findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
-   bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env,
-                           bool backwards=false);
-   bool findOpenedEnvironment(Kate::View *view,uint &row,uint &col, QString &envname);
-   
-   // get current environment
-   bool getEnvironment(Kate::View *view, bool inside, EnvData &envbegin, EnvData &envend);
+	struct BracketData
+	{
+		uint row;
+		uint col;
+		bool open;
+	};
 
-   // find brackets
-   bool isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket);
-   bool findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket);
-   bool findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket);
-   bool findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket);
-   bool findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket);
+	QRegExp m_reg;
+	bool m_overwritemode;
 
-   // get current Texgroup
-   bool getTexgroup(Kate::View *view, bool inside, BracketData &open, BracketData &close);
+	// change cursor position
+	bool increaseCursorPosition(Kate::Document *doc, uint &row, uint &col);
+	bool decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col);
 
-   // convert a string
-   QString initialCase(const QString &s);
-   void replaceConvertText(Kate::Document *doc,uint row,uint col1,uint col2,
-                           const QString &text,KileEdit::ConvertMode mode);
+	// check position
+	bool isValidBackslash(Kate::Document *doc, uint row, uint col);
+	bool isCommentPosition(Kate::Document *doc, uint row, uint col);
+	bool isEnvironmentPosition(Kate::Document *doc, uint row, uint col,EnvData &env);
 
-   // insert/remove selection
-   void moveSelection(Kate::View *view, const QString &prefix,bool insertmode);
+	// find environment tags
+	bool findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
+	bool findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
+	bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env,
+				bool backwards=false);
+	bool findOpenedEnvironment(Kate::View *view,uint &row,uint &col, QString &envname);
 
-   // find current paragraph
-   bool findCurrentTexParagraph(Kate::View *view,uint &startline, uint &endline);
-   
-   // environments
-   QStringList listenv, mathenv,tabularenv;
-   QMap<QString,bool> m_dictListEnv;
-   QMap<QString,bool> m_dictMathEnv;
-   QMap<QString,bool> m_dictTabularEnv;
-   void setEnvironment(const QStringList &list, QMap<QString,bool> &map);
+	// get current environment
+	bool getEnvironment(Kate::View *view, bool inside, EnvData &envbegin, EnvData &envend);
 
-   // check environment type
-   bool isListEnvironment(const QString &name);
-   bool isMathEnvironment(const QString &name);
-   bool isTabEnvironment(const QString &name);
+	// find brackets
+	bool isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket);
+	bool findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket);
+	bool findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket);
+	bool findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket);
+	bool findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket);
 
-   // help
-   void readHelpList(QString const &filename);
+	// get current Texgroup
+	bool getTexgroup(Kate::View *view, bool inside, BracketData &open, BracketData &close);
+
+	// insert/remove selection
+	void moveSelection(Kate::View *view, const QString &prefix,bool insertmode);
+
+	// find current paragraph
+	bool findCurrentTexParagraph(Kate::View *view,uint &startline, uint &endline);
+
+	// environments
+	QStringList listenv, mathenv,tabularenv;
+	QMap<QString,bool> m_dictListEnv;
+	QMap<QString,bool> m_dictMathEnv;
+	QMap<QString,bool> m_dictTabularEnv;
+	void setEnvironment(const QStringList &list, QMap<QString,bool> &map);
+
+	// check environment type
+	bool isListEnvironment(const QString &name);
+	bool isMathEnvironment(const QString &name);
+	bool isTabEnvironment(const QString &name);
+
+	// help
+	void readHelpList(QString const &filename);
 };
-
 
 #endif

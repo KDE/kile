@@ -25,7 +25,6 @@
 	<Action name="file_quit"/>
 </Menu>
 <Menu name="edit"><text>&amp;Edit</text>
-<!-- there seem to be a bug in kdelibs, so that seperators surrounding only merged items aren't displayed. Look a kwrite - same problem. Haven't filed bug yet, because I'm not sure.-->
 	<DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
 	<Separator/>
 	<DefineGroup name="edit_paste_merge" append="edit_paste_merge"/>
@@ -35,28 +34,50 @@
 	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
 	<Action name="FindInFiles"/>
 	<Separator/>
-        <Menu name="complete"><text>Complete</text>
-           <Action name="edit_complete_word"/>
-           <Action name="edit_complete_env"/>
-           <Action name="edit_complete_abbrev"/>
-        </Menu>
-        <Menu name="bullet"><text>Bullets</text>
-           <Action name="edit_next_bullet"/>
-           <Action name="edit_prev_bullet"/>
-        </Menu>
-        <Menu name="environment"><text>Environment</text>
-           <Action name="edit_select_inside_env"/>
-           <Action name="edit_select_outside_env"/>
-	   <Separator/>
-           <Action name="edit_delete_inside_env"/>
-           <Action name="edit_delete_outside_env"/>
-	   <Separator/>
-           <Action name="edit_begin_env"/>
-           <Action name="edit_end_env"/>
-           <Action name="edit_match_env"/>
-	   <Separator/>
-           <Action name="edit_close_env"/>
-        </Menu>
+	<Menu name="complete"><text>Complete</text>
+		<Action name="edit_complete_word"/>
+		<Action name="edit_complete_env"/>
+		<Action name="edit_complete_abbrev"/>
+	</Menu>
+	<Menu name="bullet"><text>Bullets</text>
+		<Action name="edit_next_bullet"/>
+		<Action name="edit_prev_bullet"/>
+	</Menu>
+	<Menu name="select"><text>Select</text>
+		<Action name="edit_select_inside_env"/>
+		<Action name="edit_select_outside_env"/>
+	<Separator/>
+		<Action name="edit_select_inside_group"/>
+		<Action name="edit_select_outside_group"/>
+	<Separator/>
+		<Action name="edit_select_paragraph"/>
+		<Action name="edit_select_line"/>
+		<Action name="edit_select_word"/>
+	</Menu>
+	<Menu name="delete"><text>Delete</text>
+		<Action name="edit_delete_inside_env"/>
+		<Action name="edit_delete_outside_env"/>
+		<Separator/>
+		<Action name="edit_delete_inside_group"/>
+		<Action name="edit_delete_outside_group"/>
+		<Separator/>
+		<Action name="edit_delete_paragraph"/>
+		<Action name="edit_delete_word"/>
+	</Menu>
+	<Menu name="environment"><text>Environment</text>
+		<Action name="edit_begin_env"/>
+		<Action name="edit_end_env"/>
+		<Action name="edit_match_env"/>
+		<Separator/>
+		<Action name="edit_close_env"/>
+	</Menu>
+	<Menu name="texgroup"><text>TeX Group</text>
+		<Action name="edit_begin_group"/>
+		<Action name="edit_end_group"/>
+		<Action name="edit_match_group"/>
+		<Separator/>
+		<Action name="edit_close_group"/>
+	</Menu>
 	<Separator/>
 	<Action name="Spell"/>
 	<Action name="RefreshStructure"/>
@@ -281,6 +302,18 @@
 	<Action name="help1"/>
 	<Action name="help2"/>
 	<Merge/>
+	<Separator/>
+	<Action name="edit_help_context" />
+	<Menu name="help_tetex" ><text>TeTeX Documentation</text>
+		<Action name="edit_help_tetex_guide" />
+		<Action name="edit_help_tetex_doc" />
+		<Separator/>
+		<Action name="edit_help_latex_index" />
+		<Separator/>
+		<Action name="edit_help_latex_command" />
+		<Action name="edit_help_latex_subject" />
+		<Action name="edit_help_latex_env" />
+	</Menu>
 	<Separator/>
 	<Action name="report_bug"/>
 	<Separator/>

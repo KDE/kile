@@ -70,6 +70,7 @@
 
 #include "codecompletion.h"        // code completion (dani)
 #include "kileedit.h"              // advanced editor (dani)
+#include "kilehelp.h"              // kile help (dani)
 
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
@@ -211,11 +212,10 @@ private slots:
 private:
 	KConfig				*config;
 	int 						split1_right, split1_left, split2_top, split2_bottom, quickmode, lastvtab;
-
+	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 	QString 		document_class, typeface_size, paper_size, document_encoding, author;
 	QString 		lastDocument, input_encoding;
    	QString 		templAuthor, templDocClassOpt, templEncoding;
-   	QString 		struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
    	QStringList 	recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 	bool 				symbol_present;
 	QStringList 	userClassList, userPaperList, userEncodingList, userOptionsList;
@@ -490,48 +490,70 @@ private:
 	KileEventFilter*	m_eventFilter;
 
 private:
-   // advanced editor (dani)
-   KileEdit *m_edit;
-
-   // CodeCompletion  (dani)
-   CodeCompletion *m_complete;
-   QTimer *m_completetimer;
-   
-   void editComplete(CodeCompletion::Mode mode);
-   void editCompleteList(Kate::View *view, CodeCompletion::Type type);
-   bool getCompleteWord(bool latexmode, QString &text, CodeCompletion::Type &type);
-   bool oddBackslashes(const QString& text, int index);
-   void gotoBullet(bool backwards);
+	KileEdit *m_edit;                // advanced editor (dani)
+	KileHelp::Help *m_help;          // kile help (dani)
+	
+	// CodeCompletion  (dani)
+	CodeCompletion *m_complete;
+	QTimer *m_completetimer;
+	
+	void editComplete(CodeCompletion::Mode mode);
+	void editCompleteList(Kate::View *view, CodeCompletion::Type type);
+	bool getCompleteWord(bool latexmode, QString &text, CodeCompletion::Type &type);
+	bool oddBackslashes(const QString& text, int index);
+	void gotoBullet(bool backwards);
    
 private slots:
-   // CodeCompletion action slots (dani)
-   void editCompleteWord();
-   void editCompleteEnvironment();
-   void editCompleteAbbreviation();
-   void editNextBullet();
-   void editPrevBullet();
+	// CodeCompletion action slots (dani)
+	void editCompleteWord();
+	void editCompleteEnvironment();
+	void editCompleteAbbreviation();
+	void editNextBullet();
+	void editPrevBullet();
+	
+	// includegraphics (dani)
+	void includeGraphics();
+	
+	// advanced editor (dani)
+	void selectEnvInside();
+	void selectEnvOutside();
+	void deleteEnvInside();
+	void deleteEnvOutside();
+	void gotoBeginEnv();
+	void gotoEndEnv();
+	void matchEnv();
+	void closeEnv();
+	
+	void selectTexgroupInside();
+	void selectTexgroupOutside();
+	void deleteTexgroupInside();
+	void deleteTexgroupOutside();
+	void gotoBeginTexgroup();
+	void gotoEndTexgroup();
+	void matchTexgroup();
+	void closeTexgroup();
 
-   // includegraphics (dani)
-   void includeGraphics();
+	void selectParagraph();
+	void selectLine();
+	void selectWord();
+	void deleteParagraph();
+	void deleteWord();
+	
+	void helpTetexGuide();
+	void helpTetexDoc();
+	void helpLatexIndex();
+	void helpLatexCommand();
+	void helpLatexSubject();
+	void helpLatexEnvironment();
+	void helpKeyword();
 
-   // advanced editor (dani)
-   void selectEnvInside();
-   void selectEnvOutside();
-   void deleteEnvInside();
-   void deleteEnvOutside();
-   void gotoBeginEnv();
-   void gotoEndEnv();
-   void matchEnv();
-   void closeEnv();
-  
-public slots:
-  // CodeCompletion public slots (dani)
-   void slotCharactersInserted(int,int,const QString&);
-   void slotCompletionDone( );
-   void slotCompleteValueList();
-   void slotCompletionAborted();
-   void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
-
+	public slots:
+	// CodeCompletion public slots (dani)
+	void slotCharactersInserted(int,int,const QString&);
+	void slotCompletionDone( );
+	void slotCompleteValueList();
+	void slotCompletionAborted();
+	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
 };
 
 class KileAutoSaveJob : public QObject

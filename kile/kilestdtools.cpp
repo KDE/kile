@@ -206,7 +206,7 @@ namespace KileTool
 
 				if ( !read1 && !read2 )
 				{
-					sendMessage(Error, i18n("Couldn't find %1 or %2, if you try to view some other html file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.").arg(file1.absFilePath()).arg(file2.absFilePath()));
+					sendMessage(Error, i18n("Unable to find %1 or %2; if you are trying to view some other HTML file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.").arg(file1.absFilePath()).arg(file2.absFilePath()));
 					return false;
 				}
 

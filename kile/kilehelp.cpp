@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Aug 04 2004
-    version              : 0.10.1
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Apr 04 2005
+    version              : 0.11
+    copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdir.h>
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qregexp.h>
@@ -41,7 +42,21 @@ namespace KileHelp
 	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit)
 	{
 		readHelpList("latex-kile.lst",m_dictHelpKile);
-		readHelpList("latex-tetex.lst",m_dictHelpTetex);
+		
+		// use documentation for teTeX v2.x or v3.x
+		QString texref = KileConfig::location() + "/latex/tex-refs";
+		QDir dir(texref);
+		if ( dir.exists() ) {
+			m_tetexVersion = 3;
+			// check if this is buggy tetex3.0 or an updated version with subdirectory 'html'
+			dir.setPath(texref + "/html");
+			m_tetexLatexReference = ( dir.exists() ) ? "/latex/tex-refs/html/" : "/latex/tex-refs/";
+			readHelpList("latex-tetex3.lst",m_dictHelpTetex);
+		} else {
+			m_tetexVersion = 2;
+			m_tetexLatexReference = "/latex/latex2e-html/";
+			readHelpList("latex-tetex.lst",m_dictHelpTetex);
+		}
 	}
 	
 	Help::~Help() 
@@ -104,32 +119,54 @@ namespace KileHelp
 
 	void Help::helpLatex(Type type)
 	{
-		QString subject = "";
-
-		switch ( type )
-		{
-			case HelpLatexIndex:
-				break;
-			case HelpLatexCommand:
-				subject = "#cmd";
-				break;
-			case HelpLatexSubject:
-				subject = "#subj";
-				break;
-			case HelpLatexEnvironment:
-				subject = "#env";
-				break;
-			default:
-				break;
+		QString link;
+		
+		if ( m_tetexVersion == 2) {
+			switch ( type )
+			{
+				case HelpLatexCommand:
+					link = "ltx-2.html#cmd";
+					break;
+				case HelpLatexSubject:
+					link = "ltx-2.html#subj";
+					break;
+				case HelpLatexEnvironment:
+					link = "ltx-2.html#env";
+					break;
+				case HelpLatexIndex:
+					link = "ltx-2.html";
+					break;
+				default:
+					return;
+			}
+		} else {
+			switch ( type )
+			{
+				case HelpLatexIndex:
+					link = "latex.html#latex";
+					break;
+				case HelpLatexCommand:
+					link = "appendices.html#tex-refs-idx";
+					break;
+				case HelpLatexSubject:
+					link = "latex.html#commands";
+					break;
+				case HelpLatexEnvironment:
+					link = "latex.html#environments";
+					break;
+				default:
+					return;
+			}
 		}
-
-		kdDebug() << "subject " << subject << endl;
-		showHelpFile( KileConfig::location() + "/latex/latex2e-html/ltx-2.html" + subject );
+		
+		// show help file
+		kdDebug() << "teTeX v"<< m_tetexVersion << " link=" << link << endl;
+		showHelpFile( KileConfig::location() + m_tetexLatexReference + link );
 	}
 
 	////////////////////// Help: Keyword //////////////////////
 
-	// Context help: user either Kile LaTeX help orthe help file shipped with teTeX,
+	// Context help: user either Kile LaTeX help or the help files shipped with teTeX,
 	void Help::helpKeyword(Kate::View *view)                   // dani 04.08.2004
 	{
 		int type = (0 == KileConfig::use()) ? HelpLatex : HelpTetex;
@@ -139,8 +176,6 @@ namespace KileHelp
 			helpTetexKeyword(view);
 			break;
 		case HelpLatex:
-		default:
-			kdDebug() << "ok" << endl;
 			helpLatexKeyword(view);
 			break;
 		}
@@ -153,7 +188,7 @@ namespace KileHelp
 		if ( !word.isNull() && m_dictHelpTetex.contains(word) )
 		{
 			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTetex[word] << " )" << endl;
-			showHelpFile( KileConfig::location() + "/latex/latex2e-html/" + m_dictHelpTetex[word] );
+			showHelpFile( KileConfig::location() + m_tetexLatexReference + m_dictHelpTetex[word] );
 		}
 		else
 			noHelpAvailableFor(word);

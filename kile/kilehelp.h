@@ -82,7 +82,10 @@ namespace KileHelp
 		KileTool::Manager *m_manager;
 		KileDocument::EditorExtension *m_edit;
 		UserHelp *m_userhelp;
-
+		
+		int m_tetexVersion;
+		QString m_tetexLatexReference;
+		
 		QMap<QString,QString> m_dictHelpKile;
 		QMap<QString,QString> m_dictHelpTetex;
 

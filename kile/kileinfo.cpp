@@ -66,9 +66,7 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 		//work around for bug in KatePart, use docName and not url
 		//reloading the file after is it changed on disc by another application
 		//cause the URL to be empty for a short while
-		QFileInfo fi(doc->docName());
-		title = shrt ? fi.fileName() : fi.absFilePath();
-
+		title = shrt ? QFileInfo(doc->docName()).fileName() : doc->url().path();
 		if (title == "") title = i18n("Untitled");
 	}
 	else

@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef KXTRCCONVERTER_H
+#define KXTRCCONVERTER_H
+
+
 class KConfig;
 class QString;
 
@@ -41,3 +45,6 @@ private:
 	KConfig *m_config;
 	int m_newVersion;
 };
+
+#endif
+

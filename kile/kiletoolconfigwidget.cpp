@@ -142,7 +142,7 @@ namespace KileWidget
 		int index = m_classes.findIndex(m_map["class"]);
 		if ( index == -1 ) index = m_classes.count()-1;
 		m_configWidget->m_cbClass->setCurrentItem(index);
-
+		m_configWidget->m_ckClose->setChecked(m_map["close"] == "yes");
 		m_configWidget->m_leSource->setText(m_map["from"]);
 		m_configWidget->m_leTarget->setText(m_map["to"]);
 		m_configWidget->m_leFile->setText(m_map["target"]);

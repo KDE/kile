@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdir.h>
+
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kstartupinfo.h>
@@ -43,10 +45,34 @@ bool isProject(const QString &path)
 	return path.right(7) == ".kilepr";
 }
 
+/**
+ * Complete a relative paths to absolute ones. 
+ * Also accepts URLs of the form file:relativepath.
+ **/
+QString completePath(const QString &path)
+{
+	QString fullpath(path);
+
+	kdDebug() << "==completePath(" << path << ")=======" << endl;
+	if ( path.left(1) != "/" )
+	{
+		if ( path.left(5) == "file:" )
+		{
+			KURL url = KURL::fromPathOrURL(path);
+			url.setFileName(completePath(url.path()));
+			fullpath = url.url();
+		}
+		else if ( path.find(QRegExp("^[a-z]+:")) == -1 )
+			fullpath = QDir::currentDirPath() + "/" + path;
+	}
+
+	kdDebug() << "\t" << fullpath << endl;
+	return fullpath;	
+}
+
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile",
-						"1.7a4", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+	KAboutData aboutData( "kile", "Kile",	"1.7a5", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
 						I18N_NOOP("by the Kile Team (2003 - 2004)"),
 						0,
 						"http://kile.sourceforge.net");
@@ -93,13 +119,13 @@ int main( int argc, char ** argv )
 		for ( int i = 0; i < args->count(); i++)
 		{
 			if ( isProject(args->arg(i)) )
-				mw->openProject(args->arg(i));
+				mw->openProject(completePath(args->arg(i)));
 			else
-				mw->openDocument(args->arg(i));
+				mw->openDocument(completePath(args->arg(i)));
 		}
-		
-		if (args->getOption("line") != "0")
-			mw->setLine(args->getOption("line"));
+
+		QString line = args->getOption("line");
+		if (line != "0") mw->setLine(line);
 	
 		args->clear();
 		return a.exec();
@@ -109,13 +135,13 @@ int main( int argc, char ** argv )
 		for ( int i = 0; i < args->count(); i++ )
 		{
 			if ( isProject(args->arg(i)) )
-				client->send (appID, "Kile", "openProject(QString)", args->arg(i));
+				client->send (appID, "Kile", "openProject(QString)", completePath(args->arg(i)));
 			else
-				client->send (appID, "Kile", "openDocument(QString)", args->arg(i));
+				client->send (appID, "Kile", "openDocument(QString)", completePath(args->arg(i)));
 		}
 
-		if (args->getOption("line") != "0")
-			client->send (appID, "Kile", "setLine(QString)", args->getOption("line"));
+		QString line = args->getOption("line");
+		if (line != "0") client->send (appID, "Kile", "setLine(QString)", line);
 
 		KStartupInfo::appStarted();
 		QByteArray empty;

@@ -355,6 +355,7 @@ namespace KileDocument
 
 		// build the text
 		QString s;
+		Kate::Document *doc;
 		switch ( m_mode )
 		{
 				case cmLatex:
@@ -362,12 +363,12 @@ namespace KileDocument
 				break;
 				case cmEnvironment:
 				s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
-				if ( m_xstart >= 7 ) {
-					Kate::Document *doc = m_view->getDoc();
-					if ( doc->text(row,m_xstart-7,row,m_xstart) == "\\begin{" ) {
-						m_textlen += 7;
-					}
-				}
+				doc = m_view->getDoc();
+				if ( m_xstart>=7 && doc->text(row,m_xstart-7,row,m_xstart) == "\\begin{" ) {
+					m_textlen += 7;
+				} else if ( m_xstart>=5 && doc->text(row,m_xstart-5,row,m_xstart) == "\\end{" ) {
+					m_textlen += 5;
+				} 
 				break;
 				case cmDictionary:
 				s = text;

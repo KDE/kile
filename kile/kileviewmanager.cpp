@@ -69,6 +69,9 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 	if(NULL == m_client->actionCollection()->action("popup_converttolatex"))
 		new KAction(i18n("Convert selection to &LaTeX"), 0, this,
 			SLOT(convertSelectionToLaTeX()), m_client->actionCollection(), "popup_converttolatex");
+	if(NULL == m_client->actionCollection()->action("popup_quickpreview"))
+		new KAction(i18n("&QuickPreview selection"), 0, receiver,
+			SLOT(quickPreviewSelection()), m_client->actionCollection(), "popup_quickpreview");
 }
 
 void Manager::createTabs(QWidget *parent)
@@ -264,6 +267,15 @@ void Manager::onKatePopupMenuRequest(void)
 	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
 	if(NULL == viewPopupMenu)
 		return;
+
+	// Setting up the "QuickPreview selection" entry
+	KAction *quickPreviewAction = m_client->actionCollection()->action("popup_quickpreview");
+	if(NULL != quickPreviewAction) {
+		if(!quickPreviewAction->isPlugged())
+			quickPreviewAction->plug(viewPopupMenu);
+
+		quickPreviewAction->setEnabled(view->getDoc()->hasSelection());
+	}
 
 	// Setting up the "Convert to LaTeX" entry
 	KAction *latexCvtAction = m_client->actionCollection()->action("popup_converttolatex");

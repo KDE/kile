@@ -1,9 +1,11 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="14">
+<kpartgui name="kile" version="15">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
 	<Action name="popup_converttolatex"/>
+	<Separator/>
+	<Action name="popup_quickpreview"/>
 </Menu>
 <MenuBar noMerge="1">
 <Menu name="file"><text>&amp;File</text>
@@ -597,6 +599,7 @@
 	<Action name="RefreshStructure"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
+	<Action name="settings_configure_kate" />
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
@@ -661,6 +664,7 @@
 	<Action name="RefreshStructure"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
+	<Action name="settings_configure_kate" />
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
@@ -726,6 +730,7 @@
 	<Action name="RefreshStructure"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
+	<Action name="settings_configure_kate" />
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>

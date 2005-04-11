@@ -149,6 +149,7 @@ private:
 
 	// get current environment
 	bool getEnvironment(bool inside, EnvData &envbegin, EnvData &envend,Kate::View *view);
+	bool expandSelectionEnvironment(bool inside, Kate::View *view);
 
 	// find brackets
 	bool isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket);

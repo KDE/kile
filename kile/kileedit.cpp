@@ -351,9 +351,10 @@ void EditorExtension::selectEnvironment(bool inside, Kate::View *view)
 
 	EnvData envbegin,envend;
 	
-	if ( getEnvironment(inside,envbegin,envend, view) )
+	if ( !view->getDoc()->hasSelection() || !expandSelectionEnvironment(inside,view) ) 
 	{
-		view->getDoc()->setSelection(envbegin.row,envbegin.col,envend.row,envend.col);
+		if ( getEnvironment(inside,envbegin,envend,view) )
+			view->getDoc()->setSelection(envbegin.row,envbegin.col,envend.row,envend.col);
 	}
 }
 
@@ -433,6 +434,66 @@ QString EditorExtension::getEnvironmentText(int &row, int &col, QString &name, K
 	{
 		return QString::null;
 	}
+}
+
+// when an environment is selected (inside or outside), 
+// the selection is expanded to the surrounding environment
+
+bool EditorExtension::expandSelectionEnvironment(bool inside, Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return false;
+	
+	Kate::Document *doc = view->getDoc();
+	if ( ! doc->hasSelection() )
+		return false;
+		
+	// get current position
+	uint row,col;
+	view->cursorPositionReal(&row,&col);
+	
+	// get current selection
+	uint row1 = doc->selStartLine();
+	uint col1 = doc->selStartCol();
+	uint row2 = doc->selEndLine();
+	uint col2 = doc->selEndCol();
+
+	// determine current environment outside 
+	EnvData oenvbegin,oenvend;
+	if ( ! getEnvironment(false,oenvbegin,oenvend,view)  )
+		return false;
+	
+	bool newselection = false;
+	// first look, if this environment is selected outside
+	if ( row1==oenvbegin.row && col1==oenvbegin.col && row2==oenvend.row && col2==oenvend.col ) {
+		if ( ! decreaseCursorPosition(doc,oenvbegin.row,oenvbegin.col) )
+			return newselection;
+		view->setCursorPositionReal(oenvbegin.row,oenvbegin.col);
+		// search the surrounding environment and select it
+		if ( getEnvironment(inside,oenvbegin,oenvend,view) ) {
+			doc->setSelection(oenvbegin.row,oenvbegin.col,oenvend.row,oenvend.col);
+			newselection = true;
+		}
+	} else { 
+		// then determine current environment inside 
+		EnvData ienvbegin,ienvend;
+		getEnvironment(true,ienvbegin,ienvend,view);
+		// and look, if this environment is selected inside
+		if ( row1==ienvbegin.row && col1==ienvbegin.col && row2==ienvend.row && col2==ienvend.col ) {
+			if ( ! decreaseCursorPosition(doc,oenvbegin.row,oenvbegin.col) )
+				return newselection;
+			view->setCursorPositionReal(oenvbegin.row,oenvbegin.col);
+			// search the surrounding environment and select it
+			if ( getEnvironment(inside,ienvbegin,ienvend,view) ) {
+				doc->setSelection(ienvbegin.row,ienvbegin.col,ienvend.row,ienvend.col);
+				newselection = true;
+			}
+		}
+	} 
+	
+	// restore old cursor position
+	view->setCursorPositionReal(row,col);
+	return newselection;
 }
 
 //////////////////// search for \begin{env}  ////////////////////

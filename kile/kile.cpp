@@ -607,7 +607,6 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	}
 
 	if (ModeAction) ModeAction->setChecked(!m_singlemode);
-	updateModeStatus();
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -615,6 +614,8 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
     kdDebug() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
 	if (doc) viewManager()->switchToView(doc->url());
+
+    updateModeStatus();
 }
 
 void Kile::setActive()

@@ -214,7 +214,7 @@
 		</entry>
 		<entry name="CompleteAutoText" type="Bool">
 			<label></label>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="CompleteAutoThreshold" type="Int">
 			<label></label>

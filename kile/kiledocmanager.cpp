@@ -813,8 +813,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 		Info *docinfo= infoFor(doc);
 		if (docinfo == 0L)
 		{
-			kdWarning() << "no DOCINFO for " << 
-url.url() << endl;
+			kdWarning() << "no DOCINFO for " << url.url() << endl;
 			return true;
 		}
 		KileProjectItemList *items = itemsFor(docinfo);
@@ -1301,7 +1300,7 @@ bool Manager::projectClose(const KURL & url)
  	if (project)
 	{
 		kdDebug() << "\tclosing:" << project->name() << endl;
-        project->setLastDocument(m_ki->viewManager()->currentView()->getDoc()->url());
+        project->setLastDocument(m_ki->getName());
 
 		//close the project file first, projectSave, changes this file
 		Kate::Document *doc = docFor(project->url());

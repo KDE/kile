@@ -41,18 +41,43 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 	m_reg.setPattern("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
 
 	// init environments
-	listenv << "description" << "enumerate" << "itemize";
-	mathenv << "align"  << "alignat" << "aligned"
-	<< "bmatrix"
-	<< "eqnarray" << "eqnarray*"
-	<< "gather" << "gathered"
-	<< "matrix" << "multline"
-	<< "pmatrix"
-	<< "split"
-	<< "vmatrix" << "Vmatrix"
-	<< "xalignat" << "xxalignat";
-	tabularenv << "array" << "longtable" << "supertabular" << "supertabular*"
-	<< "tabbing" << "tabular" << "tabular*" << "tabularx";
+	QStringList listenv;
+	listenv << "description"  << "enumerate"  << "itemize"
+	        << "description*" << "enumerate*" << "itemize*"         // mdwtab
+	        << "Bdescription" << "Benumerate" << "Bitemize"         // fancybox
+	        << "labeling"                                           // koma-script
+	        ; 
+	/*
+	QStringList mathenv;
+	mathenv << "align"  << "alignat" << << "alignat*" 
+	        << "aligned" << "alignedat"
+	        << "bmatrix"
+	        << "cases"
+	        << "eqnarray" << "eqnarray*"
+	        << "flalign" << "flalign*"
+	        << "gather" << "gather*" << "gathered"
+	        << "matrix" << "multline" << "multline*"
+	        << "pmatrix"
+	        << "split"
+	        << "vmatrix" << "Vmatrix"
+	        << "xalignat" << "xalignat*" << "xxalignat"<< "xxalignat*"
+	        ;
+	 
+	QStringList tabularenv;
+	tabularenv << "array" << "tabular" << "tabular*" << "tabbing"   
+	           << "longtable"                                       // longtable
+	           << "supertabular" << "supertabular*"                 // supertab
+	           << "mpsupertabular*" << "mpsupertabular*"            // supertab
+	           << "tabularx"                                        // tabularx             
+	           << "xtabular" << "mpxtabular"                        // xtab
+	           << "blockarray" << "block"                           // blkarray
+	           ;
+	*/
+	
+	// set standard environments
+	setEnvironment(listenv,m_dictListEnv);
+	// setEnvironment(mathenv,m_dictMathEnv);
+	// setEnvironment(tabularenv,m_dictTabularEnv);
 
 	readConfig();
 }
@@ -66,11 +91,6 @@ EditorExtension::~EditorExtension()
 
 void EditorExtension::readConfig(void)
 {
-	// standard environments
-	setEnvironment(listenv,m_dictListEnv);
-	setEnvironment(mathenv,m_dictMathEnv);
-	setEnvironment(tabularenv,m_dictTabularEnv);
-	
 	// config section
 	setEnvironment(KileConfig::envList(), m_dictListEnv);
 	setEnvironment(KileConfig::envMath(), m_dictMathEnv);

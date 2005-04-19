@@ -168,7 +168,6 @@ private:
 	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
 
 	// environments
-	QStringList listenv, mathenv,tabularenv;
 	QMap<QString,bool> m_dictListEnv;
 	QMap<QString,bool> m_dictMathEnv;
 	QMap<QString,bool> m_dictTabularEnv;

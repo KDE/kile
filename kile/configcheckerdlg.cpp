@@ -123,7 +123,7 @@ void ConfigChecker::slotCancel()
 
 void ConfigChecker::saveResults()
 {
-	KURL url = KFileDialog::getOpenURL();
+	KURL url = KFileDialog::getSaveURL();
 	if ( !url.isEmpty() ) m_tester->saveResults(url);
 }
 

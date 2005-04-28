@@ -60,9 +60,6 @@
                 <property name="text">
                     <string>Use your system's &amp;TeX documentation</string>
                 </property>
-                <property name="accel">
-                    <string>Alt+T</string>
-                </property>
                 <property name="buttonGroupId">
                     <number>1</number>
                 </property>
@@ -81,9 +78,6 @@
                 </property>
                 <property name="text">
                     <string>Use the &amp;Kile LaTeX reference</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+K</string>
                 </property>
                 <property name="buttonGroupId">
                     <number>0</number>
@@ -112,9 +106,6 @@
                 <property name="text">
                     <string>Use &amp;embedded viewer</string>
                 </property>
-                <property name="accel">
-                    <string>Alt+E</string>
-                </property>
             </widget>
             <widget class="QRadioButton">
                 <property name="name">
@@ -130,9 +121,6 @@
                 </property>
                 <property name="text">
                     <string>Show help file in a &amp;separate window</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+S</string>
                 </property>
                 <property name="checked">
                     <bool>true</bool>
@@ -152,9 +140,6 @@
                 </property>
                 <property name="text">
                     <string>Con&amp;figure</string>
-                </property>
-                <property name="accel">
-                    <string>Alt+F</string>
                 </property>
             </widget>
         </widget>

@@ -1806,10 +1806,10 @@ void Kile::quickPreviewEnvironment()
 	Kate::Document *doc = view->getDoc();
 	if ( doc ) {
 		QStringList mathlist;
-		mathlist << "aligned," << "alignedat" << "gathered" 
-		         << "array" << "cases"
-		         << "matrix"   << "bmatrix"   << "pmatrix"
-		         << "vmatrix"  << "Vmatrix"
+		mathlist << "aligned," << "alignedat" << "gathered"
+		         << "array"    << "cases"
+		         << "matrix"   << "bmatrix"   << "Bmatrix"   
+		         << "pmatrix"  << "vmatrix"   << "Vmatrix"
 		         ;
 		int row,col;
 		QString envname;
@@ -1817,11 +1817,10 @@ void Kile::quickPreviewEnvironment()
 		if ( text != QString::null ) 
 		{
 			if ( mathlist.findIndex(envname) >= 0 )
-				m_quickPreview->run( "$"+text+"$",getName(doc),row );
+				text = "$" + text + "$";
 			else if ( envname == "split" )
-				m_quickPreview->run( "\\[\n"+text+"\\]",getName(doc),row );
-			else
-				m_quickPreview->run( text,getName(doc),row );
+				text = "\\[" + text + "\\]";
+			m_quickPreview->run( text,getName(doc),row );
 		}
 		else
 			KMessageBox::error(this, i18n("There is no surrounding environment.") );

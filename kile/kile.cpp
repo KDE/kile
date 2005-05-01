@@ -1172,11 +1172,14 @@ void Kile::refreshStructure()
 void Kile::insertTag(const KileAction::TagData& data)
 {
 	logWidget()->clear();
-	outputView()->showPage(logWidget());
-	setLogPresent(false);
 
-	logWidget()->append(data.description);
-
+	if ( data.description.length() > 0 )
+	{
+		outputView()->showPage(logWidget());
+		setLogPresent(false);
+		logWidget()->append(data.description);
+	}
+	
 	Kate::View *view = viewManager()->currentView();
 
 	if ( !view ) return;

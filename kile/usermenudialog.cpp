@@ -145,8 +145,8 @@ void UserTags::slotRemove()
 		m_list.remove( m_list.at(m_prevIndex) );
 
 		--m_prevIndex;
-		if (m_prevIndex < 0 ) m_prevIndex=0;
 		if (m_prevIndex >= static_cast<int>(m_list.count()) ) m_prevIndex = m_list.count()-1;
+		if (m_prevIndex < 0 ) m_prevIndex=0;
 
 		redraw();
 	}

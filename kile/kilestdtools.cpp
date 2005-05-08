@@ -281,18 +281,20 @@ namespace KileTool
 			if (bibs->count() > 1)
 			{
 				//show dialog
+				bool bib_selected = false;
 				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select a bibliography"),i18n("Select a bibliography"));
 				if (dlg->exec())
 				{
 					bib = (*bibs)[dlg->currentItem()];
+					bib_selected = true;
 					kdDebug() << "Bibliography selected : " << bib << endl;
 				}
-				else
-				{
+				delete dlg;
+				
+				if ( ! bib_selected ) {
 					sendMessage(Warning, i18n("No bibliography selected."));
 					return false;
 				}
-				delete dlg;
 			}
 			
 			QFileInfo info(path);

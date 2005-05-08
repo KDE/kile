@@ -961,6 +961,7 @@ KileProject* Manager::selectProject(const QString& caption)
 		{
 			name = list[dlg->currentItem()];
 		}
+		delete dlg;
 	}
 	else if (list.count() == 0)
 	{

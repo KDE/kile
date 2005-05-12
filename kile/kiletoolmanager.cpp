@@ -255,7 +255,7 @@ namespace KileTool
 		{
 			if ( tool == m_queue.tool() ) m_queue.dequeue();
 			m_stop->setEnabled(false);
-			runNextInQueue();
+			QTimer::singleShot(100, this, SLOT(runNextInQueue()));
 		}
 	}
 

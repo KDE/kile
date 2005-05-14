@@ -341,7 +341,7 @@ UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, con
 	QLabel *label2 = new QLabel(i18n("&Help file:"),widget);
 	grid->addWidget( label2, 1,0 );
 	m_leHelpFile = new KLineEdit("",widget);
-	m_leHelpFile->setReadOnly(true);
+	m_leHelpFile->setReadOnly(false);
 	grid->addWidget( m_leHelpFile, 1,1 );
    m_pbChooseFile = new KPushButton("", widget, "filechooser_button" );
    m_pbChooseFile->setPixmap( SmallIcon("fileopen") );

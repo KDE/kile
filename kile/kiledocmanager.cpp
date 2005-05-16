@@ -402,7 +402,7 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? KileConfig::defaultEncoding() : encoding;
-	doc->setEncoding(encoding);
+	doc->setEncoding(enc);
 
 	kdDebug() << "opening url: " << docinfo->url().path() << endl;
 
@@ -479,7 +479,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 		item->setInfo(docinfo);
 
 		kdDebug() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
-		if ( docinfo->getDoc() != docFor(docinfo->url().path()) ) kdFatal() << "docinfo->getDoc() != docFor()" << endl;
+		if ( docinfo->getDoc() != docFor(docinfo->url().path()) ) kdWarning() << "docinfo->getDoc() != docFor()" << endl;
 	}
 	else
 	{
@@ -917,6 +917,7 @@ void Manager::projectNew()
 
 			//save the new file
 			view->getDoc()->saveAs(url);
+            emit documentStatusChanged(view->getDoc(), false, 0);
 
 			//add this file to the project
 			item = new KileProjectItem(project, url);

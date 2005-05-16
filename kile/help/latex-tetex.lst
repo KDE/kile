@@ -1,7 +1,18 @@
 # Keys for LaTeX help (from TeTeX)
-# v0.1
+# v0.2
 # dani/2003
-#
+# jeroen/2005
+\part 
+\chapter => ltx-141.html
+\section => ltx-141.html
+\subsection => ltx-141.html 
+\subsubsection => ltx-141.html 
+\paragraph => ltx-141.html 
+\subparagraph => ltx-141.html 
+\subsubparagraph => ltx-141.html 
+\subsubsubparagraph => ltx-141.html
+\documentclass => ltx-22.html
+\documentstyle => ltx-22.html
 \addcontentsline => ltx-171.html
 \addtocontents => ltx-172.html
 \addtocounter => ltx-195.html

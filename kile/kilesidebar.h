@@ -31,7 +31,7 @@ class KileSideBar : public QFrame
 	Q_OBJECT
 
 public:
-	KileSideBar(QWidget *parent = 0, const char *name = 0, Qt::Orientation orientation = Qt::Vertical, bool alwaysShowLabels = false);
+	KileSideBar(int size, QWidget *parent = 0, const char *name = 0, Qt::Orientation orientation = Qt::Vertical, bool alwaysShowLabels = false);
 	~KileSideBar();
 
 	int addTab(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);
@@ -41,6 +41,9 @@ public:
 	SymbolView* symbolView() { return m_symbolTab; }
 
 	bool isVisible() { return !m_bMinimized; }
+
+    void setSize(int sz) { m_nSize = sz; }
+    int size() { return m_nSize; }
 
 	QWidget* currentPage();
 
@@ -77,7 +80,7 @@ class KileBottomBar : public KileSideBar
 	Q_OBJECT
 
 public:
-	KileBottomBar(QWidget *parent = 0, const char *name = 0);
+	KileBottomBar(int size, QWidget *parent = 0, const char *name = 0);
 
 	void shrink();
 	void expand();

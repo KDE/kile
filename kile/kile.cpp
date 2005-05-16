@@ -211,6 +211,9 @@ Kile::~Kile()
 
 void Kile::setupStatusBar()
 {
+    statusBar()->removeItem(ID_LINE_COLUMN);
+    statusBar()->removeItem(ID_HINTTEXT);
+
 	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
 	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
 	statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
@@ -219,7 +222,7 @@ void Kile::setupStatusBar()
 
 void Kile::setupSideBar()
 {
-	m_sideBar = new KileSideBar(m_horizontalSplitter);
+	m_sideBar = new KileSideBar(KileConfig::sideBarSize(), m_horizontalSplitter);
 
 	m_fileSelector= new KileFileSelect(m_sideBar,"File Selector");
 	m_sideBar->addTab(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
@@ -234,6 +237,7 @@ void Kile::setupSideBar()
 
 	m_sideBar->showTab(KileConfig::selectedLeftView());
 	m_sideBar->setVisible(KileConfig::sideBar());
+    m_sideBar->setSize(KileConfig::sideBarSize());
 }
 
 void Kile::setupProjectView()
@@ -285,7 +289,7 @@ void Kile::setupSymbolViews()
 
 void Kile::setupBottomBar()
 {
-	m_bottomBar = new KileBottomBar(m_verticalSplitter);
+	m_bottomBar = new KileBottomBar(KileConfig::bottomBarSize(), m_verticalSplitter);
 	m_bottomBar->setFocusPolicy(QWidget::ClickFocus);
 
 	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );
@@ -314,6 +318,7 @@ void Kile::setupBottomBar()
 
 	m_bottomBar->showPage(m_logWidget);
 	m_bottomBar->setVisible(KileConfig::bottomBar());
+    m_bottomBar->setSize(KileConfig::bottomBarSize());
 }
 
 void Kile::setupActions()
@@ -982,8 +987,9 @@ void Kile::showEditorWidget()
 	Kate::View *view = viewManager()->currentView();
 	if (view) view->setFocus();
 
-	newStatus();
-	newCaption();
+    setupStatusBar();
+	updateModeStatus();
+	newCaption();    
 }
 
 
@@ -1003,9 +1009,13 @@ void Kile::resetPart()
 		delete part;
 	}
 
+    setupStatusBar();
+    updateModeStatus();
+    newCaption();
+
 	m_currentState = "Editor";
 	m_wantState = "Editor";
-	m_partManager->setActivePart( 0L);
+	m_partManager->setActivePart( 0L);    
 }
 
 void Kile::activePartGUI(KParts::Part * part)
@@ -1524,7 +1534,9 @@ void Kile::saveSettings()
 	KileConfig::setVerticalSplitterBottom(m_verSplitBottom);
 
 	KileConfig::setSideBar(m_sideBar->isVisible());
+    KileConfig::setSideBarSize(m_sideBar->size());
 	KileConfig::setBottomBar(m_bottomBar->isVisible());
+    KileConfig::setBottomBarSize(m_bottomBar->size());
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
 

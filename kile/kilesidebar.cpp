@@ -23,7 +23,7 @@
 #include "symbolview.h"
 #include "kilesidebar.h"
 
-KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/, bool alwaysShowLabels /*= false*/) : 
+KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/, bool alwaysShowLabels /*= false*/) : 
 	QFrame(parent, name),
 	m_symbolTab(0L),
 	m_nTabs(0),
@@ -31,7 +31,7 @@ KileSideBar::KileSideBar(QWidget *parent, const char *name, Qt::Orientation orie
 	m_bMinimized(false),
 	m_nMinSize(0),
 	m_nMaxSize(1000),
-	m_nSize(400)
+	m_nSize(size)
 {
 	setFrameStyle(QFrame::Box|QFrame::Plain);
 	setLineWidth(1);
@@ -197,8 +197,8 @@ void KileSideBar::switchToTab(int id)
 	m_nCurrent = id;
 }
 
-KileBottomBar::KileBottomBar(QWidget *parent, const char *name) :
-	KileSideBar(parent, name, Qt::Horizontal, true)
+KileBottomBar::KileBottomBar(int size, QWidget *parent, const char *name) :
+	KileSideBar(size, parent, name, Qt::Horizontal, true)
 {}
 
 void KileBottomBar::shrink()

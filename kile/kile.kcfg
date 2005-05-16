@@ -68,6 +68,14 @@
 			<label>Whether to show the bottom bar.</label>
 			<default>true</default>
 		</entry>
+        <entry name="BottomBarSize" type="Int">
+            <label>Height of the bottombar.</label>
+            <default>200</default>
+        </entry>
+        <entry name="SideBarSize" type="Int">
+            <label>Width of the sidebar.</label>
+            <default>300</default>
+        </entry>
 		<entry name="SideBar" type="Bool">
 			<label>Whether to show the side bar.</label>
 			<default>true</default>

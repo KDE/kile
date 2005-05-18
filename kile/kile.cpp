@@ -1654,6 +1654,7 @@ void Kile::generalOptionsKate()
 		              "KTextEditor-Plugin and not the autocompletion modes of Kile. "
 		              "Are you really sure to do this?");
 		            
+		/*           
 		if ( KMessageBox::questionYesNo( this,
 			                              "<center>" + msg + "</center>",
 			                              i18n("Autocomplete warning") ) == KMessageBox::No ) {
@@ -1665,6 +1666,10 @@ void Kile::generalOptionsKate()
 			KileConfig::setCompleteAuto(false);                   // disable autocompletion of Kile
 			KileConfig::setCompleteAutoText(false);
 		}
+		*/
+		KMessageBox::information( this,"<center>" + msg + "</center>",i18n("Autocomplete warning") );
+		KileConfig::setCompleteAuto(false);               // disable autocompletion of Kile
+		KileConfig::setCompleteAutoText(false);
 	}
 }
 

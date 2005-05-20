@@ -307,7 +307,7 @@ namespace KileDocument
 
 	void CodeCompletion::CompletionAborted()
 	{
-		if ( m_undo && m_view )
+		if ( m_inprogress && m_undo && m_view )
 		{
 			uint row, col;
 			m_view->cursorPositionReal( &row, &col );
@@ -770,6 +770,7 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
 	{
+		kdDebug() << "==slotCompletionDone=============" << endl;
 		CompletionDone(entry);
 
 		if ( getMode() == cmLatex ) m_completeTimer->start( 10, true );
@@ -785,21 +786,25 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompleteValueList()
 	{
+		kdDebug() << "==slotCompleteValueList=============" << endl;
 		m_completeTimer->stop();
 		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()
 	{
+		kdDebug() << "==slotCompletionAborted=============" << endl;
 		CompletionAborted();
 	}
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
+		kdDebug() << "==slotFilterCompletion=============" << endl;
 		if ( inProgress() ) {                // dani 28.09.2004
-			kdDebug() << "==CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )==" << endl;
-			kdDebug() << "\ts = " << *s << " type = " << c->type << " text = " << c->text << " prefix = " << c->prefix << " postfix = " << c->postfix << " comment = " << c->comment << endl;
+			kdDebug() << "\tin progress: s=" << *s << endl;
 			*s = filterCompletionText( c->text, c->type );
+			kdDebug() << "\tfilter --->" << *s << endl;
+			m_inprogress = false;
 		}
 	}
 

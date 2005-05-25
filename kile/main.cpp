@@ -70,7 +70,7 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile",	"1.8", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+	KAboutData aboutData( "kile", "Kile",	"1.8.1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
 						I18N_NOOP("by the Kile Team (2003 - 2005)"),
 						0,
 						"http://kile.sourceforge.net");

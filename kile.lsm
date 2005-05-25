@@ -1,14 +1,14 @@
 Begin3
 Title:          Kile
-Version:        1.8
+Version:        1.8.1
 Entered-date:
-Description:    LaTeX source editor - TeX shell - Gnuplot Front End for KDE   
+Description:    LaTeX source editor - TeX shell for KDE   
 Keywords:
 Author:         Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, Pascal Brachet
 Maintained-by:  Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
 Primary-site:   http://kile.sourceforge.net/download.php
 Home-page:      http://kile.sourceforge.net
 Original-site:  
-Platforms:       Linux and other Unices
+Platforms:      Linux and other Unices
 Copying-policy: GNU Public License
 End

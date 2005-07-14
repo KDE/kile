@@ -66,15 +66,13 @@ public:
 	void selectTexgroup(bool inside, Kate::View *view = 0L);
 	void deleteTexgroup(bool inside, Kate::View *view = 0L);
 
-	void commentSelection(bool insert, Kate::View *view = 0L);
-	void spaceSelection(bool insert, Kate::View *view = 0L);
-	void tabSelection(bool insert, Kate::View *view = 0L);
-	void stringSelection( bool insert, Kate::View *view = 0L);
-
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
 	QString getEnvironmentText(int &row, int &col, QString &name, Kate::View *view = 0L);
 
+	// complete environment
+	bool eventInsertEnvironment(Kate::View *view);
+	
 public slots:
 	void insertIntelligentNewline(Kate::View *view = 0L);
 
@@ -161,9 +159,6 @@ private:
 	// get current Texgroup
 	bool getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view);
 
-	// insert/remove selection
-	void moveSelection(const QString &prefix,bool insertmode, Kate::View *view);
-
 	// find current paragraph
 	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
 
@@ -178,6 +173,12 @@ private:
 	bool isMathEnvironment(const QString &name);
 	bool isTabEnvironment(const QString &name);
 
+	// check environment type
+	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
+	
+	// complete environments
+	QRegExp m_regexpEnter;
+	
 	// help
 	void readHelpList(QString const &filename);
 

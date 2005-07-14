@@ -38,7 +38,12 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 	m_complete = new KileDocument::CodeCompletion(m_ki);
 
 	// init regexp
-	m_reg.setPattern("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
+	m_reg.setPattern("(\\\\(begin|end)\\s*\\{([A-Za-z]+\\*?)\\})|(\\\\\\[|\\\\\\])");
+	//                1    2                 3                   4         
+	
+//	m_regexpEnter  = QRegExp("^(.*)(\\\\begin\\s*\\{([^\\{\\}]*)\\})");
+	m_regexpEnter.setPattern("^(.*)((\\\\begin\\s*\\{([^\\{\\}]*)\\})|(\\\\\\[))");
+//	                           1   23                 4               5 
 
 	// init environments
 	QStringList listenv;
@@ -288,7 +293,10 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 	
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		view->getDoc()->insertText( row,col, "\\end{"+name+"}" );
+		if ( name == "\\[" )
+			view->getDoc()->insertText( row,col, "\\]" );
+		else
+			view->getDoc()->insertText( row,col, "\\end{"+name+"}" );
 // 		view->setCursorPositionReal(row+1,0);
 	}
 }
@@ -555,7 +563,7 @@ bool EditorExtension::findBeginEnvironment(Kate::Document *doc, uint row, uint c
 
 //////////////////// search for \end{env}  ////////////////////
 
-// Find the last \begin{env} tag. If the current cursor is over
+// Find the last \end{env} tag. If the current cursor is over
 //  - \end{env} tag: we will stop immediately
 //  - \begin{env} tag: we will start behind this tag
 
@@ -583,18 +591,20 @@ bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col
 bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
                                   EnvData &env,bool backwards)
 {
+	kdDebug() << "findEnvTag " << backwards << endl;
 	KTextEditor::SearchInterface *iface;
 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
-	//QRegExp reg("\\\\(begin|end)\\s*\\{\\s*([A-Za-z]+\\*?)\\s*\\}");
 	
 	uint envcount = 0;
-	QString wrong_env = ( backwards ) ? "end" : "begin";
+	
+	EnvTag wrong_env = ( backwards ) ? EnvEnd : EnvBegin;
 	while ( iface->searchText(row,col,m_reg,&env.row,&env.col,&env.len,backwards) )
 	{
 		//   kdDebug() << "   iface " << env.row << "/" << env.col << endl;
 		if ( isValidBackslash(doc,env.row,env.col) )
 		{
-			if ( m_reg.cap(1) == wrong_env )
+			EnvTag found_env = ( m_reg.cap(2)=="begin" || m_reg.cap(4)=="\\[" ) ? EnvBegin : EnvEnd; 
+			if ( found_env == wrong_env )
 			{
 				++envcount;
 			}
@@ -604,7 +614,15 @@ bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col
 					--envcount;
 				else
 				{
-					env.name = m_reg.cap(2);
+					if ( found_env == EnvBegin ) 
+					{
+						env.name = ( m_reg.cap(2)=="begin" ) ? m_reg.cap(3) : "\\[";
+					}
+					else
+					{
+						env.name = ( m_reg.cap(2)=="end" ) ? m_reg.cap(3) : "\\]";
+					}	
+					env.tag = found_env;
 					return true;
 				}
 			}
@@ -646,12 +664,12 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 	bool left = false;
 	bool right = false;
 	
-	KTextEditor::SearchInterface *iface;
-	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
+	//KTextEditor::SearchInterface *iface;
+	//iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
 	
 	// check if there is a match in this line from the current position to the left
 	int startcol = ( textline[col] == '\\' ) ? col - 1 : col;
-	if ( startcol > 6 )
+	if ( startcol >= 1 )
 	{
 		int pos = textline.findRev(m_reg,startcol);
 		env.len = m_reg.matchedLength();
@@ -660,8 +678,17 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		{
 			env.row = row;
 			env.col = pos;
-			env.tag = ( textline.at(pos+1) == 'b' ) ? EnvBegin : EnvEnd;
-			env.name = m_reg.cap(2);
+			QChar ch = textline.at(pos+1);
+			if ( ch=='b' || ch=='e' ) 
+			{
+				env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
+				env.name = m_reg.cap(3);
+			} 
+			else
+			{
+				env.tag = ( ch == '[' ) ? EnvBegin : EnvEnd;
+				env.name = m_reg.cap(4);
+			}
 			env.cpos =  ( col < (uint)pos+env.len ) ? EnvInside : EnvRight;
 			// we have already found a tag, if the cursor is inside, but not behind this tag
 			if ( env.cpos == EnvInside )
@@ -671,19 +698,30 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		}
 	}
 	
+		kdDebug() << "search right " << endl;
 	// check if there is a match in this line from the current position to the right
 	if ( textline[col]=='\\' && col==(uint)textline.find(m_reg,col) )
 	{
 		envright.row = row;
 		envright.col = col;
 		envright.len = m_reg.matchedLength();
-		envright.tag = ( textline.at(col+1) == 'b' ) ? EnvBegin : EnvEnd;
-		envright.name = m_reg.cap(2);
+		QChar ch = textline.at(col+1);
+		if ( ch=='b' || ch=='e' )        // found "\begin" or "\end"
+		{
+			env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
+			env.name = m_reg.cap(3);
+		} 
+		else                             // found "\[" or "\\]"
+		{
+			env.tag = ( ch == '[' ) ? EnvBegin : EnvEnd;
+			env.name = m_reg.cap(4);
+		}
 		envright.cpos = EnvLeft;
 		right = true;
 		//kdDebug() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
 	}
 	
+		kdDebug() << "found left/right: " << left << "/" << right << endl;
 	// did we find a tag?
 	if ( ! (left || right) )
 		return false;
@@ -1316,130 +1354,6 @@ bool EditorExtension::getCurrentWord(Kate::Document *doc, uint row, uint col, Ed
 }
 
 
-//////////////////// move/unmove selections ////////////////////
-
-void EditorExtension::commentSelection(bool insert, Kate::View *view)
-{
-	view = determineView(view);
-	if ( !view ) return;
-
-	moveSelection("%",insert,view);
-}
-
-void EditorExtension::spaceSelection(bool insert, Kate::View *view)
-{
-	view = determineView(view);
-	if ( !view ) return;
-
-	moveSelection(" ",insert,view);
-}
-
-void EditorExtension::tabSelection(bool insert, Kate::View *view)
-{
-	view = determineView(view);
-	if ( !view ) return;
-
-	moveSelection("\t",insert,view);
-}
-
-void EditorExtension::stringSelection(bool insert, Kate::View *view)
-{
-	view = determineView(view);
-	if ( !view ) return;
-	bool ok;
-	QString text = KInputDialog::getText(i18n("Insert Text"), i18n("Please enter the text to insert:"),"", &ok, view);
-	if ( ok && (!text.isEmpty()))
-	{
-		moveSelection(text, insert, view);
-	}
-}
-
-void EditorExtension::moveSelection(const QString &prefix,bool insertmode, Kate::View *view)
-{
-	view = determineView(view);
-	if ( !view ) return;
-	
-	// get current position
-	uint row,col,row1,col1,row2,col2;
-	Kate::Document *doc = view->getDoc();
-	view->cursorPositionReal(&row,&col);
-	bool blockselectionmode = doc->blockSelectionMode();
-	
-	if ( doc->hasSelection() )
-	{             // selection: all lines in the selected range
-		row1 = doc->selStartLine();
-		col1 = doc->selStartCol();
-		row2 = doc->selEndLine();
-		col2 = doc->selEndCol();
-		if ( !blockselectionmode )
-		{
-		if ( col1 >= doc->textLine(row1).length() )
-			(void) increaseCursorPosition(doc,row1,col1);
-		if ( col2 == 0 )
-			(void) decreaseCursorPosition(doc,row2,col2);
-		}
-	}
-	else
-	{                                // no selection: only one line
-		row1 = row2 = row;
-		col1 = col2 = col;
-	}
-	//    kdDebug() << "   selection:  " << row1 << "/" << col1 << " " << row2 << "/" << col2 << endl;
-	
-	// we always start at column 0, if not in blockselection mode
-	uint startcol = ( blockselectionmode ) ? col1 : 0;
-	uint prefixlen = prefix.length();
-	
-	int changecol  = 0;
-	int changecol1 = 0;
-	int changecol2 = 0;
-	int change = ( insertmode ) ? prefixlen : -prefixlen;
-	for (uint line=row1; line<=row2; ++line)
-	{
-		bool action = true;
-		if ( insertmode )
-		doc->insertText(line,startcol,prefix);
-		else if ( doc->textLine(line).mid(startcol,prefixlen) == prefix )
-		doc->removeText(line,startcol,line,startcol+prefixlen);
-		else
-		action = false;
-	
-		// calculate changes of selection range and cursor position
-		if ( action )
-		{
-		if ( line == row )
-			changecol = change;
-		if ( line == row1 )
-			changecol1 = change;
-		if ( line == row2 )
-			changecol2 = change;
-		}
-	}
-	
-	// also move the selection and the cursor position
-	if ( doc->hasSelection() )
-	{
-		if ( blockselectionmode )
-		doc->setSelection(row1,col1,row2,col2+change);
-		else
-		{
-		if ( col1 > 0 )
-			col1 += changecol1;
-		if ( row > row2 )
-		{
-			++row2;
-			col2 = 0;
-		}
-		else
-			col2 += changecol2;
-		doc->setSelection(row1,col1,row2,col2);
-		}
-	}
-	
-	// finally update cursor position
-	view->setCursorPositionReal(row,col+changecol);
-}
-
 //////////////////// paragraph ////////////////////
 
 void EditorExtension::selectParagraph(Kate::View *view)
@@ -1594,6 +1508,76 @@ void EditorExtension::completeEnvironment()
 void EditorExtension::completeAbbreviation()
 {
 	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmAbbreviation);
+}
+
+//////////////////// autocomplete environment ////////////////////
+
+// should we complete the current environment (call from KileEventFilter)
+
+bool EditorExtension::eventInsertEnvironment(Kate::View *view)
+{
+	QString line = view->getDoc()->textLine(view->cursorLine()).left(view->cursorColumnReal());
+	int pos = m_regexpEnter.search(line);
+	if (pos != -1 )
+	{
+		line = m_regexpEnter.cap(1);
+		for (uint i=0; i < line.length(); ++i)
+			if ( ! line[i].isSpace() ) line[i] = ' ';
+		
+		QString envname, endenv;
+		if ( m_regexpEnter.cap(2) == "\\[" ) 
+		{
+			envname = m_regexpEnter.cap(2);
+			endenv = "\\]\n";
+	kdDebug() << "11111 " << m_regexpEnter.cap(2)<< endl;
+		}
+		else
+		{
+			envname = m_regexpEnter.cap(4);
+			endenv = m_regexpEnter.cap(2).replace("\\begin","\\end")+"\n";
+	kdDebug() << "2222 " << m_regexpEnter.cap(2)<< endl;
+		}
+		
+		if ( shouldCompleteEnv(envname, view) ) 
+		{
+			QString item = isListEnvironment(envname) ? "\\item " : QString::null;
+			view->getDoc()->insertText(view->cursorLine()+1, 0, line+item +'\n'+line+endenv);
+			view->setCursorPositionReal(view->cursorLine()+1, line.length()+item.length());
+			return true;
+		}
+	}
+	return false;
+}
+
+bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
+{
+	QRegExp reTestBegin,reTestEnd;
+	if ( env == "\\[" )
+	{
+		reTestBegin.setPattern("\\\\\\[");
+		reTestEnd.setPattern("\\\\\\]");
+	}
+	else
+	{
+		reTestBegin.setPattern("\\\\begin\\s*\\{" + env + "\\}");
+		reTestEnd.setPattern("\\\\end\\s*\\{" + env + "\\}");
+	}
+	
+	int num = view->getDoc()->numLines();
+	int numBeginsFound = 0;
+	int numEndsFound = 0;
+	uint realLine, realColumn;
+	view->cursorPositionReal(&realLine, &realColumn);
+	for ( int i = realLine; i < num; ++i)
+	{
+		numBeginsFound += view->getDoc()->textLine(i).contains(reTestBegin);
+		numEndsFound += view->getDoc()->textLine(i).contains(reTestEnd);
+		if ( (numBeginsFound == 1) && (numEndsFound == 1) ) return false;        
+		else if ( (numEndsFound == 0) && (numBeginsFound > 1) ) return true;
+		else if ( (numBeginsFound > 2) || (numEndsFound > 1) ) return true; //terminate the search
+	}
+    
+	return true;
 }
 
 }

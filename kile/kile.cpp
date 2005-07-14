@@ -96,7 +96,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_edit = new KileDocument::EditorExtension(this);
 	m_help = new KileHelp::Help(m_edit);
 	m_partManager = new KParts::PartManager( this );
-	m_eventFilter = new KileEventFilter();
+	m_eventFilter = new KileEventFilter(m_edit);
 	m_errorHandler = new KileErrorHandler(this, this);
 	m_spell = new KileSpell(this, this, "kilespell");
 	m_quickPreview = new KileTool::QuickPreview(this);

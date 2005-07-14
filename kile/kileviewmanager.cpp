@@ -102,7 +102,7 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	Kate::View *view = (Kate::View*) doc->createView (m_tabs, 0L);
 
 	//install event filter on the view
-	view->installEventFilter(m_ki->eventFilter());
+	view->focusProxy()->installEventFilter(m_ki->eventFilter());
 
 	//insert the view in the tab widget
 	m_tabs->addTab( view, m_ki->getShortName(doc) );

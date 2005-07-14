@@ -28,18 +28,17 @@ class KileEventFilter : public QObject
 	Q_OBJECT
 
 public:
-	KileEventFilter();
+	KileEventFilter(KileDocument::EditorExtension *edit);
 
 public slots:
 	void readConfig();
 
 protected:
 	bool eventFilter(QObject *o, QEvent *e);
-    bool shouldCompleteEnv(const QString &env, Kate::View *view);
 
 private:
-	bool		m_bHandleEnter, m_bCompleteEnvironment;
-	QRegExp		m_regexpEnter;
+	bool    m_bCompleteEnvironment;
+	KileDocument::EditorExtension *m_edit;
 
 };
 

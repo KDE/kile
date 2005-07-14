@@ -14,6 +14,7 @@
  ****************************************************************************/
  
 #include "kileoutputwidget.h"
+#include "kdebug.h"
 
 namespace KileWidget
 {
@@ -36,12 +37,13 @@ namespace KileWidget
 		if ( newLineAt != -1 )
 		{
 			line += str.left(newLineAt); //don't copy the newline char
+			line.replace('<',"&lt;");
+			line.replace('>',"&gt;");
 			append(line);
 			line = str.mid(newLineAt + 1);	
 		}
 		else
 			line += str;
-
 	}
 }
 

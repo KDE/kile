@@ -76,7 +76,6 @@ Kile::Kile( QWidget *, const char *name ): DCOPObject( "Kile" ), KParts::MainWin
 config = KGlobal::config();
 m_AutosaveTimer= new QTimer();
 connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
-
 ReadSettings();
 
 //workaround for kdvi crash when started with Tooltips
@@ -89,8 +88,14 @@ dvipresent=false;
 watchfile=false;
 partManager = new KParts::PartManager( this );
 connect( partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(ActivePartGUI ( KParts::Part * ) ) );
-kspell = 0;
+
 setupActions();
+
+// Read Settings should be after setupActions() because fileOpenRecentAction needs to be
+// initialized before calling ReadSettnigs().
+ReadRecentFileSettings();
+
+
 statusBar()->insertFixedItem( i18n("Line:000000 Col: 000"), ID_LINE_COLUMN );
 statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
 statusBar()->changeItem( i18n("Line: 1 Col: 1"), ID_LINE_COLUMN );
@@ -118,7 +123,7 @@ if (!lastDocument.isEmpty())
   QFileInfo fi(lastDocument);
   if (fi.exists() && fi.isReadable()) currentDir=fi.dirPath();
   }
-KileFS->setDir(KURL(currentDir));
+KileFS->setDir(KURL::fromPathOrURL(currentDir));
 KileFS->comboEncoding->lineEdit()->setText(input_encoding);
 
 ButtonBar->insertTab(UserIcon("structure"),1,i18n("Structure"));
@@ -198,9 +203,13 @@ singlemode=true;
 MasterName=getName();
 applyMainWindowSettings(config, "KileMainWindow" );
 partManager->setActivePart( 0L );
+
+//set some pointers to zero because we test for those in the destructor
 htmlpart=0L;
 pspart=0L;
 dvipart=0L;
+kspell = 0L;
+
 m_bNewErrorlist=true;
 m_bCheckForLaTeXErrors=false;
 
@@ -218,6 +227,18 @@ connect(Outputview, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(RunTermina
 
 Kile::~Kile()
 {
+	if (errorlist != 0) { delete errorlist;}
+	if (kspell != 0 ) { delete kspell;}
+	if (m_AutosaveTimer != 0) { delete m_AutosaveTimer;}
+	if (!findDialog.isNull() ) { delete findDialog;}
+ 	if (!replaceDialog.isNull() ) {	delete replaceDialog;}
+ 	if (!gotoLineDialog.isNull() ) { delete gotoLineDialog;}
+	if ( htmlpart != 0 ) { delete htmlpart;}
+	if ( !gfe_widget.isNull() ) { delete gfe_widget;}
+	if ( pspart != 0 ) { delete pspart;}
+	if ( dvipart != 0 ) { delete dvipart;}
+	//if ( != 0 ) { ; delete ;}
+
 }
 
 void Kile::setupActions()
@@ -228,9 +249,7 @@ void Kile::setupActions()
   PrintAction=KStdAction::print( 0, 0, actionCollection(), "print" );
   (void) KStdAction::openNew(this, SLOT(fileNew()), actionCollection(), "New" );
   (void) KStdAction::open(this, SLOT(fileOpen()), actionCollection(),"Open" );
-  RecentAction=new KSelectAction(i18n("Open Recent"), 0, actionCollection(), "Recent");
-  RecentAction->setItems(recentFilesList);
-  connect(RecentAction, SIGNAL(activated(const QString &)), SLOT(fileOpenRecent(const QString &)));
+  fileOpenRecentAction = KStdAction::openRecent(this, SLOT(fileOpen(const KURL&)), actionCollection(), "Recent");
   (void) KStdAction::save(this, SLOT(fileSave()), actionCollection(),"Save" );
   (void) KStdAction::saveAs(this, SLOT(fileSaveAs()), actionCollection(),"SaveAs" );
   (void) new KAction(i18n("Save All"),0, this, SLOT(fileSaveAll()), actionCollection(),"SaveAll" );
@@ -238,7 +257,8 @@ void Kile::setupActions()
   (void) new KAction(i18n("Print Source..."),"fileprint",CTRL+Key_P, this, SLOT(filePrint()), actionCollection(),"PrintSource");
   (void) KStdAction::close(this, SLOT(fileClose()), actionCollection(),"Close" );
   (void) new KAction(i18n("Close All"),0, this, SLOT(fileCloseAll()), actionCollection(),"CloseAll" );
-  (void) KStdAction::quit(this, SLOT(fileExit()), actionCollection(),"Exit" );
+  //(void) KStdAction::quit(this, SLOT(fileExit()), actionCollection(),"Exit" );
+  KStdAction::quit(this, SLOT(close()), actionCollection(), "Exit");
 
   (void) KStdAction::undo(this, SLOT(editUndo()), actionCollection(),"Undo" );
   (void) KStdAction::redo(this, SLOT(editRedo()), actionCollection(),"Redo" );
@@ -499,7 +519,7 @@ void Kile::setupActions()
   list.append("subsubsection");
   list.append("paragraph");
   list.append("subparagraph");
-  ListAction1 = new KSelectAction(i18n("Sectionning"), 0, actionCollection(), "structure_list");
+  ListAction1 = new KSelectAction(i18n("Sectioning"), 0, actionCollection(), "structure_list");
   ListAction1->setItems(list);
   connect(ListAction1, SIGNAL(activated(const QString&)),this,SLOT(SectionCommand(const QString&)));
 
@@ -587,8 +607,9 @@ void Kile::load( const QString &f )
     raise();
     KWin::setActiveWindow(this->winId());
     ShowEditorWidget();
+
     if (FileAlreadyOpen(f) || !QFile::exists( f )) return;
-    LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
+    LatexEditorView *edit = new LatexEditorView( this,"",EditorFont,parenmatch,showline,editor_color);
     edit->editor->setReadOnly(false);
     edit->editor->setEncoding(input_encoding);
     edit->editor->setFile(f);
@@ -616,7 +637,7 @@ void Kile::load( const QString &f )
     doConnections( edit->editor );
     UpdateCaption();
     UpdateLineColStatus();
-    AddRecentFile(f);
+    fileOpenRecentAction->addURL(KURL::fromPathOrURL(f));
     ShowStructure();
 }
 
@@ -673,7 +694,7 @@ void Kile::fileNew()
     NewFileWizard *nfw = new NewFileWizard(this);
 
     if (nfw->exec()) {
-    LatexEditorView *edit = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
+    LatexEditorView *edit = new LatexEditorView( this,"",EditorFont,parenmatch,showline,editor_color);
     edit->editor->setReadOnly(false);
     edit->editor->setEncoding(input_encoding);
     doConnections( edit->editor );
@@ -689,7 +710,7 @@ void Kile::fileNew()
     doConnections( edit->editor );
 
     TemplateItem *sel = nfw->getSelection();
-    kdDebug() << "filenew start read" << endl;
+
     if (sel->name() != DEFAULT_EMPTY_CAPTION) {
        QFile f(sel->path());
        if (f.open(IO_ReadOnly) ) {
@@ -701,7 +722,7 @@ void Kile::fileNew()
        f.close();
        } else { KMessageBox::error(this, i18n("Couldn't find template: %1").arg(sel->name()),i18n("File Not Found!")); }
     }
-    kdDebug() << "filenew end read" << endl;
+
 
     UpdateCaption();
     UpdateLineColStatus();
@@ -728,33 +749,17 @@ void Kile::fileOpen()
 	if ( !fn.isEmpty() ) load( fn );
 }
 
-void Kile::fileOpenRecent(const QString &fn)
+void Kile::fileOpen(const KURL& url)
 {
-if ( !fn.isEmpty() ) load( fn );
-RecentAction->clear();
-RecentAction->setItems(recentFilesList);
+  // Convert from URL to QString
+  // TODO : QString everywhere should be replaced by KURL eventually!
+  QString fn;
+  fn = url.path();
+  load( fn );
 }
 
 
-void Kile::AddRecentFile(const QString &f)
-{
-lastDocument=f;
-QStringList::ConstIterator it1 = recentFilesList.begin();
-for ( ; it1 != recentFilesList.end(); ++it1 )
-    {
-    if (*it1==f) return;
-    }
-if( recentFilesList.count() ==5 )
-{
-   recentFilesList.remove( recentFilesList.last() );
-}
-recentFilesList.prepend( f );
-
-RecentAction->clear();
-RecentAction->setItems(recentFilesList);
-}
-
-bool Kile::FileAlreadyOpen(QString f)
+bool Kile::FileAlreadyOpen(const QString &f)
 {
 bool rep=false;
 FilesMap::Iterator it;
@@ -769,13 +774,13 @@ for( it = filenames.begin(); it != filenames.end(); ++it )
 return rep;
 }
 
-void Kile::fileSave(bool amAutoSaving )
+bool Kile::fileSave(bool amAutoSaving )
 {
-	if ( !currentEditorView() )	return;
+	if ( !currentEditorView() ) return false;
 	QString fn;
 	if ( getShortName()=="untitled" )
 	{
-		if (!amAutoSaving) fileSaveAs();
+		if (!amAutoSaving) return fileSaveAs();
 	}
 	else
 	{
@@ -788,9 +793,11 @@ void Kile::fileSave(bool amAutoSaving )
 
 		if ( !file.open( IO_WriteOnly ) )
 		{
-			QString cap = amAutoSaving ? i18n("Sorry") : i18n("Autosave");
-			KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."),cap);
-			return;
+			if(!amAutoSaving)  // do not annoy user by giving error messages if auto save is not possible
+			{
+				KMessageBox::sorry(this,i18n("The file could not be saved. Please check if you have write permission."), i18n("Sorry"));
+				return false;
+			}
 		}
 
 		QTextStream ts( &file );
@@ -803,45 +810,56 @@ void Kile::fileSave(bool amAutoSaving )
 		{
 			currentEditorView()->editor->setModified(false);
 			fn=getName();
-			AddRecentFile(fn);
+			fileOpenRecentAction->addURL(KURL::fromPathOrURL(fn));
 		}
 	}
 	UpdateCaption();
 	UpdateLineColStatus();
+
+	return true;
 }
 
-void Kile::fileSaveAs()
+bool Kile::fileSaveAs()
 {
 	int query=KMessageBox::Yes;
-	if ( !currentEditorView() ) 	return;
+	if ( !currentEditorView() ) 	return false;
 	QString fn = KFileDialog::getSaveFileName( QString::null,i18n("*.dtx *.ltx *.tex *.bib *.sty *.cls *.mp|TeX Files\n*|All Files"), this,i18n("Save As") );
 	if ( !fn.isEmpty() )
 	{
-		currentEditor()->setFile(fn);
 		QFileInfo fic(fn);
 		if( fic.exists() ) query = KMessageBox::warningYesNoCancel( this,i18n( "A document with this name already exists.\nDo you want to overwrite it?" ) );
 		if (query==KMessageBox::Yes)
 		{
+			currentEditor()->setFile(fn);
 			filenames.replace( currentEditorView(), fn );
 			fileSave();
 			tabWidget->setTabLabel( currentEditorView(), fic.fileName() );
 		}
+		else
+			return false;
 	}
+	else
+	{
+		return false;
+	}
+
 	UpdateCaption();
 	UpdateLineColStatus();
+
+	return true;
 }
 
 void Kile::fileSaveAll(bool amAutoSaving)
 {
-LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
-temp=currentEditorView();
+//LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color);
+LatexEditorView *temp=currentEditorView();
 FilesMap::Iterator it;
 for( it = filenames.begin(); it != filenames.end(); ++it )
    {
    tabWidget->showPage( it.key() );
    fileSave(amAutoSaving);
    }
-tabWidget->showPage(temp);
+if (temp) tabWidget->showPage(temp);
 UpdateCaption();
 UpdateLineColStatus();
 }
@@ -918,7 +936,7 @@ if (!htmlpresent )
     QFileInfo *fic = currentFileInfo();
     if (fic->exists() && fic->isReadable() )
        {
-         if ( !printer.setup(this) )
+         if ( !printer.setup(this, i18n("Print %1").arg(getShortName())) )
 	 {
 		return;
 	 }
@@ -968,9 +986,11 @@ if (currentEditorView()->editor->isModified())
 				     i18n("Save"), i18n("Don't Save") ) )
    {
        case (KMessageBox::Yes):
-	   fileSave();
-     filenames.remove(currentEditorView());
-	   delete currentEditorView();
+	   if (fileSave())
+	   {
+     	   	filenames.remove(currentEditorView());
+	   	delete currentEditorView();
+	   }
 	   break;
        case (KMessageBox::No):
      filenames.remove(currentEditorView());
@@ -1032,82 +1052,62 @@ UpdateCaption();
 UpdateLineColStatus();
 }
 
-void Kile::fileExit()
+bool Kile::queryExit()
 {
-SaveSettings();
-bool accept=true;
-    while (currentEditorView() && accept)
-    {
-      if (currentEditorView()->editor->isModified())
-      {
-   switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
-				     i18n("Save"), i18n("Don't Save") ) )
-      {
-       case (KMessageBox::Yes):
-	     fileSave();
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::No):
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::Cancel):
-       default:
-	     accept=false;
-	     break;
-     }
-     }
-     else
-        {
-        filenames.remove(currentEditorView());
-        delete currentEditorView();
-        }
-    }
-    if (accept) qApp->quit();
+	SaveSettings();
+	return true;
 }
 
-void Kile::closeEvent(QCloseEvent *e)
+bool Kile::queryClose()
 {
-SaveSettings();
-bool accept=true;
-    while (currentEditorView() && accept)
-    {
-      if (currentEditorView()->editor->isModified())
-      {
-   switch(  KMessageBox::warningYesNoCancel(this,
-				     i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
-				     i18n("Save"), i18n("Don't Save") ) )
-      {
-       case (KMessageBox::Yes):
-	     fileSave();
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::No):
-       filenames.remove(currentEditorView());
-	     delete currentEditorView();
-	     break;
-       case (KMessageBox::Cancel):
-       default:
-	     accept=false;
-	     break;
-     }
-     }
-     else
-        {
-         filenames.remove(currentEditorView());
-         delete currentEditorView();
-         }
-    }
-    if (accept) e->accept();
+	bool accept=true;
+
+	//remember the last document before we close them
+	if (currentFileInfo())
+	{
+		lastDocument = currentFileInfo()->absFilePath();
+	}
+
+	while (currentEditorView() && accept)
+	{
+		if (currentEditorView()->editor->isModified())
+		{
+			switch(  KMessageBox::warningYesNoCancel(this,
+						i18n("The current document has been modified.\nDo you want to save it before closing?"),"Kile",
+						i18n("Save"), i18n("Don't Save") ) )
+			{
+			case (KMessageBox::Yes): accept = fileSave();
+				if (accept) //file has been saved successfully
+				{
+					filenames.remove(currentEditorView());
+					delete currentEditorView();
+				}
+				break;
+			case (KMessageBox::No):
+				accept=true;
+				filenames.remove(currentEditorView());
+				delete currentEditorView();
+				break;
+			case (KMessageBox::Cancel):
+			default:
+				accept=false;
+				break;
+			}
+		}
+		else
+		{
+			filenames.remove(currentEditorView());
+			delete currentEditorView();
+			accept=true;
+		}
+	}
+
+	return accept;
 }
 
 void Kile::fileSelected(const KFileItem *file)
 {
-    QString sa =file->url().prettyURL() ;
-    if ( sa.left(5) == "file:" ) sa = sa.remove(0, 5);
+    QString sa =file->url().path() ;
     input_encoding =KileFS->comboEncoding->lineEdit()->text();
     load(sa );
 }
@@ -1255,7 +1255,7 @@ if (m) tabWidget->changeTab( currentEditorView(),UserIcon("modified"), QFileInfo
 else tabWidget->changeTab( currentEditorView(),UserIcon("empty"), QFileInfo( getName() ).fileName() );
 }
 
-QString Kile::getName()
+QString Kile::getName() const
 {
 QString title;
 //if ( !currentEditorView() )	{title="";}
@@ -1275,7 +1275,7 @@ else
 return title;
 }
 
-QString Kile::getShortName()
+QString Kile::getShortName() const
 {
 QString title;
 //if ( !currentEditorView() )	{title="";}
@@ -1691,7 +1691,7 @@ CommandProcess* Kile::execCommand(const QStringList &command, const QFileInfo &f
  m_nErrors=m_nWarnings=0;
 
  CommandProcess* proc = new CommandProcess();
- currentProcess=proc;
+
  proc->clearArguments();
 
  if (runonfile)
@@ -1960,11 +1960,26 @@ void Kile::KdviForwardSearch()
 
   QFileInfo fic(finame);
   QString dviname=finame;
-  QString texname=fic.baseName(TRUE)+".tex";
+  QString texname;
+  QString finame_cur = getName();
+  QFileInfo fic_cur(finame_cur);
+
+  if (singlemode)
+    texname=fic.baseName(TRUE)+".tex";
+  else
+    texname=fic_cur.fileName();
+
+
   int para=0;
   int index=0;
-  currentEditorView()->editor->viewport()->setFocus();
-  currentEditorView()->editor->getCursorPosition( &para, &index);
+
+  //TODO (after message freeze): warn user that he cannot user forward search without having a window open (how should we determine the line number?)
+  if (currentEditorView())
+  {
+  	currentEditorView()->editor->viewport()->setFocus();
+  	currentEditorView()->editor->getCursorPosition( &para, &index);
+  }
+
   if (viewdvi_command=="Embedded Viewer")
   {
    ResetPart();
@@ -1986,7 +2001,8 @@ void Kile::KdviForwardSearch()
    }
    else
    {
-    QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./%S.tex";
+
+    QStringList command; command << "kdvi" <<"--unique" <<"file:./%S.dvi#src:"+QString::number(para + 1)+"./"+texname;
     CommandProcess *proc=execCommand(command,fic,false);
     connect(proc, SIGNAL(processExited(KProcess*)),this, SLOT(slotProcessExited(KProcess*) ));
 
@@ -2508,7 +2524,6 @@ else
 //LogWidget->insertAt(result, row, col);
 LogWidget->append(result);
 UpdateLineColStatus();
-currentProcess=0;
 }
 
 void Kile::slotl2hExited(KProcess* proc)
@@ -2886,7 +2901,6 @@ void Kile::ViewLog()
 	LatexError();
 	if (tempLog != QString::null)
 	{
-		kdDebug() << "about to show log" << endl;
 		LogWidget->setText(tempLog);
 		LogWidget->highlight();
 		LogWidget->scrollToBottom();
@@ -2991,7 +3005,6 @@ void Kile::LatexError(bool warnings)
 
 	QString finame;
 	if (  (finame = prepareForViewing("ViewLog","log") ) == QString::null ) return;
-	kdDebug() << "starting to read log" << endl;
 	QFileInfo fic(finame);
 	QFile f(finame);
 	if ( f.open(IO_ReadOnly) )
@@ -3024,7 +3037,6 @@ void Kile::LatexError(bool warnings)
 		}
 		f.close();
 	}
-	kdDebug() << "log read" << endl;
 }
 
 void Kile::NextError()
@@ -3056,7 +3068,7 @@ void Kile::NextError()
 			LogWidget->setCursorPosition(l+3 , 0);
 			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
-		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
+
 	}
 
 	if (logpresent && errorlist->isEmpty())
@@ -3097,7 +3109,6 @@ void Kile::PreviousError()
 			LogWidget->setCursorPosition(l+3 , 0);
 			LogWidget->setSelection(l,0,l,LogWidget->paragraphLength(l));
 		}
-		kdDebug() << "current item " << errorlist->findRef(errorlist->current()) << endl;
 	}
 
 	if (logpresent && errorlist->isEmpty())
@@ -4875,7 +4886,6 @@ void Kile::EditUserMenu()
 			break;
 			case usermenudialog::Remove :
 				i=listUserTagsActions.count();
-				kdDebug() << "index " << umDlg->index() << endl;
 				//remove all actions below and including the removed one (they need to be recreated)
 				for (int j=umDlg->index(); j< i; j++)
 				{
@@ -4893,7 +4903,6 @@ void Kile::EditUserMenu()
 					if (j <12) sc = tagaccels[j];
 					else sc=0;
 					name=QString::number(j+1)+": "+listUserTags[j].name;
-					kdDebug() << "adding " << name << " at " << j<< endl;
 					menuItem = new KAction(name,sc,mapUserTagSignals,SLOT(map()), menuUserTags, name.ascii());
 					listUserTagsActions.append(menuItem);
 					menuUserTags->insert(menuItem);
@@ -4952,7 +4961,6 @@ void Kile::EditUserTool()
 			break;
 			case usertooldialog::Remove :
 				i=listUserToolsActions.count();
-				kdDebug() << "index " << utDlg->index() << endl;
 				//remove all actions below and including the removed one (they need to be recreated)
 				for (int j=utDlg->index(); j< i; j++)
 				{
@@ -4970,7 +4978,6 @@ void Kile::EditUserTool()
 					if (j <12) sc = toolaccels[j];
 					else sc=0;
 					name=QString::number(j+1)+": "+listUserTools[j].name;
-					kdDebug() << "adding " << name << " at " << j<< endl;
 					menuItem = new KAction(name,sc,mapUserToolsSignals,SLOT(map()), menuUserTools, name.ascii());
 					listUserToolsActions.append(menuItem);
 					menuUserTools->insert(menuItem);
@@ -5114,26 +5121,18 @@ else
 	userOptionsList=config->readListEntry("User Options", ':');
 }
 
-config->setGroup( "Files" );
-lastDocument=config->readEntry("Last Document","");
-recentFilesList=config->readListEntry("Recent Files", ':');
-input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
-autosave=config->readBoolEntry("Autosave",true);
-autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
-enableAutosave(autosave);
-setAutosaveInterval(autosaveinterval);
 
 config->setGroup( "User" );
-templAuthor=config->readEntry("Author","");
+templAuthor=config->readEntry("Author");
 templDocClassOpt=config->readEntry("DocumentClassOptions","a4paper,10pt");
-templEncoding=config->readEntry("Template Encoding","");
+templEncoding=config->readEntry("Template Encoding");
 
 userItem tempItem;
 int len = config->readNumEntry("nUserTags",0);
 for (int i = 0; i < len; i++)
 {
 	tempItem.name=config->readEntry("userTagName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTag"+QString::number(i),"");
+	tempItem.tag =config->readEntry("userTag"+QString::number(i));
 	listUserTags.append(tempItem);
 }
 
@@ -5141,7 +5140,7 @@ len= config->readNumEntry("nUserTools",0);
 for (int i=0; i< len; i++)
 {
 	tempItem.name=config->readEntry("userToolName"+QString::number(i),i18n("no name"));
-	tempItem.tag =config->readEntry("userTool"+QString::number(i),"");
+	tempItem.tag =config->readEntry("userTool"+QString::number(i));
 	listUserTools.append(tempItem);
 }
 
@@ -5159,7 +5158,39 @@ paper_size=config->readEntry("Papersize","a4paper");
 document_encoding=config->readEntry("Encoding","latin1");
 ams_packages=config->readBoolEntry( "AMS",true);
 makeidx_package=config->readBoolEntry( "MakeIndex",false);
-author=config->readEntry("Author","");
+author=config->readEntry("Author");
+}
+
+void Kile::ReadRecentFileSettings()
+{
+	config->setGroup( "Files" );
+	lastDocument=config->readPathEntry("Last Document","");
+	input_encoding=config->readEntry("Input Encoding", QString::fromLatin1(QTextCodec::codecForLocale()->name()));
+	autosave=config->readBoolEntry("Autosave",true);
+	autosaveinterval=config->readLongNumEntry("AutosaveInterval",600000);
+	enableAutosave(autosave);
+	setAutosaveInterval(autosaveinterval);
+	// Loading of Recent Files
+
+	// Load recent files from "Recent Files" group
+	// using the KDE standard action for recent files
+	fileOpenRecentAction->loadEntries(config,"Recent Files");
+
+	// Now check if user is using an old rc file that has "Recent Files" under
+	// the "Files" group
+	if(config->hasKey("Recent Files"))
+	{
+		// If so, then read the entry in, add it to fileOpenRecentAction
+		QStringList recentFilesList = config->readListEntry("Recent Files", ':');
+		QStringList::ConstIterator it = recentFilesList.begin();
+		for ( ; it != recentFilesList.end(); ++it )
+		{
+		fileOpenRecentAction->addURL(KURL::fromPathOrURL(*it));
+		}
+		// Now delete this recent files entry as we are now using a separate
+		// group for recent files
+		config->deleteEntry("Recent Files");
+	}
 }
 
 void Kile::SaveSettings()
@@ -5234,11 +5265,16 @@ config->writeEntry("User Options",userOptionsList, ':');
 
 
 config->setGroup( "Files" );
-config->writeEntry("Last Document",lastDocument);
-config->writeEntry("Recent Files",recentFilesList, ':');
+
+kdDebug() << "lastDocument : " << lastDocument << endl;
+config->writePathEntry("Last Document",lastDocument);
+//config->writePathEntry("Recent Files", recentFilesList, ":");
 config->writeEntry("Input Encoding", input_encoding);
 config->writeEntry("Autosave",autosave);
 config->writeEntry("AutosaveInterval",autosaveinterval);
+
+  // Store recent files
+  fileOpenRecentAction->saveEntries(config,"Recent Files");
 
 config->setGroup( "User" );
 config->writeEntry("Author",templAuthor);
@@ -5542,8 +5578,8 @@ if (toDlg->exec())
     }
    if (currentEditorView())
   {
-   LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color );
-   temp=currentEditorView();
+   //LatexEditorView *temp = new LatexEditorView( tabWidget,"",EditorFont,parenmatch,showline,editor_color );
+   LatexEditorView *temp=currentEditorView();
    FilesMap::Iterator it;
    for( it = filenames.begin(); it != filenames.end(); ++it )
       {
@@ -5558,7 +5594,7 @@ if (toDlg->exec())
         if( MODIFIED ) currentEditorView()->editor->setModified(TRUE );
         else currentEditorView()->editor->setModified( FALSE );
       }
-   tabWidget->showPage(temp);
+   if (temp) tabWidget->showPage(temp);
    UpdateCaption();
    UpdateLineColStatus();
    }
@@ -5572,7 +5608,6 @@ void Kile::spellcheck()
 
   	if ( kspell )
   	{
-		kdDebug() << "kspell wasn't deleted before!" << endl;
 		delete kspell;
 	}
 

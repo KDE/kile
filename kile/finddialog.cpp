@@ -36,7 +36,7 @@ FindDialog::FindDialog(QWidget* parent,  const char* name, bool modal, WFlags fl
 
     FindDialogLayout->addMultiCellLayout( Layout1, 0, 0, 0, 1 );
 
-    Layout2 = new QHBoxLayout( 0, 0, 6, "Layout2"); 
+    Layout2 = new QHBoxLayout( FindDialogLayout, 6, "Layout2");
     QSpacerItem* spacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
     Layout2->addItem( spacer );
 
@@ -111,7 +111,7 @@ FindDialog::FindDialog(QWidget* parent,  const char* name, bool modal, WFlags fl
 
  }
 
-/*  
+/*
  *  Destroys the object and frees any allocated resources
  */
 FindDialog::~FindDialog()

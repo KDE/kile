@@ -69,7 +69,7 @@ funcLegendTitleData::funcLegendTitleData
 	defaultCButton = new QCheckBox(ButtonGroup_2, "CheckBox_4" );
 	defaultCButton->setMinimumSize( 70, 20 );
 	defaultCButton->setMaximumSize( 32767, 20 );
-	defaultCButton->setText( "&default" );
+	defaultCButton->setText( i18n("&default") );
 	defaultCButton->setAutoRepeat( FALSE );
 	//defaultCButton->setAutoResize( FALSE );
 	defaultCButton->setChecked( TRUE );
@@ -77,7 +77,7 @@ funcLegendTitleData::funcLegendTitleData
 	notitleCButton = new QCheckBox(ButtonGroup_2, "CheckBox_5" );
 	notitleCButton->setMinimumSize( 60, 20 );
 	notitleCButton->setMaximumSize( 32767, 20 );
-	notitleCButton->setText( "&notitle" );
+	notitleCButton->setText( i18n("&notitle") );
 	notitleCButton->setAutoRepeat( FALSE );
 	//notitleCButton->setAutoResize( FALSE );
 

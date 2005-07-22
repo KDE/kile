@@ -358,7 +358,7 @@
 
 	<sect1 id="intro_toolbar">
 
-		<title>The Toolbar: a Reference Guide to Features</title>
+		<title>The Toolbar</title>
 
 		<itemizedlist>
 			<listitem><para><guibutton>New</guibutton>: begin a new document.</para></listitem>
@@ -432,6 +432,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>The <guilabel>Label</guilabel> drop-down menu</phrase>
+			<caption><para>The <guilabel>Label</guilabel> drop-down menu</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -444,6 +445,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Selecting the label for a reference</phrase>
+			<caption><para>Selecting the label for a reference</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -646,7 +648,7 @@
 
 	<sect1 id="quick_inverseforward">
 
-		<title>Forward and Inverse searches between &kile; and &kdvi;</title>
+		<title>Searches between &kile; and &kdvi;</title>
 
 		<sect2>
 
@@ -706,6 +708,7 @@
 				</imageobject>
 				<textobject>
 				<phrase>Configuring &kdvi;</phrase>
+				<caption><para>Configuring &kdvi;</para></caption>
 				</textobject>
 				</mediaobject>
 			</screenshot>
@@ -903,7 +906,7 @@
 
 	<sect1 id="editing_bracket">
 
-		<title>Bracket Completion and Matching</title>
+		<title>Brackets</title>
 
 		<para>Bracket completion is a visual tool that the editor view uses to indicate you
 		which bracket matches which. If you open any .tex file, and select any
@@ -926,7 +929,7 @@
 
 	<sect1 id="editing_completion">
 
-		<title>Automatic Environment Completion</title>
+		<title>Automatic Completion</title>
 
 		<para>When you begin a new environment, typing <userinput>\begin{environment}</userinput>,
 		&kile; will automatically add a <userinput>\end{environment}</userinput> command, with a 
@@ -944,6 +947,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Completing an Equation Environment</phrase>
+			<caption><para>Completing an Equation Environment</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -973,6 +977,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Inserting a tabular environment</phrase>
+			<caption><para>Inserting a tabular environment</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1000,6 +1005,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>The Sidebar Menu</phrase>
+			<caption><para>The Sidebar Menu</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1103,6 +1109,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>The Edit User Tags Dialog</phrase>
+			<caption><para>The Edit User Tags Dialog</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1115,6 +1122,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Invoking a User Defined Tag</phrase>
+			<caption><para>Invoking a User Defined Tag</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1159,7 +1167,7 @@
 
 <chapter id="build">
 
-	<title>Using the Build Tools</title>
+	<title>The Build Tools</title>
 
 	<sect1 id="build_sect">
 
@@ -1353,6 +1361,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Viewing the log</phrase>
+			<caption><para>Viewing the log</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1370,7 +1379,7 @@
 
 	<sect1 id="build_watch">
 
-			<title>Using the Watch File Mode</title>
+			<title>The Watch File Mode</title>
 
 			<para>When you launch the <guibutton>Quickbuild</guibutton> command, a viewer of
 			some sort will normally be called after the compilation. If you are not using an embedded 
@@ -1421,6 +1430,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Using the Structure View</phrase>
+			<caption><para>Using the Structure View</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1507,7 +1517,7 @@
 
 	<sect1 id="projects_view">
 
-		<title>Using the File and Project View</title>
+		<title>The File and Project View</title>
 
 		<para>The <guilabel>File and Project</guilabel> view is a button of the sidebar menu. 
 		From this view, you can see the structure of your project, its files, 
@@ -1523,6 +1533,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>The File and Project View</phrase>
+			<caption><para>The File and Project View</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1554,6 +1565,7 @@
 			</imageobject>
 			<textobject>
 			<phrase>Adding a file to a project</phrase>
+			<caption><para>Adding a file to a project</para></caption>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -1566,7 +1578,7 @@
 
 	<sect1 id="projects_options">
 
-		<title>Changing your Project's Options</title>
+		<title>Project Options</title>
 
 		<para>&kile; has a few options related to your project that can be set. To change them,
 		right-click on the title of your project and select <guilabel>Project Options</guilabel>,
@@ -1633,7 +1645,7 @@
 
 <chapter id="lang">
 
-	<title>Setting the Document's Encoding</title>
+	<title>Document Encoding</title>
 
 	<para>The &kile; editor allows you to read, convert and set the text to the encoding 
 	your document needs. This allows you to use non-standard letters and symbols; 
@@ -1669,6 +1681,7 @@
 		</imageobject>
 		<textobject>
 		<phrase>Choosing the source file's encoding</phrase>
+		<caption><para>Choosing the source file's encoding</para></caption>
 		</textobject>
 		</mediaobject>
 	</screenshot>
@@ -1716,15 +1729,15 @@
 	
 	<sect1 id="cjk">
 		
-		<title>Chinese, Japanese and Korean (&cjk;) Support</title>
+		<title>&cjk; Support</title>
 		
 		<para>Adding support for ideographic languages is quite tricky. However, once
 		you are done with it, it will work quite well. Other than installing packages,
 		there is some extra configuration work to do.</para>
 		
-		<tip><para>Your Linux distribution might already have a &cjk; package ready for 
-		you, so you might be saved the hassle of manually installing everything. Do check 
-		before going forward!</para></tip>
+		<tip><para>Your Linux distribution might already have a &cjk; (Chinese, Japanese,
+		Korean) package ready for you, so you might be saved the hassle of manually
+		installing everything. Do check before going forward!</para></tip>
 		
 		<para>There is the possibility of using the &ucs; package in order to write
 		short snippets of &cjk; text, but that option is seriously limited as it does

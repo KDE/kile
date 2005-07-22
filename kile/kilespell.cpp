@@ -153,7 +153,7 @@ void KileSpell::corrected (const QString & originalword, const QString & newword
 		view->getDoc()->setSelection( l,col,l,col+originalword.length());
 		view->getDoc()->removeSelectedText();
 		view->getDoc()->insertText( l,col,newword );
-		view->getDoc()->setModified( TRUE );
+		view->getDoc()->setModified( true );
 	}
 
 	view->getDoc()->clearSelection();

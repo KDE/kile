@@ -30,7 +30,7 @@
 #include "managetemplatesdialog.h"
 
 ManageTemplatesDialog::ManageTemplatesDialog(QFileInfo *src, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true) {
-   m_sourceTemplate.name=src->baseName(TRUE);
+   m_sourceTemplate.name=src->baseName(true);
    m_sourceTemplate.path=src->absFilePath();
    m_sourceTemplate.icon=KGlobal::dirs()->findResource("appdata","pics/type_Default.png");
 

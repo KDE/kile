@@ -75,7 +75,7 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   lo->addWidget(dir);
   lo->setStretchFactor(dir, 2);
 
-  m_comboEncoding = new KComboBox( FALSE, this, "comboEncoding" );
+  m_comboEncoding = new KComboBox( false, this, "comboEncoding" );
   QStringList availableEncodingNames(KGlobal::charsets()->availableEncodingNames());
   m_comboEncoding->setEditable( true );
   m_comboEncoding->insertStringList( availableEncodingNames );

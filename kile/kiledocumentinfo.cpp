@@ -477,7 +477,7 @@ void TeXInfo::updateStruct()
 
 			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
 			{
-				kdDebug() << "\tsetting m_bIsRoot to TRUE" << endl;
+				kdDebug() << "\tsetting m_bIsRoot to true" << endl;
 				tagEnd += reRoot.cap(0).length();
 				m_bIsRoot = true;
 			}

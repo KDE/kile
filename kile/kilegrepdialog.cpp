@@ -299,7 +299,7 @@ void KileGrepDialog::slotSearch()
 	if (files_temp.right(1) != ",")
 	files_temp = files_temp + ",";
 
-	QStringList tokens = QStringList::split ( ",", files_temp, FALSE );
+	QStringList tokens = QStringList::split ( ",", files_temp, false );
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end())
 	{

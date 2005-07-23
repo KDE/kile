@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Apr 04 2005
-    version              : 0.11
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Jul 17 2005
+    version              : 0.20
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -92,6 +92,15 @@ namespace KileHelp
 	{
 		//FIXME: we should have a better way to access the current view
 		helpKeyword(m_manager->info()->viewManager()->currentView());
+	}
+
+////////////////////// Help: TexDoc //////////////////////
+	
+	void Help::helpLaTexDoc()
+	{
+		KileDialog::TexDocDialog *dlg = new KileDialog::TexDocDialog();
+		dlg->exec();
+		delete dlg;
 	}
 
 ////////////////////// Help: TeTeX //////////////////////

@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Feb 09 2004
-    version              : 0.10.0
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Jul 17 2005
+    version              : 0.20
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -27,6 +27,7 @@
 #include "kileedit.h"
 
 #include "userhelp.h"
+#include "texdocdialog.h"
 #include "usermenudialog.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
@@ -77,6 +78,7 @@ namespace KileHelp
 		void helpLatexSubject() { helpLatex(KileHelp::HelpLatexSubject); }
 		void helpLatexEnvironment() { helpLatex(KileHelp::HelpLatexEnvironment); }
 		void helpKeyword();
+		void helpLaTexDoc(); 
 		
 	private:
 		KileTool::Manager *m_manager;

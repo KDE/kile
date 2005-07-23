@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="15">
+<kpartgui name="kile" version="16">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -42,6 +42,7 @@
 	<Separator/>
 	<Action name="file_quit"/>
 </Menu>
+
 <Menu name="edit"><text>&amp;Edit</text>
 	<DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
 	<Separator/>
@@ -99,6 +100,7 @@
 	<Separator/>
 	<Action name="RefreshStructure"/>
 </Menu>
+
 <Menu name="view"><text>&amp;View</text>
 <Action name="EditorView"/>
 <Action name="fullscreen"/>
@@ -145,7 +147,12 @@
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
 	<Separator/>
+	<Action name="project_show" />
+	<Separator/>
 	<Action name="project_add"/>
+	<Action name="project_remove" />
+	<Action name="project_showfiles" />
+	<Separator/>
 	<Action name="project_buildtree"/>
 	<Action name="project_options"/>
 	<Action name="project_archive"/>
@@ -494,6 +501,7 @@
 		<Action name="help_latex_subject" />
 		<Action name="help_latex_env" />
 	</Menu>
+	<Action name="help_latexdoc" />
 	<Separator/>
 	<Action name="report_bug"/>
 	<Separator/>

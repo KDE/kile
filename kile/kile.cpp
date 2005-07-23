@@ -190,6 +190,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KTipDialog::showTip(this, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
+	initKileMenu();
 	updateModeStatus();
 
 	setFocus();
@@ -368,6 +369,11 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
 
+	// new project actions (dani)
+	(void) new KAction(i18n("Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
+	(void) new KAction(i18n("Remove Files from Project..."), 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
+	(void) new KAction(i18n("Show Project Files..."), 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
+	
 	//build actions
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
@@ -480,7 +486,8 @@ void Kile::setupActions()
 	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
 	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
 	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
-
+	(void) new KAction(i18n("LaTeX Documentation"),KShortcut("CTRL+Alt+H,A"), m_help, SLOT(helpLaTexDoc()), actionCollection(), "help_latexdoc");
+	
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
 	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
@@ -612,6 +619,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	}
 
 	if (ModeAction) ModeAction->setChecked(!m_singlemode);
+	updateModeStatus();
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -619,8 +627,6 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
     kdDebug() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
 	if (doc) viewManager()->switchToView(doc->url());
-
-    updateModeStatus();
 }
 
 void Kile::setActive()
@@ -712,6 +718,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 void Kile::updateModeStatus()
 {
+	kdDebug() << "==Kile::updateModeStatus()==========" << endl;
 	KileProject *project = docManager()->activeProject();
 	QString shortName = m_masterName;
 	int pos = shortName.findRev('/');
@@ -742,6 +749,9 @@ void Kile::updateModeStatus()
 		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
 		ModeAction->setChecked(true);
 	}
+	
+	// enable or disable entries in Kile'S menu
+	updateKileMenu();
 }
 
 void Kile::openDocument(const QString & url)
@@ -1112,21 +1122,203 @@ void Kile::enableKileGUI(bool enable)
 {
 	int id;
 	QString text;
-	for (uint i=0; i < menuBar()->count(); ++i)
-	{
-		id = menuBar()->idAt(i);
-		text = menuBar()->text(id);
-		if (
-			text == i18n("&Build") ||
-			text == i18n("&Project") ||
-			text == i18n("&LaTeX") ||
-			text == i18n("&Wizard") ||
-			text == i18n("&User") ||
-			text == i18n("&Graph") ||
-			text == i18n("&Tools")
-		)
-			menuBar()->setItemEnabled(id, enable);
+	
+	QMenuBar *menubar = menuBar();
+	for (uint i=0; i<menubar->count(); ++i) {
+		id = menubar->idAt(i);
+		QPopupMenu *popup = menubar->findItem(id)->popup();
+		if ( popup ) {
+			text = popup->name();
+			if ( text == "menu_build"   ||
+				  text == "menu_project" ||
+				  text == "menu_latex"   ||
+				  text == "wizard"       ||
+				  text == "tools"
+			   )
+			   menubar->setItemEnabled(id, enable);
+		}
 	}
+}
+
+// adds action names to their lists
+
+void Kile::initKileMenu()
+{
+	QStringList projectlist,filelist,actionlist;
+	
+	projectlist 
+	   << "project_add" << "project_remove" 
+	   << "project_showfiles" 
+	   << "project_buildtree" << "project_options" 
+	   << "project_archive" << "project_close"
+	   ;
+	
+	filelist 
+	   // file
+	   << "convert"  
+	   // edit
+	   << "complete" << "bullet" << "select"
+	   << "delete" << "environment" << "texgroup" 
+	   // build
+	   << "quickpreview" << "menu_compile" << "menu_convert" 
+	   << "menu_viewers" << "menu_other"
+	   // latex
+	   << "menu_preamble" << "menu_lists" << "menu_sectioning" << "references"
+	   << "menu_environment" << "menu_listenv" << "menu_tabularenv" << "menu_floatenv"
+	   << "menu_code" << "menu_math" << "menu_mathenv" << "menu_mathamsenv"
+	   << "menu_bibliography" << "menu_fontstyles" << "menu_spacing"
+	   ;
+
+	actionlist 
+	   // file 
+	   << "file_save_all" << "template_create" << "Statistics" << "file_close" << "file_close_all"
+	   // edit
+	   << "RefreshStructure" 
+	    // view
+	   << "gotoPrevDocument" << "gotoNextDocument"
+	   // build
+	   << "quickpreview_selection" << "quickpreview_environment" << "quickpreview_subdocument"
+	   << "WatchFile" << "ViewLog" << "PreviousError" << "NextError" << "PreviousWarning"
+	   << "NextWarning" << "PreviousBadBox" << "NextBadBox" << "Stop" << "CleanAll"
+	   // latex
+	   << "tag_documentclass" << "tag_usepackage" << "tag_amspackages" << "tag_env_document"
+	   << "tag_author" << "tag_title" << "tag_maketitle" << "tag_titlepage" << "tag_env_abstract"
+	   << "tag_tableofcontents" << "tag_listoffigures" << "tag_listoftables"
+	   << "tag_makeindex" << "tag_printindex" << "tag_makeglossary" << "tag_env_thebibliography"
+	   << "tag_part" << "tag_chapter" << "tag_section" << "tag_subsection" << "tag_subsubsection"
+	   << "tag_paragraph" << "tag_subparagraph" << "tag_label"
+	   << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite"
+	   << "tag_center" << "tag_flushleft" << "tag_flushright"
+	   << "tag_env_minipage" << "tag_quote" << "tag_quotation" << "tag_verse"
+	   << "tag_env_itemize" << "tag_env_enumerate" << "tag_env_description" << "tag_item"
+	   << "tag_env_tabular" << "tag_env_tabular*" << "tag_env_tabbing"
+	   << "tag_multicolumn" << "tag_hline" << "tag_vline" << "tag_cline"
+	   << "tag_figure" << "tag_table"
+	   << "tag_verbatim" << "tag_env_verbatim*" << "tag_verb" << "tag_verb*"
+	   << "tag_mathmode" << "tag_equation" << "tag_subscript" << "tag_superscript"
+	   << "tag_sqrt" << "tag_nroot" << "tag_left" << "tag_right" << "tag_leftright"
+	   << "tag_bigl" << "tag_bigr" << "tag_Bigl" << "tag_Bigr"
+	   << "tag_biggl" << "tag_biggr" << "tag_Biggl" << "tag_Biggr"
+	   << "tag_text" << "tag_intertext" << "tag_boxed"
+	   << "tag_frac" << "tag_dfrac" << "tag_tfrac"
+	   << "tag_binom" << "tag_dbinom" << "tag_tbinom"
+	   << "tag_xleftarrow" << "tag_xrightarrow"
+	   << "tag_mathrm" << "tag_mathit" << "tag_mathbf" << "tag_mathsf"
+	   << "tag_mathtt" << "tag_mathcal" << "tag_mathbb" << "tag_mathfrak"
+	   << "tag_acute" << "tag_grave" << "tag_tilde" << "tag_bar" << "tag_vec"
+	   << "tag_hat" << "tag_check" << "tag_breve" << "tag_dot" << "tag_ddot"
+	   << "tag_space_small" << "tag_space_medium" << "tag_space_large"
+	   << "tag_quad" << "tag_qquad" << "tag_enskip"
+	   << "tag_env_displaymath" << "tag_env_equation" << "tag_env_equation*"
+	   << "tag_env_eqnarray" << "tag_env_eqnarray*" << "tag_env_array"
+	   << "tag_env_multline" << "tag_env_multline*" << "tag_env_split"
+	   << "tag_env_gather" << "tag_env_gather*" << "tag_env_align" << "tag_env_align*"
+	   << "tag_env_flalign" << "tag_env_flalign*" << "tag_env_alignat" << "tag_env_alignat*"
+	   << "tag_env_aligned" << "tag_env_gathered" << "tag_env_alignedat" << "tag_env_cases"
+	   << "tag_bibliographystyle" << "tag_bibliography" << "tag_bib_article" << "tag_bib_inproc"
+	   << "tag_bib_incol" << "tag_bib_inbook" << "tag_bib_proceedings" << "tag_bib_book"
+	   << "tag_bib_booklet" << "tag_bib_phdthesis" << "tag_bib_masterthesis" << "tag_bib_techreport"
+	   << "tag_bib_manual" << "tag_bib_unpublished" << "tag_bib_misc" << "CleanBib"
+	   << "tag_textit" << "tag_textsl" << "tag_textbf" << "tag_underline"
+	   << "tag_texttt" << "tag_textsc" << "tag_emph"
+	   << "tag_rmfamily" << "tag_sffamily" << "tag_ttfamily"
+	   << "tag_mdseries" << "tag_bfseries" << "tag_upshape"
+	   << "tag_itshape" << "tag_slshape" << "tag_scshape"
+	   << "tag_newline" << "tag_newpage" << "tag_linebreak" << "tag_pagebreak"
+	   << "tag_bigskip" << "tag_medskip" << "tag_smallskip"
+	   << "tag_hspace" << "tag_hspace*" << "tag_vspace" << "tag_vspace*"
+	   << "tag_hfill" << "tag_hrulefill" << "tag_dotfill" << "tag_vfill"
+	   << "tag_includegraphics" << "tag_include" << "tag_input"
+	   << "menuUserTags"
+	   // wizard
+	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
+	   << "wizard_float" << "wizard_mathenv"
+	   // settings/help
+	   << "Mode" << "help_context" 
+	   // action lists
+	   << "structure_list" << "size_list" << "other_list" 
+	   << "left_list" << "right_list"
+	   ;
+
+	setKileMenuItems(projectlist,m_dictMenuProject);
+	setKileMenuItems(filelist,m_dictMenuFile);
+	setKileMenuItems(actionlist,m_dictMenuAction);
+}
+
+void Kile::setKileMenuItems(QStringList &list, QMap<QString,bool> &dict)
+{
+	for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) {
+		dict[(*it)] = true;
+	}
+}
+	
+void Kile::updateKileMenu()
+{
+	kdDebug() << "==Kile::updateKileMenu()====================" << endl;
+	KAction *a;
+	QMap<QString,bool>::Iterator it;
+	
+	// update project menus
+	m_actRecentProjects->setEnabled( m_actRecentProjects->items().count() > 0 );
+	bool project_open = ( docManager()->isProjectOpen() ) ;
+	
+	for ( it=m_dictMenuProject.begin(); it!=m_dictMenuProject.end(); ++it ) {
+		a = actionCollection()->action(it.key().ascii());
+		if ( a )
+			a->setEnabled(project_open);
+	}
+	
+	// project_show is only enabled, when more than 1 project is opened
+	a = actionCollection()->action("project_show");
+	if ( a )
+		a->setEnabled( project_open && docManager()->projects()->count()>1 );
+	
+	// update file menus
+	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
+	bool file_open = ( viewManager()->currentView() );
+	kdDebug() << "---> projectopen=" << project_open << " fileopen=" << file_open << endl;
+	
+	QMenuBar *menubar = menuBar();
+	for ( uint i=0; i<menubar->count(); ++i ) {
+		int menu_id = menubar->idAt(i);
+		QPopupMenu *menu = menubar->findItem(menu_id)->popup();
+		if ( menu ) {
+			QString menu_name = menu->name();
+			for ( uint j=0; j<menu->count(); ++j ) {
+				int sub_id = menu->idAt(j);
+				QPopupMenu *submenu = menu->findItem(sub_id)->popup();
+				if ( submenu ) {
+					QString submenu_name = submenu->name(); 
+					if ( m_dictMenuFile.contains(submenu_name) ) {
+//					if ( m_menuFileList.findIndex( submenu_name ) >= 0 ) {
+						menu->setItemEnabled(sub_id, file_open);
+					}
+				}
+			}
+		}
+	}
+	
+	// update action lists
+	for ( uint i=0; i<actionCollection()->count(); ++i ) {
+		a = actionCollection()->action(i);
+		if ( a && m_dictMenuAction.contains(a->name()) ) {
+			a->setEnabled(file_open);
+		}
+	}
+
+	updateActionList(&m_listQuickActions,file_open);
+	updateActionList(&m_listCompilerActions,file_open);
+	updateActionList(&m_listConverterActions,file_open);
+	updateActionList(&m_listViewerActions,file_open);
+	updateActionList(&m_listOtherActions,file_open);
+	
+}
+
+void Kile::updateActionList(QPtrList<KAction> *list, bool state)
+{
+	for ( KAction *a=list->first(); a; a=list->next() ) {
+		a->setEnabled(state);
+	}	
 }
 
 //TODO: move to KileView::Manager

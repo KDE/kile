@@ -125,6 +125,12 @@ private:
 	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
 	void unplugKateConfigMenu(Kate::View* view);
 	
+	void initKileMenu();
+	void setKileMenuItems(QStringList &list, QMap<QString,bool> &dict);
+	void updateKileMenu();
+	void updateActionList(QPtrList<KAction> *list, bool state);
+	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
+	
 	KToolBar						*m_toolsToolBar;
 	KActionMenu 					*m_menuUserTags;
 	QValueList<KileAction::TagData>	m_listUserTags;

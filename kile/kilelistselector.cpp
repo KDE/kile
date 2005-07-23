@@ -34,5 +34,7 @@ KileListSelector::KileListSelector(const QStringList & list, const QString &capt
 	m_listbox->setCurrentItem(0);
 	layout->addWidget(m_listbox);
 
+	setMinimumWidth(275);
+	resize(sizeHint().width(),sizeHint().height()+4);
 	connect(m_listbox, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(accept()));
 }

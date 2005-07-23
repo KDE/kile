@@ -268,6 +268,11 @@ KileProjectItemList* Manager::itemsFor(Info *docinfo) const
 	return list;
 }
 
+bool Manager::isProjectOpen()
+{
+	return ( m_projects.count() > 0 );
+}
+
 KileProject* Manager::activeProject()
 {
 	KileProject *curpr=0;
@@ -604,6 +609,7 @@ void Manager::fileNew()
 		loadTemplate(nfw->getSelection());
 		if ( nfw->useWizard() ) emit ( startWizard() );
 		emit(updateStructure(false, 0L));
+		emit(updateModeStatus());
 	}
 	delete nfw;
 }
@@ -931,6 +937,7 @@ void Manager::projectNew()
 		project->buildProjectTree();
 		//project->save();
 		addProject(project);
+		emit(updateModeStatus());
 	}
 }
 
@@ -1342,6 +1349,7 @@ bool Manager::projectClose(const KURL & url)
 			//FIXME: use signal/slot
 			m_ki->viewManager()->projectView()->remove(project);
 			delete project;
+			emit(updateModeStatus());
 			return true;
 		}
 		else
@@ -1409,6 +1417,105 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	m_ki->logWidget()->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
 
 	docinfo->cleanTempFiles(extlist);
+}
+
+// Show all opened projects and switch to another one, if you want
+
+void Manager::projectShow()
+{
+	if ( m_projects.count() <= 1 )
+		return;
+		
+	// select the new project
+	KileProject *project = selectProject(i18n("Switch project"));
+	if ( !project || project==activeProject() ) 
+		return;
+	
+	// get last opened document
+	const KURL lastdoc = project->lastDocument();
+	KileProjectItem *docitem = ( !lastdoc.isEmpty() ) ? itemFor(lastdoc,project) : 0L;
+	
+	// if not, we search for the first opened tex file of this project
+	// if no file is opened, we take the first tex file mentioned in the list
+	KileProjectItem *first_texitem = 0L;
+	if ( ! docitem ) {
+		KileProjectItemList *list = project->items();
+		for ( KileProjectItem *item=list->first(); item; item=list->next() ) {
+			if ( item->path().find(".tex",-4) >= 0 ) {
+				if  ( m_ki->isOpen(item->url()) ) {
+					docitem = item;
+					break;
+				} else if ( ! first_texitem )
+					first_texitem = item;
+			}
+		}
+	}
+		
+	// did we find one opened file or must we take the first entry
+	if ( ! docitem ) {
+		if ( ! first_texitem )
+			return;
+		docitem = first_texitem;
+	}
+		
+	// ok, we can switch to another project now
+	if  ( m_ki->isOpen(docitem->url()) )
+		m_ki->viewManager()->switchToView(docitem->url());
+	else
+		fileOpen( docitem->url(),docitem->encoding() );
+}
+
+void Manager::projectRemoveFiles()
+{
+	KileProjectItem *item = selectProjectFileItem( i18n("Select a file to remove") );
+	if ( item ) {
+		removeFromProject(item);
+	}
+}
+
+void Manager::projectShowFiles()
+{
+	KileProjectItem *item = selectProjectFileItem( i18n("Select a file") );
+	if ( item ) {
+		// ok, we can switch to another file
+		if  ( m_ki->isOpen(item->url()) )
+			m_ki->viewManager()->switchToView(item->url());
+		else
+			fileOpen( item->url(),item->encoding() );
+	}
+}
+
+KileProjectItem* Manager::selectProjectFileItem(const QString &label)
+{
+	// select a project
+	KileProject *project = selectProject(i18n("Select Project"));
+	if ( ! project ) 
+		return 0L;
+
+	// get a list of files
+	QStringList filelist;
+	QMap<QString,KileProjectItem *> map;
+	KileProjectItemList *list = project->items();
+	for ( KileProjectItem *item=list->first(); item; item = list->next() ) {
+		filelist << item->path();    // ev. ohne *.kilepr
+		map[item->path()] = item;
+	}
+	
+	// select one of these files
+	KileProjectItem *item = 0L;
+	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project files"),label, m_ki->parentWidget());
+	if ( dlg->exec() ) {
+		if ( dlg->currentItem() >= 0 ) {
+			QString name = filelist[dlg->currentItem()];
+			if ( map.contains(name) ) 
+				item = map[name];
+			else 
+				KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."),i18n( "Project Error"));
+		}
+	}
+	delete dlg;
+	
+	return item;
 }
 
 }

@@ -109,6 +109,10 @@ public slots:
 	bool projectClose(const KURL & url = KURL());
 	bool projectCloseAll();
 
+	void projectShow();
+	void projectRemoveFiles();
+	void projectShowFiles();
+	
 	KileProject* selectProject(const QString &);
 
 	void addProject(const KileProject *project);
@@ -149,6 +153,7 @@ public:
 	KileProject* projectFor(const KURL &projecturl);
 	KileProject* projectFor(const QString & name);
 	KileProject* activeProject();
+	bool isProjectOpen();
 
 	KileProjectItem* activeProjectItem();
 	/**
@@ -157,6 +162,7 @@ public:
 	 **/
 	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
 	KileProjectItem* itemFor(Info *docinfo, KileProject *project = 0) const;
+	KileProjectItem* selectProjectFileItem(const QString &label);
 
 	KileProjectItemList* itemsFor(Info *docinfo) const;
 

@@ -359,8 +359,8 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Refresh Str&ucture"), "structure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
-	(void) new KAction(i18n("&New Project..."), "filenew", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
-	(void) new KAction(i18n("&Open Project..."), "fileopen", 0, docManager(), SLOT(projectOpen()), actionCollection(), "project_open");
+	(void) new KAction(i18n("&New Project..."), "window_new", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
+	(void) new KAction(i18n("&Open Project..."), "project_open", 0, docManager(), SLOT(projectOpen()), actionCollection(), "project_open");
 	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project"),  0, docManager(), SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
 	connect(docManager(), SIGNAL(removeFromRecentProjects(const KURL& )), m_actRecentProjects, SLOT(removeURL(const KURL& )));
 	connect(docManager(), SIGNAL(addToRecentProjects(const KURL& )), m_actRecentProjects, SLOT(addURL(const KURL& )));
@@ -413,12 +413,12 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Line"),"selline",KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
 	(void) new KAction(i18n("TeX Word"),"selword",KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
 
-	(void) new KAction(i18n("Environment (inside)"),"delenv_i",KShortcut("CTRL+Alt+D,E"), m_edit, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
-	(void) new KAction(i18n("Environment (outside)"),"delenv_o",KShortcut("CTRL+Alt+D,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
-	(void) new KAction(i18n("TeX Group (inside)"),"delgroup_i",KShortcut("CTRL+Alt+D,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(),"edit_delete_inside_group");
-	(void) new KAction(i18n("TeX Group (outside)"),"delgroup_o",KShortcut("CTRL+Alt+D,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
-	(void) new KAction(i18n("Paragraph"),"delpar",KShortcut("CTRL+Alt+D,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
-	(void) new KAction(i18n("TeX Word"),"delword",KShortcut("CTRL+Alt+D,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
+	(void) new KAction(i18n("Environment (inside)"),"delenv_i",KShortcut("CTRL+Alt+T,E"), m_edit, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
+	(void) new KAction(i18n("Environment (outside)"),"delenv_o",KShortcut("CTRL+Alt+T,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
+	(void) new KAction(i18n("TeX Group (inside)"),"delgroup_i",KShortcut("CTRL+Alt+T,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(),"edit_delete_inside_group");
+	(void) new KAction(i18n("TeX Group (outside)"),"delgroup_o",KShortcut("CTRL+Alt+T,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
+	(void) new KAction(i18n("Paragraph"),"delpar",KShortcut("CTRL+Alt+T,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
+	(void) new KAction(i18n("TeX Word"),"delword",KShortcut("CTRL+Alt+T,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
 
 	(void) new KAction(i18n("Goto Begin"),"gotobeginenv",KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
 	(void) new KAction(i18n("Goto End"),"gotoendenv",KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
@@ -496,7 +496,8 @@ void Kile::setupActions()
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
 	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
-	(void) KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
+	KAction *kileconfig = KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
+	kileconfig->setIcon("configure-kile");
 	(void) new KAction(i18n("Configure &Editor"),0,this, SLOT(generalOptionsKate()), actionCollection(),"settings_configure_kate" );
 	
 	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
@@ -588,6 +589,10 @@ void Kile::setupUserTagActions()
 
 	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
+	if ( m_listUserTags.size() > 0 )  {
+		m_actionEditSeparator = new KActionSeparator();
+		m_menuUserTags->insert(m_actionEditSeparator);
+	}
 	for (uint i=0; i<m_listUserTags.size(); ++i)
 	{
 		KShortcut sc; if (i<10)  { sc = tagaccels[i]; } else { sc = 0; }
@@ -1547,6 +1552,8 @@ void Kile::editUserMenu()
 			m_listUserTagsActions.removeLast();
 			delete menuItem;
 		}
+		if ( len > 0 )
+			m_menuUserTags->remove(m_actionEditSeparator);
 		m_menuUserTags->remove(m_actionEditTag);
 
 		m_listUserTags = dlg->result();

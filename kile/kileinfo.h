@@ -27,6 +27,7 @@
 #include "kilestdtools.h"
 #include "latexoutputfilter.h"
 #include "latexoutputinfo.h"
+#include "latexcmd.h"         
 
 class QWidget;
 
@@ -108,6 +109,7 @@ public:
 	KileTool::Manager* toolManager() const { return m_manager; }
 	KileTool::Factory* toolFactory() const { return m_toolFactory; }
 	KileDocument::EditorExtension *editorExtension() const { return m_edit; }
+	KileDocument::LatexCommands *latexCommands() const { return m_latexCommands; }
 	KileHelp::Help *help() const { return m_help; }
 	KileTool::QuickPreview *quickPreview() const { return m_quickPreview; }
 
@@ -129,6 +131,7 @@ protected:
 
 	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;
+	KileDocument::LatexCommands *m_latexCommands;
 	KileTool::QuickPreview *m_quickPreview;
 
 	QWidget *m_parentWidget;

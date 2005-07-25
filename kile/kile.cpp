@@ -75,6 +75,7 @@
 #include "tabulardialog.h"
 #include "postscriptdialog.h"
 #include "quickpreview.h"         
+#include "latexcmd.h"         
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -93,6 +94,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
+	m_latexCommands = new KileDocument::LatexCommands(m_config,this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
 	m_help = new KileHelp::Help(m_edit);
 	m_partManager = new KParts::PartManager( this );
@@ -199,6 +201,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
+	delete m_latexCommands;
 	delete m_quickPreview;
 	delete m_edit;
 	delete m_help;
@@ -486,7 +489,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
 	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
 	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
-	(void) new KAction(i18n("LaTeX Documentation"),KShortcut("CTRL+Alt+H,A"), m_help, SLOT(helpLaTexDoc()), actionCollection(), "help_latexdoc");
+	(void) new KAction(i18n("Documentation Browser"),KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()), actionCollection(), "help_docbrowser");
 	
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
 	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
@@ -1786,7 +1789,7 @@ void Kile::toggleWatchFile()
 
 void Kile::generalOptions()
 {
-	KileDialog::Config *dlg = new KileDialog::Config(m_config, m_manager, this);
+	KileDialog::Config *dlg = new KileDialog::Config(m_config,this,this);
 
 	if (dlg->exec())
 	{
@@ -2014,20 +2017,14 @@ void Kile::quickPreviewEnvironment()
 	
 	Kate::Document *doc = view->getDoc();
 	if ( doc ) {
-		QStringList mathlist;
-		mathlist << "aligned," << "alignedat" << "gathered"
-		         << "array"    << "cases"
-		         << "matrix"   << "bmatrix"   << "Bmatrix"   
-		         << "pmatrix"  << "vmatrix"   << "Vmatrix"
-		         ;
 		int row,col;
 		QString envname;
 		QString text = m_edit->getEnvironmentText(row,col,envname,view);
 		if ( text != QString::null ) 
 		{
-			if ( mathlist.findIndex(envname) >= 0 )
+			if ( m_latexCommands->isMathModeEnv(envname)  )
 				text = "$" + text + "$";
-			else if ( envname == "split" )
+			else if ( m_latexCommands->isDisplaymathModeEnv(envname) )
 				text = "\\[" + text + "\\]";
 			m_quickPreview->run( text,getName(doc),row );
 		}

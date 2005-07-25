@@ -29,25 +29,26 @@
 #include "previewconfigwidget.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
+#include "kileedit.h"
 
 namespace KileDialog
 {
-	Config::Config(KConfig *config, KileTool::Manager *mngr, QWidget* parent)
+	Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
 		:KConfigDialog(parent, "kileconfiguration", KileConfig::self(), IconList, Ok|Cancel, Ok, true),
 		m_config(config),
-		m_toolMngr(mngr)
+		m_ki(ki)
 	{
 		m_config->sync();
 		setShowIconsInTreeList(true);
 
 		// setup all configuration pages
 		setupGeneralOptions();
-		setupEncodingOptions();
+		setupLatex();
 		setupTools();
 		setupQuickPreview();     // QuickPreview (dani)
-		setupSpelling();
-		setupLatex();
 		setupCodeCompletion();   // complete configuration (dani)
+		setupSpelling();
+		setupEncodingOptions();
 		setupHelp();
 	}
 
@@ -82,7 +83,7 @@ namespace KileDialog
 		vbox->addWidget(encodingPage);
 		vbox->addStretch();
 
-		addPage(page, i18n("Encoding"), "gear");
+		addPage(page, i18n("Encoding"), "gettext");
 	}
 
 	//////////////////// Tools Configuration ////////////////////
@@ -92,7 +93,7 @@ namespace KileDialog
 		toolsPage = new QFrame(0, "build");
 
 		QVBoxLayout *toolsLayout = new QVBoxLayout(toolsPage, 5);
-		m_toolConfig = new KileWidget::ToolConfig(m_toolMngr, toolsPage);
+		m_toolConfig = new KileWidget::ToolConfig(m_ki->toolManager(), toolsPage);
 		toolsLayout->addWidget(m_toolConfig);
 
 		addPage(toolsPage, i18n("Build"), "gear");
@@ -122,6 +123,10 @@ namespace KileDialog
 		QFrame *page = new QFrame(this, "codecompframe");
 		latexPage = new KileWidgetLatexConfig(page, "LaTeX");
 
+		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
+		latexPage->setDoubleQuotes(KileConfig::doubleQuotes());
+		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
+		
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(latexPage);
 		vbox->addStretch();
@@ -148,7 +153,7 @@ namespace KileDialog
 	void Config::setupQuickPreview()
 	{
 		QFrame *page = new QFrame(this, "quickpreview");
-		previewPage = new KileWidgetPreviewConfig(m_config,m_toolMngr->info()->quickPreview(),page);
+		previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),page);
 		previewPage->readConfig();
 
 		QVBoxLayout *vbox = new QVBoxLayout(page);
@@ -161,7 +166,7 @@ namespace KileDialog
 	{
 		QFrame *page = new QFrame(this, "helpframe");
 		helpPage = new KileWidgetHelpConfig(page);
-		helpPage->setHelp(m_toolMngr->info()->help());
+		helpPage->setHelp(m_ki->help());
 		
 		QVBoxLayout *vbox = new QVBoxLayout(page);
 		vbox->addWidget(helpPage);
@@ -180,8 +185,11 @@ namespace KileDialog
 		previewPage->writeConfig();   // Quick Preview (dani)
 
 		KileConfig::setDefaultEncoding(encodingPage->encoding());
+		KileConfig::setDoubleQuotes(latexPage->getDoubleQuotes());
+		KileConfig::setInsertDoubleQuotes(latexPage->getInsertDoubleQuotes());
 		
 		m_config->sync();
+		m_ki->editorExtension()->initDoubleQuotes();
 
 		emit okClicked(); // Otherwise, the KConfigXT machine doesn't start...
 		accept();

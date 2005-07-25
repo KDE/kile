@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Mar 05 2005
-    version              : 0.11
+    date                 : Jul 22 2005
+    version              : 0.21
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -26,6 +26,7 @@
 #include <kate/document.h>
 
 #include "codecompletion.h"
+#include "latexcmd.h"         
 
 /**
   *@author Holger Danielsson
@@ -66,6 +67,8 @@ public:
 	void selectTexgroup(bool inside, Kate::View *view = 0L);
 	void deleteTexgroup(bool inside, Kate::View *view = 0L);
 
+	const QStringList doubleQuotesList() { return m_quoteList; }
+	
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
 	QString getEnvironmentText(int &row, int &col, QString &name, Kate::View *view = 0L);
@@ -103,6 +106,10 @@ public slots:
 	void nextBullet();
 	void prevBullet();
 
+	void insertDoubleQuotes();
+	void initDoubleQuotes();
+
+	void insertIntelligentTabulator();
 private:
 
 	enum EnvTag { EnvBegin, EnvEnd };
@@ -162,22 +169,17 @@ private:
 	// find current paragraph
 	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
 
-	// environments
-	QMap<QString,bool> m_dictListEnv;
-	QMap<QString,bool> m_dictMathEnv;
-	QMap<QString,bool> m_dictTabularEnv;
-	void setEnvironment(const QStringList &list, QMap<QString,bool> &map);
-
 	// check environment type
-	bool isListEnvironment(const QString &name);
-	bool isMathEnvironment(const QString &name);
-	bool isTabEnvironment(const QString &name);
-
-	// check environment type
+	KileDocument::LatexCommands *m_latexCommands;	
 	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
 	
 	// complete environments
 	QRegExp m_regexpEnter;
+	
+	// double Quotes
+	bool m_dblQuotes;
+	QStringList m_quoteList;
+	QString m_leftDblQuote, m_rightDblQuote;
 	
 	// help
 	void readHelpList(QString const &filename);

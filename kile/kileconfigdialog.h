@@ -41,7 +41,7 @@ namespace KileDialog
 		Q_OBJECT
 
 	public:
-		Config( KConfig *config, KileTool::Manager *, QWidget* parent = 0);
+		Config( KConfig *config, KileInfo *ki, QWidget* parent = 0);
 		~Config();
 
 	private slots:
@@ -56,7 +56,7 @@ namespace KileDialog
 		KConfig *m_config;
 		KSpellConfig *ksc;
 		KileWidget::ToolConfig	*m_toolConfig;
-		KileTool::Manager		*m_toolMngr;
+		KileInfo *m_ki;
 
 		// CodeCompletion (dani)
 		ConfigCodeCompletion *completePage;

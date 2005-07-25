@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Mar 05 2005
-    version              : 0.11
+    date                 : Jul 22 2005
+    version              : 0.21
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -15,6 +15,7 @@
  ***************************************************************************/
 
 #include <qfileinfo.h>
+#include <qvaluestack.h>
 
 #include <kate/view.h>
 #include <kate/document.h>
@@ -36,55 +37,25 @@ namespace KileDocument
 EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 {
 	m_complete = new KileDocument::CodeCompletion(m_ki);
+	m_latexCommands = m_ki->latexCommands();
 
 	// init regexp
 	m_reg.setPattern("(\\\\(begin|end)\\s*\\{([A-Za-z]+\\*?)\\})|(\\\\\\[|\\\\\\])");
 	//                1    2                 3                   4         
-	
-//	m_regexpEnter  = QRegExp("^(.*)(\\\\begin\\s*\\{([^\\{\\}]*)\\})");
 	m_regexpEnter.setPattern("^(.*)((\\\\begin\\s*\\{([^\\{\\}]*)\\})|(\\\\\\[))");
-//	                           1   23                 4               5 
+	//                         1   23                 4               5 
 
-	// init environments
-	QStringList listenv;
-	listenv << "description"  << "enumerate"  << "itemize"
-	        << "description*" << "enumerate*" << "itemize*"         // mdwtab
-	        << "Bdescription" << "Benumerate" << "Bitemize"         // fancybox
-	        << "labeling"                                           // koma-script
-	        ; 
-	/*
-	QStringList mathenv;
-	mathenv << "align"  << "alignat" << << "alignat*" 
-	        << "aligned" << "alignedat"
-	        << "bmatrix"
-	        << "cases"
-	        << "eqnarray" << "eqnarray*"
-	        << "flalign" << "flalign*"
-	        << "gather" << "gather*" << "gathered"
-	        << "matrix" << "multline" << "multline*"
-	        << "pmatrix"
-	        << "split"
-	        << "vmatrix" << "Vmatrix"
-	        << "xalignat" << "xalignat*" << "xxalignat"<< "xxalignat*"
-	        ;
-	 
-	QStringList tabularenv;
-	tabularenv << "array" << "tabular" << "tabular*" << "tabbing"   
-	           << "longtable"                                       // longtable
-	           << "supertabular" << "supertabular*"                 // supertab
-	           << "mpsupertabular*" << "mpsupertabular*"            // supertab
-	           << "tabularx"                                        // tabularx             
-	           << "xtabular" << "mpxtabular"                        // xtab
-	           << "blockarray" << "block"                           // blkarray
-	           ;
-	*/
-	
-	// set standard environments
-	setEnvironment(listenv,m_dictListEnv);
-	// setEnvironment(mathenv,m_dictMathEnv);
-	// setEnvironment(tabularenv,m_dictTabularEnv);
+	// init double quotes
+	m_quoteList 
+		<< "English quotes:   ``   ''"
+		<< "French quotes:   \"<   \">"
+		<< "German quotes:   \"`   \"'"
+		<< "French quotes (long):   \\flqq   \\frqq"
+		<< "German quotes (long):   \\glqq   \\grqq"
+		;
+	initDoubleQuotes();
 
-	readConfig();
+	//readConfig();
 }
 
 EditorExtension::~EditorExtension()
@@ -96,10 +67,6 @@ EditorExtension::~EditorExtension()
 
 void EditorExtension::readConfig(void)
 {
-	// config section
-	setEnvironment(KileConfig::envList(), m_dictListEnv);
-	setEnvironment(KileConfig::envMath(), m_dictMathEnv);
-	setEnvironment(KileConfig::envTabular(), m_dictTabularEnv);
 }
 
 void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *view)
@@ -189,28 +156,6 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	view->setCursorPositionReal(para_cursor, index_cursor);
 
 	doc->clearSelection();
-}
-//////////////////// list/math/tabular environments ////////////////////
-
-void EditorExtension::setEnvironment(const QStringList &list, QMap<QString,bool> &map)
-{
-	for (uint i=0; i<list.count(); ++i)
-		map[list[i]] = true;
-}
-
-bool EditorExtension::isListEnvironment(const QString &name)
-{
-	return m_dictListEnv.contains(name);
-}
-
-bool EditorExtension::isMathEnvironment(const QString &name)
-{
-	return m_dictMathEnv.contains(name);
-}
-
-bool EditorExtension::isTabEnvironment(const QString &name)
-{
-	return m_dictTabularEnv.contains(name);
 }
 
 //////////////////// goto environment tag (begin or end) ////////////////////
@@ -316,27 +261,23 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		if ( isListEnvironment(name) )
+		kdDebug() << "   name==" << name << " " << m_latexCommands->isListEnv(name) << endl;
+		if ( m_latexCommands->isListEnv(name) )
 		{
 			view->keyReturn();
 			view->insertText("\\item " );
 			return;
-			//view->getDoc()->insertText( row,col,"\n\\item " );
-			//view->setCursorPositionReal(row + 1,6);
 		}
-// 		else if ( isTabEnvironment(name) || isMathEnvironment(name) )
-// 		{
-// 			view->getDoc()->insertText( row,col,"\\\\\n" );
-// 			view->setCursorPositionReal(row + 1,0);
-// 		}
-		//else
-		//	view->getDoc()->insertText( row,col,"\\\\\n" );
+		else if ( m_latexCommands->isTabularEnv(name) || m_latexCommands->isMathEnv(name) )
+		{
+			view->insertText(" \\\\");
+		}
 	}
-	//else
-	//	view->getDoc()->insertText( row,col,"\\\\\n" );
-	view->insertText("\\\\");
+	
+	// - found no opened environment
+	// - unknown environment
+	// - finish tabular or math environment
 	view->keyReturn();
-
 }
 
 bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view)
@@ -1510,6 +1451,132 @@ void EditorExtension::completeAbbreviation()
 	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmAbbreviation);
 }
 
+//////////////////// double quotes ////////////////////
+
+void EditorExtension::initDoubleQuotes()
+{
+	m_dblQuotes = KileConfig::insertDoubleQuotes();
+	
+	int index = KileConfig::doubleQuotes();
+	if ( index<0 && index>=(int)m_quoteList.count() )
+		index = 0;
+	
+	QStringList quotes = QStringList::split(QRegExp("\\s{2,}"), m_quoteList[index] ); 
+	m_leftDblQuote=  quotes[1];
+	m_rightDblQuote = quotes[2];
+	kdDebug() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;
+}
+
+void EditorExtension::insertDoubleQuotes()
+{
+	Kate::View *view = determineView(0L);
+	if ( !view ) return;
+	
+	uint row,col;
+	view->cursorPositionReal(&row,&col);
+	Kate::Document *doc = view->getDoc();
+	
+   if ( ! m_dblQuotes ) 
+	{
+		doc->insertText(row,col,"\"");
+		return;
+	}
+
+	KTextEditor::SearchInterface *iface;
+	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
+		
+	QString pattern1 = QRegExp::escape(m_leftDblQuote);
+	if ( m_leftDblQuote.at(m_leftDblQuote.length()-1).isLetter() )
+		pattern1 += "(\\b|(\\{\\}))";
+	QString pattern2 = QRegExp::escape(m_rightDblQuote);
+	if ( m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter() )
+		pattern2 += "(\\b|(\\{\\}))";
+
+	QRegExp reg("(" + pattern1 + ")|(" + pattern2 + ")");
+
+	uint r,c,l;
+	bool openfound = false;
+	if ( iface->searchText(row,col,reg,&r,&c,&l,true) )  
+	{
+		openfound = ( doc->textLine(r).find(m_leftDblQuote,c) == (int)c );
+		kdDebug() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
+	}
+	
+	QString textline = doc->textLine(row);
+	kdDebug() << "text=" << textline << " open=" << openfound << endl;
+	if ( openfound ) 
+	{
+		// If we last inserted a language specific doublequote open,  
+		// we have to change it to a normal doublequote. If not we 
+		// insert a language specific doublequote close
+		int startcol = col - m_leftDblQuote.length();
+		kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		if ( startcol>=0 && textline.find(m_leftDblQuote,startcol) == (int)startcol ) 
+		{
+				doc->removeText(row,startcol,row,startcol+m_leftDblQuote.length());
+				doc->insertText(row,startcol,"\"");
+		}
+		else
+		{
+			doc->insertText(row,col,m_rightDblQuote);
+		}
+	}
+	else 
+	{
+		// If we last inserted a language specific doublequote close,  
+		// we have to change it to a normal doublequote. If not we 
+		// insert a language specific doublequote open
+		int startcol = col - m_rightDblQuote.length();
+		kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		if ( startcol>=0 && textline.find(m_rightDblQuote,startcol) == (int)startcol ) 
+		{
+			doc->removeText(row,startcol,row,startcol+m_rightDblQuote.length());
+			doc->insertText(row,startcol,"\"");
+		} 
+		else 
+		{
+			doc->insertText(row,col,m_leftDblQuote);
+		}
+	}
+}
+
+//////////////////// insert tabulator ////////////////////
+	
+void EditorExtension::insertIntelligentTabulator()
+{
+	Kate::View *view = determineView(0L);
+	if ( !view ) return;
+	
+	uint row,col,currentRow,currentCol;
+	QString envname,tab;
+	QString prefix = " ";
+	
+	view->cursorPositionReal(&currentRow,&currentCol);
+	if ( findOpenedEnvironment(row,col,envname,view) ) 
+	{
+		// look if this is an environment with tabs
+		tab = m_latexCommands->getTabulator(envname); 
+		
+		// try to align tabulator with textline above
+		if ( currentRow >= 1 ) 
+		{
+			int tabpos = view->getDoc()->textLine(currentRow-1).find('&',currentCol);
+			if ( tabpos >= 0 ) 
+			{
+				currentCol = tabpos;
+				prefix = QString::null;
+			}
+		}
+	}
+	
+	if ( tab == QString::null ) 
+		tab = "&";
+	tab = prefix + tab + " ";
+	
+	view->getDoc()->insertText(currentRow,currentCol,tab);
+	view->setCursorPositionReal(currentRow,currentCol+tab.length());
+}
+
 //////////////////// autocomplete environment ////////////////////
 
 // should we complete the current environment (call from KileEventFilter)
@@ -1529,18 +1596,16 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 		{
 			envname = m_regexpEnter.cap(2);
 			endenv = "\\]\n";
-	kdDebug() << "11111 " << m_regexpEnter.cap(2)<< endl;
 		}
 		else
 		{
 			envname = m_regexpEnter.cap(4);
 			endenv = m_regexpEnter.cap(2).replace("\\begin","\\end")+"\n";
-	kdDebug() << "2222 " << m_regexpEnter.cap(2)<< endl;
 		}
 		
 		if ( shouldCompleteEnv(envname, view) ) 
 		{
-			QString item = isListEnvironment(envname) ? "\\item " : QString::null;
+			QString item =  m_latexCommands->isListEnv(envname) ? "\\item " : QString::null;
 			view->getDoc()->insertText(view->cursorLine()+1, 0, line+item +'\n'+line+endenv);
 			view->setCursorPositionReal(view->cursorLine()+1, line.length()+item.length());
 			return true;

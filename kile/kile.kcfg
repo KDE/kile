@@ -98,6 +98,14 @@
 			<label>Automatic completion \begin{env} with \end{env}.</label>
 			<default>true</default>
 		</entry>
+		<entry name="InsertDoubleQuotes" type="Bool">
+			<label>Automatic insertion of double quotes.</label>
+			<default>true</default>
+		</entry>
+		<entry name="DoubleQuotes" type="Int">
+			<label>Language dependent type of double quotes.</label>
+			<default>0</default>
+		</entry>
 	</group>
 	<group name="IncludeGraphics">
 		<entry name="igCenter" type="Bool">

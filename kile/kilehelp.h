@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 17 2005
-    version              : 0.20
+    date                 : Jul 22 2005
+    version              : 0.21
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -78,7 +78,7 @@ namespace KileHelp
 		void helpLatexSubject() { helpLatex(KileHelp::HelpLatexSubject); }
 		void helpLatexEnvironment() { helpLatex(KileHelp::HelpLatexEnvironment); }
 		void helpKeyword();
-		void helpLaTexDoc(); 
+		void helpDocBrowser(); 
 		
 	private:
 		KileTool::Manager *m_manager;

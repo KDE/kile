@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 17 2005
-    version              : 0.20
+    date                 : Jul 22 2005
+    version              : 0.21
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -96,7 +96,7 @@ namespace KileHelp
 
 ////////////////////// Help: TexDoc //////////////////////
 	
-	void Help::helpLaTexDoc()
+	void Help::helpDocBrowser()
 	{
 		KileDialog::TexDocDialog *dlg = new KileDialog::TexDocDialog();
 		dlg->exec();

@@ -492,6 +492,8 @@
 	<Separator/>
 	<Action name="help_context" />
 	<Menu name="help_tetex" ><text>TeTeX Documentation</text>
+		<Action name="help_docbrowser" />
+		<Separator/>
 		<Action name="help_tetex_guide" />
 		<Action name="help_tetex_doc" />
 		<Separator/>
@@ -501,7 +503,6 @@
 		<Action name="help_latex_subject" />
 		<Action name="help_latex_env" />
 	</Menu>
-	<Action name="help_latexdoc" />
 	<Separator/>
 	<Action name="report_bug"/>
 	<Separator/>

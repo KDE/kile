@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>590</width>
-            <height>300</height>
+            <width>633</width>
+            <height>554</height>
         </rect>
     </property>
     <property name="caption">
@@ -50,6 +50,113 @@
         </widget>
         <widget class="QButtonGroup">
             <property name="name">
+                <cstring>m_bgCommands</cstring>
+            </property>
+            <property name="title">
+                <string>Commands</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>m_pbCommands</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Configure</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="1">
+                    <property name="name">
+                        <cstring>m_tlCommands</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Configure LaTeX environments and commands</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>m_bgQuotes</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Double Quotes</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>m_tlType</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Type:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_DoubleQuotes</cstring>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>kcfg_InsertDoubleQuotes</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Auto insert</string>
+                    </property>
+                </widget>
+                <widget class="QComboBox" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_DoubleQuotes</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <spacer row="1" column="2">
+                    <property name="name">
+                        <cstring>spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>280</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </grid>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
                 <cstring>m_bgGraphics</cstring>
             </property>
             <property name="title">
@@ -66,6 +173,9 @@
                     <property name="text">
                         <string>Default resolution:</string>
                     </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_resolution</cstring>
+                    </property>
                 </widget>
                 <widget class="KLineEdit" row="0" column="1">
                     <property name="name">
@@ -78,6 +188,9 @@
                     </property>
                     <property name="text">
                         <string>Bounding box:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_boundingbox</cstring>
                     </property>
                 </widget>
                 <widget class="QLabel" row="4" column="0">
@@ -138,12 +251,18 @@
                 <string>Library Path</string>
             </property>
             <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>textLabel1</cstring>
+                        <cstring>m_tlPath</cstring>
                     </property>
                     <property name="text">
-                        <string>Paths</string>
+                        <string>Paths:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_TeXPaths</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string></string>
@@ -158,5 +277,37 @@
         </widget>
     </vbox>
 </widget>
+<connections>
+    <connection>
+        <sender>m_pbCommands</sender>
+        <signal>clicked()</signal>
+        <receiver>KileWidgetLatexConfig</receiver>
+        <slot>slotConfigure()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="global" impldecl="in declaration">kconfig.h</include>
+    <include location="local" impldecl="in declaration">latexcmd.h</include>
+    <include location="local" impldecl="in declaration">latexcmddialog.h</include>
+    <include location="local" impldecl="in implementation">latexconfigwidget.ui.h</include>
+</includes>
+<variables>
+    <variable access="private">KConfig *m_config;</variable>
+    <variable access="private">KileDocument::LatexCommands *m_commands;</variable>
+</variables>
+<slots>
+    <slot>setDoubleQuotes( int index )</slot>
+    <slot access="private" specifier="non virtual">slotConfigure()</slot>
+</slots>
+<functions>
+    <function access="private" specifier="non virtual">init()</function>
+    <function specifier="non virtual" returnType="int">getDoubleQuotes()</function>
+    <function specifier="non virtual">setLatexCommands( KConfig * config, KileDocument::LatexCommands * commands )</function>
+    <function returnType="bool">getInsertDoubleQuotes()</function>
+</functions>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
 </UI>

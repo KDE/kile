@@ -8,6 +8,8 @@
   <!ENTITY gnuplot "<application>GnuPlot</application>">
   <!ENTITY kde "<acronym>KDE</acronym>">
   <!ENTITY kdvi "<application>KDVI</application>">
+  <!ENTITY kghostview "<application>KGhostView</application>">
+  <!ENTITY kpdf "<application>KPDF</application>">
   <!ENTITY pybliographer "<application>pyBliographer</application>">
   <!ENTITY gbib "<application>gBib</application>">
   <!ENTITY makeidx "<application>makeidx</application>">
@@ -50,8 +52,8 @@
 <holder>Federico Zenith</holder>
 </copyright>
 
-<date>2005-01-18</date>
-<releaseinfo>1.7</releaseinfo>
+<date>2005-07-23</date>
+<releaseinfo>1.8</releaseinfo>
 
 <legalnotice>
 &FDLNotice;
@@ -59,7 +61,7 @@
 
 <abstract>
 <para>
-&kile; is a &latex; source editor, &tex; shell and &gnuplot; frontend.
+&kile; is a &tex; and &latex; source editor and shell.
 </para>
 </abstract>
 
@@ -473,7 +475,6 @@
 	</sect1>
 
 </chapter>
-
 <chapter id="quickstart">
 
 	<title>Quickstart</title>
@@ -646,94 +647,136 @@
 
 	</sect1>
 
-	<sect1 id="quick_inverseforward">
+	<sect1 id="quick_forward">
 
-		<title>Searches between &kile; and &kdvi;</title>
+		<title>Forward Search between &kile; and &kdvi;</title>
 
-		<sect2>
+		<para>The forward search functions allow you to jump from your
+		editor directly into the associated position of the &DVI;
+		file. </para>
+	 
+		<para>There are basically two ways to produce DVI files
+		which contain forward search information: you can either use a
+		&tex;/&latex; binary which generates and includes the necessary
+		information automatically, or you can include an extra package
+		which is written in &tex;/&latex;.</para>
+		
+		<itemizedlist>
+			<listitem><para>A &tex; binary which generates and includes the
+			necessary information automatically is certainly the
+			preferred method of including inverse search information. 
+			If you use version 2 or greater of the <ulink url="http://www.tug.org/teTeX/">&tetex;
+			distribution</ulink>, you can use the <userinput>src-specials</userinput> command
+			line option of the &tex; or &latex; command, as follows.
 
-			<title>Forward Search</title>
-
-			<para>The command Forward Search uses &kdvi; and an additional file (additional files are
+<programlisting>
+	latex --src-specials myfile.tex
+</programlisting>
+		</para>
+	  
+			<para>&kile; offers a configuration with this option for all &latex; binarys.
+			Goto <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>Build</guimenuitem></menuchoice> and always choose
+			the <userinput>Modern</userinput> configuration.</para></listitem>
+	  
+			<listitem><para>If you do not have a &latex; binary which includes inverse
+			search information natively, you need an additional file (additional files are
 			referred to as <emphasis>packages</emphasis> in &latex;) called <filename>srcltx.sty</filename>.
 			You will have to do a search of your files to check if your distribution has 
 			<filename>scrltx.sty</filename> included. If it is not included, you may 
 			<ulink url="http://valis.cs.uiuc.edu/~sariel/research/latex/srcltx.sty">download it</ulink>; copy it 
 			to a &tex; folder, for example <userinput>/usr/share/texmf/tex/latex/srcltx/</userinput>, and 
 			run <userinput><command>texhash</command></userinput> so that &latex; will know its whereabouts. 
-			Then you can set the following command in the preamble:</para>
+			Then you can set the following command into the preamble:</para>
 
-			<screen><userinput>
-		\documentclass[12pt, a4paper]{book}
-		\usepackage[active]{srcltx}
-		\pagestyle{empty}
-		\renewcommand{\baselinestretch}{2}
-		\begin{document}
-		\begin{verse}
-		The KDE \LaTeX\ source code editor &kile; is my favorite.
+<programlisting>
+	\documentclass[12pt, a4paper]{book}
+	\usepackage[active]{srcltx}
+	\pagestyle{empty}
+	\renewcommand{\baselinestretch}{2}
+	\begin{document}
+	\begin{verse}
+	The KDE \LaTeX\ source code editor &kile; is my favorite.
 		
-		\emph{Because} it is easy to use!
-		\end{verse}
-		\end{document}</userinput></screen>
+	\emph{Because} it is easy to use!
+	\end{verse}
+	\end{document}
+</programlisting>
 
 			<para>Once you have added the package <filename>srcltx</filename>, you can leave &kdvi; open.
 			To execute a forward search, position the cursor on a line of source code, and click 
 			<guilabel>Kdvi Forward Search</guilabel> to jump to the associated position 
-			in the DVI viewer window.</para>
+			in the DVI viewer window.</para></listitem>
+		</itemizedlist>
 
-		</sect2>
+	</sect1>	
+	
+	<sect1 id="quick_inverse">
 
-		<sect2>
+		<title>Inverse Search between &kile; and &kdvi;</title>
 
-			<title>Inverse Search</title>
+		<para>Inverse search is a very useful feature when you are writing
+		a &latex; document yourself. If everything is set up properly, you can
+		click into &kdvi;'s window with the
+		<mousebutton>middle</mousebutton> mouse button (on some systems,
+		when you don't have a three-button mouse, you can simultaneously
+		use the <mousebutton>left</mousebutton> and the
+		<mousebutton>right</mousebutton> button). After that, your
+		favorite editor will open, load the &latex; source file and jump to
+		the proper paragraph. To use inverse search, do the
+		following:</para>
+		
+		<itemizedlist>
+			<listitem><para>Use a &latex; binary with the <userinput>Modern</userinput> configuration.</para></listitem>
+			<listitem><para>Use the <userinput>srcltx</userinput> package.</para></listitem>
+		</itemizedlist>
+		
+		<para>Both ways are described in section <link linkend="quick_forward">Forward
+		search between &kile; and &kdvi;</link>.</para> 
+	
+		<para>Inverse search cannot work unless:</para>
 
-			<para>Inverse search cannot work unless:</para>
+		<itemizedlist>
+			<listitem><para>The source file has been compiled successfully.</para></listitem>
+			<listitem><para>&kdvi; knows which editor you would like to use.</para></listitem>
+		</itemizedlist>
 
-			<itemizedlist>
-				<listitem><para><filename>srcltx.sty</filename> is in use.</para></listitem>
-				<listitem><para>The source file has been compiled successfully.</para></listitem>
-				<listitem><para>&kdvi; knows which editor you would like to use.</para></listitem>
-			</itemizedlist>
+		<para>With this feature of &kdvi;, a middle mouse click in the DVI document will
+		have &kile; open the corresponding &latex; document and attempt to go to the
+		corresponding line. Remember to tell &kdvi; to use &kile; as a text editor, in &kdvi;'s
+		menu item <menuchoice><guimenu>Settings</guimenu><guimenuitem>DVI Options...</guimenuitem></menuchoice>.</para>
+			
+		<screenshot>
+			<screeninfo>Configuring &kdvi;</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_kdvi_settings.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Configuring &kdvi;</phrase>
+			</textobject>
+			<caption><para>Configuring &kdvi;</para></caption>
+			</mediaobject>
+		</screenshot>
+		
+	</sect1>
 
-			<para>With this feature of &kdvi;, a middle mouse click in the DVI document will
-			have &kile; open the corresponding &tex; document and attempt to go to the
-			corresponding line. Remember to tell &kdvi; to use &kile; as a text editor, in &kdvi;'s
-			menu item <menuchoice><guimenu>Settings</guimenu><guimenuitem>DVI Options...</guimenuitem></menuchoice>.</para>
+	<sect1 id="quick_errors">
 
-			<screenshot>
-				<screeninfo>Configuring &kdvi;</screeninfo>
-				<mediaobject>
-				<imageobject>
-				<imagedata fileref="snap_kdvi_settings.png" format="PNG" />
-				</imageobject>
-				<textobject>
-				<phrase>Configuring &kdvi;</phrase>
-				</textobject>
-				<caption><para>Configuring &kdvi;</para></caption>
-				</mediaobject>
-			</screenshot>
-		</sect2>
+		<title>Resolving Errors</title>
 
-		<sect2>
+		<para>If you are trying to use quickbuild, and the DVI viewer does not open, chances are
+		you have an error. If you have an error, it will be visible in the log file / message area,
+		and the summary of the error will be given.</para>
 
-			<title>Resolving Errors</title>
-
-			<para>If you are trying to use quickbuild, and the DVI viewer does not open, chances are
-			you have an error. If you have an error, it will be visible in the log file / message area,
-			and the summary of the error will be given.</para>
-
-			<para>The log file will explain the source of the error in your code. In the
-			editor, you can use the buttons in the toolbar labeled <guibutton>Previous LaTeX Error</guibutton>
-			and <guibutton>Next LaTeX Error</guibutton> to jump to and from errors. The log file always states
-			in which line the error occurred. To view the line where an error occurred, click on the error
-			in the log window, and &kile; will take you to its line.</para>
-
-		</sect2>
+		<para>The log file will explain the source of the error in your code. In the
+		editor, you can use the buttons in the toolbar labeled <guibutton>Previous LaTeX Error</guibutton>
+		and <guibutton>Next LaTeX Error</guibutton> to jump to and from errors. The log file always states
+		in which line the error occurred. To view the line where an error occurred, click on the error
+		in the log window, and &kile; will take you to its line.</para>
 
 	</sect1>
 
 </chapter>
-
 <chapter id="startnew">
 
 	<title>Starting a New Document</title>
@@ -859,7 +902,6 @@
 	</sect1>
 
 </chapter>
-
 <chapter id="editing">
 
 	<title>Editing &latex; Documents</title>
@@ -927,12 +969,358 @@
 
 	</sect1>
 
-	<sect1 id="editing_completion">
+	<sect1 id="editing_bullets">
 
-		<title>Automatic Completion</title>
+		<title>Bullets</title>
+
+		<para>Many wizards can insert optional bullets, a special kind of bookmarks within the text. The
+		menu entries <menuchoice><guimenu>Edit</guimenu><guisubmenu>Bullets</guisubmenu></menuchoice> or 
+		the corresponding keyboards shortcuts will allow you to jump to the next or last bullet. 
+		This will also highlighten this bullet so that it will be deleted automatically, 
+		when you enter your first letter.</para>
+		
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>Right</keycap></keycombo></shortcut>
+		<guimenuitem>Next Bullet</guimenuitem></menuchoice></term>
+		<listitem><para>Jump to the next bullet in the text if there is one.</para></listitem>
+		</varlistentry>
+	 
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>Left</keycap></keycombo></shortcut>
+		<guimenuitem>Last Bullet</guimenuitem></menuchoice></term>
+		<listitem><para>Jump to the previous bullet in the text if there is one.</para></listitem>
+		</varlistentry>
+		
+		</variablelist>
+		
+	</sect1>
+	
+	<sect1 id="editing_select">
+
+		<title>Select</title>
+	
+		<para>Editing is of course one of the main aspects when you use a program like &kile;. 
+		Although &kate; already has great capabilities, &kile; adds some important features, 
+		which are especially needed to write Latex source. &latex; always needs a lot of 
+		environments and groups, so &kile; supports very special commands to select them. 
+		Under <menuchoice><guimenu>Edit</guimenu><guisubmenu>Select</guisubmenu></menuchoice> 
+		you will find the following commands to select text.</para> 
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<variablelist>
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,E</keycap></shortcut>
+		<guimenuitem>Environment (inside)</guimenuitem></menuchoice></term>
+		<listitem><para>Select an environment 
+		without the surrounding tags.</para></listitem>
+		</varlistentry>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,F</keycap></shortcut>
+		<guimenuitem>Environment (outside)</guimenuitem></menuchoice></term>
+		<listitem><para>Select an environment 
+		including the surrounding tags.</para></listitem>
+		</varlistentry>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,T</keycap></shortcut>
+		<guimenuitem> (inside)</guimenuitem></menuchoice></term>
+		<listitem><para>Select a TeX group 
+		inside the surrouding braces..</para></listitem>
+		</varlistentry>
+				
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,U</keycap></shortcut>
+		<guimenuitem>TeX Group (inside)</guimenuitem></menuchoice></term>
+		<listitem><para>Select a TeX group 
+		including the surrouding braces.</para></listitem>
+		</varlistentry>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,P</keycap></shortcut>
+		<guimenuitem>Paragraph</guimenuitem></menuchoice></term>
+		<listitem><para>Select a whole paragraph, 
+		i.e. a group of text lines, which are separated on both sides by empty lines. 
+		So a paragraph doesn't mean only continuing lines of text, as you find it 
+		in normal text editors. This extended meaning also includes tables, &latex; 
+		commands and all other lines of source. The only important thing for &kile;
+		is that kind of paragraph is separated by two empty 
+		lines.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,L</keycap></shortcut>
+		<guimenuitem>Line</guimenuitem></menuchoice></term>
+		<listitem><para>Select the text line of the 
+		current cursor position.</para></listitem>
+		</varlistentry>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>S</keycap></keycombo>
+		<keycap>,W</keycap></shortcut>
+		<guimenuitem>TeX Word</guimenuitem></menuchoice></term>
+		<listitem><para>Select the word under 
+		the current cursor position. This selection has also en extended meaning, 
+		because this command can also select &latex; commands, which begin with a 
+		backslash and may also have an optional star at the 
+		end.</para></listitem>
+		</varlistentry>
+
+		</variablelist>
+		
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title>Delete</title>
+	
+		<para>To delete some parts of a document you can of course select it and then 
+		use the <keycombo><keycap>delete</keycap></keycombo> key. But &kile; offers a 
+		faster way with its own delete commands. They differ from the 
+		select commands only in one position, as the 
+		<emphasis>Delete Line</emphasis> command is not implemented. &kate;
+		 already offers such a command with <keycombo><keycap>&Ctrl;</keycap><keycap>K</keycap></keycombo> 
+		 so that there is no need to add another one. Under
+		 <menuchoice><guimenu>Edit</guimenu><guisubmenu>Delete</guisubmenu></menuchoice> 
+		you will find following commands to delete text.</para> 
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<variablelist>
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,E</keycap></shortcut>
+		<guimenuitem>Environment (inside)</guimenuitem></menuchoice></term>
+		<listitem><para>Delete an environment without the surrounding tags.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,F</keycap></shortcut>
+		<guimenuitem>Environment (outside)</guimenuitem></menuchoice></term>
+		<listitem><para>Delete an environment including the surrounding tags.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,T</keycap></shortcut>
+		<guimenuitem>TeX Group (inside)</guimenuitem></menuchoice></term>
+		<listitem><para>Delete a TeX group inside the surrouding braces.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,U</keycap></shortcut>
+		<guimenuitem>TeX Group (outside)</guimenuitem></menuchoice></term>
+		<listitem><para>Delete a TeX group including the surrouding braces.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,P</keycap></shortcut>
+		<guimenuitem>Paragraph</guimenuitem></menuchoice></term>
+		<listitem><para>Delete a whole paragraph. Look at the 
+		<emphasis>Select Paragraph</emphasis> command, how a paragraph is 
+		defined in &kile;.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,W</keycap></shortcut>
+		<guimenuitem>TeX Word</guimenuitem></menuchoice></term>
+		<listitem><para>Delete the word or a &latex;
+		 command under the current cursor position.</para></listitem>
+		</varlistentry>
+		
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title>Environment</title>
+	
+		<para>It was already mentioned that environments are a central point in &latex;. 
+		So &kile; offers four other commands  to make the work with &latex; as easy as possible under submenus <menuchoice><guimenu>Edit</guimenu><guisubmenu>Environment</guisubmenu></menuchoice> .</para>
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<variablelist>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>E</keycap></keycombo>
+		<keycap>,B</keycap></shortcut>
+		<guimenuitem>Goto Begin</guimenuitem></menuchoice></term>
+		<listitem><para>This command will jump to the beginning of the current environment, 
+		wherever your current position is. The cursor will be placed directly 
+		in front of the opening environment tag.</para></listitem>
+		</varlistentry>
+		
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>E</keycap></keycombo>
+		<keycap>,E</keycap></shortcut>
+		<guimenuitem>Goto End</guimenuitem></menuchoice></term>
+		<listitem><para>This command will jump to the end of the current environment, 
+		wherever your current position is. The cursor will be placed directly 
+		behind the closing environment tag.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>E</keycap></keycombo>
+		<keycap>,M</keycap></shortcut>
+		<guimenuitem>Match</guimenuitem></menuchoice></term>
+		<listitem><para>When your cursor is placed in front of or above the 
+		<userinput>\begin{environment}</userinput> tag, it will be set to the 
+		opposite end of the environment and vice versa.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>E</keycap></keycombo>
+		<keycap>,C</keycap></shortcut>
+		<guimenuitem>Close</guimenuitem></menuchoice></term>
+		<listitem><para>Typing a lot of nested environment tags, you may lose 
+		control of all those environments. This command will close the last 
+		opened environment, so that the nested structure of environments 
+		will not be broken.</para></listitem>
+		</varlistentry>
+
+		</variablelist>
+		
+	</sect1>
+	
+	<sect1 id="editing_texgroup">
+
+		<title>Tex Group</title>
+		
+		<para>&kile; also offers some special commands for &latex; groups;, 
+		which are determined by braces <userinput>{...}</userinput>. In submenu 
+		<menuchoice><guimenu>Edit</guimenu><guisubmenu>TeX Group</guisubmenu></menuchoice>
+		you will find some important commands, which correspond to those from
+		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Environment</guisubmenu></menuchoice>.
+		</para>
+		
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<variablelist>
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,B</keycap></shortcut>
+		<guimenuitem>Goto Begin</guimenuitem></menuchoice></term>
+		<listitem><para>This command will jump to the beginning of the current group, 
+		wherever your current position is. The cursor will be placed directly in front 
+		of the opening brace.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,E</keycap></shortcut>
+		<guimenuitem>Goto End</guimenuitem></menuchoice></term>
+		<listitem><para>This command will jump to the end of the current group, 
+		wherever your current position is. The cursor will be placed directly 
+		behind the closing brace.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,M</keycap></shortcut>
+		<guimenuitem>Match</guimenuitem></menuchoice></term>
+		<listitem><para>When your cursor is placed in front of or behind an 
+		opening brace of a &tex; group, he will be set to the opposite end of 
+		the group and vice versa.</para></listitem>
+		</varlistentry>
+
+		<varlistentry><term><menuchoice>
+		<shortcut><keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>T</keycap></keycombo>
+		<keycap>,B</keycap></shortcut>
+		<guimenuitem>Close</guimenuitem></menuchoice></term>
+		<listitem><para>Typing a lot of nested group braces may be hard work. 
+		This command will close the last opened group, so that the nested 
+		structure of tex groups will not be broken.</para></listitem>
+		</varlistentry>
+		
+		</variablelist>
+		
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title>Code Completion</title>
+	
+	<para>Although &kate; already offers a good completion mode, &kile; extended 
+	code completion to support some special methods especially for &latex;. Six different 
+	modes are integrated. Three of them work on demand, the other two are autocompletion 
+	modes. All modes can be configurated to work very differently at 
+	<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kile;</guimenuitem></menuchoice>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title>Automatic Environment Completion</title>
 
 		<para>When you begin a new environment, typing <userinput>\begin{environment}</userinput>,
-		&kile; will automatically add a <userinput>\end{environment}</userinput> command, with a 
+		&kile; will automatically add an <userinput>\end{environment}</userinput> command, with a 
 		line in between for your text.</para>
 
 		<para>Auto-completion can be turned off in the &latex; section of
@@ -953,8 +1341,287 @@
 		</screenshot>
 
 	</sect1>
+	
+	<sect1 id="complete_command">
+	
+		<title>&latex; Commands</title>
 
-	<sect1 id="editing_wizard">
+		<para>When you type some letters, you can activate this completion mode for &latex; commands 
+		and normal words with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>LaTeX Command</guimenuitem></menuchoice>  or keyboard shortcut 
+		<keycombo><keycap>&Ctrl;</keycap><keycap>Space</keycap></keycombo>.  
+		&kile; first reads the letters from the current cursor position to the 
+		left and stops at the first non-letter character or a backslash. If this 
+		pattern begins with a backslash, &kile; will enter completion mode for &tex; or &latex; 
+		commands. Otherwile it enters normal dictionary mode, where you won't find any 
+		&latex; commands. Dependent on the chosen mode, a completion box will be opened. 
+		You will see all commands or words, where the beginning matches the current pattern. 
+		You can navigate with the cursor keys through this list and select one entry with 
+		<keycap>Return</keycap> or <keycap>Enter</keycap> or 
+		a double click with the mouse.</para>
+
+		<screenshot>
+			<screeninfo>Completing a LaTeX Command</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Completing a LaTeX Command</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<para>When you type the <keycap>Backspace</keycap> key, the last letter of your 
+		pattern will be deleted and the wordlist for completion can automatically grow. 
+		On the other hand, if you type another letter will expand the pattern and the 
+		visible wordlist may shrink.</para>
+
+		<para>If you decide not to select any of the proposals, you can leave this 
+		dialog with <keycap>Escape</keycap>.</para>
+
+		<para>You will see that all commands are written with a short description of 
+		their parameters. These descriptions are of course stripped, when you select a command. 
+		Optionally you can let &kile; insert bullets at these places, so that you can easily 
+		jump to the these positons with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Bullets</guisubmenu><guimenuitem>Next Bullet</guimenuitem></menuchoice> 
+		and insert the parameter you want.</para>
+
+		<screenshot>
+			<screeninfo>Completing a LaTeX Command</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Completing a LaTeX Command</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<para>Goto <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kile;</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> 
+		to configure one or more of these lists. You can choose different word lists 
+		for &tex; and &latex; commands and dictionary mode for normal words.</para> 
+		
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title>Environments</title>
+		
+		<para>The <emphasis>command mode</emphasis> is not useful to complete environments. 
+		You always have to type some letters of <userinput>\begin</userinput> and invoking 
+		the completion mode will result in a huge list of environments tags. On the other 
+		hand environments are so often used that &kile; offers a special mode to complete 
+		environments. Forget the opening tag and simply write eq for example.</para> 
+
+		<para>When you now call completion mode with 
+		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>Environment</guimenuitem></menuchoice>  or keyboard shortcut <keycombo><keycap>&Alt;</keycap><keycap>Space</keycap></keycombo>,
+		the opening tag is automatically added and you will see <userinput>\begin{eq}</userinput>. 
+		After this change the completion list is very clear now.</para>
+
+		<screenshot>
+			<screeninfo>Completing a LaTeX Command</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Completing a LaTeX Command</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>Now select an environment and you will see that it is also automatically close. 
+		Even more, if &kile; recognizes a list environment, it will also insert a first 
+		<userinput>\item</userinput> tag.</para>
+		
+		<screenshot>
+			<screeninfo>Completing a LaTeX Command</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Completing a LaTeX Command</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<para>Goto <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kile;</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> 
+		to configure one or more of these lists. This mode uses the same word lists as the 
+		completion mode for &tex; and &latex; commands.</para> 
+
+	</sect1>
+	
+	<sect1 id="complete_abbreviation">
+
+		<title>Abbreviations</title>
+
+		<para>Some users wanted another completion mode to shorten their work. Okay, &kile; 
+		is so friendly to support user defined lists of abbreviations, which are replaced 
+		on demand by longer text strings. Look at <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> 
+		to configure one or more of theses lists. For the example given here, the 
+		abbreviation list in <filename>example.cwl</filename> must be chosen. 
+		In this file you will find for example the entry <userinput>L=\LaTeX</userinput> for example.</para>
+
+		<para>Let's start now and type for example only the letter <userinput>L</userinput>. Now invoke 
+		the abbreviation mode of word completion with 
+		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>Abbreviation</guimenuitem></menuchoice>  or keyboard shortcut <keycombo><keycap>&Ctrl;+&Alt;</keycap><keycap>Space</keycap></keycombo>,
+		and the letter <userinput>L</userinput> is replaced by the replacement string 
+		<userinput>\LaTeX</userinput>. I hope that this will speed up writing your code.</para>
+
+	</sect1>
+	
+	<sect1 id="complete_auto">
+
+		<title>Autocompletion Modes</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title>&latex; Commands</title>
+
+			<para>You can also enable an autocomplete mode for &latex; commands. 
+			When a given threshold of letters (default: 3) is entered, a popup window opens 
+			with a list of all matching &latex; commands. You can select one of these commands 
+			or ignore this window and type further letters. The entries of the completion box 
+			will always change and match your currently typed word. This mode is restricted 
+			to &latex; commands, because great dictionaries need a lot of memory and time.</para>
+
+			<para>Goto <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kile;</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> to 
+			enable or disable this mode or to change the threshold.</para>
+			
+		<screenshot>
+			<screeninfo>Completing an Equation Environment</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Completing an Equation Environment</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		</sect2>
+		
+		<sect2 id="complete_autotext">
+
+			<title>Document Words</title>
+
+			<para>Great dictionaries are not useful in autocompletion mode. But we have seen 
+			that a lot of words in a document are typed more than once. So &kile; offers a 
+			completion for all words from the document, which the user has already typed before.</para>  
+
+			<para>If you want to turn this mode on or off, goto
+			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kile;</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice>. In 
+			this configuration dialog you can also change the threshold, when the completion 
+			box pops up.</para>
+	
+		</sect2>	
+
+	</sect1>
+	
+</chapter>
+
+<chapter id="wizard">
+
+	<title>Wizards and Dialogs</title>
+
+	<sect1 id="wizard_graphics">
+
+		<title>Include Graphics</title>
+
+		<para>The <emphasis>Include Graphics</emphasis> dialog makes insertion of
+		graphics as easy as possible. Please take a look at sections
+		<link linkend="build_graphics_latex">Graphics File Formats</link> 
+		and <link linkend="build_graphics_epskile">EPS Graphics</link> to
+		get an overview of some basic facts concerning graphic formats.</para>
+
+		<screenshot>
+			<screeninfo>Include a graphics</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Include a graphics</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step><para>Choose a graphics file. This can be a JPEG, PNG, EPS 
+		or even a zipped or gzipped EPS file, if you succeeded to set up 
+		a proper &tetex; system. If you have installed 
+		<ulink url="http://www.imagemagick.org/"><application>ImageMagick</application></ulink>
+		and also configured &kile; to use it 
+		(<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile</guimenuitem><guilabel>LaTeX</guilabel></menuchoice>), 
+		the width and the high of the graphics are automatically shown. 
+		If <application>ImageMagick</application>
+		could determine a resolution, the size of the graphics is also 
+		shown in unit cm.</para></step>
+
+		<step><para>Decide, if your image shall be centered on the page.</para></step>
+
+		<step><para>Choose either traditional &latex; or PDF&latex;. 
+		Please remember that PDF&latex; can also create DVI output, 
+		not only PDF.</para></step>
+
+		<step><para>You can choose, if the filename should be taken 
+		relative. This is the preferred way, when you use a 
+		<userinput>\graphicspath</userinput> command</para>
+
+		<para>By default graphics files have to be in the same 
+		directory as your master document to find them. However 
+		it is possible to put them in other directories to make 
+		things clearer. Without a <userinput>\graphicspath</userinput> 
+		command &kile; would include the filepath for the graphics file. 
+		But if you use <userinput>\graphicspath</userinput>
+		like</para>
+
+<programlisting>
+	\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}} 
+</programlisting>
+
+		<para>and check this option, &kile; with only use the 
+		basename of the graphics file.</para>
+
+		<para>Another example: if you set <userinput>\graphicspath</userinput> 
+		command like</para>
+
+<programlisting>
+	\graphicspath{{./}{camera/}{images/}}
+</programlisting>
+
+		<para>&latex; will search in the current diectory, then in 
+		<filename>camera</filename> and finally in 
+		<filename>images</filename> to find your graphics file.</para></step>
+
+		<step><para>If you choose either a width or a height, the whole graphics 
+		will be proportionally scaled. Please do not set two values for width 
+		and height at the same time. This scales the graphics with different 
+		factors for width and height and this is surely not what you really 
+		want. Look also at the info near the top of dialog to
+		see the original size of the graphics.</para></step>
+
+		<step><para>Insert an angle, which will rotate the graphics 
+		counterclockwise.</para></step>
+
+		<step><para>The Bounding Box information is set automatically, 
+		when you choose a graphics file. This information is only needed, 
+		when you work with traditional &latex; and bitmapped graphics. 
+		See the discussion of <link linkend="build_epsgraphics">EPS graphics</link>. 
+		</para></step> 
+
+		<step><para>Your last choice is to embed this graphics into a 
+		figure environment. If you decide to do so, you can also edit a 
+		caption and a label. It is a good ides to give different kind of 
+		labels a different prefix. &kile; suggests prefix 
+		<userinput>fig:</userinput> for images.</para></step> 
+		</procedure>
+		
+	</sect1>
+	
+	<sect1 id="wizard_array">
 
 		<title>Array Wizardry</title>
 
@@ -964,24 +1631,283 @@
 		but there is a simpler way: using &kile;'s <guimenu>Wizard</guimenu> menu. Other than the 
 		<guimenuitem>Quick Start</guimenuitem> option, it contains <guimenuitem>Tabular</guimenuitem>
 		and <guimenuitem>Array</guimenuitem> (used in math environments). You will then have a 
-		matrix-formed input form that you can easily fill in with your entries. The 
-		<guimenuitem>Tabbing</guimenuitem> option will display a simpler menu to set up a 
-		tabbing environment. In all these environments, you can easily set the
-		number of rows and columns, along with other specific options.</para>
+		matrix-formed input form that you can easily fill in with your entries. This dialog also 
+		offers some options to typeset the tabular material.</para>
 
 		<screenshot>
 			<screeninfo>Inserting a tabular environment</screeninfo>
 			<mediaobject>
 			<imageobject>
-			<imagedata fileref="snap_wizardry.png" format="PNG" />
+			<imagedata fileref="dialog-tabular.png" format="PNG" />
 			</imageobject>
 			<textobject>
 			<phrase>Inserting a tabular environment</phrase>
 			</textobject>
-			<caption><para>Inserting a tabular environment</para></caption>
 			</mediaobject>
 		</screenshot>
 
+		<para>The <guimenuitem>Tabbing</guimenuitem> option will display a simpler menu 
+		to set up a tabbing environment. In all these environments, you can easily set the
+		number of rows and columns, along with other specific options.</para>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title>Postscript Utilities</title>
+
+		<para>PS files are not so popular as PDF files, but are an excellent base 
+		for manipulations and rearrangements of pages. If you need PDF
+		output, you can rearrange pages with some postscript utilities and then 
+		convert it to PDF with <command>ps2pdf</command>.</para>
+		
+		<para>The <emphasis>Postscript Wizard</emphasis> will suggest the most 
+		popular rearrangements, but you are free to do your own choice. Work is done 
+		by programs <command>pstops</command> and <command>psselect</command>, which
+		you will find in most distributions in package <userinput>psutils</userinput>.
+		In one of these programs is not available, the corresponding items will not 
+		be visible.</para>
+		
+		<screenshot>
+			<screeninfo>Inserting a tabular environment</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Inserting a tabular environment</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>First choose your input file. If &kile; finds a PS file, which corresponds
+		to your current master document, it is already filled in as input file. But you are 
+		also free to choose another file. Then choose an outfile file and select one of the tasks. 
+		Finally you have to decide, if you only want to do the conversion or also invoke
+		&kghostview; to view the result.</para>
+		
+		<variablelist>
+		
+		<varlistentry>
+		<term>1 DIN A5 page + empty page --> DIN A4</term>
+		<listitem><para>Combine one DIN A5 page together with one empty page 
+		on one DIN A4 page. Whenever two DIN A5 pages are combined together, 
+		they are rotated 90 degrees and will be arranged 
+		on a DIN A4 page in landscape mode.</para>
+		<screenshot>
+			<screeninfo>DIN A5 + empty page</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>DIN A5 + empty page</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+	
+		<varlistentry>
+		<term>1 DIN A5 page + duplicate --> DIN A4</term>
+		<listitem><para>Put one DIN A5 page and a duplicate together
+		on one DIN A4 page.</para>
+		<screenshot>
+			<screeninfo>duplicate DIN A5 pages</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>duplicate DIN A5 pages</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		<term>2 DIN A5 pages --> DIN A4</term>
+		<listitem><para>Always put two consecutive DIN A5 pages together
+		on one DIN A4 page.</para>
+		<screenshot>
+			<screeninfo>combine DIN A5 pages</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>combine DIN A5 pages</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		<term>2 DIN A5L pages --> DIN A4</term>
+		<listitem><para>Put two consecutive DIN A5 pages in landscape mode together
+		on one DIN A4 page.</para></listitem>
+		</varlistentry>
+		
+		<varlistentry><term>4 DIN A5 pages --> DIN A4</term>
+		<listitem><para>Combine four consecutive DIN A5 pages together on one 
+		DIN A4 page. The DIN A5 pages have to be scaled with factor 0.7 to fit 
+		on the page.</para>
+		<screenshot>
+			<screeninfo>4 DIN A5 pages --> DIN A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>4 DIN A5 pages --> DIN A</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>  
+		
+		<varlistentry>
+		<term>1 DIN A4 page + empty page --> DIN A4</term>
+		<listitem><para>Combine one DIN A4 page together with one empty page 
+		on one DIN A4 page. Whenever two DIN A4 pages are combined together on one 
+		resulting DIN A4 page, they have to be scaled with factor 0.7 and will 
+		be arranged on a DIN A4 page in portrait mode.</para>
+		<screenshot>
+			<screeninfo>1 DIN A4 page + empty page --> DIN A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>1 DIN A4 page + empty page --> DIN A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		<term>1 DIN A4 page + duplicate --> DIN A4</term>
+		<listitem><para>Put one DIN A4 page and a duplicate together
+		on one DIN A4 page.</para>
+		<screenshot>
+			<screeninfo>1 DIN A4 page + duplicate --> DIN A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>1 DIN A4 page + duplicate --> DIN A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		<term>2 DIN A4 pages --> DIN A4</term>
+		<listitem><para>Always put two consecutive DIN A4 pages together
+		on one DIN A4 page.</para>
+		<screenshot>
+			<screeninfo>combine DIN A4 pages</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>combine DIN A4 pages</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>2 DIN A4L pages --> DIN A4</term>
+		<listitem><para>Put two consecutive DIN A4 pages in landscape mode together
+		on one DIN A4 page.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>select even pages</term>
+		<listitem><para>Select all even pages of a document.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>select odd pages</term>
+		<listitem><para>Select all odd pages of a document.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>select even pages (reverse order)</term>
+		<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>select odd pages (reverse order)</term>
+		<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>reverse all pages</term>
+		<listitem><para>Reverse all pages of a document.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>copy all pages (sorted)</term>
+		<listitem><para>Copy all pages of a document. You have to
+		choose the number of copies, which are arranged in a sorted order.</para>
+		<screenshot>
+			<screeninfo>copy pages (sorted)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>copy pages (sorted)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>copy all pages (unsorted)</term>
+		<listitem><para>Copy all pages of a document. You have to
+		choose the number of copies, which are arranged in a unsorted order.</para>
+		<screenshot>
+			<screeninfo>copy pages (unsorted)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>copy pages (unsorted)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>pstops: choose parameter</term>
+		<listitem><para>There are unbelievable much possibilities to use postscript
+		utilities <command>pstops</command> and <command>psselect</command>. If you 
+		need a very special option you can invoke <command>pstops</command> with 
+		an option of your choice. Please read the manual for all possible
+		options.</para></listitem>
+		</varlistentry>
+			
+		<varlistentry>
+		<term>psselect: choose parameter</term>
+		<listitem><para>You can invoke <command>psselect</command> with 
+		an option of your choice. Please read the manual for all possible
+		options.</para></listitem>
+		</varlistentry>
+		
+		</variablelist>
+		
 	</sect1>
 
 </chapter>
@@ -1278,38 +2204,206 @@
 			<guimenuitem>Configure Kile...</guimenuitem><guilabel>Tools</guilabel></menuchoice>.</para>
 
 		</sect2>
-	
+				
 	</sect1>
 
+	<sect1 id="build_preview">
+
+		<title>Quick Preview</title>
+
+
+		<para>You will always need some time to view the result, when working with &latex;. 
+		&latex; has to compile the source and the viewer has to be called. This can be 
+		annoying, when you only changed some letters in an equation, which is difficult 
+		to typeset. &kile; now offers a <emphasis>Quick Preview</emphasis> mode, where you can compile only a 
+		part of a document and save a lot of time. It supports three different modes, 
+		which can be combined with seven configurations.</para> 
+		
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>All settings must be done at 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>Quick Preview</guimenuitem></menuchoice>.</para>
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+		
+			<title>Selection Mode</title>
+
+			<para>The user has to select a part of the document. Menu entry  <menuchoice><guimenu>Build</guimenu><guisubmenu>QuickPreview</guisubmenu><guimenuitem>Selection</guimenuitem></menuchoice>
+			or keyboard shortcut <keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>P</keycap></keycombo><keycap>,S</keycap>
+			will start the selected programs. &kile; takes the preamble of the original text, so that 
+			all packages and user defined commands are included. The user can choose one 
+			of seven predefined configurations:</para>
+
+			<itemizedlist>
+			<listitem><para><application>Latex+DVI (embedded viewer)</application></para></listitem>
+			<listitem><para><application>Latex+DVI (KDVI)</application></para></listitem>
+			<listitem><para><application>Latex+PS (embedded viewer)</application></para></listitem>
+			<listitem><para><application>Latex+PS (KGhostView)</application></para></listitem>
+			<listitem><para><application>PDFLatex+PDF (embedded viewer)</application></para></listitem>
+			<listitem><para><application>PDFLatex+PDF (KGhostView)</application></para></listitem>
+			<listitem><para><application>PDFLatex+PDF (KPDF)</application></para></listitem>
+			</itemizedlist>
+
+			<para>This should be sufficient for all situations needed in a quick preview.</para>
+
+		</sect2>
+		
+		<sect2 id="build_qp_environment">
+		
+			<title>Environment Mode</title>
+			
+			<para>Very often you want to preview the current environment. Especially math environments, 
+			which sometimes may be difficult to write. &kile; offers a very fast way to do this. 
+			No selection is needed, only choose <menuchoice><guimenu>Build</guimenu><guisubmenu>QuickPreview</guisubmenu><guimenuitem>Environment</guimenuitem></menuchoice>
+			or keyboard shortcut <keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>P</keycap></keycombo><keycap>,E</keycap>
+			 and the current environment will be compiled and shown.</para>
+
+		</sect2>
+		
+		<sect2 id="build_qp_subdocument">
+		
+			<title>Subdocument Mode</title>
+			
+			<para>Also, very often you have projects with a lot of documents. 
+			Compiling the whole project is not a great idea, if you make changes only 
+			in one single document. &kile; is able to compile and show a preview of the 
+			current subdocument. It takes the preamble from a defined master document 
+			and compiles only this single document, when you choose 
+			<menuchoice><guimenu>Build</guimenu><guisubmenu>QuickPreview</guisubmenu><guimenuitem>Subdocument</guimenuitem></menuchoice>
+			or keyboard shortcut <keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>P</keycap></keycombo><keycap>,D</keycap>.</para> 
+			
+		</sect2>
+	
+	</sect1>	
+		
 	<sect1 id="build_graphics">
 
 		<title>Graphic File Formats</title>
 
+		<sect2 id="build_graphics_latex">
+		
+		<title>&latex; and PDF&latex;</title>
+		
 		<para>PDF&latex;, when used with <userinput>graphics</userinput> or
 		<userinput>graphicx</userinput> packages, can compile correctly PNG and JPG files into
-		the PDF, but is not able to handle EPS files.
-		Conversely, the process of compiling to DVI and converting to PS and eventually PDF 
-		does support EPS, but does not support PNG and JPG. To overcome this frustrating loop, 
-		in case you want to include both EPS and PNG or JPG files, you have a number of workarounds:</para>
+		DVI or PDF, but is not able to handle EPS files.
+		Conversely, the process of compiling with traditional &latex; to DVI and 
+		converting to PS and eventually PDF 
+		does support EPS, but does not support PNG and JPG.</para> 
+		
+		<para>But the situation can be even more complicated. A lot of users want to create PDF documents, 
+		but for example make use of the excellent <application>Pstricks</application> package 
+		to create postscript graphics. 
+		Or they want to use the postscript output of mathematical/scientific software like 
+		<application>Mathematica</application>, <application>Maple</application> or <application>MuPAD</application>. 
+		All these &latex; users have to select the postscript way, even if they want to create PDF documents, because these programs produce postscript code which can't be managed by PDF&latex;. But it is not so hard, as it sounds now, because
+		&kile; will help.</para>
+		
+		</sect2>
+		
+		<sect2 id="build_graphics_conversion">
+		
+		<title>Graphics Conversion</title>
+
+		<para>To overcome this frustrating loop, in case you want to include both postscript code and PNG or JPG files, 
+		you have a number of workarounds:</para>
 
 		<itemizedlist>
-			<listitem><para>You can convert EPS files to PNG or other formats with utilities as the
-			<ulink url="http://www.gimp.org/"><application>Gimp</application></ulink>, and use PDF&latex;.</para></listitem>
-			<listitem><para>You can convert the other way around, and use &latex; and PS-PDF conversion;
-			this is not always a good idea, since EPS encapsulation of JPG or PNG can yield larger 
-			files, that in turn yield unnecessarily large documents; this is however <emphasis>highly</emphasis> 
-			dependent on the graphic utility that you use, since EPS can encapsulate other graphics, 
-			but not all applications support this perfectly; some might actually try to build your JPG image 
-			with vectors and various scripting, which will result in gigantic files. 
-			A simple program that does this process correctly is 
-			<ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"><application>jpg2ps</application></ulink>.</para></listitem>
 			<listitem><para>If you need a file in PS format, but have JPG or PNG graphics, you can also
-			simply use PDF&latex; first, and then use the command-line instruction 
-			<application>pdftops</application>, or, better yet, implement your own user tag to do that for you
-			(see <xref linkend="latex_usertags"/>).</para></listitem>
+			simply use PDF&latex; with DVI output first, and then run <application>dvips</application> 
+			to create the PS file. You see that PDF&latex; is a very good choice, if your source contains
+			no postscript code at all.</para></listitem>
+			
+			<listitem><para>You can convert EPS files to PNG or other formats with utilities as the
+			<ulink url="http://www.gimp.org/"><application>Gimp</application></ulink> or
+			<ulink url="http://www.imagemagick.org/"><application>ImageMagick</application></ulink> 
+			and use PDF&latex;.</para></listitem>
+			
+			<listitem><para><anchor id="build_graphics_epstopdf"></anchor>A preferred way 
+			is to convert EPS graphics to PDF graphics with 
+			<command>epstopdf</command>, which comes with each <ulink url="http://www.tug.org/teTeX/">&tetex;
+			distribution</ulink> and then use PDF&latex;. It produces high quality graphics and 
+			you can even control the result with some of the following options: 
+			 
+<programlisting>
+	-dAutoFilterColorImages=false
+	-dAutoFilterGrayImages=false
+	-sColorImageFilter=FlateEncode
+	-sGrayImageFilter=FlateEncode
+	-dPDFSETTINGS=/prepress
+	-dUseFlateCompression=true
+</programlisting>
+			</para>
+			
+			<para>Even better: if your system allows <userinput>shell-escape</userinput>, conversion 
+			can be done on the fly. All you have to do is to include the <application>epstopdf</application> package, 
+			which is part of all &tetex; distributions, with command <userinput>\usepackage{epstopdf}</userinput>. 
+			Assuming that your code is
+			
+<programlisting>
+	\includegraphics[width=5cm]{test.eps}
+</programlisting>
+			
+			When you now call PDF&latex; with option <command>pdflatex --shell-input</command>, graphics 
+			<filename>test.eps</filename> is automatically converted into <filename>test.pdf</filename>.</para>
+			
+			<para>This conversion will take place each time you run PDF&latex;. If your graphics command 
+			is given implicitly 
+			
+<programlisting>
+	\includegraphics[width=5cm]{test}
+</programlisting>
+			
+			<application>epstopdf</application> looks, if <filename>test.pdf</filename> is already 
+			available, so that conversion step can be skipped.
+			</para></listitem>
+
+			<listitem><para>You can convert the other way around, and use &latex; and PS-PDF conversion.
+			This is not always a good idea, since EPS encapsulation of JPG or PNG can yield larger 
+			files, that in turn yield unnecessarily large documents. This is however <emphasis>highly</emphasis> 
+			dependent on the graphic utility that you use, since EPS can encapsulate other graphics, 
+			but not all applications support this perfectly. Some might actually try to build your JPG image 
+			with vectors and various scripting, which will result in gigantic files. Conversion of
+			all graphics formats to EPS can be done by
+			<ulink url="http://www.imagemagick.org/"><application>ImageMagick</application></ulink>. 
+			Another simple program that does this process correctly is 
+			<ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"><application>jpg2ps</application></ulink>.
+			</para></listitem>
+			
+			<listitem><para>You can also use an automatic way of conversion. All graphic files are 
+			converted on the fly to EPS and inserted into the PS document. This is a comfortably way, 
+			but you have to set up your system properly. This is discussed in section
+			<link linkend="build_epsgraphics">EPS Graphics</link>.</para></listitem>
+			
 		</itemizedlist>
 
-		<para>Use the right file for the right graphic!</para>
+		</sect2>
+		
+		<sect2 id="build_graphics_type">
+		
+		<title>Use the right File for the right Graphic</title>
 
 	 	<itemizedlist>
 			<listitem><para>EPS is sort of a graphic vector scripting language, describing
@@ -1328,8 +2422,203 @@
 
 		<para>But always remember: garbage in, garbage out! No conversion will make a bad picture good.</para>
 
+		</sect2>
+		
 	</sect1>
 
+	<sect1 id="build_epsgraphics">
+		
+		<title>EPS Graphics</title>
+		
+		<para>EPS graphics files are the traditional way to insert graphics files into
+		&latex; documents. As mailing lists are full with questions concerning
+		EPS graphics, we will discuss some important aspects and
+		demonstrate how &kile; will support this work.</para>
+		
+		<sect2 id="build_graphics_eps">
+		
+		<title>&latex; and EPS Graphics</title>
+
+		<para>If you decided to use the traditional &latex; to produce
+		PS or PDF output, you will probably run into some problems
+		with graphics. You have to use EPS graphics (Encapsulated Postscript), 
+		no JPEG or PNG files. This should be no problem, as there are a lot of 
+		<link linkend="build_graphics_conversion">converters</link> like 
+		<command>convert</command> from the excellent 
+		<ulink url="http://www.imagemagick.org/"><application>ImageMagick</application></ulink> 
+		package. But it needs some time of course.</para> 
+		
+		<para>The EPS files are used by both &latex; and DVI-PS converters:</para>
+		
+		<itemizedlist>
+		<listitem><para>&latex; scans the EPS file for the bounding box 
+		line, which tells &latex; how much space to reserve for the 
+		graphics.</para></listitem>
+		
+		<listitem><para>The DVI-PS converter then reads the EPS file and 
+		inserts the graphics in the PS file.</para></listitem>
+		</itemizedlist>
+
+		<para>This has the some ramifications:</para>
+ 
+		<itemizedlist>
+		<listitem><para>&latex; never reads the EPS file if the Bounding Box 
+		parameters are specified in the graphics-insertion command.</para></listitem>
+
+		<listitem><para>Since &latex; cannot read non-ascii files, 
+		it cannot read the Bounding Box information from compressed or non-EPS 
+		graphics files.</para></listitem>
+		
+		<listitem><para>The EPS graphics are not included in the DVI file. Since the
+		EPS files must be present when the DVI file is converted to
+		PS, the EPS files must accompany DVI files whenever they are 
+		moved.</para></listitem>
+		</itemizedlist>
+		
+		<para>Now you can call &latex;, and a DVI-PS converter like <application>dvips</application>
+		kile <application>dvips</application> to create your postscript document. 
+		If your goal is a PDF document, you should run <application>dvips</application> with 
+		option <userinput>-Ppdf</userinput> and then call <command>ps2pdf</command>. 
+		You will find a lot of documents, which describe this solution.</para>
+	
+		</sect2>
+	
+		<sect2 id="build_graphics_epskile">
+		
+		<title>The Postscript Way of &kile;</title>
+		
+		<para>&kile; helps you to get the Bounding Box information. If you have installed 
+		<ulink url="http://www.imagemagick.org/"><application>ImageMagick</application></ulink> 
+		package, &kile; will extract this information from the EPS file and insert it as an
+		option. This is done automatically, when you select the graphics file. 
+		There are two advantages to proceed like this:</para>
+
+		<itemizedlist>
+		<listitem><para>The information is already scanned during the dialog and 
+		need not to be done by &latex; later on.</para></listitem>
+		<listitem><para>Even more important is that also the
+		width and height of the picture can be calculated, when the 
+		resolution of the picture is known.
+		This information will be shown near the top of the dialog and 
+		may serve as a clue, when you want to scale the graphics.</para></listitem>
+		<listitem><para>&kile; can also support zipped or gzipped EPS files,
+		which are much smaller than uncompressed EPS files. But this feature can only be used 
+		with a special system setup and a change of your local graphics configuration, 
+		like it is described in the <link linkend="build_graphics_bitmap">Bitmap Graphics</link> 
+		section.</para></listitem> 
+		</itemizedlist>
+		
+		<para> The <emphasis>Postscript Way of Kile</emphasis> can be turned off or on in
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kile;</guisubmenu><guimenuitem>LaTeX</guimenuitem></menuchoice>.</para>
+		
+	</sect2>
+		
+	<sect2 id="build_graphics_bitmap">
+		
+		<title>The Postscript Way and Bitmap Graphics</title>
+		
+		<para>If your systems allows <userinput>shell-escape</userinput>, &kile; 
+		also supports an easy way to include bitmap graphics, if you set up your &tetex; 
+		system properly.  There is no need to convert JPEG or PNG graphics, 
+		this can be done automatically when the DVI file is converted to PS.</para>
+		
+		<para>&latex; needs some information about the file-suffixes. The package 
+		<userinput>graphicx</userinput> looks for a file <filename>graphics.cfg</filename>, 
+		which must be somewhere in your search path for &latex; documents. Search for 
+		entries like</para>
+
+<programlisting>
+   \DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para>and replace these lines with</para>
+		
+<programlisting>
+   \DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % changed or new graphic rules
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   zipped EPS 
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   gzipped EPS
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      PDF-graphics
+</programlisting>
+
+		<para>You will find this file for example in <emphasis>Debian</emphasis>
+		with filepath <filename>/etc/texmf/latex/graphics.cfg</filename>. Other
+		distributions may have another place, but each &tetex; system has such
+		a configuration file for graphics. The best way to proceed is to copy this
+		file to your local texpath and then change this file. See &tetex; manual
+		how to get a list of your &tex; directories.</para>
+		
+		<para>With this config file you are able to insert bitmap graphics and 
+		zipped or gzipped EPS files in &latex;. The command for conversion 
+		is given by <command>dvips</command>. When you look 
+		at the conversion command you will see that no extra file is created. 
+		The result of the conversion process is directly piped into the PS file. 
+		The only thing &latex; must know is the size of the graphics and
+		therefore we need the Bounding Box, which is provided by &kile;.</para>
+		
+		<para>Some people say that this way is insecure. May be, you have to 
+		decide on which system you work. If the conversion is an option for 
+		you, you should use it. If not, you have to convert all graphic files 
+		to EPS. In either case you need no bounding box, &kile; will extract 
+		this information from all type of graphics.</para>
+
+		</sect2>
+		
+		<sect2 id="build_graphics_pdflatex">
+		
+		<title>PDF&latex; and EPS Graphics</title>
+
+		<para>As already stated PDF&latex; is not able to handle EPS graphic files. But converters
+		like <link linkend="build_graphics_epstopdf">epstopdf</link> will help.
+		The best way is to include package <filename>epstopdf</filename>, which must 
+		be done after loading <userinput>graphicx</userinput> package.</para>
+		
+<programlisting>
+   \usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>		 
+	
+		<para>Now you can already include EPS graphics, if you run <application>pdflatex</application>
+		with option <command>--shell-escape</command>. But we can make it even better
+		and also handle zipped or gzipped EPS files. Again we have to change 
+		the graphics configuration file <filename>graphics.cfg</filename> like above.
+		This time we search for</para>
+		
+<programlisting>
+   % pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para>and simply add some lines.</para>
+		
+<programlisting>
+   % pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f >\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f >\Gin@base.pdf}}%
+   }%
+</programlisting>
+		
+		<para>With these lines <application>pdflatex</application> is able to handle EPS files
+		and there will be probably no more questions concerning graphics anymore...</para>
+	
+	</sect2>
+		
+	</sect1>
+ 
 	<sect1 id="build_master">
 
 		<title>Master Document</title>
@@ -1882,6 +3171,193 @@
 
 </chapter>
 
+<chapter id="help">
+	
+	<title>Help</title>
+	
+	<sect1 id="help_documents">
+		
+		<title>Help Documents</title>
+
+		<para>&latex; is a rather complicated system, where the basic features
+		can be expanded by a great variety of additional packages.
+		&kile;'s provides a lot of different helps to support the user.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term><guimenu>LaTeX Reference</guimenu></term> 
+		<listitem><para>An alphabetical index of the most 
+		common &latex; commands</para></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		<term><guimenu>TeTeX Documentation</guimenu></term>
+		<listitem><para>&tetex; comes with a huge amount of documents. 
+		This includes a documentation of the &tetex; distribution, 
+		documents for all included packages and an additional &latex; 
+		reference. &kile; help menu divides this documentation for a 
+		better survive.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term><guimenu>TeTeX Guide</guimenu></term> 
+		<listitem><para>This page is an attempt at a guided tour around 
+		the huge amount of &tex; and &latex; documentation which comes 
+		as part of &tetex;, the unix &tex; and &latex; system assembled 
+		by Thomas Esser.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term><guimenu>TeTeX Doc</guimenu></term> 
+		<listitem><para>Documentation for most of the packages, 
+		which comes with &tetex;</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term><guimenu>LaTeX</guimenu></term>
+		<listitem><para>A full reference for &tex; and friends. This is not 
+		only a description of all programs, some important packages are also 
+		mentioned. And it includes a full reference manual of &latex; 
+		commands - ideal for looking up a particular piece of formatting 
+		while writing a document. As this document is really extensive, 
+		&kile; separated it with three important bookmarks.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term><guimenu>LaTeX Command</guimenu></term>
+		<listitem><para>Another alphabetical index of the most common 
+		&latex; commands.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term><guimenu>LaTeX Subject</guimenu></term>
+		<listitem><para>A description of important &latex; 
+		subjects.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term><guimenu>LaTeX Env</guimenu></term>
+		<listitem><para>An alphabetical index of the most common 
+		&latex; environments.</para></listitem>
+		</varlistentry>
+
+		</variablelist>
+		
+	</sect1>
+	
+	<sect1 id="help_contextsentitive">
+	
+		<title>Context Sensitive Help</title>
+
+		<para>&kile; also support a context sensitive help, which is called 
+		with <keycombo action="simul"><keycap>&Ctrl;+&Alt;</keycap><keycap>H</keycap></keycombo><keycap>,K</keycap>.
+		In <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>Help</guimenuitem></menuchoice>
+		you can choose, if you want to use &kile;'s &latex; reference or the 
+		help system of &tetex;, which is also the default setting.</para>
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+	
+	<sect1 id="help_search">
+	
+		<title>Searching for Keywords</title>
+		
+		<para>It is not always easy to find the right document, as &tetex; 
+		comes with a huge amount of documents. As one possible help, &tetex; 
+		provides a tiny program <application>texdoctk</application>. 
+		It comes with a database of all documents, which is now also 
+		evaluated by &kile; and offers a dialog to this database.</para>
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>All documents are grouped into some categories and the main 
+		advantage is that you can search for packages names or keywords. 
+		&kile; will then show only the results.</para> 
+		
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<para>A mouse double click or the <keycap>space</keycap> key will start the 
+		viewer for this document. This can be a arbitrary document, not only a 
+		DVI, PS, PDF or HTML document. &kile; will take konqueror settings to 
+		start a appropriate viewer.</para>
+
+		
+	</sect1>
+	
+	<sect1 id="help_userdefined">
+	
+		<title>User Defined Help</title>
+	
+		<para>Beside this static &tetex; documentation, &kile; supports also 
+		another variable way for userhelp documents. In <guimenu>Help</guimenu> 
+		menu &kile; supports a special <guimenu>User help</guimenu> 
+		submenu, where the user can add documents of his own choice. 
+		This can be the most important documents of &tetex; documentation or even  
+		self written documents. It is even possible to choose some WEB-Urls.</para> 
+
+		<para>Goto <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>Help</guimenuitem></menuchoice> 
+		and choose <guibutton>Configure</guibutton> button
+		to configure this <guimenu>User help</guimenu> menu. You can add, 
+		remove or navigate menu entries and also insert separators to get 
+		a better structure.</para>
+
+		<para>Pressing the <guibutton>Add</guibutton> button will open 
+		another dialog, where you must edit the name of the menu entry 
+		and choose the corresponding file or WEB-Url. If you choose a WEB-url, 
+		<command>konqueror</command> is started and you should copy the final 
+		url.</para>
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		
+		<para>This all should give a sufficient help to simplify the 
+		work with &latex; as much as possible.</para>
+		
+	</sect1>
+
+</chapter>
+
 <chapter id="credits">
 
 	<title>Credits and License</title>
@@ -1901,13 +3377,9 @@
 
 	<para>Program copyright 2002-2003 Pascal Brachet</para>
 
-	<para>&kile; contains source code from the free (GPL) program
-	<application>Xgfe</application> (X Windows GUI front end to &gnuplot;),
-	Copyright &copy; 1998 David Ishee</para>
-
 	<para>Documentation Copyright &copy; 2003 Jonathan Pechta, 2003-2005 Federico Zenith</para>
 
-	<para>Contributions from: Rob Lensen, Roland Schulz, Michael Margraf</para>
+	<para>Contributions from: Rob Lensen, Roland Schulz, Michael Margraf, Holger Danielsson</para>
 
 	<para>Many thanks to all those involved!</para>
 
@@ -1915,6 +3387,7 @@
 	&underGPL;        	 <!-- GPL License -->
 
 </chapter>
+
 
 &documentation.index;
 

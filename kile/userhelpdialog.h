@@ -1,8 +1,8 @@
 /***************************************************************************
                            userhelpdialog.h
 ----------------------------------------------------------------------------
-    date                 : Mar 10 2005
-    version              : 0.12
+    date                 : Jul 22 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -68,7 +68,7 @@ public:
 
 private:
 	KLineEdit *m_leMenuEntry, *m_leHelpFile;
-	KPushButton *m_pbChooseFile;
+	KPushButton *m_pbChooseFile,*m_pbChooseHtml;
 	KListBox *m_menulistbox;
 	
 public:
@@ -77,6 +77,7 @@ public:
 	   
 private slots:
 	void slotChooseFile();
+	void slotChooseHtml();
 	void slotOk();
 };
 

@@ -1,6 +1,8 @@
 /***************************************************************************
-    date                 : Jan 28 2005
-    version              : 0.10
+                           mathenvdialog.h
+----------------------------------------------------------------------------
+    date                 : Jul 23 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -18,6 +20,8 @@
 #define MATHENVDIALOG_H
 
 #include "kilewizard.h"
+#include "latexcmd.h"
+
 #include <klineedit.h>
 
 #include <qlabel.h>
@@ -27,7 +31,6 @@
 #include <qbuttongroup.h>
 #include <qmap.h>
 #include <qvaluelist.h>
-#include <klineedit.h>
  
 namespace KileDialog
 {
@@ -37,7 +40,7 @@ class MathEnvironmentDialog : public Wizard
 	Q_OBJECT
 
 public:
-	MathEnvironmentDialog(KConfig *, QWidget *parent);
+	MathEnvironmentDialog(QWidget *parent, KConfig *config, KileDocument::LatexCommands *commands);
 	~MathEnvironmentDialog() {}
 	
 public slots:
@@ -48,24 +51,28 @@ private slots:
 	void slotSpinboxValueChanged(int index);  
 
 private:
+	KileDocument::LatexCommands *m_latexCommands;
+	
 	QComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
 	QCheckBox *m_cbStarred, *m_cbBullets;
-	QSpinBox *m_spRows, *m_spCols, *m_spGroups;
-	QLabel *m_lbRows, *m_lbCols, *m_lbGroups, *m_lbSpace ;
+	QSpinBox *m_spRows, *m_spCols;
+	QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;
 	QLabel *m_lbTabulator, *m_lbDisplaymath, *m_lbStarred;
 	QLabel *m_lbEnvironment, *m_lbBullets;
 	KLineEdit *m_edSpace;
 	
-	QMap<QString,QString> m_dictEnv;
 	QString m_envname;
 	bool m_starred;
 	bool m_groups;
 	bool m_columns;
-	bool m_displaymath;
+	bool m_fixedcolumns;
+	bool m_mathmode;
 	QString m_tabulator;
+	QString m_parameter;
 		
-	void setEnvironments(const QStringList &envlist);
-	bool isAlignatEnv();
+	void initEnvironments();
+	bool isParameterEnv();
+	bool isGroupsParameterEnv();
 };
 
 }

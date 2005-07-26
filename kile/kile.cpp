@@ -1458,7 +1458,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 {
 	if ( !viewManager()->currentView() ) return;
 	
-	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(m_config,this,tabularenv);
+	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(this,m_config,m_latexCommands,tabularenv);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
@@ -1491,7 +1491,7 @@ void Kile::quickMathenv()
 {
 	if ( !viewManager()->currentView() ) return;
 	
-	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(m_config,this);
+	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this,m_config,m_latexCommands);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}

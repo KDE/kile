@@ -1,6 +1,8 @@
 /***************************************************************************
-    date                 : Feb 05 2005
-    version              : 0.11
+                           tabulardialog.h
+----------------------------------------------------------------------------
+    date                 : Jul 23 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -18,6 +20,7 @@
 #define TABULARDIALOG_H
 
 #include "kilewizard.h"
+#include "latexcmd.h"
 
 #include <qevent.h>
 #include <qpainter.h>
@@ -249,7 +252,7 @@ class TabularDialog : public Wizard
 	Q_OBJECT
 
 public:
-	TabularDialog(KConfig *, QWidget *parent, bool tabularenv= true);
+	TabularDialog(QWidget *parent, KConfig *config, KileDocument::LatexCommands *commands, bool tabularenv= true);
 	~TabularDialog() {}
 	QStringList columnAlignments();
 
@@ -262,20 +265,19 @@ private slots:
 	void slotEnvironmentChanged(const QString &env);
 	
 private:
-	KConfig *m_config;
+	KileDocument::LatexCommands *m_latexCommands;
+	
 	TabularTable *m_table;
 	QComboBox *m_coEnvironment, *m_coParameter;
 	QSpinBox *m_spRows, *m_spCols;
 	QCheckBox *m_cbWarning, *m_cbBullets, *m_cbStarred;
 	QCheckBox *m_cbCenter, *m_cbBooktabs;
 	
-	QMap<QString,QString> m_dictEnvironment;
-	
 	int m_rows;
 	int m_cols;
 	
 	void initEnvironments(bool tabularenv);
-	bool isMathEnvironment(const QString &env);
+	bool isMathmodeEnvironment(const QString &env);
 	
 	QStringList m_alignlist;
 	

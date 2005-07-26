@@ -1,6 +1,8 @@
 /***************************************************************************
-    date                 : Feb 07 2005
-    version              : 0.11
+                           tabulardialog.cpp
+----------------------------------------------------------------------------
+    date                 : Jul 23 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -212,10 +214,14 @@ void TabCellFrame::mousePressEvent(QMouseEvent *event)
 	else if ( m_bottom.contains(x,y) )
 		state = TabularCell::cbBottom;
 		
-	if ( state > 0 ) {
-		if ( m_border & state ) {
+	if ( state > 0 ) 
+	{
+		if ( m_border & state ) 
+		{
 			m_border &= ~state;
-		} else {
+		} 
+		else 
+		{
 			m_border |= state;
 		}
 		update();
@@ -239,10 +245,13 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 	
-	if ( headerlabel.isEmpty() ) {
+	if ( headerlabel.isEmpty() ) 
+	{
 		m_header = false;
 		m_headerlabel = "l";
-	} else {
+	} 
+	else 
+	{
 		m_header = true;
 		m_headerlabel = headerlabel;
 	}	
@@ -371,14 +380,17 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	headergrouplayout->addStretch(1); 
 	
 	// add widgets
-	if ( m_header ) {
+	if ( m_header ) 
+	{
 		grid->addWidget( headergroup,0,0 );
 		grid->addWidget( preamblegroup,1,0 ); 
 		grid->addWidget( colorgroup,2,0 );
 		grid->addWidget( fontgroup, 0,1 );
 		grid->addMultiCellWidget( framegroup,1,2,1,1 );
 		aligngroup->hide();
-	} else {
+	} 
+	else 
+	{
 		grid->addWidget( fontgroup, 0,0 );
 		grid->addWidget( aligngroup,1,0 ); 
 		grid->addWidget( colorgroup,2,0 );
@@ -403,7 +415,8 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	borderframe->setFixedWidth(lineframe->sizeHint().width());
 	setButtonText(User1,"Re&set");
 	
-	if ( m_header ) {
+	if ( m_header ) 
+	{
 		m_preamblelist = alignlist;
 		m_coHeader->insertStringList(m_preamblelist);
 	}
@@ -423,7 +436,8 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	connect(m_pbFrame3, SIGNAL(clicked()), this, SLOT(slotFramebuttonClicked()));
 	connect(m_pbFrame4, SIGNAL(clicked()), this, SLOT(slotFramebuttonClicked()));
 	connect(this, SIGNAL(user1Clicked()),this, SLOT(slotResetClicked()));
-	if ( m_header ) {
+	if ( m_header ) 
+	{
 		connect(m_cbAt, SIGNAL(clicked()),this, SLOT(slotSeparatorClicked()));
 		connect(m_cbSep,SIGNAL(clicked()),this, SLOT(slotSeparatorClicked()));
 	}
@@ -453,13 +467,17 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 
 TabularCell::Data TabCellDialog::data()
 {
-	if ( m_header ) {
-		switch ( m_coHeader->currentItem() ) {
+	if ( m_header ) 
+	{
+		switch ( m_coHeader->currentItem() ) 
+		{
 			case 1  : m_data.align = Qt::AlignHCenter; break;
 			case 2  : m_data.align = Qt::AlignRight;   break;
 			default : m_data.align = Qt::AlignLeft;
 		}
-	} else {
+	} 
+	else 
+	{
 		if ( m_rbAlignright->isChecked() )
 			m_data.align = Qt::AlignRight;
 		else if ( m_rbAligncenter->isChecked() )
@@ -486,7 +504,8 @@ QString TabCellDialog::header()
 {
 	QString s;
 	
-	if ( m_header ) {
+	if ( m_header ) 
+	{
 		if ( m_cbAt->isChecked() )
 			s += "@{} ";
 		if ( m_cbSep->isChecked() )
@@ -498,7 +517,6 @@ QString TabCellDialog::header()
 			
 		if ( m_cbPost->isChecked() )
 			s += " <{}";
-		
 	}
 	
 	return s.stripWhiteSpace();
@@ -532,7 +550,8 @@ void TabCellDialog::initWidgets()
 	
 	m_cellframe->setBorder(m_data.border);	
 	
-	if ( m_header ) {	
+	if ( m_header ) 
+	{
 		QString s = m_headerlabel.remove(' ');
 		
 		bool state = ( s.find("@{}") >= 0 );
@@ -639,7 +658,8 @@ void TabularItem::paint(QPainter *p,const QColorGroup &cg,const QRect &cr,bool s
 	else
 		p->setPen(m_data.textcolor);         
 		
-	if ( m_data.font ) {
+	if ( m_data.font ) 
+	{
 		QFont f( p->font() );
 		if ( m_data.font & TabularCell::cfBold )
 			f.setBold(true);
@@ -697,7 +717,8 @@ bool TabularTable::isRowEmpty(int row)
 
 bool TabularTable::isRowEmpty(int row,int col1, int col2)
 {
-	for ( int col=col1; col<=col2; ++col ) {
+	for ( int col=col1; col<=col2; ++col ) 
+	{
 		if ( updateCell(row,col) )            // check if there is an item
 			return false;
 	}
@@ -706,7 +727,8 @@ bool TabularTable::isRowEmpty(int row,int col1, int col2)
 
 bool TabularTable::isColEmpty(int col)
 {
-	for ( int row=0; row<numRows(); ++row ) {
+	for ( int row=0; row<numRows(); ++row ) 
+	{
 		if ( updateCell(row,col) )            // check if there is an item
 			return false;
 	}
@@ -717,13 +739,18 @@ bool TabularTable::isColEmpty(int col)
 
 bool TabularTable::eventFilter(QObject *o, QEvent *e)
 {
-	if ( e->type() == QEvent::MouseButtonPress ) {
+	if ( e->type() == QEvent::MouseButtonPress ) 
+	{
 		QMouseEvent *me = (QMouseEvent*) e;
-		if ( me->button() == RightButton ) {
-			if ( o == horizontalHeader() ) {
+		if ( me->button() == RightButton ) 
+		{
+			if ( o == horizontalHeader() ) 
+			{
 				mouseContextHorizontalHeader( me->pos().x() );
 				return true;
-			} else if ( o == verticalHeader() ) {
+			} 
+			else if ( o == verticalHeader() ) 
+			{
 				mouseContextVerticalHeader( me->pos().y() );
 				return true;
 			}
@@ -777,11 +804,13 @@ bool TabularTable::isDefaultAttr(const TabularCell::Data &data)
 TabularItem *TabularTable::cellItem(int row,int col)
 {
 	QTableItem *cellitem = item(row,col);
-	if ( ! cellitem ) {
+	if ( ! cellitem ) 
+	{
 		TabularItem *newitem = new TabularItem(this);
 		setItem(row,col,newitem);
 		return newitem;
-	} else 
+	} 
+	else 
 		return dynamic_cast<TabularItem*>(cellitem);
 }
 
@@ -808,11 +837,13 @@ void TabularTable::setColspan(int row,int col1,int col2,bool savetext)
 	QString s;
 	
 	//kdDebug() << "set colspan " << col1 << "-" << col2 << " "<< endl; 
-	for ( int col=col1; col<=col2; ++col ) {
+	for ( int col=col1; col<=col2; ++col ) 
+	{
 		QTableItem *olditem = item(row,col);
 		if ( olditem ) {
 			QString temp = olditem->text().stripWhiteSpace(); 
-			if ( savetext && !temp.isEmpty() ) {
+			if ( savetext && !temp.isEmpty() ) 
+			{
 				if ( ! s.isEmpty() )
 					s += " ";
 				s += temp;
@@ -827,7 +858,8 @@ void TabularTable::setColspan(int row,int col1,int col2,bool savetext)
 	newitem->setSpan(1,col2-col1+1);
 	//newitem->m_data.bgcolor = QColor(Qt::yellow);
 	
-	if ( ! s.isEmpty() ) {
+	if ( ! s.isEmpty() ) 
+	{
 		newitem->setText(s);
 	}
 }
@@ -870,7 +902,8 @@ bool TabularTable::updateCell(int row,int col)
 		return false;          // no item
 		
 	// there is an item
-	if ( cellitem->text().isEmpty() && isDefaultAttr(cellitem->m_data) && !cellitem->isMulticolumn() ) { 
+	if ( cellitem->text().isEmpty() && isDefaultAttr(cellitem->m_data) && !cellitem->isMulticolumn() ) 
+	{ 
 		delete cellitem;       // no text and standard attributes
 		return false;          // no item anymore
 	} 
@@ -900,7 +933,8 @@ void TabularTable::clearHeaderCells(bool cleartext,bool clearattributes)
 void TabularTable::clearSelectionCells(bool cleartext,bool clearattributes)
 {
 	int x1,y1,x2,y2;
-	if ( getCurrentSelection(x1,y1,x2,y2) ) {
+	if ( getCurrentSelection(x1,y1,x2,y2) ) 
+	{
 		clearCellrange(x1,y1,x2,y2,cleartext,clearattributes);
 	}
 }
@@ -909,8 +943,10 @@ void TabularTable::clearCellrange(int x1,int y1,int x2,int y2,bool cleartext,boo
 {
 	bool singlecell = (x1==x2 && y1==y2);
 	
-	for ( int row=y1; row<=y2; ++row ) {
-		for ( int col=x1; col<=x2; ++col ) {
+	for ( int row=y1; row<=y2; ++row ) 
+	{
+		for ( int col=x1; col<=x2; ++col ) 
+		{
 			if ( cleartext )
 				setText(row,col,QString::null);
 				
@@ -925,8 +961,10 @@ void TabularTable::setCellrangeAttributes(int x1,int y1,int x2,int y2,const Tabu
 	bool singlecell = (x1==x2 && y1==y2);
 	//kdDebug() << x1 << " " << y1 << " "<< x2 << " "<< y2 << " " << data.align << endl;
 	
-	for ( int col=x1; col<=x2; ++col ) {
-		for ( int row=y1; row<=y2; ++row ) {
+	for ( int col=x1; col<=x2; ++col ) 
+	{
+		for ( int row=y1; row<=y2; ++row ) 
+		{
 			if ( singlecell || !isMulticolumn(row,col) ) 
 				setAttributes(row,col,data);
 		}
@@ -937,8 +975,10 @@ void TabularTable::setCellrangeAlignment(int x1,int y1,int x2,int y2,int align)
 {
 	bool singlecell = (x1==x2 && y1==y2);
 	
-	for (int col=x1; col<=x2; ++col ) { 
-		for (int row=y1; row<=y2; ++row ) { 
+	for (int col=x1; col<=x2; ++col ) 
+	{ 
+		for (int row=y1; row<=y2; ++row ) 
+		{ 
 			if ( singlecell || !isMulticolumn(row,col) ) 
 				setAlignment(row,col,align);
 		}
@@ -956,9 +996,11 @@ void TabularTable::activateNextCell()
 	int col = currentColumn();
 	
 	col = ( col+1 ) % numCols();
-	if ( col == 0 ) {
+	if ( col == 0 ) 
+	{
 		row++;
-		if ( row == numRows() ) {
+		if ( row == numRows() ) 
+		{
 			m_tabdialog->slotRowValueChanged(row+1);
 		}
 	}
@@ -984,36 +1026,44 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 	int y2 = h - 1;
 
 	TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
-	if ( cellitem ) {	
+	if ( cellitem ) 
+	{
 		p->save();
 		cellitem->paint( p, cg, cr, selected );
 		p->restore();
-	} else {
+	} 
+	else 
+	{
 		p->fillRect( 0,0,w,h, selected ? cg.brush( QColorGroup::Highlight ) 
 		                               : cg.brush( QColorGroup::Base ) );
 	}
 
 	// draw gridlines
-	if ( showGrid() ) {
+	if ( showGrid() ) 
+	{
 		// save current pen
 		QPen pen( p->pen() );
 		
 		QColor gridlinecolor;
 		int gridColor = style().styleHint( QStyle::SH_Table_GridLineColor, this );
-		if (gridColor != -1) {
+		if (gridColor != -1) 
+		{
 			const QPalette &pal = palette();
 			if ( cg != colorGroup() && cg != pal.disabled() && cg != pal.inactive() )
 				gridlinecolor = cg.mid();             // p->setPen(cg.mid());
 			else
 				gridlinecolor = (QRgb)gridColor;      // p->setPen((QRgb)gridColor);
-		} else {
+		} 
+		else 
+		{
 			gridlinecolor = cg.mid();                // p->setPen(cg.mid());
 		} 
 		
 		// draw border
 		int colspan = 1;
 		int border = 0;
-		if ( cellitem  ) {
+		if ( cellitem  ) 
+		{
 			colspan = cellitem->colSpan();
 			border = cellitem->m_data.border;
 			
@@ -1031,7 +1081,8 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 		bool drawborder;
 		if ( border & TabularCell::cbBottom ) 
 			drawborder = true;
-		else {
+		else 
+		{
 			TabularItem *below = dynamic_cast<TabularItem*>( item(row+1,col) );
 			drawborder = ( below && (below->m_data.border & TabularCell::cbTop) );
 		}
@@ -1042,7 +1093,8 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 		// right border (or the left border of the cell below) is drawn
 		if ( border & TabularCell::cbRight ) 
 			drawborder = true;
-		else {
+		else 
+		{
 			TabularItem *right = dynamic_cast<TabularItem*>( item(row,col+colspan) );
 			drawborder = ( right && (right->m_data.border & TabularCell::cbLeft) );
 		}
@@ -1071,7 +1123,8 @@ void TabularTable::insertPopupAlign(QPopupMenu *popup,bool header)
 	int align = 0;
 	
 	//calculate 
-	if ( header && m_x1==m_x2 ) {
+	if ( header && m_x1==m_x2 ) 
+	{
 		QString label = horizontalHeader()->label(m_x1);
 		if ( label.find('l') < 0 )
 		align += 1;
@@ -1079,7 +1132,8 @@ void TabularTable::insertPopupAlign(QPopupMenu *popup,bool header)
 			align += 2;
 		if ( label.find('r') < 0 )
 			align += 4;
-	} else {
+	} else 
+	{
 		align = 7;
 	}
 	
@@ -1142,14 +1196,19 @@ void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
 	m_cellpopup = createPopupMenu();
 	
 	// multicolumns
-	if ( m_y1 == m_y2 ) {
-		if ( m_x1 == m_x2 ) {
+	if ( m_y1 == m_y2 ) 
+	{
+		if ( m_x1 == m_x2 ) 
+		{
 			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
-			if ( cellitem && cellitem->isMulticolumn() ) {
+			if ( cellitem && cellitem->isMulticolumn() ) 
+			{
 				m_cellpopup->insertItem( i18n("Break multicolumn"));
 				m_cellpopup->insertSeparator();
 			}
-		} else if ( m_x2 > m_x1 ) {
+		} 
+		else if ( m_x2 > m_x1 ) 
+		{
 			m_cellpopup->insertItem( i18n("Set multicolumn"));
 			m_cellpopup->insertSeparator();
 		}
@@ -1165,7 +1224,8 @@ void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
 
 void TabularTable::slotCellPopupActivated(int id)
 {
-	switch ( popupId(m_cellpopup,id) ) {
+	switch ( popupId(m_cellpopup,id) ) 
+	{
 		case PopupEdit       : cellPopupEdit();                  break;
 		case PopupSet        : cellPopupSetMulticolumn();        break;
 		case PopupBreak      : cellPopupBreakMulticolumn();      break;
@@ -1186,7 +1246,8 @@ void TabularTable::cellPopupEdit()
 	TabularCell::Data *pdata = 0;
 	
 	// if there one single cell, we use the attributes if they exist
-	if ( m_x1==m_x2 && m_y1==m_y2 ) {
+	if ( m_x1==m_x2 && m_y1==m_y2 ) 
+	{
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
 		if ( cellitem ) 
 			pdata = &(cellitem->m_data);
@@ -1200,9 +1261,11 @@ void TabularTable::cellPopupSetMulticolumn()
 {
 	//kdDebug() << "slotContextMenuSetMulticolumn" << endl;
 		
-	if ( m_y1==m_y2 && m_x2>m_x1) {
+	if ( m_y1==m_y2 && m_x2>m_x1) 
+	{
 		bool savetext = false;
-		if ( ! isRowEmpty(m_y1,m_x1,m_x2) ) {
+		if ( ! isRowEmpty(m_y1,m_x1,m_x2) ) 
+		{
 			QString message  = i18n("Concat all text to the new multicolumn cell?");
 			savetext = ( KMessageBox::questionYesNo(this,message,i18n("Save text")) == KMessageBox::Yes ); 
 		}
@@ -1215,13 +1278,17 @@ void TabularTable::cellPopupBreakMulticolumn()
 {
 	//kdDebug() << "slotContextMenuBreakMulticolumn" << endl;
 	
-	if ( m_x1==m_x2 && m_y1==m_y2 ) {
+	if ( m_x1==m_x2 && m_y1==m_y2 ) 
+	{
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
 		if ( cellitem && KMessageBox::questionYesNo(this,
 			                             i18n("Transfer text and all attributes of the multicolumn cell to the leftmost of the separated cell?"),
-			                             i18n("Shrink multicolumn")) == KMessageBox::Yes ) { 
+			                             i18n("Shrink multicolumn")) == KMessageBox::Yes ) 
+		{ 
 			cellitem->setSpan(m_y1,1);
-		} else {
+		} 
+		else 
+		{
 			delete cellitem;
 		}
 	}
@@ -1245,13 +1312,16 @@ void TabularTable::setupContextHeaderPopup(bool horizontal, int section)
 	
    // we always define a selection 
 	bool selection = getCurrentSelection(m_x1,m_y1,m_x2,m_y2);
-	if ( ! selection ) {
+	if ( ! selection ) 
+	{
 		if ( m_horizontal )
 		{
 			m_x1 = m_x2 = m_section;
 			m_y1 = 0;
 			m_y2 = numRows() - 1; 
-		} else {
+		} 
+		else 
+		{
 			m_x1 = 0;
 			m_x2 = numCols() - 1;
 			m_y1 = m_y2 = m_section;
@@ -1269,7 +1339,8 @@ void TabularTable::setupContextHeaderPopup(bool horizontal, int section)
 
 void TabularTable::slotHeaderPopupActivated(int id)
 {
-	switch ( popupId(m_headerpopup,id) ) {
+	switch ( popupId(m_headerpopup,id) ) 
+	{
 		case PopupEdit       : headerPopupEdit();            break;
 		case PopupSet        : break;
 		case PopupBreak      : break;
@@ -1292,8 +1363,10 @@ void TabularTable::headerPopupEdit()
 		QString label = horizontalHeader()->label(m_section);
 			
 		// look if all labels are equal
-		for ( int col=m_x1; col<=m_x2; ++col ) {
-			if ( label != horizontalHeader()->label(col) ) {
+		for ( int col=m_x1; col<=m_x2; ++col ) 
+		{
+			if ( label != horizontalHeader()->label(col) ) 
+			{
 				label = "l";
 				break;
 			}
@@ -1311,7 +1384,8 @@ void TabularTable::headerPopupEdit()
 void TabularTable::headerPopupAlign(QChar alignchar)
 {
 	int align;
-	switch ( alignchar ) {
+	switch ( alignchar ) 
+	{
 		case 'c' : align = Qt::AlignHCenter; break;
 		case 'r' : align = Qt::AlignRight;   break;
 		default  : align = Qt::AlignLeft;
@@ -1326,10 +1400,13 @@ void TabularTable::updateHeaderAlignment(int col1,int col2,QChar alignchar)
 {
 	QStringList list = m_tabdialog->columnAlignments();
 	
-	for ( int col=col1; col<=col2; ++col ) {
+	for ( int col=col1; col<=col2; ++col ) 
+	{
 		QString label = horizontalHeader()->label(col);
-		for ( uint i=0; i<list.count(); ++i ) {
-			if ( label.find(list[i]) >= 0 ) {
+		for ( uint i=0; i<list.count(); ++i ) 
+		{
+			if ( label.find(list[i]) >= 0 ) 
+			{
 				horizontalHeader()->setLabel( col,label.replace(list[i],alignchar) );
 				break;
 			}
@@ -1343,7 +1420,8 @@ bool TabularTable::getCurrentSelection(int &x1,int &y1,int &x2,int &y2)
 {
 	// look if there is a selection
 	int nr = currentSelection();
-	if ( nr >= 0 ) {
+	if ( nr >= 0 ) 
+	{
 		// get parameter of current selection
 		QTableSelection sel = selection(nr);
 		x1 = sel.leftCol();
@@ -1351,7 +1429,8 @@ bool TabularTable::getCurrentSelection(int &x1,int &y1,int &x2,int &y2)
 		x2 = sel.rightCol();
 		y2 = sel.bottomRow();
 		return true;
-	} else 
+	} 
+	else 
 		return false;
 }
 
@@ -1368,7 +1447,8 @@ void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell:
 	
 	// if no settings are given, we should test all cells int the range if 
 	// they are defined and have the same values
-	if ( ! data ) { 
+	if ( ! data ) 
+	{ 
 		TabularCell::Data defaultdata = defaultAttributes();
 		
 		// look if there is a QTableItem in the upper left cell
@@ -1391,13 +1471,16 @@ void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell:
 
 	KileDialog::TabCellDialog *dlg = new KileDialog::TabCellDialog(this,data,
 	                                        headerlabel,m_tabdialog->columnAlignments());
-	if ( dlg->exec() ) {
+	if ( dlg->exec() ) 
+	{
 		// set attributes
 		setCellrangeAttributes(x1,y1,x2,y2,dlg->data());
 		
 		// adjust header
-		for ( int col=x1; col<=x2; ++col ) {
-			if ( ! headerlabel.isEmpty()  ) {
+		for ( int col=x1; col<=x2; ++col ) 
+		{
+			if ( ! headerlabel.isEmpty()  ) 
+			{
 				//kdDebug() << "header col=" << col << " " << dlg->header() << endl; 
 				horizontalHeader()->setLabel(col,dlg->header());
 			}
@@ -1419,13 +1502,16 @@ bool TabularTable::equalParameter(int x1,int y1,int x2,int y2, int code)
 	data = upperleft->m_data;
 
 	// look if all cells in this range have the same attributes
-	for ( int row=y1; row<=y2; ++row ) {
-		for ( int col=x1; col<=x2; ++col ) {
+	for ( int row=y1; row<=y2; ++row ) 
+	{
+		for ( int col=x1; col<=x2; ++col ) 
+		{
 			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
 			if ( ! cellitem ) 
 				return false;
 				
-			switch ( code ) {
+			switch ( code ) 
+			{
 				case DataAlign: if ( cellitem->m_data.align != data.align ) return false;
 					  break;
 				case DataFont: if ( cellitem->m_data.font != data.font ) return false;
@@ -1453,21 +1539,26 @@ bool TabularTable::isVLine(int row,int col, bool left)
 		return false;
 
 	bool vlinefound = false;
-	if ( left ) {
+	if ( left ) 
+	{
 		// look at the left border
 		if ( cellitem->m_data.border & TabularCell::cbLeft )
 			return true;	
 		// look also at the right border of the left neighbour
-		if ( col > 0 ) {
+		if ( col > 0 ) 
+		{
 			TabularItem *left = dynamic_cast<TabularItem*>( item(row,col-1) );
 			vlinefound = ( left && (left->m_data.border & TabularCell::cbRight) );
 		}
-	} else {
+	} 
+	else 
+	{
 		// look at the right border
 		if ( cellitem->m_data.border & TabularCell::cbRight )
 			return true;
 		// look also at the left border of the right neighbour
-		if ( col < numCols()-1 ) {
+		if ( col < numCols()-1 ) 
+		{
 			TabularItem *left = dynamic_cast<TabularItem*>( item(row,col-1) );
 			vlinefound = ( left && (left->m_data.border & TabularCell::cbRight) );
 		}
@@ -1485,9 +1576,11 @@ TabularCell::CountLines TabularTable::countVLines(int col, bool left)
 	count.cells = 0;
 	count.list.clear();
 	
-	for ( int row=0; row<numRows(); ++row ) {	
+	for ( int row=0; row<numRows(); ++row ) 
+	{
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );	
-		if ( cellitem ) {   
+		if ( cellitem ) 
+		{   
 			if ( cellitem->isMulticolumn() )       // ignore multicolumn cells
 				continue;
 				
@@ -1495,7 +1588,9 @@ TabularCell::CountLines TabularTable::countVLines(int col, bool left)
 			count.cells++;
 			if ( isVLine(row,col,left) )
 				count.cnt++;	
-		} else if ( col>0 && isVLine(row,col,false) ) {
+		} 
+		else if ( col>0 && isVLine(row,col,false) ) 
+		{
 			count.cnt++;	
 		}
 	}
@@ -1515,16 +1610,21 @@ TabularCell::CountLines TabularTable::countHLines(int row, bool top)
 	count.list.clear();
 	
 	int linestate = false;
-	for ( int col=0; col<numCols(); ++col ) {
+	for ( int col=0; col<numCols(); ++col ) 
+	{
 		hline = false;
 		
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
 		neighbour = ( cellitem ) ? false : true;
-		if ( cellitem ) {    
-			if ( top ) {
+		if ( cellitem ) 
+		{    
+			if ( top ) 
+			{
 				if ( cellitem->m_data.border & TabularCell::cbTop ) 
 					hline = true;
-			} else {
+			} 
+			else 
+			{
 				if ( cellitem->m_data.border & TabularCell::cbBottom )
 					hline = true;
 				else 
@@ -1532,21 +1632,27 @@ TabularCell::CountLines TabularTable::countHLines(int row, bool top)
 			}
 		} 
 		
-		if ( neighbour ) {
+		if ( neighbour ) 
+		{
 			TabularItem *below = dynamic_cast<TabularItem*>( item(row+1,col) );
 			if( below && (below->m_data.border & TabularCell::cbTop) )
 				hline = true;
 		}
 		
 		// update counter and list of hline cells
-		if ( hline ) {
-			if ( ! linestate ) {
+		if ( hline ) 
+		{
+			if ( ! linestate ) 
+			{
 				count.list.append(col);
 				linestate = true;
 			}
 			count.cnt++;
-		} else {
-			if ( linestate ) {
+		} 
+		else 
+		{
+			if ( linestate ) 
+			{
 				count.list.append(col-1);
 				linestate = false;
 			}
@@ -1580,8 +1686,10 @@ TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 	
 	// although it looks like a range, it is simply a row or a column,
 	// because either x1=x2 or y1=y2
-	for ( int row=y1; row<=y2; ++row ) {
-		for ( int col=x1; col<=x2; ++col ) {
+	for ( int row=y1; row<=y2; ++row ) 
+	{
+		for ( int col=x1; col<=x2; ++col ) 
+		{
 			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
 			if ( cellitem ) 
 			{
@@ -1623,16 +1731,20 @@ TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 	}
 	
 	// determine maximum result from dictionary for backgroundcolors
-	for ( it=colors.begin(); it!=colors.end(); ++it) {
-		if ( it.data() > count.bgcolor ) {
+	for ( it=colors.begin(); it!=colors.end(); ++it) 
+	{
+		if ( it.data() > count.bgcolor ) 
+		{
 			count.bgcolor = it.data();
 			count.nameBgcolor = it.key();
 		}
 	}
 	
 	// determine maximum result from dictionary for textcolors
-	for ( it=textcolors.begin(); it!=textcolors.end(); ++it) {
-		if ( it.data() > count.textcolor ) {
+	for ( it=textcolors.begin(); it!=textcolors.end(); ++it) 
+	{
+		if ( it.data() > count.textcolor ) 
+		{
 			count.textcolor = it.data();
 			count.nameTextcolor = it.key();
 		}
@@ -1650,8 +1762,8 @@ TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 
 //BEGIN TabularDialog
 
-TabularDialog::TabularDialog(KConfig *config, QWidget *parent, bool tabularenv) 
-	: Wizard(config,parent), m_config(config)
+TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::LatexCommands *commands, bool tabularenv) 
+	: Wizard(config,parent), m_latexCommands(commands)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -1668,19 +1780,19 @@ TabularDialog::TabularDialog(KConfig *config, QWidget *parent, bool tabularenv)
 	group->layout()->setSpacing( 4 );
 	group->layout()->setMargin( 11 );
 
-	QLabel *label1 = new QLabel(i18n("Name:"),group);
-	QLabel *label2 = new QLabel(i18n("Parameter:"),group);
-	QLabel *label3 = new QLabel(i18n("Number of rows:"),group);
-	QLabel *label4 = new QLabel(i18n("Number of cols:"),group);
+	QLabel *label1 = new QLabel(i18n("&Name:"),group);
+	QLabel *label2 = new QLabel(i18n("&Parameter:"),group);
+	QLabel *label3 = new QLabel(i18n("Number of &rows:"),group);
+	QLabel *label4 = new QLabel(i18n("Number of c&ols:"),group);
 	m_coEnvironment = new QComboBox(group);	
 	m_coParameter = new QComboBox(group);	
 	m_spRows = new QSpinBox(1,99,1,group);
 	m_spCols = new QSpinBox(1,49,1,group);
-	m_cbWarning = new QCheckBox(i18n("Delete also non empty rows or columns, but ask"),group);
-	m_cbBooktabs = new QCheckBox(i18n("Use booktabs package"),group);
-	m_cbStarred = new QCheckBox(i18n("Use starred version"),group);
-	m_cbCenter = new QCheckBox(i18n("Center"),group);
-	m_cbBullets = new QCheckBox(i18n("Insert bullets"),group);
+	m_cbWarning = new QCheckBox(i18n("&Delete also non empty rows or columns, but ask"),group);
+	m_cbBooktabs = new QCheckBox(i18n("Use boo&ktabs package"),group);
+	m_cbStarred = new QCheckBox(i18n("Use starred &version"),group);
+	m_cbCenter = new QCheckBox(i18n("C&enter"),group);
+	m_cbBullets = new QCheckBox(i18n("Insert &bullets"),group);
 	
 	QGridLayout *grouplayout = new QGridLayout( group->layout() );
 	grouplayout->setAlignment( Qt::AlignTop );
@@ -1707,6 +1819,11 @@ TabularDialog::TabularDialog(KConfig *config, QWidget *parent, bool tabularenv)
 	vbox->addWidget( m_table);
 	vbox->addWidget( group );
 	
+	label1->setBuddy(m_coEnvironment);
+	label2->setBuddy(m_coParameter);
+	label3->setBuddy(m_spRows);
+	label4->setBuddy(m_spCols);
+
 	// init widgets
 	m_table->setMinimumHeight( m_table->sizeHint().height()-3 );
 	m_spRows->setValue(3);
@@ -1735,10 +1852,9 @@ TabularDialog::TabularDialog(KConfig *config, QWidget *parent, bool tabularenv)
 	QWhatsThis::add(m_table->verticalHeader(),i18n("A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected rows."));
 	QWhatsThis::add(m_coEnvironment,i18n("Choose an environment."));
 	QWhatsThis::add(m_coParameter,i18n("Optional parameter for the chosen environment."));
-	QWhatsThis::add(m_spRows,i18n("Number of table rows."));
-	QWhatsThis::add(m_spCols,i18n("Number of table columns."));
+	QWhatsThis::add(m_spRows,i18n("Choose the number of table rows."));
+	QWhatsThis::add(m_spCols,i18n("Choose the number of table columns."));
 	QWhatsThis::add(m_cbWarning,i18n("If you want, you will be asked before a non empty row a column is deleted."));
-	
 	QWhatsThis::add(m_cbCenter,i18n("The tabular will be centered."));
 	QWhatsThis::add(m_cbBooktabs,i18n("Use line commands of the booktabs package."));
 	QWhatsThis::add(m_cbStarred,i18n("Use the starred version of this environment."));
@@ -1748,23 +1864,16 @@ TabularDialog::TabularDialog(KConfig *config, QWidget *parent, bool tabularenv)
 
 void TabularDialog::initEnvironments(bool tabularenv)
 {
-	QStringList envlist;
-	envlist << "array,,\\\\,$,&,[tcb]"
-	        << "tabular,*,\\\\,,&,[tcb]"  
-	        << "tabularx,,\\\\,,&,"
-	        << "longtable,,\\\\,,&,[lcr]"  
-	        << "supertabular,*,\\\\,,&,"  
-	        ;
-	
-	m_dictEnvironment.clear();
-	for ( uint i=0; i<envlist.count(); ++i ) {
-		QStringList list = QStringList::split(',',envlist[i],true);
-		m_coEnvironment->insertItem(list[0]);
-		// insert into dictionary
-		m_dictEnvironment[list[0]] = envlist[i]; 
+	// read all tabular environments and insert them into the combobox
+	QStringList list;
+	QStringList::ConstIterator it;
+	m_latexCommands->commandList(list,KileDocument::CmdAttrTabular,false);
+	for ( it=list.begin(); it != list.end(); ++it ) 
+	{
+		m_coEnvironment->insertItem(*it);
 	}
 	
-	// set environment
+	// initialize first environment
 	if ( tabularenv )
 		m_coEnvironment->setCurrentText("tabular");
 	else
@@ -1782,44 +1891,40 @@ void TabularDialog::slotEnvironmentChanged(const QString &env)
 	
 	// clear parameter combobox
 	m_coParameter->clear();
-	m_coParameter->insertItem(QString::null);
+	m_coParameter->setEnabled(false);
 	
 	// look for environment parameter in dictionary
-	QMapConstIterator<QString,QString> it;
-	it = m_dictEnvironment.find(env);
-	if ( it != m_dictEnvironment.end() )  {
-		QStringList list = QStringList::split(',',*it,true);
+	KileDocument::LatexCmdAttributes attr;
+	if ( m_latexCommands->commandAttributes(env,attr) ) 
+	{
 		// starred version
-		m_cbStarred->setEnabled( list[1] == "*" );
+		m_cbStarred->setEnabled( attr.starred );
+		
 		// option
-		if ( ! list[5].isEmpty() ) {
-			if ( list[5].find('[') >= 0 ) {
-				QStringList optionlist = QStringList::split("",list[5]);
+		if ( attr.option.find('[') == 0 ) 
+		{
+			QStringList optionlist = QStringList::split("",attr.option);
+			if ( optionlist.count() > 2 ) 
+			{
+				// ok, let's enable it
+				m_coParameter->setEnabled(true);
+				m_coParameter->insertItem(QString::null);
+				// insert some options
 				for ( uint i=1; i<optionlist.count()-1; ++i ) 
 					m_coParameter->insertItem(optionlist[i]);
-			} else {
-					m_coParameter->insertItem(list[5]);
 			}
 		}
 	}
-	
+		
 	m_alignlist.clear();
 	m_alignlist << "l" << "c" << "r" << "p{w}" << "m{w}" << "b{w}";
-	if ( env == "tabularx" )
+	if ( env=="tabularx" || env=="xtabular")
 		m_alignlist << "X";
 }
 
-bool TabularDialog::isMathEnvironment(const QString &env)
+bool TabularDialog::isMathmodeEnvironment(const QString &env)
 {
-	// look for environment parameter in dictionary
-	QMapConstIterator<QString,QString> it;
-	it = m_dictEnvironment.find(env);
-	if ( it != m_dictEnvironment.end() ) { 
-		QStringList list = QStringList::split(',',*it,true);
-		return ( list[3] == "$" );
-	} else
-		return false;
-	
+	return m_latexCommands->isMathModeEnv(env);
 }
 
 void TabularDialog::slotRowValueChanged(int value)
@@ -1829,10 +1934,12 @@ void TabularDialog::slotRowValueChanged(int value)
 	bool askBeforeDelete = m_cbWarning->isChecked();
 	bool firstwarning = true;
 	
-	if ( value < m_rows ) {            // problems may only happen when decreasing
-		int testvalue = value;
-		value = m_rows;
-		for ( int row=m_rows-1; row>=testvalue; row-- ) {
+	if ( value < m_rows )                   // problems may only happen when decreasing
+	{                                             
+		int testvalue = value;                 
+		value = m_rows;  
+		for ( int row=m_rows-1; row>=testvalue; row-- ) 
+		{
 			if ( m_table->isRowEmpty(row) )
 			{
 				value = row;
@@ -1840,7 +1947,8 @@ void TabularDialog::slotRowValueChanged(int value)
 			else
 			{	
 				if ( ! askBeforeDelete ) break;
-				if ( firstwarning ) {
+				if ( firstwarning ) 
+				{
 					QString message  = i18n("Do you want to delete this row?");
 					if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))!=KMessageBox::Continue) 
 						break;
@@ -1863,16 +1971,19 @@ void TabularDialog::slotColValueChanged(int value)
 	bool askBeforeDelete = m_cbWarning->isChecked();
 	bool firstwarning = true;
 	
-	if ( value < m_cols ) {            // problems may only happen when decreasing
+	if ( value < m_cols )                   // problems may only happen when decreasing
+	{            
 		int testvalue = value;
 		value = m_cols;
-		for ( int col=m_cols-1; col>=testvalue; col-- ) {
+		for ( int col=m_cols-1; col>=testvalue; col-- ) 
+		{
 			if ( m_table->isColEmpty(col) )
 				value = col;
 			else
 			{	
 				if ( ! askBeforeDelete ) break;
-				if ( firstwarning ) {
+				if ( firstwarning ) 
+				{
 					QString message  = i18n("Do you want to delete this column?");
 					if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))!=KMessageBox::Continue) 
 						break;
@@ -1941,15 +2052,19 @@ QStringList TabularDialog::sortColorTable(QMap<QString,char> &colors)
 	int r,g,b;
 	QColor c;
 	QString s,sred,sgreen,sblue;
-	for ( it=colors.begin(); it!=colors.end(); ++it ) {
+	for ( it=colors.begin(); it!=colors.end(); ++it ) 
+	{
 		c.setNamedColor(it.key());
 		c.getRgb(&r,&g,&b);
-		if ( r!=g || r!=b ) {
+		if ( r!=g || r!=b ) 
+		{
 			sred = convertColor(r);
 			sgreen = convertColor(g);
 			sblue = convertColor(b);
 			s = QString("{rgb}{%1,%2,%3}").arg(sred).arg(sgreen).arg(sblue);
-		} else {
+		} 
+		else 
+		{
 			s = QString("{gray}{%1}").arg(convertColor(r));
 		}
 		list << QString("\\definecolor{tc%1}%2").arg(it.data()).arg(s);
@@ -1994,14 +2109,16 @@ void TabularDialog::slotOk()
 	
 	// count all column information
 	m_td.tagEnd = QString::null;
-	for ( int col=0; col<=numcols; ++col ) {
+	for ( int col=0; col<=numcols; ++col ) 
+	{
 		TabularCell::Preamble info;
 		info.vline = false;
 		info.align = Qt::AlignLeft;
 		
 		// Now get column information for real columns.
 		// The last info is only needed for a right vline.
-		if ( col < numcols ) {
+		if ( col < numcols ) 
+		{
 			cnt = m_table->countCells(col,0,col,numrows-1);
 		
 			// and set values 
@@ -2017,7 +2134,8 @@ void TabularDialog::slotOk()
 	
 	// search for left vlines all columns 
 	QHeader *hor = m_table->horizontalHeader();
-	for ( int col=0; col<numcols; ++col ) {
+	for ( int col=0; col<numcols; ++col ) 
+	{
 		// get current header
 		s = hor->label(col).remove(' ');
 		if ( s.find('>') || s.find('<') || s.find('!')  || s.find('m') || s.find('b')) 
@@ -2025,9 +2143,11 @@ void TabularDialog::slotOk()
 			
 		// look for @{} and !{} substrings
 		bool separator = ( s.find('@')>=0 || s.find('!')>=0 );
-		if ( !separator ) {
+		if ( !separator ) 
+		{
 			lines = m_table->countVLines(col,true);
-			if ( lines.cnt > numrows/2 ) {
+			if ( lines.cnt > numrows/2 ) 
+			{
 				preamble += "|";
 				colinfo[col].vline = true;
 			}
@@ -2035,17 +2155,20 @@ void TabularDialog::slotOk()
 		
 		// color
 		QString colorcommand = QString::null;
-		if ( colinfo[col].bgcolor != whitename ) {
+		if ( colinfo[col].bgcolor != whitename ) 
+		{
 			QChar color = defineColor(colinfo[col].bgcolor,colortable,colorchar);
 			colorcommand += QString("\\columncolor{tc%1}").arg(color);
 			pkgColortbl = true;
 		}
-		if ( colinfo[col].textcolor != blackname ) {
+		if ( colinfo[col].textcolor != blackname ) 
+		{
 			QChar color = defineColor(colinfo[col].textcolor,colortable,colorchar);
 			colorcommand += QString("\\color{tc%1}").arg(color);
 			pkgColor = true;
 		}
-		if ( ! colorcommand.isEmpty() ) {
+		if ( ! colorcommand.isEmpty() ) 
+		{
 			if ( s.find('>') >= 0 ) 
 				s = s.replace(">{}",QString(">{%1}").arg(colorcommand));
 			else  
@@ -2064,7 +2187,8 @@ void TabularDialog::slotOk()
 	}
 	// search for right vline in last column
 	lines = m_table->countVLines( numcols-1,false );
-	if ( lines.cnt > numrows/2 ) {
+	if ( lines.cnt > numrows/2 ) 
+	{
 		preamble += "|";
 		colinfo[numcols].vline = true;
 	}
@@ -2073,22 +2197,26 @@ void TabularDialog::slotOk()
 	//kdDebug() << " topline " << getEol(0,true) << endl;
 		
 	// output all rows
-	for ( int row=0; row<numrows; ++row ) {
+	for ( int row=0; row<numrows; ++row ) 
+	{
 		textline = QString::null;
 		
 		// first check for a rowcolor command
 		cnt = m_table->countCells(0,row,numcols-1,row);
 		QString bgcolor = ( cnt.bgcolor > cnt.cells/2 ) ? cnt.nameBgcolor : whitename;
-		if ( bgcolor != whitename ) {
+		if ( bgcolor != whitename ) 
+		{
 			QChar color = defineColor(cnt.nameBgcolor,colortable,colorchar);
 			textline += QString("\\rowcolor{tc%1}\n").arg(color); 
 			pkgColortbl = true;
 		}
 			
 		int col = 0;
-		while	( col < numcols ) {
+		while	( col < numcols ) 
+		{
 			TabularItem *cellitem = dynamic_cast<TabularItem*>( m_table->item(row,col) );
-			if ( cellitem ) {
+			if ( cellitem ) 
+			{
 				// check for multicolumn and initialize string parameter
 				int colspan = cellitem->colSpan();
 				s1 = ( colspan > 1 ) ? QString("%1").arg(colspan) : QString::null;
@@ -2105,42 +2233,50 @@ void TabularDialog::slotOk()
 					);
 						
 				// build the multicolumn command (if necessary)
-				if ( useMulticolumn ) { 
+				if ( useMulticolumn ) 
+				{ 
 					// left vline
 					//if ( (colinfo[col].vline!=m_table->isVLine(row,col,true)) && m_table->isVLine(row,col,true) ) {
-					if ( m_table->isVLine(row,col,true) ) {
+					if ( m_table->isVLine(row,col,true) ) 
+					{
 						s2 += "|";
 					}
 					// bgcolor
 				//	if ( ! ( (colinfo[col].bgcolor==cellitem->m_data.bgcolor.name()) &&
 				//	         (colinfo[col].bgcolor==whitename) ) ) {
-					if ( cellitem->m_data.bgcolor.name() != whitename ) {
+					if ( cellitem->m_data.bgcolor.name() != whitename ) 
+					{
 						QChar color = defineColor(cellitem->m_data.bgcolor.name(),colortable,colorchar);
 						s2 += QString(">{\\columncolor{tc%1}}").arg(color);
 						pkgColortbl = true;
 					}
 					// alignment
 					//if ( cellitem->m_data.align!=colinfo[col].align ) {
-					switch ( cellitem->m_data.align ) {
+					switch ( cellitem->m_data.align ) 
+					{
 						case Qt::AlignHCenter : s2 += "c"; break;
 						case Qt::AlignRight   : s2 += "r"; break;
 						default               : s2 += "l";
 					}
 					// we have to set a right line in a multicolumn cell
-					if ( m_table->isVLine(row,col,false) )  {
+					if ( m_table->isVLine(row,col,false) )  
+					{
 						s2 += "|";
 					}
 				}
 				
 				// now build cell entries
-				if ( colinfo[col].bold != (cellitem->m_data.font & TabularCell::cfBold) ) {
+				if ( colinfo[col].bold != (cellitem->m_data.font & TabularCell::cfBold) ) 
+				{
 					s3 += "\\bfseries";
 				}
-				if ( colinfo[col].italic != (cellitem->m_data.font & TabularCell::cfItalic) ) {
+				if ( colinfo[col].italic != (cellitem->m_data.font & TabularCell::cfItalic) ) 
+				{
 					s3 += "\\itshape";
 				}
 				
-				if ( colinfo[col].textcolor != cellitem->m_data.textcolor.name() ) {
+				if ( colinfo[col].textcolor != cellitem->m_data.textcolor.name() ) 
+				{
 					s3 += "\\color{" + colinfo[col].textcolor + "-" + cellitem->m_data.textcolor.name() + "}";
 					pkgColor = true;
 				}
@@ -2172,7 +2308,9 @@ void TabularDialog::slotOk()
 					
 				// increase column number
 				col += colspan;
-			} else {
+			} 
+			else 
+			{
 				if ( setcursor ) 
 				{
 					textline += "%C";
@@ -2222,7 +2360,7 @@ void TabularDialog::slotOk()
 	}	 
 			
 	// get environment names
-	QString centername = ( isMathEnvironment(envname) ) ? "displaymath" : "center";
+	QString centername = ( isMathmodeEnvironment(envname) ) ? "displaymath" : "center";
 	if ( m_cbStarred->isChecked() )
 		envname += "*";
 	
@@ -2238,7 +2376,8 @@ void TabularDialog::slotOk()
 	m_td.tagBegin += packagelist;
 	
 	// define some commands 
-	if ( group ) {
+	if ( group ) 
+	{
 		//m_td.tagBegin += "%\n";
 		// add multicolumn shortcut
 		if ( multicolumn ) 
@@ -2255,7 +2394,7 @@ void TabularDialog::slotOk()
 	if ( m_cbStarred->isChecked() )
 		m_td.tagBegin += QString("{%1}").arg(bullet);
 	// add optional alignment parameter
-	QString envparameter = m_coParameter->currentText();
+	QString envparameter = ( m_coParameter->isEnabled() ) ? m_coParameter->currentText() : QString::null;
 	if ( ! envparameter.isEmpty() ) 
 		m_td.tagBegin += QString("[%1]").arg(envparameter);
 	// add preamble
@@ -2273,17 +2412,24 @@ void TabularDialog::slotOk()
 	m_td.dx = 0;
 	
 	// set cursor to first bullet position
-	if ( m_cbBullets->isChecked() ) {
+	if ( m_cbBullets->isChecked() ) 
+	{
 		int pos = m_td.tagBegin.find(bullet);
-		if ( pos >= 0 ) {
+		if ( pos >= 0 ) 
+		{
 			m_td.tagBegin = m_td.tagBegin.replace(pos,1,"%C");
 			setcursor = false;
-		} else {
+		} 
+		else 
+		{
 			pos = m_td.tagEnd.find(bullet);
-			if ( pos >= 0 ) {
+			if ( pos >= 0 ) 
+			{
 				m_td.tagEnd = m_td.tagEnd.replace(pos,1,"%C");
 				setcursor = false;
-			} else {
+			} 
+			else 
+			{
 				setcursor = true;
 			}
 		}

@@ -19,7 +19,7 @@
 
 #include <kaction.h>
 #include <kdialogbase.h>
-
+#include <klineedit.h>
 
 class QCheckBox;
 class QLineEdit;
@@ -29,7 +29,7 @@ class KileInfo;
 namespace KileAction
 {
 
-enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList = 16, ShowFigureInput=32};
+enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList=16, ShowLabel=32 };
 /*
 	TagData
 */
@@ -88,8 +88,6 @@ protected:
 */
 class InputTag : public Tag
 {
-friend class InputFigure;
-
 	Q_OBJECT
 
 public:
@@ -132,25 +130,6 @@ private:
 
 
 /*
-	InputFigure
-*/
-class InputFigure : public InputTag
-{
-	Q_OBJECT
-
-public:
-	//constructors
-	InputFigure(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const char *name, QWidget *wparent,uint options
-			, const QString &tagBegin, const QString &tagEnd = QString::null, int dx=0, int dy=0, const QString &description = QString::null, const QString &hint = QString::null, const QString &alter = QString::null);
-
-private slots:
-	//emits the activated(TagData) signal
-	virtual void emitData();
-
-};
-
-
-/*
 	InputDialog
 */
 class InputDialog : public KDialogBase
@@ -162,11 +141,11 @@ public:
 	~InputDialog();
 
 	bool useAlternative() {return m_useAlternative;}
+	bool useLabel() {return m_useLabel;}
 
 public slots:
 	void slotBrowse();
 	void slotAltClicked();
-	void slotEnvClicked();
 
 	void setTag(const QString&);
 
@@ -175,18 +154,15 @@ signals:
 
 public:
 	QString tag() { return m_tag; }
+	QString label();
 	bool usedSelection() { return m_usedSelection; }
 	
-	QLineEdit *figLabel;
-	QLineEdit *figCaption;
-	QCheckBox *Env;
+	KLineEdit *m_edLabel;
 
 private:
 	QString 			m_tag;
-	bool				m_useAlternative, m_usedSelection;
+	bool				m_useAlternative,m_useLabel,m_usedSelection;
 	KileInfo	*m_ki;
-	QLabel *Text2;
-	QLabel *Text3;
 };
 
 class Select : public KSelectAction

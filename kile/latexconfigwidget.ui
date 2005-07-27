@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>633</width>
+            <width>632</width>
             <height>554</height>
         </rect>
     </property>
@@ -120,7 +120,7 @@
                         <cstring>kcfg_InsertDoubleQuotes</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Auto insert</string>
+                        <string>&amp;Automatically insert opening and closing double quotes for LaTeX</string>
                     </property>
                 </widget>
                 <widget class="QComboBox" row="1" column="1">
@@ -296,14 +296,11 @@
     <variable access="private">KileDocument::LatexCommands *m_commands;</variable>
 </variables>
 <slots>
-    <slot>setDoubleQuotes( int index )</slot>
     <slot access="private" specifier="non virtual">slotConfigure()</slot>
 </slots>
 <functions>
     <function access="private" specifier="non virtual">init()</function>
-    <function specifier="non virtual" returnType="int">getDoubleQuotes()</function>
     <function specifier="non virtual">setLatexCommands( KConfig * config, KileDocument::LatexCommands * commands )</function>
-    <function returnType="bool">getInsertDoubleQuotes()</function>
 </functions>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>

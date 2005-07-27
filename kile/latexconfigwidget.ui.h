@@ -32,16 +32,6 @@ void KileWidgetLatexConfig::init()
 }
 
 
-int KileWidgetLatexConfig::getDoubleQuotes()
-{
-    return kcfg_DoubleQuotes->currentItem();
-}
-
-
-void KileWidgetLatexConfig::setDoubleQuotes(int index)
-{
-    kcfg_DoubleQuotes->setCurrentItem(index);
-}
 
 void KileWidgetLatexConfig::slotConfigure()
 {
@@ -58,7 +48,3 @@ void KileWidgetLatexConfig::setLatexCommands( KConfig *config, KileDocument::Lat
 }
 
 
-bool KileWidgetLatexConfig::getInsertDoubleQuotes()
-{
-   return kcfg_InsertDoubleQuotes->isChecked();
-}

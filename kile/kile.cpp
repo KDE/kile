@@ -1667,6 +1667,7 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_edit->complete()->readConfig();
+	m_edit->initDoubleQuotes();	
 }
 
 void Kile::saveSettings()

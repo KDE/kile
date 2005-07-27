@@ -124,7 +124,6 @@ namespace KileDialog
 		latexPage = new KileWidgetLatexConfig(page, "LaTeX");
 
 		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
-		latexPage->setDoubleQuotes(KileConfig::doubleQuotes());
 		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
 		
 		QVBoxLayout *vbox = new QVBoxLayout(page);
@@ -185,12 +184,8 @@ namespace KileDialog
 		previewPage->writeConfig();   // Quick Preview (dani)
 
 		KileConfig::setDefaultEncoding(encodingPage->encoding());
-		KileConfig::setDoubleQuotes(latexPage->getDoubleQuotes());
-		KileConfig::setInsertDoubleQuotes(latexPage->getInsertDoubleQuotes());
-		
-		m_config->sync();
-		m_ki->editorExtension()->initDoubleQuotes();
 
+		m_config->sync();
 		emit okClicked(); // Otherwise, the KConfigXT machine doesn't start...
 		accept();
 	}

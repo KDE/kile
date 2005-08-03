@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Jan 28 2005
-    version              : 0.11
-    copyright            : (C) 2004 by Holger Danielsson, 2004 Jeroen Wijnhout
+    date                 : Jul 28 2005
+    version              : 0.21
+    copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -45,6 +45,7 @@ public:
 	~IncludeGraphics();
 
 	QString getTemplate();
+	QString getFilename();
 
 private slots:
 	void chooseFile();

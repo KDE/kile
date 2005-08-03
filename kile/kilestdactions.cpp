@@ -94,12 +94,10 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("\"Medium\" vertical space - \\medskip"),  0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_medskip","\\medskip ",QString::null,9,0,i18n("The \\medskip command adds a 'medium' vertical space."));
 
   // includegraphics (dani)
-  (void) new KileAction::Tag(i18n("Image insertion - \\includegraphics{file}"), "graphics", KShortcut("Alt+I,G"),
-                             parent,SLOT(includeGraphics()), parent->actionCollection(),
-                             "tag_includegraphics",0L);
+  (void) new KileAction::Tag(i18n("Image insertion - \\includegraphics{file}"), "graphics", KShortcut("Alt+I,G"),parent,SLOT(includeGraphics()), parent->actionCollection(),"tag_includegraphics",0L);
   // two new shortcuts (dani)
-  (void) new KileAction::InputTag(ki,i18n("Customizable file inclusion - \\include{file}"),"include",KShortcut("Alt+I,F"), parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_include",parent, KileAction::KeepHistory | KileAction::ShowBrowseButton, "\\include{%R","}",9,0, i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),i18n("Type or select a filename: "));
-	(void) new KileAction::InputTag(ki,i18n("File inclusion - \\input{file}"),"include",KShortcut("Alt+I,P"), parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_input", parent, KileAction::KeepHistory | KileAction::ShowBrowseButton, "\\input{%R","}",7,0,i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),i18n("Type or select a filename: "));
+  (void) new KileAction::InputTag(ki,i18n("Customizable file inclusion - \\include{file}"),"include",KShortcut("Alt+I,F"), parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_include",parent, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\include{%R","}",9,0, i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),i18n("Type or select a filename: "));
+	(void) new KileAction::InputTag(ki,i18n("File inclusion - \\input{file}"),"include",KShortcut("Alt+I,P"), parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_input", parent, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\input{%R","}",7,0,i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),i18n("Type or select a filename: "));
     (void) new KileAction::Tag(i18n("Bibliography style selection - \\bibliographystyle{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels."));
 	(void) new KileAction::Tag(i18n("Bibliography generation - \\bibliography{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file"));
 
@@ -113,6 +111,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	alist.append(new KileAction::InputTag(ki,"p&aragraph",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_paragraph",parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\paragraph%A{%R}","\n", 0,1,i18n("\\paragraph{title}\n\\paragraph*{title} : do not include a number and do not make an entry in the table of contents"), i18n("&Paragraph"),i18n("No &numbering")));
 	alist.append(new KileAction::InputTag(ki,"subpa&ragraph",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subparagraph",parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\subparagraph%A{%R}","\n", 0,1,i18n("\\subparagraph{title}\n\\subparagraph*{title} : do not include a number and do not make an entry in the table of contents"), i18n("&Subparagraph"),i18n("No &numbering")));
 	actionstructure_list->setItems(alist);
+	actionstructure_list->setCurrentItem(2);
 
 	KileAction::Select *actionsize_list = new KileAction::Select(i18n("Size"), 0, parent->actionCollection(), "size_list");
 	alist.clear();
@@ -127,6 +126,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	alist.append(new KileAction::Tag(i18n("huge"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{huge}","\\end{huge}",  12,0));
 	alist.append(new KileAction::Tag(i18n("Huge"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{Huge}","\\end{Huge}",  12,0));
 	actionsize_list->setItems(alist);
+	actionstructure_list->setCurrentItem(3);
 
 	KileAction::Select *actionother_list = new KileAction::Select(i18n("Other"), 0, parent->actionCollection(), "other_list");
 	alist.clear();

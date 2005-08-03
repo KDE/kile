@@ -112,6 +112,7 @@ public slots:
 	void projectShow();
 	void projectRemoveFiles();
 	void projectShowFiles();
+	void projectAddFile(QString filename, bool graphics=false);
 	
 	KileProject* selectProject(const QString &);
 

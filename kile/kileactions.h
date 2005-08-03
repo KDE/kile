@@ -29,7 +29,7 @@ class KileInfo;
 namespace KileAction
 {
 
-enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList=16, ShowLabel=32 };
+enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, FromBibItemList=16, ShowLabel=32, AddProjectFile=64};
 /*
 	TagData
 */
@@ -142,6 +142,7 @@ public:
 
 	bool useAlternative() {return m_useAlternative;}
 	bool useLabel() {return m_useLabel;}
+	bool useAddProjectFile() {return m_useAddProjectFile;}
 
 public slots:
 	void slotBrowse();
@@ -161,7 +162,7 @@ public:
 
 private:
 	QString 			m_tag;
-	bool				m_useAlternative,m_useLabel,m_usedSelection;
+	bool				m_useAlternative,m_useLabel,m_usedSelection,m_useAddProjectFile;
 	KileInfo	*m_ki;
 };
 

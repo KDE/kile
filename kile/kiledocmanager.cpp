@@ -1527,6 +1527,35 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 	return item;
 }
 
+// add a new file to the project
+//  - only when there is an active project
+//  - if the file doesn't already belong to it (checked by addToProject)
+
+void Manager::projectAddFile(QString filename, bool graphics)
+{
+ 	kdDebug() << "===Kile::projectAddFile==============" << endl;
+	KileProject *project = activeProject();
+ 	if ( ! project ) 
+		return;
+		
+	if ( ! QFileInfo(filename).exists() )
+	{
+		if ( graphics )
+			return;
+		filename += ".tex";
+		if ( ! QFileInfo(filename).exists() )
+			return;
+	}
+	
+	//ok, we have a project and an existing file
+	kdDebug() << "\tadd file: " << filename << endl;
+	m_ki->viewManager()->updateStructure(true);
+	
+	KURL url;
+	url.setPath(filename);
+	addToProject(project, url);
+}
+
 }
 
 #include "kiledocmanager.moc"

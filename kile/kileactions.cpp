@@ -32,6 +32,7 @@
 
 #include "kileactions.h"
 #include "kileinfo.h"
+#include "kiledocmanager.h"
 
 namespace KileAction
 {
@@ -161,7 +162,13 @@ void InputTag::emitData()
 		if (dlg->usedSelection())
 			m_ki->clearSelection();
 			
+		// insert tag
 		emit(activated(td));
+		// refresh document structure and project tree when a file was inserted
+		if ( dlg->useAddProjectFile() ) 
+		{
+			m_ki->docManager()->projectAddFile( QFileInfo(m_ki->getCompileName()).dirPath(true) + "/" + dlg->tag() );
+		}
 	}
 	delete dlg;
 }
@@ -277,6 +284,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		gbox->addMultiCellWidget(m_edLabel,4,4,0,2);
 	}
 
+	m_useAddProjectFile = ( options & KileAction::AddProjectFile );
+	
 	gbox->setRowStretch(5,1);
 	gbox->setColStretch(0,1);
 	

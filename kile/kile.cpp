@@ -373,9 +373,9 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
 
 	// new project actions (dani)
-	(void) new KAction(i18n("Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
-	(void) new KAction(i18n("Remove Files from Project..."), 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
-	(void) new KAction(i18n("Show Project Files..."), 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
+	(void) new KAction(i18n("&Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
+	(void) new KAction(i18n("Re&move Files from Project..."), 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
+	(void) new KAction(i18n("Show Project &Files..."), 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
 	
 	//build actions
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
@@ -1241,8 +1241,10 @@ void Kile::initKileMenu()
 	   // wizard
 	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
 	   << "wizard_float" << "wizard_mathenv"
-	   // settings/help
-	   << "Mode" << "help_context" 
+	   // settings
+	   << "Mode" << "settings_keys" 
+	   // help
+	   << "help_context" 
 	   // action lists
 	   << "structure_list" << "size_list" << "other_list" 
 	   << "left_list" << "right_list"
@@ -1985,7 +1987,10 @@ void Kile::includeGraphics()
 	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), false, this);
 
 	if ( dialog->exec() == QDialog::Accepted )
+	{
 		insertTag(dialog->getTemplate(), "%C", 0,0);
+		docManager()->projectAddFile( dialog->getFilename(),true );
+	}
 
 	delete dialog;
 }

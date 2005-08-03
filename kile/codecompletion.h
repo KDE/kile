@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Jan 26 2005
-    version              : 0.11
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Jul 25 2005
+    version              : 0.22
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -22,6 +22,7 @@
 #include <kate/view.h>
 #include <kate/document.h>
 #include <ktexteditor/codecompletioninterface.h>
+#include "latexcmd.h"
 
 //default bullet char (a cross)
 static const QChar s_bullet_char = QChar(0xd7);
@@ -144,7 +145,7 @@ private:
 
 	QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
 	QString buildEnvironmentText(const QString &text, const QString &type, uint &ypos, uint &xpos);
-    QString getWhiteSpace();
+	QString getWhiteSpace();
 	QString buildAbbreviationText(const QString &text);
 	QString buildLabelText(const QString &text);
 
@@ -153,7 +154,13 @@ private:
 
 	void setWordlist(const QStringList &files,const QString &dir, QValueList<KTextEditor::CompletionEntry> *entrylist);
 	void readWordlist(QStringList &wordlist, const QString &filename);
+	void addCommandsToTexlist(QStringList &wordlist);
+	
+	void setReferences();
+	QString getCommandList(KileDocument::CmdAttribute attrtype);
+	
 	void setCompletionEntries(QValueList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
+	void setCompletionEntriesTexmode(QValueList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
 
 	uint countEntries(const QString &pattern, QValueList<KTextEditor::CompletionEntry> *list, QString *entry, QString *type);
 };

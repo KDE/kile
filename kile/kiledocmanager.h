@@ -149,6 +149,7 @@ public:
 	Info* getInfo() const;
 	Info* infoFor(const QString &path) const;
 	Info* infoFor(Kate::Document* doc, bool usepath = true) const;
+	void updateInfos();
 
 	KileProject* projectFor(const KURL &projecturl);
 	KileProject* projectFor(const QString & name);

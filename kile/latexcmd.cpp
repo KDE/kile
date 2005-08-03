@@ -1,8 +1,8 @@
 /***************************************************************************
                          latexcmd.cpp
                          ------------
-    begin                : Jun 26 2005
-    version              : 0.10
+     date                : Jul 25 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -17,6 +17,8 @@
  ***************************************************************************/
 
  
+// kommandos mit weiteren Parametern
+
 #include "latexcmd.h"
 
 #include <klocale.h>
@@ -103,18 +105,20 @@ void LatexCommands::resetCommands()
 	//  0: standard entry (+,-)
 	//  1: environmenty type (a,m,l,t,v)
 	//  2: including starred version (*)
+	//  3: optional parameter
+	//  4: parameter 
 	
 	QStringList cmdlist;
 	cmdlist
 		// Labels
-	   << "\\label,+,L,"
+	   << "\\label,+,L,,,{ }"
 		// References
-	   << "\\ref,+,R,"
-	   << "\\pageref,+,R,"
-	   << "\\vref,+,R,"
-	   << "\\vpageref,+,R,"
+	   << "\\ref,+,R,,,{ }"
+	   << "\\pageref,+,R,,,{ }"
+	   << "\\vref,+,R,,,{ }"
+	   << "\\vpageref,+,R,,[ ],{ }"
 		// Citations
-	   << "\\cite,+,C,"
+	   << "\\cite,+,C,,,{ }"
 	   ;
 	
 	// first clear the dictionary
@@ -143,7 +147,7 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 			for ( it=map.begin(); it!=map.end(); ++it) 
 			{
 				list << it.key() + ",-," + it.data();
-				kdDebug() << "\tLatexCommands add user command: " <<  it.key() + " --> " + it.data() << endl;
+				kdDebug() << "\tLatexCommands: add " <<  it.key() + " --> " + it.data() << endl;
 			}
 		}
 	}
@@ -357,7 +361,7 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
 	// all environments/commands have starred attribute 
 	attr.starred = ( list[2] == "*" ) ;
 	
-	// next attributes are only valid for environments
+	// next attributes differ for environments and commands
 	if ( attributes == MaxEnvAttr ) 
 	{
 		attr.cr = ( list[3] == "\\\\" ) ;
@@ -366,6 +370,15 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
 		attr.tabulator = list[5];
 		attr.option = list[6];
 		attr.parameter = list[7];
+	}
+	else
+	{
+		attr.cr = false;
+		attr.mathmode = false;
+		attr.displaymathmode = false;
+		attr.tabulator = QString::null;
+		attr.option = list[3];
+		attr.parameter = list[4];
 	}
 	
 	return true;
@@ -388,7 +401,8 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 		s += ",";
 	
 	// next attributes are only valid for environments
-	if ( env ) {
+	if ( env ) 
+	{
 		if ( attr.cr )
 			s += "\\\\,";
 		else
@@ -400,11 +414,13 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 		else
 			s += ",";
 		s += attr.tabulator + ",";
-		s += attr.option + ",";
-		s += attr.parameter + ",";
 	}
 	
-	return s.left(s.length()-1);
+	// option and parameter are for both types again
+	s += attr.option + ",";
+	s += attr.parameter;
+	
+	return s;    // s.left(s.length()-1);
 }
  
 // END LatexCommands

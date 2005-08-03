@@ -98,6 +98,10 @@
 			<label>Automatic completion \begin{env} with \end{env}.</label>
 			<default>true</default>
 		</entry>
+		<entry name="ShowUserCommands" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
 		<entry name="InsertDoubleQuotes" type="Bool">
 			<label>Automatic insertion of double quotes.</label>
 			<default>true</default>
@@ -242,7 +246,11 @@
 		</entry>
 		<entry name="CompleteChangedLists" type="Bool">
 			<label></label>
-			<default>true</default>
+			<default>false</default>
+		</entry>
+		<entry name="CompleteChangedCommands" type="Bool">
+			<label></label>
+			<default>false</default>
 		</entry>
 		<entry name="CompleteTex" type="StringList">
 			<label></label>
@@ -253,20 +261,6 @@
 			<default></default>
 		</entry>
 		<entry name="CompleteAbbrev" type="StringList">
-			<label></label>
-			<default></default>
-		</entry>
-	</group>
-	<group name="Environments">
-		<entry name="EnvList" type="StringList">
-			<label></label>
-			<default></default>
-		</entry>
-		<entry name="EnvMath" type="StringList">
-			<label></label>
-			<default></default>
-		</entry>
-		<entry name="EnvTabular" type="StringList">
 			<label></label>
 			<default></default>
 		</entry>

@@ -1,9 +1,9 @@
 /***************************************************************************
                          latexcmd.h
                          ----------
-    begin                : apr 28 2005
-    begin                : Jun 26 2005
-    version              : 0.10
+    date                 : Jul 25 2005
+    version              : 0.20
+    copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -16,6 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
+// kommandos mit weiteren Parametern
 
 #ifndef LATEXCMD_H
 #define LATEXCMD_H
@@ -32,7 +33,7 @@ namespace KileDocument
 {
 
 const uint MaxEnvAttr = 8;
-const uint MaxCmdAttr = 3;
+const uint MaxCmdAttr = 5;
 
 enum CmdAttribute { 
 	CmdAttrNone=0,                                                                      // unknown 

@@ -1,8 +1,8 @@
 /***************************************************************************
                          latexcmddialog.cpp
                          --------------
-    begin                : Jun 26 2005
-    version              : 0.10
+    date                 : Jul 25 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -16,6 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
+// kommandos mit weiteren Parametern
  
 #include "latexcmddialog.h"
 #include "latexcmd.h"
@@ -29,6 +30,8 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kdebug.h>
+
+#include "kileconfig.h"
 
 namespace KileDialog
 {
@@ -45,15 +48,19 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	// 'add' is only allowed, if the KListViewItem is defined
 	m_addmode = ( lvitem == 0 );
 	m_envmode = ( cmdtype < KileDocument::CmdAttrLabel );
+	m_cmdType = cmdtype;
 	
 	// set modes for input dialog
-	m_useMathOrTab = m_useOption = m_useParameter = false;
+	//           AMS Math Tab List Verb Label Ref Cit
+	// MathOrTab  +   +    +   
+	// Option     +   +    +   +    +     +    +   +
+	// Parameter  +   +    +   +          +    +   +
+	m_useMathOrTab = false;
+	m_useOption = m_useParameter = true;
 	if ( cmdtype==KileDocument::CmdAttrAmsmath || cmdtype==KileDocument::CmdAttrMath  || cmdtype==KileDocument::CmdAttrTabular) 
-		m_useMathOrTab = m_useOption = m_useParameter = true;
-	else if ( cmdtype==KileDocument::CmdAttrList ) 
-		m_useOption = m_useParameter = true;
-	else 
-		m_useOption = true;
+		m_useMathOrTab = true;
+	else if ( cmdtype==KileDocument::CmdAttrVerbatim ) 
+		m_useParameter = false;
 	
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
@@ -82,9 +89,12 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	
 	label3->setBuddy(m_edName);
 	label4->setBuddy(m_chStarred);
-	QWhatsThis::add(grouplabel,i18n("Name of the group, to which this environment belongs."));
-	QWhatsThis::add(m_edName,i18n("Name of the new environment."));
-	QWhatsThis::add(m_chStarred,i18n("Does this environment also exist in a starred version?"));
+	QWhatsThis::add(grouplabel,i18n("Name of the group, to which this environment or command belongs."));
+	if ( m_addmode )
+		QWhatsThis::add(m_edName,i18n("Name of the new environment or command."));
+	else
+		QWhatsThis::add(m_edName,i18n("Name of the environment or command to edit."));
+	QWhatsThis::add(m_chStarred,i18n("Does this environment or command also exist in a starred version?"));
 	
 	int currentRow = 3;
 	if ( m_useMathOrTab ) 
@@ -126,11 +136,18 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		grid->addWidget(m_coOption,currentRow,2);
 	
 		label8->setBuddy(m_coOption);
-		QWhatsThis::add(m_coOption,i18n("Define an optional alignment parameter."));
 		
 		m_coOption->insertItem(QString::null);
-		m_coOption->insertItem("[tcb]");
-		m_coOption->insertItem("[lcr]");
+		if ( m_envmode )
+		{
+			m_coOption->insertItem("[tcb]");
+			m_coOption->insertItem("[lcr]");
+			QWhatsThis::add(m_coOption,i18n("Define an optional alignment parameter."));
+		}
+		else
+		{
+			QWhatsThis::add(m_coOption,i18n("Does this command need an optional parameter."));
+		}
 		m_coOption->insertItem("[ ]");
 		
 		currentRow++;
@@ -144,12 +161,21 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		grid->addWidget(m_coParameter,currentRow,2);
 	
 		label9->setBuddy(m_coParameter);
-		QWhatsThis::add(m_coParameter,i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
 		
-		m_coParameter->insertItem(QString::null);
-		m_coParameter->insertItem("{n}");
-		m_coParameter->insertItem("{w}");
-		m_coParameter->insertItem("{ }");
+		if ( m_envmode )
+		{
+			m_coParameter->insertItem(QString::null);
+			m_coParameter->insertItem("{n}");
+			m_coParameter->insertItem("{w}");
+			m_coParameter->insertItem("{ }");
+			QWhatsThis::add(m_coParameter,i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
+		}
+		else
+		{
+			m_coParameter->insertItem("{ }");
+			// m_coParameter->insertItem(QString::null);
+			QWhatsThis::add(m_coParameter,i18n("Does this command need an argument?"));
+		}
 		
 		currentRow++;
 	}
@@ -158,7 +184,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	//grid->setRowStretch(maxrows-1,1);
 		
 	// add or edit mode
-	if ( m_addmode ) 
+	if ( m_addmode )                   // add mode
 	{
 		QString pattern;
 		if  ( m_envmode ) 
@@ -175,26 +201,36 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		m_edName->setValidator( new QRegExpValidator(reg,m_edName) );
 		m_edName->setFocus();
 	} 
-	else 
+	else                          // edit mode
 	{
-		if  ( m_envmode ) 
-			label1->setText( i18n("Edit a LaTeX environment:") );
-		else 
-			label1->setText( i18n("Edit a LaTeX command:") );
+		// always insert name and starred attribute
 		m_edName->setText(lvitem->text(0));
 		m_edName->setReadOnly(true);
 		m_chStarred->setChecked( lvitem->text(1) == "*" );
-		if ( m_useMathOrTab ) 
+		
+		if  ( m_envmode )          // insert existing arguments for environments
 		{
-			m_chEndofline->setChecked( lvitem->text(2) == "\\\\" );
-			m_chMath->setChecked( lvitem->text(3) == "$" );
-			m_coTab->setCurrentText( lvitem->text(4) );
+			label1->setText( i18n("Edit a LaTeX environment:") );
+			if ( m_useMathOrTab ) 
+			{
+				m_chEndofline->setChecked( lvitem->text(2) == "\\\\" );
+				m_chMath->setChecked( lvitem->text(3) == "$" );
+				m_coTab->setCurrentText( lvitem->text(4) );
+			}
+			if ( m_useOption ) 
+				m_coOption->setCurrentText( lvitem->text(5) );
+			if ( m_useParameter ) 
+				m_coParameter->setCurrentText( lvitem->text(6) );
 		}
-		if ( m_useOption ) 
-			m_coOption->setCurrentText( lvitem->text(5) );
-		if ( m_useParameter ) 
-			m_coParameter->setCurrentText( lvitem->text(6) );
-	}	
+		else                      // insert existing arguments for commands
+		{
+			label1->setText( i18n("Edit a LaTeX command:") );
+			if ( m_useOption ) 
+				m_coOption->setCurrentText( lvitem->text(2) );
+			if ( m_useParameter ) 
+				m_coParameter->setCurrentText( lvitem->text(3) );
+		}
+	}
 	
 	// fill vbox
 	vbox->addWidget(label1,0,Qt::AlignHCenter);
@@ -202,26 +238,20 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	vbox->addStretch();
 }
 	
-// return the results as: name,starred,eol,math,tab,option
+// get all attributes of this command
 
 void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttributes &attr)
 {
-	// clear all information
-	attr.starred = false;
-	attr.cr = false;
-	attr.mathmode = false;
-	attr.displaymathmode = false;
-	attr.tabulator = QString::null;
-	attr.option = QString::null;
-	attr.parameter = QString::null;
-	
 	name = m_edName->text();
 	if ( m_envmode==false && name.at(0)!='\\' )
 		name.prepend('\\');
 			
+	// set main attributes
 	attr.standard = false;
+	attr.type = m_cmdType;
 	attr.starred = m_chStarred->isChecked();
 	
+	// read all atributes attributes
 	if ( m_useMathOrTab ) 
 	{
 		attr.cr = m_chEndofline->isChecked();
@@ -229,6 +259,14 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
 		attr.displaymathmode = false;
 		attr.tabulator = m_coTab->currentText(); 
 	}
+	else
+	{
+		attr.cr = false;
+		attr.mathmode = false;
+		attr.displaymathmode = false;
+		attr.tabulator = QString::null;
+	}
+	
 	attr.option = ( m_useOption ) ? m_coOption->currentText() : QString::null; 
 	attr.parameter = ( m_useParameter ) ? m_coParameter->currentText() : QString::null; 
 }
@@ -241,9 +279,12 @@ void NewLatexCommand::slotOk()
 		KMessageBox::error( this, i18n("An empty string is not allowed.") );
 		return;
 	}
+
+	QString name = m_edName->text();
+	if ( m_envmode==false && name.at(0)!='\\' )
+		name.prepend('\\');
 	
-	QString name = ( m_edName->text().at(0) == '\\' ) ? "environment" : "command";
-	if ( m_addmode && m_dict->contains(m_edName->text()) ) {
+	if ( m_addmode && m_dict->contains(name) ) {
 		QString msg = ( m_envmode ) ? i18n("This environment already exists.")
 		                            : i18n("This command already exists.");
 		KMessageBox::error( this,msg );
@@ -298,16 +339,21 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvCommands->setRootIsDecorated(true);
 	m_lvCommands->addColumn(i18n("Command"));
 	m_lvCommands->addColumn(i18n("Starred"));
+	m_lvCommands->addColumn(i18n("Option"));
+	m_lvCommands->addColumn(i18n("Parameter"));
 	m_lvCommands->setAllColumnsShowFocus(true); 
 	m_lvCommands->setSelectionMode(QListView::Single);
 	
 	QGridLayout *grid2 = new QGridLayout(page2, 1,1, 10,10);
 	grid2->addWidget(m_lvCommands,0,0);
    
+	for ( int col=1; col<=3; col++ ) 
+		m_lvCommands->setColumnAlignment(col,Qt::AlignHCenter);
+		
 	// add all pages to TabWidget
 	m_tab->addTab(page1,i18n("&Environments"));
 	m_tab->addTab(page2,i18n("&Commands"));
-	page2->setEnabled(false);
+	// page2->setEnabled(false);                        // disable command page
 
 	// button
 	m_btnAdd = new KPushButton(i18n("&Add"), page);
@@ -342,6 +388,10 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	connect(m_btnDelete, SIGNAL(clicked()),this, SLOT(slotDeleteClicked()));
 	connect(m_btnEdit, SIGNAL(clicked()),this, SLOT(slotEditClicked()));
 	connect(m_cbUserDefined, SIGNAL(clicked()),this, SLOT(slotUserDefinedClicked()));
+	
+	// read config and initialize changes (add, edit or delete an entry)
+	readConfig();
+	m_commandChanged = false;
 	
 	// init listview
 	resetListviews();
@@ -453,7 +503,7 @@ void LatexCommandsDialog::setEntry(KListViewItem *parent,const QString &name,
 		item->setText(1,"*");
 		
 	// environments have more attributes
-	if ( attr.type < KileDocument::CmdAttrLabel ) 
+	if ( attr.type < KileDocument::CmdAttrLabel )       // environments
 	{
 		if ( attr.cr )
 			item->setText(2,"\\\\");
@@ -465,6 +515,11 @@ void LatexCommandsDialog::setEntry(KListViewItem *parent,const QString &name,
 		item->setText(5,attr.option);
 		item->setText(6,attr.parameter);
 	}
+	else                                                // commands
+	{
+		item->setText(2,attr.option);
+		item->setText(3,attr.parameter);
+	}
 }
 
 void LatexCommandsDialog::getEntry(KListViewItem *item,KileDocument::LatexCmdAttributes &attr)
@@ -472,8 +527,8 @@ void LatexCommandsDialog::getEntry(KListViewItem *item,KileDocument::LatexCmdAtt
 	// always set the starred entry
 	attr.starred = ( item->text(1) == "*" );
 		
-	// environments have more attributes
-	if ( item->text(0).at(0) != '\\' ) 
+	// get all attributes
+	if ( item->text(0).at(0) != '\\' )                 // environment
 	{
 		attr.cr = ( item->text(2) == "\\\\" );
 		attr.mathmode = ( item->text(3) == "$" );
@@ -481,6 +536,15 @@ void LatexCommandsDialog::getEntry(KListViewItem *item,KileDocument::LatexCmdAtt
 		attr.tabulator = item->text(4);
 		attr.option = item->text(5);
 		attr.parameter = item->text(6);
+	}
+	else                                              // commands
+	{
+		attr.cr = false;
+		attr.mathmode = false;
+		attr.displaymathmode = false;
+		attr.tabulator = QString::null;
+		attr.option = item->text(2);
+		attr.parameter = item->text(3);
 	}
 }
 
@@ -575,6 +639,8 @@ void LatexCommandsDialog::slotAddClicked()
 		NewLatexCommand *dialog = new NewLatexCommand(this,caption,item->text(0),0L,type,&m_dictCommands);
 		if ( dialog->exec() == QDialog::Accepted ) 
 		{
+			m_commandChanged = true;
+			
 			// insert new item with attributes
 			QString name;
 			KileDocument::LatexCmdAttributes attr;
@@ -612,6 +678,8 @@ void LatexCommandsDialog::slotDeleteClicked()
 	{
 		if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))==KMessageBox::Continue) 
 		{
+			m_commandChanged = true;
+			
 			if ( isUserDefined(item->text(0)) )
 				m_dictCommands.remove(item->text(0));
 			delete item;
@@ -654,6 +722,8 @@ void LatexCommandsDialog::slotEditClicked()
 			NewLatexCommand *dialog = new NewLatexCommand(this,caption,parentitem->text(0),item,type, &m_dictCommands);
 			if ( dialog->exec() == QDialog::Accepted ) 
 			{
+				m_commandChanged = true;
+			
 				// delete old item
 				delete item;
 				// insert new item with changed attributes
@@ -681,7 +751,7 @@ void LatexCommandsDialog::slotUserDefinedClicked()
 void LatexCommandsDialog::slotHelp()
 {
 	QString mode = ( getListviewMode() == lvEnvMode ) ? i18n("'environment'") : i18n("'command'");
-	if ( KMessageBox::warningContinueCancel(this, QString(i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?")).arg(mode)) == KMessageBox::Continue )
+	if ( KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?").arg(mode)) == KMessageBox::Continue )
 	{
 		if ( getListviewMode() == lvEnvMode ) 
 			resetEnvironments();
@@ -695,6 +765,9 @@ void LatexCommandsDialog::slotHelp()
 
 void LatexCommandsDialog::slotOk()
 {
+	// save checkbox for user defined commands
+	KileConfig::setShowUserCommands(m_cbUserDefined->isChecked());
+
 	// write config entries for environments and commands
 	writeConfig(m_lvEnvironments,m_commands->envGroupName(),true);
 	writeConfig(m_lvCommands,m_commands->cmdGroupName(),false);
@@ -703,10 +776,19 @@ void LatexCommandsDialog::slotOk()
 	// reset known LaTeX environments and commands
 	m_commands->resetCommands();
 	
+	// save if there is a change in user defined commands and environments   
+	KileConfig::setCompleteChangedCommands( m_commandChanged );
+	
 	accept();
 }
 
-////////////////////////////// write config //////////////////////////////
+////////////////////////////// read/write config //////////////////////////////
+
+void LatexCommandsDialog::readConfig()
+{
+	// read checkbox for user defined commands
+	m_cbUserDefined->setChecked( KileConfig::showUserCommands() );
+}
 
 void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupname, bool env)
 {

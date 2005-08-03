@@ -1284,7 +1284,7 @@ void Kile::updateKileMenu()
 	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
 	bool file_open = ( viewManager()->currentView() );
-	kdDebug() << "---> projectopen=" << project_open << " fileopen=" << file_open << endl;
+	kdDebug() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 	
 	QMenuBar *menubar = menuBar();
 	for ( uint i=0; i<menubar->count(); ++i ) {
@@ -1667,7 +1667,8 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_edit->complete()->readConfig();
-	m_edit->initDoubleQuotes();	
+	m_edit->initDoubleQuotes();
+	docManager()->updateInfos();
 }
 
 void Kile::saveSettings()

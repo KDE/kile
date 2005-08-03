@@ -22,6 +22,8 @@
 #include <kurl.h>
 #include <kdialogbase.h>
 
+#include <latexcmd.h>
+
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
 #define TEX_CAT2 '}'
@@ -93,7 +95,7 @@ public:
 	static KURL makeValidTeXURL(const KURL & url);
 
 public:
-	Info(Kate::Document *doc = 0L);
+	Info(Kate::Document *doc, LatexCommands *commands);
 	~Info();
 
 	/**
@@ -119,6 +121,7 @@ public:
 	const QStringList* newCommands() const { return &m_newCommands; }
 
 	QString lastModifiedFile(const QStringList *list = 0L);
+	void updateStructLevelInfo();
 
 	const QString & preamble() const { return m_preamble; }
 
@@ -171,6 +174,7 @@ protected:
 	QMap<QString,KileStructData>	m_dictStructLevel;
 	KURL						m_url, m_oldurl;
 	KConfig						*m_config;
+	LatexCommands				*m_commands;
 };
 
 class TeXInfo : public Info
@@ -178,7 +182,7 @@ class TeXInfo : public Info
 	Q_OBJECT
 
 public:
-	TeXInfo ( Kate::Document * doc ) : Info(doc) {}
+	TeXInfo (Kate::Document *doc, LatexCommands *commands) : Info(doc,commands) {}
 
 public:
 	const long* getStatistics();
@@ -195,7 +199,7 @@ class BibInfo : public Info
 	Q_OBJECT
 
 public:
-	BibInfo ( Kate::Document * doc ) : Info(doc) {}
+	BibInfo (Kate::Document *doc, LatexCommands *commands) : Info(doc,commands) {}
 	bool isLaTeXRoot() { return false; }
 
 public slots:

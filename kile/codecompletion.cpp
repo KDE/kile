@@ -1,8 +1,8 @@
 /***************************************************************************
-date                 : Febr 18 2005
-version              : 0.12
-copyright            : (C) 2004-2005 by Holger Danielsson
-email                : holger.danielsson@t-online.de
+    date                 : Jul 25 2005
+    version              : 0.22
+    copyright            : (C) 2004-2005 by Holger Danielsson
+    email                : holger.danielsson@t-online.de
 ***************************************************************************/
 
 /***************************************************************************
@@ -35,11 +35,15 @@ email                : holger.danielsson@t-online.de
 namespace KileDocument
 {
 
-	static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
-	static QRegExp::QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
-	static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
-	static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
+	//static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
+	//static QRegExp::QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
+	//static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
+	//static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
 	
+	static QRegExp::QRegExp reRef;
+	static QRegExp::QRegExp reRefExt;
+	static QRegExp::QRegExp reCite;
+	static QRegExp::QRegExp reCiteExt;
 	static QRegExp::QRegExp reNotRefChars("[^a-zA-z0-9_@\\+\\-\\*\\:]");
 	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
@@ -49,6 +53,7 @@ namespace KileDocument
 		m_undo = false;
 		m_ref = false;
 
+		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
 	}
@@ -109,14 +114,16 @@ namespace KileDocument
 
 		// reading the wordlists is only necessary at the first start
 		// and when the list of files changes
-		if ( m_firstconfig || KileConfig::completeChangedLists() )
+		if ( m_firstconfig || KileConfig::completeChangedLists()  || KileConfig::completeChangedCommands() )
 		{
+			kdDebug() << "   set regexp for references..." << endl;
+			setReferences();
+			
 			kdDebug() << "   read wordlists..." << endl;
-
 			// wordlists for Tex/Latex mode
 			QStringList files = KileConfig::completeTex();
 			setWordlist( files, "tex", &m_texlist );
-
+		
 			// wordlist for dictionary mode
 			files = KileConfig::completeDict();
 			setWordlist( files, "dictionary", &m_dictlist );
@@ -128,14 +135,52 @@ namespace KileDocument
 			// remember changed lists
 			m_firstconfig = false;
 			KileConfig::setCompleteChangedLists(false);
+			KileConfig::setCompleteChangedCommands(false);
 		}
 
 	}
 
+	//////////////////// references and citations ////////////////////
+	
+	void CodeCompletion::setReferences()
+	{
+		// build list of references
+		QString references = getCommandList(KileDocument::CmdAttrReference);
+		reRef.setPattern("^\\\\(pageref|ref" + references + ")\\{");
+		reRefExt.setPattern("^\\\\(pageref|ref" + references + ")\\{[^\\{\\}\\\\]+,$");
+		
+		// build list of citations
+		QString citations = getCommandList(KileDocument::CmdAttrCitations);
+		reCite.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
+		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
+	}
+		
+	QString CodeCompletion::getCommandList(KileDocument::CmdAttribute attrtype)
+	{
+		QStringList cmdlist;
+		QStringList::ConstIterator it;
+
+		// get info about user defined references
+		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
+		cmd->commandList(cmdlist,attrtype,true);
+	
+		// build list of references
+		QString commands = QString::null;
+		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
+		{
+			commands += "|" + (*it).mid(1);
+		}
+		return commands;
+	}
+	
+	//////////////////// wordlists ////////////////////
+	
 	void CodeCompletion::setWordlist( const QStringList &files, const QString &dir,
 	                                  QValueList<KTextEditor::CompletionEntry> *entrylist
 	                                )
 	{
+		
+		// read wordlists from files
 		QStringList wordlist;
 		for ( uint i = 0; i < files.count(); ++i )
 		{
@@ -146,13 +191,72 @@ namespace KileDocument
 			}
 		}
 
-		// sort the wordlist
-		// wordlist.sort();
-
-		// build all completion entries
-		setCompletionEntries( entrylist, wordlist );
+		// add user defined commands and environments
+		if ( dir == "tex" )
+		{
+			addCommandsToTexlist(wordlist);
+			setCompletionEntriesTexmode( entrylist, wordlist );
+		}
+		else
+		{
+			wordlist.sort();
+			setCompletionEntries( entrylist, wordlist );
+		}
 	}
 
+	void CodeCompletion::addCommandsToTexlist(QStringList &wordlist)
+	{
+		QStringList cmdlist;
+		QStringList::ConstIterator it;
+		KileDocument::LatexCmdAttributes attr;
+
+		// get info about user defined commands and environments
+		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
+		cmd->commandList(cmdlist,KileDocument::CmdAttrNone,true);
+	
+		// add entries to wordlist
+		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
+		{
+			if ( cmd->commandAttributes(*it,attr) ) 
+			{
+				QString command,eos;
+				QStringList entrylist;
+				if ( attr.type < KileDocument::CmdAttrLabel )          // environment
+				{
+					command = "\\begin{" + (*it);
+					eos = "}";
+				}
+				else                                                   // command
+				{
+					command = (*it);
+					// eos = QString::null;
+				}
+				
+				// get all possibilities into a stringlist
+				entrylist.append( command + eos );
+				if ( ! attr.option.isEmpty() )
+					entrylist.append( command + eos + "[option]" );
+				if ( attr.starred )
+				{
+					entrylist.append( command + "*" + eos );
+					if ( ! attr.option.isEmpty() )
+						entrylist.append( command + "*" + eos + "[option]" );
+				}
+
+				// finally append entries to wordlist
+				QStringList::ConstIterator itentry;
+				for ( itentry=entrylist.begin(); itentry != entrylist.end(); ++itentry ) 
+				{
+					QString entry = (*itentry);
+					if ( ! attr.parameter.isEmpty()  )
+						entry += "{param}";
+					if ( attr.type == KileDocument::CmdAttrList )
+						entry += "\\item";
+					wordlist.append( entry ); 
+				}
+			}
+		}
+	}
 
 	//////////////////// completion box ////////////////////
 
@@ -668,18 +772,89 @@ namespace KileDocument
 	}
 
 	void CodeCompletion::setCompletionEntries( QValueList<KTextEditor::CompletionEntry> *list,
-	        const QStringList &wordlist )
+	                                           const QStringList &wordlist )
 	{
-		// clear the whole list
+		// clear the list of completion entries
 		list->clear();
 
 		KTextEditor::CompletionEntry e;
-
-		// build new entries: if the last 5 chars of an environment are '\item',
-		// it is a list environment, where the '\item' tag is also inserted
+		QStringList::ConstIterator it;
+		
+		// build new entries
+		for ( it=wordlist.begin(); it != wordlist.end(); ++it ) 
+		{
+			// set CompletionEntry
+			e.text = *it;
+			e.type = "";
+			
+			// add new entry
+			if ( list->findIndex(e) == -1 )
+				list->append(e);
+		}
+		/*
 		for ( uint i = 0; i < wordlist.count(); ++i )
 		{
-			QString s = wordlist[ i ];
+			// set CpmpletionEntry
+			e.text = wordlist[i];
+			e.type = "";
+			
+			// add new entry
+			if ( list->findIndex(e) == -1 )
+				list->append(e);
+		}
+		*/
+	}
+
+	void CodeCompletion::setCompletionEntriesTexmode( QValueList<KTextEditor::CompletionEntry> *list,
+	        const QStringList &wordlist )
+	{
+		// clear the list of completion entries
+		list->clear();
+
+		// create a QMap for a user defined sort
+		// order: \abc, \abc[], \abc{}, \abc*, \abc*[], \abc*{}, \abcd, \abcD
+		QStringList keylist;
+		QMap<QString,QString> map;
+		
+		for ( uint i=0; i< wordlist.count(); ++i )
+		{
+			QString s = wordlist[i];
+			for ( uint j=0; j<s.length(); ++j ) 
+			{
+				QChar ch = s[j];
+				if ( ch>='A' && ch<='Z' )
+					s[j] = (int)ch + 32 ;
+				else if ( ch>='a' && ch<='z' )
+					s[j] = (int)ch - 32 ;
+				else if ( ch == '}' )
+					s[j] = 48;
+				else if ( ch == '{' )
+					s[j] = 49;
+				else if ( ch == '[' )
+					s[j] = 50;
+				else if ( ch == '*' )
+					s[j] = 51;
+				else if ( ch == ']' )
+					s[j] = 52;
+			}
+			map[s] = wordlist[i];
+			keylist.append(s);
+		}
+		
+		// sort mapped keys
+		keylist.sort();
+		
+		// build new entries: get the sorted keys and insert
+		// the real entries, which are saved in the map. 
+		// if the last 5 chars of an environment are '\item', it is a 
+		// list environment, where the '\item' tag is also inserted
+		KTextEditor::CompletionEntry e;
+		QStringList::ConstIterator it;
+		
+		for ( it=keylist.begin(); it != keylist.end(); ++it ) 
+		{
+			// get real entry
+			QString s = map[*it];
 			if ( s.left( 7 ) == "\\begin{" && s.right( 5 ) == "\\item" )
 			{
 				e.text = s.left( s.length() - 5 );     // list environment entry
@@ -690,9 +865,9 @@ namespace KileDocument
 				e.text = s;                        // normal entry
 				e.type = "";
 			}
-			// add new entry
-			if ( list->findIndex(e) == -1 )
-				list->append(e);
+			// add new entry (duplicates are impossible)
+			//if ( list->findIndex(e) == -1 )
+			list->append(e);
 		}
 	}
 

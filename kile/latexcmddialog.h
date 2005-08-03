@@ -1,8 +1,8 @@
 /***************************************************************************
                          latexcmddialog.h
                          --------------
-    begin                : Jun 26 2005
-    version              : 0.10
+    date                 : Jul 25 2005
+    version              : 0.20
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -57,6 +57,7 @@ private:
 	
 	bool m_addmode, m_envmode;
 	bool m_useMathOrTab, m_useOption, m_useParameter;
+	KileDocument::CmdAttribute m_cmdType;
 	QMap<QString,bool> *m_dict;
 	
 private slots:
@@ -80,7 +81,8 @@ private:
 	KConfig *m_config;
 	KileDocument::LatexCommands *m_commands;
 	QMap<QString,bool> m_dictCommands;
-	
+	bool m_commandChanged;
+		
 	KListView *m_lvEnvironments, *m_lvCommands;
 	KListViewItem *m_lviList,*m_lviTabular,*m_lviMath,*m_lviAmsmath,*m_lviVerbatim;
 	KListViewItem *m_lviLabels,*m_lviReferences,*m_lviCitations;
@@ -105,6 +107,7 @@ private:
 	void getListviewStates(bool states[]);
 	void setListviewStates(bool states[]);
 	
+	void readConfig();
 	void writeConfig(KListView *listview, const QString &groupname, bool env);
 	
 private slots:

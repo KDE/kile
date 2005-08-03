@@ -120,7 +120,7 @@ KURL Info::makeValidTeXURL(const KURL & url)
 	return newURL;
 }
 
-Info::Info(Kate::Document *doc) : m_doc(doc)
+Info::Info(Kate::Document *doc, LatexCommands *commands) : m_doc(doc),m_commands(commands)
 {
 	m_config = kapp->config();
 	if (m_doc)
@@ -133,7 +133,23 @@ Info::Info(Kate::Document *doc) : m_doc(doc)
 		m_url=m_oldurl = doc->url();
 	else
 		m_url = m_oldurl = KURL();
+		
+	// initialize m_dictStructLevel
+	updateStructLevelInfo();
+}
 
+Info::~Info(void)
+{
+	kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;
+	delete [] m_arStatistics;
+}
+
+// set struct level dictionary with standard and user defined commands
+void Info::updateStructLevelInfo()
+{
+	m_dictStructLevel.clear();
+
+	// add standard commands
 	//TODO: make this configurable
 	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
 	m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "refs");
@@ -150,12 +166,15 @@ Info::Info(Kate::Document *doc) : m_doc(doc)
 	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "bibtex");
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-}
-
-Info::~Info(void)
-{
-	kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;
-	delete [] m_arStatistics;
+	
+	// add user defined commands
+	QStringList list;
+	QStringList::ConstIterator it;
+	m_commands->commandList(list,KileDocument::CmdAttrLabel,true);
+	for ( it=list.begin(); it != list.end(); ++it ) 
+	{
+		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+	}
 }
 
 void Info::emitNameChanged(Kate::Document * /*doc*/)

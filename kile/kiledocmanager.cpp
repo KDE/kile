@@ -116,6 +116,15 @@ void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 	delete doc;
 }
 
+// update all Info's with changed user commands
+void Manager::updateInfos()
+{
+	for (uint i=0; i < m_infoList.count(); ++i)
+	{
+		m_infoList.at(i)->updateStructLevelInfo();
+	}
+}
+
 Kate::Document* Manager::docFor(const KURL & url)
 {
 	for (uint i=0; i < m_infoList.count(); ++i)
@@ -329,17 +338,17 @@ Info* Manager::createDocumentInfo(const KURL & url)
 		if ( Info::isTeXFile(url) || url.isEmpty() )
 		{
 			kdDebug() << "CREATING TeXInfo for " << url.url() << endl;
-			docinfo = new TeXInfo(0L);
+			docinfo = new TeXInfo(0L,m_ki->latexCommands());
 		}
 		else if ( Info::isBibFile(url) )
 		{
 			kdDebug() << "CREATING BibInfo for " << url.url() << endl;
-			docinfo = new BibInfo(0L);
+			docinfo = new BibInfo(0L,m_ki->latexCommands());
 		}
 		else
 		{
 			kdDebug() << "CREATING Info for " << url.url() << endl;
-			docinfo = new Info(0L);
+			docinfo = new Info(0L,m_ki->latexCommands());
 		}
 		docinfo->setURL(url);
 		emit(documentInfoCreated(docinfo));

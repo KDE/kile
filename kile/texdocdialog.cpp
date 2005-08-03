@@ -1,8 +1,8 @@
 /***************************************************************************
                          texdocdialog.cpp
                          ----------------
-    date                 : Jul 22 2005
-    version              : 0.11
+    date                 : Jul 27 2005
+    version              : 0.12
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -159,7 +159,8 @@ void TexDocDialog::readToc()
 	// use a textstream to read all data
 	QString textline;
 	QTextStream data(&fin);
-	while ( ! data.eof() ) {
+	while ( ! data.eof() ) 
+	{
 		textline = data.readLine();
 		if ( ! (textline.isEmpty() || textline[0]=='#') ) 
 		{
@@ -382,9 +383,6 @@ void TexDocDialog::showFile(const QString &filename)
 	{
 		KURL url;
 		url.setPath(filename);	
-		/*
-		KRun::runURL(url, getMimeType(filename) );
-		*/
 		
 		KTrader::OfferList offers = KTrader::self()->query( getMimeType(filename),"Type == 'Application'");
 		if ( offers.isEmpty() ) 
@@ -396,8 +394,6 @@ void TexDocDialog::showFile(const QString &filename)
 		KURL::List lst;
 		lst.append(url);
 		KRun::run(*ptr, lst, true);
-		
-// KRun::shellQuote(path);
 	}
 }
 
@@ -481,10 +477,10 @@ void TexDocDialog::slotSearchClicked()
 	if ( searchlist.count() > 0 ) 
 	{
 		m_texdocs->clear();
-		showToc(i18n("Search results for keyword '")+keyword+"'",searchlist,false);
+		showToc(i18n("Search results for keyword '%1'").arg(keyword),searchlist,false);
 	} 
 	else
-		KMessageBox::error(this,i18n("No documents found for keyword ''.").arg(keyword));
+		KMessageBox::error(this,i18n("No documents found for keyword '%1'.").arg(keyword));
 }
 
 void TexDocDialog::slotHelp()
@@ -555,9 +551,9 @@ void TexDocDialog::slotInitToc()
 	m_texmfdocPath = results[1];
 	m_texmfPath = results[2];
 	
-	kdDebug() << "\t--->: " << m_texdoctkPath << endl;
-	kdDebug() << "\t--->: " << m_texmfdocPath << endl;
-	kdDebug() << "\t--->: " << m_texmfPath << endl;
+	kdDebug() << "\ttexdoctk path: " << m_texdoctkPath << endl;
+	kdDebug() << "\ttexmfdoc path: " << m_texmfdocPath << endl;
+	kdDebug() << "\ttexmf path: " << m_texmfPath << endl;
 	
 	if ( m_texdoctkPath.find('\n',-1) > -1 ) 
 	{

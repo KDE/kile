@@ -116,6 +116,10 @@
 			<label>Center the graphics.</label>
 			<default>true</default> 
 		</entry>
+		<entry name="igPdftex" type="Bool">
+			<label>Use PdfTeX or PdfLaTeX.</label>
+			<default>false</default> 
+		</entry>
 		<entry name="igGraphicspath" type="Bool">
 			<label>Filename is relative to a path given in graphicspath command.</label>
 			<default>false</default>

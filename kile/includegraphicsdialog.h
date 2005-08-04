@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 28 2005
-    version              : 0.21
+    date                 : Aug 04 2005
+    version              : 0.22
     copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -41,7 +41,7 @@ class IncludeGraphics : public KDialogBase
 	Q_OBJECT
 
 public:
-	IncludeGraphics(QWidget *parent,const QString &startdir,bool pdflatex, KileInfo *ki);
+	IncludeGraphics(QWidget *parent,const QString &startdir,KileInfo *ki);
 	~IncludeGraphics();
 
 	QString getTemplate();
@@ -74,7 +74,6 @@ private:
 	QString m_output;
 
 	// current picture
-	bool m_pdflatex;
 	float m_resolution;
 
 	// default

@@ -1984,7 +1984,7 @@ void Kile::includeGraphics()
 	if ( !view ) return;
 
 	QFileInfo fi( view->getDoc()->url().path() );
-	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), false, this);
+	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), this);
 
 	if ( dialog->exec() == QDialog::Accepted )
 	{

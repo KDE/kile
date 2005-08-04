@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 28 2005
-    version              : 0.21
+    date                 : Aug 04 2005
+    version              : 0.22
     copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -40,10 +40,9 @@
 namespace KileDialog
 {
 
-IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool pdflatex, KileInfo *ki) :
+IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki) :
 	KDialogBase( Plain, i18n("Include Graphics"), Ok | Cancel, Ok, parent, 0, true, true),
 	m_startdir(startdir),
-	m_pdflatex(pdflatex),
 	m_ki(ki),
 	m_proc(0)
 {
@@ -90,7 +89,6 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, bool 
    QGridLayout *cb_grid = new QGridLayout( cb_widget, 1,2, 0,0,"");
    cb_center = new QCheckBox(i18n("Center picture"),cb_widget);
    cb_pdftex = new QCheckBox(i18n("pdftex/pdflatex"),cb_widget);
-   cb_pdftex->setChecked(m_pdflatex);                       // default: on when using pdftex
    cb_grid->addWidget(cb_center,0,0);
    cb_grid->addWidget(cb_pdftex,0,1);
 
@@ -174,6 +172,7 @@ IncludeGraphics::~IncludeGraphics()
 void IncludeGraphics::readConfig()
 {
 	cb_center->setChecked( KileConfig::igCenter() );                             
+	cb_pdftex->setChecked( KileConfig::igPdftex() ); 
 	cb_graphicspath->setChecked( KileConfig::igGraphicspath() );                             
 	cb_figure->setChecked( KileConfig::igFigure() );
 	
@@ -185,6 +184,7 @@ void IncludeGraphics::readConfig()
 void IncludeGraphics::writeConfig()
 {
 	KileConfig::setIgCenter( cb_center->isChecked() );                             
+	KileConfig::setIgPdftex( cb_pdftex->isChecked() );                             
 	KileConfig::setIgGraphicspath( cb_graphicspath->isChecked() );                             
 	KileConfig::setIgFigure( cb_figure->isChecked() );
 }
@@ -205,57 +205,63 @@ void IncludeGraphics::updateFigure()
 
 QString IncludeGraphics::getTemplate()
 {
-   QString s = "";
+	QString s;
 
-   // state of figure environment
-   bool m_figure = cb_figure->isChecked();
+	// state of figure and center checkbox
+	bool figure = cb_figure->isChecked();
+	bool center = cb_center->isChecked();
+ 	QString indent = ( figure || center ) ? "\t" : QString::null;
+	
+	// add start of figure environment ?
+	if ( figure )
+		s += "\\begin{figure}\n";
+
+	// add start of center environment ?
+	if ( center )
+	{
+		if ( figure )
+			s += indent + "\\centering\n";
+		else
+			s += "\\begin{center}\n";
+	}
+
+	// add includegraphics command
+	s += indent + "\\includegraphics";
  
-   // add start of figure environment ?
-   if ( m_figure )
-      s += "\\begin{figure}\n";
-
-   // add start of center environment ?
-    if ( cb_center->isChecked() )
-       if ( m_figure )
-          s += "\t\\centering\n";
-       else
-          s += "\t\\begin{center}\n";
-
-   // add inclucegraphics command
-   s += "\t\\includegraphics";
+	// add some options
+	QString options = getOptions();
+	if ( !options.isEmpty() )
+		s += "[" + options + "]";
  
-   // add some options
-   QString options = getOptions();
-   if ( !options.isEmpty() )
-      s += "[" + options + "]";
+	// add name of picture
+	// either take the filename or try to take the relative part of the name
+	QString filename = ( cb_graphicspath->isChecked() ) 
+	                 ? QFileInfo(edit_file->text()).fileName() 
+	                 : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
+	s += "{" + filename + "}\n";
  
-   // add name of picture
-   // either take the filename or try to take the relative part of the name
-   QString filename = ( cb_graphicspath->isChecked() ) 
-                    ? QFileInfo(edit_file->text()).fileName() 
-                    : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
-   s += "{" + filename + "}\n";
- 
-   // add some comments (depending of given resolution, this may be wrong!)
-   QString info = getInfo();
-   if (info.length() > 0) s += getInfo() + "\n";
+	// add some comments (depending of given resolution, this may be wrong!)
+	QString info = getInfo();
+	if (info.length() > 0) 
+		s += indent + info + "\n";
 
-   // close center environment ?
-   if ( cb_center->isChecked() && !m_figure )
-      s += "\t\\end{center}\n";
+	// close center environment ? 
+	if ( center && !figure )
+		s += "\\end{center}\n";
 
-   // close figure environment?
-   if ( m_figure )
-   {
-      if ( ! edit_caption->text().isEmpty() )
-         s +=  "\t\\caption{" + edit_caption->text() + "}\n";
-	  if ( !edit_label->text().isEmpty() && edit_label->text()!="fig:" )
-         s +=  "\t\\label{" + edit_label->text() + "}\n";
+	// close figure environment ?
+	if ( figure )
+	{
+		QString caption = edit_caption->text().stripWhiteSpace();
+		if ( !caption.isEmpty() )
+			s +=  indent + "\\caption{" + caption + "}\n";
+		QString label = edit_label->text().stripWhiteSpace();
+		if ( !label.isEmpty() && label!="fig:" )
+			s +=  indent + "\\label{" + label + "}\n";
+		s += "\\end{figure}\n";
+	}
 
-      s += "\\end{figure}\n";
-   }
-
-   return s;
+	return s;
 }
 
 QString IncludeGraphics::getFilename()
@@ -318,7 +324,7 @@ void IncludeGraphics::setInfo()
    int wpx,hpx;
 
    if ( !edit_file->text().isEmpty() && getPictureSize(wpx,hpx,wcm,hcm) ) {
-      if ( m_pdflatex ) {
+      if ( cb_pdftex->isChecked() ) {
          text = QString("%1x%2 pixel").arg(wpx).arg(hpx)
                    + " / " + wcm + "x" + hcm + " cm"
                    + "  (" + QString("%1").arg(m_resolution) + "dpi)";
@@ -382,7 +388,7 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &
 
 void IncludeGraphics::chooseFile()
 {
-   QString filter = ( m_pdflatex )
+   QString filter = ( cb_pdftex->isChecked() )
                   ? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
                           + "*.png|PNG files\n"
                           + "*.jpg|JPG files\n"
@@ -532,13 +538,16 @@ void IncludeGraphics::slotOk()
 
 bool IncludeGraphics::checkParameter()
 {
-	if ( edit_file->text().isEmpty() )
+	QString filename = edit_file->text().stripWhiteSpace();
+	edit_file->setText(filename);
+	 
+	if ( filename.isEmpty() )
 	{
 		if ( KMessageBox::warningYesNo( this, i18n("No graphics file was given. Proceed any way?") ) == KMessageBox::No ) return false;
 	}
 	else
 	{
-		QFileInfo fi( edit_file->text() );
+		QFileInfo fi( filename );
 		if ( ! fi.exists() )
 		{
 			if ( KMessageBox::warningYesNo( this, i18n("The graphics file does not exist. Proceed any way?") ) == KMessageBox::No )  return false;

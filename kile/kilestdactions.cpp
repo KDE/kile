@@ -126,7 +126,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	alist.append(new KileAction::Tag(i18n("huge"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{huge}","\\end{huge}",  12,0));
 	alist.append(new KileAction::Tag(i18n("Huge"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(), "","\\begin{Huge}","\\end{Huge}",  12,0));
 	actionsize_list->setItems(alist);
-	actionstructure_list->setCurrentItem(3);
+	actionsize_list->setCurrentItem(4);
 
 	KileAction::Select *actionother_list = new KileAction::Select(i18n("Other"), 0, parent->actionCollection(), "other_list");
 	alist.clear();

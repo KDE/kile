@@ -22,6 +22,7 @@
 #include <kstandarddirs.h>
 #include <kiconview.h>
 #include <kdialogbase.h>
+#include <kprocess.h>
 
 #include "templates.h"
 
@@ -33,8 +34,10 @@ class TemplateItem : public QIconViewItem
 {
 public:
 	TemplateItem( QIconView * parent, const TemplateInfo & info);
-	~TemplateItem();
+	~TemplateItem() {}
 
+	int compare( QIconViewItem *i ) const;
+	
 	QString name() { return m_info.name; }
 	QString path() { return m_info.path; }
 	QString icon() { return m_info.icon; }
@@ -45,9 +48,22 @@ private:
 
 class NewFileWidget : public KIconView
 {
+	Q_OBJECT
 public:
-	NewFileWidget(QWidget *parent = 0, char *name = 0);
-	~NewFileWidget() {}
+	NewFileWidget(QWidget *parent, const QString &selicon = QString::null, char *name = 0);
+	~NewFileWidget();
+
+private:
+	QString m_output;
+	QString m_selicon;
+	KShellProcess *m_proc;
+	
+	void searchClassFiles();
+	void addTemplates();
+	
+private slots:
+	void slotProcessOutput(KProcess*,char* buf,int len);
+	void slotProcessExited (KProcess *proc);
 };
 
 class NewFileWizard : public KDialogBase  
@@ -65,6 +81,7 @@ public slots:
 	void slotOk();
 
 private:
+	KConfig *m_config;
 	QIconView *m_iv;
 	QCheckBox *m_ckWizard;
 };

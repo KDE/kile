@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 25 2005
-    version              : 0.22
+    date                 : Aug 11 2005
+    version              : 0.23
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -102,7 +102,7 @@ namespace KileDocument
 		kdDebug() << "=== CodeCompletion::readConfig ===================" << endl;
 
 		// save normal parameter
-		kdDebug() << "   read bool entries" << endl;
+		//kdDebug() << "   read bool entries" << endl;
 		m_isenabled = KileConfig::completeEnabled();
 		m_setcursor = KileConfig::completeCursor();
 		m_setbullets = KileConfig::completeBullets();
@@ -263,9 +263,9 @@ namespace KileDocument
 	void CodeCompletion::completeWord(const QString &text, CodeCompletion::Mode mode)
 	{
 		kdDebug() << "==CodeCompletion::completeWord(" << text << ")=========" << endl;
-		kdDebug() << "\tm_view = " << m_view << endl;
+		//kdDebug() << "\tm_view = " << m_view << endl;
 		if ( !m_view) return;
-		kdDebug() << "ok" << endl;
+		//kdDebug() << "ok" << endl;
 
 		// remember all parameters (view, pattern, length of pattern, mode)
 		m_text = text;
@@ -284,7 +284,7 @@ namespace KileDocument
 			QString s = doc->textLine(m_ycursor);
 			int pos = s.findRev("\\",m_xcursor);
 			if (pos < 0) {
-				kdDebug() << "\tfound no backslash! s=" << s << endl;
+				//kdDebug() << "\tfound no backslash! s=" << s << endl;
 				return;
 			}
 			m_xstart = pos;
@@ -298,12 +298,12 @@ namespace KileDocument
 		switch ( m_mode )
 		{
 				case cmLatex:
-        kdDebug() << "mode = cmLatex" << endl;
+        //kdDebug() << "mode = cmLatex" << endl;
         list = m_texlist;
         appendNewCommands(list);
         break;
 				case cmEnvironment:
-        kdDebug() << "mode = cmEnvironment" << endl;
+        //kdDebug() << "mode = cmEnvironment" << endl;
 				list = m_texlist;				
 				break;
 				case cmDictionary:
@@ -325,7 +325,7 @@ namespace KileDocument
 		QString pattern = ( m_mode != cmEnvironment ) ? text : "\\begin{" + text;
 		uint n = countEntries( pattern, &list, &entry, &type );
 		
-		kdDebug() << "entries = " << n << endl;
+		//kdDebug() << "entries = " << n << endl;
 
 		// nothing to do
 		if ( n == 0 )
@@ -378,7 +378,7 @@ namespace KileDocument
 	{
 		KTextEditor::CompletionEntry e;
 
-		kdDebug() << "completeFromList: " << list->count() << " items" << endl;
+		//kdDebug() << "completeFromList: " << list->count() << " items" << endl;
 		m_labellist.clear();
 		QStringList::ConstIterator it;
 		QStringList::ConstIterator itend(list->end());
@@ -438,7 +438,7 @@ namespace KileDocument
 	QString CodeCompletion::filterCompletionText( const QString &text, const QString &type )
 	{
     static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
-		kdDebug() << "   complete filter: " << text << " type " << type << endl;
+		//kdDebug() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
     
     if ( reEnv.search(text) != -1 ) m_mode = cmEnvironment;
@@ -932,7 +932,7 @@ namespace KileDocument
 
 	void CodeCompletion::editCompleteList(Type type )
 	{
-		kdDebug() << "==editCompleteList=============" << endl;
+		//kdDebug() << "==editCompleteList=============" << endl;
 		if ( type == ctReference )
 			completeFromList(info()->allLabels());
 		else if ( type == ctCitation )
@@ -945,12 +945,13 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
 	{
-		kdDebug() << "==slotCompletionDone=============" << endl;
+		//kdDebug() << "==slotCompletionDone=============" << endl;
 		CompletionDone(entry);
 
 		if ( getMode() == cmLatex ) m_completeTimer->start( 10, true );
 		
-		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) ) 
+		// if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) ) 
+		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef)!=-1 && info()->allLabels()->count()>0) || (entry.text.find(reCite)!=-1 && info()->allBibItems()->count()>0) ) ) 
 		{
 			m_ref = true;
 			completeWord("", cmLabel);
@@ -961,24 +962,24 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompleteValueList()
 	{
-		kdDebug() << "==slotCompleteValueList=============" << endl;
+		//kdDebug() << "==slotCompleteValueList=============" << endl;
 		m_completeTimer->stop();
 		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()
 	{
-		kdDebug() << "==slotCompletionAborted=============" << endl;
+		//kdDebug() << "==slotCompletionAborted=============" << endl;
 		CompletionAborted();
 	}
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
-		kdDebug() << "==slotFilterCompletion=============" << endl;
+		//kdDebug() << "==slotFilterCompletion=============" << endl;
 		if ( inProgress() ) {                // dani 28.09.2004
-			kdDebug() << "\tin progress: s=" << *s << endl;
+			//kdDebug() << "\tin progress: s=" << *s << endl;
 			*s = filterCompletionText( c->text, c->type );
-			kdDebug() << "\tfilter --->" << *s << endl;
+			//kdDebug() << "\tfilter --->" << *s << endl;
 			m_inprogress = false;
 		}
 	}
@@ -996,15 +997,15 @@ namespace KileDocument
 		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type ); 
 		if ( found ) { 
 			int wordlen = word.length();
-			kdDebug() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
+			//kdDebug() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
 			if ( inProgress() )               // continue a running mode?
 			{
-				kdDebug() << "   auto completion: continue current mode" << endl;
+				//kdDebug() << "   auto completion: continue current mode" << endl;
 				completeWord(word, m_mode);     
 			}
 			else if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
 			{
-				kdDebug() << "   auto completion: latex mode" << endl;
+				//kdDebug() << "   auto completion: latex mode" << endl;
 				if ( string.at( 0 ).isLetter() )
 				{
 					completeWord(word, cmLatex);
@@ -1016,7 +1017,7 @@ namespace KileDocument
 			} 
 			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold) 
 			{
-				kdDebug() << "   auto completion: document mode" << endl;
+				//kdDebug() << "   auto completion: document mode" << endl;
 				completeWord(word,cmDocumentWord);
 			}
 		}

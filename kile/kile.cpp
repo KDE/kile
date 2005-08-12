@@ -1309,11 +1309,12 @@ void Kile::updateKileMenu()
 	}
 	
 	// update action lists
-	for ( uint i=0; i<actionCollection()->count(); ++i ) {
-		a = actionCollection()->action(i);
-		if ( a && m_dictMenuAction.contains(a->name()) ) {
-			a->setEnabled(file_open);
-		}
+	KActionPtrList actions = actionCollection()->actions();
+	KActionPtrList::Iterator itact;
+	for ( itact=actions.begin(); itact!=actions.end(); ++itact ) 
+	{
+		if ( m_dictMenuAction.contains( (*itact)->name() ) ) 
+			(*itact)->setEnabled(file_open);
 	}
 
 	updateActionList(&m_listQuickActions,file_open);

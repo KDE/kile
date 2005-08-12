@@ -1,8 +1,8 @@
 /***************************************************************************
                          latexcmd.cpp
                          ------------
-     date                : Jul 25 2005
-    version              : 0.20
+    date                 : Aug 11 2005
+    version              : 0.21
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -140,6 +140,7 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 {
 	if ( m_config->hasGroup(name) ) 
 	{
+		kdDebug() << name << endl;
 		QMap<QString,QString> map = m_config->entryMap(name);
 		if ( ! map.empty() ) 
 		{
@@ -147,7 +148,7 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 			for ( it=map.begin(); it!=map.end(); ++it) 
 			{
 				list << it.key() + ",-," + it.data();
-				kdDebug() << "\tLatexCommands: add " <<  it.key() + " --> " + it.data() << endl;
+				kdDebug() << "\tadd: " <<  it.key() + " --> " + it.data() << endl;
 			}
 		}
 	}

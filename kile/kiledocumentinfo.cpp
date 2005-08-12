@@ -186,7 +186,7 @@ void Info::emitNameChanged(Kate::Document * /*doc*/)
 		kdDebug() << "\tto: " << m_doc->url().path() << endl;
 
 		//don't emit if new URL is empty (i.e. when closing the document)
-		if (!m_doc->url().isEmpty() && (m_url != m_doc->url() ) )
+		if (!m_doc->url().isEmpty() && QFile::exists(m_doc->url().path()) && (m_url != m_doc->url() ) )
 		{
 			kdDebug() << "\temitting nameChanged(url)" << endl;
 			setURL(m_doc->url());

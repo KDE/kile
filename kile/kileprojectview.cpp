@@ -220,7 +220,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 		if (itm->type() == KileType::File)
 		{
-			if (m_nProjects>0) m_popup->insertItem(i18n("&Add to Project"), KPV_ID_ADD);
+			if (m_nProjects>0) m_popup->insertItem(SmallIcon("project_add"),i18n("&Add to Project"), KPV_ID_ADD);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotFile(int)));
 		}
@@ -233,7 +233,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 				m_popup->insertSeparator();
 				m_popup->setItemChecked(KPV_ID_INCLUDE, pi->archive());
 			}
-			if (!isKilePrFile) m_popup->insertItem(i18n("&Remove From Project"), KPV_ID_REMOVE);
+			if (!isKilePrFile) m_popup->insertItem(SmallIcon("project_remove"),i18n("&Remove From Project"), KPV_ID_REMOVE);
 			m_popup->insertSeparator();
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
 		}

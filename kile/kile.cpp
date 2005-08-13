@@ -356,7 +356,7 @@ void Kile::setupActions()
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
-	(void) new KAction(i18n("Refresh Str&ucture"), "structure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Refresh Str&ucture"), "view_tree", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "window_new", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
@@ -366,7 +366,7 @@ void Kile::setupActions()
 	connect(docManager(), SIGNAL(addToRecentProjects(const KURL& )), m_actRecentProjects, SLOT(addURL(const KURL& )));
 	m_actRecentProjects->loadEntries(m_config, "Projects");
 
-	(void) new KAction(i18n("A&dd Files to Project..."), 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
+	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
 	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
 	(void) new KAction(i18n("&Archive"), "package", 0, docManager(), SLOT(projectArchive()), actionCollection(), "project_archive");
 	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
@@ -374,11 +374,11 @@ void Kile::setupActions()
 
 	// new project actions (dani)
 	(void) new KAction(i18n("&Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
-	(void) new KAction(i18n("Re&move Files from Project..."), 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
-	(void) new KAction(i18n("Show Project &Files..."), 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
+	(void) new KAction(i18n("Re&move Files from Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
+	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
 	
 	//build actions
-	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
+	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
 	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, m_errorHandler, SLOT(PreviousError()), actionCollection(),"PreviousError" );
 	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, m_errorHandler, SLOT(NextError()), actionCollection(),"NextError" );

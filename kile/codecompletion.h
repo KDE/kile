@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 25 2005
-    version              : 0.22
+    date                 : Aug 16 2005
+    version              : 0.24
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -22,6 +22,8 @@
 #include <kate/view.h>
 #include <kate/document.h>
 #include <ktexteditor/codecompletioninterface.h>
+#include <kconfig.h>
+
 #include "latexcmd.h"
 
 //default bullet char (a cross)
@@ -66,6 +68,12 @@ public:
 		ctCitation
 	};
 
+	enum KateConfigFlags
+	{
+		cfAutoIndent= 0x1,
+		cfAutoBrackets= 0x40   
+	};
+
 	bool isActive();
 	bool inProgress();
 	bool autoComplete();
@@ -75,7 +83,8 @@ public:
 
 	KileInfo* info() const { return m_ki;}
 
-	void readConfig(void);
+	void readConfig(KConfig *config);
+	void readKateConfigFlags(KConfig *config);
 
 public slots:
 	//in these two methods we should set m_view
@@ -123,6 +132,9 @@ private:
 	bool m_autocompletetext;
 	int  m_latexthreshold;
 	int  m_textthreshold;
+
+	// flags from Kate configuration
+	bool m_autobrackets;
 
 	// state of complete: some flags
 	bool m_firstconfig;

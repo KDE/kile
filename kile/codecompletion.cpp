@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 11 2005
-    version              : 0.23
+    date                 : Aug 16 2005
+    version              : 0.24
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -97,7 +97,7 @@ namespace KileDocument
 
 	//////////////////// configuration ////////////////////
 
-	void CodeCompletion::readConfig(void)
+	void CodeCompletion::readConfig(KConfig *config)
 	{
 		kdDebug() << "=== CodeCompletion::readConfig ===================" << endl;
 
@@ -111,6 +111,9 @@ namespace KileDocument
 		m_autocompletetext = KileConfig::completeAutoText();
 		m_latexthreshold = KileConfig::completeAutoThreshold();
 		m_textthreshold = KileConfig::completeAutoTextThreshold();
+
+		// we need to read some of Kate's config flags
+		readKateConfigFlags(config);
 
 		// reading the wordlists is only necessary at the first start
 		// and when the list of files changes
@@ -137,9 +140,14 @@ namespace KileDocument
 			KileConfig::setCompleteChangedLists(false);
 			KileConfig::setCompleteChangedCommands(false);
 		}
-
 	}
 
+	void CodeCompletion::readKateConfigFlags(KConfig *config)
+	{
+		config->setGroup("Kate Document Defaults");
+		m_autobrackets = ( config->readNumEntry("Basic Config Flags",0) & cfAutoBrackets );
+	}
+	
 	//////////////////// references and citations ////////////////////
 	
 	void CodeCompletion::setReferences()
@@ -459,18 +467,31 @@ namespace KileDocument
 
 		// build the text
 		QString s;
-		Kate::Document *doc;
+		Kate::Document *doc = m_view->getDoc();
+		QString textline = doc->textLine(row);
 		switch ( m_mode )
 		{
 				case cmLatex:
-  			s = buildLatexText( text, m_yoffset, m_xoffset );
+				s = buildLatexText( text, m_yoffset, m_xoffset );
+				if ( m_autobrackets && textline.at(col)=='}' && m_text.find('{')>=0 )
+				{
+					doc->removeText(row,col,row,col+1);
+				}
 				break;
 				case cmEnvironment:
 				s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
-				doc = m_view->getDoc();
-				if ( m_xstart>=7 && doc->text(row,m_xstart-7,row,m_xstart) == "\\begin{" ) {
+				if ( m_autobrackets && textline.at(col)=='}' && (textline[m_xstart]!='\\' || m_text.find('{')>=0 ) )
+				{
+					doc->removeText(row,col,row,col+1);
+				}
+				//if ( m_xstart>=7 && doc->text(row,m_xstart-7,row,m_xstart) == "\\begin{" ) 
+				if ( m_xstart>=7 && textline.mid(m_xstart-7,7) == "\\begin{" ) 
+				{
 					m_textlen += 7;
-				} else if ( m_xstart>=5 && doc->text(row,m_xstart-5,row,m_xstart) == "\\end{" ) {
+				} 
+				//else if ( m_xstart>=5 && doc->text(row,m_xstart-5,row,m_xstart) == "\\end{" ) 
+				else if ( m_xstart>=5 && textline.mid(m_xstart-5,m_xstart) == "\\end{" ) 
+				{
 					m_textlen += 5;
 				} 
 				break;
@@ -791,18 +812,6 @@ namespace KileDocument
 			if ( list->findIndex(e) == -1 )
 				list->append(e);
 		}
-		/*
-		for ( uint i = 0; i < wordlist.count(); ++i )
-		{
-			// set CpmpletionEntry
-			e.text = wordlist[i];
-			e.type = "";
-			
-			// add new entry
-			if ( list->findIndex(e) == -1 )
-				list->append(e);
-		}
-		*/
 	}
 
 	void CodeCompletion::setCompletionEntriesTexmode( QValueList<KTextEditor::CompletionEntry> *list,

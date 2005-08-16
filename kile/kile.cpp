@@ -1669,7 +1669,7 @@ void Kile::readRecentFileSettings()
 void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
-	m_edit->complete()->readConfig();
+	m_edit->complete()->readConfig(m_config);
 	m_edit->initDoubleQuotes();
 	docManager()->updateInfos();
 }
@@ -1843,6 +1843,9 @@ void Kile::generalOptionsKate()
 
 	// remove menu entry to config Kate
 	unplugKateConfigMenu(view);
+
+	// tell complete about some config flags of Kate
+	m_edit->complete()->readKateConfigFlags(m_config);
 
 	// read plugin configuration after dialog to see if plugin state has changed
 	m_config->setGroup(kateplugin_group);

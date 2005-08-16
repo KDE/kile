@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 22 2005
-    version              : 0.21
+    date                 : Aug 16 2005
+    version              : 0.22
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -105,13 +105,29 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	if ( editInterfaceExt ) editInterfaceExt->editBegin();
 
 	//cut the selected text
+	QString trailing;
 	if (wrap)
 	{
-		ins += doc->selection();
+		QString sel = doc->selection();
 		doc->removeSelectedText();
+		
+		// strip one of two consecutive line ends
+		int len = sel.length();
+		if ( data.tagEnd.at(0)=='\n' && len>0 && sel.find('\n',-1)==len-1 )
+			sel.truncate( len-1 );
+			
+		// now add the selection
+		ins += sel;
+		
+		// place the cursor behind this tag, if there is no other wish
+		if ( !before && !after )
+		{
+			trailing = "%C";
+			after = true;
+		}
 	}
 
-	ins += data.tagEnd;
+	ins += data.tagEnd + trailing;
 
 	//do some replacements
 	QFileInfo fi( doc->url().path());

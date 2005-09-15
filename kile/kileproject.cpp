@@ -230,6 +230,39 @@ void KileProject::writeUseMakeIndexOptions()
 		KileTool::setConfigName("MakeIndex", "", m_config);
 }
 
+QString KileProject::addBaseURL(const QString &path)
+{
+  if ( path.isEmpty() || path.startsWith("/") )
+  {
+    return path;
+  }
+  else
+  {
+    return m_baseurl.path() + "/" + path;
+  }
+}
+
+QString KileProject::removeBaseURL(const QString &path)
+{
+  if ( path.startsWith("/") )
+  {
+    QFileInfo info(path);
+    QString relPath = findRelativePath(path);
+    if ( relPath.startsWith("/") )
+    {
+      return path;
+    }
+    else
+    {
+      return relPath + info.fileName();
+    }
+  }
+  else
+  {
+    return path;
+  }
+}
+
 bool KileProject::load()
 {
 	kdDebug() << "KileProject: loading..." <<endl;
@@ -239,7 +272,10 @@ bool KileProject::load()
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Untitled"));
-	setMasterDocument(m_config->readEntry("masterDocument", QString::null));
+
+  QString master = addBaseURL(m_config->readEntry("masterDocument", QString::null));
+  kdDebug() << "LOADED MASTER = " << master << endl;
+	setMasterDocument(master);
 
 	// IsRegExp has to be loaded _before_ the Extensions
 	setExtIsRegExp(KileProjectItem::Source, m_config->readBoolEntry("src_extIsRegExp", false));
@@ -289,7 +325,7 @@ bool KileProject::load()
 
     // only call this after all items are created, otherwise setLastDocument doesn't accept the url
     m_config->setGroup("General");
-    setLastDocument(KURL::fromPathOrURL(m_config->readEntry("lastDocument", QString::null)));
+    setLastDocument(KURL::fromPathOrURL(addBaseURL(m_config->readEntry("lastDocument", QString::null))));
 
 	dump();
 
@@ -302,8 +338,10 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
-	m_config->writeEntry("masterDocument", m_masterDocument);
-    m_config->writeEntry("lastDocument", m_lastDocument.url());
+
+  kdDebug() << "KileProject::save() masterDoc = " << m_masterDocument << endl;
+	m_config->writeEntry("masterDocument", removeBaseURL(m_masterDocument));
+  m_config->writeEntry("lastDocument", removeBaseURL(m_lastDocument.path()));
 
 	m_config->writeEntry("src_extensions", extensions(KileProjectItem::Source));
 	m_config->writeEntry("src_extIsRegExp", extIsRegExp(KileProjectItem::Source));
@@ -453,8 +491,13 @@ QString KileProject::findRelativePath(const KURL &url)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-// 	kdDebug() <<"===findRelativeURL==================" << endl;
-// 	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+ 	kdDebug() <<"===findRelativeURL==================" << endl;
+ 	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+
+  if ( basepath == path )
+  {
+    return "./";
+  }
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);

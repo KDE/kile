@@ -203,6 +203,8 @@ private:
 	void 	init(const QString& name, const KURL& url);
 	QString	findRelativePath(const KURL&);
 	void setType(KileProjectItem *item);
+  QString addBaseURL(const QString &path);
+  QString removeBaseURL(const QString &path);
 
 private:
 	QString		m_name, m_quickBuildConfig;

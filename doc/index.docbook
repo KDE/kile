@@ -1815,7 +1815,7 @@
 			<imagedata fileref="psutils8.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>Combine tmo A4 pages</phrase>
+			<phrase>Combine two A4 pages</phrase>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -2492,7 +2492,7 @@
 		<listitem><para>The information is already scanned in the dialog, and 
 		need not to be done by &latex; later on.</para></listitem>
 		<listitem><para>Even more important is that the width and height of the picture 
-		can be calculated, when the ist resolution is known. This information will be shown 
+		can be calculated, when the its resolution is known. This information will be shown 
 		near the top of the dialog, and may serve as a clue when you want to scale the 
 		graphics.</para></listitem>
 		<listitem><para>&kile; can also support zipped or gzipped EPS files,
@@ -3270,7 +3270,7 @@
 		comes with a huge amount of documents. As one possible help, &tetex; 
 		provides a tiny program <application>texdoctk</application>. 
 		It comes with a database of all documents that &kile; uses to offer 
-		in interface to it.</para>
+		an interface to it.</para>
 
 		<screenshot>
 			<screeninfo>Bullets</screeninfo>

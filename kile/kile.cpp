@@ -455,11 +455,13 @@ void Kile::setupActions()
 	tact->setChecked(KileConfig::sideBar());
 	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
 	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
+    connect(m_sideBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
 	tact = new KToggleAction(i18n("Show Mess&ages Bar"), 0, 0, 0, actionCollection(),"MessageView" );
 	tact->setChecked(KileConfig::bottomBar());
 	connect(tact, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
 	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
+    connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
 	//FIXME: obsolete for KDE 4
 	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
@@ -814,6 +816,14 @@ void Kile::focusEditor()
 {
 	Kate::View *view = viewManager()->currentView();
 	if (view) view->setFocus();
+}
+
+void Kile::sideOrBottomBarChanged(bool visible)
+{
+    if ( ! visible )
+    {
+        focusEditor();
+    }
 }
 
 bool Kile::queryExit()

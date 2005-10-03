@@ -217,6 +217,8 @@ private slots:
 	void focusKonsole();
 	void focusEditor();
 
+    void sideOrBottomBarChanged(bool visible);
+
 /* document handling */
 public slots:
 	void load(const QString &path);

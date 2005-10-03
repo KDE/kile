@@ -88,6 +88,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readUserSettings();
 	readRecentFileSettings();
 	
+    setStandardToolBarMenuEnabled(true);
+
 	m_masterName = KileConfig::master();
 	m_singlemode = (m_masterName.isEmpty());
 

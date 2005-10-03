@@ -32,6 +32,7 @@
 #include <krun.h>
 #include <kstandarddirs.h>
 
+#include "kileuntitled.h"
 #include "templates.h"
 #include "newfilewizard.h"
 #include "managetemplatesdialog.h"
@@ -418,18 +419,20 @@ Kate::Document* Manager::createDocument(Info *docinfo, const QString & encoding,
 	QString enc = encoding.isNull() ? KileConfig::defaultEncoding() : encoding;
 	doc->setEncoding(enc);
 
-	kdDebug() << "opening url: " << docinfo->url().path() << endl;
+    kdDebug() << "url is = " << docinfo->url().url() << endl;
 
-	doc->openURL(docinfo->url());
-	//TODO: connect to completed() signal, now updatestructure is called before loading is completed
+    doc->openURL(docinfo->url());
 
-	if ( !docinfo->url().isEmpty() )
-	{
-		doc->setDocName(docinfo->url().path());
-		emit(addToRecentFiles(docinfo->url()));
-	}
-	else
-		doc->setDocName(i18n("Untitled"));
+    if ( KileUntitled::isUntitled(docinfo->url().url()) )
+    {
+        doc->setDocName(docinfo->url().url());
+        kdDebug() << "docName = " << doc->docName() << endl;
+    }
+    else
+    {
+        doc->setDocName(docinfo->url().path());
+        emit(addToRecentFiles(docinfo->url()));
+    }
 
 	setHighlightMode(doc, highlight);
 
@@ -472,7 +475,7 @@ void Manager::setHighlightMode(Kate::Document * doc, const QString &highlight)
 		if (found) doc->setHlMode(mode);
 		else doc->setHlMode(nHlLaTeX);
 	}
-	else if ( doc->url().isEmpty() || doc->docName() == i18n("Untitled") )
+	else if ( doc->url().isEmpty() || KileUntitled::isUntitled(doc->docName()) )
 	{
 		doc->setHlMode(nHlLaTeX);
 	}
@@ -513,9 +516,9 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 
 Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */)
 {
-	kdDebug() << "==load()=================" << endl;
+	kdDebug() << "==load(" << url.url() << ")=================" << endl;
 	//if doc already opened, update the structure view and return the view
-	if ( url.path() != i18n("Untitled") && m_ki->isOpen(url))
+	if ( m_ki->isOpen(url))
 		return m_ki->viewManager()->switchToView(url);
 
 	Info *docinfo = createDocumentInfo(url);
@@ -564,7 +567,7 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 
 Kate::View* Manager::createDocumentWithText(const QString & text)
 {
-	Kate::View *view = load(KURL(), QString::null, true, QString::null, text);
+	Kate::View *view = load(KURL::fromPathOrURL(KileUntitled::next()), QString::null, true, QString::null, text);
 	if (view)
 	{
 		//FIXME this shouldn't be necessary!!!
@@ -1400,7 +1403,7 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	}
 
 	str = file.fileName();
-	if (!silent &&  (str==i18n("Untitled") || str.isEmpty() ) )	return;
+	if (!silent &&  ( KileUntitled::isUntitled(str) || str.isEmpty() ) )	return;
 
 	if (!silent && extlist.count() > 0 )
 	{

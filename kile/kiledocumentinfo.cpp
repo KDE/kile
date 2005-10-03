@@ -29,6 +29,7 @@
 
 #include "codecompletion.h"
 #include "kiledocumentinfo.h"
+#include "kileuntitled.h"
 
 namespace KileDocument
 {
@@ -37,7 +38,7 @@ bool Info::isTeXFile(const KURL & url)
 {
 	//TODO use mimetype
 	QString shortName = url.fileName();
-	return (shortName.right(4) == ".tex" || shortName.right(4) == ".sty" || shortName.right(4) == ".cls" || shortName.right(4) == ".dtx" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex") && (shortName != i18n("Untitled"));
+	return (shortName.right(4) == ".tex" || shortName.right(4) == ".sty" || shortName.right(4) == ".cls" || shortName.right(4) == ".dtx" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex") && ( !KileUntitled::isUntitled(shortName) );
 }
 
 bool Info::isBibFile(const KURL & url)
@@ -521,7 +522,7 @@ void TeXInfo::updateStruct()
 					shorthand = result.option.stripWhiteSpace();
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
-					kdDebug() << "\tgrabbed : " << m << endl;
+// 					kdDebug() << "\tgrabbed : " << m << endl;
 				}
 
 				//title (or label) found, add the element to the listview

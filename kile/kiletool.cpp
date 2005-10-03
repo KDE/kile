@@ -23,6 +23,7 @@
 #include <kconfig.h>
 #include <kurl.h>
 
+#include "kileuntitled.h"
 #include "kiletool_enums.h"
 #include "kiletool.h"
 #include "kilestdtools.h" //for the factory
@@ -216,7 +217,7 @@ namespace KileTool
 			return false;
 		}
 		
-		if ( m_source == i18n("Untitled") )
+		if ( KileUntitled::isUntitled(m_source) )
 		{
 			sendMessage(Error, msg(NoUntitledDoc));
 			emit(requestSaveAll());

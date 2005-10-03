@@ -26,6 +26,8 @@
 #include <kate/document.h>
 #include <kate/view.h>
 
+#include "kileuntitled.h"
+
 namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent, const char *name) : 
@@ -73,7 +75,7 @@ namespace KileWidget
 			QString finame;
 			KURL url = view->getDoc()->url();
 
-			if ( url.path().isEmpty() || url.path() == i18n("Untitled") ) return;
+			if ( url.path().isEmpty() || KileUntitled::isUntitled(url.path()) ) return;
 
 			QFileInfo fic(url.directory());
 			if ( fic.isReadable() )

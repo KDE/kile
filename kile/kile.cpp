@@ -76,6 +76,7 @@
 #include "postscriptdialog.h"
 #include "quickpreview.h"         
 #include "latexcmd.h"         
+#include "kileuntitled.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -1788,7 +1789,7 @@ void Kile::toggleMode()
 	else if (m_singlemode && viewManager()->currentView())
 	{
 		m_masterName=getName();
-		if (m_masterName==i18n("Untitled") || m_masterName.isEmpty())
+		if ( KileUntitled::isUntitled(m_masterName) || m_masterName.isEmpty())
 		{
 			ModeAction->setChecked(false);
 			KMessageBox::error(this, i18n("In order to define the current document as a master document, it has to be saved first."));

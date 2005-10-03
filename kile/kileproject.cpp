@@ -271,7 +271,7 @@ bool KileProject::load()
 
 	//load general settings/options
 	m_config->setGroup("General");
-	m_name = m_config->readEntry("name", i18n("Untitled"));
+	m_name = m_config->readEntry("name", i18n("Project"));
 
   QString master = addBaseURL(m_config->readEntry("masterDocument", QString::null));
   kdDebug() << "LOADED MASTER = " << master << endl;
@@ -327,7 +327,7 @@ bool KileProject::load()
     m_config->setGroup("General");
     setLastDocument(KURL::fromPathOrURL(addBaseURL(m_config->readEntry("lastDocument", QString::null))));
 
-	dump();
+	// dump();
 
 	return true;
 }
@@ -377,7 +377,7 @@ bool KileProject::save()
 
 	m_config->sync();
 
-	dump();
+	// dump();
 
 	return true;
 }
@@ -459,7 +459,7 @@ void KileProject::add(KileProjectItem* item)
 
 	m_projectitems.append(item);
 
-	dump();
+	// dump();
 }
 
 void KileProject::remove(const KileProjectItem* item)
@@ -472,7 +472,7 @@ void KileProject::remove(const KileProjectItem* item)
 	kdDebug() << "KileProject::remove" << endl;
 	m_projectitems.remove(item);
 
-	dump();
+	// dump();
 }
 
 void KileProject::itemRenamed(KileProjectItem *item)

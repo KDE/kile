@@ -29,6 +29,7 @@
 #include "kiledocumentinfo.h"
 #include "kileproject.h"
 #include "kileinfo.h"
+#include "kileuntitled.h"
 
 KileInfo::KileInfo(QWidget *parent) :
 	m_manager(0L),
@@ -65,8 +66,11 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 		//work around for bug in KatePart, use docName and not url
 		//reloading the file after is it changed on disc by another application
 		//cause the URL to be empty for a short while
-		title = shrt ? QFileInfo(doc->docName()).fileName() : doc->url().path();
-		if (title.isEmpty()) title = i18n("Untitled");
+		title = shrt ? QFileInfo(doc->url().path()).fileName() : doc->url().path();
+        if ( title.isEmpty() )
+        {
+            return shrt ? QFileInfo(doc->docName()).fileName() : doc->docName(); 
+        }
 	}
 	else
 		title=QString::null;
@@ -262,7 +266,7 @@ QString KileInfo::lastModifiedFile(KileDocument::Info * info)
 
 bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
 {
-	if ( testurl.isEmpty() ) return false;
+	if ( testurl.isEmpty() || testurl.path().isEmpty() ) return false;
 
 	bool absolute = testurl.path().startsWith("/");
 	return (

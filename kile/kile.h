@@ -113,6 +113,10 @@ public slots:
 	
 /* actions */
 private:
+    void showEvent(QShowEvent *e);
+    void hideEvent(QHideEvent *e);
+    QWidget *m_focusWidget;
+
 	void setupStatusBar();
 	void setupSideBar();
 	void setupProjectView();

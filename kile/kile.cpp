@@ -84,6 +84,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_paPrint(0L),
 	m_bShowUserMovedMessage(false)
 {
+    m_focusWidget = this;
+
 	m_config = KGlobal::config();
 	readUserSettings();
 	readRecentFileSettings();
@@ -214,6 +216,15 @@ Kile::~Kile()
 	delete m_eventFilter;
 }
 
+void Kile::showEvent(QShowEvent *)
+{
+    m_focusWidget->setFocus();
+}
+
+void Kile::hideEvent(QHideEvent *)
+{
+    m_focusWidget = focusWidget();
+}
 
 void Kile::setupStatusBar()
 {

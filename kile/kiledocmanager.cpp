@@ -130,8 +130,10 @@ Kate::Document* Manager::docFor(const KURL & url)
 {
 	for (uint i=0; i < m_infoList.count(); ++i)
 	{
-		if (m_ki->similarOrEqualURL(m_infoList.at(i)->url(),url))
+		if ( m_ki->similarOrEqualURL(m_infoList.at(i)->url(),url) )
+        {
 			return m_infoList.at(i)->getDoc();
+        }
 	}
 
 	return 0L;
@@ -141,7 +143,7 @@ Info* Manager::getInfo() const
 {
 	Kate::Document *doc = m_ki->activeDocument();
 	if ( doc != 0L )
-		return infoFor(doc);
+		return infoFor(doc, false);
 	else
 		return 0L;
 }
@@ -166,21 +168,21 @@ Info *Manager::infoFor(const QString & path) const
 
 Info* Manager::infoFor(Kate::Document* doc, bool usepath /*= true*/ ) const
 {
-	if (usepath)
-		return infoFor(doc->url().path());
-	else
-	{
-		QPtrListIterator<Info> it(m_infoList);
-		while ( true )
-		{
-			if ( it.current()->getDoc() == doc)
-				return it.current();
-	
-			if (it.atLast()) return 0L;
-	
-			++it;
-		}
-	}
+// 	if (usepath)
+// 		return infoFor(doc->url().path());
+// 	else
+    QPtrListIterator<Info> it(m_infoList);
+    while ( true )
+    {
+        if ( it.current()->getDoc() == doc)
+            return it.current();
+
+        if (it.atLast()) return 0L;
+
+        ++it;
+    }
+
+    return 0;
 }
 
 void Manager::mapItem(Info *docinfo, KileProjectItem *item)

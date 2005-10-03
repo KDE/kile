@@ -939,10 +939,12 @@ void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const 
 			combo->insertItem( QString(list[i]) + " [default]" );
 		else if ( list[i] != "-" ) 
 			combo->insertItem( list[i] );
-		else {
-			listbox->insertItem(new ListBoxSeparator(listbox->item(0)->height(listbox)));
+		else 
+        {
+            ListBoxSeparator *separator = new ListBoxSeparator(listbox->item(0)->height(listbox));   
+			listbox->insertItem(separator);
 			// doesn't work in constructor, so set it again here
-			listbox->item(i)->setSelectable(false);
+			separator->setSelectable(false);
 		}
 			
 		// should this entry be selected?

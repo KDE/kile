@@ -1865,28 +1865,12 @@ void Kile::generalOptionsKate()
 		QString msg = ( autocomplete || autocompletetext )
 		            ? i18n("You enabled the KTextEditor-Plugin for word completion, "
 		              "but this conflicts with the active auto completion modes of Kile. "
-		              "As one of these completion modes must be disabled, you decided to use the "
-		              "KTextEditor-Plugin and to disable the autocompletion modes of Kile. "
-		              "Are you really sure to do this?")
+		              "As one of these completion modes must be disabled, the "
+		              "autocompletion modes of Kile will be disabled.")
 		            : i18n("You enabled the KTextEditor-Plugin for word completion, "
 		              "but this conflicts with the auto completion modes of Kile. "
-		              "As only one of these completion modes can be used, you decided to use the "
-		              "KTextEditor-Plugin and not the autocompletion modes of Kile. "
-		              "Are you really sure to do this?");
+		              "As only one of these completion modes can be used, the autocompletion modes of Kile will be disabled.");
 		            
-		/*           
-		if ( KMessageBox::questionYesNo( this,
-			                              "<center>" + msg + "</center>",
-			                              i18n("Autocomplete warning") ) == KMessageBox::No ) {
-			kdDebug() << "   disable KTextEditor plugin again" << endl;
-			m_config->setGroup(kateplugin_group);
-			m_config->writeEntry(kateplugin_entry,false);         // disable plugin again
-			m_config->sync();
-		} else {                                  
-			KileConfig::setCompleteAuto(false);                   // disable autocompletion of Kile
-			KileConfig::setCompleteAutoText(false);
-		}
-		*/
 		KMessageBox::information( this,"<center>" + msg + "</center>",i18n("Autocomplete warning") );
 		KileConfig::setCompleteAuto(false);               // disable autocompletion of Kile
 		KileConfig::setCompleteAutoText(false);

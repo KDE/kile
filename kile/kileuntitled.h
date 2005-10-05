@@ -10,6 +10,9 @@
 //
 //
 
+#ifndef KILEUNTITLED_H
+#define KILEUNTITLED_H
+
 #include <qstring.h>
 
 class KileUntitled
@@ -23,3 +26,6 @@ private:
     static QString m_untitled;
     static int     m_last;
 };
+
+#endif // KILEUNTITLED_H
+

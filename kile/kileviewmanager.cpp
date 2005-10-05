@@ -95,6 +95,8 @@ void Manager::closeWidget(QWidget *widget)
 		Kate::View *view = static_cast<Kate::View*>(widget);
 		m_ki->docManager()->fileClose(view->getDoc());
 	}
+
+	m_tabs->setTabBarHidden( m_tabs->count() == 1 );
 }
 
 Kate::View* Manager::createView(Kate::Document *doc)
@@ -148,10 +150,13 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	// remove 'configure editor' dialog of Kate
 	// this will be called directly from Kile
 	KAction *action = view->actionCollection()->action("set_confdlg"); 
-	if ( action ) {
+	if ( action ) 
+	{
 		kdDebug() << "   unplug action 'set_confdlg'..." << endl;
 		action->unplugAll();
 	}
+
+	m_tabs->setTabBarHidden( m_tabs->count() == 1 );
 
 	return view;
 }
@@ -169,6 +174,8 @@ void Manager::removeView(Kate::View *view)
 		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
 		if (views().isEmpty()) m_ki->structureWidget()->clear();
 	}
+
+	m_tabs->setTabBarHidden( m_tabs->count() == 1 );
 }
 
 void Manager::removeFromProjectView(const KURL & url)

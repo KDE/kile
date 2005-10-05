@@ -23,6 +23,9 @@
 #include <kglobal.h>
 #include <kdebug.h>
 
+#include "kiletoolmanager.h"
+#include "kileconfig.h"
+#include "kiletool.h"
 #include "configtester.h"
 
 ConfigTest::ConfigTest() :
@@ -158,6 +161,10 @@ void Tester::runTests()
 	QString shellname = KGlobal::dirs()->findExe("sh");
 	kdDebug() << "Tester::runTests: shellname = " << shellname << endl;
 	m_process = new KShellProcess(QFile::encodeName( shellname ));
+	if (! KileConfig::teXPaths().isEmpty())
+	{
+		m_process->setEnvironment("TEXINPUTS", KileTool::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
+	}
 	*m_process << "cd " + KShellProcess::quote(destdir) + " && ";
 	*m_process << "cp " + KShellProcess::quote(srcdir) +"/* " + KShellProcess::quote(destdir) + " && ";
 	*m_process << "source runTests.sh " + KShellProcess::quote(m_resultsFile) + " " +  KShellProcess::quote(destdir);

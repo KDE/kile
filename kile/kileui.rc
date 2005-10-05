@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="16">
+<kpartgui name="kile" version="17">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -467,14 +467,7 @@
 	<Separator/>
 	<Action name="StructureView"/>
 	<Action name="MessageView"/>
-	<Menu name="ShowToolbars"><text>Show Toolbars</text>
-		<Action name="ShowMainToolbar"/>
-		<Action name="ShowQuickToolbar"/>
-		<Action name="ShowErrorToolbar"/>
-		<Action name="ShowToolsToolbar"/>
-		<Action name="ShowEditToolbar"/>
-		<Action name="ShowMathToolbar"/>
-	</Menu>
+	<Merge name="StandardToolBarMenuHandler" />
 	<Separator/>
 	<Action name="settings_keys"/>
 	<Action name="settings_toolbars"/>

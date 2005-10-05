@@ -129,9 +129,9 @@ private:
 	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
 	void unplugKateConfigMenu(Kate::View* view);
 	
-	void initKileMenu();
-	void setKileMenuItems(QStringList &list, QMap<QString,bool> &dict);
-	void updateKileMenu();
+	void initMenu();
+	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
+	void updateMenu();
 	void updateActionList(QPtrList<KAction> *list, bool state);
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 	
@@ -142,7 +142,6 @@ private:
 	QPtrList<KAction> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KAction							*m_actionEditTag;
 	KActionSeparator			*m_actionEditSeparator;
-	KToggleToolBarAction			*m_paShowMainTB, *m_paShowToolsTB, *m_paShowBuildTB, *m_paShowErrorTB, *m_paShowEditTB, *m_paShowMathTB;
 	KAction 						*m_paStop, *m_paPrint;
 	KToggleAction 					*ModeAction, *WatchFileAction;
 	KRecentFilesAction				*m_actRecentFiles;

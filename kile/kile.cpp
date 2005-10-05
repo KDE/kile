@@ -197,7 +197,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KTipDialog::showTip(this, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
-	initKileMenu();
+	initMenu();
 	updateModeStatus();
 
 	setFocus();
@@ -476,14 +476,6 @@ void Kile::setupActions()
 	connect(tact, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
 	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
     connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
-
-	//FIXME: obsolete for KDE 4
-	m_paShowMainTB = new KToggleToolBarAction("mainToolBar", i18n("Main"), actionCollection(), "ShowMainToolbar");
-	m_paShowToolsTB = new KToggleToolBarAction("toolsToolBar", i18n("Tools"), actionCollection(), "ShowToolsToolbar");
-	m_paShowBuildTB = new KToggleToolBarAction("buildToolBar", i18n("Build"), actionCollection(), "ShowQuickToolbar");
-	m_paShowErrorTB = new KToggleToolBarAction("errorToolBar", i18n("Error"), actionCollection(), "ShowErrorToolbar");
-	m_paShowEditTB = new KToggleToolBarAction("editToolBar", i18n("Edit"), actionCollection(), "ShowEditToolbar");
-	m_paShowMathTB = new KToggleToolBarAction("mathToolBar", i18n("Math"), actionCollection(), "ShowMathToolbar");
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
 	else {ModeAction->setChecked(true);}
@@ -775,7 +767,7 @@ void Kile::updateModeStatus()
 	}
 	
 	// enable or disable entries in Kile'S menu
-	updateKileMenu();
+	updateMenu();
 }
 
 void Kile::openDocument(const QString & url)
@@ -1100,37 +1092,15 @@ void Kile::activePartGUI(KParts::Part * part)
 
 void Kile::showToolBars(const QString & wantState)
 {
-	if ( m_currentState == "Editor" )
-	{
-		m_bShowMainTB = m_paShowMainTB->isChecked();
-		m_bShowToolsTB = m_paShowToolsTB->isChecked();
-		m_bShowBuildTB = m_paShowBuildTB->isChecked();
-		m_bShowErrorTB = m_paShowErrorTB->isChecked();
-		m_bShowEditTB = m_paShowEditTB->isChecked();
-		m_bShowMathTB = m_paShowMathTB->isChecked();
-	}
-
 	if ( wantState == "HTMLpreview" )
 	{
 		stateChanged( "HTMLpreview");
-		m_paShowMainTB->setChecked(false);
-		m_paShowToolsTB->setChecked(false);
-		m_paShowBuildTB->setChecked(false);
-		m_paShowErrorTB->setChecked(false);
-		m_paShowEditTB->setChecked(false);
-		m_paShowMathTB->setChecked(false);
 		toolBar("extraToolBar")->show();
 		enableKileGUI(false);
 	}
 	else if ( wantState == "Viewer" )
 	{
 		stateChanged( "Viewer" );
-		m_paShowMainTB->setChecked(true);
-		m_paShowToolsTB->setChecked(false);
-		m_paShowBuildTB->setChecked(false);
-		m_paShowErrorTB->setChecked(false);
-		m_paShowEditTB->setChecked(false);
-		m_paShowMathTB->setChecked(false);
 		toolBar("extraToolBar")->show();
 		enableKileGUI(false);
 	}
@@ -1139,12 +1109,6 @@ void Kile::showToolBars(const QString & wantState)
 		stateChanged( "Editor" );
 		m_wantState="Editor";
 		m_topWidgetStack->raiseWidget(0);
-		m_paShowMainTB->setChecked(m_bShowMainTB);
-		m_paShowToolsTB->setChecked(m_bShowToolsTB);
-		m_paShowBuildTB->setChecked(m_bShowBuildTB);
-		m_paShowErrorTB->setChecked(m_bShowErrorTB);
-		m_paShowEditTB->setChecked(m_bShowEditTB);
-		m_paShowMathTB->setChecked(m_bShowMathTB);		
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
@@ -1174,7 +1138,7 @@ void Kile::enableKileGUI(bool enable)
 
 // adds action names to their lists
 
-void Kile::initKileMenu()
+void Kile::initMenu()
 {
 	QStringList projectlist,filelist,actionlist;
 	
@@ -1211,7 +1175,7 @@ void Kile::initKileMenu()
 	   // build
 	   << "quickpreview_selection" << "quickpreview_environment" << "quickpreview_subdocument"
 	   << "WatchFile" << "ViewLog" << "PreviousError" << "NextError" << "PreviousWarning"
-	   << "NextWarning" << "PreviousBadBox" << "NextBadBox" << "Stop" << "CleanAll"
+	   << "NextWarning" << "PreviousBadBox" << "NextBadBox" << "CleanAll"
 	   // latex
 	   << "tag_documentclass" << "tag_usepackage" << "tag_amspackages" << "tag_env_document"
 	   << "tag_author" << "tag_title" << "tag_maketitle" << "tag_titlepage" << "tag_env_abstract"
@@ -1274,19 +1238,19 @@ void Kile::initKileMenu()
 	   << "left_list" << "right_list"
 	   ;
 
-	setKileMenuItems(projectlist,m_dictMenuProject);
-	setKileMenuItems(filelist,m_dictMenuFile);
-	setKileMenuItems(actionlist,m_dictMenuAction);
+	setMenuItems(projectlist,m_dictMenuProject);
+	setMenuItems(filelist,m_dictMenuFile);
+	setMenuItems(actionlist,m_dictMenuAction);
 }
 
-void Kile::setKileMenuItems(QStringList &list, QMap<QString,bool> &dict)
+void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
 {
 	for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) {
 		dict[(*it)] = true;
 	}
 }
 	
-void Kile::updateKileMenu()
+void Kile::updateMenu()
 {
 	kdDebug() << "==Kile::updateKileMenu()====================" << endl;
 	KAction *a;

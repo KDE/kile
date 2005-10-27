@@ -157,13 +157,13 @@ protected:
 	enum State
 	{
 		stStandard=0, stComment=1, stControlSequence=3, stControlSymbol=4,
-	 	stCommand=5
+	 	stCommand=5,stEnvironment=6
 	};
 
 protected:
-	Kate::Document				*m_doc;
-	long							*m_arStatistics;
-	bool							m_bIsRoot;
+	Kate::Document					*m_doc;
+	long						*m_arStatistics;
+	bool						m_bIsRoot;
 	QStringList					m_labels;
 	QStringList					m_bibItems;
 	QStringList					m_deps;
@@ -171,10 +171,10 @@ protected:
 	QStringList					m_packages;
 	QStringList					m_newCommands;
 	QString						m_preamble;
-	QMap<QString,KileStructData>	m_dictStructLevel;
+	QMap<QString,KileStructData>			m_dictStructLevel;
 	KURL						m_url, m_oldurl;
 	KConfig						*m_config;
-	LatexCommands				*m_commands;
+	LatexCommands					*m_commands;
 };
 
 class TeXInfo : public Info

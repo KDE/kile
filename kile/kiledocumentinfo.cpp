@@ -128,7 +128,7 @@ Info::Info(Kate::Document *doc, LatexCommands *commands) : m_doc(doc),m_commands
 		kdDebug() << "Info created for " << m_doc->docName() << endl;
 
 	m_bIsRoot = false;
-	m_arStatistics = new long[5];
+	m_arStatistics = new long[6];
 
 	if (m_doc)
 		m_url=m_oldurl = doc->url();
@@ -201,7 +201,7 @@ void Info::count(const QString line, long *stat)
 {
 	QChar c;
 	int state = stStandard;
-	bool word = false;
+	bool word = false; // we are in a word
 
 	for (uint p=0; p < line.length(); ++p)
 	{
@@ -214,8 +214,7 @@ void Info::count(const QString line, long *stat)
 			{
 				case TEX_CAT0	:
 					state = stControlSequence;
-					++stat[1];
-					++stat[4];
+					++stat[1];		
 
 					//look ahead to avoid counting words like K\"ahler as two words
 					if (! line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )
@@ -223,8 +222,7 @@ void Info::count(const QString line, long *stat)
 				break;
 
 				case TEX_CAT14 :
-					p=line.length();
-					word=false;
+					state=stComment;
 				break;
 
 				default:
@@ -236,7 +234,6 @@ void Info::count(const QString line, long *stat)
 							word=true;
 							++stat[3];
 						}
-
 						++stat[0];
 					}
 					else
@@ -249,23 +246,73 @@ void Info::count(const QString line, long *stat)
 			}
 		break;
 
-		case stControlSequence	:
-			if ( c.isLetter() )	state = stCommand;
-			else state = stStandard;
-			++stat[1];
+		case stControlSequence :
+			if ( c.isLetter() )
+			{
+			// "\begin{[a-zA-z]+}" is an environment, and you can't define a command like \begin
+				if ( line.mid(p,5) == "begin" )
+				{
+					++stat[5];
+					state = stEnvironment;
+					stat[1] +=5;
+					p+=4; // after break p++ is executed
+				}
+				else if ( line.mid(p,3) == "end" )
+				{
+					stat[1] +=3;
+					state = stEnvironment;
+					p+=2;	
+				} // we don't count \end as new environment, this can give wrong results in selections
+				else
+				{
+					++stat[4];
+					++stat[1];
+					state = stCommand;
+				}
+			}
+			else
+			{
+				++stat[1];
+				state = stStandard;
+			}
 		break;
 
 		case stCommand :
-			if ( c.isLetter() ) { ++stat[1]; }
-			else if ( c == TEX_CAT0 ) ++stat[4];
-			else if ( c == TEX_CAT14 )
+			if ( c.isLetter() )
+				++stat[1];
+			else if ( c == TEX_CAT0 )
 			{
-				p=line.length();
+				++stat[1];
+				state=stControlSequence;
 			}
+			else if ( c == TEX_CAT14 )
+				state=stComment;
 			else
 			{
 				++stat[2];
 				state = stStandard;
+			}
+		break;
+
+		case stEnvironment :
+			if ( c == TEX_CAT2  ) // until we find a closing } we have an environment
+			{
+				++stat[1];				
+				state=stStandard;
+			}
+			else if ( c == TEX_CAT14 )
+				state=stComment;
+			else
+				++stat[1];
+				
+		break;
+		
+		case stComment : // if we get a selection the line possibly contains \n and so the comment is only valid till \n and not necessarily till line.length()
+			if ( c == '\n')
+			{
+			++stat[2]; // \n was counted as punctuation in the old implementation
+			state=stStandard;
+			word=false;
 			}
 		break;
 
@@ -278,9 +325,10 @@ void Info::count(const QString line, long *stat)
 
 const long* Info::getStatistics()
 {
-	//#c in words    , #c in commands,  #c whitespace,    #words,           #latex_commands
-	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=0;
-
+	/* [0] = #c in words, [1] = #c in latex commands and environments,
+	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
+	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
+	
 	return m_arStatistics;
 }
 
@@ -388,14 +436,15 @@ void Info::updateBibItems()
 
 const long* TeXInfo::getStatistics()
 {
-	//#c in words    , #c in commands,  #c whitespace,    #words,           #latex_commands
-	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=0;
+	/* [0] = #c in words, [1] = #c in latex commands and environments,
+	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
+	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
 	QString line;
-
-	//FIXME : counts environment names as words
+	
 	if ( m_doc && m_doc->hasSelection() )
 	{
 		line = m_doc->selection();
+		kdDebug() << "getStat : line : " << line << endl;
 		count(line, m_arStatistics);
 	}
 	else if (m_doc)
@@ -407,7 +456,7 @@ const long* TeXInfo::getStatistics()
 	}
 	return m_arStatistics;
 }
-
+ 
 BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 {
 	BracketResult result;
@@ -697,17 +746,18 @@ void BibInfo::updateStruct()
 
 KileDocInfoDlg::KileDocInfoDlg(KileDocument::Info *docinfo, QWidget* parent,  const char* name, const QString &caption)
 	: KDialogBase(parent,name,true,caption,KDialogBase::Ok, KDialogBase::Ok, true)
-{
+{	
+	
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
 	QGridLayout *layout = new QGridLayout( page, 8, 3,5,5,"");
 
 	const long *list = docinfo->getStatistics();
 
-	layout->addWidget(new QLabel(i18n("Characters in words:"),page), 0,0);
+	layout->addWidget(new QLabel(i18n("Characters in words/numbers:"),page), 0,0);
 	layout->addWidget(new QLabel(QString::number(list[0]), page), 0,2);
 
-	layout->addWidget(new QLabel(i18n("Characters in LaTeX commands:"),page), 1,0);
+	layout->addWidget(new QLabel(i18n("Characters in LaTeX commands/environments:"),page), 1,0);
 	layout->addWidget(new QLabel(QString::number(list[1]), page), 1,2);
 
 	layout->addWidget(new QLabel(i18n("Whitespace/Delimiters/Punctuation marks:"),page), 2,0);
@@ -722,11 +772,15 @@ KileDocInfoDlg::KileDocInfoDlg(KileDocument::Info *docinfo, QWidget* parent,  co
 	layout->addWidget(new QLabel(i18n("LaTeX commands:"),page), 5,0);
 	layout->addWidget(new QLabel(QString::number(list[4]), page), 5,2);
 
-	layout->addWidget(new QLabel(i18n("Total:"),page), 6,1, Qt::AlignRight);
-	layout->addWidget(new QLabel(QString::number(list[3]+list[4]), page), 6,2);
+	layout->addWidget(new QLabel(i18n("LaTeX environments:"),page), 6,0);
+	layout->addWidget(new QLabel(QString::number(list[5]), page), 6,2);
+
+
+	layout->addWidget(new QLabel(i18n("Total:"),page), 7,1, Qt::AlignRight);
+	layout->addWidget(new QLabel(QString::number(list[3]+list[4]+list[5]), page), 7,2);
 
 	if (docinfo->getDoc() && docinfo->getDoc()->hasSelection())
-		layout->addWidget(new QLabel(i18n("WARNING: These are the statistics for the selected text only."),page), 7,0, Qt::AlignRight);
+		layout->addWidget(new QLabel(i18n("WARNING: These are the statistics for the selected text only."),page), 8,0, Qt::AlignRight);
 }
 
 #include "kiledocumentinfo.moc"

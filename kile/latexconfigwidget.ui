@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KileWidgetLatexConfig</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,47 +8,18 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>632</width>
-            <height>554</height>
+            <width>602</width>
+            <height>522</height>
         </rect>
     </property>
     <property name="caption">
         <string>LaTeX</string>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QButtonGroup">
-            <property name="name">
-                <cstring>m_bgEnv</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Environments</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>kcfg_CompleteEnvironment</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Automatically complete \begin{env} with \end{env}</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="1" column="0">
             <property name="name">
                 <cstring>m_bgCommands</cstring>
             </property>
@@ -85,7 +56,7 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="2" column="0">
             <property name="name">
                 <cstring>m_bgQuotes</cstring>
             </property>
@@ -120,7 +91,7 @@
                         <cstring>kcfg_InsertDoubleQuotes</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Automatically insert opening and closing double quotes for LaTeX</string>
+                        <string>Automatically insert opening and closing double &amp;quotes for LaTeX</string>
                     </property>
                 </widget>
                 <widget class="QComboBox" row="1" column="1">
@@ -155,7 +126,7 @@
                 </spacer>
             </grid>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="3" column="0">
             <property name="name">
                 <cstring>m_bgGraphics</cstring>
             </property>
@@ -222,7 +193,7 @@
                         <cstring>kcfg_boundingbox</cstring>
                     </property>
                     <property name="text">
-                        <string>Try to determine from the picture</string>
+                        <string>Tr&amp;y to determine from the picture</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="3" column="1">
@@ -243,23 +214,23 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="4" column="0">
             <property name="name">
                 <cstring>groupBox5</cstring>
             </property>
             <property name="title">
-                <string>Library Path</string>
+                <string>Library Paths</string>
             </property>
-            <hbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <widget class="QLabel" row="0" column="0">
                     <property name="name">
                         <cstring>m_tlPath</cstring>
                     </property>
                     <property name="text">
-                        <string>Paths:</string>
+                        <string>TEXINPUTS:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_TeXPaths</cstring>
@@ -268,14 +239,81 @@
                         <string></string>
                     </property>
                 </widget>
-                <widget class="KLineEdit">
+                <widget class="KLineEdit" row="0" column="1">
                     <property name="name">
                         <cstring>kcfg_TeXPaths</cstring>
                     </property>
                 </widget>
-            </hbox>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_BibInputPaths</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>kcfg_BstInputPaths</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>m_bibinputpath</cstring>
+                    </property>
+                    <property name="text">
+                        <string>BIBINPUTS:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_BibInputPaths</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>m_bstinputpath</cstring>
+                    </property>
+                    <property name="text">
+                        <string>B&amp;STINPUTS:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_BstInputPaths</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string></string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
-    </vbox>
+        <widget class="QButtonGroup" row="0" column="0">
+            <property name="name">
+                <cstring>m_bgEnv</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Environments</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_CompleteEnvironment</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Automatically complete \begin{env} &amp;with \end{env}</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
 </widget>
 <connections>
     <connection>
@@ -304,6 +342,8 @@
 </functions>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>

@@ -51,6 +51,8 @@
 		m_cmd(QString::null),
 		m_options(QString::null),
 		m_texinputs(KileConfig::teXPaths()),
+		m_bibinputs(KileConfig::bibInputPaths()),
+ 		m_bstinputs(KileConfig::bstInputPaths()),
 		m_changeTo(true)
 	{
 		kdDebug() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
@@ -115,8 +117,14 @@
 			 
 			emit(message(Info,msg));
 
+ 			kdDebug() << "\tenvironment variables are" << expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << tool()->name() << endl;
+
 			if (! m_texinputs.isEmpty())
 				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
+			if (! m_bibinputs.isEmpty())
+				m_proc->setEnvironment("BIBINPUTS", expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
+			if (! m_bstinputs.isEmpty())
+				m_proc->setEnvironment("BSTINPUTS", expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
 
 			out += "*****\n";
 			emit(output(out));

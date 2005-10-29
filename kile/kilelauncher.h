@@ -96,9 +96,9 @@ namespace KileTool
 		void slotProcessExited(KProcess*);
 
 	private:
-		QString			m_wd, m_cmd, m_options, m_texinputs;
-		KShellProcess		*m_proc;
-		bool				m_changeTo;
+		QString 	m_wd, m_cmd, m_options, m_texinputs, m_bibinputs, m_bstinputs;
+		KShellProcess	*m_proc;
+		bool		m_changeTo;
 	};
 
 	class KonsoleLauncher : public ProcessLauncher

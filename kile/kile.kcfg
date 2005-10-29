@@ -62,6 +62,16 @@
 			<whatsthis>Set the TEXINPUTS environment variable here. TEXINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$TEXINPUTS at the end.</whatsthis>
 			<default></default>
 		</entry>
+		 <entry name="BibInputPaths" type="String">
+			<label>Holds th BIBINPUTS environment variable.</label>
+			<whatsthis>Set the BIBINPUTS environment variable here. BIBINPUTS should be a colon-separated list of all paths bibtex should look for additional .bib files. You do not have to add :$BIBINPUTS at the end.</whatsthis>
+			<default></default>
+		</entry>
+		<entry name="BstInputPaths" type="String">
+			<label>Holds th BSTINPUTS environment variable.</label>
+			<whatsthis>Set the BSTINPUTS environment variable here. BSTINPUTS should be a colon-separated list of all paths bibtex should look for additional .bst files. You do not have to add :$BSTINPUTS at the end.</whatsthis>
+			<default></default>
+		</entry>
 	</group>
 	<group name="Show">
 		<entry name="BottomBar" type="Bool">

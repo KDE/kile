@@ -1,3 +1,4 @@
+#!/bin/sh
 echo "Kile System Check script..."
 
 outfile=$1

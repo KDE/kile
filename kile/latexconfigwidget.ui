@@ -219,7 +219,7 @@
                 <cstring>groupBox5</cstring>
             </property>
             <property name="title">
-                <string>Library Paths</string>
+                <string>Environment variables</string>
             </property>
             <grid>
                 <property name="name">

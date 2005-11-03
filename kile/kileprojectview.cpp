@@ -31,7 +31,7 @@
 const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
 	KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5,
 	KPV_ID_BUILDTREE = 6, KPV_ID_ARCHIVE = 7, KPV_ID_ADDFILES = 8,
-	KPV_ID_INCLUDE = 9, KPV_ID_OPENWITH = 10;
+	KPV_ID_INCLUDE = 9, KPV_ID_OPENWITH = 10, KPV_ID_OPENALLFILES = 11;
 
 /*
  * KileProjectViewItem
@@ -170,6 +170,7 @@ void KileProjectView::slotProject(int id)
 			case KPV_ID_CLOSE : emit(closeProject(item->url())); break;
 			case KPV_ID_ARCHIVE : emit(projectArchive(item->url())); break;
 			case KPV_ID_ADDFILES : emit(addFiles(item->url())); break;
+			case KPV_ID_OPENALLFILES : emit(openAllFiles(item->url())); break;
 			default : break;
 		}
 	}
@@ -240,6 +241,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 		else if (itm->type() == KileType::Project)
 		{
 			m_popup->insertItem(i18n("A&dd Files..."), KPV_ID_ADDFILES);
+			m_popup->insertItem(i18n("Open All &Project Files"), KPV_ID_OPENALLFILES);
 			m_popup->insertItem(SmallIcon("relation"),i18n("Refresh Project &Tree"), KPV_ID_BUILDTREE);
    			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
 			m_popup->insertItem(SmallIcon("package"),i18n("&Archive"), KPV_ID_ARCHIVE);

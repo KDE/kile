@@ -271,6 +271,7 @@ void Kile::setupProjectView()
 	connect(projectview, SIGNAL(projectArchive(const KURL&)), docManager(), SLOT(projectArchive(const KURL&)));
 	connect(projectview, SIGNAL(removeFromProject(const KileProjectItem *)), docManager(), SLOT(removeFromProject(const KileProjectItem *)));
 	connect(projectview, SIGNAL(addFiles(const KURL &)), docManager(), SLOT(projectAddFiles(const KURL &)));
+	connect(projectview, SIGNAL(openAllFiles(const KURL &)), docManager(), SLOT(projectOpenAllFiles(const KURL &)));
 	connect(projectview, SIGNAL(toggleArchive(KileProjectItem *)), docManager(), SLOT(toggleArchive(KileProjectItem *)));
 	connect(projectview, SIGNAL(addToProject(const KURL &)), docManager(), SLOT(addToProject(const KURL &)));
 	connect(projectview, SIGNAL(saveURL(const KURL &)), docManager(), SLOT(saveURL(const KURL &)));
@@ -390,7 +391,9 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
 	(void) new KAction(i18n("Re&move Files from Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
 	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
-	
+	// tbraun
+	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
+
 	//build actions
 	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
 	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
@@ -1146,7 +1149,7 @@ void Kile::initMenu()
 	   << "project_add" << "project_remove" 
 	   << "project_showfiles" 
 	   << "project_buildtree" << "project_options" 
-	   << "project_archive" << "project_close"
+	   << "project_archive" << "project_close" << "project_openallfiles"
 	   ;
 	
 	filelist 

@@ -1499,6 +1499,37 @@ void Manager::projectShowFiles()
 	}
 }
 
+void Manager::projectOpenAllFiles()
+{
+	KileProject *project = selectProject(i18n("Select Project"));
+	projectOpenAllFiles(project->url());
+}
+
+void Manager::projectOpenAllFiles(const KURL & url)
+{
+	KileProject* project;
+	Kate::Document* doc = 0L;
+
+	if(url.isValid())
+		project = projectFor(url);
+	else	
+		return;
+
+	if(m_ki->viewManager()->currentView()) 
+		doc = m_ki->viewManager()->currentView()->getDoc();
+	// we remember the actual view, so the user gets the same view back after opening
+
+	KileProjectItemList *list = project->items();
+	for ( KileProjectItem *item=list->first(); item; item = list->next() )
+		if  ( !m_ki->isOpen(item->url()) )
+			fileOpen( item->url(),item->encoding() );
+
+	if(doc) // we have a doc so switch back to original view
+		m_ki->viewManager()->switchToView(doc->url());
+}
+
+
+
 KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 {
 	// select a project

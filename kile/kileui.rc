@@ -151,6 +151,7 @@
 	<Separator/>
 	<Action name="project_add"/>
 	<Action name="project_remove" />
+	<Action name="project_openallfiles" />
 	<Action name="project_showfiles" />
 	<Separator/>
 	<Action name="project_buildtree"/>

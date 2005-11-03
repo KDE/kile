@@ -113,7 +113,9 @@ public slots:
 	void projectRemoveFiles();
 	void projectShowFiles();
 	void projectAddFile(QString filename, bool graphics=false);
-	
+	void projectOpenAllFiles();
+	void projectOpenAllFiles(const KURL &);
+
 	KileProject* selectProject(const QString &);
 
 	void addProject(const KileProject *project);

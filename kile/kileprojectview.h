@@ -98,6 +98,7 @@ signals:
 	void projectOptions(const KURL &);
 	void projectArchive(const KURL &);
 	void addFiles(const KURL &);
+	void openAllFiles(const KURL &);
 	void toggleArchive(KileProjectItem *);
 	void closeProject(const KURL &);
 	void addToProject(const KURL &);

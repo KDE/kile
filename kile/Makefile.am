@@ -18,9 +18,9 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp kileedit.cpp \
 	cleandialog.cpp kilehelp.cpp configstructure.cpp kileappIface.skel convert.cpp \
 	helpconfigwidget.ui kiledocmanager.cpp kileviewmanager.cpp kileeventfilter.cpp \
-	kileautosavejob.cpp latexconfigwidget.ui kileconfig.kcfgc generalconfigwidget.ui \
-	kilespell.cpp kileerrorhandler.cpp configcheckerdlg.cpp configcheckerwidget.ui \
-	configtester.cpp kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
+	latexconfigwidget.ui kileconfig.kcfgc generalconfigwidget.ui kilespell.cpp \
+	kileerrorhandler.cpp configcheckerdlg.cpp configcheckerwidget.ui configtester.cpp \
+	kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
 	processtoolconfigwidget.ui quicktoolconfigwidget.ui plaintolatexconverter.cpp \
 	latextoolconfigwidget.ui newtoolwizard.ui encodingconfigwidget.ui kileuntitled.cpp
 
@@ -89,8 +89,7 @@ messages: rc.cpp
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
 noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
-		kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
-		kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
-		kileautosavejob.h latexconfigwidget.h kilespell.h kileerrorhandler.h 	configcheckerdlg.h \
-	configtester.h kilesidebar.h plaintolatexconverter.h encodingconfigwidget.ui.h \
-	kileuntitled.h
+	kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
+	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
+	latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
+	kilesidebar.h plaintolatexconverter.h encodingconfigwidget.ui.h kileuntitled.h

@@ -31,6 +31,7 @@
 #include <kencodingfiledialog.h>
 #include <krun.h>
 #include <kstandarddirs.h>
+#include <kio/netaccess.h>
 
 #include "kileuntitled.h"
 #include "templates.h"
@@ -50,7 +51,6 @@
 #include "kilestdtools.h"
 #include "kilelistselector.h"
 #include "kiletoolmanager.h"
-#include "kileautosavejob.h"
 #include "kilekonsolewidget.h"
 #include "kileconfig.h"
 #include "kilelogwidget.h"
@@ -168,9 +168,6 @@ Info *Manager::infoFor(const QString & path) const
 
 Info* Manager::infoFor(Kate::Document* doc, bool usepath /*= true*/ ) const
 {
-// 	if (usepath)
-// 		return infoFor(doc->url().path());
-// 	else
     QPtrListIterator<Info> it(m_infoList);
     while ( true )
     {
@@ -757,13 +754,10 @@ void Manager::fileSaveAll(bool amAutoSaving)
 				{
 					//make a backup
 					KURL url = view->getDoc()->url();
-					KileAutoSaveJob *job = new KileAutoSaveJob(url);
-
-					//save the current file if job is finished succesfully
-					if (view->getDoc()->isModified()) connect(job, SIGNAL(success()), view, SLOT(save()));
+          KIO::NetAccess::file_copy (url, KURL(KURL::fromPathOrURL(url.url()+".backup")), -1, true, false, kapp->mainWidget());
 				}
-				else
-					view->save();
+
+				view->save();
 			}
 		}
 	}
@@ -1502,8 +1496,10 @@ void Manager::projectShowFiles()
 void Manager::projectOpenAllFiles()
 {
 	KileProject *project = selectProject(i18n("Select Project"));
-	if(project)
+	if (project != 0L)
+  { 
 		projectOpenAllFiles(project->url());
+  }
 }
 
 void Manager::projectOpenAllFiles(const KURL & url)

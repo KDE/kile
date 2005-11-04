@@ -62,7 +62,6 @@
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "kileeventfilter.h"
-#include "kileautosavejob.h"
 #include "kileconfig.h"
 #include "kileerrorhandler.h"
 #include "configcheckerdlg.h"

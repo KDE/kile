@@ -1502,7 +1502,8 @@ void Manager::projectShowFiles()
 void Manager::projectOpenAllFiles()
 {
 	KileProject *project = selectProject(i18n("Select Project"));
-	projectOpenAllFiles(project->url());
+	if(project)
+		projectOpenAllFiles(project->url());
 }
 
 void Manager::projectOpenAllFiles(const KURL & url)
@@ -1510,10 +1511,13 @@ void Manager::projectOpenAllFiles(const KURL & url)
 	KileProject* project;
 	Kate::Document* doc = 0L;
 
-	if(url.isValid())
-		project = projectFor(url);
-	else	
+	if(!url.isValid())
 		return;
+	project = projectFor(url);
+	
+	if(!project)
+		return;
+	
 
 	if(m_ki->viewManager()->currentView()) 
 		doc = m_ki->viewManager()->currentView()->getDoc();

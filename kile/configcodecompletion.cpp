@@ -339,28 +339,34 @@ void ConfigCodeCompletion::addClicked()
    QString listname = getListname(tab->currentPage());   // determine name
    QString basedir = locate("appdata","complete/") + listname;
 
-   QString filename = KFileDialog::getOpenFileName( basedir,i18n("*.cwl|Complete Files"),
-                                                    this,i18n("Select File") );
+   QStringList filenames =KFileDialog::getOpenFileNames( basedir,i18n("*.cwl|Complete Files"),this,i18n("Select File"));
 
-   // could we accept the wordlist?
-   QFileInfo fi(filename);
-   if ( !filename.isEmpty() && fi.exists() && fi.isReadable() )  {
-        // check basedir
-        if ( fi.dirPath(true) == basedir )
-        {
-           int len = basedir.length() + 1;
-           QString basename = filename.mid(len,filename.length()-len-4);
+	for ( QStringList::Iterator it = filenames.begin(); it != filenames.end(); ++it )
+	{
+		QString filename = *it;
+	
+		// could we accept the wordlist?
+		QFileInfo fi(filename);
+		if ( !filename.isEmpty() && fi.exists() && fi.isReadable() )
+		{
+			// check basedir
+			if ( fi.dirPath(true) == basedir )
+			{
+				int len = basedir.length() + 1;
+				QString basename = filename.mid(len,filename.length()-len-4);
+			
+				// add new entry
+				KListView *list = getListview(tab->currentPage());     // get current page
+				QCheckListItem *item = new QCheckListItem(list,basename,QCheckListItem::CheckBox);
+				item->setOn(true);
+				list->insertItem(item);
+			}
+		else
+			KMessageBox::information(0,i18n("Maybe you have changed the directory?"));
+	
+		}
+	}
 
-           // add new entry
-           KListView *list = getListview(tab->currentPage());     // get current page
-           QCheckListItem *item = new QCheckListItem(list,basename,QCheckListItem::CheckBox);
-           item->setOn(true);
-           list->insertItem(item);
-        }
-        else
-           KMessageBox::information(0,i18n("Maybe you have changed the directory?"));
-
-   }
 }
 
 // delete a selected entry

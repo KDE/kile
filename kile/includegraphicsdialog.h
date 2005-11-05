@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 04 2005
-    version              : 0.22
+    date                 : Nov 02 2005
+    version              : 0.23
     copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -62,7 +62,7 @@ private:
 	bool checkParameter();
 	QString getOptions();
 	QString getInfo();
-	bool getPictureSize(int &wpx, int &hpx, QString &wcm, QString &hcm);
+	bool getPictureSize(int &wpx, int &hpx, QString &dpi, QString &wcm, QString &hcm);
 	void setInfo();
 
 	QLabel *infolabel;
@@ -74,6 +74,7 @@ private:
 	QString m_output;
 
 	// current picture
+	int m_width,m_height;
 	float m_resolution;
 
 	// default

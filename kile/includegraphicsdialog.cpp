@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 04 2005
-    version              : 0.22
+    date                 : Nov 02 2005
+    version              : 0.23
     copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -299,90 +299,57 @@ QString IncludeGraphics::getOptions()
 
 QString IncludeGraphics::getInfo()
 {
-   QString wcm,hcm;
-   int wpx,hpx;
+	QString wcm,hcm,dpi;
+	int wpx,hpx;
 
-   bool ok = getPictureSize(wpx,hpx,wcm,hcm);
-   if ( ! ok )
-      return "";
-   else
-   {
-      QFileInfo fi( edit_file->text() );
+	bool ok = getPictureSize(wpx,hpx,dpi,wcm,hcm);
+	if ( ! ok )
+		return "";
+	else
+	{
+		QFileInfo fi( edit_file->text() );
 
-      return "% " + fi.baseName() + "." + fi.extension(true)
-                  + ": " + QString("%1").arg(m_resolution) + "dpi"
-                  + ", width=" + wcm + "cm"
-                  + ", height=" + hcm + "cm"
-                  + ", bb=" + edit_bb->text();
-    }
+		return "% " + fi.baseName() + "." + fi.extension(true)
+		            + QString(": %1x%2 pixel").arg(wpx).arg(hpx)
+		            + ", " + dpi + "dpi"
+		            + ", " + wcm + "x" + hcm + " cm"
+		            + ", bb=" + edit_bb->text();
+	}
 }
 
 void IncludeGraphics::setInfo()
 {
-   QString text;
-   QString wcm,hcm,dpi;
-   int wpx,hpx;
+	QString text;
+	QString wcm,hcm,dpi;
+	int wpx,hpx;
 
-   if ( !edit_file->text().isEmpty() && getPictureSize(wpx,hpx,wcm,hcm) ) {
-      if ( cb_pdftex->isChecked() ) {
-         text = QString("%1x%2 pixel").arg(wpx).arg(hpx)
-                   + " / " + wcm + "x" + hcm + " cm"
-                   + "  (" + QString("%1").arg(m_resolution) + "dpi)";
-      } else {
-        text = "bb: " + edit_bb->text()
-                      + " / " + wcm + "x" + hcm + " cm"
-                      + "  (" + QString("%1").arg(m_resolution) + "dpi)";
-      }
-   }
-   else
-      text = "---";
+	if ( !edit_file->text().isEmpty() && getPictureSize(wpx,hpx,dpi,wcm,hcm) ) 
+	{
+		text = QString("%1x%2 pixel").arg(wpx).arg(hpx)
+			       + " / " + wcm + "x" + hcm + " cm"
+			       + "  (" + dpi + "dpi)";
+	} 
+	else
+		text = "---";
 
-   // insert text
-   infolabel->setText(text);
+// insert text
+infolabel->setText(text);
 }
 
-bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &wcm, QString &hcm)
+bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &wcm, QString &hcm)
 {
-   float eps[4], width,height, w,h;
-   bool ok;
+	wpx = m_width;
+	hpx = m_height;
 
-   QRegExp reg("([-\\.0-9]+)\\s+([-\\.0-9]+)\\s+([-\\.0-9]+)\\s+([-\\.0-9]+)");
-   QString boundingbox = edit_bb->text();
-   if ( reg.search(boundingbox) == -1 )
-      return false;
+	dpi = QString("%1").arg((int)(m_resolution+0.5));
 
-   for (uint i=0; i<4; ++i)
-   {
-      eps[i] = reg.cap(i+1).toFloat( &ok );
-      if (!ok) return false;
-   }
+	// convert from inch to cm
+	float w = (float)m_width / m_resolution * 2.54;
+	wcm = wcm.setNum(w,'f',2);
 
-   width = eps[2] - eps[0];
-   height = eps[3] - eps[1];
-
-   if ( width>0 && height>0 )
-   {
-      // use the extracted bounding box
-      wpx = (int)width;
-      hpx = (int)height;
-
-      // die anderen Werte werden jetzt berechnet
-      // dazu muss die Aufl�ung angegeben werden
-      // Bitmap-Dateien in 300 dpi, EPS-Dateien in 72.27 dpi
-      // da aber alle EPS-Dateien von Bitmaps abstammen,
-      // wird immer 300dpi genommen
-
-      // try to calculate the real size
-      w = ((float)width  * 2.54) / (float)m_resolution;
-      h = ((float)height * 2.54) / (float)m_resolution;
-
-      // convert from inch to cm
-      wcm = wcm.setNum(w,'f',2);
-      hcm = hcm.setNum(h,'f',2);
-      return true;
-   }
-   else
-      return false;
+	float h = (float)m_height / m_resolution * 2.54;
+	hcm = hcm.setNum(h,'f',2);
+	return true;
 }
 
 
@@ -492,34 +459,31 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
              return;
 
          // get bounding box and resolution
-         bool ok;
-	 int bbw = (int)reg.cap(1).toInt( &ok);
-         if (!ok) return;
+	bool ok;
+	m_width = (int)reg.cap(1).toInt( &ok);
+	if (!ok) return;
 
-	 int bbh = (int)reg.cap(2).toInt( &ok);
-         if (!ok) return;
+	m_height = (int)reg.cap(2).toInt( &ok);
+	if (!ok) return;
 
-         float res = (float)reg.cap(3).toFloat( &ok);
-         if (!ok) return;
+	float res = (float)reg.cap(3).toFloat( &ok);
+	if (!ok) return;
+	if ( res > 0.0 )
+		m_resolution = res;
 
-	 // look, if res is in PixelsPerCentimeter
-	 if ( reg.cap(4).stripWhiteSpace() == "PixelsPerCentimeter" ) {
-	    bbw = (int)( (float)bbw/2.54 + 0.5 );
-	    bbh = (int)( (float)bbh/2.54 + 0.5 );
-	    res *= 2.54;
-	 }
+	// look, if resolution is in PixelsPerCentimeter
+	if ( reg.cap(4).stripWhiteSpace() == "PixelsPerCentimeter" ) 
+		m_resolution *= 2.54;
 
-         // There is no resolution in jpeg files f.e., so if
-         // the calculated resolution is acceptable, take it.
-         // Otherwise use the default resolution;
-         if ( res > 0.0 )
-            m_resolution = res;
+	// calc the bounding box
+	int bbw = (int)( (float)m_width*72.0/m_resolution + 0.5 );
+	int bbh = (int)( (float)m_height*72.0/m_resolution + 0.5 );
 
-         // take width and height as parameters for the bounding box
+	// take width and height as parameters for the bounding box
 	 edit_bb->setText( QString("0 0 ") + QString("%1").arg(bbw)
 	                                   + " "
 	                                   + QString("%1").arg(bbh)
-                         );
+	                  );
 
          // show information
          setInfo();

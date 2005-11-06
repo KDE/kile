@@ -1521,7 +1521,7 @@ void Manager::projectOpenAllFiles(const KURL & url)
 
 	KileProjectItemList *list = project->items();
 	for ( KileProjectItem *item=list->first(); item; item = list->next() )
-		if  ( !m_ki->isOpen(item->url()) )
+		if  ( !m_ki->isOpen(item->url()) && ( item->type() != KileProjectItem::Image) )
 			fileOpen( item->url(),item->encoding() );
 
 	if(doc) // we have a doc so switch back to original view

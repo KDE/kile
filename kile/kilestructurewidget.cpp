@@ -102,11 +102,11 @@ void KileListViewToolTip::maybeTip(const QPoint &p)
 	
 	if ( ! item->label().isNull() )
 	{
-		tip(rect,"Label: " + item->label());
+		tip(rect,i18n("Label: ") + item->label());
 	}
 	else if ( item->line()==0 && item->column()==0 && item->parent()==0L )  // only root
 	{
-		tip(rect,"Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button)."); 
+		tip(rect,i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button).")); 
 	}
 }
 
@@ -271,8 +271,6 @@ namespace KileWidget
 			par = folder(fldr);
 		}
 
-		if ( par == 0L )
-			KMessageBox::error(0L,"par = 0L");
 		return par;
 	}
 
@@ -347,6 +345,11 @@ namespace KileWidget
 
 		//find the parent for the new element
 		KileListViewItem *parentItem = parentFor(lev, fldr);
+		if ( parentItem == 0L )
+		{
+			KMessageBox::error(0,i18n("Can't create ListviewItem: no parent found."));
+			return;
+		}
 
 		//find the last element at this level
 		KileListViewItem *lastChild = 0L;
@@ -497,15 +500,15 @@ namespace KileWidget
 		
 		if ( ! item->label().isEmpty() )
 		{
-			m_popup->insertTitle("Insert Label");
-			m_popup->insertItem("as &reference",1);
-			m_popup->insertItem("as &page reference",2);
-			m_popup->insertItem("only the &label",3);
+			m_popup->insertTitle(i18n("Insert Label"));
+			m_popup->insertItem(i18n("as &reference"),1);
+			m_popup->insertItem(i18n("as &page reference"),2);
+			m_popup->insertItem(i18n("only the &label"),3);
 			m_popup->insertSeparator();
-			m_popup->insertTitle("Copy Label to Clipboard");
-			m_popup->insertItem("as reference",4);
-			m_popup->insertItem("as page reference",5);
-			m_popup->insertItem("only the label",6);
+			m_popup->insertTitle(i18n("Copy Label to Clipboard"));
+			m_popup->insertItem(i18n("as reference"),4);
+			m_popup->insertItem(i18n("as page reference"),5);
+			m_popup->insertItem(i18n("only the label"),6);
 			
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotPopupLabel(int)));
 			m_popup->exec(point);

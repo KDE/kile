@@ -749,7 +749,7 @@ void TeXInfo::updateStruct()
 						}
 						m_newCommands.append(m);
 						//FIXME  set tagEnd to the end of the command definition
-						continue;
+						break;
 					}
 					
 					// and some other commands, which don't need special actions: 

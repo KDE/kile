@@ -502,6 +502,7 @@ void TeXInfo::updateStruct()
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 	static QRegExp::QRegExp reReNewCommand("\\\\renewcommand.*$");
 	static QRegExp::QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
+	static QRegExp::QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[(.*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are from the latex compilers point of view correct.
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
@@ -639,14 +640,29 @@ void TeXInfo::updateStruct()
 						{
 							bool ok;
 							int noo = reNumOfParams.cap(1).toInt(&ok);
+							QString cmdWithOptArgs = QString::null;
 							if ( ok )
 							{
+								if(s.find(reNumOfOptParams, tagEnd + 1) != -1)
+								{
+								kdDebug() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
+								noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occure because then latex complains (and we don't macht them with reNumOfParams either)
+								cmdWithOptArgs = m + "[" + reNumOfOptParams.cap(2) + "]";
+								}
+									
 								for ( int noo_index = 0; noo_index < noo; ++noo_index)
+								{
 									m +=  "{" + s_bullet + "}";
+									if(!cmdWithOptArgs.isNull())
+										cmdWithOptArgs += "{" + s_bullet + "}";
+								}
+								
 							}
+						if(!cmdWithOptArgs.isNull())
+							m_newCommands.append(cmdWithOptArgs);  // if we have opt args we add two new commands, one with and one without opt args.
 						}
 						m_newCommands.append(m);
-						//ignore rest of line
+						//FIXME  set tagEnd to the end of the command definition
 						continue;
 					}
 

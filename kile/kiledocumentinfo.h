@@ -41,13 +41,15 @@ namespace KileStruct
 	enum  
 	{
 		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
-		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80
+		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80, 
+		Graphics = 0x100, Reference = 0x200, BeginEnv = 0x400, EndEnv = 0x800,
+		BeginFloat = 0x1000, EndFloat = 0x2000,  Caption = 0x4000
 	};
 
 	//Different levels (in the parent-child hierarchy) in the structure view
 	enum
 	{
-		Hidden = -3, NotSpecified = -2, File = -1
+		Hidden = -4, NotSpecified = -3, Object = -2, File = -1
 	};
 }
 

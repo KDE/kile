@@ -283,6 +283,7 @@ private slots:
 	 * An overloaded member function, behaves essentially as above.
 	 **/
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
+	void insertText(const QString &text);
 
 	void quickTabular();
 	void quickArray();

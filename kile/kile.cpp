@@ -286,8 +286,7 @@ void Kile::setupStructureView()
 	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
-
-	QToolTip::add(m_kwStructure, i18n("Click to jump to the line"));
+	connect(m_kwStructure, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
 }
 
 void Kile::setupSymbolViews()
@@ -1420,6 +1419,11 @@ void Kile::insertAmsTag(const KileAction::TagData& data)
 	if ( ! amsmath  ) {
 		KMessageBox::information(0,"<center>"+i18n("You must include '\\usepackage{amsmath}' to use an AMS command like this.")+"</center>",i18n("AMS Information"),i18n("amsmath package warning"));
 	}
+}
+
+void Kile::insertText(const QString &text)
+{
+	insertTag( KileAction::TagData(QString::null,text,"%C",0,0) );
 }
 
 void Kile::quickDocument()

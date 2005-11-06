@@ -22,8 +22,11 @@
 
 #include <qwidgetstack.h>
 #include <qvbox.h>
+#include <qtooltip.h>
 
 #include <klistview.h>
+#include <kpopupmenu.h>
+#include <ktrader.h>
 
 #include "kiledocumentinfo.h"
 
@@ -57,6 +60,10 @@ public:
 	void setURL(const KURL & url) { m_url = url; }
 
 	const int level() const { return m_level; }
+	const QString &label() const { return m_label; }
+	
+	void setTitle(const QString &title);
+	void setLabel(const QString &label) { m_label = label; }
 
 private:
 	QString		m_title;
@@ -64,6 +71,19 @@ private:
 	uint		m_line;
 	uint		m_column;
 	int			m_type, m_level;
+	QString m_label;
+	
+	void setItemEntry();
+};
+
+class KileListViewToolTip : public QToolTip
+{
+public:
+	KileListViewToolTip(KListView *listview);
+protected:
+	void maybeTip(const QPoint &p);
+private:
+	KListView *m_listview;
 };
 
 namespace KileWidget
@@ -102,7 +122,14 @@ namespace KileWidget
 		QMap<QString, KileListViewItem *>	m_folders;
 		QMap<QString, bool>					m_openByTitle;
 		QMap<uint, bool>					m_openByLine;
-		KileListViewItem					*m_parent[7], *m_current, *m_root, *m_child, *m_lastChild;
+		KileListViewItem					*m_parent[7], *m_root;
+		
+		int m_lastType;
+		uint m_lastLine;
+		KileListViewItem *m_lastSectioning;
+		KileListViewItem *m_lastFloat;
+		
+		bool m_stop;
 	};
 
 	class Structure : public QWidgetStack
@@ -111,6 +138,7 @@ namespace KileWidget
 
 		public:
 			Structure(KileInfo *, QWidget * parent, const char * name = 0);
+			~Structure();
 
 			int level();
 			KileInfo *info() { return m_ki; }
@@ -118,6 +146,9 @@ namespace KileWidget
 		public slots:
 			void slotClicked(QListViewItem *);
 			void slotDoubleClicked(QListViewItem *);
+			void slotPopup(KListView *, QListViewItem *itm, const QPoint &point);
+			void slotPopupLabel(int id);
+			void slotPopupRun(int id);
 
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
@@ -130,6 +161,7 @@ namespace KileWidget
 			void clear();
 
 		signals:
+			void sendText(const QString &);
 			void setCursor(const KURL &, int, int);
 			void fileOpen(const KURL &, const QString &);
 			void fileNew(const KURL &);
@@ -143,6 +175,12 @@ namespace KileWidget
 			KileDocument::Info							*m_docinfo;
 			QMap<KileDocument::Info *, StructureList *>	m_map;
 			StructureList								*m_default;
+			
+			KPopupMenu *m_popup;
+			KileListViewItem *m_popupItem;
+			QString m_popupInfo;
+			
+			KTrader::OfferList m_offerList;
 	};
 }
 

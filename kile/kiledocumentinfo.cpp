@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                               2005 by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
+                           holger.danielsson@t-online.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -12,6 +14,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// 2005-11-02: dani
+//  - cleaning up source of central function updateStruct()
+//      - always use 'else if', because all conditions are exclusive or
+//      - most often used commands are at the top
+//  - add some new types of elements (and levels) for the structure view
+//  - new commands, which are passed to the structure listview:
+//       \includegraphics, \caption
+//  - all user defined commands for labels are recognized
+//  - changed folder name of KileStruct::BibItem to "bibs", so that "refs"
+//    is still unused and can be used for references (if wanted)
+//  - \begin, \end to gather all environments. But only figure and table 
+//    environments are passed to the structure view
+
 
 #include <qfileinfo.h>
 #include <qlabel.h>
@@ -153,7 +169,8 @@ void Info::updateStructLevelInfo()
 	// add standard commands
 	//TODO: make this configurable
 	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-	m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "refs");
+	m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
+	
 	m_dictStructLevel["\\input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
 	m_dictStructLevel["\\Input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
 	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
@@ -165,16 +182,45 @@ void Info::updateStructLevelInfo()
 	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "bibtex");
+	
+	// hidden commands  
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
 	
-	// add user defined commands
-	QStringList list;
+	// new entries
+	m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
+	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
+	
+	m_dictStructLevel["\\ref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	m_dictStructLevel["\\pageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	m_dictStructLevel["\\vref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	m_dictStructLevel["\\vpageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	
+	
+	// search also for environments
+	m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
+	m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
+	
+	// some entries, which could never be found (but they are set manually)
+	m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+	m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
+	m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
+	
+	// add user defined commands for labels
+	QStringList labellist;
 	QStringList::ConstIterator it;
-	m_commands->commandList(list,KileDocument::CmdAttrLabel,true);
-	for ( it=list.begin(); it != list.end(); ++it ) 
+	m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
+	for ( it=labellist.begin(); it != labellist.end(); ++it ) 
 	{
 		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+	}
+	
+	// add user defined commands for references
+	QStringList reflist;
+	m_commands->commandList(reflist,KileDocument::CmdAttrReference,true);
+	for ( it=reflist.begin(); it != reflist.end(); ++it ) 
+	{
+		m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
 	}
 }
 
@@ -489,7 +535,7 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 //FIXME refactor, clean this mess up
 void TeXInfo::updateStruct()
 {
-	kdDebug() << "==void TeXInfo::updateStruct()=========." << endl;
+	kdDebug() << "==void TeXInfo::updateStruct: (" << url() << ")=========" << endl;
 
 	if ( getDoc() == 0L ) return;
 
@@ -510,6 +556,7 @@ void TeXInfo::updateStruct()
 	QString m, s, shorthand;
 	bool foundBD = false; // found \begin { document }
 	bool fire = true; //whether or not we should emit a foundItem signal
+	bool fireSuspended; // found an item, but it should not be fired (this time)
 
 	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
@@ -572,15 +619,57 @@ void TeXInfo::updateStruct()
 					shorthand = result.option.stripWhiteSpace();
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
-// 					kdDebug() << "\tgrabbed : " << m << endl;
+					// kdDebug() << "\tgrabbed : " << m << endl;
+					//kdDebug() << "\tgrabbed: " << reCommand.cap(1) << "{" << m << "}" << endl;
 				}
 
 				//title (or label) found, add the element to the listview
-				if (!m.isNull())
+				if ( !m.isNull() )
 				{
+					// no problems so far ...
+					fireSuspended = false;
+					
+					// update parameter for environments, because only
+					// floating environments are passed
+					if ( (*it).type == KileStruct::BeginEnv )
+					{
+						if ( m=="figure" || m=="table")
+							it = m_dictStructLevel.find("\\begin{"+m+"}");
+						else
+							fireSuspended = true;          // only floats, no other environments
+					}
+					
+					// tell structure view that a floating environment must be closed
+					else if ( (*it).type == KileStruct::EndEnv )
+					{
+						if ( m=="figure" || m=="table")
+							it = m_dictStructLevel.find("\\end{float}");
+						else
+							fireSuspended = true;          // only floats, no other environments
+					}
+					
+					// sectioning commands
+					else if ( (*it).type == KileStruct::Sect ) 
+					{
+						if ( ! shorthand.isNull() )
+							m = shorthand;
+					}
 
-					//update the dependencies
-					if ((*it).type == KileStruct::Input)
+					// update the label list
+					else if ( (*it).type == KileStruct::Label )
+					{
+						m_labels.append(m);
+					}
+
+					// update the references list
+					else if ( (*it).type == KileStruct::Reference )
+					{
+						// m_references.append(m);
+						fireSuspended = true;          // don't emit references
+					}
+
+					// update the dependencies
+					else if ((*it).type == KileStruct::Input)
 					{
 						QString dep = m;
 						if (dep.right(4) != ".tex")
@@ -588,10 +677,10 @@ void TeXInfo::updateStruct()
 						m_deps.append(dep);
 					}
 
-					//update the referenced Bib files
-					if((*it).type == KileStruct::Bibliography)
+					// update the referenced Bib files
+					else  if( (*it).type == KileStruct::Bibliography )
 					{
-						kdDebug() << "\tappending Bibiliograph file " << m << endl;
+						//kdDebug() << "\tappending Bibiliograph file " << m << endl;
 						QStringList bibs = QStringList::split(",", m);
 						uint cumlen = 0;
 						for (uint b = 0; b < bibs.count(); ++b)
@@ -604,19 +693,15 @@ void TeXInfo::updateStruct()
 						fire = false;
 					}
 
-					//update the label list
-					if ((*it).type == KileStruct::Label)
-						m_labels.append(m);
-
-					//update the bibitem list
-					if ((*it).type == KileStruct::BibItem)
+					// update the bibitem list
+					else if ( (*it).type == KileStruct::BibItem )
 					{
-						kdDebug() << "\tappending bibitem " << m << endl;
+						//kdDebug() << "\tappending bibitem " << m << endl;
 						m_bibItems.append(m);
 					}
 
-					//update the package list
-					if ((*it).type == KileStruct::Package)
+					// update the package list
+					else if ( (*it).type == KileStruct::Package )
 					{
 						QStringList pckgs = QStringList::split(",", m);
 						uint cumlen = 0;
@@ -625,15 +710,16 @@ void TeXInfo::updateStruct()
 							QString package = pckgs[p].stripWhiteSpace();
 							if ( ! package.isEmpty() ) {
 								m_packages.append(package);
-								emit(foundItem(package, tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
+								// hidden, so emit is useless
+								// emit(foundItem(package, tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
 								cumlen += package.length() + 1;
 							}
 						}
 						fire = false;
 					}
 
-					//newcommand found, add it to the newCommands list
-					if ( (*it).type == KileStruct::NewCommand )
+					// newcommand found, add it to the newCommands list
+					else if ( (*it).type == KileStruct::NewCommand )
 					{
 						//find how many parameters this command takes
 						if ( s.find(reNumOfParams, tagEnd + 1) != -1 )
@@ -665,12 +751,13 @@ void TeXInfo::updateStruct()
 						//FIXME  set tagEnd to the end of the command definition
 						continue;
 					}
+					
+					// and some other commands, which don't need special actions: 
+					// \includegraphics, \caption
 
-					if ( ((*it).type == KileStruct::Sect) && (!shorthand.isNull()) )
-						m = shorthand;
-
-					kdDebug() << "emitting foundItem " << m << endl;
-					if (fire) emit(foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, (*it).folder));
+					//kdDebug() << "\t\temitting: " << m << endl;
+					if ( fire && !fireSuspended ) 
+						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, (*it).folder) );
 				} //if m
 			} // if tagStart
 		} // while tagStart

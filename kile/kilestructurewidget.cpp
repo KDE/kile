@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                               2005 by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
+                           holger.danielsson@t-online.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,15 +15,35 @@
  *                                                                         *
  ***************************************************************************/
 
+// 2005-11-02: dani
+//  - cleaning up source (local variables etc.)
+//  - added different QToolTips for each item
+//  - add more types of KilelistViewItems
+//  - KileStruct::Sect and KileStruct::BeginFloat will remember assigned labels,
+//    which are displayed as QToolTips, if these labels are defined in the
+//    same or the next line
+//  - Caption for type KileStruct::BeginFloat are displayed in the title
+//    of this item
+//  - \includegraphics and float environment items are displayed
+//  - if an item has a companion label, you can use the context menu (right mouse)
+//    to insert this label as reference, as a page reference or only the keyword
+//    into the text or copy it to the clipboard.
+//  - graphics files have also a context menu to open them with a special program 
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
+#include <qclipboard.h>
  
+#include <kapplication.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kurl.h>
+#include <krun.h>
+#include <kmimetype.h>
+#include <ktexteditor/markinterface.h>
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
@@ -29,11 +51,13 @@
 #include "kilestructurewidget.h"
 #include "kileconfig.h"
 
+////////////////////// KileListViewItem with all info //////////////////////
+
 KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level) : 
 	KListViewItem(parent,after),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level)
 {
-	this->setText(0, m_title + " (" + i18n("line") + " " + QString::number(m_line) + ")");
+	setItemEntry();
 }
 
 KileListViewItem::KileListViewItem(QListView * parent, const QString & label) : 
@@ -45,6 +69,47 @@ KileListViewItem::KileListViewItem(QListViewItem * parent, const QString & label
 	KListViewItem(parent,label),
 	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
+
+void KileListViewItem::setTitle(const QString &title)
+{
+	m_title = title;
+	setItemEntry();
+}
+
+void KileListViewItem::setItemEntry()
+{
+	setText(0, m_title + " (" + i18n("line") + " " + QString::number(m_line) + ")");
+}
+
+////////////////////// introduce a new ToolTip //////////////////////
+
+KileListViewToolTip::KileListViewToolTip(KListView *listview) : QToolTip(listview->viewport()), m_listview(listview) 
+{}
+
+void KileListViewToolTip::maybeTip(const QPoint &p) 
+{
+	if ( ! m_listview )
+		return;
+	
+	const KileListViewItem *item = (KileListViewItem *)m_listview->itemAt(p);
+//	if ( !item || item->label().isNull() )
+	if ( !item )
+		return;
+	
+	const QRect rect = m_listview->itemRect(item);
+	if ( ! rect.isValid() )
+		return;
+	
+	if ( ! item->label().isNull() )
+	{
+		tip(rect,"Label: " + item->label());
+	}
+	else if ( item->line()==0 && item->column()==0 && item->parent()==0L )  // only root
+	{
+		tip(rect,"Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button)."); 
+	}
+}
+
 
 namespace KileWidget
 {
@@ -58,8 +123,14 @@ namespace KileWidget
 		setSorting(-1,true);
 		setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 
-		connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
+		QToolTip::remove(this);
+		new KileListViewToolTip(this);
+		
+		//connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(doubleClicked(QListViewItem *)), m_stack, SLOT(slotDoubleClicked(QListViewItem *)));
+		connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )), m_stack, SLOT(slotPopup(KListView *, QListViewItem * , const QPoint & )));
+		
+		connect(this, SIGNAL(executed(QListViewItem*)), m_stack, SLOT(slotClicked(QListViewItem*)));
 
 		init();
 	}
@@ -79,7 +150,11 @@ namespace KileWidget
 // 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
 		}
 
-		m_current=m_child=m_lastChild=m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[7]=m_root;
+		m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[7]=m_root;
+		m_lastType = KileStruct::None;
+		m_lastSectioning = 0L;
+		m_lastFloat = 0L;
+		m_stop = false;
 
 		m_folders.clear();
 	}
@@ -140,10 +215,15 @@ namespace KileWidget
 			fldr->setText(0, i18n("Labels"));
 			fldr->setPixmap(0, SmallIcon("label"));
 		}
+		else if ( folder == "bibs" )
+		{
+			fldr->setText(0, i18n("BibTeX References"));
+			fldr->setPixmap(0, SmallIcon("bibtex"));
+		}
 		else if ( folder == "refs" )
 		{
-			fldr->setText(0, i18n("References"));
-			fldr->setPixmap(0, SmallIcon("bibtex"));
+			fldr->setText(0, i18n("Undefined References"));
+			fldr->setPixmap(0, SmallIcon("stop"));
 		}
 
 		m_folders[ folder ] = fldr;
@@ -165,23 +245,19 @@ namespace KileWidget
 
 	KileListViewItem *StructureList::parentFor(int lev, const QString & fldr)
 	{
-		KileListViewItem *par = m_current;
+		KileListViewItem *par = 0L;
 
 		if ( fldr == "root" )
 		{
 			switch (lev)
 			{
+				case KileStruct::Object :  
 				case KileStruct::File :  
-					if ( m_current == 0L ) par = m_root;
-					else if ( m_current->level() == KileStruct::File )
-						par = (KileListViewItem*)m_current->parent();
-					else if ( m_current->level() >= 0 )
-						par = m_parent[m_current->level()];
-					else
-						par = m_root;
+					par = ( m_lastSectioning == 0L ) ? m_root : m_lastSectioning;
 				break;
-
-				case 0 : case 1 :
+				
+				case 0 : 
+				case 1 :
 					par = m_root;
 				break;
 
@@ -191,48 +267,125 @@ namespace KileWidget
 			}
 		}
 		else
+		{
 			par = folder(fldr);
+		}
 
+		if ( par == 0L )
+			KMessageBox::error(0L,"par = 0L");
 		return par;
 	}
 
+////////////////////// add a new item to the listview //////////////////////
+
+	/* some items have a special action:
+		- KileStruct::Sect: 
+		      The new item is saved in m_lastSectioning, so that all following entries 
+		      can be inserted as childs. \part will drop back to level 0 of the Listview,
+		      all other sectioning commands will be childs of the last sectioning item.
+		      If a \label command follows in the same or the next line, it is assigned
+		      to this item.
+		- KileStruct::BeginFloat:
+		      The new item is saved in m_lastFloat. If a \caption command follows before
+		      the floating environment is closed, it is inserted into the title of this item. 
+		      If a \label command follows, it is assigned to this float item.
+		- KileStruct::EndFloat
+		      Reset m_lastFloat to 0L to close this environment. No more \caption or \label 
+		      commands are assigned to this float after this.
+		- KileStruct::Caption
+		      If a float environment is opened, the caption is assigned to the float item.
+		      A caption item has hidden attribute, so that no other action is performed and
+		      function addItem() will return immediately.
+		- KileStruct::Label
+		      If we are inside a float, this label is assigned to this environment. If the last 
+		      type was a sectioning command on the current line or the line before, the label is 
+		      assigned to this sectioning item. Assigning means that a popup menu will open, 
+		      when the mouse is over this item.  
+		*/
+		
 	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev, const QString & pix, const QString & fldr /* = "root" */)
 	{
- 		kdDebug() << "==void Structure::addItem(" << title << ")=========" << endl;
-
-		if ( lev == KileStruct::Hidden ) return;
-
-		//find the m_parent for the new element
-		m_current = parentFor(lev, fldr);
-
-		//find last element at this level
-		m_child = (KileListViewItem*)m_current->firstChild();
-		while (m_child)
+ 		//kdDebug() << "\t\taddItem: " << title << endl;
+		if ( m_stop ) return;
+		
+		// some types need a special action
+		if ( type==KileStruct::Caption && m_lastFloat )
 		{
-			m_lastChild = m_child;
-			m_child = (KileListViewItem*)m_child->nextSibling();
+			QString floattitle = m_lastFloat->title();
+			if ( floattitle=="figure" || floattitle=="table" )
+				m_lastFloat->setTitle(floattitle+": "+title);
 		}
+		else if ( type == KileStruct::EndFloat )
+			m_lastFloat = 0L;
+		
+		// that's all for hidden types: we must immediately return
+		if ( lev == KileStruct::Hidden ) 
+		{
+			//kdDebug() << "\t\thidden item: not created" << endl;
+			return;
+		}
+			
+		//kdDebug() << "\t\tcreate new item" << endl;
+		// check if we have to update a label before loosing this item
+		if ( type==KileStruct::Label )
+		{
+			if ( m_lastFloat )
+			{
+				m_lastFloat->setLabel(title);
+			}
+			else if ( m_lastType==KileStruct::Sect )
+			{
+				// check if this is a follow up label for the last sectioning item
+				if ( m_lastSectioning && (m_lastLine==line-1 || m_lastLine==line) )
+					m_lastSectioning->setLabel(title);
+			}
+		}
+		
+		// remember current type and line for the next call of addItem()
+		m_lastType = type;
+		m_lastLine = line;
 
-		m_child = new KileListViewItem(m_current, m_lastChild, title, m_docinfo->url(), line, column, type, lev);
+		//find the parent for the new element
+		KileListViewItem *parentItem = parentFor(lev, fldr);
 
-		if (! pix.isNull()) m_child->setPixmap(0,SmallIcon(pix));
-
+		//find the last element at this level
+		KileListViewItem *lastChild = 0L;
+		KileListViewItem *nextChild = (KileListViewItem *)parentItem->firstChild();
+		while ( nextChild )
+		{
+			lastChild = nextChild;
+			nextChild = (KileListViewItem *)nextChild->nextSibling();
+		}
+		
+		// create a new item
+		KileListViewItem *newChild = new KileListViewItem(parentItem, lastChild, title, m_docinfo->url(), line, column, type, lev);
+		if ( ! pix.isNull() ) 
+			newChild->setPixmap(0,SmallIcon(pix));
+		//m_stop = true;
+		
 		//if the level is not greater than the defaultLevel
-		//open the m_parent to make this item visible
-		m_current->setOpen(shouldBeOpen((KileListViewItem*)m_current, fldr, lev));
-
+		//open the parentItem to make this item visible
+		parentItem->setOpen( shouldBeOpen(parentItem,fldr,lev) );
+		
 		//update the m_parent levels, such that section etc. get inserted at the correct level
-		m_current = m_child;
+		//m_current = newChild;
 		if ( lev > 0)
 		{
-			m_parent[lev-1] = m_child;
+			m_parent[lev-1] = newChild;
 			for (int l = lev; l < 7; ++l)
-				m_parent[l] = m_child;
+				m_parent[l] = newChild;
 		}
 		else if ( lev == 0 )
 		{
+			m_lastSectioning = 0L;
 			for ( int l = 0; l < 7; ++l ) m_parent[l] = m_root;
 		}
+		
+		// check if we have to remember the new item for setting a label or caption
+		if ( type == KileStruct::Sect )
+			m_lastSectioning = newChild;
+		else if ( type == KileStruct::BeginFloat )
+			m_lastFloat = newChild;
 	}
 
 	Structure::Structure(KileInfo *ki, QWidget * parent, const char * name) : 
@@ -248,6 +401,12 @@ namespace KileWidget
 
 		m_default = new StructureList(this, 0L);
 		m_default->activate();
+	
+		m_popup = new KPopupMenu(this, "structureview_popup");
+	}
+
+	Structure::~Structure()
+	{ 
 	}
 
 	int Structure::level()
@@ -264,6 +423,8 @@ namespace KileWidget
 
 	void Structure::slotClicked(QListViewItem * itm)
 	{
+		kdDebug() << "\tStructure::slotClicked" << endl;
+
 		KileListViewItem *item = (KileListViewItem *)itm;
 		//return if user didn't click on an item
 		if (! item) return;
@@ -276,32 +437,130 @@ namespace KileWidget
 
 	void Structure::slotDoubleClicked(QListViewItem * itm)
 	{
+		kdDebug() << "\tStructure::slotDoubleClicked" << endl;
+		
 		KileListViewItem *item = (KileListViewItem*)(itm);
 		if (! item) return;
-		if (! (item->type() & (KileStruct::Input | KileStruct::Bibliography) ) ) return;
-
-		QString fn = m_ki->getCompileName();
-		QString fname = item->title();
-		if (fname.right(4) == ".tex")
-			fname =QFileInfo(fn).dirPath()+"/" + fname;
-		else if ( item->type() == KileStruct::Input )
-			fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
-		else if ( item->type() == KileStruct::Bibliography )
-			fname=QFileInfo(fn).dirPath()+"/" + fname + ".bib";
+		if ( item->type() & (KileStruct::Input | KileStruct::Bibliography) ) 
+		{
+			QString fn = m_ki->getCompileName();
+			QString fname = item->title();
+			if (fname.right(4) == ".tex")
+				fname =QFileInfo(fn).dirPath()+"/" + fname;
+			else if ( item->type() == KileStruct::Input )
+				fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
+			else if ( item->type() == KileStruct::Bibliography )
+				fname=QFileInfo(fn).dirPath()+"/" + fname + ".bib";
 	
-		QFileInfo fi(fname);
-		if (fi.isReadable())
-		{
-			emit(fileOpen(KURL::fromPathOrURL(fname), QString::null));
-		}
-		else
-		{
-			if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
-			== KMessageBox::Yes)
+			QFileInfo fi(fname);
+			if (fi.isReadable())
 			{
-				emit(fileNew(KURL::fromPathOrURL(fname)));
+				emit(fileOpen(KURL::fromPathOrURL(fname), QString::null));
+			}
+			else
+			{
+				if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
+			== KMessageBox::Yes)
+				{
+					emit(fileNew(KURL::fromPathOrURL(fname)));
+				}
 			}
 		}
+		else if (  item->type() == KileStruct::Graphics )
+		{
+			QString filename = QFileInfo(m_ki->getCompileName()).dirPath()+"/" + item->title();
+			QFileInfo fi(filename);
+			if ( fi.isReadable() )
+			{
+				KURL url;
+				url.setPath(filename);
+
+				//determine mimeType and open file with preferred application
+				KMimeType::Ptr pMime = KMimeType::findByURL(url);
+				KRun::runURL(url,pMime->name());
+			}
+		}
+	}
+
+	void Structure::slotPopup(KListView *, QListViewItem *itm, const QPoint &point)
+	{
+		kdDebug() << "\tStructure::slotPopup" << endl;
+		
+		KileListViewItem *item = (KileListViewItem *)(itm);
+		if ( ! item )
+			return;
+			
+		m_popup->clear();
+		m_popup->disconnect();
+		
+		m_popupItem = item;
+		
+		if ( ! item->label().isEmpty() )
+		{
+			m_popup->insertTitle("Insert Label");
+			m_popup->insertItem("as &reference",1);
+			m_popup->insertItem("as &page reference",2);
+			m_popup->insertItem("only the &label",3);
+			m_popup->insertSeparator();
+			m_popup->insertTitle("Copy Label to Clipboard");
+			m_popup->insertItem("as reference",4);
+			m_popup->insertItem("as page reference",5);
+			m_popup->insertItem("only the label",6);
+			
+			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotPopupLabel(int)));
+			m_popup->exec(point);
+		}
+		else if ( item->type() == KileStruct::Graphics )
+		{
+			m_popupInfo = QFileInfo(m_ki->getCompileName()).dirPath()+"/" + item->title();
+			QFileInfo fi(m_popupInfo);
+			if ( fi.isReadable() )
+			{
+				KURL url;
+				url.setPath(m_popupInfo);
+				
+				m_offerList = KTrader::self()->query(KMimeType::findByURL(url)->name(), "Type == 'Application'");
+				for (uint i=0; i < m_offerList.count(); ++i)
+					m_popup->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
+				m_popup->insertSeparator();
+				m_popup->insertItem(i18n("Other..."), 0);
+				
+				connect(m_popup, SIGNAL(activated(int)), this, SLOT(slotPopupRun(int)));
+				m_popup->exec(point);
+			}
+		}
+	}
+
+	void Structure::slotPopupLabel(int id)
+	{
+		kdDebug() << "\tStructure::slotPopupLabel" << endl;
+		
+		if ( id>=1 && id<=6 )
+		{
+			QString s = m_popupItem->label();    
+			if ( id==1 || id==4 )
+				s = "\\ref{" + s + "}";
+			else if ( id==2 || id==5 )
+				s = "\\pageref{" + s + "}";
+				
+			if ( id <= 3 )
+				emit( sendText(s) );
+			else
+				QApplication::clipboard()->setText(s);
+ 		}
+	}
+
+	void Structure::slotPopupRun(int id)
+	{
+		kdDebug() << "\tStructure::slotPopupRun" << endl;
+		
+		KURL url;
+		url.setPath(m_popupInfo);
+		
+		if (id == 0)
+			KRun::displayOpenWithDialog(url);
+		else
+			KRun::run(*m_offerList[id-1],url);
 	}
 
 	StructureList* Structure::viewFor(KileDocument::Info *info)
@@ -377,6 +636,7 @@ namespace KileWidget
 
     void Structure::clean(KileDocument::Info *docinfo)
     {
+        kdDebug() << "==void Structure::clean()========" << endl;
         StructureList *view = viewFor(docinfo);
         if (view) view->cleanUp();
     }

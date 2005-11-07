@@ -451,7 +451,10 @@ QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 			{
 				--count;
 				if (count < 0)
+				{
+					pos = i;
 					return grab;
+				}
 			}
 
 			grab += line[i];
@@ -619,8 +622,7 @@ void TeXInfo::updateStruct()
 					shorthand = result.option.stripWhiteSpace();
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
-					// kdDebug() << "\tgrabbed : " << m << endl;
-					//kdDebug() << "\tgrabbed: " << reCommand.cap(1) << "{" << m << "}" << endl;
+					//kdDebug() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}" << endl;
 				}
 
 				//title (or label) found, add the element to the listview

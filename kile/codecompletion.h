@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 16 2005
-    version              : 0.24
+    date                 : Nov 07 2005
+    version              : 0.26
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -135,6 +135,7 @@ private:
 
 	// flags from Kate configuration
 	bool m_autobrackets;
+	bool m_autoindent;
 
 	// state of complete: some flags
 	bool m_firstconfig;
@@ -156,8 +157,8 @@ private:
 	uint m_yoffset,m_xoffset;            // offset of the new cursor position
 
 	QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
-	QString buildEnvironmentText(const QString &text, const QString &type, uint &ypos, uint &xpos);
-	QString getWhiteSpace();
+	QString buildEnvironmentText(const QString &text, const QString &type, const QString &prefix, uint &ypos, uint &xpos);
+	QString getWhiteSpace(const QString &s);
 	QString buildAbbreviationText(const QString &text);
 	QString buildLabelText(const QString &text);
 

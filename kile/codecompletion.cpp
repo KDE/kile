@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 16 2005
-    version              : 0.24
+    date                 : Nov 07 2005
+    version              : 0.26
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -146,6 +146,7 @@ namespace KileDocument
 	{
 		config->setGroup("Kate Document Defaults");
 		m_autobrackets = ( config->readNumEntry("Basic Config Flags",0) & cfAutoBrackets );
+		m_autoindent   = ( config->readNumEntry("Indentation Mode",0) > 0 );
 	}
 	
 	//////////////////// references and citations ////////////////////
@@ -466,7 +467,7 @@ namespace KileDocument
 		m_xoffset = m_yoffset = 0;
 
 		// build the text
-		QString s;
+		QString s,prefix;
 		Kate::Document *doc = m_view->getDoc();
 		QString textline = doc->textLine(row);
 		switch ( m_mode )
@@ -479,7 +480,8 @@ namespace KileDocument
 				}
 				break;
 				case cmEnvironment:
-				s = buildEnvironmentText( text, type, m_yoffset, m_xoffset );
+				prefix = ( m_autoindent && col-m_textlen>0 ) ? textline.left(col-m_textlen) : QString::null;
+				s = buildEnvironmentText( text, type, prefix, m_yoffset, m_xoffset );
 				if ( m_autobrackets && textline.at(col)=='}' && (textline[m_xstart]!='\\' || m_text.find('{')>=0 ) )
 				{
 					doc->removeText(row,col,row,col+1);
@@ -526,7 +528,7 @@ namespace KileDocument
 	////////////////////  text in cmEnvironment mode ////////////////////
 
 	QString CodeCompletion::buildEnvironmentText( const QString &text, const QString &type,
-	        uint &ypos, uint &xpos )
+	                                              const QString &prefix, uint &ypos, uint &xpos )
 	{
     static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
     
@@ -535,8 +537,8 @@ namespace KileDocument
     QString parameter = stripParameter( reEnv.cap(3) );
     QString start = reEnv.cap(1);
     QString envname = reEnv.cap(2);
-    QString whitespace = getWhiteSpace();
-    
+    QString whitespace = getWhiteSpace(prefix);
+
     QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
     
     s += whitespace;
@@ -569,19 +571,16 @@ namespace KileDocument
     return s;
 	}
     
-    QString CodeCompletion::getWhiteSpace()
-    {
-        QString line = m_view->getDoc()->textLine(m_view->cursorLine());
-        QString whitespace = QString::null;
-        int i = 0;
-        while ( line[i].isSpace() )
-        {
-            whitespace += line[i];
-            ++i;
-        }
-            
-        return whitespace;
-    }
+	QString CodeCompletion::getWhiteSpace(const QString &s)
+	{
+		QString whitespace = s;
+		for ( uint i=0; i<whitespace.length(); ++i )
+		{
+			if ( ! whitespace[i].isSpace() ) 
+				whitespace[i] = ' ';
+		}
+		return whitespace;
+	}
 
 	//////////////////// text in  cmAbbreviation mode ////////////////////
 

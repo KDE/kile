@@ -846,8 +846,12 @@ namespace KileDocument
 				else if ( ch == ']' )
 					s[j] = 52;
 			}
-			map[s] = wordlist[i];
-			keylist.append(s);
+			// don't allow duplicate entries
+			if ( ! map.contains(s) )
+			{
+				map[s] = wordlist[i];
+				keylist.append(s);
+			}
 		}
 		
 		// sort mapped keys
@@ -875,7 +879,6 @@ namespace KileDocument
 				e.type = "";
 			}
 			// add new entry (duplicates are impossible)
-			//if ( list->findIndex(e) == -1 )
 			list->append(e);
 		}
 	}

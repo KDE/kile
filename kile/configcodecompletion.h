@@ -68,6 +68,7 @@ private:
 
     void setListviewEntries(KListView *listview, const QStringList &files);
     bool getListviewEntries(KListView *listview, QStringList &files);
+    bool isListviewEntry(KListView *listview, const QString &filename);
     
 private slots:
    void showPage(QWidget *page);

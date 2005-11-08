@@ -150,7 +150,6 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
    list2->setFixedHeight(h);
    list3->setFixedHeight(h);
    delete item;
-
 }
 
 ConfigCodeCompletion::~ConfigCodeCompletion()
@@ -292,6 +291,18 @@ bool ConfigCodeCompletion::getListviewEntries(KListView *listview, QStringList &
    return changed;
 }
 
+bool ConfigCodeCompletion::isListviewEntry(KListView *listview, const QString &filename)
+{
+	QCheckListItem *item = (QCheckListItem *)listview->firstChild();
+	while ( item ) 
+	{
+		if ( item->text() == filename )
+			return true;
+		item = (QCheckListItem *)item->nextSibling();
+	}
+	return false;
+}
+
 //////////////////// tabpages parameter ////////////////////
 
 KListView *ConfigCodeCompletion::getListview(QWidget *page)
@@ -341,6 +352,7 @@ void ConfigCodeCompletion::addClicked()
 
    QStringList filenames =KFileDialog::getOpenFileNames( basedir,i18n("*.cwl|Complete Files"),this,i18n("Select File"));
 
+	KListView *list = getListview(tab->currentPage());     // get current page
 	for ( QStringList::Iterator it = filenames.begin(); it != filenames.end(); ++it )
 	{
 		QString filename = *it;
@@ -355,8 +367,15 @@ void ConfigCodeCompletion::addClicked()
 				int len = basedir.length() + 1;
 				QString basename = filename.mid(len,filename.length()-len-4);
 			
+				// check if this entry already exists
+				if ( isListviewEntry(list,basename) )
+				{
+					if ( KMessageBox::questionYesNo(0,i18n("Wordlist '%1' is already used.").arg(basename),i18n("Duplicate Files"),i18n("&Skip"),KStdGuiItem::cancel()) == KMessageBox::Yes )
+						continue;     // skip this entry
+					else
+						break;        // cancel all following entries
+				}
 				// add new entry
-				KListView *list = getListview(tab->currentPage());     // get current page
 				QCheckListItem *item = new QCheckListItem(list,basename,QCheckListItem::CheckBox);
 				item->setOn(true);
 				list->insertItem(item);

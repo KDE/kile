@@ -70,13 +70,15 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile",	"1.9a1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+	KAboutData aboutData( "kile", "Kile",	"1.9a2", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
 						I18N_NOOP("by the Kile Team (2003 - 2005)"),
 						0,
 						"http://kile.sourceforge.net");
-	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
+	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("project management/developer"),"Jeroen.Wijnhout@kdemail.net");
+  aboutData.addAuthor("Holger Danielsson", I18N_NOOP("developer"). "holger.danielsson@t-online.de");
 	aboutData.addAuthor("Brachet Pascal",0,"");
-	aboutData.addCredit("Holger Danielsson", I18N_NOOP("Code Completion, Advanced Editing, Help system"));
+
+  aboutData.addCredit("Thomas Braun", I18N_NOOP("Bug fixes"));
 	aboutData.addCredit("Simon Martin", I18N_NOOP("KConfig XT, various improvements and bugfixing"));
 	aboutData.addCredit("Roland Schulz", I18N_NOOP("KatePart integration"));
 	aboutData.addCredit("Thorsten Lück", I18N_NOOP("Log Parsing"));

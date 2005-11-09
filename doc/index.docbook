@@ -35,6 +35,8 @@
 	<author><firstname>Jonathan</firstname><surname>Pechta</surname></author>
 	<author><firstname>Federico</firstname><surname>Zenith</surname>
 	<affiliation><address><email>zenith@chemeng.ntnu.no</email></address></affiliation></author>
+	<author><firstname>Holger</firstname><surname>Danielsson</surname>
+	<affiliation><address><email>holger.danielsson@t-online.de</email></address></affiliation></author>
 	<othercredit role="developer">
 		<firstname>Jeroen</firstname><surname>Wijnhout</surname>
 		<affiliation>
@@ -53,6 +55,11 @@
 <copyright>
 <year>2003</year><year>2005</year>
 <holder>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year>2005</year>
+<holder>Holger Danielsson</holder>
 </copyright>
 
 <date>2005-07-23</date>

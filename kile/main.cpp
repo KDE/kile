@@ -75,7 +75,7 @@ int main( int argc, char ** argv )
 						0,
 						"http://kile.sourceforge.net");
 	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("project management/developer"),"Jeroen.Wijnhout@kdemail.net");
-  aboutData.addAuthor("Holger Danielsson", I18N_NOOP("developer"). "holger.danielsson@t-online.de");
+  aboutData.addAuthor("Holger Danielsson", I18N_NOOP("developer"), "holger.danielsson@t-online.de");
 	aboutData.addAuthor("Brachet Pascal",0,"");
 
   aboutData.addCredit("Thomas Braun", I18N_NOOP("Bug fixes"));

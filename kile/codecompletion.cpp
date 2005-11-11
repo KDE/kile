@@ -450,7 +450,8 @@ namespace KileDocument
 		//kdDebug() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
     
-    if ( reEnv.search(text) != -1 ) m_mode = cmEnvironment;
+		if ( text!="\\begin{}" && reEnv.search(text)!=-1 )
+			m_mode = cmEnvironment;
     
 		// check the cursor position, because the user may have
 		// typed some characters or the backspace key. This also

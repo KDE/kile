@@ -1,5 +1,5 @@
 # tex/latex mode: Latex commands
-# dani/25.7.2005
+# dani/11.11.2005
 \abovecaptionskip
 \abstractname{name}
 \addcontentsline{file}{secunit}{entry}
@@ -27,6 +27,7 @@
 \author{names}
 \badness
 \baselinestretch
+\begin{}
 \begin{abstract}
 \begin{align}
 \begin{align*}

@@ -218,12 +218,18 @@ Kile::~Kile()
 
 void Kile::showEvent(QShowEvent *)
 {
-    m_focusWidget->setFocus();
+	newCaption();
+	m_focusWidget->setFocus();
 }
 
 void Kile::hideEvent(QHideEvent *)
 {
-    m_focusWidget = focusWidget();
+	Kate::View *view = viewManager()->currentView();
+	if (view)
+	{
+		setCaption( getShortName(view->getDoc()) );
+	}
+	m_focusWidget = focusWidget();
 }
 
 void Kile::setupStatusBar()

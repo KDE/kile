@@ -32,6 +32,7 @@
 #include <krun.h>
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>
+#include <kpushbutton.h>
 
 #include "kileuntitled.h"
 #include "templates.h"
@@ -1191,13 +1192,24 @@ void Manager::projectAddFiles(KileProject *project)
 			if (fi.exists()) currentDir= fi.dirPath();
 		}
 
-		KURL::List urls = KFileDialog::getOpenURLs( currentDir, i18n("*|All Files"), m_ki->parentWidget(), i18n("Add Files") );
+		KFileDialog *dlg = new KFileDialog(currentDir, i18n("*|All Files"),m_ki->parentWidget(), 0, true );
+		KPushButton* okButton = dlg->okButton();
+		okButton->setText(i18n("Add"));
+		dlg->setCaption(i18n("Add Files"));
+		KFile::Mode mode = static_cast<KFile::Mode>( KFile::Files | KFile::ExistingOnly);
+		dlg->setMode(mode);
+		
+		if(dlg->exec())
+		{
+			KURL::List urls = dlg->selectedURLs();
+			for (uint i=0; i < urls.count(); ++i)
+			{
+				addToProject(project, urls[i]);
+			}
+		}
+		delete dlg;
 
 		//open them
-		for (uint i=0; i < urls.count(); ++i)
-		{
-			addToProject(project, urls[i]);
-		}
 	}
 	else if (m_projects.count() == 0)
 		KMessageBox::error(m_ki->parentWidget(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could Not Determine Active Project"));

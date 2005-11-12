@@ -673,6 +673,8 @@ void TeXInfo::updateStruct()
 					// update the dependencies
 					else if ((*it).type == KileStruct::Input)
 					{
+						if ( m.left(2) == "./" )
+							m = m.mid(2,m.length()-2);
 						QString dep = m;
 						if (dep.right(4) != ".tex")
 							dep += ".tex";
@@ -754,8 +756,15 @@ void TeXInfo::updateStruct()
 						break;
 					}
 					
+					// includegraphics found, strip leading "./"
+					else if ( (*it).type == KileStruct::Graphics )
+					{
+						if ( m.left(2) == "./" )
+							m = m.mid(2,m.length()-2);
+					}
+
 					// and some other commands, which don't need special actions: 
-					// \includegraphics, \caption
+					// \caption, ...
 
 					//kdDebug() << "\t\temitting: " << m << endl;
 					if ( fire && !fireSuspended ) 

@@ -494,10 +494,11 @@ QString KileProject::findRelativePath(const KURL &url)
  	kdDebug() <<"===findRelativeURL==================" << endl;
  	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
-  if ( basepath == path )
-  {
-    return "./";
-  }
+//   if ( basepath == path )
+//   {
+//     return "./";
+//   }
+
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);
@@ -553,7 +554,7 @@ QString KileProject::findRelativePath(const KURL &url)
 		path = url.path();
 	}
 
-// 	kdDebug() << "\tpath : " << path << endl;
+//  	kdDebug() << "\tpath : " << path << endl;
 
 	return path;
 }

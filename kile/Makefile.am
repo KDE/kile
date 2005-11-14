@@ -5,24 +5,25 @@ bin_PROGRAMS = kile
 
 
 kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
-	userhelpdialog.cpp floatdialog.cpp mathenvdialog.cpp tabulardialog.cpp \
-	postscriptdialog.cpp previewconfigwidget.cpp quickpreview.cpp includegraphicsdialog.cpp \
-	newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp \
-	usermenudialog.cpp kileconfigdialog.cpp tabbingdialog.cpp symbolview.cpp \
-	quickdocumentdialog.cpp kilefileselect.cpp kileapplication.cpp docpart.cpp kile.cpp main.cpp \
-	kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp \
-	kileprojectdlgs.cpp kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp \
-	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp \
-	kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp \
-	kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp \
-	codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp kileedit.cpp \
-	cleandialog.cpp kilehelp.cpp configstructure.cpp kileappIface.skel convert.cpp \
-	helpconfigwidget.ui kiledocmanager.cpp kileviewmanager.cpp kileeventfilter.cpp \
-	latexconfigwidget.ui kileconfig.kcfgc generalconfigwidget.ui kilespell.cpp \
-	kileerrorhandler.cpp configcheckerdlg.cpp configcheckerwidget.ui configtester.cpp \
-	kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
-	processtoolconfigwidget.ui quicktoolconfigwidget.ui plaintolatexconverter.cpp \
-	latextoolconfigwidget.ui newtoolwizard.ui encodingconfigwidget.ui kileuntitled.cpp
+		userhelpdialog.cpp floatdialog.cpp mathenvdialog.cpp tabulardialog.cpp \
+		postscriptdialog.cpp previewconfigwidget.cpp quickpreview.cpp includegraphicsdialog.cpp \
+		newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp \
+		usermenudialog.cpp kileconfigdialog.cpp tabbingdialog.cpp symbolview.cpp \
+		quickdocumentdialog.cpp kilefileselect.cpp kileapplication.cpp docpart.cpp kile.cpp main.cpp \
+		kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp \
+		kileprojectdlgs.cpp kileprojectview.cpp kilelistselector.cpp kilelyxserver.cpp \
+		latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp outputfilter.cpp kilegrepdialog.cpp \
+		kiletool.cpp kilelauncher.cpp kiletoolmanager.cpp kilestdtools.cpp kilelogwidget.cpp \
+		kileoutputwidget.cpp kilekonsolewidget.cpp kilewizard.cpp kilestructurewidget.cpp \
+		codecompletion.cpp configcodecompletion.cpp kiletoolconfigwidget.cpp kileedit.cpp \
+		cleandialog.cpp kilehelp.cpp configstructure.cpp kileappIface.skel convert.cpp \
+		helpconfigwidget.ui kiledocmanager.cpp kileviewmanager.cpp kileeventfilter.cpp \
+		latexconfigwidget.ui kileconfig.kcfgc generalconfigwidget.ui kilespell.cpp \
+		kileerrorhandler.cpp configcheckerdlg.cpp configcheckerwidget.ui configtester.cpp \
+		kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
+		processtoolconfigwidget.ui quicktoolconfigwidget.ui plaintolatexconverter.cpp \
+		latextoolconfigwidget.ui newtoolwizard.ui encodingconfigwidget.ui kileuntitled.cpp \
+	kilestatsdlg.cpp kilestatswidget.ui
 
 kile_LDADD   = -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML)
 
@@ -89,7 +90,8 @@ messages: rc.cpp
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
 noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
-	kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
-	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
-	latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
-	kilesidebar.h plaintolatexconverter.h encodingconfigwidget.ui.h kileuntitled.h
+		kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
+		kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
+		latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
+		kilesidebar.h plaintolatexconverter.h encodingconfigwidget.ui.h kileuntitled.h \
+	kilestatsdlg.h

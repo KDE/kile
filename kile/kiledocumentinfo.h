@@ -21,8 +21,9 @@
 #include <klistview.h>
 #include <kurl.h>
 #include <kdialogbase.h>
-
 #include <latexcmd.h>
+
+#include "kiledocmanager.h"
 
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
@@ -34,6 +35,8 @@
 #define TEX_CAT8 '_'
 #define TEX_CAT13 '~'
 #define TEX_CAT14 '%'
+
+#define SIZE_STAT_ARRAY 6
 
 namespace KileStruct
 {
@@ -209,13 +212,5 @@ public slots:
 };
 
 }
-
-class KileDocInfoDlg : public KDialogBase
-{
-public:
-	KileDocInfoDlg(KileDocument::Info* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
-	~KileDocInfoDlg() {}
-};
-
 #endif
 

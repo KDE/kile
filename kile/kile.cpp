@@ -76,6 +76,7 @@
 #include "quickpreview.h"         
 #include "latexcmd.h"         
 #include "kileuntitled.h"
+#include "kilestatsdlg.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -885,23 +886,30 @@ bool Kile::queryClose()
 
 void Kile::showDocInfo(Kate::Document *doc)
 {
-	if (doc == 0)
+	if (doc == 0L)
 	{
 		Kate::View *view = viewManager()->currentView();
 
-		if (view) doc = view->getDoc();
-		else return;
+		if (view)
+			doc = view->getDoc();
+		else
+			return;
 	}
 
 	KileDocument::Info *docinfo = docManager()->infoFor(doc);
-
-	if (docinfo)
+	KileProject *project = KileInfo::docManager()->activeProject();
+	if (docinfo) // we have to ensure that we always get a _valid_ docinfo object
 	{
-		KileDocInfoDlg *dlg = new KileDocInfoDlg(docinfo, this, 0, i18n("Summary for Document: %1").arg(getShortName(doc)));
-		dlg->exec();
+		KileStatsDlg *dlg = new KileStatsDlg( project,docinfo, this, 0, "");
+		if(dlg->exec())
+		{
+			delete dlg;
+			dlg=0L;
+		}
+
 	}
 	else
-		kdWarning() << "There is know KileDocument::Info object belonging to this document!" << endl;
+		kdWarning() << "There is no KileDocument::Info object belonging to this document!" << endl;
 }
 
 void Kile::convertToASCII(Kate::Document *doc)

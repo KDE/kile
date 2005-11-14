@@ -144,7 +144,7 @@ Info::Info(Kate::Document *doc, LatexCommands *commands) : m_doc(doc),m_commands
 		kdDebug() << "Info created for " << m_doc->docName() << endl;
 
 	m_bIsRoot = false;
-	m_arStatistics = new long[6];
+	m_arStatistics = new long[SIZE_STAT_ARRAY];
 
 	if (m_doc)
 		m_url=m_oldurl = doc->url();
@@ -849,52 +849,6 @@ void BibInfo::updateStruct()
 	emit(doneUpdating());
 }
 
-}
-
-/*
- *
- *	KileDocInfoDlg : a dialog that displays information known about the current document
- *
- *
- */
-
-KileDocInfoDlg::KileDocInfoDlg(KileDocument::Info *docinfo, QWidget* parent,  const char* name, const QString &caption)
-	: KDialogBase(parent,name,true,caption,KDialogBase::Ok, KDialogBase::Ok, true)
-{	
-	
-	QWidget *page = new QWidget( this );
-	setMainWidget(page);
-	QGridLayout *layout = new QGridLayout( page, 8, 3,5,5,"");
-
-	const long *list = docinfo->getStatistics();
-
-	layout->addWidget(new QLabel(i18n("Characters in words/numbers:"),page), 0,0);
-	layout->addWidget(new QLabel(QString::number(list[0]), page), 0,2);
-
-	layout->addWidget(new QLabel(i18n("Characters in LaTeX commands/environments:"),page), 1,0);
-	layout->addWidget(new QLabel(QString::number(list[1]), page), 1,2);
-
-	layout->addWidget(new QLabel(i18n("Whitespace/Delimiters/Punctuation marks:"),page), 2,0);
-	layout->addWidget(new QLabel(QString::number(list[2]), page), 2,2);
-
-	layout->addWidget(new QLabel(i18n("Total:"),page), 3,1, Qt::AlignRight);
-	layout->addWidget(new QLabel(QString::number(list[0]+list[1]+list[2]), page), 3,2);
-
-	layout->addWidget(new QLabel(i18n("Words:"),page), 4,0);
-	layout->addWidget(new QLabel(QString::number(list[3]), page), 4,2);
-
-	layout->addWidget(new QLabel(i18n("LaTeX commands:"),page), 5,0);
-	layout->addWidget(new QLabel(QString::number(list[4]), page), 5,2);
-
-	layout->addWidget(new QLabel(i18n("LaTeX environments:"),page), 6,0);
-	layout->addWidget(new QLabel(QString::number(list[5]), page), 6,2);
-
-
-	layout->addWidget(new QLabel(i18n("Total:"),page), 7,1, Qt::AlignRight);
-	layout->addWidget(new QLabel(QString::number(list[3]+list[4]+list[5]), page), 7,2);
-
-	if (docinfo->getDoc() && docinfo->getDoc()->hasSelection())
-		layout->addWidget(new QLabel(i18n("WARNING: These are the statistics for the selected text only."),page), 8,0, Qt::AlignRight);
 }
 
 #include "kiledocumentinfo.moc"

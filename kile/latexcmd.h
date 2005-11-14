@@ -44,9 +44,6 @@ enum CmdAttribute {
 class LatexCmdAttributes 
 {
 public:
-	LatexCmdAttributes::LatexCmdAttributes() {}
-	~LatexCmdAttributes() {};
-
 	bool standard;
 	CmdAttribute type;
 	bool starred;

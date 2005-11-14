@@ -151,7 +151,7 @@ public:
 
 	Info* getInfo() const;
 	Info* infoFor(const QString &path) const;
-	Info* infoFor(Kate::Document* doc, bool usepath = true) const;
+	Info* infoFor(Kate::Document* doc) const;
 	void updateInfos();
 
 	KileProject* projectFor(const KURL &projecturl);
@@ -177,6 +177,8 @@ private:
 	KileInfo					*m_ki;
 	QPtrList<KileProject>		m_projects;
 	KProgressDialog				*m_kpd;
+
+	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 };
 
 }

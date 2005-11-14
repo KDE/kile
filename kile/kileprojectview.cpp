@@ -105,12 +105,16 @@ void KileProjectView::slotClicked(QListViewItem *item)
 			emit(fileSelected(itm->projectItem()));
 		else if ( itm->type() != KileType::Folder )
 		{
-			//determine mimeType and open file with preferred application
-			KMimeType::Ptr pMime = KMimeType::findByURL(itm->url());
-			if ( pMime->name().startsWith("text/") )
-				emit(fileSelected(itm->url()));
-			else
-				KRun::runURL(itm->url(), pMime->name());
+			// don't open project configuration files (*.kilepr)
+			if ( itm->projectItem()->project()->url() != itm->url() )
+			{
+				//determine mimeType and open file with preferred application
+				KMimeType::Ptr pMime = KMimeType::findByURL(itm->url());
+				if ( pMime->name().startsWith("text/") )
+					emit(fileSelected(itm->url()));
+				else
+					KRun::runURL(itm->url(), pMime->name());
+			}
 		}
 	}
 }
@@ -201,21 +205,24 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 		if (itm->type() == KileType::ProjectExtra)
 		{
-			KPopupMenu *apps = new KPopupMenu( m_popup);
-			m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
-			for (uint i=0; i < m_offerList.count(); ++i)
-				apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
+			if ( ! isKilePrFile )
+			{
+				KPopupMenu *apps = new KPopupMenu( m_popup);
+				m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
+				for (uint i=0; i < m_offerList.count(); ++i)
+					apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
 
-			apps->insertSeparator();
-			apps->insertItem(i18n("Other..."), 0);
-			connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));
-			m_popup->insertItem(SmallIcon("fork"), i18n("&Open With"),apps);
+				apps->insertSeparator();
+				apps->insertItem(i18n("Other..."), 0);
+				connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));
+				m_popup->insertItem(SmallIcon("fork"), i18n("&Open With"),apps);
+			}
 		}
 
 		if (itm->type() == KileType::File || itm->type() == KileType::ProjectItem)
 		{
 			m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
-			if (!isKilePrFile) m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
+			m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
 			m_popup->insertSeparator();
 		}
 
@@ -423,7 +430,6 @@ KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProject
 	KileProjectViewItem *item, *parent;
 
 	switch (projitem->type()) {
-	case (KileProjectItem::ProjectFile):
 	case (KileProjectItem::Source):
 		item = new KileProjectViewItem(projvi, projitem);
 		item->setType(KileType::ProjectItem);
@@ -433,6 +439,7 @@ KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProject
 		item = new KileProjectViewItem(parent, projitem);
 		item->setType(KileType::ProjectItem);
 		break;
+	case (KileProjectItem::ProjectFile):
 	default:
 		parent = folder(projitem, projvi);
 		item = new KileProjectViewItem(parent, projitem);

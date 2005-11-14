@@ -144,7 +144,7 @@ Info* Manager::getInfo() const
 {
 	Kate::Document *doc = m_ki->activeDocument();
 	if ( doc != 0L )
-		return infoFor(doc, false);
+		return infoFor(doc);
 	else
 		return 0L;
 }
@@ -167,7 +167,7 @@ Info *Manager::infoFor(const QString & path) const
 	return 0L;
 }
 
-Info* Manager::infoFor(Kate::Document* doc, bool usepath /*= true*/ ) const
+Info* Manager::infoFor(Kate::Document* doc) const
 {
     QPtrListIterator<Info> it(m_infoList);
     while ( true )
@@ -1496,12 +1496,20 @@ void Manager::projectRemoveFiles()
 void Manager::projectShowFiles()
 {
 	KileProjectItem *item = selectProjectFileItem( i18n("Select a file") );
-	if ( item ) {
-		// ok, we can switch to another file
-		if  ( m_ki->isOpen(item->url()) )
-			m_ki->viewManager()->switchToView(item->url());
+	if ( item )
+	{
+		if  ( item->type() == KileProjectItem::ProjectFile )
+			dontOpenWarning( item, i18n("Show Project Files"), i18n("project configuration file") );
+		else if ( item->type() == KileProjectItem::Image )
+			dontOpenWarning( item, i18n("Show Project Files"), i18n("graphics file") );
 		else
-			fileOpen( item->url(),item->encoding() );
+		{
+			// ok, we can switch to another file
+			if  ( m_ki->isOpen(item->url()) )
+				m_ki->viewManager()->switchToView(item->url());
+			else
+				fileOpen( item->url(),item->encoding() );
+		}
 	}
 }
 
@@ -1533,14 +1541,23 @@ void Manager::projectOpenAllFiles(const KURL & url)
 
 	KileProjectItemList *list = project->items();
 	for ( KileProjectItem *item=list->first(); item; item = list->next() )
-		if  ( !m_ki->isOpen(item->url()) && ( item->type() != KileProjectItem::Image) )
+	{
+		if  ( item->type()==KileProjectItem::ProjectFile )
+			dontOpenWarning( item, i18n("Open All Project Files"), i18n("project configuration file") );
+		else if  ( item->type()==KileProjectItem::Image )
+			dontOpenWarning( item, i18n("Open All Project Files"), i18n("graphics file") );
+		else if ( ! m_ki->isOpen(item->url()) )
 			fileOpen( item->url(),item->encoding() );
+	}
 
 	if(doc) // we have a doc so switch back to original view
 		m_ki->viewManager()->switchToView(doc->url());
 }
 
-
+void Manager::dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype)
+{
+	m_ki->logWidget()->printMsg(KileTool::Info, i18n("not opened: %1 (%2)").arg(item->url().path()).arg(filetype), action);
+}
 
 KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 {
@@ -1554,7 +1571,7 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 	QMap<QString,KileProjectItem *> map;
 	KileProjectItemList *list = project->items();
 	for ( KileProjectItem *item=list->first(); item; item = list->next() ) {
-		filelist << item->path();    // ev. ohne *.kilepr
+		filelist << item->path();
 		map[item->path()] = item;
 	}
 	

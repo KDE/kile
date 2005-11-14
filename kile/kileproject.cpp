@@ -189,6 +189,12 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 
 void KileProject::setType(KileProjectItem *item)
 {
+	if ( item->path().right(7) == ".kilepr" )
+	{
+		item->setType(KileProjectItem::ProjectFile);
+		return;
+	}
+
 	bool unknown = true;
 	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i)
 		if ( (!extensions((KileProjectItem::Type) i).isEmpty()) &&
@@ -498,7 +504,6 @@ QString KileProject::findRelativePath(const KURL &url)
 //   {
 //     return "./";
 //   }
-
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);

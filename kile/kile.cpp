@@ -901,12 +901,8 @@ void Kile::showDocInfo(Kate::Document *doc)
 	if (docinfo) // we have to ensure that we always get a _valid_ docinfo object
 	{
 		KileStatsDlg *dlg = new KileStatsDlg( project,docinfo, this, 0, "");
-		if(dlg->exec())
-		{
-			delete dlg;
-			dlg=0L;
-		}
-
+		dlg->exec();
+		delete dlg;
 	}
 	else
 		kdWarning() << "There is no KileDocument::Info object belonging to this document!" << endl;

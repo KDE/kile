@@ -26,7 +26,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 	setButtonText(KDialogBase::User2,i18n("Copy as LaTeX"));
 	setHelp("statistics"); // TODO write section about accuracy in the docs
 
-	long* m_summarystats = new long[SIZE_STAT_ARRAY];
+	m_summarystats = new long[SIZE_STAT_ARRAY];
 	m_summarystats[0]=m_summarystats[1]=m_summarystats[2]=m_summarystats[3]=m_summarystats[4]=m_summarystats[5]=0;	
 	
 	const long* stats;
@@ -110,7 +110,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 	setInitialSize( QSize(550,560), true); // FIXME achieve this in a more portable way
 }
 
-KileStatsDlg::~KileStatsDlg(void)
+KileStatsDlg::~KileStatsDlg()
 {
 	delete [] m_summarystats;
 }

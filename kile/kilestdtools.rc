@@ -396,11 +396,11 @@ QuickBuild=LaTeX+ViewDVI
 TeX=Default
 PDFTeX=Default
 ViewBib=Default
-ViewHTML=Embedded Viewer
-ViewDVI=Embedded Viewer
-ForwardDVI=Embedded Viewer
-ViewPDF=Embedded Viewer
-ViewPS=Embedded Viewer
+ViewHTML=Konqueror
+ViewDVI=KDVI
+ForwardDVI=KDVI
+ViewPDF=KPDF
+ViewPS=KGhostView
 
 [ToolsGUI]
 Archive=none,package

@@ -359,6 +359,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
 	(void) KStdAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
 	(void) new KAction(i18n("Close All"), 0, docManager(), SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
+	(void) new KAction(i18n("Close All Ot&hers"), 0, docManager(), SLOT(fileCloseAllOthers()), actionCollection(),"file_close_all_others" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
 	(void) new KAction(i18n("&ASCII"), 0, this, SLOT(convertToASCII()), actionCollection(), "file_export_ascii" );
 	(void) new KAction(i18n("Latin-&1 (iso 8859-1)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin1" );

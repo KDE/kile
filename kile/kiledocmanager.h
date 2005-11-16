@@ -77,6 +77,7 @@ public slots:
 	void saveURL(const KURL &);
 	void fileSaveAll(bool amAutoSaving = false);
 
+	bool fileCloseAllOthers();
 	bool fileCloseAll();
 	bool fileClose(const KURL & url);
 	bool fileClose(Kate::Document *doc = 0L, bool closingproject = false);

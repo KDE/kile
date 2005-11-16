@@ -785,6 +785,21 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	m_ki->fileSelector()->blockSignals(false);
 }
 
+bool Manager::fileCloseAllOthers()
+{
+	Kate::View * currentview = m_ki->viewManager()->currentView();
+	while (  m_ki->viewManager()->views().count() > 1 )
+	{
+		Kate::View *view =  m_ki->viewManager()->views().first();
+		if ( view == currentview )
+			view =  m_ki->viewManager()->views().next();
+		if ( ! fileClose(view->getDoc()) )
+			return false;
+	}
+
+	return true;
+}
+
 bool Manager::fileCloseAll()
 {
 	Kate::View * view = m_ki->viewManager()->currentView();

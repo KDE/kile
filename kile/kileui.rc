@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="17">
+<kpartgui name="kile" version="18">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -39,6 +39,7 @@
 	<Separator/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
+	<Action name="file_close_all_others"/>
 	<Separator/>
 	<Action name="file_quit"/>
 </Menu>
@@ -553,10 +554,15 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_textbf"/>
 	<Action name="tag_textit"/>
+	<Action name="tag_texttt"/>
 	<Action name="tag_underline"/>
-	<Action name="tag_flushleft"/>
+	<Separator/>
 	<Action name="tag_center"/>
-	<Action name="tag_flushright"/>
+	<Separator/>
+	<Action name="tag_env_itemize"/>
+	<Action name="tag_env_enumerate"/>
+	<Action name="tag_env_description"/>
+	<Action name="tag_item"/>
 </ToolBar>
 <ToolBar name="mathToolBar" fullWidth="false" index="6"><text>Math</text>
 	<Action name="tag_mathmode"/>

@@ -1599,7 +1599,10 @@ void EditorExtension::insertIntelligentTabulator()
 
 bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 {
-	QString line = view->getDoc()->textLine(view->cursorLine()).left(view->cursorColumnReal());
+	int row = view->cursorLine();
+	int col = view->cursorColumnReal();
+	QString line = view->getDoc()->textLine(row).left(col);
+
 	int pos = m_regexpEnter.search(line);
 	if (pos != -1 )
 	{
@@ -1622,8 +1625,8 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 		if ( shouldCompleteEnv(envname, view) ) 
 		{
 			QString item =  m_latexCommands->isListEnv(envname) ? "\\item " : QString::null;
-			view->getDoc()->insertText(view->cursorLine()+1, 0, line+item +'\n'+line+endenv);
-			view->setCursorPositionReal(view->cursorLine()+1, line.length()+item.length());
+			view->getDoc()->insertText(row,col, '\n'+line+item +'\n'+line+endenv);
+			view->setCursorPositionReal(row+1, line.length()+item.length());
 			return true;
 		}
 	}

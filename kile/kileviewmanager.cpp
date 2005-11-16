@@ -96,7 +96,9 @@ void Manager::closeWidget(QWidget *widget)
 		m_ki->docManager()->fileClose(view->getDoc());
 	}
 
-	m_tabs->setTabBarHidden( m_tabs->count() == 1 );
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
+	  m_tabs->setTabBarHidden( m_tabs->count() == 1 );
+	#endif
 }
 
 Kate::View* Manager::createView(Kate::Document *doc)
@@ -156,7 +158,9 @@ Kate::View* Manager::createView(Kate::Document *doc)
 		action->unplugAll();
 	}
 
-	m_tabs->setTabBarHidden( m_tabs->count() == 1 );
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
+	  m_tabs->setTabBarHidden( m_tabs->count() == 1 );
+	#endif
 
 	return view;
 }
@@ -175,7 +179,9 @@ void Manager::removeView(Kate::View *view)
 		if (views().isEmpty()) m_ki->structureWidget()->clear();
 	}
 
-	m_tabs->setTabBarHidden( m_tabs->count() == 1 );
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
+	  m_tabs->setTabBarHidden( m_tabs->count() == 1 );
+	#endif
 }
 
 void Manager::removeFromProjectView(const KURL & url)

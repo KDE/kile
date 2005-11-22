@@ -106,7 +106,7 @@ void KileProjectView::slotClicked(QListViewItem *item)
 		else if ( itm->type() != KileType::Folder )
 		{
 			// don't open project configuration files (*.kilepr)
-			if ( itm->projectItem()->project()->url() != itm->url() )
+			if ( itm->url().path().right(7) != ".kilepr" )
 			{
 				//determine mimeType and open file with preferred application
 				KMimeType::Ptr pMime = KMimeType::findByURL(itm->url());

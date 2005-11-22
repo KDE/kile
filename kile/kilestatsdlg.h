@@ -35,8 +35,6 @@ public:
 
 private:
 	void fillWidget (const long* stats, KileWidgetStatistics* widget);
-// 	void copyAsText(QString* text);
-// 	void copyAsLatex(QString);
 	void slotUser1();
 	void slotUser2();
 	void convertText(QString* text, bool forLaTeX);

@@ -44,11 +44,13 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 	m_pagetowidget[index]=summary;
 	m_pagetoname[index]=i18n("Summary");
 	index++; // used with activePageIndex() to get the active widget and the tabname, arrays would be more efficient, but Maps are less dangerous
-
+	
+	if(m_docinfo->getDoc()->hasSelection()) // the user should really have that doc as active in which the selection is
+		m_hasSelection=true;
+	
+	
 	if(!m_project) // the active doc doesn't belong to a project
 	{	
-		if(m_docinfo->getDoc()->hasSelection())
-			m_hasSelection=true;
 		setCaption(i18n("Statistics for %1").arg(m_docinfo->getDoc()->url().fileName()));
 		stats = m_docinfo->getStatistics();
 		fillWidget(stats,summary);
@@ -59,26 +61,19 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 		kdDebug() << "Project file is " << project->baseURL() << endl;
 
 		KileProjectItemList *items = project->items();
-		
-		for(uint i = 0; i < items->count()  ; i++)
-		{
-			tempDocinfo = items->at(i)->getInfo();
-			if(m_docinfo && tempDocinfo->getDoc() && tempDocinfo->getDoc()->hasSelection())
-			{
-				m_hasSelection=true;
-				break;
-			}
-		} 
 
-		if(m_hasSelection) // check if one of the items has a selection
+		if(m_hasSelection) // if the active doc has a selection
 		{
-			stats = tempDocinfo->getStatistics();
+			stats = m_docinfo->getStatistics();
 			fillWidget(stats,summary); // if yes we fill the summary widget and are finished
 		} 
 		else
 		{	
 			for(uint k = 0; k < items->count()  ; k++)
 			{
+				if(items->at(k)->type() ==  KileProjectItem::ProjectFile) // ignore project files
+					continue;
+				
 				tempDocinfo = items->at(k)->getInfo();
 				if(tempDocinfo && tempDocinfo->getDoc()) // closed items don't have a doc
 				{	
@@ -107,7 +102,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 			kdDebug() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
 		}
 	}
-	setInitialSize( QSize(550,560), true); // FIXME achieve this in a more portable way
+// 	setInitialSize( QSize(550,560), true);
 }
 
 KileStatsDlg::~KileStatsDlg()
@@ -135,6 +130,8 @@ widget->m_wordString->setText(QString::number(stats[3]));
 widget->m_commandString->setText(QString::number(stats[4]));
 widget->m_environmentString->setText(QString::number(stats[5]));
 widget->m_totalString->setText(QString::number(stats[3]+stats[4]+stats[5]));
+
+widget->updateColumns();
 }
 
 void KileStatsDlg::slotUser1() // Copy

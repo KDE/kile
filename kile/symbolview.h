@@ -22,7 +22,7 @@
 /**
   *@author Jeroen Wijnhout
   */
-typedef QString codelist[445];
+typedef QString codelist[457];
 const codelist code=
   {
 "\\pm",//"img1.png"
@@ -469,8 +469,22 @@ const codelist code=
 "\\^U",//"img430.png"
 "\\^e",//"img431.png"
 "\\^E",//"img432.png"
-"\\c{c}"//"img433ng"
+"\\c{c}",//"img433.png"
+"\\stackrel{}{\\leftarrow}",//"img434.png"
+"\\stackrel{}{\\longleftarrow}",//img435.png"
+"\\stackrel{}{\\rightarrow}",//"img436.png"
+"\\stackrel{}{\\longrightarrow}",//"img437.png"
+"\\stackrel{}{\\leftrightarrow}",//"img438.png"
+"\\stackrel{}{\\longleftrightarrow}",//"img439.png"
+"\\stackrel{\\leftarrow}{}",//"img440.png"
+"\\stackrel{\\longleftarrow}{}",//img441.png"
+"\\stackrel{\\rightarrow}{}",//"img442.png"
+"\\stackrel{\\longrightarrow}{}",//"img443.png"
+"\\stackrel{\\leftrightarrow}{}",//"img444.png"
+"\\stackrel{\\longleftrightarrow}{}"//"img445.png"
   };
+
+
 
 //////////////////////////////
 class SymbolView : public KIconView
@@ -483,6 +497,9 @@ public:
 
 	enum {Relation = 0, Arrow, Misc, Delimiters, Greek, Special };
 
+private:
+	void insertSymbols(uint from, uint to, int offset, const QString &addition = QString::null);
+	
 public slots:
 	void showPage(int);
 

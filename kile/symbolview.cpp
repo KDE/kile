@@ -13,6 +13,10 @@
  *                                                                         *
  ***************************************************************************/
 
+// dani 2005-11-22
+//   - add some new symbols 
+//   - rearranged source
+
 #include "symbolview.h"
 
 #include <qfileinfo.h>
@@ -50,104 +54,53 @@ void SymbolView::showPage(int page)
 
 void SymbolView::initPage(int page)
 {
-    QString icon_name;
-    QImage pixmap;
-    KIconViewItem* item;
-    
-    switch (page)
-    {
-    case Relation:
-        {
-            for ( uint i = 0; i <= 225; ++i )
-            {
-                icon_name="img"+QString::number(i+1)+".png";
-                if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
-                {
-                    item= new KIconViewItem( this);
-                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
-                    item->setPixmap(pixmap);
-                    item->setKey(code[i]);
-                }
-            }
-        }
-        break;
-    case Arrow:
-        {
-            for ( uint i = 247; i <=313 ; ++i )
-            {
-                icon_name="img"+QString::number(i+1)+".png";
-                if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
-                {
-                    item= new KIconViewItem( this);
-                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
-                    item->setPixmap(pixmap);
-                    item->setKey(code[i]);
-                }
-            }
-        }
-        break;
-    case Misc:
-        {
-            for ( uint i = 314; i <= 371; ++i )
-            {
-                icon_name="img"+QString::number(i+1)+".png";
-                if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
-                {
-                    item= new KIconViewItem( this);
-                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
-                    item->setPixmap(pixmap);
-                    item->setKey(code[i]);
-                }
-            }
-        }
-        break;
-    case Delimiters:
-        {
-            for ( uint i = 226; i <= 246; ++i )
-            {
-                icon_name="img"+QString::number(i+1)+".png";
-                if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
-                {
-                    item= new KIconViewItem( this);
-                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
-                    item->setPixmap(pixmap);
-                    item->setKey(code[i]);
-                }
-            }
-        }
-        break;
-    case Greek:
-        {
-            for ( uint i = 0; i <= 39; ++i )
-            {
-                icon_name="img"+QString::number(i+1)+"greek.png";
-                if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
-                {
-                    item= new KIconViewItem( this);
-                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
-                    item->setPixmap(pixmap);
-                    item->setKey(code[i+372]);
-                }
-            }
-        }
-        break;
-    case Special:
-        {
-            for ( uint i = 401; i <= 433; ++i )
-            {
-                icon_name="img"+QString::number(i)+".png";
-                if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
-                {
-                    item= new KIconViewItem( this);
-                    pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
-                    item->setPixmap(pixmap);
-                    item->setKey(code[i+11]);
-                }
-            }
-        }
-        break;
-    }
-
+	switch (page)
+	{
+		case Relation:
+			insertSymbols(0,225,0);
+		break;
+		
+		case Arrow:
+			insertSymbols(247,313,0);
+			insertSymbols(433,444,12);
+		break;
+		
+		case Misc:
+			insertSymbols(314,371,0);
+		break;
+		
+		case Delimiters:
+			insertSymbols(226,246,0);
+		break;
+		
+		case Greek:
+			insertSymbols(0,39,372,"greek");
+		break;
+		
+		case Special:
+			insertSymbols(400,432,12);
+		break;
+	}
 }
+
+void SymbolView::insertSymbols(uint from, uint to, int offset, const QString &addition)
+{
+	QString icon_name;
+	QImage pixmap;
+	KIconViewItem* item;
+            
+	for ( uint i=from; i<=to; ++i )
+	{
+		icon_name = "img" + QString::number(i+1) + addition + ".png";
+		if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
+		{
+			item= new KIconViewItem( this);
+			pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
+			item->setPixmap(pixmap);
+			item->setKey(code[i+offset]);
+		}
+	}
+}
+
 
 #include "symbolview.moc"

@@ -1,5 +1,5 @@
 # tex/latex mode: Latex commands
-# dani/11.11.2005
+# dani/26.11.2005
 \abovecaptionskip
 \abstractname{name}
 \addcontentsline{file}{secunit}{entry}
@@ -273,6 +273,7 @@
 \enlargethispage*{size}
 \enlargethispage{size}
 \ensuremath{stuff}
+\eqref{key}
 \evensidemargin
 \ExecuteOptions{optionlist}
 \extracolsep
@@ -310,6 +311,8 @@
 \framebox[width][position]{text}
 \framebox[width]{text}
 \frame{text}
+\fref{key}
+\Fref{key}
 \frq
 \frqq
 \fussy

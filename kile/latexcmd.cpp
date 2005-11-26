@@ -1,8 +1,8 @@
 /***************************************************************************
                          latexcmd.cpp
                          ------------
-    date                 : Aug 11 2005
-    version              : 0.21
+    date                 : Nov 26 2005
+    version              : 0.22
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -117,6 +117,9 @@ void LatexCommands::resetCommands()
 	   << "\\pageref,+,R,,,{ }"
 	   << "\\vref,+,R,,,{ }"
 	   << "\\vpageref,+,R,,[ ],{ }"
+	   << "\\fref,+,R,,,{ }"
+	   << "\\Fref,+,R,,,{ }"
+	   << "\\eqref,+,R,,,{ }"
 		// Citations
 	   << "\\cite,+,C,,,{ }"
 	   ;

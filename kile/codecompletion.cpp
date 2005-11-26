@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Nov 25 2005
-    version              : 0.27
+    date                 : Nov 26 2005
+    version              : 0.28
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -155,8 +155,8 @@ namespace KileDocument
 	{
 		// build list of references
 		QString references = getCommandList(KileDocument::CmdAttrReference);
-		reRef.setPattern("^\\\\(pageref|ref" + references + ")\\{");
-		reRefExt.setPattern("^\\\\(pageref|ref" + references + ")\\{[^\\{\\}\\\\]+,$");
+		reRef.setPattern("^\\\\(pageref|ref|fref|Fref|eqref" + references + ")\\{");
+		reRefExt.setPattern("^\\\\(pageref|ref|fref|Fref|eqref" + references + ")\\{[^\\{\\}\\\\]+,$");
 		
 		// build list of citations
 		QString citations = getCommandList(KileDocument::CmdAttrCitations);

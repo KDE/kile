@@ -28,6 +28,8 @@
 //  - \begin, \end to gather all environments. But only figure and table 
 //    environments are passed to the structure view
 
+// 2005-11-26: dani
+//  - add support for \fref, \Fref and \eqref references commands
 
 #include <qfileinfo.h>
 #include <qlabel.h>
@@ -195,6 +197,9 @@ void Info::updateStructLevelInfo()
 	m_dictStructLevel["\\pageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
 	m_dictStructLevel["\\vref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
 	m_dictStructLevel["\\vpageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	m_dictStructLevel["\\fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	m_dictStructLevel["\\Fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	m_dictStructLevel["\\eqref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
 	
 	
 	// search also for environments

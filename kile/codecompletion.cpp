@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Nov 07 2005
-    version              : 0.26
+    date                 : Nov 25 2005
+    version              : 0.27
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -960,16 +960,16 @@ namespace KileDocument
 		//kdDebug() << "==slotCompletionDone=============" << endl;
 		CompletionDone(entry);
 
-		if ( getMode() == cmLatex ) m_completeTimer->start( 10, true );
-		
-		// if ( KileConfig::completeAuto() && ( (entry.text.find(reRef) != -1) || (entry.text.find(reCite) != -1) ) ) 
-		if ( KileConfig::completeAuto() && ( (entry.text.find(reRef)!=-1 && info()->allLabels()->count()>0) || (entry.text.find(reCite)!=-1 && info()->allBibItems()->count()>0) ) ) 
+		if ( getMode() == cmLatex )
 		{
-			m_ref = true;
-			completeWord("", cmLabel);
+			m_type = getType(entry.text);
+			if ( (m_type==CodeCompletion::ctReference && info()->allLabels()->count()>0)  ||
+				  (m_type==CodeCompletion::ctCitation  && info()->allBibItems()->count()>0) )
+			{
+				m_ref = true;
+		 		m_completeTimer->start(20,true);
+			}
 		}
-		else
-			m_view = 0L;
 	}
 
 	void CodeCompletion::slotCompleteValueList()

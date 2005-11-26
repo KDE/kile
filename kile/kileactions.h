@@ -161,8 +161,9 @@ public:
 	KLineEdit *m_edLabel;
 
 private:
-	QString 			m_tag;
-	bool				m_useAlternative,m_useLabel,m_usedSelection,m_useAddProjectFile;
+	QString	m_tag;
+	QString	m_labelprefix;
+	bool		m_useAlternative,m_useLabel,m_usedSelection,m_useAddProjectFile;
 	KileInfo	*m_ki;
 };
 

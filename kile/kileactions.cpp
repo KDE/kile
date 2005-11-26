@@ -13,6 +13,10 @@
  *                                                                         *
  ***************************************************************************/
 
+// 2005-07-26 dani
+//  - cleanup dialog
+//  - added new action 'ShowLabel'
+
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qlayout.h>
@@ -182,6 +186,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 {
 	QString newcaption = caption;
 	setCaption(newcaption.remove("&"));
+	m_labelprefix = ( newcaption == "chapter" ) ? "chap:" : "sec:";
 	
 	m_usedSelection = false;
 
@@ -278,7 +283,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		QLabel *label = new QLabel(i18n("&Label:"),page);
 		m_edLabel = new KLineEdit("",page);
 		m_edLabel->setMinimumWidth(300);
-		m_edLabel->setText("sec:");
+		m_edLabel->setText(m_labelprefix);
 		label->setBuddy(m_edLabel);
 		gbox->addMultiCellWidget(label,3,3,0,2);
 		gbox->addMultiCellWidget(m_edLabel,4,4,0,2);
@@ -328,7 +333,7 @@ QString InputDialog::label()
 	if ( m_edLabel ) 
 	{
 		QString label = m_edLabel->text().stripWhiteSpace();
-		if ( !label.isEmpty() && label!="sec:" ) 
+		if ( !label.isEmpty() && label!=m_labelprefix )
 			return "\\label{" + label + "}\n";
 	}
 	

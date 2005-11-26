@@ -1,8 +1,8 @@
 /***************************************************************************
                            userhelp.cpp
 ----------------------------------------------------------------------------
-    date                 : Jul 22 2005
-    version              : 0.20
+    date                 : Nov 25 2005
+    version              : 0.21
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -262,7 +262,7 @@ void UserHelp::slotUserHelpActivated(int index)
 		url.setPath( filename );
 		if ( http ) 
 		{
-			KRun::runURL(url,"text/html");
+			KRun::runCommand("konqueror " + filename);
 		} 
 		else 
 		{

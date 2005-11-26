@@ -1179,7 +1179,8 @@ void Kile::initMenu()
 
 	actionlist 
 	   // file 
-	   << "file_save_all" << "template_create" << "Statistics" << "file_close" << "file_close_all"
+	   << "file_save_all" << "template_create" << "Statistics" 
+	   << "file_close" << "file_close_all" << "file_close_all_others"
 	   // edit
 	   << "RefreshStructure" 
 	    // view

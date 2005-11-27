@@ -2144,7 +2144,7 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 // get the package name from string 'Option: (package: name)'
 QString QuickDocumentInputDialog::getPackageName(const QString &text)
 {
-	QRegExp reg("package: ([^\\)]+)");
+	QRegExp reg( i18n("package:") + " ([^\\)]+)" );
 	return ( reg.search(text) >= 0 ) ? reg.cap(1) : QString::null;
 }
 

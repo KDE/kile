@@ -166,17 +166,15 @@ void KileStatsDlg::convertText(QString* text, bool forLaTeX) // the bool determi
 	if (forLaTeX)
 		text->append("\\begin{tabular}{ll}\n");
 
-	text->append( i18n("Statistics for ") );
-
-	if(m_project)
-	{
-		text->append(i18n("project ") + m_project->name());
-		if(activePageIndex())
-			text->append(i18n(", file %1").arg(name));
-	}
-	else
-		text->append(( (m_docinfo->getDoc()->url().fileName() != 0L ) ? m_docinfo->getDoc()->url().fileName() : i18n("Untitled")) );
-
+if(m_project && activePageIndex())
+	text->append(i18n("Statistics for project %1, file %2").arg(m_project->name()).arg(name));
+else if(m_project)
+	text->append(i18n("Statistics for project %1").arg(m_project->name()));
+else if(m_docinfo->getDoc()->url().isValid())
+	text->append(i18n("Statistics for %1").arg(m_docinfo->getDoc()->url().fileName()));
+else
+	text->append(i18n("Statistics for Untitled"));
+			
 	if (forLaTeX)	
 		text->append(" & \\\\\\hline\n");
 	else

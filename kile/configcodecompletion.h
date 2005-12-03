@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Dez 02 2005
-    version              : 0.12
+    date                 : Dez 03 2005
+    version              : 0.13
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -23,6 +23,7 @@
 #include <qspinbox.h>
 #include <qstring.h>
 
+#include <kdeversion.h>
 #include <klistview.h>
 #include <kpushbutton.h>
 #include <kconfig.h>
@@ -53,11 +54,16 @@ private:
     KPushButton *add,*remove;                
 
     // Checkboxes/Spinboxes
-    QCheckBox *cb_usecomplete, *cb_autocomplete, *cb_autocompletetext;
+    QCheckBox *cb_usecomplete, *cb_autocomplete;
     QCheckBox *cb_setcursor, *cb_setbullets;
     QCheckBox *cb_closeenv;
-    QSpinBox *sp_latexthreshold, *sp_textthreshold;
-    QLabel *lb_latexthreshold, *lb_textthreshold;
+    QSpinBox *sp_latexthreshold;
+    QLabel *lb_latexthreshold;
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
+	QCheckBox *cb_autocompletetext;
+	QSpinBox *sp_textthreshold;
+	QLabel *lb_textthreshold;
+#endif
 
     // wordlists
     QStringList m_texlist;

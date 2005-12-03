@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Dez 02 2005
-    version              : 0.12
+    date                 : Dez 03 2005
+    version              : 0.13
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -99,30 +99,37 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, bool viewOpened, QWi
 	cb_closeenv = new QCheckBox(i18n("Close environments"),bg_options);
 	cb_usecomplete = new QCheckBox(i18n("Use complete"),bg_options);
 	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"),bg_options);
-	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"),bg_options);
 	lb_latexthreshold = new QLabel("Threshold:",bg_options);
-	lb_textthreshold = new QLabel("Threshold:",bg_options);
 	sp_latexthreshold = new QSpinBox(1,9,1,bg_options);
-	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
-	QLabel *lb_letters1 = new QLabel("letters",bg_options);
-	QLabel *lb_letters2 = new QLabel("letters",bg_options);
-	
-	sp_latexthreshold->setMaximumWidth( cb_autocomplete->sizeHint().width()/2 );
-	sp_textthreshold->setMaximumWidth( cb_autocomplete->sizeHint().width()/2 );
+	QLabel *lb_latexletters = new QLabel("letters",bg_options);
 
 	bg_optionsLayout->addWidget(cb_setcursor,0,0);
 	bg_optionsLayout->addWidget(cb_setbullets,1,0);
 	bg_optionsLayout->addWidget(cb_closeenv,2,0);
 	bg_optionsLayout->addWidget(cb_usecomplete,0,2);
 	bg_optionsLayout->addWidget(cb_autocomplete,1,2);
-	bg_optionsLayout->addWidget(cb_autocompletetext,2,2);
 	bg_optionsLayout->addWidget(lb_latexthreshold,1,4);
-	bg_optionsLayout->addWidget(lb_textthreshold,2,4);
 	bg_optionsLayout->addWidget(sp_latexthreshold,1,6);
+	bg_optionsLayout->addWidget(lb_latexletters,1,7);
+
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
+	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"),bg_options);
+	lb_textthreshold = new QLabel("Threshold:",bg_options);
+	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
+	QLabel *lb_textletters = new QLabel("letters",bg_options);
+	bg_optionsLayout->addWidget(cb_autocompletetext,2,2);
+	bg_optionsLayout->addWidget(lb_textthreshold,2,4);
 	bg_optionsLayout->addWidget(sp_textthreshold,2,6);
-	bg_optionsLayout->addWidget(lb_letters1,1,7);
-	bg_optionsLayout->addWidget(lb_letters2,2,7); 
-	
+	bg_optionsLayout->addWidget(lb_textletters,2,7);
+	QWhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
+	QWhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
+	QWhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
+#else
+	QLabel *lb_pluginlabel = new QLabel(i18n("(In addition you can enable Kate-Plugin for word completion.)"),bg_options);
+	bg_optionsLayout->addMultiCellWidget(lb_pluginlabel,2,2, 2,7);
+	QWhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists."));
+#endif
+
 	// tune layout
 	bg_optionsLayout->setColSpacing(1,20);
 	bg_optionsLayout->setColSpacing(3,12);
@@ -133,10 +140,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, bool viewOpened, QWi
 	QWhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));
 	QWhatsThis::add(cb_closeenv,i18n("Also close an environment, when an opening command is inserted."));
 	QWhatsThis::add(cb_usecomplete,i18n("Enable components of word completion."));
-	QWhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
-	QWhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
 	QWhatsThis::add(sp_latexthreshold,i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
-	QWhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
 	
 	// add OptionBox and TabDialog into the layout
 	vbox->addWidget(gb_tab);
@@ -175,16 +179,17 @@ void ConfigCodeCompletion::readConfig(void)
    cb_setbullets->setChecked( KileConfig::completeBullets() );
    cb_closeenv->setChecked( KileConfig::completeCloseEnv() );
 	
-   // set threshold for autocompletion modes
+   // set checkbox and threshold for autocompletion mode (LaTeX commands)
+   cb_autocomplete->setChecked( KileConfig::completeAuto() );
    sp_latexthreshold->setValue( KileConfig::completeAutoThreshold() );
-   sp_textthreshold->setValue( KileConfig::completeAutoTextThreshold() );
 
-   // if autocompletion from Kate plugins is active, disable autocompletion of kile
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
+	// if autocompletion from Kate plugins is active, disable autocompletion of kile
 	m_stateAutomode = m_viewOpened;
 	if ( ! m_stateAutomode )
 	{
-   	m_config->setGroup("Kate Document Defaults");
-   	m_stateAutomode = ! m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
+		m_config->setGroup("Kate Document Defaults");
+		m_stateAutomode = ! m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
 	}
 
 	cb_autocomplete->setEnabled(m_stateAutomode);
@@ -194,8 +199,10 @@ void ConfigCodeCompletion::readConfig(void)
 	lb_textthreshold->setEnabled(m_stateAutomode);
 	sp_textthreshold->setEnabled(m_stateAutomode);
 
-	cb_autocomplete->setChecked( KileConfig::completeAuto() );
+   // set checkbox and threshold for autocompletion mode (document words)
 	cb_autocompletetext->setChecked( KileConfig::completeAutoText() );
+	sp_textthreshold->setValue( KileConfig::completeAutoTextThreshold() );
+#endif
 
    // insert filenames into listview
    setListviewEntries(list1,m_texlist);
@@ -224,14 +231,21 @@ void ConfigCodeCompletion::writeConfig(void)
    KileConfig::setCompleteCursor(cb_setcursor->isChecked());
    KileConfig::setCompleteBullets(cb_setbullets->isChecked());
    KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
+
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
    if ( m_stateAutomode ) 
    {
       KileConfig::setCompleteAuto(cb_autocomplete->isChecked());
       KileConfig::setCompleteAutoText(cb_autocompletetext->isChecked());
    }
+
    // save threshold for autocompletion modes
    KileConfig::setCompleteAutoThreshold( sp_latexthreshold->value() );
    KileConfig::setCompleteAutoTextThreshold( sp_textthreshold->value() );
+#else
+   KileConfig::setCompleteAuto(cb_autocomplete->isChecked());
+   KileConfig::setCompleteAutoThreshold( sp_latexthreshold->value() );
+#endif
 
    // save changed wordlists?
    KileConfig::setCompleteChangedLists(changed);

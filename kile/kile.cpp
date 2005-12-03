@@ -1804,16 +1804,28 @@ void Kile::toggleWatchFile()
 		WatchFileAction->setChecked(false);
 }
 
+// execute configuration dialog
+
 void Kile::generalOptions()
 {
-	// execute configuration dialog
+	// In older versions than KDE 3.4.1 autocomplete modes for Kile
+	// and the Kate's plugin for word completion can't live together.
+	// So we had to only enable one of them. Now the bug in Kate is 
+	// fixed, so that we should use the 'original' Kate plugin
+	// to complete words from the document. (2005-12-03 dani)
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
 	bool plugin_before = kateCompletionPlugin();
+#endif
 	KileDialog::Config *dlg = new KileDialog::Config(m_config,this,this);
 
 	if (dlg->exec())
 	{
 		// check if the two completions modes can live together
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
 		checkCompletionModes(plugin_before);
+#else
+		checkCompletionModes();
+#endif
 
 		// update new settings
 		readConfig();
@@ -1839,19 +1851,24 @@ bool Kile::kateCompletionPlugin()
 	return m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
 }
 
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
 void Kile::checkCompletionModes(bool plugin_before)
+#else
+void Kile::checkCompletionModes()
+#endif
 {
 	// editor settings were only available with an opened document
 	Kate::View *view = viewManager()->currentView();
 	if ( !view ) return;
 
+	// remove menu entry to config Kate
+	unplugKateConfigMenu(view);
+
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
 	// read current configuration values for autocomplete modes
 	bool autocomplete = KileConfig::completeAuto();
 	bool autocompletetext = KileConfig::completeAutoText();
 		
-	// remove menu entry to config Kate
-	unplugKateConfigMenu(view);
-
 	// read plugin configuration after dialog to see if plugin state has changed
 	bool plugin_after = kateCompletionPlugin();
 
@@ -1869,6 +1886,7 @@ void Kile::checkCompletionModes(bool plugin_before)
 		KileConfig::setCompleteAuto(false);               // disable autocompletion of Kile
 		KileConfig::setCompleteAutoText(false);
 	}
+#endif
 }
 
 // remove menu entry to config Kate, because there is

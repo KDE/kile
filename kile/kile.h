@@ -16,6 +16,7 @@
 #ifndef KILE_H
 #define KILE_H
 
+#include <kdeversion.h>
 #include <kate/view.h>
 #include <kate/document.h>
 #include <dcopobject.h>
@@ -130,7 +131,11 @@ private:
 	void unplugKateConfigMenu(Kate::View* view);
 
 	bool kateCompletionPlugin();
+#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
 	void checkCompletionModes(bool plugin_before);
+#else
+	void checkCompletionModes();
+#endif
 	
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);

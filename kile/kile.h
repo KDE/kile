@@ -128,6 +128,9 @@ private:
 	void setupUserTagActions();
 	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
 	void unplugKateConfigMenu(Kate::View* view);
+
+	bool kateCompletionPlugin();
+	void checkCompletionModes(bool plugin_before);
 	
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
@@ -203,7 +206,6 @@ private slots:
 	void readConfig();
 
 	void generalOptions();
-	void generalOptionsKate();
 	void configureKeys();
 	void configureToolbars();
 	void slotPerformCheck();

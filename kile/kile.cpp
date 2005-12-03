@@ -515,7 +515,6 @@ void Kile::setupActions()
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
 	KAction *kileconfig = KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
 	kileconfig->setIcon("configure-kile");
-	(void) new KAction(i18n("Configure &Editor"),0,this, SLOT(generalOptionsKate()), actionCollection(),"settings_configure_kate" );
 	
 	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
 	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
@@ -1807,10 +1806,16 @@ void Kile::toggleWatchFile()
 
 void Kile::generalOptions()
 {
+	// execute configuration dialog
+	bool plugin_before = kateCompletionPlugin();
 	KileDialog::Config *dlg = new KileDialog::Config(m_config,this,this);
 
 	if (dlg->exec())
 	{
+		// check if the two completions modes can live together
+		checkCompletionModes(plugin_before);
+
+		// update new settings
 		readConfig();
 		setupTools();
 
@@ -1827,35 +1832,28 @@ void Kile::generalOptions()
 	delete dlg;
 }
 
-void Kile::generalOptionsKate()
+// read kate plugin configuration 
+bool Kile::kateCompletionPlugin()
 {
+	m_config->setGroup("Kate Document Defaults");
+	return m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
+}
+
+void Kile::checkCompletionModes(bool plugin_before)
+{
+	// editor settings were only available with an opened document
 	Kate::View *view = viewManager()->currentView();
 	if ( !view ) return;
-	
-	// read configuration values for autocomplete modes
+
+	// read current configuration values for autocomplete modes
 	bool autocomplete = KileConfig::completeAuto();
 	bool autocompletetext = KileConfig::completeAutoText();
-	
-	// read plugin configuration before dialog
-	QString kateplugin_group = "Kate Document Defaults";
-	QString kateplugin_entry = "KTextEditor Plugin ktexteditor_docwordcompletion";
-	m_config->setGroup(kateplugin_group);
-	bool plugin_before = m_config->readBoolEntry(kateplugin_entry,false);
-	
-	// now execute configuration dialog 
-	KTextEditor::ConfigInterface *iface;
-	iface = dynamic_cast<KTextEditor::ConfigInterface *>(view->getDoc());
-	iface->configDialog();
-
+		
 	// remove menu entry to config Kate
 	unplugKateConfigMenu(view);
 
-	// tell complete about some config flags of Kate
-	m_edit->complete()->readKateConfigFlags(m_config);
-
 	// read plugin configuration after dialog to see if plugin state has changed
-	m_config->setGroup(kateplugin_group);
-	bool plugin_after = m_config->readBoolEntry(kateplugin_entry,false);
+	bool plugin_after = kateCompletionPlugin();
 
 	if ( !plugin_before && plugin_after ) {                      // false --> true
 		QString msg = ( autocomplete || autocompletetext )

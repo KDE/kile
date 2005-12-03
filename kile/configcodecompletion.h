@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Jan 26 2005
-    version              : 0.11
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Dez 02 2005
+    version              : 0.12
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ class ConfigCodeCompletion : public QWidget
 {
     Q_OBJECT
 public: 
-   ConfigCodeCompletion(KConfig *config, QWidget *parent=0, const char *name=0);
+   ConfigCodeCompletion(KConfig *config, bool viewOpened, QWidget *parent=0, const char *name=0);
    ~ConfigCodeCompletion();
 
    void readConfig(void);
@@ -43,7 +43,8 @@ public:
 
 private:
     KConfig *m_config;
-    bool m_kateplugin;
+    bool m_viewOpened;
+    bool m_stateAutomode;
     
     // tabs, views and pages
     QTabWidget *tab;

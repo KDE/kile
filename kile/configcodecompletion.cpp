@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Jan 26 2005
-    version              : 0.11
-    copyright            : (C) 2004 by Holger Danielsson
+    date                 : Dez 02 2005
+    version              : 0.12
+    copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -35,9 +35,9 @@
 #include "configcodecompletion.h"
 #include "kileconfig.h"
 
-ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, const char *name )
+ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, bool viewOpened, QWidget *parent, const char *name )
    : QWidget(parent,name),
-     m_config(config)
+     m_config(config), m_viewOpened(viewOpened)
 {
    // Layout
     QVBoxLayout *vbox = new QVBoxLayout(this, 5,KDialog::spacingHint() );
@@ -100,10 +100,12 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	cb_usecomplete = new QCheckBox(i18n("Use complete"),bg_options);
 	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"),bg_options);
 	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"),bg_options);
-	lb_latexthreshold = new QLabel("Threshold (in letters):",bg_options);
-	lb_textthreshold = new QLabel("Threshold (in letters):",bg_options);
+	lb_latexthreshold = new QLabel("Threshold:",bg_options);
+	lb_textthreshold = new QLabel("Threshold:",bg_options);
 	sp_latexthreshold = new QSpinBox(1,9,1,bg_options);
 	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
+	QLabel *lb_letters1 = new QLabel("letters",bg_options);
+	QLabel *lb_letters2 = new QLabel("letters",bg_options);
 	
 	sp_latexthreshold->setMaximumWidth( cb_autocomplete->sizeHint().width()/2 );
 	sp_textthreshold->setMaximumWidth( cb_autocomplete->sizeHint().width()/2 );
@@ -118,12 +120,14 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	bg_optionsLayout->addWidget(lb_textthreshold,2,4);
 	bg_optionsLayout->addWidget(sp_latexthreshold,1,6);
 	bg_optionsLayout->addWidget(sp_textthreshold,2,6);
+	bg_optionsLayout->addWidget(lb_letters1,1,7);
+	bg_optionsLayout->addWidget(lb_letters2,2,7); 
 	
 	// tune layout
 	bg_optionsLayout->setColSpacing(1,20);
 	bg_optionsLayout->setColSpacing(3,12);
 	bg_optionsLayout->setColSpacing(5,8);
-	bg_optionsLayout->setColStretch(6,1);
+	bg_optionsLayout->setColStretch(7,1); 
 	
 	QWhatsThis::add(cb_setcursor,i18n("Try to place the cursor."));
 	QWhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));
@@ -176,19 +180,22 @@ void ConfigCodeCompletion::readConfig(void)
    sp_textthreshold->setValue( KileConfig::completeAutoTextThreshold() );
 
    // if autocompletion from Kate plugins is active, disable autocompletion of kile
-   m_config->setGroup("Kate Document Defaults");
-   m_kateplugin = m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
-   if ( m_kateplugin ) {
-      cb_autocomplete->setEnabled(false);
-      lb_latexthreshold->setEnabled(false);
-      sp_latexthreshold->setEnabled(false);
-      cb_autocompletetext->setEnabled(false);
-      lb_textthreshold->setEnabled(false);
-      sp_textthreshold->setEnabled(false);
-   } else {
-      cb_autocomplete->setChecked( KileConfig::completeAuto() );
-      cb_autocompletetext->setChecked( KileConfig::completeAutoText() );
-   }
+	m_stateAutomode = m_viewOpened;
+	if ( ! m_stateAutomode )
+	{
+   	m_config->setGroup("Kate Document Defaults");
+   	m_stateAutomode = ! m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
+	}
+
+	cb_autocomplete->setEnabled(m_stateAutomode);
+	lb_latexthreshold->setEnabled(m_stateAutomode);
+	sp_latexthreshold->setEnabled(m_stateAutomode);
+	cb_autocompletetext->setEnabled(m_stateAutomode);
+	lb_textthreshold->setEnabled(m_stateAutomode);
+	sp_textthreshold->setEnabled(m_stateAutomode);
+
+	cb_autocomplete->setChecked( KileConfig::completeAuto() );
+	cb_autocompletetext->setChecked( KileConfig::completeAutoText() );
 
    // insert filenames into listview
    setListviewEntries(list1,m_texlist);
@@ -217,11 +224,11 @@ void ConfigCodeCompletion::writeConfig(void)
    KileConfig::setCompleteCursor(cb_setcursor->isChecked());
    KileConfig::setCompleteBullets(cb_setbullets->isChecked());
    KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
-   if ( ! m_kateplugin ) {
+   if ( m_stateAutomode ) 
+   {
       KileConfig::setCompleteAuto(cb_autocomplete->isChecked());
       KileConfig::setCompleteAutoText(cb_autocompletetext->isChecked());
    }
-
    // save threshold for autocompletion modes
    KileConfig::setCompleteAutoThreshold( sp_latexthreshold->value() );
    KileConfig::setCompleteAutoTextThreshold( sp_textthreshold->value() );

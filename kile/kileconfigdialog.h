@@ -16,27 +16,30 @@
 #ifndef TOOLSOPTIONSDIALOG_H
 #define TOOLSOPTIONSDIALOG_H
 
-#include <kconfigdialog.h>
-
+#include <kdialogbase.h>
 #include <kdeversion.h>
+
+#include <ktexteditor/configinterfaceextension.h>
+#include <kconfigdialogmanager.h>
 
 #include "configcodecompletion.h"     // code completion (dani)
 #include "previewconfigwidget.h"      // QuickPreview (dani)
 
 class QFrame;
-class KSpellConfig;
+//class KSpellConfig;
 class KConfig;
+//class KConfigSkeleton;
+//class KConfigDialogManager;
 
 namespace KileWidget { class ToolConfig; }
 class KileWidgetHelpConfig;
 class KileWidgetLatexConfig;
 class KileWidgetGeneralConfig;
-class KileWidgetEncodingConfig;
 namespace KileTool { class Manager; }
 
 namespace KileDialog
 {
-	class Config : public KConfigDialog
+	class Config : public KDialogBase
 	{
 		Q_OBJECT
 
@@ -44,19 +47,31 @@ namespace KileDialog
 		Config( KConfig *config, KileInfo *ki, QWidget* parent = 0);
 		~Config();
 
+		virtual void show();
+
+	//signals:
+	//	void widgetModified();
+
 	private slots:
 		void slotOk();
 		void slotCancel();
+		void slotChanged();
+
+	//	void slotWidgetModified();
 
 	private:
-		QFrame* toolsPage;
-		QFrame* quickPage;
-		QFrame* spellingPage;
+		// dialog manager
+		KConfigDialogManager *m_manager;
+
+//		QFrame* spellingPage;
 
 		KConfig *m_config;
-		KSpellConfig *ksc;
-		KileWidget::ToolConfig	*m_toolConfig;
 		KileInfo *m_ki;
+
+		bool m_editorSettingsChanged;
+		bool m_editorOpened;
+
+		KileWidget::ToolConfig	*toolPage;
 
 		// CodeCompletion (dani)
 		ConfigCodeCompletion *completePage;
@@ -65,22 +80,33 @@ namespace KileDialog
 		KileWidgetHelpConfig *helpPage;
 		KileWidgetLatexConfig *latexPage;
 		KileWidgetGeneralConfig *generalPage;
-		KileWidgetEncodingConfig *encodingPage;
 
 		// setup configuration
+		void addConfigFolder(const QString &section,const QString &icon);
+
+		void addConfigPage( QWidget *page,
+		                    const QString &sectionName,const QString &itemName,
+		                    const QString &pixmapName, const QString &header=QString::null,
+		                    bool addSpacer = true );
+
 		void setupGeneralOptions();
-		void setupEncodingOptions();
 		void setupTools();
-		void setupSpelling();
 		void setupLatex();
 		void setupCodeCompletion();
 		void setupQuickPreview();
 		void setupHelp();
+		void setupEditor();
 
 		// write configuration
 		void writeGeneralOptionsConfig();
 		void writeToolsConfig();
-		void writeSpellingConfig();
+
+		// synchronize encoding
+		QString readKateEncoding();
+		void syncKileEncoding();
+
+		// editor pages
+		QPtrList<KTextEditor::ConfigPage> editorPages;
 	};
 }
 #endif

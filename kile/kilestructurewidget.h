@@ -86,6 +86,23 @@ private:
 	KListView *m_listview;
 };
 
+class KileReferenceData
+{
+public:
+	KileReferenceData() {}
+	KileReferenceData(const QString &name,uint line,uint column) : m_name(name), m_line(line), m_column(column) {}
+	~KileReferenceData() {}
+	
+	const QString &name() const { return m_name; }
+	const uint line() const { return m_line; }
+	const uint column() const { return m_column; }
+	
+private:
+	QString m_name;
+	uint m_line;
+	uint m_column;
+};
+
 namespace KileWidget
 {
 	class Structure; //forward declaration
@@ -100,6 +117,7 @@ namespace KileWidget
 
 		void activate();
 		void cleanUp();
+		void showReferences(const QStringList *list);
 
 		const KURL & url() const { return m_docinfo->url(); }
 
@@ -123,7 +141,8 @@ namespace KileWidget
 		QMap<QString, bool>					m_openByTitle;
 		QMap<uint, bool>					m_openByLine;
 		KileListViewItem					*m_parent[7], *m_root;
-		
+		QValueList<KileReferenceData> m_references;
+
 		int m_lastType;
 		uint m_lastLine;
 		KileListViewItem *m_lastSectioning;
@@ -153,7 +172,8 @@ namespace KileWidget
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
 			void update(KileDocument::Info *, bool);
-            void clean(KileDocument::Info *);
+			void clean(KileDocument::Info *);
+			void updateReferences(KileDocument::Info *);
 
 			/**
 			* Clears the structure widget and empties the map between KileDocument::Info objects and their structure trees (QListViewItem).

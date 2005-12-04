@@ -134,6 +134,7 @@ signals:
 
 	void updateStructure(bool, KileDocument::Info*);
 	void updateModeStatus();
+	void updateReferences(KileDocument::Info *);
 
 	void documentStatusChanged(Kate::Document *, bool, unsigned char);
 
@@ -159,6 +160,7 @@ public:
 	KileProject* projectFor(const QString & name);
 	KileProject* activeProject();
 	bool isProjectOpen();
+	void updateProjectReferences(KileProject *project);
 
 	KileProjectItem* activeProjectItem();
 	/**

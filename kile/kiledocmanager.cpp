@@ -782,6 +782,8 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
+	// update undefined references in this file
+	emit(updateReferences(infoFor(url.path())) );
 	m_ki->fileSelector()->blockSignals(false);
 }
 
@@ -1045,6 +1047,8 @@ void Manager::removeFromProject(const KileProjectItem *item)
 		KileProject *project = item->project();
 		item->project()->remove(item);
 
+		// update undefined references in all project files
+		updateProjectReferences(project);
 		project->buildProjectTree();
 	}
 }
@@ -1117,6 +1121,8 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
+	// update undefined references in all project files
+	updateProjectReferences(kp);
 
 	if (step == (max - 1))
 		m_kpd->cancel();
@@ -1124,6 +1130,16 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
     m_ki->viewManager()->switchToView(kp->lastDocument());
 		
 	return kp;
+}
+
+// as all labels are gathered in the project, we can check for unsolved references
+void Manager::updateProjectReferences(KileProject *project)
+{
+	KileProjectItemList *list = project->items();
+	for ( uint i=0; i < list->count(); ++i)
+	{
+		emit(updateReferences(list->at(i)->getInfo()));
+	}
 }
 
 KileProject* Manager::projectOpen()
@@ -1221,6 +1237,8 @@ void Manager::projectAddFiles(KileProject *project)
 			{
 				addToProject(project, urls[i]);
 			}
+			// update undefined references in all project files
+			updateProjectReferences(project);
 		}
 		delete dlg;
 

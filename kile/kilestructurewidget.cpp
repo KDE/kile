@@ -113,6 +113,8 @@ void KileListViewToolTip::maybeTip(const QPoint &p)
 
 namespace KileWidget
 {
+	////////////////////// StructureList listview //////////////////////
+	
 	StructureList::StructureList(Structure *stack, KileDocument::Info *docinfo) : 
 		KListView(stack),
 		m_stack(stack), m_docinfo(docinfo)
@@ -157,6 +159,7 @@ namespace KileWidget
 		m_stop = false;
 
 		m_folders.clear();
+		m_references.clear();
 	}
 
 	void StructureList::cleanUp()
@@ -307,7 +310,11 @@ namespace KileWidget
 		if ( m_stop ) return;
 		
 		// some types need a special action
-		if ( type==KileStruct::Caption && m_lastFloat )
+		if ( type == KileStruct::Reference )
+		{
+			m_references.prepend( KileReferenceData(title,line,column) );
+		}
+		else if ( type==KileStruct::Caption && m_lastFloat )
 		{
 			QString floattitle = m_lastFloat->title();
 			if ( floattitle=="figure" || floattitle=="table" )
@@ -390,6 +397,46 @@ namespace KileWidget
 		else if ( type == KileStruct::BeginFloat )
 			m_lastFloat = newChild;
 	}
+
+	void StructureList::showReferences(const QStringList *list)
+	{
+		// remove old listview item for references, if it exists
+		if ( m_folders.contains("refs") )
+		{
+			KileListViewItem *refitem = m_folders["refs"];
+			m_root->takeItem(refitem);
+			delete refitem;
+
+			m_folders.remove("refs");
+		}
+
+		//kdDebug() << "==void StructureList::showReferences()========" << endl;
+		//kdDebug() << "\tfound " << m_references.count() << " references" << endl;
+		if ( m_references.count() == 0 )
+			return;
+			
+		// read list with all labels
+		//const QStringList *list = info->allLabels();
+		//kdDebug() << "\tfound " << list->count() << " labels" << endl;
+		QMap<QString,bool> labelmap;
+		for ( QStringList::ConstIterator itmap=list->begin(); itmap!=list->end(); ++itmap ) 
+		{
+			labelmap[(*itmap)] = true;
+		}
+
+		// now check if there are unsolved references
+		QValueListConstIterator<KileReferenceData> it;
+		for ( it=m_references.begin(); it!=m_references.end(); ++it )
+		{
+			if ( ! labelmap.contains((*it).name()) )
+			{ 
+				KileListViewItem *refitem = folder("refs");
+				new KileListViewItem(refitem,0L,(*it).name(),m_docinfo->url(),(*it).line(),(*it).column(),KileStruct::Reference,KileStruct::NotSpecified);
+			}
+		}
+	}
+
+	////////////////////// Structure: QWidgetStack //////////////////////
 
 	Structure::Structure(KileInfo *ki, QWidget * parent, const char * name) : 
 		QWidgetStack(parent,name),
@@ -628,12 +675,13 @@ namespace KileWidget
 
 		if ( needParsing ) //need to reparse the doc
 		{
-            kdDebug() << "\tStructure::update parsing doc" << endl;
+			//kdDebug() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
+			view->showReferences(m_ki->allLabels());
 		}
 
-        kdDebug() << "\tStructure::update activating view" << endl;
+		kdDebug() << "\tStructure::update activating view" << endl;
 		view->activate();
 	}
 
@@ -643,6 +691,17 @@ namespace KileWidget
         StructureList *view = viewFor(docinfo);
         if (view) view->cleanUp();
     }
+
+	void Structure::updateReferences(KileDocument::Info *docinfo)
+	{
+		kdDebug() << "==void StructureList::updateReferences()========" << endl;
+		StructureList *view = viewFor(docinfo);
+		if (view) 
+		{
+			view->showReferences(m_ki->allLabels());
+		}
+	}
+
 }
 
 #include "kilestructurewidget.moc"

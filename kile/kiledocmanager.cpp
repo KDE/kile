@@ -783,7 +783,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	// update undefined references in this file
-	emit(updateReferences(infoFor(url.path())) );
+	//emit(updateReferences(infoFor(url.path())) );
 	m_ki->fileSelector()->blockSignals(false);
 }
 
@@ -1048,7 +1048,7 @@ void Manager::removeFromProject(const KileProjectItem *item)
 		item->project()->remove(item);
 
 		// update undefined references in all project files
-		updateProjectReferences(project);
+		//updateProjectReferences(project);
 		project->buildProjectTree();
 	}
 }
@@ -1122,7 +1122,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	// update undefined references in all project files
-	updateProjectReferences(kp);
+	//updateProjectReferences(kp);
 
 	if (step == (max - 1))
 		m_kpd->cancel();
@@ -1238,7 +1238,7 @@ void Manager::projectAddFiles(KileProject *project)
 				addToProject(project, urls[i]);
 			}
 			// update undefined references in all project files
-			updateProjectReferences(project);
+			//updateProjectReferences(project);
 		}
 		delete dlg;
 

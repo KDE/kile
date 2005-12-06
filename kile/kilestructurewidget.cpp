@@ -678,7 +678,7 @@ namespace KileWidget
 			//kdDebug() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
-			view->showReferences(m_ki->allLabels());
+			//view->showReferences(m_ki->allLabels());
 		}
 
 		kdDebug() << "\tStructure::update activating view" << endl;
@@ -698,7 +698,7 @@ namespace KileWidget
 		StructureList *view = viewFor(docinfo);
 		if (view) 
 		{
-			view->showReferences(m_ki->allLabels());
+			//view->showReferences(m_ki->allLabels());
 		}
 	}
 

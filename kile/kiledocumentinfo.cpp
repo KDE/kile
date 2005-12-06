@@ -672,7 +672,7 @@ void TeXInfo::updateStruct()
 					else if ( (*it).type == KileStruct::Reference )
 					{
 						// m_references.append(m);
-						//fireSuspended = true;          // don't emit references
+						fireSuspended = true;          // don't emit references
 					}
 
 					// update the dependencies

@@ -22,6 +22,7 @@
 /**
   *@author Jeroen Wijnhout
   */
+
 typedef QString codelist[457];
 const codelist code=
   {
@@ -484,22 +485,191 @@ const codelist code=
 "\\stackrel{\\longleftrightarrow}{}"//"img445.png"
   };
 
-
+  const QString specialcode[]={
+	  "\\\"{A}", // img1special.png
+	  "\\H{A}", // img2special.png
+	  "\\\'{A}", // img3special.png
+	  "\\`{A}", // img4special.png
+	  "\\~{A}", // img5special.png
+	  "\\^{A}", // img6special.png
+	  "\\v{A}", // img7special.png
+	  "\\u{A}", // img8special.png
+	  "\\makeatletter\\@tabacckludge=A\\makeatother", // img9special.png
+	  "\\AA{}", // img10special.png
+	  "\\k{A}", // img11special.png
+	  "\\AE{}", // img12special.png
+	  "\\\"{a}", // img13special.png
+	  "\\H{a}", // img14special.png
+	  "\\\'{a}", // img15special.png
+	  "\\`{a}", // img16special.png
+	  "\\~{a}", // img17special.png
+	  "\\^{a}", // img18special.png
+	  "\\v{a}", // img19special.png
+	  "\\u{a}", // img20special.png
+	  "\\makeatletter\\@tabacckludge=a\\makeatother", // img21special.png
+	  "\\aa{}", // img22special.png
+	  "\\k{a}", // img23special.png
+	  "\\ae{}", // img24special.png
+	  "\\\'{C}", // img25special.png
+	  "\\u{C}", // img26special.png
+	  "\\c{C}", // img27special.png
+	  "\\\'{c}", // img28special.png
+	  "\\u{c}", // img29special.png
+	  "\\c{c}", // img30special.png
+	  "\\v{D}", // img31special.png
+	  "\\DJ", // img32special.png
+	  "\\DH", // img33special.png
+	  "\\v{d}", // img34special.png
+	  "\\dj", // img35special.png
+	  "\\dh", // img36special.png
+	  "\\\"{E}", // img37special.png
+	  "\\H{E}", // img38special.png
+	  "\\.{E}", // img39special.png
+	  "\\\'{E}", // img40special.png
+	  "\\`{E}", // img41special.png
+	  "\\^{E}", // img42special.png
+	  "\\v{E}", // img43special.png
+	  "\\u{E}", // img44special.png
+	  "\\makeatletter\\@tabacckludge=E\\makeatother", // img45special.png
+	  "\\k{E}", // img46special.png
+	  "\\\"{e}", // img47special.png
+	  "\\H{e}", // img48special.png
+	  "\\.{e}", // img49special.png
+	  "\\\'{e}", // img50special.png
+	  "\\`{e}", // img51special.png
+	  "\\^{e}", // img52special.png
+	  "\\v{e}", // img53special.png
+	  "\\u{e}", // img54special.png
+	  "\\makeatletter\\@tabacckludge=e\\makeatother", // img55special.png
+	  "\\k{e}", // img56special.png
+	  "\\c{G}", // img57special.png
+	  "\\\'{G}", // img58special.png
+	  "\\c{g}", // img59special.png
+	  "\\\'{g}", // img60special.png
+	  "\\\"{I}", // img61special.png
+	  "\\H{I}", // img62special.png
+	  "\\\'{I}", // img63special.png
+	  "\\`{I}", // img64special.png
+	  "\\~{I}", // img65special.png
+	  "\\^{I}", // img66special.png
+	  "\\makeatletter\\@tabacckludge=I\\makeatother", // img67special.png
+	  "\\k{I}", // img68special.png
+	  "\\\"{\\i}", // img69special.png
+	  "\\H{\\i}", // img70special.png
+	  "\\\'{\\i}", // img71special.png
+	  "\\`{\\i}", // img72special.png
+	  "\\~{\\i}", // img73special.png
+	  "\\^{\\i}", // img74special.png
+	  "\\makeatletter\\@tabacckludge=\\i\\makeatother", // img75special.png
+	  "\\k{\\i}", // img76special.png
+	  "\\c{K}", // img77special.png
+	  "\\c{k}", // img78special.png
+	  "\\c{L}", // img79special.png
+	  "\\\'{L}", // img80special.png
+	  "\\u{L}", // img81special.png
+	  "\\v{L}", // img82special.png
+	  "\\L", // img83special.png
+	  "\\c{l}", // img84special.png
+	  "\\\'{l}", // img85special.png
+	  "\\u{l}", // img86special.png
+	  "\\v{l}", // img87special.png
+	  "\\l", // img88special.png
+	  "\\c{N}", // img89special.png
+	  "\\\'{N}", // img90special.png
+	  "\\~{N}", // img91special.png
+	  "\\v{N}", // img92special.png
+	  "\\u{N}", // img93special.png
+	  "\\NG", // img94special.png
+	  "\\c{n}", // img95special.png
+	  "\\\'{n}", // img96special.png
+	  "\\~{n}", // img97special.png
+	  "\\v{n}", // img98special.png
+	  "\\u{n}", // img99special.png
+	  "\\ng", // img100special.png
+	  "\\\"{O}", // img101special.png
+	  "\\H{O}", // img102special.png
+	  "\\\'{O}", // img103special.png
+	  "\\`{O}", // img104special.png
+	  "\\~{O}", // img105special.png
+	  "\\^{O}", // img106special.png
+	  "\\v{O}", // img107special.png
+	  "\\u{O}", // img108special.png
+	  "\\makeatletter\\@tabacckludge=O\\makeatother", // img109special.png
+	  "\\O{}", // img110special.png
+	  "\\\"{o}", // img111special.png
+	  "\\H{o}", // img112special.png
+	  "\\\'{o}", // img113special.png
+	  "\\`{o}", // img114special.png
+	  "\\~{o}", // img115special.png
+	  "\\^{o}", // img116special.png
+	  "\\v{o}", // img117special.png
+	  "\\u{o}", // img118special.png
+	  "\\makeatletter\\@tabacckludge=o\\makeatother", // img119special.png
+	  "\\o{}", // img120special.png
+	  "\\TH", // img121special.png
+	  "\\th", // img122special.png
+	  "\\c{R}", // img123special.png
+	  "\\\'{R}", // img124special.png
+	  "\\v{R}", // img125special.png
+	  "\\c{r}", // img126special.png
+	  "\\\'{r}", // img127special.png
+	  "\\v{r}", // img128special.png
+	  "\\c{S}", // img129special.png
+	  "\\\'{S}", // img130special.png
+	  "\\v{S}", // img131special.png
+	  "\\c{s}", // img132special.png
+	  "\\\'{s}", // img133special.png
+	  "\\v{s}", // img134special.png
+	  "\\ss", // img135special.png
+	  "\\c{T}", // img136special.png
+	  "\\v{T}", // img137special.png
+	  "\\c{t}", // img138special.png
+	  "\\v{t}", // img139special.png
+	  "\\\"{U}", // img140special.png
+	  "\\H{U}", // img141special.png
+	  "\\\'{U}", // img142special.png
+	  "\\`{U}", // img143special.png
+	  "\\~{U}", // img144special.png
+	  "\\^{U}", // img145special.png
+	  "\\makeatletter\\@tabacckludge=U\\makeatother", // img146special.png
+	  "\\r{U}", // img147special.png
+	  "\\k{U}", // img148special.png
+	  "\\\"{u}", // img149special.png
+	  "\\H{u}", // img150special.png
+	  "\\\'{u}", // img151special.png
+	  "\\`{u}", // img152special.png
+	  "\\~{u}", // img153special.png
+	  "\\^{u}", // img154special.png
+	  "\\makeatletter\\@tabacckludge=u\\makeatother", // img155special.png
+	  "\\r{u}", // img156special.png
+	  "\\k{u}", // img157special.png
+	  "\\\"{Y}", // img158special.png
+	  "\\\'{Y}", // img159special.png
+	  "\\\"{y}", // img160special.png
+	  "\\\'{y}", // img161special.png
+	  "\\.{Z}", // img162special.png
+	  "\\\'{Z}", // img163special.png
+	  "\\v{Z}", // img164special.png
+	  "\\.{z}", // img165special.png
+	  "\\\'{z}", // img166special.png
+	  "\\v{z}" // img167special.png
+};
 
 //////////////////////////////
 class SymbolView : public KIconView
-{
+{	
 	Q_OBJECT
-
+	
 public:
 	SymbolView(QWidget *parent=0, const char *name=0);
 	~SymbolView();
-
 	enum {Relation = 0, Arrow, Misc, Delimiters, Greek, Special };
+	
+
 
 private:
-	void insertSymbols(uint from, uint to, int offset, const QString &addition = QString::null);
-	
+	void insertSymbols(uint from, uint to, int offset, const QString &addition = QString::null, int type =-1);
+
 public slots:
 	void showPage(int);
 

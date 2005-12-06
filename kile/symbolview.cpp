@@ -78,12 +78,12 @@ void SymbolView::initPage(int page)
 		break;
 		
 		case Special:
-			insertSymbols(400,432,12);
+			insertSymbols(0,167,0,"special",Special);
 		break;
 	}
 }
 
-void SymbolView::insertSymbols(uint from, uint to, int offset, const QString &addition)
+void SymbolView::insertSymbols(uint from, uint to, int offset, const QString &addition, int type)
 {
 	QString icon_name;
 	QImage pixmap;
@@ -95,9 +95,12 @@ void SymbolView::insertSymbols(uint from, uint to, int offset, const QString &ad
 		if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
 		{
 			item= new KIconViewItem( this);
-			pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
+// 			pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1); we don't need that (tbraun)
 			item->setPixmap(pixmap);
-			item->setKey(code[i+offset]);
+			if(type == -1) // old style code array
+				item->setKey(code[i+offset]);
+			else if(type == Special)
+				item->setKey(specialcode[i+offset]);
 		}
 	}
 }

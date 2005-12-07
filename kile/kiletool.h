@@ -159,7 +159,7 @@ namespace KileTool
 		void start(Base*);
 		void done(Base*, int);
 
-		void requestSaveAll();
+		void requestSaveAll(bool amAutoSaving = false, bool disUntitled= false);
 
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }

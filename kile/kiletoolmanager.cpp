@@ -243,7 +243,7 @@ namespace KileTool
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 		connect(tool, SIGNAL(done(Base*,int)), this, SLOT(done(Base*, int)));
 		connect(tool, SIGNAL(start(Base* )), this, SLOT(started(Base*)));
-		connect(tool, SIGNAL(requestSaveAll()), this, SIGNAL(requestSaveAll()));
+		connect(tool, SIGNAL(requestSaveAll(bool, bool)), this, SIGNAL(requestSaveAll(bool, bool)));
 	}
 
 	void Manager::started(Base *tool)

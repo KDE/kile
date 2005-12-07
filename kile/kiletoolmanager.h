@@ -115,7 +115,7 @@ namespace KileTool
 
 	signals:
 		void requestGUIState(const QString &);
-		void requestSaveAll();
+		void requestSaveAll(bool, bool);
 		void jumpToFirstError();
 		void toolStarted();
 

@@ -728,13 +728,13 @@ void Manager::newDocumentStatus(Kate::Document *doc)
 		emit(updateStructure(true, infoFor(doc)));
 }
 
-void Manager::fileSaveAll(bool amAutoSaving)
+void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 {
 	Kate::View *view;
 	QFileInfo fi;
 
 	kdDebug() << "==Kile::fileSaveAll=================" << endl;
-	kdDebug() << "\tautosaving = " << amAutoSaving << endl;
+	kdDebug() << "\tautosaving = " << amAutoSaving << ",  DisRegardUntitled = " <<  disUntitled << endl;
 
 	for (uint i = 0; i < m_ki->viewManager()->views().count(); ++i)
 	{
@@ -743,10 +743,10 @@ void Manager::fileSaveAll(bool amAutoSaving)
 		if (view && (view->getDoc()->isModified() || amAutoSaving) )
 		{
 			fi.setFile(view->getDoc()->url().path());
-			//don't save unwritable and untitled documents when autosaving
-			if (
-			      (!amAutoSaving) ||
-				  (amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() )
+			
+			if ( (!amAutoSaving && !disUntitled)	// both false, so we want to save everything
+				 || ( !amAutoSaving && !(disUntitled && view->getDoc()->url().isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
+			     || ( amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() ) //don't save unwritable and untitled documents when autosaving
 			   )
 			{
 				kdDebug() << "\tsaving: " << view->getDoc()->url().path() << endl;

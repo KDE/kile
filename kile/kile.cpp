@@ -163,7 +163,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	m_manager  = new KileTool::Manager(this, m_config, m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
-	connect(m_manager, SIGNAL(requestSaveAll()), docManager(), SLOT(fileSaveAll()));
+	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
 

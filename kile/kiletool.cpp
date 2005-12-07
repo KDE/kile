@@ -166,8 +166,8 @@ namespace KileTool
 		if (!checkPrereqs())
 			return NoValidPrereqs;
 		
-		//everythin ok so far
-		emit(requestSaveAll());
+		//everything ok so far
+		emit(requestSaveAll(false, true));
 		emit(start(this));
 		
 		if (!m_launcher->launch())

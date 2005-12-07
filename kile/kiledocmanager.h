@@ -75,7 +75,7 @@ public slots:
 	void fileOpen(const KURL& url, const QString & encoding = QString::null);
 
 	void saveURL(const KURL &);
-	void fileSaveAll(bool amAutoSaving = false);
+	void fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
 
 	bool fileCloseAllOthers();
 	bool fileCloseAll();

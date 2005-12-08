@@ -161,6 +161,7 @@ public:
 	KileProject* activeProject();
 	bool isProjectOpen();
 	void updateProjectReferences(KileProject *project);
+	QStringList getProjectFiles();
 
 	KileProjectItem* activeProjectItem();
 	/**

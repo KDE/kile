@@ -1587,6 +1587,23 @@ void Manager::projectOpenAllFiles(const KURL & url)
 		m_ki->viewManager()->switchToView(doc->url());
 }
 
+QStringList Manager::getProjectFiles()
+{
+	QStringList filelist;
+	
+	KileProject *project = activeProject();
+	if ( project )
+	{
+		KileProjectItemList *list = project->items();
+		for ( KileProjectItem *item=list->first(); item; item = list->next() )
+		{
+			if  ( item->type()!=KileProjectItem::ProjectFile && item->type()!=KileProjectItem::Image )
+				filelist <<  item->url().path();
+		}
+	}
+	return filelist;
+}
+
 void Manager::dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype)
 {
 	m_ki->logWidget()->printMsg(KileTool::Info, i18n("not opened: %1 (%2)").arg(item->url().path()).arg(filetype), action);

@@ -24,8 +24,11 @@
 #ifndef __KILE_GREP_DIALOG_H_
 #define __KILE_GREP_DIALOG_H_
 
-#include <kdialog.h>
+#include <kdialogbase.h>
 #include <qstringlist.h>
+
+#include "kileinfo.h"
+#include "latexcmd.h"
 
 class QCheckBox;
 class QPushButton;
@@ -38,17 +41,23 @@ class KProcess;
 class KURLRequester;
 class KListBox;
 
-class KileGrepDialog : public KDialog
+#define KILEGREP_MAX 12
+
+namespace KileGrep
+{
+	enum Mode { Project=0, Directory  };
+	enum List { SearchItems=0, SearchPaths, SearchTemplates };
+	enum TemplateMode { tmNormal=0,tmCommand,tmCommandWithOption,tmEnv,tmGraphics,tmLabel,tmRefs,tmFiles };
+}
+
+class KileGrepDialog : public KDialogBase
 {
 	Q_OBJECT
 
 public:
-	KileGrepDialog(const QString &dirname, QWidget *parent = 0, const char *name = 0);
+	KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
 	~KileGrepDialog();
 
-	void setDirName(const QString &dir);
-
-	void setFilter(const QString &filter);
 	void appendFilter(const QString &name, const QString &filter);
 
 	void appendTemplate(const QString &name, const QString &regexp);
@@ -60,37 +69,68 @@ public slots:
 signals:
 	void itemSelected(const QString &abs_filename, int line);
 
-protected:
-	bool eventFilter( QObject *, QEvent * );
-
 private:
+	KileInfo *m_ki;
+	KileGrep::Mode m_mode;
+	KProcess *childproc;
+	int m_grepJobs;
+
+	void readConfig();
+	void writeConfig();
+
+	QStringList getListItems(KComboBox *combo);
+	int findListItem(KComboBox *combo, const QString &s);
+	void updateListItems(KComboBox *combo);
+
 	void processOutput();
 	void finish();
 
+	void startGrep();
+	bool shouldRestart() { return (m_grepJobs > 0); }
+	void clearGrepJobs() { m_grepJobs = 0; }
+	QString buildFilesCommand();
+	QString buildProjectCommand();
+	QString getPattern();
+	QString getShellPattern();
+	QString getCommandList(KileDocument::CmdAttribute attrtype);
+
+	void setupDirectory();
+	void setupProject();
+	void setDirName(const QString &dir);
+	void setFilter(const QString &filter);
+	QStringList readList(KileGrep::List listtype);
+	void updateLists();
+	void updateWidgets();
+
+	QStringList m_projectfiles;
+	QString m_projectdir;
+	bool m_projectOpened;
+	
+	QLabel *projectname_label, *projectdirname_label;
 	KLineEdit *template_edit;
 	KComboBox *filter_combo, *pattern_combo, *template_combo;
 	KURLRequester *dir_combo;
 	QCheckBox *recursive_box;
 	KListBox *resultbox;
-	QPushButton *search_button, *clear_button, *cancel_button;
-	KProcess *childproc;
+	QPushButton *search_button, *clear_button, *close_button;
 	QString buf;
 	QString errbuf;
-	QStringList lastSearchItems;
 	QStringList lastSearchPaths;
 	QStringList filter_list;
 	QStringList template_list;
+	int m_lastTemplateIndex;
 
 private slots:
-	void templateActivated(int index);
 	void childExited();
 	void receivedOutput(KProcess *proc, char *buffer, int buflen);
 	void receivedErrOutput(KProcess *proc, char *buffer, int buflen);
-	void itemSelected(const QString&);
+	void slotItemSelected(const QString&);
 	void slotSearch();
 	void slotClear();
-	void slotCancel();
-	void patternTextChanged( const QString &);
+	void slotClose();
+	void slotFinished();
+	void slotPatternTextChanged(const QString &);
+	void slotTemplateActivated(int index);
 };
 
 #endif // __KILE_GREP_DIALOG_H_

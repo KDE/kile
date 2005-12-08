@@ -16,6 +16,7 @@
 #include "kile.h"
 
 #include <qtooltip.h>
+#include <qguardedptr.h>
 
 #include <kaction.h>
 #include <khelpmenu.h>
@@ -400,6 +401,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
 	// tbraun
 	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
+	(void) new KAction(i18n("Find in &Projects..."), 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
 
 	//build actions
 	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
@@ -987,38 +989,40 @@ void Kile::grepItemSelected(const QString &abs_filename, int line)
 
 void Kile::findInFiles()
 {
-	static KileGrepDialog *dlg = 0;
+	static QGuardedPtr<KileGrepDialog> dlg = 0;
 
-	if (dlg != 0) {
-		if (!dlg->isVisible())
-			dlg->setDirName((docManager()->activeProject() != 0)
-				? docManager()->activeProject()->baseURL().path()
-				: QDir::home().absPath() + "/");
-
+	if ( ! dlg )
+	{
+		kdDebug() << "grep guard: create findInFiles dlg" << endl;
+		dlg = new KileGrepDialog(this,this,KileGrep::Directory);
 		dlg->show();
-		return;
+		connect(dlg, SIGNAL(itemSelected(const QString &, int)),
+		        this, SLOT(grepItemSelected(const QString &, int)));
 	}
+	else
+	{
+		kdDebug() << "grep guard: show findInFiles dlg" << endl;
+		dlg->setActiveWindow();
+	}
+}
 
-	dlg = new KileGrepDialog
-		((docManager()->activeProject() != 0)
-		? docManager()->activeProject()->baseURL().path()
-		: QDir::home().absPath() + "/");
+void Kile::findInProjects()
+{
+	static QGuardedPtr<KileGrepDialog> project_dlg = 0;
 
-	QString filter(SOURCE_EXTENSIONS);
-	filter.append(" ");
-	filter.append(PACKAGE_EXTENSIONS);
-	filter.replace(".", "*.");
-	filter.replace(" ", ",");
-	filter.append("|");
-	filter.append(i18n("TeX Files"));
-	filter.append("\n*|");
-	filter.append(i18n("All Files"));
-	dlg->setFilter(filter);
-
-	dlg->show();
-
-	connect(dlg, SIGNAL(itemSelected(const QString &, int)),
-		this, SLOT(grepItemSelected(const QString &, int)));
+	if ( ! project_dlg )
+	{
+		kdDebug() << "grep guard: create findInProjects dlg" << endl;
+		project_dlg = new KileGrepDialog(this,this,KileGrep::Project);
+		project_dlg->show();
+		connect(project_dlg, SIGNAL(itemSelected(const QString &, int)),
+		        this, SLOT(grepItemSelected(const QString &, int)));
+	}
+	else
+	{
+		kdDebug() << "grep guard: show findInProjects dlg" << endl;
+		project_dlg->setActiveWindow();
+	}
 }
 
 /////////////////// PART & EDITOR WIDGET //////////
@@ -1157,7 +1161,7 @@ void Kile::initMenu()
 	projectlist 
 	   << "project_add" << "project_remove" 
 	   << "project_showfiles" 
-	   << "project_buildtree" << "project_options" 
+	   << "project_buildtree" << "project_options" << "project_findfiles" 
 	   << "project_archive" << "project_close" << "project_openallfiles"
 	   ;
 	

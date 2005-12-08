@@ -275,6 +275,7 @@ private slots:
 	void cleanBib();
 
 	void findInFiles();
+	void findInProjects();
 	void grepItemSelected(const QString &abs_filename, int line);
 
 /* insert tags */

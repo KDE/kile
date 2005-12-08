@@ -356,5 +356,13 @@
 			<label></label>
 			<default></default>
 		</entry>
+		<entry name="LastSearchTemplates" type="StringList">
+			<label></label>
+			<default></default>
+		</entry>
+		<entry name="GrepRecursive" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
 	</group>
 </kcfg>

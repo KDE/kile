@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="18">
+<kpartgui name="kile" version="19">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -154,6 +154,8 @@
 	<Action name="project_remove" />
 	<Action name="project_openallfiles" />
 	<Action name="project_showfiles" />
+	<Separator/>
+	<Action name="project_findfiles"/>
 	<Separator/>
 	<Action name="project_buildtree"/>
 	<Action name="project_options"/>
@@ -474,7 +476,6 @@
 	<Action name="settings_keys"/>
 	<Action name="settings_toolbars"/>
 	<Action name="settings_configure" />
-	<Action name="settings_configure_kate" />
 	<DefineGroup name="configure_merge" append="configure_merge" />
 	<Separator/>
 	<Action name="settings_perform_check" />
@@ -511,6 +512,7 @@
 	<Action name="file_close"/>
 	<Merge/>
 	<Action name="Mode"/>
+	<Action name="settings_configure" />
 </ToolBar>
 <ToolBar name="buildToolBar" fullWidth="false" index="2"><text>Build</text>
 	<Action name="WatchFile"/>
@@ -593,6 +595,7 @@
 	<Action name="file_save_all"/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
+	<Action name="file_close_all_others"/>
 	<Action name="file_export_ascii"/>
 	<Action name="file_export_latin1"/>
 	<Action name="file_export_latin2"/>
@@ -608,7 +611,6 @@
 	<Action name="RefreshStructure"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
-	<Action name="settings_configure_kate" />
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
@@ -658,6 +660,7 @@
 	<Action name="file_save_all"/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
+	<Action name="file_close_all_others"/>
 	<Action name="file_export_ascii"/>
 	<Action name="file_export_latin1"/>
 	<Action name="file_export_latin2"/>
@@ -673,7 +676,6 @@
 	<Action name="RefreshStructure"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
-	<Action name="settings_configure_kate" />
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
@@ -723,6 +725,7 @@
 	<Action name="file_save_all"/>
 	<Action name="file_close"/>
 	<Action name="file_close_all"/>
+	<Action name="file_close_all_others"/>
 	<Action name="file_print"/>
 	<Action name="file_export_ascii"/>
 	<Action name="file_export_latin1"/>
@@ -739,7 +742,6 @@
 	<Action name="RefreshStructure"/>
 	<Action name="FindInFiles"/>
 	<Action name="settings_configure"/>
-	<Action name="settings_configure_kate" />
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>

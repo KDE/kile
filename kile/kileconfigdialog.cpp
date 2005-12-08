@@ -59,22 +59,23 @@ namespace KileDialog
 
 		setShowIconsInTreeList(true);
 		addConfigFolder(i18n("Kile"),"kile");
+		addConfigFolder(i18n("LaTeX"),"tex");
 		addConfigFolder(i18n("Tools"),"gear");
 		addConfigFolder(i18n("Editor"),"edit");
 
 		// setup all configuration pages
 		setupGeneralOptions();
-		setupLatex();
 		setupCodeCompletion();   // complete configuration (dani)
 		setupHelp();
+
+		setupLatex();
+		setupEnvironment();
+		setupStructure();
 
 		setupTools();
 		setupQuickPreview();     // QuickPreview (dani)
 
 		setupEditor();
-
-		// open all items
-		unfoldTreeList ();
 		enableButtonSeparator(true);
 
 		// calculate size for opening
@@ -96,7 +97,7 @@ namespace KileDialog
 
 	void Config::show()
 	{
-		//updateWidgets();
+		unfoldTreeList ();
 		m_manager->updateWidgets();
 		KDialogBase::show();
 	}
@@ -157,15 +158,6 @@ namespace KileDialog
 
 	//////////////////// LaTeX specific editing options ////////////////////
 
-	void Config::setupLatex()
-	{
-		latexPage = new KileWidgetLatexConfig(0, "LaTeX"); 
-		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
-		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
-
-		addConfigPage(latexPage,i18n("Kile"),i18n("LaTeX"),"tex");
-	}
-
 	//////////////////// Complete configuration (dani) ////////////////////
 
 	void Config::setupCodeCompletion()
@@ -194,6 +186,29 @@ namespace KileDialog
 		helpPage->setHelp(m_ki->help());
 
 		addConfigPage(helpPage,i18n("Kile"),i18n("Help"),"help");
+	}
+
+	//////////////////// LaTeX environments ////////////////////
+
+	void Config::setupLatex()
+	{
+		latexPage = new KileWidgetLatexConfig(0, "LaTeX"); 
+		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
+		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
+
+		addConfigPage(latexPage,i18n("LaTeX"),i18n("General"),"configure");
+	}
+
+	void Config::setupEnvironment()
+	{
+		envPage = new KileWidgetEnvironmentConfig(0, "LaTeX");
+      addConfigPage(envPage,i18n("LaTeX"),i18n("Environments"),"environment");
+	}
+
+	void Config::setupStructure()
+	{
+		structurePage = new KileWidgetStructureViewConfig(0, "StructureView");
+      addConfigPage(structurePage,i18n("LaTeX"),i18n("Structure View"),"view_tree");
 	}
 
 	//////////////////// Editor ////////////////////

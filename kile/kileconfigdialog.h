@@ -24,17 +24,19 @@
 
 #include "configcodecompletion.h"     // code completion (dani)
 #include "previewconfigwidget.h"      // QuickPreview (dani)
+#include "envconfigwidget.h"          // environments (dani)
+#include "structureconfigwidget.h"    // environments (dani)
 
 class QFrame;
-//class KSpellConfig;
 class KConfig;
-//class KConfigSkeleton;
-//class KConfigDialogManager;
 
 namespace KileWidget { class ToolConfig; }
 class KileWidgetHelpConfig;
 class KileWidgetLatexConfig;
 class KileWidgetGeneralConfig;
+class KileWidgetEnvironmentConfig;
+class KileWidgetStructureViewConfig;
+
 namespace KileTool { class Manager; }
 
 namespace KileDialog
@@ -57,13 +59,9 @@ namespace KileDialog
 		void slotCancel();
 		void slotChanged();
 
-	//	void slotWidgetModified();
-
 	private:
 		// dialog manager
 		KConfigDialogManager *m_manager;
-
-//		QFrame* spellingPage;
 
 		KConfig *m_config;
 		KileInfo *m_ki;
@@ -80,6 +78,8 @@ namespace KileDialog
 		KileWidgetHelpConfig *helpPage;
 		KileWidgetLatexConfig *latexPage;
 		KileWidgetGeneralConfig *generalPage;
+		KileWidgetEnvironmentConfig *envPage;
+		KileWidgetStructureViewConfig *structurePage;
 
 		// setup configuration
 		void addConfigFolder(const QString &section,const QString &icon);
@@ -96,6 +96,8 @@ namespace KileDialog
 		void setupQuickPreview();
 		void setupHelp();
 		void setupEditor();
+		void setupEnvironment();
+		void setupStructure();
 
 		// write configuration
 		void writeGeneralOptionsConfig();

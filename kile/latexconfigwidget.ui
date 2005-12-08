@@ -9,17 +9,17 @@
             <x>0</x>
             <y>0</y>
             <width>602</width>
-            <height>522</height>
+            <height>478</height>
         </rect>
     </property>
     <property name="caption">
         <string>LaTeX</string>
     </property>
-    <grid>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QButtonGroup" row="1" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>m_bgCommands</cstring>
             </property>
@@ -56,7 +56,7 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup" row="2" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>m_bgQuotes</cstring>
             </property>
@@ -126,7 +126,7 @@
                 </spacer>
             </grid>
         </widget>
-        <widget class="QButtonGroup" row="3" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>m_bgGraphics</cstring>
             </property>
@@ -214,7 +214,7 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QGroupBox" row="4" column="0">
+        <widget class="QGroupBox">
             <property name="name">
                 <cstring>groupBox5</cstring>
             </property>
@@ -284,36 +284,7 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup" row="0" column="0">
-            <property name="name">
-                <cstring>m_bgEnv</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Environments</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>kcfg_CompleteEnvironment</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Automatically complete \begin{env} &amp;with \end{env}</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-    </grid>
+    </vbox>
 </widget>
 <connections>
     <connection>

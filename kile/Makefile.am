@@ -23,7 +23,7 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
 	processtoolconfigwidget.ui quicktoolconfigwidget.ui plaintolatexconverter.cpp \
 	latextoolconfigwidget.ui newtoolwizard.ui kileuntitled.cpp \
-	kilestatsdlg.cpp kilestatswidget.cpp
+	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui 
 
 kile_LDADD   = -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML)
 
@@ -94,4 +94,5 @@ noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
 	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
 	latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
 	kilesidebar.h plaintolatexconverter.h kileuntitled.h \
-	kilestatsdlg.h kilestatswidget.h
+	kilestatsdlg.h kilestatswidget.h envconfigwidget.h structureconfigwidget.h
+

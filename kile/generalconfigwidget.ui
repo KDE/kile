@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>776</width>
-            <height>494</height>
+            <height>448</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -133,49 +133,6 @@
         </widget>
         <widget class="QGroupBox">
             <property name="name">
-                <cstring>groupBox2</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>3</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Structure View Options</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Default expansion &amp;level for the structure view (1 part - 5 subsubsection):</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_DefaultLevel</cstring>
-                    </property>
-                </widget>
-                <widget class="KIntNumInput">
-                    <property name="name">
-                        <cstring>kcfg_DefaultLevel</cstring>
-                    </property>
-                    <property name="minValue">
-                        <number>1</number>
-                    </property>
-                    <property name="maxValue">
-                        <number>7</number>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
                 <cstring>groupBox3</cstring>
             </property>
             <property name="title">
@@ -271,11 +228,13 @@
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

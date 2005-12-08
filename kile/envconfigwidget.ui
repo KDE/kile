@@ -1,0 +1,54 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>KileWidgetEnvironmentConfig</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KileWidgetEnvironmentConfig</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>592</width>
+            <height>82</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>LaTeX</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>m_bgEnv</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Complete environments</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_CompleteEnvironment</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Automatically complete \begin{env} with \end{env}</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+    </vbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>776</width>
-            <height>448</height>
+            <height>460</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -217,6 +217,17 @@
                     </property>
                 </widget>
             </vbox>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>kcfg_UnfoldConfigTree</cstring>
+            </property>
+            <property name="text">
+                <string>Open all tree items of config pages, when calling this dialog</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>It's impossible to open special tree items in Kile's configuration dialog. You have the choice to open all items, which may lead to a bad size of the dialog, or none of them.</string>
+            </property>
         </widget>
         <widget class="QCheckBox">
             <property name="name">

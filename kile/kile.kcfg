@@ -401,4 +401,10 @@
 			<default>true</default>
 		</entry>
 	</group>
+	<group name="KileConfigDialog">
+		<entry name="UnfoldConfigTree" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
+	</group>
 </kcfg>

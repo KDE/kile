@@ -97,7 +97,8 @@ namespace KileDialog
 
 	void Config::show()
 	{
-		unfoldTreeList ();
+		if ( KileConfig::unfoldConfigTree() )
+			unfoldTreeList();
 		m_manager->updateWidgets();
 		KDialogBase::show();
 	}

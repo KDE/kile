@@ -296,7 +296,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	}
 	else
 	{
-		setCaption(i18n("Find in Projects"));
+		setCaption(i18n("Find in Project"));
 		setupProject();
 	}
  

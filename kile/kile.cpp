@@ -401,7 +401,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
 	// tbraun
 	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
-	(void) new KAction(i18n("Find in &Projects..."), 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
+	(void) new KAction(i18n("Find in &Project..."), 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
 
 	//build actions
 	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );

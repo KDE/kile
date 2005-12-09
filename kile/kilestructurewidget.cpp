@@ -30,6 +30,10 @@
 //    into the text or copy it to the clipboard.
 //  - graphics files have also a context menu to open them with a special program 
 
+// 2005-12-08: dani
+//  - make some items like labels, bibitems, graphics and float environments 
+//    configurable for the user
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -160,6 +164,17 @@ namespace KileWidget
 
 		m_folders.clear();
 		m_references.clear();
+
+		if ( m_docinfo )
+		{
+ 			m_openStructureLabels = m_docinfo->openStructureLabels();
+			m_openStructureBibitems = m_docinfo->openStructureBibitems();
+		}
+		else
+		{
+			m_openStructureLabels = false;
+			m_openStructureBibitems = false;
+ 		}
 	}
 
 	void StructureList::cleanUp()
@@ -200,6 +215,11 @@ namespace KileWidget
 	bool StructureList::shouldBeOpen(KileListViewItem *item, const QString & folder, int level)
 	{
 		if ( item->parent() == 0L ) return true;
+
+		if ( folder == "labels" )
+			return m_openStructureLabels;
+		if ( folder == "bibs" )
+			return m_openStructureBibitems;
 
 		if ( m_openByTitle.contains(item->title()) )
 			return m_openByTitle [ item->title() ];

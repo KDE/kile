@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>595</width>
-            <height>96</height>
+            <width>669</width>
+            <height>228</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -109,6 +109,93 @@
                     </property>
                 </spacer>
             </hbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox4</cstring>
+            </property>
+            <property name="title">
+                <string>Options</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox" row="0" column="0">
+                    <property name="name">
+                        <cstring>kcfg_SvShowLabels</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show labels</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Show label commands in the structure view.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>kcfg_SvShowBibitems</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show bibitems</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Show bibitems commands in the structure view.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="1">
+                    <property name="name">
+                        <cstring>kcfg_SvOpenLabels</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Open labels item</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Open the parent item for all labels in the structure view as default.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_SvOpenBibitems</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Open bibitems item</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Open the parent item for all bibitems in the structure view as default.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="3" column="0">
+                    <property name="name">
+                        <cstring>kcfg_SvShowGraphics</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show graphic files</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Show includegraphics commands in the structure view.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="4" column="0">
+                    <property name="name">
+                        <cstring>kcfg_SvShowFloats</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show figure and table environments</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Show float environments in the structure view.</string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </vbox>
 </widget>

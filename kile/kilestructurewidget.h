@@ -142,6 +142,8 @@ namespace KileWidget
 		QMap<uint, bool>					m_openByLine;
 		KileListViewItem					*m_parent[7], *m_root;
 		QValueList<KileReferenceData> m_references;
+		bool m_openStructureLabels;
+		bool m_openStructureBibitems;
 
 		int m_lastType;
 		uint m_lastLine;

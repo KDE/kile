@@ -31,6 +31,9 @@
 // 2005-11-26: dani
 //  - add support for \fref, \Fref and \eqref references commands
 
+// 2005-12-07: dani
+//  - add support to enable and disable some structure view items
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -48,6 +51,7 @@
 #include "codecompletion.h"
 #include "kiledocumentinfo.h"
 #include "kileuntitled.h"
+#include "kileconfig.h"
 
 namespace KileDocument
 {
@@ -165,14 +169,22 @@ Info::~Info(void)
 
 // set struct level dictionary with standard and user defined commands
 void Info::updateStructLevelInfo()
-{
+{	
+	// read config for structview items
+	m_showStructureLabels = KileConfig::svShowLabels();
+	m_showStructureBibitems = KileConfig::svShowBibitems();
+	m_showStructureGraphics = KileConfig::svShowGraphics();
+	m_showStructureFloats = KileConfig::svShowFloats();
+	m_showStructureReferences = false;                       // disable it temporary
+	m_openStructureLabels = KileConfig::svOpenLabels();
+	m_openStructureBibitems = KileConfig::svOpenBibitems();
+
+	// clear all entries and rebuild them
 	m_dictStructLevel.clear();
 
 	// add standard commands
 	//TODO: make this configurable
-	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-	m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
-	
+	// sectioning
 	m_dictStructLevel["\\input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
 	m_dictStructLevel["\\Input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
 	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
@@ -188,44 +200,66 @@ void Info::updateStructLevelInfo()
 	// hidden commands  
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-	
-	// new entries
-	m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
 	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
-	
-	m_dictStructLevel["\\ref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	m_dictStructLevel["\\pageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	m_dictStructLevel["\\vref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	m_dictStructLevel["\\vpageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	m_dictStructLevel["\\fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	m_dictStructLevel["\\Fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	m_dictStructLevel["\\eqref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	
-	
-	// search also for environments
-	m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
-	m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
-	
-	// some entries, which could never be found (but they are set manually)
-	m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
-	m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
-	m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
-	
-	// add user defined commands for labels
-	QStringList labellist;
-	QStringList::ConstIterator it;
-	m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
-	for ( it=labellist.begin(); it != labellist.end(); ++it ) 
+
+	// label
+	if ( m_showStructureLabels )
 	{
-		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+		m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+	
+		// add user defined commands for labels
+		QStringList labellist;
+		QStringList::ConstIterator it;
+		m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
+		for ( it=labellist.begin(); it != labellist.end(); ++it ) 
+		{
+			m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+		}
+	}
+
+	// bibitems
+	if ( m_showStructureBibitems )
+	{
+		m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
 	}
 	
-	// add user defined commands for references
-	QStringList reflist;
-	m_commands->commandList(reflist,KileDocument::CmdAttrReference,true);
-	for ( it=reflist.begin(); it != reflist.end(); ++it ) 
+	// graphics
+	if ( m_showStructureGraphics )
 	{
-		m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
+		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
+	}
+	
+	// references
+	if ( m_showStructureReferences )
+	{
+		m_dictStructLevel["\\ref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+		m_dictStructLevel["\\pageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+		m_dictStructLevel["\\vref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+		m_dictStructLevel["\\vpageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+		m_dictStructLevel["\\fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+		m_dictStructLevel["\\Fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+		m_dictStructLevel["\\eqref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
+	
+		// add user defined commands for references
+		QStringList reflist;
+		QStringList::ConstIterator it;
+		m_commands->commandList(reflist,KileDocument::CmdAttrReference,true);
+		for ( it=reflist.begin(); it != reflist.end(); ++it ) 
+		{
+			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
+		}
+	}
+
+	// float environments
+	if ( m_showStructureFloats )
+	{
+		m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
+		m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
+	
+		// some entries, which could never be found (but they are set manually)
+		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
+		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
 }
 

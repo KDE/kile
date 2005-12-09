@@ -51,6 +51,30 @@
 			<label>The expansion level for the structure view.</label>
 			<default>5</default>
 		</entry>
+		<entry name="SvShowLabels" type="Bool">
+			<label>Show label commands in the structure view</label>
+			<default>true</default>
+		</entry>
+		<entry name="SvShowBibitems" type="Bool">
+			<label>Show bibitems commands in the structure view</label>
+			<default>true</default>
+		</entry>
+		<entry name="SvShowGraphics" type="Bool">
+			<label>Show includegraphics commands in the structure view</label>
+			<default>true</default>
+		</entry>
+		<entry name="SvShowFloats" type="Bool">
+			<label>Show float environments in the structure view</label>
+			<default>true</default>
+		</entry>
+		<entry name="SvOpenLabels" type="Bool">
+			<label>Open the parent item for all labels in the structure view as default</label>
+			<default>false</default>
+		</entry>
+		<entry name="SvOpenBibitems" type="Bool">
+			<label>Open the parent item for all bibitems in the structure view as default</label>
+			<default>false</default>
+		</entry>
 	</group>
 	<group name="Tools">
 		<entry name="RunLyxServer" type="Bool">
@@ -109,15 +133,15 @@
 			<default>true</default>
 		</entry>
 		<entry name="envIndentation" type="Bool">
-			<label></label>
+			<label>Enable auto indentation of environemnts</label>
 			<default>true</default>
 		</entry>
 		<entry name="envIndentSpaces" type="Bool">
-			<label></label>
+			<label>Use spaces instead of a tabulator to autoindent environments</label>
 			<default>true</default>
 		</entry>
 		<entry name="envIndentNumSpaces" type="Int">
-			<label></label>
+			<label>Use this number of spaces to autoindent environments</label>
 			<default>1</default>
 		</entry>
 		<entry name="ShowUserCommands" type="Bool">

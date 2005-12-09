@@ -127,6 +127,8 @@ public:
 
 	QString lastModifiedFile(const QStringList *list = 0L);
 	void updateStructLevelInfo();
+	bool openStructureLabels() { return m_openStructureLabels; }
+	bool openStructureBibitems() { return m_openStructureBibitems; }
 
 	const QString & preamble() const { return m_preamble; }
 
@@ -180,6 +182,13 @@ protected:
 	KURL						m_url, m_oldurl;
 	KConfig						*m_config;
 	LatexCommands					*m_commands;
+	bool m_showStructureLabels;
+	bool m_showStructureBibitems;
+	bool m_showStructureGraphics;
+	bool m_showStructureFloats;
+	bool m_showStructureReferences;
+	bool m_openStructureLabels;
+	bool m_openStructureBibitems;
 };
 
 class TeXInfo : public Info

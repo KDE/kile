@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 16 2005
-    version              : 0.22
+    date                 : Dec 06 2005
+    version              : 0.24
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -53,9 +53,8 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 		<< "French quotes (long):   \\flqq   \\frqq"
 		<< "German quotes (long):   \\glqq   \\grqq"
 		;
-	initDoubleQuotes();
 
-	//readConfig();
+	readConfig();
 }
 
 EditorExtension::~EditorExtension()
@@ -67,6 +66,25 @@ EditorExtension::~EditorExtension()
 
 void EditorExtension::readConfig(void)
 {
+	// init insertion of double quotes
+	initDoubleQuotes();
+
+	// calculate indent for autoindent of environments
+	m_envAutoIndent = QString::null;
+	if ( KileConfig::envIndentation() )
+	{
+		if ( KileConfig::envIndentSpaces() )
+		{
+			int num = KileConfig::envIndentNumSpaces();
+			if ( num<1 || num>9 )
+				num = 1;
+			m_envAutoIndent.fill(' ',num);
+		}
+		else
+		{
+			m_envAutoIndent = "\t";
+		}
+	}
 }
 
 void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *view)
@@ -132,6 +150,14 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	//do some replacements
 	QFileInfo fi( doc->url().path());
 	ins.replace("%S", fi.baseName(true));
+	
+	int dxIndentEnv = 0;
+	if ( ins.contains("%E") )
+	{
+		ins.replace("%E",m_envAutoIndent);
+		if ( data.dx==0 && data.dy>0 )
+			dxIndentEnv = m_envAutoIndent.length();
+	}
 
 	//insert first part of tag at cursor position
 	doc->insertText(para,index,ins);
@@ -162,7 +188,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 			py = para;
 			px = index;
 		}
-		para_cursor = py+data.dy; index_cursor = px+data.dx;
+		para_cursor = py+data.dy; index_cursor = px+data.dx+dxIndentEnv;
 	}
 
 	//end the atomic editing sequence
@@ -1625,8 +1651,8 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 		if ( shouldCompleteEnv(envname, view) ) 
 		{
 			QString item =  m_latexCommands->isListEnv(envname) ? "\\item " : QString::null;
-			view->getDoc()->insertText(row,col, '\n'+line+item +'\n'+line+endenv);
-			view->setCursorPositionReal(row+1, line.length()+item.length());
+			view->getDoc()->insertText(row,col, '\n'+line+m_envAutoIndent+item +'\n'+line+endenv);
+			view->setCursorPositionReal(row+1, line.length()+m_envAutoIndent.length()+item.length());
 			return true;
 		}
 	}

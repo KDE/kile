@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Nov 02 2005
-    version              : 0.23
+    date                 : Dec 06 2005
+    version              : 0.24
     copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -36,6 +36,7 @@
 
 #include "kileconfig.h"
 #include "kileinfo.h"
+#include "kileedit.h"
 
 namespace KileDialog
 {
@@ -210,7 +211,7 @@ QString IncludeGraphics::getTemplate()
 	// state of figure and center checkbox
 	bool figure = cb_figure->isChecked();
 	bool center = cb_center->isChecked();
- 	QString indent = ( figure || center ) ? "\t" : QString::null;
+ 	QString indent = ( figure || center ) ? m_ki->editorExtension()->autoIndentEnvironment() : QString::null;
 	
 	// add start of figure environment ?
 	if ( figure )

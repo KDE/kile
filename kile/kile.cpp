@@ -1481,7 +1481,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 void Kile::quickTabbing()
 {
 	if ( !viewManager()->currentView() ) return;
-	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(m_config, this,"Tabbing", i18n("Tabbing"));
+	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(m_config,this,this,"Tabbing", i18n("Tabbing"));
 	if ( dlg->exec() )
 	{
 		insertTag(dlg->tagData());
@@ -1493,7 +1493,7 @@ void Kile::quickFloat()
 {
 	if ( !viewManager()->currentView() ) return;
 
-	KileDialog::FloatEnvironmentDialog *dlg = new KileDialog::FloatEnvironmentDialog(m_config,this);
+	KileDialog::FloatEnvironmentDialog *dlg = new KileDialog::FloatEnvironmentDialog(m_config,this,this);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
@@ -1504,7 +1504,7 @@ void Kile::quickMathenv()
 {
 	if ( !viewManager()->currentView() ) return;
 	
-	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this,m_config,m_latexCommands);
+	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this,m_config,this,m_latexCommands);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
@@ -1680,7 +1680,8 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_edit->complete()->readConfig(m_config);
-	m_edit->initDoubleQuotes();
+	//m_edit->initDoubleQuotes();
+	m_edit->readConfig();
 	docManager()->updateInfos();
 }
 

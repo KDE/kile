@@ -1,8 +1,8 @@
 /***************************************************************************
                            mathenvdialog.h
 ----------------------------------------------------------------------------
-    date                 : Jul 23 2005
-    version              : 0.20
+    date                 : Dec 06 2005
+    version              : 0.21
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -19,6 +19,7 @@
 #ifndef MATHENVDIALOG_H
 #define MATHENVDIALOG_H
 
+#include "kileinfo.h"
 #include "kilewizard.h"
 #include "latexcmd.h"
 
@@ -40,7 +41,7 @@ class MathEnvironmentDialog : public Wizard
 	Q_OBJECT
 
 public:
-	MathEnvironmentDialog(QWidget *parent, KConfig *config, KileDocument::LatexCommands *commands);
+	MathEnvironmentDialog(QWidget *parent, KConfig *config, KileInfo *ki, KileDocument::LatexCommands *commands);
 	~MathEnvironmentDialog() {}
 	
 public slots:
@@ -51,6 +52,7 @@ private slots:
 	void slotSpinboxValueChanged(int index);  
 
 private:
+	KileInfo *m_ki;
 	KileDocument::LatexCommands *m_latexCommands;
 	
 	QComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;

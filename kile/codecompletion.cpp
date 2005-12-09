@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Nov 26 2005
-    version              : 0.28
+    date                 : Dec 06 2005
+    version              : 0.29
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -31,6 +31,7 @@
 #include "kileviewmanager.h"
 #include "codecompletion.h"
 #include "kileconfig.h"
+#include "kileedit.h"
 
 namespace KileDocument
 {
@@ -539,10 +540,11 @@ namespace KileDocument
     QString start = reEnv.cap(1);
     QString envname = reEnv.cap(2);
     QString whitespace = getWhiteSpace(prefix);
+    QString envIndent = m_ki->editorExtension()->autoIndentEnvironment();
 
     QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
     
-    s += whitespace;
+    s += whitespace + envIndent;
     
     bool item = (type == "list" );
     if ( item )
@@ -560,7 +562,7 @@ namespace KileDocument
 			if ( parameter.isEmpty() )
 			{
 				ypos = 1;
-				xpos = whitespace.length() + (( item ) ? 6 : 0);
+				xpos = whitespace.length() + envIndent.length() + (( item ) ? 6 : 0);
 			}
 			else
 			{

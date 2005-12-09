@@ -24,6 +24,8 @@
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 
+#include "kileinfo.h"
+
 namespace KileDialog
 {
 
@@ -32,7 +34,7 @@ class FloatEnvironmentDialog : public Wizard
 	Q_OBJECT
 
 public:
-	FloatEnvironmentDialog(KConfig *config, QWidget *parent);
+	FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QWidget *parent);
 	~FloatEnvironmentDialog() {}
 	
 public slots:
@@ -48,6 +50,7 @@ private:
 	QCheckBox *m_cbCenter;
 	
 	QString m_prefix;
+	KileInfo *m_ki;
 };
 
 }

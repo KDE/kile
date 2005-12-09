@@ -1,8 +1,8 @@
 /***************************************************************************
                            mathenvdialog.cpp
 ----------------------------------------------------------------------------
-    date                 : Jul 23 2005
-    version              : 0.20
+    date                 : Dec 06 2005
+    version              : 0.21
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -18,6 +18,7 @@
 
 #include "mathenvdialog.h"
 #include "codecompletion.h"
+#include "kileedit.h"
 
 #include <qlayout.h>
 #include <qstringlist.h>
@@ -30,8 +31,8 @@
 namespace KileDialog 
 {
 
-MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, KileDocument::LatexCommands *commands) 
-	: Wizard(config,parent), m_latexCommands(commands)
+MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, KileInfo *ki, KileDocument::LatexCommands *commands) 
+	: Wizard(config,parent), m_ki(ki), m_latexCommands(commands)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -259,6 +260,7 @@ void MathEnvironmentDialog::slotOk()
 {
 	// environment
 	QString envname = ( m_cbStarred->isChecked() ) ? m_envname + "*" : m_envname;
+	QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 	
 	// use bullets?
 	QString bullet = ( m_cbBullets->isChecked() ) ? s_bullet : QString::null;
@@ -336,6 +338,7 @@ void MathEnvironmentDialog::slotOk()
 	
 	for ( int row=0; row<numrows; ++row ) 
 	{
+		m_td.tagBegin += indent;
 		for ( int col=0; col<numgroups; ++col ) 
 		{
 			m_td.tagBegin += tabulator; 
@@ -360,7 +363,7 @@ void MathEnvironmentDialog::slotOk()
 	m_td.tagEnd += displaymathend;
 	
 	m_td.dy = ( displaymathbegin.isEmpty() ) ? 1 : 2;
-	m_td.dx = 0;
+	m_td.dx = indent.length();
 
 	accept();
 }

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>592</width>
-            <height>82</height>
+            <width>586</width>
+            <height>200</height>
         </rect>
     </property>
     <property name="caption">
@@ -45,6 +45,124 @@
                     <property name="text">
                         <string>Automatically complete \begin{env} with \end{env}</string>
                     </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>m_bgGraphics</cstring>
+            </property>
+            <property name="title">
+                <string>Automatic indentation inside environments</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_envIndentation</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Activated</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enable auto indentation of environemnts.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_envIndentSpaces</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use spaces instead of tabs to indent</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Use spaces instead of a tabulator to autoindent environments.</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>m_lbNumSpaces</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Number of Spaces:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_envIndentNumSpaces</cstring>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer1</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Fixed</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>kcfg_envIndentNumSpaces</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>0</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                            <property name="maxValue">
+                                <number>9</number>
+                            </property>
+                            <property name="minValue">
+                                <number>1</number>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Use this number of spaces to autoindent environments.</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>300</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
                 </widget>
             </vbox>
         </widget>

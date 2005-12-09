@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 07 2005
-    version              : 0.11
+    date                 : Dec 06 2005
+    version              : 0.12
     copyright            : (C) 2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -23,11 +23,13 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+#include "kileedit.h"
+
 namespace KileDialog 
 {
 
-FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, QWidget *parent) 
-	: Wizard(config,parent)
+FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QWidget *parent) 
+	: Wizard(config,parent), m_ki(ki)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -125,6 +127,7 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, QWidget *parent)
 void FloatEnvironmentDialog::slotOk()
 {
 	QString envname = ( m_rbFigure->isChecked() ) ? "figure" : "table";
+	QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 	
 	QString position;
 	if ( m_cbHere->isChecked() )
@@ -143,24 +146,24 @@ void FloatEnvironmentDialog::slotOk()
 	
 	int row = 1;
 	if ( m_cbCenter->isChecked() ) {
-		m_td.tagBegin += "\\centering\n";
+		m_td.tagBegin += indent + "\\centering\n";
 		row = 2;
 	}
 	
-	m_td.tagEnd = "\n";
+	m_td.tagEnd = indent + "\n";
 
 	QString caption = m_edCaption->text();
 	if ( ! caption.isEmpty() ) 
-		m_td.tagEnd += "\\caption{" + caption + "}\n";
+		m_td.tagEnd += indent  + "\\caption{" + caption + "}\n";
 
 	QString label = m_edLabel->text();
 	if ( !label.isEmpty() && label!=m_prefix ) 
-		m_td.tagEnd += "\\label{" + label + "}\n";
+		m_td.tagEnd += indent + "\\label{" + label + "}\n";
 		
 	m_td.tagEnd += "\\end{" + envname + "}\n";
 	
 	m_td.dy=row; 
-	m_td.dx=0;
+	m_td.dx=indent.length();
 
 	accept();
 }

@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include "tabbingdialog.h"
+#include "kileedit.h"
 
 #include <qspinbox.h>
 #include <qlabel.h>
@@ -26,7 +27,7 @@
 
 namespace KileDialog
 {
-	QuickTabbing::QuickTabbing(KConfig *config, QWidget *parent, const char *name, const QString &caption ) : Wizard(config, parent,name, caption)
+	QuickTabbing::QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent, const char *name, const QString &caption ) : Wizard(config, parent,name, caption), m_ki(ki)
 	{
 		QWidget *page = new QWidget(this);
 		setMainWidget(page);
@@ -71,8 +72,10 @@ namespace KileDialog
 		int x = m_spCols->value();
 		int y = m_spRows->value();
 		QString s= m_leSpacing->text();
+		QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 		
 		m_td.tagBegin = "\\begin{tabbing}\n";
+		m_td.tagBegin += indent;
 
 		for ( int j=1; j<x ; ++j) m_td.tagBegin += "\\hspace{"+s+"}\\=";
 
@@ -80,15 +83,17 @@ namespace KileDialog
 
 		for ( int i=0;i<y-1;++i)
 		{
+			m_td.tagBegin += indent;
 			for ( int j=1;j<x;++j) m_td.tagBegin +=" \\> ";
 			m_td.tagBegin += "\\\\ \n";
 		}
 
+		m_td.tagBegin += indent;
 		for ( int j=1;j<x;++j)  m_td.tagBegin += " \\> ";
 
 		m_td.tagEnd = "\n\\end{tabbing}";
 		m_td.dy=1;
-		m_td.dx=0;
+		m_td.dx=indent.length();
 
 		accept();
 	}

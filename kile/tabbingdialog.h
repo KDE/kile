@@ -17,6 +17,7 @@
 #define TABBINGDIALOG_H
 
 #include "kilewizard.h"
+#include "kileinfo.h"
 
 #include <qdialog.h>
 
@@ -35,13 +36,14 @@ namespace KileDialog
 		Q_OBJECT
 
 	public:
-		QuickTabbing(KConfig *config, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
 		~QuickTabbing();
 
 	public slots:
 		void slotOk();
 	
 	public:
+		KileInfo *m_ki;
 		QSpinBox		*m_spCols, *m_spRows;
 		KLineEdit		*m_leSpacing;
 	};

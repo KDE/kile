@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jul 22 2005
-    version              : 0.21
+    date                 : Dec 06 2005
+    version              : 0.24
     copyright            : (C) 2004-2005 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -62,6 +62,7 @@ public:
 	void closeEnvironment(Kate::View *view = 0L);
 	void selectEnvironment(bool inside, Kate::View *view = 0L);
 	void deleteEnvironment(bool inside, Kate::View *view = 0L);
+	QString autoIndentEnvironment() { return m_envAutoIndent; }
 
 	void gotoTexgroup(bool backwards, Kate::View *view = 0L);
 	void selectTexgroup(bool inside, Kate::View *view = 0L);
@@ -136,6 +137,7 @@ private:
 
 	QRegExp m_reg;
 	bool m_overwritemode;
+	QString m_envAutoIndent;
 
 	// change cursor position
 	bool increaseCursorPosition(Kate::Document *doc, uint &row, uint &col);

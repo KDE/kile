@@ -108,6 +108,18 @@
 			<label>Automatic completion \begin{env} with \end{env}.</label>
 			<default>true</default>
 		</entry>
+		<entry name="envIndentation" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="envIndentSpaces" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="envIndentNumSpaces" type="Int">
+			<label></label>
+			<default>1</default>
+		</entry>
 		<entry name="ShowUserCommands" type="Bool">
 			<label></label>
 			<default>false</default>

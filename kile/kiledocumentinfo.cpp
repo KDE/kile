@@ -670,6 +670,12 @@ void TeXInfo::updateStruct()
 					// no problems so far ...
 					fireSuspended = false;
 					
+					// remove trailing ./ 
+					if ( (*it).type & (KileStruct::Input | KileStruct::Graphics) )
+					{
+						if ( m.left(2) == "./" )
+							m = m.mid(2,m.length()-2);
+					}
 					// update parameter for environments, because only
 					// floating environments are passed
 					if ( (*it).type == KileStruct::BeginEnv )
@@ -712,8 +718,6 @@ void TeXInfo::updateStruct()
 					// update the dependencies
 					else if ((*it).type == KileStruct::Input)
 					{
-						if ( m.left(2) == "./" )
-							m = m.mid(2,m.length()-2);
 						QString dep = m;
 						if (dep.right(4) != ".tex")
 							dep += ".tex";
@@ -725,13 +729,27 @@ void TeXInfo::updateStruct()
 					{
 						//kdDebug() << "\tappending Bibiliograph file " << m << endl;
 						QStringList bibs = QStringList::split(",", m);
+						QString biblio;
+						
 						uint cumlen = 0;
+						uint nextbib = 0; // length to add to jump to the next bibliography
 						for (uint b = 0; b < bibs.count(); ++b)
 						{
-							m_bibliography.append(bibs[b]);
-							m_deps.append(bibs[b] + ".bib");
-							emit(foundItem(bibs[b], tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
-							cumlen += bibs[b].length() + 1;
+							nextbib = 0;
+							biblio=bibs[b];
+							m_bibliography.append(biblio);
+							if ( biblio.left(2) == "./" )
+							{	nextbib += 2; // als übertrag machen
+								biblio = biblio.mid(2,biblio.length()-2);
+							}
+							if ( biblio.right(4) == ".bib" )
+							{
+								biblio =biblio.left(biblio.length()-4); // dito
+								nextbib +=4;
+							}
+							m_deps.append(biblio + ".bib");
+							emit(foundItem(biblio, tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
+							cumlen += biblio.length() + 1 + nextbib;
 						}
 						fire = false;
 					}
@@ -793,13 +811,6 @@ void TeXInfo::updateStruct()
 						m_newCommands.append(m);
 						//FIXME  set tagEnd to the end of the command definition
 						break;
-					}
-					
-					// includegraphics found, strip leading "./"
-					else if ( (*it).type == KileStruct::Graphics )
-					{
-						if ( m.left(2) == "./" )
-							m = m.mid(2,m.length()-2);
 					}
 
 					// and some other commands, which don't need special actions: 

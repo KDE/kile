@@ -326,7 +326,7 @@ namespace KileWidget
 		
 	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev, const QString & pix, const QString & fldr /* = "root" */)
 	{
- 		//kdDebug() << "\t\taddItem: " << title << endl;
+//  		kdDebug() << "\t\taddItem: " << title << ", with type " <<  type << endl;
 		if ( m_stop ) return;
 		
 		// some types need a special action
@@ -508,46 +508,62 @@ namespace KileWidget
 	void Structure::slotDoubleClicked(QListViewItem * itm)
 	{
 		kdDebug() << "\tStructure::slotDoubleClicked" << endl;
-		
 		KileListViewItem *item = (KileListViewItem*)(itm);
-		if (! item) return;
-		if ( item->type() & (KileStruct::Input | KileStruct::Bibliography) ) 
+		static QRegExp::QRegExp suffix("\\.[\\d\\w]*$");
+		
+		if (!item)
+			return;
+		
+		kdDebug() <<"item->url() is " << item->url() << ", item->title() is " << item->title() << endl;
+		
+		if ( item->type() & (KileStruct::Input | KileStruct::Bibliography | KileStruct::Graphics) )
 		{
-			QString fn = m_ki->getCompileName();
 			QString fname = item->title();
-			if (fname.right(4) == ".tex")
-				fname =QFileInfo(fn).dirPath()+"/" + fname;
-			else if ( item->type() == KileStruct::Input )
-				fname=QFileInfo(fn).dirPath()+"/" + fname + ".tex";
-			else if ( item->type() == KileStruct::Bibliography )
-				fname=QFileInfo(fn).dirPath()+"/" + fname + ".bib";
-	
-			QFileInfo fi(fname);
-			if (fi.isReadable())
+			
+			
+			if(fname.find(suffix) != -1) // check if we have a suffix, if not add standard suffixes
 			{
-				emit(fileOpen(KURL::fromPathOrURL(fname), QString::null));
+				kdDebug() << "Suffix found: " << suffix.cap(0) << endl;
+			}
+			else
+			{
+				if ( item->type() == KileStruct::Input )
+					fname += ".tex";
+				else if ( item->type() == KileStruct::Bibliography )
+					fname += ".bib";
+				else
+				{
+					// FIXME get graphics suffix from an project config option
+				}
+			}
+			
+			if(fname.left(1) != "/") // no absolute path
+			{
+				QString fn = m_ki->getCompileName();
+				fname= QFileInfo(fn).dirPath() + "/" + fname;
+			}
+			
+			QFileInfo fi(fname);
+			KURL url;
+			url.setPath(fname);
+			
+			if (fi.isReadable())
+			{	
+				if (  item->type() == KileStruct::Graphics )
+				{
+					KMimeType::Ptr pMime = KMimeType::findByURL(url);
+					KRun::runURL(url,pMime->name());
+				}
+				else
+					emit(fileOpen(url, QString::null));
 			}
 			else
 			{
 				if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
 			== KMessageBox::Yes)
 				{
-					emit(fileNew(KURL::fromPathOrURL(fname)));
+					emit(fileNew(url));
 				}
-			}
-		}
-		else if (  item->type() == KileStruct::Graphics )
-		{
-			QString filename = QFileInfo(m_ki->getCompileName()).dirPath()+"/" + item->title();
-			QFileInfo fi(filename);
-			if ( fi.isReadable() )
-			{
-				KURL url;
-				url.setPath(filename);
-
-				//determine mimeType and open file with preferred application
-				KMimeType::Ptr pMime = KMimeType::findByURL(url);
-				KRun::runURL(url,pMime->name());
 			}
 		}
 	}
@@ -582,7 +598,14 @@ namespace KileWidget
 		}
 		else if ( item->type() == KileStruct::Graphics )
 		{
-			m_popupInfo = QFileInfo(m_ki->getCompileName()).dirPath()+"/" + item->title();
+			m_popupInfo = item->title();
+						
+			if(m_popupInfo.left(1) != "/") // no absolute path
+			{
+				QString fn = m_ki->getCompileName();
+				m_popupInfo = QFileInfo(fn).dirPath() + "/" + m_popupInfo;
+			}
+			
 			QFileInfo fi(m_popupInfo);
 			if ( fi.isReadable() )
 			{

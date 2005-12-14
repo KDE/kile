@@ -187,6 +187,9 @@ int QuickPreview::createTempfile(const QString &text)
 	}
 	QTextStream stream( &tempfile );
 	
+	// set the encoding of the preview file to the encoding of the original latex file and not to the system standard (tbraun)
+	 stream.setCodec(preamble.codec());
+	
 	// write the whole preamble into this temporary file
 	QString textline;
 	int preamblelines = 0;

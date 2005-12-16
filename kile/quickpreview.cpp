@@ -20,6 +20,7 @@
 #include "kilelauncher.h"
 
 #include <qtextstream.h>
+#include <qtextcodec.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
@@ -31,6 +32,7 @@
 #include <klocale.h>
 #include <kconfig.h>
 #include <kileconfig.h>
+#include <kate/document.h>
 
 namespace KileTool
 {
@@ -187,9 +189,13 @@ int QuickPreview::createTempfile(const QString &text)
 	}
 	QTextStream stream( &tempfile );
 	
-	// set the encoding of the preview file to the encoding of the original latex file and not to the system standard (tbraun)
-	 stream.setCodec(preamble.codec());
-	
+	// set the encoding according to the original file (tbraun)
+	if(m_ki->activeDocument())
+	{
+		QTextCodec *codec = QTextCodec::codecForName(m_ki->activeDocument()->encoding().ascii());
+	 if ( codec )
+		stream.setCodec(codec); 
+	}
 	// write the whole preamble into this temporary file
 	QString textline;
 	int preamblelines = 0;

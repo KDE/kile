@@ -117,7 +117,7 @@ namespace KileWidget
 
 		void activate();
 		void cleanUp();
-		void showReferences(const QStringList *list);
+		void showReferences(KileInfo *ki);
 
 		const KURL & url() const { return m_docinfo->url(); }
 
@@ -143,6 +143,7 @@ namespace KileWidget
 		KileListViewItem					*m_parent[7], *m_root;
 		QValueList<KileReferenceData> m_references;
 		bool m_openStructureLabels;
+		bool m_openStructureReferences;
 		bool m_openStructureBibitems;
 
 		int m_lastType;

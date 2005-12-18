@@ -168,11 +168,13 @@ namespace KileWidget
 		if ( m_docinfo )
 		{
  			m_openStructureLabels = m_docinfo->openStructureLabels();
+ 			m_openStructureReferences = m_docinfo->openStructureReferences();
 			m_openStructureBibitems = m_docinfo->openStructureBibitems();
 		}
 		else
 		{
 			m_openStructureLabels = false;
+			m_openStructureReferences = false;
 			m_openStructureBibitems = false;
  		}
 	}
@@ -218,6 +220,8 @@ namespace KileWidget
 
 		if ( folder == "labels" )
 			return m_openStructureLabels;
+		if ( folder == "refs" )
+			return m_openStructureReferences;
 		if ( folder == "bibs" )
 			return m_openStructureBibitems;
 
@@ -418,7 +422,7 @@ namespace KileWidget
 			m_lastFloat = newChild;
 	}
 
-	void StructureList::showReferences(const QStringList *list)
+	void StructureList::showReferences(KileInfo *ki)
 	{
 		// remove old listview item for references, if it exists
 		if ( m_folders.contains("refs") )
@@ -436,7 +440,7 @@ namespace KileWidget
 			return;
 			
 		// read list with all labels
-		//const QStringList *list = info->allLabels();
+		const QStringList *list = ki->allLabels();
 		//kdDebug() << "\tfound " << list->count() << " labels" << endl;
 		QMap<QString,bool> labelmap;
 		for ( QStringList::ConstIterator itmap=list->begin(); itmap!=list->end(); ++itmap ) 
@@ -721,7 +725,7 @@ namespace KileWidget
 			//kdDebug() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
-			//view->showReferences(m_ki->allLabels());
+			view->showReferences(m_ki);
 		}
 
 		kdDebug() << "\tStructure::update activating view" << endl;
@@ -741,7 +745,7 @@ namespace KileWidget
 		StructureList *view = viewFor(docinfo);
 		if (view) 
 		{
-			//view->showReferences(m_ki->allLabels());
+			view->showReferences(m_ki);
 		}
 	}
 

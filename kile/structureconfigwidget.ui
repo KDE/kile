@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>669</width>
-            <height>228</height>
+            <width>582</width>
+            <height>256</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -128,49 +128,13 @@
                     <property name="text">
                         <string>Show labels</string>
                     </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Show label commands in the structure view.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowBibitems</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show bibitems</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Show bibitems commands in the structure view.</string>
-                    </property>
                 </widget>
                 <widget class="QCheckBox" row="0" column="1">
                     <property name="name">
                         <cstring>kcfg_SvOpenLabels</cstring>
                     </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
                     <property name="text">
                         <string>Open labels item</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Open the parent item for all labels in the structure view as default.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="1">
-                    <property name="name">
-                        <cstring>kcfg_SvOpenBibitems</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Open bibitems item</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Open the parent item for all bibitems in the structure view as default.</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="3" column="0">
@@ -180,9 +144,6 @@
                     <property name="text">
                         <string>Show graphic files</string>
                     </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Show includegraphics commands in the structure view.</string>
-                    </property>
                 </widget>
                 <widget class="QCheckBox" row="4" column="0">
                     <property name="name">
@@ -191,8 +152,37 @@
                     <property name="text">
                         <string>Show figure and table environments</string>
                     </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Show float environments in the structure view.</string>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0">
+                    <property name="name">
+                        <cstring>kcfg_SvShowBibitems</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show bibitems</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>kcfg_SvShowReferences</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show undefined references</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_SvOpenReferences</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Open references item</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="1">
+                    <property name="name">
+                        <cstring>kcfg_SvOpenBibitems</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Open bibitems item</string>
                     </property>
                 </widget>
             </grid>

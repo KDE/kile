@@ -55,6 +55,10 @@
 			<label>Show label commands in the structure view</label>
 			<default>true</default>
 		</entry>
+		<entry name="SvShowReferences" type="Bool">
+			<label>Show undefined references in the structure view</label>
+			<default>false</default>
+		</entry>
 		<entry name="SvShowBibitems" type="Bool">
 			<label>Show bibitems commands in the structure view</label>
 			<default>true</default>
@@ -69,6 +73,10 @@
 		</entry>
 		<entry name="SvOpenLabels" type="Bool">
 			<label>Open the parent item for all labels in the structure view as default</label>
+			<default>false</default>
+		</entry>
+		<entry name="SvOpenReferences" type="Bool">
+			<label>Open the parent item for all undefined references in the structure view</label>
 			<default>false</default>
 		</entry>
 		<entry name="SvOpenBibitems" type="Bool">

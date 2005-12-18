@@ -172,11 +172,12 @@ void Info::updateStructLevelInfo()
 {	
 	// read config for structview items
 	m_showStructureLabels = KileConfig::svShowLabels();
+	m_showStructureReferences = KileConfig::svShowReferences();
 	m_showStructureBibitems = KileConfig::svShowBibitems();
 	m_showStructureGraphics = KileConfig::svShowGraphics();
 	m_showStructureFloats = KileConfig::svShowFloats();
-	m_showStructureReferences = false;                       // disable it temporary
 	m_openStructureLabels = KileConfig::svOpenLabels();
+	m_openStructureReferences = KileConfig::svOpenReferences();
 	m_openStructureBibitems = KileConfig::svOpenBibitems();
 
 	// clear all entries and rebuild them
@@ -712,7 +713,7 @@ void TeXInfo::updateStruct()
 					else if ( (*it).type == KileStruct::Reference )
 					{
 						// m_references.append(m);
-						fireSuspended = true;          // don't emit references
+						//fireSuspended = true;          // don't emit references
 					}
 
 					// update the dependencies

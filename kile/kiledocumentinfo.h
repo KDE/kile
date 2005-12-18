@@ -128,6 +128,7 @@ public:
 	QString lastModifiedFile(const QStringList *list = 0L);
 	void updateStructLevelInfo();
 	bool openStructureLabels() { return m_openStructureLabels; }
+	bool openStructureReferences() { return m_openStructureReferences; }
 	bool openStructureBibitems() { return m_openStructureBibitems; }
 
 	const QString & preamble() const { return m_preamble; }
@@ -188,6 +189,7 @@ protected:
 	bool m_showStructureFloats;
 	bool m_showStructureReferences;
 	bool m_openStructureLabels;
+	bool m_openStructureReferences;
 	bool m_openStructureBibitems;
 };
 

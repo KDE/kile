@@ -54,3 +54,10 @@ Key=Encodings,QuickEncodings
 Id=Kile1.7v1
 File=kilerc
 Script=kile1.7_upd.pl,perl
+#
+# Kile-1.9
+#
+Id=Kile1.9v1
+File=kilerc
+Options=overwrite
+Script=kile1.9_upd.pl,perl

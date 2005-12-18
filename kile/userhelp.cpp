@@ -258,14 +258,14 @@ void UserHelp::slotUserHelpActivated(int index)
 	} 
 	else 
 	{
-		KURL url;
-		url.setPath( filename );
 		if ( http ) 
 		{
-			KRun::runURL(url,"text/html");
+			new KRun( KURL(filename) );
 		} 
 		else 
 		{
+			KURL url;
+			url.setPath( filename );
 			KMimeType::Ptr pMime = KMimeType::findByURL(url);
 			KRun::runURL(url, pMime->name());
 		}

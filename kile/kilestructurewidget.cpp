@@ -34,6 +34,9 @@
 //  - make some items like labels, bibitems, graphics and float environments 
 //    configurable for the user
 
+// 2005-12-16: dani
+//  - add listview item for undefined references
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -455,6 +458,7 @@ namespace KileWidget
 			if ( ! labelmap.contains((*it).name()) )
 			{ 
 				KileListViewItem *refitem = folder("refs");
+				refitem->setOpen(m_openStructureReferences);
 				new KileListViewItem(refitem,0L,(*it).name(),m_docinfo->url(),(*it).line(),(*it).column(),KileStruct::Reference,KileStruct::NotSpecified);
 			}
 		}

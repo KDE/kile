@@ -366,7 +366,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	preamblegrouplayout->addWidget( m_cbSep );
 	
 	// header group
-	QGroupBox *headergroup = headergroup = new QGroupBox( i18n("Alignment"),page);
+	QGroupBox *headergroup = new QGroupBox( i18n("Alignment"),page);
 	headergroup->setColumnLayout(0, Qt::Vertical );
 	headergroup->layout()->setSpacing( 6 );
 	headergroup->layout()->setMargin( 11 );

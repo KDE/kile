@@ -250,18 +250,13 @@ QString KileProject::addBaseURL(const QString &path)
 
 QString KileProject::removeBaseURL(const QString &path)
 {
+
   if ( path.startsWith("/") )
   {
     QFileInfo info(path);
     QString relPath = findRelativePath(path);
-    if ( relPath.startsWith("/") )
-    {
-      return path;
-    }
-    else
-    {
-      return relPath + info.fileName();
-    }
+    kdDebug() << "removeBaseURL path is" << path << " , relPath is " << relPath << endl;
+    return relPath;
   }
   else
   {

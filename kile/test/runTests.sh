@@ -109,7 +109,6 @@ setKey where `which latex`
 performTest basic "$tool $testFile"
 performKileTest kile "run LaTeX"
 performTest src "$tool -src $testFile"
-performTest srcpkg "$tool test_src.tex"
 
 echo "starting test: PDFLaTeX"
 setTool PDFLaTeX

@@ -131,9 +131,6 @@ Tester::Tester(QObject *parent, const char *name) : QObject(parent, name), m_pro
 	ConfigTest::addSuccessMessage("src", i18n("Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to auto-enable inverse and forward search capabilities."));
 	ConfigTest::addFailureMessage("src", i18n("Not supported, use the srcltx package to enable the inverse and forward search capabilities."));
 
-	ConfigTest::addPrettyName("srcpkg", i18n("Source Specials Package"));
-	ConfigTest::addSuccessMessage("srcpkg", i18n("Package is functional, include '\\usepackage[active]{srcltx}' in your preamble to enable the inverse and forward search capabilities."));
-	ConfigTest::addFailureMessage("srcpkg", i18n("The srcltx.sty package is not in your TeX input-path. Download all files containing \"srcltx\" from \"http://www.ctan.org\". Use the command \"tex srcltx.ins\" in the command line to generate the files \"srcltx.sty\" and \"srctex.sty\" and save them in $HOME/.TeX."));
 }
 
 
@@ -225,7 +222,6 @@ void Tester::processTool(KConfig *config, const QString &tool)
 	if (config->hasKey("version") ) tests << ConfigTest("version", criticaltests.contains("version"), config->readEntry("version"));
 	if (config->hasKey("basic") ) tests << ConfigTest("basic", criticaltests.contains("basic"), config->readEntry("basic"));
 	if (config->hasKey("src") ) tests << ConfigTest("src", criticaltests.contains("src"), config->readEntry("src"));
-	if (config->hasKey("srcpkg") ) tests << ConfigTest("srcpkg", criticaltests.contains("srcpkg"), config->readEntry("srcpkg"));
 	if (config->hasKey("kile") ) tests << ConfigTest("kile", criticaltests.contains("kile"), config->readEntry("kile"));
 
 	addResult(tool, tests);

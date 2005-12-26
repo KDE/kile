@@ -663,60 +663,19 @@
 		<para>The forward search functions allow you to jump from your
 		editor directly into the associated position of the &DVI;
 		file. </para>
-	 
-		<para>There are basically two ways to produce DVI files
-		which contain forward search information: you can either use a
-		&tex;/&latex; binary which generates and includes the necessary
-		information automatically, or you can include an extra package
-		which is written in &tex;/&latex;.</para>
-		
-		<itemizedlist>
-			<listitem><para>A &tex; binary which generates and includes the
-			necessary information automatically is certainly the
-			preferred method of including inverse search information. 
-			If you use version 2 or greater of the <ulink url="http://www.tug.org/teTeX/">&tetex;
-			distribution</ulink>, you can use the <userinput>src-specials</userinput> command
-			line option of the &tex; or &latex; command, as follows.
-
+	 	<para> All recent &tex;/&latex; binaries include the necessary information automatically. If you use version 2 or greater of the <ulink url="http://www.tug.org/teTeX/">&tetex;	distribution</ulink>, you can use the <userinput>src-specials</userinput> command line option of the &tex; or &latex; command, as follows:
 <programlisting>
 	latex --src-specials myfile.tex
 </programlisting>
 			</para>
-
+		
 			<para>&kile; offers a configuration with this option for all &latex; binaries.
 			Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Build</guimenuitem></menuchoice> and always choose
-			the <guilabel>Modern</guilabel> configuration.</para></listitem>
+			the <guilabel>Modern</guilabel> configuration.</para>
 
-			<listitem><para>If you do not have a &latex; binary which includes inverse
-			search information natively, you need an additional file (additional files are
-			referred to as <emphasis>packages</emphasis> in &latex;) called <filename>srcltx.sty</filename>.
-			You will have to do a search of your files to check whether your distribution has 
-			<filename>scrltx.sty</filename> included. If it is not included, you may 
-			<ulink url="http://valis.cs.uiuc.edu/~sariel/research/latex/srcltx.sty">download it</ulink>; copy it 
-			to a &tex; folder, for example <userinput>/usr/share/texmf/tex/latex/srcltx/</userinput>, and 
-			run <userinput><command>texhash</command></userinput> so that &latex; will know its whereabouts. 
-			Then you can set the following command into the preamble:</para>
-
-<programlisting>
-	\documentclass[12pt, a4paper]{book}
-	\usepackage[active]{srcltx}
-	\pagestyle{empty}
-	\renewcommand{\baselinestretch}{2}
-	\begin{document}
-	\begin{verse}
-	The KDE \LaTeX\ source code editor &kile; is my favorite.
-		
-	\emph{Because} it is easy to use!
-	\end{verse}
-	\end{document}
-</programlisting>
-
-			<para>Once you have added the package <filename>srcltx</filename>, you can leave &kdvi; open.
-			To execute a forward search, position the cursor on a line of source code, and click 
+			<para>To execute a forward search, position the cursor on a line of source code, and click 
 			<guilabel>Kdvi Forward Search</guilabel> to jump to the associated position 
-			in the DVI viewer window.</para></listitem>
-		</itemizedlist>
-
+			in the DVI viewer window.</para>
 	</sect1>	
 	
 	<sect1 id="quick_inverse">
@@ -730,17 +689,8 @@
 		use the <mousebutton>left</mousebutton> and the
 		<mousebutton>right</mousebutton> button). After that, your
 		favorite editor will open, load the &latex; source file and jump to
-		the proper paragraph. To use inverse search, do the
-		following:</para>
-		
-		<itemizedlist>
-			<listitem><para>Use a &latex; binary with the <guilabel>Modern</guilabel> configuration.</para></listitem>
-			<listitem><para>Use the <userinput>srcltx</userinput> package.</para></listitem>
-		</itemizedlist>
-		
-		<para>Both ways are described in section <link linkend="quick_forward">Forward
-		search between &kile; and &kdvi;</link>.</para> 
-	
+		the proper paragraph. To use inverse search, you have to compile your &latex; file with the <guilabel>Modern</guilabel> configuration.</para>
+
 		<para>Inverse search cannot work unless:</para>
 
 		<itemizedlist>

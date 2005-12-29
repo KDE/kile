@@ -33,7 +33,7 @@
 static KCmdLineOptions options[] =
 {
 	{ "line <line>", I18N_NOOP( "Jump to line" ), "0" },
-	{ "new", I18N_NOOP( "Start a new Kile mainwindow." ), 0 },
+	{ "new", I18N_NOOP( "Start a new Kile mainwindow" ), 0 },
 	{ "+[file]", I18N_NOOP( "File to open" ), 0 },
 	KCmdLineLastOption
 };

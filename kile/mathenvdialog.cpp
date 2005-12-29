@@ -36,7 +36,7 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	setCaption(i18n("Math environments"));
+	setCaption(i18n("Math Environments"));
 	
 	QVBoxLayout *vbox = new QVBoxLayout(page,8,8);
 	

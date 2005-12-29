@@ -74,8 +74,8 @@
 #include "mathenvdialog.h"
 #include "tabulardialog.h"
 #include "postscriptdialog.h"
-#include "quickpreview.h"         
-#include "latexcmd.h"         
+#include "quickpreview.h"
+#include "latexcmd.h"
 #include "kileuntitled.h"
 #include "kilestatsdlg.h"
 
@@ -91,7 +91,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_config = KGlobal::config();
 	readUserSettings();
 	readRecentFileSettings();
-	
+
     setStandardToolBarMenuEnabled(true);
 
 	m_masterName = KileConfig::master();
@@ -126,9 +126,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	m_topWidgetStack = new QWidgetStack( this );
 	m_topWidgetStack->setFocusPolicy(QWidget::NoFocus);
-	
+
 	m_horizontalSplitter = new QSplitter(QSplitter::Horizontal,m_topWidgetStack, "horizontalSplitter" );
-	
+
 	setupSideBar();
 
 	m_verticalSplitter=new QSplitter(QSplitter::Vertical, m_horizontalSplitter, "verticalSplitter");
@@ -242,7 +242,7 @@ void Kile::setupStatusBar()
 
 	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
 	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
-	statusBar()->insertItem(i18n("Normal mode"), ID_HINTTEXT,10);
+	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT,10);
 	statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
 }
 
@@ -326,20 +326,20 @@ void Kile::setupBottomBar()
 	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n(" Log && Messages "));
+	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log && Messages"));
 
 	m_outputWidget = new KileWidget::Output(m_bottomBar);
 	m_outputWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
-	m_bottomBar->addTab(m_outputWidget, SmallIcon("output_win"), i18n(" Output "));
+	m_bottomBar->addTab(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
 
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter(m_outputInfo);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
 	m_texKonsole=new KileWidget::Konsole(this, m_bottomBar,"konsole");
-	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n(" Konsole "));
+	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
 	m_bottomBar->showPage(m_logWidget);
@@ -397,7 +397,7 @@ void Kile::setupActions()
 
 	// new project actions (dani)
 	(void) new KAction(i18n("&Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
-	(void) new KAction(i18n("Re&move Files from Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
+	(void) new KAction(i18n("Re&move Files From Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
 	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
 	// tbraun
 	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
@@ -459,7 +459,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"quickpreview_selection" );
 	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"quickpreview_environment" );
 	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"quickpreview_subdocument" );
-	
+
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
@@ -471,7 +471,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Tabbing"),"wizard_tabbing",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
 	(void) new KAction(i18n("Floats"),"wizard_float",0, this, SLOT(quickFloat()), actionCollection(),"wizard_float" );
 	(void) new KAction(i18n("Math"),"wizard_math",0, this, SLOT(quickMathenv()), actionCollection(),"wizard_mathenv" );
-	(void) new KAction(i18n("Postscript tools"),"wizard_pstools",0 , this, SLOT(quickPostscript()), actionCollection(),"wizard_postscript" );
+	(void) new KAction(i18n("Postscript Tools"),"wizard_pstools",0 , this, SLOT(quickPostscript()), actionCollection(),"wizard_postscript" );
 
 	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
 
@@ -499,7 +499,7 @@ void Kile::setupActions()
 	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
-	
+
 	KStdAction::tipOfDay(this, SLOT(showTip()), actionCollection(), "help_tipofday");
 
 	(void) new KAction(i18n("teTeX Guide"),KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTetexGuide()), actionCollection(), "help_tetex_guide");
@@ -510,7 +510,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
 	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
 	(void) new KAction(i18n("Documentation Browser"),KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()), actionCollection(), "help_docbrowser");
-	
+
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
 	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
 	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
@@ -518,7 +518,7 @@ void Kile::setupActions()
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
 	KAction *kileconfig = KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
 	kileconfig->setIcon("configure-kile");
-	
+
 	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
 	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
 	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
@@ -528,7 +528,7 @@ void Kile::setupActions()
 	setupUserTagActions();
 
 	actionCollection()->readShortcutSettings();
-	
+
 	m_pFullScreen = KStdAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
 }
 
@@ -606,7 +606,7 @@ void Kile::setupUserTagActions()
 	KShortcut tagaccels[10] = {CTRL+SHIFT+Key_1, CTRL+SHIFT+Key_2,CTRL+SHIFT+Key_3,CTRL+SHIFT+Key_4,CTRL+SHIFT+Key_5,CTRL+SHIFT+Key_6,CTRL+SHIFT+Key_7,
 		CTRL+SHIFT+Key_8,CTRL+SHIFT+Key_9,CTRL+SHIFT+Key_0};
 
-	m_actionEditTag = new KAction(i18n("Edit User Tags"),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
+	m_actionEditTag = new KAction(i18n("Edit User Tags..."),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
 	if ( m_listUserTags.size() > 0 )  {
 		m_actionEditSeparator = new KActionSeparator();
@@ -688,7 +688,7 @@ void Kile::setLine( const QString &line )
 void Kile::setCursor(const KURL &url, int parag, int index)
 {
 	Kate::Document *doc = docManager()->docFor(url);
-	if (doc) 
+	if (doc)
 	{
 		Kate::View *view = (Kate::View*)doc->views().first();
 		if (view)
@@ -734,7 +734,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	guiFactory()->addClient(view);
 	view->setActive( true );
-	
+
 	// remove menu entry to config Kate
 	unplugKateConfigMenu(view);
 
@@ -750,7 +750,7 @@ void Kile::updateModeStatus()
 	QString shortName = m_masterName;
 	int pos = shortName.findRev('/');
 	shortName.remove(0,pos+1);
-	
+
 	if (project)
 	{
 		if (m_singlemode)
@@ -765,7 +765,7 @@ void Kile::updateModeStatus()
 		else
 			statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
 	}
-	
+
 	if (m_singlemode)
 	{
 		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
@@ -776,7 +776,7 @@ void Kile::updateModeStatus()
 		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
 		ModeAction->setChecked(true);
 	}
-	
+
 	// enable or disable entries in Kile'S menu
 	updateMenu();
 }
@@ -1039,7 +1039,7 @@ void Kile::showEditorWidget()
 
     setupStatusBar();
 	updateModeStatus();
-	newCaption();    
+	newCaption();
 }
 
 
@@ -1065,7 +1065,7 @@ void Kile::resetPart()
 
 	m_currentState = "Editor";
 	m_wantState = "Editor";
-	m_partManager->setActivePart( 0L);    
+	m_partManager->setActivePart( 0L);
 }
 
 void Kile::activePartGUI(KParts::Part * part)
@@ -1134,7 +1134,7 @@ void Kile::enableKileGUI(bool enable)
 {
 	int id;
 	QString text;
-	
+
 	QMenuBar *menubar = menuBar();
 	for (uint i=0; i<menubar->count(); ++i) {
 		id = menubar->idAt(i);
@@ -1157,22 +1157,22 @@ void Kile::enableKileGUI(bool enable)
 void Kile::initMenu()
 {
 	QStringList projectlist,filelist,actionlist;
-	
-	projectlist 
-	   << "project_add" << "project_remove" 
-	   << "project_showfiles" 
-	   << "project_buildtree" << "project_options" << "project_findfiles" 
+
+	projectlist
+	   << "project_add" << "project_remove"
+	   << "project_showfiles"
+	   << "project_buildtree" << "project_options" << "project_findfiles"
 	   << "project_archive" << "project_close" << "project_openallfiles"
 	   ;
-	
-	filelist 
+
+	filelist
 	   // file
-	   << "convert"  
+	   << "convert"
 	   // edit
 	   << "complete" << "bullet" << "select"
-	   << "delete" << "environment" << "texgroup" 
+	   << "delete" << "environment" << "texgroup"
 	   // build
-	   << "quickpreview" << "menu_compile" << "menu_convert" 
+	   << "quickpreview" << "menu_compile" << "menu_convert"
 	   << "menu_viewers" << "menu_other"
 	   // latex
 	   << "menu_preamble" << "menu_lists" << "menu_sectioning" << "references"
@@ -1181,12 +1181,12 @@ void Kile::initMenu()
 	   << "menu_bibliography" << "menu_fontstyles" << "menu_spacing"
 	   ;
 
-	actionlist 
-	   // file 
-	   << "file_save_all" << "template_create" << "Statistics" 
+	actionlist
+	   // file
+	   << "file_save_all" << "template_create" << "Statistics"
 	   << "file_close" << "file_close_all" << "file_close_all_others"
 	   // edit
-	   << "RefreshStructure" 
+	   << "RefreshStructure"
 	    // view
 	   << "gotoPrevDocument" << "gotoNextDocument"
 	   // build
@@ -1247,11 +1247,11 @@ void Kile::initMenu()
 	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
 	   << "wizard_float" << "wizard_mathenv"
 	   // settings
-	   << "Mode" << "settings_keys" 
+	   << "Mode" << "settings_keys"
 	   // help
-	   << "help_context" 
+	   << "help_context"
 	   // action lists
-	   << "structure_list" << "size_list" << "other_list" 
+	   << "structure_list" << "size_list" << "other_list"
 	   << "left_list" << "right_list"
 	   ;
 
@@ -1266,33 +1266,33 @@ void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
 		dict[(*it)] = true;
 	}
 }
-	
+
 void Kile::updateMenu()
 {
 	kdDebug() << "==Kile::updateKileMenu()====================" << endl;
 	KAction *a;
 	QMap<QString,bool>::Iterator it;
-	
+
 	// update project menus
 	m_actRecentProjects->setEnabled( m_actRecentProjects->items().count() > 0 );
 	bool project_open = ( docManager()->isProjectOpen() ) ;
-	
+
 	for ( it=m_dictMenuProject.begin(); it!=m_dictMenuProject.end(); ++it ) {
 		a = actionCollection()->action(it.key().ascii());
 		if ( a )
 			a->setEnabled(project_open);
 	}
-	
+
 	// project_show is only enabled, when more than 1 project is opened
 	a = actionCollection()->action("project_show");
 	if ( a )
 		a->setEnabled( project_open && docManager()->projects()->count()>1 );
-	
+
 	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
 	bool file_open = ( viewManager()->currentView() );
 	kdDebug() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
-	
+
 	QMenuBar *menubar = menuBar();
 	for ( uint i=0; i<menubar->count(); ++i ) {
 		int menu_id = menubar->idAt(i);
@@ -1303,7 +1303,7 @@ void Kile::updateMenu()
 				int sub_id = menu->idAt(j);
 				QPopupMenu *submenu = menu->findItem(sub_id)->popup();
 				if ( submenu ) {
-					QString submenu_name = submenu->name(); 
+					QString submenu_name = submenu->name();
 					if ( m_dictMenuFile.contains(submenu_name) ) {
 //					if ( m_menuFileList.findIndex( submenu_name ) >= 0 ) {
 						menu->setItemEnabled(sub_id, file_open);
@@ -1312,13 +1312,13 @@ void Kile::updateMenu()
 			}
 		}
 	}
-	
+
 	// update action lists
 	KActionPtrList actions = actionCollection()->actions();
 	KActionPtrList::Iterator itact;
-	for ( itact=actions.begin(); itact!=actions.end(); ++itact ) 
+	for ( itact=actions.begin(); itact!=actions.end(); ++itact )
 	{
-		if ( m_dictMenuAction.contains( (*itact)->name() ) ) 
+		if ( m_dictMenuAction.contains( (*itact)->name() ) )
 			(*itact)->setEnabled(file_open);
 	}
 
@@ -1327,14 +1327,14 @@ void Kile::updateMenu()
 	updateActionList(&m_listConverterActions,file_open);
 	updateActionList(&m_listViewerActions,file_open);
 	updateActionList(&m_listOtherActions,file_open);
-	
+
 }
 
 void Kile::updateActionList(QPtrList<KAction> *list, bool state)
 {
 	for ( KAction *a=list->first(); a; a=list->next() ) {
 		a->setEnabled(state);
-	}	
+	}
 }
 
 //TODO: move to KileView::Manager
@@ -1397,7 +1397,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 		setLogPresent(false);
 		logWidget()->append(data.description);
 	}
-	
+
 	Kate::View *view = viewManager()->currentView();
 
 	if ( !view ) return;
@@ -1429,9 +1429,9 @@ void Kile::insertAmsTag(const KileAction::TagData& data)
 			}
 		}
 	}
-	
+
 	// if this command was not found, because it was not found or the
-	// main file is not opened, we will once give a warning 
+	// main file is not opened, we will once give a warning
 	if ( ! amsmath  ) {
 		KMessageBox::information(0,"<center>"+i18n("You must include '\\usepackage{amsmath}' to use an AMS command like this.")+"</center>",i18n("AMS Information"),i18n("amsmath package warning"));
 	}
@@ -1452,7 +1452,7 @@ void Kile::quickDocument()
 			return;
 
 		insertTag( dlg->tagData() );
-		viewManager()->updateStructure(true);		
+		viewManager()->updateStructure(true);
 	}
 	delete dlg;
 }
@@ -1470,7 +1470,7 @@ void Kile::quickTabular()
 void Kile::quickTabulardialog(bool tabularenv)
 {
 	if ( !viewManager()->currentView() ) return;
-	
+
 	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(this,m_config,m_latexCommands,tabularenv);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
@@ -1503,7 +1503,7 @@ void Kile::quickFloat()
 void Kile::quickMathenv()
 {
 	if ( !viewManager()->currentView() ) return;
-	
+
 	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this,m_config,this,m_latexCommands);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
@@ -1512,17 +1512,17 @@ void Kile::quickMathenv()
 }
 
 void Kile::quickPostscript()
-{	
+{
 	QString startdir = QDir::homeDirPath();
 	QString texfilename = QString::null;
-	
+
 	Kate::View *view = viewManager()->currentView();
 	if ( view ) {
 		startdir = QFileInfo(view->getDoc()->url().path()).dirPath();
 		texfilename = getCompileName();
-	} 
-	
-	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_logWidget,m_outputWidget);         
+	}
+
+	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_logWidget,m_outputWidget);
 	dlg->exec();
 	delete dlg;
 }
@@ -1655,7 +1655,7 @@ void Kile::readUserSettings()
 			}
 		}
 	}
-	
+
 	// check autocomplete modes
 	m_config->setGroup("Kate Document Defaults");
 	if ( m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false) ) {
@@ -1788,7 +1788,7 @@ void Kile::toggleMode()
 		int pos;
 		while ( (pos = (int)shortName.find('/')) != -1 )
 			shortName.remove(0,pos+1);
-		
+
 		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
 		ModeAction->setChecked(true);
 		m_singlemode=false;
@@ -1816,7 +1816,7 @@ void Kile::generalOptions()
 {
 	// In older versions than KDE 3.4.1 autocomplete modes for Kile
 	// and the Kate's plugin for word completion can't live together.
-	// So we had to only enable one of them. Now the bug in Kate is 
+	// So we had to only enable one of them. Now the bug in Kate is
 	// fixed, so that we should use the 'original' Kate plugin
 	// to complete words from the document. (2005-12-03 dani)
 #if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
@@ -1850,7 +1850,7 @@ void Kile::generalOptions()
 	delete dlg;
 }
 
-// read kate plugin configuration 
+// read kate plugin configuration
 bool Kile::kateCompletionPlugin()
 {
 	m_config->setGroup("Kate Document Defaults");
@@ -1874,7 +1874,7 @@ void Kile::checkCompletionModes()
 	// read current configuration values for autocomplete modes
 	bool autocomplete = KileConfig::completeAuto();
 	bool autocompletetext = KileConfig::completeAutoText();
-		
+
 	// read plugin configuration after dialog to see if plugin state has changed
 	bool plugin_after = kateCompletionPlugin();
 
@@ -1887,7 +1887,7 @@ void Kile::checkCompletionModes()
 		            : i18n("You enabled the KTextEditor-Plugin for word completion, "
 		              "but this conflicts with the auto completion modes of Kile. "
 		              "As only one of these completion modes can be used, the autocompletion modes of Kile will be disabled.");
-		            
+
 		KMessageBox::information( this,"<center>" + msg + "</center>",i18n("Autocomplete warning") );
 		KileConfig::setCompleteAuto(false);               // disable autocompletion of Kile
 		KileConfig::setCompleteAutoText(false);
@@ -1933,7 +1933,7 @@ void Kile::configureToolbars()
 	saveMainWindowSettings(m_config, "KileMainWindow" );
 	KEditToolbar dlg(factory());
 	dlg.exec();
-	
+
 	applyMainWindowSettings(m_config, "KileMainWindow" );
  	showToolBars(m_currentState);
 }
@@ -2022,13 +2022,13 @@ void Kile::slotToggleFullScreen()
 
 /////////////// QuickPreview (dani) ////////////////
 
-// compile and view current selection (singlemode and mastermode) 
+// compile and view current selection (singlemode and mastermode)
 
-void Kile::quickPreviewSelection()    
+void Kile::quickPreviewSelection()
 {
 	Kate::View *view = viewManager()->currentView();
 	if ( !view) return;
-	
+
 	Kate::Document *doc = view->getDoc();
 	if ( doc && doc->hasSelection() ) {
 		m_quickPreview->run( doc->selection(),getName(doc),doc->selStartLine() );
@@ -2038,19 +2038,19 @@ void Kile::quickPreviewSelection()
 	}
 }
 
-// compile and view current environment (singlemode and mastermode) 
- 
-void Kile::quickPreviewEnvironment()    
+// compile and view current environment (singlemode and mastermode)
+
+void Kile::quickPreviewEnvironment()
 {
 	Kate::View *view = viewManager()->currentView();
 	if ( !view) return;
-	
+
 	Kate::Document *doc = view->getDoc();
 	if ( doc ) {
 		int row,col;
 		QString envname;
 		QString text = m_edit->getEnvironmentText(row,col,envname,view);
-		if ( text != QString::null ) 
+		if ( text != QString::null )
 		{
 			if ( m_latexCommands->isMathModeEnv(envname)  )
 				text = "$" + text + "$";
@@ -2063,13 +2063,13 @@ void Kile::quickPreviewEnvironment()
 	}
 }
 
-// compile and view current subdocument (only mastermode) 
- 
-void Kile::quickPreviewSubdocument()   
+// compile and view current subdocument (only mastermode)
+
+void Kile::quickPreviewSubdocument()
 {
 	Kate::View *view = viewManager()->currentView();
 	if ( !view) return;
-	
+
 	// this mode is only useful with a master document
 	if ( !docManager()->activeProject() && m_singlemode ) {
 		KMessageBox::error( this, i18n("This job is only useful with a master document.") );

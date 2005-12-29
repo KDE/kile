@@ -57,7 +57,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 	}
 	else // active doc belongs to a project
 	{
-		setCaption(i18n("Statistics for the project %1").arg(m_project->name()));
+		setCaption(i18n("Statistics for the Project %1").arg(m_project->name()));
 		kdDebug() << "Project file is " << project->baseURL() << endl;
 
 		KileProjectItemList *items = project->items();

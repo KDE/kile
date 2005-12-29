@@ -81,7 +81,7 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 	do {
 		bool isOK;
 		QString newURL = KInputDialog::getText(
-			i18n("Invalid characters"),
+			i18n("Invalid Characters"),
 			i18n("The filename contains invalid characters ($~ #).<br>Please provide \
 				another one, or click on \"Cancel\" to save anyway."),
 			url.filename(),
@@ -95,7 +95,7 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 	{
 		bool isOK;
 		QString newURL = KInputDialog::getText(
-			i18n("File already exists."),
+			i18n("File Already Exists"),
 			i18n("A file with filename %1 already exists.<br>Please provide \
 				another one, or click on \"Cancel\" to overwrite.").arg(ret.fileName()),
 			url.filename(),
@@ -118,7 +118,7 @@ KURL Info::repairExtension(const KURL& url)
 
 	if(KMessageBox::Yes == KMessageBox::questionYesNo(NULL,
 		i18n("The given filename has no extension; do you want one to be automatically added?"),
-		i18n("Missing extension"),
+		i18n("Missing Extension"),
 		KStdGuiItem::yes(),
 		KStdGuiItem::no(),
 		"AutomaticallyAddExtension"))
@@ -740,7 +740,7 @@ void TeXInfo::updateStruct()
 							biblio=bibs[b];
 							m_bibliography.append(biblio);
 							if ( biblio.left(2) == "./" )
-							{	nextbib += 2; // als übertrag machen
+							{	nextbib += 2; // als bertrag machen
 								biblio = biblio.mid(2,biblio.length()-2);
 							}
 							if ( biblio.right(4) == ".bib" )

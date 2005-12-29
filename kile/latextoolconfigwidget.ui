@@ -32,7 +32,7 @@
                 <cstring>m_ckRootDoc</cstring>
             </property>
             <property name="text">
-                <string>Check if root document is a LaTeX root before running LaTeX on it.</string>
+                <string>Check if root document is a LaTeX root before running LaTeX on it</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -40,7 +40,7 @@
                 <cstring>m_ckJump</cstring>
             </property>
             <property name="text">
-                <string>Jump to first error in case running LaTeX failed.</string>
+                <string>Jump to first error in case running LaTeX failed</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -48,7 +48,7 @@
                 <cstring>m_ckAutoRun</cstring>
             </property>
             <property name="text">
-                <string>Automatically run BibTeX, MakeIndex, rerun LaTeX when necessary.</string>
+                <string>Automatically run BibTeX, MakeIndex, rerun LaTeX when necessary</string>
             </property>
         </widget>
     </vbox>

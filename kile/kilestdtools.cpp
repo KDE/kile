@@ -282,7 +282,7 @@ namespace KileTool
 			{
 				//show dialog
 				bool bib_selected = false;
-				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select a bibliography"),i18n("Select a bibliography"));
+				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
 				if (dlg->exec())
 				{
 					bib = (*bibs)[dlg->currentItem()];

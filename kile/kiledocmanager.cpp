@@ -70,7 +70,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 
 	if ( KileConfig::defaultEncoding() == "invalid" )
 		KileConfig::setDefaultEncoding(QString::fromLatin1(QTextCodec::codecForLocale()->name()));
-	
+
 	QWidget *par = m_ki ? m_ki->parentWidget() : 0;
 	m_kpd = new KProgressDialog(par, 0, i18n("Open Project..."), QString::null, true);
 	m_kpd->showCancelButton(false);
@@ -88,17 +88,17 @@ Manager::~Manager()
 void Manager::trashDoc(Info *docinfo, Kate::Document *doc /*= 0L*/ )
 {
 	kdDebug() << "==void Manager::trashDoc(" << docinfo->url().path() << ")=====" << endl;
-	
+
 	if ( m_ki->isOpen(docinfo->url()) ) return;
 
 	if ( doc == 0L ) doc = docinfo->getDoc();
 	//look for doc before we detach the docinfo
 	//if we do it the other way around, docFor will always return nil
  	if ( doc == 0L ) doc = docFor(docinfo->url());
-	
+
 	kdDebug() << "DETACHING " << docinfo << endl;
 	docinfo->detach();
-	
+
 	kdDebug() << "\tTRASHING " <<  doc  << endl;
 	if ( doc == 0L ) return;
 
@@ -364,13 +364,13 @@ Info* Manager::recreateDocInfo(Info *oldinfo, const KURL & url)
 {
 	KileProjectItemList *list = itemsFor(oldinfo);
 	Info *newinfo = createDocumentInfo(url);
- 
+
     newinfo->setDoc(oldinfo->getDoc());
 
 	KileProjectItem *pritem = 0L;
 	for ( pritem = list->first(); pritem; pritem = list->next() )
 		pritem->setInfo(newinfo);
-	
+
 	m_infoList.removeRef(oldinfo);
 	delete oldinfo;
 
@@ -645,7 +645,7 @@ void Manager::fileOpen()
         currentDir = QFileInfo(compileName).dirPath(true);
     else
         currentDir = m_ki->fileSelector()->dirOperator()->url().path();
-    
+
 	QString filter;
 	filter.append(SOURCE_EXTENSIONS);
 	filter.append(" ");
@@ -691,7 +691,7 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	kdDebug() << "==Kile::slotNameChanged==========================" << endl;
 
 	KURL validURL = Info::makeValidTeXURL(doc->url());
-	if(validURL != doc->url()) 
+	if(validURL != doc->url())
 	{
 		QFile oldFile(doc->url().path());
 		if(doc->saveAs(validURL))
@@ -707,7 +707,7 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_ki->viewManager()->projectView()->add(doc->url());
-		
+
         recreateDocInfo(docinfo, doc->url());
 	}
 
@@ -743,7 +743,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 		if (view && (view->getDoc()->isModified() || amAutoSaving) )
 		{
 			fi.setFile(view->getDoc()->url().path());
-			
+
 			if ( (!amAutoSaving && !disUntitled)	// both false, so we want to save everything
 				 || ( !amAutoSaving && !(disUntitled && view->getDoc()->url().isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 			     || ( amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() ) //don't save unwritable and untitled documents when autosaving
@@ -766,10 +766,10 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 
 void Manager::fileOpen(const KURL & url, const QString & encoding)
 {
-	//don't want to receive signals from the fileselector since 
+	//don't want to receive signals from the fileselector since
 	//that would allow the user to open a single file twice by double-clicking on it
-	m_ki->fileSelector()->blockSignals(true); 
-	
+	m_ki->fileSelector()->blockSignals(true);
+
 	kdDebug() << "==Kile::fileOpen==========================" << endl;
 	kdDebug() << "\t" << url.url() << endl;
 	bool isopen = m_ki->isOpen(url);
@@ -862,7 +862,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 		if ( doc->closeURL() )
 		{
 			if ( KileConfig::cleanUpAfterClose() ) cleanUpTempFiles(docinfo, true);
-			
+
 			//FIXME: use signal/slot
 			m_ki->viewManager()->removeView(static_cast<Kate::View*>(doc->views().first()));
 			//remove the decorations
@@ -1128,7 +1128,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 		m_kpd->cancel();
 
     m_ki->viewManager()->switchToView(kp->lastDocument());
-		
+
 	return kp;
 }
 
@@ -1229,7 +1229,7 @@ void Manager::projectAddFiles(KileProject *project)
 		dlg->setCaption(i18n("Add Files"));
 		KFile::Mode mode = static_cast<KFile::Mode>( KFile::Files | KFile::ExistingOnly);
 		dlg->setMode(mode);
-		
+
 		if(dlg->exec())
 		{
 			KURL::List urls = dlg->selectedURLs();
@@ -1478,16 +1478,16 @@ void Manager::projectShow()
 {
 	if ( m_projects.count() <= 1 )
 		return;
-		
+
 	// select the new project
-	KileProject *project = selectProject(i18n("Switch project"));
-	if ( !project || project==activeProject() ) 
+	KileProject *project = selectProject(i18n("Switch Project"));
+	if ( !project || project==activeProject() )
 		return;
-	
+
 	// get last opened document
 	const KURL lastdoc = project->lastDocument();
 	KileProjectItem *docitem = ( !lastdoc.isEmpty() ) ? itemFor(lastdoc,project) : 0L;
-	
+
 	// if not, we search for the first opened tex file of this project
 	// if no file is opened, we take the first tex file mentioned in the list
 	KileProjectItem *first_texitem = 0L;
@@ -1503,14 +1503,14 @@ void Manager::projectShow()
 			}
 		}
 	}
-		
+
 	// did we find one opened file or must we take the first entry
 	if ( ! docitem ) {
 		if ( ! first_texitem )
 			return;
 		docitem = first_texitem;
 	}
-		
+
 	// ok, we can switch to another project now
 	if  ( m_ki->isOpen(docitem->url()) )
 		m_ki->viewManager()->switchToView(docitem->url());
@@ -1520,7 +1520,7 @@ void Manager::projectShow()
 
 void Manager::projectRemoveFiles()
 {
-	KileProjectItem *item = selectProjectFileItem( i18n("Select a file to remove") );
+	KileProjectItem *item = selectProjectFileItem( i18n("Select File to Remove") );
 	if ( item ) {
 		removeFromProject(item);
 	}
@@ -1528,7 +1528,7 @@ void Manager::projectRemoveFiles()
 
 void Manager::projectShowFiles()
 {
-	KileProjectItem *item = selectProjectFileItem( i18n("Select a file") );
+	KileProjectItem *item = selectProjectFileItem( i18n("Select File") );
 	if ( item )
 	{
 		if  ( item->type() == KileProjectItem::ProjectFile )
@@ -1550,7 +1550,7 @@ void Manager::projectOpenAllFiles()
 {
 	KileProject *project = selectProject(i18n("Select Project"));
 	if (project != 0L)
-  { 
+  {
 		projectOpenAllFiles(project->url());
   }
 }
@@ -1563,12 +1563,12 @@ void Manager::projectOpenAllFiles(const KURL & url)
 	if(!url.isValid())
 		return;
 	project = projectFor(url);
-	
+
 	if(!project)
 		return;
-	
 
-	if(m_ki->viewManager()->currentView()) 
+
+	if(m_ki->viewManager()->currentView())
 		doc = m_ki->viewManager()->currentView()->getDoc();
 	// we remember the actual view, so the user gets the same view back after opening
 
@@ -1590,7 +1590,7 @@ void Manager::projectOpenAllFiles(const KURL & url)
 QStringList Manager::getProjectFiles()
 {
 	QStringList filelist;
-	
+
 	KileProject *project = activeProject();
 	if ( project )
 	{
@@ -1613,7 +1613,7 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 {
 	// select a project
 	KileProject *project = selectProject(i18n("Select Project"));
-	if ( ! project ) 
+	if ( ! project )
 		return 0L;
 
 	// get a list of files
@@ -1624,21 +1624,21 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 		filelist << item->path();
 		map[item->path()] = item;
 	}
-	
+
 	// select one of these files
 	KileProjectItem *item = 0L;
-	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project files"),label, m_ki->parentWidget());
+	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project Files"),label, m_ki->parentWidget());
 	if ( dlg->exec() ) {
 		if ( dlg->currentItem() >= 0 ) {
 			QString name = filelist[dlg->currentItem()];
-			if ( map.contains(name) ) 
+			if ( map.contains(name) )
 				item = map[name];
-			else 
+			else
 				KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."),i18n( "Project Error"));
 		}
 	}
 	delete dlg;
-	
+
 	return item;
 }
 
@@ -1650,9 +1650,9 @@ void Manager::projectAddFile(QString filename, bool graphics)
 {
  	kdDebug() << "===Kile::projectAddFile==============" << endl;
 	KileProject *project = activeProject();
- 	if ( ! project ) 
+ 	if ( ! project )
 		return;
-		
+
 	if ( ! QFileInfo(filename).exists() )
 	{
 		if ( graphics )
@@ -1661,11 +1661,11 @@ void Manager::projectAddFile(QString filename, bool graphics)
 		if ( ! QFileInfo(filename).exists() )
 			return;
 	}
-	
+
 	//ok, we have a project and an existing file
 	kdDebug() << "\tadd file: " << filename << endl;
 	m_ki->viewManager()->updateStructure(true);
-	
+
 	KURL url;
 	url.setPath(filename);
 	addToProject(project, url);

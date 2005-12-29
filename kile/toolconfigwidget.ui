@@ -183,7 +183,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Default Settings...</string>
+                        <string>Default Settings</string>
                     </property>
                 </widget>
                 <widget class="KPushButton" row="2" column="0">
@@ -321,7 +321,7 @@
                                     <cstring>m_lbType</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Type</string>
+                                    <string>&amp;Type:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_cbType</cstring>
@@ -348,7 +348,7 @@
                                     <cstring>textLabel2</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Relative Dir</string>
+                                    <string>&amp;Relative dir:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_leRelDir</cstring>
@@ -359,7 +359,7 @@
                                     <cstring>textLabel1</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Target &amp;File</string>
+                                    <string>Target &amp;file:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_leFile</cstring>
@@ -370,7 +370,7 @@
                                     <cstring>m_lbTarget</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Tar&amp;get Extension</string>
+                                    <string>Tar&amp;get extension:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_leTarget</cstring>
@@ -423,7 +423,7 @@
                                     <cstring>m_lbSource</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>&amp;Source Extension</string>
+                                    <string>&amp;Source extension:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_leSource</cstring>
@@ -434,7 +434,7 @@
                                     <cstring>m_lbClass</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>C&amp;lass</string>
+                                    <string>C&amp;lass:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_cbClass</cstring>
@@ -445,7 +445,7 @@
                                     <cstring>m_ckClose</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Close Konsole when tool is finished.</string>
+                                    <string>Close Konsole when tool is finished</string>
                                 </property>
                             </widget>
                             <widget class="KComboBox" row="2" column="1">
@@ -483,7 +483,7 @@
                                     <cstring>m_lbState</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>St&amp;ate</string>
+                                    <string>St&amp;ate:</string>
                                 </property>
                                 <property name="buddy" stdset="0">
                                     <cstring>m_cbState</cstring>

@@ -46,7 +46,7 @@ UserHelp::UserHelp(KileTool::Manager *manager, KMenuBar *menubar)
 		if ( m_helppopup )  
 		{
 			m_sepid = m_helpmenu->insertSeparator(helpindex); 
-			m_helpid = m_helpmenu->insertItem(i18n("User help"),m_helppopup,-1,helpindex); 
+			m_helpid = m_helpmenu->insertItem(i18n("User Help"),m_helppopup,-1,helpindex); 
 		}
 		
 		readConfig();

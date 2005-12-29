@@ -592,14 +592,14 @@ namespace KileWidget
 		if ( ! item->label().isEmpty() )
 		{
 			m_popup->insertTitle(i18n("Insert Label"));
-			m_popup->insertItem(i18n("as &reference"),1);
-			m_popup->insertItem(i18n("as &page reference"),2);
-			m_popup->insertItem(i18n("only the &label"),3);
+			m_popup->insertItem(i18n("As &reference"),1);
+			m_popup->insertItem(i18n("As &page reference"),2);
+			m_popup->insertItem(i18n("Only the &label"),3);
 			m_popup->insertSeparator();
 			m_popup->insertTitle(i18n("Copy Label to Clipboard"));
-			m_popup->insertItem(i18n("as reference"),4);
-			m_popup->insertItem(i18n("as page reference"),5);
-			m_popup->insertItem(i18n("only the label"),6);
+			m_popup->insertItem(i18n("As reference"),4);
+			m_popup->insertItem(i18n("As page reference"),5);
+			m_popup->insertItem(i18n("Only the label"),6);
 			
 			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotPopupLabel(int)));
 			m_popup->exec(point);

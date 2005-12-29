@@ -234,7 +234,7 @@
                 <cstring>kcfg_RunLyxServer</cstring>
             </property>
             <property name="text">
-                <string>Let Kile process LyX commands sent by bibliography editors/viewers.</string>
+                <string>Let Kile process LyX commands sent by bibliography editors/viewers</string>
             </property>
         </widget>
     </vbox>

@@ -31,7 +31,7 @@
                     <cstring>m_lbName</cstring>
                 </property>
                 <property name="text">
-                    <string>Type a short descriptive name for the &amp;tool.</string>
+                    <string>Type a short descriptive name for the &amp;tool:</string>
                 </property>
                 <property name="buddy" stdset="0">
                     <cstring>m_leName</cstring>
@@ -110,12 +110,12 @@
                     <cstring>m_lbBehavior</cstring>
                 </property>
                 <property name="text">
-                    <string>Select the default &amp;behavior (class) 
+                    <string>Select the default &amp;behavior (class)
 of this tool. It will inherit all properties
 of the tool it is based upon.
 
-For example, selecting "LaTeX" will 
-cause your tool to behave just like 
+For example, selecting "LaTeX" will
+cause your tool to behave just like
 the standard "LaTeX" tool.</string>
                 </property>
                 <property name="buddy" stdset="0">

@@ -358,16 +358,16 @@ void IncludeGraphics::chooseFile()
 {
    QString filter = ( cb_pdftex->isChecked() )
                   ? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
-                          + "*.png|PNG files\n"
-                          + "*.jpg|JPG files\n"
-                          + "*.pdf|PDF files\n"
-                          + "*|All files"
+                          + "*.png|PNG Files\n"
+                          + "*.jpg|JPG Files\n"
+                          + "*.pdf|PDF Files\n"
+                          + "*|All Files"
                   : i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
-                          + "*.png|PNG files\n"
-                          + "*.jpg|JPG files\n"
-                          + "*.eps.gz|zipped EPS files\n"
-                          + "*.eps|EPS files\n"
-                          + "*|All files";
+                          + "*.png|PNG Files\n"
+                          + "*.jpg|JPG Files\n"
+                          + "*.eps.gz|Zipped EPS Files\n"
+                          + "*.eps|EPS Files\n"
+                          + "*|All Files";
 
    QString fn = KFileDialog::getOpenFileName( m_startdir,filter,
                                               this,i18n("Select File") );

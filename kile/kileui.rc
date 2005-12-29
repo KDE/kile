@@ -179,7 +179,7 @@
 		<Action name="tag_env_abstract"/>
 	</Menu>
 	<Separator/>
-	<Menu name="menu_lists"><text>Tables and lists</text>
+	<Menu name="menu_lists"><text>Tables and Lists</text>
 		<Action name="tag_tableofcontents"/>
 		<Action name="tag_listoffigures"/>
 		<Action name="tag_listoftables"/>
@@ -250,7 +250,7 @@
 		<Action name="tag_env_verbatim*"/>
 		<Separator/>
 		<Action name="tag_verb"/>
-		<Action name="tag_verb*"/>	
+		<Action name="tag_verb*"/>
 	</Menu>
 	<Separator/>
 	<Menu name="menu_math"><text>&amp;Math Commands</text>
@@ -281,7 +281,7 @@
 			<Action name="tag_Biggr"/>
 		</Menu>
 		<Separator/>
-		<Menu name="menu_mathtext"><text>AMS Text and boxes</text>
+		<Menu name="menu_mathtext"><text>AMS Text and Boxes</text>
 			<Action name="tag_text"/>
 			<Action name="tag_intertext"/>
 			<Separator/>
@@ -292,7 +292,7 @@
 			<Action name="tag_dfrac"/>
 			<Action name="tag_tfrac"/>
 		</Menu>
-		<Menu name="menu_mathbinom"><text>AMS Binomial expression</text>
+		<Menu name="menu_mathbinom"><text>AMS Binomial Expression</text>
 			<Action name="tag_binom"/>
 			<Action name="tag_dbinom"/>
 			<Action name="tag_tbinom"/>
@@ -417,7 +417,7 @@
 		</Menu>
 	</Menu>
 	<Menu name="menu_spacing"><text>Spa&amp;cing</text>
-		<Menu name="menu_breaks"><text>Page- and linebreaks</text>
+		<Menu name="menu_breaks"><text>Page- and Linebreaks</text>
 			<Action name="tag_newline"/>
 			<Action name="tag_newpage"/>
 			<Separator/>
@@ -435,7 +435,7 @@
 			<Action name="tag_vspace"/>
 			<Action name="tag_vspace*"/>
 		</Menu>
-		<Menu name="menu_rubberlength"><text>Rubber lenghts</text>
+		<Menu name="menu_rubberlength"><text>Rubber Lenghts</text>
 			<Action name="tag_hfill"/>
 			<Action name="tag_hrulefill"/>
 			<Action name="tag_dotfill"/>

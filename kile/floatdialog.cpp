@@ -173,11 +173,11 @@ void FloatEnvironmentDialog::slotEnvironmentClicked()
 	QString caption,oldprefix;
 	
 	if ( m_rbFigure->isChecked() ) {
-		caption = i18n("Figure environment");
+		caption = i18n("Figure Environment");
 		oldprefix = "^tab:";
 		m_prefix = "fig:";
 	} else {
-		caption = i18n("Table environment");
+		caption = i18n("Table Environment");
 		oldprefix = "^fig:";
 		m_prefix = "tab:";
 	}

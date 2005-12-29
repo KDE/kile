@@ -239,7 +239,7 @@ void TabCellFrame::mouseDoubleClickEvent(QMouseEvent *event)
 
 TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
                              const QString &headerlabel, const QStringList &alignlist) 
-	: KDialogBase( parent,0, true, i18n("Cell properties"),
+	: KDialogBase( parent,0, true, i18n("Cell Properties"),
                   Ok | Cancel | User1, Ok, true )
 {
 	QWidget *page = new QWidget(this);
@@ -1139,20 +1139,20 @@ void TabularTable::insertPopupAlign(QPopupMenu *popup,bool header)
 	
 	// insert 
 	if ( align & 1 ) 
-		popup->insertItem( i18n("Align left"));
+		popup->insertItem( i18n("Align Left"));
 	if ( align & 2 ) 
-		popup->insertItem( i18n("Align center"));
+		popup->insertItem( i18n("Align Center"));
 	if ( align & 4 ) 
-		popup->insertItem( i18n("Align right"));
+		popup->insertItem( i18n("Align Right"));
 	if ( align > 0 )
 		popup->insertSeparator();
 }
 
 void TabularTable::insertPopupClear(QPopupMenu *popup)
 {
-	popup->insertItem( i18n("Clear text"));
-	popup->insertItem( i18n("Clear attributes"));
-	popup->insertItem( i18n("Clear all"));
+	popup->insertItem( i18n("Clear Text"));
+	popup->insertItem( i18n("Clear Attributes"));
+	popup->insertItem( i18n("Clear All"));
 }
 
 int TabularTable::popupId(QPopupMenu *popup, int id)
@@ -1162,21 +1162,21 @@ int TabularTable::popupId(QPopupMenu *popup, int id)
 	int result = PopupNone;
 	if ( entry == i18n("Edit...") )
 		result = PopupEdit;
-	else if ( entry == i18n("Set multicolumn") )
+	else if ( entry == i18n("Set Multicolumn") )
 		result = PopupSet;
-	else if ( entry == i18n("Break multicolumn") )
+	else if ( entry == i18n("Break Multicolumn") )
 		result = PopupBreak;
-	else if ( entry == i18n("Align left") )
+	else if ( entry == i18n("Align Left") )
 		result = PopupLeft;
-	else if ( entry == i18n("Align center") )
+	else if ( entry == i18n("Align Center") )
 		result = PopupCenter;
-	else if ( entry == i18n("Align right") )
+	else if ( entry == i18n("Align Right") )
 		result = PopupRight;
-	else if ( entry == i18n("Clear text") )
+	else if ( entry == i18n("Clear Text") )
 		result = PopupText;
-	else if ( entry == i18n("Clear attributes") )
+	else if ( entry == i18n("Clear Attributes") )
 		result = PopupAttributes;
-	else if ( entry == i18n("Clear all") )
+	else if ( entry == i18n("Clear All") )
 		result = PopupAll;
 
 	return result;
@@ -1203,13 +1203,13 @@ void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
 			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
 			if ( cellitem && cellitem->isMulticolumn() ) 
 			{
-				m_cellpopup->insertItem( i18n("Break multicolumn"));
+				m_cellpopup->insertItem( i18n("Break Multicolumn"));
 				m_cellpopup->insertSeparator();
 			}
 		} 
 		else if ( m_x2 > m_x1 ) 
 		{
-			m_cellpopup->insertItem( i18n("Set multicolumn"));
+			m_cellpopup->insertItem( i18n("Set Multicolumn"));
 			m_cellpopup->insertSeparator();
 		}
 	}
@@ -1267,7 +1267,7 @@ void TabularTable::cellPopupSetMulticolumn()
 		if ( ! isRowEmpty(m_y1,m_x1,m_x2) ) 
 		{
 			QString message  = i18n("Concat all text to the new multicolumn cell?");
-			savetext = ( KMessageBox::questionYesNo(this,message,i18n("Save text")) == KMessageBox::Yes ); 
+			savetext = ( KMessageBox::questionYesNo(this,message,i18n("Save Text")) == KMessageBox::Yes ); 
 		}
 		setColspan(m_y1,m_x1,m_x2,savetext);
 		// update();
@@ -1283,7 +1283,7 @@ void TabularTable::cellPopupBreakMulticolumn()
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
 		if ( cellitem && KMessageBox::questionYesNo(this,
 			                             i18n("Transfer text and all attributes of the multicolumn cell to the leftmost of the separated cell?"),
-			                             i18n("Shrink multicolumn")) == KMessageBox::Yes ) 
+			                             i18n("Shrink Multicolumn")) == KMessageBox::Yes ) 
 		{ 
 			cellitem->setSpan(m_y1,1);
 		} 
@@ -1767,7 +1767,7 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	setCaption(i18n("Tabular environments"));
+	setCaption(i18n("Tabular Environments"));
 	
 	QVBoxLayout *vbox = new QVBoxLayout( page, 6,6);
 	

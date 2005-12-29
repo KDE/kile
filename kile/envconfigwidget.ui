@@ -32,7 +32,7 @@
                 </sizepolicy>
             </property>
             <property name="title">
-                <string>Complete environments</string>
+                <string>Complete Environments</string>
             </property>
             <vbox>
                 <property name="name">
@@ -53,7 +53,7 @@
                 <cstring>m_bgGraphics</cstring>
             </property>
             <property name="title">
-                <string>Automatic indentation inside environments</string>
+                <string>Automatic Indentation Inside Environments</string>
             </property>
             <vbox>
                 <property name="name">
@@ -94,7 +94,7 @@
                                 <cstring>m_lbNumSpaces</cstring>
                             </property>
                             <property name="text">
-                                <string>Number of Spaces:</string>
+                                <string>Number of spaces:</string>
                             </property>
                             <property name="buddy" stdset="0">
                                 <cstring>kcfg_envIndentNumSpaces</cstring>

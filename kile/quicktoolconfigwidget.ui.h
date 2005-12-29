@@ -34,7 +34,7 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 void QuickToolConfigWidget::updateConfigs(const QString &tool)
 {
 	m_cbConfigs->clear();
-	m_cbConfigs->insertItem(i18n("not specified"));
+	m_cbConfigs->insertItem(i18n("Not Specified"));
 	m_cbConfigs->insertStringList(KileTool::configNames(tool, KGlobal::config()));
 }
 

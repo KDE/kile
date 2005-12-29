@@ -89,7 +89,7 @@
                 <cstring>kcfg_embedded</cstring>
             </property>
             <property name="title">
-                <string>User help</string>
+                <string>User Help</string>
             </property>
             <widget class="QRadioButton">
                 <property name="name">
@@ -139,7 +139,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>Con&amp;figure</string>
+                    <string>Con&amp;figure...</string>
                 </property>
             </widget>
         </widget>

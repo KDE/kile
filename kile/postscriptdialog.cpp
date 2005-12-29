@@ -42,7 +42,7 @@ namespace KileDialog
 PostscriptDialog::PostscriptDialog(QWidget *parent, 
                                    const QString &texfilename,const QString &startdir,  
                                    KileWidget::LogMsg *log,KileWidget::Output *output) :
-	KDialogBase( parent,0, true, i18n("Rearrange a postscript file"), User1 | Ok, User1, true ),
+	KDialogBase( parent,0, true, i18n("Rearrange Postscript File"), User1 | Ok, User1, true ),
 	m_startdir(startdir),
 	m_log(log),
 	m_output(output),
@@ -137,30 +137,30 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	// line 3: predefined tasks
 	m_cbTask = new QComboBox( false,widget );
 	if ( pstops ) {
-		m_cbTask->insertItem(i18n("1 DIN A5 page + empty page --> DIN A4"));      // 0   PS_A5_EMPTY
-		m_cbTask->insertItem(i18n("1 DIN A5 page + duplicate --> DIN A4"));       // 1   PS_A5_DUPLICATE
-		m_cbTask->insertItem(i18n("2 DIN A5 pages --> DIN A4"));                  // 2   PS_2xA5
-		m_cbTask->insertItem(i18n("2 DIN A5L pages --> DIN A4"));                 // 3   PS_2xA5L
-		m_cbTask->insertItem(i18n("4 DIN A5 pages --> DIN A4"));                  // 4   PS_4xA5
-		m_cbTask->insertItem(i18n("1 DIN A4 page + empty page --> DIN A4"));      // 5   PS_A4_EMPTY
-		m_cbTask->insertItem(i18n("1 DIN A4 page + duplicate --> DIN A4"));       // 6   PS_A4_DUPLICATE
-		m_cbTask->insertItem(i18n("2 DIN A4 pages --> DIN A4"));                  // 7   PS_2xA4
-		m_cbTask->insertItem(i18n("2 DIN A4L pages --> DIN A4"));                 // 8   PS_2xA4L 
+		m_cbTask->insertItem(i18n("1 DIN A5 Page + Empty Page --> DIN A4"));      // 0   PS_A5_EMPTY
+		m_cbTask->insertItem(i18n("1 DIN A5 Page + Duplicate --> DIN A4"));       // 1   PS_A5_DUPLICATE
+		m_cbTask->insertItem(i18n("2 DIN A5 Pages --> DIN A4"));                  // 2   PS_2xA5
+		m_cbTask->insertItem(i18n("2 DIN A5L Pages --> DIN A4"));                 // 3   PS_2xA5L
+		m_cbTask->insertItem(i18n("4 DIN A5 Pages --> DIN A4"));                  // 4   PS_4xA5
+		m_cbTask->insertItem(i18n("1 DIN A4 Page + Empty Page --> DIN A4"));      // 5   PS_A4_EMPTY
+		m_cbTask->insertItem(i18n("1 DIN A4 Page + Duplicate --> DIN A4"));       // 6   PS_A4_DUPLICATE
+		m_cbTask->insertItem(i18n("2 DIN A4 Pages --> DIN A4"));                  // 7   PS_2xA4
+		m_cbTask->insertItem(i18n("2 DIN A4L Pages --> DIN A4"));                 // 8   PS_2xA4L 
 	}
 	if ( psselect ) {
-		m_cbTask->insertItem(i18n("select even pages"));                          // 9   PS_EVEN  
-		m_cbTask->insertItem(i18n("select odd pages"));                           // 10  PS_ODD 
-		m_cbTask->insertItem(i18n("select even pages (reverse order)"));          // 11  PS_EVEN_REV 
-		m_cbTask->insertItem(i18n("select odd pages (reverse order)"));           // 12  PS_ODD_REV 
-		m_cbTask->insertItem(i18n("reverse all pages"));                          // 13  PS_REVERSE
-		m_cbTask->insertItem(i18n("copy all pages (sorted)"));                    // 14  PS_COPY_SORTED  
+		m_cbTask->insertItem(i18n("Select Even Pages"));                          // 9   PS_EVEN  
+		m_cbTask->insertItem(i18n("Select Odd Pages"));                           // 10  PS_ODD 
+		m_cbTask->insertItem(i18n("Select Even Pages (reverse order)"));          // 11  PS_EVEN_REV 
+		m_cbTask->insertItem(i18n("Select Odd Pages (reverse order)"));           // 12  PS_ODD_REV 
+		m_cbTask->insertItem(i18n("Reverse All Pages"));                          // 13  PS_REVERSE
+		m_cbTask->insertItem(i18n("Copy All Pages (sorted)"));                    // 14  PS_COPY_SORTED  
 	}
 	if ( pstops ) { 
-		m_cbTask->insertItem(i18n("copy all pages (unsorted)"));                  // 15  PS_COPY_UNSORTED
-		m_cbTask->insertItem(i18n("pstops: choose parameter"));                   // 16  PS_PSTOPS_FREE 
+		m_cbTask->insertItem(i18n("Copy All Pages (unsorted)"));                  // 15  PS_COPY_UNSORTED
+		m_cbTask->insertItem(i18n("pstops: Choose Parameter"));                   // 16  PS_PSTOPS_FREE 
 	}
 	if ( psselect ) {  
-		m_cbTask->insertItem(i18n("psselect: choose parameter"));                 // 17  PS_PSSELECT_FREE 
+		m_cbTask->insertItem(i18n("psselect: Choose Parameter"));                 // 17  PS_PSSELECT_FREE 
 	}
 	m_cbTask->setMinimumWidth(300+6+choose_out->width());
 	grid->addMultiCellWidget( m_cbTask, 4,4,1,2 );
@@ -187,7 +187,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	grid->addWidget( label6, 6,0 );
 	
 	// line 5: QCheckBox
-	m_cbView = new QCheckBox(i18n("show ps file with 'kghostview'"),widget);
+	m_cbView = new QCheckBox(i18n("Show ps file with 'kghostview'"),widget);
 	m_cbView->setChecked(true);
 	grid->addWidget( m_cbView, 6,1 );
 
@@ -429,8 +429,8 @@ void PostscriptDialog::chooseInfile()
 {
 	QString fn = KFileDialog::getOpenFileName(
 	                 m_startdir,
-	                 i18n("*.ps|PS files\n*.ps.gz|zipped PS files"),
-	                 this,i18n("Select an input file") );
+	                 i18n("*.ps|PS Files\n*.ps.gz|Zipped PS Files"),
+	                 this,i18n("Select Input File") );
 
 	if ( ! fn.isEmpty() ) {
 		m_edInfile->setText( fn );
@@ -441,8 +441,8 @@ void PostscriptDialog::chooseOutfile()
 {
 	QString fn = KFileDialog::getOpenFileName(
 	                 m_startdir,
-	                 i18n("*.ps|PS files"),
-	                 this,i18n("Select the name of the output file") );
+	                 i18n("*.ps|PS Files"),
+	                 this,i18n("Select Name of Output File") );
 
 	if ( ! fn.isEmpty() ) {
 		m_edOutfile->setText( fn );
@@ -544,7 +544,7 @@ void PostscriptDialog::comboboxChanged(int index)
 
 void PostscriptDialog::showError(const QString &text)
 {
-	KMessageBox::error( this,i18n("<center>") + text + i18n("</center>"),i18n("Postscript tools") );
+	KMessageBox::error( this,i18n("<center>") + text + i18n("</center>"),i18n("Postscript Tools") );
 }
 
 }

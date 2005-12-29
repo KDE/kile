@@ -69,8 +69,8 @@ void ResultItem::paint(QPainter *p)
 	m_richText->draw(p, 0, 0, QRect(), listBox()->colorGroup());
 }
 
-ConfigChecker::ConfigChecker(QWidget* parent) : 
-	KDialogBase( Plain, i18n("System Check"), Ok|Cancel|User1, Ok, parent, 0, true, true, KGuiItem("&Save Results")),
+ConfigChecker::ConfigChecker(QWidget* parent) :
+	KDialogBase( Plain, i18n("System Check"), Ok|Cancel|User1, Ok, parent, 0, true, true, KGuiItem("&Save Results...")),
 	m_tester(0L)
 {
 	QGridLayout *layout = new QGridLayout(plainPage(), 1, 1);

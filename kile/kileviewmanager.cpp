@@ -67,10 +67,10 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 		new KAction(i18n("Paste as LaTe&X"), 0, this,
 			SLOT(pasteAsLaTeX()), m_client->actionCollection(), "popup_pasteaslatex");
 	if(NULL == m_client->actionCollection()->action("popup_converttolatex"))
-		new KAction(i18n("Convert selection to &LaTeX"), 0, this,
+		new KAction(i18n("Convert Selection to &LaTeX"), 0, this,
 			SLOT(convertSelectionToLaTeX()), m_client->actionCollection(), "popup_converttolatex");
 	if(NULL == m_client->actionCollection()->action("popup_quickpreview"))
-		new KAction(i18n("&QuickPreview selection"), 0, receiver,
+		new KAction(i18n("&QuickPreview Selection"), 0, receiver,
 			SLOT(quickPreviewSelection()), m_client->actionCollection(), "popup_quickpreview");
 }
 

@@ -78,7 +78,7 @@ void SymbolView::initPage(int page)
 		break;
 		
 		case Special:
-			insertSymbols(0,167,0,"special",Special);
+			insertSymbols(0,169,0,"special",Special);
 		break;
 	}
 }

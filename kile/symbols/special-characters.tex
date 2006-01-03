@@ -5,20 +5,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Author: Thomas Braun
 % begin: Sat Nov 12 2005
+% last edit: Tue Jan 3 2005
 % License: GPL
 % 
 % covers latin1, latin2 and latin4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\fboxsep0.1cm % space around the letter
+\newcommand{\boxheight}{2ex} % gives the size of the surrounding box
+\newcommand{\boxwidth}{2ex}
+\setlength{\parindent}{0cm}
 
 \newcommand{\page}{\newpage} % default for generating pngs
 % \newcommand{\page}{} % use this to get it on one page
-\newcommand{\command}[2][]{\fcolorbox{red}{white}{#2}\page} % the optional argument is the desired command which kile should insert. If emtpy the string in the mandatory argument is used.
-\makeatletter
-\newcommand{\tabackludge}[1]{\@tabacckludge=#1}
-\makeatother
 
+\newcommand{\command}[2][]{\fcolorbox{red}{white}{\parbox[c][\boxheight][c]{\boxwidth}{#2}}\page}
+% the optional argument is the desired command which kile should insert.
+% If emtpy the string in the mandatory argument is used.
+% don't change the colors, they are hard coded in special-characters.sh
 \begin{document}
 \pagestyle{empty}
 % 
@@ -30,7 +33,7 @@
 \command{\^{A}}
 \command{\v{A}}
 \command{\u{A}}
-\command[\makeatletter\@tabacckludge=A\makeatother]{\tabackludge{A}}
+\command{\={A}}
 \command{\AA{}}
 \command{\k{A}}
 \command{\AE{}}
@@ -42,7 +45,7 @@
 \command{\^{a}}
 \command{\v{a}}
 \command{\u{a}}
-\command[\makeatletter\@tabacckludge=a\makeatother]{\tabackludge{a}}
+\command{\={a}}
 \command{\aa{}}
 \command{\k{a}}
 \command{\ae{}}\par
@@ -55,7 +58,7 @@
 \command{\v{D}}
 \command{\DJ}
 \command{\DH}
-\command[\v{d}]{{\fontencoding{OT1}\selectfont\v{d}}}
+\command{\v{d}}
 \command{\dj}
 \command{\dh}\par
 \command{\"{E}}
@@ -66,7 +69,7 @@
 \command{\^{E}}
 \command{\v{E}}
 \command{\u{E}}
-\command[\makeatletter\@tabacckludge=E\makeatother]{\tabackludge{E}}
+\command{\={E}}
 \command{\k{E}}
 \command{\"{e}}
 \command{\H{e}}
@@ -76,7 +79,7 @@
 \command{\^{e}}
 \command{\v{e}}
 \command{\u{e}}
-\command[\makeatletter\@tabacckludge=e\makeatother]{\tabackludge{e}}
+\command{\={e}}
 \command{\k{e}}\par
 \command{\c{G}}
 \command{\'{G}}
@@ -88,7 +91,7 @@
 \command{\`{I}}
 \command{\~{I}}
 \command{\^{I}}
-\command[\makeatletter\@tabacckludge=I\makeatother]{\tabackludge{I}}
+\command{\={I}}
 \command{\k{I}}
 \command{\"{\i}}
 \command{\H{\i}}
@@ -96,19 +99,19 @@
 \command{\`{\i}}
 \command{\~{\i}}
 \command{\^{\i}}
-\command[\makeatletter\@tabacckludge=\i\makeatother]{\tabackludge{\i}}
+\command{\={\i}}
 \command{\k{\i}}\par
 \command{\c{K}}
 \command{\c{k}}\par
 \command{\c{L}}
 \command{\'{L}}
 \command{\u{L}}
-\command[\v{L}]{{\fontencoding{OT1}\selectfont\v{L}}}
+\command{\v{L}}
 \command{\L}
 \command{\c{l}}
 \command{\'{l}}
 \command{\u{l}}
-\command[\v{l}]{{\fontencoding{OT1}\selectfont\v{l}}}
+\command{\v{l}}
 \command{\l}\par
 \command{\c{N}}
 \command{\'{N}}
@@ -130,8 +133,9 @@
 \command{\^{O}}
 \command{\v{O}}
 \command{\u{O}}
-\command[\makeatletter\@tabacckludge=O\makeatother]{\tabackludge{O}}
+\command{\={O}}
 \command{\O{}}
+\command{\k{O}}
 \command{\"{o}}
 \command{\H{o}}
 \command{\'{o}}
@@ -140,8 +144,9 @@
 \command{\^{o}}
 \command{\v{o}}
 \command{\u{o}}
-\command[\makeatletter\@tabacckludge=o\makeatother]{\tabackludge{o}}
-\command{\o{}}\par
+\command{\={o}}
+\command{\o{}}
+\command{\k{o}}\par
 \command{\TH}
 \command{\th}\par
 \command{\c{R}}
@@ -158,16 +163,16 @@
 \command{\v{s}}
 \command{\ss}\par
 \command{\c{T}}
-\command[\v{T}]{{\fontencoding{OT1}\selectfont\v{T}}}
+\command{\v{T}}
 \command{\c{t}}
-\command[\v{t}]{{\fontencoding{OT1}\selectfont\v{t}}}\par
+\command{\v{t}}\par
 \command{\"{U}}
 \command{\H{U}}
 \command{\'{U}}
 \command{\`{U}}
 \command{\~{U}}
 \command{\^{U}}
-\command[\makeatletter\@tabacckludge=U\makeatother]{\tabackludge{U}}
+\command{\={U}}
 \command{\r{U}}
 \command{\k{U}}
 \command{\"{u}}
@@ -176,7 +181,7 @@
 \command{\`{u}}
 \command{\~{u}}
 \command{\^{u}}
-\command[\makeatletter\@tabacckludge=u\makeatother]{\tabackludge{u}}
+\command{\={u}}
 \command{\r{u}}
 \command{\k{u}}\par
 \command{\"{Y}}

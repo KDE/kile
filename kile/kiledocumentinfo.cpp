@@ -201,6 +201,7 @@ void Info::updateStructLevelInfo()
 	// hidden commands  
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+	m_dictStructLevel["\\addunit"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
 	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
 
 	// label
@@ -591,7 +592,7 @@ void TeXInfo::updateStruct()
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 	static QRegExp::QRegExp reReNewCommand("\\\\renewcommand.*$");
 	static QRegExp::QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
-	static QRegExp::QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[(.*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are from the latex compilers point of view correct.
+	static QRegExp::QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
@@ -740,12 +741,12 @@ void TeXInfo::updateStruct()
 							biblio=bibs[b];
 							m_bibliography.append(biblio);
 							if ( biblio.left(2) == "./" )
-							{	nextbib += 2; // als bertrag machen
+							{	nextbib += 2; 
 								biblio = biblio.mid(2,biblio.length()-2);
 							}
 							if ( biblio.right(4) == ".bib" )
 							{
-								biblio =biblio.left(biblio.length()-4); // dito
+								biblio =biblio.left(biblio.length()-4); 
 								nextbib +=4;
 							}
 							m_deps.append(biblio + ".bib");

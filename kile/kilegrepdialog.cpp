@@ -477,9 +477,9 @@ void KileGrepDialog::startGrep()
 
 	if ( m_mode == KileGrep::Project )
 	{
-		QString command = buildProjectCommand();
-		kdDebug() << "\tgrep (project): " <<  command + " " + m_projectfiles[m_grepJobs-1] << endl;
-		(*childproc) << QStringList::split(' ',command + " " + m_projectfiles[m_grepJobs-1]);
+		QString command = buildProjectCommand() + " " + KProcess::quote(m_projectfiles[m_grepJobs-1]);
+		kdDebug() << "\tgrep (project): " <<  command << endl;
+		(*childproc) << QStringList::split(' ',command);
 	}
 	else
 	{

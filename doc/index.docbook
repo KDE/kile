@@ -187,7 +187,7 @@
 			<title>How do you pronounce it? Why that strange typesetting?</title>
 
 			<para>There is a funny traditions of &tex;-related packages to have the strangest pronunciation
-			and typesetting possible. &tex; was supposed to be brought in from the Greek <emphasis>τεχ</emphasis>,
+			and typesetting possible. &tex; was supposed to be brought in from the Greek <emphasis>ÏÎµÏ</emphasis>,
 			in Latin letters <emphasis>tech</emphasis>. There are a lot of explanations why, but most likely it is because
 			&latex; was originally conceived for technical reports, and indeed its foremost ability was the correct and
 			easy typesetting of mathematical formulae, then an extremely expensive, time-consuming and
@@ -195,7 +195,7 @@
 			<para>The pronunciation is supposed to be as follows: <emphasis>T</emphasis> as you would expect,
 			<emphasis>E</emphasis> as in <emphasis>get</emphasis>, and <emphasis>X</emphasis> as in the
 			German i<emphasis>ch</emphasis>. If you do not know what <emphasis>ch</emphasis> sounds like,
-			it is more or less as an hissing cat; the IPA symbol is /ç/. Many people report the different pronunciation
+			it is more or less as an hissing cat; the IPA symbol is /Ã§/. Many people report the different pronunciation
 			of <emphasis>ach</emphasis> (IPA symbol /x/), but I have personally asked some Greeks, and can
 			confirm the first version. You should be aware that a lot of people mispronounce /teks/ or /tek/.</para>
 			<para>Last, in &latex; the first L<superscript>A</superscript> is pronounced as
@@ -253,7 +253,7 @@
 				<listitem><para><guilabel>Typeface Size</guilabel>: tell &kile; what point size you want to use.</para></listitem>
 				<listitem><para><guilabel>Paper Size</guilabel>: choose the size or style of sheets.</para></listitem>
 				<listitem><para><guilabel>Encoding</guilabel>: you will almost always want to use Latin 1 or Utf-8 encodings, 
-				to allow you to enter words like <userinput>naïveté</userinput>
+				to allow you to enter words like <userinput>naÃ¯vetÃ©</userinput>
 				directly, and not through the ASCII-fication <userinput>na\"\ivet\'e</userinput>; however, 
 				many more options are available, like Latin 5 for Turkish.</para></listitem>
 				<listitem><para><guilabel>Author's name</guilabel>: put your name here.</para></listitem>
@@ -507,7 +507,7 @@
 		<para>Every document in &latex; begins with the command <userinput>\documentclass{TypeOfDocument}</userinput>,
 		unless you are using an older version of &latex;, then the command is <userinput>\documentstyle{TypeOfDocument}</userinput>.
 		There are currently two common version of &latex; you might run into: version 2.09, which uses
-		<userinput>\documentstyle</userinput>, and version 2<subscript>ε</subscript>, which uses
+		<userinput>\documentstyle</userinput>, and version 2<subscript>Îµ</subscript>, which uses
 		<userinput>\documentclass</userinput> to begin a document. The command <userinput>\documentclass</userinput>
 		always follows the syntax <userinput>\documentclass[optional argument]{class}</userinput>.</para>
 
@@ -2320,7 +2320,7 @@
 	\includegraphics[width=5cm]{test.eps}
 </programlisting>
 			
-			When you call PDF&latex; with the option <option>--shell-input</option>,
+			When you call PDF&latex; with option <option>--shell-escape</option>,
 			graphics <filename>test.eps</filename> is automatically converted into <filename>test.pdf</filename>.</para>
 			
 			<para>This conversion will take place each time you run PDF&latex;. 
@@ -2902,11 +2902,11 @@
 
 	<para>&latex; itself understands only ASCII, a very limited set of characters, so you could not use
 	accented or special letters directly. To use accented letters, a special syntax was created: 
-	such as for example <userinput>\"e</userinput> for <computeroutput>ë</computeroutput>. 
+	such as for example <userinput>\"e</userinput> for <computeroutput>Ã«</computeroutput>. 
 	There is a package to help you with this, called <application>inputenc</application>, and is included 
 	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the optional argument 
 	is the encoding you would like to use (in most cases <userinput>latin1</userinput>). This tells &latex;
-	to translate all of the <userinput>ë</userinput>'s you wrote to <userinput>\"e</userinput>'s before
+	to translate all of the <userinput>Ã«</userinput>'s you wrote to <userinput>\"e</userinput>'s before
 	compiling. Please refer to the <application>inputenc</application> documents directly for more
 	information on <application>inputenc</application>. Last but not least: remember to make sure that 
 	your file is <emphasis>actually</emphasis> encoded in the same encoding you told 

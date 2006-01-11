@@ -1108,16 +1108,34 @@ void Kile::activePartGUI(KParts::Part * part)
 
 void Kile::showToolBars(const QString & wantState)
 {
+	// save state of all toolbars
+	static bool mainToolBar = true;
+	static bool buildToolBar = true;
+	static bool errorToolBar = true;
+	static bool toolsToolBar = true;
+	static bool editToolBar = true;
+	static bool mathToolBar = true;
+
+	if ( m_currentState == "Editor" )
+	{
+		mainToolBar  = toolBar("mainToolBar")->isShown();
+		buildToolBar = toolBar("buildToolBar")->isShown();
+		errorToolBar = toolBar("errorToolBar")->isShown();
+		toolsToolBar = toolBar("toolsToolBar")->isShown();
+		editToolBar  = toolBar("editToolBar")->isShown();
+		mathToolBar  = toolBar("mathToolBar")->isShown();
+	}
+
 	if ( wantState == "HTMLpreview" )
 	{
 		stateChanged( "HTMLpreview");
-		toolBar("extraToolBar")->show();
+		setViewerToolBars();
 		enableKileGUI(false);
 	}
 	else if ( wantState == "Viewer" )
 	{
 		stateChanged( "Viewer" );
-		toolBar("extraToolBar")->show();
+		setViewerToolBars();
 		enableKileGUI(false);
 	}
 	else
@@ -1125,9 +1143,26 @@ void Kile::showToolBars(const QString & wantState)
 		stateChanged( "Editor" );
 		m_wantState="Editor";
 		m_topWidgetStack->raiseWidget(0);
+		if ( ! mainToolBar  ) toolBar("mainToolBar")->hide();
+		if ( buildToolBar ) toolBar("buildToolBar")->show();
+		if ( errorToolBar ) toolBar("errorToolBar")->show();
+		if ( toolsToolBar ) toolBar("toolsToolBar")->show();
+		if ( editToolBar  ) toolBar("editToolBar")->show();
+		if ( mathToolBar  ) toolBar("mathToolBar")->show();
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
+}
+
+void Kile::setViewerToolBars()
+{
+	toolBar("mainToolBar")->show();
+	toolBar("buildToolBar")->hide();
+	toolBar("errorToolBar")->hide();
+	toolBar("toolsToolBar")->hide();
+	toolBar("editToolBar")->hide();
+	toolBar("mathToolBar")->hide();
+	toolBar("extraToolBar")->show();
 }
 
 void Kile::enableKileGUI(bool enable)

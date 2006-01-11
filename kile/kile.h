@@ -191,8 +191,7 @@ private:
 	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
 	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
-	bool 			m_bShowMainTB, m_bShowToolsTB, m_bShowBuildTB, m_bShowErrorTB, m_bShowEditTB, m_bShowMathTB;
-
+	void setViewerToolBars();
 
 signals:
 	/**

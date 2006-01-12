@@ -930,11 +930,6 @@ void Manager::projectNew()
 		if (dlg->createNewFile())
 		{
 			QString filename = dlg->file();
-			KURL fileURL; fileURL.setFileName(filename);
-			if(KileDocument::Info::containsInvalidCharacters(fileURL)) {
-				KURL newURL = KileDocument::Info::repairInvalidCharacters(fileURL);
-				filename = newURL.fileName();
-			}
 
 			//create the new document and fill it with the template
 			//TODO: shell expand the filename

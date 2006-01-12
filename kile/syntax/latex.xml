@@ -210,7 +210,7 @@
       <!-- command in mathmode -->
       <context name="MathContrSeq" attribute="Keyword Mathmode" lineEndContext="#pop">
         <RegExpr String="[a-zA-Z]+\*?" attribute="Keyword Mathmode" context="#pop"/>
-        <RegExpr String="[^a-zA-Z]" attribute="Keyword Mathmode" lookAhead="true" context="#pop" /> 
+        <RegExpr String="[^a-zA-Z]" attribute="Keyword Mathmode" context="#pop" /> 
       </context>
 
       <!-- text in mathmode -->

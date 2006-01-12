@@ -301,6 +301,10 @@ void KileNewProjectDlg::slotOk()
 		return;
 	}
 
+	QFileInfo fi(location().stripWhiteSpace());
+	QFileInfo dr(fi.dirPath());
+	QDir dir = dr.dir();
+
 	if ( location().stripWhiteSpace().right(7) != ".kilepr")
 	{
 		KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong Filename Extension"));
@@ -308,9 +312,6 @@ void KileNewProjectDlg::slotOk()
 	}
 	else
 	{
-		QFileInfo fi(location().stripWhiteSpace());
-		QFileInfo dr(fi.dirPath());
-		QDir dir = dr.dir();
 
 		if (dir.isRelative())
 		{
@@ -362,13 +363,13 @@ void KileNewProjectDlg::slotOk()
 			return;
 		}
 
-		//check for validity of name first, then check for existence
+		//check for validity of name first, then check for existence (fixed by tbraun)
 		KURL fileURL; fileURL.setFileName(file());
 		KURL validURL = KileDocument::Info::makeValidTeXURL(fileURL);
 		if ( validURL != fileURL )
 			m_file->setText(validURL.fileName());
 
-		if ( QFileInfo(file().stripWhiteSpace()).exists() )
+		if ( QFileInfo( QDir(fi.dirPath()) , file().stripWhiteSpace()).exists() )
 		{
 			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()),
 				i18n("File Already Exists")) == KMessageBox::No)

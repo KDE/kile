@@ -959,6 +959,7 @@ void Manager::projectNew()
 		//project->save();
 		addProject(project);
 		emit(updateModeStatus());
+		emit(addToRecentProjects(project->url()));
 	}
 }
 

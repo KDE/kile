@@ -83,28 +83,33 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 		QString newURL = KInputDialog::getText(
 			i18n("Invalid Characters"),
 			i18n("The filename contains invalid characters ($~ #).<br>Please provide \
-				another one, or click on \"Cancel\" to save anyway."),
-			url.filename(),
+				another one, or click \"Cancel\" to save anyway."),
+			ret.filename(),
 			&isOK);
 		if(!isOK)
-			return ret;
+			break;
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
 	
+	return renameIfExist(ret);
+}
+
+KURL Info::renameIfExist(const KURL& url)
+{	
+	KURL ret(url);
 	while ( QFileInfo(ret.path()).exists() )
 	{
 		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("File Already Exists"),
-			i18n("A file with filename %1 already exists.<br>Please provide \
-				another one, or click on \"Cancel\" to overwrite.").arg(ret.fileName()),
-			url.filename(),
+			i18n("A file with filename '%1' already exists.<br>Please provide \
+				another one, or click \"Cancel\" to overwrite it.").arg(ret.fileName()),
+			ret.filename(),
 			&isOK);
 		if(!isOK)
-			return ret;
+			break;
 		ret.setFileName(newURL);
 	}
-
 	return ret;
 }
 
@@ -125,7 +130,7 @@ KURL Info::repairExtension(const KURL& url)
 	{
 		ret.setFileName(filename + ".tex");	
 	}
-	return ret;
+	return renameIfExist(ret);
 }
 
 KURL Info::makeValidTeXURL(const KURL & url)

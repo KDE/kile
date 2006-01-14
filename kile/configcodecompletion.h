@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Dez 03 2005
-    version              : 0.13
-    copyright            : (C) 2004-2005 by Holger Danielsson
+    date                 : Jan 12 2006
+    version              : 0.20
+    copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ class ConfigCodeCompletion : public QWidget
 {
     Q_OBJECT
 public: 
-   ConfigCodeCompletion(KConfig *config, bool viewOpened, QWidget *parent=0, const char *name=0);
+   ConfigCodeCompletion(KConfig *config, QWidget *parent=0, const char *name=0);
    ~ConfigCodeCompletion();
 
    void readConfig(void);
@@ -44,8 +44,6 @@ public:
 
 private:
     KConfig *m_config;
-    bool m_viewOpened;
-    bool m_stateAutomode;
     
     // tabs, views and pages
     QTabWidget *tab;
@@ -59,17 +57,17 @@ private:
     QCheckBox *cb_closeenv;
     QSpinBox *sp_latexthreshold;
     QLabel *lb_latexthreshold;
-#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
 	QCheckBox *cb_autocompletetext;
 	QSpinBox *sp_textthreshold;
 	QLabel *lb_textthreshold;
-#endif
 
     // wordlists
     QStringList m_texlist;
     QStringList m_dictlist;
     QStringList m_abbrevlist;
     
+	bool kateCompletionPlugin();
+
     KListView *getListview(QWidget *page);        
     QString getListname(QWidget *page);         
 

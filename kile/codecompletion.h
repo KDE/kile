@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Nov 07 2005
-    version              : 0.26
-    copyright            : (C) 2004-2005 by Holger Danielsson
+    date                 : Jan 12 2006
+    version              : 0.30
+    copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -141,6 +141,7 @@ private:
 	bool m_firstconfig;
 	bool m_inprogress;
 	bool m_ref;
+	bool m_kilecompletion;
 	
 	// undo text
 	bool m_undo;

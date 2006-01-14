@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Dec 06 2005
-    version              : 0.29
-    copyright            : (C) 2004-2005 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Jan 12 2006
+    version              : 0.30
+    copyright            : (C) 2004-2006 by Holger Danielsson
+     email                : holger.danielsson@t-online.de
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,6 +53,7 @@ namespace KileDocument
 		m_inprogress = false;
 		m_undo = false;
 		m_ref = false;
+		m_kilecompletion = false;
 
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
@@ -405,8 +406,8 @@ namespace KileDocument
 
 	void CodeCompletion::CompletionDone(KTextEditor::CompletionEntry)
 	{
-		// is there a new cursor position?
-		if ( m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
+		// kile completion: is there a new cursor position?
+		if ( m_kilecompletion && m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
 		{
 			int newx = ( m_xoffset != 0 ) ? m_xcursor + m_xoffset - m_textlen : m_xcursor;
 			int newy = ( m_yoffset != 0 ) ? m_ycursor + m_yoffset : m_ycursor;
@@ -421,6 +422,7 @@ namespace KileDocument
 
 	void CodeCompletion::CompletionAborted()
 	{
+		// aborted: undo if kile completion is active
 		if ( m_inprogress && m_undo && m_view )
 		{
 			uint row, col;
@@ -440,14 +442,14 @@ namespace KileDocument
 
 	//////////////////// build the text for completion ////////////////////
 
-	// parse an entry:
+	// parse an entry for kile completion modes:
 	// - delete arguments/parameters
 	// - set cursor position
 	// - insert bullets
 
 	QString CodeCompletion::filterCompletionText( const QString &text, const QString &type )
 	{
-    static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
+		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 		//kdDebug() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
     
@@ -734,7 +736,7 @@ namespace KileDocument
 		return s;
 	}
 
-	// astrip all names enclosed in braces
+	// strip all names enclosed in braces
 
 	QString CodeCompletion::stripParameter( const QString &text )
 	{
@@ -959,57 +961,67 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
 	{
-		//kdDebug() << "==slotCompletionDone=============" << endl;
+		//kdDebug() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionDone(entry);
 
-		if ( getMode() == cmLatex )
+		// if kile completion was active, look if we need to show an additonal list
+		if ( m_kilecompletion )
 		{
-			m_type = getType(entry.text);
-			if ( (m_type==CodeCompletion::ctReference && info()->allLabels()->count()>0)  ||
-				  (m_type==CodeCompletion::ctCitation  && info()->allBibItems()->count()>0) )
+			m_kilecompletion = false;
+			if ( getMode() == cmLatex )
 			{
-				m_ref = true;
-		 		m_completeTimer->start(20,true);
+				m_type = getType(entry.text);
+				if ( (m_type==CodeCompletion::ctReference && info()->allLabels()->count()>0)  ||
+					  (m_type==CodeCompletion::ctCitation  && info()->allBibItems()->count()>0) )
+				{
+					m_ref = true;
+		 			m_completeTimer->start(20,true);
+				}
 			}
 		}
 	}
 
 	void CodeCompletion::slotCompleteValueList()
 	{
-		//kdDebug() << "==slotCompleteValueList=============" << endl;
+		//kdDebug() << "==slotCompleteValueList (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		m_completeTimer->stop();
 		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()
 	{
-		//kdDebug() << "==slotCompletionAborted=============" << endl;
+		//kdDebug() << "==slotCompletionAborted (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionAborted();
 	}
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
-		//kdDebug() << "==slotFilterCompletion=============" << endl;
-		if ( inProgress() ) {                // dani 28.09.2004
+		//kdDebug() << "==slotFilterCompletion (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		if ( inProgress() )                 // dani 28.09.2004
+		{
 			//kdDebug() << "\tin progress: s=" << *s << endl;
 			*s = filterCompletionText( c->text, c->type );
 			//kdDebug() << "\tfilter --->" << *s << endl;
 			m_inprogress = false;
+			m_kilecompletion = true;
 		}
 	}
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
 	{
+		// only work, if autocomplete mode of Kile is active
 		if ( !isActive() || !autoComplete() )
 			return ;
 
+		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << string << ")=============" << endl;
 		//FIXME this is not very efficient
 		m_view = info()->viewManager()->currentView();
 		
 		QString word;
 		Type type;
 		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type ); 
-		if ( found ) { 
+		if ( found ) 
+		{ 
 			int wordlen = word.length();
 			//kdDebug() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
 			if ( inProgress() )               // continue a running mode?

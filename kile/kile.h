@@ -131,11 +131,7 @@ private:
 	void unplugKateConfigMenu(Kate::View* view);
 
 	bool kateCompletionPlugin();
-#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
-	void checkCompletionModes(bool plugin_before);
-#else
-	void checkCompletionModes();
-#endif
+	void checkKateSettings();
 	
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);

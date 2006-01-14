@@ -163,9 +163,7 @@ namespace KileDialog
 
 	void Config::setupCodeCompletion()
 	{
-		bool viewOpened = ( m_ki->viewManager()->currentView() != 0L) ;
-
-		completePage = new ConfigCodeCompletion(m_config,viewOpened); 
+		completePage = new ConfigCodeCompletion(m_config);
 		completePage->readConfig();
 
 		addConfigPage(completePage,i18n("Kile"),i18n("Complete"),"source",i18n("Code Completion"));
@@ -243,13 +241,6 @@ namespace KileDialog
 		}
 	}
 
-	//////////////////// write new configuration ////////////////////
-
-	void Config::writeToolsConfig()
-	{
-		toolPage->writeConfig();
-	}
-
 	//////////////////// encoding  ////////////////////
 
 	QString Config::readKateEncoding()
@@ -270,9 +261,6 @@ namespace KileDialog
 	void Config::slotOk()
 	{
 		kdDebug() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")" << endl;
-		writeToolsConfig();
-		completePage->writeConfig();  // Complete configuration (dani)
-		previewPage->writeConfig();   // Quick Preview (dani)
 
 		// editor settings are only available, when at least one document is opened
 		if ( m_editorOpened && m_editorSettingsChanged )
@@ -284,6 +272,11 @@ namespace KileDialog
 			// take Kate's encoding for Kile
 			syncKileEncoding();
 		}
+
+		// Kile settings
+		toolPage->writeConfig();      // config all tools
+		completePage->writeConfig();  // Complete configuration (dani)
+		previewPage->writeConfig();   // Quick Preview (dani)
 
 		m_config->sync();
 		emit okClicked(); // Otherwise, the KConfigXT machine doesn't start...

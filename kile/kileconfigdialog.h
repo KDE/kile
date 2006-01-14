@@ -101,7 +101,6 @@ namespace KileDialog
 
 		// write configuration
 		void writeGeneralOptionsConfig();
-		void writeToolsConfig();
 
 		// synchronize encoding
 		QString readKateEncoding();

@@ -1691,9 +1691,10 @@ void Kile::readUserSettings()
 		}
 	}
 
-	// check autocomplete modes
-	m_config->setGroup("Kate Document Defaults");
-	if ( m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false) ) {
+	// check autocompletion modes: if KTextEditor-plugin for document word 
+	// completion is active, both autocompletion modes of Kile must be disabled
+	if ( kateCompletionPlugin() )
+	{
 		KileConfig::setCompleteAuto(false);
 		KileConfig::setCompleteAutoText(false);
 	}
@@ -1849,24 +1850,12 @@ void Kile::toggleWatchFile()
 
 void Kile::generalOptions()
 {
-	// In older versions than KDE 3.4.1 autocomplete modes for Kile
-	// and the Kate's plugin for word completion can't live together.
-	// So we had to only enable one of them. Now the bug in Kate is
-	// fixed, so that we should use the 'original' Kate plugin
-	// to complete words from the document. (2005-12-03 dani)
-#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
-	bool plugin_before = kateCompletionPlugin();
-#endif
 	KileDialog::Config *dlg = new KileDialog::Config(m_config,this,this);
 
 	if (dlg->exec())
 	{
-		// check if the two completions modes can live together
-#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
-		checkCompletionModes(plugin_before);
-#else
-		checkCompletionModes();
-#endif
+		// check new Kate settings
+		checkKateSettings();
 
 		// update new settings
 		readConfig();
@@ -1892,42 +1881,15 @@ bool Kile::kateCompletionPlugin()
 	return m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
 }
 
-#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
-void Kile::checkCompletionModes(bool plugin_before)
-#else
-void Kile::checkCompletionModes()
-#endif
+void Kile::checkKateSettings()
 {
 	// editor settings were only available with an opened document
 	Kate::View *view = viewManager()->currentView();
-	if ( !view ) return;
-
-	// remove menu entry to config Kate
-	unplugKateConfigMenu(view);
-
-#if KDE_VERSION < KDE_MAKE_VERSION(3,4,1)
-	// read current configuration values for autocomplete modes
-	bool autocomplete = KileConfig::completeAuto();
-	bool autocompletetext = KileConfig::completeAutoText();
-
-	// read plugin configuration after dialog to see if plugin state has changed
-	bool plugin_after = kateCompletionPlugin();
-
-	if ( !plugin_before && plugin_after ) {                      // false --> true
-		QString msg = ( autocomplete || autocompletetext )
-		            ? i18n("You enabled the KTextEditor-Plugin for word completion, "
-		              "but this conflicts with the active auto completion modes of Kile. "
-		              "As one of these completion modes must be disabled, the "
-		              "autocompletion modes of Kile will be disabled.")
-		            : i18n("You enabled the KTextEditor-Plugin for word completion, "
-		              "but this conflicts with the auto completion modes of Kile. "
-		              "As only one of these completion modes can be used, the autocompletion modes of Kile will be disabled.");
-
-		KMessageBox::information( this,"<center>" + msg + "</center>",i18n("Autocomplete warning") );
-		KileConfig::setCompleteAuto(false);               // disable autocompletion of Kile
-		KileConfig::setCompleteAutoText(false);
+	if ( view )
+	{
+		// remove menu entry to config Kate
+		unplugKateConfigMenu(view);
 	}
-#endif
 }
 
 // remove menu entry to config Kate, because there is

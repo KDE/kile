@@ -774,12 +774,16 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	kdDebug() << "\t" << url.url() << endl;
 	bool isopen = m_ki->isOpen(url);
 
-	load(url, encoding);
+	Kate::View *view = load(url, encoding);
+	KileProjectItem *item = itemFor(url);
 
 	//URL wasn't open before loading, add it to the project view
 	//FIXME: use signal/slot
-	if (!isopen && (itemFor(url) == 0) ) m_ki->viewManager()->projectView()->add(url);
+	if ( !isopen && item  == 0L )
+		m_ki->viewManager()->projectView()->add(url);
 
+	if(view && item)
+		view->setCursorPosition(item->lineNumber(), item->columnNumber());
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	// update undefined references in this file

@@ -95,10 +95,6 @@ void Manager::closeWidget(QWidget *widget)
 		Kate::View *view = static_cast<Kate::View*>(widget);
 		m_ki->docManager()->fileClose(view->getDoc());
 	}
-
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
-	  m_tabs->setTabBarHidden( m_tabs->count() == 1 );
-	#endif
 }
 
 Kate::View* Manager::createView(Kate::Document *doc)
@@ -158,10 +154,6 @@ Kate::View* Manager::createView(Kate::Document *doc)
 		action->unplugAll();
 	}
 
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
-	  m_tabs->setTabBarHidden( m_tabs->count() == 1 );
-	#endif
-
 	return view;
 }
 
@@ -178,10 +170,6 @@ void Manager::removeView(Kate::View *view)
 		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
 		if (views().isEmpty()) m_ki->structureWidget()->clear();
 	}
-
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
-	  m_tabs->setTabBarHidden( m_tabs->count() == 1 );
-	#endif
 }
 
 void Manager::removeFromProjectView(const KURL & url)

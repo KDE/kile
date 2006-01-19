@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Dec 06 2005
-    version              : 0.24
-    copyright            : (C) 2004-2005 by Holger Danielsson
+    date                 : Jan 18 2006
+    version              : 0.26
+    copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -107,7 +107,7 @@ public slots:
 	void nextBullet();
 	void prevBullet();
 
-	void insertDoubleQuotes();
+	bool insertDoubleQuotes();
 	void initDoubleQuotes();
 
 	void insertIntelligentTabulator();

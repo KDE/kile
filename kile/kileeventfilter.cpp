@@ -37,7 +37,11 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 {
 	if ( e->type() == QEvent::KeyPress)
 	{
-		QKeyEvent *ke = (QKeyEvent*) e;	
+		QKeyEvent *ke = (QKeyEvent*) e;
+		if ( ke->key()==Qt::Key_QuoteDbl && ke->ascii()==Qt::Key_QuoteDbl )
+		{
+			return m_edit->insertDoubleQuotes();
+		}
 		if ( m_bCompleteEnvironment &&  ke->key()==Qt::Key_Return && ke->state()==0)  
 		{
 			return m_edit->eventInsertEnvironment( (Kate::View*) o->parent() );

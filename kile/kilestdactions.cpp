@@ -142,7 +142,6 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 
 	(void) new KAction(i18n("Smart New Line"), "newline", Qt::SHIFT+Qt::Key_Return , ki->editorExtension(), SLOT(insertIntelligentNewline()), parent->actionCollection(),"tag_newline");
 	(void) new KAction(i18n("Smart Tabulator"), Qt::ALT+Qt::Key_Ampersand, ki->editorExtension(), SLOT(insertIntelligentTabulator()), parent->actionCollection(),"tag_tabulator" );
-	(void) new KAction(i18n("Smart Quotes"), Qt::Key_QuoteDbl, ki->editorExtension(), SLOT(insertDoubleQuotes()), parent->actionCollection(),"tag_dblquotes" );
 
 	// new tags (dani 29.01.2005)
 	KActionCollection* ac = parent->actionCollection();

@@ -1,6 +1,6 @@
 /***************************************************************************
     date                 : Jan 18 2006
-    version              : 0.25
+    version              : 0.26
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -24,6 +24,7 @@
 #include <klocale.h>
 #include <kinputdialog.h>
 
+#include "kilekonsolewidget.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
@@ -1509,21 +1510,31 @@ void EditorExtension::initDoubleQuotes()
 	kdDebug() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;
 }
 
-void EditorExtension::insertDoubleQuotes()
+bool EditorExtension::insertDoubleQuotes()
 {
+	// don't insert double quotes, if konsole has focus 
+	// return false, because if this is called from an event
+	// handler, because this event has to be passed on
+	if ( m_ki->texKonsole()->hasFocus() )
+		return false;
+
+	// insert double quotes, normal mode or autocompletion mode
+	// always return true for event handler
 	Kate::View *view = determineView(0L);
-	if ( !view ) return;
+	if ( !view ) return true;
 	
 	uint row,col;
 	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
 	
-   if ( ! m_dblQuotes ) 
+	// simply insert, if autoinsert mode is not active
+	if ( ! m_dblQuotes ) 
 	{
 		doc->insertText(row,col,"\"");
-		return;
+		return true;
 	}
 
+	// insert with auto mode
 	KTextEditor::SearchInterface *iface;
 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
 		
@@ -1580,6 +1591,7 @@ void EditorExtension::insertDoubleQuotes()
 			doc->insertText(row,col,m_leftDblQuote);
 		}
 	}
+	return true;
 }
 
 //////////////////// insert tabulator ////////////////////

@@ -34,6 +34,10 @@
 // 2005-12-07: dani
 //  - add support to enable and disable some structure view items
 
+// 2005-01-16 tbraun
+// - fix #59945 Now we call (through a signal ) project->buildProjectTree so the bib files are correct,
+//   and therefore the keys in \cite completion
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -607,6 +611,7 @@ void TeXInfo::updateStruct()
 	bool foundBD = false; // found \begin { document }
 	bool fire = true; //whether or not we should emit a foundItem signal
 	bool fireSuspended; // found an item, but it should not be fired (this time)
+	bool depsHasChanged = false;
 
 	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
@@ -735,7 +740,13 @@ void TeXInfo::updateStruct()
 					// update the referenced Bib files
 					else  if( (*it).type == KileStruct::Bibliography )
 					{
-						//kdDebug() << "\tappending Bibiliograph file " << m << endl;
+						kdDebug() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
+
+						if( m_prevbib != m && !m_prevbib.isEmpty() && !m.isEmpty() )
+							depsHasChanged=true;
+						kdDebug() << "depsHasChanged = " << depsHasChanged << endl;
+						m_prevbib=m;
+
 						QStringList bibs = QStringList::split(",", m);
 						QString biblio;
 						
@@ -832,6 +843,9 @@ void TeXInfo::updateStruct()
 		} // while tagStart
 	} //for
 
+	if(depsHasChanged) 
+		emit(depChanged()); // does the order of the signals matter ?
+				// TODO do the same kind of smart update for \input and \includegraphics
 	emit(doneUpdating());
 	emit(isrootChanged(isLaTeXRoot()));
 }

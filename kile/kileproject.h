@@ -177,8 +177,6 @@ public:
 	KileProjectItem *rootItem(KileProjectItem *) const;
 	const QPtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
 
-	void buildProjectTree();
-
 signals:
 	void nameChanged(const QString &);
 	void masterDocumentChanged(const QString &);
@@ -192,6 +190,8 @@ public slots:
 	void remove(const KileProjectItem*);
 
 	void itemRenamed(KileProjectItem*);
+
+	void buildProjectTree(); // moved to slots by tbraun
 
 	//debugging
 	void dump();

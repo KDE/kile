@@ -114,9 +114,9 @@ public:
 	/**
 	 * Used by @ref KileDocInfoDlg to display statistics of the Document.
 	 * @returns an array with some statistical data of the document.
-	 * The array is filled as follows: #chars in words, #chars in LaTeX commands,
-	 * #chars in whitespace, #words, #commands.
-	 **/
+	 * The array is filled as follows: [0] = #c in words, [1] = #c in latex commands and environments,
+	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments **/
+
 	virtual const long* getStatistics();
 
 	const QStringList* labels() const{ return &m_labels; }
@@ -157,6 +157,7 @@ signals:
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString & folder);
 	void doneUpdating();
+	void depChanged();
 
 protected:
 	void count(const QString line, long *stat);
@@ -180,6 +181,7 @@ protected:
 	QStringList					m_packages;
 	QStringList					m_newCommands;
 	QString						m_preamble;
+	QString						m_prevbib;
 	QMap<QString,KileStructData>			m_dictStructLevel;
 	KURL						m_url, m_oldurl;
 	KConfig						*m_config;

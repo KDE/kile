@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Dec 06 2005
-    version              : 0.24
-    copyright            : (C) 2004-2005 by Holger Danielsson
+    date                 : Jan 18 2006
+    version              : 0.25
+    copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -1625,6 +1625,11 @@ void EditorExtension::insertIntelligentTabulator()
 
 bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 {
+	// don't complete environment, if we are
+	// still working inside the completion box
+	if ( m_complete->inProgress() )
+		return false;
+
 	int row = view->cursorLine();
 	int col = view->cursorColumnReal();
 	QString line = view->getDoc()->textLine(row).left(col);

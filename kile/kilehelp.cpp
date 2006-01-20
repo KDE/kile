@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Jul 22 2005
-    version              : 0.21
-    copyright            : (C) 2004-2005 by Holger Danielsson
+    date                 : Jan 19 2006
+    version              : 0.22
+    copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -39,7 +39,7 @@
 namespace KileHelp
 {
 
-	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit)
+	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit), m_userhelp(0L)
 	{
 		readHelpList("latex-kile.lst",m_dictHelpKile);
 		
@@ -72,6 +72,11 @@ namespace KileHelp
 		m_userhelp = new UserHelp(manager,menubar);
 	}
 	
+	void Help::enableUserhelpEntries(bool state)
+	{ 
+		if ( m_userhelp )
+			m_userhelp->enableUserHelpEntries(state);
+	}
 	////////////////////// show help //////////////////////
 	
 	void Help::showHelpFile(const QString &parameter)

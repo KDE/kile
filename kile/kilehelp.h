@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Jul 22 2005
-    version              : 0.21
-    copyright            : (C) 2004-2005 by Holger Danielsson
+    date                 : Jan 19 2006
+    version              : 0.22
+    copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -69,7 +69,7 @@ namespace KileHelp
 		void helpKeyword(Kate::View *view);
 		void noHelpAvailableFor(const QString &word);
 		void userHelpDialog() { m_userhelp->userHelpDialog(); }
-
+		void enableUserhelpEntries(bool state);
 	public slots:
 		void helpTetexGuide() { helpTetex(KileHelp::HelpTetexGuide); }
 		void helpTetexDoc() { helpTetex(KileHelp::HelpTetexDoc); }

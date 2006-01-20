@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="20">
+<kpartgui name="kile" version="21">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -110,7 +110,7 @@
 <Action name="gotoPrevDocument"/>
 <Action name="gotoNextDocument"/>
 </Menu>
-<Menu name="menu_build"><text>&amp;Build</text>
+<Menu name="menu_build"><text>B&amp;uild</text>
 	<ActionList name="list_quickies"/>
 	<Menu name="quickpreview"><text>QuickPreview</text>
 		<Action name="quickpreview_selection"/>
@@ -640,7 +640,18 @@
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
 	<Action name="edit_close_group"/>
-	<Action name="help_context"/>
+	<Action name="help_latex_reference"/>
+	<Action name="help_handbook"/>
+	<Action name="help_tipofday"/>
+	<Action name="help_context" />
+	<Action name="help_docbrowser" />
+	<Action name="help_tetex_guide" />
+	<Action name="help_tetex_doc" />
+	<Action name="help_latex_index" />
+	<Action name="help_latex_command" />
+	<Action name="help_latex_subject" />
+	<Action name="help_latex_env" />
+	<Action name="report_bug"/>
 </Disable>
 <Enable>
 	<Action name="file_print"/>
@@ -705,7 +716,18 @@
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
 	<Action name="edit_close_group"/>
-	<Action name="help_context"/>
+	<Action name="help_latex_reference"/>
+	<Action name="help_handbook"/>
+	<Action name="help_tipofday"/>
+	<Action name="help_context" />
+	<Action name="help_docbrowser" />
+	<Action name="help_tetex_guide" />
+	<Action name="help_tetex_doc" />
+	<Action name="help_latex_index" />
+	<Action name="help_latex_command" />
+	<Action name="help_latex_subject" />
+	<Action name="help_latex_env" />
+	<Action name="report_bug"/>
 	<Action name="Back"/>
 	<Action name="Forward"/>
 	<Action name="Home"/>
@@ -771,7 +793,18 @@
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
 	<Action name="edit_close_group"/>
-	<Action name="help_context"/>
+	<Action name="help_latex_reference"/>
+	<Action name="help_handbook"/>
+	<Action name="help_tipofday"/>
+	<Action name="help_context" />
+	<Action name="help_docbrowser" />
+	<Action name="help_tetex_guide" />
+	<Action name="help_tetex_doc" />
+	<Action name="help_latex_index" />
+	<Action name="help_latex_command" />
+	<Action name="help_latex_subject" />
+	<Action name="help_latex_env" />
+	<Action name="report_bug"/>
 </Enable>
 <Disable>
 	<Action name="EditorView"/>

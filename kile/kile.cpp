@@ -1185,6 +1185,9 @@ void Kile::enableKileGUI(bool enable)
 			   menubar->setItemEnabled(id, enable);
 		}
 	}
+
+	// enable or disable userhelp entries 
+	m_help->enableUserhelpEntries(enable);
 }
 
 // adds action names to their lists

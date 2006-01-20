@@ -1,9 +1,9 @@
 /***************************************************************************
                            userhelp.h
 ----------------------------------------------------------------------------
-    date                 : Mar 10 2005
-    version              : 0.12
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Jan 19 2006
+    version              : 0.13
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -41,6 +41,7 @@ public:
 	~UserHelp();
 	void updateEntries(const QStringList &entries, const QStringList &files, bool save = true);
 	void userHelpDialog();   
+	void enableUserHelpEntries(bool state);
 
 private slots:
 	void slotUserHelpActivated(int index);   

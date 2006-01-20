@@ -1,9 +1,9 @@
 /***************************************************************************
                            userhelp.cpp
 ----------------------------------------------------------------------------
-    date                 : Dec 08 2005
-    version              : 0.22
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Jan 19 2006
+    version              : 0.23
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -47,6 +47,8 @@ UserHelp::UserHelp(KileTool::Manager *manager, KMenuBar *menubar)
 		{
 			m_sepid = m_helpmenu->insertSeparator(helpindex); 
 			m_helpid = m_helpmenu->insertItem(i18n("User Help"),m_helppopup,-1,helpindex); 
+			m_helpmenu->setItemVisible(m_helpid,false);
+			m_helpmenu->setItemVisible(m_sepid,false);
 		}
 		
 		readConfig();
@@ -168,6 +170,15 @@ void UserHelp::setupUserHelpMenu()
 		m_helppopup->setItemParameter(helpid,i);  
 		}
 	}
+}
+
+void UserHelp::enableUserHelpEntries(bool state)
+{
+	if ( m_menuentries.count() > 0 ) 
+	{
+		m_helpmenu->setItemVisible(m_helpid,state);
+		m_helpmenu->setItemVisible(m_sepid,state);
+	} 
 }
 
 QPopupMenu *UserHelp::getHelpPopup()

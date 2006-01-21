@@ -261,8 +261,8 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 					m_popup->insertSeparator();
 				m_popup->insertItem(SmallIcon("project_remove"),i18n("&Remove From Project"), KPV_ID_REMOVE);
 				insertsep = true;
+			}
    			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
-   		}
 		}
 		else if (itm->type() == KileType::Project)
 		{

@@ -1,9 +1,9 @@
 /***************************************************************************
                          texdocdialog.cpp
                          ----------------
-    date                 : Jul 27 2005
-    version              : 0.12
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Jan 22 2006
+    version              : 0.13
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ namespace KileDialog
 //BEGIN TexDocDialog
 
 TexDocDialog::TexDocDialog(QWidget *parent, const char *name) 
-   : KDialogBase( parent,name, true, i18n("Documentation Browser"), Ok | Help, NoDefault, true ),
+   : KDialogBase( parent,name, true, i18n("Documentation Browser"), Close | Help, NoDefault, true ),
 	m_tempfile(0), m_proc(0)
 {
 	QWidget *page = new QWidget( this );
@@ -86,11 +86,13 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 	QWhatsThis::add(m_pbSearch,i18n("Start the search for the chosen keyword."));
 	QWhatsThis::add(actionButton(Help),i18n("Reset TOC to show all available files."));
 	
-	setButtonText(Ok,i18n("&Done"));
 	setButtonText(Help,i18n("Reset &TOC"));
 	m_pbSearch->setEnabled(false);
 	enableButton(Help,false);
+
+	// catch some Return/Enter events
 	m_texdocs->installEventFilter(this);
+	m_leKeywords->installEventFilter(this);
 	
 	connect(m_texdocs, SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)), 
 	        this, SLOT(slotListViewDoubleClicked(QListViewItem *,const QPoint &,int)));
@@ -235,14 +237,34 @@ void TexDocDialog::showToc(const QString &caption,const QStringList &doclist, bo
 
 bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 {
-	// enable start of viewer, when pressing the space key
-	if ( o == m_texdocs && e->type()==QEvent::KeyPress ) 
+	// catch KeyPress events
+	if ( e->type() == QEvent::KeyPress ) 
 	{
 		QKeyEvent *kev = (QKeyEvent*) e;
-		if ( kev->key() == Qt::Key_Space ) 
+		
+		// ListView: 
+		//  - space:  enable start of viewer
+		//  - return: ignore
+		if ( o == m_texdocs )
 		{
-			slotListViewDoubleClicked(m_texdocs->currentItem(), QPoint(0,0), 0) ;
-			return true; 
+			if ( kev->key() == Qt::Key_Space ) 
+			{
+				slotListViewDoubleClicked(m_texdocs->currentItem(), QPoint(0,0), 0) ;
+				return true; 
+			}
+			if ( kev->key()==Qt::Key_Return || kev->key()==Qt::Key_Enter )
+				return true;
+		}
+
+		// LineEdit
+		//  - return: start search, if button is enabled
+		if ( o == m_leKeywords )
+		{
+			if ( kev->key()==Qt::Key_Return || kev->key()==Qt::Key_Enter )
+			{
+				callSearch();
+				return true;
+			}
 		}
 	}
 
@@ -488,6 +510,12 @@ void TexDocDialog::slotHelp()
 	m_leKeywords->setText(QString::null);
 	m_texdocs->clear();
 	showToc(i18n("Table of Contents"),m_tocList,true);
+}
+
+void TexDocDialog::callSearch()
+{	
+	if ( m_pbSearch->isEnabled() )
+		slotSearchClicked();
 }
 
 ////////////////////// execute shell script //////////////////////

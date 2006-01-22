@@ -1,9 +1,9 @@
 /***************************************************************************
                          texdocdialog.h
                          --------------
-    date                 : Jul 17 2005
-    version              : 0.10
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Jan 22 2006
+    version              : 0.13
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -61,6 +61,7 @@ private:
 	KTempFile *m_tempfile;
 	KShellProcess *m_proc;
 	
+	void callSearch();
 	void executeScript(const QString &command);
 	void showFile(const QString &filename);
 

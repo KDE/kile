@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include <qdir.h>
+#include <qfile.h>
 
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
@@ -119,9 +120,9 @@ int main( int argc, char ** argv )
 		for ( int i = 0; i < args->count(); ++i)
 		{
 			if ( isProject(args->arg(i)) )
-				mw->openProject(completePath(args->arg(i)));
+				mw->openProject(completePath(QFile::decodeName(args->arg(i))));
 			else
-				mw->openDocument(completePath(args->arg(i)));
+				mw->openDocument(completePath(QFile::decodeName(args->arg(i))));
 		}
 
 		QString line = args->getOption("line");
@@ -135,9 +136,9 @@ int main( int argc, char ** argv )
 		for ( int i = 0; i < args->count(); ++i )
 		{
 			if ( isProject(args->arg(i)) )
-				client->send (appID, "Kile", "openProject(QString)", completePath(args->arg(i)));
+				client->send (appID, "Kile", "openProject(QString)", completePath(QFile::decodeName(args->arg(i))));
 			else
-				client->send (appID, "Kile", "openDocument(QString)", completePath(args->arg(i)));
+				client->send (appID, "Kile", "openDocument(QString)", completePath(QFile::decodeName(args->arg(i))));
 		}
 
 		QString line = args->getOption("line");

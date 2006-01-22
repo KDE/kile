@@ -53,17 +53,17 @@
 </copyright>
 
 <copyright>
-<year>2003</year><year>2005</year>
+<year>2003</year><year>2005</year><year>2006</year>
 <holder>Federico Zenith</holder>
 </copyright>
 
 <copyright>
-<year>2005</year>
+<year>2005</year><year>2006</year>
 <holder>Holger Danielsson</holder>
 </copyright>
 
-<date>2005-07-23</date>
-<releaseinfo>1.8</releaseinfo>
+<date>2006-01-19</date>
+<releaseinfo>1.9</releaseinfo>
 
 <legalnotice>
 &FDLNotice;
@@ -308,8 +308,9 @@
 			<para>The auto-completion of environments means that, when you begin a new environment by typing
 			<userinput>\begin{environment}</userinput>, &kile; will automatically insert a matching
 			<userinput>\end{environment}</userinput> command, with a line in between them
-			for your text. You can of course deactivate it if you want in <menuchoice><guimenu>Settings</guimenu>
-			<guimenuitem>Configure Kile...</guimenuitem><guilabel>LaTeX</guilabel></menuchoice>.</para>
+			for your text. You can of course deactivate it if you want in 
+			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+			<guimenuitem>LaTeX</guimenuitem><guilabel>Environments</guilabel></menuchoice>.</para>
 
 		</sect2>
 
@@ -670,8 +671,9 @@
 			</para>
 		
 			<para>&kile; offers a configuration with this option for all &latex; binaries.
-			Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Build</guimenuitem></menuchoice> and always choose
-			the <guilabel>Modern</guilabel> configuration.</para>
+			Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+			<guimenuitem>Tools</guimenuitem><guilabel>Build</guilabel></menuchoice>
+			and always choose the <guilabel>Modern</guilabel> configuration.</para>
 
 			<para>To execute a forward search, position the cursor on a line of source code, and click 
 			<guilabel>Kdvi Forward Search</guilabel> to jump to the associated position 
@@ -749,6 +751,10 @@
 		<listitem><para>Book</para></listitem>
 		<listitem><para>Article</para></listitem>
 		<listitem><para>Report</para></listitem>
+		<listitem><para>Scrartcl (from the KOMA-Script package)</para></listitem>
+		<listitem><para>Scrbook (from the KOMA-Script package)</para></listitem>
+		<listitem><para>Scrlttr2 (from the KOMA-Script package)</para></listitem>
+		<listitem><para>Scrreprt (from the KOMA-Script package)</para></listitem>
 	</itemizedlist>
 
 	<para>If you selected an <guilabel>Empty document</guilabel>, you can either start 
@@ -781,7 +787,8 @@
 			<menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice>,
 			certain character combinations will be replaced by data such as your name, 
 			or the character encoding your are using. These variables can be configured in
-			<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile...</guimenuitem></menuchoice>.</para>
+			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+			<guimenuitem>Settings</guimenuitem><guilabel>General</guilabel></menuchoice>.</para>
 
 			<para>When designing your own template, it is useful to known which character 
 			combinations are replaced by which template variables:</para>
@@ -1264,6 +1271,81 @@
 		
 	</sect1>
 
+	<sect1 id="editing_dblquotes">
+
+		<title>Double Quotes</title>
+
+		<para>In &latex;, two single quotes are used as double quotes. To  
+		help you insert these efficiently, &kile; allows you to press 
+		<keycap>"</keycap> to insert two opening 
+		single quotes. Furthermore, if you want to close a quotation, you also 
+		have to press <keycap>"</keycap>. &kile; will 
+		be smart enough to recognize this case and inserts two closing quotes 
+		for &latex;.</para>
+
+		<para>To get a literal double quote on the other side, press 
+		<keycap>"</keycap> twice.</para>
+
+		<para>You can enable or disable this auto insertion of opening and 
+		closing double quotes in section 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
+		Kile...</guisubmenu><guimenuitem>LaTeX</guimenuitem></menuchoice>.</para>
+
+		<screenshot>
+			<screeninfo>Bullets</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Bullets</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>If you also include language specific options or style files 
+		like <userinput>ngerman</userinput> or <userinput>french</userinput>, 
+		you will also be able to use german or french double quotes.</para>
+
+		<para>These quotes will also be used in  other languages. Look at your 
+		&tetex; documentation to find out, which option or style file must 
+		be used for your language.</para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title>Smart Newline</title>
+
+		<para>If you press <keycombo>&Shift;<keycap>Return</keycap></keycombo>, 
+		&kile; inserts an intelligent newline. If your current position 
+		is inside a list environment like <userinput>enumerate</userinput> 
+		or <userinput>itemize</userinput>, &kile; will not only insert 
+		a newline, but also add a <userinput>\item</userinput> command.</para>
+
+		<para>If you are inside a tabular environment, &kile; will finish the 
+		current line with <userinput>\\</userinput>, followed by the newline.</para>
+
+		<para>Even better, &kile; is smart enough to support predefined &latex; 
+		and user defined environment, which can be added in section 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
+		Kile...</guisubmenu><guimenuitem>LaTeX</guimenuitem></menuchoice>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title>Smart Tabulator</title>
+
+		<para>Some users like to arrange columns in tabular environments and
+		put all ampersand characters <keycap>&amp;</keycap> beneath each other. &kile; tries
+		to support this. So if you press <keycombo>&Shift;&Alt;<keycap>&amp;</keycap></keycombo>, 
+		&kile; will look for the next tab in the row above. Although his which may not the  
+		correspondingtab, &kile; will add some spaces to adjust the column position with 
+		the current tab.</para>
+
+	</sect1>
+
 </chapter>
 
 <chapter id="completion">
@@ -1285,8 +1367,8 @@
 		line in between for your text.</para>
 
 		<para>Auto-completion can be turned off in the &latex; section of
-		<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile...</guimenuitem></menuchoice>.
-		</para>
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>LaTeX</guimenuitem><guilabel>Environments</guilabel></menuchoice>.</para>
 
 		<screenshot>
 			<screeninfo>Completing an Equation Environment</screeninfo>
@@ -1357,7 +1439,9 @@
 			</mediaobject>
 		</screenshot>
 		
-		<para>Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> 
+		<para>Go to 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
 		to configure one or more of these lists. You can choose different word lists 
 		for &tex; and &latex; commands and dictionary mode for normal words.</para> 
 		
@@ -1406,7 +1490,9 @@
 			</mediaobject>
 		</screenshot>
 		
-		<para>Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> 
+		<para>Go to 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
 		to configure one or more of these lists. This mode uses the same word lists as the 
 		completion mode for &tex; and &latex; commands.</para> 
 
@@ -1417,7 +1503,9 @@
 		<title>Abbreviations</title>
 
 		<para>&kile; supports user defined lists of abbreviations, which are replaced 
-		on demand by longer text strings. Look at <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> 
+		on demand by longer text strings. Look at 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
 		to configure one or more of theses lists. For the example given here, the 
 		abbreviation list in <filename>example.cwl</filename> must be chosen. 
 		In this file you will find for example the entry <userinput>L=\LaTeX</userinput> for example.</para>
@@ -1445,8 +1533,10 @@
 			will always change and match your currently typed word. This mode is restricted 
 			to &latex; commands, because large dictionaries need a lot of memory and time.</para>
 
-			<para>Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice> to 
-			enable or disable this mode or to change the threshold.</para>
+			<para>Go to 
+			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+			<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
+			to enable or disable this mode or to change the threshold.</para>
 			
 		<screenshot>
 			<screeninfo>Completing an Equation Environment</screeninfo>
@@ -1471,8 +1561,9 @@
 			completion for all words from the document that the user has already typed before.</para>
 
 			<para>If you want to turn this mode on or off, go to
-			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Complete</guimenuitem></menuchoice>. In 
-			this configuration dialog you can also change the threshold at which 
+			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+			<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>.
+			In this configuration dialog you can also change the threshold at which 
 			the completion box pops up.</para>
 	
 		</sect2>	
@@ -1512,7 +1603,8 @@
 		a proper &tetex; system. If you have installed 
 		<ulink url="http://www.imagemagick.org/">&imagemagick;</ulink>
 		and also configured &kile; to use it 
-		(<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Kile...</guimenuitem><guilabel>LaTeX</guilabel></menuchoice>), 
+		(<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>LaTeX</guimenuitem><guilabel>General</guilabel></menuchoice>), 
 		the width and the high of the graphics are automatically shown. 
 		If &imagemagick; can determine a resolution, the size of the graphics 
 		is also shown in centimeters.</para></step>
@@ -2187,7 +2279,8 @@
 		</screenshot>
 
 		<para>All settings must be done in 
-		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Quick Preview</guimenuitem></menuchoice>.</para>
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>Tools</guimenuitem><guilabel>Preview</guilabel></menuchoice>.</para>
 
 		<screenshot>
 			<screeninfo>Bullets</screeninfo>
@@ -2460,7 +2553,8 @@
 		</itemizedlist>
 		
 		<para> The <emphasis>&postscript; Way of &kile;</emphasis> can be turned off or on in
-		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>LaTeX</guimenuitem></menuchoice>.</para>
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>LaTeX</guimenuitem><guilabel>General</guilabel></menuchoice>.</para>
 		
 	</sect2>
 		
@@ -2894,8 +2988,22 @@
 	<itemizedlist>
 		<listitem><para>One way to set the encoding is to use the <guilabel>Set encoding</guilabel> combo
 		box, located at the bottom of the <guilabel>Open File</guilabel> sidebar view.</para></listitem>
-		<listitem><para>Another way is using the submenu <menuchoice><guimenu>View</guimenu><guisubmenu>Set
-		Encoding</guisubmenu></menuchoice>.</para></listitem>
+		<listitem><para>Another way is using the submenu 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
+		Kile...</guisubmenu><guimenuitem>Editor</guimenuitem></menuchoice>,
+		where you can set the default character enconding for all files.</para>
+		<screenshot>
+			<screeninfo>Set the default character encoding</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Set the default character encoding</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
 		<listitem><para>A third way to set the encoding for a document is to set the option
 		when you use the wizard to create a new document.</para></listitem>
 	</itemizedlist>
@@ -3201,7 +3309,8 @@
 
 		<para>&kile; also support a context sensitive help, which is called 
 		with <keycombo action="simul">&Ctrl;&Alt;<keycap>H</keycap></keycombo>,<keycap>K</keycap>.
-		In <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Help</guimenuitem></menuchoice>
+		In <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
 		you can choose whether you want to use &kile;'s &latex; reference or the 
 		help system of &tetex;, which is the default setting.</para>
 
@@ -3276,7 +3385,9 @@
 		These can be the most important documents of &tetex; documentation, or even 
 		self written documents. It is even possible to choose some Web URLs.</para> 
 
-		<para>Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu><guimenuitem>Help</guimenuitem></menuchoice> 
+		<para>Go to 
+		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
+		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
 		and choose <guibutton>Configure</guibutton> button
 		to configure this <guimenu>User help</guimenu> menu. You can add, 
 		remove or navigate menu entries, and also insert separators to get 

@@ -386,14 +386,22 @@ bool Manager::removeDocumentInfo(Info *docinfo, bool closingproject /* = false *
 {
 	kdDebug() << "==Manager::removeDocumentInfo(Info *docinfo)=====" << endl;
 	KileProjectItemList *itms = itemsFor(docinfo);
+	bool oneItem = false;
+	if (itms->count() == 1)
+		oneItem = true;
 
-	if ( itms->count() == 0 || (closingproject && itms->count() == 1))
+	if ( itms->count() == 0 || ( closingproject && oneItem ))
 	{
 		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_infoList.count() << endl;
 		m_infoList.remove(docinfo);
 
 		emit ( closingDocument ( docinfo ) );
 
+		if(oneItem)
+		{		
+			itms->first()->setInfo(0L); // really ugly hack, but otherwise item->getInfo() still gives an docinfo != 0L even after delete docinfo (tbraun)
+		}
+		
 		delete docinfo;
 		delete itms;
 
@@ -1171,8 +1179,8 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		KileProjectItemList *list = project->items();
 		Kate::Document *doc = 0L;
 
-		KileProjectItem *item;
-		Info *docinfo;
+		KileProjectItem *item = 0L;
+		Info *docinfo = 0L;
 		//update the open-state of the items
 		for (uint i=0; i < list->count(); ++i)
 		{
@@ -1181,12 +1189,13 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 			item->setOpenState(m_ki->isOpen(item->url()));
 			docinfo = item->getInfo();
 
-			kdDebug() << "test" << endl;
-			kdDebug() << "\t\tDOCINFO = " << docinfo << ", DOC = " << docinfo->getDoc() << endl;
-			if (docinfo != 0L) doc = docinfo->getDoc();
-			if (doc != 0L) storeProjectItem(item, doc);
+			if (docinfo != 0L)
+				doc = docinfo->getDoc();
+			if (doc != 0L)
+				storeProjectItem(item, doc);
 
 			doc = 0L;
+			docinfo = 0L;
 		}
 
 		project->save();
@@ -1362,42 +1371,39 @@ bool Manager::projectClose(const KURL & url)
  	if (project)
 	{
 		kdDebug() << "\tclosing:" << project->name() << endl;
-        project->setLastDocument(m_ki->getName());
-
-		//close the project file first, projectSave, changes this file
-		Kate::Document *doc = docFor(project->url());
-		if (doc)
-		{
-			doc->save();
-			fileClose(doc);
-		}
+        	project->setLastDocument(m_ki->getName());
 
 		projectSave(project);
 
 		KileProjectItemList *list = project->items();
 
 		bool close = true;
-		Info *docinfo;
+		Kate::Document *doc = 0L;
+		Info *docinfo = 0L;
 		for (uint i =0; i < list->count(); ++i)
-		{
+		{	
+			doc = 0L;
 			docinfo = list->at(i)->getInfo();
-			if (docinfo) doc = docinfo->getDoc();
+			if (docinfo)
+				doc = docinfo->getDoc();
 			if (doc)
 			{
 				kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
 				bool r = fileClose(doc, true);
 				close = close && r;
-				if (!close) break;
+				if (!close)
+					break;
 			}
-			else
-				removeDocumentInfo(docinfo, true);
-
-			docinfo = 0L;
-			doc = 0L;
 		}
 
 		if (close)
 		{
+			for (uint i =0; i < list->count(); ++i)
+			{
+				docinfo = list->at(i)->getInfo();
+				if (docinfo)
+					removeDocumentInfo(docinfo, true);
+			}
 			m_projects.remove(project);
 			//FIXME: use signal/slot
 			m_ki->viewManager()->projectView()->remove(project);

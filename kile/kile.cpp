@@ -150,6 +150,11 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	sizes.clear();
 	sizes << m_horSplitLeft << m_horSplitRight;
 	m_horizontalSplitter->setSizes( sizes );
+	if ( ! KileConfig::bottomBar() )
+	{
+		m_actionMessageView->activate();
+		m_bottomBar->setSize(KileConfig::bottomBarSize());
+	}
 
 	m_topWidgetStack->addWidget(m_horizontalSplitter , 0);
 	setCentralWidget(m_topWidgetStack);
@@ -343,8 +348,8 @@ void Kile::setupBottomBar()
 	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
 	m_bottomBar->showPage(m_logWidget);
-	m_bottomBar->setVisible(KileConfig::bottomBar());
-    m_bottomBar->setSize(KileConfig::bottomBarSize());
+	m_bottomBar->setVisible(true);
+	m_bottomBar->setSize(KileConfig::bottomBarSize());
 }
 
 void Kile::setupActions()
@@ -483,10 +488,10 @@ void Kile::setupActions()
 	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
     connect(m_sideBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
-	tact = new KToggleAction(i18n("Show Mess&ages Bar"), 0, 0, 0, actionCollection(),"MessageView" );
-	tact->setChecked(KileConfig::bottomBar());
-	connect(tact, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
-	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
+	m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), 0, 0, 0, actionCollection(),"MessageView" );
+	m_actionMessageView->setChecked(true);
+	connect(m_actionMessageView, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
+	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), m_actionMessageView, SLOT(setChecked(bool)));
     connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
@@ -1785,15 +1790,22 @@ void Kile::saveSettings()
 	++it;
 	m_verSplitBottom=*it;
 
+	// sync vertical splitter and size of bottom bar
+	int sizeBottomBar = m_bottomBar->size();
+	if ( m_bottomBar->isVisible() )
+		sizeBottomBar = m_verSplitBottom;
+	else
+		m_verSplitBottom = sizeBottomBar;
+
 	KileConfig::setHorizontalSplitterLeft(m_horSplitLeft);
 	KileConfig::setHorizontalSplitterRight(m_horSplitRight);
 	KileConfig::setVerticalSplitterTop(m_verSplitTop);
 	KileConfig::setVerticalSplitterBottom(m_verSplitBottom);
 
 	KileConfig::setSideBar(m_sideBar->isVisible());
-    KileConfig::setSideBarSize(m_sideBar->size());
+	KileConfig::setSideBarSize(m_sideBar->size());
 	KileConfig::setBottomBar(m_bottomBar->isVisible());
-    KileConfig::setBottomBarSize(m_bottomBar->size());
+	KileConfig::setBottomBarSize(sizeBottomBar);
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
 

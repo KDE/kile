@@ -148,6 +148,7 @@ private:
 	KActionSeparator			*m_actionEditSeparator;
 	KAction 						*m_paStop, *m_paPrint;
 	KToggleAction 					*ModeAction, *WatchFileAction;
+	KToggleAction 					*m_actionMessageView;
 	KRecentFilesAction				*m_actRecentFiles;
 	KToggleFullScreenAction			*m_pFullScreen;
 

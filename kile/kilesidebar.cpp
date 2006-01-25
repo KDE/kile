@@ -101,8 +101,6 @@ int KileSideBar::addTab(QWidget *tab, const QPixmap &pic, const QString &text /*
 	m_tabStack->addWidget(tab, m_nTabs);
 	connect(m_tabBar->tab(m_nTabs), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
 
-	showTab(m_nTabs);
-
 	return m_nTabs++;
 }
 

@@ -522,7 +522,7 @@ void Kile::setupActions()
 	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
 	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
 	KAction *kileconfig = KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
-	kileconfig->setIcon("configure-kile");
+	kileconfig->setIcon("configure_kile");
 
 	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
 	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );

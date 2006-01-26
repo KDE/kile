@@ -100,8 +100,11 @@ void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
 void KileProjectItem::setInfo(KileDocument::Info *docinfo)
 {
 	m_docinfo = docinfo;
+	if(docinfo)
+	{
 	connect(docinfo,SIGNAL(nameChanged(const KURL &)), this, SLOT(changeURL(const KURL &)));
 	connect(docinfo,SIGNAL(depChanged()), m_project, SLOT(buildProjectTree()));
+	}
 }
 
 /*

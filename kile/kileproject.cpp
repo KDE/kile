@@ -13,6 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "kileproject.h"
+#include "kileversion.h"
 
 #include <qstringlist.h>
 #include <qfileinfo.h>
@@ -21,9 +22,17 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 #include "kiledocumentinfo.h"
 #include "kiletoolmanager.h"
+
+/*
+ 01/24/06 tbraun
+	Added the logic to get versioned kilepr files
+	We also warn if the user wants to open a project file with a different kileprversion
+*/
+
 
 /*
  * KileProjectItem
@@ -110,16 +119,15 @@ void KileProjectItem::setInfo(KileDocument::Info *docinfo)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii()), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
-	init(name,url);
+	init(name, url);
 }
 
-KileProject::KileProject(const KURL& url) :
-	QObject(0,url.fileName().ascii()), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const KURL& url) : QObject(0,url.fileName().ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
 	init(url.fileName(), url);
-}
+}	
 
 KileProject::~KileProject()
 {
@@ -149,6 +157,8 @@ void KileProject::init(const QString& name, const KURL& url)
 		//create the project file
 		m_config->setGroup("General");
 		m_config->writeEntry("name", m_name);
+		m_config->writeEntry("kileprversion", kilePrVersion);
+		m_config->writeEntry("kileversion", kileVersion);
 		m_config->sync();
 	}
 }
@@ -272,14 +282,26 @@ bool KileProject::load()
 {
 	kdDebug() << "KileProject: loading..." <<endl;
 
-	QStringList groups = m_config->groupList();
-
 	//load general settings/options
 	m_config->setGroup("General");
 	m_name = m_config->readEntry("name", i18n("Project"));
+	m_kileversion = m_config->readEntry("kileversion",QString::null);
+	m_kileprversion = m_config->readEntry("kileprversion",QString::null);
 
-  QString master = addBaseURL(m_config->readEntry("masterDocument", QString::null));
-  kdDebug() << "LOADED MASTER = " << master << endl;
+	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt())
+	{
+		if(KMessageBox::warningYesNo(0L,i18n("The project file of %1 was created by a newer version of kile.\
+				Opening it can lead to unexpected results.\n\
+				Do you really want to continue (not recommended)?").arg(m_name),
+				 QString::null, KStdGuiItem::yes(), KStdGuiItem::no(),QString::null,KMessageBox::Dangerous) == KMessageBox::No)
+		{
+			m_invalid=true;
+			return false;
+		}
+	}
+	
+	QString master = addBaseURL(m_config->readEntry("masterDocument", QString::null));
+  	kdDebug() << "LOADED MASTER = " << master << endl;
 	setMasterDocument(master);
 
 	// IsRegExp has to be loaded _before_ the Extensions
@@ -295,6 +317,7 @@ bool KileProject::load()
 
 	KURL url;
 	KileProjectItem *item;
+	QStringList groups = m_config->groupList();
 
 	//retrieve all the project files and create and initialize project items for them
 	for (uint i=0; i < groups.count(); ++i)
@@ -343,10 +366,12 @@ bool KileProject::save()
 
 	m_config->setGroup("General");
 	m_config->writeEntry("name", m_name);
+	m_config->writeEntry("kileprversion", kilePrVersion);
+	m_config->writeEntry("kileversion", kileVersion);
 
-  kdDebug() << "KileProject::save() masterDoc = " << m_masterDocument << endl;
+  	kdDebug() << "KileProject::save() masterDoc = " << m_masterDocument << endl;
 	m_config->writeEntry("masterDocument", removeBaseURL(m_masterDocument));
-  m_config->writeEntry("lastDocument", removeBaseURL(m_lastDocument.path()));
+  	m_config->writeEntry("lastDocument", removeBaseURL(m_lastDocument.path()));
 
 	m_config->writeEntry("src_extensions", extensions(KileProjectItem::Source));
 	m_config->writeEntry("src_extIsRegExp", extIsRegExp(KileProjectItem::Source));

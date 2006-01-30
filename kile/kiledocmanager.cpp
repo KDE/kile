@@ -1107,6 +1107,13 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	m_kpd->show();
 
 	KileProject *kp = new KileProject(url);
+	
+	if(kp->isInvalid())
+	{
+		m_kpd->cancel();
+		delete kp;
+		return 0L;
+	}
 
 	emit(addToRecentProjects(url));
 

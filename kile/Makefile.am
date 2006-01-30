@@ -90,9 +90,9 @@ messages: rc.cpp
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
 noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
-	kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
-	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
-	latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
-	kilesidebar.h plaintolatexconverter.h kileuntitled.h \
-	kilestatsdlg.h kilestatswidget.h envconfigwidget.h structureconfigwidget.h
+		kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
+		kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
+		latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
+		kilesidebar.h plaintolatexconverter.h kileuntitled.h 	kilestatsdlg.h \
+	kilestatswidget.h envconfigwidget.h structureconfigwidget.h kileversion.h
 

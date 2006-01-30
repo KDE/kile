@@ -176,6 +176,7 @@ public:
 	bool contains(const KURL&);
 	KileProjectItem *rootItem(KileProjectItem *) const;
 	const QPtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
+	bool isInvalid(){ return m_invalid;}
 
 signals:
 	void nameChanged(const QString &);
@@ -203,13 +204,13 @@ private:
 	void 	init(const QString& name, const KURL& url);
 	QString	findRelativePath(const KURL&);
 	void setType(KileProjectItem *item);
-  QString addBaseURL(const QString &path);
-  QString removeBaseURL(const QString &path);
+  	QString addBaseURL(const QString &path);
+  	QString removeBaseURL(const QString &path);
 
 private:
-	QString		m_name, m_quickBuildConfig;
+	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion;
 	KURL		m_projecturl, m_baseurl, m_lastDocument;
-
+	bool		m_invalid;
 	QPtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
 

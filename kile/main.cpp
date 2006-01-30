@@ -25,11 +25,12 @@
 #include <kglobal.h>
 #include <kinstance.h>
 #include <kurl.h>
+#include <kdebug.h>
 
 #include "kileapplication.h"
 #include "kile.h"
+#include "kileversion.h"
 
-#include <kdebug.h>
 
 static KCmdLineOptions options[] =
 {
@@ -71,7 +72,7 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile",	"1.9b1", I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+	KAboutData aboutData( "kile", "Kile", kileVersion.ascii(), I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
 						I18N_NOOP("by the Kile Team (2003 - 2006)"),
 						0,
 						"http://kile.sourceforge.net");

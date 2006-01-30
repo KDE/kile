@@ -187,7 +187,7 @@
 			<title>How do you pronounce it? Why that strange typesetting?</title>
 
 			<para>There is a funny traditions of &tex;-related packages to have the strangest pronunciation
-			and typesetting possible. &tex; was supposed to be brought in from the Greek <emphasis>ÏÎµÏ</emphasis>,
+			and typesetting possible. &tex; was supposed to be brought in from the Greek <emphasis>τεχ</emphasis>,
 			in Latin letters <emphasis>tech</emphasis>. There are a lot of explanations why, but most likely it is because
 			&latex; was originally conceived for technical reports, and indeed its foremost ability was the correct and
 			easy typesetting of mathematical formulae, then an extremely expensive, time-consuming and
@@ -195,7 +195,7 @@
 			<para>The pronunciation is supposed to be as follows: <emphasis>T</emphasis> as you would expect,
 			<emphasis>E</emphasis> as in <emphasis>get</emphasis>, and <emphasis>X</emphasis> as in the
 			German i<emphasis>ch</emphasis>. If you do not know what <emphasis>ch</emphasis> sounds like,
-			it is more or less as an hissing cat; the IPA symbol is /Ã§/. Many people report the different pronunciation
+			it is more or less as an hissing cat; the IPA symbol is /ç/. Many people report the different pronunciation
 			of <emphasis>ach</emphasis> (IPA symbol /x/), but I have personally asked some Greeks, and can
 			confirm the first version. You should be aware that a lot of people mispronounce /teks/ or /tek/.</para>
 			<para>Last, in &latex; the first L<superscript>A</superscript> is pronounced as
@@ -252,8 +252,8 @@
 				letter, report, book or other custom-defined.</para></listitem>
 				<listitem><para><guilabel>Typeface Size</guilabel>: tell &kile; what point size you want to use.</para></listitem>
 				<listitem><para><guilabel>Paper Size</guilabel>: choose the size or style of sheets.</para></listitem>
-				<listitem><para><guilabel>Encoding</guilabel>: you will almost always want to use Latin 1 or Utf-8 encodings, 
-				to allow you to enter words like <userinput>naÃ¯vetÃ©</userinput>
+				<listitem><para><guilabel>Encoding</guilabel>: you will almost always want to use Latin 1 or UTF-8 encodings, 
+				to allow you to enter words like <userinput>naïveté</userinput>
 				directly, and not through the ASCII-fication <userinput>na\"\ivet\'e</userinput>; however, 
 				many more options are available, like Latin 5 for Turkish.</para></listitem>
 				<listitem><para><guilabel>Author's name</guilabel>: put your name here.</para></listitem>
@@ -508,7 +508,7 @@
 		<para>Every document in &latex; begins with the command <userinput>\documentclass{TypeOfDocument}</userinput>,
 		unless you are using an older version of &latex;, then the command is <userinput>\documentstyle{TypeOfDocument}</userinput>.
 		There are currently two common version of &latex; you might run into: version 2.09, which uses
-		<userinput>\documentstyle</userinput>, and version 2<subscript>Îµ</subscript>, which uses
+		<userinput>\documentstyle</userinput>, and version 2<subscript>ε</subscript>, which uses
 		<userinput>\documentclass</userinput> to begin a document. The command <userinput>\documentclass</userinput>
 		always follows the syntax <userinput>\documentclass[optional argument]{class}</userinput>.</para>
 
@@ -1303,12 +1303,12 @@
 			</mediaobject>
 		</screenshot>
 
-		<para>If you also include language specific options or style files 
+		<para>If you also include language-specific options or style files 
 		like <userinput>ngerman</userinput> or <userinput>french</userinput>, 
-		you will also be able to use german or french double quotes.</para>
+		you will also be able to use German or French double quotes.</para>
 
-		<para>These quotes will also be used in  other languages. Look at your 
-		&tetex; documentation to find out, which option or style file must 
+		<para>These quotes will also be used in other languages. Look at your 
+		&tetex; documentation to find out which option or style file must 
 		be used for your language.</para>
 
 	</sect1>
@@ -1319,7 +1319,7 @@
 
 		<para>If you press <keycombo>&Shift;<keycap>Return</keycap></keycombo>, 
 		&kile; inserts an intelligent newline. If your current position 
-		is inside a list environment like <userinput>enumerate</userinput> 
+		is inside a list environment, like <userinput>enumerate</userinput> 
 		or <userinput>itemize</userinput>, &kile; will not only insert 
 		a newline, but also add a <userinput>\item</userinput> command.</para>
 
@@ -1339,9 +1339,9 @@
 
 		<para>Some users like to arrange columns in tabular environments and
 		put all ampersand characters <keycap>&amp;</keycap> beneath each other. &kile; tries
-		to support this. So if you press <keycombo>&Shift;&Alt;<keycap>&amp;</keycap></keycombo>, 
+		to support this. If you press <keycombo>&Shift;&Alt;<keycap>&amp;</keycap></keycombo>, 
 		&kile; will look for the next tab in the row above. Although his which may not the  
-		correspondingtab, &kile; will add some spaces to adjust the column position with 
+		corresponding tab, &kile; will add some spaces to adjust the column position with 
 		the current tab.</para>
 
 	</sect1>
@@ -2991,7 +2991,7 @@
 		<listitem><para>Another way is using the submenu 
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
 		Kile...</guisubmenu><guimenuitem>Editor</guimenuitem></menuchoice>,
-		where you can set the default character enconding for all files.</para>
+		where you can set the default character encoding for all files.</para>
 		<screenshot>
 			<screeninfo>Set the default character encoding</screeninfo>
 			<mediaobject>
@@ -3010,11 +3010,11 @@
 
 	<para>&latex; itself understands only ASCII, a very limited set of characters, so you could not use
 	accented or special letters directly. To use accented letters, a special syntax was created: 
-	such as for example <userinput>\"e</userinput> for <computeroutput>Ã«</computeroutput>. 
+	such as for example <userinput>\"e</userinput> for <computeroutput>ë</computeroutput>. 
 	There is a package to help you with this, called <application>inputenc</application>, and is included 
 	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the optional argument 
 	is the encoding you would like to use (in most cases <userinput>latin1</userinput>). This tells &latex;
-	to translate all of the <userinput>Ã«</userinput>'s you wrote to <userinput>\"e</userinput>'s before
+	to translate all of the <userinput>ë</userinput>'s you wrote to <userinput>\"e</userinput>'s before
 	compiling. Please refer to the <application>inputenc</application> documents directly for more
 	information on <application>inputenc</application>. Last but not least: remember to make sure that 
 	your file is <emphasis>actually</emphasis> encoded in the same encoding you told 
@@ -3037,10 +3037,10 @@
 	many applications: for example, you cannot write a course of Turkish in French without 
 	losing one language's special characters. There is general agreement that, sooner or later, 
 	everybody will switch to <ulink url="http://www.unicode.org">Unicode</ulink>. There
-	are many implementations of Unicode, and <abbrev>utf-8</abbrev> is the most
+	are many implementations of Unicode, and <abbrev>UTF-8</abbrev> is the most
 	successful in Linux; Windows&reg; relies instead on the more cumbersome and
-	less flexible <abbrev>ucs-2</abbrev>. Some distributions, as RedHat, have already
-	begun setting their default encoding to <abbrev>utf-8</abbrev>, and therefore you
+	less flexible <abbrev>UCS-2</abbrev>. Some distributions, as RedHat, have already
+	begun setting their default encoding to <abbrev>UTF-8</abbrev>, and therefore you
 	may be very interested in using a <userinput>utf-8</userinput> argument to the
 	<userinput>inputenc</userinput> package.</para>
 

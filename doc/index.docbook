@@ -1958,6 +1958,15 @@
 		
 	</sect1>
 
+	<sect1 id="statistics">	
+		<title>Document Statistics</title>
+		
+		<para>The statistics dialog gives you an statistical overview for a selection, a document or an hole project. It includes the number of words, &latex; commands/environments and also includes the number of characters for each type. The statistical numbers can be copied as text or as a nice formatted &latex; tabular to the clipboard. If you want to get statistics for the hole project you can use <guimenu>Open All Project Files</guimenu> for an easy and quick way to open all source files of your project.</para>
+		<para>A note of caution has to be sounded about the accuracy of the numbers. We have included some logic to get a good estimate, e. g. K\"uhler gives one word and one command, with six resp. two characters. But there are other combinations in which parts of commands are counted as words and vice versa. It has also to be beared in mind that the algorithm was developed and tested for languages similiar to english or german.
+		So don't take the numbers for granted. If you have to make an report with an exact numbers of words or characters, make some tests to check if kile's accuracy satisfies your needs.</para>
+	</sect1>
+
+
 </chapter>
 
 <chapter id="latex">

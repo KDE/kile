@@ -369,6 +369,7 @@ void Info::count(const QString line, long *stat)
 			}
 			else
 			{
+				++stat[4];
 				++stat[1];
 				state = stStandard;
 			}

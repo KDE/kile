@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 12 2006
-    version              : 0.30
+    date                 : Feb 05 2006
+    version              : 0.31
     copyright            : (C) 2004-2006 by Holger Danielsson
      email                : holger.danielsson@t-online.de
 ***************************************************************************/
@@ -484,19 +484,28 @@ namespace KileDocument
 				}
 				break;
 				case cmEnvironment:
-				prefix = ( m_autoindent && col-m_textlen>0 ) ? textline.left(col-m_textlen) : QString::null;
+				prefix = QString::null;
+				if ( m_autoindent )
+				{
+					if ( col-m_textlen>0 ) 
+					{
+						prefix = textline.left(col-m_textlen);
+						if ( prefix.right(7) == "\\begin{" )
+							prefix.truncate(prefix.length()-7);
+						else if ( prefix.right(5) == "\\end{" )
+							prefix.truncate(prefix.length()-5);
+					}
+				}
 				s = buildEnvironmentText( text, type, prefix, m_yoffset, m_xoffset );
 				if ( m_autobrackets && textline.at(col)=='}' && (textline[m_xstart]!='\\' || m_text.find('{')>=0 ) )
 				{
 					doc->removeText(row,col,row,col+1);
 				}
-				//if ( m_xstart>=7 && doc->text(row,m_xstart-7,row,m_xstart) == "\\begin{" ) 
 				if ( m_xstart>=7 && textline.mid(m_xstart-7,7) == "\\begin{" ) 
 				{
 					m_textlen += 7;
 				} 
-				//else if ( m_xstart>=5 && doc->text(row,m_xstart-5,row,m_xstart) == "\\end{" ) 
-				else if ( m_xstart>=5 && textline.mid(m_xstart-5,m_xstart) == "\\end{" ) 
+				else if ( m_xstart>=5 && textline.mid(m_xstart-5,5) == "\\end{" ) 
 				{
 					m_textlen += 5;
 				} 
@@ -534,31 +543,33 @@ namespace KileDocument
 	QString CodeCompletion::buildEnvironmentText( const QString &text, const QString &type,
 	                                              const QString &prefix, uint &ypos, uint &xpos )
 	{
-    static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
-    
-    if (reEnv.search(text) == -1) return text;
-    
-    QString parameter = stripParameter( reEnv.cap(3) );
-    QString start = reEnv.cap(1);
-    QString envname = reEnv.cap(2);
-    QString whitespace = getWhiteSpace(prefix);
-    QString envIndent = m_ki->editorExtension()->autoIndentEnvironment();
+		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
 
-    QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
-    
-    s += whitespace + envIndent;
-    
-    bool item = (type == "list" );
-    if ( item )
+		if (reEnv.search(text) == -1) return text;
+
+		QString parameter = stripParameter( reEnv.cap(3) );
+		QString start = reEnv.cap(1);
+		QString envname = reEnv.cap(2);
+		QString whitespace = getWhiteSpace(prefix);
+		QString envIndent = m_ki->editorExtension()->autoIndentEnvironment();
+
+		QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
+
+		s += whitespace;
+		if ( start != "end" )
+			s += envIndent;
+
+		bool item = (type == "list" );
+		if ( item )
 			s += "\\item ";
-      
-    if ( m_setbullets && !parameter.isEmpty() )
-		s += s_bullet;
-      
-    if ( m_closeenv && start != "end" )
+
+		if ( m_setbullets && !parameter.isEmpty() )
+			s += s_bullet;
+
+		if ( m_closeenv && start != "end" )
 			s += "\n" + whitespace + "\\end{" + envname + "}\n";
-    
-    // place cursor
+
+		// place cursor
 		if ( m_setcursor )
 		{
 			if ( parameter.isEmpty() )
@@ -572,10 +583,10 @@ namespace KileDocument
 				xpos = 9 + envname.length();
 			}
 		}
-    
-    return s;
+
+		return s;
 	}
-    
+
 	QString CodeCompletion::getWhiteSpace(const QString &s)
 	{
 		QString whitespace = s;

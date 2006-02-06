@@ -1,6 +1,6 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-<language name="LaTeX" version="1.17" section="Markup" kateversion="2.3" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls;" mimetype="text/x-tex" casesensitive="1" author="Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)+Holger Danielsson (holger.danielsson@t-online.de)" license="LGPL" >
+<language name="LaTeX" version="1.18" section="Markup" kateversion="2.3" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls;" mimetype="text/x-tex" casesensitive="1" author="Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)+Holger Danielsson (holger.danielsson@t-online.de)" license="LGPL" >
   <highlighting>
     <contexts>
       <!-- Normal text -->
@@ -9,9 +9,8 @@
         <RegExpr String="\\end(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" endRegion="block" />
         <RegExpr String="\\(label|pageref|ref|vpageref|vref|cite)(?=[^a-zA-Z])" attribute="Structure" context="Label"/>
         <RegExpr String="\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\*?(?=[^a-zA-Z])" attribute="Structure" context="#stay"/>
-        <StringDetect String="\renewcommand" attribute="Keyword" context="NewCommand"/>
-        <StringDetect String="\newcommand" attribute="Keyword" context="NewCommand"/>
-        <StringDetect String="\def" attribute="Keyword" context="DefCommand"/>
+        <RegExpr String="\\(re)?newcommand(?=[^a-zA-Z])" attribute="Keyword" context="NewCommand"/>
+        <RegExpr String="\\def(?=[^a-zA-Z])" attribute="Keyword" context="DefCommand"/>
         <StringDetect String="\(" attribute="Math" context="MathMode" beginRegion="mathMode" />
         <StringDetect String="\[" attribute="Math" context="MathModeEquation" beginRegion="mathMode" />
         <DetectChar char="\" attribute="Keyword" context="ContrSeq"/>

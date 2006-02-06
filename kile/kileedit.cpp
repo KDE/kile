@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 18 2006
-    version              : 0.26
+    date                 : Feb 05 2006
+    version              : 0.27
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -108,6 +108,12 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	int para_end=0;
 	int index_cursor=index;
 	int para_cursor=index;
+	// offset for autoindentation of environments
+	int dxIndentEnv = 0;
+
+	// environment tag
+	bool envtag = data.tagBegin.contains("%E") || data.tagEnd.contains("%E");
+	QString whitespace = getWhiteSpace( doc->textLine(para).left(index) );
 
 	//if there is a selection act as if cursor is at the beginning of selection
 	if (wrap)
@@ -118,6 +124,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	}
 
 	QString ins = data.tagBegin;
+	QString tagEnd = data.tagEnd;
 
 	//start an atomic editing sequence
 	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt( doc );
@@ -130,9 +137,16 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 		QString sel = doc->selection();
 		doc->removeSelectedText();
 		
+		// no autoindentation of environments, when text is selected
+		if ( envtag )
+		{
+			ins.remove("%E");
+			tagEnd.remove("%E\n");
+		}
+
 		// strip one of two consecutive line ends
 		int len = sel.length();
-		if ( data.tagEnd.at(0)=='\n' && len>0 && sel.find('\n',-1)==len-1 )
+		if ( tagEnd.at(0)=='\n' && len>0 && sel.find('\n',-1)==len-1 )
 			sel.truncate( len-1 );
 			
 		// now add the selection
@@ -145,21 +159,21 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 			after = true;
 		}
 	}
+	else if ( envtag  )
+	{
+		ins.replace("%E",whitespace+m_envAutoIndent);
+		tagEnd.replace("%E",whitespace+m_envAutoIndent);
+		if ( data.dy > 0 )
+			dxIndentEnv = whitespace.length() + m_envAutoIndent.length();
+	}
 
-	ins += data.tagEnd + trailing;
+	tagEnd.replace("\\end{",whitespace+"\\end{");
+	ins += tagEnd + trailing;
 
 	//do some replacements
 	QFileInfo fi( doc->url().path());
 	ins.replace("%S", fi.baseName(true));
 	
-	int dxIndentEnv = 0;
-	if ( ins.contains("%E") )
-	{
-		ins.replace("%E",m_envAutoIndent);
-		if ( data.dx==0 && data.dy>0 )
-			dxIndentEnv = m_envAutoIndent.length();
-	}
-
 	//insert first part of tag at cursor position
 	doc->insertText(para,index,ins);
 
@@ -1705,6 +1719,17 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
 	}
     
 	return true;
+}
+
+QString EditorExtension::getWhiteSpace(const QString &s)
+{
+	QString whitespace = s;
+	for ( uint i=0; i<whitespace.length(); ++i )
+	{
+		if ( ! whitespace[i].isSpace() ) 
+			whitespace[i] = ' ';
+	}
+	return whitespace;
 }
 
 }

@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Jan 18 2006
-    version              : 0.26
+    date                 : Feb 05 2006
+    version              : 0.27
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -174,6 +174,7 @@ private:
 	// check environment type
 	KileDocument::LatexCommands *m_latexCommands;	
 	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
+	QString getWhiteSpace(const QString &s);
 	
 	// complete environments
 	QRegExp m_regexpEnter;

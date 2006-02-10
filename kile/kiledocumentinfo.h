@@ -83,8 +83,9 @@ namespace KileDocument
 
 struct BracketResult 
 {
-	BracketResult() : option(QString::null), value(QString::null) {}
+	BracketResult() : option(QString::null), value(QString::null), line(0), col(0) {}
 	QString option, value;
+	int line, col;
 };
 
 class Info : public QObject
@@ -162,6 +163,7 @@ signals:
 protected:
 	void count(const QString line, long *stat);
 	QString matchBracket(QChar c, uint &, uint &);
+	QString getTextline(uint line);
 
 protected:
 	enum State

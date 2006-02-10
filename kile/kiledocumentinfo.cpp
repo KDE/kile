@@ -34,9 +34,13 @@
 // 2005-12-07: dani
 //  - add support to enable and disable some structure view items
 
-// 2005-01-16 tbraun
+// 2006-01-16 tbraun
 // - fix #59945 Now we call (through a signal ) project->buildProjectTree so the bib files are correct,
 //   and therefore the keys in \cite completion
+
+// 2006-02-09 tbraun/dani
+// - fix #106261#4 improved parsing of (optional) command parameters
+// - all comments are removed
 
 #include <qfileinfo.h>
 #include <qlabel.h>
@@ -493,7 +497,7 @@ QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 
 	while ( l <= m_doc->numLines() )
 	{
-		line = m_doc->textLine(l);
+		line = getTextline(l);
 		len = line.length();
 		for (int i=pos; i < len; ++i)
 		{
@@ -535,6 +539,33 @@ void Info::updateBibItems()
 {
 }
 
+QString Info::getTextline(uint line)
+{
+	static QRegExp::QRegExp reComments("[^\\\\](%.*$)");
+
+	QString s = m_doc->textLine(line);
+	if ( ! s.isEmpty() )
+	{
+		// remove comment lines
+		if ( s[0] == '%' )
+		{
+			s = QString::null;
+		}
+		else
+		{
+			//remove escaped \ characters
+			s.replace("\\\\", "  ");
+
+			//remove comments
+			if( s.find(reComments) != -1 )
+			{
+				s = s.left(reComments.pos(1));
+			}
+		}
+	}
+	return s;
+}
+
 const long* TeXInfo::getStatistics()
 {
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
@@ -568,7 +599,7 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 		int p = 0;
 		while ( l < m_doc->numLines() )
 		{
-			if ( (p = m_doc->textLine(l).find('{', pos)) != -1 )
+			if ( (p = getTextline(l).find('{', pos)) != -1 )
 			{
 				pos = p;
 				break;
@@ -582,7 +613,11 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 	}
 
 	if ( m_doc->textLine(l)[pos] == '{' )
+	{
+		result.line = l;
+		result.col = pos;
 		result.value  = Info::matchBracket('{', l, pos);
+	}
 
 	return result;
 }
@@ -598,7 +633,6 @@ void TeXInfo::updateStruct()
 
 	QMapConstIterator<QString,KileStructData> it;
 	static QRegExp::QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
-	static QRegExp::QRegExp reComments("([^\\\\]%|^%).*$");
 	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
 	static QRegExp::QRegExp reReNewCommand("\\\\renewcommand.*$");
@@ -616,10 +650,6 @@ void TeXInfo::updateStruct()
 
 	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
-		tagStart=tagEnd=0;
-		s=m_doc->textLine(i);
-		fire = true;
-
 		if (teller > 100)
 		{
 			teller=0;
@@ -628,11 +658,11 @@ void TeXInfo::updateStruct()
 		else
 			++teller;
 
-		//remove escaped \ characters
-		s.replace("\\\\", "  ");
-
-		//remove comments
-		s.replace(reComments, "");
+		tagStart=tagEnd=0;
+		fire = true;
+		s = getTextline(i);
+		if ( s.isEmpty() )
+			continue;
 
 		//ignore renewcommands
 		s.replace(reReNewCommand, "");
@@ -675,6 +705,11 @@ void TeXInfo::updateStruct()
 					shorthand = result.option.stripWhiteSpace();
 					if ( i >= tagLine ) //matching brackets spanned multiple lines
 						s = m_doc->textLine(i);
+					if ( result.line>0 || result.col>0 )
+					{
+						tagLine = result.line + 1;
+						tagCol = result.col + 1;
+					}
 					//kdDebug() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}" << endl;
 				}
 

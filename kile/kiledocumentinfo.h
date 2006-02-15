@@ -99,7 +99,7 @@ public:
 	static KURL repairInvalidCharacters(const KURL&);
 	static KURL repairExtension(const KURL&);
 	static KURL makeValidTeXURL(const KURL & url);
-	static KURL Info::renameIfExist(const KURL& url);
+	static KURL renameIfExist(const KURL& url);
 
 public:
 	Info(Kate::Document *doc, LatexCommands *commands);

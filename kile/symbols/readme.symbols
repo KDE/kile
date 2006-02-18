@@ -1,15 +1,15 @@
 Author: Thomas Braun
 email: braun@physik.fu-berlin.de
-date: Mon Dec 5 2005
+date: Mon Feb 18 2006
 License: GPL
 
 
 Required programs:
-dvipng, convert(ImageMagick), latex 
+dvipng, latex 
 
 Step by step:
 
-1.) get dvipng (version 1.7 works) at http://sourceforge.net/projects/dvipng/ (its also GPL)
+1.) get dvipng (version 1.7 works) from http://sourceforge.net/projects/dvipng/ (its also GPL)
 2.) be sure that all configure ouput of dvipng is set to yes and compile it
 3.) execute special-characters.sh
 4.) in keys-stub-special.h is a copy&paste ready list of the latex codes, properly escaped for C++

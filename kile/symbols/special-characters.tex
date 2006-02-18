@@ -1,30 +1,27 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[T1]{fontenc}
-\usepackage{color}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Author: Thomas Braun
 % begin: Sat Nov 12 2005
-% last edit: Tue Jan 3 2005
+% last edit: Sat Feb 18 2006
 % License: GPL
 % 
 % covers latin1, latin2 and latin4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\boxheight}{2ex} % gives the size of the surrounding box
-\newcommand{\boxwidth}{2ex}
-\setlength{\parindent}{0cm}
+\setlength{\parindent}{0cm} % only to look better if viewed on one page
 
 \newcommand{\page}{\newpage} % default for generating pngs
-% \newcommand{\page}{} % use this to get it on one page
+%\newcommand{\page}{} % use this to get it on one page
 
-\newcommand{\command}[2][]{\fcolorbox{red}{white}{\parbox[c][\boxheight][c]{\boxwidth}{#2}}\page}
-% the optional argument is the desired command which kile should insert.
-% If emtpy the string in the mandatory argument is used.
-% don't change the colors, they are hard coded in special-characters.sh
+\newcommand{\command}[2][]{#2\page}
+% The optional argument is the desired command which kile should insert,
+% if emtpy the string in the mandatory argument is used.
+
 \begin{document}
+%
 \pagestyle{empty}
-% 
+%
 \command{\"{A}}
 \command{\H{A}}
 \command{\'{A}}

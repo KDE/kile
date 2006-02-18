@@ -95,7 +95,7 @@ void SymbolView::insertSymbols(uint from, uint to, int offset, const QString &ad
 		if ( pixmap.load(locate("appdata","mathsymbols/"+icon_name)) )
 		{
 			item= new KIconViewItem( this);
-// 			pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1); we don't need that (tbraun)
+			pixmap = KImageEffect::blend(colorGroup().text(), pixmap, 1);
 			item->setPixmap(pixmap);
 			if(type == -1) // old style code array
 				item->setKey(code[i+offset]);

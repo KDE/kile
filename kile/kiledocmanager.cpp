@@ -336,7 +336,7 @@ Info* Manager::createDocumentInfo(const KURL & url)
 
 	if ( docinfo == 0L )
 	{
-		if ( Info::isTeXFile(url) || url.isEmpty() )
+		if ( Info::isTeXFile(url) || url.isEmpty() || KileUntitled::isUntitled(url.url()) )
 		{
 			kdDebug() << "CREATING TeXInfo for " << url.url() << endl;
 			docinfo = new TeXInfo(0L,m_ki->latexCommands());
@@ -371,13 +371,14 @@ Info* Manager::recreateDocInfo(Info *oldinfo, const KURL & url)
 	for ( pritem = list->first(); pritem; pritem = list->next() )
 		pritem->setInfo(newinfo);
 
-	m_infoList.removeRef(oldinfo);
+	m_infoList.remove(oldinfo);
 	delete oldinfo;
 
-	m_infoList.append(newinfo);
+	//m_infoList.append(newinfo); done in createDocumentInfo
 
     // parse the document
     newinfo->updateStruct();
+	emit(updateStructure(false, newinfo));
 
 	return newinfo;
 }
@@ -699,7 +700,8 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	kdDebug() << "==Kile::slotNameChanged==========================" << endl;
 
 	KURL validURL = Info::makeValidTeXURL(doc->url());
-	if(validURL != doc->url())
+	bool changedURL = (validURL != doc->url());
+	if(changedURL)
 	{
 		QFile oldFile(doc->url().path());
 		if(doc->saveAs(validURL))
@@ -710,8 +712,8 @@ void Manager::slotNameChanged(Kate::Document * doc)
 
 	Info *docinfo = infoFor(doc);
 
-	// take special care if doc was Untitled before
-	if (docinfo->oldURL().isEmpty())
+	// take special care if doc was Untitled before, or an extension was added by makeValidTeXURL
+	if (docinfo->oldURL().isEmpty() || changedURL)
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
 		m_ki->viewManager()->projectView()->add(doc->url());
@@ -873,6 +875,10 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 
 		if ( doc->closeURL() )
 		{
+			// docinfo may have been recreated from 'Untitled' doc to a named doc
+			if ( url .isEmpty() )
+				docinfo= infoFor(doc);
+				
 			if ( KileConfig::cleanUpAfterClose() ) cleanUpTempFiles(docinfo, true);
 
 			//FIXME: use signal/slot

@@ -3,8 +3,6 @@ TODO
  
  - add more, improving existing wizards
 
- - allow users to set environment variables
- 
  - allow users to set a preferred shell
   
  - improving template support
@@ -13,32 +11,13 @@ TODO
  
  - create a plain text importer (one that would convert % to \%, $ to \$ etc.)
  
- - make a configuration tester, a tool that tests the TeX system, configures the build tools accordingly and makes suggestion if error are encountered
- 
  - create a fast powerful (La)TeX parser
-
- - need a project manager class, too much of the code is in KileInfo and Kile
- 
-  - get rid of the KMultiVertTab code, should be done using standard KDE widgets
- 
- - use KDirWatch to check for modified files on disk
-
- - version control for the kilerc file, now users have to delete
-   the old kilerc file when they upgrade to a new version
-
- - inherit QListView for the structureview (current code is very inefficient)
 
  - recursive sectioning: also parse sections that were inserted with
    \input or \include (optional)
-
- - Save As: When you do a "save as" for the first time, the directory should
-   be changed to the one visible in the file_selector.
 
  - file_selector could use a configurable filter. Now only *.tex files are
    shown,  some people might use a .ltx extension for their LaTeX files (or
   something  completely different).
 
- - It would be nice if the postscript/dvi/pdf files are automatically update
-   when they are "outdated", similar to the way "make" works.
-
- 
+ - and much more ...

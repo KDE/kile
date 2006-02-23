@@ -1,6 +1,6 @@
 <?xml version="1.01" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-<language name="LaTeX" version="1.18" section="Markup" kateversion="2.3" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls;" mimetype="text/x-tex" casesensitive="1" author="Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)+Holger Danielsson (holger.danielsson@t-online.de)" license="LGPL" >
+<language name="LaTeX" version="1.19" section="Markup" kateversion="2.3" extensions="*.tex; *.ltx; *.dtx; *.sty; *.cls;" mimetype="text/x-tex" casesensitive="1" author="Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)+Holger Danielsson (holger.danielsson@t-online.de)" license="LGPL" >
   <highlighting>
     <contexts>
       <!-- Normal text -->
@@ -17,8 +17,8 @@
         <StringDetect String="$$" attribute="Math" context="MathModeDisplay" beginRegion="mathMode" />
         <DetectChar char="$" attribute="Math" context="MathMode" beginRegion="mathMode" />
         <DetectChar char="%" attribute="Comment" context="Comment"/>
-        <RegExpr String="^\s*%\s*BEGIN.*$" attribute="Region Marker" context="#stay" beginRegion="regionMarker" />
-        <RegExpr String="^\s*%\s*END.*$" attribute="Region Marker" context="#stay" endRegion="regionMarker" />
+        <RegExpr String="%\s*BEGIN.*$" attribute="Region Marker" context="#stay" beginRegion="regionMarker" firstNonSpace="true" />
+        <RegExpr String="%\s*END.*$" attribute="Region Marker" context="#stay" endRegion="regionMarker" firstNonSpace="true" />
       </context>
 
       <!-- LaTeX commands \newcommand and \renewcommand -->
@@ -74,7 +74,7 @@
       <!-- start of an environment -->
       <context name="FindEnvironment" attribute="Normal Text" lineEndContext="#stay">
         <DetectChar char="{" attribute="Normal Text" context="Environment"/>
-        <RegExpr String="[^\s]" attribute="Normal Text" context="#pop"/>
+        <RegExpr String="\S" attribute="Normal Text" context="#pop"/>
       </context>
 
       <!-- filter the environment name and check the type -->
@@ -158,8 +158,8 @@
         <StringDetect String="$$" attribute="Error" context="#stay" />
         <DetectChar char="$" attribute="Error" context="#stay" />
         <DetectChar char="%" attribute="Comment" context="Comment"/>
-        <RegExpr String="^\s*%\s*BEGIN.*$" attribute="Region Marker" context="#stay" beginRegion="regionMarker" />
-        <RegExpr String="^\s*%\s*END.*$" attribute="Region Marker" context="#stay" endRegion="regionMarker" />
+        <RegExpr String="%\s*BEGIN.*$" attribute="Region Marker" context="#stay" beginRegion="regionMarker" firstNonSpace="true"/>
+        <RegExpr String="%\s*END.*$" attribute="Region Marker" context="#stay" endRegion="regionMarker" firstNonSpace="true"/>
       </context>
 
       <!-- end of math environment -->
@@ -204,8 +204,8 @@
         <RegExpr String="\\(text|intertext|mbox)\s*(?=\{)" attribute="Keyword Mathmode" context="MathModeText" />
         <DetectChar char="\" attribute="Keyword Mathmode" context="MathContrSeq"/>
         <DetectChar char="%" attribute="Comment" context="Comment"/>
-        <RegExpr String="^\s*%\s*BEGIN.*$" attribute="Region Marker" context="#stay" beginRegion="regionMarker" />
-        <RegExpr String="^\s*%\s*END.*$" attribute="Region Marker" context="#stay" endRegion="regionMarker" />
+        <RegExpr String="%\s*BEGIN.*$" attribute="Region Marker" context="#stay" beginRegion="regionMarker" firstNonSpace="true"/>
+        <RegExpr String="%\s*END.*$" attribute="Region Marker" context="#stay" endRegion="regionMarker" firstNonSpace="true"/>
       </context>
 
       <!-- command in mathmode -->

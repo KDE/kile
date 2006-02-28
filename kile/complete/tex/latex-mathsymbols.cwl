@@ -33,9 +33,9 @@
 \Biggr
 \biggr
 \Bigl
-\Bigl..Bigr
+\Bigl..\Bigr
 \bigl
-\bigl..bigr
+\bigl..\bigr
 \Bigm
 \bigm
 \bigodot
@@ -49,10 +49,7 @@
 \biguplus
 \bigvee
 \bigwedge
-\boptie
 \bot
-\Box
-\Box
 \bracevert
 \breve{a}
 \bullet
@@ -78,7 +75,6 @@
 \Delta
 \delta
 \det
-\Diamond
 \diamond
 \diamondsuit
 \dim
@@ -122,7 +118,6 @@
 \int
 \iota
 \jmath
-\Join
 \kappa
 \ker
 \Lambda
@@ -132,7 +127,6 @@
 \lbrack
 \lceil
 \le
-\leadsto
 \Leftarrow
 \leftarrow
 \leftharpoondown
@@ -143,7 +137,6 @@
 \lfloor
 \lg
 \lgroup
-\lhd
 \lim
 \liminf
 \limsup
@@ -154,13 +147,12 @@
 \Longleftarrow
 \longleftarrow
 \longleftrightarrow
-\Longlettrightarrow
+\Longleftrightarrow
 \longmapsto
 \Longrightarrow
 \longrightarrow
 \mapsto
 \max
-\mho
 \mid
 \min
 \models
@@ -207,7 +199,6 @@
 \Re
 \rfloor
 \rgroup
-\rhd
 \rho
 \Rightarrow
 \rightarrow
@@ -228,7 +219,6 @@
 \smile
 \spadesuit
 \sqcup
-\sqsupset
 \sqsupseteq
 \star
 \subset
@@ -253,8 +243,6 @@
 \triangle
 \triangleleft
 \triangleright
-\unlhd
-\unrhd
 \Uparrow
 \uparrow
 \Updownarrow

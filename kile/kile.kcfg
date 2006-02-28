@@ -312,7 +312,7 @@
 		</entry>
 		<entry name="CompleteTex" type="StringList">
 			<label></label>
-			<default>1-Latex,1-Tex</default>
+			<default>1-latex-document,1-tex</default>
 		</entry>
 		<entry name="CompleteDict" type="StringList">
 			<label></label>

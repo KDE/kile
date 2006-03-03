@@ -159,7 +159,7 @@ namespace KileWidget
 // 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
 		}
 
-		m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[7]=m_root;
+		m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[6]=m_root;
 		m_lastType = KileStruct::None;
 		m_lastSectioning = 0L;
 		m_lastFloat = 0L;

@@ -117,7 +117,7 @@ namespace KileHelp
 		switch ( type )
 		{
 			case HelpTetexGuide:
-				filename = "newhelpindex.html";
+				filename = ( m_tetexVersion == 3) ? "index.html" : "newhelpindex.html";
 				break;
 			case HelpTetexDoc:
 				filename = "helpindex.html";

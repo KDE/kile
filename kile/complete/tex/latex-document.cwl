@@ -1,5 +1,6 @@
 # latex mode: LaTeX commands (document level)
 # dani/2006-02-18
+# tbraun/2006-08-03 removed dup inserted by me ...
 \abstractname{name}
 \addcontentsline{file}{secunit}{entry}
 \Alph{counter}
@@ -124,7 +125,6 @@
 \emph{text}
 \enlargethispage*{size}
 \enlargethispage{size}
-\ensuremath{stuff}
 \family
 \fbox{text}
 \figurename{name}

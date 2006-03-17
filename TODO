@@ -1,23 +1,17 @@
 TODO
- - find out why LaTeX is running slower when started within Kile (compared to starting it from the command line)
- 
- - add more, improving existing wizards
-
  - allow users to set a preferred shell
   
  - improving template support
- 
- - finishing the ASCII <-> encoding converters (convert accented letters into TeX sequences)
  
  - create a plain text importer (one that would convert % to \%, $ to \$ etc.)
  
  - create a fast powerful (La)TeX parser
 
- - recursive sectioning: also parse sections that were inserted with
-   \input or \include (optional)
+- recursive sectioning: also parse sections that were inserted with
+ \input or \include (optional)
 
- - file_selector could use a configurable filter. Now only *.tex files are
-   shown,  some people might use a .ltx extension for their LaTeX files (or
-  something  completely different).
+- file_selector could use a configurable filter. Now only *.tex files are
+ shown, some people might use a .ltx extension for their LaTeX files (or
+ something completely different).
 
  - and much more ...

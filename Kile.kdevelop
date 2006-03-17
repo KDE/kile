@@ -13,10 +13,7 @@
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
     <description/>
-    <ignoreparts>
-      <part>KDevClearCase</part>
-      <part>KDevPerforce</part>
-    </ignoreparts>
+    <ignoreparts/>
     <secondaryLanguages/>
   </general>
   <kdevfileview>
@@ -126,7 +123,8 @@
       <abortonerror>false</abortonerror>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin>unsermake</makebin>
+      <prio>0</prio>
     </make>
     <general>
       <useconfiguration>default</useconfiguration>
@@ -142,9 +140,9 @@
     </run>
     <configurations>
       <default>
-        <configargs>--enable-debug=full --prefix=/opt/kde-3.4</configargs>
-        <builddir>/data/forge/kile/head/debug</builddir>
-        <topsourcedir>/data/forge/kile/head</topsourcedir>
+        <configargs>--enable-debug=full --prefix=/opt/kde3</configargs>
+        <builddir>build-kde-3.4</builddir>
+        <topsourcedir>..</topsourcedir>
         <cppflags/>
         <ldflags/>
         <ccompiler>kdevgccoptions</ccompiler>
@@ -200,6 +198,19 @@
       <headerCompletionDelay>250</headerCompletionDelay>
     </codecompletion>
     <references/>
+    <qt>
+      <used>true</used>
+      <version>3</version>
+      <root>/usr/lib/qt3</root>
+    </qt>
+    <creategettersetter>
+      <prefixGet/>
+      <prefixSet>set</prefixSet>
+      <prefixVariable>m_,_</prefixVariable>
+      <parameterName>theValue</parameterName>
+      <inlineGet>true</inlineGet>
+      <inlineSet>true</inlineSet>
+    </creategettersetter>
   </kdevcppsupport>
   <kdevcvsservice>
     <recursivewhenupdate>true</recursivewhenupdate>

@@ -1,6 +1,7 @@
 Check first:
-Kile needs at least KDE3.1 and Qt3.1, without it you cannot run Kile. 
-Also to compile Kile you need to install the development packages for KDE3.1 and Qt3.1 as well.
+Kile needs at least KDE 3.3 and Qt 3.3, without it you cannot run Kile. 
+Also to compile Kile you need to install the development packages for KDE 3.3 
+and Qt 3.3 as well.
 
 To compile source files :
 1.cd to the directory containing the package's source code and type :

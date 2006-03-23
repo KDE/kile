@@ -98,8 +98,10 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 			if(m_notAllFilesOpenWarning)
 				summary->m_warning->setText(i18n("To get statistics for all project files, you have to open them all."));
 
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 			kdDebug() << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
 			kdDebug() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+#endif
 		}
 	}
 // 	setInitialSize( QSize(550,560), true);

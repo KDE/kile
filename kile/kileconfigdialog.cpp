@@ -110,7 +110,11 @@ namespace KileDialog
 		QStringList path;
 		path << section;
 
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 		setFolderIcon(path, SmallIcon(icon, KIcon::SizeSmallMedium));
+#else
+                setFolderIcon(path, SmallIcon(icon));
+#endif
 	}
 
 	//////////////////// add a new page ////////////////////
@@ -126,7 +130,13 @@ namespace KileDialog
 		QStringList path;
 		path << sectionName << itemName;
 	
-		QVBox *vbox = addVBoxPage(path, header, SmallIcon(pixmapName,KIcon::SizeSmallMedium));
+		QVBox *vbox = addVBoxPage(path, header,
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
+                SmallIcon(pixmapName,KIcon::SizeSmallMedium)
+#else
+                SmallIcon(pixmapName)
+#endif
+                );
 		vbox->setSpacing(0); 
 		vbox->setMargin(0);
 		page->reparent(((QWidget*)vbox),0,QPoint());
@@ -234,7 +244,11 @@ namespace KileDialog
 			path << i18n("Editor") << iface->configPageName(i);
 
 			// create a new vbox page and add the config page
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 			QVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIcon::SizeSmallMedium) );
+#else
+			QVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i) );
+#endif
 			KTextEditor::ConfigPage *configPage = iface->configPage(i,page);
 			connect( configPage, SIGNAL(changed()), this, SLOT(slotChanged()) );
 			editorPages.append(configPage);

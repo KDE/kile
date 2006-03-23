@@ -268,7 +268,7 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 		case 'R': attr = CmdAttrReference; break;
 		case 'C': attr = CmdAttrCitations; break;
 		default:
-		     kdDebug() << "\tLatexCommands error: unknown type of env/cmd: " << ch << endl;
+		     kdDebug() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch) << endl;
 			  return CmdAttrNone;
 	}	
 	

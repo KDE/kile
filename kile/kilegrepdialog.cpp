@@ -206,7 +206,11 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	clear_button = actionbox->addButton(i18n("&Clear"));
 	clear_button->setEnabled(false);
 	actionbox->addStretch();
+#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 	close_button = actionbox->addButton(KStdGuiItem::close());
+#else
+        close_button = actionbox->addButton(i18n("Cl&ose"));
+#endif
 	actionbox->layout();
 
 	// adjust labels

@@ -2122,15 +2122,16 @@
 			<title>Placeholders in User-Defined Tags</title>
 
 			<para>There are some placeholders you can use in user-defined tags: 
-			they are <userinput>%S</userinput>, <userinput>%M</userinput>, and
-			<userinput>%C</userinput>.</para>
+			they are <userinput>%B</userinput>, <userinput>%C</userinput>, <userinput>%M</userinput> and
+			<userinput>%S</userinput>.</para>
 
 			<itemizedlist>
-				<listitem><para><userinput>%S</userinput>: will be replaced by the source file's name.</para></listitem>
-				<listitem><para><userinput>%M</userinput>: this stands for marked text; the selected text is
-				inserted in its place when using user-defined tags.</para></listitem>
+				<listitem><para><userinput>%B</userinput>: will be replaced by a bullet.</para></listitem>
 				<listitem><para><userinput>%C</userinput>: this is where the cursor will be placed after using a
 				user-defined tag.</para></listitem>
+				<listitem><para><userinput>%M</userinput>: this stands for marked text; the selected text is
+				inserted in its place when using user-defined tags.</para></listitem>
+				<listitem><para><userinput>%S</userinput>: will be replaced by the source file's name.</para></listitem>
 			</itemizedlist>
 
 			<para>To show you how this works let's say for example that we have a user-defined tag,

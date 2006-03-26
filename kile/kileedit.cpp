@@ -173,6 +173,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 	//do some replacements
 	QFileInfo fi( doc->url().path());
 	ins.replace("%S", fi.baseName(true));
+	ins.replace("%B", s_bullet);
 	
 	//insert first part of tag at cursor position
 	doc->insertText(para,index,ins);

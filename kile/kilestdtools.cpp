@@ -255,7 +255,7 @@ namespace KileTool
 			return false;
 
 		QString texfile = manager()->info()->relativePath(baseDir(),filepath);
-		m_urlstr = "file:"+targetDir()+"/"+target()+"#src:"+QString::number(para+1)+texfile;
+		m_urlstr = "file:" + targetDir() + "/" + target() + "#src:" + QString::number(para+1) + " " + texfile; // space added, for files starting with numbers
 		addDict("%dir_target", QString::null);
 		addDict("%target", m_urlstr);
 		kdDebug() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;

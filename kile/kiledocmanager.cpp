@@ -1166,7 +1166,7 @@ void Manager::updateProjectReferences(KileProject *project)
 KileProject* Manager::projectOpen()
 {
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
-	KURL url = KFileDialog::getOpenURL( "", i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
+	KURL url = KFileDialog::getOpenURL( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
 
 	if (!url.isEmpty())
 		return projectOpen(url);

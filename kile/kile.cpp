@@ -331,7 +331,7 @@ void Kile::setupBottomBar()
 	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log & Messages"));
+	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log && Messages"));
 
 	m_outputWidget = new KileWidget::Output(m_bottomBar);
 	m_outputWidget->setFocusPolicy(QWidget::ClickFocus);

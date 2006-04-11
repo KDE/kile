@@ -1033,7 +1033,8 @@ void Kile::findInProjects()
 /////////////////// PART & EDITOR WIDGET //////////
 void Kile::showEditorWidget()
 {
-	resetPart();
+	if(!resetPart())
+		return;
 	setCentralWidget(m_topWidgetStack);
 	m_topWidgetStack->show();
 	m_horizontalSplitter->show();
@@ -1048,7 +1049,7 @@ void Kile::showEditorWidget()
 }
 
 
-void Kile::resetPart()
+bool Kile::resetPart()
 {
 	kdDebug() << "==Kile::resetPart()=============================" << endl;
 	kdDebug() << "\tcurrent state " << m_currentState << endl;
@@ -1058,10 +1059,14 @@ void Kile::resetPart()
 
 	if (part && m_currentState != "Editor")
 	{
-		part->closeURL();
-		m_partManager->removePart(part) ;
-		m_topWidgetStack->removeWidget(part->widget());
-		delete part;
+		if(part->closeURL())
+		{
+			m_partManager->removePart(part);
+			m_topWidgetStack->removeWidget(part->widget());
+			delete part;
+		}
+		else
+			return false;
 	}
 
     setupStatusBar();
@@ -1071,6 +1076,7 @@ void Kile::resetPart()
 	m_currentState = "Editor";
 	m_wantState = "Editor";
 	m_partManager->setActivePart( 0L);
+	return true;
 }
 
 void Kile::activePartGUI(KParts::Part * part)

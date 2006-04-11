@@ -173,7 +173,7 @@ private slots:
 	void helpLaTex();
 
 private slots:
-	void resetPart();
+	bool resetPart();
 	void activePartGUI(KParts::Part *);
 	void showToolBars(const QString &);
 	void enableKileGUI(bool);

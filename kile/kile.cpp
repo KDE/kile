@@ -275,7 +275,7 @@ void Kile::setupProjectView()
 {
 	KileProjectView *projectview = new KileProjectView(m_sideBar, this);
 	viewManager()->setProjectView(projectview);
-	m_sideBar->addTab(projectview, SmallIcon("editcopy"), i18n("Files && Projects"));
+	m_sideBar->addTab(projectview, SmallIcon("editcopy"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
 	connect(projectview, SIGNAL(closeURL(const KURL&)), docManager(), SLOT(fileClose(const KURL&)));
@@ -331,7 +331,7 @@ void Kile::setupBottomBar()
 	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log & Messages"));
+	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log and Messages"));
 
 	m_outputWidget = new KileWidget::Output(m_bottomBar);
 	m_outputWidget->setFocusPolicy(QWidget::ClickFocus);

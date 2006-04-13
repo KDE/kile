@@ -35,6 +35,8 @@ namespace KileWidget { class LogMsg; class Output; }
 
 namespace KileTool
 {
+	enum {bibinputs = 0,bstinputs, texinputs};
+		
 	class Factory;
 
 	class QueueItem
@@ -155,6 +157,8 @@ namespace KileTool
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config);
 	
 	QString expandEnvironmentVars(const QString &);
+
+	QString checkOtherPaths(const QString &path,const QString &file, int type);
 }
 
 #endif

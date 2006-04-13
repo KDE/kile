@@ -133,6 +133,9 @@ public:
 	bool openStructureReferences() { return m_openStructureReferences; }
 	bool openStructureBibitems() { return m_openStructureBibitems; }
 
+	bool showStructureLabels() { return m_showStructureLabels; }
+
+
 	const QString & preamble() const { return m_preamble; }
 
 	virtual bool isLaTeXRoot() { return m_bIsRoot; }

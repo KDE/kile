@@ -218,19 +218,16 @@ void Info::updateStructLevelInfo()
 	m_dictStructLevel["\\DeclareMathOperator"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
 	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
 
-	// label
-	if ( m_showStructureLabels )
+	// labels, we always gather them here to get codecompl and undefined references
+	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+
+	// add user defined commands for labels
+	QStringList labellist;
+	QStringList::ConstIterator it;
+	m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
+	for ( it=labellist.begin(); it != labellist.end(); ++it ) 
 	{
-		m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-	
-		// add user defined commands for labels
-		QStringList labellist;
-		QStringList::ConstIterator it;
-		m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
-		for ( it=labellist.begin(); it != labellist.end(); ++it ) 
-		{
-			m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-		}
+		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
 	}
 
 	// bibitems

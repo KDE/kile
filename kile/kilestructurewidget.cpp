@@ -173,12 +173,14 @@ namespace KileWidget
  			m_openStructureLabels = m_docinfo->openStructureLabels();
  			m_openStructureReferences = m_docinfo->openStructureReferences();
 			m_openStructureBibitems = m_docinfo->openStructureBibitems();
+			m_showStructureLabels = m_docinfo->showStructureLabels();
 		}
 		else
 		{
 			m_openStructureLabels = false;
 			m_openStructureReferences = false;
 			m_openStructureBibitems = false;
+			m_showStructureLabels = false;
  		}
 	}
 
@@ -371,6 +373,9 @@ namespace KileWidget
 				if ( m_lastSectioning && (m_lastLine==line-1 || m_lastLine==line) )
 					m_lastSectioning->setLabel(title);
 			}
+
+			if(!m_showStructureLabels) // if we don't want to have it displayed return here
+					return;
 		}
 		
 		// remember current type and line for the next call of addItem()

@@ -145,6 +145,7 @@ namespace KileWidget
 		bool m_openStructureLabels;
 		bool m_openStructureReferences;
 		bool m_openStructureBibitems;
+		bool m_showStructureLabels;
 
 		int m_lastType;
 		uint m_lastLine;

@@ -347,7 +347,6 @@ void Kile::setupBottomBar()
 	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
-	m_bottomBar->showPage(m_logWidget);
 	m_bottomBar->setVisible(true);
 	m_bottomBar->setSize(KileConfig::bottomBarSize());
 }
@@ -1813,8 +1812,10 @@ void Kile::saveSettings()
 	KileConfig::setBottomBar(m_bottomBar->isVisible());
 	KileConfig::setBottomBarSize(sizeBottomBar);
 
-	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
-
+	if(m_sideBar->isVisible())
+		KileConfig::setSelectedLeftView(m_sideBar->currentTab());
+	else
+		KileConfig::setSelectedLeftView(-1);
 	KileConfig::writeConfig();
 	m_config->sync();
 }

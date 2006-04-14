@@ -271,6 +271,7 @@ namespace KileTool
 			return false;
 
 		QString path = source(true);
+		QFileInfo info(path);
 
 		//get the bibliographies for this source
 		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->infoFor(path));
@@ -296,16 +297,19 @@ namespace KileTool
 					return false;
 				}
 			}
-			
-			QFileInfo info(path);
-			setSource(info.dirPath()+"/"+bib+".bib");
+			kdDebug() << "filename before: " << info.dirPath() << endl;
+			setSource(checkOtherPaths(info.dirPath(),bib + ".bib",bibinputs));	
+		}
+		else if( info.exists() ) //active doc is a bib file
+		{
+			kdDebug() << "filename before: " << info.dirPath() << endl;
+			setSource(checkOtherPaths(info.dirPath(),info.fileName(),bibinputs));
 		}
 		else
 		{
 			sendMessage(Error, i18n("No bibliographies found."));
 			return false;
 		}
-
 		return true;
 	}
 

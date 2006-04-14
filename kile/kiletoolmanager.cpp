@@ -16,6 +16,7 @@
 #include <stdlib.h> //for getenv()
  
 #include <qstring.h>
+#include <qfileinfo.h>
 #include <qwidgetstack.h>
 #include <qtimer.h>
 #include <qregexp.h>
@@ -32,6 +33,7 @@
 #include <ksimpleconfig.h>
 
 #include "kileinfo.h"
+#include "kileconfig.h"
 #include "kileproject.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
@@ -506,6 +508,46 @@ namespace KileTool
 
         return result;
 	}
+
+	QString checkOtherPaths(const QString &path,const QString &file, int type)
+	{
+		QStringList inputpaths;
+		QString configvariable;
+		QFileInfo info;
+
+		switch(type)
+		{
+				case bibinputs:
+					configvariable = KileConfig::bibInputPaths();
+				break;
+				case texinputs:
+					configvariable = KileConfig::teXPaths();
+				break;
+				case bstinputs:
+					configvariable = KileConfig::bstInputPaths();
+				break;
+				default:
+					kdDebug() << "Unknown type in checkOtherPaths" << endl;
+					return QString::null;
+				break;
+		}
+
+		inputpaths = QStringList::split( ":",  KileTool::expandEnvironmentVars(configvariable + ":$BIBINPUTS"));
+		inputpaths.prepend(path);
+
+		// the first match is supposed to be the correct one
+		for ( QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it )
+ 		{
+			info.setFile((*it) + "/" + file);
+			if(info.exists())
+			{
+				kdDebug() << "filepath after correction is: " << info.dirPath() << endl;
+				return info.absFilePath();
+			}
+		}
+		return QString::null;
+	}
+
 }
 
 #include "kiletoolmanager.moc"

@@ -388,7 +388,9 @@ void KileNewProjectDlg::slotOk()
 
 void KileNewProjectDlg::fillProjectDefaults()
 {
-	m_dir = KileConfig::defaultProjectLocation() + "/";
+	m_dir = KileConfig::defaultProjectLocation();
+	if( !m_dir.endsWith("/") )
+		m_dir += "/";
 	kdDebug() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);
 	m_cb->setChecked(true);

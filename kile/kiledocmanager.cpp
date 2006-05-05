@@ -893,7 +893,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 			//FIXME:remove entry in projectview
 			m_ki->viewManager()->removeFromProjectView(url);
 
-            if ( m_ki->docManager()->documentInfos()->count() == 0 ) emit updateModeStatus();
+            emit updateModeStatus();
 		}
 		else
 			return false;

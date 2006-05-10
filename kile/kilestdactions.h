@@ -20,12 +20,13 @@
 #define KILESTDACTIONS_H
 class KAction;
 class KMainWindow;
-
+ 
 namespace KileStdActions
 {
-	void setupStdTags(KileInfo *ki, KMainWindow *parent);
-	void setupBibTags(KMainWindow *parent);
-	void setupMathTags(KMainWindow *parent);
+	void setupStdTags(KileInfo *ki, KMainWindow *parent, KActionCollection *ac);
+	void setupBibTags(KMainWindow *parent, KActionCollection *ac);
+	void setupMathTags(KMainWindow *parent, KActionCollection *ac);
+	void setupActionlistTags(KileInfo *ki, KMainWindow *parent, KActionCollection *ac);
 }
 
 #endif

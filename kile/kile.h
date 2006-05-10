@@ -71,6 +71,7 @@ class KileAutoSaveJob;
 class KileSpell;
 class KileErrorHandler;
 class KileSideBar;
+class LatexClient;
 
 namespace KileAction { class TagData; }
 namespace KileTool { class Manager; class Factory; }
@@ -133,11 +134,10 @@ private:
 	bool kateCompletionPlugin();
 	void checkKateSettings();
 	
-	void initMenu();
-	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
+	void initToolbars();
 	void updateMenu();
 	void updateActionList(QPtrList<KAction> *list, bool state);
-	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
+	void updateActionState(KActionCollection *ac, bool fileopen, bool projectopen, int numprojects);
 	
 	KToolBar						*m_toolsToolBar;
 	KActionMenu 					*m_menuUserTags;
@@ -318,6 +318,16 @@ private slots:
 	void quickPreviewSelection();    
 	void quickPreviewEnvironment();    
 	void quickPreviewSubdocument(); 
+
+private:
+	LatexClient *m_latexclient;
+};
+
+class LatexClient : public KXMLGUIClient
+{
+public:
+	LatexClient::LatexClient(KXMLGUIClient *parent) : KXMLGUIClient(parent) {}
+	void setXml(const QString &file) { setXMLFile(file,true); }
 };
 
 #endif

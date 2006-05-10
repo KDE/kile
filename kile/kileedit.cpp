@@ -1680,7 +1680,7 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 			endenv = m_regexpEnter.cap(2).replace("\\begin","\\end")+"\n";
 		}
 		
-		if ( shouldCompleteEnv(envname, view) ) 
+		if ( shouldCompleteEnv(envname, view) )
 		{
 			QString item =  m_latexCommands->isListEnv(envname) ? "\\item " : QString::null;
 			view->getDoc()->insertText(row,col, '\n'+line+m_envAutoIndent+item +'\n'+line+endenv);
@@ -1693,16 +1693,19 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 
 bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
 {
+	kdDebug() << "===EditorExtension::shouldCompleteEnv(...)===" << endl;
+ 	QString envname = env;
+	envname.replace("*","\\*");
 	QRegExp reTestBegin,reTestEnd;
-	if ( env == "\\[" )
+	if ( envname == "\\[" )
 	{
 		reTestBegin.setPattern("\\\\\\[");
 		reTestEnd.setPattern("\\\\\\]");
 	}
 	else
 	{
-		reTestBegin.setPattern("\\\\begin\\s*\\{" + env + "\\}");
-		reTestEnd.setPattern("\\\\end\\s*\\{" + env + "\\}");
+		reTestBegin.setPattern("\\\\begin\\s*\\{" + envname + "\\}");
+		reTestEnd.setPattern("\\\\end\\s*\\{" + envname + "\\}");
 	}
 	
 	int num = view->getDoc()->numLines();

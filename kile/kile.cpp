@@ -116,9 +116,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	setXMLFile( "kileui.rc" );
 
-	m_latexclient = new LatexClient(this);
-	m_latexclient->setXml( "latexmenu.rc" );
-
 	// do initializations first
 	m_currentState = m_wantState = "Editor";
 	m_bWatchFile = m_logPresent = false;
@@ -207,7 +204,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KTipDialog::showTip(this, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
-	initToolbars();
+	initMenu();
 	updateModeStatus();
 
 	setFocus();
@@ -363,13 +360,13 @@ void Kile::setupActions()
 	connect(docManager(), SIGNAL(addToRecentFiles(const KURL& )), m_actRecentFiles, SLOT(addURL(const KURL& )));
 	m_actRecentFiles->loadEntries(m_config, "Recent Files");
 
-	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"tag_kile_file_saveall" );
-	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"tag_kile_template_create");
+	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
+	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");
 	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
-	(void) KStdAction::close(docManager(), SLOT(fileClose()), actionCollection(),"tag_kile_file_close" );
-	(void) new KAction(i18n("Close All"), 0, docManager(), SLOT(fileCloseAll()), actionCollection(),"tag_kile_file_closeall" );
-	(void) new KAction(i18n("Close All Ot&hers"), 0, docManager(), SLOT(fileCloseAllOthers()), actionCollection(),"tag_kile_file_closeallothers" );
-	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "tag_kile_statistics" );
+	(void) KStdAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
+	(void) new KAction(i18n("Close All"), 0, docManager(), SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
+	(void) new KAction(i18n("Close All Ot&hers"), 0, docManager(), SLOT(fileCloseAllOthers()), actionCollection(),"file_close_all_others" );
+	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
 	(void) new KAction(i18n("&ASCII"), 0, this, SLOT(convertToASCII()), actionCollection(), "file_export_ascii" );
 	(void) new KAction(i18n("Latin-&1 (iso 8859-1)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin1" );
 	(void) new KAction(i18n("Latin-&2 (iso 8859-2)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin2" );
@@ -386,7 +383,7 @@ void Kile::setupActions()
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
-	(void) new KAction(i18n("Refresh Str&ucture"), "view_tree", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"tag_kile_RefreshStructure" );
+	(void) new KAction(i18n("Refresh Str&ucture"), "view_tree", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "window_new", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
@@ -396,36 +393,35 @@ void Kile::setupActions()
 	connect(docManager(), SIGNAL(addToRecentProjects(const KURL& )), m_actRecentProjects, SLOT(addURL(const KURL& )));
 	m_actRecentProjects->loadEntries(m_config, "Projects");
 
+	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
+	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
+	(void) new KAction(i18n("&Archive"), "package", 0, docManager(), SLOT(projectArchive()), actionCollection(), "project_archive");
+	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
+	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
+
+	// new project actions (dani)
 	(void) new KAction(i18n("&Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
-	
-	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "tag_kileproject_add");
-	(void) new KAction(i18n("Re&move Files From Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "tag_kileproject_remove");
-	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "tag_kileproject_openallfiles");
-	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "tag_kileproject_showfiles");
-	
-	(void) new KAction(i18n("Find in &Project..."), 0, this, SLOT(findInProjects()), actionCollection(),"tag_kileproject_findfiles" );
-	
-	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "tag_kileproject_buildtree");
-	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "tag_kileproject_options");
-	(void) new KAction(i18n("&Archive"), "package", 0, docManager(), SLOT(projectArchive()), actionCollection(), "tag_kileproject_archive");
-	
-	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "tag_kileproject_close");
+	(void) new KAction(i18n("Re&move Files From Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
+	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
+	// tbraun
+	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
+	(void) new KAction(i18n("Find in &Project..."), 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
 
 	//build actions
-	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"tag_kile_CleanAll" );
-	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"tag_kile_ViewLog" );
-	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, m_errorHandler, SLOT(PreviousError()), actionCollection(),"tag_kile_PreviousError" );
-	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, m_errorHandler, SLOT(NextError()), actionCollection(),"tag_kile_NextError" );
-	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, m_errorHandler, SLOT(PreviousWarning()), actionCollection(),"tag_kile_PreviousWarning" );
-	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, m_errorHandler, SLOT(NextWarning()), actionCollection(),"tag_kile_NextWarning" );
-	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, m_errorHandler, SLOT(PreviousBadBox()), actionCollection(),"tag_kile_PreviousBadBox" );
-	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, m_errorHandler, SLOT(NextBadBox()), actionCollection(),"tag_kile_NextBadBox" );
+	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
+	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
+	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, m_errorHandler, SLOT(PreviousError()), actionCollection(),"PreviousError" );
+	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, m_errorHandler, SLOT(NextError()), actionCollection(),"NextError" );
+	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, m_errorHandler, SLOT(PreviousWarning()), actionCollection(),"PreviousWarning" );
+	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, m_errorHandler, SLOT(NextWarning()), actionCollection(),"NextWarning" );
+	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, m_errorHandler, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
+	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, m_errorHandler, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
 	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
 	m_paStop->setEnabled(false);
 
 	(void) new KAction(i18n("Editor View"),"edit",CTRL+Key_E , this, SLOT(showEditorWidget()), actionCollection(),"EditorView" );
-	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, viewManager(), SLOT(gotoNextView()), actionCollection(), "tag_kile_gotoNextDocument" );
-	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, viewManager(), SLOT(gotoPrevView()), actionCollection(), "tag_kile_gotoPrevDocument" );
+	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, viewManager(), SLOT(gotoNextView()), actionCollection(), "gotoNextDocument" );
+	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, viewManager(), SLOT(gotoPrevView()), actionCollection(), "gotoPrevDocument" );
 	(void) new KAction(i18n("Focus Log/Messages View"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
 	(void) new KAction(i18n("Focus Output View"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
 	(void) new KAction(i18n("Focus Konsole View"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
@@ -464,25 +460,26 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
 	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
 
-	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"tag_kile_quickpreview_selection" );
-	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"tag_kile_quickpreview_environment" );
-	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"tag_kile_quickpreview_subdocument" );
+	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"quickpreview_selection" );
+	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"quickpreview_environment" );
+	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"quickpreview_subdocument" );
 
-	KileStdActions::setupStdTags(this,this,m_latexclient->actionCollection());
-	KileStdActions::setupMathTags(this,m_latexclient->actionCollection());
-	KileStdActions::setupBibTags(this,m_latexclient->actionCollection());
-	KileStdActions::setupActionlistTags(this,this,m_latexclient->actionCollection());
+	KileStdActions::setupStdTags(this,this);
+	KileStdActions::setupMathTags(this);
+	KileStdActions::setupBibTags(this);
 
 	(void) new KAction(i18n("Quick Start"),"quickwizard",0 , this, SLOT(quickDocument()), actionCollection(),"wizard_document" );
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
-	(void) new KAction(i18n("Tabular"),"wizard_tabular",0 , this, SLOT(quickTabular()), actionCollection(),"tag_kile_wizard_tabular" );
-	(void) new KAction(i18n("Array"),"wizard_array",0 , this, SLOT(quickArray()), actionCollection(),"tag_kile_wizard_array" );
-	(void) new KAction(i18n("Tabbing"),"wizard_tabbing",0 , this, SLOT(quickTabbing()), actionCollection(),"tag_kile_wizard_tabbing" );
-	(void) new KAction(i18n("Floats"),"wizard_float",0, this, SLOT(quickFloat()), actionCollection(),"tag_kile_wizard_float" );
-	(void) new KAction(i18n("Math"),"wizard_math",0, this, SLOT(quickMathenv()), actionCollection(),"tag_kile_wizard_mathenv" );
+	(void) new KAction(i18n("Tabular"),"wizard_tabular",0 , this, SLOT(quickTabular()), actionCollection(),"wizard_tabular" );
+	(void) new KAction(i18n("Array"),"wizard_array",0 , this, SLOT(quickArray()), actionCollection(),"wizard_array" );
+	(void) new KAction(i18n("Tabbing"),"wizard_tabbing",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
+	(void) new KAction(i18n("Floats"),"wizard_float",0, this, SLOT(quickFloat()), actionCollection(),"wizard_float" );
+	(void) new KAction(i18n("Math"),"wizard_math",0, this, SLOT(quickMathenv()), actionCollection(),"wizard_mathenv" );
 	(void) new KAction(i18n("Postscript Tools"),"wizard_pstools",0 , this, SLOT(quickPostscript()), actionCollection(),"wizard_postscript" );
 
-	ModeAction=new KToggleAction(i18n("Define Current Document as '&Master Document'"),"master",0 , this, SLOT(toggleMode()), actionCollection(),"tag_kile_Mode" );
+	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
+
+	ModeAction=new KToggleAction(i18n("Define Current Document as '&Master Document'"),"master",0 , this, SLOT(toggleMode()), actionCollection(),"Mode" );
 
 	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), 0, 0, 0, actionCollection(),"StructureView" );
 	tact->setChecked(KileConfig::sideBar());
@@ -499,7 +496,7 @@ void Kile::setupActions()
 	if (m_singlemode) {ModeAction->setChecked(false);}
 	else {ModeAction->setChecked(true);}
 
-	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(toggleWatchFile()), actionCollection(), "tag_kile_WatchFile");
+	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(toggleWatchFile()), actionCollection(), "WatchFile");
 	if (m_bWatchFile) {WatchFileAction->setChecked(true);}
 	else {WatchFileAction->setChecked(false);}
 
@@ -515,7 +512,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "help_latex_command");
 	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
 	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
-	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "tag_kile_help_context");
+	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
 	(void) new KAction(i18n("Documentation Browser"),KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()), actionCollection(), "help_docbrowser");
 
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
@@ -526,11 +523,11 @@ void Kile::setupActions()
 	KAction *kileconfig = KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
 	kileconfig->setIcon("configure_kile");
 
-	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"tag_kile_settings_keys" );
+	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
 	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
 	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
 
-	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"tag_kile_menuUserTags");
+	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
 	setupUserTagActions();
 
@@ -1128,8 +1125,6 @@ void Kile::showToolBars(const QString & wantState)
 	static bool toolsToolBar = true;
 	static bool editToolBar = true;
 	static bool mathToolBar = true;
-	static bool tagsLatexToolBar = true;
-	static bool mathtagsLatexToolBar = true;
 
 	if ( m_currentState == "Editor" )
 	{
@@ -1139,8 +1134,6 @@ void Kile::showToolBars(const QString & wantState)
 		toolsToolBar = toolBar("toolsToolBar")->isShown();
 		editToolBar  = toolBar("editToolBar")->isShown();
 		mathToolBar  = toolBar("mathToolBar")->isShown();
-		tagsLatexToolBar     = toolBar("tagsLatexToolBar")->isShown();
-		mathtagsLatexToolBar = toolBar("mathtagsLatexToolBar")->isShown();
 	}
 
 	if ( wantState == "HTMLpreview" )
@@ -1166,8 +1159,6 @@ void Kile::showToolBars(const QString & wantState)
 		if ( toolsToolBar ) toolBar("toolsToolBar")->show();
 		if ( editToolBar  ) toolBar("editToolBar")->show();
 		if ( mathToolBar  ) toolBar("mathToolBar")->show();
-		if ( tagsLatexToolBar ) toolBar("tagsLatexToolBar")->show();
-		if ( mathtagsLatexToolBar ) toolBar("mathtagsLatexToolBar")->show();
 		toolBar("extraToolBar")->hide();
 		enableKileGUI(true);
 	}
@@ -1181,8 +1172,6 @@ void Kile::setViewerToolBars()
 	toolBar("toolsToolBar")->hide();
 	toolBar("editToolBar")->hide();
 	toolBar("mathToolBar")->hide();
-	toolBar("tagsLatexToolBar")->hide();
-	toolBar("mathtagsLatexToolBar")->hide();
 	toolBar("extraToolBar")->show();
 }
 
@@ -1200,7 +1189,7 @@ void Kile::enableKileGUI(bool enable)
 			if ( text == "menu_build"   ||
 				  text == "menu_project" ||
 				  text == "menu_latex"   ||
-				  text == "menu_wizard"  ||
+				  text == "wizard"       ||
 				  text == "tools"
 			   )
 			   menubar->setItemEnabled(id, enable);
@@ -1211,83 +1200,176 @@ void Kile::enableKileGUI(bool enable)
 	m_help->enableUserhelpEntries(enable);
 }
 
-// don't show these toolbars, if there are no entries
-void Kile::initToolbars()
+// adds action names to their lists
+
+void Kile::initMenu()
 {
-	if ( toolBar("editToolBar")->count() == 0 )
-		toolBar("editToolBar")->hide();
-	if ( toolBar("mathToolBar")->count() == 0 )
-		toolBar("mathToolBar")->hide();
-	if ( toolBar("tagsLatexToolBar")->count() == 0 )
-		toolBar("tagsLatexToolBar")->hide();
-	if ( toolBar("mathtagsLatexToolBar")->count() == 0 )
-		toolBar("mathtagsLatexToolBar")->hide();
+	QStringList projectlist,filelist,actionlist;
+
+	projectlist
+	   << "project_add" << "project_remove"
+	   << "project_showfiles"
+	   << "project_buildtree" << "project_options" << "project_findfiles"
+	   << "project_archive" << "project_close" << "project_openallfiles"
+	   ;
+
+	filelist
+	   // file
+	   << "convert"
+	   // edit
+	   << "complete" << "bullet" << "select"
+	   << "delete" << "environment" << "texgroup"
+	   // build
+	   << "quickpreview" << "menu_compile" << "menu_convert"
+	   << "menu_viewers" << "menu_other"
+	   // latex
+	   << "menu_preamble" << "menu_lists" << "menu_sectioning" << "references"
+	   << "menu_environment" << "menu_listenv" << "menu_tabularenv" << "menu_floatenv"
+	   << "menu_code" << "menu_math" << "menu_mathenv" << "menu_mathamsenv"
+	   << "menu_bibliography" << "menu_fontstyles" << "menu_spacing"
+	   ;
+
+	actionlist
+	   // file
+	   << "file_save_all" << "template_create" << "Statistics"
+	   << "file_close" << "file_close_all" << "file_close_all_others"
+	   // edit
+	   << "RefreshStructure"
+	    // view
+	   << "gotoPrevDocument" << "gotoNextDocument"
+	   // build
+	   << "quickpreview_selection" << "quickpreview_environment" << "quickpreview_subdocument"
+	   << "WatchFile" << "ViewLog" << "PreviousError" << "NextError" << "PreviousWarning"
+	   << "NextWarning" << "PreviousBadBox" << "NextBadBox" << "CleanAll"
+	   // latex
+	   << "tag_documentclass" << "tag_usepackage" << "tag_amspackages" << "tag_env_document"
+	   << "tag_author" << "tag_title" << "tag_maketitle" << "tag_titlepage" << "tag_env_abstract"
+	   << "tag_tableofcontents" << "tag_listoffigures" << "tag_listoftables"
+	   << "tag_makeindex" << "tag_printindex" << "tag_makeglossary" << "tag_env_thebibliography"
+	   << "tag_part" << "tag_chapter" << "tag_section" << "tag_subsection" << "tag_subsubsection"
+	   << "tag_paragraph" << "tag_subparagraph" << "tag_label"
+	   << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite"
+	   << "tag_center" << "tag_flushleft" << "tag_flushright"
+	   << "tag_env_minipage" << "tag_quote" << "tag_quotation" << "tag_verse"
+	   << "tag_env_itemize" << "tag_env_enumerate" << "tag_env_description" << "tag_item"
+	   << "tag_env_tabular" << "tag_env_tabular*" << "tag_env_tabbing"
+	   << "tag_multicolumn" << "tag_hline" << "tag_vline" << "tag_cline"
+	   << "tag_figure" << "tag_table"
+	   << "tag_verbatim" << "tag_env_verbatim*" << "tag_verb" << "tag_verb*"
+	   << "tag_mathmode" << "tag_equation" << "tag_subscript" << "tag_superscript"
+	   << "tag_sqrt" << "tag_nroot" << "tag_left" << "tag_right" << "tag_leftright"
+	   << "tag_bigl" << "tag_bigr" << "tag_Bigl" << "tag_Bigr"
+	   << "tag_biggl" << "tag_biggr" << "tag_Biggl" << "tag_Biggr"
+	   << "tag_text" << "tag_intertext" << "tag_boxed"
+	   << "tag_frac" << "tag_dfrac" << "tag_tfrac"
+	   << "tag_binom" << "tag_dbinom" << "tag_tbinom"
+	   << "tag_xleftarrow" << "tag_xrightarrow"
+	   << "tag_mathrm" << "tag_mathit" << "tag_mathbf" << "tag_mathsf"
+	   << "tag_mathtt" << "tag_mathcal" << "tag_mathbb" << "tag_mathfrak"
+	   << "tag_acute" << "tag_grave" << "tag_tilde" << "tag_bar" << "tag_vec"
+	   << "tag_hat" << "tag_check" << "tag_breve" << "tag_dot" << "tag_ddot"
+	   << "tag_space_small" << "tag_space_medium" << "tag_space_large"
+	   << "tag_quad" << "tag_qquad" << "tag_enskip"
+	   << "tag_env_displaymath" << "tag_env_equation" << "tag_env_equation*"
+	   << "tag_env_eqnarray" << "tag_env_eqnarray*" << "tag_env_array"
+	   << "tag_env_multline" << "tag_env_multline*" << "tag_env_split"
+	   << "tag_env_gather" << "tag_env_gather*" << "tag_env_align" << "tag_env_align*"
+	   << "tag_env_flalign" << "tag_env_flalign*" << "tag_env_alignat" << "tag_env_alignat*"
+	   << "tag_env_aligned" << "tag_env_gathered" << "tag_env_alignedat" << "tag_env_cases"
+	   << "tag_bibliographystyle" << "tag_bibliography" << "tag_bib_article" << "tag_bib_inproc"
+	   << "tag_bib_incol" << "tag_bib_inbook" << "tag_bib_proceedings" << "tag_bib_book"
+	   << "tag_bib_booklet" << "tag_bib_phdthesis" << "tag_bib_masterthesis" << "tag_bib_techreport"
+	   << "tag_bib_manual" << "tag_bib_unpublished" << "tag_bib_misc" << "CleanBib"
+	   << "tag_textit" << "tag_textsl" << "tag_textbf" << "tag_underline"
+	   << "tag_texttt" << "tag_textsc" << "tag_emph"
+	   << "tag_rmfamily" << "tag_sffamily" << "tag_ttfamily"
+	   << "tag_mdseries" << "tag_bfseries" << "tag_upshape"
+	   << "tag_itshape" << "tag_slshape" << "tag_scshape"
+	   << "tag_newline" << "tag_newpage" << "tag_linebreak" << "tag_pagebreak"
+	   << "tag_bigskip" << "tag_medskip" << "tag_smallskip"
+	   << "tag_hspace" << "tag_hspace*" << "tag_vspace" << "tag_vspace*"
+	   << "tag_hfill" << "tag_hrulefill" << "tag_dotfill" << "tag_vfill"
+	   << "tag_includegraphics" << "tag_include" << "tag_input"
+	   << "menuUserTags"
+	   // wizard
+	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
+	   << "wizard_float" << "wizard_mathenv"
+	   // settings
+	   << "Mode" << "settings_keys"
+	   // help
+	   << "help_context"
+	   // action lists
+	   << "structure_list" << "size_list" << "other_list"
+	   << "left_list" << "right_list"
+	   ;
+
+	setMenuItems(projectlist,m_dictMenuProject);
+	setMenuItems(filelist,m_dictMenuFile);
+	setMenuItems(actionlist,m_dictMenuAction);
 }
 
-// some tags for menu entries may have a special prefix:
-//
-// 1) submenu entries, which should be disabled, if no file is opened
-//  - submenu_kile_          ( from Kile's action collection )
-//  - submenu_latex_         ( all top level submenus from the LaTeX menu )
-//
-// 2) action entries, which should be disabled, if no file is opened
-//  - tag_kile_              ( from Kile's action collection )
-//  - tag_latex_             ( all actions from the LaTeX menu )
-//
-// 3) project actions, which should be disabled, if no project is opened
-//  - tag_kileproject_
-//
-// 4) actions for user defined tags (from the dialog)
-//  - tag_user_
-//
-// 5) some top level entries from the menubar
-//  - menu_build, menu_project, menu_latex, menu_wizard
-//
-// 6) and of course everything, which comes from the KatePart menu...
+void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
+{
+	for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) {
+		dict[(*it)] = true;
+	}
+}
 
 void Kile::updateMenu()
 {
 	kdDebug() << "==Kile::updateKileMenu()====================" << endl;
+	KAction *a;
+	QMap<QString,bool>::Iterator it;
 
-	// get state of project menus
+	// update project menus
 	m_actRecentProjects->setEnabled( m_actRecentProjects->items().count() > 0 );
 	bool project_open = ( docManager()->isProjectOpen() ) ;
 
-	// project_show is only enabled, when more than 1 project is opened
-	int num_projects = docManager()->projects()->count();
+	for ( it=m_dictMenuProject.begin(); it!=m_dictMenuProject.end(); ++it ) {
+		a = actionCollection()->action(it.key().ascii());
+		if ( a )
+			a->setEnabled(project_open);
+	}
 
-	// get state of file menus
+	// project_show is only enabled, when more than 1 project is opened
+	a = actionCollection()->action("project_show");
+	if ( a )
+		a->setEnabled( project_open && docManager()->projects()->count()>1 );
+
+	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
 	bool file_open = ( viewManager()->currentView() );
 	kdDebug() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
-	// update submenus
 	QMenuBar *menubar = menuBar();
-	for ( uint i=0; i<menubar->count(); ++i ) 
-	{
+	for ( uint i=0; i<menubar->count(); ++i ) {
 		int menu_id = menubar->idAt(i);
 		QPopupMenu *menu = menubar->findItem(menu_id)->popup();
-		if ( menu ) 
-		{
+		if ( menu ) {
 			QString menu_name = menu->name();
-			for ( uint j=0; j<menu->count(); ++j ) 
-			{
+			for ( uint j=0; j<menu->count(); ++j ) {
 				int sub_id = menu->idAt(j);
 				QPopupMenu *submenu = menu->findItem(sub_id)->popup();
-				if ( submenu ) 
-				{
+				if ( submenu ) {
 					QString submenu_name = submenu->name();
-					if ( submenu_name.left(13)=="submenu_kile_" || submenu_name.left(14)=="submenu_latex_" )
-						menu->setItemEnabled(sub_id,file_open);
+					if ( m_dictMenuFile.contains(submenu_name) ) {
+//					if ( m_menuFileList.findIndex( submenu_name ) >= 0 ) {
+						menu->setItemEnabled(sub_id, file_open);
+					}
 				}
 			}
 		}
 	}
-	
-	// update actions
-	updateActionState(actionCollection(),file_open,project_open,num_projects);
-	updateActionState(m_latexclient->actionCollection(),file_open,project_open,num_projects);
-	
+
+	// update action lists
+	KActionPtrList actions = actionCollection()->actions();
+	KActionPtrList::Iterator itact;
+	for ( itact=actions.begin(); itact!=actions.end(); ++itact )
+	{
+		if ( m_dictMenuAction.contains( (*itact)->name() ) )
+			(*itact)->setEnabled(file_open);
+	}
+
 	updateActionList(&m_listQuickActions,file_open);
 	updateActionList(&m_listCompilerActions,file_open);
 	updateActionList(&m_listConverterActions,file_open);
@@ -1296,25 +1378,9 @@ void Kile::updateMenu()
 
 }
 
-void Kile::updateActionState(KActionCollection *ac, bool fileopen, bool projectopen, int numprojects)
-{
-	KActionPtrList actions = ac->actions();
-	KActionPtrList::Iterator it;
-	for ( it=actions.begin(); it!=actions.end(); ++it )
-	{
-		if ( strncmp((*it)->name(),"tag_kile_",9)==0 || strncmp((*it)->name(),"tag_latex_",10)==0 )
-			(*it)->setEnabled(fileopen);
-		else if ( strncmp((*it)->name(),"tag_kileproject_",16)==0 )
-			(*it)->setEnabled(projectopen);
-		else if ( strcmp((*it)->name(),"project_show")==0 )
-			(*it)->setEnabled(projectopen && numprojects>1);
-	}
-}
-
 void Kile::updateActionList(QPtrList<KAction> *list, bool state)
 {
-	for ( KAction *a=list->first(); a; a=list->next() ) 
-	{
+	for ( KAction *a=list->first(); a; a=list->next() ) {
 		a->setEnabled(state);
 	}
 }
@@ -1873,29 +1939,9 @@ void Kile::configureKeys()
 {
 	KKeyDialog dlg( false, this );
 	QPtrList<KXMLGUIClient> clients = guiFactory()->clients();
-	for( QPtrListIterator<KXMLGUIClient> it( clients ); it.current(); ++it )
+	for( QPtrListIterator<KXMLGUIClient> it( clients );	it.current(); ++it )
 	{
-	kdDebug() << "anz xmlclients is " << it.count() << endl;
-		QString title;
-		if ( (*it)->xmlFile() == m_latexclient->xmlFile() )
-		{
-			title = i18n("Kile (LaTeX-Menu)");
-		}
-		else if ( (*it)->actionCollection()->count() > 0 )
-		{
-		kdDebug() <<  "actions anz is " << (*it)->actionCollection()->count() << endl;
-		QString name = (*it)->actionCollection()->action(0)->name();
-
-			if ( name.right(7) == "ToolBar" )
-				title = i18n("Kile (Toolbar)");
-
-		kdDebug() <<  "name is " << (*it)->actionCollection()->action(0)->name() << endl;
-		}
-		
-		if ( ! title.isEmpty() )
-			dlg.insert( (*it)->actionCollection(),title );
-		else
-			dlg.insert( (*it)->actionCollection() );
+		dlg.insert( (*it)->actionCollection() );
 	}
 	dlg.configure();
 	actionCollection()->writeShortcutSettings("Shortcuts", m_config);

@@ -33,6 +33,7 @@
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>
 #include <kpushbutton.h>
+#include <kurl.h>
 
 #include "kileuntitled.h"
 #include "templates.h"
@@ -742,33 +743,43 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 {
 	Kate::View *view;
 	QFileInfo fi;
-
-	kdDebug() << "==Kile::fileSaveAll=================" << endl;
-	kdDebug() << "\tautosaving = " << amAutoSaving << ",  DisRegardUntitled = " <<  disUntitled << endl;
+	bool successBackup;
+	int saveResult;
+	QString backupFileName;
+	KURL url;
+	
+	kdDebug() << "===Kile::fileSaveAll=================" << endl;
+	kdDebug() << "autosaving = " << amAutoSaving << ", DisUntitled = " << disUntitled << endl;
 
 	for (uint i = 0; i < m_ki->viewManager()->views().count(); ++i)
 	{
 		view = m_ki->viewManager()->view(i);
 
-		if (view && (view->getDoc()->isModified() || amAutoSaving) )
+		if ( view && (view->getDoc()->isModified() || amAutoSaving) )
 		{
-			fi.setFile(view->getDoc()->url().path());
-
-			if ( (!amAutoSaving && !disUntitled)	// both false, so we want to save everything
-				 || ( !amAutoSaving && !(disUntitled && view->getDoc()->url().isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
-			     || ( amAutoSaving && (!view->getDoc()->url().isEmpty() ) && fi.isWritable() ) //don't save unwritable and untitled documents when autosaving
-			   )
+			url = view->getDoc()->url();
+			fi.setFile(url.path());
+			backupFileName = url.url()+ ".backup";
+			
+			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
+					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
+					|| ( !amAutoSaving && !disUntitled )	// both false, so we want to save everything
+				)
 			{
-				kdDebug() << "\tsaving: " << view->getDoc()->url().path() << endl;
-
-				if (amAutoSaving)
+				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
-					//make a backup
-					KURL url = view->getDoc()->url();
-          KIO::NetAccess::file_copy (url, KURL(KURL::fromPathOrURL(url.url()+".backup")), -1, true, false, kapp->mainWidget());
+					kdDebug() << "autosaving: " << backupFileName << endl;
+					successBackup = KIO::NetAccess::file_copy(url, KURL(KURL::fromPathOrURL(backupFileName)), -1, true, false, kapp->mainWidget());
+					if(!successBackup)
+						m_ki->logWidget()->printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupFileName),i18n("Autosave"));
 				}
-
-				view->save();
+				
+				kdDebug() << "saving: " << url.path() << endl;
+				saveResult = view->save();
+				fi.refresh();
+			
+				if(saveResult == Kate::View::SAVE_ERROR && fi.size() == 0) // we probably hit bug #125809, inform the user of the possible consequences
+					m_ki->logWidget()->printMsg(KileTool::Error,i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?").arg(url.url()),i18n("Saving"));
 			}
 		}
 	}

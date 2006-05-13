@@ -246,6 +246,7 @@
 
      <!-- comment -->
       <context name="Comment" attribute="Comment" lineEndContext="#pop">
+      	<RegExpr String="(FIXME|TODO):?" attribute="Alert" context="#stay"/>
         <DetectChar char="&#xd7;" attribute="Bullet" context="#stay"/>
       </context>
     </contexts>
@@ -262,6 +263,7 @@
       <itemData name="Verbatim" defStyleNum="dsNormal" color="#a08000" selColor="#80D0FF" bold="0" italic="0"/>
       <itemData name="Region Marker" defStyleNum="dsRegionMarker" />
       <itemData name="Bullet" defStyleNum="dsNormal" color="#FF00C4" bold="1" underline="1"/>
+      <itemData name="Alert" defStyleNum="dsAlert" />
      </itemDatas>
   </highlighting>
 

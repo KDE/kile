@@ -1,3 +1,26 @@
+version 1.9.0 -> 1.9.1
+Fixes:
+ - Restore support for KDE 3.2.x.
+ - tex files starting with numbers can now also used for "Forward DVI" (#124613)
+ - now we respect the default project location set by the user also in projectOpen() (#124099)
+ - don't restore the line position if the file is already open.(#125175)
+ - honor users who want to cancel the close request to embedded parts (namely kbibtex)
+ - fix ViewBib, if we support $BIBINPUTS for compilation we should also do it for viewing. We now also check in all paths in BIBINPUTS for an bib file. (#125133)
+ - if "show labels" is disabled in structureview, we should nevertheless gather them for codecompl. and undefined ref.
+ - don't fake pressed buttons, now the log message button does not looked pressed when you start kile. (#124098)
+ - only add an trailing slash to the default project location if we need one.
+ - hide the latex menu when we don't have docs open
+ - don't see unstarred env. as closing for starred. (#120509)
+ - we are now much more carefully if the autosaving has succeded. We now warn if we can't autosave and don't overwrite backups with empty backups. (#125975)
+
+Features:
+ - Add the possibility to use bullets in user tags via a new placeholder %B.
+ - Colour bullets so that they can be spotted easily.
+ - new cwl file for the textcomp package
+ - we now highlight TODO, FIXME in comments (only there not in normal text)
+
+[...]
+
 version 1.6.3 -> 1.7a3
 major:
  - smart LaTeX: rerun automatically when needed, runs BibTeX and/or MakeIndex if required

@@ -1,0 +1,49 @@
+In order to install Kile on MacOS X, you need the following things:
+- a working X11 installation
+- a working LaTeX distribution
+- the KDE libraries
+- and Kile itself, of course
+
+Once everything is in place, Kile needs X11 to run, so make sure you launch X11 before Kile.
+
+
+Installing X11
+--------------
+
+Apple provides its own X11 installation for MacOS X 10.3 (downloadable from Apple's web site) and 10.4 (available directly on the Tiger DVD). If you install by hand, make sure to install the X11User.pkg package.
+
+Apple's documentation on X11: http://developer.apple.com/opensource/tools/X11.html
+
+You should install Apple's X11. But if you have a good reason not to, Fink (see below) provides the latest X.org distribution. Refer to Fink documentation for details. MAKE SURE YOU NEVER MIX TWO X11 VERSIONS ON THE SAME SYSTEM.
+
+
+Installing all the rest through Fink
+------------------------------------
+
+Fink is the packaging system from Debian ported to MacOS X. Installing Fink itself is very straightforward, so only two things will be mentioned here:
+- you must download and install the latest Xcode version from Apple (free download, just requires registration),
+- make sure Fink uses the package repository compatible with your system (specifically, if you have MacOS X 10.4, use the 10.4 branch and *not* the 10.4-transitional branch).
+
+Fink lets you choose between precompiled, ready-to-use, packages, and compiling them yourself. Practically speaking, the Fink project provides few up-to-date precompiled packages, so compilation is often necessary. But don't worry, the procedure is automatic in any case.
+
+After that, installing the rest is very straightforward:
+
+- LaTeX distribution: install packages "tetex" and "tetex-base".
+- KDE libraries: the bare minimum would be package "kdebase3-unified", but you should also install packages like "kpdf", "kdvi" and "kghostview" to make best use of Kile. Installing a localisation package to have dialogs in your language would also be nice ; for example, the French package is called "kde-i18n-french".
+- Kile: its package is called "kile".
+- Other useful packages, depending on your habits: "bibview", "gnuplot", "xfig", "beamer", "texpower"... Just go shopping with Fink.
+
+Have fun!
+
+Fink project: http://fink.sourceforge.net
+
+
+Other installation methods
+--------------------------
+
+There is no easy way, other than Fink, to install the KDE libraries and Kile. But if you want, there is another popular way to install LaTeX: the i-Installer.
+
+i-Installer web site: http://ii2.sourceforge.net
+
+
+[This Readme was contributed by Thibaut Cousin (cousin@kde.org)]

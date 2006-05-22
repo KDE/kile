@@ -18,6 +18,7 @@ Features:
  - Colour bullets so that they can be spotted easily.
  - new cwl file for the textcomp package
  - we now highlight TODO, FIXME in comments (only there not in normal text)
+ - added Readme.MacOSX
 
 [...]
 

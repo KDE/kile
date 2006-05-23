@@ -18,6 +18,7 @@
 
 #include <qtextcodec.h>
 #include <qfile.h>
+#include <qdir.h>
 
 #include <kate/document.h>
 #include <kate/view.h>
@@ -787,21 +788,25 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 
 void Manager::fileOpen(const KURL & url, const QString & encoding)
 {
+	kdDebug() << "==Kile::fileOpen==========================" << endl;
+	
 	//don't want to receive signals from the fileselector since
 	//that would allow the user to open a single file twice by double-clicking on it
 	m_ki->fileSelector()->blockSignals(true);
+	
+	QDir *dir = new QDir(url.path());
+	KURL realurl = KURL::fromPathOrURL(dir->canonicalPath());
+	kdDebug() << "url is " << url.url() << ", symlink free url is " << realurl.url() << endl;
+	
+	bool isopen = m_ki->isOpen(realurl);
 
-	kdDebug() << "==Kile::fileOpen==========================" << endl;
-	kdDebug() << "\t" << url.url() << endl;
-	bool isopen = m_ki->isOpen(url);
-
-	Kate::View *view = load(url, encoding);
-	KileProjectItem *item = itemFor(url);
+	Kate::View *view = load(realurl, encoding);
+	KileProjectItem *item = itemFor(realurl);
 
 	if(!isopen)
 	{
-		if(!item)	//URL wasn't open before loading, add it to the project view
-			m_ki->viewManager()->projectView()->add(url);	//FIXME: use signal/slot
+		if(!item)
+			m_ki->viewManager()->projectView()->add(realurl);	//FIXME: use signal/slot
 		else if(view)
 			view->setCursorPosition(item->lineNumber(),item->columnNumber());
 	}
@@ -809,8 +814,10 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	// update undefined references in this file
-	emit(updateReferences(infoFor(url.path())) );
+	emit(updateReferences(infoFor(realurl.path())) );
 	m_ki->fileSelector()->blockSignals(false);
+
+	delete dir;
 }
 
 bool Manager::fileCloseAllOthers()

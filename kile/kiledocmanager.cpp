@@ -779,7 +779,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				saveResult = view->save();
 				fi.refresh();
 			
-				if(saveResult == Kate::View::SAVE_ERROR && fi.size() == 0) // we probably hit bug #125809, inform the user of the possible consequences
+				if(saveResult == Kate::View::SAVE_ERROR && fi.size() == 0 && !url.isEmpty()) // we probably hit bug #125809, inform the user of the possible consequences
 					m_ki->logWidget()->printMsg(KileTool::Error,i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?").arg(url.url()),i18n("Saving"));
 			}
 		}

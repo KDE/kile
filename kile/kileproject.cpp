@@ -17,6 +17,7 @@
 
 #include <qstringlist.h>
 #include <qfileinfo.h>
+#include <qdir.h>
 
 #include <ksimpleconfig.h>
 #include <klocale.h>
@@ -138,7 +139,8 @@ KileProject::~KileProject()
 void KileProject::init(const QString& name, const KURL& url)
 {
 	m_name = name;
-	m_projecturl = url;
+	m_projecturl.setPath( QDir(url.directory()).canonicalPath() + "/" + url.fileName() );
+
 	m_projectitems.setAutoDelete(true);
 
 	m_config = new KSimpleConfig(m_projecturl.path());

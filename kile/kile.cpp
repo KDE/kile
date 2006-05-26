@@ -327,6 +327,7 @@ void Kile::setupBottomBar()
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
 	connect(m_logWidget, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
+	connect(m_docManager,SIGNAL(printMsg(int, const QString &, const QString &)),m_logWidget,SLOT(printMsg(int, const QString &, const QString &)));
 
 	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
 	m_logWidget->setMinimumHeight(40);

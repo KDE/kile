@@ -760,7 +760,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 		{
 			url = view->getDoc()->url();
 			fi.setFile(url.path());
-			backupFileName = url.url()+ ".backup";
+			backupFileName = url.path()+ ".backup";
 			
 			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
@@ -770,9 +770,9 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
 					kdDebug() << "autosaving: " << backupFileName << endl;
-					successBackup = KIO::NetAccess::file_copy(url, KURL(KURL::fromPathOrURL(backupFileName)), -1, true, false, kapp->mainWidget());
+					successBackup = KIO::NetAccess::file_copy(url, KURL::fromPathOrURL(backupFileName), -1, true, false, kapp->mainWidget());
 					if(!successBackup)
-						m_ki->logWidget()->printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupFileName),i18n("Autosave"));
+						emit printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupFileName),i18n("Autosave"));
 				}
 				
 				kdDebug() << "saving: " << url.path() << endl;
@@ -780,7 +780,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				fi.refresh();
 			
 				if(saveResult == Kate::View::SAVE_ERROR && fi.size() == 0 && !url.isEmpty()) // we probably hit bug #125809, inform the user of the possible consequences
-					m_ki->logWidget()->printMsg(KileTool::Error,i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?").arg(url.url()),i18n("Saving"));
+					emit printMsg(KileTool::Error,i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?").arg(url.url()),i18n("Saving"));
 			}
 		}
 	}
@@ -793,10 +793,10 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	//don't want to receive signals from the fileselector since
 	//that would allow the user to open a single file twice by double-clicking on it
 	m_ki->fileSelector()->blockSignals(true);
-	
-	QDir *dir = new QDir(url.path());
-	KURL realurl = KURL::fromPathOrURL(dir->canonicalPath());
-	kdDebug() << "url is " << url.url() << ", symlink free url is " << realurl.url() << endl;
+
+	kdDebug() << "url is " << url.url() << endl;
+	const KURL realurl = symlinkFreeURL(url);
+	kdDebug() << "symlink free url is " << realurl.url() << endl;
 	
 	bool isopen = m_ki->isOpen(realurl);
 
@@ -816,8 +816,6 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	// update undefined references in this file
 	emit(updateReferences(infoFor(realurl.path())) );
 	m_ki->fileSelector()->blockSignals(false);
-
-	delete dir;
 }
 
 bool Manager::fileCloseAllOthers()
@@ -981,7 +979,7 @@ void Manager::projectNew()
 
 			//save the new file
 			view->getDoc()->saveAs(url);
-            emit documentStatusChanged(view->getDoc(), false, 0);
+            		emit documentStatusChanged(view->getDoc(), false, 0);
 
 			//add this file to the project
 			item = new KileProjectItem(project, url);
@@ -1044,20 +1042,32 @@ KileProject* Manager::selectProject(const QString& caption)
 
 void Manager::addToProject(const KURL & url)
 {
-	kdDebug() << "==Kile::addToProject==========================" << endl;
-	kdDebug() << "\t" <<  url.fileName() << endl;
+	kdDebug() << "===Kile::addToProject(const KURL & url =" << url.url() << ")" << endl;
 
 	KileProject *project = selectProject(i18n("Add to Project"));
 
-	if (project) addToProject(project, url);
+	if (project)
+		addToProject(project, url);
 }
 
 void Manager::addToProject(KileProject* project, const KURL & url)
 {
-	if (project->contains(url)) return;
+	const KURL realurl = symlinkFreeURL(url);
+	QFileInfo fi(realurl.path());
 
-	KileProjectItem *item = new KileProjectItem(project, url);
-	item->setOpenState(m_ki->isOpen(url));
+	if (project->contains(realurl))
+	{
+		emit printMsg(KileTool::Info,i18n("The file %1 is already member of the project %2").arg(realurl.filename()).arg(project->name()),i18n("Add to Project"));
+		return;
+	}
+	else if(!fi.exists() || !fi.isReadable())
+	{
+		emit printMsg( KileTool::Info,i18n("The file %1 can not be added because it does not exist or is not readable").arg(realurl.filename()),i18n("Add to Project"));
+		return;
+	}
+	
+	KileProjectItem *item = new KileProjectItem(project, realurl);
+	item->setOpenState(m_ki->isOpen(realurl));
 	projectOpenItem(item);
 	m_ki->viewManager()->projectView()->add(item);
 	buildProjectTree(project);
@@ -1110,7 +1120,10 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 {
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
 	kdDebug() << "\tfilename: " << url.fileName() << endl;
-	if (m_ki->projectIsOpen(url))
+
+	const KURL realurl = symlinkFreeURL(url);
+
+	if (m_ki->projectIsOpen(realurl))
 	{
 		m_kpd->cancel();
 
@@ -1118,20 +1131,20 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 		return 0L;
 	}
 
-	QFileInfo fi(url.path());
+	QFileInfo fi(realurl.path());
 	if ( ! fi.isReadable() )
 	{
 		m_kpd->cancel();
 
 		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
-			emit(removeFromRecentProjects(url));
+			emit(removeFromRecentProjects(realurl));
 
 		return 0L;
 	}
 
 	m_kpd->show();
 
-	KileProject *kp = new KileProject(url);
+	KileProject *kp = new KileProject(realurl);
 	
 	if(kp->isInvalid())
 	{
@@ -1140,7 +1153,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 		return 0L;
 	}
 
-	emit(addToRecentProjects(url));
+	emit(addToRecentProjects(realurl));
 
 	KileProjectItemList *list = kp->items();
 
@@ -1167,7 +1180,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	if (step == (max - 1))
 		m_kpd->cancel();
 
-    m_ki->viewManager()->switchToView(kp->lastDocument());
+   	m_ki->viewManager()->switchToView(kp->lastDocument());
 
 	return kp;
 }
@@ -1501,11 +1514,11 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 
 	if ( extlist.count() == 0 )
 	{
-		m_ki->logWidget()->printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
+		emit printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
 		return;
 	}
 
-	m_ki->logWidget()->printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
+	emit printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
 
 	docinfo->cleanTempFiles(extlist);
 }
@@ -1644,7 +1657,7 @@ QStringList Manager::getProjectFiles()
 
 void Manager::dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype)
 {
-	m_ki->logWidget()->printMsg(KileTool::Info, i18n("not opened: %1 (%2)").arg(item->url().path()).arg(filetype), action);
+	emit printMsg(KileTool::Info, i18n("not opened: %1 (%2)").arg(item->url().path()).arg(filetype), action);
 }
 
 KileProjectItem* Manager::selectProjectFileItem(const QString &label)
@@ -1707,6 +1720,20 @@ void Manager::projectAddFile(QString filename, bool graphics)
 	KURL url;
 	url.setPath(filename);
 	addToProject(project, url);
+}
+
+const KURL Manager::symlinkFreeURL(const KURL& url)
+{
+	kdDebug() << "===symlinkFreeURL==" << endl;
+	QDir dir(url.directory());
+	QString filename=url.path(); // if the directory does not exist we return the old url (just to be sure)
+
+	if(dir.exists())
+		filename= dir.canonicalPath() + "/" + url.filename();
+	else
+		kdDebug() << "directory " << url.directory() << "does not exist" << endl;
+
+	return KURL::fromPathOrURL(filename);
 }
 
 }

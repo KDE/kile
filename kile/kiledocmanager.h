@@ -144,6 +144,8 @@ signals:
 
 	void startWizard();
 
+	void printMsg(int type, const QString & message, const QString &tool = "Kile" );
+
 public:
 	QPtrList<KileProject>* projects() { return &m_projects; }
 	QPtrList<Info>* documentInfos() { return &m_infoList; }
@@ -183,6 +185,7 @@ private:
 	KProgressDialog				*m_kpd;
 
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
+	const KURL symlinkFreeURL(const KURL& url);
 };
 
 }

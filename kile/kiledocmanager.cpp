@@ -759,7 +759,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 		{
 			url = view->getDoc()->url();
 			fi.setFile(url.path());
-			backupFileName = url.url()+ ".backup";
+			backupFileName = url.path()+ ".backup";
 			
 			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
@@ -769,7 +769,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
 					kdDebug() << "autosaving: " << backupFileName << endl;
-					successBackup = KIO::NetAccess::file_copy(url, KURL(KURL::fromPathOrURL(backupFileName)), -1, true, false, kapp->mainWidget());
+					successBackup = KIO::NetAccess::file_copy(url, KURL::fromPathOrURL(backupFileName), -1, true, false, kapp->mainWidget());
 					if(!successBackup)
 						m_ki->logWidget()->printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupFileName),i18n("Autosave"));
 				}

@@ -295,6 +295,7 @@ void Kile::setupProjectView()
 	connect(docManager(), SIGNAL(addToProjectView(const KURL &)),projectview,SLOT(add(const KURL &)));
 	connect(docManager(), SIGNAL(addToProjectView(const KileProject *)),projectview,SLOT(add(const KileProject *)));
 	connect(docManager(),SIGNAL(removeItemFromProjectView(const KileProjectItem *, bool)),projectview,SLOT(removeItem(const KileProjectItem *, bool)));
+	connect(docManager(),SIGNAL(addToProjectView(KileProjectItem *item)),projectview,SLOT(add(KileProjectItem *item)));
 }
 
 void Kile::setupStructureView()

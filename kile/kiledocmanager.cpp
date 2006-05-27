@@ -804,7 +804,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	if(!isopen)
 	{
 		if(!item)
-			addToProjectView(realurl);
+			emit addToProjectView(realurl);
 		else if(view)
 			view->setCursorPosition(item->lineNumber(),item->columnNumber());
 	}
@@ -1066,7 +1066,7 @@ void Manager::addToProject(KileProject* project, const KURL & url)
 	KileProjectItem *item = new KileProjectItem(project, realurl);
 	item->setOpenState(m_ki->isOpen(realurl));
 	projectOpenItem(item);
-	emit addToProjectView(item->url());
+	emit addToProjectView(item);
 	buildProjectTree(project);
 }
 

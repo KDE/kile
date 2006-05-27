@@ -120,9 +120,9 @@ public slots:
 	void remove(const KURL & url);
 	void remove(const KileProject *project);
 	void removeItem(const KileProjectItem *, bool);
+	KileProjectViewItem* add(KileProjectItem *item, KileProjectViewItem * projvi  = 0);
 
 public:
-	KileProjectViewItem* add(KileProjectItem *item, KileProjectViewItem * projvi  = 0);
 	void addTree(KileProjectItem *item, KileProjectViewItem * projvi );
 
 	KileProjectViewItem* projectViewItemFor(const KURL &);

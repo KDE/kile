@@ -150,6 +150,7 @@ signals:
 	void removeFromProjectView(const KileProject *);
 	void removeItemFromProjectView(const KileProjectItem *, bool);
 	void addToProjectView(const KURL &);
+	void addToProjectView(KileProjectItem *item);
 	void addToProjectView(const KileProject *);
 
 public:

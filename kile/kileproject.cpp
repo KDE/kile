@@ -139,7 +139,7 @@ KileProject::~KileProject()
 void KileProject::init(const QString& name, const KURL& url)
 {
 	m_name = name;
-	m_projecturl.setPath( QDir(url.directory()).canonicalPath() + "/" + url.fileName() );
+	m_projecturl = KURL::fromPathOrURL(QDir(url.directory()).canonicalPath() + "/" + url.fileName() );
 
 	m_projectitems.setAutoDelete(true);
 

@@ -201,7 +201,7 @@ signals:
 	void loadFile(const KURL &url , const QString & encoding);
 
 private:
-	void 	init(const QString& name, const KURL& url);
+	void init(const QString& name, const KURL& url);
 	QString	findRelativePath(const KURL&);
 	void setType(KileProjectItem *item);
   	QString addBaseURL(const QString &path);

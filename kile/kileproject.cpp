@@ -26,6 +26,7 @@
 #include <kmessagebox.h>
 
 #include "kiledocumentinfo.h"
+#include "kiledocmanager.h"
 #include "kiletoolmanager.h"
 
 /*
@@ -139,7 +140,7 @@ KileProject::~KileProject()
 void KileProject::init(const QString& name, const KURL& url)
 {
 	m_name = name;
-	m_projecturl = KURL::fromPathOrURL(QDir(url.directory()).canonicalPath() + "/" + url.fileName() );
+	m_projecturl = KileDocument::Manager::symlinkFreeURL( url);;
 
 	m_projectitems.setAutoDelete(true);
 
@@ -168,7 +169,7 @@ void KileProject::init(const QString& name, const KURL& url)
 void KileProject::setLastDocument(const KURL &url)
 {
     if ( item(url) != 0 )
-        m_lastDocument = url;
+        m_lastDocument = KileDocument::Manager::symlinkFreeURL(url);
 }
 
 void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
@@ -337,7 +338,7 @@ bool KileProject::load()
 				url.addPath(path);
 				url.cleanPath(true);
 			}
-			item = new KileProjectItem(this, url);
+			item = new KileProjectItem(this, KileDocument::Manager::symlinkFreeURL(url));
 			setType(item);
 
 			m_config->setGroup(groups[i]);

@@ -177,6 +177,8 @@ public:
 	KileProjectItemList* itemsFor(Info *docinfo) const;
 
 	void mapItem(Info *docinfo, KileProjectItem *item);
+
+	static const KURL symlinkFreeURL(const KURL& url);
 	
 private:
 	QPtrList<Info>				m_infoList;
@@ -185,7 +187,7 @@ private:
 	KProgressDialog				*m_kpd;
 
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
-	const KURL symlinkFreeURL(const KURL& url);
+	
 };
 
 }

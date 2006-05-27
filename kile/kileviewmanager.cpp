@@ -49,7 +49,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent, name),
 	m_ki(info),
 	m_activeView(0L),
-	m_projectview(0L),
+// 	m_projectview(0L),
 	m_tabs(0L)
 {
 }
@@ -170,11 +170,6 @@ void Manager::removeView(Kate::View *view)
 		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
 		if (views().isEmpty()) m_ki->structureWidget()->clear();
 	}
-}
-
-void Manager::removeFromProjectView(const KURL & url)
-{
-	m_projectview->remove(url);
 }
 
 Kate::View *Manager::currentView() const

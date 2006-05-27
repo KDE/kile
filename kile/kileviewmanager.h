@@ -64,15 +64,14 @@ public:
 	Kate::View* createView(Kate::Document *doc);
 	KTabWidget* tabs() { return m_tabs; }
 
-	void setProjectView(KileProjectView *view) { m_projectview = view; }
-	KileProjectView *projectView() { return m_projectview; }
+// 	void setProjectView(KileProjectView *view) { m_projectview = view; }
+// 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 public slots:
 	Kate::View* switchToView(const KURL & url);
 
 	void closeWidget(QWidget *);
 	void removeView(Kate::View *view);
-	void removeFromProjectView(const KURL & url);
 
 	void setTabLabel(QWidget *view, const QString & name) { m_tabs->setTabLabel(view, name); }
 	void changeTab(QWidget *view, const QPixmap & icon, const QString & name) { m_tabs->changeTab(view, icon, name); }
@@ -96,7 +95,7 @@ signals:
 private:
 	KileInfo			*m_ki;
 	Kate::View			*m_activeView;
-	KileProjectView		*m_projectview;
+// 	KileProjectView		*m_projectview;
 	QPtrList<Kate::View> m_viewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;

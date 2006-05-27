@@ -709,7 +709,7 @@ void Manager::slotNameChanged(Kate::Document * doc)
 		if(doc->saveAs(validURL))
 			oldFile.remove();
 
-		m_ki->viewManager()->projectView()->add(doc->url());
+		emit addToProjectView(doc->url());
 	}
 
 	Info *docinfo = infoFor(doc);
@@ -718,12 +718,10 @@ void Manager::slotNameChanged(Kate::Document * doc)
 	if (docinfo->oldURL().isEmpty() || changedURL)
 	{
 		kdDebug() << "\tadding URL to projectview " << doc->url().path() << endl;
-		m_ki->viewManager()->projectView()->add(doc->url());
-
-        recreateDocInfo(docinfo, doc->url());
+		emit addToProjectView(doc->url());
+        	recreateDocInfo(docinfo, doc->url());
 	}
-
-    emit(documentStatusChanged(doc, doc->isModified(), 0));
+	emit(documentStatusChanged(doc, doc->isModified(), 0));
 }
 
 void Manager::newDocumentStatus(Kate::Document *doc)
@@ -806,7 +804,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	if(!isopen)
 	{
 		if(!item)
-			m_ki->viewManager()->projectView()->add(realurl);	//FIXME: use signal/slot
+			addToProjectView(realurl);
 		else if(view)
 			view->setCursorPosition(item->lineNumber(),item->columnNumber());
 	}
@@ -896,20 +894,19 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 			if ( url .isEmpty() )
 				docinfo= infoFor(doc);
 				
-			if ( KileConfig::cleanUpAfterClose() ) cleanUpTempFiles(docinfo, true);
+			if ( KileConfig::cleanUpAfterClose() )
+				cleanUpTempFiles(docinfo, true);
 
 			//FIXME: use signal/slot
 			m_ki->viewManager()->removeView(static_cast<Kate::View*>(doc->views().first()));
 			//remove the decorations
 
 			trashDoc(docinfo, doc);
-            m_ki->structureWidget()->clean(docinfo);
+            		m_ki->structureWidget()->clean(docinfo);
 			removeDocumentInfo(docinfo, closingproject);
 
-			//FIXME:remove entry in projectview
-			m_ki->viewManager()->removeFromProjectView(url);
-
-            emit updateModeStatus();
+			emit removeFromProjectView(url);
+            		emit updateModeStatus();
 		}
 		else
 			return false;
@@ -1003,7 +1000,7 @@ void Manager::addProject(const KileProject *project)
 	kdDebug() << "==void Manager::addProject(const KileProject *project)==========" << endl;
 	m_projects.append(project);
 	kdDebug() << "\tnow " << m_projects.count() << " projects" << endl;
-	m_ki->viewManager()->projectView()->add(project);
+	emit addToProjectView(project);
 	connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
 }
 
@@ -1069,7 +1066,7 @@ void Manager::addToProject(KileProject* project, const KURL & url)
 	KileProjectItem *item = new KileProjectItem(project, realurl);
 	item->setOpenState(m_ki->isOpen(realurl));
 	projectOpenItem(item);
-	m_ki->viewManager()->projectView()->add(item);
+	emit addToProjectView(item->url());
 	buildProjectTree(project);
 }
 
@@ -1085,7 +1082,7 @@ void Manager::removeFromProject(const KileProjectItem *item)
 			return;
 		}
 
-		m_ki->viewManager()->projectView()->removeItem(item, m_ki->isOpen(item->url()));
+		emit removeItemFromProjectView(item, m_ki->isOpen(item->url()));
 
 		KileProject *project = item->project();
 		item->project()->remove(item);
@@ -1102,7 +1099,7 @@ void Manager::projectOpenItem(KileProjectItem *item)
 	kdDebug() << "\titem:" << item->url().path() << endl;
 
 	if (m_ki->isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
-		m_ki->viewManager()->projectView()->remove(item->url());
+		emit removeFromProjectView(item->url());
 
 	Kate::View *view = loadItem(item);
 
@@ -1450,8 +1447,7 @@ bool Manager::projectClose(const KURL & url)
 					removeDocumentInfo(docinfo, true);
 			}
 			m_projects.remove(project);
-			//FIXME: use signal/slot
-			m_ki->viewManager()->projectView()->remove(project);
+			emit removeFromProjectView(project);
 			delete project;
 			emit(updateModeStatus());
 			return true;

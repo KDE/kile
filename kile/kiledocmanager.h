@@ -146,6 +146,12 @@ signals:
 
 	void printMsg(int type, const QString & message, const QString &tool = "Kile" );
 
+	void removeFromProjectView(const KURL &);
+	void removeFromProjectView(const KileProject *);
+	void removeItemFromProjectView(const KileProjectItem *, bool);
+	void addToProjectView(const KURL &);
+	void addToProjectView(const KileProject *);
+
 public:
 	QPtrList<KileProject>* projects() { return &m_projects; }
 	QPtrList<Info>* documentInfos() { return &m_infoList; }

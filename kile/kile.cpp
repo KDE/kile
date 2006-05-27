@@ -274,7 +274,7 @@ void Kile::setupSideBar()
 void Kile::setupProjectView()
 {
 	KileProjectView *projectview = new KileProjectView(m_sideBar, this);
-	viewManager()->setProjectView(projectview);
+// 	viewManager()->setProjectView(projectview);
 	m_sideBar->addTab(projectview, SmallIcon("editcopy"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
@@ -290,6 +290,11 @@ void Kile::setupProjectView()
 	connect(projectview, SIGNAL(saveURL(const KURL &)), docManager(), SLOT(saveURL(const KURL &)));
 	connect(projectview, SIGNAL(buildProjectTree(const KURL &)), docManager(), SLOT(buildProjectTree(const KURL &)));
 	connect(docManager(), SIGNAL(projectTreeChanged(const KileProject *)), projectview, SLOT(refreshProjectTree(const KileProject *)));
+	connect(docManager(), SIGNAL(removeFromProjectView(const KURL &)),projectview,SLOT(remove(const KURL &)));
+	connect(docManager(), SIGNAL(removeFromProjectView(const KileProject *)),projectview,SLOT(remove(const KileProject *)));
+	connect(docManager(), SIGNAL(addToProjectView(const KURL &)),projectview,SLOT(add(const KURL &)));
+	connect(docManager(), SIGNAL(addToProjectView(const KileProject *)),projectview,SLOT(add(const KileProject *)));
+	connect(docManager(),SIGNAL(removeItemFromProjectView(const KileProjectItem *, bool)),projectview,SLOT(removeItem(const KileProjectItem *, bool)));
 }
 
 void Kile::setupStructureView()

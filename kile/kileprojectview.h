@@ -115,16 +115,15 @@ public slots:
 	void slotRun(int id);
 
 	void refreshProjectTree(const KileProject *);
-
-public:
-	void add(const KileProject *project);
-	KileProjectViewItem* add(KileProjectItem *item, KileProjectViewItem * projvi  = 0);
-	void addTree(KileProjectItem *item, KileProjectViewItem * projvi );
 	void add(const KURL & url);
-
+	void add(const KileProject *project);
+	void remove(const KURL & url);
 	void remove(const KileProject *project);
 	void removeItem(const KileProjectItem *, bool);
-	void remove(const KURL & url);
+
+public:
+	KileProjectViewItem* add(KileProjectItem *item, KileProjectViewItem * projvi  = 0);
+	void addTree(KileProjectItem *item, KileProjectViewItem * projvi );
 
 	KileProjectViewItem* projectViewItemFor(const KURL &);
 	KileProjectViewItem* itemFor(const KURL &);

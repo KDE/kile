@@ -49,7 +49,8 @@ KileProjectItem::KileProjectItem(KileProject *project, const KURL & url, int typ
 	m_sibling(0L),
 	m_nLine(0)
 {
-	m_highlight=m_encoding=QString::null; m_bOpen = m_archive = true;
+	m_highlight=m_encoding=QString::null;
+	m_bOpen = m_archive = true;
 
 	if (project)
 		project->add(this);
@@ -222,7 +223,8 @@ void KileProject::setType(KileProjectItem *item)
 			break;
 		}
 
-	if (unknown) item->setType(KileProjectItem::Other);
+	if (unknown)
+		item->setType(KileProjectItem::Other);
 }
 
 void KileProject::readMakeIndexOptions()
@@ -257,7 +259,7 @@ QString KileProject::addBaseURL(const QString &path)
 {
   if ( path.isEmpty() || path.startsWith("/") )
   {
-    return path;
+    return KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
   }
   else
   {
@@ -358,7 +360,7 @@ bool KileProject::load()
     m_config->setGroup("General");
     setLastDocument(KURL::fromPathOrURL(addBaseURL(m_config->readEntry("lastDocument", QString::null))));
 
-	// dump();
+// 	dump();
 
 	return true;
 }
@@ -638,7 +640,13 @@ void KileProject::dump()
 {
 	kdDebug() << "KileProject::dump() " << m_name << endl;
 	for ( uint i=0; i < m_projectitems.count(); ++i)
-		kdDebug() << "\titem " << i << " : "  << m_projectitems.at(i)->path() << endl;
+	{
+		KileProjectItem *item;
+		item = m_projectitems.at(i);
+		kdDebug() << "item " << i << " has path: "  << item->path() << endl;
+		kdDebug() << "item->type() " << item->type() << endl;
+		kdDebug() << "OpenState: " << item->isOpen() << endl;
+	}
 }
 
 #include "kileproject.moc"

@@ -69,7 +69,7 @@ public:
 	 **/
 	const QString& path() const { return m_path; }
 
-	bool	isOpen() const { return m_bOpen; }
+	bool isOpen() const { return m_bOpen; }
 	void setOpenState(bool state) { m_bOpen = state; }
 
 	const QString& encoding() const { return m_encoding;}
@@ -113,11 +113,11 @@ private:
 	QString			m_path;
 	QString			m_encoding;
 	QString			m_highlight;
-	bool				m_bOpen, m_archive;
-	int				m_type;
+	bool			m_bOpen, m_archive;
+	int			m_type;
 	KileDocument::Info	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
-	uint				m_nLine, m_nColumn;
+	uint			m_nLine, m_nColumn;
 };
 
 class  KileProjectItemList : public QPtrList<KileProjectItem>

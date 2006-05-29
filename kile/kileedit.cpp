@@ -1542,8 +1542,8 @@ bool EditorExtension::insertDoubleQuotes()
 	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
 	
-	// simply insert, if autoinsert mode is not active
-	if ( ! m_dblQuotes ) 
+	// simply insert, if autoinsert mode is not active or the char bevor is \ (typically for \"a useful)
+	if ( !m_dblQuotes || ( col > 0 && doc->text(row,col-1,row,col) == QString("\\") ) ) 
 	{
 		doc->insertText(row,col,"\"");
 		return true;

@@ -257,15 +257,14 @@ void KileProject::writeUseMakeIndexOptions()
 
 QString KileProject::addBaseURL(const QString &path)
 {
-  if ( path.isEmpty() || path.startsWith("/") )
-  {
-    return KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
-  }
-  else
-  {
-    return m_baseurl.path() + "/" + path;
-  }
-}
+	kdDebug() << "===addBaseURL(const QString & " << path << " )" << endl;
+	if ( path.isEmpty())
+		return path;
+  	else if ( path.startsWith("/") )
+  		return KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
+  	else
+    		return m_baseurl.path() + "/" + KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
+ }
 
 QString KileProject::removeBaseURL(const QString &path)
 {

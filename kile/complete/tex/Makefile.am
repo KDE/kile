@@ -1,2 +1,2 @@
 texcompletedir = $(kde_datadir)/kile/complete/tex
-texcomplete_DATA = amsmath.cwl array.cwl booktabs.cwl braket.cwl class-letter.cwl class-scrartcl,scrreprt,scrbook.cwl class-scrlttr2.cwl color.cwl enumerate.cwl fancybox.cwl fancyhdr.cwl latex-209.cwl latex-dev.cwl latex-document.cwl latex-l2tabu.cwl latex-mathsymbols.cwl listings.cwl longtable.cwl lscape.cwl mdwlist.cwl multicol.cwl multido.cwl psfrag.cwl pst-3d.cwl pst-blur.cwl pst-char.cwl pst-coil.cwl pst-eps.cwl pst-fill.cwl pst-node.cwl pst-plot.cwl pstricks.cwl pst-text.cwl pst-tree.cwl scraddr.cwl scrdate.cwl scrlfile.cwl scrpage2.cwl scrtime.cwl setspace.cwl subfig.cwl supertabular.cwl tabularx.cwl tex.cwl varioref.cwl xtab.cwl textcomp.cwl 
+texcomplete_DATA = *.cwl

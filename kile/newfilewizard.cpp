@@ -35,12 +35,17 @@
 //    (classes: Koma, Beamer, Prosper, HA-prosper)
 //  - sort items ('Empty Document' will always be the first entry)
 
+// 2006-30-04: tbraun
+//  - drag and drop makes no sense here
+//  - use the Select mode
+
 ////////////////////// TemplateItem //////////////////////
 
 // new compare function to set "Empty Document" as first item
 
 TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIconViewItem(parent,info.name, QPixmap(info.icon))
 {
+	setDragEnabled(false);
 	m_info = info;
 }
 
@@ -61,6 +66,7 @@ NewFileWidget::NewFileWidget(QWidget *parent, const QString &selicon, char *name
 	m_selicon = ( selicon != QString::null ) ? selicon : DEFAULT_EMPTY_CAPTION;
 	
    setItemsMovable(false);
+   setMode(Select);
    setResizeMode(QIconView::Adjust);
    setSelectionMode(QIconView::Single);
    setResizePolicy(QScrollView::Default);

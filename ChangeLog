@@ -17,7 +17,7 @@ Fixes:
 Features:
  - Add the possibility to use bullets in user tags via a new placeholder %B.
  - Colour bullets so that they can be spotted easily.
- - new cwl file for the textcomp package.
+ - new cwl file for the textcomp and import package.
  - we now highlight TODO, FIXME in comments. (only if they are not in normal text)
  - added Readme.MacOSX
 

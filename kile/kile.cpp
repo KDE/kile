@@ -114,6 +114,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	readGUISettings();
 
+ KGlobal::dirs()->addResourceType( "app_symbols",KStandardDirs::kde_default("data") + "kile/mathsymbols/"); // needed for Symbolview
+
+
 	setXMLFile( "kileui.rc" );
 
 	// do initializations first
@@ -311,16 +314,50 @@ void Kile::setupStructureView()
 
 void Kile::setupSymbolViews()
 {
-	m_sideBar->addSymbolTab(SymbolView::Relation, SmallIcon("math1"), i18n("Relation Symbols"));
-	m_sideBar->addSymbolTab(SymbolView::Arrow, SmallIcon("math2"), i18n("Arrow Symbols"));
-	m_sideBar->addSymbolTab(SymbolView::Misc, SmallIcon("math3"), i18n("Miscellaneous Symbols"));
-	m_sideBar->addSymbolTab(SymbolView::Delimiters, SmallIcon("math4"), i18n("Delimiters"));
-	m_sideBar->addSymbolTab(SymbolView::Greek, SmallIcon("math5"), i18n("Greek Letters"));
-	m_sideBar->addSymbolTab(SymbolView::Special, SmallIcon("math6"), i18n("Special Characters"));
-	connect(m_sideBar->symbolView(), SIGNAL(executed(QIconViewItem*)), this, SLOT(insertSymbol(QIconViewItem*)));
+	m_toolBox = new QToolBox(m_sideBar);
+	m_sideBar->addTab(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
+
+	m_symbolViewRelation = new SymbolView(m_toolBox,"relation",SymbolView::Relation);
+	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
+	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+		
+	m_symbolViewOperators = new SymbolView(m_toolBox,"operators",SymbolView::Operator);
+	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
+	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewArrows = new SymbolView(m_toolBox,"arrow",SymbolView::Arrow);
+	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
+	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewMiscMath = new SymbolView(m_toolBox,"miscmath",SymbolView::MiscMath);
+	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
+	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewMiscText = new SymbolView(m_toolBox,"misctext",SymbolView::MiscText);
+	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
+	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewDelimiters= new SymbolView(m_toolBox,"delimiters",SymbolView::Delimiters);
+	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
+	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewGreek = new SymbolView(m_toolBox,"greek",SymbolView::Greek);
+	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
+	connect(m_symbolViewGreek, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewSpecial = new SymbolView(m_toolBox,"special",SymbolView::Special);
+	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
+	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	m_symbolViewUser = new SymbolView(m_toolBox,"user",SymbolView::User);
+	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
+	connect(m_symbolViewUser, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
+	for (int i=0; i< m_toolBox->count(); i++)
+		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, presssing CTRL in curly brackets."));
 
 	m_mpview = new metapostview( m_sideBar );
-	m_sideBar->addTab(m_mpview, SmallIcon("metapost"), i18n("MetaPost Commands"));
+	m_sideBar->addTab(m_mpview, SmallIcon("metapost"), i18n("MetaPost"));
 	connect(m_mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(insertMetaPost(QListBoxItem *)));
 }
 
@@ -1580,12 +1617,6 @@ void Kile::quickPostscript()
 	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_logWidget,m_outputWidget);
 	dlg->exec();
 	delete dlg;
-}
-
-void Kile::insertSymbol(QIconViewItem *item)
-{
-	QString code_symbol = item->key();
-	insertTag(code_symbol,QString::null,code_symbol.length(),0);
 }
 
 void Kile::insertMetaPost(QListBoxItem *)

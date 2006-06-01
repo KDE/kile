@@ -15,7 +15,7 @@
 
 #include "metapostview.h"
 
-metapostview::metapostview(QWidget *parent, const char *name):QListBox(parent, name)
+metapostview::metapostview(QWidget *parent, const char *name):KListBox(parent, name)
 {
 insertItem("beginfig();");
 insertItem("endfig;");

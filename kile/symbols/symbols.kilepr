@@ -1,0 +1,104 @@
+[General]
+img_extIsRegExp=false
+img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
+kileprversion=1
+kileversion=1.9
+lastDocument=
+masterDocument=
+name=symbols
+pkg_extIsRegExp=false
+pkg_extensions=.cls .sty .dtx
+src_extIsRegExp=false
+src_extensions=.tex .ltx .bib .mp
+
+[Tools]
+MakeIndex=
+QuickBuild=
+
+[item:arrows.tex]
+archive=true
+column=37
+encoding=ISO 8859-15
+highlight=LaTeX
+line=0
+open=false
+
+[item:definitions.tex]
+archive=true
+column=14
+encoding=ISO 8859-15
+highlight=LaTeX
+line=11
+open=false
+
+[item:delimiters.tex]
+archive=true
+column=15
+encoding=ISO 8859-15
+highlight=LaTeX
+line=34
+open=false
+
+[item:greek.tex]
+archive=true
+column=145215592
+encoding=
+highlight=
+line=0
+open=false
+
+[item:misc-math.tex]
+archive=true
+column=44
+encoding=ISO 8859-15
+highlight=LaTeX
+line=104
+open=true
+
+[item:misc-text.tex]
+archive=true
+column=21
+encoding=ISO 8859-15
+highlight=LaTeX
+line=175
+open=true
+
+[item:operators.tex]
+archive=true
+column=0
+encoding=
+highlight=LaTeX
+line=0
+open=false
+
+[item:relation.tex]
+archive=true
+column=7
+encoding=ISO 8859-15
+highlight=LaTeX
+line=10
+open=false
+
+[item:special.tex]
+archive=true
+column=37
+encoding=ISO 8859-15
+highlight=LaTeX
+line=0
+open=false
+
+[item:symbols.kilepr]
+archive=true
+column=0
+encoding=ISO 8859-15
+highlight=None
+line=0
+open=false
+
+[item:testfile.tex]
+archive=true
+column=10
+encoding=ISO 8859-15
+highlight=LaTeX
+line=42
+open=false

@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : Fri 18-06-2004
-    copyright            : (C) 2004 by Jeroen Wijnhout
+    edit 		 : Wed 1 Jun 2006
+    copyright            : (C) 2004 by Jeroen Wijnhout, 2006 Thomas Braun
     email                :  Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -25,7 +26,6 @@
 
 KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/, bool alwaysShowLabels /*= false*/) : 
 	QFrame(parent, name),
-	m_symbolTab(0L),
 	m_nTabs(0),
 	m_nCurrent(0),
 	m_bMinimized(false),
@@ -59,11 +59,12 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 
 	m_tabBar = new KMultiTabBar(tabbarori, this);
 	m_tabBar->setPosition(tabbarpos);
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-		m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3ICON : KMultiTabBar::VSNET);
-	#else
-		m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3 : KMultiTabBar::VSNET);
-	#endif
+	alwaysShowLabels = false;
+// 	#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
+// 		m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3ICON : KMultiTabBar::VSNET);
+// 	#else
+		m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
+// 	#endif
 	
 
 	if ( orientation == Qt::Horizontal )
@@ -76,10 +77,6 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 	}
 	else if ( orientation == Qt::Vertical )
 	{
-		m_symbolTab = new SymbolView(m_tabStack);
-		m_tabStack->addWidget(m_symbolTab, 0);
-		++m_nTabs;
-
 		setMinimumWidth(m_tabBar->width());
 		m_nMinSize = m_tabBar->width();
 		m_nMaxSize = m_tabBar->maximumWidth();
@@ -94,7 +91,6 @@ KileSideBar::~KileSideBar()
 
 int KileSideBar::addTab(QWidget *tab, const QPixmap &pic, const QString &text /* = QString::null*/)
 {
-	m_isSymbolView[m_nTabs] = false;
 	m_widgetToIndex[tab] = m_nTabs;
 
 	m_tabBar->appendTab(pic, m_nTabs, text);
@@ -104,17 +100,6 @@ int KileSideBar::addTab(QWidget *tab, const QPixmap &pic, const QString &text /*
 	return m_nTabs++;
 }
 
-int KileSideBar::addSymbolTab(int page, const QPixmap &pic, const QString &text /* = QString::null*/)
-{
-	m_widgetToIndex[m_symbolTab] = m_nTabs;
-	m_isSymbolView[m_nTabs] = true;
-	m_indexToPage[m_nTabs] = page;
-
-	m_tabBar->appendTab(pic, m_nTabs, text);
-	connect(m_tabBar->tab(m_nTabs), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
-
-	return m_nTabs++;
-}
 
 void KileSideBar::setVisible(bool show)
 {
@@ -187,10 +172,7 @@ void KileSideBar::switchToTab(int id)
 	m_tabBar->setTab(m_nCurrent, false);
 	m_tabBar->setTab(id, true);
 
-	int tabId = isSymbolView(id) ? 0 : id;
-	if ( isSymbolView(id) ) m_symbolTab->showPage(m_indexToPage[id]);
-
-	m_tabStack->raiseWidget(tabId);
+	m_tabStack->raiseWidget(id);
 
 	m_nCurrent = id;
 }

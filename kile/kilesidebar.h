@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : Fri 18-06-2004
-    copyright            : (C) 2004 by Jeroen Wijnhout
+    edit 		 : Wed 1 Jun 2006
+    copyright            : (C) 2004 by Jeroen Wijnhout, 2006 Thomas Braun
     email                :  Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -35,15 +36,13 @@ public:
 	~KileSideBar();
 
 	int addTab(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);
-	int addSymbolTab(int page, const QPixmap &pic, const QString &text = QString::null);
 
 	int currentTab() { return m_nCurrent; }
-	SymbolView* symbolView() { return m_symbolTab; }
 
 	bool isVisible() { return !m_bMinimized; }
 
-    void setSize(int sz) { m_nSize = sz; }
-    int size() { return m_nSize; }
+        void setSize(int sz) { m_nSize = sz; }
+        int size() { return m_nSize; }
 
 	QWidget* currentPage();
 
@@ -60,17 +59,14 @@ public slots:
 	void showPage(QWidget *);
 	void toggleTab();
 	void switchToTab(int id);
-	bool isSymbolView(int id) { return m_isSymbolView[id]; }
 
 protected:
 	QWidgetStack		*m_tabStack;
 	KMultiTabBar		*m_tabBar;
-	SymbolView		*m_symbolTab;
 	int			m_nTabs;
 	int			m_nCurrent;
 	QMap<int,int>		m_indexToPage;
 	QMap<QWidget*,int>	m_widgetToIndex;
-	QMap<int,bool>		m_isSymbolView;
 	bool			m_bMinimized;
 	int			m_nMinSize, m_nMaxSize, m_nSize;
 };

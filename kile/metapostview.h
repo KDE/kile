@@ -16,14 +16,14 @@
 #ifndef METAPOSTVIEW_H
 #define METAPOSTVIEW_H
 
-#include <qlistbox.h>
+#include <klistbox.h>
 #include <qstring.h>
 
 /**
   *@author Pascal Brachet
   */
 //////////////////////////////  
-class metapostview : public QListBox  {
+class metapostview : public KListBox  {
   Q_OBJECT
 public:
 	metapostview(QWidget *parent=0, const char *name=0);

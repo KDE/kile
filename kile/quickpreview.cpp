@@ -140,6 +140,7 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( ! texinputpath.isEmpty() )
 		inputdir += ":" + texinputpath;
  	KileConfig::setTeXPaths(inputdir);
+	kdDebug() << "inputdir is " << inputdir << endl;
 	
 	// prepare tools
 	QString filepath = m_tempfile.left( m_tempfile.length()-3 ); 

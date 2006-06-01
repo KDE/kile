@@ -1,0 +1,44 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mflogo}
+\usepackage{relsize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Author: Thomas Braun
+% begin: Fri april 7 2006
+% last edit: ""
+% License: GPL2 or later
+% 
+% desc: testfile for the parser
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{definitions}
+
+\begin{document}
+%
+\pagestyle{empty}
+%
+
+\begin{neededpkgs}{envpkg-blubb}
+\command{a}
+\pkgs{cmdpkg-blubb}\command{b}
+\command{c}
+\pkgs[cmdpkg-blubb3-optarg]{cmdpkg-blubb3}\command{d}
+\command{dd}
+\end{neededpkgs}
+
+\begin{neededpkgs}[envpkg-blubb2-optarg]{envpkg-blubb2}
+\command{e}
+\pkgs{cmdpkg-blubb2}\command{f}
+\command{g}
+\pkgs[cmdpkg-blubb5-optarg]{cmdpkg-blubb5}\command{h}
+\command{hh}
+\end{neededpkgs}
+
+\command{i}
+\pkgs{cmdpkg-blubb4}\command{j}
+\command{k}
+\pkgs[cmdpkg-blubb6-optarg]{cmdpkg-blubb6}\command{l}
+\command{m}
+\command{n}
+\end{document}
+

@@ -29,12 +29,14 @@
 #include <qstringlist.h>
 #include <qwidgetstack.h>
 #include <qstring.h>
+#include <qtoolbox.h>
 
 #include "kileappIface.h"
 #include "docpart.h"
 #include "kilefileselect.h"
 #include "metapostview.h"
 #include "kileinfo.h"
+#include "symbolview.h"
 
 #include "latexoutputinfo.h"
 #include "latexoutputfilter.h"
@@ -159,6 +161,8 @@ private:
 	metapostview		*m_mpview;
 	QWidgetStack 		*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
+	QToolBox				*m_toolBox;
+	SymbolView				*m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial;
 
 	//parts
 	KParts::PartManager 	*m_partManager;
@@ -298,7 +302,6 @@ private slots:
 	void quickPostscript();
 	void quickTabulardialog(bool tabularenv);
 
-	void insertSymbol(QIconViewItem*);
 	void insertMetaPost(QListBoxItem *);
 
 	void editUserMenu();

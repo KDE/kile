@@ -120,6 +120,7 @@ void LatexCommands::resetCommands()
 	   << "\\fref,+,R,,,{ }"
 	   << "\\Fref,+,R,,,{ }"
 	   << "\\eqref,+,R,,,{ }"
+	   << "\\autoref,+,R,,,{ }"
 		// Citations
 	   << "\\cite,+,C,,,{ }"
 	   ;

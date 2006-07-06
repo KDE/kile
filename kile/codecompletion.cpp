@@ -157,11 +157,13 @@ namespace KileDocument
 	{
 		// build list of references
 		QString references = getCommandList(KileDocument::CmdAttrReference);
+		references.replace("*","\\*");
 		reRef.setPattern("^\\\\(" + references + ")\\{");
 		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
 		
 		// build list of citations
 		QString citations = getCommandList(KileDocument::CmdAttrCitations);
+		citations.replace("*","\\*");
 		reCite.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
 		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
 	}
@@ -179,6 +181,8 @@ namespace KileDocument
 		QString commands = QString::null;
 		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
 		{
+			if ( cmd->isStarredEnv(*it) )
+				commands += "|" + (*it).mid(1) + "*";
 			commands += "|" + (*it).mid(1);
 		}
 		return commands;

@@ -245,18 +245,11 @@ void Info::updateStructLevelInfo()
 	// references
 	if ( m_showStructureReferences )
 	{
-		m_dictStructLevel["\\ref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-		m_dictStructLevel["\\pageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-		m_dictStructLevel["\\vref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-		m_dictStructLevel["\\vpageref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-		m_dictStructLevel["\\fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-		m_dictStructLevel["\\Fref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-		m_dictStructLevel["\\eqref"]=KileStructData(KileStruct::Hidden,KileStruct::Reference);
-	
-		// add user defined commands for references
+		// removed duplicated ref commands here, now only defined in latexcmd.cpp
+		// add defined commands for references 
 		QStringList reflist;
 		QStringList::ConstIterator it;
-		m_commands->commandList(reflist,KileDocument::CmdAttrReference,true);
+		m_commands->commandList(reflist,KileDocument::CmdAttrReference,false);
 		for ( it=reflist.begin(); it != reflist.end(); ++it ) 
 		{
 			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);

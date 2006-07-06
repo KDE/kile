@@ -157,8 +157,8 @@ namespace KileDocument
 	{
 		// build list of references
 		QString references = getCommandList(KileDocument::CmdAttrReference);
-		reRef.setPattern("^\\\\(pageref|ref|fref|Fref|eqref" + references + ")\\{");
-		reRefExt.setPattern("^\\\\(pageref|ref|fref|Fref|eqref" + references + ")\\{[^\\{\\}\\\\]+,$");
+		reRef.setPattern("^\\\\(" + references + ")\\{");
+		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
 		
 		// build list of citations
 		QString citations = getCommandList(KileDocument::CmdAttrCitations);
@@ -173,7 +173,7 @@ namespace KileDocument
 
 		// get info about user defined references
 		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
-		cmd->commandList(cmdlist,attrtype,true);
+		cmd->commandList(cmdlist,attrtype,false);
 	
 		// build list of references
 		QString commands = QString::null;

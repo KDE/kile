@@ -2019,7 +2019,8 @@ void Kile::changeInputEncoding()
 void Kile::cleanBib()
 {
 	Kate::View *view = viewManager()->currentView();
-	if ( ! view ) return;
+	if ( ! view )
+		return;
 
 	QRegExp reOptional( "(ALT|OPT)(\\w+)\\s*=\\s*(\\S.*)" );
 	QRegExp reNonEmptyEntry( ".*\\w.*" );
@@ -2048,6 +2049,19 @@ void Kile::cleanBib()
 		}
 		else
 			++i;
+	}
+	uint j=0;
+	for ( i=0; i < view->getDoc()->numLines() ; i++ )
+	{
+		j = i+1;
+		if ( j < view->getDoc()->numLines()  && view->getDoc()->textLine(j).contains( QRegExp("^\\s*\\}\\s*$") ) )
+			{
+				s =  view->getDoc()->textLine( i );
+				view->getDoc()->removeLine( i );
+				s.remove( QRegExp(",\\s*$") );
+				view->getDoc()->setModified( true );
+				view->getDoc()->insertLine( i, s);
+			}
 	}
 }
 

@@ -1072,7 +1072,7 @@ void Manager::addToProject(KileProject* project, const KURL & url)
 
 void Manager::removeFromProject(const KileProjectItem *item)
 {
-	if (item->project())
+	if (item && item->project())
 	{
 		kdDebug() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
 
@@ -1567,10 +1567,12 @@ void Manager::projectShow()
 
 void Manager::projectRemoveFiles()
 {
-	KileProjectItem *item = selectProjectFileItem( i18n("Select File to Remove") );
-	if ( item ) {
-		removeFromProject(item);
-	}
+	KileProjectItemList* items = selectProjectFileItems( i18n("Select Files to Remove") );
+	kdDebug() << "count is " << items->count() << endl;
+	if ( items->count() > 0 )
+		for ( KileProjectItemList::Iterator it = items->begin(); it != items->end(); ++it )
+			removeFromProject(*it);
+	delete items;
 }
 
 void Manager::projectShowFiles()
@@ -1687,6 +1689,41 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 	delete dlg;
 
 	return item;
+}
+
+KileProjectItemList* Manager::selectProjectFileItems(const QString &label)
+{
+	KileProject *project = selectProject(i18n("Select Project"));
+	if ( ! project )
+		return 0L;
+
+	QStringList filelist, selectedfiles;
+	QMap<QString,KileProjectItem *> map;
+
+	KileProjectItemList *list = project->items();
+	for ( KileProjectItem *item=list->first(); item; item = list->next() ) {
+		filelist << item->path();
+		map[item->path()] = item;
+	}
+
+	KileProjectItemList *items = new KileProjectItemList();
+	items->setAutoDelete(false);
+
+	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist,i18n("Project Files"),label, m_ki->parentWidget());
+	if ( dlg->exec() ) {
+		if ( dlg->currentItem() >= 0 ) {
+			selectedfiles = dlg->selected();
+			for ( QStringList::Iterator it = selectedfiles.begin(); it != selectedfiles.end(); ++it ){
+				if ( map.contains(*it) )
+					items->append( map[(*it)] );
+				else
+					KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."),i18n( "Project Error"));
+			}
+		}
+	}
+	delete dlg;
+
+	return items;
 }
 
 // add a new file to the project

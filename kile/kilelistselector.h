@@ -32,4 +32,19 @@ private:
 	KListBox	*m_listbox;
 };
 
+class KileListSelectorMultiple : public KDialogBase
+{
+public:
+	KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, QWidget *parent = 0, const char * name = 0);
+	~KileListSelectorMultiple() {}
+
+	const QStringList& selected();
+	int currentItem() { return m_listbox->currentItem();}
+
+private:
+	KListBox	*m_listbox;
+	QStringList	m_selectedfiles;
+};
+
+
 #endif

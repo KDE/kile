@@ -180,6 +180,7 @@ public:
 	KileProjectItem* itemFor(const KURL &url, KileProject *project = 0) const;
 	KileProjectItem* itemFor(Info *docinfo, KileProject *project = 0) const;
 	KileProjectItem* selectProjectFileItem(const QString &label);
+	KileProjectItemList* selectProjectFileItems(const QString &label);
 
 	KileProjectItemList* itemsFor(Info *docinfo) const;
 

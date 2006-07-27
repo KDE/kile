@@ -1251,10 +1251,10 @@ void Manager::projectAddFiles(const KURL & url)
 	KileProject *project = projectFor(url);
 
 	if (project)
-		projectAddFiles(project);
+		projectAddFiles(project,url);
 }
 
-void Manager::projectAddFiles(KileProject *project)
+void Manager::projectAddFiles(KileProject *project,const KURL & fileUrl)
 {
 	kdDebug() << "==Kile::projectAddFiles()==========================" << endl;
  	if (project == 0 )
@@ -1265,15 +1265,24 @@ void Manager::projectAddFiles(KileProject *project)
 
 	if (project)
 	{
-		//determine the starting dir for the file dialog
-		QString currentDir=m_ki->fileSelector()->dirOperator()->url().path();
-		QFileInfo fi;
-		if (m_ki->viewManager()->currentView())
+	QString currentDir;
+	QFileInfo fi;
+		if(fileUrl.isEmpty())
 		{
-			fi.setFile(m_ki->viewManager()->currentView()->getDoc()->url().path());
-			if (fi.exists()) currentDir= fi.dirPath();
+			//determine the starting dir from the file dialog
+			currentDir=m_ki->fileSelector()->dirOperator()->url().path();
+			
+			if (m_ki->viewManager()->currentView())
+			{
+				fi.setFile(m_ki->viewManager()->currentView()->getDoc()->url().path());
+				if (fi.exists())
+					currentDir= fi.dirPath();
+			}
 		}
+		else
+			currentDir=fileUrl.directory();
 
+		kdDebug() << "currentDir is" << currentDir << endl;
 		KFileDialog *dlg = new KFileDialog(currentDir, i18n("*|All Files"),m_ki->parentWidget(), 0, true );
 		KPushButton* okButton = dlg->okButton();
 		okButton->setText(i18n("Add"));
@@ -1568,8 +1577,7 @@ void Manager::projectShow()
 void Manager::projectRemoveFiles()
 {
 	KileProjectItemList* items = selectProjectFileItems( i18n("Select Files to Remove") );
-	kdDebug() << "count is " << items->count() << endl;
-	if ( items->count() > 0 )
+	if ( items && items->count() > 0 )
 		for ( KileProjectItemList::Iterator it = items->begin(); it != items->end(); ++it )
 			removeFromProject(*it);
 	delete items;

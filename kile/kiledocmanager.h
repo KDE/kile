@@ -99,7 +99,7 @@ public slots:
 	 **/
 	void projectSave(KileProject * project = 0);
 	void projectAddFiles(const KURL &);
-	void projectAddFiles(KileProject * project = 0);
+	void projectAddFiles(KileProject * project = 0,const KURL & url = KURL());
 	void toggleArchive(KileProjectItem *);
 	bool projectArchive(const KURL &);
 	bool projectArchive(KileProject *project  = 0);

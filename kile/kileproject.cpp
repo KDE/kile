@@ -235,7 +235,7 @@ void KileProject::readMakeIndexOptions()
 	KConfig *cfg = KGlobal::config();
 	cfg->setGroup(KileTool::groupFor("MakeIndex", KileTool::configName("MakeIndex", cfg)));
 	QString deflt = cfg->readEntry("options", "'%S'.idx");
-
+	
 	if ( useMakeIndexOptions() && !grp.isEmpty() )
 	{
 		m_config->setGroup(grp);
@@ -317,6 +317,12 @@ bool KileProject::load()
 	setExtensions(KileProjectItem::Image, m_config->readEntry("img_extensions", IMAGE_EXTENSIONS));
 
 	setQuickBuildConfig(KileTool::configName("QuickBuild", m_config));
+
+	if( KileTool::configName("MakeIndex",m_config).compare("Default") == 0)
+		setUseMakeIndexOptions(true);
+	else
+		setUseMakeIndexOptions(false);
+
 	readMakeIndexOptions();
 
 	KURL url;

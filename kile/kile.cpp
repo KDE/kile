@@ -349,6 +349,10 @@ void Kile::setupSymbolViews()
 	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
 	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
 
+	m_symbolViewCyrillic = new SymbolView(m_toolBox,"cyrillic",SymbolView::Cyrillic);
+	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
+	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+
 	m_symbolViewUser = new SymbolView(m_toolBox,"user",SymbolView::User);
 	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
 	connect(m_symbolViewUser, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));

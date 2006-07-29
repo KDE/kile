@@ -142,6 +142,10 @@ void SymbolView::initPage(int page)
 			fillWidget("special");
 		break;
 
+		case Cyrillic:
+			fillWidget("cyrillic");
+		break;
+
 		case User:
 			fillWidget("user");
 		break;

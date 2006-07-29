@@ -30,7 +30,7 @@ class SymbolView : public KIconView
 public:
 	SymbolView(QWidget *parent=0, const char *name=0,int type = -1);
 	~SymbolView();
-	enum {Relation = 0, Operator, Arrow, MiscMath, MiscText, Delimiters, Greek, Special, User};
+	enum {Relation = 0, Operator, Arrow, MiscMath, MiscText, Delimiters, Greek, Special, Cyrillic, User};
 	
 private:
 	void fillWidget(const QString &addition);

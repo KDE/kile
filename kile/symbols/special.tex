@@ -1,4 +1,5 @@
 \documentclass[a4paper,10pt]{article}
+\usepackage[latin10]{inputenc}
 \usepackage[T1]{fontenc}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -145,16 +146,22 @@
 \command{\'{r}}
 \command{\v{r}} \par
 \command{\c{S}}
+\pkgs[latin10]{inputenc} \command{\textcommabelow{S}}
 \command{\'{S}}
 \command{\v{S}}
 \command{\c{s}}
+\pkgs[latin10]{inputenc} \command{\textcommabelow{s}}
 \command{\'{s}}
 \command{\v{s}}
 \command{\ss} \par
 \command{\c{T}}
+\pkgs[latin10]{inputenc} \command{\textcommabelow{T}}
 \command{\v{T}}
+\command{\mbox{T\hspace{-.5em}-}} % hint from samin.dtx (babel package)
 \command{\c{t}}
-\command{\v{t}} \par
+\pkgs[latin10]{inputenc} \command{\textcommabelow{t}}
+\command{\v{t}}
+\command{\mbox{t\hspace{-.35em}-}} \par
 \command{\"{U}}
 \command{\H{U}}
 \command{\'{U}}

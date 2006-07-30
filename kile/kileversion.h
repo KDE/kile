@@ -19,7 +19,7 @@
 
 #include <qstring.h>
 
-const QString kileVersion="1.9.1";
+const QString kileVersion="1.9.2";
 const QString kilePrVersion="1";
 
 

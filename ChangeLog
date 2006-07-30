@@ -1,3 +1,8 @@
+version 1.9.1 -> 1.9.2
+Fixes:
+ - Remember the setting of MakeIndexOptions checkbox in the project settings dialog
+ 
+
 version 1.9.0 -> 1.9.1
 Fixes:
  - Restore support for KDE 3.2.x.

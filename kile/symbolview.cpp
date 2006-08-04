@@ -191,7 +191,7 @@ void SymbolView::fillWidget(const QString& prefix)
 	QImage image;
 	KIconViewItem* item;
 	QStringList paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png",false,true);
-
+	paths.sort();
 	for ( QStringList::Iterator it = paths.begin(); it != paths.end(); ++it )
 	{
  		if ( image.load(*it) )

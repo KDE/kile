@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 05 2006
-    version              : 0.27
+    date                 : Aug 05 2006
+    version              : 0.30
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -153,6 +153,7 @@ private:
 	bool findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
 	bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env, bool backwards=false);
 	bool findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view);
+	QStringList findOpenedEnvironmentList(Kate::View *view, bool position = false);
 
 	// get current environment
 	bool getEnvironment(bool inside, EnvData &envbegin, EnvData &envend,Kate::View *view);

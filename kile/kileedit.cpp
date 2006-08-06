@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 05 2006
-    version              : 0.27
+    date                 : Aug 05 2006
+    version              : 0.30
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -291,15 +291,16 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 	view = determineView(view);
 	if ( !view ) return;
 
-	uint row,col;
+	uint row,col,currentRow,currentCol;
 	QString name;
 	
+	view->cursorPositionReal(&currentRow,&currentCol);
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
 		if ( name == "\\[" )
-			view->getDoc()->insertText( row,col, "\\]" );
+			view->getDoc()->insertText( currentRow,currentCol, "\\]" );
 		else
-			view->getDoc()->insertText( row,col, "\\end{"+name+"}" );
+			view->getDoc()->insertText( currentRow,currentCol, "\\end{"+name+"}" );
 // 		view->setCursorPositionReal(row+1,0);
 	}
 }
@@ -367,11 +368,43 @@ bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envnam
 	if ( !env_position && findEnvironmentTag(doc,startrow,startcol,env,true) )
 	{
 		//kdDebug() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		row = env.row;
+		col = env.col;
 		envname = env.name;
 		return true;
 	}
 	else
 		return false;
+}
+
+QStringList EditorExtension::findOpenedEnvironmentList(Kate::View *view, bool position)
+{
+	QStringList envlist;
+
+	view = determineView(view);
+	if ( view )
+	{
+		uint row,col,currentRow,currentCol;
+		QString name;
+
+		Kate::Document *doc = view->getDoc();
+		view->cursorPositionReal(&currentRow,&currentCol);
+
+		while ( findOpenedEnvironment(row,col,name,view) )
+		{
+			kdDebug() << "found env:   row=" << row << "   col=" << col << "  name==" << name << endl;
+			if ( position )
+				envlist << name + QString(",%1,%2").arg(row).arg(col);
+			else
+				envlist << name;
+			if ( ! decreaseCursorPosition(doc,row,col) )
+				break;
+			view->setCursorPositionReal(row,col);
+		}
+		view->setCursorPositionReal(currentRow,currentCol);
+	}
+	
+	return envlist;
 }
 
 //////////////////// select an environment  ////////////////////

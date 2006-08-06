@@ -60,7 +60,6 @@ void LatexCommands::resetCommands()
 	   << "Bdescription,+,l,,,,,,"
 	   << "labeling,+,l,,,,,[ ],{ }"
 	   // tabular environments
-	   << "array,+,t,,\\\\,$,&,[tcb],"
 	   << "tabular,+,t,*,\\\\,,&,[tcb],"  
 	   << "tabularx,+,t,,\\\\,,&,,{w}"
 	   << "tabbing,+,t,,\\\\,,\\>,," 
@@ -74,6 +73,7 @@ void LatexCommands::resetCommands()
 	   << "displaymath,+,m,,,,,,"
 	   << "equation,+,m,*,,,,," 
 	   << "eqnarray,+,m,*,\\\\,,&=&,,"
+	   << "array,+,m,,\\\\,$,&,[tcb],"
 	   << "matrix,+,m,,\\\\,$,&,,"         
 	   << "pmatrix,+,m,,\\\\,$,&,,"        
 	   << "bmatrix,+,m,,\\\\,$,&,,"       
@@ -190,7 +190,7 @@ void LatexCommands::insert(const QStringList &list)
 
 QString LatexCommands::getValue(const QString &name)
 {
-	QString key = ( name.find('*',-1) >= 0 ) ? name.right(name.length()-1) : name;
+	QString key = ( name.find('*',-1) >= 0 ) ? name.left(name.length()-1) : name;
 	return ( m_latexCommands.contains(key) ) ? m_latexCommands[key] : QString::null;
 }
 

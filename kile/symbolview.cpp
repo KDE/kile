@@ -181,7 +181,7 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 		emit(requestedText(item->key()));
 	}
 	
-	kdDebug() << "math is " << math << ", bracket is " << bracket << endl;
+	kdDebug() << "math is " << math << ", bracket is " << bracket << " and item->key() is " <<  ( item ? item->key() : "" ) << endl;
 }
 
 

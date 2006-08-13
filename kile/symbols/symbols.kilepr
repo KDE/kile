@@ -3,8 +3,8 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9
-lastDocument=definitions.tex
-masterDocument=
+lastDocument=cyrillic.tex
+masterDocument=home/thomas/devel/svn/office-trunk/kile
 name=symbols
 pkg_extIsRegExp=false
 pkg_extensions=.cls .sty .dtx
@@ -25,18 +25,18 @@ open=false
 
 [item:cyrillic.tex]
 archive=true
-column=0
+column=9
 encoding=ISO 8859-15
 highlight=LaTeX
-line=0
-open=false
+line=71
+open=true
 
 [item:definitions.tex]
 archive=true
-column=2
+column=0
 encoding=ISO 8859-15
 highlight=LaTeX
-line=11
+line=6
 open=true
 
 [item:delimiters.tex]
@@ -105,8 +105,8 @@ open=false
 
 [item:testfile.tex]
 archive=true
-column=10
+column=0
 encoding=ISO 8859-15
 highlight=LaTeX
-line=42
-open=false
+line=45
+open=true

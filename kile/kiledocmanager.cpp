@@ -1766,6 +1766,10 @@ void Manager::projectAddFile(QString filename, bool graphics)
 const KURL Manager::symlinkFreeURL(const KURL& url)
 {
 	kdDebug() << "===symlinkFreeURL==" << endl;
+
+	if( !url.isLocalFile() )
+		return url;
+
 	QDir dir(url.directory());
 	QString filename=url.path(); // if the directory does not exist we return the old url (just to be sure)
 

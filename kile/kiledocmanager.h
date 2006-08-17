@@ -5,6 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -57,7 +58,7 @@ public slots:
 
 	Kate::View* createDocumentWithText(const QString & text);
 
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null);
+	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1);
 	Kate::View* loadItem(KileProjectItem *item, const QString & text = QString::null);
 
 	void setHighlightMode(Kate::Document * doc, const QString & highlight = QString::null);
@@ -72,7 +73,7 @@ public slots:
 	void fileSelected(const KFileItem *file);
 
 	void fileOpen();
-	void fileOpen(const KURL& url, const QString & encoding = QString::null);
+	void fileOpen(const KURL& url, const QString & encoding = QString::null, int index = -1);
 
 	void saveURL(const KURL &);
 	void fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
@@ -126,6 +127,8 @@ public slots:
 	void storeProjectItem(KileProjectItem *item, Kate::Document *doc);
 
 	void cleanUpTempFiles(KileDocument::Info *docinfo = 0, bool silent = false);
+
+	void openDroppedUris(QDropEvent *e);
 
 signals:
 	void projectTreeChanged(const KileProject *);

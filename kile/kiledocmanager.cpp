@@ -5,6 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
 //
 
 /***************************************************************************
@@ -35,6 +36,7 @@
 #include <kio/netaccess.h>
 #include <kpushbutton.h>
 #include <kurl.h>
+#include <kurldrag.h>
 
 #include "kileuntitled.h"
 #include "templates.h"
@@ -525,7 +527,7 @@ Kate::View* Manager::loadItem(KileProjectItem *item, const QString & text)
 	return view;
 }
 
-Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */)
+Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */)
 {
 	kdDebug() << "==load(" << url.url() << ")=================" << endl;
 	//if doc already opened, update the structure view and return the view
@@ -542,7 +544,7 @@ Kate::View* Manager::load(const KURL &url , const QString & encoding /* = QStrin
 
 	//FIXME: use signal/slot
 	if (doc && create)
-		return m_ki->viewManager()->createView(doc);
+		return m_ki->viewManager()->createView(doc, index);
 
 	kdDebug() << "just after createView()" << endl;
 	kdDebug() << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
@@ -784,7 +786,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	}
 }
 
-void Manager::fileOpen(const KURL & url, const QString & encoding)
+void Manager::fileOpen(const KURL & url, const QString & encoding, int index)
 {
 	kdDebug() << "==Kile::fileOpen==========================" << endl;
 	
@@ -798,7 +800,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding)
 	
 	bool isopen = m_ki->isOpen(realurl);
 
-	Kate::View *view = load(realurl, encoding);
+	Kate::View *view = load(realurl, encoding, true, QString::null, QString::null, index);
 	KileProjectItem *item = itemFor(realurl);
 
 	if(!isopen)
@@ -1526,6 +1528,15 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	emit printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
 
 	docinfo->cleanTempFiles(extlist);
+}
+
+void Manager::openDroppedUris(QDropEvent *e) {
+	KURL::List urls;
+	if(KURLDrag::decode(e, urls)) {
+		for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {
+			fileOpen(*i);
+		}
+	}
 }
 
 // Show all opened projects and switch to another one, if you want

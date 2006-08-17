@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                           (C) 2006 by Michel Ludwig
     email                : Jeroen.Wijnhout@kdemail.net
+                           michel.ludwig@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,6 +24,7 @@
 #include <kurl.h>
 #include <krun.h>
 #include <kmimetype.h>
+#include <kurldrag.h>
 
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
@@ -89,6 +92,8 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 	connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )), this,SLOT(popup(KListView *, QListViewItem * , const QPoint & )));
 
 	connect(this, SIGNAL(executed(QListViewItem*)), this, SLOT(slotClicked(QListViewItem*)));
+	setAcceptDrops(true);
+	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *)), m_ki->docManager(), SLOT(openDroppedUris(QDropEvent *)));
 }
 
 void KileProjectView::slotClicked(QListViewItem *item)
@@ -611,6 +616,11 @@ void KileProjectView::removeItem(const KileProjectItem *projitem, bool open)
 		makeTheConnection(item);
 	}
 
+}
+
+bool KileProjectView::acceptDrag(QDropEvent *e) const
+{
+	return KURLDrag::canDecode(e); // only accept URL drops
 }
 
 #include "kileprojectview.moc"

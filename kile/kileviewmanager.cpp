@@ -5,6 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
 
 /***************************************************************************
  *                                                                         *
@@ -32,6 +33,7 @@
 #include <klocale.h>
 #include <ktexteditor/editinterfaceext.h>
 #include <kapplication.h>
+#include <kurldrag.h>
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
@@ -50,7 +52,9 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_ki(info),
 	m_activeView(0L),
 // 	m_projectview(0L),
-	m_tabs(0L)
+	m_tabs(0L),
+	m_widgetStack(0L),
+	m_emptyDropWidget(0L)
 {
 }
 
@@ -76,7 +80,13 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 
 void Manager::createTabs(QWidget *parent)
 {
+	m_widgetStack = new QWidgetStack(parent);
+	m_emptyDropWidget = new DropWidget(parent);
+	m_widgetStack->addWidget(m_emptyDropWidget);
+	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragMoveEvent *,  bool &)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent *, bool &)));
+	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedUris(QDropEvent *)));
 	m_tabs = new KTabWidget(parent);
+	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(QWidget::ClickFocus);
 	m_tabs->setTabReorderingEnabled(true);
 	m_tabs->setHoverCloseButton(true);
@@ -86,6 +96,10 @@ void Manager::createTabs(QWidget *parent)
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(activateView( QWidget * )) );
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(updateModeStatus()) );
 	connect( m_tabs, SIGNAL( closeRequest(QWidget *) ), this, SLOT(closeWidget(QWidget *)));
+	connect( m_tabs, SIGNAL( testCanDecode( const QDragMoveEvent *,  bool & ) ), this, SLOT(testCanDecodeURLs( const QDragMoveEvent *, bool & )) );
+	connect( m_tabs, SIGNAL( receivedDropEvent( QDropEvent * ) ), m_ki->docManager(), SLOT(openDroppedUris( QDropEvent * )) );
+	connect( m_tabs, SIGNAL( receivedDropEvent( QWidget*, QDropEvent * ) ), this, SLOT(replaceLoadedUri( QWidget *, QDropEvent * )) );
+	m_widgetStack->raiseWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
 }
 
 void Manager::closeWidget(QWidget *widget)
@@ -97,7 +111,7 @@ void Manager::closeWidget(QWidget *widget)
 	}
 }
 
-Kate::View* Manager::createView(Kate::Document *doc)
+Kate::View* Manager::createView(Kate::Document *doc, int index)
 {
 	Kate::View *view = (Kate::View*) doc->createView (m_tabs, 0L);
 
@@ -105,13 +119,14 @@ Kate::View* Manager::createView(Kate::Document *doc)
 	view->focusProxy()->installEventFilter(m_ki->eventFilter());
 
 	//insert the view in the tab widget
-	m_tabs->addTab( view, m_ki->getShortName(doc) );
+	m_tabs->insertTab( view, m_ki->getShortName(doc), index );
 	m_tabs->setTabToolTip(view, doc->url().url() );
 	m_tabs->showPage( view );
-	m_viewList.append(view);
+	m_viewList.insert((index < 0 || (uint)index >= m_viewList.count()) ? m_viewList.count() : index, view);
 
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
+	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedUris(QDropEvent *)));
 
 	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
 	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
@@ -154,6 +169,8 @@ Kate::View* Manager::createView(Kate::Document *doc)
 		action->unplugAll();
 	}
 
+	m_widgetStack->raiseWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
+
 	return view;
 }
 
@@ -168,7 +185,11 @@ void Manager::removeView(Kate::View *view)
 		delete view;
 		
 		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
-		if (views().isEmpty()) m_ki->structureWidget()->clear();
+		if (views().isEmpty()) {
+			m_ki->structureWidget()->clear();
+			m_widgetStack->raiseWidget(m_emptyDropWidget); // there are no tabs left, so show
+			                                               // the DropWidget
+		}
 	}
 }
 
@@ -397,6 +418,51 @@ void Manager::pasteAsLaTeX(void)
 	// End of the "atomic edit operation"
 	if(NULL != editInterfaceExt)
 		editInterfaceExt->editEnd();
+}
+
+
+void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
+{
+	accept = KURLDrag::canDecode(e); // only accept URL drops
+}
+
+void Manager::replaceLoadedUri(QWidget *w, QDropEvent *e)
+{
+	KURL::List urls;
+	if(!KURLDrag::decode(e, urls)) {
+		return;
+	}
+	int index = m_tabs->indexOf(w);
+	closeWidget(w);
+	for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {
+		if(i == urls.begin()) {
+			m_ki->docManager()->fileOpen(*i, QString::null, index);
+		}
+		else {
+			m_ki->docManager()->fileOpen(*i);
+		}
+	}
+}
+
+DropWidget::DropWidget(QWidget * parent, const char * name, WFlags f) : QWidget(parent, name, f)
+{
+	setAcceptDrops(true);
+}
+
+DropWidget::~DropWidget()
+{
+}
+
+void DropWidget::dragMoveEvent(QDragMoveEvent *e)
+{
+	bool b;
+	emit testCanDecode(e, b);
+	e->accept(b);
+}
+
+void DropWidget::dropEvent(QDropEvent *e)
+{
+	emit receivedDropEvent(e);
 }
 
 }

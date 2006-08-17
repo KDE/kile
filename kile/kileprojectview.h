@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                           (C) 2006 by Michel Ludwig
     email                : Jeroen.Wijnhout@kdemail.net
+                           michel.ludwig@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -128,6 +130,9 @@ public:
 	KileProjectViewItem* projectViewItemFor(const KURL &);
 	KileProjectViewItem* itemFor(const KURL &);
 	KileProjectViewItem* parentFor(const KileProjectItem *projitem, KileProjectViewItem *projvi);
+
+protected:
+	virtual bool acceptDrag(QDropEvent *e) const;
 
 private slots:
 	void popup(KListView *, QListViewItem *, const QPoint &);

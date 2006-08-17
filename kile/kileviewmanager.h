@@ -5,6 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
 //
 
 /***************************************************************************
@@ -20,6 +21,7 @@
 #define KILEVIEWKILEVIEWMANAGER_H
 
 #include <qobject.h>
+#include <qwidgetstack.h>
 
 #include <ktabwidget.h>
 
@@ -61,7 +63,7 @@ public:
 	Kate::View* view(int i) { return m_viewList.at(i); }
 
 	void createTabs(QWidget *);
-	Kate::View* createView(Kate::Document *doc);
+	Kate::View* createView(Kate::Document *doc, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
 // 	void setProjectView(KileProjectView *view) { m_projectview = view; }
@@ -87,6 +89,10 @@ public slots:
 	void convertSelectionToLaTeX(void);
 	void pasteAsLaTeX(void);
 
+protected slots:
+	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
+	void replaceLoadedUri(QWidget *w, QDropEvent *e);
+
 signals:
 	void activateView(QWidget *, bool);
 	void prepareForPart(const QString &);
@@ -100,6 +106,29 @@ private:
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;
+	QWidgetStack			*m_widgetStack;
+	QWidget				*m_emptyDropWidget;
+
+};
+
+/**
+ * Little helper widget to overcome the limitation that KTabWidget doesn't honour drop events when
+ * there are no tabs: the DropWidget is shown instead of KTabWidget when there are no tabs.
+ */
+class DropWidget : public QWidget {
+	Q_OBJECT
+
+	public:
+		DropWidget(QWidget * parent = 0, const char * name = 0, WFlags f = 0);
+		virtual ~DropWidget();
+
+		virtual void dragMoveEvent(QDragMoveEvent *e);
+
+		virtual void dropEvent(QDropEvent *e);
+
+	signals:
+		void testCanDecode(const QDragMoveEvent *, bool &);
+		void receivedDropEvent(QDropEvent *);
 };
 
 }

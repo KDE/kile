@@ -263,7 +263,7 @@ QString KileProject::addBaseURL(const QString &path)
   	else if ( path.startsWith("/") )
   		return KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
   	else
-    		return m_baseurl.path() + "/" + KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
+    		return  KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(m_baseurl.path() + "/" +path)).path();
  }
 
 QString KileProject::removeBaseURL(const QString &path)
@@ -305,7 +305,7 @@ bool KileProject::load()
 	}
 	
 	QString master = addBaseURL(m_config->readEntry("masterDocument", QString::null));
-  	kdDebug() << "LOADED MASTER = " << master << endl;
+  	kdDebug() << "masterDoc == " << master << endl;
 	setMasterDocument(master);
 
 	// IsRegExp has to be loaded _before_ the Extensions
@@ -379,7 +379,7 @@ bool KileProject::save()
 	m_config->writeEntry("kileprversion", kilePrVersion);
 	m_config->writeEntry("kileversion", kileVersion);
 
-  	kdDebug() << "KileProject::save() masterDoc = " << m_masterDocument << endl;
+  	kdDebug() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument) << endl;
 	m_config->writeEntry("masterDocument", removeBaseURL(m_masterDocument));
   	m_config->writeEntry("lastDocument", removeBaseURL(m_lastDocument.path()));
 

@@ -1,8 +1,8 @@
 /***************************************************************************
                            userhelp.h
 ----------------------------------------------------------------------------
-    date                 : Jan 19 2006
-    version              : 0.13
+    date                 : Aug 17 2006
+    version              : 0.15
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -39,7 +39,6 @@ class UserHelp: public QObject
 public: 
 	UserHelp(KileTool::Manager *manager, KMenuBar *menubar);
 	~UserHelp();
-	void updateEntries(const QStringList &entries, const QStringList &files, bool save = true);
 	void userHelpDialog();   
 	void enableUserHelpEntries(bool state);
 
@@ -52,8 +51,12 @@ private:
 	void writeConfig();
 
 	void setupUserHelpMenu();
+	void expandHelpMenu();
+	
 	QPopupMenu *getHelpPopup();
 	int getHelpIndex(QPopupMenu *popup);
+
+	void updateEntries(const QStringList &entries, const QStringList &files, bool save = true);
 
 	KileTool::Manager *m_manager;
 	KMenuBar *m_menubar;

@@ -1,8 +1,8 @@
 /***************************************************************************
                            userhelp.cpp
 ----------------------------------------------------------------------------
-    date                 : Jan 19 2006
-    version              : 0.23
+    date                 : Aug 17 2006
+    version              : 0.25
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -37,22 +37,10 @@ namespace KileHelp
 UserHelp::UserHelp(KileTool::Manager *manager, KMenuBar *menubar) 
 	: m_manager(manager), m_menubar(menubar), m_helpid(0), m_sepid(0)
 {
-	m_helpmenu = getHelpPopup();
-	if (  m_helpmenu ) 
-	{
-		int helpindex = getHelpIndex(m_helpmenu);
-		
-		m_helppopup = new QPopupMenu();
-		if ( m_helppopup )  
-		{
-			m_sepid = m_helpmenu->insertSeparator(helpindex); 
-			m_helpid = m_helpmenu->insertItem(i18n("User Help"),m_helppopup,-1,helpindex); 
-			m_helpmenu->setItemVisible(m_helpid,false);
-			m_helpmenu->setItemVisible(m_sepid,false);
-		}
-		
+	expandHelpMenu();
+
+	if ( m_helpmenu ) 
 		readConfig();
-	}
 }
 
 UserHelp::~UserHelp() 
@@ -99,6 +87,28 @@ void UserHelp::writeConfig()
 		config->writeEntry(QString("menu%1").arg(i), m_menuentries[i]);
 		if ( m_menuentries[i] != "-" )
 			config->writeEntry(QString("file%1").arg(i), m_helpfiles[i]);	
+	}
+}
+
+void UserHelp::expandHelpMenu()
+{ 
+	m_helppopup = 0L;
+	m_helpid = 0;
+	m_sepid = 0;
+
+	m_helpmenu = getHelpPopup();
+	if (  m_helpmenu ) 
+	{
+		int helpindex = getHelpIndex(m_helpmenu);
+	
+		m_helppopup = new QPopupMenu();
+		if ( m_helppopup )  
+		{
+			m_sepid = m_helpmenu->insertSeparator(helpindex); 
+			m_helpid = m_helpmenu->insertItem(i18n("User Help"),m_helppopup,-1,helpindex); 
+			m_helpmenu->setItemVisible(m_helpid,false);
+			m_helpmenu->setItemVisible(m_sepid,false);
+		}
 	}
 }
 
@@ -174,8 +184,13 @@ void UserHelp::setupUserHelpMenu()
 
 void UserHelp::enableUserHelpEntries(bool state)
 {
-	if ( m_menuentries.count() > 0 ) 
+	if ( m_helppopup )
+		delete m_helppopup;
+
+	expandHelpMenu();
+	if ( m_helpmenu && m_helppopup && m_menuentries.count()>0 ) 
 	{
+		setupUserHelpMenu();
 		m_helpmenu->setItemVisible(m_helpid,state);
 		m_helpmenu->setItemVisible(m_sepid,state);
 	} 

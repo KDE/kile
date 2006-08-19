@@ -644,4 +644,23 @@ void KileProject::dump()
 		kdDebug() << "\titem " << i << " : "  << m_projectitems.at(i)->path() << endl;
 }
 
+void KileProject::setMasterDocument(const QString & master){
+	
+	if(!master.isEmpty()){
+	
+		QFileInfo fi(master);
+		if(fi.exists())
+			m_masterDocument = master;
+		else{
+			m_masterDocument = QString::null;
+			kdDebug() << "setMasterDocument: masterDoc=NULL" << endl;	
+		}
+	
+	}
+	else
+		m_masterDocument = QString::null;
+	
+	emit (masterDocumentChanged(m_masterDocument));
+}
+
 #include "kileproject.moc"

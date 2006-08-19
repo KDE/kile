@@ -3,6 +3,7 @@ Fixes:
  - Remember the setting of MakeIndexOptions checkbox in the project settings dialog
  - Added utf-8 and other encodings to the quickdocument dialog. (#131402)  
  - Make the "New Tool" dialog box big enough. (#132425)
+ - Check if masterdocs in kilepr files exist, should fix some problems with upgrades from kile 1.8.
 
 version 1.9.0 -> 1.9.1
 Fixes:

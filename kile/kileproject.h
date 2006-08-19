@@ -143,7 +143,7 @@ public:
 	void setName(const QString & name) { m_name = name; emit (nameChanged(name));}
 	const QString& name() const { return m_name; }
 
-	void setMasterDocument(const QString & master) { m_masterDocument = master; emit (masterDocumentChanged(master));}
+	void setMasterDocument(const QString & master);
 	const QString& masterDocument() const { return m_masterDocument; }
 
 	void setExtensions(KileProjectItem::Type type, const QString & ext);

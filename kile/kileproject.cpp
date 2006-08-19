@@ -656,7 +656,7 @@ void KileProject::dump()
 
 void KileProject::setMasterDocument(const QString & master){
 	
-	if(!master.isNull() || !master.isEmpty()){
+	if(!master.isEmpty()){
 	
 		QFileInfo fi(master);
 		if(fi.exists())

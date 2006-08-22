@@ -769,8 +769,11 @@ void KileGrepDialog::updateWidgets()
 
 void KileGrepDialog::setDirName(const QString &dir)
 {
-	dir_combo->setURL(dir);
-	if (dir_combo->comboBox()->text(0) != dir)
+	KComboBox *combo = dir_combo->comboBox();
+
+	if ( findListItem(combo,dir) < 0 )
+		combo->insertItem(dir);
+	if ( combo->text(0) != dir)
 		slotClear();
 }
 
@@ -843,13 +846,17 @@ void KileGrepDialog::updateListItems(KComboBox *combo)
 	if ( index > 0 )                               // combo already contains s
 	{
 		combo->removeItem(index);                   // remove this item
-		combo->insertItem(s,0);                     // insert this item as first item
 	}
 	else if ( index == -1 )                        // combo doesn't contain s
 	{
 		if ( combo->count() >= KILEGREP_MAX )
 			combo->removeItem( combo->count()-1 );   // remove last item
+	}
+
+	if ( index != 0 )
+	{
 		combo->insertItem(s,0);                     // insert this item as first item
+		combo->setCurrentItem(0);                   // and select it
 	}
 }
 

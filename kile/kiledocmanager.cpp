@@ -755,7 +755,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	{
 		view = m_ki->viewManager()->view(i);
 
-		if ( view && (view->getDoc()->isModified() || amAutoSaving) )
+		if ( view && view->getDoc()->isModified() )
 		{
 			url = view->getDoc()->url();
 			fi.setFile(url.path());

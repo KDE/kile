@@ -172,13 +172,14 @@ public:
 		
 	void paintCell( QPainter *p, int row, int col,
 	                const QRect &cr, bool selected, const QColorGroup &cg );
+	void updateCurrentCell();
 	
 	bool isRowEmpty(int row);
 	bool isRowEmpty(int row,int col1, int col2);
 	bool isColEmpty(int col);
 	void clearHorizontalHeader(int col1,int col2);
 	void clearVerticalHeader(int row1,int row2);
-	
+
 	bool isVLine(int row,int col, bool left);
 	TabularCell::Count countCells(int x1,int y1,int x2,int y2);
 	TabularCell::CountLines countHLines(int row, bool top);

@@ -892,6 +892,14 @@ void TabularTable::clearAttributes(int row,int col)
 
 ////////////////////////////// update cell //////////////////////////////
 
+// update text of current cell, which can be in edit mode
+
+void TabularTable::updateCurrentCell()
+{
+	if ( editMode() != QTable::NotEditing )
+		endEdit(currentRow(),currentColumn(),true,true);
+}
+
 // A cell is updated or is is asked, if there is still an entry. 
 // Check if we need the QTableItem anymore. The result will be true, 
 // if there is still a QTableItem, else false.
@@ -2078,6 +2086,8 @@ QStringList TabularDialog::sortColorTable(QMap<QString,char> &colors)
 
 void TabularDialog::slotOk()
 {
+	m_table->updateCurrentCell();
+
 	QString preamble,textline,s,s1,s2,s3;
 	TabularCell::CountLines lines;
 	TabularCell::Count cnt;

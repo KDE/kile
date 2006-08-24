@@ -319,7 +319,7 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		kdDebug() << "   name==" << name << " " << m_latexCommands->isListEnv(name) << endl;
+		//kdDebug() << "   name==" << name << " " << m_latexCommands->isListEnv(name) << endl;
 		if ( m_latexCommands->isListEnv(name) )
 		{
 			view->keyReturn();
@@ -590,7 +590,7 @@ bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col
 bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
                                   EnvData &env,bool backwards)
 {
-	kdDebug() << "findEnvTag " << backwards << endl;
+	//kdDebug() << "findEnvTag " << backwards << endl;
 	KTextEditor::SearchInterface *iface;
 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
 	
@@ -697,7 +697,7 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		}
 	}
 	
-		kdDebug() << "search right " << endl;
+	//kdDebug() << "search right " << endl;
 	// check if there is a match in this line from the current position to the right
 	if ( textline[col]=='\\' && col==(uint)textline.find(m_reg,col) )
 	{
@@ -707,20 +707,20 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		QChar ch = textline.at(col+1);
 		if ( ch=='b' || ch=='e' )        // found "\begin" or "\end"
 		{
-			env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
-			env.name = m_reg.cap(3);
+			envright.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
+			envright.name = m_reg.cap(3);
 		} 
 		else                             // found "\[" or "\\]"
 		{
-			env.tag = ( ch == '[' ) ? EnvBegin : EnvEnd;
-			env.name = m_reg.cap(4);
+			envright.tag = ( ch == '[' ) ? EnvBegin : EnvEnd;
+			envright.name = m_reg.cap(4);
 		}
 		envright.cpos = EnvLeft;
 		right = true;
 		//kdDebug() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
 	}
 	
-		kdDebug() << "found left/right: " << left << "/" << right << endl;
+	//kdDebug() << "found left/right: " << left << "/" << right << endl;
 	// did we find a tag?
 	if ( ! (left || right) )
 		return false;
@@ -879,7 +879,7 @@ bool EditorExtension::decreaseCursorPosition(Kate::Document *doc, uint &row, uin
 	else if ( row > 0 )
 	{
 		--row;
-		col = doc->lineLength(row) - 1;
+		col = doc->lineLength(row);
 	}
 	else
 		ok = false;
@@ -1109,7 +1109,7 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 	QChar right = textline[col];
 	QChar left  = ( col > 0 ) ? textline[col-1] : QChar(' ');
 	
-	kdDebug() << QString("isBracketPosition: (%1,%2) left %3 right %4").arg(row).arg(col).arg(left).arg(right) << endl;
+	//kdDebug() << QString("isBracketPosition: (%1,%2) left %3 right %4").arg(row).arg(col).arg(left).arg(right) << endl;
 	if ( m_overwritemode )
 	{
 		if ( right == '{' )
@@ -1191,7 +1191,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		int start = ( line == (int)row ) ? col : textline.length()-1;
 		for ( int i=start; i>=0; --i )
 		{
-			kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
+			//kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
 			if ( textline[i] == '{' )
 			{
 				if ( brackets > 0 )
@@ -1211,7 +1211,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		}
 	}
 	
-	kdDebug() << "nothting found" << endl;
+	//kdDebug() << "nothting found" << endl;
 	return false;
 }
 
@@ -1567,18 +1567,18 @@ bool EditorExtension::insertDoubleQuotes()
 	if ( iface->searchText(row,col,reg,&r,&c,&l,true) )  
 	{
 		openfound = ( doc->textLine(r).find(m_leftDblQuote,c) == (int)c );
-		kdDebug() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
+		//kdDebug() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
 	}
 	
 	QString textline = doc->textLine(row);
-	kdDebug() << "text=" << textline << " open=" << openfound << endl;
+	//kdDebug() << "text=" << textline << " open=" << openfound << endl;
 	if ( openfound ) 
 	{
 		// If we last inserted a language specific doublequote open,  
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote close
 		int startcol = col - m_leftDblQuote.length();
-		kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		//kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
 		if ( startcol>=0 && textline.find(m_leftDblQuote,startcol) == (int)startcol ) 
 		{
 				doc->removeText(row,startcol,row,startcol+m_leftDblQuote.length());
@@ -1595,7 +1595,7 @@ bool EditorExtension::insertDoubleQuotes()
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote open
 		int startcol = col - m_rightDblQuote.length();
-		kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		//kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
 		if ( startcol>=0 && textline.find(m_rightDblQuote,startcol) == (int)startcol ) 
 		{
 			doc->removeText(row,startcol,row,startcol+m_rightDblQuote.length());

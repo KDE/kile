@@ -1,9 +1,15 @@
 version 1.9.1 -> 1.9.2
 Fixes:
- - Remember the setting of MakeIndexOptions checkbox in the project settings dialog
+ - Remember the setting of MakeIndexOptions checkbox in the project settings
+ dialog. (debian #337550)
  - Added utf-8 and other encodings to the quickdocument dialog. (#131402)  
  - Make the "New Tool" dialog box big enough. (#132425)
  - Check if masterdocs in kilepr files exist, should fix some problems with upgrades from kile 1.8.
+ - Searching for environments in Edit functions improved.
+ - Take array as math environment instead of tabular in Configure->Latex Environments.
+ - Don't crash if a user changes the icon of a toolbar item. (debian #382317)
+ - Allow a few more punctuation in codecompletion of citation keys. (#130148)
+ - Remember last working directory in 'find in files' dialog. (debian ##359932)
 
 version 1.9.0 -> 1.9.1
 Fixes:

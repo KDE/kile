@@ -9,7 +9,8 @@ Fixes:
  - Take array as math environment instead of tabular in Configure->Latex Environments.
  - Don't crash if a user changes the icon of a toolbar item. (debian #382317)
  - Allow a few more punctuation in codecompletion of citation keys. (#130148)
- - Remember last working directory in 'find in files' dialog. (debian ##359932)
+ - Remember last working directory in 'find in files' dialog. (debian #359932)
+ - Tabular wizard should insert all entered elements. (#132736)
 
 version 1.9.0 -> 1.9.1
 Fixes:

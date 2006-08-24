@@ -1,5 +1,6 @@
 version 1.9.1 -> 1.9.2
 Fixes:
+ - Add autoref command to standard reference commands (#130037)
  - Remember the setting of MakeIndexOptions checkbox in the project settings
  dialog. (debian #337550)
  - Added utf-8 and other encodings to the quickdocument dialog. (#131402)  
@@ -12,6 +13,7 @@ Fixes:
  - Remember last working directory in 'find in files' dialog. (debian #359932)
  - Tabular wizard should insert all entered elements. (#132736)
  - Only autosave files which have been modified.
+ - Delete comma of last bibtex entry if Bibliographie->Clean is called. (#129499)
 
 version 1.9.0 -> 1.9.1
 Fixes:

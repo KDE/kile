@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 05 2006
-    version              : 0.30
+    date                 : Aug 22 2006
+    version              : 0.32
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -119,7 +119,7 @@ private:
 
 	struct EnvData 
 	{
-		 uint row;
+		uint row;
 		uint col;
 		QString name;
 		uint len;

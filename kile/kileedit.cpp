@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 05 2006
-    version              : 0.30
+    date                 : Aug 22 2006
+    version              : 0.32
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -282,7 +282,7 @@ void EditorExtension::matchEnvironment(Kate::View *view)
 	gotoEnvironment( env.tag != EnvBegin,view);
 }
 
-//////////////////// close an open environment  ////////////////////
+//////////////////// close opened environments  ////////////////////
 
 // search for the last opened environment and close it
 
@@ -320,7 +320,7 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		kdDebug() << "   name==" << name << " " << m_latexCommands->isListEnv(name) << endl;
+		//kdDebug() << "   name==" << name << " " << m_latexCommands->isListEnv(name) << endl;
 		if ( m_latexCommands->isListEnv(name) )
 		{
 			view->keyReturn();
@@ -384,23 +384,48 @@ QStringList EditorExtension::findOpenedEnvironmentList(Kate::View *view, bool po
 	view = determineView(view);
 	if ( view )
 	{
-		uint row,col,currentRow,currentCol;
-		QString name;
-
+		uint currentRow,currentCol;
 		Kate::Document *doc = view->getDoc();
 		view->cursorPositionReal(&currentRow,&currentCol);
 
-		while ( findOpenedEnvironment(row,col,name,view) )
+		uint row = currentRow;
+		uint col = currentCol;
+		EnvData env;
+
+		// check the starting position
+		bool env_position = isEnvironmentPosition(doc,row,col,env);
+		if ( env_position )
 		{
-			kdDebug() << "found env:   row=" << row << "   col=" << col << "  name==" << name << endl;
+			// we are inside an environment tag: bad to complete
+			if ( env.cpos == EnvInside )
+				return envlist;	
+			// we are left of an environment tag: go one position to the left
+			if ( env.cpos == EnvLeft )
+			{
+				if ( ! decreaseCursorPosition(doc,row,col) )
+					return envlist;	
+			}
+		}
+	
+		while ( findEnvironmentTag(doc,row,col,env,true) )
+		{
+			row = env.row;
+			col = env.col;
+
 			if ( position )
-				envlist << name + QString(",%1,%2").arg(row).arg(col);
+				envlist << env.name + QString(",%1,%2").arg(row).arg(col);
 			else
-				envlist << name;
-			if ( ! decreaseCursorPosition(doc,row,col) )
-				break;
+				envlist << env.name;
+
+			if ( col == 0 )
+			{
+				if ( ! decreaseCursorPosition(doc,row,col) )
+					break;
+			}
 			view->setCursorPositionReal(row,col);
 		}
+
+		// reset cursor original position
 		view->setCursorPositionReal(currentRow,currentCol);
 	}
 	
@@ -623,7 +648,6 @@ bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col
 bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
                                   EnvData &env,bool backwards)
 {
-	kdDebug() << "findEnvTag " << backwards << endl;
 	KTextEditor::SearchInterface *iface;
 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
 	
@@ -632,7 +656,6 @@ bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col
 	EnvTag wrong_env = ( backwards ) ? EnvEnd : EnvBegin;
 	while ( iface->searchText(row,col,m_reg,&env.row,&env.col,&env.len,backwards) )
 	{
-		//   kdDebug() << "   iface " << env.row << "/" << env.col << endl;
 		if ( isValidBackslash(doc,env.row,env.col) )
 		{
 			EnvTag found_env = ( m_reg.cap(2)=="begin" || m_reg.cap(4)=="\\[" ) ? EnvBegin : EnvEnd; 
@@ -705,7 +728,6 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 	{
 		int pos = textline.findRev(m_reg,startcol);
 		env.len = m_reg.matchedLength();
-		//kdDebug() << "   is - search to left:  pos=" << pos << " col=" << col << endl;
 		if ( pos!=-1 && (uint)pos<col && col<=(uint)pos+env.len )
 		{
 			env.row = row;
@@ -730,7 +752,6 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		}
 	}
 	
-		kdDebug() << "search right " << endl;
 	// check if there is a match in this line from the current position to the right
 	if ( textline[col]=='\\' && col==(uint)textline.find(m_reg,col) )
 	{
@@ -740,20 +761,20 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		QChar ch = textline.at(col+1);
 		if ( ch=='b' || ch=='e' )        // found "\begin" or "\end"
 		{
-			env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
-			env.name = m_reg.cap(3);
+			envright.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
+			envright.name = m_reg.cap(3);
 		} 
 		else                             // found "\[" or "\\]"
 		{
-			env.tag = ( ch == '[' ) ? EnvBegin : EnvEnd;
-			env.name = m_reg.cap(4);
+			envright.tag = ( ch == '[' ) ? EnvBegin : EnvEnd;
+			envright.name = m_reg.cap(4);
 		}
 		envright.cpos = EnvLeft;
 		right = true;
 		//kdDebug() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
 	}
 	
-		kdDebug() << "found left/right: " << left << "/" << right << endl;
+	//kdDebug() << "found left/right: " << left << "/" << right << endl;
 	// did we find a tag?
 	if ( ! (left || right) )
 		return false;
@@ -912,7 +933,7 @@ bool EditorExtension::decreaseCursorPosition(Kate::Document *doc, uint &row, uin
 	else if ( row > 0 )
 	{
 		--row;
-		col = doc->lineLength(row) - 1;
+		col = doc->lineLength(row);
 	}
 	else
 		ok = false;
@@ -1142,7 +1163,7 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 	QChar right = textline[col];
 	QChar left  = ( col > 0 ) ? textline[col-1] : QChar(' ');
 	
-	kdDebug() << QString("isBracketPosition: (%1,%2) left %3 right %4").arg(row).arg(col).arg(left).arg(right) << endl;
+	//kdDebug() << QString("isBracketPosition: (%1,%2) left %3 right %4").arg(row).arg(col).arg(left).arg(right) << endl;
 	if ( m_overwritemode )
 	{
 		if ( right == '{' )
@@ -1224,7 +1245,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		int start = ( line == (int)row ) ? col : textline.length()-1;
 		for ( int i=start; i>=0; --i )
 		{
-			kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
+			//kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
 			if ( textline[i] == '{' )
 			{
 				if ( brackets > 0 )
@@ -1244,7 +1265,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		}
 	}
 	
-	kdDebug() << "nothting found" << endl;
+	//kdDebug() << "nothting found" << endl;
 	return false;
 }
 
@@ -1600,18 +1621,18 @@ bool EditorExtension::insertDoubleQuotes()
 	if ( iface->searchText(row,col,reg,&r,&c,&l,true) )  
 	{
 		openfound = ( doc->textLine(r).find(m_leftDblQuote,c) == (int)c );
-		kdDebug() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
+		//kdDebug() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
 	}
 	
 	QString textline = doc->textLine(row);
-	kdDebug() << "text=" << textline << " open=" << openfound << endl;
+	//kdDebug() << "text=" << textline << " open=" << openfound << endl;
 	if ( openfound ) 
 	{
 		// If we last inserted a language specific doublequote open,  
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote close
 		int startcol = col - m_leftDblQuote.length();
-		kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		//kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
 		if ( startcol>=0 && textline.find(m_leftDblQuote,startcol) == (int)startcol ) 
 		{
 				doc->removeText(row,startcol,row,startcol+m_leftDblQuote.length());
@@ -1628,7 +1649,7 @@ bool EditorExtension::insertDoubleQuotes()
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote open
 		int startcol = col - m_rightDblQuote.length();
-		kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		//kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
 		if ( startcol>=0 && textline.find(m_rightDblQuote,startcol) == (int)startcol ) 
 		{
 			doc->removeText(row,startcol,row,startcol+m_rightDblQuote.length());

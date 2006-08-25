@@ -85,7 +85,7 @@ bool LatexOutputFilter::fileExists(const QString & name)
 //	from the context.
 void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie)
 {
-	kdDebug() << "==LatexOutputFilter::updateFileStack()================" << endl;
+	//kdDebug() << "==LatexOutputFilter::updateFileStack()================" << endl;
 
 	static QString::QString strPartialFileName;
 

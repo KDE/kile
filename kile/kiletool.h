@@ -92,6 +92,9 @@ namespace KileTool
 
 		virtual bool isViewer() { return false; }
 
+		void setQuickie() { m_quickie = true; }
+		bool isQuickie() { return m_quickie; }
+
 		/**
 		 * Allows you to set the target file explicitly (filename only).
 		 **/
@@ -234,6 +237,8 @@ namespace KileTool
 
 	protected:
 		Launcher			*m_launcher;
+		bool m_quickie;
+
 
 	private:
 		QDict<QString>		m_dictParams;

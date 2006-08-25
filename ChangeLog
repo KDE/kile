@@ -14,6 +14,7 @@ Fixes:
  - Tabular wizard should insert all entered elements. (#132736)
  - Only autosave files which have been modified.
  - Delete comma of last bibtex entry if Bibliographie->Clean is called. (#129499)
+ - Quick Preview fails if graphics are included in selection (#126019)
 
 version 1.9.0 -> 1.9.1
 Fixes:

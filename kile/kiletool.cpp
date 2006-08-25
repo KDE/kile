@@ -48,7 +48,8 @@ namespace KileTool
 		m_S(QString::null),
 		m_options(QString::null),
 		m_launcher(0L),
-    m_bPrepareToRun(prepare)
+		m_quickie(false),
+		m_bPrepareToRun(prepare)
 	{
 		m_manager->initTool(this);
 		

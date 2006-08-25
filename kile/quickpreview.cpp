@@ -16,6 +16,7 @@
 
 #include "quickpreview.h"
 #include "kiletool.h"
+#include "kiletool_enums.h"
 #include "kiledocmanager.h"
 #include "kilelauncher.h"
 
@@ -37,7 +38,7 @@
 namespace KileTool
 {
 
-QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_tempfile(QString::null)
+QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_tempfile(QString::null), m_running(false)
 {
 	m_taskList << i18n("LaTeX ---> DVI")
 	           << i18n("LaTeX ---> DVI (KDVI)")
@@ -70,19 +71,29 @@ void QuickPreview::getTaskList(QStringList &tasklist)
 void QuickPreview::run(const QString &text,const QString &textfilename,int startrow) 
 {
 	kdDebug() << "==QuickPreview::run()=========================="  << endl;
+
+	if ( m_running )
+	{
+		showError( i18n("There is already a preview running, which you have to finish to run this one.") );
+		return;
+	}
 	//m_ki->docManager()->fileSaveAll();
 	
 	// check if there is something to compile
-	if ( text.isEmpty() ) {
+	if ( text.isEmpty() ) 
+	{
 		showError(i18n("There is nothing to compile and preview."));
 		return;
 	}
 	
 	// create the name of a temporary file or delete already existing temporary files
-	if ( m_tempfile.isEmpty() ) {
+	if ( m_tempfile.isEmpty() ) 
+	{
 		m_tempfile =  KTempDir(QString::null).name() + "preview.tex";
 		kdDebug() << "\tdefine tempfile: " << m_tempfile << endl;
-	} else {
+	} 
+	else 
+	{
 		removeTempFiles();
 	}      
 	
@@ -102,7 +113,8 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	map[m_taskList[6]] = "PreviewPDFLaTeX,,ViewPDF,KPDF,pdf";
 	
 	QString previewtask = KileConfig::previewTask();
-	if ( ! map.contains(previewtask) ) {
+	if ( ! map.contains(previewtask) ) 
+	{
 		showError(QString(i18n("Could not run QuickPreview:\nunknown task '%1'").arg(previewtask)));
 		return;
 	}
@@ -111,16 +123,19 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	// create preview tools 
 	kdDebug() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
 	KileTool::PreviewLaTeX *latex = (KileTool::PreviewLaTeX  *)m_ki->toolFactory()->create(previewlist[pvLatex],false);
-	if ( !latex ) {
+	if ( !latex ) 
+	{
 		showError(QString(i18n("Could not run '%1' for QuickPreview.").arg("LaTeX")));
 		return;
 	}
 	
 	KileTool::Base *dvips = 0L;
-	if ( ! previewlist[1].isEmpty() ) {
+	if ( ! previewlist[1].isEmpty() ) 
+	{
 		kdDebug() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
 		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
-		if ( !dvips ) {
+		if ( !dvips ) 
+		{
 			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg("DVItoPS")));
 			return;
 		}
@@ -129,51 +144,67 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ")";
 	kdDebug() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
 	KileTool::Base *viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
-	if ( !viewer ) {
+	//KileTool::View *viewer = dynamic_cast<KileTool::View *>( m_ki->toolFactory()->create(previewlist[pvViewer],false) );
+	if ( !viewer )
+	{
 		showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(viewertool)));
 		return;
 	}
 	
-	// update value of texinput path 
+	// set value of texinput path (only for QuickPreview tools)
 	QString texinputpath = KileConfig::teXPaths();
 	QString inputdir = QFileInfo(m_ki->getCompileName()).dirPath(true);
 	if ( ! texinputpath.isEmpty() )
 		inputdir += ":" + texinputpath;
- 	KileConfig::setTeXPaths(inputdir);
-	kdDebug() << "inputdir is " << inputdir << endl;
+ 	KileConfig::setPreviewTeXPaths(inputdir);
+	kdDebug() << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
 	
-	// prepare tools
+	// prepare tools: previewlatex
 	QString filepath = m_tempfile.left( m_tempfile.length()-3 ); 
 	latex->setPreviewInfo(textfilename,startrow,preamblelines+1);
 	latex->setSource(m_tempfile);
 	latex->prepareToRun();
-	
-	if ( dvips )
-		dvips->setSource( filepath + "dvi" );
-	viewer->setSource( filepath + previewlist[pvExtension] );
-	
-	// run tools
+	latex->setQuickie();
 	m_ki->toolManager()->run(latex);
-	if ( dvips ) 
+
+	// dvips
+	if ( dvips )
+	{
+		dvips->setSource( filepath + "dvi" );
+		dvips->setQuickie();
 		m_ki->toolManager()->run(dvips);
-	m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]);
-	
-	// restore old texinputpath
-	KileConfig::setTeXPaths(texinputpath);
+	}
+
+	// viewer
+	connect(viewer, SIGNAL(destroyed()), this, SLOT(destroyed()));
+	viewer->setSource( filepath + previewlist[pvExtension] );
+	viewer->setQuickie();
+	m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]);	
+
+	// run like hell
+	m_running = true;
+}
+
+void QuickPreview::destroyed()
+{
+	kdDebug() << "\tQuickPreview: viewer destroyed" << endl;
+	m_running = false;
 }
 
 int QuickPreview::createTempfile(const QString &text)
 {
 	// determine main document to read the preamble
 	QString filename = m_ki->getCompileName();
-	if ( filename.isEmpty() ) {
+	if ( filename.isEmpty() ) 
+	{
 		showError(i18n("Could not determine the main document."));
 		return 0;
 	}
 	
 	// open to read
 	QFile fin( filename );
-	if ( !fin.exists() || !fin.open(IO_ReadOnly) ) {
+	if ( !fin.exists() || !fin.open(IO_ReadOnly) ) 
+	{
 		showError(i18n("Could not read the preamble."));
 		return 0;
 	}
@@ -184,7 +215,8 @@ int QuickPreview::createTempfile(const QString &text)
 
 	// create the temporary file 
 	QFile tempfile(m_tempfile);
-	if ( ! tempfile.open( IO_WriteOnly ) ) {
+	if ( ! tempfile.open( IO_WriteOnly ) ) 
+	{
 		showError(i18n("Could not create a temporary file."));
 		return 0;
 	}
@@ -194,16 +226,18 @@ int QuickPreview::createTempfile(const QString &text)
 	if(m_ki->activeDocument())
 	{
 		QTextCodec *codec = QTextCodec::codecForName(m_ki->activeDocument()->encoding().ascii());
-	 if ( codec )
-		stream.setCodec(codec); 
+		if ( codec )
+			stream.setCodec(codec); 
 	}
 	// write the whole preamble into this temporary file
 	QString textline;
 	int preamblelines = 0;
 	bool begindocumentFound = false;
-	while ( ! preamble.eof() ) {
+	while ( ! preamble.eof() ) 
+	{
 		textline = preamble.readLine();
-		if ( textline.find("\\begin{document}") >= 0 ) {
+		if ( textline.find("\\begin{document}") >= 0 ) 
+		{
 			begindocumentFound = true;
 			break;
 		}
@@ -212,7 +246,8 @@ int QuickPreview::createTempfile(const QString &text)
 	}
 
 	// look if we found '\begin{document}' to finish the preamble
-	if ( ! begindocumentFound ) {
+	if ( ! begindocumentFound ) 
+	{
 		tempfile.close();
 		showError(i18n("Could not find a '\\begin{document}' command."));
 		return 0;
@@ -236,9 +271,11 @@ void QuickPreview::removeTempFiles(bool rmdir)
 	QString tempdir = fi.dirPath(true) + '/';
 	
 	QDir dir = fi.dir(true); 
-	if ( dir.exists() ) {                  
+	if ( dir.exists() ) 
+	{
 		QStringList list = dir.entryList(fi.baseName()+".*");
-		for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) {
+		for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) 
+		{
 			QFile::remove( tempdir + (*it) );
 			// kdDebug() << "\tremove temporary file: " << tempdir + (*it) << endl;
 		}
@@ -256,3 +293,4 @@ void QuickPreview::showError(const QString &text)
 
 }
 
+#include "quickpreview.moc"

@@ -19,14 +19,17 @@
 
 #include "kileinfo.h"
 
+#include <qobject.h> 
 #include <qstring.h>
 #include <qstringlist.h>
 
 namespace KileTool
 {
 
-class QuickPreview
+class QuickPreview : public QObject
 {
+	Q_OBJECT
+
 public:
 	QuickPreview(KileInfo *ki);
 	~QuickPreview();
@@ -34,12 +37,16 @@ public:
 	void run(const QString &text,const QString &textfilename,int startrow);
 	void getTaskList(QStringList &tasklist);
 	
+private slots:
+	void destroyed();
+
 private:
 	enum { pvLatex=0, pvDvips=1, pvViewer=2, pvViewerCfg=3, pvExtension=4 };
 	
 	KileInfo *m_ki;
 	QString m_tempfile;
 	QStringList m_taskList;
+	bool m_running;
 		
 	int createTempfile(const QString &text);
 	void removeTempFiles(bool rmdir=false);

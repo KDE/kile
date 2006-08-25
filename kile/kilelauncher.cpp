@@ -56,6 +56,7 @@
 		m_changeTo(true)
 	{
 		kdDebug() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
+
 		m_proc = new KShellProcess(shellname);
 		if (m_proc)
 			kdDebug() << "\tKShellProcess created" << endl;
@@ -81,7 +82,7 @@
 	bool ProcessLauncher::launch()
 	{
 		kdDebug() << "KileTool::ProcessLauncher::launch()=================" << endl;
-		kdDebug() << "\tbelongs to tool" << tool()->name() << endl;
+		kdDebug() << "\tbelongs to tool " << tool()->name() << endl;
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
@@ -116,6 +117,10 @@
 			msg += " ("+m_proc->args()[0]+")";
 			 
 			emit(message(Info,msg));
+
+			// QuickView tools need a special TEXINPUTS environment variable
+			if ( tool()->isQuickie() ) 
+				m_texinputs = KileConfig::previewTeXPaths();
 
  			kdDebug() << "\tenvironment variables are" << expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << tool()->name() << endl;
 

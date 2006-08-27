@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 22 2006
-    version              : 0.32
+    date                 : Aug 24 2006
+    version              : 0.35
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -60,6 +60,7 @@ public:
 	void gotoEnvironment(bool backwards, Kate::View *view = 0L);
 	void matchEnvironment(Kate::View *view = 0L);
 	void closeEnvironment(Kate::View *view = 0L);
+	void closeAllEnvironments(Kate::View *view = 0L);
 	void selectEnvironment(bool inside, Kate::View *view = 0L);
 	void deleteEnvironment(bool inside, Kate::View *view = 0L);
 	QString autoIndentEnvironment() { return m_envAutoIndent; }
@@ -72,11 +73,14 @@ public:
 	
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
-	QString getEnvironmentText(int &row, int &col, QString &name, Kate::View *view = 0L);
+	QString getEnvironmentText(uint &row, uint &col, QString &name, Kate::View *view = 0L);
 
 	// complete environment
 	bool eventInsertEnvironment(Kate::View *view);
-	
+
+	// mathgroup
+	QString getMathgroupText(uint &row, uint &col, Kate::View *view = 0L);
+		
 public slots:
 	void insertIntelligentNewline(Kate::View *view = 0L);
 
@@ -88,6 +92,7 @@ public slots:
 	void gotoEndEnv() { gotoEnvironment(false); }
 	void matchEnv() { matchEnvironment(); }
 	void closeEnv() {closeEnvironment(); }
+	void closeAllEnv() {closeAllEnvironments(); }
 	
 	void selectTexgroupInside() { selectTexgroup(true); }
 	void selectTexgroupOutside() { selectTexgroup(false); }
@@ -104,6 +109,9 @@ public slots:
 	void deleteParagraph(Kate::View *view = 0L);
 	void deleteWord(SelectMode mode = smTex, Kate::View *view = 0L);
 
+	void selectMathgroup(Kate::View *view = 0L);
+	void deleteMathgroup(Kate::View *view = 0L);
+
 	void nextBullet();
 	void prevBullet();
 
@@ -117,6 +125,8 @@ private:
 
 	enum EnvPos { EnvLeft, EnvInside, EnvRight };
 
+	enum MathTag { mmNoMathMode, mmMathDollar, mmMathParen, mmDisplaymathParen, mmMathEnv, mmDisplaymathEnv };
+
 	struct EnvData 
 	{
 		uint row;
@@ -126,6 +136,16 @@ private:
 		EnvPos cpos;
 		EnvTag tag;
 		EnvType type;
+	};
+
+	struct MathData 
+	{
+		uint row;
+		uint col;
+		uint len;
+		uint numdollar;
+		MathTag tag;
+		QString envname;
 	};
 
 	struct BracketData
@@ -166,6 +186,16 @@ private:
 	bool findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket);
 	bool findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket);
 
+	// find math tags
+	bool isOpeningMathTagPosition(Kate::Document *doc, uint row, uint col, MathData &mathdata);
+	bool isClosingMathTagPosition(Kate::Document *doc, uint row, uint col, MathData &mathdata);
+	bool findOpenMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata);
+	bool findCloseMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata);
+	bool checkMathtags(const MathData &begin,const MathData &end);
+
+	// mathgroup
+	bool getMathgroup(Kate::View *view, uint &row1, uint &col1, uint &row2, uint &col2);
+
 	// get current Texgroup
 	bool getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view);
 
@@ -176,7 +206,7 @@ private:
 	KileDocument::LatexCommands *m_latexCommands;	
 	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
 	QString getWhiteSpace(const QString &s);
-	
+
 	// complete environments
 	QRegExp m_regexpEnter;
 	

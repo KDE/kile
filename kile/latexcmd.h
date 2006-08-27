@@ -80,6 +80,7 @@ public:
 	bool isCrEnv(const QString &name);
 	bool isMathModeEnv(const QString &name);
 	bool isDisplaymathModeEnv(const QString &name);
+	bool needsMathMode(const QString &name);
 	QString getTabulator(const QString &name);
 	
 	void commandList(QStringList &list, uint attr, bool userdefined); 

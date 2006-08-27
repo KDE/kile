@@ -487,6 +487,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Environment (outside)"),"selenv_o",KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
 	(void) new KAction(i18n("TeX Group (inside)"),"selgroup_i",KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
 	(void) new KAction(i18n("TeX Group (outside)"), "selgroup_o",KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
+	(void) new KAction(i18n("Math Group"), "selmath",KShortcut("CTRL+Alt+S,M"),m_edit, SLOT(selectMathgroup()), actionCollection(), "edit_select_mathgroup");
 	(void) new KAction(i18n("Paragraph"),"selpar",KShortcut("CTRL+Alt+S,P"),m_edit, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
 	(void) new KAction(i18n("Line"),"selline",KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
 	(void) new KAction(i18n("TeX Word"),"selword",KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
@@ -495,6 +496,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Environment (outside)"),"delenv_o",KShortcut("CTRL+Alt+T,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
 	(void) new KAction(i18n("TeX Group (inside)"),"delgroup_i",KShortcut("CTRL+Alt+T,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(),"edit_delete_inside_group");
 	(void) new KAction(i18n("TeX Group (outside)"),"delgroup_o",KShortcut("CTRL+Alt+T,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
+	(void) new KAction(i18n("Math Group"),"delmath",KShortcut("CTRL+Alt+T,M"),m_edit, SLOT(deleteMathgroup()), actionCollection(), "edit_delete_mathgroup");
 	(void) new KAction(i18n("Paragraph"),"delpar",KShortcut("CTRL+Alt+T,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
 	(void) new KAction(i18n("TeX Word"),"delword",KShortcut("CTRL+Alt+T,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
 
@@ -502,6 +504,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Goto End"),"gotoendenv",KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
 	(void) new KAction(i18n("Match"),"matchenv",KShortcut("CTRL+Alt+E,M"), m_edit, SLOT(matchEnv()), actionCollection(), "edit_match_env");
 	(void) new KAction(i18n("Close"),"closeenv",KShortcut("CTRL+Alt+E,C"), m_edit, SLOT(closeEnv()), actionCollection(), "edit_close_env");
+	(void) new KAction(i18n("Close All"),"closeallenv",KShortcut("CTRL+Alt+E,A"), m_edit, SLOT(closeAllEnv()), actionCollection(), "edit_closeall_env");
 
 	(void) new KAction(i18n("Goto Begin"),"gotobegingroup",KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()), actionCollection(), "edit_begin_group");
 	(void) new KAction(i18n("Goto End"),"gotoendgroup",KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()), actionCollection(), "edit_end_group");
@@ -2122,7 +2125,7 @@ void Kile::quickPreviewEnvironment()
 
 	Kate::Document *doc = view->getDoc();
 	if ( doc ) {
-		int row,col;
+		uint row,col;
 		QString envname;
 		QString text = m_edit->getEnvironmentText(row,col,envname,view);
 		if ( text != QString::null )

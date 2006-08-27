@@ -16,9 +16,6 @@
  *                                                                         *
  ***************************************************************************/
 
- 
-// kommandos mit weiteren Parametern
-
 #include "latexcmd.h"
 
 #include <klocale.h>
@@ -306,6 +303,11 @@ bool LatexCommands::isMathModeEnv(const QString &name)
 bool LatexCommands::isDisplaymathModeEnv(const QString &name)
 {
 	return ( getAttrAt(name,4) == "$$" );
+}
+
+bool LatexCommands::needsMathMode(const QString &name)
+{
+	return ( isMathModeEnv(name) || isDisplaymathModeEnv(name) );
 }
 
 QString LatexCommands::getTabulator(const QString &name)

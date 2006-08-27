@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 22 2006
-    version              : 0.32
+    date                 : Aug 24 2006
+    version              : 0.35
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -305,6 +305,574 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 	}
 }
 
+// close all opened environments
+
+void EditorExtension::closeAllEnvironments(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	QStringList envlist = findOpenedEnvironmentList(view,true);
+	if ( envlist.count() == 0 )
+		return;
+
+	uint currentRow,currentCol,outputCol;
+	Kate::Document *doc = view->getDoc();
+	view->cursorPositionReal(&currentRow,&currentCol);
+
+	bool indent = ! m_envAutoIndent.isEmpty();
+	if ( indent && currentCol > 0 )
+	{
+		doc->insertText(currentRow,currentCol,"\n");
+		currentRow++;
+		currentCol = 0;
+	}
+		
+	bool ok1,ok2;
+	for ( QStringList::Iterator it=envlist.begin(); it!=envlist.end(); ++it ) 
+	{
+		QStringList entry = QStringList::split(',',*it);
+		if ( entry[0] == "document" )
+			break;
+
+		uint row = entry[1].toUInt(&ok1);
+		uint col = entry[2].toUInt(&ok2);
+		if ( !ok1 || !ok2 )
+			continue;
+
+		outputCol = currentCol;
+		if ( indent )
+		{
+			QString whitespace = getWhiteSpace( doc->textLine(row).left(col) );
+			doc->insertText(currentRow,outputCol,whitespace);
+			outputCol += whitespace.length();
+		}
+		QString endtag = ( entry[0] == "\\[" ) ? "\\]\n" : "\\end{"+entry[0]+"}\n";
+		doc->insertText(currentRow,outputCol,endtag);
+		currentRow++;
+	}
+}
+
+//////////////////// mathgroup ////////////////////
+
+void EditorExtension::selectMathgroup(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	uint row1,col1,row2,col2;
+	if ( getMathgroup(view,row1,col1,row2,col2) )
+		view->getDoc()->setSelection(row1,col1,row2,col2);
+}
+
+void EditorExtension::deleteMathgroup(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	uint row1,col1,row2,col2;
+	if ( getMathgroup(view,row1,col1,row2,col2) )
+	{
+		view->getDoc()->clearSelection();
+		view->getDoc()->removeText(row1,col1,row2,col2);
+		view->setCursorPosition(row1,0);
+	}
+}
+
+QString EditorExtension::getMathgroupText(uint &row, uint &col, Kate::View *view)
+{
+	uint row1,col1,row2,col2;
+
+	view = determineView(view);
+	if ( view && getMathgroup(view,row1,col1,row2,col2) )
+	{
+		row = row1;
+		col = col1;
+		return view->getDoc()->text(row1,col1,row2,col2);
+	}
+	else
+		return QString::null;
+}
+
+
+bool EditorExtension::getMathgroup(Kate::View *view, uint &row1, uint &col1, uint &row2, uint &col2)
+{
+	QRegExp reg( QString("\\$")
+		+ "|\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}" 
+		+ "|\\\\end\\s*\\{([A-Za-z]+\\*?)\\}"
+		+ "|\\\\\\[|\\\\\\]"
+		+ "|\\\\\\(|\\\\\\)"
+		);
+	
+	uint row,col,r,c;
+	MathData begin,end;
+
+	Kate::Document *doc = view->getDoc();
+	view->cursorPositionReal(&row,&col);
+
+	QString textline = getTextLineReal(doc,row);
+
+	// check for '\ensuremath{...}'
+	QString word;
+	uint x1,x2;
+	if ( getCurrentWord(doc,row,col,smTex,word,x1,x2) && word=="\\ensuremath" )
+		view->setCursorPositionReal(row,x2);
+
+	BracketData open,close;
+	if ( getTexgroup(false,open,close,view) )
+	{
+		QString s = getTextLineReal(doc,open.row);
+		if ( open.col>=11 && s.mid(open.col-11,11)=="\\ensuremath" )
+		{
+			view->setCursorPositionReal(row,col);
+			row1 = open.row;
+			col1 = open.col-11;
+			row2 = close.row;
+			col2 = close.col;
+			return true;
+		}
+	}
+
+	// do we need to restore the cursor position
+	view->setCursorPositionReal(row,col);
+
+	// '$' is difficult, because it is used as opening and closing tag
+	int mode = 0;
+	if ( textline[col] == '$' )
+		mode = 1;
+	else if ( col>0 && textline[col-1]=='$' )
+		mode = 2;
+
+	if ( mode > 0 )
+	{
+		// first look, if this is a closing '$'
+		r = row;
+		c = ( mode == 1 ) ? col : col-1;		
+		if ( decreaseCursorPosition(doc,r,c) && findOpenMathTag(doc,r,c,reg,begin) )
+		{
+			if ( begin.tag==mmMathDollar && (begin.numdollar & 1) )
+			{
+				row1 = begin.row;
+				col1 = begin.col;
+				row2 = row;
+				col2 = ( mode == 1 ) ? col+1 : col;
+				return true;
+			}
+		}
+
+		// perhaps an opening '$'
+		r = row;
+		c = ( mode == 1 ) ? col+1 : col;
+		if ( findCloseMathTag(doc,r,c,reg,end) )
+		{
+			if ( end.tag==mmMathDollar )
+			{
+				row1 = row;
+				col1 = ( mode == 1 ) ? col : col-1;
+				row2 = end.row;
+				col2 = end.col + end.len;
+				return true;
+			}
+		}
+
+		// found no mathgroup with '$'
+		return false;
+	}	
+
+	// now let's search for all other math tags:
+	// if a mathgroup tag starts in the current column, we save this 
+	// position and move the cursor one column to the right
+	bool openingtag = isOpeningMathTagPosition(doc,row,col,begin);
+	if ( openingtag )
+	{
+		// try to find the corresponding closing tag at the right
+		bool closetag = findCloseMathTag(doc,row,col+1,reg,end);
+
+		if ( closetag && checkMathtags(begin,end) )
+		{
+			row1 = begin.row;
+			col1 = begin.col;
+			row2 = end.row;
+			col2 = end.col + end.len;
+			return true;
+		}	
+	}
+
+	r = row;
+	c = col;
+	bool closingtag = isClosingMathTagPosition(doc,row,col,end);
+	if ( closingtag )
+	{
+			c = end.col;
+			if ( ! decreaseCursorPosition(doc,r,c) )
+				return false;
+	}
+		
+	// now try to search to opening tag of the math group
+	if ( ! findOpenMathTag(doc,r,c,reg,begin) )
+		return false;
+
+	if ( begin.tag==mmMathDollar && !(begin.numdollar & 1) )
+	{
+		//kdDebug() << "error: even number of '$' --> no math mode"  << endl;
+		return false;
+	}
+
+	// and now the closing tag
+	if ( ! findCloseMathTag(doc,r,c,reg,end) )
+		return false;
+
+	// both tags were found, but they must be of the same type
+	if ( checkMathtags(begin,end) )
+	{
+		row1 = begin.row;
+		col1 = begin.col;
+		row2 = end.row;
+		col2 = end.col + end.len;
+		return true;
+	}
+	else
+		return false;
+}
+
+//////////////////// mathgroup tags ////////////////////
+
+bool EditorExtension::checkMathtags(const MathData &begin,const MathData &end)
+{
+	// both tags were found, but they must be of the same type
+	if ( begin.tag != end.tag )
+	{
+		//kdDebug() << "error: opening and closing tag of mathmode don't match"  << endl;
+		return false;
+	}
+
+	// and additionally: if it is a math env, both tags must have the same name
+	if ( begin.tag==mmDisplaymathEnv && begin.envname!=end.envname )
+	{
+		//kdDebug() << "error: opening and closing env tags have different names"  << endl;
+		return false;
+	}
+
+	return true;
+}
+
+bool EditorExtension::isOpeningMathTagPosition(Kate::Document *doc, uint row, uint col, MathData &mathdata)
+{
+	QString textline = getTextLineReal(doc,row);
+
+	QRegExp reg("\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\[|\\\\\\(");
+	if ( (int)col != reg.search(textline,col) )
+		return false;
+
+	QChar id = reg.cap(0)[1];
+	QString envname = reg.cap(1);
+
+	mathdata.row = row;
+	mathdata.col = col;
+	mathdata.len = reg.cap(0).length();
+
+	switch ( id )
+	{
+		case 'b' : if ( !(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname) )
+				        return false;
+				     mathdata.tag = ( envname=="math" ) ? mmMathEnv : mmDisplaymathEnv;
+				     mathdata.envname = envname;
+			        break;
+		case '[' : mathdata.tag = mmDisplaymathParen; 
+			        break;
+		case '(' : mathdata.tag = mmMathParen; 
+			        break;
+	}
+
+	return true;
+}
+
+bool EditorExtension::isClosingMathTagPosition(Kate::Document *doc, uint row, uint col,MathData &mathdata)
+{
+	QString textline = doc->textLine(row);
+
+	QRegExp reg("\\\\end\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\]|\\\\\\)");
+	int pos = reg.searchRev(textline,col);
+	if ( pos<0 || (int)col>pos+reg.matchedLength() )
+		return false;
+
+	QChar id = reg.cap(0)[1];
+	QString envname = reg.cap(1);
+
+	mathdata.row = row;
+	mathdata.col = pos;
+	mathdata.len = reg.cap(0).length();
+
+	switch ( id )
+	{
+		case 'e' : if ( !(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname) )
+				        return false;
+				     mathdata.tag = ( envname=="math" ) ? mmMathEnv : mmDisplaymathEnv;
+				     mathdata.envname = envname;
+			        break;
+		case ']' : mathdata.tag = mmDisplaymathParen; 
+			        break;
+		case ')' : mathdata.tag = mmMathParen; 
+			        break;
+	}
+
+	return true;
+}
+
+bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata)
+{
+	uint lastrow,lastcol;
+	QString mathname;
+
+	bool foundDollar= false;
+	uint numDollar = 0;
+	
+	KTextEditor::SearchInterface *iface;
+	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);	
+
+	QString textline = getTextLineReal(doc,row);
+	int column = (int)col;
+
+	bool continueSearch = true;
+	while ( continueSearch )
+	{
+		while ( (column = reg.searchRev(textline,col)) != -1 )
+		{
+			col = column;
+
+			mathdata.row = row;
+			mathdata.col = col;
+			mathdata.len = reg.cap(0).length();
+			mathname = reg.cap(0).left(2);
+		
+			// should be better called 'isValidChar()', because it checks for comments
+			// and escaped chars like backslash and dollar in '\\' and '\$'
+			if ( mathname == "$" )
+			{
+				// count and continue search
+				numDollar++;
+
+				// but remember the first dollar found backwards 
+				if ( ! foundDollar )
+				{
+					lastrow = row;
+					lastcol = col;
+					foundDollar = true;
+				}
+			}
+			else if ( mathname=="\\[" || mathname=="\\(" )
+			{
+				// found start of mathmode
+				if ( numDollar == 0 )
+				{
+					mathdata.tag = ( mathname == "\\[" ) ? mmDisplaymathParen : mmMathParen;
+					mathdata.numdollar = 0;
+					return true;
+				}
+				else
+				{
+					//kdDebug() << "error: dollar not allowed in \\[ or \\( mode" << endl;
+					return false;
+				}
+			}
+			else if ( mathname=="\\]" || mathname=="\\)" )
+			{
+				continueSearch = false;
+				break;
+			}
+			else  if ( mathname=="\\b" )
+			{
+				// save name of environment
+				QString envname = reg.cap(1);
+
+				// if we found the opening tag of a math env
+				if ( m_latexCommands->isMathEnv(envname) || envname=="math" )
+				{
+					if ( numDollar > 0 )
+					{
+						//kdDebug() << "error: dollar not allowed in math env   numdollar=" << numDollar  << endl;
+						return false;
+					}
+
+					// if this is a math env with its own mathmode, we have found the starting position
+					if ( envname == "math" )
+					{
+						mathdata.tag = mmMathEnv;
+						mathdata.envname = envname;
+						return true;
+					}
+
+					if ( ! m_latexCommands->needsMathMode(envname) )
+					{
+						mathdata.tag = mmDisplaymathEnv;
+						mathdata.envname = envname;
+						return true;
+					}
+				} 
+				// no math env, we found the opening tag of a normal env
+				else
+				{
+					continueSearch = false;
+					break;
+				}
+			}
+			else if ( mathname == "\\e" ) 
+			{
+				QString envname = reg.cap(2);
+
+				// if we found the closing tag of a math env
+				if ( m_latexCommands->isMathEnv(envname) || envname=="math" )
+				{
+					// if this is a math env with its own mathmode
+					if ( ! m_latexCommands->needsMathMode(envname) || envname=="math" )
+					{
+						continueSearch = false;
+						break;
+					}
+
+					// if this is a math env which needs $..$
+					if ( m_latexCommands->isMathModeEnv(envname) )
+					{
+						if ( numDollar >= 1 )
+						{
+							numDollar--;
+							continueSearch = false;
+							break;
+						}
+						// else continue search
+					}
+				}
+				// if we found the closing tag of a normal env
+				else
+				{
+					continueSearch = false;
+					break;
+				}
+			}
+			else
+			{
+				//kdDebug() << "error: unknown match" << endl;
+				return false;
+			}
+
+		// continue search one column left of the last match (if this is possible)
+		if ( col == 0 )
+			break;
+
+		col--;
+		}
+
+		if ( row > 0 )
+		{
+	 		textline = getTextLineReal(doc,--row);
+			col = textline.length();
+		}
+	}
+	
+	// nothing else found, so math mode starts a the last dollar (the first one found backwards)
+	mathdata.row = lastrow;
+	mathdata.col = lastcol;
+	mathdata.len = 1;
+	mathdata.numdollar = numDollar;
+	
+	mathdata.tag = ( numDollar > 0 ) ? mmMathDollar : mmNoMathMode;
+	
+	return true;
+}
+
+bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata)
+{
+	KTextEditor::SearchInterface *iface;
+	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);	
+
+	uint rowFound,colFound,lenFound;
+	while ( iface->searchText(row,col,reg,&rowFound,&colFound,&lenFound,false) )
+	{
+		// should be better called 'isValidChar()', because it checks for comments
+		// and escaped chars like backslash and dollar in '\\' and '\$'
+		if ( isValidBackslash(doc,rowFound,colFound) )
+		{
+			QString mathname = reg.cap(0).left(2);
+
+			// always remember behind the last match
+			mathdata.row = rowFound;
+			mathdata.col = colFound;
+			mathdata.len = lenFound;
+		
+			if ( mathname=="$" )
+			{
+				mathdata.tag = mmMathDollar;
+				return true;
+			}
+			else if ( mathname=="\\]" )
+			{
+				mathdata.tag = mmDisplaymathParen;
+				return true;
+			}
+			else if ( mathname=="\\)" )
+			{
+				mathdata.tag = mmMathParen;
+				return true;
+			}
+			else if ( mathname=="\\[" || mathname=="\\(" )
+			{
+				//kdDebug() << "error: current mathgroup was not closed" << endl;
+				return false;
+			}
+			else if ( mathname=="\\b" )
+			{
+				QString envname = reg.cap(1);
+				
+				if ( ! (m_latexCommands->isMathEnv(envname) || envname=="math") )
+				{
+					//kdDebug() << "error: only math env are allowed in mathmode (found begin tag)" << endl;
+					return false;
+				}
+
+				if ( !m_latexCommands->needsMathMode(envname) || envname=="math" )
+				{
+					//kdDebug() << "error: mathenv with its own mathmode are not allowed in mathmode " << endl;
+					return false;
+				}
+				// else continue search
+			}
+			else if ( mathname=="\\e" )
+			{
+				QString envname = reg.cap(2);
+				if ( ! (m_latexCommands->isMathEnv(envname) || envname=="math") )
+				{
+					//kdDebug() << "error: only math env are allowed in mathmode (found end tag)" << endl;
+					return false;
+				}
+
+				if ( envname == "math" )
+				{
+					mathdata.tag = mmMathEnv;
+					mathdata.envname = envname;
+					return true;
+				}
+
+				if ( ! m_latexCommands->needsMathMode(envname) )
+				{
+					mathdata.tag = mmDisplaymathEnv;
+					mathdata.envname = envname;
+					return true;
+				}
+
+				// else continue search
+			}
+		}
+
+		// continue search one column right of the last match (if this is possible)
+		row = rowFound;
+		col = colFound;
+		if ( ! increaseCursorPosition(doc,row,col) )
+			break;
+	}
+	
+	return false;
+}
+
 //////////////////// insert newlines inside an environment ////////////////////
 
 // intelligent newlines: look for the last opened environment
@@ -320,7 +888,6 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 
 	if ( findOpenedEnvironment(row,col,name,view) )
 	{
-		//kdDebug() << "   name==" << name << " " << m_latexCommands->isListEnv(name) << endl;
 		if ( m_latexCommands->isListEnv(name) )
 		{
 			view->keyReturn();
@@ -506,7 +1073,7 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 
 // determine text, startrow and startcol of current environment
 
-QString EditorExtension::getEnvironmentText(int &row, int &col, QString &name, Kate::View *view)
+QString EditorExtension::getEnvironmentText(uint &row, uint &col, QString &name, Kate::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return QString::null;
@@ -1163,7 +1730,6 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 	QChar right = textline[col];
 	QChar left  = ( col > 0 ) ? textline[col-1] : QChar(' ');
 	
-	//kdDebug() << QString("isBracketPosition: (%1,%2) left %3 right %4").arg(row).arg(col).arg(left).arg(right) << endl;
 	if ( m_overwritemode )
 	{
 		if ( right == '{' )
@@ -1288,7 +1854,7 @@ QString EditorExtension::getTextLineReal(Kate::Document *doc, uint row)
 	bool backslash = false;
 	for (uint i=0; i<len; ++i )
 	{
-		if ( textline[i]=='{' ||textline[i]=='}' )
+		if ( textline[i]=='{' || textline[i]=='}' || textline[i]=='$')
 		{
 		if ( backslash )
 		{

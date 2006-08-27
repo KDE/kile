@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="21">
+<kpartgui name="kile" version="22">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -66,10 +66,12 @@
 	<Menu name="select"><text>&amp;Select</text>
 		<Action name="edit_select_inside_env"/>
 		<Action name="edit_select_outside_env"/>
-	<Separator/>
+		<Separator/>
 		<Action name="edit_select_inside_group"/>
 		<Action name="edit_select_outside_group"/>
-	<Separator/>
+		<Separator/>
+		<Action name="edit_select_mathgroup"/>
+		<Separator/>
 		<Action name="edit_select_paragraph"/>
 		<Action name="edit_select_line"/>
 		<Action name="edit_select_word"/>
@@ -81,6 +83,8 @@
 		<Action name="edit_delete_inside_group"/>
 		<Action name="edit_delete_outside_group"/>
 		<Separator/>
+		<Action name="edit_delete_mathgroup"/>
+		<Separator/>
 		<Action name="edit_delete_paragraph"/>
 		<Action name="edit_delete_word"/>
 	</Menu>
@@ -90,6 +94,7 @@
 		<Action name="edit_match_env"/>
 		<Separator/>
 		<Action name="edit_close_env"/>
+		<Action name="edit_closeall_env"/>
 	</Menu>
 	<Menu name="texgroup"><text>Te&amp;X Group</text>
 		<Action name="edit_begin_group"/>
@@ -623,6 +628,7 @@
 	<Action name="edit_select_outside_env"/>
 	<Action name="edit_select_inside_group"/>
 	<Action name="edit_select_outside_group"/>
+	<Action name="edit_select_mathgroup"/>
 	<Action name="edit_select_paragraph"/>
 	<Action name="edit_select_line"/>
 	<Action name="edit_select_word"/>
@@ -630,12 +636,14 @@
 	<Action name="edit_delete_outside_env"/>
 	<Action name="edit_delete_inside_group"/>
 	<Action name="edit_delete_outside_group"/>
+	<Action name="edit_delete_mathgroup"/>
 	<Action name="edit_delete_paragraph"/>
 	<Action name="edit_delete_word"/>
 	<Action name="edit_begin_env"/>
 	<Action name="edit_end_env"/>
 	<Action name="edit_match_env"/>
 	<Action name="edit_close_env"/>
+	<Action name="edit_closeall_env"/>
 	<Action name="edit_begin_group"/>
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
@@ -699,6 +707,7 @@
 	<Action name="edit_select_outside_env"/>
 	<Action name="edit_select_inside_group"/>
 	<Action name="edit_select_outside_group"/>
+	<Action name="edit_select_mathgroup"/>
 	<Action name="edit_select_paragraph"/>
 	<Action name="edit_select_line"/>
 	<Action name="edit_select_word"/>
@@ -706,12 +715,14 @@
 	<Action name="edit_delete_outside_env"/>
 	<Action name="edit_delete_inside_group"/>
 	<Action name="edit_delete_outside_group"/>
+	<Action name="edit_delete_mathgroup"/>
 	<Action name="edit_delete_paragraph"/>
 	<Action name="edit_delete_word"/>
 	<Action name="edit_begin_env"/>
 	<Action name="edit_end_env"/>
 	<Action name="edit_match_env"/>
 	<Action name="edit_close_env"/>
+	<Action name="edit_closeall_env"/>
 	<Action name="edit_begin_group"/>
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
@@ -776,6 +787,7 @@
 	<Action name="edit_select_outside_env"/>
 	<Action name="edit_select_inside_group"/>
 	<Action name="edit_select_outside_group"/>
+	<Action name="edit_select_mathgroup"/>
 	<Action name="edit_select_paragraph"/>
 	<Action name="edit_select_line"/>
 	<Action name="edit_select_word"/>
@@ -783,12 +795,14 @@
 	<Action name="edit_delete_outside_env"/>
 	<Action name="edit_delete_inside_group"/>
 	<Action name="edit_delete_outside_group"/>
+	<Action name="edit_delete_mathgroup"/>
 	<Action name="edit_delete_paragraph"/>
 	<Action name="edit_delete_word"/>
 	<Action name="edit_begin_env"/>
 	<Action name="edit_end_env"/>
 	<Action name="edit_match_env"/>
 	<Action name="edit_close_env"/>
+	<Action name="edit_closeall_env"/>
 	<Action name="edit_begin_group"/>
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>

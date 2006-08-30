@@ -84,7 +84,7 @@ void Manager::createTabs(QWidget *parent)
 	m_emptyDropWidget = new DropWidget(parent);
 	m_widgetStack->addWidget(m_emptyDropWidget);
 	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragMoveEvent *,  bool &)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent *, bool &)));
-	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedUris(QDropEvent *)));
+	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 	m_tabs = new KTabWidget(parent);
 	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(QWidget::ClickFocus);
@@ -97,8 +97,8 @@ void Manager::createTabs(QWidget *parent)
 	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(updateModeStatus()) );
 	connect( m_tabs, SIGNAL( closeRequest(QWidget *) ), this, SLOT(closeWidget(QWidget *)));
 	connect( m_tabs, SIGNAL( testCanDecode( const QDragMoveEvent *,  bool & ) ), this, SLOT(testCanDecodeURLs( const QDragMoveEvent *, bool & )) );
-	connect( m_tabs, SIGNAL( receivedDropEvent( QDropEvent * ) ), m_ki->docManager(), SLOT(openDroppedUris( QDropEvent * )) );
-	connect( m_tabs, SIGNAL( receivedDropEvent( QWidget*, QDropEvent * ) ), this, SLOT(replaceLoadedUri( QWidget *, QDropEvent * )) );
+	connect( m_tabs, SIGNAL( receivedDropEvent( QDropEvent * ) ), m_ki->docManager(), SLOT(openDroppedURLs( QDropEvent * )) );
+	connect( m_tabs, SIGNAL( receivedDropEvent( QWidget*, QDropEvent * ) ), this, SLOT(replaceLoadedURL( QWidget *, QDropEvent * )) );
 	m_widgetStack->raiseWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
 }
 
@@ -126,7 +126,7 @@ Kate::View* Manager::createView(Kate::Document *doc, int index)
 
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
-	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedUris(QDropEvent *)));
+	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 
 	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
 	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
@@ -426,7 +426,7 @@ void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
 	accept = KURLDrag::canDecode(e); // only accept URL drops
 }
 
-void Manager::replaceLoadedUri(QWidget *w, QDropEvent *e)
+void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 {
 	KURL::List urls;
 	if(!KURLDrag::decode(e, urls)) {

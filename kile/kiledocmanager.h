@@ -128,7 +128,7 @@ public slots:
 
 	void cleanUpTempFiles(KileDocument::Info *docinfo = 0, bool silent = false);
 
-	void openDroppedUris(QDropEvent *e);
+	void openDroppedURLs(QDropEvent *e);
 
 signals:
 	void projectTreeChanged(const KileProject *);

@@ -1530,7 +1530,7 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	docinfo->cleanTempFiles(extlist);
 }
 
-void Manager::openDroppedUris(QDropEvent *e) {
+void Manager::openDroppedURLs(QDropEvent *e) {
 	KURL::List urls;
 	if(KURLDrag::decode(e, urls)) {
 		for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {

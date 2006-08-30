@@ -91,7 +91,7 @@ public slots:
 
 protected slots:
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
-	void replaceLoadedUri(QWidget *w, QDropEvent *e);
+	void replaceLoadedURL(QWidget *w, QDropEvent *e);
 
 signals:
 	void activateView(QWidget *, bool);

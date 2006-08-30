@@ -93,7 +93,7 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 
 	connect(this, SIGNAL(executed(QListViewItem*)), this, SLOT(slotClicked(QListViewItem*)));
 	setAcceptDrops(true);
-	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *)), m_ki->docManager(), SLOT(openDroppedUris(QDropEvent *)));
+	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 }
 
 void KileProjectView::slotClicked(QListViewItem *item)

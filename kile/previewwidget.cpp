@@ -3,8 +3,8 @@
 //
 // Description: 
 //
-//
 // Author: Mathias Soeken <msoeken@informatik.uni-bremen.de>, (C) 2006
+//         (orginal version of this preview)
 //
 // dani/2006:
 //  - signal/slot communication

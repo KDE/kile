@@ -45,7 +45,7 @@ namespace KileDocument
 	static QRegExp::QRegExp reRefExt;
 	static QRegExp::QRegExp reCite;
 	static QRegExp::QRegExp reCiteExt;
-	static QRegExp::QRegExp reNotRefChars("[^a-zA-z0-9_@\\+\\-\\*\\:]");
+	static QRegExp::QRegExp reNotRefChars("[^a-zA-z0-9_@\\.\\+\\-\\*\\:]");
 	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{
@@ -1096,7 +1096,7 @@ namespace KileDocument
 			// get current character
 			ch = textline.at( index );
 
-			if ( ch.isLetter() || ( latexmode && ( index + 1 == ( int ) col ) && ch == '{' ) )
+			if ( ch.isLetter() || ch=='.' || ch == '_' || ch.isDigit() || ( latexmode && ( index + 1 == ( int ) col ) && ch == '{' ) )
 				++n;                           // accept letters and '{' as first character in latexmode
 			else
 			{

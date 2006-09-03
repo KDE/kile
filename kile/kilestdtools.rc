@@ -14,6 +14,22 @@ from=aux
 to=bbl
 type=Process
 
+[Tool/Convert/eps2png]
+class=Convert
+command=convert
+options=+adjoin -antialias -transparent white -density %res '%S.eps' '%S.png'
+from=eps
+to=png
+type=Process
+
+[Tool/Convert/pdf2png]
+class=Convert
+command=convert
+options=+adjoin -antialias -trim -transparent white -density %res '%S.pdf' '%S.png'
+from=pdf
+to=png
+type=Process
+
 [Tool/DVItoPDF/Default]
 class=Convert
 command=dvipdfm
@@ -22,12 +38,28 @@ from=dvi
 to=pdf
 type=Process
 
+[Tool/DVItoPNG/Default]
+class=Convert
+command=dvipng
+options=-T tight -D %res -o '%S.png' '%S.dvi'
+from=dvi
+to=png
+type=Process
+
 [Tool/DVItoPS/Default]
 class=Convert
 command=dvips
 options=-o '%S.ps' '%S.dvi'
 from=dvi
 to=ps
+type=Process
+
+[Tool/DVItoPS/dvi2eps]
+class=Convert
+command=dvips
+options=-E -o '%S.ps' '%S.dvi'
+from=dvi
+to=eps
 type=Process
 
 [Tool/LaTeX/Default]
@@ -398,7 +430,9 @@ type=Process
 [Tools]
 Archive=Default
 BibTeX=Default
+Convert=pdf2png
 DVItoPDF=Default
+DVItoPNG=Default
 DVItoPS=Default
 LaTeX=Default
 LaTeXtoHTML=latex2html
@@ -423,7 +457,9 @@ ViewPS=KGhostView
 [ToolsGUI]
 Archive=none,package
 BibTeX=Compile,bibtex
+Convert=Convert,convert
 DVItoPDF=Convert,dvipdf
+DVItoPNG=Convert,dvipng
 DVItoPS=Convert,dvips
 LaTeX=Compile,latex
 LaTeXtoHTML=Compile,l2h
@@ -437,7 +473,7 @@ PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 TeX=Compile,latex
 PDFTeX=Compile,latex
-ViewBib=View,bibtex
+ViewBib=View,viewbib
 ViewHTML=View,viewhtml
 ViewDVI=View,viewdvi
 ForwardDVI=View,dvisearch

@@ -23,6 +23,7 @@
 #include <kconfig.h>
 #include <kurl.h>
 
+#include "kileconfig.h"
 #include "kileuntitled.h"
 #include "kiletool_enums.h"
 #include "kiletool.h"
@@ -47,6 +48,7 @@ namespace KileTool
 		m_source(QString::null),
 		m_S(QString::null),
 		m_options(QString::null),
+		m_resolution(QString::null),
 		m_launcher(0L),
 		m_quickie(false),
 		m_bPrepareToRun(prepare)
@@ -96,7 +98,7 @@ namespace KileTool
 		QDictIterator<QString> it(*paramDict());
 		for( it.toFirst() ; it.current(); ++it )
 		{
-			//kdDebug() << "translate: " << str << " key " << it.currentKey() << " value " << *(it.current()) << endl;
+			//kdDebug() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
 			str.replace(it.currentKey(), *( it.current() ) );
 		}
 	}
@@ -149,6 +151,9 @@ namespace KileTool
 
 		//fill in the dictionary
 		addDict("%options", m_options);
+
+		m_resolution = KileConfig::dvipngResolution() ;
+		addDict("%res",m_resolution);
 	}
 
 	int Base::run()

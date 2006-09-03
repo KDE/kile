@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Febr 18 2005
-    version              : 0.12
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Aug 22 2006
+    version              : 0.20
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -21,6 +21,7 @@
 
 #include <qwidget.h>
 #include <kcombobox.h>
+#include <klineedit.h>
 #include <kconfig.h>
 
 /**
@@ -41,6 +42,7 @@ private:
 	KConfig *m_config;
 	KComboBox *m_combobox;
 	KileTool::QuickPreview *m_preview;
+	KLineEdit *m_leDvipngResolution;
 };
 
 #endif

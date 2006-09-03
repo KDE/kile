@@ -101,7 +101,7 @@
 		QString str;
 		tool()->translate(m_cmd);
 		tool()->translate(m_options);
-        	*m_proc  << m_cmd << m_options;
+		*m_proc  << m_cmd << m_options;
 		
 		if (m_proc)
 		{

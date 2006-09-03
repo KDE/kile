@@ -23,7 +23,7 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
 	processtoolconfigwidget.ui quicktoolconfigwidget.ui plaintolatexconverter.cpp \
 	latextoolconfigwidget.ui newtoolwizard.ui kileuntitled.cpp \
-	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui 
+	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui previewwidget.cpp
 
 kile_LDADD   = -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML)
 

@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Feb 18 2005
-    version              : 0.12
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Aug 22 2006
+    version              : 0.21
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -34,8 +34,38 @@ public:
 	QuickPreview(KileInfo *ki);
 	~QuickPreview();
 	
-	void run(const QString &text,const QString &textfilename,int startrow);
+	bool run(const QString &text,const QString &textfilename,int startrow);
+  
+  /**
+   * run (text, textfilename, startrow) works with the 
+   * default configuration for QuickPreview. This method
+   * supports a forth parameter to choose the configuration as
+   * comma - separated string as you can see them in run (text, textfilename, startrow)
+   *
+   * It is also possible not to specify a viewer, so the viewer is not
+   * executed.
+   *
+   * @param text         Text to preview
+   * @param textfilename Filename of the document
+   * @param startrow     Position of preview text in the document
+   * @param spreviewlist user defined configuration, e.g. "PreviewLaTeX,DVItoPS,,,ps" (with no preview)
+   * @return             true if method succeeds, else false
+   */
+	bool run (const QString &text, const QString &textfilename, int startrow, const QString &spreviewlist);
 	void getTaskList(QStringList &tasklist);
+  
+  /**
+   * QuickPreview uses temporary files for processing the output. 
+   * If you want to work with files from QuickPreview, you 
+   * can use this method. The method run returns true, and then
+   * you can get the generated ps e.g. with getPreviewFile ("eps");
+   * It works with all extensions which are generated while running
+   * the corresponding tools (e.g. tex, dvi, ps, pdf, ...)
+   *
+   * @param  extension defines which file to use
+   * @return           The temporary file with extension
+   */
+	QString getPreviewFile(const QString &extension); 
 	
 private slots:
 	void destroyed();

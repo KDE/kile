@@ -230,6 +230,7 @@ namespace KileTool
 
 		QString			m_name, m_from, m_to;
 		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_options;
+		QString			m_resolution;
 
 		QString			m_message;
 
@@ -238,7 +239,6 @@ namespace KileTool
 	protected:
 		Launcher			*m_launcher;
 		bool m_quickie;
-
 
 	private:
 		QDict<QString>		m_dictParams;

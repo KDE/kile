@@ -1,7 +1,7 @@
 /***************************************************************************
-    date                 : Feb 18 2005
-    version              : 0.12
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Aug 22 2006
+    version              : 0.21
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -68,14 +68,36 @@ void QuickPreview::getTaskList(QStringList &tasklist)
 	         ;
 }
 
-void QuickPreview::run(const QString &text,const QString &textfilename,int startrow) 
+bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow) 
+{
+	// define possible tools
+	QMap <QString,QString> map;
+	map[m_taskList[0]] = "PreviewLaTeX,,ViewDVI,Embedded Viewer,dvi"; 
+	map[m_taskList[1]] = "PreviewLaTeX,,ViewDVI,KDVI Unique,dvi";
+	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,ViewPS,Embedded Viewer,ps";
+	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,ViewPS,KGhostView,ps";
+	map[m_taskList[4]] = "PreviewPDFLaTeX,,ViewPDF,Embedded Viewer,pdf"; 
+	map[m_taskList[5]] = "PreviewPDFLaTeX,,ViewPDF,KGhostView,pdf";
+	map[m_taskList[6]] = "PreviewPDFLaTeX,,ViewPDF,KPDF,pdf";
+
+	QString previewtask = KileConfig::previewTask();
+	if ( ! map.contains(previewtask) ) 
+	{
+		showError(QString(i18n("Could not run QuickPreview:\nunknown task '%1'").arg(previewtask)));
+		return false;
+	}
+
+	return run (text, textfilename, startrow, map[previewtask]);
+}
+
+bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist) 
 {
 	kdDebug() << "==QuickPreview::run()=========================="  << endl;
 
 	if ( m_running )
 	{
 		showError( i18n("There is already a preview running, which you have to finish to run this one.") );
-		return;
+		return false;
 	}
 	//m_ki->docManager()->fileSaveAll();
 	
@@ -83,7 +105,7 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( text.isEmpty() ) 
 	{
 		showError(i18n("There is nothing to compile and preview."));
-		return;
+		return false;
 	}
 	
 	// create the name of a temporary file or delete already existing temporary files
@@ -100,25 +122,9 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	// create the temporary file with preamble and text
 	int preamblelines = createTempfile(text);
 	if ( preamblelines == 0 )
-		return;
+		return false;
 	
-	// define possible tools
-	QMap <QString,QString> map;
-	map[m_taskList[0]] = "PreviewLaTeX,,ViewDVI,Embedded Viewer,dvi"; 
-	map[m_taskList[1]] = "PreviewLaTeX,,ViewDVI,KDVI Unique,dvi";
-	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,ViewPS,Embedded Viewer,ps";
-	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,ViewPS,KGhostView,ps";
-	map[m_taskList[4]] = "PreviewPDFLaTeX,,ViewPDF,Embedded Viewer,pdf"; 
-	map[m_taskList[5]] = "PreviewPDFLaTeX,,ViewPDF,KGhostView,pdf";
-	map[m_taskList[6]] = "PreviewPDFLaTeX,,ViewPDF,KPDF,pdf";
-	
-	QString previewtask = KileConfig::previewTask();
-	if ( ! map.contains(previewtask) ) 
-	{
-		showError(QString(i18n("Could not run QuickPreview:\nunknown task '%1'").arg(previewtask)));
-		return;
-	}
-	QStringList previewlist = QStringList::split(",",map[previewtask],true);
+	QStringList previewlist = QStringList::split(",",spreviewlist,true);
 	
 	// create preview tools 
 	kdDebug() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
@@ -126,7 +132,7 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( !latex ) 
 	{
 		showError(QString(i18n("Could not run '%1' for QuickPreview.").arg("LaTeX")));
-		return;
+		return false;
 	}
 	
 	KileTool::Base *dvips = 0L;
@@ -136,20 +142,23 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
 		if ( !dvips ) 
 		{
-			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg("DVItoPS")));
-			return;
+			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(previewlist[pvDvips])));
+			return false;
 		}
-	}
+	} 
 
-	QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ")";
-	kdDebug() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
-	KileTool::Base *viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
-	//KileTool::View *viewer = dynamic_cast<KileTool::View *>( m_ki->toolFactory()->create(previewlist[pvViewer],false) );
-	if ( !viewer )
+	KileTool::Base *viewer = 0L;
+	if ( !previewlist[pvViewer].isEmpty() ) 
 	{
-		showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(viewertool)));
-		return;
-	}
+		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ")";
+		kdDebug() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
+		viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
+		if ( !viewer ) 
+		{
+			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(viewertool)));
+			return false;
+		}
+	} 
 	
 	// set value of texinput path (only for QuickPreview tools)
 	QString texinputpath = KileConfig::teXPaths();
@@ -166,7 +175,7 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	latex->prepareToRun();
 	latex->setQuickie();
 	m_ki->toolManager()->run(latex);
-
+	
 	// dvips
 	if ( dvips )
 	{
@@ -176,13 +185,18 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	}
 
 	// viewer
-	connect(viewer, SIGNAL(destroyed()), this, SLOT(destroyed()));
-	viewer->setSource( filepath + previewlist[pvExtension] );
-	viewer->setQuickie();
-	m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]);	
+	if (viewer)
+	{
+		connect(viewer, SIGNAL(destroyed()), this, SLOT(destroyed()));
+		viewer->setSource( filepath + previewlist[pvExtension] );
+		viewer->setQuickie();
+		m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]);	
 
-	// run like hell
-	m_running = true;
+		// run like hell
+		m_running = true;
+	}
+
+	return true;	
 }
 
 void QuickPreview::destroyed()
@@ -190,6 +204,15 @@ void QuickPreview::destroyed()
 	kdDebug() << "\tQuickPreview: viewer destroyed" << endl;
 	m_running = false;
 }
+
+QString QuickPreview::getPreviewFile(const QString &extension) 
+{
+	if (m_tempfile.length () < 3) 
+		return QString::null;
+
+	QString filepath = m_tempfile.left(m_tempfile.length () - 3); 
+	return filepath + extension;
+} 
 
 int QuickPreview::createTempfile(const QString &text)
 {
@@ -226,8 +249,8 @@ int QuickPreview::createTempfile(const QString &text)
 	if(m_ki->activeDocument())
 	{
 		QTextCodec *codec = QTextCodec::codecForName(m_ki->activeDocument()->encoding().ascii());
-		if ( codec )
-			stream.setCodec(codec); 
+	 if ( codec )
+		stream.setCodec(codec); 
 	}
 	// write the whole preamble into this temporary file
 	QString textline;
@@ -254,6 +277,7 @@ int QuickPreview::createTempfile(const QString &text)
 	}
 
 	// add the text to compile
+	stream << "\\pagestyle{empty}\n";
 	stream << "\\begin{document}\n";
 	stream << text;                 
 	stream << "\n\\end{document}\n";
@@ -289,7 +313,6 @@ void QuickPreview::showError(const QString &text)
 {
 	KMessageBox::error(0,text);
 }
-
 
 }
 

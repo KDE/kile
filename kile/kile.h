@@ -193,7 +193,6 @@ private:
 	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
 	void setViewerToolBars();
-
 signals:
 	/**
 	 * Emit this signal when the configuration is changed. Classes that read and write to the global KConfig object
@@ -226,6 +225,7 @@ private slots:
 	void focusOutput();
 	void focusKonsole();
 	void focusEditor();
+	void focusPreview();
 
     void sideOrBottomBarChanged(bool visible);
 

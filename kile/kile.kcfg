@@ -339,6 +339,14 @@
 			<label></label>
 			<default>LaTeX ---> DVI</default>
 		</entry>
+		<entry name="dvipng" type="Bool">
+			<label>Whether Dvipng is installed.</label>
+			<default>false</default>
+		</entry>
+		<entry name="dvipngResolution" type="String">
+			<label></label>
+			<default>120</default>
+		</entry>
 	</group>
 	<group name="QuickDocument">
 		<entry name="userClasses" type="StringList">

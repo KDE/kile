@@ -120,6 +120,7 @@ namespace KileTool
 		void requestSaveAll(bool, bool);
 		void jumpToFirstError();
 		void toolStarted();
+		void previewDone();
 
 	private:
 		KileInfo		*m_ki;

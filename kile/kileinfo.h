@@ -19,6 +19,7 @@
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qmap.h>
+#include <qscrollview.h>
 
 #include <kdebug.h>
 #include <kurl.h>
@@ -43,7 +44,7 @@ namespace Kate { class Document;}
 class KileBottomBar;
 namespace KileDocument { class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
-namespace KileWidget { class Structure; class Konsole; }
+namespace KileWidget { class Structure; class Konsole; class PreviewWidget; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 
@@ -103,6 +104,7 @@ public:
 	KileWidget::Output *outputWidget() { return m_outputWidget; }
 	KileBottomBar *outputView() { return m_bottomBar; }
 	KileWidget::LogMsg *logWidget() { return m_logWidget; }
+	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; } 
 
 	KileDocument::Manager* docManager() const { return m_docManager; }
 	KileView::Manager* viewManager() const { return m_viewManager; }
@@ -128,6 +130,8 @@ protected:
 	KileWidget::Output		*m_outputWidget;
 	KileWidget::LogMsg		*m_logWidget;
 	KileBottomBar			*m_bottomBar;
+	KileWidget::PreviewWidget *m_previewWidget; 
+	QScrollView *m_previewView;
 
 	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;

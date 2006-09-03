@@ -78,6 +78,7 @@
 #include "latexcmd.h"
 #include "kileuntitled.h"
 #include "kilestatsdlg.h"
+#include "previewwidget.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
@@ -143,6 +144,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	setupBottomBar();
 
 	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify").isNull()));
+	KileConfig::setDvipng(!(KStandardDirs::findExe("dvipng").isNull()));
 
 	setupActions();
 	setupTools();
@@ -175,6 +177,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
+	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config);
 	m_manager->setFactory(m_toolFactory);
@@ -395,6 +398,12 @@ void Kile::setupBottomBar()
 	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
+	m_previewView = new QScrollView (m_bottomBar);
+	m_previewWidget = new KileWidget::PreviewWidget (this, m_previewView);
+	m_previewView->viewport()->setPaletteBackgroundColor (QColor (0xff, 0xff, 0xff));
+	m_previewView->addChild(m_previewWidget, 0, 0); 
+	m_bottomBar->addTab (m_previewView, SmallIcon ("edu_mathematics"), i18n ("Preview"));
+
 	m_bottomBar->setVisible(true);
 	m_bottomBar->setSize(KileConfig::bottomBarSize());
 }
@@ -514,6 +523,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"quickpreview_selection" );
 	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"quickpreview_environment" );
 	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"quickpreview_subdocument" );
+	(void) new KAction (i18n ("Mathgroup"), "edu_mathematics", KShortcut("CTRL+Alt+P,M"), m_previewWidget, SLOT (showActivePreview ()), actionCollection (), "quickpreview_math");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -642,6 +652,11 @@ void Kile::setupTools()
 	plugActionList("list_other", m_listOtherActions);
 
 	actionCollection()->readShortcutSettings("Shortcuts", m_config);
+
+	// enable/disable math preview, if dvipng is installed/not installed
+	KAction *a = actionCollection()->action("quickpreview_math");
+	if ( a )
+		a->setEnabled( KileConfig::dvipng() );
 }
 
 void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
@@ -867,6 +882,11 @@ void Kile::enableAutosave(bool as)
 void Kile::openProject(const QString& proj)
 {
 	docManager()->projectOpen(KURL::fromPathOrURL(proj));
+}
+
+void Kile::focusPreview()
+{
+	m_bottomBar->showPage(m_previewView);
 }
 
 void Kile::focusLog()
@@ -1289,7 +1309,8 @@ void Kile::initMenu()
 	    // view
 	   << "gotoPrevDocument" << "gotoNextDocument"
 	   // build
-	   << "quickpreview_selection" << "quickpreview_environment" << "quickpreview_subdocument"
+	   << "quickpreview_selection" << "quickpreview_environment" 
+	   << "quickpreview_subdocument" << "quickpreview_math"
 	   << "WatchFile" << "ViewLog" << "PreviousError" << "NextError" << "PreviousWarning"
 	   << "NextWarning" << "PreviousBadBox" << "NextBadBox" << "CleanAll"
 	   // latex
@@ -1420,6 +1441,11 @@ void Kile::updateMenu()
 		if ( m_dictMenuAction.contains( (*itact)->name() ) )
 			(*itact)->setEnabled(file_open);
 	}
+
+	// quickpreview_math is only enabled, when file_open is true and dvipng was found
+	a = actionCollection()->action("quickpreview_math");
+	if ( a )
+		a->setEnabled( file_open && KileConfig::dvipng() );
 
 	updateActionList(&m_listQuickActions,file_open);
 	updateActionList(&m_listCompilerActions,file_open);

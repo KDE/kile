@@ -29,7 +29,9 @@
 #include "kileedit.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
+#include "kilelogwidget.h"
 #include "kiletool.h"
+#include "kiletool_enums.h"
 #include "quickpreview.h"
 #include "previewwidget.h"
 
@@ -117,6 +119,11 @@ void PreviewWidget::showActivePreview()
 			}
 			else
 				m_running = false;
+		}
+		else
+		{
+			m_info->logWidget()->clear();
+			m_info->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no mathgroup available."), i18n("Preview"));
 		}
 	}
 }

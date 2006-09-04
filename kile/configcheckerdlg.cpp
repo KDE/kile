@@ -41,7 +41,7 @@ ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const QVal
 		QString itemcolor = "black";
 		if ( tests[i].status() == ConfigTest::Failure ) itemcolor = "#FFA201";
 		else if ( tests[i].status() == ConfigTest::Critical ) itemcolor = "#AA0000";
-		rt += QString("<li><b><font color=\"%1\">%2</font></b>: %3</li>").arg(itemcolor).arg(tests[i].name()).arg(tests[i].resultText());
+		rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor).arg(tests[i].name()).arg(tests[i].resultText());
 	}
 	rt += "</ul>";
 

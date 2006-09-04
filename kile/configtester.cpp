@@ -71,7 +71,12 @@ QString ConfigTest::resultText() const
 	else if ( status() == Critical ) str = criticalMessage(m_name);
 
 	if ( m_name == "binary" )
-		return str + " (" + m_altArg + " => " + m_arg + ")";
+	{
+		str += " (" + m_altArg + " => " + m_arg + ")";
+		if ( status()==Failure && s_msgFailure.contains(m_altArg) ) 
+			str += QString("<br>(%1)").arg( s_msgFailure[m_altArg] );
+		return str;
+	}
 	else if ( m_name == "version" )
 		return m_arg;
 	else
@@ -131,6 +136,9 @@ Tester::Tester(QObject *parent, const char *name) : QObject(parent, name), m_pro
 	ConfigTest::addSuccessMessage("src", i18n("Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to auto-enable inverse and forward search capabilities."));
 	ConfigTest::addFailureMessage("src", i18n("Not supported, use the srcltx package to enable the inverse and forward search capabilities."));
 
+	// add some special messages, when programs are not installed, 
+	// which are not needed, but probably useful for the work with kile
+	ConfigTest::addFailureMessage("dvipng", i18n("You can't use the png preview for mathgroups."));
 }
 
 

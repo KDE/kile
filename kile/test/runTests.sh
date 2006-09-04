@@ -201,3 +201,9 @@ setTool Acroread
 setKey mustpass ""
 setKey executable acroread
 setKey where `which acroread`
+
+echo "starting test: DVItoPNG"
+setTool DVItoPNG
+setKey mustpass ""
+setKey executable dvipng
+setKey where `which dvipng`

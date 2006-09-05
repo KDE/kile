@@ -42,7 +42,7 @@ type=Process
 [Tool/DVItoPS/dvi2eps]
 class=Convert
 command=dvips
-options=-E -o '%S.ps' '%S.dvi'
+options=-E -o '%S.eps' '%S.dvi'
 from=dvi
 to=eps
 type=Process

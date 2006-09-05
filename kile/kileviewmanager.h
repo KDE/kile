@@ -88,6 +88,7 @@ public slots:
 	void onKatePopupMenuRequest(void);
 	void convertSelectionToLaTeX(void);
 	void pasteAsLaTeX(void);
+	void quickPreviewPopup();
 
 protected slots:
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
@@ -97,6 +98,7 @@ signals:
 	void activateView(QWidget *, bool);
 	void prepareForPart(const QString &);
 	void startSpellCheck();
+	void startQuickPreview(int);
 
 private:
 	KileInfo			*m_ki;

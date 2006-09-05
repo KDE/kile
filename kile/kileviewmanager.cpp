@@ -43,6 +43,8 @@
 #include "kilestructurewidget.h"
 #include "kileedit.h"
 #include "plaintolatexconverter.h"
+#include "previewwidget.h"
+#include "quickpreview.h"
 
 namespace KileView 
 {
@@ -74,8 +76,8 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 		new KAction(i18n("Convert Selection to &LaTeX"), 0, this,
 			SLOT(convertSelectionToLaTeX()), m_client->actionCollection(), "popup_converttolatex");
 	if(NULL == m_client->actionCollection()->action("popup_quickpreview"))
-		new KAction(i18n("&QuickPreview Selection"), 0, receiver,
-			SLOT(quickPreviewSelection()), m_client->actionCollection(), "popup_quickpreview");
+		new KAction(i18n("&QuickPreview Selection"), 0, this,
+			SLOT(quickPreviewPopup()), m_client->actionCollection(), "popup_quickpreview");
 }
 
 void Manager::createTabs(QWidget *parent)
@@ -291,7 +293,7 @@ void Manager::onKatePopupMenuRequest(void)
 		if(!quickPreviewAction->isPlugged())
 			quickPreviewAction->plug(viewPopupMenu);
 
-		quickPreviewAction->setEnabled(view->getDoc()->hasSelection());
+		quickPreviewAction->setEnabled( view->getDoc()->hasSelection() || m_ki->editorExtension()->hasMathgroup(view) );
 	}
 
 	// Setting up the "Convert to LaTeX" entry
@@ -420,6 +422,21 @@ void Manager::pasteAsLaTeX(void)
 		editInterfaceExt->editEnd();
 }
 
+void Manager::quickPreviewPopup()
+{
+	Kate::View *view = currentView();
+	if( ! view )
+		return;
+
+	Kate::Document *doc = view->getDoc();
+	if ( doc )
+	{
+		if ( doc->hasSelection() )
+			emit( startQuickPreview(KileTool::qpSelection) );
+		else if ( m_ki->editorExtension()->hasMathgroup(view) )
+			emit( startQuickPreview(KileTool::qpMathgroup) );
+	}
+}
 
 void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
 {

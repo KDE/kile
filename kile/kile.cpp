@@ -140,6 +140,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
+	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
 	setupBottomBar();
 
@@ -2125,6 +2126,18 @@ void Kile::slotToggleFullScreen()
 }
 
 /////////////// QuickPreview (dani) ////////////////
+
+void Kile::slotQuickPreview(int type)
+{
+	kdDebug() << "==Kile::slotQuickPreview()=========================="  << endl;
+	switch ( type )
+	{
+		case KileTool::qpSelection:   quickPreviewSelection();              break;
+		case KileTool::qpEnvironment: quickPreviewEnvironment();            break;
+		case KileTool::qpSubdocument: quickPreviewSubdocument();            break;
+		case KileTool::qpMathgroup:   m_previewWidget->showActivePreview(); break;
+	}
+}	
 
 // compile and view current selection (singlemode and mastermode)
 

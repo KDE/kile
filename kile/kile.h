@@ -318,6 +318,7 @@ private:
 	
 // QuickPreview
 private slots:
+	void slotQuickPreview(int type);	
 	void quickPreviewSelection();    
 	void quickPreviewEnvironment();    
 	void quickPreviewSubdocument(); 

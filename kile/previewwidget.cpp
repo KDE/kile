@@ -113,6 +113,7 @@ void PreviewWidget::showActivePreview()
 				//    important some time
 				//  - it is more complicated
 				connect(dvipng, SIGNAL(destroyed()), m_info->toolManager(), SIGNAL(previewDone()));
+				connect(dvipng, SIGNAL(destroyed()), this, SLOT(dvipngDestroyed()));
 
 				// Now we are ready to start the process...
 				m_info->toolManager()->run(dvipng);
@@ -138,6 +139,10 @@ void PreviewWidget::drawImage()
 	setFixedSize( m_previewImage->size() );
 
 	repaint ();
+}
+
+void PreviewWidget::dvipngDestroyed() 
+{
 	m_running = false;
 }
 

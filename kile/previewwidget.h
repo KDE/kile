@@ -94,6 +94,7 @@ public slots:
    * to the size of the widget.
    */
 	void drawImage();
+	void dvipngDestroyed();
 }; 
 
 }

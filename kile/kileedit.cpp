@@ -379,6 +379,16 @@ void EditorExtension::deleteMathgroup(Kate::View *view)
 	}
 }
 
+bool EditorExtension::hasMathgroup(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) 
+		return false;
+
+	uint row1,col1,row2,col2;
+	return getMathgroup(view,row1,col1,row2,col2);
+}
+
 QString EditorExtension::getMathgroupText(uint &row, uint &col, Kate::View *view)
 {
 	uint row1,col1,row2,col2;

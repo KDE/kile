@@ -80,6 +80,7 @@ public:
 
 	// mathgroup
 	QString getMathgroupText(uint &row, uint &col, Kate::View *view = 0L);
+	bool hasMathgroup(Kate::View *view = 0L);
 		
 public slots:
 	void insertIntelligentNewline(Kate::View *view = 0L);

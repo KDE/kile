@@ -25,6 +25,7 @@
 
 namespace KileTool
 {
+enum { qpSelection=0, qpEnvironment, qpSubdocument, qpMathgroup };
 
 class QuickPreview : public QObject
 {

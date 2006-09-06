@@ -209,7 +209,7 @@ void Info::updateStructLevelInfo()
 	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "bibtex");
+	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "viewbib");
 	
 	// hidden commands  
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
@@ -930,7 +930,7 @@ void BibInfo::updateStruct()
 						key = key.stripWhiteSpace();
 						kdDebug() << "found: " << key << endl;
 						m_bibItems.append(key);
-						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "bibtex", reItem.cap(2).lower()));
+						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "viewbib", reItem.cap(2).lower()));
 						break;
 					}
 					else

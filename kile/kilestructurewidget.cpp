@@ -250,7 +250,7 @@ namespace KileWidget
 		else if ( folder == "bibs" )
 		{
 			fldr->setText(0, i18n("BibTeX References"));
-			fldr->setPixmap(0, SmallIcon("bibtex"));
+			fldr->setPixmap(0, SmallIcon("viewbib"));
 		}
 		else if ( folder == "refs" )
 		{

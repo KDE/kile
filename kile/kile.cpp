@@ -307,6 +307,7 @@ void Kile::setupStructureView()
 	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
 	m_sideBar->addTab(m_kwStructure, SmallIcon("structure"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
+	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));

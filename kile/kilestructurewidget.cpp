@@ -140,7 +140,8 @@ namespace KileWidget
 		connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )), m_stack, SLOT(slotPopup(KListView *, QListViewItem * , const QPoint & )));
 		
 		connect(this, SIGNAL(executed(QListViewItem*)), m_stack, SLOT(slotClicked(QListViewItem*)));
-
+		connect(m_stack, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
+		
 		init();
 	}
 
@@ -184,18 +185,29 @@ namespace KileWidget
  		}
 	}
 
-	void StructureList::cleanUp()
+	void StructureList::cleanUp(bool preserveState/* = true */)
 	{
-        kdDebug() << "==void StructureList::cleanUp()========" << endl;
-		saveState();
+        	kdDebug() << "==void StructureList::cleanUp()========" << endl;
+		if(preserveState)
+			saveState();
 		clear();
-		if(NULL != m_docinfo)
+		if(m_docinfo)
 			disconnect(m_docinfo, 0, this, 0);
 		init();
+	}
+	
+	void StructureList::slotConfigChanged(){
+		QWidget *current = m_stack->visibleWidget();
+		if(!current)
+			return;
+		cleanUp(false);
+ 		m_stack->update(m_docinfo,true,false);
+		m_stack->raiseWidget(current);
 	}
 
 	void StructureList::saveState()
 	{
+		kdDebug() << "===void StructureList::saveState()" << endl;
 		m_openByTitle.clear();
 		m_openByLine.clear();
 
@@ -221,8 +233,8 @@ namespace KileWidget
 
 	bool StructureList::shouldBeOpen(KileListViewItem *item, const QString & folder, int level)
 	{
-		if ( item->parent() == 0L ) return true;
-
+		if ( item->parent() == 0L )
+			return true;
 		if ( folder == "labels" )
 			return m_openStructureLabels;
 		if ( folder == "refs" )
@@ -712,7 +724,7 @@ namespace KileWidget
 		m_default->activate();
 	}
 
-	void Structure::update(KileDocument::Info *docinfo, bool parse)
+	void Structure::update(KileDocument::Info *docinfo, bool parse, bool activate /* =true */)
 	{
 		kdDebug() << "==KileWidget::Structure::update(" << docinfo << ")=============" << endl;
 
@@ -737,8 +749,10 @@ namespace KileWidget
 			view->showReferences(m_ki);
 		}
 
-		kdDebug() << "\tStructure::update activating view" << endl;
-		view->activate();
+		if(activate){
+			kdDebug() << "===Structure::update() activating view" << endl;
+			view->activate();
+		}
 	}
 
     void Structure::clean(KileDocument::Info *docinfo)

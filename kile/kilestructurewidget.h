@@ -116,13 +116,14 @@ namespace KileWidget
 		~StructureList();
 
 		void activate();
-		void cleanUp();
+		void cleanUp(bool preserveState = true);
 		void showReferences(KileInfo *ki);
 
 		const KURL & url() const { return m_docinfo->url(); }
 
 	public slots:
 		void addItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString &folder = "root");
+		void slotConfigChanged();
 
 	private:
 		KileListViewItem *parentFor(int lev, const QString & fldr);
@@ -175,7 +176,7 @@ namespace KileWidget
 
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
-			void update(KileDocument::Info *, bool);
+			void update(KileDocument::Info *, bool, bool activate =true);
 			void clean(KileDocument::Info *);
 			void updateReferences(KileDocument::Info *);
 
@@ -189,6 +190,7 @@ namespace KileWidget
 			void setCursor(const KURL &, int, int);
 			void fileOpen(const KURL &, const QString &);
 			void fileNew(const KURL &);
+			void configChanged();
 
 		private:
 			StructureList* viewFor(KileDocument::Info *info);

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>582</width>
-            <height>256</height>
+            <width>594</width>
+            <height>295</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -48,39 +48,11 @@
             <property name="title">
                 <string>Expansion Level</string>
             </property>
-            <hbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Default expansion &amp;level (1 part - 5 subsubsection):</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_DefaultLevel</cstring>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Fixed</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="KIntNumInput">
+                <widget class="KIntNumInput" row="0" column="2">
                     <property name="name">
                         <cstring>kcfg_DefaultLevel</cstring>
                     </property>
@@ -91,7 +63,38 @@
                         <number>7</number>
                     </property>
                 </widget>
-                <spacer>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Default &amp;value</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_DefaultLevel</cstring>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string></string>
+                    </property>
+                </widget>
+                <spacer row="0" column="1">
+                    <property name="name">
+                        <cstring>spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>200</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <spacer row="0" column="3">
                     <property name="name">
                         <cstring>spacer2</cstring>
                     </property>
@@ -103,12 +106,26 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>180</width>
+                            <width>60</width>
                             <height>20</height>
                         </size>
                     </property>
                 </spacer>
-            </hbox>
+                <widget class="QLabel" row="1" column="0" rowspan="1" colspan="4">
+                    <property name="name">
+                        <cstring>textLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>(&amp;1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_DefaultLevel</cstring>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string></string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
@@ -126,7 +143,7 @@
                         <cstring>kcfg_SvShowLabels</cstring>
                     </property>
                     <property name="text">
-                        <string>Show labels</string>
+                        <string>Show &amp;labels</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="0" column="1">
@@ -134,7 +151,7 @@
                         <cstring>kcfg_SvOpenLabels</cstring>
                     </property>
                     <property name="text">
-                        <string>Open labels item</string>
+                        <string>&amp;Open labels item</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="3" column="0">
@@ -150,7 +167,7 @@
                         <cstring>kcfg_SvShowFloats</cstring>
                     </property>
                     <property name="text">
-                        <string>Show figure and table environments</string>
+                        <string>Show figure and table en&amp;vironments</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="0">

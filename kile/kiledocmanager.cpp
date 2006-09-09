@@ -375,14 +375,9 @@ Info* Manager::recreateDocInfo(Info *oldinfo, const KURL & url)
 	for ( pritem = list->first(); pritem; pritem = list->next() )
 		pritem->setInfo(newinfo);
 
-	m_infoList.remove(oldinfo);
-	delete oldinfo;
+	removeDocumentInfo(oldinfo);
 
-	//m_infoList.append(newinfo); done in createDocumentInfo
-
-    // parse the document
-    newinfo->updateStruct();
-	emit(updateStructure(false, newinfo));
+	emit(updateStructure(true, newinfo));
 
 	return newinfo;
 }

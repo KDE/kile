@@ -677,11 +677,6 @@ void Kile::setupTools()
 	plugActionList("list_other", m_listOtherActions);
 
 	actionCollection()->readShortcutSettings("Shortcuts", m_config);
-
-	// enable/disable math preview, if dvipng is installed/not installed
-	KAction *a = actionCollection()->action("quickpreview_math");
-	if ( a )
-		a->setEnabled( KileConfig::mathgroupPreviewInWidget() );
 }
 
 void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
@@ -1466,11 +1461,6 @@ void Kile::updateMenu()
 		if ( m_dictMenuAction.contains( (*itact)->name() ) )
 			(*itact)->setEnabled(file_open);
 	}
-
-	// quickpreview_math is only enabled, when file_open is true and dvipng was found
-	a = actionCollection()->action("quickpreview_math");
-	if ( a )
-		a->setEnabled( file_open && KileConfig::mathgroupPreviewInWidget() );
 
 	updateActionList(&m_listQuickActions,file_open);
 	updateActionList(&m_listCompilerActions,file_open);

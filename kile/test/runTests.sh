@@ -190,12 +190,6 @@ setKey mustpass ""
 setKey executable kpdf
 setKey where `which kpdf`
 
-echo "starting test: Gv"
-setTool Gv
-setKey mustpass ""
-setKey executable gv
-setKey where `which gv`
-
 echo "starting test: Acroread"
 setTool Acroread
 setKey mustpass ""
@@ -207,3 +201,9 @@ setTool DVItoPNG
 setKey mustpass ""
 setKey executable dvipng
 setKey where `which dvipng`
+
+echo "starting test: Convert"
+setTool Convert
+setKey mustpass ""
+setKey executable convert
+setKey where `which convert`

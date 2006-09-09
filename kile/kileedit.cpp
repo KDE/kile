@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 24 2006
-    version              : 0.35
+    date                 : Sep 05 2006
+    version              : 0.37
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -497,7 +497,6 @@ bool EditorExtension::getMathgroup(Kate::View *view, uint &row1, uint &col1, uin
 	{
 		// try to find the corresponding closing tag at the right
 		bool closetag = findCloseMathTag(doc,row,col+1,reg,end);
-
 		if ( closetag && checkMathtags(begin,end) )
 		{
 			row1 = begin.row;
@@ -776,6 +775,12 @@ bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, Q
 		{
 	 		textline = getTextLineReal(doc,--row);
 			col = textline.length();
+		}
+
+		if ( column == -1 )
+		{
+			continueSearch = false;
+			break;
 		}
 	}
 	
@@ -1101,6 +1106,16 @@ QString EditorExtension::getEnvironmentText(uint &row, uint &col, QString &name,
 	{
 		return QString::null;
 	}
+}
+
+bool EditorExtension::hasEnvironment(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) 
+		return false;
+
+	EnvData envbegin,envend;
+	return ( getEnvironment(false,envbegin,envend,view) && envbegin.name!="document" );
 }
 
 // when an environment is selected (inside or outside), 
@@ -1661,8 +1676,16 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 	Kate::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
-	if ( !findOpenBracket(doc,row,col,open) ) { kdDebug() << "no open bracket" << endl; return false;}
-	if ( !findCloseBracket(doc,row,col,close) ) { kdDebug() << "no close bracket" << endl; return false;}
+	if ( !findOpenBracket(doc,row,col,open) ) 
+	{ 
+		//kdDebug() << "no open bracket" << endl; 
+		return false;
+	}
+	if ( !findCloseBracket(doc,row,col,close) ) 
+	{ 
+		//kdDebug() << "no close bracket" << endl; 
+		return false;
+	}
 	
 	if ( inside )
 		++open.col;

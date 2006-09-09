@@ -61,6 +61,7 @@ public:
 	QString getCompileName(bool shrt = false);
 	QString getFullFromPrettyName(const QString & name);
 	KURL::List getParentsFor(KileDocument::Info *);
+	bool getSinglemode() { return m_singlemode; }
 
 	QString getCurrentTarget() const { return m_currentTarget; }
 	void setTarget(const QString &target) { m_currentTarget=target; }

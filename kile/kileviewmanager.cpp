@@ -293,7 +293,10 @@ void Manager::onKatePopupMenuRequest(void)
 		if(!quickPreviewAction->isPlugged())
 			quickPreviewAction->plug(viewPopupMenu);
 
-		quickPreviewAction->setEnabled( view->getDoc()->hasSelection() || m_ki->editorExtension()->hasMathgroup(view) );
+		quickPreviewAction->setEnabled( view->getDoc()->hasSelection() || 
+		                                m_ki->editorExtension()->hasMathgroup(view) ||
+		                                m_ki->editorExtension()->hasEnvironment(view)
+		                              );
 	}
 
 	// Setting up the "Convert to LaTeX" entry
@@ -435,6 +438,8 @@ void Manager::quickPreviewPopup()
 			emit( startQuickPreview(KileTool::qpSelection) );
 		else if ( m_ki->editorExtension()->hasMathgroup(view) )
 			emit( startQuickPreview(KileTool::qpMathgroup) );
+		else if ( m_ki->editorExtension()->hasEnvironment(view) )
+			emit( startQuickPreview(KileTool::qpEnvironment) );
 	}
 }
 

@@ -74,7 +74,6 @@
 #include "mathenvdialog.h"
 #include "tabulardialog.h"
 #include "postscriptdialog.h"
-#include "quickpreview.h"
 #include "latexcmd.h"
 #include "kileuntitled.h"
 #include "kilestatsdlg.h"
@@ -143,10 +142,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
 	setupBottomBar();
-
-	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify").isNull()));
-	KileConfig::setDvipng(!(KStandardDirs::findExe("dvipng").isNull()));
-
+	setupGraphicTools();
+	setupPreviewTools();
 	setupActions();
 	setupTools();
 
@@ -409,6 +406,32 @@ void Kile::setupBottomBar()
 	m_bottomBar->setSize(KileConfig::bottomBarSize());
 }
 
+void Kile::setupGraphicTools()
+{
+	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify").isNull()));
+}
+
+void Kile::setupPreviewTools()
+{
+	// search for tools
+	bool dvipng = !(KStandardDirs::findExe("dvipng").isNull());
+	bool convert = !(KStandardDirs::findExe("convert1").isNull());
+
+	KileConfig::setDvipng(dvipng);
+	KileConfig::setConvert(convert);
+
+	// disable some previews, if tools are missing
+	if ( ! dvipng )
+	{
+		KileConfig::setMathgroupPreviewInWidget(false);  // no mathgroup preview in bottom bar
+		if ( ! convert )
+		{
+			KileConfig::setEnvPreviewInWidget(false);     // no preview in bottom bar at all
+			KileConfig::setSelPreviewInWidget(false);
+		}
+	}
+}
+
 void Kile::setupActions()
 {
 	m_paPrint = KStdAction::print(0,0, actionCollection(), "file_print");
@@ -524,7 +547,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"quickpreview_selection" );
 	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"quickpreview_environment" );
 	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"quickpreview_subdocument" );
-	(void) new KAction (i18n ("Mathgroup"), "edu_mathematics", KShortcut("CTRL+Alt+P,M"), m_previewWidget, SLOT (showActivePreview ()), actionCollection (), "quickpreview_math");
+	(void) new KAction (i18n ("Mathgroup"), "edu_mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()), actionCollection(), "quickpreview_math");
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
@@ -657,7 +680,7 @@ void Kile::setupTools()
 	// enable/disable math preview, if dvipng is installed/not installed
 	KAction *a = actionCollection()->action("quickpreview_math");
 	if ( a )
-		a->setEnabled( KileConfig::dvipng() );
+		a->setEnabled( KileConfig::mathgroupPreviewInWidget() );
 }
 
 void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
@@ -1446,7 +1469,7 @@ void Kile::updateMenu()
 	// quickpreview_math is only enabled, when file_open is true and dvipng was found
 	a = actionCollection()->action("quickpreview_math");
 	if ( a )
-		a->setEnabled( file_open && KileConfig::dvipng() );
+		a->setEnabled( file_open && KileConfig::mathgroupPreviewInWidget() );
 
 	updateActionList(&m_listQuickActions,file_open);
 	updateActionList(&m_listCompilerActions,file_open);
@@ -1483,6 +1506,7 @@ void Kile::prepareForPart(const QString & state)
 
 void Kile::runTool()
 {
+	focusLog();
 	QString name = sender()->name();
 	name.replace(QRegExp("^.*tool_"), "");
 	m_manager->run(name);
@@ -2127,84 +2151,27 @@ void Kile::slotToggleFullScreen()
 
 /////////////// QuickPreview (dani) ////////////////
 
+// all calls of QuickPreview will get here, so we can decide what to do
+// rewritten Sep 05 2006 to work together with preview in the bottom bar
+
 void Kile::slotQuickPreview(int type)
 {
 	kdDebug() << "==Kile::slotQuickPreview()=========================="  << endl;
+
+	Kate::View *view = viewManager()->currentView();
+	if ( ! view) return;
+
+	Kate::Document *doc = view->getDoc();
+	if ( ! doc )
+		return;
+ 
 	switch ( type )
 	{
-		case KileTool::qpSelection:   quickPreviewSelection();              break;
-		case KileTool::qpEnvironment: quickPreviewEnvironment();            break;
-		case KileTool::qpSubdocument: quickPreviewSubdocument();            break;
-		case KileTool::qpMathgroup:   m_previewWidget->showActivePreview(); break;
+		case KileTool::qpSelection:   m_quickPreview->previewSelection(doc);   break;
+		case KileTool::qpEnvironment: m_quickPreview->previewEnvironment(doc); break;
+		case KileTool::qpSubdocument: m_quickPreview->previewSubdocument(doc); break;
+		case KileTool::qpMathgroup:   m_quickPreview->previewMathgroup(doc);   break;
 	}
 }	
-
-// compile and view current selection (singlemode and mastermode)
-
-void Kile::quickPreviewSelection()
-{
-	Kate::View *view = viewManager()->currentView();
-	if ( !view) return;
-
-	Kate::Document *doc = view->getDoc();
-	if ( doc && doc->hasSelection() ) {
-		m_quickPreview->run( doc->selection(),getName(doc),doc->selStartLine() );
-		doc->clearSelection();
-	} else {
-		KMessageBox::error(this, i18n("There is no selection to compile.") );
-	}
-}
-
-// compile and view current environment (singlemode and mastermode)
-
-void Kile::quickPreviewEnvironment()
-{
-	Kate::View *view = viewManager()->currentView();
-	if ( !view) return;
-
-	Kate::Document *doc = view->getDoc();
-	if ( doc ) {
-		uint row,col;
-		QString envname;
-		QString text = m_edit->getEnvironmentText(row,col,envname,view);
-		if ( text != QString::null )
-		{
-			if ( m_latexCommands->isMathModeEnv(envname)  )
-				text = "$" + text + "$";
-			else if ( m_latexCommands->isDisplaymathModeEnv(envname) )
-				text = "\\[" + text + "\\]";
-			m_quickPreview->run( text,getName(doc),row );
-		}
-		else
-			KMessageBox::error(this, i18n("There is no surrounding environment.") );
-	}
-}
-
-// compile and view current subdocument (only mastermode)
-
-void Kile::quickPreviewSubdocument()
-{
-	Kate::View *view = viewManager()->currentView();
-	if ( !view) return;
-
-	// this mode is only useful with a master document
-	if ( !docManager()->activeProject() && m_singlemode ) {
-		KMessageBox::error( this, i18n("This job is only useful with a master document.") );
-		return;
-	}
-
-	// the current document should not be the master document
-	Kate::Document *doc = view->getDoc();
-	if ( doc ) {
-		QString filename = doc->url().path();
-		if ( filename == getCompileName() ) {
-			KMessageBox::error( this, i18n("This is not a subdocument, but the master document.") );
-			return;
-		}
-
-		m_quickPreview->run( doc->text(),getName(doc),0 );
-	}
-}
-
 
 #include "kile.moc"

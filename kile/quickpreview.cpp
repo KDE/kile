@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 22 2006
-    version              : 0.21
+    date                 : Sep 06 2006
+    version              : 0.32
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -15,10 +15,9 @@
  ***************************************************************************/
 
 #include "quickpreview.h"
-#include "kiletool.h"
 #include "kiletool_enums.h"
 #include "kiledocmanager.h"
-#include "kilelauncher.h"
+#include "kilelogwidget.h"
 
 #include <qtextstream.h>
 #include <qtextcodec.h>
@@ -29,7 +28,6 @@
 
 #include <kdebug.h>
 #include <ktempdir.h>
-#include <kmessagebox.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <kileconfig.h>
@@ -38,7 +36,7 @@
 namespace KileTool
 {
 
-QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_tempfile(QString::null), m_running(false)
+QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_tempfile(QString::null), m_running(0)
 {
 	m_taskList << i18n("LaTeX ---> DVI")
 	           << i18n("LaTeX ---> DVI (KDVI)")
@@ -55,6 +53,99 @@ QuickPreview::~QuickPreview()
 	removeTempFiles(true);
 }
 
+//////////////////// quick preview ////////////////////
+
+// compile and view current selection (singlemode and mastermode)
+
+void QuickPreview::previewSelection(Kate::Document *doc)
+{
+	if ( doc->hasSelection() ) 
+	{
+		if ( KileConfig::selPreviewInWidget() )
+		{
+			m_ki->previewWidget()->showActivePreview( doc->selection(),m_ki->getName(doc),doc->selStartLine(),KileTool::qpSelection );
+		}
+		else
+		{	
+			run( doc->selection(),m_ki->getName(doc),doc->selStartLine() );
+			doc->clearSelection();
+		}
+	} 
+	else 
+	{
+		showError( i18n("There is no selection to compile.") );
+	}
+}
+
+// compile and view current environment (singlemode and mastermode)
+
+void QuickPreview::previewEnvironment(Kate::Document *doc)
+{
+	uint row,col;
+	QString envname;
+	QString text = m_ki->editorExtension()->getEnvironmentText(row,col,envname);
+	if ( text != QString::null )
+	{
+		if ( m_ki->latexCommands()->isMathModeEnv(envname)  )
+			text = "$" + text + "$";
+		else if ( m_ki->latexCommands()->isDisplaymathModeEnv(envname) )
+			text = "\\[" + text + "\\]";
+
+		if ( KileConfig::envPreviewInWidget() )
+			m_ki->previewWidget()->showActivePreview( text,m_ki->getName(doc),row,KileTool::qpEnvironment );
+		else
+			run( text,m_ki->getName(doc),row );
+	}
+	else
+	{
+		showError( i18n("There is no surrounding environment.") );
+	}
+}
+
+// compile and view current subdocument (only mastermode)
+
+void QuickPreview::previewSubdocument(Kate::Document *doc)
+{
+	// this mode is only useful with a master document
+	if ( !m_ki->docManager()->activeProject() && m_ki->getSinglemode() ) 
+	{
+		showError( i18n("This job is only useful with a master document.") );
+		return;
+	}
+
+	// the current document should not be the master document
+	QString filename = doc->url().path();
+	if ( filename == m_ki->getCompileName() ) 
+	{
+		showError( i18n("This is not a subdocument, but the master document.") );
+		return;
+	}
+
+	run( doc->text(),m_ki->getName(doc),0 );
+}
+
+// compile and view current mathgroup (singlemode and mastermode)
+
+void QuickPreview::previewMathgroup(Kate::Document *doc)
+{
+	uint row,col;
+	QString text = m_ki->editorExtension()->getMathgroupText(row,col);
+	if ( text != QString::null )
+	{
+		if ( KileConfig::mathgroupPreviewInWidget() )
+			m_ki->previewWidget()->showActivePreview( text,m_ki->getName(doc),row,KileTool::qpMathgroup );
+		else
+			run( text,m_ki->getName(doc),row );
+	}
+	else
+	{
+		showError( i18n("There is no surrounding mathgroup.") );
+	}
+
+}
+
+//////////////////// run quick preview ////////////////////
+
 void QuickPreview::getTaskList(QStringList &tasklist)
 {
 	tasklist.clear();
@@ -68,17 +159,22 @@ void QuickPreview::getTaskList(QStringList &tasklist)
 	         ;
 }
 
+bool QuickPreview::isRunning()
+{
+	return ( m_running > 0 );
+}
+
 bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow) 
 {
 	// define possible tools
 	QMap <QString,QString> map;
-	map[m_taskList[0]] = "PreviewLaTeX,,ViewDVI,Embedded Viewer,dvi"; 
-	map[m_taskList[1]] = "PreviewLaTeX,,ViewDVI,KDVI Unique,dvi";
-	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,ViewPS,Embedded Viewer,ps";
-	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,ViewPS,KGhostView,ps";
-	map[m_taskList[4]] = "PreviewPDFLaTeX,,ViewPDF,Embedded Viewer,pdf"; 
-	map[m_taskList[5]] = "PreviewPDFLaTeX,,ViewPDF,KGhostView,pdf";
-	map[m_taskList[6]] = "PreviewPDFLaTeX,,ViewPDF,KPDF,pdf";
+	map[m_taskList[0]] = "PreviewLaTeX,,,ViewDVI,Embedded Viewer,dvi"; 
+	map[m_taskList[1]] = "PreviewLaTeX,,,ViewDVI,KDVI Unique,dvi";
+	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,Embedded Viewer,ps";
+	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,KGhostView,ps";
+	map[m_taskList[4]] = "PreviewPDFLaTeX,,,ViewPDF,Embedded Viewer,pdf"; 
+	map[m_taskList[5]] = "PreviewPDFLaTeX,,,ViewPDF,KGhostView,pdf";
+	map[m_taskList[6]] = "PreviewPDFLaTeX,,,ViewPDF,KPDF,pdf";
 
 	QString previewtask = KileConfig::previewTask();
 	if ( ! map.contains(previewtask) ) 
@@ -93,13 +189,12 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist) 
 {
 	kdDebug() << "==QuickPreview::run()=========================="  << endl;
-
-	if ( m_running )
+	m_ki->logWidget()->clear();
+	if ( m_running > 0 )
 	{
 		showError( i18n("There is already a preview running, which you have to finish to run this one.") );
 		return false;
 	}
-	//m_ki->docManager()->fileSaveAll();
 	
 	// check if there is something to compile
 	if ( text.isEmpty() ) 
@@ -117,7 +212,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	else 
 	{
 		removeTempFiles();
-	}      
+	}
 	
 	// create the temporary file with preamble and text
 	int preamblelines = createTempfile(text);
@@ -138,11 +233,12 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KileTool::Base *dvips = 0L;
 	if ( ! previewlist[1].isEmpty() ) 
 	{
+		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ")";
 		kdDebug() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
 		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
 		if ( !dvips ) 
 		{
-			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(previewlist[pvDvips])));
+			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(dvipstool)));
 			return false;
 		}
 	} 
@@ -174,35 +270,42 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	latex->setSource(m_tempfile);
 	latex->prepareToRun();
 	latex->setQuickie();
-	m_ki->toolManager()->run(latex);
-	
+	if ( m_ki->toolManager()->run(latex) != KileTool::Running )
+		return false;
+
+	connect(latex, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+	m_running++;
+
 	// dvips
 	if ( dvips )
 	{
 		dvips->setSource( filepath + "dvi" );
 		dvips->setQuickie();
-		m_ki->toolManager()->run(dvips);
+		if ( m_ki->toolManager()->run(dvips,previewlist[pvDvipsCfg])  != KileTool::Running )
+			return false;
+
+		connect(dvips, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+		m_running++;
 	}
 
 	// viewer
-	if (viewer)
+	if ( viewer )
 	{
-		connect(viewer, SIGNAL(destroyed()), this, SLOT(destroyed()));
+		connect(viewer, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
 		viewer->setSource( filepath + previewlist[pvExtension] );
 		viewer->setQuickie();
-		m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]);	
-
-		// run like hell
-		m_running = true;
+		if ( m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]) != KileTool::Running )
+			return false;
 	}
 
 	return true;	
 }
 
-void QuickPreview::destroyed()
+void QuickPreview::toolDestroyed()
 {
-	kdDebug() << "\tQuickPreview: viewer destroyed" << endl;
-	m_running = false;
+	kdDebug() << "\tQuickPreview: tool destroyed" << endl;
+	if ( m_running > 0 )
+		m_running--;
 }
 
 QString QuickPreview::getPreviewFile(const QString &extension) 
@@ -213,6 +316,8 @@ QString QuickPreview::getPreviewFile(const QString &extension)
 	QString filepath = m_tempfile.left(m_tempfile.length () - 3); 
 	return filepath + extension;
 } 
+
+//////////////////// tempfile ////////////////////
 
 int QuickPreview::createTempfile(const QString &text)
 {
@@ -279,7 +384,7 @@ int QuickPreview::createTempfile(const QString &text)
 	// add the text to compile
 	stream << "\\pagestyle{empty}\n";
 	stream << "\\begin{document}\n";
-	stream << text;                 
+	stream << text;
 	stream << "\n\\end{document}\n";
 	tempfile.close();
 	
@@ -309,9 +414,11 @@ void QuickPreview::removeTempFiles(bool rmdir)
 	}
 }
 
+//////////////////// error messages ////////////////////
+
 void QuickPreview::showError(const QString &text)
 {
-	KMessageBox::error(0,text);
+	m_ki->logWidget()->printMsg( KileTool::Error, text, i18n("QuickPreview") );
 }
 
 }

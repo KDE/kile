@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 22 2006
-    version              : 0.21
+    date                 : Sep 06 2006
+    version              : 0.32
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -18,6 +18,9 @@
 #define QUICKPREVIEW_H
 
 #include "kileinfo.h"
+#include "kiletool.h"
+#include "kileedit.h"
+#include "previewwidget.h"
 
 #include <qobject.h> 
 #include <qstring.h>
@@ -36,6 +39,12 @@ public:
 	~QuickPreview();
 	
 	bool run(const QString &text,const QString &textfilename,int startrow);
+	bool isRunning();
+
+	void previewEnvironment(Kate::Document *doc);
+	void previewSelection(Kate::Document *doc);
+	void previewSubdocument(Kate::Document *doc);
+	void previewMathgroup(Kate::Document *doc);
   
   /**
    * run (text, textfilename, startrow) works with the 
@@ -69,15 +78,15 @@ public:
 	QString getPreviewFile(const QString &extension); 
 	
 private slots:
-	void destroyed();
+	void toolDestroyed();
 
 private:
-	enum { pvLatex=0, pvDvips=1, pvViewer=2, pvViewerCfg=3, pvExtension=4 };
+	enum { pvLatex=0, pvDvips=1, pvDvipsCfg=2, pvViewer=3, pvViewerCfg=4, pvExtension=5 };
 	
 	KileInfo *m_ki;
 	QString m_tempfile;
 	QStringList m_taskList;
-	bool m_running;
+	int m_running;
 		
 	int createTempfile(const QString &text);
 	void removeTempFiles(bool rmdir=false);

@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Aug 24 2006
-    version              : 0.35
+    date                 : Sep 05 2006
+    version              : 0.37
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -74,6 +74,7 @@ public:
 	// get current word
 	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
 	QString getEnvironmentText(uint &row, uint &col, QString &name, Kate::View *view = 0L);
+	bool hasEnvironment(Kate::View *view = 0L);
 
 	// complete environment
 	bool eventInsertEnvironment(Kate::View *view);

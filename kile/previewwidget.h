@@ -54,18 +54,6 @@ public:
 	PreviewWidget(KileInfo *info, QWidget *parent = 0, const char *name = 0);
 	~PreviewWidget();
 
-private:
-	KileInfo *m_info;
-	QImage *m_previewImage;
-	bool m_running;
-
-protected:
-	void paintEvent (QPaintEvent*);
-
-//public:
-//	void paintPreview (QString szFormula);
-
-public slots:
   /**
    * Trys to paint the current mathgroup of 
    * the current document.
@@ -77,7 +65,19 @@ public slots:
    * This PNG image is then displayed on the
    * widget.
    */
-	void showActivePreview();
+	void showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype);
+
+private:
+	enum { pwDvipng=0, pwDvipsConvert, pwConvert };
+
+	KileInfo *m_info;
+	QImage *m_previewImage;
+	bool m_running;
+	QString m_conversionTool;
+
+protected:
+	void paintEvent (QPaintEvent*);
+	void showError(const QString &text);
 
 public slots:
   /**
@@ -94,7 +94,7 @@ public slots:
    * to the size of the widget.
    */
 	void drawImage();
-	void dvipngDestroyed();
+	void toolDestroyed();
 }; 
 
 }

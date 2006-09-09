@@ -44,6 +44,7 @@
 #include "codecompletion.h"        // code completion (dani)
 #include "kileedit.h"              // advanced editor (dani)
 #include "kilehelp.h"              // kile help (dani)
+#include "quickpreview.h"
 
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
@@ -126,6 +127,8 @@ private:
 	void setupStructureView();
 	void setupSymbolViews();
 	void setupBottomBar();
+	void setupGraphicTools();
+	void setupPreviewTools();
 	void setupActions();
 	void setupTools();
 	void setupUserTagActions();
@@ -318,10 +321,12 @@ private:
 	
 // QuickPreview
 private slots:
-	void slotQuickPreview(int type);	
-	void quickPreviewSelection();    
-	void quickPreviewEnvironment();    
-	void quickPreviewSubdocument(); 
+	void slotQuickPreview(int type);
+
+	void quickPreviewEnvironment() { slotQuickPreview(KileTool::qpEnvironment); }
+	void quickPreviewSelection()   { slotQuickPreview(KileTool::qpSelection);   }
+	void quickPreviewSubdocument() { slotQuickPreview(KileTool::qpSubdocument); }
+	void quickPreviewMathgroup()   { slotQuickPreview(KileTool::qpMathgroup);   }
 };
 
 #endif

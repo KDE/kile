@@ -343,9 +343,33 @@
 			<label>Whether Dvipng is installed.</label>
 			<default>false</default>
 		</entry>
+		<entry name="convert" type="Bool">
+			<label>Whether Convert is installed.</label>
+			<default>false</default>
+		</entry>
 		<entry name="dvipngResolution" type="String">
 			<label></label>
 			<default>120</default>
+		</entry>
+		<entry name="envPreviewInWidget" type="Bool">
+			<label>Show preview of environments in bottom bar.</label>
+			<default>false</default>
+		</entry>
+		<entry name="selPreviewInWidget" type="Bool">
+			<label>Show preview of selected text in bottom bar.</label>
+			<default>false</default>
+		</entry>
+		<entry name="mathgroupPreviewInWidget" type="Bool">
+			<label>Show preview of mathgroups in bottom bar.</label>
+			<default>false</default>
+		</entry>
+		<entry name="envPreviewTool" type="Int">
+			<label>Conversion tool for preview of environments in bottom bar.</label>
+			<default>0</default>
+		</entry>
+		<entry name="selPreviewTool" type="Int">
+			<label>Conversion tool for preview of selected text in bottom bar.</label>
+			<default>0</default>
 		</entry>
 	</group>
 	<group name="QuickDocument">

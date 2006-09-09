@@ -17,7 +17,7 @@ type=Process
 [Tool/Convert/eps2png]
 class=Convert
 command=convert
-options=+adjoin -antialias -transparent white -density %res '%S.eps' '%S.png'
+options=+adjoin -antialias -trim -transparent white -density %res '%S.eps' '%S.png'
 from=eps
 to=png
 type=Process

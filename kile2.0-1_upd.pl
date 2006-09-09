@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# dani 03.09.2006
+# dani 06.09.2006
 
 # first delete some groups and keys, if they exist
 print "# DELETEGROUP [Tool/Convert/eps2png]\n";
@@ -18,8 +18,8 @@ print <<EOT;
 [Tool/Convert/eps2png]
 class=Convert
 command=convert
-options=+adjoin -antialias -transparent white -density %res '%S.eps' '%S.png'
-from=eps
+options=+adjoin -antialias -trim -transparent white -density %res '%S.eps' '%S.png'
+ofrom=eps
 to=png
 type=Process
 

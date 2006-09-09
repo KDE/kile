@@ -415,7 +415,7 @@ void Kile::setupPreviewTools()
 {
 	// search for tools
 	bool dvipng = !(KStandardDirs::findExe("dvipng").isNull());
-	bool convert = !(KStandardDirs::findExe("convert1").isNull());
+	bool convert = !(KStandardDirs::findExe("convert").isNull());
 
 	KileConfig::setDvipng(dvipng);
 	KileConfig::setConvert(convert);

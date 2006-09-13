@@ -21,6 +21,7 @@
 
 #include <kmainwindow.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 #include "kileactions.h"
 #include "kileedit.h"
@@ -140,7 +141,8 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 
 	(void) new KileAction::Tag(i18n("Underline - \\underline{}"),"text_under",0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_underline", "\\underline{","}",11);
 
-	(void) new KAction(i18n("Smart New Line"), "newline", Qt::SHIFT+Qt::Key_Return , ki->editorExtension(), SLOT(insertIntelligentNewline()), parent->actionCollection(),"tag_newline");
+	QString icon = ( locate("icon","default.kde/22x22/actions/key_enter.png").isEmpty() ) ? "newline" : "key_enter";
+	(void) new KAction(i18n("Smart New Line"), icon, Qt::SHIFT+Qt::Key_Return , ki->editorExtension(), SLOT(insertIntelligentNewline()), parent->actionCollection(),"tag_newline");
 	(void) new KAction(i18n("Smart Tabulator"), Qt::ALT+Qt::Key_Ampersand, ki->editorExtension(), SLOT(insertIntelligentTabulator()), parent->actionCollection(),"tag_tabulator" );
 
 	// new tags (dani 29.01.2005)

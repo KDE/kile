@@ -354,7 +354,8 @@ namespace KileTool
 		Config::Iterator it;
 		for ( it = map.begin() ; it != map.end(); ++it)
 		{
-			m_config->writeEntry(it.key(), it.data());
+			if ( ! it.data().isEmpty() )
+				m_config->writeEntry(it.key(), it.data());
 		}
 	}
 

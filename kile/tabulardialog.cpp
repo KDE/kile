@@ -1,9 +1,9 @@
 /***************************************************************************
                            tabulardialog.cpp
 ----------------------------------------------------------------------------
-    date                 : Jul 23 2005
-    version              : 0.20
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Sep 13 2006
+    version              : 0.24
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -835,33 +835,31 @@ void TabularTable::setAlignment(int row,int col,int align)
 void TabularTable::setColspan(int row,int col1,int col2,bool savetext)
 {
 	QString s;
-	
+	int multicolumnCells = 0;
+
 	//kdDebug() << "set colspan " << col1 << "-" << col2 << " "<< endl; 
 	for ( int col=col1; col<=col2; ++col ) 
 	{
-		QTableItem *olditem = item(row,col);
-		if ( olditem ) {
+		TabularItem *olditem = dynamic_cast<TabularItem*>( item(row,col) );
+		if ( olditem ) 
+		{
+			multicolumnCells = ( olditem->isMulticolumn() ) ? multicolumnCells+1 : 0;
 			QString temp = olditem->text().stripWhiteSpace(); 
-			if ( savetext && !temp.isEmpty() ) 
+			if ( savetext && !temp.isEmpty() && multicolumnCells<=1 ) 
 			{
 				if ( ! s.isEmpty() )
 					s += " ";
 				s += temp;
 			}
-			delete olditem;
+			if ( col != col1 )
+				delete olditem;
 		}
 	}
 	
-	// there is definitely no old item
-	TabularItem *newitem = new TabularItem(this);
-	setItem(row,col1,newitem);
-	newitem->setSpan(1,col2-col1+1);
-	//newitem->m_data.bgcolor = QColor(Qt::yellow);
-	
-	if ( ! s.isEmpty() ) 
-	{
-		newitem->setText(s);
-	}
+	// only the leftmost item exists
+	TabularItem *cellitem = cellItem(row,col1);
+	cellitem->setText(s);
+	cellitem->setSpan(1,col2-col1+1);
 }
 
 bool TabularTable::isMulticolumn(int row,int col)
@@ -1227,6 +1225,7 @@ void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
 	
 	connect(m_cellpopup,SIGNAL(activated(int)),this,SLOT(slotCellPopupActivated(int)));
 	m_cellpopup->exec( QCursor::pos() );
+	clearSelection();
 }
 
 

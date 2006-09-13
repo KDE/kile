@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Sep 06 2006
-    version              : 0.32
+    date                 : Sep 13 2006
+    version              : 0.33
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -172,7 +172,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	map[m_taskList[1]] = "PreviewLaTeX,,,ViewDVI,KDVI Unique,dvi";
 	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,Embedded Viewer,ps";
 	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,KGhostView,ps";
-	map[m_taskList[4]] = "PreviewPDFLaTeX,,,ViewPDF,Embedded Viewer,pdf"; 
+	map[m_taskList[4]] = "PreviewPDFLaTeX,,,ViewPDF,KPDF (embedded),pdf"; 
 	map[m_taskList[5]] = "PreviewPDFLaTeX,,,ViewPDF,KGhostView,pdf";
 	map[m_taskList[6]] = "PreviewPDFLaTeX,,,ViewPDF,KPDF,pdf";
 

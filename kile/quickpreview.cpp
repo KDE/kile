@@ -108,7 +108,7 @@ void QuickPreview::run(const QString &text,const QString &textfilename,int start
 	map[m_taskList[1]] = "PreviewLaTeX,,ViewDVI,KDVI Unique,dvi";
 	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,ViewPS,Embedded Viewer,ps";
 	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,ViewPS,KGhostView,ps";
-	map[m_taskList[4]] = "PreviewPDFLaTeX,,ViewPDF,Embedded Viewer,pdf"; 
+	map[m_taskList[4]] = "PreviewPDFLaTeX,,ViewPDF,KPDF (embedded),pdf"; 
 	map[m_taskList[5]] = "PreviewPDFLaTeX,,ViewPDF,KGhostView,pdf";
 	map[m_taskList[6]] = "PreviewPDFLaTeX,,ViewPDF,KPDF,pdf";
 	

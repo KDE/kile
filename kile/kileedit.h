@@ -1,6 +1,6 @@
 /***************************************************************************
     date                 : Sep 15 2006
-    version              : 0.40
+    version              : 0.41
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -212,6 +212,10 @@ private:
 	KileDocument::LatexCommands *m_latexCommands;	
 	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
 	QString getWhiteSpace(const QString &s);
+
+	// verbatim text
+	bool insideVerb(Kate::View *view);
+	bool insideVerbatim(Kate::View *view);
 
 	// complete environments
 	QRegExp m_regexpEnter;

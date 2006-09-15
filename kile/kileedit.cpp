@@ -1,6 +1,6 @@
 /***************************************************************************
     date                 : Sep 15 2006
-    version              : 0.40
+    version              : 0.41
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -2280,6 +2280,13 @@ bool EditorExtension::insertDoubleQuotes()
 	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
 	
+	// simply insert, if we are inside a verb command
+	if ( insideVerb(view) )//|| insideVerbatim(view) )
+	{
+		doc->insertText(row,col,"\"");
+		return true;
+	}
+
 	// simply insert, if autoinsert mode is not active or the char bevor is \ (typically for \"a useful)
 	if ( !m_dblQuotes || ( col > 0 && doc->text(row,col-1,row,col) == QString("\\") ) ) 
 	{
@@ -2472,6 +2479,48 @@ QString EditorExtension::getWhiteSpace(const QString &s)
 			whitespace[i] = ' ';
 	}
 	return whitespace;
+}
+
+//////////////////// inside verbatim commands ////////////////////
+
+bool EditorExtension::insideVerbatim(Kate::View *view)
+{
+	uint rowEnv,colEnv;
+	QString nameEnv;
+
+	if ( findOpenedEnvironment(rowEnv,colEnv,nameEnv,view) )
+	{
+		if ( m_latexCommands->isVerbatimEnv(nameEnv) )
+			return true;
+	}
+
+	return false;
+}
+
+bool EditorExtension::insideVerb(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return false;
+	
+	// get current position
+	uint row,col;
+	view->cursorPositionReal(&row,&col);
+
+	int startpos = 0;
+	QString textline = getTextLineReal(view->getDoc(),row);
+	QRegExp reg("\\\\verb(.)");
+	while ( true )
+	{
+		int pos = textline.find(reg,startpos);
+		if ( pos<0 || col<(uint)pos+6 ) 
+			return false; 
+
+		pos = textline.find(reg.cap(1),pos+6);
+		if ( pos<0 || col<=(uint)pos )
+			return true;
+
+		startpos = pos + 1;
+	}
 }
 
 }

@@ -633,7 +633,7 @@ bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, Q
 	uint lastrow,lastcol;
 	QString mathname;
 
-	bool foundDollar= false;
+	bool foundDollar= false; 
 	uint numDollar = 0;
 	
 	KTextEditor::SearchInterface *iface;
@@ -2281,7 +2281,7 @@ bool EditorExtension::insertDoubleQuotes()
 	Kate::Document *doc = view->getDoc();
 	
 	// simply insert, if we are inside a verb command
-	if ( insideVerb(view) )//|| insideVerbatim(view) )
+	if ( insideVerb(view) || insideVerbatim(view) )
 	{
 		doc->insertText(row,col,"\"");
 		return true;

@@ -628,6 +628,9 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
+	<Action name="edit_goto_line" />
+	<Action name="edit_next_paragraph" />
+	<Action name="edit_prev_paragraph" />
 	<Action name="edit_complete_word"/>
 	<Action name="edit_complete_env"/>
 	<Action name="edit_complete_abbrev"/>
@@ -707,6 +710,9 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
+	<Action name="edit_goto_line" />
+	<Action name="edit_next_paragraph" />
+	<Action name="edit_prev_paragraph" />
 	<Action name="edit_complete_word"/>
 	<Action name="edit_complete_env"/>
 	<Action name="edit_complete_abbrev"/>
@@ -787,6 +793,9 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
+	<Action name="edit_goto_line" />
+	<Action name="edit_next_paragraph" />
+	<Action name="edit_prev_paragraph" />
 	<Action name="edit_complete_word"/>
 	<Action name="edit_complete_env"/>
 	<Action name="edit_complete_abbrev"/>

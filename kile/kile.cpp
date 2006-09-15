@@ -1312,7 +1312,7 @@ void Kile::initMenu()
 	   // file
 	   << "convert"
 	   // edit
-	   << "complete" << "bullet" << "select"
+	   << "goto" << "complete" << "bullet" << "select"
 	   << "delete" << "environment" << "texgroup"
 	   // build
 	   << "quickpreview" << "menu_compile" << "menu_convert"

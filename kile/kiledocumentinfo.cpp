@@ -189,6 +189,7 @@ void Info::updateStructLevelInfo()
 	m_showStructureBibitems = KileConfig::svShowBibitems();
 	m_showStructureGraphics = KileConfig::svShowGraphics();
 	m_showStructureFloats = KileConfig::svShowFloats();
+	m_showStructureInputFiles = KileConfig::svShowInputFiles();
 	m_openStructureLabels = KileConfig::svOpenLabels();
 	m_openStructureReferences = KileConfig::svOpenReferences();
 	m_openStructureBibitems = KileConfig::svOpenBibitems();
@@ -199,9 +200,6 @@ void Info::updateStructLevelInfo()
 	// add standard commands
 	//TODO: make this configurable
 	// sectioning
-	m_dictStructLevel["\\input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
-	m_dictStructLevel["\\Input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
-	m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
 	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
 	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
 	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
@@ -242,6 +240,14 @@ void Info::updateStructLevelInfo()
 		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
 	}
 	
+	// input files
+	if ( m_showStructureInputFiles )
+	{
+		m_dictStructLevel["\\input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
+		m_dictStructLevel["\\Input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
+		m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
+	}
+
 	// references
 	if ( m_showStructureReferences )
 	{

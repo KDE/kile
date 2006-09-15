@@ -71,6 +71,10 @@
 			<label>Show float environments in the structure view</label>
 			<default>true</default>
 		</entry>
+		<entry name="SvShowInputFiles" type="Bool">
+			<label>Show file input commands in the structure view</label>
+			<default>true</default>
+		</entry>
 		<entry name="SvOpenLabels" type="Bool">
 			<label>Open the parent item for all labels in the structure view as default</label>
 			<default>false</default>

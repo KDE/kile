@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Sep 05 2006
-    version              : 0.37
+    date                 : Sep 15 2006
+    version              : 0.40
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -82,7 +82,7 @@ public:
 	// mathgroup
 	QString getMathgroupText(uint &row, uint &col, Kate::View *view = 0L);
 	bool hasMathgroup(Kate::View *view = 0L);
-		
+	
 public slots:
 	void insertIntelligentNewline(Kate::View *view = 0L);
 
@@ -116,6 +116,10 @@ public slots:
 
 	void nextBullet();
 	void prevBullet();
+
+	void gotoLine(Kate::View *view = 0L);
+	void gotoNextParagraph(Kate::View *view = 0L);
+	void gotoPrevParagraph(Kate::View *view = 0L);
 
 	bool insertDoubleQuotes();
 	void initDoubleQuotes();

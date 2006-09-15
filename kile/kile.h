@@ -133,7 +133,6 @@ private:
 	void setupTools();
 	void setupUserTagActions();
 	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
-	void unplugKateConfigMenu(Kate::View* view);
 
 	bool kateCompletionPlugin();
 	void checkKateSettings();

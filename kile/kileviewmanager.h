@@ -66,6 +66,8 @@ public:
 	Kate::View* createView(Kate::Document *doc, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
+	void unplugKatePartMenu(Kate::View* view);
+
 // 	void setProjectView(KileProjectView *view) { m_projectview = view; }
 // 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 

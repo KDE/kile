@@ -460,6 +460,10 @@ void Kile::setupActions()
 	(void) new KAction(i18n("&Western European (cp-1252)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1252" );
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
+	(void) KStdAction::gotoLine(m_edit, SLOT(gotoLine()), actionCollection(),"edit_goto_line" );
+	(void) new KAction(i18n("Next paragraph"), "nextparagraph", ALT+Key_Down, m_edit, SLOT(gotoNextParagraph()), actionCollection(),"edit_next_paragraph" );
+	(void) new KAction(i18n("Prev paragraph"), "prevparagraph", ALT+Key_Up, m_edit, SLOT(gotoPrevParagraph()), actionCollection(),"edit_prev_paragraph" );
+
 	(void) new KAction(i18n("Find &in Files..."), ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
 
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
@@ -826,7 +830,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	view->setActive( true );
 
 	// remove menu entry to config Kate
-	unplugKateConfigMenu(view);
+	checkKateSettings();
 
 	setUpdatesEnabled(true);
 
@@ -1997,20 +2001,7 @@ void Kile::checkKateSettings()
 	if ( view )
 	{
 		// remove menu entry to config Kate
-		unplugKateConfigMenu(view);
-	}
-}
-
-// remove menu entry to config Kate, because there is
-// already one call to this configuration dialog from Kile
-void Kile::unplugKateConfigMenu(Kate::View* view)
-{
-	if ( view ) {
-		KAction *action = view->actionCollection()->action("set_confdlg"); // name from katepartui.rc
-		if ( action ) {
-			kdDebug() << "   unplug action 'set_confdlg'..." << endl;
-			action->unplugAll();
-		}
+		viewManager()->unplugKatePartMenu(view);
 	}
 }
 

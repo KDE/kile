@@ -162,15 +162,7 @@ Kate::View* Manager::createView(Kate::Document *doc, int index)
 
 	emit(prepareForPart("Editor"));
 
-	// remove 'configure editor' dialog of Kate
-	// this will be called directly from Kile
-	KAction *action = view->actionCollection()->action("set_confdlg"); 
-	if ( action ) 
-	{
-		kdDebug() << "   unplug action 'set_confdlg'..." << endl;
-		action->unplugAll();
-	}
-
+	unplugKatePartMenu(view);
 	m_widgetStack->raiseWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
 
 	return view;
@@ -485,6 +477,30 @@ void DropWidget::dragMoveEvent(QDragMoveEvent *e)
 void DropWidget::dropEvent(QDropEvent *e)
 {
 	emit receivedDropEvent(e);
+}
+
+// remove entries from KatePart menu: 
+//  - menu entry to config Kate, because there is
+//    already one call to this configuration dialog from Kile
+//  - goto line, because we put it into a submenu
+
+void Manager::unplugKatePartMenu(Kate::View* view)
+{
+	if ( view ) 
+	{
+		QStringList actionlist;
+		actionlist << "set_confdlg" << "go_goto_line";      // action names from katepartui.rc
+
+		for ( uint i=0; i < actionlist.count(); ++i )
+		{
+			KAction *action = view->actionCollection()->action( actionlist[i].ascii() ); 
+			if ( action ) 
+			{
+				kdDebug() << QString("-------------->   unplug action '%1'...").arg(actionlist[i]) << endl;
+				action->unplugAll();
+			}
+		}
+	}
 }
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="23">
+<kpartgui name="kile" version="24">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -52,6 +52,13 @@
 	<DefineGroup name="edit_select_merge" append="edit_select_merge"/>
 	<Separator/>
 	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
+	<Menu name="goto" >
+		<text>&amp;Goto</text>
+		<Action name="edit_goto_line" />
+		<Separator/>
+		<Action name="edit_next_paragraph" />
+		<Action name="edit_prev_paragraph" />
+	</Menu>
 	<Action name="FindInFiles"/>
 	<Separator/>
 	<Menu name="complete"><text>Co&amp;mplete</text>

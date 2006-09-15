@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Sep 05 2006
-    version              : 0.37
+    date                 : Sep 15 2006
+    version              : 0.40
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -2080,6 +2080,91 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	
 	// settings result
 	return true;
+}
+
+void EditorExtension::gotoNextParagraph(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	bool found;
+	uint startline,endline;
+	Kate::Document *doc = view->getDoc();
+
+	endline = view->cursorLine();
+	if ( doc->textLine(endline).stripWhiteSpace().isEmpty() )
+		found = true;
+	else
+		found = findCurrentTexParagraph(startline,endline,view);
+
+	// we are in an empty line or in the last line of a paragraph
+	if ( found )
+	{
+		// find the next non empty line
+		for ( uint line=endline+1; line<doc->numLines(); ++line )
+		{
+			if ( ! doc->textLine(line).stripWhiteSpace().isEmpty() )
+			{
+				view->setCursorPositionReal(line,0);
+				return;
+			}
+		}
+	}
+}
+
+void EditorExtension::gotoPrevParagraph(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	bool found;
+	uint startline,endline;
+	Kate::Document *doc = view->getDoc();
+
+	startline = view->cursorLine();
+	if ( doc->textLine(startline).stripWhiteSpace().isEmpty() )
+	{
+		startline++;
+		found = true;
+	}
+	else
+		found = findCurrentTexParagraph(startline,endline,view);
+
+	// we are in an empty line or in the first line of a paragraph
+	if ( found  )
+	{
+		// find the last line of the previous paragraph
+		int foundline = -1;
+		for ( int line=startline-1; line>=0; --line )
+		{
+			if ( ! doc->textLine(line).stripWhiteSpace().isEmpty() )
+				break;
+			foundline = line;
+		}
+		if ( foundline < 0 )
+			return;
+
+		// and finally the first line of this paragraph
+		int prevstartline = -1;
+		for ( int line=foundline-1; line>=0; --line )
+		{
+			if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
+				break;
+			prevstartline = line;
+		}
+
+		if ( prevstartline >= 0 )
+			view->setCursorPositionReal((uint)prevstartline,0);
+	}
+}
+
+//////////////////// gotoLine ////////////////////
+
+void EditorExtension::gotoLine(Kate::View *view)
+{
+	view = determineView(view);
+	if ( view ) 
+		view->gotoLine();
 }
 
 //////////////////// one line of text////////////////////

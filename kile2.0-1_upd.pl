@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# dani 06.09.2006
+# dani 15.09.2006
 
 # first delete some groups and keys, if they exist
 print "# DELETEGROUP [Tool/Convert/eps2png]\n";
@@ -42,7 +42,7 @@ type=Process
 [Tool/DVItoPS/dvi2eps]
 class=Convert
 command=dvips
-options=-E -o '%S.eps' '%S.dvi'
+options=-o '%S.eps' '%S.dvi'
 from=dvi
 to=eps
 type=Process

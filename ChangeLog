@@ -3,6 +3,7 @@ Fixes:
  - Recognize escaped chars in \newcommand. (#132899)
  - Use KPDF as embedded viewer for quick preview, because KPDF can remember current settings. (#129177)
  - Bugs in tabular wizard, when merging, breaking and merging again some cells
+ - Quote replacement should not happen inside verbatim/verb environment (#133112)
 
 version 1.9.1 -> 1.9.2
 Fixes:

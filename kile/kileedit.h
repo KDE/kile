@@ -176,6 +176,10 @@ private:
 	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
 	QString getWhiteSpace(const QString &s);
 	
+	// verbatim text
+	bool insideVerb(Kate::View *view);
+	bool insideVerbatim(Kate::View *view);
+
 	// complete environments
 	QRegExp m_regexpEnter;
 	

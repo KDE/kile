@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Sep 15 2006
-    version              : 0.41
+    date                 : Sep 16 2006
+    version              : 0.42
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -121,6 +121,9 @@ public slots:
 	void gotoNextParagraph(Kate::View *view = 0L);
 	void gotoPrevParagraph(Kate::View *view = 0L);
 
+	void gotoNextSectioning();
+	void gotoPrevSectioning();
+
 	bool insertDoubleQuotes();
 	void initDoubleQuotes();
 
@@ -207,6 +210,9 @@ private:
 
 	// find current paragraph
 	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
+
+	// goto sectioning command
+	void gotoSectioning(bool backwards, Kate::View *view = 0L);
 
 	// check environment type
 	KileDocument::LatexCommands *m_latexCommands;	

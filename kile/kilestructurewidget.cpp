@@ -772,6 +772,46 @@ namespace KileWidget
 		}
 	}
 
+	////////////////////// Structure: find sectioning //////////////////////
+
+	bool Structure::findSectioning(Kate::Document *doc, uint line, bool backwards, uint &sectline)
+	{
+		kdDebug() << "------------------> nextSectioning" << endl;
+		KileDocument::Info *docinfo = m_ki->docManager()->infoFor(doc);
+		if ( ! docinfo )
+			return false;
+
+		StructureList *structurelist = viewFor(docinfo);
+		sectline = (backwards ) ? 0 : doc->numLines()+1;
+
+		bool found = false;
+		QListViewItemIterator it( structurelist );
+		while ( it.current() ) 
+		{
+			KileListViewItem *item = (KileListViewItem *)(it.current());
+			if  ( item->type() == KileStruct::Sect )
+			{
+				uint foundline = item->line() - 1;
+				if ( backwards && foundline<line && foundline>=sectline )
+				{
+					sectline = foundline;
+					found = true;
+				}
+				else if ( !backwards && foundline>line && foundline<sectline )
+				{
+					sectline = foundline;
+					found = true;
+				}
+			}
+			++it;
+		}
+
+		if ( backwards )
+			return ( found && sectline<line );
+		else
+			return ( found && sectline>line );
+}
+
 }
 
 #include "kilestructurewidget.moc"

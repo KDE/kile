@@ -461,8 +461,10 @@ void Kile::setupActions()
 	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
 	(void) KStdAction::gotoLine(m_edit, SLOT(gotoLine()), actionCollection(),"edit_goto_line" );
-	(void) new KAction(i18n("Next paragraph"), "nextparagraph", ALT+Key_Down, m_edit, SLOT(gotoNextParagraph()), actionCollection(),"edit_next_paragraph" );
-	(void) new KAction(i18n("Prev paragraph"), "prevparagraph", ALT+Key_Up, m_edit, SLOT(gotoPrevParagraph()), actionCollection(),"edit_prev_paragraph" );
+	(void) new KAction(i18n("Next section"), "nextsection", ALT+Key_Down, m_edit, SLOT(gotoNextSectioning()), actionCollection(),"edit_next_section" );
+	(void) new KAction(i18n("Prev section"), "prevsection", ALT+Key_Up, m_edit, SLOT(gotoPrevSectioning()), actionCollection(),"edit_prev_section" );
+	(void) new KAction(i18n("Next paragraph"), "nextparagraph", ALT+SHIFT+Key_Down, m_edit, SLOT(gotoNextParagraph()), actionCollection(),"edit_next_paragraph" );
+	(void) new KAction(i18n("Prev paragraph"), "prevparagraph", ALT+SHIFT+Key_Up, m_edit, SLOT(gotoPrevParagraph()), actionCollection(),"edit_prev_paragraph" );
 
 	(void) new KAction(i18n("Find &in Files..."), ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
 

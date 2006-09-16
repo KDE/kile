@@ -118,7 +118,7 @@ namespace KileWidget
 		void activate();
 		void cleanUp(bool preserveState = true);
 		void showReferences(KileInfo *ki);
-
+		
 		const KURL & url() const { return m_docinfo->url(); }
 
 	public slots:
@@ -166,6 +166,8 @@ namespace KileWidget
 
 			int level();
 			KileInfo *info() { return m_ki; }
+
+			bool findSectioning(Kate::Document *doc, uint line, bool backwards, uint &sectline);
 
 		public slots:
 			void slotClicked(QListViewItem *);

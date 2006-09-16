@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="24">
+<kpartgui name="kile" version="25">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -55,6 +55,9 @@
 	<Menu name="goto" >
 		<text>&amp;Goto</text>
 		<Action name="edit_goto_line" />
+		<Separator/>
+		<Action name="edit_next_section" />
+		<Action name="edit_prev_section" />
 		<Separator/>
 		<Action name="edit_next_paragraph" />
 		<Action name="edit_prev_paragraph" />
@@ -629,6 +632,8 @@
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
 	<Action name="edit_goto_line" />
+	<Action name="edit_next_section" />
+	<Action name="edit_prev_section" />
 	<Action name="edit_next_paragraph" />
 	<Action name="edit_prev_paragraph" />
 	<Action name="edit_complete_word"/>
@@ -711,6 +716,8 @@
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
 	<Action name="edit_goto_line" />
+	<Action name="edit_next_section" />
+	<Action name="edit_prev_section" />
 	<Action name="edit_next_paragraph" />
 	<Action name="edit_prev_paragraph" />
 	<Action name="edit_complete_word"/>
@@ -794,6 +801,8 @@
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
 	<Action name="edit_goto_line" />
+	<Action name="edit_next_section" />
+	<Action name="edit_prev_section" />
 	<Action name="edit_next_paragraph" />
 	<Action name="edit_prev_paragraph" />
 	<Action name="edit_complete_word"/>

@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Sep 15 2006
-    version              : 0.41
+    date                 : Sep 16 2006
+    version              : 0.42
     copyright            : (C) 2004-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -24,6 +24,7 @@
 #include <klocale.h>
 #include <kinputdialog.h>
 
+#include "kilestructurewidget.h"
 #include "kilekonsolewidget.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
@@ -2522,6 +2523,32 @@ bool EditorExtension::insideVerb(Kate::View *view)
 		startpos = pos + 1;
 	}
 }
+
+//////////////////// goto sectioning command ////////////////////
+
+void EditorExtension::gotoNextSectioning()
+{
+	gotoSectioning(false);
+}
+
+void EditorExtension::gotoPrevSectioning()
+{
+	gotoSectioning(true);
+}
+
+void EditorExtension::gotoSectioning(bool backwards, Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	uint sectline;
+	m_ki->viewManager()->updateStructure(true);
+	if ( m_ki->structureWidget()->findSectioning(view->getDoc(),view->cursorLine(),backwards,sectline) )
+		view->setCursorPositionReal(sectline,0);
+	return;
+
+}
+
 
 }
 

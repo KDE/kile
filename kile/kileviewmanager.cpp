@@ -496,7 +496,6 @@ void Manager::unplugKatePartMenu(Kate::View* view)
 			KAction *action = view->actionCollection()->action( actionlist[i].ascii() ); 
 			if ( action ) 
 			{
-				kdDebug() << QString("-------------->   unplug action '%1'...").arg(actionlist[i]) << endl;
 				action->unplugAll();
 			}
 		}

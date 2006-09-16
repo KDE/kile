@@ -1,8 +1,8 @@
 /***************************************************************************
                            tabulardialog.cpp
 ----------------------------------------------------------------------------
-    date                 : Sep 13 2006
-    version              : 0.24
+    date                 : Sep 16 2006
+    version              : 0.25
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -1196,8 +1196,7 @@ void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
 
 	if ( ! getCurrentSelection(m_x1,m_y1,m_x2,m_y2) )
 		return;
-	//kdDebug() << "mc click " << m_x1 << " " << m_y1 << " " << m_x2 << " " << m_y2 << endl;
-	
+
 	// create popup menu
 	m_cellpopup = createPopupMenu();
 	
@@ -1215,8 +1214,13 @@ void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
 		} 
 		else if ( m_x2 > m_x1 ) 
 		{
-			m_cellpopup->insertItem( i18n("Set Multicolumn"));
-			m_cellpopup->insertSeparator();
+			TabularItem *cellitem1 = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
+			TabularItem *cellitem2 = dynamic_cast<TabularItem*>( item(m_y2,m_x2) );
+			if ( (!cellitem1 && !cellitem2) || (cellitem1!=cellitem2) )
+			{
+				m_cellpopup->insertItem( i18n("Set Multicolumn"));
+				m_cellpopup->insertSeparator();
+			}
 		}
 	}
 	
@@ -1270,8 +1274,23 @@ void TabularTable::cellPopupSetMulticolumn()
 		
 	if ( m_y1==m_y2 && m_x2>m_x1) 
 	{
+		QString s;
+		for ( int col=m_x1; col<=m_x2; ) 
+		{
+			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,col) );
+			if ( cellitem ) 
+			{
+				s += cellitem->text().stripWhiteSpace();
+				col += cellitem->colSpan();
+			}
+			else
+			{
+				col++;
+			}
+		}
+
 		bool savetext = false;
-		if ( ! isRowEmpty(m_y1,m_x1,m_x2) ) 
+		if ( ! s.isEmpty() ) 
 		{
 			QString message  = i18n("Concat all text to the new multicolumn cell?");
 			savetext = ( KMessageBox::questionYesNo(this,message,i18n("Save Text")) == KMessageBox::Yes ); 
@@ -1288,16 +1307,21 @@ void TabularTable::cellPopupBreakMulticolumn()
 	if ( m_x1==m_x2 && m_y1==m_y2 ) 
 	{
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
-		if ( cellitem && KMessageBox::questionYesNo(this,
-			                             i18n("Transfer text and all attributes of the multicolumn cell to the leftmost of the separated cell?"),
-			                             i18n("Shrink Multicolumn")) == KMessageBox::Yes ) 
-		{ 
-			cellitem->setSpan(m_y1,1);
-		} 
-		else 
+		if ( ! cellitem )
+			return;
+
+		bool savetext = false;
+		if ( ! cellitem->text().isEmpty() )
 		{
-			delete cellitem;
+			savetext = ( KMessageBox::questionYesNo(this,
+			               i18n("Transfer text and all attributes of the multicolumn cell to the leftmost of the separated cell?"),
+			               i18n("Shrink Multicolumn")) == KMessageBox::Yes );
 		}
+
+		if ( savetext )
+			cellitem->setSpan(1,1);
+		else 
+			delete cellitem;
 	}
 }
 
@@ -1894,7 +1918,7 @@ void TabularDialog::initEnvironments(bool tabularenv)
 
 void TabularDialog::slotEnvironmentChanged(const QString &env)
 {
-	kdDebug() << "env changed " << env << endl;
+	//kdDebug() << "env changed " << env << endl;
 	
 	// clear parameter combobox
 	m_coParameter->clear();
@@ -1936,7 +1960,7 @@ bool TabularDialog::isMathmodeEnvironment(const QString &env)
 
 void TabularDialog::slotRowValueChanged(int value)
 {
-	kdDebug() << "row value changed " << value << endl;
+	//kdDebug() << "row value changed " << value << endl;
 	
 	bool askBeforeDelete = m_cbWarning->isChecked();
 	bool firstwarning = true;

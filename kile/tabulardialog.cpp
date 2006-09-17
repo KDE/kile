@@ -1,8 +1,8 @@
 /***************************************************************************
                            tabulardialog.cpp
 ----------------------------------------------------------------------------
-    date                 : Sep 16 2006
-    version              : 0.25
+    date                 : Sep 17 2006
+    version              : 0.26
     copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
@@ -832,34 +832,28 @@ void TabularTable::setAlignment(int row,int col,int align)
 		updateCell(row,col);
 }
 
-void TabularTable::setColspan(int row,int col1,int col2,bool savetext)
+void TabularTable::setColspan(int row,int col1,int col2,int numcols,const QString &text)
 {
-	QString s;
-	int multicolumnCells = 0;
-
 	//kdDebug() << "set colspan " << col1 << "-" << col2 << " "<< endl; 
-	for ( int col=col1; col<=col2; ++col ) 
+	for ( int col=col1; col<=col2; ) 
 	{
 		TabularItem *olditem = dynamic_cast<TabularItem*>( item(row,col) );
 		if ( olditem ) 
 		{
-			multicolumnCells = ( olditem->isMulticolumn() ) ? multicolumnCells+1 : 0;
-			QString temp = olditem->text().stripWhiteSpace(); 
-			if ( savetext && !temp.isEmpty() && multicolumnCells<=1 ) 
-			{
-				if ( ! s.isEmpty() )
-					s += " ";
-				s += temp;
-			}
 			if ( col != col1 )
 				delete olditem;
+			col += olditem->colSpan();
+		}
+		else
+		{
+			col++;
 		}
 	}
 	
-	// only the leftmost item exists
+	// only the leftmost item exists 
 	TabularItem *cellitem = cellItem(row,col1);
-	cellitem->setText(s);
-	cellitem->setSpan(1,col2-col1+1);
+	cellitem->setText(text);
+	cellitem->setSpan(1,numcols);
 }
 
 bool TabularTable::isMulticolumn(int row,int col)
@@ -1271,31 +1265,22 @@ void TabularTable::cellPopupEdit()
 void TabularTable::cellPopupSetMulticolumn()
 {
 	//kdDebug() << "slotContextMenuSetMulticolumn" << endl;
-		
+	//kdDebug() << "set mc " << m_x1 << " " << m_y1 << "   " << m_x2 << " " << m_y2 << endl;
+
 	if ( m_y1==m_y2 && m_x2>m_x1) 
 	{
-		QString s;
-		for ( int col=m_x1; col<=m_x2; ) 
-		{
-			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,col) );
-			if ( cellitem ) 
-			{
-				s += cellitem->text().stripWhiteSpace();
-				col += cellitem->colSpan();
-			}
-			else
-			{
-				col++;
-			}
-		}
+		// get full cell range including possible multicolumn cells
+		int xl,xr;
+		getCellRange(m_y1,m_x1,m_x2,xl,xr);
 
-		bool savetext = false;
+		QString s = getCellRangeText(m_y1,xl,xr);
 		if ( ! s.isEmpty() ) 
 		{
 			QString message  = i18n("Concat all text to the new multicolumn cell?");
-			savetext = ( KMessageBox::questionYesNo(this,message,i18n("Save Text")) == KMessageBox::Yes ); 
+			if ( KMessageBox::questionYesNo(this,message,i18n("Save Text")) != KMessageBox::Yes )
+				s = QString::null;
 		}
-		setColspan(m_y1,m_x1,m_x2,savetext);
+		setColspan(m_y1,xl,xr,xr-xl+1,s);
 		// update();
 	}
 }
@@ -1303,25 +1288,24 @@ void TabularTable::cellPopupSetMulticolumn()
 void TabularTable::cellPopupBreakMulticolumn()
 {
 	//kdDebug() << "slotContextMenuBreakMulticolumn" << endl;
+	//kdDebug() << "set mc " << m_x1 << " " << m_y1 << " " << m_x2 << " " << m_y2 << endl;
 	
 	if ( m_x1==m_x2 && m_y1==m_y2 ) 
 	{
-		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
-		if ( ! cellitem )
-			return;
+		// get full cell range including possible multicolumn cells
+		int xl,xr;
+		getCellRange(m_y1,m_x1,m_x2,xl,xr);
 
-		bool savetext = false;
-		if ( ! cellitem->text().isEmpty() )
+		QString s = getCellRangeText(m_y1,xl,xr);
+		if ( ! s.isEmpty() ) 
 		{
-			savetext = ( KMessageBox::questionYesNo(this,
+			if ( KMessageBox::questionYesNo(this,
 			               i18n("Transfer text and all attributes of the multicolumn cell to the leftmost of the separated cell?"),
-			               i18n("Shrink Multicolumn")) == KMessageBox::Yes );
+			               i18n("Shrink Multicolumn")) != KMessageBox::Yes )
+				s = QString::null;
 		}
 
-		if ( savetext )
-			cellitem->setSpan(1,1);
-		else 
-			delete cellitem;
+		setColspan(m_y1,xl,xr,1,s);
 	}
 }
 
@@ -1330,6 +1314,59 @@ void TabularTable::cellPopupAlign(int align)
 	setCellrangeAlignment(m_x1,m_y1,m_x2,m_y2,align);
 }
 
+// get real cell range including possible multicolumn cells
+void TabularTable::getCellRange(int row,int col1, int col2, int &xl, int &xr)
+{
+	// search the first cell of this range
+	xl = col1;
+	TabularItem *cellitem1 = dynamic_cast<TabularItem*>( item(row,col1) );
+	if ( cellitem1 && cellitem1->isMulticolumn() )
+	{
+		for ( int col=col1-1; col>=0; --col )
+		{
+			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
+			if ( cellitem == cellitem1 )
+				xl = col;
+			else
+				break;
+		} 
+	}
+
+	// search the last cell of this range
+	xr = col2;
+	TabularItem *cellitem2 = dynamic_cast<TabularItem*>( item(row,col2) );
+	if ( cellitem2 && cellitem2->isMulticolumn() )
+	{
+		for ( int col=col2+1; col<numCols(); ++col )
+		{
+			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
+			if ( cellitem == cellitem2 )
+				xr = col;
+			else
+				break;
+		} 
+	}
+}
+
+// get text from real cell range including possible multicolumn cells
+QString TabularTable::getCellRangeText(int row,int col1, int col2)
+{
+	QString s;
+	for ( int col=col1; col<=col2; ) 
+	{
+		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
+		if ( cellitem ) 
+		{
+			s += cellitem->text();
+			col += cellitem->colSpan();
+		}
+		else
+		{
+			col++;
+		}
+	}
+	return s;
+}
 
 ////////////////////////////// header: right mouse button //////////////////////////////
 

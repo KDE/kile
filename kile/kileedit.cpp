@@ -1770,14 +1770,14 @@ bool EditorExtension::insideVerb(Kate::View *view)
 
 	int startpos = 0;
 	QString textline = getTextLineReal(view->getDoc(),row);
-	QRegExp reg("\\\\verb(.)");
+	QRegExp reg("\\\\verb(\\*?)(.)");
 	while ( true )
 	{
 		int pos = textline.find(reg,startpos);
-		if ( pos<0 || col<(uint)pos+6 ) 
+		if ( pos<0 || col<(uint)pos+6+reg.cap(1).length() ) 
 			return false; 
 
-		pos = textline.find(reg.cap(1),pos+6);
+		pos = textline.find(reg.cap(2),pos+6+reg.cap(1).length());
 		if ( pos<0 || col<=(uint)pos )
 			return true;
 

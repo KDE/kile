@@ -1,9 +1,9 @@
 /***************************************************************************
                            tabulardialog.h
 ----------------------------------------------------------------------------
-    date                 : Jul 23 2005
-    version              : 0.20
-    copyright            : (C) 2005 by Holger Danielsson
+    date                 : Sep 17 2006
+    version              : 0.26
+    copyright            : (C) 2005-2006 by Holger Danielsson
     email                : holger.danielsson@t-online.de
  ***************************************************************************/
 
@@ -167,7 +167,6 @@ public:
 	void setAlignment(int row,int col,int align);
 	TabularCell::Data defaultAttributes();
 	
-	void setColspan(int row,int col1,int col2,bool savetext);
 	bool isMulticolumn(int row,int col);
 		
 	void paintCell( QPainter *p, int row, int col,
@@ -215,6 +214,10 @@ private:
 	void setCellrangeAlignment(int x1,int y1,int x2,int y2,int align);
 	void setCellrangeAttributes(int x1,int y1,int x2,int y2,const TabularCell::Data &data);
 	
+	void setColspan(int row,int col1,int col2,int numcols,const QString &text);
+	void getCellRange(int row,int col1, int col2, int &xl, int &xr);
+	QString getCellRangeText(int row,int col1, int col2);
+
 	QPopupMenu *createPopupMenu();
 	void insertPopupAlign(QPopupMenu *popup,bool header);
 	void insertPopupClear(QPopupMenu *popup);

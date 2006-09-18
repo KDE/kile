@@ -34,6 +34,7 @@
 #include <kio/netaccess.h>
 #include <kpushbutton.h>
 #include <kurl.h>
+#include <kfileitem.h>
 
 #include "kileuntitled.h"
 #include "templates.h"
@@ -743,10 +744,8 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 {
 	Kate::View *view;
 	QFileInfo fi;
-	bool successBackup;
 	int saveResult;
-	QString backupFileName;
-	KURL url;
+	KURL url, backupUrl;
 	
 	kdDebug() << "===Kile::fileSaveAll=================" << endl;
 	kdDebug() << "autosaving = " << amAutoSaving << ", DisUntitled = " << disUntitled << endl;
@@ -759,7 +758,6 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 		{
 			url = view->getDoc()->url();
 			fi.setFile(url.path());
-			backupFileName = url.path()+ ".backup";
 			
 			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
@@ -768,10 +766,34 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 			{
 				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
-					kdDebug() << "autosaving: " << backupFileName << endl;
-					successBackup = KIO::NetAccess::file_copy(url, KURL::fromPathOrURL(backupFileName), -1, true, false, kapp->mainWidget());
-					if(!successBackup)
-						m_ki->logWidget()->printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupFileName),i18n("Autosave"));
+					KURL backupUrl = KURL::fromPathOrURL(url.path()+ ".backup");
+					kdDebug() << "autosaving: " << backupUrl.prettyURL() << endl;
+					
+				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
+					
+    					// get the right permissions, start with safe default
+					mode_t  perms = 0600;
+					KIO::UDSEntry fentry;
+					if (KIO::NetAccess::stat (url, fentry, kapp->mainWidget()))
+					{
+						kdDebug () << "stating successfull: " << url.prettyURL() << endl;
+						KFileItem item (fentry, url);
+						perms = item.permissions();
+					}
+
+    					// first del existing file if any, than copy over the file we have
+					// failure if a: the existing file could not be deleted, b: the file could not be copied
+					if ( (!KIO::NetAccess::exists( backupUrl, false, kapp->mainWidget() )
+						|| KIO::NetAccess::del( backupUrl, kapp->mainWidget() ) )
+						&& KIO::NetAccess::file_copy( url, backupUrl, perms, true, false, kapp->mainWidget() ) )
+					{
+						kdDebug()<<"backing up successfull ("<<url.prettyURL()<<" -> "<<backupUrl.prettyURL()<<")"<<endl;
+					}
+					else
+					{
+						kdDebug()<<"backing up failed ("<<url.prettyURL()<<" -> "<<backupUrl.prettyURL()<<")"<<endl;
+						m_ki->logWidget()->printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupUrl.prettyURL()),i18n("Autosave"));
+					}
 				}
 				
 				kdDebug() << "saving: " << url.path() << endl;

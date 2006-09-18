@@ -2223,14 +2223,26 @@ void EditorExtension::deleteWord(EditorExtension::SelectMode mode, Kate::View *v
 	}
 }
 
-void EditorExtension::nextBullet()
+void EditorExtension::nextBullet(Kate::View* view)
 {
-	gotoBullet(false);
+	gotoBullet(false, view);
 }
 
-void EditorExtension::prevBullet()
+void EditorExtension::prevBullet(Kate::View* view)
 {
-	gotoBullet(true);
+	gotoBullet(true, view);
+}
+
+void EditorExtension::insertBullet(Kate::View* view)
+{
+	uint col, pos;
+	view = determineView(view);
+	if(!view)
+	{
+		return;
+	}
+	view->cursorPositionReal(&col, &pos);
+	view->getDoc()->insertText(col, pos, s_bullet);
 }
 
 void EditorExtension::completeWord()

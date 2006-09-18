@@ -114,8 +114,9 @@ public slots:
 	void selectMathgroup(Kate::View *view = 0L);
 	void deleteMathgroup(Kate::View *view = 0L);
 
-	void nextBullet();
-	void prevBullet();
+	void nextBullet(Kate::View* view = 0L);
+	void prevBullet(Kate::View* view = 0L);
+	void insertBullet(Kate::View* view = 0L);
 
 	void gotoLine(Kate::View *view = 0L);
 	void gotoNextParagraph(Kate::View *view = 0L);

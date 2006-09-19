@@ -6,6 +6,7 @@ Fixes:
  - Quote replacement should not happen inside verbatim/verb environment (#133112)
  - Fix bug in tabular wizard, when breaking some multicolumn cells
  - Don't use default permissions for backup file (CVE CAN-2005-1920 also applies to kile)
+ - Fix bug in syntax highlighting: mathmode in optional parameter (#134146)
 
 version 1.9.1 -> 1.9.2
 Fixes:

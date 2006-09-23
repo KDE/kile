@@ -145,9 +145,6 @@
                     <property name="text">
                         <string>Show &amp;labels</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+L</string>
-                    </property>
                 </widget>
                 <widget class="QCheckBox" row="0" column="1">
                     <property name="name">
@@ -203,9 +200,6 @@
                     </property>
                     <property name="text">
                         <string>Show figure and table en&amp;vironments</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+V</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="5" column="0">

@@ -593,9 +593,9 @@ sourceinfo.lastModified()) << endl;
 			extract(tools[i], tl, cfg);
 
 			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation
-			kdDebug() << "\tool created with name " << tool->name() << endl;
 			if (tool)
 			{
+				kdDebug() << "===tool created with name " << tool->name() << endl;
 				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
 				{
 					kdDebug() << "\tqueueing " << tl << "(" << cfg << ") with " << source() << endl;

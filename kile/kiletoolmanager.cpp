@@ -433,7 +433,7 @@ namespace KileTool
 
 	void extract(const QString &str, QString &tool, QString &cfg)
 	{
-		static QRegExp re("(.*)\\((.*)\\)");
+		static QRegExp re("([^\\(]*)\\((.*)\\)");
 		QString lcl = str;
 		lcl.stripWhiteSpace();
 		cfg = QString::null;
@@ -444,6 +444,7 @@ namespace KileTool
 		}
 		else
 			tool = lcl;
+		kdDebug() << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << endl;
 	}
 
 	QString format(const QString & tool, const QString &cfg)

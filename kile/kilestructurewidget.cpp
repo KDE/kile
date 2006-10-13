@@ -743,13 +743,17 @@ namespace KileWidget
 
 		if ( needParsing ) //need to reparse the doc
 		{
+			int xtop = view->contentsX();
+			int ytop = view->contentsY();
 			//kdDebug() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
 			view->showReferences(m_ki);
+			view->setContentsPos(xtop,ytop);
 		}
 
-		if(activate){
+		if(activate)
+		{
 			kdDebug() << "===Structure::update() activating view" << endl;
 			view->activate();
 		}

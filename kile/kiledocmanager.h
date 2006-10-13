@@ -196,9 +196,10 @@ private:
 	KileInfo					*m_ki;
 	QPtrList<KileProject>		m_projects;
 	KProgressDialog				*m_kpd;
-
-	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 	
+	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
+	QStringList autosaveWarnings;
+		
 };
 
 }

@@ -738,13 +738,12 @@ void Manager::newDocumentStatus(Kate::Document *doc)
 
 void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 {
-	Kate::View *view;
+	Kate::View *view= 0L;
 	QFileInfo fi;
-	int saveResult;
+	int saveResult = Kate::View::SAVE_ERROR;
 	KURL url, backupUrl;
 	
-	kdDebug() << "===Kile::fileSaveAll=================" << endl;
-	kdDebug() << "autosaving = " << amAutoSaving << ", DisUntitled = " << disUntitled << endl;
+	kdDebug() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")" << endl;
 
 	for (uint i = 0; i < m_ki->viewManager()->views().count(); ++i)
 	{
@@ -755,6 +754,29 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 			url = view->getDoc()->url();
 			fi.setFile(url.path());
 			
+			kdDebug() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings" <<endl;
+			
+			if ( amAutoSaving)
+			{
+				if( !fi.isWritable() )
+				{
+					if ( autosaveWarnings.contains(url.path()) )
+					{
+					kdDebug() << "File " << url.prettyURL() << " is not writeable (again), trying next file" << endl;
+					continue;
+					}
+					else
+					{
+						autosaveWarnings.append(url.path());
+						kdDebug() << "File " << url.prettyURL() << " is not writeable (first time)" << endl;
+					}
+				}
+				else
+				{	
+					autosaveWarnings.remove(url.path());	
+				}
+ 			}
+			
 			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
 					|| ( !amAutoSaving && !disUntitled )	// both false, so we want to save everything
@@ -763,7 +785,6 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
 					KURL backupUrl = KURL::fromPathOrURL(url.path()+ ".backup");
-					kdDebug() << "autosaving: " << backupUrl.prettyURL() << endl;
 					
 				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
 					
@@ -792,7 +813,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					}
 				}
 				
-				kdDebug() << "saving: " << url.path() << endl;
+				kdDebug() << "trying to save: " << url.path() << endl;
 				saveResult = view->save();
 				fi.refresh();
 			

@@ -1,0 +1,48 @@
+% /***************************************************************************
+%     begin                : Mon 9 october 2006
+%     copyright            : (C) 2006 by Holger Danielsson, Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description: syntax file check for optional argument of cite command
+%  compiles:	no	
+%
+
+ \begin{enumerate} 
+ \item This MFA is \cite[Figure 1: The Graph $G_{5a}$]{23mfa} 
+
+ \item This MFA is \cite[  Figure 2: The Graph $G_{5b}$]{23mfa} 
+
+ \item This MFA is \cite [Figure 3: The Graph $G_{5c}$]{23mfa} 
+
+ \item This MFA is \cite [  Figure 4: The Graph $G_{5d}$]{23mfa} 
+
+ \item This MFA is \cite[Figure 5: 
+          The Graph $G_{5e}$]{23mfa} 
+
+ \item This MFA is \cite[Figure 6: 
+          The Graph $G_{5f}$]{
+          23mfa} 
+
+ \item This MFA is \cite (test) [ Figure 1: The Graph $G_{5g}$]{
+     23mfa} 
+
+ \end{enumerate} 
+
+$y = \sqrt{1-x^2}$
+
+ \begin{thebibliography}{10} 
+ \bibitem{23mfa} 
+ Gr\"uttm\"uller M, Kalinowski T, Leck U, Hartmann S, Roberts I.T, 
+ \textit{Maximal flat antichains of minimum weight}, 
+ Submitted for publication 
+ \end{thebibliography} 
+ \end{document} 
+ 

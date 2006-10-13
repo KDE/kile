@@ -1,0 +1,82 @@
+% /***************************************************************************
+%     begin                : Mon 9 october 2006
+%     copyright            : (C) 2006 by Holger Danielsson, Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description: test document for syntax file latex.xml
+% 		(syntax highlighting for mathmode)
+%  compiles:	no		
+% 
+
+{
+%  basic math mode
+\[blah \alpha\] xyz \par
+\(blah \alpha\) xyz \par
+$blah \alpha$ xyz \par
+$$blah \alpha$$ xyz \par
+
+% one space at the end
+\[blah \alpha \] xyz \par
+\(blah \alpha \) xyz \par
+$blah \alpha $ xyz \par
+$$blah \alpha $$ xyz \par
+
+% one space at the start
+\[ blah \alpha\] xyz \par
+\( blah \alpha\) xyz \par
+$ blah \alpha$ xyz \par
+$$ blah \alpha$$ xyz \par
+
+% a bit more advanced
+\(blah \alpha \command[sad\alpha]{sad\alpha}\) xyz
+\[blah \alpha \command[sad\alpha]{sad\alpha}\] xyz
+$blah \alpha \command[sad\alpha]{sad\alpha}$ xyz
+$$blah \alpha \command[sad\alpha]{sad\alpha}$$ xyz
+
+\(blah \alpha \command[sad\alpha]{sad\alpha} \) xyz
+\[blah \alpha \command[sad\alpha]{sad\alpha} \] xyz
+$blah \alpha \command[sad\alpha]{sad\alpha} $ xyz
+$$blah \alpha \command[sad\alpha]{sad\alpha} $$ xyz
+
+\( blah \alpha\command[sad\alpha]{sad\alpha} \) xyz
+\[ blah \alpha\command[sad\alpha]{sad\alpha} \] xyz
+$ blah \alpha\command[sad\alpha]{sad\alpha} $ xyz
+$$ blah \alpha\command[sad\alpha]{sad\alpha} $$ xyz
+}
+
+% equations
+{
+\begin{equation} xyz
+	blah \alpha
+\end{equation} xyz
+%  in one line
+\begin{equation} xyz	blah \alpha\end{equation} xyz 
+%  two in one line
+\begin{equation} xyz	blah \alpha\end{equation} xyz \begin{equation} xyz	blah \alpha\end{equation} xyz 
+
+%  with additional environments inside
+\begin{eqnarray} blah
+	\begin{split}
+(blah) blah \alpha & blah \\
+\text{sdfsdf}	
+	\end{split}
+\end{eqnarray} xyz 
+}
+
+% out of bug reports:
+{
+% #119617
+$$\phi_\ccc\circ\phi_a=(\ccc*\phi)_a\circ\phi_\ccc$$ 
+\begin{equation} a=b\nonumber\end{equation}
+xyz 
+\[blah blah \qedhere\] xyz
+}
+

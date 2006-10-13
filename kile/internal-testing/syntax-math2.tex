@@ -1,0 +1,53 @@
+% /***************************************************************************
+%     begin                : Mon 9 october 2006
+%     copyright            : (C) 2006 by Holger Danielsson, Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description: test document for syntax file latex.xml
+% 		(syntax highlighting for mathmode)	
+%  compiles:	no		
+%
+
+\newcommand{\abc}{def}
+\renewcommand{\ghi}{jkl}
+\definecolor{refkey}{rgb}{1,0,0}
+
+\newcommandasd{\mno}{pqr}
+\renewcommandasd{\stu}{vwx}
+\definecolorasd{labelkey}{rgb}{0,0,1}
+
+$50 \$abc\\text{qwe}xyz$xyz   \par
+
+$50 \$abc\text{qwe}xyz$xyz   \par
+$50 \$abc\text{qwe}$xyz      \par
+$50 \$abc\mbox{qw\,e}xyz$xyz   \par
+$50 \$abc\mbox{qw\enskip}xyz$xyz   \par
+$50 \$abc\text{qw\cmd{def}}xyz$xyz   \par
+$50 \$abc\text{qw\cmd{def\textbf{ghi}}}xyz$xyz   \par
+$50 \$abc\text{qw\cmd{def\{\%ghi}}xyz$xyz   \par
+$50 \$abc\text{qw\cmd{def\}\$ghi}}xyz$xyz   \par
+$50 \$abc\text{qwe}\alpha$xyz   \par
+
+$50 \$abc\text{qw%\cmd{def\textbf{ghi}}}xyz$xyz   \par
+                    \cmd{def\textbf{ghi}}}xyz$xyz   \par
+                    
+$$50 \$abc\text{qwe}xyz$$xyz   \par
+$$50 \$abc\text{qwe}$$xyz      \par
+$$50 \$abc\text{qwe}\alpha$$xyz      \par
+
+\[50\%\alpha\mbox{qwe}xyz\]xyz \par
+\[50\%\alpha\mbox{qwe}\alpha\]xyz \par
+
+\begin{equation}50\%\alpha  \intertext{qwe}xyz\end{equation}xyz \par
+\begin{equation}50\%\alpha  \intertext{qwe}\alpha\end{equation}xyz \par
+
+$50\%\mbox{abc\textbf{def}}$xyz             \par
+

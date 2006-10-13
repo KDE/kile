@@ -1,0 +1,60 @@
+% /***************************************************************************
+%     begin                : Mon 9 october 2006
+%     copyright            : (C) 2006 by Holger Danielsson, Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description: test if all possible environments/commands are grabbed for mathpreview
+%  compiles:	no
+% 
+
+1234$ \sqrt{2}$  $a^2$
+
+$  \$      % \( % \[ $$$$
+\begin{array}{ccc}
+x^2 & y^2 & z^2
+\end{array}
+$
+
+\begin{equation}
+% \begin{equation} $
+  a^2 \\\\\$
+ \begin{array}{ccc}
+  \alpha & \beta & \gamma
+ \end{array}
+\end{equation}
+
+$\begin{array}{ccc}
+a^2 & b^2 & c^2
+\end{array}$
+
+\[
+ a^2
+\] \$ $ x^2$
+
+\( 
+ b^2 % $ test $
+\)
+
+\begin{displaymath} 
+	\alpha + \beta + \gamma = 180° %  comment
+\end{displaymath}
+
+\begin{math} 
+	\alpha + \beta + \gamma = 180° %  comment
+\end{math}
+
+\begin{eqnarray}
+\zeta + \beta + \gamma = 180° %  comment
+\end{eqnarray}
+
+% \begin{mathtest} % has to be defined in configure-kile-commands to work
+% 	asdasdasd
+% \end{mathtest}

@@ -1,0 +1,345 @@
+% /***************************************************************************
+%     begin                : Mon 9 october 2006
+%     copyright            : (C) 2006 by Holger Danielsson, Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description: syntax file check for comments, has all commands updateStruct should grab	
+%  compiles: no			
+%
+
+\usepackage{graphicx,
+import,
+amsmath}
+\usepackage{floatflt,
+pifont,url,psfrag,booktabs}
+\usepackage[english]{babel}
+\usepackage[T1]{
+fontenc}
+% you can easily test if kile grabbed all newcommands by viewing the structure view (no ERROR sections) and by codecompletion, the commands have ascending number of h's. asdf
+
+\newcommand{\bla}{}
+\newcommand{\blah}{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blahh}%
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blahhh}
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blahhhh}{%
+test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blahhhhh}{
+test
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\blahhhhhh}{
+test % \section{ERROR}
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\blahhhhhhh}{% \section{ERROR}
+test \% \section{ERROR} 
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+% \newcommand{\blahhhhhhhh}{test\section{ERROR}test\ensuremath{a^2 + b^2 = c^2}} as reserve
+
+\newcommand{\blaeh}
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blaehh}%
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blaehhh}
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blaehhhh}{%
+test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\blaehhhhh}{
+test
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{% \section{ERROR}
+\blaehhhhhh}{test % \section{ERROR}
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\blaehhhhhhh}{% \section{ERROR}
+test \% \section{ERROR} 
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+
+\newcommand{\blu}[1]{}
+\newcommand{\bluh}[1]{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bluhh}[1]%
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bluhhh}[1]
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bluhhhh}[1]{%
+test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bluhhhhh}[1]{
+test
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\bluhhhhhh}[1]{
+test % \section{ERROR}
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\bluhhhhhhh}[1]{
+test \% \section{ERROR} 
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+
+\newcommand{\bloe}[3][stdarg]{}
+
+\newcommand{\bloeh}[3][stdarg]{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bloehh}[3][stdarg]%
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bloehhh}[3][stdarg]
+{test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bloehhhh}[3][stdarg]{%
+test \section{ERROR} test \ensuremath{a^2 + b^2 = c^2}}
+\newcommand{\bloehhhhh}[3][stdarg]{
+test
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\bloehhhhhh}[3][stdarg]{
+test % \section{ERROR}
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\bloehhhhhhh}[3][stdarg]{
+test \% \section{ERROR} 
+\section{ERROR}
+test
+\ensuremath{a^2 + b^2 = c^2}
+\section{ERROR}
+}
+\newcommand{\bloehhhhhhhh}[3][]{} % is also valid latex ...
+
+\providecommand{\bloehhhhhhhhh}{test} % not yet supported
+
+\newenvironment{hello}{test \%}{\section{ERROR}}
+\newenvironment{helloo}[2]{test \%}{\section{ERROR}}
+\newenvironment{hellooo}[3][stdarg]{test \%}{\section{ERROR}} % also not yet supported
+
+\renewcommand{\section}[2]{asd} % also missing
+\input{helloo} %allowed in preamble
+
+\iffalse
+\addunit{\knoelks}{knoe} % needed for fancyunits
+\fi
+
+\DeclareMathOperator{\destroyer}{D}
+\DeclareMathOperator*{\destroyerr}{D}
+
+\bibliographystyle{plain}
+
+\begin{document}
+\input{hello}
+\input{./hello}
+\input{/home/thomas/devel/svn/office-trunk/kile/kile/internal-testing/hello} % change this to your local absolute path
+
+\include{hello}
+\include{./hello}
+
+\iffalse \include{/home/thomas/devel/svn/office-trunk/kile/kile/internal-testing/hello}
+\fi % http://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex/2904, may not work with your setup
+
+\import{/home/thomas/devel/svn/office-trunk/kile/kile/internal-testing}{hello}
+% new, see #128227
+
+\begin{figure}[htb]
+blubb
+	\includegraphics{./teppich.eps}
+\end{figure}
+
+\begin{figure}[htb]
+	\includegraphics[width=2cm,
+bb=0 0 120 101]{teppich.eps}
+\label{picture---}
+\end{figure}
+
+\begin{figure}[b!]
+\centering
+\psfrag{xtitle}{$\alpha$ [asasa]}
+\psfrag{ytitle}{$R$ [asdas]}
+\includegraphics{teppich.eps}
+\caption{blubb}
+\label{fig:stuff}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cccc}
+$m_p$  & $R_p$  & $m_s$ & $R_s$ \\ \toprule
+0,105(6)&28,6(1,6)&69(3)&43,5(1,9) \\ \bottomrule
+\end{tabular}
+\caption{Si-Dunkelkennlinie}
+\label{tab:si-ivt-dunkel}
+\vspace{1cm}
+\end{table}
+
+\label{asdf}
+\ref{asdf}
+\pageref{asdf}
+\ref{picture---}
+
+\part{-1}
+\chapter{0}
+\section{A}
+\subsection{KHL}
+\subsubsection{C}
+\paragraph{% should jump to first position of textstring
+D}
+\subparagraph{E}
+
+\part*{-1}
+\chapter*{0}
+\section*{A}
+\subsection*{B}
+\subsubsection*{C}
+\paragraph*{% should jump to first position of textstring
+D}
+\subparagraph*{E}
+
+\iffalse
+\bibliography{test,./test,/home/thomas/devel/svn/office-trunk/kile/kile/internal-testing/test,test.bib,./test.bib,test2.bib} % where test2.bib lies in a directory referenced in $BIBINPUTS
+\fi
+
+%\section{111}
+%\section{%222}
+\%%\section{333}
+\%%\section{%444}
+\%\section{555}
+\%\section{666}
+\\\section{777}
+\\\section{%888
+   999} adsdfgsdfg sdfgsfdga sadfgsdf
+\\\%\section{aaa}
+\\\%\section{%bbb
+   ccc}
+
+% \section{ERROR}
+% \section{ERROR} 	\% \section{ERROR}
+% 			% \section{ERROR}
+\% \section{blubb}
+\% \section{blahh} % \section{ERROR}
+\% \section{nix} \% \section{garnix}
+ab % \section{ERROR}
+bc \% \section{hallo} % \section{ERROR}
+de % \section{ERROR} % \section{ERROR}
+
+\section{% \section{ERROR}
+  comment}
+
+\section{%
+  comment}
+
+Test 1
+
+\includegraphics[width=2cm,bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+Test 2
+
+\includegraphics[
+   width=2cm,bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+Test 3
+
+\includegraphics[
+   width=2cm,
+   bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+
+Test 4
+
+\includegraphics[%
+width=2cm,bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+
+Test 5
+
+\includegraphics[%
+   width=2cm,
+   bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+Test 6
+
+\includegraphics[width=2cm, % kommentar {abc}
+   bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+
+Test 7
+
+\includegraphics[width=2cm,% kommentar {abc}
+   bb=0 0 120 101 % kommentar def
+   ]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+Test 8
+
+\includegraphics
+[width=2cm,bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+Test 9
+
+\includegraphics %
+[width=2cm,bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+Test 10
+
+\% \includegraphics %
+[width=2cm,bb=0 0 120 101]{teppich.eps}
+% teppich.eps: 160x135 pixel, 96dpi, 4.23x3.57 cm, bb=0 0 120 101
+
+\begin{thebibliography}{bbxsec}
+\bibitem{prop}
+  T.~Lohse et al., {\em An Experiment to Study CP Violation in the
+  $B$ System Using an Internal Target at the HERA Proton Ring},
+  Proposal, {\bf DESY-PRC 94/02} (1994).
+\bibitem{PDG} Particle Data Group, Review of Particle Properties,
+    Eur. Phys. J. {\bf C15}  (2000).
+\bibitem{bbxsec} P.~Nason, S.~Dawson and K.R.~Ellis,
+    \bf{303}{1988}{607};
+    {\bf B327} (1989) 49; {\bf B335} (1990) 260.
+\end{thebibliography} % taken from http://www-hera-b.desy.de/general/publications/hb2k/report/target/target.bib

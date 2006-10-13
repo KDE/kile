@@ -1,0 +1,112 @@
+[General]
+img_extIsRegExp=false
+img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
+kileprversion=1
+kileversion=1.9
+lastDocument=syntax-math2.tex
+masterDocument=
+name=Internal Testing
+pkg_extIsRegExp=false
+pkg_extensions=.cls .sty .dtx
+src_extIsRegExp=false
+src_extensions=.tex .ltx .bib .mp
+
+[Tools]
+MakeIndex=
+QuickBuild=
+
+[item:env-grabbing-testing.tex]
+archive=true
+column=18
+encoding=ISO 8859-15
+highlight=LaTeX
+line=14
+open=true
+
+[item:find-verbatim.tex]
+archive=true
+column=18
+encoding=UTF-8
+highlight=LaTeX
+line=14
+open=true
+
+[item:hello.tex]
+archive=true
+column=1
+encoding=ISO 8859-15
+highlight=LaTeX
+line=15
+open=true
+
+[item:helloo.tex]
+archive=true
+column=0
+encoding=ISO 8859-15
+highlight=LaTeX
+line=0
+open=true
+
+[item:internaltesting.kilepr]
+archive=true
+column=47
+encoding=
+highlight=
+line=0
+open=false
+
+[item:syntax-cite.tex]
+archive=true
+column=0
+encoding=ISO 8859-15
+highlight=LaTeX
+line=16
+open=true
+
+[item:syntax-cmds.tex]
+archive=true
+column=0
+encoding=ISO 8859-15
+highlight=LaTeX
+line=16
+open=true
+
+[item:syntax-comment-updateStruct.tex]
+archive=true
+column=15
+encoding=ISO 8859-15
+highlight=LaTeX
+line=14
+open=true
+
+[item:syntax-generic.tex]
+archive=true
+column=48
+encoding=ISO 8859-15
+highlight=LaTeX
+line=14
+open=true
+
+[item:syntax-math1.tex]
+archive=true
+column=0
+encoding=ISO 8859-15
+highlight=LaTeX
+line=17
+open=true
+
+[item:syntax-math2.tex]
+archive=true
+column=0
+encoding=ISO 8859-15
+highlight=LaTeX
+line=17
+open=true
+
+[item:teppich.eps]
+archive=true
+column=47
+encoding=
+highlight=
+line=0
+open=false

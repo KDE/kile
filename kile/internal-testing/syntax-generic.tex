@@ -1,0 +1,238 @@
+% /***************************************************************************
+%     begin                : Mon 9 october 2006
+%     copyright            : (C) 2006 by Holger Danielsson, Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description:  test document for syntax file latex.xml
+% 		(general syntax highlighting)	
+%  compiles:	no
+
+\section{xyz}            % ok: sectioning command (red), parameter in black
+
+\section[short]{xyz}     % ok
+
+\section*{xyz}           % ok: star belongs to the sectioning command
+
+\section*[short]{xyz}    % ok
+
+\sectionabc{xyz}         % command, parameter in black
+
+\sectionabc[short]{xyz}  % command
+
+\sectionabc*{xyz}        % ok: star belongs to the command
+
+\sectionabc*[short]{xyz} % ok
+
+\command*{parameter}     % ok
+
+
+\verb|a| abc             % a in verbatim mode
+
+\verb|abc                % only abc in verbatim mode
+abc                      % no verbatim mode more
+
+\verb*aba abc            % only b in verbatim mode
+
+\verbabc  abc            % normal command
+
+\verb|aaaassss sss| abc  % verbatim mode
+
+\rput*                   % \rput command (including star)
+
+\rput56                  % \rput command, 56 in black
+
+\rput=ab                 % \rput command, =ab in black
+
+\rput*ab                 % \rput command, ab in black
+
+$ x^2  $$ \] $ abc       % error; $$ and \]
+
+\( x^2 $$ \] $ abc       % error; $$ and \]
+
+$ x^2 $$ \] \) abc       % error; $$ and \]
+
+$$ x^2 $$ abc
+
+$$ x^2 $ \) \] $$ abc    % error; $, \) and \]
+
+\[ x^2 $$ $ \) \] abc    % error; $$, $ and \)
+
+\begin{XYZverbatim}      % environment
+         xffg
+\end{XYZverbatim}
+
+\begin{verbatimXYZ}      % environment
+         xffg
+\end{verbatimXYZ}
+
+\begin{verbatimX}        % environment
+         xffg
+\end{verbatimX}
+
+\begin{verbatim}         % environment
+         xffg            % verbatim mode
+\end{verbatim}
+
+\begin   {verbatim}      % environment
+         xffg            % verbatim mode
+\end   {verbatim}
+
+\begin{verbatim*}        % environment
+         xffg            % verbatim mode
+\end{verbatim*}
+
+% \begin{verbatim]       % comment
+%          xffg
+% \end{verbatim}
+
+\begin{verbatim*XYZ}     % error: *XYZ
+         xffg
+\end{verbatim*XYZ}
+
+\begin{verbatim56}       % error: 56
+         xffg
+\end{verbatim56}
+
+\begin{verbatim=ab}      % error: =ab
+         xffg
+\end{verbatim=ab}
+
+\begin{lstlisting}       % environment
+ verbatim                % verbatim mode
+\end{lstlisting}
+
+\begin{lstlisting}[frame=tb,           % environment, parameter in black
+                   language=pascal]
+ verbatim                              % verbatim mode
+\end{lstlisting}
+
+\begin{a}                % environment
+         xffg
+\end{a}
+
+\begin{a*}               % environment
+         xffg
+\end{a*}
+
+\begin{xyz}              % environment
+asd
+\end{xyz}
+
+\begin{xyz*}
+asd
+\end{xyz*}
+
+
+\begin{xyz]              % error: ]
+asd
+\end{xyz}
+
+\begin{xyz*ab}           % error: *ab
+asd
+\end{xyz*ab}
+
+\begin{xyz=ab}           % error: =ab
+asd
+\end{xyz=ab}
+
+\begin{xyz56}            % error: 56
+asd
+\end{xyz56}
+
+\begin{align}            % environment
+ 1&\le 2 \\              % mathmode
+ &\le  \\
+ &\le 
+\end{align}
+
+\begin {align*}          % environment
+ 1&\le 2 \\              % mathmode
+ &\le  \\
+ &\le 
+\end{align*}
+
+\begin{align}            % environment
+$ 1&\le 2 \\             % error: $
+$$ &\le  \\              % error: $$
+\( \) &\le               % error: \( and \)
+\[ \]                    % error: \[ and \]
+\end{align}
+
+\begin{align}{2}                  % environment
+x^2 &= 1  &\hskip2cm  1 &= 2 \\   % mathmode
+× &= ×  &         × &= × \\
+× &= ×  &         × &= ×
+\end{align}
+ 
+\begin{XYZalign}         % environment
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{XYZalign}
+
+\begin{alignXYZ}         % environment
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{alignXYZ}
+
+\begin{alignX}           % environment
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{alignX}
+
+\begin{align*XYZ}        % error: *XYZ
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{align*XYZ}
+
+\begin{align56}          % error: 56
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{align56}
+
+\begin{align=ab}         % error: =ab
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{align=ab}
+
+$\begin{matrix}          % mathmode
+ 1&2  \\
+ 3& 4 \\
+ 5&6 
+\end{matrix}$
+
+$                        % mathmode
+\begin{align}            % error: align env in mathmode
+ 1&= x^2 \\
+3 &=  4\\
+ 5&=6
+\end{align}
+$
+
+\begin{   xyz}               % error: spaces
+x^2 
+\end{xyz   }
+
+
+\begin{al   ign}             % error: spaces
+x^2 \intertext{normal} y^2
+\end{align    }
+
+
+\begin{verba t  im}          % error: spaces
+x^2 \intertext{normal} y^2
+\end{ve rbatim}
+

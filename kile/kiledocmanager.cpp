@@ -1305,24 +1305,13 @@ void Manager::projectAddFiles(KileProject *project,const KURL & fileUrl)
 
 	if (project)
 	{
-	QString currentDir;
-	QFileInfo fi;
+		QString currentDir;
 		if(fileUrl.isEmpty())
-		{
-			//determine the starting dir from the file dialog
-			currentDir=m_ki->fileSelector()->dirOperator()->url().path();
-			
-			if (m_ki->viewManager()->currentView())
-			{
-				fi.setFile(m_ki->viewManager()->currentView()->getDoc()->url().path());
-				if (fi.exists())
-					currentDir= fi.dirPath();
-			}
-		}
+			currentDir=project->url().directory();
 		else
 			currentDir=fileUrl.directory();
 
-		kdDebug() << "currentDir is" << currentDir << endl;
+		kdDebug() << "currentDir is " << currentDir << endl;
 		KFileDialog *dlg = new KFileDialog(currentDir, i18n("*|All Files"),m_ki->parentWidget(), 0, true );
 		KPushButton* okButton = dlg->okButton();
 		okButton->setText(i18n("Add"));

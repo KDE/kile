@@ -23,11 +23,16 @@
 
 #include <qvaluelist.h>
 
+#include "kileconstants.h"
+
 struct TemplateInfo {
 public:
+   TemplateInfo();
+
    QString name;
    QString path;
    QString icon;
+   KileDocument::Type type;
 
    bool operator==(const TemplateInfo ti) { return name==ti.name; }
 };

@@ -224,7 +224,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 Kate::View* EditorExtension::determineView(Kate::View *view)
 {
 	if (view == 0L)
-		view = m_ki->viewManager()->currentView();
+		view = m_ki->viewManager()->currentTextView();
 
 	m_overwritemode = (view == 0L) ? false : view->isOverwriteMode();
 
@@ -2247,17 +2247,17 @@ void EditorExtension::insertBullet(Kate::View* view)
 
 void EditorExtension::completeWord()
 {
-	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmLatex);
+	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmLatex);
 }
 
 void EditorExtension::completeEnvironment()
 {
-	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmEnvironment);
+	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmEnvironment);
 }
 
 void EditorExtension::completeAbbreviation()
 {
-	complete()->editComplete(m_ki->viewManager()->currentView(), KileDocument::CodeCompletion::cmAbbreviation);
+	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmAbbreviation);
 }
 
 //////////////////// double quotes ////////////////////

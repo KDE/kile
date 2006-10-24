@@ -224,7 +224,7 @@ namespace KileDialog
 
 	void Config::setupEditor()
 	{
-		Kate::View *view = m_ki->viewManager()->currentView();
+		Kate::View *view = m_ki->viewManager()->currentTextView();
 		m_editorOpened = ( view != 0L );
 		m_editorSettingsChanged = false;
 
@@ -281,7 +281,7 @@ namespace KileDialog
 		{
 			for (uint i=0; i<editorPages.count(); i++)
 				editorPages.at(i)->apply();
- 			m_ki->viewManager()->currentView()->getDoc()->writeConfig();
+ 			m_ki->viewManager()->currentTextView()->getDoc()->writeConfig();
 			
 			// take Kate's encoding for Kile
 			syncKileEncoding();

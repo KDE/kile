@@ -43,7 +43,7 @@ void KileSpell::spellcheck()
 {
 	kdDebug() <<"==KileSpell::spellcheck()==============" << endl;
 
-	if ( !m_ki->viewManager()->currentView() ) return;
+	if ( !m_ki->viewManager()->currentTextView() ) return;
 
 	if ( kspell )
 	{
@@ -65,7 +65,7 @@ void KileSpell::spellcheck()
 void KileSpell::spell_started( KSpell *)
 {
 	kspell->setProgressResolution(2);
-	Kate::View *view = m_ki->viewManager()->currentView();
+	Kate::View *view = m_ki->viewManager()->currentTextView();
 
 	if ( view->getDoc()->hasSelection() )
 	{
@@ -87,7 +87,7 @@ void KileSpell::spell_started( KSpell *)
 
 void KileSpell::spell_done(const QString& /*newtext*/)
 {
-	m_ki->viewManager()->currentView()->getDoc()->clearSelection();
+	m_ki->viewManager()->currentTextView()->getDoc()->clearSelection();
 	kspell->cleanUp();
 	KMessageBox::information(m_parent, i18n("Corrected 1 word.", "Corrected %n words", ks_corrected),
                              i18n("Spell Checking Done"));
@@ -103,14 +103,14 @@ void KileSpell::spell_finished( )
 		KMessageBox::sorry(m_parent, i18n("I(A)Spell could not be started."));
 	else if (status == KSpell::Crashed)
 	{
-		m_ki->viewManager()->currentView()->getDoc()->clearSelection();
+		m_ki->viewManager()->currentTextView()->getDoc()->clearSelection();
 		KMessageBox::sorry(m_parent, i18n("I(A)Spell seems to have crashed."));
 	}
 }
 
 void KileSpell::misspelling (const QString & originalword, const QStringList & /*suggestions*/,unsigned int pos)
 {
-	Kate::View *view = m_ki->viewManager()->currentView();
+	Kate::View *view = m_ki->viewManager()->currentTextView();
 	if ( view == 0L ) return;
 
 	int l=par_start;
@@ -132,7 +132,7 @@ void KileSpell::misspelling (const QString & originalword, const QStringList & /
 
 void KileSpell::corrected (const QString & originalword, const QString & newword, unsigned int pos)
 {
-	Kate::View *view = m_ki->viewManager()->currentView();
+	Kate::View *view = m_ki->viewManager()->currentTextView();
 	if ( view == 0L ) return;
 
 	int l=par_start;

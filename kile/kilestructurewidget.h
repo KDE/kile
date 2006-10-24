@@ -119,7 +119,7 @@ namespace KileWidget
 		void cleanUp(bool preserveState = true);
 		void showReferences(KileInfo *ki);
 		
-		const KURL & url() const { return m_docinfo->url(); }
+		KURL url() const { return m_docinfo->url(); }
 
 	public slots:
 		void addItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString &folder = "root");

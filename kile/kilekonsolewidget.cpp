@@ -64,7 +64,7 @@ namespace KileWidget
 
 	void Konsole::sync()
 	{
-		Kate::Document *doc = m_ki->activeDocument();
+		Kate::Document *doc = m_ki->activeTextDocument();
 		Kate::View *view = 0;
 
 		if (doc)

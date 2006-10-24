@@ -36,6 +36,7 @@
 #include <kurldrag.h>
 
 #include "kileinfo.h"
+#include "kileconstants.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "kileprojectview.h"
@@ -52,7 +53,7 @@ namespace KileView
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent, name),
 	m_ki(info),
-	m_activeView(0L),
+	m_activeTextView(0L),
 // 	m_projectview(0L),
 	m_tabs(0L),
 	m_widgetStack(0L),
@@ -113,18 +114,22 @@ void Manager::closeWidget(QWidget *widget)
 	}
 }
 
-Kate::View* Manager::createView(Kate::Document *doc, int index)
+Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
-	Kate::View *view = (Kate::View*) doc->createView (m_tabs, 0L);
+	Kate::Document *doc = info->getDoc();
+	Kate::View *view = static_cast<Kate::View*>(info->createView (m_tabs, 0L));
 
-	//install event filter on the view
-	view->focusProxy()->installEventFilter(m_ki->eventFilter());
+	// in the case of simple text documents, we mimic the behaviour of LaTeX documents
+	if(info->getType() == KileDocument::Text)
+	{
+		view->focusProxy()->installEventFilter(m_ki->eventFilter());
+	}
 
 	//insert the view in the tab widget
 	m_tabs->insertTab( view, m_ki->getShortName(doc), index );
 	m_tabs->setTabToolTip(view, doc->url().url() );
 	m_tabs->showPage( view );
-	m_viewList.insert((index < 0 || (uint)index >= m_viewList.count()) ? m_viewList.count() : index, view);
+	m_textViewList.insert((index < 0 || (uint)index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
@@ -144,10 +149,9 @@ Kate::View* Manager::createView(Kate::Document *doc, int index)
 	}
 
 	// install a working kate part popup dialog thingy
-	Kate::View *kateView = static_cast<Kate::View*>(view->qt_cast("Kate::View"));
 	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
-	if((NULL != kateView) && (NULL != viewPopupMenu))
-		kateView->installPopup(viewPopupMenu);
+	if((NULL != view) && (NULL != viewPopupMenu))
+		view->installPopup(viewPopupMenu);
 	if(NULL != viewPopupMenu)
 		connect(viewPopupMenu, SIGNAL(aboutToShow()), this, SLOT(onKatePopupMenuRequest()));
 
@@ -161,8 +165,23 @@ Kate::View* Manager::createView(Kate::Document *doc, int index)
 	view->setFocus();
 
 	emit(prepareForPart("Editor"));
-
 	unplugKatePartMenu(view);
+
+	// use Kile's save and save-as functions instead of Katepart's
+	KAction *action = view->actionCollection()->action(KStdAction::stdName(KStdAction::Save)); 
+	if ( action ) 
+	{
+		kdDebug() << "   reconnect action 'file_save'..." << endl;
+		action->disconnect(SIGNAL(activated()));
+		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSave()));
+	}
+	action = view->actionCollection()->action(KStdAction::stdName(KStdAction::SaveAs));
+	if ( action ) 
+	{
+		kdDebug() << "   reconnect action 'file_save_as'..." << endl;
+		action->disconnect(SIGNAL(activated()));
+		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSaveAs()));
+	}
 	m_widgetStack->raiseWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
 
 	return view;
@@ -175,11 +194,11 @@ void Manager::removeView(Kate::View *view)
 		m_client->factory()->removeClient(view);
 
 		m_tabs->removePage(view);
-		m_viewList.remove(view);
+		m_textViewList.remove(view);
 		delete view;
 		
 		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
-		if (views().isEmpty()) {
+		if (textViews().isEmpty()) {
 			m_ki->structureWidget()->clear();
 			m_widgetStack->raiseWidget(m_emptyDropWidget); // there are no tabs left, so show
 			                                               // the DropWidget
@@ -187,7 +206,7 @@ void Manager::removeView(Kate::View *view)
 	}
 }
 
-Kate::View *Manager::currentView() const
+Kate::View *Manager::currentTextView() const
 {
 	if ( m_tabs->currentPage() &&
 		m_tabs->currentPage()->inherits( "Kate::View" ) )
@@ -198,7 +217,7 @@ Kate::View *Manager::currentView() const
 	return 0;
 }
 
-Kate::View* Manager::switchToView(const KURL & url)
+Kate::View* Manager::switchToTextView(const KURL & url)
 {
 	Kate::View *view = 0L;
 	Kate::Document *doc = m_ki->docManager()->docFor(url);
@@ -220,10 +239,10 @@ void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *doci
 	if (docinfo)
 		m_ki->structureWidget()->update(docinfo, parse);
 
-	Kate::View *view = currentView();
+	Kate::View *view = currentTextView();
 	if (view) {view->setFocus();}
 
-	if ( views().count() == 0 )
+	if ( textViews().count() == 0 )
 		m_ki->structureWidget()->clear();
 }
 
@@ -271,7 +290,7 @@ void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsign
  */
 void Manager::onKatePopupMenuRequest(void)
 {
-	Kate::View *view = currentView();
+	Kate::View *view = currentTextView();
 	if(NULL == view)
 		return;
 
@@ -314,7 +333,7 @@ void Manager::onKatePopupMenuRequest(void)
 
 void Manager::convertSelectionToLaTeX(void)
 {
-	Kate::View *view = currentView();
+	Kate::View *view = currentTextView();
 
 	if(NULL == view)
 		return;
@@ -380,7 +399,7 @@ void Manager::convertSelectionToLaTeX(void)
  */
 void Manager::pasteAsLaTeX(void)
 {
-	Kate::View *view = currentView();
+	Kate::View *view = currentTextView();
 
 	if(NULL == view)
 		return;
@@ -419,7 +438,7 @@ void Manager::pasteAsLaTeX(void)
 
 void Manager::quickPreviewPopup()
 {
-	Kate::View *view = currentView();
+	Kate::View *view = currentTextView();
 	if( ! view )
 		return;
 
@@ -497,6 +516,7 @@ void Manager::unplugKatePartMenu(Kate::View* view)
 			if ( action ) 
 			{
 				action->unplugAll();
+//				action->setShortcut(KShortcut());
 			}
 		}
 	}

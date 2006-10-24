@@ -91,7 +91,7 @@ namespace KileTool
 
 	bool LaTeX::updateBibs()
 	{
-		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
+		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
                 if ( docinfo )
                 {
 			if ( manager()->info()->allBibliographies()->count() > 0 )
@@ -103,7 +103,7 @@ namespace KileTool
 
 	bool LaTeX::updateIndex()
 	{
-		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
+		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if ( docinfo )
 		{
 			const QStringList *pckgs = docinfo->packages();
@@ -246,7 +246,7 @@ namespace KileTool
 			return false;
 
 		int para = manager()->info()->lineNumber();
-		Kate::Document *doc = manager()->info()->activeDocument();
+		Kate::Document *doc = manager()->info()->activeTextDocument();
 		QString filepath;
 
 		if (doc)
@@ -274,7 +274,7 @@ namespace KileTool
 		QFileInfo info(path);
 
 		//get the bibliographies for this source
-		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->infoFor(path));
+		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
 		kdDebug() << "\tfound " << bibs->count() << " bibs" << endl;
 		if (bibs->count() > 0)
 		{

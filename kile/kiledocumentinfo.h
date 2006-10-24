@@ -1,8 +1,8 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Sun Jul 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -23,7 +23,7 @@
 #include <kdialogbase.h>
 #include <latexcmd.h>
 
-#include "kiledocmanager.h"
+#include "kileconstants.h"
 
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
@@ -95,30 +95,16 @@ class Info : public QObject
 public:
 	static bool isTeXFile(const KURL &);
 	static bool isBibFile(const KURL &);
+	static bool isScriptFile(const KURL & url);
 	static bool containsInvalidCharacters(const KURL&);
-	static KURL repairInvalidCharacters(const KURL&);
-	static KURL repairExtension(const KURL&);
-	static KURL makeValidTeXURL(const KURL & url);
+	static KURL repairInvalidCharacters(const KURL&, bool checkForFileExistence = true);
+	static KURL repairExtension(const KURL&, bool checkForFileExistence = true);
+	static KURL makeValidTeXURL(const KURL & url, bool checkForFileExistence = true);
 	static KURL renameIfExist(const KURL& url);
 
 public:
-	Info(Kate::Document *doc, LatexCommands *commands);
+	Info();
 	~Info();
-
-	/**
-	 * @returns the document for which this class is a decorator
-	 **/
-	Kate::Document* getDoc() const { return m_doc; }
-	void setDoc(Kate::Document *doc) { m_doc = doc; m_url=m_oldurl=doc->url();}
-	void detach() { m_doc = 0L; }
-
-	/**
-	 * Used by @ref KileDocInfoDlg to display statistics of the Document.
-	 * @returns an array with some statistical data of the document.
-	 * The array is filled as follows: [0] = #c in words, [1] = #c in latex commands and environments,
-	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments **/
-
-	virtual const long* getStatistics();
 
 	const QStringList* labels() const{ return &m_labels; }
 	const QStringList* bibItems() const { return &m_bibItems; }
@@ -128,7 +114,7 @@ public:
 	const QStringList* newCommands() const { return &m_newCommands; }
 
 	QString lastModifiedFile(const QStringList *list = 0L);
-	void updateStructLevelInfo();
+
 	bool openStructureLabels() { return m_openStructureLabels; }
 	bool openStructureReferences() { return m_openStructureReferences; }
 	bool openStructureBibitems() { return m_openStructureBibitems; }
@@ -140,11 +126,25 @@ public:
 
 	virtual bool isLaTeXRoot() { return m_bIsRoot; }
 
-	void setURL(const KURL& url) { m_oldurl = m_url; m_url = url; emit nameChanged(url); }
-	const KURL& url() {return m_url;}
-	const KURL& oldURL() {return m_oldurl;}
+	virtual KURL url();
 	
 	void cleanTempFiles(const QStringList &  );
+
+	virtual void updateStructLevelInfo();
+
+	void setBaseDirectory(const KURL& url);
+	const KURL& getBaseDirectory() const;
+
+	virtual bool isTextDocument();
+	virtual Type getType();
+
+	/**
+	 * Returns a file filter suitable for loading and saving files of this class' type.
+	 **/
+	virtual QString getFileFilter() const;
+
+	virtual bool isDocumentTypePromotionAllowed();
+	void setDocumentTypePromotionAllowed(bool b);
 
 public slots:
 	/**
@@ -152,11 +152,9 @@ public slots:
 	 **/
 	virtual void updateStruct();
 	virtual void updateBibItems();
-	void emitNameChanged(Kate::Document *);
 
 signals:
-	void nameChanged(const KURL &);
-	void nameChanged(Kate::Document *);
+	void urlChanged(const KURL& url);
 	void isrootChanged(bool);
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString & folder);
@@ -165,8 +163,6 @@ signals:
 
 protected:
 	void count(const QString line, long *stat);
-	QString matchBracket(QChar c, uint &, uint &);
-	QString getTextline(uint line);
 
 protected:
 	enum State
@@ -176,8 +172,6 @@ protected:
 	};
 
 protected:
-	Kate::Document					*m_doc;
-	long						*m_arStatistics;
 	bool						m_bIsRoot;
 	QStringList					m_labels;
 	QStringList					m_bibItems;
@@ -188,9 +182,8 @@ protected:
 	QString						m_preamble;
 	QString						m_prevbib;
 	QMap<QString,KileStructData>			m_dictStructLevel;
-	KURL						m_url, m_oldurl;
+	KURL						m_url;
 	KConfig						*m_config;
-	LatexCommands					*m_commands;
 	bool m_showStructureLabels;
 	bool m_showStructureBibitems;
 	bool m_showStructureGraphics;
@@ -200,35 +193,168 @@ protected:
 	bool m_openStructureLabels;
 	bool m_openStructureReferences;
 	bool m_openStructureBibitems;
+	KURL						m_baseDirectory;
+	bool						documentTypePromotionAllowed;
 };
 
-class TeXInfo : public Info
+
+/**
+ * The URL of a text document is managed directly by the corresponding Kate::Document.
+ **/
+class TextInfo : public Info
+{
+	Q_OBJECT
+public:
+	/**
+	 * @param defaultHighlightMode the highlight mode that will be set automatically
+	 *                             once a new document is installed
+	 **/
+	TextInfo(Kate::Document *doc, const QString& defaultHighlightMode = QString::null);
+	virtual ~TextInfo();
+
+	/**
+	 * @returns the document for which this class is a decorator
+	 **/
+	const Kate::Document* getDoc() const;
+	Kate::Document* getDoc();
+	void setDoc(Kate::Document *doc);
+	void detach();
+
+	/**
+	 * Used by @ref KileDocInfoDlg to display statistics of the Document.
+	 * @returns an array with some statistical data of the document.
+	 * The array is filled as follows: [0] = #c in words, [1] = #c in latex commands and environments,
+	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments **/
+
+	virtual const long* getStatistics();
+
+	/**
+	 * @returns the URL of the Kate::Document.
+	 **/
+	virtual KURL url();
+
+	virtual Type getType();
+
+	bool isTextDocument();
+
+	void setHighlightMode(const QString & highlight = QString::null);
+
+	void setDefaultHightlightMode(const QString& string);
+
+	/**
+	 * "Overridden" method that installs custom event filters by using the "installEventFilters"
+	 * method.
+	 * @warning Only this method should be used to create new views for text documents !
+	 * @return NULL if no document is set (m_doc == NULL)
+	 **/
+	KTextEditor::View* createView(QWidget *parent, const char *name=0);
+
+protected slots:
+	void slotFileNameChanged();
+
+protected:
+	Kate::Document			*m_doc;
+	long				*m_arStatistics;
+	QString				m_defaultHighlightMode;
+
+	QString matchBracket(QChar c, uint &, uint &);
+	QString getTextline(uint line);
+
+	/**
+	 * Installs an event filter on a view. Subclasses can override this method to
+	 * provide custom event filters. The default implementation does nothing. Whenever this
+	 * method is overridden, "removeInstalledEventFilters" should be overridden as well.
+	 * @param view the view that is considered
+	 **/
+	virtual void installEventFilters(KTextEditor::View *view);
+
+	/**
+	 * Removes the event filters that were previously installed by the "installEventFilters"
+	 * function. Subclasses can override this method to remove custom event filters. The
+	 * default implementation does nothing.
+	 * @param view the view that is considered
+	 **/
+	virtual void removeInstalledEventFilters(KTextEditor::View *view);
+
+	/**
+	 * Installs the event filters on all the views that are currently open for the 
+	 * managed document object. The function "installEventFilters(KTextEditor::View *view)
+	 * function is used for a specific view.
+	 **/
+	void installEventFilters();
+
+	/**
+	 * Removes the event filters from all the views that are currently open for the 
+	 * managed document object. The function "removeInstalledEventFilters(KTextEditor::View *view)
+	 * function is used for a specific view.
+	 **/
+	void removeInstalledEventFilters();
+};
+
+
+
+class LaTeXInfo : public TextInfo
 {
 	Q_OBJECT
 
 public:
-	TeXInfo (Kate::Document *doc, LatexCommands *commands) : Info(doc,commands) {}
+	/**
+	 * @param eventFilter the event filter that will be installed on managed documents
+	 **/
+	LaTeXInfo(Kate::Document *doc, LatexCommands *commands, const QObject* eventFilter);
+	virtual ~LaTeXInfo();
 
-public:
 	const long* getStatistics();
 
+	virtual Type getType();
+
+	virtual QString getFileFilter() const;
+
+	static QString LaTeXFileFilter();
+
 public slots:
-	void updateStruct();
+	virtual void updateStruct();
+
+protected:
+	LatexCommands *m_commands;
+	const QObject *m_eventFilter;
+
+	virtual void updateStructLevelInfo();
+
+	/**
+	 * Installs a custom event filter.
+	 **/
+	virtual void installEventFilters(KTextEditor::View *view);
+
+	/**
+	 * Revmoves the custom event filter.
+	 **/
+	virtual void removeInstalledEventFilters(KTextEditor::View *view);
 
 private:
 	BracketResult matchBracket(uint &, uint &);
 };
 
-class BibInfo : public Info
+
+
+class BibInfo : public TextInfo
 {
 	Q_OBJECT
 
 public:
-	BibInfo (Kate::Document *doc, LatexCommands *commands) : Info(doc,commands) {}
-	bool isLaTeXRoot() { return false; }
+	BibInfo (Kate::Document *doc, LatexCommands* commands);
+	virtual ~BibInfo();
+
+	virtual bool isLaTeXRoot();
+
+	virtual Type getType();
+
+	virtual QString getFileFilter() const;
+
+	static QString BibTeXFileFilter();
 
 public slots:
-	void updateStruct();
+	virtual void updateStruct();
 };
 
 }

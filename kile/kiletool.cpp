@@ -208,13 +208,13 @@ namespace KileTool
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if ( (m_source.isNull()) && (m_manager->info()->activeDocument() == 0L)  )
+		if ( (m_source.isNull()) && (m_manager->info()->activeTextDocument() == 0L)  )
 		{ 
 			sendMessage(Error, msg(NeedActiveDoc).arg(name()));
 			return false;
 		}
 
-		if ( (m_source.isNull()) && (m_manager->info()->activeDocument() != 0L) )
+		if ( (m_source.isNull()) && (m_manager->info()->activeTextDocument() != 0L) )
 		{
 			//couldn't find a source file, huh?
 			//we know there is an active document, the only reason is could have failed is because
@@ -222,7 +222,7 @@ namespace KileTool
 			sendMessage(Error, msg(NeedMasterDoc));
 			return false;
 		}
-		
+
 		if ( KileUntitled::isUntitled(m_source) )
 		{
 			sendMessage(Error, msg(NoUntitledDoc));
@@ -530,7 +530,7 @@ sourceinfo.lastModified()) << endl;
 		if ( !Base::checkSource() ) return false;
 
 		bool isRoot = true;
-		KileDocument::Info *docinfo = manager()->info()->docManager()->infoFor(source());
+		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if (docinfo) isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
 
 		if (!isRoot)

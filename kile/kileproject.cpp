@@ -109,13 +109,23 @@ void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
 	}
 }
 
-void KileProjectItem::setInfo(KileDocument::Info *docinfo)
+void KileProjectItem::setInfo(KileDocument::TextInfo *docinfo)
 {
 	m_docinfo = docinfo;
 	if(docinfo)
 	{
-	connect(docinfo,SIGNAL(nameChanged(const KURL &)), this, SLOT(changeURL(const KURL &)));
+	connect(docinfo,SIGNAL(urlChanged(const KURL &)), this, SLOT(changeURL(const KURL &)));
 	connect(docinfo,SIGNAL(depChanged()), m_project, SLOT(buildProjectTree()));
+	}
+}
+
+void KileProjectItem::changeURL(const KURL &url)
+{
+	// don't allow empty URLs
+	if(!url.isEmpty() && m_url != url) 
+	{
+		m_url = url;
+		emit(urlChanged(this));
 	}
 }
 
@@ -488,6 +498,21 @@ KileProjectItem* KileProject::item(const KURL & url)
 	return 0;
 }
 
+KileProjectItem* KileProject::item(const KileDocument::Info *info)
+{
+	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	KileProjectItem *current;
+	while ((current = it.current()) != 0)
+	{
+		++it;
+		if (current->getInfo() == info)
+		{
+			return current;
+		}
+	}
+	return 0;
+}
+
 void KileProject::add(KileProjectItem* item)
 {
 	kdDebug() << "KileProject::add projectitem" << item->url().path() << endl;
@@ -606,6 +631,21 @@ bool KileProject::contains(const KURL &url)
 			return true;
 	}
 
+	return false;
+}
+
+bool KileProject::contains(const KileDocument::Info *info)
+{
+	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	KileProjectItem *current;
+	while( (current = it.current()) != 0)
+	{
+		++it;
+		if(current->getInfo() == info)
+		{
+			return true;
+		}
+	}
 	return false;
 }
 

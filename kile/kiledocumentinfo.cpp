@@ -1,10 +1,9 @@
-/***************************************************************************
+/*********************************************************************************************
     begin                : Sun Jul 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-                               2005 by Holger Danielsson
-    email                : Jeroen.Wijnhout@kdemail.net
-                           holger.danielsson@t-online.de
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -42,12 +41,16 @@
 // - fix #106261#4 improved parsing of (optional) command parameters
 // - all comments are removed
 
+//2006-09-09 mludwig
+// - generalising the different document types
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qdatetime.h>
 
+#include <kio/netaccess.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kapplication.h>
@@ -68,7 +71,7 @@ bool Info::isTeXFile(const KURL & url)
 {
 	//TODO use mimetype
 	QString shortName = url.fileName();
-	return (shortName.right(4) == ".tex" || shortName.right(4) == ".sty" || shortName.right(4) == ".cls" || shortName.right(4) == ".dtx" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex") && ( !KileUntitled::isUntitled(shortName) );
+	return (shortName.right(4) == ".tex" || shortName.right(4) == ".sty" || shortName.right(4) == ".cls" || shortName.right(4) == ".dtx" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex");
 }
 
 bool Info::isBibFile(const KURL & url)
@@ -77,13 +80,19 @@ bool Info::isBibFile(const KURL & url)
 	return ( shortName.right(4) == ".bib" );
 }
 
+bool Info::isScriptFile(const KURL& url)
+{
+	QString shortName = url.fileName();
+	return ( shortName.right(3) == ".js" );
+}
+
 bool Info::containsInvalidCharacters(const KURL& url)
 {
 	QString filename = url.fileName();
 	return filename.contains(" ") || filename.contains("~") || filename.contains("$") || filename.contains("#");
 }
 
-KURL Info::repairInvalidCharacters(const KURL& url)
+KURL Info::repairInvalidCharacters(const KURL& url, bool checkForFileExistence /* = true */)
 {
 	KURL ret(url);
 	do {
@@ -99,13 +108,13 @@ KURL Info::repairInvalidCharacters(const KURL& url)
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
 	
-	return renameIfExist(ret);
+	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
 
 KURL Info::renameIfExist(const KURL& url)
 {	
 	KURL ret(url);
-	while ( QFileInfo(ret.path()).exists() )
+	while ( KIO::NetAccess::exists(url, true, kapp->mainWidget()) ) // check for writing possibility
 	{
 		bool isOK;
 		QString newURL = KInputDialog::getText(
@@ -121,7 +130,7 @@ KURL Info::renameIfExist(const KURL& url)
 	return ret;
 }
 
-KURL Info::repairExtension(const KURL& url)
+KURL Info::repairExtension(const KURL& url, bool checkForFileExistence /* = true */)
 {
 	KURL ret(url);
 
@@ -138,38 +147,26 @@ KURL Info::repairExtension(const KURL& url)
 	{
 		ret.setFileName(filename + ".tex");	
 	}
-	return renameIfExist(ret);
+	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
 
-KURL Info::makeValidTeXURL(const KURL & url)
+KURL Info::makeValidTeXURL(const KURL & url, bool checkForFileExistence /* = true */)
 {
 	KURL newURL(url);
 
 	//add a .tex extension
 	if(!isTeXFile(newURL)) 
-		newURL = repairExtension(newURL);
+		newURL = repairExtension(newURL, checkForFileExistence);
 		
 	//remove characters TeX does not accept, make sure the newURL does not exists yet
 	if(containsInvalidCharacters(newURL)) 
-		newURL = repairInvalidCharacters(newURL);
+		newURL = repairInvalidCharacters(newURL, checkForFileExistence);
 
 	return newURL;
 }
 
-Info::Info(Kate::Document *doc, LatexCommands *commands) : m_doc(doc),m_commands(commands)
+Info::Info() : m_bIsRoot(false), m_config(kapp->config()), documentTypePromotionAllowed(true)
 {
-	m_config = kapp->config();
-	if (m_doc)
-		kdDebug() << "Info created for " << m_doc->docName() << endl;
-
-	m_bIsRoot = false;
-	m_arStatistics = new long[SIZE_STAT_ARRAY];
-
-	if (m_doc)
-		m_url=m_oldurl = doc->url();
-	else
-		m_url = m_oldurl = KURL();
-		
 	// initialize m_dictStructLevel
 	updateStructLevelInfo();
 }
@@ -177,7 +174,6 @@ Info::Info(Kate::Document *doc, LatexCommands *commands) : m_doc(doc),m_commands
 Info::~Info(void)
 {
 	kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;
-	delete [] m_arStatistics;
 }
 
 // set struct level dictionary with standard and user defined commands
@@ -219,15 +215,6 @@ void Info::updateStructLevelInfo()
 	// labels, we always gather them here to get codecompl and undefined references
 	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
 
-	// add user defined commands for labels
-	QStringList labellist;
-	QStringList::ConstIterator it;
-	m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
-	for ( it=labellist.begin(); it != labellist.end(); ++it ) 
-	{
-		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-	}
-
 	// bibitems
 	if ( m_showStructureBibitems )
 	{
@@ -248,20 +235,6 @@ void Info::updateStructLevelInfo()
 		m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
 	}
 
-	// references
-	if ( m_showStructureReferences )
-	{
-		// removed duplicated ref commands here, now only defined in latexcmd.cpp
-		// add defined commands for references 
-		QStringList reflist;
-		QStringList::ConstIterator it;
-		m_commands->commandList(reflist,KileDocument::CmdAttrReference,false);
-		for ( it=reflist.begin(); it != reflist.end(); ++it ) 
-		{
-			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
-		}
-	}
-
 	// float environments
 	if ( m_showStructureFloats )
 	{
@@ -275,23 +248,44 @@ void Info::updateStructLevelInfo()
 	}
 }
 
-void Info::emitNameChanged(Kate::Document * /*doc*/)
+void Info::setBaseDirectory(const KURL& url)
 {
-	kdDebug() << "==Info::emitNameChanged=========================="  << endl;
-	if (m_doc)
-	{
-		kdDebug() << "\tfrom: " << m_url.path() << endl;
-		kdDebug() << "\tto: " << m_doc->url().path() << endl;
+	m_baseDirectory = url;
+}
 
-		//don't emit if new URL is empty (i.e. when closing the document)
-		if (!m_doc->url().isEmpty() && QFile::exists(m_doc->url().path()) && (m_url != m_doc->url() ) )
-		{
-			kdDebug() << "\temitting nameChanged(url)" << endl;
-			setURL(m_doc->url());
-			//emit(nameChanged(m_url));
-			emit(nameChanged(m_doc));
-		}
-	}
+const KURL& Info::getBaseDirectory() const
+{
+	return m_baseDirectory;
+}
+
+bool Info::isTextDocument()
+{
+	return false;
+}
+
+Type Info::getType()
+{
+	return Undefined;
+}
+
+QString Info::getFileFilter() const
+{
+	return QString::null;
+}
+
+bool Info::isDocumentTypePromotionAllowed()
+{
+	return documentTypePromotionAllowed;
+}
+
+void Info::setDocumentTypePromotionAllowed(bool b)
+{
+	documentTypePromotionAllowed = b;
+}
+
+KURL Info::url()
+{
+	return m_url;
 }
 
 void Info::count(const QString line, long *stat)
@@ -421,15 +415,6 @@ void Info::count(const QString line, long *stat)
 	}
 }
 
-const long* Info::getStatistics()
-{
-	/* [0] = #c in words, [1] = #c in latex commands and environments,
-	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
-	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
-	
-	return m_arStatistics;
-}
-
 void Info::cleanTempFiles(const QStringList &extlist )
 {
 	QString finame = url().fileName();
@@ -478,9 +463,139 @@ QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 	return last;
 }
 
+void Info::updateStruct()
+{
+	kdDebug() << "==Info::updateStruct()=======" << endl;
+	m_labels.clear();
+	m_bibItems.clear();
+	m_deps.clear();
+	m_bibliography.clear();
+	m_packages.clear();
+	m_newCommands.clear();
+	m_bIsRoot = false;
+	m_preamble = QString::null;
+}
+
+void Info::updateBibItems()
+{
+}
+
+TextInfo::TextInfo(Kate::Document *doc, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
+{
+	setDoc(doc);
+	if (m_doc)
+	{
+		kdDebug() << "TextInfo created for " << m_doc->docName() << endl;
+	}
+
+ 	m_arStatistics = new long[SIZE_STAT_ARRAY];
+
+	if (m_doc)
+	{
+		m_url = doc->url();
+	}
+	else
+	{
+		m_url = KURL();
+	}
+		
+
+}
+
+TextInfo::~TextInfo()
+{
+	delete [] m_arStatistics;
+}
+
+
+const Kate::Document* TextInfo::getDoc() const
+{
+	return m_doc;
+}
+
+Kate::Document* TextInfo::getDoc()
+{
+	return m_doc;
+}
+
+void TextInfo::setDoc(Kate::Document *doc)
+{
+	if(m_doc == doc){
+		return;
+	}
+	detach();
+	if(doc)
+	{
+		m_doc = doc;
+		m_url = doc->url();
+		connect(m_doc, SIGNAL(fileNameChanged()), this, SLOT(slotFileNameChanged()));
+		setHighlightMode(m_defaultHighlightMode);
+		installEventFilters();
+	}
+}
+
+void TextInfo::detach()
+{
+	if(m_doc)
+	{
+		m_doc->disconnect(this);
+		removeInstalledEventFilters();
+	}
+	m_doc = 0L;
+}
+
+const long* TextInfo::getStatistics()
+{
+	/* [0] = #c in words, [1] = #c in latex commands and environments,
+	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
+	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
+	
+	return m_arStatistics;
+}
+
+KURL TextInfo::url()
+{
+	return (m_doc ? m_doc->url() : KURL());
+}
+
+Type TextInfo::getType()
+{
+	return Text;
+}
+
+bool TextInfo::isTextDocument()
+{
+	return true;
+}
+
+void TextInfo::setHighlightMode(const QString &highlight)
+{
+	kdDebug() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================" << endl;
+
+	if ( m_doc && !highlight.isNull() )
+	{
+		bool found = false;
+		uint c = m_doc->hlModeCount();
+		uint mode = 0;
+		for (uint i = 0; i < c; ++i)
+		{
+			if (m_doc->hlModeName(i) == highlight) { found = true; mode = i; }
+		}
+		if (found)
+		{
+			m_doc->setHlMode(mode);
+		}
+	}
+}
+
+void TextInfo::setDefaultHightlightMode(const QString& string)
+{
+	m_defaultHighlightMode = string;
+}
+
 // match a { with the corresponding }
 // pos is the positon of the {
-QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
+QString TextInfo::matchBracket(QChar obracket, uint &l, uint &pos)
 {
 	QChar cbracket;
 	if ( obracket == '{' ) cbracket = '}';
@@ -518,24 +633,7 @@ QString Info::matchBracket(QChar obracket, uint &l, uint &pos)
 	return QString::null;
 }
 
-void Info::updateStruct()
-{
-	kdDebug() << "==Info::updateStruct()=======" << endl;
-	m_labels.clear();
-	m_bibItems.clear();
-	m_deps.clear();
-	m_bibliography.clear();
-	m_packages.clear();
-	m_newCommands.clear();
-	m_bIsRoot = false;
-	m_preamble = QString::null;
-}
-
-void Info::updateBibItems()
-{
-}
-
-QString Info::getTextline(uint line)
+QString TextInfo::getTextline(uint line)
 {
 	static QRegExp::QRegExp reComments("[^\\\\](%.*$)");
 
@@ -562,7 +660,71 @@ QString Info::getTextline(uint line)
 	return s;
 }
 
-const long* TeXInfo::getStatistics()
+KTextEditor::View* TextInfo::createView(QWidget *parent, const char *name)
+{
+	if(!m_doc)
+	{
+		return NULL;
+	}
+	KTextEditor::View *view = m_doc->createView(parent, name);
+	installEventFilters(view);
+	return view;	
+}
+
+void TextInfo::slotFileNameChanged()
+{
+	emit urlChanged(url());
+}
+
+void TextInfo::installEventFilters(KTextEditor::View* /* view */) 
+{
+	/* do nothing */
+}
+
+void TextInfo::removeInstalledEventFilters(KTextEditor::View* /* view */)
+{
+	/* do nothing */
+}
+
+void TextInfo::installEventFilters()
+{
+	if(!m_doc)
+	{
+		return;
+	}
+	QPtrList<KTextEditor::View> views = m_doc->views();
+	KTextEditor::View *view;
+	for(view = views.first(); view; view = views.next())
+	{
+		installEventFilters(view);
+	}
+}
+
+void TextInfo::removeInstalledEventFilters()
+{
+	if(!m_doc)
+	{
+		return;
+	}
+	QPtrList<KTextEditor::View> views = m_doc->views();
+	KTextEditor::View *view;
+	for(view = views.first(); view; view = views.next())
+	{
+		removeInstalledEventFilters(view);
+	}
+}
+
+
+LaTeXInfo::LaTeXInfo (Kate::Document *doc, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
+{
+	documentTypePromotionAllowed = false;
+}
+
+LaTeXInfo::~LaTeXInfo()
+{
+}
+
+const long* LaTeXInfo::getStatistics()
 {
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
@@ -584,14 +746,66 @@ const long* TeXInfo::getStatistics()
 	}
 	return m_arStatistics;
 }
- 
-BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
+
+Type LaTeXInfo::getType()
+{
+	return LaTeX;
+}
+
+QString LaTeXInfo::getFileFilter() const
+{
+	return LaTeXFileFilter();
+}
+
+QString LaTeXInfo::LaTeXFileFilter()
+{
+	return "*.tex|" + i18n("LaTeX Files");
+}
+
+void LaTeXInfo::updateStructLevelInfo() {
+	Info::updateStructLevelInfo();
+
+	// add user defined commands for labels
+	QStringList labellist;
+	QStringList::ConstIterator it;
+	m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
+	for ( it=labellist.begin(); it != labellist.end(); ++it ) 
+	{
+		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+	}
+	
+	// references
+	if ( m_showStructureReferences )
+	{
+		// removed duplicated ref commands here, now only defined in latexcmd.cpp
+		// add defined commands for references 
+		QStringList reflist;
+		QStringList::ConstIterator it;
+		m_commands->commandList(reflist,KileDocument::CmdAttrReference,false);
+		for ( it=reflist.begin(); it != reflist.end(); ++it ) 
+		{
+			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
+		}
+	}
+}
+
+void LaTeXInfo::installEventFilters(KTextEditor::View *view)
+{
+	view->focusProxy()->installEventFilter(m_eventFilter);
+}
+
+void LaTeXInfo::removeInstalledEventFilters(KTextEditor::View *view)
+{
+	view->focusProxy()->removeEventFilter(m_eventFilter);
+}
+
+BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
 {
 	BracketResult result;
 
 	if ( m_doc->textLine(l)[pos] == '[' )
 	{
-		result.option = Info::matchBracket('[', l, pos);
+		result.option = TextInfo::matchBracket('[', l, pos);
 		int p = 0;
 		while ( l < m_doc->numLines() )
 		{
@@ -612,14 +826,14 @@ BracketResult TeXInfo::matchBracket(uint &l, uint &pos)
 	{
 		result.line = l;
 		result.col = pos;
-		result.value  = Info::matchBracket('{', l, pos);
+		result.value  = TextInfo::matchBracket('{', l, pos);
 	}
 
 	return result;
 }
 
 //FIXME refactor, clean this mess up
-void TeXInfo::updateStruct()
+void LaTeXInfo::updateStruct()
 {
 	kdDebug() << "==void TeXInfo::updateStruct: (" << url() << ")=========" << endl;
 
@@ -882,6 +1096,20 @@ void TeXInfo::updateStruct()
 	emit(isrootChanged(isLaTeXRoot()));
 }
 
+BibInfo::BibInfo (Kate::Document *doc, LatexCommands* /* commands */) : TextInfo(doc, "BibTeX")
+{
+	documentTypePromotionAllowed = false;
+}
+
+BibInfo::~BibInfo()
+{
+}
+
+bool BibInfo::isLaTeXRoot()
+{
+	return false;
+}
+
 void BibInfo::updateStruct()
 {
 	if ( getDoc() == 0L ) return;
@@ -951,6 +1179,21 @@ void BibInfo::updateStruct()
 	}
 
 	emit(doneUpdating());
+}
+
+Type BibInfo::getType()
+{
+	return BibTeX;
+}
+
+QString BibInfo::getFileFilter() const
+{
+	return BibTeXFileFilter();
+}
+
+QString BibInfo::BibTeXFileFilter()
+{
+	return "*.bib|" + i18n("BibTeX Files");
 }
 
 }

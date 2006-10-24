@@ -18,6 +18,7 @@
 class QEvent;
 
 namespace Kate {class View; }
+namespace KileDocument { class EditorExtension; };
 
 /**
  * This class is capable of intercepting key-strokes from the editor. It can complete a \begin{env}

@@ -781,7 +781,7 @@ namespace KileWidget
 	bool Structure::findSectioning(Kate::Document *doc, uint line, bool backwards, uint &sectline)
 	{
 		kdDebug() << "------------------> nextSectioning" << endl;
-		KileDocument::Info *docinfo = m_ki->docManager()->infoFor(doc);
+		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(doc);
 		if ( ! docinfo )
 			return false;
 

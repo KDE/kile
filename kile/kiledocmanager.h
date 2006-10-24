@@ -24,6 +24,8 @@
 
 #include <qobject.h>
 
+#include "kileconstants.h"
+
 class KURL;
 class KFileItem;
 class KProgressDialog;
@@ -37,7 +39,10 @@ class KileProjectItemList;
 
 namespace KileDocument 
 {
+
 class Info;
+class TextInfo;
+
 /**
 @author Jeroen Wijnhout
 */
@@ -49,22 +54,14 @@ public:
 	~Manager();
 
 public slots:
+	Kate::View* createNewLaTeXDocument();
 
 //files
-	Info* createDocumentInfo(const KURL &url);
-	Info* recreateDocInfo(Info *oldinfo, const KURL & url);
-	bool removeDocumentInfo(Info *docinfo, bool closingproject = false);
-	Kate::Document* createDocument(Info *docinfo, const QString & encoding, const QString & highlight);
-
-	Kate::View* createDocumentWithText(const QString & text);
-
-	Kate::View* load( const KURL &url , const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1);
-	Kate::View* loadItem(KileProjectItem *item, const QString & text = QString::null);
-
-	void setHighlightMode(Kate::Document * doc, const QString & highlight = QString::null);
-	void slotNameChanged(Kate::Document *);
 	void newDocumentStatus(Kate::Document *doc);
 
+	/**
+	 * Creates a new file on disk.
+	 **/
 	void fileNew(const KURL &);
 	void fileNew();
 
@@ -74,6 +71,9 @@ public slots:
 
 	void fileOpen();
 	void fileOpen(const KURL& url, const QString & encoding = QString::null, int index = -1);
+
+	void fileSave();
+	void fileSaveAs();
 
 	void saveURL(const KURL &);
 	void fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
@@ -135,11 +135,11 @@ signals:
 	void closingDocument(KileDocument::Info *);
 	void documentInfoCreated(KileDocument::Info *);
 
-	void updateStructure(bool, KileDocument::Info*);
+	void updateStructure(bool needToParse, KileDocument::Info*);
 	void updateModeStatus();
 	void updateReferences(KileDocument::Info *);
 
-	void documentStatusChanged(Kate::Document *, bool, unsigned char);
+	void documentStatusChanged(Kate::Document *, bool, unsigned char reason);
 
 	void addToRecentFiles(const KURL &);
 	void addToRecentProjects(const KURL &);
@@ -158,14 +158,16 @@ signals:
 
 public:
 	QPtrList<KileProject>* projects() { return &m_projects; }
-	QPtrList<Info>* documentInfos() { return &m_infoList; }
+	QPtrList<TextInfo>* textDocumentInfos() { return &m_textInfoList; }
 
-	void trashDoc(Info *docinfo, Kate::Document *doc = 0L);
 	Kate::Document* docFor(const KURL &url);
 
 	Info* getInfo() const;
-	Info* infoFor(const QString &path) const;
-	Info* infoFor(Kate::Document* doc) const;
+	// FIXME: "path" should be changed to a URL, i.e. only the next but one function 
+	//        should be used
+	TextInfo* textInfoFor(const QString &path) const;
+	TextInfo* textInfoForURL(const KURL& url);
+	TextInfo* textInfoFor(Kate::Document* doc) const;
 	void updateInfos();
 
 	KileProject* projectFor(const KURL &projecturl);
@@ -187,19 +189,40 @@ public:
 
 	KileProjectItemList* itemsFor(Info *docinfo) const;
 
-	void mapItem(Info *docinfo, KileProjectItem *item);
-
 	static const KURL symlinkFreeURL(const KURL& url);
-	
+
+protected:
+	void mapItem(TextInfo *docinfo, KileProjectItem *item);
+
+	void trashDoc(TextInfo *docinfo, Kate::Document *doc = 0L);
+	Type determineFileType(const KURL& url);
+
+	TextInfo* createTextDocumentInfo(KileDocument::Type type, const KURL &url, const KURL& baseDirectory = KURL());
+	void recreateTextDocumentInfo(TextInfo *oldinfo);
+	bool removeTextDocumentInfo(TextInfo *docinfo, bool forced = false, bool closingproject = false);
+	Kate::Document* createDocument(const QString& name, const KURL& url, TextInfo *docinfo, const QString & encoding, const QString & highlight);
+
+	/**
+	 *  Creates a document with the specified text.
+	 * 
+	 *  @param extension The extension of the file that should be created without leading "."
+	 **/
+	Kate::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString::null, const KURL& baseDirectory = KURL());
+
+	Kate::View* loadText(KileDocument::Type type, const QString& name, const KURL &url, const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1, const KURL& baseDirectory = KURL());
+	Kate::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null);
+
 private:
-	QPtrList<Info>				m_infoList;
+	QPtrList<TextInfo>				m_textInfoList;
 	KileInfo					*m_ki;
 	QPtrList<KileProject>		m_projects;
 	KProgressDialog				*m_kpd;
 	
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
+	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);
+
 	QStringList autosaveWarnings;
-		
+
 };
 
 }

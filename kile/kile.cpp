@@ -236,7 +236,7 @@ void Kile::showEvent(QShowEvent *)
 
 void Kile::hideEvent(QHideEvent *)
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view)
 	{
 		setCaption( getShortName(view->getDoc()) );
@@ -442,6 +442,9 @@ void Kile::setupActions()
 	connect(docManager(), SIGNAL(addToRecentFiles(const KURL& )), m_actRecentFiles, SLOT(addURL(const KURL& )));
 	m_actRecentFiles->loadEntries(m_config, "Recent Files");
 
+	(void) KStdAction::save(docManager(), SLOT(fileSave()), actionCollection(),"kile_file_save" );
+	(void) KStdAction::saveAs(docManager(), SLOT(fileSaveAs()), actionCollection(),"kile_file_save_as" );
+
 	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
 	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");
 	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
@@ -519,6 +522,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("(La)TeX Command"),"complete1",CTRL+Key_Space, m_edit, SLOT(completeWord()), actionCollection(), "edit_complete_word");
 	(void) new KAction(i18n("Environment"),"complete2",ALT+Key_Space, m_edit, SLOT(completeEnvironment()), actionCollection(), "edit_complete_env");
 	(void) new KAction(i18n("Abbreviation"),"complete3",CTRL+ALT+Key_Space, m_edit, SLOT(completeAbbreviation()), actionCollection(), "edit_complete_abbrev");
+
 	(void) new KAction(i18n("Next Bullet"),"nextbullet",CTRL+ALT+Key_Right, m_edit, SLOT(nextBullet()), actionCollection(), "edit_next_bullet");
 	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, m_edit, SLOT(prevBullet()), actionCollection(), "edit_prev_bullet");
 
@@ -749,7 +753,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
     kdDebug() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
-	if (doc) viewManager()->switchToView(doc->url());
+	if (doc) viewManager()->switchToTextView(doc->url());
 }
 
 void Kile::setActive()
@@ -768,7 +772,7 @@ void Kile::setLine( const QString &line )
 {
 	bool ok;
 	uint l=line.toUInt(&ok,10);
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view && ok)
   	{
 		this->show();
@@ -795,11 +799,6 @@ void Kile::setCursor(const KURL &url, int parag, int index)
 	}
 }
 
-void Kile::load(const QString &path)
-{
-	docManager()->load(KURL::fromPathOrURL(path));
-}
-
 int Kile::run(const QString & tool)
 {
 	return m_manager->runBlocking(tool);
@@ -822,10 +821,10 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	Kate::View* view = (Kate::View*)w;
 	if (view->isActive()) return;
 
-	for (uint i=0; i< viewManager()->views().count(); ++i)
+	for (uint i=0; i< viewManager()->textViews().count(); ++i)
 	{
-		guiFactory()->removeClient(viewManager()->view(i));
-		viewManager()->view(i)->setActive(false);
+		guiFactory()->removeClient(viewManager()->textView(i));
+		viewManager()->textView(i)->setActive(false);
 	}
 
 	guiFactory()->addClient(view);
@@ -932,7 +931,7 @@ void Kile::focusKonsole()
 
 void Kile::focusEditor()
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view) view->setFocus();
 }
 
@@ -952,7 +951,7 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
-    Kate::View *view = viewManager()->currentView();
+    Kate::View *view = viewManager()->currentTextView();
     if (view) KileConfig::setLastDocument(view->getDoc()->url().path());
     else KileConfig::setLastDocument("");
 
@@ -978,9 +977,9 @@ bool Kile::queryClose()
 
 	if (stage1)
 	{
-		for (uint i=0; i < viewManager()->views().count(); ++i)
+		for (uint i=0; i < viewManager()->textViews().count(); ++i)
 		{
-			m_listDocsOpenOnStart.append(viewManager()->view(i)->getDoc()->url().path());
+			m_listDocsOpenOnStart.append(viewManager()->textView(i)->getDoc()->url().path());
 		}
 		stage2 =docManager()->fileCloseAll();
 	}
@@ -992,7 +991,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 {
 	if (doc == 0L)
 	{
-		Kate::View *view = viewManager()->currentView();
+		Kate::View *view = viewManager()->currentTextView();
 
 		if (view)
 			doc = view->getDoc();
@@ -1000,7 +999,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 			return;
 	}
 
-	KileDocument::Info *docinfo = docManager()->infoFor(doc);
+	KileDocument::TextInfo *docinfo = docManager()->textInfoFor(doc);
 	KileProject *project = KileInfo::docManager()->activeProject();
 	if (docinfo) // we have to ensure that we always get a _valid_ docinfo object
 	{
@@ -1016,7 +1015,7 @@ void Kile::convertToASCII(Kate::Document *doc)
 {
 	if (doc == 0)
 	{
-		Kate::View *view = viewManager()->currentView();
+		Kate::View *view = viewManager()->currentTextView();
 
 		if (view) doc = view->getDoc();
 		else return;
@@ -1032,7 +1031,7 @@ void Kile::convertToEnc(Kate::Document *doc)
 {
 	if (doc == 0)
 	{
-		Kate::View *view = viewManager()->currentView();
+		Kate::View *view = viewManager()->currentTextView();
 
 		if (view) doc = view->getDoc();
 		else return;
@@ -1056,7 +1055,7 @@ void Kile::newStatus(const QString & msg)
 
 int Kile::lineNumber()
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 
 	int para = 0;
 
@@ -1070,7 +1069,7 @@ int Kile::lineNumber()
 
 void Kile::newCaption()
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view)
 	{
 		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
@@ -1136,7 +1135,7 @@ void Kile::showEditorWidget()
 	m_horizontalSplitter->show();
 	m_verticalSplitter->show();
 
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view) view->setFocus();
 
     setupStatusBar();
@@ -1436,7 +1435,7 @@ void Kile::updateMenu()
 
 	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
-	bool file_open = ( viewManager()->currentView() );
+	bool file_open = ( viewManager()->currentTextView() );
 	kdDebug() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
 	QMenuBar *menubar = menuBar();
@@ -1494,10 +1493,10 @@ void Kile::prepareForPart(const QString & state)
 	m_wantState = state;
 
 	//deactivate kateparts
-	for (uint i=0; i<viewManager()->views().count(); ++i)
+	for (uint i=0; i<viewManager()->textViews().count(); ++i)
 	{
-		guiFactory()->removeClient(viewManager()->view(i));
-		viewManager()->view(i)->setActive(false);
+		guiFactory()->removeClient(viewManager()->textView(i));
+		viewManager()->textView(i)->setActive(false);
 	}
 }
 
@@ -1509,14 +1508,14 @@ void Kile::runTool()
 	m_manager->run(name);
 }
 
-void Kile::cleanAll(KileDocument::Info *docinfo)
+void Kile::cleanAll(KileDocument::TextInfo *docinfo)
 {
 	static QString noactivedoc = i18n("There is no active document or it is not saved.");
 	if (docinfo == 0)
 	{
-		Kate::Document *doc = activeDocument();
+		Kate::Document *doc = activeTextDocument();
 		if (doc)
-			docinfo = docManager()->infoFor(doc);
+			docinfo = docManager()->textInfoFor(doc);
 		else
 		{
 			m_logWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
@@ -1545,7 +1544,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 		logWidget()->append(data.description);
 	}
 
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 
 	if ( !view ) return;
 
@@ -1566,7 +1565,7 @@ void Kile::insertAmsTag(const KileAction::TagData& data)
 
 	// check if \usepackage{amsmath} was found in the main document
 	bool amsmath = false;
-	KileDocument::Info *docinfo = docManager()->infoFor(getCompileName());
+	KileDocument::Info *docinfo = docManager()->textInfoFor(getCompileName());
 	if ( docinfo ) {
 		const QStringList *packagelist = allPackages(docinfo);
 		for (uint i=0; i<packagelist->count(); ++i) {
@@ -1595,9 +1594,10 @@ void Kile::quickDocument()
 
 	if ( dlg->exec() )
 	{
-		if ( !viewManager()->currentView() && ( docManager()->createDocumentWithText(QString::null) == 0L ) )
-			return;
-
+		if (!viewManager()->currentTextView())
+		{
+			docManager()->createNewLaTeXDocument();
+		}
 		insertTag( dlg->tagData() );
 		viewManager()->updateStructure(true);
 	}
@@ -1616,7 +1616,7 @@ void Kile::quickTabular()
 
 void Kile::quickTabulardialog(bool tabularenv)
 {
-	if ( !viewManager()->currentView() ) return;
+	if ( !viewManager()->currentTextView() ) return;
 
 	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(this,m_config,m_latexCommands,tabularenv);
 	if ( dlg->exec() ) {
@@ -1627,7 +1627,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 
 void Kile::quickTabbing()
 {
-	if ( !viewManager()->currentView() ) return;
+	if ( !viewManager()->currentTextView() ) return;
 	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(m_config,this,this,"Tabbing", i18n("Tabbing"));
 	if ( dlg->exec() )
 	{
@@ -1638,7 +1638,7 @@ void Kile::quickTabbing()
 
 void Kile::quickFloat()
 {
-	if ( !viewManager()->currentView() ) return;
+	if ( !viewManager()->currentTextView() ) return;
 
 	KileDialog::FloatEnvironmentDialog *dlg = new KileDialog::FloatEnvironmentDialog(m_config,this,this);
 	if ( dlg->exec() ) {
@@ -1649,7 +1649,7 @@ void Kile::quickFloat()
 
 void Kile::quickMathenv()
 {
-	if ( !viewManager()->currentView() ) return;
+	if ( !viewManager()->currentTextView() ) return;
 
 	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this,m_config,this,m_latexCommands);
 	if ( dlg->exec() ) {
@@ -1663,7 +1663,7 @@ void Kile::quickPostscript()
 	QString startdir = QDir::homeDirPath();
 	QString texfilename = QString::null;
 
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if ( view ) {
 		startdir = QFileInfo(view->getDoc()->url().path()).dirPath();
 		texfilename = getCompileName();
@@ -1924,7 +1924,7 @@ void Kile::toggleMode()
 		m_singlemode=true;
 		m_masterName=QString::null;
 	}
-	else if (m_singlemode && viewManager()->currentView())
+	else if (m_singlemode && viewManager()->currentTextView())
 	{
 		m_masterName=getName();
 		if ( KileUntitled::isUntitled(m_masterName) || m_masterName.isEmpty())
@@ -1999,7 +1999,7 @@ bool Kile::kateCompletionPlugin()
 void Kile::checkKateSettings()
 {
 	// editor settings were only available with an opened document
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if ( view )
 	{
 		// remove menu entry to config Kate
@@ -2039,7 +2039,7 @@ void Kile::configureToolbars()
 
 void Kile::changeInputEncoding()
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view)
 	{
 		bool modified = view->getDoc()->isModified();
@@ -2060,7 +2060,7 @@ void Kile::changeInputEncoding()
 //////////////////// CLEAN BIB /////////////////////
 void Kile::cleanBib()
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if ( ! view )
 		return;
 
@@ -2109,7 +2109,7 @@ void Kile::cleanBib()
 
 void Kile::includeGraphics()
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if ( !view ) return;
 
 	QFileInfo fi( view->getDoc()->url().path() );
@@ -2142,7 +2142,7 @@ void Kile::slotQuickPreview(int type)
 {
 	kdDebug() << "==Kile::slotQuickPreview()=========================="  << endl;
 
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if ( ! view) return;
 
 	Kate::Document *doc = view->getDoc();

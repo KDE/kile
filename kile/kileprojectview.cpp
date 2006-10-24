@@ -41,7 +41,12 @@ const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
  */
 void KileProjectViewItem::urlChanged(const KURL &url)
 {
-	setURL(url); setText(0,url.fileName());
+	// don't allow empty URLs
+	if(!url.isEmpty()) 
+	{
+		setURL(url);
+		setText(0, url.fileName());
+	}
 }
 
 void KileProjectViewItem::nameChanged(const QString & name)
@@ -309,10 +314,10 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	}
 	else
 	{
-		KileDocument::Info *docinfo = m_ki->docManager()->infoFor(item->url().path());
+		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().path());
 		item->setInfo(docinfo);
 		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
-		connect(docinfo, SIGNAL(nameChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));
+		connect(docinfo, SIGNAL(urlChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));
 		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
 		item->isrootChanged(docinfo->isLaTeXRoot());

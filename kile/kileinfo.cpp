@@ -48,9 +48,9 @@ KileInfo::~KileInfo()
 {
 }
 
-Kate::Document * KileInfo::activeDocument() const
+Kate::Document * KileInfo::activeTextDocument() const
 {
-	Kate::View *view = viewManager()->currentView();
+	Kate::View *view = viewManager()->currentTextView();
 	if (view) return view->getDoc(); else return 0L;
 }
 
@@ -58,24 +58,41 @@ QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
 	QString title;
 	if (doc == 0)
-		doc = activeDocument();
+		doc = activeTextDocument();
 
 	if (doc)
 	{
 		kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
-		//work around for bug in KatePart, use docName and not url
-		//reloading the file after is it changed on disc by another application
-		//cause the URL to be empty for a short while
-		title = shrt ? QFileInfo(doc->url().path()).fileName() : doc->url().path();
-        if ( title.isEmpty() )
-        {
-            return shrt ? QFileInfo(doc->docName()).fileName() : doc->docName(); 
-        }
+		title = shrt ? (doc->url()).fileName() : (doc->url()).prettyURL();
+	        if ( title.isEmpty() )
+		{
+			return doc->docName(); 
+		}
 	}
 	else
 		title=QString::null;
 
 	return title;
+}
+
+QString KileInfo::getLocalPath(Kate::Document *doc, bool shrt)
+{
+	QString toReturn;
+	if(doc == 0)
+	{
+		doc = activeTextDocument();
+	}
+	if(doc)
+	{
+		toReturn = shrt ? (doc->url()).fileName() : (doc->url()).path();
+	        if(toReturn.isEmpty())
+		{
+			return doc->docName(); 
+		}
+	}
+	else
+		toReturn = QString::null;
+	return toReturn;
 }
 
 QString KileInfo::getCompileName(bool shrt /* = false */)
@@ -106,7 +123,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 			}
 		}
 		else
-			return getName(activeDocument(), shrt);
+			return getLocalPath(activeTextDocument(), shrt);
 	}
 	else
 	{
@@ -278,11 +295,11 @@ bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
 bool KileInfo::isOpen(const KURL & url)
 {
 	kdDebug() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
-	uint cnt = viewManager()->views().count();
+	uint cnt = viewManager()->textViews().count();
 	
 	for ( uint i = 0; i < cnt; ++i)
 	{
-		if ( viewManager()->view(i)->getDoc() && similarOrEqualURL(viewManager()->view(i)->getDoc()->url(), url) )
+		if ( viewManager()->textView(i)->getDoc() && similarOrEqualURL(viewManager()->textView(i)->getDoc()->url(), url) )
 			return true;
 	}
 
@@ -298,7 +315,7 @@ bool KileInfo::projectIsOpen(const KURL & url)
 
 QString KileInfo::getSelection() const
 {
-	Kate::Document *doc = activeDocument();
+	Kate::Document *doc = activeTextDocument();
 	
 	if (doc && doc->hasSelection())
 	{
@@ -310,7 +327,7 @@ QString KileInfo::getSelection() const
 
 void KileInfo::clearSelection() const
 {
-	Kate::Document *doc = activeDocument();
+	Kate::Document *doc = activeTextDocument();
 	
 	if (doc && doc->hasSelection())
 	{

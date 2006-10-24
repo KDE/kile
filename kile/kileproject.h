@@ -25,7 +25,7 @@
 class QString;
 class QStringList;
 class KSimpleConfig;
-namespace KileDocument { class Info; }
+namespace KileDocument { class Info; class TextInfo; }
 
 const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
 const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
@@ -54,8 +54,8 @@ public:
 	bool archive() const { return m_archive; }
 	void setArchive(bool ar) { m_archive = ar; }
 
-	void setInfo(KileDocument::Info * docinfo);
-	KileDocument::Info* getInfo() { return m_docinfo; }
+	void setInfo(KileDocument::TextInfo * docinfo);
+	KileDocument::TextInfo* getInfo() { return m_docinfo; }
 
 	KileProject* project() const { return m_project;}
 
@@ -101,7 +101,10 @@ public:
 	void print(int level);
 
 public slots:
-	void changeURL(const KURL &url) { m_url = url;  kdDebug() << "changeURL " << url.path() << endl; emit(urlChanged(this));}
+	/**
+	 * @warning Does nothing if "url" is empty !
+	 **/ 
+	void changeURL(const KURL &url);
 	void changePath(const QString& path) { m_path = path;}
 
 signals:
@@ -115,7 +118,7 @@ private:
 	QString			m_highlight;
 	bool			m_bOpen, m_archive;
 	int			m_type;
-	KileDocument::Info	*m_docinfo;
+	KileDocument::TextInfo	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
 	uint			m_nLine, m_nColumn;
 };
@@ -169,11 +172,13 @@ public:
 	const KURL& baseURL() const { return m_baseurl; }
 
 	KileProjectItem* item(const KURL &);
+	KileProjectItem* item(const KileDocument::Info *info);
 	KileProjectItemList* items() { return &m_projectitems; }
 
 	KSimpleConfig *config() { return m_config; }
 
 	bool contains(const KURL&);
+	bool contains(const KileDocument::Info *info);
 	KileProjectItem *rootItem(KileProjectItem *) const;
 	const QPtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
 	bool isInvalid(){ return m_invalid;}

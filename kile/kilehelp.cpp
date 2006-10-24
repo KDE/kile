@@ -96,7 +96,7 @@ namespace KileHelp
 	void Help::helpKeyword()
 	{
 		//FIXME: we should have a better way to access the current view
-		helpKeyword(m_manager->info()->viewManager()->currentView());
+		helpKeyword(m_manager->info()->viewManager()->currentTextView());
 	}
 
 ////////////////////// Help: TexDoc //////////////////////

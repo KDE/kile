@@ -40,6 +40,7 @@ namespace Kate {
 
 namespace KileDocument {
 	class Info;
+	class TextInfo;
 }
 
 namespace KileView 
@@ -58,12 +59,12 @@ public:
 public:
 	void setClient(QObject *receiver, KXMLGUIClient *client);
 
-	Kate::View* currentView() const;
-	QPtrList<Kate::View>& views() {return m_viewList;}
-	Kate::View* view(int i) { return m_viewList.at(i); }
+	Kate::View* currentTextView() const;
+	QPtrList<Kate::View>& textViews() {return m_textViewList;}
+	Kate::View* textView(int i) { return m_textViewList.at(i); }
 
 	void createTabs(QWidget *);
-	Kate::View* createView(Kate::Document *doc, int index = -1);
+	Kate::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
 	void unplugKatePartMenu(Kate::View* view);
@@ -72,7 +73,7 @@ public:
 // 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 public slots:
-	Kate::View* switchToView(const KURL & url);
+	Kate::View* switchToTextView(const KURL & url);
 
 	void closeWidget(QWidget *);
 	void removeView(Kate::View *view);
@@ -104,9 +105,9 @@ signals:
 
 private:
 	KileInfo			*m_ki;
-	Kate::View			*m_activeView;
+	Kate::View			*m_activeTextView;
 // 	KileProjectView		*m_projectview;
-	QPtrList<Kate::View> m_viewList;
+	QPtrList<Kate::View>		m_textViewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;

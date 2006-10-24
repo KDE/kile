@@ -17,7 +17,7 @@
 
 // A dialog that displays statistical information about the active project/file
 
-KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QWidget* parent,  const char* name, const QString &caption)
+KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
 	: KDialogBase(KDialogBase::Tabbed,0,parent,name,true,caption, KDialogBase::Help | KDialogBase::Ok | KDialogBase::User1 | KDialogBase::User2 , KDialogBase::Ok, false),
 	m_project(project),
 	m_docinfo(docinfo)
@@ -34,7 +34,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QW
 	uint index=0;
 	KileWidgetStatistics* tempWidget;
 	KileWidgetStatistics* summary;
-	KileDocument::Info* tempDocinfo;
+	KileDocument::TextInfo* tempDocinfo;
 
 	m_hasSelection=false; // class variable, if the user has selected text, 
 	summary = new KileWidgetStatistics( addPage( i18n("Summary") ) );

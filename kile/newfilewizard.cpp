@@ -1,10 +1,9 @@
-/***************************************************************************
+/*****************************************************************************************
     begin                : Sat Apr 26 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-                               2005 by Holger Danielsson
-    email                : wijnhout@science.uva.nl
-                           holger.danielsson@t-online.de
-***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                               2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                               2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+******************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -41,7 +40,7 @@
 
 ////////////////////// TemplateItem //////////////////////
 
-// new compare function to set "Empty Document" as first item
+// new compare function to make the "Empty (...) Document" items appear at the beginning
 
 TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIconViewItem(parent,info.name, QPixmap(info.icon))
 {
@@ -51,12 +50,55 @@ TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIco
 
 int TemplateItem::compare( QIconViewItem *i ) const
 {
-	if ( key() == DEFAULT_EMPTY_CAPTION ) 
+	QString myKey = key();
+	QString otherKey = i->key();
+	if( myKey == otherKey )
+	{
+		return 0;
+	}
+	// from now on, myKey and otherKey are not equal
+	if ( myKey == DEFAULT_EMPTY_CAPTION )
+	{
 		return -1;
-	else if ( i->key() == DEFAULT_EMPTY_CAPTION )
+	}
+	else if ( myKey == DEFAULT_EMPTY_LATEX_CAPTION )
+	{
+		if ( otherKey == DEFAULT_EMPTY_CAPTION )
+		{
+			return 1;
+		}
+		else 
+		{
+			return -1;
+		} 
+	}
+	else if ( myKey == DEFAULT_EMPTY_BIBTEX_CAPTION )
+	{
+		if( (otherKey == DEFAULT_EMPTY_CAPTION) || (otherKey == DEFAULT_EMPTY_LATEX_CAPTION) )
+		{
+			return 1;
+		}
+		else 
+		{
+			return -1;
+		}
+	}
+	else if ( otherKey == DEFAULT_EMPTY_CAPTION )
+	{
 		return 1;
+	}
+	else if ( otherKey == DEFAULT_EMPTY_LATEX_CAPTION )
+	{
+		return 1;
+	}
+	else if ( otherKey == DEFAULT_EMPTY_BIBTEX_CAPTION )
+	{
+		return 1;
+	}
 	else
+	{
 		return key().compare( i->key() );
+	}
 }
     
 ////////////////////// NewFileWidget //////////////////////
@@ -72,16 +114,31 @@ NewFileWidget::NewFileWidget(QWidget *parent, const QString &selicon, char *name
    setResizePolicy(QScrollView::Default);
    setArrangement(QIconView::TopToBottom);
 
-   TemplateInfo info;
-   info.name =DEFAULT_EMPTY_CAPTION;
-   info.icon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
-   info.path="";
-   TemplateItem * emp = new TemplateItem( this, info);
+	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" ); 
+
+	TemplateInfo emptyDocumentInfo;
+	emptyDocumentInfo.name = DEFAULT_EMPTY_CAPTION;
+	emptyDocumentInfo.icon = emptyIcon;
+	emptyDocumentInfo.type = KileDocument::Text;
+	TemplateItem *emp = new TemplateItem(this, emptyDocumentInfo);
+	setSelected(emp, true);
+
+	TemplateInfo emptyLatexDocumentInfo;
+	emptyLatexDocumentInfo.name = DEFAULT_EMPTY_LATEX_CAPTION;
+	emptyLatexDocumentInfo.icon = emptyIcon;
+	emptyLatexDocumentInfo.type = KileDocument::LaTeX;
+	new TemplateItem(this, emptyLatexDocumentInfo);
+
+	TemplateInfo emptyBibtexDocumentInfo;
+	emptyBibtexDocumentInfo.name = DEFAULT_EMPTY_BIBTEX_CAPTION;
+	emptyBibtexDocumentInfo.icon = emptyIcon;
+	emptyBibtexDocumentInfo.type = KileDocument::BibTeX;
+	new TemplateItem(this, emptyBibtexDocumentInfo);
 
 	// execute script to find non standard class files
 	searchClassFiles();
 	
-   setSelected(emp, true);
+
    setMinimumHeight(120);
 }
 
@@ -217,7 +274,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
    m_iv = new NewFileWidget( page,selicon );
    topLayout->addWidget(m_iv);
 
-   m_ckWizard = new QCheckBox(i18n("Start the Quick Start wizard when creating an empty file"), page);
+   m_ckWizard = new QCheckBox(i18n("Start the Quick Start wizard when creating an empty LaTeX file"), page);
    topLayout->addWidget(m_ckWizard);
 
    connect(m_iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(slotOk()));
@@ -229,7 +286,7 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
 
 bool NewFileWizard::useWizard()
 {
-	return ( getSelection() && getSelection()->name() == DEFAULT_EMPTY_CAPTION && m_ckWizard->isChecked() );
+	return ( getSelection() && (getSelection()->name() == DEFAULT_EMPTY_CAPTION || getSelection()->name() == DEFAULT_EMPTY_LATEX_CAPTION) && m_ckWizard->isChecked() );
 }
 
 void NewFileWizard::slotOk()

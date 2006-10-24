@@ -30,7 +30,7 @@
 class KileStatsDlg : public KDialogBase
 {
 public:
-	KileStatsDlg(KileProject *project, KileDocument::Info* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
+	KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
 	~KileStatsDlg();
 
 private:
@@ -41,7 +41,7 @@ private:
 
 protected:
 	KileProject				*m_project;
-	KileDocument::Info			*m_docinfo;
+	KileDocument::TextInfo			*m_docinfo;
 	long					*m_summarystats;
 	bool 					m_hasSelection;
 	bool					m_notAllFilesOpenWarning;

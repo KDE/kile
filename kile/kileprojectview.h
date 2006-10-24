@@ -73,6 +73,9 @@ public:
 	int folder() { return m_folder; }
 
 public slots:
+	/**
+	 * @warning Does nothing if "url" is empty !
+	 **/ 
 	void urlChanged(const KURL & url);
 	void nameChanged(const QString & name);
 	void isrootChanged(bool isroot);

@@ -24,9 +24,12 @@
 #include <kdialogbase.h>
 #include <kprocess.h>
 
+#include "kileconstants.h"
 #include "templates.h"
 
 const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
+const QString DEFAULT_EMPTY_LATEX_CAPTION = i18n("Empty LaTeX Document");
+const QString DEFAULT_EMPTY_BIBTEX_CAPTION = i18n("Empty BibTeX Document");
 
 #define DEFAULT_EMPTY_ICON "type_Empty"
 
@@ -41,6 +44,7 @@ public:
 	QString name() { return m_info.name; }
 	QString path() { return m_info.path; }
 	QString icon() { return m_info.icon; }
+	KileDocument::Type type() { return m_info.type; }
 
 private:
 	TemplateInfo m_info;

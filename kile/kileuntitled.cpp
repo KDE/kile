@@ -20,7 +20,7 @@ int KileUntitled::m_last = -1;
 
 bool KileUntitled::isUntitled(const QString &str)
 {
-    static QRegExp reUntitled(m_untitled + " [0-9]+");
+    static QRegExp reUntitled(m_untitled + " [0-9]+.*");
     return reUntitled.exactMatch(str);
 }
 

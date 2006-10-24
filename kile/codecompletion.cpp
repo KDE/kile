@@ -1030,7 +1030,7 @@ namespace KileDocument
 
 		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << string << ")=============" << endl;
 		//FIXME this is not very efficient
-		m_view = info()->viewManager()->currentView();
+		m_view = info()->viewManager()->currentTextView();
 		
 		QString word;
 		Type type;

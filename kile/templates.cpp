@@ -26,6 +26,10 @@
 
 #include "templates.h"
 
+TemplateInfo::TemplateInfo() : type(KileDocument::Undefined)
+{
+}
+
 Templates::Templates()
 {
 	kdDebug() << "===Templates()===================" << endl;
@@ -43,7 +47,7 @@ Templates::Templates()
         ti.name=templates[j].replace("template_","");
         ti.name.replace(".tex","");
 	ti.icon=KGlobal::dirs()->findResource("appdata","pics/type_"+ti.name+".png");
-
+	ti.type = KileDocument::Text;
 		if (m_TemplateList.contains(ti))
 			kdDebug() << "\tignoring: " << ti.path << endl;
 		else

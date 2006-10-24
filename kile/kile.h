@@ -76,6 +76,7 @@ class KileErrorHandler;
 class KileSideBar;
 
 namespace KileAction { class TagData; }
+namespace KileDocument { class Info; class TextInfo; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 
@@ -231,10 +232,6 @@ private slots:
 
     void sideOrBottomBarChanged(bool visible);
 
-/* document handling */
-public slots:
-	void load(const QString &path);
-
 public slots:
 	bool queryExit();
 	bool queryClose();
@@ -273,7 +270,7 @@ private:
 private slots:
 	void runTool();
 
-	void cleanAll(KileDocument::Info *docinfo = 0);
+	void cleanAll(KileDocument::TextInfo *docinfo = 0);
 	void cleanBib();
 
 	void findInFiles();

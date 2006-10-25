@@ -40,7 +40,8 @@ EXTRA_DIST = main.cpp kile.cpp kile.h \
 	kilelistselector.cpp kilelistselector.h kilelyxserver.cpp kilelyxserver.h \
 	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp \
 	outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h \
-	includegraphicsdialog.h includegraphicsdialog.cpp kiletoolconfigwidget.cpp kiletoolconfigwidget.h outputfilter.h kilegrepdialog.cpp kilegrepdialog.h codecompletion.h codecompletion.cpp configcodecompletion.cpp configcodecompletion.h kileedit.cpp cleandialog.cpp kileedit.h cleandialog.h  kilehelp.cpp kilehelp.h configstructure.cpp configstructure.h configenvironment.h convert.h convert.cpp
+	includegraphicsdialog.h includegraphicsdialog.cpp kiletoolconfigwidget.cpp kiletoolconfigwidget.h outputfilter.h kilegrepdialog.cpp kilegrepdialog.h codecompletion.h codecompletion.cpp configcodecompletion.cpp configcodecompletion.h kileedit.cpp cleandialog.cpp kileedit.h cleandialog.h  kilehelp.cpp kilehelp.h configstructure.cpp configstructure.h configenvironment.h convert.h convert.cpp \
+	kileconstants.h
 
 xdg_apps_DATA = kile.desktop
 
@@ -94,5 +95,5 @@ noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
 		kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
 		latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
 		kilesidebar.h plaintolatexconverter.h kileuntitled.h 	kilestatsdlg.h \
-	kilestatswidget.h envconfigwidget.h structureconfigwidget.h kileversion.h
+	kilestatswidget.h envconfigwidget.h structureconfigwidget.h kileversion.h kileconstants.h
 

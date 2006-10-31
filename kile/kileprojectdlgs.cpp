@@ -262,7 +262,7 @@ void KileNewProjectDlg::browseLocation()
 	if (! dir.isNull())
 	{
 		m_dir = dir;
-		if (m_dir.right(1) != "/") m_dir = m_dir+"/";
+		if (m_dir.right(1) != "/") m_dir = m_dir + '/';
 		m_location->setText(m_dir+bare());
 	}
 }
@@ -272,7 +272,7 @@ void KileNewProjectDlg::makeProjectPath()
 	m_filename=bare();
 	kdDebug() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
 	m_dir = QFileInfo(location()).dirPath();
-	if (m_dir.right(1) != "/") m_dir = m_dir+"/";
+	if (m_dir.right(1) != "/") m_dir = m_dir + '/';
 
 	kdDebug() << "LOCATION " << location() << " AND " << m_dir << endl;
 	m_location->setText(m_dir+m_filename);
@@ -329,7 +329,7 @@ void KileNewProjectDlg::slotOk()
 
 			for (uint i=0; i < dirs.count(); ++i)
 			{
-				path += "/"+dirs[i];
+				path += '/' + dirs[i];
 				dir.setPath(path);
 				kdDebug() << "\tchecking : " << dir.absPath() << endl;
 				if ( ! dir.exists() )
@@ -390,7 +390,7 @@ void KileNewProjectDlg::fillProjectDefaults()
 {
 	m_dir = KileConfig::defaultProjectLocation();
 	if( !m_dir.endsWith("/") )
-		m_dir += "/";
+		m_dir += '/';
 	kdDebug() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);
 	m_cb->setChecked(true);

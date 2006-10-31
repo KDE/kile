@@ -489,7 +489,7 @@ void QuickDocument::fillDocumentClassCombobox()
 	for ( uint i=0; i< m_userClasslist.count(); ++i )
 		classlist.append( m_userClasslist[i] );
 	classlist.sort();
-	fillCombobox(m_cbDocumentClass,stdClasses + ","  + classlist.join(","),m_currentClass);
+	fillCombobox(m_cbDocumentClass,stdClasses + ',' + classlist.join(","),m_currentClass);
 }
 
 void QuickDocument::writeDocumentClassConfig()
@@ -546,7 +546,7 @@ void QuickDocument::writeDocumentClassConfig()
 			if ( pos != -1 ) {
 				m_config->writeEntry( reg.cap(1),reg.cap(2) );
 				if ( ! options.isEmpty() )
-					options += ",";
+					options += ',';
 				options += reg.cap(1);
 			}
 		}
@@ -863,12 +863,12 @@ QString QuickDocument::getClassOptions()
 	QString fontsize = stripDefault( m_cbTypefaceSize->currentText() );
 	QString papersize = stripDefault( m_cbPaperSize->currentText() );
 
-	QString options =  fontsize + "," + papersize;
+	QString options =  fontsize + ',' + papersize;
 
 	for (QListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
 		QCheckListItem *cli = dynamic_cast<QCheckListItem*>(cur);
 		if (cli && cli->isOn()) {
-			options += "," + cur->text(0);
+			options += ',' + cur->text(0);
 		}
 	}
 
@@ -902,7 +902,7 @@ void QuickDocument::updateClassOptions()
 			if ( description.right(10) == " [default]" ) {
 				description = stripDefault(description);
 				if ( ! defaultoptions.isEmpty() )
-					defaultoptions += ",";
+					defaultoptions += ',';
 				defaultoptions += cur->text(0);
 			}
 			newlist += cur->text(0) + " => " + description;
@@ -1194,15 +1194,15 @@ void QuickDocument::writePackagesConfig()
 			if ( clichild && m_dictPackagesEditable.contains(option) ) {
 				optionentry += "1,";
 				if ( m_dictPackagesDefaultvalues.contains(option) )
-					optionentry += m_dictPackagesDefaultvalues[option] + ",";
+					optionentry += m_dictPackagesDefaultvalues[option] + ',';
 				else
-					optionentry += ",";
+					optionentry += ',';
 			} else
 				optionentry += "0,,";
 
 			// add a value and a description
 			optionentry += getPackagesValue(curchild->text(1))
-			                    + "," + stripPackageDefault(option,curchild->text(2));
+			                    + ',' + stripPackageDefault(option,curchild->text(2));
 
 			// write listview entry
 			m_config->writeEntry(option,optionentry);
@@ -1243,7 +1243,7 @@ QCheckListItem *QuickDocument::insertEditableListview(QCheckListItem *parent,
 	                                       const QString value,const QString defaultvalue)
 {
 	QCheckListItem *item = new EditableCheckListItem(parent,entry);
-	QString option = parent->text(0) + "!" + entry;
+	QString option = parent->text(0) + '!' + entry;
 	m_dictPackagesEditable[option] = true;
 	if ( ! defaultvalue.isEmpty() )
 		m_dictPackagesDefaultvalues[option] = defaultvalue;
@@ -1304,7 +1304,7 @@ bool QuickDocument::isListviewChild(QListView *listview,const QString &entry, co
 QString QuickDocument::addPackageDefault(const QString &option,const QString &description)
 {
 	return ( m_dictPackagesDefaultvalues.contains(option) )
-	       ? description + " [" + m_dictPackagesDefaultvalues[option] + "]"
+	       ? description + " [" + m_dictPackagesDefaultvalues[option] + ']'
 			 : description + " [ ]";
 }
 
@@ -1389,21 +1389,21 @@ void QuickDocument::printTemplate()
 	QString options;
 	if ( documentclass != "beamer" ) {
 		if ( !m_cbPaperSize->currentText().isEmpty() )
-			options += stripDefault( m_cbPaperSize->currentText() ) + ",";
+			options += stripDefault( m_cbPaperSize->currentText() ) + ',';
 	}
 
 	if ( !m_cbTypefaceSize->currentText().isEmpty() )
-		options += stripDefault( m_cbTypefaceSize->currentText() ) + ",";
+		options += stripDefault( m_cbTypefaceSize->currentText() ) + ',';
 
 	for (QListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
 		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
 		if ( cli && cli->isOn() )
-			options += cur->text(0) + ",";
+			options += cur->text(0) + ',';
 	}
 
 	if ( ! options.isEmpty() )
-		m_td.tagBegin += "[" + options.left( options.length()-1 ) + "]";
-	m_td.tagBegin += "{" + documentclass + "}\n\n";
+		m_td.tagBegin += '[' + options.left( options.length()-1 ) + ']';
+	m_td.tagBegin += '{' + documentclass + "}\n\n";
 
 	if (!m_cbEncoding->currentText().isEmpty())
 		m_td.tagBegin += "\\usepackage[" + m_cbEncoding->currentText()+"]{inputenc}\n";
@@ -1422,7 +1422,7 @@ void QuickDocument::printTemplate()
 		m_td.tagBegin += "\\title{"+m_leTitle->text()+"}\n";
 	if (!m_leDate->text().isEmpty())
 		m_td.tagBegin += "\\date{"+m_leDate->text()+"}\n";
-	m_td.tagBegin += "\n";
+	m_td.tagBegin += '\n';
 
 	m_td.tagBegin += "\\begin{document}\n";
 
@@ -1449,14 +1449,14 @@ void QuickDocument::printPackages()
 				if (clichild && clichild->isOn() ) {              // manage hyperref option
 					if ( isHyperrefDriver(curchild->text(0)) ) {   // either hyperref driver
 						if ( ! m_hyperrefdriver.isEmpty() )
-							m_hyperrefdriver += ",";
+							m_hyperrefdriver += ',';
 						m_hyperrefdriver += curchild->text(0);
 					} else {
 						QString value = curchild->text(1);          // or another option
 						if ( value != i18n("<default>") ) {
 							if ( ! m_hyperrefsetup.isEmpty() )
-								m_hyperrefsetup += ",";
-							m_hyperrefsetup += "%\n   " + curchild->text(0) + "=" + getPackagesValue(curchild->text(1));
+								m_hyperrefsetup += ',';
+							m_hyperrefsetup += "%\n   " + curchild->text(0) + '=' + getPackagesValue(curchild->text(1));
 						}
 					}
 				}
@@ -1467,16 +1467,16 @@ void QuickDocument::printPackages()
 				QCheckListItem *clichild = dynamic_cast<QCheckListItem*>(curchild);
 				if (clichild && clichild->isOn()) {
 					QString optiontext;
-					if ( m_dictPackagesEditable.contains(cur->text(0)+"!"+curchild->text(0)) ) {
+					if ( m_dictPackagesEditable.contains(cur->text(0) + '!' + curchild->text(0)) ) {
 						QString value = curchild->text(1);
 						if ( value != i18n("<default>") )
-							optiontext = curchild->text(0) + "=" + getPackagesValue(curchild->text(1));
+							optiontext = curchild->text(0) + '=' + getPackagesValue(curchild->text(1));
 					} else
 						optiontext = curchild->text(0);
 
 					if ( ! optiontext.isEmpty() ) {
 						if (!packageOptions.isEmpty())
-							packageOptions += ",";
+							packageOptions += ',';
 						packageOptions += optiontext;
 					}
 				}
@@ -1484,11 +1484,11 @@ void QuickDocument::printPackages()
 
 			m_td.tagBegin += "\\usepackage";
 			if (!packageOptions.isEmpty())
-				m_td.tagBegin += "[" + packageOptions + "]";
-			m_td.tagBegin += "{" + cur->text(0) + "}\n";
+				m_td.tagBegin += '[' + packageOptions + ']';
+			m_td.tagBegin += '{' + cur->text(0) + "}\n";
 		}
 	}
-	m_td.tagBegin += "\n";
+	m_td.tagBegin += '\n';
 }
 
 void QuickDocument::printHyperref()
@@ -1501,7 +1501,7 @@ void QuickDocument::printHyperref()
 	// output hyperref package
 	m_td.tagBegin += "\\usepackage";
 	if ( ! m_hyperrefdriver.isEmpty()  )
-		m_td.tagBegin += "[" + m_hyperrefdriver + "]";
+		m_td.tagBegin += '[' + m_hyperrefdriver + ']';
 	m_td.tagBegin += "{hyperref}\n";
 
 	// output hyperref options
@@ -1509,7 +1509,7 @@ void QuickDocument::printHyperref()
 		m_td.tagBegin += "\\hypersetup{" + m_hyperrefsetup + "%\n}\n";
 	}
 
-	m_td.tagBegin += "\n";
+	m_td.tagBegin += '\n';
 
 
 }
@@ -1846,7 +1846,7 @@ void QuickDocument::slotPackageAddOption()
 	QStringList list;
 	list << i18n("Add Option")
 	     << "label,edit,checkbox,label,edit,label,edit,label,edit,checkbox"
-	     << i18n("&Option:") + " (" + i18n("package:") + " " + cur->text(0) + ")"
+	     << i18n("&Option:") + " (" + i18n("package:") + ' ' + cur->text(0) + ')'
 	     << QString::null                   // 3
 	     << i18n("&Editable")               // 4
 	     << i18n("De&fault value:")
@@ -1888,8 +1888,8 @@ void QuickDocument::slotPackageEdit()
 	if ( cur->parent() ) {
 //		checkmode = qd_CheckPackageOption;
 		caption = i18n("Edit Option");
-		labelText = i18n("Op&tion:")  + " (" + i18n("package:") + " " + cur->parent()->text(0) + ")";
-		optionname = cur->parent()->text(0) + "!" + cur->text(0);
+		labelText = i18n("Op&tion:")  + " (" + i18n("package:") + ' ' + cur->parent()->text(0) + ')';
+		optionname = cur->parent()->text(0) + '!' + cur->text(0);
 		editableOption = m_dictPackagesEditable.contains(optionname);
 	} else {
 //		checkmode = qd_CheckPackage;
@@ -1957,7 +1957,7 @@ void QuickDocument::slotPackageDelete()
 	if ( cur->parent() ) {
 		packageoption = true;
 		message = i18n("Do you want do delete this package option?");
-		optionname = cur->parent()->text(0) + "!" + cur->text(0);
+		optionname = cur->parent()->text(0) + '!' + cur->text(0);
 	} else {
 		packageoption = false;
 		message = i18n("Do you want to delete this package?");
@@ -2007,7 +2007,7 @@ void QuickDocument::slotPackageDoubleClicked(QListViewItem *listViewItem,const Q
 {
 	if ( listViewItem && listViewItem->parent() ) {
 		QCheckListItem *parentitem = dynamic_cast<QCheckListItem*>(listViewItem->parent());
-		QString option = parentitem->text(0) + "!" + listViewItem->text(0);
+		QString option = parentitem->text(0) + '!' + listViewItem->text(0);
 		if ( m_dictPackagesEditable.contains(option) )
 			slotPackageEdit();
 	}

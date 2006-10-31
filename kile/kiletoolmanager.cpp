@@ -428,7 +428,7 @@ namespace KileTool
 
 	QString groupFor(const QString & tool, const QString & cfg /* = Default */ )
 	{
-		return "Tool/" + tool + "/" + cfg;
+		return "Tool/" + tool + '/' + cfg;
 	}
 
 	void extract(const QString &str, QString &tool, QString &cfg)
@@ -450,7 +450,7 @@ namespace KileTool
 	QString format(const QString & tool, const QString &cfg)
 	{
 		if (!cfg.isNull())
-			return tool+"("+cfg+")";
+			return tool + '(' + cfg + ')';
 		else
 			return tool;
 	}
@@ -485,7 +485,7 @@ namespace KileTool
 
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config)
 	{
-		QString entry = menu + "," + icon;
+		QString entry = menu + ',' + icon;
 
 		config->setGroup("ToolsGUI");
 		config->writeEntry(tool, entry);
@@ -540,7 +540,7 @@ namespace KileTool
 		// the first match is supposed to be the correct one
 		for ( QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it )
  		{
-			info.setFile((*it) + "/" + file);
+			info.setFile((*it) + '/' + file);
 			if(info.exists())
 			{
 				kdDebug() << "filepath after correction is: " << info.dirPath() << endl;

@@ -182,8 +182,8 @@ namespace KileDocument
 		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
 		{
 			if ( cmd->isStarredEnv(*it) )
-				commands += "|" + (*it).mid(1) + "*";
-			commands += "|" + (*it).mid(1);
+				commands += '|' + (*it).mid(1) + '*';
+			commands += '|' + (*it).mid(1);
 		}
 		return commands;
 	}
@@ -202,7 +202,7 @@ namespace KileDocument
 			// if checked, the wordlist has to be read
 			if ( files[ i ].at( 0 ) == '1' )
 			{
-				readWordlist( wordlist, dir + "/" + files[ i ].right( files[ i ].length() - 2 ) + ".cwl" );
+				readWordlist( wordlist, dir + '/' + files[ i ].right( files[ i ].length() - 2 ) + ".cwl" );
 			}
 		}
 
@@ -253,9 +253,9 @@ namespace KileDocument
 					entrylist.append( command + eos + "[option]" );
 				if ( attr.starred )
 				{
-					entrylist.append( command + "*" + eos );
+					entrylist.append( command + '*' + eos );
 					if ( ! attr.option.isEmpty() )
-						entrylist.append( command + "*" + eos + "[option]" );
+						entrylist.append( command + '*' + eos + "[option]" );
 				}
 
 				// finally append entries to wordlist
@@ -571,7 +571,7 @@ namespace KileDocument
 			s += s_bullet;
 
 		if ( m_closeenv && start != "end" )
-			s += "\n" + whitespace + "\\end{" + envname + "}\n";
+			s += '\n' + whitespace + "\\end{" + envname + "}\n";
 
 		// place cursor
 		if ( m_setcursor )
@@ -694,9 +694,9 @@ namespace KileDocument
 						foundgroup = true;
 						s.truncate( s.length() - 1 );
 						if ( m_setbullets )
-							s += " " + s_bullet + " ";
+							s += ' ' + s_bullet + ' ';
 						else
-							s += " ";
+							s += ' ';
 					}
 					else
 						s += text[ i ];

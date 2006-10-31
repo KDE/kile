@@ -67,7 +67,7 @@ bool OutputFilter::Run(const QString & logfile)
 		while ( !t.eof() )
 		{
 // 			kdDebug() << "line " << m_nOutputLines << endl;
-			s=t.readLine()+"\n";
+			s = t.readLine() + '\n';
 			sCookie = parseLine(s.stripWhiteSpace(), sCookie);
 			++m_nOutputLines;
 

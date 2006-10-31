@@ -301,7 +301,7 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 		if ( name == "\\[" )
 			view->getDoc()->insertText( currentRow,currentCol, "\\]" );
 		else
-			view->getDoc()->insertText( currentRow,currentCol, "\\end{"+name+"}" );
+			view->getDoc()->insertText( currentRow,currentCol, "\\end{" + name + '}' );
 // 		view->setCursorPositionReal(row+1,0);
 	}
 }
@@ -2318,7 +2318,7 @@ bool EditorExtension::insertDoubleQuotes()
 	if ( m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter() )
 		pattern2 += "(\\b|(\\{\\}))";
 
-	QRegExp reg("(" + pattern1 + ")|(" + pattern2 + ")");
+	QRegExp reg("(" + pattern1 + ")|(" + pattern2 + ')');
 
 	uint r,c,l;
 	bool openfound = false;
@@ -2398,7 +2398,7 @@ void EditorExtension::insertIntelligentTabulator()
 	
 	if ( tab == QString::null ) 
 		tab = "&";
-	tab = prefix + tab + " ";
+	tab = prefix + tab + ' ';
 	
 	view->getDoc()->insertText(currentRow,currentCol,tab);
 	view->setCursorPositionReal(currentRow,currentCol+tab.length());
@@ -2435,7 +2435,7 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 		else
 		{
 			envname = m_regexpEnter.cap(4);
-			endenv = m_regexpEnter.cap(2).replace("\\begin","\\end")+"\n";
+			endenv = m_regexpEnter.cap(2).replace("\\begin","\\end") + '\n';
 		}
 		
 		if ( shouldCompleteEnv(envname, view) )

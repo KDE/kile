@@ -200,7 +200,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 		QStringList lst = QStringList::split(" ", ext);
 		pattern = lst.join("|");
 		pattern.replace(".","\\.");
-		pattern ="("+ pattern +")$";
+		pattern = '('+ pattern +")$";
 	}
 
 	if ( extIsRegExp(type) )
@@ -273,7 +273,7 @@ QString KileProject::addBaseURL(const QString &path)
   	else if ( path.startsWith("/") )
   		return KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
   	else
-    		return  KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(m_baseurl.path() + "/" +path)).path();
+    		return  KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(m_baseurl.path() + '/' +path)).path();
  }
 
 QString KileProject::removeBaseURL(const QString &path)
@@ -609,7 +609,7 @@ QString KileProject::findRelativePath(const KURL &url)
 			}
 		}
 
-		if ( path.length()>0 && path.right(1) != "/" ) path = path + "/";
+		if ( path.length() > 0 && path.right(1) != "/" ) path = path + '/';
 
 		path = path+filename;
 	}

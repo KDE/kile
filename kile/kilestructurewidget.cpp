@@ -85,7 +85,7 @@ void KileListViewItem::setTitle(const QString &title)
 
 void KileListViewItem::setItemEntry()
 {
-	setText(0, m_title + " (" + i18n("line") + " " + QString::number(m_line) + ")");
+	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
 }
 
 ////////////////////// introduce a new ToolTip //////////////////////
@@ -565,7 +565,7 @@ namespace KileWidget
 			if(fname.left(1) != "/") // no absolute path
 			{
 				QString fn = m_ki->getCompileName();
-				fname= QFileInfo(fn).dirPath() + "/" + fname;
+				fname= QFileInfo(fn).dirPath() + '/' + fname;
 			}
 			
 			QFileInfo fi(fname);
@@ -628,7 +628,7 @@ namespace KileWidget
 			if(m_popupInfo.left(1) != "/") // no absolute path
 			{
 				QString fn = m_ki->getCompileName();
-				m_popupInfo = QFileInfo(fn).dirPath() + "/" + m_popupInfo;
+				m_popupInfo = QFileInfo(fn).dirPath() + '/' + m_popupInfo;
 			}
 			
 			QFileInfo fi(m_popupInfo);
@@ -657,9 +657,9 @@ namespace KileWidget
 		{
 			QString s = m_popupItem->label();    
 			if ( id==1 || id==4 )
-				s = "\\ref{" + s + "}";
+				s = "\\ref{" + s + '}';
 			else if ( id==2 || id==5 )
-				s = "\\pageref{" + s + "}";
+				s = "\\pageref{" + s + '}';
 				
 			if ( id <= 3 )
 				emit( sendText(s) );

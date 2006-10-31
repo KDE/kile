@@ -83,7 +83,7 @@ namespace KileTool
 
 		QString src = m_source;
 		if (absolute)
-			src = m_basedir+"/"+src;
+			src = m_basedir + '/' + src;
 			
 		return src;
 	}
@@ -256,7 +256,7 @@ namespace KileTool
 		{
 			QString src = source;
 			if ( (m_from.length() > 0) && (info.extension(false).length() > 0) )
-				src.replace(QRegExp(info.extension(false)+"$"),m_from);
+				src.replace(QRegExp(info.extension(false) + '$'), m_from);
 			info.setFile(src);
 		}
 
@@ -291,7 +291,7 @@ namespace KileTool
 				m_target = readEntry("target");
 			}
 			else if ( to().length() > 0)
-				m_target = S()+"."+to();
+				m_target = S() + '.' + to();
 			else
 				m_target = source(false);
 		}
@@ -333,7 +333,7 @@ namespace KileTool
 			return false;
 		}
 
-		info.setFile(m_targetdir+"/"+m_target);
+		info.setFile(m_targetdir + '/' + m_target);
 
 		if ( (flags() & NeedTargetExists) && ( ! info.exists() ))
 		{
@@ -567,7 +567,7 @@ sourceinfo.lastModified()) << endl;
 	bool Convert::determineSource()
 	{
 		bool  br = Base::determineSource();
-		setSource(baseDir()+"/"+S()+"."+from());
+		setSource(baseDir() + '/' + S() + '.' + from());
 		return br;
 	}
 

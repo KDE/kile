@@ -32,6 +32,6 @@ QString KileUntitled::next()
 
 QString KileUntitled::current()
 {
-    return m_untitled + " " + QString::number(m_last);
+    return m_untitled + ' ' + QString::number(m_last);
 }
 

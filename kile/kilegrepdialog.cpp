@@ -464,10 +464,10 @@ void KileGrepDialog::slotItemSelected(const QString& item)
 		{
 			linenumber = str.left(pos);
 			if ( m_mode == KileGrep::Project )
-				emit itemSelected(m_projectdir + "/" + filename,linenumber.toInt());
+				emit itemSelected(m_projectdir + '/' + filename,linenumber.toInt());
 			else
 				//emit itemSelected(lastSearchPaths[0] + "/" + filename,linenumber.toInt());
-				emit itemSelected(dir_combo->comboBox()->text(0) + "/" + filename,linenumber.toInt());
+				emit itemSelected(dir_combo->comboBox()->text(0) + '/' + filename,linenumber.toInt());
 		}
 	}
 }
@@ -481,7 +481,7 @@ void KileGrepDialog::startGrep()
 
 	if ( m_mode == KileGrep::Project )
 	{
-		QString command = buildProjectCommand() + " " + KProcess::quote(m_projectfiles[m_grepJobs-1]);
+		QString command = buildProjectCommand() + ' ' + KProcess::quote(m_projectfiles[m_grepJobs-1]);
 		kdDebug() << "\tgrep (project): " <<  command << endl;
 		(*childproc) << QStringList::split(' ',command);
 	}
@@ -513,7 +513,7 @@ void KileGrepDialog::processOutput()
 		{
 			if ( m_mode == KileGrep::Project )
 			{
-				if ( item.find(m_projectdir+"/") == 0 )
+				if ( item.find(m_projectdir + '/') == 0 )
 					resultbox->insertItem( item.mid(m_projectdir.length()+1) );
 				else
 					resultbox->insertItem(item);
@@ -616,7 +616,7 @@ QString KileGrepDialog::getShellPattern()
 {
 	QString pattern = getPattern();
 	pattern.replace("'", "'\\''");
-	return QString("'") + pattern + "'";
+	return '\'' + pattern + '\'';
 	//return KProcess::quote(pattern);
 }
 
@@ -631,18 +631,18 @@ QString KileGrepDialog::buildFilesCommand()
 		files_temp = filter_combo->currentText();
 
 	if (files_temp.right(1) != ",")
-		files_temp = files_temp + ",";
+		files_temp = files_temp + ',';
 
 	QStringList tokens = QStringList::split ( ",", files_temp, false );
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end())
 	{
-		files = " '" + (*it) + "'" ;
+		files = " '" + (*it) + '\'';
 		++it;
 	}
 
 	for ( ; it != tokens.end(); ++it )
-		files = files + " -o -name " + "'" + (*it) + "'";
+		files = files + " -o -name " + '\'' + (*it) + '\'';
 
 	QString shell_command;
 	shell_command += "find ";
@@ -875,7 +875,7 @@ QString KileGrepDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 	QString commands = QString::null;
 	for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
 	{
-		commands += "|" + (*it).mid(1);
+		commands += '|' + (*it).mid(1);
 	}
 	return commands;
 }

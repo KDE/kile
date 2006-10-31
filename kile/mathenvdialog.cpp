@@ -259,7 +259,7 @@ void MathEnvironmentDialog::slotSpinboxValueChanged(int index)
 void MathEnvironmentDialog::slotOk()
 {
 	// environment
-	QString envname = ( m_cbStarred->isChecked() ) ? m_envname + "*" : m_envname;
+	QString envname = ( m_cbStarred->isChecked() ) ? m_envname + '*' : m_envname;
 	QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 	
 	// use bullets?
@@ -269,7 +269,7 @@ void MathEnvironmentDialog::slotOk()
 	QString tab = m_coTabulator->currentText();
 	tab.replace("<=","\\le");
 	tab.replace(">=","\\ge");
-	QString tabulator = bullet + " " + tab + " ";
+	QString tabulator = bullet + ' ' + tab + ' ';
 	
 	// number of rows
 	int numrows = m_spRows->value();
@@ -331,10 +331,10 @@ void MathEnvironmentDialog::slotOk()
 	if ( isGroupsParameterEnv() )
 		parameter = QString("{%2}").arg(numgroups);
 	else if ( isParameterEnv() )
-		parameter = "{" + bullet + "}";
+		parameter = '{' + bullet + '}';
 
 	// open environment  
-	m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + "\n";
+	m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + '\n';
 	
 	for ( int row=0; row<numrows; ++row ) 
 	{

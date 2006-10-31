@@ -449,7 +449,7 @@ QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 	kdDebug() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
 	for ( uint i = 0; i < list->count(); ++i )
 	{
-		fileinfo.setFile( basepath + "/" + (*list)[i] );
+		fileinfo.setFile( basepath + '/' + (*list)[i] );
 		kdDebug() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
 		if ( fileinfo.lastModified() >  time )
 		{
@@ -940,7 +940,7 @@ void LaTeXInfo::updateStruct()
 					if ( (*it).type == KileStruct::BeginEnv )
 					{
 						if ( m=="figure" || m=="table")
-							it = m_dictStructLevel.find("\\begin{"+m+"}");
+							it = m_dictStructLevel.find("\\begin{" + m +'}');
 						else
 							fireSuspended = true;          // only floats, no other environments
 					}
@@ -1059,14 +1059,14 @@ void LaTeXInfo::updateStruct()
 								{
 								kdDebug() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
 								noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-								cmdWithOptArgs = m + "[" + reNumOfOptParams.cap(2) + "]";
+								cmdWithOptArgs = m + '[' + reNumOfOptParams.cap(2) + ']';
 								}
 									
 								for ( int noo_index = 0; noo_index < noo; ++noo_index)
 								{
-									m +=  "{" + s_bullet + "}";
+									m +=  '{' + s_bullet + '}';
 									if(!cmdWithOptArgs.isNull())
-										cmdWithOptArgs += "{" + s_bullet + "}";
+										cmdWithOptArgs += '{' + s_bullet + '}';
 								}
 								
 							}

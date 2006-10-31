@@ -232,19 +232,19 @@ QString IncludeGraphics::getTemplate()
 	// add some options
 	QString options = getOptions();
 	if ( !options.isEmpty() )
-		s += "[" + options + "]";
+		s += '[' + options + ']';
  
 	// add name of picture
 	// either take the filename or try to take the relative part of the name
 	QString filename = ( cb_graphicspath->isChecked() ) 
 	                 ? QFileInfo(edit_file->text()).fileName() 
 	                 : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
-	s += "{" + filename + "}\n";
+	s += '{' + filename + "}\n";
  
 	// add some comments (depending of given resolution, this may be wrong!)
 	QString info = getInfo();
 	if (info.length() > 0) 
-		s += indent + info + "\n";
+		s += indent + info + '\n';
 
 	// close center environment ? 
 	if ( center && !figure )
@@ -310,10 +310,10 @@ QString IncludeGraphics::getInfo()
 	{
 		QFileInfo fi( edit_file->text() );
 
-		return "% " + fi.baseName() + "." + fi.extension(true)
+		return "% " + fi.baseName() + '.' + fi.extension(true)
 		            + QString(": %1x%2 pixel").arg(wpx).arg(hpx)
 		            + ", " + dpi + "dpi"
-		            + ", " + wcm + "x" + hcm + " cm"
+		            + ", " + wcm + 'x' + hcm + " cm"
 		            + ", bb=" + edit_bb->text();
 	}
 }
@@ -327,7 +327,7 @@ void IncludeGraphics::setInfo()
 	if ( !edit_file->text().isEmpty() && getPictureSize(wpx,hpx,dpi,wcm,hcm) ) 
 	{
 		text = QString("%1x%2 pixel").arg(wpx).arg(hpx)
-			       + " / " + wcm + "x" + hcm + " cm"
+			       + " / " + wcm + 'x' + hcm + " cm"
 			       + "  (" + dpi + "dpi)";
 	} 
 	else
@@ -482,7 +482,7 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
 
 	// take width and height as parameters for the bounding box
 	 edit_bb->setText( QString("0 0 ") + QString("%1").arg(bbw)
-	                                   + " "
+	                                   + ' '
 	                                   + QString("%1").arg(bbh)
 	                  );
 

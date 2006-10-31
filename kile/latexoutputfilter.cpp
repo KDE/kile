@@ -59,10 +59,10 @@ bool LatexOutputFilter::fileExists(const QString & name)
 		else return false;
 	}
 
-	fi.setFile(path() + "/" + name);
+	fi.setFile(path() + '/' + name);
 	if ( fi.exists() && !fi.isDir() ) return true;
 
-	fi.setFile(path() + "/" + name + ".tex");
+	fi.setFile(path() + '/' + name + ".tex");
 	if ( fi.exists() && !fi.isDir() ) return true;
 
 	return false;

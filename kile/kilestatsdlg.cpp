@@ -139,7 +139,7 @@ widget->updateColumns();
 void KileStatsDlg::slotUser1() // Copy
 {
 	kdDebug() << "Copy Button was clicked" << endl;
-	kdDebug() << "Open tab is " << activePageIndex() << " " + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
+	kdDebug() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
 
 	QClipboard *clip = KApplication::clipboard();
 	QString text;
@@ -150,7 +150,7 @@ void KileStatsDlg::slotUser1() // Copy
 void KileStatsDlg::slotUser2() // CopyAsLaTeX
 {
 	kdDebug() << "CopyAsLateX Button was clicked" << endl;
-	kdDebug() << "Open tab is " << activePageIndex() << " " + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
+	kdDebug() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
 
 	QClipboard *clip = KApplication::clipboard();
 	QString text;
@@ -198,9 +198,9 @@ else
 		text->append("\\end{tabular}\n");
 
 	if(m_hasSelection) // we can't have both cases
-		text->append( ( forLaTeX? "\\par\\bigskip\n": "\n") + widget->m_warning->text() + "\n");
+		text->append( ( forLaTeX? "\\par\\bigskip\n": "\n") + widget->m_warning->text() + '\n');
 	else if(m_notAllFilesOpenWarning)
-		text->append( ( forLaTeX? "\\par\\bigskip\n": "\n") + widget->m_warning->text() + "\n");
+		text->append( ( forLaTeX? "\\par\\bigskip\n": "\n") + widget->m_warning->text() + '\n');
 }
 
 

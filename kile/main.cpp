@@ -63,7 +63,7 @@ QString completePath(const QString &path)
 			fullpath = url.url();
 		}
 		else if ( path.find(QRegExp("^[a-z]+:")) == -1 )
-			fullpath = QDir::currentDirPath() + "/" + path;
+			fullpath = QDir::currentDirPath() + '/' + path;
 	}
 
 	kdDebug() << "\t" << fullpath << endl;

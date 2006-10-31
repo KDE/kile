@@ -87,7 +87,7 @@ void QuickPreview::previewEnvironment(Kate::Document *doc)
 	if ( text != QString::null )
 	{
 		if ( m_ki->latexCommands()->isMathModeEnv(envname)  )
-			text = "$" + text + "$";
+			text = '$' + text + '$';
 		else if ( m_ki->latexCommands()->isDisplaymathModeEnv(envname) )
 			text = "\\[" + text + "\\]";
 
@@ -233,7 +233,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KileTool::Base *dvips = 0L;
 	if ( ! previewlist[1].isEmpty() ) 
 	{
-		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ")";
+		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
 		kdDebug() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
 		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
 		if ( !dvips ) 
@@ -246,7 +246,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KileTool::Base *viewer = 0L;
 	if ( !previewlist[pvViewer].isEmpty() ) 
 	{
-		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ")";
+		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
 		kdDebug() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
 		viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
 		if ( !viewer ) 
@@ -260,7 +260,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	QString texinputpath = KileConfig::teXPaths();
 	QString inputdir = QFileInfo(m_ki->getCompileName()).dirPath(true);
 	if ( ! texinputpath.isEmpty() )
-		inputdir += ":" + texinputpath;
+		inputdir += ':' + texinputpath;
  	KileConfig::setPreviewTeXPaths(inputdir);
 	kdDebug() << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
 	

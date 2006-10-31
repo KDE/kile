@@ -273,7 +273,7 @@ void UserHelp::slotUserHelpActivated(int index)
 	}
 		
 	KConfig *config = m_manager->config();
-	if ( type!=QString::null && config->hasGroup("Tool/" + type + "/" + cfg) ) 
+	if ( type!=QString::null && config->hasGroup("Tool/" + type + '/' + cfg) )
 	{
 		KileTool::View *tool = new KileTool::View(type, m_manager, false);
 		tool->setFlags(0);

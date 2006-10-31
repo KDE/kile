@@ -188,11 +188,11 @@ void TexDocDialog::readToc()
 				basename = fi.baseName().lower();
 			}  
 			
-			QString entry = list[0] + ";" + list[1];
+			QString entry = list[0] + ';' + list[1];
 			if ( ! basename.isEmpty() )  
-				entry += ";" + basename;
+				entry += ';' + basename;
 			if ( list.count() > 3 )
-				entry += ";" + list[3];
+				entry += ';' + list[3];
 			m_tocSearchList.append(entry);
 		}
 	}
@@ -290,8 +290,8 @@ QString TexDocDialog::searchFile(const QString &docfilename,const QString &listo
 	{
 		for ( QStringList::Iterator ite = extlist.begin(); ite!=extlist.end(); ++ite ) 
 		{
-			filename = ( subdir.isEmpty() ) ? (*itp) + "/" + docfilename + (*ite)
-			                                : (*itp) + "/" + subdir + "/" + docfilename + (*ite);
+			filename = ( subdir.isEmpty() ) ? (*itp) + '/' + docfilename + (*ite)
+			                                : (*itp) + '/' + subdir + '/' + docfilename + (*ite);
 		 	// kdDebug() << "search file: "  << filename << endl;
 			if (  QFile::exists(filename) )
 				return filename;
@@ -310,7 +310,7 @@ void TexDocDialog::decompressFile(const QString &docfile,const QString &command)
 	if ( m_tempfile )
 		delete m_tempfile;
 		
-	m_tempfile = new KTempFile(QString::null,"."+ext);
+	m_tempfile = new KTempFile(QString::null, '.' + ext);
 	m_tempfile->setAutoDelete(true);
 	m_filename = m_tempfile->name();
 	

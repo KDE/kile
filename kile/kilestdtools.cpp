@@ -95,7 +95,7 @@ namespace KileTool
                 if ( docinfo )
                 {
 			if ( manager()->info()->allBibliographies()->count() > 0 )
-				return needsUpdate ( baseDir() + "/" + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
+				return needsUpdate ( baseDir() + '/' + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
 		}
 
 		return false;
@@ -109,7 +109,7 @@ namespace KileTool
 			const QStringList *pckgs = docinfo->packages();
 			for ( uint i = 0; i < pckgs->count(); ++i)
 				if ( (*pckgs->at(i)) == "makeidx" )
-					return needsUpdate ( baseDir() + "/" + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
+					return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
 		}
 
 		return false;
@@ -133,7 +133,7 @@ namespace KileTool
 	bool LaTeX::filterLogfile()
 	{
 		manager()->info()->outputFilter()->setSource(source());
-		QString log = baseDir() + "/" + S() + ".log";
+		QString log = baseDir() + '/' + S() + ".log";
 
 		return manager()->info()->outputFilter()->Run(log);
 	}
@@ -255,7 +255,7 @@ namespace KileTool
 			return false;
 
 		QString texfile = manager()->info()->relativePath(baseDir(),filepath);
-		m_urlstr = "file:" + targetDir() + "/" + target() + "#src:" + QString::number(para+1) + " " + texfile; // space added, for files starting with numbers
+		m_urlstr = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
 		addDict("%dir_target", QString::null);
 		addDict("%target", m_urlstr);
 		kdDebug() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;
@@ -336,8 +336,8 @@ namespace KileTool
 			//auto-detect the file to view
 			if ( dir.isEmpty() && trg.isEmpty() )
 			{
-				QFileInfo file1 = QFileInfo(baseDir() + "/" + S() + "/index.html");
-				QFileInfo file2 = QFileInfo(baseDir() + "/" + S() + ".html");
+				QFileInfo file1 = QFileInfo(baseDir() + '/' + S() + "/index.html");
+				QFileInfo file2 = QFileInfo(baseDir() + '/' + S() + ".html");
 
 				bool read1 = file1.isReadable();
 				bool read2 = file2.isReadable();

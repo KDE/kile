@@ -150,9 +150,9 @@ void KileLyxServer::processLine(const QString &line)
 	QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
 
 	if (cite.search(line) > -1)
-		emit(insert(KileAction::TagData("Cite", "\\cite{"+cite.cap(1)+"}", QString::null, 7+cite.cap(1).length())));
+		emit(insert(KileAction::TagData("Cite", "\\cite{"+cite.cap(1)+'}', QString::null, 7+cite.cap(1).length())));
 	else if ( bibtexdbadd.search(line) > -1 )
-		emit(insert(KileAction::TagData("BibTeX db add", "\\bibliography{"+ bibtexdbadd.cap(1) + "}", QString::null, 15+bibtexdbadd.cap(1).length())));
+		emit(insert(KileAction::TagData("BibTeX db add", "\\bibliography{"+ bibtexdbadd.cap(1) + '}', QString::null, 15+bibtexdbadd.cap(1).length())));
 }
 
 void KileLyxServer::receive(int fd)

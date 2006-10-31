@@ -131,18 +131,18 @@ void FloatEnvironmentDialog::slotOk()
 	
 	QString position;
 	if ( m_cbHere->isChecked() )
-		position += "h";
+		position += 'h';
 	if ( m_cbTop->isChecked() )
-		position += "t";
+		position += 't';
 	if ( m_cbBottom->isChecked() )
-		position += "b";
+		position += 'b';
 	if ( m_cbPage->isChecked() )
-		position += "p";
+		position += 'p';
 	
-	m_td.tagBegin = "\\begin{" + envname + "}";
+	m_td.tagBegin = "\\begin{" + envname + '}';
 	if ( !position.isEmpty() )
-		m_td.tagBegin += "[" + position + "]";
-	m_td.tagBegin += "\n";
+		m_td.tagBegin += '[' + position + ']';
+	m_td.tagBegin += '\n';
 	
 	int row = 1;
 	if ( m_cbCenter->isChecked() ) {
@@ -150,7 +150,7 @@ void FloatEnvironmentDialog::slotOk()
 		row = 2;
 	}
 	
-	m_td.tagEnd = indent + "\n";
+	m_td.tagEnd = indent + '\n';
 
 	QString caption = m_edCaption->text();
 	if ( ! caption.isEmpty() ) 

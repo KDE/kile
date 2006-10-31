@@ -126,7 +126,7 @@ namespace KileHelp
 				return;
 		}
 
-		showHelpFile( KileConfig::location() + "/" + filename );
+		showHelpFile( KileConfig::location() + '/' + filename );
 	}
 
 ////////////////////// Help: LaTeX //////////////////////
@@ -218,7 +218,7 @@ namespace KileHelp
 			kdDebug() << "word = " << word << " " << m_dictHelpKile.contains(word) << endl;
 			if ( !word.isNull() && m_dictHelpKile.contains(word) )
 			{
-				showHelpFile( kilehelp + "#" + m_dictHelpKile[word] );
+				showHelpFile( kilehelp + '#' + m_dictHelpKile[word] );
 			}
 			else
 				noHelpAvailableFor(word);

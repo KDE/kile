@@ -139,7 +139,7 @@ cout << "fname is " << fname.latin1() << "\n";
 if(image.load(fname))
 {
 	image.setText("Command",0,cmd);
-	image.setText("Packages",0, ( pkgsarg.isEmpty() ? "" : "[" + pkgsarg + "]" ) + ( pkgs.isEmpty() ? "" : "{" + pkgs + "}") );
+	image.setText("Packages",0, ( pkgsarg.isEmpty() ? "" : '[' + pkgsarg + ']' ) + ( pkgs.isEmpty() ? "" : '{' + pkgs + '}') );
 	
 	if(!image.save(fname,"PNG"))
 	{

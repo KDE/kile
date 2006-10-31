@@ -405,7 +405,7 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 	if ( attr.starred )
 		s += "*,";
 	else
-		s += ",";
+		s += ',';
 	
 	// next attributes are only valid for environments
 	if ( env ) 
@@ -413,18 +413,18 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 		if ( attr.cr )
 			s += "\\\\,";
 		else
-			s += ",";
+			s += ',';
 		if ( attr.mathmode )
 			s += "$,";
 		else if ( attr.displaymathmode )
 			s += "$$";
 		else
-			s += ",";
-		s += attr.tabulator + ",";
+			s += ',';
+		s += attr.tabulator + ',';
 	}
 	
 	// option and parameter are for both types again
-	s += attr.option + ",";
+	s += attr.option + ',';
 	s += attr.parameter;
 	
 	return s;    // s.left(s.length()-1);

@@ -171,7 +171,7 @@ void InputTag::emitData()
 		// refresh document structure and project tree when a file was inserted
 		if ( dlg->useAddProjectFile() ) 
 		{
-			m_ki->docManager()->projectAddFile( QFileInfo(m_ki->getCompileName()).dirPath(true) + "/" + dlg->tag() );
+			m_ki->docManager()->projectAddFile( QFileInfo(m_ki->getCompileName()).dirPath(true) + '/' + dlg->tag() );
 		}
 	}
 	delete dlg;

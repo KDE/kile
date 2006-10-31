@@ -144,12 +144,12 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 
 	if (file.left(2) == "./" )
 	{
-		file = QFileInfo(outputFilter()->source()).dirPath(true) + "/" + file.mid(2);
+		file = QFileInfo(outputFilter()->source()).dirPath(true) + '/' + file.mid(2);
 	}
 
 	if (file[0] != '/' )
 	{
-		file = QFileInfo(outputFilter()->source()).dirPath(true) + "/" + file;
+		file = QFileInfo(outputFilter()->source()).dirPath(true) + '/' + file;
 	}
 
 	QFileInfo fi(file);
@@ -381,7 +381,7 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 			}
 		}
 
-		if ( path.length()>0 && path.right(1) != "/" ) path = path + "/";
+		if ( path.length()>0 && path.right(1) != "/" ) path = path + '/';
 
 		path = path+filename;
 	}

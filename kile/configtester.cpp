@@ -72,7 +72,7 @@ QString ConfigTest::resultText() const
 
 	if ( m_name == "binary" )
 	{
-		str += " (" + m_altArg + " => " + m_arg + ")";
+		str += " (" + m_altArg + " => " + m_arg + ')';
 		if ( status()==Failure && s_msgFailure.contains(m_altArg) ) 
 			str += QString("<br>(%1)").arg( s_msgFailure[m_altArg] );
 		return str;

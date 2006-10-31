@@ -560,7 +560,7 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 
 Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KURL& baseDirectory)
 {
-	Kate::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : "." + extension), KURL(), QString::null, true, QString::null, text, -1, baseDirectory);
+	Kate::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : '.' + extension), KURL(), QString::null, true, QString::null, text, -1, baseDirectory);
 	if (view)
 	{
 		//FIXME this shouldn't be necessary!!!
@@ -1418,7 +1418,7 @@ bool Manager::projectArchive(KileProject *project /* = 0*/)
 			{
 				path = (*it)->path();
 				KRun::shellQuote(path);
-				files += path+" ";
+				files += path + ' ';
 			}
 			++it;
 		}
@@ -1562,7 +1562,7 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	QFileInfo file(docinfo->url().path()), fi;
 	for (uint i=0; i <  templist.count(); ++i)
 	{
-		str = file.dirPath(true) + "/" + file.baseName(true) + templist[i];
+		str = file.dirPath(true) + '/' + file.baseName(true) + templist[i];
 		fi.setFile(str);
 		if ( fi.exists() )
 			extlist.append(templist[i]);
@@ -1868,7 +1868,7 @@ const KURL Manager::symlinkFreeURL(const KURL& url)
 	QString filename=url.path(); // if the directory does not exist we return the old url (just to be sure)
 
 	if(dir.exists())
-		filename= dir.canonicalPath() + "/" + url.filename();
+		filename= dir.canonicalPath() + '/' + url.filename();
 	else
 		kdDebug() << "directory " << url.directory() << "does not exist" << endl;
 

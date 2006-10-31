@@ -2218,7 +2218,7 @@ void TabularDialog::slotOk()
 			lines = m_table->countVLines(col,true);
 			if ( lines.cnt > numrows/2 ) 
 			{
-				preamble += "|";
+				preamble += '|';
 				colinfo[col].vline = true;
 			}
 		}
@@ -2253,13 +2253,13 @@ void TabularDialog::slotOk()
 				colinfo[col].align = Qt::AlignRight;
 			
 		// pre >{} and post <{} commands can stay, but perhaps bullets are wanted
-		preamble += ( m_cbBullets->isChecked() ) ? s.replace("{}","{"+s_bullet+"}") : s;
+		preamble += ( m_cbBullets->isChecked() ) ? s.replace("{}", '{' + s_bullet + '}') : s;
 	}
 	// search for right vline in last column
 	lines = m_table->countVLines( numcols-1,false );
 	if ( lines.cnt > numrows/2 ) 
 	{
-		preamble += "|";
+		preamble += '|';
 		colinfo[numcols].vline = true;
 	}
 		
@@ -2309,7 +2309,7 @@ void TabularDialog::slotOk()
 					//if ( (colinfo[col].vline!=m_table->isVLine(row,col,true)) && m_table->isVLine(row,col,true) ) {
 					if ( m_table->isVLine(row,col,true) ) 
 					{
-						s2 += "|";
+						s2 += '|';
 					}
 					// bgcolor
 				//	if ( ! ( (colinfo[col].bgcolor==cellitem->m_data.bgcolor.name()) &&
@@ -2324,14 +2324,14 @@ void TabularDialog::slotOk()
 					//if ( cellitem->m_data.align!=colinfo[col].align ) {
 					switch ( cellitem->m_data.align ) 
 					{
-						case Qt::AlignHCenter : s2 += "c"; break;
-						case Qt::AlignRight   : s2 += "r"; break;
-						default               : s2 += "l";
+						case Qt::AlignHCenter : s2 += 'c'; break;
+						case Qt::AlignRight   : s2 += 'r'; break;
+						default               : s2 += 'l';
 					}
 					// we have to set a right line in a multicolumn cell
 					if ( m_table->isVLine(row,col,false) )  
 					{
-						s2 += "|";
+						s2 += '|';
 					}
 				}
 				
@@ -2347,11 +2347,11 @@ void TabularDialog::slotOk()
 				
 				if ( colinfo[col].textcolor != cellitem->m_data.textcolor.name() ) 
 				{
-					s3 += "\\color{" + colinfo[col].textcolor + "-" + cellitem->m_data.textcolor.name() + "}";
+					s3 += "\\color{" + colinfo[col].textcolor + '-' + cellitem->m_data.textcolor.name() + "}";
 					pkgColor = true;
 				}
 				if ( ! s3.isEmpty() )
-					s3 += " ";
+					s3 += ' ';
 					
 				// add text
 				if ( ! cellitem->text().isEmpty() )
@@ -2400,7 +2400,7 @@ void TabularDialog::slotOk()
 			textline += " \\\\ " + s;
 	
 		//kdDebug() << "text: " << textline << endl;
-		m_td.tagEnd += textline + "\n";
+		m_td.tagEnd += textline + '\n';
 	}
 
 	// build the list of colors
@@ -2424,15 +2424,15 @@ void TabularDialog::slotOk()
 	if ( m_cbBooktabs->isChecked() )
 		packagelist += ",booktabs";
 	if ( envname=="tabularx" || envname=="longtable" || envname=="supertabular" )
-		packagelist += "," + envname;
+		packagelist += ',' + envname;
 	if ( ! packagelist.isEmpty() ) {
-		packagelist = packagelist.replace(0,1,"% use packages: ") + "\n";
+		packagelist = packagelist.replace(0,1,"% use packages: ") + '\n';
 	}	 
 			
 	// get environment names
 	QString centername = ( isMathmodeEnvironment(envname) ) ? "displaymath" : "center";
 	if ( m_cbStarred->isChecked() )
-		envname += "*";
+		envname += '*';
 	
 	// build the tag to insert
 	if ( m_cbCenter->isChecked() )
@@ -2454,7 +2454,7 @@ void TabularDialog::slotOk()
 			m_td.tagBegin += "\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n";
 		// add definitions of used colors
 		for ( uint i=0; i<colorlist.count(); ++i )
-			m_td.tagBegin += colorlist[i] + "\n";
+			m_td.tagBegin += colorlist[i] + '\n';
 		m_td.tagBegin += "%\n";
 	}
 		
@@ -2469,7 +2469,7 @@ void TabularDialog::slotOk()
 		m_td.tagBegin += QString("[%1]").arg(envparameter);
 	// add preamble
 	m_td.tagBegin += QString("{%1}").arg(preamble);
-	m_td.tagBegin += getEol(0,true) +"\n";
+	m_td.tagBegin += getEol(0,true) + '\n';
 	
 	// close environment
 	m_td.tagEnd += QString("\\end{%1}\n").arg(envname);

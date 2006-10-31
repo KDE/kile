@@ -244,7 +244,7 @@ bool ConvertBase::convert()
 		{
 			m_io->text() += mapNext(i);
 		}
-		if ( ! m_io->done() ) m_io->text() += "\n";
+		if ( ! m_io->done() ) m_io->text() += '\n';
 	}
 	while ( ! m_io->done() );
 
@@ -304,7 +304,7 @@ QString ConvertASCIIToEnc::getSequence(uint &i)
 	if ( isModifier(seq) )
 	{
 		kdDebug() << "\tisModifier true : " << seq << endl;
-		if ( seq[seq.length() - 1].isLetter() ) seq += " ";
+		if ( seq[seq.length() - 1].isLetter() ) seq += ' ';
 
 		while ( m_io->currentLine()[i].isSpace() ) i++;
 

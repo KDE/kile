@@ -105,7 +105,7 @@
 		
 		if (m_proc)
 		{
-			out += QString("*****     ")+ m_cmd+ " " + m_options +QString("\n");
+			out += QString("*****     ")+ m_cmd+ ' ' + m_options + '\n';
 
 			QString src = tool()->source(false);
 			QString trgt = tool()->target();
@@ -114,7 +114,7 @@
 			else
 				msg = src + " => " + trgt;
 
-			msg += " ("+m_proc->args()[0]+")";
+			msg += " (" + m_proc->args()[0] + ')';
 			 
 			emit(message(Info,msg));
 
@@ -231,7 +231,7 @@
 		QString cmd = tool()->readEntry("command");
 		QString noclose = (tool()->readEntry("close") == "no") ? "--noclose" : "";
 		setCommand("konsole");
-		setOptions(noclose + " -T \"" + cmd + " (Kile)\" -e " + cmd + " " + tool()->readEntry("options"));
+		setOptions(noclose + " -T \"" + cmd + " (Kile)\" -e " + cmd + ' ' + tool()->readEntry("options"));
 
 		if ( KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)).isNull() ) return false;
 
@@ -268,7 +268,7 @@
 
 		QString name = shrt;
 		if ( dir[0] == '/' )
-			name = dir + "/" + shrt;
+			name = dir + '/' + shrt;
 
 
 		KLibFactory *factory = KLibLoader::self()->factory(m_libName);
@@ -291,10 +291,10 @@
 		}
 		else
 		{
-			QString cmd = QString(m_libName)+"->"+QString(m_className)+" "+m_options+" "+name;
-			out += "*****     " + cmd + "\n";
+			QString cmd = QString(m_libName) + "->" + QString(m_className) + ' ' + m_options + ' ' + name;
+			out += "*****     " + cmd + '\n';
 
-			msg = shrt+ " (" + tool()->readEntry("libName") + ")";
+			msg = shrt+ " (" + tool()->readEntry("libName") + ')';
 			emit(message(Info,msg));
 		}
 

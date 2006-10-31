@@ -250,10 +250,10 @@ void PostscriptDialog::execute()
 		// some output logs 
 		m_output->clear();
 		QString s = QString("*****\n")
-		              + i18n("***** tool:        ") + m_program + " " + m_param + "\n"
-		              + i18n("***** input file:  ") + from.fileName()+ "\n"  
-		              + i18n("***** output file: ") + to.fileName()+ "\n" 
-		              + i18n("***** viewer:      ") + ((m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + "\n" 
+		              + i18n("***** tool:        ") + m_program + ' ' + m_param + '\n'
+		              + i18n("***** input file:  ") + from.fileName()+ '\n'
+		              + i18n("***** output file: ") + to.fileName()+ '\n'
+		              + i18n("***** viewer:      ") + ((m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
 		              + "*****\n";
 		emit( output(s) );
  
@@ -456,7 +456,7 @@ QString PostscriptDialog::duplicateParameter(const QString &param)
 		if ( i == 0 )
 			s += param;
 		else
-			s+= "," + param;
+			s+= ',' + param;
 	}
 
 	return s;

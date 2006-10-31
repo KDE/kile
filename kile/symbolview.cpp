@@ -173,9 +173,9 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 		if (math == bracket)
 			;
 		else if(math)
-			code_symbol = "$" + code_symbol + "$";
+			code_symbol = '$' + code_symbol + '$';
 		else if(bracket)
-			code_symbol = "{" + code_symbol + "}";
+			code_symbol = '{' + code_symbol + '}';
 		
 		emit(insertText(code_symbol));
 		emit(requestedText(item->key()));
@@ -199,7 +199,7 @@ void SymbolView::fillWidget(const QString& prefix)
 //  			kdDebug() << "path is " << *it << endl;
 			item = new KIconViewItem(this);
 			item->setPixmap(image);
-			item->setKey(image.text("Command") + "%" + image.text("Packages") );
+			item->setKey(image.text("Command") + '%' + image.text("Packages") );
 			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
 		}
     	}

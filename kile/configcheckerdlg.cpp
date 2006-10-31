@@ -61,7 +61,7 @@ ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const QVal
 	m_richText->setWidth(listBox()->width());
 
 	//this is for sorting only
-	setText(QString::number(status) + ":" + tool);
+	setText(QString::number(status) + ':' + tool);
 }
 
 void ResultItem::paint(QPainter *p)

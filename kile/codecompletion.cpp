@@ -979,7 +979,7 @@ namespace KileDocument
 		//kdDebug() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionDone(entry);
 
-		// if kile completion was active, look if we need to show an additonal list
+		// if kile completion was active, look if we need to show an additional list
 		if ( m_kilecompletion )
 		{
 			m_kilecompletion = false;

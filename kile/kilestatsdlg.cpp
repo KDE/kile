@@ -144,7 +144,7 @@ void KileStatsDlg::slotUser1() // Copy
 	QClipboard *clip = KApplication::clipboard();
 	QString text;
 	convertText(&text,false);
-	clip->setText(text,QClipboard::Selection); // the text will be avaible with the middle mouse button
+	clip->setText(text,QClipboard::Selection); // the text will be available with the middle mouse button
 }
 
 void KileStatsDlg::slotUser2() // CopyAsLaTeX

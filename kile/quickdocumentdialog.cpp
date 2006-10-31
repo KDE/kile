@@ -1173,7 +1173,7 @@ void QuickDocument::writePackagesConfig()
 		// write listview entry
 		m_config->writeEntry(cur->text(0),packageentry);
 
-		// look for childs
+		// look for children
 		for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
 			// add child to packages list
 			QString option = cur->text(0) + '!' + curchild->text(0);
@@ -1289,7 +1289,7 @@ bool QuickDocument::isListviewChild(QListView *listview,const QString &entry, co
 	for ( QListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
 		// look for the main entry
 		if ( cur->text(0) == entry ) {
-			// look for childs
+			// look for children
 			for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
 				if ( option == curchild->text(0) )
 					return true;

@@ -758,7 +758,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					KIO::UDSEntry fentry;
 					if (KIO::NetAccess::stat (url, fentry, kapp->mainWidget()))
 					{
-						kdDebug () << "stating successfull: " << url.prettyURL() << endl;
+						kdDebug () << "stating successful: " << url.prettyURL() << endl;
 						KFileItem item (fentry, url);
 						perms = item.permissions();
 					}
@@ -769,7 +769,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					      || KIO::NetAccess::del( backupUrl, kapp->mainWidget() ) )
 					      && KIO::NetAccess::file_copy( url, backupUrl, perms, true, false, kapp->mainWidget() ) )
 					{
-						kdDebug()<<"backing up successfull ("<<url.prettyURL()<<" -> "<<backupUrl.prettyURL()<<")"<<endl;
+						kdDebug()<<"backing up successful ("<<url.prettyURL()<<" -> "<<backupUrl.prettyURL()<<")"<<endl;
 					}
 					else
 					{

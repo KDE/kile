@@ -284,7 +284,7 @@ namespace KileTool
 		if ( result == Aborted)
 			tool->sendMessage(Error, i18n("Aborted"));
 
-		if ( result != Success && result != Silent ) //abort execution, delete all remaing tools
+		if ( result != Success && result != Silent ) //abort execution, delete all remaining tools
 		{
 			m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
 			m_ki->outputView()->showPage(m_log);

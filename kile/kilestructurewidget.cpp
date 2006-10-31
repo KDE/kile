@@ -323,8 +323,8 @@ namespace KileWidget
 	/* some items have a special action:
 		- KileStruct::Sect: 
 		      The new item is saved in m_lastSectioning, so that all following entries 
-		      can be inserted as childs. \part will drop back to level 0 of the Listview,
-		      all other sectioning commands will be childs of the last sectioning item.
+		      can be inserted as children. \part will drop back to level 0 of the Listview,
+		      all other sectioning commands will be children of the last sectioning item.
 		      If a \label command follows in the same or the next line, it is assigned
 		      to this item.
 		- KileStruct::BeginFloat:

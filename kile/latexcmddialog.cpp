@@ -814,7 +814,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 			continue;
 		}
 
-		// look for childs
+		// look for children
 		for ( QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling() )
 		{
 			QString key = curchild->text(0);

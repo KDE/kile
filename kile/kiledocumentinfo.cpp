@@ -594,7 +594,7 @@ void TextInfo::setDefaultHightlightMode(const QString& string)
 }
 
 // match a { with the corresponding }
-// pos is the positon of the {
+// pos is the position of the {
 QString TextInfo::matchBracket(QChar obracket, uint &l, uint &pos)
 {
 	QChar cbracket;
@@ -1058,7 +1058,7 @@ void LaTeXInfo::updateStruct()
 								if(s.find(reNumOfOptParams, tagEnd + 1) != -1)
 								{
 								kdDebug() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
-								noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occure because then latex complains (and we don't macht them with reNumOfParams either)
+								noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
 								cmdWithOptArgs = m + "[" + reNumOfOptParams.cap(2) + "]";
 								}
 									

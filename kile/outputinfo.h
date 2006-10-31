@@ -34,9 +34,9 @@ class OutputInfo
         OutputInfo(const QString & strSrcFile, int nSrcLine, int nOutputLine, const QString & strError ="", int nErrorID=-1);
 
 	public:
-		/** Source file where error occured. */
+		/** Source file where error occurred. */
 		QString source() const { return m_strSrcFile; }
-		/** Source file where error occured. */
+		/** Source file where error occurred. */
 		void setSource(const QString & src) { m_strSrcFile = src; }
 
 		/** Line number in source file of the current message */

@@ -1,13 +1,14 @@
 # latex mode: LaTeX commands (document level)
 # dani/2006-02-18
 # tbraun/2006-08-03 removed dup inserted by me ...
+# tbraun 11/2/2006 appendixname takes no argument
 \abstractname{name}
 \addcontentsline{file}{secunit}{entry}
 \Alph{counter}
 \alph{counter}
 \and
 \appendix
-\appendixname{name}
+\appendixname
 \arabic{counter}
 \author{names}
 \begin{}

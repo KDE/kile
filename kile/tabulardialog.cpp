@@ -2347,7 +2347,7 @@ void TabularDialog::slotOk()
 				
 				if ( colinfo[col].textcolor != cellitem->m_data.textcolor.name() ) 
 				{
-					s3 += "\\color{" + colinfo[col].textcolor + '-' + cellitem->m_data.textcolor.name() + "}";
+					s3 += "\\color{" + colinfo[col].textcolor + '-' + cellitem->m_data.textcolor.name() + '}';
 					pkgColor = true;
 				}
 				if ( ! s3.isEmpty() )

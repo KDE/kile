@@ -2318,7 +2318,7 @@ bool EditorExtension::insertDoubleQuotes()
 	if ( m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter() )
 		pattern2 += "(\\b|(\\{\\}))";
 
-	QRegExp reg("(" + pattern1 + ")|(" + pattern2 + ')');
+	QRegExp reg('(' + pattern1 + ")|(" + pattern2 + ')');
 
 	uint r,c,l;
 	bool openfound = false;

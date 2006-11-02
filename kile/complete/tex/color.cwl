@@ -1,14 +1,13 @@
 # color.sty
-# tbraun/2006-03-08
-\textcolor{declared-colour}{text}
-\textcolor[model]{colour-spec}{text}
-\pagecolor{declared-colour}{text}
-\pagecolor[model]{colour-spec}{text}
-\definecolor{new-name}{model}{colour-spec}
+# tbraun 11/2/2006
+\textcolor{declared-color}{text}
+\textcolor[model]{color-spec}{text}
+\pagecolor[declared-color}
+\definecolor{name}{model}{color-spec}
 \normalcolor
-\color[model]{colour}
-\color{declared-colour}
-\colorbox[model]{declared-colour}{text}
-\colorbox{declared-colour}{text}
-\fcolorbox[model]{border-colour}{fill-colour}{text}
-\fcolorbox{declared-border-colour}{declared-fill-colour}{text}
+\color[model]{color}
+\color{declared-color}
+\colorbox[model]{declared-color}{text}
+\colorbox{declared-color}{text}
+\fcolorbox[model]{border-color}{fill-color}{text}
+\fcolorbox{declared-border-color}{declared-fill-color}{text}

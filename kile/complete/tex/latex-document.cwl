@@ -7,7 +7,7 @@
 \alph{counter}
 \and
 \appendix
-\appendixname{name}
+\appendixname
 \arabic{counter}
 \author{names}
 \begin{}

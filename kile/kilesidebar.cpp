@@ -1,9 +1,10 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Fri 18-06-2004
     edit 		 : Wed 1 Jun 2006
-    copyright            : (C) 2004 by Jeroen Wijnhout, 2006 Thomas Braun
-    email                :  Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
+                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -144,6 +145,43 @@ QWidget* KileSideBar::currentPage()
 	return m_tabStack->visibleWidget();
 }
 
+void KileSideBar::removePage(QWidget *w) 
+{
+	QMap<QWidget*,int>::iterator it = m_widgetToIndex.find(w);
+	if(it == m_widgetToIndex.end())
+	{
+		return;
+	}
+	int index = *it;
+	m_tabStack->removeWidget(w);
+	disconnect(m_tabBar->tab(index), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
+	m_tabBar->removeTab(index);
+	m_widgetToIndex.remove(it);
+	if(index == m_nCurrent && m_nTabs >= 2)
+	{
+		showTab((m_nCurrent + 1) % m_nTabs);
+	}
+	--m_nTabs;
+}
+
+void KileSideBar::setPageVisible(QWidget *w, bool b) {
+	QMap<QWidget*,int>::iterator it = m_widgetToIndex.find(w);
+	if(it == m_widgetToIndex.end())
+	{
+		return;
+	}
+	int index = *it;
+	KMultiTabBarTab *tab = m_tabBar->tab(index);
+	if(tab->isShown() == b) {
+		return;
+	}
+  	tab->setShown(b);
+	if(!b && index == m_nCurrent && m_nTabs >= 2)
+	{
+		showTab((m_nCurrent + 1) % m_nTabs);
+	}
+}
+
 void KileSideBar::showPage(QWidget *widget)
 {
 	if ( m_widgetToIndex.contains(widget) )
@@ -152,6 +190,10 @@ void KileSideBar::showPage(QWidget *widget)
 
 void KileSideBar::showTab(int id)
 {
+	if(id >= m_nTabs || id < 0)
+	{
+		return;
+	}
 	if ( id != m_nCurrent)
 	{
 		switchToTab(id);
@@ -169,6 +211,9 @@ void KileSideBar::toggleTab()
 
 void KileSideBar::switchToTab(int id)
 {
+	if(id >= m_nTabs || id < 0) {
+		return;
+	}
 	m_tabBar->setTab(m_nCurrent, false);
 	m_tabBar->setTab(id, true);
 

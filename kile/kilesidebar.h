@@ -1,9 +1,10 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Fri 18-06-2004
     edit 		 : Wed 1 Jun 2006
-    copyright            : (C) 2004 by Jeroen Wijnhout, 2006 Thomas Braun
-    email                :  Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
+                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -45,6 +46,18 @@ public:
         int size() { return m_nSize; }
 
 	QWidget* currentPage();
+	void removePage(QWidget *w);
+
+	/**
+	 * Shows or hides the tab connected to the widget "w". If the tab to be hidden is
+	 * currently selected, the next tab will be shown (cyclically).
+	 *
+	 * Due to limitations in KMultiTabBar, the result only looks nice if the tab to
+	 * be hidden is the last tab in the KMultiTabBar.
+	 * @param b set to "true" to show the tab connected to the widget "w", "false" to
+	 *          hide it
+	 **/
+	void setPageVisible(QWidget *w, bool b);
 
 signals:
 	void visibilityChanged(bool );

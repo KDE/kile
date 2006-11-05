@@ -45,6 +45,7 @@
 #include "newfilewizard.h"
 #include "managetemplatesdialog.h"
 #include "kileinfo.h"
+#include "kilejscript.h"
 #include "kileproject.h"
 #include "kiledocumentinfo.h"
 #include "kiledocmanager.h"
@@ -574,6 +575,14 @@ Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::T
 		newDocumentStatus(view->getDoc());
 	}
 
+	return view;
+}
+
+Kate::View* Manager::createNewJScript()
+{
+	Kate::View *view = createDocumentWithText(QString::null, Script, "js", m_ki->scriptManager()->getLocalJScriptDirectory());
+	emit(updateStructure(false, 0L));
+	emit(updateModeStatus());
 	return view;
 }
 

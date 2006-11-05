@@ -54,6 +54,7 @@ public:
 	~Manager();
 
 public slots:
+	Kate::View* createNewJScript();
 	Kate::View* createNewLaTeXDocument();
 
 //files

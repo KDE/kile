@@ -38,6 +38,7 @@
 #include "latexconfigwidget.h"
 #include "generalconfigwidget.h"
 #include "previewconfigwidget.h"
+#include "scriptingconfigwidget.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kileedit.h"
@@ -67,6 +68,7 @@ namespace KileDialog
 		setupGeneralOptions();
 		setupCodeCompletion();   // complete configuration (dani)
 		setupHelp();
+		setupScripting();
 
 		setupLatex();
 		setupEnvironment();
@@ -165,6 +167,14 @@ namespace KileDialog
 		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), 0);
  
 		addConfigPage(toolPage,i18n("Tools"),i18n("Build"),"launch",i18n("Build"),false);
+	}
+
+	//////////////////// Scripting  ////////////////////
+
+	void Config::setupScripting()
+	{
+		scriptingPage = new KileWidgetScriptingConfig(this, "Scripting");
+		addConfigPage(scriptingPage,i18n("Kile"),i18n("Scripting"),"exec",i18n("Scripting Support"));
 	}
 
 	//////////////////// LaTeX specific editing options ////////////////////

@@ -126,6 +126,7 @@ private:
 	void setupSideBar();
 	void setupProjectView();
 	void setupStructureView();
+	void setupScriptsManagementView();
 	void setupSymbolViews();
 	void setupBottomBar();
 	void setupGraphicTools();

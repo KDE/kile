@@ -44,9 +44,11 @@ namespace Kate { class Document;}
 class KileBottomBar;
 namespace KileDocument { class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
-namespace KileWidget { class Structure; class Konsole; class PreviewWidget; }
+namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
+namespace KileJScript { class Manager; }
+namespace KileEditorKeySequence { class Manager; }
 
 class KileInfo
 {
@@ -111,6 +113,8 @@ public:
 	KileDocument::Manager* docManager() const { return m_docManager; }
 	KileView::Manager* viewManager() const { return m_viewManager; }
 	KileTool::Manager* toolManager() const { return m_manager; }
+	KileJScript::Manager* scriptManager() const { return m_jScriptManager; }
+	KileEditorKeySequence::Manager* editorKeySequenceManager() const { return m_editorKeySequenceManager; }
 	KileTool::Factory* toolFactory() const { return m_toolFactory; }
 	KileDocument::EditorExtension *editorExtension() const { return m_edit; }
 	KileDocument::LatexCommands *latexCommands() const { return m_latexCommands; }
@@ -127,10 +131,13 @@ protected:
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;
+	KileJScript::Manager		*m_jScriptManager;
+	KileEditorKeySequence::Manager	*m_editorKeySequenceManager;
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;
 	KileWidget::Output		*m_outputWidget;
 	KileWidget::LogMsg		*m_logWidget;
+	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileBottomBar			*m_bottomBar;
 	KileWidget::PreviewWidget *m_previewWidget; 
 	QScrollView *m_previewView;

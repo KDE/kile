@@ -23,9 +23,11 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	kilesidebar.cpp toolconfigwidget.ui librarytoolconfigwidget.ui \
 	processtoolconfigwidget.ui quicktoolconfigwidget.ui plaintolatexconverter.cpp \
 	latextoolconfigwidget.ui newtoolwizard.ui kileuntitled.cpp \
-	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui previewwidget.cpp
+	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui \
+	previewwidget.cpp kilejscript.h kilejscript.cpp scriptsmanagementwidget.h scriptsmanagementwidget.cpp \
+	editorkeysequencemanager.h editorkeysequencemanager.cpp scriptingconfigwidget.ui
 
-kile_LDADD   = -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML)
+kile_LDADD   = -lkjs -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML) 
 
 SUBDIRS = icons pics symbols templates syntax complete help encodings test
 
@@ -41,7 +43,7 @@ EXTRA_DIST = main.cpp kile.cpp kile.h \
 	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp \
 	outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h \
 	includegraphicsdialog.h includegraphicsdialog.cpp kiletoolconfigwidget.cpp kiletoolconfigwidget.h outputfilter.h kilegrepdialog.cpp kilegrepdialog.h codecompletion.h codecompletion.cpp configcodecompletion.cpp configcodecompletion.h kileedit.cpp cleandialog.cpp kileedit.h cleandialog.h  kilehelp.cpp kilehelp.h configstructure.cpp configstructure.h configenvironment.h convert.h convert.cpp \
-	kileconstants.h
+	kileconstants.h kilejscript.h kilejscript.cpp scriptsmanagementwidget.h scriptsmanagementwidget.cpp editorkeysequencemanager.h editorkeysequencemanager.cpp
 
 xdg_apps_DATA = kile.desktop
 
@@ -97,3 +99,14 @@ noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
 		kilesidebar.h plaintolatexconverter.h kileuntitled.h 	kilestatsdlg.h \
 	kilestatswidget.h envconfigwidget.h structureconfigwidget.h kileversion.h kileconstants.h
 
+CREATE_HASH_TABLE = create_hash_table
+
+kilejscript.lut.h : kilejscript.cpp $(CREATE_HASH_TABLE)
+	$(PERL) $(CREATE_HASH_TABLE) kilejscript.cpp > $@
+kilejscript.lo: kilejscript.lut.h
+
+kilejscript.o: kilejscript.lut.h
+
+LUT_FILES = kilejscript.lut.h
+
+CLEANFILES = $(LUT_FILES)

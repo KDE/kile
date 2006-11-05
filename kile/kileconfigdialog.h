@@ -36,6 +36,7 @@ class KileWidgetLatexConfig;
 class KileWidgetGeneralConfig;
 class KileWidgetEnvironmentConfig;
 class KileWidgetStructureViewConfig;
+class KileWidgetScriptingConfig;
 
 namespace KileTool { class Manager; }
 
@@ -80,6 +81,7 @@ namespace KileDialog
 		KileWidgetGeneralConfig *generalPage;
 		KileWidgetEnvironmentConfig *envPage;
 		KileWidgetStructureViewConfig *structurePage;
+		KileWidgetScriptingConfig *scriptingPage;
 
 		// setup configuration
 		void addConfigFolder(const QString &section,const QString &icon);
@@ -98,6 +100,7 @@ namespace KileDialog
 		void setupEditor();
 		void setupEnvironment();
 		void setupStructure();
+		void setupScripting();
 
 		// write configuration
 		void writeGeneralOptionsConfig();

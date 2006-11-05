@@ -77,6 +77,8 @@
 #include "latexcmd.h"
 #include "kileuntitled.h"
 #include "kilestatsdlg.h"
+#include "scriptsmanagementwidget.h"
+#include "kilejscript.h"
 #include "previewwidget.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
@@ -91,6 +93,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_config = KGlobal::config();
 	readUserSettings();
 	readRecentFileSettings();
+
+	m_jScriptManager = new KileJScript::Manager(this, m_config, actionCollection(), parent, "KileJScript::Manager");
 
     setStandardToolBarMenuEnabled(true);
 
@@ -212,6 +216,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	updateModeStatus();
 
 	setFocus();
+actionCollection()->readShortcutSettings("Shortcuts", m_config);
 }
 
 Kile::~Kile()
@@ -269,6 +274,7 @@ void Kile::setupSideBar()
 	setupProjectView();
 	setupStructureView();
 	setupSymbolViews();
+	setupScriptsManagementView();
 
 	m_sideBar->showTab(KileConfig::selectedLeftView());
 	m_sideBar->setVisible(KileConfig::sideBar());
@@ -312,6 +318,13 @@ void Kile::setupStructureView()
 	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
 	connect(m_kwStructure, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
+}
+
+void Kile::setupScriptsManagementView()
+{
+	m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
+	connect((QObject*)editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_scriptsManagementWidget, SLOT(updateListView()));
+	m_sideBar->addTab(m_scriptsManagementWidget, SmallIcon("exec"), i18n("Scripts"));
 }
 
 void Kile::setupSymbolViews()
@@ -1825,6 +1838,8 @@ void Kile::readConfig()
 	//m_edit->initDoubleQuotes();
 	m_edit->readConfig();
 	docManager()->updateInfos();
+	m_jScriptManager->readConfig();
+	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
 }
 
 void Kile::saveSettings()
@@ -1869,6 +1884,8 @@ void Kile::saveSettings()
 
 	actionCollection()->writeShortcutSettings();
 	saveMainWindowSettings(m_config, "KileMainWindow" );
+
+	scriptManager()->writeConfig();
 
 	KileConfig::setRCVersion(KILERC_VERSION);
 	KileConfig::setMainwindowWidth(width());

@@ -456,4 +456,18 @@
 			<default>false</default>
 		</entry>
 	</group>
+	<group name="Scripting">
+		<entry name="ScriptingEnabled" type="Bool">
+			<label>Enable the scripting support.</label>
+			<default>true</default>
+		</entry>
+		<entry name="TimeLimitEnabled" type="Bool">
+			<label>Set a time limit for the execution of scripts.</label>
+			<default>true</default>
+		</entry>
+		<entry name="TimeLimit" type="Int">
+			<label>Time limit for the execution of scripts.</label>
+			<default>5</default>
+		</entry>
+	</group>
 </kcfg>

@@ -30,9 +30,16 @@
 #include "kileproject.h"
 #include "kileinfo.h"
 #include "kileuntitled.h"
+#include "kilejscript.h"
+#include "editorkeysequencemanager.h"
+
+#include <kstandarddirs.h>
+#include <qstringlist.h>
+#include <qstring.h>
 
 KileInfo::KileInfo(QWidget *parent) :
 	m_manager(0L),
+	m_jScriptManager(0L),
 	m_toolFactory(0L),
 	m_texKonsole(0L),
 	m_edit(0L),
@@ -41,6 +48,7 @@ KileInfo::KileInfo(QWidget *parent) :
 {
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
+	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
 	QObject::connect(m_docManager, SIGNAL(documentStatusChanged(Kate::Document*, bool, unsigned char)), m_viewManager, SLOT(reflectDocumentStatus(Kate::Document*, bool, unsigned char)));
 }
 

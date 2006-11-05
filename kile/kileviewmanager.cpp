@@ -35,6 +35,7 @@
 #include <kapplication.h>
 #include <kurldrag.h>
 
+#include "editorkeysequencemanager.h"
 #include "kileinfo.h"
 #include "kileconstants.h"
 #include "kiledocmanager.h"
@@ -118,6 +119,9 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
 	Kate::Document *doc = info->getDoc();
 	Kate::View *view = static_cast<Kate::View*>(info->createView (m_tabs, 0L));
+
+	//install a key sequence recorder on the view
+	view->focusProxy()->installEventFilter(new KileEditorKeySequence::Recorder(view, m_ki->editorKeySequenceManager()));
 
 	// in the case of simple text documents, we mimic the behaviour of LaTeX documents
 	if(info->getType() == KileDocument::Text)

@@ -15,7 +15,7 @@
 #define KILECONSTANTS_H
 
 namespace KileDocument {
-	enum Type {Undefined, Text, LaTeX, BibTeX};
+	enum Type {Undefined, Text, LaTeX, BibTeX, Script};
 
 }
 

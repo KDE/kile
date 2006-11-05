@@ -357,6 +357,23 @@ public slots:
 	virtual void updateStruct();
 };
 
+class ScriptInfo : public TextInfo
+{
+	Q_OBJECT
+
+public:
+	ScriptInfo(Kate::Document *doc);
+	virtual ~ScriptInfo();
+
+	virtual bool isLaTeXRoot();
+
+	virtual Type getType();
+
+	virtual QString getFileFilter() const;
+
+	static QString ScriptFileFilter();
+};
+
 }
 #endif
 

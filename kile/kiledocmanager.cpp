@@ -380,6 +380,10 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KURL & 
 				kdDebug() << "CREATING BibInfo for " << url.url() << endl;
 				docinfo = new BibInfo(0L, m_ki->latexCommands());
 				break;
+			case Script:
+				kdDebug() << "CREATING ScriptInfo for " << url.url() << endl;
+				docinfo = new ScriptInfo(0L);
+				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);
 		emit(documentInfoCreated(docinfo));
@@ -453,7 +457,9 @@ Kate::Document* Manager::createDocument(const QString& name, const KURL& url, Te
 
 	if(!url.isEmpty())
 	{
-		if(doc->openURL(url))
+		bool r = doc->openURL(url);
+		// don't add scripts to the recent files
+		if(r && docinfo->getType() != Script)
 		{
         		emit(addToRecentFiles(url));
 		}
@@ -1748,6 +1754,10 @@ Type Manager::determineFileType(const KURL& url)
 	else if(Info::isBibFile(url))
 	{
 		return BibTeX;
+	}
+	else if(Info::isScriptFile(url))
+	{
+		return Script;
 	}
 	else // defaulting to a LaTeX file
 	{

@@ -1196,6 +1196,35 @@ QString BibInfo::BibTeXFileFilter()
 	return "*.bib|" + i18n("BibTeX Files");
 }
 
+ScriptInfo::ScriptInfo(Kate::Document *doc) : TextInfo(doc, "JavaScript")
+{
+	documentTypePromotionAllowed = false;
+}
+
+ScriptInfo::~ScriptInfo()
+{
+}
+
+bool ScriptInfo::isLaTeXRoot()
+{
+	return false;
+}
+
+Type ScriptInfo::getType()
+{
+	return Script;
+}
+
+QString ScriptInfo::getFileFilter() const
+{
+	return ScriptFileFilter();
+}
+
+QString ScriptInfo::ScriptFileFilter()
+{
+	return "*.js|" + i18n("Kile Script Files");
+}
+
 }
 
 #include "kiledocumentinfo.moc"

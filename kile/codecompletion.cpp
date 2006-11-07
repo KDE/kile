@@ -584,7 +584,10 @@ namespace KileDocument
 			else
 			{
 				ypos = 0;
-				xpos = 9 + envname.length();
+				if( parameter.left(2) == "[<" )
+					xpos = 10 + envname.length();
+				else
+					xpos = 9 + envname.length();
 			}
 		}
 
@@ -660,22 +663,30 @@ namespace KileDocument
 		{
 			switch ( text[ i ] )
 			{
+					case '<':
 					case '{':
 					case '(':
-					case '[':                    // insert character
+					case '[':		// insert character
 					s += text[ i ];
 					if ( xpos == 0 )
 					{
 						// remember position after first brace
-						xpos = i + 1;
+						if(text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<'){
+							xpos = i + 2;
+							s += text[i+1];
+							i++;
+						}// special handling for '[<'
+						else 
+							xpos = i + 1;
 						// insert bullet, if this is no cursorposition
-						if ( ( ! m_setcursor ) && m_setbullets )
+						if ( ( ! m_setcursor ) && m_setbullets && !( text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<' ))
 							s += s_bullet;
 					}
 					// insert bullets after following braces
-					else if ( m_setbullets )
+					else if ( m_setbullets && !( text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<' ) )
 						s += s_bullet;
 					break;
+					case '>':
 					case '}':
 					case ')':
 					case ']':                    // insert character
@@ -752,6 +763,7 @@ namespace KileDocument
 	}
 
 	// strip all names enclosed in braces
+	// consider also beamer like stuff [<...>] and <...>
 
 	QString CodeCompletion::stripParameter( const QString &text )
 	{
@@ -759,19 +771,22 @@ namespace KileDocument
 		const QChar *ch = text.unicode();
 		bool ignore = false;
 
+
 		for ( uint i = 0; i < text.length(); ++i )
 		{
 			switch ( *ch )
 			{
+					case '[':
 					case '{':
 					case '(':
-					case '[':
+					case '<':
 					s += *ch;
 					ignore = true;
 					break;
+					case ']':
 					case '}':
 					case ')':
-					case ']':
+					case '>':
 					s += *ch;
 					ignore = false;
 					break;

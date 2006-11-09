@@ -9,6 +9,10 @@ Fixes:
  - Fix bug in syntax highlighting: mathmode in optional parameter (#134146)
  - Allow tools with brackets in the configuration string also in sequence tools, fixed also the crash which hid the bug. (#134605)
  - One fix in latex-document-cwl and color.cwl
+ - Fix crash when adding a file to a project (with no open documents) which contains an undefined reference (#135575)
+
+Feature:
+ - Prepared the latex syntax file for beamer commands
 
 version 1.9.1 -> 1.9.2
 Fixes:

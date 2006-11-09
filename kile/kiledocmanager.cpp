@@ -281,7 +281,10 @@ KileProjectItem* Manager::itemFor(const KURL &url, KileProject *project /*=0L*/)
 
 KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) const
 {
-	return itemFor(docinfo->url(), project);
+	if(docinfo)
+		return itemFor(docinfo->url(), project);
+	else
+		return 0L;
 }
 
 KileProjectItemList* Manager::itemsFor(Info *docinfo) const

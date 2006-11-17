@@ -10,6 +10,9 @@ Fixes:
  - Allow tools with brackets in the configuration string also in sequence tools, fixed also the crash which hid the bug. (#134605)
  - One fix in latex-document-cwl and color.cwl
  - Fix crash when adding a file to a project (with no open documents) which contains an undefined reference (#135575)
+ - Improve the logic for closing environments (#134793)
+ - Don't treat \\[foo] as a math environment (#137131)
+ - Remove selected text also if we insert a " (#137272)
 
 Feature:
  - Prepared the latex syntax file for beamer commands

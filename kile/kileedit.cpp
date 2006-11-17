@@ -2292,7 +2292,9 @@ bool EditorExtension::insertDoubleQuotes()
 	uint row,col;
 	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
-	
+	if(doc)
+		doc->removeSelectedText();
+
 	// simply insert, if we are inside a verb command
 	if ( insideVerb(view) || insideVerbatim(view) )
 	{
@@ -2451,35 +2453,40 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 
 bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
 {
-	kdDebug() << "===EditorExtension::shouldCompleteEnv(...)===" << endl;
- 	QString envname = env;
-	envname.replace("*","\\*");
+	kdDebug() << "===EditorExtension::shouldCompleteEnv( " << env << " )===" << endl;
 	QRegExp reTestBegin,reTestEnd;
-	if ( envname == "\\[" )
+	if ( env == "\\[" )
 	{
-		reTestBegin.setPattern("\\\\\\[");
-		reTestEnd.setPattern("\\\\\\]");
+		kdDebug() << "display style" << endl;
+		reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\["); 
+		// the first part is a non-capturing bracket (?:...) and we check if we don't have a backslash in front,
+		//  or that we are at the begin of the line
+		reTestEnd.setPattern("(?:[^\\\\]|^)\\\\\\]");
 	}
 	else
 	{
-		reTestBegin.setPattern("\\\\begin\\s*\\{" + envname + "\\}");
-		reTestEnd.setPattern("\\\\end\\s*\\{" + envname + "\\}");
+		reTestBegin.setPattern("(?:[^\\\\]|^)\\\\begin\\s*\\{" + QRegExp::escape(env) + "\\}");
+		reTestEnd.setPattern("(?:[^\\\\]|^)\\\\end\\s*\\{" + QRegExp::escape(env) + "\\}");
 	}
-	
+
 	int num = view->getDoc()->numLines();
 	int numBeginsFound = 0;
 	int numEndsFound = 0;
 	uint realLine, realColumn;
-	view->cursorPositionReal(&realLine, &realColumn);
+	view->cursorPositionReal(&realLine, &realColumn);	
 	for ( int i = realLine; i < num; ++i)
 	{
 		numBeginsFound += view->getDoc()->textLine(i).contains(reTestBegin);
 		numEndsFound += view->getDoc()->textLine(i).contains(reTestEnd);
-		if ( (numBeginsFound == 1) && (numEndsFound == 1) ) return false;        
-		else if ( (numEndsFound == 0) && (numBeginsFound > 1) ) return true;
-		else if ( (numBeginsFound > 2) || (numEndsFound > 1) ) return true; //terminate the search
+		kdDebug() << "line is " << i <<  " numBeginsFound = " << numBeginsFound <<  " , " << "numEndsFound = " << numEndsFound << endl;
+		if ( numEndsFound >= numBeginsFound )
+			return false;
+		else if ( numEndsFound == 0 && numBeginsFound > 1 )
+			return true;
+		else if ( numBeginsFound > 2 || numEndsFound > 1 )
+			return true; // terminate the search
 	}
-    
+
 	return true;
 }
 

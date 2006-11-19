@@ -16,7 +16,6 @@
 #include <qlayout.h>
 #include <qlabel.h>
 
-#include <config.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>

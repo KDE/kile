@@ -416,7 +416,7 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 	emit(updateStructure(true, newinfo));
 }
 
-bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool forced /* = false */, bool closingproject /* = false */)
+bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* = false */)
 {
 	kdDebug() << "==Manager::removeTextDocumentInfo(Info *docinfo)=====" << endl;
 	KileProjectItemList *itms = itemsFor(docinfo);
@@ -424,7 +424,7 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool forced /* = false *
 	if (itms->count() == 1)
 		oneItem = true;
 
-	if (forced || itms->count() == 0 || ( closingproject && oneItem ))
+	if (itms->count() == 0 || ( closingproject && oneItem ))
 	{
 		kdDebug() << "\tremoving " << docinfo <<  " count = " << m_textInfoList.count() << endl;
 		m_textInfoList.remove(docinfo);
@@ -1007,8 +1007,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 
 			trashDoc(docinfo, doc);
             		m_ki->structureWidget()->clean(docinfo);
-			// absolutely close the document
- 			removeTextDocumentInfo(docinfo, true, closingproject);
+ 			removeTextDocumentInfo(docinfo, closingproject);
 
 			emit removeFromProjectView(url);
             		emit updateModeStatus();
@@ -1529,7 +1528,13 @@ bool Manager::projectClose(const KURL & url)
 			doc = 0L;
 			docinfo = list->at(i)->getInfo();
 			if (docinfo)
+			{
 				doc = docinfo->getDoc();
+			}
+			else
+			{
+				continue;
+			}
 			if (doc)
 			{
 				kdDebug() << "\t\tclosing item " << doc->url().path() << endl;
@@ -1537,6 +1542,11 @@ bool Manager::projectClose(const KURL & url)
 				close = close && r;
 				if (!close)
 					break;
+			}
+			else 
+			{
+				// we still need to delete the TextInfo object
+				removeTextDocumentInfo(docinfo, true);
 			}
 		}
 

@@ -195,7 +195,67 @@
 \usebeamerfont{beamer-font name}
 \setbeamerfont*{beamer-font name}{attributes}
 \setbeamerfont{beamer-font name}{attributes}
+\insertnavigation
+\insertpagenumber
+\insertsection
+\insertsectionnavigation
+\insertsectionnavigationhorizontal
+\insertshortauthor
+\insertshortdate
+\insertshortinstitute
+\insertshortpart
+\insertshorttitle
+\insertshortsubtitle
+\insertsubsection
+\insertsubsectionnavigation
+\insertsubsectionnavigationhorizontal
+\insertverticalnavigation
+\insertframenumber
+\inserttotalframenumber
+\insertframestartpage
+\insertframeendpage
+\insertsubsectionstartpage
+\insertsubsectionendpage
+\insertsectionstartpage
+\insertsectionendpage
+\insertpartstartpage
+\insertpartendpage
+\insertpresentationstartpage
+\insertpresentationendpage
+\insertappendixstartpage
+\insertappendixendpage
+\insertdocumentstartpage
+\insertdocumentendpage
+\setbeamersize{}
+\insertsectionhead
+\insertsectionheadnumber
+\insertpartheadnumber
+\insertsubsectionhead
+\insertsubsectionheadnumber
+\insertslidenavigationsymbol
+\insertframenavigationsymbol
+\insertsubsectionnavigationsymbol
+\insertsectionnavigationsymbol
+\insertdocnavigationsymbol
+\insertbackfindforwardnavigationsymbol
+\insertenumlabel
+\insertenumlabel
+\insertsubsubenumlabel
+\insertdescriptionitem
+\inserttheoremheadfont
+\inserttheoremname
+\inserttheoremnumber
+\inserttheoremaddition
+\inserttheorempunctuation
+\insertcaption
+\insertcaptionname
+\insertcaptionnumber
+\insertfootnotetext
+\insertfootnotemark
+\insertnote
+\insertslideintonotes
 \logo{logo text}
+\insertlogo
 \frametitle<overlay specification>[short frame title]{frame title text}
 \frametitle<overlay specification>{frame title text}
 \frametitle[short frame title]{frame title text}

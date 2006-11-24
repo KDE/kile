@@ -1,6 +1,7 @@
 # tbraun 11/5/2006
 # added most/all beamer commands
 # be sure to use an up to date kile svn version, only that will work properly with the strange syntax here
+# 11/24/2006 added missing commands, thanks to  Marco Bertolini
 \begin{frame}
 \begin{frame}<overlay specification>
 \begin{frame}<overlay specification>[<default overlay specification>]

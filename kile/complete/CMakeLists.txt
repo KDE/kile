@@ -1,0 +1,3 @@
+ADD_SUBDIRECTORY( abbreviation )
+ADD_SUBDIRECTORY( tex )
+ADD_SUBDIRECTORY( dictionary )

@@ -1,0 +1,78 @@
+
+SET(symbols
+	img001arrows.png
+	img002arrows.png
+	img003arrows.png
+	img004arrows.png
+	img005arrows.png
+	img006arrows.png
+	img007arrows.png
+	img008arrows.png
+	img009arrows.png
+	img010arrows.png
+	img011arrows.png
+	img012arrows.png
+	img013arrows.png
+	img014arrows.png
+	img015arrows.png
+	img016arrows.png
+	img017arrows.png
+	img018arrows.png
+	img019arrows.png
+	img020arrows.png
+	img021arrows.png
+	img022arrows.png
+	img023arrows.png
+	img024arrows.png
+	img025arrows.png
+	img026arrows.png
+	img027arrows.png
+	img028arrows.png
+	img029arrows.png
+	img030arrows.png
+	img031arrows.png
+	img032arrows.png
+	img033arrows.png
+	img034arrows.png
+	img035arrows.png
+	img036arrows.png
+	img037arrows.png
+	img038arrows.png
+	img039arrows.png
+	img040arrows.png
+	img041arrows.png
+	img042arrows.png
+	img043arrows.png
+	img044arrows.png
+	img045arrows.png
+	img046arrows.png
+	img047arrows.png
+	img048arrows.png
+	img049arrows.png
+	img050arrows.png
+	img051arrows.png
+	img052arrows.png
+	img053arrows.png
+	img054arrows.png
+	img055arrows.png
+	img056arrows.png
+	img057arrows.png
+	img058arrows.png
+	img059arrows.png
+	img060arrows.png
+	img061arrows.png
+	img062arrows.png
+	img063arrows.png
+	img064arrows.png
+	img065arrows.png
+	img066arrows.png
+	img067arrows.png
+	img068arrows.png
+	img069arrows.png
+	img070arrows.png
+)
+
+########### install files ###############
+
+INSTALL( FILES ${symbols} DESTINATION share/apps/kile/mathsymbols/arrows )
+

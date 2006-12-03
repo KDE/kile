@@ -107,6 +107,7 @@ SET(kile_SRCS
 	scriptsmanagementwidget.cpp
 	editorkeysequencemanager.h
 	editorkeysequencemanager.cpp
+	kileversion.cpp
 )
 
 KDE3_AUTOMOC(${kile_SRCS})

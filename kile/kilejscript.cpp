@@ -38,6 +38,7 @@
 #include "kileconfig.h"
 #include "kileedit.h"
 #include "kileinfo.h"
+#include "kileversion.h"
 #include "kileviewmanager.h"
 #include "editorkeysequencemanager.h"
 
@@ -530,7 +531,19 @@ m_kileInfo->viewManager()->currentView()->down();
 m_kileInfo->viewManager()->currentView()->down();
 m_kileInfo->viewManager()->currentView()->down();
 m_kileInfo->viewManager()->currentView()->down();*/
-		env.execute(script->getCode());
+		QString code = script->getCode();
+		QRegExp endOfLineExp("(\r\n)|\n|\r");
+		int i = code.find(endOfLineExp);
+		QString firstLine = (i >= 0 ? code.left(i) : code);
+		QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
+		if(requiredVersionTagExp.search(firstLine) != -1) {
+			QString requiredKileVersion = requiredVersionTagExp.cap(2);
+			if(compareVersionStrings(requiredKileVersion, kileFullVersion) > 0) {
+				KMessageBox::sorry(0L, i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.").arg(requiredKileVersion).arg(script->getName()), i18n("Version Error"));
+				return;
+			}
+		}
+		env.execute(code);
 	}
 
 	void Manager::executeJScript(unsigned int id) {

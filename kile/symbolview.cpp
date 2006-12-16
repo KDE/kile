@@ -161,7 +161,7 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 	kdDebug() << "===SymbolView::contentsMousePressEvent(QMouseEvent *e)===" << endl;
 	
 	QString code_symbol;
-	QIconViewItem *item;
+	QIconViewItem *item = NULL;
 	bool math=false, bracket=false;
 
 	if( (e->button() & Qt::LeftButton) == Qt::LeftButton && ( item = findItem( e->pos() ) ) )

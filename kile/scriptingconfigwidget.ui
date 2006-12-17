@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>KileWidgetScriptingConfig</class>
 <author>Michel Ludwig (michel.ludwig@kdemail.net)</author>
 <widget class="QWidget">
@@ -43,9 +43,6 @@
             <property name="text">
                 <string>Enable &amp;scripting</string>
             </property>
-            <property name="accel">
-                <string>Alt+S</string>
-            </property>
             <property name="checked">
                 <bool>true</bool>
             </property>
@@ -86,9 +83,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Limit the execution time of scripts</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+L</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>

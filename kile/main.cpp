@@ -72,13 +72,13 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile", kileVersion.ascii(), I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-						I18N_NOOP("by the Kile Team (2003 - 2006)"),
+	KAboutData aboutData( "kile", "Kile", kileFullVersion.ascii(), I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+						I18N_NOOP("by the Kile Team (2003 - 2007)"),
 						0,
 						"http://kile.sourceforge.net");
-	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("project management/developer"),"Jeroen.Wijnhout@kdemail.net");
-        aboutData.addAuthor("Holger Danielsson", I18N_NOOP("developer"), "holger.danielsson@t-online.de");
-        aboutData.addAuthor("Michel Ludwig", I18N_NOOP("developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
+	aboutData.addAuthor("Michel Ludwig", I18N_NOOP("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
+	aboutData.addAuthor("Holger Danielsson", I18N_NOOP("developer"), "holger.danielsson@t-online.de");
+	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("former maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
 	aboutData.addAuthor("Brachet Pascal",0,"");
 
         aboutData.addCredit("Thomas Braun", I18N_NOOP("Lots of bug fixes!"));

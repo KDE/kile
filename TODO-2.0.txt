@@ -1,0 +1,25 @@
+to fix:
+	- reread bibfile if changed outside kile  [tbraun]
+	- use kde standard for double/single mouse click in kfileselct.cpp
+	- #112735   cmd. completion takes always precedence over bibtex compl
+	- #132143 autosave: get rid of annyoing copy dialog
+	- #125878 Order of editor tabs not retained as it was before closing
+	- #119554   file open error: use Log & Messages View instead of Messa...
+	- handle files included by multiple root docs in one project better (codecompletion, ...)
+to inspect:
+	- #138282 Remove dependencies on tetex documentation !? [tbraun]
+regressions [from 1.9.x]:
+	- global master docs are sometimes not working 
+features:
+	- Steal focus from KDVI in forwardDVI mode
+	- symbolview show necessary packages [tbraun]
+	- move user tags to config menu [tbraun]
+	- new tool icons [tbraun]
+	- tool changes + update script [tbraun]
+	- Icon /Splash Contest [mludwig]
+docu:
+- #130910
+- symbolview, how to generate own symbols, ... [tbraun]
+- scripting
+- preview
+- write mail to users for cwl files, submit a file with naming guidelines to the svn [tbraun]

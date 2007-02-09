@@ -23,3 +23,4 @@ docu:
 - scripting
 - preview
 - write mail to users for cwl files, submit a file with naming guidelines to the svn [tbraun]
+- write a changelog [tbraun]

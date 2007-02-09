@@ -1,3 +1,74 @@
+version 1.9.3 -> 2.0
+Fixes:
+
+ -
+
+Features:
+
+ -
+
+version 1.9.2-> 1.9.3
+Fixes:
+ - Recognize escaped chars in \newcommand. (#132899)
+ - Use KPDF as embedded viewer for quick preview, because KPDF can remember current settings. (#129177)
+ - Bugs in tabular wizard, when merging, breaking and merging again some cells
+ - Quote replacement should not happen inside verbatim/verb environment (#133112)
+ - Fix bug in tabular wizard, when breaking some multicolumn cells
+ - Don't use default permissions for backup file (CVE CAN-2005-1920 also applies to kile)
+ - Fix bug in syntax highlighting: mathmode in optional parameter (#134146)
+ - Allow tools with brackets in the configuration string also in sequence tools, fixed also the crash which hid the bug. (#134605)
+ - One fix in latex-document-cwl and color.cwl
+ - Fix crash when adding a file to a project (with no open documents) which contains an undefined reference (#135575)
+ - Improve the logic for closing environments (#134793)
+ - Don't treat \\[foo] as a math environment (#137131)
+ - Remove selected text also if we insert a " (#137272)
+
+Feature:
+ - Prepared the latex syntax file for beamer commands
+
+version 1.9.1 -> 1.9.2
+Fixes:
+ - Add autoref command to standard reference commands (#130037)
+ - Remember the setting of MakeIndexOptions checkbox in the project settings
+ dialog. (debian #337550)
+ - Added utf-8 and other encodings to the quickdocument dialog. (#131402)  
+ - Make the "New Tool" dialog box big enough. (#132425)
+ - Check if masterdocs in kilepr files exist, should fix some problems with upgrades from kile 1.8.
+ - Searching for environments in Edit functions improved.
+ - Take array as math environment instead of tabular in Configure->Latex Environments.
+ - Don't crash if a user changes the icon of a toolbar item. (debian #382317)
+ - Allow a few more punctuation in codecompletion of citation keys. (#130148)
+ - Remember last working directory in 'find in files' dialog. (debian #359932)
+ - Tabular wizard should insert all entered elements. (#132736)
+ - Only autosave files which have been modified.
+ - Delete comma of last bibtex entry if Bibliographie->Clean is called. (#129499)
+ - Quick Preview fails if graphics are included in selection (#126019)
+
+version 1.9.0 -> 1.9.1
+Fixes:
+ - Restore support for KDE 3.2.x.
+ - tex files starting with numbers can now also used for "Forward DVI". (#124613)
+ - now we respect the default project location set by the user also in projectOpen(). (#124099)
+ - don't restore the line position if the file is already open. (#125175)
+ - honor users who want to cancel the close request to embedded parts. (namely kbibtex)
+ - fix ViewBib, if we support $BIBINPUTS for compilation we should also do it for viewing. We now also check in all paths in BIBINPUTS for an bib file. (#125133)
+ - if "show labels" is disabled in structureview, we should nevertheless gather them for codecompl. and undefined ref.
+ - don't fake pressed buttons, now the log message button does not looked pressed when you start kile. (#124098)
+ - only add an trailing slash to the default project location if we need one.
+ - hide the latex menu when we don't have docs open.
+ - don't see unstarred env. as closing for starred. (#120509)
+ - we are now much more carefully if the autosaving has succeded. We now warn if we can't autosave and don't overwrite backups with empty backups. (#125975)
+ - only use special double quotes if no slash is in front of the cursor. (#127813)
+
+Features:
+ - Add the possibility to use bullets in user tags via a new placeholder %B.
+ - Colour bullets so that they can be spotted easily.
+ - new cwl file for the textcomp and import package.
+ - we now highlight TODO, FIXME in comments. (only if they are not in normal text)
+ - added Readme.MacOSX
+
+[...]
+
 version 1.6.3 -> 1.7a3
 major:
  - smart LaTeX: rerun automatically when needed, runs BibTeX and/or MakeIndex if required

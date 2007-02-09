@@ -25,7 +25,7 @@
 #include "symbolview.h"
 #include "kilesidebar.h"
 
-KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/, bool alwaysShowLabels /*= false*/) : 
+KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/) : 
 	QFrame(parent, name),
 	m_nTabs(0),
 	m_nCurrent(0),
@@ -60,13 +60,12 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 
 	m_tabBar = new KMultiTabBar(tabbarori, this);
 	m_tabBar->setPosition(tabbarpos);
-	alwaysShowLabels = false;
-// 	#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-// 		m_tabBar->setStyle(alwaysShowLabels ? KMultiTabBar::KDEV3ICON : KMultiTabBar::VSNET);
-// 	#else
+
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 		m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
-// 	#endif
-	
+ 	#else
+ 		m_tabBar->setStyle(KMultiTabBar::KDEV3);
+ 	#endif
 
 	if ( orientation == Qt::Horizontal )
 	{
@@ -223,7 +222,7 @@ void KileSideBar::switchToTab(int id)
 }
 
 KileBottomBar::KileBottomBar(int size, QWidget *parent, const char *name) :
-	KileSideBar(size, parent, name, Qt::Horizontal, true)
+	KileSideBar(size, parent, name, Qt::Horizontal)
 {}
 
 void KileBottomBar::shrink()

@@ -33,7 +33,7 @@ class KileSideBar : public QFrame
 	Q_OBJECT
 
 public:
-	KileSideBar(int size, QWidget *parent = 0, const char *name = 0, Qt::Orientation orientation = Qt::Vertical, bool alwaysShowLabels = false);
+	KileSideBar(int size, QWidget *parent = 0, const char *name = 0, Qt::Orientation orientation = Qt::Vertical);
 	~KileSideBar();
 
 	int addTab(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);

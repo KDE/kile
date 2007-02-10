@@ -4,8 +4,13 @@
 SET(kile_texCompleteFiles
 	amsmath.cwl
 	array.cwl
+	beamerfoils.cwl
+	beamerprosper.cwl
+	beamerseminar.cwl
+	beamertexpower.cwl
 	booktabs.cwl
 	braket.cwl
+	class-beamer.cwl
 	class-letter.cwl
 	class-scrartcl,scrreprt,scrbook.cwl
 	class-scrlttr2.cwl

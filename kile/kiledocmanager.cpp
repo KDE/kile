@@ -737,34 +737,34 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 			url = view->getDoc()->url();
 			fi.setFile(url.path());
 			
-			kdDebug() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings" <<endl;
-			
-			if ( amAutoSaving)
-			{
-				if( !fi.isWritable() )
-				{
-					if ( autosaveWarnings.contains(url.path()) )
-					{
-					kdDebug() << "File " << url.prettyURL() << " is not writeable (again), trying next file" << endl;
-					continue;
-					}
-					else
-					{
-						autosaveWarnings.append(url.path());
-						kdDebug() << "File " << url.prettyURL() << " is not writeable (first time)" << endl;
-					}
-				}
-				else
-				{	
-					autosaveWarnings.remove(url.path());	
-				}
- 			}
-			
 			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
 					|| ( !amAutoSaving && !disUntitled )	// both false, so we want to save everything
 				)
 			{
+	
+				kdDebug() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings" <<endl;
+				
+				if ( amAutoSaving)
+				{
+					if( !fi.isWritable() )
+					{
+						if ( autosaveWarnings.contains(url.path()) )
+						{
+							kdDebug() << "File " << url.prettyURL() << " is not writeable (again), trying next file" << endl;
+							continue;
+						}
+						else
+						{
+							autosaveWarnings.append(url.path());
+							kdDebug() << "File " << url.prettyURL() << " is not writeable (first time)" << endl;
+						}
+					}
+					else
+					{	
+						autosaveWarnings.remove(url.path());	
+					}
+				}
 				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
 					KURL backupUrl = KURL::fromPathOrURL(url.path()+ ".backup");

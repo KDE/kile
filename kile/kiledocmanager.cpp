@@ -1405,52 +1405,6 @@ void Manager::toggleArchive(KileProjectItem *item)
 	item->setArchive(!item->archive());
 }
 
-bool Manager::projectArchive(const KURL & url)
-{
-	KileProject *project = projectFor(url);
-
-	if (project)
-		return projectArchive(project);
-	else
-		return false;
-}
-
-bool Manager::projectArchive(KileProject *project /* = 0*/)
-{
-	if (project == 0)
-		project = activeProject();
-
-	if (project == 0 )
-		project = selectProject(i18n("Archive Project"));
-
-	if (project)
-	{
-		//TODO: this should be in the KileProject class
-		//QString command = project->archiveCommand();
-		QString files, path;
-		QPtrListIterator<KileProjectItem> it(*project->items());
-		while (it.current())
-		{
-			if ((*it)->archive())
-			{
-				path = (*it)->path();
-				KRun::shellQuote(path);
-				files += path + ' ';
-			}
-			++it;
-		}
-
-		KileTool::Base *tool = new KileTool::Base("Archive", m_ki->toolManager());
-		tool->setSource(project->url().path());
-		tool->addDict("%F", files);
-		m_ki->toolManager()->run(tool);
-	}
-	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."),i18n( "Could Not Determine Active Project"));
-
-	return true;
-}
-
 void Manager::projectOptions(const KURL & url)
 {
 	KileProject *project = projectFor(url);

@@ -77,7 +77,7 @@ void QuickToolConfigWidget::remove()
 void QuickToolConfigWidget::add()
 {
 	QString entry = m_cbTools->currentText();
-	if ( m_cbConfigs->currentText() != i18n("not specified") )
+	if ( m_cbConfigs->currentText() != i18n("Not Specified") )
 		entry += " (" + m_cbConfigs->currentText() + ")";
 	m_lstbSeq->insertItem(entry);
 	changed();

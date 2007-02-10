@@ -32,7 +32,7 @@
 #include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
-
+#include "kileproject.h"
 
 namespace KileTool
 {
@@ -98,7 +98,7 @@ namespace KileTool
 		QDictIterator<QString> it(*paramDict());
 		for( it.toFirst() ; it.current(); ++it )
 		{
-			//kdDebug() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
+// 			kdDebug() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
 			str.replace(it.currentKey(), *( it.current() ) );
 		}
 	}
@@ -223,7 +223,7 @@ namespace KileTool
 			return false;
 		}
 
-		if ( KileUntitled::isUntitled(m_source) )
+		if ( KileUntitled::isUntitled(m_source) &&  (flags() & NoUntitledDoc) )
 		{
 			sendMessage(Error, msg(NoUntitledDoc));
 			emit(requestSaveAll());
@@ -257,7 +257,7 @@ namespace KileTool
 			QString src = source;
 			if ( (m_from.length() > 0) && (info.extension(false).length() > 0) )
 				src.replace(QRegExp(info.extension(false) + '$'), m_from);
-			info.setFile(src);
+ 			info.setFile(src);
 		}
 
 		m_basedir = info.dirPath(true);
@@ -268,11 +268,11 @@ namespace KileTool
 		addDict("%source", m_source);
 		addDict("%S",m_S);
 		
-		kdDebug() << "==KileTool::Base::setSource()==============" << endl;
-		kdDebug() << "\tusing " << source << endl;
-		kdDebug() << "\tsource="<<m_source<<endl;
-		kdDebug() << "\tS=" << m_S << endl;
-		kdDebug() << "\tbasedir=" << m_basedir << endl;
+		kdDebug() << "===KileTool::Base::setSource()==============" << endl;
+		kdDebug() << "using " << source << endl;
+		kdDebug() << "source="<<m_source<<endl;
+		kdDebug() << "S=" << m_S << endl;
+		kdDebug() << "basedir=" << m_basedir << endl;
 	}
 	
 	bool Base::determineTarget()
@@ -488,31 +488,25 @@ namespace KileTool
 
 	bool Base::needsUpdate(const QString &target, const QString &source)
 	{
-		kdDebug() << "==Base::needsUpdate(" << target << "," << source << 
-endl;
+		kdDebug() << "==Base::needsUpdate(" << target << "," << source << endl;
 		QFileInfo targetinfo(target);
 		QFileInfo sourceinfo(source);
 
 		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
 		{
-			kdDebug() << "\treturning false: source doesn't exist" << 
-endl;
+			kdDebug() << "\treturning false: source doesn't exist" << endl;
 			return false;
 		}
 
 		if ( ! targetinfo.exists() )
 		{
-			kdDebug() << "\treturning true: target doesn't exist" << 
-endl;
+			kdDebug() << "\treturning true: target doesn't exist" << endl;
 			return true;
 		}
 
-		kdDebug() << "\ttarget: " << targetinfo.lastModified().toString() 
-<< endl;
-		kdDebug() << "\tsource: " << sourceinfo.lastModified().toString() 
-<< endl;
-		kdDebug() << "\treturning " << (targetinfo.lastModified() < 
-sourceinfo.lastModified()) << endl;
+		kdDebug() << "\ttarget: " << targetinfo.lastModified().toString() << endl;
+		kdDebug() << "\tsource: " << sourceinfo.lastModified().toString() << endl;
+		kdDebug() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified()) << endl;
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
 
@@ -554,13 +548,62 @@ sourceinfo.lastModified()) << endl;
 	{
 	}
 	
+
+	Archive::Archive(const QString &name, Manager * manager, bool prepare /* = true*/)
+		: Base(name, manager,prepare)
+	{
+		setFlags( NeedTargetDirExec | NeedTargetDirWrite );
+	}
+	
+	Archive::~Archive()
+	{}
+
+	bool Archive::checkPrereqs()
+	{
+		if(m_project == 0L)
+		{	
+			sendMessage(Error,i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."));
+			return false;
+		}
+		else if(m_fileList.isEmpty())	
+		{
+			sendMessage(Error,i18n("No files have been chossen to archive"));
+			return false;
+		}
+		else
+			return true;
+	}
+
+	void Archive::setSource(const QString &source)
+	{	
+		KURL url = KURL::fromPathOrURL(source);
+		m_project = manager()->info()->docManager()->projectFor(url);
+		if ( !m_project )
+			m_project = manager()->info()->docManager()->activeProject();
+		if ( !m_project )
+			m_project = manager()->info()->docManager()->selectProject(i18n("Archive Project"));	
+		if ( !m_project )
+		{
+			Base::setSource(source);
+			return;
+		}
+		
+		Base::setSource(m_project->url().path());
+		m_fileList = m_project->archiveFileList();
+		
+		addDict("%AFL", m_fileList);
+		
+		kdDebug() << "===KileTool::Archive::setSource("<< source << ")==============" << endl;
+		kdDebug() << "m_fileList="<<m_fileList<<endl;
+	}
+	
 	Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)
 		: Base(name, manager,prepare)
 	{
 		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite );
 	}
 	
-	Convert::~ Convert()
+	Convert::~Convert()
 	{
 	}
 	

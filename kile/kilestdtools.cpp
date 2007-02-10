@@ -66,6 +66,9 @@ namespace KileTool
 			if ( toolClass == "Convert" )
 				return new Convert(tool, m_manager, prepare);
 
+			if ( toolClass == "Archive" )
+				return new Archive(tool, m_manager, prepare);
+
 			if ( toolClass == "View" )
 				return new View(tool, m_manager, prepare);
 

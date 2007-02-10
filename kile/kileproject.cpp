@@ -28,7 +28,7 @@
 #include "kiledocumentinfo.h"
 #include "kiledocmanager.h"
 #include "kiletoolmanager.h"
-
+#include <krun.h>
 /*
  01/24/06 tbraun
 	Added the logic to get versioned kilepr files
@@ -692,6 +692,26 @@ void KileProject::dump()
 		kdDebug() << "item->type() " << item->type() << endl;
 		kdDebug() << "OpenState: " << item->isOpen() << endl;
 	}
+}
+
+QString KileProject::archiveFileList() const
+{
+	kdDebug() << "KileProject::archiveFileList()" << endl;
+
+	QString path,list;
+	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	
+	while (it.current())
+	{
+		if ((*it)->archive())
+		{
+			path = (*it)->path();
+			KRun::shellQuote(path);
+			list.append(path + ' ');
+		}
+		++it;
+	}
+	return list;
 }
 
 void KileProject::setMasterDocument(const QString & master){

@@ -182,6 +182,7 @@ public:
 	KileProjectItem *rootItem(KileProjectItem *) const;
 	const QPtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
 	bool isInvalid(){ return m_invalid;}
+	QString archiveFileList() const;
 
 signals:
 	void nameChanged(const QString &);

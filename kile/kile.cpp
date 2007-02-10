@@ -291,7 +291,7 @@ void Kile::setupProjectView()
 	connect(projectview, SIGNAL(closeURL(const KURL&)), docManager(), SLOT(fileClose(const KURL&)));
 	connect(projectview, SIGNAL(closeProject(const KURL&)), docManager(), SLOT(projectClose(const KURL&)));
 	connect(projectview, SIGNAL(projectOptions(const KURL&)), docManager(), SLOT(projectOptions(const KURL&)));
-	connect(projectview, SIGNAL(projectArchive(const KURL&)), docManager(), SLOT(projectArchive(const KURL&)));
+	connect(projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(runArchiveTool(const KURL&)));
 	connect(projectview, SIGNAL(removeFromProject(const KileProjectItem *)), docManager(), SLOT(removeFromProject(const KileProjectItem *)));
 	connect(projectview, SIGNAL(addFiles(const KURL &)), docManager(), SLOT(projectAddFiles(const KURL &)));
 	connect(projectview, SIGNAL(openAllFiles(const KURL &)), docManager(), SLOT(projectOpenAllFiles(const KURL &)));
@@ -499,7 +499,7 @@ void Kile::setupActions()
 
 	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
 	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
-	(void) new KAction(i18n("&Archive"), "package", 0, docManager(), SLOT(projectArchive()), actionCollection(), "project_archive");
+ 	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(runArchiveTool()), actionCollection(), "project_archive");
 	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
 
@@ -811,6 +811,20 @@ void Kile::setCursor(const KURL &url, int parag, int index)
 		}
 	}
 }
+
+void Kile::runArchiveTool()
+{
+	this->run("Archive");
+}
+
+void Kile::runArchiveTool(const KURL &url)
+{
+	KileTool::Archive *tool = new KileTool::Archive("Archive", m_manager, false);
+	tool->setSource(url.path());
+	tool->prepareToRun();
+	m_manager->run(tool);
+}
+
 
 int Kile::run(const QString & tool)
 {

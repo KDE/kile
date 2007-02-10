@@ -27,6 +27,7 @@
 class KConfig;
 class KileInfo;
 class KShellProcess;
+class KileProject;
 
 namespace KileTool
 {
@@ -170,7 +171,7 @@ namespace KileTool
 
 	public:
 		virtual void prepareToRun(const QString &cfg = QString::null);
-    bool isPrepared() { return m_bPrepared; }
+    		bool isPrepared() { return m_bPrepared; }
 		bool needsToBePrepared() { return m_bPrepareToRun; }
 
 	protected:
@@ -291,11 +292,21 @@ namespace KileTool
 	};
 
 	/**
-	 * A class that represents a tool based on the (GNU) make program.
+	 * A class that represents a tool like tar, from multiple files to one file
 	 **/
-	//class Make : public Base
-	//{
-	//};
+	class Archive: public Base
+	{
+		Q_OBJECT
+ 
+	public:
+		Archive(const QString &name, Manager * manager, bool prepare = true);
+		~Archive();
+		bool checkPrereqs();
+ 		void setSource(const QString & source);
+	private:
+		KileProject *m_project;
+		QString m_fileList;
+	};
 	
 	class Sequence : public Base
 	{

@@ -103,8 +103,6 @@ public slots:
 	void projectAddFiles(const KURL &);
 	void projectAddFiles(KileProject * project = 0,const KURL & url = KURL());
 	void toggleArchive(KileProjectItem *);
-	bool projectArchive(const KURL &);
-	bool projectArchive(KileProject *project  = 0);
 	void buildProjectTree(KileProject *project = 0);
 	void buildProjectTree(const KURL &);
 	void projectOptions(const KURL &);

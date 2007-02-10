@@ -104,7 +104,7 @@ namespace KileWidget
 		connect(m_configWidget->m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
 		connect(m_configWidget->m_ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
 
-		m_classes << "Compile" << "Convert" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
+		m_classes << "Compile" << "Convert" << "Archive" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
 		m_configWidget->m_cbClass->insertStringList(m_classes);
 		connect(m_configWidget->m_cbClass, SIGNAL(activated(const QString &)), this, SLOT(switchClass(const QString &)));
 
@@ -242,14 +242,21 @@ namespace KileWidget
 	{
 		if ( KMessageBox::warningContinueCancel(this, i18n("All your tool settings will be overwritten with the default settings, are you sure you want to continue?")) == KMessageBox::Continue )
 		{
+			QStringList groups = m_config->groupList();
+			QRegExp re = QRegExp("Tool/(.+)/.+");
+			for ( uint i = 0; i < groups.count(); ++i )
+				if ( re.exactMatch(groups[i]) )
+					m_config->deleteGroup(groups[i],true);
+			
 			m_manager->factory()->writeStdConfig();
-			QStringList tools = KileTool::toolList(m_config, true);
-			for ( uint i = 0; i < tools.count(); ++i)
-				switchTo(tools[i], false);
-
+			m_config->sync();
+			updateToollist();
+  			QStringList tools = KileTool::toolList(m_config, true);
+			for ( uint i = 0; i < tools.count(); ++i){
+				switchTo(tools[i], false);// needed to retrieve the new map
+ 				switchTo(tools[i],true); // this writes the newly retrieved entry map (and not an perhaps changed old one)
+			}
 			int index = indexQuickBuild();
-			// --->switchTo(tools[0], false);
-			// --->m_configWidget->m_lstbTools->setSelected(0, true);
 			switchTo(tools[index], false);
 			m_configWidget->m_lstbTools->setSelected(index, true);
 		}

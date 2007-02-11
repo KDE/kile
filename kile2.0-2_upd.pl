@@ -14,6 +14,8 @@ print "# DELETE [Tools]TeX4ht\n";
 print "# DELETE [ToolsGUI]Archive\n";
 print "# DELETE [ToolsGUI]LaTeXtoHTML\n";
 print "# DELETE [ToolsGUI]LaTeXtoDocBook\n";
+print "# DELETE [ToolsGUI]TeX\n";
+print "# DELETE [ToolsGUI]PDFTeX\n";
 
 # now filter the configuration file
 print <<EOT;
@@ -206,5 +208,7 @@ Lilypond=PDF
 Lilypond=Compile,lilypond
 Archive=Archive,package
 LaTeX to Web=Compile,l2h
-DBLaTeX=Compile,l2h
+DBLaTeX=Compile,dblatex
+TeX=Compile,texcompiler
+PDFTeX=Compile,pdftex
 EOT

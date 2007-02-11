@@ -376,7 +376,7 @@ state=Viewer
 from=bib
 to=bib
 
-[Tool/ViewHTML/Konqueror (embedded)]
+[Tool/ViewHTML/Embedded Viewer]
 type=DocPart
 class=ViewHTML
 state=HTMLpreview
@@ -418,7 +418,7 @@ target=
 from=html
 to=html
 
-[Tool/ViewDVI/KViewPart (embedded)]
+[Tool/ViewDVI/Embedded Viewer]
 class=View
 type=Part
 className=KViewPart
@@ -444,7 +444,7 @@ options=--unique '%target'
 from=dvi
 to=dvi
 
-[Tool/ForwardDVI/KViewPart (embedded)]
+[Tool/ForwardDVI/Embedded Viewer]
 type=Part
 class=ForwardDVI
 className=KViewPart
@@ -462,7 +462,7 @@ options=--unique '%target'
 from=dvi
 to=dvi
 
-[Tool/ViewPDF/KGhostView (embedded)]
+[Tool/ViewPDF/Embedded Viewer]
 class=View
 className=KGVPart
 libName=libkghostviewpart
@@ -489,7 +489,7 @@ from=pdf
 to=pdf
 type=Process
 
-[Tool/ViewPDF/KPDF (embedded)]
+[Tool/ViewPDF/Embedded Viewer]
 class=View
 className=KPDF::Part
 libName=libkpdfpart
@@ -507,7 +507,7 @@ from=pdf
 to=pdf
 type=Process
 
-[Tool/ViewPS/KGhostView (embedded)]
+[Tool/ViewPS/Embedded Viewer]
 class=View
 className=KGVPart
 libName=libkghostviewpart
@@ -611,7 +611,7 @@ DVItoPNG=Convert,dvipng
 DVItoPS=Convert,dvips
 LaTeX=Compile,latex
 LaTeX to Web=Compile,l2h
-DBLaTeX=Compile,l2h
+DBLaTeX=Compile,dblatex
 MakeIndex=Compile,makeidx
 MetaPost=Compile,mpost
 PDFLaTeX=Compile,pdflatex
@@ -619,8 +619,8 @@ PreviewLaTeX=none,none
 PreviewPDFLaTeX=none,none
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
-TeX=Compile,latex
-PDFTeX=Compile,latex
+TeX=Compile,texcompiler
+PDFTeX=Compile,pdftex
 ViewBib=View,viewbib
 ViewHTML=View,viewhtml
 ViewDVI=View,viewdvi

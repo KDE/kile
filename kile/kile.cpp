@@ -1500,6 +1500,7 @@ void Kile::quickDocument()
 			return;
 
 		insertTag( dlg->tagData() );
+		updateModeStatus();
 		viewManager()->updateStructure(true);
 	}
 	delete dlg;

@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Jan 12 2006
-    version              : 0.30
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 15 2007
+    version              : 0.32
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************

@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Feb 05 2006
-    version              : 0.31
-    copyright            : (C) 2004-2006 by Holger Danielsson
-     email                : holger.danielsson@t-online.de
+    date                 : Feb 15 2007
+    version              : 0.32
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
 ***************************************************************************/
 
 /***************************************************************************
@@ -394,10 +394,13 @@ namespace KileDocument
 		KTextEditor::CompletionEntry e;
 
 		//kdDebug() << "completeFromList: " << list->count() << " items" << endl;
+		QStringList sortedlist( *list );
+		sortedlist.sort();
+
 		m_labellist.clear();
 		QStringList::ConstIterator it;
-		QStringList::ConstIterator itend(list->end());
-		for ( it = list->begin(); it != itend; ++it )
+		QStringList::ConstIterator itend(sortedlist.end());
+		for ( it = sortedlist.begin(); it != itend; ++it )
 		{
 			e.text = *it;
 			m_labellist.append(  e );

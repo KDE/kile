@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net) *
 ***************************************************************************/
 
 /**************************************************************************
@@ -588,7 +588,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		//rewrite the IDs that are currently in use
 		writeIDs();
 		m_actionCollection->readShortcutSettings("Shortcuts");
-		emit jScriptsReloaded();
+		emit jScriptsChanged();
 	}
 
 	void Manager::deleteJScripts() {
@@ -608,6 +608,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 			}
 			delete *it;
 		}
+		emit jScriptsChanged();
 	}
 
 	QValueList<JScript*> Manager::getJScripts() {

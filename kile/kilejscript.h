@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net) *
 ***************************************************************************/
 
 /**************************************************************************
@@ -178,10 +178,13 @@ class Manager : public QObject {
 
 	signals:
 		/**
-		 * Signal emitted whenever the watched directories have been scanned for
-		 * scripts and thus, the potentially available scripts could have changed.
+		 * Signal emitted whenever the managed scripts haved changed, for example if the
+		 * watched directories have been scanned for scripts and thus, the potentially
+		 * available scripts (could) have changed.
+		 * The signal is also emitted when the currently available scripts have been
+		 * deleted internally in Kile (for example, after disabling the scripting feature).
 		 **/
-		void jScriptsReloaded();
+		void jScriptsChanged();
 
 	public slots:
 		/**

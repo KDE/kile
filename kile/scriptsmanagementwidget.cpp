@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net) *
 ***************************************************************************/
 
 /**************************************************************************
@@ -108,7 +108,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	m_scriptsListView->setRenameable(0, false);
 	m_scriptsListView->setRenameable(1, true);
 
-	connect(m_kileInfo->scriptManager(), SIGNAL(jScriptsReloaded()), this, SLOT(updateListView()));
+	connect(m_kileInfo->scriptManager(), SIGNAL(jScriptsChanged()), this, SLOT(updateListView()));
 	connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(updateListView()));
 // 	connect(m_scriptsListView, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), this, SLOT(executed(QListViewItem*, const QPoint&, int)));
 // 	connect(m_scriptsListView, SIGNAL(itemRenamed(QListViewItem*, const QString&, int)), this, SLOT(itemRenamed(QListViewItem*, const QString&, int)));

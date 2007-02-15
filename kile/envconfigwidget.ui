@@ -67,7 +67,7 @@
                         <string>Activated</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Enable auto indentation of environemnts.</string>
+                        <string>Enable auto indentation of environments.</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox">

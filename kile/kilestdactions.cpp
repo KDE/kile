@@ -194,7 +194,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 
 	(void) new KileAction::Tag(i18n("Vertical Space - \\vspace{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace","\\vspace{","}",8,0, i18n("The \\vspace command adds vertical space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\vspace command."));
 
-	(void) new KileAction::Tag(i18n("Vertical Space (forced) - \\vspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds horizontal space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	(void) new KileAction::Tag(i18n("Vertical Space (forced) - \\vspace*{}"),0, parent,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds vertical space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
 
 	// fonts
 	new KileAction::Tag(i18n("Emphasized - \\emph{}"),"emph",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_emph","\\emph{","}",6,0,i18n("\\emph{emphasized text}"));

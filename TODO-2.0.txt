@@ -7,7 +7,7 @@ to fix:
 	- #119554   file open error: use Log & Messages View instead of Messa...
 	- handle files included by multiple root docs in one project better (codecompletion, ...)
 to inspect:
-	- #138282 Remove dependencies on tetex documentation !? [danielsson]
+	- #138282 Remove dependencies on tetex documentation !? [danielsson FIXED]
 regressions [from 1.9.x]:
 	- global master docs are sometimes not working 
 features:
@@ -22,5 +22,6 @@ docu:
 - symbolview, how to generate own symbols, ... [tbraun]
 - scripting
 - preview
+- explain tool stuff and the magic %... abbreviations
 - write mail to users for cwl files, submit a file with naming guidelines to the svn [tbraun]
 - write a changelog [tbraun]

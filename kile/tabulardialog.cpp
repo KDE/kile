@@ -1184,9 +1184,11 @@ int TabularTable::popupId(QPopupMenu *popup, int id)
 
 ////////////////////////////// cellrange: right mouse button //////////////////////////////
 
-void TabularTable::slotContextMenuClicked(int,int,const QPoint &)
+void TabularTable::slotContextMenuClicked(int row,int col,const QPoint &)
 {
 	//kdDebug() << "context menu clicked" << endl;
+	if ( row<0 || col<0 )
+		return;
 
 	if ( ! getCurrentSelection(m_x1,m_y1,m_x2,m_y2) )
 		return;
@@ -1842,6 +1844,9 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	// Table
 	m_table = new TabularTable(3,3,page,this);
 
+	// remark
+	QLabel *labelRemark = new QLabel( i18n("<center>Hint: You can set some cell properties with a right mouse click.</center>") ,page);
+
 	// environment group
 	QButtonGroup *group = new QButtonGroup( i18n("Environment"),page);
 	group->setColumnLayout(0, Qt::Vertical );
@@ -1885,6 +1890,9 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	
 	// add widgets
 	vbox->addWidget( m_table);
+	vbox->addSpacing(4);
+	vbox->addWidget(labelRemark);
+	vbox->addSpacing(4);
 	vbox->addWidget( group );
 	
 	label1->setBuddy(m_coEnvironment);
@@ -2347,7 +2355,8 @@ void TabularDialog::slotOk()
 				
 				if ( colinfo[col].textcolor != cellitem->m_data.textcolor.name() ) 
 				{
-					s3 += "\\color{" + colinfo[col].textcolor + '-' + cellitem->m_data.textcolor.name() + '}';
+					QChar color = defineColor(cellitem->m_data.textcolor.name(),colortable,colorchar);
+					s3 += QString("\\color{tc%1}").arg(color);
 					pkgColor = true;
 				}
 				if ( ! s3.isEmpty() )

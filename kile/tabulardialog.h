@@ -241,7 +241,7 @@ private:
 	TabularDialog *m_tabdialog;
 	
 private slots:
-	void slotContextMenuClicked(int,int,const QPoint &);	
+	void slotContextMenuClicked(int row,int col,const QPoint &);	
 	void slotCellPopupActivated(int id);
 	void slotHeaderPopupActivated(int id);
 	

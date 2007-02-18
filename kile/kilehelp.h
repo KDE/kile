@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Jan 19 2006
-    version              : 0.22
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 12 2007
+    version              : 0.30
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -43,14 +43,19 @@ namespace KileHelp
 
 	enum Type 
 	{
-		HelpTetex,
-		HelpTetexGuide,
-		HelpTetexDoc,
-		HelpLatex,
+		HelpKileRefs,
+		HelpTexRefs,
 		HelpLatexIndex,
 		HelpLatexCommand,
 		HelpLatexSubject,
 		HelpLatexEnvironment
+	};
+
+	enum TexVersion
+	{
+		TETEX2,
+		TETEX3,
+		TEXLIVE2005
 	};
 
 	class Help : public QObject
@@ -62,17 +67,15 @@ namespace KileHelp
 		~Help();
 		
 		void setUserhelp(KileTool::Manager *manager, KMenuBar *menubar); 
+		void update();
 
 		// calls for help
-		void helpLatex(KileHelp::Type type);
-		void helpTetex(KileHelp::Type type);
 		void helpKeyword(Kate::View *view);
 		void noHelpAvailableFor(const QString &word);
 		void userHelpDialog() { m_userhelp->userHelpDialog(); }
 		void enableUserhelpEntries(bool state);
 	public slots:
-		void helpTetexGuide() { helpTetex(KileHelp::HelpTetexGuide); }
-		void helpTetexDoc() { helpTetex(KileHelp::HelpTetexDoc); }
+		void helpTexGuide();
 		void helpLatexIndex() { helpLatex(KileHelp::HelpLatexIndex); }
 		void helpLatexCommand() { helpLatex(KileHelp::HelpLatexCommand); }
 		void helpLatexSubject() { helpLatex(KileHelp::HelpLatexSubject); }
@@ -85,17 +88,20 @@ namespace KileHelp
 		KileDocument::EditorExtension *m_edit;
 		UserHelp *m_userhelp;
 		
-		int m_tetexVersion;
-		QString m_tetexLatexReference;
-		
-		QMap<QString,QString> m_dictHelpKile;
-		QMap<QString,QString> m_dictHelpTetex;
+		TexVersion m_texVersion;
+		QString m_texReference;
+		QString m_texdocPath;
 
+		QMap<QString,QString> m_dictHelpKile;
+		QMap<QString,QString> m_dictHelpTex;
+
+		void initTexDocumentation();
 		void readHelpList(const QString &filename,QMap<QString,QString> &map);
 		void showHelpFile(const QString &parameter);
 
-		void helpTetexKeyword(Kate::View *view);
-		void helpLatexKeyword(Kate::View *view);
+		void helpLatex(KileHelp::Type type);
+		void helpTexRefsKeyword(Kate::View *view);
+		void helpKileRefsKeyword(Kate::View *view);
 		QString getKeyword(Kate::View *view);
 	};
 }

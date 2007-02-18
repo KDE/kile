@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="25">
+<kpartgui name="kile" version="26">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -504,11 +504,9 @@
 	<Merge/>
 	<Separator/>
 	<Action name="help_context" />
-	<Menu name="help_tetex" ><text>TeTeX Documentation</text>
+	<Menu name="help_tex" ><text>TeX Documentation</text>
 		<Action name="help_docbrowser" />
-		<Separator/>
-		<Action name="help_tetex_guide" />
-		<Action name="help_tetex_doc" />
+		<Action name="help_tex_guide" />
 		<Separator/>
 		<Action name="help_latex_index" />
 		<Separator/>
@@ -670,8 +668,7 @@
 	<Action name="help_tipofday"/>
 	<Action name="help_context" />
 	<Action name="help_docbrowser" />
-	<Action name="help_tetex_guide" />
-	<Action name="help_tetex_doc" />
+	<Action name="help_tex_guide" />
 	<Action name="help_latex_index" />
 	<Action name="help_latex_command" />
 	<Action name="help_latex_subject" />
@@ -754,8 +751,7 @@
 	<Action name="help_tipofday"/>
 	<Action name="help_context" />
 	<Action name="help_docbrowser" />
-	<Action name="help_tetex_guide" />
-	<Action name="help_tetex_doc" />
+	<Action name="help_tex_guide" />
 	<Action name="help_latex_index" />
 	<Action name="help_latex_command" />
 	<Action name="help_latex_subject" />
@@ -839,8 +835,7 @@
 	<Action name="help_tipofday"/>
 	<Action name="help_context" />
 	<Action name="help_docbrowser" />
-	<Action name="help_tetex_guide" />
-	<Action name="help_tetex_doc" />
+	<Action name="help_tex_guide" />
 	<Action name="help_latex_index" />
 	<Action name="help_latex_command" />
 	<Action name="help_latex_subject" />

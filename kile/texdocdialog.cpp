@@ -1,10 +1,10 @@
 /***************************************************************************
                          texdocdialog.cpp
                          ----------------
-    date                 : Jan 22 2006
-    version              : 0.13
-    copyright            : (C) 2005-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 15 2007
+    version              : 0.14
+    copyright            : (C) 2005-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -88,7 +88,7 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 	vbox->addWidget(m_texdocs);
 	vbox->addWidget(groupbox);
 	
-	QWhatsThis::add(m_texdocs,i18n("A list of avaiblable documents, which are listed in 'texdoctk.dat', coming with teTeX. A double click with the mouse or pressing the space key will open a viewer to show this file."));
+	QWhatsThis::add(m_texdocs,i18n("A list of avaiblable documents, which are listed in 'texdoctk.dat', coming with TexLive/teTeX. A double click with the mouse or pressing the space key will open a viewer to show this file."));
 	QWhatsThis::add(m_leKeywords,i18n("You can choose a keyword to show only document files, which are related to this keyword."));
 	QWhatsThis::add(m_pbSearch,i18n("Start the search for the chosen keyword."));
 	QWhatsThis::add(actionButton(Help),i18n("Reset TOC to show all available files."));
@@ -565,7 +565,7 @@ void TexDocDialog::slotProcessExited(KProcess *proc)
 	} 
 	else 
 	{
-		KMessageBox::error( this,i18n("<center>") + i18n("Could not determine the search paths of teTeX or file 'texdoctk.dat'.<br> So this dialog is useless.") + i18n("</center>"),i18n("TexDoc Dialog") );
+		KMessageBox::error( this,i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless.") + i18n("</center>"),i18n("TexDoc Dialog") );
 	}
 }
 
@@ -578,7 +578,7 @@ void TexDocDialog::slotInitToc()
 	QStringList results = QStringList::split('\n',m_output,true);
 	if ( results.count() < 3 ) 
 	{
-		KMessageBox::error(this,i18n("Could not determine the search paths of teTeX or file 'texdoctk.dat'.<br> So this dialog is useless."));
+		KMessageBox::error(this,i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless."));
 		return;
 	}
 	

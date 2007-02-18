@@ -1,10 +1,10 @@
 /***************************************************************************
                          texdocdialog.h
                          --------------
-    date                 : Jan 22 2006
-    version              : 0.13
-    copyright            : (C) 2005-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 15 2007
+    version              : 0.14
+    copyright            : (C) 2005-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************

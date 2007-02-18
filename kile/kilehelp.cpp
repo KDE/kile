@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Jan 19 2006
-    version              : 0.22
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 12 2007
+    version              : 0.30
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -42,21 +42,7 @@ namespace KileHelp
 	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit), m_userhelp(0L)
 	{
 		readHelpList("latex-kile.lst",m_dictHelpKile);
-		
-		// use documentation for teTeX v2.x or v3.x
-		QString texref = KileConfig::location() + "/latex/tex-refs";
-		QDir dir(texref);
-		if ( dir.exists() ) {
-			m_tetexVersion = 3;
-			// check if this is buggy tetex3.0 or an updated version with subdirectory 'html'
-			dir.setPath(texref + "/html");
-			m_tetexLatexReference = ( dir.exists() ) ? "/latex/tex-refs/html/" : "/latex/tex-refs/";
-			readHelpList("latex-tetex3.lst",m_dictHelpTetex);
-		} else {
-			m_tetexVersion = 2;
-			m_tetexLatexReference = "/latex/latex2e-html/";
-			readHelpList("latex-tetex.lst",m_dictHelpTetex);
-		}
+		initTexDocumentation();
 	}
 	
 	Help::~Help() 
@@ -64,6 +50,52 @@ namespace KileHelp
 		delete m_userhelp;
 	}
 	
+	void Help::initTexDocumentation()
+	{
+		// use documentation for teTeX v2.x, v3.x or TexLive2005
+		m_texdocPath = KileConfig::location();
+		
+		// first check for TexLive2005
+		QString texref = m_texdocPath + "/english/tex-refs";
+		QDir dir(texref);
+		if ( dir.exists() ) 
+		{
+			// we found TexLive2005
+			m_texVersion = TEXLIVE2005;
+			m_texReference = "/english/tex-refs/";
+			readHelpList("latex-texlive-3.9.lst",m_dictHelpTex);
+		}
+		else
+		{
+			// now we check for tetex3
+			dir.setPath(m_texdocPath + "/latex/tex-refs");
+			if ( dir.exists() ) 
+			{
+				m_texVersion = TETEX3;
+				// check if this is buggy tetex3.0 or an updated version with subdirectory 'html'
+				dir.setPath(m_texdocPath + "/latex/tex-refs/html");
+				m_texReference = ( dir.exists() ) 
+				               ? "/latex/tex-refs/html/" : "/latex/tex-refs/";
+				readHelpList("latex-tetex3.lst",m_dictHelpTex);
+			}
+			else
+			{
+				// we set it to tetex2 (what else should it be?)
+				m_texVersion = TETEX2;
+				m_texReference = "/latex/latex2e-html/";
+				readHelpList("latex-tetex.lst",m_dictHelpTex);
+			}
+		}
+	}
+
+	////////////////////// update path to TeX documentation  //////////////////////
+
+	void Help::update()
+	{
+		if ( m_texdocPath != KileConfig::location() )
+			initTexDocumentation();
+	}
+
 	////////////////////// set parameter/initialize user help //////////////////////
 	
 	void Help::setUserhelp(KileTool::Manager *manager, KMenuBar *menubar)
@@ -110,23 +142,26 @@ namespace KileHelp
 
 ////////////////////// Help: TeTeX //////////////////////
 
-	void Help::helpTetex(KileHelp::Type type)
+	void Help::helpTexGuide()
 	{
 		QString filename;
 
-		switch ( type )
+		switch ( m_texVersion )
 		{
-			case HelpTetexGuide:
-				filename = ( m_tetexVersion == 3) ? "index.html" : "newhelpindex.html";
+			case TEXLIVE2005:
+				filename = "english/texlive-en/live.html";
 				break;
-			case HelpTetexDoc:
-				filename = "helpindex.html";
+			case TETEX3:
+				filename = "index.html";
+				break;
+			case TETEX2:
+				filename = "newhelpindex.html";
 				break;
 			default:
 				return;
 		}
 
-		showHelpFile( KileConfig::location() + '/' + filename );
+		showHelpFile( m_texdocPath + '/' + filename );
 	}
 
 ////////////////////// Help: LaTeX //////////////////////
@@ -135,25 +170,28 @@ namespace KileHelp
 	{
 		QString link;
 		
-		if ( m_tetexVersion == 2) {
+		if ( m_texVersion == TEXLIVE2005) 
+		{
 			switch ( type )
 			{
+				case HelpLatexIndex:
+					link = "tex-refs.html#latex";
+					break;
 				case HelpLatexCommand:
-					link = "ltx-2.html#cmd";
+					link = "tex-refs.html#tex-refs-idx";
 					break;
 				case HelpLatexSubject:
-					link = "ltx-2.html#subj";
+					link = "tex-refs.html#commands";
 					break;
 				case HelpLatexEnvironment:
-					link = "ltx-2.html#env";
-					break;
-				case HelpLatexIndex:
-					link = "ltx-2.html";
+					link = "tex-refs.html#env-latex";
 					break;
 				default:
 					return;
 			}
-		} else {
+		}
+		else if ( m_texVersion == TETEX3) 
+		{
 			switch ( type )
 			{
 				case HelpLatexIndex:
@@ -172,10 +210,38 @@ namespace KileHelp
 					return;
 			}
 		}
+		else
+		{
+			switch ( type )
+			{
+				case HelpLatexCommand:
+					link = "ltx-2.html#cmd";
+					break;
+				case HelpLatexSubject:
+					link = "ltx-2.html#subj";
+					break;
+				case HelpLatexEnvironment:
+					link = "ltx-2.html#env";
+					break;
+				case HelpLatexIndex:
+					link = "ltx-2.html";
+					break;
+				default:
+					return;
+			}
+		} 
 		
 		// show help file
-		kdDebug() << "teTeX v"<< m_tetexVersion << " link=" << link << endl;
-		showHelpFile( KileConfig::location() + m_tetexLatexReference + link );
+		QString texversion;
+		if ( m_texVersion == TEXLIVE2005 )
+			texversion = "TexLive 2005";
+		else if ( m_texVersion == TETEX3 )
+			texversion = "teTeX v3.x";
+		else 
+			texversion = "teTeX v2.x";
+		kdDebug() << "TeX Version: "<< texversion << " link=" << link << endl;
+
+		showHelpFile( m_texdocPath + m_texReference + link );
 	}
 
 	////////////////////// Help: Keyword //////////////////////
@@ -183,32 +249,32 @@ namespace KileHelp
 	// Context help: user either Kile LaTeX help or the help files shipped with teTeX,
 	void Help::helpKeyword(Kate::View *view)                   // dani 04.08.2004
 	{
-		int type = (0 == KileConfig::use()) ? HelpLatex : HelpTetex;
+		int type = (0 == KileConfig::use()) ? HelpKileRefs : HelpTexRefs;
 		switch ( type )
 		{
-		case HelpTetex:
-			helpTetexKeyword(view);
+		case HelpTexRefs:
+			helpTexRefsKeyword(view);
 			break;
-		case HelpLatex:
-			helpLatexKeyword(view);
+		case HelpKileRefs:
+			helpKileRefsKeyword(view);
 			break;
 		}
 	}
 
-	void Help::helpTetexKeyword(Kate::View *view)
+	void Help::helpTexRefsKeyword(Kate::View *view)
 	{
 		QString word = getKeyword(view);
 		kdDebug() << "keyword: " << word << endl;
-		if ( !word.isNull() && m_dictHelpTetex.contains(word) )
+		if ( !word.isNull() && m_dictHelpTex.contains(word) )
 		{
-			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTetex[word] << " )" << endl;
-			showHelpFile( KileConfig::location() + m_tetexLatexReference + m_dictHelpTetex[word] );
+			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTex[word] << " )" << endl;
+			showHelpFile( m_texdocPath + m_texReference + m_dictHelpTex[word] );
 		}
 		else
 			noHelpAvailableFor(word);
 	}
 
-	void Help::helpLatexKeyword(Kate::View *view)
+	void Help::helpKileRefsKeyword(Kate::View *view)
 	{
 		QString kilehelp = KGlobal::dirs()->findResource("html","en/kile/latexhelp.html");
 		kdDebug() << "kilehelp = " << kilehelp << endl;

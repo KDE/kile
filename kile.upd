@@ -77,3 +77,9 @@ Script=kile2.0-1_upd.pl,perl
 Id=Kile2.0v2
 File=kilerc
 Script=kile2.0-2_upd.pl,perl
+#
+Id=Kile2.0v3
+File=kilerc
+Options=overwrite
+Group=Complete
+Script=kile2.0-3_upd.pl,perl

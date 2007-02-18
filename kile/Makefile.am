@@ -7,7 +7,7 @@ bin_PROGRAMS = kile
 kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	userhelpdialog.cpp floatdialog.cpp mathenvdialog.cpp tabulardialog.cpp \
 	postscriptdialog.cpp previewconfigwidget.cpp quickpreview.cpp includegraphicsdialog.cpp \
-	newfilewizard.cpp managetemplatesdialog.cpp templates.cpp metapostview.cpp \
+	newfilewizard.cpp managetemplatesdialog.cpp templates.cpp \
 	usermenudialog.cpp kileconfigdialog.cpp tabbingdialog.cpp symbolview.cpp \
 	quickdocumentdialog.cpp kilefileselect.cpp kileapplication.cpp docpart.cpp kile.cpp main.cpp \
 	kileactions.cpp kilestdactions.cpp kileinfo.cpp kiledocumentinfo.cpp kileproject.cpp \
@@ -34,7 +34,7 @@ SUBDIRS = icons pics symbols templates syntax complete help encodings test
 EXTRA_DIST = main.cpp kile.cpp kile.h \
 	docpart.cpp docpart.h kileappIface.h kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp 	kilefileselect.h kileui.rc docpartui.rc kmultiverttabbar.cpp kmultiverttabbar.h letterdialog.cpp letterdialog.h quickdocumentdialog.cpp quickdocumentdialog.h symbolview.cpp symbolview.h tabbingdialog.cpp tabbingdialog.h \
 	kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp \
-	usermenudialog.h metapostview.cpp metapostview.h \
+	usermenudialog.h \
 	newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp \
 	managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp \
 	kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp \

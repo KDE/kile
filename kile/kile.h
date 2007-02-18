@@ -34,7 +34,6 @@
 #include "kileappIface.h"
 #include "docpart.h"
 #include "kilefileselect.h"
-#include "metapostview.h"
 #include "kileinfo.h"
 #include "symbolview.h"
 
@@ -164,15 +163,14 @@ private:
 private:
 	//widgets
 	KileSideBar			*m_sideBar;
-	metapostview		*m_mpview;
-	QWidgetStack 		*m_topWidgetStack;
+	QWidgetStack 			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
-	QToolBox				*m_toolBox;
-	SymbolView				*m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
+	QToolBox			*m_toolBox;
+	SymbolView			*m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 
 	//parts
-	KParts::PartManager 	*m_partManager;
-	QString 				m_wantState, m_currentState;
+	KParts::PartManager 		*m_partManager;
+	QString 			m_wantState, m_currentState;
 	
 private slots:
 	void toggleMode();
@@ -303,8 +301,6 @@ private slots:
 	void quickMathenv();
 	void quickPostscript();
 	void quickTabulardialog(bool tabularenv);
-
-	void insertMetaPost(QListBoxItem *);
 
 	void editUserMenu();
 

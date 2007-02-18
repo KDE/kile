@@ -374,10 +374,6 @@ void Kile::setupSymbolViews()
 
 	for (int i=0; i< m_toolBox->count(); i++)
 		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, presssing CTRL in curly brackets."));
-
-	m_mpview = new metapostview( m_sideBar );
-	m_sideBar->addTab(m_mpview, SmallIcon("metapost"), i18n("MetaPost"));
-	connect(m_mpview, SIGNAL(clicked(QListBoxItem *)), SLOT(insertMetaPost(QListBoxItem *)));
 }
 
 void Kile::setupBottomBar()
@@ -1698,12 +1694,6 @@ void Kile::quickPostscript()
 	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_logWidget,m_outputWidget);
 	dlg->exec();
 	delete dlg;
-}
-
-void Kile::insertMetaPost(QListBoxItem *)
-{
-	QString mpcode = m_mpview->currentText();
-	if (mpcode!="----------") insertTag(mpcode,QString::null,mpcode.length(),0);
 }
 
 void Kile::helpLaTex()

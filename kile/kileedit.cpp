@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 16 2007
-    version              : 0.43
+    date                 : Feb 18 2007
+    version              : 0.44
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -54,6 +54,9 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 		<< "German quotes:   \"`   \"'"
 		<< "French quotes (long):   \\flqq   \\frqq"
 		<< "German quotes (long):   \\glqq   \\grqq"
+		<< "Icelandic quotes (v1):   \\ilqq   \\irqq"
+		<< "Icelandic quotes (v2):   \\iflqq   \\ifrqq"
+		<< "Czech quotes:   \\uv{   }"
 		;
 
 	readConfig();

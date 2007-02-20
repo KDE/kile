@@ -1,11 +1,14 @@
 version 1.9.3 -> 2.0
 Fixes:
-
- -
+ - Fix bug in tabular wizard, when changing the textcolor inside a cell
+ - Add support for \gdef, \edef and \xdef to the the latex syntax file
+ - Remove dependencies on teTeX documentation and add support for TexLive (#138282)
 
 Features:
-
- -
+ - Add Emacs like delete to end-of-line
+ - Highlighting of section titles as bold (#138017)
+ - Sort items in references list box (#137964)
+ - Add additional double quotes for babel supported languages (czech, icelandic)
 
 version 1.9.2-> 1.9.3
 Fixes:

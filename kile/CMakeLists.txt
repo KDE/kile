@@ -46,7 +46,6 @@ SET(kile_SRCS
 	newfilewizard.cpp
 	managetemplatesdialog.cpp
 	templates.cpp
-	metapostview.cpp
 	usermenudialog.cpp
 	kileconfigdialog.cpp
 	tabbingdialog.cpp

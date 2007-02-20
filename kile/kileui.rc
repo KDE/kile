@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="26">
+<kpartgui name="kile" version="27">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -96,6 +96,7 @@
 		<Action name="edit_delete_mathgroup"/>
 		<Separator/>
 		<Action name="edit_delete_paragraph"/>
+		<Action name="edit_delete_eol"/>
 		<Action name="edit_delete_word"/>
 	</Menu>
 	<Menu name="environment"><text>Environmen&amp;t</text>
@@ -652,6 +653,7 @@
 	<Action name="edit_delete_inside_group"/>
 	<Action name="edit_delete_outside_group"/>
 	<Action name="edit_delete_mathgroup"/>
+	<Action name="edit_delete_eol"/>
 	<Action name="edit_delete_paragraph"/>
 	<Action name="edit_delete_word"/>
 	<Action name="edit_begin_env"/>
@@ -735,6 +737,7 @@
 	<Action name="edit_delete_inside_group"/>
 	<Action name="edit_delete_outside_group"/>
 	<Action name="edit_delete_mathgroup"/>
+	<Action name="edit_delete_eol"/>
 	<Action name="edit_delete_paragraph"/>
 	<Action name="edit_delete_word"/>
 	<Action name="edit_begin_env"/>
@@ -819,6 +822,7 @@
 	<Action name="edit_delete_inside_group"/>
 	<Action name="edit_delete_outside_group"/>
 	<Action name="edit_delete_mathgroup"/>
+	<Action name="edit_delete_eol"/>
 	<Action name="edit_delete_paragraph"/>
 	<Action name="edit_delete_word"/>
 	<Action name="edit_begin_env"/>

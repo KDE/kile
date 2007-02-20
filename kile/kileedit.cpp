@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Sep 16 2006
-    version              : 0.42
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 16 2007
+    version              : 0.43
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -2185,6 +2185,19 @@ void EditorExtension::selectLine(Kate::View *view)
 	{
 		doc->setSelection(row,0,row+1,0);
 	}
+}
+
+void EditorExtension::deleteEndOfLine(Kate::View *view)
+{
+	view = determineView(view);
+	if ( !view ) return;
+
+	uint row,col;
+	view->cursorPositionReal(&row,&col);
+
+	Kate::Document *doc = view->getDoc();
+	doc->clearSelection();
+	doc->removeText(row,col,row,doc->lineLength(row));
 }
 
 //////////////////// LaTeX command ////////////////////

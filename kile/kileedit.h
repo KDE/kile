@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Sep 16 2006
-    version              : 0.42
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 16 2007
+    version              : 0.43
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -109,6 +109,7 @@ public slots:
 	void selectLine(Kate::View *view = 0L);
 	void selectWord(SelectMode mode = smTex, Kate::View *view = 0L);
 	void deleteParagraph(Kate::View *view = 0L);
+	void deleteEndOfLine(Kate::View *view = 0L);
 	void deleteWord(SelectMode mode = smTex, Kate::View *view = 0L);
 
 	void selectMathgroup(Kate::View *view = 0L);

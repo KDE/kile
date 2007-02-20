@@ -551,6 +551,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("TeX Group (outside)"),"delgroup_o",KShortcut("CTRL+Alt+T,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
 	(void) new KAction(i18n("Math Group"),"delmath",KShortcut("CTRL+Alt+T,M"),m_edit, SLOT(deleteMathgroup()), actionCollection(), "edit_delete_mathgroup");
 	(void) new KAction(i18n("Paragraph"),"delpar",KShortcut("CTRL+Alt+T,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
+	(void) new KAction(i18n("To End of Line"),"deleol",KShortcut("CTRL+Alt+T,I"),m_edit, SLOT(deleteEndOfLine()), actionCollection(), "edit_delete_eol");
 	(void) new KAction(i18n("TeX Word"),"delword",KShortcut("CTRL+Alt+T,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
 
 	(void) new KAction(i18n("Goto Begin"),"gotobeginenv",KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");

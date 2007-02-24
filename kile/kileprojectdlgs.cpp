@@ -13,22 +13,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
+// 2007-02-15 (dani)
+//  - cosmetic changes
+//  - use of groupboxes to prepare further extensions
+
 #include <qlabel.h>
-#include <qcheckbox.h>
 #include <qwhatsthis.h>
 #include <qfileinfo.h>
 #include <qptrlist.h>
 
 #include <klocale.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
 #include <kmessagebox.h>
 #include <kurlcompletion.h>
 #include <kfiledialog.h>
 #include <kcombobox.h>
 #include <kdebug.h>
 #include <kapplication.h>
+#include <kiconloader.h>
 
 #include "newfilewizard.h"
 #include "kileproject.h"
@@ -48,15 +49,34 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, QWidget *parent, 
 	: KDialogBase( KDialogBase::Plain, caption, (Ok | Cancel), Ok, parent, name, true, true),
 	m_project(0)
 {
-	m_title = new KLineEdit(plainPage(), "le_projectname");
-	QWhatsThis::add(m_title, whatsthisName);
+	// properties groupbox
+	m_pgroup = new QVGroupBox(i18n("Project"), plainPage());
+	m_pgroup->setColumnLayout(0, Qt::Vertical );
+	m_pgroup->layout()->setSpacing( 6 );
+	m_pgroup->layout()->setMargin( 11 );
+	m_pgrid = new QGridLayout( m_pgroup->layout() );
+	m_pgrid->setAlignment( Qt::AlignTop );
 
-	m_extensions = new KLineEdit(plainPage(), "le_ext");
-	m_sel_extensions = new KComboBox(false, plainPage(), "le_sel_ext");
+	m_title = new KLineEdit(m_pgroup, "le_projectname");
+	QWhatsThis::add(m_title, whatsthisName);
+	m_plabel = new QLabel(i18n("Project &title:"), m_pgroup);
+	m_plabel->setBuddy(m_title);
+	QWhatsThis::add(m_plabel, whatsthisName);
+	
+	// extensions groupbox
+	m_egroup= new QVGroupBox(i18n("Extensions"), plainPage());
+	m_egroup->setColumnLayout(0, Qt::Vertical );
+	m_egroup->layout()->setSpacing( 6 );
+	m_egroup->layout()->setMargin( 11 );
+	m_egrid = new QGridLayout( m_egroup->layout() );
+	m_egrid->setAlignment( Qt::AlignTop );
+
+	m_extensions = new KLineEdit(m_egroup, "le_ext");
+	m_sel_extensions = new KComboBox(false, m_egroup, "le_sel_ext");
 	m_sel_extensions->insertItem(i18n("Extensions for Source Files"));
 	m_sel_extensions->insertItem(i18n("Extensions for Package Files"));
 	m_sel_extensions->insertItem(i18n("Extensions for Image Files"));
-	m_isregexp = new QCheckBox(i18n("Use extension list as a regular expression"), plainPage());
+	m_isregexp = new QCheckBox(i18n("Use extension list as a regular expression"), m_egroup);
 	QWhatsThis::add(m_sel_extensions, whatsthisExt);
 	QWhatsThis::add(m_extensions, whatsthisExt);
 	QWhatsThis::add(m_isregexp, whatsthisExt);
@@ -164,48 +184,66 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
         : KileProjectDlgBase( i18n("Create New Project"), parent, name),
 		m_filename(QString::null)
 {
-	QGridLayout *layout = new QGridLayout(plainPage(), 4,8, 10);
-	layout->setColStretch(2,1);
-	layout->setColStretch(3,1);
+	// Layout
+	QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
 
-	QLabel *lb = new QLabel(i18n("Project &title:"), plainPage());
-	lb->setBuddy(m_title);
-	QWhatsThis::add(lb, whatsthisName);
-	layout->addWidget(lb, 0,0);
-	layout->addWidget(m_title, 0,1);
-
+	// first groupbox
+	m_pgrid->addWidget(m_plabel, 0,0);
+	m_pgrid->addWidget(m_title, 0,2);
 	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
-	m_location = new KLineEdit(plainPage(), "le_projectlocation");
+	m_location = new KLineEdit(m_pgroup, "le_projectlocation");
 	m_location->setMinimumWidth(200);
 
-	lb = new QLabel(i18n("Project &file:"), plainPage());
-	QWhatsThis::add(lb, whatsthisPath);
+	QLabel *lb1 = new QLabel(i18n("Project &file:"), m_pgroup);
+	QWhatsThis::add(lb1, whatsthisPath);
 	QWhatsThis::add(m_location, whatsthisPath);
-	lb->setBuddy(m_location);
-	KPushButton *pb = new KPushButton(i18n("Select Folder..."), plainPage());
-	connect(pb, SIGNAL(clicked()), this, SLOT(browseLocation()));
-	layout->addWidget(lb, 1,0);
-	layout->addMultiCellWidget(m_location, 1,1, 1,2);
-	layout->addWidget(pb, 1,3);
+	lb1->setBuddy(m_location);
+	m_pbChooseDir= new KPushButton(i18n("Select Folder..."), m_pgroup, "dirchooser_button" );
+	m_pbChooseDir->setPixmap( SmallIcon("fileopen") );
+	int wpixmap = m_pbChooseDir->pixmap()->width();
+	m_pbChooseDir->setFixedWidth(wpixmap+10);
+	m_pbChooseDir->setFixedHeight(wpixmap+10);
 
-	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"),plainPage());
+	m_pgrid->addWidget(lb1,1,0);
+	m_pgrid->addMultiCellWidget(m_location,1,1,2,3);
+	m_pgrid->addWidget(m_pbChooseDir,1,5);
+	m_pgrid->setColSpacing(1,8);
+	m_pgrid->setColSpacing(4,8);
+	m_pgrid->setColStretch(3,1);
+
+	connect(m_pbChooseDir, SIGNAL(clicked()), this, SLOT(browseLocation()));
+
+	// second groupbox
+	QVGroupBox* group2= new QVGroupBox(i18n("File"), plainPage());
+	QWidget *widget2 = new QWidget(group2);
+	QGridLayout *grid2 = new QGridLayout(widget2, 3,2, 6,6);
+	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"),widget2);
 	m_cb->setChecked(true);
-	m_lb  = new QLabel(i18n("File&name (relative to where the project file is):"), plainPage());
-	m_file = new KLineEdit(plainPage());
+	m_lb  = new QLabel(i18n("File&name (relative to where the project file is):"),widget2);
+	m_file = new KLineEdit(widget2);
 	m_lb->setBuddy(m_file);
-	m_nfw = new NewFileWidget(plainPage());
+	m_nfw = new NewFileWidget(widget2);
 	QWhatsThis::add(m_cb, i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
-	layout->addMultiCellWidget(m_cb, 2,2, 0,3);
-	layout->addMultiCellWidget(m_lb, 3,3, 0,1);
-	layout->addMultiCellWidget(m_file, 3,3, 2,3);
-	layout->addMultiCellWidget(m_nfw, 4,4, 0,3);
+
+	grid2->addMultiCellWidget(m_cb, 0,0, 0,1);
+	grid2->addWidget(m_lb, 1,0);
+	grid2->addWidget(m_file, 1,1);
+	grid2->addMultiCellWidget(m_nfw, 2,2, 0,1);
+	grid2->setColStretch(1,1);
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
 
-	layout->addWidget(m_sel_extensions, 6,0);
-	layout->addMultiCellWidget(m_extensions, 6,6, 1,3);
-	layout->addMultiCellWidget(m_isregexp, 7,7, 1,3);
+	// third groupbox
+	m_egrid->addWidget(m_sel_extensions, 6,0);
+	m_egrid->addMultiCellWidget(m_extensions, 6,6, 1,3);
+	m_egrid->addMultiCellWidget(m_isregexp, 7,7, 1,3);
 
+	// add to layout
+	vbox->addWidget(m_pgroup);
+	vbox->addWidget(group2);
+	vbox->addWidget(m_egroup);
+	vbox->addStretch();
+	
 	fillProjectDefaults();
 }
 
@@ -409,26 +447,36 @@ TemplateItem* KileNewProjectDlg::getSelection() const
 KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *parent, const char * name) :
  	KileProjectDlgBase(i18n("Project Options"), parent, name )
 {
-	QGridLayout *layout = new QGridLayout(plainPage(), 5,4, 10);
+	// Layout
+	QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
 
-	QLabel *lb = new QLabel(i18n("Project &title:"), plainPage());
-	lb->setBuddy(m_title);
-	QWhatsThis::add(lb, whatsthisName);
-	layout->addWidget(lb, 0,0);
-	layout->addMultiCellWidget(m_title, 0,0, 1,3);
+	m_pgrid->addWidget(m_plabel, 0,0);
+	m_pgrid->addWidget(m_title, 0,2);
+//	m_pgrid->addWidget(labelEncoding, 1,0);
+//	m_pgrid->addWidget(m_lbEncoding, 1,2);
+	m_pgrid->setColSpacing(1,8);
+	m_pgrid->setColStretch(3,1);
+	// second groupbox
 
-	layout->addWidget(m_sel_extensions, 2,0);
-	layout->addMultiCellWidget(m_extensions, 2,2, 1,3);
-	layout->addMultiCellWidget(m_isregexp, 3,3, 1,3);
+	m_egrid->addWidget(m_sel_extensions, 6,0);
+	m_egrid->addMultiCellWidget(m_extensions, 6,6, 1,3);
+	m_egrid->addMultiCellWidget(m_isregexp, 7,7, 1,3);
 
-	m_master = new KComboBox(false, plainPage(), "master");
+	// third groupbox
+	QVGroupBox* group3 = new QVGroupBox(i18n("Properties"), plainPage());
+	group3->setColumnLayout(0, Qt::Vertical );
+	group3->layout()->setSpacing( 6 );
+	group3->layout()->setMargin( 11 );
+	QGridLayout *grid3 = new QGridLayout( group3->layout() );
+	grid3->setAlignment( Qt::AlignTop );
+
+	m_master = new KComboBox(false, group3, "master");
 	//m_master->setDisabled(true);
-	lb = new QLabel(i18n("&Master document:"), plainPage());
-	lb->setBuddy(m_master);
+	QLabel *lb1 = new QLabel(i18n("&Master document:"), group3);
+	lb1->setBuddy(m_master);
+	lb1->setMinimumWidth( m_sel_extensions->sizeHint().width() );
 	QWhatsThis::add(m_master, whatsthisMaster);
-	QWhatsThis::add(lb,whatsthisMaster);
-	layout->addWidget(lb, 4,0);
-	layout->addMultiCellWidget(m_master, 4,4, 1,3);
+	QWhatsThis::add(lb1,whatsthisMaster);
 
 	m_master->insertItem(i18n("(auto-detect)"));
 	QPtrListIterator<KileProjectItem> rit(*(project->rootItems()));
@@ -448,9 +496,9 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	if (project->masterDocument().isNull())
 		m_master->setCurrentItem(0);
 
-	lb = new QLabel(i18n("&QuickBuild configuration:"), plainPage()); layout->addWidget(lb, 5, 0);
-	m_cbQuick = new KComboBox(plainPage()); layout->addWidget(m_cbQuick, 5, 1);
-	lb->setBuddy(m_cbQuick);
+	QLabel *lb2 = new QLabel(i18n("&QuickBuild configuration:"), group3); 
+	m_cbQuick = new KComboBox(group3); 
+	lb2->setBuddy(m_cbQuick);
 	m_cbQuick->insertItem(tool_default);
 	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", kapp->config()));
 	m_cbQuick->setCurrentText(project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default );
@@ -458,11 +506,25 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 	//don't put this after the call to toggleMakeIndex
 	setProject(project, true);
 
-	m_ckMakeIndex = new QCheckBox(i18n("&MakeIndex options"), plainPage()); layout->addWidget(m_ckMakeIndex, 6, 0);
+	m_ckMakeIndex = new QCheckBox(i18n("&MakeIndex options"), group3); 
 	connect(m_ckMakeIndex, SIGNAL(toggled(bool)), this, SLOT(toggleMakeIndex(bool)));
-	m_leMakeIndex = new KLineEdit(plainPage()); layout->addMultiCellWidget(m_leMakeIndex, 6, 6, 1, 3);
+	m_leMakeIndex = new KLineEdit(group3); 
 	m_ckMakeIndex->setChecked(project->useMakeIndexOptions());
 	toggleMakeIndex(m_ckMakeIndex->isChecked());
+
+	grid3->addWidget(lb1,0,0);
+	grid3->addWidget(m_master,0,1);
+	grid3->addWidget(lb2,1,0);
+	grid3->addWidget(m_cbQuick,1,1);
+	grid3->addWidget(m_ckMakeIndex,2,0);
+	grid3->addMultiCellWidget(m_leMakeIndex,2,2,1,2);
+	grid3->setColStretch(2,1);
+
+	// add to layout
+	vbox->addWidget(m_pgroup);
+	vbox->addWidget(m_egroup);
+	vbox->addWidget(group3);
+	vbox->addStretch();
 }
 
 KileProjectOptionsDlg::~KileProjectOptionsDlg()

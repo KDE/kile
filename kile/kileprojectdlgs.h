@@ -17,8 +17,12 @@
 #define KILEPROJECTDLGS_H
 
 #include <qcheckbox.h>
+#include <qlayout.h>
+#include <qvgroupbox.h>
+
 #include <kdialogbase.h>
 #include <klineedit.h>
+#include <kpushbutton.h>
 
 #include "templates.h"
 
@@ -26,6 +30,7 @@ class NewFileWidget;
 class QLabel;
 class KileProject;
 class KComboBox;
+class QVGroupBox;
 
 class KileProjectDlgBase : public KDialogBase
 {
@@ -59,6 +64,10 @@ private slots:
 	void slotRegExpToggled(bool on);
 
 protected:
+	QVGroupBox *m_pgroup, *m_egroup;
+	QGridLayout	*m_pgrid, *m_egrid;
+	QLabel *m_plabel;
+
 	KLineEdit	*m_title, *m_extensions;
 	QCheckBox	*m_isregexp;
 	KileProject	*m_project;
@@ -98,6 +107,7 @@ private:
 	QCheckBox		*m_cb;
 	QLabel 			*m_lb;
 
+	KPushButton *m_pbChooseDir;
 	QString			m_dir, m_filename;
 };
 

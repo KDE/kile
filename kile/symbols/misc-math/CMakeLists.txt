@@ -96,6 +96,8 @@ SET( symbols
 	img092misc-math.png
 	img093misc-math.png
 	img094misc-math.png
+	img095misc-math.png
 )
 
 INSTALL( FILES ${symbols} DESTINATION share/apps/kile/mathsymbols/misc-math )
+

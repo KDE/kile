@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                               2005-2007  by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
+                         : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +19,7 @@
 #define KILEWIDGET_STRUCTURE_H
   
  /**
-  * @author Jeroen Wijnhout
+  * @author Jeroen Wijnhout, Holger Danielsson
   **/
 
 #include <qwidgetstack.h>
@@ -29,6 +31,10 @@
 #include <ktrader.h>
 
 #include "kiledocumentinfo.h"
+
+//2007-02-15: dani
+// - class KileListViewItem not only saves the cursor position of the parameter,
+//   but also the real cursor position of the command
 
 class QString;
 class KURL;
@@ -43,7 +49,7 @@ class QListViewItem;
 class KileListViewItem : public KListViewItem
 {
 public:
-	KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint m_column, int type, int level);
+	KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
 	KileListViewItem(QListView * parent, const QString & label);
 	KileListViewItem(QListViewItem * parent, const QString & label);
 
@@ -55,6 +61,8 @@ public:
 	const uint column() const { return m_column; }
 	/** @returns the type of element, see @ref KileStruct **/
 	const int type() const { return m_type; }
+	const uint startline() const { return m_startline; }
+	const uint startcol() const { return m_startcol; }
 	/**@returns the file in which this item was found*/
 	const KURL & url() const { return m_url; }
 	void setURL(const KURL & url) { m_url = url; }
@@ -66,12 +74,14 @@ public:
 	void setLabel(const QString &label) { m_label = label; }
 
 private:
-	QString		m_title;
-	KURL		m_url;
-	uint		m_line;
-	uint		m_column;
-	int			m_type, m_level;
-	QString m_label;
+	QString  m_title;
+	KURL     m_url;
+	uint     m_line;
+	uint     m_column;
+	int      m_type, m_level;
+	uint     m_startline;
+	uint     m_startcol;
+	QString  m_label;
 	
 	void setItemEntry();
 };
@@ -122,7 +132,8 @@ namespace KileWidget
 		KURL url() const { return m_docinfo->url(); }
 
 	public slots:
-		void addItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString &folder = "root");
+		void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
+		             const QString & pix, const QString &folder = "root" );
 		void slotConfigChanged();
 
 	private:
@@ -167,14 +178,20 @@ namespace KileWidget
 			int level();
 			KileInfo *info() { return m_ki; }
 
-			bool findSectioning(Kate::Document *doc, uint line, bool backwards, uint &sectline);
+			bool findSectioning(Kate::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol);
+
+		enum { SectioningCut=10, SectioningCopy=11, SectioningPaste=12, 
+		       SectioningSelect=13, SectioningDelete=14, 
+		       SectioningComment=15,
+		       SectioningPreview=16,
+		       SectioningGraphicsOther=100, SectioningGraphicsOfferlist=101
+		     };
 
 		public slots:
 			void slotClicked(QListViewItem *);
 			void slotDoubleClicked(QListViewItem *);
 			void slotPopup(KListView *, QListViewItem *itm, const QPoint &point);
-			void slotPopupLabel(int id);
-			void slotPopupRun(int id);
+			void slotPopupActivated(int id);
 
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
@@ -193,10 +210,15 @@ namespace KileWidget
 			void fileOpen(const KURL &, const QString &);
 			void fileNew(const KURL &);
 			void configChanged();
+			void sectioningPopup(KileListViewItem *item, int id);
 
 		private:
 			StructureList* viewFor(KileDocument::Info *info);
 			bool viewExistsFor(KileDocument::Info *info);
+
+			void slotPopupLabel(int id);
+			void slotPopupSectioning(int id);
+			void slotPopupGraphics(int id);
 
 		private:
 			KileInfo									*m_ki;

@@ -157,7 +157,8 @@ signals:
 	void urlChanged(const KURL& url);
 	void isrootChanged(bool);
 
-	void foundItem(const QString &title, uint line, uint column, int type, int level, const QString & pix, const QString & folder);
+	void foundItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
+	               const QString & pix, const QString & folder);
 	void doneUpdating();
 	void depChanged();
 

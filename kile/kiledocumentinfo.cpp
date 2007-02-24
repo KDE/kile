@@ -1,7 +1,7 @@
 /*********************************************************************************************
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                           (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
                            (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
@@ -44,6 +44,10 @@
 //2006-09-09 mludwig
 // - generalising the different document types
 
+//2007-02-15
+// - signal foundItem() not only sends the cursor position of the parameter,
+//   but also the real cursor position of the command
+ 
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -851,6 +855,7 @@ void LaTeXInfo::updateStruct()
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
+	uint tagStartLine = 0, tagStartCol = 0;	
 	BracketResult result;
 	QString m, s, shorthand;
 	bool foundBD = false; // found \begin { document }
@@ -909,7 +914,10 @@ void LaTeXInfo::updateStruct()
 				//if it is was a structure element, find the title (or label)
 				if (it != m_dictStructLevel.end())
 				{
-					tagLine=i+1; tagCol = tagEnd+1;
+					tagLine = i+1;
+					tagCol = tagEnd+1;
+					tagStartLine = tagLine;
+					tagStartCol = tagStart+1;
 					result = matchBracket(i, static_cast<uint&>(tagEnd));
 					m = result.value.stripWhiteSpace();
 					shorthand = result.option.stripWhiteSpace();
@@ -1013,7 +1021,7 @@ void LaTeXInfo::updateStruct()
 								nextbib +=4;
 							}
 							m_deps.append(biblio + ".bib");
-							emit(foundItem(biblio, tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
+							emit( foundItem(biblio, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
 							cumlen += biblio.length() + 1 + nextbib;
 						}
 						fire = false;
@@ -1037,7 +1045,7 @@ void LaTeXInfo::updateStruct()
 							if ( ! package.isEmpty() ) {
 								m_packages.append(package);
 								// hidden, so emit is useless
-								// emit(foundItem(package, tagLine, tagCol + cumlen, (*it).type, (*it).level, (*it).pix, (*it).folder));
+								// emit( foundItem(package, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
 								cumlen += package.length() + 1;
 							}
 						}
@@ -1083,7 +1091,7 @@ void LaTeXInfo::updateStruct()
 
 					//kdDebug() << "\t\temitting: " << m << endl;
 					if ( fire && !fireSuspended ) 
-						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, (*it).pix, (*it).folder) );
+						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
 				} //if m
 			} // if tagStart
 		} // while tagStart
@@ -1164,7 +1172,7 @@ void BibInfo::updateStruct()
 						key = key.stripWhiteSpace();
 						kdDebug() << "found: " << key << endl;
 						m_bibItems.append(key);
-						emit(foundItem(key, startline + 1, startcol, KileStruct::BibItem, 0, "viewbib", reItem.cap(2).lower()));
+						emit(foundItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).lower()) );
 						break;
 					}
 					else

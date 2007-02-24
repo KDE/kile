@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Sep 06 2006
-    version              : 0.32
-    copyright            : (C) 2005-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 15 2007
+    version              : 0.34
+    copyright            : (C) 2005-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -42,7 +42,7 @@ public:
 	bool isRunning();
 
 	void previewEnvironment(Kate::Document *doc);
-	void previewSelection(Kate::Document *doc);
+	void previewSelection(Kate::Document *doc, bool previewInWidgetConfig=true);
 	void previewSubdocument(Kate::Document *doc);
 	void previewMathgroup(Kate::Document *doc);
   

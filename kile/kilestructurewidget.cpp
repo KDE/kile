@@ -1,9 +1,9 @@
 /***************************************************************************
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
-                               2005 by Holger Danielsson
+                               2005-2007  by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
-                           holger.danielsson@t-online.de
+                           holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -37,6 +37,10 @@
 // 2005-12-16: dani
 //  - add listview item for undefined references
 
+//2007-02-15: dani
+// - class KileListViewItem gets two new members to 
+//   save the real cursor position of the command
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -60,9 +64,10 @@
 
 ////////////////////// KileListViewItem with all info //////////////////////
 
-KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level) : 
+KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
 	KListViewItem(parent,after),
-	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level)
+	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level),
+	m_startline(startline), m_startcol(startcol)
 {
 	setItemEntry();
 }
@@ -85,7 +90,11 @@ void KileListViewItem::setTitle(const QString &title)
 
 void KileListViewItem::setItemEntry()
 {
-	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
+//	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
+
+	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) 
+	+ ' ' + QString::number(m_startline) + '/' + QString::number(m_startcol)
+	+ ')');
 }
 
 ////////////////////// introduce a new ToolTip //////////////////////
@@ -156,7 +165,8 @@ namespace KileWidget
 			m_root->setURL(m_docinfo->url());
 			m_root->setOpen(true);
 			m_root->setPixmap(0, SmallIcon("contents"));
-			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, const QString &, const QString &)), this, SLOT(addItem(const QString&, uint, uint, int, int, const QString &, const QString &)));
+			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)), 
+			        this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
 // 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
 		}
 
@@ -345,7 +355,9 @@ namespace KileWidget
 		      when the mouse is over this item.  
 		*/
 		
-	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev, const QString & pix, const QString & fldr /* = "root" */)
+	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev,
+	                            uint startline, uint startcol, 
+	                            const QString & pix, const QString &fldr /* = "root" */)
 	{
 //  		kdDebug() << "\t\taddItem: " << title << ", with type " <<  type << endl;
 		if ( m_stop ) return;
@@ -412,7 +424,7 @@ namespace KileWidget
 		}
 		
 		// create a new item
-		KileListViewItem *newChild = new KileListViewItem(parentItem, lastChild, title, m_docinfo->url(), line, column, type, lev);
+		KileListViewItem *newChild = new KileListViewItem(parentItem, lastChild, title, m_docinfo->url(), line, column, type, lev, startline, startcol);
 		if ( ! pix.isNull() ) 
 			newChild->setPixmap(0,SmallIcon(pix));
 		//m_stop = true;
@@ -476,7 +488,7 @@ namespace KileWidget
 			{ 
 				KileListViewItem *refitem = folder("refs");
 				refitem->setOpen(m_openStructureReferences);
-				new KileListViewItem(refitem,0L,(*it).name(),m_docinfo->url(),(*it).line(),(*it).column(),KileStruct::Reference,KileStruct::NotSpecified);
+				new KileListViewItem(refitem,0L,(*it).name(),m_docinfo->url(),(*it).line(),(*it).column(),KileStruct::Reference,KileStruct::NotSpecified, 0,0 );
 			}
 		}
 	}
@@ -593,37 +605,41 @@ namespace KileWidget
 		}
 	}
 
+	// all popup items get different id's, so that we can see, what item is activated
+	//  - label:       1 -  6
+	//  - sectioning: 10 - 16
+	//  - graphics:   100ff
+
 	void Structure::slotPopup(KListView *, QListViewItem *itm, const QPoint &point)
 	{
 		kdDebug() << "\tStructure::slotPopup" << endl;
 		
-		KileListViewItem *item = (KileListViewItem *)(itm);
-		if ( ! item )
+		m_popupItem = (KileListViewItem *)(itm);
+		if ( ! m_popupItem )
 			return;
 			
 		m_popup->clear();
 		m_popup->disconnect();
 		
-		m_popupItem = item;
-		
-		if ( ! item->label().isEmpty() )
+		bool hasLabel = ! m_popupItem->label().isEmpty();
+		if ( m_popupItem->type() == KileStruct::Sect )
 		{
-			m_popup->insertTitle(i18n("Insert Label"));
-			m_popup->insertItem(i18n("As &reference"),1);
-			m_popup->insertItem(i18n("As &page reference"),2);
-			m_popup->insertItem(i18n("Only the &label"),3);
+			if ( hasLabel )
+				m_popup->insertTitle(i18n("Sectioning"));
+			m_popup->insertItem(i18n("Cu&t"),SectioningCut);
+			m_popup->insertItem(i18n("&Copy"),SectioningCopy);
+			m_popup->insertItem(i18n("&Paste below"),SectioningPaste);
 			m_popup->insertSeparator();
-			m_popup->insertTitle(i18n("Copy Label to Clipboard"));
-			m_popup->insertItem(i18n("As reference"),4);
-			m_popup->insertItem(i18n("As page reference"),5);
-			m_popup->insertItem(i18n("Only the label"),6);
-			
-			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotPopupLabel(int)));
-			m_popup->exec(point);
+			m_popup->insertItem(i18n("&Select"),SectioningSelect);
+			m_popup->insertItem(i18n("&Delete"),SectioningDelete);
+			m_popup->insertSeparator();
+			m_popup->insertItem(i18n("C&omment"),SectioningComment);
+			m_popup->insertSeparator();
+			m_popup->insertItem(i18n("Run QuickPreview"), SectioningPreview);
 		}
-		else if ( item->type() == KileStruct::Graphics )
+		else if ( m_popupItem->type() == KileStruct::Graphics )
 		{
-			m_popupInfo = item->title();
+			m_popupInfo = m_popupItem->title();
 						
 			if(m_popupInfo.left(1) != "/") // no absolute path
 			{
@@ -639,46 +655,81 @@ namespace KileWidget
 				
 				m_offerList = KTrader::self()->query(KMimeType::findByURL(url)->name(), "Type == 'Application'");
 				for (uint i=0; i < m_offerList.count(); ++i)
-					m_popup->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
+				{
+					m_popup->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+SectioningGraphicsOfferlist);
+				}
 				m_popup->insertSeparator();
-				m_popup->insertItem(i18n("Other..."), 0);
-				
-				connect(m_popup, SIGNAL(activated(int)), this, SLOT(slotPopupRun(int)));
-				m_popup->exec(point);
+				m_popup->insertItem(i18n("Other..."), SectioningGraphicsOther);
 			}
+		}
+		
+		if ( hasLabel)
+		{
+			m_popup->insertTitle(i18n("Insert Label"));
+			m_popup->insertItem(i18n("As &reference"),1);
+			m_popup->insertItem(i18n("As &page reference"),2);
+			m_popup->insertItem(i18n("Only the &label"),3);
+			m_popup->insertSeparator();
+			m_popup->insertTitle(i18n("Copy Label to Clipboard"));
+			m_popup->insertItem(i18n("As reference"),4);
+			m_popup->insertItem(i18n("As page reference"),5);
+			m_popup->insertItem(i18n("Only the label"),6);
+		}
+
+		if ( m_popup->count() > 0 )
+		{
+			connect(m_popup,SIGNAL(activated(int)),this,SLOT(slotPopupActivated(int)));
+			m_popup->exec(point);
 		}
 	}
 
-	void Structure::slotPopupLabel(int id)
+	void Structure::slotPopupActivated(int id)
 	{
-		kdDebug() << "\tStructure::slotPopupLabel" << endl;
-		
 		if ( id>=1 && id<=6 )
-		{
-			QString s = m_popupItem->label();    
-			if ( id==1 || id==4 )
-				s = "\\ref{" + s + '}';
-			else if ( id==2 || id==5 )
-				s = "\\pageref{" + s + '}';
-				
-			if ( id <= 3 )
-				emit( sendText(s) );
-			else
-				QApplication::clipboard()->setText(s);
- 		}
+			slotPopupLabel(id);
+		else if ( id>=SectioningCut && id<=SectioningPreview )
+			slotPopupSectioning(id);
+		else if ( id>=SectioningGraphicsOther && id<=SectioningGraphicsOfferlist+(int)m_offerList.count() )
+			slotPopupGraphics(id);
 	}
 
-	void Structure::slotPopupRun(int id)
+	// id's 1..6 (already checked)
+	void Structure::slotPopupLabel(int id)
 	{
-		kdDebug() << "\tStructure::slotPopupRun" << endl;
+		kdDebug() << "\tStructure::slotPopupLabel (" << id << ")"<< endl;
 		
+		QString s = m_popupItem->label();    
+		if ( id==1 || id==4 )
+			s = "\\ref{" + s + '}';
+		else if ( id==2 || id==5 )
+			s = "\\pageref{" + s + '}';
+			
+		if ( id <= 3 )
+			emit( sendText(s) );
+		else
+			QApplication::clipboard()->setText(s);
+ 	}
+
+	// id's 10..16 (already checked)
+	void Structure::slotPopupSectioning(int id)
+	{
+		kdDebug() << "\tStructure::slotPopupSectioning (" << id << ")"<< endl;
+		if ( m_popupItem->level()>=1 && m_popupItem->level()<=7 )
+			emit( sectioningPopup(m_popupItem,id) );
+	}
+
+	// id's 100ff (already checked)
+	void Structure::slotPopupGraphics(int id)
+	{
+		kdDebug() << "\tStructure::slotPopupGraphics (" << id << ")"<< endl;
+
 		KURL url;
 		url.setPath(m_popupInfo);
 		
-		if (id == 0)
+		if ( id == SectioningGraphicsOther )
 			KRun::displayOpenWithDialog(url);
 		else
-			KRun::run(*m_offerList[id-1],url);
+			KRun::run(*m_offerList[id-SectioningGraphicsOfferlist],url);
 	}
 
 	StructureList* Structure::viewFor(KileDocument::Info *info)
@@ -778,43 +829,49 @@ namespace KileWidget
 
 	////////////////////// Structure: find sectioning //////////////////////
 
-	bool Structure::findSectioning(Kate::Document *doc, uint line, bool backwards, uint &sectline)
+	bool Structure::findSectioning(Kate::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol)
 	{
-		kdDebug() << "------------------> nextSectioning" << endl;
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(doc);
 		if ( ! docinfo )
 			return false;
 
-		StructureList *structurelist = viewFor(docinfo);
-		sectline = (backwards ) ? 0 : doc->numLines()+1;
-
 		bool found = false;
+		uint foundRow,foundCol;
+		StructureList *structurelist = viewFor(docinfo);
 		QListViewItemIterator it( structurelist );
 		while ( it.current() ) 
 		{
 			KileListViewItem *item = (KileListViewItem *)(it.current());
 			if  ( item->type() == KileStruct::Sect )
 			{
-				uint foundline = item->line() - 1;
-				if ( backwards && foundline<line && foundline>=sectline )
+				foundRow = item->startline() - 1;
+				foundCol = item->startcol() - 1;
+				if ( backwards )
 				{
-					sectline = foundline;
-					found = true;
+					if ( foundRow<row || (foundRow==row &&foundCol<col) )
+					{
+						sectRow = foundRow;
+						sectCol = foundCol;
+						found = true;
+					}
+					else
+					{
+						return found;
+					}
+					
 				}
-				else if ( !backwards && foundline>line && foundline<sectline )
+				else if ( !backwards && (foundRow>row || (foundRow==row &&foundCol>col)) )
 				{
-					sectline = foundline;
-					found = true;
+					sectRow = foundRow;
+					sectCol = foundCol;
+					return true;
 				}
 			}
 			++it;
 		}
 
-		if ( backwards )
-			return ( found && sectline<line );
-		else
-			return ( found && sectline>line );
-}
+		return found;
+	}
 
 }
 

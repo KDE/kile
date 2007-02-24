@@ -1,7 +1,6 @@
 /***************************************************************************
-    date                 : Feb 16 2007
-    version              : 0.43
-    copyright            : (C) 2004-2007 by Holger Danielsson
+    date                 : Feb 20 2007
+    version              : 0.45
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
@@ -25,6 +24,7 @@
 
 #include <kate/document.h>
 
+#include "kilestructurewidget.h"
 #include "codecompletion.h"
 #include "latexcmd.h"         
 
@@ -125,6 +125,7 @@ public slots:
 
 	void gotoNextSectioning();
 	void gotoPrevSectioning();
+	void sectioningCommand(KileListViewItem *item, int id);
 
 	bool insertDoubleQuotes();
 	void initDoubleQuotes();
@@ -213,8 +214,9 @@ private:
 	// find current paragraph
 	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
 
-	// goto sectioning command
+	// sectioning commands
 	void gotoSectioning(bool backwards, Kate::View *view = 0L);
+	bool findEndOfDocument(Kate::Document *doc, uint row,uint col, uint &rowFound, uint &colFound);
 
 	// check environment type
 	KileDocument::LatexCommands *m_latexCommands;	

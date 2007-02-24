@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 18 2007
-    version              : 0.44
+    date                 : Feb 20 2007
+    version              : 0.45
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -16,6 +16,7 @@
 
 #include <qfileinfo.h>
 #include <qvaluestack.h>
+#include <qclipboard.h>
 
 #include <kate/view.h>
 #include <kate/document.h>
@@ -23,14 +24,17 @@
 #include <ktexteditor/editinterfaceext.h>
 #include <klocale.h>
 #include <kinputdialog.h>
+#include <kstandarddirs.h>
 
-#include "kilestructurewidget.h"
 #include "kilekonsolewidget.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
 #include "kileactions.h"
 
+#include "kiletool_enums.h"
+#include "kilelogwidget.h"
+#include "quickpreview.h"
 #include "kileedit.h"
 
 namespace KileDocument
@@ -2576,14 +2580,128 @@ void EditorExtension::gotoSectioning(bool backwards, Kate::View *view)
 	view = determineView(view);
 	if ( !view ) return;
 
-	uint sectline;
+	uint rowFound,colFound;
 	m_ki->viewManager()->updateStructure(true);
-	if ( m_ki->structureWidget()->findSectioning(view->getDoc(),view->cursorLine(),backwards,sectline) )
-		view->setCursorPositionReal(sectline,0);
-	return;
+	if ( m_ki->structureWidget()->findSectioning(view->getDoc(),view->cursorLine(),view->cursorColumn(),
+	                                             backwards,rowFound,colFound) )
+	{
+		view->setCursorPositionReal(rowFound,colFound);
+	}
+}
+
+//////////////////// sectioning popup ////////////////////
+
+void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
+{
+	Kate::View *view = determineView(0L);
+	if ( !view ) return;
+
+	if ( ! item ) 
+		return;
+	Kate::Document *doc = view->getDoc();
+
+	// try to determine the whole secting
+	// get the start auf the selected sectioning
+	uint row,col,row1,col1,row2,col2;
+	row = row1 = item->startline() - 1;
+	col = col1 = item->startcol() - 1;
+
+	// check, if the document was changed in the meantime 
+	QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
+	QString textline = getTextLineReal(doc,row1);
+	if ( reg.search(textline,col1) != (int)col1 )
+	{
+		m_ki->logWidget()->clear();
+		m_ki->logWidget()->printMsg(KileTool::Error,
+		       i18n("The document was modified and the structure view should be updated, before starting such an operation."), 
+		       i18n("Structure View Error") );
+		return;
+	}
+
+	// increase cursor position and find the following sectioning command
+	if ( ! increaseCursorPosition(doc,row,col) )
+		return;
+	if ( ! m_ki->structureWidget()->findSectioning(doc,row,col,false,row2,col2) )
+	{
+		// or the end of the document
+		// if there is a '\end{document} command, we have to exclude it
+		if ( ! findEndOfDocument(doc,row,col,row2,col2) )
+		{
+			row2 = doc->numLines() - 1;
+			col2 = 0;
+		}
+	}
+
+	// clear selection and make cursor position visible
+	doc->clearSelection();
+ 	view->setCursorPositionReal(row1,col1);
+
+	QString text;
+	KTextEditor::EditInterfaceExt *iface = KTextEditor::editInterfaceExt( doc );
+	if ( iface ) iface->editBegin();
+	switch ( id )
+	{
+		case KileWidget::Structure::SectioningCut:
+			QApplication::clipboard()->setText( doc->text(row1,col1,row2,col2) );  // copy -> clipboard
+			doc->removeText(row1,col1,row2,col2);                                  // delete
+			break;
+		case KileWidget::Structure::SectioningCopy:
+			QApplication::clipboard()->setText( doc->text(row1,col1,row2,col2) );  // copy -> clipboard
+			break;
+		case KileWidget::Structure::SectioningPaste: 
+			text = QApplication::clipboard()->text();                              // clipboard -> text
+			if ( ! text.isEmpty() )
+			{
+				view->setCursorPositionReal(row2,col2);                             // insert
+				view->insertText(text + "\n");
+			}
+			break;
+		case KileWidget::Structure::SectioningSelect:
+			doc->setSelection(row1,col1,row2,col2);                                // select
+			break;
+		case KileWidget::Structure::SectioningDelete:
+			doc->removeText(row1,col1,row2,col2);                                  // delete
+			break;
+		case KileWidget::Structure::SectioningComment:
+			doc->setSelection(row1,col1,row2,col2);
+			view->comment();
+			doc->clearSelection();
+			break;
+		case KileWidget::Structure::SectioningPreview: 
+			doc->setSelection(row1,col1,row2,col2);                               // quick preview
+			m_ki->quickPreview()->previewSelection(doc,false);
+			doc->clearSelection();
+			break;
+	}
+	if ( iface ) iface->editEnd();
+
+	// update structure view, because it has changed
+	if ( id==KileWidget::Structure::SectioningDelete || id==KileWidget::Structure::SectioningComment )
+		m_ki->viewManager()->updateStructure(true);
 
 }
 
+bool EditorExtension::findEndOfDocument(Kate::Document *doc, uint row, uint col, uint &rowFound, uint &colFound)
+{
+	KTextEditor::SearchInterface *iface;
+	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);	
+
+	uint lenFound;
+	QString textline;
+	while ( iface->searchText(row,col,"\\end{document}",&rowFound,&colFound,&lenFound) )
+	{
+		textline = getTextLineReal(doc,rowFound);
+		if ( textline.find("\\end{document}",colFound) == (int)colFound )
+			return true;
+
+		row = rowFound;
+		col = colFound;
+		if ( ! increaseCursorPosition(doc,row,col) )
+			break;
+	}
+
+	return false;
+}
 
 }
 

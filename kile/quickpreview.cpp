@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Sep 13 2006
-    version              : 0.33
-    copyright            : (C) 2005-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 15 2007
+    version              : 0.34
+    copyright            : (C) 2005-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -57,11 +57,11 @@ QuickPreview::~QuickPreview()
 
 // compile and view current selection (singlemode and mastermode)
 
-void QuickPreview::previewSelection(Kate::Document *doc)
+void QuickPreview::previewSelection(Kate::Document *doc, bool previewInWidgetConfig)
 {
 	if ( doc->hasSelection() ) 
 	{
-		if ( KileConfig::selPreviewInWidget() )
+		if ( previewInWidgetConfig && KileConfig::selPreviewInWidget() )
 		{
 			m_ki->previewWidget()->showActivePreview( doc->selection(),m_ki->getName(doc),doc->selStartLine(),KileTool::qpSelection );
 		}

@@ -84,6 +84,9 @@ public:
 	uint columnNumber() { return m_nColumn; }
 	void setColumnNumber(uint l) { m_nColumn = l; }
 
+	int order() const { return m_order; }
+	void setOrder(int i);
+
 	//project tree functions
 	void setParent(KileProjectItem * item);
 
@@ -121,6 +124,7 @@ private:
 	KileDocument::TextInfo	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
 	uint			m_nLine, m_nColumn;
+	int			m_order;
 };
 
 class  KileProjectItemList : public QPtrList<KileProjectItem>

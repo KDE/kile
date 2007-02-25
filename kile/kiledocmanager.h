@@ -93,8 +93,16 @@ public slots:
 //projects
 	void projectNew();
 	KileProject* projectOpen();
-	KileProject* projectOpen(const KURL&, int = 0, int = 1);
-	void projectOpenItem(KileProjectItem *item);
+	
+	/**
+	 * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.
+	 **/
+	KileProject* projectOpen(const KURL&, int = 0, int = 1, bool openProjectItemViews = true);
+
+	/**
+	 * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.
+	 **/
+	void projectOpenItem(KileProjectItem *item, bool openProjectItemViews = true);
 
 	/**
 	 * Saves the state of the project, if @param project is zero, the active project is saved.
@@ -217,7 +225,7 @@ protected:
 	Kate::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString::null, const KURL& baseDirectory = KURL());
 
 	Kate::View* loadText(KileDocument::Type type, const QString& name, const KURL &url, const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1, const KURL& baseDirectory = KURL());
-	Kate::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null);
+	Kate::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
 
 private:
 	QPtrList<TextInfo>				m_textInfoList;

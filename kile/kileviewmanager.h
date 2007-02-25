@@ -62,6 +62,9 @@ public:
 	Kate::View* currentTextView() const;
 	QPtrList<Kate::View>& textViews() {return m_textViewList;}
 	Kate::View* textView(int i) { return m_textViewList.at(i); }
+	Kate::View* textView(Kate::Document *doc);
+	int getIndexOf(Kate::View* view) const;
+	unsigned int getTabCount() const;
 
 	void createTabs(QWidget *);
 	Kate::View* createTextView(KileDocument::TextInfo *info, int index = -1);

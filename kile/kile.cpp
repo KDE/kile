@@ -1,8 +1,8 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                :  Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -745,7 +745,8 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i)
 	{
 		fi.setFile(m_listProjectsOpenOnStart[i]);
-		if (fi.isReadable()) docManager()->projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count());
+		// don't open project files as they will be opened later in this method 
+		if (fi.isReadable()) docManager()->projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i)
@@ -990,6 +991,11 @@ bool Kile::queryClose()
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
+	for (uint i=0; i < viewManager()->textViews().count(); ++i)
+	{
+		m_listDocsOpenOnStart.append(viewManager()->textView(i)->getDoc()->url().path());
+	}
+
 	kdDebug() << "#projects = " << docManager()->projects()->count() << endl;
 	for (uint i=0; i < docManager()->projects()->count(); ++i)
 	{
@@ -1001,11 +1007,7 @@ bool Kile::queryClose()
 
 	if (stage1)
 	{
-		for (uint i=0; i < viewManager()->textViews().count(); ++i)
-		{
-			m_listDocsOpenOnStart.append(viewManager()->textView(i)->getDoc()->url().path());
-		}
-		stage2 =docManager()->fileCloseAll();
+		stage2 = docManager()->fileCloseAll();
 	}
 
 	return stage1 && stage2;

@@ -5,7 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006, 2007
 //
 
 /***************************************************************************
@@ -484,7 +484,7 @@ Kate::Document* Manager::createDocument(const QString& name, const KURL& url, Te
 	return doc;
 }
 
-Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text)
+Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text, bool openProjectItemViews)
 {
 	Kate::View *view = 0L;
 
@@ -492,7 +492,7 @@ Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, co
 
 	if ( item->type() != KileProjectItem::Image )
 	{
-		view = loadText(type, QString::null, item->url(), item->encoding(), item->isOpen(), item->highlight(), text);
+		view = loadText(type, QString::null, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->highlight(), text);
 		kdDebug() << "\tloadItem: docfor = " << docFor(item->url().path()) << endl;
 
 		TextInfo *docinfo = textInfoFor(item->url().path());
@@ -1196,7 +1196,7 @@ void Manager::removeFromProject(const KileProjectItem *item)
 	}
 }
 
-void Manager::projectOpenItem(KileProjectItem *item)
+void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 {
 	kdDebug() << "==Kile::projectOpenItem==========================" << endl;
 	kdDebug() << "\titem:" << item->url().path() << endl;
@@ -1204,7 +1204,7 @@ void Manager::projectOpenItem(KileProjectItem *item)
 	if (m_ki->isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
 		emit removeFromProjectView(item->url());
 
-	Kate::View *view = loadItem(determineFileType(item->url()), item);
+	Kate::View *view = loadItem(determineFileType(item->url()), item, QString::null, openProjectItemViews);
 
 	if ( (!item->isOpen()) && (view == 0L) && (item->getInfo()) ) //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());
@@ -1216,7 +1216,7 @@ void Manager::projectOpenItem(KileProjectItem *item)
 		item->setOpenState(true);
 }
 
-KileProject* Manager::projectOpen(const KURL & url, int step, int max)
+KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool openProjectItemViews)
 {
 	kdDebug() << "==Kile::projectOpen==========================" << endl;
 	kdDebug() << "\tfilename: " << url.fileName() << endl;
@@ -1262,11 +1262,43 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max)
 	project_steps *= step;
 	m_kpd->progressBar()->setValue(project_steps);
 
-	for ( uint i=0; i < list->count(); ++i)
+	// open the project files in the correct order
+	QValueVector<KileProjectItem*> givenPositionVector(list->count(), NULL);
+	QValueList<KileProjectItem*> notCorrectlyOrderedList;
+	for(KileProjectItem *item = list->first(); item; item = list->next())
 	{
-		projectOpenItem(list->at(i));
-		m_kpd->progressBar()->setValue(i + project_steps);
+		int order = item->order();
+		if(!item->isOpen() || order < 0 || givenPositionVector[order] != NULL)
+		{
+			notCorrectlyOrderedList.push_back(item);
+		}
+		else
+		{
+			givenPositionVector[order] = item;
+		}
+	}
+
+	QValueList<KileProjectItem*> orderedList;
+	for(unsigned int i = 0; i < givenPositionVector.size(); ++i)
+	{
+		KileProjectItem *item = givenPositionVector[i];
+		if(item)
+		{
+			orderedList.push_back(item);
+		}
+	}
+	for(QValueList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i)
+	{
+		orderedList.push_back(*i);
+	}
+
+	unsigned int counter = 0;
+	for (QValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i)
+	{
+		projectOpenItem(*i, openProjectItemViews);
+		m_kpd->progressBar()->setValue(counter + project_steps);
 		kapp->processEvents();
+		++counter;
 	}
 
 	kp->buildProjectTree();
@@ -1322,15 +1354,47 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 	if (project)
 	{
 		KileProjectItemList *list = project->items();
-		Kate::Document *doc = 0L;
+		Kate::Document *doc = NULL;
+		KileProjectItem *item = NULL;
+		TextInfo *docinfo = NULL;
 
-		KileProjectItem *item = 0L;
-		TextInfo *docinfo = 0L;
-		//update the open-state of the items
-		for (uint i=0; i < list->count(); ++i)
+		// determine the order in which the project items are opened
+		QValueVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
+		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i)
 		{
-			item = list->at(i);
-			kdDebug() << "\tsetOpenState(" << item->url().path() << ") to " << m_ki->isOpen(item->url()) << endl;
+			docinfo = (*i)->getInfo();
+			if(docinfo)
+			{
+				doc = docinfo->getDoc();
+				if(doc)
+				{
+					Kate::View *view = m_ki->viewManager()->textView(doc);
+					if(view)
+					{
+						int position = m_ki->viewManager()->getIndexOf(view);
+						if(position >= 0 && position < viewPositionVector.size())
+						{
+							viewPositionVector[position] = *i;
+						}
+					}
+				}
+			}
+		}
+		int position = 0;
+		for(unsigned int i = 0; i < viewPositionVector.size(); ++i)
+		{
+			if(viewPositionVector[i] != NULL)
+			{
+				viewPositionVector[i]->setOrder(position);
+				++position;
+			}
+		}
+
+		//update the open-state of the items
+		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i)
+		{
+			item = *i;
+			kdDebug() << "\tsetOpenState(" << (*i)->url().path() << ") to " << m_ki->isOpen(item->url()) << endl;
 			item->setOpenState(m_ki->isOpen(item->url()));
 			docinfo = item->getInfo();
 

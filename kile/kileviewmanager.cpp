@@ -5,7 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006, 2007
 
 /***************************************************************************
  *                                                                         *
@@ -219,6 +219,27 @@ Kate::View *Manager::currentTextView() const
 	}
 
 	return 0;
+}
+
+Kate::View* Manager::textView(Kate::Document *doc)
+{
+	for(Kate::View *view = m_textViewList.first(); view; view = m_textViewList.next())
+	{
+		if(view->getDoc() == doc)
+		{
+			return view;
+		}
+	}
+	return NULL;
+}
+
+int Manager::getIndexOf(Kate::View* view) const
+{
+	return m_tabs->indexOf(view);
+}
+
+unsigned int Manager::getTabCount() const {
+	return m_tabs->count();
 }
 
 Kate::View* Manager::switchToTextView(const KURL & url)

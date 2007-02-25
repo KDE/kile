@@ -1372,7 +1372,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 					if(view)
 					{
 						int position = m_ki->viewManager()->getIndexOf(view);
-						if(position >= 0 && position < viewPositionVector.size())
+						if(position >= 0 && static_cast<unsigned int>(position) < viewPositionVector.size())
 						{
 							viewPositionVector[position] = *i;
 						}

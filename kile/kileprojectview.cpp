@@ -72,6 +72,11 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 	}
 }
 
+void KileProjectViewItem::slotURLChanged(KileDocument::Info*, const KURL & url)
+{
+	urlChanged(url);
+}
+
 int KileProjectViewItem::compare(QListViewItem * i, int col, bool ascending) const
 {
 	KileProjectViewItem *item = dynamic_cast<KileProjectViewItem*>(i);
@@ -317,7 +322,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().path());
 		item->setInfo(docinfo);
 		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
-		connect(docinfo, SIGNAL(urlChanged(const KURL&)),  item, SLOT(urlChanged(const KURL&)));
+		connect(docinfo, SIGNAL(urlChanged(KileDocument::Info*, const KURL&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KURL&)));
 		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
 		item->isrootChanged(docinfo->isLaTeXRoot());

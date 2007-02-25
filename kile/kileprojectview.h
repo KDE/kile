@@ -80,6 +80,13 @@ public slots:
 	void nameChanged(const QString & name);
 	void isrootChanged(bool isroot);
 
+private slots:
+	/**
+	 * Dummy slot, simply forwarding to urlChanged(const KURL& url).
+	 **/
+	void slotURLChanged(KileDocument::Info*, const KURL & url);
+
+
 private:
 	KURL	m_url;
 	KileType::ProjectView	m_type;

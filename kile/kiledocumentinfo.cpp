@@ -677,7 +677,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char *name)
 
 void TextInfo::slotFileNameChanged()
 {
-	emit urlChanged(url());
+	emit urlChanged(this, url());
 }
 
 void TextInfo::installEventFilters(KTextEditor::View* /* view */) 

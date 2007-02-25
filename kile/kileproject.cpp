@@ -120,7 +120,7 @@ void KileProjectItem::setInfo(KileDocument::TextInfo *docinfo)
 	m_docinfo = docinfo;
 	if(docinfo)
 	{
-	connect(docinfo,SIGNAL(urlChanged(const KURL &)), this, SLOT(changeURL(const KURL &)));
+	connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*, const KURL &)), this, SLOT(slotChangeURL(KileDocument::Info*, const KURL &)));
 	connect(docinfo,SIGNAL(depChanged()), m_project, SLOT(buildProjectTree()));
 	}
 }
@@ -133,6 +133,11 @@ void KileProjectItem::changeURL(const KURL &url)
 		m_url = url;
 		emit(urlChanged(this));
 	}
+}
+
+void KileProjectItem::slotChangeURL(KileDocument::Info*, const KURL &url)
+{
+	changeURL(url);
 }
 
 /*

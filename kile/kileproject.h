@@ -110,6 +110,9 @@ public slots:
 	void changeURL(const KURL &url);
 	void changePath(const QString& path) { m_path = path;}
 
+private slots:
+	void slotChangeURL(KileDocument::Info* info, const KURL& url);
+
 signals:
 	void urlChanged(KileProjectItem*);
 

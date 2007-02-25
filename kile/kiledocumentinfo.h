@@ -154,7 +154,7 @@ public slots:
 	virtual void updateBibItems();
 
 signals:
-	void urlChanged(const KURL& url);
+	void urlChanged(KileDocument::Info* info, const KURL& url);
 	void isrootChanged(bool);
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,

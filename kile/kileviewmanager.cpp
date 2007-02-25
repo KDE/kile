@@ -138,6 +138,7 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
+	connect(info, SIGNAL(urlChanged(KileDocument::Info*, const KURL&)), this, SLOT(urlChanged(KileDocument::Info*, const KURL&)));
 
 	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
 	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
@@ -221,8 +222,13 @@ Kate::View *Manager::currentTextView() const
 	return 0;
 }
 
-Kate::View* Manager::textView(Kate::Document *doc)
+Kate::View* Manager::textView(KileDocument::TextInfo *info)
 {
+	Kate::Document *doc = info->getDoc();
+	if(!doc)
+	{
+		return NULL;
+	}
 	for(Kate::View *view = m_textViewList.first(); view; view = m_textViewList.next())
 	{
 		if(view->getDoc() == doc)
@@ -499,6 +505,20 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 		else {
 			m_ki->docManager()->fileOpen(*i);
 		}
+	}
+}
+
+void Manager::urlChanged(KileDocument::Info* info, const KURL& url)
+{
+	KileDocument::TextInfo *textInfo = dynamic_cast<KileDocument::TextInfo*>(info);
+	if(textInfo)
+	{
+		Kate::View *view = textView(textInfo);
+		if(!view)
+		{
+			return;
+		}
+		setTabLabel(view, m_ki->getShortName(textInfo->getDoc()));
 	}
 }
 

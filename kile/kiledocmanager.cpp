@@ -916,6 +916,7 @@ void Manager::fileSaveAs()
 		{
 			recreateTextDocumentInfo(info);
 		}
+		emit addToRecentFiles(saveURL);
 		emit addToProjectView(doc->url());
 	}
 }
@@ -1365,17 +1366,13 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 			docinfo = (*i)->getInfo();
 			if(docinfo)
 			{
-				doc = docinfo->getDoc();
-				if(doc)
+				Kate::View *view = m_ki->viewManager()->textView(docinfo);
+				if(view)
 				{
-					Kate::View *view = m_ki->viewManager()->textView(doc);
-					if(view)
+					int position = m_ki->viewManager()->getIndexOf(view);
+					if(position >= 0 && static_cast<unsigned int>(position) < viewPositionVector.size())
 					{
-						int position = m_ki->viewManager()->getIndexOf(view);
-						if(position >= 0 && static_cast<unsigned int>(position) < viewPositionVector.size())
-						{
-							viewPositionVector[position] = *i;
-						}
+						viewPositionVector[position] = *i;
 					}
 				}
 			}

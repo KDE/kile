@@ -62,7 +62,7 @@ public:
 	Kate::View* currentTextView() const;
 	QPtrList<Kate::View>& textViews() {return m_textViewList;}
 	Kate::View* textView(int i) { return m_textViewList.at(i); }
-	Kate::View* textView(Kate::Document *doc);
+	Kate::View* textView(KileDocument::TextInfo *info);
 	int getIndexOf(Kate::View* view) const;
 	unsigned int getTabCount() const;
 
@@ -99,6 +99,11 @@ public slots:
 protected slots:
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
 	void replaceLoadedURL(QWidget *w, QDropEvent *e);
+
+	/**
+	 * 
+	 **/
+	void urlChanged(KileDocument::Info* info, const KURL& url);
 
 signals:
 	void activateView(QWidget *, bool);

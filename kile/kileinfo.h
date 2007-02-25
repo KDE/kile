@@ -58,7 +58,6 @@ public:
 	virtual ~KileInfo();
 
 public:
-	QString getLocalPath(Kate::Document *doc = 0, bool shrt = false);
 	QString getName(Kate::Document *doc = 0, bool shrt = false);
 	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);

@@ -9,7 +9,7 @@ to fix:
 to inspect:
 	- #138282 Remove dependencies on tetex documentation !? [danielsson FIXED]
 regressions [from 1.9.x]:
-	- global master docs are sometimes not working [tbraun] 
+	- global master docs are sometimes not working [tbraun FIXED] 
 	- save as does not change the filename in the editor tab [mludwig FIXED]
 	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working)
 features:

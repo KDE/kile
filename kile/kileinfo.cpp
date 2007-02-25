@@ -64,43 +64,23 @@ Kate::Document * KileInfo::activeTextDocument() const
 
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
-	QString title;
-	if (doc == 0)
+	kdDebug() << "===KileInfo::getName(Kate::Document *doc, bool " << shrt << ")===" << endl;
+	QString title=QString::null;
+	
+	if (!doc)
 		doc = activeTextDocument();
-
 	if (doc)
 	{
-		kdDebug() << "getName: url " << doc->url().path() << " name " << doc->docName() << endl;
-		title = shrt ? (doc->url()).fileName() : (doc->url()).prettyURL();
-	        if ( title.isEmpty() )
-		{
-			return doc->docName(); 
-		}
+		kdDebug() << "url " << doc->url().path() << endl;
+		title = shrt ? doc->url().fileName() : doc->url().path();
+               //work around for bug in KatePart, use docName and not url
+               //reloading the file after is it changed on disc by another application
+               //cause the URL to be empty for a short while
+		if ( title.isEmpty() )
+			title = shrt ? QFileInfo(doc->docName()).fileName() : doc->docName();
 	}
-	else
-		title=QString::null;
 
 	return title;
-}
-
-QString KileInfo::getLocalPath(Kate::Document *doc, bool shrt)
-{
-	QString toReturn;
-	if(doc == 0)
-	{
-		doc = activeTextDocument();
-	}
-	if(doc)
-	{
-		toReturn = shrt ? (doc->url()).fileName() : (doc->url()).path();
-	        if(toReturn.isEmpty())
-		{
-			return doc->docName(); 
-		}
-	}
-	else
-		toReturn = QString::null;
-	return toReturn;
 }
 
 QString KileInfo::getCompileName(bool shrt /* = false */)
@@ -131,7 +111,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 			}
 		}
 		else
-			return getLocalPath(activeTextDocument(), shrt);
+			return getName(activeTextDocument(), shrt);
 	}
 	else
 	{

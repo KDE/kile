@@ -9,6 +9,11 @@ Features:
  - Highlighting of section titles as bold (#138017)
  - Sort items in references list box (#137964)
  - Add additional double quotes for babel supported languages (czech, icelandic)
+ - Cosmetic changes to some project dialogs
+ - Working with document structure. Added a set of commands to work directly 
+   with sectioning on the structure view: copy, cut, paste, select, delete, 
+   comment, quick preview (130445)
+ - move 'FindInFiles' dialog into background (part of 138398) 
 
 version 1.9.2-> 1.9.3
 Fixes:

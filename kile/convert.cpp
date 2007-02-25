@@ -104,37 +104,6 @@ bool ConvertMap::commandIsTerminated(const QString & command)
 	return (reCommandSequences.search(command) == -1);
 }
 
-bool ConvertMap::makeMap(const QString & enc)
-{
-	static QRegExp reMap("^([0-9]+):(.*)");
-
-	//if map already exists, replace it
-	//this code is used to create the .enc files, should not be called in the application
-	QFile qf("/home/wijnhout/Documents/Kile Test Area/Projects/Encodings/" + enc + ".def");
-	QFile outf("/home/wijnhout/Documents/Kile Test Area/Projects/Encodings/encoding." + enc + ".tex");
-
-	outf.open(IO_WriteOnly);
-	if ( qf.open(IO_ReadOnly) )
-	{
-		//read the file
-		QTextStream stream( &qf );
-		QTextStream outstream( &outf );
-
-		while ( !stream.atEnd() ) 
-		{
-			//parse the line
-			if ( stream.readLine().find(reMap) != -1)
-				outstream << QChar(reMap.cap(1).toUShort()) << ":" << reMap.cap(2) << endl;
-		}
-		qf.close();
-		outf.close();
-
-		return true;
-	}
-
-	return false;
-}
-
 bool ConvertMap::load()
 {
 	static QRegExp reMap("^(.*):(.*)");

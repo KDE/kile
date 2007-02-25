@@ -43,7 +43,6 @@ public:
 
 private:
 	bool commandIsTerminated(const QString &);
-	bool makeMap(const QString & enc);
 
 private:
 	QStringList				m_aliases;

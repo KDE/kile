@@ -3,7 +3,7 @@
    Copyright (C) 2001 Joseph Wenninger <jowenn@kde.org>
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
-   Copyright (C) 2005 Holger Danielsson <holgerdanielsson@t-online.de>
+   Copyright (C) 2005 Holger Danielsson <holger.danielsson@versanet.de>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -76,7 +76,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	setWFlags( Qt::WStyle_StaysOnTop );
+	//setWFlags( Qt::WStyle_StaysOnTop );
 
 	// build dialog
 	QVBoxLayout *vbox = new QVBoxLayout( page,5,KDialog::spacingHint() );

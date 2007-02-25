@@ -1120,7 +1120,7 @@ void Kile::findInFiles()
 	if ( ! dlg )
 	{
 		kdDebug() << "grep guard: create findInFiles dlg" << endl;
-		dlg = new KileGrepDialog(this,this,KileGrep::Directory);
+		dlg = new KileGrepDialog(0L,this,KileGrep::Directory);
 		dlg->show();
 		connect(dlg, SIGNAL(itemSelected(const QString &, int)),
 		        this, SLOT(grepItemSelected(const QString &, int)));
@@ -1129,6 +1129,7 @@ void Kile::findInFiles()
 	{
 		kdDebug() << "grep guard: show findInFiles dlg" << endl;
 		dlg->setActiveWindow();
+		dlg->raise();
 	}
 }
 
@@ -1139,7 +1140,7 @@ void Kile::findInProjects()
 	if ( ! project_dlg )
 	{
 		kdDebug() << "grep guard: create findInProjects dlg" << endl;
-		project_dlg = new KileGrepDialog(this,this,KileGrep::Project);
+		project_dlg = new KileGrepDialog(0L,this,KileGrep::Project);
 		project_dlg->show();
 		connect(project_dlg, SIGNAL(itemSelected(const QString &, int)),
 		        this, SLOT(grepItemSelected(const QString &, int)));
@@ -1148,6 +1149,7 @@ void Kile::findInProjects()
 	{
 		kdDebug() << "grep guard: show findInProjects dlg" << endl;
 		project_dlg->setActiveWindow();
+		project_dlg->raise();
 	}
 }
 

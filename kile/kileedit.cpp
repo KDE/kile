@@ -2312,22 +2312,19 @@ bool EditorExtension::insertDoubleQuotes()
 	uint row,col;
 	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
-	if(doc)
+
+	if( doc && Info::isTeXFile(doc->url()) )
 		doc->removeSelectedText();
+	else
+		return false;
 
 	// simply insert, if we are inside a verb command
 	if ( insideVerb(view) || insideVerbatim(view) )
-	{
-		doc->insertText(row,col,"\"");
-		return true;
-	}
+		return false;
 
 	// simply insert, if autoinsert mode is not active or the char bevor is \ (typically for \"a useful)
-	if ( !m_dblQuotes || ( col > 0 && doc->text(row,col-1,row,col) == QString("\\") ) ) 
-	{
-		doc->insertText(row,col,"\"");
-		return true;
-	}
+	if ( !m_dblQuotes || ( col > 0 && doc->text(row,col-1,row,col) == QString("\\") ) )
+		return false;
 
 	// insert with auto mode
 	KTextEditor::SearchInterface *iface;

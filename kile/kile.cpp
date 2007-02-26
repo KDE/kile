@@ -215,7 +215,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	initMenu();
 	updateModeStatus();
 
-	setFocus();
 actionCollection()->readShortcutSettings("Shortcuts", m_config);
 }
 
@@ -764,7 +763,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
     kdDebug() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
-	if (doc) viewManager()->switchToTextView(doc->url());
+	if (doc) viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
 }
 
 void Kile::setActive()

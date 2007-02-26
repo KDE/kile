@@ -76,7 +76,7 @@ public:
 // 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 public slots:
-	Kate::View* switchToTextView(const KURL & url);
+	Kate::View* switchToTextView(const KURL & url, bool requestFocus = false);
 
 	void closeWidget(QWidget *);
 	void removeView(Kate::View *view);

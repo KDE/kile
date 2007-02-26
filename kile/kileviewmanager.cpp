@@ -248,7 +248,7 @@ unsigned int Manager::getTabCount() const {
 	return m_tabs->count();
 }
 
-Kate::View* Manager::switchToTextView(const KURL & url)
+Kate::View* Manager::switchToTextView(const KURL & url, bool requestFocus)
 {
 	Kate::View *view = 0L;
 	Kate::Document *doc = m_ki->docManager()->docFor(url);
@@ -257,6 +257,10 @@ Kate::View* Manager::switchToTextView(const KURL & url)
 	{
 		view = static_cast<Kate::View*>(doc->views().first());
 		m_tabs->showPage(view);
+		if(requestFocus)
+		{
+			view->setFocus();
+		}
 	}
 
 	return view;

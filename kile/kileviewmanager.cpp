@@ -508,7 +508,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 	}
 }
 
-void Manager::urlChanged(KileDocument::Info* info, const KURL& url)
+void Manager::urlChanged(KileDocument::Info* info, const KURL& /*url*/)
 {
 	KileDocument::TextInfo *textInfo = dynamic_cast<KileDocument::TextInfo*>(info);
 	if(textInfo)

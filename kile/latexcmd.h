@@ -38,7 +38,7 @@ const uint MaxCmdAttr = 5;
 enum CmdAttribute { 
 	CmdAttrNone=0,                                                                      // unknown 
 	CmdAttrAmsmath=1,CmdAttrMath=2,CmdAttrList=4,CmdAttrTabular=8,CmdAttrVerbatim=16,   // environments
-	CmdAttrLabel=32,CmdAttrReference=64,CmdAttrCitations=128                            // commands
+	CmdAttrLabel=32,CmdAttrReference=64,CmdAttrCitations=128,CmdAttrIncludes=256        // commands
 };
                      
 class LatexCmdAttributes 
@@ -75,7 +75,8 @@ public:
 	bool isLabelCmd(const QString &name) { return isType(name,'L'); } 
 	bool isReferenceCmd(const QString &name) { return isType(name,'R'); } 
 	bool isCitationCmd(const QString &name) { return isType(name,'C'); } 
-	
+	bool isInputCmd(const QString &name) { return isType(name,'I'); }
+
 	bool isStarredEnv(const QString &name);
 	bool isCrEnv(const QString &name);
 	bool isMathModeEnv(const QString &name);

@@ -51,10 +51,11 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	m_cmdType = cmdtype;
 
 	// set modes for input dialog
-	//           AMS Math Tab List Verb Label Ref Cit
+	//           AMS Math Tab List Verb Label Ref Cit Inc
 	// MathOrTab  +   +    +
 	// Option     +   +    +   +    +     +    +   +
-	// Parameter  +   +    +   +          +    +   +
+	// Parameter  +   +    +   +          +    +   +   +
+
 	m_useMathOrTab = false;
 	m_useOption = m_useParameter = true;
 	if ( cmdtype==KileDocument::CmdAttrAmsmath || cmdtype==KileDocument::CmdAttrMath  || cmdtype==KileDocument::CmdAttrTabular)
@@ -417,6 +418,7 @@ void LatexCommandsDialog::resetListviews()
 	m_lviLabels     = new KListViewItem(m_lvCommands,i18n("Labels"));
 	m_lviReferences = new KListViewItem(m_lvCommands,i18n("References"));
 	m_lviCitations  = new KListViewItem(m_lvCommands,i18n("Citations"));
+	m_lviInputs	= new KListViewItem(m_lvCommands,i18n("Includes"));
 
 	QStringList list;
 	QStringList::ConstIterator it;
@@ -437,6 +439,7 @@ void LatexCommandsDialog::resetListviews()
 				case KileDocument::CmdAttrLabel:     parent = m_lviLabels;     break;
 				case KileDocument::CmdAttrReference: parent = m_lviReferences; break;
 				case KileDocument::CmdAttrCitations: parent = m_lviCitations;  break;
+				case KileDocument::CmdAttrIncludes:  parent = m_lviInputs;   break;
 				default: continue;
 			}
 			setEntry(parent,*it,attr);
@@ -469,6 +472,8 @@ KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(KListViewItem *it
 		type = KileDocument::CmdAttrReference;
 	else if ( item == m_lviCitations )
 		type = KileDocument::CmdAttrCitations;
+	else if ( item == m_lviInputs )
+		type = KileDocument::CmdAttrIncludes;
 	else
 		type =  KileDocument::CmdAttrNone;
 
@@ -483,7 +488,8 @@ bool LatexCommandsDialog::isParentItem(KListViewItem *item)
 	         item==m_lviVerbatim   ||
 	         item==m_lviLabels     ||
 	         item==m_lviReferences ||
-	         item==m_lviCitations
+	         item==m_lviCitations  || 
+		 item==m_lviInputs
 	       );
 }
 
@@ -739,7 +745,7 @@ void LatexCommandsDialog::slotEditClicked()
 
 void LatexCommandsDialog::slotUserDefinedClicked()
 {
-	bool states[8];
+	bool states[9];
 
 	getListviewStates(states);
 	resetListviews();
@@ -837,7 +843,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 void LatexCommandsDialog::resetEnvironments()
 {
 	// remember current states
-	bool states[8];
+	bool states[9];
 	getListviewStates(states);
 
 	// delete user defined commands ands re-read the list
@@ -855,7 +861,7 @@ void LatexCommandsDialog::resetEnvironments()
 void LatexCommandsDialog::resetCommands()
 {
 	// remember current states
-	bool states[8];
+	bool states[9];
 	getListviewStates(states);
 
 	// delete user defined commands ands re-read the list
@@ -881,6 +887,7 @@ void LatexCommandsDialog::getListviewStates(bool states[])
 	states[5] = m_lvCommands->isOpen(m_lviLabels);
 	states[6] = m_lvCommands->isOpen(m_lviReferences);
 	states[7] = m_lvCommands->isOpen(m_lviCitations);
+	states[8] = m_lvCommands->isOpen(m_lviInputs);
 }
 
 void LatexCommandsDialog::setListviewStates(bool states[])
@@ -894,6 +901,7 @@ void LatexCommandsDialog::setListviewStates(bool states[])
 	m_lvCommands->setOpen(m_lviLabels,states[5]);
 	m_lvCommands->setOpen(m_lviReferences,states[6]);
 	m_lvCommands->setOpen(m_lviCitations,states[7]);
+	m_lvCommands->setOpen(m_lviInputs,states[8]);
 }
 
 //END LatexCommandsDialog

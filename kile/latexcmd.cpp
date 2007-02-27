@@ -100,7 +100,7 @@ void LatexCommands::resetCommands()
 
 	// description of the fields for commands
 	//  0: standard entry (+,-)
-	//  1: environmenty type (a,m,l,t,v)
+	//  1: command type (L,R,C,I)
 	//  2: including starred version (*)
 	//  3: optional parameter
 	//  4: parameter 
@@ -120,6 +120,10 @@ void LatexCommands::resetCommands()
 	   << "\\autoref,+,R,,,{ }"
 		// Citations
 	   << "\\cite,+,C,,,{ }"
+		// Includes
+	   << "\\include,+,I,,,{ }"
+	   << "\\input,+,I,,,{ }"
+	   << "\\Input,+,I,,,{ }"
 	   ;
 	
 	// first clear the dictionary
@@ -242,6 +246,7 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
 		case CmdAttrLabel:     ch = 'L'; break;
 		case CmdAttrReference: ch = 'R'; break;
 		case CmdAttrCitations: ch = 'C'; break;
+		case CmdAttrIncludes:  ch = 'I'; break;
 		default:
 		     kdDebug() << "\tLatexCommands error: unknown type of env/cmd: code " << attr << endl;
 			  return '?';
@@ -265,6 +270,7 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 		case 'L': attr = CmdAttrLabel;     break;
 		case 'R': attr = CmdAttrReference; break;
 		case 'C': attr = CmdAttrCitations; break;
+		case 'I': attr = CmdAttrIncludes;  break;
 		default:
 		     kdDebug() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch) << endl;
 			  return CmdAttrNone;

@@ -231,14 +231,6 @@ void Info::updateStructLevelInfo()
 		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
 	}
 	
-	// input files
-	if ( m_showStructureInputFiles )
-	{
-		m_dictStructLevel["\\input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
-		m_dictStructLevel["\\Input"]=KileStructData(KileStruct::File, KileStruct::Input, "include");
-		m_dictStructLevel["\\include"]=KileStructData(0, KileStruct::Input, "include");
-	}
-
 	// float environments
 	if ( m_showStructureFloats )
 	{
@@ -767,17 +759,30 @@ QString LaTeXInfo::LaTeXFileFilter()
 }
 
 void LaTeXInfo::updateStructLevelInfo() {
+	kdDebug() << "===void LaTeXInfo::updateStructLevelInfo()===" << endl;
 	Info::updateStructLevelInfo();
 
 	// add user defined commands for labels
-	QStringList labellist;
+	QStringList list;
 	QStringList::ConstIterator it;
-	m_commands->commandList(labellist,KileDocument::CmdAttrLabel,true);
-	for ( it=labellist.begin(); it != labellist.end(); ++it ) 
+	m_commands->commandList(list,KileDocument::CmdAttrLabel,true);
+	for ( it=list.begin(); it != list.end(); ++it ) 
 	{
 		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
 	}
 	
+	// input files
+	if ( m_showStructureInputFiles )
+	{
+		kdDebug() << "show input files" << endl;
+		m_commands->commandList(list,KileDocument::CmdAttrIncludes,false); 
+		for ( it=list.begin(); it != list.end(); ++it ) 
+		{
+			kdDebug() << "include commands: " << *it << endl;
+			m_dictStructLevel[*it]= KileStructData(KileStruct::File, KileStruct::Input, "include");
+		}
+	}
+
 	// references
 	if ( m_showStructureReferences )
 	{

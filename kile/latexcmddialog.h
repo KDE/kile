@@ -86,7 +86,7 @@ private:
 	KListView *m_lvEnvironments, *m_lvCommands;
 	KListViewItem *m_lviList,*m_lviTabular,*m_lviMath,*m_lviAmsmath,*m_lviVerbatim;
 	KListViewItem *m_lviLabels,*m_lviReferences,*m_lviCitations;
-
+	KListViewItem *m_lviInputs;
 	QTabWidget *m_tab;
 	KPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
 	QCheckBox *m_cbUserDefined;

@@ -25,7 +25,8 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	latextoolconfigwidget.ui newtoolwizard.ui kileuntitled.cpp \
 	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui \
 	previewwidget.cpp kilejscript.h kilejscript.cpp scriptsmanagementwidget.h scriptsmanagementwidget.cpp \
-	editorkeysequencemanager.h editorkeysequencemanager.cpp scriptingconfigwidget.ui kileversion.cpp
+	editorkeysequencemanager.h editorkeysequencemanager.cpp scriptingconfigwidget.ui \
+	kileabbrevview.cpp kileversion.cpp
 
 kile_LDADD   = -lkjs -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML) 
 
@@ -34,7 +35,7 @@ SUBDIRS = icons pics symbols templates syntax complete help encodings test
 EXTRA_DIST = main.cpp kile.cpp kile.h \
 	docpart.cpp docpart.h kileappIface.h kileapplication.cpp kileapplication.h kile.desktop kilefileselect.cpp 	kilefileselect.h kileui.rc docpartui.rc kmultiverttabbar.cpp kmultiverttabbar.h letterdialog.cpp letterdialog.h quickdocumentdialog.cpp quickdocumentdialog.h symbolview.cpp symbolview.h tabbingdialog.cpp tabbingdialog.h \
 	kileconfigdialog.cpp kileconfigdialog.h usermenudialog.cpp \
-	usermenudialog.h \
+	usermenudialog.h kileabbrevview.cpp kileabbrevview.h \
 	newfilewizard.cpp newfilewizard.h templates.cpp templates.h managetemplatesdialog.cpp \
 	managetemplatesdialog.h kileinfo.h kileinfo.cpp kilestdactions.cpp \
 	kilestdactions.h kileproject.h kileproject.cpp kileprojectdlgs.cpp \

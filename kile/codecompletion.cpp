@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 15 2007
-    version              : 0.32
+    date                 : Feb 24 2007
+    version              : 0.34
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
 ***************************************************************************/
@@ -55,6 +55,10 @@ namespace KileDocument
 		m_ref = false;
 		m_kilecompletion = false;
 
+		// local abbreviation list
+		m_abbrevListview = 0L;
+		m_localAbbrevFile = locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
+		
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
@@ -111,6 +115,7 @@ namespace KileDocument
 		m_closeenv = KileConfig::completeCloseEnv();
 		m_autocomplete = KileConfig::completeAuto();
 		m_autocompletetext = KileConfig::completeAutoText();
+		m_autocompleteabbrev = KileConfig::completeAutoAbbrev();
 		m_latexthreshold = KileConfig::completeAutoThreshold();
 		m_textthreshold = KileConfig::completeAutoTextThreshold();
 
@@ -149,6 +154,15 @@ namespace KileDocument
 		config->setGroup("Kate Document Defaults");
 		m_autobrackets = ( config->readNumEntry("Basic Config Flags",0) & cfAutoBrackets );
 		m_autoindent   = ( config->readNumEntry("Indentation Mode",0) > 0 );
+	}
+
+	// save local abbreviation changes
+	// (for example before a new configuration should be read)
+ 
+	void CodeCompletion::saveLocalChanges()
+	{
+		kdDebug() << "=== CodeCompletion::saveLocalChanges ===================" << endl;
+		m_abbrevListview->saveLocalAbbreviation(m_localAbbrevFile);
 	}
 	
 	//////////////////// references and citations ////////////////////
@@ -202,7 +216,7 @@ namespace KileDocument
 			// if checked, the wordlist has to be read
 			if ( files[ i ].at( 0 ) == '1' )
 			{
-				readWordlist( wordlist, dir + '/' + files[ i ].right( files[ i ].length() - 2 ) + ".cwl" );
+				readWordlist( wordlist, dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl", true );
 			}
 		}
 
@@ -212,8 +226,25 @@ namespace KileDocument
 			addCommandsToTexlist(wordlist);
 			setCompletionEntriesTexmode( entrylist, wordlist );
 		}
-		else
+		else if ( dir == "dictionary" )
 		{
+			wordlist.sort();
+			setCompletionEntries( entrylist, wordlist );
+		}
+		else if ( dir == "abbreviation" )
+		{
+			// read local wordlist
+			QStringList localWordlist;
+			readWordlist(localWordlist, QString::null, false);
+			
+			// add local/global wordlists to the abbreviation view
+			m_abbrevListview->init(&wordlist,&localWordlist);
+
+			// finally add local wordlists to the abbreviation list
+			QStringList::ConstIterator it;
+			for ( it=localWordlist.begin(); it!=localWordlist.end(); ++it ) 
+				wordlist.append( *it );
+
 			wordlist.sort();
 			setCompletionEntries( entrylist, wordlist );
 		}
@@ -808,9 +839,11 @@ namespace KileDocument
 
 	//////////////////// read wordlists  ////////////////////
 
-	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename )
+	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename, bool global )
 	{
-		QString file = KGlobal::dirs() ->findResource( "appdata", "complete/" + filename );
+		QString file = ( global )
+		             ? KGlobal::dirs()->findResource( "appdata", "complete/" + filename )
+		             : m_localAbbrevFile;
 		if ( file.isEmpty() ) return;
 
 		QFile f( file );
@@ -946,6 +979,21 @@ namespace KileDocument
 		return n;
 	}
 
+	QString CodeCompletion::findExpansion(const QString &abbrev)
+	{
+		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+
+		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
+		{
+			QString s = (*it).text;
+			int index = s.find("=");
+			if ( index>=0 && s.left(index)==abbrev )
+				 return s.right( s.length()-index-1 );
+		}
+
+		return QString::null;
+	}
+
 	void CodeCompletion::editComplete(Kate::View *view, Mode mode)
 	{
 		m_view = view;
@@ -1050,6 +1098,10 @@ namespace KileDocument
 		//FIXME this is not very efficient
 		m_view = info()->viewManager()->currentTextView();
 		
+		// try to autocomplete abbreviations after punctuation symbol
+		if ( !inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(string) )
+			return;
+
 		QString word;
 		Type type;
 		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type ); 
@@ -1201,6 +1253,114 @@ namespace KileDocument
 		}
 		return ( n % 2 ) ? true : false;
 	}
+
+	//////////////////// complete auto abbreviation ////////////////////
+
+	bool CodeCompletion::completeAutoAbbreviation(const QString &text)
+	{
+		if ( text.length() != 1 )
+			return false;
+
+		QChar ch = text[0];
+		if ( ! (ch.isSpace() || ch.isPunct()) )
+			return false;
+
+		uint row,col;
+		m_view->cursorPositionReal( &row, &col );
+		QString abbrev = getAbbreviationWord(row,col-1);
+		if ( abbrev.isEmpty() )
+			return false;
+
+		QString expansion = findExpansion(abbrev);
+		if ( expansion.isEmpty() )
+			return false;
+
+		kdDebug() << "=== CodeCompletion::completeAutoAbbreviation: abbrev=" << abbrev << "  exp=" << expansion << endl;
+
+		uint len = abbrev.length();
+		uint startcol = col - len - 1;
+		Kate::Document *doc = m_view->getDoc();
+		doc->removeText( row,startcol,row,startcol+abbrev.length()+1 );
+		doc->insertText( row,startcol,expansion+ch);
+		m_view->setCursorPositionReal( row,startcol+expansion.length()+1 );
+		
+		return true;
+	}
+
+	QString CodeCompletion::getAbbreviationWord(uint row, uint col)
+	{
+		QString textline = m_view->getDoc()->textLine( row );
+		
+		int index = (int)col;	
+		while ( --index >= 0 )
+		{
+			QChar ch = textline.at( index );
+			if ( ! ch.isLetterOrNumber() )
+				break;
+		}
+
+		return textline.mid(index+1,col-index-1);
+	}
+
+	//////////////////// connection with the abbreviation listview  ////////////////////
+
+	void CodeCompletion::setAbbreviationListview(KileAbbrevView *listview) 
+	{	
+		m_abbrevListview = listview; 
+		
+		connect( m_abbrevListview, SIGNAL(updateAbbrevList(const QString &, const QString &)),
+		         this, SLOT(slotUpdateAbbrevList(const QString &, const QString &)) );
+
+	}
+
+	void CodeCompletion::slotUpdateAbbrevList(const QString &ds, const QString &as)
+	{
+		if ( ! ds.isEmpty() )
+		{
+			deleteAbbreviationEntry(ds);
+		}
+		if ( ! as.isEmpty() )
+		{
+			addAbbreviationEntry(as);
+		}
+	}
+
+	void CodeCompletion::deleteAbbreviationEntry( const QString &entry )
+	{
+		kdDebug() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
+		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
+		{
+			if ( (*it).text == entry )
+			{
+				m_abbrevlist.remove( it );
+				return;
+			}
+		}
+	}
+
+	void CodeCompletion::addAbbreviationEntry( const QString &entry )
+	{
+		kdDebug() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
+		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
+		{
+			if ( (*it).text > entry )
+				break;
+		}
+		
+		KTextEditor::CompletionEntry e;
+		e.text = entry;
+		e.type = QString::null;
+
+		if ( it == m_abbrevlist.begin() )
+			m_abbrevlist.prepend(e);
+		else if ( it == m_abbrevlist.end() )
+			m_abbrevlist.append(e);
+		else
+			m_abbrevlist.insert(it,e);
+	}
+
 }
 
 #include "codecompletion.moc"

@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Jan 12 2006
-    version              : 0.20
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 24 2007
+    version              : 0.22
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -60,6 +60,8 @@ private:
 	QCheckBox *cb_autocompletetext;
 	QSpinBox *sp_textthreshold;
 	QLabel *lb_textthreshold;
+	QCheckBox *cb_autocompleteabbrev;
+	QCheckBox *cb_showabbrevview;
 
     // wordlists
     QStringList m_texlist;

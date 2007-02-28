@@ -274,10 +274,11 @@ void Kile::setupSideBar()
 	setupStructureView();
 	setupSymbolViews();
 	setupScriptsManagementView();
+	setupAbbreviationView();
 
 	m_sideBar->showTab(KileConfig::selectedLeftView());
 	m_sideBar->setVisible(KileConfig::sideBar());
-    m_sideBar->setSize(KileConfig::sideBarSize());
+	m_sideBar->setSize(KileConfig::sideBarSize());
 }
 
 void Kile::setupProjectView()
@@ -374,6 +375,15 @@ void Kile::setupSymbolViews()
 
 	for (int i=0; i< m_toolBox->count(); i++)
 		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, presssing CTRL in curly brackets."));
+}
+
+void Kile::setupAbbreviationView()
+{
+	m_kileAbbrevView = new KileAbbrevView( m_sideBar );
+	m_edit->complete()->setAbbreviationListview(m_kileAbbrevView);
+	m_sideBar->addTab(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
+
+	connect(m_kileAbbrevView, SIGNAL(sendText(const QString& )), this, SLOT(insertText(const QString& )));
 }
 
 void Kile::setupBottomBar()
@@ -1848,6 +1858,7 @@ void Kile::readConfig()
 	docManager()->updateInfos();
 	m_jScriptManager->readConfig();
 	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
+	m_sideBar->setPageVisible(m_kileAbbrevView, KileConfig::completeShowAbbrev());
 }
 
 void Kile::saveSettings()
@@ -1894,6 +1905,7 @@ void Kile::saveSettings()
 	saveMainWindowSettings(m_config, "KileMainWindow" );
 
 	scriptManager()->writeConfig();
+	m_edit->complete()->saveLocalChanges();
 
 	KileConfig::setRCVersion(KILERC_VERSION);
 	KileConfig::setMainwindowWidth(width());
@@ -1990,6 +2002,8 @@ void Kile::toggleWatchFile()
 
 void Kile::generalOptions()
 {
+	m_edit->complete()->saveLocalChanges();
+	
 	KileDialog::Config *dlg = new KileDialog::Config(m_config,this,this);
 
 	if (dlg->exec())

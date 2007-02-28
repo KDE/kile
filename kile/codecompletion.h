@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 15 2007
-    version              : 0.32
+    date                 : Feb 24 2007
+    version              : 0.34
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -25,6 +25,7 @@
 #include <kconfig.h>
 
 #include "latexcmd.h"
+#include "kileabbrevview.h"
 
 //default bullet char (a cross)
 static const QChar s_bullet_char = QChar(0xd7);
@@ -85,6 +86,9 @@ public:
 
 	void readConfig(KConfig *config);
 	void readKateConfigFlags(KConfig *config);
+	void saveLocalChanges();
+
+	void setAbbreviationListview(KileAbbrevView *listview);
 
 public slots:
 	//in these two methods we should set m_view
@@ -96,6 +100,10 @@ public slots:
 	void slotCompletionAborted();
 
 	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
+
+	// a abbreviation was modified ind the abbreviation view (add, edit or delete)
+	// so the abbreviation list was must also be updated
+	void slotUpdateAbbrevList(const QString &ds, const QString &as);
 
 private:
 	void completeWord(const QString &text, CodeCompletion::Mode mode);
@@ -112,6 +120,9 @@ private:
 
 	void appendNewCommands(QValueList<KTextEditor::CompletionEntry> & list);
 	void getDocumentWords(const QString &text,QValueList<KTextEditor::CompletionEntry> &list);
+
+	bool completeAutoAbbreviation(const QString &text);
+	QString getAbbreviationWord(uint row, uint col);
 
 private:
 	// wordlists
@@ -130,6 +141,7 @@ private:
 	bool m_closeenv;
 	bool m_autocomplete;
 	bool m_autocompletetext;
+	bool m_autocompleteabbrev;
 	int  m_latexthreshold;
 	int  m_textthreshold;
 
@@ -149,6 +161,10 @@ private:
 	// special types: ref, bib
 	CodeCompletion::Type m_type;
 
+	// local abbreviation
+	QString m_localAbbrevFile;
+	KileAbbrevView *m_abbrevListview;
+
 	// internal parameter
 	Kate::View *m_view;                  // View
 	QString m_text;                      // current pattern
@@ -167,7 +183,7 @@ private:
 	QString stripParameter(const QString &text);
 
 	void setWordlist(const QStringList &files,const QString &dir, QValueList<KTextEditor::CompletionEntry> *entrylist);
-	void readWordlist(QStringList &wordlist, const QString &filename);
+	void readWordlist(QStringList &wordlist, const QString &filename, bool global);
 	void addCommandsToTexlist(QStringList &wordlist);
 	
 	void setReferences();
@@ -177,6 +193,11 @@ private:
 	void setCompletionEntriesTexmode(QValueList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
 
 	uint countEntries(const QString &pattern, QValueList<KTextEditor::CompletionEntry> *list, QString *entry, QString *type);
+
+	void addAbbreviationEntry( const QString &entry );
+	void deleteAbbreviationEntry( const QString &entry );
+	QString findExpansion(const QString &abbrev);
+
 };
 
 }

@@ -3,6 +3,7 @@ Fixes:
  - Fix bug in tabular wizard, when changing the textcolor inside a cell
  - Add support for \gdef, \edef and \xdef to the the latex syntax file
  - Remove dependencies on teTeX documentation and add support for TexLive (#138282)
+ - Improve auto completion in abbreviation mode (#93356, #129030)
 
 Features:
  - Add Emacs like delete to end-of-line
@@ -14,6 +15,12 @@ Features:
    with sectioning on the structure view: copy, cut, paste, select, delete, 
    comment, quick preview (130445)
  - move 'FindInFiles' dialog into background (part of 138398) 
+ - auto completion in abbreviation mode:
+   a) All abbreviations can be shown in the sidebar (configurable)
+   b) All abbreviations from a local abbreviations list 'kile-abbrevs.cwl' are editable. This file can be found in the local application path of Kile.
+   c) Editable abbreviations are marked with a star.
+   d) It is possible to add new abbreviations or delete existing ones.
+   e) A new auto mode to expand abbreviations was added (configurable of course). If an abbreviation is followed by a space or a punctuation symbol, it is immediately expanded without further user commands.
 
 version 1.9.2-> 1.9.3
 Fixes:

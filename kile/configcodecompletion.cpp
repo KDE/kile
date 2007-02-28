@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Jan 12 2006
-    version              : 0.20
-    copyright            : (C) 2004-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Feb 24 2007
+    version              : 0.22
+    copyright            : (C) 2004-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 
@@ -105,10 +105,13 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	lb_textthreshold = new QLabel("Threshold:",bg_options);
 	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
 	QLabel *lb_textletters = new QLabel("letters",bg_options);
+	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"),bg_options);
+	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbrev.)"),bg_options);
 
 	bg_optionsLayout->addWidget(cb_setcursor,0,0);
 	bg_optionsLayout->addWidget(cb_setbullets,1,0);
 	bg_optionsLayout->addWidget(cb_closeenv,2,0);
+	bg_optionsLayout->addWidget(cb_showabbrevview,3,0);
 	bg_optionsLayout->addWidget(cb_usecomplete,0,2);
 	bg_optionsLayout->addWidget(cb_autocomplete,1,2);
 	bg_optionsLayout->addWidget(lb_latexthreshold,1,4);
@@ -118,6 +121,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	bg_optionsLayout->addWidget(lb_textthreshold,2,4);
 	bg_optionsLayout->addWidget(sp_textthreshold,2,6);
 	bg_optionsLayout->addWidget(lb_textletters,2,7);
+	bg_optionsLayout->addWidget(cb_autocompleteabbrev,3,2);
 
 	// tune layout
 	bg_optionsLayout->setColSpacing(1,20);
@@ -135,7 +139,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	QWhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
 
 	// bottom: warning
-	QLabel *lb_automodes = new QLabel("Warning: both autocompletion modes will be disabled, if you enable KTextEditor plugin word completion.",this);
+	QLabel *lb_automodes = new QLabel("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion.",this);
 	
 	// add OptionBox and TabDialog into the layout
 	vbox->addWidget(gb_tab);
@@ -174,17 +178,20 @@ void ConfigCodeCompletion::readConfig(void)
    cb_setcursor->setChecked( KileConfig::completeCursor() );
    cb_setbullets->setChecked( KileConfig::completeBullets() );
    cb_closeenv->setChecked( KileConfig::completeCloseEnv() );
+	cb_showabbrevview->setChecked( KileConfig::completeShowAbbrev() );
 
 	// set checkboxes and thresholds for autocompletion modes
 	if ( kateCompletionPlugin() )
 	{
    	cb_autocomplete->setChecked( false );
 		cb_autocompletetext->setChecked( false );
+		cb_autocompleteabbrev->setChecked( false );
 	}
 	else
 	{
    	cb_autocomplete->setChecked( KileConfig::completeAuto() );
 		cb_autocompletetext->setChecked( KileConfig::completeAutoText() );
+		cb_autocompleteabbrev->setChecked( KileConfig::completeAutoAbbrev() );
 	}
 	sp_latexthreshold->setValue( KileConfig::completeAutoThreshold() );
 	sp_textthreshold->setValue( KileConfig::completeAutoTextThreshold() );
@@ -215,13 +222,15 @@ void ConfigCodeCompletion::writeConfig(void)
    KileConfig::setCompleteCursor(cb_setcursor->isChecked());
    KileConfig::setCompleteBullets(cb_setbullets->isChecked());
    KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
+	KileConfig::setCompleteShowAbbrev( cb_showabbrevview->isChecked() );
 
 	// read autocompletion settings
 	bool autoModeLatex = cb_autocomplete->isChecked();
 	bool autoModeText = cb_autocompletetext->isChecked();
+	bool autoModeAbbrev = cb_autocompleteabbrev->isChecked();
 	if ( kateCompletionPlugin() )
 	{
-		if ( autoModeLatex || autoModeText )
+		if ( autoModeLatex || autoModeText  || autoModeAbbrev)
 		{
 			QString msg = i18n("You enabled the KTextEditor-Plugin for word completion, "
 			                   "but this conflicts with the auto completion modes of Kile. "
@@ -232,12 +241,14 @@ void ConfigCodeCompletion::writeConfig(void)
 			// disable Kile autocomplete modes
 			autoModeLatex = false;
 			autoModeText = false;
+			autoModeAbbrev = false;
 		}
 	}
 
 	// save settings for Kile autocompletion modes
 	KileConfig::setCompleteAuto( autoModeLatex );
 	KileConfig::setCompleteAutoText( autoModeText );
+	KileConfig::setCompleteAutoAbbrev( autoModeAbbrev );
 	KileConfig::setCompleteAutoThreshold( sp_latexthreshold->value() );
 	KileConfig::setCompleteAutoTextThreshold( sp_textthreshold->value() );
 

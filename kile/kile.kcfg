@@ -303,6 +303,14 @@
 			<label></label>
 			<default>false</default>
 		</entry>
+		<entry name="completeAutoAbbrev" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
+		<entry name="completeShowAbbrev" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
 		<entry name="CompleteAutoThreshold" type="Int">
 			<label></label>
 			<default>3</default>

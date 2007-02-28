@@ -215,6 +215,8 @@ namespace KileDialog
 		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
 		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
 
+		latexPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") ); 
+
 		addConfigPage(latexPage,i18n("LaTeX"),i18n("General"),"configure");
 	}
 

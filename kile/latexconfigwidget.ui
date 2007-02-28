@@ -206,7 +206,7 @@
                 </widget>
                 <widget class="QLabel" row="4" column="1">
                     <property name="name">
-                        <cstring>kcfg_imagemagick</cstring>
+                        <cstring>m_lbImagemagick</cstring>
                     </property>
                     <property name="text">
                         <string></string>
@@ -286,6 +286,8 @@
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>m_pbCommands</sender>

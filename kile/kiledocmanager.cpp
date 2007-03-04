@@ -374,7 +374,6 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KURL & 
 			case Text:
 				kdDebug() << "CREATING TextInfo for " << url.url() << endl;
 				docinfo = new TextInfo(0L);
-				docinfo->setDefaultHightlightMode("LaTeX");
 				break;
 			case LaTeX:
 				kdDebug() << "CREATING LaTeXInfo for " << url.url() << endl;

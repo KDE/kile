@@ -568,7 +568,7 @@ void TextInfo::setHighlightMode(const QString &highlight)
 {
 	kdDebug() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================" << endl;
 
-	if ( m_doc && !highlight.isNull() )
+	if ( m_doc && !highlight.isEmpty() )
 	{
 		bool found = false;
 		uint c = m_doc->hlModeCount();

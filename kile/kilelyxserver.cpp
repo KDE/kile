@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <stdlib.h> //getenv
 #include <unistd.h> //read
+#include <fcntl.h>
 
 #include "kilelyxserver.h"
 #include "kileactions.h"
@@ -70,7 +71,7 @@ bool KileLyxServer::start()
 				kdDebug() << "Created notifier for " << (*it)->name() << endl;
 			}
 			else
-				kdDebug() << "No notifier created fro " << (*it)->name() << endl;
+				kdDebug() << "No notifier created for " << (*it)->name() << endl;
 			++it;
 		}
 		m_running=true;
@@ -80,44 +81,62 @@ bool KileLyxServer::start()
 }
 
 bool KileLyxServer::openPipes()
-{
+{	
+	kdDebug() << "===bool KileLyxServer::openPipes()===" << endl;
+	
 	bool opened = false;
 	QFileInfo info;
 	QFile *file;
-
+	struct stat buf;
+	struct stat *stats = &buf;
+	mode_t perms = S_IRUSR | S_IWUSR | S_IRGRP| S_IROTH;
+	
 	for (uint i=0; i < m_pipes.count(); ++i)
 	{
 		info.setFile(m_pipes[i]);
-		if ( ! info.exists() )
+		if ( !info.exists() )
 		{
-			mode_t perms = S_IRUSR | S_IWUSR | S_IRGRP| S_IROTH;
 			//create the dir first
-            if ( ! QFileInfo(info.dirPath(true)).exists() )
-				if (mkdir(QFile::encodeName( info.dirPath() ), perms | S_IXUSR) == -1)
-					perror( "Could not create directory for pipe ");
+        	   	if ( ! QFileInfo(info.dirPath(true)).exists() )
+				if ( mkdir(QFile::encodeName( info.dirPath() ), perms | S_IXUSR) == -1 )
+				{
+					kdError() << "Could not create directory for pipe" << endl;
+					continue;
+				}
 				else
 					kdDebug() << "Created directory " << info.dirPath() << endl;
 
-			if (mkfifo(QFile::encodeName( m_pipes[i] ), perms) == -1)
-   				perror( "Could not create pipe ");
+			if ( mkfifo(QFile::encodeName( m_pipes[i] ), perms) != 0 )
+			{
+				kdError() << "Could not create pipe: " << m_pipes[i] << endl;
+				continue;				
+			}
 			else
-				kdDebug() << "Created pipe " << m_pipes[i] << endl;
+				kdDebug() << "Created pipe: " << m_pipes[i] << endl;
 		}
-
+		
 		file  = new QFile(info.absFilePath());
-		if (!file->open(IO_ReadWrite))
+		info.refresh();
+		if( info.exists() && file->open(IO_ReadWrite) ) // in that order we don't create the file if it does not exist
 		{
-			kdError() << "Could not open " << info.absFilePath() << endl;
+			kdDebug() << "Opened file: " << info.absFilePath() << endl;
+			fstat(file->handle(),stats);
+			if( !S_ISFIFO(stats->st_mode) )
+			{
+				kdError() << "The file we just created is not a FIFO, perhaps we are on some strange filesystem!?" << endl;
+				file->close();
+				continue;
+			}
+			else
+			{	// everything is correct :)
+				m_pipeIn.append(file);
+				m_file.insert(file->handle(),file);
+				opened=true;
+			}
 		}
 		else
-		{
-			kdDebug() << "Opened " << info.absFilePath() << endl;
-			m_pipeIn.append(file);
-			m_file.insert(file->handle(),file);
-			opened=true;
-		}
+			kdError() << "Could not open " << info.absFilePath() << endl;
 	}
-
 	return opened;
 }
 

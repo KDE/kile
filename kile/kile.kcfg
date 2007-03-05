@@ -311,6 +311,10 @@
 			<label></label>
 			<default>false</default>
 		</entry>
+		<entry name="completeCitationMove" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
 		<entry name="CompleteAutoThreshold" type="Int">
 			<label></label>
 			<default>3</default>

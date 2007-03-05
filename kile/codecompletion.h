@@ -142,6 +142,7 @@ private:
 	bool m_autocomplete;
 	bool m_autocompletetext;
 	bool m_autocompleteabbrev;
+	bool m_citationMove;
 	int  m_latexthreshold;
 	int  m_textthreshold;
 
@@ -160,6 +161,7 @@ private:
 
 	// special types: ref, bib
 	CodeCompletion::Type m_type;
+	CodeCompletion::Type m_keylistType;
 
 	// local abbreviation
 	QString m_localAbbrevFile;

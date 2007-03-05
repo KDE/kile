@@ -54,6 +54,7 @@ namespace KileDocument
 		m_undo = false;
 		m_ref = false;
 		m_kilecompletion = false;
+		m_keylistType = CodeCompletion::ctNone;
 
 		// local abbreviation list
 		m_abbrevListview = 0L;
@@ -118,6 +119,7 @@ namespace KileDocument
 		m_autocompleteabbrev = KileConfig::completeAutoAbbrev();
 		m_latexthreshold = KileConfig::completeAutoThreshold();
 		m_textthreshold = KileConfig::completeAutoTextThreshold();
+		m_citationMove = KileConfig::completeCitationMove();
 
 		// we need to read some of Kate's config flags
 		readKateConfigFlags(config);
@@ -556,6 +558,11 @@ namespace KileDocument
 				break;
 				case cmLabel:
 				s = buildLabelText( text );
+				if ( m_keylistType==CodeCompletion::ctReference 
+				     || (m_keylistType==CodeCompletion::ctCitation && m_citationMove) )
+				{
+					m_xoffset = s.length() + 1;
+				}
 				break;
 				case cmDocumentWord:
 				s = text;
@@ -1055,6 +1062,7 @@ namespace KileDocument
 				if ( (m_type==CodeCompletion::ctReference && info()->allLabels()->count()>0)  ||
 					  (m_type==CodeCompletion::ctCitation  && info()->allBibItems()->count()>0) )
 				{
+					m_keylistType = m_type;
 					m_ref = true;
 		 			m_completeTimer->start(20,true);
 				}

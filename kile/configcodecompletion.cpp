@@ -107,6 +107,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	QLabel *lb_textletters = new QLabel("letters",bg_options);
 	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"),bg_options);
 	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbrev.)"),bg_options);
+	cb_citeoutofbraces = new QCheckBox(i18n("Move out of braces (citation keylists)"),bg_options);
 
 	bg_optionsLayout->addWidget(cb_setcursor,0,0);
 	bg_optionsLayout->addWidget(cb_setbullets,1,0);
@@ -122,6 +123,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	bg_optionsLayout->addWidget(sp_textthreshold,2,6);
 	bg_optionsLayout->addWidget(lb_textletters,2,7);
 	bg_optionsLayout->addWidget(cb_autocompleteabbrev,3,2);
+	bg_optionsLayout->addMultiCellWidget(cb_citeoutofbraces,4,4,0,7);
 
 	// tune layout
 	bg_optionsLayout->setColSpacing(1,20);
@@ -137,6 +139,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
 	QWhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
 	QWhatsThis::add(sp_latexthreshold,i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
 	QWhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
+	QWhatsThis::add(cb_citeoutofbraces,i18n("Move cursor out of braces after selecting from a citation keylist."));
 
 	// bottom: warning
 	QLabel *lb_automodes = new QLabel("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion.",this);
@@ -179,6 +182,7 @@ void ConfigCodeCompletion::readConfig(void)
    cb_setbullets->setChecked( KileConfig::completeBullets() );
    cb_closeenv->setChecked( KileConfig::completeCloseEnv() );
 	cb_showabbrevview->setChecked( KileConfig::completeShowAbbrev() );
+	cb_citeoutofbraces->setChecked( KileConfig::completeCitationMove() );
 
 	// set checkboxes and thresholds for autocompletion modes
 	if ( kateCompletionPlugin() )
@@ -223,6 +227,7 @@ void ConfigCodeCompletion::writeConfig(void)
    KileConfig::setCompleteBullets(cb_setbullets->isChecked());
    KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
 	KileConfig::setCompleteShowAbbrev( cb_showabbrevview->isChecked() );
+	KileConfig::setCompleteCitationMove( cb_citeoutofbraces->isChecked() );
 
 	// read autocompletion settings
 	bool autoModeLatex = cb_autocomplete->isChecked();

@@ -62,6 +62,7 @@ private:
 	QLabel *lb_textthreshold;
 	QCheckBox *cb_autocompleteabbrev;
 	QCheckBox *cb_showabbrevview;
+	QCheckBox *cb_citeoutofbraces;
 
     // wordlists
     QStringList m_texlist;

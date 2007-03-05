@@ -171,7 +171,6 @@ KURL Info::makeValidTeXURL(const KURL & url, bool checkForFileExistence /* = tru
 
 Info::Info() : m_bIsRoot(false), m_config(kapp->config()), documentTypePromotionAllowed(true)
 {
-	// initialize m_dictStructLevel
 	updateStructLevelInfo();
 }
 
@@ -180,10 +179,10 @@ Info::~Info(void)
 	kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;
 }
 
-// set struct level dictionary with standard and user defined commands
 void Info::updateStructLevelInfo()
-{	
-	// read config for structview items
+{
+	kdDebug() << "===void Info::updateStructLevelInfo()===" << endl;
+	// read config for structureview items
 	m_showStructureLabels = KileConfig::svShowLabels();
 	m_showStructureReferences = KileConfig::svShowReferences();
 	m_showStructureBibitems = KileConfig::svShowBibitems();
@@ -193,55 +192,6 @@ void Info::updateStructLevelInfo()
 	m_openStructureLabels = KileConfig::svOpenLabels();
 	m_openStructureReferences = KileConfig::svOpenReferences();
 	m_openStructureBibitems = KileConfig::svOpenBibitems();
-
-	// clear all entries and rebuild them
-	m_dictStructLevel.clear();
-
-	// add standard commands
-	//TODO: make this configurable
-	// sectioning
-	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
-	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
-	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
-	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
-	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "viewbib");
-	
-	// hidden commands  
-	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
-	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-	m_dictStructLevel["\\addunit"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
-	m_dictStructLevel["\\DeclareMathOperator"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
-	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
-
-	// labels, we always gather them here to get codecompl and undefined references
-	m_dictStructLevel["\\label"]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-
-	// bibitems
-	if ( m_showStructureBibitems )
-	{
-		m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
-	}
-	
-	// graphics
-	if ( m_showStructureGraphics )
-	{
-		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
-	}
-	
-	// float environments
-	if ( m_showStructureFloats )
-	{
-		m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
-		m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
-	
-		// some entries, which could never be found (but they are set manually)
-		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
-		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
-		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
-	}
 }
 
 void Info::setBaseDirectory(const KURL& url)
@@ -714,6 +664,7 @@ void TextInfo::removeInstalledEventFilters()
 LaTeXInfo::LaTeXInfo (Kate::Document *doc, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
 {
 	documentTypePromotionAllowed = false;
+	updateStructLevelInfo();
 }
 
 LaTeXInfo::~LaTeXInfo()
@@ -759,42 +710,82 @@ QString LaTeXInfo::LaTeXFileFilter()
 }
 
 void LaTeXInfo::updateStructLevelInfo() {
+
 	kdDebug() << "===void LaTeXInfo::updateStructLevelInfo()===" << endl;
+	
+	// read config stuff
 	Info::updateStructLevelInfo();
 
-	// add user defined commands for labels
+	// clear all entries
+	m_dictStructLevel.clear();
+
+	//TODO: make sectioning and bibliography configurable
+
+	// sectioning
+	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
+	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
+	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
+	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
+	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "viewbib");
+	
+	// hidden commands  
+	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
+	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+	m_dictStructLevel["\\addunit"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
+	m_dictStructLevel["\\DeclareMathOperator"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
+	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
+
+	// bibitems
+	if ( m_showStructureBibitems )
+	{
+		m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
+	}
+	
+	// graphics
+	if ( m_showStructureGraphics )
+	{
+		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
+	}
+	
+	// float environments
+	if ( m_showStructureFloats )
+	{
+		m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
+		m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
+	
+		// some entries, which could never be found (but they are set manually)
+		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
+		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
+	}
+
+	// add user defined commands
+
 	QStringList list;
 	QStringList::ConstIterator it;
-	m_commands->commandList(list,KileDocument::CmdAttrLabel,true);
+
+	// labels, we also gather them
+	m_commands->commandList(list,KileDocument::CmdAttrLabel,false);
 	for ( it=list.begin(); it != list.end(); ++it ) 
-	{
 		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-	}
 	
 	// input files
 	if ( m_showStructureInputFiles )
 	{
-		kdDebug() << "show input files" << endl;
 		m_commands->commandList(list,KileDocument::CmdAttrIncludes,false); 
 		for ( it=list.begin(); it != list.end(); ++it ) 
-		{
-			kdDebug() << "include commands: " << *it << endl;
 			m_dictStructLevel[*it]= KileStructData(KileStruct::File, KileStruct::Input, "include");
-		}
 	}
 
 	// references
 	if ( m_showStructureReferences )
 	{
-		// removed duplicated ref commands here, now only defined in latexcmd.cpp
-		// add defined commands for references 
-		QStringList reflist;
-		QStringList::ConstIterator it;
-		m_commands->commandList(reflist,KileDocument::CmdAttrReference,false);
-		for ( it=reflist.begin(); it != reflist.end(); ++it ) 
-		{
+		m_commands->commandList(list,KileDocument::CmdAttrReference,false);
+		for ( it=list.begin(); it != list.end(); ++it ) 
 			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
-		}
 	}
 }
 

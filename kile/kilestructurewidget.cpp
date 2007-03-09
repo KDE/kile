@@ -90,11 +90,7 @@ void KileListViewItem::setTitle(const QString &title)
 
 void KileListViewItem::setItemEntry()
 {
-//	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
-
-	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) 
-	+ ' ' + QString::number(m_startline) + '/' + QString::number(m_startcol)
-	+ ')');
+	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
 }
 
 ////////////////////// introduce a new ToolTip //////////////////////

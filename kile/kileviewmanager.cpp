@@ -256,13 +256,13 @@ Kate::View* Manager::switchToTextView(const KURL & url, bool requestFocus)
 	if (doc)
 	{
 		view = static_cast<Kate::View*>(doc->views().first());
-		m_tabs->showPage(view);
-		if(requestFocus)
+		if(view)
 		{
-			view->setFocus();
+			m_tabs->showPage(view);
+			if(requestFocus)
+				view->setFocus();
 		}
 	}
-
 	return view;
 }
 

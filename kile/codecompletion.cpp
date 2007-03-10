@@ -45,7 +45,7 @@ namespace KileDocument
 	static QRegExp::QRegExp reRefExt;
 	static QRegExp::QRegExp reCite;
 	static QRegExp::QRegExp reCiteExt;
-	static QRegExp::QRegExp reNotRefChars("[^a-zA-z0-9_@\\.\\+\\-\\*\\:]");
+	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
 	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{

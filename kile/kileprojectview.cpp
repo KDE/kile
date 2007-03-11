@@ -446,7 +446,8 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 		for (parpvi = parpvi->firstChild(); parpvi; parpvi = parpvi->nextSibling())
 		{
 			if ((parpvi->type() == KileType::Folder) &&
-				(parpvi->folder() == projitem->type()))
+//				(parpvi->folder() == projitem->type()))
+				((parpvi->folder() == projitem->type()) || (projitem->type()==KileProjectItem::ProjectFile && parpvi->folder()==KileProjectItem::Other) ))
 			{
 				kdDebug() << "\t\tfound" << endl;
 				break;
@@ -476,17 +477,20 @@ KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProject
 	case (KileProjectItem::Source):
 		item = new KileProjectViewItem(projvi, projitem);
 		item->setType(KileType::ProjectItem);
+		item->setPixmap(0,SmallIcon("projectitem"));
 		break;
 	case (KileProjectItem::Package):
 		parent = folder(projitem, projvi);
 		item = new KileProjectViewItem(parent, projitem);
 		item->setType(KileType::ProjectItem);
+		item->setPixmap(0,SmallIcon("projectitem"));
 		break;
 	case (KileProjectItem::ProjectFile):
 	default:
 		parent = folder(projitem, projvi);
 		item = new KileProjectViewItem(parent, projitem);
 		item->setType(KileType::ProjectExtra);
+		item->setPixmap(0,SmallIcon( (projitem->type()==KileProjectItem::ProjectFile) ? "kile" : "file" ));
 		break;
 	}
 

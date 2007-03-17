@@ -1268,6 +1268,10 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool open
 	for(KileProjectItem *item = list->first(); item; item = list->next())
 	{
 		int order = item->order();
+		if(order >= 0 && static_cast<unsigned int>(order) >= list->count())
+		{
+			order = -1;
+		}
 		if(!item->isOpen() || order < 0 || givenPositionVector[order] != NULL)
 		{
 			notCorrectlyOrderedList.push_back(item);

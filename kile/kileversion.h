@@ -21,7 +21,7 @@
 
 const QString kileVersion="2.0";
 const QString kileFullVersion="2.0.0";
-const QString kilePrVersion="1";
+const QString kilePrVersion="2";
 
 /**
  * Compares two strings of the form "a.b(.c)" and "d.e(.f)" lexicographically,

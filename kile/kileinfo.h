@@ -24,6 +24,7 @@
 #include <kdebug.h>
 #include <kurl.h>
 
+#include "kileextensions.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "latexoutputfilter.h"
@@ -42,7 +43,7 @@ class KileEventFilter;
 namespace Kate { class Document;}
 
 class KileBottomBar;
-namespace KileDocument { class Manager; class EditorExtension; }
+namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
 namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; }
 namespace KileTool { class QuickPreview; }
@@ -119,6 +120,7 @@ public:
 	KileDocument::LatexCommands *latexCommands() const { return m_latexCommands; }
 	KileHelp::Help *help() const { return m_help; }
 	KileTool::QuickPreview *quickPreview() const { return m_quickPreview; }
+	KileDocument::Extensions *extensions() const { return m_extensions; }
 
 	//FIXME:refactor
 	KileFileSelect* fileSelector() const { return m_fileSelector; }
@@ -144,6 +146,7 @@ protected:
 	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;
 	KileDocument::LatexCommands *m_latexCommands;
+	KileDocument::Extensions *m_extensions;
 	KileTool::QuickPreview *m_quickPreview;
 
 	QWidget *m_parentWidget;

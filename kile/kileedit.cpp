@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 20 2007
-    version              : 0.45
+    date                 : Mar 12 2007
+    version              : 0.46
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -34,6 +34,7 @@
 
 #include "kiletool_enums.h"
 #include "kilelogwidget.h"
+#include "kileextensions.h"
 #include "quickpreview.h"
 #include "kileedit.h"
 
@@ -2313,7 +2314,7 @@ bool EditorExtension::insertDoubleQuotes()
 	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
 
-	if( doc && Info::isTeXFile(doc->url()) )
+	if( doc && m_ki->extensions()->isTexFile(doc->url()) )
 		doc->removeSelectedText();
 	else
 		return false;

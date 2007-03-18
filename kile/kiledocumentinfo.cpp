@@ -47,7 +47,10 @@
 //2007-02-15
 // - signal foundItem() not only sends the cursor position of the parameter,
 //   but also the real cursor position of the command
- 
+
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -70,25 +73,6 @@
 
 namespace KileDocument
 {
-
-bool Info::isTeXFile(const KURL & url)
-{
-	//TODO use mimetype
-	QString shortName = url.fileName();
-	return (shortName.right(4) == ".tex" || shortName.right(4) == ".sty" || shortName.right(4) == ".cls" || shortName.right(4) == ".dtx" || shortName.right(4) == ".ltx" || shortName.right(6) == ".latex");
-}
-
-bool Info::isBibFile(const KURL & url)
-{
-	QString shortName = url.fileName();
-	return ( shortName.right(4) == ".bib" );
-}
-
-bool Info::isScriptFile(const KURL& url)
-{
-	QString shortName = url.fileName();
-	return ( shortName.right(3) == ".js" );
-}
 
 bool Info::containsInvalidCharacters(const KURL& url)
 {
@@ -154,12 +138,12 @@ KURL Info::repairExtension(const KURL& url, bool checkForFileExistence /* = true
 	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
 
-KURL Info::makeValidTeXURL(const KURL & url, bool checkForFileExistence /* = true */)
+KURL Info::makeValidTeXURL(const KURL & url, bool istexfile, bool checkForFileExistence)
 {
 	KURL newURL(url);
 
 	//add a .tex extension
-	if(!isTeXFile(newURL)) 
+	if ( ! istexfile ) 
 		newURL = repairExtension(newURL, checkForFileExistence);
 		
 	//remove characters TeX does not accept, make sure the newURL does not exists yet
@@ -426,7 +410,7 @@ void Info::updateBibItems()
 {
 }
 
-TextInfo::TextInfo(Kate::Document *doc, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
+TextInfo::TextInfo(Kate::Document *doc, Extensions *extensions, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
 {
 	setDoc(doc);
 	if (m_doc)
@@ -444,7 +428,7 @@ TextInfo::TextInfo(Kate::Document *doc, const QString& defaultHighlightMode) : m
 	{
 		m_url = KURL();
 	}
-		
+	m_extensions = extensions; 
 
 }
 
@@ -661,7 +645,7 @@ void TextInfo::removeInstalledEventFilters()
 }
 
 
-LaTeXInfo::LaTeXInfo (Kate::Document *doc, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
+LaTeXInfo::LaTeXInfo (Kate::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -701,12 +685,7 @@ Type LaTeXInfo::getType()
 
 QString LaTeXInfo::getFileFilter() const
 {
-	return LaTeXFileFilter();
-}
-
-QString LaTeXInfo::LaTeXFileFilter()
-{
-	return "*.tex|" + i18n("LaTeX Files");
+	return m_extensions->latexDocumentFileFilter() + "\n" + m_extensions->latexPackageFileFilter();
 }
 
 void LaTeXInfo::updateStructLevelInfo() {
@@ -981,10 +960,14 @@ void LaTeXInfo::updateStruct()
 					// update the dependencies
 					else if ((*it).type == KileStruct::Input)
 					{
-						QString dep = m;
-						if (dep.right(4) != ".tex")
-							dep += ".tex";
-						m_deps.append(dep);
+						// \input- or \include-commands can be used without extension. So we check
+						// if an extension exists. If not the default extension is added
+						// ( LaTeX reference says that this is '.tex'). This assures that
+						// all files, which are listed in the structure view, have an extension.
+						QString ext = QFileInfo(m).extension();
+						if ( ext.isEmpty() ) 
+							m += m_extensions->latexDocumentDefault();
+						m_deps.append(m);
 					}
 
 					// update the referenced Bib files
@@ -1000,8 +983,12 @@ void LaTeXInfo::updateStruct()
 						QStringList bibs = QStringList::split(",", m);
 						QString biblio;
 						
+						// assure that all files have an extension
+						QString bibext = m_extensions->bibtexDefault();
+						int bibextlen = bibext.length();
+
 						uint cumlen = 0;
-						uint nextbib = 0; // length to add to jump to the next bibliography
+						int nextbib = 0; // length to add to jump to the next bibliography
 						for (uint b = 0; b < bibs.count(); ++b)
 						{
 							nextbib = 0;
@@ -1011,12 +998,12 @@ void LaTeXInfo::updateStruct()
 							{	nextbib += 2; 
 								biblio = biblio.mid(2,biblio.length()-2);
 							}
-							if ( biblio.right(4) == ".bib" )
+							if ( biblio.right(bibextlen) != bibext )
 							{
-								biblio =biblio.left(biblio.length()-4); 
-								nextbib +=4;
+								biblio += bibext; 
+								nextbib -= bibextlen;
 							}
-							m_deps.append(biblio + ".bib");
+							m_deps.append(biblio);
 							emit( foundItem(biblio, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
 							cumlen += biblio.length() + 1 + nextbib;
 						}
@@ -1100,7 +1087,7 @@ void LaTeXInfo::updateStruct()
 	emit(isrootChanged(isLaTeXRoot()));
 }
 
-BibInfo::BibInfo (Kate::Document *doc, LatexCommands* /* commands */) : TextInfo(doc, "BibTeX")
+BibInfo::BibInfo (Kate::Document *doc, Extensions *extensions, LatexCommands* /* commands */) : TextInfo(doc, extensions, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1192,15 +1179,10 @@ Type BibInfo::getType()
 
 QString BibInfo::getFileFilter() const
 {
-	return BibTeXFileFilter();
+	return m_extensions->bibtexFileFilter();
 }
 
-QString BibInfo::BibTeXFileFilter()
-{
-	return "*.bib|" + i18n("BibTeX Files");
-}
-
-ScriptInfo::ScriptInfo(Kate::Document *doc) : TextInfo(doc, "JavaScript")
+ScriptInfo::ScriptInfo(Kate::Document *doc, Extensions *extensions ) : TextInfo(doc, extensions, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1220,13 +1202,8 @@ Type ScriptInfo::getType()
 }
 
 QString ScriptInfo::getFileFilter() const
-{
-	return ScriptFileFilter();
-}
-
-QString ScriptInfo::ScriptFileFilter()
-{
-	return "*.js|" + i18n("Kile Script Files");
+{	
+	return m_extensions->scriptFileFilter();
 }
 
 }

@@ -108,6 +108,7 @@ SET(kile_SRCS
 	editorkeysequencemanager.cpp
 	kileversion.cpp
 	kileabbrevview.cpp
+	kileextensions.cpp
 )
 
 KDE3_AUTOMOC(${kile_SRCS})

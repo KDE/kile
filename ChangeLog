@@ -21,6 +21,7 @@ Features:
    c) Editable abbreviations are marked with a star.
    d) It is possible to add new abbreviations or delete existing ones.
    e) A new auto mode to expand abbreviations was added (configurable of course). If an abbreviation is followed by a space or a punctuation symbol, it is immediately expanded without further user commands.
+ - support for other file extensions than .tex (.ltx, .latex, .dtx)
 
 version 1.9.2-> 1.9.3
 Fixes:

@@ -1,9 +1,11 @@
 /***************************************************************************
     begin                : Sun Aug 3 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                         : (C) 2007  by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
-
+                           holger.danielsson@versanet.de
+***************************************************************************/
+ 
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +19,16 @@
 //  - cosmetic changes
 //  - use of groupboxes to prepare further extensions
 
+// 2007-03-12 (dani)
+//  - use KileDocument::Extensions
+//  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex 
+
 #include <qlabel.h>
 #include <qwhatsthis.h>
 #include <qfileinfo.h>
 #include <qptrlist.h>
+#include <qregexp.h>
+#include <qvalidator.h>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -37,6 +45,7 @@
 #include "kiletoolmanager.h"
 #include "kiledocumentinfo.h"
 #include "kileconfig.h"
+#include "kileextensions.h"
 
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 const QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
@@ -45,9 +54,9 @@ const QString whatsthisMaster = i18n("Select the default master document. Leave 
 
 const QString tool_default = i18n("(use global setting)");
 
-KileProjectDlgBase::KileProjectDlgBase(const QString &caption, QWidget *parent, const char * name)
+KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char * name)
 	: KDialogBase( KDialogBase::Plain, caption, (Ok | Cancel), Ok, parent, name, true, true),
-	m_project(0)
+	m_extmanager(extensions), m_project(0)
 {
 	// properties groupbox
 	m_pgroup = new QVGroupBox(i18n("Project"), plainPage());
@@ -72,23 +81,27 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, QWidget *parent, 
 	m_egrid->setAlignment( Qt::AlignTop );
 
 	m_extensions = new KLineEdit(m_egroup, "le_ext");
+	QRegExp reg("[\\. a-zA-Z0-9]+");
+	QRegExpValidator *extValidator = new QRegExpValidator(reg,m_egroup);
+	m_extensions->setValidator(extValidator);
+
 	m_sel_extensions = new KComboBox(false, m_egroup, "le_sel_ext");
-	m_sel_extensions->insertItem(i18n("Extensions for Source Files"));
-	m_sel_extensions->insertItem(i18n("Extensions for Package Files"));
-	m_sel_extensions->insertItem(i18n("Extensions for Image Files"));
-	m_isregexp = new QCheckBox(i18n("Use extension list as a regular expression"), m_egroup);
+	m_sel_extensions->insertItem(i18n("Source Files"));
+	m_sel_extensions->insertItem(i18n("Package Files"));
+	m_sel_extensions->insertItem(i18n("Image Files"));
+	m_lbPredefinedExtensions = new QLabel(i18n("Predefined:"),m_egroup);
+	m_lbStandardExtensions = new QLabel(QString::null,m_egroup);
+
 	QWhatsThis::add(m_sel_extensions, whatsthisExt);
 	QWhatsThis::add(m_extensions, whatsthisExt);
-	QWhatsThis::add(m_isregexp, whatsthisExt);
+
+	fillProjectDefaults();
 
 	connect(m_sel_extensions, SIGNAL(highlighted(int)),
 		this, SLOT(slotExtensionsHighlighted(int)));
 
 	connect(m_extensions, SIGNAL(textChanged(const QString&)),
 		this, SLOT(slotExtensionsTextChanged(const QString&)));
-
-	connect(m_isregexp, SIGNAL(toggled(bool)),
-		this, SLOT(slotRegExpToggled(bool)));
 }
 
 KileProjectDlgBase::~KileProjectDlgBase()
@@ -103,11 +116,7 @@ void KileProjectDlgBase::slotExtensionsHighlighted(int index)
 	connect(m_extensions, SIGNAL(textChanged(const QString&)),
 		this, SLOT(slotExtensionsTextChanged(const QString&)));
 
-	disconnect(m_isregexp, SIGNAL(toggled(bool)),
-		this, SLOT(slotRegExpToggled(bool)));
-	m_isregexp->setChecked(m_val_isregexp[index]);
-	connect(m_isregexp, SIGNAL(toggled(bool)),
-		this, SLOT(slotRegExpToggled(bool)));
+	m_lbStandardExtensions->setText( m_val_standardExtensions[index] );
 }
 
 void KileProjectDlgBase::slotExtensionsTextChanged(const QString &text)
@@ -115,9 +124,30 @@ void KileProjectDlgBase::slotExtensionsTextChanged(const QString &text)
 	m_val_extensions[m_sel_extensions->currentItem()] = text;
 }
 
-void KileProjectDlgBase::slotRegExpToggled(bool on)
+bool KileProjectDlgBase::acceptUserExtensions()
 {
-	m_val_isregexp[m_sel_extensions->currentItem()] = on;
+	QRegExp reg("\\.\\w+");
+
+	for (int i=KileProjectItem::Source; i<KileProjectItem::Other; ++i) 
+	{
+		m_val_extensions[i-1] = m_val_extensions[i-1].stripWhiteSpace();
+		if ( ! m_val_extensions[i-1].isEmpty() )
+		{
+			// some tiny extension checks
+			QStringList::ConstIterator it;
+			QStringList list = QStringList::split(" ", m_val_extensions[i-1]);
+			for ( it=list.begin(); it != list.end(); ++it ) 
+			{
+				if ( ! reg.exactMatch(*it) )
+				{
+					KMessageBox::error(this, i18n("Error in extension") + " '" + (*it) + "':\n" + i18n("All user defined extensions should look like '.xyz'"), i18n("Invalid extension"));
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 void KileProjectDlgBase::setExtensions(KileProjectItem::Type type, const QString & ext)
@@ -128,14 +158,6 @@ void KileProjectDlgBase::setExtensions(KileProjectItem::Type type, const QString
 		m_val_extensions[type-1] = ext;
 }
 
-void KileProjectDlgBase::setExtIsRegExp(KileProjectItem::Type type, bool is)
-{
-	if (m_sel_extensions->currentItem() == type-1)
-		m_isregexp->setChecked(is);
-	else
-		m_val_isregexp[type-1] = is;
-}
-
 void KileProjectDlgBase::setProject(KileProject *project, bool override)
 {
 	m_project = project;
@@ -143,16 +165,14 @@ void KileProjectDlgBase::setProject(KileProject *project, bool override)
 	if ((!override) || (project == 0))
 		return;
 
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
-		m_val_extensions[i - 1] =
-			project->extensions((KileProjectItem::Type) i);
-		m_val_isregexp[i - 1] =
-			project->extIsRegExp((KileProjectItem::Type) i);
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) 
+	{
+		m_val_extensions[i - 1] = project->extensions((KileProjectItem::Type) i);
 	}
 
 	m_title->setText(m_project->name());
 	m_extensions->setText(m_val_extensions[0]);
-	m_isregexp->setChecked(m_val_isregexp[0]);
+	m_lbStandardExtensions->setText( m_val_standardExtensions[0] );
 }
 
 KileProject* KileProjectDlgBase::project()
@@ -162,26 +182,25 @@ KileProject* KileProjectDlgBase::project()
 
 void KileProjectDlgBase::fillProjectDefaults()
 {
-	m_val_isregexp[0] = false;
-	m_val_isregexp[1] = false;
-	m_val_isregexp[2] = false;
-	//m_val_isregexp[3] = false;
-
-	m_val_extensions[0] = SOURCE_EXTENSIONS;
-	m_val_extensions[1] = PACKAGE_EXTENSIONS;
-	m_val_extensions[2] = IMAGE_EXTENSIONS;
+	m_val_extensions[0] = QString::null;
+	m_val_extensions[1] = QString::null;
+	m_val_extensions[2] = QString::null;
 	//m_val_extensions[3] = OTHER_EXTENSIONS;
 
+	m_val_standardExtensions[0] = m_extmanager->latexDocuments();
+	m_val_standardExtensions[1] = m_extmanager->latexPackages();
+	m_val_standardExtensions[2] = m_extmanager->images();
+
 	m_extensions->setText(m_val_extensions[0]);
-	m_isregexp->setChecked(m_val_isregexp[0]);
+	m_lbStandardExtensions->setText( m_val_standardExtensions[0] );
 }
 
 
 /*
  * KileNewProjectDlg
  */
-KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
-        : KileProjectDlgBase( i18n("Create New Project"), parent, name),
+KileNewProjectDlg::KileNewProjectDlg(KileDocument::Extensions *extensions, QWidget* parent, const char* name)
+        : KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name),
 		m_filename(QString::null)
 {
 	// Layout
@@ -236,7 +255,8 @@ KileNewProjectDlg::KileNewProjectDlg(QWidget* parent, const char* name)
 	// third groupbox
 	m_egrid->addWidget(m_sel_extensions, 6,0);
 	m_egrid->addMultiCellWidget(m_extensions, 6,6, 1,3);
-	m_egrid->addMultiCellWidget(m_isregexp, 7,7, 1,3);
+	m_egrid->addWidget(m_lbPredefinedExtensions, 7,0);
+	m_egrid->addMultiCellWidget(m_lbStandardExtensions, 7,7, 1,3);
 
 	// add to layout
 	vbox->addWidget(m_pgroup);
@@ -253,12 +273,11 @@ KileNewProjectDlg::~KileNewProjectDlg()
 KileProject* KileNewProjectDlg::project()
 {
 	if (!m_project) {
-		m_project = new KileProject(projectTitle(), KURL(location()));
+		m_project = new KileProject(projectTitle(), KURL(location()), m_extmanager);
 
 		KileProjectItem::Type type;
 		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 			type = (KileProjectItem::Type) i;
-			m_project->setExtIsRegExp(type, extIsRegExp(type));
 			m_project->setExtensions(type, extensions(type));
 		}
 
@@ -318,6 +337,9 @@ void KileNewProjectDlg::makeProjectPath()
 
 void KileNewProjectDlg::slotOk()
 {
+	if ( ! acceptUserExtensions() )
+		return;
+
 	//replace ~ and environment variables in the paths
 	KURLCompletion uc;
 	uc.setReplaceEnv(true);
@@ -403,7 +425,7 @@ void KileNewProjectDlg::slotOk()
 
 		//check for validity of name first, then check for existence (fixed by tbraun)
 		KURL fileURL; fileURL.setFileName(file());
-		KURL validURL = KileDocument::Info::makeValidTeXURL(fileURL);
+		KURL validURL = KileDocument::Info::makeValidTeXURL(fileURL,m_extmanager->isTexFile(fileURL),true);
 		if ( validURL != fileURL )
 			m_file->setText(validURL.fileName());
 
@@ -444,8 +466,8 @@ TemplateItem* KileNewProjectDlg::getSelection() const
 /*
  * KileProjectOptionsDlg
  */
-KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *parent, const char * name) :
- 	KileProjectDlgBase(i18n("Project Options"), parent, name )
+KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent, const char * name) :
+ 	KileProjectDlgBase(i18n("Project Options"), extensions, parent, name )
 {
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
@@ -460,7 +482,8 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, QWidget *pare
 
 	m_egrid->addWidget(m_sel_extensions, 6,0);
 	m_egrid->addMultiCellWidget(m_extensions, 6,6, 1,3);
-	m_egrid->addMultiCellWidget(m_isregexp, 7,7, 1,3);
+	m_egrid->addWidget(m_lbPredefinedExtensions, 7,0);
+	m_egrid->addMultiCellWidget(m_lbStandardExtensions, 7,7, 1,3);
 
 	// third groupbox
 	QVGroupBox* group3 = new QVGroupBox(i18n("Properties"), plainPage());
@@ -543,6 +566,9 @@ void KileProjectOptionsDlg::toggleMakeIndex(bool on)
 
 void KileProjectOptionsDlg::slotOk()
 {
+	if ( ! acceptUserExtensions() )
+		return;
+
 	this->m_project->setName(m_title->text());
 
 	QPtrListIterator<KileProjectItem> rit(*(m_project->rootItems()));
@@ -554,16 +580,11 @@ void KileProjectOptionsDlg::slotOk()
 	}
 	if (m_master->currentItem() == 0) m_project->setMasterDocument(QString::null);
 
-	m_val_extensions[m_sel_extensions->currentItem()]
-		= m_extensions->text();
-	m_val_isregexp[m_sel_extensions->currentItem()]
-		= m_isregexp->isChecked();
+	m_val_extensions[m_sel_extensions->currentItem()] = m_extensions->text();
 
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
-		m_project->setExtensions
-			((KileProjectItem::Type) i, m_val_extensions[i-1]);
-		m_project->setExtIsRegExp
-			((KileProjectItem::Type) i, m_val_isregexp[i-1]);
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) 
+	{
+		m_project->setExtensions( (KileProjectItem::Type) i, m_val_extensions[i-1] );
 	}
 
 	if ( m_cbQuick->currentText() == tool_default )

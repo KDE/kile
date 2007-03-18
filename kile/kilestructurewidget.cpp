@@ -41,6 +41,9 @@
 // - class KileListViewItem gets two new members to 
 //   save the real cursor position of the command
 
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -560,10 +563,12 @@ namespace KileWidget
 			}
 			else
 			{
+				// filename in structureview entry has no extension: this shouldn't happen anymore,
+				// because all have got one in function updateStruct(). But who knows?
 				if ( item->type() == KileStruct::Input )
-					fname += ".tex";
+					fname += m_ki->extensions()->latexDocumentDefault();
 				else if ( item->type() == KileStruct::Bibliography )
-					fname += ".bib";
+					fname += m_ki->extensions()->bibtexDefault();
 				else
 				{
 					// FIXME get graphics suffix from an project config option

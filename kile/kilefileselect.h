@@ -27,6 +27,7 @@ from Kate (C) 2001 by Matt Newell
 #include <kurlcompletion.h>
 #include <kurl.h>
 
+#include "kileextensions.h"
 
 /**
   *@author Jeroen Wijnhout
@@ -40,7 +41,7 @@ class KileFileSelect : public QWidget
 	Q_OBJECT
 
 public: 
-	KileFileSelect(QWidget *parent=0, const char *name=0);
+	KileFileSelect(KileDocument::Extensions *extensions, QWidget *parent=0, const char *name=0);
 	~KileFileSelect();
 
 	void setView(KFile::FileView);

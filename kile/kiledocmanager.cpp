@@ -6,7 +6,7 @@
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
 //         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006, 2007
-//
+//         Holger Danielsson <holger.danielsson@versanet.de>, (C) 2007
 
 /***************************************************************************
  *                                                                         *
@@ -16,6 +16,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
 
 #include <qtextcodec.h>
 #include <qfile.h>
@@ -373,19 +376,19 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KURL & 
 			case Undefined: // fall through
 			case Text:
 				kdDebug() << "CREATING TextInfo for " << url.url() << endl;
-				docinfo = new TextInfo(0L);
+				docinfo = new TextInfo(0L,m_ki->extensions());
 				break;
 			case LaTeX:
 				kdDebug() << "CREATING LaTeXInfo for " << url.url() << endl;
-				docinfo = new LaTeXInfo(0L, m_ki->latexCommands(), m_ki->eventFilter());
+				docinfo = new LaTeXInfo(0L, m_ki->extensions(), m_ki->latexCommands(), m_ki->eventFilter());
 				break;
 			case BibTeX:
 				kdDebug() << "CREATING BibInfo for " << url.url() << endl;
-				docinfo = new BibInfo(0L, m_ki->latexCommands());
+				docinfo = new BibInfo(0L, m_ki->extensions(), m_ki->latexCommands());
 				break;
 			case Script:
 				kdDebug() << "CREATING ScriptInfo for " << url.url() << endl;
-				docinfo = new ScriptInfo(0L);
+				docinfo = new ScriptInfo(0L, m_ki->extensions());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);
@@ -664,18 +667,16 @@ void Manager::fileOpen()
     else
         currentDir = m_ki->fileSelector()->dirOperator()->url().path();
 
-	QString filter;
-	filter.append(SOURCE_EXTENSIONS);
-	filter.append(" ");
-	filter.append(PACKAGE_EXTENSIONS);
-	filter.replace(".","*.");
-	filter.append("|");
-	filter.append(i18n("TeX Files"));
-	filter.append("\n*|");
-	filter.append(i18n("All Files"));
+	// use a filter for fileOpen dialog
+	Extensions *extensions = m_ki->extensions();
+	QString filter = extensions->latexDocumentFileFilter() + "\n" 
+	                 + extensions->latexPackageFileFilter() + "\n" 
+	                 + extensions->bibtexFileFilter() + "\n" 
+	                 + extensions->metapostFileFilter() + "\n" 
+	                 + "*|" + i18n("All Files");
 
-    //get the URLs
-    KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenURLsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
+	//get the URLs
+	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenURLsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
 
 	//open them
 	KURL::List urls = result.URLs;
@@ -893,7 +894,7 @@ void Manager::fileSaveAs()
 			return;
 		}
 		saveURL = result.URLs.first();
-		saveURL = Info::makeValidTeXURL(saveURL, false); // don't check for file existence
+		saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		if(KIO::NetAccess::exists(saveURL, true, kapp->mainWidget())) // check for writing possibility
 		{
 			int r =  KMessageBox::warningContinueCancel(m_ki->parentWidget(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?").arg(saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")), QString::null);
@@ -1047,7 +1048,7 @@ void Manager::buildProjectTree(KileProject *project)
 void Manager::projectNew()
 {
 	kdDebug() << "==Kile::projectNew==========================" << endl;
-	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->parentWidget());
+	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->extensions(), m_ki->parentWidget());
 	kdDebug()<< "\tdialog created" << endl;
 
 	if (dlg->exec())
@@ -1244,7 +1245,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool open
 
 	m_kpd->show();
 
-	KileProject *kp = new KileProject(realurl);
+	KileProject *kp = new KileProject(realurl,m_ki->extensions());
 	
 	if(kp->isInvalid())
 	{
@@ -1489,7 +1490,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 	if (project)
 	{
 		kdDebug() << "\t" << project->name() << endl;
-		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->parentWidget());
+		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->extensions(), m_ki->parentWidget());
 		dlg->exec();
 	}
 	else if (m_projects.count() == 0)
@@ -1671,21 +1672,37 @@ void Manager::projectShow()
 	// if not, we search for the first opened tex file of this project
 	// if no file is opened, we take the first tex file mentioned in the list
 	KileProjectItem *first_texitem = 0L;
-	if ( ! docitem ) {
+	if ( ! docitem ) 
+	{
 		KileProjectItemList *list = project->items();
-		for ( KileProjectItem *item=list->first(); item; item=list->next() ) {
-			if ( item->path().find(".tex",-4) >= 0 ) {
-				if  ( m_ki->isOpen(item->url()) ) {
-					docitem = item;
-					break;
-				} else if ( ! first_texitem )
-					first_texitem = item;
+		for ( KileProjectItem *item=list->first(); item; item=list->next() ) 
+		{
+			QString itempath = item->path();
+
+			// called from KAction 'Show projects...': find the first opened 
+			// LaTeX document or, if that fails, any other opened file
+			QStringList extlist = QStringList::split(" ",m_ki->extensions()->latexDocuments() + " " + m_ki->extensions()->latexPackages());
+			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
+			{
+				if ( itempath.find( (*it), -(*it).length() ) >= 0 ) 
+				{
+					if  ( m_ki->isOpen(item->url()) ) 
+					{
+						docitem = item;
+						break;
+					}
+					else if ( ! first_texitem )
+						first_texitem = item;
+				}
 			}
+			if ( docitem )
+				break;
 		}
 	}
 
 	// did we find one opened file or must we take the first entry
-	if ( ! docitem ) {
+	if ( ! docitem ) 
+	{
 		if ( ! first_texitem )
 			return;
 		docitem = first_texitem;
@@ -1787,15 +1804,15 @@ QStringList Manager::getProjectFiles()
 
 Type Manager::determineFileType(const KURL& url)
 {
-	if(Info::isTeXFile(url))
+	if ( m_ki->extensions()->isTexFile(url) )
 	{
 		return LaTeX;
 	}
-	else if(Info::isBibFile(url))
+	else if ( m_ki->extensions()->isBibFile(url) )
 	{
 		return BibTeX;
 	}
-	else if(Info::isScriptFile(url))
+	else if ( m_ki->extensions()->isScriptFile(url) )
 	{
 		return Script;
 	}
@@ -1889,12 +1906,21 @@ void Manager::projectAddFile(QString filename, bool graphics)
  	if ( ! project )
 		return;
 
-	if ( ! QFileInfo(filename).exists() )
+	QFileInfo fi(filename);
+	if ( ! fi.exists() )
 	{
 		if ( graphics )
 			return;
-		filename += ".tex";
-		if ( ! QFileInfo(filename).exists() )
+		
+		// called from InputDialog after a \input- or \include command:
+		//  - if the chosen file has an extension: accept
+		//  - if not we add the default TeX extension: accept if it exists else reject
+		QString ext = fi.extension();
+		if ( ! ext.isEmpty() )
+			return;
+
+		filename += m_ki->extensions()->latexDocumentDefault();
+		if ( QFileInfo(filename).exists() )
 			return;
 	}
 

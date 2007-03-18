@@ -16,6 +16,9 @@ from Kate (C) 2001 by Matt Newell
  *                                                                         *
  ***************************************************************************/
 
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
 #include "kilefileselect.h"
 
 #include <qlayout.h>
@@ -35,7 +38,7 @@ from Kate (C) 2001 by Matt Newell
 
 #include "kileconfig.h"
 
-KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(parent,name)
+KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *parent, const char *name ) : QWidget(parent,name)
 {
   QVBoxLayout* lo = new QVBoxLayout(this);
 
@@ -52,7 +55,14 @@ KileFileSelect::KileFileSelect(QWidget *parent, const char *name ) : QWidget(par
   connect(dir, SIGNAL(fileSelected(const KFileItem*)), this, SIGNAL(fileSelected(const KFileItem*)));
   dir->setView(KFile::Simple);
   dir->setMode(KFile::Files);
-  dir->setNameFilter( "*.tex *.ltx *.dtx *.bib *.sty *.cls *.mp" );
+
+	// KileFileSelect filter for sidebar 
+	QString filter =  extensions->latexDocuments() 
+	                    + " " + extensions->latexPackages() 
+	                    + " " + extensions->bibtex() 
+	                    + " " +  extensions->metapost();
+	filter.replace(".","*.");
+	dir->setNameFilter(filter);
 
   KActionCollection *coll = dir->actionCollection();
   // some shortcuts of diroperator that clashes with Kate

@@ -25,11 +25,7 @@
 class QString;
 class QStringList;
 class KSimpleConfig;
-namespace KileDocument { class Info; class TextInfo; }
-
-const QString SOURCE_EXTENSIONS = ".tex .ltx .bib .mp";
-const QString PACKAGE_EXTENSIONS = ".cls .sty .dtx";
-const QString IMAGE_EXTENSIONS = ".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png";
+namespace KileDocument { class Info; class TextInfo; class Extensions; }
 
 /**
  * KileProjectItem
@@ -145,8 +141,8 @@ class KileProject : public QObject
 	Q_OBJECT
 
 public:
-	KileProject(const QString& name, const KURL& url);
-	KileProject(const KURL& url);
+	KileProject(const QString& name, const KURL& url, KileDocument::Extensions *extensions);
+	KileProject(const KURL& url, KileDocument::Extensions *extensions);
 
 	~KileProject();
 
@@ -158,8 +154,6 @@ public:
 
 	void setExtensions(KileProjectItem::Type type, const QString & ext);
 	const QString & extensions(KileProjectItem::Type type) { return m_extensions[type-1]; }
-	void setExtIsRegExp(KileProjectItem::Type type, bool is) { m_extIsRegExp[type-1] = is; }
-	bool extIsRegExp(KileProjectItem::Type type) { return m_extIsRegExp[type-1]; }
 
 	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
 	const QString & quickBuildConfig() { return m_quickBuildConfig; }
@@ -214,11 +208,12 @@ signals:
 	void loadFile(const KURL &url , const QString & encoding);
 
 private:
-	void init(const QString& name, const KURL& url);
+	void init(const QString& name, const KURL& url, KileDocument::Extensions *extensions);
 	QString	findRelativePath(const KURL&);
 	void setType(KileProjectItem *item);
   	QString addBaseURL(const QString &path);
   	QString removeBaseURL(const QString &path);
+	void writeConfigEntry(const QString &key,const QString &standardExt,KileProjectItem::Type type);
 
 private:
 	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion;
@@ -229,12 +224,12 @@ private:
 
 	QString		m_extensions[3];
 	QRegExp		m_reExtensions[3];
-	bool			m_extIsRegExp[3];
 
 	QString		m_masterDocument, m_makeIndexOptions;
 	bool			m_useMakeIndexOptions;
 
 	KSimpleConfig	*m_config;
+	KileDocument::Extensions *m_extmanager;
 };
 
 #endif

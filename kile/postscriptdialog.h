@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Jan 28 2005
-    version              : 0.10
-    copyright            : (C) 2005 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Mar 12 2007
+    version              : 0.20
+    copyright            : (C) 2005-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -25,8 +25,8 @@
 #include <qstring.h>
 #include <kprocess.h>
 
-#include <kilelogwidget.h>
-#include <kileoutputwidget.h>
+#include "kilelogwidget.h"
+#include "kileoutputwidget.h"
 
 #define PS_A5_EMPTY       0
 #define PS_A5_DUPLICATE   1
@@ -59,6 +59,7 @@ class PostscriptDialog : public KDialogBase
 public:
 	PostscriptDialog(QWidget *parent, 
 	              const QString &texfilename,const QString &startdir,
+                 const QString &latexextensions,
 	              KileWidget::LogMsg *log, KileWidget::Output *output);
 	~PostscriptDialog();
 

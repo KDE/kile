@@ -24,6 +24,7 @@
 #include <latexcmd.h>
 
 #include "kileconstants.h"
+#include "kileextensions.h"
 
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
@@ -93,13 +94,10 @@ class Info : public QObject
 	Q_OBJECT
 
 public:
-	static bool isTeXFile(const KURL &);
-	static bool isBibFile(const KURL &);
-	static bool isScriptFile(const KURL & url);
 	static bool containsInvalidCharacters(const KURL&);
 	static KURL repairInvalidCharacters(const KURL&, bool checkForFileExistence = true);
 	static KURL repairExtension(const KURL&, bool checkForFileExistence = true);
-	static KURL makeValidTeXURL(const KURL & url, bool checkForFileExistence = true);
+	static KURL makeValidTeXURL(const KURL & url, bool istexfile, bool checkForFileExistence = true);
 	static KURL renameIfExist(const KURL& url);
 
 public:
@@ -196,6 +194,7 @@ protected:
 	bool m_openStructureBibitems;
 	KURL						m_baseDirectory;
 	bool						documentTypePromotionAllowed;
+	Extensions *m_extensions;
 };
 
 
@@ -210,7 +209,7 @@ public:
 	 * @param defaultHighlightMode the highlight mode that will be set automatically
 	 *                             once a new document is installed
 	 **/
-	TextInfo(Kate::Document *doc, const QString& defaultHighlightMode = QString::null);
+	TextInfo(Kate::Document *doc, Extensions *extensions, const QString& defaultHighlightMode = QString::null);
 	virtual ~TextInfo();
 
 	/**
@@ -302,7 +301,7 @@ public:
 	/**
 	 * @param eventFilter the event filter that will be installed on managed documents
 	 **/
-	LaTeXInfo(Kate::Document *doc, LatexCommands *commands, const QObject* eventFilter);
+	LaTeXInfo(Kate::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter);
 	virtual ~LaTeXInfo();
 
 	const long* getStatistics();
@@ -310,8 +309,6 @@ public:
 	virtual Type getType();
 
 	virtual QString getFileFilter() const;
-
-	static QString LaTeXFileFilter();
 
 public slots:
 	virtual void updateStruct();
@@ -343,7 +340,7 @@ class BibInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	BibInfo (Kate::Document *doc, LatexCommands* commands);
+	BibInfo (Kate::Document *doc, Extensions *extensions, LatexCommands* commands);
 	virtual ~BibInfo();
 
 	virtual bool isLaTeXRoot();
@@ -351,8 +348,6 @@ public:
 	virtual Type getType();
 
 	virtual QString getFileFilter() const;
-
-	static QString BibTeXFileFilter();
 
 public slots:
 	virtual void updateStruct();
@@ -363,7 +358,7 @@ class ScriptInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	ScriptInfo(Kate::Document *doc);
+	ScriptInfo(Kate::Document *doc, Extensions *extensions);
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();
@@ -371,8 +366,6 @@ public:
 	virtual Type getType();
 
 	virtual QString getFileFilter() const;
-
-	static QString ScriptFileFilter();
 };
 
 }

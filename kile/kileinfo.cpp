@@ -13,6 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
 #include <qwidget.h>
 #include <qfileinfo.h>
 #include <qobject.h>
@@ -22,7 +25,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include "kilefileselect.h"
 #include "kilestructurewidget.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
@@ -143,12 +145,22 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 	QFileInfo fi(file);
 	if ( file.isNull() || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
 	{
-		if ( QFileInfo(file+".tex").exists() )
+		// - call from logwidget or error handling, which 
+		//   tries to determine the LaTeX source file
+		bool found = false;
+		QStringList extlist = QStringList::split( " ", m_extensions->latexDocuments() );
+		for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 		{
-			file += ".tex";
-			fi.setFile(file);
+			QString name = file + (*it);
+			if ( QFileInfo(name).exists() )
+			{
+				file = name;
+				fi.setFile(name);
+				found = true;
+				break;
+			}
 		}
-		else
+		if ( ! found )
 			file = QString::null;
 	}
 

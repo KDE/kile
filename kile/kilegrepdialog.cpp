@@ -38,6 +38,9 @@
     (in other words: most parts have changed to work perfectly with Kile ...)
 */
 
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
 #include "kilegrepdialog.h"
 
 #include <qobject.h>
@@ -69,6 +72,7 @@
 #include "kileconfig.h"
 #include "kileproject.h"
 #include "kiledocmanager.h"
+#include "kileextensions.h"
 
 KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name)
 	: KDialogBase (parent, name, false, QString::null, 0, Ok, false ), 
@@ -382,15 +386,13 @@ void KileGrepDialog::setupDirectory()
 {
 	setDirName( QDir::home().absPath() );
 
-	QString filter(SOURCE_EXTENSIONS);
-	filter.append(" ");
-	filter.append(PACKAGE_EXTENSIONS);
-	filter.replace(".", "*.");
-	filter.replace(" ", ",");
-	filter.append("|");
-	filter.append(i18n("TeX Files"));
-	filter.append("\n*|");
-	filter.append(i18n("All Files"));
+	// use a filter for 'find in files' dialog
+	KileDocument::Extensions *extensions = m_ki->extensions();
+	QString filter = extensions->latexDocumentFileFilter() + "\n" 
+	                 + extensions->latexPackageFileFilter() + "\n" 
+	                 + extensions->bibtexFileFilter() + "\n" 
+	                 + extensions->metapostFileFilter() + "\n" 
+	                 + "*|" + i18n("All Files");
 	setFilter(filter);
 }
 

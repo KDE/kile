@@ -17,6 +17,10 @@
 //  - cleanup dialog
 //  - added new action 'ShowLabel'
 
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
+
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qlayout.h>
@@ -166,6 +170,11 @@ void InputTag::emitData()
 		if (dlg->usedSelection())
 			m_ki->clearSelection();
 			
+		// if a filename was given for a \input- or \include-command,
+		// the cursor is moved out of the braces
+		if ( (m_options & KileAction::ShowBrowseButton) && !dlg->tag().isEmpty() )
+			td.dx += dlg->tag().length() + 1;
+
 		// insert tag
 		emit(activated(td));
 		// refresh document structure and project tree when a file was inserted
@@ -306,13 +315,21 @@ void InputDialog::slotBrowse()
 {
 	QString fn;
 	QFileInfo fi(m_ki->getCompileName());
-	
-	fn = KFileDialog::getOpenFileName(fi.absFilePath(), QString::null, this,i18n("Select File") );
+
+	// Called from InputDialog after a \input- or \include command:
+	// so we are only looking for a LaTeX source document
+	QString filter = m_ki->extensions()->latexDocumentFileFilter() + "\n" 
+	                 + "*|" + i18n("All Files");
+
+	fn = KFileDialog::getOpenFileName(fi.absFilePath(), filter, this,i18n("Select File") );
 	if ( !fn.isEmpty() )
 	{
 		QString path = m_ki->relativePath(fi.dirPath(), fn);
-		if ( path.find(".tex",-4) >= 0 )
-			path.truncate( path.length()-4 );
+
+		// if the file has no extension, we add the default TeX extension
+		if ( QFileInfo(path).extension().isEmpty() )
+			path += m_ki->extensions()->latexDocumentDefault();
+ 
 		setTag(path);
 		emit(setInput(path));
 	}

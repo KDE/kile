@@ -1,8 +1,10 @@
 /***************************************************************************
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                         : (C) 2007  by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+                           holger.danielsson@versanet.de
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -12,6 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+//  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex 
+
 #include "kileproject.h"
 #include "kileversion.h"
 
@@ -28,6 +35,7 @@
 #include "kiledocumentinfo.h"
 #include "kiledocmanager.h"
 #include "kiletoolmanager.h"
+#include "kileextensions.h"
 #include <krun.h>
 /*
  01/24/06 tbraun
@@ -143,14 +151,14 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const KURL &url)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KURL& url) : QObject(0,name.ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QString& name, const KURL& url, KileDocument::Extensions *extensions) : QObject(0,name.ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
-	init(name, url);
+	init(name, url, extensions);
 }
 
-KileProject::KileProject(const KURL& url) : QObject(0,url.fileName().ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const KURL& url, KileDocument::Extensions *extensions) : QObject(0,url.fileName().ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
-	init(url.fileName(), url);
+	init(url.fileName(), url, extensions);
 }	
 
 KileProject::~KileProject()
@@ -159,7 +167,7 @@ KileProject::~KileProject()
 	delete m_config;
 }
 
-void KileProject::init(const QString& name, const KURL& url)
+void KileProject::init(const QString& name, const KURL& url, KileDocument::Extensions *extensions)
 {
 	m_name = name;
 	m_projecturl = KileDocument::Manager::symlinkFreeURL( url);;
@@ -167,6 +175,7 @@ void KileProject::init(const QString& name, const KURL& url)
 	m_projectitems.setAutoDelete(true);
 
 	m_config = new KSimpleConfig(m_projecturl.path());
+	m_extmanager = extensions;
 
 	m_baseurl = m_projecturl.directory();
 	m_baseurl.cleanPath(true);
@@ -196,32 +205,72 @@ void KileProject::setLastDocument(const KURL &url)
 
 void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
-	QString pattern = ext;
-
-	if (type < 1) 
+	if (type<KileProjectItem::Source || type>KileProjectItem::Image) 
 	{
-		kdWarning() << "ERROR: TYPE < 1" << endl;
+		kdWarning() << "ERROR: TYPE<1 or TYPE>3" << endl;
 		return;
 	}
 
-	if (ext.stripWhiteSpace().length() == 0) pattern = "";
+	// first we take all standard extensions
+	QStringList standardExtList;
+	if ( type == KileProjectItem::Source )
+		standardExtList = QStringList::split(" ", m_extmanager->latexDocuments() );
+	else if ( type == KileProjectItem::Package )
+		standardExtList = QStringList::split(" ", m_extmanager->latexPackages() );
+	else // if ( type == KileProjectItem::Image )
+		standardExtList = QStringList::split(" ", m_extmanager->images() );
 
-	if ( (!pattern.isEmpty()) && !extIsRegExp(type))
+	// now we scan user defined list and accept all extension, 
+	// except standard extensions of course
+	QString userExt;
+	if ( ! ext.isEmpty() )
 	{
-		QStringList lst = QStringList::split(" ", ext);
-		pattern = lst.join("|");
-		pattern.replace(".","\\.");
-		pattern = '('+ pattern +")$";
+		QStringList userExtList;
+
+		QStringList::ConstIterator it;
+		QStringList list = QStringList::split(" ", ext);
+		for ( it=list.begin(); it != list.end(); ++it ) 
+		{
+			// some tiny extension checks
+			if ( (*it).length()<2 || (*it)[0]!='.' )
+				continue;
+
+			// some of the old definitions are wrong, so we test them all
+			if ( type==KileProjectItem::Source || type==KileProjectItem::Package)
+			{
+				if ( ! (m_extmanager->isLatexDocument(*it) || m_extmanager->isLatexPackage(*it)) )
+				{
+					standardExtList << (*it);
+					userExtList << (*it);
+				}
+			}
+			else // if ( type == KileProjectItem::Image )
+			{
+				if ( ! m_extmanager->isImage(*it) )
+				{
+					standardExtList << (*it);
+					userExtList << (*it);
+				}
+			}
+		}
+		if ( userExtList.count() > 0 )
+			userExt = userExtList.join(" ");	
 	}
 
-	if ( extIsRegExp(type) )
-		pattern = ext.stripWhiteSpace();
+	// now we build a regular expression for all extensions
+	// (used to search for a filename with a valid extension)
+	QString pattern = standardExtList.join("|");
+	pattern.replace(".","\\.");
+	pattern = '('+ pattern +")$";
 
+	// and save it
 	m_reExtensions[type-1].setPattern(pattern);
 
-	if (m_extensions[type-1] != ext)
+	// if the list of user defined extensions has changed
+	// we save the new value and (re)build the project tree
+	if (m_extensions[type-1] != userExt)
 	{
-		m_extensions[type-1] = ext.stripWhiteSpace();
+		m_extensions[type-1] = userExt;
 		buildProjectTree();
 	}
 }
@@ -236,13 +285,14 @@ void KileProject::setType(KileProjectItem *item)
 
 	bool unknown = true;
 	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i)
-		if ( (!extensions((KileProjectItem::Type) i).isEmpty()) &&
-			m_reExtensions[i-1].search(item->url().fileName()) != -1)
+	{
+		if ( m_reExtensions[i-1].search(item->url().fileName()) != -1)
 		{
 			item->setType(i);
 			unknown = false;
 			break;
 		}
+	}
 
 	if (unknown)
 		item->setType(KileProjectItem::Other);
@@ -329,13 +379,9 @@ bool KileProject::load()
   	kdDebug() << "masterDoc == " << master << endl;
 	setMasterDocument(master);
 
-	// IsRegExp has to be loaded _before_ the Extensions
-	setExtIsRegExp(KileProjectItem::Source, m_config->readBoolEntry("src_extIsRegExp", false));
-	setExtensions(KileProjectItem::Source, m_config->readEntry("src_extensions", SOURCE_EXTENSIONS));
-	setExtIsRegExp(KileProjectItem::Package, m_config->readBoolEntry("pkg_extIsRegExp", false));
-	setExtensions(KileProjectItem::Package, m_config->readEntry("pkg_extensions", PACKAGE_EXTENSIONS));
-	setExtIsRegExp(KileProjectItem::Image, m_config->readBoolEntry("img_extIsRegExp", false));
-	setExtensions(KileProjectItem::Image, m_config->readEntry("img_extensions", IMAGE_EXTENSIONS));
+	setExtensions(KileProjectItem::Source, m_config->readEntry("src_extensions",m_extmanager->latexDocuments()));
+	setExtensions(KileProjectItem::Package, m_config->readEntry("pkg_extensions",m_extmanager->latexPackages()));
+	setExtensions(KileProjectItem::Image, m_config->readEntry("img_extensions",m_extmanager->images()));
 
 	setQuickBuildConfig(KileTool::configName("QuickBuild", m_config));
 
@@ -405,12 +451,14 @@ bool KileProject::save()
 	m_config->writeEntry("masterDocument", removeBaseURL(m_masterDocument));
   	m_config->writeEntry("lastDocument", removeBaseURL(m_lastDocument.path()));
 
-	m_config->writeEntry("src_extensions", extensions(KileProjectItem::Source));
-	m_config->writeEntry("src_extIsRegExp", extIsRegExp(KileProjectItem::Source));
-	m_config->writeEntry("pkg_extensions", extensions(KileProjectItem::Package));
-	m_config->writeEntry("pkg_extIsRegExp", extIsRegExp(KileProjectItem::Package));
-	m_config->writeEntry("img_extensions", extensions(KileProjectItem::Image));
-	m_config->writeEntry("img_extIsRegExp", extIsRegExp(KileProjectItem::Image));
+
+	writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
+	writeConfigEntry("pkg_extensions",m_extmanager->latexPackages(),KileProjectItem::Package);
+	writeConfigEntry("img_extensions",m_extmanager->images(),KileProjectItem::Image);
+	// only to avoid problems with older versions
+	m_config->writeEntry("src_extIsRegExp", false);
+	m_config->writeEntry("pkg_extIsRegExp", false);
+	m_config->writeEntry("img_extIsRegExp", false);
 
 	KileProjectItem *item;
 	for (uint i=0; i < m_projectitems.count(); ++i)
@@ -443,6 +491,15 @@ bool KileProject::save()
 	// dump();
 
 	return true;
+}
+
+void KileProject::writeConfigEntry(const QString &key, const QString &standardExt, KileProjectItem::Type type)
+{
+	QString userExt = extensions(type);
+	if ( userExt.isEmpty() )
+		m_config->writeEntry(key,standardExt);
+	else
+		m_config->writeEntry(key,standardExt+" "+extensions(type));
 }
 
 void KileProject::buildProjectTree()

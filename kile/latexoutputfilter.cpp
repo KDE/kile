@@ -13,6 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qfileinfo.h>
@@ -26,11 +29,12 @@
 
 using namespace std;
 
-LatexOutputFilter::LatexOutputFilter(LatexOutputInfoArray* LatexOutputInfoArray) :
+LatexOutputFilter::LatexOutputFilter(LatexOutputInfoArray* LatexOutputInfoArray, KileDocument::Extensions *extensions) :
 	m_nErrors(0),
 	m_nWarnings(0),
 	m_nBadBoxes(0),
-	m_InfoList(LatexOutputInfoArray)
+	m_InfoList(LatexOutputInfoArray),
+	m_extensions(extensions)
 {
 }
 
@@ -62,8 +66,17 @@ bool LatexOutputFilter::fileExists(const QString & name)
 	fi.setFile(path() + '/' + name);
 	if ( fi.exists() && !fi.isDir() ) return true;
 
-	fi.setFile(path() + '/' + name + ".tex");
+	fi.setFile(path() + '/' + name + m_extensions->latexDocumentDefault() );
 	if ( fi.exists() && !fi.isDir() ) return true;
+
+	// try to determine the LaTeX source file
+	QStringList extlist = QStringList::split(" ", m_extensions->latexDocuments() );
+	for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
+	{
+		fi.setFile( path() + '/' + name + (*it) );
+		if ( fi.exists() && !fi.isDir() ) 
+			return true;
+	}
 
 	return false;
 }

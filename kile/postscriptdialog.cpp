@@ -1,8 +1,8 @@
 /***************************************************************************
-    date                 : Feb 07 2005
-    version              : 0.11
-    copyright            : (C) 2005 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+    date                 : Mar 12 2007
+    version              : 0.20
+    copyright            : (C) 2005-2007 by Holger Danielsson
+    email                : holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,6 +13,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
 
 #include "postscriptdialog.h"
 
@@ -40,7 +43,8 @@ namespace KileDialog
 {
 
 PostscriptDialog::PostscriptDialog(QWidget *parent, 
-                                   const QString &texfilename,const QString &startdir,  
+                                   const QString &texfilename,const QString &startdir,
+                                   const QString &latexextensions,
                                    KileWidget::LogMsg *log,KileWidget::Output *output) :
 	KDialogBase( parent,0, true, i18n("Rearrange Postscript File"), User1 | Ok, User1, true ),
 	m_startdir(startdir),
@@ -50,13 +54,19 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 {	
 	// determine if a psfile already exists
 	QString psfilename;
-	if ( ! texfilename.isEmpty() ) {
-			QFileInfo fi(texfilename);
-			if ( fi.extension(false) == "tex" ) {
-				psfilename = texfilename.left(texfilename.length()-3) + "ps";
-				QFileInfo psfile(psfilename);
-				if ( ! psfile.exists() )
-					psfilename = QString::null;
+	if ( ! texfilename.isEmpty() ) 
+	{
+			// working with a postscript document, so we try to determine the LaTeX source file
+			QStringList extlist = QStringList::split( " ", latexextensions );
+			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
+			{
+				if ( texfilename.find( (*it), -(*it).length() ) >= 0 ) 
+				{
+					psfilename = texfilename.left(texfilename.length()-(*it).length()) + ".ps";
+					if ( ! QFileInfo(psfilename).exists() )
+						psfilename = QString::null;
+					break;
+				}
 			}
 	}
 

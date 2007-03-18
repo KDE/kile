@@ -2,6 +2,7 @@
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -12,6 +13,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+// 2007-03-12 dani
+//  - use KileDocument::Extensions
 
 #include "kile.h"
 
@@ -112,6 +116,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_errorHandler = new KileErrorHandler(this, this);
 	m_spell = new KileSpell(this, this, "kilespell");
 	m_quickPreview = new KileTool::QuickPreview(this);
+	m_extensions = new KileDocument::Extensions();
 
 	connect( m_partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
 	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
@@ -221,6 +226,7 @@ actionCollection()->readShortcutSettings("Shortcuts", m_config);
 Kile::~Kile()
 {
 	kdDebug() << "cleaning up..." << endl;
+	delete m_extensions;
 	delete m_latexCommands;
 	delete m_quickPreview;
 	delete m_edit;
@@ -263,7 +269,7 @@ void Kile::setupSideBar()
 {
 	m_sideBar = new KileSideBar(KileConfig::sideBarSize(), m_horizontalSplitter);
 
-	m_fileSelector= new KileFileSelect(m_sideBar,"File Selector");
+	m_fileSelector= new KileFileSelect(m_extensions,m_sideBar,"File Selector");
 	m_sideBar->addTab(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
 	connect(m_fileSelector,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
 	connect(m_fileSelector->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
@@ -409,7 +415,7 @@ void Kile::setupBottomBar()
 	m_bottomBar->addTab(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
 
 	m_outputInfo=new LatexOutputInfoArray();
-	m_outputFilter=new LatexOutputFilter(m_outputInfo);
+	m_outputFilter=new LatexOutputFilter(m_outputInfo,m_extensions);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
 	m_texKonsole=new KileWidget::Konsole(this, m_bottomBar,"konsole");
@@ -1706,7 +1712,7 @@ void Kile::quickPostscript()
 		texfilename = getCompileName();
 	}
 
-	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_logWidget,m_outputWidget);
+	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this,texfilename,startdir,m_extensions->latexDocuments(),m_logWidget,m_outputWidget);
 	dlg->exec();
 	delete dlg;
 }

@@ -76,7 +76,7 @@ class KileErrorHandler;
 class KileSideBar;
 
 namespace KileAction { class TagData; }
-namespace KileDocument { class Info; class TextInfo; }
+namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 

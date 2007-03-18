@@ -31,13 +31,14 @@ class QLabel;
 class KileProject;
 class KComboBox;
 class QVGroupBox;
+namespace KileDocument { class Extensions; }
 
 class KileProjectDlgBase : public KDialogBase
 {
 	Q_OBJECT
 
 public:
-	KileProjectDlgBase(const QString &caption = QString::null, QWidget *parent = 0, const char * name = 0);
+	KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent = 0, const char * name = 0);
 	virtual ~KileProjectDlgBase();
 
 	void setProject(KileProject *project, bool override);
@@ -50,10 +51,6 @@ public:
 	const QString extensions(KileProjectItem::Type type)
 		{ return m_val_extensions[type-1]; }
 
-	void setExtIsRegExp(KileProjectItem::Type type, bool is);
-	bool extIsRegExp(KileProjectItem::Type type)
-		{ return m_val_isregexp[type-1]; }
-
 protected slots:
 	virtual void slotOk() = 0;
 	virtual void fillProjectDefaults();
@@ -61,20 +58,24 @@ protected slots:
 private slots:
 	void slotExtensionsHighlighted(int index);
 	void slotExtensionsTextChanged(const QString &text);
-	void slotRegExpToggled(bool on);
 
 protected:
+	KileDocument::Extensions *m_extmanager;
+
 	QVGroupBox *m_pgroup, *m_egroup;
 	QGridLayout	*m_pgrid, *m_egrid;
 	QLabel *m_plabel;
 
 	KLineEdit	*m_title, *m_extensions;
-	QCheckBox	*m_isregexp;
+	QLabel *m_lbPredefinedExtensions, *m_lbStandardExtensions;
 	KileProject	*m_project;
 	KComboBox	*m_sel_extensions;
 
 	QString		m_val_extensions[KileProjectItem::Other - 1];
-	bool		m_val_isregexp[KileProjectItem::Other - 1];
+	QString 		m_val_standardExtensions[KileProjectItem::Other - 1];
+
+	bool acceptUserExtensions();
+
 };
 
 class KileNewProjectDlg : public KileProjectDlgBase
@@ -82,7 +83,7 @@ class KileNewProjectDlg : public KileProjectDlgBase
 	Q_OBJECT
 
 public:
-	KileNewProjectDlg(QWidget* parent = 0, const char* name = 0);
+	KileNewProjectDlg(KileDocument::Extensions *extensions, QWidget* parent = 0, const char* name = 0);
 	~KileNewProjectDlg();
 
 	KileProject* project();
@@ -116,7 +117,7 @@ class KileProjectOptionsDlg : public KileProjectDlgBase
 	Q_OBJECT
 
 public:
-	KileProjectOptionsDlg(KileProject *project, QWidget *parent = 0, const char * name = 0);
+	KileProjectOptionsDlg(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = 0, const char * name = 0);
 	~KileProjectOptionsDlg();
 
 private slots:

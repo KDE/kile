@@ -10,6 +10,11 @@
 //
 //
 
+// 2007-03-17 dani
+//  - select a single LaTeX command with CTRL+MouseDblClick-left
+//    (such a double click on the middle part '\def' of '\abd\def\ghi'
+//    will select only '\def\', not the whole text, as it does now)
+
 #include <qevent.h>
 
 #include <kate/view.h>
@@ -45,6 +50,15 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 		if ( m_bCompleteEnvironment &&  ke->key()==Qt::Key_Return && ke->state()==0)  
 		{
 			return m_edit->eventInsertEnvironment( (Kate::View*) o->parent() );
+		}
+	}
+	else if ( e->type() == QEvent::MouseButtonDblClick)
+	{
+		QMouseEvent *me = (QMouseEvent*) e;
+		if ( me->button()==LeftButton && ((me->state() & Qt::ControlButton) == Qt::ControlButton) )
+		{
+			m_edit->selectWord(KileDocument::EditorExtension::smTex);
+			return true;
 		}
 	}
 

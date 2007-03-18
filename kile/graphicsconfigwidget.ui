@@ -1,0 +1,134 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>KileWidgetGraphicsConfig</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KileWidgetGraphicsConfig</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>602</width>
+            <height>180</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Graphics</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>m_bgGraphics</cstring>
+            </property>
+            <property name="title">
+                <string>Include Graphics</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>m_tlResolution</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Default resolution:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_resolution</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>kcfg_resolution</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>m_tlBbox</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Bounding box:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_boundingbox</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="0">
+                    <property name="name">
+                        <cstring>m_tlImageMagick</cstring>
+                    </property>
+                    <property name="text">
+                        <string>ImageMagick:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="1">
+                    <property name="name">
+                        <cstring>m_tlResolutionHelp</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>(used when the picture offers no resolution)</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="1">
+                    <property name="name">
+                        <cstring>kcfg_boundingbox</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Tr&amp;y to determine from the picture</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="1">
+                    <property name="name">
+                        <cstring>m_tlBBoxHelp</cstring>
+                    </property>
+                    <property name="text">
+                        <string>(you have to install the ImageMagick package to use this option)</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="4" column="1">
+                    <property name="name">
+                        <cstring>m_lbImagemagick</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </vbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<includes>
+    <include location="global" impldecl="in declaration">kconfig.h</include>
+    <include location="local" impldecl="in declaration">latexcmd.h</include>
+    <include location="local" impldecl="in declaration">latexcmddialog.h</include>
+</includes>
+<variables>
+    <variable access="private">KConfig *m_config;</variable>
+    <variable access="private">KileDocument::LatexCommands *m_commands;</variable>
+</variables>
+<slots>
+    <slot access="private" specifier="non virtual">slotConfigure()</slot>
+</slots>
+<functions>
+    <function access="private" specifier="non virtual">init()</function>
+    <function specifier="non virtual">setLatexCommands( KConfig * config, KileDocument::LatexCommands * commands )</function>
+</functions>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>

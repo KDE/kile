@@ -25,7 +25,8 @@
 #include "configcodecompletion.h"     // code completion (dani)
 #include "previewconfigwidget.h"      // QuickPreview (dani)
 #include "envconfigwidget.h"          // environments (dani)
-#include "structureconfigwidget.h"    // environments (dani)
+#include "graphicsconfigwidget.h"     // graphics (dani)
+#include "structureconfigwidget.h"    // structure view (dani)
 
 class QFrame;
 class KConfig;
@@ -35,6 +36,7 @@ class KileWidgetHelpConfig;
 class KileWidgetLatexConfig;
 class KileWidgetGeneralConfig;
 class KileWidgetEnvironmentConfig;
+class KileWidgetGraphicsConfig;
 class KileWidgetStructureViewConfig;
 class KileWidgetScriptingConfig;
 
@@ -80,6 +82,7 @@ namespace KileDialog
 		KileWidgetLatexConfig *latexPage;
 		KileWidgetGeneralConfig *generalPage;
 		KileWidgetEnvironmentConfig *envPage;
+		KileWidgetGraphicsConfig *graphicsPage;
 		KileWidgetStructureViewConfig *structurePage;
 		KileWidgetScriptingConfig *scriptingPage;
 
@@ -99,6 +102,7 @@ namespace KileDialog
 		void setupHelp();
 		void setupEditor();
 		void setupEnvironment();
+		void setupGraphics();
 		void setupStructure();
 		void setupScripting();
 

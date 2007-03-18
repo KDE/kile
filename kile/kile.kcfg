@@ -343,6 +343,10 @@
 			<label></label>
 			<default></default>
 		</entry>
+		<entry name="autoInsertDollar" type="Bool">
+			<label></label>
+			<default>false</default>
+		</entry>
 	</group>
 	<group name="FilesOpenOnStart">
 		<entry name="Master" type="String">

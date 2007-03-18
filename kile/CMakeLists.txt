@@ -127,6 +127,7 @@ SET( kile_UI
 	envconfigwidget.ui
 	structureconfigwidget.ui
 	scriptingconfigwidget.ui
+	graphicsconfigwidget.ui
 )
 
 KDE3_ADD_UI_FILES(kile_SRCS ${kile_UI} )

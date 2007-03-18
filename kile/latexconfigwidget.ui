@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>602</width>
-            <height>478</height>
+            <height>365</height>
         </rect>
     </property>
     <property name="caption">
@@ -93,6 +93,9 @@
                     <property name="text">
                         <string>Automatically insert opening and closing double &amp;quotes for LaTeX</string>
                     </property>
+                    <property name="accel">
+                        <string>Alt+Q</string>
+                    </property>
                 </widget>
                 <widget class="QComboBox" row="1" column="1">
                     <property name="name">
@@ -128,91 +131,27 @@
         </widget>
         <widget class="QButtonGroup">
             <property name="name">
-                <cstring>m_bgGraphics</cstring>
+                <cstring>m_bgMathmode</cstring>
             </property>
             <property name="title">
-                <string>Include Graphics</string>
+                <string>Mathmode</string>
             </property>
-            <grid>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel" row="0" column="0">
+                <widget class="QCheckBox">
                     <property name="name">
-                        <cstring>m_tlResolution</cstring>
+                        <cstring>kcfg_autoInsertDollar</cstring>
                     </property>
                     <property name="text">
-                        <string>Default resolution:</string>
+                        <string>Auto insert $</string>
                     </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_resolution</cstring>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="0" column="1">
-                    <property name="name">
-                        <cstring>kcfg_resolution</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>m_tlBbox</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Bounding box:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_boundingbox</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="4" column="0">
-                    <property name="name">
-                        <cstring>m_tlImageMagick</cstring>
-                    </property>
-                    <property name="text">
-                        <string>ImageMagick:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="1">
-                    <property name="name">
-                        <cstring>m_tlResolutionHelp</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>(used when the picture offers no resolution)</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="2" column="1">
-                    <property name="name">
-                        <cstring>kcfg_boundingbox</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Tr&amp;y to determine from the picture</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="3" column="1">
-                    <property name="name">
-                        <cstring>m_tlBBoxHelp</cstring>
-                    </property>
-                    <property name="text">
-                        <string>(you have to install the ImageMagick package to use this option)</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="4" column="1">
-                    <property name="name">
-                        <cstring>m_lbImagemagick</cstring>
-                    </property>
-                    <property name="text">
+                    <property name="accel">
                         <string></string>
                     </property>
                 </widget>
-            </grid>
+            </vbox>
         </widget>
         <widget class="QGroupBox">
             <property name="name">
@@ -315,7 +254,6 @@
 </functions>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

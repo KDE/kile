@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 24 2007
-    version              : 0.34
+    date                 : Mar 17 2007
+    version              : 0.36
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
 ***************************************************************************/
@@ -120,6 +120,7 @@ namespace KileDocument
 		m_latexthreshold = KileConfig::completeAutoThreshold();
 		m_textthreshold = KileConfig::completeAutoTextThreshold();
 		m_citationMove = KileConfig::completeCitationMove();
+		m_autoDollar = KileConfig::autoInsertDollar();
 
 		// we need to read some of Kate's config flags
 		readKateConfigFlags(config);
@@ -1041,8 +1042,8 @@ namespace KileDocument
 			completeFromList(info()->allLabels());
 		else if ( type == ctCitation )
 			completeFromList(info()->allBibItems());
-    else
-      kdWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
+		else
+			kdWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
 	}
 
 	//////////////////// slots for code completion ////////////////////
@@ -1098,11 +1099,18 @@ namespace KileDocument
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
 	{
+		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << string << ")=============" << endl;
+
+		if ( !inProgress() && m_autoDollar && string=="$" )
+		{
+			autoInsertDollar();
+			return;
+		}
+
 		// only work, if autocomplete mode of Kile is active
 		if ( !isActive() || !autoComplete() )
 			return ;
 
-		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << string << ")=============" << endl;
 		//FIXME this is not very efficient
 		m_view = info()->viewManager()->currentTextView();
 		
@@ -1367,6 +1375,21 @@ namespace KileDocument
 			m_abbrevlist.append(e);
 		else
 			m_abbrevlist.insert(it,e);
+	}
+
+	//////////////////// autoinsert $ ////////////////////
+
+	void CodeCompletion::autoInsertDollar()
+	{
+		Kate::View *view = info()->viewManager()->currentTextView();
+		if ( view )
+		{
+			uint row,col;
+			view = info()->viewManager()->currentTextView();
+			view->cursorPositionReal( &row, &col );
+			view->getDoc()->insertText(row,col,"$");
+			view->setCursorPositionReal( row, col );
+		}
 	}
 
 }

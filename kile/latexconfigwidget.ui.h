@@ -13,19 +13,15 @@
 
 void KileWidgetLatexConfig::init() 
 { 
-	int w = m_tlResolution->sizeHint().width();      
+	int w = m_tlType->sizeHint().width();  
 	
-	int wi = m_tlType->sizeHint().width();  
-	if ( wi > w ) w = wi;
-	
-	wi = m_tlPath->sizeHint().width(); 
+	int wi = m_tlPath->sizeHint().width(); 
 	if ( wi > w ) w = wi;
 	
 	wi = m_pbCommands->sizeHint().width(); 
 	if ( wi > w ) w = wi;
 	
 	w += 8;
-	m_tlResolution->setFixedWidth(w);    
 	m_tlType->setFixedWidth(w);    
 	m_tlPath->setFixedWidth(w);     
 	m_pbCommands->setFixedWidth(w);     

@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Wed Jun 6 2001
     copyright            : (C) 2003 by Jeroen Wijnhout
+                           (C) 2005-2007  by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
+                           holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +22,10 @@
 //    because settings are also avaiblable with Kate
 //  - geometry of the dialog are saved and restored, because
 //    the initial values may be bad in some languages
+
+// 2007-03-17 dani
+//  - add support for auto insert $
+//  - move graphics config to a separate page
 
 #include <qvbox.h>
 #include <qlayout.h>
@@ -72,6 +78,7 @@ namespace KileDialog
 
 		setupLatex();
 		setupEnvironment();
+		setupGraphics();
 		setupStructure();
 
 		setupTools();
@@ -215,15 +222,21 @@ namespace KileDialog
 		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
 		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
 
-		latexPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") ); 
-
 		addConfigPage(latexPage,i18n("LaTeX"),i18n("General"),"configure");
 	}
 
 	void Config::setupEnvironment()
 	{
 		envPage = new KileWidgetEnvironmentConfig(0, "LaTeX");
-      addConfigPage(envPage,i18n("LaTeX"),i18n("Environments"),"environment");
+		addConfigPage(envPage,i18n("LaTeX"),i18n("Environments"),"environment");
+	}
+
+	void Config::setupGraphics()
+	{
+		graphicsPage = new KileWidgetGraphicsConfig(0, "Graphics");
+		graphicsPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") ); 
+
+		addConfigPage(graphicsPage,i18n("LaTeX"),i18n("Graphics"),"graphicspage");
 	}
 
 	void Config::setupStructure()

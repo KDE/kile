@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 24 2007
-    version              : 0.34
+    date                 : Mar 17 2007
+    version              : 0.36
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -143,6 +143,7 @@ private:
 	bool m_autocompletetext;
 	bool m_autocompleteabbrev;
 	bool m_citationMove;
+	bool m_autoDollar;
 	int  m_latexthreshold;
 	int  m_textthreshold;
 
@@ -200,6 +201,7 @@ private:
 	void deleteAbbreviationEntry( const QString &entry );
 	QString findExpansion(const QString &abbrev);
 
+	void autoInsertDollar();
 };
 
 }

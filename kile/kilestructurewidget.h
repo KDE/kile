@@ -152,6 +152,7 @@ namespace KileWidget
 		QMap<QString, KileListViewItem *>	m_folders;
 		QMap<QString, bool>					m_openByTitle;
 		QMap<uint, bool>					m_openByLine;
+		QMap<QString, bool>					m_openByFolders;
 		KileListViewItem					*m_parent[7], *m_root;
 		QValueList<KileReferenceData> m_references;
 		bool m_openStructureLabels;

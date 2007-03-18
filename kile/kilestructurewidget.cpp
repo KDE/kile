@@ -44,6 +44,9 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
+// 2007-03-17 dani
+//  - remember how document structure is collapsed, when structure view is refreshed
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -219,6 +222,7 @@ namespace KileWidget
 		kdDebug() << "===void StructureList::saveState()" << endl;
 		m_openByTitle.clear();
 		m_openByLine.clear();
+		m_openByFolders.clear();
 
 		QListViewItemIterator it(this);
 		KileListViewItem *item = 0L;
@@ -238,6 +242,13 @@ namespace KileWidget
 			}
 			++it;
 		}
+
+		if ( m_folders.contains("labels") ) 
+			m_openByFolders["labels"] = m_folders["labels"]->isOpen();
+		if ( m_folders.contains("refs") ) 
+			m_openByFolders["refs"] = m_folders["refs"]->isOpen();
+		if ( m_folders.contains("bibs") ) 
+			m_openByFolders["bibs"] = m_folders["bibs"]->isOpen();
 	}
 
 	bool StructureList::shouldBeOpen(KileListViewItem *item, const QString & folder, int level)
@@ -245,11 +256,26 @@ namespace KileWidget
 		if ( item->parent() == 0L )
 			return true;
 		if ( folder == "labels" )
-			return m_openStructureLabels;
+		{
+			if ( m_openByFolders.contains("labels") )
+				return m_openByFolders["labels"];
+			else
+				return m_openStructureLabels;
+		}
 		if ( folder == "refs" )
-			return m_openStructureReferences;
+		{
+			if ( m_openByFolders.contains("refs") )
+				return m_openByFolders["refs"];
+			else
+				return m_openStructureReferences;
+		}
 		if ( folder == "bibs" )
-			return m_openStructureBibitems;
+		{
+			if ( m_openByFolders.contains("bibs") )
+				return m_openByFolders["bibs"];
+			else
+				return m_openStructureBibitems;
+		}
 
 		if ( m_openByTitle.contains(item->title()) )
 			return m_openByTitle [ item->title() ];
@@ -486,7 +512,7 @@ namespace KileWidget
 			if ( ! labelmap.contains((*it).name()) )
 			{ 
 				KileListViewItem *refitem = folder("refs");
-				refitem->setOpen(m_openStructureReferences);
+				refitem->setOpen( shouldBeOpen(refitem,"refs",0) );
 				new KileListViewItem(refitem,0L,(*it).name(),m_docinfo->url(),(*it).line(),(*it).column(),KileStruct::Reference,KileStruct::NotSpecified, 0,0 );
 			}
 		}

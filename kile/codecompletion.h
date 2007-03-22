@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Mar 17 2007
-    version              : 0.36
+    date                 : Mar 21 2007
+    version              : 0.40
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -112,8 +112,8 @@ private:
 	void CompletionDone(KTextEditor::CompletionEntry);
 	void CompletionAborted();
 
-	void completeFromList(const QStringList *list);
-	void editCompleteList(KileDocument::CodeCompletion::Type type);
+	void completeFromList(const QStringList *list,const QString &pattern=QString::null);
+	void editCompleteList(KileDocument::CodeCompletion::Type type,const QString &pattern=QString::null);
 	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
 	bool getReferenceWord(QString &text);
 	bool oddBackslashes(const QString& text, int index);
@@ -123,6 +123,8 @@ private:
 
 	bool completeAutoAbbreviation(const QString &text);
 	QString getAbbreviationWord(uint row, uint col);
+
+	CodeCompletion::Type insideReference(QString &startpattern);
 
 private:
 	// wordlists

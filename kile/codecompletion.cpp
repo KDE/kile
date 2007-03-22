@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Mar 17 2007
-    version              : 0.36
+    date                 : Mar 21 2007
+    version              : 0.40
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
 ***************************************************************************/
@@ -46,6 +46,7 @@ namespace KileDocument
 	static QRegExp::QRegExp reCite;
 	static QRegExp::QRegExp reCiteExt;
 	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
+	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
 	
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{
@@ -100,6 +101,35 @@ namespace KileDocument
 	CodeCompletion::Mode CodeCompletion::getMode()
 	{
 		return m_mode;
+	}
+
+	CodeCompletion::Type CodeCompletion::insideReference(QString &startpattern)
+	{
+		if ( m_view->getDoc() )
+		{
+			uint column = m_view->cursorColumnReal();
+			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(column);
+			int pos = currentline.findRev('\\');
+			if ( pos >= 0 )
+			{ 
+
+				QString command = currentline.mid(pos,column-pos);
+ 				if ( command.find(reRef) != -1 )
+				{
+					startpattern = command.right(command.length()-reRef.cap(0).length());	
+					if ( startpattern.find(reNotRefChars) == -1 )
+						return CodeCompletion::ctReference ;
+				}
+				else if ( command.find(reCite) != -1 )
+				{
+					startpattern = command.right(command.length()-reCite.cap(0).length());	
+					if ( startpattern.find(reNotCiteChars) == -1 )
+						return CodeCompletion::ctCitation ;
+				}
+			}
+		}
+
+		return CodeCompletion::ctNone;
 	}
 
 	//////////////////// configuration ////////////////////
@@ -423,11 +453,11 @@ namespace KileDocument
 		}
 	}
 
-	void CodeCompletion::completeFromList(const QStringList *list )
+	void CodeCompletion::completeFromList(const QStringList *list,const QString &pattern)
 	{
 		KTextEditor::CompletionEntry e;
 
-		//kdDebug() << "completeFromList: " << list->count() << " items" << endl;
+		kdDebug() << "completeFromList: " << list->count() << " items" <<   " << pattern=" << pattern<< endl;
 		QStringList sortedlist( *list );
 		sortedlist.sort();
 
@@ -440,7 +470,7 @@ namespace KileDocument
 			m_labellist.append(  e );
 		}
 
-		completeWord("", cmLabel);
+		completeWord(pattern, cmLabel);
 	}
 
 	//////////////////// completion was done ////////////////////
@@ -1009,6 +1039,19 @@ namespace KileDocument
 		if ( !m_view || !isActive() || inProgress() )
 			return ;
 
+		// check for a special case: call from inside of a reference command
+		if ( mode==cmLatex )
+		{
+			QString startpattern;
+			CodeCompletion::Type reftype = insideReference(startpattern);
+			if ( reftype != CodeCompletion::ctNone )
+			{
+				m_ref = true;
+				editCompleteList(reftype,startpattern);
+				return;
+			}
+		}
+
 		QString word;
 		Type type;
 		if ( getCompleteWord(( mode == cmLatex ) ? true : false, word, type ) )
@@ -1018,7 +1061,7 @@ namespace KileDocument
 				mode = cmDictionary;
 			}
 
-			if ( type == ctNone )
+			if ( type == CodeCompletion::ctNone )
 				completeWord(word, mode);
 			else
 				editCompleteList(type);
@@ -1035,15 +1078,19 @@ namespace KileDocument
 		}
 	}
 
-	void CodeCompletion::editCompleteList(Type type )
+	void CodeCompletion::editCompleteList(Type type,const QString &pattern)
 	{
 		//kdDebug() << "==editCompleteList=============" << endl;
+		m_keylistType = type;
 		if ( type == ctReference )
-			completeFromList(info()->allLabels());
+			completeFromList(info()->allLabels(),pattern);
 		else if ( type == ctCitation )
-			completeFromList(info()->allBibItems());
+			completeFromList(info()->allBibItems(),pattern);
 		else
+		{
+			m_keylistType = CodeCompletion::ctNone;
 			kdWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
+		}
 	}
 
 	//////////////////// slots for code completion ////////////////////
@@ -1099,7 +1146,7 @@ namespace KileDocument
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
 	{
-		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << string << ")=============" << endl;
+		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << string << ")=============" << endl;
 
 		if ( !inProgress() && m_autoDollar && string=="$" )
 		{
@@ -1117,6 +1164,20 @@ namespace KileDocument
 		// try to autocomplete abbreviations after punctuation symbol
 		if ( !inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(string) )
 			return;
+
+		// rather unsusual, but it may happen: the cursor is inside
+		// of a reference command without a labellist.
+		if ( ! m_ref )
+		{
+			QString startpattern;
+			CodeCompletion::Type reftype = insideReference(startpattern);
+			if ( reftype != CodeCompletion::ctNone )
+			{
+				m_ref = true;
+				editCompleteList(reftype,startpattern);
+				return;
+			}
+		}
 
 		QString word;
 		Type type;

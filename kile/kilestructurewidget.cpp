@@ -141,6 +141,8 @@ namespace KileWidget
 		header()->hide();
 		addColumn(i18n("Structure"),-1);
 		setSorting(-1,true);
+		setAllColumnsShowFocus(true);
+		setFullWidth(true);
 		setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 
 		QToolTip::remove(this);

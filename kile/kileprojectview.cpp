@@ -96,6 +96,8 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 	setFocusPolicy(QWidget::ClickFocus);
 	header()->hide();
 	setRootIsDecorated(true);
+	setAllColumnsShowFocus(true);
+	setFullWidth(true);
 
 	m_popup = new KPopupMenu(this, "projectview_popup");
 

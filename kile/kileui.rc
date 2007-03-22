@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="27">
+<kpartgui name="kile" version="28">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -417,6 +417,7 @@
 		<Action name="tag_textsc"/>
 		<Separator/>
 		<Action name="tag_emph"/>
+		<Action name="tag_strong"/>
 		<Separator/>
 		<Menu name="menu_fontfamily"><text>Font Family</text>
 			<Action name="tag_rmfamily"/>

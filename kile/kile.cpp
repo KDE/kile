@@ -1421,7 +1421,7 @@ void Kile::initMenu()
 	   << "tag_bib_booklet" << "tag_bib_phdthesis" << "tag_bib_masterthesis" << "tag_bib_techreport"
 	   << "tag_bib_manual" << "tag_bib_unpublished" << "tag_bib_misc" << "CleanBib"
 	   << "tag_textit" << "tag_textsl" << "tag_textbf" << "tag_underline"
-	   << "tag_texttt" << "tag_textsc" << "tag_emph"
+	   << "tag_texttt" << "tag_textsc" << "tag_emph" << "tag_strong"
 	   << "tag_rmfamily" << "tag_sffamily" << "tag_ttfamily"
 	   << "tag_mdseries" << "tag_bfseries" << "tag_upshape"
 	   << "tag_itshape" << "tag_slshape" << "tag_scshape"

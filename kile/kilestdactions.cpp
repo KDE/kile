@@ -198,6 +198,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 
 	// fonts
 	new KileAction::Tag(i18n("Emphasized - \\emph{}"),"emph",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_emph","\\emph{","}",6,0,i18n("\\emph{emphasized text}"));
+	new KileAction::Tag(i18n("Strong - \\strong{}"),"strong",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_strong","\\strong{","}",8,0,i18n("\\strong{text}"));
 
 	(void) new KileAction::Tag("Roman - \\rmfamily",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_rmfamily", "\\rmfamily", QString::null, 9);
 	(void) new KileAction::Tag("Sansserif - \\sffamily",0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_sffamily", "\\sffamily", QString::null, 9);

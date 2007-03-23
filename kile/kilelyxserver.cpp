@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : Sat Sept 9 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
+    edit		 : Tue Mar 20 2007
+    copyright            : (C) 2003 by Jeroen Wijnhout, 2007 by Thomas Braun
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -31,31 +32,48 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-KileLyxServer::KileLyxServer(bool st) :
-	m_running(false)
-{
+KileLyxServer::KileLyxServer(bool startMe) :
+	m_perms( S_IRUSR | S_IWUSR ),m_running(false)
+{	
+	kdDebug() << "===KileLyxServer::KileLyxServer(bool" << startMe << ")===" << endl;
 	m_pipeIn.setAutoDelete(true);
 	m_notifier.setAutoDelete(true);
+
 	m_file.setAutoDelete(false);
+	m_tempDir = new KTempDir();
+	if(!m_tempDir)
+		return;
 
-	QString home(QDir::homeDirPath());
-	m_pipes << home+"/.lyxpipe.in" << home+"/.lyx/lyxpipe.in";
-	m_pipes << home+"/.lyxpipe.out" << home+"/.lyx/lyxpipe.out";
+	m_tempDir->setAutoDelete(true);
 
-	if (st) start();
+	m_links << ".lyxpipe.in" << ".lyx/lyxpipe.in";
+	m_links << ".lyxpipe.out" << ".lyx/lyxpipe.out";
+
+	for(uint i = 0; i< m_links.count() ; i++)
+	{
+		m_pipes.append( m_tempDir->name() + m_links[i] );
+		m_links[i].prepend(QDir::homeDirPath() + "/" );
+		kdDebug() << "m_pipes[" << i << "]=" << m_pipes[i] << endl;
+		kdDebug() << "m_links[" << i << "]=" << m_links[i] << endl;
+	}
+
+	if (startMe)
+		start();
 }
 
 KileLyxServer::~KileLyxServer()
 {
 	stop();
 	removePipes();
+	delete m_tempDir;
 }
 
 bool KileLyxServer::start()
 {
-	if (m_running) stop();
+	if (m_running)
+		stop();
 
-	kdDebug() << "starting the LyX server..." << endl;
+	kdDebug() << "Starting the LyX server..." << endl;
 
 	if (openPipes())
 	{
@@ -85,45 +103,56 @@ bool KileLyxServer::openPipes()
 	kdDebug() << "===bool KileLyxServer::openPipes()===" << endl;
 	
 	bool opened = false;
-	QFileInfo info;
+	QFileInfo pipeInfo,linkInfo;
 	QFile *file;
 	struct stat buf;
 	struct stat *stats = &buf;
-	mode_t perms = S_IRUSR | S_IWUSR | S_IRGRP| S_IROTH;
 	
 	for (uint i=0; i < m_pipes.count(); ++i)
 	{
-		info.setFile(m_pipes[i]);
-		if ( !info.exists() )
+		pipeInfo.setFile(m_pipes[i]);
+		linkInfo.setFile(m_links[i]);
+ 		
+		QFile::remove(linkInfo.absFilePath());
+		linkInfo.refresh();
+ 		
+		if ( !pipeInfo.exists() )
 		{
 			//create the dir first
-        	   	if ( ! QFileInfo(info.dirPath(true)).exists() )
-				if ( mkdir(QFile::encodeName( info.dirPath() ), perms | S_IXUSR) == -1 )
+			if ( !QFileInfo(pipeInfo.dirPath(true)).exists() )
+				if ( mkdir(QFile::encodeName( pipeInfo.dirPath() ), m_perms | S_IXUSR) == -1 )
 				{
 					kdError() << "Could not create directory for pipe" << endl;
 					continue;
 				}
 				else
-					kdDebug() << "Created directory " << info.dirPath() << endl;
+					kdDebug() << "Created directory " << pipeInfo.dirPath() << endl;
 
-			if ( mkfifo(QFile::encodeName( m_pipes[i] ), perms) != 0 )
-			{
-				kdError() << "Could not create pipe: " << m_pipes[i] << endl;
-				continue;				
-			}
-			else
-				kdDebug() << "Created pipe: " << m_pipes[i] << endl;
+				if ( mkfifo(QFile::encodeName( pipeInfo.absFilePath() ), m_perms) != 0 )
+				{
+					kdError() << "Could not create pipe: " << pipeInfo.absFilePath() << endl;
+					continue;				
+				}
+				else
+					kdDebug() << "Created pipe: " << pipeInfo.absFilePath() << endl;
 		}
 		
-		file  = new QFile(info.absFilePath());
-		info.refresh();
-		if( info.exists() && file->open(IO_ReadWrite) ) // in that order we don't create the file if it does not exist
+		if ( symlink(QFile::encodeName(pipeInfo.absFilePath()),QFile::encodeName(linkInfo.absFilePath())) != 0 )
 		{
-			kdDebug() << "Opened file: " << info.absFilePath() << endl;
+			kdError() << "Could not create symlink: " << linkInfo.absFilePath() << " --> " << pipeInfo.absFilePath() << endl;
+			continue;
+		}
+
+		file  = new QFile(pipeInfo.absFilePath());
+		pipeInfo.refresh();
+
+		if( pipeInfo.exists() && file->open(IO_ReadWrite) ) // in that order we don't create the file if it does not exist
+		{
+			kdDebug() << "Opened file: " << pipeInfo.absFilePath() << endl;
 			fstat(file->handle(),stats);
 			if( !S_ISFIFO(stats->st_mode) )
 			{
-				kdError() << "The file we just created is not a FIFO, perhaps we are on some strange filesystem!?" << endl;
+				kdError() << "The file " << pipeInfo.absFilePath() <<  "we just created is not a pipe!" << endl;
 				file->close();
 				continue;
 			}
@@ -135,14 +164,14 @@ bool KileLyxServer::openPipes()
 			}
 		}
 		else
-			kdError() << "Could not open " << info.absFilePath() << endl;
+			kdError() << "Could not open " << pipeInfo.absFilePath() << endl;
 	}
 	return opened;
 }
 
 void KileLyxServer::stop()
 {
-	kdDebug() << "stopping the LyX server..." << endl;
+	kdDebug() << "Stopping the LyX server..." << endl;
 
 	QPtrListIterator<QFile> it(m_pipeIn);
 	while (it.current())
@@ -159,12 +188,17 @@ void KileLyxServer::stop()
 
 void KileLyxServer::removePipes()
 {
+  	for ( uint i = 0; i < m_links.count(); ++i)
+ 		QFile::remove(m_links[i]);
  	for ( uint i = 0; i < m_pipes.count(); ++i)
 		QFile::remove(m_pipes[i]);
+
 }
 
 void KileLyxServer::processLine(const QString &line)
 {
+	kdDebug() << "===void KileLyxServer::processLine(const QString " << line << ")===" << endl;
+	
 	QRegExp cite(":citation-insert:(.*)$");
 	QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
 
@@ -184,7 +218,7 @@ void KileLyxServer::receive(int fd)
  		if ((bytesRead = read(fd, buffer, size - 1)) > 0 )
  		{
   			buffer[bytesRead] = '\0'; // turn it into a c string
-            QStringList cmds = QStringList::split('\n', QString(buffer).stripWhiteSpace());
+            		QStringList cmds = QStringList::split('\n', QString(buffer).stripWhiteSpace());
 			for ( uint i = 0; i < cmds.count(); ++i )
 				processLine(cmds[i]);
 		}

@@ -687,6 +687,7 @@ void Manager::fileOpen()
 void Manager::fileSelected(const KFileItem *file)
 {
 	fileSelected(file->url());
+	m_ki->fileSelector()->dirOperator()->view()->setSelected(file,false);
 }
 
 void Manager::fileSelected(const KileProjectItem * item)

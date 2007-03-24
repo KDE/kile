@@ -1647,9 +1647,18 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 
 void Manager::openDroppedURLs(QDropEvent *e) {
 	KURL::List urls;
+	Extensions *extensions = m_ki->extensions();
 	if(KURLDrag::decode(e, urls)) {
 		for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {
-			fileOpen(*i);
+			KURL url = *i;
+			if(extensions->isProjectFile(url))
+			{
+				projectOpen(url);
+			}
+			else
+			{
+				fileOpen(url);
+			}
 		}
 	}
 }

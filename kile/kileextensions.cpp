@@ -35,6 +35,7 @@ Extensions::Extensions()
 	m_bibtex = ".bib";
 	m_metapost = ".mp";
 	m_script = ".js";
+	m_project = ".kilepr";
 	//m_images = ".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png";
 	m_images = ".eps .jpg .jpeg .png .pdf .ps .fig .gif";
 
@@ -42,6 +43,7 @@ Extensions::Extensions()
 	m_bibtexDefault = ".bib";
 	m_metapostDefault = ".mp";
 	m_scriptDefault = ".js";
+	m_projectDefault = ".kilepr";
 }
 
 //////////////////// file filter ////////////////////
@@ -71,6 +73,10 @@ QString Extensions::fileFilter(uint type)
 			ext = m_script;
 			text = i18n("Kile Script Files");
 			break;
+		case LATEX_EXT_PROJ:
+			ext = m_project;
+			text = i18n("Kile Project Files");
+			break;
 		default:
 			return QString::null;
 	}
@@ -98,6 +104,12 @@ bool Extensions::isScriptFile(const KURL& url)
 {
 	QString ext = "." + QFileInfo(url.fileName()).extension(false);
 	return isScript(ext);
+}
+
+bool Extensions::isProjectFile(const KURL& url)
+{
+	QString ext = "." + QFileInfo(url.fileName()).extension(false);
+	return isProject(ext);
 }
 
 bool Extensions::validExtension(const QString &ext, const QString &extensions)

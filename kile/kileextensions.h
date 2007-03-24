@@ -30,7 +30,7 @@ public:
 	Extensions();
 	~Extensions() {}
 
-	enum { LATEX_EXT_DOC=1,  LATEX_EXT_PKG=2,  LATEX_EXT_BIB=4, LATEX_EXT_IMG=8,  LATEX_EXT_MP=16, LATEX_EXT_JS=32 };
+	enum { LATEX_EXT_DOC=1,  LATEX_EXT_PKG=2,  LATEX_EXT_BIB=4, LATEX_EXT_IMG=8,  LATEX_EXT_MP=16, LATEX_EXT_JS=32, LATEX_EXT_PROJ=64 };
 
 	QString latexDocuments() { return m_documents; }
 	QString latexPackages() { return m_packages; }
@@ -48,10 +48,12 @@ public:
 	QString imageFileFilter() { return fileFilter(LATEX_EXT_IMG); }
 	QString metapostFileFilter() { return fileFilter(LATEX_EXT_MP); }
 	QString scriptFileFilter() { return fileFilter(LATEX_EXT_JS); }
+	QString projectFileFilter() { return fileFilter(LATEX_EXT_PROJ); }
 	
 	bool isTexFile(const KURL &url);
 	bool isBibFile(const KURL &url);
 	bool isScriptFile(const KURL & url);
+	bool isProjectFile(const KURL &url);
 
 	bool isLatexDocument(const QString &ext) { return validExtension(ext,m_documents); }
 	bool isLatexPackage(const QString &ext) { return validExtension(ext,m_packages); }
@@ -61,13 +63,16 @@ private:
 	QString m_documents, m_packages;
 	QString m_bibtex, m_metapost;
 	QString m_images, m_script;
+	QString m_project;
 
 	QString m_documentDefault, m_bibtexDefault;
 	QString m_metapostDefault, m_scriptDefault;
+	QString m_projectDefault;
 
 	bool isBibtex(const QString &ext) { return validExtension(ext,m_bibtex); }
 	bool isMetapost(const QString &ext) { return validExtension(ext,m_metapost); }
 	bool isScript(const QString &ext) { return validExtension(ext,m_script); }
+	bool isProject(const QString &ext) { return validExtension(ext,m_project); }
 	bool validExtension(const QString &ext, const QString &extensions);
 
 	QString fileFilter(uint type);

@@ -39,6 +39,7 @@
 #include "kileinfo.h"
 #include "kileconstants.h"
 #include "kiledocmanager.h"
+#include "kileextensions.h"
 #include "kileviewmanager.h"
 #include "kileprojectview.h"
 #include "kileeventfilter.h"
@@ -501,13 +502,20 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 		return;
 	}
 	int index = m_tabs->indexOf(w);
-	closeWidget(w);
+	KileDocument::Extensions *extensions = m_ki->extensions();
+	bool hasReplacedTab = false;
 	for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {
-		if(i == urls.begin()) {
-			m_ki->docManager()->fileOpen(*i, QString::null, index);
+		KURL url = *i;
+		if(extensions->isProjectFile(url)) {
+			m_ki->docManager()->projectOpen(url);
+		}
+		else if(!hasReplacedTab) {
+			closeWidget(w);
+			m_ki->docManager()->fileOpen(url, QString::null, index);
+			hasReplacedTab = true;
 		}
 		else {
-			m_ki->docManager()->fileOpen(*i);
+			m_ki->docManager()->fileOpen(url);
 		}
 	}
 }

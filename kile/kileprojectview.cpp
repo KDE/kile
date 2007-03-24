@@ -149,7 +149,7 @@ void KileProjectView::slotFile(int id)
 				case KPV_ID_OPEN : emit(fileSelected(item->url())); break;
 				case KPV_ID_SAVE : emit(saveURL(item->url())); break;
 				case KPV_ID_ADD : emit(addToProject(item->url())); break;
-				case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
+				case KPV_ID_CLOSE : emit(closeURL(item->url())); return; //don't access "item" later on
 				default : break;
 			}
 		}
@@ -176,7 +176,7 @@ void KileProjectView::slotProjectItem(int id)
 					else item->setText(1,"*");
 					emit(toggleArchive(item->projectItem()));
 					break;
-				case KPV_ID_CLOSE : emit(closeURL(item->url())); break;
+				case KPV_ID_CLOSE : emit(closeURL(item->url())); break; //we can access "item" later as it isn't deleted
 				case KPV_ID_OPENWITH :
 					KRun::displayOpenWithDialog(item->url());
 					break;
@@ -198,7 +198,7 @@ void KileProjectView::slotProject(int id)
 			{
 				case KPV_ID_BUILDTREE : emit(buildProjectTree(item->url())); break;
 				case KPV_ID_OPTIONS : emit(projectOptions(item->url())); break;
-				case KPV_ID_CLOSE : emit(closeProject(item->url())); break;
+				case KPV_ID_CLOSE : emit(closeProject(item->url())); return; //don't access "item" later on
 				case KPV_ID_ARCHIVE : emit(projectArchive(item->url())); break;
 				case KPV_ID_ADDFILES : emit(addFiles(item->url())); break;
 				case KPV_ID_OPENALLFILES : emit(openAllFiles(item->url())); break;

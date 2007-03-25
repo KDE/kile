@@ -80,9 +80,21 @@ void KileProjectViewItem::slotURLChanged(KileDocument::Info*, const KURL & url)
 int KileProjectViewItem::compare(QListViewItem * i, int col, bool ascending) const
 {
 	KileProjectViewItem *item = dynamic_cast<KileProjectViewItem*>(i);
-	if ( (item->type() == KileType::Folder) &&  (type() != KileType::Folder) ) return 1;
-	else if ( (item->type() != KileType::Folder) &&  (type() == KileType::Folder) ) return -1;
-	else return QListViewItem::compare(i, col, ascending);
+
+	// sort: 
+	//  - first:  container items in fixed order (projectfile, packages, images, other)
+	//  - second: root items without container (sorted in ascending order)
+	if ( item->type() == KileType::Folder )
+	{
+		if ( type() != KileType::Folder ) 
+			return 1;
+		else 
+			return ( m_folder < item->folder() ) ? -1 : 1;
+	}
+	else if ( type() == KileType::Folder ) 
+		return -1;
+	else 
+		return QListViewItem::compare(i, col, ascending);
 }
 
 /*
@@ -355,28 +367,54 @@ KileProjectViewItem* KileProjectView::folder(const KileProjectItem *pi, KileProj
 		return 0;
 	}
 
-	if (parent->type() == KileType::Folder)
+	// we have already found the parent folder
+	if ( parent->type() == KileType::Folder )
 		return parent;
 
-	//create the folder item
+	// we are looking at the children, if there is an existing folder for this type
 	KileProjectViewItem *folder;
 
-	switch (pi->type()) {
-	case (KileProjectItem::Package):
-		folder = new KileProjectViewItem(parent, i18n("packages"));
-		break;
-	case (KileProjectItem::Image):
-		folder = new KileProjectViewItem(parent, i18n("images"));
-		break;
-	case (KileProjectItem::Other): default :
-		folder = new KileProjectViewItem(parent, i18n("other"));
-		break;
+	// determine the foldername for this type
+	QString foldername;
+	switch ( pi->type() ) 
+	{
+		case (KileProjectItem::ProjectFile):
+			foldername = i18n("projectfile");
+			break;
+		case (KileProjectItem::Package):
+			foldername = i18n("packages");
+			break;
+		case (KileProjectItem::Image):
+			foldername = i18n("images");
+			break;
+		case (KileProjectItem::Other): 
+		default :
+			foldername = i18n("other");
+			break;
 	}
 
-	kdDebug() << "new folder: " << parent->url().url() << endl;
+	// if there already a folder for this type on this level?
+	bool found = false;
+	folder = parent->firstChild();
+	while ( folder )
+	{
+		if ( folder->text(0) == foldername )
+		{
+			found = true;
+			break;
+		}
+		folder = folder->nextSibling();
+	}
+	
+	// if no folder was found, we must create a new one
+	if ( ! found )
+	{
+		folder = new KileProjectViewItem(parent,foldername);
+		kdDebug() << "new folder: " << parent->url().url() << endl;
 
-	folder->setFolder(pi->type());
-	folder->setType(KileType::Folder);
+		folder->setFolder(pi->type());
+		folder->setType(KileType::Folder);
+	}
 
 	return folder;
 }
@@ -461,9 +499,7 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 		kdDebug() << "\tlooking for folder type " << projitem->type() << endl;
 		for (parpvi = parpvi->firstChild(); parpvi; parpvi = parpvi->nextSibling())
 		{
-			if ((parpvi->type() == KileType::Folder) &&
-//				(parpvi->folder() == projitem->type()))
-				((parpvi->folder() == projitem->type()) || (projitem->type()==KileProjectItem::ProjectFile && parpvi->folder()==KileProjectItem::Other) ))
+			if ( (parpvi->type() == KileType::Folder) && (parpvi->folder() == projitem->type()) )
 			{
 				kdDebug() << "\t\tfound" << endl;
 				break;

@@ -199,6 +199,12 @@ namespace KileWidget
  		}
 	}
 
+	void StructureList::updateRoot() 
+	{
+		m_root->setURL( m_docinfo->url() ); 
+		m_root->setText(0, m_docinfo->url().fileName() );		
+	}
+
 	void StructureList::cleanUp(bool preserveState/* = true */)
 	{
         	kdDebug() << "==void StructureList::cleanUp()========" << endl;
@@ -802,6 +808,13 @@ namespace KileWidget
 		m_docinfo = 0L;
 
 		m_default->activate();
+	}
+
+	void Structure::updateUrl(KileDocument::Info *docinfo)
+	{
+		StructureList *view = viewFor(docinfo);
+		if ( view )
+			view->updateRoot();
 	}
 
 	void Structure::update(KileDocument::Info *docinfo, bool parse, bool activate /* =true */)

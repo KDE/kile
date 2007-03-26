@@ -130,6 +130,7 @@ namespace KileWidget
 		void showReferences(KileInfo *ki);
 		
 		KURL url() const { return m_docinfo->url(); }
+		void updateRoot();
 
 	public slots:
 		void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
@@ -180,6 +181,7 @@ namespace KileWidget
 			KileInfo *info() { return m_ki; }
 
 			bool findSectioning(Kate::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol);
+			void updateUrl(KileDocument::Info *docinfo);
 
 		enum { SectioningCut=10, SectioningCopy=11, SectioningPaste=12, 
 		       SectioningSelect=13, SectioningDelete=14, 

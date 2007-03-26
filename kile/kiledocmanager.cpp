@@ -916,7 +916,9 @@ void Manager::fileSaveAs()
 		if(info->isDocumentTypePromotionAllowed())
 		{
 			recreateTextDocumentInfo(info);
+			info = textInfoFor(doc);
 		}
+		m_ki->structureWidget()->updateUrl(info);
 		emit addToRecentFiles(saveURL);
 		emit addToProjectView(doc->url());
 	}

@@ -47,7 +47,8 @@ namespace KileStruct
 		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
 		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80, 
 		Graphics = 0x100, Reference = 0x200, BeginEnv = 0x400, EndEnv = 0x800,
-		BeginFloat = 0x1000, EndFloat = 0x2000,  Caption = 0x4000
+		BeginFloat = 0x1000, EndFloat = 0x2000,  Caption = 0x4000, BeamerFrame = 0x8000,
+		BeamerBeginFrame = 0x10000, BeamerEndFrame = 0x20000, BeamerFrametitle = 0x40000, BeamerBeginBlock = 0x80000
 	};
 
 	//Different levels (in the parent-child hierarchy) in the structure view

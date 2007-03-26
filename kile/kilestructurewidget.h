@@ -165,6 +165,8 @@ namespace KileWidget
 		uint m_lastLine;
 		KileListViewItem *m_lastSectioning;
 		KileListViewItem *m_lastFloat;
+		KileListViewItem *m_lastFrame;
+		KileListViewItem *m_lastFrameEnv;
 		
 		bool m_stop;
 	};

@@ -37,7 +37,7 @@
 // 2005-12-16: dani
 //  - add listview item for undefined references
 
-//2007-02-15: dani
+// 2007-02-15: dani
 // - class KileListViewItem gets two new members to 
 //   save the real cursor position of the command
 
@@ -46,6 +46,13 @@
 
 // 2007-03-17 dani
 //  - remember how document structure is collapsed, when structure view is refreshed
+
+// 2007-03-24: dani
+// - preliminary minimal support for Beamer class
+// - \begin{frame}...\end{frame} and \frame{...} are shown in the structure view
+// - if a \frametitle command follows as next LaTeX command, its parameter
+//   is taken to replace the standard title of this entry in the structure view
+// - \begin{block}...\end{block} is taken as child of a frame
 
 #include <qfileinfo.h>
 #include <qheader.h>
@@ -178,6 +185,8 @@ namespace KileWidget
 		m_lastType = KileStruct::None;
 		m_lastSectioning = 0L;
 		m_lastFloat = 0L;
+		m_lastFrame = 0L;
+		m_lastFrameEnv = 0L;
 		m_stop = false;
 
 		m_folders.clear();
@@ -385,7 +394,19 @@ namespace KileWidget
 		      If we are inside a float, this label is assigned to this environment. If the last 
 		      type was a sectioning command on the current line or the line before, the label is 
 		      assigned to this sectioning item. Assigning means that a popup menu will open, 
-		      when the mouse is over this item.  
+		      when the mouse is over this item.
+		- KileStruct::BeamerBeginFrame
+		      The new item is saved in m_lastFrameEnv. If a \frametitle command follows before
+		      the frame environment is closed, it is inserted into the title of this item. 
+		      If a \label command follows, it is assigned to this float item.
+		- KileStruct::BeamerEndFrame
+		      Reset m_lastFloatEnv to 0L to close this environment. No more \frametitle 
+		      or \label commands are assigned to this frame after this.
+		- KileStruct::BeamerBeginBlock
+		      Inside a beamer frame this environment is taken as child of this frame
+		- KileStruct::BeamerFrame
+		      The new item is saved in m_lastFrame. If a \frametitle command follows
+		      immediately as next command, it is inserted into the title of this item. 
 		*/
 		
 	void StructureList::addItem(const QString &title, uint line, uint column, int type, int lev,
@@ -407,7 +428,21 @@ namespace KileWidget
 				m_lastFloat->setTitle(floattitle+": "+title);
 		}
 		else if ( type == KileStruct::EndFloat )
+		{
 			m_lastFloat = 0L;
+		}
+		else if ( type==KileStruct::BeamerFrametitle )
+		{
+			if (  m_lastFrameEnv )
+				m_lastFrameEnv->setTitle(title);
+			else if (  m_lastFrame )
+				m_lastFrame->setTitle(title);		
+		}
+		else if ( type == KileStruct::BeamerEndFrame )
+		{
+			m_lastFrameEnv = 0L;
+		}
+		m_lastFrame = 0L;
 		
 		// that's all for hidden types: we must immediately return
 		if ( lev == KileStruct::Hidden ) 
@@ -430,6 +465,10 @@ namespace KileWidget
 				if ( m_lastSectioning && (m_lastLine==line-1 || m_lastLine==line) )
 					m_lastSectioning->setLabel(title);
 			}
+			else if ( m_lastType==KileStruct::BeamerBeginFrame )
+			{
+				m_lastFrameEnv->setLabel(title);
+			}
 
 			if(!m_showStructureLabels) // if we don't want to have it displayed return here
 					return;
@@ -440,7 +479,7 @@ namespace KileWidget
 		m_lastLine = line;
 
 		//find the parent for the new element
-		KileListViewItem *parentItem = parentFor(lev, fldr);
+		KileListViewItem *parentItem = ( type==KileStruct::BeamerBeginBlock && m_lastFrameEnv ) ? m_lastFrameEnv : parentFor(lev, fldr);
 		if ( parentItem == 0L )
 		{
 			KMessageBox::error(0,i18n("Can't create ListviewItem: no parent found."));
@@ -485,6 +524,10 @@ namespace KileWidget
 			m_lastSectioning = newChild;
 		else if ( type == KileStruct::BeginFloat )
 			m_lastFloat = newChild;
+		else if ( type == KileStruct::BeamerBeginFrame )
+			m_lastFrameEnv = newChild;
+		else if ( type == KileStruct::BeamerFrame )
+			m_lastFrame = newChild;
 	}
 
 	void StructureList::showReferences(KileInfo *ki)

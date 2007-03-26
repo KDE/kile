@@ -51,6 +51,9 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
+// 2007-03-24 dani
+// - preliminary minimal support for Beamer class
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -741,6 +744,13 @@ void LaTeXInfo::updateStructLevelInfo() {
 		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
 
+	// preliminary minimal beamer support
+	m_dictStructLevel["\\frame"]=KileStructData(KileStruct::Object, KileStruct::BeamerFrame, "beamerframe");
+	m_dictStructLevel["\\frametitle"]=KileStructData(KileStruct::Hidden, KileStruct::BeamerFrametitle);
+	m_dictStructLevel["\\begin{frame}"]=KileStructData(KileStruct::Object, KileStruct::BeamerBeginFrame, "beamerframe");
+	m_dictStructLevel["\\end{frame}"]=KileStructData(KileStruct::Hidden, KileStruct::BeamerEndFrame);
+	m_dictStructLevel["\\begin{block}"]=KileStructData(KileStruct::Object, KileStruct::BeamerBeginBlock, "beamerblock");
+
 	// add user defined commands
 
 	QStringList list;
@@ -893,17 +903,24 @@ void LaTeXInfo::updateStruct()
 					tagCol = tagEnd+1;
 					tagStartLine = tagLine;
 					tagStartCol = tagStart+1;
-					result = matchBracket(i, static_cast<uint&>(tagEnd));
-					m = result.value.stripWhiteSpace();
-					shorthand = result.option.stripWhiteSpace();
-					if ( i >= tagLine ) //matching brackets spanned multiple lines
-						s = m_doc->textLine(i);
-					if ( result.line>0 || result.col>0 )
+					if ( reCommand.cap(1) != "\\frame" )
 					{
-						tagLine = result.line + 1;
-						tagCol = result.col + 1;
-					}
+						result = matchBracket(i, static_cast<uint&>(tagEnd));
+						m = result.value.stripWhiteSpace();
+						shorthand = result.option.stripWhiteSpace();
+						if ( i >= tagLine ) //matching brackets spanned multiple lines
+							s = m_doc->textLine(i);
+						if ( result.line>0 || result.col>0 )
+						{
+							tagLine = result.line + 1;
+							tagCol = result.col + 1;
+						}
 					//kdDebug() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}" << endl;
+					}
+					else
+					{
+						m = i18n("Untitled frame");
+					}
 				}
 
 				//title (or label) found, add the element to the listview
@@ -919,20 +936,45 @@ void LaTeXInfo::updateStruct()
 							m = m.mid(2,m.length()-2);
 					}
 					// update parameter for environments, because only
-					// floating environments are passed
+					// floating environments and beamer frames are passed
 					if ( (*it).type == KileStruct::BeginEnv )
 					{
-						if ( m=="figure" || m=="table")
+						if ( m=="figure" || m=="table" )
+						{
 							it = m_dictStructLevel.find("\\begin{" + m +'}');
+						}
+						else if ( m == "frame" )
+						{
+							it = m_dictStructLevel.find("\\begin{frame}");
+							m = i18n("Untitled frame");
+						}
+						else if ( m=="block" || m=="exampleblock" || m=="alertblock")
+						{
+							it = m_dictStructLevel.find("\\begin{block}");
+							if ( s.at(tagEnd+1) == '{' )
+							{
+								tagEnd++;
+								result = matchBracket(i, static_cast<uint&>(tagEnd));
+								m = result.value.stripWhiteSpace();
+							}
+							else
+								m = i18n("Untitled block");
+						}
 						else
-							fireSuspended = true;          // only floats, no other environments
+							fireSuspended = true;    // only floats and beamer frames, no other environments
 					}
 					
-					// tell structure view that a floating environment must be closed
+					// tell structure view that a floating environment or a beamer frame must be closed
 					else if ( (*it).type == KileStruct::EndEnv )
 					{
 						if ( m=="figure" || m=="table")
+						{
 							it = m_dictStructLevel.find("\\end{float}");
+						}
+						else if ( m == "frame" )
+						{
+							it = m_dictStructLevel.find("\\end{frame}");
+						}
 						else
 							fireSuspended = true;          // only floats, no other environments
 					}

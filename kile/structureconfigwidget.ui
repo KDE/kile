@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>594</width>
-            <height>307</height>
+            <height>335</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -134,86 +134,178 @@
             <property name="title">
                 <string>Options</string>
             </property>
-            <grid>
+            <widget class="QCheckBox">
                 <property name="name">
-                    <cstring>unnamed</cstring>
+                    <cstring>kcfg_SvShowLabels</cstring>
                 </property>
-                <widget class="QCheckBox" row="0" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowLabels</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show &amp;labels</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>kcfg_SvOpenLabels</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Open labels item</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowReferences</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show undefined references</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="1">
-                    <property name="name">
-                        <cstring>kcfg_SvOpenReferences</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Open references item</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="2" column="1">
-                    <property name="name">
-                        <cstring>kcfg_SvOpenBibitems</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Open bibitems item</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="2" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowBibitems</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show bibitems</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="3" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowGraphics</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show graphic files</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="4" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowFloats</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show figure and table en&amp;vironments</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="5" column="0">
-                    <property name="name">
-                        <cstring>kcfg_SvShowInputFiles</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Show input files</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                </widget>
-            </grid>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>23</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show &amp;labels</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+L</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvOpenLabels</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>289</x>
+                        <y>23</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>&amp;Open labels item</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvShowReferences</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>51</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show undefined references</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvOpenReferences</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>289</x>
+                        <y>51</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Open references item</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvOpenBibitems</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>289</x>
+                        <y>79</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Open bibitems item</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvShowBibitems</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>79</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show bibitems</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvShowGraphics</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>107</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show graphic files</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvShowFloats</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>135</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show figure and table en&amp;vironments</string>
+                </property>
+                <property name="accel">
+                    <string>Alt+V</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvShowInputFiles</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>163</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Show input files</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>kcfg_SvShowSectioningLabels</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>191</y>
+                        <width>272</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>No extra section for labels</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+            </widget>
         </widget>
     </vbox>
 </widget>

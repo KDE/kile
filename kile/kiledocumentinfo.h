@@ -190,6 +190,7 @@ protected:
 	bool m_showStructureFloats;
 	bool m_showStructureReferences;
 	bool m_showStructureInputFiles;
+	bool m_showSectioningLabels;
 	bool m_openStructureLabels;
 	bool m_openStructureReferences;
 	bool m_openStructureBibitems;

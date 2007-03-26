@@ -176,6 +176,7 @@ void Info::updateStructLevelInfo()
 	m_showStructureGraphics = KileConfig::svShowGraphics();
 	m_showStructureFloats = KileConfig::svShowFloats();
 	m_showStructureInputFiles = KileConfig::svShowInputFiles();
+	m_showSectioningLabels = KileConfig::svShowSectioningLabels();
 	m_openStructureLabels = KileConfig::svOpenLabels();
 	m_openStructureReferences = KileConfig::svOpenReferences();
 	m_openStructureBibitems = KileConfig::svOpenBibitems();
@@ -990,6 +991,12 @@ void LaTeXInfo::updateStruct()
 					else if ( (*it).type == KileStruct::Label )
 					{
 						m_labels.append(m);
+						// label entry as child of sectioning
+						if ( m_showSectioningLabels )
+						{
+							emit( foundItem(m, tagLine, tagCol, KileStruct::Label, KileStruct::Object, tagStartLine, tagStartCol, "label", "root") );
+							fireSuspended = true;
+						}
 					}
 
 					// update the references list

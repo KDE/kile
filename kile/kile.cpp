@@ -291,7 +291,7 @@ void Kile::setupProjectView()
 {
 	KileProjectView *projectview = new KileProjectView(m_sideBar, this);
 // 	viewManager()->setProjectView(projectview);
-	m_sideBar->addTab(projectview, SmallIcon("editcopy"), i18n("Files and Projects"));
+	m_sideBar->addTab(projectview, SmallIcon("relation"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
 	connect(projectview, SIGNAL(closeURL(const KURL&)), docManager(), SLOT(fileClose(const KURL&)));
@@ -317,7 +317,7 @@ void Kile::setupProjectView()
 void Kile::setupStructureView()
 {
 	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
-	m_sideBar->addTab(m_kwStructure, SmallIcon("structure"), i18n("Structure"));
+	m_sideBar->addTab(m_kwStructure, SmallIcon("view_tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
@@ -331,7 +331,7 @@ void Kile::setupScriptsManagementView()
 {
 	m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
 	connect((QObject*)editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_scriptsManagementWidget, SLOT(updateListView()));
-	m_sideBar->addTab(m_scriptsManagementWidget, SmallIcon("exec"), i18n("Scripts"));
+	m_sideBar->addTab(m_scriptsManagementWidget, SmallIcon("jspage"), i18n("Scripts"));
 }
 
 void Kile::setupSymbolViews()
@@ -494,12 +494,12 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Next paragraph"), "nextparagraph", ALT+SHIFT+Key_Down, m_edit, SLOT(gotoNextParagraph()), actionCollection(),"edit_next_paragraph" );
 	(void) new KAction(i18n("Prev paragraph"), "prevparagraph", ALT+SHIFT+Key_Up, m_edit, SLOT(gotoPrevParagraph()), actionCollection(),"edit_prev_paragraph" );
 
-	(void) new KAction(i18n("Find &in Files..."), ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
+	(void) new KAction(i18n("Find &in Files..."), "filegrep", ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
 
 	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
 	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
-	(void) new KAction(i18n("Refresh Str&ucture"), "view_tree", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
+	(void) new KAction(i18n("Refresh Str&ucture"), "refreshstructure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "window_new", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
@@ -510,9 +510,9 @@ void Kile::setupActions()
 	m_actRecentProjects->loadEntries(m_config, "Projects");
 
 	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
-	(void) new KAction(i18n("Refresh Project &Tree"), "relation", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
+	(void) new KAction(i18n("Refresh Project &Tree"), "rebuild", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
  	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(runArchiveTool()), actionCollection(), "project_archive");
-	(void) new KAction(i18n("Project &Options"), "configure", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
+	(void) new KAction(i18n("Project &Options"), "configure_project", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
 	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
 
 	// new project actions (dani)
@@ -521,7 +521,7 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
 	// tbraun
 	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
-	(void) new KAction(i18n("Find in &Project..."), 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
+	(void) new KAction(i18n("Find in &Project..."), "projectgrep", 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
 
 	//build actions
 	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );

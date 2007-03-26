@@ -315,9 +315,11 @@ void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsign
 		icon = SmallIcon("revert");
 	else if ( reason == 3 ) //file deleted
 		icon = SmallIcon("stop");
+	else if ( m_ki->extensions()->isScriptFile(doc->url()) )
+		icon = SmallIcon("js");
 	else
 		icon = KMimeType::pixmapForURL (doc->url(), 0, KIcon::Small);
-	
+
 	changeTab(doc->views().first(), icon, m_ki->getShortName(doc));
 }
 

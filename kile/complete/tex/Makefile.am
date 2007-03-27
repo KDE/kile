@@ -1,5 +1,7 @@
 texcompletedir = $(kde_datadir)/kile/complete/tex
-texcomplete_DATA = amsmath.cwl \
+texcomplete_DATA = afterpage.cwl \ 
+	amsbsy.cwl \
+	amsmath.cwl \
 	array.cwl \
 	beamerfoils.cwl \
 	beamerprosper.cwl \
@@ -12,19 +14,26 @@ texcomplete_DATA = amsmath.cwl \
 	class-scrartcl,scrreprt,scrbook.cwl \
 	class-scrlttr2.cwl \
 	color.cwl \
+	colortbl.cwl \
+	coordsys.cwl \
+	currvita.cwl \
 	cyrillic.cwl \
 	enumerate.cwl \
 	fancybox.cwl \
 	fancyhdr.cwl \
+	hyperref.cwl \
 	import.cwl \
 	latex-209.cwl \
 	latex-dev.cwl \
 	latex-document.cwl \
 	latex-l2tabu.cwl \
 	latex-mathsymbols.cwl \
+	layout.cwl \
 	listings.cwl \
+	logsys.cwl \
 	longtable.cwl \
 	lscape.cwl \
+	manyfoot.cwl \
 	mdwlist.cwl \
 	multicol.cwl \
 	multido.cwl \

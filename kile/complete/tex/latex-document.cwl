@@ -13,6 +13,7 @@
 \author{names}
 \begin{}
 \begin{abstract}
+\begin{alltt}
 \begin{array}{cols}
 \begin{array}[pos]{cols}
 \begin{center}
@@ -58,6 +59,7 @@
 \begin{verse}
 \end{}
 \end{abstract}
+\end{alltt}
 \end{array}
 \end{center}
 \end{description}
@@ -100,6 +102,7 @@
 \bibliography{file}
 \boldmath
 \botfigrule
+\cal
 \caption{title}
 \caption[short]{title}
 \cdots
@@ -216,13 +219,17 @@
 \marginpar{right}
 \markboth{lefthead}{righthead}
 \markright{righthead}
+\mathbb
 \mathbf
 \mathcal
+\mathds
 \mathellipsis
+\mathfrak
 \mathgroup
 \mathit
 \mathnormal
 \mathrm
+\mathscr
 \mathsf
 \mathsterling
 \mathtt

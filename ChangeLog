@@ -4,6 +4,12 @@ Fixes:
  - Add support for \gdef, \edef and \xdef to the the latex syntax file
  - Remove dependencies on teTeX documentation and add support for TexLive (#138282)
  - Improve auto completion in abbreviation mode (#93356, #129030)
+ - Promote semantic rather than physical markup in toolbars (emph/strong, #69236)
+ - Clicking on the file list tree view doesn't always open the file (#130985)
+ - Highlighted file in "Files & Projects" sidebar not updated (#137822)
+ - Bug with auto-completion of references (#142475)
+ - Structure  view is not updated after save as (#143257)
+ - Remember how document structure view is collapsed, when refreshing it (#142720)
 
 Features:
  - Add Emacs like delete to end-of-line
@@ -13,8 +19,8 @@ Features:
  - Cosmetic changes to some project dialogs
  - Working with document structure. Added a set of commands to work directly 
    with sectioning on the structure view: copy, cut, paste, select, delete, 
-   comment, quick preview (130445)
- - move 'FindInFiles' dialog into background (part of 138398) 
+   comment, quick preview (#130445)
+ - move 'FindInFiles' dialog into background (part of #138398) 
  - auto completion in abbreviation mode:
    a) All abbreviations can be shown in the sidebar (configurable)
    b) All abbreviations from a local abbreviations list 'kile-abbrevs.cwl' are editable. This file can be found in the local application path of Kile.
@@ -22,6 +28,11 @@ Features:
    d) It is possible to add new abbreviations or delete existing ones.
    e) A new auto mode to expand abbreviations was added (configurable of course). If an abbreviation is followed by a space or a punctuation symbol, it is immediately expanded without further user commands.
  - support for other file extensions than .tex (.ltx, .latex, .dtx)
+ - User configurable autocompletion of $ (#93837)
+ - Merge labels and sections in document structure view (user configurable, #129240)
+ - Preliminary minimal support for the beamer package in Kile (#135101)
+ - Cosmetic changes in project tree
+ - Add some new icons
 
 version 1.9.2-> 1.9.3
 Fixes:

@@ -17,6 +17,7 @@
 #include <qfileinfo.h>
 #include <qvaluestack.h>
 #include <qclipboard.h>
+#include <qapplication.h>
 
 #include <kate/view.h>
 #include <kate/document.h>

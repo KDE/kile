@@ -91,6 +91,7 @@ messages: rc.cpp
 	if test -n "$$LIST"; then \
 	 $(XGETTEXT) $$LIST -o $(podir)/kile.pot; \
 	fi
+	rm -f tips.cpp
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
 noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \

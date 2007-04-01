@@ -1,12 +1,13 @@
 to fix:
 	- reread bibfile if changed outside kile  [tbraun]
 	- use kde standard for double/single mouse click in kfileselct.cpp [tbraun WORKSFORME]
-	- #112735   cmd. completion takes always precedence over bibtex compl
+	- #112735   cmd. completion takes always precedence over bibtex compl [danielsson FIXED]
 	- #132143 autosave: get rid of annyoing copy dialog [CANTFIX as stated by mludwig]
 	- #125878 Order of editor tabs not retained as it was before closing [mludwig FIXED]
 	- #119554   file open error: use Log & Messages View instead of Messa...
 	- handle files included by multiple root docs in one project better (codecompletion, ...)
-	- inspect if fifos from lyxserver can be moved to tmp and then make symlinks [tbraun]
+	- inspect if fifos from lyxserver can be moved to tmp and then make symlinks [tbraun FIXED]
+	- spell checker crashes
 to inspect:
 	- #138282 Remove dependencies on tetex documentation !? [danielsson FIXED]
 	- gcc 4.2 compliance, checked with gcc-4.2 from debian experimental [tbraun FIXED]
@@ -27,5 +28,5 @@ docu:
 - scripting
 - preview
 - explain tool stuff and the magic %... abbreviations
-- write mail to users for cwl files, submit a file with naming guidelines to the svn [tbraun]
-- write a changelog [tbraun]
+- write mail to users for cwl files, submit a file with naming guidelines to the svn [tbraun FIXED]
+- write a changelog [tbraun] 

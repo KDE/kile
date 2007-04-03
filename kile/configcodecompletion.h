@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 24 2007
-    version              : 0.22
+    date                 : Mar 30 2007
+    version              : 0.24
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -32,24 +32,33 @@
   *@author Holger Danielsson
   */
 
+namespace KileWidget { class LogMsg; }
+
 class ConfigCodeCompletion : public QWidget
 {
     Q_OBJECT
 public: 
-   ConfigCodeCompletion(KConfig *config, QWidget *parent=0, const char *name=0);
+   ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent=0, const char *name=0);
    ~ConfigCodeCompletion();
 
    void readConfig(void);
    void writeConfig(void);
 
 private:
-    KConfig *m_config;
-    
-    // tabs, views and pages
-    QTabWidget *tab;
-    KListView *list1,*list2,*list3;         
-    QWidget *page1,*page2,*page3;           
-    KPushButton *add,*remove;                
+	enum CompletionPage { TexPage=0, DictionaryPage=1, AbbreviationPage=2, NumPages=3 };
+
+	KConfig *m_config;
+	KileWidget::LogMsg *m_logwidget;
+ 
+	// tabs, views, pages, wordlists
+	QTabWidget *tab;
+	KListView *m_listview[NumPages];
+	QWidget *m_page[NumPages];
+	QStringList m_wordlist[NumPages];
+	QStringList m_dirname;
+
+	// button
+	KPushButton *add,*remove;
 
     // Checkboxes/Spinboxes
     QCheckBox *cb_usecomplete, *cb_autocomplete;
@@ -64,25 +73,26 @@ private:
 	QCheckBox *cb_showabbrevview;
 	QCheckBox *cb_citeoutofbraces;
 
-    // wordlists
-    QStringList m_texlist;
-    QStringList m_dictlist;
-    QStringList m_abbrevlist;
-    
 	bool kateCompletionPlugin();
 
-    KListView *getListview(QWidget *page);        
-    QString getListname(QWidget *page);         
+	KListView *getListview(QWidget *page);
+	QString getListname(QWidget *page);
+	void addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname);
 
-    void setListviewEntries(KListView *listview, const QStringList &files);
-    bool getListviewEntries(KListView *listview, QStringList &files);
-    bool isListviewEntry(KListView *listview, const QString &filename);
-    
+	void setListviewEntries(CompletionPage page);
+	bool getListviewEntries(CompletionPage page);
+	bool isListviewEntry(KListView *listview, const QString &filename);
+	void updateColumnWidth(KListView *listview);
+
+	QString m_localCwlDir, m_globalCwlDir;
+	void getCwlFiles(QMap<QString,QString> &map, QStringList &list, const QString &dir);
+	void getCwlDirs();
+
 private slots:
    void showPage(QWidget *page);
    void addClicked();
    void removeClicked();
-
+	void slotListviewClicked(QListViewItem *);
 };
 
 #endif

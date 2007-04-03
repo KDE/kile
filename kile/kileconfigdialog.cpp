@@ -190,7 +190,7 @@ namespace KileDialog
 
 	void Config::setupCodeCompletion()
 	{
-		completePage = new ConfigCodeCompletion(m_config);
+		completePage = new ConfigCodeCompletion(m_config,m_ki->logWidget());
 		completePage->readConfig();
 
 		addConfigPage(completePage,i18n("Kile"),i18n("Complete"),"source",i18n("Code Completion"));

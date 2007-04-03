@@ -1,6 +1,6 @@
 /***************************************************************************
-    date                 : Feb 24 2007
-    version              : 0.22
+    date                 : Mar 30 2007
+    version              : 0.24
     copyright            : (C) 2004-2007 by Holger Danielsson
     email                : holger.danielsson@versanet.de
  ***************************************************************************/
@@ -17,7 +17,6 @@
 
 #include <kdialog.h>
 #include <kstandarddirs.h>
-#include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
@@ -32,11 +31,14 @@
 #include <qwhatsthis.h>
 #include <qstringlist.h>
 
+#include "kilelistselector.h"
 #include "configcodecompletion.h"
 #include "kileconfig.h"
+#include "kilelogwidget.h"
+#include "kiletool_enums.h"
 
-ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, const char *name )
-   : QWidget(parent,name), m_config(config)
+ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent, const char *name )
+   : QWidget(parent,name), m_config(config), m_logwidget(logwidget)
 {
    // Layout
     QVBoxLayout *vbox = new QVBoxLayout(this, 5,KDialog::spacingHint() );
@@ -46,36 +48,13 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
    QGridLayout *grid_tab = new QGridLayout( gb_tab, 2,1, 12,8, "" );
    grid_tab->addRowSpacing( 0, 12 );
 
-   tab = new QTabWidget(gb_tab);
+	// create TabWidget
+	tab = new QTabWidget(gb_tab);
 
-   // page 1: Tex/Latex
-   page1 = new QWidget(tab);
-   QGridLayout *grid1 = new QGridLayout(page1, 1,1, 10,10);
-
-   list1 = new KListView(page1);
-   list1->addColumn(i18n("Complete Files for TeX/LaTeX Mode"));
-   grid1->addWidget(list1,0,0);
-
-   // page 2: Dictionary
-   page2 = new QWidget(tab);
-   QGridLayout *grid2 = new QGridLayout(page2, 1,1, 10,10);
-
-   list2 = new KListView(page2);
-   list2->addColumn(i18n("Complete Files for Dictionary Mode"));
-   grid2->addWidget(list2,0,0);
-
-   // page 3: Abbreviation
-   page3 = new QWidget(tab);
-   QGridLayout *grid3 = new QGridLayout(page3, 1,1, 10,10);
-
-   list3 = new KListView(page3);
-   list3->addColumn(i18n("Complete Files for Abbreviation Mode"));
-   grid3->addWidget(list3,0,0);
-
-   // add all pages to TabWidget
-   tab->addTab(page1,i18n("TeX/LaTeX"));
-   tab->addTab(page2,i18n("Dictionary"));
-   tab->addTab(page3,i18n("Abbreviation"));
+	// add three pages: Tex/Latex, Dictionary, Abbreviation
+	addPage(tab, TexPage, i18n("TeX/LaTeX"), "tex");
+	addPage(tab, DictionaryPage, i18n("Dictionary"), "dictionary");
+	addPage(tab, AbbreviationPage, i18n("Abbreviation"), "abbreviation");
 
    // add two centered button
    add = new KPushButton(i18n("Add..."),gb_tab);
@@ -155,16 +134,39 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, QWidget *parent, con
    connect(remove,SIGNAL(clicked()),this,SLOT(removeClicked()));
 
    // justify height
-   QCheckListItem *item = new QCheckListItem(list3,"Test",QCheckListItem::CheckBox);
+   QCheckListItem *item = new QCheckListItem(m_listview[AbbreviationPage], "Test", QCheckListItem::CheckBox);
    int h = 6*(item->height()+1) + 1;
-   list1->setFixedHeight(h);
-   list2->setFixedHeight(h);
-   list3->setFixedHeight(h);
+ 	for ( uint i=TexPage; i<NumPages; ++i )
+		m_listview[i]->setFixedHeight(h);
    delete item;
+
+	// find resource directories for cwl files
+	getCwlDirs();
 }
 
 ConfigCodeCompletion::~ConfigCodeCompletion()
 {
+}
+
+void ConfigCodeCompletion::addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname)
+{
+	m_page[page] = new QWidget(tab);
+
+	m_listview[page] = new KListView( m_page[page] );
+	m_listview[page]->addColumn(i18n("Complete Files"));
+	m_listview[page]->addColumn(i18n("Local File"));
+	m_listview[page]->setFullWidth(true);
+
+	QGridLayout *grid = new QGridLayout(m_page[page], 1,1, 10,10);
+	grid->addWidget(m_listview[page],0,0);
+
+	// add Tab
+	tab->addTab(m_page[page],title);
+
+	// remember directory name
+	m_dirname << dirname;
+
+	connect(m_listview[page], SIGNAL(clicked( QListViewItem *)), this, SLOT(slotListviewClicked(QListViewItem *)));
 }
 
 //////////////////// read/write configuration ////////////////////
@@ -172,9 +174,9 @@ ConfigCodeCompletion::~ConfigCodeCompletion()
 void ConfigCodeCompletion::readConfig(void)
 {
    // read selected and deselected filenames with wordlists
-   m_texlist = KileConfig::completeTex();
-   m_dictlist = KileConfig::completeDict();
-   m_abbrevlist = KileConfig::completeAbbrev();
+   m_wordlist[TexPage] = KileConfig::completeTex();
+   m_wordlist[DictionaryPage]  = KileConfig::completeDict();
+   m_wordlist[AbbreviationPage]  = KileConfig::completeAbbrev();
 
    // set checkbox status
    cb_usecomplete->setChecked( KileConfig::completeEnabled() );
@@ -201,9 +203,8 @@ void ConfigCodeCompletion::readConfig(void)
 	sp_textthreshold->setValue( KileConfig::completeAutoTextThreshold() );
 
    // insert filenames into listview
-   setListviewEntries(list1,m_texlist);
-   setListviewEntries(list2,m_dictlist);
-   setListviewEntries(list3,m_abbrevlist);
+	for ( uint i=TexPage; i<NumPages; ++i )
+		setListviewEntries( CompletionPage(i) );
 }
 
 void ConfigCodeCompletion::writeConfig(void)
@@ -212,14 +213,13 @@ void ConfigCodeCompletion::writeConfig(void)
    bool changed = false;
 
    // get listview entries
-   changed |= getListviewEntries(list1,m_texlist);
-   changed |= getListviewEntries(list2,m_dictlist);
-   changed |= getListviewEntries(list3,m_abbrevlist);
+	for ( uint i=TexPage; i<NumPages; ++i )
+		changed |= getListviewEntries( CompletionPage(i) );
 
    // Konfigurationslisten abspeichern
-   KileConfig::setCompleteTex(m_texlist);
-   KileConfig::setCompleteDict(m_dictlist);
-   KileConfig::setCompleteAbbrev(m_abbrevlist);
+   KileConfig::setCompleteTex( m_wordlist[TexPage] );
+   KileConfig::setCompleteDict( m_wordlist[DictionaryPage] );
+   KileConfig::setCompleteAbbrev( m_wordlist[AbbreviationPage] );
 
    // save checkbox status
    KileConfig::setCompleteEnabled(cb_usecomplete->isChecked());
@@ -272,48 +272,76 @@ bool ConfigCodeCompletion::kateCompletionPlugin()
 
 // ListView fr den Konfigurationsdialog einstellen
 
-void ConfigCodeCompletion::setListviewEntries(KListView *listview, const QStringList &files)
+void ConfigCodeCompletion::setListviewEntries(CompletionPage page)
 {
-   // Daten aus der Konfigurationsliste in das ListView-Widget eintragen
-   listview->setUpdatesEnabled(false);
-   listview->clear();
-   for (uint i=0; i<files.count(); ++i) {
-      QString s = files[i];
-      QCheckListItem *item = new QCheckListItem(listview,s.right(s.length()-2),QCheckListItem::CheckBox);
-      item->setOn( s.at(0) == '1' ? true : false );
-      listview->insertItem(item);
-   }
-   listview->setUpdatesEnabled(true);
+	QString listname = m_dirname[page];
+	QString localdir = m_localCwlDir + listname + "/";
+	QString globaldir = m_globalCwlDir + listname + "/";
+
+	// Daten aus der Konfigurationsliste in das ListView-Widget eintragen
+	m_listview[page]->setUpdatesEnabled(false);
+	m_listview[page]->clear();
+	QStringList::ConstIterator it;
+	for ( it=m_wordlist[page].begin(); it!=m_wordlist[page].end(); ++it )
+	{
+		QString basename = (*it).right( (*it).length()-2 );
+		bool localExists = QFileInfo(localdir+basename+".cwl").exists();
+		
+		QCheckListItem *item = new QCheckListItem(m_listview[page],basename,QCheckListItem::CheckBox);
+		if ( localExists )
+		{
+			item->setOn( (*it).at(0) == '1' ? true : false );
+			item->setText(1,"+");
+		}
+		else if ( QFileInfo(globaldir+basename+".cwl").exists() )
+		{	
+			item->setOn( (*it).at(0) == '1' ? true : false );
+		}
+		else
+		{
+			item->setOn(false);
+			item->setText(1,i18n("File not found"));
+		}
+		m_listview[page]->insertItem(item);
+	}
+	
+	updateColumnWidth(m_listview[page]);
+	m_listview[page]->setUpdatesEnabled(true);
 }
 
-bool ConfigCodeCompletion::getListviewEntries(KListView *listview, QStringList &files)
+void ConfigCodeCompletion::updateColumnWidth(KListView *listview)
+{
+	listview->setColumnWidth(0,listview->columnWidth(0)+60);
+}
+
+bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
 {
    bool changed = false;
 
    // count number of entries
-   uint n = listview->childCount();
+   uint n = m_listview[page]->childCount();
 
     // there are changes if this number has changed
-   if ( n != files.count() )
+   if ( n != m_wordlist[page].count() )
       changed = true;
 
    // clear all stringlist with files, if there are no entries
    if ( n == 0 ) {
-      files.clear();
+      m_wordlist[page].clear();
       return changed;
    }
 
    // now check all entries if they have changed
    QStringList newfiles;
    int index = 0;
-   QCheckListItem *item = (QCheckListItem *)listview->firstChild();
+   QCheckListItem *item = (QCheckListItem *)m_listview[page]->firstChild();
    while ( item ) {
       QString s = ( item->isOn() ) ? "1-" : "0-";
       s += item->text(0);
       newfiles.append(s);
 
       // check for a change
-      if ( files[index] != s )
+      if ( m_wordlist[page][index] != s )
          changed = true;
 
       // go on
@@ -323,7 +351,7 @@ bool ConfigCodeCompletion::getListviewEntries(KListView *listview, QStringList &
 
    // only update if there are changes
    if ( changed )
-      files = newfiles;
+      m_wordlist[page] = newfiles;
 
    return changed;
 }
@@ -344,84 +372,123 @@ bool ConfigCodeCompletion::isListviewEntry(KListView *listview, const QString &f
 
 KListView *ConfigCodeCompletion::getListview(QWidget *page)
 {
-   if ( page == page1 )
-      return list1;
-   else if ( page == page2 )
-      return list2;
-   else if ( page == page3 )
-      return list3;
-   else
-      return 0;
+	for ( uint i=TexPage; i<NumPages; ++i )
+	{
+		if ( page == m_page[i] )
+			return m_listview[i];
+	}
+	return 0;
 }
 
 QString ConfigCodeCompletion::getListname(QWidget *page)
 {
-   if ( page == page1 )
-      return "tex";
-   else if ( page == page2 )
-      return "dictionary";
-   else if ( page == page3 )
-      return "abbreviation";
-   else
-      return QString::null;
+	for ( uint i=TexPage; i<NumPages; ++i )
+	{
+		if ( page == m_page[i] )
+			return m_dirname[i];
+	}
+	return QString::null;
 }
 
 //////////////////// shwo tabpages ////////////////////
 
 void ConfigCodeCompletion::showPage(QWidget *page)
 {
-   KListView *list = getListview(page);
-   if ( list ) {
-      if ( list->childCount() == 0 )
-         remove->setEnabled(false);
-      else
-         remove->setEnabled(true);
-   }
+	KListView *listview = getListview(page);
+	if ( listview ) 
+		remove->setEnabled( listview->selectedItems().count() > 0 );
 }
 
 //////////////////// add/remove new wordlists ////////////////////
 
-void ConfigCodeCompletion::addClicked()
+// find local and global resource directories
+
+void ConfigCodeCompletion::getCwlDirs()
 {
+	m_localCwlDir = locateLocal("appdata","complete/");
+	m_globalCwlDir = QString::null;
 
-   QString listname = getListname(tab->currentPage());   // determine name
-   QString basedir = locate("appdata","complete/") + listname;
-
-   QStringList filenames =KFileDialog::getOpenFileNames( basedir,i18n("*.cwl|Complete Files"),this,i18n("Select File"));
-
-	KListView *list = getListview(tab->currentPage());     // get current page
-	for ( QStringList::Iterator it = filenames.begin(); it != filenames.end(); ++it )
+	QStringList dirs = KGlobal::dirs()->findDirs("appdata","complete/");
+	for ( QStringList::ConstIterator it=dirs.begin(); it!=dirs.end(); ++it )
 	{
-		QString filename = *it;
-	
-		// could we accept the wordlist?
-		QFileInfo fi(filename);
-		if ( !filename.isEmpty() && fi.exists() && fi.isReadable() )
+		if ( (*it) != m_localCwlDir )
 		{
-			// check basedir
-			if ( fi.dirPath(true) == basedir )
-			{
-				int len = basedir.length() + 1;
-				QString basename = filename.mid(len,filename.length()-len-4);
-			
-				// check if this entry already exists
-				if ( isListviewEntry(list,basename) )
-				{
-					if ( KMessageBox::questionYesNo(0,i18n("Wordlist '%1' is already used.").arg(basename),i18n("Duplicate Files"),i18n("&Skip"),KStdGuiItem::cancel()) == KMessageBox::Yes )
-						continue;     // skip this entry
-					else
-						break;        // cancel all following entries
-				}
-				// add new entry
-				QCheckListItem *item = new QCheckListItem(list,basename,QCheckListItem::CheckBox);
-				item->setOn(true);
-				list->insertItem(item);
-			}
-		else
-			KMessageBox::information(0,i18n("Maybe you have changed the directory?"));
-	
+			m_globalCwlDir = (*it);
+			break;
 		}
 	}
+}
+
+// find local and global cwl files: global files are not added,
+// if there is already a local file with this name. We fill a map
+// with filename as key and filepath as value. Additionally all 
+// filenames are added to a stringlist.
+
+void ConfigCodeCompletion::getCwlFiles(QMap<QString,QString> &map, QStringList &list, const QString &dir)
+{
+	QStringList files = QDir(dir,"*.cwl").entryList();
+	for ( QStringList::ConstIterator it=files.begin(); it!=files.end(); ++it )
+	{
+		QString filename = QFileInfo(*it).fileName();
+		if ( ! map.contains(filename) )
+		{
+			map[filename] = dir + "/" + (*it);
+			list << filename;
+		}
+	}
+}
+
+void ConfigCodeCompletion::addClicked()
+{
+	// determine current subdirectory for current tab page	
+	QString listname = getListname(tab->currentPage());
+
+
+	// get a sorted list of all cwl files from both directories
+	QMap<QString,QString> filemap;
+	QStringList filelist;
+	getCwlFiles(filemap,filelist,m_localCwlDir+listname);
+	getCwlFiles(filemap,filelist,m_globalCwlDir+listname);
+	filelist.sort();
+
+	// dialog to add cwl files
+	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist,i18n("Complete Files"),i18n("Select Files"), this);
+	if ( dlg->exec() ) 
+	{
+		if ( dlg->currentItem() >= 0 ) 
+		{
+			KListView *listview = getListview(tab->currentPage());     // get current page
+			QStringList filenames = dlg->selected();                   // get selected files
+			for ( QStringList::ConstIterator it=filenames.begin(); it!=filenames.end(); ++it )
+			{
+				QString filename = *it;
+				// could we accept the wordlist?
+				QFileInfo fi( filemap[filename] );
+				if ( !filename.isEmpty() && fi.exists() && fi.isReadable() )
+				{
+					QString basename = filename.left(filename.length()-4);
+
+					// check if this entry already exists
+					if ( isListviewEntry(listview,basename) )
+					{
+						m_logwidget->printMsg(KileTool::Info,i18n("Wordlist '%1' is already used.").arg(basename),i18n("Complete"));
+						continue;
+					}
+
+					// add new entry
+					QCheckListItem *item = new QCheckListItem(listview,basename,QCheckListItem::CheckBox);
+					item->setOn(true);
+					item->setSelected(true);
+					if ( filemap[filename].left(m_localCwlDir.length()) == m_localCwlDir )
+						item->setText(1,"+");
+
+					listview->insertItem(item);
+				}
+			}
+			updateColumnWidth(listview);
+		}
+	}
+	delete dlg;
 
 }
 
@@ -433,11 +500,19 @@ void ConfigCodeCompletion::removeClicked()
    KListView *list = getListview(page);                              // determine page
    QCheckListItem *item = (QCheckListItem *)list->selectedItem();    // determine entry
 
-   if ( item ) {
-      list->takeItem(item);
-      // Button enabled/disabled?
-      showPage(page);
-   }
+	if ( item ) 
+	{
+		list->takeItem(item);
+		delete item;
+		// Button enabled/disabled?
+		showPage(page);
+	}
+}
+
+void ConfigCodeCompletion::slotListviewClicked(QListViewItem *)
+{
+	KListView *listview = getListview(tab->currentPage());     // get current page
+	remove->setEnabled( listview->selectedItems().count() > 0 );
 }
 
 #include "configcodecompletion.moc"

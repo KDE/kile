@@ -1,7 +1,9 @@
 /***************************************************************************
     begin                : Fri Aug 15 2003
     copyright            : (C) 2003 by Jeroen Wijnhout
+                           (C) 2007 by Holger Danielsson
     email                : Jeroen.Wijnhout@kdemail.net
+                           holger.danielsson@versanet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,34 +18,41 @@
 #define KILELISTSELECTOR_H
 
 #include <kdialogbase.h>
+#include <klistview.h>
 
-class KListBox;
+class KListView;
 class QStringList;
 
-class KileListSelector : public KDialogBase
+class KileListSelectorBase : public KDialogBase
 {
 public:
-	KileListSelector(const QStringList & list, const QString &caption, const QString &select, QWidget *parent = 0, const char * name = 0);
-	~KileListSelector() {}
+	KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);
+	~KileListSelectorBase() {}
 
-	int currentItem() { return m_listbox->currentItem();}
+	int currentItem();
 
-private:
-	KListBox	*m_listbox;
+protected:
+	KListView *m_listview;
+	void insertStringList(const QStringList &list);
 };
 
-class KileListSelectorMultiple : public KDialogBase
+class KileListSelector : public KileListSelectorBase
 {
 public:
-	KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, QWidget *parent = 0, const char * name = 0);
+	KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);
+	~KileListSelector() {}
+};
+
+class KileListSelectorMultiple : public KileListSelectorBase
+{
+public:
+	KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);
 	~KileListSelectorMultiple() {}
 
-	const QStringList& selected();
-	int currentItem() { return m_listbox->currentItem();}
+	const QStringList &selected();
 
 private:
-	KListBox	*m_listbox;
-	QStringList	m_selectedfiles;
+	QStringList m_selectedfiles;
 };
 
 

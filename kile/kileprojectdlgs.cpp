@@ -49,7 +49,7 @@
 
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 const QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
-const QString whatsthisExt = i18n("Insert a list (separated with spaces) of the extensions of the files in your project that are not TeX source files. These files will be put in a separate place in the Project View. You can also use a regular expression to detect which files are non-source files.");
+const QString whatsthisExt = i18n("Insert a list (separated by spaces) of file extensions which should be treated also as files of the corresponding type in this project.");
 const QString whatsthisMaster = i18n("Select the default master document. Leave empty for auto detection.");
 
 const QString tool_default = i18n("(use global setting)");

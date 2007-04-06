@@ -122,10 +122,13 @@
 			if ( tool()->isQuickie() ) 
 				m_texinputs = KileConfig::previewTeXPaths();
 
+			kdDebug() << "$PATH=" << expandEnvironmentVars("$PATH") << endl;
 			kdDebug() << "$TEXINPUTS=" << expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << endl;
 			kdDebug() << "$BIBINPUTS=" << expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << endl;
 			kdDebug() << "$BSTINPUTS=" << expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << endl;
 			kdDebug() << "Tool name is "<< tool()->name() << endl;
+
+			m_proc->setEnvironment("PATH",expandEnvironmentVars("$PATH"));
 
 			if (! m_texinputs.isEmpty())
 				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));

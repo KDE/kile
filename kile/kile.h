@@ -289,11 +289,19 @@ private slots:
 	 * It can wrap a tag around selected text.
 	 **/
 	void insertTag(const KileAction::TagData& td);
-	void insertAmsTag(const KileAction::TagData& td);
+	/**
+	* @param td Inserts the TagData td into the current editor
+	* @param pkgs list of packages needed for this command
+	*
+	* warns if latex packages in pkgs are not included in the document 
+	**/
+	void insertTag(const KileAction::TagData& td, const QStringList& pkgs);
 	/**
 	 * An overloaded member function, behaves essentially as above.
 	 **/
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
+	void insertAmsTag(const KileAction::TagData& td);
+	void insertText(const QString &text, const QStringList &pkgs);
 	void insertText(const QString &text);
 
 	void quickTabular();
@@ -311,8 +319,8 @@ private slots:
 
 private:
 	KileLyxServer		*m_lyxserver;
-	bool				m_bShowUserMovedMessage;
-
+	bool			m_bShowUserMovedMessage;
+			
 private:
 	KileErrorHandler 	*m_errorHandler;
 	KileSpell			*m_spell;

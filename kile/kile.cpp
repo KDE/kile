@@ -341,43 +341,53 @@ void Kile::setupSymbolViews()
 
 	m_symbolViewRelation = new SymbolView(m_toolBox,"relation",SymbolView::Relation);
 	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
-	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QStringList&)),
+		 this, SLOT(insertText(const QString& ,const QStringList&)));
 		
 	m_symbolViewOperators = new SymbolView(m_toolBox,"operators",SymbolView::Operator);
 	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
-	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString& ,const QStringList&)));
 
 	m_symbolViewArrows = new SymbolView(m_toolBox,"arrow",SymbolView::Arrow);
 	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
-	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString& ,const QStringList&)));
 
 	m_symbolViewMiscMath = new SymbolView(m_toolBox,"miscmath",SymbolView::MiscMath);
 	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
-	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString& ,const QStringList&)));
 
 	m_symbolViewMiscText = new SymbolView(m_toolBox,"misctext",SymbolView::MiscText);
 	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
-	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString& ,const QStringList&)));
 
 	m_symbolViewDelimiters= new SymbolView(m_toolBox,"delimiters",SymbolView::Delimiters);
 	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
-	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString& ,const QStringList&)));
 
 	m_symbolViewGreek = new SymbolView(m_toolBox,"greek",SymbolView::Greek);
 	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
-	connect(m_symbolViewGreek, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewGreek, SIGNAL(insertText(const QString&, const QStringList&)),
+		this, SLOT(insertText(const QString&, const QStringList&)));
 
 	m_symbolViewSpecial = new SymbolView(m_toolBox,"special",SymbolView::Special);
 	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
-	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString&, const QStringList&)));
 
 	m_symbolViewCyrillic = new SymbolView(m_toolBox,"cyrillic",SymbolView::Cyrillic);
 	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
-	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString&, const QStringList&)));
 
 	m_symbolViewUser = new SymbolView(m_toolBox,"user",SymbolView::User);
 	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
-	connect(m_symbolViewUser, SIGNAL(insertText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_symbolViewUser, SIGNAL(insertText(const QString&, const QStringList&)),
+		this, SLOT(insertText(const QString&, const QStringList& )));
 
 	for (int i=0; i< m_toolBox->count(); i++)
 		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, presssing CTRL in curly brackets."));
@@ -1574,8 +1584,6 @@ void Kile::refreshStructure()
 	viewManager()->updateStructure(true);
 }
 
-
-/////////////////////// LATEX TAGS ///////////////////
 void Kile::insertTag(const KileAction::TagData& data)
 {
 	logWidget()->clear();
@@ -1603,32 +1611,45 @@ void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 
 void Kile::insertAmsTag(const KileAction::TagData& data)
 {
-	// insert AMS tag
+	insertTag(data, QStringList("amsmath"));
+}
+
+void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
+{
+	kdDebug() << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
 	insertTag(data);
 
-	// check if \usepackage{amsmath} was found in the main document
-	bool amsmath = false;
 	KileDocument::Info *docinfo = docManager()->textInfoFor(getCompileName());
-	if ( docinfo ) {
+	if ( docinfo )
+	{
 		const QStringList *packagelist = allPackages(docinfo);
-		for (uint i=0; i<packagelist->count(); ++i) {
-			if ( (*packagelist)[i] == "amsmath" ) {
-				amsmath = true;
-				break;
-			}
-		}
-	}
+		QStringList::const_iterator it;
+		QStringList warnPkgs;
+		
+		for ( it = pkgs.begin() ; it != pkgs.end() ; it++ )
+			if( !(*packagelist).contains(*it) )
+				warnPkgs.append(*it);
 
-	// if this command was not found, because it was not found or the
-	// main file is not opened, we will once give a warning
-	if ( ! amsmath  ) {
-		KMessageBox::information(0,"<center>"+i18n("You must include '\\usepackage{amsmath}' to use an AMS command like this.")+"</center>",i18n("AMS Information"),i18n("amsmath package warning"));
+		if( warnPkgs.count() > 0 )
+		{
+			if( warnPkgs.count() == 1 )
+				 m_logWidget->printMsg(KileTool::Error, i18n("You have to include the package %1.").arg(warnPkgs.join(",")),
+					       i18n("Insert text"));
+			else
+				m_logWidget->printMsg(KileTool::Error, i18n("You have to include the packages %1.").arg(warnPkgs.join(",")),
+					i18n("Insert text"));
+		}
 	}
 }
 
 void Kile::insertText(const QString &text)
 {
 	insertTag( KileAction::TagData(QString::null,text,"%C",0,0) );
+}
+
+void Kile::insertText(const QString &text, const QStringList &pkgs)
+{
+	insertTag( KileAction::TagData(QString::null,text,"%C",0,0),pkgs );
 }
 
 void Kile::quickDocument()

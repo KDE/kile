@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Fri Aug 1 2003
-    edit		 : Wed Jun 1 2006
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout, 2006 Thomas Braun
+    edit		 : Fri April 6 2007
+    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout, 2006 - 2007 Thomas Braun
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -36,11 +36,11 @@ private:
 	void fillWidget(const QString &addition);
 	void hideEvent( QHideEvent * );
 	void contentsMousePressEvent(QMouseEvent *e);
+	void extractPkgs(const QString& text, QStringList &args, QStringList &pkgs);
 	void initPage(int page);
 
 signals:
-	void requestedText(const QString& text);
-	void insertText(const QString& text);
+	void insertText(const QString& text,const QStringList &pkgs);
 
 private slots:
 	void showToolTip( QIconViewItem *item );

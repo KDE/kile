@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Fri Aug 1 2003
-    edit		 : Wed Jun 1 2006
-    copyright            : (C) 2003 by Jeroen Wijnhout, 2006 by Thomas Braun
+    edit		 : Fri April 6 2007
+    copyright            : (C) 2003 by Jeroen Wijnhout, 2006 - 2007 by Thomas Braun
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -22,7 +22,9 @@ dani 2005-11-22
 tbraun 2006-07-01
    - added tooltips which show the keys, copied from kfileiconview
    - reorganized the hole thing, more flexible png loading, removing the old big code_array, more groups
-TODO send a warning if needed packages are not included for the commands
+
+tbraun 2007-06-04
+    - Send a warning in the logwidget if needed packages are not included for the command
 */
 
 #include "symbolview.h"
@@ -30,9 +32,11 @@ TODO send a warning if needed packages are not included for the commands
 #include <qimage.h>
 #include <qstringlist.h>
 #include <kimageeffect.h>
+#include <klocale.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
+#include <qregexp.h>
 #include <qtooltip.h>
 #include <qlabel.h>
 #include <qrect.h>
@@ -65,6 +69,21 @@ SymbolView::~SymbolView()
 	removeToolTip();
 }
 
+
+void SymbolView::extractPkgs(const QString& text, QStringList &args, QStringList &pkgs)
+{
+	QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
+	
+	args.clear();
+	pkgs.clear();
+	
+	if( !text.isEmpty() && text.find(rePkgs) != -1 )
+	{
+		args = QStringList::split(",",rePkgs.cap(1));
+		pkgs = QStringList::split(",",rePkgs.cap(2));
+	}
+}
+
 void SymbolView::showToolTip( QIconViewItem *item )
 {
      delete toolTip;
@@ -73,9 +92,35 @@ void SymbolView::showToolTip( QIconViewItem *item )
      if ( !item )
      return;
 	
-     toolTip = new QLabel(QString::fromLatin1("%1").arg(item->key().section('%',0,0)), 0,
-                   "myToolTip",
-                   WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM );
+	QString cmd, label, s;
+	QStringList pkgs, args;
+	
+	cmd = item->key().section('%',0,0);
+	s = item->key().section('%',1,1);
+	extractPkgs(s,args,pkgs);
+	
+// 	kdDebug() << "cmd is " << cmd << ", packages are " << s << endl;
+	
+	label = i18n("Command: ") + cmd + "\n";
+	
+	if( pkgs.count() > 0 )
+	{
+		if(pkgs.count() == 1)
+			label += i18n("Package: ");
+		else
+			label += i18n("Packages: ");
+		
+		for( uint i = 0; i < pkgs.count() ; i++ )
+		{
+			if( i < args.count() )
+				label = label + "[" + args[i] + "]" + pkgs[i] + "\n";
+			else
+				label = label + pkgs[i] + "\n";
+		}
+	}
+	
+     toolTip = new QLabel(label, 0,"myToolTip",
+			  WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM );
      toolTip->setFrameStyle( QFrame::Plain | QFrame::Box );
      toolTip->setLineWidth( 1 );
      toolTip->setAlignment( AlignLeft | AlignTop );
@@ -160,7 +205,8 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 {
 	kdDebug() << "===SymbolView::contentsMousePressEvent(QMouseEvent *e)===" << endl;
 	
-	QString code_symbol;
+	QString code_symbol, s;
+	QStringList args, pkgs;
 	QIconViewItem *item = NULL;
 	bool math=false, bracket=false;
 
@@ -169,6 +215,9 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 		bracket = (e->state() & Qt::ControlButton) ==  Qt::ControlButton;
 		math = (e->state() & Qt::ShiftButton) ==  Qt::ShiftButton;
 		code_symbol = item->key().section('%',0,0);
+		s = item->key().section('%',1,1);
+		
+		extractPkgs(s,args,pkgs);
 
 		if (math == bracket)
 			;
@@ -177,8 +226,7 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 		else if(bracket)
 			code_symbol = '{' + code_symbol + '}';
 		
-		emit(insertText(code_symbol));
-		emit(requestedText(item->key()));
+		emit(insertText(code_symbol,pkgs));
 	}
 	
 	kdDebug() << "math is " << math << ", bracket is " << bracket << " and item->key() is " <<  ( item ? item->key() : "" ) << endl;

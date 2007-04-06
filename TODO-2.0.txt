@@ -14,10 +14,10 @@ to inspect:
 regressions [from 1.9.x]:
 	- global master docs are sometimes not working [tbraun FIXED] 
 	- save as does not change the filename in the editor tab [mludwig FIXED]
-	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working)
+	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working) [tbraun] 
 features:
 	- Steal focus from KDVI in forwardDVI mode
-	- symbolview show necessary packages [tbraun]
+	- symbolview show necessary packages [tbraun FIXED]
 	- move user tags to config menu or sidebar
 	- new tool icons [tbraun FIXED]
 	- tool changes + update script [tbraun FIXED]

@@ -54,6 +54,12 @@
 // 2007-03-24 dani
 // - preliminary minimal support for Beamer class
 
+// 2007-03-25 dani
+// - merge labels and sections in document structure view as user configurable option
+
+// 2007-04-06 dani
+// - add TODO/FIXME section to structure view
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -176,10 +182,12 @@ void Info::updateStructLevelInfo()
 	m_showStructureGraphics = KileConfig::svShowGraphics();
 	m_showStructureFloats = KileConfig::svShowFloats();
 	m_showStructureInputFiles = KileConfig::svShowInputFiles();
+	m_showStructureTodo = KileConfig::svShowTodo();
 	m_showSectioningLabels = KileConfig::svShowSectioningLabels();
 	m_openStructureLabels = KileConfig::svOpenLabels();
 	m_openStructureReferences = KileConfig::svOpenReferences();
 	m_openStructureBibitems = KileConfig::svOpenBibitems();
+	m_openStructureTodo = KileConfig::svOpenTodo();
 }
 
 void Info::setBaseDirectory(const KURL& url)
@@ -540,9 +548,10 @@ QString TextInfo::matchBracket(QChar obracket, uint &l, uint &pos)
 	int count=0, len;
 	++pos;
 
+	TodoResult todo;
 	while ( l <= m_doc->numLines() )
 	{
-		line = getTextline(l);
+		line = getTextline(l,todo);
 		len = line.length();
 		for (int i=pos; i < len; ++i)
 		{
@@ -567,16 +576,18 @@ QString TextInfo::matchBracket(QChar obracket, uint &l, uint &pos)
 	return QString::null;
 }
 
-QString TextInfo::getTextline(uint line)
+QString TextInfo::getTextline(uint line, TodoResult &todo)
 {
 	static QRegExp::QRegExp reComments("[^\\\\](%.*$)");
 
+	todo.type = -1;
 	QString s = m_doc->textLine(line);
 	if ( ! s.isEmpty() )
 	{
 		// remove comment lines
 		if ( s[0] == '%' )
 		{
+			searchTodoComment(s,0,todo);
 			s = QString::null;
 		}
 		else
@@ -585,13 +596,28 @@ QString TextInfo::getTextline(uint line)
 			s.replace("\\\\", "  ");
 
 			//remove comments
-			if( s.find(reComments) != -1 )
+			int pos = s.find(reComments);
+			if ( pos != -1 )
 			{
+				searchTodoComment(s,pos,todo);
 				s = s.left(reComments.pos(1));
 			}
 		}
 	}
 	return s;
+}
+
+void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &todo)
+{
+	static QRegExp::QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+
+	if ( s.find(reTodoComment,startpos) != -1 )
+	{
+		todo.type = ( reTodoComment.cap(1) == "TODO" ) ? KileStruct::ToDo : KileStruct::FixMe;
+		todo.colTag = reTodoComment.pos(1);
+		todo.colComment = reTodoComment.pos(3);
+		todo.comment = reTodoComment.cap(3).stripWhiteSpace();
+	}
 }
 
 KTextEditor::View* TextInfo::createView(QWidget *parent, const char *name)
@@ -792,6 +818,7 @@ void LaTeXInfo::removeInstalledEventFilters(KTextEditor::View *view)
 BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
 {
 	BracketResult result;
+	TodoResult todo;
 
 	if ( m_doc->textLine(l)[pos] == '[' )
 	{
@@ -799,7 +826,7 @@ BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
 		int p = 0;
 		while ( l < m_doc->numLines() )
 		{
-			if ( (p = getTextline(l).find('{', pos)) != -1 )
+			if ( (p = getTextline(l,todo).find('{', pos)) != -1 )
 			{
 				pos = p;
 				break;
@@ -848,6 +875,7 @@ void LaTeXInfo::updateStruct()
 	bool fire = true; //whether or not we should emit a foundItem signal
 	bool fireSuspended; // found an item, but it should not be fired (this time)
 	bool depsHasChanged = false;
+	TodoResult todo;
 
 	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
@@ -861,7 +889,14 @@ void LaTeXInfo::updateStruct()
 
 		tagStart=tagEnd=0;
 		fire = true;
-		s = getTextline(i);
+		s = getTextline(i,todo);
+		if ( todo.type!=-1 && m_showStructureTodo )
+		{
+			QString folder = ( todo.type == KileStruct::ToDo ) ? "todo" : "fixme";
+			emit( foundItem(todo.comment, i+1, todo.colComment, todo.type, KileStruct::Object, i+1, todo.colTag, QString::null, folder) );
+		}
+
+
 		if ( s.isEmpty() )
 			continue;
 

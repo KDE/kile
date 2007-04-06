@@ -54,6 +54,9 @@
 //   is taken to replace the standard title of this entry in the structure view
 // - \begin{block}...\end{block} is taken as child of a frame
 
+// 2007-04-06 dani
+// - add TODO/FIXME section to structure view
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -197,6 +200,7 @@ namespace KileWidget
  			m_openStructureLabels = m_docinfo->openStructureLabels();
  			m_openStructureReferences = m_docinfo->openStructureReferences();
 			m_openStructureBibitems = m_docinfo->openStructureBibitems();
+			m_openStructureTodo = m_docinfo->openStructureTodo();
 			m_showStructureLabels = m_docinfo->showStructureLabels();
 		}
 		else
@@ -204,6 +208,7 @@ namespace KileWidget
 			m_openStructureLabels = false;
 			m_openStructureReferences = false;
 			m_openStructureBibitems = false;
+			m_openStructureTodo = false;
 			m_showStructureLabels = false;
  		}
 	}
@@ -266,6 +271,10 @@ namespace KileWidget
 			m_openByFolders["refs"] = m_folders["refs"]->isOpen();
 		if ( m_folders.contains("bibs") ) 
 			m_openByFolders["bibs"] = m_folders["bibs"]->isOpen();
+		if ( m_folders.contains("todo") ) 
+			m_openByFolders["todo"] = m_folders["todo"]->isOpen();
+		if ( m_folders.contains("fixme") ) 
+			m_openByFolders["fixme"] = m_folders["fixme"]->isOpen();
 	}
 
 	bool StructureList::shouldBeOpen(KileListViewItem *item, const QString & folder, int level)
@@ -279,19 +288,26 @@ namespace KileWidget
 			else
 				return m_openStructureLabels;
 		}
-		if ( folder == "refs" )
+		else if ( folder == "refs" )
 		{
 			if ( m_openByFolders.contains("refs") )
 				return m_openByFolders["refs"];
 			else
 				return m_openStructureReferences;
 		}
-		if ( folder == "bibs" )
+		else if ( folder == "bibs" )
 		{
 			if ( m_openByFolders.contains("bibs") )
 				return m_openByFolders["bibs"];
 			else
 				return m_openStructureBibitems;
+		}
+		else if ( folder=="todo" || folder=="fixme" )
+		{
+			if ( m_openByFolders.contains(folder) )
+				return m_openByFolders[folder];
+			else
+				return m_openStructureTodo;
 		}
 
 		if ( m_openByTitle.contains(item->title()) )
@@ -320,6 +336,16 @@ namespace KileWidget
 		{
 			fldr->setText(0, i18n("Undefined References"));
 			fldr->setPixmap(0, SmallIcon("stop"));
+		}
+		else if ( folder == "todo" )
+		{
+			fldr->setText(0, i18n("TODO"));
+			fldr->setPixmap(0, SmallIcon("bookmark"));
+		}
+		else if ( folder == "fixme" )
+		{
+			fldr->setText(0, i18n("FIXME"));
+			fldr->setPixmap(0, SmallIcon("bookmark"));
 		}
 
 		m_folders[ folder ] = fldr;

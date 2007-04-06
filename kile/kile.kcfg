@@ -79,6 +79,10 @@
 			<label>Show labels as child of sectioning items in the structure view</label>
 			<default>false</default>
 		</entry>
+		<entry name="SvShowTodo" type="Bool">
+			<label>Show TODO and FIXME comments</label>
+			<default>true</default>
+		</entry>
 		<entry name="SvOpenLabels" type="Bool">
 			<label>Open the parent item for all labels in the structure view as default</label>
 			<default>false</default>
@@ -89,6 +93,10 @@
 		</entry>
 		<entry name="SvOpenBibitems" type="Bool">
 			<label>Open the parent item for all bibitems in the structure view as default</label>
+			<default>false</default>
+		</entry>
+		<entry name="SvOpenTodo" type="Bool">
+			<label>Open the parent item for all TODO and FIXME comments as default</label>
 			<default>false</default>
 		</entry>
 	</group>

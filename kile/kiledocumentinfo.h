@@ -48,7 +48,8 @@ namespace KileStruct
 		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80, 
 		Graphics = 0x100, Reference = 0x200, BeginEnv = 0x400, EndEnv = 0x800,
 		BeginFloat = 0x1000, EndFloat = 0x2000,  Caption = 0x4000, BeamerFrame = 0x8000,
-		BeamerBeginFrame = 0x10000, BeamerEndFrame = 0x20000, BeamerFrametitle = 0x40000, BeamerBeginBlock = 0x80000
+		BeamerBeginFrame = 0x10000, BeamerEndFrame = 0x20000, BeamerFrametitle = 0x40000, BeamerBeginBlock = 0x80000,
+		ToDo = 0x160000, FixMe = 0x320000
 	};
 
 	//Different levels (in the parent-child hierarchy) in the structure view
@@ -90,6 +91,14 @@ struct BracketResult
 	int line, col;
 };
 
+struct TodoResult 
+{
+	int type;
+	uint colTag;
+	uint colComment;
+	QString comment;
+};
+
 class Info : public QObject
 {
 	Q_OBJECT
@@ -117,6 +126,7 @@ public:
 	bool openStructureLabels() { return m_openStructureLabels; }
 	bool openStructureReferences() { return m_openStructureReferences; }
 	bool openStructureBibitems() { return m_openStructureBibitems; }
+	bool openStructureTodo() { return m_openStructureTodo; }
 
 	bool showStructureLabels() { return m_showStructureLabels; }
 
@@ -190,10 +200,12 @@ protected:
 	bool m_showStructureFloats;
 	bool m_showStructureReferences;
 	bool m_showStructureInputFiles;
+	bool m_showStructureTodo;
 	bool m_showSectioningLabels;
 	bool m_openStructureLabels;
 	bool m_openStructureReferences;
 	bool m_openStructureBibitems;
+	bool m_openStructureTodo;
 	KURL						m_baseDirectory;
 	bool						documentTypePromotionAllowed;
 	Extensions *m_extensions;
@@ -260,7 +272,8 @@ protected:
 	QString				m_defaultHighlightMode;
 
 	QString matchBracket(QChar c, uint &, uint &);
-	QString getTextline(uint line);
+	QString getTextline(uint line, TodoResult &todo);
+	void searchTodoComment(const QString &s, uint startpos, TodoResult &todo);
 
 	/**
 	 * Installs an event filter on a view. Subclasses can override this method to

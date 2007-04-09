@@ -49,7 +49,7 @@
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
 
-#define KILERC_VERSION 5
+#define KILERC_VERSION 6
 
 class QFileInfo;
 class QTimer;
@@ -319,7 +319,6 @@ private slots:
 
 private:
 	KileLyxServer		*m_lyxserver;
-	bool			m_bShowUserMovedMessage;
 			
 private:
 	KileErrorHandler 	*m_errorHandler;

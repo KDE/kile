@@ -89,8 +89,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	DCOPObject( "Kile" ),
 	KParts::MainWindow( parent, name),
 	KileInfo(this),
-	m_paPrint(0L),
-	m_bShowUserMovedMessage(false)
+	m_paPrint(0L)
 {
     m_focusWidget = this;
 
@@ -207,11 +206,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	{
 		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));
 		m_listUserTools.clear();
-	}
-
-	if (m_bShowUserMovedMessage)
-	{
-		KMessageBox::information(0, i18n("Please note that the 'User' menu, which holds the (La)TeX tags you have defined, is moved to the LaTeX menu."));
 	}
 
 	KTipDialog::showTip(this, "kile/tips");
@@ -1787,15 +1781,10 @@ void Kile::readUserSettings()
 {
 	//test for old kilerc
 	int version = KileConfig::rCVersion();
-	bool old=false;
-
-	m_bShowUserMovedMessage = (version < 5);
 
 	//if the kilerc file is old some of the configuration
-	//date must be set by kile, even if the keys are present
+	//data must be set by kile, even if the keys are present
 	//in the kilerc file
-	if ( version < KILERC_VERSION ) old=true;
-
 	if ( version < 4 )
 	{
 		KileTool::Factory *factory = new KileTool::Factory(0, m_config);

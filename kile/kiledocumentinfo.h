@@ -185,12 +185,11 @@ protected:
 	bool						m_bIsRoot;
 	QStringList					m_labels;
 	QStringList					m_bibItems;
-	QStringList					m_deps;
+	QStringList					m_deps, m_depsPrev;
 	QStringList					m_bibliography;
 	QStringList					m_packages;
 	QStringList					m_newCommands;
 	QString						m_preamble;
-	QString						m_prevbib;
 	QMap<QString,KileStructData>			m_dictStructLevel;
 	KURL						m_url;
 	KConfig						*m_config;
@@ -333,7 +332,7 @@ protected:
 	const QObject *m_eventFilter;
 
 	virtual void updateStructLevelInfo();
-
+	virtual void checkChangedDeps();
 	/**
 	 * Installs a custom event filter.
 	 **/

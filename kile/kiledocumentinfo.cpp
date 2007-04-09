@@ -854,7 +854,8 @@ void LaTeXInfo::updateStruct()
 {
 	kdDebug() << "==void TeXInfo::updateStruct: (" << url() << ")=========" << endl;
 
-	if ( getDoc() == 0L ) return;
+	if ( getDoc() == 0L )
+		return;
 
 	Info::updateStruct();
 
@@ -874,7 +875,6 @@ void LaTeXInfo::updateStruct()
 	bool foundBD = false; // found \begin { document }
 	bool fire = true; //whether or not we should emit a foundItem signal
 	bool fireSuspended; // found an item, but it should not be fired (this time)
-	bool depsHasChanged = false;
 	TodoResult todo;
 
 	for(uint i = 0; i < m_doc->numLines(); ++i)
@@ -1059,11 +1059,6 @@ void LaTeXInfo::updateStruct()
 					{
 						kdDebug() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
 
-						if( m_prevbib != m && !m_prevbib.isEmpty() && !m.isEmpty() )
-							depsHasChanged=true;
-						kdDebug() << "depsHasChanged = " << depsHasChanged << endl;
-						m_prevbib=m;
-
 						QStringList bibs = QStringList::split(",", m);
 						QString biblio;
 						
@@ -1164,11 +1159,19 @@ void LaTeXInfo::updateStruct()
 		} // while tagStart
 	} //for
 
-	if(depsHasChanged) 
-		emit(depChanged()); // does the order of the signals matter ?
-				// TODO do the same kind of smart update for \input and \includegraphics
+	checkChangedDeps();
 	emit(doneUpdating());
 	emit(isrootChanged(isLaTeXRoot()));
+}
+
+void LaTeXInfo::checkChangedDeps()
+{
+	if( m_depsPrev != m_deps )
+	{
+		kdDebug() << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
+		emit(depChanged());
+		m_depsPrev = m_deps;
+	}
 }
 
 BibInfo::BibInfo (Kate::Document *doc, Extensions *extensions, LatexCommands* /* commands */) : TextInfo(doc, extensions, "BibTeX")

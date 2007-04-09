@@ -1,5 +1,5 @@
 to fix:
-	- reread bibfile if changed outside kile  [tbraun]
+	- reread bibfile if changed outside kile  [tbraun LATER]
 	- use kde standard for double/single mouse click in kfileselct.cpp [tbraun WORKSFORME]
 	- #112735   cmd. completion takes always precedence over bibtex compl [danielsson FIXED]
 	- #132143 autosave: get rid of annyoing copy dialog [CANTFIX as stated by mludwig]
@@ -8,17 +8,24 @@ to fix:
 	- handle files included by multiple root docs in one project better (codecompletion, ...)
 	- inspect if fifos from lyxserver can be moved to tmp and then make symlinks [tbraun FIXED]
 	- spell checker crashes
+	- #142987 project load crash
+	- refresh project tree upon changed m_deps in LaTeXInfo [tbraun FIXED]
+	- more programs in system check !?
+	- grepping files does not work if kile.encoding != system.encoding, try e.g. UTF8 vs. latin1 with umlauts
+
 to inspect:
 	- #138282 Remove dependencies on tetex documentation !? [danielsson FIXED]
 	- gcc 4.2 compliance, checked with gcc-4.2 from debian experimental [tbraun FIXED]
+
 regressions [from 1.9.x]:
 	- global master docs are sometimes not working [tbraun FIXED] 
 	- save as does not change the filename in the editor tab [mludwig FIXED]
-	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working) [tbraun] 
+	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working) [tbraun]
+
 features:
 	- Steal focus from KDVI in forwardDVI mode
 	- symbolview show necessary packages [tbraun FIXED]
-	- move user tags to config menu or sidebar
+	- move user tags to config menu or sidebar [tbraun postponed !?]
 	- new tool icons [tbraun FIXED]
 	- tool changes + update script [tbraun FIXED]
 	- Icon /Splash Contest [mludwig]

@@ -24,11 +24,12 @@
 #include <qptrlist.h>
 #include <qintdict.h>
 #include <qstringlist.h>
-
+#include <ktempdir.h>
 /**
  * @short Simple server that impersonates as LyX to work with gBib, pyBibliographer etc.
  * @author Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
- * @version 0.1
+ * @author Thomas Braun
+ * @version 0.2
  */
 
 class QFile;
@@ -61,11 +62,13 @@ signals:
 	void insert(const KileAction::TagData &);
 
 private:
-	QPtrList<QFile>					m_pipeIn;
-	QPtrList<QSocketNotifier>		m_notifier;
-	QIntDict<QFile>					m_file;
-	bool							m_running;
-	QStringList 					m_pipes;
+	mode_t 				m_perms;
+	KTempDir			*m_tempDir;
+	QPtrList<QFile>			m_pipeIn;
+	QPtrList<QSocketNotifier>	m_notifier;
+	QIntDict<QFile>			m_file;
+	bool				m_running;
+	QStringList 			m_links,m_pipes;
 };
 
 #endif // _LYXSERVER_H_

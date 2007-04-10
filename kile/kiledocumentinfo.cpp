@@ -357,28 +357,6 @@ void Info::count(const QString line, long *stat)
 	}
 }
 
-void Info::cleanTempFiles(const QStringList &extlist )
-{
-	QString finame = url().fileName();
-	QFileInfo fic(finame);
-
-	QString baseName = fic.baseName(true);
-
-	QStringList fileList;
-	for (uint i=0; i< extlist.count(); ++i)
-	{
-		fileList.append(baseName+extlist[i]);
-	}
-
-	QString path = url().directory(false);
-	for (uint i=0; i < fileList.count(); ++i)
-	{
-		QFile file( path + fileList[i] );
-		kdDebug() << "About to remove file = " << file.name() << endl;
-		file.remove();
-	}
-}
-
 QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 {
 	kdDebug() << "==QString Info::lastModifiedFile()=====" << endl;
@@ -462,9 +440,11 @@ Kate::Document* TextInfo::getDoc()
 
 void TextInfo::setDoc(Kate::Document *doc)
 {
-	if(m_doc == doc){
+	kdDebug() << "===void TextInfo::setDoc(Kate::Document *doc)===" << endl;
+	
+	if(m_doc == doc)
 		return;
-	}
+	
 	detach();
 	if(doc)
 	{
@@ -495,9 +475,23 @@ const long* TextInfo::getStatistics()
 	return m_arStatistics;
 }
 
+// FIXME for KDE 4.0, rearrange the hole docinfo layout to get rid of this hack
 KURL TextInfo::url()
 {
-	return (m_doc ? m_doc->url() : KURL());
+	KURL url;
+	
+	if(m_doc)
+		url = m_doc->url();
+	else
+	{
+		QFileInfo info(m_url.path());
+		if(info.exists())
+			url = m_url;
+		else
+			url = KURL();
+	}
+	kdDebug() << "===KURL TextInfo::url()===, url is " << url.path() << endl;
+	return url;
 }
 
 Type TextInfo::getType()

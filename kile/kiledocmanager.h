@@ -133,7 +133,7 @@ public slots:
 	void removeFromProject(const KileProjectItem *);
 	void storeProjectItem(KileProjectItem *item, Kate::Document *doc);
 
-	void cleanUpTempFiles(KileDocument::Info *docinfo = 0, bool silent = false);
+	void cleanUpTempFiles(const KURL &url, bool silent = false);
 
 	void openDroppedURLs(QDropEvent *e);
 

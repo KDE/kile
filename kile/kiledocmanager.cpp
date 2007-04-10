@@ -165,6 +165,9 @@ Info* Manager::getInfo() const
 
 TextInfo* Manager::textInfoFor(const QString & path) const
 {
+	if( path.isEmpty() )
+		return 0L;
+	
 	kdDebug() << "==KileInfo::textInfoFor(" << path << ")==========================" << endl;
 	QPtrListIterator<TextInfo> it(m_textInfoList);
 	while ( true )
@@ -183,6 +186,9 @@ TextInfo* Manager::textInfoFor(const QString & path) const
 
 TextInfo* Manager::textInfoForURL(const KURL& url)
 {
+	if( url.isEmpty() )
+		return 0L;
+	
 	kdDebug() << "==KileInfo::textInfoFor(" << url << ")==========================" << endl;
 	QPtrListIterator<TextInfo> it(m_textInfoList);
 	TextInfo *info;
@@ -201,6 +207,9 @@ TextInfo* Manager::textInfoForURL(const KURL& url)
 
 TextInfo* Manager::textInfoFor(Kate::Document* doc) const
 {
+	if( !doc )
+		return 0L;
+	
     QPtrListIterator<TextInfo> it(m_textInfoList);
     while ( true )
     {
@@ -974,10 +983,9 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 	else
 	//FIXME: remove from docinfo map, remove from dirwatch
 	{
-		kdDebug() << "\t" << doc->url().path() << endl;
-		QString fn = doc->url().fileName();
+		kdDebug() << "doc->url().path()=" << doc->url().path() << endl;
 
-		KURL url = doc->url();
+		const KURL url = doc->url();
 
 		TextInfo *docinfo= textInfoFor(doc);
 		if (docinfo == 0L)
@@ -999,11 +1007,11 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 		if ( doc->closeURL() )
 		{
 			// docinfo may have been recreated from 'Untitled' doc to a named doc
-			if ( url .isEmpty() )
+			if ( url.isEmpty() )
 				docinfo= textInfoFor(doc);
-				
+			
 			if ( KileConfig::cleanUpAfterClose() )
-				cleanUpTempFiles(docinfo, true);
+				cleanUpTempFiles(url, true); // yes we pass here url and not docinfo->url()
 
 			//FIXME: use signal/slot
 			m_ki->viewManager()->removeView(static_cast<Kate::View*>(doc->views().first()));
@@ -1604,27 +1612,34 @@ void Manager::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 	kdDebug() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
 }
 
-void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
+void Manager::cleanUpTempFiles(const KURL &url, bool silent)
 {
+	kdDebug() << "===void Manager::cleanUpTempFiles(const KURL " << url.path() << ", bool " << silent << ")===" << endl;
+	
+	if( url.isEmpty() )
+		return;
+	
 	QStringList extlist;
-	QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
-	QString str;
-	QFileInfo file(docinfo->url().path()), fi;
+	QFileInfo fi(url.path());
+	const QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
+	const QString fileName = fi.fileName();
+	const QString dirPath = fi.dirPath(true);
+	const QString baseName = fi.baseName(true);
+	
 	for (uint i=0; i <  templist.count(); ++i)
 	{
-		str = file.dirPath(true) + '/' + file.baseName(true) + templist[i];
-		fi.setFile(str);
+		fi.setFile( dirPath + '/' + baseName + templist[i] );
 		if ( fi.exists() )
 			extlist.append(templist[i]);
 	}
-
-	str = file.fileName();
-	if (!silent &&  ( KileUntitled::isUntitled(str) || str.isEmpty() ) )	return;
+	
+	if (!silent &&  ( KileUntitled::isUntitled(fileName) || fileName.isEmpty() ) )
+		return;
 
 	if (!silent && extlist.count() > 0 )
 	{
-		kdDebug() << "\tnot silent" << endl;
-		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->parentWidget(), str, extlist);
+		kdDebug() << "not silent" << endl;
+		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->parentWidget(), fileName, extlist);
 		if ( dialog->exec() )
 			extlist = dialog->getCleanlist();
 		else
@@ -1637,14 +1652,17 @@ void Manager::cleanUpTempFiles(Info *docinfo, bool silent)
 	}
 
 	if ( extlist.count() == 0 )
+		emit printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(fileName), i18n("Clean"));
+	else
 	{
-		emit printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(str), i18n("Clean"));
-		return;
+		for ( uint i = 0 ; i < extlist.count() ; ++i )
+		{
+			QFile file( dirPath + '/' + baseName + extlist[i] );
+			kdDebug() << "About to remove file = " << file.name() << endl;
+			file.remove();
+		}
+		emit printMsg(KileTool::Info, i18n("Cleaning %1 : %2").arg(fileName).arg(extlist.join(" ")), i18n("Clean"));
 	}
-
-	emit printMsg(KileTool::Info, i18n("cleaning %1 : %2").arg(str).arg(extlist.join(" ")), i18n("Clean"));
-
-	docinfo->cleanTempFiles(extlist);
 }
 
 void Manager::openDroppedURLs(QDropEvent *e) {

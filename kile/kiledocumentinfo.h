@@ -137,8 +137,6 @@ public:
 
 	virtual KURL url();
 	
-	void cleanTempFiles(const QStringList &  );
-
 	virtual void updateStructLevelInfo();
 
 	void setBaseDirectory(const KURL& url);

@@ -1570,7 +1570,8 @@ void Kile::cleanAll(KileDocument::TextInfo *docinfo)
 		}
 	}
 
-	if (docinfo) docManager()->cleanUpTempFiles(docinfo, false);
+	if (docinfo)
+		docManager()->cleanUpTempFiles(docinfo->url(), false);
 }
 
 void Kile::refreshStructure()

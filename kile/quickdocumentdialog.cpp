@@ -356,7 +356,7 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 	label->setBuddy(m_leDate);
 
 	// set current date
-	m_leDate->setText( KGlobal::locale()->formatDate(QDate::currentDate(), true) );
+	m_leDate->setText( KGlobal::locale()->formatDate(QDate::currentDate(), KLocale::ShortDate) );
 
 	return personalInfo;
 }

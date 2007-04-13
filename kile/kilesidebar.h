@@ -22,7 +22,7 @@
 #include <qmap.h>
 
 class QWidgetStack;
-class KMultiTabBar;
+class KileMultiTabBar;
 class SymbolView;
 
 /**
@@ -52,8 +52,6 @@ public:
 	 * Shows or hides the tab connected to the widget "w". If the tab to be hidden is
 	 * currently selected, the next tab will be shown (cyclically).
 	 *
-	 * Due to limitations in KMultiTabBar, the result only looks nice if the tab to
-	 * be hidden is the last tab in the KMultiTabBar.
 	 * @param b set to "true" to show the tab connected to the widget "w", "false" to
 	 *          hide it
 	 **/
@@ -75,7 +73,7 @@ public slots:
 
 protected:
 	QWidgetStack		*m_tabStack;
-	KMultiTabBar		*m_tabBar;
+	KileMultiTabBar		*m_tabBar;
 	int			m_nTabs;
 	int			m_nCurrent;
 	QMap<int,int>		m_indexToPage;

@@ -26,7 +26,7 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	kilestatsdlg.cpp kilestatswidget.cpp envconfigwidget.ui structureconfigwidget.ui \
 	previewwidget.cpp kilejscript.h kilejscript.cpp scriptsmanagementwidget.h scriptsmanagementwidget.cpp \
 	editorkeysequencemanager.h editorkeysequencemanager.cpp scriptingconfigwidget.ui \
-	kileabbrevview.cpp kileextensions.cpp kileversion.cpp graphicsconfigwidget.ui
+	kileabbrevview.cpp kileextensions.cpp kileversion.cpp graphicsconfigwidget.ui kilemultitabbar.cpp
 
 kile_LDADD   = -lkjs -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML) 
 
@@ -44,7 +44,7 @@ EXTRA_DIST = main.cpp kile.cpp kile.h \
 	latexoutputfilter.cpp outputinfo.cpp latexoutputinfo.cpp \
 	outputfilter.cpp latexoutputfilter.h outputinfo.h latexoutputinfo.h \
 	includegraphicsdialog.h includegraphicsdialog.cpp kiletoolconfigwidget.cpp kiletoolconfigwidget.h outputfilter.h kilegrepdialog.cpp kilegrepdialog.h codecompletion.h codecompletion.cpp configcodecompletion.cpp configcodecompletion.h kileedit.cpp cleandialog.cpp kileedit.h cleandialog.h  kilehelp.cpp kilehelp.h configstructure.cpp configstructure.h configenvironment.h convert.h convert.cpp \
-	kileconstants.h kilejscript.h kilejscript.cpp scriptsmanagementwidget.h scriptsmanagementwidget.cpp editorkeysequencemanager.h editorkeysequencemanager.cpp
+	kileconstants.h kilejscript.h kilejscript.cpp scriptsmanagementwidget.h scriptsmanagementwidget.cpp editorkeysequencemanager.h editorkeysequencemanager.cpp kilemultitabbar.cpp kilemultitabbar.h  kilemultitabbar_p.h
 
 xdg_apps_DATA = kile.desktop
 
@@ -99,7 +99,7 @@ noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
 		kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
 		latexconfigwidget.h kilespell.h kileerrorhandler.h configcheckerdlg.h configtester.h \
 		kilesidebar.h plaintolatexconverter.h kileuntitled.h 	kilestatsdlg.h \
-	kilestatswidget.h envconfigwidget.h structureconfigwidget.h kileversion.h kileconstants.h
+	kilestatswidget.h envconfigwidget.h structureconfigwidget.h kileversion.h kileconstants.h kilemultitabbar.h  kilemultitabbar_p.h
 
 CREATE_HASH_TABLE = $(top_srcdir)/kile/kile/create_hash_table
 

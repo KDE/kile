@@ -109,6 +109,7 @@ SET(kile_SRCS
 	kileversion.cpp
 	kileabbrevview.cpp
 	kileextensions.cpp
+	kilemultitabbar.cpp
 )
 
 KDE3_AUTOMOC(${kile_SRCS})

@@ -71,6 +71,9 @@ public slots:
 	void toggleTab();
 	void switchToTab(int id);
 
+private:
+	int findNextShownTab(int i);
+
 protected:
 	QWidgetStack		*m_tabStack;
 	KileMultiTabBar		*m_tabBar;

@@ -34,8 +34,7 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 	m_nMaxSize(1000),
 	m_nSize(size)
 {
-	setFrameStyle(QFrame::Box|QFrame::Plain);
-	setLineWidth(1);
+	setLineWidth(0);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
  
 	QLayout *layout;
@@ -144,6 +143,23 @@ QWidget* KileSideBar::currentPage()
 	return m_tabStack->visibleWidget();
 }
 
+int KileSideBar::findNextShownTab(int i)
+{
+	if(m_nTabs <= 0)
+	{
+		return -1;
+	}
+	for(int j = 1; j < m_nTabs; ++j)
+	{
+		int index = (i + j) % m_nTabs;
+		if(m_tabBar->tab(index)->isShown())
+		{
+			return index;
+		}
+	}
+	return -1;
+}
+
 void KileSideBar::removePage(QWidget *w) 
 {
 	QMap<QWidget*,int>::iterator it = m_widgetToIndex.find(w);
@@ -158,7 +174,7 @@ void KileSideBar::removePage(QWidget *w)
 	m_widgetToIndex.remove(it);
 	if(index == m_nCurrent && m_nTabs >= 2)
 	{
-		showTab((m_nCurrent + 1) % m_nTabs);
+		showTab(findNextShownTab(index));
 	}
 	--m_nTabs;
 }
@@ -177,7 +193,7 @@ void KileSideBar::setPageVisible(QWidget *w, bool b) {
   	tab->setShown(b);
 	if(!b && index == m_nCurrent && m_nTabs >= 2)
 	{
-		showTab((m_nCurrent + 1) % m_nTabs);
+		showTab(findNextShownTab(index));
 	}
 }
 

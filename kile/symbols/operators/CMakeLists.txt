@@ -78,6 +78,43 @@ SET( symbols
 	img074operators.png
 	img075operators.png
 	img076operators.png
+	img077operators.png
+	img078operators.png
+	img079operators.png
+	img080operators.png
+	img081operators.png
+	img082operators.png
+	img083operators.png
+	img084operators.png
+	img085operators.png
+	img086operators.png
+	img087operators.png
+	img088operators.png
+	img089operators.png
+	img090operators.png
+	img091operators.png
+	img092operators.png
+	img093operators.png
+	img094operators.png
+	img095operators.png
+	img096operators.png
+	img097operators.png
+	img098operators.png
+	img099operators.png
+	img100operators.png
+	img101operators.png
+	img102operators.png
+	img103operators.png
+	img104operators.png
+	img105operators.png
+	img106operators.png
+	img107operators.png
+	img108operators.png
+	img109operators.png
+	img110operators.png
+	img111operators.png
+	img112operators.png
+	img113operators.png
 )
-
 INSTALL( FILES ${symbols} DESTINATION share/apps/kile/mathsymbols/operators )
+

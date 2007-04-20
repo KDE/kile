@@ -138,17 +138,4 @@ pics_DATA = img001relation.png \
 	img136relation.png \
 	img137relation.png \
 	img138relation.png \
-	img139relation.png \
-	img140relation.png \
-	img141relation.png \
-	img142relation.png \
-	img143relation.png \
-	img144relation.png \
-	img145relation.png \
-	img146relation.png \
-	img147relation.png \
-	img148relation.png \
-	img149relation.png \
-	img150relation.png \
-	img151relation.png \
-	img152relation.png
+	img139relation.png

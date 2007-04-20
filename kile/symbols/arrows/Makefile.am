@@ -68,5 +68,4 @@ pics_DATA = img001arrows.png \
 	img066arrows.png \
 	img067arrows.png \
 	img068arrows.png \
-	img069arrows.png \
-	img070arrows.png
+	img069arrows.png 

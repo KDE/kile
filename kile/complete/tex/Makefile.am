@@ -21,6 +21,7 @@ texcomplete_DATA = afterpage.cwl \
 	enumerate.cwl \
 	fancybox.cwl \
 	fancyhdr.cwl \
+	fancyvrb.cwl \
 	hyperref.cwl \
 	import.cwl \
 	latex-209.cwl \

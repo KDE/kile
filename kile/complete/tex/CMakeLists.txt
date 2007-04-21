@@ -19,6 +19,7 @@ SET(kile_texCompleteFiles
 	enumerate.cwl
 	fancybox.cwl
 	fancyhdr.cwl
+	fancyvrb.cwl
 	import.cwl
 	latex-209.cwl
 	latex-dev.cwl

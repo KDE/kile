@@ -44,6 +44,7 @@ SET(kile_texCompleteFiles
 	pstricks.cwl
 	pst-text.cwl
 	pst-tree.cwl
+	rotating.cwl
 	scraddr.cwl
 	scrdate.cwl
 	scrlfile.cwl

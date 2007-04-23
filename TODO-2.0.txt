@@ -7,7 +7,7 @@ to fix:
 	- #119554   file open error: use Log & Messages View instead of Messa...
 	- handle files included by multiple root docs in one project better (codecompletion, ...)
 	- inspect if fifos from lyxserver can be moved to tmp and then make symlinks [tbraun FIXED]
-	- spell checker crashes
+	- spell checker crashes [tbraun fixed]
 	- #142987 project load crash
 	- refresh project tree upon changed m_deps in LaTeXInfo [tbraun FIXED]
 	- more programs in system check !?
@@ -20,7 +20,7 @@ to inspect:
 regressions [from 1.9.x]:
 	- global master docs are sometimes not working [tbraun FIXED] 
 	- save as does not change the filename in the editor tab [mludwig FIXED]
-	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working) [tbraun]
+	- docinfos without doc are not reachable with TextInfoFor (isRootchanged in kilestructwidget is because of that not always working) [tbraun FIXED]
 
 features:
 	- Steal focus from KDVI in forwardDVI mode

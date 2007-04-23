@@ -199,13 +199,16 @@ void KileLyxServer::processLine(const QString &line)
 {
 	kdDebug() << "===void KileLyxServer::processLine(const QString " << line << ")===" << endl;
 	
-	QRegExp cite(":citation-insert:(.*)$");
-	QRegExp bibtexdbadd(":bibtex-database-add:(.*)$");
-
-	if (cite.search(line) > -1)
-		emit(insert(KileAction::TagData("Cite", "\\cite{"+cite.cap(1)+'}', QString::null, 7+cite.cap(1).length())));
-	else if ( bibtexdbadd.search(line) > -1 )
-		emit(insert(KileAction::TagData("BibTeX db add", "\\bibliography{"+ bibtexdbadd.cap(1) + '}', QString::null, 15+bibtexdbadd.cap(1).length())));
+	QRegExp reCite(":citation-insert:(.*)$");
+	QRegExp reBibtexdbadd(":bibtex-database-add:(.*)$");
+	QRegExp rePaste(":paste:(.*)$");
+	
+	if( line.find(reCite) != -1 )
+		emit(insert(KileAction::TagData(i18n("Cite"), "\\cite{"+reCite.cap(1)+'}')));
+	else if( line.find(reBibtexdbadd) != -1 )
+		emit(insert(KileAction::TagData(i18n("BibTeX db add"), "\\bibliography{"+ reBibtexdbadd.cap(1) + '}')));
+	else if( line.find(rePaste) != -1)
+		emit(insert(KileAction::TagData(i18n("Paste"), rePaste.cap(1))));
 }
 
 void KileLyxServer::receive(int fd)

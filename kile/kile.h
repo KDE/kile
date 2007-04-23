@@ -71,7 +71,6 @@ class KileProjectItem;
 class KileProjectView;
 class TemplateItem;
 class KileAutoSaveJob;
-class KileSpell;
 class KileErrorHandler;
 class KileSideBar;
 
@@ -322,8 +321,7 @@ private:
 			
 private:
 	KileErrorHandler 	*m_errorHandler;
-	KileSpell			*m_spell;
-	
+ 	
 // QuickPreview
 private slots:
 	void slotQuickPreview(int type);

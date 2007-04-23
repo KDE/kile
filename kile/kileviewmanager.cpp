@@ -146,14 +146,6 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
 	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
-	KAction *spa = view->actionCollection()->action( "tools_spelling" );
-	if ( spa )
-	{
-		kdDebug() << "RECONNECTING SPELLCHECKER" << endl;
-		disconnect(spa , 0 , 0 , 0);
-		connect( spa, SIGNAL(activated()), this, SIGNAL(startSpellCheck()) );
-	}
-
 	// install a working kate part popup dialog thingy
 	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
 	if((NULL != view) && (NULL != viewPopupMenu))

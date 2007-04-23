@@ -108,7 +108,6 @@ protected slots:
 signals:
 	void activateView(QWidget *, bool);
 	void prepareForPart(const QString &);
-	void startSpellCheck();
 	void startQuickPreview(int);
 
 private:

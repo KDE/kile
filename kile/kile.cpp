@@ -70,8 +70,6 @@
 #include "kileconfig.h"
 #include "kileerrorhandler.h"
 #include "configcheckerdlg.h"
-#include "kilespell.h"
-//#include "kilespell2.h"
 #include "kilesidebar.h"
 #include "symbolview.h"
 #include "floatdialog.h"
@@ -113,7 +111,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_partManager = new KParts::PartManager( this );
 	m_eventFilter = new KileEventFilter(m_edit);
 	m_errorHandler = new KileErrorHandler(this, this);
-	m_spell = new KileSpell(this, this, "kilespell");
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
 
@@ -499,9 +496,6 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Prev paragraph"), "prevparagraph", ALT+SHIFT+Key_Up, m_edit, SLOT(gotoPrevParagraph()), actionCollection(),"edit_prev_paragraph" );
 
 	(void) new KAction(i18n("Find &in Files..."), "filegrep", ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
-
-	kdDebug() << "CONNECTING SPELLCHECKER" << endl;
-	connect ( viewManager(), SIGNAL(startSpellCheck()), m_spell, SLOT(spellcheck()) );
 
 	(void) new KAction(i18n("Refresh Str&ucture"), "refreshstructure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
 

@@ -92,12 +92,12 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	QVBoxLayout *baseLayout = new QVBoxLayout(this);
 
 	m_toolbar = new KToolBar(this, "scriptControlToolBar");
-	m_executeButton = m_toolbar->insertButton(BarIcon("exec"), 0, SIGNAL(clicked(int)), this, SLOT(executeSelectedScript()), true, i18n("Run Script"));
-	m_newButton = m_toolbar->insertButton(BarIcon("filenew"), 0, SIGNAL(clicked(int)), m_kileInfo->docManager(), SLOT(createNewJScript()), true, i18n("New"));
-	m_openButton = m_toolbar->insertButton(BarIcon("fileopen"), 0, SIGNAL(clicked(int)), this, SLOT(openSelectedScript()), true, i18n("Open"));
+	m_executeButton = m_toolbar->insertButton(BarIcon("exec"), 0, SIGNAL(clicked(int)), this, SLOT(executeSelectedScript()), true, i18n("Run Selected Script"));
+	m_newButton = m_toolbar->insertButton(BarIcon("filenew"), 0, SIGNAL(clicked(int)), m_kileInfo->docManager(), SLOT(createNewJScript()), true, i18n("Create New Script"));
+	m_openButton = m_toolbar->insertButton(BarIcon("fileopen"), 0, SIGNAL(clicked(int)), this, SLOT(openSelectedScript()), true, i18n("Open Selected Script in Editor"));
 // 	m_toolbar->insertButton(BarIcon("configure_shortcuts"), 0, SIGNAL(clicked(int)), this, SLOT(configureSelectedShortcut()), true, i18n("Configure Shortcut"));
 // 	m_toolbar->insertButton(BarIcon("editclear"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh"));
-	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh"));
+	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh List"));
 
 	baseLayout->addWidget(m_toolbar);
 	m_scriptsListView = new KListView(this);

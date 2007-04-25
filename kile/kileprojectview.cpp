@@ -165,7 +165,8 @@ void KileProjectView::slotFile(int id)
 				default : break;
 			}
 		}
-		item->setSelected(false);
+		if(item)
+ 			item->setSelected(false);
 	}
 }
 
@@ -195,7 +196,8 @@ void KileProjectView::slotProjectItem(int id)
 				default : break;
 			}
 		}
-		item->setSelected(false);
+		if(item) //removeFromProject deletes our item :(
+ 			item->setSelected(false);
 	}
 }
 
@@ -217,7 +219,8 @@ void KileProjectView::slotProject(int id)
 				default : break;
 			}
 		}
-		item->setSelected(false);
+		if(item)
+			item->setSelected(false);
 	}
 }
 

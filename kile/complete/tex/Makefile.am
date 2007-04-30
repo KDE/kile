@@ -24,6 +24,7 @@ texcomplete_DATA = afterpage.cwl \
 	fancyvrb.cwl \
 	hyperref.cwl \
 	import.cwl \
+	jurabib.cwl \
 	latex-209.cwl \
 	latex-dev.cwl \
 	latex-document.cwl \

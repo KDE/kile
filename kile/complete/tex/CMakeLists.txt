@@ -21,6 +21,7 @@ SET(kile_texCompleteFiles
 	fancyhdr.cwl
 	fancyvrb.cwl
 	import.cwl
+	jurabib.cwl
 	latex-209.cwl
 	latex-dev.cwl
 	latex-document.cwl

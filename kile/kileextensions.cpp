@@ -87,32 +87,32 @@ QString Extensions::fileFilter(uint type)
 
 //////////////////// document type ////////////////////
 
-bool Extensions::isTexFile(const KURL & url)
+bool Extensions::isTexFile(const KURL & url) const
 {
 	//TODO use mimetype
 	QString ext = "." + QFileInfo(url.fileName()).extension(false);
 	return isLatexDocument(ext) || isLatexPackage(ext);
 }
 
-bool Extensions::isBibFile(const KURL & url)
+bool Extensions::isBibFile(const KURL & url) const
 {
 	QString ext = "." + QFileInfo(url.fileName()).extension(false);
 	return isBibtex(ext);
 }
 
-bool Extensions::isScriptFile(const KURL& url)
+bool Extensions::isScriptFile(const KURL& url) const
 {
 	QString ext = "." + QFileInfo(url.fileName()).extension(false);
 	return isScript(ext);
 }
 
-bool Extensions::isProjectFile(const KURL& url)
+bool Extensions::isProjectFile(const KURL& url) const
 {
 	QString ext = "." + QFileInfo(url.fileName()).extension(false);
 	return isProject(ext);
 }
 
-bool Extensions::validExtension(const QString &ext, const QString &extensions)
+bool Extensions::validExtension(const QString &ext, const QString &extensions) const
 {
 	QStringList extlist = QStringList::split(" ",extensions);
 	for ( QStringList::ConstIterator it=extlist.begin(); it!=extlist.end(); ++it )
@@ -124,5 +124,25 @@ bool Extensions::validExtension(const QString &ext, const QString &extensions)
 	return false;
 }
 
+
+Type Extensions::determineDocumentType(const KURL& url) const
+{
+	if ( isTexFile(url) )
+	{
+		return KileDocument::LaTeX;
+	}
+	else if ( isBibFile(url) )
+	{
+		return KileDocument::BibTeX;
+	}
+	else if ( isScriptFile(url) )
+	{
+		return KileDocument::Script;
+	}
+	else // defaulting to a LaTeX file
+	{
+		return KileDocument::LaTeX;
+	}
+}
 
 }

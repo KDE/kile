@@ -16,6 +16,8 @@
 #ifndef KILEEXTENSIONS_H
 #define KILEEXTENSIONS_H
 
+#include "kileconstants.h"
+
 #include <qstring.h>
 #include <qstringlist.h>
 
@@ -50,14 +52,16 @@ public:
 	QString scriptFileFilter() { return fileFilter(LATEX_EXT_JS); }
 	QString projectFileFilter() { return fileFilter(LATEX_EXT_PROJ); }
 	
-	bool isTexFile(const KURL &url);
-	bool isBibFile(const KURL &url);
-	bool isScriptFile(const KURL & url);
-	bool isProjectFile(const KURL &url);
+	bool isTexFile(const KURL &url) const;
+	bool isBibFile(const KURL &url) const;
+	bool isScriptFile(const KURL & url) const;
+	bool isProjectFile(const KURL &url) const;
 
-	bool isLatexDocument(const QString &ext) { return validExtension(ext,m_documents); }
-	bool isLatexPackage(const QString &ext) { return validExtension(ext,m_packages); }
-	bool isImage(const QString &ext) { return validExtension(ext,m_images); }
+	bool isLatexDocument(const QString &ext) const { return validExtension(ext,m_documents); }
+	bool isLatexPackage(const QString &ext) const { return validExtension(ext,m_packages); }
+	bool isImage(const QString &ext) const { return validExtension(ext,m_images); }
+
+	KileDocument::Type determineDocumentType(const KURL &url) const;
 
 private:
 	QString m_documents, m_packages;
@@ -69,11 +73,11 @@ private:
 	QString m_metapostDefault, m_scriptDefault;
 	QString m_projectDefault;
 
-	bool isBibtex(const QString &ext) { return validExtension(ext,m_bibtex); }
-	bool isMetapost(const QString &ext) { return validExtension(ext,m_metapost); }
-	bool isScript(const QString &ext) { return validExtension(ext,m_script); }
-	bool isProject(const QString &ext) { return validExtension(ext,m_project); }
-	bool validExtension(const QString &ext, const QString &extensions);
+	bool isBibtex(const QString &ext) const { return validExtension(ext,m_bibtex); }
+	bool isMetapost(const QString &ext) const { return validExtension(ext,m_metapost); }
+	bool isScript(const QString &ext) const { return validExtension(ext,m_script); }
+	bool isProject(const QString &ext) const { return validExtension(ext,m_project); }
+	bool validExtension(const QString &ext, const QString &extensions) const;
 
 	QString fileFilter(uint type);
 };

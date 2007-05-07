@@ -202,7 +202,6 @@ protected:
 	void mapItem(TextInfo *docinfo, KileProjectItem *item);
 
 	void trashDoc(TextInfo *docinfo, Kate::Document *doc = 0L);
-	Type determineFileType(const KURL& url);
 
 	TextInfo* createTextDocumentInfo(KileDocument::Type type, const KURL &url, const KURL& baseDirectory = KURL());
 	void recreateTextDocumentInfo(TextInfo *oldinfo);

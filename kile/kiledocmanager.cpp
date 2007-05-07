@@ -413,7 +413,7 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 {
 	KileProjectItemList *list = itemsFor(oldinfo);
 	KURL url = oldinfo->url();
-	TextInfo *newinfo = createTextDocumentInfo(determineFileType(url), url, oldinfo->getBaseDirectory());
+	TextInfo *newinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(url), url, oldinfo->getBaseDirectory());
 
 	newinfo->setDoc(oldinfo->getDoc());
 
@@ -515,7 +515,7 @@ Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, co
 	else
 	{
 		kdDebug() << "\tloadItem: no document generated" << endl;
-		TextInfo *docinfo = createTextDocumentInfo(determineFileType(item->url()), item->url());
+		TextInfo *docinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(item->url()), item->url());
 		item->setInfo(docinfo);
 
 		if ( docFor(item->url()) == 0L)
@@ -831,7 +831,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding, int index)
 	
 	bool isopen = m_ki->isOpen(realurl);
 
-	Kate::View *view = loadText(determineFileType(realurl), QString::null, realurl, encoding, true, QString::null, QString::null, index);
+	Kate::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), QString::null, realurl, encoding, true, QString::null, QString::null, index);
 	KileProjectItem *item = itemFor(realurl);
 
 	if(!isopen)
@@ -1216,7 +1216,7 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 	if (m_ki->isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
 		emit removeFromProjectView(item->url());
 
-	Kate::View *view = loadItem(determineFileType(item->url()), item, QString::null, openProjectItemViews);
+	Kate::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString::null, openProjectItemViews);
 
 	if ( (!item->isOpen()) && (view == 0L) && (item->getInfo()) ) //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());
@@ -1830,26 +1830,6 @@ QStringList Manager::getProjectFiles()
 		}
 	}
 	return filelist;
-}
-
-Type Manager::determineFileType(const KURL& url)
-{
-	if ( m_ki->extensions()->isTexFile(url) )
-	{
-		return LaTeX;
-	}
-	else if ( m_ki->extensions()->isBibFile(url) )
-	{
-		return BibTeX;
-	}
-	else if ( m_ki->extensions()->isScriptFile(url) )
-	{
-		return Script;
-	}
-	else // defaulting to a LaTeX file
-	{
-		return LaTeX;
-	}
 }
 
 void Manager::dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype)

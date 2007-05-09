@@ -490,7 +490,7 @@ KURL TextInfo::url()
 		else
 			url = KURL();
 	}
-	kdDebug() << "===KURL TextInfo::url()===, url is " << url.path() << endl;
+// 	kdDebug() << "===KURL TextInfo::url()===, url is " << url.path() << endl;
 	return url;
 }
 

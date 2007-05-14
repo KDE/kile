@@ -39,7 +39,7 @@ Extensions::Extensions()
 	//m_images = ".eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png";
 	m_images = ".eps .jpg .jpeg .png .pdf .ps .fig .gif";
 
-	m_documentDefault = ".tex";
+	m_latexDefault = ".tex";
 	m_bibtexDefault = ".bib";
 	m_metapostDefault = ".mp";
 	m_scriptDefault = ".js";
@@ -124,7 +124,6 @@ bool Extensions::validExtension(const QString &ext, const QString &extensions) c
 	return false;
 }
 
-
 Type Extensions::determineDocumentType(const KURL& url) const
 {
 	if ( isTexFile(url) )
@@ -143,6 +142,27 @@ Type Extensions::determineDocumentType(const KURL& url) const
 	{
 		return KileDocument::LaTeX;
 	}
+}
+
+QString Extensions::defaultExtensionForDocumentType(KileDocument::Type type) const
+{
+	switch(type) {
+		case KileDocument::LaTeX:
+			return m_latexDefault;
+
+		case KileDocument::BibTeX:
+			return m_latexDefault;
+
+		case KileDocument::Script:
+			return m_scriptDefault;
+
+		case KileDocument::Text:
+			/* fall through */
+		case KileDocument::Undefined:
+			/* do nothing */
+		break;
+	}
+	return QString();
 }
 
 }

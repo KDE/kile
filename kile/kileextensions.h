@@ -40,7 +40,7 @@ public:
 	QString images() { return m_images; }
 	QString metapost() { return m_metapost; }
 
-	QString latexDocumentDefault() { return m_documentDefault; }
+	QString latexDocumentDefault() { return m_latexDefault; }
 	QString bibtexDefault() { return m_bibtexDefault; }
 	QString metapostDefault() { return m_metapostDefault; }
 
@@ -62,6 +62,7 @@ public:
 	bool isImage(const QString &ext) const { return validExtension(ext,m_images); }
 
 	KileDocument::Type determineDocumentType(const KURL &url) const;
+	QString defaultExtensionForDocumentType(KileDocument::Type type) const;
 
 private:
 	QString m_documents, m_packages;
@@ -69,7 +70,7 @@ private:
 	QString m_images, m_script;
 	QString m_project;
 
-	QString m_documentDefault, m_bibtexDefault;
+	QString m_latexDefault, m_bibtexDefault;
 	QString m_metapostDefault, m_scriptDefault;
 	QString m_projectDefault;
 

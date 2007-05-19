@@ -90,7 +90,6 @@ SET(kile_SRCS
 	kiledocmanager.cpp
 	kileviewmanager.cpp
 	kileeventfilter.cpp
-	kilespell.cpp
 	kileerrorhandler.cpp
 	configcheckerdlg.cpp
 	configtester.cpp

@@ -151,7 +151,7 @@ QString Extensions::defaultExtensionForDocumentType(KileDocument::Type type) con
 			return m_latexDefault;
 
 		case KileDocument::BibTeX:
-			return m_latexDefault;
+			return m_bibtexDefault;
 
 		case KileDocument::Script:
 			return m_scriptDefault;

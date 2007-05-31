@@ -3,6 +3,8 @@
 
 SET(kile_texCompleteFiles
 	amsmath.cwl
+	amsbsy.cwl
+	amssymb.cwl
 	array.cwl
 	beamerfoils.cwl
 	beamerprosper.cwl

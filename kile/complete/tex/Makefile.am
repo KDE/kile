@@ -1,6 +1,7 @@
 texcompletedir = $(kde_datadir)/kile/complete/tex
 texcomplete_DATA = afterpage.cwl \
 	amsbsy.cwl \
+	amssymb.cwl \
 	amsmath.cwl \
 	array.cwl \
 	beamerfoils.cwl \

@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kiletoolmanager.h"
+
 #include <stdlib.h> //for getenv()
  
 #include <qstring.h>
@@ -35,7 +37,6 @@
 #include "kileinfo.h"
 #include "kileconfig.h"
 #include "kileproject.h"
-#include "kiletoolmanager.h"
 #include "kiletool_enums.h"
 #include "kilestdtools.h"
 #include "kilelogwidget.h"

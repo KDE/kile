@@ -16,6 +16,8 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
+#include "kileinfo.h"
+
 #include <qwidget.h>
 #include <qfileinfo.h>
 #include <qobject.h>
@@ -30,7 +32,6 @@
 #include "kileviewmanager.h"
 #include "kiledocumentinfo.h"
 #include "kileproject.h"
-#include "kileinfo.h"
 #include "kileuntitled.h"
 #include "kilejscript.h"
 #include "editorkeysequencemanager.h"

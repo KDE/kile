@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "outputfilter.h"
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qfileinfo.h>
@@ -22,7 +24,6 @@
 #include <klocale.h>
 
 #include "kiletool_enums.h"
-#include "outputfilter.h"
 
 using namespace std;
 

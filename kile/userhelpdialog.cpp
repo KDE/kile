@@ -16,6 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "userhelpdialog.h"
 
 #include <qlayout.h>
 #include <qvgroupbox.h>
@@ -32,7 +33,6 @@
 #include <kurl.h>
 #include <kdebug.h>
 
-#include "userhelpdialog.h"
 
 namespace KileDialog
 {

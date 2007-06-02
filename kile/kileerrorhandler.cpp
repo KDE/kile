@@ -12,7 +12,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include "kileerrorhandler.h"
+
 #include <ktabwidget.h>
 #include <qfileinfo.h>
 #include <qregexp.h>
@@ -29,7 +31,6 @@
 #include "latexoutputfilter.h"
 #include "latexoutputinfo.h"
 #include "kiledocmanager.h"
-#include "kileerrorhandler.h"
 #include "kilesidebar.h"
 
 KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, const char *name)

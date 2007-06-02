@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kiletool.h"
+
 #include <qdir.h>
 #include <qfileinfo.h>
 #include <qmetaobject.h>
@@ -26,7 +28,6 @@
 #include "kileconfig.h"
 #include "kileuntitled.h"
 #include "kiletool_enums.h"
-#include "kiletool.h"
 #include "kilestdtools.h" //for the factory
 #include "kiletoolmanager.h"
 #include "kiledocmanager.h"

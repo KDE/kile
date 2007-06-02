@@ -22,6 +22,7 @@
 #include <kstandarddirs.h>
 #include <kiconview.h>
 #include <kdialogbase.h>
+#include <klocale.h>
 #include <kprocess.h>
 
 #include "kileconstants.h"

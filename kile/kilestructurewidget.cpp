@@ -57,6 +57,8 @@
 // 2007-04-06 dani
 // - add TODO/FIXME section to structure view
 
+#include "kilestructurewidget.h"
+
 #include <qfileinfo.h>
 #include <qheader.h>
 #include <qregexp.h>
@@ -75,7 +77,6 @@
 #include "kileinfo.h"
 #include "kiledocmanager.h"
 #include "kiledocumentinfo.h"
-#include "kilestructurewidget.h"
 #include "kileconfig.h"
 
 ////////////////////// KileListViewItem with all info //////////////////////

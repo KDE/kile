@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kileprojectview.h"
+
 #include <qheader.h>
 
 #include <klocale.h>
@@ -29,7 +31,6 @@
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
 #include "kiledocmanager.h"
-#include "kileprojectview.h"
 
 const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
 	KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5,

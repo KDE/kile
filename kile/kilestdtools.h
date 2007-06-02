@@ -19,6 +19,8 @@
 #include <kdebug.h>
 #include <qstring.h>
 
+#include "kiletool.h"
+
 class KConfig;
 
 namespace KileTool

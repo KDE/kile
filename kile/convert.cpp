@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "convert.h"
+
 #include <qregexp.h>
 #include <qtextcodec.h>
 #include <qfile.h>
@@ -22,8 +24,6 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 #include <kate/document.h>
-
-#include "convert.h"
 
 QMap<QString, ConvertMap*> ConvertMap::g_maps;
 

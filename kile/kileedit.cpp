@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kileedit.h"
+
 #include <qfileinfo.h>
 #include <qvaluestack.h>
 #include <qclipboard.h>
@@ -37,7 +39,6 @@
 #include "kilelogwidget.h"
 #include "kileextensions.h"
 #include "quickpreview.h"
-#include "kileedit.h"
 
 namespace KileDocument
 {
@@ -2652,7 +2653,7 @@ void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 			if ( ! text.isEmpty() )
 			{
 				view->setCursorPositionReal(row2,col2);                             // insert
-				view->insertText(text + "\n");
+				view->insertText(text + '\n');
 			}
 			break;
 		case KileWidget::Structure::SectioningSelect:

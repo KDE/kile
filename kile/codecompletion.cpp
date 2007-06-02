@@ -13,7 +13,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include "codecompletion.h"
+
 #include <qregexp.h>
 #include <qfile.h>
 #include <qtimer.h>
@@ -29,7 +31,6 @@
 
 #include "kileinfo.h"
 #include "kileviewmanager.h"
-#include "codecompletion.h"
 #include "kileconfig.h"
 #include "kileedit.h"
 

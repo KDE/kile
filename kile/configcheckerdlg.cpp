@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "configcheckerdlg.h"
+
 #include <qfileinfo.h>
 #include <qlayout.h>
 #include <qlabel.h>
@@ -27,7 +29,6 @@
 #include <klistbox.h>
 #include <kdebug.h>
 
-#include "configcheckerdlg.h"
 #include "configcheckerwidget.h"
 
 namespace KileDialog

@@ -11,9 +11,9 @@
 *                                                                         *
 ***************************************************************************/
 
-#include <qstringlist.h>
-
 #include "kileversion.h"
+
+#include <qstringlist.h>
 
 int compareVersionStrings(const QString& s1, const QString& s2) {
 	QStringList l1 = QStringList::split(".", s1);

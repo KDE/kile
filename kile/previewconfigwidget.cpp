@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "previewconfigwidget.h"
+
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -24,7 +26,6 @@
 #include <qmap.h>
 #include <qvalidator.h>
 
-#include "previewconfigwidget.h"
 #include "kileconfig.h"
 
 KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent, const char *name )

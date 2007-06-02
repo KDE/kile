@@ -12,7 +12,7 @@
 #ifndef PREVIEWWIDGET_H
 #define PREVIEWWIDGET_H
 
-#include <previewwidget.h>
+#include <qwidget.h>
 
 class QImage;
 class QPaintEvent;
@@ -46,7 +46,7 @@ namespace KileWidget
  * @author Mathias Soeken <msoeken@informatik.uni-bremen.de>
  */
 
-class PreviewWidget : public QWidget 
+class PreviewWidget : public QWidget
 {
 	Q_OBJECT
   

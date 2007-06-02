@@ -12,12 +12,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
- 
-#include <kdialog.h>
-#include <klocale.h>
 
 #include "kilestatswidget.h"
+  
+#include <kdialog.h>
+#include <klocale.h>
 
 #include <qvariant.h>
 #include <qlabel.h>

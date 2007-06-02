@@ -16,6 +16,8 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
+#include "latexoutputfilter.h"
+
 #include <qfile.h>
 #include <qregexp.h>
 #include <qfileinfo.h>
@@ -24,7 +26,6 @@
 #include <ktextedit.h>
 #include <klocale.h>
 
-#include "latexoutputfilter.h"
 #include "kiletool_enums.h"
 
 using namespace std;

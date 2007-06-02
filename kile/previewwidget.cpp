@@ -17,9 +17,13 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+
+#include "previewwidget.h"
+
 #include <qimage.h>
 #include <qpainter.h>
 #include <qpalette.h>
+#include <qwidget.h>
 
 #include <klocale.h>
 #include <kate/view.h>
@@ -33,7 +37,6 @@
 #include "kiletool.h"
 #include "kiletool_enums.h"
 #include "quickpreview.h"
-#include "previewwidget.h"
 
 namespace KileWidget 
 {

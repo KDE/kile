@@ -20,6 +20,8 @@
 #include <qstringlist.h>
 #include <qmap.h>
 
+#include <kurl.h>
+
 namespace Kate { class Document; }
 
 class ConvertMap

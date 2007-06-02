@@ -12,6 +12,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include "configtester.h"
+
 #include <qfile.h>
 
 #include <kio/netaccess.h>
@@ -26,7 +29,6 @@
 #include "kiletoolmanager.h"
 #include "kileconfig.h"
 #include "kiletool.h"
-#include "configtester.h"
 
 ConfigTest::ConfigTest() :
 	m_name(QString::null),

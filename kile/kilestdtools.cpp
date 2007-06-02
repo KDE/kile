@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kilestdtools.h"
+
 #include <qfileinfo.h>
 #include <qregexp.h>
 
@@ -25,7 +27,6 @@
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
-#include "kilestdtools.h"
 #include "kileinfo.h"
 #include "kilelistselector.h"
 #include "kiledocmanager.h"

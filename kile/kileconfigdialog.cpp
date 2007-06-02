@@ -27,6 +27,8 @@
 //  - add support for auto insert $
 //  - move graphics config to a separate page
 
+#include "kileconfigdialog.h"
+
 #include <qvbox.h>
 #include <qlayout.h>
 #include <qtextcodec.h>
@@ -38,7 +40,6 @@
 
 #include "kiletoolmanager.h"
 #include "kiletoolconfigwidget.h"
-#include "kileconfigdialog.h"
 #include "kileviewmanager.h"
 #include "helpconfigwidget.h"
 #include "latexconfigwidget.h"

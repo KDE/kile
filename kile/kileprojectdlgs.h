@@ -24,6 +24,7 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 
+#include "kileproject.h"
 #include "templates.h"
 
 class NewFileWidget;
@@ -31,6 +32,8 @@ class QLabel;
 class KileProject;
 class KComboBox;
 class QVGroupBox;
+class TemplateItem;
+
 namespace KileDocument { class Extensions; }
 
 class KileProjectDlgBase : public KDialogBase

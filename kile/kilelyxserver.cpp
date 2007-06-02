@@ -14,13 +14,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kilelyxserver.h"
+
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <stdlib.h> //getenv
 #include <unistd.h> //read
 #include <fcntl.h>
 
-#include "kilelyxserver.h"
 #include "kileactions.h"
 
 #include <qfile.h>
@@ -52,7 +52,7 @@ KileLyxServer::KileLyxServer(bool startMe) :
 	for(uint i = 0; i< m_links.count() ; i++)
 	{
 		m_pipes.append( m_tempDir->name() + m_links[i] );
-		m_links[i].prepend(QDir::homeDirPath() + "/" );
+		m_links[i].prepend(QDir::homeDirPath() + '/' );
 		kdDebug() << "m_pipes[" << i << "]=" << m_pipes[i] << endl;
 		kdDebug() << "m_links[" << i << "]=" << m_links[i] << endl;
 	}

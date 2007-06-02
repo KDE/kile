@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "docpart.h"
+
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kglobal.h>
@@ -24,8 +26,6 @@
 #include <krun.h>
 #include <khtml_part.h>
 #include <khtml_settings.h>
-
-#include "docpart.h"
 
 DocumentationViewer::DocumentationViewer(QWidget *parent, const char *name ) : KHTMLPart(parent,name, 0, 0, BrowserViewGUI)
 {

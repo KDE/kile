@@ -16,6 +16,8 @@ email                : holger.danielsson@t-online.de
  *                                                                         *
  ***************************************************************************/
 
+#include "quickdocumentdialog.h"
+
 #include <qstringlist.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
@@ -39,7 +41,6 @@ email                : holger.danielsson@t-online.de
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-#include "quickdocumentdialog.h"
 #include "kileconfig.h"
 
 

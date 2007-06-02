@@ -25,6 +25,7 @@ email                : holger.danielsson@t-online.de
 
 class KComboBox;
 class QListView;
+class QCheckListItem;
 class KLineEdit;
 class KPushButton;
 

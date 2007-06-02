@@ -388,10 +388,10 @@ void KileGrepDialog::setupDirectory()
 
 	// use a filter for 'find in files' dialog
 	KileDocument::Extensions *extensions = m_ki->extensions();
-	QString filter = extensions->latexDocumentFileFilter() + "\n" 
-	                 + extensions->latexPackageFileFilter() + "\n" 
-	                 + extensions->bibtexFileFilter() + "\n" 
-	                 + extensions->metapostFileFilter() + "\n" 
+	QString filter = extensions->latexDocumentFileFilter() + '\n'
+	                 + extensions->latexPackageFileFilter() + '\n'
+	                 + extensions->bibtexFileFilter() + '\n'
+	                 + extensions->metapostFileFilter() + '\n'
 	                 + "*|" + i18n("All Files");
 	setFilter(filter);
 }

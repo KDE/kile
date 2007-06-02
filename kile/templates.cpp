@@ -12,6 +12,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include "templates.h"
+
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
@@ -23,8 +26,6 @@
 #include <qfileinfo.h>
 #include <qstringlist.h>
 #include <qregexp.h>
-
-#include "templates.h"
 
 TemplateInfo::TemplateInfo() : type(KileDocument::Undefined)
 {

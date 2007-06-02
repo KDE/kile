@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kiletoolconfigwidget.h"
+
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -36,7 +38,6 @@
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 
-#include "kiletoolconfigwidget.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "toolconfigwidget.h"

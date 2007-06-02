@@ -58,9 +58,9 @@ KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *pa
 
 	// KileFileSelect filter for sidebar 
 	QString filter =  extensions->latexDocuments() 
-	                    + " " + extensions->latexPackages() 
-	                    + " " + extensions->bibtex() 
-	                    + " " +  extensions->metapost();
+	                    + ' ' + extensions->latexPackages() 
+	                    + ' ' + extensions->bibtex() 
+	                    + ' ' +  extensions->metapost();
 	filter.replace(".","*.");
 	dir->setNameFilter(filter);
 

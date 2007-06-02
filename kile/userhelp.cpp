@@ -16,6 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "userhelp.h"
 
 #include <qfileinfo.h>    
 
@@ -27,7 +28,6 @@
 #include <kmimetype.h>
 #include <kdebug.h>
 
-#include "userhelp.h"
 #include "userhelpdialog.h"
 #include "kileconfig.h"
 

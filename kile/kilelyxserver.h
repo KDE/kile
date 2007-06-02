@@ -25,6 +25,9 @@
 #include <qintdict.h>
 #include <qstringlist.h>
 #include <ktempdir.h>
+
+#include <sys/types.h>
+
 /**
  * @short Simple server that impersonates as LyX to work with gBib, pyBibliographer etc.
  * @author Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>

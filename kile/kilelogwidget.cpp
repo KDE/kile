@@ -13,6 +13,8 @@
  *                                                                         *
  ****************************************************************************/
 
+#include "kilelogwidget.h"
+
 #include <qregexp.h>
 #include <qfileinfo.h>
 #include <qpopupmenu.h>
@@ -22,7 +24,6 @@
 #include <klocale.h>
 
 #include "kiletool_enums.h"
-#include "kilelogwidget.h"
 #include "kileinfo.h"
 #include "kileconfig.h"
 

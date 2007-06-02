@@ -25,6 +25,7 @@
 #include <qobject.h>
 
 #include "kileconstants.h"
+#include "kileproject.h"
 
 class KURL;
 class KFileItem;
@@ -33,7 +34,6 @@ namespace Kate { class Document; class View;}
 
 class TemplateItem;
 class KileInfo;
-class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
 

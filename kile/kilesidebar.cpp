@@ -14,7 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include "kilesidebar.h"
+
 #include <qwidgetstack.h>
 #include <qlayout.h>
 
@@ -23,7 +25,6 @@
 #include <kilemultitabbar.h>
 
 #include "symbolview.h"
-#include "kilesidebar.h"
 
 KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/) : 
 	QFrame(parent, name),

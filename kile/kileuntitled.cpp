@@ -10,10 +10,10 @@
 //
 //
 
+#include "kileuntitled.h"
+
 #include <qregexp.h>
 #include <klocale.h>
-
-#include "kileuntitled.h"
 
 QString KileUntitled::m_untitled = i18n("Untitled");
 int KileUntitled::m_last = -1;

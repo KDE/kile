@@ -13,6 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kileextensions.h"
 
 #include <qstring.h>
 #include <qstringlist.h>
@@ -20,8 +21,6 @@
 
 #include <klocale.h>
 #include <kdebug.h>
-
-#include <kileextensions.h>
 
 namespace KileDocument 
 {
@@ -82,7 +81,7 @@ QString Extensions::fileFilter(uint type)
 	}
 
 	ext.replace(".","*.");
-	return ext + "|" + text;
+	return ext + '|' + text;
 }
 
 //////////////////// document type ////////////////////
@@ -90,25 +89,25 @@ QString Extensions::fileFilter(uint type)
 bool Extensions::isTexFile(const KURL & url) const
 {
 	//TODO use mimetype
-	QString ext = "." + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
 	return isLatexDocument(ext) || isLatexPackage(ext);
 }
 
 bool Extensions::isBibFile(const KURL & url) const
 {
-	QString ext = "." + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
 	return isBibtex(ext);
 }
 
 bool Extensions::isScriptFile(const KURL& url) const
 {
-	QString ext = "." + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
 	return isScript(ext);
 }
 
 bool Extensions::isProjectFile(const KURL& url) const
 {
-	QString ext = "." + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
 	return isProject(ext);
 }
 

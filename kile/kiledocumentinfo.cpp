@@ -60,6 +60,8 @@
 // 2007-04-06 dani
 // - add TODO/FIXME section to structure view
 
+#include "kiledocumentinfo.h"
+
 #include <qfileinfo.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -76,7 +78,6 @@
 #include <kinputdialog.h>
 
 #include "codecompletion.h"
-#include "kiledocumentinfo.h"
 #include "kileuntitled.h"
 #include "kileconfig.h"
 
@@ -709,7 +710,7 @@ Type LaTeXInfo::getType()
 
 QString LaTeXInfo::getFileFilter() const
 {
-	return m_extensions->latexDocumentFileFilter() + "\n" + m_extensions->latexPackageFileFilter();
+	return m_extensions->latexDocumentFileFilter() + '\n' + m_extensions->latexPackageFileFilter();
 }
 
 void LaTeXInfo::updateStructLevelInfo() {

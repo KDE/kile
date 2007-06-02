@@ -27,6 +27,7 @@
 
 class QPixmap;
 
+class KURL;
 class KXMLGUIClient;
 
 class KileInfo;

@@ -499,7 +499,7 @@ void KileProject::writeConfigEntry(const QString &key, const QString &standardEx
 	if ( userExt.isEmpty() )
 		m_config->writeEntry(key,standardExt);
 	else
-		m_config->writeEntry(key,standardExt+" "+extensions(type));
+		m_config->writeEntry(key,standardExt + ' ' + extensions(type));
 }
 
 void KileProject::buildProjectTree()

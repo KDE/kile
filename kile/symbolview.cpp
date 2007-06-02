@@ -101,7 +101,7 @@ void SymbolView::showToolTip( QIconViewItem *item )
 	
 // 	kdDebug() << "cmd is " << cmd << ", packages are " << s << endl;
 	
-	label = i18n("Command: ") + cmd + "\n";
+	label = i18n("Command: ") + cmd + '\n';
 	
 	if( pkgs.count() > 0 )
 	{
@@ -113,9 +113,9 @@ void SymbolView::showToolTip( QIconViewItem *item )
 		for( uint i = 0; i < pkgs.count() ; i++ )
 		{
 			if( i < args.count() )
-				label = label + "[" + args[i] + "]" + pkgs[i] + "\n";
+				label = label + "[" + args[i] + "]" + pkgs[i] + '\n';
 			else
-				label = label + pkgs[i] + "\n";
+				label = label + pkgs[i] + '\n';
 		}
 	}
 	

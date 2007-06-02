@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kileabbrevview.h"
+
 #include <klistview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -23,8 +25,6 @@
 #include <qregexp.h>
 #include <qvalidator.h>
 #include <qfile.h>
-
-#include "kileabbrevview.h"
 
 KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name) 
 	: KListView(parent, name), m_changes(false)
@@ -170,7 +170,7 @@ void KileAbbrevView::slotContextMenu(KListView *, QListViewItem *item, const QPo
 void KileAbbrevView::addAbbreviation(const QString &abbrev, const QString &expansion)
 {
 	insertItem( new KListViewItem(this,abbrev,"*",expansion) ); 
-	QString newAbbrev = abbrev + "=" + expansion;
+	QString newAbbrev = abbrev + '=' + expansion;
 
 	emit( updateAbbrevList(QString::null,newAbbrev) );
 	m_changes = true;
@@ -180,8 +180,8 @@ void KileAbbrevView::changeAbbreviation(KListViewItem *item, const QString &abbr
 {
 	if ( item )
 	{
-		QString oldAbbrev = item->text(ALVabbrev) + "=" + item->text(ALVexpansion);
-		QString newAbbrev = abbrev + "=" + expansion;
+		QString oldAbbrev = item->text(ALVabbrev) + '=' + item->text(ALVexpansion);
+		QString newAbbrev = abbrev + '=' + expansion;
 		item->setText(ALVabbrev,abbrev);
 		item->setText(ALVexpansion,expansion);
 
@@ -193,12 +193,12 @@ void KileAbbrevView::changeAbbreviation(KListViewItem *item, const QString &abbr
 void KileAbbrevView::deleteAbbreviation(KListViewItem *item)
 {
 	QString abbrev = item->text(ALVabbrev);
-	QString message = i18n("Delete the abbreviation ") + "'" + abbrev + "'?";
+	QString message = i18n("Delete the abbreviation ") + '\'' + abbrev + "'?";
 	if ( KMessageBox::questionYesNo( this,
 		       "<center>" + message + "</center>",
 		       i18n("Delete Abbreviation") ) == KMessageBox::Yes ) 
 	{
-		QString s = item->text(ALVabbrev) + "=" + item->text(ALVexpansion);
+		QString s = item->text(ALVabbrev) + '=' + item->text(ALVexpansion);
 		delete item;
 
 		emit( updateAbbrevList(s,QString::null) );

@@ -20,6 +20,8 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
+#include "kiledocmanager.h"
+
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qdir.h>
@@ -51,7 +53,6 @@
 #include "kilejscript.h"
 #include "kileproject.h"
 #include "kiledocumentinfo.h"
-#include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "kilefileselect.h"
 #include "kileprojectview.h"
@@ -678,10 +679,10 @@ void Manager::fileOpen()
 
 	// use a filter for fileOpen dialog
 	Extensions *extensions = m_ki->extensions();
-	QString filter = extensions->latexDocumentFileFilter() + "\n" 
-	                 + extensions->latexPackageFileFilter() + "\n" 
-	                 + extensions->bibtexFileFilter() + "\n" 
-	                 + extensions->metapostFileFilter() + "\n" 
+	QString filter = extensions->latexDocumentFileFilter() + '\n'
+	                 + extensions->latexPackageFileFilter() + '\n'
+	                 + extensions->bibtexFileFilter() + '\n'
+	                 + extensions->metapostFileFilter() + '\n'
 	                 + "*|" + i18n("All Files");
 
 	//get the URLs
@@ -1711,7 +1712,7 @@ void Manager::projectShow()
 
 			// called from KAction 'Show projects...': find the first opened 
 			// LaTeX document or, if that fails, any other opened file
-			QStringList extlist = QStringList::split(" ",m_ki->extensions()->latexDocuments() + " " + m_ki->extensions()->latexPackages());
+			QStringList extlist = QStringList::split(" ",m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages());
 			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 			{
 				if ( itempath.find( (*it), -(*it).length() ) >= 0 ) 

@@ -13,10 +13,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kilelauncher.h"
+
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
-#include "kilelauncher.h"
 #include "docpart.h"
 #include "kileconfig.h"
 

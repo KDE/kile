@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kilehelp.h"
+
 #include <qdir.h>
 #include <qfile.h>
 #include <qtextstream.h>
@@ -27,7 +29,6 @@
 #include <klocale.h>
 #include <kate/document.h>
 
-#include "kilehelp.h"
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"

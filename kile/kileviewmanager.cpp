@@ -16,6 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kileviewmanager.h"
+
 #include <qpopupmenu.h>
 #include <qtimer.h> //for QTimer::singleShot trick
 #include <qpixmap.h>
@@ -40,7 +42,6 @@
 #include "kileconstants.h"
 #include "kiledocmanager.h"
 #include "kileextensions.h"
-#include "kileviewmanager.h"
 #include "kileprojectview.h"
 #include "kileeventfilter.h"
 #include "kilestructurewidget.h"

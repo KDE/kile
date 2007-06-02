@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "newfilewizard.h"
+
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qdir.h>
@@ -26,8 +28,6 @@
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
-
-#include "newfilewizard.h"
 
 // 2005-08-04: dani
 //  - added script support to search existing class files 

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "configcodecompletion.h"
+
 #include <kdialog.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
@@ -32,7 +34,6 @@
 #include <qstringlist.h>
 
 #include "kilelistselector.h"
-#include "configcodecompletion.h"
 #include "kileconfig.h"
 #include "kilelogwidget.h"
 #include "kiletool_enums.h"
@@ -275,8 +276,8 @@ bool ConfigCodeCompletion::kateCompletionPlugin()
 void ConfigCodeCompletion::setListviewEntries(CompletionPage page)
 {
 	QString listname = m_dirname[page];
-	QString localdir = m_localCwlDir + listname + "/";
-	QString globaldir = m_globalCwlDir + listname + "/";
+	QString localdir = m_localCwlDir + listname + '/';
+	QString globaldir = m_globalCwlDir + listname + '/';
 
 	// Daten aus der Konfigurationsliste in das ListView-Widget eintragen
 	m_listview[page]->setUpdatesEnabled(false);
@@ -432,7 +433,7 @@ void ConfigCodeCompletion::getCwlFiles(QMap<QString,QString> &map, QStringList &
 		QString filename = QFileInfo(*it).fileName();
 		if ( ! map.contains(filename) )
 		{
-			map[filename] = dir + "/" + (*it);
+			map[filename] = dir + '/' + (*it);
 			list << filename;
 		}
 	}

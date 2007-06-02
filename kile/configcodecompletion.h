@@ -20,6 +20,7 @@
 #include <qwidget.h>
 #include <qtabwidget.h>
 #include <qcheckbox.h>
+#include <qlabel.h>
 #include <qspinbox.h>
 #include <qstring.h>
 

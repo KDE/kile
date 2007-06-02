@@ -23,6 +23,8 @@
 //  - use KileDocument::Extensions
 //  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex 
 
+#include "kileprojectdlgs.h"
+
 #include <qlabel.h>
 #include <qwhatsthis.h>
 #include <qfileinfo.h>
@@ -41,7 +43,6 @@
 
 #include "newfilewizard.h"
 #include "kileproject.h"
-#include "kileprojectdlgs.h"
 #include "kiletoolmanager.h"
 #include "kiledocumentinfo.h"
 #include "kileconfig.h"

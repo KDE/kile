@@ -27,8 +27,8 @@
 //       upstream
 
 #include "kilemultitabbar.h"
-#include "kilemultitabbar.moc"
 #include "kilemultitabbar_p.h"
+#include "kilemultitabbar.moc"
 #include "kilemultitabbar_p.moc"
 #include <qbutton.h>
 #include <qpopupmenu.h>

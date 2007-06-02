@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "configstructure.h"
+
 #include <kdialog.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -32,8 +34,6 @@
 #include <qpainter.h>
 #include <qrect.h>
 #include <qlabel.h>
-
-#include "configstructure.h"
 
 namespace KileStructure
 {

@@ -15,6 +15,8 @@
 //    (such a double click on the middle part '\def' of '\abd\def\ghi'
 //    will select only '\def\', not the whole text, as it does now)
 
+#include "kileeventfilter.h"
+
 #include <qevent.h>
 
 #include <kate/view.h>
@@ -22,7 +24,6 @@
 #include <kdebug.h>
 
 #include "kileedit.h"
-#include "kileeventfilter.h"
 #include "kileconfig.h"
 
 KileEventFilter::KileEventFilter(KileDocument::EditorExtension *edit) : m_edit(edit)

@@ -20,6 +20,7 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
+#include "kileactions.h"
 
 #include <qstring.h>
 #include <qstringlist.h>
@@ -38,7 +39,6 @@
 
 #include <kdebug.h>
 
-#include "kileactions.h"
 #include "kileinfo.h"
 #include "kiledocmanager.h"
 
@@ -318,8 +318,7 @@ void InputDialog::slotBrowse()
 
 	// Called from InputDialog after a \input- or \include command:
 	// so we are only looking for a LaTeX source document
-	QString filter = m_ki->extensions()->latexDocumentFileFilter() + "\n" 
-	                 + "*|" + i18n("All Files");
+	QString filter = m_ki->extensions()->latexDocumentFileFilter() + '\n' + "*|" + i18n("All Files");
 
 	fn = KFileDialog::getOpenFileName(fi.absFilePath(), filter, this,i18n("Select File") );
 	if ( !fn.isEmpty() )

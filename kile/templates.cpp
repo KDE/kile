@@ -1,8 +1,9 @@
-/***************************************************************************
+/*******************************************************************************************
     begin                : Sat Apr 26 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                               2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *******************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,11 +16,13 @@
 
 #include "templates.h"
 
+#include <kapp.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kio/job.h>
+#include <kio/netaccess.h>
 #include <kmessagebox.h>
 
 #include <qdir.h>
@@ -27,99 +30,356 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 
-TemplateInfo::TemplateInfo() : type(KileDocument::Undefined)
+#include "kileinfo.h"
+
+// 2005-08-04: dani
+//  - added script support to search existing class files 
+//    (classes: Koma, Beamer, Prosper, HA-prosper)
+//  - sort items ('Empty Document' will always be the first entry)
+
+// 2006-30-04: tbraun
+//  - drag and drop makes no sense here
+//  - use the Select mode
+
+namespace KileTemplate {
+
+////////////////////// Info //////////////////////
+
+Info::Info() : type(KileDocument::Undefined)
 {
 }
 
-Templates::Templates()
+bool Info::operator==(const Info ti) const
 {
-	kdDebug() << "===Templates()===================" << endl;
-   QStringList dirs = KGlobal::dirs()->findDirs("appdata","templates");
-   QDir templates;
-   TemplateInfo ti;
-  
-   for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); ++i)
-   {
+	return name==ti.name;
+}
 
-     templates = QDir(*i, "template_*.tex");
-     for ( uint j=0; j< templates.count(); ++j)
-	 {
-        ti.path=templates.path() + '/' + templates[j];
-        ti.name=templates[j].replace("template_","");
-        ti.name.replace(".tex","");
-	ti.icon=KGlobal::dirs()->findResource("appdata","pics/type_"+ti.name+".png");
-	ti.type = KileDocument::Text;
-		if (m_TemplateList.contains(ti))
-			kdDebug() << "\tignoring: " << ti.path << endl;
-		else
-		{
-			m_TemplateList.append(ti);
-			kdDebug() << "\tadding: " << ti.name << " " << ti.path << endl;
+////////////////////// Manager //////////////////////
+
+Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObject(parent, name), m_kileInfo(kileInfo)
+{
+}
+
+Manager::~Manager() {
+}
+
+bool Manager::copyAppData(const KURL& src, const QString& subdir, const QString& fileName) {
+	QString dir;
+	//let saveLocation find and create the appropriate place to
+	//store the templates (usually $HOME/.kde/share/apps/kile/templates)
+	dir = KGlobal::dirs()->saveLocation("appdata", subdir, true);
+	KURL targetURL = KURL::fromPathOrURL(dir);
+	targetURL.addPath(fileName);
+
+	//if a directory is found
+	if (!dir.isNull()) {
+		return KIO::NetAccess::copy(src, targetURL, kapp->mainWidget());
+	}
+	else {
+		KMessageBox::error(0, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.").arg(fileName));
+		return false;
+	}
+}
+
+bool Manager::removeAppData(const QString &file) {
+	QFileInfo fileInfo(file);
+	if(fileInfo.exists()) {
+		return KIO::NetAccess::del(KURL::fromPathOrURL(file), kapp->mainWidget());
+	}
+	return true;
+}
+
+bool Manager::searchForTemplate(const QString& name, KileDocument::Type& type) const {
+	for (KileTemplate::TemplateListConstIterator i = m_TemplateList.constBegin(); i != m_TemplateList.constEnd(); ++i)
+	{
+		KileTemplate::Info info = *i;
+		if(info.name == name && info.type == type) {
+			return true;
 		}
-
-     }
-   }
+	}
+	return false;
 }
 
-Templates::~Templates(){
+bool Manager::add(const KURL& templateSourceURL, const QString& name, const KURL& icon) {
+	KileDocument::Extensions *extensions = m_kileInfo->extensions();
+	KileDocument::Type type = extensions->determineDocumentType(templateSourceURL);
+	add(templateSourceURL, type, name, icon);
 }
 
-bool Templates::copyAppData(const QString &src, const QString &subdir, const QString &file) {
-   KIO::Job *job;
-   QString dst,dir;
+bool Manager::add(const KURL& templateSourceURL, KileDocument::Type type, const QString& name, const KURL& icon) {
+	KileDocument::Extensions *extensions = m_kileInfo->extensions();
+	QString extension = extensions->defaultExtensionForDocumentType(type);
 
-   //let saveLocation find and create the appropriate place to
-   //store the templates (usually $HOME/.kde/share/apps/kile/templates)
-   dir = KGlobal::dirs()->saveLocation("appdata",subdir,true);
-   //if a directory is found
-   if (!dir.isNull()) {
-      dst = dir + '/' + file;
-      job = KIO::file_copy(KURL(src),KURL(dst),-1,true,false,false);
-      //let KIO show the error messages
-      job->setAutoErrorHandlingEnabled(true);
-   }
-   else {
-      KMessageBox::error(0,i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.").arg(file));
-      return false;
-   }
-
-   return true;
+	return copyAppData(templateSourceURL, "templates", "template_" + name + extension) && copyAppData(icon, "pics", "type_" + name + extension + ".kileicon");
 }
 
-bool Templates::removeAppData(const QString &file) {
-	KIO::Job *job;
-	QString src = KGlobal::dirs()->findResource("appdata",file);
+bool Manager::remove(Info ti) {
+	return removeAppData(ti.path) && removeAppData(ti.icon);
+}
 
-	if (!src) return false;
+bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KURL& newTemplateSourceURL, const QString& newName, const KURL& newIcon) {
+	KileDocument::Type type = m_kileInfo->extensions()->determineDocumentType(newTemplateSourceURL);
 
-	QFileInfo fi(src);
-	if ( ! fi.exists() ) return true;
-	
-	job = KIO::file_delete(KURL(src),false);
-	job->setAutoErrorHandlingEnabled(true);
+	//start by copying the files that belong to the new template to a safe place
+	QString templateTempFile, iconTempFile;
+
+	if(!KIO::NetAccess::download(newTemplateSourceURL, templateTempFile, kapp->mainWidget())) {
+		return false;
+	}
+	if(!KIO::NetAccess::download(newIcon, iconTempFile, kapp->mainWidget())) {
+		KIO::NetAccess::removeTempFile(templateTempFile);
+		return false;
+	}
+
+	//now delete the template that should be replaced
+	if(!remove(toBeReplaced)) {
+		KIO::NetAccess::removeTempFile(templateTempFile);
+		KIO::NetAccess::removeTempFile(iconTempFile);
+	}
+
+	//finally, create the new template
+	if(!add(KURL::fromPathOrURL(templateTempFile), type, newName, KURL::fromPathOrURL(iconTempFile))) {
+		KIO::NetAccess::removeTempFile(templateTempFile);
+		KIO::NetAccess::removeTempFile(iconTempFile);
+		return false;
+	}
+
+	KIO::NetAccess::removeTempFile(templateTempFile);
+	KIO::NetAccess::removeTempFile(iconTempFile);
 
 	return true;
 }
 
-bool Templates::add(TemplateInfo ti) {
-   
-   return
-   copyAppData(ti.path,"templates","template_"+ti.name+".tex") &&
-   copyAppData(ti.icon,"pics","type_"+ti.name+".png");
-   
+void Manager::scanForTemplates() {
+	kdDebug() << "===scanForTemplates()===================" << endl;
+	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "templates");
+	QDir templates;
+	KileTemplate::Info ti;
+	KileDocument::Extensions *extensions = m_kileInfo->extensions();
+
+	m_TemplateList.clear();
+	for ( QValueListIterator<QString> i = dirs.begin(); i != dirs.end(); ++i)
+	{
+		templates = QDir(*i, "template_*");
+		for ( uint j = 0; j< templates.count(); ++j)
+		{
+			ti.path = templates.path() + '/' + templates[j];
+			QFileInfo fileInfo(ti.path);
+			ti.name = fileInfo.baseName(true).mid(9); //remove "template_", do it this way to avoid problems with user input!
+			ti.type = extensions->determineDocumentType(KURL::fromPathOrURL(ti.path));
+			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
+			if (m_TemplateList.contains(ti))
+			{
+				kdDebug() << "\tignoring: " << ti.path << endl;
+			}
+			else
+			{
+				m_TemplateList.append(ti);
+				kdDebug() << "\tadding: " << ti.name << " " << ti.path << endl;
+			}
+		}
+	}
 }
 
-bool Templates::remove(TemplateInfo ti) {
-   
-   return
-   removeAppData(ti.path) && removeAppData(ti.icon);
+TemplateList Manager::getAllTemplates() const {
+	return m_TemplateList;
 }
 
-TemplateListIterator Templates::find(const QString & name) {
-   for (TemplateListIterator i=m_TemplateList.begin(); i != m_TemplateList.end(); ++i) {
-      if ( (*i).name == name ) { return i; }      
-   }
+TemplateList Manager::getTemplates(KileDocument::Type type) const {
+	if(type == KileDocument::Undefined) 
+	{
+		return getAllTemplates();
+	}
 
-   return NULL;
+	TemplateList toReturn;
+	for (KileTemplate::TemplateListConstIterator i = m_TemplateList.constBegin(); i != m_TemplateList.constEnd(); ++i)
+	{
+		KileTemplate::Info info = *i;
+		if(info.type == type) {
+			toReturn.push_back(info);
+		}
+	}
+	return toReturn;
 }
 
+}
+////////////////////// TemplateItem //////////////////////
+
+// new compare function to make the "Empty (...) Document" items appear at the beginning
+
+TemplateItem::TemplateItem(QIconView * parent, const KileTemplate::Info& info) : QIconViewItem(parent,info.name, QPixmap(info.icon))
+{
+	setDragEnabled(false);
+	m_info = info;
+}
+
+int TemplateItem::compare( QIconViewItem *i ) const
+{
+	if ( key() == DEFAULT_EMPTY_CAPTION ) {
+		return -1;
+	}
+	else if ( i->key() == DEFAULT_EMPTY_CAPTION ) {
+		return 1;
+	}
+	else {
+		return key().compare( i->key() );
+	}
+}
+
+////////////////////// TemplateIconView //////////////////////
+
+TemplateIconView::TemplateIconView(QWidget *parent, const char *name, WFlags f) : KIconView(parent, name, f), m_templateManager(NULL), m_proc(NULL) {
+	setItemsMovable(false);
+	setMode(KIconView::Select);
+	setResizeMode(QIconView::Adjust);
+	setSelectionMode(QIconView::Single);
+	setResizePolicy(QScrollView::Default);
+	setArrangement(QIconView::TopToBottom);
+	setMinimumHeight(100);
+}
+
+TemplateIconView::~TemplateIconView() {
+}
+
+void TemplateIconView::setTemplateManager(KileTemplate::Manager *templateManager) {
+	m_templateManager = templateManager;
+}
+
+void TemplateIconView::fillWithTemplates(KileDocument::Type type) {
+	if(!m_templateManager) {
+		return;
+	}
+
+	clear();
+
+	if(type == KileDocument::LaTeX) {
+		searchLaTeXClassFiles();
+	}
+	else {
+		addTemplateIcons(type);
+	}
+}
+
+void TemplateIconView::searchLaTeXClassFiles()
+{
+	if(!m_templateManager) return;
+
+	QString command = "kpsewhich -format=tex scrartcl.cls beamer.cls prosper.cls HA-prosper.sty";
+
+	delete m_proc;
+
+	m_proc = new KProcess(this);
+	m_proc->clearArguments();
+	m_proc->setUseShell(true);
+	(*m_proc) << QStringList::split(' ', command);
+	m_output = QString::null;
+
+	connect(m_proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
+	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
+	connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
+	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
+	connect(m_proc, SIGNAL(processExited(KProcess*)),
+	        this,   SLOT(slotProcessExited(KProcess*)) );
+
+	kdDebug() << "=== NewFileWidget::searchClassFiles() ====================" << endl;
+	kdDebug() << "\texecute: " << command << endl;
+	if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
+	{
+		kdDebug() << "\tstart of shell process failed" << endl;
+		addTemplateIcons(KileDocument::LaTeX);
+	}
+}
+
+void TemplateIconView::slotProcessOutput(KProcess*, char* buf, int len)
+{
+	m_output += QString::fromLocal8Bit(buf,len);
+}
+
+void TemplateIconView::slotProcessExited(KProcess *proc)
+{
+	if ( ! proc->normalExit() ) 
+		m_output = QString::null;
+
+	addTemplateIcons(KileDocument::LaTeX);
+	emit classFileSearchFinished();
+}
+
+void TemplateIconView::addTemplateIcons(KileDocument::Type type)
+{
+	if(!m_templateManager) return;
+
+	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
+
+	KileTemplate::Info emptyDocumentInfo;
+	emptyDocumentInfo.name = DEFAULT_EMPTY_CAPTION;
+	emptyDocumentInfo.icon = emptyIcon;
+	emptyDocumentInfo.type = type;
+	TemplateItem *emp = new TemplateItem(this, emptyDocumentInfo);
+	setSelected(emp, true);
+
+	if(type == KileDocument::LaTeX) {
+		// disable non standard templates
+		QMap<QString,bool> map;
+		map["Scrartcl"] = false;
+		map["Scrbook"]  = false;
+		map["Scrreprt"] = false;
+		map["Scrlttr2"] = false;
+		map["Beamer"]   = false;
+		map["Prosper"]  = false;
+		map["HA-prosper"] = false;
+		
+		// split search results and look, which class files are present
+		QStringList list = QStringList::split("\n",m_output);
+		for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) 
+		{
+			QString filename = QFileInfo(*it).fileName();
+			if ( filename=="scrartcl.cls" )
+			{
+				map["Scrartcl"] = true;
+				map["Scrbook"]  = true;
+				map["Scrreprt"] = true;
+				map["Scrlttr2"] = true;
+			}
+			else if ( filename=="beamer.cls" )  
+				map["Beamer"] = true;
+			else if ( filename=="prosper.cls" )
+				map["Prosper"] = true;
+			else if ( filename=="HA-prosper.sty" )
+				map["HA-prosper"] = true;
+		}
+		
+	
+		KileTemplate::TemplateList templateList = m_templateManager->getTemplates(KileDocument::LaTeX);
+		// insert all standard templates, all user defined templates 
+		// and those templates, which have a present class 
+		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i)
+		{
+			KileTemplate::Info info = *i;
+			QString classname = info.name;
+			if ( !map.contains(classname) || map[classname]==true )
+			{
+				new TemplateItem(this, info);
+			}
+		}
+	}
+	else {
+		KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type); 
+		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i)
+		{
+			new TemplateItem(this, *i);
+		}
+	}
+
+	// sort all items (item for 'Empty Document' will always be the first one)
+	sort();
+	
+	// set the default item, if its given
+	for ( QIconViewItem *item = firstItem(); item; item = item->nextItem() ) {
+		if ( static_cast<TemplateItem*>(item)->name() == m_selicon ) {
+			setSelected(item, true);
+			ensureItemVisible(item);
+		}
+	}
+}
+
+#include "templates.moc"

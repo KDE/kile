@@ -1,2 +1,2 @@
 picsdir = $(kde_datadir)/kile/pics
-pics_DATA=kile_splash.png type_Article.png type_Book.png type_Default.png type_Empty.png type_Letter.png type_Project.png type_Report.png type_Beamer.png type_Scrartcl.png type_Scrreprt.png type_HA-prosper.png type_Scrbook.png type_Prosper.png type_Scrlttr2.png
+pics_DATA=kile_splash.png type_Article.tex.kileicon type_Book.tex.kileicon type_Default.png type_Empty.png type_Letter.tex.kileicon type_Project.png type_Report.tex.kileicon type_Beamer.tex.kileicon type_Scrartcl.tex.kileicon type_Scrreprt.tex.kileicon type_HA-prosper.tex.kileicon type_Scrbook.tex.kileicon type_Prosper.tex.kileicon type_Scrlttr2.tex.kileicon

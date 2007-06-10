@@ -577,7 +577,9 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 		}
 	}
 
-	return createDocumentWithText(text, sel->type());
+	KileDocument::Type type = sel->type();
+	//always set the base directory for scripts
+	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalJScriptDirectory() : QString()));
 }
 
 Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KURL& baseDirectory)
@@ -619,9 +621,10 @@ void Manager::replaceTemplateVariables(QString &line)
 
 void Manager::createTemplate()
 {
-	if (m_ki->viewManager()->currentTextView())
+	Kate::View *view = m_ki->viewManager()->currentTextView();
+	if (view)
 	{
-		if (m_ki->viewManager()->currentTextView()->getDoc()->isModified() )
+		if (view->getDoc()->isModified() )
 		{
 			KMessageBox::information(m_ki->parentWidget(),i18n("Please save the file first."));
 			return;
@@ -633,20 +636,28 @@ void Manager::createTemplate()
 		return;
 	}
 
-	QFileInfo fi(m_ki->viewManager()->currentTextView()->getDoc()->url().path());
-	ManageTemplatesDialog mtd(&fi,i18n("Create Template From Document"));
+	KURL url = view->getDoc()->url();
+	KileDocument::Type type = m_ki->extensions()->determineDocumentType(url);
+
+	if(type == KileDocument::Undefined || type == KileDocument::Text)
+	{
+		KMessageBox::information(m_ki->parentWidget(),i18n("Sorry, but a template for this type of document cannot be created."));
+		return;
+	}
+
+	ManageTemplatesDialog mtd(m_ki->templateManager(), url, i18n("Create Template From Document"));
 	mtd.exec();
 }
 
 void Manager::removeTemplate()
 {
-	ManageTemplatesDialog mtd(i18n("Remove Template"));
+	ManageTemplatesDialog mtd(m_ki->templateManager(), i18n("Remove Template"));
 	mtd.exec();
 }
 
 void Manager::fileNew()
 {
-	NewFileWizard *nfw = new NewFileWizard(m_ki->parentWidget());
+	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), m_ki->parentWidget());
 	if (nfw->exec())
 	{
 		loadTemplate(nfw->getSelection());
@@ -1060,7 +1071,7 @@ void Manager::buildProjectTree(KileProject *project)
 void Manager::projectNew()
 {
 	kdDebug() << "==Kile::projectNew==========================" << endl;
-	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->extensions(), m_ki->parentWidget());
+	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->templateManager(), m_ki->extensions(), m_ki->parentWidget());
 	kdDebug()<< "\tdialog created" << endl;
 
 	if (dlg->exec())

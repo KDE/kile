@@ -1,8 +1,8 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : Sun Apr 27 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,38 +16,62 @@
 #ifndef MANAGETEMPLATESDIALOG_H
 #define MANAGETEMPLATESDIALOG_H
 
+#include <qcheckbox.h>
 #include <qfileinfo.h>
 #include <qstring.h>
+
 #include <klistview.h>
 #include <kdialogbase.h>
 #include <klineedit.h>
+#include <kurl.h>
 
-#include "templates.h"
+#include "kileconstants.h"
+
+namespace KileTemplate { class Manager; class Info; }
 
 /**
   *@author Jeroen Wijnhout
   */
 
+
+
 class ManageTemplatesDialog : public KDialogBase  {
-   Q_OBJECT
+	Q_OBJECT
 public: 
-	ManageTemplatesDialog(QFileInfo *src, const QString &caption,QWidget *parent=0, const char *name=0);
-	ManageTemplatesDialog(const QString &caption,QWidget *parent=0, const char *name=0);	
-	~ManageTemplatesDialog();
+	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KURL& sourceURL, const QString &caption,QWidget *parent=0, const char *name=0);
+	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption,QWidget *parent=0, const char *name=0);	
+	virtual ~ManageTemplatesDialog();
 
 public slots:
-   void slotSelectedTemplate(QListViewItem *item);
-   void slotSelectedTemplate();
-   void slotSelectIcon();
-   void addTemplate();
-   void removeTemplate();
+	void slotSelectedTemplate(QListViewItem *item);
+	void slotSelectIcon();
+	void addTemplate();
+	bool removeTemplate();
 
-private:
-	bool selected;
-   TemplateInfo m_sourceTemplate;
-   KLineEdit *m_nameEdit, *m_iconEdit;
-   KListView *tlist;
-   Templates *m_Templates;
+signals:
+	void aboutToClose();
+
+protected slots:
+	void updateTemplateListView(bool showAllTypes);
+	void clearSelection();
+	virtual void slotOk();
+
+protected:
+	KileTemplate::Manager* m_templateManager;
+	KLineEdit *m_nameEdit, *m_iconEdit;
+	KListView *m_templateList;
+	KileDocument::Type m_templateType;
+	QCheckBox *m_showAllTypesCheckBox;
+	KURL m_sourceURL;
+
+	/**
+	 * Fills the template list view with template entries.
+	 *
+	 * @param type The type of the templates that should be displayed. You can pass "KileDocument::Undefined" to
+	 *             display every template.
+	 **/
+	void populateTemplateListView(KileDocument::Type type);
+
 };
 
 #endif

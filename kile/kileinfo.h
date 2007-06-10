@@ -24,6 +24,7 @@
 #include <kdebug.h>
 #include <kurl.h>
 
+#include "kileconstants.h"
 #include "kileextensions.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
@@ -50,6 +51,7 @@ namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 namespace KileJScript { class Manager; }
 namespace KileEditorKeySequence { class Manager; }
+namespace KileTemplate { class Manager; }
 
 class KileInfo
 {
@@ -82,6 +84,8 @@ public:
 	virtual const QStringList* allPackages(KileDocument::Info * info = 0L);
 
 	QString lastModifiedFile(KileDocument::Info * info = 0L);
+
+	static QString documentTypeToString(KileDocument::Type type);
 
 private:
 	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0L);
@@ -121,6 +125,7 @@ public:
 	KileHelp::Help *help() const { return m_help; }
 	KileTool::QuickPreview *quickPreview() const { return m_quickPreview; }
 	KileDocument::Extensions *extensions() const { return m_extensions; }
+	KileTemplate::Manager *templateManager() const { return m_templateManager; }
 
 	//FIXME:refactor
 	KileFileSelect* fileSelector() const { return m_fileSelector; }
@@ -132,6 +137,7 @@ protected:
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;
+	KileTemplate::Manager		*m_templateManager;
 	KileJScript::Manager		*m_jScriptManager;
 	KileEditorKeySequence::Manager	*m_editorKeySequenceManager;
 	KileTool::Factory		*m_toolFactory;

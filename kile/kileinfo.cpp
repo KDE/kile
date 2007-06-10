@@ -35,6 +35,7 @@
 #include "kileuntitled.h"
 #include "kilejscript.h"
 #include "editorkeysequencemanager.h"
+#include "templates.h"
 
 #include <kstandarddirs.h>
 #include <qstringlist.h>
@@ -51,6 +52,7 @@ KileInfo::KileInfo(QWidget *parent) :
 {
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
+	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
 	QObject::connect(m_docManager, SIGNAL(documentStatusChanged(Kate::Document*, bool, unsigned char)), m_viewManager, SLOT(reflectDocumentStatus(Kate::Document*, bool, unsigned char)));
 }
@@ -280,6 +282,23 @@ QString KileInfo::lastModifiedFile(KileDocument::Info * info)
 	if (info == 0) info = docManager()->getInfo();
 	const QStringList *list = allDependencies(info);
 	return info->lastModifiedFile(list);
+}
+
+QString KileInfo::documentTypeToString(KileDocument::Type type)
+{
+	switch(type) {
+		case KileDocument::Undefined:
+			return i18n("Undefined");
+		case KileDocument::Text:
+			return i18n("Text");
+		case KileDocument::LaTeX:
+			return i18n("LaTeX");
+		case KileDocument::BibTeX:	
+			return i18n("BibTeX");
+		case KileDocument::Script:
+			return i18n("Script");
+	}
+	return QString();
 }
 
 bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)

@@ -1,8 +1,8 @@
-/***************************************************************************
+/*****************************************************************************************
     begin                : Sat Apr 26 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -28,68 +28,35 @@
 #include "kileconstants.h"
 #include "templates.h"
 
-const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
-const QString DEFAULT_EMPTY_LATEX_CAPTION = i18n("Empty LaTeX Document");
-const QString DEFAULT_EMPTY_BIBTEX_CAPTION = i18n("Empty BibTeX Document");
+class NewDocumentWidget;
 
-#define DEFAULT_EMPTY_ICON "type_Empty"
-
-class TemplateItem : public QIconViewItem
-{
-public:
-	TemplateItem( QIconView * parent, const TemplateInfo & info);
-	~TemplateItem() {}
-
-	int compare( QIconViewItem *i ) const;
-	
-	QString name() { return m_info.name; }
-	QString path() { return m_info.path; }
-	QString icon() { return m_info.icon; }
-	KileDocument::Type type() { return m_info.type; }
-
-private:
-	TemplateInfo m_info;
-};
-
-class NewFileWidget : public KIconView
+class NewFileWizard : public KDialogBase
 {
 	Q_OBJECT
 public:
-	NewFileWidget(QWidget *parent, const QString &selicon = QString::null, char *name = 0);
-	~NewFileWidget();
-
-private:
-	QString m_output;
-	QString m_selicon;
-	KShellProcess *m_proc;
-	
-	void searchClassFiles();
-	void addTemplates();
-	
-private slots:
-	void slotProcessOutput(KProcess*,char* buf,int len);
-	void slotProcessExited (KProcess *proc);
-};
-
-class NewFileWizard : public KDialogBase  
-{
-	Q_OBJECT
-public:
-	NewFileWizard(QWidget *parent=0, const char *name=0);
+	NewFileWizard(KileTemplate::Manager *manager, QWidget *parent=0, const char *name=0);
 	~NewFileWizard();
 
 public:
-	TemplateItem* getSelection()const { return static_cast<TemplateItem*>(m_iv->currentItem());}
+	TemplateItem* getSelection() const;
 	bool useWizard();
-  
-public slots:
-	void slotOk();
 
-private:
+protected slots:
+	void slotOk();
+	void slotActivated(int index);
+
+	void restoreSelectedIcon();
+
+protected:
+	KileTemplate::Manager *m_templateManager;
 	KConfig *m_config;
-	QIconView *m_iv;
-	QCheckBox *m_ckWizard;
+	NewDocumentWidget* m_newDocumentWidget;
+	int m_currentlyDisplayedType; // not a document type, only a local type!
+
+	QString getConfigKey(int index);
+
+	void storeSelectedIcon();
+
 };
 
 #endif
-

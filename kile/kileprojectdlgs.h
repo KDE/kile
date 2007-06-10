@@ -27,7 +27,7 @@
 #include "kileproject.h"
 #include "templates.h"
 
-class NewFileWidget;
+class TemplateIconView;
 class QLabel;
 class KileProject;
 class KComboBox;
@@ -35,6 +35,7 @@ class QVGroupBox;
 class TemplateItem;
 
 namespace KileDocument { class Extensions; }
+namespace KileTemplate { class Manager; }
 
 class KileProjectDlgBase : public KDialogBase
 {
@@ -86,7 +87,7 @@ class KileNewProjectDlg : public KileProjectDlgBase
 	Q_OBJECT
 
 public:
-	KileNewProjectDlg(KileDocument::Extensions *extensions, QWidget* parent = 0, const char* name = 0);
+	KileNewProjectDlg(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = 0, const char* name = 0);
 	~KileNewProjectDlg();
 
 	KileProject* project();
@@ -106,8 +107,9 @@ private slots:
 	void fillProjectDefaults();
 
 private:
-	KLineEdit			*m_location, *m_file, *m_name;
-	NewFileWidget		*m_nfw;
+	KileTemplate::Manager	*m_templateManager;
+	KLineEdit		*m_location, *m_file, *m_name;
+	TemplateIconView	*m_templateIconView;
 	QCheckBox		*m_cb;
 	QLabel 			*m_lb;
 

@@ -26,7 +26,7 @@ kile_SOURCES = latexcmd.cpp latexcmddialog.cpp texdocdialog.cpp userhelp.cpp \
 	structureconfigwidget.ui previewwidget.cpp kilejscript.h kilejscript.cpp \
 	scriptsmanagementwidget.h scriptsmanagementwidget.cpp editorkeysequencemanager.h \
 	editorkeysequencemanager.cpp scriptingconfigwidget.ui kileabbrevview.cpp kileextensions.cpp \
-	kileversion.cpp graphicsconfigwidget.ui kilemultitabbar.cpp
+	kileversion.cpp graphicsconfigwidget.ui kilemultitabbar.cpp newdocumentwidget.ui
 
 kile_LDADD   = -lkjs -lkdeprint -lktexteditor -lkatepartinterfaces $(LIB_KSPELL) $(LIB_KHTML) 
 

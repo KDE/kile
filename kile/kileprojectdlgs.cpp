@@ -41,12 +41,12 @@
 #include <kapplication.h>
 #include <kiconloader.h>
 
-#include "newfilewizard.h"
 #include "kileproject.h"
 #include "kiletoolmanager.h"
 #include "kiledocumentinfo.h"
 #include "kileconfig.h"
 #include "kileextensions.h"
+#include "templates.h"
 
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 const QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
@@ -200,8 +200,8 @@ void KileProjectDlgBase::fillProjectDefaults()
 /*
  * KileNewProjectDlg
  */
-KileNewProjectDlg::KileNewProjectDlg(KileDocument::Extensions *extensions, QWidget* parent, const char* name)
-        : KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name),
+KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent, const char* name)
+        : KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name), m_templateManager(templateManager),
 		m_filename(QString::null)
 {
 	// Layout
@@ -243,13 +243,16 @@ KileNewProjectDlg::KileNewProjectDlg(KileDocument::Extensions *extensions, QWidg
 	m_lb  = new QLabel(i18n("File&name (relative to where the project file is):"),widget2);
 	m_file = new KLineEdit(widget2);
 	m_lb->setBuddy(m_file);
-	m_nfw = new NewFileWidget(widget2);
+	m_templateIconView = new TemplateIconView(widget2);
+	m_templateIconView->setTemplateManager(m_templateManager);
+	m_templateManager->scanForTemplates();
+	m_templateIconView->fillWithTemplates(KileDocument::LaTeX);
 	QWhatsThis::add(m_cb, i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
 
 	grid2->addMultiCellWidget(m_cb, 0,0, 0,1);
 	grid2->addWidget(m_lb, 1,0);
 	grid2->addWidget(m_file, 1,1);
-	grid2->addMultiCellWidget(m_nfw, 2,2, 0,1);
+	grid2->addMultiCellWidget(m_templateIconView, 2,2, 0,1);
 	grid2->setColStretch(1,1);
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
 
@@ -294,13 +297,13 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 	{
 		m_file->show();
 		m_lb->show();
-		m_nfw->show();
+		m_templateIconView->show();
 	}
 	else
 	{
 		m_file->hide();
 		m_lb->hide();
-		m_nfw->hide();
+		m_templateIconView->hide();
 	}
 }
 
@@ -461,7 +464,7 @@ void KileNewProjectDlg::fillProjectDefaults()
 
 TemplateItem* KileNewProjectDlg::getSelection() const
 {
-	return static_cast<TemplateItem*>(m_nfw->currentItem());
+	return static_cast<TemplateItem*>(m_templateIconView->currentItem());
 }
 
 /*

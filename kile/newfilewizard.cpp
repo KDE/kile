@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
 ******************************************************************************************/
 
 /***************************************************************************
@@ -16,6 +16,7 @@
 
 #include "newfilewizard.h"
 
+#include <qcombobox.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qdir.h>
@@ -29,230 +30,14 @@
 #include <kmessagebox.h>
 #include <kiconloader.h>
 
-// 2005-08-04: dani
-//  - added script support to search existing class files 
-//    (classes: Koma, Beamer, Prosper, HA-prosper)
-//  - sort items ('Empty Document' will always be the first entry)
+#include "newdocumentwidget.h"
 
-// 2006-30-04: tbraun
-//  - drag and drop makes no sense here
-//  - use the Select mode
+#define LATEX_TYPE	0
+#define BIBTEX_TYPE	1
+#define SCRIPT_TYPE	2
 
-////////////////////// TemplateItem //////////////////////
-
-// new compare function to make the "Empty (...) Document" items appear at the beginning
-
-TemplateItem::TemplateItem(QIconView * parent, const TemplateInfo & info) : QIconViewItem(parent,info.name, QPixmap(info.icon))
-{
-	setDragEnabled(false);
-	m_info = info;
-}
-
-int TemplateItem::compare( QIconViewItem *i ) const
-{
-	QString myKey = key();
-	QString otherKey = i->key();
-	if( myKey == otherKey )
-	{
-		return 0;
-	}
-	// from now on, myKey and otherKey are not equal
-	if ( myKey == DEFAULT_EMPTY_CAPTION )
-	{
-		return -1;
-	}
-	else if ( myKey == DEFAULT_EMPTY_LATEX_CAPTION )
-	{
-		if ( otherKey == DEFAULT_EMPTY_CAPTION )
-		{
-			return 1;
-		}
-		else 
-		{
-			return -1;
-		} 
-	}
-	else if ( myKey == DEFAULT_EMPTY_BIBTEX_CAPTION )
-	{
-		if( (otherKey == DEFAULT_EMPTY_CAPTION) || (otherKey == DEFAULT_EMPTY_LATEX_CAPTION) )
-		{
-			return 1;
-		}
-		else 
-		{
-			return -1;
-		}
-	}
-	else if ( otherKey == DEFAULT_EMPTY_CAPTION )
-	{
-		return 1;
-	}
-	else if ( otherKey == DEFAULT_EMPTY_LATEX_CAPTION )
-	{
-		return 1;
-	}
-	else if ( otherKey == DEFAULT_EMPTY_BIBTEX_CAPTION )
-	{
-		return 1;
-	}
-	else
-	{
-		return key().compare( i->key() );
-	}
-}
-    
-////////////////////// NewFileWidget //////////////////////
-
-NewFileWidget::NewFileWidget(QWidget *parent, const QString &selicon, char *name) : KIconView(parent,name), m_proc(0)
-{
-	m_selicon = ( selicon != QString::null ) ? selicon : DEFAULT_EMPTY_CAPTION;
-	
-   setItemsMovable(false);
-   setMode(Select);
-   setResizeMode(QIconView::Adjust);
-   setSelectionMode(QIconView::Single);
-   setResizePolicy(QScrollView::Default);
-   setArrangement(QIconView::TopToBottom);
-
-	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" ); 
-
-	TemplateInfo emptyDocumentInfo;
-	emptyDocumentInfo.name = DEFAULT_EMPTY_CAPTION;
-	emptyDocumentInfo.icon = emptyIcon;
-	emptyDocumentInfo.type = KileDocument::Text;
-	TemplateItem *emp = new TemplateItem(this, emptyDocumentInfo);
-	setSelected(emp, true);
-
-	TemplateInfo emptyLatexDocumentInfo;
-	emptyLatexDocumentInfo.name = DEFAULT_EMPTY_LATEX_CAPTION;
-	emptyLatexDocumentInfo.icon = emptyIcon;
-	emptyLatexDocumentInfo.type = KileDocument::LaTeX;
-	new TemplateItem(this, emptyLatexDocumentInfo);
-
-	TemplateInfo emptyBibtexDocumentInfo;
-	emptyBibtexDocumentInfo.name = DEFAULT_EMPTY_BIBTEX_CAPTION;
-	emptyBibtexDocumentInfo.icon = emptyIcon;
-	emptyBibtexDocumentInfo.type = KileDocument::BibTeX;
-	new TemplateItem(this, emptyBibtexDocumentInfo);
-
-	// execute script to find non standard class files
-	searchClassFiles();
-	
-
-   setMinimumHeight(120);
-}
-
-NewFileWidget::~NewFileWidget() 
-{
-   delete m_proc;
-}
-
-////////////////////// add standard or found templates //////////////////////
-
-void NewFileWidget::addTemplates()
-{
-	// disable non standard templates
-	QMap<QString,bool> map;
-	map["Scrartcl"] = false;
-	map["Scrbook"]  = false;
-	map["Scrreprt"] = false;
-	map["Scrlttr2"] = false;
-	map["Beamer"]   = false;
-	map["Prosper"]  = false;
-	map["HA-prosper"] = false;
-	
-	// split search results and look, which class files are present
-	QStringList list = QStringList::split("\n",m_output);
-	for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) 
-	{
-		QString filename = QFileInfo(*it).fileName();
-		if ( filename=="scrartcl.cls" )
-		{
-			map["Scrartcl"] = true;
-			map["Scrbook"]  = true;
-			map["Scrreprt"] = true;
-			map["Scrlttr2"] = true;
-		}
-		else if ( filename=="beamer.cls" )  
-			map["Beamer"] = true;
-		else if ( filename=="prosper.cls" )
-			map["Prosper"] = true;
-		else if ( filename=="HA-prosper.sty" )
-			map["HA-prosper"] = true;
-	}
-	
-	// insert all standard templates, all user defined templates 
-	// and those templates, which have a present class 
-	Templates templ;
-	for (int i=0; i< templ.count(); ++i)
-	{
-		QString classname = (*templ.at(i)).name;
-		if ( !map.contains(classname) || map[classname]==true )
-		{
-			new TemplateItem(this,*templ.at(i));
-		}
-	}
-
-	// sort alle items (item for 'Empty Document' will always be the first one
-	sort();
-	
-	// set the default item, if its given
-	for ( QIconViewItem *item = firstItem(); item; item = item->nextItem() )
-	if ( static_cast<TemplateItem*>(item)->name() == m_selicon )
-	{
-	   	setSelected(item, true);
-			ensureItemVisible(item);
-	}
-}
-
-////////////////////// execute shell script //////////////////////
-
-void NewFileWidget::searchClassFiles()
-{
-	QString command = "kpsewhich -format=tex scrartcl.cls beamer.cls prosper.cls HA-prosper.sty";
-	
-   if ( m_proc )
-      delete m_proc;
-		
-	m_proc = new KShellProcess("/bin/sh");
-	m_proc->clearArguments();
-	(*m_proc) << QStringList::split(' ',command);
-	m_output = QString::null;
-	
-	connect(m_proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
-	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
-	connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
-	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
-	connect(m_proc, SIGNAL(processExited(KProcess*)),
-	        this,   SLOT(slotProcessExited(KProcess*)) );
-	  
-	kdDebug() << "=== NewFileWidget::searchClassFiles() ====================" << endl;
-	kdDebug() << "\texecute: " << command << endl;
-	if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
-	{
-		kdDebug() << "\tstart of shell process failed" << endl;
-		addTemplates();
-	}
-}
-
-void NewFileWidget::slotProcessOutput(KProcess*,char* buf,int len)
-{
-   m_output += QString::fromLocal8Bit(buf,len);
-}
-
-
-void NewFileWidget::slotProcessExited(KProcess *proc)
-{
-	if ( ! proc->normalExit() ) 
-		m_output = QString::null;
-
-	addTemplates();
-}
-
-////////////////////// NewFileWizard //////////////////////
-
-NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
-  : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true)
+NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, QWidget *parent, const char *name )
+  : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_currentlyDisplayedType(-1)
 {
 	// first read config
 	m_config = kapp->config();
@@ -262,49 +47,123 @@ NewFileWizard::NewFileWizard(QWidget *parent, const char *name )
 	if ( w == -1 ) w = width();
 	int h = m_config->readNumEntry("height", -1);
 	if ( h == -1 ) h = height();
-	QString selicon = m_config->readEntry("select", DEFAULT_EMPTY_CAPTION);
-	
-	// then create widget
-   QWidget *page = new QWidget( this );
-   setMainWidget(page);
-   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
 
-   topLayout->addWidget( new QLabel(i18n("Please select the type of document you want to create:"),page));
+	m_newDocumentWidget = new NewDocumentWidget(this);
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(doubleClicked(QIconViewItem *)), SLOT(slotOk()));
+	m_templateManager->scanForTemplates();
+	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
+	m_newDocumentWidget->templateIconView->fillWithTemplates(KileDocument::LaTeX);
 
-   m_iv = new NewFileWidget( page,selicon );
-   topLayout->addWidget(m_iv);
+	connect(m_newDocumentWidget->documentTypeComboBox, SIGNAL(activated(int)), this, SLOT(slotActivated(int)));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(classFileSearchFinished()), this, SLOT(restoreSelectedIcon()));
 
-   m_ckWizard = new QCheckBox(i18n("Start the Quick Start wizard when creating an empty LaTeX file"), page);
-   topLayout->addWidget(m_ckWizard);
+	setMainWidget(m_newDocumentWidget);
 
-   connect(m_iv,SIGNAL(doubleClicked ( QIconViewItem * )),SLOT(slotOk()));
+	m_newDocumentWidget->documentTypeComboBox->insertItem(i18n("LaTeX Document"), LATEX_TYPE);
+	m_newDocumentWidget->documentTypeComboBox->insertItem(i18n("BibTeX Document"), BIBTEX_TYPE);
+	m_newDocumentWidget->documentTypeComboBox->insertItem(i18n("Kile Script"), SCRIPT_TYPE);
 
 	// set config entries
-	m_ckWizard->setChecked(wizard);
+	m_newDocumentWidget->quickStartWizardCheckBox->setChecked(wizard);
 	resize(w,h);
+
+	// select the LaTeX type
+	m_newDocumentWidget->documentTypeComboBox->setCurrentItem(LATEX_TYPE);
+	m_currentlyDisplayedType = LATEX_TYPE;
+	restoreSelectedIcon();
+}
+
+NewFileWizard::~NewFileWizard()
+{
+}
+
+TemplateItem* NewFileWizard::getSelection()const
+{
+	for(QIconViewItem *item = m_newDocumentWidget->templateIconView->firstItem(); item; item = item->nextItem()) {
+		if(item->isSelected()) {
+			return static_cast<TemplateItem*>(item);
+		}
+	}
+	return NULL;
 }
 
 bool NewFileWizard::useWizard()
 {
-	return ( getSelection() && (getSelection()->name() == DEFAULT_EMPTY_CAPTION || getSelection()->name() == DEFAULT_EMPTY_LATEX_CAPTION) && m_ckWizard->isChecked() );
+	// check (among other things) whether we want to create a LaTeX document
+	return ( (m_newDocumentWidget->documentTypeComboBox->currentItem() == 0) && getSelection() && (getSelection()->name() == DEFAULT_EMPTY_CAPTION || getSelection()->name() == DEFAULT_EMPTY_LATEX_CAPTION) && m_newDocumentWidget->quickStartWizardCheckBox->isChecked() );
+}
+
+QString NewFileWizard::getConfigKey(int index)
+{
+	QString configKey = "NewFileWizardSelectedIcon";
+	switch(index) {
+		case LATEX_TYPE:
+			configKey += "LaTeX";
+		break;
+
+		case BIBTEX_TYPE:
+			configKey += "BibTeX";
+		break;
+
+		case SCRIPT_TYPE:
+			configKey += "Script";
+		break;
+	}
+	return configKey;
+}
+
+void NewFileWizard::storeSelectedIcon()
+{
+	if(m_currentlyDisplayedType < 0) {
+		return;
+	}
+	TemplateItem *selectedItem = getSelection();
+	if (selectedItem) {
+		m_config->writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
+	}
+}
+
+void NewFileWizard::restoreSelectedIcon()
+{
+	QString selectedIconName = m_config->readEntry(getConfigKey(m_currentlyDisplayedType), DEFAULT_EMPTY_CAPTION);
+	QIconViewItem *item = m_newDocumentWidget->templateIconView->findItem(selectedIconName);
+	if(item) {
+		m_newDocumentWidget->templateIconView->setSelected(item, true);
+	}
 }
 
 void NewFileWizard::slotOk()
 {
 	m_config->setGroup("NewFileWizard");
-	m_config->writeEntry("UseWizardWhenCreatingEmptyFile", m_ckWizard->isChecked());
+	m_config->writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
 	m_config->writeEntry("width", width());
 	m_config->writeEntry("height", height());
-
-	if (getSelection())
-		m_config->writeEntry("select", getSelection()->name());
-
+	
+	storeSelectedIcon();
 	accept();
 }
 
-NewFileWizard::~NewFileWizard()
-{}
+void NewFileWizard::slotActivated(int index)
+{
+	storeSelectedIcon();
+	m_currentlyDisplayedType = index;
+	switch(index) {
+		case LATEX_TYPE:
+			m_newDocumentWidget->templateIconView->fillWithTemplates(KileDocument::LaTeX);
+		break;
 
+		case BIBTEX_TYPE:
+			m_newDocumentWidget->templateIconView->fillWithTemplates(KileDocument::BibTeX);
+		break;
 
+		case SCRIPT_TYPE:
+			m_newDocumentWidget->templateIconView->fillWithTemplates(KileDocument::Script);
+		break;
+	}
+	m_newDocumentWidget->quickStartWizardCheckBox->setEnabled((index == 0));
+
+	// and select an icon
+	restoreSelectedIcon();
+}
 
 #include "newfilewizard.moc"

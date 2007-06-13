@@ -22,10 +22,10 @@
 \NeedsTeXFormat{format}
 \NeedsTeXFormat{format}[release]
 \OptionNotUsed
-\PackageError
-\PackageInfo
-\PackageWarning
-\PackageWarningNoLine
+\PackageError{text}
+\PackageInfo{text}
+\PackageWarning{text}
+\PackageWarningNoLine{text}
 \PassOptionsToClass{optionlist}{class}
 \PassOptionsToPackage{optionlist}{package}
 \ProcessOptions
@@ -42,7 +42,7 @@
 \RequirePackage{package}[release]
 # counter, lengths and dimens
 \setcounter{counter}{value}
-\setlanguage
+\setlanguage{language}
 \setlength{\gnat}{length}
 \setpapersize{layout}
 \settodepth{\gnat}{text}
@@ -54,7 +54,7 @@
 \addtolength{\gnat}{length}
 \addtoversion
 \addvspace{length}
-\deffootnote
+\deffootnote[width}{indention}{par indention}{definition}
 \newcounter{foo}
 \newcounter{foo}[counter]
 \refstepcounter{counter}

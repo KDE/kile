@@ -2,6 +2,12 @@
 ########### install files ###############
 
 SET(kile_texCompleteFiles
+	attachfile.cwl
+	pdfpages.cwl
+	graphicx.cwl
+	attachfile.cwl
+	pdfpages.cwl
+	graphicx.cwl
 	amsmath.cwl
 	amsbsy.cwl
 	amssymb.cwl

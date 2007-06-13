@@ -1,5 +1,8 @@
 texcompletedir = $(kde_datadir)/kile/complete/tex
 texcomplete_DATA = afterpage.cwl \
+	attachfile.cwl\
+	pdfpages.cwl\
+	graphicx.cwl\
 	amsbsy.cwl \
 	amssymb.cwl \
 	amsmath.cwl \

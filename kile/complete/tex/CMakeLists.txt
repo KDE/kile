@@ -2,6 +2,7 @@
 ########### install files ###############
 
 SET(kile_texCompleteFiles
+	amsfonts.cwl
 	attachfile.cwl
 	pdfpages.cwl
 	graphicx.cwl

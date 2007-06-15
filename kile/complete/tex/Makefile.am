@@ -1,6 +1,6 @@
 texcompletedir = $(kde_datadir)/kile/complete/tex
 texcomplete_DATA = afterpage.cwl \
-	amsfonts.sty \
+	amsfonts.cwl \
 	attachfile.cwl\
 	pdfpages.cwl\
 	graphicx.cwl\

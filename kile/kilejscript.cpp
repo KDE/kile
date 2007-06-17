@@ -520,6 +520,11 @@ namespace KileJScript {
 
 	Manager::~Manager() {
 		delete m_jScriptDirWatch;
+
+		//still need to delete the scripts
+		for(QValueList<JScript*>::iterator it = m_jScriptList.begin(); it != m_jScriptList.end(); ++it) {
+			delete *it;
+		}
 	}
 
 	void Manager::executeJScript(const JScript *script) {

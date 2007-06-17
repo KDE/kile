@@ -2090,21 +2090,27 @@ void Kile::configureToolbars()
 
 void Kile::changeInputEncoding()
 {
-	Kate::View *view = viewManager()->currentTextView();
-	if (view)
+	Kate::Document *doc = activeTextDocument();
+	if ( doc )
 	{
-		bool modified = view->getDoc()->isModified();
+		KileDocument::TextInfo *textInfo = docManager()->textInfoFor(doc);
+		bool modified = doc->isModified();
+		
+		if( !textInfo )
+			return;
 
-		QString encoding=m_fileSelector->comboEncoding()->lineEdit()->text();
-		QString text = view->getDoc()->text();
+		QString encoding = m_fileSelector->comboEncoding()->lineEdit()->text();
 
-		view->getDoc()->setEncoding(encoding);
-        unsigned int mode = view->getDoc()->hlMode(); //remember the highlighting mode
+		if(!encoding.isNull())
+			doc->setEncoding(encoding);
+        	unsigned int mode = doc->hlMode(); //remember the highlighting mode
 
 		//reload the document so that the new encoding takes effect
-		view->getDoc()->openURL(view->getDoc()->url());
-        view->getDoc()->setHlMode(mode);
-		view->getDoc()->setModified(modified);
+		doc->openURL(doc->url());
+        	doc->setHlMode(mode);
+		doc->setModified(modified);
+		
+		viewManager()->updateStructure(true,textInfo); //reparse doc to get a correct structure view
 	}
 }
 

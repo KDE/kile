@@ -23,6 +23,7 @@ class KileAppDCOPIface : virtual public DCOPObject
 
 	k_dcop:
 		virtual void openDocument(const QString &)=0;
+		virtual void insertText(const QString &)=0;
 		virtual void fileSelected(const QString &)=0; //backwards compatibility
 		virtual void closeDocument()=0;
 		virtual void openProject(const QString &)=0;

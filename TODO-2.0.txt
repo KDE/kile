@@ -1,6 +1,6 @@
 to fix:
 	- #142987 project load crash
-	- grepping files does not work if kile.encoding != system.encoding, try e.g. UTF8 vs. latin1 with umlauts
+	- grepping files does not work if kile.encoding != system.encoding, try e.g. UTF8 vs. latin1 with umlauts [grep can't do the job, so this is in my eyes a candidate for a known limitation]
 	- TExlive 2007 compliance with help files (does not work out of the box)
 
 features:

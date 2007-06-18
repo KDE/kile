@@ -81,6 +81,7 @@ namespace KileDialog
 		setupEnvironment();
 		setupGraphics();
 		setupStructure();
+		setupSymbolView();
 
 		setupTools();
 		setupQuickPreview();     // QuickPreview (dani)
@@ -244,6 +245,12 @@ namespace KileDialog
 	{
 		structurePage = new KileWidgetStructureViewConfig(0, "StructureView");
       addConfigPage(structurePage,i18n("LaTeX"),i18n("Structure View"),"view_tree");
+	}
+
+	void Config::setupSymbolView()
+	{
+		symbolViewPage = new KileWidgetSymbolViewConfig(0, "SymbolView");
+      		addConfigPage(symbolViewPage,i18n("LaTeX"),i18n("Symbol View"),"math0");
 	}
 
 	//////////////////// Editor ////////////////////

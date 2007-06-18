@@ -498,4 +498,18 @@
 			<default>5</default>
 		</entry>
 	</group>
+	<group name="MostUsedSymbols">
+		<entry name="numSymbolsMFUS" type="UInt">
+			<label>Number of symbols to store in the Most Frequently Used Symbols view.</label>
+			<default>30</default>
+		</entry>
+		<entry name="displayMFUS" type="Bool">
+			<label>Display the Most Frequently Used Symbols view.</label>
+			<default>true</default>
+		</entry>
+		<entry name="clearMFUS" type="Bool">
+			<label>Clear the list of the most frequently used symbols on the closing of Kile.</label>
+			<default>false</default>
+		</entry>
+	</group>
 </kcfg>

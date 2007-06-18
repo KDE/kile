@@ -325,57 +325,92 @@ void Kile::setupScriptsManagementView()
 	m_sideBar->addTab(m_scriptsManagementWidget, SmallIcon("jspage"), i18n("Scripts"));
 }
 
+void Kile::enableSymbolViewMFUS()
+{
+	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),true);
+	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),
+			i18n("Move the mouse over an icon to see the corresponding LaTeX command.\n \
+			Click on an icon to insert the command, additionally pressing SHIFT inserts it in math mode,\
+			presssing CTRL in curly brackets."));
+
+	connect(m_symbolViewRelation,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewOperators,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewArrows,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewMiscMath,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewMiscText,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewDelimiters,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewGreek,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewSpecial,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewCyrillic,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewUser,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+}
+
+void Kile::disableSymbolViewMFUS()
+{
+	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
+	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),QString());
+	disconnect(m_symbolViewMFUS,SIGNAL(addtoList(const QIconViewItem *)));
+}
+
+
+
 void Kile::setupSymbolViews()
 {
 	m_toolBox = new QToolBox(m_sideBar);
 	m_sideBar->addTab(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
 
-	m_symbolViewRelation = new SymbolView(m_toolBox,"relation",SymbolView::Relation);
+	m_symbolViewMFUS = new SymbolView(m_toolBox,SymbolView::MFUS);
+	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most frequently used"));
+	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
+	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QStringList&)),
+		this, SLOT(insertText(const QString& ,const QStringList&)));
+	
+	m_symbolViewRelation = new SymbolView(m_toolBox,SymbolView::Relation);
 	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
 	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QStringList&)),
 		 this, SLOT(insertText(const QString& ,const QStringList&)));
 		
-	m_symbolViewOperators = new SymbolView(m_toolBox,"operators",SymbolView::Operator);
+	m_symbolViewOperators = new SymbolView(m_toolBox,SymbolView::Operator);
 	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
 	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewArrows = new SymbolView(m_toolBox,"arrow",SymbolView::Arrow);
+	m_symbolViewArrows = new SymbolView(m_toolBox,SymbolView::Arrow);
 	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
 	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewMiscMath = new SymbolView(m_toolBox,"miscmath",SymbolView::MiscMath);
+	m_symbolViewMiscMath = new SymbolView(m_toolBox,SymbolView::MiscMath);
 	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
 	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewMiscText = new SymbolView(m_toolBox,"misctext",SymbolView::MiscText);
+	m_symbolViewMiscText = new SymbolView(m_toolBox,SymbolView::MiscText);
 	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
 	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewDelimiters= new SymbolView(m_toolBox,"delimiters",SymbolView::Delimiters);
+	m_symbolViewDelimiters= new SymbolView(m_toolBox,SymbolView::Delimiters);
 	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
 	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewGreek = new SymbolView(m_toolBox,"greek",SymbolView::Greek);
+	m_symbolViewGreek = new SymbolView(m_toolBox,SymbolView::Greek);
 	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
 	connect(m_symbolViewGreek, SIGNAL(insertText(const QString&, const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList&)));
 
-	m_symbolViewSpecial = new SymbolView(m_toolBox,"special",SymbolView::Special);
+	m_symbolViewSpecial = new SymbolView(m_toolBox,SymbolView::Special);
 	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
 	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList&)));
 
-	m_symbolViewCyrillic = new SymbolView(m_toolBox,"cyrillic",SymbolView::Cyrillic);
+	m_symbolViewCyrillic = new SymbolView(m_toolBox,SymbolView::Cyrillic);
 	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
 	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList&)));
 
-	m_symbolViewUser = new SymbolView(m_toolBox,"user",SymbolView::User);
+	m_symbolViewUser = new SymbolView(m_toolBox,SymbolView::User);
 	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
 	connect(m_symbolViewUser, SIGNAL(insertText(const QString&, const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList& )));
@@ -1870,6 +1905,11 @@ void Kile::readConfig()
 	m_jScriptManager->readConfig();
 	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
 	m_sideBar->setPageVisible(m_kileAbbrevView, KileConfig::completeShowAbbrev());
+	
+	if( KileConfig::displayMFUS() )
+		enableSymbolViewMFUS();
+	else
+		disableSymbolViewMFUS();
 }
 
 void Kile::saveSettings()
@@ -1877,6 +1917,7 @@ void Kile::saveSettings()
 	showEditorWidget();
 
 	m_fileSelector->writeConfig();
+	m_symbolViewMFUS->writeConfig();
 
 	KileConfig::setInputEncoding(m_fileSelector->comboEncoding()->lineEdit()->text());
 

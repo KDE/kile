@@ -27,6 +27,7 @@
 #include "envconfigwidget.h"          // environments (dani)
 #include "graphicsconfigwidget.h"     // graphics (dani)
 #include "structureconfigwidget.h"    // structure view (dani)
+#include "symbolviewconfig.h"
 
 class QFrame;
 class KConfig;
@@ -84,7 +85,9 @@ namespace KileDialog
 		KileWidgetEnvironmentConfig *envPage;
 		KileWidgetGraphicsConfig *graphicsPage;
 		KileWidgetStructureViewConfig *structurePage;
+		KileWidgetSymbolViewConfig *symbolViewPage;
 		KileWidgetScriptingConfig *scriptingPage;
+
 
 		// setup configuration
 		void addConfigFolder(const QString &section,const QString &icon);
@@ -104,6 +107,7 @@ namespace KileDialog
 		void setupEnvironment();
 		void setupGraphics();
 		void setupStructure();
+		void setupSymbolView();
 		void setupScripting();
 
 		// write configuration

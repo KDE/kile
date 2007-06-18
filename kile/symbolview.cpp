@@ -25,9 +25,12 @@ tbraun 2006-07-01
 
 tbraun 2007-06-04
     - Send a warning in the logwidget if needed packages are not included for the command
+tbraun 2007-06-13
+    - Added Most frequently used symbolview, including remembering icons upon restart, removing of least popular item and configurable max item count
 */
 
 #include "symbolview.h"
+#include "kileconfig.h"
 
 #include <qimage.h>
 #include <qstringlist.h>
@@ -36,6 +39,8 @@ tbraun 2007-06-04
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
+#include <kconfig.h>
+
 #include <qregexp.h>
 #include <qtooltip.h>
 #include <qlabel.h>
@@ -43,9 +48,8 @@ tbraun 2007-06-04
 #include <qapplication.h>
 
 
-SymbolView::SymbolView(QWidget *parent, const char *name,int type): KIconView( parent, name )
+SymbolView::SymbolView(QWidget *parent, int type, const char *name): KIconView( parent, name ),m_toolTip(0L)
 {
-    toolTip = 0;
     setGridX( 36 );
     setGridY( 36);
     setSpacing(5);
@@ -69,15 +73,30 @@ SymbolView::~SymbolView()
 	removeToolTip();
 }
 
-
-void SymbolView::extractPkgs(const QString& text, QStringList &args, QStringList &pkgs)
+void SymbolView::extract(const QString& key, int& refCnt)
 {
+	if(!key.isEmpty())
+		refCnt = key.section('%',0,0).toInt();
+	
+	return;
+}
+
+void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringList &args, QStringList &pkgs)
+{
+	if(key.isEmpty())
+		return;
+	
+	extract(key,refCnt);
+	
 	QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
 	
 	args.clear();
 	pkgs.clear();
 	
-	if( !text.isEmpty() && text.find(rePkgs) != -1 )
+	cmd = key.section('%',1,1);
+	QString text = key.section('%',2,2);
+	
+	if( text.find(rePkgs) != -1 )
 	{
 		args = QStringList::split(",",rePkgs.cap(1));
 		pkgs = QStringList::split(",",rePkgs.cap(2));
@@ -86,22 +105,18 @@ void SymbolView::extractPkgs(const QString& text, QStringList &args, QStringList
 
 void SymbolView::showToolTip( QIconViewItem *item )
 {
-     delete toolTip;
-     toolTip = 0;
+	removeToolTip(); 
  
      if ( !item )
      return;
 	
-	QString cmd, label, s;
+	QString cmd, label;
 	QStringList pkgs, args;
+	int refCnt;
 	
-	cmd = item->key().section('%',0,0);
-	s = item->key().section('%',1,1);
-	extractPkgs(s,args,pkgs);
+	extract(item->key(),refCnt,cmd,args,pkgs);
 	
-// 	kdDebug() << "cmd is " << cmd << ", packages are " << s << endl;
-	
-	label = i18n("Command: ") + cmd + '\n';
+	label = i18n("Command: ") + cmd + "\n";
 	
 	if( pkgs.count() > 0 )
 	{
@@ -113,36 +128,36 @@ void SymbolView::showToolTip( QIconViewItem *item )
 		for( uint i = 0; i < pkgs.count() ; i++ )
 		{
 			if( i < args.count() )
-				label = label + "[" + args[i] + "]" + pkgs[i] + '\n';
+				label = label + "[" + args[i] + "]" + pkgs[i] + "\n";
 			else
-				label = label + pkgs[i] + '\n';
+				label = label + pkgs[i] + "\n";
 		}
 	}
 	
-     toolTip = new QLabel(label, 0,"myToolTip",
+     m_toolTip = new QLabel(label, 0,"myToolTip",
 			  WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM );
-     toolTip->setFrameStyle( QFrame::Plain | QFrame::Box );
-     toolTip->setLineWidth( 1 );
-     toolTip->setAlignment( AlignLeft | AlignTop );
-     toolTip->move( QCursor::pos() + QPoint( 14, 14 ) );
-     toolTip->adjustSize();
+     m_toolTip->setFrameStyle( QFrame::Plain | QFrame::Box );
+     m_toolTip->setLineWidth( 1 );
+     m_toolTip->setAlignment( AlignLeft | AlignTop );
+     m_toolTip->move( QCursor::pos() + QPoint( 14, 14 ) );
+     m_toolTip->adjustSize();
      QRect screen = QApplication::desktop()->screenGeometry(
              QApplication::desktop()->screenNumber(QCursor::pos()));
-     if (toolTip->x()+toolTip->width() > screen.right()) {
-         toolTip->move(toolTip->x()+screen.right()-toolTip->x()-toolTip->width(), toolTip->y());
+     if (m_toolTip->x()+m_toolTip->width() > screen.right()) {
+	     m_toolTip->move(m_toolTip->x()+screen.right()-m_toolTip->x()-m_toolTip->width(), m_toolTip->y());
      }
-     if (toolTip->y()+toolTip->height() > screen.bottom()) {
-         toolTip->move(toolTip->x(), screen.bottom()-toolTip->y()-toolTip->height()+toolTip->y());
+     if (m_toolTip->y()+m_toolTip->height() > screen.bottom()) {
+	     m_toolTip->move(m_toolTip->x(), screen.bottom()-m_toolTip->y()-m_toolTip->height()+m_toolTip->y());
      }
-     toolTip->setFont( QToolTip::font() );
-     toolTip->setPalette( QToolTip::palette(), true );
-     toolTip->show();
+     m_toolTip->setFont( QToolTip::font() );
+     m_toolTip->setPalette( QToolTip::palette(), true );
+     m_toolTip->show();
 }
 
 void SymbolView::removeToolTip()
 {
-    delete toolTip;
-    toolTip = 0;
+    delete m_toolTip;
+    m_toolTip = 0;
 }
 
 void SymbolView::hideEvent( QHideEvent *e )
@@ -155,6 +170,10 @@ void SymbolView::initPage(int page)
 {
 	switch (page)
 	{
+		case MFUS:
+			fillWidget(MFUSprefix);
+		break;
+			
 		case Relation:
 			fillWidget("relation");
 		break;
@@ -205,19 +224,18 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 {
 	kdDebug() << "===SymbolView::contentsMousePressEvent(QMouseEvent *e)===" << endl;
 	
-	QString code_symbol, s;
+	QString code_symbol;
 	QStringList args, pkgs;
 	QIconViewItem *item = NULL;
+	int count;
 	bool math=false, bracket=false;
 
 	if( (e->button() & Qt::LeftButton) == Qt::LeftButton && ( item = findItem( e->pos() ) ) )
 	{
 		bracket = (e->state() & Qt::ControlButton) ==  Qt::ControlButton;
 		math = (e->state() & Qt::ShiftButton) ==  Qt::ShiftButton;
-		code_symbol = item->key().section('%',0,0);
-		s = item->key().section('%',1,1);
 		
-		extractPkgs(s,args,pkgs);
+		extract(item->key(),count,code_symbol,args,pkgs);
 
 		if (math == bracket)
 			;
@@ -227,29 +245,140 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 			code_symbol = '{' + code_symbol + '}';
 		
 		emit(insertText(code_symbol,pkgs));
+ 		emit(addToList(item));
 	}
 	
 	kdDebug() << "math is " << math << ", bracket is " << bracket << " and item->key() is " <<  ( item ? item->key() : "" ) << endl;
 }
-
 
 void SymbolView::fillWidget(const QString& prefix)
 {
 	kdDebug() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===" << endl;
 	QImage image;
 	KIconViewItem* item;
-	QStringList paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png",false,true);
-	paths.sort();
-	for ( QStringList::Iterator it = paths.begin(); it != paths.end(); ++it )
+	QStringList refCnts,paths;
+	
+	if( prefix == MFUSprefix)
 	{
- 		if ( image.load(*it) )
+		KConfig *config = KGlobal::config();
+		config->setGroup(MFUSGroup);
+		QString configPaths = config->readEntry("paths");
+		QString configrefCnts = config->readEntry("counts");
+		paths = QStringList::split(',',configPaths);
+		refCnts = QStringList::split(',',configrefCnts);
+		kdDebug() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts" << endl;
+		if( paths.count() != refCnts.count() )
 		{
-//  			kdDebug() << "path is " << *it << endl;
+			kdDebug() << "error in saved LRU list" << endl;
+			paths.clear();
+			refCnts.clear();
+		}
+	}
+	else
+	{
+		paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png",false,true);
+	paths.sort();
+		for( uint i = 0 ; i < paths.count() ; i++ )
+			refCnts.append("1");
+	}
+	for ( uint i = 0; i < paths.count(); i++ )
+	{
+ 		if ( image.load(paths[i]) )
+		{
+//   			kdDebug() << "path is " << paths[i] << endl;
 			item = new KIconViewItem(this);
 			item->setPixmap(image);
-			item->setKey(image.text("Command") + '%' + image.text("Packages") );
+			item->setKey( refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i] );
 			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
 		}
+		else
+			kdDebug() << "Loading file " << paths[i] << " failed" << endl;
+    	}
+}
+
+void SymbolView::writeConfig()
+{
+	QIconViewItem *item;
+	QStringList paths,refCnts;
+	
+
+	KConfig *config = KGlobal::config();
+	config->setGroup(MFUSGroup);
+
+	if( KileConfig::clearMFUS() )
+	{
+		config->deleteEntry("paths");
+		config->deleteEntry("counts");
+	}
+	else
+	{
+		for ( item = this->firstItem(); item; item = item->nextItem() )
+		{
+			refCnts.append(item->key().section('%',0,0));
+			paths.append(item->key().section('%',3,3));
+			kdDebug() << "path=" << paths.last() << ", count is " << refCnts.last() << endl;
+		}
+		config->writeEntry("paths",paths);
+		config->writeEntry("counts",refCnts);
+	}
+}
+
+void SymbolView::slotAddToList(const QIconViewItem *item)
+{
+	if( !item || !item->pixmap() )
+		return;
+		
+	QIconViewItem *tmpItem;
+	bool found=false;
+	const QRegExp reCnt("^\\d+");
+			
+	kdDebug() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===" << endl;
+	
+	for ( tmpItem = this->firstItem(); tmpItem; tmpItem = tmpItem->nextItem() )
+	{
+		if( item->key().section('%',1) == tmpItem->key().section('%',1) )
+		{
+			found=true;
+			break;
+		}
+	}
+	
+	if( !found && ( this->count() + 1 ) > KileConfig::numSymbolsMFUS() ) // we check before adding the symbol
+	{	
+		int refCnt, minRefCnt=10000;
+		QIconViewItem *unpopularItem;
+
+		kdDebug() << "Removing most unpopular item" << endl;
+
+		for ( tmpItem = this->firstItem(); tmpItem; tmpItem = tmpItem->nextItem() )
+		{
+			extract(tmpItem->key(),refCnt);
+
+			if( refCnt < minRefCnt )
+			{
+				refCnt = minRefCnt;
+				unpopularItem = tmpItem;
+			}
+		}
+		kdDebug() << " minRefCnt is " << minRefCnt << endl;
+		delete unpopularItem;
+	}
+
+	if( found )
+	{
+		kdDebug() << "item is already in the iconview" << endl;
+		
+		int refCnt;
+		extract(tmpItem->key(),refCnt);
+		
+		QString key = tmpItem->key();
+		key.replace(reCnt,QString::number(refCnt+1));
+		tmpItem->setKey(key);
+	}
+	else
+	{
+		tmpItem = new KIconViewItem(this,QString::null,*(item->pixmap()));
+		tmpItem->setKey(item->key());
     	}
 }
 

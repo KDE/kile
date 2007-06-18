@@ -129,6 +129,8 @@ private:
 	void setupStructureView();
 	void setupScriptsManagementView();
 	void setupSymbolViews();
+	void enableSymbolViewMFUS();
+	void disableSymbolViewMFUS();
 	void setupAbbreviationView();
 	void setupBottomBar();
 	void setupGraphicTools();
@@ -168,7 +170,7 @@ private:
 	QWidgetStack 			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 	QToolBox			*m_toolBox;
-	SymbolView			*m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
+	SymbolView			*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 
 	//parts
 	KParts::PartManager 		*m_partManager;

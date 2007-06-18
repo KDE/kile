@@ -126,6 +126,7 @@ SET( kile_UI
 	newtoolwizard.ui
 	envconfigwidget.ui
 	structureconfigwidget.ui
+	symbolviewconfig.ui
 	scriptingconfigwidget.ui
 	graphicsconfigwidget.ui
 	newdocumentwidget.ui

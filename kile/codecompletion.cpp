@@ -41,14 +41,14 @@ namespace KileDocument
 	//static QRegExp::QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
 	//static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
 	//static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
-	
+
 	static QRegExp::QRegExp reRef;
 	static QRegExp::QRegExp reRefExt;
 	static QRegExp::QRegExp reCite;
 	static QRegExp::QRegExp reCiteExt;
 	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
 	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
-	
+
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{
 		m_firstconfig = true;
@@ -61,7 +61,7 @@ namespace KileDocument
 		// local abbreviation list
 		m_abbrevListview = 0L;
 		m_localAbbrevFile = locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
-		
+
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
@@ -112,18 +112,18 @@ namespace KileDocument
 			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(column);
 			int pos = currentline.findRev('\\');
 			if ( pos >= 0 )
-			{ 
+			{
 
 				QString command = currentline.mid(pos,column-pos);
  				if ( command.find(reRef) != -1 )
 				{
-					startpattern = command.right(command.length()-reRef.cap(0).length());	
+					startpattern = command.right(command.length()-reRef.cap(0).length());
 					if ( startpattern.find(reNotRefChars) == -1 )
 						return CodeCompletion::ctReference ;
 				}
 				else if ( command.find(reCite) != -1 )
 				{
-					startpattern = command.right(command.length()-reCite.cap(0).length());	
+					startpattern = command.right(command.length()-reCite.cap(0).length());
 					if ( startpattern.find(reNotCiteChars) == -1 )
 						return CodeCompletion::ctCitation ;
 				}
@@ -162,12 +162,12 @@ namespace KileDocument
 		{
 			kdDebug() << "   set regexp for references..." << endl;
 			setReferences();
-			
+
 			kdDebug() << "   read wordlists..." << endl;
 			// wordlists for Tex/Latex mode
 			QStringList files = KileConfig::completeTex();
 			setWordlist( files, "tex", &m_texlist );
-		
+
 			// wordlist for dictionary mode
 			files = KileConfig::completeDict();
 			setWordlist( files, "dictionary", &m_dictlist );
@@ -192,15 +192,15 @@ namespace KileDocument
 
 	// save local abbreviation changes
 	// (for example before a new configuration should be read)
- 
+
 	void CodeCompletion::saveLocalChanges()
 	{
 		kdDebug() << "=== CodeCompletion::saveLocalChanges ===================" << endl;
 		m_abbrevListview->saveLocalAbbreviation(m_localAbbrevFile);
 	}
-	
+
 	//////////////////// references and citations ////////////////////
-	
+
 	void CodeCompletion::setReferences()
 	{
 		// build list of references
@@ -208,14 +208,14 @@ namespace KileDocument
 		references.replace("*","\\*");
 		reRef.setPattern("^\\\\(" + references + ")\\{");
 		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
-		
+
 		// build list of citations
 		QString citations = getCommandList(KileDocument::CmdAttrCitations);
 		citations.replace("*","\\*");
 		reCite.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
 		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
 	}
-		
+
 	QString CodeCompletion::getCommandList(KileDocument::CmdAttribute attrtype)
 	{
 		QStringList cmdlist;
@@ -224,10 +224,10 @@ namespace KileDocument
 		// get info about user defined references
 		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
 		cmd->commandList(cmdlist,attrtype,false);
-	
+
 		// build list of references
 		QString commands = QString::null;
-		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
+		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it )
 		{
 			if ( cmd->isStarredEnv(*it) )
 				commands += '|' + (*it).mid(1) + '*';
@@ -235,14 +235,14 @@ namespace KileDocument
 		}
 		return commands;
 	}
-	
+
 	//////////////////// wordlists ////////////////////
-	
+
 	void CodeCompletion::setWordlist( const QStringList &files, const QString &dir,
 	                                  QValueList<KTextEditor::CompletionEntry> *entrylist
 	                                )
 	{
-		
+
 		// read wordlists from files
 		QStringList wordlist;
 		for ( uint i = 0; i < files.count(); ++i )
@@ -270,13 +270,13 @@ namespace KileDocument
 			// read local wordlist
 			QStringList localWordlist;
 			readWordlist(localWordlist, QString::null, false);
-			
+
 			// add local/global wordlists to the abbreviation view
 			m_abbrevListview->init(&wordlist,&localWordlist);
 
 			// finally add local wordlists to the abbreviation list
 			QStringList::ConstIterator it;
-			for ( it=localWordlist.begin(); it!=localWordlist.end(); ++it ) 
+			for ( it=localWordlist.begin(); it!=localWordlist.end(); ++it )
 				wordlist.append( *it );
 
 			wordlist.sort();
@@ -293,11 +293,11 @@ namespace KileDocument
 		// get info about user defined commands and environments
 		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
 		cmd->commandList(cmdlist,KileDocument::CmdAttrNone,true);
-	
+
 		// add entries to wordlist
-		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it ) 
+		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it )
 		{
-			if ( cmd->commandAttributes(*it,attr) ) 
+			if ( cmd->commandAttributes(*it,attr) )
 			{
 				QString command,eos;
 				QStringList entrylist;
@@ -311,7 +311,7 @@ namespace KileDocument
 					command = (*it);
 					// eos = QString::null;
 				}
-				
+
 				// get all possibilities into a stringlist
 				entrylist.append( command + eos );
 				if ( ! attr.option.isEmpty() )
@@ -325,14 +325,14 @@ namespace KileDocument
 
 				// finally append entries to wordlist
 				QStringList::ConstIterator itentry;
-				for ( itentry=entrylist.begin(); itentry != entrylist.end(); ++itentry ) 
+				for ( itentry=entrylist.begin(); itentry != entrylist.end(); ++itentry )
 				{
 					QString entry = (*itentry);
 					if ( ! attr.parameter.isEmpty()  )
 						entry += "{param}";
 					if ( attr.type == KileDocument::CmdAttrList )
 						entry += "\\item";
-					wordlist.append( entry ); 
+					wordlist.append( entry );
 				}
 			}
 		}
@@ -377,14 +377,10 @@ namespace KileDocument
 		QValueList<KTextEditor::CompletionEntry> list;
 		switch ( m_mode )
 		{
-				case cmLatex:
-        //kdDebug() << "mode = cmLatex" << endl;
-        list = m_texlist;
-        appendNewCommands(list);
-        break;
+				case cmLatex: // fall through here
 				case cmEnvironment:
-        //kdDebug() << "mode = cmEnvironment" << endl;
-				list = m_texlist;				
+				list = m_texlist;
+				appendNewCommands(list);
 				break;
 				case cmDictionary:
 				list = m_dictlist;
@@ -404,7 +400,7 @@ namespace KileDocument
 		QString entry, type;
 		QString pattern = ( m_mode != cmEnvironment ) ? text : "\\begin{" + text;
 		uint n = countEntries( pattern, &list, &entry, &type );
-		
+
 		//kdDebug() << "entries = " << n << endl;
 
 		// nothing to do
@@ -524,10 +520,10 @@ namespace KileDocument
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 		//kdDebug() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
-    
+
 		if ( text!="\\begin{}" && reEnv.search(text)!=-1 )
 			m_mode = cmEnvironment;
-    
+
 		// check the cursor position, because the user may have
 		// typed some characters or the backspace key. This also
 		// changes the length of the current pattern.
@@ -559,7 +555,7 @@ namespace KileDocument
 				prefix = QString::null;
 				if ( m_autoindent )
 				{
-					if ( col-m_textlen>0 ) 
+					if ( col-m_textlen>0 )
 					{
 						prefix = textline.left(col-m_textlen);
 						if ( prefix.right(7) == "\\begin{" )
@@ -573,14 +569,14 @@ namespace KileDocument
 				{
 					doc->removeText(row,col,row,col+1);
 				}
-				if ( m_xstart>=7 && textline.mid(m_xstart-7,7) == "\\begin{" ) 
+				if ( m_xstart>=7 && textline.mid(m_xstart-7,7) == "\\begin{" )
 				{
 					m_textlen += 7;
-				} 
-				else if ( m_xstart>=5 && textline.mid(m_xstart-5,5) == "\\end{" ) 
+				}
+				else if ( m_xstart>=5 && textline.mid(m_xstart-5,5) == "\\end{" )
 				{
 					m_textlen += 5;
-				} 
+				}
 				break;
 				case cmDictionary:
 				s = text;
@@ -590,7 +586,7 @@ namespace KileDocument
 				break;
 				case cmLabel:
 				s = buildLabelText( text );
-				if ( m_keylistType==CodeCompletion::ctReference 
+				if ( m_keylistType==CodeCompletion::ctReference
 				     || (m_keylistType==CodeCompletion::ctCitation && m_citationMove) )
 				{
 					m_xoffset = s.length() + 1;
@@ -601,7 +597,7 @@ namespace KileDocument
 				break;
         default : s = text; break;
 		}
-		
+
 		if ( s.length() > m_textlen )
 			return s.right( s.length() - m_textlen );
 		else
@@ -672,7 +668,7 @@ namespace KileDocument
 		QString whitespace = s;
 		for ( uint i=0; i<whitespace.length(); ++i )
 		{
-			if ( ! whitespace[i].isSpace() ) 
+			if ( ! whitespace[i].isSpace() )
 				whitespace[i] = ' ';
 		}
 		return whitespace;
@@ -749,7 +745,7 @@ namespace KileDocument
 							s += text[i+1];
 							i++;
 						}// special handling for '[<'
-						else 
+						else
 							xpos = i + 1;
 						// insert bullet, if this is no cursorposition
 						if ( ( ! m_setcursor ) && m_setbullets && !( text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<' ))
@@ -909,14 +905,14 @@ namespace KileDocument
 
 		KTextEditor::CompletionEntry e;
 		QStringList::ConstIterator it;
-		
+
 		// build new entries
-		for ( it=wordlist.begin(); it != wordlist.end(); ++it ) 
+		for ( it=wordlist.begin(); it != wordlist.end(); ++it )
 		{
 			// set CompletionEntry
 			e.text = *it;
 			e.type = "";
-			
+
 			// add new entry
 			if ( list->findIndex(e) == -1 )
 				list->append(e);
@@ -933,11 +929,11 @@ namespace KileDocument
 		// order: \abc, \abc[], \abc{}, \abc*, \abc*[], \abc*{}, \abcd, \abcD
 		QStringList keylist;
 		QMap<QString,QString> map;
-		
+
 		for ( uint i=0; i< wordlist.count(); ++i )
 		{
 			QString s = wordlist[i];
-			for ( uint j=0; j<s.length(); ++j ) 
+			for ( uint j=0; j<s.length(); ++j )
 			{
 				QChar ch = s[j];
 				if ( ch>='A' && ch<='Z' )
@@ -962,18 +958,18 @@ namespace KileDocument
 				keylist.append(s);
 			}
 		}
-		
+
 		// sort mapped keys
 		keylist.sort();
-		
+
 		// build new entries: get the sorted keys and insert
-		// the real entries, which are saved in the map. 
-		// if the last 5 chars of an environment are '\item', it is a 
+		// the real entries, which are saved in the map.
+		// if the last 5 chars of an environment are '\item', it is a
 		// list environment, where the '\item' tag is also inserted
 		KTextEditor::CompletionEntry e;
 		QStringList::ConstIterator it;
-		
-		for ( it=keylist.begin(); it != keylist.end(); ++it ) 
+
+		for ( it=keylist.begin(); it != keylist.end(); ++it )
 		{
 			// get real entry
 			QString s = map[*it];
@@ -1161,7 +1157,7 @@ namespace KileDocument
 
 		//FIXME this is not very efficient
 		m_view = info()->viewManager()->currentTextView();
-		
+
 		// try to autocomplete abbreviations after punctuation symbol
 		if ( !inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(string) )
 			return;
@@ -1182,15 +1178,15 @@ namespace KileDocument
 
 		QString word;
 		Type type;
-		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type ); 
-		if ( found ) 
-		{ 
+		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type );
+		if ( found )
+		{
 			int wordlen = word.length();
 			//kdDebug() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
 			if ( inProgress() )               // continue a running mode?
 			{
 				//kdDebug() << "   auto completion: continue current mode" << endl;
-				completeWord(word, m_mode);     
+				completeWord(word, m_mode);
 			}
 			else if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
 			{
@@ -1203,8 +1199,8 @@ namespace KileDocument
 				{
 					editCompleteList(type);
 				}
-			} 
-			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold) 
+			}
+			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold)
 			{
 				//kdDebug() << "   auto completion: document mode" << endl;
 				completeWord(word,cmDocumentWord);
@@ -1277,30 +1273,30 @@ namespace KileDocument
 		// get current text line
 		QString textline = m_view->getDoc()->textLine( row );
 
-		// search the current reference string 
+		// search the current reference string
 		int pos = textline.findRev(reNotRefChars,col-1);
 		if ( pos < 0 )
 			pos = 0;
-			
+
 		// select pattern
 		text = textline.mid(pos+1,col-1-pos);
 		return ( (uint)pos < col-1 );
 	}
-	
+
 	void CodeCompletion::getDocumentWords(const QString &text,
 	                                      QValueList<KTextEditor::CompletionEntry> &list)
 	{
 		//kdDebug() << "getDocumentWords: " << endl;
 		list.clear();
-		
-		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");          
+
+		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
 		Kate::Document *doc = m_view->getDoc();
-		
+
 		QString s;
 		KTextEditor::CompletionEntry e;
-		QDict<bool> seen; 
+		QDict<bool> seen;
 		bool alreadyseen = true;
-		               
+
 		for (uint i=0; i<doc->numLines(); ++i) {
 			s = doc->textLine(i);
 			int pos = 0;
@@ -1361,15 +1357,15 @@ namespace KileDocument
 		doc->removeText( row,startcol,row,startcol+abbrev.length()+1 );
 		doc->insertText( row,startcol,expansion+ch);
 		m_view->setCursorPositionReal( row,startcol+expansion.length()+1 );
-		
+
 		return true;
 	}
 
 	QString CodeCompletion::getAbbreviationWord(uint row, uint col)
 	{
 		QString textline = m_view->getDoc()->textLine( row );
-		
-		int index = (int)col;	
+
+		int index = (int)col;
 		while ( --index >= 0 )
 		{
 			QChar ch = textline.at( index );
@@ -1382,10 +1378,10 @@ namespace KileDocument
 
 	//////////////////// connection with the abbreviation listview  ////////////////////
 
-	void CodeCompletion::setAbbreviationListview(KileAbbrevView *listview) 
-	{	
-		m_abbrevListview = listview; 
-		
+	void CodeCompletion::setAbbreviationListview(KileAbbrevView *listview)
+	{
+		m_abbrevListview = listview;
+
 		connect( m_abbrevListview, SIGNAL(updateAbbrevList(const QString &, const QString &)),
 		         this, SLOT(slotUpdateAbbrevList(const QString &, const QString &)) );
 
@@ -1426,7 +1422,7 @@ namespace KileDocument
 			if ( (*it).text > entry )
 				break;
 		}
-		
+
 		KTextEditor::CompletionEntry e;
 		e.text = entry;
 		e.type = QString::null;

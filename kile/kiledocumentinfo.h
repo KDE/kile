@@ -42,14 +42,14 @@
 namespace KileStruct
 {
 	//Different types of elements in the structure view
-	enum  
+	enum
 	{
 		None = 0x1, Label = 0x2, Sect = 0x4, Input = 0x8,
-		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80, 
+		BibItem = 0x10, Bibliography = 0x20, Package = 0x40, NewCommand = 0x80,
 		Graphics = 0x100, Reference = 0x200, BeginEnv = 0x400, EndEnv = 0x800,
 		BeginFloat = 0x1000, EndFloat = 0x2000,  Caption = 0x4000, BeamerFrame = 0x8000,
 		BeamerBeginFrame = 0x10000, BeamerEndFrame = 0x20000, BeamerFrametitle = 0x40000, BeamerBeginBlock = 0x80000,
-		ToDo = 0x160000, FixMe = 0x320000
+		ToDo = 0x160000, FixMe = 0x320000, NewEnvironment = 0x640000
 	};
 
 	//Different levels (in the parent-child hierarchy) in the structure view
@@ -80,18 +80,18 @@ public:
  * KileDocument::Info is a decorator class for the Document class. We can't derive a class from an interface
  * without implementing the interface, a decorator class is a way to add some functionality to the Document class.
  **/
- 
+
 namespace KileDocument
 {
 
-struct BracketResult 
+struct BracketResult
 {
 	BracketResult() : option(QString::null), value(QString::null), line(0), col(0) {}
 	QString option, value;
 	int line, col;
 };
 
-struct TodoResult 
+struct TodoResult
 {
 	int type;
 	uint colTag;
@@ -136,7 +136,7 @@ public:
 	virtual bool isLaTeXRoot() { return m_bIsRoot; }
 
 	virtual KURL url();
-	
+
 	virtual void updateStructLevelInfo();
 
 	void setBaseDirectory(const KURL& url);
@@ -289,14 +289,14 @@ protected:
 	virtual void removeInstalledEventFilters(KTextEditor::View *view);
 
 	/**
-	 * Installs the event filters on all the views that are currently open for the 
+	 * Installs the event filters on all the views that are currently open for the
 	 * managed document object. The function "installEventFilters(KTextEditor::View *view)
 	 * function is used for a specific view.
 	 **/
 	void installEventFilters();
 
 	/**
-	 * Removes the event filters from all the views that are currently open for the 
+	 * Removes the event filters from all the views that are currently open for the
 	 * managed document object. The function "removeInstalledEventFilters(KTextEditor::View *view)
 	 * function is used for a specific view.
 	 **/

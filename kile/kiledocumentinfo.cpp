@@ -24,7 +24,7 @@
 //  - all user defined commands for labels are recognized
 //  - changed folder name of KileStruct::BibItem to "bibs", so that "refs"
 //    is still unused and can be used for references (if wanted)
-//  - \begin, \end to gather all environments. But only figure and table 
+//  - \begin, \end to gather all environments. But only figure and table
 //    environments are passed to the structure view
 
 // 2005-11-26: dani
@@ -105,12 +105,12 @@ KURL Info::repairInvalidCharacters(const KURL& url, bool checkForFileExistence /
 			break;
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
-	
+
 	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
 
 KURL Info::renameIfExist(const KURL& url)
-{	
+{
 	KURL ret(url);
 	while ( KIO::NetAccess::exists(url, true, kapp->mainWidget()) ) // check for writing possibility
 	{
@@ -143,7 +143,7 @@ KURL Info::repairExtension(const KURL& url, bool checkForFileExistence /* = true
 		KStdGuiItem::no(),
 		"AutomaticallyAddExtension"))
 	{
-		ret.setFileName(filename + ".tex");	
+		ret.setFileName(filename + ".tex");
 	}
 	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
@@ -153,11 +153,11 @@ KURL Info::makeValidTeXURL(const KURL & url, bool istexfile, bool checkForFileEx
 	KURL newURL(url);
 
 	//add a .tex extension
-	if ( ! istexfile ) 
+	if ( ! istexfile )
 		newURL = repairExtension(newURL, checkForFileExistence);
-		
+
 	//remove characters TeX does not accept, make sure the newURL does not exists yet
-	if(containsInvalidCharacters(newURL)) 
+	if(containsInvalidCharacters(newURL))
 		newURL = repairInvalidCharacters(newURL, checkForFileExistence);
 
 	return newURL;
@@ -248,7 +248,7 @@ void Info::count(const QString line, long *stat)
 			{
 				case TEX_CAT0	:
 					state = stControlSequence;
-					++stat[1];		
+					++stat[1];
 
 					//look ahead to avoid counting words like K\"ahler as two words
 					if (! line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )
@@ -295,7 +295,7 @@ void Info::count(const QString line, long *stat)
 				{
 					stat[1] +=3;
 					state = stEnvironment;
-					p+=2;	
+					p+=2;
 				} // we don't count \end as new environment, this can give wrong results in selections
 				else
 				{
@@ -332,16 +332,16 @@ void Info::count(const QString line, long *stat)
 		case stEnvironment :
 			if ( c == TEX_CAT2  ) // until we find a closing } we have an environment
 			{
-				++stat[1];				
+				++stat[1];
 				state=stStandard;
 			}
 			else if ( c == TEX_CAT14 )
 				state=stComment;
 			else
 				++stat[1];
-				
+
 		break;
-		
+
 		case stComment : // if we get a selection the line possibly contains \n and so the comment is only valid till \n and not necessarily till line.length()
 			if ( c == '\n')
 			{
@@ -419,7 +419,7 @@ TextInfo::TextInfo(Kate::Document *doc, Extensions *extensions, const QString& d
 	{
 		m_url = KURL();
 	}
-	m_extensions = extensions; 
+	m_extensions = extensions;
 
 }
 
@@ -442,10 +442,10 @@ Kate::Document* TextInfo::getDoc()
 void TextInfo::setDoc(Kate::Document *doc)
 {
 	kdDebug() << "===void TextInfo::setDoc(Kate::Document *doc)===" << endl;
-	
+
 	if(m_doc == doc)
 		return;
-	
+
 	detach();
 	if(doc)
 	{
@@ -472,7 +472,7 @@ const long* TextInfo::getStatistics()
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
 	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
-	
+
 	return m_arStatistics;
 }
 
@@ -480,7 +480,7 @@ const long* TextInfo::getStatistics()
 KURL TextInfo::url()
 {
 	KURL url;
-	
+
 	if(m_doc)
 		url = m_doc->url();
 	else
@@ -623,7 +623,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char *name)
 	}
 	KTextEditor::View *view = m_doc->createView(parent, name);
 	installEventFilters(view);
-	return view;	
+	return view;
 }
 
 void TextInfo::slotFileNameChanged()
@@ -631,7 +631,7 @@ void TextInfo::slotFileNameChanged()
 	emit urlChanged(this, url());
 }
 
-void TextInfo::installEventFilters(KTextEditor::View* /* view */) 
+void TextInfo::installEventFilters(KTextEditor::View* /* view */)
 {
 	/* do nothing */
 }
@@ -686,7 +686,7 @@ const long* LaTeXInfo::getStatistics()
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
 	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
 	QString line;
-	
+
 	if ( m_doc && m_doc->hasSelection() )
 	{
 		line = m_doc->selection();
@@ -716,7 +716,7 @@ QString LaTeXInfo::getFileFilter() const
 void LaTeXInfo::updateStructLevelInfo() {
 
 	kdDebug() << "===void LaTeXInfo::updateStructLevelInfo()===" << endl;
-	
+
 	// read config stuff
 	Info::updateStructLevelInfo();
 
@@ -734,10 +734,11 @@ void LaTeXInfo::updateStructLevelInfo() {
 	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "viewbib");
-	
-	// hidden commands  
+
+	// hidden commands
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+	m_dictStructLevel["\\newenvironment"]=KileStructData(KileStruct::Hidden, KileStruct::NewEnvironment);
 	m_dictStructLevel["\\addunit"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
 	m_dictStructLevel["\\DeclareMathOperator"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
 	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
@@ -747,19 +748,19 @@ void LaTeXInfo::updateStructLevelInfo() {
 	{
 		m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
 	}
-	
+
 	// graphics
 	if ( m_showStructureGraphics )
 	{
 		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
 	}
-	
+
 	// float environments
 	if ( m_showStructureFloats )
 	{
 		m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
 		m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
-	
+
 		// some entries, which could never be found (but they are set manually)
 		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
 		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
@@ -780,14 +781,14 @@ void LaTeXInfo::updateStructLevelInfo() {
 
 	// labels, we also gather them
 	m_commands->commandList(list,KileDocument::CmdAttrLabel,false);
-	for ( it=list.begin(); it != list.end(); ++it ) 
+	for ( it=list.begin(); it != list.end(); ++it )
 		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
-	
+
 	// input files
 	if ( m_showStructureInputFiles )
 	{
-		m_commands->commandList(list,KileDocument::CmdAttrIncludes,false); 
-		for ( it=list.begin(); it != list.end(); ++it ) 
+		m_commands->commandList(list,KileDocument::CmdAttrIncludes,false);
+		for ( it=list.begin(); it != list.end(); ++it )
 			m_dictStructLevel[*it]= KileStructData(KileStruct::File, KileStruct::Input, "include");
 	}
 
@@ -795,7 +796,7 @@ void LaTeXInfo::updateStructLevelInfo() {
 	if ( m_showStructureReferences )
 	{
 		m_commands->commandList(list,KileDocument::CmdAttrReference,false);
-		for ( it=list.begin(); it != list.end(); ++it ) 
+		for ( it=list.begin(); it != list.end(); ++it )
 			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
 	}
 }
@@ -864,7 +865,7 @@ void LaTeXInfo::updateStruct()
 
 	int teller=0, tagStart, bd = 0;
 	uint tagEnd, tagLine = 0, tagCol = 0;
-	uint tagStartLine = 0, tagStartCol = 0;	
+	uint tagStartLine = 0, tagStartCol = 0;
 	BracketResult result;
 	QString m, s, shorthand;
 	bool foundBD = false; // found \begin { document }
@@ -959,8 +960,8 @@ void LaTeXInfo::updateStruct()
 				{
 					// no problems so far ...
 					fireSuspended = false;
-					
-					// remove trailing ./ 
+
+					// remove trailing ./
 					if ( (*it).type & (KileStruct::Input | KileStruct::Graphics) )
 					{
 						if ( m.left(2) == "./" )
@@ -994,7 +995,7 @@ void LaTeXInfo::updateStruct()
 						else
 							fireSuspended = true;    // only floats and beamer frames, no other environments
 					}
-					
+
 					// tell structure view that a floating environment or a beamer frame must be closed
 					else if ( (*it).type == KileStruct::EndEnv )
 					{
@@ -1009,9 +1010,9 @@ void LaTeXInfo::updateStruct()
 						else
 							fireSuspended = true;          // only floats, no other environments
 					}
-					
+
 					// sectioning commands
-					else if ( (*it).type == KileStruct::Sect ) 
+					else if ( (*it).type == KileStruct::Sect )
 					{
 						if ( ! shorthand.isNull() )
 							m = shorthand;
@@ -1044,7 +1045,7 @@ void LaTeXInfo::updateStruct()
 						// ( LaTeX reference says that this is '.tex'). This assures that
 						// all files, which are listed in the structure view, have an extension.
 						QString ext = QFileInfo(m).extension();
-						if ( ext.isEmpty() ) 
+						if ( ext.isEmpty() )
 							m += m_extensions->latexDocumentDefault();
 						m_deps.append(m);
 					}
@@ -1056,7 +1057,7 @@ void LaTeXInfo::updateStruct()
 
 						QStringList bibs = QStringList::split(",", m);
 						QString biblio;
-						
+
 						// assure that all files have an extension
 						QString bibext = m_extensions->bibtexDefault();
 						int bibextlen = bibext.length();
@@ -1069,12 +1070,12 @@ void LaTeXInfo::updateStruct()
 							biblio=bibs[b];
 							m_bibliography.append(biblio);
 							if ( biblio.left(2) == "./" )
-							{	nextbib += 2; 
+							{	nextbib += 2;
 								biblio = biblio.mid(2,biblio.length()-2);
 							}
 							if ( biblio.right(bibextlen) != bibext )
 							{
-								biblio += bibext; 
+								biblio += bibext;
 								nextbib -= bibextlen;
 							}
 							m_deps.append(biblio);
@@ -1110,44 +1111,57 @@ void LaTeXInfo::updateStruct()
 					}
 
 					// newcommand found, add it to the newCommands list
-					else if ( (*it).type == KileStruct::NewCommand )
+					else if ( (*it).type & ( KileStruct::NewCommand | KileStruct::NewEnvironment ) )
 					{
+						QString optArg, mandArgs;
+
 						//find how many parameters this command takes
 						if ( s.find(reNumOfParams, tagEnd + 1) != -1 )
 						{
 							bool ok;
 							int noo = reNumOfParams.cap(1).toInt(&ok);
-							QString cmdWithOptArgs = QString::null;
+
 							if ( ok )
 							{
 								if(s.find(reNumOfOptParams, tagEnd + 1) != -1)
 								{
-								kdDebug() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
-								noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-								cmdWithOptArgs = m + '[' + reNumOfOptParams.cap(2) + ']';
+									kdDebug() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
+									noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
+									optArg = '[' + reNumOfOptParams.cap(2) + ']';
 								}
-									
+
 								for ( int noo_index = 0; noo_index < noo; ++noo_index)
 								{
-									m +=  '{' + s_bullet + '}';
-									if(!cmdWithOptArgs.isNull())
-										cmdWithOptArgs += '{' + s_bullet + '}';
+									mandArgs +=  '{' + s_bullet + '}';
 								}
-								
+
 							}
-						if(!cmdWithOptArgs.isNull())
-							m_newCommands.append(cmdWithOptArgs);  // if we have opt args we add two new commands, one with and one without opt args.
+							if( !optArg.isEmpty() )
+							{
+								if( (*it).type == KileStruct::NewEnvironment)
+								{
+									m_newCommands.append(QString("\\begin{%1}%2%3").arg(m).arg(optArg).arg(mandArgs));
+								}
+								else
+									m_newCommands.append(m + optArg + mandArgs);
+							}
 						}
-						m_newCommands.append(m);
+						if( (*it).type == KileStruct::NewEnvironment)
+						{
+							m_newCommands.append(QString("\\begin{%1}%3").arg(m).arg(mandArgs));
+							m_newCommands.append(QString("\\end{%1}").arg(m));
+						}
+						else
+							m_newCommands.append(m + mandArgs);
+
 						//FIXME  set tagEnd to the end of the command definition
 						break;
 					}
-
-					// and some other commands, which don't need special actions: 
+					// and some other commands, which don't need special actions:
 					// \caption, ...
 
-					//kdDebug() << "\t\temitting: " << m << endl;
-					if ( fire && !fireSuspended ) 
+					// kdDebug() << "\t\temitting: " << m << endl;
+					if ( fire && !fireSuspended )
 						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
 				} //if m
 			} // if tagStart
@@ -1284,7 +1298,7 @@ Type ScriptInfo::getType()
 }
 
 QString ScriptInfo::getFileFilter() const
-{	
+{
 	return m_extensions->scriptFileFilter();
 }
 

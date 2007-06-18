@@ -111,6 +111,7 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 	setRootIsDecorated(true);
 	setAllColumnsShowFocus(true);
 	setFullWidth(true);
+	setSelectionModeExt(KListView::NoSelection);
 
 	m_popup = new KPopupMenu(this, "projectview_popup");
 
@@ -166,8 +167,6 @@ void KileProjectView::slotFile(int id)
 				default : break;
 			}
 		}
-		if(item)
- 			item->setSelected(false);
 	}
 }
 
@@ -197,8 +196,6 @@ void KileProjectView::slotProjectItem(int id)
 				default : break;
 			}
 		}
-		if(item) //removeFromProject deletes our item :(
- 			item->setSelected(false);
 	}
 }
 
@@ -220,8 +217,6 @@ void KileProjectView::slotProject(int id)
 				default : break;
 			}
 		}
-		if(item)
-			item->setSelected(false);
 	}
 }
 

@@ -1,5 +1,6 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[T1]{fontenc}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Author: Thomas Braun
 % begin: Fri april 7 2006
@@ -12,10 +13,14 @@
 \input{definitions}
 
 \begin{document}
-%
 \pagestyle{empty}
-%
 
+% - The basic command is \command{\symbolname},  additionaly the command \mathcommand{...} is defined which insert its argument in math mode.
+% - Needed packages can be specified using \pkgs[package-opt-argument]{package-name} for a single command or with \begin{neededpkgs}[pkgs-args,]{pkgs,} ... \end{neededpkgs} for all enclosed commands.
+% - The \pkgs command has to be in front of the \command command and overrides any pkg specification by the neededpkgs enviroment.
+% - The optional argument of \command and \mathcommand can hold a different command for insertion, e.g. useful for stuff like \mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+%  After writing your custom tex file mysymbols.tex , you have to issue `gesymb mysymbols.tex user` and if everything went well copy the files to "$HOME/.kde/share/apps/kile/mathsymbols/user".
+% After restarting kile you should see your icons in the "User defined`` symbol list.
 \begin{neededpkgs}{envpkg-blubb}
 \command{a}
 \pkgs{cmdpkg-blubb}\command{b}

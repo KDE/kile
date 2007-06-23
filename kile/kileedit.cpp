@@ -903,16 +903,35 @@ bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, 
 
 // intelligent newlines: look for the last opened environment
 // and decide what to insert
+// or continue the comment
 
 void EditorExtension::insertIntelligentNewline(Kate::View *view)
 {
+	kdDebug() << "void EditorExtension::insertIntelligentNewline(Kate::View *view)" << endl;
+	
 	view = determineView(view);
-	if ( !view ) return;
+	
+	if ( !view )
+		return;
+	
+	Kate::Document* doc = view->getDoc();
+	
+	if( !doc )
+		return;
 
 	uint row,col;
 	QString name;
-
-	if ( findOpenedEnvironment(row,col,name,view) )
+	
+	view->cursorPositionReal(&row,&col);
+		
+	if(isCommentPosition(doc,row,col))
+	{
+		kdDebug() << "found comment" << endl;
+		view->keyReturn();
+		view->insertText("% ");
+		return;
+	}
+	else if ( findOpenedEnvironment(row,col,name,view) )
 	{
 		if ( m_latexCommands->isListEnv(name) )
 		{
@@ -925,7 +944,7 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 			view->insertText(" \\\\");
 		}
 	}
-	
+	// - no comment position
 	// - found no opened environment
 	// - unknown environment
 	// - finish tabular or math environment

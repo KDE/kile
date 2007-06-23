@@ -506,7 +506,8 @@ void Kile::setupActions()
 	(void) KStdAction::save(docManager(), SLOT(fileSave()), actionCollection(),"kile_file_save" );
 	(void) KStdAction::saveAs(docManager(), SLOT(fileSaveAs()), actionCollection(),"kile_file_save_as" );
 
-	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all" );
+	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all");
+	(void) new KAction(i18n("Save Copy As..."),"save_copy_as", 0, docManager(), SLOT(fileSaveCopyAs()), actionCollection(),"file_save_copy_as");
 	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");
 	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
 	(void) KStdAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
@@ -1403,7 +1404,7 @@ void Kile::initMenu()
 
 	actionlist
 	   // file
-	   << "file_save_all" << "template_create" << "Statistics"
+	   << "file_save_copy_as" << "file_save_all" << "template_create" << "Statistics"
 	   << "file_close" << "file_close_all" << "file_close_all_others"
 	   // edit
 	   << "RefreshStructure"

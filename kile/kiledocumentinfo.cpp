@@ -193,6 +193,7 @@ void Info::updateStructLevelInfo()
 
 void Info::setBaseDirectory(const KURL& url)
 {
+	kdDebug() << "===void Info::setBaseDirectory(const KURL&" << url << ")===" << endl;
 	m_baseDirectory = url;
 }
 

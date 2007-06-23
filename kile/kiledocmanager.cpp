@@ -880,13 +880,14 @@ void Manager::fileSave()
 	}
 }
 
-void Manager::fileSaveAs()
+void Manager::fileSaveAs(Kate::View* view)
 {
-	Kate::View* view = m_ki->viewManager()->currentTextView();
+	
 	if(!view)
-	{
+		view = m_ki->viewManager()->currentTextView();
+	if(!view)
 		return;
-	}
+	
 	Kate::Document* doc = view->getDoc();
 	Q_ASSERT(doc);
 	KileDocument::TextInfo* info = textInfoFor(doc);
@@ -905,6 +906,9 @@ void Manager::fileSaveAs()
 			startURL.setFileName(doc->docName());
 		}
 	}
+	
+	kdDebug() << "startURL is " << startURL.path() << endl;
+	
 	KEncodingFileDialog::Result result;
 	KURL saveURL;
 	while(true)
@@ -942,6 +946,34 @@ void Manager::fileSaveAs()
 		m_ki->structureWidget()->updateUrl(info);
 		emit addToRecentFiles(saveURL);
 		emit addToProjectView(doc->url());
+	}
+}
+
+void Manager::fileSaveCopyAs()
+{
+	Kate::Document *doc= m_ki->activeTextDocument();
+	Kate::View *view = 0L;
+	if(doc)
+	{
+		KileDocument::TextInfo *originalInfo = textInfoFor(doc);
+		
+		if(!originalInfo)
+			return;
+		
+		view = createDocumentWithText(doc->text(),originalInfo->getType());
+		
+		KileDocument::TextInfo *newInfo = textInfoFor(view->getDoc());
+		
+		if(originalInfo->url().isEmpty()) // untitled doc
+			newInfo->setBaseDirectory(m_ki->fileSelector()->dirOperator()->url().path());
+		else
+			newInfo->setBaseDirectory(originalInfo->url().path());
+		
+		fileSaveAs(view);
+		
+		doc = view->getDoc();
+		if(doc && !doc->isModified()) // fileSaveAs was successful
+			fileClose(doc);
 	}
 }
 

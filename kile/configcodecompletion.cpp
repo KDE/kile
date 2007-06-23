@@ -32,6 +32,8 @@
 #include <qframe.h>
 #include <qwhatsthis.h>
 #include <qstringlist.h>
+#include <qfileinfo.h>
+#include <qdir.h>
 
 #include "kilelistselector.h"
 #include "kileconfig.h"

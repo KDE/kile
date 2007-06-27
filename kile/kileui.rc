@@ -229,6 +229,7 @@
 		<Action name="tag_footnote"/>
 		<Separator/>
 		<Action name="tag_cite"/>
+		<Action name="citeViewBib"/>
 	</Menu>
 	<Separator/>
 	<Menu name="menu_environment"><text>&amp;Environment</text>

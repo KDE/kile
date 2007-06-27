@@ -137,6 +137,8 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	alist.append(new KileAction::InputTag(ki,"ref",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_ref", parent, KileAction::FromLabelList, "\\ref{%R", "}", 5,0, QString::null, i18n("Label") ));
 	alist.append(new KileAction::InputTag(ki,"pageref",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_pageref", parent, KileAction::FromLabelList, "\\pageref{%R", "}", 9,0, QString::null, i18n("Label") ));
 	alist.append(new KileAction::InputTag(ki,"cite",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_cite", parent, KileAction::FromBibItemList, "\\cite{%R", "}", 6,0, i18n("This command generates an in-text citation to the reference associated with the ref entry in the bib file\nYou can open the bib file with Kile to see all the available references"), i18n("Reference")));
+	alist.append(new KAction(i18n("cite from ViewBib"),0, parent, SLOT(citeViewBib()), parent->actionCollection(),"citeViewBib" ));
+
 	actionother_list->setItems(alist);
 
 	(void) new KileAction::Tag(i18n("Underline - \\underline{}"),"text_under",0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_underline", "\\underline{","}",11);

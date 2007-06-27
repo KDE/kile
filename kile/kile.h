@@ -114,7 +114,6 @@ public slots:
 	void openDocument(const QString & url);
 	void fileSelected(const QString & url) { openDocument(url); } //backwards compatibility
 	void closeDocument();
-
 	void showTip();
 	
 /* actions */
@@ -246,6 +245,7 @@ public slots:
 	void newStatus(const QString& = QString::null);
 	void updateModeStatus();
 	void newCaption();
+	void citeViewBib();
 
 public slots:
 	void openProject(const QString& proj);

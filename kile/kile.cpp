@@ -39,6 +39,7 @@
 #include <ktabwidget.h>
 #include <ktip.h>
 #include <ktexteditor/configinterface.h>
+#include <dcopclient.h>
 
 #include "kileapplication.h"
 #include "kiledocumentinfo.h"
@@ -1422,7 +1423,7 @@ void Kile::initMenu()
 	   << "tag_makeindex" << "tag_printindex" << "tag_makeglossary" << "tag_env_thebibliography"
 	   << "tag_part" << "tag_chapter" << "tag_section" << "tag_subsection" << "tag_subsubsection"
 	   << "tag_paragraph" << "tag_subparagraph" << "tag_label"
-	   << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite"
+	   << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite" << "citeViewBib"
 	   << "tag_center" << "tag_flushleft" << "tag_flushright"
 	   << "tag_env_minipage" << "tag_quote" << "tag_quotation" << "tag_verse"
 	   << "tag_env_itemize" << "tag_env_enumerate" << "tag_env_description" << "tag_item"
@@ -2256,5 +2257,81 @@ void Kile::slotQuickPreview(int type)
 		case KileTool::qpMathgroup:   m_quickPreview->previewMathgroup(doc);   break;
 	}
 }	
+
+void Kile::citeViewBib()
+{
+	kdDebug()  << "===void Kile::citeViewBib()===" << endl;
+
+	DCOPClient *client = kapp->dcopClient();
+	QByteArray params, replyData;
+	QCString replyType;
+
+	QDataStream stream(params, IO_WriteOnly);
+	QCStringList functions,remoteApps,remoteObjs;
+
+ 	const QCString viewBibApp = "kbib"; // currently these things are hardcoded because only kbib supports it
+ 	const QCString viewBibObj = "kbibapp";
+	const QCString viewBibFncDef = "QString cite()";
+	const QCString viewBibFnc = "cite()";
+
+	remoteApps = client->registeredApplications();
+	if( !remoteApps.contains(viewBibApp) )
+	{
+		m_logWidget->printMsg(KileTool::Warning,
+		i18n("No ViewBib tool running, trying to start it now"),
+		i18n("ViewBib Citation"));
+		uint ret = runWith("ViewBib","KBib");
+		if( ret == 0 )
+			m_logWidget->printMsg(KileTool::Info,
+				i18n("Please select the desired bibliographies and re-execute this command"),
+				i18n("ViewBib Citation"));
+		return;	
+	}
+
+	remoteObjs = client->remoteObjects(viewBibApp);
+	if( !remoteObjs.contains(viewBibObj) )
+	{
+		m_logWidget->printMsg(KileTool::Warning,
+				      i18n("The ViewBib tool does not have the correct interface"),
+				      i18n("ViewBib Citation"));
+		return;
+	}
+
+	functions = client->remoteFunctions(viewBibApp,viewBibObj);
+	if( !functions.contains(viewBibFncDef) )
+	{
+		m_logWidget->printMsg(KileTool::Warning,
+					i18n("The ViewBib tool does not have the correct definition of the cite function"),
+					i18n("ViewBib Citation"));
+		return;
+	}
+
+	if ( !client->call(viewBibApp, viewBibObj, viewBibFnc, params, replyType, replyData) )
+	{
+		// we should never get here
+		kdWarning() << "internal error in viewbib citation" << endl;
+		return;
+	}
+	else{
+		QDataStream reply(replyData, IO_ReadOnly);
+		if (replyType == "QString")
+		{
+			QString result;
+			reply >> result;
+
+			if (result.isEmpty())
+			{
+				m_logWidget->printMsg(KileTool::Warning,
+						i18n("No reference selected.\nPlease select a reference first!"),
+						i18n("ViewBib Citation"));
+			}
+			else
+			{
+				insertTag(KileAction::TagData(i18n("ViewBib Citation"), result, QString::null, result.length()));
+
+			}
+		}
+	}
+}
 
 #include "kile.moc"

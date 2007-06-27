@@ -93,9 +93,6 @@
                     <property name="text">
                         <string>Automatically insert opening and closing double &amp;quotes for LaTeX</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+Q</string>
-                    </property>
                 </widget>
                 <widget class="QComboBox" row="1" column="1">
                     <property name="name">

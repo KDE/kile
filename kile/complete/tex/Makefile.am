@@ -27,6 +27,12 @@ texcomplete_DATA = acronym.cwl \
 	fancybox.cwl \
 	fancyhdr.cwl \
 	fancyvrb.cwl \
+	fancyunits-base.cwl \
+	fancyunits-np.cwl \
+	fancyunits-per.cwl \
+	fancyunits-uf.cwl \
+	fancyunits-Uf.cwl \
+	fancyunits-UF.cwl \
 	graphicx.cwl \
 	hyperref.cwl \
 	import.cwl \

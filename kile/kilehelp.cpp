@@ -37,6 +37,10 @@
 #include "kilestdtools.h"
 #include "kileconfig.h"
 
+
+// tbraun 27.06.2007
+// it _looks_ like texlive 2007 has the same layout than texlive 2005 so don't get confused about the variable names :)
+
 namespace KileHelp
 {
 
@@ -59,7 +63,7 @@ namespace KileHelp
 		// first check for TexLive2005
 		QString texref = m_texdocPath + "/english/tex-refs";
 		QDir dir(texref);
-		if ( dir.exists() ) 
+		if ( dir.exists() )
 		{
 			// we found TexLive2005
 			m_texVersion = TEXLIVE2005;

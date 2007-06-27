@@ -1,13 +1,12 @@
 texcompletedir = $(kde_datadir)/kile/complete/tex
-texcomplete_DATA = afterpage.cwl \
-	amsfonts.cwl \
-	attachfile.cwl\
-	pdfpages.cwl\
-	graphicx.cwl\
+texcomplete_DATA = acronym.cwl \
+	afterpage.cwl \
 	amsbsy.cwl \
-	amssymb.cwl \
+	amsfonts.cwl \
 	amsmath.cwl \
+	amssymb.cwl \
 	array.cwl \
+	attachfile.cwl \
 	beamerfoils.cwl \
 	beamerprosper.cwl \
 	beamerseminar.cwl \
@@ -23,10 +22,12 @@ texcomplete_DATA = afterpage.cwl \
 	coordsys.cwl \
 	currvita.cwl \
 	cyrillic.cwl \
+	diagxy.cwl \
 	enumerate.cwl \
 	fancybox.cwl \
 	fancyhdr.cwl \
 	fancyvrb.cwl \
+	graphicx.cwl \
 	hyperref.cwl \
 	import.cwl \
 	jurabib.cwl \
@@ -44,6 +45,7 @@ texcomplete_DATA = afterpage.cwl \
 	mdwlist.cwl \
 	multicol.cwl \
 	multido.cwl \
+	pdfpages.cwl \
 	psfrag.cwl \
 	pst-3d.cwl \
 	pst-blur.cwl \

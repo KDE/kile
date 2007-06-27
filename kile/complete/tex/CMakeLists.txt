@@ -1,18 +1,15 @@
 
 ########### install files ###############
-
+# get this cwl list with "for i in `ls *.cwl -1`; do echo "$i";  done"
 SET(kile_texCompleteFiles
-	amsfonts.cwl
-	attachfile.cwl
-	pdfpages.cwl
-	graphicx.cwl
-	attachfile.cwl
-	pdfpages.cwl
-	graphicx.cwl
-	amsmath.cwl
+	acronym.cwl
+	afterpage.cwl
 	amsbsy.cwl
+	amsfonts.cwl
+	amsmath.cwl
 	amssymb.cwl
 	array.cwl
+	attachfile.cwl
 	beamerfoils.cwl
 	beamerprosper.cwl
 	beamerseminar.cwl
@@ -24,11 +21,17 @@ SET(kile_texCompleteFiles
 	class-scrartcl,scrreprt,scrbook.cwl
 	class-scrlttr2.cwl
 	color.cwl
+	colortbl.cwl
+	coordsys.cwl
+	currvita.cwl
 	cyrillic.cwl
+	diagxy.cwl
 	enumerate.cwl
 	fancybox.cwl
 	fancyhdr.cwl
 	fancyvrb.cwl
+	graphicx.cwl
+	hyperref.cwl
 	import.cwl
 	jurabib.cwl
 	latex-209.cwl
@@ -36,12 +39,16 @@ SET(kile_texCompleteFiles
 	latex-document.cwl
 	latex-l2tabu.cwl
 	latex-mathsymbols.cwl
+	layout.cwl
 	listings.cwl
+	logsys.cwl
 	longtable.cwl
 	lscape.cwl
+	manyfoot.cwl
 	mdwlist.cwl
 	multicol.cwl
 	multido.cwl
+	pdfpages.cwl
 	psfrag.cwl
 	pst-3d.cwl
 	pst-blur.cwl

@@ -28,7 +28,7 @@ The following list is divided into basic, advanced and additional usage.
 
 Basic:
 
-- TeTeX 2.0/3.0 or TeXLive 2005 (version 2007 has not been tested yet) (Including "AMS"-Packages and the documentation)
+- TeTeX 2.0/3.0 or TeXLive 2005/2007 (Including "AMS"-Packages and the documentation)
 - KDVI
 
 Advanced:

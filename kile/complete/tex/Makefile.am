@@ -23,6 +23,7 @@ texcomplete_DATA = acronym.cwl \
 	currvita.cwl \
 	cyrillic.cwl \
 	diagxy.cwl \
+	doi.cwl \
 	enumerate.cwl \
 	fancybox.cwl \
 	fancyhdr.cwl \

@@ -26,6 +26,7 @@ SET(kile_texCompleteFiles
 	currvita.cwl
 	cyrillic.cwl
 	diagxy.cwl
+	doi.cwl
 	enumerate.cwl
 	fancybox.cwl
 	fancyhdr.cwl

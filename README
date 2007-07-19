@@ -40,7 +40,8 @@ Advanced:
 By default there are also tools for the following programs defined:
 
 - Tar/zip/gzip/bzip2 (Archive)
-- Dblatex (Docbook to LaTeX)
+- DBlatex (Docbook to LaTeX)
+- Metapost and Asymptote
 - Latex2html (LaTeX to Web)
 - Tex4ht (LaTeX to Web)
 - Lilypond (Music Typesetting)

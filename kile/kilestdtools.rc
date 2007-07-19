@@ -38,6 +38,14 @@ from=aux
 to=bbl
 type=Process
 
+[Tool/BibTeX/8bit Version]
+class=Compile
+command=bibtex8
+options='%S'
+from=aux
+to=bbl
+type=Process
+
 [Tool/Convert/eps2png]
 class=Convert
 command=convert
@@ -202,10 +210,29 @@ from=
 to=
 type=Process
 
+[Tool/Asymptote/Default]
+class=Compile
+command=asy
+options='%S'
+from=
+to=
+type=Process
+
 [Tool/PDFLaTeX/Default]
 class=LaTeX
 command=pdflatex
 options=-interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/PDFLaTeX/Draft]
+class=LaTeX
+command=pdflatex
+options=-draftmode -interaction=nonstopmode '%source'
 from=
 to=pdf
 type=Process
@@ -314,6 +341,14 @@ type=Process
 class=Compile
 command=pdftex
 options=-interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+
+[Tool/PDFTeX/Draft]
+class=Compile
+command=pdftex
+options=-draftmode -interaction=nonstopmode '%source'
 from=
 to=pdf
 type=Process
@@ -576,6 +611,7 @@ type=Process
 
 [Tools]
 Archive=Tar + gzip
+Asymptote=Default
 BibTeX=Default
 Convert=pdf2png
 DBLaTeX=LaTeX

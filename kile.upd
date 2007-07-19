@@ -83,3 +83,9 @@ File=kilerc
 Options=overwrite
 Group=Complete
 Script=kile2.0-3_upd.pl,perl
+#
+Id=Kile2.0v4
+File=kilerc
+Options=overwrite
+Group=Complete
+Script=kile2.0-4_upd.pl,perl

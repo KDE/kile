@@ -16,6 +16,7 @@ SET(kile_texCompleteFiles
 	beamertexpower.cwl
 	booktabs.cwl
 	braket.cwl
+	calc.cwl
 	class-beamer.cwl
 	class-letter.cwl
 	class-scrartcl,scrreprt,scrbook.cwl
@@ -30,15 +31,17 @@ SET(kile_texCompleteFiles
 	enumerate.cwl
 	fancybox.cwl
 	fancyhdr.cwl
-	fancyvrb.cwl
 	fancyunits-base.cwl
 	fancyunits-np.cwl
 	fancyunits-per.cwl
 	fancyunits-uf.cwl
 	fancyunits-Uf.cwl
 	fancyunits-UF.cwl
+	fancyvrb.cwl
+	fontspec.cwl
 	graphicx.cwl
 	hyperref.cwl
+	ifthen.cwl
 	import.cwl
 	jurabib.cwl
 	latex-209.cwl
@@ -81,6 +84,9 @@ SET(kile_texCompleteFiles
 	tex.cwl
 	textcomp.cwl
 	varioref.cwl
+	verse.cwl
+	xifthen.cwl
+	xltxtra.cwl
 	xtab.cwl
 )
 

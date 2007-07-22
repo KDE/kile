@@ -1,38 +1,106 @@
 version 1.9.3 -> 2.0
-Fixes:
- - Fix bug in tabular wizard, when changing the textcolor inside a cell
- - Add support for \gdef, \edef and \xdef to the the latex syntax file
- - Remove dependencies on teTeX documentation and add support for TexLive (#138282)
- - Improve auto completion in abbreviation mode (#93356, #129030)
- - Promote semantic rather than physical markup in toolbars (emph/strong, #69236)
- - Clicking on the file list tree view doesn't always open the file (#130985)
- - Highlighted file in "Files & Projects" sidebar not updated (#137822)
- - Bug with auto-completion of references (#142475)
- - Structure  view is not updated after save as (#143257)
- - Remember how document structure view is collapsed, when refreshing it (#142720)
 
-Features:
- - Add Emacs like delete to end-of-line
- - Highlighting of section titles as bold (#138017)
- - Sort items in references list box (#137964)
+Fixes:
+ - More than 50 bugs have been closed
+ - Symlinked files and directories in combination with inverse search
+ - Autosave fix: If a file is two autosave cycles not writable we will skip the file until it is writeable again.
+ - Fix starting directory for add Files. Take the project's basedir
+ - Fix bug in tabular wizard, when breaking some multicolumn cells
+ - Remove selected text in any case if the user insert "
+ - Fix bug where environments were completed which should not have been completed.
+ - Textcolor bug in tabular wizard
+ - Only use special quotes if we have a tex file
+ - Fix bug in lyxserver when the filesystem in the users home directory does not support FIFOS
+ - Use the $PATH variable to search for the tools
+ - Remove our own "not perfectly" working spellchecker implementation, now the katepart spellchecker is always in charge
+ - Call "Refresh Strcuture" after changing the encoding  
+ - Grep for \newenvironment and add them to the completion lists
+ - Smart newline now also recognizes comment lines
+
+Bigger Features:
+ - Add auto completion in abbreviation mode:
+	a) All abbreviations can be shown in the sidebar (configurable)
+	b) All abbreviations from a local abbreviations list 'kile-abbrevs.cwl' are
+	editable. This file can be found in the local application path of Kile.
+	c) Editable abbreviations are marked with a star.
+	d) It is possible to add new abbreviations or delete existing ones.
+	e) A new auto mode to expand abbreviations was added (configurable
+        of course). If an abbreviation is followed by a space or a punctuation
+        symbol, it is immediately expanded without further user commands.
+ - Added a set of commands to work directly with sectioning on the structure view: 
+	copy, cut, paste, select, delete, comment, quick preview 
+ - New Symbolview which contains:
+	- Most frequently used symbol list
+	- Complete revamped symbol list with more items (nearly 1000) and more
+	  categories
+	- Show command and depending packages in the tooltip
+	- Send a warning in the logwidget if a package is not included
+	- By pressing CTRL and SHIFT while inserting an item one gets {} or $$
+	  around the inserted command
+ - Added a scripting interface to kile
+ - A big bunch of new cwl files, mostly from kile users , so kile has now more
+   than 80 :)
+ - Add support for TexLive 2005/2007
+ - Preview of mathgroups from Mathias Soeken (with some additions and
+ extensions by Holger Danielsson)
+
+Smaller Features:
+ - New tool entries for:
+	- Asymptote
+	- PDFLaTeX draftmode (available in PDFTeX from TeXLive 2007)
+	- Bibtex 8bit Version
+	- Added Lilypond tool (4 variants), icon will follow
+	- Renamed LaTeXtoDocBook to DBLaTeX , use 
+	  programm dblatex for that and also introduced 4 variants of it.
+	- Renamed LaTeXtoHTML to LaTeX to Web and added tex4ht variants (to XML, to HTML 
+	  and to MathML), but keeping the latex2html tool also
+	- Added a variant of quickbuild , do only LaTeX
+	- Added DVItoPDF variant, Landscape and "Black and White"
+	- Moved Archive tool from type none to Archive and also added much more
+	  configs, now users can also alter them
+	- Changed default bibtex viewer for new kile users to kbibtex
+	- added gbib, jabref, kbib to bibtexviewers
+ - Recursive parsing of footnote command
+ - New citeViewBib action, which asks the bibtex viewer (currently only
+   kbib) to send marked references. Thanks to Thach Nguyen for the
+   initial patch 
+ - New function "Save Copy as..."
+ - Revamped the new-file dialog.
+ - Add support for templates types other than LaTeX.
+ - Use the extension ".kileicon" for template icon files.
+ - Added lyx:paste command in kile's lyxserver
+ - Add Readme, Readme.cwl and Building-with-cmake.txt
+ - Show todo/fixme tasks in structure view
+ - Enhance completion configuration dialog usability and support local directories for completion files
+ - Merge labels and sections in document structure view as user configurable option
+ - First preliminary support for the beamer package
+ - Select a single LaTeX command with CTRL+MouseDblClick-left
+ - Autocomplete $ to $$
+ - Move cursor out of braces after selecting from a keylist
+ - Make include commands configurable through our nice latexcommand menu
+ - Assign the keyboard focus to the active text view after Kile has started up
+ - FindInFiles dialog can be moved into the background
  - Add additional double quotes for babel supported languages (czech, icelandic)
- - Cosmetic changes to some project dialogs
- - Working with document structure. Added a set of commands to work directly 
-   with sectioning on the structure view: copy, cut, paste, select, delete, 
-   comment, quick preview (#130445)
- - move 'FindInFiles' dialog into background (part of #138398) 
- - auto completion in abbreviation mode:
-   a) All abbreviations can be shown in the sidebar (configurable)
-   b) All abbreviations from a local abbreviations list 'kile-abbrevs.cwl' are editable. This file can be found in the local application path of Kile.
-   c) Editable abbreviations are marked with a star.
-   d) It is possible to add new abbreviations or delete existing ones.
-   e) A new auto mode to expand abbreviations was added (configurable of course). If an abbreviation is followed by a space or a punctuation symbol, it is immediately expanded without further user commands.
- - support for other file extensions than .tex (.ltx, .latex, .dtx)
- - User configurable autocompletion of $ (#93837)
- - Merge labels and sections in document structure view (user configurable, #129240)
- - Preliminary minimal support for the beamer package in Kile (#135101)
- - Cosmetic changes in project tree
- - Add some new icons
+ - Highlighting of Section Titles as bold
+ - Add emacs-like delete-to-end-of-line command
+ - Removed metapost view in the sidebar, the commands can be accessed via
+   kile's dictionary mode
+ - Sort items in references list box
+ - Some new toolbar icons
+ - Added more optional fields in the predefined bibtex entries, patch from
+   Martin Weis <martin.weis.newsadress (a) gmx.de>
+ - Added CMake build support.
+ - Add scripting support.
+ - We always remember now the current most top item of the structure view and restore it after an update.
+ - Add new actions gotoNextSection() and gotoPrevSection()
+ - Quote replacement should not happen inside verbatim/verb environment
+ - Add new actions gotoNextParagraph() and gotoPrevParagraph()
+ - Fix rebuild structureview if changing the expansion level
+ - Add mathgroup preview to the popup menu (right mouse button), where either a selection or a mathgroup is shown
+ - More tools in kile's system check
+ - Add drag-and-drop functionality 
+ - Remember MakeIndex checkbox settings in kileprojectdlg
+ - Add autoref command to std. ref. commands
 
 version 1.9.2-> 1.9.3
 Fixes:

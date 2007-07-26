@@ -37,14 +37,10 @@
 	<author><firstname>Federico</firstname><surname>Zenith</surname>
 	<affiliation><address><email>zenith@chemeng.ntnu.no</email></address></affiliation></author>
 	<author><firstname>Holger</firstname><surname>Danielsson</surname>
-	<affiliation><address><email>holger.danielsson@t-online.de</email></address></affiliation></author>
+	<affiliation><address><email>holger.danielsson@versanet.de</email></address></affiliation></author>
 	<author><firstname>Thomas</firstname><surname>Braun</surname></author>
-	<othercredit role="developer">
-		<firstname>Jeroen</firstname><surname>Wijnhout</surname>
-		<affiliation>
-		<address><email>Jeroen.Wijnhout@kdemail.net</email></address>
-		</affiliation>
-	</othercredit>
+	<author><firstname>Michel</firstname><surname>Ludwig</surname>
+	<affiliation><address><email>michel.ludwig@kdemail.net</email></address></affiliation></author>
 </authorgroup>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -62,6 +58,16 @@
 <copyright>
 <year>2005</year><year>2006</year>
 <holder>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year>2007</year>
+<holder>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year>2007</year>
+<holder>Michel Ludwig</holder>
 </copyright>
 
 <date>??????????????</date>
@@ -3335,6 +3341,161 @@
 
 </chapter>
 
+<chapter id="scripting">
+
+	<title>Scripting</title>
+
+	<sect1 id="scripting_test">
+
+		<title>Scripting in &kile;</title>
+
+		<para>
+			&kile;'s scripting feature allows for the execution of ECMAScript code. Scripts can be managed through the
+			scripting panel in the sidebar.
+		</para>
+
+	</sect1>
+
+	<sect1 id="scripting_api">
+
+		<title>API Reference</title>
+
+		<para>In this section we describe &kile;'s scripting programming interface.</para>
+
+		<important>
+			<para>
+				Please note that the scripting API has not been finalized yet. The API described below might change in
+				future versions of &kile;.
+			</para>
+		</important>
+
+		<para>
+			First of all, &kile;'s script execution environment provides a global object called "kile", which owns the following
+			methods:
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>(kile).<function>currentTextDocument()</function></term>
+				<listitem>
+					<para>
+						Returns a <classname>KileTextDocument</classname> object which reflects the currently active 
+						text document. Returns <constant>null</constant> if no text document is active.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(kile).<function>getInputValue(<parameter>caption</parameter>, <parameter>label</parameter>)</function></term>
+				<listitem>
+					<para>
+						Opens a dialog with the given caption and label. Returns the value that user has entered.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>
+			Objects of the type <classname>KileTextDocument</classname> represent text documents in &kile;. They have the following
+			properties:
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>(KileTextDocument).<function>backspace()</function></term>
+				<listitem>
+					<para>
+						Deletes the character that is located immediately before the current cursor position and moves the cursor
+						one position backward in the text.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>cursorLeft()</function></term>
+				<listitem>
+					<para>Moves the cursor one position backward in the text.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>cursorRight()</function></term>
+				<listitem>
+					<para>Moves the cursor one position forward in the text.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>insertText(<parameter>text</parameter>)</function></term>
+				<listitem>
+					<para>
+						Inserts the text contained in the variable <parameter>text</parameter> into the document at the current
+						cursor location.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>insertBullet()</function></term>
+				<listitem>
+					<para>Inserts a bullet into the document at the current cursor position.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>nextBullet()</function></term>
+				<listitem>
+					<para>
+						Selects the first bullet located in the document immediately after the
+						current cursor location.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>previousBullet()</function></term>
+				<listitem>
+					<para>
+						Selects the first bullet located in the document immediately before the
+						current cursor location.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>up()</function></term>
+				<listitem>
+					<para>Moves the cursor one line up in the document.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>down()</function></term>
+				<listitem>
+					<para>Moves the cursor one line down in the document.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>cursorLine()</function></term>
+				<listitem>
+					<para>Returns the line which the cursor is currently located at.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>cursorColumn()</function></term>
+				<listitem>
+					<para>Returns the column which the cursor is currently located at.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>setCursorLine(<parameter>line</parameter>)</function></term>
+				<listitem>
+					<para>Moves the cursor to the line denoted by <parameter>line</parameter>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>(KileTextDocument).<function>setCursorColumn(<parameter>column</parameter>)</function></term>
+				<listitem>
+					<para>Moves the cursor to the column denoted by <parameter>line</parameter>.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+	</sect1>
+	
+</chapter>
+
 <chapter id="help">
 	
 	<title>Help</title>
@@ -3516,17 +3677,11 @@
 
 	<para>Many thanks are owed to those who strive to continue the &kile; project, and the many
 	hours of contributions made by those who sacrifice their time to develop tools we can all
-	use under the <acronym>GNU</acronym> license. Here is a short list of the programmers, editors, translators,
-	writers, debuggers, packagers, web developers and users who made this project possible.</para>
+	use under the <acronym>GNU</acronym> license. Up-to-date information about contributors can be found in
+	the <guimenuitem>About &kile;</guimenuitem> dialog from the <guimenu>Help</guimenu> menu.
+	</para>
 
-	<para>Program copyright 2003 and currently maintained by Jeroen
-	Wijnhout <email>Jeroen.Wijnhout@kdemail.net</email></para>
-
-	<para>Program copyright 2002-2003 Pascal Brachet</para>
-
-	<para>Documentation Copyright &copy; 2003 Jonathan Pechta, 2003-2005 Federico Zenith</para>
-
-	<para>Contributions from: Rob Lensen, Roland Schulz, Michael Margraf, Holger Danielsson</para>
+	<para>Contributions among others from: Rob Lensen, Roland Schulz, Michael Margraf, Holger Danielsson</para>
 
 	<para>Many thanks to all those involved!</para>
 

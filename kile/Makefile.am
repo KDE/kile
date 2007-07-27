@@ -102,10 +102,10 @@ noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
 	plaintolatexconverter.h kileuntitled.h 	kilestatsdlg.h kilestatswidget.h envconfigwidget.h \
 	structureconfigwidget.h kileversion.h kileconstants.h kilemultitabbar.h kilemultitabbar_p.h
 
-CREATE_HASH_TABLE = $(top_srcdir)/kile/kile/create_hash_table
+CREATE_HASH_TABLE = $(srcdir)/create_hash_table
 
-kilejscript.lut.h : kilejscript.cpp $(CREATE_HASH_TABLE)
-	$(PERL) $(CREATE_HASH_TABLE) $(top_srcdir)/kile/kile/kilejscript.cpp > $@
+kilejscript.lut.h : $(srcdir)/kilejscript.cpp $(CREATE_HASH_TABLE)
+	$(PERL) $(CREATE_HASH_TABLE) $(srcdir)/kilejscript.cpp > $@
 kilejscript.lo: kilejscript.lut.h
 
 kilejscript.o: kilejscript.lut.h

@@ -361,7 +361,7 @@ void Kile::setupSymbolViews()
 	m_sideBar->addTab(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
 
 	m_symbolViewMFUS = new SymbolView(m_toolBox,SymbolView::MFUS);
-	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most frequently used"));
+	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
 	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));

@@ -508,7 +508,7 @@
 			<default>true</default>
 		</entry>
 		<entry name="clearMFUS" type="Bool">
-			<label>Clear the list of the most frequently used symbols on the closing of Kile.</label>
+			<label>Clear the list of the most frequently used symbols whilst closing Kile.</label>
 			<default>false</default>
 		</entry>
 	</group>

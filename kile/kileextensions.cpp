@@ -137,9 +137,9 @@ Type Extensions::determineDocumentType(const KURL& url) const
 	{
 		return KileDocument::Script;
 	}
-	else // defaulting to a LaTeX file
+	else
 	{
-		return KileDocument::LaTeX;
+		return KileDocument::Text;
 	}
 }
 

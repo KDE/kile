@@ -517,7 +517,11 @@ void TextInfo::setHighlightMode(const QString &highlight)
 		uint mode = 0;
 		for (uint i = 0; i < c; ++i)
 		{
-			if (m_doc->hlModeName(i) == highlight) { found = true; mode = i; }
+			if (m_doc->hlModeName(i) == highlight) {
+				found = true;
+				mode = i;
+				break;
+			}
 		}
 		if (found)
 		{

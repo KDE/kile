@@ -402,6 +402,12 @@ void Info::updateBibItems()
 {
 }
 
+void Info::slotCompleted()
+{
+	emit completed(this);
+}
+
+
 TextInfo::TextInfo(Kate::Document *doc, Extensions *extensions, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
 {
 	setDoc(doc);
@@ -453,6 +459,7 @@ void TextInfo::setDoc(Kate::Document *doc)
 		m_doc = doc;
 		m_url = doc->url();
 		connect(m_doc, SIGNAL(fileNameChanged()), this, SLOT(slotFileNameChanged()));
+		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		setHighlightMode(m_defaultHighlightMode);
 		installEventFilters();
 	}

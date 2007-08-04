@@ -887,6 +887,11 @@ namespace KileWidget
 			view->updateRoot();
 	}
 
+	void Structure::update(KileDocument::Info *docinfo)
+	{
+		update(docinfo, true);
+	}
+
 	void Structure::update(KileDocument::Info *docinfo, bool parse, bool activate /* =true */)
 	{
 		kdDebug() << "==KileWidget::Structure::update(" << docinfo << ")=============" << endl;

@@ -490,6 +490,9 @@ Kate::Document* Manager::createDocument(const QString& name, const KURL& url, Te
 
 	docinfo->setDoc(doc);
 	docinfo->setHighlightMode(highlight);
+	// FIXME: the whole structure updating stuff needs to be rewritten; updates should originate from
+	//        the docinfo only, i.e. the structure view should just react to changes!
+	connect(docinfo, SIGNAL(completed(KileDocument::Info*)), m_ki->structureWidget(), SLOT(update(KileDocument::Info*)));
 
 	kdDebug() << "createDocument: url " << doc->url() << " name " << doc->docName() << endl;
 	kdDebug() << "createDocument: SANITY check: " << (docinfo->getDoc() == docFor(docinfo->url())) << endl;

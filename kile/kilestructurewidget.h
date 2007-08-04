@@ -201,6 +201,7 @@ namespace KileWidget
 
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
+			void update(KileDocument::Info*);
 			void update(KileDocument::Info *, bool, bool activate =true);
 			void clean(KileDocument::Info *);
 			void updateReferences(KileDocument::Info *);

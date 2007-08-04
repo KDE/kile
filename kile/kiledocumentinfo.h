@@ -168,6 +168,10 @@ signals:
 	               const QString & pix, const QString & folder);
 	void doneUpdating();
 	void depChanged();
+	void completed(KileDocument::Info* info);
+
+protected slots:
+	void slotCompleted();
 
 protected:
 	void count(const QString line, long *stat);

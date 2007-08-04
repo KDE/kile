@@ -923,7 +923,9 @@ void Manager::fileSaveAs(Kate::View* view)
 			return;
 		}
 		saveURL = result.URLs.first();
-		saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
+		if(info->getType() == KileDocument::LaTeX) {
+			saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
+		}
 		if(KIO::NetAccess::exists(saveURL, true, kapp->mainWidget())) // check for writing possibility
 		{
 			int r =  KMessageBox::warningContinueCancel(m_ki->parentWidget(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?").arg(saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")), QString::null);

@@ -478,7 +478,7 @@ void QuickDocument::readDocumentClassConfig()
 	// set encoding combobox
 	fillCombobox(m_cbEncoding,
 	             "ansinew,applemac,ascii,cp1252,cp1250,cp1251,cp1257,cp437,cp437de,cp850,cp858,"
-	             "cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin4,latin5,latin9,latin10,next,utf8,utf-8,utfcyr",
+				     "cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin4,latin5,latin9,latin10,next,utf8,utf8x,utf-8,utfcyr",
 	             m_currentEncoding);
 }
 
@@ -1017,7 +1017,7 @@ void QuickDocument::readPackagesConfig()
 // init default values for packages tab
 void QuickDocument::initPackages()
 {
-	kdDebug() << "\tread config: init standard packages" << endl;
+	kdDebug() << "read config: init standard packages" << endl;
 	QCheckListItem *cli;
 	QCheckListItem *clichild;
 
@@ -1026,7 +1026,7 @@ void QuickDocument::initPackages()
 	cli = insertListview(m_lvPackages,"amsfonts",i18n("Collection of fonts and symbols for math mode (AMS)") );
 	cli = insertListview(m_lvPackages,"amssymb",i18n("Defines symbol names for all math symbols in MSAM and MSBM (AMS)") );
 	cli = insertListview(m_lvPackages,"amsthm",i18n("Improved theorem setup (AMS)"));
-	cli = insertListview(m_lvPackages,"caption2",i18n("Extends caption capabilities for figures and tables"));
+	cli = insertListview(m_lvPackages,"caption",i18n("Extends caption capabilities for figures and tables"));
 
 	cli = insertListview(m_lvPackages,"hyperref",i18n("Hypertext marks in LaTeX") );
 	cli->setOpen(true);
@@ -1051,29 +1051,111 @@ void QuickDocument::initPackages()
 	cli = insertListview(m_lvPackages,"multicol",i18n("Enables multicolumn environments") );
 	cli = insertListview(m_lvPackages,"pst-all",i18n("Load all pstricks packages") );
 	cli = insertListview(m_lvPackages,"rotating",i18n("Rotates text") );
-	cli = insertListview(m_lvPackages,"srcltx",i18n("Enable inverse and forward search") );
 	cli = insertListview(m_lvPackages,"subfigure",i18n("Enables subfigures inside figures") );
+	cli = insertListview(m_lvPackages,"upgreek",i18n("Typesetting capital Greek letters") );
 	cli = insertListview(m_lvPackages,"xcolor",i18n("Extending LaTeX's color facilities") );
 
 	cli = insertListview(m_lvPackages,"babel",i18n("Adds language specific support") );
 	cli->setOn(true);
 	cli->setOpen(true);
-	clichild = new QCheckListItem(cli, "american",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "ngerman",QCheckListItem::CheckBox);
-	clichild->setOn(true);
-	clichild = new QCheckListItem(cli, "french",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"acadian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"afrikaans" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"american" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"australian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"austrian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"bahasa" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"basque" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"brazil" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"brazilian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"breton" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"british" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"bulgarian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"canadian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"canadien" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"catalan" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"croatian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"czech" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"danish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"dutch" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"english" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"esperanto" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"estonian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"finnish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"francais" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"frenchb" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"french" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"galician" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"german" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"germanb" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"greek" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"polutonikogreek" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"hebrew" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"hungarian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"icelandic" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"interlingua" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"irish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"italian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"latin" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"lowersorbian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"magyar" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"naustrian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"newzealand" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"ngerman" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"norsk" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"samin" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"nynorsk" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"polish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"portuges" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"portuguese" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"romanian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"russian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"scottish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"serbian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"slovak" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"slovene" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"spanish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"swedish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"turkish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"ukrainian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"uppersorbian" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"welsh" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"UKenglish" ,QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli,"USenglish" ,QCheckListItem::CheckBox);
 
 	cli = insertListview(m_lvPackages,"fontenc",i18n("Use a font encoding scheme") );
 	cli->setOn(true);
 	cli->setOpen(true);
+	clichild = new QCheckListItem(cli, "HE8",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "IL2",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LCH",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LCY",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LGR",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LHE",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LIT",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LO1",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "LY1",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "MTT",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "OML",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "OMS",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "OT1",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "OT2",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "OT4",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "PD1",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "PU",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "QX",QCheckListItem::CheckBox);
 	clichild = new QCheckListItem(cli, "T1",QCheckListItem::CheckBox);
-	clichild->setOn(true);
+	clichild = new QCheckListItem(cli, "T2A",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "T2B",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "T2C",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "T5",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "TS1",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "UT1",QCheckListItem::CheckBox);
+	clichild = new QCheckListItem(cli, "X2",QCheckListItem::CheckBox);
 
 	cli = insertListview(m_lvPackages,"graphicx",i18n("Support for including graphics") );
 	cli->setOn(true);
 	cli->setOpen(true);
 	clichild = insertListview(cli,"dvips",i18n("Specialize on graphic inclusion for dvips") );
-	clichild->setOn(true);
 	clichild = insertListview(cli,"pdftex",i18n("Specialize on graphic inclusion for pdftex") );
 	clichild = insertListview(cli,"draft",i18n("Show only frames of graphics") );
 }
@@ -1408,9 +1490,14 @@ void QuickDocument::printTemplate()
 		m_td.tagBegin += '[' + options.left( options.length()-1 ) + ']';
 	m_td.tagBegin += '{' + documentclass + "}\n\n";
 
-	if (!m_cbEncoding->currentText().isEmpty())
-		m_td.tagBegin += "\\usepackage[" + m_cbEncoding->currentText()+"]{inputenc}\n";
-
+	
+	QString enc = m_cbEncoding->currentText();
+	if (!enc.isEmpty())
+	{
+		if( enc.find("utf") != -1 )
+			m_td.tagBegin += "\\usepackage{ucs}\n";
+		m_td.tagBegin += "\\usepackage[" + enc + "]{inputenc}\n";
+	}
 	if ( documentclass != "beamer" ) {
 		printPackages();
 		printHyperref();
@@ -1427,7 +1514,7 @@ void QuickDocument::printTemplate()
 		m_td.tagBegin += "\\date{"+m_leDate->text()+"}\n";
 	m_td.tagBegin += '\n';
 
-	m_td.tagBegin += "\\begin{document}\n";
+	m_td.tagBegin += "\\begin{document}\n%E%C";
 
 	m_td.tagEnd = "\n\\end{document}\n";
 }

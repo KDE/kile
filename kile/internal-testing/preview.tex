@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{amsmath}
+%     begin                : Sat 11 august 2007
+%     copyright            : (C) 2007 by Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description: test if quickpreview is working
+%  compiles:	yes
+% 
+\begin{document}
+
+% math groups
+$1$
+\$ $asd$ \$
+$$222$$ % does not work because it is difficult to realize and is considered bad practice see ftp://ftp.ams.org/pub/tex/doc/amsmath/short-math-guide.pdf
+\( 1231 \)
+\[ 1231 \]
+\ensuremath{4}
+
+% environments
+\begin{equation}
+	4
+\end{equation}
+\begin{displaymath}
+	5
+\end{displaymath}
+\begin{align}
+	6 &=6
+\end{align}
+
+\begin{math}
+	7	
+\end{math}
+
+\begin{eqnarray}
+	8
+\end{eqnarray}
+
+% \begin{mathtest} % has to be defined in configure-kile-commands to work
+% 	asdasdasd
+% \end{mathtest}
+
+\end{document}
+

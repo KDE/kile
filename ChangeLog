@@ -16,6 +16,7 @@ Fixes:
  - Call "Refresh Strcuture" after changing the encoding  
  - Grep for \newenvironment and add them to the completion lists
  - Smart newline now also recognizes comment lines
+ - Polishing Quickdocumentdialog
 
 Bigger Features:
  - Add auto completion in abbreviation mode:

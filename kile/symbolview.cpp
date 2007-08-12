@@ -346,7 +346,7 @@ void SymbolView::slotAddToList(const QIconViewItem *item)
 	if( !found && ( this->count() + 1 ) > KileConfig::numSymbolsMFUS() ) // we check before adding the symbol
 	{	
 		int refCnt, minRefCnt=10000;
-		QIconViewItem *unpopularItem;
+		QIconViewItem *unpopularItem = 0L;
 
 		kdDebug() << "Removing most unpopular item" << endl;
 

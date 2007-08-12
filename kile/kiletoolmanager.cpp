@@ -521,19 +521,19 @@ namespace KileTool
 	QString checkOtherPaths(const QString &path,const QString &file, int type)
 	{
 		QStringList inputpaths;
-		QString configvariable;
+		QString configpaths;
 		QFileInfo info;
 
 		switch(type)
 		{
 				case bibinputs:
-					configvariable = KileConfig::bibInputPaths();
+					configpaths = KileConfig::bibInputPaths() + ":$BIBINPUTS";
 				break;
 				case texinputs:
-					configvariable = KileConfig::teXPaths();
+					configpaths = KileConfig::teXPaths() + ":$TEXINPUTS";
 				break;
 				case bstinputs:
-					configvariable = KileConfig::bstInputPaths();
+					configpaths = KileConfig::bstInputPaths() + ":$BSTINPUTS";
 				break;
 				default:
 					kdDebug() << "Unknown type in checkOtherPaths" << endl;
@@ -541,7 +541,7 @@ namespace KileTool
 				break;
 		}
 
-		inputpaths = QStringList::split( ":",  KileTool::expandEnvironmentVars(configvariable + ":$BIBINPUTS"));
+		inputpaths = QStringList::split( ":",  KileTool::expandEnvironmentVars(configpaths));
 		inputpaths.prepend(path);
 
 		// the first match is supposed to be the correct one

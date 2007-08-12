@@ -133,7 +133,12 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 
 	//insert the view in the tab widget
 	m_tabs->insertTab( view, m_ki->getShortName(doc), index );
-	m_tabs->setTabToolTip(view, doc->url().pathOrURL() );
+	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
+		m_tabs->setTabToolTip(view, doc->url().pathOrURL() );
+	#else
+		m_tabs->setTabToolTip(view, doc->url().prettyURL() );
+	#endif
+	
 	m_tabs->showPage( view );
 	m_textViewList.insert((index < 0 || (uint)index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 

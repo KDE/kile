@@ -103,7 +103,7 @@ bool Manager::searchForTemplate(const QString& name, KileDocument::Type& type) c
 bool Manager::add(const KURL& templateSourceURL, const QString& name, const KURL& icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	KileDocument::Type type = extensions->determineDocumentType(templateSourceURL);
-	add(templateSourceURL, type, name, icon);
+	return add(templateSourceURL, type, name, icon);
 }
 
 bool Manager::add(const KURL& templateSourceURL, KileDocument::Type type, const QString& name, const KURL& icon) {

@@ -188,7 +188,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	dir_label->setBuddy(dir_combo);
 	dir_layout->addWidget(dir_combo);
 
-	recursive_box = new QCheckBox(i18n("Scan directories recursive"), filtergroup);
+	recursive_box = new QCheckBox(i18n("Scan directories recursively"), filtergroup);
 	recursive_box->setMinimumWidth(recursive_box->sizeHint().width());
 
 	filtergrouplayout->addWidget(files_label, 2,0, AlignLeft | AlignVCenter);

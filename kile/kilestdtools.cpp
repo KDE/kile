@@ -110,12 +110,32 @@ namespace KileTool
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if ( docinfo )
 		{
-			const QStringList *pckgs = docinfo->packages();
-			for ( uint i = 0; i < pckgs->count(); ++i)
-				if ( (*pckgs->at(i)) == "makeidx" )
+			const QStringList *pckgs = manager()->info()->allPackages();
+				if ( pckgs->contains("makeidx") )
 					return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
 		}
 
+		return false;
+	}
+	
+	bool LaTeX::updateAsy()
+	{
+		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
+		if ( docinfo)
+		{	
+		
+			const QStringList *pckgs = manager()->info()->allPackages();
+			if ( pckgs->contains("asymptote") )
+			{
+				static QRegExp msg("File " + QRegExp::escape(S()) + "_?\\d+_?.(?:eps|pdf|tex) does not exist");
+				int sz =  manager()->info()->outputInfo()->size();
+				for (int i = 0; i < sz; ++i )
+				{
+					if( (*manager()->info()->outputInfo())[i].message().contains(msg) )
+						return true;
+				}
+			}
+		}
 		return false;
 	}
 
@@ -180,29 +200,33 @@ namespace KileTool
 			}
 		}
 
-		if ( reRan ) ++m_reRun;
-		else m_reRun = 0;
+		
+		if ( reRan )
+			m_reRun++;
+		else 
+			m_reRun = 0;
 
 		bool bibs = updateBibs();
 		bool index = updateIndex();
-
+		bool asy = updateAsy();
+		
 		if ( reRan )
 		{
-			kdDebug() << "\trerunning LaTeX " << m_reRun << endl;
+			kdDebug() << "rerunning LaTeX " << m_reRun << endl;
 			Base *tool = manager()->factory()->create(name());
 			tool->setSource(source());
 			manager()->runNext(tool);
 		}
 		
-		if ( bibs || index )
+		if ( bibs || index || asy )
 		{
 			Base *tool = manager()->factory()->create(name());
 			tool->setSource(source());
 			manager()->runNext(tool);
 
-			if ( bibs ) 
+			if ( bibs )
 			{
-				kdDebug() << "\tneed to run BibTeX" << endl;
+				kdDebug() << "need to run BibTeX" << endl;
 				tool = manager()->factory()->create("BibTeX");
 				tool->setSource(source());
 				manager()->runNext(tool);
@@ -210,10 +234,20 @@ namespace KileTool
 
 			if ( index ) 
 			{
+				kdDebug() << "need to run MakeIndex" << endl;
 				tool = manager()->factory()->create("MakeIndex");
 				tool->setSource(source());
 				manager()->runNext(tool);
 			}
+			
+			if ( asy ) 
+			{
+				kdDebug() << "need to run asymptote" << endl;
+				tool = manager()->factory()->create("Asymptote");
+				tool->setSource(source());
+				manager()->runNext(tool);
+			}
+			
 		}
 	}
 	

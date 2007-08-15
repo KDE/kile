@@ -65,6 +65,7 @@ namespace KileTool
 	private:
 		bool updateBibs();
 		bool updateIndex();
+		bool updateAsy();
 
 	private:
 		static int m_reRun;

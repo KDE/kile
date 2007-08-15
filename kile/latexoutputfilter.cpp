@@ -381,6 +381,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 
 	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package) .*Warning.*:(.*)", false);
 	static QRegExp::QRegExp reNoFile("No file (.*)");
+	static QRegExp::QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when http://sourceforge.net/tracker/index.php?func=detail&aid=1772022&group_id=120000&atid=685683 has promoted to the users
 
 	switch (dwCookie)
 	{
@@ -408,6 +409,15 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 				m_currentItem.setMessage(reNoFile.cap(0));
 				m_currentItem.setOutputLine(GetCurrentOutputLine());
 			}
+			else if ( reNoAsyFile.search(strLine) != -1 )
+			{
+				found = true;
+				flush = true;
+				m_currentItem.setSourceLine(0);
+				m_currentItem.setMessage(reNoAsyFile.cap(0));
+				m_currentItem.setOutputLine(GetCurrentOutputLine());
+			}
+
 		break;
 
 		//warning spans multiple lines, detect the end

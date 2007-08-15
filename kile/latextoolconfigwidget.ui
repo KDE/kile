@@ -7,9 +7,9 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>14</y>
-            <width>482</width>
-            <height>83</height>
+            <y>0</y>
+            <width>603</width>
+            <height>86</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -32,7 +32,7 @@
                 <cstring>m_ckRootDoc</cstring>
             </property>
             <property name="text">
-                <string>Check if root document is a LaTeX root before running LaTeX on it</string>
+                <string>Check if &amp;root document is a LaTeX root before running LaTeX on it</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -40,7 +40,7 @@
                 <cstring>m_ckJump</cstring>
             </property>
             <property name="text">
-                <string>Jump to first error in case running LaTeX failed</string>
+                <string>&amp;Jump to first error in case running LaTeX failed</string>
             </property>
         </widget>
         <widget class="QCheckBox">
@@ -48,7 +48,7 @@
                 <cstring>m_ckAutoRun</cstring>
             </property>
             <property name="text">
-                <string>Automatically run BibTeX, MakeIndex, rerun LaTeX when necessary</string>
+                <string>Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX &amp;when necessary</string>
             </property>
         </widget>
     </vbox>

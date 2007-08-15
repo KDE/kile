@@ -163,10 +163,10 @@ namespace KileTool
 	
 	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
 	{
-		kdDebug() << "\t check for autorun" << endl;
+		kdDebug() << "check for autorun, m_reRun is " << m_reRun << endl;
 		//check for "rerun LaTeX" warnings
 		bool reRan = false;
-		if ( (m_reRun < 1) && (nErrors == 0) && (nWarnings > 0) )
+		if ( (m_reRun < 2) && (nErrors == 0) && (nWarnings > 0) )
 		{
 			int sz =  manager()->info()->outputInfo()->size();
 			for (int i = 0; i < sz; ++i )

@@ -1,4 +1,13 @@
-version 1.9.3 -> 2.0
+version 2.0beta1 -> ???
+
+Fixes:
+ - Polishing Quickdocumentdialog
+ - More agressive recompiling
+
+Features:
+ - Call asymptote if needed on latex run 
+
+version 1.9.3 -> 2.0beta1
 
 Fixes:
  - More than 50 bugs have been closed
@@ -16,7 +25,6 @@ Fixes:
  - Call "Refresh Strcuture" after changing the encoding  
  - Grep for \newenvironment and add them to the completion lists
  - Smart newline now also recognizes comment lines
- - Polishing Quickdocumentdialog
 
 Bigger Features:
  - Add auto completion in abbreviation mode:

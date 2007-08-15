@@ -13,7 +13,7 @@
 \iffalse
 \newcommand{\begin{neededpkgs}}[2][]{}
 \newcommand{\pkgs}[2][]{}
-\newcommand{\mathcommand}[1]{×}
+\newcommand{\mathcommand}[1]{}
 \fi
 
 \input{definitions}
@@ -71,7 +71,7 @@
 \mathcommand{\blacktriangle}
 \mathcommand{\blacktriangledown}
 \mathcommand{\blacklozenge}
-% \mathcommand{\bigstar}
+\mathcommand{\bigstar}
 \end{neededpkgs}
 \mathcommand{\spadesuit}
 \mathcommand{\clubsuit}
@@ -96,7 +96,7 @@
 
 \par\bigskip
 
-  \pkgs{amssymb}\mathcommand{\hslash}
+\pkgs{amssymb}\mathcommand{\hslash}
 \mathcommand{\hbar}
 \mathcommand{\imath}
 \mathcommand{\jmath}
@@ -152,12 +152,7 @@
 \end{neededpkgs}
 \mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
 \mathcommand[\sqrt{}]{\sqrt{a}}
-% 
-\iffalse
-\mathcommand[\sqrt[]{}]{\sqrt[n]{a}} % why does latex not understand this line ???, therefore I need this workaround
-\fi
-\ensuremath{\sqrt[n]{a}}\page
-\mathcommand[]{f'}
-\mathcommand[]{f''}
+\mathcommand{f'}
+\mathcommand{f''}
 
 \end{document}

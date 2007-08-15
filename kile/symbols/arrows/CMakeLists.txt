@@ -69,7 +69,6 @@ SET(symbols
 	img067arrows.png
 	img068arrows.png
 	img069arrows.png
-	img070arrows.png
 )
 
 ########### install files ###############

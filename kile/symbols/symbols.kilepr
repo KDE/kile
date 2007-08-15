@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
 kileprversion=2
 kileversion=2.0
-lastDocument=operators.tex
+lastDocument=relation.tex
 masterDocument=
 name=symbols
 pkg_extIsRegExp=false
@@ -17,10 +17,10 @@ QuickBuild=
 
 [item:arrows.tex]
 archive=true
-column=5
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=14
+line=10
 open=true
 order=0
 
@@ -35,10 +35,10 @@ order=0
 
 [item:definitions.tex]
 archive=true
-column=1
+column=13
 encoding=UTF-8
 highlight=LaTeX
-line=11
+line=10
 open=true
 order=1
 
@@ -65,7 +65,7 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=73
 open=true
 order=3
 
@@ -83,7 +83,7 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=152
 open=true
 order=4
 
@@ -120,5 +120,5 @@ column=0
 encoding=UTF-8
 highlight=LaTeX
 line=45
-open=false
-order=2
+open=true
+order=5

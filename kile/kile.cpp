@@ -2103,6 +2103,11 @@ void Kile::checkKateSettings()
 
 void Kile::slotPerformCheck()
 {
+	if(!m_singlemode)
+	{
+		m_logWidget->printMsg(KileTool::Error, i18n("Please turn off the \'Master Document\' mode before performing the System Check."), i18n("System Check"));
+		return;
+	}
 	KileDialog::ConfigChecker *dlg = new KileDialog::ConfigChecker(this);
 	dlg->exec();
 	delete dlg;

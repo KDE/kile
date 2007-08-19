@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="29">
+<kpartgui name="kile" version="30">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -360,9 +360,6 @@
 		<Separator/>
 		<Action name="tag_env_equation"/>
 		<Action name="tag_env_equation*"/>
-		<Separator/>
-		<Action name="tag_env_eqnarray"/>
-		<Action name="tag_env_eqnarray*"/>
 		<Separator/>
 		<Action name="tag_env_array"/>
 	</Menu>

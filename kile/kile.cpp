@@ -1446,7 +1446,6 @@ void Kile::initMenu()
 	   << "tag_space_small" << "tag_space_medium" << "tag_space_large"
 	   << "tag_quad" << "tag_qquad" << "tag_enskip"
 	   << "tag_env_displaymath" << "tag_env_equation" << "tag_env_equation*"
-	   << "tag_env_eqnarray" << "tag_env_eqnarray*" << "tag_env_array"
 	   << "tag_env_multline" << "tag_env_multline*" << "tag_env_split"
 	   << "tag_env_gather" << "tag_env_gather*" << "tag_env_align" << "tag_env_align*"
 	   << "tag_env_flalign" << "tag_env_flalign*" << "tag_env_alignat" << "tag_env_alignat*"

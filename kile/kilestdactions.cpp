@@ -264,7 +264,6 @@ void setupMathTags(KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("Math Mode - $...$"),"mathmode",Qt::ALT+Qt::SHIFT+Qt::Key_M, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_mathmode","$","$",1);
 	(void) new KileAction::Tag("Displaymath Mode - \\[...\\]", "displaymathmode",Qt::ALT+Qt::SHIFT+Qt::Key_E, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_equation", "\\[","\\]", 2);
   	(void) new KileAction::Tag(i18n("Equation - \\begin{equation}"),"equation",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_equation","\\begin{equation}\n","%E\n\\end{equation} ",0,1);
-  	(void) new KileAction::Tag(i18n("Eqnarray - \\begin{eqnarray}"),"eqnarray",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_env_eqnarray","\\begin{eqnarray}\n","%E\n\\end{eqnarray} ",0,1);
 	(void) new KileAction::Tag(i18n("Subscript - _{}"),"math_lsup",Qt::ALT+Qt::SHIFT+Qt::Key_D, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_subscript","_{","}",2);
 	(void) new KileAction::Tag(i18n("Superscript - ^{}"),"math_lsub",Qt::ALT+Qt::SHIFT+Qt::Key_U, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_superscript","^{","}",2);
 	(void) new KileAction::Tag(i18n("Normal - \\frac{}{}"),"smallfrac",Qt::ALT+Qt::SHIFT+Qt::Key_F, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_frac", "\\frac{","}{}",6);
@@ -345,7 +344,6 @@ void setupMathTags(KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("Displaymath - \\begin{displaymath}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_displaymath","\\begin{displaymath}\n","%E\n\\end{displaymath}\n",0,1);
 
 	(void) new KileAction::Tag(i18n("Equation (not numbered) - \\begin{equation*}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_equation*","\\begin{equation*}\n","%E\n\\end{equation*}\n",0,1);
-	(void) new KileAction::Tag(i18n("Eqnarray (not numbered) - \\begin{eqnarray*}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_eqnarray*","\\begin{eqnarray*}\n","%E\n\\end{eqnarray*}\n",0,1);
 
 	// AMS environments
 	(void) new KileAction::Tag(i18n("Multline - \\begin{multline}"),0, parent, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_multline","\\begin{multline}\n","%E\n\\end{multline}\n", 0,1);

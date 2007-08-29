@@ -3,6 +3,10 @@ version 2.0beta1 -> ???
 Fixes:
  - Polishing Quickdocumentdialog
  - More agressive recompiling
+ - Cwl fixes
+ - Mathsymbol commands were biased with one, some symbol cleanups (#148855)
+ - Don't make system check if the user has defined a master document (#148800)
+ - Don't offer eqnarray in the latex menu (but we still support it for math environment completion etc.) (#101583)
 
 Features:
  - Call asymptote if needed on latex run 

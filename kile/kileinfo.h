@@ -30,7 +30,8 @@
 #include "kilestdtools.h"
 #include "latexoutputfilter.h"
 #include "latexoutputinfo.h"
-#include "latexcmd.h"         
+#include "latexcmd.h"
+#include "kileconfig.h"
 
 class QWidget;
 
@@ -55,12 +56,13 @@ namespace KileTemplate { class Manager; }
 
 class KileInfo
 {
-
+	
 public:
 	KileInfo(QWidget *parent);
 	virtual ~KileInfo();
 
 public:
+	enum {bibinputs = 0,bstinputs, texinputs};
 	QString getName(Kate::Document *doc = 0, bool shrt = false);
 	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);
@@ -132,7 +134,10 @@ public:
 	KileEventFilter* eventFilter() const { return m_eventFilter; }
 
 	QWidget *parentWidget() const { return m_parentWidget; }
-
+	
+	static QString expandEnvironmentVars(const QString &variable);
+	static QString checkOtherPaths(const QString &path,const QString &file, int type);
+	static QString checkOtherPaths(const KURL &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }
 protected:
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;

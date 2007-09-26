@@ -355,6 +355,58 @@ void KileInfo::clearSelection() const
 	}
 }
 
+QString KileInfo::expandEnvironmentVars(const QString &str)
+{
+	static QRegExp reEnvVars("\\$(\\w+)");
+	QString result = str;
+	int index = -1;
+	while ( (index = str.find(reEnvVars, index + 1)) != -1 )
+		result.replace(reEnvVars.cap(0),getenv(reEnvVars.cap(1).local8Bit()));
+
+	return result;
+}
+
+QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)
+{
+	kdDebug() << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)" << endl;
+	QStringList inputpaths;
+	QString configpaths;
+	QFileInfo info;
+
+	switch(type)
+	{
+		case bibinputs:
+			configpaths = KileConfig::bibInputPaths() + ":$BIBINPUTS";
+			break;
+		case texinputs:
+			configpaths = KileConfig::teXPaths() + ":$TEXINPUTS";
+			break;
+		case bstinputs:
+			configpaths = KileConfig::bstInputPaths() + ":$BSTINPUTS";
+			break;
+		default:
+			kdDebug() << "Unknown type in checkOtherPaths" << endl;
+			return QString::null;
+			break;
+	}
+
+	inputpaths = QStringList::split( ":",  expandEnvironmentVars(configpaths));
+	inputpaths.prepend(path);
+
+		// the first match is supposed to be the correct one
+	for ( QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it )
+	{
+		kdDebug() << "path is " << *it << "and file is " << file << endl;
+		info.setFile((*it) + '/' + file);
+		if(info.exists())
+		{
+			kdDebug() << "filepath after correction is: " << info.dirPath() << endl;
+			return info.absFilePath();
+		}
+	}
+	return QString::null;
+}
+
 QString KileInfo::relativePath(const QString basepath, const QString & file)
 {
 	KURL url = KURL::fromPathOrURL(file);

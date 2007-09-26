@@ -27,6 +27,7 @@
 #include <kdebug.h>
 
 #include "kiletoolmanager.h"
+#include "kileinfo.h"
 #include "kileconfig.h"
 #include "kiletool.h"
 
@@ -172,7 +173,7 @@ void Tester::runTests()
 	m_process = new KShellProcess(QFile::encodeName( shellname ));
 	if (! KileConfig::teXPaths().isEmpty())
 	{
-		m_process->setEnvironment("TEXINPUTS", KileTool::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
+		m_process->setEnvironment("TEXINPUTS", KileInfo::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
 	}
 	*m_process << "cd " + KShellProcess::quote(destdir) + " && ";
 	*m_process << "cp " + KShellProcess::quote(srcdir) +"/* " + KShellProcess::quote(destdir) + " && ";

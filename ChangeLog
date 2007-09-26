@@ -7,6 +7,7 @@ Fixes:
  - Mathsymbol commands were biased with one, some symbol cleanups (#148855)
  - Don't make system check if the user has defined a master document (#148800)
  - Don't offer eqnarray in the latex menu (but we still support it for math environment completion etc.) (#101583)
+ - Consider also files located in $TEXINPUTS and $BIBINPUTS paths for codecompletion. (#149652)
 
 Features:
  - Call asymptote if needed on latex run 

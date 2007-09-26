@@ -86,28 +86,28 @@ QString Extensions::fileFilter(uint type)
 
 //////////////////// document type ////////////////////
 
-bool Extensions::isTexFile(const KURL & url) const
+bool Extensions::isTexFile(const QString &fileName) const
 {
 	//TODO use mimetype
-	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(fileName).extension(false);
 	return isLatexDocument(ext) || isLatexPackage(ext);
 }
 
-bool Extensions::isBibFile(const KURL & url) const
+bool Extensions::isBibFile(const QString &fileName) const
 {
-	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(fileName).extension(false);
 	return isBibtex(ext);
 }
 
-bool Extensions::isScriptFile(const KURL& url) const
+bool Extensions::isScriptFile(const QString &fileName) const
 {
-	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(fileName).extension(false);
 	return isScript(ext);
 }
 
-bool Extensions::isProjectFile(const KURL& url) const
+bool Extensions::isProjectFile(const QString &fileName) const
 {
-	QString ext = '.' + QFileInfo(url.fileName()).extension(false);
+	QString ext = '.' + QFileInfo(fileName).extension(false);
 	return isProject(ext);
 }
 

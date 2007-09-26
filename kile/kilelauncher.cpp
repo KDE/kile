@@ -15,6 +15,7 @@
 
 #include "kilelauncher.h"
 
+#include "kileinfo.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
@@ -123,20 +124,20 @@
 			if ( tool()->isQuickie() ) 
 				m_texinputs = KileConfig::previewTeXPaths();
 
-			kdDebug() << "$PATH=" << expandEnvironmentVars("$PATH") << endl;
-			kdDebug() << "$TEXINPUTS=" << expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << endl;
-			kdDebug() << "$BIBINPUTS=" << expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << endl;
-			kdDebug() << "$BSTINPUTS=" << expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << endl;
+			kdDebug() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH") << endl;
+			kdDebug() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << endl;
+			kdDebug() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << endl;
+			kdDebug() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << endl;
 			kdDebug() << "Tool name is "<< tool()->name() << endl;
 
-			m_proc->setEnvironment("PATH",expandEnvironmentVars("$PATH"));
+			m_proc->setEnvironment("PATH",tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
 			if (! m_texinputs.isEmpty())
-				m_proc->setEnvironment("TEXINPUTS", expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
+				m_proc->setEnvironment("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
 			if (! m_bibinputs.isEmpty())
-				m_proc->setEnvironment("BIBINPUTS", expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
+				m_proc->setEnvironment("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
 			if (! m_bstinputs.isEmpty())
-				m_proc->setEnvironment("BSTINPUTS", expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
+				m_proc->setEnvironment("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
 
 			out += "*****\n";
 			emit(output(out));

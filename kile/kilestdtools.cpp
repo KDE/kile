@@ -336,12 +336,12 @@ namespace KileTool
 				}
 			}
 			kdDebug() << "filename before: " << info.dirPath() << endl;
-			setSource(checkOtherPaths(info.dirPath(),bib + ".bib",bibinputs));	
+			setSource(manager()->info()->checkOtherPaths(info.dirPath(),bib + ".bib",KileInfo::bibinputs));	
 		}
 		else if( info.exists() ) //active doc is a bib file
 		{
 			kdDebug() << "filename before: " << info.dirPath() << endl;
-			setSource(checkOtherPaths(info.dirPath(),info.fileName(),bibinputs));
+			setSource(manager()->info()->checkOtherPaths(info.dirPath(),info.fileName(),KileInfo::bibinputs));
 		}
 		else
 		{

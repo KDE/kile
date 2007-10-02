@@ -963,7 +963,7 @@ void LaTeXInfo::updateStruct()
 					}
 					else
 					{
-						m = i18n("Untitled frame");
+						m = i18n("Frame");
 					}
 				}
 
@@ -990,19 +990,23 @@ void LaTeXInfo::updateStruct()
 						else if ( m == "frame" )
 						{
 							it = m_dictStructLevel.find("\\begin{frame}");
-							m = i18n("Untitled frame");
+							m = i18n("Frame");
 						}
 						else if ( m=="block" || m=="exampleblock" || m=="alertblock")
 						{
+							const QString untitledBlockDisplayName = i18n("Untitled Block");
 							it = m_dictStructLevel.find("\\begin{block}");
 							if ( s.at(tagEnd+1) == '{' )
 							{
 								tagEnd++;
 								result = matchBracket(i, static_cast<uint&>(tagEnd));
 								m = result.value.stripWhiteSpace();
+								if(m.isEmpty()) {
+									m = untitledBlockDisplayName;
+								}
 							}
 							else
-								m = i18n("Untitled block");
+								m = untitledBlockDisplayName;
 						}
 						else
 							fireSuspended = true;    // only floats and beamer frames, no other environments

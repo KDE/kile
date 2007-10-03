@@ -1,8 +1,6 @@
 to fix:
 	- #142987 project load crash
-	- grepping files does not work if kile.encoding != system.encoding, try e.g. UTF8 vs. latin1 with umlauts [grep can't do the job, so this is in my eyes a candidate for a known limitation]
 	- strange ref error see http://sourceforge.net/forum/forum.php?thread_id=1746112&forum_id=292014 and BTS
-	- math group quick preview, fails with $$ .. $$ [tbraun] 
 docu:
 - #130910
 - preview

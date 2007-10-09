@@ -232,17 +232,11 @@ Kile::~Kile()
 
 void Kile::showEvent(QShowEvent *)
 {
-	newCaption();
 	m_focusWidget->setFocus();
 }
 
 void Kile::hideEvent(QHideEvent *)
 {
-	Kate::View *view = viewManager()->currentTextView();
-	if (view)
-	{
-		setCaption( getShortName(view->getDoc()) );
-	}
 	m_focusWidget = focusWidget();
 }
 
@@ -1148,8 +1142,9 @@ void Kile::newCaption()
 	Kate::View *view = viewManager()->currentTextView();
 	if (view)
 	{
-		setCaption(i18n("Document: %1").arg(getName(view->getDoc())));
-		if (m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) m_texKonsole->sync();
+		setCaption( getShortName( view->getDoc() ) );
+		if (m_bottomBar->currentPage()->inherits("KileWidget::Konsole"))
+			m_texKonsole->sync();
 	}
 	else
 		setCaption("");

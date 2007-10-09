@@ -20,7 +20,7 @@
 #include <qfileinfo.h>
 
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDocument 
 {

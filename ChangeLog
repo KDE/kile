@@ -1,7 +1,8 @@
 version 2.0beta1 -> 2.0beta3
 
 Fixes:
--
+ - Added some new logic to really disable all debug output if --disable-debug
+   is given to configure, should make kile faster
 
 Features:
  - New documentation kile-remote-control.txt 

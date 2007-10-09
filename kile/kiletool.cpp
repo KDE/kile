@@ -73,7 +73,7 @@ namespace KileTool
 
 	Base::~Base()
 	{
-		kdDebug() << "DELETING TOOL: " << name() << endl;
+		KILE_DEBUG() << "DELETING TOOL: " << name() << endl;
 		delete m_launcher;
 	}
 
@@ -99,14 +99,14 @@ namespace KileTool
 		QDictIterator<QString> it(*paramDict());
 		for( it.toFirst() ; it.current(); ++it )
 		{
-// 			kdDebug() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
+// 			KILE_DEBUG() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
 			str.replace(it.currentKey(), *( it.current() ) );
 		}
 	}
 
 	void Base::prepareToRun(const QString &cfg)
 	{
-		kdDebug() << "==Base::prepareToRun()=======" << endl;
+		KILE_DEBUG() << "==Base::prepareToRun()=======" << endl;
 		
 		m_bPrepared = true;		
 		m_nPreparationResult = Running;
@@ -159,7 +159,7 @@ namespace KileTool
 
 	int Base::run()
 	{
-		kdDebug() << "==KileTool::Base::run()=================" << endl;
+		KILE_DEBUG() << "==KileTool::Base::run()=================" << endl;
 	
 		if ( m_nPreparationResult != 0 )
 			return m_nPreparationResult;
@@ -179,14 +179,14 @@ namespace KileTool
 		
 		if (!m_launcher->launch())
 		{
-			kdDebug() << "\tlaunching failed" << endl;
+			KILE_DEBUG() << "\tlaunching failed" << endl;
 			if (!m_launcher->selfCheck())
 				return SelfCheckFailed;
 			else
 				return CouldNotLaunch;
 		}
 
-		kdDebug() << "\trunning..." << endl;
+		KILE_DEBUG() << "\trunning..." << endl;
 
 		return Running;
 
@@ -269,11 +269,11 @@ namespace KileTool
 		addDict("%source", m_source);
 		addDict("%S",m_S);
 		
-		kdDebug() << "===KileTool::Base::setSource()==============" << endl;
-		kdDebug() << "using " << source << endl;
-		kdDebug() << "source="<<m_source<<endl;
-		kdDebug() << "S=" << m_S << endl;
-		kdDebug() << "basedir=" << m_basedir << endl;
+		KILE_DEBUG() << "===KileTool::Base::setSource()==============" << endl;
+		KILE_DEBUG() << "using " << source << endl;
+		KILE_DEBUG() << "source="<<m_source<<endl;
+		KILE_DEBUG() << "S=" << m_S << endl;
+		KILE_DEBUG() << "basedir=" << m_basedir << endl;
 	}
 	
 	bool Base::determineTarget()
@@ -288,7 +288,7 @@ namespace KileTool
 			//test for explicit override
 			if ( !readEntry("target").isEmpty() )
 			{
-				kdDebug() << "USING target SETTING" << endl;
+				KILE_DEBUG() << "USING target SETTING" << endl;
 				m_target = readEntry("target");
 			}
 			else if ( to().length() > 0)
@@ -310,9 +310,9 @@ namespace KileTool
 		setTarget(m_target);
 		setTargetDir(m_targetdir);		
 		
-		kdDebug() << "==KileTool::Base::determineTarget()=========" << endl;
-		kdDebug() << "\tm_targetdir=" << m_targetdir << endl;
-		kdDebug() << "\tm_target=" << m_target << endl;
+		KILE_DEBUG() << "==KileTool::Base::determineTarget()=========" << endl;
+		KILE_DEBUG() << "\tm_targetdir=" << m_targetdir << endl;
+		KILE_DEBUG() << "\tm_target=" << m_target << endl;
 		
 		return true;
 	}
@@ -390,10 +390,10 @@ namespace KileTool
 
 	bool Base::finish(int result)
 	{
-		kdDebug() << "==KileTool::Base::finish()==============" << endl;
+		KILE_DEBUG() << "==KileTool::Base::finish()==============" << endl;
 		if (sender())
 		{
-			kdDebug() << "\tcalled by " << sender()->name() << " " << sender()->className() << endl;
+			KILE_DEBUG() << "\tcalled by " << sender()->name() << " " << sender()->className() << endl;
 		}
 		
 		if ( result == Aborted )
@@ -402,7 +402,7 @@ namespace KileTool
 		if ( result == Success )
 			sendMessage(Info,"Done!");
 
-		kdDebug() << "\temitting done(Base*, int) " << name() << endl;
+		KILE_DEBUG() << "\temitting done(Base*, int) " << name() << endl;
 		emit(done(this, result));
 	
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
@@ -432,7 +432,7 @@ namespace KileTool
 			return true;
 
 		QString type = readEntry("type");
-		kdDebug() << "installing launcher of type " << type << endl;
+		KILE_DEBUG() << "installing launcher of type " << type << endl;
 		Launcher *lr = 0;
 
 		if ( type == "Process" )
@@ -489,25 +489,25 @@ namespace KileTool
 
 	bool Base::needsUpdate(const QString &target, const QString &source)
 	{
-		kdDebug() << "==Base::needsUpdate(" << target << "," << source << endl;
+		KILE_DEBUG() << "==Base::needsUpdate(" << target << "," << source << endl;
 		QFileInfo targetinfo(target);
 		QFileInfo sourceinfo(source);
 
 		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
 		{
-			kdDebug() << "\treturning false: source doesn't exist" << endl;
+			KILE_DEBUG() << "\treturning false: source doesn't exist" << endl;
 			return false;
 		}
 
 		if ( ! targetinfo.exists() )
 		{
-			kdDebug() << "\treturning true: target doesn't exist" << endl;
+			KILE_DEBUG() << "\treturning true: target doesn't exist" << endl;
 			return true;
 		}
 
-		kdDebug() << "\ttarget: " << targetinfo.lastModified().toString() << endl;
-		kdDebug() << "\tsource: " << sourceinfo.lastModified().toString() << endl;
-		kdDebug() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified()) << endl;
+		KILE_DEBUG() << "\ttarget: " << targetinfo.lastModified().toString() << endl;
+		KILE_DEBUG() << "\tsource: " << sourceinfo.lastModified().toString() << endl;
+		KILE_DEBUG() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified()) << endl;
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
 
@@ -541,7 +541,7 @@ namespace KileTool
 	{
 		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
-		kdDebug() << "View: flag " << (flags() & NeedTargetExists) << endl;
+		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists) << endl;
 		setMsg(NeedTargetExists, i18n("The file %2/%3 does not exist; did you compile the source file?"));
 	}
 
@@ -594,8 +594,8 @@ namespace KileTool
 		
 		addDict("%AFL", m_fileList);
 		
-		kdDebug() << "===KileTool::Archive::setSource("<< source << ")==============" << endl;
-		kdDebug() << "m_fileList="<<m_fileList<<endl;
+		KILE_DEBUG() << "===KileTool::Archive::setSource("<< source << ")==============" << endl;
+		KILE_DEBUG() << "m_fileList="<<m_fileList<<endl;
 	}
 	
 	Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)
@@ -622,7 +622,7 @@ namespace KileTool
 
 	int Sequence::run()
 	{
-		kdDebug() << "==KileTool::Sequence::run()==================" << endl;
+		KILE_DEBUG() << "==KileTool::Sequence::run()==================" << endl;
 
  		configure();
 		determineSource();
@@ -639,10 +639,10 @@ namespace KileTool
 			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation
 			if (tool)
 			{
-				kdDebug() << "===tool created with name " << tool->name() << endl;
+				KILE_DEBUG() << "===tool created with name " << tool->name() << endl;
 				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
 				{
-					kdDebug() << "\tqueueing " << tl << "(" << cfg << ") with " << source() << endl;
+					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source() << endl;
 					tool->setSource(source());
 					manager()->run(tool, cfg);
 				}

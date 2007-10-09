@@ -21,7 +21,7 @@
 #include <qmap.h>
 #include <qscrollview.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kurl.h>
 
 #include "kileconstants.h"

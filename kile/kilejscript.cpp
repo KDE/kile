@@ -19,7 +19,7 @@
 #include <kjs/lookup.h>
 
 #include <kconfig.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>

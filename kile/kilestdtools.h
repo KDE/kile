@@ -16,7 +16,7 @@
 #ifndef KILESTDTOOLS_H
 #define KILESTDTOOLS_H
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <qstring.h>
 
 #include "kiletool.h"

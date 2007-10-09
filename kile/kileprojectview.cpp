@@ -57,7 +57,7 @@ void KileProjectViewItem::nameChanged(const QString & name)
 
 void KileProjectViewItem::isrootChanged(bool isroot)
 {
-	kdDebug() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
+	KILE_DEBUG() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
 	if (isroot)
 	{
 		setPixmap(0,SmallIcon("masteritem"));
@@ -334,7 +334,7 @@ void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  
 
 void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 {
-	kdDebug() << "\tmakeTheConnection " << item->text(0) << endl;
+	KILE_DEBUG() << "\tmakeTheConnection " << item->text(0) << endl;
 
 	if (item->type() == KileType::Project)
 	{
@@ -348,7 +348,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	{
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().path());
 		item->setInfo(docinfo);
-		if (docinfo ==0 ) {kdDebug() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
+		if (docinfo ==0 ) {KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
 		connect(docinfo, SIGNAL(urlChanged(KileDocument::Info*, const KURL&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KURL&)));
 		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
@@ -409,7 +409,7 @@ KileProjectViewItem* KileProjectView::folder(const KileProjectItem *pi, KileProj
 	if ( ! found )
 	{
 		folder = new KileProjectViewItem(parent,foldername);
-		kdDebug() << "new folder: " << parent->url().url() << endl;
+		KILE_DEBUG() << "new folder: " << parent->url().url() << endl;
 
 		folder->setFolder(pi->type());
 		folder->setType(KileType::Folder);
@@ -478,29 +478,29 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 	if (parpi) {
 		//find parent viewitem that has an URL parpi->url()
 		QListViewItemIterator it( projvi );
-		kdDebug() << "\tlooking for " << parpi->url().path() << endl;
+		KILE_DEBUG() << "\tlooking for " << parpi->url().path() << endl;
 		while (it.current())
 		{
 			vi = static_cast<KileProjectViewItem*>(*it);
-			kdDebug() << "\t\t" << vi->url().path() << endl;
+			KILE_DEBUG() << "\t\t" << vi->url().path() << endl;
 			if (vi->url() == parpi->url())
 			{
 				parpvi = vi;
-				kdDebug() << "\t\tfound" <<endl;
+				KILE_DEBUG() << "\t\tfound" <<endl;
 				break;
 			}
 			++it;
 		}
 
-		kdDebug() << "\t\tnot found" << endl;
+		KILE_DEBUG() << "\t\tnot found" << endl;
 	}
 	else {
-		kdDebug() << "\tlooking for folder type " << projitem->type() << endl;
+		KILE_DEBUG() << "\tlooking for folder type " << projitem->type() << endl;
 		for (parpvi = parpvi->firstChild(); parpvi; parpvi = parpvi->nextSibling())
 		{
 			if ( (parpvi->type() == KileType::Folder) && (parpvi->folder() == projitem->type()) )
 			{
-				kdDebug() << "\t\tfound" << endl;
+				KILE_DEBUG() << "\t\tfound" << endl;
 				break;
 			}
 		}
@@ -511,7 +511,7 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 
 KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProjectViewItem * projvi /* = 0*/)
 {
-	kdDebug() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
+	KILE_DEBUG() << "\tKileProjectView::adding projectitem " << projitem->path() << endl;
 
 	const KileProject *project = projitem->project();
 
@@ -520,7 +520,7 @@ KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProject
 		projvi= projectViewItemFor(project->url());
 	}
 
-	kdDebug() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
+	KILE_DEBUG() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
 
 	KileProjectViewItem *item, *parent;
 
@@ -567,13 +567,13 @@ void KileProjectView::addTree(KileProjectItem *projitem, KileProjectViewItem * p
 
 void KileProjectView::refreshProjectTree(const KileProject *project)
 {
-	kdDebug() << "\tKileProjectView::refreshProjectTree(" << project->name() << ")" << endl;
+	KILE_DEBUG() << "\tKileProjectView::refreshProjectTree(" << project->name() << ")" << endl;
 	KileProjectViewItem *parent= projectViewItemFor(project->url());
 
 	//clean the tree
 	if (parent)
 	{
-		kdDebug() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
+		KILE_DEBUG() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
 		parent->setFolder(-1);
 		QListViewItem *vi = parent->firstChild(), *next;
 		while (vi)
@@ -603,7 +603,7 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 
 void KileProjectView::add(const KURL & url)
 {
-	kdDebug() << "\tKileProjectView::adding item " << url.path() << endl;
+	KILE_DEBUG() << "\tKileProjectView::adding item " << url.path() << endl;
 	//check if file is already present
 	QListViewItemIterator it( this );
 	KileProjectViewItem *item;
@@ -666,7 +666,7 @@ void KileProjectView::removeItem(const KileProjectItem *projitem, bool open)
 		item = static_cast<KileProjectViewItem*>(*it);
 		if ( (item->type() == KileType::ProjectItem) && (item->projectItem() == projitem) )
 		{
-			kdDebug() << "removing projectviewitem" << endl;
+			KILE_DEBUG() << "removing projectviewitem" << endl;
 			item->parent()->takeItem(item);
 			delete item;
 		}

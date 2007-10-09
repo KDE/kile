@@ -21,7 +21,7 @@
 #include <qlayout.h>
 
 #include <kdeversion.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kilemultitabbar.h>
 
 #include "symbolview.h"
@@ -103,7 +103,7 @@ int KileSideBar::addTab(QWidget *tab, const QPixmap &pic, const QString &text /*
 
 void KileSideBar::setVisible(bool show)
 {
-	kdDebug() << "==KileSideBar::setVisible(" << show << ")===========" << endl;
+	KILE_DEBUG() << "==KileSideBar::setVisible(" << show << ")===========" << endl;
 	if (show) expand();
 	else shrink();
 }

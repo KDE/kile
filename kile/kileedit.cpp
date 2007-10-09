@@ -258,7 +258,7 @@ void EditorExtension::gotoEnvironment(bool backwards, Kate::View *view)
 	if ( backwards )
 	{
 		found = findBeginEnvironment(doc,row,col,env);
-		//kdDebug() << "   goto begin env:  " << env.row << "/" << env.col << endl;
+		//KILE_DEBUG() << "   goto begin env:  " << env.row << "/" << env.col << endl;
 	
 	}
 	else
@@ -534,7 +534,7 @@ bool EditorExtension::getMathgroup(Kate::View *view, uint &row1, uint &col1, uin
 
 	if ( begin.tag==mmMathDollar && !(begin.numdollar & 1) )
 	{
-		//kdDebug() << "error: even number of '$' --> no math mode"  << endl;
+		//KILE_DEBUG() << "error: even number of '$' --> no math mode"  << endl;
 		return false;
 	}
 
@@ -562,14 +562,14 @@ bool EditorExtension::checkMathtags(const MathData &begin,const MathData &end)
 	// both tags were found, but they must be of the same type
 	if ( begin.tag != end.tag )
 	{
-		//kdDebug() << "error: opening and closing tag of mathmode don't match"  << endl;
+		//KILE_DEBUG() << "error: opening and closing tag of mathmode don't match"  << endl;
 		return false;
 	}
 
 	// and additionally: if it is a math env, both tags must have the same name
 	if ( begin.tag==mmDisplaymathEnv && begin.envname!=end.envname )
 	{
-		//kdDebug() << "error: opening and closing env tags have different names"  << endl;
+		//KILE_DEBUG() << "error: opening and closing env tags have different names"  << endl;
 		return false;
 	}
 
@@ -691,7 +691,7 @@ bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, Q
 				}
 				else
 				{
-					//kdDebug() << "error: dollar not allowed in \\[ or \\( mode" << endl;
+					//KILE_DEBUG() << "error: dollar not allowed in \\[ or \\( mode" << endl;
 					return false;
 				}
 			}
@@ -710,7 +710,7 @@ bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, Q
 				{
 					if ( numDollar > 0 )
 					{
-						//kdDebug() << "error: dollar not allowed in math env   numdollar=" << numDollar  << endl;
+						//KILE_DEBUG() << "error: dollar not allowed in math env   numdollar=" << numDollar  << endl;
 						return false;
 					}
 
@@ -771,7 +771,7 @@ bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, Q
 			}
 			else
 			{
-				//kdDebug() << "error: unknown match" << endl;
+				//KILE_DEBUG() << "error: unknown match" << endl;
 				return false;
 			}
 
@@ -842,7 +842,7 @@ bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, 
 			}
 			else if ( mathname=="\\[" || mathname=="\\(" )
 			{
-				//kdDebug() << "error: current mathgroup was not closed" << endl;
+				//KILE_DEBUG() << "error: current mathgroup was not closed" << endl;
 				return false;
 			}
 			else if ( mathname=="\\b" )
@@ -851,13 +851,13 @@ bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, 
 				
 				if ( ! (m_latexCommands->isMathEnv(envname) || envname=="math") )
 				{
-					//kdDebug() << "error: only math env are allowed in mathmode (found begin tag)" << endl;
+					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found begin tag)" << endl;
 					return false;
 				}
 
 				if ( !m_latexCommands->needsMathMode(envname) || envname=="math" )
 				{
-					//kdDebug() << "error: mathenv with its own mathmode are not allowed in mathmode " << endl;
+					//KILE_DEBUG() << "error: mathenv with its own mathmode are not allowed in mathmode " << endl;
 					return false;
 				}
 				// else continue search
@@ -867,7 +867,7 @@ bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, 
 				QString envname = reg.cap(2);
 				if ( ! (m_latexCommands->isMathEnv(envname) || envname=="math") )
 				{
-					//kdDebug() << "error: only math env are allowed in mathmode (found end tag)" << endl;
+					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found end tag)" << endl;
 					return false;
 				}
 
@@ -907,7 +907,7 @@ bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, 
 
 void EditorExtension::insertIntelligentNewline(Kate::View *view)
 {
-	kdDebug() << "void EditorExtension::insertIntelligentNewline(Kate::View *view)" << endl;
+	KILE_DEBUG() << "void EditorExtension::insertIntelligentNewline(Kate::View *view)" << endl;
 	
 	view = determineView(view);
 	
@@ -926,7 +926,7 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 		
 	if(isCommentPosition(doc,row,col))
 	{
-		kdDebug() << "found comment" << endl;
+		KILE_DEBUG() << "found comment" << endl;
 		view->keyReturn();
 		view->insertText("% ");
 		return;
@@ -964,7 +964,7 @@ bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envnam
 	uint startrow = row;
 	uint startcol = col;
 	
-	//kdDebug() << "   close - start " << endl;
+	//KILE_DEBUG() << "   close - start " << endl;
 	// accept a starting place outside an environment
 	bool env_position = isEnvironmentPosition(doc,row,col,env);
 	
@@ -979,7 +979,7 @@ bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envnam
 	
 	if ( !env_position && findEnvironmentTag(doc,startrow,startcol,env,true) )
 	{
-		//kdDebug() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
 		row = env.row;
 		col = env.col;
 		envname = env.name;
@@ -1216,19 +1216,19 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, Kate::View *view)
 
 bool EditorExtension::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
 {
-	// kdDebug() << "   find begin:  " << endl;
+	// KILE_DEBUG() << "   find begin:  " << endl;
 	if ( isEnvironmentPosition(doc,row,col,env) )
 	{
 		// already found position?
-		//kdDebug() << "   found env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   found env at:  " << env.row << "/" << env.col << " " << env.name << endl;
 		if ( env.tag == EnvBegin )
 		{
-		//kdDebug() << "   is begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   is begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
 		return true;
 		}
 	
 		// go one position back
-		//kdDebug() << "   is end env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   is end env at:  " << env.row << "/" << env.col << " " << env.name << endl;
 		row = env.row;
 		col = env.col;
 		if ( ! decreaseCursorPosition(doc,row,col) )
@@ -1236,7 +1236,7 @@ bool EditorExtension::findBeginEnvironment(Kate::Document *doc, uint row, uint c
 	}
 	
 	// looking back for last environment
-	//kdDebug() << "   looking back from pos:  " << row << "/" << col << " " << env.name << endl;
+	//KILE_DEBUG() << "   looking back from pos:  " << row << "/" << col << " " << env.name << endl;
 	return findEnvironmentTag(doc,row,col,env,true);
 }
 
@@ -1370,7 +1370,7 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 			if ( env.cpos == EnvInside )
 				return true;
 			left = true;
-		//kdDebug() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1)) << endl;
+		//KILE_DEBUG() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1)) << endl;
 		}
 	}
 	
@@ -1393,10 +1393,10 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 		}
 		envright.cpos = EnvLeft;
 		right = true;
-		//kdDebug() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
+		//KILE_DEBUG() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
 	}
 	
-	//kdDebug() << "found left/right: " << left << "/" << right << endl;
+	//KILE_DEBUG() << "found left/right: " << left << "/" << right << endl;
 	// did we find a tag?
 	if ( ! (left || right) )
 		return false;
@@ -1417,22 +1417,22 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 	}
 	else if ( left && env.tag==EnvEnd )
 	{
-		//kdDebug() << "   1: accept left end:  " << env.name << endl;
+		//KILE_DEBUG() << "   1: accept left end:  " << env.name << endl;
 		return true;
 	}
 	else if ( right && envright.tag==EnvBegin )
 	{
-		//kdDebug() << "   2: accept right begin:  " << envright.name << endl;
+		//KILE_DEBUG() << "   2: accept right begin:  " << envright.name << endl;
 		env = envright;
 	}
 	else if ( left && env.tag==EnvBegin )
 	{
-		// kdDebug() << "   3: accept left begin:  " << env.name << endl;
+		// KILE_DEBUG() << "   3: accept left begin:  " << env.name << endl;
 		return true;
 	}
 	else if ( right && envright.tag==EnvEnd )
 	{
-		//kdDebug() << "   4: accept right end:  " << envright.name << endl;
+		//KILE_DEBUG() << "   4: accept right end:  " << envright.name << endl;
 		env = envright;
 	}
 	else
@@ -1708,12 +1708,12 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 	
 	if ( !findOpenBracket(doc,row,col,open) ) 
 	{ 
-		//kdDebug() << "no open bracket" << endl; 
+		//KILE_DEBUG() << "no open bracket" << endl; 
 		return false;
 	}
 	if ( !findCloseBracket(doc,row,col,close) ) 
 	{ 
-		//kdDebug() << "no close bracket" << endl; 
+		//KILE_DEBUG() << "no close bracket" << endl; 
 		return false;
 	}
 	
@@ -1874,7 +1874,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		int start = ( line == (int)row ) ? col : textline.length()-1;
 		for ( int i=start; i>=0; --i )
 		{
-			//kdDebug() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
+			//KILE_DEBUG() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
 			if ( textline[i] == '{' )
 			{
 				if ( brackets > 0 )
@@ -1894,7 +1894,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		}
 	}
 	
-	//kdDebug() << "nothting found" << endl;
+	//KILE_DEBUG() << "nothting found" << endl;
 	return false;
 }
 
@@ -2315,7 +2315,7 @@ void EditorExtension::initDoubleQuotes()
 	QStringList quotes = QStringList::split(QRegExp("\\s{2,}"), m_quoteList[index] ); 
 	m_leftDblQuote=  quotes[1];
 	m_rightDblQuote = quotes[2];
-	kdDebug() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;
+	KILE_DEBUG() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;
 }
 
 bool EditorExtension::insertDoubleQuotes()
@@ -2366,18 +2366,18 @@ bool EditorExtension::insertDoubleQuotes()
 	if ( iface->searchText(row,col,reg,&r,&c,&l,true) )  
 	{
 		openfound = ( doc->textLine(r).find(m_leftDblQuote,c) == (int)c );
-		//kdDebug() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
+		//KILE_DEBUG() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
 	}
 	
 	QString textline = doc->textLine(row);
-	//kdDebug() << "text=" << textline << " open=" << openfound << endl;
+	//KILE_DEBUG() << "text=" << textline << " open=" << openfound << endl;
 	if ( openfound ) 
 	{
 		// If we last inserted a language specific doublequote open,  
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote close
 		int startcol = col - m_leftDblQuote.length();
-		//kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col  << endl;
 		if ( startcol>=0 && textline.find(m_leftDblQuote,startcol) == (int)startcol ) 
 		{
 				doc->removeText(row,startcol,row,startcol+m_leftDblQuote.length());
@@ -2394,7 +2394,7 @@ bool EditorExtension::insertDoubleQuotes()
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote open
 		int startcol = col - m_rightDblQuote.length();
-		//kdDebug() << "startcol=" << startcol << " col=" << col  << endl;
+		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col  << endl;
 		if ( startcol>=0 && textline.find(m_rightDblQuote,startcol) == (int)startcol ) 
 		{
 			doc->removeText(row,startcol,row,startcol+m_rightDblQuote.length());
@@ -2492,11 +2492,11 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 
 bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
 {
-	kdDebug() << "===EditorExtension::shouldCompleteEnv( " << env << " )===" << endl;
+	KILE_DEBUG() << "===EditorExtension::shouldCompleteEnv( " << env << " )===" << endl;
 	QRegExp reTestBegin,reTestEnd;
 	if ( env == "\\[" )
 	{
-		kdDebug() << "display style" << endl;
+		KILE_DEBUG() << "display style" << endl;
 		reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\["); 
 		// the first part is a non-capturing bracket (?:...) and we check if we don't have a backslash in front,
 		//  or that we are at the begin of the line
@@ -2517,7 +2517,7 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
 	{
 		numBeginsFound += view->getDoc()->textLine(i).contains(reTestBegin);
 		numEndsFound += view->getDoc()->textLine(i).contains(reTestEnd);
-		kdDebug() << "line is " << i <<  " numBeginsFound = " << numBeginsFound <<  " , " << "numEndsFound = " << numEndsFound << endl;
+		KILE_DEBUG() << "line is " << i <<  " numBeginsFound = " << numBeginsFound <<  " , " << "numEndsFound = " << numEndsFound << endl;
 		if ( numEndsFound >= numBeginsFound )
 			return false;
 		else if ( numEndsFound == 0 && numBeginsFound > 1 )

@@ -35,7 +35,7 @@
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kdeversion.h>
 
 #include <ktrader.h>
@@ -292,7 +292,7 @@ QString TexDocDialog::searchFile(const QString &docfilename,const QString &listo
 		{
 			filename = ( subdir.isEmpty() ) ? (*itp) + '/' + docfilename + (*ite)
 			                                : (*itp) + '/' + subdir + '/' + docfilename + (*ite);
-		 	// kdDebug() << "search file: "  << filename << endl;
+		 	// KILE_DEBUG() << "search file: "  << filename << endl;
 			if (  QFile::exists(filename) )
 				return filename;
 		}
@@ -314,14 +314,14 @@ void TexDocDialog::decompressFile(const QString &docfile,const QString &command)
 	m_tempfile->setAutoDelete(true);
 	m_filename = m_tempfile->name();
 	
-	kdDebug() << "\tdecompress file: "  << command + " > " + m_tempfile->name() << endl;
+	KILE_DEBUG() << "\tdecompress file: "  << command + " > " + m_tempfile->name() << endl;
 	connect(this, SIGNAL(processFinished()), this, SLOT(slotShowFile()));
 	executeScript(command + " > " + m_tempfile->name());
 }
 
 void TexDocDialog::showStyleFile(const QString &filename,const QString &stylecode)
 {
-	kdDebug() << "\tshow style file: "<< filename << endl;
+	KILE_DEBUG() << "\tshow style file: "<< filename << endl;
 	if ( ! QFile::exists(filename) ) 
 		return;
 		
@@ -407,7 +407,7 @@ void TexDocDialog::showStyleFile(const QString &filename,const QString &stylecod
 
 void TexDocDialog::showFile(const QString &filename)
 {
-	kdDebug() << "\tshow file: "<< filename << endl;
+	KILE_DEBUG() << "\tshow file: "<< filename << endl;
 	if ( QFile::exists(filename) ) 
 	{
 		KURL url;
@@ -435,13 +435,13 @@ void TexDocDialog::slotListViewDoubleClicked(QListViewItem *item,const QPoint &,
 		return;
 		
 	QString package = item->text(1);
-	kdDebug() << "\tselect child: "  << item->text(0) << endl 
+	KILE_DEBUG() << "\tselect child: "  << item->text(0) << endl 
 	          << "\tis package: " << package << endl;
 	if ( ! m_dictDocuments.contains( package ) ) 
 		return;
 		
 	QString texdocfile = m_dictDocuments[package];
-	kdDebug() << "\tis texdocfile: " << texdocfile << endl;
+	KILE_DEBUG() << "\tis texdocfile: " << texdocfile << endl;
 	
 	// search for the file in the documentation directories
 	QString filename = searchFile(texdocfile,m_texmfdocPath);
@@ -455,7 +455,7 @@ void TexDocDialog::slotListViewDoubleClicked(QListViewItem *item,const QPoint &,
 			return;
 		}
 	}
-	kdDebug() << "\tfound file: " << filename << endl;
+	KILE_DEBUG() << "\tfound file: " << filename << endl;
 	
 	QString ext = QFileInfo(filename).extension(false).lower(); 
 	m_filename = QString::null;
@@ -544,10 +544,10 @@ void TexDocDialog::executeScript(const QString &command)
 	connect(m_proc, SIGNAL(processExited(KProcess*)),
 	        this,   SLOT(slotProcessExited(KProcess*)) );
 	  
-	kdDebug() << "=== TexDocDialog::runShellSkript() ====================" << endl;
-	kdDebug() << "   execute: " << command << endl;
+	KILE_DEBUG() << "=== TexDocDialog::runShellSkript() ====================" << endl;
+	KILE_DEBUG() << "   execute: " << command << endl;
 	if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
-		kdDebug() << "\tstart of shell process failed" << endl;
+		KILE_DEBUG() << "\tstart of shell process failed" << endl;
 }
 
 void TexDocDialog::slotProcessOutput(KProcess*,char* buf,int len)
@@ -586,9 +586,9 @@ void TexDocDialog::slotInitToc()
 	m_texmfdocPath = results[1];
 	m_texmfPath = results[2];
 	
-	kdDebug() << "\ttexdoctk path: " << m_texdoctkPath << endl;
-	kdDebug() << "\ttexmfdoc path: " << m_texmfdocPath << endl;
-	kdDebug() << "\ttexmf path: " << m_texmfPath << endl;
+	KILE_DEBUG() << "\ttexdoctk path: " << m_texdoctkPath << endl;
+	KILE_DEBUG() << "\ttexmfdoc path: " << m_texmfdocPath << endl;
+	KILE_DEBUG() << "\ttexmf path: " << m_texmfPath << endl;
 	
 	if ( m_texdoctkPath.find('\n',-1) > -1 ) 
 	{
@@ -627,7 +627,7 @@ QString TexDocDialog::getMimeType(const QString &filename)
 		mimetype = pMime->name();
 	}
 	
-	kdDebug() << "\tmime = "  << mimetype << " " << endl;
+	KILE_DEBUG() << "\tmime = "  << mimetype << " " << endl;
 	return mimetype;
 }
 

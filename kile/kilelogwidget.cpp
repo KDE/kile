@@ -19,7 +19,7 @@
 #include <qfileinfo.h>
 #include <qpopupmenu.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kurl.h>
 #include <klocale.h>
 
@@ -166,7 +166,7 @@ namespace KileWidget
 
 	void LogMsg::printProblem(int type, const QString & problem)
 	{
-		kdDebug() << "\t" << problem << endl;
+		KILE_DEBUG() << "\t" << problem << endl;
 		printMsg(type, problem, QString::null);
 	}
 

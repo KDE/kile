@@ -58,7 +58,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 	else // active doc belongs to a project
 	{
 		setCaption(i18n("Statistics for the Project %1").arg(m_project->name()));
-		kdDebug() << "Project file is " << project->baseURL() << endl;
+		KILE_DEBUG() << "Project file is " << project->baseURL() << endl;
 
 		KileProjectItemList *items = project->items();
 
@@ -84,7 +84,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 						m_summarystats[j]+=stats[j];
 					
 					tempWidget = new KileWidgetStatistics( addPage(tempName) );
-					kdDebug() << "TempName is " << tempName << endl;
+					KILE_DEBUG() << "TempName is " << tempName << endl;
 					m_pagetowidget[index]=tempWidget;
 					m_pagetoname[index]=tempName;
 					index++;
@@ -99,8 +99,8 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 				summary->m_warning->setText(i18n("To get statistics for all project files, you have to open them all."));
 
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-			kdDebug() << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
-			kdDebug() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+			KILE_DEBUG() << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+			KILE_DEBUG() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
 #endif
 		}
 	}
@@ -138,8 +138,8 @@ widget->updateColumns();
 
 void KileStatsDlg::slotUser1() // Copy
 {
-	kdDebug() << "Copy Button was clicked" << endl;
-	kdDebug() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
+	KILE_DEBUG() << "Copy Button was clicked" << endl;
+	KILE_DEBUG() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
 
 	QClipboard *clip = KApplication::clipboard();
 	QString text;
@@ -149,8 +149,8 @@ void KileStatsDlg::slotUser1() // Copy
 
 void KileStatsDlg::slotUser2() // CopyAsLaTeX
 {
-	kdDebug() << "CopyAsLateX Button was clicked" << endl;
-	kdDebug() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
+	KILE_DEBUG() << "CopyAsLateX Button was clicked" << endl;
+	KILE_DEBUG() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
 
 	QClipboard *clip = KApplication::clipboard();
 	QString text;

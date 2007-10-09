@@ -27,7 +27,7 @@
 #include <kaction.h>
 #include <ktextedit.h>
 #include <kconfig.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <klocale.h>
 #include <kparts/partmanager.h>
 #include <kmessagebox.h>
@@ -89,13 +89,13 @@ namespace KileTool
 			Queue *oldqueue = new Queue(*this);
 
 			setAutoDelete(false); clear();
-			kdDebug() << "\tenqueueing: " << headitem->tool()->name() << endl;
+			KILE_DEBUG() << "\tenqueueing: " << headitem->tool()->name() << endl;
 			enqueue(headitem);
-			kdDebug() << "\tenqueueing: " << item->tool()->name() << endl;
+			KILE_DEBUG() << "\tenqueueing: " << item->tool()->name() << endl;
 			enqueue(item);
 			while ( oldqueue->head() )
 			{
-				kdDebug() << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
+				KILE_DEBUG() << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
 				enqueue(oldqueue->dequeue());
 			}
 		}
@@ -155,7 +155,7 @@ namespace KileTool
 
 	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
-		kdDebug() << "==KileTool::Manager::run(Base *)============" << endl;
+		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
 		if (m_bClear && (m_queue.count() == 0) )
 		{
 			m_log->clear();
@@ -178,7 +178,7 @@ namespace KileTool
 		else
 			m_queue.enqueue(new QueueItem(tool, cfg, block));
 
-		kdDebug() << "\tin queue: " << m_queue.count() << endl;
+		KILE_DEBUG() << "\tin queue: " << m_queue.count() << endl;
 		if ( m_queue.count() == 1 )
 			return runNextInQueue();
 		else if ( m_queue.count() > 1 )
@@ -251,7 +251,7 @@ namespace KileTool
 
 	void Manager::started(Base *tool)
 	{
-		kdDebug() << "STARTING tool: " << tool->name() << endl;
+		KILE_DEBUG() << "STARTING tool: " << tool->name() << endl;
 		m_stop->setEnabled(true);
 
 		if (tool->isViewer()) 
@@ -317,8 +317,8 @@ namespace KileTool
 		QString group = (cfg == QString::null )
                     ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
 
-		kdDebug() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
-		kdDebug() << "\t" << name << " => " << group << endl;
+		KILE_DEBUG() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
+		KILE_DEBUG() << "\t" << name << " => " << group << endl;
 		if ( m_config->hasGroup(group) )
 		{
 			map = m_config->entryMap(group);
@@ -347,9 +347,9 @@ namespace KileTool
 
 	void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
 	{
-		kdDebug() << "==KileTool::Manager::saveEntryMap=============" << endl;
+		KILE_DEBUG() << "==KileTool::Manager::saveEntryMap=============" << endl;
 		QString group = currentGroup(name, usequeue, useproject);
-		kdDebug() << "\t" << name << " => " << group << endl;
+		KILE_DEBUG() << "\t" << name << " => " << group << endl;
 		m_config->setGroup(group);
 
 		Config::Iterator it;
@@ -362,7 +362,7 @@ namespace KileTool
 
 	bool Manager::configure(Base *tool, const QString & cfg /*=QString::null*/)
 	{
-		kdDebug() << "==KileTool::Manager::configure()===============" << endl;
+		KILE_DEBUG() << "==KileTool::Manager::configure()===============" << endl;
 		//configure the tool
 
 		Config map;
@@ -380,13 +380,13 @@ namespace KileTool
 
 	void Manager::wantGUIState(const QString & state)
 	{
-		kdDebug() << "REQUESTED state: " << state << endl;
+		KILE_DEBUG() << "REQUESTED state: " << state << endl;
 		emit(requestGUIState(state));
 	}
 
 	QStringList toolList(KConfig *config, bool menuOnly)
 	{
-		kdDebug() << "==KileTool::toolList()==================" << endl;
+		KILE_DEBUG() << "==KileTool::toolList()==================" << endl;
 
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
@@ -417,7 +417,7 @@ namespace KileTool
 
 	void setConfigName(const QString & tool, const QString & name, KConfig *config)
 	{
-		kdDebug() << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << endl;
+		KILE_DEBUG() << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << endl;
 		config->setGroup("Tools");
 		config->writeEntry(tool, name);
 	}
@@ -445,7 +445,7 @@ namespace KileTool
 		}
 		else
 			tool = lcl;
-		kdDebug() << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << endl;
+		KILE_DEBUG() << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << endl;
 	}
 
 	QString format(const QString & tool, const QString &cfg)

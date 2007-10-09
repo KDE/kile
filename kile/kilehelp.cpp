@@ -25,7 +25,7 @@
 #include <kapplication.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <klocale.h>
 #include <kate/document.h>
 
@@ -244,7 +244,7 @@ namespace KileHelp
 			texversion = "teTeX v3.x";
 		else 
 			texversion = "teTeX v2.x";
-		kdDebug() << "TeX Version: "<< texversion << " link=" << link << endl;
+		KILE_DEBUG() << "TeX Version: "<< texversion << " link=" << link << endl;
 
 		showHelpFile( m_texdocPath + m_texReference + link );
 	}
@@ -269,10 +269,10 @@ namespace KileHelp
 	void Help::helpTexRefsKeyword(Kate::View *view)
 	{
 		QString word = getKeyword(view);
-		kdDebug() << "keyword: " << word << endl;
+		KILE_DEBUG() << "keyword: " << word << endl;
 		if ( !word.isNull() && m_dictHelpTex.contains(word) )
 		{
-			kdDebug() << "about to show help for " << word << " (section " << m_dictHelpTex[word] << " )" << endl;
+			KILE_DEBUG() << "about to show help for " << word << " (section " << m_dictHelpTex[word] << " )" << endl;
 			showHelpFile( m_texdocPath + m_texReference + m_dictHelpTex[word] );
 		}
 		else
@@ -282,11 +282,11 @@ namespace KileHelp
 	void Help::helpKileRefsKeyword(Kate::View *view)
 	{
 		QString kilehelp = KGlobal::dirs()->findResource("html","en/kile/latexhelp.html");
-		kdDebug() << "kilehelp = " << kilehelp << endl;
+		KILE_DEBUG() << "kilehelp = " << kilehelp << endl;
 		if ( ! kilehelp.isEmpty() )
 		{
 			QString word = getKeyword(view);
-			kdDebug() << "word = " << word << " " << m_dictHelpKile.contains(word) << endl;
+			KILE_DEBUG() << "word = " << word << " " << m_dictHelpKile.contains(word) << endl;
 			if ( !word.isNull() && m_dictHelpKile.contains(word) )
 			{
 				showHelpFile( kilehelp + '#' + m_dictHelpKile[word] );
@@ -330,11 +330,11 @@ namespace KileHelp
 		QString file = KGlobal::dirs()->findResource("appdata","help/" + filename);
 		if ( file.isEmpty() )
 		{
-			kdDebug() << "   file not found: " << filename << endl;
+			KILE_DEBUG() << "   file not found: " << filename << endl;
 			return;
 		}
 
-		kdDebug() << "   read file: " << filename << endl;
+		KILE_DEBUG() << "   read file: " << filename << endl;
 		QRegExp reg("\\s*(\\S+)\\s*=>\\s*(\\S+)");
 
 		QFile f(file);

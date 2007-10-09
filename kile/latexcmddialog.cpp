@@ -29,7 +29,7 @@
 
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kileconfig.h"
 
@@ -637,7 +637,7 @@ void LatexCommandsDialog::slotAddClicked()
 		KileDocument::CmdAttribute type = getCommandMode(item);
 		if ( type == KileDocument::CmdAttrNone )
 		{
-			kdDebug() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+			KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 			return;
 		}
 
@@ -720,7 +720,7 @@ void LatexCommandsDialog::slotEditClicked()
 			KileDocument::CmdAttribute type = getCommandMode(parentitem);
 			if ( type == KileDocument::CmdAttrNone )
 			{
-				kdDebug() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+				KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 				return;
 			}
 
@@ -816,7 +816,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 		attr.type = getCommandMode((KListViewItem *)cur);
 		if ( attr.type == KileDocument::CmdAttrNone )
 		{
-			kdDebug() << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
+			KILE_DEBUG() << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
 			continue;
 		}
 
@@ -828,7 +828,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 			{
 				getEntry((KListViewItem *)curchild,attr);
 				QString value = m_commands->configString(attr,env);
-				kdDebug() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
+				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
 				if ( ! value.isEmpty() )
 				  m_config->writeEntry(key,value);
 			}

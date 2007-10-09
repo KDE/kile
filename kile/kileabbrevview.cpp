@@ -18,7 +18,7 @@
 #include <klistview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include <qheader.h>
 #include <qlayout.h>
@@ -90,7 +90,7 @@ void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
 	if ( ! m_changes )
 		return;
 
-	kdDebug() << "=== KileAbbrevView::saveLocalAbbreviation ===================" << endl;
+	KILE_DEBUG() << "=== KileAbbrevView::saveLocalAbbreviation ===================" << endl;
 	// create the file 
 	QFile abbrevfile(filename);
 	if ( ! abbrevfile.open( IO_WriteOnly ) ) 

@@ -40,7 +40,7 @@
 #include <qstyle.h>
 
 #include <kiconloader.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <qapplication.h>
 #include <math.h>
 
@@ -176,7 +176,7 @@ void KileMultiTabBarInternal::mousePressEvent(QMouseEvent *ev)
 
 
 #define CALCDIFF(m_tabs,diff,i) if (m_lines>(int)lines) {\
-					/*kdDebug()<<"i="<<i<<" tabCount="<<tabCount<<" space="<<space<<endl;*/ \
+					/*KILE_DEBUG()<<"i="<<i<<" tabCount="<<tabCount<<" space="<<space<<endl;*/ \
 					uint ulen=0;\
 					diff=0; \
 					for (uint i2=i;i2<tabCount;i2++) {\
@@ -192,9 +192,9 @@ void KileMultiTabBarInternal::mousePressEvent(QMouseEvent *ev)
 
 
 void KileMultiTabBarInternal::resizeEvent(QResizeEvent *ev) {
-/*	kdDebug()<<"KileMultiTabBarInternal::resizeEvent"<<endl;
-	kdDebug()<<"KileMultiTabBarInternal::resizeEvent - box geometry"<<box->geometry()<<endl;
-	kdDebug()<<"KileMultiTabBarInternal::resizeEvent - geometry"<<geometry()<<endl;*/
+/*	KILE_DEBUG()<<"KileMultiTabBarInternal::resizeEvent"<<endl;
+	KILE_DEBUG()<<"KileMultiTabBarInternal::resizeEvent - box geometry"<<box->geometry()<<endl;
+	KILE_DEBUG()<<"KileMultiTabBarInternal::resizeEvent - geometry"<<geometry()<<endl;*/
 	if (ev) QScrollView::resizeEvent(ev);
 	QValueList<KileMultiTabBarTab*> visibleTabList;
 	for(KileMultiTabBarTab *tab = m_tabs.first(); tab; tab = m_tabs.next()) {
@@ -242,20 +242,20 @@ void KileMultiTabBarInternal::resizeEvent(QResizeEvent *ev) {
 			CALCDIFF(visibleTabList,diff,0)
 			tmp=-diff;
 
-			//kdDebug()<<"m_lines recalculated="<<m_lines<<endl;
+			//KILE_DEBUG()<<"m_lines recalculated="<<m_lines<<endl;
 		        for (uint i=0;i<tabCount;i++) {
 				KileMultiTabBarTab *tab=*(visibleTabList.at(i));
 				cnt++;
 				tmp+=tab->neededSize()+diff;
 				if (tmp>space) {
-					//kdDebug()<<"about to start new line"<<endl;
+					//KILE_DEBUG()<<"about to start new line"<<endl;
 					if (cnt>1) {
 						CALCDIFF(visibleTabList,diff,i)
 						i--;
 					}
 					else {
-						//kdDebug()<<"placing line on old line"<<endl;
-						kdDebug()<<"diff="<<diff<<endl;
+						//KILE_DEBUG()<<"placing line on old line"<<endl;
+						KILE_DEBUG()<<"diff="<<diff<<endl;
 						tab->removeEventFilter(this);
 						tab->move(NEARBYINT(tmp-tab->neededSize()),lines*24);
 //						tab->setFixedWidth(tab->neededSize()+diff);
@@ -267,11 +267,11 @@ void KileMultiTabBarInternal::resizeEvent(QResizeEvent *ev) {
 					tmp=-diff;
 					cnt=0;
 					lines++;
-					//kdDebug()<<"starting new line:"<<lines<<endl;
+					//KILE_DEBUG()<<"starting new line:"<<lines<<endl;
 
 				} else 	{
-					//kdDebug()<<"Placing line on line:"<<lines<<" pos: (x/y)=("<<tmp-(*(visibleTabList.at(i)))->neededSize()<<"/"<<lines*24<<")"<<endl;
-					//kdDebug()<<"diff="<<diff<<endl;
+					//KILE_DEBUG()<<"Placing line on line:"<<lines<<" pos: (x/y)=("<<tmp-(*(visibleTabList.at(i)))->neededSize()<<"/"<<lines*24<<")"<<endl;
+					//KILE_DEBUG()<<"diff="<<diff<<endl;
 					tab->removeEventFilter(this);
 					tab->move(NEARBYINT(tmp-tab->neededSize()),lines*24);
 					tab->setFixedWidth(NEARBYINT(tmp+diff)-tab->x());
@@ -319,7 +319,7 @@ void KileMultiTabBarInternal::resizeEvent(QResizeEvent *ev) {
 		}
 
 
-		//kdDebug()<<"needed lines:"<<m_lines<<endl;
+		//KILE_DEBUG()<<"needed lines:"<<m_lines<<endl;
 	} else {
 
 		int size=0; /*move the calculation into another function and call it only on add tab and tab click events*/
@@ -588,7 +588,7 @@ void KileMultiTabBarTab::updateState()
 		if ((m_style==KileMultiTabBar::KDEV3) || (m_style==KileMultiTabBar::KDEV3ICON) || (isOn())) {
 			QPushButton::setText(m_text);
 		} else {
-			kdDebug()<<"KileMultiTabBarTab::updateState(): setting text to an empty QString***************"<<endl;
+			KILE_DEBUG()<<"KileMultiTabBarTab::updateState(): setting text to an empty QString***************"<<endl;
 			QPushButton::setText(QString::null);
 		}
 
@@ -783,7 +783,7 @@ void KileMultiTabBarTab::drawButtonClassic(QPainter *paint)
 				painter.drawText(0,+width()/2+QFontMetrics(QFont()).height()/2,m_text);
 
 				paint->rotate(90);
-				kdDebug()<<"tpixmap.width:"<<tpixmap.width()<<endl;
+				KILE_DEBUG()<<"tpixmap.width:"<<tpixmap.width()<<endl;
 				paint->drawPixmap(25,-tpixmap.height()+1,tpixmap);
 			}
 
@@ -837,7 +837,7 @@ void KileMultiTabBarTab::drawButtonClassic(QPainter *paint)
                                 painter.drawText(tpixmap.width()-QFontMetrics(QFont()).width(m_text),+width()/2+QFontMetrics(QFont()).height()/2,m_text);
 
                                 paint->rotate(-90);
-                                kdDebug()<<"tpixmap.width:"<<tpixmap.width()<<endl;
+                                KILE_DEBUG()<<"tpixmap.width:"<<tpixmap.width()<<endl;
 
 				paint->drawPixmap(-24-tpixmap.width(),2,tpixmap);
 

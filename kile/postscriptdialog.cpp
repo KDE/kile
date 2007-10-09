@@ -35,7 +35,7 @@
 #include <ktempfile.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kiletool_enums.h"
 
@@ -282,11 +282,11 @@ void PostscriptDialog::execute()
 		connect(m_proc, SIGNAL(processExited(KProcess *)), 
 		        this, SLOT(slotProcessExited(KProcess *)));
 
-		kdDebug() << "=== PostscriptDialog::runPsutils() ====================" << endl;
-		kdDebug() << "   execute '" << m_tempfile << "'" << endl;
+		KILE_DEBUG() << "=== PostscriptDialog::runPsutils() ====================" << endl;
+		KILE_DEBUG() << "   execute '" << m_tempfile << "'" << endl;
 		//if ( ! proc->start(KProcess::NotifyOnExit, KProcess::NoCommunication) ) 
 		if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
-			kdDebug() << "\tstart of shell process failed" << endl;
+			KILE_DEBUG() << "\tstart of shell process failed" << endl;
 	}
 	
 }
@@ -532,7 +532,7 @@ bool PostscriptDialog::checkParameter()
 
 void PostscriptDialog::comboboxChanged(int index)
 {
-	kdDebug() << index << endl;
+	KILE_DEBUG() << index << endl;
 	if ( index==PS_COPY_SORTED || index==PS_COPY_UNSORTED ) {
 		m_lbParameter->setEnabled(true);
 		m_lbParameter->setText(i18n("Copies:"));

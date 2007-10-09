@@ -22,19 +22,19 @@
 #include <kmessagebox.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kate/document.h>
 
 QMap<QString, ConvertMap*> ConvertMap::g_maps;
 
 bool ConvertMap::create(const QString & encoding)
 {
-	kdDebug() << "\tlooking for map for " << encoding << endl;
+	KILE_DEBUG() << "\tlooking for map for " << encoding << endl;
 	ConvertMap * map = g_maps[encoding];
 
 	if ( map == 0 )
 	{
-		kdDebug() << "\tcreating a map for " << encoding << endl;
+		KILE_DEBUG() << "\tcreating a map for " << encoding << endl;
 		map = new ConvertMap(encoding); // FIXME This will never be deleted if load() succeeds...
 		if ( map->load() )
 			g_maps[encoding] = map;
@@ -272,7 +272,7 @@ QString ConvertASCIIToEnc::getSequence(uint &i)
 
 	if ( isModifier(seq) )
 	{
-		kdDebug() << "\tisModifier true : " << seq << endl;
+		KILE_DEBUG() << "\tisModifier true : " << seq << endl;
 		if ( seq[seq.length() - 1].isLetter() ) seq += ' ';
 
 		while ( m_io->currentLine()[i].isSpace() ) i++;
@@ -285,7 +285,7 @@ QString ConvertASCIIToEnc::getSequence(uint &i)
 		{
 			if ( reBraces.exactMatch(m_io->currentLine().mid(i,3)) )
 			{
-				kdDebug() << "\tbraces detected" << endl;
+				KILE_DEBUG() << "\tbraces detected" << endl;
 				i = i + 3;
 				seq += reBraces.cap(1);
 			}
@@ -310,10 +310,10 @@ QString ConvertASCIIToEnc::mapNext(uint &i)
 	if ( m_io->currentLine()[i] == '\\' )
 	{ 
 		QString seq = getSequence(i);
-		kdDebug() << "'\tsequence: " << seq << endl;
+		KILE_DEBUG() << "'\tsequence: " << seq << endl;
 		if ( m_map->canEncode(seq) )
 		{
-			kdDebug() << "\tcan encode this" << endl;
+			KILE_DEBUG() << "\tcan encode this" << endl;
 			//if ( m_io->currentLine().mid(i, 2) == "{}" ) i = i + 2;
 			return m_map->toEncoding(seq);
 		}

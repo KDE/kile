@@ -25,11 +25,12 @@
 #include <kglobal.h>
 #include <kinstance.h>
 #include <kurl.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kileapplication.h"
 #include "kile.h"
 #include "kileversion.h"
+#include "kiledebug.h"
 
 
 static KCmdLineOptions options[] =
@@ -53,7 +54,7 @@ QString completePath(const QString &path)
 {
 	QString fullpath(path);
 
-	kdDebug() << "==completePath(" << path << ")=======" << endl;
+	KILE_DEBUG() << "==complete path is " << path << endl;
 	if ( path.left(1) != "/" )
 	{
 		if ( path.left(5) == "file:" )
@@ -66,7 +67,7 @@ QString completePath(const QString &path)
 			fullpath = QDir::currentDirPath() + '/' + path;
 	}
 
-	kdDebug() << "\t" << fullpath << endl;
+	KILE_DEBUG() << "\t" << fullpath << endl;
 	return fullpath;
 }
 

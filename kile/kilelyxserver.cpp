@@ -29,13 +29,13 @@
 #include <qregexp.h>
 #include <qdir.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <klocale.h>
 
 KileLyxServer::KileLyxServer(bool startMe) :
 	m_perms( S_IRUSR | S_IWUSR ),m_running(false)
 {	
-	kdDebug() << "===KileLyxServer::KileLyxServer(bool" << startMe << ")===" << endl;
+	KILE_DEBUG() << "===KileLyxServer::KileLyxServer(bool" << startMe << ")===" << endl;
 	m_pipeIn.setAutoDelete(true);
 	m_notifier.setAutoDelete(true);
 
@@ -53,8 +53,8 @@ KileLyxServer::KileLyxServer(bool startMe) :
 	{
 		m_pipes.append( m_tempDir->name() + m_links[i] );
 		m_links[i].prepend(QDir::homeDirPath() + '/' );
-		kdDebug() << "m_pipes[" << i << "]=" << m_pipes[i] << endl;
-		kdDebug() << "m_links[" << i << "]=" << m_links[i] << endl;
+		KILE_DEBUG() << "m_pipes[" << i << "]=" << m_pipes[i] << endl;
+		KILE_DEBUG() << "m_links[" << i << "]=" << m_links[i] << endl;
 	}
 
 	if (startMe)
@@ -73,7 +73,7 @@ bool KileLyxServer::start()
 	if (m_running)
 		stop();
 
-	kdDebug() << "Starting the LyX server..." << endl;
+	KILE_DEBUG() << "Starting the LyX server..." << endl;
 
 	if (openPipes())
 	{
@@ -86,10 +86,10 @@ bool KileLyxServer::start()
 				notifier = new QSocketNotifier((*it)->handle(), QSocketNotifier::Read, this);
 				connect(notifier, SIGNAL(activated(int)), this, SLOT(receive(int)));
 				m_notifier.append(notifier);
-				kdDebug() << "Created notifier for " << (*it)->name() << endl;
+				KILE_DEBUG() << "Created notifier for " << (*it)->name() << endl;
 			}
 			else
-				kdDebug() << "No notifier created for " << (*it)->name() << endl;
+				KILE_DEBUG() << "No notifier created for " << (*it)->name() << endl;
 			++it;
 		}
 		m_running=true;
@@ -100,7 +100,7 @@ bool KileLyxServer::start()
 
 bool KileLyxServer::openPipes()
 {	
-	kdDebug() << "===bool KileLyxServer::openPipes()===" << endl;
+	KILE_DEBUG() << "===bool KileLyxServer::openPipes()===" << endl;
 	
 	bool opened = false;
 	QFileInfo pipeInfo,linkInfo;
@@ -126,7 +126,7 @@ bool KileLyxServer::openPipes()
 					continue;
 				}
 				else
-					kdDebug() << "Created directory " << pipeInfo.dirPath() << endl;
+					KILE_DEBUG() << "Created directory " << pipeInfo.dirPath() << endl;
 
 				if ( mkfifo(QFile::encodeName( pipeInfo.absFilePath() ), m_perms) != 0 )
 				{
@@ -134,7 +134,7 @@ bool KileLyxServer::openPipes()
 					continue;				
 				}
 				else
-					kdDebug() << "Created pipe: " << pipeInfo.absFilePath() << endl;
+					KILE_DEBUG() << "Created pipe: " << pipeInfo.absFilePath() << endl;
 		}
 		
 		if ( symlink(QFile::encodeName(pipeInfo.absFilePath()),QFile::encodeName(linkInfo.absFilePath())) != 0 )
@@ -148,7 +148,7 @@ bool KileLyxServer::openPipes()
 
 		if( pipeInfo.exists() && file->open(IO_ReadWrite) ) // in that order we don't create the file if it does not exist
 		{
-			kdDebug() << "Opened file: " << pipeInfo.absFilePath() << endl;
+			KILE_DEBUG() << "Opened file: " << pipeInfo.absFilePath() << endl;
 			fstat(file->handle(),stats);
 			if( !S_ISFIFO(stats->st_mode) )
 			{
@@ -171,7 +171,7 @@ bool KileLyxServer::openPipes()
 
 void KileLyxServer::stop()
 {
-	kdDebug() << "Stopping the LyX server..." << endl;
+	KILE_DEBUG() << "Stopping the LyX server..." << endl;
 
 	QPtrListIterator<QFile> it(m_pipeIn);
 	while (it.current())
@@ -197,7 +197,7 @@ void KileLyxServer::removePipes()
 
 void KileLyxServer::processLine(const QString &line)
 {
-	kdDebug() << "===void KileLyxServer::processLine(const QString " << line << ")===" << endl;
+	KILE_DEBUG() << "===void KileLyxServer::processLine(const QString " << line << ")===" << endl;
 	
 	QRegExp reCite(":citation-insert:(.*)$");
 	QRegExp reBibtexdbadd(":bibtex-database-add:(.*)$");

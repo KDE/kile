@@ -67,7 +67,7 @@
 #include <kurlcompletion.h>
 #include <klineedit.h>
 #include <klistbox.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kileconfig.h"
 #include "kileproject.h"
@@ -327,12 +327,12 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	connect( this, SIGNAL(finished()), SLOT(slotFinished()) );
 
 	resize(450,sizeHint().height());
-	kdDebug() << "==KileGrepDialog (create dialog)=============================" << endl;
+	KILE_DEBUG() << "==KileGrepDialog (create dialog)=============================" << endl;
 }
 
 KileGrepDialog::~KileGrepDialog()
 {
-	kdDebug() << "==KileGrepDialog (delete dialog)=============================" << endl;
+	KILE_DEBUG() << "==KileGrepDialog (delete dialog)=============================" << endl;
 	writeConfig();
 	delete childproc;
 }
@@ -453,7 +453,7 @@ QStringList KileGrepDialog::readList(KileGrep::List listtype)
 
 void KileGrepDialog::slotItemSelected(const QString& item)
 {
-	kdDebug() << "\tgrep: start item selected" << endl;
+	KILE_DEBUG() << "\tgrep: start item selected" << endl;
 	int pos;
 	QString filename, linenumber;
 
@@ -484,13 +484,13 @@ void KileGrepDialog::startGrep()
 	if ( m_mode == KileGrep::Project )
 	{
 		QString command = buildProjectCommand() + ' ' + KProcess::quote(m_projectfiles[m_grepJobs-1]);
-		kdDebug() << "\tgrep (project): " <<  command << endl;
+		KILE_DEBUG() << "\tgrep (project): " <<  command << endl;
 		(*childproc) << QStringList::split(' ',command);
 	}
 	else
 	{
 		QString command = buildFilesCommand();
-		kdDebug() << "\tgrep (files): " << command << endl;
+		KILE_DEBUG() << "\tgrep (files): " << command << endl;
 		(*childproc) << QStringList::split(' ', command);
 	}
 	m_grepJobs--;
@@ -668,7 +668,7 @@ QString KileGrepDialog::buildProjectCommand()
 
 void KileGrepDialog::slotSearch()
 {
-	kdDebug() << "\tgrep: start slot search" << endl;
+	KILE_DEBUG() << "\tgrep: start slot search" << endl;
 	slotClear ();
 
 	if ( template_combo->currentItem()<KileGrep::tmEnv && pattern_combo->currentText().isEmpty() )
@@ -680,7 +680,7 @@ void KileGrepDialog::slotSearch()
 		return;
 	}
 
-	kdDebug() << "\tgrep: start new search" << endl;
+	KILE_DEBUG() << "\tgrep: start new search" << endl;
 	QRegExp re( getPattern() );
 	if ( ! re.isValid() )
 	{
@@ -707,7 +707,7 @@ void KileGrepDialog::slotSearchFor(const QString &pattern)
 
 void KileGrepDialog::slotClear()
 {
-	//kdDebug() << "\tgrep: slot clear" << endl;
+	//KILE_DEBUG() << "\tgrep: slot clear" << endl;
 	clearGrepJobs();
 	resultbox->clear();
 	finish();
@@ -715,7 +715,7 @@ void KileGrepDialog::slotClear()
 
 void KileGrepDialog::slotClose()
 {
-	//kdDebug() << "\tgrep: slot close" << endl;
+	//KILE_DEBUG() << "\tgrep: slot close" << endl;
 	clearGrepJobs();
 	finish();
 	delayedDestruct();
@@ -723,7 +723,7 @@ void KileGrepDialog::slotClose()
 
 void KileGrepDialog::slotFinished()
 {
-	//kdDebug() << "\tgrep: slot finished" << endl;
+	//KILE_DEBUG() << "\tgrep: slot finished" << endl;
 	finish();
 	delayedDestruct();
 }

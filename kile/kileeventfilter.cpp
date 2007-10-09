@@ -21,7 +21,7 @@
 
 #include <kate/view.h>
 #include <kate/document.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kileedit.h"
 #include "kileconfig.h"

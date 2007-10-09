@@ -31,7 +31,7 @@
 
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDialog 
 {
@@ -202,7 +202,7 @@ void TabCellFrame::mousePressEvent(QMouseEvent *event)
 		
 	int x = event->x();
 	int y = event->y();
-	//kdDebug() << "left mouse button: x=" << x << " y=" << endl;
+	//KILE_DEBUG() << "left mouse button: x=" << x << " y=" << endl;
 		
 	int state = 0;
 	if ( m_left.contains(x,y) )
@@ -762,13 +762,13 @@ bool TabularTable::eventFilter(QObject *o, QEvent *e)
 
 void TabularTable::mouseContextHorizontalHeader(int pos)
 {
-	//kdDebug() << "horizontal header: rechts: " << horizontalHeader()->sectionAt(pos) << endl;
+	//KILE_DEBUG() << "horizontal header: rechts: " << horizontalHeader()->sectionAt(pos) << endl;
 	setupContextHeaderPopup(true,horizontalHeader()->sectionAt(pos));     
 }
 
 void TabularTable::mouseContextVerticalHeader(int pos)
 {
-	//kdDebug() << "vertical header: rechts: " << verticalHeader()->sectionAt(pos) << endl;
+	//KILE_DEBUG() << "vertical header: rechts: " << verticalHeader()->sectionAt(pos) << endl;
 	setupContextHeaderPopup(false,verticalHeader()->sectionAt(pos));     
 }
 
@@ -834,7 +834,7 @@ void TabularTable::setAlignment(int row,int col,int align)
 
 void TabularTable::setColspan(int row,int col1,int col2,int numcols,const QString &text)
 {
-	//kdDebug() << "set colspan " << col1 << "-" << col2 << " "<< endl; 
+	//KILE_DEBUG() << "set colspan " << col1 << "-" << col2 << " "<< endl; 
 	for ( int col=col1; col<=col2; ) 
 	{
 		TabularItem *olditem = dynamic_cast<TabularItem*>( item(row,col) );
@@ -877,7 +877,7 @@ void TabularTable::setAttributes(int row,int col, const TabularCell::Data &data)
 // clear all current attributes
 void TabularTable::clearAttributes(int row,int col)
 {
-	//kdDebug() << "clear attr (" << row << "/" << col << ")" << endl;
+	//KILE_DEBUG() << "clear attr (" << row << "/" << col << ")" << endl;
 	TabularCell::Data data = defaultAttributes();	
 	setAttributes(row,col,data);
 }
@@ -959,7 +959,7 @@ void TabularTable::clearCellrange(int x1,int y1,int x2,int y2,bool cleartext,boo
 void TabularTable::setCellrangeAttributes(int x1,int y1,int x2,int y2,const TabularCell::Data &data)
 {
 	bool singlecell = (x1==x2 && y1==y2);
-	//kdDebug() << x1 << " " << y1 << " "<< x2 << " "<< y2 << " " << data.align << endl;
+	//KILE_DEBUG() << x1 << " " << y1 << " "<< x2 << " "<< y2 << " " << data.align << endl;
 	
 	for ( int col=x1; col<=x2; ++col ) 
 	{
@@ -1014,7 +1014,7 @@ void TabularTable::activateNextCell()
 void TabularTable::paintCell( QPainter *p, int row, int col,
 			const QRect &cr, bool selected, const QColorGroup &cg )
 {
-	//kdDebug() << "r=" << row << " c" << col<< endl;
+	//KILE_DEBUG() << "r=" << row << " c" << col<< endl;
 	
 	if ( selected && row == currentRow() && col == currentColumn() 
 	              && ( hasFocus() || viewport()->hasFocus() ) )
@@ -1186,7 +1186,7 @@ int TabularTable::popupId(QPopupMenu *popup, int id)
 
 void TabularTable::slotContextMenuClicked(int row,int col,const QPoint &)
 {
-	//kdDebug() << "context menu clicked" << endl;
+	//KILE_DEBUG() << "context menu clicked" << endl;
 	if ( row<0 || col<0 )
 		return;
 
@@ -1247,7 +1247,7 @@ void TabularTable::slotCellPopupActivated(int id)
 
 void TabularTable::cellPopupEdit()
 {
-	//kdDebug() << "cellPopupEdit" << endl;
+	//KILE_DEBUG() << "cellPopupEdit" << endl;
 		
 	// default edit mode for a range: no data and no header 
 	TabularCell::Data *pdata = 0;
@@ -1260,14 +1260,14 @@ void TabularTable::cellPopupEdit()
 			pdata = &(cellitem->m_data);
 	}
 	
-	//kdDebug() << "sel " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
+	//KILE_DEBUG() << "sel " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
 	cellParameterDialog(m_x1,m_y1,m_x2,m_y2,pdata,QString::null);
 }
 
 void TabularTable::cellPopupSetMulticolumn()
 {
-	//kdDebug() << "slotContextMenuSetMulticolumn" << endl;
-	//kdDebug() << "set mc " << m_x1 << " " << m_y1 << "   " << m_x2 << " " << m_y2 << endl;
+	//KILE_DEBUG() << "slotContextMenuSetMulticolumn" << endl;
+	//KILE_DEBUG() << "set mc " << m_x1 << " " << m_y1 << "   " << m_x2 << " " << m_y2 << endl;
 
 	if ( m_y1==m_y2 && m_x2>m_x1) 
 	{
@@ -1289,8 +1289,8 @@ void TabularTable::cellPopupSetMulticolumn()
 
 void TabularTable::cellPopupBreakMulticolumn()
 {
-	//kdDebug() << "slotContextMenuBreakMulticolumn" << endl;
-	//kdDebug() << "set mc " << m_x1 << " " << m_y1 << " " << m_x2 << " " << m_y2 << endl;
+	//KILE_DEBUG() << "slotContextMenuBreakMulticolumn" << endl;
+	//KILE_DEBUG() << "set mc " << m_x1 << " " << m_y1 << " " << m_x2 << " " << m_y2 << endl;
 	
 	if ( m_x1==m_x2 && m_y1==m_y2 ) 
 	{
@@ -1374,7 +1374,7 @@ QString TabularTable::getCellRangeText(int row,int col1, int col2)
 
 void TabularTable::setupContextHeaderPopup(bool horizontal, int section)
 {
-	//kdDebug() << "setupContextHeaderPopup" << endl;
+	//KILE_DEBUG() << "setupContextHeaderPopup" << endl;
 	
 	// save header parametr
 	m_horizontal = horizontal;
@@ -1425,7 +1425,7 @@ void TabularTable::slotHeaderPopupActivated(int id)
 
 void TabularTable::headerPopupEdit()
 {
-	//kdDebug() << "HeaderPopupEdit" << endl;
+	//KILE_DEBUG() << "HeaderPopupEdit" << endl;
 	
 	if ( m_horizontal )
 	{
@@ -1443,7 +1443,7 @@ void TabularTable::headerPopupEdit()
 		}
 		
 		// call parameter dialog
-		//kdDebug() << "col1=" << col1 << " col2=" << col2 << " " << label << endl; 
+		//KILE_DEBUG() << "col1=" << col1 << " col2=" << col2 << " " << label << endl; 
 		cellParameterDialog( m_x1,0,m_x2,numRows()-1,0,label );
 	}
 	else
@@ -1513,7 +1513,7 @@ bool TabularTable::getCurrentSelection(int &x1,int &y1,int &x2,int &y2)
 void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell::Data *data,
                                        const QString &headerlabel)
 {
-	//kdDebug() << "selection " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
+	//KILE_DEBUG() << "selection " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
 	
 	// if no settings are given, we should test all cells int the range if 
 	// they are defined and have the same values
@@ -1551,7 +1551,7 @@ void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell:
 		{
 			if ( ! headerlabel.isEmpty()  ) 
 			{
-				//kdDebug() << "header col=" << col << " " << dlg->header() << endl; 
+				//KILE_DEBUG() << "header col=" << col << " " << dlg->header() << endl; 
 				horizontalHeader()->setLabel(col,dlg->header());
 			}
 		}
@@ -1654,7 +1654,7 @@ TabularCell::CountLines TabularTable::countVLines(int col, bool left)
 			if ( cellitem->isMulticolumn() )       // ignore multicolumn cells
 				continue;
 				
-			//kdDebug() << "count vlines " << col << " row=" << row << " found" << endl;
+			//KILE_DEBUG() << "count vlines " << col << " row=" << row << " found" << endl;
 			count.cells++;
 			if ( isVLine(row,col,left) )
 				count.cnt++;	
@@ -1737,7 +1737,7 @@ TabularCell::CountLines TabularTable::countHLines(int row, bool top)
 
 TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 {
-	//kdDebug() << "count font,colors,textcolors" << endl;
+	//KILE_DEBUG() << "count font,colors,textcolors" << endl;
 	
 	QMap<QString,int> colors;
 	QMap<QString,int> textcolors;
@@ -1963,7 +1963,7 @@ void TabularDialog::initEnvironments(bool tabularenv)
 
 void TabularDialog::slotEnvironmentChanged(const QString &env)
 {
-	//kdDebug() << "env changed " << env << endl;
+	//KILE_DEBUG() << "env changed " << env << endl;
 	
 	// clear parameter combobox
 	m_coParameter->clear();
@@ -2005,7 +2005,7 @@ bool TabularDialog::isMathmodeEnvironment(const QString &env)
 
 void TabularDialog::slotRowValueChanged(int value)
 {
-	//kdDebug() << "row value changed " << value << endl;
+	//KILE_DEBUG() << "row value changed " << value << endl;
 	
 	bool askBeforeDelete = m_cbWarning->isChecked();
 	bool firstwarning = true;
@@ -2271,8 +2271,8 @@ void TabularDialog::slotOk()
 		colinfo[numcols].vline = true;
 	}
 		
-	//kdDebug() << "preamble " << preamble << endl;
-	//kdDebug() << " topline " << getEol(0,true) << endl;
+	//KILE_DEBUG() << "preamble " << preamble << endl;
+	//KILE_DEBUG() << " topline " << getEol(0,true) << endl;
 		
 	// output all rows
 	for ( int row=0; row<numrows; ++row ) 
@@ -2408,7 +2408,7 @@ void TabularDialog::slotOk()
 		if ( row<numrows-1 || !s.isEmpty() ) 
 			textline += " \\\\ " + s;
 	
-		//kdDebug() << "text: " << textline << endl;
+		//KILE_DEBUG() << "text: " << textline << endl;
 		m_td.tagEnd += textline + '\n';
 	}
 

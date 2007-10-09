@@ -26,7 +26,7 @@
 #include <qregexp.h>
 #include <qfileinfo.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <krun.h>
 #include <kprocess.h>
 #include <klocale.h>
@@ -45,7 +45,7 @@
 	
 	Launcher::~ Launcher()
 	{
-		kdDebug() << "DELETING launcher" << endl;
+		KILE_DEBUG() << "DELETING launcher" << endl;
 	}
 
 	ProcessLauncher::ProcessLauncher(const char * shellname /* =0 */) :
@@ -57,13 +57,13 @@
  		m_bstinputs(KileConfig::bstInputPaths()),
 		m_changeTo(true)
 	{
-		kdDebug() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
+		KILE_DEBUG() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
 
 		m_proc = new KShellProcess(shellname);
 		if (m_proc)
-			kdDebug() << "\tKShellProcess created" << endl;
+			KILE_DEBUG() << "\tKShellProcess created" << endl;
 		else
-			kdDebug() << "\tNO KShellProcess created" << endl;
+			KILE_DEBUG() << "\tNO KShellProcess created" << endl;
 
 		connect(m_proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
  		connect(m_proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
@@ -72,7 +72,7 @@
 
 	ProcessLauncher::~ProcessLauncher()
 	{
-		kdDebug() << "DELETING ProcessLauncher" << endl;
+		KILE_DEBUG() << "DELETING ProcessLauncher" << endl;
 		delete m_proc;
 	}
 
@@ -83,8 +83,8 @@
 
 	bool ProcessLauncher::launch()
 	{
-		kdDebug() << "KileTool::ProcessLauncher::launch()=================" << endl;
-		kdDebug() << "\tbelongs to tool " << tool()->name() << endl;
+		KILE_DEBUG() << "KileTool::ProcessLauncher::launch()=================" << endl;
+		KILE_DEBUG() << "\tbelongs to tool " << tool()->name() << endl;
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
@@ -124,11 +124,11 @@
 			if ( tool()->isQuickie() ) 
 				m_texinputs = KileConfig::previewTeXPaths();
 
-			kdDebug() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH") << endl;
-			kdDebug() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << endl;
-			kdDebug() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << endl;
-			kdDebug() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << endl;
-			kdDebug() << "Tool name is "<< tool()->name() << endl;
+			KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH") << endl;
+			KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS") << endl;
+			KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS") << endl;
+			KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS") << endl;
+			KILE_DEBUG() << "Tool name is "<< tool()->name() << endl;
 
 			m_proc->setEnvironment("PATH",tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
@@ -150,15 +150,15 @@
 
 	bool ProcessLauncher::kill()
 	{
-		kdDebug() << "==KileTool::ProcessLauncher::kill()==============" << endl;
+		KILE_DEBUG() << "==KileTool::ProcessLauncher::kill()==============" << endl;
 		if ( m_proc && m_proc->isRunning() )
 		{
-			kdDebug() << "\tkilling" << endl;
+			KILE_DEBUG() << "\tkilling" << endl;
 			return m_proc->kill();
 		}
 		else
 		{
-			kdDebug() << "\tno process or process not running" << endl;
+			KILE_DEBUG() << "\tno process or process not running" << endl;
 			return false;
 		}
 	}
@@ -196,14 +196,14 @@
 
 	void ProcessLauncher::slotProcessExited(KProcess*)
 	{
-		kdDebug() << "==KileTool::ProcessLauncher::slotProcessExited=============" << endl;
-		kdDebug() << "\t" << tool()->name() << endl;
+		KILE_DEBUG() << "==KileTool::ProcessLauncher::slotProcessExited=============" << endl;
+		KILE_DEBUG() << "\t" << tool()->name() << endl;
 
 		if (m_proc)
 		{
 			if (m_proc->normalExit())
 			{
-				kdDebug() << "\tnormal exit" << endl;
+				KILE_DEBUG() << "\tnormal exit" << endl;
 				int type = Info;
 				if (m_proc->exitStatus() != 0) 
 				{
@@ -218,7 +218,7 @@
 			}
 			else
 			{
-				kdDebug() << "\tabnormal exit" << endl;
+				KILE_DEBUG() << "\tabnormal exit" << endl;
 				emit(message(Error,i18n("finished abruptly")));
 				emit(done(AbnormalExit));
 			}
@@ -258,7 +258,7 @@
 
 	PartLauncher::~PartLauncher()
 	{
-		kdDebug () << "DELETING PartLauncher" << endl;
+		KILE_DEBUG () << "DELETING PartLauncher" << endl;
 	}
 
 	bool PartLauncher::launch()

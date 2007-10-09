@@ -26,7 +26,7 @@
 #include <khelpmenu.h>
 #include <kmenubar.h>
 #include <kstatusbar.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
@@ -217,7 +217,7 @@ actionCollection()->readShortcutSettings("Shortcuts", m_config);
 
 Kile::~Kile()
 {
-	kdDebug() << "cleaning up..." << endl;
+	KILE_DEBUG() << "cleaning up..." << endl;
 	delete m_extensions;
 	delete m_latexCommands;
 	delete m_quickPreview;
@@ -688,7 +688,7 @@ void Kile::setupActions()
 
 void Kile::setupTools()
 {
-	kdDebug() << "==Kile::setupTools()===================" << endl;
+	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
 	QStringList tools = KileTool::toolList(m_config);
 	QString toolMenu;
 	QPtrList<KAction> *pl;
@@ -702,7 +702,7 @@ void Kile::setupTools()
 	for ( uint i = 0; i < tools.count(); ++i)
 	{
 		QString grp = KileTool::groupFor(tools[i], m_config);
-		kdDebug() << tools[i] << " is using group: " << grp << endl;
+		KILE_DEBUG() << tools[i] << " is using group: " << grp << endl;
 		m_config->setGroup(KileTool::groupFor(tools[i], m_config));
 		toolMenu = KileTool::menuFor(tools[i], m_config);
 
@@ -719,7 +719,7 @@ void Kile::setupTools()
 		else
 			pl = &m_listOtherActions;
 
-		kdDebug() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
+		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
 		if ( action(QString("tool_"+tools[i]).ascii()) == 0L )
 		{
@@ -806,14 +806,14 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-    kdDebug() << "lastDocument=" << KileConfig::lastDocument() << endl;
+    KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
 	if (doc) viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
 }
 
 void Kile::setActive()
 {
-	kdDebug() << "ACTIVATING" << endl;
+	KILE_DEBUG() << "ACTIVATING" << endl;
 	kapp->mainWidget()->raise();
 	kapp->mainWidget()->setActiveWindow();
 }
@@ -881,7 +881,7 @@ int Kile::runWith(const QString &tool, const QString &config)
 //TODO: move to KileView::Manager
 void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
-	//kdDebug() << "==Kile::activateView==========================" << endl;
+	//KILE_DEBUG() << "==Kile::activateView==========================" << endl;
 	if (!w->inherits("Kate::View"))
 		return;
 
@@ -909,7 +909,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 void Kile::updateModeStatus()
 {
-	kdDebug() << "==Kile::updateModeStatus()==========" << endl;
+	KILE_DEBUG() << "==Kile::updateModeStatus()==========" << endl;
 	KileProject *project = docManager()->activeProject();
 	QString shortName = m_masterName;
 	int pos = shortName.findRev('/');
@@ -947,7 +947,7 @@ void Kile::updateModeStatus()
 
 void Kile::openDocument(const QString & url)
 {
-	kdDebug() << "==Kile::openDocument(" << url << ")==========" << endl;
+	KILE_DEBUG() << "==Kile::openDocument(" << url << ")==========" << endl;
 	docManager()->fileSelected(KURL::fromPathOrURL(url));
 }
 
@@ -1025,7 +1025,7 @@ bool Kile::queryClose()
     else KileConfig::setLastDocument("");
 
 	//don't close Kile if embedded viewers are present
-	kdDebug() << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
+	KILE_DEBUG() << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
 	if ( m_currentState != "Editor" )
 	{
 		resetPart();
@@ -1040,7 +1040,7 @@ bool Kile::queryClose()
 		m_listDocsOpenOnStart.append(viewManager()->textView(i)->getDoc()->url().path());
 	}
 
-	kdDebug() << "#projects = " << docManager()->projects()->count() << endl;
+	KILE_DEBUG() << "#projects = " << docManager()->projects()->count() << endl;
 	for (uint i=0; i < docManager()->projects()->count(); ++i)
 	{
 		m_listProjectsOpenOnStart.append(docManager()->projects()->at(i)->url().path());
@@ -1152,7 +1152,7 @@ void Kile::newCaption()
 
 void Kile::grepItemSelected(const QString &abs_filename, int line)
 {
-	kdDebug() << "Open file: "
+	KILE_DEBUG() << "Open file: "
 		<< abs_filename << " (" << line << ")" << endl;
 	docManager()->fileOpen(KURL::fromPathOrURL(abs_filename));
 	setLine(QString::number(line));
@@ -1164,7 +1164,7 @@ void Kile::findInFiles()
 
 	if ( ! dlg )
 	{
-		kdDebug() << "grep guard: create findInFiles dlg" << endl;
+		KILE_DEBUG() << "grep guard: create findInFiles dlg" << endl;
 		dlg = new KileGrepDialog(0L,this,KileGrep::Directory);
 		dlg->show();
 		connect(dlg, SIGNAL(itemSelected(const QString &, int)),
@@ -1172,7 +1172,7 @@ void Kile::findInFiles()
 	}
 	else
 	{
-		kdDebug() << "grep guard: show findInFiles dlg" << endl;
+		KILE_DEBUG() << "grep guard: show findInFiles dlg" << endl;
 		dlg->setActiveWindow();
 		dlg->raise();
 	}
@@ -1184,7 +1184,7 @@ void Kile::findInProjects()
 
 	if ( ! project_dlg )
 	{
-		kdDebug() << "grep guard: create findInProjects dlg" << endl;
+		KILE_DEBUG() << "grep guard: create findInProjects dlg" << endl;
 		project_dlg = new KileGrepDialog(0L,this,KileGrep::Project);
 		project_dlg->show();
 		connect(project_dlg, SIGNAL(itemSelected(const QString &, int)),
@@ -1192,7 +1192,7 @@ void Kile::findInProjects()
 	}
 	else
 	{
-		kdDebug() << "grep guard: show findInProjects dlg" << endl;
+		KILE_DEBUG() << "grep guard: show findInProjects dlg" << endl;
 		project_dlg->setActiveWindow();
 		project_dlg->raise();
 	}
@@ -1219,9 +1219,9 @@ void Kile::showEditorWidget()
 
 bool Kile::resetPart()
 {
-	kdDebug() << "==Kile::resetPart()=============================" << endl;
-	kdDebug() << "\tcurrent state " << m_currentState << endl;
-	kdDebug() << "\twant state " << m_wantState << endl;
+	KILE_DEBUG() << "==Kile::resetPart()=============================" << endl;
+	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
+	KILE_DEBUG() << "\twant state " << m_wantState << endl;
 
 	KParts::ReadOnlyPart *part = (KParts::ReadOnlyPart*)m_partManager->activePart();
 
@@ -1249,9 +1249,9 @@ bool Kile::resetPart()
 
 void Kile::activePartGUI(KParts::Part * part)
 {
-	kdDebug() << "==Kile::activePartGUI()=============================" << endl;
-	kdDebug() << "\tcurrent state " << m_currentState << endl;
-	kdDebug() << "\twant state " << m_wantState << endl;
+	KILE_DEBUG() << "==Kile::activePartGUI()=============================" << endl;
+	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
+	KILE_DEBUG() << "\twant state " << m_wantState << endl;
 
 	createGUI(part);
 	unplugActionList("list_quickies"); plugActionList("list_quickies", m_listQuickActions);
@@ -1487,7 +1487,7 @@ void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
 
 void Kile::updateMenu()
 {
-	kdDebug() << "==Kile::updateKileMenu()====================" << endl;
+	KILE_DEBUG() << "==Kile::updateKileMenu()====================" << endl;
 	KAction *a;
 	QMap<QString,bool>::Iterator it;
 
@@ -1509,7 +1509,7 @@ void Kile::updateMenu()
 	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
 	bool file_open = ( viewManager()->currentTextView() );
-	kdDebug() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
+	KILE_DEBUG() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
 	QMenuBar *menubar = menuBar();
 	for ( uint i=0; i<menubar->count(); ++i ) {
@@ -1558,7 +1558,7 @@ void Kile::updateActionList(QPtrList<KAction> *list, bool state)
 //TODO: move to KileView::Manager
 void Kile::prepareForPart(const QString & state)
 {
-	kdDebug() << "==Kile::prepareForPart====================" << endl;
+	KILE_DEBUG() << "==Kile::prepareForPart====================" << endl;
 
 	if ( m_currentState == "Editor" && state == "Editor" ) return;
 
@@ -1637,7 +1637,7 @@ void Kile::insertAmsTag(const KileAction::TagData& data)
 
 void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 {
-	kdDebug() << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
+	KILE_DEBUG() << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
 	insertTag(data);
 
 	KileDocument::Info *docinfo = docManager()->textInfoFor(getCompileName());
@@ -1815,7 +1815,7 @@ void Kile::readUserSettings()
 	if ( version < 4 )
 	{
 		KileTool::Factory *factory = new KileTool::Factory(0, m_config);
-		kdDebug() << "WRITING STD TOOL CONFIG" << endl;
+		KILE_DEBUG() << "WRITING STD TOOL CONFIG" << endl;
 		factory->writeStdConfig();
 		delete factory;
 	}
@@ -2034,7 +2034,7 @@ void Kile::toggleMode()
 		ModeAction->setChecked(false);
 
 	updateModeStatus();
-	kdDebug() << "SETTING master to " << m_masterName << " singlemode = " << m_singlemode << endl;
+	KILE_DEBUG() << "SETTING master to " << m_masterName << " singlemode = " << m_singlemode << endl;
 }
 
 void Kile::toggleWatchFile()
@@ -2240,7 +2240,7 @@ void Kile::slotToggleFullScreen()
 
 void Kile::slotQuickPreview(int type)
 {
-	kdDebug() << "==Kile::slotQuickPreview()=========================="  << endl;
+	KILE_DEBUG() << "==Kile::slotQuickPreview()=========================="  << endl;
 
 	Kate::View *view = viewManager()->currentTextView();
 	if ( ! view) return;
@@ -2260,7 +2260,7 @@ void Kile::slotQuickPreview(int type)
 
 void Kile::citeViewBib()
 {
-	kdDebug()  << "===void Kile::citeViewBib()===" << endl;
+	KILE_DEBUG()  << "===void Kile::citeViewBib()===" << endl;
 
 	DCOPClient *client = kapp->dcopClient();
 	QByteArray params, replyData;

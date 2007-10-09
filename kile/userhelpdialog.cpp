@@ -31,7 +31,7 @@
 #include <kmessagebox.h>
 #include <krun.h>
 #include <kurl.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 
 namespace KileDialog
@@ -44,7 +44,7 @@ namespace KileDialog
 UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	: KDialogBase( parent, name, true, i18n("Configure User Help"), Cancel | Ok, Ok, true )
 {
-	kdDebug() << "==UserHelpDialog::UserHelpDialog()===================" << endl;
+	KILE_DEBUG() << "==UserHelpDialog::UserHelpDialog()===================" << endl;
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -344,7 +344,7 @@ UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, con
 	: KDialogBase( parent, name, true, i18n("Add User Helpfile"), Cancel | Ok, Ok, true ),
 	  m_menulistbox(menulistbox)
 {
-	kdDebug() << "==UserHelpAddDialog::UserHelpAddDialog()===================" << endl;
+	KILE_DEBUG() << "==UserHelpAddDialog::UserHelpAddDialog()===================" << endl;
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);

@@ -69,14 +69,14 @@ Kate::Document * KileInfo::activeTextDocument() const
 
 QString KileInfo::getName(Kate::Document *doc, bool shrt)
 {
-	kdDebug() << "===KileInfo::getName(Kate::Document *doc, bool " << shrt << ")===" << endl;
+	KILE_DEBUG() << "===KileInfo::getName(Kate::Document *doc, bool " << shrt << ")===" << endl;
 	QString title=QString::null;
 	
 	if (!doc)
 		doc = activeTextDocument();
 	if (doc)
 	{
-		kdDebug() << "url " << doc->url().path() << endl;
+		KILE_DEBUG() << "url " << doc->url().path() << endl;
 		title = shrt ? doc->url().fileName() : doc->url().path();
                //work around for bug in KatePart, use docName and not url
                //reloading the file after is it changed on disc by another application
@@ -189,14 +189,14 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 	if (docinfo == 0L) docinfo = docManager()->getInfo();
 	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
 
-	kdDebug() << "Kile::retrieveList()" << endl;
+	KILE_DEBUG() << "Kile::retrieveList()" << endl;
 	if (item)
 	{
 		const KileProject *project = item->project();
 		const KileProjectItem *root = project->rootItem(item);
 		if (root)
 		{
-			kdDebug() << "\tusing root item " << root->url().fileName() << endl;
+			KILE_DEBUG() << "\tusing root item " << root->url().fileName() << endl;
 
 			QPtrList<KileProjectItem> children;
 			children.append(root);
@@ -206,7 +206,7 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 
 			for (uint i=0; i < children.count(); ++i)
 			{
-				kdDebug() << "\t" << children.at(i)->url().fileName() << endl;
+				KILE_DEBUG() << "\t" << children.at(i)->url().fileName() << endl;
 				list = (children.at(i)->getInfo()->*getit)();
 				if (list)
 				{
@@ -231,7 +231,7 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 
 const QStringList* KileInfo::allLabels(KileDocument::Info * info)
 {
-	kdDebug() << "Kile::allLabels()" << endl;
+	KILE_DEBUG() << "Kile::allLabels()" << endl;
 	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::labels;
 	const QStringList* list = retrieveList(p, info);
 	return list;
@@ -239,7 +239,7 @@ const QStringList* KileInfo::allLabels(KileDocument::Info * info)
 
 const QStringList* KileInfo::allBibItems(KileDocument::Info * info)
 {
-	kdDebug() << "Kile::allBibItems()" << endl;
+	KILE_DEBUG() << "Kile::allBibItems()" << endl;
 	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibItems;
 	const QStringList* list = retrieveList(p, info);
 	return list;
@@ -247,7 +247,7 @@ const QStringList* KileInfo::allBibItems(KileDocument::Info * info)
 
 const QStringList* KileInfo::allBibliographies(KileDocument::Info * info)
 {
-	kdDebug() << "Kile::bibliographies()" << endl;
+	KILE_DEBUG() << "Kile::bibliographies()" << endl;
 	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibliographies;
 	const QStringList* list = retrieveList(p, info);
 	return list;
@@ -255,7 +255,7 @@ const QStringList* KileInfo::allBibliographies(KileDocument::Info * info)
 
 const QStringList* KileInfo::allDependencies(KileDocument::Info * info)
 {
-	kdDebug() << "Kile::dependencies()" << endl;
+	KILE_DEBUG() << "Kile::dependencies()" << endl;
 	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::dependencies;
 	const QStringList* list = retrieveList(p, info);
 	return list;
@@ -263,7 +263,7 @@ const QStringList* KileInfo::allDependencies(KileDocument::Info * info)
 
 const QStringList* KileInfo::allNewCommands(KileDocument::Info * info)
 {
-	kdDebug() << "Kile::newCommands()" << endl;
+	KILE_DEBUG() << "Kile::newCommands()" << endl;
 	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::newCommands;
 	const QStringList* list = retrieveList(p, info);
 	return list;
@@ -271,7 +271,7 @@ const QStringList* KileInfo::allNewCommands(KileDocument::Info * info)
 
 const QStringList* KileInfo::allPackages(KileDocument::Info * info)
 {
-	kdDebug() << "Kile::allPackages()" << endl;
+	KILE_DEBUG() << "Kile::allPackages()" << endl;
 	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::packages;
 	const QStringList* list = retrieveList(p, info);
 	return list;
@@ -314,7 +314,7 @@ bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
 
 bool KileInfo::isOpen(const KURL & url)
 {
-	kdDebug() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
+	KILE_DEBUG() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
 	uint cnt = viewManager()->textViews().count();
 	
 	for ( uint i = 0; i < cnt; ++i)
@@ -368,7 +368,7 @@ QString KileInfo::expandEnvironmentVars(const QString &str)
 
 QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)
 {
-	kdDebug() << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)" << endl;
+	KILE_DEBUG() << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)" << endl;
 	QStringList inputpaths;
 	QString configpaths;
 	QFileInfo info;
@@ -385,7 +385,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 			configpaths = KileConfig::bstInputPaths() + ":$BSTINPUTS";
 			break;
 		default:
-			kdDebug() << "Unknown type in checkOtherPaths" << endl;
+			KILE_DEBUG() << "Unknown type in checkOtherPaths" << endl;
 			return QString::null;
 			break;
 	}
@@ -396,11 +396,11 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 		// the first match is supposed to be the correct one
 	for ( QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it )
 	{
-		kdDebug() << "path is " << *it << "and file is " << file << endl;
+		KILE_DEBUG() << "path is " << *it << "and file is " << file << endl;
 		info.setFile((*it) + '/' + file);
 		if(info.exists())
 		{
-			kdDebug() << "filepath after correction is: " << info.dirPath() << endl;
+			KILE_DEBUG() << "filepath after correction is: " << info.dirPath() << endl;
 			return info.absFilePath();
 		}
 	}
@@ -413,8 +413,8 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	kdDebug() <<"===findRelativeURL==================" << endl;
-	kdDebug() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+	KILE_DEBUG() <<"===findRelativeURL==================" << endl;
+	KILE_DEBUG() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
 	QStringList basedirs = QStringList::split("/", basepath, false);
 	QStringList dirs = QStringList::split("/", path, false);
@@ -428,22 +428,22 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 		basedirs.pop_front();
 	}
 
-	/*kdDebug() << "\tafter" << endl;
+	/*KILE_DEBUG() << "\tafter" << endl;
 	for (uint i=0; i < basedirs.count(); ++i)
 	{
-		kdDebug() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
+		KILE_DEBUG() << "\t\tbasedirs " << i << ": " << basedirs[i] << endl;
 	}
 
 	for (uint i=0; i < dirs.count(); ++i)
 	{
-		kdDebug() << "\t\tdirs " << i << ": " << dirs[i] << endl;
+		KILE_DEBUG() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}*/
 
 	if (nDirs != dirs.count() )
 	{
 		path = dirs.join("/");
 
-		//kdDebug() << "\tpath : " << path << endl;
+		//KILE_DEBUG() << "\tpath : " << path << endl;
 
 		if (basedirs.count() > 0)
 		{
@@ -462,7 +462,7 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 		path = url.path();
 	}
 
-	kdDebug() << "\trelative path : " << path << endl;
+	KILE_DEBUG() << "\trelative path : " << path << endl;
 
 	return path;
 }

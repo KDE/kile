@@ -19,7 +19,7 @@
 #include "latexcmd.h"
 
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDocument
 {
@@ -145,7 +145,7 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 {
 	if ( m_config->hasGroup(name) ) 
 	{
-		kdDebug() << name << endl;
+		KILE_DEBUG() << name << endl;
 		QMap<QString,QString> map = m_config->entryMap(name);
 		if ( ! map.empty() ) 
 		{
@@ -153,7 +153,7 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 			for ( it=map.begin(); it!=map.end(); ++it) 
 			{
 				list << it.key() + ",-," + it.data();
-				kdDebug() << "\tadd: " <<  it.key() + " --> " + it.data() << endl;
+				KILE_DEBUG() << "\tadd: " <<  it.key() + " --> " + it.data() << endl;
 			}
 		}
 	}
@@ -177,11 +177,11 @@ void LatexCommands::insert(const QStringList &list)
 			if ( valuelist.count() == attributes ) 
 				m_latexCommands[key] = value;
 			else
-			   kdDebug() << "\tLatexCommands error: wrong number of attributes (" << key << " ---> " << value << ")" << endl;
+			   KILE_DEBUG() << "\tLatexCommands error: wrong number of attributes (" << key << " ---> " << value << ")" << endl;
 		} 
 		else 
 		{
-			kdDebug() << "\tLatexCommands error: no separator found (" << (*it) << ")"  << endl;
+			KILE_DEBUG() << "\tLatexCommands error: no separator found (" << (*it) << ")"  << endl;
 		}
 	}
 }
@@ -248,7 +248,7 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
 		case CmdAttrCitations: ch = 'C'; break;
 		case CmdAttrIncludes:  ch = 'I'; break;
 		default:
-		     kdDebug() << "\tLatexCommands error: unknown type of env/cmd: code " << attr << endl;
+		     KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: code " << attr << endl;
 			  return '?';
 	}	
 	
@@ -272,7 +272,7 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 		case 'C': attr = CmdAttrCitations; break;
 		case 'I': attr = CmdAttrIncludes;  break;
 		default:
-		     kdDebug() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch) << endl;
+		     KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch) << endl;
 			  return CmdAttrNone;
 	}	
 	

@@ -24,7 +24,7 @@
 #include <ktempdir.h>
 #include <ksimpleconfig.h>
 #include <kglobal.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kiletoolmanager.h"
 #include "kileinfo.h"
@@ -162,14 +162,14 @@ void Tester::saveResults(const KURL & dest)
 void Tester::runTests()
 {
 	QString srcdir = KGlobal::dirs()->findResourceDir("appdata","test/runTests.sh") + "test";
-	kdDebug() << "Tester::runTests: srcdir = " << srcdir << endl;
+	KILE_DEBUG() << "Tester::runTests: srcdir = " << srcdir << endl;
 	m_tempDir = new KTempDir();
 	QString destdir = m_tempDir->name();
-	kdDebug() << "Tester::runTests: destdir = " << destdir << endl;
+	KILE_DEBUG() << "Tester::runTests: destdir = " << destdir << endl;
 	m_resultsFile = destdir + "results.rc";
 
 	QString shellname = KGlobal::dirs()->findExe("sh");
-	kdDebug() << "Tester::runTests: shellname = " << shellname << endl;
+	KILE_DEBUG() << "Tester::runTests: shellname = " << shellname << endl;
 	m_process = new KShellProcess(QFile::encodeName( shellname ));
 	if (! KileConfig::teXPaths().isEmpty())
 	{

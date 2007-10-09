@@ -24,7 +24,7 @@
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 KileWidgetStatistics::KileWidgetStatistics( QWidget* parent, const char* name, WFlags fl )
     : QWidget( parent, name, fl )

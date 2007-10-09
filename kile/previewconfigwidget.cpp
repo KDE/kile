@@ -18,7 +18,7 @@
 #include "previewconfigwidget.h"
 
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include <qlayout.h>
 #include <qlabel.h>

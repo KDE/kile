@@ -27,7 +27,7 @@
 #include <kpushbutton.h>
 #include <kicondialog.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kio/netaccess.h>
 
 #include "kileextensions.h"

@@ -175,14 +175,14 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	KAction *action = view->actionCollection()->action(KStdAction::stdName(KStdAction::Save)); 
 	if ( action ) 
 	{
-		kdDebug() << "   reconnect action 'file_save'..." << endl;
+		KILE_DEBUG() << "   reconnect action 'file_save'..." << endl;
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSave()));
 	}
 	action = view->actionCollection()->action(KStdAction::stdName(KStdAction::SaveAs));
 	if ( action ) 
 	{
-		kdDebug() << "   reconnect action 'file_save_as'..." << endl;
+		KILE_DEBUG() << "   reconnect action 'file_save_as'..." << endl;
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSaveAs()));
 	}

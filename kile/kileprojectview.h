@@ -48,7 +48,7 @@ public:
 	KileProjectViewItem (QListView *parent, const KileProject *project) : KListViewItem(parent, project->name()), m_folder(-1), m_projectItem(0L) {}
 	
 
-	~KileProjectViewItem() {kdDebug() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
+	~KileProjectViewItem() {KILE_DEBUG() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
 
 	KileProjectItem* projectItem() { return m_projectItem; }
 

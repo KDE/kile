@@ -19,7 +19,7 @@
 #include <qregexp.h>
 #include <qfileinfo.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <ktextedit.h>
 #include <klocale.h>
 
@@ -67,7 +67,7 @@ bool OutputFilter::Run(const QString & logfile)
 		QTextStream t( &f );
 		while ( !t.eof() )
 		{
-// 			kdDebug() << "line " << m_nOutputLines << endl;
+// 			KILE_DEBUG() << "line " << m_nOutputLines << endl;
 			s = t.readLine() + '\n';
 			sCookie = parseLine(s.stripWhiteSpace(), sCookie);
 			++m_nOutputLines;

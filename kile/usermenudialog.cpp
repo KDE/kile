@@ -25,7 +25,7 @@
 #include <kpushbutton.h>
 #include <klocale.h>
 #include <ktextedit.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDialog
 {
@@ -80,7 +80,7 @@ UserTags::~UserTags()
 
 void UserTags::redraw()
 {
-	kdDebug() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
+	KILE_DEBUG() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
 	m_combo->clear();
 
 	if (m_list.size() > 0)
@@ -103,7 +103,7 @@ void UserTags::redraw()
 
 void UserTags::change(int index)
 {
-	kdDebug() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex) << endl;
+	KILE_DEBUG() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex) << endl;
 	m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
 
 	m_combo->changeItem(QString::number(m_prevIndex+1)+": "+m_list[m_prevIndex].text, m_prevIndex);
@@ -120,7 +120,7 @@ void UserTags::slotApply()
 	if (m_list.count() > 0 )
 		m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
 
-	kdDebug() << "usermenudialog: slotApply" << endl;
+	KILE_DEBUG() << "usermenudialog: slotApply" << endl;
 	accept();
 }
 

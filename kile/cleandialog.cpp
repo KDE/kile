@@ -26,7 +26,7 @@
 #include <qpixmap.h>
 #include <qfileinfo.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDialog
 {

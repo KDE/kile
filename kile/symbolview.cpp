@@ -37,7 +37,7 @@ tbraun 2007-06-13
 #include <kimageeffect.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include <kconfig.h>
 
@@ -222,7 +222,7 @@ void SymbolView::initPage(int page)
 
 void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 {
-	kdDebug() << "===SymbolView::contentsMousePressEvent(QMouseEvent *e)===" << endl;
+	KILE_DEBUG() << "===SymbolView::contentsMousePressEvent(QMouseEvent *e)===" << endl;
 	
 	QString code_symbol;
 	QStringList args, pkgs;
@@ -248,12 +248,12 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
  		emit(addToList(item));
 	}
 	
-	kdDebug() << "math is " << math << ", bracket is " << bracket << " and item->key() is " <<  ( item ? item->key() : "" ) << endl;
+	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->key() is " <<  ( item ? item->key() : "" ) << endl;
 }
 
 void SymbolView::fillWidget(const QString& prefix)
 {
-	kdDebug() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===" << endl;
+	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===" << endl;
 	QImage image;
 	KIconViewItem* item;
 	QStringList refCnts,paths;
@@ -266,10 +266,10 @@ void SymbolView::fillWidget(const QString& prefix)
 		QString configrefCnts = config->readEntry("counts");
 		paths = QStringList::split(',',configPaths);
 		refCnts = QStringList::split(',',configrefCnts);
-		kdDebug() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts" << endl;
+		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts" << endl;
 		if( paths.count() != refCnts.count() )
 		{
-			kdDebug() << "error in saved LRU list" << endl;
+			KILE_DEBUG() << "error in saved LRU list" << endl;
 			paths.clear();
 			refCnts.clear();
 		}
@@ -285,14 +285,14 @@ void SymbolView::fillWidget(const QString& prefix)
 	{
  		if ( image.load(paths[i]) )
 		{
-//   			kdDebug() << "path is " << paths[i] << endl;
+//   			KILE_DEBUG() << "path is " << paths[i] << endl;
 			item = new KIconViewItem(this);
 			item->setPixmap(image);
 			item->setKey( refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i] );
 			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
 		}
 		else
-			kdDebug() << "Loading file " << paths[i] << " failed" << endl;
+			KILE_DEBUG() << "Loading file " << paths[i] << " failed" << endl;
     	}
 }
 
@@ -316,7 +316,7 @@ void SymbolView::writeConfig()
 		{
 			refCnts.append(item->key().section('%',0,0));
 			paths.append(item->key().section('%',3,3));
-			kdDebug() << "path=" << paths.last() << ", count is " << refCnts.last() << endl;
+			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last() << endl;
 		}
 		config->writeEntry("paths",paths);
 		config->writeEntry("counts",refCnts);
@@ -332,7 +332,7 @@ void SymbolView::slotAddToList(const QIconViewItem *item)
 	bool found=false;
 	const QRegExp reCnt("^\\d+");
 			
-	kdDebug() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===" << endl;
+	KILE_DEBUG() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===" << endl;
 	
 	for ( tmpItem = this->firstItem(); tmpItem; tmpItem = tmpItem->nextItem() )
 	{
@@ -348,7 +348,7 @@ void SymbolView::slotAddToList(const QIconViewItem *item)
 		int refCnt, minRefCnt=10000;
 		QIconViewItem *unpopularItem = 0L;
 
-		kdDebug() << "Removing most unpopular item" << endl;
+		KILE_DEBUG() << "Removing most unpopular item" << endl;
 
 		for ( tmpItem = this->firstItem(); tmpItem; tmpItem = tmpItem->nextItem() )
 		{
@@ -360,13 +360,13 @@ void SymbolView::slotAddToList(const QIconViewItem *item)
 				unpopularItem = tmpItem;
 			}
 		}
-		kdDebug() << " minRefCnt is " << minRefCnt << endl;
+		KILE_DEBUG() << " minRefCnt is " << minRefCnt << endl;
 		delete unpopularItem;
 	}
 
 	if( found )
 	{
-		kdDebug() << "item is already in the iconview" << endl;
+		KILE_DEBUG() << "item is already in the iconview" << endl;
 		
 		int refCnt;
 		extract(tmpItem->key(),refCnt);

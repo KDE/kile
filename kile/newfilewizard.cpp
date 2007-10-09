@@ -24,7 +24,7 @@
 #include <qmap.h>
 
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kmessagebox.h>

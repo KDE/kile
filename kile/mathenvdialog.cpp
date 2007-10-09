@@ -26,7 +26,7 @@
 #include <qwhatsthis.h>
 
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDialog 
 {
@@ -158,7 +158,7 @@ bool MathEnvironmentDialog::isParameterEnv()
 
 void MathEnvironmentDialog::slotEnvironmentChanged(int index)
 {
-	kdDebug() << "environment changed: " << m_coEnvironment->text(index) << endl;
+	KILE_DEBUG() << "environment changed: " << m_coEnvironment->text(index) << endl;
 	m_envname = m_coEnvironment->text(index);
 	
 	// look for environment parameter in dictionary

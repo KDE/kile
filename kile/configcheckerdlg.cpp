@@ -27,7 +27,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <klistbox.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "configcheckerwidget.h"
 

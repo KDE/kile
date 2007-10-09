@@ -21,7 +21,7 @@
 #include <qregexp.h>
 
 #include <klocale.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kileedit.h"
 

@@ -22,7 +22,7 @@
 #include <qregexp.h>
 #include <qfileinfo.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <ktextedit.h>
 #include <klocale.h>
 
@@ -99,7 +99,7 @@ bool LatexOutputFilter::fileExists(const QString & name)
 //	from the context.
 void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie)
 {
-	//kdDebug() << "==LatexOutputFilter::updateFileStack()================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStack()================" << endl;
 
 	static QString::QString strPartialFileName;
 
@@ -110,7 +110,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//TeX is opening a file
 			if ( strLine.startsWith(":<+ ") )
 			{
-// 				kdDebug() << "filename detected" << endl;
+// 				KILE_DEBUG() << "filename detected" << endl;
 				//grab the filename, it might be a partial name (i.e. continued on the next line)
 				strPartialFileName = strLine.mid(4).stripWhiteSpace();
 
@@ -120,7 +120,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//TeX closed a file
 			else if ( strLine.startsWith(":<-") )
 			{
-// 				kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
+// 				KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
 				m_stackFile.pop();
 				dwCookie = Start;
 			}
@@ -137,7 +137,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			{
 				//push the filename on the stack and mark it as 'reliable'
 				m_stackFile.push(LOFStackItem(strPartialFileName, true));
-// 				kdDebug() << "\tpushed : " << strPartialFileName << endl;
+// 				KILE_DEBUG() << "\tpushed : " << strPartialFileName << endl;
 				strPartialFileName = QString::null;
 				dwCookie = Start;
 			}
@@ -145,14 +145,14 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//Don't push it on the stack, instead try to detect the error.
 			else if ( strLine.startsWith("!") )
 			{
-// 				kdDebug() << "oops!" << endl;
+// 				KILE_DEBUG() << "oops!" << endl;
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				detectError(strLine, dwCookie);
 			}
 			else if ( strLine.startsWith("No file") )
 			{
-// 				kdDebug() << "No file: " << strLine << endl;
+// 				KILE_DEBUG() << "No file: " << strLine << endl;
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				detectWarning(strLine, dwCookie);
@@ -160,7 +160,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			//Partial filename still isn't complete.
 			else
 			{
-// 				kdDebug() << "\tpartial file name, adding" << endl;
+// 				KILE_DEBUG() << "\tpartial file name, adding" << endl;
 				strPartialFileName = strPartialFileName + strLine.stripWhiteSpace();
 			}
 		break;
@@ -171,7 +171,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 
 void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
 {
-	//kdDebug() << "==LatexOutputFilter::updateFileStackHeuristic()================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStackHeuristic()================" << endl;
 
 	static QString::QString strPartialFileName;
 	bool expectFileName = (dwCookie == FileNameHeuristic);
@@ -205,14 +205,14 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 				fileExists(strPartialFileName) )
 			{
 				m_stackFile.push(LOFStackItem(strPartialFileName));
-				// kdDebug() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+				// KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
 				expectFileName = false;
 				dwCookie = Start;
 			}
 			//Guess the filename is continued on the next line.
 			else if ( i+1 == strLine.length() )
 			{
-				// kdDebug() << "\tFilename spans more than one line." << endl;
+				// KILE_DEBUG() << "\tFilename spans more than one line." << endl;
 				dwCookie = FileNameHeuristic;
 			}
 			//bail out
@@ -237,14 +237,14 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 	    //TeX is closing a file
 		else if ( strLine[i] == ')' )
 		{
-			// kdDebug() << "\tpopping : " << m_stackFile.top().file() << endl;
+			// KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
 			//If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
 			//a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
 			//from the stack too soon.
 			if ( ! m_stackFile.top().reliable() )
 				m_stackFile.pop();
 			else
-				kdDebug() << "\t\toh no, forget about it!" << endl;
+				KILE_DEBUG() << "\t\toh no, forget about it!" << endl;
         }
 	}
 }
@@ -252,7 +252,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 
 void LatexOutputFilter::flushCurrentItem()
 {
-	//kdDebug() << "==LatexOutputFilter::flushCurrentItem()================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::flushCurrentItem()================" << endl;
 	int nItemType = m_currentItem.type();
 
 	while (  (! fileExists(m_stackFile.top().file()) ) && (m_stackFile.count() > 1) )
@@ -265,19 +265,19 @@ void LatexOutputFilter::flushCurrentItem()
 		case itmError:
 			++m_nErrors;
 			m_InfoList->push_back(m_currentItem);
-			//kdDebug() << "Flushing Error in" << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() <<  endl;
+			//KILE_DEBUG() << "Flushing Error in" << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() <<  endl;
 		break;
 
 		case itmWarning:
 			++m_nWarnings;
 			m_InfoList->push_back(m_currentItem);
-			//kdDebug() << "Flushing Warning in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
+			//KILE_DEBUG() << "Flushing Warning in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
 		break;
 
 		case itmBadBox:
 			++m_nBadBoxes;
 			m_InfoList->push_back(m_currentItem);
-			//kdDebug() << "Flushing BadBox in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
+			//KILE_DEBUG() << "Flushing BadBox in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
 		break;
 
 		default: break;
@@ -287,7 +287,7 @@ void LatexOutputFilter::flushCurrentItem()
 
 bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 {
-	//kdDebug() << "==LatexOutputFilter::detectError(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::detectError(" << strLine.length() << ")================" << endl;
 
 	bool found = false, flush = false;
 
@@ -301,19 +301,19 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 		case Start :
 			if (reLaTeXError.search(strLine) != -1)
 			{
-				//kdDebug() << "\tError : " <<  reLaTeXError.cap(1) << endl;
+				//KILE_DEBUG() << "\tError : " <<  reLaTeXError.cap(1) << endl;
 				m_currentItem.setMessage(reLaTeXError.cap(1));
 				found = true;
 			}
 			else if (rePDFLaTeXError.search(strLine) != -1)
 			{
-				//kdDebug() << "\tError : " <<  rePDFLaTeXError.cap(1) << endl;
+				//KILE_DEBUG() << "\tError : " <<  rePDFLaTeXError.cap(1) << endl;
 				m_currentItem.setMessage(rePDFLaTeXError.cap(1));
 				found = true;
 			}
 			else if (reTeXError.search(strLine) != -1 )
 			{
-				//kdDebug() << "\tError : " <<  reTeXError.cap(1) << endl;
+				//KILE_DEBUG() << "\tError : " <<  reTeXError.cap(1) << endl;
 				m_currentItem.setMessage(reTeXError.cap(1));
 				found = true;
 			}
@@ -325,7 +325,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 		break;
 
 		case Error :
-			//kdDebug() << "\tError (cont'd): " << strLine << endl;
+			//KILE_DEBUG() << "\tError (cont'd): " << strLine << endl;
 			if ( strLine.endsWith(".") )
 			{
 				dwCookie = LineNumber;
@@ -340,12 +340,12 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 		break;
 
 		case LineNumber :
-			//kdDebug() << "\tLineNumber " << endl;
+			//KILE_DEBUG() << "\tLineNumber " << endl;
 			if ( reLineNumber.search(strLine) != -1 )
 			{
 				dwCookie = Start;
 				flush = true;
-				//kdDebug() << "\tline number: " << reLineNumber.cap(1) << endl;
+				//KILE_DEBUG() << "\tline number: " << reLineNumber.cap(1) << endl;
 				m_currentItem.setSourceLine(reLineNumber.cap(1).toInt());
 				m_currentItem.setMessage(m_currentItem.message() + reLineNumber.cap(2));
 			}
@@ -374,7 +374,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 
 bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 {
-	//kdDebug() << "==LatexOutputFilter::detectWarning(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::detectWarning(" << strLine.length() << ")================" << endl;
 
 	bool found = false, flush = false;
 	QString warning;
@@ -390,7 +390,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 			if ( reLaTeXWarning.search(strLine) != -1 )
 			{
 				warning = reLaTeXWarning.cap(5);
- 				//kdDebug() << "\tWarning found: " << warning << endl;
+ 				//KILE_DEBUG() << "\tWarning found: " << warning << endl;
 
 				found = true;
 				dwCookie = Start;
@@ -423,7 +423,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 		//warning spans multiple lines, detect the end
 		case Warning :
 			warning = m_currentItem.message() + strLine;
-			//kdDebug() << "'\tWarning (cont'd) : " << warning << endl;
+			//KILE_DEBUG() << "'\tWarning (cont'd) : " << warning << endl;
 			flush = detectLaTeXLineNumber(warning, dwCookie, strLine.length());
 			m_currentItem.setMessage(warning);
 		break;
@@ -444,13 +444,13 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 
 bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCookie, int len)
 {
-	//kdDebug() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
 
 	static QRegExp::QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", false);
 	static QRegExp::QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", false);
 	if ( (reLaTeXLineNumber.search(warning) != -1) || (reInternationalLaTeXLineNumber.search(warning) != -1) )
 	{
-		//kdDebug() << "een" << endl;
+		//KILE_DEBUG() << "een" << endl;
 		m_currentItem.setSourceLine(reLaTeXLineNumber.cap(2).toInt());
 		warning += reLaTeXLineNumber.cap(1);
 		dwCookie = Start;
@@ -458,7 +458,7 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 	}
 	else if ( warning.endsWith(".") )
 	{
-		//kdDebug() << "twee" << endl;
+		//KILE_DEBUG() << "twee" << endl;
 		m_currentItem.setSourceLine(0);
 		dwCookie = Start;
 		return true;
@@ -466,7 +466,7 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 	//bailing out, did not find a line number
 	else if ( (GetCurrentOutputLine() - m_currentItem.outputLine() > 4) || (len == 0) )
 	{
-		//kdDebug() << "drie current " << GetCurrentOutputLine() << " " <<  m_currentItem.outputLine() << " len " << len << endl;
+		//KILE_DEBUG() << "drie current " << GetCurrentOutputLine() << " " <<  m_currentItem.outputLine() << " len " << len << endl;
 		m_currentItem.setSourceLine(0);
 		dwCookie = Start;
 		return true;
@@ -474,7 +474,7 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 	//error message is continued on the other line
 	else
 	{
-		//kdDebug() << "vier" << endl;
+		//KILE_DEBUG() << "vier" << endl;
 		dwCookie = Warning;
 		return false;
 	}
@@ -482,7 +482,7 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 
 bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
 {
-	//kdDebug() << "==LatexOutputFilter::detectBadBox(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::detectBadBox(" << strLine.length() << ")================" << endl;
 
 	bool found = false, flush = false;
 	QString badbox;
@@ -524,7 +524,7 @@ bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
 
 bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCookie, int len)
 {
-	//kdDebug() << "==LatexOutputFilter::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
 
 	static QRegExp::QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", false);
 	static QRegExp::QRegExp reBadBoxLine("(.*) at line ([0-9]+)", false);
@@ -546,7 +546,7 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 		dwCookie = Start;
 		strLine = reBadBoxLine.cap(1);
 		m_currentItem.setSourceLine(reBadBoxLine.cap(2).toInt());
-		//kdDebug() << "\tBadBox@" << reBadBoxLine.cap(2) << "." << endl;
+		//KILE_DEBUG() << "\tBadBox@" << reBadBoxLine.cap(2) << "." << endl;
 		return true;
 	}
 	else if ( reBadBoxOutput.search(strLine) != -1)
@@ -573,7 +573,7 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 
 short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 {
-	//kdDebug() << "==LatexOutputFilter::parseLine(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::parseLine(" << strLine.length() << ")================" << endl;
 
 	switch (dwCookie)
 	{

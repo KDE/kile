@@ -37,7 +37,7 @@
 #include <kurlcompletion.h>
 #include <kfiledialog.h>
 #include <kcombobox.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kapplication.h>
 #include <kiconloader.h>
 
@@ -331,11 +331,11 @@ void KileNewProjectDlg::browseLocation()
 void KileNewProjectDlg::makeProjectPath()
 {
 	m_filename=bare();
-	kdDebug() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
+	KILE_DEBUG() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
 	m_dir = QFileInfo(location()).dirPath();
 	if (m_dir.right(1) != "/") m_dir = m_dir + '/';
 
-	kdDebug() << "LOCATION " << location() << " AND " << m_dir << endl;
+	KILE_DEBUG() << "LOCATION " << location() << " AND " << m_dir << endl;
 	m_location->setText(m_dir+m_filename);
 }
 
@@ -383,8 +383,8 @@ void KileNewProjectDlg::slotOk()
 			return;
 		}
 
-		kdDebug() << "==KileNewProjectDlg::slotOk()==============" << endl;
-		kdDebug() << "\t" << location() << " " << fi.dirPath() << endl;
+		KILE_DEBUG() << "==KileNewProjectDlg::slotOk()==============" << endl;
+		KILE_DEBUG() << "\t" << location() << " " << fi.dirPath() << endl;
 		if (! dr.exists())
 		{
 			bool suc = true;
@@ -395,12 +395,12 @@ void KileNewProjectDlg::slotOk()
 			{
 				path += '/' + dirs[i];
 				dir.setPath(path);
-				kdDebug() << "\tchecking : " << dir.absPath() << endl;
+				KILE_DEBUG() << "\tchecking : " << dir.absPath() << endl;
 				if ( ! dir.exists() )
 				{
 					dir.mkdir(dir.absPath());
 					suc = dir.exists();
-					kdDebug() << "\t\tcreated : " << dir.absPath() << " suc = " << suc << endl;
+					KILE_DEBUG() << "\t\tcreated : " << dir.absPath() << " suc = " << suc << endl;
 				}
 
 				if (!suc)
@@ -455,7 +455,7 @@ void KileNewProjectDlg::fillProjectDefaults()
 	m_dir = KileConfig::defaultProjectLocation();
 	if( !m_dir.endsWith("/") )
 		m_dir += '/';
-	kdDebug() << "M_DIR " << m_dir << endl;
+	KILE_DEBUG() << "M_DIR " << m_dir << endl;
 	m_location->setText(m_dir);
 	m_cb->setChecked(true);
 
@@ -560,7 +560,7 @@ KileProjectOptionsDlg::~KileProjectOptionsDlg()
 
 void KileProjectOptionsDlg::toggleMakeIndex(bool on)
 {
-	kdDebug() << "TOGGLED!" << endl;
+	KILE_DEBUG() << "TOGGLED!" << endl;
 	m_leMakeIndex->setEnabled(on);
 	m_project->setUseMakeIndexOptions(on);
 	m_project->writeUseMakeIndexOptions();

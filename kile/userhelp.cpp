@@ -26,7 +26,7 @@
 #include <kurl.h>
 #include <krun.h>
 #include <kmimetype.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "userhelpdialog.h"
 #include "kileconfig.h"
@@ -50,7 +50,7 @@ UserHelp::~UserHelp()
 
 void UserHelp::readConfig()
 {
-	//kdDebug() << "\tuserhelp: read config" << endl;
+	//KILE_DEBUG() << "\tuserhelp: read config" << endl;
 	QStringList menu,files;
 	
 	// first read all entries
@@ -72,7 +72,7 @@ void UserHelp::readConfig()
 
 void UserHelp::writeConfig()
 {
-	//kdDebug() << "\tuserhelp: write config" << endl;
+	//KILE_DEBUG() << "\tuserhelp: write config" << endl;
 	int entries = m_menuentries.count();
 	
 	// first delete old entries
@@ -237,7 +237,7 @@ int UserHelp::getHelpIndex(QPopupMenu *popup)
 
 void UserHelp::slotUserHelpActivated(int index)
 { 
-	kdDebug() << "==slotUserHelpActivated(" << index << ")============" << endl;
+	KILE_DEBUG() << "==slotUserHelpActivated(" << index << ")============" << endl;
 	if ( ! (index>=0 && index<(int)m_helpfiles.count()) ) 
 		return;
 		
@@ -254,7 +254,7 @@ void UserHelp::slotUserHelpActivated(int index)
 	}
 		
 	// show help file
-	kdDebug() << "\tshow userhelpfile (" << filename << ")" << endl;
+	KILE_DEBUG() << "\tshow userhelpfile (" << filename << ")" << endl;
 		
 	// determine, how to show the file
 	QString type;
@@ -306,7 +306,7 @@ void UserHelp::userHelpDialog()
 	dialog->setParameter(m_menuentries,m_helpfiles);       
 	if ( dialog->exec() ) 
 	{
-		//kdDebug() << "\t new userhelp entries accepted" << endl;
+		//KILE_DEBUG() << "\t new userhelp entries accepted" << endl;
 		dialog->getParameter(userhelpmenulist,userhelpfilelist);
 		updateEntries(userhelpmenulist,userhelpfilelist);
 	}

@@ -26,7 +26,7 @@
 #include <qdir.h>
 #include <qmap.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <ktempdir.h>
 #include <klocale.h>
 #include <kconfig.h>
@@ -188,7 +188,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
 bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist) 
 {
-	kdDebug() << "==QuickPreview::run()=========================="  << endl;
+	KILE_DEBUG() << "==QuickPreview::run()=========================="  << endl;
 	m_ki->logWidget()->clear();
 	if ( m_running > 0 )
 	{
@@ -207,7 +207,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( m_tempfile.isEmpty() ) 
 	{
 		m_tempfile =  KTempDir(QString::null).name() + "preview.tex";
-		kdDebug() << "\tdefine tempfile: " << m_tempfile << endl;
+		KILE_DEBUG() << "\tdefine tempfile: " << m_tempfile << endl;
 	} 
 	else 
 	{
@@ -222,7 +222,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	QStringList previewlist = QStringList::split(",",spreviewlist,true);
 	
 	// create preview tools 
-	kdDebug() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
+	KILE_DEBUG() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
 	KileTool::PreviewLaTeX *latex = (KileTool::PreviewLaTeX  *)m_ki->toolFactory()->create(previewlist[pvLatex],false);
 	if ( !latex ) 
 	{
@@ -234,7 +234,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( ! previewlist[1].isEmpty() ) 
 	{
 		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
-		kdDebug() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
+		KILE_DEBUG() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
 		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
 		if ( !dvips ) 
 		{
@@ -247,7 +247,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( !previewlist[pvViewer].isEmpty() ) 
 	{
 		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
-		kdDebug() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
+		KILE_DEBUG() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
 		viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
 		if ( !viewer ) 
 		{
@@ -262,7 +262,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( ! texinputpath.isEmpty() )
 		inputdir += ':' + texinputpath;
  	KileConfig::setPreviewTeXPaths(inputdir);
-	kdDebug() << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
+	KILE_DEBUG() << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
 	
 	// prepare tools: previewlatex
 	QString filepath = m_tempfile.left( m_tempfile.length()-3 ); 
@@ -303,7 +303,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
 void QuickPreview::toolDestroyed()
 {
-	kdDebug() << "\tQuickPreview: tool destroyed" << endl;
+	KILE_DEBUG() << "\tQuickPreview: tool destroyed" << endl;
 	if ( m_running > 0 )
 		m_running--;
 }
@@ -336,7 +336,7 @@ int QuickPreview::createTempfile(const QString &text)
 		showError(i18n("Could not read the preamble."));
 		return 0;
 	}
-	kdDebug() << "\tcreate a temporary file: "  << m_tempfile << endl;
+	KILE_DEBUG() << "\tcreate a temporary file: "  << m_tempfile << endl;
 	
 	// use a textstream
 	QTextStream preamble(&fin);
@@ -406,7 +406,7 @@ void QuickPreview::removeTempFiles(bool rmdir)
 		for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) 
 		{
 			QFile::remove( tempdir + (*it) );
-			// kdDebug() << "\tremove temporary file: " << tempdir + (*it) << endl;
+			// KILE_DEBUG() << "\tremove temporary file: " << tempdir + (*it) << endl;
 		}
 		
 		if ( rmdir )

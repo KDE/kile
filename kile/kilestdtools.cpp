@@ -141,7 +141,7 @@ namespace KileTool
 
 	bool LaTeX::finish(int r)
 	{
-		kdDebug() << "==bool LaTeX::finish(" << r << ")=====" << endl;
+		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====" << endl;
 		
 		int nErrors = 0, nWarnings = 0;
 		if ( filterLogfile() ) {
@@ -183,7 +183,7 @@ namespace KileTool
 	
 	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
 	{
-		kdDebug() << "check for autorun, m_reRun is " << m_reRun << endl;
+		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun << endl;
 		//check for "rerun LaTeX" warnings
 		bool reRan = false;
 		if ( (m_reRun < 2) && (nErrors == 0) && (nWarnings > 0) )
@@ -212,7 +212,7 @@ namespace KileTool
 		
 		if ( reRan )
 		{
-			kdDebug() << "rerunning LaTeX " << m_reRun << endl;
+			KILE_DEBUG() << "rerunning LaTeX " << m_reRun << endl;
 			Base *tool = manager()->factory()->create(name());
 			tool->setSource(source());
 			manager()->runNext(tool);
@@ -226,7 +226,7 @@ namespace KileTool
 
 			if ( bibs )
 			{
-				kdDebug() << "need to run BibTeX" << endl;
+				KILE_DEBUG() << "need to run BibTeX" << endl;
 				tool = manager()->factory()->create("BibTeX");
 				tool->setSource(source());
 				manager()->runNext(tool);
@@ -234,7 +234,7 @@ namespace KileTool
 
 			if ( index ) 
 			{
-				kdDebug() << "need to run MakeIndex" << endl;
+				KILE_DEBUG() << "need to run MakeIndex" << endl;
 				tool = manager()->factory()->create("MakeIndex");
 				tool->setSource(source());
 				manager()->runNext(tool);
@@ -242,7 +242,7 @@ namespace KileTool
 			
 			if ( asy ) 
 			{
-				kdDebug() << "need to run asymptote" << endl;
+				KILE_DEBUG() << "need to run asymptote" << endl;
 				tool = manager()->factory()->create("Asymptote");
 				tool->setSource(source());
 				manager()->runNext(tool);
@@ -260,7 +260,7 @@ namespace KileTool
 	// - checkErrors()    : count errors and warnings and emit signals   
 	bool PreviewLaTeX::finish(int r)
 	{
-		kdDebug() << "==bool PreviewLaTeX::finish(" << r << ")=====" << endl;
+		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====" << endl;
 		
 		int nErrors = 0, nWarnings = 0;
 		if ( filterLogfile() ) {
@@ -296,15 +296,15 @@ namespace KileTool
 		m_urlstr = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
 		addDict("%dir_target", QString::null);
 		addDict("%target", m_urlstr);
-		kdDebug() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;
-		kdDebug() << "\tusing  " << m_urlstr << endl;
+		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;
+		KILE_DEBUG() << "\tusing  " << m_urlstr << endl;
 
 		return true;
 	}
 
 	bool ViewBib::determineSource()
 	{
-		kdDebug() << "==ViewBib::determineSource()=======" << endl;
+		KILE_DEBUG() << "==ViewBib::determineSource()=======" << endl;
 		if (!View::determineSource())
 			return false;
 
@@ -313,7 +313,7 @@ namespace KileTool
 
 		//get the bibliographies for this source
 		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
-		kdDebug() << "\tfound " << bibs->count() << " bibs" << endl;
+		KILE_DEBUG() << "\tfound " << bibs->count() << " bibs" << endl;
 		if (bibs->count() > 0)
 		{
 			QString bib = bibs->front();
@@ -326,7 +326,7 @@ namespace KileTool
 				{
 					bib = (*bibs)[dlg->currentItem()];
 					bib_selected = true;
-					kdDebug() << "Bibliography selected : " << bib << endl;
+					KILE_DEBUG() << "Bibliography selected : " << bib << endl;
 				}
 				delete dlg;
 				
@@ -335,12 +335,12 @@ namespace KileTool
 					return false;
 				}
 			}
-			kdDebug() << "filename before: " << info.dirPath() << endl;
+			KILE_DEBUG() << "filename before: " << info.dirPath() << endl;
 			setSource(manager()->info()->checkOtherPaths(info.dirPath(),bib + ".bib",KileInfo::bibinputs));	
 		}
 		else if( info.exists() ) //active doc is a bib file
 		{
-			kdDebug() << "filename before: " << info.dirPath() << endl;
+			KILE_DEBUG() << "filename before: " << info.dirPath() << endl;
 			setSource(manager()->info()->checkOtherPaths(info.dirPath(),info.fileName(),KileInfo::bibinputs));
 		}
 		else

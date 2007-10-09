@@ -17,7 +17,7 @@
 #include "templates.h"
 
 #include <kapp.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kglobal.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -151,7 +151,7 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KURL& newTem
 }
 
 void Manager::scanForTemplates() {
-	kdDebug() << "===scanForTemplates()===================" << endl;
+	KILE_DEBUG() << "===scanForTemplates()===================" << endl;
 	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "templates");
 	QDir templates;
 	KileTemplate::Info ti;
@@ -170,12 +170,12 @@ void Manager::scanForTemplates() {
 			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
 			if (m_TemplateList.contains(ti))
 			{
-				kdDebug() << "\tignoring: " << ti.path << endl;
+				KILE_DEBUG() << "\tignoring: " << ti.path << endl;
 			}
 			else
 			{
 				m_TemplateList.append(ti);
-				kdDebug() << "\tadding: " << ti.name << " " << ti.path << endl;
+				KILE_DEBUG() << "\tadding: " << ti.name << " " << ti.path << endl;
 			}
 		}
 	}
@@ -281,11 +281,11 @@ void TemplateIconView::searchLaTeXClassFiles()
 	connect(m_proc, SIGNAL(processExited(KProcess*)),
 	        this,   SLOT(slotProcessExited(KProcess*)) );
 
-	kdDebug() << "=== NewFileWidget::searchClassFiles() ====================" << endl;
-	kdDebug() << "\texecute: " << command << endl;
+	KILE_DEBUG() << "=== NewFileWidget::searchClassFiles() ====================" << endl;
+	KILE_DEBUG() << "\texecute: " << command << endl;
 	if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
 	{
-		kdDebug() << "\tstart of shell process failed" << endl;
+		KILE_DEBUG() << "\tstart of shell process failed" << endl;
 		addTemplateIcons(KileDocument::LaTeX);
 	}
 }

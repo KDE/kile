@@ -14,7 +14,7 @@
  ****************************************************************************/
  
 #include "kileoutputwidget.h"
-#include "kdebug.h"
+#include "kiledebug.h"
 
 namespace KileWidget
 {

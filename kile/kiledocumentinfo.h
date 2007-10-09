@@ -17,7 +17,7 @@
 #define KILEDOCUMENTINFO_H
 
 #include <kate/document.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <klistview.h>
 #include <kurl.h>
 #include <kdialogbase.h>

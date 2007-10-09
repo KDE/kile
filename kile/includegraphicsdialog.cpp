@@ -29,7 +29,7 @@
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kpushbutton.h>
 #include <kprocess.h>
 #include <klineedit.h>
@@ -390,8 +390,8 @@ void IncludeGraphics::chooseFile()
       else
          execute( "identify -format \"w=%w h=%h dpi=%x\" " + fn);
    } else {
-      kdDebug() << "=== IncludeGraphics::error ====================" << endl;
-      kdDebug() << "   filename: '" << fn << "'" << endl;
+      KILE_DEBUG() << "=== IncludeGraphics::error ====================" << endl;
+      KILE_DEBUG() << "   filename: '" << fn << "'" << endl;
    }
 }
 
@@ -415,8 +415,8 @@ void IncludeGraphics::execute(const QString &command)
            this, SLOT(slotProcessExited(KProcess*)) );
 
    m_output = "";
-   kdDebug() << "=== IncludeGraphics::execute ====================" << endl;
-   kdDebug() << "   execute '" << command << "'" << endl;
+   KILE_DEBUG() << "=== IncludeGraphics::execute ====================" << endl;
+   KILE_DEBUG() << "   execute '" << command << "'" << endl;
 
    m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
@@ -433,7 +433,7 @@ void IncludeGraphics::slotProcessOutput(KProcess*,char* buffer,int buflen)
 void IncludeGraphics::slotProcessExited(KProcess* proc)
 {
   if ( proc->normalExit() &&  !proc->exitStatus() ) {
-      kdDebug() << "   result: " << m_output << endl;
+      KILE_DEBUG() << "   result: " << m_output << endl;
 
       // set the default resolution
       m_resolution = m_defaultresolution;

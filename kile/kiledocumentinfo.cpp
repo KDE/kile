@@ -72,7 +72,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kapplication.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kinputdialog.h>
@@ -170,12 +170,12 @@ Info::Info() : m_bIsRoot(false), m_config(kapp->config()), documentTypePromotion
 
 Info::~Info(void)
 {
-	kdDebug() << "DELETING DOCINFO" << m_url.path() << endl;
+	KILE_DEBUG() << "DELETING DOCINFO" << m_url.path() << endl;
 }
 
 void Info::updateStructLevelInfo()
 {
-	kdDebug() << "===void Info::updateStructLevelInfo()===" << endl;
+	KILE_DEBUG() << "===void Info::updateStructLevelInfo()===" << endl;
 	// read config for structureview items
 	m_showStructureLabels = KileConfig::svShowLabels();
 	m_showStructureReferences = KileConfig::svShowReferences();
@@ -193,7 +193,7 @@ void Info::updateStructLevelInfo()
 
 void Info::setBaseDirectory(const KURL& url)
 {
-	kdDebug() << "===void Info::setBaseDirectory(const KURL&" << url << ")===" << endl;
+	KILE_DEBUG() << "===void Info::setBaseDirectory(const KURL&" << url << ")===" << endl;
 	m_baseDirectory = url;
 }
 
@@ -361,33 +361,33 @@ void Info::count(const QString line, long *stat)
 
 QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 {
-	kdDebug() << "==QString Info::lastModifiedFile()=====" << endl;
+	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====" << endl;
 	QFileInfo fileinfo ( url().path() );
 	QString basepath = fileinfo.dirPath(true), last = fileinfo.absFilePath();
 	QDateTime time ( fileinfo.lastModified() );
 
 	if ( list == 0L ) list = &m_deps;
 
-	kdDebug() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
+	KILE_DEBUG() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
 	for ( uint i = 0; i < list->count(); ++i )
 	{
 		fileinfo.setFile( basepath + '/' + (*list)[i] );
-		kdDebug() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
+		KILE_DEBUG() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
 		if ( fileinfo.lastModified() >  time )
 		{
 			time = fileinfo.lastModified();
 			last = fileinfo.absFilePath();
-			kdDebug() << "\t\tlater" << endl;
+			KILE_DEBUG() << "\t\tlater" << endl;
 		}
 	}
 
-	kdDebug() << "\treturning " << fileinfo.absFilePath() << endl;
+	KILE_DEBUG() << "\treturning " << fileinfo.absFilePath() << endl;
 	return last;
 }
 
 void Info::updateStruct()
 {
-	kdDebug() << "==Info::updateStruct()=======" << endl;
+	KILE_DEBUG() << "==Info::updateStruct()=======" << endl;
 	m_labels.clear();
 	m_bibItems.clear();
 	m_deps.clear();
@@ -413,7 +413,7 @@ TextInfo::TextInfo(Kate::Document *doc, Extensions *extensions, const QString& d
 	setDoc(doc);
 	if (m_doc)
 	{
-		kdDebug() << "TextInfo created for " << m_doc->docName() << endl;
+		KILE_DEBUG() << "TextInfo created for " << m_doc->docName() << endl;
 	}
 
  	m_arStatistics = new long[SIZE_STAT_ARRAY];
@@ -448,7 +448,7 @@ Kate::Document* TextInfo::getDoc()
 
 void TextInfo::setDoc(Kate::Document *doc)
 {
-	kdDebug() << "===void TextInfo::setDoc(Kate::Document *doc)===" << endl;
+	KILE_DEBUG() << "===void TextInfo::setDoc(Kate::Document *doc)===" << endl;
 
 	if(m_doc == doc)
 		return;
@@ -499,7 +499,7 @@ KURL TextInfo::url()
 		else
 			url = KURL();
 	}
-// 	kdDebug() << "===KURL TextInfo::url()===, url is " << url.path() << endl;
+// 	KILE_DEBUG() << "===KURL TextInfo::url()===, url is " << url.path() << endl;
 	return url;
 }
 
@@ -515,7 +515,7 @@ bool TextInfo::isTextDocument()
 
 void TextInfo::setHighlightMode(const QString &highlight)
 {
-	kdDebug() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================" << endl;
+	KILE_DEBUG() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================" << endl;
 
 	if ( m_doc && !highlight.isEmpty() )
 	{
@@ -702,14 +702,14 @@ const long* LaTeXInfo::getStatistics()
 	if ( m_doc && m_doc->hasSelection() )
 	{
 		line = m_doc->selection();
-		kdDebug() << "getStat : line : " << line << endl;
+		KILE_DEBUG() << "getStat : line : " << line << endl;
 		count(line, m_arStatistics);
 	}
 	else if (m_doc)
 	for (uint l=0; l < m_doc->numLines(); ++l)
 	{
 		line = m_doc->textLine(l);
-		kdDebug() << "getStat : line : " << line << endl;
+		KILE_DEBUG() << "getStat : line : " << line << endl;
 		count(line, m_arStatistics);
 	}
 	return m_arStatistics;
@@ -727,7 +727,7 @@ QString LaTeXInfo::getFileFilter() const
 
 void LaTeXInfo::updateStructLevelInfo() {
 
-	kdDebug() << "===void LaTeXInfo::updateStructLevelInfo()===" << endl;
+	KILE_DEBUG() << "===void LaTeXInfo::updateStructLevelInfo()===" << endl;
 
 	// read config stuff
 	Info::updateStructLevelInfo();
@@ -860,7 +860,7 @@ BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
 //FIXME refactor, clean this mess up
 void LaTeXInfo::updateStruct()
 {
-	kdDebug() << "==void TeXInfo::updateStruct: (" << url() << ")=========" << endl;
+	KILE_DEBUG() << "==void TeXInfo::updateStruct: (" << url() << ")=========" << endl;
 
 	if ( getDoc() == 0L )
 		return;
@@ -916,7 +916,7 @@ void LaTeXInfo::updateStruct()
 		{
 			if ( (!foundBD) && ( (bd = s.find(reBD, tagEnd)) != -1))
 			{
-				kdDebug() << "\tfound \\begin{document}" << endl;
+				KILE_DEBUG() << "\tfound \\begin{document}" << endl;
 				foundBD = true;
 				if ( bd == 0 ) m_preamble = m_doc->text(0, 0, i - 1, m_doc->textLine(i - 1).length() );
 				else m_preamble = m_doc->text(0, 0, i, bd);
@@ -924,7 +924,7 @@ void LaTeXInfo::updateStruct()
 
 			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
 			{
-				kdDebug() << "\tsetting m_bIsRoot to true" << endl;
+				KILE_DEBUG() << "\tsetting m_bIsRoot to true" << endl;
 				tagEnd += reRoot.cap(0).length();
 				m_bIsRoot = true;
 			}
@@ -959,7 +959,7 @@ void LaTeXInfo::updateStruct()
 							tagLine = result.line + 1;
 							tagCol = result.col + 1;
 						}
-					//kdDebug() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}" << endl;
+					//KILE_DEBUG() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}" << endl;
 					}
 					else
 					{
@@ -1069,7 +1069,7 @@ void LaTeXInfo::updateStruct()
 					// update the referenced Bib files
 					else  if( (*it).type == KileStruct::Bibliography )
 					{
-						kdDebug() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
+						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
 
 						QStringList bibs = QStringList::split(",", m);
 						QString biblio;
@@ -1104,7 +1104,7 @@ void LaTeXInfo::updateStruct()
 					// update the bibitem list
 					else if ( (*it).type == KileStruct::BibItem )
 					{
-						//kdDebug() << "\tappending bibitem " << m << endl;
+						//KILE_DEBUG() << "\tappending bibitem " << m << endl;
 						m_bibItems.append(m);
 					}
 
@@ -1141,7 +1141,7 @@ void LaTeXInfo::updateStruct()
 							{
 								if(s.find(reNumOfOptParams, tagEnd + 1) != -1)
 								{
-									kdDebug() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
+									KILE_DEBUG() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
 									noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
 									optArg = '[' + reNumOfOptParams.cap(2) + ']';
 								}
@@ -1176,7 +1176,7 @@ void LaTeXInfo::updateStruct()
 					// and some other commands, which don't need special actions:
 					// \caption, ...
 
-					// kdDebug() << "\t\temitting: " << m << endl;
+					// KILE_DEBUG() << "\t\temitting: " << m << endl;
 					if ( fire && !fireSuspended )
 						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
 				} //if m
@@ -1193,7 +1193,7 @@ void LaTeXInfo::checkChangedDeps()
 {
 	if( m_depsPrev != m_deps )
 	{
-		kdDebug() << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
+		KILE_DEBUG() << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
 		emit(depChanged());
 		m_depsPrev = m_deps;
 	}
@@ -1219,7 +1219,7 @@ void BibInfo::updateStruct()
 
 	Info::updateStruct();
 
-	kdDebug() << "==void BibInfo::updateStruct()========" << endl;
+	KILE_DEBUG() << "==void BibInfo::updateStruct()========" << endl;
 
 	static QRegExp::QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
 	static QRegExp::QRegExp reSpecial("string|preamble|comment");
@@ -1232,7 +1232,7 @@ void BibInfo::updateStruct()
 		s = m_doc->textLine(i);
 		if ( (s.find(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).lower()) )
 		{
-			kdDebug() << "found: " << reItem.cap(2) << endl;
+			KILE_DEBUG() << "found: " << reItem.cap(2) << endl;
 			//start looking for key
 			key = "";
 			bool keystarted = false;
@@ -1265,7 +1265,7 @@ void BibInfo::updateStruct()
 					if ( s[col] == ',' )
 					{
 						key = key.stripWhiteSpace();
-						kdDebug() << "found: " << key << endl;
+						KILE_DEBUG() << "found: " << key << endl;
 						m_bibItems.append(key);
 						emit(foundItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).lower()) );
 						break;

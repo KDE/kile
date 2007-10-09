@@ -21,7 +21,7 @@
 #include <qtimer.h>
 #include <qdict.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
@@ -137,10 +137,10 @@ namespace KileDocument
 
 	void CodeCompletion::readConfig(KConfig *config)
 	{
-		kdDebug() << "=== CodeCompletion::readConfig ===================" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::readConfig ===================" << endl;
 
 		// save normal parameter
-		//kdDebug() << "   read bool entries" << endl;
+		//KILE_DEBUG() << "   read bool entries" << endl;
 		m_isenabled = KileConfig::completeEnabled();
 		m_setcursor = KileConfig::completeCursor();
 		m_setbullets = KileConfig::completeBullets();
@@ -160,10 +160,10 @@ namespace KileDocument
 		// and when the list of files changes
 		if ( m_firstconfig || KileConfig::completeChangedLists()  || KileConfig::completeChangedCommands() )
 		{
-			kdDebug() << "   set regexp for references..." << endl;
+			KILE_DEBUG() << "   set regexp for references..." << endl;
 			setReferences();
 
-			kdDebug() << "   read wordlists..." << endl;
+			KILE_DEBUG() << "   read wordlists..." << endl;
 			// wordlists for Tex/Latex mode
 			QStringList files = KileConfig::completeTex();
 			setWordlist( files, "tex", &m_texlist );
@@ -195,7 +195,7 @@ namespace KileDocument
 
 	void CodeCompletion::saveLocalChanges()
 	{
-		kdDebug() << "=== CodeCompletion::saveLocalChanges ===================" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::saveLocalChanges ===================" << endl;
 		m_abbrevListview->saveLocalAbbreviation(m_localAbbrevFile);
 	}
 
@@ -342,10 +342,10 @@ namespace KileDocument
 
 	void CodeCompletion::completeWord(const QString &text, CodeCompletion::Mode mode)
 	{
-		kdDebug() << "==CodeCompletion::completeWord(" << text << ")=========" << endl;
-		//kdDebug() << "\tm_view = " << m_view << endl;
+		KILE_DEBUG() << "==CodeCompletion::completeWord(" << text << ")=========" << endl;
+		//KILE_DEBUG() << "\tm_view = " << m_view << endl;
 		if ( !m_view) return;
-		//kdDebug() << "ok" << endl;
+		//KILE_DEBUG() << "ok" << endl;
 
 		// remember all parameters (view, pattern, length of pattern, mode)
 		m_text = text;
@@ -364,7 +364,7 @@ namespace KileDocument
 			QString s = doc->textLine(m_ycursor);
 			int pos = s.findRev("\\",m_xcursor);
 			if (pos < 0) {
-				//kdDebug() << "\tfound no backslash! s=" << s << endl;
+				//KILE_DEBUG() << "\tfound no backslash! s=" << s << endl;
 				return;
 			}
 			m_xstart = pos;
@@ -401,7 +401,7 @@ namespace KileDocument
 		QString pattern = ( m_mode != cmEnvironment ) ? text : "\\begin{" + text;
 		uint n = countEntries( pattern, &list, &entry, &type );
 
-		//kdDebug() << "entries = " << n << endl;
+		//KILE_DEBUG() << "entries = " << n << endl;
 
 		// nothing to do
 		if ( n == 0 )
@@ -454,7 +454,7 @@ namespace KileDocument
 	{
 		KTextEditor::CompletionEntry e;
 
-		kdDebug() << "completeFromList: " << list->count() << " items" <<   " << pattern=" << pattern<< endl;
+		KILE_DEBUG() << "completeFromList: " << list->count() << " items" <<   " << pattern=" << pattern<< endl;
 		QStringList sortedlist( *list );
 		sortedlist.sort();
 
@@ -518,7 +518,7 @@ namespace KileDocument
 	QString CodeCompletion::filterCompletionText( const QString &text, const QString &type )
 	{
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
-		//kdDebug() << "   complete filter: " << text << " type " << type << endl;
+		//KILE_DEBUG() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
 
 		if ( text!="\\begin{}" && reEnv.search(text)!=-1 )
@@ -1077,7 +1077,7 @@ namespace KileDocument
 
 	void CodeCompletion::editCompleteList(Type type,const QString &pattern)
 	{
-		//kdDebug() << "==editCompleteList=============" << endl;
+		//KILE_DEBUG() << "==editCompleteList=============" << endl;
 		m_keylistType = type;
 		if ( type == ctReference )
 			completeFromList(info()->allLabels(),pattern);
@@ -1094,7 +1094,7 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
 	{
-		//kdDebug() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionDone(entry);
 
 		// if kile completion was active, look if we need to show an additional list
@@ -1117,25 +1117,25 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompleteValueList()
 	{
-		//kdDebug() << "==slotCompleteValueList (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCompleteValueList (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		m_completeTimer->stop();
 		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()
 	{
-		//kdDebug() << "==slotCompletionAborted (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCompletionAborted (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionAborted();
 	}
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
-		//kdDebug() << "==slotFilterCompletion (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotFilterCompletion (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		if ( inProgress() )                 // dani 28.09.2004
 		{
-			//kdDebug() << "\tin progress: s=" << *s << endl;
+			//KILE_DEBUG() << "\tin progress: s=" << *s << endl;
 			*s = filterCompletionText( c->text, c->type );
-			//kdDebug() << "\tfilter --->" << *s << endl;
+			//KILE_DEBUG() << "\tfilter --->" << *s << endl;
 			m_inprogress = false;
 			m_kilecompletion = true;
 		}
@@ -1143,7 +1143,7 @@ namespace KileDocument
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
 	{
-		//kdDebug() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << string << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << string << ")=============" << endl;
 
 		if ( !inProgress() && m_autoDollar && string=="$" )
 		{
@@ -1182,15 +1182,15 @@ namespace KileDocument
 		if ( found )
 		{
 			int wordlen = word.length();
-			//kdDebug() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
+			//KILE_DEBUG() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
 			if ( inProgress() )               // continue a running mode?
 			{
-				//kdDebug() << "   auto completion: continue current mode" << endl;
+				//KILE_DEBUG() << "   auto completion: continue current mode" << endl;
 				completeWord(word, m_mode);
 			}
 			else if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
 			{
-				//kdDebug() << "   auto completion: latex mode" << endl;
+				//KILE_DEBUG() << "   auto completion: latex mode" << endl;
 				if ( string.at( 0 ).isLetter() )
 				{
 					completeWord(word, cmLatex);
@@ -1202,7 +1202,7 @@ namespace KileDocument
 			}
 			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold)
 			{
-				//kdDebug() << "   auto completion: document mode" << endl;
+				//KILE_DEBUG() << "   auto completion: document mode" << endl;
 				completeWord(word,cmDocumentWord);
 			}
 		}
@@ -1286,7 +1286,7 @@ namespace KileDocument
 	void CodeCompletion::getDocumentWords(const QString &text,
 	                                      QValueList<KTextEditor::CompletionEntry> &list)
 	{
-		//kdDebug() << "getDocumentWords: " << endl;
+		//KILE_DEBUG() << "getDocumentWords: " << endl;
 		list.clear();
 
 		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
@@ -1349,7 +1349,7 @@ namespace KileDocument
 		if ( expansion.isEmpty() )
 			return false;
 
-		kdDebug() << "=== CodeCompletion::completeAutoAbbreviation: abbrev=" << abbrev << "  exp=" << expansion << endl;
+		KILE_DEBUG() << "=== CodeCompletion::completeAutoAbbreviation: abbrev=" << abbrev << "  exp=" << expansion << endl;
 
 		uint len = abbrev.length();
 		uint startcol = col - len - 1;
@@ -1401,7 +1401,7 @@ namespace KileDocument
 
 	void CodeCompletion::deleteAbbreviationEntry( const QString &entry )
 	{
-		kdDebug() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
 		QValueList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
@@ -1415,7 +1415,7 @@ namespace KileDocument
 
 	void CodeCompletion::addAbbreviationEntry( const QString &entry )
 	{
-		kdDebug() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
 		QValueList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{

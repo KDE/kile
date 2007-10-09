@@ -37,7 +37,7 @@
 #include <kfiledialog.h>
 #include <kiconloader.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
@@ -145,7 +145,7 @@ void InputTag::init()
 
 void InputTag::emitData()
 {
-	kdDebug() << "InputTag::emitData() " << m_ki->getName() << endl;
+	KILE_DEBUG() << "InputTag::emitData() " << m_ki->getName() << endl;
 
 	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_ki, m_parent, "input_dialog");
 	if (dlg->exec())

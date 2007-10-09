@@ -62,7 +62,7 @@ void PreviewWidget::paintEvent(QPaintEvent*)
 
 void PreviewWidget::showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype)
 {
-	kdDebug() << "==PreviewWidget::showActivePreview()=========================="  << endl;
+	KILE_DEBUG() << "==PreviewWidget::showActivePreview()=========================="  << endl;
 	m_info->logWidget()->clear();
 	if ( m_running || m_info->quickPreview()->isRunning() )
 	{
@@ -153,7 +153,7 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 
 void PreviewWidget::drawImage() 
 {
-	kdDebug() << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)" << endl;
+	KILE_DEBUG() << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)" << endl;
 	if ( ! m_previewImage )
 		delete m_previewImage;
 
@@ -165,7 +165,7 @@ void PreviewWidget::drawImage()
 
 void PreviewWidget::toolDestroyed() 
 {
-	kdDebug() << "\tQuickPreview: tool destroyed" << endl;
+	KILE_DEBUG() << "\tQuickPreview: tool destroyed" << endl;
 	m_running = false;
 }
 

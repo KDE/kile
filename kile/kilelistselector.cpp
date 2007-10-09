@@ -23,7 +23,7 @@
 #include <qheader.h>
 
 #include <kapplication.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <klocale.h>
 
 //////////////////// KileListSelectorBase ////////////////////

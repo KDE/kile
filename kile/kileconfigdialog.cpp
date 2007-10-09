@@ -50,7 +50,7 @@
 #include "kileinfo.h"
 #include "kileedit.h"
 
-#include <kdebug.h>
+#include "kiledebug.h"
 
 namespace KileDialog
 {
@@ -135,7 +135,7 @@ namespace KileDialog
 	                           const QString &pixmapName, const QString &header,
 	                           bool addSpacer)
 	{
-		kdDebug() << "slot: add config page item=" << itemName << endl;
+		KILE_DEBUG() << "slot: add config page item=" << itemName << endl;
 
 		// add page
 		QStringList path;
@@ -307,7 +307,7 @@ namespace KileDialog
 
 	void Config::slotOk()
 	{
-		kdDebug() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")" << endl;
+		KILE_DEBUG() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")" << endl;
 
 		// editor settings are only available, when at least one document is opened
 		if ( m_editorOpened && m_editorSettingsChanged )
@@ -334,21 +334,21 @@ namespace KileDialog
 
 	void Config::slotCancel()
 	{
-		kdDebug() << "   slot cancel" << endl;
+		KILE_DEBUG() << "   slot cancel" << endl;
 		m_config->rollback();
 		accept();
 	}
 
 	void Config::slotChanged()
 	{
-		kdDebug() << "   slot changed" << endl;
+		KILE_DEBUG() << "   slot changed" << endl;
 		m_editorSettingsChanged = true;
 	}
 
 /*
 void Config::slotWidgetModified()
 {
-	kdDebug() << "slot: widget modified --> " << m_manager->hasChanged()  << endl;
+	KILE_DEBUG() << "slot: widget modified --> " << m_manager->hasChanged()  << endl;
   //emit widgetModified();
 }
 */

@@ -65,7 +65,7 @@
 #include <qclipboard.h>
  
 #include <kapplication.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kiconloader.h>
@@ -222,7 +222,7 @@ namespace KileWidget
 
 	void StructureList::cleanUp(bool preserveState/* = true */)
 	{
-        	kdDebug() << "==void StructureList::cleanUp()========" << endl;
+        	KILE_DEBUG() << "==void StructureList::cleanUp()========" << endl;
 		if(preserveState)
 			saveState();
 		clear();
@@ -242,7 +242,7 @@ namespace KileWidget
 
 	void StructureList::saveState()
 	{
-		kdDebug() << "===void StructureList::saveState()" << endl;
+		KILE_DEBUG() << "===void StructureList::saveState()" << endl;
 		m_openByTitle.clear();
 		m_openByLine.clear();
 		m_openByFolders.clear();
@@ -440,7 +440,7 @@ namespace KileWidget
 	                            uint startline, uint startcol, 
 	                            const QString & pix, const QString &fldr /* = "root" */)
 	{
-//  		kdDebug() << "\t\taddItem: " << title << ", with type " <<  type << endl;
+//  		KILE_DEBUG() << "\t\taddItem: " << title << ", with type " <<  type << endl;
 		if ( m_stop ) return;
 		
 		// some types need a special action
@@ -474,11 +474,11 @@ namespace KileWidget
 		// that's all for hidden types: we must immediately return
 		if ( lev == KileStruct::Hidden ) 
 		{
-			//kdDebug() << "\t\thidden item: not created" << endl;
+			//KILE_DEBUG() << "\t\thidden item: not created" << endl;
 			return;
 		}
 			
-		//kdDebug() << "\t\tcreate new item" << endl;
+		//KILE_DEBUG() << "\t\tcreate new item" << endl;
 		// check if we have to update a label before loosing this item
 		if ( type==KileStruct::Label )
 		{
@@ -569,14 +569,14 @@ namespace KileWidget
 			m_folders.remove("refs");
 		}
 
-		//kdDebug() << "==void StructureList::showReferences()========" << endl;
-		//kdDebug() << "\tfound " << m_references.count() << " references" << endl;
+		//KILE_DEBUG() << "==void StructureList::showReferences()========" << endl;
+		//KILE_DEBUG() << "\tfound " << m_references.count() << " references" << endl;
 		if ( m_references.count() == 0 )
 			return;
 			
 		// read list with all labels
 		const QStringList *list = ki->allLabels();
-		//kdDebug() << "\tfound " << list->count() << " labels" << endl;
+		//KILE_DEBUG() << "\tfound " << list->count() << " labels" << endl;
 		QMap<QString,bool> labelmap;
 		for ( QStringList::ConstIterator itmap=list->begin(); itmap!=list->end(); ++itmap ) 
 		{
@@ -603,7 +603,7 @@ namespace KileWidget
 		m_ki(ki),
 		m_docinfo(0L)
 	{
-		kdDebug() << "==KileWidget::Structure::Structure()===========" << endl;
+		KILE_DEBUG() << "==KileWidget::Structure::Structure()===========" << endl;
 		setLineWidth(0);
 		setMidLineWidth(0);
 		setMargin(0);
@@ -633,7 +633,7 @@ namespace KileWidget
 
 	void Structure::slotClicked(QListViewItem * itm)
 	{
-		kdDebug() << "\tStructure::slotClicked" << endl;
+		KILE_DEBUG() << "\tStructure::slotClicked" << endl;
 
 		KileListViewItem *item = (KileListViewItem *)itm;
 		//return if user didn't click on an item
@@ -647,14 +647,14 @@ namespace KileWidget
 
 	void Structure::slotDoubleClicked(QListViewItem * itm)
 	{
-		kdDebug() << "\tStructure::slotDoubleClicked" << endl;
+		KILE_DEBUG() << "\tStructure::slotDoubleClicked" << endl;
 		KileListViewItem *item = (KileListViewItem*)(itm);
 		static QRegExp::QRegExp suffix("\\.[\\d\\w]*$");
 		
 		if (!item)
 			return;
 		
-		kdDebug() <<"item->url() is " << item->url() << ", item->title() is " << item->title() << endl;
+		KILE_DEBUG() <<"item->url() is " << item->url() << ", item->title() is " << item->title() << endl;
 		
 		if ( item->type() & (KileStruct::Input | KileStruct::Bibliography | KileStruct::Graphics) )
 		{
@@ -663,7 +663,7 @@ namespace KileWidget
 			
 			if(fname.find(suffix) != -1) // check if we have a suffix, if not add standard suffixes
 			{
-				kdDebug() << "Suffix found: " << suffix.cap(0) << endl;
+				KILE_DEBUG() << "Suffix found: " << suffix.cap(0) << endl;
 			}
 			else
 			{
@@ -717,7 +717,7 @@ namespace KileWidget
 
 	void Structure::slotPopup(KListView *, QListViewItem *itm, const QPoint &point)
 	{
-		kdDebug() << "\tStructure::slotPopup" << endl;
+		KILE_DEBUG() << "\tStructure::slotPopup" << endl;
 		
 		m_popupItem = (KileListViewItem *)(itm);
 		if ( ! m_popupItem )
@@ -801,7 +801,7 @@ namespace KileWidget
 	// id's 1..6 (already checked)
 	void Structure::slotPopupLabel(int id)
 	{
-		kdDebug() << "\tStructure::slotPopupLabel (" << id << ")"<< endl;
+		KILE_DEBUG() << "\tStructure::slotPopupLabel (" << id << ")"<< endl;
 		
 		QString s = m_popupItem->label();    
 		if ( id==1 || id==4 )
@@ -818,7 +818,7 @@ namespace KileWidget
 	// id's 10..16 (already checked)
 	void Structure::slotPopupSectioning(int id)
 	{
-		kdDebug() << "\tStructure::slotPopupSectioning (" << id << ")"<< endl;
+		KILE_DEBUG() << "\tStructure::slotPopupSectioning (" << id << ")"<< endl;
 		if ( m_popupItem->level()>=1 && m_popupItem->level()<=7 )
 			emit( sectioningPopup(m_popupItem,id) );
 	}
@@ -826,7 +826,7 @@ namespace KileWidget
 	// id's 100ff (already checked)
 	void Structure::slotPopupGraphics(int id)
 	{
-		kdDebug() << "\tStructure::slotPopupGraphics (" << id << ")"<< endl;
+		KILE_DEBUG() << "\tStructure::slotPopupGraphics (" << id << ")"<< endl;
 
 		KURL url;
 		url.setPath(m_popupInfo);
@@ -894,7 +894,7 @@ namespace KileWidget
 
 	void Structure::update(KileDocument::Info *docinfo, bool parse, bool activate /* =true */)
 	{
-		kdDebug() << "==KileWidget::Structure::update(" << docinfo << ")=============" << endl;
+		KILE_DEBUG() << "==KileWidget::Structure::update(" << docinfo << ")=============" << endl;
 
 		if ( docinfo == 0L ) 
 		{
@@ -913,7 +913,7 @@ namespace KileWidget
 		{
 			int xtop = view->contentsX();
 			int ytop = view->contentsY();
-			//kdDebug() << "\tStructure::update parsing doc" << endl;
+			//KILE_DEBUG() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
 			view->showReferences(m_ki);
@@ -922,21 +922,21 @@ namespace KileWidget
 
 		if(activate)
 		{
-			kdDebug() << "===Structure::update() activating view" << endl;
+			KILE_DEBUG() << "===Structure::update() activating view" << endl;
 			view->activate();
 		}
 	}
 
     void Structure::clean(KileDocument::Info *docinfo)
     {
-        kdDebug() << "==void Structure::clean()========" << endl;
+        KILE_DEBUG() << "==void Structure::clean()========" << endl;
         StructureList *view = viewFor(docinfo);
         if (view) view->cleanUp();
     }
 
 	void Structure::updateReferences(KileDocument::Info *docinfo)
 	{
-		kdDebug() << "==void StructureList::updateReferences()========" << endl;
+		KILE_DEBUG() << "==void StructureList::updateReferences()========" << endl;
 		StructureList *view = viewFor(docinfo);
 		if (view) 
 		{

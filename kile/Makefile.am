@@ -95,12 +95,13 @@ messages: rc.cpp
 	rm -f tips.cpp
 
 syntaxdir = $(kde_appsdir)/katepart/syntax
-noinst_HEADERS = kiletool.h kilelauncher.h kiletool_enums.h kiletoolmanager.h \
-	kilestdtools.h kilelogwidget.h kileoutputwidget.h kilekonsolewidget.h kilewizard.h \
-	kilestructurewidget.h convert.h kiledocmanager.h kileviewmanager.h kileeventfilter.h \
-	latexconfigwidget.h kileerrorhandler.h configcheckerdlg.h configtester.h kilesidebar.h \
-	plaintolatexconverter.h kileuntitled.h 	kilestatsdlg.h kilestatswidget.h envconfigwidget.h \
-	structureconfigwidget.h kileversion.h kileconstants.h kilemultitabbar.h kilemultitabbar_p.h
+noinst_HEADERS = 	kilestatsdlg.h configcheckerdlg.h configtester.h convert.h \
+	envconfigwidget.h kileconstants.h kiledebug.h kiledocmanager.h kileerrorhandler.h \
+	kileeventfilter.h kilekonsolewidget.h kilelauncher.h kilelogwidget.h kilemultitabbar.h \
+	kilemultitabbar_p.h kileoutputwidget.h kilesidebar.h kilestatswidget.h kilestdtools.h \
+	kilestructurewidget.h kiletool.h kiletool_enums.h kiletoolmanager.h kileuntitled.h \
+	kileversion.h kileviewmanager.h kilewizard.h latexconfigwidget.h \
+	plaintolatexconverter.h structureconfigwidget.h
 
 CREATE_HASH_TABLE = $(srcdir)/create_hash_table
 

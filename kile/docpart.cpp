@@ -18,7 +18,7 @@
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kglobal.h>
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kstandarddirs.h>
 #include <kmimemagic.h>
 #include <kmimetype.h>

@@ -19,7 +19,7 @@
 #include <qptrlist.h>
 #include <qregexp.h>
 
-#include <kdebug.h>
+#include "kiledebug.h"
 #include <kurl.h>
 
 class QString;
@@ -38,7 +38,7 @@ class KileProjectItem : public QObject
 
 public:
 	KileProjectItem(KileProject *project = 0, const KURL &url = KURL(), int type = Source);
-	~KileProjectItem() { kdDebug() << "DELETING PROJITEM " << m_path << endl;}
+	~KileProjectItem() { KILE_DEBUG() << "DELETING PROJITEM " << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
@@ -130,7 +130,7 @@ class  KileProjectItemList : public QPtrList<KileProjectItem>
 {
 public:
 	KileProjectItemList() { setAutoDelete(true); }
-	~KileProjectItemList() { kdDebug() << "DELETING KILEPROJECTITEMLIST" << endl;}
+	~KileProjectItemList() { KILE_DEBUG() << "DELETING KILEPROJECTITEMLIST" << endl;}
 };
 
 /**

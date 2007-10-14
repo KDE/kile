@@ -5,7 +5,9 @@ Fixes:
    is given to configure, should make kile faster
 
 Features:
- - New documentation kile-remote-control.txt 
+ - New documentation kile-remote-control.txt
+ - Added new DVItoPDF config Modern which calls dvipdfmx instead of dvipdfm,
+   set Modern as default
 
 version 2.0beta1 -> 2.0beta2
 

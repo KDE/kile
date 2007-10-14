@@ -127,7 +127,7 @@ ADD_SUBDIRECTORY( kile )
 
 INSTALL( FILES x-kilepr.desktop DESTINATION share/mimelink/text )
 
-INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl kile2.0-4_upd.pl DESTINATION share/apps/kconf_update )
+INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl kile2.0-4_upd.pl kile2.0-5_upd.pl DESTINATION share/apps/kconf_update )
 
 IF( KILE_VERSION )
 	SET(_KILE_SPECIAL_DOC_DIR "share/doc/kile-${KILE_VERSION}")

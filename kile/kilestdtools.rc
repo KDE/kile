@@ -102,6 +102,14 @@ from=dvi
 to=pdf
 type=Process
 
+[Tool/DVItoPDF/Modern]
+class=Convert
+command=dvipdfmx
+options='%S.dvi'
+from=dvi
+to=pdf
+type=Process
+
 [Tool/DVItoPDF/Black and White]
 command=dvipdfm
 options=-c '%S.dvi'

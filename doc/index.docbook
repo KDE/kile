@@ -2388,7 +2388,7 @@
 		&latex; has to compile the source and the viewer has to be called. This can be 
 		annoying if you only changed some letters in an equation difficult to typeset.
 		&kile; offers a <emphasis>Quick Preview</emphasis> mode, where you can compile 
-		only a part of a document and save a lot of time. It supports three different modes, 
+		only a part of a document and save a lot of time. It supports four different modes,
 		which can be combined with seven configurations.</para> 
 		
 		<screenshot>
@@ -2463,12 +2463,32 @@
 			<para>If you have a large project with a lot of documents, compiling the whole 
 			project is not a great idea, if you have made changes only in one single document. 
 			&kile; is able to compile and show a preview of the current subdocument. It 
-			takes the preamble from the master document, and compiles only the current part
+			takes the preamble from the master document and only compiles the current part
 			when you choose <menuchoice><guimenu>Build</guimenu><guisubmenu>QuickPreview</guisubmenu><guimenuitem>Subdocument</guimenuitem></menuchoice>
 			or the keyboard shortcut <keycombo action="simul">&Ctrl;&Alt;<keycap>P</keycap></keycombo>,<keycap>D</keycap>.</para> 
 			
 		</sect2>
-	
+
+		<sect2 id="build_qp_mathgroup">
+		
+			<title>Mathgroup Mode</title>
+			
+			<para>The mathgroup preview mode allows you to preview the mathgroup you are currently editing. &kile; 
+			takes the preamble from the master document and only compiles the mathgroup the cursor is currently in
+			when you choose <menuchoice><guimenu>Build</guimenu><guisubmenu>QuickPreview</guisubmenu><guimenuitem>Mathgroup</guimenuitem></menuchoice>
+			or the keyboard shortcut <keycombo action="simul">&Ctrl;&Alt;<keycap>P</keycap></keycombo>,<keycap>M</keycap>.</para> 
+			
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+		
+			<title>Quick Preview in Bottom Bar</title>
+			
+			<para>Instead of showing the preview in a new document &kile; can also be configured to use the bottom bar for preview
+			compilations. You can activate this feature in the quick preview configuration panel.</para>	
+			
+		</sect2>
+
 	</sect1>	
 		
 	<sect1 id="build_graphics">

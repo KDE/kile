@@ -3,5 +3,4 @@ to fix:
 	- strange ref error see http://sourceforge.net/forum/forum.php?thread_id=1746112&forum_id=292014 and BTS
 docu:
 - #130910
-- preview
 - explain tool stuff and the magic %... abbreviations

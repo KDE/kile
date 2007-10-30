@@ -1592,6 +1592,21 @@
 
 	</sect1>
 	
+	<sect1>
+
+		<title>Writing Own Completion Files</title>
+
+		<para>The specification of the completion file format can found in the <ulink url="http://websvn.kde.org/*checkout*/tags/kile/2.0/kile/README.cwl">
+		CWL file format specification</ulink>.
+		</para>
+
+		<para>
+		Completion files can be installed in a user's home directory under the <filename>~/.kde/share/apps/kile/complete/&lt;mode&gt;/</filename>
+		subdirectory, where <parameter>&lt;mode&gt;</parameter> either stands for <constant>abbreviation</constant>, <constant>dictionary</constant> or
+		<constant>tex</constant>.
+		</para>
+
+	</sect1>
 </chapter>
 
 <chapter id="wizard">

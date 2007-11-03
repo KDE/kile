@@ -243,7 +243,7 @@
 \newlength{\length}
 \newline
 \newpage
-\newtheorem{envname}[numberedlike]{caption}[within]
+\newtheorem{envname}[numberedlike]{caption}
 \newtheorem{envname}{caption}
 \newtheorem{envname}{caption}[within]
 \nocite{keylist}

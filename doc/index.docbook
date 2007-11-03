@@ -9,6 +9,8 @@
   <!ENTITY bibtex "BibT<subscript>E</subscript>X">
   <!ENTITY makeindex "makeindex">
   <!ENTITY kbibtex "KBibT<subscript>E</subscript>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
   <!ENTITY imagemagick "<application>ImageMagick</application>">
   <!ENTITY kde "<acronym>KDE</acronym>">
   <!ENTITY kdvi "<application>KDVI</application>">
@@ -109,13 +111,13 @@
 			<listitem><para><ulink url="http://www.kde.org/">K Desktop environment (&kde;)</ulink>:
 			&kde; is a popular open-source desktop environment.</para></listitem>
 			<listitem><para><ulink url="http://www.trolltech.com/products/qt/">Qt</ulink>: Qt is a C++
-			development tool needed to compile &kile;.</para></listitem>
+			 GUI and network library needed to compile &kile;.</para></listitem>
 			<listitem><para><ulink url="http://www.ctan.org/">&latex;</ulink>: high-quality document
-			typesetting program. Most likely you want the &texlive; (or &tetex;) package, if you are on a
+			typesetting program. Most likely you want the &texlive; (or on older system the &tetex;) package, if you are on a
 			Unix-like system.</para></listitem>
 		</itemizedlist>
 
-		<para>Some of these items might be included in your Linux distribution; please refer to your
+		<para>Most of these items might be included in your Linux distribution; please refer to your
 		distribution documentation, or refer to your installation CD or DVD, for adding these
 		packages to your computer.</para>
 
@@ -169,7 +171,7 @@
 			<title>What is &latex;</title>
 
 			<para>&latex; is a text-processing system derived from &tex;, a program developed originally in
-			1977 by Donald Knuth to help authors layout their work professionally, obtaining a work similar 
+			1977 by Donald Knuth to help him layout his work professionally, obtaining a work similar 
 			to a typesetter's; the typesetter is the professional that styles a document's look according to 
 			specifications for the type of document.
 			&latex; was created by Leslie Lamport to give authors an automatic typesetter, especially when 
@@ -189,7 +191,7 @@
 			<para>There is a funny traditions of &tex;-related packages to have the strangest pronunciation
 			and typesetting possible. &tex; was supposed to be brought in from the Greek <emphasis>τεχ</emphasis>,
 			in Latin letters <emphasis>tech</emphasis>. There are a lot of explanations why, but most likely it is because
-			&latex; was originally conceived for technical reports, and indeed its foremost ability was the correct and
+			&tex; was originally conceived for technical reports, and indeed its foremost ability was the correct and
 			easy typesetting of mathematical formulae, then an extremely expensive, time-consuming and
 			frustrating business.</para>
 			<para>The pronunciation is supposed to be as follows: <emphasis>T</emphasis> as you would expect,
@@ -240,7 +242,7 @@
 
 			<title>QuickStart Wizard</title>
 
-			<para>The wizard built into &kile; is a useful feature to quickly start creating documents
+			<para>The quickstart wizard built into &kile; is a useful feature to quickly start creating documents
 			in &kile;. Choosing the wizard from the menubar gives you several choices
 			for the creation of your document.
 			You can also specify some options related to the document right away.</para>
@@ -256,7 +258,7 @@
 				<listitem><para><guilabel>Paper Size</guilabel>: choose the size or style of sheets.</para></listitem>
 				<listitem><para><guilabel>Encoding</guilabel>: In general it is a good idea to use your systems standard
 						encoding. Modern systems now move more and more to UTF-8 as the standard encoding.
-						If you can use utf-8.
+						If you can use utf8x ( it is really written that way for &latex; documents).
 					</para></listitem>
 				<listitem><para><guilabel>Other options</guilabel>: this allows you to set further options such as printing, 
 				draft, and others.</para></listitem>
@@ -290,7 +292,7 @@
 				it is used to write many university textbooks.</para></listitem>
 				<listitem><para>Letter: sets the letter format, that can automatically do those nasty
 				indentations that nobody really remembers.</para></listitem>
-				<listitem><para>Beamer: create nice presentations in PDF with a superior look and all 
+				<listitem><para>Beamer,HA-Prosper: create nice presentations in PDF with a superior look and all 
 						&latex; power.</para></listitem>
 				<listitem><para>Scrartcl,Scrbook,Scrreprt,Scrlttr2: the KOMA-Script document classes, 
 						especially adapted to german typography. Use them whenever you write german
@@ -356,15 +358,15 @@
 
 			<title>Inverse Search</title>
 
-			<para>When creating your own &latex; file, inverse search can be very helpful. Once you
-			have created a DVI file (DeVice Independent File), when you click the middle-
-			mouse button in the DVI viewer, &kile; will jump to the corresponding line in the
+			<para>When creating your own &latex; files, inverse search can be very helpful. Once you
+			have created a DVI file (DeVice Independent File), you can click the middle-
+			mouse button in the DVI viewer and &kile; will jump to the corresponding line in the
 			&latex; source code.</para>
 
 			<para>A DVI is a type of file containing a
 			description of a formatted document, along with other
 			information including character font, and is besides PDF the usual output of
-			&tex; or &latex;. A number of utilities exist to view and print DVI files on
+			&tex; or &latex;. A number of utilities exist to view, convert and print DVI files on
 			various systems and devices.</para>
 
 		</sect2>
@@ -393,7 +395,8 @@
 			<listitem><para><guibutton>Close</guibutton>: close your document.</para></listitem>
 			<listitem><para><guibutton>Define document as master</guibutton>: this is used when working with multiple files.
 			Having a master document will let you work more easily with other <literal role="extension">.tex</literal> files included 
-			in your document.</para></listitem>
+			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project-></guimenu><guisubmenu>Project
+			Options</guisubmenu></menuchoice> a project wide master document.</para></listitem>
 			<listitem><para><guibutton>Quickbuild</guibutton>: compiles your &latex; source code and displays the results
 			automatically, unless you have code errors.</para></listitem>
 			<listitem><para><guibutton>Watch file mode</guibutton>: this mode will "watch" the DVI file for changes, and
@@ -450,6 +453,8 @@
 			<listitem><para><guilabel>pageref</guilabel>: just like <guilabel>ref</guilabel>, but refers to 
 			a page instead of a structure element.</para></listitem>
 			<listitem><para><guilabel>cite</guilabel>: create a reference with data from a bibliography.</para></listitem>
+			<listitem><para><guilabel>cite from ViewBib</guilabel>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only avaible with <ulink url="http://user.digisurf.com.au/~thachly/kbib/">&kbib;</ulink> as ViewBib tool.</para></listitem>
 		</itemizedlist>
 
 		<screenshot>
@@ -481,7 +486,7 @@
 		<para>When using <guilabel>cite</guilabel>, you are presented with a drop-down 
 		list of bibitems, but if you are using &bibtex; this will only work if the file 
 		belongs to a Project. For editing &bibtex; files the usage of specialised editors is recommened.
-		The author has made good experience with &kbibtex;. Of course you can also write the &bibtex; files by hand.</para>
+		The author has made good experience with &kbibtex; and &kbib;. Of course you can also write the &bibtex; files by hand inside &kile;.</para>
 
 		<para>The last drop-down box labeled <guilabel>tiny</guilabel> is used to set the size of the text. You can
 		set the size of the main text, of footnotes, and so on. The available commands are:</para>
@@ -578,12 +583,12 @@
 		<userinput>\end</userinput> command, or at the end of your environment.</para>
 
 		<itemizedlist>
-			<listitem><para><userinput>\begin{emph}</userinput> or <userinput>\begin{em}</userinput>: this command makes 
-			text italicized, and is valid until the code comes across a <userinput>\end{em}</userinput>,
+			<listitem><para><userinput>\begin{emph}</userinput>: this command makes 
+			text italicized, and is valid until the code comes across a <userinput>\end{emph}</userinput>,
 			<userinput>\end{emph}</userinput> or another environment. To italicize one word in a sentence, you
-			can use the syntax: this is <userinput>\em{my}</userinput> sentence.</para></listitem>
-			<listitem><para><userinput>\bfseries{I am making this text inside the brackets bold}</userinput>: this
-			command makes your text bold. The bold command will continue until a close brace is found.</para></listitem>
+			can use the syntax: this is <userinput>\emph{my}</userinput> sentence.</para></listitem>
+			<listitem><para><userinput>\textbf{I am making this text inside the brackets bold}</userinput>: this
+			command makes your text bold.</para></listitem>
 			<listitem><para><userinput>\quote</userinput>: to create a quote inside your document; begin your quote
 			with <userinput>\begin{quote}</userinput> and end it with <userinput>\end{quote}</userinput>.</para></listitem>
 			<listitem><para><userinput>\center</userinput>: centers the text.</para></listitem>
@@ -750,15 +755,16 @@
 
 	<itemizedlist>
 		<listitem><para>Empty document</para></listitem>
-		<listitem><para>Letter</para></listitem>
-		<listitem><para>Book</para></listitem>
 		<listitem><para>Article</para></listitem>
+		<listitem><para>Beamer</para></listitem>
+		<listitem><para>Book</para></listitem>
+		<listitem><para>HA-Prosper</para></listitem>
+		<listitem><para>Letter</para></listitem>
 		<listitem><para>Report</para></listitem>
 		<listitem><para>Scrartcl (from the KOMA-Script package)</para></listitem>
 		<listitem><para>Scrbook (from the KOMA-Script package)</para></listitem>
 		<listitem><para>Scrlttr2 (from the KOMA-Script package)</para></listitem>
 		<listitem><para>Scrreprt (from the KOMA-Script package)</para></listitem>
-		<listitem><para>Beamer</para></listitem>
 	</itemizedlist>
 
 	<para>If you selected an <guilabel>Empty document</guilabel>, you can either start 
@@ -855,8 +861,8 @@
 			<para>To remove a template from &kile;, do as follows:</para>
 
 			<procedure>
-				<step><para>Go to <menuchoice><guimenu>Settings</guimenu><guimenuitem>Remove 
-				template...</guimenuitem></menuchoice>;</para></step>
+				<step><para>Go to <menuchoice><guimenu>File</guimenu><guimenuitem>Remove 
+				Template...</guimenuitem></menuchoice>;</para></step>
 				<step><para>A dialog box will appear with all templates listed: select a template;</para></step>
 				<step><para>Click <guilabel>OK</guilabel>, and your template will be removed.</para></step>
 			</procedure>
@@ -901,6 +907,8 @@
 			<listitem><para>Hold left mouse button, and drag mouse to highlight text.</para></listitem>
 			<listitem><para>Click once on a word to move the cursor to a new area.</para></listitem>
 			<listitem><para>Click twice on a word to select the whole word.</para></listitem>
+			<listitem><para>Click twice on a word and pressing <keycombo>&Ctrl;</keycombo> to select the whole tex word.
+      This means clicking in this way on <userinput>\par</userinput> from <userinput>\par\bigskip</userinput> only select \par.</para></listitem>
 			<listitem><para>Click three times to select the whole sentence.</para></listitem>
 		</itemizedlist>
 
@@ -1319,20 +1327,21 @@
 		Kile...</guisubmenu><guimenuitem>LaTeX</guimenuitem></menuchoice>.</para>
 
 		<screenshot>
-			<screeninfo>Bullets</screeninfo>
+			<screeninfo>Double Quotes</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="config-dblquotes.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>Bullets</phrase>
+			<phrase>Double Quotes</phrase>
 			</textobject>
 			</mediaobject>
 		</screenshot>
 
-		<para>If you also include language-specific options or style files 
+		<para>If you also include language-specific options 
 		like <userinput>ngerman</userinput> or <userinput>french</userinput>, 
-		you will also be able to use German or French double quotes.</para>
+		you will also be able to use German or French double quotes. Many more languages are available.
+    </para>
 
 	</sect1>
 
@@ -1348,6 +1357,9 @@
 
 		<para>If you are inside a tabular environment, &kile; will finish the 
 		current line with <userinput>\\</userinput>, followed by the newline.</para>
+  
+    <para>If you are inside a &latex; comment, &kile; will start the next line with a
+    <userinput>%</userinput>.</para>
 
 		<para>Even better, &kile; is smart enough to support predefined &latex;
 		and user defined environment, which can be added in section 
@@ -1413,7 +1425,7 @@
 		<title>&latex; Commands</title>
 
 		<para>When you type some letters, you can activate this completion mode for &latex; commands 
-		and normal words with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>(La)TeX Command</guimenuitem></menuchoice> or keyboard shortcut 
+		and normal words with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>(La)TeX Command</guimenuitem></menuchoice> or the keyboard shortcut 
 		<keycombo>&Ctrl;<keycap>Space</keycap></keycombo>. 
 		&kile; first reads the letters from the current cursor position to the 
 		left and stops at the first non-letter character or a backslash. If this 
@@ -1602,8 +1614,7 @@
 
 		<para>
 		Completion files can be installed in a user's home directory under the <filename>~/.kde/share/apps/kile/complete/&lt;mode&gt;/</filename>
-		subdirectory, where <parameter>&lt;mode&gt;</parameter> either stands for <constant>abbreviation</constant>, <constant>dictionary</constant> or
-		<constant>tex</constant>.
+		subdirectory, where <parameter>&lt;mode&gt;</parameter> either stands for <constant>abbreviation</constant>, <constant>dictionary</constant> or	<constant>tex</constant>.
 		</para>
 
 	</sect1>
@@ -2001,17 +2012,16 @@
 		commands/environments and also includes the number of characters for each type.
 		The statistical numbers can be copied as text or as a nice formatted &latex; tabular
 		to the clipboard. If you want to get statistics for the hole project you can use 
-		<guimenu>Open All Project Files</guimenu> for an easy and quick way to open all 
-		source files of your project.</para>
+		<menuchoice><guimenu>File</guimenu><guisubmenu>Open All Project Files</guisubmenu></menuchoice>
+    for an easy and quick way to open all source files of your project.</para>
 		<para>A note of caution has to be sounded about the accuracy of the numbers.
 		We have included some logic to get a good estimate, e. g. K\"uhler gives one word and one command,
 		with six resp. two characters. But there are other combinations in which parts of commands
 		are counted as words and vice versa. It has also to be beared in mind that the algorithm
 		was developed and tested for languages similiar to english or german.
 		So don't take the numbers for granted. If you have to make an report with an
-		exact numbers of words or characters, make some tests to check if kile's accuracy satisfies your needs.</para>
+		exact numbers of words or characters, make some tests to check if &kile;'s accuracy satisfies your needs.</para>
 	</sect1>
-
 
 </chapter>
 
@@ -2041,7 +2051,7 @@
 		<para>The following types are avaible:</para>
 
 		<itemizedlist>
-			<listitem><para>Mostly used</para></listitem>
+			<listitem><para>Most Frequently used</para></listitem>
 			<listitem><para>Relation</para></listitem>
 			<listitem><para>Operators</para></listitem>
 			<listitem><para>Arrows</para></listitem>
@@ -2053,13 +2063,13 @@
 			<listitem><para>Cyrillic Characters</para></listitem>
 			<listitem><para>User Defined</para></listitem>
 		</itemizedlist>
-		<para>The tooltips of the icons show the &latex; commands and needed additional packages.</para>
+		<para>The tooltips of the icons show the &latex; commands and additional needed packages.</para>
 		<para>Pressing <keycombo>&Shift;</keycombo> and clicking a symbol will result in 
 		<userinput>$\symbolcmd$</userinput> being inserted. Similiar pressing <keycombo>&Ctrl;</keycombo> 
 		inserts it in curly brackets.</para>
 		<para>If you insert a command which requires a package which is not included in your &latex; document,
 		you will see a warning message in the logview window.</para>
-		<para>The first list of symbols holds the <guilabel>Mostly Used</guilabel> symbols. Inserted symbols will be 
+		<para>The first list of symbols holds the <guilabel>Most Frequently Used</guilabel> symbols. Inserted symbols will be 
 			added to this list, for quick and easy reference. The ordering of the symbols will not be changed
 			upon addition of new symbols, instead a reference counter is incremented. If the number of items
 			would exceed 30 items, the item wit the lowest count will get removed.</para>
@@ -2122,8 +2132,8 @@
 		\command{\"A}
 		\mathcommand{\exists}
 		\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
-		%
-		% \begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+		
+		%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
 		%   	
 		%   \end{neededpkgs}
 		% this would need to include the packages
@@ -2213,7 +2223,6 @@
 		<menuchoice><guimenu>LaTeX</guimenu><guisubmenu>User Tags</guisubmenu><guimenuitem>Edit 
 		User Tags...</guimenuitem></menuchoice>; this will present him a dialog where he can create 
 		his own user-defined tags.</para>
-<!--  FIXME new png and some new words-->
 		<screenshot>
 			<screeninfo>The Edit User Tags Dialog</screeninfo>
 			<mediaobject>
@@ -2257,11 +2266,11 @@
 
 			<itemizedlist>
 				<listitem><para><userinput>%B</userinput>: will be replaced by a bullet.</para></listitem>
-				<listitem><para><userinput>%C</userinput>: this is where the cursor will be placed after using a
+				<listitem><para><userinput>%C</userinput>: this is where the cursor will be placed after insertion of a
 				user-defined tag.</para></listitem>
 				<listitem><para><userinput>%M</userinput>: this stands for marked text; the selected text is
-				inserted in its place when using user-defined tags.</para></listitem>
-				<listitem><para><userinput>%S</userinput>: will be replaced by the source file's name.</para></listitem>
+				inserted in its place when inserting user-defined tags.</para></listitem>
+				<listitem><para><userinput>%S</userinput>: will be replaced by the source file's name without file extension.</para></listitem>
 			</itemizedlist>
 
 			<para>To show you how this works let's say for example that we have a user-defined tag,
@@ -2305,48 +2314,32 @@
 		<title>&bibtex;</title>
 
 			<para>If you are using <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html">&bibtex;</ulink> 
-			for your bibliography entries, you will have to follow a special compiling scheme.</para>
-
-			<procedure>
-				<step><para>Run &latex; with <keycombo>&Alt;<keycap>2</keycap></keycombo>.</para></step>
-				<step><para>Run &bibtex; with <keycombo>&Alt;<keycap>-</keycap></keycombo>: this 
-				will compile the bibliography file.</para></step>
-				<step><para>Run <emphasis>twice</emphasis> &latex; again, to incorporate the compiled bibliography 
-				information, and to get citations and cross-referencing right.</para></step>
-			</procedure>
-
-			<para>You may also view the &bibtex; file with your &bibtex; editor of choice (for example &kbibtex;) 
-			by choosing <menuchoice><guimenu>Build</guimenu><guisubmenu>View</guisubmenu><guimenuitem>View 
-			Bibtex</guimenuitem></menuchoice>; you can change the default &bibtex; viewer at 
-			<menuchoice><guimenu>Tools</guimenu><guisubmenu>Configure 
-			Kile...</guisubmenu><guilabel>Tools</guilabel></menuchoice>.</para>
+			for your bibliography entries, you usually have to follow a special compiling scheme.
+      This means calling &latex; and then &bibtex; and then &latex; twice again. Fortunately kile is clever enough to
+      detect automatically if it is necessary to call additional tools like &bibtex;, &makeidx; and &asymptote;.
+      This logic is by default turned on and can be changed in <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
+      Kile...</guisubmenu><guisubmenu>Tools</guisubmenu><guilabel>Build</guilabel></menuchoice> in the <guilabel>General</guilabel> tab in the &latex; and &pdflatex; tools.
+      </para>
 
 		</sect2>
 
 		<sect2>
 
-			<title>MakeIndex</title>
+			<title>&makeidx;</title>
 
 			<para>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf">&makeidx;</ulink> 
 			package to make a final, alphabetical index for your document, you have also to follow a certain
-			compilation pattern.</para>
-
-			<procedure>
-				<step><para>Run &latex; with <keycombo>&Alt;<keycap>2</keycap></keycombo>.</para></step>
-				<step><para>Run &makeindex; with <keycombo>&Alt;<keycap>=</keycap></keycombo>: this 
-				will compile the index file.</para></step>
-				<step><para>Run &latex; again, to incorporate the compiled index information.</para></step>
-			</procedure>
+			compilation pattern or let this kile do for you in the same way than with &bibtex; files.</para>
 
 		</sect2>
 
 		<sect2>
 
-			<title>MetaPost</title>
+			<title>MetaPost and Asymptote</title>
 
-			<para>If you want to compile your document with <application>MetaPost</application>, a picture 
-			drawing program, you can do it with 
-			<menuchoice><guimenu>Build</guimenu><guisubmenu>Compile</guisubmenu><guimenuitem>Mpost</guimenuitem></menuchoice>.</para>
+			<para>If you want to compile your document with <application>MetaPost</application> or <application>Asymptote</application>, picture drawing programs, you can do it with 
+			<menuchoice><guimenu>Build</guimenu><guisubmenu>Compile</guisubmenu><guimenuitem>Metapost</guimenuitem></menuchoice>.
+			or <menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Asymptote</guimenuitem></menuchoice>.</para>
 
 		</sect2>
 		
@@ -2388,16 +2381,14 @@
 
 			<para>If you want to pass some specific command-line parameters to the compile, convert 
 			or view tools, you can configure their call in <menuchoice><guimenu>Settings</guimenu>
-			<guimenuitem>Configure Kile...</guimenuitem><guilabel>Tools</guilabel></menuchoice>.</para>
+			<guisubmenu>Configure Kile...</guisubmenu><guisubmenu>Tools</guisubmenu><guilabel>Build</guilabel></menuchoice>.</para>
 
 		</sect2>
 				
 	</sect1>
 
 	<sect1 id="build_preview">
-<!-- FIXME until here -->
 		<title>Quick Preview</title>
-
 
 		<para>You will always need some time to view the result, when working with &latex;. 
 		&latex; has to compile the source and the viewer has to be called. This can be 
@@ -2407,13 +2398,13 @@
 		which can be combined with seven configurations.</para> 
 		
 		<screenshot>
-			<screeninfo>Quickpreview</screeninfo>
+			<screeninfo>Quicki Preview</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="quickpreview.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>Quickpreview</phrase>
+			<phrase>Quick Preview</phrase>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -2423,13 +2414,13 @@
 		<guimenuitem>Tools</guimenuitem><guilabel>Preview</guilabel></menuchoice>.</para>
 
 		<screenshot>
-			<screeninfo>Quickpreview Configuration</screeninfo>
+			<screeninfo>Quick Preview Configuration</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="config-quickpreview.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>Quickpreview Configuration</phrase>
+			<phrase>Quick Preview Configuration</phrase>
 			</textobject>
 			</mediaobject>
 		</screenshot>
@@ -2711,11 +2702,11 @@
 		like it is described in the <link linkend="build_graphics_bitmap">Bitmap Graphics</link> 
 		section.</para></listitem> 
 		</itemizedlist>
-		
+	<!-- FIXME I don't understand the following sentence, tbraun	
 		<para> The <emphasis>&postscript; Way of &kile;</emphasis> can be turned off or on in
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>LaTeX</guimenuitem><guilabel>General</guilabel></menuchoice>.</para>
-		
+		-->
 	</sect2>
 		
 	<sect2 id="build_graphics_bitmap">
@@ -2839,10 +2830,10 @@
 
 		<para>After you have compiled something, &kile; takes a look at the error messages 
 		that were generated. If there are any errors or warnings, they will be briefly reported 
-		in the <guilabel>Log&nbsp;/&nbsp;Messages</guilabel> window. One can take a closer look at the
+		in the <guilabel>Log and Messages</guilabel> window. One can take a closer look at the
 		messages by selecting <menuchoice><guimenu>Build</guimenu><guimenuitem>View Log File</guimenuitem></menuchoice>,
 		or by using the keyboard shortcut <keycombo>&Alt;<keycap>0</keycap></keycombo>.
-		The generated log is then displayed in the <guilabel>Log&nbsp;/&nbsp;Messages</guilabel> view; errors and warnings are highlighted.</para>
+		The generated log is then displayed in the <guilabel>Log and Messages</guilabel> view; errors and warnings are highlighted.</para>
 
 		<screenshot>
 			<screeninfo>Viewing the log</screeninfo>
@@ -2863,7 +2854,7 @@
 		the corresponding toolbar buttons.</para>
 
 		<para>To jump to the line in the &latex; source where the error or warning occurred,
-		click on the error or warning in the <guilabel>Log&nbsp;/&nbsp;Messages</guilabel> view.
+		click on the error or warning in the <guilabel>Log and Messages</guilabel> view.
 		&kile; will take you automatically to the offending line.</para>
 
 	</sect1>
@@ -2932,7 +2923,7 @@
 
 			<para>To update your structure view you can either go to 
 			<menuchoice><guimenu>Edit</guimenu><guimenuitem>Refresh 
-			Structure</guimenuitem></menuchoice>, or you can save your document,
+			Structure</guimenuitem></menuchoice>, hit <keycombo><keycap>F12</keycap></keycombo>, or you can save your document,
 			which will make &kile; update its <guilabel>Structure</guilabel> view.</para>
 
 		</sect2>
@@ -2954,6 +2945,8 @@
 		<para>To remove all your bookmarks, select <menuchoice><guimenu>Bookmarks</guimenu>
 		<guimenuitem>Clear Bookmarks</guimenuitem></menuchoice>.</para>
 
+    <para>Please note that currently the bookmarks are not saved after exiting kile.</para>
+
 	</sect1>
 
 </chapter>
@@ -2967,22 +2960,26 @@
 		<title>Working with Projects</title>
 
 		<para>In &kile; you can create and work with <emphasis>projects</emphasis>. A project is a 
-		group of &latex;, &tex; or other documents that contain all the information that is used to build 
+		group of &latex;, graphic, &bibtex; or other files that contain all the information that is used to build 
 		your complete document. A typical project would be a document consisting of several chapters, 
 		written in different <literal role="extension">.tex</literal> files; all of them could be included in
-		a project, to make the whole document easier to manage. You can also store non-source files
-		such a graphics in a project. The specifications of the project are stored in a special file, 
+		a project, to make the whole document easier to manage. The specifications of the project are stored in a special file, 
 		with extension <literal role="extension">.kilepr</literal>.</para>
 
 		<para>A Project adds the following functionalities:</para>
 
 		<itemizedlist>
 			<listitem><para>You need not set a master document, &kile; does this automatically.</para></listitem>
-			<listitem><para>Project files can easily be archived together.</para></listitem>
+			<listitem><para>Project files can easily be archived together by going to <menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice></para></listitem>
 			<listitem><para>The <guilabel>Files and Project</guilabel> view shows which files are included
 			in the project.</para></listitem>
 			<listitem><para>After opening a project, any file that was previously opened will be
-			restored with the original encoding and highlighting.</para></listitem>
+			restored with the original encoding and highlightning.</para></listitem>
+      <listitem><para> Code completion works across all project files.</para></listitem> 
+      <listitem><para> Reference completion works across all project files.</para></listitem> 
+      <listitem><para> Citation completion works across all project files.</para></listitem> 
+      <listitem><para> Search in all project files.</para></listitem> 
+      <listitem><para> Specify custom quickbuild and &makeidx; command.</para></listitem>
 		</itemizedlist>
 
 	</sect1>
@@ -2998,7 +2995,7 @@
 			<listitem><para>Title of your project.</para></listitem>
 			<listitem><para>Name of the project file with <literal role="extension">.kilepr</literal> extension.</para></listitem>
 			<listitem><para>Filename.</para></listitem>
-			<listitem><para>Type of file creating: Empty Document, Article, Book, Letter, Report.</para></listitem>
+			<listitem><para>Type of file creating: Empty Document, Article, Book, Letter, Report, ....</para></listitem>
 		</itemizedlist>
 
 		<para>When you fill out the <guilabel>filename</guilabel> box, you have to include a relative 
@@ -3013,7 +3010,7 @@
 		<para>The <guilabel>File and Project</guilabel> view is a button of the sidebar menu. 
 		From this view, you can see the structure of your project, its files, 
 		and the name of the <literal role="extension">.kilepr</literal> file that stores the project information. 
-		Adding, removing, or changing options in your project are done via
+		Adding, removing, or changing options in your project is done via
 		the <guilabel>File and Projects</guilabel> view.</para>
 
 		<screenshot>
@@ -3062,7 +3059,7 @@
 		</screenshot>
 
 		<para>To remove a file from a project, right-click on it and select <guilabel>Remove File</guilabel>.
-		This does <emphasis>not</emphasis> delete your file, but only removes it from the list 
+		This does <emphasis>not</emphasis> delete your file (and also does not close it), but only removes it from the list 
 		of files contained in the <literal role="extension">.kilepr</literal> extension.</para>
 
 	</sect1>
@@ -3077,9 +3074,9 @@
 
 		<itemizedlist>
 			<listitem><para>The title of your project.</para></listitem>
- 			<listitem><para>The archive command.</para></listitem>
- 			<listitem><para>Recognized extensions for non-source files.</para></listitem>
- 			<listitem><para>The option to use file extensions as regular expressions.</para></listitem>
+ 			<listitem><para>The Master document.</para></listitem>
+ 			<listitem><para>The Quickbuild command.</para></listitem>
+ 			<listitem><para>The &makeidx; options.</para></listitem>
 		</itemizedlist>
 
 		<sect2 id="projects_archive">
@@ -3096,18 +3093,11 @@
 			view, and uncheck the <guilabel>Include in Archive</guilabel> option.</para>
 
 			<para>Archive commands are simple shell commands that are executed from the project
-			folder (where the <literal role="extension">.kilepr</literal> file is located). Some placeholders can be used
-			when writing the archive command:</para>
-
-			<itemizedlist>
-				<listitem><para><userinput>%S</userinput>: this is replaced by the name of 
-				your project file without the <literal role="extension">.kilepr</literal> extension.</para></listitem>
-				<listitem><para><userinput>%F</userinput>: this command is used to replace 
-				the list of files to be included in the archive.</para></listitem>
-			</itemizedlist>
+			folder (where the <literal role="extension">.kilepr</literal> file is located).</para>
 
 		</sect2>
 
+<!-- FIXME not working in kile, tbraun 11/3/2007
 		<sect2 id="projects_ext">
 
 			<title>Extensions for Non-Source Files</title>
@@ -3115,8 +3105,8 @@
 			<para>Non-source files are files such as pictures, PDF or &postscript; files, etc. that are 
 			to be included in the project, but are not source files with the extension <literal role="extension">.tex</literal>. You have 
 			the option to use your own regular expressions to match non-source files.</para>
-
 		</sect2>
+-->
 
 	</sect1>
 
@@ -3171,7 +3161,7 @@
 	such as for example <userinput>\"e</userinput> for <computeroutput>ë</computeroutput>. 
 	There is a package to help you with this, called <application>inputenc</application>, and is included 
 	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the optional argument 
-	is the encoding you would like to use (in most cases <userinput>latin1</userinput>). This tells &latex;
+	is the encoding you would like to use (nowadays in most cases <userinput>utf8x</userinput>). This tells &latex;
 	to translate all of the <userinput>ë</userinput>'s you wrote to <userinput>\"e</userinput>'s before
 	compiling. Please refer to the <application>inputenc</application> documents directly for more
 	information on <application>inputenc</application>. Last but not least: remember to make sure that 
@@ -3199,7 +3189,7 @@
 	successful in Linux; Windows&reg; relies instead on the more cumbersome and
 	less flexible <abbrev>UCS-2</abbrev>. Some distributions, as RedHat, have already
 	begun setting their default encoding to <abbrev>UTF-8</abbrev>, and therefore you
-	may be very interested in using the <userinput>utf-8</userinput> argument to the
+	may be very interested in using of the <userinput>utf8x</userinput> argument to the
 	<userinput>inputenc</userinput> package.</para>
 
 	<sect1 id="ucs">
@@ -3594,11 +3584,11 @@
 	
 		<title>Context Sensitive Help</title>
 
-		<para>&kile; also support a context sensitive help, which is called 
+		<para>&kile; also support a context sensitive help, which is called
 		with <keycombo action="simul">&Ctrl;&Alt;<keycap>H</keycap></keycombo>,<keycap>K</keycap>.
 		In <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
-		you can choose whether you want to use &kile;'s &latex; reference or the 
+		you can choose whether you want to use &kile;'s &latex; reference or the
 		help system of &tetex;/&texlive;, which is the default setting.</para>
 
 		<screenshot>

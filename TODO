@@ -14,4 +14,9 @@ TODO
  shown, some people might use a .ltx extension for their LaTeX files (or
  something completely different).
 
- - and much more ...
+- #142987 project load crash
+
+- strange ref error see http://sourceforge.net/forum/forum.php?thread_id=1746112&forum_id=292014 and BTS
+
+docu:
+- explain tool stuff and the magic %... abbreviations

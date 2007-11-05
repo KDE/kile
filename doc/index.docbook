@@ -113,7 +113,7 @@
 			<listitem><para><ulink url="http://www.trolltech.com/products/qt/">Qt</ulink>: Qt is a C++
 			 GUI and network library needed to compile &kile;.</para></listitem>
 			<listitem><para><ulink url="http://www.ctan.org/">&latex;</ulink>: high-quality document
-			typesetting program. Most likely you want the &texlive; (or on older system the &tetex;) package, if you are on a
+			typesetting program. Most likely you want the &texlive; (or on older systems the &tetex;) package, if you are on a
 			Unix-like system.</para></listitem>
 		</itemizedlist>
 
@@ -242,7 +242,7 @@
 
 			<title>QuickStart Wizard</title>
 
-			<para>The quickstart wizard built into &kile; is a useful feature to quickly start creating documents
+			<para>The QuickStart wizard built into &kile; is a useful feature to quickly start creating documents
 			in &kile;. Choosing the wizard from the menubar gives you several choices
 			for the creation of your document.
 			You can also specify some options related to the document right away.</para>
@@ -258,7 +258,7 @@
 				<listitem><para><guilabel>Paper Size</guilabel>: choose the size or style of sheets.</para></listitem>
 				<listitem><para><guilabel>Encoding</guilabel>: In general it is a good idea to use your systems standard
 						encoding. Modern systems now move more and more to UTF-8 as the standard encoding.
-						If you can use utf8x ( it is really written that way for &latex; documents).
+						If you can, use utf8x (which is indeed the correct spelling for &latex; documents).
 					</para></listitem>
 				<listitem><para><guilabel>Other options</guilabel>: this allows you to set further options such as printing, 
 				draft, and others.</para></listitem>
@@ -396,7 +396,7 @@
 			<listitem><para><guibutton>Define document as master</guibutton>: this is used when working with multiple files.
 			Having a master document will let you work more easily with other <literal role="extension">.tex</literal> files included 
 			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project-></guimenu><guisubmenu>Project
-			Options</guisubmenu></menuchoice> a project wide master document.</para></listitem>
+			Options</guisubmenu></menuchoice> a project-wide master document.</para></listitem>
 			<listitem><para><guibutton>Quickbuild</guibutton>: compiles your &latex; source code and displays the results
 			automatically, unless you have code errors.</para></listitem>
 			<listitem><para><guibutton>Watch file mode</guibutton>: this mode will "watch" the DVI file for changes, and
@@ -2020,7 +2020,7 @@
 		are counted as words and vice versa. It has also to be beared in mind that the algorithm
 		was developed and tested for languages similiar to english or german.
 		So don't take the numbers for granted. If you have to make an report with an
-		exact numbers of words or characters, make some tests to check if &kile;'s accuracy satisfies your needs.</para>
+		exact numbers of words or characters, make some tests to check whether &kile;'s accuracy satisfies your needs.</para>
 	</sect1>
 
 </chapter>
@@ -2051,7 +2051,7 @@
 		<para>The following types are avaible:</para>
 
 		<itemizedlist>
-			<listitem><para>Most Frequently used</para></listitem>
+			<listitem><para>Most Frequently Used</para></listitem>
 			<listitem><para>Relation</para></listitem>
 			<listitem><para>Operators</para></listitem>
 			<listitem><para>Arrows</para></listitem>
@@ -2063,7 +2063,7 @@
 			<listitem><para>Cyrillic Characters</para></listitem>
 			<listitem><para>User Defined</para></listitem>
 		</itemizedlist>
-		<para>The tooltips of the icons show the &latex; commands and additional needed packages.</para>
+		<para>The tooltips of the icons show the &latex; commands and additionally needed packages.</para>
 		<para>Pressing <keycombo>&Shift;</keycombo> and clicking a symbol will result in 
 		<userinput>$\symbolcmd$</userinput> being inserted. Similiar pressing <keycombo>&Ctrl;</keycombo> 
 		inserts it in curly brackets.</para>
@@ -2266,7 +2266,7 @@
 
 			<itemizedlist>
 				<listitem><para><userinput>%B</userinput>: will be replaced by a bullet.</para></listitem>
-				<listitem><para><userinput>%C</userinput>: this is where the cursor will be placed after insertion of a
+				<listitem><para><userinput>%C</userinput>: this is where the cursor will be placed after the insertion of a
 				user-defined tag.</para></listitem>
 				<listitem><para><userinput>%M</userinput>: this stands for marked text; the selected text is
 				inserted in its place when inserting user-defined tags.</para></listitem>
@@ -2315,7 +2315,7 @@
 
 			<para>If you are using <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html">&bibtex;</ulink> 
 			for your bibliography entries, you usually have to follow a special compiling scheme.
-      This means calling &latex; and then &bibtex; and then &latex; twice again. Fortunately kile is clever enough to
+      This means calling &latex; and then &bibtex; and then &latex; twice again. Fortunately &kile; is clever enough to
       detect automatically if it is necessary to call additional tools like &bibtex;, &makeidx; and &asymptote;.
       This logic is by default turned on and can be changed in <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
       Kile...</guisubmenu><guisubmenu>Tools</guisubmenu><guilabel>Build</guilabel></menuchoice> in the <guilabel>General</guilabel> tab in the &latex; and &pdflatex; tools.
@@ -2329,7 +2329,7 @@
 
 			<para>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf">&makeidx;</ulink> 
 			package to make a final, alphabetical index for your document, you have also to follow a certain
-			compilation pattern or let this kile do for you in the same way than with &bibtex; files.</para>
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
 
 		</sect2>
 
@@ -2398,7 +2398,7 @@
 		which can be combined with seven configurations.</para> 
 		
 		<screenshot>
-			<screeninfo>Quicki Preview</screeninfo>
+			<screeninfo>Quick Preview</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="quickpreview.png" format="PNG" />
@@ -2945,7 +2945,7 @@
 		<para>To remove all your bookmarks, select <menuchoice><guimenu>Bookmarks</guimenu>
 		<guimenuitem>Clear Bookmarks</guimenuitem></menuchoice>.</para>
 
-    <para>Please note that currently the bookmarks are not saved after exiting kile.</para>
+    <para>Please note that currently the bookmarks are not saved after exiting &kile;.</para>
 
 	</sect1>
 

@@ -326,7 +326,7 @@ void Kile::enableSymbolViewMFUS()
 	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),
 			i18n("Move the mouse over an icon to see the corresponding LaTeX command.\n \
 			Click on an icon to insert the command, additionally pressing SHIFT inserts it in math mode,\
-			presssing CTRL in curly brackets."));
+			pressing CTRL in curly brackets."));
 
 	connect(m_symbolViewRelation,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
 	connect(m_symbolViewOperators,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
@@ -411,7 +411,7 @@ void Kile::setupSymbolViews()
 		this, SLOT(insertText(const QString&, const QStringList& )));
 
 	for (int i=0; i< m_toolBox->count(); i++)
-		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, presssing CTRL in curly brackets."));
+		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, pressing CTRL in curly brackets."));
 }
 
 void Kile::setupAbbreviationView()

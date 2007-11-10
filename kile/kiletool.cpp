@@ -568,7 +568,7 @@ namespace KileTool
 		}
 		else if(m_fileList.isEmpty())	
 		{
-			sendMessage(Error,i18n("No files have been chossen to archive"));
+			sendMessage(Error,i18n("No files have been chosen for archiving."));
 			return false;
 		}
 		else

@@ -197,7 +197,7 @@ void ManageTemplatesDialog::addTemplate() {
 	QString templateName = (m_nameEdit->text()).stripWhiteSpace();
 
 	if(templateName.isEmpty()) {
-		KMessageBox::error(this, i18n("Sorry, but the template name that you have entered in invalid.\nPlease enter a new name."));
+		KMessageBox::error(this, i18n("Sorry, but the template name that you have entered is invalid.\nPlease enter a new name."));
 		return;
 	}
 

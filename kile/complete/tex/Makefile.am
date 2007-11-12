@@ -6,6 +6,7 @@ texcomplete_DATA = \
 	amsfonts.cwl \
 	amsmath.cwl \
 	amssymb.cwl \
+	amsthm.cwl \
 	array.cwl \
 	attachfile.cwl \
 	beamerfoils.cwl \

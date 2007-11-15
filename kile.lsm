@@ -1,11 +1,14 @@
 Begin3
 Title:          Kile
-Version:        1.9
-Entered-date:
-Description:    LaTeX source editor - TeX shell for KDE   
+Version:        2.0
+Description:    LaTeX editor for KDE
 Keywords:
-Author:         Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, Holger Danielsson <holger.danielsson@t-online.de>, Pascal Brachet
-Maintained-by:  Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
+Author:         Thomas Braun
+                Michel Ludwig
+                Holger Danielsson
+                Jeroen Wijnhout
+                Pascal Brachet
+Maintained-by:  Michel Ludwig <michel.ludwig{at}kdemail.net>
 Primary-site:   http://kile.sourceforge.net/download.php
 Home-page:      http://kile.sourceforge.net
 Original-site:  

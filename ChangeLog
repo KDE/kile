@@ -1,4 +1,4 @@
-version 2.0beta1 -> 2.0beta3
+version 2.0beta2 -> 2.0
 
 Fixes:
  - Added some new logic to really disable all debug output if --disable-debug
@@ -203,7 +203,7 @@ minor:
  - improved structure view, remembers its state, it doesn't collapse anymore after a save
  - find in files dialog
  - several LaTeX specific editing options (close environment for example)
- - convert accented letters (like Ë) to ASCII TeX commands (like \"E) and vice versa
+ - convert accented letters (like Ã‹) to ASCII TeX commands (like \"E) and vice versa
  - new side and bottom bars
  
 version 1.6.2 -> 1.6.3

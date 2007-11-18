@@ -715,7 +715,7 @@ function initVars
     PACKAGE="no"
     LANGUAGES=""
     EXCLUDELANGUAGES="xx"
-    GNUFiles="AUTHORS COPYING ChangeLog INSTALL TODO README README.MacOSX README.cwl Building-with-cmake.txt"
+    GNUFiles="AUTHORS COPYING ChangeLog INSTALL TODO README README.MacOSX README.cwl kile-remote-control.txt Building-with-cmake.txt"
     CLEANUPFILES="autom4te.cache Makefile.cvs"
     POSTPROCESSSCRIPT=""
 

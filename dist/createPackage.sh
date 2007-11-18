@@ -237,16 +237,16 @@ function getResource
     SINGLEFILEHACK="no"
     case $1 in
         topleveldir)
-            COMMAND="svn co -N $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE $DESTINATION"
+            COMMAND="svn export -N $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE $DESTINATION"
         ;;
         admindir)
-            COMMAND="svn co $SVN_CHECKOUT_OPTIONS $SVNROOT/$ADMINDIR $DESTINATION"
+            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$ADMINDIR $DESTINATION"
         ;;
         source)
-            COMMAND="svn co $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/$APPNAME $DESTINATION"
+            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/$APPNAME $DESTINATION"
         ;;
         documentation)
-            COMMAND="svn co $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/doc/$APPNAME $DESTINATION"
+            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/doc/$APPNAME $DESTINATION"
         ;;
         languagelist)
             SINGLEFILEHACK="yes"
@@ -259,7 +259,7 @@ function getResource
         ;;
         doctranslation)
             DESTINATION=$3
-            COMMAND="svn co $SVN_CHECKOUT_OPTIONS $SVNROOT/$I18NBASE/$2/docs/$I18NDOCSUB/$APPNAME $DESTINATION"
+            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$I18NBASE/$2/docs/$I18NDOCSUB/$APPNAME $DESTINATION"
         ;;
         *)
             print "ERROR: Unknown resource $1"
@@ -280,8 +280,6 @@ function getResource
 
     if [ $LASTRESULT != "0" ]; then
         print "Warning: Resource \"$1\" is not available."
-    else
-        removeVCDirs $DESTINATION
     fi
     return $LASTRESULT
 }
@@ -314,16 +312,13 @@ function assembleApplicationData
     APPDIR=$APPNAME-$APPVERSION
     print "         ($APPDIR)"
 
-    makeDir $APPDIR
     if [ $TOPLEVEL = "yes" ]; then
         getResource "topleveldir" $APPDIR
     fi
 
-    makeDir $APPDIR/admin
     getResource "admindir" $APPDIR/admin
 
     if [ $TOPLEVEL = "yes" ]; then
-        makeDir $APPDIR/src
         getResource "source" $APPDIR/src
     else
         getResource "source" $APPDIR
@@ -399,7 +394,6 @@ function retrieveDocumentation
     DOCDIR=$APPDIR/doc
     print "         ($DOCDIR)"
 
-    makeDir $DOCDIR
     getResource "documentation" $DOCDIR
 }
 
@@ -452,7 +446,6 @@ function setupI18NDir
     if [ $SPLIT = "yes" ]; then
         I18NDIR="$APPNAME-i18n-$APPVERSION"
 
-        makeDir $I18NDIR
         getResource "topleveldir" $I18NDIR
         getResource "admindir" $I18NDIR/admin
         moveGNUFiles $I18NDIR
@@ -566,7 +559,6 @@ function retrieveDocTranslations
 
     for language in $INCLUDED_LANGUAGES ; do
         print "         Including documentation for language $language"
-        makeDir $TRANSDIR/$language/doc
         getResource "doctranslation" $language $TRANSDIR/$language/doc
         if [ -e $BUILDDIR/$TRANSDIR/$language/doc/index.docbook ]
         then

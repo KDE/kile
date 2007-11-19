@@ -22,7 +22,7 @@
 
 #include <kdeversion.h>
 #include "kiledebug.h"
-#include <kilemultitabbar.h>
+#include "kilemultitabbar.h"
 
 #include "symbolview.h"
 

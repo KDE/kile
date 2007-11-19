@@ -24,8 +24,8 @@
 
 //FIXME: remove for the KDE4 version again
 
-#ifndef _KMultitabbar_h_
-#define _KMultitabbar_h_
+#ifndef _KileMultitabbar_h_
+#define _KileMultitabbar_h_
 
 #include <qscrollview.h>
 #include <qvbox.h>

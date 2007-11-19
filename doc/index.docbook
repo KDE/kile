@@ -72,8 +72,7 @@
 <holder>Michel Ludwig</holder>
 </copyright>
 
-<date>??????????????</date>
-<!--  FIXME add date-->
+<date>November 19, 2007</date>
 <releaseinfo>2.0</releaseinfo>
 
 <legalnotice>
@@ -1604,7 +1603,7 @@
 
 	</sect1>
 	
-	<sect1>
+	<sect1 id="complete_own_files">
 
 		<title>Writing Own Completion Files</title>
 

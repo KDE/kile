@@ -1,2 +1,0 @@
-SUBDIRS=actions
-KDE_ICON = AUTO

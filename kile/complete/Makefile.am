@@ -1,1 +1,0 @@
-SUBDIRS=abbreviation tex dictionary

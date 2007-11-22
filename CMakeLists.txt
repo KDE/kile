@@ -1,5 +1,8 @@
 PROJECT( kile )
 
+find_package(KDE4 REQUIRED)
+include (KDE4Defaults)
+
 CMAKE_MINIMUM_REQUIRED( VERSION 2.4.4 FATAL_ERROR )
 
 

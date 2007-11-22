@@ -21,9 +21,9 @@
 #ifndef LATEXCMD_H
 #define LATEXCMD_H
 
-#include <qobject.h>
-#include <qstringlist.h>
-#include <qmap.h>
+#include <QObject>
+#include <QStringList>
+#include <QMap>
 
 #include <kconfig.h>
 

@@ -149,11 +149,12 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 		QMap<QString,QString> map = m_config->entryMap(name);
 		if ( ! map.empty() ) 
 		{
-			QMapConstIterator<QString,QString> it;
-			for ( it=map.begin(); it!=map.end(); ++it) 
+			QMapIterator<QString,QString> it(map);
+			while(it.hasNext())
 			{
-				list << it.key() + ",-," + it.data();
-				KILE_DEBUG() << "\tadd: " <<  it.key() + " --> " + it.data() << endl;
+				it.next();
+				list << it.key() + ",-," + it.value();
+				KILE_DEBUG() << "\tadd: " <<  it.key() + " --> " + it.value() << endl;
 			}
 		}
 	}
@@ -167,13 +168,13 @@ void LatexCommands::insert(const QStringList &list)
 	QStringList::ConstIterator it;
 	for ( it=list.begin(); it!=list.end(); ++it ) 
 	{
-		int pos = (*it).find(',');
+		int pos = (*it).indexOf(',');
 		if ( pos >= 0 ) 
 		{
 			QString key = (*it).left(pos);
 			QString value = (*it).right( (*it).length()-pos-1 ); 
-			QStringList valuelist = QStringList::split(',',value,true);
-			uint attributes = ( key.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
+			QStringList valuelist = value.split(',', QString::KeepEmptyParts);
+			int attributes = ( key.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
 			if ( valuelist.count() == attributes ) 
 				m_latexCommands[key] = value;
 			else
@@ -192,7 +193,7 @@ void LatexCommands::insert(const QStringList &list)
 
 QString LatexCommands::getValue(const QString &name)
 {
-	QString key = ( name.find('*',-1) >= 0 ) ? name.left(name.length()-1) : name;
+	QString key = ( name.indexOf('*',-1) >= 0 ) ? name.left(name.length()-1) : name;
 	return ( m_latexCommands.contains(key) ) ? m_latexCommands[key] : QString::null;
 }
 
@@ -202,8 +203,8 @@ QString LatexCommands::getValue(const QString &name)
 
 QString LatexCommands::getAttrAt(const QString &name, uint index)
 {
-	uint attributes = ( name.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
-	QStringList list = QStringList::split(',',getValue(name),true);
+	int attributes = ( name.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
+	QStringList list = getValue(name).split(',', QString::KeepEmptyParts);
 	return ( index<attributes && list.count()==attributes ) ? list[index] : QString::null;
 }
 
@@ -218,7 +219,7 @@ bool LatexCommands::isUserDefined(const QString &name)
 
 bool LatexCommands::isType(const QString &name, QChar ch)
 {
-	if ( name.find('*',-1) >= 0 )
+	if ( name.indexOf('*',-1) >= 0 )
 	{
 		QString envname = name.left( name.length()-1 );
 		return ( getValue(envname).at(2)==ch && isStarredEnv(envname) );
@@ -257,10 +258,13 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
 
 // convert character to attribute  
 
+#ifdef __GNUC__
+#warning Using QChar for this doesn't seem appropriate!
+#endif
 CmdAttribute LatexCommands::getCharAttr(QChar ch)
 {
 	CmdAttribute attr;
-	switch ( ch ) 
+	switch ( ch.unicode() ) 
 	{
 		case 'a': attr = CmdAttrAmsmath;   break;
 		case 'm': attr = CmdAttrMath;      break;
@@ -272,7 +276,7 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 		case 'C': attr = CmdAttrCitations; break;
 		case 'I': attr = CmdAttrIncludes;  break;
 		default:
-		     KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch) << endl;
+		     KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch.unicode()) << endl;
 			  return CmdAttrNone;
 	}	
 	
@@ -319,7 +323,7 @@ bool LatexCommands::needsMathMode(const QString &name)
 QString LatexCommands::getTabulator(const QString &name)
 {
 	QString tab = getAttrAt(name,5);
-	return ( tab.find('&') >= 0 ) ? tab : QString::null;
+	return ( tab.indexOf('&') >= 0 ) ? tab : QString::null;
 }
 
 //////////////////// environments and commands ////////////////////
@@ -331,22 +335,25 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 {
 	list.clear();
 	
-	QMapConstIterator<QString,QString> it;
-	for ( it=m_latexCommands.begin(); it!=m_latexCommands.end(); ++it) 
-	{
+	QMapIterator<QString,QString> it(m_latexCommands);
+	while(it.hasNext()) {
+		it.next();
 		// first check, if we need really need all environments and commands
 		// or if a restriction to some attributes is given
 		if ( attr != (uint)CmdAttrNone ) 
 		{
-			if ( ! ( attr & (uint)getCharAttr( it.data().at(2) ) ) )            
+			if ( ! ( attr & (uint)getCharAttr( it.value().at(2) ) ) ) {
 				continue;
+			}
 		}
 		
 		// second check, if we need only user defined environments or commands
-		if ( ! userdefined )
+		if ( ! userdefined ) {
 			list.append( it.key() );
-		else if ( it.data().at(0) == '-' )
+		}
+		else if ( it.value().at(0) == '-' ) {
 			list.append( it.key() );
+		}
 	}
 }
 
@@ -357,7 +364,7 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
 	uint attributes = ( name.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
 	
 	// split attribute list
-	QStringList list = QStringList::split(',',getValue(name),true);
+	QStringList list = getValue(name).split(',', QString::KeepEmptyParts);
 	
 	// check number of attributes
 	if (  list.count() != attributes ) 

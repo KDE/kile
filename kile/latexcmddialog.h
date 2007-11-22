@@ -21,25 +21,25 @@
 #define LATEXCMDDIALOG_H
 
 #include <kpushbutton.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 #include <k3listview.h>
 #include <kconfig.h>
 
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
+#include <QLabel>
+#include <QCheckBox>
+#include <QComboBox>
 #include <q3listview.h>
 #include <qstringlist.h>
-#include <qtabwidget.h>
-#include <qmap.h>
+#include <QTabWidget>
+#include <QMap>
 
 #include "latexcmd.h"
 
 namespace KileDialog
 {
 
-class NewLatexCommand : public KDialogBase  
+class NewLatexCommand : public KDialog
 {
 	Q_OBJECT
 
@@ -65,7 +65,7 @@ private slots:
 };
 
 
-class LatexCommandsDialog : public KDialogBase  
+class LatexCommandsDialog : public KDialog
 {
 	Q_OBJECT
 

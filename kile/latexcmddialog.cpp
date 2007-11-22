@@ -46,9 +46,14 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
                                  const QString &groupname, K3ListViewItem *lvitem,
 	                              KileDocument::CmdAttribute cmdtype,
 	                              QMap<QString,bool> *dict)
-   : KDialogBase( parent,0, true, caption, Ok | Cancel, Ok, true ),
-	  m_dict(dict)
+   : KDialog(parent), m_dict(dict)
 {
+	setCaption(caption);
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	// 'add' is only allowed, if the K3ListViewItem is defined
 	m_addmode = ( lvitem == 0 );
 	m_envmode = ( cmdtype < KileDocument::CmdAttrLabel );
@@ -305,9 +310,14 @@ void NewLatexCommand::slotOk()
 //BEGIN LatexCommandsDialog
 
 LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent, const char *name)
-   : KDialogBase( parent,name, true, i18n("LaTeX Configuration"), Ok | Cancel | Help, Ok, true ),
-	m_config(config), m_commands(commands)
+   : KDialog( parent ), m_config(config), m_commands(commands)
 {
+	setCaption(i18n("LaTeX Configuration"));
+	setModal(true);
+	setButtons(Ok | Cancel | Help);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
 

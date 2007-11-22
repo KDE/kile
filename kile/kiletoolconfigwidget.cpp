@@ -28,7 +28,7 @@
 #include <Q3GridLayout>
 
 #include "kiledebug.h"
-#include <klistbox.h>
+#include <k3listbox.h>
 #include <keditlistbox.h>
 #include <klocale.h>
 #include <kicondialog.h>
@@ -327,7 +327,7 @@ namespace KileWidget
 
 		m_map.clear();
 		if (!m_manager->retrieveEntryMap(m_current, m_map, false, false))
-			kdWarning() << "no entrymap" << endl;
+			kWarning() << "no entrymap" << endl;
 
 		updateConfiglist();
 		updateGeneral();

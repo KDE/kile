@@ -48,13 +48,13 @@ KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *pa
   KToolBar *toolbar = new KToolBar(this, "fileselectortoolbar");
   lo->addWidget(toolbar);
 
-  cmbPath = new KURLComboBox( KURLComboBox::Directories, true, this, "path combo" );
+  cmbPath = new KUrlComboBox( KUrlComboBox::Directories, true, this, "path combo" );
   cmbPath->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
-  cmpl = new KURLCompletion(KURLCompletion::DirCompletion);
+  cmpl = new KUrlCompletion(KUrlCompletion::DirCompletion);
   cmbPath->setCompletionObject( cmpl );
   lo->addWidget(cmbPath);
 
-  dir = new KDirOperator(KURL(), this, "operator");
+  dir = new KDirOperator(KUrl(), this, "operator");
   connect(dir, SIGNAL(fileSelected(const KFileItem*)), this, SIGNAL(fileSelected(const KFileItem*)));
   dir->setView(KFile::Simple);
   dir->setMode(KFile::Files);
@@ -88,16 +88,17 @@ KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *pa
   lo->addWidget(dir);
   lo->setStretchFactor(dir, 2);
 
-  m_comboEncoding = new KComboBox( false, this, "comboEncoding" );
+  m_comboEncoding = new KComboBox( false, this );
+  m_comboEncoding->setObjectName( "comboEncoding" );
   QStringList availableEncodingNames(KGlobal::charsets()->availableEncodingNames());
   m_comboEncoding->setEditable( true );
   m_comboEncoding->insertStringList( availableEncodingNames );
   QToolTip::add(m_comboEncoding, i18n("Set encoding"));
   lo->addWidget(m_comboEncoding);
 
-  connect( cmbPath, SIGNAL( urlActivated( const KURL&  )),this,  SLOT( cmbPathActivated( const KURL& ) ));
+  connect( cmbPath, SIGNAL( urlActivated( const KUrl&  )),this,  SLOT( cmbPathActivated( const KUrl& ) ));
   connect( cmbPath, SIGNAL( returnPressed( const QString&  )), this,  SLOT( cmbPathReturnPressed( const QString& ) ));
-  connect(dir, SIGNAL(urlEntered(const KURL&)), this, SLOT(dirUrlEntered(const KURL&)) );
+  connect(dir, SIGNAL(urlEntered(const KUrl&)), this, SLOT(dirUrlEntered(const KUrl&)) );
 }
 
 KileFileSelect::~KileFileSelect()
@@ -110,7 +111,7 @@ void KileFileSelect::readConfig()
 	QString lastDir = KileConfig::lastDir();
 	QFileInfo ldi(lastDir);
 	if ( ! ldi.isReadable() ) dir->home();
-	else setDir(KURL::fromPathOrURL(lastDir));
+	else setDir(KUrl::fromPathOrUrl(lastDir));
 }
 
 void KileFileSelect::writeConfig()
@@ -123,7 +124,7 @@ void KileFileSelect::setView(KFile::FileView view)
  dir->setView(view);
 }
 
-void KileFileSelect::cmbPathActivated( const KURL& u )
+void KileFileSelect::cmbPathActivated( const KUrl& u )
 {
    dir->setURL( u, true );
 }
@@ -131,10 +132,10 @@ void KileFileSelect::cmbPathActivated( const KURL& u )
 void KileFileSelect::cmbPathReturnPressed( const QString& u )
 {
    dir->setFocus();
-   dir->setURL( KURL(u), true );
+   dir->setURL( KUrl(u), true );
 }
 
-void KileFileSelect::dirUrlEntered( const KURL& u )
+void KileFileSelect::dirUrlEntered( const KUrl& u )
 {
    cmbPath->removeURL( u );
    QStringList urls = cmbPath->urls();
@@ -149,7 +150,7 @@ void KileFileSelect::focusInEvent(QFocusEvent*)
    dir->setFocus();
 }
 
-void KileFileSelect::setDir( KURL u )
+void KileFileSelect::setDir( KUrl u )
 {
   dir->setURL(u, true);
 }

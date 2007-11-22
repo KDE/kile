@@ -19,7 +19,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kpushbutton.h>
-#include <klistview.h>
+#include <k3listview.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -46,14 +46,14 @@ namespace KileDialog
 		
 		// line 1: picture and label
 		QLabel *picture =  new QLabel("", labelwidget);
-		picture->setPixmap( KGlobal::instance()->iconLoader()->loadIcon("messagebox_warning", KIcon::NoGroup, KIcon::SizeMedium) );
+		picture->setPixmap( KIconLoader::global()->loadIcon("messagebox_warning", KIconLoader::NoGroup, KIconLoader::SizeMedium) );
 		QLabel *label =  new QLabel(i18n( "Do you really want to delete these files?" ), labelwidget);
 		labellayout->addWidget(picture);
 		labellayout->addSpacing(20);
 		labellayout->addWidget(label);
 		
 		// line 2: listview
-		listview = new KListView(plainPage());
+		listview = new K3ListView(plainPage());
 		listview->addColumn(i18n("Files"));
 		listview->setSorting(-1);
 		

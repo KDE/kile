@@ -21,7 +21,7 @@
 
 #include <kio/netaccess.h>
 #include <klocale.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
 #include <ksimpleconfig.h>
@@ -156,9 +156,9 @@ Tester::~Tester()
 	delete m_process;
 }
 
-void Tester::saveResults(const KURL & dest)
+void Tester::saveResults(const KUrl & dest)
 {
-	KIO::NetAccess::file_copy(KURL::fromPathOrURL(m_resultsFile), dest, -1, true);
+	KIO::NetAccess::file_copy(KUrl::fromPathOrUrl(m_resultsFile), dest, -1, true);
 }
 
 void Tester::runTests()
@@ -172,17 +172,17 @@ void Tester::runTests()
 
 	QString shellname = KGlobal::dirs()->findExe("sh");
 	KILE_DEBUG() << "Tester::runTests: shellname = " << shellname << endl;
-	m_process = new KShellProcess(QFile::encodeName( shellname ));
+	m_process = new K3ShellProcess(QFile::encodeName( shellname ));
 	if (! KileConfig::teXPaths().isEmpty())
 	{
 		m_process->setEnvironment("TEXINPUTS", KileInfo::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
 	}
-	*m_process << "cd " + KShellProcess::quote(destdir) + " && ";
-	*m_process << "cp " + KShellProcess::quote(srcdir) +"/* " + KShellProcess::quote(destdir) + " && ";
-	*m_process << "source runTests.sh " + KShellProcess::quote(m_resultsFile) + " " +  KShellProcess::quote(destdir);
-	connect(m_process, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(determineProgress(KProcess *, char *, int)));
-	connect(m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processTestResults(KProcess *)));
-	if (m_process->start(KProcess::NotifyOnExit, KProcess::AllOutput)) emit(started());
+	*m_process << "cd " + K3ShellProcess::quote(destdir) + " && ";
+	*m_process << "cp " + K3ShellProcess::quote(srcdir) +"/* " + K3ShellProcess::quote(destdir) + " && ";
+	*m_process << "source runTests.sh " + K3ShellProcess::quote(m_resultsFile) + " " +  K3ShellProcess::quote(destdir);
+	connect(m_process, SIGNAL(receivedStdout(K3Process *, char *, int)), this, SLOT(determineProgress(K3Process *, char *, int)));
+	connect(m_process, SIGNAL(processExited(K3Process *)), this, SLOT(processTestResults(K3Process *)));
+	if (m_process->start(K3Process::NotifyOnExit, K3Process::AllOutput)) emit(started());
 }
 
 void Tester::stop()
@@ -190,7 +190,7 @@ void Tester::stop()
 	if (m_process) m_process->kill();
 }
 
-void Tester::determineProgress(KProcess */*proc*/, char *buf, int len)
+void Tester::determineProgress(K3Process */*proc*/, char *buf, int len)
 {
 	static QString s = QString::null;
 
@@ -204,7 +204,7 @@ void Tester::determineProgress(KProcess */*proc*/, char *buf, int len)
 	}
 }
 
-void Tester::processTestResults (KProcess *proc)
+void Tester::processTestResults (K3Process *proc)
 {
 	if (proc->normalExit())
 	{

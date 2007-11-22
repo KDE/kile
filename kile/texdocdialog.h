@@ -22,9 +22,9 @@
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
-#include <kprocess.h>
-#include <ktempfile.h>
-#include <klistview.h>
+#include <k3process.h>
+#include <ktemporaryfile.h>
+#include <k3listview.h>
 
 #include <qlabel.h>
 #include <qstringlist.h>
@@ -44,7 +44,7 @@ public:
 	~TexDocDialog();
 
 private:	
-	KListView *m_texdocs;
+	K3ListView *m_texdocs;
 	KLineEdit *m_leKeywords;
 	KPushButton *m_pbSearch;
 
@@ -60,8 +60,8 @@ private:
 	QString m_filename;
 	QString m_output;
 	
-	KTempFile *m_tempfile;
-	KShellProcess *m_proc;
+	KTemporaryFile *m_tempfile;
+	K3ShellProcess *m_proc;
 	
 	void callSearch();
 	void executeScript(const QString &command);
@@ -89,8 +89,8 @@ private slots:
 	void slotTextChanged(const QString &text);
 	void slotSearchClicked();
 	
-	void slotProcessOutput(KProcess*,char* buf,int len);
-	void slotProcessExited (KProcess *proc);
+	void slotProcessOutput(K3Process*,char* buf,int len);
+	void slotProcessExited (K3Process *proc);
 
 	void slotInitToc();
 	void slotShowFile();

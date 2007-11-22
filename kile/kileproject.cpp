@@ -50,7 +50,7 @@
 /*
  * KileProjectItem
  */
-KileProjectItem::KileProjectItem(KileProject *project, const KURL & url, int type) :
+KileProjectItem::KileProjectItem(KileProject *project, const KUrl & url, int type) :
 	m_project(project),
 	m_url(url),
 	m_type(type),
@@ -131,12 +131,12 @@ void KileProjectItem::setInfo(KileDocument::TextInfo *docinfo)
 	m_docinfo = docinfo;
 	if(docinfo)
 	{
-	connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*, const KURL &)), this, SLOT(slotChangeURL(KileDocument::Info*, const KURL &)));
+	connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*, const KUrl &)), this, SLOT(slotChangeURL(KileDocument::Info*, const KUrl &)));
 	connect(docinfo,SIGNAL(depChanged()), m_project, SLOT(buildProjectTree()));
 	}
 }
 
-void KileProjectItem::changeURL(const KURL &url)
+void KileProjectItem::changeURL(const KUrl &url)
 {
 	// don't allow empty URLs
 	if(!url.isEmpty() && m_url != url) 
@@ -146,7 +146,7 @@ void KileProjectItem::changeURL(const KURL &url)
 	}
 }
 
-void KileProjectItem::slotChangeURL(KileDocument::Info*, const KURL &url)
+void KileProjectItem::slotChangeURL(KileDocument::Info*, const KUrl &url)
 {
 	changeURL(url);
 }
@@ -154,12 +154,12 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const KURL &url)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KURL& url, KileDocument::Extensions *extensions) : QObject(0,name.ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions) : QObject(0,name.ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
 	init(name, url, extensions);
 }
 
-KileProject::KileProject(const KURL& url, KileDocument::Extensions *extensions) : QObject(0,url.fileName().ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions) : QObject(0,url.fileName().ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
 {
 	init(url.fileName(), url, extensions);
 }	
@@ -170,7 +170,7 @@ KileProject::~KileProject()
 	delete m_config;
 }
 
-void KileProject::init(const QString& name, const KURL& url, KileDocument::Extensions *extensions)
+void KileProject::init(const QString& name, const KUrl& url, KileDocument::Extensions *extensions)
 {
 	m_name = name;
 	m_projecturl = KileDocument::Manager::symlinkFreeURL( url);;
@@ -200,7 +200,7 @@ void KileProject::init(const QString& name, const KURL& url, KileDocument::Exten
 	}
 }
 
-void KileProject::setLastDocument(const KURL &url)
+void KileProject::setLastDocument(const KUrl &url)
 {
     if ( item(url) != 0 )
         m_lastDocument = KileDocument::Manager::symlinkFreeURL(url);
@@ -210,7 +210,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
 	if (type<KileProjectItem::Source || type>KileProjectItem::Image) 
 	{
-		kdWarning() << "ERROR: TYPE<1 or TYPE>3" << endl;
+		kWarning() << "ERROR: TYPE<1 or TYPE>3" << endl;
 		return;
 	}
 
@@ -335,9 +335,9 @@ QString KileProject::addBaseURL(const QString &path)
 	if ( path.isEmpty())
 		return path;
   	else if ( path.startsWith("/") )
-  		return KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(path)).path();
+  		return KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(path)).path();
   	else
-    		return  KileDocument::Manager::symlinkFreeURL(KURL::fromPathOrURL(m_baseurl.path() + '/' +path)).path();
+    		return  KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(m_baseurl.path() + '/' +path)).path();
  }
 
 QString KileProject::removeBaseURL(const QString &path)
@@ -371,7 +371,7 @@ bool KileProject::load()
 		if(KMessageBox::warningYesNo(0L,i18n("The project file of %1 was created by a newer version of kile.\
 				Opening it can lead to unexpected results.\n\
 				Do you really want to continue (not recommended)?").arg(m_name),
-				 QString::null, KStdGuiItem::yes(), KStdGuiItem::no(),QString::null,KMessageBox::Dangerous) == KMessageBox::No)
+				 QString::null, KStandardGuiItem::yes(), KStandardGuiItem::no(),QString::null,KMessageBox::Dangerous) == KMessageBox::No)
 		{
 			m_invalid=true;
 			return false;
@@ -395,7 +395,7 @@ bool KileProject::load()
 
 	readMakeIndexOptions();
 
-	KURL url;
+	KUrl url;
 	KileProjectItem *item;
 	QStringList groups = m_config->groupList();
 
@@ -407,7 +407,7 @@ bool KileProject::load()
 			QString path = groups[i].mid(5);
 			if (path[0] == '/' )
 			{
-				url = KURL::fromPathOrURL(path);
+				url = KUrl::fromPathOrUrl(path);
 			}
 			else
 			{
@@ -434,7 +434,7 @@ bool KileProject::load()
 
     // only call this after all items are created, otherwise setLastDocument doesn't accept the url
     m_config->setGroup("General");
-    setLastDocument(KURL::fromPathOrURL(addBaseURL(m_config->readEntry("lastDocument", QString::null))));
+    setLastDocument(KUrl::fromPathOrUrl(addBaseURL(m_config->readEntry("lastDocument", QString::null))));
 
 // 	dump();
 
@@ -514,7 +514,7 @@ void KileProject::buildProjectTree()
 	const QStringList *deps;
 	QString dep;
 	KileProjectItem *itm;
-	KURL url;
+	KUrl url;
 	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 
 	//clean first
@@ -564,7 +564,7 @@ void KileProject::buildProjectTree()
 	emit(projectTreeChanged(this));
 }
 
-KileProjectItem* KileProject::item(const KURL & url)
+KileProjectItem* KileProject::item(const KUrl & url)
 {
 	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 	while (it.current())
@@ -611,7 +611,7 @@ void KileProject::remove(const KileProjectItem* item)
 	if (m_config->hasGroup("item:"+item->path()))
 		m_config->deleteGroup("item:"+item->path());
 	else
-		kdWarning() << "KileProject::remove() Failed to delete the group corresponding to this item!!!" <<endl;
+		kWarning() << "KileProject::remove() Failed to delete the group corresponding to this item!!!" <<endl;
 
 	KILE_DEBUG() << "KileProject::remove" << endl;
 	m_projectitems.remove(item);
@@ -629,7 +629,7 @@ void KileProject::itemRenamed(KileProjectItem *item)
 	item->changePath(findRelativePath(item->url()));
 }
 
-QString KileProject::findRelativePath(const KURL &url)
+QString KileProject::findRelativePath(const KUrl &url)
 {
 	QString basepath = m_baseurl.path();
 	QString path = url.directory();
@@ -702,7 +702,7 @@ QString KileProject::findRelativePath(const KURL &url)
 	return path;
 }
 
-bool KileProject::contains(const KURL &url)
+bool KileProject::contains(const KUrl &url)
 {
 	for (uint i=0; i < m_projectitems.count(); ++i)
 	{

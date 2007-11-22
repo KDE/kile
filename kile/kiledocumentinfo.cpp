@@ -78,6 +78,7 @@
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kinputdialog.h>
+#include <kglobal.h>
 
 #include "codecompletion.h"
 #include "kileuntitled.h"
@@ -86,15 +87,15 @@
 namespace KileDocument
 {
 
-bool Info::containsInvalidCharacters(const KURL& url)
+bool Info::containsInvalidCharacters(const KUrl& url)
 {
 	QString filename = url.fileName();
 	return filename.contains(" ") || filename.contains("~") || filename.contains("$") || filename.contains("#");
 }
 
-KURL Info::repairInvalidCharacters(const KURL& url, bool checkForFileExistence /* = true */)
+KUrl Info::repairInvalidCharacters(const KUrl& url, bool checkForFileExistence /* = true */)
 {
-	KURL ret(url);
+	KUrl ret(url);
 	do {
 		bool isOK;
 		QString newURL = KInputDialog::getText(
@@ -111,9 +112,9 @@ KURL Info::repairInvalidCharacters(const KURL& url, bool checkForFileExistence /
 	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
 
-KURL Info::renameIfExist(const KURL& url)
+KUrl Info::renameIfExist(const KUrl& url)
 {
-	KURL ret(url);
+	KUrl ret(url);
 	while ( KIO::NetAccess::exists(url, true, kapp->mainWidget()) ) // check for writing possibility
 	{
 		bool isOK;
@@ -130,9 +131,9 @@ KURL Info::renameIfExist(const KURL& url)
 	return ret;
 }
 
-KURL Info::repairExtension(const KURL& url, bool checkForFileExistence /* = true */)
+KUrl Info::repairExtension(const KUrl& url, bool checkForFileExistence /* = true */)
 {
-	KURL ret(url);
+	KUrl ret(url);
 
 	QString filename = url.fileName();
 	if(filename.contains(".") && filename[0] != '.') // There already is an extension
@@ -141,8 +142,8 @@ KURL Info::repairExtension(const KURL& url, bool checkForFileExistence /* = true
 	if(KMessageBox::Yes == KMessageBox::questionYesNo(NULL,
 		i18n("The given filename has no extension; do you want one to be automatically added?"),
 		i18n("Missing Extension"),
-		KStdGuiItem::yes(),
-		KStdGuiItem::no(),
+		KStandardGuiItem::yes(),
+		KStandardGuiItem::no(),
 		"AutomaticallyAddExtension"))
 	{
 		ret.setFileName(filename + ".tex");
@@ -150,9 +151,9 @@ KURL Info::repairExtension(const KURL& url, bool checkForFileExistence /* = true
 	return (checkForFileExistence ? renameIfExist(ret) : ret);
 }
 
-KURL Info::makeValidTeXURL(const KURL & url, bool istexfile, bool checkForFileExistence)
+KUrl Info::makeValidTeXURL(const KUrl & url, bool istexfile, bool checkForFileExistence)
 {
-	KURL newURL(url);
+	KUrl newURL(url);
 
 	//add a .tex extension
 	if ( ! istexfile )
@@ -165,7 +166,7 @@ KURL Info::makeValidTeXURL(const KURL & url, bool istexfile, bool checkForFileEx
 	return newURL;
 }
 
-Info::Info() : m_bIsRoot(false), m_config(kapp->config()), documentTypePromotionAllowed(true)
+Info::Info() : m_bIsRoot(false), m_config(KGlobal::config()), documentTypePromotionAllowed(true)
 {
 	updateStructLevelInfo();
 }
@@ -193,13 +194,13 @@ void Info::updateStructLevelInfo()
 	m_openStructureTodo = KileConfig::svOpenTodo();
 }
 
-void Info::setBaseDirectory(const KURL& url)
+void Info::setBaseDirectory(const KUrl& url)
 {
-	KILE_DEBUG() << "===void Info::setBaseDirectory(const KURL&" << url << ")===" << endl;
+	KILE_DEBUG() << "===void Info::setBaseDirectory(const KUrl&" << url << ")===" << endl;
 	m_baseDirectory = url;
 }
 
-const KURL& Info::getBaseDirectory() const
+const KUrl& Info::getBaseDirectory() const
 {
 	return m_baseDirectory;
 }
@@ -229,7 +230,7 @@ void Info::setDocumentTypePromotionAllowed(bool b)
 	documentTypePromotionAllowed = b;
 }
 
-KURL Info::url()
+KUrl Info::url()
 {
 	return m_url;
 }
@@ -355,7 +356,7 @@ void Info::count(const QString line, long *stat)
 		break;
 
 		default :
-			kdWarning() << "Unhandled state in getStatistics " << state << endl;
+			kWarning() << "Unhandled state in getStatistics " << state << endl;
 		break;
 		}
 	}
@@ -426,7 +427,7 @@ TextInfo::TextInfo(Kate::Document *doc, Extensions *extensions, const QString& d
 	}
 	else
 	{
-		m_url = KURL();
+		m_url = KUrl();
 	}
 	m_extensions = extensions;
 
@@ -487,9 +488,9 @@ const long* TextInfo::getStatistics()
 }
 
 // FIXME for KDE 4.0, rearrange the hole docinfo layout to get rid of this hack
-KURL TextInfo::url()
+KUrl TextInfo::url()
 {
-	KURL url;
+	KUrl url;
 
 	if(m_doc)
 		url = m_doc->url();
@@ -499,9 +500,9 @@ KURL TextInfo::url()
 		if(info.exists())
 			url = m_url;
 		else
-			url = KURL();
+			url = KUrl();
 	}
-// 	KILE_DEBUG() << "===KURL TextInfo::url()===, url is " << url.path() << endl;
+// 	KILE_DEBUG() << "===KUrl TextInfo::url()===, url is " << url.path() << endl;
 	return url;
 }
 

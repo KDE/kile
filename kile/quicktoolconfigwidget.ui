@@ -137,7 +137,7 @@
     </spacer>
    </item>
    <item rowspan="5" row="1" column="2" colspan="3" >
-    <widget class="KListBox" name="m_lstbSeq" />
+    <widget class="K3ListBox" name="m_lstbSeq" />
    </item>
   </layout>
  </widget>
@@ -150,9 +150,9 @@
    <header location="global" >kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KListBox</class>
+   <class>K3ListBox</class>
    <extends>Q3ListBox</extends>
-   <header location="global" >klistbox.h</header>
+   <header location="global" >k3listbox.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>

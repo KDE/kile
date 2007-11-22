@@ -43,6 +43,7 @@
 #include "kiledebug.h"
 #include <kapplication.h>
 #include <kiconloader.h>
+#include <kglobal.h>
 
 #include "kileproject.h"
 #include "kiletoolmanager.h"
@@ -89,7 +90,8 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	QRegExpValidator *extValidator = new QRegExpValidator(reg,m_egroup);
 	m_extensions->setValidator(extValidator);
 
-	m_sel_extensions = new KComboBox(false, m_egroup, "le_sel_ext");
+	m_sel_extensions = new KComboBox( false, m_egroup );
+	m_sel_extensions->setObjectName( "le_sel_ext" );
 	m_sel_extensions->insertItem(i18n("Source Files"));
 	m_sel_extensions->insertItem(i18n("Package Files"));
 	m_sel_extensions->insertItem(i18n("Image Files"));
@@ -280,7 +282,7 @@ KileNewProjectDlg::~KileNewProjectDlg()
 KileProject* KileNewProjectDlg::project()
 {
 	if (!m_project) {
-		m_project = new KileProject(projectTitle(), KURL(location()), m_extmanager);
+		m_project = new KileProject(projectTitle(), KUrl(location()), m_extmanager);
 
 		KileProjectItem::Type type;
 		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
@@ -348,7 +350,7 @@ void KileNewProjectDlg::slotOk()
 		return;
 
 	//replace ~ and environment variables in the paths
-	KURLCompletion uc;
+	KUrlCompletion uc;
 	uc.setReplaceEnv(true);
 	uc.setReplaceHome(true);
 	m_location->setText(uc.replacedPath(location()));
@@ -431,8 +433,8 @@ void KileNewProjectDlg::slotOk()
 		}
 
 		//check for validity of name first, then check for existence (fixed by tbraun)
-		KURL fileURL; fileURL.setFileName(file());
-		KURL validURL = KileDocument::Info::makeValidTeXURL(fileURL,m_extmanager->isTexFile(fileURL),true);
+		KUrl fileURL; fileURL.setFileName(file());
+		KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL,m_extmanager->isTexFile(fileURL),true);
 		if ( validURL != fileURL )
 			m_file->setText(validURL.fileName());
 
@@ -500,7 +502,8 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	Q3GridLayout *grid3 = new Q3GridLayout( group3->layout() );
 	grid3->setAlignment( Qt::AlignTop );
 
-	m_master = new KComboBox(false, group3, "master");
+	m_master = new KComboBox( false, group3 );
+	m_master->setObjectName( "master" );
 	//m_master->setDisabled(true);
 	QLabel *lb1 = new QLabel(i18n("&Master document:"), group3);
 	lb1->setBuddy(m_master);
@@ -530,7 +533,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_cbQuick = new KComboBox(group3); 
 	lb2->setBuddy(m_cbQuick);
 	m_cbQuick->insertItem(tool_default);
-	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", kapp->config()));
+	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", KGlobal::config()));
 	m_cbQuick->setCurrentText(project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default );
 
 	//don't put this after the call to toggleMakeIndex

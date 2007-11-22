@@ -122,7 +122,7 @@ bool KileLyxServer::openPipes()
 			if ( !QFileInfo(pipeInfo.absolutePath()).exists() )
 				if ( mkdir(QFile::encodeName( pipeInfo.path() ), m_perms | S_IXUSR) == -1 )
 				{
-					kdError() << "Could not create directory for pipe" << endl;
+					kError() << "Could not create directory for pipe" << endl;
 					continue;
 				}
 				else
@@ -130,16 +130,16 @@ bool KileLyxServer::openPipes()
 
 				if ( mkfifo(QFile::encodeName( pipeInfo.absoluteFilePath() ), m_perms) != 0 )
 				{
-					kdError() << "Could not create pipe: " << pipeInfo.absoluteFilePath() << endl;
+					kError() << "Could not create pipe: " << pipeInfo.absoluteFilePath() << endl;
 					continue;				
 				}
 				else
 					KILE_DEBUG() << "Created pipe: " << pipeInfo.absoluteFilePath() << endl;
 		}
 		
-		if ( symlink(QFile::encodeName(pipeInfo.absoluteFilePath()),QFile::encodeName(linkInfo.absFilePath())) != 0 )
+		if ( symlink(QFile::encodeName(pipeInfo.absoluteFilePath()),QFile::encodeName(linkInfo.absoluteFilePath())) != 0 )
 		{
-			kdError() << "Could not create symlink: " << linkInfo.absoluteFilePath() << " --> " << pipeInfo.absFilePath() << endl;
+			kError() << "Could not create symlink: " << linkInfo.absoluteFilePath() << " --> " << pipeInfo.absoluteFilePath() << endl;
 			continue;
 		}
 
@@ -152,7 +152,7 @@ bool KileLyxServer::openPipes()
 			fstat(file->handle(),stats);
 			if( !S_ISFIFO(stats->st_mode) )
 			{
-				kdError() << "The file " << pipeInfo.absoluteFilePath() <<  "we just created is not a pipe!" << endl;
+				kError() << "The file " << pipeInfo.absoluteFilePath() <<  "we just created is not a pipe!" << endl;
 				file->close();
 				continue;
 			}
@@ -164,7 +164,7 @@ bool KileLyxServer::openPipes()
 			}
 		}
 		else
-			kdError() << "Could not open " << pipeInfo.absoluteFilePath() << endl;
+			kError() << "Could not open " << pipeInfo.absoluteFilePath() << endl;
 	}
 	return opened;
 }

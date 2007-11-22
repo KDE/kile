@@ -52,7 +52,7 @@ tbraun 2007-06-13
 #include <qapplication.h>
 
 
-SymbolView::SymbolView(QWidget *parent, int type, const char *name): KIconView( parent, name ),m_toolTip(0L)
+SymbolView::SymbolView(QWidget *parent, int type, const char *name): K3IconView( parent, name ),m_toolTip(0L)
 {
     setGridX( 36 );
     setGridY( 36);
@@ -167,7 +167,7 @@ void SymbolView::removeToolTip()
 void SymbolView::hideEvent( QHideEvent *e )
 {
     removeToolTip();
-    KIconView::hideEvent( e );
+    K3IconView::hideEvent( e );
 }
 
 void SymbolView::initPage(int page)
@@ -219,7 +219,7 @@ void SymbolView::initPage(int page)
 		break;
 
 		default:
-			kdWarning() << "wrong argument in initPage()" << endl;
+			kWarning() << "wrong argument in initPage()" << endl;
 		break;
 	}
 }
@@ -236,8 +236,8 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 
 	if( (e->button() & Qt::LeftButton) == Qt::LeftButton && ( item = findItem( e->pos() ) ) )
 	{
-		bracket = (e->state() & Qt::ControlModifier) ==  Qt::ControlButton;
-		math = (e->state() & Qt::ShiftModifier) ==  Qt::ShiftButton;
+		bracket = (e->state() & Qt::ControlModifier) ==  Qt::ControlModifier;
+		math = (e->state() & Qt::ShiftModifier) ==  Qt::ShiftModifier;
 		
 		extract(item->key(),count,code_symbol,args,pkgs);
 
@@ -259,7 +259,7 @@ void SymbolView::fillWidget(const QString& prefix)
 {
 	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===" << endl;
 	QImage image;
-	KIconViewItem* item;
+	K3IconViewItem* item;
 	QStringList refCnts,paths;
 	
 	if( prefix == MFUSprefix)
@@ -290,7 +290,7 @@ void SymbolView::fillWidget(const QString& prefix)
  		if ( image.load(paths[i]) )
 		{
 //   			KILE_DEBUG() << "path is " << paths[i] << endl;
-			item = new KIconViewItem(this);
+			item = new K3IconViewItem(this);
 			item->setPixmap(image);
 			item->setKey( refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i] );
 			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
@@ -381,7 +381,7 @@ void SymbolView::slotAddToList(const Q3IconViewItem *item)
 	}
 	else
 	{
-		tmpItem = new KIconViewItem(this,QString::null,*(item->pixmap()));
+		tmpItem = new K3IconViewItem(this,QString::null,*(item->pixmap()));
 		tmpItem->setKey(item->key());
     	}
 }

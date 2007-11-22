@@ -81,8 +81,8 @@
 
 ////////////////////// KileListViewItem with all info //////////////////////
 
-KileListViewItem::KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
-	KListViewItem(parent,after),
+KileListViewItem::KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
+	K3ListViewItem(parent,after),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level),
 	m_startline(startline), m_startcol(startcol)
 {
@@ -90,13 +90,13 @@ KileListViewItem::KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * aft
 }
 
 KileListViewItem::KileListViewItem(Q3ListView * parent, const QString & label) : 
-	KListViewItem(parent,label),
-	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
+	K3ListViewItem(parent,label),
+	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
 
 KileListViewItem::KileListViewItem(Q3ListViewItem * parent, const QString & label) :
-	KListViewItem(parent,label),
-	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
+	K3ListViewItem(parent,label),
+	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
 
 void KileListViewItem::setTitle(const QString &title)
@@ -112,7 +112,7 @@ void KileListViewItem::setItemEntry()
 
 ////////////////////// introduce a new ToolTip //////////////////////
 
-KileListViewToolTip::KileListViewToolTip(KListView *listview) : QToolTip(listview->viewport()), m_listview(listview) 
+KileListViewToolTip::KileListViewToolTip(K3ListView *listview) : QToolTip(listview->viewport()), m_listview(listview) 
 {}
 
 void KileListViewToolTip::maybeTip(const QPoint &p) 
@@ -145,7 +145,7 @@ namespace KileWidget
 	////////////////////// StructureList listview //////////////////////
 	
 	StructureList::StructureList(Structure *stack, KileDocument::Info *docinfo) : 
-		KListView(stack),
+		K3ListView(stack),
 		m_stack(stack), m_docinfo(docinfo)
 	{
 		show();
@@ -161,7 +161,7 @@ namespace KileWidget
 		
 		//connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)), m_stack, SLOT(slotDoubleClicked(Q3ListViewItem *)));
-		connect(this, SIGNAL(contextMenu(KListView *, Q3ListViewItem *, const QPoint & )), m_stack, SLOT(slotPopup(KListView *, Q3ListViewItem * , const QPoint & )));
+		connect(this, SIGNAL(contextMenu(K3ListView *, Q3ListViewItem *, const QPoint & )), m_stack, SLOT(slotPopup(K3ListView *, Q3ListViewItem * , const QPoint & )));
 		
 		connect(this, SIGNAL(executed(Q3ListViewItem*)), m_stack, SLOT(slotClicked(Q3ListViewItem*)));
 		connect(m_stack, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
@@ -612,7 +612,7 @@ namespace KileWidget
 		m_default = new StructureList(this, 0L);
 		m_default->activate();
 	
-		m_popup = new KPopupMenu(this, "structureview_popup");
+		m_popup = new KMenu(this, "structureview_popup");
 	}
 
 	Structure::~Structure()
@@ -686,14 +686,14 @@ namespace KileWidget
 			}
 			
 			QFileInfo fi(fname);
-			KURL url;
+			KUrl url;
 			url.setPath(fname);
 			
 			if (fi.isReadable())
 			{	
 				if (  item->type() == KileStruct::Graphics )
 				{
-					KMimeType::Ptr pMime = KMimeType::findByURL(url);
+					KMimeType::Ptr pMime = KMimeType::findByUrl(url);
 					KRun::runURL(url,pMime->name());
 				}
 				else
@@ -715,7 +715,7 @@ namespace KileWidget
 	//  - sectioning: 10 - 16
 	//  - graphics:   100ff
 
-	void Structure::slotPopup(KListView *, Q3ListViewItem *itm, const QPoint &point)
+	void Structure::slotPopup(K3ListView *, Q3ListViewItem *itm, const QPoint &point)
 	{
 		KILE_DEBUG() << "\tStructure::slotPopup" << endl;
 		
@@ -755,10 +755,10 @@ namespace KileWidget
 			QFileInfo fi(m_popupInfo);
 			if ( fi.isReadable() )
 			{
-				KURL url;
+				KUrl url;
 				url.setPath(m_popupInfo);
 				
-				m_offerList = KTrader::self()->query(KMimeType::findByURL(url)->name(), "Type == 'Application'");
+				m_offerList = KTrader::self()->query(KMimeType::findByUrl(url)->name(), "Type == 'Application'");
 				for (uint i=0; i < m_offerList.count(); ++i)
 				{
 					m_popup->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+SectioningGraphicsOfferlist);
@@ -828,7 +828,7 @@ namespace KileWidget
 	{
 		KILE_DEBUG() << "\tStructure::slotPopupGraphics (" << id << ")"<< endl;
 
-		KURL url;
+		KUrl url;
 		url.setPath(m_popupInfo);
 		
 		if ( id == SectioningGraphicsOther )

@@ -20,10 +20,10 @@
 #include <qcheckbox.h>
 
 #include <kstandarddirs.h>
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <kdialogbase.h>
 #include <klocale.h>
-#include <kprocess.h>
+#include <k3process.h>
 
 #include "kileconstants.h"
 #include "templates.h"

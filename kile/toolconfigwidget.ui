@@ -57,7 +57,7 @@
        </widget>
       </item>
       <item>
-       <widget class="KListBox" name="m_lstbTools" >
+       <widget class="K3ListBox" name="m_lstbTools" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="" hsizetype="Preferred" >
           <horstretch>0</horstretch>
@@ -558,9 +558,9 @@
    <header location="global" >kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KListBox</class>
+   <class>K3ListBox</class>
    <extends>Q3ListBox</extends>
-   <header location="global" >klistbox.h</header>
+   <header location="global" >k3listbox.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>

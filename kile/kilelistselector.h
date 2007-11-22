@@ -18,9 +18,9 @@
 #define KILELISTSELECTOR_H
 
 #include <kdialogbase.h>
-#include <klistview.h>
+#include <k3listview.h>
 
-class KListView;
+class K3ListView;
 class QStringList;
 
 class KileListSelectorBase : public KDialogBase
@@ -32,7 +32,7 @@ public:
 	int currentItem();
 
 protected:
-	KListView *m_listview;
+	K3ListView *m_listview;
 	void insertStringList(const QStringList &list);
 };
 

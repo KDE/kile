@@ -25,11 +25,11 @@
 
 #include <klocale.h>
 #include <kcursor.h>
-#include <kprogress.h>
+#include <kprogressdialog.h>
 #include <kglobal.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
-#include <klistbox.h>
+#include <k3listbox.h>
 #include "kiledebug.h"
 
 #include "configcheckerwidget.h"
@@ -37,7 +37,7 @@
 namespace KileDialog
 {
 
-ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests) : Q3ListBoxItem(lb)
+ResultItem::ResultItem(K3ListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests) : Q3ListBoxItem(lb)
 {
 	QString rt = "<hr><b><font color=\"%1\">%2</font></b> (%3)<br><ul>";
 	for ( uint i = 0; i < tests.count(); ++i)
@@ -101,7 +101,7 @@ QLabel* ConfigChecker::label()
 	return m_widget->label();
 }
 
-KListBox* ConfigChecker::listBox()
+K3ListBox* ConfigChecker::listBox()
 {
 	return m_widget->listBox();
 }
@@ -127,19 +127,19 @@ void ConfigChecker::slotCancel()
 
 void ConfigChecker::saveResults()
 {
-	KURL url = KFileDialog::getSaveURL();
+	KUrl url = KFileDialog::getSaveUrl();
 	if ( !url.isEmpty() ) m_tester->saveResults(url);
 }
 
 void ConfigChecker::started()
 {
-	setCursor(KCursor::workingCursor());
+	setCursor(Qt::BusyCursor);
 	setPercentageDone(0);
 }
 
 void ConfigChecker::finished(bool ok)
 {
-	setCursor(KCursor::arrowCursor());
+	setCursor(Qt::ArrowCursor);
 	enableButton(Cancel, false);
 
 	if (ok)

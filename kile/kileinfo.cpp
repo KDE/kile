@@ -100,7 +100,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 		{
 			if (project->masterDocument().length() > 0)
 			{
-				KURL master = KURL::fromPathOrURL(project->masterDocument());
+				KUrl master = KUrl::fromPathOrUrl(project->masterDocument());
 				if (shrt) return master.fileName();
 				else return master.path();
 			}
@@ -109,7 +109,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
 				if (item)
 				{
-					KURL url = item->url();
+					KUrl url = item->url();
 					if (shrt) return url.fileName();
 					else return url.path();
 				}
@@ -174,10 +174,10 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 	return file;
 }
 
-KURL::List KileInfo::getParentsFor(KileDocument::Info *info)
+KUrl::List KileInfo::getParentsFor(KileDocument::Info *info)
 {
 	KileProjectItemList *items = docManager()->itemsFor(info);
-	KURL::List list;
+	KUrl::List list;
 	for ( uint i = 0; i < items->count(); ++i)
 		if (items->at(i)->parent()) list.append(items->at(i)->parent()->url());
 
@@ -303,7 +303,7 @@ QString KileInfo::documentTypeToString(KileDocument::Type type)
 	return QString();
 }
 
-bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
+bool KileInfo::similarOrEqualURL(const KUrl &validurl, const KUrl &testurl)
 {
 	if ( testurl.isEmpty() || testurl.path().isEmpty() ) return false;
 
@@ -314,9 +314,9 @@ bool KileInfo::similarOrEqualURL(const KURL &validurl, const KURL &testurl)
 		   );
 }
 
-bool KileInfo::isOpen(const KURL & url)
+bool KileInfo::isOpen(const KUrl & url)
 {
-	KILE_DEBUG() << "==bool KileInfo::isOpen(const KURL & url)=============" << endl;
+	KILE_DEBUG() << "==bool KileInfo::isOpen(const KUrl & url)=============" << endl;
 	uint cnt = viewManager()->textViews().count();
 	
 	for ( uint i = 0; i < cnt; ++i)
@@ -328,7 +328,7 @@ bool KileInfo::isOpen(const KURL & url)
 	return false;
 }
 
-bool KileInfo::projectIsOpen(const KURL & url)
+bool KileInfo::projectIsOpen(const KUrl & url)
 {
 	KileProject *project = docManager()->projectFor(url);
 
@@ -411,7 +411,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 
 QString KileInfo::relativePath(const QString basepath, const QString & file)
 {
-	KURL url = KURL::fromPathOrURL(file);
+	KUrl url = KUrl::fromPathOrUrl(file);
 	QString path = url.directory();
 	QString filename = url.fileName();
 

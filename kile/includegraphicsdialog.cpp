@@ -34,7 +34,7 @@
 #include <kmessagebox.h>
 #include "kiledebug.h"
 #include <kpushbutton.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <klineedit.h>
 
 #include "kileconfig.h"
@@ -72,7 +72,8 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
    grid->addWidget( edit_file, 0,1 );
 
    // line 1: Choose-Box
-   KPushButton *pb_choose = new KPushButton("", widget, "filechooser_button" );
+   KPushButton *pb_choose = new KPushButton( "", widget );
+   pb_choose->setObjectName( "filechooser_button" );
    pb_choose->setPixmap( SmallIcon("fileopen") );
 
    pb_choose->setFixedWidth(pb_choose->sizeHint().width());      // set width
@@ -406,34 +407,34 @@ void IncludeGraphics::execute(const QString &command)
    if(m_proc)
       delete m_proc;
 
-   m_proc = new KShellProcess("/bin/sh");
+   m_proc = new K3ShellProcess("/bin/sh");
    m_proc->clearArguments();
    (*m_proc) << QStringList::split(' ',command);
 
-   connect(m_proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
-           this, SLOT(slotProcessOutput(KProcess*,char*,int)) );
-   connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
-           this, SLOT(slotProcessOutput(KProcess*,char*,int)) );
-   connect(m_proc, SIGNAL(processExited(KProcess*)),
-           this, SLOT(slotProcessExited(KProcess*)) );
+   connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
+           this, SLOT(slotProcessOutput(K3Process*,char*,int)) );
+   connect(m_proc, SIGNAL(receivedStderr(K3Process*,char*,int)),
+           this, SLOT(slotProcessOutput(K3Process*,char*,int)) );
+   connect(m_proc, SIGNAL(processExited(K3Process*)),
+           this, SLOT(slotProcessExited(K3Process*)) );
 
    m_output = "";
    KILE_DEBUG() << "=== IncludeGraphics::execute ====================" << endl;
    KILE_DEBUG() << "   execute '" << command << "'" << endl;
 
-   m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+   m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput);
 }
 
 // get all output of identify
 
-void IncludeGraphics::slotProcessOutput(KProcess*,char* buffer,int buflen)
+void IncludeGraphics::slotProcessOutput(K3Process*,char* buffer,int buflen)
 {
    m_output += QString::fromLocal8Bit(buffer,buflen);
 }
 
 // identify was called
 
-void IncludeGraphics::slotProcessExited(KProcess* proc)
+void IncludeGraphics::slotProcessExited(K3Process* proc)
 {
   if ( proc->normalExit() &&  !proc->exitStatus() ) {
       KILE_DEBUG() << "   result: " << m_output << endl;

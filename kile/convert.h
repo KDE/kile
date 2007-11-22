@@ -84,12 +84,12 @@ protected:
 class ConvertIOFile : public ConvertIO
 {
 public:
-	ConvertIOFile(Kate::Document *doc, const KURL & url);
+	ConvertIOFile(Kate::Document *doc, const KUrl & url);
 
 	void writeText();
 
 private:
-	KURL	m_url;
+	KUrl	m_url;
 };
 
 class ConvertBase

@@ -137,9 +137,9 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	//insert the view in the tab widget
 	m_tabs->insertTab( view, m_ki->getShortName(doc), index );
 	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
-		m_tabs->setTabToolTip(view, doc->url().pathOrURL() );
+		m_tabs->setTabToolTip(view, doc->url().pathOrUrl() );
 	#else
-		m_tabs->setTabToolTip(view, doc->url().prettyURL() );
+		m_tabs->setTabToolTip(view, doc->url().prettyUrl() );
 	#endif
 	
 	m_tabs->showPage( view );
@@ -148,7 +148,7 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
-	connect(info, SIGNAL(urlChanged(KileDocument::Info*, const KURL&)), this, SLOT(urlChanged(KileDocument::Info*, const KURL&)));
+	connect(info, SIGNAL(urlChanged(KileDocument::Info*, const KUrl&)), this, SLOT(urlChanged(KileDocument::Info*, const KUrl&)));
 
 	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
 	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
@@ -175,14 +175,14 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	unplugKatePartMenu(view);
 
 	// use Kile's save and save-as functions instead of Katepart's
-	KAction *action = view->actionCollection()->action(KStdAction::stdName(KStdAction::Save)); 
+	KAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
 	if ( action ) 
 	{
 		KILE_DEBUG() << "   reconnect action 'file_save'..." << endl;
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSave()));
 	}
-	action = view->actionCollection()->action(KStdAction::stdName(KStdAction::SaveAs));
+	action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::SaveAs));
 	if ( action ) 
 	{
 		KILE_DEBUG() << "   reconnect action 'file_save_as'..." << endl;
@@ -250,7 +250,7 @@ unsigned int Manager::getTabCount() const {
 	return m_tabs->count();
 }
 
-Kate::View* Manager::switchToTextView(const KURL & url, bool requestFocus)
+Kate::View* Manager::switchToTextView(const KUrl & url, bool requestFocus)
 {
 	Kate::View *view = 0L;
 	Kate::Document *doc = m_ki->docManager()->docFor(url);
@@ -495,20 +495,20 @@ void Manager::quickPreviewPopup()
 
 void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
 {
-	accept = KURLDrag::canDecode(e); // only accept URL drops
+	accept = K3URLDrag::canDecode(e); // only accept URL drops
 }
 
 void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 {
-	KURL::List urls;
-	if(!KURLDrag::decode(e, urls)) {
+	KUrl::List urls;
+	if(!K3URLDrag::decode(e, urls)) {
 		return;
 	}
 	int index = m_tabs->indexOf(w);
 	KileDocument::Extensions *extensions = m_ki->extensions();
 	bool hasReplacedTab = false;
-	for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {
-		KURL url = *i;
+	for(KUrl::List::iterator i = urls.begin(); i != urls.end(); ++i) {
+		KUrl url = *i;
 		if(extensions->isProjectFile(url)) {
 			m_ki->docManager()->projectOpen(url);
 		}
@@ -523,7 +523,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 	}
 }
 
-void Manager::urlChanged(KileDocument::Info* info, const KURL& /*url*/)
+void Manager::urlChanged(KileDocument::Info* info, const KUrl& /*url*/)
 {
 	KileDocument::TextInfo *textInfo = dynamic_cast<KileDocument::TextInfo*>(info);
 	if(textInfo)

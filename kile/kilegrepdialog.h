@@ -40,9 +40,9 @@ class QEvent;
 
 class KComboBox;
 class KLineEdit;
-class KProcess;
-class KURLRequester;
-class KListBox;
+class K3Process;
+class KUrlRequester;
+class K3ListBox;
 
 #define KILEGREP_MAX 12
 
@@ -75,7 +75,7 @@ signals:
 private:
 	KileInfo *m_ki;
 	KileGrep::Mode m_mode;
-	KProcess *childproc;
+	K3Process *childproc;
 	int m_grepJobs;
 
 	void readConfig();
@@ -112,9 +112,9 @@ private:
 	QLabel *projectname_label, *projectdirname_label;
 	KLineEdit *template_edit;
 	KComboBox *filter_combo, *pattern_combo, *template_combo;
-	KURLRequester *dir_combo;
+	KUrlRequester *dir_combo;
 	QCheckBox *recursive_box;
-	KListBox *resultbox;
+	K3ListBox *resultbox;
 	QPushButton *search_button, *clear_button, *close_button;
 	QString buf;
 	QString errbuf;
@@ -125,8 +125,8 @@ private:
 
 private slots:
 	void childExited();
-	void receivedOutput(KProcess *proc, char *buffer, int buflen);
-	void receivedErrOutput(KProcess *proc, char *buffer, int buflen);
+	void receivedOutput(K3Process *proc, char *buffer, int buflen);
+	void receivedErrOutput(K3Process *proc, char *buffer, int buflen);
 	void slotItemSelected(const QString&);
 	void slotSearch();
 	void slotClear();

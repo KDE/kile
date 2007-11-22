@@ -29,6 +29,7 @@
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
+#include <kglobal.h>
 
 #include "newdocumentwidget.h"
 
@@ -40,7 +41,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, QWidget *pa
   : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_currentlyDisplayedType(-1)
 {
 	// first read config
-	m_config = kapp->config();
+	m_config = KGlobal::config();
 	m_config->setGroup("NewFileWizard");
 	bool wizard = m_config->readBoolEntry("UseWizardWhenCreatingEmptyFile", false);
 	int w = m_config->readNumEntry("width", -1);

@@ -286,22 +286,22 @@ void Kile::setupProjectView()
 // 	viewManager()->setProjectView(projectview);
 	m_sideBar->addTab(projectview, SmallIcon("relation"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
-	connect(projectview, SIGNAL(fileSelected(const KURL &)), docManager(), SLOT(fileSelected(const KURL &)));
-	connect(projectview, SIGNAL(closeURL(const KURL&)), docManager(), SLOT(fileClose(const KURL&)));
-	connect(projectview, SIGNAL(closeProject(const KURL&)), docManager(), SLOT(projectClose(const KURL&)));
-	connect(projectview, SIGNAL(projectOptions(const KURL&)), docManager(), SLOT(projectOptions(const KURL&)));
-	connect(projectview, SIGNAL(projectArchive(const KURL&)), this, SLOT(runArchiveTool(const KURL&)));
+	connect(projectview, SIGNAL(fileSelected(const KUrl &)), docManager(), SLOT(fileSelected(const KUrl &)));
+	connect(projectview, SIGNAL(closeURL(const KUrl&)), docManager(), SLOT(fileClose(const KUrl&)));
+	connect(projectview, SIGNAL(closeProject(const KUrl&)), docManager(), SLOT(projectClose(const KUrl&)));
+	connect(projectview, SIGNAL(projectOptions(const KUrl&)), docManager(), SLOT(projectOptions(const KUrl&)));
+	connect(projectview, SIGNAL(projectArchive(const KUrl&)), this, SLOT(runArchiveTool(const KUrl&)));
 	connect(projectview, SIGNAL(removeFromProject(const KileProjectItem *)), docManager(), SLOT(removeFromProject(const KileProjectItem *)));
-	connect(projectview, SIGNAL(addFiles(const KURL &)), docManager(), SLOT(projectAddFiles(const KURL &)));
-	connect(projectview, SIGNAL(openAllFiles(const KURL &)), docManager(), SLOT(projectOpenAllFiles(const KURL &)));
+	connect(projectview, SIGNAL(addFiles(const KUrl &)), docManager(), SLOT(projectAddFiles(const KUrl &)));
+	connect(projectview, SIGNAL(openAllFiles(const KUrl &)), docManager(), SLOT(projectOpenAllFiles(const KUrl &)));
 	connect(projectview, SIGNAL(toggleArchive(KileProjectItem *)), docManager(), SLOT(toggleArchive(KileProjectItem *)));
-	connect(projectview, SIGNAL(addToProject(const KURL &)), docManager(), SLOT(addToProject(const KURL &)));
-	connect(projectview, SIGNAL(saveURL(const KURL &)), docManager(), SLOT(saveURL(const KURL &)));
-	connect(projectview, SIGNAL(buildProjectTree(const KURL &)), docManager(), SLOT(buildProjectTree(const KURL &)));
+	connect(projectview, SIGNAL(addToProject(const KUrl &)), docManager(), SLOT(addToProject(const KUrl &)));
+	connect(projectview, SIGNAL(saveURL(const KUrl &)), docManager(), SLOT(saveURL(const KUrl &)));
+	connect(projectview, SIGNAL(buildProjectTree(const KUrl &)), docManager(), SLOT(buildProjectTree(const KUrl &)));
 	connect(docManager(), SIGNAL(projectTreeChanged(const KileProject *)), projectview, SLOT(refreshProjectTree(const KileProject *)));
-	connect(docManager(), SIGNAL(removeFromProjectView(const KURL &)),projectview,SLOT(remove(const KURL &)));
+	connect(docManager(), SIGNAL(removeFromProjectView(const KUrl &)),projectview,SLOT(remove(const KUrl &)));
 	connect(docManager(), SIGNAL(removeFromProjectView(const KileProject *)),projectview,SLOT(remove(const KileProject *)));
-	connect(docManager(), SIGNAL(addToProjectView(const KURL &)),projectview,SLOT(add(const KURL &)));
+	connect(docManager(), SIGNAL(addToProjectView(const KUrl &)),projectview,SLOT(add(const KUrl &)));
 	connect(docManager(), SIGNAL(addToProjectView(const KileProject *)),projectview,SLOT(add(const KileProject *)));
 	connect(docManager(),SIGNAL(removeItemFromProjectView(const KileProjectItem *, bool)),projectview,SLOT(removeItem(const KileProjectItem *, bool)));
 	connect(docManager(),SIGNAL(addToProjectView(KileProjectItem *)),projectview,SLOT(add(KileProjectItem *)));
@@ -313,9 +313,9 @@ void Kile::setupStructureView()
 	m_sideBar->addTab(m_kwStructure, SmallIcon("view_tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
-	connect(m_kwStructure, SIGNAL(setCursor(const KURL &,int,int)), this, SLOT(setCursor(const KURL &,int,int)));
-	connect(m_kwStructure, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
-	connect(m_kwStructure, SIGNAL(fileNew(const KURL&)), docManager(), SLOT(fileNew(const KURL&)));
+	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
+	connect(m_kwStructure, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
+	connect(m_kwStructure, SIGNAL(fileNew(const KUrl&)), docManager(), SLOT(fileNew(const KUrl&)));
 	connect(m_kwStructure, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
 	connect(m_kwStructure, SIGNAL(sectioningPopup(KileListViewItem *,int)), m_edit, SLOT(sectioningCommand(KileListViewItem *,int)));
 }
@@ -437,7 +437,7 @@ void Kile::setupBottomBar()
 
 	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
-	connect(m_logWidget, SIGNAL(fileOpen(const KURL&, const QString & )), docManager(), SLOT(fileOpen(const KURL&, const QString& )));
+	connect(m_logWidget, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
 	connect(m_docManager,SIGNAL(printMsg(int, const QString &, const QString &)),m_logWidget,SLOT(printMsg(int, const QString &, const QString &)));
 
@@ -498,21 +498,21 @@ void Kile::setupPreviewTools()
 
 void Kile::setupActions()
 {
-	m_paPrint = KStdAction::print(0,0, actionCollection(), "file_print");
-	(void) KStdAction::openNew(docManager(), SLOT(fileNew()), actionCollection(), "file_new" );
-	(void) KStdAction::open(docManager(), SLOT(fileOpen()), actionCollection(),"file_open" );
-	m_actRecentFiles = KStdAction::openRecent(docManager(), SLOT(fileOpen(const KURL&)), actionCollection(), "file_open_recent");
-	connect(docManager(), SIGNAL(addToRecentFiles(const KURL& )), m_actRecentFiles, SLOT(addURL(const KURL& )));
+	m_paPrint = KStandardAction::print(0,0, actionCollection(), "file_print");
+	(void) KStandardAction::openNew(docManager(), SLOT(fileNew()), actionCollection(), "file_new" );
+	(void) KStandardAction::open(docManager(), SLOT(fileOpen()), actionCollection(),"file_open" );
+	m_actRecentFiles = KStandardAction::openRecent(docManager(), SLOT(fileOpen(const KUrl&)), actionCollection(), "file_open_recent");
+	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl& )), m_actRecentFiles, SLOT(addUrl(const KUrl& )));
 	m_actRecentFiles->loadEntries(m_config, "Recent Files");
 
-	(void) KStdAction::save(docManager(), SLOT(fileSave()), actionCollection(),"kile_file_save" );
-	(void) KStdAction::saveAs(docManager(), SLOT(fileSaveAs()), actionCollection(),"kile_file_save_as" );
+	(void) KStandardAction::save(docManager(), SLOT(fileSave()), actionCollection(),"kile_file_save" );
+	(void) KStandardAction::saveAs(docManager(), SLOT(fileSaveAs()), actionCollection(),"kile_file_save_as" );
 
 	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all");
 	(void) new KAction(i18n("Save Copy As..."),"save_copy_as", 0, docManager(), SLOT(fileSaveCopyAs()), actionCollection(),"file_save_copy_as");
 	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");
 	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
-	(void) KStdAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
+	(void) KStandardAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
 	(void) new KAction(i18n("Close All"), 0, docManager(), SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
 	(void) new KAction(i18n("Close All Ot&hers"), 0, docManager(), SLOT(fileCloseAllOthers()), actionCollection(),"file_close_all_others" );
 	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
@@ -525,9 +525,9 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Latin-&9 (iso 8859-9)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin9" );
 	(void) new KAction(i18n("&Central European (cp-1250)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1250" );
 	(void) new KAction(i18n("&Western European (cp-1252)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1252" );
-	(void) KStdAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
+	(void) KStandardAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
 
-	(void) KStdAction::gotoLine(m_edit, SLOT(gotoLine()), actionCollection(),"edit_goto_line" );
+	(void) KStandardAction::gotoLine(m_edit, SLOT(gotoLine()), actionCollection(),"edit_goto_line" );
 	(void) new KAction(i18n("Next section"), "nextsection", ALT+Key_Down, m_edit, SLOT(gotoNextSectioning()), actionCollection(),"edit_next_section" );
 	(void) new KAction(i18n("Prev section"), "prevsection", ALT+Key_Up, m_edit, SLOT(gotoPrevSectioning()), actionCollection(),"edit_prev_section" );
 	(void) new KAction(i18n("Next paragraph"), "nextparagraph", ALT+SHIFT+Key_Down, m_edit, SLOT(gotoNextParagraph()), actionCollection(),"edit_next_paragraph" );
@@ -540,9 +540,9 @@ void Kile::setupActions()
 	//project actions
 	(void) new KAction(i18n("&New Project..."), "window_new", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
 	(void) new KAction(i18n("&Open Project..."), "project_open", 0, docManager(), SLOT(projectOpen()), actionCollection(), "project_open");
-	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project"),  0, docManager(), SLOT(projectOpen(const KURL &)), actionCollection(), "project_openrecent");
-	connect(docManager(), SIGNAL(removeFromRecentProjects(const KURL& )), m_actRecentProjects, SLOT(removeURL(const KURL& )));
-	connect(docManager(), SIGNAL(addToRecentProjects(const KURL& )), m_actRecentProjects, SLOT(addURL(const KURL& )));
+	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project"),  0, docManager(), SLOT(projectOpen(const KUrl &)), actionCollection(), "project_openrecent");
+	connect(docManager(), SIGNAL(removeFromRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(removeURL(const KUrl& )));
+	connect(docManager(), SIGNAL(addToRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(addUrl(const KUrl& )));
 	m_actRecentProjects->loadEntries(m_config, "Projects");
 
 	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
@@ -662,7 +662,7 @@ void Kile::setupActions()
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
 
-	KStdAction::tipOfDay(this, SLOT(showTip()), actionCollection(), "help_tipofday");
+	KStandardAction::tipOfDay(this, SLOT(showTip()), actionCollection(), "help_tipofday");
 
 	(void) new KAction(i18n("TeX Guide"),KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTexGuide()), actionCollection(), "help_tex_guide");
 	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "help_latex_index");
@@ -673,15 +673,15 @@ void Kile::setupActions()
 	(void) new KAction(i18n("Documentation Browser"),KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()), actionCollection(), "help_docbrowser");
 
 	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
-	(void) KStdAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
-	(void) KStdAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
-	(void) KStdAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
-	(void) KStdAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
-	KAction *kileconfig = KStdAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
+	(void) KStandardAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
+	(void) KStandardAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
+	(void) KStandardAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
+	(void) KStandardAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
+	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
 	kileconfig->setIcon("configure_kile");
 
-	(void) KStdAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
-	(void) KStdAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
+	(void) KStandardAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
+	(void) KStandardAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
 	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
@@ -690,7 +690,7 @@ void Kile::setupActions()
 
 	actionCollection()->readShortcutSettings();
 
-	m_pFullScreen = KStdAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
+	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
 }
 
 void Kile::setupTools()
@@ -792,19 +792,19 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
 	QFileInfo fi;
 
-	KURL url;
+	KUrl url;
 	for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i)
 	{
 		fi.setFile(m_listProjectsOpenOnStart[i]);
 		// don't open project files as they will be opened later in this method 
-		if (fi.isReadable()) docManager()->projectOpen(KURL::fromPathOrURL(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
+		if (fi.isReadable()) docManager()->projectOpen(KUrl::fromPathOrUrl(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
 	}
 
 	for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i)
 	{
 		fi.setFile(m_listDocsOpenOnStart[i]);
 		if (fi.isReadable())
-			docManager()->fileOpen(KURL::fromPathOrURL(m_listDocsOpenOnStart[i]));
+			docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]));
 	}
 
 	if (ModeAction) ModeAction->setChecked(!m_singlemode);
@@ -814,7 +814,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	m_listDocsOpenOnStart.clear();
 
     KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
-	Kate::Document *doc = docManager()->docFor(KURL::fromPathOrURL(KileConfig::lastDocument()));
+	Kate::Document *doc = docManager()->docFor(KUrl::fromPathOrUrl(KileConfig::lastDocument()));
 	if (doc) viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
 }
 
@@ -847,7 +847,7 @@ void Kile::setLine( const QString &line )
   	}
 }
 
-void Kile::setCursor(const KURL &url, int parag, int index)
+void Kile::setCursor(const KUrl &url, int parag, int index)
 {
 	Kate::Document *doc = docManager()->docFor(url);
 	if (doc)
@@ -866,7 +866,7 @@ void Kile::runArchiveTool()
 	this->run("Archive");
 }
 
-void Kile::runArchiveTool(const KURL &url)
+void Kile::runArchiveTool(const KUrl &url)
 {
 	KileTool::Archive *tool = new KileTool::Archive("Archive", m_manager, false);
 	tool->setSource(url.path());
@@ -955,7 +955,7 @@ void Kile::updateModeStatus()
 void Kile::openDocument(const QString & url)
 {
 	KILE_DEBUG() << "==Kile::openDocument(" << url << ")==========" << endl;
-	docManager()->fileSelected(KURL::fromPathOrURL(url));
+	docManager()->fileSelected(KUrl::fromPathOrUrl(url));
 }
 
 void Kile::closeDocument()
@@ -982,7 +982,7 @@ void Kile::enableAutosave(bool as)
 
 void Kile::openProject(const QString& proj)
 {
-	docManager()->projectOpen(KURL::fromPathOrURL(proj));
+	docManager()->projectOpen(KUrl::fromPathOrUrl(proj));
 }
 
 void Kile::focusPreview()
@@ -1085,7 +1085,7 @@ void Kile::showDocInfo(Kate::Document *doc)
 		delete dlg;
 	}
 	else
-		kdWarning() << "There is no KileDocument::Info object belonging to this document!" << endl;
+		kWarning() << "There is no KileDocument::Info object belonging to this document!" << endl;
 }
 
 void Kile::convertToASCII(Kate::Document *doc)
@@ -1161,7 +1161,7 @@ void Kile::grepItemSelected(const QString &abs_filename, int line)
 {
 	KILE_DEBUG() << "Open file: "
 		<< abs_filename << " (" << line << ")" << endl;
-	docManager()->fileOpen(KURL::fromPathOrURL(abs_filename));
+	docManager()->fileOpen(KUrl::fromPathOrUrl(abs_filename));
 	setLine(QString::number(line));
 }
 
@@ -1892,11 +1892,11 @@ void Kile::readRecentFileSettings()
 	m_config->setGroup("FilesOpenOnStart");
 	int n = m_config->readNumEntry("NoDOOS", 0);
 	for (int i=0; i < n; ++i)
-		m_listDocsOpenOnStart.append(m_config->readPathEntry("DocsOpenOnStart"+QString::number(i), ""));
+		m_listDocsOpenOnStart.append(m_config->readPathEntry("DocsOpenOnStart"+QString::number(i, QString()), ""));
 
 	n = m_config->readNumEntry("NoPOOS", 0);
 	for (int i=0; i < n; ++i)
-		m_listProjectsOpenOnStart.append(m_config->readPathEntry("ProjectsOpenOnStart"+QString::number(i), ""));
+		m_listProjectsOpenOnStart.append(m_config->readPathEntry("ProjectsOpenOnStart"+QString::number(i, QString()), ""));
 }
 
 void Kile::readConfig()
@@ -2131,7 +2131,7 @@ void Kile::configureKeys()
 void Kile::configureToolbars()
 {
 	saveMainWindowSettings(m_config, "KileMainWindow" );
-	KEditToolbar dlg(factory());
+	KEditToolBar dlg(factory());
 	dlg.exec();
 
 	applyMainWindowSettings(m_config, "KileMainWindow" );
@@ -2316,7 +2316,7 @@ void Kile::citeViewBib()
 	if ( !client->call(viewBibApp, viewBibObj, viewBibFnc, params, replyType, replyData) )
 	{
 		// we should never get here
-		kdWarning() << "internal error in viewbib citation" << endl;
+		kWarning() << "internal error in viewbib citation" << endl;
 		return;
 	}
 	else{

@@ -18,7 +18,7 @@
 
 #include <kate/document.h>
 #include "kiledebug.h"
-#include <klistview.h>
+#include <k3listview.h>
 #include <kurl.h>
 #include <kdialogbase.h>
 #include <latexcmd.h>
@@ -104,11 +104,11 @@ class Info : public QObject
 	Q_OBJECT
 
 public:
-	static bool containsInvalidCharacters(const KURL&);
-	static KURL repairInvalidCharacters(const KURL&, bool checkForFileExistence = true);
-	static KURL repairExtension(const KURL&, bool checkForFileExistence = true);
-	static KURL makeValidTeXURL(const KURL & url, bool istexfile, bool checkForFileExistence = true);
-	static KURL renameIfExist(const KURL& url);
+	static bool containsInvalidCharacters(const KUrl&);
+	static KUrl repairInvalidCharacters(const KUrl&, bool checkForFileExistence = true);
+	static KUrl repairExtension(const KUrl&, bool checkForFileExistence = true);
+	static KUrl makeValidTeXURL(const KUrl & url, bool istexfile, bool checkForFileExistence = true);
+	static KUrl renameIfExist(const KUrl& url);
 
 public:
 	Info();
@@ -135,12 +135,12 @@ public:
 
 	virtual bool isLaTeXRoot() { return m_bIsRoot; }
 
-	virtual KURL url();
+	virtual KUrl url();
 
 	virtual void updateStructLevelInfo();
 
-	void setBaseDirectory(const KURL& url);
-	const KURL& getBaseDirectory() const;
+	void setBaseDirectory(const KUrl& url);
+	const KUrl& getBaseDirectory() const;
 
 	virtual bool isTextDocument();
 	virtual Type getType();
@@ -161,7 +161,7 @@ public slots:
 	virtual void updateBibItems();
 
 signals:
-	void urlChanged(KileDocument::Info* info, const KURL& url);
+	void urlChanged(KileDocument::Info* info, const KUrl& url);
 	void isrootChanged(bool);
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
@@ -193,7 +193,7 @@ protected:
 	QStringList					m_newCommands;
 	QString						m_preamble;
 	QMap<QString,KileStructData>			m_dictStructLevel;
-	KURL						m_url;
+	KUrl						m_url;
 	KConfig						*m_config;
 	bool m_showStructureLabels;
 	bool m_showStructureBibitems;
@@ -207,7 +207,7 @@ protected:
 	bool m_openStructureReferences;
 	bool m_openStructureBibitems;
 	bool m_openStructureTodo;
-	KURL						m_baseDirectory;
+	KUrl						m_baseDirectory;
 	bool						documentTypePromotionAllowed;
 	Extensions *m_extensions;
 };
@@ -246,7 +246,7 @@ public:
 	/**
 	 * @returns the URL of the Kate::Document.
 	 **/
-	virtual KURL url();
+	virtual KUrl url();
 
 	virtual Type getType();
 

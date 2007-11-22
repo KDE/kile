@@ -53,19 +53,19 @@ public:
 	QString projectFileFilter() { return fileFilter(LATEX_EXT_PROJ); }
 	
 	bool isTexFile(const QString &fileName) const;
-	bool isTexFile(const KURL &url) const { return isTexFile(url.fileName()); }
+	bool isTexFile(const KUrl &url) const { return isTexFile(url.fileName()); }
 	bool isBibFile(const QString &fileName) const;	
-	bool isBibFile(const KURL &url) const { return isBibFile(url.fileName()); }
+	bool isBibFile(const KUrl &url) const { return isBibFile(url.fileName()); }
 	bool isScriptFile(const QString &fileName) const;
-	bool isScriptFile(const KURL & url) const { return isScriptFile(url.fileName()); }
+	bool isScriptFile(const KUrl & url) const { return isScriptFile(url.fileName()); }
 	bool isProjectFile(const QString &fileName) const;
-	bool isProjectFile(const KURL &url) const { return isProjectFile(url.fileName()); }
+	bool isProjectFile(const KUrl &url) const { return isProjectFile(url.fileName()); }
 	
 	bool isLatexDocument(const QString &ext) const { return validExtension(ext,m_documents); }
 	bool isLatexPackage(const QString &ext) const { return validExtension(ext,m_packages); }
 	bool isImage(const QString &ext) const { return validExtension(ext,m_images); }
 
-	KileDocument::Type determineDocumentType(const KURL &url) const;
+	KileDocument::Type determineDocumentType(const KUrl &url) const;
 	QString defaultExtensionForDocumentType(KileDocument::Type type) const;
 
 private:

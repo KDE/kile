@@ -167,7 +167,7 @@ bool ConvertIO::done()
 	return current() == m_doc->numLines();
 }
 
-ConvertIOFile::ConvertIOFile(Kate::Document *doc, const KURL & url) : ConvertIO(doc), m_url(url)
+ConvertIOFile::ConvertIOFile(Kate::Document *doc, const KUrl & url) : ConvertIO(doc), m_url(url)
 {
 }
 
@@ -182,7 +182,7 @@ void ConvertIOFile::writeText()
 		qf.close();
 	}
 	else
-		kdWarning() << "Could not open " << m_url.path() << endl;
+		kWarning() << "Could not open " << m_url.path() << endl;
 }
 
 ConvertBase::ConvertBase(const QString & encoding, ConvertIO * io) :

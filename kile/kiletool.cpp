@@ -302,7 +302,7 @@ namespace KileTool
 			m_relativedir = readEntry("relDir");
 		}
 
-		KURL url = KURL::fromPathOrURL(m_basedir);
+		KUrl url = KUrl::fromPathOrUrl(m_basedir);
 		url.addPath(m_relativedir);
 		url.cleanPath();
 		m_targetdir = url.path();
@@ -577,7 +577,7 @@ namespace KileTool
 
 	void Archive::setSource(const QString &source)
 	{	
-		KURL url = KURL::fromPathOrURL(source);
+		KUrl url = KUrl::fromPathOrUrl(source);
 		m_project = manager()->info()->docManager()->projectFor(url);
 		if ( !m_project )
 			m_project = manager()->info()->docManager()->activeProject();

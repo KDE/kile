@@ -36,7 +36,7 @@
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include "kiledebug.h"
@@ -271,37 +271,37 @@ void PostscriptDialog::execute()
 		              + "*****\n";
 		emit( output(s) );
  
-		// delete old KShellProcess
+		// delete old K3ShellProcess
 		if ( m_proc )
 			delete m_proc;
 			
-		m_proc = new KShellProcess();
+		m_proc = new K3ShellProcess();
 		m_proc->clearArguments(); 
 		(*m_proc) << QStringList::split(' ',"sh " + m_tempfile);
 		   
-		connect(m_proc, SIGNAL(receivedStdout(KProcess *,char *,int)), 
-		        this, SLOT(slotProcessOutput(KProcess *,char *,int)));
-		connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
-		        this, SLOT(slotProcessOutput(KProcess*,char*,int)) );
-		connect(m_proc, SIGNAL(processExited(KProcess *)), 
-		        this, SLOT(slotProcessExited(KProcess *)));
+		connect(m_proc, SIGNAL(receivedStdout(K3Process *,char *,int)), 
+		        this, SLOT(slotProcessOutput(K3Process *,char *,int)));
+		connect(m_proc, SIGNAL(receivedStderr(K3Process*,char*,int)),
+		        this, SLOT(slotProcessOutput(K3Process*,char*,int)) );
+		connect(m_proc, SIGNAL(processExited(K3Process *)), 
+		        this, SLOT(slotProcessExited(K3Process *)));
 
 		KILE_DEBUG() << "=== PostscriptDialog::runPsutils() ====================" << endl;
 		KILE_DEBUG() << "   execute '" << m_tempfile << "'" << endl;
-		//if ( ! proc->start(KProcess::NotifyOnExit, KProcess::NoCommunication) ) 
-		if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
+		//if ( ! proc->start(K3Process::NotifyOnExit, K3Process::NoCommunication) ) 
+		if ( ! m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput) ) 
 			KILE_DEBUG() << "\tstart of shell process failed" << endl;
 	}
 	
 }
 
-void PostscriptDialog::slotProcessOutput(KProcess*,char* buf,int len)
+void PostscriptDialog::slotProcessOutput(K3Process*,char* buf,int len)
 {
 	emit( output(Q3CString(buf,len+1)) );
 }
 
 
-void PostscriptDialog::slotProcessExited (KProcess *proc)
+void PostscriptDialog::slotProcessExited (K3Process *proc)
 {
 	if ( ! proc->normalExit() ) 
 		showError(i18n("An error occurred, while rearranging the file."));
@@ -364,7 +364,7 @@ QString PostscriptDialog::buildTempfile()
 	}
 
 	// create a temporary file
-	KTempFile temp(QString::null,".sh");        
+	KTemporaryFile temp(QString::null,".sh");        
 	QString tempname = temp.name();
 	
 	Q3TextStream *stream = temp.textStream();      

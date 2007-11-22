@@ -51,14 +51,14 @@ public:
 	KComboBox* comboEncoding() { return m_comboEncoding; }
 
 public slots:
-	void setDir(KURL);
+	void setDir(KUrl);
 	void readConfig();
 	void writeConfig();
 
 private slots:
-	void cmbPathActivated( const KURL& u );
+	void cmbPathActivated( const KUrl& u );
 	void cmbPathReturnPressed( const QString& u );
-	void dirUrlEntered( const KURL& u );
+	void dirUrlEntered( const KUrl& u );
 
 	void clickedToolbar(int);
 
@@ -69,11 +69,11 @@ signals:
 	void fileSelected(const KFileItem*);
 
 private:
-	KURLComboBox	*cmbPath;
+	KUrlComboBox	*cmbPath;
 	KDirOperator	* dir;
 	KComboBox	*m_comboEncoding;
 	QToolButton	*home, *up, *back, *forward;
-	KURLCompletion	*cmpl;
+	KUrlCompletion	*cmpl;
 };
 
 #endif

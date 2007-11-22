@@ -123,7 +123,7 @@ bool Extensions::validExtension(const QString &ext, const QString &extensions) c
 	return false;
 }
 
-Type Extensions::determineDocumentType(const KURL& url) const
+Type Extensions::determineDocumentType(const KUrl& url) const
 {
 	if ( isTexFile(url) )
 	{

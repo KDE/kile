@@ -126,7 +126,7 @@ namespace KileWidget
 
 		if ( file != QString::null )
 		{
-			emit(fileOpen(KURL::fromPathOrURL(file), QString::null));
+			emit(fileOpen(KUrl::fromPathOrUrl(file), QString::null));
 			if ( l > 0 ) emit(setLine(QString::number(l)));
 		}
 	}

@@ -158,7 +158,7 @@ void ConfigCodeCompletion::addPage(QTabWidget *tab, CompletionPage page, const Q
 {
 	m_page[page] = new QWidget(tab);
 
-	m_listview[page] = new KListView( m_page[page] );
+	m_listview[page] = new K3ListView( m_page[page] );
 	m_listview[page]->addColumn(i18n("Complete Files"));
 	m_listview[page]->addColumn(i18n("Local File"));
 	m_listview[page]->setFullWidth(true);
@@ -315,7 +315,7 @@ void ConfigCodeCompletion::setListviewEntries(CompletionPage page)
 	m_listview[page]->setUpdatesEnabled(true);
 }
 
-void ConfigCodeCompletion::updateColumnWidth(KListView *listview)
+void ConfigCodeCompletion::updateColumnWidth(K3ListView *listview)
 {
 	listview->setColumnWidth(0,listview->columnWidth(0)+60);
 }
@@ -362,7 +362,7 @@ bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
    return changed;
 }
 
-bool ConfigCodeCompletion::isListviewEntry(KListView *listview, const QString &filename)
+bool ConfigCodeCompletion::isListviewEntry(K3ListView *listview, const QString &filename)
 {
 	Q3CheckListItem *item = (Q3CheckListItem *)listview->firstChild();
 	while ( item ) 
@@ -376,7 +376,7 @@ bool ConfigCodeCompletion::isListviewEntry(KListView *listview, const QString &f
 
 //////////////////// tabpages parameter ////////////////////
 
-KListView *ConfigCodeCompletion::getListview(QWidget *page)
+K3ListView *ConfigCodeCompletion::getListview(QWidget *page)
 {
 	for ( uint i=TexPage; i<NumPages; ++i )
 	{
@@ -400,7 +400,7 @@ QString ConfigCodeCompletion::getListname(QWidget *page)
 
 void ConfigCodeCompletion::showPage(QWidget *page)
 {
-	KListView *listview = getListview(page);
+	K3ListView *listview = getListview(page);
 	if ( listview ) 
 		remove->setEnabled( listview->selectedItems().count() > 0 );
 }
@@ -411,7 +411,7 @@ void ConfigCodeCompletion::showPage(QWidget *page)
 
 void ConfigCodeCompletion::getCwlDirs()
 {
-	m_localCwlDir = locateLocal("appdata","complete/");
+	m_localCwlDir = KStandardDirs::locateLocal("appdata","complete/");
 	m_globalCwlDir = QString::null;
 
 	QStringList dirs = KGlobal::dirs()->findDirs("appdata","complete/");
@@ -463,7 +463,7 @@ void ConfigCodeCompletion::addClicked()
 	{
 		if ( dlg->currentItem() >= 0 ) 
 		{
-			KListView *listview = getListview(tab->currentPage());     // get current page
+			K3ListView *listview = getListview(tab->currentPage());     // get current page
 			QStringList filenames = dlg->selected();                   // get selected files
 			for ( QStringList::ConstIterator it=filenames.begin(); it!=filenames.end(); ++it )
 			{
@@ -503,7 +503,7 @@ void ConfigCodeCompletion::addClicked()
 void ConfigCodeCompletion::removeClicked()
 {
    QWidget *page = tab->currentPage();
-   KListView *list = getListview(page);                              // determine page
+   K3ListView *list = getListview(page);                              // determine page
    Q3CheckListItem *item = (Q3CheckListItem *)list->selectedItem();    // determine entry
 
 	if ( item ) 
@@ -517,7 +517,7 @@ void ConfigCodeCompletion::removeClicked()
 
 void ConfigCodeCompletion::slotListviewClicked(Q3ListViewItem *)
 {
-	KListView *listview = getListview(tab->currentPage());     // get current page
+	K3ListView *listview = getListview(tab->currentPage());     // get current page
 	remove->setEnabled( listview->selectedItems().count() > 0 );
 }
 

@@ -23,8 +23,8 @@
 class Q3WidgetStack;
 
 
-class KProcess;
-class KShellProcess;
+class K3Process;
+class K3ShellProcess;
 class KileInfo;
 namespace KParts { class ReadOnlyPart; class PartManager; }
 
@@ -92,12 +92,12 @@ namespace KileTool
 		bool selfCheck();
 
 	private slots:
-		void slotProcessOutput(KProcess*, char*, int );
-		void slotProcessExited(KProcess*);
+		void slotProcessOutput(K3Process*, char*, int );
+		void slotProcessExited(K3Process*);
 
 	private:
 		QString 	m_wd, m_cmd, m_options, m_texinputs, m_bibinputs, m_bstinputs;
-		KShellProcess	*m_proc;
+		K3ShellProcess	*m_proc;
 		bool		m_changeTo;
 	};
 

@@ -22,7 +22,7 @@
 #include <QMouseEvent>
 #include <QHideEvent>
 
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <q3scrollview.h>
 #include <qstring.h>
 #include <qlabel.h>
@@ -30,7 +30,7 @@
 static const QString MFUSGroup = "MostFrequentlyUsedSymbols";
 static const QString MFUSprefix = "MFUS";
 
-class SymbolView : public KIconView
+class SymbolView : public K3IconView
 {	
 	Q_OBJECT
 	

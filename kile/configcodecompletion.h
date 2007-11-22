@@ -25,7 +25,7 @@
 #include <qstring.h>
 
 #include <kdeversion.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kpushbutton.h>
 #include <kconfig.h>
 
@@ -53,7 +53,7 @@ private:
  
 	// tabs, views, pages, wordlists
 	QTabWidget *tab;
-	KListView *m_listview[NumPages];
+	K3ListView *m_listview[NumPages];
 	QWidget *m_page[NumPages];
 	QStringList m_wordlist[NumPages];
 	QStringList m_dirname;
@@ -76,14 +76,14 @@ private:
 
 	bool kateCompletionPlugin();
 
-	KListView *getListview(QWidget *page);
+	K3ListView *getListview(QWidget *page);
 	QString getListname(QWidget *page);
 	void addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname);
 
 	void setListviewEntries(CompletionPage page);
 	bool getListviewEntries(CompletionPage page);
-	bool isListviewEntry(KListView *listview, const QString &filename);
-	void updateColumnWidth(KListView *listview);
+	bool isListviewEntry(K3ListView *listview, const QString &filename);
+	void updateColumnWidth(K3ListView *listview);
 
 	QString m_localCwlDir, m_globalCwlDir;
 	void getCwlFiles(QMap<QString,QString> &map, QStringList &list, const QString &dir);

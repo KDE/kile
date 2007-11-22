@@ -16,7 +16,7 @@
 #include "docpart.h"
 
 #include <kconfig.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kglobal.h>
 #include "kiledebug.h"
 #include <kstandarddirs.h>
@@ -36,17 +36,17 @@ DocumentationViewer::DocumentationViewer(QWidget *parent, const char *name ) : K
 	//( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
 	QString rc = KGlobal::dirs()->findResource("appdata", "docpartui.rc");
 	setXMLFile(rc);
-	(void) KStdAction::back(this, SLOT(back()), actionCollection(),"Back" );
-	(void) KStdAction::forward(this, SLOT(forward()), actionCollection(),"Forward" );
-	(void) KStdAction::home(this, SLOT(home()), actionCollection(),"Home" );
+	(void) KStandardAction::back(this, SLOT(back()), actionCollection(),"Back" );
+	(void) KStandardAction::forward(this, SLOT(forward()), actionCollection(),"Forward" );
+	(void) KStandardAction::home(this, SLOT(home()), actionCollection(),"Home" );
 }
 
 DocumentationViewer::~DocumentationViewer() {}
 
 void DocumentationViewer::urlSelected(const QString &url, int button, int state,const QString & target, KParts::URLArgs args)
 {
-	KURL cURL = completeURL(url);
-	QString mime = KMimeType::findByURL(cURL).data()->name();
+	KUrl cURL = completeURL(url);
+	QString mime = KMimeType::findByUrl(cURL).data()->name();
 
 	//load this URL in the embedded viewer if KHTML can handle it, or when mimetype detection failed
 	KService::Ptr service = KService::serviceByDesktopName("khtml");
@@ -61,7 +61,7 @@ void DocumentationViewer::urlSelected(const QString &url, int button, int state,
 	{
 		KTrader::OfferList offers = KTrader::self()->query(mime, "Type == 'Application'");
 		KService::Ptr ptr = offers.first();
-		KURL::List lst;
+		KUrl::List lst;
 		lst.append(cURL);
 		if (ptr) KRun::run(*ptr, lst);
 	}
@@ -69,7 +69,7 @@ void DocumentationViewer::urlSelected(const QString &url, int button, int state,
 
 void DocumentationViewer::home()
 {
-	if ( !m_history.isEmpty() ) openURL( KURL(m_history.first()) );
+	if ( !m_history.isEmpty() ) openURL( KUrl(m_history.first()) );
 }
 
 void DocumentationViewer::forward()
@@ -77,7 +77,7 @@ void DocumentationViewer::forward()
 	if ( forwardEnable() ) 
 	{
 		++m_hpos;
-		openURL( KURL( m_history[m_hpos]) );
+		openURL( KUrl( m_history[m_hpos]) );
 		emit updateStatus( backEnable() , forwardEnable() );
 	}
 }
@@ -87,7 +87,7 @@ void DocumentationViewer::back()
 {
 	if ( backEnable() ) {
 		--m_hpos;
-		openURL( KURL(m_history[m_hpos]) );
+		openURL( KUrl(m_history[m_hpos]) );
 		emit updateStatus( backEnable() , forwardEnable() );
 	}
 }

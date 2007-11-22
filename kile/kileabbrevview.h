@@ -21,13 +21,13 @@
 #include <q3popupmenu.h>
 
 #include <klineedit.h>
-#include <klistbox.h>
-#include <klistview.h>
+#include <k3listbox.h>
+#include <k3listview.h>
 #include <kdialogbase.h>
 
 //////////////////// KlistView for abbreviations ////////////////////
 
-class KileAbbrevView : public KListView  
+class KileAbbrevView : public K3ListView  
 {
   Q_OBJECT
 
@@ -48,7 +48,7 @@ signals:
  
 private slots:
 	void slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &pos, int);
-	void slotContextMenu(KListView *, Q3ListViewItem *item, const QPoint &pos);
+	void slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos);
 	void slotPopupAbbreviation(int id);
 
 private:
@@ -56,8 +56,8 @@ private:
 	bool m_changes;
 
 	void addAbbreviation(const QString &abbrev, const QString &expansion);
-	void changeAbbreviation(KListViewItem *item,const QString &abbrev, const QString &expansion);
-	void deleteAbbreviation(KListViewItem *item);
+	void changeAbbreviation(K3ListViewItem *item,const QString &abbrev, const QString &expansion);
+	void deleteAbbreviation(K3ListViewItem *item);
 
 	void addWordlist(const QStringList *wordlist, bool global);
 
@@ -70,14 +70,14 @@ class KileAbbrevInputDialog : public KDialogBase
    Q_OBJECT
 
 public: 
-	KileAbbrevInputDialog(KileAbbrevView *listview, KListViewItem *item, int mode, const char *name=0);
+	KileAbbrevInputDialog(KileAbbrevView *listview, K3ListViewItem *item, int mode, const char *name=0);
 	~KileAbbrevInputDialog();
 
 	void abbreviation(QString &abbrev, QString &expansion);
 
 private:
 	KileAbbrevView *m_listview;
-	KListViewItem *m_abbrevItem;
+	K3ListViewItem *m_abbrevItem;
 	KLineEdit *m_leAbbrev;
 	KLineEdit *m_leExpansion;
 

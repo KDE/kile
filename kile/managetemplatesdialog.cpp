@@ -22,7 +22,7 @@
 #include <Q3HBoxLayout>
 #include <Q3VBoxLayout>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
@@ -54,7 +54,7 @@ class TemplateListViewItem : public Q3ListViewItem {
 };
 
 // dialog to create a template
-ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KURL& sourceURL, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_sourceURL(sourceURL) {
+ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_sourceURL(sourceURL) {
 
 	m_templateType = KileDocument::Extensions().determineDocumentType(sourceURL);
 
@@ -85,7 +85,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	KPushButton *iconbut = new KPushButton(i18n("Select..."),page);
 	iconLayout->addWidget(iconbut);
 
-	m_templateList = new KListView(page);
+	m_templateList = new K3ListView(page);
 	m_templateList->setSorting(-1);
 	m_templateList->addColumn(i18n("marked", "M"));
 	m_templateList->addColumn(i18n("Existing Templates"));
@@ -126,7 +126,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	setMainWidget(page);
 	Q3VBoxLayout *topLayout = new Q3VBoxLayout(page, 0, spacingHint());
 
-	m_templateList = new KListView(page);
+	m_templateList = new K3ListView(page);
 	m_templateList->setSorting(-1);
 	m_templateList->addColumn(i18n("marked", "M"));
 	m_templateList->addColumn(i18n("Existing Templates"));
@@ -191,7 +191,7 @@ void ManageTemplatesDialog::slotSelectIcon() {
 	KIconLoader kil;
 
 	if (!res.isNull() ) {
-		m_iconEdit->setText(kil.iconPath(res,-KIcon::SizeLarge, false));
+		m_iconEdit->setText(kil.iconPath(res,-KIconLoader::SizeLarge, false));
 	}
 }
 
@@ -205,7 +205,7 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	QString icon = (m_iconEdit->text()).trimmed();
-	KURL iconURL = KURL::fromPathOrURL(icon);
+	KUrl iconURL = KUrl::fromPathOrUrl(icon);
 
 	if (icon.isEmpty()) {
 		KMessageBox::error(this, i18n("Please choose an icon first."));
@@ -218,7 +218,7 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	if (!KIO::NetAccess::exists(m_sourceURL, true, kapp->mainWidget())) {
-		KMessageBox::error(this, i18n("Sorry, but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?").arg(m_sourceURL.prettyURL()));
+		KMessageBox::error(this, i18n("Sorry, but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?").arg(m_sourceURL.prettyUrl()));
 		return;
 	}
 
@@ -264,7 +264,7 @@ bool ManageTemplatesDialog::removeTemplate()
 	
 	KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-	if (!(KIO::NetAccess::exists(KURL::fromPathOrURL(templateInfo.path), false, kapp->mainWidget()) && (KIO::NetAccess::exists(KURL::fromPathOrURL(templateInfo.icon), false, kapp->mainWidget()) || !QFileInfo(templateInfo.icon).exists()))) {
+	if (!(KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.path), false, kapp->mainWidget()) && (KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.icon), false, kapp->mainWidget()) || !QFileInfo(templateInfo.icon).exists()))) {
 		KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
 		return false;
 	}

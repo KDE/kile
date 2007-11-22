@@ -110,12 +110,12 @@ public slots:
 	 * @param line : Jump to give line in current editor (can be called via DCOP interface).
 	 **/
 	void setLine( const QString &line);
-	void setCursor(const KURL &, int, int);
+	void setCursor(const KUrl &, int, int);
 	void setActive();
 	int run(const QString &);
 	int runWith(const QString &, const QString &);
 	void runArchiveTool();
-	void runArchiveTool(const KURL&);
+	void runArchiveTool(const KUrl&);
 	void openDocument(const QString & url);
 	void fileSelected(const QString & url) { openDocument(url); } //backwards compatibility
 	void closeDocument();

@@ -39,7 +39,7 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 	layout->addWidget(new QLabel(select, plainPage()));
 	layout->addSpacing(8);
 
-	m_listview = new KListView(plainPage());
+	m_listview = new K3ListView(plainPage());
 	m_listview->addColumn(i18n("Files"));
 	m_listview->setSorting(-1);
 	m_listview->setAllColumnsShowFocus(true);
@@ -75,10 +75,10 @@ int KileListSelectorBase::currentItem()
 void KileListSelectorBase::insertStringList(const QStringList &list)
 {
 	QStringList::ConstIterator it;
-	KListViewItem *item = 0L;
+	K3ListViewItem *item = 0L;
 	for ( it=list.begin(); it!=list.end(); ++it )
 	{
-		item = new KListViewItem(m_listview,item,*it);
+		item = new K3ListViewItem(m_listview,item,*it);
 		m_listview->insertItem(item);
 	}
 }

@@ -32,7 +32,7 @@
 
 namespace KileWidget {
 
-JScriptListViewItem::JScriptListViewItem(QWidget *managementWidget, KListView *parent, KileJScript::JScript *script, KileInfo *kileInfo) : KListViewItem(parent), m_script(script), m_kileInfo(kileInfo), m_managementWidget(managementWidget) {
+JScriptListViewItem::JScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileJScript::JScript *script, KileInfo *kileInfo) : K3ListViewItem(parent), m_script(script), m_kileInfo(kileInfo), m_managementWidget(managementWidget) {
 }
 
 JScriptListViewItem::~JScriptListViewItem() {
@@ -103,7 +103,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh List"));
 
 	baseLayout->addWidget(m_toolbar);
-	m_scriptsListView = new KListView(this);
+	m_scriptsListView = new K3ListView(this);
 	m_scriptsListView->addColumn(i18n("Script Name"));
 	m_scriptsListView->addColumn(i18n("Sequence"));
 	m_scriptsListView->setAllColumnsShowFocus(true);

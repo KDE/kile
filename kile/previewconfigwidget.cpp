@@ -48,7 +48,8 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	groupboxLayout->setAlignment( Qt::AlignTop );
    
 	QLabel *label = new QLabel( i18n("Select a configuration:"), groupbox, "label");
-	m_combobox = new KComboBox(false,groupbox,"combobox" );
+	m_combobox = new KComboBox( false, groupbox );
+	m_combobox->setObjectName( "combobox" );
 
 	groupboxLayout->addWidget(label,0,0);
 	groupboxLayout->addWidget(m_combobox,0,2);

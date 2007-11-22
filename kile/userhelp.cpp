@@ -288,13 +288,13 @@ void UserHelp::slotUserHelpActivated(int index)
 	{
 		if ( http ) 
 		{
-			new KRun( KURL(filename) );
+			new KRun( KUrl(filename) );
 		} 
 		else 
 		{
-			KURL url;
+			KUrl url;
 			url.setPath( filename );
-			KMimeType::Ptr pMime = KMimeType::findByURL(url);
+			KMimeType::Ptr pMime = KMimeType::findByUrl(url);
 			KRun::runURL(url, pMime->name());
 		}
 	}

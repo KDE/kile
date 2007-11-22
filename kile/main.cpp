@@ -61,7 +61,7 @@ QString completePath(const QString &path)
 	{
 		if ( path.left(5) == "file:" )
 		{
-			KURL url = KURL::fromPathOrURL(path);
+			KUrl url = KUrl::fromPathOrUrl(path);
 			url.setFileName(completePath(url.path()));
 			fullpath = url.url();
 		}

@@ -22,7 +22,7 @@
 #include <qwidget.h>   
 #include <qstringlist.h>
 
-#include <klistbox.h>
+#include <k3listbox.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <kdialogbase.h>
@@ -41,7 +41,7 @@ public:
 	void setParameter(const QStringList &menuentries, const QStringList &helpfiles);
 	void getParameter(QStringList &userhelpmenulist, QStringList &userhelpfilelist);
 private:
-	KListBox *m_menulistbox;
+	K3ListBox *m_menulistbox;
 	KLineEdit *m_fileedit;
 	KPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
 
@@ -63,13 +63,13 @@ class UserHelpAddDialog : public KDialogBase
 	Q_OBJECT
    
 public: 
-	UserHelpAddDialog(KListBox *menulistbox, QWidget *parent=0, const char *name=0);
+	UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent=0, const char *name=0);
 	~UserHelpAddDialog() {} 
 
 private:
 	KLineEdit *m_leMenuEntry, *m_leHelpFile;
 	KPushButton *m_pbChooseFile,*m_pbChooseHtml;
-	KListBox *m_menulistbox;
+	K3ListBox *m_menulistbox;
 	
 public:
 	QString getMenuitem() { return m_leMenuEntry->text(); }

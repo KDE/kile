@@ -60,17 +60,18 @@
 
 #include <kcombobox.h>
 #include <kapplication.h>
-#include <kaccelmanager.h>
-#include <kbuttonbox.h>
+#include <kacceleratormanager.h>
+#include <k3buttonbox.h>
 #include <kfiledialog.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kurlrequester.h>
 #include <kurlcompletion.h>
 #include <klineedit.h>
-#include <klistbox.h>
+#include <k3listbox.h>
+#include <kshell.h>
 #include "kiledebug.h"
 
 #include "kileconfig.h"
@@ -186,8 +187,8 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		labelwidth = dir_label->sizeHint().width();
 
 	Q3BoxLayout *dir_layout = new Q3HBoxLayout(3);
-	dir_combo = new KURLRequester( new KComboBox(true, filtergroup), filtergroup, "dir combo" );
-	dir_combo->completionObject()->setMode(KURLCompletion::DirCompletion);
+	dir_combo = new KUrlRequester( new KComboBox(true, filtergroup), filtergroup, "dir combo" );
+	dir_combo->completionObject()->setMode(KUrlCompletion::DirCompletion);
 	dir_combo->setMode(KFile::Directory|KFile::LocalOnly|KFile::ExistingOnly);
 	dir_label->setBuddy(dir_combo);
 	dir_layout->addWidget(dir_combo);
@@ -203,11 +204,11 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	filtergrouplayout->setColStretch(1,1);
 
 	// result box
-	resultbox = new KListBox(page);
+	resultbox = new K3ListBox(page);
 	resultbox->setMinimumHeight(150);
 
 	// button box
-	KButtonBox *actionbox = new KButtonBox(page, Qt::Horizontal);
+	K3ButtonBox *actionbox = new K3ButtonBox(page, Qt::Horizontal);
 	search_button = actionbox->addButton(i18n("&Search"));
 	search_button->setDefault(true);
 	search_button->setEnabled(false);
@@ -215,7 +216,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	clear_button->setEnabled(false);
 	actionbox->addStretch();
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-	close_button = actionbox->addButton(KStdGuiItem::close());
+	close_button = actionbox->addButton(KStandardGuiItem::close());
 #else
         close_button = actionbox->addButton(i18n("Cl&ose"));
 #endif
@@ -482,12 +483,12 @@ void KileGrepDialog::slotItemSelected(const QString& item)
 
 void KileGrepDialog::startGrep()
 {
-	childproc = new KProcess();
+	childproc = new K3Process();
 	childproc->setUseShell(true);
 
 	if ( m_mode == KileGrep::Project )
 	{
-		QString command = buildProjectCommand() + ' ' + KProcess::quote(m_projectfiles[m_grepJobs-1]);
+		QString command = buildProjectCommand() + ' ' + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
 		KILE_DEBUG() << "\tgrep (project): " <<  command << endl;
 		(*childproc) << QStringList::split(' ',command);
 	}
@@ -499,14 +500,14 @@ void KileGrepDialog::startGrep()
 	}
 	m_grepJobs--;
 
-	connect( childproc, SIGNAL(processExited(KProcess *)),
+	connect( childproc, SIGNAL(processExited(K3Process *)),
 		SLOT(childExited()) );
-	connect( childproc, SIGNAL(receivedStdout(KProcess *, char *, int)),
-		SLOT(receivedOutput(KProcess *, char *, int)) );
-	connect( childproc, SIGNAL(receivedStderr(KProcess *, char *, int)),
-		SLOT(receivedErrOutput(KProcess *, char *, int)) );
+	connect( childproc, SIGNAL(receivedStdout(K3Process *, char *, int)),
+		SLOT(receivedOutput(K3Process *, char *, int)) );
+	connect( childproc, SIGNAL(receivedStderr(K3Process *, char *, int)),
+		SLOT(receivedErrOutput(K3Process *, char *, int)) );
 
-	childproc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+	childproc->start(K3Process::NotifyOnExit, K3Process::AllOutput);
 }
 
 void KileGrepDialog::processOutput()
@@ -534,13 +535,13 @@ void KileGrepDialog::processOutput()
 	kapp->processEvents();
 }
 
-void KileGrepDialog::receivedOutput(KProcess */*proc*/, char *buffer, int buflen)
+void KileGrepDialog::receivedOutput(K3Process */*proc*/, char *buffer, int buflen)
 {
 	buf += QString::fromLocal8Bit(buffer, buflen);
 	processOutput();
 }
 
-void KileGrepDialog::receivedErrOutput(KProcess */*proc*/, char *buffer, int buflen)
+void KileGrepDialog::receivedErrOutput(K3Process */*proc*/, char *buffer, int buflen)
 {
 	errbuf += QString::fromLocal8Bit( buffer, buflen );
 }
@@ -623,7 +624,7 @@ QString KileGrepDialog::getShellPattern()
 	QString pattern = getPattern();
 	pattern.replace("'", "'\\''");
 	return '\'' + pattern + '\'';
-	//return KProcess::quote(pattern);
+	//return KShell::quoteArg(pattern);
 }
 
 
@@ -652,7 +653,7 @@ QString KileGrepDialog::buildFilesCommand()
 
 	QString shell_command;
 	shell_command += "find ";
-	shell_command += KProcess::quote(dir_combo->url());
+	shell_command += KShell::quoteArg(dir_combo->url());
 	shell_command += " \\( -name ";
 	shell_command += files;
 	shell_command += " \\)";

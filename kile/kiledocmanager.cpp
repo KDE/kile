@@ -37,7 +37,7 @@
 #include <klocale.h>
 #include <kmimetype.h>
 #include <kmessagebox.h>
-#include <kprogress.h>
+#include <kprogressdialog.h>
 #include <kfile.h>
 #include <krun.h>
 #include <kstandarddirs.h>
@@ -128,7 +128,7 @@ void Manager::trashDoc(TextInfo *docinfo, Kate::Document *doc /*= 0L*/ )
 		if ( (m_textInfoList.at(i) != docinfo) && (m_textInfoList.at(i)->getDoc() == doc) )
 		{
 			KMessageBox::information(0, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
-			kdWarning() << "docinfo " << m_textInfoList.at(i) << " url " << m_textInfoList.at(i)->url().fileName() << " has a wild pointer!!!"<< endl;
+			kWarning() << "docinfo " << m_textInfoList.at(i) << " url " << m_textInfoList.at(i)->url().fileName() << " has a wild pointer!!!"<< endl;
 		}
 	}
 
@@ -145,7 +145,7 @@ void Manager::updateInfos()
 	}
 }
 
-Kate::Document* Manager::docFor(const KURL & url)
+Kate::Document* Manager::docFor(const KUrl & url)
 {
 	for (uint i=0; i < m_textInfoList.count(); ++i)
 	{
@@ -188,7 +188,7 @@ TextInfo* Manager::textInfoFor(const QString & path) const
 	return 0L;
 }
 
-TextInfo* Manager::textInfoForURL(const KURL& url)
+TextInfo* Manager::textInfoForURL(const KUrl& url)
 {
 	if( url.isEmpty() )
 		return 0L;
@@ -233,7 +233,7 @@ void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
 	item->setInfo(docinfo);
 }
 
-KileProject* Manager::projectFor(const KURL &projecturl)
+KileProject* Manager::projectFor(const KUrl &projecturl)
 {
 	KileProject *project = 0;
 
@@ -269,7 +269,7 @@ KileProject* Manager::projectFor(const QString &name)
 	return project;
 }
 
-KileProjectItem* Manager::itemFor(const KURL &url, KileProject *project /*=0L*/) const
+KileProjectItem* Manager::itemFor(const KUrl &url, KileProject *project /*=0L*/) const
 {
 	if (project == 0L)
 	{
@@ -374,7 +374,7 @@ KileProjectItem* Manager::activeProjectItem()
 	return item;
 }
 
-TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KURL & url, const KURL& baseDirectory)
+TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & url, const KUrl& baseDirectory)
 {
 	TextInfo *docinfo = 0L;
 
@@ -416,7 +416,7 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KURL & 
 void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 {
 	KileProjectItemList *list = itemsFor(oldinfo);
-	KURL url = oldinfo->url();
+	KUrl url = oldinfo->url();
 	TextInfo *newinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(url), url, oldinfo->getBaseDirectory());
 
 	newinfo->setDoc(oldinfo->getDoc());
@@ -458,13 +458,13 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 	return false;
 }
 
-Kate::Document* Manager::createDocument(const QString& name, const KURL& url, TextInfo *docinfo, const QString & encoding, const QString & highlight)
+Kate::Document* Manager::createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight)
 {
 	KILE_DEBUG() << "==Kate::Document* Manager::createDocument()===========" << endl;
 
 	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 	if ( docFor(url) != 0L )
-		kdWarning() << url << " already has a document!" << endl;
+		kWarning() << url << " already has a document!" << endl;
 	else
 		KILE_DEBUG() << "\tappending document " <<  doc << endl;
 
@@ -517,7 +517,7 @@ Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, co
 		item->setInfo(docinfo);
 
 		KILE_DEBUG() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().path()) << endl;
-		if ( docinfo->getDoc() != docFor(docinfo->url().path()) ) kdWarning() << "docinfo->getDoc() != docFor()" << endl;
+		if ( docinfo->getDoc() != docFor(docinfo->url().path()) ) kWarning() << "docinfo->getDoc() != docFor()" << endl;
 	}
 	else
 	{
@@ -535,7 +535,7 @@ Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, co
 	return view;
 }
 
-Kate::View* Manager::loadText(KileDocument::Type type, const QString& name, const KURL &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KURL& baseDirectory /* = KURL() */)
+Kate::View* Manager::loadText(KileDocument::Type type, const QString& name, const KUrl &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KUrl& baseDirectory /* = KUrl() */)
 {
 	KILE_DEBUG() << "==loadText(" << url.url() << ")=================" << endl;
 	//if doc already opened, update the structure view and return the view
@@ -570,7 +570,7 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 		//create a new document to open the template in
 		Kate::Document *tempdoc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
 
-		if (!tempdoc->openURL(KURL(sel->path())))
+		if (!tempdoc->openURL(KUrl(sel->path())))
 		{
 			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1").arg(sel->name()),i18n("File Not Found"));
 		}
@@ -588,9 +588,9 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalJScriptDirectory() : QString()));
 }
 
-Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KURL& baseDirectory)
+Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KUrl& baseDirectory)
 {
-	Kate::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : '.' + extension), KURL(), QString::null, true, QString::null, text, -1, baseDirectory);
+	Kate::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : '.' + extension), KUrl(), QString::null, true, QString::null, text, -1, baseDirectory);
 	if (view)
 	{
 		//FIXME this shouldn't be necessary!!!
@@ -642,7 +642,7 @@ void Manager::createTemplate()
 		return;
 	}
 
-	KURL url = view->getDoc()->url();
+	KUrl url = view->getDoc()->url();
 	KileDocument::Type type = m_ki->extensions()->determineDocumentType(url);
 
 	if(type == KileDocument::Undefined || type == KileDocument::Text)
@@ -674,7 +674,7 @@ void Manager::fileNew()
 	delete nfw;
 }
 
-void Manager::fileNew(const KURL & url)
+void Manager::fileNew(const KUrl & url)
 {
 	//create an empty file
 	QFile file(url.path());
@@ -706,8 +706,8 @@ void Manager::fileOpen()
 	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenURLsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
 
 	//open them
-	KURL::List urls = result.URLs;
-	for (KURL::List::Iterator i=urls.begin(); i != urls.end(); ++i)
+	KUrl::List urls = result.URLs;
+	for (KUrl::List::Iterator i=urls.begin(); i != urls.end(); ++i)
 		fileOpen(*i, result.encoding);
 }
 
@@ -722,12 +722,12 @@ void Manager::fileSelected(const KileProjectItem * item)
 	fileOpen(item->url(), item->encoding());
 }
 
-void Manager::fileSelected(const KURL & url)
+void Manager::fileSelected(const KUrl & url)
 {
 	fileOpen(url, m_ki->fileSelector()->comboEncoding()->lineEdit()->text());
 }
 
-void Manager::saveURL(const KURL & url)
+void Manager::saveURL(const KUrl & url)
 {
 	Kate::Document *doc = docFor(url);
 	if (doc) doc->save();
@@ -752,7 +752,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	Kate::View *view= 0L;
 	QFileInfo fi;
 	int saveResult = Kate::View::SAVE_ERROR;
-	KURL url, backupUrl;
+	KUrl url, backupUrl;
 	
 	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")" << endl;
 
@@ -779,13 +779,13 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					{
 						if ( autosaveWarnings.contains(url.path()) )
 						{
-							KILE_DEBUG() << "File " << url.prettyURL() << " is not writeable (again), trying next file" << endl;
+							KILE_DEBUG() << "File " << url.prettyUrl() << " is not writeable (again), trying next file" << endl;
 							continue;
 						}
 						else
 						{
 							autosaveWarnings.append(url.path());
-							KILE_DEBUG() << "File " << url.prettyURL() << " is not writeable (first time)" << endl;
+							KILE_DEBUG() << "File " << url.prettyUrl() << " is not writeable (first time)" << endl;
 						}
 					}
 					else
@@ -795,7 +795,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				}
 				if (amAutoSaving && fi.size() > 0) // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 				{
-					KURL backupUrl = KURL::fromPathOrURL(url.path()+ ".backup");
+					KUrl backupUrl = KUrl::fromPathOrUrl(url.path()+ ".backup");
 					
 				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
 					
@@ -804,7 +804,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					KIO::UDSEntry fentry;
 					if (KIO::NetAccess::stat (url, fentry, kapp->mainWidget()))
 					{
-						KILE_DEBUG () << "stating successful: " << url.prettyURL() << endl;
+						KILE_DEBUG () << "stating successful: " << url.prettyUrl() << endl;
 						KFileItem item (fentry, url);
 						perms = item.permissions();
 					}
@@ -815,12 +815,12 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					      || KIO::NetAccess::del( backupUrl, kapp->mainWidget() ) )
 					      && KIO::NetAccess::file_copy( url, backupUrl, perms, true, false, kapp->mainWidget() ) )
 					{
-						KILE_DEBUG()<<"backing up successful ("<<url.prettyURL()<<" -> "<<backupUrl.prettyURL()<<")"<<endl;
+						KILE_DEBUG()<<"backing up successful ("<<url.prettyUrl()<<" -> "<<backupUrl.prettyUrl()<<")"<<endl;
 					}
 					else
 					{
-						KILE_DEBUG()<<"backing up failed ("<<url.prettyURL()<<" -> "<<backupUrl.prettyURL()<<")"<<endl;
-						emit printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupUrl.prettyURL()),i18n("Autosave"));
+						KILE_DEBUG()<<"backing up failed ("<<url.prettyUrl()<<" -> "<<backupUrl.prettyUrl()<<")"<<endl;
+						emit printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupUrl.prettyUrl()),i18n("Autosave"));
 					}
 				}
 				
@@ -835,7 +835,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	}
 }
 
-void Manager::fileOpen(const KURL & url, const QString & encoding, int index)
+void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
 {
 	KILE_DEBUG() << "==Kile::fileOpen==========================" << endl;
 	
@@ -844,7 +844,7 @@ void Manager::fileOpen(const KURL & url, const QString & encoding, int index)
 	m_ki->fileSelector()->blockSignals(true);
 
 	KILE_DEBUG() << "url is " << url.url() << endl;
-	const KURL realurl = symlinkFreeURL(url);
+	const KUrl realurl = symlinkFreeURL(url);
 	KILE_DEBUG() << "symlink free url is " << realurl.url() << endl;
 	
 	bool isopen = m_ki->isOpen(realurl);
@@ -874,7 +874,7 @@ void Manager::fileSave()
 	{
 		return;
 	}
- 	KURL url = view->getDoc()->url();
+ 	KUrl url = view->getDoc()->url();
 	if(url.isEmpty()) // newly created document
 	{
 		fileSaveAs();
@@ -898,8 +898,8 @@ void Manager::fileSaveAs(Kate::View* view)
 	Q_ASSERT(doc);
 	KileDocument::TextInfo* info = textInfoFor(doc);
 	Q_ASSERT(info);
-	KURL startURL = info->url();
-	KURL oldURL = startURL;
+	KUrl startURL = info->url();
+	KUrl oldURL = startURL;
 	if(startURL.isEmpty())
 	{
 		if((info->getBaseDirectory()).isEmpty())
@@ -916,7 +916,7 @@ void Manager::fileSaveAs(Kate::View* view)
 	KILE_DEBUG() << "startURL is " << startURL.path() << endl;
 	
 	KEncodingFileDialog::Result result;
-	KURL saveURL;
+	KUrl saveURL;
 	while(true)
 	{
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
@@ -1014,7 +1014,7 @@ bool Manager::fileCloseAll()
 	return true;
 }
 
-bool Manager::fileClose(const KURL & url)
+bool Manager::fileClose(const KUrl & url)
 {
 	Kate::Document *doc = docFor(url);
 	if ( doc == 0L )
@@ -1037,12 +1037,12 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 	{
 		KILE_DEBUG() << "doc->url().path()=" << doc->url().path() << endl;
 
-		const KURL url = doc->url();
+		const KUrl url = doc->url();
 
 		TextInfo *docinfo= textInfoFor(doc);
 		if (docinfo == 0L)
 		{
-			kdWarning() << "no DOCINFO for " << url.url() << endl;
+			kWarning() << "no DOCINFO for " << url.url() << endl;
 			return true;
 		}
 		KileProjectItemList *items = itemsFor(docinfo);
@@ -1083,7 +1083,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 	return true;
 }
 
-void Manager::buildProjectTree(const KURL & url)
+void Manager::buildProjectTree(const KUrl & url)
 {
 	KileProject * project = projectFor(url);
 
@@ -1136,7 +1136,7 @@ void Manager::projectNew()
 			Kate::View *view = loadTemplate(dlg->getSelection());
 
 			//derive the URL from the base url of the project
-			KURL url = project->baseURL();
+			KUrl url = project->baseURL();
 			url.addPath(filename);
 
 			TextInfo *docinfo = textInfoFor(view->getDoc());
@@ -1204,9 +1204,9 @@ KileProject* Manager::selectProject(const QString& caption)
 	return project;
 }
 
-void Manager::addToProject(const KURL & url)
+void Manager::addToProject(const KUrl & url)
 {
-	KILE_DEBUG() << "===Kile::addToProject(const KURL & url =" << url.url() << ")" << endl;
+	KILE_DEBUG() << "===Kile::addToProject(const KUrl & url =" << url.url() << ")" << endl;
 
 	KileProject *project = selectProject(i18n("Add to Project"));
 
@@ -1214,9 +1214,9 @@ void Manager::addToProject(const KURL & url)
 		addToProject(project, url);
 }
 
-void Manager::addToProject(KileProject* project, const KURL & url)
+void Manager::addToProject(KileProject* project, const KUrl & url)
 {
-	const KURL realurl = symlinkFreeURL(url);
+	const KUrl realurl = symlinkFreeURL(url);
 	QFileInfo fi(realurl.path());
 
 	if (project->contains(realurl))
@@ -1280,12 +1280,12 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 		item->setOpenState(true);
 }
 
-KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool openProjectItemViews)
+KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool openProjectItemViews)
 {
 	KILE_DEBUG() << "==Kile::projectOpen==========================" << endl;
 	KILE_DEBUG() << "\tfilename: " << url.fileName() << endl;
 
-	const KURL realurl = symlinkFreeURL(url);
+	const KUrl realurl = symlinkFreeURL(url);
 
 	if (m_ki->projectIsOpen(realurl))
 	{
@@ -1398,7 +1398,7 @@ void Manager::updateProjectReferences(KileProject *project)
 KileProject* Manager::projectOpen()
 {
 	KILE_DEBUG() << "==Kile::projectOpen==========================" << endl;
-	KURL url = KFileDialog::getOpenURL( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
+	KUrl url = KFileDialog::getOpenUrl( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
 
 	if (!url.isEmpty())
 		return projectOpen(url);
@@ -1477,7 +1477,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could Determine Active Project"));
 }
 
-void Manager::projectAddFiles(const KURL & url)
+void Manager::projectAddFiles(const KUrl & url)
 {
 	KileProject *project = projectFor(url);
 
@@ -1485,7 +1485,7 @@ void Manager::projectAddFiles(const KURL & url)
 		projectAddFiles(project,url);
 }
 
-void Manager::projectAddFiles(KileProject *project,const KURL & fileUrl)
+void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 {
 	KILE_DEBUG() << "==Kile::projectAddFiles()==========================" << endl;
  	if (project == 0 )
@@ -1512,7 +1512,7 @@ void Manager::projectAddFiles(KileProject *project,const KURL & fileUrl)
 
 		if(dlg->exec())
 		{
-			KURL::List urls = dlg->selectedURLs();
+			KUrl::List urls = dlg->selectedURLs();
 			for (uint i=0; i < urls.count(); ++i)
 			{
 				addToProject(project, urls[i]);
@@ -1533,7 +1533,7 @@ void Manager::toggleArchive(KileProjectItem *item)
 	item->setArchive(!item->archive());
 }
 
-void Manager::projectOptions(const KURL & url)
+void Manager::projectOptions(const KUrl & url)
 {
 	KileProject *project = projectFor(url);
 
@@ -1576,7 +1576,7 @@ bool Manager::projectCloseAll()
 	return close;
 }
 
-bool Manager::projectClose(const KURL & url)
+bool Manager::projectClose(const KUrl & url)
 {
 	KILE_DEBUG() << "==Kile::projectClose==========================" << endl;
 	KileProject *project = 0;
@@ -1664,9 +1664,9 @@ void Manager::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 	KILE_DEBUG() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->hlModeName(doc->hlMode()) << endl;
 }
 
-void Manager::cleanUpTempFiles(const KURL &url, bool silent)
+void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 {
-	KILE_DEBUG() << "===void Manager::cleanUpTempFiles(const KURL " << url.path() << ", bool " << silent << ")===" << endl;
+	KILE_DEBUG() << "===void Manager::cleanUpTempFiles(const KUrl " << url.path() << ", bool " << silent << ")===" << endl;
 	
 	if( url.isEmpty() )
 		return;
@@ -1675,7 +1675,7 @@ void Manager::cleanUpTempFiles(const KURL &url, bool silent)
 	QFileInfo fi(url.path());
 	const QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
 	const QString fileName = fi.fileName();
-	const QString dirPath = fi.absolutePath();
+	const QString path();
 	const QString baseName = fi.baseName(true);
 	
 	for (uint i=0; i <  templist.count(); ++i)
@@ -1718,11 +1718,11 @@ void Manager::cleanUpTempFiles(const KURL &url, bool silent)
 }
 
 void Manager::openDroppedURLs(QDropEvent *e) {
-	KURL::List urls;
+	KUrl::List urls;
 	Extensions *extensions = m_ki->extensions();
-	if(KURLDrag::decode(e, urls)) {
-		for(KURL::List::iterator i = urls.begin(); i != urls.end(); ++i) {
-			KURL url = *i;
+	if(K3URLDrag::decode(e, urls)) {
+		for(KUrl::List::iterator i = urls.begin(); i != urls.end(); ++i) {
+			KUrl url = *i;
 			if(extensions->isProjectFile(url))
 			{
 				projectOpen(url);
@@ -1748,7 +1748,7 @@ void Manager::projectShow()
 		return;
 
 	// get last opened document
-	const KURL lastdoc = project->lastDocument();
+	const KUrl lastdoc = project->lastDocument();
 	KileProjectItem *docitem = ( !lastdoc.isEmpty() ) ? itemFor(lastdoc,project) : 0L;
 
 	// if not, we search for the first opened tex file of this project
@@ -1835,7 +1835,7 @@ void Manager::projectOpenAllFiles()
   }
 }
 
-void Manager::projectOpenAllFiles(const KURL & url)
+void Manager::projectOpenAllFiles(const KUrl & url)
 {
 	KileProject* project;
 	Kate::Document* doc = 0L;
@@ -1990,12 +1990,12 @@ void Manager::projectAddFile(QString filename, bool graphics)
 	KILE_DEBUG() << "\tadd file: " << filename << endl;
 	m_ki->viewManager()->updateStructure(true);
 
-	KURL url;
+	KUrl url;
 	url.setPath(filename);
 	addToProject(project, url);
 }
 
-const KURL Manager::symlinkFreeURL(const KURL& url)
+const KUrl Manager::symlinkFreeURL(const KUrl& url)
 {
 	KILE_DEBUG() << "===symlinkFreeURL==" << endl;
 
@@ -2010,7 +2010,7 @@ const KURL Manager::symlinkFreeURL(const KURL& url)
 	else
 		KILE_DEBUG() << "directory " << url.directory() << "does not exist" << endl;
 
-	return KURL::fromPathOrURL(filename);
+	return KUrl::fromPathOrUrl(filename);
 }
 
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)

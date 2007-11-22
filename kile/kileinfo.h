@@ -67,7 +67,7 @@ public:
 	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);
 	QString getFullFromPrettyName(const QString & name);
-	KURL::List getParentsFor(KileDocument::Info *);
+	KUrl::List getParentsFor(KileDocument::Info *);
 	bool getSinglemode() { return m_singlemode; }
 
 	QString getCurrentTarget() const { return m_currentTarget; }
@@ -94,9 +94,9 @@ private:
 	QStringList m_listTemp;
 
 public:
-	bool similarOrEqualURL(const KURL &validurl, const KURL &testurl);
-	bool isOpen(const KURL & url);
-	bool projectIsOpen(const KURL & );
+	bool similarOrEqualURL(const KUrl &validurl, const KUrl &testurl);
+	bool isOpen(const KUrl & url);
+	bool projectIsOpen(const KUrl & );
 
 	bool watchFile() { return m_bWatchFile; }
 	bool logPresent() { return m_logPresent; }
@@ -137,7 +137,7 @@ public:
 	
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
-	static QString checkOtherPaths(const KURL &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }
+	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }
 protected:
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;

@@ -20,7 +20,7 @@
 #include <kdialogbase.h>
 #include <qstringlist.h>
 
-class KListView;
+class K3ListView;
 
 /**
   *@author Holger Danielsson
@@ -38,7 +38,7 @@ namespace KileDialog
 		const QStringList & getCleanlist();
 	
 	private:
-		KListView		*listview;   
+		K3ListView		*listview;   
 		QStringList	m_extlist;
 	};
 }

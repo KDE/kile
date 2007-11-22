@@ -28,8 +28,8 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 
-#include <klistview.h>
-#include <kpopupmenu.h>
+#include <k3listview.h>
+#include <kmenu.h>
 #include <ktrader.h>
 
 #include "kiledocumentinfo.h"
@@ -39,7 +39,7 @@
 //   but also the real cursor position of the command
 
 class QString;
-class KURL;
+class KUrl;
 class KileInfo;
 class Q3ListViewItem;
 
@@ -48,10 +48,10 @@ class Q3ListViewItem;
  * additional information is: line number, title string.
  **/
  
-class KileListViewItem : public KListViewItem
+class KileListViewItem : public K3ListViewItem
 {
 public:
-	KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KURL &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
+	KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
 	KileListViewItem(Q3ListView * parent, const QString & label);
 	KileListViewItem(Q3ListViewItem * parent, const QString & label);
 
@@ -66,8 +66,8 @@ public:
 	const uint startline() const { return m_startline; }
 	const uint startcol() const { return m_startcol; }
 	/**@returns the file in which this item was found*/
-	const KURL & url() const { return m_url; }
-	void setURL(const KURL & url) { m_url = url; }
+	const KUrl & url() const { return m_url; }
+	void setURL(const KUrl & url) { m_url = url; }
 
 	const int level() const { return m_level; }
 	const QString &label() const { return m_label; }
@@ -77,7 +77,7 @@ public:
 
 private:
 	QString  m_title;
-	KURL     m_url;
+	KUrl     m_url;
 	uint     m_line;
 	uint     m_column;
 	int      m_type, m_level;
@@ -91,11 +91,11 @@ private:
 class KileListViewToolTip : public QToolTip
 {
 public:
-	KileListViewToolTip(KListView *listview);
+	KileListViewToolTip(K3ListView *listview);
 protected:
 	void maybeTip(const QPoint &p);
 private:
-	KListView *m_listview;
+	K3ListView *m_listview;
 };
 
 class KileReferenceData
@@ -119,7 +119,7 @@ namespace KileWidget
 {
 	class Structure; //forward declaration
 
-	class StructureList : public KListView
+	class StructureList : public K3ListView
 	{
 		Q_OBJECT
 
@@ -131,7 +131,7 @@ namespace KileWidget
 		void cleanUp(bool preserveState = true);
 		void showReferences(KileInfo *ki);
 		
-		KURL url() const { return m_docinfo->url(); }
+		KUrl url() const { return m_docinfo->url(); }
 		void updateRoot();
 
 	public slots:
@@ -198,7 +198,7 @@ namespace KileWidget
 		public slots:
 			void slotClicked(Q3ListViewItem *);
 			void slotDoubleClicked(Q3ListViewItem *);
-			void slotPopup(KListView *, Q3ListViewItem *itm, const QPoint &point);
+			void slotPopup(K3ListView *, Q3ListViewItem *itm, const QPoint &point);
 			void slotPopupActivated(int id);
 
 			void addDocumentInfo(KileDocument::Info *);
@@ -215,9 +215,9 @@ namespace KileWidget
 
 		signals:
 			void sendText(const QString &);
-			void setCursor(const KURL &, int, int);
-			void fileOpen(const KURL &, const QString &);
-			void fileNew(const KURL &);
+			void setCursor(const KUrl &, int, int);
+			void fileOpen(const KUrl &, const QString &);
+			void fileNew(const KUrl &);
 			void configChanged();
 			void sectioningPopup(KileListViewItem *item, int id);
 
@@ -235,7 +235,7 @@ namespace KileWidget
 			QMap<KileDocument::Info *, StructureList *>	m_map;
 			StructureList								*m_default;
 			
-			KPopupMenu *m_popup;
+			KMenu *m_popup;
 			KileListViewItem *m_popupItem;
 			QString m_popupInfo;
 			

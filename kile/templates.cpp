@@ -16,7 +16,7 @@
 
 #include "templates.h"
 
-#include <kapp.h>
+#include <kapplication.h>
 #include "kiledebug.h"
 #include <kglobal.h>
 #include <klocale.h>
@@ -65,12 +65,12 @@ Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObjec
 Manager::~Manager() {
 }
 
-bool Manager::copyAppData(const KURL& src, const QString& subdir, const QString& fileName) {
+bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString& fileName) {
 	QString dir;
 	//let saveLocation find and create the appropriate place to
 	//store the templates (usually $HOME/.kde/share/apps/kile/templates)
 	dir = KGlobal::dirs()->saveLocation("appdata", subdir, true);
-	KURL targetURL = KURL::fromPathOrURL(dir);
+	KUrl targetURL = KUrl::fromPathOrUrl(dir);
 	targetURL.addPath(fileName);
 
 	//if a directory is found
@@ -86,7 +86,7 @@ bool Manager::copyAppData(const KURL& src, const QString& subdir, const QString&
 bool Manager::removeAppData(const QString &file) {
 	QFileInfo fileInfo(file);
 	if(fileInfo.exists()) {
-		return KIO::NetAccess::del(KURL::fromPathOrURL(file), kapp->mainWidget());
+		return KIO::NetAccess::del(KUrl::fromPathOrUrl(file), kapp->mainWidget());
 	}
 	return true;
 }
@@ -102,13 +102,13 @@ bool Manager::searchForTemplate(const QString& name, KileDocument::Type& type) c
 	return false;
 }
 
-bool Manager::add(const KURL& templateSourceURL, const QString& name, const KURL& icon) {
+bool Manager::add(const KUrl& templateSourceURL, const QString& name, const KUrl& icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	KileDocument::Type type = extensions->determineDocumentType(templateSourceURL);
 	return add(templateSourceURL, type, name, icon);
 }
 
-bool Manager::add(const KURL& templateSourceURL, KileDocument::Type type, const QString& name, const KURL& icon) {
+bool Manager::add(const KUrl& templateSourceURL, KileDocument::Type type, const QString& name, const KUrl& icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	QString extension = extensions->defaultExtensionForDocumentType(type);
 
@@ -119,7 +119,7 @@ bool Manager::remove(Info ti) {
 	return removeAppData(ti.path) && removeAppData(ti.icon);
 }
 
-bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KURL& newTemplateSourceURL, const QString& newName, const KURL& newIcon) {
+bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTemplateSourceURL, const QString& newName, const KUrl& newIcon) {
 	KileDocument::Type type = m_kileInfo->extensions()->determineDocumentType(newTemplateSourceURL);
 
 	//start by copying the files that belong to the new template to a safe place
@@ -140,7 +140,7 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KURL& newTem
 	}
 
 	//finally, create the new template
-	if(!add(KURL::fromPathOrURL(templateTempFile), type, newName, KURL::fromPathOrURL(iconTempFile))) {
+	if(!add(KUrl::fromPathOrUrl(templateTempFile), type, newName, KUrl::fromPathOrUrl(iconTempFile))) {
 		KIO::NetAccess::removeTempFile(templateTempFile);
 		KIO::NetAccess::removeTempFile(iconTempFile);
 		return false;
@@ -168,7 +168,7 @@ void Manager::scanForTemplates() {
 			ti.path = templates.path() + '/' + templates[j];
 			QFileInfo fileInfo(ti.path);
 			ti.name = fileInfo.baseName(true).mid(9); //remove "template_", do it this way to avoid problems with user input!
-			ti.type = extensions->determineDocumentType(KURL::fromPathOrURL(ti.path));
+			ti.type = extensions->determineDocumentType(KUrl::fromPathOrUrl(ti.path));
 			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
 			if (m_TemplateList.contains(ti))
 			{
@@ -230,9 +230,9 @@ int TemplateItem::compare( Q3IconViewItem *i ) const
 
 ////////////////////// TemplateIconView //////////////////////
 
-TemplateIconView::TemplateIconView(QWidget *parent, const char *name, Qt::WFlags f) : KIconView(parent, name, f), m_templateManager(NULL), m_proc(NULL) {
+TemplateIconView::TemplateIconView(QWidget *parent, const char *name, Qt::WFlags f) : K3IconView(parent, name, f), m_templateManager(NULL), m_proc(NULL) {
 	setItemsMovable(false);
-	setMode(KIconView::Select);
+	setMode(K3IconView::Select);
 	setResizeMode(Q3IconView::Adjust);
 	setSelectionMode(Q3IconView::Single);
 	setResizePolicy(Q3ScrollView::Default);
@@ -270,34 +270,34 @@ void TemplateIconView::searchLaTeXClassFiles()
 
 	delete m_proc;
 
-	m_proc = new KProcess(this);
+	m_proc = new K3Process(this);
 	m_proc->clearArguments();
 	m_proc->setUseShell(true);
 	(*m_proc) << QStringList::split(' ', command);
 	m_output = QString::null;
 
-	connect(m_proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
-	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
-	connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
-	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
-	connect(m_proc, SIGNAL(processExited(KProcess*)),
-	        this,   SLOT(slotProcessExited(KProcess*)) );
+	connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
+	        this,   SLOT(slotProcessOutput(K3Process*,char*,int)) );
+	connect(m_proc, SIGNAL(receivedStderr(K3Process*,char*,int)),
+	        this,   SLOT(slotProcessOutput(K3Process*,char*,int)) );
+	connect(m_proc, SIGNAL(processExited(K3Process*)),
+	        this,   SLOT(slotProcessExited(K3Process*)) );
 
 	KILE_DEBUG() << "=== NewFileWidget::searchClassFiles() ====================" << endl;
 	KILE_DEBUG() << "\texecute: " << command << endl;
-	if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
+	if ( ! m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput) ) 
 	{
 		KILE_DEBUG() << "\tstart of shell process failed" << endl;
 		addTemplateIcons(KileDocument::LaTeX);
 	}
 }
 
-void TemplateIconView::slotProcessOutput(KProcess*, char* buf, int len)
+void TemplateIconView::slotProcessOutput(K3Process*, char* buf, int len)
 {
 	m_output += QString::fromLocal8Bit(buf,len);
 }
 
-void TemplateIconView::slotProcessExited(KProcess *proc)
+void TemplateIconView::slotProcessExited(K3Process *proc)
 {
 	if ( ! proc->normalExit() ) 
 		m_output = QString::null;

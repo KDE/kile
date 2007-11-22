@@ -98,10 +98,10 @@ void KileErrorHandler::jumpToProblem(OutputInfo *info)
 
 	if ( !file.isNull() )
 	{
-		m_ki->docManager()->fileOpen(KURL::fromPathOrURL(file));
+		m_ki->docManager()->fileOpen(KUrl::fromPathOrUrl(file));
 		int line = info->sourceLine() > 0 ? (info->sourceLine() - 1) : 0;
 
-		Kate::Document *doc = m_ki->docManager()->docFor(KURL::fromPathOrURL(file));
+		Kate::Document *doc = m_ki->docManager()->docFor(KUrl::fromPathOrUrl(file));
 		if ( doc ) 
 		{
 			Kate::View* view = (Kate::View*)doc->views().first();

@@ -213,7 +213,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	QWidget *focus;
 	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList) )
 	{
-		KComboBox *input = new KComboBox(true, page, "input_dialog_input");
+		KComboBox *input = new KComboBox( true, page );
+		input->setObjectName( "input_dialog_input" );
 		input->setCompletionMode(KGlobalSettings::CompletionAuto);
 		input->setMinimumWidth(300);
 		focus = input;

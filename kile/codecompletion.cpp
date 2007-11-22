@@ -62,7 +62,7 @@ namespace KileDocument
 
 		// local abbreviation list
 		m_abbrevListview = 0L;
-		m_localAbbrevFile = locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
+		m_localAbbrevFile = KStandardDirs::locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
 
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
@@ -1088,7 +1088,7 @@ namespace KileDocument
 		else
 		{
 			m_keylistType = CodeCompletion::ctNone;
-			kdWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
+			kWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
 		}
 	}
 

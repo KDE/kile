@@ -15,7 +15,7 @@
 
 #include "kileabbrevview.h"
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include "kiledebug.h"
@@ -31,7 +31,7 @@
 #include <Q3VBoxLayout>
 
 KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name) 
-	: KListView(parent, name), m_changes(false)
+	: K3ListView(parent, name), m_changes(false)
 {
 
 	addColumn(i18n("Short"));
@@ -51,8 +51,8 @@ KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name)
 	connect(this, SIGNAL(mouseButtonClicked(int,Q3ListViewItem *,const QPoint &,int)),
 	        this, SLOT(slotMouseButtonClicked(int,Q3ListViewItem *,const QPoint &,int)));
 
-	connect(this, SIGNAL(contextMenu(KListView *,Q3ListViewItem *,const QPoint &)),
-	        this, SLOT(slotContextMenu(KListView *,Q3ListViewItem *,const QPoint &)));
+	connect(this, SIGNAL(contextMenu(K3ListView *,Q3ListViewItem *,const QPoint &)),
+	        this, SLOT(slotContextMenu(K3ListView *,Q3ListViewItem *,const QPoint &)));
 }
 
 KileAbbrevView::~KileAbbrevView()
@@ -82,7 +82,7 @@ void KileAbbrevView::addWordlist(const QStringList *wordlist, bool global)
 		int index = (*it).find( '=' );
 		if ( index >= 0 )
 		{
-			insertItem( new KListViewItem(this,(*it).left(index),type,(*it).right( (*it).length()-index-1 )) ); 
+			insertItem( new K3ListViewItem(this,(*it).left(index),type,(*it).right( (*it).length()-index-1 )) ); 
 		}
 	}
 }
@@ -151,7 +151,7 @@ void KileAbbrevView::slotMouseButtonClicked(int button, Q3ListViewItem *item, co
 
 //////////////////// context menu ////////////////////
 
-void KileAbbrevView::slotContextMenu(KListView *, Q3ListViewItem *item, const QPoint &pos)
+void KileAbbrevView::slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos)
 {
 	m_popup->clear();
 	m_popup->disconnect();
@@ -173,14 +173,14 @@ void KileAbbrevView::slotContextMenu(KListView *, Q3ListViewItem *item, const QP
 
 void KileAbbrevView::addAbbreviation(const QString &abbrev, const QString &expansion)
 {
-	insertItem( new KListViewItem(this,abbrev,"*",expansion) ); 
+	insertItem( new K3ListViewItem(this,abbrev,"*",expansion) ); 
 	QString newAbbrev = abbrev + '=' + expansion;
 
 	emit( updateAbbrevList(QString::null,newAbbrev) );
 	m_changes = true;
 }
 
-void KileAbbrevView::changeAbbreviation(KListViewItem *item, const QString &abbrev, const QString &expansion)
+void KileAbbrevView::changeAbbreviation(K3ListViewItem *item, const QString &abbrev, const QString &expansion)
 {
 	if ( item )
 	{
@@ -194,7 +194,7 @@ void KileAbbrevView::changeAbbreviation(KListViewItem *item, const QString &abbr
 	}
 }
 
-void KileAbbrevView::deleteAbbreviation(KListViewItem *item)
+void KileAbbrevView::deleteAbbreviation(K3ListViewItem *item)
 {
 	QString abbrev = item->text(ALVabbrev);
 	QString message = i18n("Delete the abbreviation '%1'?").arg(abbrev);
@@ -212,7 +212,7 @@ void KileAbbrevView::deleteAbbreviation(KListViewItem *item)
 
 void KileAbbrevView::slotPopupAbbreviation(int id)
 {
-	KListViewItem *item = (KListViewItem *)selectedItem();
+	K3ListViewItem *item = (K3ListViewItem *)selectedItem();
 
 	int mode = ALVnone;
 	if ( id == ALVadd )
@@ -240,7 +240,7 @@ void KileAbbrevView::slotPopupAbbreviation(int id)
 
 //////////////////// add/edit abbreviation ////////////////////
 
-KileAbbrevInputDialog::KileAbbrevInputDialog(KileAbbrevView *listview, KListViewItem *item, int mode, const char *name )
+KileAbbrevInputDialog::KileAbbrevInputDialog(KileAbbrevView *listview, K3ListViewItem *item, int mode, const char *name )
 	: KDialogBase(listview,name, true, i18n("Add Abbreviation"), KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true),
 	  m_listview(listview), m_abbrevItem(item), m_mode(mode)
 {

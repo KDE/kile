@@ -32,7 +32,7 @@
 
 class QPixmap;
 
-class KURL;
+class KUrl;
 class KXMLGUIClient;
 
 class KileInfo;
@@ -82,7 +82,7 @@ public:
 // 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 public slots:
-	Kate::View* switchToTextView(const KURL & url, bool requestFocus = false);
+	Kate::View* switchToTextView(const KUrl & url, bool requestFocus = false);
 
 	void closeWidget(QWidget *);
 	void removeView(Kate::View *view);
@@ -109,7 +109,7 @@ protected slots:
 	/**
 	 * 
 	 **/
-	void urlChanged(KileDocument::Info* info, const KURL& url);
+	void urlChanged(KileDocument::Info* info, const KUrl& url);
 
 signals:
 	void activateView(QWidget *, bool);

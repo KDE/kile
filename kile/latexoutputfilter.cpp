@@ -333,7 +333,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 			}
 			else if ( GetCurrentOutputLine() - m_currentItem.outputLine() > 3 )
 			{
-				kdWarning() << "\tBAILING OUT: error description spans more than three lines" << endl;
+				kWarning() << "\tBAILING OUT: error description spans more than three lines" << endl;
 				dwCookie = Start;
 				flush = true;
 			}
@@ -353,7 +353,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 			{
 				dwCookie = Start;
 				flush = true;
-				kdWarning() << "\tBAILING OUT: did not detect a TeX line number for an error" << endl;
+				kWarning() << "\tBAILING OUT: did not detect a TeX line number for an error" << endl;
 				m_currentItem.setSourceLine(0);
 			}
 		break;

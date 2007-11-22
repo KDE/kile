@@ -32,8 +32,8 @@ class QCheckBox;
 
 class KileInfo;
 class KLineEdit;
-class KProcess;
-class KShellProcess;
+class K3Process;
+class K3ShellProcess;
 
 namespace KileDialog
 {
@@ -53,8 +53,8 @@ private slots:
 	void chooseFile();
 	void updateFigure();
 
-	void slotProcessOutput(KProcess* proc,char* buffer,int buflen);
-	void slotProcessExited(KProcess* proc);
+	void slotProcessOutput(K3Process* proc,char* buffer,int buflen);
+	void slotProcessExited(K3Process* proc);
 
 	void slotOk();
 
@@ -87,7 +87,7 @@ private:
 	void execute(const QString &command);
 	
 	KileInfo *m_ki;
-	KShellProcess* m_proc;
+	K3ShellProcess* m_proc;
 };
 
 }

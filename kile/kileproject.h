@@ -37,7 +37,7 @@ class KileProjectItem : public QObject
 	Q_OBJECT
 
 public:
-	KileProjectItem(KileProject *project = 0, const KURL &url = KURL(), int type = Source);
+	KileProjectItem(KileProject *project = 0, const KUrl &url = KUrl(), int type = Source);
 	~KileProjectItem() { KILE_DEBUG() << "DELETING PROJITEM " << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
@@ -58,7 +58,7 @@ public:
 	/**
 	 * @returns absolute URL of this item
 	 **/
-	const KURL&	url() const { return m_url; }
+	const KUrl&	url() const { return m_url; }
 
 	/**
 	 * @returns path of this item relative to the project file
@@ -103,18 +103,18 @@ public slots:
 	/**
 	 * @warning Does nothing if "url" is empty !
 	 **/ 
-	void changeURL(const KURL &url);
+	void changeURL(const KUrl &url);
 	void changePath(const QString& path) { m_path = path;}
 
 private slots:
-	void slotChangeURL(KileDocument::Info* info, const KURL& url);
+	void slotChangeURL(KileDocument::Info* info, const KUrl& url);
 
 signals:
 	void urlChanged(KileProjectItem*);
 
 private:
 	KileProject		*m_project;
-	KURL			m_url;
+	KUrl			m_url;
 	QString			m_path;
 	QString			m_encoding;
 	QString			m_highlight;
@@ -141,8 +141,8 @@ class KileProject : public QObject
 	Q_OBJECT
 
 public:
-	KileProject(const QString& name, const KURL& url, KileDocument::Extensions *extensions);
-	KileProject(const KURL& url, KileDocument::Extensions *extensions);
+	KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions);
+	KileProject(const KUrl& url, KileDocument::Extensions *extensions);
 
 	~KileProject();
 
@@ -158,8 +158,8 @@ public:
 	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
 	const QString & quickBuildConfig() { return m_quickBuildConfig; }
 
-    void setLastDocument(const KURL &url);
-    const KURL & lastDocument() const { return m_lastDocument; }
+    void setLastDocument(const KUrl &url);
+    const KUrl & lastDocument() const { return m_lastDocument; }
 
 	void setMakeIndexOptions(const QString & opt) { m_makeIndexOptions = opt; }
 	const QString & makeIndexOptions() { return m_makeIndexOptions; }
@@ -168,17 +168,17 @@ public:
 	void writeUseMakeIndexOptions();
 	bool useMakeIndexOptions() { return m_useMakeIndexOptions; }
 
-	const KURL& url() const { return m_projecturl; }
-	void setURL(const KURL & url ) { m_projecturl = url; }
-	const KURL& baseURL() const { return m_baseurl; }
+	const KUrl& url() const { return m_projecturl; }
+	void setURL(const KUrl & url ) { m_projecturl = url; }
+	const KUrl& baseURL() const { return m_baseurl; }
 
-	KileProjectItem* item(const KURL &);
+	KileProjectItem* item(const KUrl &);
 	KileProjectItem* item(const KileDocument::Info *info);
 	KileProjectItemList* items() { return &m_projectitems; }
 
 	KSimpleConfig *config() { return m_config; }
 
-	bool contains(const KURL&);
+	bool contains(const KUrl&);
 	bool contains(const KileDocument::Info *info);
 	KileProjectItem *rootItem(KileProjectItem *) const;
 	const Q3PtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
@@ -205,11 +205,11 @@ public slots:
 	void dump();
 
 signals:
-	void loadFile(const KURL &url , const QString & encoding);
+	void loadFile(const KUrl &url , const QString & encoding);
 
 private:
-	void init(const QString& name, const KURL& url, KileDocument::Extensions *extensions);
-	QString	findRelativePath(const KURL&);
+	void init(const QString& name, const KUrl& url, KileDocument::Extensions *extensions);
+	QString	findRelativePath(const KUrl&);
 	void setType(KileProjectItem *item);
   	QString addBaseURL(const QString &path);
   	QString removeBaseURL(const QString &path);
@@ -217,7 +217,7 @@ private:
 
 private:
 	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion;
-	KURL		m_projecturl, m_baseurl, m_lastDocument;
+	KUrl		m_projecturl, m_baseurl, m_lastDocument;
 	bool		m_invalid;
 	Q3PtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;

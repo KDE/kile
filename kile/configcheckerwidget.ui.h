@@ -23,7 +23,7 @@ QLabel* ConfigCheckerWidget::label()
     return m_lbChecking;
 }
 
-KListBox* ConfigCheckerWidget::listBox()
+K3ListBox* ConfigCheckerWidget::listBox()
 {
     return m_lstResults;
 }

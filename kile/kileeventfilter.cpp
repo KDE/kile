@@ -59,7 +59,7 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 	else if ( e->type() == QEvent::MouseButtonDblClick)
 	{
 		QMouseEvent *me = (QMouseEvent*) e;
-		if ( me->button()==LeftButton && ((me->state() & Qt::ControlModifier) == Qt::ControlButton) )
+		if ( me->button()==LeftButton && ((me->state() & Qt::ControlModifier) == Qt::ControlModifier) )
 		{
 			m_edit->selectWord(KileDocument::EditorExtension::smTex);
 			return true;

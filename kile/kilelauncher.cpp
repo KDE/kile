@@ -28,7 +28,7 @@
 
 #include "kiledebug.h"
 #include <krun.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <klibloader.h>
@@ -59,15 +59,15 @@
 	{
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::ProcessLauncher()==============" << endl;
 
-		m_proc = new KShellProcess(shellname);
+		m_proc = new K3ShellProcess(shellname);
 		if (m_proc)
 			KILE_DEBUG() << "\tKShellProcess created" << endl;
 		else
-			KILE_DEBUG() << "\tNO KShellProcess created" << endl;
+			KILE_DEBUG() << "\tNO K3ShellProcess created" << endl;
 
-		connect(m_proc, SIGNAL( receivedStdout(KProcess*, char*, int) ), this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
- 		connect(m_proc, SIGNAL( receivedStderr(KProcess*, char*, int) ),this, SLOT(slotProcessOutput(KProcess*, char*, int ) ) );
-		connect(m_proc, SIGNAL( processExited(KProcess*)), this, SLOT(slotProcessExited(KProcess*)));
+		connect(m_proc, SIGNAL( receivedStdout(K3Process*, char*, int) ), this, SLOT(slotProcessOutput(K3Process*, char*, int ) ) );
+ 		connect(m_proc, SIGNAL( receivedStderr(K3Process*, char*, int) ),this, SLOT(slotProcessOutput(K3Process*, char*, int ) ) );
+		connect(m_proc, SIGNAL( processExited(K3Process*)), this, SLOT(slotProcessExited(K3Process*)));
 	}
 
 	ProcessLauncher::~ProcessLauncher()
@@ -142,7 +142,7 @@
 			out += "*****\n";
 			emit(output(out));
 
-			return m_proc->start(tool()->manager()->shouldBlock() ? KProcess::Block : KProcess::NotifyOnExit, KProcess::AllOutput);
+			return m_proc->start(tool()->manager()->shouldBlock() ? K3Process::Block : K3Process::NotifyOnExit, K3Process::AllOutput);
 		}
 		else
 			return false;
@@ -189,12 +189,12 @@
 		return true;
 	}
 
-	void ProcessLauncher::slotProcessOutput(KProcess*, char* buf, int len)
+	void ProcessLauncher::slotProcessOutput(K3Process*, char* buf, int len)
 	{
 		emit output(QString::fromLocal8Bit(buf, len));
 	}
 
-	void ProcessLauncher::slotProcessExited(KProcess*)
+	void ProcessLauncher::slotProcessExited(K3Process*)
 	{
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::slotProcessExited=============" << endl;
 		KILE_DEBUG() << "\t" << tool()->name() << endl;
@@ -225,7 +225,7 @@
 		}
 		else
 		{
-			kdWarning() << "\tNO PROCESS, emitting done" << endl;
+			kWarning() << "\tNO PROCESS, emitting done" << endl;
 			emit(done(Success));
 		}
 	}
@@ -314,7 +314,7 @@
 		stack->addWidget(m_part->widget() , 1 );
 		stack->raiseWidget(1);
 
-		m_part->openURL(KURL(name));
+		m_part->openURL(KUrl(name));
 		pm->addPart(m_part, true);
 		pm->setActivePart(m_part);
 
@@ -352,7 +352,7 @@
 
 		tool()->manager()->wantGUIState(m_state);
 
-		htmlpart->openURL(KURL(name));
+		htmlpart->openURL(KUrl(name));
 		htmlpart->addToHistory(name);
 		stack->addWidget(htmlpart->widget() , 1 );
 		stack->raiseWidget(1);

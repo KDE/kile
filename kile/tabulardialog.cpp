@@ -325,10 +325,14 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	QLabel *label4 = new QLabel(i18n("User defined:"),framegroup);
 	
 	QWidget *lineframe = new QWidget(framegroup);
-	m_pbFrame1 = new KPushButton("x",lineframe,"pb_no_border");
-	m_pbFrame2 = new KPushButton("",lineframe,"pb_lr_border");
-	m_pbFrame3 = new KPushButton("",lineframe,"pb_tb_border");
-	m_pbFrame4 = new KPushButton("",lineframe,"pb_all_border");
+	m_pbFrame1 = new KPushButton( "x", lineframe );
+	m_pbFrame1->setObjectName( "pb_no_border" );
+	m_pbFrame2 = new KPushButton( "", lineframe );
+	m_pbFrame2->setObjectName( "pb_lr_border" );
+	m_pbFrame3 = new KPushButton( "", lineframe );
+	m_pbFrame3->setObjectName( "pb_tb_border" );
+	m_pbFrame4 = new KPushButton( "", lineframe );
+	m_pbFrame4->setObjectName( "pb_all_border" );
 	
 	Q3HBoxLayout *linebox = new Q3HBoxLayout(lineframe);
 	linebox->addWidget(m_pbFrame1);

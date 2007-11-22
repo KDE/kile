@@ -17,7 +17,7 @@
 #include <qtoolbutton.h>
 #include <qwidget.h>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <ktoolbar.h>
 
 class KileInfo;
@@ -36,9 +36,9 @@ namespace KileWidget {
 	/**
 	 * This class represents an entry in the scripts list view.
 	 **/
-	class JScriptListViewItem : public KListViewItem {
+	class JScriptListViewItem : public K3ListViewItem {
 		public:
-			JScriptListViewItem(QWidget *managementWidget, KListView *parent, KileJScript::JScript *script, KileInfo *kileInfo);
+			JScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileJScript::JScript *script, KileInfo *kileInfo);
 			virtual ~JScriptListViewItem();
 
 			KileJScript::JScript* getScript();
@@ -86,7 +86,7 @@ namespace KileWidget {
 
 		protected:
 			KileInfo *m_kileInfo;
-			KListView *m_scriptsListView;
+			K3ListView *m_scriptsListView;
 
 		private:
 			int m_newButton;

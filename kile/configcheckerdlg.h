@@ -29,7 +29,7 @@ class QLabel;
 class QPainter;
 
 class KProgress;
-class KListBox;
+class K3ListBox;
 
 class ConfigCheckerWidget;
 
@@ -38,7 +38,7 @@ namespace KileDialog
 	class ResultItem : public Q3ListBoxItem
 	{
 	public:
-		ResultItem(KListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests);
+		ResultItem(K3ListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests);
 		int width(const Q3ListBox *) const { return m_richText->widthUsed(); }
 		int height(const Q3ListBox *) const { return m_richText->height(); }
 
@@ -68,7 +68,7 @@ namespace KileDialog
 	private:
 		KProgress* progressBar();
 		QLabel* label();
-		KListBox* listBox();
+		K3ListBox* listBox();
 
 	private:
 		ConfigCheckerWidget	*m_widget;

@@ -43,13 +43,13 @@ namespace KileDialog
 // BEGIN NewLatexCommand
 
 NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
-                                 const QString &groupname, KListViewItem *lvitem,
+                                 const QString &groupname, K3ListViewItem *lvitem,
 	                              KileDocument::CmdAttribute cmdtype,
 	                              QMap<QString,bool> *dict)
    : KDialogBase( parent,0, true, caption, Ok | Cancel, Ok, true ),
 	  m_dict(dict)
 {
-	// 'add' is only allowed, if the KListViewItem is defined
+	// 'add' is only allowed, if the K3ListViewItem is defined
 	m_addmode = ( lvitem == 0 );
 	m_envmode = ( cmdtype < KileDocument::CmdAttrLabel );
 	m_cmdType = cmdtype;
@@ -320,7 +320,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 
 	// page 1: environment listview
 	QWidget *page1 = new QWidget(m_tab);
-	m_lvEnvironments = new KListView(page1);
+	m_lvEnvironments = new K3ListView(page1);
 	m_lvEnvironments->setRootIsDecorated(true);
 	m_lvEnvironments->addColumn(i18n("Environment"));
 	m_lvEnvironments->addColumn(i18n("Starred"));
@@ -340,7 +340,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 
 	// page 2: command listview
 	QWidget *page2 = new QWidget(m_tab);
-	m_lvCommands = new KListView(page2);
+	m_lvCommands = new K3ListView(page2);
 	m_lvCommands->setRootIsDecorated(true);
 	m_lvCommands->addColumn(i18n("Command"));
 	m_lvCommands->addColumn(i18n("Starred"));
@@ -413,16 +413,16 @@ void LatexCommandsDialog::resetListviews()
 	m_lvEnvironments->clear();
 	m_lvCommands->clear();
 
-	m_lviAmsmath    = new KListViewItem(m_lvEnvironments,i18n("AMS-Math"));
-	m_lviMath       = new KListViewItem(m_lvEnvironments,i18n("Math"));
-	m_lviList       = new KListViewItem(m_lvEnvironments,i18n("Lists"));
-	m_lviTabular    = new KListViewItem(m_lvEnvironments,i18n("Tabular"));
-	m_lviVerbatim   = new KListViewItem(m_lvEnvironments,i18n("Verbatim"));
+	m_lviAmsmath    = new K3ListViewItem(m_lvEnvironments,i18n("AMS-Math"));
+	m_lviMath       = new K3ListViewItem(m_lvEnvironments,i18n("Math"));
+	m_lviList       = new K3ListViewItem(m_lvEnvironments,i18n("Lists"));
+	m_lviTabular    = new K3ListViewItem(m_lvEnvironments,i18n("Tabular"));
+	m_lviVerbatim   = new K3ListViewItem(m_lvEnvironments,i18n("Verbatim"));
 
-	m_lviLabels     = new KListViewItem(m_lvCommands,i18n("Labels"));
-	m_lviReferences = new KListViewItem(m_lvCommands,i18n("References"));
-	m_lviCitations  = new KListViewItem(m_lvCommands,i18n("Citations"));
-	m_lviInputs	= new KListViewItem(m_lvCommands,i18n("Includes"));
+	m_lviLabels     = new K3ListViewItem(m_lvCommands,i18n("Labels"));
+	m_lviReferences = new K3ListViewItem(m_lvCommands,i18n("References"));
+	m_lviCitations  = new K3ListViewItem(m_lvCommands,i18n("Citations"));
+	m_lviInputs	= new K3ListViewItem(m_lvCommands,i18n("Includes"));
 
 	QStringList list;
 	QStringList::ConstIterator it;
@@ -433,7 +433,7 @@ void LatexCommandsDialog::resetListviews()
 	{
 		if ( m_commands->commandAttributes(*it,attr) )
 		{
-			KListViewItem *parent;
+			K3ListViewItem *parent;
 			switch ( attr.type ) {
 				case KileDocument::CmdAttrAmsmath:   parent = m_lviAmsmath;    break;
 				case KileDocument::CmdAttrMath:      parent = m_lviMath;       break;
@@ -456,7 +456,7 @@ LatexCommandsDialog::LVmode LatexCommandsDialog::getListviewMode()
 	return ( m_tab->currentPageIndex() == 0 ) ? lvEnvMode : lvCmdMode;
 }
 
-KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(KListViewItem *item)
+KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(K3ListViewItem *item)
 {
 	KileDocument::CmdAttribute type;
 
@@ -484,7 +484,7 @@ KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(KListViewItem *it
 	return type;
 }
 
-bool LatexCommandsDialog::isParentItem(KListViewItem *item)
+bool LatexCommandsDialog::isParentItem(K3ListViewItem *item)
 {
 	return ( item==m_lviMath       ||
 	         item==m_lviList       ||
@@ -499,14 +499,14 @@ bool LatexCommandsDialog::isParentItem(KListViewItem *item)
 
 ////////////////////////////// entries //////////////////////////////
 
-void LatexCommandsDialog::setEntry(KListViewItem *parent,const QString &name,
+void LatexCommandsDialog::setEntry(K3ListViewItem *parent,const QString &name,
 	                                KileDocument::LatexCmdAttributes &attr)
 {
 	// set dictionary
 	m_dictCommands[name] = attr.standard;
 
 	// create an item
-	KListViewItem *item = new KListViewItem(parent,name);
+	K3ListViewItem *item = new K3ListViewItem(parent,name);
 
 	// always set the starred entry
 	if ( attr.starred )
@@ -532,7 +532,7 @@ void LatexCommandsDialog::setEntry(KListViewItem *parent,const QString &name,
 	}
 }
 
-void LatexCommandsDialog::getEntry(KListViewItem *item,KileDocument::LatexCmdAttributes &attr)
+void LatexCommandsDialog::getEntry(K3ListViewItem *item,KileDocument::LatexCmdAttributes &attr)
 {
 	// always set the starred entry
 	attr.starred = ( item->text(1) == "*" );
@@ -567,7 +567,7 @@ bool LatexCommandsDialog::isUserDefined(const QString &name)
 
 // look for user defined environment or commands in this listview
 
-bool LatexCommandsDialog::hasUserDefined(KListView *listview)
+bool LatexCommandsDialog::hasUserDefined(K3ListView *listview)
 {
 	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() )
 	{
@@ -594,10 +594,10 @@ void LatexCommandsDialog::slotEnableButtons()
 	bool editState = false;
 	bool resetState = false;
 
-	KListView *listview = ( getListviewMode() == lvEnvMode ) ? m_lvEnvironments : m_lvCommands;
+	K3ListView *listview = ( getListviewMode() == lvEnvMode ) ? m_lvEnvironments : m_lvCommands;
 	resetState = ( hasUserDefined(listview) );
 
-	KListViewItem *item = (KListViewItem *)listview->selectedItem();
+	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
 
 	if ( item && item!=m_lviAmsmath )
 	{
@@ -617,7 +617,7 @@ void LatexCommandsDialog::slotEnableButtons()
 
 void LatexCommandsDialog::slotAddClicked()
 {
-	KListView *listview;
+	K3ListView *listview;
 	QString caption;
 	bool envmode;
 
@@ -634,7 +634,7 @@ void LatexCommandsDialog::slotAddClicked()
 		envmode  = false;
 	}
 
-	KListViewItem *item = (KListViewItem *)listview->selectedItem();
+	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
 	if ( item && isParentItem(item) )
 	{
 		// get current command type
@@ -655,7 +655,7 @@ void LatexCommandsDialog::slotAddClicked()
 			QString name;
 			KileDocument::LatexCmdAttributes attr;
 			dialog->getParameter(name,attr);
-			setEntry((KListViewItem *)item,name,attr);
+			setEntry((K3ListViewItem *)item,name,attr);
 			// open this parent item
 			if ( !item->isOpen() )
 			{
@@ -669,7 +669,7 @@ void LatexCommandsDialog::slotAddClicked()
 
 void LatexCommandsDialog::slotDeleteClicked()
 {
-	KListView *listview;
+	K3ListView *listview;
 	QString message;
 
 	if ( getListviewMode() == lvEnvMode )
@@ -683,7 +683,7 @@ void LatexCommandsDialog::slotDeleteClicked()
 		message  = i18n("Do you want to delete this command?");
 	}
 
-	KListViewItem *item = (KListViewItem *)listview->selectedItem();
+	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
 	if ( item && !isParentItem(item) )
 	{
 		if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))==KMessageBox::Continue)
@@ -700,7 +700,7 @@ void LatexCommandsDialog::slotDeleteClicked()
 
 void LatexCommandsDialog::slotEditClicked()
 {
-	KListView *listview;
+	K3ListView *listview;
 	QString caption;
 
 	if ( getListviewMode() == lvEnvMode )
@@ -714,10 +714,10 @@ void LatexCommandsDialog::slotEditClicked()
 		caption  = i18n("LaTeX Commands");
 	}
 
-	KListViewItem *item = (KListViewItem *)listview->selectedItem();
+	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
 	if ( item && !isParentItem(item) )
 	{
-		KListViewItem *parentitem = (KListViewItem *)item->parent();
+		K3ListViewItem *parentitem = (K3ListViewItem *)item->parent();
 		if ( parentitem )
 		{
 			// get current command type
@@ -800,7 +800,7 @@ void LatexCommandsDialog::readConfig()
 	m_cbUserDefined->setChecked( KileConfig::showUserCommands() );
 }
 
-void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupname, bool env)
+void LatexCommandsDialog::writeConfig(K3ListView *listview, const QString &groupname, bool env)
 {
 	// first delete old entries
 	if ( m_config->hasGroup(groupname) )
@@ -817,7 +817,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() )
 	{
 		// get the type of the parent entry
-		attr.type = getCommandMode((KListViewItem *)cur);
+		attr.type = getCommandMode((K3ListViewItem *)cur);
 		if ( attr.type == KileDocument::CmdAttrNone )
 		{
 			KILE_DEBUG() << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
@@ -830,7 +830,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 			QString key = curchild->text(0);
 			if ( isUserDefined(key) )
 			{
-				getEntry((KListViewItem *)curchild,attr);
+				getEntry((K3ListViewItem *)curchild,attr);
 				QString value = m_commands->configString(attr,env);
 				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
 				if ( ! value.isEmpty() )

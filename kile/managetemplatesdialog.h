@@ -20,7 +20,7 @@
 #include <qfileinfo.h>
 #include <qstring.h>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <kurl.h>
@@ -38,7 +38,7 @@ namespace KileTemplate { class Manager; class Info; }
 class ManageTemplatesDialog : public KDialogBase  {
 	Q_OBJECT
 public: 
-	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KURL& sourceURL, const QString &caption,QWidget *parent=0, const char *name=0);
+	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption,QWidget *parent=0, const char *name=0);
 	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption,QWidget *parent=0, const char *name=0);	
 	virtual ~ManageTemplatesDialog();
 
@@ -59,10 +59,10 @@ protected slots:
 protected:
 	KileTemplate::Manager* m_templateManager;
 	KLineEdit *m_nameEdit, *m_iconEdit;
-	KListView *m_templateList;
+	K3ListView *m_templateList;
 	KileDocument::Type m_templateType;
 	QCheckBox *m_showAllTypesCheckBox;
-	KURL m_sourceURL;
+	KUrl m_sourceURL;
 
 	/**
 	 * Fills the template list view with template entries.

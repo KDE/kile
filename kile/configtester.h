@@ -22,8 +22,8 @@
 
 class KTempDir;
 class KConfig;
-class KProcess;
-class KURL;
+class K3Process;
+class KUrl;
 
 /**
 @author Jeroen Wijnhout
@@ -75,7 +75,7 @@ public:
 
 public slots:
 	void runTests();
-	void saveResults(const KURL &);
+	void saveResults(const KUrl &);
 	void stop();
 
 signals:
@@ -84,8 +84,8 @@ signals:
 	void finished(bool);
 
 private slots:
-	void determineProgress(KProcess *, char *, int);
-	void processTestResults (KProcess *);
+	void determineProgress(K3Process *, char *, int);
+	void processTestResults (K3Process *);
 	void processTool(KConfig *, const QString &);
 
 	void addResult(const QString &tool, const Q3ValueList<ConfigTest> &tests);
@@ -94,7 +94,7 @@ private:
 	QMap<QString,Q3ValueList<ConfigTest> >	m_results;
 	QString								m_resultsFile;
 	KTempDir							*m_tempDir;
-	KProcess								*m_process;
+	K3Process								*m_process;
 };
 
 #endif

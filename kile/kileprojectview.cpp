@@ -25,7 +25,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kiconloader.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kurl.h>
 #include <krun.h>
 #include <kmimetype.h>
@@ -43,7 +43,7 @@ const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
 /*
  * KileProjectViewItem
  */
-void KileProjectViewItem::urlChanged(const KURL &url)
+void KileProjectViewItem::urlChanged(const KUrl &url)
 {
 	// don't allow empty URLs
 	if(!url.isEmpty()) 
@@ -76,7 +76,7 @@ void KileProjectViewItem::isrootChanged(bool isroot)
 	}
 }
 
-void KileProjectViewItem::slotURLChanged(KileDocument::Info*, const KURL & url)
+void KileProjectViewItem::slotURLChanged(KileDocument::Info*, const KUrl & url)
 {
 	urlChanged(url);
 }
@@ -104,7 +104,7 @@ int KileProjectViewItem::compare(Q3ListViewItem * i, int col, bool ascending) co
 /*
  * KileProjectView
  */
-KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
+KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : K3ListView(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
 {
 	addColumn(i18n("Files & Projects"),-1);
 	addColumn(i18n("Include in Archive"),10);
@@ -114,11 +114,11 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 	setRootIsDecorated(true);
 	setAllColumnsShowFocus(true);
 	setFullWidth(true);
-	setSelectionModeExt(KListView::NoSelection);
+	setSelectionModeExt(K3ListView::NoSelection);
 
-	m_popup = new KPopupMenu(this, "projectview_popup");
+	m_popup = new KMenu(this, "projectview_popup");
 
-	connect(this, SIGNAL(contextMenu(KListView *, Q3ListViewItem *, const QPoint & )), this,SLOT(popup(KListView *, Q3ListViewItem * , const QPoint & )));
+	connect(this, SIGNAL(contextMenu(K3ListView *, Q3ListViewItem *, const QPoint & )), this,SLOT(popup(K3ListView *, Q3ListViewItem * , const QPoint & )));
 
 	connect(this, SIGNAL(executed(Q3ListViewItem*)), this, SLOT(slotClicked(Q3ListViewItem*)));
 	setAcceptDrops(true);
@@ -143,7 +143,7 @@ void KileProjectView::slotClicked(Q3ListViewItem *item)
 			if ( itm->url().path().right(7) != ".kilepr" )
 			{
 				//determine mimeType and open file with preferred application
-				KMimeType::Ptr pMime = KMimeType::findByURL(itm->url());
+				KMimeType::Ptr pMime = KMimeType::findByUrl(itm->url());
 				if ( pMime->name().startsWith("text/") )
 					emit(fileSelected(itm->url()));
 				else
@@ -236,7 +236,7 @@ void KileProjectView::slotRun(int id)
 }
 
 //FIXME clean this mess up
-void KileProjectView::popup(KListView *, Q3ListViewItem *  item, const QPoint &  point)
+void KileProjectView::popup(K3ListView *, Q3ListViewItem *  item, const QPoint &  point)
 {
 	if (item != 0)
 	{
@@ -256,8 +256,8 @@ void KileProjectView::popup(KListView *, Q3ListViewItem *  item, const QPoint & 
 		{
 			if ( ! isKilePrFile )
 			{
-				KPopupMenu *apps = new KPopupMenu( m_popup);
-				m_offerList = KTrader::self()->query(KMimeType::findByURL(itm->url())->name(), "Type == 'Application'");
+				KMenu *apps = new KMenu( m_popup);
+				m_offerList = KTrader::self()->query(KMimeType::findByUrl(itm->url())->name(), "Type == 'Application'");
 				for (uint i=0; i < m_offerList.count(); ++i)
 					apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
 
@@ -343,7 +343,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 	{
 		KileProject *project = m_ki->docManager()->projectFor(item->url());
 		if (project==0)
-			kdWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path() << endl;
+			kWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path() << endl;
 		else
 			connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
 	}
@@ -352,7 +352,7 @@ void KileProjectView::makeTheConnection(KileProjectViewItem *item)
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().path());
 		item->setInfo(docinfo);
 		if (docinfo ==0 ) {KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
-		connect(docinfo, SIGNAL(urlChanged(KileDocument::Info*, const KURL&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KURL&)));
+		connect(docinfo, SIGNAL(urlChanged(KileDocument::Info*, const KUrl&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KUrl&)));
 		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
 		item->isrootChanged(docinfo->isLaTeXRoot());
@@ -365,7 +365,7 @@ KileProjectViewItem* KileProjectView::folder(const KileProjectItem *pi, KileProj
 
 	if (parent == 0)
 	{
-		kdError() << "no parent for " << pi->url().path() << endl;
+		kError() << "no parent for " << pi->url().path() << endl;
 		return 0;
 	}
 
@@ -439,7 +439,7 @@ void KileProjectView::add(const KileProject *project)
 	++m_nProjects;
 }
 
-KileProjectViewItem * KileProjectView::projectViewItemFor(const KURL & url)
+KileProjectViewItem * KileProjectView::projectViewItemFor(const KUrl & url)
 {
 	KileProjectViewItem *item = 0;
 
@@ -456,7 +456,7 @@ KileProjectViewItem * KileProjectView::projectViewItemFor(const KURL & url)
 	return item;
 }
 
-KileProjectViewItem * KileProjectView::itemFor(const KURL & url)
+KileProjectViewItem * KileProjectView::itemFor(const KUrl & url)
 {
 	KileProjectViewItem *item=0;
 
@@ -604,7 +604,7 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 	parent->sortChildItems(0, true);
 }
 
-void KileProjectView::add(const KURL & url)
+void KileProjectView::add(const KUrl & url)
 {
 	KILE_DEBUG() << "\tKileProjectView::adding item " << url.path() << endl;
 	//check if file is already present
@@ -644,7 +644,7 @@ void KileProjectView::remove(const KileProject *project)
 /**
  * Removes a file from the projectview, does not remove project-items. Only files without a project.
  **/
-void KileProjectView::remove(const KURL &url)
+void KileProjectView::remove(const KUrl &url)
 {
 	KileProjectViewItem *item = static_cast<KileProjectViewItem*>(firstChild());
 
@@ -688,7 +688,7 @@ void KileProjectView::removeItem(const KileProjectItem *projitem, bool open)
 
 bool KileProjectView::acceptDrag(QDropEvent *e) const
 {
-	return KURLDrag::canDecode(e); // only accept URL drops
+	return K3URLDrag::canDecode(e); // only accept URL drops
 }
 
 #include "kileprojectview.moc"

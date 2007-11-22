@@ -58,7 +58,7 @@
      </property>
      <layout class="QGridLayout" >
       <item row="0" column="0" >
-       <widget class="KListBox" name="m_lstResults" >
+       <widget class="K3ListBox" name="m_lstResults" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="" hsizetype="" >
           <horstretch>1</horstretch>
@@ -88,9 +88,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KListBox</class>
+   <class>K3ListBox</class>
    <extends>Q3ListBox</extends>
-   <header location="global" >klistbox.h</header>
+   <header location="global" >k3listbox.h</header>
   </customwidget>
   <customwidget>
    <class>KProgress</class>
@@ -100,7 +100,7 @@
  </customwidgets>
  <includes>
   <include location="local" >kprogress.h</include>
-  <include location="local" >klistbox.h</include>
+  <include location="local" >k3listbox.h</include>
  </includes>
  <resources/>
  <connections/>

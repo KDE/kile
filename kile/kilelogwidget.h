@@ -24,7 +24,7 @@ class Q3PopupMenu;
 class QPoint;
 
 class KileInfo;
-class KURL;
+class KUrl;
 
 namespace KileWidget
 {
@@ -49,7 +49,7 @@ namespace KileWidget
 		void slotClicked(int, int);
 
 	signals:
-		void fileOpen(const KURL &, const QString &);
+		void fileOpen(const KUrl &, const QString &);
 		void setLine(const QString &);
 		void showingErrorMessage(QWidget *);
 

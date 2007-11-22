@@ -69,7 +69,7 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 	Q3VBoxLayout *vbox = new Q3VBoxLayout(page,8,8);
 	
 	// listview 
-	m_texdocs = new KListView(page);
+	m_texdocs = new K3ListView(page);
 	m_texdocs->setRootIsDecorated(true);
 	m_texdocs->addColumn(i18n("Table of Contents"));
 
@@ -208,7 +208,7 @@ void TexDocDialog::showToc(const QString &caption,const QStringList &doclist, bo
 {
 	QString section,textline;
 	QStringList keylist;
-	KListViewItem *itemsection = 0L;
+	K3ListViewItem *itemsection = 0L;
 	
 	setUpdatesEnabled( false );
 	m_texdocs->setColumnText(0,caption);	
@@ -218,14 +218,14 @@ void TexDocDialog::showToc(const QString &caption,const QStringList &doclist, bo
 		if ( doclist[i][0] == '@' ) 
 		{
 			section = doclist[i];
-			itemsection = new KListViewItem(m_texdocs,section.remove(0,1));
+			itemsection = new K3ListViewItem(m_texdocs,section.remove(0,1));
 		} 
 		else 
 		{
 			keylist = QStringList::split(';',doclist[i],true);
 			if ( itemsection ) 
 			{
-				KListViewItem *item = new KListViewItem(itemsection,keylist[1],keylist[0]);
+				K3ListViewItem *item = new K3ListViewItem(itemsection,keylist[1],keylist[0]);
 				item->setPixmap(0, SmallIcon(getIconName(keylist[2])) );
 				
 				// save filename in dictionary
@@ -316,7 +316,7 @@ void TexDocDialog::decompressFile(const QString &docfile,const QString &command)
 	if ( m_tempfile )
 		delete m_tempfile;
 		
-	m_tempfile = new KTempFile(QString::null, '.' + ext);
+	m_tempfile = new KTemporaryFile(QString::null, '.' + ext);
 	m_tempfile->setAutoDelete(true);
 	m_filename = m_tempfile->name();
 	
@@ -341,7 +341,7 @@ void TexDocDialog::showStyleFile(const QString &filename,const QString &stylecod
 	
 	if ( m_tempfile )
 		delete m_tempfile;
-	m_tempfile = new KTempFile(QString::null,".txt");
+	m_tempfile = new KTemporaryFile(QString::null,".txt");
 	m_tempfile->setAutoDelete(true);
 	
 	// use a textstream to write to the temporary file
@@ -416,7 +416,7 @@ void TexDocDialog::showFile(const QString &filename)
 	KILE_DEBUG() << "\tshow file: "<< filename << endl;
 	if ( QFile::exists(filename) ) 
 	{
-		KURL url;
+		KUrl url;
 		url.setPath(filename);	
 		
 		KTrader::OfferList offers = KTrader::self()->query( getMimeType(filename),"Type == 'Application'");
@@ -426,7 +426,7 @@ void TexDocDialog::showFile(const QString &filename)
 			return;
 		}
 		KService::Ptr ptr = offers.first();
-		KURL::List lst;
+		KUrl::List lst;
 		lst.append(url);
 		KRun::run(*ptr, lst, true);
 	}
@@ -538,31 +538,31 @@ void TexDocDialog::executeScript(const QString &command)
 	if ( m_proc )
 		delete m_proc;
 
-	m_proc = new KShellProcess("/bin/sh");
+	m_proc = new K3ShellProcess("/bin/sh");
 	m_proc->clearArguments();
 	(*m_proc) << QStringList::split(' ',command);
 	m_output = QString::null;
 	
-	connect(m_proc, SIGNAL(receivedStdout(KProcess*,char*,int)),
-	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
-	connect(m_proc, SIGNAL(receivedStderr(KProcess*,char*,int)),
-	        this,   SLOT(slotProcessOutput(KProcess*,char*,int)) );
-	connect(m_proc, SIGNAL(processExited(KProcess*)),
-	        this,   SLOT(slotProcessExited(KProcess*)) );
+	connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
+	        this,   SLOT(slotProcessOutput(K3Process*,char*,int)) );
+	connect(m_proc, SIGNAL(receivedStderr(K3Process*,char*,int)),
+	        this,   SLOT(slotProcessOutput(K3Process*,char*,int)) );
+	connect(m_proc, SIGNAL(processExited(K3Process*)),
+	        this,   SLOT(slotProcessExited(K3Process*)) );
 	  
 	KILE_DEBUG() << "=== TexDocDialog::runShellSkript() ====================" << endl;
 	KILE_DEBUG() << "   execute: " << command << endl;
-	if ( ! m_proc->start(KProcess::NotifyOnExit, KProcess::AllOutput) ) 
+	if ( ! m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput) ) 
 		KILE_DEBUG() << "\tstart of shell process failed" << endl;
 }
 
-void TexDocDialog::slotProcessOutput(KProcess*,char* buf,int len)
+void TexDocDialog::slotProcessOutput(K3Process*,char* buf,int len)
 {
    m_output += QString::fromLocal8Bit(buf,len);
 }
 
 
-void TexDocDialog::slotProcessExited(KProcess *proc)
+void TexDocDialog::slotProcessExited(K3Process *proc)
 {
 	if ( proc->normalExit() &&  !proc->exitStatus() ) 
 	{
@@ -627,9 +627,9 @@ QString TexDocDialog::getMimeType(const QString &filename)
 	} 
 	else 
 	{
-		KURL mimeurl;
+		KUrl mimeurl;
 		mimeurl.setPath(filename);
-		KMimeType::Ptr pMime = KMimeType::findByURL(mimeurl);
+		KMimeType::Ptr pMime = KMimeType::findByUrl(mimeurl);
 		mimetype = pMime->name();
 	}
 	

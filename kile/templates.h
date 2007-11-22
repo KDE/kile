@@ -22,9 +22,9 @@
   */
 
 #include <kstandarddirs.h>
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <klocale.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kurl.h>
 
 #include <qobject.h>
@@ -84,26 +84,26 @@ class Manager : public QObject {
 		bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
 
 		//add a template in $HOME/kile/templates/
-		bool add(const KURL& templateSourceURL, const QString& name, const KURL& icon);
+		bool add(const KUrl& templateSourceURL, const QString& name, const KUrl& icon);
 		
 		//remove a template from $HOME/kile/templates/
 		bool remove(KileTemplate::Info ti);
 
 		//replaces a template
-		bool replace(const KileTemplate::Info& toBeReplaced, const KURL& newTemplateSourceURL, const QString& newName, const KURL& newIcon);
+		bool replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTemplateSourceURL, const QString& newName, const KUrl& newIcon);
 
 	protected:
 		KileInfo* m_kileInfo;
 
 	private:
-		bool copyAppData(const KURL& src, const QString& subdir, const QString& fileName);
+		bool copyAppData(const KUrl& src, const QString& subdir, const QString& fileName);
 		bool removeAppData(const QString &file);
 
 		/**
 		 * Adds a new template. This method differs from the other add method in that it does not try to determine
 		 * the type of the template from the passed source URL.
 		 **/
-		bool add(const KURL& templateSourceURL, KileDocument::Type type, const QString& name, const KURL& icon);
+		bool add(const KUrl& templateSourceURL, KileDocument::Type type, const QString& name, const KUrl& icon);
 
 
 	private:
@@ -133,7 +133,7 @@ private:
 	KileTemplate::Info m_info;
 };
 
-class TemplateIconView : public KIconView {
+class TemplateIconView : public K3IconView {
 	Q_OBJECT
 	
 	public:
@@ -151,14 +151,14 @@ class TemplateIconView : public KIconView {
 		KileTemplate::Manager *m_templateManager;
 		QString m_output;
 		QString m_selicon;
-		KProcess *m_proc;
+		K3Process *m_proc;
 
 		void addTemplateIcons(KileDocument::Type type);
 		void searchLaTeXClassFiles();
 
 	protected slots:
-		void slotProcessOutput(KProcess*,char* buf,int len);
-		void slotProcessExited (KProcess *proc);
+		void slotProcessOutput(K3Process*,char* buf,int len);
+		void slotProcessExited (K3Process *proc);
 };
 
 #endif

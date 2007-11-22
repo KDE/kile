@@ -510,7 +510,7 @@ namespace KileJScript {
 
 	Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionCollection, QObject *parent, const char *name)  : QObject(parent, name), m_jScriptDirWatch(NULL), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection) {
 		// create a local scripts directory if it doesn't exist yet
-		m_localJScriptDir = locateLocal("appdata", "scripts/", true);
+		m_localJScriptDir = KStandardDirs::locateLocal("appdata", "scripts/", true);
 		m_jScriptDirWatch = new KDirWatch(this, "KileJScript::Manager::JScriptDirWatch");
 		connect(m_jScriptDirWatch, SIGNAL(dirty(const QString&)), this, SLOT(scanJScriptDirectories()));
 		connect(m_jScriptDirWatch, SIGNAL(created(const QString&)), this, SLOT(scanJScriptDirectories()));
@@ -576,7 +576,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		QMap<QString, unsigned int> pathIDMap;
 		QMap<unsigned int, bool> takenIDMap;
 		for(Q3ValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
-			QString fileName = m_config->readPathEntry("Script" + QString::number(*i));
+			QString fileName = m_config->readPathEntry("Script" + QString::number(*i, QString()));
 			if(!fileName.isEmpty()) {
 				unsigned int id = *i;
 				pathIDMap[fileName] = id;

@@ -66,7 +66,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	// listbox
 	QLabel *label1 = new QLabel(i18n("&Menu item:"),widget);
 	grid->addWidget( label1,0,0 );
-	m_menulistbox = new KListBox(widget);
+	m_menulistbox = new K3ListBox(widget);
 	grid->addWidget( m_menulistbox, 1,0 );
 	label1->setBuddy(m_menulistbox);
 
@@ -343,7 +343,7 @@ void UserHelpDialog::updateButton()
 
 //BEGIN UserHelpAddDialog
 
-UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, const char *name)
+UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, const char *name)
 	: KDialogBase( parent, name, true, i18n("Add User Helpfile"), Cancel | Ok, Ok, true ),
 	  m_menulistbox(menulistbox)
 {
@@ -374,11 +374,13 @@ UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, con
 	m_leHelpFile = new KLineEdit("",widget);
 	m_leHelpFile->setReadOnly(false);
 	grid->addWidget( m_leHelpFile, 1,1 );
-	m_pbChooseFile = new KPushButton("", widget, "filechooser_button" );
+	m_pbChooseFile = new KPushButton( "", widget );
+	m_pbChooseFile->setObjectName( "filechooser_button" );
 	m_pbChooseFile->setPixmap( SmallIcon("fileopen") );
 	grid->addRowSpacing( 1, m_pbChooseFile->sizeHint().height()+5 );
 	grid->addWidget(m_pbChooseFile,1,3);
-	m_pbChooseHtml = new KPushButton("", widget, "htmlchooser_button" );
+	m_pbChooseHtml = new KPushButton( "", widget );
+	m_pbChooseHtml->setObjectName( "htmlchooser_button" );
 	m_pbChooseHtml->setPixmap( SmallIcon("viewhtml") );
 	grid->addWidget(m_pbChooseHtml,1,5);
 	grid->setColSpacing(3, m_pbChooseFile->sizeHint().width()+5 );
@@ -423,7 +425,7 @@ void UserHelpAddDialog::slotChooseFile()
 
 void UserHelpAddDialog::slotChooseHtml()
 {
-	KURL url;
+	KUrl url;
 	url.setPath("about:blank");
 	KRun::runURL(url,"text/html");
 }

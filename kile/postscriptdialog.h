@@ -25,7 +25,7 @@
 #include <qstring.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <kprocess.h>
+#include <k3process.h>
 
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
@@ -49,7 +49,7 @@
 #define PS_PSTOPS_FREE    16
 #define PS_PSSELECT_FREE  17
 
-class KShellProcess;
+class K3ShellProcess;
 
 namespace KileDialog
 {
@@ -73,8 +73,8 @@ private slots:
 	void chooseOutfile();
 	void comboboxChanged(int index);
 	void slotUser1();
-	void slotProcessOutput(KProcess*,char* buf,int len);
-	void slotProcessExited (KProcess *proc);
+	void slotProcessOutput(K3Process*,char* buf,int len);
+	void slotProcessExited (K3Process *proc);
 	
 private:
 	bool checkParameter();
@@ -97,7 +97,7 @@ private:
 	QString m_program;
 	QString m_param;
 
-	KShellProcess* m_proc;
+	K3ShellProcess* m_proc;
 
 };
 

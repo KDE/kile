@@ -89,7 +89,7 @@ namespace KileDialog
 		setupQuickPreview();     // QuickPreview (dani)
 
 		setupEditor();
-		enableButtonSeparator(true);
+		showButtonSeparator(true);
 
 		// calculate size for opening
 		if ( ! m_config->hasGroup("KileConfigDialog") )
@@ -124,7 +124,7 @@ namespace KileDialog
 		path << section;
 
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-		setFolderIcon(path, SmallIcon(icon, KIcon::SizeSmallMedium));
+		setFolderIcon(path, SmallIcon(icon, KIconLoader::SizeSmallMedium));
 #else
                 setFolderIcon(path, SmallIcon(icon));
 #endif
@@ -143,9 +143,9 @@ namespace KileDialog
 		QStringList path;
 		path << sectionName << itemName;
 	
-		Q3VBox *vbox = addVBoxPage(path, header,
+		KVBox *vbox = addVBoxPage(path, header,
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-                SmallIcon(pixmapName,KIcon::SizeSmallMedium)
+                SmallIcon(pixmapName,KIconLoader::SizeSmallMedium)
 #else
                 SmallIcon(pixmapName)
 #endif
@@ -280,9 +280,9 @@ namespace KileDialog
 
 			// create a new vbox page and add the config page
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-			Q3VBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIcon::SizeSmallMedium) );
+			KVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIconLoader::SizeSmallMedium) );
 #else
-			Q3VBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i) );
+			KVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i) );
 #endif
 			KTextEditor::ConfigPage *configPage = iface->configPage(i,page);
 			connect( configPage, SIGNAL(changed()), this, SLOT(slotChanged()) );

@@ -20,12 +20,14 @@ email                : holger.danielsson@t-online.de
 #define KILEDIALOGQUICKDOCHEADER_H
 
 #include <qmap.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
+//Added by qt3to4:
+#include <QLabel>
 #include "kilewizard.h"
 
 class KComboBox;
-class QListView;
-class QCheckListItem;
+class Q3ListView;
+class Q3CheckListItem;
 class KLineEdit;
 class KPushButton;
 
@@ -65,8 +67,8 @@ private:
 	KComboBox *m_cbTypefaceSize;
 	KComboBox *m_cbPaperSize;
 	KComboBox *m_cbEncoding;
-	QListView *m_lvClassOptions;
-	QListView *m_lvPackages;
+	Q3ListView *m_lvClassOptions;
+	Q3ListView *m_lvPackages;
 	KLineEdit *m_leAuthor;
 	KLineEdit *m_leTitle;
 	KLineEdit *m_leDate;
@@ -145,20 +147,20 @@ private:
 	// packages tab
 	void initPackages();
 	bool readPackagesListview();        
-	QCheckListItem *insertListview(QListView *listview,               
+	Q3CheckListItem *insertListview(Q3ListView *listview,               
                                   const QString &entry,
                                   const QString &description);
-	QCheckListItem *insertListview(QCheckListItem *parent,               
+	Q3CheckListItem *insertListview(Q3CheckListItem *parent,               
                                   const QString &entry,
                                   const QString &description);
-	QCheckListItem *insertEditableListview(QCheckListItem *parent,               
+	Q3CheckListItem *insertEditableListview(Q3CheckListItem *parent,               
 	                                       const QString &entry,const QString &description,
 	                                       const QString value,const QString defaultvalue);
-	bool isListviewEntry(QListView *listview,const QString &entry);
-	void setPackagesValue(QListViewItem *item,const QString &option,const QString &val);
+	bool isListviewEntry(Q3ListView *listview,const QString &entry);
+	void setPackagesValue(Q3ListViewItem *item,const QString &option,const QString &val);
 	QString getPackagesValue(const QString &value);
 
-	bool isListviewChild(QListView *listview,const QString &entry, const QString &option);
+	bool isListviewChild(Q3ListView *listview,const QString &entry, const QString &option);
 	QString addPackageDefault(const QString &option,const QString &description);
 	QString stripPackageDefault(const QString &option,const QString &description);
 	bool isHyperrefDriver(const QString &name);
@@ -180,13 +182,13 @@ private slots:
 	void slotTypefaceSizeDelete();  
 	void slotPaperSizeAdd();
 	void slotPaperSizeDelete();
-	void slotOptionDoubleClicked(QListViewItem *listViewItem,const QPoint &,int); 
+	void slotOptionDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int); 
 	void slotClassOptionAdd();
 	void slotClassOptionEdit();
 	void slotClassOptionDelete();
 	
-	void slotCheckParent(QListViewItem *listViewItem);
-	void slotPackageDoubleClicked(QListViewItem *listViewItem,const QPoint &,int);
+	void slotCheckParent(Q3ListViewItem *listViewItem);
+	void slotPackageDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int);
 	void slotPackageAdd();
 	void slotPackageAddOption();
 	void slotPackageEdit();
@@ -210,7 +212,7 @@ private:
 	int  m_check;
 	
 	QStringList m_description;
-	QValueList<QWidget *> m_objectlist;
+	Q3ValueList<QWidget *> m_objectlist;
 		
 	QString getPackageName(const QString &text);
 	bool checkListEntries(const QString &title, const QString &textlist,const QString &pattern);

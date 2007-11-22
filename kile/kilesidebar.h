@@ -18,17 +18,19 @@
 #ifndef KILESIDEBAR_H
 #define KILESIDEBAR_H
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <QPixmap>
 
-class QWidgetStack;
+class Q3WidgetStack;
 class KileMultiTabBar;
 class SymbolView;
 
 /**
 @author Jeroen Wijnhout
 */
-class KileSideBar : public QFrame
+class KileSideBar : public Q3Frame
 {
 	Q_OBJECT
 
@@ -75,7 +77,7 @@ private:
 	int findNextShownTab(int i);
 
 protected:
-	QWidgetStack		*m_tabStack;
+	Q3WidgetStack		*m_tabStack;
 	KileMultiTabBar		*m_tabBar;
 	int			m_nTabs;
 	int			m_nCurrent;

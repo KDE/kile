@@ -96,7 +96,7 @@ namespace KileTool
 
 	void Base::translate(QString &str)
 	{
-		QDictIterator<QString> it(*paramDict());
+		Q3DictIterator<QString> it(*paramDict());
 		for( it.toFirst() ; it.current(); ++it )
 		{
 // 			KILE_DEBUG() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
@@ -234,13 +234,13 @@ namespace KileTool
 		QFileInfo fi(source());
 		if ( (flags() & NeedSourceExists) && !fi.exists() )
 		{
-			sendMessage(Error, msg(NeedSourceExists).arg(fi.absFilePath()));
+			sendMessage(Error, msg(NeedSourceExists).arg(fi.absoluteFilePath()));
 			return false;
 		}
 		
 		if ( (flags() & NeedSourceRead) && !fi.isReadable() )
 		{
-			sendMessage(Error, msg(NeedSourceRead).arg(fi.absFilePath()));
+			sendMessage(Error, msg(NeedSourceRead).arg(fi.absoluteFilePath()));
 			return false;
 		}
 
@@ -261,7 +261,7 @@ namespace KileTool
  			info.setFile(src);
 		}
 
-		m_basedir = info.dirPath(true);
+		m_basedir = info.absolutePath();
 		m_source = info.fileName();
 		m_S = info.baseName(true);
 		
@@ -367,7 +367,7 @@ namespace KileTool
 	{
 		QFileInfo fi(target);
 		setTarget(fi.fileName());
-		setTargetDir(fi.dirPath(true));
+		setTargetDir(fi.absolutePath());
 	}
 	
 	bool Base::checkPrereqs()
@@ -633,7 +633,7 @@ namespace KileTool
 		Base *tool;
 		for (uint i=0; i < tools.count(); ++i)
 		{
-			tools[i] = tools[i].stripWhiteSpace();
+			tools[i] = tools[i].trimmed();
 			extract(tools[i], tl, cfg);
 
 			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation

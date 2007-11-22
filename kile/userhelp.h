@@ -20,7 +20,7 @@
 #define USERHELP_H
 
 #include <qwidget.h>   
-#include <qpopupmenu.h>   
+#include <q3popupmenu.h>   
 #include <qstringlist.h>
 
 #include <kmenubar.h>
@@ -53,15 +53,15 @@ private:
 	void setupUserHelpMenu();
 	void expandHelpMenu();
 	
-	QPopupMenu *getHelpPopup();
-	int getHelpIndex(QPopupMenu *popup);
+	Q3PopupMenu *getHelpPopup();
+	int getHelpIndex(Q3PopupMenu *popup);
 
 	void updateEntries(const QStringList &entries, const QStringList &files, bool save = true);
 
 	KileTool::Manager *m_manager;
 	KMenuBar *m_menubar;
 	
-	QPopupMenu *m_helpmenu, *m_helppopup;
+	Q3PopupMenu *m_helpmenu, *m_helppopup;
 	int m_helpid, m_sepid;
 	QStringList m_menuentries, m_helpfiles;
 };   

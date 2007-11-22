@@ -19,7 +19,7 @@
  
 #include <qstring.h>
 #include <qfileinfo.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qtimer.h>
 #include <qregexp.h>
 #include <qthread.h>
@@ -101,7 +101,7 @@ namespace KileTool
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, QWidgetStack *stack, KAction *stop, uint to) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, Q3WidgetStack *stack, KAction *stop, uint to) :
 		m_ki(ki),
 		m_config(config),
 		m_log(log),
@@ -436,12 +436,12 @@ namespace KileTool
 	{
 		static QRegExp re("([^\\(]*)\\((.*)\\)");
 		QString lcl = str;
-		lcl.stripWhiteSpace();
+		lcl.trimmed();
 		cfg = QString::null;
 		if ( re.exactMatch(lcl) )
 		{
-			tool = re.cap(1).stripWhiteSpace();
-			cfg = re.cap(2).stripWhiteSpace();
+			tool = re.cap(1).trimmed();
+			cfg = re.cap(2).trimmed();
 		}
 		else
 			tool = lcl;

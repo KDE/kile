@@ -18,7 +18,7 @@
 
 #include <qdir.h>
 #include <qfile.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <qregexp.h>
 #include <qfileinfo.h>
 
@@ -338,12 +338,12 @@ namespace KileHelp
 		QRegExp reg("\\s*(\\S+)\\s*=>\\s*(\\S+)");
 
 		QFile f(file);
-		if ( f.open(IO_ReadOnly) )
+		if ( f.open(QIODevice::ReadOnly) )
 		{     // file opened successfully
-			QTextStream t( &f );         // use a text stream
+			Q3TextStream t( &f );         // use a text stream
 			while ( ! t.eof() )
 			{        // until end of file...
-			QString s = t.readLine().stripWhiteSpace();       // line of text excluding '\n'
+			QString s = t.readLine().trimmed();       // line of text excluding '\n'
 			if ( ! (s.isEmpty() || s.at(0)=='#') )
 			{
 				int pos = reg.search(s);

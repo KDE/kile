@@ -29,7 +29,7 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qstringlist.h>
 #include <qtabwidget.h>
 #include <qmap.h>

@@ -16,7 +16,10 @@
 #ifndef KILEDIALOG_CONFIGCHECKER_H
 #define KILEDIALOG_CONFIGCHECKER_H
 
-#include <qsimplerichtext.h>
+#include <q3simplerichtext.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QLabel>
 
 #include <kdialogbase.h>
 
@@ -32,18 +35,18 @@ class ConfigCheckerWidget;
 
 namespace KileDialog
 {
-	class ResultItem : public QListBoxItem
+	class ResultItem : public Q3ListBoxItem
 	{
 	public:
-		ResultItem(KListBox *lb, const QString &tool, int status, const QValueList<ConfigTest> &tests);
-		int width(const QListBox *) const { return m_richText->widthUsed(); }
-		int height(const QListBox *) const { return m_richText->height(); }
+		ResultItem(KListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests);
+		int width(const Q3ListBox *) const { return m_richText->widthUsed(); }
+		int height(const Q3ListBox *) const { return m_richText->height(); }
 
 	protected:
 		void paint(QPainter *);
 
 	private:
-		QSimpleRichText	*m_richText;
+		Q3SimpleRichText	*m_richText;
 	};
 
 	class ConfigChecker : public KDialogBase

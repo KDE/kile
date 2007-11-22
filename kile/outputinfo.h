@@ -16,7 +16,7 @@
 #ifndef OUTPUTINFO_H
 #define OUTPUTINFO_H
 
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 #include <qstring.h>
 
 /**Class for output-information of third program (e.g. Latex-Output, C-Compiler output)
@@ -74,5 +74,5 @@ private:
 
 @author Thorsten Lck
 */
-typedef QValueList<OutputInfo> OutputInfoArray;
+typedef Q3ValueList<OutputInfo> OutputInfoArray;
 #endif

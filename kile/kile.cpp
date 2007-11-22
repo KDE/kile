@@ -20,7 +20,14 @@
 #include "kile.h"
 
 #include <qtooltip.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <QShowEvent>
+#include <Q3ValueList>
+#include <QHideEvent>
+#include <Q3CString>
+#include <Q3PopupMenu>
+#include <Q3PtrList>
 
 #include <kaction.h>
 #include <khelpmenu.h>
@@ -133,7 +140,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	setupStatusBar();
 
-	m_topWidgetStack = new QWidgetStack( this );
+	m_topWidgetStack = new Q3WidgetStack( this );
 	m_topWidgetStack->setFocusPolicy(QWidget::NoFocus);
 
 	m_horizontalSplitter = new QSplitter(QSplitter::Horizontal,m_topWidgetStack, "horizontalSplitter" );
@@ -153,7 +160,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	setupActions();
 	setupTools();
 
-	QValueList<int> sizes;
+	Q3ValueList<int> sizes;
 	sizes << m_verSplitTop << m_verSplitBottom;
 	m_verticalSplitter->setSizes( sizes );
 	sizes.clear();
@@ -325,26 +332,26 @@ void Kile::enableSymbolViewMFUS()
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),true);
 	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),
 			i18n("Move the mouse over an icon to see the corresponding LaTeX command.\n \
-			Click on an icon to insert the command, additionally pressing SHIFT inserts it in math mode,\
-			pressing CTRL in curly brackets."));
+			Click on an icon to insert the command, additionally pressing Qt::SHIFT inserts it in math mode,\
+			pressing Qt::CTRL in curly brackets."));
 
-	connect(m_symbolViewRelation,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewOperators,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewArrows,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewMiscMath,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewMiscText,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewDelimiters,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewGreek,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewSpecial,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewCyrillic,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
-	connect(m_symbolViewUser,SIGNAL(addToList(const QIconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QIconViewItem *)));
+	connect(m_symbolViewRelation,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewOperators,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewArrows,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewMiscMath,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewMiscText,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewDelimiters,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewGreek,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewSpecial,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewCyrillic,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewUser,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
 }
 
 void Kile::disableSymbolViewMFUS()
 {
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
 	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),QString());
-	disconnect(m_symbolViewMFUS,SIGNAL(addtoList(const QIconViewItem *)));
+	disconnect(m_symbolViewMFUS,SIGNAL(addtoList(const Q3IconViewItem *)));
 }
 
 
@@ -453,7 +460,7 @@ void Kile::setupBottomBar()
 	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
-	m_previewView = new QScrollView (m_bottomBar);
+	m_previewView = new Q3ScrollView (m_bottomBar);
 	m_previewWidget = new KileWidget::PreviewWidget (this, m_previewView);
 	m_previewView->viewport()->setPaletteBackgroundColor (QColor (0xff, 0xff, 0xff));
 	m_previewView->addChild(m_previewWidget, 0, 0); 
@@ -691,7 +698,7 @@ void Kile::setupTools()
 	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
 	QStringList tools = KileTool::toolList(m_config);
 	QString toolMenu;
-	QPtrList<KAction> *pl;
+	Q3PtrList<KAction> *pl;
 
 	unplugActionList("list_compilers");
 	unplugActionList("list_converters");
@@ -743,7 +750,7 @@ void Kile::setupTools()
 	actionCollection()->readShortcutSettings("Shortcuts", m_config);
 }
 
-void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
+void Kile::cleanUpActionList(Q3PtrList<KAction> &list, const QStringList & tools)
 {
 	for ( KAction *act = list.first(); act; act = list.next() )
 	{
@@ -757,8 +764,8 @@ void Kile::cleanUpActionList(QPtrList<KAction> &list, const QStringList & tools)
 
 void Kile::setupUserTagActions()
 {
-	KShortcut tagaccels[10] = {CTRL+SHIFT+Key_1, CTRL+SHIFT+Key_2,CTRL+SHIFT+Key_3,CTRL+SHIFT+Key_4,CTRL+SHIFT+Key_5,CTRL+SHIFT+Key_6,CTRL+SHIFT+Key_7,
-		CTRL+SHIFT+Key_8,CTRL+SHIFT+Key_9,CTRL+SHIFT+Key_0};
+	KShortcut tagaccels[10] = {Qt::CTRL+Qt::SHIFT+Qt::Key_1, Qt::CTRL+Qt::SHIFT+Qt::Key_2,Qt::CTRL+Qt::SHIFT+Qt::Key_3,Qt::CTRL+Qt::SHIFT+Qt::Key_4,Qt::CTRL+Qt::SHIFT+Qt::Key_5,Qt::CTRL+Qt::SHIFT+Qt::Key_6,Qt::CTRL+Qt::SHIFT+Qt::Key_7,
+		Qt::CTRL+Qt::SHIFT+Qt::Key_8,Qt::CTRL+Qt::SHIFT+Qt::Key_9,Qt::CTRL+Qt::SHIFT+Qt::Key_0};
 
 	m_actionEditTag = new KAction(i18n("Edit User Tags..."),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
 	m_menuUserTags->insert(m_actionEditTag);
@@ -1160,7 +1167,7 @@ void Kile::grepItemSelected(const QString &abs_filename, int line)
 
 void Kile::findInFiles()
 {
-	static QGuardedPtr<KileGrepDialog> dlg = 0;
+	static QPointer<KileGrepDialog> dlg = 0;
 
 	if ( ! dlg )
 	{
@@ -1180,7 +1187,7 @@ void Kile::findInFiles()
 
 void Kile::findInProjects()
 {
-	static QGuardedPtr<KileGrepDialog> project_dlg = 0;
+	static QPointer<KileGrepDialog> project_dlg = 0;
 
 	if ( ! project_dlg )
 	{
@@ -1352,7 +1359,7 @@ void Kile::enableKileGUI(bool enable)
 	QMenuBar *menubar = menuBar();
 	for (uint i=0; i<menubar->count(); ++i) {
 		id = menubar->idAt(i);
-		QPopupMenu *popup = menubar->findItem(id)->popup();
+		Q3PopupMenu *popup = menubar->findItem(id)->popup();
 		if ( popup ) {
 			text = popup->name();
 			if ( text == "menu_build"   ||
@@ -1514,12 +1521,12 @@ void Kile::updateMenu()
 	QMenuBar *menubar = menuBar();
 	for ( uint i=0; i<menubar->count(); ++i ) {
 		int menu_id = menubar->idAt(i);
-		QPopupMenu *menu = menubar->findItem(menu_id)->popup();
+		Q3PopupMenu *menu = menubar->findItem(menu_id)->popup();
 		if ( menu ) {
 			QString menu_name = menu->name();
 			for ( uint j=0; j<menu->count(); ++j ) {
 				int sub_id = menu->idAt(j);
-				QPopupMenu *submenu = menu->findItem(sub_id)->popup();
+				Q3PopupMenu *submenu = menu->findItem(sub_id)->popup();
 				if ( submenu ) {
 					QString submenu_name = submenu->name();
 					if ( m_dictMenuFile.contains(submenu_name) ) {
@@ -1548,7 +1555,7 @@ void Kile::updateMenu()
 
 }
 
-void Kile::updateActionList(QPtrList<KAction> *list, bool state)
+void Kile::updateActionList(Q3PtrList<KAction> *list, bool state)
 {
 	for ( KAction *a=list->first(); a; a=list->next() ) {
 		a->setEnabled(state);
@@ -1745,12 +1752,12 @@ void Kile::quickMathenv()
 
 void Kile::quickPostscript()
 {
-	QString startdir = QDir::homeDirPath();
+	QString startdir = QDir::homePath();
 	QString texfilename = QString::null;
 
 	Kate::View *view = viewManager()->currentTextView();
 	if ( view ) {
-		startdir = QFileInfo(view->getDoc()->url().path()).dirPath();
+		startdir = QFileInfo(view->getDoc()->url().path()).path();
 		texfilename = getCompileName();
 	}
 
@@ -1960,8 +1967,8 @@ void Kile::saveSettings()
 	KileConfig::setMainwindowWidth(width());
 	KileConfig::setMainwindowHeight(height());
 
-	QValueList<int> sizes;
-	QValueList<int>::Iterator it;
+	Q3ValueList<int> sizes;
+	Q3ValueList<int>::Iterator it;
 	sizes=m_horizontalSplitter->sizes();
 	it = sizes.begin();
 	m_horSplitLeft=*it;
@@ -2112,8 +2119,8 @@ void Kile::slotPerformCheck()
 void Kile::configureKeys()
 {
 	KKeyDialog dlg( false, this );
-	QPtrList<KXMLGUIClient> clients = guiFactory()->clients();
-	for( QPtrListIterator<KXMLGUIClient> it( clients );	it.current(); ++it )
+	Q3PtrList<KXMLGUIClient> clients = guiFactory()->clients();
+	for( Q3PtrListIterator<KXMLGUIClient> it( clients );	it.current(); ++it )
 	{
 		dlg.insert( (*it)->actionCollection() );
 	}
@@ -2213,7 +2220,7 @@ void Kile::includeGraphics()
 	if ( !view ) return;
 
 	QFileInfo fi( view->getDoc()->url().path() );
-	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.dirPath(), this);
+	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.path(), this);
 
 	if ( dialog->exec() == QDialog::Accepted )
 	{
@@ -2264,15 +2271,15 @@ void Kile::citeViewBib()
 
 	DCOPClient *client = kapp->dcopClient();
 	QByteArray params, replyData;
-	QCString replyType;
+	Q3CString replyType;
 
-	QDataStream stream(params, IO_WriteOnly);
+	QDataStream stream(params, QIODevice::WriteOnly);
 	QCStringList functions,remoteApps,remoteObjs;
 
- 	const QCString viewBibApp = "kbib"; // currently these things are hardcoded because only kbib supports it
- 	const QCString viewBibObj = "kbibapp";
-	const QCString viewBibFncDef = "QString cite()";
-	const QCString viewBibFnc = "cite()";
+ 	const Q3CString viewBibApp = "kbib"; // currently these things are hardcoded because only kbib supports it
+ 	const Q3CString viewBibObj = "kbibapp";
+	const Q3CString viewBibFncDef = "QString cite()";
+	const Q3CString viewBibFnc = "cite()";
 
 	remoteApps = client->registeredApplications();
 	if( !remoteApps.contains(viewBibApp) )
@@ -2313,7 +2320,7 @@ void Kile::citeViewBib()
 		return;
 	}
 	else{
-		QDataStream reply(replyData, IO_ReadOnly);
+		QDataStream reply(replyData, QIODevice::ReadOnly);
 		if (replyType == "QString")
 		{
 			QString result;

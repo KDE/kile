@@ -26,11 +26,14 @@
 #include "kileprojectdlgs.h"
 
 #include <qlabel.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qfileinfo.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qregexp.h>
 #include <qvalidator.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -60,25 +63,25 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_extmanager(extensions), m_project(0)
 {
 	// properties groupbox
-	m_pgroup = new QVGroupBox(i18n("Project"), plainPage());
+	m_pgroup = new Q3VGroupBox(i18n("Project"), plainPage());
 	m_pgroup->setColumnLayout(0, Qt::Vertical );
 	m_pgroup->layout()->setSpacing( 6 );
 	m_pgroup->layout()->setMargin( 11 );
-	m_pgrid = new QGridLayout( m_pgroup->layout() );
+	m_pgrid = new Q3GridLayout( m_pgroup->layout() );
 	m_pgrid->setAlignment( Qt::AlignTop );
 
 	m_title = new KLineEdit(m_pgroup, "le_projectname");
-	QWhatsThis::add(m_title, whatsthisName);
+	Q3WhatsThis::add(m_title, whatsthisName);
 	m_plabel = new QLabel(i18n("Project &title:"), m_pgroup);
 	m_plabel->setBuddy(m_title);
-	QWhatsThis::add(m_plabel, whatsthisName);
+	Q3WhatsThis::add(m_plabel, whatsthisName);
 	
 	// extensions groupbox
-	m_egroup= new QVGroupBox(i18n("Extensions"), plainPage());
+	m_egroup= new Q3VGroupBox(i18n("Extensions"), plainPage());
 	m_egroup->setColumnLayout(0, Qt::Vertical );
 	m_egroup->layout()->setSpacing( 6 );
 	m_egroup->layout()->setMargin( 11 );
-	m_egrid = new QGridLayout( m_egroup->layout() );
+	m_egrid = new Q3GridLayout( m_egroup->layout() );
 	m_egrid->setAlignment( Qt::AlignTop );
 
 	m_extensions = new KLineEdit(m_egroup, "le_ext");
@@ -93,8 +96,8 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_lbPredefinedExtensions = new QLabel(i18n("Predefined:"),m_egroup);
 	m_lbStandardExtensions = new QLabel(QString::null,m_egroup);
 
-	QWhatsThis::add(m_sel_extensions, whatsthisExt);
-	QWhatsThis::add(m_extensions, whatsthisExt);
+	Q3WhatsThis::add(m_sel_extensions, whatsthisExt);
+	Q3WhatsThis::add(m_extensions, whatsthisExt);
 
 	fillProjectDefaults();
 
@@ -131,7 +134,7 @@ bool KileProjectDlgBase::acceptUserExtensions()
 
 	for (int i=KileProjectItem::Source; i<KileProjectItem::Other; ++i) 
 	{
-		m_val_extensions[i-1] = m_val_extensions[i-1].stripWhiteSpace();
+		m_val_extensions[i-1] = m_val_extensions[i-1].trimmed();
 		if ( ! m_val_extensions[i-1].isEmpty() )
 		{
 			// some tiny extension checks
@@ -205,7 +208,7 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 		m_filename(QString::null)
 {
 	// Layout
-	QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
 
 	// first groupbox
 	m_pgrid->addWidget(m_plabel, 0,0);
@@ -216,8 +219,8 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	m_location->setMinimumWidth(200);
 
 	QLabel *lb1 = new QLabel(i18n("Project &file:"), m_pgroup);
-	QWhatsThis::add(lb1, whatsthisPath);
-	QWhatsThis::add(m_location, whatsthisPath);
+	Q3WhatsThis::add(lb1, whatsthisPath);
+	Q3WhatsThis::add(m_location, whatsthisPath);
 	lb1->setBuddy(m_location);
 	m_pbChooseDir= new KPushButton(i18n("Select Folder..."), m_pgroup, "dirchooser_button" );
 	m_pbChooseDir->setPixmap( SmallIcon("fileopen") );
@@ -235,9 +238,9 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	connect(m_pbChooseDir, SIGNAL(clicked()), this, SLOT(browseLocation()));
 
 	// second groupbox
-	QVGroupBox* group2= new QVGroupBox(i18n("File"), plainPage());
+	Q3VGroupBox* group2= new Q3VGroupBox(i18n("File"), plainPage());
 	QWidget *widget2 = new QWidget(group2);
-	QGridLayout *grid2 = new QGridLayout(widget2, 3,2, 6,6);
+	Q3GridLayout *grid2 = new Q3GridLayout(widget2, 3,2, 6,6);
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"),widget2);
 	m_cb->setChecked(true);
 	m_lb  = new QLabel(i18n("File&name (relative to where the project file is):"),widget2);
@@ -247,7 +250,7 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	m_templateIconView->setTemplateManager(m_templateManager);
 	m_templateManager->scanForTemplates();
 	m_templateIconView->fillWithTemplates(KileDocument::LaTeX);
-	QWhatsThis::add(m_cb, i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
+	Q3WhatsThis::add(m_cb, i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
 
 	grid2->addMultiCellWidget(m_cb, 0,0, 0,1);
 	grid2->addWidget(m_lb, 1,0);
@@ -309,7 +312,7 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 
 QString KileNewProjectDlg::bare()
 {
-	return projectTitle().lower().stripWhiteSpace().replace(QRegExp("\\s*"),"")+".kilepr";
+	return projectTitle().toLower().trimmed().replace(QRegExp("\\s*"),"")+".kilepr";
 }
 
 void KileNewProjectDlg::browseLocation()
@@ -331,8 +334,8 @@ void KileNewProjectDlg::browseLocation()
 void KileNewProjectDlg::makeProjectPath()
 {
 	m_filename=bare();
-	KILE_DEBUG() << "BEFORE " << QFileInfo(location()).absFilePath() << " " << QFileInfo(location()).dirPath() << endl;
-	m_dir = QFileInfo(location()).dirPath();
+	KILE_DEBUG() << "BEFORE " << QFileInfo(location()).absoluteFilePath() << " " << QFileInfo(location()).path() << endl;
+	m_dir = QFileInfo(location()).path();
 	if (m_dir.right(1) != "/") m_dir = m_dir + '/';
 
 	KILE_DEBUG() << "LOCATION " << location() << " AND " << m_dir << endl;
@@ -351,7 +354,7 @@ void KileNewProjectDlg::slotOk()
 	m_location->setText(uc.replacedPath(location()));
 	m_file->setText(uc.replacedPath(file()));
 
-	if ( projectTitle().stripWhiteSpace().isEmpty())
+	if ( projectTitle().trimmed().isEmpty())
 	{
 		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes)
 			m_title->setText(i18n("Untitled"));
@@ -359,17 +362,17 @@ void KileNewProjectDlg::slotOk()
 			return;
 	}
 
-	if ( location().stripWhiteSpace().isEmpty() )
+	if ( location().trimmed().isEmpty() )
 	{
 		KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty Location"));
 		return;
 	}
 
-	QFileInfo fi(location().stripWhiteSpace());
-	QFileInfo dr(fi.dirPath());
+	QFileInfo fi(location().trimmed());
+	QFileInfo dr(fi.path());
 	QDir dir = dr.dir();
 
-	if ( location().stripWhiteSpace().right(7) != ".kilepr")
+	if ( location().trimmed().right(7) != ".kilepr")
 	{
 		KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong Filename Extension"));
 		return;
@@ -384,23 +387,23 @@ void KileNewProjectDlg::slotOk()
 		}
 
 		KILE_DEBUG() << "==KileNewProjectDlg::slotOk()==============" << endl;
-		KILE_DEBUG() << "\t" << location() << " " << fi.dirPath() << endl;
+		KILE_DEBUG() << "\t" << location() << " " << fi.path() << endl;
 		if (! dr.exists())
 		{
 			bool suc = true;
-			QStringList dirs = QStringList::split("/", fi.dirPath());
+			QStringList dirs = QStringList::split("/", fi.path());
 			QString path;
 
 			for (uint i=0; i < dirs.count(); ++i)
 			{
 				path += '/' + dirs[i];
 				dir.setPath(path);
-				KILE_DEBUG() << "\tchecking : " << dir.absPath() << endl;
+				KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
 				if ( ! dir.exists() )
 				{
-					dir.mkdir(dir.absPath());
+					dir.mkdir(dir.absolutePath());
 					suc = dir.exists();
-					KILE_DEBUG() << "\t\tcreated : " << dir.absPath() << " suc = " << suc << endl;
+					KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
 				}
 
 				if (!suc)
@@ -420,7 +423,7 @@ void KileNewProjectDlg::slotOk()
 
 	if ( createNewFile() )
 	{
-		if ( file().stripWhiteSpace().isEmpty())
+		if ( file().trimmed().isEmpty())
 		{
 			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
 				i18n("No File Name Given"));
@@ -433,7 +436,7 @@ void KileNewProjectDlg::slotOk()
 		if ( validURL != fileURL )
 			m_file->setText(validURL.fileName());
 
-		if ( QFileInfo( QDir(fi.dirPath()) , file().stripWhiteSpace()).exists() )
+		if ( QFileInfo( QDir(fi.path()) , file().trimmed()).exists() )
 		{
 			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()),
 				i18n("File Already Exists")) == KMessageBox::No)
@@ -474,7 +477,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
  	KileProjectDlgBase(i18n("Project Options"), extensions, parent, name )
 {
 	// Layout
-	QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
 
 	m_pgrid->addWidget(m_plabel, 0,0);
 	m_pgrid->addWidget(m_title, 0,2);
@@ -490,11 +493,11 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_egrid->addMultiCellWidget(m_lbStandardExtensions, 7,7, 1,3);
 
 	// third groupbox
-	QVGroupBox* group3 = new QVGroupBox(i18n("Properties"), plainPage());
+	Q3VGroupBox* group3 = new Q3VGroupBox(i18n("Properties"), plainPage());
 	group3->setColumnLayout(0, Qt::Vertical );
 	group3->layout()->setSpacing( 6 );
 	group3->layout()->setMargin( 11 );
-	QGridLayout *grid3 = new QGridLayout( group3->layout() );
+	Q3GridLayout *grid3 = new Q3GridLayout( group3->layout() );
 	grid3->setAlignment( Qt::AlignTop );
 
 	m_master = new KComboBox(false, group3, "master");
@@ -502,11 +505,11 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	QLabel *lb1 = new QLabel(i18n("&Master document:"), group3);
 	lb1->setBuddy(m_master);
 	lb1->setMinimumWidth( m_sel_extensions->sizeHint().width() );
-	QWhatsThis::add(m_master, whatsthisMaster);
-	QWhatsThis::add(lb1,whatsthisMaster);
+	Q3WhatsThis::add(m_master, whatsthisMaster);
+	Q3WhatsThis::add(lb1,whatsthisMaster);
 
 	m_master->insertItem(i18n("(auto-detect)"));
-	QPtrListIterator<KileProjectItem> rit(*(project->rootItems()));
+	Q3PtrListIterator<KileProjectItem> rit(*(project->rootItems()));
 	int index = 0;
 	while (rit.current())
 	{
@@ -575,7 +578,7 @@ void KileProjectOptionsDlg::slotOk()
 
 	this->m_project->setName(m_title->text());
 
-	QPtrListIterator<KileProjectItem> rit(*(m_project->rootItems()));
+	Q3PtrListIterator<KileProjectItem> rit(*(m_project->rootItems()));
 	while (rit.current())
 	{
 		if ((*rit)->url().fileName() == m_master->currentText() )

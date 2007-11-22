@@ -17,7 +17,9 @@
 #include "kileinfo.h"
 
 #include <qfileinfo.h>
-#include <qframe.h>
+#include <q3frame.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 #include <klocale.h>
 #include <klibloader.h>
@@ -31,7 +33,7 @@
 namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent, const char *name) : 
-		QVBox(parent, name),
+		Q3VBox(parent, name),
 		m_bPresent(false),
 		m_ki(info)
 	{
@@ -52,7 +54,7 @@ namespace KileWidget
 		if (!m_part) return;
 
 		if (m_part->widget()->inherits("QFrame"))
-			((QFrame*)m_part->widget())->setFrameStyle(QFrame::Panel|QFrame::Sunken);
+			((Q3Frame*)m_part->widget())->setFrameStyle(Q3Frame::Panel|Q3Frame::Sunken);
 
 		m_bPresent=true;
 		connect ( m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()) );

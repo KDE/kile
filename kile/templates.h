@@ -28,7 +28,7 @@
 #include <kurl.h>
 
 #include <qobject.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 #include "kileconstants.h"
 
@@ -50,9 +50,9 @@ struct Info {
 		bool operator==(const Info ti) const;
 };
 
-typedef QValueList<Info> TemplateList;
-typedef QValueListIterator<Info> TemplateListIterator;
-typedef QValueListConstIterator<Info> TemplateListConstIterator;
+typedef Q3ValueList<Info> TemplateList;
+typedef Q3ValueListIterator<Info> TemplateListIterator;
+typedef Q3ValueListConstIterator<Info> TemplateListConstIterator;
 
 class Manager : public QObject {
 	Q_OBJECT
@@ -116,13 +116,13 @@ const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
 const QString DEFAULT_EMPTY_LATEX_CAPTION = i18n("Empty LaTeX Document");
 const QString DEFAULT_EMPTY_BIBTEX_CAPTION = i18n("Empty BibTeX Document");
 
-class TemplateItem : public QIconViewItem
+class TemplateItem : public Q3IconViewItem
 {
 public:
-	TemplateItem( QIconView * parent, const KileTemplate::Info & info);
+	TemplateItem( Q3IconView * parent, const KileTemplate::Info & info);
 	~TemplateItem() {}
 
-	int compare( QIconViewItem *i ) const;
+	int compare( Q3IconViewItem *i ) const;
 	
 	QString name() { return m_info.name; }
 	QString path() { return m_info.path; }
@@ -137,7 +137,7 @@ class TemplateIconView : public KIconView {
 	Q_OBJECT
 	
 	public:
-		TemplateIconView(QWidget *parent=0, const char *name=0, WFlags f=0);
+		TemplateIconView(QWidget *parent=0, const char *name=0, Qt::WFlags f=0);
 		virtual ~TemplateIconView();
 
 		void setTemplateManager(KileTemplate::Manager *templateManager);

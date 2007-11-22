@@ -21,7 +21,12 @@
 #define KILEVIEWKILEVIEWMANAGER_H
 
 #include <qobject.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QDropEvent>
+#include <QDragMoveEvent>
+#include <Q3PtrList>
 
 #include <ktabwidget.h>
 
@@ -61,7 +66,7 @@ public:
 	void setClient(QObject *receiver, KXMLGUIClient *client);
 
 	Kate::View* currentTextView() const;
-	QPtrList<Kate::View>& textViews() {return m_textViewList;}
+	Q3PtrList<Kate::View>& textViews() {return m_textViewList;}
 	Kate::View* textView(int i) { return m_textViewList.at(i); }
 	Kate::View* textView(KileDocument::TextInfo *info);
 	int getIndexOf(Kate::View* view) const;
@@ -115,11 +120,11 @@ private:
 	KileInfo			*m_ki;
 	Kate::View			*m_activeTextView;
 // 	KileProjectView		*m_projectview;
-	QPtrList<Kate::View>		m_textViewList;
+	Q3PtrList<Kate::View>		m_textViewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;
-	QWidgetStack			*m_widgetStack;
+	Q3WidgetStack			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
 
 };
@@ -132,7 +137,7 @@ class DropWidget : public QWidget {
 	Q_OBJECT
 
 	public:
-		DropWidget(QWidget * parent = 0, const char * name = 0, WFlags f = 0);
+		DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WFlags f = 0);
 		virtual ~DropWidget();
 
 		virtual void dragMoveEvent(QDragMoveEvent *e);

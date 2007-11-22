@@ -22,12 +22,21 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qstyle.h>
-#include <qframe.h>
-#include <qgroupbox.h>
-#include <qbuttongroup.h>
-#include <qwhatsthis.h>
+#include <q3frame.h>
+#include <q3groupbox.h>
+#include <q3buttongroup.h>
+#include <q3whatsthis.h>
 #include <qcursor.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <Q3GridLayout>
+#include <Q3ValueList>
+#include <Q3HBoxLayout>
+#include <QEvent>
+#include <Q3VBoxLayout>
+#include <Q3PopupMenu>
 
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -119,7 +128,7 @@ static const char * const no_border_xpm[] = {
 
 ////////////////////////////// TabCellFrame //////////////////////////////
 
-TabCellFrame::TabCellFrame(QWidget* parent) : QFrame(parent) 
+TabCellFrame::TabCellFrame(QWidget* parent) : Q3Frame(parent) 
 {
 	m_border = TabularCell::cbNone;
 	
@@ -127,7 +136,7 @@ TabCellFrame::TabCellFrame(QWidget* parent) : QFrame(parent)
 	setFixedWidth(120);
 	setFixedHeight(120);
 	setLineWidth(2);
-	setFrameStyle(QFrame::Box | QFrame::Raised);
+	setFrameStyle(Q3Frame::Box | Q3Frame::Raised);
 	
 	QRect r = contentsRect();
 	int x1 = r.left();
@@ -256,10 +265,10 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 		m_headerlabel = headerlabel;
 	}	
 	
-	QGridLayout *grid = new QGridLayout( page, 4,2, 6,6);
+	Q3GridLayout *grid = new Q3GridLayout( page, 4,2, 6,6);
 	
 	// font group
-	QGroupBox *fontgroup = new QGroupBox( i18n("Font"),page);
+	Q3GroupBox *fontgroup = new Q3GroupBox( i18n("Font"),page);
 	fontgroup->setColumnLayout(0, Qt::Vertical );
 	fontgroup->layout()->setSpacing( 6 );
 	fontgroup->layout()->setMargin( 11 );
@@ -267,13 +276,13 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	m_cbBold = new QCheckBox(i18n("Bold"),fontgroup);	
 	m_cbItalic = new QCheckBox(i18n("Italic"),fontgroup);	
 	
-	QVBoxLayout *fontgrouplayout = new QVBoxLayout( fontgroup->layout() );
+	Q3VBoxLayout *fontgrouplayout = new Q3VBoxLayout( fontgroup->layout() );
 	fontgrouplayout->setAlignment( Qt::AlignTop );
 	fontgrouplayout->addWidget( m_cbBold ); 
 	fontgrouplayout->addWidget( m_cbItalic );
 	
 	// color group
-	QGroupBox *colorgroup = new QGroupBox( i18n("Color"),page);
+	Q3GroupBox *colorgroup = new Q3GroupBox( i18n("Color"),page);
 	colorgroup->setColumnLayout(0, Qt::Vertical );
 	colorgroup->layout()->setSpacing( 6 );
 	colorgroup->layout()->setMargin( 11 );
@@ -283,7 +292,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	m_ccBgcolor = new KColorCombo(colorgroup);	
 	m_ccTextcolor = new KColorCombo(colorgroup);	
 	
-	QGridLayout *colorgrouplayout = new QGridLayout( colorgroup->layout() );
+	Q3GridLayout *colorgrouplayout = new Q3GridLayout( colorgroup->layout() );
 	colorgrouplayout->setAlignment( Qt::AlignTop );
 	colorgrouplayout->addWidget( label1,0,0 ); 
 	colorgrouplayout->addWidget( label2,1,0 ); 
@@ -291,7 +300,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	colorgrouplayout->addWidget( m_ccTextcolor,1,1 );
 	
 	// alignment group
-	QButtonGroup *aligngroup = new QButtonGroup( i18n("Alignment"),page);
+	Q3ButtonGroup *aligngroup = new Q3ButtonGroup( i18n("Alignment"),page);
 	aligngroup->setColumnLayout(0, Qt::Vertical );
 	aligngroup->layout()->setSpacing( 6 );
 	aligngroup->layout()->setMargin( 11 );
@@ -300,14 +309,14 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	m_rbAligncenter = new QRadioButton(i18n("Center"),aligngroup);	
 	m_rbAlignright = new QRadioButton(i18n("Right"),aligngroup);	
 	
-	QVBoxLayout *aligngrouplayout = new QVBoxLayout( aligngroup->layout() );
+	Q3VBoxLayout *aligngrouplayout = new Q3VBoxLayout( aligngroup->layout() );
 	aligngrouplayout->setAlignment( Qt::AlignTop );
 	aligngrouplayout->addWidget( m_rbAlignleft ); 
 	aligngrouplayout->addWidget( m_rbAligncenter );
 	aligngrouplayout->addWidget( m_rbAlignright );
 	
 	// frame group
-	QGroupBox *framegroup = new QGroupBox( i18n("Frame"),page);
+	Q3GroupBox *framegroup = new Q3GroupBox( i18n("Frame"),page);
 	framegroup->setColumnLayout(0, Qt::Vertical );
 	framegroup->layout()->setSpacing( 6 );
 	framegroup->layout()->setMargin( 11 );
@@ -321,7 +330,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	m_pbFrame3 = new KPushButton("",lineframe,"pb_tb_border");
 	m_pbFrame4 = new KPushButton("",lineframe,"pb_all_border");
 	
-	QHBoxLayout *linebox = new QHBoxLayout(lineframe);
+	Q3HBoxLayout *linebox = new Q3HBoxLayout(lineframe);
 	linebox->addWidget(m_pbFrame1);
 	linebox->addSpacing(4);
 	linebox->addWidget(m_pbFrame2);
@@ -334,12 +343,12 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	QWidget *borderframe = new QWidget(framegroup);
 	m_cellframe = new TabCellFrame(borderframe);
 
-	QHBoxLayout *borderbox = new QHBoxLayout(borderframe);
+	Q3HBoxLayout *borderbox = new Q3HBoxLayout(borderframe);
 	borderbox->addStretch(1);
 	borderbox->addWidget(m_cellframe);
 	borderbox->addStretch(1);
 	
-	QVBoxLayout *framegrouplayout = new QVBoxLayout( framegroup->layout() );
+	Q3VBoxLayout *framegrouplayout = new Q3VBoxLayout( framegroup->layout() );
 	framegrouplayout->setAlignment( Qt::AlignTop );
 	framegrouplayout->addWidget( label3 ); 
 	framegrouplayout->addWidget( lineframe );
@@ -348,7 +357,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	framegrouplayout->addWidget( borderframe );
 	
 	// preamble group 
-	QGroupBox *preamblegroup = new QGroupBox( i18n("Preamble"),page);
+	Q3GroupBox *preamblegroup = new Q3GroupBox( i18n("Preamble"),page);
 	preamblegroup->setColumnLayout(0, Qt::Vertical );
 	preamblegroup->layout()->setSpacing( 6 );
 	preamblegroup->layout()->setMargin( 11 );
@@ -358,7 +367,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	m_cbAt = new QCheckBox(i18n("@{decl}: suppress space"),preamblegroup,"cb_at");
 	m_cbSep = new QCheckBox(i18n("!{decl}: do not suppress space"),preamblegroup,"cb_sep");
 	
-	QVBoxLayout *preamblegrouplayout = new QVBoxLayout( preamblegroup->layout() );
+	Q3VBoxLayout *preamblegrouplayout = new Q3VBoxLayout( preamblegroup->layout() );
 	preamblegrouplayout->setAlignment( Qt::AlignTop );
 	preamblegrouplayout->addWidget( m_cbPre ); 
 	preamblegrouplayout->addWidget( m_cbPost );
@@ -366,14 +375,14 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 	preamblegrouplayout->addWidget( m_cbSep );
 	
 	// header group
-	QGroupBox *headergroup = new QGroupBox( i18n("Alignment"),page);
+	Q3GroupBox *headergroup = new Q3GroupBox( i18n("Alignment"),page);
 	headergroup->setColumnLayout(0, Qt::Vertical );
 	headergroup->layout()->setSpacing( 6 );
 	headergroup->layout()->setMargin( 11 );
 
 	m_coHeader = new QComboBox(headergroup);	
 	
-	QVBoxLayout *headergrouplayout = new QVBoxLayout( headergroup->layout() );
+	Q3VBoxLayout *headergrouplayout = new Q3VBoxLayout( headergroup->layout() );
 	headergrouplayout->setAlignment( Qt::AlignTop );
 	headergrouplayout->addStretch(1); 
 	headergrouplayout->addWidget(m_coHeader); 
@@ -442,23 +451,23 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 		connect(m_cbSep,SIGNAL(clicked()),this, SLOT(slotSeparatorClicked()));
 	}
 	
-	QWhatsThis::add(m_coHeader,i18n("Column or cell alignment."));
-	QWhatsThis::add(m_cbBold,i18n("Set bold font series."));
-	QWhatsThis::add(m_cbItalic,i18n("Set italic font shape."));
-	QWhatsThis::add(m_rbAlignleft,i18n("The text will be aligned at the left border of the cell."));
-	QWhatsThis::add(m_rbAligncenter,i18n("The text will be centered."));
-	QWhatsThis::add(m_rbAlignright,i18n("The text will be aligned at the right border of the cell."));
-	QWhatsThis::add(m_ccBgcolor,i18n("Choose a background color (needs color package)."));
-	QWhatsThis::add(m_ccTextcolor,i18n("Choose a text color (needs color package)."));
-	QWhatsThis::add(m_cbPre,i18n("Insert decl directly in front of the column entry."));
-	QWhatsThis::add(m_cbPost,i18n("Insert decl right after the column entry."));
-	QWhatsThis::add(m_cbAt,i18n("Suppresses inter-column space and inserts decl directly."));
-	QWhatsThis::add(m_cbSep,i18n("Inserts decl, but does not suppress the normally inserted space between columns in contrast to @{decl}."));
-	QWhatsThis::add(m_pbFrame1,i18n("Clear all border lines."));
-	QWhatsThis::add(m_pbFrame2,i18n("Set left and right border lines."));
-	QWhatsThis::add(m_pbFrame3,i18n("Set upper and lower border line."));
-	QWhatsThis::add(m_pbFrame4,i18n("Set all border lines."));
-	QWhatsThis::add(m_cellframe,i18n("Set user defined border lines. A mouse click into one of the four border ranges will set or clear this special border line."));
+	Q3WhatsThis::add(m_coHeader,i18n("Column or cell alignment."));
+	Q3WhatsThis::add(m_cbBold,i18n("Set bold font series."));
+	Q3WhatsThis::add(m_cbItalic,i18n("Set italic font shape."));
+	Q3WhatsThis::add(m_rbAlignleft,i18n("The text will be aligned at the left border of the cell."));
+	Q3WhatsThis::add(m_rbAligncenter,i18n("The text will be centered."));
+	Q3WhatsThis::add(m_rbAlignright,i18n("The text will be aligned at the right border of the cell."));
+	Q3WhatsThis::add(m_ccBgcolor,i18n("Choose a background color (needs color package)."));
+	Q3WhatsThis::add(m_ccTextcolor,i18n("Choose a text color (needs color package)."));
+	Q3WhatsThis::add(m_cbPre,i18n("Insert decl directly in front of the column entry."));
+	Q3WhatsThis::add(m_cbPost,i18n("Insert decl right after the column entry."));
+	Q3WhatsThis::add(m_cbAt,i18n("Suppresses inter-column space and inserts decl directly."));
+	Q3WhatsThis::add(m_cbSep,i18n("Inserts decl, but does not suppress the normally inserted space between columns in contrast to @{decl}."));
+	Q3WhatsThis::add(m_pbFrame1,i18n("Clear all border lines."));
+	Q3WhatsThis::add(m_pbFrame2,i18n("Set left and right border lines."));
+	Q3WhatsThis::add(m_pbFrame3,i18n("Set upper and lower border line."));
+	Q3WhatsThis::add(m_pbFrame4,i18n("Set all border lines."));
+	Q3WhatsThis::add(m_cellframe,i18n("Set user defined border lines. A mouse click into one of the four border ranges will set or clear this special border line."));
 	
 	setButtonWhatsThis(User1,i18n("Reset all settings to standard cell attributes: left alignment, normal font series and shape, white background color, black text color, no border lines."));
 }
@@ -519,7 +528,7 @@ QString TabCellDialog::header()
 			s += " <{}";
 	}
 	
-	return s.stripWhiteSpace();
+	return s.trimmed();
 }
 
 //////////////////// init widgets  /////////////////////
@@ -621,15 +630,15 @@ void TabCellDialog::slotSeparatorClicked()
 
 //BEGIN TabularItem
 
-TabularItem::TabularItem(QTable* table)
-	: QTableItem(table,QTableItem::OnTyping,QString::null) 
+TabularItem::TabularItem(Q3Table* table)
+	: Q3TableItem(table,Q3TableItem::OnTyping,QString::null) 
 {
 	TabularTable *tab = dynamic_cast<TabularTable *>(table);
 	m_data = tab->defaultAttributes();
 }
 
-TabularItem::TabularItem(QTable* table, const TabularCell::Data &data)
-	: QTableItem(table,QTableItem::OnTyping,QString::null) 
+TabularItem::TabularItem(Q3Table* table, const TabularCell::Data &data)
+	: Q3TableItem(table,Q3TableItem::OnTyping,QString::null) 
 {
 	m_data = data;
 }
@@ -676,10 +685,10 @@ void TabularItem::paint(QPainter *p,const QColorGroup &cg,const QRect &cr,bool s
 //////////////////////////////////////////////////////////////////////
 
 TabularTable::TabularTable(int numRows,int numCols,QWidget* parent,TabularDialog *tabdialog)
-	: QTable(numRows,numCols,parent), m_tabdialog(tabdialog)
+	: Q3Table(numRows,numCols,parent), m_tabdialog(tabdialog)
 {
 
-	setSelectionMode(QTable::Single);
+	setSelectionMode(Q3Table::Single);
 	setRowMovingEnabled(false);
 	setColumnMovingEnabled(false);
 	setSorting(false);
@@ -757,7 +766,7 @@ bool TabularTable::eventFilter(QObject *o, QEvent *e)
 		}
 	}
    
-	return QTable::eventFilter(o,e);
+	return Q3Table::eventFilter(o,e);
 }
 
 void TabularTable::mouseContextHorizontalHeader(int pos)
@@ -803,7 +812,7 @@ bool TabularTable::isDefaultAttr(const TabularCell::Data &data)
 // always check first, if we have to create a new item.  
 TabularItem *TabularTable::cellItem(int row,int col)
 {
-	QTableItem *cellitem = item(row,col);
+	Q3TableItem *cellitem = item(row,col);
 	if ( ! cellitem ) 
 	{
 		TabularItem *newitem = new TabularItem(this);
@@ -888,7 +897,7 @@ void TabularTable::clearAttributes(int row,int col)
 
 void TabularTable::updateCurrentCell()
 {
-	if ( editMode() != QTable::NotEditing )
+	if ( editMode() != Q3Table::NotEditing )
 		endEdit(currentRow(),currentColumn(),true,true);
 }
 
@@ -914,7 +923,7 @@ bool TabularTable::updateCell(int row,int col)
 // when editing is finished, we check, if the QTableItem is still needed
 void TabularTable::endEdit(int row,int col,bool accept,bool replace)
 {
-	QTable::endEdit(row,col,accept,replace);
+	Q3Table::endEdit(row,col,accept,replace);
 	//updateCell(row,col);       
 }
 
@@ -1108,16 +1117,16 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 
 ////////////////////////////// popup menus //////////////////////////////
 
-QPopupMenu *TabularTable::createPopupMenu()
+Q3PopupMenu *TabularTable::createPopupMenu()
 {
-	QPopupMenu *menu = new QPopupMenu(this);
+	Q3PopupMenu *menu = new Q3PopupMenu(this);
 	menu->insertItem( i18n("Edit..."));
 	menu->insertSeparator();
 	
 	return menu;
 }
 
-void TabularTable::insertPopupAlign(QPopupMenu *popup,bool header)
+void TabularTable::insertPopupAlign(Q3PopupMenu *popup,bool header)
 {
 	// alignment 
 	int align = 0;
@@ -1148,14 +1157,14 @@ void TabularTable::insertPopupAlign(QPopupMenu *popup,bool header)
 		popup->insertSeparator();
 }
 
-void TabularTable::insertPopupClear(QPopupMenu *popup)
+void TabularTable::insertPopupClear(Q3PopupMenu *popup)
 {
 	popup->insertItem( i18n("Clear Text"));
 	popup->insertItem( i18n("Clear Attributes"));
 	popup->insertItem( i18n("Clear All"));
 }
 
-int TabularTable::popupId(QPopupMenu *popup, int id)
+int TabularTable::popupId(Q3PopupMenu *popup, int id)
 {
 	QString entry = popup->text(id);
 	
@@ -1493,7 +1502,7 @@ bool TabularTable::getCurrentSelection(int &x1,int &y1,int &x2,int &y2)
 	if ( nr >= 0 ) 
 	{
 		// get parameter of current selection
-		QTableSelection sel = selection(nr);
+		Q3TableSelection sel = selection(nr);
 		x1 = sel.leftCol();
 		y1 = sel.topRow();
 		x2 = sel.rightCol();
@@ -1839,7 +1848,7 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	setMainWidget(page);
 	setCaption(i18n("Tabular Environments"));
 	
-	QVBoxLayout *vbox = new QVBoxLayout( page, 6,6);
+	Q3VBoxLayout *vbox = new Q3VBoxLayout( page, 6,6);
 	
 	// Table
 	m_table = new TabularTable(3,3,page,this);
@@ -1848,7 +1857,7 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	QLabel *labelRemark = new QLabel( i18n("<center>Hint: You can set some cell properties with a right mouse click.</center>") ,page);
 
 	// environment group
-	QButtonGroup *group = new QButtonGroup( i18n("Environment"),page);
+	Q3ButtonGroup *group = new Q3ButtonGroup( i18n("Environment"),page);
 	group->setColumnLayout(0, Qt::Vertical );
 	group->layout()->setSpacing( 4 );
 	group->layout()->setMargin( 11 );
@@ -1867,7 +1876,7 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	m_cbCenter = new QCheckBox(i18n("C&enter"),group);
 	m_cbBullets = new QCheckBox(i18n("Insert &bullets"),group);
 	
-	QGridLayout *grouplayout = new QGridLayout( group->layout() );
+	Q3GridLayout *grouplayout = new Q3GridLayout( group->layout() );
 	grouplayout->setAlignment( Qt::AlignTop );
 	grouplayout->setColStretch(5,1);
 	grouplayout->addWidget( label1, 0,0 ); 
@@ -1923,18 +1932,18 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	connect( m_spRows, SIGNAL(valueChanged(int)), this, SLOT(slotRowValueChanged(int)));
 	connect( m_spCols, SIGNAL(valueChanged(int)), this, SLOT(slotColValueChanged(int)));
 
-	QWhatsThis::add(m_table,i18n("Input data. When you press Enter, the cursor will move to the cell right of the current cell. A click with the right mouse button on a cell or a range of cells will open a popup menu, where you can edit attributes, clear attributes, delete text or define multicolumn cells."));
-	QWhatsThis::add(m_table->horizontalHeader(),i18n("Current layout of the preamble. A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected columns."));
-	QWhatsThis::add(m_table->verticalHeader(),i18n("A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected rows."));
-	QWhatsThis::add(m_coEnvironment,i18n("Choose an environment."));
-	QWhatsThis::add(m_coParameter,i18n("Optional parameter for the chosen environment."));
-	QWhatsThis::add(m_spRows,i18n("Choose the number of table rows."));
-	QWhatsThis::add(m_spCols,i18n("Choose the number of table columns."));
-	QWhatsThis::add(m_cbWarning,i18n("If you want, you will be asked before a non empty row a column is deleted."));
-	QWhatsThis::add(m_cbCenter,i18n("The tabular will be centered."));
-	QWhatsThis::add(m_cbBooktabs,i18n("Use line commands of the booktabs package."));
-	QWhatsThis::add(m_cbStarred,i18n("Use the starred version of this environment."));
-	QWhatsThis::add(m_cbBullets,i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+	Q3WhatsThis::add(m_table,i18n("Input data. When you press Enter, the cursor will move to the cell right of the current cell. A click with the right mouse button on a cell or a range of cells will open a popup menu, where you can edit attributes, clear attributes, delete text or define multicolumn cells."));
+	Q3WhatsThis::add(m_table->horizontalHeader(),i18n("Current layout of the preamble. A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected columns."));
+	Q3WhatsThis::add(m_table->verticalHeader(),i18n("A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected rows."));
+	Q3WhatsThis::add(m_coEnvironment,i18n("Choose an environment."));
+	Q3WhatsThis::add(m_coParameter,i18n("Optional parameter for the chosen environment."));
+	Q3WhatsThis::add(m_spRows,i18n("Choose the number of table rows."));
+	Q3WhatsThis::add(m_spCols,i18n("Choose the number of table columns."));
+	Q3WhatsThis::add(m_cbWarning,i18n("If you want, you will be asked before a non empty row a column is deleted."));
+	Q3WhatsThis::add(m_cbCenter,i18n("The tabular will be centered."));
+	Q3WhatsThis::add(m_cbBooktabs,i18n("Use line commands of the booktabs package."));
+	Q3WhatsThis::add(m_cbStarred,i18n("Use the starred version of this environment."));
+	Q3WhatsThis::add(m_cbBullets,i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
 
 }
 
@@ -2174,7 +2183,7 @@ void TabularDialog::slotOk()
 	char colorchar = 'A';
 	
 	// list with all column information 
-	QValueList<TabularCell::Preamble> colinfo;
+	Q3ValueList<TabularCell::Preamble> colinfo;
 	QString whitename = Qt::white.name();
 	QString blackname = Qt::black.name();
 	
@@ -2211,7 +2220,7 @@ void TabularDialog::slotOk()
 	}
 	
 	// search for left vlines all columns 
-	QHeader *hor = m_table->horizontalHeader();
+	Q3Header *hor = m_table->horizontalHeader();
 	for ( int col=0; col<numcols; ++col ) 
 	{
 		// get current header

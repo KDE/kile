@@ -28,8 +28,11 @@
 #include "graphicsconfigwidget.h"     // graphics (dani)
 #include "structureconfigwidget.h"    // structure view (dani)
 #include "symbolviewconfig.h"
+//Added by qt3to4:
+#include <Q3Frame>
+#include <Q3PtrList>
 
-class QFrame;
+class Q3Frame;
 class KConfig;
 
 namespace KileWidget { class ToolConfig; }
@@ -118,7 +121,7 @@ namespace KileDialog
 		void syncKileEncoding();
 
 		// editor pages
-		QPtrList<KTextEditor::ConfigPage> editorPages;
+		Q3PtrList<KTextEditor::ConfigPage> editorPages;
 	};
 }
 #endif

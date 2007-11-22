@@ -49,7 +49,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, QWidget *pa
 	if ( h == -1 ) h = height();
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
-	connect(m_newDocumentWidget->templateIconView, SIGNAL(doubleClicked(QIconViewItem *)), SLOT(slotOk()));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(doubleClicked(Q3IconViewItem *)), SLOT(slotOk()));
 	m_templateManager->scanForTemplates();
 	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
 	m_newDocumentWidget->templateIconView->fillWithTemplates(KileDocument::LaTeX);
@@ -79,7 +79,7 @@ NewFileWizard::~NewFileWizard()
 
 TemplateItem* NewFileWizard::getSelection()const
 {
-	for(QIconViewItem *item = m_newDocumentWidget->templateIconView->firstItem(); item; item = item->nextItem()) {
+	for(Q3IconViewItem *item = m_newDocumentWidget->templateIconView->firstItem(); item; item = item->nextItem()) {
 		if(item->isSelected()) {
 			return static_cast<TemplateItem*>(item);
 		}
@@ -126,7 +126,7 @@ void NewFileWizard::storeSelectedIcon()
 void NewFileWizard::restoreSelectedIcon()
 {
 	QString selectedIconName = m_config->readEntry(getConfigKey(m_currentlyDisplayedType), DEFAULT_EMPTY_CAPTION);
-	QIconViewItem *item = m_newDocumentWidget->templateIconView->findItem(selectedIconName);
+	Q3IconViewItem *item = m_newDocumentWidget->templateIconView->findItem(selectedIconName);
 	if(item) {
 		m_newDocumentWidget->templateIconView->setSelected(item, true);
 	}

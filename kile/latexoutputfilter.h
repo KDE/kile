@@ -16,7 +16,7 @@
 #ifndef LATEXOUTPUTFILTER_H
 #define LATEXOUTPUTFILTER_H
 
-#include <qvaluestack.h>
+#include <q3valuestack.h>
 #include <qstring.h>
 
 #include "outputfilter.h"
@@ -124,7 +124,7 @@ class LatexOutputFilter : public OutputFilter
         Stack containing the files parsed by the compiler. The top-most
         element is the currently parsed file.
         */
-        QValueStack<LOFStackItem> m_stackFile;
+        Q3ValueStack<LOFStackItem> m_stackFile;
 
         /** The item currently parsed. */
         LatexOutputInfo	m_currentItem;

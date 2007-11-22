@@ -32,8 +32,8 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
-#include <qtextstream.h>
-#include <qvaluelist.h>
+#include <q3textstream.h>
+#include <q3valuelist.h>
 
 #include "kileconfig.h"
 #include "kileedit.h"
@@ -421,8 +421,8 @@ namespace KileJScript {
 
 	QString JScript::getCode() const {
 		QFile qFile(m_file);
-		if(qFile.open(IO_ReadOnly)) {
-			QTextStream inputStream(&qFile);
+		if(qFile.open(QIODevice::ReadOnly)) {
+			Q3TextStream inputStream(&qFile);
 // 			inputStream.setEncoding(QTextStream::UnicodeUTF8);
 			QString code = inputStream.read();
 			qFile.close();
@@ -522,7 +522,7 @@ namespace KileJScript {
 		delete m_jScriptDirWatch;
 
 		//still need to delete the scripts
-		for(QValueList<JScript*>::iterator it = m_jScriptList.begin(); it != m_jScriptList.end(); ++it) {
+		for(Q3ValueList<JScript*>::iterator it = m_jScriptList.begin(); it != m_jScriptList.end(); ++it) {
 			delete *it;
 		}
 	}
@@ -571,17 +571,17 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		populateDirWatch();
 
 		m_config->setGroup("Scripts");
-		QValueList<unsigned int> idList = readUnsignedIntListEntry("IDs");
+		Q3ValueList<unsigned int> idList = readUnsignedIntListEntry("IDs");
 		unsigned int maxID = 0;
 		QMap<QString, unsigned int> pathIDMap;
 		QMap<unsigned int, bool> takenIDMap;
-		for(QValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
+		for(Q3ValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
 			QString fileName = m_config->readPathEntry("Script" + QString::number(*i));
 			if(!fileName.isEmpty()) {
 				unsigned int id = *i;
 				pathIDMap[fileName] = id;
 				takenIDMap[id] = true;
-				maxID = QMAX(maxID, id);
+				maxID = qMax(maxID, id);
 			}
 		}
 		m_config->setGroup(QString());
@@ -597,15 +597,15 @@ m_kileInfo->viewManager()->currentView()->down();*/
 	}
 
 	void Manager::deleteJScripts() {
-		QValueList<JScript*> scriptList = m_jScriptList;
+		Q3ValueList<JScript*> scriptList = m_jScriptList;
 		m_jScriptList.clear(); // pretend that there are no scripts left
 		QStringList keySequenceList;
-		for(QValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
+		for(Q3ValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
 			keySequenceList.push_back((*it)->getKeySequence());
 		}
 		m_idScriptMap.clear();
 		m_kileInfo->editorKeySequenceManager()->removeKeySequence(keySequenceList);
-		for(QValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
+		for(Q3ValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
 			KAction *action = (*it)->getActionObject();
 			if(action) {
 				action->unplugAll();
@@ -616,7 +616,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		emit jScriptsChanged();
 	}
 
-	QValueList<JScript*> Manager::getJScripts() {
+	Q3ValueList<JScript*> Manager::getJScripts() {
 		return m_jScriptList;
 	}
 
@@ -630,7 +630,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 			id = findFreeID(takenIDMap, maxID);
 			pathIDMap[fileName] = id;
 			takenIDMap[id] = true;
-			maxID = QMAX(maxID, id);
+			maxID = qMax(maxID, id);
 		}
 		JScript* script = new JScript(id, fileName);
 		m_jScriptList.push_back(script);
@@ -657,7 +657,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		writeIDs();
 		// write the key sequences
 		m_config->setGroup("Scripts");
-		for(QValueList<JScript*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
+		for(Q3ValueList<JScript*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
 			m_config->writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", (*i)->getKeySequence());
 		}
 		m_config->setGroup(QString());
@@ -711,8 +711,8 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		scanJScriptDirectories();
 	}
 
-	QValueList<unsigned int> Manager::readUnsignedIntListEntry(const QString& key) {
-		QValueList<unsigned int> toReturn;
+	Q3ValueList<unsigned int> Manager::readUnsignedIntListEntry(const QString& key) {
+		Q3ValueList<unsigned int> toReturn;
 		QStringList stringList = m_config->readListEntry(key);
 		for(QStringList::iterator i = stringList.begin(); i != stringList.end(); ++i) {
 			toReturn.push_back((*i).toUInt());
@@ -720,9 +720,9 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		return toReturn;
 	}
 
-	void Manager::writeEntry(const QString& key, const QValueList<unsigned int>& l) {
+	void Manager::writeEntry(const QString& key, const Q3ValueList<unsigned int>& l) {
 		QStringList stringList;
-		for(QValueList<unsigned int>::const_iterator i = l.begin(); i != l.end(); ++i) {
+		for(Q3ValueList<unsigned int>::const_iterator i = l.begin(); i != l.end(); ++i) {
 			stringList.push_back(QString::number(*i));
 		}
 		m_config->writeEntry(key, stringList);
@@ -744,8 +744,8 @@ m_kileInfo->viewManager()->currentView()->down();*/
 	void Manager::writeIDs() {
 		m_config->setGroup("Scripts");
 		//delete old entries
-		QValueList<unsigned int> idList = readUnsignedIntListEntry("IDs");
-		for(QValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
+		Q3ValueList<unsigned int> idList = readUnsignedIntListEntry("IDs");
+		for(Q3ValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
 			m_config->deleteEntry("Script" + QString::number(*i));
 		}
 		//write new ones

@@ -43,7 +43,7 @@ public:
 	virtual ~ManageTemplatesDialog();
 
 public slots:
-	void slotSelectedTemplate(QListViewItem *item);
+	void slotSelectedTemplate(Q3ListViewItem *item);
 	void slotSelectIcon();
 	void addTemplate();
 	bool removeTemplate();

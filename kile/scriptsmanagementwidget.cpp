@@ -15,7 +15,10 @@
 
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qvbox.h>
+#include <q3vbox.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3ValueList>
 
 #include <kiconloader.h>
 #include <kinputdialog.h>
@@ -88,8 +91,8 @@ void JScriptListViewItem::setText(int column, const QString & str) {
 	}
 }
 
-ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const char *name, WFlags f) : QWidget(parent, name, f), m_kileInfo(kileInfo) {
-	QVBoxLayout *baseLayout = new QVBoxLayout(this);
+ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, name, f), m_kileInfo(kileInfo) {
+	Q3VBoxLayout *baseLayout = new Q3VBoxLayout(this);
 
 	m_toolbar = new KToolBar(this, "scriptControlToolBar");
 	m_executeButton = m_toolbar->insertButton(BarIcon("exec"), 0, SIGNAL(clicked(int)), this, SLOT(executeSelectedScript()), true, i18n("Run Selected Script"));
@@ -125,15 +128,15 @@ ScriptsManagement::~ScriptsManagement() {
 
 void ScriptsManagement::updateListView() {
 	m_scriptsListView->clear();
-	const QValueList<KileJScript::JScript*>& scriptList = m_kileInfo->scriptManager()->getJScripts();
-	for(QValueList<KileJScript::JScript*>::const_iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
+	const Q3ValueList<KileJScript::JScript*>& scriptList = m_kileInfo->scriptManager()->getJScripts();
+	for(Q3ValueList<KileJScript::JScript*>::const_iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
  		new JScriptListViewItem(this, m_scriptsListView, *i, m_kileInfo);
 	}
 	m_scriptsListView->triggerUpdate();
 }
 
 void ScriptsManagement::openSelectedScript() {
-	QListViewItem *item = m_scriptsListView->selectedItem();
+	Q3ListViewItem *item = m_scriptsListView->selectedItem();
 	if(!item) {
 		return;
 	}
@@ -142,7 +145,7 @@ void ScriptsManagement::openSelectedScript() {
 }
 
 void ScriptsManagement::executeSelectedScript() {
-	QListViewItem *item = m_scriptsListView->selectedItem();
+	Q3ListViewItem *item = m_scriptsListView->selectedItem();
 	if(!item) {
 		return;
 	}

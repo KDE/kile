@@ -28,6 +28,9 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3PtrList>
 
 #include <klineedit.h>
 #include <kglobal.h>
@@ -180,7 +183,7 @@ void InputTag::emitData()
 		// refresh document structure and project tree when a file was inserted
 		if ( dlg->useAddProjectFile() ) 
 		{
-			m_ki->docManager()->projectAddFile( QFileInfo(m_ki->getCompileName()).dirPath(true) + '/' + dlg->tag() );
+			m_ki->docManager()->projectAddFile( QFileInfo(m_ki->getCompileName()).absolutePath() + '/' + dlg->tag() );
 		}
 	}
 	delete dlg;
@@ -201,7 +204,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	QGridLayout *gbox = new QGridLayout( page, 6,3,5,5,"");
+	Q3GridLayout *gbox = new Q3GridLayout( page, 6,3,5,5,"");
 
 	QLabel *lb = new QLabel(hint, page);
 	gbox->addMultiCellWidget(lb,0,0,0,2);
@@ -320,10 +323,10 @@ void InputDialog::slotBrowse()
 	// so we are only looking for a LaTeX source document
 	QString filter = m_ki->extensions()->latexDocumentFileFilter() + '\n' + "*|" + i18n("All Files");
 
-	fn = KFileDialog::getOpenFileName(fi.absFilePath(), filter, this,i18n("Select File") );
+	fn = KFileDialog::getOpenFileName(fi.absoluteFilePath(), filter, this,i18n("Select File") );
 	if ( !fn.isEmpty() )
 	{
-		QString path = m_ki->relativePath(fi.dirPath(), fn);
+		QString path = m_ki->relativePath(fi.path(), fn);
 
 		// if the file has no extension, we add the default TeX extension
 		if ( QFileInfo(path).extension().isEmpty() )
@@ -348,7 +351,7 @@ QString InputDialog::label()
 {
 	if ( m_edLabel ) 
 	{
-		QString label = m_edLabel->text().stripWhiteSpace();
+		QString label = m_edLabel->text().trimmed();
 		if ( !label.isEmpty() && label!=m_labelprefix )
 			return "\\label{" + label + "}\n";
 	}
@@ -376,7 +379,7 @@ void Select::emitData(const QString & name)
 	m_dict[name]->activate();
 }
 
-void Select::setItems(QPtrList<KAction>& list)
+void Select::setItems(Q3PtrList<KAction>& list)
 {
 	QStringList tmp;
 

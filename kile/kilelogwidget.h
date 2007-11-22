@@ -16,9 +16,11 @@
 #define KILEWIDGET_LOGMSG_H
 
 #include <ktextedit.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 class QString;
-class QPopupMenu;
+class Q3PopupMenu;
 class QPoint;
 
 class KileInfo;
@@ -34,7 +36,7 @@ namespace KileWidget
 		LogMsg(KileInfo *info, QWidget *parent, const char *name=0);
 		~LogMsg();
 
-		void setReadOnly(bool r) { QTextEdit::setReadOnly(r); } //we don't want the greyed background
+		void setReadOnly(bool r) { Q3TextEdit::setReadOnly(r); } //we don't want the greyed background
 
 	public slots:
 		void highlight(); //FIXME for compatibility, should remove it asap
@@ -52,7 +54,7 @@ namespace KileWidget
 		void showingErrorMessage(QWidget *);
 
 	protected:
-		QPopupMenu* createPopupMenu (const QPoint & pos);
+		Q3PopupMenu* createPopupMenu (const QPoint & pos);
 
 	protected slots:
 		void handlePopup(int);

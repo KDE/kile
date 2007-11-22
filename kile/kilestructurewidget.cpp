@@ -60,7 +60,7 @@
 #include "kilestructurewidget.h"
 
 #include <qfileinfo.h>
-#include <qheader.h>
+#include <q3header.h>
 #include <qregexp.h>
 #include <qclipboard.h>
  
@@ -81,7 +81,7 @@
 
 ////////////////////// KileListViewItem with all info //////////////////////
 
-KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
+KileListViewItem::KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KURL &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
 	KListViewItem(parent,after),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level),
 	m_startline(startline), m_startcol(startcol)
@@ -89,12 +89,12 @@ KileListViewItem::KileListViewItem(QListViewItem * parent, QListViewItem * after
 	setItemEntry();
 }
 
-KileListViewItem::KileListViewItem(QListView * parent, const QString & label) : 
+KileListViewItem::KileListViewItem(Q3ListView * parent, const QString & label) : 
 	KListViewItem(parent,label),
 	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
 
-KileListViewItem::KileListViewItem(QListViewItem * parent, const QString & label) :
+KileListViewItem::KileListViewItem(Q3ListViewItem * parent, const QString & label) :
 	KListViewItem(parent,label),
 	m_title(label), m_url(KURL()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
@@ -160,10 +160,10 @@ namespace KileWidget
 		new KileListViewToolTip(this);
 		
 		//connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
-		connect(this, SIGNAL(doubleClicked(QListViewItem *)), m_stack, SLOT(slotDoubleClicked(QListViewItem *)));
-		connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )), m_stack, SLOT(slotPopup(KListView *, QListViewItem * , const QPoint & )));
+		connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)), m_stack, SLOT(slotDoubleClicked(Q3ListViewItem *)));
+		connect(this, SIGNAL(contextMenu(KListView *, Q3ListViewItem *, const QPoint & )), m_stack, SLOT(slotPopup(KListView *, Q3ListViewItem * , const QPoint & )));
 		
-		connect(this, SIGNAL(executed(QListViewItem*)), m_stack, SLOT(slotClicked(QListViewItem*)));
+		connect(this, SIGNAL(executed(Q3ListViewItem*)), m_stack, SLOT(slotClicked(Q3ListViewItem*)));
 		connect(m_stack, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
 		
 		init();
@@ -247,7 +247,7 @@ namespace KileWidget
 		m_openByLine.clear();
 		m_openByFolders.clear();
 
-		QListViewItemIterator it(this);
+		Q3ListViewItemIterator it(this);
 		KileListViewItem *item = 0L;
 		while ( it.current() ) 
 		{
@@ -584,7 +584,7 @@ namespace KileWidget
 		}
 
 		// now check if there are unsolved references
-		QValueListConstIterator<KileReferenceData> it;
+		Q3ValueListConstIterator<KileReferenceData> it;
 		for ( it=m_references.begin(); it!=m_references.end(); ++it )
 		{
 			if ( ! labelmap.contains((*it).name()) )
@@ -599,7 +599,7 @@ namespace KileWidget
 	////////////////////// Structure: QWidgetStack //////////////////////
 
 	Structure::Structure(KileInfo *ki, QWidget * parent, const char * name) : 
-		QWidgetStack(parent,name),
+		Q3WidgetStack(parent,name),
 		m_ki(ki),
 		m_docinfo(0L)
 	{
@@ -631,7 +631,7 @@ namespace KileWidget
 		m_map.insert(docinfo, view, true);
 	}
 
-	void Structure::slotClicked(QListViewItem * itm)
+	void Structure::slotClicked(Q3ListViewItem * itm)
 	{
 		KILE_DEBUG() << "\tStructure::slotClicked" << endl;
 
@@ -645,7 +645,7 @@ namespace KileWidget
 			emit(setCursor(item->url(), 0, 0));
 	}
 
-	void Structure::slotDoubleClicked(QListViewItem * itm)
+	void Structure::slotDoubleClicked(Q3ListViewItem * itm)
 	{
 		KILE_DEBUG() << "\tStructure::slotDoubleClicked" << endl;
 		KileListViewItem *item = (KileListViewItem*)(itm);
@@ -682,7 +682,7 @@ namespace KileWidget
 			if(fname.left(1) != "/") // no absolute path
 			{
 				QString fn = m_ki->getCompileName();
-				fname= QFileInfo(fn).dirPath() + '/' + fname;
+				fname= QFileInfo(fn).path() + '/' + fname;
 			}
 			
 			QFileInfo fi(fname);
@@ -715,7 +715,7 @@ namespace KileWidget
 	//  - sectioning: 10 - 16
 	//  - graphics:   100ff
 
-	void Structure::slotPopup(KListView *, QListViewItem *itm, const QPoint &point)
+	void Structure::slotPopup(KListView *, Q3ListViewItem *itm, const QPoint &point)
 	{
 		KILE_DEBUG() << "\tStructure::slotPopup" << endl;
 		
@@ -749,7 +749,7 @@ namespace KileWidget
 			if(m_popupInfo.left(1) != "/") // no absolute path
 			{
 				QString fn = m_ki->getCompileName();
-				m_popupInfo = QFileInfo(fn).dirPath() + '/' + m_popupInfo;
+				m_popupInfo = QFileInfo(fn).path() + '/' + m_popupInfo;
 			}
 			
 			QFileInfo fi(m_popupInfo);
@@ -955,7 +955,7 @@ namespace KileWidget
 		bool found = false;
 		uint foundRow,foundCol;
 		StructureList *structurelist = viewFor(docinfo);
-		QListViewItemIterator it( structurelist );
+		Q3ListViewItemIterator it( structurelist );
 		while ( it.current() ) 
 		{
 			KileListViewItem *item = (KileListViewItem *)(it.current());

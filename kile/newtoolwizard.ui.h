@@ -26,7 +26,7 @@ void NewToolWizard::init()
 
 void NewToolWizard::showPage(QWidget *pg)
 {
-    	QWizard::showPage(pg);
+    	Q3Wizard::showPage(pg);
 
 	if ( pg == page(0) )
 		m_leName->setFocus();

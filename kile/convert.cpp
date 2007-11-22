@@ -56,7 +56,7 @@ QString ConvertMap::encodingNameFor(const QString & name)
 		if ( !name[i].isSpace() )
 			std += name[i];
 
-	std = std.lower();
+	std = std.toLower();
 
 	if ( std.startsWith("iso8859-") )
 		return "latin" + std.right(1);
@@ -74,7 +74,7 @@ QString ConvertMap::isoNameFor(const QString & name)
 		if ( !name[i].isSpace() )
 			std += name[i];
 
-	std = std.lower();
+	std = std.toLower();
 
 	if ( std.startsWith("latin") )
 		return "ISO 8859-" + std.right(1);
@@ -113,9 +113,9 @@ bool ConvertMap::load()
 	//if map already exists, replace it
 	QFile qf(KGlobal::dirs()->findResource("appdata","encodings/" + encoding() + ".enc"));
 
-	if ( qf.open(IO_ReadOnly) )
+	if ( qf.open(QIODevice::ReadOnly) )
 	{
-		QTextStream stream( &qf );
+		Q3TextStream stream( &qf );
 		QTextCodec *codec = QTextCodec::codecForName(isoName().ascii());
 		if ( codec ) stream.setCodec(codec);
 
@@ -174,10 +174,10 @@ ConvertIOFile::ConvertIOFile(Kate::Document *doc, const KURL & url) : ConvertIO(
 void ConvertIOFile::writeText()
 {
 	QFile qf(m_url.path());
-	if ( qf.open(IO_WriteOnly) )
+	if ( qf.open(QIODevice::WriteOnly) )
 	{
 		//read the file
-		QTextStream stream( &qf );
+		Q3TextStream stream( &qf );
 		stream << m_text;
 		qf.close();
 	}

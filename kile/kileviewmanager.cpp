@@ -18,10 +18,13 @@
 
 #include "kileviewmanager.h"
 
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qtimer.h> //for QTimer::singleShot trick
 #include <qpixmap.h>
 #include <qclipboard.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <QDropEvent>
 
 #include <kdeversion.h>
 #include <kglobal.h>
@@ -86,7 +89,7 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 
 void Manager::createTabs(QWidget *parent)
 {
-	m_widgetStack = new QWidgetStack(parent);
+	m_widgetStack = new Q3WidgetStack(parent);
 	m_emptyDropWidget = new DropWidget(parent);
 	m_widgetStack->addWidget(m_emptyDropWidget);
 	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragMoveEvent *,  bool &)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent *, bool &)));
@@ -153,7 +156,7 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// install a working kate part popup dialog thingy
-	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
+	Q3PopupMenu *viewPopupMenu = (Q3PopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
 	if((NULL != view) && (NULL != viewPopupMenu))
 		view->installPopup(viewPopupMenu);
 	if(NULL != viewPopupMenu)
@@ -330,7 +333,7 @@ void Manager::onKatePopupMenuRequest(void)
 	if(NULL == view)
 		return;
 
-	QPopupMenu *viewPopupMenu = (QPopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
+	Q3PopupMenu *viewPopupMenu = (Q3PopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
 	if(NULL == viewPopupMenu)
 		return;
 
@@ -534,7 +537,7 @@ void Manager::urlChanged(KileDocument::Info* info, const KURL& /*url*/)
 	}
 }
 
-DropWidget::DropWidget(QWidget * parent, const char * name, WFlags f) : QWidget(parent, name, f)
+DropWidget::DropWidget(QWidget * parent, const char * name, Qt::WFlags f) : QWidget(parent, name, f)
 {
 	setAcceptDrops(true);
 }

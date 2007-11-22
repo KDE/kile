@@ -18,12 +18,14 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
 #include <qspinbox.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qregexp.h>
 #include <qtabwidget.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
 
 #include "kiledebug.h"
 #include <klistbox.h>
@@ -54,7 +56,7 @@ namespace KileWidget
 		m_manager(mngr)
 	{
 		m_config = m_manager->config();
-		m_layout = new QGridLayout(this, 1, 1, 0, 0);
+		m_layout = new Q3GridLayout(this, 1, 1, 0, 0);
 		m_configWidget = new ToolConfigWidget(this);
 		m_layout->addWidget(m_configWidget, 0, 0);
 
@@ -504,21 +506,21 @@ namespace KileWidget
 		emit(changed());
 	}
 
-	void ToolConfig::setCommand(const QString & command) { m_map["command"] = command.stripWhiteSpace(); }
-	void ToolConfig::setOptions(const QString & options) { m_map["options"] = options.stripWhiteSpace(); }
-	void ToolConfig::setLibrary(const QString & lib) { m_map["libName"] = lib.stripWhiteSpace(); }
-	void ToolConfig::setLibOptions(const QString & options) { m_map["libOptions"] = options.stripWhiteSpace(); }
-	void ToolConfig::setClassName(const QString & name) { m_map["className"] = name.stripWhiteSpace(); }
+	void ToolConfig::setCommand(const QString & command) { m_map["command"] = command.trimmed(); }
+	void ToolConfig::setOptions(const QString & options) { m_map["options"] = options.trimmed(); }
+	void ToolConfig::setLibrary(const QString & lib) { m_map["libName"] = lib.trimmed(); }
+	void ToolConfig::setLibOptions(const QString & options) { m_map["libOptions"] = options.trimmed(); }
+	void ToolConfig::setClassName(const QString & name) { m_map["className"] = name.trimmed(); }
 	void ToolConfig::setState(const QString & state)
 	{
-		QString str = state.stripWhiteSpace();
+		QString str = state.trimmed();
 		if ( str .isEmpty() ) str = "Editor";
 		m_map["state"] = str;
 	}
-	void ToolConfig::setSequence(const QString & sequence) { m_map["sequence"] = sequence.stripWhiteSpace(); }
+	void ToolConfig::setSequence(const QString & sequence) { m_map["sequence"] = sequence.trimmed(); }
 	void ToolConfig::setClose(bool on) { m_map["close"] = on ? "yes" : "no"; }
-	void ToolConfig::setTarget(const QString & trg) { m_map["target"] = trg.stripWhiteSpace(); }
-	void ToolConfig::setRelDir(const QString & rd) { m_map["relDir"] = rd.stripWhiteSpace(); }
+	void ToolConfig::setTarget(const QString & trg) { m_map["target"] = trg.trimmed(); }
+	void ToolConfig::setRelDir(const QString & rd) { m_map["relDir"] = rd.trimmed(); }
 	void ToolConfig::setLaTeXCheckRoot(bool ck) { m_map["checkForRoot"] = ck ? "yes" : "no"; }
 	void ToolConfig::setLaTeXJump(bool ck) { m_map["jumpToFirstError"] = ck ? "yes" : "no"; }
 	void ToolConfig::setLaTeXAuto(bool ck) { m_map["autoRun"] = ck ? "yes" : "no"; }
@@ -528,9 +530,9 @@ namespace KileWidget
 		m_config->setGroup("Tools");
 		m_config->writeEntry("RunLyxServer", ck);
 	}
-	void ToolConfig::setFrom(const QString & from) { m_map["from"] = from.stripWhiteSpace(); }
-	void ToolConfig::setTo(const QString & to) { m_map["to"] = to.stripWhiteSpace(); }
-	void ToolConfig::setClass(const QString & cls) { m_map["class"] = cls.stripWhiteSpace(); }
+	void ToolConfig::setFrom(const QString & from) { m_map["from"] = from.trimmed(); }
+	void ToolConfig::setTo(const QString & to) { m_map["to"] = to.trimmed(); }
+	void ToolConfig::setClass(const QString & cls) { m_map["class"] = cls.trimmed(); }
 }
 
 #include "kiletoolconfigwidget.moc"

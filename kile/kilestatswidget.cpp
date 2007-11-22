@@ -20,23 +20,27 @@
 
 #include <qvariant.h>
 #include <qlabel.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qlayout.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
+#include <Q3Frame>
 #include "kiledebug.h"
 
-KileWidgetStatistics::KileWidgetStatistics( QWidget* parent, const char* name, WFlags fl )
+KileWidgetStatistics::KileWidgetStatistics( QWidget* parent, const char* name, Qt::WFlags fl )
     : QWidget( parent, name, fl )
 {
-	QVBoxLayout *vbox = new QVBoxLayout(parent, 5,KDialog::spacingHint() );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(parent, 5,KDialog::spacingHint() );
 
 	// characters groupbox
-	QGroupBox *chargroup = new QGroupBox( i18n("Characters"),parent); 
+	Q3GroupBox *chargroup = new Q3GroupBox( i18n("Characters"),parent); 
 	chargroup->setColumnLayout(0, Qt::Vertical );
 	chargroup->layout()->setSpacing( 6 );
 	chargroup->layout()->setMargin( 11 );
-	chargrouplayout = new QGridLayout( chargroup->layout() );
+	chargrouplayout = new Q3GridLayout( chargroup->layout() );
 	chargrouplayout->setAlignment( Qt::AlignTop );
 
 	m_wordCharText = new QLabel(i18n("Words and numbers:"), chargroup);
@@ -48,8 +52,8 @@ KileWidgetStatistics::KileWidgetStatistics( QWidget* parent, const char* name, W
 	m_whitespaceChar = new QLabel( chargroup, "m_whitespaceChar" );
 	m_totalChar = new QLabel( chargroup, "m_totalChar" );
 
-	QFrame *charframe = new QFrame(chargroup);
-	charframe->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+	Q3Frame *charframe = new Q3Frame(chargroup);
+	charframe->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
 	charframe->setLineWidth(1);
 
 	chargrouplayout->addWidget( m_wordCharText, 0,0 );
@@ -66,11 +70,11 @@ KileWidgetStatistics::KileWidgetStatistics( QWidget* parent, const char* name, W
 	chargrouplayout->setColStretch(3,1);
 
 	// string groupbox
-	QGroupBox *stringgroup = new QGroupBox( i18n("Strings"),parent);
+	Q3GroupBox *stringgroup = new Q3GroupBox( i18n("Strings"),parent);
 	stringgroup->setColumnLayout(0, Qt::Vertical );
 	stringgroup->layout()->setSpacing( 6 );
 	stringgroup->layout()->setMargin( 11 );
-	stringgrouplayout = new QGridLayout( stringgroup->layout() );
+	stringgrouplayout = new Q3GridLayout( stringgroup->layout() );
 	stringgrouplayout->setAlignment( Qt::AlignTop );
 
 	m_wordStringText = new QLabel(i18n("Words:"), stringgroup);
@@ -82,8 +86,8 @@ KileWidgetStatistics::KileWidgetStatistics( QWidget* parent, const char* name, W
 	m_environmentString = new QLabel( stringgroup, "m_environmentStringText" );
 	m_totalString = new QLabel( stringgroup, "m_totalStringText" );
 
-	QFrame *stringframe = new QFrame(stringgroup);
-	stringframe->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+	Q3Frame *stringframe = new Q3Frame(stringgroup);
+	stringframe->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
 	stringframe->setLineWidth(1);
 
 	stringgrouplayout->addWidget( m_wordStringText, 0,0 );

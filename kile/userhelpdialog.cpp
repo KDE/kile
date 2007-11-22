@@ -19,11 +19,14 @@
 #include "userhelpdialog.h"
 
 #include <qlayout.h>
-#include <qvgroupbox.h>
+#include <q3vgroupbox.h>
 #include <qlabel.h>
 #include <qinputdialog.h>
 #include <qfileinfo.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include <klocale.h>
 #include <kfiledialog.h>
@@ -50,11 +53,11 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	setMainWidget(page);
 
 	// layout
-	QVBoxLayout *vbox = new QVBoxLayout(page, 6,6 );
-	QVGroupBox* group= new QVGroupBox(i18n("User Help"),page );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
+	Q3VGroupBox* group= new Q3VGroupBox(i18n("User Help"),page );
 
 	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout( widget, 5,3, 5,5, "" );
+	Q3GridLayout *grid = new Q3GridLayout( widget, 5,3, 5,5, "" );
 	grid->setRowStretch(1,1);
 	grid->setColStretch(0,1);
 	grid->setRowSpacing(2,12);
@@ -69,7 +72,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 
 	// action widget
 	QWidget *actionwidget = new QWidget(widget);
-	QVBoxLayout *actions = new QVBoxLayout(actionwidget);
+	Q3VBoxLayout *actions = new Q3VBoxLayout(actionwidget);
 
 	m_add = new KPushButton(i18n("&Add..."),actionwidget);
 	m_remove = new KPushButton(i18n("&Remove"),actionwidget);
@@ -350,11 +353,11 @@ UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, con
 	setMainWidget(page);
 
 	// layout
-	QVBoxLayout *vbox = new QVBoxLayout(page, 6,6 );
-	QVGroupBox* group= new QVGroupBox(i18n("User Help"),page );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
+	Q3VGroupBox* group= new Q3VGroupBox(i18n("User Help"),page );
 
 	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout( widget, 2,6, 5,5, "" );
+	Q3GridLayout *grid = new Q3GridLayout( widget, 2,6, 5,5, "" );
 	grid->setColSpacing(2,8);
 	grid->setColSpacing(4,8);
 
@@ -387,10 +390,10 @@ UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, con
 	vbox->addWidget(group);
 	vbox->addStretch();
 
-	QWhatsThis::add(m_leMenuEntry,i18n("The menu entry for this help file."));
-	QWhatsThis::add(m_leHelpFile,i18n("The name of the local help file or a valid WEB url."));
-	QWhatsThis::add(m_pbChooseFile,i18n("Start a file dialog to choose a local help file."));
-	QWhatsThis::add(m_pbChooseHtml,i18n("Start the konqueror to choose a WEB url as help file. This url should be copied inzo the edit widget."));
+	Q3WhatsThis::add(m_leMenuEntry,i18n("The menu entry for this help file."));
+	Q3WhatsThis::add(m_leHelpFile,i18n("The name of the local help file or a valid WEB url."));
+	Q3WhatsThis::add(m_pbChooseFile,i18n("Start a file dialog to choose a local help file."));
+	Q3WhatsThis::add(m_pbChooseHtml,i18n("Start the konqueror to choose a WEB url as help file. This url should be copied inzo the edit widget."));
 
 	connect( m_pbChooseFile, SIGNAL( clicked() ), this, SLOT( slotChooseFile() ) );
 	connect( m_pbChooseHtml, SIGNAL( clicked() ), this, SLOT( slotChooseHtml() ) );
@@ -401,7 +404,7 @@ UserHelpAddDialog::UserHelpAddDialog(KListBox *menulistbox, QWidget *parent, con
 
 void UserHelpAddDialog::slotChooseFile()
 {
-	QString directory = QDir::currentDirPath();
+	QString directory = QDir::currentPath();
 	QString filter = "*.*|All Files\n*.dvi|DVI Files\n*.ps|PS Files\n*.pdf|PDF Files\n*.html *.htm|HTML Files";
 
 	QString filename = KFileDialog::getOpenFileName( directory,filter,this,i18n("Select File") );
@@ -427,8 +430,8 @@ void UserHelpAddDialog::slotChooseHtml()
 
 void UserHelpAddDialog::slotOk()
 {
-	m_leMenuEntry->setText( m_leMenuEntry->text().stripWhiteSpace() );
-	QString filename = m_leHelpFile->text().stripWhiteSpace();
+	m_leMenuEntry->setText( m_leMenuEntry->text().trimmed() );
+	QString filename = m_leHelpFile->text().trimmed();
 	m_leHelpFile->setText( filename );
 
 	if ( m_leMenuEntry->text().isEmpty() )

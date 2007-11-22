@@ -50,7 +50,7 @@ bool OutputFilter::OnTerminate()
 void OutputFilter::setSource(const QString &src)
 {
 	m_source = src;
-	m_srcPath = QFileInfo(src).dirPath();
+	m_srcPath = QFileInfo(src).path();
 }
 
 bool OutputFilter::Run(const QString & logfile)
@@ -62,14 +62,14 @@ bool OutputFilter::Run(const QString & logfile)
 	m_log = QString::null;
 	m_nOutputLines = 0;
 
-	if ( f.open(IO_ReadOnly) )
+	if ( f.open(QIODevice::ReadOnly) )
 	{
-		QTextStream t( &f );
+		Q3TextStream t( &f );
 		while ( !t.eof() )
 		{
 // 			KILE_DEBUG() << "line " << m_nOutputLines << endl;
 			s = t.readLine() + '\n';
-			sCookie = parseLine(s.stripWhiteSpace(), sCookie);
+			sCookie = parseLine(s.trimmed(), sCookie);
 			++m_nOutputLines;
 
 			m_log += s;

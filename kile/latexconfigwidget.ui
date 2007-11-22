@@ -1,258 +1,244 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>KileWidgetLatexConfig</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>KileWidgetLatexConfig</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>602</width>
-            <height>365</height>
-        </rect>
-    </property>
-    <property name="caption">
-        <string>LaTeX</string>
-    </property>
-    <vbox>
-        <property name="name">
-            <cstring>unnamed</cstring>
+<ui version="4.0" >
+ <class>KileWidgetLatexConfig</class>
+ <widget class="QWidget" name="KileWidgetLatexConfig" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>602</width>
+    <height>365</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>LaTeX</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="Q3ButtonGroup" name="m_bgCommands" >
+     <property name="title" >
+      <string>Commands</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" >
+       <widget class="QPushButton" name="m_pbCommands" >
+        <property name="text" >
+         <string>Configure...</string>
         </property>
-        <widget class="QButtonGroup">
-            <property name="name">
-                <cstring>m_bgCommands</cstring>
-            </property>
-            <property name="title">
-                <string>Commands</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QPushButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>m_pbCommands</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Configure...</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="1">
-                    <property name="name">
-                        <cstring>m_tlCommands</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>Configure LaTeX environments and commands</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QButtonGroup">
-            <property name="name">
-                <cstring>m_bgQuotes</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="title">
-                <string>Double Quotes</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>m_tlType</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Type:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_DoubleQuotes</cstring>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
-                    <property name="name">
-                        <cstring>kcfg_InsertDoubleQuotes</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Automatically insert opening and closing double &amp;quotes for LaTeX</string>
-                    </property>
-                </widget>
-                <widget class="QComboBox" row="1" column="1">
-                    <property name="name">
-                        <cstring>kcfg_DoubleQuotes</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-                <spacer row="1" column="2">
-                    <property name="name">
-                        <cstring>spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>280</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </grid>
-        </widget>
-        <widget class="QButtonGroup">
-            <property name="name">
-                <cstring>m_bgMathmode</cstring>
-            </property>
-            <property name="title">
-                <string>Mathmode</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>kcfg_autoInsertDollar</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Auto insert $</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>groupBox5</cstring>
-            </property>
-            <property name="title">
-                <string>Environment Variables</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>m_tlPath</cstring>
-                    </property>
-                    <property name="text">
-                        <string>TEXINPUTS:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_TeXPaths</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string></string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="0" column="1">
-                    <property name="name">
-                        <cstring>kcfg_TeXPaths</cstring>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="1" column="1">
-                    <property name="name">
-                        <cstring>kcfg_BibInputPaths</cstring>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="2" column="1">
-                    <property name="name">
-                        <cstring>kcfg_BstInputPaths</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>m_bibinputpath</cstring>
-                    </property>
-                    <property name="text">
-                        <string>BIBINPUTS:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_BibInputPaths</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string></string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>m_bstinputpath</cstring>
-                    </property>
-                    <property name="text">
-                        <string>B&amp;STINPUTS:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_BstInputPaths</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string></string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-    </vbox>
-</widget>
-<customwidgets>
-</customwidgets>
-<connections>
-    <connection>
-        <sender>m_pbCommands</sender>
-        <signal>clicked()</signal>
-        <receiver>KileWidgetLatexConfig</receiver>
-        <slot>slotConfigure()</slot>
-    </connection>
-</connections>
-<includes>
-    <include location="global" impldecl="in declaration">kconfig.h</include>
-    <include location="local" impldecl="in declaration">latexcmd.h</include>
-    <include location="local" impldecl="in declaration">latexcmddialog.h</include>
-    <include location="local" impldecl="in implementation">latexconfigwidget.ui.h</include>
-</includes>
-<variables>
-    <variable access="private">KConfig *m_config;</variable>
-    <variable access="private">KileDocument::LatexCommands *m_commands;</variable>
-</variables>
-<slots>
-    <slot access="private" specifier="non virtual">slotConfigure()</slot>
-</slots>
-<functions>
-    <function access="private" specifier="non virtual">init()</function>
-    <function specifier="non virtual">setLatexCommands( KConfig * config, KileDocument::LatexCommands * commands )</function>
-</functions>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
-</UI>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QLabel" name="m_tlCommands" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text" >
+         <string>Configure LaTeX environments and commands</string>
+        </property>
+        <property name="wordWrap" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Q3ButtonGroup" name="m_bgQuotes" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string>Double Quotes</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="1" column="0" >
+       <widget class="QLabel" name="m_tlType" >
+        <property name="text" >
+         <string>&amp;Type:</string>
+        </property>
+        <property name="wordWrap" >
+         <bool>false</bool>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_DoubleQuotes</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3" >
+       <widget class="QCheckBox" name="kcfg_InsertDoubleQuotes" >
+        <property name="text" >
+         <string>Automatically insert opening and closing double &amp;quotes for LaTeX</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="QComboBox" name="kcfg_DoubleQuotes" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>280</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Q3ButtonGroup" name="m_bgMathmode" >
+     <property name="title" >
+      <string>Mathmode</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <item>
+       <widget class="QCheckBox" name="kcfg_autoInsertDollar" >
+        <property name="text" >
+         <string>Auto insert $</string>
+        </property>
+        <property name="shortcut" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Q3GroupBox" name="groupBox5" >
+     <property name="title" >
+      <string>Environment Variables</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="m_tlPath" >
+        <property name="toolTip" >
+         <string/>
+        </property>
+        <property name="text" >
+         <string>TEXINPUTS:</string>
+        </property>
+        <property name="wordWrap" >
+         <bool>false</bool>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_TeXPaths</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="KLineEdit" native="1" name="kcfg_TeXPaths" />
+      </item>
+      <item row="1" column="1" >
+       <widget class="KLineEdit" native="1" name="kcfg_BibInputPaths" />
+      </item>
+      <item row="2" column="1" >
+       <widget class="KLineEdit" native="1" name="kcfg_BstInputPaths" />
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="m_bibinputpath" >
+        <property name="toolTip" >
+         <string/>
+        </property>
+        <property name="text" >
+         <string>BIBINPUTS:</string>
+        </property>
+        <property name="wordWrap" >
+         <bool>false</bool>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_BibInputPaths</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="m_bstinputpath" >
+        <property name="toolTip" >
+         <string/>
+        </property>
+        <property name="text" >
+         <string>B&amp;STINPUTS:</string>
+        </property>
+        <property name="wordWrap" >
+         <bool>false</bool>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_BstInputPaths</cstring>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3GroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>Qt3Support/Q3GroupBox</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Q3ButtonGroup</class>
+   <extends>Q3GroupBox</extends>
+   <header>Qt3Support/Q3ButtonGroup</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QWidget</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <includes>
+  <include location="global" >kconfig.h</include>
+  <include location="local" >latexcmd.h</include>
+  <include location="local" >latexcmddialog.h</include>
+  <include location="local" >klineedit.h</include>
+  <include location="local" >klineedit.h</include>
+  <include location="local" >klineedit.h</include>
+ </includes>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pbCommands</sender>
+   <signal>clicked()</signal>
+   <receiver>KileWidgetLatexConfig</receiver>
+   <slot>slotConfigure()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

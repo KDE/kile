@@ -29,9 +29,9 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qmap.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
  
 namespace KileDialog
 {

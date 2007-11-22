@@ -21,8 +21,8 @@
 #endif
 
 #include <qobject.h>
-#include <qptrlist.h>
-#include <qintdict.h>
+#include <q3ptrlist.h>
+#include <q3intdict.h>
 #include <qstringlist.h>
 #include <ktempdir.h>
 
@@ -67,9 +67,9 @@ signals:
 private:
 	mode_t 				m_perms;
 	KTempDir			*m_tempDir;
-	QPtrList<QFile>			m_pipeIn;
-	QPtrList<QSocketNotifier>	m_notifier;
-	QIntDict<QFile>			m_file;
+	Q3PtrList<QFile>			m_pipeIn;
+	Q3PtrList<QSocketNotifier>	m_notifier;
+	Q3IntDict<QFile>			m_file;
 	bool				m_running;
 	QStringList 			m_links,m_pipes;
 };

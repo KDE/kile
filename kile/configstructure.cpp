@@ -24,9 +24,9 @@
 
 #include <qlayout.h>
 #include <qtabwidget.h>
-#include <qgroupbox.h>
-#include <qvgroupbox.h>
-#include <qframe.h>
+#include <q3groupbox.h>
+#include <q3vgroupbox.h>
+#include <q3frame.h>
 #include <qstringlist.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
@@ -34,6 +34,10 @@
 #include <qpainter.h>
 #include <qrect.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <QMouseEvent>
+#include <Q3VBoxLayout>
 
 namespace KileStructure
 {
@@ -63,16 +67,16 @@ void KileCenteredTableItem::paint(QPainter* p,const QColorGroup& cg,const QRect&
 
 //////////////////// KileTable ////////////////////
 
-KileTable::KileTable(QWidget *dialog, QWidget *parent, const char *name) : QTable(parent,name)
+KileTable::KileTable(QWidget *dialog, QWidget *parent, const char *name) : Q3Table(parent,name)
 {
    setShowGrid(false);
-   setSelectionMode(QTable::NoSelection);
-   setFocusStyle(QTable::FollowStyle);
+   setSelectionMode(Q3Table::NoSelection);
+   setFocusStyle(Q3Table::FollowStyle);
 
    verticalHeader()->hide();
    setLeftMargin(0);
-   setVScrollBarMode(QScrollView::AlwaysOff);
-   setHScrollBarMode(QScrollView::AlwaysOff);
+   setVScrollBarMode(Q3ScrollView::AlwaysOff);
+   setHScrollBarMode(Q3ScrollView::AlwaysOff);
    setFocusPolicy(QWidget::NoFocus);
 
    horizontalHeader()->setResizeEnabled(false);
@@ -95,12 +99,12 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_entries << i18n( "Files" ) << i18n( "Labels" ) << i18n( "References" )
              << i18n( "Index" ) << i18n( "Graphics" ) << i18n( "Sectioning" );
 
-   QHBoxLayout *hbox = new QHBoxLayout(this, 5,KDialog::spacingHint() );
+   Q3HBoxLayout *hbox = new Q3HBoxLayout(this, 5,KDialog::spacingHint() );
 
    // Groupbox with entries
-   QVGroupBox *gb_entries= new QVGroupBox(i18n("Entries"), this );
+   Q3VGroupBox *gb_entries= new Q3VGroupBox(i18n("Entries"), this );
    QWidget *widget1 = new QWidget(gb_entries);
-   QVBoxLayout *vbox1 = new QVBoxLayout(widget1, 5,KDialog::spacingHint() );
+   Q3VBoxLayout *vbox1 = new Q3VBoxLayout(widget1, 5,KDialog::spacingHint() );
 
    // table with entries
    m_entriestable = new KileTable(this,widget1);
@@ -115,22 +119,22 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_entriestable->horizontalHeader()->setLabel(2,SmallIcon("structure"), i18n( "Node" ));
 
    for ( uint i=0; i<m_entries.count(); ++i ) {
-       QTableItem *item = new QTableItem(m_entriestable,QTableItem::Never, m_entries[i]);
+       Q3TableItem *item = new Q3TableItem(m_entriestable,Q3TableItem::Never, m_entries[i]);
        m_entriestable->setItem( i,0,item  );
-       m_visible[i] = new QCheckTableItem(m_entriestable,"");
+       m_visible[i] = new Q3CheckTableItem(m_entriestable,"");
        m_entriestable->setItem( i,1, m_visible[i]  );
-       m_defaultopen[i] = new QCheckTableItem(m_entriestable,"close");
+       m_defaultopen[i] = new Q3CheckTableItem(m_entriestable,"close");
        m_entriestable->setItem( i,2, m_defaultopen[i]  );
    }
 
    // groupbox with sectioning
-   QVGroupBox *gb_sectioning= new QVGroupBox(i18n("Sectioning"), this );
+   Q3VGroupBox *gb_sectioning= new Q3VGroupBox(i18n("Sectioning"), this );
    QWidget *widget2 = new QWidget(gb_sectioning);
-   QVBoxLayout *vbox2 = new QVBoxLayout(widget2, 5,KDialog::spacingHint() );
+   Q3VBoxLayout *vbox2 = new Q3VBoxLayout(widget2, 5,KDialog::spacingHint() );
 
    // document class
    QWidget *widget3 = new QWidget(widget2);
-   QHBoxLayout *hbox3 = new QHBoxLayout(widget3, 5,KDialog::spacingHint() );
+   Q3HBoxLayout *hbox3 = new Q3HBoxLayout(widget3, 5,KDialog::spacingHint() );
    QLabel *label7 = new QLabel(i18n("Document class:"), widget3);
    comboclasses = new QComboBox(widget3);
    hbox3->addWidget(label7);
@@ -151,14 +155,14 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_sectioningtable->horizontalHeader()->setLabel(2,SmallIcon("structure"),"Structure Node");
 
    // default structure level
-   QGroupBox *structGroup = new QGroupBox(2, Qt::Horizontal, i18n("Structure View"), widget2);
+   Q3GroupBox *structGroup = new Q3GroupBox(2, Qt::Horizontal, i18n("Structure View"), widget2);
    QLabel *label9 = new QLabel(i18n("Default expansion &level: "),structGroup);
    m_structurelevel = new QSpinBox(1,5, 1, structGroup);
    label9->setBuddy(m_structurelevel);
 
-   QGroupBox *classGroup = new QGroupBox(1,Qt::Horizontal,i18n("Document Classes"), widget2);
+   Q3GroupBox *classGroup = new Q3GroupBox(1,Qt::Horizontal,i18n("Document Classes"), widget2);
    QWidget *widget4 = new QWidget(classGroup);
-   QHBoxLayout *hbox4 = new QHBoxLayout(widget4, 5,KDialog::spacingHint() );
+   Q3HBoxLayout *hbox4 = new Q3HBoxLayout(widget4, 5,KDialog::spacingHint() );
    QLabel *label10 = new QLabel("Manage classes:",widget4);
    add = new QPushButton(i18n("Add"), widget4);
    remove = new QPushButton(i18n("Remove"), widget4);
@@ -278,11 +282,11 @@ void ConfigStructure::showSectioning(const QStringList *list)
          label1 = label2 = label3 = QString::null;
       }
       KileCenteredTableItem *item1 = new KileCenteredTableItem(m_sectioningtable,
-                                                   QTableItem::Never,label1);
+                                                   Q3TableItem::Never,label1);
       m_sectioningtable->setItem( i,0,item1  );
       m_sectioningtable->setText( i,1,label2 );
       KileCenteredTableItem *item3 = new KileCenteredTableItem(m_sectioningtable,
-                                                    QTableItem::Never,label3);
+                                                    Q3TableItem::Never,label3);
       m_sectioningtable->setItem( i,2,item3 );
    }
 }

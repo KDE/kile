@@ -17,7 +17,7 @@
 #include "kileedit.h"
 
 #include <qfileinfo.h>
-#include <qvaluestack.h>
+#include <q3valuestack.h>
 #include <qclipboard.h>
 #include <qapplication.h>
 
@@ -1874,7 +1874,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 		int start = ( line == (int)row ) ? col : textline.length()-1;
 		for ( int i=start; i>=0; --i )
 		{
-			//KILE_DEBUG() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].latin1() << endl;
+			//KILE_DEBUG() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1() << endl;
 			if ( textline[i] == '{' )
 			{
 				if ( brackets > 0 )
@@ -2085,7 +2085,7 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	view->cursorPositionReal(&row,&col);
 	
 	// don't accept an empty line as part of a paragraph
-	if ( doc->textLine(row).stripWhiteSpace().isEmpty() )
+	if ( doc->textLine(row).trimmed().isEmpty() )
 		return false;
 	
 	// settings default results
@@ -2095,7 +2095,7 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	// find the previous empty line
 	for ( int line=row-1; line>=0; --line )
 	{
-		if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
+		if ( doc->textLine(line).trimmed().isEmpty() )
 		break;
 		startline = line;
 	}
@@ -2103,7 +2103,7 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	// find the next empty line
 	for ( uint line=row+1; line<doc->numLines(); ++line )
 	{
-		if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
+		if ( doc->textLine(line).trimmed().isEmpty() )
 		break;
 		endline = line;
 	}
@@ -2122,7 +2122,7 @@ void EditorExtension::gotoNextParagraph(Kate::View *view)
 	Kate::Document *doc = view->getDoc();
 
 	endline = view->cursorLine();
-	if ( doc->textLine(endline).stripWhiteSpace().isEmpty() )
+	if ( doc->textLine(endline).trimmed().isEmpty() )
 		found = true;
 	else
 		found = findCurrentTexParagraph(startline,endline,view);
@@ -2133,7 +2133,7 @@ void EditorExtension::gotoNextParagraph(Kate::View *view)
 		// find the next non empty line
 		for ( uint line=endline+1; line<doc->numLines(); ++line )
 		{
-			if ( ! doc->textLine(line).stripWhiteSpace().isEmpty() )
+			if ( ! doc->textLine(line).trimmed().isEmpty() )
 			{
 				view->setCursorPositionReal(line,0);
 				return;
@@ -2152,7 +2152,7 @@ void EditorExtension::gotoPrevParagraph(Kate::View *view)
 	Kate::Document *doc = view->getDoc();
 
 	startline = view->cursorLine();
-	if ( doc->textLine(startline).stripWhiteSpace().isEmpty() )
+	if ( doc->textLine(startline).trimmed().isEmpty() )
 	{
 		startline++;
 		found = true;
@@ -2167,7 +2167,7 @@ void EditorExtension::gotoPrevParagraph(Kate::View *view)
 		int foundline = -1;
 		for ( int line=startline-1; line>=0; --line )
 		{
-			if ( ! doc->textLine(line).stripWhiteSpace().isEmpty() )
+			if ( ! doc->textLine(line).trimmed().isEmpty() )
 				break;
 			foundline = line;
 		}
@@ -2178,7 +2178,7 @@ void EditorExtension::gotoPrevParagraph(Kate::View *view)
 		int prevstartline = -1;
 		for ( int line=foundline-1; line>=0; --line )
 		{
-			if ( doc->textLine(line).stripWhiteSpace().isEmpty() )
+			if ( doc->textLine(line).trimmed().isEmpty() )
 				break;
 			prevstartline = line;
 		}

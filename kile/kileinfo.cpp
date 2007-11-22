@@ -21,6 +21,8 @@
 #include <qwidget.h>
 #include <qfileinfo.h>
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <kate/document.h>
 #include <kate/view.h>
@@ -137,12 +139,12 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 
 	if (file.left(2) == "./" )
 	{
-		file = QFileInfo(outputFilter()->source()).dirPath(true) + '/' + file.mid(2);
+		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file.mid(2);
 	}
 
 	if (file[0] != '/' )
 	{
-		file = QFileInfo(outputFilter()->source()).dirPath(true) + '/' + file;
+		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file;
 	}
 
 	QFileInfo fi(file);
@@ -198,7 +200,7 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 		{
 			KILE_DEBUG() << "\tusing root item " << root->url().fileName() << endl;
 
-			QPtrList<KileProjectItem> children;
+			Q3PtrList<KileProjectItem> children;
 			children.append(root);
 			root->allChildren(&children);
 
@@ -400,8 +402,8 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 		info.setFile((*it) + '/' + file);
 		if(info.exists())
 		{
-			KILE_DEBUG() << "filepath after correction is: " << info.dirPath() << endl;
-			return info.absFilePath();
+			KILE_DEBUG() << "filepath after correction is: " << info.path() << endl;
+			return info.absoluteFilePath();
 		}
 	}
 	return QString::null;

@@ -21,14 +21,16 @@
   @author Jeroen Wijnhout
   */
 
-#include <qvbox.h>
+#include <q3vbox.h>
+//Added by qt3to4:
+#include <QShowEvent>
 
 namespace KParts { class ReadOnlyPart; }
 class KileInfo;
 
 namespace KileWidget
 {
-	class Konsole : public QVBox
+	class Konsole : public Q3VBox
 	{
 		Q_OBJECT
 

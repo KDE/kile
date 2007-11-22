@@ -24,16 +24,19 @@
 
 #include <qlayout.h>
 #include <qtabwidget.h>
-#include <qgroupbox.h>
-#include <qvgroupbox.h>
-#include <qbuttongroup.h>
+#include <q3groupbox.h>
+#include <q3vgroupbox.h>
+#include <q3buttongroup.h>
 #include <qlabel.h>
 #include <qspinbox.h>
-#include <qframe.h>
-#include <qwhatsthis.h>
+#include <q3frame.h>
+#include <q3whatsthis.h>
 #include <qstringlist.h>
 #include <qfileinfo.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include "kilelistselector.h"
 #include "kileconfig.h"
@@ -44,11 +47,11 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
    : QWidget(parent,name), m_config(config), m_logwidget(logwidget)
 {
    // Layout
-    QVBoxLayout *vbox = new QVBoxLayout(this, 5,KDialog::spacingHint() );
+    Q3VBoxLayout *vbox = new Q3VBoxLayout(this, 5,KDialog::spacingHint() );
 
    // Groupbox with TabDialog and two button
-   QGroupBox *gb_tab= new QGroupBox(i18n("Complete Modes"), this );
-   QGridLayout *grid_tab = new QGridLayout( gb_tab, 2,1, 12,8, "" );
+   Q3GroupBox *gb_tab= new Q3GroupBox(i18n("Complete Modes"), this );
+   Q3GridLayout *grid_tab = new Q3GridLayout( gb_tab, 2,1, 12,8, "" );
    grid_tab->addRowSpacing( 0, 12 );
 
 	// create TabWidget
@@ -68,11 +71,11 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
    grid_tab->addWidget(remove,2,1,Qt::AlignLeft);
 
 	// below: OptionBox
-	QButtonGroup *bg_options = new QButtonGroup( this, "bgOptions" );
+	Q3ButtonGroup *bg_options = new Q3ButtonGroup( this, "bgOptions" );
 	bg_options->setColumnLayout(0, Qt::Vertical );
 	bg_options->layout()->setSpacing( 6 );
 	bg_options->layout()->setMargin( 11 );
-	QGridLayout *bg_optionsLayout = new QGridLayout( bg_options->layout() );
+	Q3GridLayout *bg_optionsLayout = new Q3GridLayout( bg_options->layout() );
 	bg_optionsLayout->setAlignment( Qt::AlignTop );
 
 	cb_setcursor = new QCheckBox(i18n("Place cursor"),bg_options);
@@ -113,15 +116,15 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
 	bg_optionsLayout->setColSpacing(5,8);
 	bg_optionsLayout->setColStretch(7,1); 
 	
-	QWhatsThis::add(cb_setcursor,i18n("Try to place the cursor."));
-	QWhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));
-	QWhatsThis::add(cb_closeenv,i18n("Also close an environment, when an opening command is inserted."));
-	QWhatsThis::add(cb_usecomplete,i18n("Enable components of word completion."));
-	QWhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
-	QWhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
-	QWhatsThis::add(sp_latexthreshold,i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
-	QWhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
-	QWhatsThis::add(cb_citeoutofbraces,i18n("Move cursor out of braces after selecting from a citation keylist."));
+	Q3WhatsThis::add(cb_setcursor,i18n("Try to place the cursor."));
+	Q3WhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));
+	Q3WhatsThis::add(cb_closeenv,i18n("Also close an environment, when an opening command is inserted."));
+	Q3WhatsThis::add(cb_usecomplete,i18n("Enable components of word completion."));
+	Q3WhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
+	Q3WhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
+	Q3WhatsThis::add(sp_latexthreshold,i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
+	Q3WhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
+	Q3WhatsThis::add(cb_citeoutofbraces,i18n("Move cursor out of braces after selecting from a citation keylist."));
 
 	// bottom: warning
 	QLabel *lb_automodes = new QLabel("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion.",this);
@@ -137,7 +140,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
    connect(remove,SIGNAL(clicked()),this,SLOT(removeClicked()));
 
    // justify height
-   QCheckListItem *item = new QCheckListItem(m_listview[AbbreviationPage], "Test", QCheckListItem::CheckBox);
+   Q3CheckListItem *item = new Q3CheckListItem(m_listview[AbbreviationPage], "Test", Q3CheckListItem::CheckBox);
    int h = 6*(item->height()+1) + 1;
  	for ( uint i=TexPage; i<NumPages; ++i )
 		m_listview[i]->setFixedHeight(h);
@@ -160,7 +163,7 @@ void ConfigCodeCompletion::addPage(QTabWidget *tab, CompletionPage page, const Q
 	m_listview[page]->addColumn(i18n("Local File"));
 	m_listview[page]->setFullWidth(true);
 
-	QGridLayout *grid = new QGridLayout(m_page[page], 1,1, 10,10);
+	Q3GridLayout *grid = new Q3GridLayout(m_page[page], 1,1, 10,10);
 	grid->addWidget(m_listview[page],0,0);
 
 	// add Tab
@@ -169,7 +172,7 @@ void ConfigCodeCompletion::addPage(QTabWidget *tab, CompletionPage page, const Q
 	// remember directory name
 	m_dirname << dirname;
 
-	connect(m_listview[page], SIGNAL(clicked( QListViewItem *)), this, SLOT(slotListviewClicked(QListViewItem *)));
+	connect(m_listview[page], SIGNAL(clicked( Q3ListViewItem *)), this, SLOT(slotListviewClicked(Q3ListViewItem *)));
 }
 
 //////////////////// read/write configuration ////////////////////
@@ -290,7 +293,7 @@ void ConfigCodeCompletion::setListviewEntries(CompletionPage page)
 		QString basename = (*it).right( (*it).length()-2 );
 		bool localExists = QFileInfo(localdir+basename+".cwl").exists();
 		
-		QCheckListItem *item = new QCheckListItem(m_listview[page],basename,QCheckListItem::CheckBox);
+		Q3CheckListItem *item = new Q3CheckListItem(m_listview[page],basename,Q3CheckListItem::CheckBox);
 		if ( localExists )
 		{
 			item->setOn( (*it).at(0) == '1' ? true : false );
@@ -337,7 +340,7 @@ bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
    // now check all entries if they have changed
    QStringList newfiles;
    int index = 0;
-   QCheckListItem *item = (QCheckListItem *)m_listview[page]->firstChild();
+   Q3CheckListItem *item = (Q3CheckListItem *)m_listview[page]->firstChild();
    while ( item ) {
       QString s = ( item->isOn() ) ? "1-" : "0-";
       s += item->text(0);
@@ -348,7 +351,7 @@ bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
          changed = true;
 
       // go on
-      item = (QCheckListItem *)item->nextSibling();
+      item = (Q3CheckListItem *)item->nextSibling();
       ++index;
    }
 
@@ -361,12 +364,12 @@ bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
 
 bool ConfigCodeCompletion::isListviewEntry(KListView *listview, const QString &filename)
 {
-	QCheckListItem *item = (QCheckListItem *)listview->firstChild();
+	Q3CheckListItem *item = (Q3CheckListItem *)listview->firstChild();
 	while ( item ) 
 	{
 		if ( item->text() == filename )
 			return true;
-		item = (QCheckListItem *)item->nextSibling();
+		item = (Q3CheckListItem *)item->nextSibling();
 	}
 	return false;
 }
@@ -479,7 +482,7 @@ void ConfigCodeCompletion::addClicked()
 					}
 
 					// add new entry
-					QCheckListItem *item = new QCheckListItem(listview,basename,QCheckListItem::CheckBox);
+					Q3CheckListItem *item = new Q3CheckListItem(listview,basename,Q3CheckListItem::CheckBox);
 					item->setOn(true);
 					item->setSelected(true);
 					if ( filemap[filename].left(m_localCwlDir.length()) == m_localCwlDir )
@@ -501,7 +504,7 @@ void ConfigCodeCompletion::removeClicked()
 {
    QWidget *page = tab->currentPage();
    KListView *list = getListview(page);                              // determine page
-   QCheckListItem *item = (QCheckListItem *)list->selectedItem();    // determine entry
+   Q3CheckListItem *item = (Q3CheckListItem *)list->selectedItem();    // determine entry
 
 	if ( item ) 
 	{
@@ -512,7 +515,7 @@ void ConfigCodeCompletion::removeClicked()
 	}
 }
 
-void ConfigCodeCompletion::slotListviewClicked(QListViewItem *)
+void ConfigCodeCompletion::slotListviewClicked(Q3ListViewItem *)
 {
 	KListView *listview = getListview(tab->currentPage());     // get current page
 	remove->setEnabled( listview->selectedItems().count() > 0 );

@@ -24,14 +24,18 @@
 
 #include <qevent.h>
 #include <qpainter.h>
-#include <qtable.h>
+#include <q3table.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qregexp.h>
 #include <qvalidator.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3Frame>
+#include <QMouseEvent>
 
 #include <kdialogbase.h>
 #include <kcolorcombo.h>
@@ -79,12 +83,12 @@ namespace TabularCell
 	{
 		int cnt;
 		int cells;
-		QValueList<int> list;
+		Q3ValueList<int> list;
 	};
 
 }
 
-class TabCellFrame : public QFrame  
+class TabCellFrame : public Q3Frame  
 {
 	Q_OBJECT
 public:
@@ -141,11 +145,11 @@ private:
 
 //////////////////////////////////////////////////////////////////////
 
-class TabularItem :public QTableItem 
+class TabularItem :public Q3TableItem 
 {
 public:
-	TabularItem(QTable* table);
-	TabularItem(QTable* table, const TabularCell::Data &data);
+	TabularItem(Q3Table* table);
+	TabularItem(Q3Table* table, const TabularCell::Data &data);
 
 	int alignment() const;
 	bool isDefault();
@@ -156,7 +160,7 @@ public:
 };
 
 class TabularDialog;
-class TabularTable : public QTable 
+class TabularTable : public Q3Table 
 {
 	Q_OBJECT
 	
@@ -218,10 +222,10 @@ private:
 	void getCellRange(int row,int col1, int col2, int &xl, int &xr);
 	QString getCellRangeText(int row,int col1, int col2);
 
-	QPopupMenu *createPopupMenu();
-	void insertPopupAlign(QPopupMenu *popup,bool header);
-	void insertPopupClear(QPopupMenu *popup);
-	int popupId(QPopupMenu *popup, int id);
+	Q3PopupMenu *createPopupMenu();
+	void insertPopupAlign(Q3PopupMenu *popup,bool header);
+	void insertPopupClear(Q3PopupMenu *popup);
+	int popupId(Q3PopupMenu *popup, int id);
 	
 	void cellPopupEdit();
 	void cellPopupSetMulticolumn();
@@ -236,8 +240,8 @@ private:
 	int m_section;
 	int m_x1,m_y1,m_x2,m_y2;
 	
-	QPopupMenu *m_headerpopup;
-	QPopupMenu *m_cellpopup;
+	Q3PopupMenu *m_headerpopup;
+	Q3PopupMenu *m_cellpopup;
 	TabularDialog *m_tabdialog;
 	
 private slots:

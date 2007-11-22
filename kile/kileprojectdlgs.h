@@ -18,7 +18,10 @@
 
 #include <qcheckbox.h>
 #include <qlayout.h>
-#include <qvgroupbox.h>
+#include <q3vgroupbox.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <QLabel>
 
 #include <kdialogbase.h>
 #include <klineedit.h>
@@ -31,7 +34,7 @@ class TemplateIconView;
 class QLabel;
 class KileProject;
 class KComboBox;
-class QVGroupBox;
+class Q3VGroupBox;
 class TemplateItem;
 
 namespace KileDocument { class Extensions; }
@@ -66,8 +69,8 @@ private slots:
 protected:
 	KileDocument::Extensions *m_extmanager;
 
-	QVGroupBox *m_pgroup, *m_egroup;
-	QGridLayout	*m_pgrid, *m_egrid;
+	Q3VGroupBox *m_pgroup, *m_egroup;
+	Q3GridLayout	*m_pgrid, *m_egrid;
 	QLabel *m_plabel;
 
 	KLineEdit	*m_title, *m_extensions;

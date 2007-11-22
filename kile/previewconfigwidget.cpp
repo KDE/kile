@@ -25,6 +25,9 @@
 #include <qstringlist.h>
 #include <qmap.h>
 #include <qvalidator.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include "kileconfig.h"
 
@@ -34,14 +37,14 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	  m_preview(preview)
 {
 	// Layout
-	QVBoxLayout *vbox = new QVBoxLayout(this, 5,5 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(this, 5,5 );
 
-	QGroupBox *groupbox = new QGroupBox( i18n("Quick Preview in a separate window"), this, "groupbox" );
+	Q3GroupBox *groupbox = new Q3GroupBox( i18n("Quick Preview in a separate window"), this, "groupbox" );
 	groupbox->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)1, 0, 0, groupbox->sizePolicy().hasHeightForWidth() ) );
 	groupbox->setColumnLayout(0, Qt::Vertical ); 
 	groupbox->layout()->setSpacing( 6 ); 
 	groupbox->layout()->setMargin( 11 );
-	QGridLayout *groupboxLayout = new QGridLayout( groupbox->layout() );
+	Q3GridLayout *groupboxLayout = new Q3GridLayout( groupbox->layout() );
 	groupboxLayout->setAlignment( Qt::AlignTop );
    
 	QLabel *label = new QLabel( i18n("Select a configuration:"), groupbox, "label");
@@ -52,11 +55,11 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	groupboxLayout->setColSpacing(1,8);
 	groupboxLayout->setColStretch(3,1);
 	
-	QGroupBox *gbResolution = new QGroupBox( i18n("Quick Preview in bottom bar"), this, "gbresolution" );
+	Q3GroupBox *gbResolution = new Q3GroupBox( i18n("Quick Preview in bottom bar"), this, "gbresolution" );
 	gbResolution->setColumnLayout(0, Qt::Vertical );
 	gbResolution->layout()->setSpacing( 6 );
 	gbResolution->layout()->setMargin( 11 );
-	QGridLayout *resLayout = new QGridLayout( gbResolution->layout() );
+	Q3GridLayout *resLayout = new Q3GridLayout( gbResolution->layout() );
 	resLayout->setAlignment( Qt::AlignTop );
 
 	QLabel *resLabel = new QLabel( i18n("&Resolution:"), gbResolution );
@@ -95,11 +98,11 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->setColSpacing(4,24);
 	resLayout->setColStretch(5,1);
 
-	m_gbPreview = new QGroupBox( i18n("Properties"), this, "gbpreview" );
+	m_gbPreview = new Q3GroupBox( i18n("Properties"), this, "gbpreview" );
 	m_gbPreview->setColumnLayout(0, Qt::Vertical );
 	m_gbPreview->layout()->setSpacing( 6 );
 	m_gbPreview->layout()->setMargin( 11 );
-	QGridLayout *previewLayout = new QGridLayout( m_gbPreview->layout() );
+	Q3GridLayout *previewLayout = new Q3GridLayout( m_gbPreview->layout() );
 	previewLayout->setAlignment( Qt::AlignTop );
 
 	QLabel *labelPreviewWidget = new QLabel(i18n("Show preview in bottom bar:"), m_gbPreview);

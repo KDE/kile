@@ -18,12 +18,15 @@
 
 #include <qregexp.h>
 #include <qfileinfo.h>
-#include <qgroupbox.h>
-#include <qvgroupbox.h>
+#include <q3groupbox.h>
+#include <q3vgroupbox.h>
 #include <qlayout.h>
 #include <qpixmap.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include <klocale.h> 
 #include <kfiledialog.h>
@@ -48,13 +51,13 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	m_proc(0)
 {
    // Layout
-   QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
+   Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
 
    // first groupbox: choose picture
-   QVGroupBox* group= new QVGroupBox(i18n("File"), plainPage());
+   Q3VGroupBox* group= new Q3VGroupBox(i18n("File"), plainPage());
 
    QWidget *widget = new QWidget(group);
-   QGridLayout *grid = new QGridLayout( widget, 4,3, 6,6, "");
+   Q3GridLayout *grid = new Q3GridLayout( widget, 4,3, 6,6, "");
    grid->addRowSpacing( 0, fontMetrics().lineSpacing() );
    grid->addColSpacing( 0, fontMetrics().lineSpacing() );
    grid->setColStretch(1,1);
@@ -87,7 +90,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
    QLabel *label3 = new QLabel(i18n("Output:"), widget);
 
    QWidget *cb_widget = new QWidget(widget);
-   QGridLayout *cb_grid = new QGridLayout( cb_widget, 1,2, 0,0,"");
+   Q3GridLayout *cb_grid = new Q3GridLayout( cb_widget, 1,2, 0,0,"");
    cb_center = new QCheckBox(i18n("Center picture"),cb_widget);
    cb_pdftex = new QCheckBox(i18n("pdftex/pdflatex"),cb_widget);
    cb_grid->addWidget(cb_center,0,0);
@@ -104,9 +107,9 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
    grid->addWidget( cb_graphicspath, 3,1 );
 
    // second groupbox: options
-   QVGroupBox* gb_opt= new QVGroupBox(i18n("Options"), plainPage());
+   Q3VGroupBox* gb_opt= new Q3VGroupBox(i18n("Options"), plainPage());
    QWidget *widget_opt = new QWidget(gb_opt);
-   QGridLayout *grid_opt = new QGridLayout( widget_opt, 2,4, 6,6, "");
+   Q3GridLayout *grid_opt = new Q3GridLayout( widget_opt, 2,4, 6,6, "");
 
    QLabel *label7 = new QLabel(i18n("Width:"), widget_opt);
    QLabel *label8 = new QLabel(i18n("Height:"),widget_opt);
@@ -128,9 +131,9 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
    grid_opt->addWidget( edit_bb,     1,3 );
 
     // third groupbox: figure environment
-   QGroupBox *gb_fig= new QGroupBox(2,Qt::Horizontal,i18n("Figure Environment"), plainPage());
+   Q3GroupBox *gb_fig= new Q3GroupBox(2,Qt::Horizontal,i18n("Figure Environment"), plainPage());
    QWidget *widget_fig = new QWidget(gb_fig);
-   QGridLayout *grid_fig = new QGridLayout( widget_fig, 3,2, 6,6, "");
+   Q3GridLayout *grid_fig = new Q3GridLayout( widget_fig, 3,2, 6,6, "");
 
    QLabel *label4 = new QLabel(i18n("Figure:"), widget_fig);
    lb_label = new QLabel(i18n("Label:"), widget_fig);
@@ -238,7 +241,7 @@ QString IncludeGraphics::getTemplate()
 	// either take the filename or try to take the relative part of the name
 	QString filename = ( cb_graphicspath->isChecked() ) 
 	                 ? QFileInfo(edit_file->text()).fileName() 
-	                 : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).dirPath(), edit_file->text());
+	                 : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).path(), edit_file->text());
 	s += '{' + filename + "}\n";
  
 	// add some comments (depending of given resolution, this may be wrong!)
@@ -253,10 +256,10 @@ QString IncludeGraphics::getTemplate()
 	// close figure environment ?
 	if ( figure )
 	{
-		QString caption = edit_caption->text().stripWhiteSpace();
+		QString caption = edit_caption->text().trimmed();
 		if ( !caption.isEmpty() )
 			s +=  indent + "\\caption{" + caption + "}\n";
-		QString label = edit_label->text().stripWhiteSpace();
+		QString label = edit_label->text().trimmed();
 		if ( !label.isEmpty() && label!="fig:" )
 			s +=  indent + "\\label{" + label + "}\n";
 		s += "\\end{figure}\n";
@@ -441,7 +444,7 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
       // analyze the result
       if ( m_output.left(14) == "%%BoundingBox:" )
       {
-         edit_bb->setText( m_output.stripWhiteSpace().mid(15,m_output.length()-15) );
+         edit_bb->setText( m_output.trimmed().mid(15,m_output.length()-15) );
 
          // show information
          setInfo();
@@ -473,7 +476,7 @@ void IncludeGraphics::slotProcessExited(KProcess* proc)
 		m_resolution = res;
 
 	// look, if resolution is in PixelsPerCentimeter
-	if ( reg.cap(4).stripWhiteSpace() == "PixelsPerCentimeter" ) 
+	if ( reg.cap(4).trimmed() == "PixelsPerCentimeter" ) 
 		m_resolution *= 2.54;
 
 	// calc the bounding box
@@ -503,7 +506,7 @@ void IncludeGraphics::slotOk()
 
 bool IncludeGraphics::checkParameter()
 {
-	QString filename = edit_file->text().stripWhiteSpace();
+	QString filename = edit_file->text().trimmed();
 	edit_file->setText(filename);
 	 
 	if ( filename.isEmpty() )

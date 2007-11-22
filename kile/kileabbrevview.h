@@ -18,7 +18,7 @@
 
 #include <qstring.h>
 #include <qlabel.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 
 #include <klineedit.h>
 #include <klistbox.h>
@@ -47,12 +47,12 @@ signals:
 	void sendText(const QString &text);
  
 private slots:
-	void slotMouseButtonClicked(int button, QListViewItem *item, const QPoint &pos, int);
-	void slotContextMenu(KListView *, QListViewItem *item, const QPoint &pos);
+	void slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &pos, int);
+	void slotContextMenu(KListView *, Q3ListViewItem *item, const QPoint &pos);
 	void slotPopupAbbreviation(int id);
 
 private:
-	QPopupMenu* m_popup;
+	Q3PopupMenu* m_popup;
 	bool m_changes;
 
 	void addAbbreviation(const QString &abbrev, const QString &expansion);

@@ -18,10 +18,12 @@
 #define CONFIGSTRUCTURE_H
 
 #include <qwidget.h>
-#include <qtable.h>
+#include <q3table.h>
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 
 class KConfig;
 
@@ -40,15 +42,15 @@ namespace KileStructure
 
   enum  { None=0x0, Visible=0x1, Opened=0x2 };
   
-class KileCenteredTableItem : public QTableItem
+class KileCenteredTableItem : public Q3TableItem
 {
 public:
-   KileCenteredTableItem(QTable *table,EditType et,const QString& text) : QTableItem(table,et,text) {}
+   KileCenteredTableItem(Q3Table *table,EditType et,const QString& text) : Q3TableItem(table,et,text) {}
    void paint(QPainter* p,const QColorGroup& cg,const QRect& cr,bool selected);  
    int alignment() const { return Qt::AlignHCenter; } 
 };
 
-class KileTable : public QTable
+class KileTable : public Q3Table
 {
    Q_OBJECT
 public:
@@ -78,7 +80,7 @@ private:
    QPushButton *add, *remove;
 
    KileTable *m_entriestable,*m_sectioningtable;
-   QCheckTableItem *m_visible[6], *m_defaultopen[6];
+   Q3CheckTableItem *m_visible[6], *m_defaultopen[6];
    QMap<QString,const QStringList *> m_docclasses;
 
    void showSectioning(const QStringList *list);

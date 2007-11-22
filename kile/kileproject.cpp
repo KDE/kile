@@ -25,6 +25,8 @@
 #include <qstringlist.h>
 #include <qfileinfo.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <ksimpleconfig.h>
 #include <klocale.h>
@@ -110,7 +112,7 @@ void KileProjectItem::print(int level)
 		sibling()->print(level);
 }
 
-void KileProjectItem::allChildren(QPtrList<KileProjectItem> *list) const
+void KileProjectItem::allChildren(Q3PtrList<KileProjectItem> *list) const
 {
 	KileProjectItem *item = firstChild();
 
@@ -513,7 +515,7 @@ void KileProject::buildProjectTree()
 	QString dep;
 	KileProjectItem *itm;
 	KURL url;
-	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 
 	//clean first
 	while (it.current())
@@ -564,7 +566,7 @@ void KileProject::buildProjectTree()
 
 KileProjectItem* KileProject::item(const KURL & url)
 {
-	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 	while (it.current())
 	{
 		if ((*it)->url() == url)
@@ -577,7 +579,7 @@ KileProjectItem* KileProject::item(const KURL & url)
 
 KileProjectItem* KileProject::item(const KileDocument::Info *info)
 {
-	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 	KileProjectItem *current;
 	while ((current = it.current()) != 0)
 	{
@@ -713,7 +715,7 @@ bool KileProject::contains(const KURL &url)
 
 bool KileProject::contains(const KileDocument::Info *info)
 {
-	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 	KileProjectItem *current;
 	while( (current = it.current()) != 0)
 	{
@@ -741,7 +743,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 		else
 		{
 			//if not, see if we can find another root item that is a LaTeX root
-			QPtrListIterator<KileProjectItem> it(m_rootItems);
+			Q3PtrListIterator<KileProjectItem> it(m_rootItems);
 			while ( it.current() )
 			{
 				if ( it.current()->getInfo() && it.current()->getInfo()->isLaTeXRoot() )
@@ -776,7 +778,7 @@ QString KileProject::archiveFileList() const
 	KILE_DEBUG() << "KileProject::archiveFileList()" << endl;
 
 	QString path,list;
-	QPtrListIterator<KileProjectItem> it(m_projectitems);
+	Q3PtrListIterator<KileProjectItem> it(m_projectitems);
 	
 	while (it.current())
 	{

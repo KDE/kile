@@ -18,6 +18,9 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
 
 #include <kapp.h>
 #include <klocale.h>
@@ -34,9 +37,9 @@
 #include "kileinfo.h"
 #include "templates.h"
 
-class TemplateListViewItem : public QListViewItem {
+class TemplateListViewItem : public Q3ListViewItem {
 	public:
-		TemplateListViewItem(QListView* listView, QListViewItem* previousItem, const QString& mode, const KileTemplate::Info& info) : QListViewItem(listView, previousItem, mode, info.name, KileInfo::documentTypeToString(info.type)), m_info(info) {
+		TemplateListViewItem(Q3ListView* listView, Q3ListViewItem* previousItem, const QString& mode, const KileTemplate::Info& info) : Q3ListViewItem(listView, previousItem, mode, info.name, KileInfo::documentTypeToString(info.type)), m_info(info) {
 		}
 
 		virtual ~TemplateListViewItem() {
@@ -57,9 +60,9 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	QWidget *page = new QWidget(this , "managetemplates_mainwidget");
 	setMainWidget(page);
-	QVBoxLayout *topLayout = new QVBoxLayout(page, 0, spacingHint());
+	Q3VBoxLayout *topLayout = new Q3VBoxLayout(page, 0, spacingHint());
 
-	QHBoxLayout *nameLayout = new QHBoxLayout(topLayout, spacingHint());
+	Q3HBoxLayout *nameLayout = new Q3HBoxLayout(topLayout, spacingHint());
 	nameLayout->addWidget(new QLabel(i18n("Name:"),page));
 
 	QString fileName = m_sourceURL.fileName();
@@ -73,7 +76,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	nameLayout->addWidget(new QLabel(i18n("Type: %1").arg(KileInfo::documentTypeToString(m_templateType)), page));
 
-	QHBoxLayout *iconLayout = new QHBoxLayout(topLayout, spacingHint());
+	Q3HBoxLayout *iconLayout = new Q3HBoxLayout(topLayout, spacingHint());
 	iconLayout->addWidget(new QLabel(i18n("Icon:"), page));
 
 	m_iconEdit = new KLineEdit(KGlobal::dirs()->findResource("appdata", "pics/type_Default.png"), page);
@@ -87,7 +90,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	m_templateList->addColumn(i18n("marked", "M"));
 	m_templateList->addColumn(i18n("Existing Templates"));
 	m_templateList->addColumn(i18n("Document Type"));
-	m_templateList->setColumnWidthMode(0, QListView::Manual);
+	m_templateList->setColumnWidthMode(0, Q3ListView::Manual);
 	m_templateList->setFullWidth(true);
 	m_templateList->setAllColumnsShowFocus(true);
 
@@ -95,7 +98,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	topLayout->addWidget(m_templateList);
 
-	QHBoxLayout *controlLayout = new QHBoxLayout(topLayout, spacingHint());
+	Q3HBoxLayout *controlLayout = new Q3HBoxLayout(topLayout, spacingHint());
 	m_showAllTypesCheckBox = new QCheckBox(i18n("Show all the templates"), page);
 	m_showAllTypesCheckBox->setChecked(false);
 	connect(m_showAllTypesCheckBox, SIGNAL(toggled(bool)), this, SLOT(updateTemplateListView(bool)));
@@ -111,7 +114,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterisk:\nif you do select such a template, a new template with the same name\nwill be created in a location you have write access to."),page));
 
-	connect(m_templateList, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(slotSelectedTemplate(QListViewItem*)));
+	connect(m_templateList, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(slotSelectedTemplate(Q3ListViewItem*)));
 	connect(iconbut, SIGNAL(clicked()),this, SLOT(slotSelectIcon()));
 	connect(this, SIGNAL(aboutToClose()), this, SLOT(addTemplate()));
 }
@@ -121,14 +124,14 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 {
 	QWidget *page = new QWidget(this, "managetemplates_mainwidget");
 	setMainWidget(page);
-	QVBoxLayout *topLayout = new QVBoxLayout(page, 0, spacingHint());
+	Q3VBoxLayout *topLayout = new Q3VBoxLayout(page, 0, spacingHint());
 
 	m_templateList = new KListView(page);
 	m_templateList->setSorting(-1);
 	m_templateList->addColumn(i18n("marked", "M"));
 	m_templateList->addColumn(i18n("Existing Templates"));
 	m_templateList->addColumn(i18n("Document Type"));
-	m_templateList->setColumnWidthMode(0, QListView::Manual);
+	m_templateList->setColumnWidthMode(0, Q3ListView::Manual);
 	m_templateList->setFullWidth(true);
 	m_templateList->setAllColumnsShowFocus(true);
 
@@ -159,7 +162,7 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type) {
 	m_templateManager->scanForTemplates();
 	KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type);
 	QString mode;
-	QListViewItem* previousItem = NULL;
+	Q3ListViewItem* previousItem = NULL;
 
 	m_templateList->clear();
 	for (KileTemplate::TemplateListIterator i = templateList.begin(); i != templateList.end(); ++i)
@@ -173,7 +176,7 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type) {
 	}
 }
 
-void ManageTemplatesDialog::slotSelectedTemplate(QListViewItem *item) {
+void ManageTemplatesDialog::slotSelectedTemplate(Q3ListViewItem *item) {
 	TemplateListViewItem *templateItem = dynamic_cast<TemplateListViewItem*>(item);
 	if(templateItem) {
 		KileTemplate::Info info = templateItem->getTemplateInfo();
@@ -194,14 +197,14 @@ void ManageTemplatesDialog::slotSelectIcon() {
 
 void ManageTemplatesDialog::addTemplate() {
 
-	QString templateName = (m_nameEdit->text()).stripWhiteSpace();
+	QString templateName = (m_nameEdit->text()).trimmed();
 
 	if(templateName.isEmpty()) {
 		KMessageBox::error(this, i18n("Sorry, but the template name that you have entered is invalid.\nPlease enter a new name."));
 		return;
 	}
 
-	QString icon = (m_iconEdit->text()).stripWhiteSpace();
+	QString icon = (m_iconEdit->text()).trimmed();
 	KURL iconURL = KURL::fromPathOrURL(icon);
 
 	if (icon.isEmpty()) {
@@ -219,7 +222,7 @@ void ManageTemplatesDialog::addTemplate() {
 		return;
 	}
 
-	QListViewItem* item = m_templateList->selectedItem();
+	Q3ListViewItem* item = m_templateList->selectedItem();
 
 	if(!item && m_templateManager->searchForTemplate(templateName, m_templateType)) {
 		KMessageBox::error(this, i18n("Sorry, but a template named \"%1\" already exists.\nPlease remove it first.").arg(templateName));
@@ -250,7 +253,7 @@ void ManageTemplatesDialog::addTemplate() {
 
 bool ManageTemplatesDialog::removeTemplate()
 {
-	QListViewItem* item = m_templateList->selectedItem();
+	Q3ListViewItem* item = m_templateList->selectedItem();
 	if(!item) {
 		KMessageBox::information(this, i18n("Please select a template that should be removed."));
 		return true;

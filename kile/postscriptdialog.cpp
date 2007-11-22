@@ -23,12 +23,16 @@
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
-#include <qgroupbox.h>
-#include "qvgroupbox.h"
+#include <q3groupbox.h>
+#include "q3vgroupbox.h"
 #include <qlayout.h>
 #include <qpixmap.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
@@ -75,12 +79,12 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	setMainWidget(page);
 
 	// Layout
-	QVBoxLayout *vbox = new QVBoxLayout(page, 6,6 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
 
 	// groupbox with file selection
-	QVGroupBox* group= new QVGroupBox(i18n("Parameter"),page );
+	Q3VGroupBox* group= new Q3VGroupBox(i18n("Parameter"),page );
 	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout( widget, 7,3, 6,6, "");
+	Q3GridLayout *grid = new Q3GridLayout( widget, 7,3, 6,6, "");
 	grid->setColStretch(1,1);
 
 	// line 0: QLabel
@@ -211,14 +215,14 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	if ( !pstops && !psselect ) 
 		enableButton(User1,false);
 	
-	QWhatsThis::add(m_cbTask,i18n("Choose one of the 18 operations to convert a postscript file. The last four operations need specific parameters."));
-	QWhatsThis::add(choose_in,i18n("Choose the input file."));
-	QWhatsThis::add(choose_out,i18n("Choose the output file."));
-	QWhatsThis::add(m_edInfile,i18n("Input file, which should be converted."));
-	QWhatsThis::add(m_edOutfile,i18n("The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked."));
-	QWhatsThis::add(m_edParameter,i18n("'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here"));
-	QWhatsThis::add(m_spCopies,i18n("When you want to copy pages, you must enter the number of copies"));
-	QWhatsThis::add(m_cbView,i18n("View the result of the conversion process. KGhostview is always taken as an external viewer."));
+	Q3WhatsThis::add(m_cbTask,i18n("Choose one of the 18 operations to convert a postscript file. The last four operations need specific parameters."));
+	Q3WhatsThis::add(choose_in,i18n("Choose the input file."));
+	Q3WhatsThis::add(choose_out,i18n("Choose the output file."));
+	Q3WhatsThis::add(m_edInfile,i18n("Input file, which should be converted."));
+	Q3WhatsThis::add(m_edOutfile,i18n("The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked."));
+	Q3WhatsThis::add(m_edParameter,i18n("'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here"));
+	Q3WhatsThis::add(m_spCopies,i18n("When you want to copy pages, you must enter the number of copies"));
+	Q3WhatsThis::add(m_cbView,i18n("View the result of the conversion process. KGhostview is always taken as an external viewer."));
 
 	// some connections
 	connect( choose_in, SIGNAL( clicked() ), this, SLOT( chooseInfile() ) );
@@ -293,7 +297,7 @@ void PostscriptDialog::execute()
 
 void PostscriptDialog::slotProcessOutput(KProcess*,char* buf,int len)
 {
-	emit( output(QCString(buf,len+1)) );
+	emit( output(Q3CString(buf,len+1)) );
 }
 
 
@@ -363,7 +367,7 @@ QString PostscriptDialog::buildTempfile()
 	KTempFile temp(QString::null,".sh");        
 	QString tempname = temp.name();
 	
-	QTextStream *stream = temp.textStream();      
+	Q3TextStream *stream = temp.textStream();      
 	*stream << "#! /bin/sh" << endl;
 
 	// accept only ".ps" or ".ps.gz" as an input file

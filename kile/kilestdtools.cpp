@@ -335,13 +335,13 @@ namespace KileTool
 					return false;
 				}
 			}
-			KILE_DEBUG() << "filename before: " << info.dirPath() << endl;
-			setSource(manager()->info()->checkOtherPaths(info.dirPath(),bib + ".bib",KileInfo::bibinputs));	
+			KILE_DEBUG() << "filename before: " << info.path() << endl;
+			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));	
 		}
 		else if( info.exists() ) //active doc is a bib file
 		{
-			KILE_DEBUG() << "filename before: " << info.dirPath() << endl;
-			setSource(manager()->info()->checkOtherPaths(info.dirPath(),info.fileName(),KileInfo::bibinputs));
+			KILE_DEBUG() << "filename before: " << info.path() << endl;
+			setSource(manager()->info()->checkOtherPaths(info.path(),info.fileName(),KileInfo::bibinputs));
 		}
 		else
 		{
@@ -382,7 +382,7 @@ namespace KileTool
 
 				if ( !read1 && !read2 )
 				{
-					sendMessage(Error, i18n("Unable to find %1 or %2; if you are trying to view some other HTML file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.").arg(file1.absFilePath()).arg(file2.absFilePath()));
+					sendMessage(Error, i18n("Unable to find %1 or %2; if you are trying to view some other HTML file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.").arg(file1.absoluteFilePath()).arg(file2.absFilePath()));
 					return false;
 				}
 

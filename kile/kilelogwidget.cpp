@@ -17,7 +17,7 @@
 
 #include <qregexp.h>
 #include <qfileinfo.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 
 #include "kiledebug.h"
 #include <kurl.h>
@@ -170,10 +170,10 @@ namespace KileWidget
 		printMsg(type, problem, QString::null);
 	}
 
-	QPopupMenu* LogMsg::createPopupMenu (const QPoint & pos)
+	Q3PopupMenu* LogMsg::createPopupMenu (const QPoint & pos)
 	{
 		//get standard popup menu
-		QPopupMenu * popup = KTextEdit::createPopupMenu(pos);
+		Q3PopupMenu * popup = KTextEdit::createPopupMenu(pos);
 
 		//add toggle operations for hiding warnings/badboxes
 		popup->insertSeparator();

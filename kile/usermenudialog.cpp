@@ -20,7 +20,10 @@
 #include <qcombobox.h>
 #include <qregexp.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3ValueList>
 
 #include <kpushbutton.h>
 #include <klocale.h>
@@ -30,13 +33,13 @@
 namespace KileDialog
 {
 
-UserTags::UserTags(const QValueList<KileAction::TagData> &list, QWidget* parent,  const char* name, const QString &caption)
+UserTags::UserTags(const Q3ValueList<KileAction::TagData> &list, QWidget* parent,  const char* name, const QString &caption)
     : 	KDialogBase(parent,name,true,caption,KDialogBase::Apply|KDialogBase::Cancel, KDialogBase::Apply, true),
 	m_list(list)
 {
  	QWidget *page = new QWidget( this );
 	setMainWidget(page);
-	QGridLayout *gbox = new QGridLayout( page, 6, 3,5,5,"");
+	Q3GridLayout *gbox = new Q3GridLayout( page, 6, 3,5,5,"");
   	gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
 	m_combo=new QComboBox(page,"combo");

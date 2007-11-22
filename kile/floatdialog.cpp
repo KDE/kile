@@ -17,8 +17,11 @@
 #include "floatdialog.h"
 
 #include <qlayout.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <QLabel>
 
 #include <klocale.h>
 #include "kiledebug.h"
@@ -34,14 +37,14 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QW
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 		
-	QGridLayout *grid = new QGridLayout(page, 6,2, 8,8);
+	Q3GridLayout *grid = new Q3GridLayout(page, 6,2, 8,8);
    
 	// environment groupbox
-	QButtonGroup *egroup = new QButtonGroup( i18n("Environment"),page);
+	Q3ButtonGroup *egroup = new Q3ButtonGroup( i18n("Environment"),page);
 	egroup->setColumnLayout(0, Qt::Vertical );
 	egroup->layout()->setSpacing( 6 );
 	egroup->layout()->setMargin( 11 );
-	QGridLayout *egrouplayout = new QGridLayout( egroup->layout() );
+	Q3GridLayout *egrouplayout = new Q3GridLayout( egroup->layout() );
 	egrouplayout->setAlignment( Qt::AlignTop );
 
 	m_rbFigure = new QRadioButton(i18n("&Figure"), egroup);
@@ -51,11 +54,11 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QW
 	egrouplayout->addWidget( m_rbTable, 0,1 );
 
 	// position groupbox
-	QButtonGroup *pgroup = new QButtonGroup( i18n("Position"),page);
+	Q3ButtonGroup *pgroup = new Q3ButtonGroup( i18n("Position"),page);
 	pgroup->setColumnLayout(0, Qt::Vertical );
 	pgroup->layout()->setSpacing( 6 );
 	pgroup->layout()->setMargin( 11 );
-	QGridLayout *pgrouplayout = new QGridLayout( pgroup->layout() );
+	Q3GridLayout *pgrouplayout = new Q3GridLayout( pgroup->layout() );
 	pgrouplayout->setAlignment( Qt::AlignTop );
 
 	QLabel *label1 = new QLabel(i18n("Here exact:"), pgroup);

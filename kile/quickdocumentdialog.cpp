@@ -24,13 +24,17 @@ email                : holger.danielsson@t-online.de
 #include <qwidget.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
-#include <qlistbox.h>
+#include <q3listbox.h>
 #include <qpainter.h>
 #include <qpalette.h>
 #include <qstyle.h>
-#include <qlistview.h>
-#include <qwhatsthis.h>
+#include <q3listview.h>
+#include <q3whatsthis.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include <kcombobox.h>
 #include <klocale.h>
@@ -68,19 +72,19 @@ enum {
 
 //////////////////// ListBoxSeparator ////////////////////
 
-class ListBoxSeparator : public QListBoxItem
+class ListBoxSeparator : public Q3ListBoxItem
 {
 public:
 	ListBoxSeparator(int h);
 protected:
 	virtual void paint( QPainter * );
-	virtual int width( const QListBox* ) const { return listBox()->width(); }
-	virtual int height( const QListBox* ) const { return m_height; }
+	virtual int width( const Q3ListBox* ) const { return listBox()->width(); }
+	virtual int height( const Q3ListBox* ) const { return m_height; }
 private:
 	int m_height;
 };
 
-ListBoxSeparator::ListBoxSeparator(int h) : QListBoxItem(), m_height(h)
+ListBoxSeparator::ListBoxSeparator(int h) : Q3ListBoxItem(), m_height(h)
 {
 	// setText("-");          // not necessary, use QString::null
 	setCustomHighlighting( true );
@@ -96,17 +100,17 @@ void ListBoxSeparator::paint(QPainter *painter)
 
 //////////////////// EditableCheckListItem ////////////////////
 
-class EditableCheckListItem : public QCheckListItem
+class EditableCheckListItem : public Q3CheckListItem
 {
 public:
-	EditableCheckListItem(QCheckListItem *parent, const QString &text);
+	EditableCheckListItem(Q3CheckListItem *parent, const QString &text);
 
 	virtual void paintCell(QPainter *p, const QColorGroup &cg,
                           int column, int width, int alignment );
 };
 
-EditableCheckListItem::EditableCheckListItem(QCheckListItem *parent, const QString &text)
-  : QCheckListItem(parent,text,QCheckListItem::CheckBox)
+EditableCheckListItem::EditableCheckListItem(Q3CheckListItem *parent, const QString &text)
+  : Q3CheckListItem(parent,text,Q3CheckListItem::CheckBox)
 {
 }
 
@@ -116,14 +120,14 @@ void EditableCheckListItem::paintCell( QPainter *p, const QColorGroup &cg,
 	if ( column == 1) {
 		QColorGroup colorgroup( cg );
 
-		QListViewItem *item = dynamic_cast<QListViewItem*>(this);
+		Q3ListViewItem *item = dynamic_cast<Q3ListViewItem*>(this);
 		if ( item && (item->text(1)==i18n("<default>") || item->text(1)==i18n("<empty>")) )  {
 			colorgroup.setColor( QColorGroup::Text, Qt::gray );
 			colorgroup.setColor( QColorGroup::HighlightedText, Qt::gray );
 		}
-		QCheckListItem::paintCell( p, colorgroup, column, width, Qt::AlignHCenter );
+		Q3CheckListItem::paintCell( p, colorgroup, column, width, Qt::AlignHCenter );
 	} else {
-		QCheckListItem::paintCell( p, cg, column, width, alignment );
+		Q3CheckListItem::paintCell( p, cg, column, width, alignment );
 	}
 }
 
@@ -155,7 +159,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	QLabel *label;
 
 	QWidget *classOptions = new QWidget( tab );
-	QGridLayout *gl = new QGridLayout(classOptions, 6,4, marginHint(), spacingHint());
+	Q3GridLayout *gl = new Q3GridLayout(classOptions, 6,4, marginHint(), spacingHint());
 	gl->setColStretch(1,1);
 
 	// Document classes
@@ -171,12 +175,12 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	label->setBuddy(m_cbDocumentClass);	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
 	m_btnDocumentClassAdd = new KPushButton(SmallIcon("edit_add"), "", classOptions);
-	QWhatsThis::add(m_btnDocumentClassAdd, i18n("Add current text to this list"));
+	Q3WhatsThis::add(m_btnDocumentClassAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnDocumentClassAdd,0,2);
 	connect(m_btnDocumentClassAdd, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 
 	m_btnDocumentClassDelete = new KPushButton(SmallIcon("eraser"), "", classOptions);
-	QWhatsThis::add(m_btnDocumentClassDelete, i18n("Remove current element from this list"));
+	Q3WhatsThis::add(m_btnDocumentClassDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnDocumentClassDelete,0,3);
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 
@@ -191,12 +195,12 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(label,1,0);
 
 	m_btnTypefaceSizeAdd = new KPushButton(SmallIcon("edit_add"), "", classOptions);
-	QWhatsThis::add(m_btnTypefaceSizeAdd, i18n("Add current text to this list"));
+	Q3WhatsThis::add(m_btnTypefaceSizeAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnTypefaceSizeAdd,1,2);
 	connect(m_btnTypefaceSizeAdd, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeAdd()));
 
 	m_btnTypefaceSizeDelete = new KPushButton(SmallIcon("eraser"), "", classOptions);
-	QWhatsThis::add(m_btnTypefaceSizeDelete, i18n("Remove current element from this list"));
+	Q3WhatsThis::add(m_btnTypefaceSizeDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnTypefaceSizeDelete,1,3);
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
 
@@ -212,12 +216,12 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(m_lbPaperSize,2,0);
 
 	m_btnPaperSizeAdd = new KPushButton(SmallIcon("edit_add"), "", classOptions);
-	QWhatsThis::add(m_btnPaperSizeAdd, i18n("Add current text to this list"));
+	Q3WhatsThis::add(m_btnPaperSizeAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnPaperSizeAdd,2,2);
 	connect(m_btnPaperSizeAdd, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 
 	m_btnPaperSizeDelete = new KPushButton(SmallIcon("eraser"), "", classOptions);
-	QWhatsThis::add(m_btnPaperSizeDelete, i18n("Remove current element from this list"));
+	Q3WhatsThis::add(m_btnPaperSizeDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnPaperSizeDelete,2,3);
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 
@@ -233,15 +237,15 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(label,3,0);
 
 	// Class Options
-	m_lvClassOptions = new QListView(classOptions);
+	m_lvClassOptions = new Q3ListView(classOptions);
 	m_lvClassOptions->addColumn(i18n("Option"));
 	m_lvClassOptions->addColumn(i18n("Description"));
 	m_lvClassOptions->setAllColumnsShowFocus(true);
 	gl->addMultiCellWidget(m_lvClassOptions, 4,4, 1,3);
 	connect(m_lvClassOptions, SIGNAL(selectionChanged()),
 	        this, SLOT(slotEnableButtons()));
-	connect(m_lvClassOptions, SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),
-	        this, SLOT(slotOptionDoubleClicked(QListViewItem *,const QPoint &,int)));
+	connect(m_lvClassOptions, SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),
+	        this, SLOT(slotOptionDoubleClicked(Q3ListViewItem *,const QPoint &,int)));
 
 	label = new QLabel(i18n("Cl&ass options:"), classOptions);
 	label->setBuddy(m_lvClassOptions);
@@ -251,22 +255,22 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	// button
 	QWidget *frame = new QWidget(classOptions);
-	QHBoxLayout *hl = new QHBoxLayout(frame, 0, spacingHint());
+	Q3HBoxLayout *hl = new Q3HBoxLayout(frame, 0, spacingHint());
 	//hl->addStretch(1);
 	gl->addMultiCellWidget(frame, 5,5, 1,3, Qt::AlignCenter);
 
 	m_btnClassOptionsAdd = new KPushButton(SmallIcon("edit_add"), i18n("&Add..."), frame);
-	QWhatsThis::add(m_btnClassOptionsAdd, i18n("Add a new class option"));
+	Q3WhatsThis::add(m_btnClassOptionsAdd, i18n("Add a new class option"));
 	hl->addWidget(m_btnClassOptionsAdd);
 	connect(m_btnClassOptionsAdd, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 
 	m_btnClassOptionsEdit = new KPushButton(SmallIcon("edit"), i18n("Ed&it..."), frame);
-	QWhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
+	Q3WhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
 	hl->addWidget(m_btnClassOptionsEdit);
 	connect(m_btnClassOptionsEdit, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
 
 	m_btnClassOptionsDelete = new KPushButton(SmallIcon("eraser"), i18n("De&lete"), frame);
-	QWhatsThis::add(m_btnClassOptionsDelete, i18n("Remove the current class option"));
+	Q3WhatsThis::add(m_btnClassOptionsDelete, i18n("Remove the current class option"));
 	hl->addWidget(m_btnClassOptionsDelete);
 	connect(m_btnClassOptionsDelete, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
 
@@ -278,11 +282,11 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	KILE_DEBUG() << "\tsetupPackages" << endl;
 
 	QWidget *packages = new QWidget( tab );
-	QVBoxLayout *vl = new QVBoxLayout(packages, marginHint(), spacingHint());
+	Q3VBoxLayout *vl = new Q3VBoxLayout(packages, marginHint(), spacingHint());
 
 	QLabel *label = new QLabel(i18n("LaTe&X packages:"), packages);
 	vl->addWidget(label);
-	m_lvPackages = new QListView(packages);
+	m_lvPackages = new Q3ListView(packages);
 	vl->addWidget(m_lvPackages);
 	m_lvPackages->setRootIsDecorated(true);
 	m_lvPackages->addColumn(i18n("Package"));
@@ -290,38 +294,38 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	m_lvPackages->addColumn(i18n("Description"));
 	m_lvPackages->setAllColumnsShowFocus(true);
 	label->setBuddy(m_lvPackages);
-	connect(m_lvPackages, SIGNAL(clicked(QListViewItem *)),
-	        this, SLOT(slotCheckParent(QListViewItem *)));
-	connect(m_lvPackages, SIGNAL(spacePressed(QListViewItem *)),
-	        this, SLOT(slotCheckParent(QListViewItem *)));
+	connect(m_lvPackages, SIGNAL(clicked(Q3ListViewItem *)),
+	        this, SLOT(slotCheckParent(Q3ListViewItem *)));
+	connect(m_lvPackages, SIGNAL(spacePressed(Q3ListViewItem *)),
+	        this, SLOT(slotCheckParent(Q3ListViewItem *)));
 	connect(m_lvPackages, SIGNAL(selectionChanged()),
 	        this, SLOT(slotEnableButtons()));
-	connect(m_lvPackages, SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),
-	        this, SLOT(slotPackageDoubleClicked(QListViewItem *,const QPoint &,int)));
+	connect(m_lvPackages, SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),
+	        this, SLOT(slotPackageDoubleClicked(Q3ListViewItem *,const QPoint &,int)));
 
 	QWidget *frame = new QWidget(packages);
 	vl->addWidget(frame);
-	QHBoxLayout *hl = new QHBoxLayout(frame, 0, spacingHint());
+	Q3HBoxLayout *hl = new Q3HBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
 
 	m_btnPackagesAdd = new KPushButton(SmallIcon("edit_add"), "&Add Package...", frame);
-	QWhatsThis::add(m_btnPackagesAdd, i18n("Add a new package"));
+	Q3WhatsThis::add(m_btnPackagesAdd, i18n("Add a new package"));
 	connect(m_btnPackagesAdd, SIGNAL(clicked()), this, SLOT(slotPackageAdd()));
 	hl->addWidget(m_btnPackagesAdd);
 	m_btnPackagesAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Op&tion..."), frame);
-	QWhatsThis::add(m_btnPackagesAddOption, i18n("Add a new package option"));
+	Q3WhatsThis::add(m_btnPackagesAddOption, i18n("Add a new package option"));
 	connect(m_btnPackagesAddOption, SIGNAL(clicked()), this, SLOT(slotPackageAddOption()));
 	hl->addWidget(m_btnPackagesAddOption);
 	m_btnPackagesEdit = new KPushButton(SmallIcon("edit"), "Ed&it...", frame);
-	QWhatsThis::add(m_btnPackagesEdit, i18n("Edit the current package option"));
+	Q3WhatsThis::add(m_btnPackagesEdit, i18n("Edit the current package option"));
 	connect(m_btnPackagesEdit, SIGNAL(clicked()), this, SLOT(slotPackageEdit()));
 	hl->addWidget(m_btnPackagesEdit);
 	m_btnPackagesDelete = new KPushButton(SmallIcon("eraser"), i18n("De&lete"), frame);
-	QWhatsThis::add(m_btnPackagesDelete, i18n("Remove the current package option"));
+	Q3WhatsThis::add(m_btnPackagesDelete, i18n("Remove the current package option"));
 	connect(m_btnPackagesDelete, SIGNAL(clicked()), this, SLOT(slotPackageDelete()));
 	hl->addWidget(m_btnPackagesDelete);
 	m_btnPackagesReset = new KPushButton(SmallIcon("reload"), i18n("&Reset to Defaults"), frame);
-	QWhatsThis::add(m_btnPackagesReset, i18n("Reset to the default list of packages"));
+	Q3WhatsThis::add(m_btnPackagesReset, i18n("Reset to the default list of packages"));
 	connect(m_btnPackagesReset, SIGNAL(clicked()), this, SLOT(slotPackageReset()));
 	hl->addWidget(m_btnPackagesReset);
 	hl->addStretch(1);
@@ -335,7 +339,7 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 	QLabel *label;
 
 	QWidget *personalInfo = new QWidget( tab );
-	QGridLayout *gl = new QGridLayout(personalInfo, 4,2, marginHint(),spacingHint());
+	Q3GridLayout *gl = new Q3GridLayout(personalInfo, 4,2, marginHint(),spacingHint());
 	gl->setRowStretch(gl->numRows()-1, 1);
 
 	m_leAuthor = new KLineEdit(personalInfo);
@@ -842,7 +846,7 @@ void QuickDocument::setClassOptions(const QStringList &list, uint start)
 	for (uint i=start; i<list.count(); ++i) {
 		int pos = reg.search( list[i] );
 		if ( pos != -1 ) {
-			QCheckListItem *cli = new QCheckListItem(m_lvClassOptions, reg.cap(1), QCheckListItem::CheckBox);
+			Q3CheckListItem *cli = new Q3CheckListItem(m_lvClassOptions, reg.cap(1), Q3CheckListItem::CheckBox);
 
 			// see if it is a default option
 			if ( isDefaultClassOption(reg.cap(1)) )
@@ -868,8 +872,8 @@ QString QuickDocument::getClassOptions()
 
 	QString options =  fontsize + ',' + papersize;
 
-	for (QListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
-		QCheckListItem *cli = dynamic_cast<QCheckListItem*>(cur);
+	for (Q3ListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
+		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
 		if (cli && cli->isOn()) {
 			options += ',' + cur->text(0);
 		}
@@ -898,8 +902,8 @@ void QuickDocument::updateClassOptions()
 	newlist << getClassOptions();
 
 	// read all options
-	for (QListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
-		QCheckListItem *cli = dynamic_cast<QCheckListItem*>(cur);
+	for (Q3ListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
+		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
 		if ( cli ) {
 			QString description = cur->text(1);
 			if ( description.right(10) == " [default]" ) {
@@ -929,7 +933,7 @@ void QuickDocument::updateClassOptions()
 void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const QString &seltext)
 {
 	bool documentclasscombo = ( combo == m_cbDocumentClass );
-	QListBox *listbox = combo->listBox();
+	Q3ListBox *listbox = combo->listBox();
 
 	QString sep = ( m_currentClass=="beamer" && combo==m_cbPaperSize ) ? ";" : ",";
 	QStringList list = QStringList::split(sep,cslist);
@@ -968,7 +972,7 @@ bool QuickDocument::addComboboxEntries(KComboBox *combo, const QString &title,co
 	// add new entries (one or a comma separated list)
 	QStringList list = QStringList::split(",",entry);
 	for ( uint i=0; i<list.count(); ++i ) {
-		QString s = list[i].stripWhiteSpace();
+		QString s = list[i].trimmed();
 		// entries must match a regular expression
 		if ( combolist.findIndex(s) != -1 )
 			KMessageBox::error( this, i18n("%1 '%2' already exists.").arg(title).arg(s) );
@@ -1018,8 +1022,8 @@ void QuickDocument::readPackagesConfig()
 void QuickDocument::initPackages()
 {
 	KILE_DEBUG() << "read config: init standard packages" << endl;
-	QCheckListItem *cli;
-	QCheckListItem *clichild;
+	Q3CheckListItem *cli;
+	Q3CheckListItem *clichild;
 
 	m_lvPackages->clear();
 	cli = insertListview(m_lvPackages,"amsmath", i18n("Special math environments and commands (AMS)") );
@@ -1058,99 +1062,99 @@ void QuickDocument::initPackages()
 	cli = insertListview(m_lvPackages,"babel",i18n("Adds language specific support") );
 	cli->setOn(true);
 	cli->setOpen(true);
-	clichild = new QCheckListItem(cli,"acadian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"afrikaans" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"american" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"australian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"austrian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"bahasa" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"basque" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"brazil" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"brazilian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"breton" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"british" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"bulgarian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"canadian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"canadien" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"catalan" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"croatian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"czech" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"danish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"dutch" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"english" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"esperanto" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"estonian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"finnish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"francais" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"frenchb" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"french" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"galician" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"german" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"germanb" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"greek" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"polutonikogreek" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"hebrew" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"hungarian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"icelandic" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"interlingua" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"irish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"italian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"latin" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"lowersorbian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"magyar" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"naustrian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"newzealand" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"ngerman" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"norsk" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"samin" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"nynorsk" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"polish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"portuges" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"portuguese" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"romanian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"russian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"scottish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"serbian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"slovak" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"slovene" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"spanish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"swedish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"turkish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"ukrainian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"uppersorbian" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"welsh" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"UKenglish" ,QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli,"USenglish" ,QCheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"acadian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"afrikaans" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"american" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"australian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"austrian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"bahasa" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"basque" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"brazil" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"brazilian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"breton" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"british" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"bulgarian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"canadian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"canadien" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"catalan" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"croatian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"czech" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"danish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"dutch" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"english" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"esperanto" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"estonian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"finnish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"francais" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"frenchb" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"french" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"galician" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"german" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"germanb" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"greek" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"polutonikogreek" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"hebrew" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"hungarian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"icelandic" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"interlingua" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"irish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"italian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"latin" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"lowersorbian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"magyar" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"naustrian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"newzealand" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"ngerman" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"norsk" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"samin" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"nynorsk" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"polish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"portuges" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"portuguese" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"romanian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"russian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"scottish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"serbian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"slovak" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"slovene" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"spanish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"swedish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"turkish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"ukrainian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"uppersorbian" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"welsh" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"UKenglish" ,Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli,"USenglish" ,Q3CheckListItem::CheckBox);
 
 	cli = insertListview(m_lvPackages,"fontenc",i18n("Use a font encoding scheme") );
 	cli->setOn(true);
 	cli->setOpen(true);
-	clichild = new QCheckListItem(cli, "HE8",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "IL2",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LCH",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LCY",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LGR",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LHE",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LIT",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LO1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "LY1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "MTT",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "OML",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "OMS",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "OT1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "OT2",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "OT4",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "PD1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "PU",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "QX",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "T1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "T2A",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "T2B",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "T2C",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "T5",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "TS1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "UT1",QCheckListItem::CheckBox);
-	clichild = new QCheckListItem(cli, "X2",QCheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "HE8",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "IL2",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LCH",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LCY",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LGR",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LHE",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LIT",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LO1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "LY1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "MTT",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "OML",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "OMS",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "OT1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "OT2",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "OT4",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "PD1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "PU",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "QX",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "T1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "T2A",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "T2B",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "T2C",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "T5",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "TS1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "UT1",Q3CheckListItem::CheckBox);
+	clichild = new Q3CheckListItem(cli, "X2",Q3CheckListItem::CheckBox);
 
 	cli = insertListview(m_lvPackages,"graphicx",i18n("Support for including graphics") );
 	cli->setOn(true);
@@ -1183,13 +1187,13 @@ bool QuickDocument::readPackagesListview()
 
 	m_config->setGroup( "QuickDocument/Packages" );
 	for ( QStringList::Iterator it=elements.begin(); it!=elements.end(); ++it ) {
-		QCheckListItem *cli;
+		Q3CheckListItem *cli;
 
 		// look, if this is a main or a child entry
 		KILE_DEBUG() << "\tread config entry: " << *it << endl;
 		int pos = (*it).find('!');
 		if ( pos == -1 ) {                    // main entry
-			cli = new QCheckListItem(m_lvPackages, *it, QCheckListItem::CheckBox);
+			cli = new Q3CheckListItem(m_lvPackages, *it, Q3CheckListItem::CheckBox);
 			if ( reg.exactMatch(m_config->readEntry(*it)) ) {
 				if ( reg.cap(1) == "1" )        // selected state (entry 1)
 					cli->setOn(true);
@@ -1200,14 +1204,14 @@ bool QuickDocument::readPackagesListview()
 				KILE_DEBUG() << "\twrong config entry for package " << cli->text(0) << endl;
 			}
 		} else {                              // child entry
-			cli = dynamic_cast<QCheckListItem*>(m_lvPackages->findItem((*it).left(pos), 0));
+			cli = dynamic_cast<Q3CheckListItem*>(m_lvPackages->findItem((*it).left(pos), 0));
 			if ( cli ) {
-				QCheckListItem *clichild;
+				Q3CheckListItem *clichild;
 				if ( reg.exactMatch(m_config->readEntry(*it)) ) {
 					if ( reg.cap(2) == "1" ) {                                     // editable state
 						clichild = insertEditableListview(cli,(*it).mid(pos+1),reg.cap(5),reg.cap(4),reg.cap(3) );
 					} else {
-						clichild = new QCheckListItem(cli, (*it).mid(pos+1), QCheckListItem::CheckBox);
+						clichild = new Q3CheckListItem(cli, (*it).mid(pos+1), Q3CheckListItem::CheckBox);
 						clichild->setText(2,reg.cap(5));                            // description
 					}
 					if ( reg.cap(1) == "1" )                                       // selected state
@@ -1231,7 +1235,7 @@ void QuickDocument::writePackagesConfig()
 	QStringList packagesList;
 
 	m_config->setGroup( "QuickDocument/Packages" );
-	for (QListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
+	for (Q3ListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
 		KILE_DEBUG() << "\twrite config: " << cur->text(0) << endl;
 		// add to packages list
 		packagesList += cur->text(0);
@@ -1240,7 +1244,7 @@ void QuickDocument::writePackagesConfig()
 		QString packageentry;
 
 		// look for selected entries
-		QCheckListItem *cli = dynamic_cast<QCheckListItem*>(cur);
+		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
 		if ( cli && cli->isOn() )
 			packageentry = "1,";
 		else
@@ -1259,7 +1263,7 @@ void QuickDocument::writePackagesConfig()
 		m_config->writeEntry(cur->text(0),packageentry);
 
 		// look for children
-		for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+		for (Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
 			// add child to packages list
 			QString option = cur->text(0) + '!' + curchild->text(0);
 			packagesList += option;
@@ -1269,7 +1273,7 @@ void QuickDocument::writePackagesConfig()
 			QString optionentry;
 
 			// look for selected options
-			QCheckListItem *clichild = dynamic_cast<QCheckListItem*>(curchild);
+			Q3CheckListItem *clichild = dynamic_cast<Q3CheckListItem*>(curchild);
 			if ( clichild && clichild->isOn() )
 				optionentry = "1,";
 			else
@@ -1299,11 +1303,11 @@ void QuickDocument::writePackagesConfig()
 }
 
 // insert package
-QCheckListItem *QuickDocument::insertListview(QListView *listview,
+Q3CheckListItem *QuickDocument::insertListview(Q3ListView *listview,
                                               const QString &entry,
                                               const QString &description)
 {
-	QCheckListItem *item = new QCheckListItem(listview,entry,QCheckListItem::CheckBox);
+	Q3CheckListItem *item = new Q3CheckListItem(listview,entry,Q3CheckListItem::CheckBox);
 	if ( ! description.isEmpty() )
 		item->setText(2,description);
 
@@ -1311,11 +1315,11 @@ QCheckListItem *QuickDocument::insertListview(QListView *listview,
 }
 
 // insert package option (not editable)
-QCheckListItem *QuickDocument::insertListview(QCheckListItem *parent,
+Q3CheckListItem *QuickDocument::insertListview(Q3CheckListItem *parent,
                                               const QString &entry,
                                               const QString &description)
 {
-	QCheckListItem *item = new QCheckListItem(parent,entry,QCheckListItem::CheckBox);
+	Q3CheckListItem *item = new Q3CheckListItem(parent,entry,Q3CheckListItem::CheckBox);
 	if ( ! description.isEmpty() )
 		item->setText(2,description);
 
@@ -1323,11 +1327,11 @@ QCheckListItem *QuickDocument::insertListview(QCheckListItem *parent,
 }
 
 // insert package option (editable)
-QCheckListItem *QuickDocument::insertEditableListview(QCheckListItem *parent,
+Q3CheckListItem *QuickDocument::insertEditableListview(Q3CheckListItem *parent,
 	                                       const QString &entry,const QString &description,
 	                                       const QString value,const QString defaultvalue)
 {
-	QCheckListItem *item = new EditableCheckListItem(parent,entry);
+	Q3CheckListItem *item = new EditableCheckListItem(parent,entry);
 	QString option = parent->text(0) + '!' + entry;
 	m_dictPackagesEditable[option] = true;
 	if ( ! defaultvalue.isEmpty() )
@@ -1339,7 +1343,7 @@ QCheckListItem *QuickDocument::insertEditableListview(QCheckListItem *parent,
 	return item;
 }
 
-void QuickDocument::setPackagesValue(QListViewItem *item,const QString &option,const QString &val)
+void QuickDocument::setPackagesValue(Q3ListViewItem *item,const QString &option,const QString &val)
 {
 	QString defaultvalue = ( m_dictPackagesDefaultvalues.contains(option) )
 	                         ? m_dictPackagesDefaultvalues[option] : QString::null;
@@ -1359,9 +1363,9 @@ QString QuickDocument::getPackagesValue(const QString &value)
 }
 
 
-bool QuickDocument::isListviewEntry(QListView *listview,const QString &entry)
+bool QuickDocument::isListviewEntry(Q3ListView *listview,const QString &entry)
 {
-	for ( QListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
+	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
 		if ( cur->text(0) == entry )
 			return true;
 	}
@@ -1369,13 +1373,13 @@ bool QuickDocument::isListviewEntry(QListView *listview,const QString &entry)
 	return false;
 }
 
-bool QuickDocument::isListviewChild(QListView *listview,const QString &entry, const QString &option)
+bool QuickDocument::isListviewChild(Q3ListView *listview,const QString &entry, const QString &option)
 {
-	for ( QListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
+	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
 		// look for the main entry
 		if ( cur->text(0) == entry ) {
 			// look for children
-			for (QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+			for (Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
 				if ( option == curchild->text(0) )
 					return true;
 			}
@@ -1480,8 +1484,8 @@ void QuickDocument::printTemplate()
 	if ( !m_cbTypefaceSize->currentText().isEmpty() )
 		options += stripDefault( m_cbTypefaceSize->currentText() ) + ',';
 
-	for (QListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
-		QCheckListItem *cli=dynamic_cast<QCheckListItem*>(cur);
+	for (Q3ListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
+		Q3CheckListItem *cli=dynamic_cast<Q3CheckListItem*>(cur);
 		if ( cli && cli->isOn() )
 			options += cur->text(0) + ',';
 	}
@@ -1527,15 +1531,15 @@ void QuickDocument::printPackages()
 	m_hyperrefdriver = QString::null;
 	m_hyperrefsetup = QString::null;
 
-	for (QListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
-		QCheckListItem *cli = dynamic_cast<QCheckListItem*>(cur);
+	for (Q3ListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
+		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
 		if ( ! cli )
 			continue;
 
 		if ( cur->text(0) == "hyperref" ) {          // manage hyperref package
 			m_currentHyperref = cli->isOn();
-			for (QListViewItem *curchild = cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
-				QCheckListItem *clichild = dynamic_cast<QCheckListItem*>(curchild);
+			for (Q3ListViewItem *curchild = cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+				Q3CheckListItem *clichild = dynamic_cast<Q3CheckListItem*>(curchild);
 				if (clichild && clichild->isOn() ) {              // manage hyperref option
 					if ( isHyperrefDriver(curchild->text(0)) ) {   // either hyperref driver
 						if ( ! m_hyperrefdriver.isEmpty() )
@@ -1553,8 +1557,8 @@ void QuickDocument::printPackages()
 			}
 		} else if ( cli->isOn() ) {                   // manage other package options
 			QString packageOptions;
-			for (QListViewItem *curchild = cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
-				QCheckListItem *clichild = dynamic_cast<QCheckListItem*>(curchild);
+			for (Q3ListViewItem *curchild = cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+				Q3CheckListItem *clichild = dynamic_cast<Q3CheckListItem*>(curchild);
 				if (clichild && clichild->isOn()) {
 					QString optiontext;
 					if ( m_dictPackagesEditable.contains(cur->text(0) + '!' + curchild->text(0)) ) {
@@ -1833,7 +1837,7 @@ void QuickDocument::slotClassOptionAdd()
 
 		// add class option
 		KILE_DEBUG() << "\tadd option: " << option << " (" << description << ") checked=" << list[6] << endl;
-		QCheckListItem *cli = new QCheckListItem(m_lvClassOptions, option, QCheckListItem::CheckBox);
+		Q3CheckListItem *cli = new Q3CheckListItem(m_lvClassOptions, option, Q3CheckListItem::CheckBox);
 		cli->setText(1,description);
 
 		if ( check )
@@ -1846,7 +1850,7 @@ void QuickDocument::slotClassOptionAdd()
 
 void QuickDocument::slotClassOptionEdit()
 {
-	QListViewItem *cur = m_lvClassOptions->selectedItem();
+	Q3ListViewItem *cur = m_lvClassOptions->selectedItem();
 	if ( ! cur )
 		return;
 
@@ -1880,7 +1884,7 @@ void QuickDocument::slotClassOptionDelete()
 {
 	KILE_DEBUG() << "==QuickDocument::slotClassOptionDelete()============" << endl;
 	if (m_lvClassOptions->selectedItem() && (KMessageBox::warningContinueCancel(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Continue)) {
-		QListViewItem *cur = m_lvClassOptions->selectedItem();
+		Q3ListViewItem *cur = m_lvClassOptions->selectedItem();
 
 		KILE_DEBUG() << "\tdelete option: " << cur->text(0) << " (" << cur->text(1) << ")" << endl;
 		m_lvClassOptions->takeItem(m_lvClassOptions->selectedItem());
@@ -1890,9 +1894,9 @@ void QuickDocument::slotClassOptionDelete()
 	}
 }
 
-void QuickDocument::slotOptionDoubleClicked(QListViewItem *listViewItem,const QPoint &,int)
+void QuickDocument::slotOptionDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int)
 {
-	QCheckListItem *cli = dynamic_cast<QCheckListItem*>(listViewItem);
+	Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(listViewItem);
 	if ( cli ) {
 		if ( ! cli->isOn() ) {
 			cli->setOn(true);
@@ -1919,7 +1923,7 @@ void QuickDocument::slotPackageAdd()
 
 	if ( inputDialog(list,qd_CheckNotEmpty | qd_CheckPackage) ) {
 		KILE_DEBUG() << "\tadd package: " << list[3] << " (" << list[5] << ") checked=" << list[6] << endl;
-		QCheckListItem *cli = new QCheckListItem(m_lvPackages, list[3], QCheckListItem::CheckBox);
+		Q3CheckListItem *cli = new Q3CheckListItem(m_lvPackages, list[3], Q3CheckListItem::CheckBox);
 		cli->setText(2, list[5]);
 		if ( list[6] == "true" )
 			cli->setOn(true);
@@ -1928,7 +1932,7 @@ void QuickDocument::slotPackageAdd()
 
 void QuickDocument::slotPackageAddOption()
 {
-	QListViewItem *cur = m_lvPackages->selectedItem();
+	Q3ListViewItem *cur = m_lvPackages->selectedItem();
 	if ( !cur )
 		return;
 
@@ -1951,11 +1955,11 @@ void QuickDocument::slotPackageAddOption()
 	if ( !cur->parent() && inputDialog(list,qd_CheckNotEmpty | qd_CheckPackageOption) ) {
 		KILE_DEBUG() << "\tadd option: " << list[3] << " (" << list[10] << ") checked=" << list[11] << endl;
 
-		QCheckListItem *cli;
+		Q3CheckListItem *cli;
 		if ( list[4] == "true" ) {
-			cli = insertEditableListview((QCheckListItem *)cur,list[3],list[10],list[8],list[6]);
+			cli = insertEditableListview((Q3CheckListItem *)cur,list[3],list[10],list[8],list[6]);
 		} else {
-			cli = new QCheckListItem(cur, list[3], QCheckListItem::CheckBox);
+			cli = new Q3CheckListItem(cur, list[3], Q3CheckListItem::CheckBox);
 			cli->setText(2,list[10]);
 		}
 		if ( list[11] == "true" )
@@ -1967,7 +1971,7 @@ void QuickDocument::slotPackageAddOption()
 
 void QuickDocument::slotPackageEdit()
 {
-	QListViewItem *cur = m_lvPackages->selectedItem();
+	Q3ListViewItem *cur = m_lvPackages->selectedItem();
 	if ( !cur )
 		return;
 
@@ -2038,7 +2042,7 @@ void QuickDocument::slotPackageEdit()
 
 void QuickDocument::slotPackageDelete()
 {
-	QListViewItem *cur = m_lvPackages->selectedItem();
+	Q3ListViewItem *cur = m_lvPackages->selectedItem();
 	if ( !cur )
 		return;
 
@@ -2055,9 +2059,9 @@ void QuickDocument::slotPackageDelete()
 	}
 
 	if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))==KMessageBox::Continue) {
-		QListViewItem *childcur = cur->firstChild();
+		Q3ListViewItem *childcur = cur->firstChild();
 		while (childcur) {
-			QListViewItem *nextchildcur=childcur->nextSibling();
+			Q3ListViewItem *nextchildcur=childcur->nextSibling();
 			delete childcur;
 			childcur = nextchildcur;
 		}
@@ -2083,20 +2087,20 @@ void QuickDocument::slotPackageReset()
 	}
 }
 
-void QuickDocument::slotCheckParent(QListViewItem *listViewItem)
+void QuickDocument::slotCheckParent(Q3ListViewItem *listViewItem)
 {
-	QCheckListItem *cli = dynamic_cast<QCheckListItem*>(listViewItem);
+	Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(listViewItem);
 	if (cli && listViewItem->parent() && cli->isOn()) {
-		QCheckListItem *cliparent=dynamic_cast<QCheckListItem*>(listViewItem->parent());
+		Q3CheckListItem *cliparent=dynamic_cast<Q3CheckListItem*>(listViewItem->parent());
 		if (cliparent)
 			cliparent->setOn(true);
 	}
 }
 
-void QuickDocument::slotPackageDoubleClicked(QListViewItem *listViewItem,const QPoint &,int)
+void QuickDocument::slotPackageDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int)
 {
 	if ( listViewItem && listViewItem->parent() ) {
-		QCheckListItem *parentitem = dynamic_cast<QCheckListItem*>(listViewItem->parent());
+		Q3CheckListItem *parentitem = dynamic_cast<Q3CheckListItem*>(listViewItem->parent());
 		QString option = parentitem->text(0) + '!' + listViewItem->text(0);
 		if ( m_dictPackagesEditable.contains(option) )
 			slotPackageEdit();
@@ -2125,7 +2129,7 @@ void QuickDocument::slotEnableButtons()
 	m_btnClassOptionsDelete->setEnabled(enable);
 
 	// packeges
-	QListViewItem *cur = m_lvPackages->selectedItem();
+	Q3ListViewItem *cur = m_lvPackages->selectedItem();
 	if ( cur && cur->text(0)!= "hyperref" ) {
 		m_btnPackagesEdit->setEnabled(true);
 		m_btnPackagesDelete->setEnabled(true);
@@ -2175,7 +2179,7 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int c
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	QVBoxLayout *vl = new QVBoxLayout(page, 0, spacingHint());
+	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
 
 	int firstlinedit = -1;
 	m_description = QStringList::split(",",list[1]);
@@ -2226,7 +2230,7 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 		} else if ( m_description[i] == "combobox" ) {
 		   list[i+2] = ((KComboBox *)m_objectlist[i])->currentText();
 		} else  {
-			list[i+2] = ((KLineEdit *)m_objectlist[i])->text().simplifyWhiteSpace();
+			list[i+2] = ((KLineEdit *)m_objectlist[i])->text().simplified();
 		}
 	}
 }
@@ -2245,7 +2249,7 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 	QStringList list = QStringList::split(",",textlist);
 
 	for ( uint i=0; i<list.count(); ++i ) {
-		QString s = list[i].stripWhiteSpace();
+		QString s = list[i].trimmed();
 		// entries must match a regular expression
 		QRegExp reg(pattern);
 		if ( ! reg.exactMatch(s) ) {
@@ -2262,7 +2266,7 @@ void QuickDocumentInputDialog::slotOk()
 	if ( m_check ) {
 		// get the label and main input string from the first label/linedit
 		QString inputlabel = ((QLabel *)m_objectlist[0])->text();
-		QString input = ((KLineEdit *)m_objectlist[1])->text().simplifyWhiteSpace();
+		QString input = ((KLineEdit *)m_objectlist[1])->text().simplified();
 
 		// should we check for an empty string
 		if ( (m_check & qd_CheckNotEmpty) && input.isEmpty() ) {

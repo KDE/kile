@@ -52,7 +52,7 @@ KileLyxServer::KileLyxServer(bool startMe) :
 	for(uint i = 0; i< m_links.count() ; i++)
 	{
 		m_pipes.append( m_tempDir->name() + m_links[i] );
-		m_links[i].prepend(QDir::homeDirPath() + '/' );
+		m_links[i].prepend(QDir::homePath() + '/' );
 		KILE_DEBUG() << "m_pipes[" << i << "]=" << m_pipes[i] << endl;
 		KILE_DEBUG() << "m_links[" << i << "]=" << m_links[i] << endl;
 	}
@@ -78,7 +78,7 @@ bool KileLyxServer::start()
 	if (openPipes())
 	{
 		QSocketNotifier *notifier;
-		QPtrListIterator<QFile> it(m_pipeIn);
+		Q3PtrListIterator<QFile> it(m_pipeIn);
 		while (it.current())
 		{
 			if ((*it)->name().right(3) == ".in" )
@@ -113,46 +113,46 @@ bool KileLyxServer::openPipes()
 		pipeInfo.setFile(m_pipes[i]);
 		linkInfo.setFile(m_links[i]);
  		
-		QFile::remove(linkInfo.absFilePath());
+		QFile::remove(linkInfo.absoluteFilePath());
 		linkInfo.refresh();
  		
 		if ( !pipeInfo.exists() )
 		{
 			//create the dir first
-			if ( !QFileInfo(pipeInfo.dirPath(true)).exists() )
-				if ( mkdir(QFile::encodeName( pipeInfo.dirPath() ), m_perms | S_IXUSR) == -1 )
+			if ( !QFileInfo(pipeInfo.absolutePath()).exists() )
+				if ( mkdir(QFile::encodeName( pipeInfo.path() ), m_perms | S_IXUSR) == -1 )
 				{
 					kdError() << "Could not create directory for pipe" << endl;
 					continue;
 				}
 				else
-					KILE_DEBUG() << "Created directory " << pipeInfo.dirPath() << endl;
+					KILE_DEBUG() << "Created directory " << pipeInfo.path() << endl;
 
-				if ( mkfifo(QFile::encodeName( pipeInfo.absFilePath() ), m_perms) != 0 )
+				if ( mkfifo(QFile::encodeName( pipeInfo.absoluteFilePath() ), m_perms) != 0 )
 				{
-					kdError() << "Could not create pipe: " << pipeInfo.absFilePath() << endl;
+					kdError() << "Could not create pipe: " << pipeInfo.absoluteFilePath() << endl;
 					continue;				
 				}
 				else
-					KILE_DEBUG() << "Created pipe: " << pipeInfo.absFilePath() << endl;
+					KILE_DEBUG() << "Created pipe: " << pipeInfo.absoluteFilePath() << endl;
 		}
 		
-		if ( symlink(QFile::encodeName(pipeInfo.absFilePath()),QFile::encodeName(linkInfo.absFilePath())) != 0 )
+		if ( symlink(QFile::encodeName(pipeInfo.absoluteFilePath()),QFile::encodeName(linkInfo.absFilePath())) != 0 )
 		{
-			kdError() << "Could not create symlink: " << linkInfo.absFilePath() << " --> " << pipeInfo.absFilePath() << endl;
+			kdError() << "Could not create symlink: " << linkInfo.absoluteFilePath() << " --> " << pipeInfo.absFilePath() << endl;
 			continue;
 		}
 
-		file  = new QFile(pipeInfo.absFilePath());
+		file  = new QFile(pipeInfo.absoluteFilePath());
 		pipeInfo.refresh();
 
-		if( pipeInfo.exists() && file->open(IO_ReadWrite) ) // in that order we don't create the file if it does not exist
+		if( pipeInfo.exists() && file->open(QIODevice::ReadWrite) ) // in that order we don't create the file if it does not exist
 		{
-			KILE_DEBUG() << "Opened file: " << pipeInfo.absFilePath() << endl;
+			KILE_DEBUG() << "Opened file: " << pipeInfo.absoluteFilePath() << endl;
 			fstat(file->handle(),stats);
 			if( !S_ISFIFO(stats->st_mode) )
 			{
-				kdError() << "The file " << pipeInfo.absFilePath() <<  "we just created is not a pipe!" << endl;
+				kdError() << "The file " << pipeInfo.absoluteFilePath() <<  "we just created is not a pipe!" << endl;
 				file->close();
 				continue;
 			}
@@ -164,7 +164,7 @@ bool KileLyxServer::openPipes()
 			}
 		}
 		else
-			kdError() << "Could not open " << pipeInfo.absFilePath() << endl;
+			kdError() << "Could not open " << pipeInfo.absoluteFilePath() << endl;
 	}
 	return opened;
 }
@@ -173,7 +173,7 @@ void KileLyxServer::stop()
 {
 	KILE_DEBUG() << "Stopping the LyX server..." << endl;
 
-	QPtrListIterator<QFile> it(m_pipeIn);
+	Q3PtrListIterator<QFile> it(m_pipeIn);
 	while (it.current())
 	{
 		(*it)->close();
@@ -221,7 +221,7 @@ void KileLyxServer::receive(int fd)
  		if ((bytesRead = read(fd, buffer, size - 1)) > 0 )
  		{
   			buffer[bytesRead] = '\0'; // turn it into a c string
-            		QStringList cmds = QStringList::split('\n', QString(buffer).stripWhiteSpace());
+            		QStringList cmds = QStringList::split('\n', QString(buffer).trimmed());
 			for ( uint i = 0; i < cmds.count(); ++i )
 				processLine(cmds[i]);
 		}

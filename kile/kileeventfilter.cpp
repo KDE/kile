@@ -18,6 +18,9 @@
 #include "kileeventfilter.h"
 
 #include <qevent.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QKeyEvent>
 
 #include <kate/view.h>
 #include <kate/document.h>
@@ -56,7 +59,7 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 	else if ( e->type() == QEvent::MouseButtonDblClick)
 	{
 		QMouseEvent *me = (QMouseEvent*) e;
-		if ( me->button()==LeftButton && ((me->state() & Qt::ControlButton) == Qt::ControlButton) )
+		if ( me->button()==LeftButton && ((me->state() & Qt::ControlModifier) == Qt::ControlButton) )
 		{
 			m_edit->selectWord(KileDocument::EditorExtension::smTex);
 			return true;

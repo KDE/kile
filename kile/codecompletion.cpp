@@ -19,7 +19,9 @@
 #include <qregexp.h>
 #include <qfile.h>
 #include <qtimer.h>
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "kiledebug.h"
 #include <klocale.h>
@@ -239,7 +241,7 @@ namespace KileDocument
 	//////////////////// wordlists ////////////////////
 
 	void CodeCompletion::setWordlist( const QStringList &files, const QString &dir,
-	                                  QValueList<KTextEditor::CompletionEntry> *entrylist
+	                                  Q3ValueList<KTextEditor::CompletionEntry> *entrylist
 	                                )
 	{
 
@@ -374,7 +376,7 @@ namespace KileDocument
 		}
 
 		// determine the current list
-		QValueList<KTextEditor::CompletionEntry> list;
+		Q3ValueList<KTextEditor::CompletionEntry> list;
 		switch ( m_mode )
 		{
 				case cmLatex: // fall through here
@@ -437,7 +439,7 @@ namespace KileDocument
 		iface->showCompletionBox( list, m_textlen );
 	}
 
-	void CodeCompletion::appendNewCommands(QValueList<KTextEditor::CompletionEntry> & list)
+	void CodeCompletion::appendNewCommands(Q3ValueList<KTextEditor::CompletionEntry> & list)
 	{
 		KTextEditor::CompletionEntry e;
 		const QStringList *ncommands = m_ki->allNewCommands();
@@ -882,12 +884,12 @@ namespace KileDocument
 		if ( file.isEmpty() ) return;
 
 		QFile f( file );
-		if ( f.open( IO_ReadOnly ) )
+		if ( f.open( QIODevice::ReadOnly ) )
 		{     // file opened successfully
-			QTextStream t( &f );         // use a text stream
+			Q3TextStream t( &f );         // use a text stream
 			while ( ! t.eof() )
 			{        // until end of file...
-				QString s = t.readLine().stripWhiteSpace();       // line of text excluding '\n'
+				QString s = t.readLine().trimmed();       // line of text excluding '\n'
 				if ( ! ( s.isEmpty() || s.at( 0 ) == '#' ) )
 				{
 					wordlist.append( s );
@@ -897,7 +899,7 @@ namespace KileDocument
 		}
 	}
 
-	void CodeCompletion::setCompletionEntries( QValueList<KTextEditor::CompletionEntry> *list,
+	void CodeCompletion::setCompletionEntries( Q3ValueList<KTextEditor::CompletionEntry> *list,
 	                                           const QStringList &wordlist )
 	{
 		// clear the list of completion entries
@@ -919,7 +921,7 @@ namespace KileDocument
 		}
 	}
 
-	void CodeCompletion::setCompletionEntriesTexmode( QValueList<KTextEditor::CompletionEntry> *list,
+	void CodeCompletion::setCompletionEntriesTexmode( Q3ValueList<KTextEditor::CompletionEntry> *list,
 	        const QStringList &wordlist )
 	{
 		// clear the list of completion entries
@@ -995,10 +997,10 @@ namespace KileDocument
 	// or 1 entries.
 
 	uint CodeCompletion::countEntries( const QString &pattern,
-	                                   QValueList<KTextEditor::CompletionEntry> *list,
+	                                   Q3ValueList<KTextEditor::CompletionEntry> *list,
 	                                   QString *entry, QString *type )
 	{
-		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 		uint n = 0;
 
 		for ( it = list->begin(); it != list->end() && n < 2; ++it )
@@ -1016,7 +1018,7 @@ namespace KileDocument
 
 	QString CodeCompletion::findExpansion(const QString &abbrev)
 	{
-		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
@@ -1284,7 +1286,7 @@ namespace KileDocument
 	}
 
 	void CodeCompletion::getDocumentWords(const QString &text,
-	                                      QValueList<KTextEditor::CompletionEntry> &list)
+	                                      Q3ValueList<KTextEditor::CompletionEntry> &list)
 	{
 		//KILE_DEBUG() << "getDocumentWords: " << endl;
 		list.clear();
@@ -1294,7 +1296,7 @@ namespace KileDocument
 
 		QString s;
 		KTextEditor::CompletionEntry e;
-		QDict<bool> seen;
+		Q3Dict<bool> seen;
 		bool alreadyseen = true;
 
 		for (uint i=0; i<doc->numLines(); ++i) {
@@ -1402,7 +1404,7 @@ namespace KileDocument
 	void CodeCompletion::deleteAbbreviationEntry( const QString &entry )
 	{
 		KILE_DEBUG() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
-		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
 			if ( (*it).text == entry )
@@ -1416,7 +1418,7 @@ namespace KileDocument
 	void CodeCompletion::addAbbreviationEntry( const QString &entry )
 	{
 		KILE_DEBUG() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
-		QValueList<KTextEditor::CompletionEntry>::Iterator it;
+		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
 			if ( (*it).text > entry )

@@ -112,7 +112,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			{
 // 				KILE_DEBUG() << "filename detected" << endl;
 				//grab the filename, it might be a partial name (i.e. continued on the next line)
-				strPartialFileName = strLine.mid(4).stripWhiteSpace();
+				strPartialFileName = strLine.mid(4).trimmed();
 
 				//change the cookie so we remember we aren't sure the filename is complete
 				dwCookie = FileName;
@@ -161,7 +161,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 			else
 			{
 // 				KILE_DEBUG() << "\tpartial file name, adding" << endl;
-				strPartialFileName = strPartialFileName + strLine.stripWhiteSpace();
+				strPartialFileName = strPartialFileName + strLine.trimmed();
 			}
 		break;
 

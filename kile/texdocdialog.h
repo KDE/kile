@@ -29,6 +29,8 @@
 #include <qlabel.h>
 #include <qstringlist.h>
 #include <qmap.h>
+//Added by qt3to4:
+#include <QEvent>
 
 namespace KileDialog
 {
@@ -83,7 +85,7 @@ protected slots:
 	void slotHelp(); 
 	
 private slots:
-	void slotListViewDoubleClicked(QListViewItem *item,const QPoint &,int); 
+	void slotListViewDoubleClicked(Q3ListViewItem *item,const QPoint &,int); 
 	void slotTextChanged(const QString &text);
 	void slotSearchClicked();
 	

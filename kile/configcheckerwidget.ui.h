@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <QLabel>
 /****************************************************************************
 ** ui.h extension file, included from the uic-generated form implementation.
 **

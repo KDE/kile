@@ -20,11 +20,15 @@
 #include <kmessagebox.h>
 #include "kiledebug.h"
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qvalidator.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <Q3PopupMenu>
+#include <Q3VBoxLayout>
 
 KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name) 
 	: KListView(parent, name), m_changes(false)
@@ -42,13 +46,13 @@ KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name)
 	//setShadeSortColumn(true);             // default: true
 	header()->setMovingEnabled(false);      // default: true
 
-	m_popup = new QPopupMenu( this );
+	m_popup = new Q3PopupMenu( this );
 
-	connect(this, SIGNAL(mouseButtonClicked(int,QListViewItem *,const QPoint &,int)),
-	        this, SLOT(slotMouseButtonClicked(int,QListViewItem *,const QPoint &,int)));
+	connect(this, SIGNAL(mouseButtonClicked(int,Q3ListViewItem *,const QPoint &,int)),
+	        this, SLOT(slotMouseButtonClicked(int,Q3ListViewItem *,const QPoint &,int)));
 
-	connect(this, SIGNAL(contextMenu(KListView *,QListViewItem *,const QPoint &)),
-	        this, SLOT(slotContextMenu(KListView *,QListViewItem *,const QPoint &)));
+	connect(this, SIGNAL(contextMenu(KListView *,Q3ListViewItem *,const QPoint &)),
+	        this, SLOT(slotContextMenu(KListView *,Q3ListViewItem *,const QPoint &)));
 }
 
 KileAbbrevView::~KileAbbrevView()
@@ -93,17 +97,17 @@ void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
 	KILE_DEBUG() << "=== KileAbbrevView::saveLocalAbbreviation ===================" << endl;
 	// create the file 
 	QFile abbrevfile(filename);
-	if ( ! abbrevfile.open( IO_WriteOnly ) ) 
+	if ( ! abbrevfile.open( QIODevice::WriteOnly ) ) 
 		return;
 
-	QTextStream stream( &abbrevfile );
+	Q3TextStream stream( &abbrevfile );
 	stream << "# abbreviation mode: editable abbreviations\n";
 	stream << "# dani/2007\n";
 
 	//QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().ascii());
 	// stream.setCodec(codec); 
 
-	QListViewItemIterator it( this );
+	Q3ListViewItemIterator it( this );
 	while ( it.current() ) 
 	{
 		if ( it.current()->text(KileAbbrevView::ALVlocal) == "*" )
@@ -124,7 +128,7 @@ void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
 
 bool KileAbbrevView::findAbbreviation(const QString &abbrev)
 {
-	QListViewItemIterator it( this );
+	Q3ListViewItemIterator it( this );
 	while ( it.current() ) 
 	{
 		if ( it.current()->text(KileAbbrevView::ALVabbrev) == abbrev )
@@ -137,7 +141,7 @@ bool KileAbbrevView::findAbbreviation(const QString &abbrev)
 
 //////////////////// item clicked ////////////////////
 
-void KileAbbrevView::slotMouseButtonClicked(int button, QListViewItem *item, const QPoint &, int)
+void KileAbbrevView::slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &, int)
 {
 	if ( button==1 && item )
 	{
@@ -147,7 +151,7 @@ void KileAbbrevView::slotMouseButtonClicked(int button, QListViewItem *item, con
 
 //////////////////// context menu ////////////////////
 
-void KileAbbrevView::slotContextMenu(KListView *, QListViewItem *item, const QPoint &pos)
+void KileAbbrevView::slotContextMenu(KListView *, Q3ListViewItem *item, const QPoint &pos)
 {
 	m_popup->clear();
 	m_popup->disconnect();
@@ -242,7 +246,7 @@ KileAbbrevInputDialog::KileAbbrevInputDialog(KileAbbrevView *listview, KListView
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	QVBoxLayout *vl = new QVBoxLayout(page, 0, spacingHint());
+	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
 
 	if ( m_mode == KileAbbrevView::ALVedit )
 	{
@@ -286,7 +290,7 @@ KileAbbrevInputDialog::~KileAbbrevInputDialog()
 void KileAbbrevInputDialog::abbreviation(QString &abbrev, QString &expansion)
 {
 	abbrev = m_leAbbrev->text(); 
-	expansion = m_leExpansion->text().stripWhiteSpace();
+	expansion = m_leExpansion->text().trimmed();
 }
 
 void KileAbbrevInputDialog::slotTextChanged(const QString &)
@@ -301,7 +305,7 @@ void KileAbbrevInputDialog::slotTextChanged(const QString &)
 void KileAbbrevInputDialog::slotOk()
 {
 	QString abbrev = m_leAbbrev->text();
-	QString expansion = m_leExpansion->text().stripWhiteSpace();
+	QString expansion = m_leExpansion->text().trimmed();
 
 	if ( abbrev.isEmpty() || expansion.isEmpty() )
 	{

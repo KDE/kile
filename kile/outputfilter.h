@@ -16,7 +16,7 @@
 #ifndef OUTPUTFILTER_H
 #define OUTPUTFILTER_H
 
-#include <qvaluestack.h>
+#include <q3valuestack.h>
 #include <qstring.h>
 #include <qwidget.h>
 

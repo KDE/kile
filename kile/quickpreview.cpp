@@ -19,7 +19,7 @@
 #include "kiledocmanager.h"
 #include "kilelogwidget.h"
 
-#include <qtextstream.h>
+#include <q3textstream.h>
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qfileinfo.h>
@@ -258,7 +258,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	
 	// set value of texinput path (only for QuickPreview tools)
 	QString texinputpath = KileConfig::teXPaths();
-	QString inputdir = QFileInfo(m_ki->getCompileName()).dirPath(true);
+	QString inputdir = QFileInfo(m_ki->getCompileName()).absolutePath();
 	if ( ! texinputpath.isEmpty() )
 		inputdir += ':' + texinputpath;
  	KileConfig::setPreviewTeXPaths(inputdir);
@@ -331,7 +331,7 @@ int QuickPreview::createTempfile(const QString &text)
 	
 	// open to read
 	QFile fin( filename );
-	if ( !fin.exists() || !fin.open(IO_ReadOnly) ) 
+	if ( !fin.exists() || !fin.open(QIODevice::ReadOnly) ) 
 	{
 		showError(i18n("Could not read the preamble."));
 		return 0;
@@ -339,16 +339,16 @@ int QuickPreview::createTempfile(const QString &text)
 	KILE_DEBUG() << "\tcreate a temporary file: "  << m_tempfile << endl;
 	
 	// use a textstream
-	QTextStream preamble(&fin);
+	Q3TextStream preamble(&fin);
 
 	// create the temporary file 
 	QFile tempfile(m_tempfile);
-	if ( ! tempfile.open( IO_WriteOnly ) ) 
+	if ( ! tempfile.open( QIODevice::WriteOnly ) ) 
 	{
 		showError(i18n("Could not create a temporary file."));
 		return 0;
 	}
-	QTextStream stream( &tempfile );
+	Q3TextStream stream( &tempfile );
 	
 	// set the encoding according to the original file (tbraun)
 	if(m_ki->activeTextDocument())
@@ -397,7 +397,7 @@ void QuickPreview::removeTempFiles(bool rmdir)
 		return;
 		
 	QFileInfo fi(m_tempfile);
-	QString tempdir = fi.dirPath(true) + '/';
+	QString tempdir = fi.absolutePath() + '/';
 	
 	QDir dir = fi.dir(true); 
 	if ( dir.exists() ) 

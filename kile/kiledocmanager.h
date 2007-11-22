@@ -23,6 +23,9 @@
 #define KILEDOCUMENTKILEDOCMANAGER_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <QDropEvent>
+#include <Q3PtrList>
 
 #include "kileconstants.h"
 #include "kileproject.h"
@@ -165,8 +168,8 @@ signals:
 	void addToProjectView(const KileProject *);
 
 public:
-	QPtrList<KileProject>* projects() { return &m_projects; }
-	QPtrList<TextInfo>* textDocumentInfos() { return &m_textInfoList; }
+	Q3PtrList<KileProject>* projects() { return &m_projects; }
+	Q3PtrList<TextInfo>* textDocumentInfos() { return &m_textInfoList; }
 
 	Kate::Document* docFor(const KURL &url);
 
@@ -228,9 +231,9 @@ protected:
 	Kate::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
 
 private:
-	QPtrList<TextInfo>				m_textInfoList;
+	Q3PtrList<TextInfo>				m_textInfoList;
 	KileInfo					*m_ki;
-	QPtrList<KileProject>		m_projects;
+	Q3PtrList<KileProject>		m_projects;
 	KProgressDialog				*m_kpd;
 	
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);

@@ -17,10 +17,13 @@
 #ifndef SYMBOLVIEW_H
 #define SYMBOLVIEW_H
 
-#include <qiconview.h>
+#include <q3iconview.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QHideEvent>
 
 #include <kiconview.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
 #include <qstring.h>
 #include <qlabel.h>
 
@@ -47,11 +50,11 @@ private:
 
 signals:
 	void insertText(const QString& text,const QStringList &pkgs);
-	void addToList(const QIconViewItem *item);
+	void addToList(const Q3IconViewItem *item);
 
 private slots:
-	void showToolTip( QIconViewItem *item );
-	void slotAddToList(const QIconViewItem *item);
+	void showToolTip( Q3IconViewItem *item );
+	void slotAddToList(const Q3IconViewItem *item);
 	void removeToolTip();
 
 private:

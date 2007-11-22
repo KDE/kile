@@ -19,6 +19,8 @@
 #include "userhelp.h"
 
 #include <qfileinfo.h>    
+//Added by qt3to4:
+#include <Q3PopupMenu>
 
 #include <kglobal.h>
 #include <kiconloader.h>
@@ -101,7 +103,7 @@ void UserHelp::expandHelpMenu()
 	{
 		int helpindex = getHelpIndex(m_helpmenu);
 	
-		m_helppopup = new QPopupMenu();
+		m_helppopup = new Q3PopupMenu();
 		if ( m_helppopup )  
 		{
 			m_sepid = m_helpmenu->insertSeparator(helpindex); 
@@ -196,7 +198,7 @@ void UserHelp::enableUserHelpEntries(bool state)
 	} 
 }
 
-QPopupMenu *UserHelp::getHelpPopup()
+Q3PopupMenu *UserHelp::getHelpPopup()
 { 
 	int helpid = 0;
 	
@@ -214,7 +216,7 @@ QPopupMenu *UserHelp::getHelpPopup()
 	return ( helpid == 0 ) ? 0 : m_menubar->findItem(helpid)->popup();
 }
 
-int UserHelp::getHelpIndex(QPopupMenu *popup)
+int UserHelp::getHelpIndex(Q3PopupMenu *popup)
 { 
 	if ( popup ) 
 	{

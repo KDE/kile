@@ -36,18 +36,18 @@ type=argv[1];
 QFile f( texfile );
 if ( !f.open( IO_ReadOnly ) )
 {
-	cout << "File " << texfile.latin1() << " is not readable\n";
+	cout << "File " << texfile.toLatin1() << " is not readable\n";
 	return 1;
 }
 
 texcommand="latex " + texfile;
 dvipngcommand="dvipng  --picky -bg Transparent -x 518 -O -1.2in,-1.2in -T bbox -D 300 -o img%03d" + type + ".png " + texfile.left(texfile.length()-4);
 
-cout << texcommand.latin1() << "\n";
-cout << dvipngcommand.latin1() << "\n";
+cout << texcommand.toLatin1() << "\n";
+cout << dvipngcommand.toLatin1() << "\n";
 
-latexret = system(texcommand.latin1());
-dvipngret= system(dvipngcommand.latin1());
+latexret = system(texcommand.toLatin1());
+dvipngret= system(dvipngcommand.toLatin1());
 
 if (latexret)
 {
@@ -107,8 +107,8 @@ while( (line = t.readLine()) != 0L)
 		pkgsarg="";
 	}
 
-	cout << "line is " << line.latin1();
-	cout << "; pkgs=" << pkgs.latin1() << " ,pkgsarg=" << pkgsarg.latin1() << " ,savepkgs=" << savepkgs.latin1() << " ,savepkgsarg=" << savepkgsarg.latin1() << "\n";
+	cout << "line is " << line.toLatin1();
+	cout << "; pkgs=" << pkgs.toLatin1() << " ,pkgsarg=" << pkgsarg.toLatin1() << " ,savepkgs=" << savepkgs.toLatin1() << " ,savepkgsarg=" << savepkgsarg.toLatin1() << "\n";
 
 	if ( line.find(optarg) != -1)
 		writeComment(optarg.cap(1),pkgs,pkgsarg,type,number++);
@@ -132,9 +132,9 @@ void writeComment(QString cmd, QString pkgs, QString pkgsarg, QString type, int 
 
 QImage image;
 QString fname;
-fname.sprintf("img%03d%s.png",number,type.latin1());
+fname.sprintf("img%03d%s.png",number,type.toLatin1());
 
-cout << "fname is " << fname.latin1() << "\n";
+cout << "fname is " << fname.toLatin1() << "\n";
 
 if(image.load(fname))
 {
@@ -143,13 +143,13 @@ if(image.load(fname))
 	
 	if(!image.save(fname,"PNG"))
 	{
-		cout << "Image " << fname.latin1() << " could not be saved\n";
+		cout << "Image " << fname.toLatin1() << " could not be saved\n";
 		exit(1);
 	}
 	readComment(fname);
 }
 else
-	cout << "===writeComment=== ERROR " << fname.latin1() << " could not be loaded\n";
+	cout << "===writeComment=== ERROR " << fname.toLatin1() << " could not be loaded\n";
 
 }
 
@@ -159,12 +159,12 @@ QImage image;
 
 if(image.load(fname))
 {
-	cout << "image " << fname.latin1()  << " has Command comment_" <<  image.text("Command").latin1() << "_\n";
-	cout << "image " << fname.latin1()  << " has Packages comment_" <<  image.text("Packages").latin1() << "_\n";
+	cout << "image " << fname.toLatin1()  << " has Command comment_" <<  image.text("Command").toLatin1() << "_\n";
+	cout << "image " << fname.toLatin1()  << " has Packages comment_" <<  image.text("Packages").toLatin1() << "_\n";
 	
 }
 else
-	cout << "===readComment=== ERROR " << fname.latin1() << " could not be loaded\n";
+	cout << "===readComment=== ERROR " << fname.toLatin1() << " could not be loaded\n";
 }
 
 

@@ -15,6 +15,8 @@
 
 #include <qdir.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
@@ -64,7 +66,7 @@ QString completePath(const QString &path)
 			fullpath = url.url();
 		}
 		else if ( path.find(QRegExp("^[a-z]+:")) == -1 )
-			fullpath = QDir::currentDirPath() + '/' + path;
+			fullpath = QDir::currentPath() + '/' + path;
 	}
 
 	KILE_DEBUG() << "\t" << fullpath << endl;
@@ -97,7 +99,7 @@ int main( int argc, char ** argv )
 	bool running = false;
 
 	DCOPClient *client=0L;
-	QCString appID = "";
+	Q3CString appID = "";
 	client  = new DCOPClient ();
 	client->attach();
 	QCStringList apps = client->registeredApplications();

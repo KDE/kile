@@ -25,6 +25,9 @@
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qdir.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QDropEvent>
 
 #include <kate/document.h>
 #include <kate/view.h>
@@ -170,7 +173,7 @@ TextInfo* Manager::textInfoFor(const QString & path) const
 		return 0L;
 	
 	KILE_DEBUG() << "==KileInfo::textInfoFor(" << path << ")==========================" << endl;
-	QPtrListIterator<TextInfo> it(m_textInfoList);
+	Q3PtrListIterator<TextInfo> it(m_textInfoList);
 	while ( true )
 	{
 		if ( it.current()->url().path() == path)
@@ -191,7 +194,7 @@ TextInfo* Manager::textInfoForURL(const KURL& url)
 		return 0L;
 	
 	KILE_DEBUG() << "==KileInfo::textInfoFor(" << url << ")==========================" << endl;
-	QPtrListIterator<TextInfo> it(m_textInfoList);
+	Q3PtrListIterator<TextInfo> it(m_textInfoList);
 	TextInfo *info;
 	while ( (info = it.current()) != 0L )
 	{
@@ -211,7 +214,7 @@ TextInfo* Manager::textInfoFor(Kate::Document* doc) const
 	if( !doc )
 		return 0L;
 	
-    QPtrListIterator<TextInfo> it(m_textInfoList);
+    Q3PtrListIterator<TextInfo> it(m_textInfoList);
     while ( true )
     {
         if ( it.current()->getDoc() == doc)
@@ -235,7 +238,7 @@ KileProject* Manager::projectFor(const KURL &projecturl)
 	KileProject *project = 0;
 
 	//find project with url = projecturl
-	QPtrListIterator<KileProject> it(m_projects);
+	Q3PtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
 		if ((*it)->url() == projecturl)
@@ -253,7 +256,7 @@ KileProject* Manager::projectFor(const QString &name)
 	KileProject *project = 0;
 
 	//find project with url = projecturl
-	QPtrListIterator<KileProject> it(m_projects);
+	Q3PtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
 		if ((*it)->name() == name)
@@ -270,7 +273,7 @@ KileProjectItem* Manager::itemFor(const KURL &url, KileProject *project /*=0L*/)
 {
 	if (project == 0L)
 	{
-		QPtrListIterator<KileProject> it(m_projects);
+		Q3PtrListIterator<KileProject> it(m_projects);
 		while ( it.current() )
 		{
 			KILE_DEBUG() << "looking in project " << (*it)->name() << endl;
@@ -308,7 +311,7 @@ KileProjectItemList* Manager::itemsFor(Info *docinfo) const
 	KileProjectItemList *list = new KileProjectItemList();
 	list->setAutoDelete(false);
 
-	QPtrListIterator<KileProject> it(m_projects);
+	Q3PtrListIterator<KileProject> it(m_projects);
 	while ( it.current() )
 	{
 		KILE_DEBUG() << "\tproject: " << (*it)->name() << endl;
@@ -675,7 +678,7 @@ void Manager::fileNew(const KURL & url)
 {
 	//create an empty file
 	QFile file(url.path());
-	file.open(IO_ReadWrite);
+	file.open(QIODevice::ReadWrite);
 	file.close();
 
 	fileOpen(url, QString::null);
@@ -687,7 +690,7 @@ void Manager::fileOpen()
     QString compileName = m_ki->getCompileName();
 	QString currentDir;
     if ( QFileInfo(compileName).exists() )
-        currentDir = QFileInfo(compileName).dirPath(true);
+        currentDir = QFileInfo(compileName).absolutePath();
     else
         currentDir = m_ki->fileSelector()->dirOperator()->url().path();
 
@@ -1171,7 +1174,7 @@ void Manager::addProject(const KileProject *project)
 KileProject* Manager::selectProject(const QString& caption)
 {
 	QStringList list;
-	QPtrListIterator<KileProject> it(m_projects);
+	Q3PtrListIterator<KileProject> it(m_projects);
 	while (it.current())
 	{
 		list.append((*it)->name());
@@ -1324,8 +1327,8 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool open
 	m_kpd->progressBar()->setValue(project_steps);
 
 	// open the project files in the correct order
-	QValueVector<KileProjectItem*> givenPositionVector(list->count(), NULL);
-	QValueList<KileProjectItem*> notCorrectlyOrderedList;
+	Q3ValueVector<KileProjectItem*> givenPositionVector(list->count(), NULL);
+	Q3ValueList<KileProjectItem*> notCorrectlyOrderedList;
 	for(KileProjectItem *item = list->first(); item; item = list->next())
 	{
 		int order = item->order();
@@ -1343,7 +1346,7 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool open
 		}
 	}
 
-	QValueList<KileProjectItem*> orderedList;
+	Q3ValueList<KileProjectItem*> orderedList;
 	for(unsigned int i = 0; i < givenPositionVector.size(); ++i)
 	{
 		KileProjectItem *item = givenPositionVector[i];
@@ -1352,13 +1355,13 @@ KileProject* Manager::projectOpen(const KURL & url, int step, int max, bool open
 			orderedList.push_back(item);
 		}
 	}
-	for(QValueList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i)
+	for(Q3ValueList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i)
 	{
 		orderedList.push_back(*i);
 	}
 
 	unsigned int counter = 0;
-	for (QValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i)
+	for (Q3ValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i)
 	{
 		projectOpenItem(*i, openProjectItemViews);
 		m_kpd->progressBar()->setValue(counter + project_steps);
@@ -1424,7 +1427,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		TextInfo *docinfo = NULL;
 
 		// determine the order in which the project items are opened
-		QValueVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
+		Q3ValueVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
 		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i)
 		{
 			docinfo = (*i)->getInfo();
@@ -1562,7 +1565,7 @@ bool Manager::projectCloseAll()
 	KILE_DEBUG() << "==Kile::projectCloseAll==========================" << endl;
 	bool close = true;
 
-	QPtrListIterator<KileProject> it(m_projects);
+	Q3PtrListIterator<KileProject> it(m_projects);
 	int i = m_projects.count() + 1;
 	while ( it.current() && close && (i > 0))
 	{
@@ -1672,7 +1675,7 @@ void Manager::cleanUpTempFiles(const KURL &url, bool silent)
 	QFileInfo fi(url.path());
 	const QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
 	const QString fileName = fi.fileName();
-	const QString dirPath = fi.dirPath(true);
+	const QString dirPath = fi.absolutePath();
 	const QString baseName = fi.baseName(true);
 	
 	for (uint i=0; i <  templist.count(); ++i)
@@ -2013,7 +2016,7 @@ const KURL Manager::symlinkFreeURL(const KURL& url)
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 {
 	KileProjectItemList *itms = itemsFor(info);
-	QPtrListIterator<KileProjectItem> it(*itms);
+	Q3PtrListIterator<KileProjectItem> it(*itms);
 	KileProjectItem *current;
 	while((current = it.current()) != 0)
 	{

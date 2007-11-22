@@ -93,7 +93,7 @@ private slots:
    void showPage(QWidget *page);
    void addClicked();
    void removeClicked();
-	void slotListviewClicked(QListViewItem *);
+	void slotListviewClicked(Q3ListViewItem *);
 };
 
 #endif

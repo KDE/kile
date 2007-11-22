@@ -17,9 +17,9 @@
 #define KILEINFO_H
 
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qmap.h>
-#include <qscrollview.h>
+#include <q3scrollview.h>
 
 #include "kiledebug.h"
 #include <kurl.h>
@@ -152,7 +152,7 @@ protected:
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileBottomBar			*m_bottomBar;
 	KileWidget::PreviewWidget *m_previewWidget; 
-	QScrollView *m_previewView;
+	Q3ScrollView *m_previewView;
 
 	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;

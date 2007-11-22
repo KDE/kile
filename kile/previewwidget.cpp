@@ -24,6 +24,8 @@
 #include <qpainter.h>
 #include <qpalette.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QPaintEvent>
 
 #include <klocale.h>
 #include <kate/view.h>

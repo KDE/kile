@@ -17,10 +17,10 @@
 #define KILE_LAUNCHER
 
 #include <qobject.h>
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstringlist.h>
 
-class QWidgetStack;
+class Q3WidgetStack;
 
 
 class KProcess;

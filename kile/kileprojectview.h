@@ -21,6 +21,8 @@
 #include <klistview.h>
 
 #include "kileproject.h"
+//Added by qt3to4:
+#include <QDropEvent>
 
 class KURL;
 class KPopupMenu;
@@ -35,17 +37,17 @@ class KileProjectViewItem : public QObject, public KListViewItem
 	Q_OBJECT
 
 public:
-	KileProjectViewItem (QListView *parent, KileProjectItem *item, bool ar = false) : KListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
-	KileProjectViewItem (QListView *parent, QListViewItem *after, KileProjectItem *item, bool ar = false) : KListViewItem(parent, after, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
-	KileProjectViewItem (QListViewItem *parent, KileProjectItem *item, bool ar = false) : KListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
+	KileProjectViewItem (Q3ListView *parent, KileProjectItem *item, bool ar = false) : KListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
+	KileProjectViewItem (Q3ListView *parent, Q3ListViewItem *after, KileProjectItem *item, bool ar = false) : KListViewItem(parent, after, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
+	KileProjectViewItem (Q3ListViewItem *parent, KileProjectItem *item, bool ar = false) : KListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
 
 	//use this to create folders
-	KileProjectViewItem (QListViewItem *parent, const QString & name) : KListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
+	KileProjectViewItem (Q3ListViewItem *parent, const QString & name) : KListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
 
 	//use this to create non-project files
-	KileProjectViewItem (QListView *parent, const QString & name) : KListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
+	KileProjectViewItem (Q3ListView *parent, const QString & name) : KListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
 	
-	KileProjectViewItem (QListView *parent, const KileProject *project) : KListViewItem(parent, project->name()), m_folder(-1), m_projectItem(0L) {}
+	KileProjectViewItem (Q3ListView *parent, const KileProject *project) : KListViewItem(parent, project->name()), m_folder(-1), m_projectItem(0L) {}
 	
 
 	~KileProjectViewItem() {KILE_DEBUG() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
@@ -62,7 +64,7 @@ public:
 	void setType(KileType::ProjectView type) {m_type = type;}
 	KileType::ProjectView type() const { return m_type;}
 
-	int compare(QListViewItem * i, int col, bool ascending) const;
+	int compare(Q3ListViewItem * i, int col, bool ascending) const;
 
 	void setURL(const KURL & url) { m_url=url;}
 	const KURL& url() { return m_url;}
@@ -118,7 +120,7 @@ signals:
 	void buildProjectTree(const KURL &);
 
 public slots:
-	void slotClicked(QListViewItem * item = 0);
+	void slotClicked(Q3ListViewItem * item = 0);
 
 	void slotFile(int id);
 	void slotProjectItem(int id);
@@ -145,7 +147,7 @@ protected:
 	virtual bool acceptDrag(QDropEvent *e) const;
 
 private slots:
-	void popup(KListView *, QListViewItem *, const QPoint &);
+	void popup(KListView *, Q3ListViewItem *, const QPoint &);
 
 private:
 	void makeTheConnection(KileProjectViewItem *);

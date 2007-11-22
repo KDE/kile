@@ -22,9 +22,11 @@
   * @author Jeroen Wijnhout, Holger Danielsson
   **/
 
-#include <qwidgetstack.h>
-#include <qvbox.h>
+#include <q3widgetstack.h>
+#include <q3vbox.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <klistview.h>
 #include <kpopupmenu.h>
@@ -39,7 +41,7 @@
 class QString;
 class KURL;
 class KileInfo;
-class QListViewItem;
+class Q3ListViewItem;
 
 /**
  * ListView items that can hold some additional information appropriate for the Structure View. The
@@ -49,9 +51,9 @@ class QListViewItem;
 class KileListViewItem : public KListViewItem
 {
 public:
-	KileListViewItem(QListViewItem * parent, QListViewItem * after, const QString &title, const KURL &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
-	KileListViewItem(QListView * parent, const QString & label);
-	KileListViewItem(QListViewItem * parent, const QString & label);
+	KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KURL &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
+	KileListViewItem(Q3ListView * parent, const QString & label);
+	KileListViewItem(Q3ListViewItem * parent, const QString & label);
 
 	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() const { return m_title; }
@@ -155,7 +157,7 @@ namespace KileWidget
 		QMap<uint, bool>					m_openByLine;
 		QMap<QString, bool>					m_openByFolders;
 		KileListViewItem					*m_parent[7], *m_root;
-		QValueList<KileReferenceData> m_references;
+		Q3ValueList<KileReferenceData> m_references;
 		bool m_openStructureLabels;
 		bool m_openStructureReferences;
 		bool m_openStructureBibitems;
@@ -172,7 +174,7 @@ namespace KileWidget
 		bool m_stop;
 	};
 
-	class Structure : public QWidgetStack
+	class Structure : public Q3WidgetStack
 	{
 		Q_OBJECT
 
@@ -194,9 +196,9 @@ namespace KileWidget
 		     };
 
 		public slots:
-			void slotClicked(QListViewItem *);
-			void slotDoubleClicked(QListViewItem *);
-			void slotPopup(KListView *, QListViewItem *itm, const QPoint &point);
+			void slotClicked(Q3ListViewItem *);
+			void slotDoubleClicked(Q3ListViewItem *);
+			void slotPopup(KListView *, Q3ListViewItem *itm, const QPoint &point);
 			void slotPopupActivated(int id);
 
 			void addDocumentInfo(KileDocument::Info *);

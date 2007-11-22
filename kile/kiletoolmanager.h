@@ -18,12 +18,12 @@
 
 #include <qobject.h>
 #include <qstringlist.h>
-#include <qptrqueue.h>
+#include <q3ptrqueue.h>
 
 #include "kiletool.h"
 
 class QTimer;
-class QWidgetStack;
+class Q3WidgetStack;
 
 class KConfig;
 class KTextEdit;
@@ -53,7 +53,7 @@ namespace KileTool
 		bool		m_bBlock;
 	};
 
-	class Queue : public QPtrQueue<QueueItem>
+	class Queue : public Q3PtrQueue<QueueItem>
 	{
 	public:
 		Base* tool() const;
@@ -68,7 +68,7 @@ namespace KileTool
 		Q_OBJECT
 		
 	public:
-		Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *, QWidgetStack *, KAction *, uint to);
+		Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *, Q3WidgetStack *, KAction *, uint to);
 		~Manager();
 
 	public:
@@ -81,7 +81,7 @@ namespace KileTool
 		void wantGUIState(const QString &);
 		
 		KParts::PartManager * partManager() { return m_pm; }
-		QWidgetStack * widgetStack() { return m_stack; }
+		Q3WidgetStack * widgetStack() { return m_stack; }
 		
 		KileInfo * info() { return m_ki; }
 		KConfig * config() { return m_config; }
@@ -126,7 +126,7 @@ namespace KileTool
 		KileWidget::LogMsg		*m_log;
 		KileWidget::Output		*m_output;
 		KParts::PartManager	*m_pm;
-		QWidgetStack 			*m_stack;
+		Q3WidgetStack 			*m_stack;
 		KAction				*m_stop;
 		Factory				*m_factory;
 		Queue				m_queue;

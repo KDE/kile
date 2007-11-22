@@ -27,7 +27,7 @@ namespace KileWidget
 		Output(QWidget *parent, const char *name=0);
 		~Output();
 
-		void setReadOnly(bool r) { QTextEdit::setReadOnly(r); } //we don't want the greyed background
+		void setReadOnly(bool r) { Q3TextEdit::setReadOnly(r); } //we don't want the greyed background
 
 	public slots:
 		void receive(const QString &);

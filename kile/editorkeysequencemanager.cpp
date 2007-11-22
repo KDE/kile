@@ -18,6 +18,10 @@
 
 #include <kate/document.h>
 #include <klocale.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <Q3ValueList>
+#include <QKeyEvent>
 
 #define MAX(a,b) (a >= b ? a : b)
 
@@ -122,7 +126,7 @@ namespace KileEditorKeySequence {
 	}
 
 	bool Manager::isSequenceAssigned(const QString& seq) const {
-		for(QValueList<QString>::const_iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
+		for(Q3ValueList<QString>::const_iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
 			if((*i).startsWith(seq)) {
 				return true;
 			}
@@ -131,7 +135,7 @@ namespace KileEditorKeySequence {
 	}
 
 	QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip) {
-		for(QValueList<QString>::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
+		for(Q3ValueList<QString>::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
 			if((*i) == skip) {
 				continue;
 			}

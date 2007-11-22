@@ -21,7 +21,7 @@
 #include <qobject.h>
 #include <qmap.h>
 #include <qstring.h>
-#include <qdict.h>
+#include <q3dict.h>
 #include <qstringlist.h>
 
 class KConfig;
@@ -137,7 +137,7 @@ namespace KileTool
 		 * %source : the source file (no path)
 		 * %S : the source filename without an extension (no path)
 		 **/
-		QDict<QString>* paramDict() { return &m_dictParams; }
+		Q3Dict<QString>* paramDict() { return &m_dictParams; }
 
 		bool addDict(const QString & key, const QString & value);
 
@@ -242,7 +242,7 @@ namespace KileTool
 		bool m_quickie;
 
 	private:
-		QDict<QString>		m_dictParams;
+		Q3Dict<QString>		m_dictParams;
 		Config				m_entryMap;
 
 		uint		    	m_flags;

@@ -22,8 +22,13 @@
 
 #include <qlayout.h>
 #include <qstringlist.h>
-#include <qvaluelist.h>
-#include <qwhatsthis.h>
+#include <q3valuelist.h>
+#include <q3whatsthis.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3Frame>
+#include <QLabel>
+#include <Q3VBoxLayout>
 
 #include <klocale.h>
 #include "kiledebug.h"
@@ -38,10 +43,10 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	setMainWidget(page);
 	setCaption(i18n("Math Environments"));
 	
-	QVBoxLayout *vbox = new QVBoxLayout(page,8,8);
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page,8,8);
 	
 	// environment groupbox
-	QButtonGroup *envgroup = new QButtonGroup( i18n("Environment"),page);
+	Q3ButtonGroup *envgroup = new Q3ButtonGroup( i18n("Environment"),page);
 	envgroup->setColumnLayout(0, Qt::Vertical );
 	envgroup->layout()->setSpacing( 6 );
 	envgroup->layout()->setMargin( 11 );
@@ -55,8 +60,8 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_lbDisplaymath = new QLabel(i18n("Display&math mode:"), envgroup);
 	m_lbBullets = new QLabel(i18n("Use &bullets:"), envgroup);
 	
-	QFrame *frame = new QFrame(envgroup);
-	frame->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+	Q3Frame *frame = new Q3Frame(envgroup);
+	frame->setFrameStyle(Q3Frame::HLine | Q3Frame::Sunken);
 	frame->setLineWidth(1);
 	
 	m_coEnvironment = new QComboBox(envgroup);	
@@ -70,7 +75,7 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_coDisplaymath = new QComboBox(envgroup);	
 	m_cbBullets = new QCheckBox(envgroup);
 	
-	QGridLayout *envlayout = new QGridLayout( envgroup->layout() );
+	Q3GridLayout *envlayout = new Q3GridLayout( envgroup->layout() );
 	envlayout->setAlignment( Qt::AlignTop );
 	envlayout->addWidget( m_lbEnvironment, 0,0 ); 
 	envlayout->addWidget( m_lbStarred, 1,0 );
@@ -122,14 +127,14 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	connect(m_coEnvironment, SIGNAL(activated(int)), this, SLOT(slotEnvironmentChanged(int)));
 	connect(m_spCols, SIGNAL(valueChanged(int)), this, SLOT(slotSpinboxValueChanged(int)));
 	
-	QWhatsThis::add(m_coEnvironment,i18n("Choose an environment."));
-	QWhatsThis::add(m_cbStarred,i18n("Use the starred version of this environment."));
-	QWhatsThis::add(m_spRows,i18n("Choose the number of table rows."));
-	QWhatsThis::add(m_spCols,i18n("Choose the number of table columns or alignment groups."));
-	QWhatsThis::add(m_edSpace,i18n("Define an extra LaTeX command to separate alignment groups."));
-	QWhatsThis::add(m_coTabulator,i18n("Choose one of some predefined tabulators."));
-	QWhatsThis::add(m_coDisplaymath,i18n("Some environments are only valid in math mode. You can surround them with one of these display math modes."));
-	QWhatsThis::add(m_cbBullets,i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+	Q3WhatsThis::add(m_coEnvironment,i18n("Choose an environment."));
+	Q3WhatsThis::add(m_cbStarred,i18n("Use the starred version of this environment."));
+	Q3WhatsThis::add(m_spRows,i18n("Choose the number of table rows."));
+	Q3WhatsThis::add(m_spCols,i18n("Choose the number of table columns or alignment groups."));
+	Q3WhatsThis::add(m_edSpace,i18n("Define an extra LaTeX command to separate alignment groups."));
+	Q3WhatsThis::add(m_coTabulator,i18n("Choose one of some predefined tabulators."));
+	Q3WhatsThis::add(m_coDisplaymath,i18n("Some environments are only valid in math mode. You can surround them with one of these display math modes."));
+	Q3WhatsThis::add(m_cbBullets,i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
 }
 
 void MathEnvironmentDialog::initEnvironments()

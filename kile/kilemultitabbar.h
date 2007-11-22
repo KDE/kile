@@ -27,17 +27,23 @@
 #ifndef _KileMultitabbar_h_
 #define _KileMultitabbar_h_
 
-#include <qscrollview.h>
-#include <qvbox.h>
-#include <qhbox.h>
+#include <q3scrollview.h>
+#include <q3vbox.h>
+#include <q3hbox.h>
 #include <qlayout.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qpushbutton.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QShowEvent>
+#include <QHideEvent>
+#include <Q3Frame>
+#include <Q3PopupMenu>
 
 class QPixmap;
 class QPainter;
-class QFrame;
+class Q3Frame;
 
 class KileMultiTabBarPrivate;
 class KileMultiTabBarTabPrivate;
@@ -108,7 +114,7 @@ public:
 	 * @param popup A popup menu which should be displayed if the button is clicked
 	 * @param not_used_yet will be used for a popup text in the future
 	 */
- 	int appendButton(const QPixmap &pic,int id=-1,QPopupMenu* popup=0,const QString& not_used_yet=QString::null);
+ 	int appendButton(const QPixmap &pic,int id=-1,Q3PopupMenu* popup=0,const QString& not_used_yet=QString::null);
 	/** 
          * remove a button with the given ID
 	 */
@@ -172,13 +178,13 @@ public:
 	 * @return The list of tabs.
 	 * @warning be careful, don't delete tabs yourself and don't delete the list itself
 	 */
-        QPtrList<KileMultiTabBarTab>* tabs();
+        Q3PtrList<KileMultiTabBarTab>* tabs();
 	/**
 	 * Returns the list of pointers to the tab buttons of type KileMultiTabBarButton.
 	 * @return The list of tab buttons.
 	 * @warning be careful, don't delete buttons yourself and don't delete the list itself
 	 */
-	QPtrList<KileMultiTabBarButton>* buttons();
+	Q3PtrList<KileMultiTabBarButton>* buttons();
 
 	/**
 	 * might vanish, not sure yet
@@ -190,9 +196,9 @@ protected:
 	void updateSeparator();
 private:
 	class KileMultiTabBarInternal *m_internal;
-	QBoxLayout *m_l;
-	QFrame *m_btnTabSep;
-	QPtrList<KileMultiTabBarButton> m_buttons;
+	Q3BoxLayout *m_l;
+	Q3Frame *m_btnTabSep;
+	Q3PtrList<KileMultiTabBarButton> m_buttons;
 	KileMultiTabBarPosition m_position;
 	KileMultiTabBarPrivate *d;
 };
@@ -207,10 +213,10 @@ class KileMultiTabBarButton: public QPushButton
 	Q_OBJECT
 public:
 	/** @internal */
-	KileMultiTabBarButton(const QPixmap& pic,const QString&, QPopupMenu *popup,
+	KileMultiTabBarButton(const QPixmap& pic,const QString&, Q3PopupMenu *popup,
 		int id,QWidget *parent, KileMultiTabBar::KileMultiTabBarPosition pos, KileMultiTabBar::KileMultiTabBarStyle style);
 	/** @internal */
-	KileMultiTabBarButton(const QString&, QPopupMenu *popup,
+	KileMultiTabBarButton(const QString&, Q3PopupMenu *popup,
 		int id,QWidget *parent, KileMultiTabBar::KileMultiTabBarPosition pos, KileMultiTabBar::KileMultiTabBarStyle style);
 	/**
 	 * Destructor

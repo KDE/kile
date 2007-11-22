@@ -19,6 +19,9 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qpainter.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
+#include <Q3ValueList>
 
 #include <klocale.h>
 #include <kcursor.h>
@@ -34,7 +37,7 @@
 namespace KileDialog
 {
 
-ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const QValueList<ConfigTest> &tests) : QListBoxItem(lb)
+ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests) : Q3ListBoxItem(lb)
 {
 	QString rt = "<hr><b><font color=\"%1\">%2</font></b> (%3)<br><ul>";
 	for ( uint i = 0; i < tests.count(); ++i)
@@ -58,7 +61,7 @@ ResultItem::ResultItem(KListBox *lb, const QString &tool, int status, const QVal
 		statustr = i18n("Critical failure, Kile will not function properly");
 	}
 
-	m_richText = new QSimpleRichText(rt.arg(color).arg(tool).arg(statustr), listBox()->font());
+	m_richText = new Q3SimpleRichText(rt.arg(color).arg(tool).arg(statustr), listBox()->font());
 	m_richText->setWidth(listBox()->width());
 
 	//this is for sorting only
@@ -74,7 +77,7 @@ ConfigChecker::ConfigChecker(QWidget* parent) :
 	KDialogBase( Plain, i18n("System Check"), Ok|Cancel|User1, Ok, parent, 0, true, true, KGuiItem("&Save Results...")),
 	m_tester(0L)
 {
-	QGridLayout *layout = new QGridLayout(plainPage(), 1, 1);
+	Q3GridLayout *layout = new Q3GridLayout(plainPage(), 1, 1);
 	m_widget = new ConfigCheckerWidget(plainPage());
 	layout->addWidget(m_widget, 1, 1);
 

@@ -19,18 +19,22 @@
 
 #include <qvariant.h>
 #include <qwidget.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3GridLayout>
+#include <QLabel>
 
-class QVBoxLayout;
-class QGridLayout;
+class Q3VBoxLayout;
+class Q3GridLayout;
 class QLabel;
-class QGroupBox;
+class Q3GroupBox;
 
 class KileWidgetStatistics : public QWidget
 {
 	Q_OBJECT
 
 public:
-	KileWidgetStatistics( QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
+	KileWidgetStatistics( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
 	~KileWidgetStatistics();
 
 	QLabel* m_commentAboutHelp;
@@ -57,8 +61,8 @@ public:
 	void updateColumns();
 
 private:
-	QGridLayout *chargrouplayout;
-	QGridLayout *stringgrouplayout;
+	Q3GridLayout *chargrouplayout;
+	Q3GridLayout *stringgrouplayout;
 
 
 };

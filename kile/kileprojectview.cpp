@@ -17,7 +17,10 @@
 
 #include "kileprojectview.h"
 
-#include <qheader.h>
+#include <q3header.h>
+//Added by qt3to4:
+#include <QDropEvent>
+#include <Q3PtrList>
 
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -78,7 +81,7 @@ void KileProjectViewItem::slotURLChanged(KileDocument::Info*, const KURL & url)
 	urlChanged(url);
 }
 
-int KileProjectViewItem::compare(QListViewItem * i, int col, bool ascending) const
+int KileProjectViewItem::compare(Q3ListViewItem * i, int col, bool ascending) const
 {
 	KileProjectViewItem *item = dynamic_cast<KileProjectViewItem*>(i);
 
@@ -95,7 +98,7 @@ int KileProjectViewItem::compare(QListViewItem * i, int col, bool ascending) con
 	else if ( type() == KileType::Folder ) 
 		return -1;
 	else 
-		return QListViewItem::compare(i, col, ascending);
+		return Q3ListViewItem::compare(i, col, ascending);
 }
 
 /*
@@ -115,14 +118,14 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : KListView(pare
 
 	m_popup = new KPopupMenu(this, "projectview_popup");
 
-	connect(this, SIGNAL(contextMenu(KListView *, QListViewItem *, const QPoint & )), this,SLOT(popup(KListView *, QListViewItem * , const QPoint & )));
+	connect(this, SIGNAL(contextMenu(KListView *, Q3ListViewItem *, const QPoint & )), this,SLOT(popup(KListView *, Q3ListViewItem * , const QPoint & )));
 
-	connect(this, SIGNAL(executed(QListViewItem*)), this, SLOT(slotClicked(QListViewItem*)));
+	connect(this, SIGNAL(executed(Q3ListViewItem*)), this, SLOT(slotClicked(Q3ListViewItem*)));
 	setAcceptDrops(true);
-	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
+	connect(this, SIGNAL(dropped(QDropEvent *, Q3ListViewItem *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 }
 
-void KileProjectView::slotClicked(QListViewItem *item)
+void KileProjectView::slotClicked(Q3ListViewItem *item)
 {
 	if (item == 0)
 		item = currentItem();
@@ -233,7 +236,7 @@ void KileProjectView::slotRun(int id)
 }
 
 //FIXME clean this mess up
-void KileProjectView::popup(KListView *, QListViewItem *  item, const QPoint &  point)
+void KileProjectView::popup(KListView *, Q3ListViewItem *  item, const QPoint &  point)
 {
 	if (item != 0)
 	{
@@ -457,7 +460,7 @@ KileProjectViewItem * KileProjectView::itemFor(const KURL & url)
 {
 	KileProjectViewItem *item=0;
 
-	QListViewItemIterator it(this);
+	Q3ListViewItemIterator it(this);
 	while (it.current())
 	{
 		item = static_cast<KileProjectViewItem*>(*it);
@@ -477,7 +480,7 @@ KileProjectViewItem* KileProjectView::parentFor(const KileProjectItem *projitem,
 
 	if (parpi) {
 		//find parent viewitem that has an URL parpi->url()
-		QListViewItemIterator it( projvi );
+		Q3ListViewItemIterator it( projvi );
 		KILE_DEBUG() << "\tlooking for " << parpi->url().path() << endl;
 		while (it.current())
 		{
@@ -575,7 +578,7 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 	{
 		KILE_DEBUG() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
 		parent->setFolder(-1);
-		QListViewItem *vi = parent->firstChild(), *next;
+		Q3ListViewItem *vi = parent->firstChild(), *next;
 		while (vi)
 		{
 			next = vi->nextSibling();
@@ -590,8 +593,8 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 	//KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-sources"));
 	//parent->setNonSrc(nonsrc);
 
-	QPtrList<KileProjectItem> list = *(project->rootItems());
-	QPtrListIterator<KileProjectItem> it(list);
+	Q3PtrList<KileProjectItem> list = *(project->rootItems());
+	Q3PtrListIterator<KileProjectItem> it(list);
 	while (it.current())
 	{
 		addTree(*it, parent);
@@ -605,7 +608,7 @@ void KileProjectView::add(const KURL & url)
 {
 	KILE_DEBUG() << "\tKileProjectView::adding item " << url.path() << endl;
 	//check if file is already present
-	QListViewItemIterator it( this );
+	Q3ListViewItemIterator it( this );
 	KileProjectViewItem *item;
 	while ( it.current())
 	{
@@ -659,7 +662,7 @@ void KileProjectView::remove(const KURL &url)
 
 void KileProjectView::removeItem(const KileProjectItem *projitem, bool open)
 {
-	QListViewItemIterator it( this );
+	Q3ListViewItemIterator it( this );
 	KileProjectViewItem *item;
 	while ( it.current())
 	{

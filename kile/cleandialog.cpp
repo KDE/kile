@@ -25,6 +25,9 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
 
 #include "kiledebug.h"
 
@@ -35,11 +38,11 @@ namespace KileDialog
 		m_extlist(extlist)
 	{
 		// Layout
-		QVBoxLayout *vbox = new QVBoxLayout(plainPage(), 6,6 );
+		Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
 		
 		// label widgets
 		QWidget *labelwidget = new QWidget(plainPage());
-		QHBoxLayout *labellayout = new QHBoxLayout(labelwidget);
+		Q3HBoxLayout *labellayout = new Q3HBoxLayout(labelwidget);
 		
 		// line 1: picture and label
 		QLabel *picture =  new QLabel("", labelwidget);
@@ -58,7 +61,7 @@ namespace KileDialog
 		QString base = QFileInfo(filename).baseName(true);
 		for (uint i=0; i <  m_extlist.count(); ++i)
 		{
-			QCheckListItem *item = new QCheckListItem(listview, base + m_extlist[i], QCheckListItem::CheckBox);
+			Q3CheckListItem *item = new Q3CheckListItem(listview, base + m_extlist[i], Q3CheckListItem::CheckBox);
 			item->setOn(true);
 			listview->insertItem(item);
 		}
@@ -76,14 +79,14 @@ namespace KileDialog
 	{
 		QStringList templist;
 
-		QCheckListItem *item = (QCheckListItem *)listview->firstChild();
+		Q3CheckListItem *item = (Q3CheckListItem *)listview->firstChild();
 		int i = m_extlist.count() - 1;
 		while ( item )
 		{
 			if ( item->isOn() && item->text(0).endsWith(m_extlist[i]) )
 				templist.append(m_extlist[i]);
 
-			item = (QCheckListItem *)item->nextSibling();
+			item = (Q3CheckListItem *)item->nextSibling();
 			--i;
 		}
 

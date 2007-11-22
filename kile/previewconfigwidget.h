@@ -21,7 +21,9 @@
 
 #include <qwidget.h>
 #include <qcheckbox.h>
-#include <qgroupbox.h>
+#include <q3groupbox.h>
+//Added by qt3to4:
+#include <QLabel>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <kconfig.h>
@@ -48,7 +50,7 @@ private:
 	QLabel *m_lbDvipng, *m_lbConvert, *m_lbMathgroup;
 	QCheckBox *m_cbEnvironment, *m_cbSelection, *m_cbMathgroup;
 	KComboBox *m_coSelection, *m_coEnvironment;
-	QGroupBox *m_gbPreview;
+	Q3GroupBox *m_gbPreview;
 
 	bool m_dvipngInstalled, m_convertInstalled;
 

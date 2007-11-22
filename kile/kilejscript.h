@@ -24,8 +24,8 @@
 #include <kconfig.h>
 #include <kdirwatch.h>
 
-#include <qvaluelist.h>
-#include <qvaluevector.h>
+#include <q3valuelist.h>
+#include <q3valuevector.h>
 
 class KileInfo;
 
@@ -142,7 +142,7 @@ class Manager : public QObject {
 		/**
 		 * Retrieves a list of all the scripts that are currently available.
 		 **/
-		QValueList<JScript*> getJScripts();
+		Q3ValueList<JScript*> getJScripts();
 
 		/**
 		 * Writes the key sequence-to-script bindings to the KConfig object that has 
@@ -200,7 +200,7 @@ class Manager : public QObject {
 
 	protected:
 		QString m_localJScriptDir;
-		QValueList<JScript*> m_jScriptList;
+		Q3ValueList<JScript*> m_jScriptList;
  		QMap<unsigned int, JScript*> m_idScriptMap;
 		KDirWatch *m_jScriptDirWatch;
 
@@ -229,7 +229,7 @@ class Manager : public QObject {
 		 * object.
 		 * @param key the considered entry key
 		 **/
-		QValueList<unsigned int> readUnsignedIntListEntry(const QString& key);
+		Q3ValueList<unsigned int> readUnsignedIntListEntry(const QString& key);
 
 		/**
 		 * Writes a key - value pair to the local KConfig object for the case that the
@@ -237,7 +237,7 @@ class Manager : public QObject {
 		 * @param key the considered entry key
 		 * @param l the 'unsigned int' list that is used as value
 		 **/
-		void writeEntry(const QString& key, const QValueList<unsigned int>& l);
+		void writeEntry(const QString& key, const Q3ValueList<unsigned int>& l);
 
 		/**
 		 * Finds the next free ID. 

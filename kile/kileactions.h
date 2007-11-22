@@ -15,7 +15,9 @@
 #ifndef KILEACTIONS_H
 #define KILEACTIONS_H
 
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <kaction.h>
 #include <kdialogbase.h>
@@ -182,13 +184,13 @@ signals:
 	void activated(const KAction&);
 
 public slots:
-	void setItems(QPtrList<KAction> &);
+	void setItems(Q3PtrList<KAction> &);
 
 private slots:
 	void emitData(const QString&);
 
 private:
-	QDict<KAction> m_dict;
+	Q3Dict<KAction> m_dict;
 };
 
 }

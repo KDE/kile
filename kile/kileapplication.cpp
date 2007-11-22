@@ -19,14 +19,14 @@
 #include <kstandarddirs.h>
 #include <kate/document.h>
 
-#include <qframe.h>
+#include <q3frame.h>
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qpainter.h>
 #include <qfont.h>
 #include <qfontmetrics.h>
 
-static QFrame *pix=0;
+static Q3Frame *pix=0;
 static QWidget *splash=0;
 
 
@@ -35,7 +35,7 @@ KileApplication::KileApplication()
     QRect screen = QApplication::desktop()->screenGeometry();
     QPixmap pm(KGlobal::dirs()->findResource("appdata","pics/kile_splash.png"));
   	 splash = new QWidget( 0, "splash", WDestructiveClose | WStyle_Customize | WStyle_NoBorder | WX11BypassWM | WStyle_StaysOnTop );
-    pix=new QFrame(splash,"pix",QWidget::WStyle_NoBorder | QWidget::WStyle_Customize);
+    pix=new Q3Frame(splash,"pix",QWidget::WStyle_NoBorder | QWidget::WStyle_Customize);
     pix->setBackgroundPixmap(pm);
     pix->setLineWidth(0);
     pix->setGeometry( 0,0,398, 120 );

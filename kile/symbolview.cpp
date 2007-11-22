@@ -34,6 +34,10 @@ tbraun 2007-06-13
 
 #include <qimage.h>
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QMouseEvent>
+#include <QHideEvent>
 #include <kimageeffect.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -64,7 +68,7 @@ SymbolView::SymbolView(QWidget *parent, int type, const char *name): KIconView( 
     setArrangement(LeftToRight);
     setAcceptDrops(false);
     initPage(type);
-    connect( this, SIGNAL( onItem( QIconViewItem * ) ),SLOT( showToolTip( QIconViewItem * ) ) );
+    connect( this, SIGNAL( onItem( Q3IconViewItem * ) ),SLOT( showToolTip( Q3IconViewItem * ) ) );
     connect( this, SIGNAL( onViewport() ),SLOT( removeToolTip() ) );
 }
 
@@ -103,7 +107,7 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 	}
 }
 
-void SymbolView::showToolTip( QIconViewItem *item )
+void SymbolView::showToolTip( Q3IconViewItem *item )
 {
 	removeToolTip(); 
  
@@ -136,7 +140,7 @@ void SymbolView::showToolTip( QIconViewItem *item )
 	
      m_toolTip = new QLabel(label, 0,"myToolTip",
 			  WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM );
-     m_toolTip->setFrameStyle( QFrame::Plain | QFrame::Box );
+     m_toolTip->setFrameStyle( Q3Frame::Plain | Q3Frame::Box );
      m_toolTip->setLineWidth( 1 );
      m_toolTip->setAlignment( AlignLeft | AlignTop );
      m_toolTip->move( QCursor::pos() + QPoint( 14, 14 ) );
@@ -226,14 +230,14 @@ void SymbolView::contentsMousePressEvent(QMouseEvent *e)
 	
 	QString code_symbol;
 	QStringList args, pkgs;
-	QIconViewItem *item = NULL;
+	Q3IconViewItem *item = NULL;
 	int count;
 	bool math=false, bracket=false;
 
 	if( (e->button() & Qt::LeftButton) == Qt::LeftButton && ( item = findItem( e->pos() ) ) )
 	{
-		bracket = (e->state() & Qt::ControlButton) ==  Qt::ControlButton;
-		math = (e->state() & Qt::ShiftButton) ==  Qt::ShiftButton;
+		bracket = (e->state() & Qt::ControlModifier) ==  Qt::ControlButton;
+		math = (e->state() & Qt::ShiftModifier) ==  Qt::ShiftButton;
 		
 		extract(item->key(),count,code_symbol,args,pkgs);
 
@@ -298,7 +302,7 @@ void SymbolView::fillWidget(const QString& prefix)
 
 void SymbolView::writeConfig()
 {
-	QIconViewItem *item;
+	Q3IconViewItem *item;
 	QStringList paths,refCnts;
 	
 
@@ -323,12 +327,12 @@ void SymbolView::writeConfig()
 	}
 }
 
-void SymbolView::slotAddToList(const QIconViewItem *item)
+void SymbolView::slotAddToList(const Q3IconViewItem *item)
 {
 	if( !item || !item->pixmap() )
 		return;
 		
-	QIconViewItem *tmpItem;
+	Q3IconViewItem *tmpItem;
 	bool found=false;
 	const QRegExp reCnt("^\\d+");
 			
@@ -346,7 +350,7 @@ void SymbolView::slotAddToList(const QIconViewItem *item)
 	if( !found && ( this->count() + 1 ) > KileConfig::numSymbolsMFUS() ) // we check before adding the symbol
 	{	
 		int refCnt, minRefCnt=10000;
-		QIconViewItem *unpopularItem = 0L;
+		Q3IconViewItem *unpopularItem = 0L;
 
 		KILE_DEBUG() << "Removing most unpopular item" << endl;
 

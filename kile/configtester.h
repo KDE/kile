@@ -17,6 +17,8 @@
 #define CONFIGCHECKER_H
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class KTempDir;
 class KConfig;
@@ -68,7 +70,7 @@ public:
 	~Tester();
 
 	QStringList testedTools();
-	QValueList<ConfigTest> resultForTool(const QString &);
+	Q3ValueList<ConfigTest> resultForTool(const QString &);
 	int statusForTool(const QString &);
 
 public slots:
@@ -86,10 +88,10 @@ private slots:
 	void processTestResults (KProcess *);
 	void processTool(KConfig *, const QString &);
 
-	void addResult(const QString &tool, const QValueList<ConfigTest> &tests);
+	void addResult(const QString &tool, const Q3ValueList<ConfigTest> &tests);
 
 private:
-	QMap<QString,QValueList<ConfigTest> >	m_results;
+	QMap<QString,Q3ValueList<ConfigTest> >	m_results;
 	QString								m_resultsFile;
 	KTempDir							*m_tempDir;
 	KProcess								*m_process;

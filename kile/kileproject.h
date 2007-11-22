@@ -16,7 +16,7 @@
 #define KILEPROJECT_H
 
 #include <qobject.h>
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qregexp.h>
 
 #include "kiledebug.h"
@@ -95,7 +95,7 @@ public:
 	KileProjectItem* firstChild() const { return m_child;}
 	KileProjectItem* sibling() const { return m_sibling; }
 
-	void allChildren(QPtrList<KileProjectItem> *) const;
+	void allChildren(Q3PtrList<KileProjectItem> *) const;
 
 	void print(int level);
 
@@ -126,7 +126,7 @@ private:
 	int			m_order;
 };
 
-class  KileProjectItemList : public QPtrList<KileProjectItem>
+class  KileProjectItemList : public Q3PtrList<KileProjectItem>
 {
 public:
 	KileProjectItemList() { setAutoDelete(true); }
@@ -181,7 +181,7 @@ public:
 	bool contains(const KURL&);
 	bool contains(const KileDocument::Info *info);
 	KileProjectItem *rootItem(KileProjectItem *) const;
-	const QPtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
+	const Q3PtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
 	bool isInvalid(){ return m_invalid;}
 	QString archiveFileList() const;
 
@@ -219,7 +219,7 @@ private:
 	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion;
 	KURL		m_projecturl, m_baseurl, m_lastDocument;
 	bool		m_invalid;
-	QPtrList<KileProjectItem> m_rootItems;
+	Q3PtrList<KileProjectItem> m_rootItems;
 	KileProjectItemList	m_projectitems;
 
 	QString		m_extensions[3];

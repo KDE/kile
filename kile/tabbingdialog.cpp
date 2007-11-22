@@ -19,6 +19,8 @@
 #include <qspinbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
 
 #include <klineedit.h>
 #include <kpushbutton.h>
@@ -32,7 +34,7 @@ namespace KileDialog
 		QWidget *page = new QWidget(this);
 		setMainWidget(page);
 
-		QGridLayout *gbox = new QGridLayout( page, 4, 2,5,5,"");
+		Q3GridLayout *gbox = new Q3GridLayout( page, 4, 2,5,5,"");
 		gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 		
 		QLabel *lb = new QLabel(page);

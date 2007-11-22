@@ -17,12 +17,14 @@
 #define KILETOOLCONFIGWIDGET_H
 
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3GridLayout>
 
 #include <keditlistbox.h>
 
 #include "kiletool.h"
 
-class QGridLayout;
+class Q3GridLayout;
 
 namespace KileTool { class Manager; }
 class ToolConfigWidget;
@@ -98,7 +100,7 @@ namespace KileWidget
 		KileTool::Manager	*m_manager;
 		KConfig			*m_config;
 		KileTool::Config	m_map;
-		QGridLayout		*m_layout;
+		Q3GridLayout		*m_layout;
 		QString			m_current, m_icon;
 		QStringList		m_classes;
 		QWidget			*m_tabGeneral, *m_tabAdvanced, *m_tabMenu;

@@ -22,7 +22,7 @@
 #include "docpart.h"
 #include "kileconfig.h"
 
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qregexp.h>
 #include <qfileinfo.h>
 
@@ -286,7 +286,7 @@
 			return false;
 		}
 
-		QWidgetStack *stack = tool()->manager()->widgetStack();
+		Q3WidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
 		m_part = (KParts::ReadOnlyPart *)factory->create(stack, m_libName, m_className, m_options);
@@ -342,7 +342,7 @@
 		emit(message(Info, msg));
 		emit(output(out));
 
-		QWidgetStack *stack = tool()->manager()->widgetStack();
+		Q3WidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
 		DocumentationViewer *htmlpart = new DocumentationViewer(stack,"help");

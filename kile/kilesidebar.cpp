@@ -17,8 +17,13 @@
 
 #include "kilesidebar.h"
 
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
+#include <Q3Frame>
 
 #include <kdeversion.h>
 #include "kiledebug.h"
@@ -27,7 +32,7 @@
 #include "symbolview.h"
 
 KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/) : 
-	QFrame(parent, name),
+	Q3Frame(parent, name),
 	m_nTabs(0),
 	m_nCurrent(0),
 	m_bMinimized(false),
@@ -40,20 +45,20 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
  
 	QLayout *layout;
 
-	m_tabStack = new QWidgetStack(this);
+	m_tabStack = new Q3WidgetStack(this);
 	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
 	KileMultiTabBar::KileMultiTabBarMode tabbarori = KileMultiTabBar::Horizontal;
 	KileMultiTabBar::KileMultiTabBarPosition tabbarpos = KileMultiTabBar::Top;
 	if ( orientation == Qt::Horizontal ) 
 	{
-		layout = new QVBoxLayout(this);
+		layout = new Q3VBoxLayout(this);
 		tabbarori = KileMultiTabBar::Horizontal;
 		tabbarpos = KileMultiTabBar::Top;
 	}
 	else if ( orientation == Qt::Vertical ) 
 	{
-		layout = new QHBoxLayout(this);
+		layout = new Q3HBoxLayout(this);
 		tabbarori = KileMultiTabBar::Vertical;
 		tabbarpos = KileMultiTabBar::Right;
 	}

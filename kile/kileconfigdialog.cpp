@@ -29,9 +29,11 @@
 
 #include "kileconfigdialog.h"
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qlayout.h>
 #include <qtextcodec.h>
+//Added by qt3to4:
+#include <Q3Frame>
 
 #include <kdeversion.h>
 #include <klocale.h>
@@ -141,7 +143,7 @@ namespace KileDialog
 		QStringList path;
 		path << sectionName << itemName;
 	
-		QVBox *vbox = addVBoxPage(path, header,
+		Q3VBox *vbox = addVBoxPage(path, header,
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
                 SmallIcon(pixmapName,KIcon::SizeSmallMedium)
 #else
@@ -153,7 +155,7 @@ namespace KileDialog
 		page->reparent(((QWidget*)vbox),0,QPoint());
 		if ( addSpacer )
 		{
-			QFrame *spacer = new QFrame(vbox);
+			Q3Frame *spacer = new Q3Frame(vbox);
 			vbox->setStretchFactor(spacer,1);
 		}
 
@@ -278,9 +280,9 @@ namespace KileDialog
 
 			// create a new vbox page and add the config page
 #if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-			QVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIcon::SizeSmallMedium) );
+			Q3VBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIcon::SizeSmallMedium) );
 #else
-			QVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i) );
+			Q3VBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i) );
 #endif
 			KTextEditor::ConfigPage *configPage = iface->configPage(i,page);
 			connect( configPage, SIGNAL(changed()), this, SLOT(slotChanged()) );

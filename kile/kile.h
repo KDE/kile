@@ -27,9 +27,14 @@
 #include <qsplitter.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qstring.h>
 #include <qtoolbox.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3PtrList>
+#include <QHideEvent>
+#include <QShowEvent>
 
 #include "kileappIface.h"
 #include "docpart.h"
@@ -54,7 +59,7 @@
 class QFileInfo;
 class QTimer;
 class QSignalMapper;
-class QIconViewItem;
+class Q3IconViewItem;
 
 class KToolBar;
 class KAction;
@@ -137,7 +142,7 @@ private:
 	void setupActions();
 	void setupTools();
 	void setupUserTagActions();
-	void cleanUpActionList(QPtrList<KAction> &, const QStringList & tools);
+	void cleanUpActionList(Q3PtrList<KAction> &, const QStringList & tools);
 
 	bool kateCompletionPlugin();
 	void checkKateSettings();
@@ -145,14 +150,14 @@ private:
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
-	void updateActionList(QPtrList<KAction> *list, bool state);
+	void updateActionList(Q3PtrList<KAction> *list, bool state);
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 	
 	KToolBar						*m_toolsToolBar;
 	KActionMenu 					*m_menuUserTags;
-	QValueList<KileAction::TagData>	m_listUserTags;
-	QValueList<userItem>			m_listUserTools;
-	QPtrList<KAction> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	Q3ValueList<KileAction::TagData>	m_listUserTags;
+	Q3ValueList<userItem>			m_listUserTools;
+	Q3PtrList<KAction> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KAction							*m_actionEditTag;
 	KActionSeparator			*m_actionEditSeparator;
 	KAction 						*m_paStop, *m_paPrint;
@@ -166,7 +171,7 @@ private:
 	//widgets
 	KileSideBar			*m_sideBar;
 	KileAbbrevView		*m_kileAbbrevView;
-	QWidgetStack 			*m_topWidgetStack;
+	Q3WidgetStack 			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 	QToolBox			*m_toolBox;
 	SymbolView			*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;

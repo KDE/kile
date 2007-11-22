@@ -110,7 +110,7 @@ SET(kile_SRCS
 	kilemultitabbar.cpp
 )
 
-KDE3_AUTOMOC(${kile_SRCS})
+# KDE3_AUTOMOC(${kile_SRCS})
 
 SET( kile_UI
 	helpconfigwidget.ui
@@ -131,21 +131,22 @@ SET( kile_UI
 	newdocumentwidget.ui
 )
 
-KDE3_ADD_UI_FILES(kile_SRCS ${kile_UI} )
+KDE4_ADD_UI_FILES(kile_SRCS ${kile_UI})
 
 SET( kile_DCOP_SKEL_SRCS
 	kileappIface.h
 )
 
-KDE3_ADD_DCOP_SKELS(kile_SRCS ${kile_DCOP_SKEL_SRCS})
+# FIXME: disabling this for now
+# KDE3_ADD_DCOP_SKELS(kile_SRCS ${kile_DCOP_SKEL_SRCS})
 
 SET( kile_KCFG_SRCS
 	kileconfig.kcfgc
 )
 
-KDE3_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
+KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 
-KDE3_ADD_EXECUTABLE(kile ${kile_SRCS})
+KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs kdeprint ktexteditor katepartinterfaces khtml )
 
@@ -158,4 +159,5 @@ INSTALL( FILES kile.desktop DESTINATION share/applications/kde )
 INSTALL( FILES kile.kcfg DESTINATION share/config.kcfg )
 INSTALL( FILES kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION share/apps/kile )
 
+# FIXME: disabling this for now
 KDE3_INSTALL_ICONS( hicolor )

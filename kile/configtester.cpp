@@ -16,6 +16,8 @@
 #include "configtester.h"
 
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <kio/netaccess.h>
 #include <klocale.h>
@@ -230,7 +232,7 @@ void Tester::processTool(KConfig *config, const QString &tool)
 	QStringList criticaltests = QStringList::split(",", config->readEntry("mustpass", ""));
 
 	//Did we find the executable?
-	QValueList<ConfigTest> tests;
+	Q3ValueList<ConfigTest> tests;
 	tests << ConfigTest("binary", criticaltests.contains("where"), config->readEntry("where"), config->readEntry("executable"));
 	if (config->hasKey("version") ) tests << ConfigTest("version", criticaltests.contains("version"), config->readEntry("version"));
 	if (config->hasKey("basic") ) tests << ConfigTest("basic", criticaltests.contains("basic"), config->readEntry("basic"));
@@ -240,7 +242,7 @@ void Tester::processTool(KConfig *config, const QString &tool)
 	addResult(tool, tests);
 }
 
-void Tester::addResult(const QString &tool, const QValueList<ConfigTest> &tests)
+void Tester::addResult(const QString &tool, const Q3ValueList<ConfigTest> &tests)
 {
 	m_results [tool] = tests;
 }
@@ -250,14 +252,14 @@ QStringList Tester::testedTools()
 	return m_results.keys();
 }
 
-QValueList<ConfigTest> Tester::resultForTool(const QString & tool)
+Q3ValueList<ConfigTest> Tester::resultForTool(const QString & tool)
 {
 	return m_results[tool];
 }
 
 int Tester::statusForTool(const QString & tool)
 {
-	QValueList<ConfigTest> tests = m_results[tool];
+	Q3ValueList<ConfigTest> tests = m_results[tool];
 	int status = ConfigTest::Success;
 	for ( uint i = 0; i < tests.count(); ++i)
 	{

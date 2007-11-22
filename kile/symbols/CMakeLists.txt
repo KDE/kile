@@ -33,12 +33,12 @@ ENDFOREACH( _dir )
 ########### next target ###############
 
 INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE3_INCLUDE_DIR} ${QT_INCLUDE_DIR}  )
-INCLUDE( FindKDE3 )
+# INCLUDE( FindKDE3 )
 SET(gesymb_SRCS
 	gesymb.cpp
 	gesymb.h
 )
-KDE3_AUTOMOC(${gesymb_SRCS})
+# KDE3_AUTOMOC(${gesymb_SRCS})
 ADD_EXECUTABLE(gesymb EXCLUDE_FROM_ALL ${gesymb_SRCS} )
 TARGET_LINK_LIBRARIES(gesymb ${QT_AND_KDECORE_LIBS} )
 

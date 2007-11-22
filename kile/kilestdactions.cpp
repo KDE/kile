@@ -26,6 +26,8 @@
 #include "kileactions.h"
 #include "kileedit.h"
 #include "kileinfo.h"
+//Added by qt3to4:
+#include <Q3PtrList>
 
 namespace KileStdActions
 {
@@ -103,7 +105,7 @@ void setupStdTags(KileInfo *ki, KMainWindow *parent)
 	(void) new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"),0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file"));
 
 	KileAction::Select *actionstructure_list = new KileAction::Select(i18n("Sectioning"), 0, parent->actionCollection(), "structure_list");
-	QPtrList<KAction> alist;
+	Q3PtrList<KAction> alist;
 	alist.append(new KileAction::InputTag(ki,"&part","part",0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_part", parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\part%A{%R}","\n", 0,1,i18n("\\part{title}\n\\part*{title} : do not include a number and do not make an entry in the table of contents\n"), i18n("&Part"),i18n("No &numbering")));
 	alist.append(new KileAction::InputTag(ki,"&chapter","chapter",0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_chapter" ,parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\chapter%A{%R}","\n", 0,1,i18n("\\chapter{title}\n\\chapter*{title} : do not include a number and do not make an entry in the table of contents\nOnly for 'report' and 'book' class document."), i18n("C&hapter"),i18n("No &numbering")));
 	alist.append(new KileAction::InputTag(ki,"&section","section",0 , parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"tag_section",parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\section%A{%R}","\n", 0,1,i18n("\\section{title}\n\\section*{title} : do not include a number and do not make an entry in the table of contents"), i18n("&Section"),i18n("No &numbering")));
@@ -275,7 +277,7 @@ void setupMathTags(KMainWindow *parent)
 		i18n("\\begin{array}{col1col2...coln}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\ \n...\n\\end{array}\nEach column, coln, is specified by a single letter that tells how items in that column should be formatted.\n"
 		"     c -- for centered \n     l -- for flush left \n     r -- for flush right\n"));
 
-	QPtrList<KAction> alist;
+	Q3PtrList<KAction> alist;
   	KileAction::Select *actionleft_list = new KileAction::Select(i18n("Left Delimiter"), 0, parent->actionCollection(), "left_list");
  	alist.clear();
   	alist.append(new KileAction::Tag("left (",0, parent, SLOT(insertTag(const KileAction::TagData&)), parent->actionCollection(),"","\\left( ",QString::null,7,0));

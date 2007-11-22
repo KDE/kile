@@ -67,6 +67,8 @@
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qdatetime.h>
+//Added by qt3to4:
+#include <Q3PtrList>
 
 #include <kio/netaccess.h>
 #include <kconfig.h>
@@ -363,25 +365,25 @@ QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 {
 	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====" << endl;
 	QFileInfo fileinfo ( url().path() );
-	QString basepath = fileinfo.dirPath(true), last = fileinfo.absFilePath();
+	QString basepath = fileinfo.absolutePath(), last = fileinfo.absoluteFilePath();
 	QDateTime time ( fileinfo.lastModified() );
 
 	if ( list == 0L ) list = &m_deps;
 
-	KILE_DEBUG() << "\t" << fileinfo.absFilePath() << " : " << time.toString() << endl;
+	KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << time.toString() << endl;
 	for ( uint i = 0; i < list->count(); ++i )
 	{
 		fileinfo.setFile( basepath + '/' + (*list)[i] );
-		KILE_DEBUG() << "\t" << fileinfo.absFilePath() << " : " << fileinfo.lastModified().toString() << endl;
+		KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << fileinfo.lastModified().toString() << endl;
 		if ( fileinfo.lastModified() >  time )
 		{
 			time = fileinfo.lastModified();
-			last = fileinfo.absFilePath();
+			last = fileinfo.absoluteFilePath();
 			KILE_DEBUG() << "\t\tlater" << endl;
 		}
 	}
 
-	KILE_DEBUG() << "\treturning " << fileinfo.absFilePath() << endl;
+	KILE_DEBUG() << "\treturning " << fileinfo.absoluteFilePath() << endl;
 	return last;
 }
 
@@ -623,7 +625,7 @@ void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &to
 		todo.type = ( reTodoComment.cap(1) == "TODO" ) ? KileStruct::ToDo : KileStruct::FixMe;
 		todo.colTag = reTodoComment.pos(1);
 		todo.colComment = reTodoComment.pos(3);
-		todo.comment = reTodoComment.cap(3).stripWhiteSpace();
+		todo.comment = reTodoComment.cap(3).trimmed();
 	}
 }
 
@@ -659,7 +661,7 @@ void TextInfo::installEventFilters()
 	{
 		return;
 	}
-	QPtrList<KTextEditor::View> views = m_doc->views();
+	Q3PtrList<KTextEditor::View> views = m_doc->views();
 	KTextEditor::View *view;
 	for(view = views.first(); view; view = views.next())
 	{
@@ -673,7 +675,7 @@ void TextInfo::removeInstalledEventFilters()
 	{
 		return;
 	}
-	QPtrList<KTextEditor::View> views = m_doc->views();
+	Q3PtrList<KTextEditor::View> views = m_doc->views();
 	KTextEditor::View *view;
 	for(view = views.first(); view; view = views.next())
 	{
@@ -950,8 +952,8 @@ void LaTeXInfo::updateStruct()
 					if ( reCommand.cap(1) != "\\frame" )
 					{
 						result = matchBracket(i, static_cast<uint&>(tagEnd));
-						m = result.value.stripWhiteSpace();
-						shorthand = result.option.stripWhiteSpace();
+						m = result.value.trimmed();
+						shorthand = result.option.trimmed();
 						if ( i >= tagLine ) //matching brackets spanned multiple lines
 							s = m_doc->textLine(i);
 						if ( result.line>0 || result.col>0 )
@@ -1000,7 +1002,7 @@ void LaTeXInfo::updateStruct()
 							{
 								tagEnd++;
 								result = matchBracket(i, static_cast<uint&>(tagEnd));
-								m = result.value.stripWhiteSpace();
+								m = result.value.trimmed();
 								if(m.isEmpty()) {
 									m = untitledBlockDisplayName;
 								}
@@ -1115,7 +1117,7 @@ void LaTeXInfo::updateStruct()
 						uint cumlen = 0;
 						for (uint p = 0; p < pckgs.count(); ++p)
 						{
-							QString package = pckgs[p].stripWhiteSpace();
+							QString package = pckgs[p].trimmed();
 							if ( ! package.isEmpty() ) {
 								m_packages.append(package);
 								// hidden, so emit is useless
@@ -1230,7 +1232,7 @@ void BibInfo::updateStruct()
 	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
 		s = m_doc->textLine(i);
-		if ( (s.find(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).lower()) )
+		if ( (s.find(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower()) )
 		{
 			KILE_DEBUG() << "found: " << reItem.cap(2) << endl;
 			//start looking for key
@@ -1264,10 +1266,10 @@ void BibInfo::updateStruct()
 				{
 					if ( s[col] == ',' )
 					{
-						key = key.stripWhiteSpace();
+						key = key.trimmed();
 						KILE_DEBUG() << "found: " << key << endl;
 						m_bibItems.append(key);
-						emit(foundItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).lower()) );
+						emit(foundItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).toLower()) );
 						break;
 					}
 					else

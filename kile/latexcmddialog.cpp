@@ -22,10 +22,14 @@
 #include "latexcmd.h"
 
 #include <qlayout.h>
-#include <qvgroupbox.h>
+#include <q3vgroupbox.h>
 #include <qvalidator.h>
 #include <qregexp.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -67,12 +71,12 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	setMainWidget(page);
 
 	// layout
-	QVBoxLayout *vbox = new QVBoxLayout(page, 6,6 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
 	QLabel *label1 = new QLabel(page);
 
-	QVGroupBox* group= new QVGroupBox(i18n("Attributes"),page );
+	Q3VGroupBox* group= new Q3VGroupBox(i18n("Attributes"),page );
 	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout(widget, 8,3, marginHint(),spacingHint());
+	Q3GridLayout *grid = new Q3GridLayout(widget, 8,3, marginHint(),spacingHint());
 
 	QLabel *label2 = new QLabel(i18n("Group:"), widget);
 	QLabel *label3 = new QLabel(i18n("&Name:"), widget);
@@ -90,12 +94,12 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	label3->setBuddy(m_edName);
 	label4->setBuddy(m_chStarred);
-	QWhatsThis::add(grouplabel,i18n("Name of the group, to which this environment or command belongs."));
+	Q3WhatsThis::add(grouplabel,i18n("Name of the group, to which this environment or command belongs."));
 	if ( m_addmode )
-		QWhatsThis::add(m_edName,i18n("Name of the new environment or command."));
+		Q3WhatsThis::add(m_edName,i18n("Name of the new environment or command."));
 	else
-		QWhatsThis::add(m_edName,i18n("Name of the environment or command to edit."));
-	QWhatsThis::add(m_chStarred,i18n("Does this environment or command also exist in a starred version?"));
+		Q3WhatsThis::add(m_edName,i18n("Name of the environment or command to edit."));
+	Q3WhatsThis::add(m_chStarred,i18n("Does this environment or command also exist in a starred version?"));
 
 	int currentRow = 3;
 	if ( m_useMathOrTab )
@@ -117,9 +121,9 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		label5->setBuddy(m_chEndofline);
 		label6->setBuddy(m_chMath);
 		label7->setBuddy(m_coTab);
-		QWhatsThis::add(m_chEndofline,i18n("Shall 'Smart New Line' insert \\\\?"));
-		QWhatsThis::add(m_chMath,i18n("Does this environment need math mode?"));
-		QWhatsThis::add(m_coTab,i18n("Define the standard tabulator of this environment."));
+		Q3WhatsThis::add(m_chEndofline,i18n("Shall 'Smart New Line' insert \\\\?"));
+		Q3WhatsThis::add(m_chMath,i18n("Does this environment need math mode?"));
+		Q3WhatsThis::add(m_coTab,i18n("Define the standard tabulator of this environment."));
 
 		m_coTab->insertItem(QString::null);
 		m_coTab->insertItem("&");
@@ -143,11 +147,11 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		{
 			m_coOption->insertItem("[tcb]");
 			m_coOption->insertItem("[lcr]");
-			QWhatsThis::add(m_coOption,i18n("Define an optional alignment parameter."));
+			Q3WhatsThis::add(m_coOption,i18n("Define an optional alignment parameter."));
 		}
 		else
 		{
-			QWhatsThis::add(m_coOption,i18n("Does this command need an optional parameter."));
+			Q3WhatsThis::add(m_coOption,i18n("Does this command need an optional parameter."));
 		}
 		m_coOption->insertItem("[ ]");
 
@@ -169,13 +173,13 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 			m_coParameter->insertItem("{n}");
 			m_coParameter->insertItem("{w}");
 			m_coParameter->insertItem("{ }");
-			QWhatsThis::add(m_coParameter,i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
+			Q3WhatsThis::add(m_coParameter,i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
 		}
 		else
 		{
 			m_coParameter->insertItem("{ }");
 			// m_coParameter->insertItem(QString::null);
-			QWhatsThis::add(m_coParameter,i18n("Does this command need an argument?"));
+			Q3WhatsThis::add(m_coParameter,i18n("Does this command need an argument?"));
 		}
 
 		currentRow++;
@@ -307,7 +311,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
 
-	QGridLayout *grid = new QGridLayout(page, 7,3, 6,spacingHint());
+	Q3GridLayout *grid = new Q3GridLayout(page, 7,3, 6,spacingHint());
 	QLabel *label = new QLabel(i18n("Define LaTeX Environments and Commands for Kile"), page);
 
 	// create TabWidget
@@ -326,9 +330,9 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvEnvironments->addColumn(i18n("Option"));
 	m_lvEnvironments->addColumn(i18n("Parameter"));
 	m_lvEnvironments->setAllColumnsShowFocus(true);
-	m_lvEnvironments->setSelectionMode(QListView::Single);
+	m_lvEnvironments->setSelectionMode(Q3ListView::Single);
 
-	QGridLayout *grid1 = new QGridLayout(page1, 1,1, 10,10);
+	Q3GridLayout *grid1 = new Q3GridLayout(page1, 1,1, 10,10);
 	grid1->addWidget(m_lvEnvironments,0,0);
 
 	for ( int col=1; col<=6; col++ )
@@ -343,9 +347,9 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvCommands->addColumn(i18n("Option"));
 	m_lvCommands->addColumn(i18n("Parameter"));
 	m_lvCommands->setAllColumnsShowFocus(true);
-	m_lvCommands->setSelectionMode(QListView::Single);
+	m_lvCommands->setSelectionMode(Q3ListView::Single);
 
-	QGridLayout *grid2 = new QGridLayout(page2, 1,1, 10,10);
+	Q3GridLayout *grid2 = new Q3GridLayout(page2, 1,1, 10,10);
 	grid2->addWidget(m_lvCommands,0,0);
 
 	for ( int col=1; col<=3; col++ )
@@ -377,10 +381,10 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	setButtonText(Help,"Default Settings");
 	slotEnableButtons();
 
-	QWhatsThis::add(m_lvEnvironments,i18n("List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments."));
-	QWhatsThis::add(m_btnAdd,i18n("Add a new environment."));
-	QWhatsThis::add(m_btnDelete,i18n("Delete an user defined environment."));
-	QWhatsThis::add(m_btnEdit,i18n("Edit an user defined environment."));
+	Q3WhatsThis::add(m_lvEnvironments,i18n("List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments."));
+	Q3WhatsThis::add(m_btnAdd,i18n("Add a new environment."));
+	Q3WhatsThis::add(m_btnDelete,i18n("Delete an user defined environment."));
+	Q3WhatsThis::add(m_btnEdit,i18n("Edit an user defined environment."));
 
    connect(m_tab,SIGNAL(currentChanged(QWidget*)),this,SLOT(slotPageChanged(QWidget*)));
 	connect(m_lvEnvironments, SIGNAL(selectionChanged()),this, SLOT(slotEnableButtons()));
@@ -565,9 +569,9 @@ bool LatexCommandsDialog::isUserDefined(const QString &name)
 
 bool LatexCommandsDialog::hasUserDefined(KListView *listview)
 {
-	for ( QListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() )
+	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() )
 	{
-		for ( QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling() )
+		for ( Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling() )
 		{
 			if ( isUserDefined(curchild->text(0)) )
 				return true;
@@ -810,7 +814,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 	attr.standard = false;
 
 	// scan the listview for non standard entries
-	for ( QListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() )
+	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() )
 	{
 		// get the type of the parent entry
 		attr.type = getCommandMode((KListViewItem *)cur);
@@ -821,7 +825,7 @@ void LatexCommandsDialog::writeConfig(KListView *listview, const QString &groupn
 		}
 
 		// look for children
-		for ( QListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling() )
+		for ( Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling() )
 		{
 			QString key = curchild->text(0);
 			if ( isUserDefined(key) )

@@ -51,8 +51,12 @@
 #include <qcheckbox.h>
 #include <qevent.h>
 #include <qregexp.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qcursor.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3GridLayout>
+#include <Q3VBoxLayout>
 
 #include <kcombobox.h>
 #include <kapplication.h>
@@ -83,14 +87,14 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	//setWFlags( Qt::WStyle_StaysOnTop );
 
 	// build dialog
-	QVBoxLayout *vbox = new QVBoxLayout( page,5,KDialog::spacingHint() );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout( page,5,KDialog::spacingHint() );
 
 	// project groupbox
-	QGroupBox *projectgroup = new QGroupBox( i18n("Project"),page); 
+	Q3GroupBox *projectgroup = new Q3GroupBox( i18n("Project"),page); 
 	projectgroup->setColumnLayout(0, Qt::Vertical );
 	projectgroup->layout()->setSpacing( 6 );
 	projectgroup->layout()->setMargin( 11 );
-	QGridLayout *projectgrouplayout = new QGridLayout( projectgroup->layout() );
+	Q3GridLayout *projectgrouplayout = new Q3GridLayout( projectgroup->layout() );
 	projectgrouplayout->setAlignment( Qt::AlignTop );
 
 	QLabel *project_label = new QLabel(i18n("Name:"), projectgroup);
@@ -110,11 +114,11 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	projectgrouplayout->setColStretch(1,1);
 
 	// search groupbox
-	QGroupBox *searchgroup = new QGroupBox( i18n("Search"),page); 
+	Q3GroupBox *searchgroup = new Q3GroupBox( i18n("Search"),page); 
 	searchgroup->setColumnLayout(0, Qt::Vertical );
 	searchgroup->layout()->setSpacing( 6 );
 	searchgroup->layout()->setMargin( 11 );
-	QGridLayout *searchgrouplayout = new QGridLayout( searchgroup->layout() );
+	Q3GridLayout *searchgrouplayout = new Q3GridLayout( searchgroup->layout() );
 	searchgrouplayout->setAlignment( Qt::AlignTop );
 
 	QLabel *pattern_label = new QLabel(i18n("Pattern:"), searchgroup);
@@ -122,7 +126,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		labelwidth = pattern_label->sizeHint().width();
 
 	pattern_combo = new KComboBox(true, searchgroup);
-	pattern_combo->setInsertionPolicy(KComboBox::NoInsertion);
+	pattern_combo->setInsertPolicy(KComboBox::NoInsert);
 	pattern_combo->setFocus();
 	pattern_combo->setMinimumSize(pattern_combo->sizeHint());
 	pattern_label->setBuddy(pattern_combo);
@@ -142,7 +146,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	                  << i18n("File")
 	                  ;
 
-	QBoxLayout *template_layout = new QHBoxLayout(4);
+	Q3BoxLayout *template_layout = new Q3HBoxLayout(4);
 	template_combo = new KComboBox(false, searchgroup);
 	template_combo->insertStringList(templatemode_list);
 	template_combo->adjustSize();
@@ -162,11 +166,11 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	searchgrouplayout->addLayout(template_layout, 1,1);
 
 	// filter groupbox
-	QGroupBox *filtergroup = new QGroupBox( i18n("Directory Options"),page); 
+	Q3GroupBox *filtergroup = new Q3GroupBox( i18n("Directory Options"),page); 
 	filtergroup->setColumnLayout(0, Qt::Vertical );
 	filtergroup->layout()->setSpacing( 6 );
 	filtergroup->layout()->setMargin( 11 );
-	QGridLayout *filtergrouplayout = new QGridLayout( filtergroup->layout() );
+	Q3GridLayout *filtergrouplayout = new Q3GridLayout( filtergroup->layout() );
 	filtergrouplayout->setAlignment( Qt::AlignTop );
 
 	QLabel *files_label = new QLabel(i18n("Filter:"), filtergroup);
@@ -181,7 +185,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	if ( dir_label->sizeHint().width() > labelwidth )
 		labelwidth = dir_label->sizeHint().width();
 
-	QBoxLayout *dir_layout = new QHBoxLayout(3);
+	Q3BoxLayout *dir_layout = new Q3HBoxLayout(3);
 	dir_combo = new KURLRequester( new KComboBox(true, filtergroup), filtergroup, "dir combo" );
 	dir_combo->completionObject()->setMode(KURLCompletion::DirCompletion);
 	dir_combo->setMode(KFile::Directory|KFile::LocalOnly|KFile::ExistingOnly);
@@ -246,7 +250,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	// Anyone an idea?
 	KAcceleratorManager::manage( this );
 
-	QWhatsThis::add(pattern_combo,
+	Q3WhatsThis::add(pattern_combo,
 		i18n("Enter the regular expression you want to search for here.<br>"
 		 "Possible meta characters are:<br>"
 		 "<ul>"
@@ -270,10 +274,10 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		 "Furthermore, backreferences to bracketed subexpressions are "
 		 "available via the notation \\\\<i>n</i>."
 		 ));
-	QWhatsThis::add(filter_combo,
+	Q3WhatsThis::add(filter_combo,
 		i18n("Enter the file name pattern of the files to search here. "
 		 "You may give several patterns separated by commas."));
-	QWhatsThis::add(template_combo,
+	Q3WhatsThis::add(template_combo,
 		i18n("Choose one search mode. For the first modes, the search pattern is "
 		 "build from the editable template, where '%s' is replaced by the given pattern.<br><br>"
 		 "There are additional fixed predefined modes for environments, graphics, labels, references "
@@ -281,16 +285,16 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		 "If a pattern is given, it will be inserted as a parameter. F.e., in environment mode with "
 		 "pattern 'center', Kile will search for '\\begin{center}' and in graphics mode with "
 		 "pattern '.*\\.png', Kile will search for all png files."));
-	QWhatsThis::add(template_edit,
+	Q3WhatsThis::add(template_edit,
 		i18n("For the first three modes you can choose a template for the pattern from the combo box "
 		 "and edit it here. The string %s in the template is replaced "
 		 "by the pattern input field, resulting in the regular expression "
 		 "to search for. In all other modes this template is ignored."));
-	QWhatsThis::add(dir_combo,
+	Q3WhatsThis::add(dir_combo,
 		i18n("Enter the directory which contains the files you want to search in."));
-	QWhatsThis::add(recursive_box,
+	Q3WhatsThis::add(recursive_box,
 		i18n("Check this box to search in all subdirectories."));
-	QWhatsThis::add(resultbox,
+	Q3WhatsThis::add(resultbox,
 		i18n("The results of the grep run are listed here. Select a "
 		 "filename/line number combination with a mouse click on the item "
 		 "or with the cursor to show the respective line in the editor."));
@@ -384,7 +388,7 @@ void KileGrepDialog::writeConfig()
 
 void KileGrepDialog::setupDirectory()
 {
-	setDirName( QDir::home().absPath() );
+	setDirName( QDir::home().absolutePath() );
 
 	// use a filter for 'find in files' dialog
 	KileDocument::Extensions *extensions = m_ki->extensions();

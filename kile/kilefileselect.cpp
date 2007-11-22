@@ -23,8 +23,11 @@ from Kate (C) 2001 by Matt Newell
 
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qstrlist.h>
+#include <q3strlist.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <QFocusEvent>
 
 #include <ktoolbar.h>
 #include <kiconloader.h>
@@ -40,7 +43,7 @@ from Kate (C) 2001 by Matt Newell
 
 KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *parent, const char *name ) : QWidget(parent,name)
 {
-  QVBoxLayout* lo = new QVBoxLayout(this);
+  Q3VBoxLayout* lo = new Q3VBoxLayout(this);
 
   KToolBar *toolbar = new KToolBar(this, "fileselectortoolbar");
   lo->addWidget(toolbar);
@@ -155,7 +158,7 @@ void KileFileSelect::clickedToolbar(int i)
 {
 	if (i == 0)
 	{
-		QPtrListIterator<KFileItem> it(*dir->selectedItems());
+		Q3PtrListIterator<KFileItem> it(*dir->selectedItems());
 		while (  it.current() != 0 )
 		{
 			emit(fileSelected(*it));

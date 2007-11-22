@@ -26,10 +26,16 @@
 
 #ifndef KILE_MULTI_TAB_BAR_P_H
 #define KILE_MULTI_TAB_BAR_P_H
-#include <qscrollview.h>
+#include <q3scrollview.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QEvent>
+#include <Q3PtrList>
+#include <QPixmap>
 #include <kmultitabbar.h>
 
-class KileMultiTabBarInternal: public QScrollView
+class KileMultiTabBarInternal: public Q3ScrollView
 {
         Q_OBJECT
 public:
@@ -40,12 +46,12 @@ public:
         void setPosition(enum KileMultiTabBar::KileMultiTabBarPosition pos);
         void setStyle(enum KileMultiTabBar::KileMultiTabBarStyle style);
         void showActiveTabTexts(bool show);
-        QPtrList<KileMultiTabBarTab>* tabs(){return &m_tabs;}
+        Q3PtrList<KileMultiTabBarTab>* tabs(){return &m_tabs;}
 private:
         friend class KileMultiTabBar;
         QWidget *box;
-	QBoxLayout *mainLayout;
-        QPtrList<KileMultiTabBarTab> m_tabs;
+	Q3BoxLayout *mainLayout;
+        Q3PtrList<KileMultiTabBarTab> m_tabs;
         enum KileMultiTabBar::KileMultiTabBarPosition m_position;
         bool m_showActiveTabTexts;
         enum  KileMultiTabBar::KileMultiTabBarStyle m_style;

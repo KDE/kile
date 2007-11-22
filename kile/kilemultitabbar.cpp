@@ -31,13 +31,25 @@
 #include "kilemultitabbar.moc"
 #include "kilemultitabbar_p.moc"
 #include <qbutton.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qtooltip.h>
 #include <qfontmetrics.h>
 #include <qregexp.h>
 #include <qstyle.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3ValueList>
+#include <Q3PtrList>
+#include <QPixmap>
+#include <Q3Frame>
+#include <QHideEvent>
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QEvent>
+#include <Q3VBoxLayout>
+#include <QShowEvent>
 
 #include <kiconloader.h>
 #include "kiledebug.h"
@@ -52,7 +64,7 @@ public:
 };
 
 
-KileMultiTabBarInternal::KileMultiTabBarInternal(QWidget *parent, KileMultiTabBar::KileMultiTabBarMode bm):QScrollView(parent)
+KileMultiTabBarInternal::KileMultiTabBarInternal(QWidget *parent, KileMultiTabBar::KileMultiTabBarMode bm):Q3ScrollView(parent)
 {
 	m_expandedTabSize=-1;
 	m_showActiveTabTexts=false;
@@ -63,7 +75,7 @@ KileMultiTabBarInternal::KileMultiTabBarInternal(QWidget *parent, KileMultiTabBa
 	if (bm==KileMultiTabBar::Vertical)
 	{
 		box=new QWidget(viewport());
-		mainLayout=new QVBoxLayout(box);
+		mainLayout=new Q3VBoxLayout(box);
 		mainLayout->setAutoAdd(true);
 		box->setFixedWidth(24);
 		setFixedWidth(24);
@@ -71,7 +83,7 @@ KileMultiTabBarInternal::KileMultiTabBarInternal(QWidget *parent, KileMultiTabBa
 	else
 	{
 		box=new QWidget(viewport());
-		mainLayout=new QHBoxLayout(box);
+		mainLayout=new Q3HBoxLayout(box);
 		mainLayout->setAutoAdd(true);
 		box->setFixedHeight(24);
 		setFixedHeight(24);
@@ -98,14 +110,14 @@ void KileMultiTabBarInternal::setStyle(enum KileMultiTabBar::KileMultiTabBarStyl
 		if (m_barMode==KileMultiTabBar::Vertical)
 		{
 			box=new QWidget(viewport());
-			mainLayout=new QVBoxLayout(box);
+			mainLayout=new Q3VBoxLayout(box);
 			box->setFixedWidth(24);
 			setFixedWidth(24);
 		}
 		else
 		{
 			box=new QWidget(viewport());
-			mainLayout=new QHBoxLayout(box);
+			mainLayout=new Q3HBoxLayout(box);
 			box->setFixedHeight(24);
 			setFixedHeight(24);
 		}
@@ -120,7 +132,7 @@ void KileMultiTabBarInternal::setStyle(enum KileMultiTabBar::KileMultiTabBarStyl
 
 void KileMultiTabBarInternal::drawContents ( QPainter * paint, int clipx, int clipy, int clipw, int cliph )
 {
-	QScrollView::drawContents (paint , clipx, clipy, clipw, cliph );
+	Q3ScrollView::drawContents (paint , clipx, clipy, clipw, cliph );
 
 	if (m_position==KileMultiTabBar::Right)
 	{
@@ -195,8 +207,8 @@ void KileMultiTabBarInternal::resizeEvent(QResizeEvent *ev) {
 /*	KILE_DEBUG()<<"KileMultiTabBarInternal::resizeEvent"<<endl;
 	KILE_DEBUG()<<"KileMultiTabBarInternal::resizeEvent - box geometry"<<box->geometry()<<endl;
 	KILE_DEBUG()<<"KileMultiTabBarInternal::resizeEvent - geometry"<<geometry()<<endl;*/
-	if (ev) QScrollView::resizeEvent(ev);
-	QValueList<KileMultiTabBarTab*> visibleTabList;
+	if (ev) Q3ScrollView::resizeEvent(ev);
+	Q3ValueList<KileMultiTabBarTab*> visibleTabList;
 	for(KileMultiTabBarTab *tab = m_tabs.first(); tab; tab = m_tabs.next()) {
 		if(tab->isVisible()) {
 			visibleTabList.push_back(tab);
@@ -323,7 +335,7 @@ void KileMultiTabBarInternal::resizeEvent(QResizeEvent *ev) {
 	} else {
 
 		int size=0; /*move the calculation into another function and call it only on add tab and tab click events*/
-		for (QValueList<KileMultiTabBarTab*>::iterator i = visibleTabList.begin(); i != visibleTabList.end(); ++i) {
+		for (Q3ValueList<KileMultiTabBarTab*>::iterator i = visibleTabList.begin(); i != visibleTabList.end(); ++i) {
 			size += (m_barMode == KileMultiTabBar::Vertical ? (*i)->height() : (*i)->width());
 		}
 		if ((m_position==KileMultiTabBar::Bottom) || (m_position==KileMultiTabBar::Top))
@@ -342,7 +354,7 @@ void KileMultiTabBarInternal::showActiveTabTexts(bool show)
 
 KileMultiTabBarTab* KileMultiTabBarInternal::tab(int id) const
 {
-	for (QPtrListIterator<KileMultiTabBarTab> it(m_tabs);it.current();++it){
+	for (Q3PtrListIterator<KileMultiTabBarTab> it(m_tabs);it.current();++it){
 		if (it.current()->id()==id) return it.current();
 	}
         return 0;
@@ -395,9 +407,9 @@ void KileMultiTabBarInternal::setPosition(enum KileMultiTabBar::KileMultiTabBarP
 	viewport()->repaint();
 }
 
-KileMultiTabBarButton::KileMultiTabBarButton(const QPixmap& pic,const QString& text, QPopupMenu *popup,
+KileMultiTabBarButton::KileMultiTabBarButton(const QPixmap& pic,const QString& text, Q3PopupMenu *popup,
 		int id,QWidget *parent,KileMultiTabBar::KileMultiTabBarPosition pos,KileMultiTabBar::KileMultiTabBarStyle style)
-	:QPushButton(QIconSet(),text,parent),m_style(style)
+	:QPushButton(QIcon(),text,parent),m_style(style)
 {
 	setIconSet(pic);
 	setText(text);
@@ -411,9 +423,9 @@ KileMultiTabBarButton::KileMultiTabBarButton(const QPixmap& pic,const QString& t
 	connect(this,SIGNAL(clicked()),this,SLOT(slotClicked()));
 }
 
-KileMultiTabBarButton::KileMultiTabBarButton(const QString& text, QPopupMenu *popup,
+KileMultiTabBarButton::KileMultiTabBarButton(const QString& text, Q3PopupMenu *popup,
 		int id,QWidget *parent,KileMultiTabBar::KileMultiTabBarPosition pos,KileMultiTabBar::KileMultiTabBarStyle style)
-	:QPushButton(QIconSet(),text,parent),m_style(style)
+	:QPushButton(QIcon(),text,parent),m_style(style)
 {
 	setText(text);
 	m_position=pos;
@@ -484,10 +496,10 @@ QSize KileMultiTabBarButton::sizeHint() const
     // calculate contents size...
 #ifndef QT_NO_ICONSET
     if ( iconSet() && !iconSet()->isNull() ) {
-        int iw = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal ).width() + 4;
-        int ih = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal ).height();
+        int iw = iconSet()->pixmap( QIcon::Small, QIcon::Normal ).width() + 4;
+        int ih = iconSet()->pixmap( QIcon::Small, QIcon::Normal ).height();
         w += iw;
-        h = QMAX( h, ih );
+        h = qMax( h, ih );
     }
 #endif
     if ( isMenuButton() )
@@ -507,7 +519,7 @@ QSize KileMultiTabBarButton::sizeHint() const
         if(!empty || !w)
             w += sz.width();
         if(!empty || !h)
-            h = QMAX(h, sz.height());
+            h = qMax(h, sz.height());
     }
 
     return (style().sizeFromContents(QStyle::CT_ToolButton, this, QSize(w, h)).
@@ -536,9 +548,9 @@ void KileMultiTabBarTab::setTabsPosition(KileMultiTabBar::KileMultiTabBarPositio
 {
 	if ((pos!=m_position) && ((pos==KileMultiTabBar::Left) || (pos==KileMultiTabBar::Right))) {
 		if (!d->pix.isNull()) {
-			QWMatrix temp;// (1.0F, 0.0F, 0.0F, -1.0F, 0.0F, 0.0F);
+			QMatrix temp;// (1.0F, 0.0F, 0.0F, -1.0F, 0.0F, 0.0F);
 			temp.rotate(180);
-			d->pix=d->pix.xForm(temp);
+			d->pix=d->pix.transformed(temp);
 			setIconSet(d->pix);
 		}
 	}
@@ -558,12 +570,12 @@ void KileMultiTabBarTab::setIcon(const QPixmap& icon)
 
 	if (m_style!=KileMultiTabBar::KDEV3) {
 		if ((m_position==KileMultiTabBar::Left) || (m_position==KileMultiTabBar::Right)) {
-		        QWMatrix rotateMatrix;
+		        QMatrix rotateMatrix;
 			if (m_position==KileMultiTabBar::Left)
 		        	rotateMatrix.rotate(90);
 			else
 				rotateMatrix.rotate(-90);
-			QPixmap pic=icon.xForm(rotateMatrix); //TODO FIX THIS, THIS SHOWS WINDOW
+			QPixmap pic=icon.transformed(rotateMatrix); //TODO FIX THIS, THIS SHOWS WINDOW
 			d->pix=pic;
 		        setIconSet(pic);
 		} else setIconSet(icon);
@@ -699,7 +711,7 @@ void KileMultiTabBarTab::drawButtonClassic(QPainter *paint)
 {
         QPixmap pixmap;
 	if ( iconSet())
-        	pixmap = iconSet()->pixmap( QIconSet::Small, QIconSet::Normal );
+        	pixmap = iconSet()->pixmap( QIcon::Small, QIcon::Normal );
 	paint->fillRect(0, 0, 24, 24, colorGroup().background());
 
 	if (!isOn())
@@ -859,13 +871,13 @@ KileMultiTabBar::KileMultiTabBar(KileMultiTabBarMode bm, QWidget *parent,const c
 	m_buttons.setAutoDelete(false);
 	if (bm==Vertical)
 	{
-		m_l=new QVBoxLayout(this);
+		m_l=new Q3VBoxLayout(this);
 		setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding, true);
 //		setFixedWidth(24);
 	}
 	else
 	{
-		m_l=new QHBoxLayout(this);
+		m_l=new Q3HBoxLayout(this);
 		setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed, true);
 //		setFixedHeight(24);
 	}
@@ -878,9 +890,9 @@ KileMultiTabBar::KileMultiTabBar(KileMultiTabBarMode bm, QWidget *parent,const c
 	//	setStyle(KDEV3);
 	//setStyle(KONQSBC);
 	m_l->insertWidget(0,m_internal);
-	m_l->insertWidget(0,m_btnTabSep=new QFrame(this));
+	m_l->insertWidget(0,m_btnTabSep=new Q3Frame(this));
 	m_btnTabSep->setFixedHeight(4);
-	m_btnTabSep->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	m_btnTabSep->setFrameStyle(Q3Frame::Panel | Q3Frame::Sunken);
 	m_btnTabSep->setLineWidth(2);
 	m_btnTabSep->hide();
 
@@ -896,7 +908,7 @@ KileMultiTabBar::~KileMultiTabBar() {
   return 0;
 }*/
 
-int KileMultiTabBar::appendButton(const QPixmap &pic ,int id,QPopupMenu *popup,const QString&)
+int KileMultiTabBar::appendButton(const QPixmap &pic ,int id,Q3PopupMenu *popup,const QString&)
 {
 	KileMultiTabBarButton  *btn;
 	m_buttons.append(btn= new KileMultiTabBarButton(pic,QString::null,
@@ -909,7 +921,7 @@ int KileMultiTabBar::appendButton(const QPixmap &pic ,int id,QPopupMenu *popup,c
 
 void KileMultiTabBar::updateSeparator() {
 	bool hideSep=true;
-	for (QPtrListIterator<KileMultiTabBarButton> it(m_buttons);it.current();++it){
+	for (Q3PtrListIterator<KileMultiTabBarButton> it(m_buttons);it.current();++it){
 		if (it.current()->isVisibleTo(this)) {
 			hideSep=false;
 			break;
@@ -928,7 +940,7 @@ int KileMultiTabBar::appendTab(const QPixmap &pic ,int id ,const QString& text)
 
 KileMultiTabBarButton* KileMultiTabBar::button(int id) const
 {
-	for (QPtrListIterator<KileMultiTabBarButton> it(m_buttons);it.current();++it){
+	for (Q3PtrListIterator<KileMultiTabBarButton> it(m_buttons);it.current();++it){
 		if (it.current()->id()==id) return it.current();
 	}
         return 0;
@@ -1014,6 +1026,6 @@ void KileMultiTabBar::fontChange(const QFont& /* oldFont */)
 	repaint();
 }
 
-QPtrList<KileMultiTabBarTab>* KileMultiTabBar::tabs() {return m_internal->tabs();}
-QPtrList<KileMultiTabBarButton>* KileMultiTabBar::buttons() {return &m_buttons;}
+Q3PtrList<KileMultiTabBarTab>* KileMultiTabBar::tabs() {return m_internal->tabs();}
+Q3PtrList<KileMultiTabBarButton>* KileMultiTabBar::buttons() {return &m_buttons;}
 

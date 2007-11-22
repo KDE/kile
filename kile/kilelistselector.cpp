@@ -20,7 +20,10 @@
 #include <qstringlist.h>
 #include <qlabel.h>
 #include <qlayout.h>
-#include <qheader.h>
+#include <q3header.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3PtrList>
 
 #include <kapplication.h>
 #include "kiledebug.h"
@@ -31,7 +34,7 @@
 KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) :
 	KDialogBase( KDialogBase::Plain, caption, Ok|Cancel,Ok, parent, name, true, true )
 {
-	QVBoxLayout *layout = new QVBoxLayout(plainPage());
+	Q3VBoxLayout *layout = new Q3VBoxLayout(plainPage());
 
 	layout->addWidget(new QLabel(select, plainPage()));
 	layout->addSpacing(8);
@@ -60,12 +63,12 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 	m_listview->setMinimumSize(w,h);
 
 	resize(sizeHint().width(),sizeHint().height()+4);
-	connect(m_listview, SIGNAL(doubleClicked(QListViewItem*,const QPoint &,int)), this, SLOT(accept()));
+	connect(m_listview, SIGNAL(doubleClicked(Q3ListViewItem*,const QPoint &,int)), this, SLOT(accept()));
 }
 
 int KileListSelectorBase::currentItem()
 {
-	QListViewItem *item = m_listview->currentItem();
+	Q3ListViewItem *item = m_listview->currentItem();
 	return ( item ) ? m_listview->itemIndex(item) : -1; 
 }
 
@@ -84,7 +87,7 @@ void KileListSelectorBase::insertStringList(const QStringList &list)
 
 KileListSelector::KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list,caption,select,parent,name)
 {
-	m_listview->setSelectionMode(QListView::Single);
+	m_listview->setSelectionMode(Q3ListView::Single);
 
 	if ( list.count() > 0 )
 		m_listview->setSelected(m_listview->firstChild(),true);
@@ -94,15 +97,15 @@ KileListSelector::KileListSelector(const QStringList &list, const QString &capti
 
 KileListSelectorMultiple::KileListSelectorMultiple(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list,caption,select,parent,name)
 {
-	m_listview->setSelectionMode(QListView::Extended);     // default: Single
+	m_listview->setSelectionMode(Q3ListView::Extended);     // default: Single
 }
 
 const QStringList& KileListSelectorMultiple::selected()
 {
 	m_selectedfiles.clear();
 
-	QPtrList<QListViewItem> list = m_listview->selectedItems();
-	QPtrListIterator<QListViewItem> it(list);
+	Q3PtrList<Q3ListViewItem> list = m_listview->selectedItems();
+	Q3PtrListIterator<Q3ListViewItem> it(list);
 	while ( it.current() )
 	{
 		m_selectedfiles.append((*it)->text(0));

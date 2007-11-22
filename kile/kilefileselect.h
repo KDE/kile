@@ -21,6 +21,8 @@ from Kate (C) 2001 by Matt Newell
 
 #include <qwidget.h>
 #include <qtoolbutton.h>
+//Added by qt3to4:
+#include <QFocusEvent>
 #include <kfile.h>
 #include <kdiroperator.h>
 #include <kurlcombobox.h>

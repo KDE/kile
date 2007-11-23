@@ -155,9 +155,10 @@ INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-INSTALL( FILES kile.desktop DESTINATION share/applications/kde )
-INSTALL( FILES kile.kcfg DESTINATION share/config.kcfg )
-INSTALL( FILES kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION share/apps/kile )
+INSTALL( FILES kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
+INSTALL( FILES kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION
+${DATA_INSTALL_DIR}/kile )
 
 # FIXME: disabling this for now
 kde4_install_icons( ${ICON_INSTALL_DIR}  )

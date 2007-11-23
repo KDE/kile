@@ -1,4 +1,4 @@
 
 ########### install files ###############
 
-INSTALL( FILES example.cwl DESTINATION share/apps/kile/complete/abbreviation )
+INSTALL( FILES example.cwl DESTINATION ${DATA_INSTALL_DIR}/kile/complete/abbreviation )

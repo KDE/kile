@@ -91,4 +91,4 @@ SET(kile_texCompleteFiles
 	xtab.cwl
 )
 
-INSTALL( FILES ${kile_texCompleteFiles} DESTINATION share/apps/kile/complete/tex )
+INSTALL( FILES ${kile_texCompleteFiles} DESTINATION ${DATA_INSTALL_DIR}/kile/complete/tex )

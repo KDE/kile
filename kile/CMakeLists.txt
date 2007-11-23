@@ -150,7 +150,7 @@ KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs kdeprint ktexteditor katepartinterfaces khtml )
 
-INSTALL( TARGETS kile DESTINATION bin )
+INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### install files ###############
@@ -160,4 +160,4 @@ INSTALL( FILES kile.kcfg DESTINATION share/config.kcfg )
 INSTALL( FILES kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION share/apps/kile )
 
 # FIXME: disabling this for now
-KDE3_INSTALL_ICONS( hicolor )
+kde4_install_icons( ${ICON_INSTALL_DIR}  )

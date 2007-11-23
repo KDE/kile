@@ -16,9 +16,11 @@
 #include "gesymb.h"
 
 using std::cout;
+using std::endl;
 
 int main( int argc, char ** argv )
 {
+
 int latexret=-1;
 int dvipngret=-1;
 QString texcommand, texfile,type,dvipngcommand,line;
@@ -34,17 +36,17 @@ texfile=argv[2];
 type=argv[1];
 
 QFile f( texfile );
-if ( !f.open( IO_ReadOnly ) )
+if ( !f.open( QIODevice::ReadOnly ) )
 {
-	cout << "File " << texfile.toLatin1() << " is not readable\n";
+	cout << "File " << qPrintable(texfile) << " is not readable" << endl;
 	return 1;
 }
 
 texcommand="latex " + texfile;
 dvipngcommand="dvipng  --picky -bg Transparent -x 518 -O -1.2in,-1.2in -T bbox -D 300 -o img%03d" + type + ".png " + texfile.left(texfile.length()-4);
 
-cout << texcommand.toLatin1() << "\n";
-cout << dvipngcommand.toLatin1() << "\n";
+cout << qPrintable(texcommand) << endl;
+cout << qPrintable(dvipngcommand) << endl;
 
 latexret = system(texcommand.toLatin1());
 dvipngret= system(dvipngcommand.toLatin1());
@@ -85,7 +87,7 @@ while( (line = t.readLine()) != 0L)
 		pkgsarg="";
 	}
 
-	if ( line.find(beginenvpkgs) != -1)
+	if ( line.indexOf(beginenvpkgs) != -1)
 	{
 		env=true;
 		pkgs=beginenvpkgs.cap(2);
@@ -93,12 +95,12 @@ while( (line = t.readLine()) != 0L)
 		savepkgs=pkgs;
 		savepkgsarg=pkgsarg;
 	}
-	else if( line.find(cmdpkgs) != -1)
+	else if( line.indexOf(cmdpkgs) != -1)
 	{
 		pkgs=cmdpkgs.cap(2);
 		pkgsarg=cmdpkgs.cap(1);
 	}
-	else if( line.find(endenvpkgs) != -1)
+	else if( line.indexOf(endenvpkgs) != -1)
 	{
 		env=false;
 		savepkgs="";
@@ -107,12 +109,12 @@ while( (line = t.readLine()) != 0L)
 		pkgsarg="";
 	}
 
-	cout << "line is " << line.toLatin1();
-	cout << "; pkgs=" << pkgs.toLatin1() << " ,pkgsarg=" << pkgsarg.toLatin1() << " ,savepkgs=" << savepkgs.toLatin1() << " ,savepkgsarg=" << savepkgsarg.toLatin1() << "\n";
+	cout << "line is " << qPrintable(line);
+	cout << "; pkgs=" << qPrintable(pkgs) << " ,pkgsarg=" << qPrintable(pkgsarg) << " ,savepkgs=" << qPrintable(savepkgs) << " ,savepkgsarg=" << qPrintable(savepkgsarg) << endl;
 
-	if ( line.find(optarg) != -1)
+	if ( line.indexOf(optarg) != -1)
 		writeComment(optarg.cap(1),pkgs,pkgsarg,type,number++);
-	else if(line.find(arg) != -1)
+	else if(line.indexOf(arg) != -1)
 		writeComment(arg.cap(1),pkgs,pkgsarg,type,number++);
 }
 
@@ -132,9 +134,11 @@ void writeComment(QString cmd, QString pkgs, QString pkgsarg, QString type, int 
 
 QImage image;
 QString fname;
-fname.sprintf("img%03d%s.png",number,type.toLatin1());
+fname.sprintf("img%03d",number);
+fname.append(type);
+fname.append(".png");
 
-cout << "fname is " << fname.toLatin1() << "\n";
+cout << "fname is " << qPrintable(fname) << endl;
 
 if(image.load(fname))
 {
@@ -143,28 +147,32 @@ if(image.load(fname))
 	
 	if(!image.save(fname,"PNG"))
 	{
-		cout << "Image " << fname.toLatin1() << " could not be saved\n";
+		cout << "Image " << qPrintable(fname) << " could not be saved" << endl;
 		exit(1);
 	}
 	readComment(fname);
 }
 else
-	cout << "===writeComment=== ERROR " << fname.toLatin1() << " could not be loaded\n";
+	cout << "===writeComment=== ERROR " << qPrintable(fname) << " could not be loaded" << endl;
 
 }
 
 void readComment(QString fname)
 {
 QImage image;
+QString output;
 
 if(image.load(fname))
 {
-	cout << "image " << fname.toLatin1()  << " has Command comment_" <<  image.text("Command").toLatin1() << "_\n";
-	cout << "image " << fname.toLatin1()  << " has Packages comment_" <<  image.text("Packages").toLatin1() << "_\n";
+	output = QString("image %1 has Command comment_%2_").arg(fname).arg(image.text("Command"));
+	cout << qPrintable(output) << endl;
+
+	output = QString("image %1 has Package comment_%2_").arg(fname).arg(image.text("Packages"));
+	cout << qPrintable(output) << endl;
 	
 }
 else
-	cout << "===readComment=== ERROR " << fname.toLatin1() << " could not be loaded\n";
+	cout << "===readComment=== ERROR " << qPrintable(fname) << " could not be loaded" << endl;
 }
 
 

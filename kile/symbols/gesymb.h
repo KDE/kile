@@ -14,10 +14,12 @@
  ***************************************************************************/
 
 
-#include <qimage.h>
-#include <qstring.h>
-#include <qregexp.h>
-#include <qfile.h>
+#include <QImage>
+#include <QString>
+#include <QRegExp>
+#include <QFile>
+#include <QTextStream>
+
 #include <stdlib.h>
 #include <iostream>
 

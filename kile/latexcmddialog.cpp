@@ -22,14 +22,11 @@
 #include "latexcmd.h"
 
 #include <qlayout.h>
-#include <q3vgroupbox.h>
 #include <qvalidator.h>
 #include <qregexp.h>
 #include <q3whatsthis.h>
-//Added by qt3to4:
 #include <QLabel>
-#include <Q3GridLayout>
-#include <Q3VBoxLayout>
+#include <QGroupBox>
 
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -76,12 +73,15 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	setMainWidget(page);
 
 	// layout
-	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
+	QVBoxLayout *vbox = new QVBoxLayout(page);
 	QLabel *label1 = new QLabel(page);
 
-	Q3VGroupBox* group= new Q3VGroupBox(i18n("Attributes"),page );
+	QGroupBox* group = new QGroupBox(i18n("Attributes"), page);
 	QWidget *widget = new QWidget(group);
-	Q3GridLayout *grid = new Q3GridLayout(widget, 8,3, marginHint(),spacingHint());
+	QGridLayout *grid = new QGridLayout(widget);
+//FIXME: dropped the marginHint parameter
+// marginHint()
+	grid->setSpacing(spacingHint());
 
 	QLabel *label2 = new QLabel(i18n("Group:"), widget);
 	QLabel *label3 = new QLabel(i18n("&Name:"), widget);
@@ -130,10 +130,10 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		Q3WhatsThis::add(m_chMath,i18n("Does this environment need math mode?"));
 		Q3WhatsThis::add(m_coTab,i18n("Define the standard tabulator of this environment."));
 
-		m_coTab->insertItem(QString::null);
-		m_coTab->insertItem("&");
-		m_coTab->insertItem("&=");
-		m_coTab->insertItem("&=&");
+		m_coTab->addItem(QString());
+		m_coTab->addItem("&");
+		m_coTab->addItem("&=");
+		m_coTab->addItem("&=&");
 
 		currentRow += 3;
 	}
@@ -147,18 +147,18 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 		label8->setBuddy(m_coOption);
 
-		m_coOption->insertItem(QString::null);
+		m_coOption->addItem(QString());
 		if ( m_envmode )
 		{
-			m_coOption->insertItem("[tcb]");
-			m_coOption->insertItem("[lcr]");
+			m_coOption->addItem("[tcb]");
+			m_coOption->addItem("[lcr]");
 			Q3WhatsThis::add(m_coOption,i18n("Define an optional alignment parameter."));
 		}
 		else
 		{
 			Q3WhatsThis::add(m_coOption,i18n("Does this command need an optional parameter."));
 		}
-		m_coOption->insertItem("[ ]");
+		m_coOption->addItem("[ ]");
 
 		currentRow++;
 	}
@@ -174,16 +174,16 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 		if ( m_envmode )
 		{
-			m_coParameter->insertItem(QString::null);
-			m_coParameter->insertItem("{n}");
-			m_coParameter->insertItem("{w}");
-			m_coParameter->insertItem("{ }");
+			m_coParameter->addItem(QString::null);
+			m_coParameter->addItem("{n}");
+			m_coParameter->addItem("{w}");
+			m_coParameter->addItem("{ }");
 			Q3WhatsThis::add(m_coParameter,i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
 		}
 		else
 		{
-			m_coParameter->insertItem("{ }");
-			// m_coParameter->insertItem(QString::null);
+			m_coParameter->addItem("{ }");
+			// m_coParameter->addItem(QString());
 			Q3WhatsThis::add(m_coParameter,i18n("Does this command need an argument?"));
 		}
 
@@ -218,6 +218,9 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		m_edName->setReadOnly(true);
 		m_chStarred->setChecked( lvitem->text(1) == "*" );
 
+#ifdef __GNUC__
+#warning fix QComboBox->setCurrentText()
+#endif
 		if  ( m_envmode )          // insert existing arguments for environments
 		{
 			label1->setText( i18n("Edit a LaTeX Environment") );
@@ -225,20 +228,24 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 			{
 				m_chEndofline->setChecked( lvitem->text(2) == "\\\\" );
 				m_chMath->setChecked( lvitem->text(3) == "$" );
-				m_coTab->setCurrentText( lvitem->text(4) );
+// 				m_coTab->setCurrentText( lvitem->text(4) );
 			}
-			if ( m_useOption )
-				m_coOption->setCurrentText( lvitem->text(5) );
-			if ( m_useParameter )
-				m_coParameter->setCurrentText( lvitem->text(6) );
+			if ( m_useOption ) {
+// 				m_coOption->setCurrentText( lvitem->text(5) );
+			}
+			if ( m_useParameter ) {
+// 				m_coParameter->setCurrentText( lvitem->text(6) );
+			}
 		}
 		else                      // insert existing arguments for commands
 		{
 			label1->setText( i18n("Edit a LaTeX Command") );
-			if ( m_useOption )
-				m_coOption->setCurrentText( lvitem->text(2) );
-			if ( m_useParameter )
-				m_coParameter->setCurrentText( lvitem->text(3) );
+			if ( m_useOption ) {
+// 				m_coOption->setCurrentText( lvitem->text(2) );
+			}
+			if ( m_useParameter ) {
+// 				m_coParameter->setCurrentText( lvitem->text(3) );
+			}
 		}
 	}
 
@@ -321,7 +328,9 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
 
-	Q3GridLayout *grid = new Q3GridLayout(page, 7,3, 6,spacingHint());
+//FIXME: dropped parameter spacingHint()
+	QGridLayout *grid = new QGridLayout(page);
+
 	QLabel *label = new QLabel(i18n("Define LaTeX Environments and Commands for Kile"), page);
 
 	// create TabWidget
@@ -342,7 +351,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvEnvironments->setAllColumnsShowFocus(true);
 	m_lvEnvironments->setSelectionMode(Q3ListView::Single);
 
-	Q3GridLayout *grid1 = new Q3GridLayout(page1, 1,1, 10,10);
+	QGridLayout *grid1 = new QGridLayout(page1);
 	grid1->addWidget(m_lvEnvironments,0,0);
 
 	for ( int col=1; col<=6; col++ )
@@ -359,7 +368,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvCommands->setAllColumnsShowFocus(true);
 	m_lvCommands->setSelectionMode(Q3ListView::Single);
 
-	Q3GridLayout *grid2 = new Q3GridLayout(page2, 1,1, 10,10);
+	QGridLayout *grid2 = new QGridLayout(page2);
 	grid2->addWidget(m_lvCommands,0,0);
 
 	for ( int col=1; col<=3; col++ )
@@ -376,17 +385,19 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_btnEdit = new KPushButton(i18n("&Edit..."), page);
 
 	// add to grid
-	grid->addMultiCellWidget(label,0,0,0,2, Qt::AlignHCenter);
-	grid->addMultiCellWidget(m_tab,1,5,0,0);
+	grid->addWidget(label,0,0,0,2, Qt::AlignHCenter);
+	grid->addWidget(m_tab,1,5,0,0);
 	grid->addWidget(m_cbUserDefined,6,0);          // grid --> 7
 	grid->addWidget(m_btnAdd,2,2);
 	grid->addWidget(m_btnDelete,3,2);
 	grid->addWidget(m_btnEdit,4,2);
 
-	grid->setRowSpacing(1,m_btnAdd->height()-4);
+//FIXME: disabled for now
+// 	grid->setRowSpacing(1,m_btnAdd->height()-4);
 	grid->setRowStretch(5,1);
-	grid->setColStretch(0,1);
-	grid->addColSpacing(1,12);
+	grid->setColumnStretch(0,1);
+//FIXME: disabled for now
+// 	grid->addColumnSpacing(1,12);
 
 	setButtonText(Help,"Default Settings");
 	slotEnableButtons();
@@ -463,7 +474,7 @@ void LatexCommandsDialog::resetListviews()
 
 LatexCommandsDialog::LVmode LatexCommandsDialog::getListviewMode()
 {
-	return ( m_tab->currentPageIndex() == 0 ) ? lvEnvMode : lvCmdMode;
+	return ( m_tab->currentIndex() == 0 ) ? lvEnvMode : lvCmdMode;
 }
 
 KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(K3ListViewItem *item)
@@ -817,7 +828,7 @@ void LatexCommandsDialog::writeConfig(K3ListView *listview, const QString &group
 		m_config->deleteGroup(groupname);
 
 	// prepare for new entries
-	m_config->setGroup(groupname);
+	KConfigGroup group = m_config->group(groupname);
 
 	// now get all attributes
 	KileDocument::LatexCmdAttributes attr;
@@ -844,7 +855,7 @@ void LatexCommandsDialog::writeConfig(K3ListView *listview, const QString &group
 				QString value = m_commands->configString(attr,env);
 				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
 				if ( ! value.isEmpty() )
-				  m_config->writeEntry(key,value);
+				  group.writeEntry(key, value);
 			}
 		}
 	}

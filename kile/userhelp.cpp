@@ -19,8 +19,7 @@
 #include "userhelp.h"
 
 #include <qfileinfo.h>    
-//Added by qt3to4:
-#include <Q3PopupMenu>
+#include <QMenu>
 
 #include <kglobal.h>
 #include <kiconloader.h>
@@ -33,11 +32,15 @@
 #include "userhelpdialog.h"
 #include "kileconfig.h"
 
+#ifdef __GNUC__
+#warning Still things to port here (QPopupMenu)!
+#endif
+
 namespace KileHelp
 {
    
 UserHelp::UserHelp(KileTool::Manager *manager, KMenuBar *menubar, QWidget* mainWindow) 
-	: m_manager(manager), m_menubar(menubar), m_helpid(0), m_sepid(0), m_mainWindow(mainWindow)
+	: m_manager(manager), m_menubar(menubar), m_mainWindow(mainWindow), m_helpid(0), m_sepid(0)
 {
 	expandHelpMenu();
 
@@ -57,13 +60,13 @@ void UserHelp::readConfig()
 	
 	// first read all entries
 	KConfig *config = m_manager->config();
-	config->setGroup("UserHelp");
-	int entries = config->readNumEntry("entries");
+	KConfigGroup configGroup = config->group("UserHelp");
+	int entries = configGroup.readEntry("entries", int(0));
 	for ( int i=0; i<entries; ++i ) 
 	{
-		menu << config->readEntry(QString("menu%1").arg(i));
+		menu << configGroup.readEntry(QString("menu%1").arg(i));
 		if ( !menu[i].isEmpty() || menu[i]=="-" )
-			files <<  config->readEntry(QString("file%1").arg(i));	
+			files <<  configGroup.readEntry(QString("file%1").arg(i));	
 		else
 			files << QString::null;
 	}
@@ -82,13 +85,13 @@ void UserHelp::writeConfig()
 	config->deleteGroup("UserHelp");
 	
 	// then write new entries
-	config->setGroup("UserHelp");
-	config->writeEntry("entries",entries);
+	KConfigGroup configGroup = config->group("UserHelp");
+	configGroup.writeEntry("entries",entries);
 	for ( int i=0; i<entries; ++i ) 
 	{
-		config->writeEntry(QString("menu%1").arg(i), m_menuentries[i]);
+		configGroup.writeEntry(QString("menu%1").arg(i), m_menuentries[i]);
 		if ( m_menuentries[i] != "-" )
-			config->writeEntry(QString("file%1").arg(i), m_helpfiles[i]);	
+			configGroup.writeEntry(QString("file%1").arg(i), m_helpfiles[i]);	
 	}
 }
 
@@ -102,7 +105,8 @@ void UserHelp::expandHelpMenu()
 	if (  m_helpmenu ) 
 	{
 		int helpindex = getHelpIndex(m_helpmenu);
-	
+// FIXME: port to KDE4
+/*
 		m_helppopup = new Q3PopupMenu();
 		if ( m_helppopup )  
 		{
@@ -111,6 +115,7 @@ void UserHelp::expandHelpMenu()
 			m_helpmenu->setItemVisible(m_helpid,false);
 			m_helpmenu->setItemVisible(m_sepid,false);
 		}
+*/
 	}
 }
 
@@ -131,21 +136,24 @@ void UserHelp::updateEntries(const QStringList &entries, const QStringList &file
 	if ( m_menuentries.count() > 0 ) 
 	{
 		setupUserHelpMenu();
-		m_helpmenu->setItemVisible(m_helpid,true);
-		m_helpmenu->setItemVisible(m_sepid,true);
+// FIXME: port to KDE4
+// 		m_helpmenu->setItemVisible(m_helpid,true);
+// 		m_helpmenu->setItemVisible(m_sepid,true);
 	} 
 	else 
 	{
-		m_helpmenu->setItemVisible(m_helpid,false);
-		m_helpmenu->setItemVisible(m_sepid,false);
+// 		m_helpmenu->setItemVisible(m_helpid,false);
+// 		m_helpmenu->setItemVisible(m_sepid,false);
 	}	
 	
 	if ( save )
 		writeConfig();
 }
 
+// FIXME: port to KDE4
 void UserHelp::setupUserHelpMenu()
 {
+/*
 	if ( ! m_helppopup ) return;
 	
 	int helpid;
@@ -159,7 +167,7 @@ void UserHelp::setupUserHelpMenu()
 		else 
 		{
 			// check for a http file
-			bool http = ( m_helpfiles[i].find("http://",0) == 0 );
+			bool http = ( m_helpfiles[i].indexOf("http://", 0) == 0 );
 			
 			// some file types have an icon
 			QFileInfo fi(m_helpfiles[i]);
@@ -182,6 +190,7 @@ void UserHelp::setupUserHelpMenu()
 		m_helppopup->setItemParameter(helpid,i);  
 		}
 	}
+*/
 }
 
 void UserHelp::enableUserHelpEntries(bool state)
@@ -190,16 +199,21 @@ void UserHelp::enableUserHelpEntries(bool state)
 		delete m_helppopup;
 
 	expandHelpMenu();
+// FIXME: port to KDE4
+/*
 	if ( m_helpmenu && m_helppopup && m_menuentries.count()>0 ) 
 	{
 		setupUserHelpMenu();
 		m_helpmenu->setItemVisible(m_helpid,state);
 		m_helpmenu->setItemVisible(m_sepid,state);
-	} 
+	}
+*/
 }
 
-Q3PopupMenu *UserHelp::getHelpPopup()
-{ 
+QMenu *UserHelp::getHelpPopup()
+{
+// FIXME: port to KDE4
+/*
 	int helpid = 0;
 	
 	for (uint i=0; i<m_menubar->count(); ++i) 
@@ -214,10 +228,14 @@ Q3PopupMenu *UserHelp::getHelpPopup()
 		}
 	}	
 	return ( helpid == 0 ) ? 0 : m_menubar->findItem(helpid)->popup();
+*/
+	return NULL;
 }
 
-int UserHelp::getHelpIndex(Q3PopupMenu *popup)
-{ 
+int UserHelp::getHelpIndex(QMenu *popup)
+{
+// FIXME: port to KDE4
+/*
 	if ( popup ) 
 	{
 		int count = 0;
@@ -233,7 +251,7 @@ int UserHelp::getHelpIndex(Q3PopupMenu *popup)
 			}
 		}
 	}
-	
+*/	
 	return (0);
 }
 
@@ -248,7 +266,7 @@ void UserHelp::slotUserHelpActivated(int index)
 
 	// does the files exist?
 	QFileInfo fi(filename);
-	bool http = ( filename.find("http://",0) == 0 );
+	bool http = ( filename.indexOf("http://", 0) == 0 );
 	if ( !http && !fi.exists() ) 
 	{
 		KMessageBox::error(0,QString(i18n("File '%1' doesn't exist.")).arg(filename));

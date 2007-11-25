@@ -20,7 +20,6 @@
 #define USERHELP_H
 
 #include <qwidget.h>   
-#include <q3popupmenu.h>   
 #include <qstringlist.h>
 
 #include <kmenubar.h>
@@ -53,8 +52,8 @@ private:
 	void setupUserHelpMenu();
 	void expandHelpMenu();
 	
-	Q3PopupMenu *getHelpPopup();
-	int getHelpIndex(Q3PopupMenu *popup);
+	QMenu *getHelpPopup();
+	int getHelpIndex(QMenu *popup);
 
 	void updateEntries(const QStringList &entries, const QStringList &files, bool save = true);
 
@@ -62,7 +61,7 @@ private:
 	KMenuBar *m_menubar;
 	QWidget *m_mainWindow;
 	
-	Q3PopupMenu *m_helpmenu, *m_helppopup;
+	QMenu *m_helpmenu, *m_helppopup;
 	int m_helpid, m_sepid;
 	QStringList m_menuentries, m_helpfiles;
 };   

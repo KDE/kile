@@ -320,7 +320,7 @@ QString IncludeGraphics::getInfo()
 	{
 		QFileInfo fi( edit_file->text() );
 
-		return "% " + fi.baseName() + '.' + fi.extension(true)
+		return "% " + fi.baseName() + '.' + fi.completeSuffix();
 		            + QString(": %1x%2 pixel").arg(wpx).arg(hpx)
 		            + ", " + dpi + "dpi"
 		            + ", " + wcm + 'x' + hcm + " cm"
@@ -392,7 +392,7 @@ void IncludeGraphics::chooseFile()
       // eps|eps.gz --> %%BoundingBox: 0 0 123 456
       // bitmaps    --> w=123 h=456 dpi=789
       QString grep = " | grep -m1 \"^%%BoundingBox:\"";
-      QString ext = QFileInfo(fn).extension();
+      QString ext = QFileInfo(fn).completeSuffix();
       if ( ext == "eps" )
          execute( "cat " + fn + grep);
       else if ( ext == "eps.gz" )

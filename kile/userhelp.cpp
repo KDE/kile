@@ -163,7 +163,7 @@ void UserHelp::setupUserHelpMenu()
 			
 			// some file types have an icon
 			QFileInfo fi(m_helpfiles[i]);
-			QString ext = fi.extension(false);
+			QString ext = fi.suffix();
 			if ( ext == "htm" )
 				ext = "html";
 			if ( http || ext=="html" || ext=="dvi" || ext=="ps" || ext=="pdf" ) 

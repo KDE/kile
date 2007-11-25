@@ -1063,7 +1063,7 @@ void LaTeXInfo::updateStruct()
 						// if an extension exists. If not the default extension is added
 						// ( LaTeX reference says that this is '.tex'). This assures that
 						// all files, which are listed in the structure view, have an extension.
-						QString ext = QFileInfo(m).extension();
+						QString ext = QFileInfo(m).completeSuffix();
 						if ( ext.isEmpty() )
 							m += m_extensions->latexDocumentDefault();
 						m_deps.append(m);

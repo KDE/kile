@@ -1977,7 +1977,7 @@ void Manager::projectAddFile(QString filename, bool graphics)
 		// called from InputDialog after a \input- or \include command:
 		//  - if the chosen file has an extension: accept
 		//  - if not we add the default TeX extension: accept if it exists else reject
-		QString ext = fi.extension();
+		QString ext = fi.completeSuffix();
 		if ( ! ext.isEmpty() )
 			return;
 

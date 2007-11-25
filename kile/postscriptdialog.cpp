@@ -378,7 +378,7 @@ QString PostscriptDialog::buildTempfile()
 
 	// accept only ".ps" or ".ps.gz" as an input file
 	QFileInfo fi( m_edInfile->text() );
-	bool zipped_psfile = ( fi.extension() == "ps.gz" ) ? true : false;
+	bool zipped_psfile = ( fi.completeSuffix() == "ps.gz" ) ? true : false;
 
 	// there are four possible cases
 	//         outfile view
@@ -492,7 +492,8 @@ bool PostscriptDialog::checkParameter()
 	}
 
 	QFileInfo fi( infile );
-	if ( fi.extension()!="ps" && fi.extension()!="ps.gz" ) {
+	QString suffix = fi.completeSuffix();
+	if ( suffix != "ps" && suffix != "ps.gz" ) {
 		showError( i18n("Unknown file format: only '.ps' and '.ps.gz' are accepted for input files.") );
 		return false;
 	}
@@ -522,7 +523,7 @@ bool PostscriptDialog::checkParameter()
 
 	if ( ! outfile.isEmpty() ) {
 		QFileInfo fo( outfile );
-		if ( fo.extension() != "ps" ) {
+		if ( fo.completeSuffix() != "ps" ) {
 			showError( i18n("Unknown file format: only '.ps' is accepted as output file.") );
 			return false;
 		}

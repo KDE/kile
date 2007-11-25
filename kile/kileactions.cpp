@@ -337,7 +337,7 @@ void InputDialog::slotBrowse()
 		QString path = m_ki->relativePath(fi.path(), fn);
 
 		// if the file has no extension, we add the default TeX extension
-		if ( QFileInfo(path).extension().isEmpty() )
+		if ( QFileInfo(path).completeSuffix().isEmpty() )
 			path += m_ki->extensions()->latexDocumentDefault();
  
 		setTag(path);

@@ -36,8 +36,8 @@
 namespace KileHelp
 {
    
-UserHelp::UserHelp(KileTool::Manager *manager, KMenuBar *menubar) 
-	: m_manager(manager), m_menubar(menubar), m_helpid(0), m_sepid(0)
+UserHelp::UserHelp(KileTool::Manager *manager, KMenuBar *menubar, QWidget* mainWindow) 
+	: m_manager(manager), m_menubar(menubar), m_helpid(0), m_sepid(0), m_mainWindow(mainWindow)
 {
 	expandHelpMenu();
 
@@ -263,7 +263,7 @@ void UserHelp::slotUserHelpActivated(int index)
 	QString cfg = "Embedded Viewer";
 	if ( !http && KileConfig::embedded()==0 ) 
 	{
-		QString ext = fi.extension(false);
+		QString ext = fi.suffix();
 		if ( ext == "dvi" ) 
 			type = "ViewDVI";
 		else if ( ext == "ps" )
@@ -286,17 +286,9 @@ void UserHelp::slotUserHelpActivated(int index)
 	} 
 	else 
 	{
-		if ( http ) 
-		{
-			new KRun( KUrl(filename) );
-		} 
-		else 
-		{
-			KUrl url;
-			url.setPath( filename );
-			KMimeType::Ptr pMime = KMimeType::findByUrl(url);
-			KRun::runURL(url, pMime->name());
-		}
+		KUrl url(filename);
+		KMimeType::Ptr pMime = KMimeType::findByUrl(url);
+		KRun::runUrl(url, pMime->name(), m_mainWindow);
 	}
 }
 

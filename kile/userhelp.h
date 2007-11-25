@@ -37,7 +37,7 @@ class UserHelp: public QObject
 	Q_OBJECT
    
 public: 
-	UserHelp(KileTool::Manager *manager, KMenuBar *menubar);
+	UserHelp(KileTool::Manager *manager, KMenuBar *menubar, QWidget* mainWindow);
 	~UserHelp();
 	void userHelpDialog();   
 	void enableUserHelpEntries(bool state);
@@ -60,6 +60,7 @@ private:
 
 	KileTool::Manager *m_manager;
 	KMenuBar *m_menubar;
+	QWidget *m_mainWindow;
 	
 	Q3PopupMenu *m_helpmenu, *m_helppopup;
 	int m_helpid, m_sepid;

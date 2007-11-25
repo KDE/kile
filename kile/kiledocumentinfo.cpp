@@ -606,7 +606,7 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 			s.replace("\\\\", "  ");
 
 			//remove comments
-			int pos = s.find(reComments);
+			int pos = s.indexOf(reComments);
 			if ( pos != -1 )
 			{
 				searchTodoComment(s,pos,todo);
@@ -621,7 +621,7 @@ void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &to
 {
 	static QRegExp::QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
 
-	if ( s.find(reTodoComment,startpos) != -1 )
+	if ( s.indexOf(reTodoComment,startpos) != -1 )
 	{
 		todo.type = ( reTodoComment.cap(1) == "TODO" ) ? KileStruct::ToDo : KileStruct::FixMe;
 		todo.colTag = reTodoComment.pos(1);
@@ -837,7 +837,7 @@ BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
 		int p = 0;
 		while ( l < m_doc->numLines() )
 		{
-			if ( (p = getTextline(l,todo).find('{', pos)) != -1 )
+			if ( (p = getTextline(l,todo).indexOf('{', pos)) != -1 )
 			{
 				pos = p;
 				break;
@@ -917,7 +917,7 @@ void LaTeXInfo::updateStruct()
 		//find all commands in this line
 		while (tagStart != -1)
 		{
-			if ( (!foundBD) && ( (bd = s.find(reBD, tagEnd)) != -1))
+			if ( (!foundBD) && ( (bd = s.indexOf(reBD, tagEnd)) != -1))
 			{
 				KILE_DEBUG() << "\tfound \\begin{document}" << endl;
 				foundBD = true;
@@ -925,7 +925,7 @@ void LaTeXInfo::updateStruct()
 				else m_preamble = m_doc->text(0, 0, i, bd);
 			}
 
-			if ((!foundBD) && (s.find(reRoot, tagEnd) != -1))
+			if ((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1))
 			{
 				KILE_DEBUG() << "\tsetting m_bIsRoot to true" << endl;
 				tagEnd += reRoot.cap(0).length();
@@ -1135,14 +1135,14 @@ void LaTeXInfo::updateStruct()
 						QString optArg, mandArgs;
 
 						//find how many parameters this command takes
-						if ( s.find(reNumOfParams, tagEnd + 1) != -1 )
+						if ( s.indexOf(reNumOfParams, tagEnd + 1) != -1 )
 						{
 							bool ok;
 							int noo = reNumOfParams.cap(1).toInt(&ok);
 
 							if ( ok )
 							{
-								if(s.find(reNumOfOptParams, tagEnd + 1) != -1)
+								if(s.indexOf(reNumOfOptParams, tagEnd + 1) != -1)
 								{
 									KILE_DEBUG() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
 									noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
@@ -1233,7 +1233,7 @@ void BibInfo::updateStruct()
 	for(uint i = 0; i < m_doc->numLines(); ++i)
 	{
 		s = m_doc->textLine(i);
-		if ( (s.find(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower()) )
+		if ( (s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower()) )
 		{
 			KILE_DEBUG() << "found: " << reItem.cap(2) << endl;
 			//start looking for key

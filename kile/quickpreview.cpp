@@ -364,7 +364,7 @@ int QuickPreview::createTempfile(const QString &text)
 	while ( ! preamble.eof() ) 
 	{
 		textline = preamble.readLine();
-		if ( textline.find("\\begin{document}") >= 0 ) 
+		if ( textline.indexOf("\\begin{document}") >= 0 ) 
 		{
 			begindocumentFound = true;
 			break;

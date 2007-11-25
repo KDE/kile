@@ -572,22 +572,22 @@ void TabCellDialog::initWidgets()
 	{
 		QString s = m_headerlabel.remove(' ');
 		
-		bool state = ( s.find("@{}") >= 0 );
+		bool state = ( s.indexOf("@{}") >= 0 );
 		if ( state )
 			s = s.remove("@{}");
 		m_cbAt->setChecked(state);
 
-		state = ( s.find("!{}") >= 0 );
+		state = ( s.indexOf("!{}") >= 0 );
 		if ( state )
 			s = s.remove("!{}");
 		m_cbSep->setChecked(state);
 
-		state = ( s.find(">{}") >= 0 );
+		state = ( s.indexOf(">{}") >= 0 );
 		if ( state )
 			s = s.remove(">{}");
 		m_cbPre->setChecked(state);
 
-		state = ( s.find("<{}") >= 0 );
+		state = ( s.indexOf("<{}") >= 0 );
 		if ( state )
 			s = s.remove("<{}");
 		m_cbPost->setChecked(state);
@@ -1144,11 +1144,11 @@ void TabularTable::insertPopupAlign(Q3PopupMenu *popup,bool header)
 	if ( header && m_x1==m_x2 ) 
 	{
 		QString label = horizontalHeader()->label(m_x1);
-		if ( label.find('l') < 0 )
+		if ( label.indexOf('l') < 0 )
 		align += 1;
-		if ( label.find('c') < 0 ) 
+		if ( label.indexOf('c') < 0 ) 
 			align += 2;
-		if ( label.find('r') < 0 )
+		if ( label.indexOf('r') < 0 )
 			align += 4;
 	} else 
 	{
@@ -1493,7 +1493,7 @@ void TabularTable::updateHeaderAlignment(int col1,int col2,QChar alignchar)
 		QString label = horizontalHeader()->label(col);
 		for ( uint i=0; i<list.count(); ++i ) 
 		{
-			if ( label.find(list[i]) >= 0 ) 
+			if ( label.indexOf(list[i]) >= 0 ) 
 			{
 				horizontalHeader()->setLabel( col,label.replace(list[i],alignchar) );
 				break;
@@ -1995,7 +1995,7 @@ void TabularDialog::slotEnvironmentChanged(const QString &env)
 		m_cbStarred->setEnabled( attr.starred );
 		
 		// option
-		if ( attr.option.find('[') == 0 ) 
+		if ( attr.option.indexOf('[') == 0 ) 
 		{
 			QStringList optionlist = attr.option.split("");
 			if ( optionlist.count() > 2 ) 
@@ -2234,11 +2234,11 @@ void TabularDialog::slotOk()
 	{
 		// get current header
 		s = hor->label(col).remove(' ');
-		if ( s.find('>') || s.find('<') || s.find('!')  || s.find('m') || s.find('b')) 
+		if ( s.indexOf('>') || s.indexOf('<') || s.indexOf('!')  || s.indexOf('m') || s.indexOf('b')) 
 			pkgArray = true; 
 			
 		// look for @{} and !{} substrings
-		bool separator = ( s.find('@')>=0 || s.find('!')>=0 );
+		bool separator = ( s.indexOf('@')>=0 || s.indexOf('!')>=0 );
 		if ( !separator ) 
 		{
 			lines = m_table->countVLines(col,true);
@@ -2265,7 +2265,7 @@ void TabularDialog::slotOk()
 		}
 		if ( ! colorcommand.isEmpty() ) 
 		{
-			if ( s.find('>') >= 0 ) 
+			if ( s.indexOf('>') >= 0 ) 
 				s = s.replace(">{}",QString(">{%1}").arg(colorcommand));
 			else  
 				preamble += QString(">{%1}").arg(colorcommand); 
@@ -2273,9 +2273,9 @@ void TabularDialog::slotOk()
 		}
 		
 		// Alignment: default is left, we look only for center or right 
-		if ( s.find('c') >= 0 )
+		if ( s.indexOf('c') >= 0 )
 			colinfo[col].align = Qt::AlignHCenter;
-		else if ( s.find('r') >= 0 )
+		else if ( s.indexOf('r') >= 0 )
 				colinfo[col].align = Qt::AlignRight;
 			
 		// pre >{} and post <{} commands can stay, but perhaps bullets are wanted
@@ -2511,7 +2511,7 @@ void TabularDialog::slotOk()
 	// set cursor to first bullet position
 	if ( m_cbBullets->isChecked() ) 
 	{
-		int pos = m_td.tagBegin.find(bullet);
+		int pos = m_td.tagBegin.indexOf(bullet);
 		if ( pos >= 0 ) 
 		{
 			m_td.tagBegin = m_td.tagBegin.replace(pos,1,"%C");
@@ -2519,7 +2519,7 @@ void TabularDialog::slotOk()
 		} 
 		else 
 		{
-			pos = m_td.tagEnd.find(bullet);
+			pos = m_td.tagEnd.indexOf(bullet);
 			if ( pos >= 0 ) 
 			{
 				m_td.tagEnd = m_td.tagEnd.replace(pos,1,"%C");

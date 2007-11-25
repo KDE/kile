@@ -1191,7 +1191,7 @@ bool QuickDocument::readPackagesListview()
 
 		// look, if this is a main or a child entry
 		KILE_DEBUG() << "\tread config entry: " << *it << endl;
-		int pos = (*it).find('!');
+		int pos = (*it).indexOf('!');
 		if ( pos == -1 ) {                    // main entry
 			cli = new Q3CheckListItem(m_lvPackages, *it, Q3CheckListItem::CheckBox);
 			if ( reg.exactMatch(m_config->readEntry(*it)) ) {
@@ -1498,7 +1498,7 @@ void QuickDocument::printTemplate()
 	QString enc = m_cbEncoding->currentText();
 	if (!enc.isEmpty())
 	{
-		if( enc.find("utf") != -1 )
+		if( enc.indexOf("utf") != -1 )
 			m_td.tagBegin += "\\usepackage{ucs}\n";
 		m_td.tagBegin += "\\usepackage[" + enc + "]{inputenc}\n";
 	}

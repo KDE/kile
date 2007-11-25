@@ -467,7 +467,7 @@ void UserHelpAddDialog::slotOk()
 	}
 
 	QFileInfo fi(filename);
-	if ( filename.find("http://",0)!=0 && !fi.exists() )
+	if ( filename.indexOf("http://", 0) !=0 && !fi.exists() )
 	{
 		KMessageBox::error(this,QString(i18n("File '%1' doesn't exist.")).arg(filename));
 		return;

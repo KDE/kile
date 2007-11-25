@@ -79,7 +79,7 @@ void KileAbbrevView::addWordlist(const QStringList *wordlist, bool global)
 	QStringList::ConstIterator it;
 	for ( it=wordlist->begin(); it!=wordlist->end(); ++it ) 
 	{
-		int index = (*it).find( '=' );
+		int index = (*it).indexOf( '=' );
 		if ( index >= 0 )
 		{
 			insertItem( new K3ListViewItem(this,(*it).left(index),type,(*it).right( (*it).length()-index-1 )) ); 

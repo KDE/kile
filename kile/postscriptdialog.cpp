@@ -70,7 +70,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 			QStringList extlist = latexextensions.split(" ");
 			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 			{
-				if ( texfilename.find( (*it), -(*it).length() ) >= 0 ) 
+				if ( texfilename.indexOf( (*it), -(*it).length() ) >= 0 ) 
 				{
 					psfilename = texfilename.left(texfilename.length()-(*it).length()) + ".ps";
 					if ( ! QFileInfo(psfilename).exists() )

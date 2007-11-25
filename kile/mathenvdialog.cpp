@@ -156,7 +156,7 @@ bool MathEnvironmentDialog::isGroupsParameterEnv()
 
 bool MathEnvironmentDialog::isParameterEnv()
 {
-	return ( m_parameter.find("{") >= 0 );
+	return ( m_parameter.indexOf("{") >= 0 );
 }
 
 ////////////////////////////// determine the whole tag //////////////////////////////

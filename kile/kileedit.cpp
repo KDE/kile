@@ -157,7 +157,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 
 		// strip one of two consecutive line ends
 		int len = sel.length();
-		if ( tagEnd.at(0)=='\n' && len>0 && sel.find('\n',-1)==len-1 )
+		if ( tagEnd.at(0)=='\n' && len>0 && sel.indexOf('\n',-1)==len-1 )
 			sel.truncate( len-1 );
 			
 		// now add the selection
@@ -198,7 +198,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 		{
 			if (doc->textLine(line).contains("%C"))
 			{
-				int i=doc->textLine(line).find("%C");
+				int i=doc->textLine(line).indexOf("%C");
 				para_cursor = line; index_cursor = i;
 				doc->removeText(line,i,line,i+2);
 				break;
@@ -1375,7 +1375,7 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 	}
 	
 	// check if there is a match in this line from the current position to the right
-	if ( textline[col]=='\\' && col==(uint)textline.find(m_reg,col) )
+	if ( textline[col]=='\\' && col==(uint)textline.indexOf(m_reg,col) )
 	{
 		envright.row = row;
 		envright.col = col;
@@ -2019,7 +2019,7 @@ bool EditorExtension::getCurrentWord(Kate::Document *doc, uint row, uint col, Ed
 	
 	// search at the current position
 	reg.setPattern(pattern2);
-	pos = textline.find(reg,col);
+	pos = textline.indexOf(reg,col);
 	if ( pos!=-1 && (uint)pos==col )
 	{
 		x2 = pos + reg.matchedLength();
@@ -2365,7 +2365,7 @@ bool EditorExtension::insertDoubleQuotes()
 	bool openfound = false;
 	if ( iface->searchText(row,col,reg,&r,&c,&l,true) )  
 	{
-		openfound = ( doc->textLine(r).find(m_leftDblQuote,c) == (int)c );
+		openfound = ( doc->textLine(r).indexOf(m_leftDblQuote,c) == (int)c );
 		//KILE_DEBUG() << "pattern=" << reg.pattern() << " " << reg.cap(1) << " r=" << r << " c=" << c << " open=" << openfound<< endl;
 	}
 	
@@ -2378,7 +2378,7 @@ bool EditorExtension::insertDoubleQuotes()
 		// insert a language specific doublequote close
 		int startcol = col - m_leftDblQuote.length();
 		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col  << endl;
-		if ( startcol>=0 && textline.find(m_leftDblQuote,startcol) == (int)startcol ) 
+		if ( startcol>=0 && textline.indexOf(m_leftDblQuote,startcol) == (int)startcol ) 
 		{
 				doc->removeText(row,startcol,row,startcol+m_leftDblQuote.length());
 				doc->insertText(row,startcol,"\"");
@@ -2395,7 +2395,7 @@ bool EditorExtension::insertDoubleQuotes()
 		// insert a language specific doublequote open
 		int startcol = col - m_rightDblQuote.length();
 		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col  << endl;
-		if ( startcol>=0 && textline.find(m_rightDblQuote,startcol) == (int)startcol ) 
+		if ( startcol>=0 && textline.indexOf(m_rightDblQuote,startcol) == (int)startcol ) 
 		{
 			doc->removeText(row,startcol,row,startcol+m_rightDblQuote.length());
 			doc->insertText(row,startcol,"\"");
@@ -2428,7 +2428,7 @@ void EditorExtension::insertIntelligentTabulator()
 		// try to align tabulator with textline above
 		if ( currentRow >= 1 ) 
 		{
-			int tabpos = view->getDoc()->textLine(currentRow-1).find('&',currentCol);
+			int tabpos = view->getDoc()->textLine(currentRow-1).indexOf('&',currentCol);
 			if ( tabpos >= 0 ) 
 			{
 				currentCol = tabpos;
@@ -2570,11 +2570,11 @@ bool EditorExtension::insideVerb(Kate::View *view)
 	QRegExp reg("\\\\verb(\\*?)(.)");
 	while ( true )
 	{
-		int pos = textline.find(reg,startpos);
+		int pos = textline.indexOf(reg,startpos);
 		if ( pos<0 || col<(uint)pos+6+reg.cap(1).length() ) 
 			return false; 
 
-		pos = textline.find(reg.cap(2),pos+6+reg.cap(1).length());
+		pos = textline.indexOf(reg.cap(2),pos+6+reg.cap(1).length());
 		if ( pos<0 || col<=(uint)pos )
 			return true;
 
@@ -2710,7 +2710,7 @@ bool EditorExtension::findEndOfDocument(Kate::Document *doc, uint row, uint col,
 	while ( iface->searchText(row,col,"\\end{document}",&rowFound,&colFound,&lenFound) )
 	{
 		textline = getTextLineReal(doc,rowFound);
-		if ( textline.find("\\end{document}",colFound) == (int)colFound )
+		if ( textline.indexOf("\\end{document}",colFound) == (int)colFound )
 			return true;
 
 		row = rowFound;

@@ -538,7 +538,7 @@ m_kileInfo->viewManager()->currentView()->down();
 m_kileInfo->viewManager()->currentView()->down();*/
 		QString code = script->getCode();
 		QRegExp endOfLineExp("(\r\n)|\n|\r");
-		int i = code.find(endOfLineExp);
+		int i = code.indexOf(endOfLineExp);
 		QString firstLine = (i >= 0 ? code.left(i) : code);
 		QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
 		if(requiredVersionTagExp.search(firstLine) != -1) {

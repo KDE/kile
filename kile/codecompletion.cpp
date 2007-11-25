@@ -93,9 +93,9 @@ namespace KileDocument
 
 	CodeCompletion::Type CodeCompletion::getType( const QString &text )
 	{
-		if ( text.find( reRef ) != -1 )
+		if ( text.indexOf( reRef ) != -1 )
 			return CodeCompletion::ctReference;
-		else if ( text.find( reCite ) != -1 )
+		else if ( text.indexOf( reCite ) != -1 )
 			return CodeCompletion::ctCitation;
 		else
 			return CodeCompletion::ctNone;
@@ -117,16 +117,16 @@ namespace KileDocument
 			{
 
 				QString command = currentline.mid(pos,column-pos);
- 				if ( command.find(reRef) != -1 )
+ 				if ( command.indexOf(reRef) != -1 )
 				{
 					startpattern = command.right(command.length()-reRef.cap(0).length());
-					if ( startpattern.find(reNotRefChars) == -1 )
+					if ( startpattern.indexOf(reNotRefChars) == -1 )
 						return CodeCompletion::ctReference ;
 				}
-				else if ( command.find(reCite) != -1 )
+				else if ( command.indexOf(reCite) != -1 )
 				{
 					startpattern = command.right(command.length()-reCite.cap(0).length());
-					if ( startpattern.find(reNotCiteChars) == -1 )
+					if ( startpattern.indexOf(reNotCiteChars) == -1 )
 						return CodeCompletion::ctCitation ;
 				}
 			}
@@ -548,7 +548,7 @@ namespace KileDocument
 		{
 				case cmLatex:
 				s = buildLatexText( text, m_yoffset, m_xoffset );
-				if ( m_autobrackets && textline.at(col)=='}' && m_text.find('{')>=0 )
+				if ( m_autobrackets && textline.at(col)=='}' && m_text.indexOf('{')>=0 )
 				{
 					doc->removeText(row,col,row,col+1);
 				}
@@ -567,7 +567,7 @@ namespace KileDocument
 					}
 				}
 				s = buildEnvironmentText( text, type, prefix, m_yoffset, m_xoffset );
-				if ( m_autobrackets && textline.at(col)=='}' && (textline[m_xstart]!='\\' || m_text.find('{')>=0 ) )
+				if ( m_autobrackets && textline.at(col)=='}' && (textline[m_xstart]!='\\' || m_text.indexOf('{')>=0 ) )
 				{
 					doc->removeText(row,col,row,col+1);
 				}
@@ -682,7 +682,7 @@ namespace KileDocument
 	{
 		QString s;
 
-		int index = text.find( '=' );
+		int index = text.indexOf( '=' );
 		if ( index >= 0 )
 		{
 			// determine text to insert
@@ -1023,7 +1023,7 @@ namespace KileDocument
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
 			QString s = (*it).text;
-			int index = s.find("=");
+			int index = s.indexOf("=");
 			if ( index>=0 && s.left(index)==abbrev )
 				 return s.right( s.length()-index-1 );
 		}
@@ -1070,9 +1070,9 @@ namespace KileDocument
 		else if ( m_view->getDoc() )
 		{
 			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
-			if ( currentline.find(reCiteExt) != -1 )
+			if ( currentline.indexOf(reCiteExt) != -1 )
 				editCompleteList(ctCitation);
-			else if ( currentline.find(reRefExt) != -1 )
+			else if ( currentline.indexOf(reRefExt) != -1 )
 				editCompleteList(ctReference);
 		}
 	}
@@ -1305,7 +1305,7 @@ namespace KileDocument
 			while ( pos >= 0 ) {
 				pos = reg.search(s,pos);
 				if ( pos >= 0 ) {
-					if ( reg.cap(1).at(0)!='\\' && text!=reg.cap(1) && !seen.find(reg.cap(1)) ) {
+					if ( reg.cap(1).at(0)!='\\' && text!=reg.cap(1) && !seen.indexOf(reg.cap(1)) ) {
 						e.text = reg.cap(1);                        // normal entry
 						e.type = "";
 						list.append( e );

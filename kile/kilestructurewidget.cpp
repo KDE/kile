@@ -661,7 +661,7 @@ namespace KileWidget
 			QString fname = item->title();
 			
 			
-			if(fname.find(suffix) != -1) // check if we have a suffix, if not add standard suffixes
+			if(fname.indexOf(suffix) != -1) // check if we have a suffix, if not add standard suffixes
 			{
 				KILE_DEBUG() << "Suffix found: " << suffix.cap(0) << endl;
 			}

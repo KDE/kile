@@ -470,11 +470,11 @@ void KileGrepDialog::slotItemSelected(const QString& item)
 	QString filename, linenumber;
 
 	QString str = item;
-	if ( (pos = str.find(':')) != -1)
+	if ( (pos = str.indexOf(':')) != -1)
 	{
 		filename = str.left(pos);
 		str = str.right(str.length()-1-pos);
-		if ( (pos = str.find(':')) != -1)
+		if ( (pos = str.indexOf(':')) != -1)
 		{
 			linenumber = str.left(pos);
 			if ( m_mode == KileGrep::Project )
@@ -520,14 +520,14 @@ void KileGrepDialog::startGrep()
 void KileGrepDialog::processOutput()
 {
 	int pos;
-	while ( (pos = buf.find('\n')) != -1)
+	while ( (pos = buf.indexOf('\n')) != -1)
 	{
 		QString item = buf.left(pos);
 		if ( ! item.isEmpty() )
 		{
 			if ( m_mode == KileGrep::Project )
 			{
-				if ( item.find(m_projectdir + '/') == 0 )
+				if ( item.indexOf(m_projectdir + '/') == 0 )
 					resultbox->insertItem( item.mid(m_projectdir.length()+1) );
 				else
 					resultbox->insertItem(item);

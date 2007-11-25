@@ -1766,7 +1766,7 @@ void Manager::projectShow()
 			QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(" ");
 			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 			{
-				if ( itempath.find( (*it), -(*it).length() ) >= 0 ) 
+				if ( itempath.indexOf( (*it), -(*it).length() ) >= 0 ) 
 				{
 					if  ( m_ki->isOpen(item->url()) ) 
 					{

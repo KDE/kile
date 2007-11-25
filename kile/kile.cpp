@@ -2030,7 +2030,7 @@ void Kile::toggleMode()
 
 		QString shortName = m_masterName;
 		int pos;
-		while ( (pos = (int)shortName.find('/')) != -1 )
+		while ( (pos = (int)shortName.indexOf('/')) != -1 )
 			shortName.remove(0,pos+1);
 
 		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));

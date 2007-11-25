@@ -100,7 +100,7 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 	cmd = key.section('%',1,1);
 	QString text = key.section('%',2,2);
 	
-	if( text.find(rePkgs) != -1 )
+	if( text.indexOf(rePkgs) != -1 )
 	{
 		args = rePkgs.cap(1).split(",");
 		pkgs = rePkgs.cap(2).split(",");

@@ -203,11 +203,11 @@ void KileLyxServer::processLine(const QString &line)
 	QRegExp reBibtexdbadd(":bibtex-database-add:(.*)$");
 	QRegExp rePaste(":paste:(.*)$");
 	
-	if( line.find(reCite) != -1 )
+	if( line.indexOf(reCite) != -1 )
 		emit(insert(KileAction::TagData(i18n("Cite"), "\\cite{"+reCite.cap(1)+'}')));
-	else if( line.find(reBibtexdbadd) != -1 )
+	else if( line.indexOf(reBibtexdbadd) != -1 )
 		emit(insert(KileAction::TagData(i18n("BibTeX db add"), "\\bibliography{"+ reBibtexdbadd.cap(1) + '}')));
-	else if( line.find(rePaste) != -1)
+	else if( line.indexOf(rePaste) != -1)
 		emit(insert(KileAction::TagData(i18n("Paste"), rePaste.cap(1))));
 }
 

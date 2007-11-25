@@ -362,7 +362,7 @@ QString KileInfo::expandEnvironmentVars(const QString &str)
 	static QRegExp reEnvVars("\\$(\\w+)");
 	QString result = str;
 	int index = -1;
-	while ( (index = str.find(reEnvVars, index + 1)) != -1 )
+	while ( (index = str.indexOf(reEnvVars, index + 1)) != -1 )
 		result.replace(reEnvVars.cap(0),getenv(reEnvVars.cap(1).local8Bit()));
 
 	return result;

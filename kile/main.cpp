@@ -65,7 +65,7 @@ QString completePath(const QString &path)
 			url.setFileName(completePath(url.path()));
 			fullpath = url.url();
 		}
-		else if ( path.find(QRegExp("^[a-z]+:")) == -1 )
+		else if ( path.indexOf(QRegExp("^[a-z]+:")) == -1 )
 			fullpath = QDir::currentPath() + '/' + path;
 	}
 

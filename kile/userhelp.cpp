@@ -284,17 +284,9 @@ void UserHelp::slotUserHelpActivated(int index)
 	} 
 	else 
 	{
-		if ( http ) 
-		{
-			new KRun( KURL(filename) );
-		} 
-		else 
-		{
-			KURL url;
-			url.setPath( filename );
-			KMimeType::Ptr pMime = KMimeType::findByURL(url);
-			KRun::runURL(url, pMime->name());
-		}
+		KURL url = KURL::fromPathOrURL(filename);
+		KMimeType::Ptr pMime = KMimeType::findByURL(url);
+		KRun::runURL(url, pMime->name());
 	}
 }
 

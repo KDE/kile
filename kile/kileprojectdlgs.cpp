@@ -148,7 +148,7 @@ bool KileProjectDlgBase::acceptUserExtensions()
 		{
 			// some tiny extension checks
 			QStringList::ConstIterator it;
-			QStringList list = QStringList::split(" ", m_val_extensions[i-1]);
+			QStringList list = m_val_extensions[i-1].split(" ");
 			for ( it=list.begin(); it != list.end(); ++it ) 
 			{
 				if ( ! reg.exactMatch(*it) )
@@ -400,7 +400,7 @@ void KileNewProjectDlg::slotOk()
 		if (! dr.exists())
 		{
 			bool suc = true;
-			QStringList dirs = QStringList::split("/", fi.path());
+			QStringList dirs = fi.path().split("/");
 			QString path;
 
 			for (uint i=0; i < dirs.count(); ++i)

@@ -497,13 +497,13 @@ void KileGrepDialog::startGrep()
 	{
 		QString command = buildProjectCommand() + ' ' + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
 		KILE_DEBUG() << "\tgrep (project): " <<  command << endl;
-		(*childproc) << QStringList::split(' ',command);
+		(*childproc) << command.split(' ');
 	}
 	else
 	{
 		QString command = buildFilesCommand();
 		KILE_DEBUG() << "\tgrep (files): " << command << endl;
-		(*childproc) << QStringList::split(' ', command);
+		(*childproc) << command.split(' ');
 	}
 	m_grepJobs--;
 
@@ -647,7 +647,7 @@ QString KileGrepDialog::buildFilesCommand()
 	if (files_temp.right(1) != ",")
 		files_temp = files_temp + ',';
 
-	QStringList tokens = QStringList::split ( ",", files_temp, false );
+	QStringList tokens = files_temp.split(",", QString::SkipEmptyParts);
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end())
 	{
@@ -799,11 +799,11 @@ void KileGrepDialog::setFilter(const QString &filter)
 	filter_combo->clear();
 	if ( !filter.isEmpty() )
 	{
-		QStringList filter_lst = QStringList::split("\n", filter);
+		QStringList filter_lst = filter.split("\n");
 		for (QStringList::Iterator it = filter_lst.begin();
 			it != filter_lst.end(); ++it)
 		{
-			QStringList filter_split = QStringList::split("|", *it);
+			QStringList filter_split = (*it).split("|");
 			filter_list.append(filter_split[0]);
 			filter_combo->insertItem(filter_split[1]);
 		}

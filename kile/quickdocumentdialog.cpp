@@ -467,7 +467,7 @@ void QuickDocument::readDocumentClassConfig()
 		list.append( m_config->readEntry("defaultOptions") );
 		list.append( m_config->readEntry("selectedOptions") );
 		// now read all user defined options
-		QStringList options = QStringList::split(",", m_config->readEntry("options") );
+		QStringList options = (m_config->readEntry("options")).split(",");
 		for ( uint j=0; j<options.count(); ++j ) {
 			list.append( options[j] + " => " + m_config->readEntry(options[j]) );
 		}
@@ -492,7 +492,7 @@ void QuickDocument::fillDocumentClassCombobox()
 	QString stdUserClasses = "beamer,prosper";
 
 	// set classes combobox (standard and user defined classes)
-	QStringList classlist = QStringList::split(",",stdUserClasses);
+	QStringList classlist = stdUserClasses.split(",");
 	for ( uint i=0; i< m_userClasslist.count(); ++i )
 		classlist.append( m_userClasslist[i] );
 	classlist.sort();
@@ -808,7 +808,7 @@ bool QuickDocument::isSelectedClassOption(const QString &option)
 // insert all default options of the current class into the defaultOptions-dictionary
 void QuickDocument::setDefaultClassOptions(const QString &defaultoptions)
 {
-	QStringList list = QStringList::split(",",defaultoptions);
+	QStringList list = defaultoptions.split(",");
 	m_currentDefaultOptions.clear();
 	for ( uint i=0; i<list.count(); ++i ) {
 		if ( ! list[i].isEmpty() )
@@ -821,7 +821,7 @@ void QuickDocument::setSelectedClassOptions(const QString &selectedoptions)
 {
 	KILE_DEBUG() << "\tset options: " << selectedoptions << endl;
 
-	QStringList list = QStringList::split(",",selectedoptions);
+	QStringList list = selectedoptions.split(",");
 	uint nlist = list.count();
 
 	m_currentFontsize  = ( nlist >= 1 ) ? list[0] : "";
@@ -936,7 +936,7 @@ void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const 
 	Q3ListBox *listbox = combo->listBox();
 
 	QString sep = ( m_currentClass=="beamer" && combo==m_cbPaperSize ) ? ";" : ",";
-	QStringList list = QStringList::split(sep,cslist);
+	QStringList list = cslist.split(sep);
 	if ( ! documentclasscombo )
 		list.sort();
 
@@ -970,7 +970,7 @@ bool QuickDocument::addComboboxEntries(KComboBox *combo, const QString &title,co
 		combolist += combo->text(i);
 
 	// add new entries (one or a comma separated list)
-	QStringList list = QStringList::split(",",entry);
+	QStringList list = entry.split(",");
 	for ( uint i=0; i<list.count(); ++i ) {
 		QString s = list[i].trimmed();
 		// entries must match a regular expression
@@ -1422,7 +1422,7 @@ void QuickDocument::initHyperref()
 	QString driver =  "dvipdf,dvipdfm,dvips,dvipsone,"
 	                  "dviwindo,hypertex,latex2html,pdftex,"
 	                  "ps2pdf,tex4ht,textures,vtex";
-	QStringList list = QStringList::split(",",driver);
+	QStringList list = driver.split(",");
 
 	m_dictHyperrefDriver.clear();
 	for ( uint i=0; i<list.count(); ++i )
@@ -1616,7 +1616,7 @@ void QuickDocument::printBeamerTheme()
 	QRegExp reg("(\\w+)\\s+\\((.*)\\)$");
 
 	if ( reg.search(theme) >= 0 ) {
-		QStringList optionlist = QStringList::split(",",reg.cap(2));
+		QStringList optionlist = reg.cap(2).split(",");
 		m_td.tagBegin += "\\usepackage[" + optionlist.join(",") + "]{beamertheme" + reg.cap(1) + "}\n\n";
 	} else {
 		m_td.tagBegin += "\\usepackage{beamertheme" + theme + "}\n\n";
@@ -2186,7 +2186,7 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int c
 	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
 
 	int firstlinedit = -1;
-	m_description = QStringList::split(",",list[1]);
+	m_description = list[1].split(",");
 	for ( uint i=0; i<m_description.count(); ++i ) {
 		// create the object
 		if ( m_description[i] == "label" ) {
@@ -2197,7 +2197,7 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int c
 			KComboBox *combobox = new KComboBox(page);
 			combobox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 			combobox->setDuplicatesEnabled(false);
-			combobox->insertStringList( QStringList::split(",",list[i+2],true) );
+			combobox->insertStringList( list[i+2].split(",", QString::KeepEmptyParts) );
 			if ( i>0 && m_description[i-1]=="label" )
 				((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
 			m_objectlist.append( combobox );
@@ -2250,7 +2250,7 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
                                                 const QString &pattern)
 {
 	// split entries (one or a comma separated list)
-	QStringList list = QStringList::split(",",textlist);
+	QStringList list = textlist.split(",");
 
 	for ( uint i=0; i<list.count(); ++i ) {
 		QString s = list[i].trimmed();

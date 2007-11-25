@@ -628,7 +628,7 @@ namespace KileTool
 		determineSource();
 		if (!checkSource()) return NoValidSource;		
 
-		QStringList tools = QStringList::split(',',readEntry("sequence"));
+		QStringList tools = readEntry("sequence").split(',');
 		QString tl, cfg;
 		Base *tool;
 		for (uint i=0; i < tools.count(); ++i)

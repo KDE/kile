@@ -217,11 +217,11 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 	// first we take all standard extensions
 	QStringList standardExtList;
 	if ( type == KileProjectItem::Source )
-		standardExtList = QStringList::split(" ", m_extmanager->latexDocuments() );
+		standardExtList = (m_extmanager->latexDocuments()).split(" ");
 	else if ( type == KileProjectItem::Package )
-		standardExtList = QStringList::split(" ", m_extmanager->latexPackages() );
+		standardExtList = (m_extmanager->latexPackages()).split(" ");
 	else // if ( type == KileProjectItem::Image )
-		standardExtList = QStringList::split(" ", m_extmanager->images() );
+		standardExtList = (m_extmanager->images()).split(" ");
 
 	// now we scan user defined list and accept all extension, 
 	// except standard extensions of course
@@ -231,7 +231,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 		QStringList userExtList;
 
 		QStringList::ConstIterator it;
-		QStringList list = QStringList::split(" ", ext);
+		QStringList list = ext.split(" ");
 		for ( it=list.begin(); it != list.end(); ++it ) 
 		{
 			// some tiny extension checks
@@ -643,8 +643,8 @@ QString KileProject::findRelativePath(const KUrl &url)
 //     return "./";
 //   }
 
-	QStringList basedirs = QStringList::split("/", basepath, false);
-	QStringList dirs = QStringList::split("/", path, false);
+	QStringList basedirs = basepath.split("/", QString::SkipEmptyParts);
+	QStringList dirs = path.split("/", QString::SkipEmptyParts);
 
 	uint nDirs = dirs.count();
 	//uint nBaseDirs = basedirs.count();

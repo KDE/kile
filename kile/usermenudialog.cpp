@@ -171,7 +171,7 @@ QString UserTags::completeTag(const KileAction::TagData & td)
 
 KileAction::TagData UserTags::splitTag(const QString & name, const QString & tag)
 {
-	QStringList parts = QStringList::split("%M", tag);
+	QStringList parts = tag.split("%M");
 	int dx = parts[0].length();
 	if ( parts[1].length() == 0 )
 	{

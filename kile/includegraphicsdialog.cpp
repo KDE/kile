@@ -415,7 +415,7 @@ void IncludeGraphics::execute(const QString &command)
 
    m_proc = new K3ShellProcess("/bin/sh");
    m_proc->clearArguments();
-   (*m_proc) << QStringList::split(' ',command);
+   (*m_proc) << command.split(' ');
 
    connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
            this, SLOT(slotProcessOutput(K3Process*,char*,int)) );

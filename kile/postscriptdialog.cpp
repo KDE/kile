@@ -67,7 +67,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	if ( ! texfilename.isEmpty() ) 
 	{
 			// working with a postscript document, so we try to determine the LaTeX source file
-			QStringList extlist = QStringList::split( " ", latexextensions );
+			QStringList extlist = latexextensions.split(" ");
 			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 			{
 				if ( texfilename.find( (*it), -(*it).length() ) >= 0 ) 
@@ -283,7 +283,7 @@ void PostscriptDialog::execute()
 			
 		m_proc = new K3ShellProcess();
 		m_proc->clearArguments(); 
-		(*m_proc) << QStringList::split(' ',"sh " + m_tempfile);
+		(*m_proc) << ("sh " + m_tempfile).split(' ');
 		   
 		connect(m_proc, SIGNAL(receivedStdout(K3Process *,char *,int)), 
 		        this, SLOT(slotProcessOutput(K3Process *,char *,int)));

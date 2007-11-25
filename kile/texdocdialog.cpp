@@ -182,7 +182,7 @@ void TexDocDialog::readToc()
 			
 			// list entries 0,1,basename(2),3 are needed for keyword search
 			// (key,title,filepath,keywords)
-			QStringList list = QStringList::split(';',textline,true);
+			QStringList list = textline.split(';', QString::KeepEmptyParts);
 			
 			// get basename of help file 
 			QString basename;
@@ -220,7 +220,7 @@ void TexDocDialog::showToc(const QString &caption,const QStringList &doclist, bo
 		} 
 		else 
 		{
-			keylist = QStringList::split(';',doclist[i],true);
+			keylist = doclist[i].split(';', QString::KeepEmptyParts);
 			if ( itemsection ) 
 			{
 				K3ListViewItem *item = new K3ListViewItem(itemsection,keylist[1],keylist[0]);
@@ -284,10 +284,10 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 
 ////////////////////// prepare document file //////////////////////
 
-QString TexDocDialog::searchFile(const QString &docfilename,const QString &listofpathes, const QString &subdir)
+QString TexDocDialog::searchFile(const QString &docfilename,const QString &listofpaths, const QString &subdir)
 {
-	QStringList pathlist  = QStringList::split(':',listofpathes);
-	QStringList extlist   = QStringList::split(',',",.gz,.bz2",true);
+	QStringList pathlist  = listofpaths.split(':');
+	QStringList extlist   = QString(",.gz,.bz2").split(',', QString::KeepEmptyParts);
 	
 	QString filename;
 	for ( QStringList::Iterator itp = pathlist.begin(); itp!=pathlist.end(); ++itp ) 
@@ -538,7 +538,7 @@ void TexDocDialog::executeScript(const QString &command)
 
 	m_proc = new K3ShellProcess("/bin/sh");
 	m_proc->clearArguments();
-	(*m_proc) << QStringList::split(' ',command);
+	(*m_proc) << command.split(' ');
 	m_output = QString::null;
 	
 	connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
@@ -579,7 +579,7 @@ void TexDocDialog::slotInitToc()
 {
 	disconnect(this, SIGNAL(processFinished()), this, SLOT(slotInitToc()));
 
-	QStringList results = QStringList::split('\n',m_output,true);
+	QStringList results = m_output.split('\n', QString::KeepEmptyParts);
 	if ( results.count() < 3 ) 
 	{
 		KMessageBox::error(this,i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless."));

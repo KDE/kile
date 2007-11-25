@@ -221,7 +221,7 @@ void KileLyxServer::receive(int fd)
  		if ((bytesRead = read(fd, buffer, size - 1)) > 0 )
  		{
   			buffer[bytesRead] = '\0'; // turn it into a c string
-            		QStringList cmds = QStringList::split('\n', QString(buffer).trimmed());
+            		QStringList cmds = QString(buffer).trimmed().split('\n');
 			for ( uint i = 0; i < cmds.count(); ++i )
 				processLine(cmds[i]);
 		}

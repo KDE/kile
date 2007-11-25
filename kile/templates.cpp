@@ -273,7 +273,7 @@ void TemplateIconView::searchLaTeXClassFiles()
 	m_proc = new K3Process(this);
 	m_proc->clearArguments();
 	m_proc->setUseShell(true);
-	(*m_proc) << QStringList::split(' ', command);
+	(*m_proc) << command.split(' ');
 	m_output = QString::null;
 
 	connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
@@ -331,7 +331,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		map["HA-prosper"] = false;
 		
 		// split search results and look, which class files are present
-		QStringList list = QStringList::split("\n",m_output);
+		QStringList list = m_output.split("\n");
 		for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) 
 		{
 			QString filename = QFileInfo(*it).fileName();

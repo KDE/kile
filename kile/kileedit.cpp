@@ -342,7 +342,7 @@ void EditorExtension::closeAllEnvironments(Kate::View *view)
 	bool ok1,ok2;
 	for ( QStringList::Iterator it=envlist.begin(); it!=envlist.end(); ++it ) 
 	{
-		QStringList entry = QStringList::split(',',*it);
+		QStringList entry = (*it).split(',');
 		if ( entry[0] == "document" )
 			break;
 
@@ -2312,7 +2312,7 @@ void EditorExtension::initDoubleQuotes()
 	if ( index<0 && index>=(int)m_quoteList.count() )
 		index = 0;
 	
-	QStringList quotes = QStringList::split(QRegExp("\\s{2,}"), m_quoteList[index] ); 
+	QStringList quotes = m_quoteList[index].split(QRegExp("\\s{2,}"));
 	m_leftDblQuote=  quotes[1];
 	m_rightDblQuote = quotes[2];
 	KILE_DEBUG() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;

@@ -229,7 +229,7 @@ void Tester::processTool(KConfig *config, const QString &tool)
 {
 	config->setGroup(tool);
 
-	QStringList criticaltests = QStringList::split(",", config->readEntry("mustpass", ""));
+	QStringList criticaltests = (config->readEntry("mustpass", "")).split(",");
 
 	//Did we find the executable?
 	Q3ValueList<ConfigTest> tests;

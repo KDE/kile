@@ -1673,7 +1673,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	
 	QStringList extlist;
 	QFileInfo fi(url.path());
-	const QStringList templist = QStringList::split(" ", KileConfig::cleanUpFileExtensions());
+	const QStringList templist = KileConfig::cleanUpFileExtensions().split(" ");
 	const QString fileName = fi.fileName();
 	const QString path();
 	const QString baseName = fi.baseName(true);
@@ -1763,7 +1763,7 @@ void Manager::projectShow()
 
 			// called from KAction 'Show projects...': find the first opened 
 			// LaTeX document or, if that fails, any other opened file
-			QStringList extlist = QStringList::split(" ",m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages());
+			QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(" ");
 			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 			{
 				if ( itempath.find( (*it), -(*it).length() ) >= 0 ) 

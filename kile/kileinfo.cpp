@@ -153,7 +153,7 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 		// - call from logwidget or error handling, which 
 		//   tries to determine the LaTeX source file
 		bool found = false;
-		QStringList extlist = QStringList::split( " ", m_extensions->latexDocuments() );
+		QStringList extlist = (m_extensions->latexDocuments()).split(" ");
 		for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 		{
 			QString name = file + (*it);
@@ -392,7 +392,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 			break;
 	}
 
-	inputpaths = QStringList::split( ":",  expandEnvironmentVars(configpaths));
+	inputpaths = expandEnvironmentVars(configpaths).split( ":");
 	inputpaths.prepend(path);
 
 		// the first match is supposed to be the correct one
@@ -418,8 +418,8 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 	KILE_DEBUG() <<"===findRelativeURL==================" << endl;
 	KILE_DEBUG() << "\tbasepath : " <<  basepath << " path: " << path << endl;
 
-	QStringList basedirs = QStringList::split("/", basepath, false);
-	QStringList dirs = QStringList::split("/", path, false);
+	QStringList basedirs = basepath.split("/", QString::SkipEmptyParts);
+	QStringList dirs = path.split("/", QString::SkipEmptyParts);
 
 	uint nDirs = dirs.count();
 	//uint nBaseDirs = basedirs.count();

@@ -1074,7 +1074,7 @@ void LaTeXInfo::updateStruct()
 					{
 						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
 
-						QStringList bibs = QStringList::split(",", m);
+						QStringList bibs = m.split(",");
 						QString biblio;
 
 						// assure that all files have an extension
@@ -1114,7 +1114,7 @@ void LaTeXInfo::updateStruct()
 					// update the package list
 					else if ( (*it).type == KileStruct::Package )
 					{
-						QStringList pckgs = QStringList::split(",", m);
+						QStringList pckgs = m.split(",");
 						uint cumlen = 0;
 						for (uint p = 0; p < pckgs.count(); ++p)
 						{

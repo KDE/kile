@@ -71,7 +71,7 @@ bool LatexOutputFilter::fileExists(const QString & name)
 	if ( fi.exists() && !fi.isDir() ) return true;
 
 	// try to determine the LaTeX source file
-	QStringList extlist = QStringList::split(" ", m_extensions->latexDocuments() );
+	QStringList extlist = m_extensions->latexDocuments().split(" ");
 	for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
 	{
 		fi.setFile( path() + '/' + name + (*it) );

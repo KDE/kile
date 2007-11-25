@@ -1997,7 +1997,7 @@ void TabularDialog::slotEnvironmentChanged(const QString &env)
 		// option
 		if ( attr.option.find('[') == 0 ) 
 		{
-			QStringList optionlist = QStringList::split("",attr.option);
+			QStringList optionlist = attr.option.split("");
 			if ( optionlist.count() > 2 ) 
 			{
 				// ok, let's enable it

@@ -219,7 +219,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if ( preamblelines == 0 )
 		return false;
 	
-	QStringList previewlist = QStringList::split(",",spreviewlist,true);
+	QStringList previewlist = spreviewlist.split(",", QString::KeepEmptyParts);
 	
 	// create preview tools 
 	KILE_DEBUG() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;

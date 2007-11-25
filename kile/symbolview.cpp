@@ -102,8 +102,8 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 	
 	if( text.find(rePkgs) != -1 )
 	{
-		args = QStringList::split(",",rePkgs.cap(1));
-		pkgs = QStringList::split(",",rePkgs.cap(2));
+		args = rePkgs.cap(1).split(",");
+		pkgs = rePkgs.cap(2).split(",");
 	}
 }
 
@@ -268,8 +268,8 @@ void SymbolView::fillWidget(const QString& prefix)
 		config->setGroup(MFUSGroup);
 		QString configPaths = config->readEntry("paths");
 		QString configrefCnts = config->readEntry("counts");
-		paths = QStringList::split(',',configPaths);
-		refCnts = QStringList::split(',',configrefCnts);
+		paths = configPaths.split(',');
+		refCnts = configrefCnts.split(',');
 		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts" << endl;
 		if( paths.count() != refCnts.count() )
 		{

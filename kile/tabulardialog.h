@@ -37,7 +37,7 @@
 #include <Q3Frame>
 #include <QMouseEvent>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kcolorcombo.h>
 #include <kpushbutton.h>
  
@@ -108,7 +108,7 @@ private:
 };
 
 
-class TabCellDialog : public KDialogBase  
+class TabCellDialog : public KDialog 
 {
 	Q_OBJECT
 

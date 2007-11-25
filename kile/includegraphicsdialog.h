@@ -17,11 +17,11 @@
 #ifndef INCLUDEGRAPHICSDIALOG_H
 #define INCLUDEGRAPHICSDIALOG_H
 
-#include <qstring.h>
+#include <QString>
 //Added by qt3to4:
 #include <QLabel>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 /**
   *@author dani 
@@ -38,7 +38,7 @@ class K3ShellProcess;
 namespace KileDialog
 {
 
-class IncludeGraphics : public KDialogBase
+class IncludeGraphics : public KDialog
 {
 	Q_OBJECT
 

@@ -38,8 +38,15 @@
 #define SCRIPT_TYPE	2
 
 NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, QWidget *parent, const char *name )
-  : KDialogBase(parent,name,true,i18n("New File"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_currentlyDisplayedType(-1)
+  : KDialog(parent), m_templateManager(templateManager), m_currentlyDisplayedType(-1)
 {
+	setObjectName(name);
+	setCaption(i18n("New File"));
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	// first read config
 	m_config = KGlobal::config();
 	m_config->setGroup("NewFileWizard");

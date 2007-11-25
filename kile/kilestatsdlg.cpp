@@ -18,12 +18,19 @@
 // A dialog that displays statistical information about the active project/file
 
 KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
-	: KDialogBase(KDialogBase::Tabbed,0,parent,name,true,caption, KDialogBase::Help | KDialogBase::Ok | KDialogBase::User1 | KDialogBase::User2 , KDialogBase::Ok, false),
-	m_project(project),
-	m_docinfo(docinfo)
-{	
-	setButtonText(KDialogBase::User1,i18n("Copy"));
-	setButtonText(KDialogBase::User2,i18n("Copy as LaTeX"));
+	: KPageDialog(parent), m_project(project), m_docinfo(docinfo)
+{
+	setObjectName(name);
+	setFaceType(Tabbed);
+	setCaption(caption);
+	setModal(true);
+	setButtons(Help | Ok | Cancel | User1 | User2);
+	setDefaultButton(Ok);
+	showButtonSeparator(false);
+	setButtonGuiItem(User1, KGuiItem("&Save Results..."));
+
+	setButtonText(User1, i18n("Copy"));
+	setButtonText(User2, i18n("Copy as LaTeX"));
 	setHelp("statistics");
 
 	m_summarystats = new long[SIZE_STAT_ARRAY];

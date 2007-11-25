@@ -17,8 +17,8 @@
 #ifndef CLEANDIALOG_H
 #define CLEANDIALOG_H
 
-#include <kdialogbase.h>
-#include <qstringlist.h>
+#include <kdialog.h>
+#include <QStringList>
 
 class K3ListView;
 
@@ -28,7 +28,7 @@ class K3ListView;
 
 namespace KileDialog 
 {
-	class Clean : public KDialogBase
+	class Clean : public KDialog
 	{
 	Q_OBJECT
 	

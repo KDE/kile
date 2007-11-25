@@ -198,7 +198,7 @@ private slots:
 	void slotEnableButtons();
 };
 
-class QuickDocumentInputDialog : public KDialogBase  {
+class QuickDocumentInputDialog : public KDialog {
    Q_OBJECT
 public: 
 	QuickDocumentInputDialog(const QStringList &list,int check=0,

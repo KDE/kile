@@ -19,23 +19,23 @@
 #ifndef TEXDOCDIALOG_H
 #define TEXDOCDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <k3process.h>
 #include <ktemporaryfile.h>
 #include <k3listview.h>
 
-#include <qlabel.h>
-#include <qstringlist.h>
-#include <qmap.h>
+#include <QLabel>
+#include <QStringList>
+#include <QMap>
 //Added by qt3to4:
 #include <QEvent>
 
 namespace KileDialog
 {
 
-class TexDocDialog : public KDialogBase  
+class TexDocDialog : public KDialog
 {
 	Q_OBJECT
 

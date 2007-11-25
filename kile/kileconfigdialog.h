@@ -16,7 +16,7 @@
 #ifndef TOOLSOPTIONSDIALOG_H
 #define TOOLSOPTIONSDIALOG_H
 
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 #include <kdeversion.h>
 
 #include <ktexteditor/configinterfaceextension.h>
@@ -48,7 +48,7 @@ namespace KileTool { class Manager; }
 
 namespace KileDialog
 {
-	class Config : public KDialogBase
+	class Config : public KPageDialog
 	{
 		Q_OBJECT
 

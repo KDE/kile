@@ -17,7 +17,7 @@
 #ifndef POSTSCRIPTDIALOG_H
 #define POSTSCRIPTDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qspinbox.h>
@@ -54,7 +54,7 @@ class K3ShellProcess;
 namespace KileDialog
 {
 
-class PostscriptDialog : public KDialogBase   
+class PostscriptDialog : public KDialog 
 {
 	Q_OBJECT
 

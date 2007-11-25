@@ -18,10 +18,16 @@
 namespace KileDialog
 {
 	Wizard::Wizard(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
-		KDialogBase(parent,name,true,caption,KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true),
+		KDialog(parent),
 		m_td(QString::null, QString::null, QString::null, 0, 0, QString::null),
 		m_config(config)
 	{
+		setObjectName(name);
+		setCaption(caption);
+		setModal(true);
+		setButtons(Ok | Cancel);
+		setDefaultButton(Ok);
+		showButtonSeparator(true);
 	}
 
 	Wizard::~Wizard()

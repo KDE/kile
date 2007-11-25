@@ -16,14 +16,14 @@
 #ifndef KILEABBREVVIEW_H
 #define KILEABBREVVIEW_H
 
-#include <qstring.h>
-#include <qlabel.h>
+#include <QString>
+#include <QLabel>
 #include <q3popupmenu.h>
 
 #include <klineedit.h>
 #include <k3listbox.h>
 #include <k3listview.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 //////////////////// KlistView for abbreviations ////////////////////
 
@@ -65,7 +65,7 @@ private:
 
 //////////////////// add/edit dialog for abbreviations ////////////////////
 
-class KileAbbrevInputDialog : public KDialogBase  
+class KileAbbrevInputDialog : public KDialog
 {
    Q_OBJECT
 

@@ -23,7 +23,7 @@
 #include <Q3GridLayout>
 #include <QLabel>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
 
@@ -40,7 +40,7 @@ class TemplateItem;
 namespace KileDocument { class Extensions; }
 namespace KileTemplate { class Manager; }
 
-class KileProjectDlgBase : public KDialogBase
+class KileProjectDlgBase : public KDialog
 {
 	Q_OBJECT
 

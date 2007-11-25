@@ -21,7 +21,7 @@
 #include <qstring.h>
 
 #include <k3listview.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 #include <kurl.h>
 
@@ -35,7 +35,7 @@ namespace KileTemplate { class Manager; class Info; }
 
 
 
-class ManageTemplatesDialog : public KDialogBase  {
+class ManageTemplatesDialog : public KDialog  {
 	Q_OBJECT
 public: 
 	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption,QWidget *parent=0, const char *name=0);

@@ -17,9 +17,9 @@
 
 #include "kilelistselector.h"
 
-#include <qstringlist.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QStringList>
+#include <QLabel>
+#include <QLayout>
 #include <q3header.h>
 //Added by qt3to4:
 #include <Q3VBoxLayout>
@@ -32,14 +32,21 @@
 //////////////////// KileListSelectorBase ////////////////////
 
 KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) :
-	KDialogBase( KDialogBase::Plain, caption, Ok|Cancel,Ok, parent, name, true, true )
+	KDialog(parent)
 {
-	Q3VBoxLayout *layout = new Q3VBoxLayout(plainPage());
+	setObjectName(name);
+	setCaption(caption);
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
 
-	layout->addWidget(new QLabel(select, plainPage()));
+	Q3VBoxLayout *layout = new Q3VBoxLayout(this);
+
+	layout->addWidget(new QLabel(select, this));
 	layout->addSpacing(8);
 
-	m_listview = new K3ListView(plainPage());
+	m_listview = new K3ListView(this);
 	m_listview->addColumn(i18n("Files"));
 	m_listview->setSorting(-1);
 	m_listview->setAllColumnsShowFocus(true);

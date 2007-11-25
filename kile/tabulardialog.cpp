@@ -248,9 +248,14 @@ void TabCellFrame::mouseDoubleClickEvent(QMouseEvent *event)
 
 TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
                              const QString &headerlabel, const QStringList &alignlist) 
-	: KDialogBase( parent,0, true, i18n("Cell Properties"),
-                  Ok | Cancel | User1, Ok, true )
+	: KDialog( parent)
 {
+	setCaption(i18n("Cell Properties"));
+	setModal(true);
+	setButtons(Ok | Cancel | User1);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 	

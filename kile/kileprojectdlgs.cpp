@@ -25,9 +25,9 @@
 
 #include "kileprojectdlgs.h"
 
-#include <qlabel.h>
+#include <QLabel>
 #include <q3whatsthis.h>
-#include <qfileinfo.h>
+#include <QFileInfo>
 #include <q3ptrlist.h>
 #include <qregexp.h>
 #include <qvalidator.h>
@@ -60,9 +60,16 @@ const QString whatsthisMaster = i18n("Select the default master document. Leave 
 const QString tool_default = i18n("(use global setting)");
 
 KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char * name)
-	: KDialogBase( KDialogBase::Plain, caption, (Ok | Cancel), Ok, parent, name, true, true),
+	: KDialog((parent),
 	m_extmanager(extensions), m_project(0)
 {
+	setCaption(caption);
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+	setObjectName(name);
+
 	// properties groupbox
 	m_pgroup = new Q3VGroupBox(i18n("Project"), plainPage());
 	m_pgroup->setColumnLayout(0, Qt::Vertical );

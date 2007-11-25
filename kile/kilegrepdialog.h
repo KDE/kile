@@ -24,8 +24,8 @@
 #ifndef __KILE_GREP_DIALOG_H_
 #define __KILE_GREP_DIALOG_H_
 
-#include <kdialogbase.h>
-#include <qstringlist.h>
+#include <kdialog.h>
+#include <QStringList>
 //Added by qt3to4:
 #include <QEvent>
 #include <QLabel>
@@ -53,7 +53,7 @@ namespace KileGrep
 	enum TemplateMode { tmNormal=0,tmCommand,tmCommandWithOption,tmEnv,tmGraphics,tmLabel,tmRefs,tmFiles };
 }
 
-class KileGrepDialog : public KDialogBase
+class KileGrepDialog : public KDialog
 {
 	Q_OBJECT
 

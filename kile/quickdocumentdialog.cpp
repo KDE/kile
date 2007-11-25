@@ -2172,10 +2172,14 @@ bool QuickDocument::inputDialog(QStringList &list, int check)
 QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int check,
 	                                                QuickDocument *parent,
 	                                                const char *name )
-	: KDialogBase(parent,name,true,list[0],KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true),
-	m_parent(parent),
-	m_check(check)
+	: KDialog(parent), m_parent(parent), m_check(check)
 {
+	setObjectName(name);
+	setCaption(list[0]);
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);

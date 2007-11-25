@@ -34,9 +34,15 @@ namespace KileDialog
 {
 
 UserTags::UserTags(const Q3ValueList<KileAction::TagData> &list, QWidget* parent,  const char* name, const QString &caption)
-    : 	KDialogBase(parent,name,true,caption,KDialogBase::Apply|KDialogBase::Cancel, KDialogBase::Apply, true),
-	m_list(list)
+    : 	KDialog(parent), m_list(list)
 {
+	setObjectName(name);
+	setCaption(caption);
+	setModal(true);
+	setButtons(Apply | Cancel);
+	setDefaultButton(Apply);
+	showButtonSeparator(true);
+
  	QWidget *page = new QWidget( this );
 	setMainWidget(page);
 	Q3GridLayout *gbox = new Q3GridLayout( page, 6, 3,5,5,"");

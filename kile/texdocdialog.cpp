@@ -19,7 +19,6 @@
 #include "texdocdialog.h"
 
 #include <qlayout.h>
-#include <qstringlist.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <q3textstream.h>
@@ -54,15 +53,14 @@ namespace KileDialog
 //BEGIN TexDocDialog
 
 TexDocDialog::TexDocDialog(QWidget *parent, const char *name) 
-   : KDialogBase( parent,name, true, i18n("Documentation Browser"), Close | Help, 
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-     NoDefault
-#else
-     Close
-#endif
-     , true ),
-     m_tempfile(0), m_proc(0)
+   : KDialog(parent), m_tempfile(0), m_proc(0)
 {
+	setCaption(i18n("Documentation Browser"));
+	setModal(true);
+	setButtons(Close | Help);
+	setDefaultButton(NoDefault);
+	showButtonSeparator(true);
+
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
  

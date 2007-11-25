@@ -22,12 +22,12 @@
 
 #include "kileactions.h"
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qfileinfo.h>
+#include <QString>
+#include <QStringList>
+#include <QLayout>
+#include <QLabel>
+#include <QCheckBox>
+#include <QFileInfo>
 //Added by qt3to4:
 #include <Q3GridLayout>
 #include <Q3PtrList>
@@ -194,10 +194,17 @@ void InputTag::emitData()
 	InputDialog
 */
 InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, KileInfo *ki, QWidget *parent, const char *name)
-	: KDialogBase (parent, name, true, caption, KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, true), m_ki(ki)
+	: KDialog (parent), m_ki(ki)
 {
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+	setObjectName(name);
+
 	QString newcaption = caption;
 	setCaption(newcaption.remove("&"));
+
 	m_labelprefix = ( newcaption == "chapter" ) ? "chap:" : "sec:";
 	
 	m_usedSelection = false;

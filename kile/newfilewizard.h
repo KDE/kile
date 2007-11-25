@@ -16,12 +16,12 @@
 #ifndef NEWFILEWIZARD_H
 #define NEWFILEWIZARD_H
 
-#include <qstring.h>
-#include <qcheckbox.h>
+#include <QString>
+#include <QCheckBox>
 
 #include <kstandarddirs.h>
 #include <k3iconview.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klocale.h>
 #include <k3process.h>
 
@@ -30,7 +30,7 @@
 
 class NewDocumentWidget;
 
-class NewFileWizard : public KDialogBase
+class NewFileWizard : public KDialog
 {
 	Q_OBJECT
 public:

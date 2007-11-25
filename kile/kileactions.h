@@ -20,7 +20,7 @@
 #include <Q3PtrList>
 
 #include <kaction.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <klineedit.h>
 
 class QCheckBox;
@@ -134,7 +134,7 @@ private:
 /*
 	InputDialog
 */
-class InputDialog : public KDialogBase
+class InputDialog : public KDialog
 {
 	Q_OBJECT
 

@@ -16,7 +16,7 @@
 #ifndef KILEWIZARD_H
 #define KILEWIZARD_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "kileactions.h"
 
@@ -24,7 +24,7 @@ class KConfig;
 
 namespace KileDialog
 {
-	class Wizard : public KDialogBase
+	class Wizard : public KDialog
 	{
 	public:
 		Wizard(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);

@@ -80,9 +80,16 @@
 #include "kileextensions.h"
 
 KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name)
-	: KDialogBase (parent, name, false, QString::null, 0, Ok, false ), 
+	: KDialog(parent),
 	  m_ki(ki), m_mode(mode), childproc(0), m_grepJobs(0)
 {
+	setObjectName(name);
+	setCaption(QString());
+	setModal(false);
+	setButtons(Ok | Cancel | User1);
+	setDefaultButton(NoDefault);
+	showButtonSeparator(false);
+
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 	//setWFlags( Qt::WStyle_StaysOnTop );

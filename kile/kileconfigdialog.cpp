@@ -57,11 +57,21 @@
 namespace KileDialog
 {
 	Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
-		: KDialogBase( KDialogBase::TreeList, Qt::WStyle_DialogBorder,
-		               parent, "kileconfiguration", true, i18n("Configure"), Ok|Cancel, Ok ),
+		: KDialog(parent),
 		  m_config(config),
 		  m_ki(ki)
 	{
+#ifdef __GNUC__
+#warning Skipped Qt::WStyle_DialogBorder
+#endif
+		setCaption(i18n("Configure"));
+		setModal(true);
+		setButtons(Ok | Cancel);
+		setDefaultButton(Ok);
+		showButtonSeparator(true);
+		setObjectName("kileconfiguration");
+		setFaceType(Tree);
+
 		m_config->sync();
 
 		// we need a dialog manager
@@ -113,7 +123,7 @@ namespace KileDialog
 		if ( KileConfig::unfoldConfigTree() )
 			unfoldTreeList();
 		m_manager->updateWidgets();
-		KDialogBase::show();
+		KDialog::show();
 	}
 
 	//////////////////// add a new folder ////////////////////

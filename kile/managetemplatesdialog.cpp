@@ -15,9 +15,9 @@
 
 #include "managetemplatesdialog.h"
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qtooltip.h>
+#include <QLayout>
+#include <QLabel>
+#include <QToolTip>
 //Added by qt3to4:
 #include <Q3HBoxLayout>
 #include <Q3VBoxLayout>
@@ -54,7 +54,16 @@ class TemplateListViewItem : public Q3ListViewItem {
 };
 
 // dialog to create a template
-ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_sourceURL(sourceURL) {
+ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption, QWidget *parent, const char *name )
+	: KDialog(parent),
+	  m_templateManager(templateManager), m_sourceURL(sourceURL)
+{
+	setObjectName(name);
+	setCaption(caption);
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
 
 	m_templateType = KileDocument::Extensions().determineDocumentType(sourceURL);
 
@@ -120,8 +129,17 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 }
 
 // dialog to remove a template
-ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent, const char *name ) : KDialogBase(parent,name,true,caption,KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true), m_templateManager(templateManager), m_templateType(KileDocument::Undefined), m_showAllTypesCheckBox(NULL)
+ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent, const char *name )
+	: KDialog(parent),
+	  m_templateManager(templateManager), m_templateType(KileDocument::Undefined), m_showAllTypesCheckBox(NULL)
 {
+	setObjectName(name);
+	setCaption(caption);
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	QWidget *page = new QWidget(this, "managetemplates_mainwidget");
 	setMainWidget(page);
 	Q3VBoxLayout *topLayout = new Q3VBoxLayout(page, 0, spacingHint());

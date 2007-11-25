@@ -45,16 +45,22 @@ namespace KileDialog
 {
 
 IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki) :
-	KDialogBase( Plain, i18n("Include Graphics"), Ok | Cancel, Ok, parent, 0, true, true),
+	KDialog(parent),
 	m_startdir(startdir),
 	m_ki(ki),
 	m_proc(0)
 {
+	setCaption(i18n("Include Graphics"));
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
    // Layout
-   Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
+   Q3VBoxLayout *vbox = new Q3VBoxLayout(this, 6,6 );
 
    // first groupbox: choose picture
-   Q3VGroupBox* group= new Q3VGroupBox(i18n("File"), plainPage());
+   Q3VGroupBox* group= new Q3VGroupBox(i18n("File"), this);
 
    QWidget *widget = new QWidget(group);
    Q3GridLayout *grid = new Q3GridLayout( widget, 4,3, 6,6, "");
@@ -108,7 +114,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
    grid->addWidget( cb_graphicspath, 3,1 );
 
    // second groupbox: options
-   Q3VGroupBox* gb_opt= new Q3VGroupBox(i18n("Options"), plainPage());
+   Q3VGroupBox* gb_opt= new Q3VGroupBox(i18n("Options"), this);
    QWidget *widget_opt = new QWidget(gb_opt);
    Q3GridLayout *grid_opt = new Q3GridLayout( widget_opt, 2,4, 6,6, "");
 
@@ -132,7 +138,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
    grid_opt->addWidget( edit_bb,     1,3 );
 
     // third groupbox: figure environment
-   Q3GroupBox *gb_fig= new Q3GroupBox(2,Qt::Horizontal,i18n("Figure Environment"), plainPage());
+   Q3GroupBox *gb_fig= new Q3GroupBox(2,Qt::Horizontal,i18n("Figure Environment"), this);
    QWidget *widget_fig = new QWidget(gb_fig);
    Q3GridLayout *grid_fig = new Q3GridLayout( widget_fig, 3,2, 6,6, "");
 

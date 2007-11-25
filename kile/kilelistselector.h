@@ -17,13 +17,13 @@
 #ifndef KILELISTSELECTOR_H
 #define KILELISTSELECTOR_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <k3listview.h>
 
 class K3ListView;
 class QStringList;
 
-class KileListSelectorBase : public KDialogBase
+class KileListSelectorBase : public KDialog
 {
 public:
 	KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);

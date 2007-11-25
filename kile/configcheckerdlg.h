@@ -21,7 +21,7 @@
 #include <Q3ValueList>
 #include <QLabel>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "configtester.h"
 
@@ -49,7 +49,7 @@ namespace KileDialog
 		Q3SimpleRichText	*m_richText;
 	};
 
-	class ConfigChecker : public KDialogBase
+	class ConfigChecker : public KDialog
 	{
 		Q_OBJECT
 

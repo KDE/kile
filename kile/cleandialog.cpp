@@ -34,14 +34,20 @@
 namespace KileDialog
 {
 	Clean::Clean(QWidget *parent, const QString & filename, const QStringList & extlist) : 
-		KDialogBase( KDialogBase::Plain, i18n("Delete Files"), Ok | Cancel, Ok, parent, 0, true, true),
+		KDialog(parent),
 		m_extlist(extlist)
 	{
+		setCaption(i18n("Delete Files"));
+		setModal(true);
+		setButtons(Ok | Cancel);
+		setDefaultButton( Ok );
+		showButtonSeparator(true);
+
 		// Layout
-		Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
+		Q3VBoxLayout *vbox = new Q3VBoxLayout(this, 6,6 );
 		
 		// label widgets
-		QWidget *labelwidget = new QWidget(plainPage());
+		QWidget *labelwidget = new QWidget(this);
 		Q3HBoxLayout *labellayout = new Q3HBoxLayout(labelwidget);
 		
 		// line 1: picture and label
@@ -53,7 +59,7 @@ namespace KileDialog
 		labellayout->addWidget(label);
 		
 		// line 2: listview
-		listview = new K3ListView(plainPage());
+		listview = new K3ListView(this);
 		listview->addColumn(i18n("Files"));
 		listview->setSorting(-1);
 		

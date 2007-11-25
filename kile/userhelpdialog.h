@@ -25,12 +25,12 @@
 #include <k3listbox.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 namespace KileDialog
 {
 
-class UserHelpDialog : public KDialogBase 
+class UserHelpDialog : public KDialog
 {
 	Q_OBJECT
    
@@ -58,7 +58,7 @@ private slots:
 	void slotDown();
 };
 
-class UserHelpAddDialog : public KDialogBase 
+class UserHelpAddDialog : public KDialog
 {
 	Q_OBJECT
    

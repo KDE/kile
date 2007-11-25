@@ -20,7 +20,6 @@
 #include "kiledebug.h"
 #include <k3listview.h>
 #include <kurl.h>
-#include <kdialogbase.h>
 #include <latexcmd.h>
 
 #include "kileconstants.h"

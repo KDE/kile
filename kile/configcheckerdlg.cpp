@@ -74,11 +74,17 @@ void ResultItem::paint(QPainter *p)
 }
 
 ConfigChecker::ConfigChecker(QWidget* parent) :
-	KDialogBase( Plain, i18n("System Check"), Ok|Cancel|User1, Ok, parent, 0, true, true, KGuiItem("&Save Results...")),
-	m_tester(0L)
+	KDialog(parent), m_tester(0L)
 {
-	Q3GridLayout *layout = new Q3GridLayout(plainPage(), 1, 1);
-	m_widget = new ConfigCheckerWidget(plainPage());
+	setCaption(i18n("System Check"));
+	setModal(true);
+	setButtons(Ok | Cancel | User1);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+	setButtonGuiItem(User1, KGuiItem("&Save Results..."));
+
+	Q3GridLayout *layout = new Q3GridLayout(this, 1, 1);
+	m_widget = new ConfigCheckerWidget(this);
 	layout->addWidget(m_widget, 1, 1);
 
 	enableButton(Ok, false);

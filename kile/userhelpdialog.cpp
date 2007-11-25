@@ -45,8 +45,15 @@ namespace KileDialog
 //BEGIN UserHelpDialog
 
 UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
-	: KDialogBase( parent, name, true, i18n("Configure User Help"), Cancel | Ok, Ok, true )
+	: KDialog(parent)
 {
+	setObjectName(name);
+	setCaption(i18n("Configure User Help"));
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	KILE_DEBUG() << "==UserHelpDialog::UserHelpDialog()===================" << endl;
 
 	QWidget *page = new QWidget(this);
@@ -344,9 +351,14 @@ void UserHelpDialog::updateButton()
 //BEGIN UserHelpAddDialog
 
 UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, const char *name)
-	: KDialogBase( parent, name, true, i18n("Add User Helpfile"), Cancel | Ok, Ok, true ),
-	  m_menulistbox(menulistbox)
+	: KDialog(parent), m_menulistbox(menulistbox)
 {
+	setCaption(i18n("Add User Helpfile"));
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
 	KILE_DEBUG() << "==UserHelpAddDialog::UserHelpAddDialog()===================" << endl;
 
 	QWidget *page = new QWidget(this);

@@ -43,19 +43,25 @@
 
 #include "kiletool_enums.h"
 
-namespace KileDialog 
+namespace KileDialog
 {
 
 PostscriptDialog::PostscriptDialog(QWidget *parent, 
                                    const QString &texfilename,const QString &startdir,
                                    const QString &latexextensions,
                                    KileWidget::LogMsg *log,KileWidget::Output *output) :
-	KDialogBase( parent,0, true, i18n("Rearrange Postscript File"), User1 | Ok, User1, true ),
+	KDialog(parent),
 	m_startdir(startdir),
 	m_log(log),
 	m_output(output),
 	m_proc(0)
 {	
+	setCaption(i18n("Rearrange Postscript File"));
+	setModal(true);
+	setButtons(Ok | User1);
+	setDefaultButton(User1);
+	showButtonSeparator(true);
+
 	// determine if a psfile already exists
 	QString psfilename;
 	if ( ! texfilename.isEmpty() ) 

@@ -17,7 +17,7 @@
 #define KILESTATSDLG_H
 
 
-#include <kdialogbase.h>
+#include <kpagedialog.h>
 #include <klocale.h>
 #include <kapplication.h>
 #include <qclipboard.h>
@@ -27,7 +27,7 @@
 #include "kiledocumentinfo.h"
 #include "kilestatswidget.h"
 
-class KileStatsDlg : public KDialogBase
+class KileStatsDlg : public KPageDialog
 {
 public:
 	KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);

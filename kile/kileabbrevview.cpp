@@ -241,9 +241,15 @@ void KileAbbrevView::slotPopupAbbreviation(int id)
 //////////////////// add/edit abbreviation ////////////////////
 
 KileAbbrevInputDialog::KileAbbrevInputDialog(KileAbbrevView *listview, K3ListViewItem *item, int mode, const char *name )
-	: KDialogBase(listview,name, true, i18n("Add Abbreviation"), KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true),
-	  m_listview(listview), m_abbrevItem(item), m_mode(mode)
+	: KDialog(listview), m_listview(listview), m_abbrevItem(item), m_mode(mode)
 {
+	setCaption(i18n("Add Abbreviation"));
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+	setObjectName(name);
+
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
@@ -299,7 +305,7 @@ void KileAbbrevInputDialog::slotTextChanged(const QString &)
 	           ? ! m_listview->findAbbreviation( m_leAbbrev->text() ) : true;
  	state = state && !m_leAbbrev->text().isEmpty() && !m_leExpansion->text().isEmpty();
 
-	enableButton(KDialogBase::Ok,state);
+	enableButton(Ok,state);
 }
 
 void KileAbbrevInputDialog::slotOk()

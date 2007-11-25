@@ -21,7 +21,7 @@
 #include <Q3ValueList>
 #include <QLabel>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "kileactions.h"
 
@@ -35,7 +35,7 @@ class KPushButton;
 namespace KileDialog
 {
 
-class UserTags: public KDialogBase
+class UserTags: public KDialog
 {
 	Q_OBJECT
 

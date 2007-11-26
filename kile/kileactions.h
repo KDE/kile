@@ -20,6 +20,8 @@
 #include <Q3PtrList>
 
 #include <kaction.h>
+#include <kactioncollection.h>
+#include <kselectaction.h>
 #include <kdialog.h>
 #include <klineedit.h>
 

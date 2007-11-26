@@ -28,8 +28,8 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QFileInfo>
+#include <QGridLayout>
 //Added by qt3to4:
-#include <Q3GridLayout>
 #include <Q3PtrList>
 
 #include <klineedit.h>
@@ -54,34 +54,42 @@ namespace KileAction
 Tag::Tag( const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent
 	, const char *name, const QString &tagBegin, const QString &tagEnd
 	, int dx, int dy, const QString &description)
-	: KAction(text, cut, parent, name),
+	: KAction(text, parent),
 	  m_data(text,tagBegin, tagEnd, dx, dy, description)
 {
+	parent->addAction(name, this);
+	setShortcut(cut);
 	init(receiver,slot);
 }
 
 Tag::Tag( const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent
 	, const char *name, const QString &tagBegin, const QString &tagEnd
 	, int dx, int dy, const QString &description)
-	: KAction(text, pix, cut, parent, name),
+	: KAction(KIcon(pix), text, parent),
 	  m_data(text,tagBegin, tagEnd, dx, dy, description)
 {
+	parent->addAction(name, this);
+	setShortcut(cut);
 	init(receiver,slot);
 }
 
 Tag::Tag( const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent
 	, const char *name, const TagData& data)
-	: KAction(text, cut, parent, name),
+	: KAction(text, parent),
 	  m_data(data)
 {
+	parent->addAction(name, this);
+	setShortcut(cut);
 	init(receiver,slot);
 }
 
 Tag::Tag( const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent
 	, const char *name, const TagData& data)
-	: KAction(text, pix, cut, parent, name),
+	: KAction(KIcon(pix), text, parent),
 	  m_data(data)
 {
+	parent->addAction(name, this);
+	setShortcut(cut);
 	init(receiver,slot);
 }
 
@@ -211,10 +219,10 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	Q3GridLayout *gbox = new Q3GridLayout( page, 6,3,5,5,"");
+	QGridLayout *gbox = new QGridLayout(page);
 
 	QLabel *lb = new QLabel(hint, page);
-	gbox->addMultiCellWidget(lb,0,0,0,2);
+	gbox->addWidget(lb, 0, 0, 0, 2);
 
 	m_tag=QString::null;
 	QWidget *focus;
@@ -231,28 +239,28 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		if ( options & KileAction::ShowBrowseButton )
 			gbox->addWidget(input,1,0);
 		else
-			gbox->addMultiCellWidget(input,1,1,0,2);
+			gbox->addWidget(input, 1, 1, 0, 2);
 
 		const QStringList *list;
 
 		if (options & KileAction::FromLabelList)
 		{
 			list = ki->allLabels();
-			input->insertStringList(*list);
+			input->addItems(*list);
 			m_tag = list->first();
 		}
 		else
 		if (options & KileAction::FromBibItemList)
 		{
 			list = ki->allBibItems();
-			input->insertStringList(*list);
+			input->addItems(*list);
 			m_tag = list->first();
 		}
 		else
 		{
 			if (history.size()>0)
 			{
-				input->insertStringList(history);
+				input->addItems(history);
 				m_tag = history.first();
 			}
 		}
@@ -268,7 +276,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		if ( options & KileAction::ShowBrowseButton )
 			gbox->addWidget(input,1,0);
 		else
-			gbox->addMultiCellWidget(input,1,1,0,2);
+			gbox->addWidget(input, 1, 1, 0, 2);
 
 		input->setText(ki->getSelection());
 		m_usedSelection=true;
@@ -280,19 +288,24 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	if ( options & KileAction::ShowBrowseButton)
 	{
 		KPushButton *pbutton = new KPushButton("", page);
-		pbutton->setPixmap( SmallIcon("fileopen") );
+		pbutton->setIcon(SmallIcon("fileopen"));
 		gbox->addWidget(pbutton,1,2);
-		gbox->setColSpacing(1,8);	
-		gbox->setColSpacing(2, pbutton->sizeHint().width()+5 ); 
+#ifdef __GNUC__
+#warning Still some stuff related to QGridLayout left to be ported!
+#endif
+//FIXME: port for KDE4
+// 		gbox->setColSpacing(1,8);	
+// 		gbox->setColSpacing(2, pbutton->sizeHint().width()+5 ); 
 		connect(pbutton, SIGNAL(clicked()), this, SLOT(slotBrowse()));
 	}
 
 	if ( options & KileAction::ShowAlternative)
 	{
-		QCheckBox * m_checkbox = new QCheckBox(alter, page, "input_dialog_checkbox");
+		QCheckBox * m_checkbox = new QCheckBox(alter, page);
+		m_checkbox->setObjectName("input_dialog_checkbox");
 		connect(m_checkbox, SIGNAL(clicked()), this, SLOT(slotAltClicked()));
 		m_useAlternative=false;
-		gbox->addMultiCellWidget(m_checkbox,2,2,0,2);
+		gbox->addWidget(m_checkbox, 2, 2, 0, 2);
 	}
 
 	m_edLabel = 0L;
@@ -305,14 +318,15 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		m_edLabel->setMinimumWidth(300);
 		m_edLabel->setText(m_labelprefix);
 		label->setBuddy(m_edLabel);
-		gbox->addMultiCellWidget(label,3,3,0,2);
-		gbox->addMultiCellWidget(m_edLabel,4,4,0,2);
+		gbox->addWidget(label, 3, 3, 0, 2);
+		gbox->addWidget(m_edLabel, 4, 4, 0, 2);
 	}
 
 	m_useAddProjectFile = ( options & KileAction::AddProjectFile );
 	
 	gbox->setRowStretch(5,1);
-	gbox->setColStretch(0,1);
+//FIXME: port for KDE4
+// 	gbox->setColStretch(0,1);
 	
 	focus->setFocus();
 }
@@ -372,8 +386,10 @@ QString InputDialog::label()
 /////////////////
 
 Select::Select(const QString &text, const KShortcut &cut, KActionCollection *parent, const char *name )
-	: KSelectAction(text,cut,parent,name)
+	: KSelectAction(text, parent)
 {
+	parent->addAction(name, this);
+	setShortcut(cut);
 	init();
 }
 
@@ -384,7 +400,7 @@ void Select::init()
 
 void Select::emitData(const QString & name)
 {
-	m_dict[name]->activate();
+	m_dict[name]->trigger();
 }
 
 void Select::setItems(Q3PtrList<KAction>& list)

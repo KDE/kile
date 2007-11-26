@@ -24,9 +24,9 @@
 #include <qinputdialog.h>
 #include <qfileinfo.h>
 #include <q3whatsthis.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
-#include <Q3VBoxLayout>
+
+#include <QGridLayout>
+#include <QBoxLayout>
 
 #include <klocale.h>
 #include <kfiledialog.h>
@@ -60,26 +60,30 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	setMainWidget(page);
 
 	// layout
-	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
-	Q3VGroupBox* group= new Q3VGroupBox(i18n("User Help"),page );
+	QVBoxLayout *vbox = new QVBoxLayout(page);
+	QGroupBox* group= new QGroupBox(i18n("User Help"), page);
 
 	QWidget *widget = new QWidget(group);
-	Q3GridLayout *grid = new Q3GridLayout( widget, 5,3, 5,5, "" );
-	grid->setRowStretch(1,1);
-	grid->setColStretch(0,1);
-	grid->setRowSpacing(2,12);
-	grid->setColSpacing(1,20);
+	QGridLayout *grid = new QGridLayout(widget);
+#ifdef __GNU__
+#warning Some QGridLayout still remains to be ported
+#endif
+//FIXME: port for KDE4
+// 	grid->setRowStretch(1,1);
+// 	grid->setColStretch(0,1);
+// 	grid->setRowSpacing(2,12);
+// 	grid->setColSpacing(1,20);
 
 	// listbox
 	QLabel *label1 = new QLabel(i18n("&Menu item:"),widget);
-	grid->addWidget( label1,0,0 );
+	grid->addWidget(label1, 0, 0);
 	m_menulistbox = new K3ListBox(widget);
-	grid->addWidget( m_menulistbox, 1,0 );
+	grid->addWidget(m_menulistbox, 1, 0);
 	label1->setBuddy(m_menulistbox);
 
 	// action widget
 	QWidget *actionwidget = new QWidget(widget);
-	Q3VBoxLayout *actions = new Q3VBoxLayout(actionwidget);
+	QVBoxLayout *actions = new QVBoxLayout(actionwidget);
 
 	m_add = new KPushButton(i18n("&Add..."),actionwidget);
 	m_remove = new KPushButton(i18n("&Remove"),actionwidget);
@@ -121,7 +125,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	grid->addWidget( label2, 3,0 );
 	m_fileedit = new KLineEdit("",widget);
 	m_fileedit->setReadOnly(true);
-	grid->addMultiCellWidget( m_fileedit, 4,4,0,2 );
+	grid->addWidget(m_fileedit, 4, 4, 0, 2);
 
 	// fill vbox
 	vbox->addWidget(group);
@@ -215,7 +219,7 @@ void UserHelpDialog::slotRemove()
 	{
 		// remove item
 		m_menulistbox->removeItem(index);
-		m_filelist.remove( m_filelist.at(index) );
+		m_filelist.removeAt(index);
 
 		// select a new index: first we try to take the old index. When
 		// this index is too big now, index is decremented.
@@ -244,7 +248,7 @@ void UserHelpDialog::slotAddSep()
 
 	// insert separator
 	m_menulistbox->insertItem("-",index);
-	m_filelist.insert( m_filelist.at(index) ,QString::null );
+	m_filelist.insert(index, QString());
 
 	updateButton();
 }
@@ -257,11 +261,11 @@ void UserHelpDialog::slotUp()
 
 	// insert current entry before current
 	m_menulistbox->insertItem(m_menulistbox->currentText(),index-1);
-	m_filelist.insert( m_filelist.at(index-1) , m_filelist[index] );
+	m_filelist.insert(index - 1, m_filelist[index]);
 
 	// then remove the old entry
 	m_menulistbox->removeItem(index+1);
-	m_filelist.remove( m_filelist.at(index+1) );
+	m_filelist.removeAt(index + 1);
 
 	// select current entry
 	m_menulistbox->setSelected(index-1,true);
@@ -281,7 +285,7 @@ void UserHelpDialog::slotDown()
 	if ( index < entries-2 )
 	{
 		m_menulistbox->insertItem(m_menulistbox->currentText(),index+2);    // index + 2
-		m_filelist.insert( m_filelist.at(index+2) , m_filelist[index] );
+		m_filelist.insert(index + 2, m_filelist[index]);
 	}
 	else
 	{
@@ -291,7 +295,7 @@ void UserHelpDialog::slotDown()
 
 	// then remove the old entry
 	m_menulistbox->removeItem(index);
-	m_filelist.remove( m_filelist.at(index) );
+	m_filelist.removeAt(index);
 
 	// select current entry
 	m_menulistbox->setSelected(index+1,true);
@@ -365,13 +369,14 @@ UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, co
 	setMainWidget(page);
 
 	// layout
-	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
-	Q3VGroupBox* group= new Q3VGroupBox(i18n("User Help"),page );
+	QVBoxLayout *vbox = new QVBoxLayout(page);
+	QGroupBox* group= new QGroupBox(i18n("User Help"), page);
 
 	QWidget *widget = new QWidget(group);
-	Q3GridLayout *grid = new Q3GridLayout( widget, 2,6, 5,5, "" );
-	grid->setColSpacing(2,8);
-	grid->setColSpacing(4,8);
+	QGridLayout *grid = new QGridLayout(widget);
+//FIXME: port for KDE4
+// 	grid->setColSpacing(2,8);
+// 	grid->setColSpacing(4,8);
 
 	// menu entry
 	QLabel *label1 = new QLabel(i18n("&Menu entry:"),widget);
@@ -388,15 +393,17 @@ UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, co
 	grid->addWidget( m_leHelpFile, 1,1 );
 	m_pbChooseFile = new KPushButton( "", widget );
 	m_pbChooseFile->setObjectName( "filechooser_button" );
-	m_pbChooseFile->setPixmap( SmallIcon("fileopen") );
-	grid->addRowSpacing( 1, m_pbChooseFile->sizeHint().height()+5 );
+	m_pbChooseFile->setIcon( SmallIcon("fileopen") );
+//FIXME: port for KDE4
+// 	grid->addRowSpacing( 1, m_pbChooseFile->sizeHint().height()+5 );
 	grid->addWidget(m_pbChooseFile,1,3);
 	m_pbChooseHtml = new KPushButton( "", widget );
 	m_pbChooseHtml->setObjectName( "htmlchooser_button" );
-	m_pbChooseHtml->setPixmap( SmallIcon("viewhtml") );
+	m_pbChooseHtml->setIcon(SmallIcon("viewhtml"));
 	grid->addWidget(m_pbChooseHtml,1,5);
-	grid->setColSpacing(3, m_pbChooseFile->sizeHint().width()+5 );
-	grid->setColSpacing(5, m_pbChooseHtml->sizeHint().width()+5 );
+//FIXME: port for KDE4
+// 	grid->setColSpacing(3, m_pbChooseFile->sizeHint().width()+5 );
+// 	grid->setColSpacing(5, m_pbChooseHtml->sizeHint().width()+5 );
 
 	label2->setBuddy(m_pbChooseFile);
 
@@ -439,7 +446,7 @@ void UserHelpAddDialog::slotChooseHtml()
 {
 	KUrl url;
 	url.setPath("about:blank");
-	KRun::runURL(url,"text/html");
+	KRun::runUrl(url, "text/html", this);
 }
 
 void UserHelpAddDialog::slotOk()
@@ -454,7 +461,7 @@ void UserHelpAddDialog::slotOk()
 		return;
 	}
 
-	if ( m_menulistbox->findItem(m_leMenuEntry->text(),Qt::ExactMatch) )
+	if(m_menulistbox->findItem(m_leMenuEntry->text(), Q3ListBox::ExactMatch))
 	{
 		KMessageBox::error(this,i18n("This menuitem already exists."));
 		return;

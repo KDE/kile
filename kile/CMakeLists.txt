@@ -107,7 +107,6 @@ SET(kile_SRCS
 	kileversion.cpp
 	kileabbrevview.cpp
 	kileextensions.cpp
-	kilemultitabbar.cpp
 )
 
 SET( kile_UI

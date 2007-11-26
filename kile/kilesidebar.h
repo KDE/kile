@@ -23,8 +23,9 @@
 //Added by qt3to4:
 #include <QPixmap>
 
+#include <kmultitabbar.h>
+
 class Q3WidgetStack;
-class KileMultiTabBar;
 class SymbolView;
 
 /**
@@ -78,7 +79,7 @@ private:
 
 protected:
 	Q3WidgetStack		*m_tabStack;
-	KileMultiTabBar		*m_tabBar;
+	KMultiTabBar		*m_tabBar;
 	int			m_nTabs;
 	int			m_nCurrent;
 	QMap<int,int>		m_indexToPage;

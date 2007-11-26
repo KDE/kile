@@ -27,7 +27,6 @@
 
 #include <kdeversion.h>
 #include "kiledebug.h"
-#include "kilemultitabbar.h"
 
 #include "symbolview.h"
 
@@ -48,29 +47,24 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 	m_tabStack = new Q3WidgetStack(this);
 	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-	KileMultiTabBar::KileMultiTabBarMode tabbarori = KileMultiTabBar::Horizontal;
-	KileMultiTabBar::KileMultiTabBarPosition tabbarpos = KileMultiTabBar::Top;
+	KMultiTabBar::KMultiTabBarMode tabbarori = KMultiTabBar::Horizontal;
+	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
 	if ( orientation == Qt::Horizontal ) 
 	{
 		layout = new Q3VBoxLayout(this);
-		tabbarori = KileMultiTabBar::Horizontal;
-		tabbarpos = KileMultiTabBar::Top;
+		tabbarori = KMultiTabBar::Horizontal;
+		tabbarpos = KMultiTabBar::Top;
 	}
 	else if ( orientation == Qt::Vertical ) 
 	{
 		layout = new Q3HBoxLayout(this);
-		tabbarori = KileMultiTabBar::Vertical;
-		tabbarpos = KileMultiTabBar::Right;
+		tabbarori = KMultiTabBar::Vertical;
+		tabbarpos = KMultiTabBar::Right;
 	}
 
-	m_tabBar = new KileMultiTabBar(tabbarori, this);
+	m_tabBar = new KMultiTabBar(tabbarori, this);
 	m_tabBar->setPosition(tabbarpos);
-
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-		m_tabBar->setStyle(KileMultiTabBar::KDEV3ICON);
- 	#else
- 		m_tabBar->setStyle(KileMultiTabBar::KDEV3);
- 	#endif
+	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
 	if ( orientation == Qt::Horizontal )
 	{
@@ -192,7 +186,7 @@ void KileSideBar::setPageVisible(QWidget *w, bool b) {
 		return;
 	}
 	int index = *it;
-	KileMultiTabBarTab *tab = m_tabBar->tab(index);
+	KMultiTabBarTab *tab = m_tabBar->tab(index);
 	if(tab->isShown() == b) {
 		return;
 	}

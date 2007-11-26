@@ -110,8 +110,6 @@ SET(kile_SRCS
 	kilemultitabbar.cpp
 )
 
-# KDE3_AUTOMOC(${kile_SRCS})
-
 SET( kile_UI
 	helpconfigwidget.ui
 	latexconfigwidget.ui
@@ -148,7 +146,7 @@ KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
-TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs kdeprint ktexteditor katepartinterfaces khtml )
+TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor katepartinterfaces khtml )
 
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 

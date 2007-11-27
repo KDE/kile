@@ -33,7 +33,7 @@
 class KUrl;
 class KFileItem;
 class KProgressDialog;
-namespace Kate { class Document; class View;}
+namespace KTextEditor { class Document; class View;}
 
 class TemplateItem;
 class KileInfo;

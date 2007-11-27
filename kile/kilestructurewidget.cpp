@@ -758,7 +758,7 @@ namespace KileWidget
 				KUrl url;
 				url.setPath(m_popupInfo);
 				
-				m_offerList = KTrader::self()->query(KMimeType::findByUrl(url)->name(), "Type == 'Application'");
+				m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(url)->name(), "Application");
 				for (uint i=0; i < m_offerList.count(); ++i)
 				{
 					m_popup->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+SectioningGraphicsOfferlist);

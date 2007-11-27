@@ -30,7 +30,7 @@
 
 #include <k3listview.h>
 #include <kmenu.h>
-#include <ktrader.h>
+#include <kmimetypetrader.h>
 
 #include "kiledocumentinfo.h"
 
@@ -239,7 +239,7 @@ namespace KileWidget
 			KileListViewItem *m_popupItem;
 			QString m_popupInfo;
 			
-			KTrader::OfferList m_offerList;
+			KService::List m_offerList;
 	};
 }
 

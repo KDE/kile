@@ -21,8 +21,8 @@
 
 #include <klocale.h>
 #include <kurl.h>
-#include <kate/document.h>
-#include <kate/view.h>
+#include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
 
 #include "kiletool_enums.h"
 #include "kilelogwidget.h"
@@ -101,10 +101,10 @@ void KileErrorHandler::jumpToProblem(OutputInfo *info)
 		m_ki->docManager()->fileOpen(KUrl::fromPathOrUrl(file));
 		int line = info->sourceLine() > 0 ? (info->sourceLine() - 1) : 0;
 
-		Kate::Document *doc = m_ki->docManager()->docFor(KUrl::fromPathOrUrl(file));
+		KTextEditor::Document *doc = m_ki->docManager()->docFor(KUrl::fromPathOrUrl(file));
 		if ( doc ) 
 		{
-			Kate::View* view = (Kate::View*)doc->views().first();
+			KTextEditor::View* view = doc->views().first();
 			if (view) view->setCursorPosition(line, 0);
 		}
 	}

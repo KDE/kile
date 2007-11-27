@@ -25,8 +25,8 @@
 #include <klibloader.h>
 #include <kurl.h>
 #include <kparts/part.h>
-#include <kate/document.h>
-#include <kate/view.h>
+#include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
 
 #include "kileuntitled.h"
 
@@ -66,11 +66,11 @@ namespace KileWidget
 
 	void Konsole::sync()
 	{
-		Kate::Document *doc = m_ki->activeTextDocument();
-		Kate::View *view = 0;
+		KTextEditor::Document *doc = m_ki->activeTextDocument();
+		KTextEditor::View *view = 0;
 
 		if (doc)
-			view = static_cast<Kate::View*>(doc->views().first());
+			view = doc->views().first();
 
 		if (view)
 		{

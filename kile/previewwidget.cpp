@@ -28,8 +28,8 @@
 #include <QPaintEvent>
 
 #include <klocale.h>
-#include <kate/view.h>
-#include <kate/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/document.h>
 
 #include "kileconfig.h"
 #include "kileedit.h"

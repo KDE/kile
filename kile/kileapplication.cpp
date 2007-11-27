@@ -17,7 +17,7 @@
 
 #include <kglobal.h>
 #include <kstandarddirs.h>
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 
 #include <q3frame.h>
 #include <qpixmap.h>

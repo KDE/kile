@@ -57,11 +57,11 @@ public:
 	~Manager();
 
 public slots:
-	Kate::View* createNewJScript();
-	Kate::View* createNewLaTeXDocument();
+	KTextEditor::View* createNewJScript();
+	KTextEditor::View* createNewLaTeXDocument();
 
 //files
-	void newDocumentStatus(Kate::Document *doc);
+	void newDocumentStatus(KTextEditor::Document *doc);
 
 	/**
 	 * Creates a new file on disk.
@@ -77,7 +77,7 @@ public slots:
 	void fileOpen(const KUrl& url, const QString & encoding = QString::null, int index = -1);
 
 	void fileSave();
-	void fileSaveAs(Kate::View* = 0L);
+	void fileSaveAs(KTextEditor::View* = 0L);
 	void fileSaveCopyAs();
 
 	void saveURL(const KUrl &);
@@ -86,10 +86,10 @@ public slots:
 	bool fileCloseAllOthers();
 	bool fileCloseAll();
 	bool fileClose(const KUrl & url);
-	bool fileClose(Kate::Document *doc = 0L, bool closingproject = false);
+	bool fileClose(KTextEditor::Document *doc = 0L, bool closingproject = false);
 
 //templates
-	Kate::View* loadTemplate(TemplateItem*);
+	KTextEditor::View* loadTemplate(TemplateItem*);
 	void createTemplate();
 	void removeTemplate();
 	void replaceTemplateVariables(QString &line);
@@ -135,7 +135,7 @@ public slots:
 	void addToProject(const KUrl &);
 	void addToProject(KileProject *, const KUrl &);
 	void removeFromProject(const KileProjectItem *);
-	void storeProjectItem(KileProjectItem *item, Kate::Document *doc);
+	void storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc);
 
 	void cleanUpTempFiles(const KUrl &url, bool silent = false);
 
@@ -150,7 +150,7 @@ signals:
 	void updateModeStatus();
 	void updateReferences(KileDocument::Info *);
 
-	void documentStatusChanged(Kate::Document *, bool, unsigned char reason);
+	void documentStatusChanged(KTextEditor::Document *, bool, unsigned char reason);
 
 	void addToRecentFiles(const KUrl &);
 	void addToRecentProjects(const KUrl &);
@@ -171,14 +171,14 @@ public:
 	Q3PtrList<KileProject>* projects() { return &m_projects; }
 	Q3PtrList<TextInfo>* textDocumentInfos() { return &m_textInfoList; }
 
-	Kate::Document* docFor(const KUrl &url);
+	KTextEditor::Document* docFor(const KUrl &url);
 
 	Info* getInfo() const;
 	// FIXME: "path" should be changed to a URL, i.e. only the next but one function 
 	//        should be used
 	TextInfo* textInfoFor(const QString &path) const;
 	TextInfo* textInfoForURL(const KUrl& url);
-	TextInfo* textInfoFor(Kate::Document* doc) const;
+	TextInfo* textInfoFor(KTextEditor::Document* doc) const;
 	void updateInfos();
 
 	KileProject* projectFor(const KUrl &projecturl);
@@ -205,7 +205,7 @@ public:
 protected:
 	void mapItem(TextInfo *docinfo, KileProjectItem *item);
 
-	void trashDoc(TextInfo *docinfo, Kate::Document *doc = 0L);
+	void trashDoc(TextInfo *docinfo, KTextEditor::Document *doc = 0L);
 
 	TextInfo* createTextDocumentInfo(KileDocument::Type type, const KUrl &url, const KUrl& baseDirectory = KUrl());
 	void recreateTextDocumentInfo(TextInfo *oldinfo);
@@ -218,17 +218,17 @@ protected:
 	 * @warning This method does not close or delete any Kate documents that are associated with the TextInfo object !
 	 **/
 	bool removeTextDocumentInfo(TextInfo *docinfo, bool closingproject = false);
-	Kate::Document* createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight);
+	KTextEditor::Document* createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight);
 
 	/**
 	 *  Creates a document with the specified text.
 	 * 
 	 *  @param extension The extension of the file that should be created without leading "."
 	 **/
-	Kate::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString::null, const KUrl& baseDirectory = KUrl());
+	KTextEditor::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString::null, const KUrl& baseDirectory = KUrl());
 
-	Kate::View* loadText(KileDocument::Type type, const QString& name, const KUrl &url, const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1, const KUrl& baseDirectory = KUrl());
-	Kate::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
+	KTextEditor::View* loadText(KileDocument::Type type, const QString& name, const KUrl &url, const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1, const KUrl& baseDirectory = KUrl());
+	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
 
 private:
 	Q3PtrList<TextInfo>				m_textInfoList;

@@ -22,7 +22,7 @@
 
 #include <kurl.h>
 
-namespace Kate { class Document; }
+namespace KTextEditor { class Document; }
 
 class ConvertMap
 {
@@ -65,7 +65,7 @@ private:
 class ConvertIO
 {
 public:
-	ConvertIO(Kate::Document *doc);
+	ConvertIO(KTextEditor::Document *doc);
 	virtual ~ConvertIO() {}
 
 	virtual void nextLine(); //read next line
@@ -76,7 +76,7 @@ public:
 	virtual bool done();
 
 protected:
-	Kate::Document	*m_doc;
+	KTextEditor::Document	*m_doc;
 	QString			m_text, m_line;
 	uint				m_nLine;
 };
@@ -84,7 +84,7 @@ protected:
 class ConvertIOFile : public ConvertIO
 {
 public:
-	ConvertIOFile(Kate::Document *doc, const KUrl & url);
+	ConvertIOFile(KTextEditor::Document *doc, const KUrl & url);
 
 	void writeText();
 

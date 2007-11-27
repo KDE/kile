@@ -359,7 +359,7 @@ namespace KileDocument
 		m_xstart = m_xcursor - m_textlen;
 
 		// and the current document
-		Kate::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->getDoc();
 
 		// switch to cmLatex mode, if cmLabel is chosen without any entries
 		if ( mode==cmLabel && m_labellist.count()==0 ) {
@@ -498,7 +498,7 @@ namespace KileDocument
 			uint row, col;
 			m_view->cursorPositionReal( &row, &col );
 
-			Kate::Document *doc = m_view->getDoc();
+			KTextEditor::Document *doc = m_view->getDoc();
 			doc->removeText( m_ycursor, m_xstart, m_ycursor, col );
 			doc->insertText( m_ycursor, m_xstart, m_text );
 
@@ -542,7 +542,7 @@ namespace KileDocument
 
 		// build the text
 		QString s,prefix;
-		Kate::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->getDoc();
 		QString textline = doc->textLine(row);
 		switch ( m_mode )
 		{
@@ -689,7 +689,7 @@ namespace KileDocument
 			s = text.right( text.length() - index - 1 );
 
 			// delete abbreviation
-			Kate::Document *doc = m_view->getDoc();
+			KTextEditor::Document *doc = m_view->getDoc();
 			doc->removeText( m_ycursor, m_xstart, m_ycursor, m_xcursor );
 			m_view->setCursorPositionReal( m_ycursor, m_xstart );
 			m_xcursor = m_xstart;
@@ -709,7 +709,7 @@ namespace KileDocument
 		if ( text.at( 0 ) == ' ' )
 		{
 			// delete space
-			Kate::Document * doc = m_view->getDoc();
+			KTextEditor::Document * doc = m_view->getDoc();
 			doc->removeText( m_ycursor, m_xstart, m_ycursor, m_xstart + 1 );
 			m_view->setCursorPositionReal( m_ycursor, m_xstart );
 			m_xcursor = m_xstart;
@@ -1031,7 +1031,7 @@ namespace KileDocument
 		return QString::null;
 	}
 
-	void CodeCompletion::editComplete(Kate::View *view, Mode mode)
+	void CodeCompletion::editComplete(KTextEditor::View *view, Mode mode)
 	{
 		m_view = view;
 
@@ -1292,7 +1292,7 @@ namespace KileDocument
 		list.clear();
 
 		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
-		Kate::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->getDoc();
 
 		QString s;
 		KTextEditor::CompletionEntry e;
@@ -1355,7 +1355,7 @@ namespace KileDocument
 
 		uint len = abbrev.length();
 		uint startcol = col - len - 1;
-		Kate::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->getDoc();
 		doc->removeText( row,startcol,row,startcol+abbrev.length()+1 );
 		doc->insertText( row,startcol,expansion+ch);
 		m_view->setCursorPositionReal( row,startcol+expansion.length()+1 );
@@ -1441,7 +1441,7 @@ namespace KileDocument
 
 	void CodeCompletion::autoInsertDollar()
 	{
-		Kate::View *view = info()->viewManager()->currentTextView();
+		KTextEditor::View *view = info()->viewManager()->currentTextView();
 		if ( view )
 		{
 			uint row,col;

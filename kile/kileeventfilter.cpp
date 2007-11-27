@@ -22,8 +22,8 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 
-#include <kate/view.h>
-#include <kate/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/document.h>
 #include "kiledebug.h"
 
 #include "kileedit.h"
@@ -39,8 +39,9 @@ void KileEventFilter::readConfig()
 	m_bCompleteEnvironment = KileConfig::completeEnvironment();
 }
 
-// KateViewInternal as a child of Kate::View has the focus
-// This was set with Kate::View::setFocusProxy(viewInternal) 
+//FIXME: port for KDE4
+// KateViewInternal as a child of KTextEditor::View has the focus
+// This was set with KTextEditor::View::setFocusProxy(viewInternal) 
 
 bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 {
@@ -53,7 +54,7 @@ bool KileEventFilter::eventFilter(QObject *o, QEvent *e)
 		}
 		if ( m_bCompleteEnvironment &&  ke->key()==Qt::Key_Return && ke->state()==0)  
 		{
-			return m_edit->eventInsertEnvironment( (Kate::View*) o->parent() );
+			return m_edit->eventInsertEnvironment( (KTextEditor::View*) o->parent() );
 		}
 	}
 	else if ( e->type() == QEvent::MouseButtonDblClick)

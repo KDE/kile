@@ -21,9 +21,9 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 
-#include <kate/view.h>
-#include <kate/document.h>
 #include <ktexteditor/codecompletioninterface.h>
+#include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
 #include <kconfig.h>
 
 #include "latexcmd.h"
@@ -44,7 +44,7 @@ class KileInfo;
 namespace KileDocument
 {
 
-//FIXME fix the way the Kate::View is passed, I'm not 100% confident m_view doesn't turn into a wild pointer
+//FIXME fix the way the KTextEditor::View is passed, I'm not 100% confident m_view doesn't turn into a wild pointer
 //FIXME refactor the complete class, it's pretty ugly, there are too many methods with similar names suggesting that the code could be more efficient
 class CodeCompletion : public QObject
 {
@@ -95,7 +95,7 @@ public:
 public slots:
 	//in these two methods we should set m_view
 	void slotCharactersInserted(int, int, const QString&);
-	void editComplete(Kate::View *view, KileDocument::CodeCompletion::Mode mode);
+	void editComplete(KTextEditor::View *view, KileDocument::CodeCompletion::Mode mode);
 
 	void slotCompletionDone(KTextEditor::CompletionEntry);
 	void slotCompleteValueList();
@@ -173,7 +173,7 @@ private:
 	KileAbbrevView *m_abbrevListview;
 
 	// internal parameter
-	Kate::View *m_view;                  // View
+	KTextEditor::View *m_view;                  // View
 	QString m_text;                      // current pattern
 	uint m_textlen;                      // length of current pattern
 	CodeCompletion::Mode m_mode;         // completion mode

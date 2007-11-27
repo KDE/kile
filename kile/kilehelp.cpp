@@ -27,7 +27,7 @@
 #include <kstandarddirs.h>
 #include "kiledebug.h"
 #include <klocale.h>
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
@@ -252,7 +252,7 @@ namespace KileHelp
 	////////////////////// Help: Keyword //////////////////////
 
 	// Context help: user either Kile LaTeX help or the help files shipped with teTeX,
-	void Help::helpKeyword(Kate::View *view)                   // dani 04.08.2004
+	void Help::helpKeyword(KTextEditor::View *view)                   // dani 04.08.2004
 	{
 		int type = (0 == KileConfig::use()) ? HelpKileRefs : HelpTexRefs;
 		switch ( type )
@@ -266,7 +266,7 @@ namespace KileHelp
 		}
 	}
 
-	void Help::helpTexRefsKeyword(Kate::View *view)
+	void Help::helpTexRefsKeyword(KTextEditor::View *view)
 	{
 		QString word = getKeyword(view);
 		KILE_DEBUG() << "keyword: " << word << endl;
@@ -279,7 +279,7 @@ namespace KileHelp
 			noHelpAvailableFor(word);
 	}
 
-	void Help::helpKileRefsKeyword(Kate::View *view)
+	void Help::helpKileRefsKeyword(KTextEditor::View *view)
 	{
 		QString kilehelp = KGlobal::dirs()->findResource("html","en/kile/latexhelp.html");
 		KILE_DEBUG() << "kilehelp = " << kilehelp << endl;
@@ -301,7 +301,7 @@ namespace KileHelp
 		m_manager->info()->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no help available for %1.").arg(word), i18n("Help"));
 	}
 	
-	QString Help::getKeyword(Kate::View *view)         
+	QString Help::getKeyword(KTextEditor::View *view)         
 	{
 		if ( !view )
 			return QString::null;
@@ -309,7 +309,7 @@ namespace KileHelp
 		// get current position
 		uint row,col,col1,col2;
 		QString word;
-		Kate::Document *doc = view->getDoc();
+		KTextEditor::Document *doc = view->getDoc();
 		view->cursorPositionReal(&row,&col);
 		
 		if ( m_edit->getCurrentWord(doc,row,col,KileDocument::EditorExtension::smTex,word,col1,col2) )

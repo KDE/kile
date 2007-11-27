@@ -19,7 +19,7 @@
 
 class QEvent;
 
-namespace Kate {class View; }
+namespace KTextEditor {class View; }
 namespace KileDocument { class EditorExtension; };
 
 /**

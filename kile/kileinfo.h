@@ -42,7 +42,7 @@ class KileProjectItemList;
 class KileFileSelect;
 class KileEventFilter;
 
-namespace Kate { class Document;}
+namespace KTextEditor { class Document;}
 
 class KileBottomBar;
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
@@ -63,8 +63,8 @@ public:
 
 public:
 	enum {bibinputs = 0,bstinputs, texinputs};
-	QString getName(Kate::Document *doc = 0, bool shrt = false);
-	QString getShortName(Kate::Document *doc = 0) { return getName(doc, true); }
+	QString getName(KTextEditor::Document *doc = 0, bool shrt = false);
+	QString getShortName(KTextEditor::Document *doc = 0) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);
 	QString getFullFromPrettyName(const QString & name);
 	KUrl::List getParentsFor(KileDocument::Info *);
@@ -73,7 +73,7 @@ public:
 	QString getCurrentTarget() const { return m_currentTarget; }
 	void setTarget(const QString &target) { m_currentTarget=target; }
 
-	virtual Kate::Document* activeTextDocument() const;
+	virtual KTextEditor::Document* activeTextDocument() const;
 
 	QString getSelection() const;
 	void clearSelection() const;

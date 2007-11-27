@@ -16,7 +16,7 @@
 #ifndef KILEDOCUMENTINFO_H
 #define KILEDOCUMENTINFO_H
 
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 #include "kiledebug.h"
 #include <k3listview.h>
 #include <kurl.h>
@@ -213,7 +213,7 @@ protected:
 
 
 /**
- * The URL of a text document is managed directly by the corresponding Kate::Document.
+ * The URL of a text document is managed directly by the corresponding KTextEditor::Document.
  **/
 class TextInfo : public Info
 {
@@ -223,15 +223,15 @@ public:
 	 * @param defaultHighlightMode the highlight mode that will be set automatically
 	 *                             once a new document is installed
 	 **/
-	TextInfo(Kate::Document *doc, Extensions *extensions, const QString& defaultHighlightMode = QString::null);
+	TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode = QString::null);
 	virtual ~TextInfo();
 
 	/**
 	 * @returns the document for which this class is a decorator
 	 **/
-	const Kate::Document* getDoc() const;
-	Kate::Document* getDoc();
-	void setDoc(Kate::Document *doc);
+	const KTextEditor::Document* getDoc() const;
+	KTextEditor::Document* getDoc();
+	void setDoc(KTextEditor::Document *doc);
 	void detach();
 
 	/**
@@ -243,7 +243,7 @@ public:
 	virtual const long* getStatistics();
 
 	/**
-	 * @returns the URL of the Kate::Document.
+	 * @returns the URL of the KTextEditor::Document.
 	 **/
 	virtual KUrl url();
 
@@ -267,7 +267,7 @@ protected slots:
 	void slotFileNameChanged();
 
 protected:
-	Kate::Document			*m_doc;
+	KTextEditor::Document			*m_doc;
 	long				*m_arStatistics;
 	QString				m_defaultHighlightMode;
 
@@ -316,7 +316,7 @@ public:
 	/**
 	 * @param eventFilter the event filter that will be installed on managed documents
 	 **/
-	LaTeXInfo(Kate::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter);
+	LaTeXInfo(KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter);
 	virtual ~LaTeXInfo();
 
 	const long* getStatistics();
@@ -355,7 +355,7 @@ class BibInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	BibInfo (Kate::Document *doc, Extensions *extensions, LatexCommands* commands);
+	BibInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands* commands);
 	virtual ~BibInfo();
 
 	virtual bool isLaTeXRoot();
@@ -373,7 +373,7 @@ class ScriptInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	ScriptInfo(Kate::Document *doc, Extensions *extensions);
+	ScriptInfo(KTextEditor::Document *doc, Extensions *extensions);
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();

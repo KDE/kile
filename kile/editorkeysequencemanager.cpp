@@ -16,7 +16,7 @@
 #include "kileinfo.h"
 #include "kilejscript.h"
 
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 #include <klocale.h>
 //Added by qt3to4:
 #include <QEvent>
@@ -149,7 +149,7 @@ namespace KileEditorKeySequence {
 		return qMakePair<int, QString>(0, QString());
 	}
 
-Recorder::Recorder(Kate::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view) {
+Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view) {
 	connect(m_manager, SIGNAL(watchedKeySequencesChanged()), this, SLOT(reloadWatchedKeySequences()));
 	connect(this, SIGNAL(detectedTypedKeySequence(const QString&)), m_manager, SLOT(keySequenceTyped(const QString&)));
 	m_view->cursorPositionReal(&m_oldLine, &m_oldCol);

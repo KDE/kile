@@ -17,8 +17,8 @@
 #define KILE_H
 
 #include <kdeversion.h>
-#include <kate/view.h>
-#include <kate/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/document.h>
 #include <dcopobject.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
@@ -262,9 +262,9 @@ private:
 	// documentinfo
 	//
 private slots:
-	void showDocInfo(Kate::Document *doc = 0);
-	void convertToASCII(Kate::Document *doc = 0);
-	void convertToEnc(Kate::Document *doc = 0);
+	void showDocInfo(KTextEditor::Document *doc = 0);
+	void convertToASCII(KTextEditor::Document *doc = 0);
+	void convertToEnc(KTextEditor::Document *doc = 0);
 
 public:
 	int lineNumber();

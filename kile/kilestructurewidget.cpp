@@ -946,7 +946,7 @@ namespace KileWidget
 
 	////////////////////// Structure: find sectioning //////////////////////
 
-	bool Structure::findSectioning(Kate::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol)
+	bool Structure::findSectioning(KTextEditor::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol)
 	{
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(doc);
 		if ( ! docinfo )

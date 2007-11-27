@@ -269,7 +269,7 @@ namespace KileDialog
 
 	void Config::setupEditor()
 	{
-		Kate::View *view = m_ki->viewManager()->currentTextView();
+		KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 		m_editorOpened = ( view != 0L );
 		m_editorSettingsChanged = false;
 

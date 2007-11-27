@@ -23,7 +23,7 @@
 
 #include <kconfig.h>
 #include <kmenubar.h>
-#include <kate/view.h>
+#include <ktexteditor/view.h>
 #include "kileedit.h"
 
 #include "userhelp.h"
@@ -70,7 +70,7 @@ namespace KileHelp
 		void update();
 
 		// calls for help
-		void helpKeyword(Kate::View *view);
+		void helpKeyword(KTextEditor::View *view);
 		void noHelpAvailableFor(const QString &word);
 		void userHelpDialog() { m_userhelp->userHelpDialog(); }
 		void enableUserhelpEntries(bool state);
@@ -100,9 +100,9 @@ namespace KileHelp
 		void showHelpFile(const QString &parameter);
 
 		void helpLatex(KileHelp::Type type);
-		void helpTexRefsKeyword(Kate::View *view);
-		void helpKileRefsKeyword(Kate::View *view);
-		QString getKeyword(Kate::View *view);
+		void helpTexRefsKeyword(KTextEditor::View *view);
+		void helpKileRefsKeyword(KTextEditor::View *view);
+		QString getKeyword(KTextEditor::View *view);
 	};
 }
 

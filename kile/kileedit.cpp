@@ -21,8 +21,8 @@
 #include <qclipboard.h>
 #include <qapplication.h>
 
-#include <kate/view.h>
-#include <kate/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/document.h>
 #include <ktexteditor/searchinterface.h>
 #include <ktexteditor/editinterfaceext.h>
 #include <klocale.h>
@@ -99,9 +99,9 @@ void EditorExtension::readConfig(void)
 	}
 }
 
-void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *view)
+void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::View *view)
 {
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	if ( !doc) return;
 
 	//whether or not to wrap tag around selection
@@ -231,7 +231,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, Kate::View *vie
 
 // goto the next non-nested environment tag
 
-Kate::View* EditorExtension::determineView(Kate::View *view)
+KTextEditor::View* EditorExtension::determineView(KTextEditor::View *view)
 {
 	if (view == 0L)
 		view = m_ki->viewManager()->currentTextView();
@@ -241,7 +241,7 @@ Kate::View* EditorExtension::determineView(Kate::View *view)
 	return view;
 }
 
-void EditorExtension::gotoEnvironment(bool backwards, Kate::View *view)
+void EditorExtension::gotoEnvironment(bool backwards, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -251,7 +251,7 @@ void EditorExtension::gotoEnvironment(bool backwards, Kate::View *view)
 	bool found;
 	
 	// get current position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	// start searching
@@ -274,7 +274,7 @@ void EditorExtension::gotoEnvironment(bool backwards, Kate::View *view)
 
 // match the opposite environment tag
 
-void EditorExtension::matchEnvironment(Kate::View *view)
+void EditorExtension::matchEnvironment(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -283,7 +283,7 @@ void EditorExtension::matchEnvironment(Kate::View *view)
 	EnvData env;
 	
 	// get current position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	// we only start, when we are at an environment tag
@@ -297,7 +297,7 @@ void EditorExtension::matchEnvironment(Kate::View *view)
 
 // search for the last opened environment and close it
 
-void EditorExtension::closeEnvironment(Kate::View *view)
+void EditorExtension::closeEnvironment(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -318,7 +318,7 @@ void EditorExtension::closeEnvironment(Kate::View *view)
 
 // close all opened environments
 
-void EditorExtension::closeAllEnvironments(Kate::View *view)
+void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -328,7 +328,7 @@ void EditorExtension::closeAllEnvironments(Kate::View *view)
 		return;
 
 	uint currentRow,currentCol,outputCol;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&currentRow,&currentCol);
 
 	bool indent = ! m_envAutoIndent.isEmpty();
@@ -366,7 +366,7 @@ void EditorExtension::closeAllEnvironments(Kate::View *view)
 
 //////////////////// mathgroup ////////////////////
 
-void EditorExtension::selectMathgroup(Kate::View *view)
+void EditorExtension::selectMathgroup(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -376,7 +376,7 @@ void EditorExtension::selectMathgroup(Kate::View *view)
 		view->getDoc()->setSelection(row1,col1,row2,col2);
 }
 
-void EditorExtension::deleteMathgroup(Kate::View *view)
+void EditorExtension::deleteMathgroup(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -390,7 +390,7 @@ void EditorExtension::deleteMathgroup(Kate::View *view)
 	}
 }
 
-bool EditorExtension::hasMathgroup(Kate::View *view)
+bool EditorExtension::hasMathgroup(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) 
@@ -400,7 +400,7 @@ bool EditorExtension::hasMathgroup(Kate::View *view)
 	return getMathgroup(view,row1,col1,row2,col2);
 }
 
-QString EditorExtension::getMathgroupText(uint &row, uint &col, Kate::View *view)
+QString EditorExtension::getMathgroupText(uint &row, uint &col, KTextEditor::View *view)
 {
 	uint row1,col1,row2,col2;
 
@@ -416,7 +416,7 @@ QString EditorExtension::getMathgroupText(uint &row, uint &col, Kate::View *view
 }
 
 
-bool EditorExtension::getMathgroup(Kate::View *view, uint &row1, uint &col1, uint &row2, uint &col2)
+bool EditorExtension::getMathgroup(KTextEditor::View *view, uint &row1, uint &col1, uint &row2, uint &col2)
 {
 	QRegExp reg( QString("\\$")
 		+ "|\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}" 
@@ -428,7 +428,7 @@ bool EditorExtension::getMathgroup(Kate::View *view, uint &row1, uint &col1, uin
 	uint row,col,r,c;
 	MathData begin,end;
 
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 
 	QString textline = getTextLineReal(doc,row);
@@ -576,7 +576,7 @@ bool EditorExtension::checkMathtags(const MathData &begin,const MathData &end)
 	return true;
 }
 
-bool EditorExtension::isOpeningMathTagPosition(Kate::Document *doc, uint row, uint col, MathData &mathdata)
+bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint row, uint col, MathData &mathdata)
 {
 	QString textline = getTextLineReal(doc,row);
 
@@ -607,7 +607,7 @@ bool EditorExtension::isOpeningMathTagPosition(Kate::Document *doc, uint row, ui
 	return true;
 }
 
-bool EditorExtension::isClosingMathTagPosition(Kate::Document *doc, uint row, uint col,MathData &mathdata)
+bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint row, uint col,MathData &mathdata)
 {
 	QString textline = doc->textLine(row);
 
@@ -639,7 +639,7 @@ bool EditorExtension::isClosingMathTagPosition(Kate::Document *doc, uint row, ui
 	return true;
 }
 
-bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata)
+bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata)
 {
 	uint lastrow,lastcol;
 	QString mathname;
@@ -806,7 +806,7 @@ bool EditorExtension::findOpenMathTag(Kate::Document *doc, uint row, uint col, Q
 	return true;
 }
 
-bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata)
+bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata)
 {
 	KTextEditor::SearchInterface *iface;
 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);	
@@ -905,16 +905,16 @@ bool EditorExtension::findCloseMathTag(Kate::Document *doc, uint row, uint col, 
 // and decide what to insert
 // or continue the comment
 
-void EditorExtension::insertIntelligentNewline(Kate::View *view)
+void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 {
-	KILE_DEBUG() << "void EditorExtension::insertIntelligentNewline(Kate::View *view)" << endl;
+	KILE_DEBUG() << "void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)" << endl;
 	
 	view = determineView(view);
 	
 	if ( !view )
 		return;
 	
-	Kate::Document* doc = view->getDoc();
+	KTextEditor::Document* doc = view->getDoc();
 	
 	if( !doc )
 		return;
@@ -951,13 +951,13 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 	view->keyReturn();
 }
 
-bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view)
+bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envname, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
 	
 	// get current cursor position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	EnvData env;
@@ -989,7 +989,7 @@ bool EditorExtension::findOpenedEnvironment(uint &row,uint &col, QString &envnam
 		return false;
 }
 
-QStringList EditorExtension::findOpenedEnvironmentList(Kate::View *view, bool position)
+QStringList EditorExtension::findOpenedEnvironmentList(KTextEditor::View *view, bool position)
 {
 	QStringList envlist;
 
@@ -997,7 +997,7 @@ QStringList EditorExtension::findOpenedEnvironmentList(Kate::View *view, bool po
 	if ( view )
 	{
 		uint currentRow,currentCol;
-		Kate::Document *doc = view->getDoc();
+		KTextEditor::Document *doc = view->getDoc();
 		view->cursorPositionReal(&currentRow,&currentCol);
 
 		uint row = currentRow;
@@ -1046,7 +1046,7 @@ QStringList EditorExtension::findOpenedEnvironmentList(Kate::View *view, bool po
 
 //////////////////// select an environment  ////////////////////
 
-void EditorExtension::selectEnvironment(bool inside, Kate::View *view)
+void EditorExtension::selectEnvironment(bool inside, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1060,7 +1060,7 @@ void EditorExtension::selectEnvironment(bool inside, Kate::View *view)
 	}
 }
 
-void EditorExtension::deleteEnvironment(bool inside, Kate::View *view)
+void EditorExtension::deleteEnvironment(bool inside, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1069,7 +1069,7 @@ void EditorExtension::deleteEnvironment(bool inside, Kate::View *view)
 	
 	if ( getEnvironment(inside,envbegin,envend,view) )
 	{
-		Kate::Document *doc = view->getDoc();
+		KTextEditor::Document *doc = view->getDoc();
 		doc->clearSelection();
 		doc->removeText(envbegin.row,envbegin.col,envend.row,envend.col);
 		view->setCursorPosition(envbegin.row,0);
@@ -1078,14 +1078,14 @@ void EditorExtension::deleteEnvironment(bool inside, Kate::View *view)
 
 // calculate start and end of an environment
 
-bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &envend, Kate::View *view)
+bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &envend, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
 	
 	uint row,col;
 	
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	if ( !findBeginEnvironment(doc,row,col,envbegin) )
 		return false;
@@ -1118,7 +1118,7 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 
 // determine text, startrow and startcol of current environment
 
-QString EditorExtension::getEnvironmentText(uint &row, uint &col, QString &name, Kate::View *view)
+QString EditorExtension::getEnvironmentText(uint &row, uint &col, QString &name, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return QString::null;
@@ -1138,7 +1138,7 @@ QString EditorExtension::getEnvironmentText(uint &row, uint &col, QString &name,
 	}
 }
 
-bool EditorExtension::hasEnvironment(Kate::View *view)
+bool EditorExtension::hasEnvironment(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) 
@@ -1151,12 +1151,12 @@ bool EditorExtension::hasEnvironment(Kate::View *view)
 // when an environment is selected (inside or outside), 
 // the selection is expanded to the surrounding environment
 
-bool EditorExtension::expandSelectionEnvironment(bool inside, Kate::View *view)
+bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
 	
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	if ( ! doc->hasSelection() )
 		return false;
 		
@@ -1214,7 +1214,7 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, Kate::View *view)
 //  - \begin{env} tag: we will stop immediately
 //  - \end{env} tag: we will start before this tag
 
-bool EditorExtension::findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
+bool EditorExtension::findBeginEnvironment(KTextEditor::Document *doc, uint row, uint col,EnvData &env)
 {
 	// KILE_DEBUG() << "   find begin:  " << endl;
 	if ( isEnvironmentPosition(doc,row,col,env) )
@@ -1246,7 +1246,7 @@ bool EditorExtension::findBeginEnvironment(Kate::Document *doc, uint row, uint c
 //  - \end{env} tag: we will stop immediately
 //  - \begin{env} tag: we will start behind this tag
 
-bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env)
+bool EditorExtension::findEndEnvironment(KTextEditor::Document *doc, uint row, uint col,EnvData &env)
 {
 	if ( isEnvironmentPosition(doc,row,col,env) )
 	{
@@ -1267,7 +1267,7 @@ bool EditorExtension::findEndEnvironment(Kate::Document *doc, uint row, uint col
 
 // find the last/next non-nested environment tag
 
-bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col,
+bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, uint row, uint col,
                                   EnvData &env,bool backwards)
 {
 	KTextEditor::SearchInterface *iface;
@@ -1329,7 +1329,7 @@ bool EditorExtension::findEnvironmentTag(Kate::Document *doc, uint row, uint col
 // to the beginning backslash of the environment tag. The same algorithms as
 // matching brackets is used.
 
-bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint col, EnvData &env)
+bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, uint row, uint col, EnvData &env)
 {
 	// get real textline without comments, quoted characters and pairs of backslashes
 	QString textline = getTextLineReal(doc,row);
@@ -1445,7 +1445,7 @@ bool EditorExtension::isEnvironmentPosition(Kate::Document *doc, uint row, uint 
 
 // check if the current position is within a comment
 
-bool EditorExtension::isCommentPosition(Kate::Document *doc, uint row, uint col)
+bool EditorExtension::isCommentPosition(KTextEditor::Document *doc, uint row, uint col)
 {
 	QString textline = doc->textLine(row);
 	
@@ -1472,7 +1472,7 @@ bool EditorExtension::isCommentPosition(Kate::Document *doc, uint row, uint col)
 //  - there is no comment sign in this line before
 //  - there is not a odd number of backslashes directly before
 
-bool EditorExtension::isValidBackslash(Kate::Document *doc, uint row, uint col)
+bool EditorExtension::isValidBackslash(KTextEditor::Document *doc, uint row, uint col)
 {
 	QString textline = doc->textLine(row);
 	
@@ -1497,7 +1497,7 @@ bool EditorExtension::isValidBackslash(Kate::Document *doc, uint row, uint col)
 
 //////////////////// goto next bullet ////////////////////
 
-void EditorExtension::gotoBullet(bool backwards, Kate::View *view)
+void EditorExtension::gotoBullet(bool backwards, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1505,7 +1505,7 @@ void EditorExtension::gotoBullet(bool backwards, Kate::View *view)
 	uint row,col,ypos,xpos,len;
 	
 	// get current position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	// change the start position or we will stay at this place
@@ -1529,7 +1529,7 @@ void EditorExtension::gotoBullet(bool backwards, Kate::View *view)
 
 //////////////////// increase/decrease cursor position ////////////////////
 
-bool EditorExtension::increaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
+bool EditorExtension::increaseCursorPosition(KTextEditor::Document *doc, uint &row, uint &col)
 {
 	bool ok = true;
 	
@@ -1546,7 +1546,7 @@ bool EditorExtension::increaseCursorPosition(Kate::Document *doc, uint &row, uin
 	return ok;
 }
 
-bool EditorExtension::decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col)
+bool EditorExtension::decreaseCursorPosition(KTextEditor::Document *doc, uint &row, uint &col)
 {
 	bool ok = true;
 	
@@ -1567,7 +1567,7 @@ bool EditorExtension::decreaseCursorPosition(Kate::Document *doc, uint &row, uin
 
 // goto the next non-nested bracket
 
-void EditorExtension::gotoTexgroup(bool backwards, Kate::View *view)
+void EditorExtension::gotoTexgroup(bool backwards, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1577,7 +1577,7 @@ void EditorExtension::gotoTexgroup(bool backwards, Kate::View *view)
 	BracketData bracket;
 	
 	// get current position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	m_overwritemode = view->isOverwriteMode();
 	
@@ -1598,7 +1598,7 @@ void EditorExtension::gotoTexgroup(bool backwards, Kate::View *view)
 
 // match the opposite bracket
 
-void EditorExtension::matchTexgroup(Kate::View *view)
+void EditorExtension::matchTexgroup(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1607,7 +1607,7 @@ void EditorExtension::matchTexgroup(Kate::View *view)
 	BracketData bracket;
 	
 	// get current position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	m_overwritemode = view->isOverwriteMode();
 	
@@ -1639,7 +1639,7 @@ void EditorExtension::matchTexgroup(Kate::View *view)
 
 // search for the last opened texgroup and close it
 
-void EditorExtension::closeTexgroup(Kate::View *view)
+void EditorExtension::closeTexgroup(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1647,7 +1647,7 @@ void EditorExtension::closeTexgroup(Kate::View *view)
 	uint row,col;
 	BracketData bracket;
 	
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	uint rowtemp = row;
@@ -1664,7 +1664,7 @@ void EditorExtension::closeTexgroup(Kate::View *view)
 
 //////////////////// select a texgroup  ////////////////////
 
-void EditorExtension::selectTexgroup(bool inside, Kate::View *view)
+void EditorExtension::selectTexgroup(bool inside, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1673,12 +1673,12 @@ void EditorExtension::selectTexgroup(bool inside, Kate::View *view)
 	
 	if ( getTexgroup(inside,open,close,view) )
 	{
-		Kate::Document *doc = view->getDoc();
+		KTextEditor::Document *doc = view->getDoc();
 		doc->setSelection(open.row,open.col,close.row,close.col);
 	}
 }
 
-void EditorExtension::deleteTexgroup(bool inside, Kate::View *view)
+void EditorExtension::deleteTexgroup(bool inside, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -1687,7 +1687,7 @@ void EditorExtension::deleteTexgroup(bool inside, Kate::View *view)
 	
 	if ( getTexgroup(inside,open,close,view) )
 	{
-		Kate::Document *doc = view->getDoc();
+		KTextEditor::Document *doc = view->getDoc();
 		doc->clearSelection();
 		doc->removeText(open.row,open.col,close.row,close.col);
 		view->setCursorPositionReal(open.row,open.col+1);
@@ -1696,14 +1696,14 @@ void EditorExtension::deleteTexgroup(bool inside, Kate::View *view)
 
 // calculate start and end of an environment
 
-bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view)
+bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &close, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
 	
 	uint row,col;
 	
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	if ( !findOpenBracket(doc,row,col,open) ) 
@@ -1731,7 +1731,7 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 //  - '{': we will stop immediately
 //  - '}': we will start before this character
 
-bool EditorExtension::findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::findOpenBracket(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	if ( isBracketPosition(doc,row,col,bracket) )
 	{
@@ -1753,7 +1753,7 @@ bool EditorExtension::findOpenBracket(Kate::Document *doc, uint row, uint col, B
 //  - '}': we will stop immediately
 //  - '{': we will start behind this character
 
-bool EditorExtension::findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::findCloseBracket(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	if ( isBracketPosition(doc,row,col,bracket) )
 	{
@@ -1783,7 +1783,7 @@ bool EditorExtension::findCloseBracket(Kate::Document *doc, uint row, uint col, 
    6) Otherwise, don't match anything.
 */
 
-bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::isBracketPosition(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	// default results
 	bracket.row = row;
@@ -1832,7 +1832,7 @@ bool EditorExtension::isBracketPosition(Kate::Document *doc, uint row, uint col,
 
 // find next non-nested closing bracket
 
-bool EditorExtension::findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket)
+bool EditorExtension::findCloseBracketTag(KTextEditor::Document *doc, uint row, uint col,BracketData &bracket)
 {
 	uint brackets = 0;
 	for ( uint line=row; line<doc->numLines(); ++line )
@@ -1865,7 +1865,7 @@ bool EditorExtension::findCloseBracketTag(Kate::Document *doc, uint row, uint co
 
 // find next non-nested opening bracket
 
-bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket)
+bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket)
 {
 	uint brackets = 0;
 	for ( int line=row; line>=0; --line )
@@ -1907,7 +1907,7 @@ bool EditorExtension::findOpenBracketTag(Kate::Document *doc, uint row, uint col
 //  - all comments
 // replace these characters one one, which never will be looked for
 
-QString EditorExtension::getTextLineReal(Kate::Document *doc, uint row)
+QString EditorExtension::getTextLineReal(KTextEditor::Document *doc, uint row)
 {
 	QString textline = doc->textLine(row);
 	uint len = textline.length();
@@ -1969,7 +1969,7 @@ QString EditorExtension::getTextLineReal(Kate::Document *doc, uint row)
 // - smWord:     letters and digits
 // - smNospace:  everything except white space
 
-bool EditorExtension::getCurrentWord(Kate::Document *doc, uint row, uint col, EditorExtension::SelectMode mode, QString &word,uint &x1,uint &x2)
+bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, uint row, uint col, EditorExtension::SelectMode mode, QString &word,uint &x1,uint &x2)
 {
     // get real textline without comments, quoted characters and pairs of backslashes
 	QString textline = getTextLineReal(doc,row);
@@ -2038,7 +2038,7 @@ bool EditorExtension::getCurrentWord(Kate::Document *doc, uint row, uint col, Ed
 
 //////////////////// paragraph ////////////////////
 
-void EditorExtension::selectParagraph(Kate::View *view)
+void EditorExtension::selectParagraph(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2051,7 +2051,7 @@ void EditorExtension::selectParagraph(Kate::View *view)
 	}
 }
 
-void EditorExtension::deleteParagraph(Kate::View *view)
+void EditorExtension::deleteParagraph(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2060,7 +2060,7 @@ void EditorExtension::deleteParagraph(Kate::View *view)
 	
 	if ( findCurrentTexParagraph(startline,endline,view) )
 	{
-		Kate::Document *doc = view->getDoc();
+		KTextEditor::Document *doc = view->getDoc();
 		doc->clearSelection();
 		if ( startline > 0 )
 		--startline;
@@ -2073,7 +2073,7 @@ void EditorExtension::deleteParagraph(Kate::View *view)
 
 // get the range of the current paragraph
 
-bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view)
+bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
@@ -2081,7 +2081,7 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	uint row,col;
 	
 	// get current position
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	// don't accept an empty line as part of a paragraph
@@ -2112,14 +2112,14 @@ bool EditorExtension::findCurrentTexParagraph(uint &startline, uint &endline, Ka
 	return true;
 }
 
-void EditorExtension::gotoNextParagraph(Kate::View *view)
+void EditorExtension::gotoNextParagraph(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
 
 	bool found;
 	uint startline,endline;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 
 	endline = view->cursorLine();
 	if ( doc->textLine(endline).trimmed().isEmpty() )
@@ -2142,14 +2142,14 @@ void EditorExtension::gotoNextParagraph(Kate::View *view)
 	}
 }
 
-void EditorExtension::gotoPrevParagraph(Kate::View *view)
+void EditorExtension::gotoPrevParagraph(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
 
 	bool found;
 	uint startline,endline;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 
 	startline = view->cursorLine();
 	if ( doc->textLine(startline).trimmed().isEmpty() )
@@ -2190,7 +2190,7 @@ void EditorExtension::gotoPrevParagraph(Kate::View *view)
 
 //////////////////// gotoLine ////////////////////
 
-void EditorExtension::gotoLine(Kate::View *view)
+void EditorExtension::gotoLine(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( view ) 
@@ -2199,7 +2199,7 @@ void EditorExtension::gotoLine(Kate::View *view)
 
 //////////////////// one line of text////////////////////
 
-void EditorExtension::selectLine(Kate::View *view)
+void EditorExtension::selectLine(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2207,7 +2207,7 @@ void EditorExtension::selectLine(Kate::View *view)
 	// get current position
 	uint row,col;
 	QString word;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	if ( doc->lineLength(row) > 0 )
@@ -2216,7 +2216,7 @@ void EditorExtension::selectLine(Kate::View *view)
 	}
 }
 
-void EditorExtension::deleteEndOfLine(Kate::View *view)
+void EditorExtension::deleteEndOfLine(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2224,14 +2224,14 @@ void EditorExtension::deleteEndOfLine(Kate::View *view)
 	uint row,col;
 	view->cursorPositionReal(&row,&col);
 
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	doc->clearSelection();
 	doc->removeText(row,col,row,doc->lineLength(row));
 }
 
 //////////////////// LaTeX command ////////////////////
 
-void EditorExtension::selectWord(EditorExtension::SelectMode mode, Kate::View *view)
+void EditorExtension::selectWord(EditorExtension::SelectMode mode, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2239,7 +2239,7 @@ void EditorExtension::selectWord(EditorExtension::SelectMode mode, Kate::View *v
 	// get current position
 	uint row,col,col1,col2;
 	QString word;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	if ( getCurrentWord(doc,row,col,mode,word,col1,col2) )
@@ -2248,7 +2248,7 @@ void EditorExtension::selectWord(EditorExtension::SelectMode mode, Kate::View *v
 	}
 }
 
-void EditorExtension::deleteWord(EditorExtension::SelectMode mode, Kate::View *view)
+void EditorExtension::deleteWord(EditorExtension::SelectMode mode, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2256,7 +2256,7 @@ void EditorExtension::deleteWord(EditorExtension::SelectMode mode, Kate::View *v
 	// get current position
 	uint row,col,col1,col2;
 	QString word;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	view->cursorPositionReal(&row,&col);
 	
 	if ( getCurrentWord(doc,row,col,mode,word,col1,col2) )
@@ -2265,17 +2265,17 @@ void EditorExtension::deleteWord(EditorExtension::SelectMode mode, Kate::View *v
 	}
 }
 
-void EditorExtension::nextBullet(Kate::View* view)
+void EditorExtension::nextBullet(KTextEditor::View* view)
 {
 	gotoBullet(false, view);
 }
 
-void EditorExtension::prevBullet(Kate::View* view)
+void EditorExtension::prevBullet(KTextEditor::View* view)
 {
 	gotoBullet(true, view);
 }
 
-void EditorExtension::insertBullet(Kate::View* view)
+void EditorExtension::insertBullet(KTextEditor::View* view)
 {
 	uint col, pos;
 	view = determineView(view);
@@ -2328,12 +2328,12 @@ bool EditorExtension::insertDoubleQuotes()
 
 	// insert double quotes, normal mode or autocompletion mode
 	// always return true for event handler
-	Kate::View *view = determineView(0L);
+	KTextEditor::View *view = determineView(0L);
 	if ( !view ) return true;
 	
 	uint row,col;
 	view->cursorPositionReal(&row,&col);
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 
 	if( doc && m_ki->extensions()->isTexFile(doc->url()) )
 		doc->removeSelectedText();
@@ -2412,7 +2412,7 @@ bool EditorExtension::insertDoubleQuotes()
 	
 void EditorExtension::insertIntelligentTabulator()
 {
-	Kate::View *view = determineView(0L);
+	KTextEditor::View *view = determineView(0L);
 	if ( !view ) return;
 	
 	uint row,col,currentRow,currentCol;
@@ -2449,7 +2449,7 @@ void EditorExtension::insertIntelligentTabulator()
 
 // should we complete the current environment (call from KileEventFilter)
 
-bool EditorExtension::eventInsertEnvironment(Kate::View *view)
+bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 {
 	// don't complete environment, if we are
 	// still working inside the completion box
@@ -2490,7 +2490,7 @@ bool EditorExtension::eventInsertEnvironment(Kate::View *view)
 	return false;
 }
 
-bool EditorExtension::shouldCompleteEnv(const QString &env, Kate::View *view)
+bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *view)
 {
 	KILE_DEBUG() << "===EditorExtension::shouldCompleteEnv( " << env << " )===" << endl;
 	QRegExp reTestBegin,reTestEnd;
@@ -2542,7 +2542,7 @@ QString EditorExtension::getWhiteSpace(const QString &s)
 
 //////////////////// inside verbatim commands ////////////////////
 
-bool EditorExtension::insideVerbatim(Kate::View *view)
+bool EditorExtension::insideVerbatim(KTextEditor::View *view)
 {
 	uint rowEnv,colEnv;
 	QString nameEnv;
@@ -2556,7 +2556,7 @@ bool EditorExtension::insideVerbatim(Kate::View *view)
 	return false;
 }
 
-bool EditorExtension::insideVerb(Kate::View *view)
+bool EditorExtension::insideVerb(KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return false;
@@ -2594,7 +2594,7 @@ void EditorExtension::gotoPrevSectioning()
 	gotoSectioning(true);
 }
 
-void EditorExtension::gotoSectioning(bool backwards, Kate::View *view)
+void EditorExtension::gotoSectioning(bool backwards, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
@@ -2612,12 +2612,12 @@ void EditorExtension::gotoSectioning(bool backwards, Kate::View *view)
 
 void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 {
-	Kate::View *view = determineView(0L);
+	KTextEditor::View *view = determineView(0L);
 	if ( !view ) return;
 
 	if ( ! item ) 
 		return;
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 
 	// try to determine the whole secting
 	// get the start auf the selected sectioning
@@ -2700,7 +2700,7 @@ void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 
 }
 
-bool EditorExtension::findEndOfDocument(Kate::Document *doc, uint row, uint col, uint &rowFound, uint &colFound)
+bool EditorExtension::findEndOfDocument(KTextEditor::Document *doc, uint row, uint col, uint &rowFound, uint &colFound)
 {
 	KTextEditor::SearchInterface *iface;
 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);	

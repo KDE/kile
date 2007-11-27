@@ -411,7 +411,7 @@ void Info::slotCompleted()
 }
 
 
-TextInfo::TextInfo(Kate::Document *doc, Extensions *extensions, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
+TextInfo::TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
 {
 	setDoc(doc);
 	if (m_doc)
@@ -439,19 +439,19 @@ TextInfo::~TextInfo()
 }
 
 
-const Kate::Document* TextInfo::getDoc() const
+const KTextEditor::Document* TextInfo::getDoc() const
 {
 	return m_doc;
 }
 
-Kate::Document* TextInfo::getDoc()
+KTextEditor::Document* TextInfo::getDoc()
 {
 	return m_doc;
 }
 
-void TextInfo::setDoc(Kate::Document *doc)
+void TextInfo::setDoc(KTextEditor::Document *doc)
 {
-	KILE_DEBUG() << "===void TextInfo::setDoc(Kate::Document *doc)===" << endl;
+	KILE_DEBUG() << "===void TextInfo::setDoc(KTextEditor::Document *doc)===" << endl;
 
 	if(m_doc == doc)
 		return;
@@ -685,7 +685,7 @@ void TextInfo::removeInstalledEventFilters()
 }
 
 
-LaTeXInfo::LaTeXInfo (Kate::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
+LaTeXInfo::LaTeXInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -1202,7 +1202,7 @@ void LaTeXInfo::checkChangedDeps()
 	}
 }
 
-BibInfo::BibInfo (Kate::Document *doc, Extensions *extensions, LatexCommands* /* commands */) : TextInfo(doc, extensions, "BibTeX")
+BibInfo::BibInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands* /* commands */) : TextInfo(doc, extensions, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1297,7 +1297,7 @@ QString BibInfo::getFileFilter() const
 	return m_extensions->bibtexFileFilter();
 }
 
-ScriptInfo::ScriptInfo(Kate::Document *doc, Extensions *extensions ) : TextInfo(doc, extensions, "JavaScript")
+ScriptInfo::ScriptInfo(KTextEditor::Document *doc, Extensions *extensions ) : TextInfo(doc, extensions, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }

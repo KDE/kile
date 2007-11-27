@@ -39,7 +39,7 @@ class KileInfo;
 class KileEventFilter;
 class KileProjectView;
 
-namespace Kate {
+namespace KTextEditor {
 	class Document;
 	class View;
 }
@@ -65,27 +65,27 @@ public:
 public:
 	void setClient(QObject *receiver, KXMLGUIClient *client);
 
-	Kate::View* currentTextView() const;
-	Q3PtrList<Kate::View>& textViews() {return m_textViewList;}
-	Kate::View* textView(int i) { return m_textViewList.at(i); }
-	Kate::View* textView(KileDocument::TextInfo *info);
-	int getIndexOf(Kate::View* view) const;
+	KTextEditor::View* currentTextView() const;
+	Q3PtrList<KTextEditor::View>& textViews() {return m_textViewList;}
+	KTextEditor::View* textView(int i) { return m_textViewList.at(i); }
+	KTextEditor::View* textView(KileDocument::TextInfo *info);
+	int getIndexOf(KTextEditor::View* view) const;
 	unsigned int getTabCount() const;
 
 	void createTabs(QWidget *);
-	Kate::View* createTextView(KileDocument::TextInfo *info, int index = -1);
+	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
-	void unplugKatePartMenu(Kate::View* view);
+	void unplugKatePartMenu(KTextEditor::View* view);
 
 // 	void setProjectView(KileProjectView *view) { m_projectview = view; }
 // 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 public slots:
-	Kate::View* switchToTextView(const KUrl & url, bool requestFocus = false);
+	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);
 
 	void closeWidget(QWidget *);
-	void removeView(Kate::View *view);
+	void removeView(KTextEditor::View *view);
 
 	void setTabLabel(QWidget *view, const QString & name) { m_tabs->setTabLabel(view, name); }
 	void changeTab(QWidget *view, const QPixmap & icon, const QString & name) { m_tabs->changeTab(view, icon, name); }
@@ -95,7 +95,7 @@ public slots:
 	void gotoNextView();
 	void gotoPrevView();
 
-	void reflectDocumentStatus(Kate::Document*, bool, unsigned char);
+	void reflectDocumentStatus(KTextEditor::Document*, bool, unsigned char);
 
 	void onKatePopupMenuRequest(void);
 	void convertSelectionToLaTeX(void);
@@ -118,9 +118,9 @@ signals:
 
 private:
 	KileInfo			*m_ki;
-	Kate::View			*m_activeTextView;
+	KTextEditor::View			*m_activeTextView;
 // 	KileProjectView		*m_projectview;
-	Q3PtrList<Kate::View>		m_textViewList;
+	Q3PtrList<KTextEditor::View>		m_textViewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;

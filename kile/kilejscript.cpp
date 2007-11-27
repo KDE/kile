@@ -148,7 +148,7 @@ namespace KJS {
 class KileTextDocumentJSObject : public KJS::ObjectImp {
  	friend class KJS::KileTextDocumentJSObjectFunc;
 	public:
-		KileTextDocumentJSObject(KJS::ExecState *exec, Kate::View* view, KileInfo *kileInfo);
+		KileTextDocumentJSObject(KJS::ExecState *exec, KTextEditor::View* view, KileInfo *kileInfo);
 
 		virtual ~KileTextDocumentJSObject();
 
@@ -183,7 +183,7 @@ class KileTextDocumentJSObject : public KJS::ObjectImp {
 		static const KJS::ClassInfo info;
 
 		protected:
-			Kate::View* view;
+			KTextEditor::View* view;
 			KileInfo *m_kileInfo;
 };
 
@@ -254,7 +254,7 @@ KJS::Value KJS::KileJSObjectFunc::call(KJS::ExecState *exec, KJS::Object &thisOb
 	}
 	QString caption, label, value;
 	KileTextDocumentJSObject *kileViewJSObject;
-	Kate::View *kateView;
+	KTextEditor::View *kateView;
 	switch (id) {
 		case KileJSObject::CurrentTextDocument:
 			kateView = kileInfo->viewManager()->currentTextView();
@@ -315,7 +315,7 @@ DEFINE_PROTOTYPE("KileTextDocumentJSObject", KileTextDocumentJSObjectProto)
 IMPLEMENT_PROTOFUNC(KileTextDocumentJSObjectFunc)
 IMPLEMENT_PROTOTYPE(KileTextDocumentJSObjectProto, KileTextDocumentJSObjectFunc)
 
-KileTextDocumentJSObject::KileTextDocumentJSObject(KJS::ExecState *exec, Kate::View* view, KileInfo *kileInfo) : ObjectImp(KileTextDocumentJSObjectProto::self(exec)), view(view), m_kileInfo(kileInfo) {
+KileTextDocumentJSObject::KileTextDocumentJSObject(KJS::ExecState *exec, KTextEditor::View* view, KileInfo *kileInfo) : ObjectImp(KileTextDocumentJSObjectProto::self(exec)), view(view), m_kileInfo(kileInfo) {
 }
 
 KileTextDocumentJSObject::~KileTextDocumentJSObject() {
@@ -338,7 +338,7 @@ KJS::Value KJS::KileTextDocumentJSObjectFunc::call(KJS::ExecState *exec, KJS::Ob
 
 // 	KileJSObject *obj = static_cast<KileJSObject *>(thisObj.imp())->doc;
 	KileInfo* kileInfo = static_cast<KileTextDocumentJSObject *>(thisObj.imp())->m_kileInfo;
-	Kate::View* view = ((KileTextDocumentJSObject*)(thisObj.imp()))->view;
+	KTextEditor::View* view = ((KileTextDocumentJSObject*)(thisObj.imp()))->view;
 	uint col, line;
 	switch (id) {
 		case KileTextDocumentJSObject::InsertText:

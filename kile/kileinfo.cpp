@@ -24,8 +24,8 @@
 //Added by qt3to4:
 #include <Q3PtrList>
 
-#include <kate/document.h>
-#include <kate/view.h>
+#include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -56,22 +56,22 @@ KileInfo::KileInfo(QWidget *parent) :
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
 	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
-	QObject::connect(m_docManager, SIGNAL(documentStatusChanged(Kate::Document*, bool, unsigned char)), m_viewManager, SLOT(reflectDocumentStatus(Kate::Document*, bool, unsigned char)));
+	QObject::connect(m_docManager, SIGNAL(documentStatusChanged(KTextEditor::Document*, bool, unsigned char)), m_viewManager, SLOT(reflectDocumentStatus(KTextEditor::Document*, bool, unsigned char)));
 }
 
 KileInfo::~KileInfo()
 {
 }
 
-Kate::Document * KileInfo::activeTextDocument() const
+KTextEditor::Document * KileInfo::activeTextDocument() const
 {
-	Kate::View *view = viewManager()->currentTextView();
+	KTextEditor::View *view = viewManager()->currentTextView();
 	if (view) return view->getDoc(); else return 0L;
 }
 
-QString KileInfo::getName(Kate::Document *doc, bool shrt)
+QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 {
-	KILE_DEBUG() << "===KileInfo::getName(Kate::Document *doc, bool " << shrt << ")===" << endl;
+	KILE_DEBUG() << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << endl;
 	QString title=QString::null;
 	
 	if (!doc)
@@ -337,7 +337,7 @@ bool KileInfo::projectIsOpen(const KUrl & url)
 
 QString KileInfo::getSelection() const
 {
-	Kate::Document *doc = activeTextDocument();
+	KTextEditor::Document *doc = activeTextDocument();
 	
 	if (doc && doc->hasSelection())
 	{
@@ -349,7 +349,7 @@ QString KileInfo::getSelection() const
 
 void KileInfo::clearSelection() const
 {
-	Kate::Document *doc = activeTextDocument();
+	KTextEditor::Document *doc = activeTextDocument();
 	
 	if (doc && doc->hasSelection())
 	{

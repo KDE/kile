@@ -21,7 +21,7 @@
 #include <qstringlist.h>
 
 // include <kaction.h>
-#include <kate/view.h>
+#include <ktexteditor/view.h>
 
 namespace KileJScript {
 	class JScript;
@@ -187,12 +187,12 @@ namespace KileEditorKeySequence {
 
 	/**
 	 * This class keeps track of the characters that are typed. It is used in 
-	 * conjunction with a Kate view and a KileEditorKeySequence::Manager.
+	 * conjunction with a KTextEditor view and a KileEditorKeySequence::Manager.
 	 **/
 	class Recorder : public QObject {
 		Q_OBJECT
 		public:
-			Recorder(Kate::View *view, Manager *manager);
+			Recorder(KTextEditor::View *view, Manager *manager);
 			virtual ~Recorder();
 
 		signals:
@@ -214,7 +214,7 @@ namespace KileEditorKeySequence {
 			QString m_typedSequence;
 			uint m_maxSequenceLength;
 			uint m_oldCol, m_oldLine;
-			Kate::View* m_view;
+			KTextEditor::View* m_view;
 			QStringList m_watchedKeySequencesList;
 
 			virtual bool eventFilter(QObject *o, QEvent *e);

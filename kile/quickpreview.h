@@ -41,10 +41,10 @@ public:
 	bool run(const QString &text,const QString &textfilename,int startrow);
 	bool isRunning();
 
-	void previewEnvironment(Kate::Document *doc);
-	void previewSelection(Kate::Document *doc, bool previewInWidgetConfig=true);
-	void previewSubdocument(Kate::Document *doc);
-	void previewMathgroup(Kate::Document *doc);
+	void previewEnvironment(KTextEditor::Document *doc);
+	void previewSelection(KTextEditor::Document *doc, bool previewInWidgetConfig=true);
+	void previewSubdocument(KTextEditor::Document *doc);
+	void previewMathgroup(KTextEditor::Document *doc);
   
   /**
    * run (text, textfilename, startrow) works with the 

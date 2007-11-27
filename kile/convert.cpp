@@ -23,7 +23,7 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 #include "kiledebug.h"
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 
 QMap<QString, ConvertMap*> ConvertMap::g_maps;
 
@@ -134,7 +134,7 @@ bool ConvertMap::load()
 }
 
 //BEGIN ConvertIO classes
-ConvertIO::ConvertIO(Kate::Document *doc) :
+ConvertIO::ConvertIO(KTextEditor::Document *doc) :
 	m_doc(doc),
 	m_text(QString::null),
 	m_line(QString::null),
@@ -167,7 +167,7 @@ bool ConvertIO::done()
 	return current() == m_doc->numLines();
 }
 
-ConvertIOFile::ConvertIOFile(Kate::Document *doc, const KUrl & url) : ConvertIO(doc), m_url(url)
+ConvertIOFile::ConvertIOFile(KTextEditor::Document *doc, const KUrl & url) : ConvertIO(doc), m_url(url)
 {
 }
 

@@ -20,7 +20,7 @@
 
 #include <kconfig.h>
 #include <klocale.h>
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 #include <kstandarddirs.h>
 
 #include "kileconfig.h"
@@ -284,7 +284,7 @@ namespace KileTool
 			return false;
 
 		int para = manager()->info()->lineNumber();
-		Kate::Document *doc = manager()->info()->activeTextDocument();
+		KTextEditor::Document *doc = manager()->info()->activeTextDocument();
 		QString filepath;
 
 		if (doc)

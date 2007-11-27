@@ -28,8 +28,8 @@
 
 #include <kdeversion.h>
 #include <kglobal.h>
-#include <kate/view.h>
-#include <kate/document.h>
+#include <ktexteditor/view.h>
+#include <ktexteditor/document.h>
 #include <kparts/componentfactory.h>
 #include <kxmlguiclient.h>
 #include <kxmlguifactory.h>
@@ -113,17 +113,17 @@ void Manager::createTabs(QWidget *parent)
 
 void Manager::closeWidget(QWidget *widget)
 {
-	if (widget->inherits( "Kate::View" ))
+	if (widget->inherits( "KTextEditor::View" ))
 	{
-		Kate::View *view = static_cast<Kate::View*>(widget);
+		KTextEditor::View *view = static_cast<KTextEditor::View*>(widget);
 		m_ki->docManager()->fileClose(view->getDoc());
 	}
 }
 
-Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
+KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
-	Kate::Document *doc = info->getDoc();
-	Kate::View *view = static_cast<Kate::View*>(info->createView (m_tabs, 0L));
+	KTextEditor::Document *doc = info->getDoc();
+	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView (m_tabs, 0L));
 
 	//install a key sequence recorder on the view
 	view->focusProxy()->installEventFilter(new KileEditorKeySequence::Recorder(view, m_ki->editorKeySequenceManager()));
@@ -194,7 +194,7 @@ Kate::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 	return view;
 }
 
-void Manager::removeView(Kate::View *view)
+void Manager::removeView(KTextEditor::View *view)
 {
 	if (view)
 	{
@@ -213,25 +213,25 @@ void Manager::removeView(Kate::View *view)
 	}
 }
 
-Kate::View *Manager::currentTextView() const
+KTextEditor::View *Manager::currentTextView() const
 {
 	if ( m_tabs->currentPage() &&
-		m_tabs->currentPage()->inherits( "Kate::View" ) )
+		m_tabs->currentPage()->inherits( "KTextEditor::View" ) )
 	{
-		return (Kate::View*) m_tabs->currentPage();
+		return (KTextEditor::View*) m_tabs->currentPage();
 	}
 
 	return 0;
 }
 
-Kate::View* Manager::textView(KileDocument::TextInfo *info)
+KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 {
-	Kate::Document *doc = info->getDoc();
+	KTextEditor::Document *doc = info->getDoc();
 	if(!doc)
 	{
 		return NULL;
 	}
-	for(Kate::View *view = m_textViewList.first(); view; view = m_textViewList.next())
+	for(KTextEditor::View *view = m_textViewList.first(); view; view = m_textViewList.next())
 	{
 		if(view->getDoc() == doc)
 		{
@@ -241,7 +241,7 @@ Kate::View* Manager::textView(KileDocument::TextInfo *info)
 	return NULL;
 }
 
-int Manager::getIndexOf(Kate::View* view) const
+int Manager::getIndexOf(KTextEditor::View* view) const
 {
 	return m_tabs->indexOf(view);
 }
@@ -250,14 +250,14 @@ unsigned int Manager::getTabCount() const {
 	return m_tabs->count();
 }
 
-Kate::View* Manager::switchToTextView(const KUrl & url, bool requestFocus)
+KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus)
 {
-	Kate::View *view = 0L;
-	Kate::Document *doc = m_ki->docManager()->docFor(url);
+	KTextEditor::View *view = 0L;
+	KTextEditor::Document *doc = m_ki->docManager()->docFor(url);
 
 	if (doc)
 	{
-		view = static_cast<Kate::View*>(doc->views().first());
+		view = static_cast<KTextEditor::View*>(doc->views().first());
 		if(view)
 		{
 			m_tabs->showPage(view);
@@ -276,7 +276,7 @@ void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *doci
 	if (docinfo)
 		m_ki->structureWidget()->update(docinfo, parse);
 
-	Kate::View *view = currentTextView();
+	KTextEditor::View *view = currentTextView();
 	if (view) {view->setFocus();}
 
 	if ( textViews().count() == 0 )
@@ -307,7 +307,7 @@ void Manager::gotoPrevView()
 		m_tabs->setCurrentPage( cPage );
 }
 
-void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsigned char reason)
+void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified, unsigned char reason)
 {
 	QPixmap icon;
 	if ( reason == 0 && isModified ) //nothing
@@ -329,7 +329,7 @@ void Manager::reflectDocumentStatus(Kate::Document *doc, bool isModified, unsign
  */
 void Manager::onKatePopupMenuRequest(void)
 {
-	Kate::View *view = currentTextView();
+	KTextEditor::View *view = currentTextView();
 	if(NULL == view)
 		return;
 
@@ -372,12 +372,12 @@ void Manager::onKatePopupMenuRequest(void)
 
 void Manager::convertSelectionToLaTeX(void)
 {
-	Kate::View *view = currentTextView();
+	KTextEditor::View *view = currentTextView();
 
 	if(NULL == view)
 		return;
 
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 
 	if(NULL == doc)
 		return;
@@ -438,12 +438,12 @@ void Manager::convertSelectionToLaTeX(void)
  */
 void Manager::pasteAsLaTeX(void)
 {
-	Kate::View *view = currentTextView();
+	KTextEditor::View *view = currentTextView();
 
 	if(NULL == view)
 		return;
 
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 
 	if(NULL == doc)
 		return;
@@ -477,11 +477,11 @@ void Manager::pasteAsLaTeX(void)
 
 void Manager::quickPreviewPopup()
 {
-	Kate::View *view = currentTextView();
+	KTextEditor::View *view = currentTextView();
 	if( ! view )
 		return;
 
-	Kate::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->getDoc();
 	if ( doc )
 	{
 		if ( doc->hasSelection() )
@@ -528,7 +528,7 @@ void Manager::urlChanged(KileDocument::Info* info, const KUrl& /*url*/)
 	KileDocument::TextInfo *textInfo = dynamic_cast<KileDocument::TextInfo*>(info);
 	if(textInfo)
 	{
-		Kate::View *view = textView(textInfo);
+		KTextEditor::View *view = textView(textInfo);
 		if(!view)
 		{
 			return;
@@ -563,7 +563,7 @@ void DropWidget::dropEvent(QDropEvent *e)
 //    already one call to this configuration dialog from Kile
 //  - goto line, because we put it into a submenu
 
-void Manager::unplugKatePartMenu(Kate::View* view)
+void Manager::unplugKatePartMenu(KTextEditor::View* view)
 {
 	if ( view ) 
 	{

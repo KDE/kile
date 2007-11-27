@@ -22,7 +22,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 
 #include "kilestructurewidget.h"
 #include "codecompletion.h"
@@ -52,39 +52,39 @@ public:
 
 	void readConfig(void);
 
-	void insertTag(const KileAction::TagData& data, Kate::View *view);
+	void insertTag(const KileAction::TagData& data, KTextEditor::View *view);
 
-	QString getTextLineReal(Kate::Document *doc, uint row);
-	void gotoBullet(bool backwards, Kate::View *view = 0L);
+	QString getTextLineReal(KTextEditor::Document *doc, uint row);
+	void gotoBullet(bool backwards, KTextEditor::View *view = 0L);
 
-	void gotoEnvironment(bool backwards, Kate::View *view = 0L);
-	void matchEnvironment(Kate::View *view = 0L);
-	void closeEnvironment(Kate::View *view = 0L);
-	void closeAllEnvironments(Kate::View *view = 0L);
-	void selectEnvironment(bool inside, Kate::View *view = 0L);
-	void deleteEnvironment(bool inside, Kate::View *view = 0L);
+	void gotoEnvironment(bool backwards, KTextEditor::View *view = 0L);
+	void matchEnvironment(KTextEditor::View *view = 0L);
+	void closeEnvironment(KTextEditor::View *view = 0L);
+	void closeAllEnvironments(KTextEditor::View *view = 0L);
+	void selectEnvironment(bool inside, KTextEditor::View *view = 0L);
+	void deleteEnvironment(bool inside, KTextEditor::View *view = 0L);
 	QString autoIndentEnvironment() { return m_envAutoIndent; }
 
-	void gotoTexgroup(bool backwards, Kate::View *view = 0L);
-	void selectTexgroup(bool inside, Kate::View *view = 0L);
-	void deleteTexgroup(bool inside, Kate::View *view = 0L);
+	void gotoTexgroup(bool backwards, KTextEditor::View *view = 0L);
+	void selectTexgroup(bool inside, KTextEditor::View *view = 0L);
+	void deleteTexgroup(bool inside, KTextEditor::View *view = 0L);
 
 	const QStringList doubleQuotesList() { return m_quoteList; }
 	
 	// get current word
-	bool getCurrentWord(Kate::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
-	QString getEnvironmentText(uint &row, uint &col, QString &name, Kate::View *view = 0L);
-	bool hasEnvironment(Kate::View *view = 0L);
+	bool getCurrentWord(KTextEditor::Document *doc,uint row,uint col, SelectMode mode,QString &word,uint &x1,uint &x2);
+	QString getEnvironmentText(uint &row, uint &col, QString &name, KTextEditor::View *view = 0L);
+	bool hasEnvironment(KTextEditor::View *view = 0L);
 
 	// complete environment
-	bool eventInsertEnvironment(Kate::View *view);
+	bool eventInsertEnvironment(KTextEditor::View *view);
 
 	// mathgroup
-	QString getMathgroupText(uint &row, uint &col, Kate::View *view = 0L);
-	bool hasMathgroup(Kate::View *view = 0L);
+	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = 0L);
+	bool hasMathgroup(KTextEditor::View *view = 0L);
 	
 public slots:
-	void insertIntelligentNewline(Kate::View *view = 0L);
+	void insertIntelligentNewline(KTextEditor::View *view = 0L);
 
 	void selectEnvInside() { selectEnvironment(true); }
 	void selectEnvOutside() { selectEnvironment(false); }
@@ -102,26 +102,26 @@ public slots:
 	void deleteTexgroupOutside() { deleteTexgroup(false); }
 	void gotoBeginTexgroup() { gotoTexgroup(true); }
 	void gotoEndTexgroup() { gotoTexgroup(false); }
-	void matchTexgroup(Kate::View *view = 0L);
-	void closeTexgroup(Kate::View *view = 0L);
+	void matchTexgroup(KTextEditor::View *view = 0L);
+	void closeTexgroup(KTextEditor::View *view = 0L);
 
-	void selectParagraph(Kate::View *view = 0L);
-	void selectLine(Kate::View *view = 0L);
-	void selectWord(SelectMode mode = smTex, Kate::View *view = 0L);
-	void deleteParagraph(Kate::View *view = 0L);
-	void deleteEndOfLine(Kate::View *view = 0L);
-	void deleteWord(SelectMode mode = smTex, Kate::View *view = 0L);
+	void selectParagraph(KTextEditor::View *view = 0L);
+	void selectLine(KTextEditor::View *view = 0L);
+	void selectWord(SelectMode mode = smTex, KTextEditor::View *view = 0L);
+	void deleteParagraph(KTextEditor::View *view = 0L);
+	void deleteEndOfLine(KTextEditor::View *view = 0L);
+	void deleteWord(SelectMode mode = smTex, KTextEditor::View *view = 0L);
 
-	void selectMathgroup(Kate::View *view = 0L);
-	void deleteMathgroup(Kate::View *view = 0L);
+	void selectMathgroup(KTextEditor::View *view = 0L);
+	void deleteMathgroup(KTextEditor::View *view = 0L);
 
-	void nextBullet(Kate::View* view = 0L);
-	void prevBullet(Kate::View* view = 0L);
-	void insertBullet(Kate::View* view = 0L);
+	void nextBullet(KTextEditor::View* view = 0L);
+	void prevBullet(KTextEditor::View* view = 0L);
+	void insertBullet(KTextEditor::View* view = 0L);
 
-	void gotoLine(Kate::View *view = 0L);
-	void gotoNextParagraph(Kate::View *view = 0L);
-	void gotoPrevParagraph(Kate::View *view = 0L);
+	void gotoLine(KTextEditor::View *view = 0L);
+	void gotoNextParagraph(KTextEditor::View *view = 0L);
+	void gotoPrevParagraph(KTextEditor::View *view = 0L);
 
 	void gotoNextSectioning();
 	void gotoPrevSectioning();
@@ -172,60 +172,60 @@ private:
 	QString m_envAutoIndent;
 
 	// change cursor position
-	bool increaseCursorPosition(Kate::Document *doc, uint &row, uint &col);
-	bool decreaseCursorPosition(Kate::Document *doc, uint &row, uint &col);
+	bool increaseCursorPosition(KTextEditor::Document *doc, uint &row, uint &col);
+	bool decreaseCursorPosition(KTextEditor::Document *doc, uint &row, uint &col);
 
 	// check position
-	bool isValidBackslash(Kate::Document *doc, uint row, uint col);
-	bool isCommentPosition(Kate::Document *doc, uint row, uint col);
-	bool isEnvironmentPosition(Kate::Document *doc, uint row, uint col,EnvData &env);
+	bool isValidBackslash(KTextEditor::Document *doc, uint row, uint col);
+	bool isCommentPosition(KTextEditor::Document *doc, uint row, uint col);
+	bool isEnvironmentPosition(KTextEditor::Document *doc, uint row, uint col,EnvData &env);
 
 	// find environment tags
-	bool findBeginEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
-	bool findEndEnvironment(Kate::Document *doc, uint row, uint col,EnvData &env);
-	bool findEnvironmentTag(Kate::Document *doc, uint row, uint col,EnvData &env, bool backwards=false);
-	bool findOpenedEnvironment(uint &row,uint &col, QString &envname, Kate::View *view);
-	QStringList findOpenedEnvironmentList(Kate::View *view, bool position = false);
+	bool findBeginEnvironment(KTextEditor::Document *doc, uint row, uint col,EnvData &env);
+	bool findEndEnvironment(KTextEditor::Document *doc, uint row, uint col,EnvData &env);
+	bool findEnvironmentTag(KTextEditor::Document *doc, uint row, uint col,EnvData &env, bool backwards=false);
+	bool findOpenedEnvironment(uint &row,uint &col, QString &envname, KTextEditor::View *view);
+	QStringList findOpenedEnvironmentList(KTextEditor::View *view, bool position = false);
 
 	// get current environment
-	bool getEnvironment(bool inside, EnvData &envbegin, EnvData &envend,Kate::View *view);
-	bool expandSelectionEnvironment(bool inside, Kate::View *view);
+	bool getEnvironment(bool inside, EnvData &envbegin, EnvData &envend,KTextEditor::View *view);
+	bool expandSelectionEnvironment(bool inside, KTextEditor::View *view);
 
 	// find brackets
-	bool isBracketPosition(Kate::Document *doc, uint row, uint col, BracketData &bracket);
-	bool findOpenBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket);
-	bool findCloseBracket(Kate::Document *doc, uint row, uint col, BracketData &bracket);
-	bool findCloseBracketTag(Kate::Document *doc, uint row, uint col,BracketData &bracket);
-	bool findOpenBracketTag(Kate::Document *doc, uint row, uint col, BracketData &bracket);
+	bool isBracketPosition(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket);
+	bool findOpenBracket(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket);
+	bool findCloseBracket(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket);
+	bool findCloseBracketTag(KTextEditor::Document *doc, uint row, uint col,BracketData &bracket);
+	bool findOpenBracketTag(KTextEditor::Document *doc, uint row, uint col, BracketData &bracket);
 
 	// find math tags
-	bool isOpeningMathTagPosition(Kate::Document *doc, uint row, uint col, MathData &mathdata);
-	bool isClosingMathTagPosition(Kate::Document *doc, uint row, uint col, MathData &mathdata);
-	bool findOpenMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata);
-	bool findCloseMathTag(Kate::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata);
+	bool isOpeningMathTagPosition(KTextEditor::Document *doc, uint row, uint col, MathData &mathdata);
+	bool isClosingMathTagPosition(KTextEditor::Document *doc, uint row, uint col, MathData &mathdata);
+	bool findOpenMathTag(KTextEditor::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata);
+	bool findCloseMathTag(KTextEditor::Document *doc, uint row, uint col, QRegExp &reg, MathData &mathdata);
 	bool checkMathtags(const MathData &begin,const MathData &end);
 
 	// mathgroup
-	bool getMathgroup(Kate::View *view, uint &row1, uint &col1, uint &row2, uint &col2);
+	bool getMathgroup(KTextEditor::View *view, uint &row1, uint &col1, uint &row2, uint &col2);
 
 	// get current Texgroup
-	bool getTexgroup(bool inside, BracketData &open, BracketData &close, Kate::View *view);
+	bool getTexgroup(bool inside, BracketData &open, BracketData &close, KTextEditor::View *view);
 
 	// find current paragraph
-	bool findCurrentTexParagraph(uint &startline, uint &endline, Kate::View *view);
+	bool findCurrentTexParagraph(uint &startline, uint &endline, KTextEditor::View *view);
 
 	// sectioning commands
-	void gotoSectioning(bool backwards, Kate::View *view = 0L);
-	bool findEndOfDocument(Kate::Document *doc, uint row,uint col, uint &rowFound, uint &colFound);
+	void gotoSectioning(bool backwards, KTextEditor::View *view = 0L);
+	bool findEndOfDocument(KTextEditor::Document *doc, uint row,uint col, uint &rowFound, uint &colFound);
 
 	// check environment type
 	KileDocument::LatexCommands *m_latexCommands;	
-	bool shouldCompleteEnv(const QString &envname, Kate::View *view);
+	bool shouldCompleteEnv(const QString &envname, KTextEditor::View *view);
 	QString getWhiteSpace(const QString &s);
 
 	// verbatim text
-	bool insideVerb(Kate::View *view);
-	bool insideVerbatim(Kate::View *view);
+	bool insideVerb(KTextEditor::View *view);
+	bool insideVerbatim(KTextEditor::View *view);
 
 	// complete environments
 	QRegExp m_regexpEnter;
@@ -238,7 +238,7 @@ private:
 	// help
 	void readHelpList(QString const &filename);
 
-	Kate::View *determineView(Kate::View *);
+	KTextEditor::View *determineView(KTextEditor::View *);
 
 	KileInfo	*m_ki;
 

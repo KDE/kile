@@ -31,7 +31,7 @@
 #include <klocale.h>
 #include <kconfig.h>
 #include <kileconfig.h>
-#include <kate/document.h>
+#include <ktexteditor/document.h>
 
 namespace KileTool
 {
@@ -57,7 +57,7 @@ QuickPreview::~QuickPreview()
 
 // compile and view current selection (singlemode and mastermode)
 
-void QuickPreview::previewSelection(Kate::Document *doc, bool previewInWidgetConfig)
+void QuickPreview::previewSelection(KTextEditor::Document *doc, bool previewInWidgetConfig)
 {
 	if ( doc->hasSelection() ) 
 	{
@@ -79,7 +79,7 @@ void QuickPreview::previewSelection(Kate::Document *doc, bool previewInWidgetCon
 
 // compile and view current environment (singlemode and mastermode)
 
-void QuickPreview::previewEnvironment(Kate::Document *doc)
+void QuickPreview::previewEnvironment(KTextEditor::Document *doc)
 {
 	uint row,col;
 	QString envname;
@@ -104,7 +104,7 @@ void QuickPreview::previewEnvironment(Kate::Document *doc)
 
 // compile and view current subdocument (only mastermode)
 
-void QuickPreview::previewSubdocument(Kate::Document *doc)
+void QuickPreview::previewSubdocument(KTextEditor::Document *doc)
 {
 	// this mode is only useful with a master document
 	if ( !m_ki->docManager()->activeProject() && m_ki->getSinglemode() ) 
@@ -126,7 +126,7 @@ void QuickPreview::previewSubdocument(Kate::Document *doc)
 
 // compile and view current mathgroup (singlemode and mastermode)
 
-void QuickPreview::previewMathgroup(Kate::Document *doc)
+void QuickPreview::previewMathgroup(KTextEditor::Document *doc)
 {
 	uint row,col;
 	QString text = m_ki->editorExtension()->getMathgroupText(row,col);

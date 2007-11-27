@@ -29,8 +29,8 @@
 #include <Q3ValueList>
 #include <QDropEvent>
 
-#include <kate/document.h>
-#include <kate/view.h>
+#include <ktexteditor/document.h>
+#include <ktexteditor/view.h>
 #include <kapplication.h>
 #include "kiledebug.h"
 #include <kencodingfiledialog.h>
@@ -84,7 +84,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 {
 	m_textInfoList.setAutoDelete(false);
 	m_projects.setAutoDelete(false);
-	Kate::Document::setFileChangedDialogsActivated (true);
+	KTextEditor::Document::setFileChangedDialogsActivated (true);
 
 	if ( KileConfig::defaultEncoding() == "invalid" )
 		KileConfig::setDefaultEncoding(QString::fromLatin1(QTextCodec::codecForLocale()->name()));
@@ -103,7 +103,7 @@ Manager::~Manager()
 	KILE_DEBUG() << "==KileDocument::Manager::~Manager()=========" << endl;
 }
 
-void Manager::trashDoc(TextInfo *docinfo, Kate::Document *doc /*= 0L*/ )
+void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= 0L*/ )
 {
 	KILE_DEBUG() << "==void Manager::trashDoc(" << docinfo->url().path() << ")=====" << endl;
 
@@ -145,7 +145,7 @@ void Manager::updateInfos()
 	}
 }
 
-Kate::Document* Manager::docFor(const KUrl & url)
+KTextEditor::Document* Manager::docFor(const KUrl & url)
 {
 	for (uint i=0; i < m_textInfoList.count(); ++i)
 	{
@@ -160,7 +160,7 @@ Kate::Document* Manager::docFor(const KUrl & url)
 
 Info* Manager::getInfo() const
 {
-	Kate::Document *doc = m_ki->activeTextDocument();
+	KTextEditor::Document *doc = m_ki->activeTextDocument();
 	if ( doc != 0L )
 		return textInfoFor(doc);
 	else
@@ -209,7 +209,7 @@ TextInfo* Manager::textInfoForURL(const KUrl& url)
 	return 0L;
 }
 
-TextInfo* Manager::textInfoFor(Kate::Document* doc) const
+TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 {
 	if( !doc )
 		return 0L;
@@ -334,7 +334,7 @@ bool Manager::isProjectOpen()
 KileProject* Manager::activeProject()
 {
 	KileProject *curpr=0;
-	Kate::Document *doc = m_ki->activeTextDocument();
+	KTextEditor::Document *doc = m_ki->activeTextDocument();
 
 	if (doc)
 	{
@@ -354,7 +354,7 @@ KileProject* Manager::activeProject()
 KileProjectItem* Manager::activeProjectItem()
 {
 	KileProject *curpr = activeProject();
-	Kate::Document *doc = m_ki->activeTextDocument();
+	KTextEditor::Document *doc = m_ki->activeTextDocument();
 	KileProjectItem *item = 0;
 
 	if (curpr && doc)
@@ -458,11 +458,11 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 	return false;
 }
 
-Kate::Document* Manager::createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight)
+KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight)
 {
-	KILE_DEBUG() << "==Kate::Document* Manager::createDocument()===========" << endl;
+	KILE_DEBUG() << "==KTextEditor::Document* Manager::createDocument()===========" << endl;
 
-	Kate::Document *doc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
+	KTextEditor::Document *doc = (KTextEditor::Document*) KTextEditor::createDocument ("libkatepart", this, "KTextEditor::Document");
 	if ( docFor(url) != 0L )
 		kWarning() << url << " already has a document!" << endl;
 	else
@@ -486,10 +486,10 @@ Kate::Document* Manager::createDocument(const QString& name, const KUrl& url, Te
 	doc->setDocName(name.isEmpty() ? url.fileName() : name);
 
 	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(Kate::Document *)), m_ki->parentWidget(), SLOT(newCaption()));
+	connect(doc, SIGNAL(nameChanged(KTextEditor::Document *)), m_ki->parentWidget(), SLOT(newCaption()));
 	connect(doc, SIGNAL(fileNameChanged()), m_ki->parentWidget(), SLOT(newCaption()));
-	connect(doc, SIGNAL(modStateChanged(Kate::Document*)), this, SLOT(newDocumentStatus(Kate::Document*)));
-	connect(doc, SIGNAL(modifiedOnDisc(Kate::Document*, bool, unsigned char)), this, SIGNAL(documentStatusChanged(Kate::Document*, bool, unsigned char)));
+	connect(doc, SIGNAL(modStateChanged(KTextEditor::Document*)), this, SLOT(newDocumentStatus(KTextEditor::Document*)));
+	connect(doc, SIGNAL(modifiedOnDisc(KTextEditor::Document*, bool, unsigned char)), this, SIGNAL(documentStatusChanged(KTextEditor::Document*, bool, unsigned char)));
 
 	docinfo->setDoc(doc);
 	docinfo->setHighlightMode(highlight);
@@ -502,9 +502,9 @@ Kate::Document* Manager::createDocument(const QString& name, const KUrl& url, Te
 	return doc;
 }
 
-Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text, bool openProjectItemViews)
+KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text, bool openProjectItemViews)
 {
-	Kate::View *view = 0L;
+	KTextEditor::View *view = 0L;
 
 	KILE_DEBUG() << "==loadItem(" << item->url().path() << ")======" << endl;
 
@@ -535,7 +535,7 @@ Kate::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, co
 	return view;
 }
 
-Kate::View* Manager::loadText(KileDocument::Type type, const QString& name, const KUrl &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KUrl& baseDirectory /* = KUrl() */)
+KTextEditor::View* Manager::loadText(KileDocument::Type type, const QString& name, const KUrl &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KUrl& baseDirectory /* = KUrl() */)
 {
 	KILE_DEBUG() << "==loadText(" << url.url() << ")=================" << endl;
 	//if doc already opened, update the structure view and return the view
@@ -543,7 +543,7 @@ Kate::View* Manager::loadText(KileDocument::Type type, const QString& name, cons
 		return m_ki->viewManager()->switchToTextView(url);
 
 	TextInfo *docinfo = createTextDocumentInfo(type, url, baseDirectory);
-	Kate::Document *doc = createDocument(name, url, docinfo, encoding, highlight);
+	KTextEditor::Document *doc = createDocument(name, url, docinfo, encoding, highlight);
 
 	m_ki->structureWidget()->clean(docinfo);
 	docinfo->updateStruct();
@@ -561,14 +561,14 @@ Kate::View* Manager::loadText(KileDocument::Type type, const QString& name, cons
 }
 
 //FIXME: template stuff should be in own class
-Kate::View* Manager::loadTemplate(TemplateItem *sel)
+KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 {
 	QString text = QString::null;
 
 	if (sel && sel->name() != DEFAULT_EMPTY_CAPTION && sel->name() != DEFAULT_EMPTY_LATEX_CAPTION && sel->name() != DEFAULT_EMPTY_BIBTEX_CAPTION)
 	{
 		//create a new document to open the template in
-		Kate::Document *tempdoc = (Kate::Document*) KTextEditor::createDocument ("libkatepart", this, "Kate::Document");
+		KTextEditor::Document *tempdoc = (KTextEditor::Document*) KTextEditor::createDocument ("libkatepart", this, "KTextEditor::Document");
 
 		if (!tempdoc->openURL(KUrl(sel->path())))
 		{
@@ -588,9 +588,9 @@ Kate::View* Manager::loadTemplate(TemplateItem *sel)
 	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalJScriptDirectory() : QString()));
 }
 
-Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KUrl& baseDirectory)
+KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KUrl& baseDirectory)
 {
-	Kate::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : '.' + extension), KUrl(), QString::null, true, QString::null, text, -1, baseDirectory);
+	KTextEditor::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : '.' + extension), KUrl(), QString::null, true, QString::null, text, -1, baseDirectory);
 	if (view)
 	{
 		//FIXME this shouldn't be necessary!!!
@@ -601,17 +601,17 @@ Kate::View* Manager::createDocumentWithText(const QString& text, KileDocument::T
 	return view;
 }
 
-Kate::View* Manager::createNewJScript()
+KTextEditor::View* Manager::createNewJScript()
 {
-	Kate::View *view = createDocumentWithText(QString::null, Script, "js", m_ki->scriptManager()->getLocalJScriptDirectory());
+	KTextEditor::View *view = createDocumentWithText(QString::null, Script, "js", m_ki->scriptManager()->getLocalJScriptDirectory());
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	return view;
 }
 
-Kate::View* Manager::createNewLaTeXDocument()
+KTextEditor::View* Manager::createNewLaTeXDocument()
 {
-	Kate::View *view = createDocumentWithText(QString::null, LaTeX);
+	KTextEditor::View *view = createDocumentWithText(QString::null, LaTeX);
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	return view;
@@ -627,7 +627,7 @@ void Manager::replaceTemplateVariables(QString &line)
 
 void Manager::createTemplate()
 {
-	Kate::View *view = m_ki->viewManager()->currentTextView();
+	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	if (view)
 	{
 		if (view->getDoc()->isModified() )
@@ -729,11 +729,11 @@ void Manager::fileSelected(const KUrl & url)
 
 void Manager::saveURL(const KUrl & url)
 {
-	Kate::Document *doc = docFor(url);
+	KTextEditor::Document *doc = docFor(url);
 	if (doc) doc->save();
 }
 
-void Manager::newDocumentStatus(Kate::Document *doc)
+void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
 	if (doc == 0L) return;
 
@@ -749,9 +749,9 @@ void Manager::newDocumentStatus(Kate::Document *doc)
 
 void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 {
-	Kate::View *view= 0L;
+	KTextEditor::View *view= 0L;
 	QFileInfo fi;
-	int saveResult = Kate::View::SAVE_ERROR;
+	int saveResult = KTextEditor::View::SAVE_ERROR;
 	KUrl url, backupUrl;
 	
 	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")" << endl;
@@ -828,7 +828,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				saveResult = view->save();
 				fi.refresh();
 			
-				if(saveResult == Kate::View::SAVE_ERROR && fi.size() == 0 && !url.isEmpty()) // we probably hit bug #125809, inform the user of the possible consequences
+				if(saveResult == KTextEditor::View::SAVE_ERROR && fi.size() == 0 && !url.isEmpty()) // we probably hit bug #125809, inform the user of the possible consequences
 					emit printMsg(KileTool::Error,i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?").arg(url.url()),i18n("Saving"));
 			}
 		}
@@ -849,7 +849,7 @@ void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
 	
 	bool isopen = m_ki->isOpen(realurl);
 
-	Kate::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), QString::null, realurl, encoding, true, QString::null, QString::null, index);
+	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), QString::null, realurl, encoding, true, QString::null, QString::null, index);
 	KileProjectItem *item = itemFor(realurl);
 
 	if(!isopen)
@@ -869,7 +869,7 @@ void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
 
 void Manager::fileSave()
 {
-	Kate::View* view = m_ki->viewManager()->currentTextView();
+	KTextEditor::View* view = m_ki->viewManager()->currentTextView();
 	if(!view)
 	{
 		return;
@@ -886,7 +886,7 @@ void Manager::fileSave()
 	}
 }
 
-void Manager::fileSaveAs(Kate::View* view)
+void Manager::fileSaveAs(KTextEditor::View* view)
 {
 	
 	if(!view)
@@ -894,7 +894,7 @@ void Manager::fileSaveAs(Kate::View* view)
 	if(!view)
 		return;
 	
-	Kate::Document* doc = view->getDoc();
+	KTextEditor::Document* doc = view->getDoc();
 	Q_ASSERT(doc);
 	KileDocument::TextInfo* info = textInfoFor(doc);
 	Q_ASSERT(info);
@@ -959,8 +959,8 @@ void Manager::fileSaveAs(Kate::View* view)
 
 void Manager::fileSaveCopyAs()
 {
-	Kate::Document *doc= m_ki->activeTextDocument();
-	Kate::View *view = 0L;
+	KTextEditor::Document *doc= m_ki->activeTextDocument();
+	KTextEditor::View *view = 0L;
 	if(doc)
 	{
 		KileDocument::TextInfo *originalInfo = textInfoFor(doc);
@@ -987,10 +987,10 @@ void Manager::fileSaveCopyAs()
 
 bool Manager::fileCloseAllOthers()
 {
-	Kate::View * currentview = m_ki->viewManager()->currentTextView();
+	KTextEditor::View * currentview = m_ki->viewManager()->currentTextView();
 	while (  m_ki->viewManager()->textViews().count() > 1 )
 	{
-		Kate::View *view =  m_ki->viewManager()->textViews().first();
+		KTextEditor::View *view =  m_ki->viewManager()->textViews().first();
 		if ( view == currentview )
 			view =  m_ki->viewManager()->textViews().next();
 		if ( ! fileClose(view->getDoc()) )
@@ -1002,7 +1002,7 @@ bool Manager::fileCloseAllOthers()
 
 bool Manager::fileCloseAll()
 {
-	Kate::View * view = m_ki->viewManager()->currentTextView();
+	KTextEditor::View * view = m_ki->viewManager()->currentTextView();
 
 	//assumes one view per doc here
 	while( ! m_ki->viewManager()->textViews().isEmpty() )
@@ -1016,14 +1016,14 @@ bool Manager::fileCloseAll()
 
 bool Manager::fileClose(const KUrl & url)
 {
-	Kate::Document *doc = docFor(url);
+	KTextEditor::Document *doc = docFor(url);
 	if ( doc == 0L )
 		return true;
 	else
 		return fileClose(doc);
 }
 
-bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= false*/)
+bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingproject /*= false*/)
 {
 	KILE_DEBUG() << "==Kile::fileClose==========================" << endl;
 
@@ -1066,7 +1066,7 @@ bool Manager::fileClose(Kate::Document *doc /* = 0L*/, bool closingproject /*= f
 				cleanUpTempFiles(url, true); // yes we pass here url and not docinfo->url()
 
 			//FIXME: use signal/slot
-			m_ki->viewManager()->removeView(static_cast<Kate::View*>(doc->views().first()));
+			m_ki->viewManager()->removeView(doc->views().first());
 			//remove the decorations
 
 			trashDoc(docinfo, doc);
@@ -1133,7 +1133,7 @@ void Manager::projectNew()
 
 			//create the new document and fill it with the template
 			//TODO: shell expand the filename
-			Kate::View *view = loadTemplate(dlg->getSelection());
+			KTextEditor::View *view = loadTemplate(dlg->getSelection());
 
 			//derive the URL from the base url of the project
 			KUrl url = project->baseURL();
@@ -1268,7 +1268,7 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 	if (m_ki->isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
 		emit removeFromProjectView(item->url());
 
-	Kate::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString::null, openProjectItemViews);
+	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString::null, openProjectItemViews);
 
 	if ( (!item->isOpen()) && (view == 0L) && (item->getInfo()) ) //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());
@@ -1422,7 +1422,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 	if (project)
 	{
 		KileProjectItemList *list = project->items();
-		Kate::Document *doc = NULL;
+		KTextEditor::Document *doc = NULL;
 		KileProjectItem *item = NULL;
 		TextInfo *docinfo = NULL;
 
@@ -1433,7 +1433,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 			docinfo = (*i)->getInfo();
 			if(docinfo)
 			{
-				Kate::View *view = m_ki->viewManager()->textView(docinfo);
+				KTextEditor::View *view = m_ki->viewManager()->textView(docinfo);
 				if(view)
 				{
 					int position = m_ki->viewManager()->getIndexOf(view);
@@ -1603,7 +1603,7 @@ bool Manager::projectClose(const KUrl & url)
 		KileProjectItemList *list = project->items();
 
 		bool close = true;
-		Kate::Document *doc = 0L;
+		KTextEditor::Document *doc = 0L;
 		TextInfo *docinfo = 0L;
 		for (uint i =0; i < list->count(); ++i)
 		{	
@@ -1649,13 +1649,13 @@ bool Manager::projectClose(const KUrl & url)
 	return true;
 }
 
-void Manager::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
+void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc)
 {
 	KILE_DEBUG() << "===Kile::storeProjectItem==============" << endl;
 	KILE_DEBUG() << "\titem = " << item << ", doc = " << doc << endl;
 	item->setEncoding(doc->encoding());
 	item->setHighlight(doc->hlModeName(doc->hlMode()));
-	Kate::View *view = static_cast<Kate::View*>(doc->views().first());
+	KTextEditor::View *view = static_cast<KTextEditor::View*>(doc->views().first());
 	uint l = 0, c = 0;
 	if (view) view->cursorPosition(&l,&c);
 	item->setLineNumber(l);
@@ -1838,7 +1838,7 @@ void Manager::projectOpenAllFiles()
 void Manager::projectOpenAllFiles(const KUrl & url)
 {
 	KileProject* project;
-	Kate::Document* doc = 0L;
+	KTextEditor::Document* doc = 0L;
 
 	if(!url.isValid())
 		return;

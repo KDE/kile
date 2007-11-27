@@ -64,8 +64,8 @@ bool OutputFilter::Run(const QString & logfile)
 
 	if ( f.open(QIODevice::ReadOnly) )
 	{
-		Q3TextStream t( &f );
-		while ( !t.eof() )
+		QTextStream t(&f);
+		while ( !t.atEnd() )
 		{
 // 			KILE_DEBUG() << "line " << m_nOutputLines << endl;
 			s = t.readLine() + '\n';

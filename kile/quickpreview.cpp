@@ -179,7 +179,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	QString previewtask = KileConfig::previewTask();
 	if ( ! map.contains(previewtask) ) 
 	{
-		showError(QString(i18n("Could not run QuickPreview:\nunknown task '%1'").arg(previewtask)));
+		showError(i18n("Could not run QuickPreview:\nunknown task '%1'",previewtask));
 		return false;
 	}
 
@@ -226,7 +226,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KileTool::PreviewLaTeX *latex = (KileTool::PreviewLaTeX  *)m_ki->toolFactory()->create(previewlist[pvLatex],false);
 	if ( !latex ) 
 	{
-		showError(QString(i18n("Could not run '%1' for QuickPreview.").arg("LaTeX")));
+		showError(i18n("Could not run '%1' for QuickPreview.",QString("LaTeX")));
 		return false;
 	}
 	
@@ -238,7 +238,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
 		if ( !dvips ) 
 		{
-			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(dvipstool)));
+			showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
 			return false;
 		}
 	} 
@@ -251,7 +251,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
 		if ( !viewer ) 
 		{
-			showError(QString(i18n("Could not run '%1' for QuickPreview.").arg(viewertool)));
+			showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
 			return false;
 		}
 	} 

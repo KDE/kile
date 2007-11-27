@@ -269,7 +269,7 @@ void UserHelp::slotUserHelpActivated(int index)
 	bool http = ( filename.indexOf("http://", 0) == 0 );
 	if ( !http && !fi.exists() ) 
 	{
-		KMessageBox::error(0,QString(i18n("File '%1' doesn't exist.")).arg(filename));
+		KMessageBox::error(0,i18n("File '%1' doesn't exist.",filename));
 		return;
 	}
 		

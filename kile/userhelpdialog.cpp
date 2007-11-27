@@ -435,7 +435,7 @@ void UserHelpAddDialog::slotChooseFile()
 	QFileInfo fi(filename);
 	if ( ! fi.exists() )
 	{
-		KMessageBox::error(0,QString(i18n("File '%1' does not exist.")).arg(filename));
+		KMessageBox::error(0,i18n("File '%1' does not exist.",filename));
 		return;
 	}
 
@@ -476,7 +476,7 @@ void UserHelpAddDialog::slotOk()
 	QFileInfo fi(filename);
 	if ( filename.indexOf("http://", 0) !=0 && !fi.exists() )
 	{
-		KMessageBox::error(this,QString(i18n("File '%1' doesn't exist.")).arg(filename));
+		KMessageBox::error(this,i18n("File '%1' doesn't exist.",filename));
 		return;
 	}
 

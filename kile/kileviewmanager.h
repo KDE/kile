@@ -87,8 +87,8 @@ public slots:
 	void closeWidget(QWidget *);
 	void removeView(KTextEditor::View *view);
 
-	void setTabLabel(QWidget *view, const QString & name) { m_tabs->setTabLabel(view, name); }
-	void changeTab(QWidget *view, const QPixmap & icon, const QString & name) { m_tabs->changeTab(view, icon, name); }
+	void setTabLabel(QWidget *view, const QString & name);
+	void changeTab(QWidget *view, const QPixmap & icon, const QString & name);
 
 	void updateStructure(bool parse = false, KileDocument::Info *docinfo = 0L);
 

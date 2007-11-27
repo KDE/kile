@@ -268,6 +268,20 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 	return view;
 }
 
+
+void Manager::setTabLabel(QWidget *view, const QString & name)
+{
+//FIXME port for KDE4
+// 	m_tabs->setTabText(view, name);
+}
+
+void Manager::changeTab(QWidget *view, const QPixmap & icon, const QString & name)
+{
+//FIXME port for KDE4
+// 	m_tabs->changeTab(view, icon, name);
+}
+
+
 void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = 0L */)
 {
 	if (docinfo == 0L)

@@ -12,6 +12,8 @@ INCLUDE( FindPerl )
 
 INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
 
+ADD_DEFINITIONS(-DQT3_SUPPORT)
+
 ########### next target ###############
 
 
@@ -145,7 +147,8 @@ KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
-TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor katepartinterfaces khtml )
+#need qt3support library for now
+TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor katepartinterfaces khtml ${QT_QT3SUPPORT_LIBRARY})
 
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 

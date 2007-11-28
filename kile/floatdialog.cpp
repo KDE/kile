@@ -16,11 +16,11 @@
 
 #include "floatdialog.h"
 
-#include <qlayout.h>
-#include <q3buttongroup.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
+#include <QLayout>
+#include <QButtonGroup>
+#include <QRegExp>
+#include <QGridLayout>
+#include <QGroupBox>
 #include <QLabel>
 
 #include <klocale.h>
@@ -37,39 +37,72 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QW
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 		
-	Q3GridLayout *grid = new Q3GridLayout(page, 6,2, 8,8);
-   
+	QGridLayout *grid = new QGridLayout(page);
+/*
+    QGroupBox *groupBox = new QGroupBox(tr("Exclusive Radio Buttons"));
+
+     QRadioButton *radio1 = new QRadioButton(tr("&Radio button 1"));
+     QRadioButton *radio2 = new QRadioButton(tr("R&adio button 2"));
+     QRadioButton *radio3 = new QRadioButton(tr("Ra&dio button 3"));
+
+     radio1->setChecked(true);
+
+     QVBoxLayout *vbox = new QVBoxLayout;
+     vbox->addWidget(radio1);
+     vbox->addWidget(radio2);
+     vbox->addWidget(radio3);
+     vbox->addStretch(1);
+     groupBox->setLayout(vbox);
+*/
 	// environment groupbox
-	Q3ButtonGroup *egroup = new Q3ButtonGroup( i18n("Environment"),page);
-	egroup->setColumnLayout(0, Qt::Vertical );
+
+
+	QGroupBox *envGroupBox = new QGroupBox(i18n("Environment"), page);
+	QButtonGroup *envButtonGroup = new QButtonGroup(envGroupBox);
+#ifdef __GNUC__
+#warning Still some things left to port!
+#endif
+//FIXME: port for KDE4
+/*	egroup->setColumnLayout(0, Qt::Vertical );
 	egroup->layout()->setSpacing( 6 );
-	egroup->layout()->setMargin( 11 );
-	Q3GridLayout *egrouplayout = new Q3GridLayout( egroup->layout() );
+	egroup->layout()->setMargin( 11 );*/
+	QGridLayout *egrouplayout = new QGridLayout(envGroupBox);
 	egrouplayout->setAlignment( Qt::AlignTop );
 
-	m_rbFigure = new QRadioButton(i18n("&Figure"), egroup);
-	m_rbTable = new QRadioButton(i18n("T&able"), egroup);
-	
+	m_rbFigure = new QRadioButton(i18n("&Figure"), envGroupBox);
+	m_rbTable = new QRadioButton(i18n("T&able"), envGroupBox);
+
+	envButtonGroup->addButton(m_rbFigure);
+	envButtonGroup->addButton(m_rbTable);
+
 	egrouplayout->addWidget( m_rbFigure, 0,0 );
 	egrouplayout->addWidget( m_rbTable, 0,1 );
 
 	// position groupbox
-	Q3ButtonGroup *pgroup = new Q3ButtonGroup( i18n("Position"),page);
-	pgroup->setColumnLayout(0, Qt::Vertical );
+	QGroupBox *posGroupBox = new QGroupBox(i18n("Position"), page);
+	QButtonGroup *posButtonGroup = new QButtonGroup(posGroupBox);
+
+//FIXME: port for KDE4
+/*	pgroup->setColumnLayout(0, Qt::Vertical );
 	pgroup->layout()->setSpacing( 6 );
-	pgroup->layout()->setMargin( 11 );
-	Q3GridLayout *pgrouplayout = new Q3GridLayout( pgroup->layout() );
+	pgroup->layout()->setMargin( 11 );*/
+	QGridLayout *pgrouplayout = new QGridLayout(posGroupBox);
 	pgrouplayout->setAlignment( Qt::AlignTop );
 
-	QLabel *label1 = new QLabel(i18n("Here exact:"), pgroup);
-	QLabel *label2 = new QLabel(i18n("Top of page:"), pgroup);
-	QLabel *label3 = new QLabel(i18n("Bottom of page:"), pgroup);
-	QLabel *label4 = new QLabel(i18n("Extra page:"), pgroup);
-	m_cbHere = new QCheckBox(pgroup);
-	m_cbTop = new QCheckBox(pgroup);
-	m_cbBottom = new QCheckBox(pgroup);
-	m_cbPage = new QCheckBox(pgroup);
-	
+	QLabel *label1 = new QLabel(i18n("Here exact:"), posGroupBox);
+	QLabel *label2 = new QLabel(i18n("Top of page:"), posGroupBox);
+	QLabel *label3 = new QLabel(i18n("Bottom of page:"), posGroupBox);
+	QLabel *label4 = new QLabel(i18n("Extra page:"), posGroupBox);
+	m_cbHere = new QCheckBox(posGroupBox);
+	m_cbTop = new QCheckBox(posGroupBox);
+	m_cbBottom = new QCheckBox(posGroupBox);
+	m_cbPage = new QCheckBox(posGroupBox);
+
+	posButtonGroup->addButton(m_cbHere);
+	posButtonGroup->addButton(m_cbTop);
+	posButtonGroup->addButton(m_cbBottom);
+	posButtonGroup->addButton(m_cbPage);
+
 	pgrouplayout->addWidget( label1, 0,0 );
 	pgrouplayout->addWidget( label2, 1,0 );
 	pgrouplayout->addWidget( label3, 0,2 );
@@ -97,8 +130,8 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QW
 	
 	
 	// add widgets
-	grid->addMultiCellWidget( egroup, 0,0,0,1 );
-	grid->addMultiCellWidget( pgroup, 1,1,0,1 );
+	grid->addWidget(envGroupBox, 0, 0, 0, 1);
+	grid->addWidget(posGroupBox, 1, 1, 0, 1);
 	grid->addWidget(label5,2,0);
 	grid->addWidget(label6,3,0);
 	grid->addWidget(label7,4,0);

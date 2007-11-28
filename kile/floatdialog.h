@@ -20,9 +20,9 @@
 #include "kilewizard.h"
 #include <klineedit.h>
 
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
+#include <QLabel>
+#include <QCheckBox>
+#include <QRadioButton>
 
 #include "kileinfo.h"
 

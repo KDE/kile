@@ -75,7 +75,7 @@ namespace KileWidget
 		if (view)
 		{
 			QString finame;
-			KUrl url = view->getDoc()->url();
+			KUrl url = view->document()->url();
 
 			if ( url.path().isEmpty() || KileUntitled::isUntitled(url.path()) ) return;
 
@@ -96,7 +96,7 @@ namespace KileWidget
 		{
 			KUrl url(dirname);
 			if (m_part->url() != url)
-				m_part->openURL(url);
+				m_part->openUrl(url);
 		}
 	}
 

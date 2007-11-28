@@ -264,7 +264,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	hl->addWidget(m_btnClassOptionsAdd);
 	connect(m_btnClassOptionsAdd, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 
-	m_btnClassOptionsEdit = new KPushButton(SmallIcon("edit"), i18n("Ed&it..."), frame);
+	m_btnClassOptionsEdit = new KPushButton(SmallIcon("object-edit"), i18n("Ed&it..."), frame);
 	Q3WhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
 	hl->addWidget(m_btnClassOptionsEdit);
 	connect(m_btnClassOptionsEdit, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
@@ -316,7 +316,7 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	Q3WhatsThis::add(m_btnPackagesAddOption, i18n("Add a new package option"));
 	connect(m_btnPackagesAddOption, SIGNAL(clicked()), this, SLOT(slotPackageAddOption()));
 	hl->addWidget(m_btnPackagesAddOption);
-	m_btnPackagesEdit = new KPushButton(SmallIcon("edit"), "Ed&it...", frame);
+	m_btnPackagesEdit = new KPushButton(SmallIcon("object-edit"), "Ed&it...", frame);
 	Q3WhatsThis::add(m_btnPackagesEdit, i18n("Edit the current package option"));
 	connect(m_btnPackagesEdit, SIGNAL(clicked()), this, SLOT(slotPackageEdit()));
 	hl->addWidget(m_btnPackagesEdit);

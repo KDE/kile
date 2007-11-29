@@ -18,7 +18,7 @@
 
 namespace KileWidget
 {
-	Output::Output(QWidget *parent, const char * name) : KTextEdit(parent, name)
+	Output::Output(QWidget *parent, const char * name) : K3TextEdit(parent, name)
 	{
 		setTextFormat(Qt::LogText);
 	}

@@ -15,11 +15,12 @@
 #ifndef KILEWIDGET_OUTPUTMSG_H
 #define KILEWIDGET_OUTPUTMSG_H
 
-#include <ktextedit.h>
+#include <q3textedit.h>
+#include <k3textedit.h>
 
 namespace KileWidget
 {
-	class Output : public KTextEdit  
+	class Output : public K3TextEdit  
 	{
 		Q_OBJECT
 

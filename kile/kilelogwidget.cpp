@@ -30,9 +30,10 @@
 namespace KileWidget
 {
 	LogMsg::LogMsg(KileInfo *info, QWidget *parent, const char *name ) :
-		KTextEdit(parent,name),
+		K3TextEdit(parent),
 		m_info(info)
 	{
+		setObjectName(name);
 		setTabStopWidth(10);
 		connect(this, SIGNAL(clicked(int, int)), this, SLOT(slotClicked(int, int)));
 	}
@@ -173,7 +174,7 @@ namespace KileWidget
 	Q3PopupMenu* LogMsg::createPopupMenu (const QPoint & pos)
 	{
 		//get standard popup menu
-		Q3PopupMenu * popup = KTextEdit::createPopupMenu(pos);
+		Q3PopupMenu * popup = K3TextEdit::createPopupMenu(pos);
 
 		//add toggle operations for hiding warnings/badboxes
 		popup->insertSeparator();

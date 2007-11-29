@@ -15,9 +15,10 @@
 #ifndef KILEWIDGET_LOGMSG_H
 #define KILEWIDGET_LOGMSG_H
 
-#include <ktextedit.h>
+#include <k3textedit.h>
 //Added by qt3to4:
 #include <Q3PopupMenu>
+#include <Q3TextEdit>
 
 class QString;
 class Q3PopupMenu;
@@ -28,7 +29,7 @@ class KUrl;
 
 namespace KileWidget
 {
-	class LogMsg : public KTextEdit  
+	class LogMsg : public K3TextEdit  
 	{
 		Q_OBJECT
 

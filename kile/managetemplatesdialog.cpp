@@ -96,7 +96,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	m_templateList = new K3ListView(page);
 	m_templateList->setSorting(-1);
-	m_templateList->addColumn(i18n("marked", "M"));
+	m_templateList->addColumn(i18nc("marked", "M"));
 	m_templateList->addColumn(i18n("Existing Templates"));
 	m_templateList->addColumn(i18n("Document Type"));
 	m_templateList->setColumnWidthMode(0, Q3ListView::Manual);
@@ -146,7 +146,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	m_templateList = new K3ListView(page);
 	m_templateList->setSorting(-1);
-	m_templateList->addColumn(i18n("marked", "M"));
+	m_templateList->addColumn(i18nc("marked", "M"));
 	m_templateList->addColumn(i18n("Existing Templates"));
 	m_templateList->addColumn(i18n("Document Type"));
 	m_templateList->setColumnWidthMode(0, Q3ListView::Manual);

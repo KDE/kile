@@ -49,7 +49,6 @@ protected slots:
 
 protected:
 	KileTemplate::Manager *m_templateManager;
-	KConfig *m_config;
 	NewDocumentWidget* m_newDocumentWidget;
 	int m_currentlyDisplayedType; // not a document type, only a local type!
 

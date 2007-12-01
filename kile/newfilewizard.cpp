@@ -48,12 +48,11 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, QWidget *pa
 	showButtonSeparator(true);
 
 	// first read config
-	m_config = KGlobal::config();
-	m_config->setGroup("NewFileWizard");
-	bool wizard = m_config->readBoolEntry("UseWizardWhenCreatingEmptyFile", false);
-	int w = m_config->readNumEntry("width", -1);
+	KConfigGroup newFileWizardGroup = KGlobal::config()->group("NewFileWizard");
+	bool wizard = newFileWizardGroup.readEntry("UseWizardWhenCreatingEmptyFile", false);
+	int w = newFileWizardGroup.readEntry("width", -1);
 	if ( w == -1 ) w = width();
-	int h = m_config->readNumEntry("height", -1);
+	int h = newFileWizardGroup.readEntry("height", -1);
 	if ( h == -1 ) h = height();
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
@@ -127,13 +126,14 @@ void NewFileWizard::storeSelectedIcon()
 	}
 	TemplateItem *selectedItem = getSelection();
 	if (selectedItem) {
-		m_config->writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
+		KGlobal::config()->group("default").writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
 	}
 }
 
 void NewFileWizard::restoreSelectedIcon()
 {
-	QString selectedIconName = m_config->readEntry(getConfigKey(m_currentlyDisplayedType), DEFAULT_EMPTY_CAPTION);
+	KConfigGroup defaultGroup = KGlobal::config()->group("default");
+	QString selectedIconName = defaultGroup.readEntry(getConfigKey(m_currentlyDisplayedType), DEFAULT_EMPTY_CAPTION);
 	Q3IconViewItem *item = m_newDocumentWidget->templateIconView->findItem(selectedIconName);
 	if(item) {
 		m_newDocumentWidget->templateIconView->setSelected(item, true);
@@ -142,10 +142,11 @@ void NewFileWizard::restoreSelectedIcon()
 
 void NewFileWizard::slotOk()
 {
-	m_config->setGroup("NewFileWizard");
-	m_config->writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
-	m_config->writeEntry("width", width());
-	m_config->writeEntry("height", height());
+	KConfigGroup newFileWizardGroup = KGlobal::config()->group("NewFileWizard");
+
+	newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
+	newFileWizardGroup.writeEntry("width", width());
+	newFileWizardGroup.writeEntry("height", height());
 	
 	storeSelectedIcon();
 	accept();

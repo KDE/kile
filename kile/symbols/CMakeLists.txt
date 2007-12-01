@@ -48,8 +48,7 @@ SET(gesymb_SRCS
 )
 
 ADD_EXECUTABLE(gesymb EXCLUDE_FROM_ALL ${gesymb_SRCS} )
-TARGET_LINK_LIBRARIES(gesymb -lQtCore -lQtGui)
-# TARGET_LINK_LIBRARIES(gesymb ${QT_LIBARIES} )
+TARGET_LINK_LIBRARIES(gesymb ${QT_LIBRARIES} )
 
 
 ########### install files ###############

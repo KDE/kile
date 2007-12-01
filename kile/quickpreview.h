@@ -42,7 +42,7 @@ public:
 	bool isRunning();
 
 	void previewEnvironment(KTextEditor::Document *doc);
-	void previewSelection(KTextEditor::Document *doc, bool previewInWidgetConfig=true);
+	void previewSelection(KTextEditor::View *view, bool previewInWidgetConfig=true);
 	void previewSubdocument(KTextEditor::Document *doc);
 	void previewMathgroup(KTextEditor::Document *doc);
   

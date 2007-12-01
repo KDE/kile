@@ -57,22 +57,20 @@ QuickPreview::~QuickPreview()
 
 // compile and view current selection (singlemode and mastermode)
 
-void QuickPreview::previewSelection(KTextEditor::Document *doc, bool previewInWidgetConfig)
+void QuickPreview::previewSelection(KTextEditor::View *view, bool previewInWidgetConfig)
 {
-	if ( doc->hasSelection() ) 
-	{
-		if ( previewInWidgetConfig && KileConfig::selPreviewInWidget() )
-		{
-			m_ki->previewWidget()->showActivePreview( doc->selection(),m_ki->getName(doc),doc->selStartLine(),KileTool::qpSelection );
+	if (view->selection()) {
+		int startLine = view->selectionRange().start().line();
+		KTextEditor::Document *doc = view->document();
+		if ( previewInWidgetConfig && KileConfig::selPreviewInWidget() ) {
+			m_ki->previewWidget()->showActivePreview(view->selectionText(), m_ki->getName(doc), startLine, KileTool::qpSelection);
 		}
-		else
-		{	
-			run( doc->selection(),m_ki->getName(doc),doc->selStartLine() );
-			doc->clearSelection();
+		else {
+			run(view->selectionText(), m_ki->getName(doc), startLine);
+			view->removeSelection();
 		}
 	} 
-	else 
-	{
+	else {
 		showError( i18n("There is no selection to compile.") );
 	}
 }

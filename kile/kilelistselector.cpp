@@ -21,9 +21,9 @@
 #include <QLabel>
 #include <QLayout>
 #include <q3header.h>
-//Added by qt3to4:
+
 #include <Q3VBoxLayout>
-#include <Q3PtrList>
+#include <QList>
 
 #include <kapplication.h>
 #include "kiledebug.h"
@@ -57,9 +57,8 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 	//setShadeSortColumn(true);                         // default: true
 	m_listview->header()->setMovingEnabled(false);      // default: true
 
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
 	m_listview->setShadeSortColumn(false);
-#endif
+
 	layout->addWidget(m_listview);
 
 	insertStringList(list);
@@ -111,13 +110,12 @@ const QStringList& KileListSelectorMultiple::selected()
 {
 	m_selectedfiles.clear();
 
-	Q3PtrList<Q3ListViewItem> list = m_listview->selectedItems();
-	Q3PtrListIterator<Q3ListViewItem> it(list);
-	while ( it.current() )
-	{
+	QList<Q3ListViewItem*> list = m_listview->selectedItems();
+	QList<Q3ListViewItem*>::iterator it;
+	
+	for (it = list.begin(); it != list.end(); ++it)
 		m_selectedfiles.append((*it)->text(0));
-		++it;
-	}
+	
 	return m_selectedfiles;
 }
 

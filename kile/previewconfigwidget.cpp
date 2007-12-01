@@ -64,7 +64,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->setAlignment( Qt::AlignTop );
 
 	QLabel *resLabel = new QLabel( i18n("&Resolution:"), gbResolution );
-	m_leDvipngResolution = new KLineEdit( gbResolution, "DvipngResolution" );
+	m_leDvipngResolution = new KLineEdit( gbResolution );
 	QLabel *resDpi = new QLabel( i18n("dpi"), gbResolution );
 	QLabel *resAllowed = new QLabel( i18n("(allowed values: 30-1000 dpi)"), gbResolution );
 	
@@ -261,8 +261,8 @@ void KileWidgetPreviewConfig::setupProperties()
 		m_coSelection->insertStringList(toollist);
 		m_coEnvironment->insertStringList(toollist);
 
-		m_coSelection->setCurrentItem( tool2index(KileConfig::selPreviewTool()) );
-		m_coEnvironment->setCurrentItem( tool2index(KileConfig::envPreviewTool()) );
+		m_coSelection->setCurrentIndex( tool2index(KileConfig::selPreviewTool()) );
+		m_coEnvironment->setCurrentIndex( tool2index(KileConfig::envPreviewTool()) );
 	}
 }
 

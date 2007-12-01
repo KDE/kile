@@ -57,7 +57,8 @@ UserTags::UserTags(const Q3ValueList<KileAction::TagData> &list, QWidget* parent
 
 	m_labelTag = new QLabel( page, "label2" );
 	m_labelTag->setText(i18n("Value:"));
-	m_editTag=new KTextEdit(page,"tag");
+	m_editTag=new KTextEdit(page);
+	m_editTag->setObjectName("tag");
 	m_editTag->setTextFormat(Qt::PlainText);
 
 	m_buttonAdd = new KPushButton(i18n("Add"),page);

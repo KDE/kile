@@ -32,15 +32,24 @@ ENDFOREACH( _dir )
 
 ########### next target ###############
 
-INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDE_DIR} ${QT_INCLUDES}  )
-# INCLUDE( FindKDE3 )
+find_package(Qt4 REQUIRED)
+
+IF(QT4_FOUND)
+      INCLUDE(${QT_USE_FILE})
+    ELSE(QT4_FOUND)
+      MESSAGE(FATAL ERROR "Qt4 not found.")
+    ENDIF(QT4_FOUND)
+
+INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${QT_INCLUDES} )
+
 SET(gesymb_SRCS
 	gesymb.cpp
 	gesymb.h
 )
-# KDE3_AUTOMOC(${gesymb_SRCS})
+
 ADD_EXECUTABLE(gesymb EXCLUDE_FROM_ALL ${gesymb_SRCS} )
-TARGET_LINK_LIBRARIES(gesymb ${QT_AND_KDECORE_LIBS} )
+TARGET_LINK_LIBRARIES(gesymb -lQtCore -lQtGui)
+# TARGET_LINK_LIBRARIES(gesymb ${QT_LIBARIES} )
 
 
 ########### install files ###############

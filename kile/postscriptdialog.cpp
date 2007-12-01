@@ -315,6 +315,9 @@ void PostscriptDialog::slotProcessExited (K3Process *proc)
 	QFile::remove(m_tempfile);
 }
 
+#ifdef __GNUC__
+#warning FIXME: redesign the method buildTempfile(). It won't work correctly like it is now!
+#endif
 QString PostscriptDialog::buildTempfile()
 {
 	// build command
@@ -370,11 +373,17 @@ QString PostscriptDialog::buildTempfile()
 	}
 
 	// create a temporary file
-	KTemporaryFile temp(QString::null,".sh");        
+	KTemporaryFile temp;
+	temp.setSuffix(".sh");
+	if(!temp.open()) {
+#ifdef __GNUC__
+#warning FIXME: add error handling at line 377!
+#endif
+	}
 	QString tempname = temp.name();
 	
-	Q3TextStream *stream = temp.textStream();      
-	*stream << "#! /bin/sh" << endl;
+	QTextStream stream(&temp);
+	stream << "#! /bin/sh" << endl;
 
 	// accept only ".ps" or ".ps.gz" as an input file
 	QFileInfo fi( m_edInfile->text() );
@@ -401,20 +410,20 @@ QString PostscriptDialog::buildTempfile()
 	
 	if ( ! zipped_psfile ) {                                       // unzipped ps files          
 		if ( m_edOutfile->text().isEmpty() ) {                      // pstops/psselect | kghostview
-			*stream << command << " " << inputfile << " | kghostview -" << endl;  
+			stream << command << " " << inputfile << " | kghostview -" << endl;  
 			viewer = false;     
 		} else {                                                    // pstops/psselect
-			*stream << command << " " << inputfile << " " << outputfile << endl;        
+			stream << command << " " << inputfile << " " << outputfile << endl;        
 		}
 	} else {                                                      // zipped ps files  
 		if ( m_edOutfile->text().isEmpty() ) {                     // pstops/psselect | kghostview
-			*stream << "gunzip -c " << inputfile 
+			stream << "gunzip -c " << inputfile 
 				     << " | " << command 
 				     << " | kghostview -" 
 				     << endl; 
 			viewer = false;
 		} else {      
-			*stream << "gunzip -c " << inputfile                    // pstops/psselect
+			stream << "gunzip -c " << inputfile                    // pstops/psselect
 				     << " | " << command
 				     << " > " << outputfile 
 				     << endl; 
@@ -423,20 +432,20 @@ QString PostscriptDialog::buildTempfile()
 	
 	// check, if we should stop
 	if ( equalfiles || viewer ) {
-		*stream << "if [ $? != 0 ]; then" << endl;   
-		*stream << "   exit 1" << endl;   
-		*stream << "fi" << endl;   
+		stream << "if [ $? != 0 ]; then" << endl;   
+		stream << "   exit 1" << endl;   
+		stream << "fi" << endl;   
 	}
 	
 	// replace the original file
 	if ( equalfiles ) {
-		*stream << "rm " << inputfile << endl;   
-		*stream << "mv " << outputfile << " " << inputfile << endl;   
+		stream << "rm " << inputfile << endl;   
+		stream << "mv " << outputfile << " " << inputfile << endl;   
 	}
 	
 	// viewer
 	if ( viewer ) {                                                // viewer: kghostview
-		*stream << "kghostview" << " " << (( equalfiles ) ? inputfile : outputfile) << endl;      
+		stream << "kghostview" << " " << (( equalfiles ) ? inputfile : outputfile) << endl;      
 	}
 	
 	// everything is prepared to do the job

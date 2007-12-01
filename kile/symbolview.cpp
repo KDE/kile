@@ -32,24 +32,28 @@ tbraun 2007-06-13
 #include "symbolview.h"
 #include "kileconfig.h"
 
-#include <qimage.h>
-#include <qstringlist.h>
-//Added by qt3to4:
+#include <QImage>
+#include <QPixmap>
+#include <QStringList>
+
 #include <Q3Frame>
 #include <QMouseEvent>
 #include <QHideEvent>
-#include <kimageeffect.h>
+
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include "kiledebug.h"
 
+#include <kconfiggroup.h>
 #include <kconfig.h>
 
 #include <qregexp.h>
 #include <qtooltip.h>
 #include <qlabel.h>
 #include <qrect.h>
-#include <qapplication.h>
+
+#include <QApplication>
+#include <QDesktopWidget>
 
 
 SymbolView::SymbolView(QWidget *parent, int type, const char *name): K3IconView( parent, name ),m_toolTip(0L)
@@ -129,7 +133,7 @@ void SymbolView::showToolTip( Q3IconViewItem *item )
 		else
 			label += i18n("Packages: ");
 		
-		for( uint i = 0; i < pkgs.count() ; i++ )
+		for( int i = 0; i < pkgs.count() ; i++ )
 		{
 			if( i < args.count() )
 				label = label + "[" + args[i] + "]" + pkgs[i] + "\n";
@@ -139,10 +143,10 @@ void SymbolView::showToolTip( Q3IconViewItem *item )
 	}
 	
      m_toolTip = new QLabel(label, 0,"myToolTip",
-			  WStyle_StaysOnTop | WStyle_Customize | WStyle_NoBorder | WStyle_Tool | WX11BypassWM );
+			  Qt::WStyle_StaysOnTop | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool | Qt::X11BypassWindowManagerHint );
      m_toolTip->setFrameStyle( Q3Frame::Plain | Q3Frame::Box );
      m_toolTip->setLineWidth( 1 );
-     m_toolTip->setAlignment( AlignLeft | AlignTop );
+     m_toolTip->setAlignment( Qt::AlignLeft | Qt::AlignTop );
      m_toolTip->move( QCursor::pos() + QPoint( 14, 14 ) );
      m_toolTip->adjustSize();
      QRect screen = QApplication::desktop()->screenGeometry(
@@ -264,10 +268,9 @@ void SymbolView::fillWidget(const QString& prefix)
 	
 	if( prefix == MFUSprefix)
 	{
-		KConfig *config = KGlobal::config();
-		config->setGroup(MFUSGroup);
-		QString configPaths = config->readEntry("paths");
-		QString configrefCnts = config->readEntry("counts");
+		KConfigGroup config = KGlobal::config()->group(MFUSGroup);
+		QString configPaths = config.readEntry("paths");
+		QString configrefCnts = config.readEntry("counts");
 		paths = configPaths.split(',');
 		refCnts = configrefCnts.split(',');
 		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts" << endl;
@@ -280,20 +283,20 @@ void SymbolView::fillWidget(const QString& prefix)
 	}
 	else
 	{
-		paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png",false,true);
+		paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png",KStandardDirs::NoDuplicates);
 	paths.sort();
-		for( uint i = 0 ; i < paths.count() ; i++ )
+		for( int i = 0 ; i < paths.count() ; i++ )
 			refCnts.append("1");
 	}
-	for ( uint i = 0; i < paths.count(); i++ )
+	for ( int i = 0; i < paths.count(); i++ )
 	{
  		if ( image.load(paths[i]) )
 		{
 //   			KILE_DEBUG() << "path is " << paths[i] << endl;
 			item = new K3IconViewItem(this);
-			item->setPixmap(image);
+			item->setPixmap(QPixmap::fromImage(image));
 			item->setKey( refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i] );
-			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
+// 			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
 		}
 		else
 			KILE_DEBUG() << "Loading file " << paths[i] << " failed" << endl;
@@ -306,13 +309,12 @@ void SymbolView::writeConfig()
 	QStringList paths,refCnts;
 	
 
-	KConfig *config = KGlobal::config();
-	config->setGroup(MFUSGroup);
+	KConfigGroup grp = KGlobal::config()->group(MFUSGroup);
 
 	if( KileConfig::clearMFUS() )
 	{
-		config->deleteEntry("paths");
-		config->deleteEntry("counts");
+		grp.deleteEntry("paths");
+		grp.deleteEntry("counts");
 	}
 	else
 	{
@@ -322,8 +324,8 @@ void SymbolView::writeConfig()
 			paths.append(item->key().section('%',3,3));
 			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last() << endl;
 		}
-		config->writeEntry("paths",paths);
-		config->writeEntry("counts",refCnts);
+		grp.writeEntry("paths",paths);
+		grp.writeEntry("counts",refCnts);
 	}
 }
 

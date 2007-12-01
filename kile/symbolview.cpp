@@ -47,10 +47,10 @@ tbraun 2007-06-13
 #include <kconfiggroup.h>
 #include <kconfig.h>
 
-#include <qregexp.h>
-#include <qtooltip.h>
-#include <qlabel.h>
-#include <qrect.h>
+#include <QRegExp>
+#include <QToolTip>
+#include <QLabel>
+#include <QRect>
 
 #include <QApplication>
 #include <QDesktopWidget>

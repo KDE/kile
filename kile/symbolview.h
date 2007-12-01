@@ -24,8 +24,8 @@
 
 #include <k3iconview.h>
 #include <q3scrollview.h>
-#include <qstring.h>
-#include <qlabel.h>
+#include <QString>
+#include <QLabel>
 
 static const QString MFUSGroup = "MostFrequentlyUsedSymbols";
 static const QString MFUSprefix = "MFUS";

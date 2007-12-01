@@ -666,7 +666,7 @@ bool TabularItem::isMulticolumn()
 void TabularItem::paint(QPainter *p,const QColorGroup &cg,const QRect &cr,bool selected)
 {
 	p->fillRect(0,0,cr.width(),cr.height(),
-		selected ? cg.brush(QColorGroup::Highlight) : m_data.bgcolor);
+		selected ? cg.brush(QColorGroup::Highlight) : QBrush(m_data.bgcolor));
 
 	int w = cr.width();
 	int h = cr.height();
@@ -760,7 +760,7 @@ bool TabularTable::eventFilter(QObject *o, QEvent *e)
 	if ( e->type() == QEvent::MouseButtonPress ) 
 	{
 		QMouseEvent *me = (QMouseEvent*) e;
-		if ( me->button() == RightButton ) 
+		if ( me->button() == Qt::RightButton )
 		{
 			if ( o == horizontalHeader() ) 
 			{
@@ -1063,7 +1063,7 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 		QPen pen( p->pen() );
 		
 		QColor gridlinecolor;
-		int gridColor = style().styleHint( QStyle::SH_Table_GridLineColor, this );
+		int gridColor = style()->styleHint(QStyle::SH_Table_GridLineColor);
 		if (gridColor != -1) 
 		{
 			const QPalette &pal = palette();
@@ -1472,7 +1472,10 @@ void TabularTable::headerPopupEdit()
 void TabularTable::headerPopupAlign(QChar alignchar)
 {
 	int align;
-	switch ( alignchar ) 
+#ifdef __GNUC__
+#warning Get rid of the QChar conversion at line 1478!
+#endif
+	switch ( alignchar.toLatin1() )
 	{
 		case 'c' : align = Qt::AlignHCenter; break;
 		case 'r' : align = Qt::AlignRight;   break;
@@ -1759,13 +1762,13 @@ TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 	
 	QMap<QString,int> colors;
 	QMap<QString,int> textcolors;
-	QMapIterator<QString,int> it, itw, itb;
+	QMap<QString,int>::iterator it, itw, itb;
 	
-	QString whitename = Qt::white.name();
+	QString whitename = QColor(Qt::white).name();
 	colors[whitename] = 0;	
 	itw = colors.find(whitename);
 	
-	QString blackname = Qt::black.name();
+	QString blackname = QColor(Qt::black).name();
 	textcolors[blackname] = 0;	
 	itb = textcolors.find(blackname);
 
@@ -2109,7 +2112,7 @@ char TabularDialog::defineColor(const QString &name, QMap<QString,char> &colors,
 		return '?';
 
 	// look for current color
-	QMapIterator<QString,char> it;
+	QMap<QString,char>::iterator it;
 	it = colors.find(name);
 	if ( it != colors.end() ) 
 		return (*it);
@@ -2140,7 +2143,7 @@ QString TabularDialog::convertColor(int value)
 
 QStringList TabularDialog::sortColorTable(QMap<QString,char> &colors)
 {
-	QMapConstIterator<QString,char> it;
+	QMap<QString,char>::const_iterator it;
 	QStringList list;
 	
 	int r,g,b;
@@ -2193,8 +2196,8 @@ void TabularDialog::slotOk()
 	
 	// list with all column information 
 	Q3ValueList<TabularCell::Preamble> colinfo;
-	QString whitename = Qt::white.name();
-	QString blackname = Qt::black.name();
+	QString whitename = QColor(Qt::white).name();
+	QString blackname = QColor(Qt::black).name();
 	
 	// is multicolumn command used
 	bool multicolumn = false;

@@ -320,7 +320,7 @@ QString IncludeGraphics::getInfo()
 	{
 		QFileInfo fi( edit_file->text() );
 
-		return "% " + fi.baseName() + '.' + fi.completeSuffix();
+		return "% " + fi.baseName() + '.' + fi.completeSuffix()
 		            + QString(": %1x%2 pixel").arg(wpx).arg(hpx)
 		            + ", " + dpi + "dpi"
 		            + ", " + wcm + 'x' + hcm + " cm"

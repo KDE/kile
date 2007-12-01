@@ -130,6 +130,12 @@ SET( kile_UI
 	newdocumentwidget.ui
 )
 
+SET( kile_UI_SRCS
+	newdocumentwidget.cpp
+)
+
+SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
+
 KDE4_ADD_UI_FILES(kile_SRCS ${kile_UI})
 
 SET( kile_DCOP_SKEL_SRCS

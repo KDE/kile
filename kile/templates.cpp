@@ -160,7 +160,7 @@ void Manager::scanForTemplates() {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 
 	m_TemplateList.clear();
-	for ( Q3ValueListIterator<QString> i = dirs.begin(); i != dirs.end(); ++i)
+	for ( QStringList::iterator i = dirs.begin(); i != dirs.end(); ++i)
 	{
 		templates = QDir(*i, "template_*");
 		for ( uint j = 0; j< templates.count(); ++j)

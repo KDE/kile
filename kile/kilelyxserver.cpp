@@ -44,12 +44,10 @@ KileLyxServer::KileLyxServer(bool startMe) :
 	if(!m_tempDir)
 		return;
 
-	m_tempDir->setAutoDelete(true);
-
 	m_links << ".lyxpipe.in" << ".lyx/lyxpipe.in";
 	m_links << ".lyxpipe.out" << ".lyx/lyxpipe.out";
 
-	for(uint i = 0; i< m_links.count() ; i++)
+	for(int i = 0; i< m_links.count() ; i++)
 	{
 		m_pipes.append( m_tempDir->name() + m_links[i] );
 		m_links[i].prepend(QDir::homePath() + '/' );
@@ -108,7 +106,7 @@ bool KileLyxServer::openPipes()
 	struct stat buf;
 	struct stat *stats = &buf;
 	
-	for (uint i=0; i < m_pipes.count(); ++i)
+	for (int i=0; i < m_pipes.count(); ++i)
 	{
 		pipeInfo.setFile(m_pipes[i]);
 		linkInfo.setFile(m_links[i]);
@@ -188,9 +186,9 @@ void KileLyxServer::stop()
 
 void KileLyxServer::removePipes()
 {
-  	for ( uint i = 0; i < m_links.count(); ++i)
+  	for ( int i = 0; i < m_links.count(); ++i)
  		QFile::remove(m_links[i]);
- 	for ( uint i = 0; i < m_pipes.count(); ++i)
+ 	for ( int i = 0; i < m_pipes.count(); ++i)
 		QFile::remove(m_pipes[i]);
 
 }
@@ -222,7 +220,7 @@ void KileLyxServer::receive(int fd)
  		{
   			buffer[bytesRead] = '\0'; // turn it into a c string
             		QStringList cmds = QString(buffer).trimmed().split('\n');
-			for ( uint i = 0; i < cmds.count(); ++i )
+			for ( int i = 0; i < cmds.count(); ++i )
 				processLine(cmds[i]);
 		}
  	}

@@ -105,7 +105,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KIntNumInput" native="1" name="kcfg_TimeLimit" >
+         <widget class="KIntNumInput" name="kcfg_TimeLimit" >
           <property name="sizePolicy" >
            <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
             <horstretch>0</horstretch>
@@ -168,7 +168,7 @@
   <customwidget>
    <class>KIntNumInput</class>
    <extends>QWidget</extends>
-   <header>kintnuminput.h</header>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <includes>

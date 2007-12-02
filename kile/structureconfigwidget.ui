@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>670</width>
-    <height>298</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -28,7 +28,7 @@
    <item>
     <widget class="Q3GroupBox" name="groupBox2" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -38,7 +38,7 @@
      </property>
      <layout class="QGridLayout" >
       <item row="0" column="2" >
-       <widget class="KIntNumInput" native="1" name="kcfg_DefaultLevel" >
+       <widget class="KIntNumInput" name="kcfg_DefaultLevel" >
         <property name="minValue" stdset="0" >
          <number>1</number>
         </property>
@@ -297,7 +297,7 @@
   <customwidget>
    <class>KIntNumInput</class>
    <extends>QWidget</extends>
-   <header>kintnuminput.h</header>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <includes>

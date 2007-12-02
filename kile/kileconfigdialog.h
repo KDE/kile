@@ -16,10 +16,11 @@
 #ifndef TOOLSOPTIONSDIALOG_H
 #define TOOLSOPTIONSDIALOG_H
 
-#include <kpagedialog.h>
+#include <kconfigdialog.h>
 #include <kdeversion.h>
 
-#include <ktexteditor/configinterfaceextension.h>
+#include <ktexteditor/configinterface.h>
+#include <ktexteditor/configpage.h>
 #include <kconfigdialogmanager.h>
 
 #include "configcodecompletion.h"     // code completion (dani)
@@ -27,7 +28,7 @@
 #include "envconfigwidget.h"          // environments (dani)
 #include "graphicsconfigwidget.h"     // graphics (dani)
 #include "structureconfigwidget.h"    // structure view (dani)
-#include "symbolviewconfig.h"
+#include "symbolviewconfigwidget.h"
 //Added by qt3to4:
 #include <Q3Frame>
 #include <Q3PtrList>

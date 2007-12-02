@@ -37,7 +37,7 @@
 
 #include <kdeversion.h>
 #include <klocale.h>
-#include <ksconfig.h>
+// #include <ksconfig.h>
 #include <kiconloader.h>
 
 #include "kiletoolmanager.h"
@@ -57,7 +57,7 @@
 namespace KileDialog
 {
 	Config::Config(KConfig *config, KileInfo *ki, QWidget* parent)
-		: KDialog(parent),
+		: KPageDialog(parent),
 		  m_config(config),
 		  m_ki(ki)
 	{
@@ -77,7 +77,10 @@ namespace KileDialog
 		// we need a dialog manager
 		m_manager = new KConfigDialogManager(this,KileConfig::self());
 
-		setShowIconsInTreeList(true);
+#ifdef __GNUC__
+#warning Things left to be ported at line 83!
+#endif
+// 		setShowIconsInTreeList(true);
 		addConfigFolder(i18n("Kile"),"kile");
 		addConfigFolder(i18n("LaTeX"),"tex");
 		addConfigFolder(i18n("Tools"),"gear");
@@ -101,11 +104,16 @@ namespace KileDialog
 		setupEditor();
 		showButtonSeparator(true);
 
+#ifdef __GNUC__
+#warning Things left to be ported at line 111!
+#endif
+/*
 		// calculate size for opening
 		if ( ! m_config->hasGroup("KileConfigDialog") )
 			incInitialSize(QSize(50,0));
 		else
 			setInitialSize( configDialogSize("KileConfigDialog") );
+*/
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
@@ -114,14 +122,20 @@ namespace KileDialog
 
 	Config::~Config()
 	{
-		saveDialogSize("KileConfigDialog");
+#ifdef __GNUC__
+#warning Things left to be ported at line 128!
+#endif
+// 		saveDialogSize("KileConfigDialog");
 		delete m_manager;
 	}
 
 	void Config::show()
 	{
-		if ( KileConfig::unfoldConfigTree() )
-			unfoldTreeList();
+#ifdef __GNUC__
+#warning Things left to be ported at line 126!
+#endif
+/*		if ( KileConfig::unfoldConfigTree() )
+			unfoldTreeList();*/
 		m_manager->updateWidgets();
 		KDialog::show();
 	}
@@ -133,11 +147,10 @@ namespace KileDialog
 		QStringList path;
 		path << section;
 
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-		setFolderIcon(path, SmallIcon(icon, KIconLoader::SizeSmallMedium));
-#else
-                setFolderIcon(path, SmallIcon(icon));
+#ifdef __GNUC__
+#warning Things left to be ported at line 142!
 #endif
+// 		setFolderIcon(path, SmallIcon(icon, KIconLoader::SizeSmallMedium));
 	}
 
 	//////////////////// add a new page ////////////////////
@@ -147,19 +160,18 @@ namespace KileDialog
 	                           const QString &pixmapName, const QString &header,
 	                           bool addSpacer)
 	{
+#ifdef __GNUC__
+#warning Fix the configuration page creation!
+#endif
+//FIXME: port for KDE4
+/*
 		KILE_DEBUG() << "slot: add config page item=" << itemName << endl;
 
 		// add page
 		QStringList path;
 		path << sectionName << itemName;
 	
-		KVBox *vbox = addVBoxPage(path, header,
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-                SmallIcon(pixmapName,KIconLoader::SizeSmallMedium)
-#else
-                SmallIcon(pixmapName)
-#endif
-                );
+		KVBox *vbox = addPage(path, header, SmallIcon(pixmapName,KIconLoader::SizeSmallMedium));
 		vbox->setSpacing(0); 
 		vbox->setMargin(0);
 		page->reparent(((QWidget*)vbox),0,QPoint());
@@ -171,14 +183,16 @@ namespace KileDialog
 
 		// add to the dialog manager
 		m_manager->addWidget(page);
+*/
 	}
 
 	//////////////////// General Options ////////////////////
 
 	void Config::setupGeneralOptions()
 	{
-		generalPage = new KileWidgetGeneralConfig(0, "LaTeX");
-      addConfigPage(generalPage,i18n("Kile"),i18n("General"),"configure",i18n("General Settings"));
+		generalPage = new KileWidgetGeneralConfig(this);
+		generalPage->setObjectName("LaTeX");
+		addConfigPage(generalPage,i18n("Kile"),i18n("General"),"configure",i18n("General Settings"));
 	}
 	
 	//////////////////// Tools Configuration ////////////////////
@@ -186,7 +200,6 @@ namespace KileDialog
 	void Config::setupTools()
 	{
 		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), 0);
- 
 		addConfigPage(toolPage,i18n("Tools"),i18n("Build"),"launch",i18n("Build"),false);
 	}
 
@@ -194,7 +207,8 @@ namespace KileDialog
 
 	void Config::setupScripting()
 	{
-		scriptingPage = new KileWidgetScriptingConfig(this, "Scripting");
+		scriptingPage = new KileWidgetScriptingConfig(this);
+		scriptingPage->setObjectName("Scripting");
 		addConfigPage(scriptingPage,i18n("Kile"),i18n("Scripting"),"exec",i18n("Scripting Support"));
 	}
 
@@ -214,7 +228,7 @@ namespace KileDialog
 
 	void Config::setupQuickPreview()
 	{
-		previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),0); 
+		previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),0);
 		previewPage->readConfig();
 
 		addConfigPage(previewPage,i18n("Tools"),i18n("Preview"),"preview",i18n("Quick Preview"));
@@ -222,7 +236,7 @@ namespace KileDialog
 
 	void Config::setupHelp()
 	{
-		helpPage = new KileWidgetHelpConfig(0); 
+		helpPage = new KileWidgetHelpConfig(this);
 		helpPage->setHelp(m_ki->help());
 
 		addConfigPage(helpPage,i18n("Kile"),i18n("Help"),"help");
@@ -232,7 +246,8 @@ namespace KileDialog
 
 	void Config::setupLatex()
 	{
-		latexPage = new KileWidgetLatexConfig(0, "LaTeX"); 
+		latexPage = new KileWidgetLatexConfig(this);
+		latexPage->setObjectName("LaTeX");
 		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
 		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
 
@@ -241,28 +256,31 @@ namespace KileDialog
 
 	void Config::setupEnvironment()
 	{
-		envPage = new KileWidgetEnvironmentConfig(0, "LaTeX");
+		envPage = new KileWidgetEnvironmentConfig(this);
+		envPage->setObjectName("LaTeX");
 		addConfigPage(envPage,i18n("LaTeX"),i18n("Environments"),"environment");
 	}
 
 	void Config::setupGraphics()
 	{
-		graphicsPage = new KileWidgetGraphicsConfig(0, "Graphics");
+		graphicsPage = new KileWidgetGraphicsConfig(this);
+		graphicsPage->setObjectName("Graphics");
 		graphicsPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") ); 
-
 		addConfigPage(graphicsPage,i18n("LaTeX"),i18n("Graphics"),"graphicspage");
 	}
 
 	void Config::setupStructure()
 	{
-		structurePage = new KileWidgetStructureViewConfig(0, "StructureView");
-      addConfigPage(structurePage,i18n("LaTeX"),i18n("Structure View"),"view_tree");
+		structurePage = new KileWidgetStructureViewConfig(this);
+		structurePage->setObjectName("StructureView");
+		addConfigPage(structurePage,i18n("LaTeX"),i18n("Structure View"),"view_tree");
 	}
 
 	void Config::setupSymbolView()
 	{
-		symbolViewPage = new KileWidgetSymbolViewConfig(0, "SymbolView");
-      		addConfigPage(symbolViewPage,i18n("LaTeX"),i18n("Symbol View"),"math0");
+		symbolViewPage = new KileWidgetSymbolViewConfig(this);
+		symbolViewPage->setObjectName("SymbolView");
+		addConfigPage(symbolViewPage,i18n("LaTeX"),i18n("Symbol View"),"math0");
 	}
 
 	//////////////////// Editor ////////////////////
@@ -278,9 +296,15 @@ namespace KileDialog
 
 		editorPages.setAutoDelete(false);
 		editorPages.clear();
-
-		KTextEditor::ConfigInterfaceExtension *iface;
-		iface = dynamic_cast<KTextEditor::ConfigInterfaceExtension *>( view->getDoc() );
+#ifdef __GNUC__
+#warning The editor configuration stuff still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
+		KTextEditor::ConfigInterface *iface = dynamic_cast<KTextEditor::ConfigInterface*>(view->document());
+		if(!iface) {
+			return;
+		}
 
 		QStringList path;
 		for (uint i=0; i<iface->configPages(); i++)
@@ -289,23 +313,20 @@ namespace KileDialog
 			path << i18n("Editor") << iface->configPageName(i);
 
 			// create a new vbox page and add the config page
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 			KVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIconLoader::SizeSmallMedium) );
-#else
-			KVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i) );
-#endif
 			KTextEditor::ConfigPage *configPage = iface->configPage(i,page);
 			connect( configPage, SIGNAL(changed()), this, SLOT(slotChanged()) );
 			editorPages.append(configPage);
 		}
+*/
 	}
 
 	//////////////////// encoding  ////////////////////
 
 	QString Config::readKateEncoding()
 	{
-		m_config->setGroup("Kate Document Defaults");
-		return m_config->readEntry("Encoding",QString::null);
+		KConfigGroup group = m_config->group("Kate Document Defaults");
+		return group.readEntry("Encoding", QString());
 	}
 	
 	void Config::syncKileEncoding()
@@ -326,7 +347,11 @@ namespace KileDialog
 		{
 			for (uint i=0; i<editorPages.count(); i++)
 				editorPages.at(i)->apply();
- 			m_ki->viewManager()->currentTextView()->getDoc()->writeConfig();
+#ifdef __GNUC__
+#warning Editor config saving stuff left to be ported!
+#endif
+//FIXME: port for KDE4
+//			m_ki->viewManager()->currentTextView()->document()->writeConfig();
 			
 			// take Kate's encoding for Kile
 			syncKileEncoding();
@@ -347,7 +372,10 @@ namespace KileDialog
 	void Config::slotCancel()
 	{
 		KILE_DEBUG() << "   slot cancel" << endl;
-		m_config->rollback();
+#ifdef __GNUC__
+#warning Check for KConfig.rollback() in KDE3!
+#endif
+// 		m_config->rollback();
 		accept();
 	}
 

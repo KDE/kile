@@ -124,14 +124,22 @@ SET( kile_UI
 	newtoolwizard.ui
 	envconfigwidget.ui
 	structureconfigwidget.ui
-	symbolviewconfig.ui
+	symbolviewconfigwidget.ui
 	scriptingconfigwidget.ui
 	graphicsconfigwidget.ui
 	newdocumentwidget.ui
 )
 
 SET( kile_UI_SRCS
+	envconfigwidget.cpp
+	graphicsconfigwidget.cpp
+	generalconfigwidget.cpp
+	helpconfigwidget.cpp
+	latexconfigwidget.cpp
 	newdocumentwidget.cpp
+	scriptingconfigwidget.cpp
+	structureconfigwidget.cpp
+	symbolviewconfigwidget.cpp
 )
 
 SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})

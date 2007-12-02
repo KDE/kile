@@ -29,6 +29,8 @@
 #include "latexcmd.h"
 #include "kileabbrevview.h"
 
+namespace KTextEditor {class CompletionEntry;}
+
 //default bullet char (a cross)
 static const QChar s_bullet_char = QChar(0xd7);
 static const QString s_bullet = QString(&s_bullet_char, 1);

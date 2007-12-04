@@ -40,8 +40,8 @@ namespace KileTool
 		//perhaps we can find the tool in the config file
 		if (m_config->hasGroup(groupFor(tool, m_config)))
 		{
-			m_config->setGroup(groupFor(tool, m_config));
-			QString toolClass = m_config->readEntry("class", "");
+			KConfigGroup configGroup = m_config->group(groupFor(tool, m_config));
+			QString toolClass = configGroup.readEntry("class", QString());
 
 			if ( toolClass == "LaTeX")
 				return new LaTeX(tool, m_manager, prepare);
@@ -168,9 +168,9 @@ namespace KileTool
 		
 		manager()->info()->outputFilter()->sendProblems();
 		manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
-		QString es = i18n("%n error", "%n errors", nErrors);
-		QString ws = i18n("%n warning", "%n warnings", nWarnings);
-		QString bs = i18n("%n badbox", "%n badboxes", nBadBoxes);
+		QString es = i18np("%n error", "%n errors", nErrors);
+		QString ws = i18np("%n warning", "%n warnings", nWarnings);
+		QString bs = i18np("%n badbox", "%n badboxes", nBadBoxes);
 
 		sendMessage(Info, es +", " + ws + ", " + bs);
 	

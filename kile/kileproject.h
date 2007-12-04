@@ -20,11 +20,11 @@
 #include <qregexp.h>
 
 #include "kiledebug.h"
+#include <kconfig.h>
 #include <kurl.h>
 
 class QString;
 class QStringList;
-class KSimpleConfig;
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
 
 /**
@@ -176,7 +176,7 @@ public:
 	KileProjectItem* item(const KileDocument::Info *info);
 	KileProjectItemList* items() { return &m_projectitems; }
 
-	KSimpleConfig *config() { return m_config; }
+	KConfig *config() { return m_config; }
 
 	bool contains(const KUrl&);
 	bool contains(const KileDocument::Info *info);
@@ -228,7 +228,7 @@ private:
 	QString		m_masterDocument, m_makeIndexOptions;
 	bool			m_useMakeIndexOptions;
 
-	KSimpleConfig	*m_config;
+	KConfig	*m_config;
 	KileDocument::Extensions *m_extmanager;
 };
 

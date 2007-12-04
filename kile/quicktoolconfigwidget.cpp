@@ -1,15 +1,32 @@
-/****************************************************************************
-** ui.h extension file, included from the uic-generated form implementation.
-**
-** If you wish to add, delete or rename functions or slots use
-** Qt Designer which will update this file, preserving your code. Create an
-** init() function in place of a constructor, and a destroy() function in
-** place of a destructor.
-*****************************************************************************/
+/**************************************************************************
+*   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+***************************************************************************/
+
+/**************************************************************************
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+***************************************************************************/
+
+#include "quicktoolconfigwidget.h"
+
+#include "kiletoolmanager.h"
+
+QuickToolConfigWidget::QuickToolConfigWidget(QWidget *parent) : QWidget(parent)
+{
+	setupUi(this);
+}
+
+QuickToolConfigWidget::~QuickToolConfigWidget()
+{
+}
 
 void QuickToolConfigWidget::updateSequence(const QString &sequence)
 {
-	QStringList toollist = KileTool::toolList(KGlobal::config(), true);
+	QStringList toollist = KileTool::toolList(KGlobal::config().data(), true);
 	toollist.sort();
 	m_cbTools->clear();
 	m_cbTools->insertStringList(toollist);
@@ -35,7 +52,7 @@ void QuickToolConfigWidget::updateConfigs(const QString &tool)
 {
 	m_cbConfigs->clear();
 	m_cbConfigs->insertItem(i18n("Not Specified"));
-	m_cbConfigs->insertStringList(KileTool::configNames(tool, KGlobal::config()));
+	m_cbConfigs->insertStringList(KileTool::configNames(tool, KGlobal::config().data()));
 }
 
 void QuickToolConfigWidget::down()
@@ -96,3 +113,5 @@ void QuickToolConfigWidget::changed()
 	m_sequence = sequence;
 	emit sequenceChanged(m_sequence);
 }
+
+#include "quicktoolconfigwidget.moc"

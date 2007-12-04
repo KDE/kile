@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
+    <width>414</width>
     <height>216</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
    <item row="0" column="1" colspan="2" >
     <widget class="KComboBox" name="m_cbTools" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>1</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -55,7 +55,7 @@
    <item row="0" column="4" >
     <widget class="KComboBox" name="m_cbConfigs" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>1</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -69,53 +69,53 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="2" >
-    <widget class="KPushButton" native="1" name="m_pshbAdd" >
+    <widget class="KPushButton" name="m_pshbAdd" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text" stdset="0" >
+     <property name="text" >
       <string>&amp;Add</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0" colspan="2" >
-    <widget class="KPushButton" native="1" name="m_pshbRemove" >
+    <widget class="KPushButton" name="m_pshbRemove" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text" stdset="0" >
+     <property name="text" >
       <string>&amp;Remove</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0" colspan="2" >
-    <widget class="KPushButton" native="1" name="m_pshbDown" >
+    <widget class="KPushButton" name="m_pshbDown" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text" stdset="0" >
+     <property name="text" >
       <string>&amp;Down</string>
      </property>
     </widget>
    </item>
    <item row="4" column="0" colspan="2" >
-    <widget class="KPushButton" native="1" name="m_pshbUp" >
+    <widget class="KPushButton" name="m_pshbUp" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="text" stdset="0" >
+     <property name="text" >
       <string>&amp;Up</string>
      </property>
     </widget>
@@ -147,17 +147,17 @@
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global" >kcombobox.h</header>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
    <class>K3ListBox</class>
    <extends>Q3ListBox</extends>
    <header location="global" >k3listbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QWidget</extends>
-   <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

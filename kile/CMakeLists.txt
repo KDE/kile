@@ -137,6 +137,7 @@ SET( kile_UI_SRCS
 	helpconfigwidget.cpp
 	latexconfigwidget.cpp
 	newdocumentwidget.cpp
+	quicktoolconfigwidget.cpp
 	scriptingconfigwidget.cpp
 	structureconfigwidget.cpp
 	symbolviewconfigwidget.cpp

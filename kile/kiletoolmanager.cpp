@@ -132,7 +132,7 @@ namespace KileTool
 
 	bool Manager::queryContinue(const QString & question, const QString & caption /*= QString::null*/)
 	{
-		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
+		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
 	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
@@ -350,13 +350,13 @@ namespace KileTool
 		KILE_DEBUG() << "==KileTool::Manager::saveEntryMap=============" << endl;
 		QString group = currentGroup(name, usequeue, useproject);
 		KILE_DEBUG() << "\t" << name << " => " << group << endl;
-		m_config->setGroup(group);
+		KConfigGroup configGroup = m_config->group(group);
 
 		Config::Iterator it;
 		for ( it = map.begin() ; it != map.end(); ++it)
 		{
 			if ( ! it.data().isEmpty() )
-				m_config->writeEntry(it.key(), it.data());
+				configGroup.writeEntry(it.key(), it.data());
 		}
 	}
 
@@ -411,15 +411,13 @@ namespace KileTool
 
 	QString configName(const QString & tool, KConfig *config)
 	{
-		config->setGroup("Tools");
-		return config->readEntry(tool, "");
+		return config->group("Tools").readEntry(tool, QString());
 	}
 
 	void setConfigName(const QString & tool, const QString & name, KConfig *config)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << endl;
-		config->setGroup("Tools");
-		config->writeEntry(tool, name);
+		config->group("Tools").writeEntry(tool, name);
 	}
 
 	QString groupFor(const QString &tool, KConfig *config)
@@ -474,22 +472,19 @@ namespace KileTool
 
 	QString menuFor(const QString &tool, KConfig *config)
 	{
-		config->setGroup("ToolsGUI");
-		return config->readEntry(tool, "Other,gear").section(',',0,0);
+		return config->group("ToolsGUI").readEntry(tool, "Other,gear").section(',', 0, 0);
 	}
 
 	QString iconFor(const QString &tool, KConfig *config)
 	{
-		config->setGroup("ToolsGUI");
-		return config->readEntry(tool, "Other,gear").section(',',1,1);
+		return config->group("ToolsGUI").readEntry(tool, "Other,gear").section(',', 1, 1);
 	}
 
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config)
 	{
 		QString entry = menu + ',' + icon;
 
-		config->setGroup("ToolsGUI");
-		config->writeEntry(tool, entry);
+		config->group("ToolsGUI").writeEntry(tool, entry);
 	}
 
 	QString categoryFor(const QString &clss)

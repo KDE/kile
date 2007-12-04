@@ -174,12 +174,14 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(label,0,0);
 	label->setBuddy(m_cbDocumentClass);	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
-	m_btnDocumentClassAdd = new KPushButton(SmallIcon("edit_add"), "", classOptions);
+	m_btnDocumentClassAdd = new KPushButton(classOptions);
+	m_btnDocumentClassAdd->setIcon(SmallIcon("edit_add"));
 	Q3WhatsThis::add(m_btnDocumentClassAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnDocumentClassAdd,0,2);
 	connect(m_btnDocumentClassAdd, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 
-	m_btnDocumentClassDelete = new KPushButton(SmallIcon("eraser"), "", classOptions);
+	m_btnDocumentClassDelete = new KPushButton(classOptions);
+	m_btnDocumentClassDelete->setIcon(SmallIcon("eraser"));
 	Q3WhatsThis::add(m_btnDocumentClassDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnDocumentClassDelete,0,3);
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
@@ -194,12 +196,14 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 	gl->addWidget(label,1,0);
 
-	m_btnTypefaceSizeAdd = new KPushButton(SmallIcon("edit_add"), "", classOptions);
+	m_btnTypefaceSizeAdd = new KPushButton(classOptions);
+	m_btnTypefaceSizeAdd->setIcon(SmallIcon("edit_add"));
 	Q3WhatsThis::add(m_btnTypefaceSizeAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnTypefaceSizeAdd,1,2);
 	connect(m_btnTypefaceSizeAdd, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeAdd()));
 
-	m_btnTypefaceSizeDelete = new KPushButton(SmallIcon("eraser"), "", classOptions);
+	m_btnTypefaceSizeDelete = new KPushButton(classOptions);
+	m_btnTypefaceSizeDelete->setIcon(SmallIcon("eraser"));
 	Q3WhatsThis::add(m_btnTypefaceSizeDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnTypefaceSizeDelete,1,3);
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
@@ -215,12 +219,14 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	m_lbPaperSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 	gl->addWidget(m_lbPaperSize,2,0);
 
-	m_btnPaperSizeAdd = new KPushButton(SmallIcon("edit_add"), "", classOptions);
+	m_btnPaperSizeAdd = new KPushButton(classOptions);
+	m_btnPaperSizeAdd->setIcon(SmallIcon("edit_add"));
 	Q3WhatsThis::add(m_btnPaperSizeAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnPaperSizeAdd,2,2);
 	connect(m_btnPaperSizeAdd, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 
-	m_btnPaperSizeDelete = new KPushButton(SmallIcon("eraser"), "", classOptions);
+	m_btnPaperSizeDelete = new KPushButton(classOptions);
+	m_btnPaperSizeDelete->setIcon(SmallIcon("eraser"));
 	Q3WhatsThis::add(m_btnPaperSizeDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnPaperSizeDelete,2,3);
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
@@ -259,17 +265,20 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	//hl->addStretch(1);
 	gl->addMultiCellWidget(frame, 5,5, 1,3, Qt::AlignCenter);
 
-	m_btnClassOptionsAdd = new KPushButton(SmallIcon("edit_add"), i18n("&Add..."), frame);
+	m_btnClassOptionsAdd = new KPushButton(i18n("&Add..."), frame);
+	m_btnClassOptionsAdd->setIcon(SmallIcon("edit_add"));
 	Q3WhatsThis::add(m_btnClassOptionsAdd, i18n("Add a new class option"));
 	hl->addWidget(m_btnClassOptionsAdd);
 	connect(m_btnClassOptionsAdd, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 
-	m_btnClassOptionsEdit = new KPushButton(SmallIcon("object-edit"), i18n("Ed&it..."), frame);
+	m_btnClassOptionsEdit = new KPushButton(i18n("Ed&it..."), frame);
+	m_btnClassOptionsEdit->setIcon(SmallIcon("object-edit"));
 	Q3WhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
 	hl->addWidget(m_btnClassOptionsEdit);
 	connect(m_btnClassOptionsEdit, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
 
-	m_btnClassOptionsDelete = new KPushButton(SmallIcon("eraser"), i18n("De&lete"), frame);
+	m_btnClassOptionsDelete = new KPushButton(i18n("De&lete"), frame);
+	m_btnClassOptionsDelete->setIcon(SmallIcon("eraser"));
 	Q3WhatsThis::add(m_btnClassOptionsDelete, i18n("Remove the current class option"));
 	hl->addWidget(m_btnClassOptionsDelete);
 	connect(m_btnClassOptionsDelete, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
@@ -308,23 +317,28 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	Q3HBoxLayout *hl = new Q3HBoxLayout(frame, 0, spacingHint());
 	hl->addStretch(1);
 
-	m_btnPackagesAdd = new KPushButton(SmallIcon("edit_add"), "&Add Package...", frame);
+	m_btnPackagesAdd = new KPushButton("&Add Package...", frame);
+	m_btnPackagesAdd->setIcon(SmallIcon("edit_add"));
 	Q3WhatsThis::add(m_btnPackagesAdd, i18n("Add a new package"));
 	connect(m_btnPackagesAdd, SIGNAL(clicked()), this, SLOT(slotPackageAdd()));
 	hl->addWidget(m_btnPackagesAdd);
-	m_btnPackagesAddOption = new KPushButton(SmallIcon("edit_add"), i18n("Add Op&tion..."), frame);
+	m_btnPackagesAddOption = new KPushButton(i18n("Add Op&tion..."), frame);
+	m_btnPackagesAddOption->setIcon(SmallIcon("edit_add"));
 	Q3WhatsThis::add(m_btnPackagesAddOption, i18n("Add a new package option"));
 	connect(m_btnPackagesAddOption, SIGNAL(clicked()), this, SLOT(slotPackageAddOption()));
 	hl->addWidget(m_btnPackagesAddOption);
-	m_btnPackagesEdit = new KPushButton(SmallIcon("object-edit"), "Ed&it...", frame);
+	m_btnPackagesEdit = new KPushButton("Ed&it...", frame);
+	m_btnPackagesEdit->setIcon(SmallIcon("object-edit"));
 	Q3WhatsThis::add(m_btnPackagesEdit, i18n("Edit the current package option"));
 	connect(m_btnPackagesEdit, SIGNAL(clicked()), this, SLOT(slotPackageEdit()));
 	hl->addWidget(m_btnPackagesEdit);
-	m_btnPackagesDelete = new KPushButton(SmallIcon("eraser"), i18n("De&lete"), frame);
+	m_btnPackagesDelete = new KPushButton(i18n("De&lete"), frame);
+	m_btnPackagesDelete->setIcon(SmallIcon("eraser"));
 	Q3WhatsThis::add(m_btnPackagesDelete, i18n("Remove the current package option"));
 	connect(m_btnPackagesDelete, SIGNAL(clicked()), this, SLOT(slotPackageDelete()));
 	hl->addWidget(m_btnPackagesDelete);
-	m_btnPackagesReset = new KPushButton(SmallIcon("reload"), i18n("&Reset to Defaults"), frame);
+	m_btnPackagesReset = new KPushButton(i18n("&Reset to Defaults"), frame);
+	m_btnPackagesReset->setIcon(SmallIcon("reload"));
 	Q3WhatsThis::add(m_btnPackagesReset, i18n("Reset to the default list of packages"));
 	connect(m_btnPackagesReset, SIGNAL(clicked()), this, SLOT(slotPackageReset()));
 	hl->addWidget(m_btnPackagesReset);
@@ -361,9 +375,7 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 	label->setBuddy(m_leDate);
 
 	// set current date
-	m_leDate->setText( KGlobal::locale()->formatDate(QDate::currentDate(), true) );
-	// For KDE4:
-	//m_leDate->setText( KGlobal::locale()->formatDate(QDate::currentDate(), KLocale::ShortDate) );
+	m_leDate->setText(KGlobal::locale()->formatDate(QDate::currentDate(), KLocale::ShortDate));
 
 	return personalInfo;
 }
@@ -461,15 +473,15 @@ void QuickDocument::readDocumentClassConfig()
 		KILE_DEBUG() << "\tinit user class: " << m_userClasslist[i] << endl;
 		QStringList list;
 		// read dour default entries for this user class
-		m_config->setGroup( QString("QuickDocument/")+m_userClasslist[i] );
-		list.append( m_config->readEntry("fontsizesList") );
-		list.append( m_config->readEntry("pagesizesList") );
-		list.append( m_config->readEntry("defaultOptions") );
-		list.append( m_config->readEntry("selectedOptions") );
+		KConfigGroup configGroup = m_config->group(QString("QuickDocument/") + m_userClasslist[i]);
+		list.append(configGroup.readEntry("fontsizesList"));
+		list.append(configGroup.readEntry("pagesizesList"));
+		list.append(configGroup.readEntry("defaultOptions"));
+		list.append(configGroup.readEntry("selectedOptions"));
 		// now read all user defined options
-		QStringList options = (m_config->readEntry("options")).split(",");
-		for ( uint j=0; j<options.count(); ++j ) {
-			list.append( options[j] + " => " + m_config->readEntry(options[j]) );
+		QStringList options = (configGroup.readEntry("options")).split(",");
+		for (uint j = 0; j < options.count(); ++j) {
+			list.append(options[j] + " => " + configGroup.readEntry(options[j]));
 		}
 
 		// save all information of this class into the documentClass-dictionary
@@ -540,24 +552,25 @@ void QuickDocument::writeDocumentClassConfig()
 		QStringList list = m_dictDocumentClasses[ userclasses[i] ];
 
 		// write the config group and the default entries
-		m_config->setGroup( QString("QuickDocument/")+userclasses[i] );
-		m_config->writeEntry("fontsizesList",list[qd_Fontsizes]);
-		m_config->writeEntry("pagesizesList",list[qd_Papersizes]);
-		m_config->writeEntry("defaultOptions",list[qd_DefaultOptions]);
-		m_config->writeEntry("selectedOptions",list[qd_SelectedOptions]);
+		KConfigGroup configGroup = m_config->group(QString("QuickDocument/") + userclasses[i]);
+		configGroup.writeEntry("fontsizesList",list[qd_Fontsizes]);
+		configGroup.writeEntry("pagesizesList",list[qd_Papersizes]);
+		configGroup.writeEntry("defaultOptions",list[qd_DefaultOptions]);
+		configGroup.writeEntry("selectedOptions",list[qd_SelectedOptions]);
 
 		// write user defined options
 		QString options;
 		for ( uint j=qd_OptionsStart; j<list.count(); ++j ) {
 			int pos = reg.search( list[j] );
 			if ( pos != -1 ) {
-				m_config->writeEntry( reg.cap(1),reg.cap(2) );
-				if ( ! options.isEmpty() )
+				configGroup.writeEntry(reg.cap(1), reg.cap(2));
+				if (!options.isEmpty()) {
 					options += ',';
+				}
 				options += reg.cap(1);
 			}
 		}
-		m_config->writeEntry("options",options);
+		configGroup.writeEntry("options", options);
 	}
 }
 
@@ -932,6 +945,10 @@ void QuickDocument::updateClassOptions()
 // If this entry matches a given text, this entry will be activated.
 void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const QString &seltext)
 {
+#ifdef __GNUC__
+#warning The function fillCombobox at line 946 still needs to be ported!
+#endif
+/*
 	bool documentclasscombo = ( combo == m_cbDocumentClass );
 	Q3ListBox *listbox = combo->listBox();
 
@@ -958,6 +975,7 @@ void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const 
 		if ( !seltext.isEmpty() && list[i]==seltext )
 			combo->setCurrentItem(i);
 	}
+*/
 }
 
 // Add some entries from a comma separated list to a sorted combobox.
@@ -1185,7 +1203,7 @@ bool QuickDocument::readPackagesListview()
 	// regular expression to split the string from the config file
 	QRegExp reg("([^,]*),([^,]*),([^,]*),([^,]*),(.*)");
 
-	m_config->setGroup( "QuickDocument/Packages" );
+	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
 	for ( QStringList::Iterator it=elements.begin(); it!=elements.end(); ++it ) {
 		Q3CheckListItem *cli;
 
@@ -1194,7 +1212,7 @@ bool QuickDocument::readPackagesListview()
 		int pos = (*it).indexOf('!');
 		if ( pos == -1 ) {                    // main entry
 			cli = new Q3CheckListItem(m_lvPackages, *it, Q3CheckListItem::CheckBox);
-			if ( reg.exactMatch(m_config->readEntry(*it)) ) {
+			if (reg.exactMatch(configGroup.readEntry(*it))) {
 				if ( reg.cap(1) == "1" )        // selected state (entry 1)
 					cli->setOn(true);
 				if ( reg.cap(2) == "1" )        // open state (entry 2)
@@ -1207,7 +1225,7 @@ bool QuickDocument::readPackagesListview()
 			cli = dynamic_cast<Q3CheckListItem*>(m_lvPackages->findItem((*it).left(pos), 0));
 			if ( cli ) {
 				Q3CheckListItem *clichild;
-				if ( reg.exactMatch(m_config->readEntry(*it)) ) {
+				if (reg.exactMatch(configGroup.readEntry(*it))) {
 					if ( reg.cap(2) == "1" ) {                                     // editable state
 						clichild = insertEditableListview(cli,(*it).mid(pos+1),reg.cap(5),reg.cap(4),reg.cap(3) );
 					} else {
@@ -1234,7 +1252,7 @@ void QuickDocument::writePackagesConfig()
 
 	QStringList packagesList;
 
-	m_config->setGroup( "QuickDocument/Packages" );
+	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
 	for (Q3ListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
 		KILE_DEBUG() << "\twrite config: " << cur->text(0) << endl;
 		// add to packages list
@@ -1260,7 +1278,7 @@ void QuickDocument::writePackagesConfig()
 		packageentry += ",," + cur->text(2);
 
 		// write listview entry
-		m_config->writeEntry(cur->text(0),packageentry);
+		configGroup.writeEntry(cur->text(0), packageentry);
 
 		// look for children
 		for (Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
@@ -1294,7 +1312,7 @@ void QuickDocument::writePackagesConfig()
 			                    + ',' + stripPackageDefault(option,curchild->text(2));
 
 			// write listview entry
-			m_config->writeEntry(option,optionentry);
+			configGroup.writeEntry(option, optionentry);
 		}
 	}
 

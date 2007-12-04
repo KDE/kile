@@ -23,6 +23,9 @@ email                : holger.danielsson@t-online.de
 #include <q3valuelist.h>
 //Added by qt3to4:
 #include <QLabel>
+#include <QTabWidget>
+#include <Q3ListView>
+
 #include "kilewizard.h"
 
 class KComboBox;

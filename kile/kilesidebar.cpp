@@ -47,23 +47,19 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 	m_tabStack = new Q3WidgetStack(this);
 	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-	KMultiTabBar::KMultiTabBarMode tabbarori = KMultiTabBar::Horizontal;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
 	if ( orientation == Qt::Horizontal ) 
 	{
 		layout = new Q3VBoxLayout(this);
-		tabbarori = KMultiTabBar::Horizontal;
 		tabbarpos = KMultiTabBar::Top;
 	}
 	else if ( orientation == Qt::Vertical ) 
 	{
 		layout = new Q3HBoxLayout(this);
-		tabbarori = KMultiTabBar::Vertical;
 		tabbarpos = KMultiTabBar::Right;
 	}
 
-	m_tabBar = new KMultiTabBar(tabbarori, this);
-	m_tabBar->setPosition(tabbarpos);
+	m_tabBar = new KMultiTabBar(tabbarpos, this);
 	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
 	if ( orientation == Qt::Horizontal )

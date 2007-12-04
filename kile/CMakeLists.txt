@@ -131,6 +131,7 @@ SET( kile_UI
 )
 
 SET( kile_UI_SRCS
+	configcheckerwidget.cpp
 	envconfigwidget.cpp
 	graphicsconfigwidget.cpp
 	generalconfigwidget.cpp

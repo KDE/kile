@@ -6,11 +6,11 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>480</height>
+    <height>605</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy vsizetype="" hsizetype="" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
     <horstretch>1</horstretch>
     <verstretch>1</verstretch>
    </sizepolicy>
@@ -36,19 +36,16 @@
     </widget>
    </item>
    <item>
-    <widget class="KProgress" native="1" name="m_progress" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="" >
-       <horstretch>1</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QProgressBar" name="m_progress" >
+     <property name="value" >
+      <number>24</number>
      </property>
     </widget>
    </item>
    <item>
     <widget class="Q3GroupBox" name="m_grpResults" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="" hsizetype="" >
+      <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
        <horstretch>1</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
@@ -60,7 +57,7 @@
       <item row="0" column="0" >
        <widget class="K3ListBox" name="m_lstResults" >
         <property name="sizePolicy" >
-         <sizepolicy vsizetype="" hsizetype="" >
+         <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
           <horstretch>1</horstretch>
           <verstretch>1</verstretch>
          </sizepolicy>
@@ -92,14 +89,8 @@
    <extends>Q3ListBox</extends>
    <header location="global" >k3listbox.h</header>
   </customwidget>
-  <customwidget>
-   <class>KProgress</class>
-   <extends>QWidget</extends>
-   <header>kprogress.h</header>
-  </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >kprogress.h</include>
   <include location="local" >k3listbox.h</include>
  </includes>
  <resources/>

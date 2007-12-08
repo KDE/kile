@@ -10,4 +10,4 @@ SET( testFiles
 	test_index.tex
 )
 
-INSTALL( FILES ${testFiles} DESTINATION share/apps/kile/test )
+INSTALL( FILES ${testFiles} DESTINATION ${DATA_INSTALL_DIR}/kile/test )

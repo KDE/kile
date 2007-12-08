@@ -23,7 +23,8 @@ MACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _relative_dir _docbook _language )
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
 			COMMENT "Compiling ${_language} docbook in ${_relative_dir}/${_docbook}" )
 
-	INSTALL( FILES ${_compiled_docbook} ${_dependencies} DESTINATION share/doc/HTML/${_language})
+	INSTALL( FILES ${_compiled_docbook} ${_dependencies} DESTINATION
+${HTML_INSTALL_DIR}/${_language})
 	SET( ${_sources} ${${_sources}} ${_compiled_docbook} )
 ENDMACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _docbook _language )
 
@@ -41,7 +42,7 @@ MACRO( KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language )
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
 			COMMENT "Compiling ${_language} translation file" )
 
-	INSTALL( FILES ${_compiled_file} DESTINATION share/locale/${_language}/LC_MESSAGES )
+	INSTALL( FILES ${_compiled_file} DESTINATION ${LOCALE_INSTALL_DIR}/${_language}/LC_MESSAGES )
 	SET( ${_sources} ${${_sources}} ${_compiled_file} )
 ENDMACRO( KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language )
 
@@ -128,7 +129,9 @@ ADD_SUBDIRECTORY( kile )
 
 INSTALL( FILES x-kilepr.desktop DESTINATION share/mimelink/text )
 
-INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl kile2.0-4_upd.pl kile2.0-5_upd.pl DESTINATION share/apps/kconf_update )
+INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl
+kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl
+kile2.0-4_upd.pl kile2.0-5_upd.pl DESTINATION ${DATA_INSTALL_DIR}/kconf_update )
 
 IF( KILE_VERSION )
 	SET(_KILE_SPECIAL_DOC_DIR "share/doc/kile-${KILE_VERSION}")

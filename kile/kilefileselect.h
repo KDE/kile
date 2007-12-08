@@ -66,7 +66,7 @@ protected:
 	void focusInEvent(QFocusEvent*);
 
 signals:
-	void fileSelected(const KFileItem*);
+	void fileSelected(const KFileItem&);
 
 private:
 	KUrlComboBox	*cmbPath;

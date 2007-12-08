@@ -21,6 +21,7 @@ from Kate (C) 2001 by Matt Newell
 
 #include "kilefileselect.h"
 
+#include <QAbstractItemView>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <q3strlist.h>
@@ -29,6 +30,7 @@ from Kate (C) 2001 by Matt Newell
 #include <Q3VBoxLayout>
 #include <QFocusEvent>
 
+#include <kactioncollection.h>
 #include <ktoolbar.h>
 #include <kiconloader.h>
 #include <kprotocolinfo.h>
@@ -48,13 +50,14 @@ KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *pa
   KToolBar *toolbar = new KToolBar(this, "fileselectortoolbar");
   lo->addWidget(toolbar);
 
-  cmbPath = new KUrlComboBox( KUrlComboBox::Directories, true, this, "path combo" );
+	cmbPath = new KUrlComboBox(KUrlComboBox::Directories, this);
+	cmbPath->setEditable(true);
   cmbPath->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed ));
   cmpl = new KUrlCompletion(KUrlCompletion::DirCompletion);
   cmbPath->setCompletionObject( cmpl );
   lo->addWidget(cmbPath);
 
-  dir = new KDirOperator(KUrl(), this, "operator");
+	dir = new KDirOperator(KUrl(), this);
   connect(dir, SIGNAL(fileSelected(const KFileItem*)), this, SIGNAL(fileSelected(const KFileItem*)));
   dir->setView(KFile::Simple);
   dir->setMode(KFile::Files);
@@ -67,22 +70,31 @@ KileFileSelect::KileFileSelect(KileDocument::Extensions *extensions, QWidget *pa
 	filter.replace(".","*.");
 	dir->setNameFilter(filter);
 
-  KActionCollection *coll = dir->actionCollection();
-  // some shortcuts of diroperator that clashes with Kate
-  coll->action( "delete" )->setShortcut( KShortcut( ALT + Key_Delete ) );
-  coll->action( "reload" )->setShortcut( KShortcut( ALT + Key_F5 ) );
-  coll->action( "back" )->setShortcut( KShortcut( ALT + SHIFT + Key_Left ) );
-  coll->action( "forward" )->setShortcut( KShortcut( ALT + SHIFT + Key_Right ) );
-  // some consistency - reset up for dir too
-  coll->action( "up" )->setShortcut( KShortcut( ALT + SHIFT + Key_Up ) );
-  coll->action( "home" )->setShortcut( KShortcut( CTRL + ALT + Key_Home ) );
+	KActionCollection *coll = dir->actionCollection();
+#ifdef __GNUC__
+#warning Action->setShortcut still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
+	// some shortcuts of diroperator that clashes with Kate
+	coll->action("delete")->setShortcut(KShortcut(Qt::ALT + Qt::Key_Delete));
+	coll->action("reload")->setShortcut(KShortcut(Qt::ALT + Qt::Key_F5));
+	coll->action("back")->setShortcut(KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Left));
+	coll->action("forward")->setShortcut(KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Right));
+	// some consistency - reset up for dir too
+	coll->action("up")->setShortcut(KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Up));
+	coll->action("home")->setShortcut(KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Home));
+*/
+	toolbar->addAction(coll->action("home"));
+	toolbar->addAction(coll->action("up"));
+	toolbar->addAction(coll->action("back"));
+	toolbar->addAction(coll->action("forward"));
 
-  coll->action("home")->plug(toolbar);
-  coll->action("up")->plug(toolbar);
-  coll->action("back")->plug(toolbar);
-  coll->action("forward")->plug(toolbar);
-
-  toolbar->insertButton("fileopen", 0, true , i18n( "Open selected" ));
+#ifdef __GNUC__
+#warning A file open action still needs to be added!
+#endif
+//FIXME: port for KDE4
+// 	toolbar->insertButton("fileopen", 0, true , i18n( "Open selected" ));
   connect(toolbar, SIGNAL(clicked(int)), this, SLOT(clickedToolbar(int)));
 
   lo->addWidget(dir);
@@ -126,23 +138,23 @@ void KileFileSelect::setView(KFile::FileView view)
 
 void KileFileSelect::cmbPathActivated( const KUrl& u )
 {
-   dir->setURL( u, true );
+	dir->setUrl( u, true );
 }
 
 void KileFileSelect::cmbPathReturnPressed( const QString& u )
 {
    dir->setFocus();
-   dir->setURL( KUrl(u), true );
+	dir->setUrl(KUrl(u), true);
 }
 
 void KileFileSelect::dirUrlEntered( const KUrl& u )
 {
-   cmbPath->removeURL( u );
+	cmbPath->removeUrl(u);
    QStringList urls = cmbPath->urls();
    urls.prepend( u.url() );
    while ( urls.count() >= (uint)cmbPath->maxItems() )
       urls.remove( urls.last() );
-   cmbPath->setURLs( urls );
+	cmbPath->setUrls(urls);
 }
 
 void KileFileSelect::focusInEvent(QFocusEvent*)
@@ -152,18 +164,18 @@ void KileFileSelect::focusInEvent(QFocusEvent*)
 
 void KileFileSelect::setDir( KUrl u )
 {
-  dir->setURL(u, true);
+	dir->setUrl(u, true);
 }
 
 void KileFileSelect::clickedToolbar(int i)
 {
 	if (i == 0)
 	{
-		Q3PtrListIterator<KFileItem> it(*dir->selectedItems());
-		while (  it.current() != 0 )
+		KFileItemList itemList = dir->selectedItems();
+		for(KFileItemList::iterator it = itemList.begin(); it != itemList.end(); ++it)
 		{
 			emit(fileSelected(*it));
-        	++it;
+			++it;
 		}
 
 		dir->view()->clearSelection();

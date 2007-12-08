@@ -20,30 +20,37 @@
 #include <kglobal.h>
 #include "kiledebug.h"
 #include <kstandarddirs.h>
-#include <kmimemagic.h>
+#include <kmessagebox.h>
 #include <kmimetype.h>
+#include <kmimetypetrader.h>
 #include <ktrader.h>
 #include <krun.h>
 #include <khtml_part.h>
 #include <khtml_settings.h>
 
-DocumentationViewer::DocumentationViewer(QWidget *parent, const char *name ) : KHTMLPart(parent,name, 0, 0, BrowserViewGUI)
+DocumentationViewer::DocumentationViewer(QWidget *parent) : KHTMLPart(parent, parent, BrowserViewGUI)
 {
 	m_hpos = 0;
-	KConfig konqConfig("konquerorrc");
-	konqConfig.setGroup("HTML Settings");
+#ifdef __GNUC__
+#warning Check why this KConfig object is needed at line 33!
+#endif
+//FIXME: check for KDE4
+//	KConfig konqConfig("konquerorrc");
+//	konqConfig.setGroup("HTML Settings");
 	//const KHTMLSettings * set = settings();
 	//( const_cast<KHTMLSettings *>(set) )->init( &konqConfig, false );
 	QString rc = KGlobal::dirs()->findResource("appdata", "docpartui.rc");
 	setXMLFile(rc);
-	(void) KStandardAction::back(this, SLOT(back()), actionCollection(),"Back" );
-	(void) KStandardAction::forward(this, SLOT(forward()), actionCollection(),"Forward" );
-	(void) KStandardAction::home(this, SLOT(home()), actionCollection(),"Home" );
+	(void) KStandardAction::back(this, SLOT(back()), (QObject*)actionCollection());
+	(void) KStandardAction::forward(this, SLOT(forward()), (QObject*)actionCollection());
+	(void) KStandardAction::home(this, SLOT(home()), (QObject*)actionCollection());
 }
 
-DocumentationViewer::~DocumentationViewer() {}
+DocumentationViewer::~DocumentationViewer()
+{
+}
 
-void DocumentationViewer::urlSelected(const QString &url, int button, int state,const QString & target, KParts::URLArgs args)
+bool DocumentationViewer::urlSelected(const QString &url, int button, int state, const QString &_target, const KParts::OpenUrlArguments &args, const KParts::BrowserArguments & /* browserArgs */)
 {
 	KUrl cURL = completeURL(url);
 	QString mime = KMimeType::findByUrl(cURL).data()->name();
@@ -52,24 +59,30 @@ void DocumentationViewer::urlSelected(const QString &url, int button, int state,
 	KService::Ptr service = KService::serviceByDesktopName("khtml");
 	if ( ( mime == KMimeType::defaultMimeType() ) || (service && service->hasServiceType(mime)) )
 	{
-		KHTMLPart::urlSelected(url, button, state, target, args);
-		openURL(cURL) ;
+		KHTMLPart::urlSelected(url, button, state, _target, args);
+		openUrl(cURL) ;
 		addToHistory(cURL.url());
 	}
 	//KHTML can't handle it, look for an appropriate application
 	else
 	{
-		KTrader::OfferList offers = KTrader::self()->query(mime, "Type == 'Application'");
-		KService::Ptr ptr = offers.first();
+		KService::List offers = KMimeTypeTrader::self()->query(mime, "Type == 'Application'");
+		if (offers.isEmpty()) {
+			KMessageBox::error((QWidget*)this, i18n("No KDE service found for the MIME type \"%1\".", mime));
+			return false;
+		}
 		KUrl::List lst;
 		lst.append(cURL);
-		if (ptr) KRun::run(*ptr, lst);
+		KRun::run(*(offers.first()), lst, (QWidget*)this);
 	}
+	return true;
 }
 
 void DocumentationViewer::home()
 {
-	if ( !m_history.isEmpty() ) openURL( KUrl(m_history.first()) );
+	if (!m_history.isEmpty()) {
+		openUrl( KUrl(m_history.first()) );
+	}
 }
 
 void DocumentationViewer::forward()
@@ -77,7 +90,7 @@ void DocumentationViewer::forward()
 	if ( forwardEnable() ) 
 	{
 		++m_hpos;
-		openURL( KUrl( m_history[m_hpos]) );
+		openUrl(KUrl(m_history[m_hpos]));
 		emit updateStatus( backEnable() , forwardEnable() );
 	}
 }
@@ -87,7 +100,7 @@ void DocumentationViewer::back()
 {
 	if ( backEnable() ) {
 		--m_hpos;
-		openURL( KUrl(m_history[m_hpos]) );
+		openUrl(KUrl(m_history[m_hpos]));
 		emit updateStatus( backEnable() , forwardEnable() );
 	}
 }

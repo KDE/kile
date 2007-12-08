@@ -16,15 +16,16 @@
 #ifndef DOCPART_H
 #define DOCPART_H
 
+#include <QStringList>
+
 #include <khtml_part.h>
-#include <qstringlist.h>
 
 class DocumentationViewer : public KHTMLPart
 {
 	Q_OBJECT
 
 public:
-	DocumentationViewer(QWidget *parent=0, const char *name=0);
+	DocumentationViewer(QWidget *parent = 0);
 	~DocumentationViewer();
 	bool backEnable();
 	bool forwardEnable();
@@ -39,7 +40,7 @@ signals:
 	void updateStatus( bool back, bool forward );
 
 protected:
-	virtual void urlSelected( const QString &url, int button=0, int state=0,const QString &_target= QString::null, KParts::URLArgs args = KParts::URLArgs());
+	virtual bool urlSelected (const QString &url, int button, int state, const QString &_target, const KParts::OpenUrlArguments &args=KParts::OpenUrlArguments(), const KParts::BrowserArguments &browserArgs=KParts::BrowserArguments());
 
 private:
 	QStringList	m_history;

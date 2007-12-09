@@ -30,11 +30,25 @@
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <ktexteditor/codecompletioninterface.h>
+#include <ktexteditor/cursor.h>
 
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
 #include "kileedit.h"
+
+#ifdef __GNUC__
+#warning !!This whole file basically remains to be ported!!
+#endif
+
+#ifdef __GNUC__
+#warning Remove the hack at line 43!
+#endif
+//FIXME: port for KDE4
+namespace KTextEditor {
+	class CompletionEntry {
+	};
+}
 
 namespace KileDocument
 {
@@ -108,10 +122,11 @@ namespace KileDocument
 
 	CodeCompletion::Type CodeCompletion::insideReference(QString &startpattern)
 	{
-		if ( m_view->getDoc() )
+		if ( m_view->document() )
 		{
-			uint column = m_view->cursorColumnReal();
-			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(column);
+			KTextEditor::Cursor cursor = m_view->cursorPosition();
+			uint column = cursor.column();
+			QString currentline = m_view->document()->line(cursor.line()).left(column);
 			int pos = currentline.findRev('\\');
 			if ( pos >= 0 )
 			{
@@ -187,9 +202,9 @@ namespace KileDocument
 
 	void CodeCompletion::readKateConfigFlags(KConfig *config)
 	{
-		config->setGroup("Kate Document Defaults");
-		m_autobrackets = ( config->readNumEntry("Basic Config Flags",0) & cfAutoBrackets );
-		m_autoindent   = ( config->readNumEntry("Indentation Mode",0) > 0 );
+		KConfigGroup configGroup = config->group("Kate Document Defaults");
+		m_autobrackets = ( configGroup.readEntry("Basic Config Flags",0) & cfAutoBrackets );
+		m_autoindent   = ( configGroup.readEntry("Indentation Mode",0) > 0 );
 	}
 
 	// save local abbreviation changes
@@ -344,6 +359,11 @@ namespace KileDocument
 
 	void CodeCompletion::completeWord(const QString &text, CodeCompletion::Mode mode)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 345!
+#endif
+//FIXME: port for KDE4
+/*
 		KILE_DEBUG() << "==CodeCompletion::completeWord(" << text << ")=========" << endl;
 		//KILE_DEBUG() << "\tm_view = " << m_view << endl;
 		if ( !m_view) return;
@@ -359,7 +379,7 @@ namespace KileDocument
 		m_xstart = m_xcursor - m_textlen;
 
 		// and the current document
-		KTextEditor::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->document();
 
 		// switch to cmLatex mode, if cmLabel is chosen without any entries
 		if ( mode==cmLabel && m_labellist.count()==0 ) {
@@ -437,10 +457,17 @@ namespace KileDocument
 		KTextEditor::CodeCompletionInterface *iface;
 		iface = dynamic_cast<KTextEditor::CodeCompletionInterface *>( m_view );
 		iface->showCompletionBox( list, m_textlen );
+*/
 	}
 
 	void CodeCompletion::appendNewCommands(Q3ValueList<KTextEditor::CompletionEntry> & list)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 459!
+#endif
+//FIXME: port for KDE4
+/*
+
 		KTextEditor::CompletionEntry e;
 		const QStringList *ncommands = m_ki->allNewCommands();
 		QStringList::ConstIterator it;
@@ -450,10 +477,16 @@ namespace KileDocument
 			e.text = *it;
 			list.prepend(e);
 		}
+*/
 	}
 
 	void CodeCompletion::completeFromList(const QStringList *list,const QString &pattern)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 483!
+#endif
+//FIXME: port for KDE4
+/*
 		KTextEditor::CompletionEntry e;
 
 		KILE_DEBUG() << "completeFromList: " << list->count() << " items" <<   " << pattern=" << pattern<< endl;
@@ -470,12 +503,19 @@ namespace KileDocument
 		}
 
 		completeWord(pattern, cmLabel);
+*/
 	}
 
 	//////////////////// completion was done ////////////////////
 
 	void CodeCompletion::CompletionDone(KTextEditor::CompletionEntry)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 507!
+#endif
+//FIXME: port for KDE4
+/*
+
 		// kile completion: is there a new cursor position?
 		if ( m_kilecompletion && m_setcursor && ( m_xoffset != 0 || m_yoffset != 0 ) && m_view )
 		{
@@ -488,17 +528,24 @@ namespace KileDocument
 		m_undo = false;
 		m_inprogress = false;
 		m_ref = false;
+*/
 	}
 
 	void CodeCompletion::CompletionAborted()
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 530!
+#endif
+//FIXME: port for KDE4
+/*
+
 		// aborted: undo if kile completion is active
 		if ( m_inprogress && m_undo && m_view )
 		{
 			uint row, col;
 			m_view->cursorPositionReal( &row, &col );
 
-			KTextEditor::Document *doc = m_view->getDoc();
+			KTextEditor::Document *doc = m_view->document();
 			doc->removeText( m_ycursor, m_xstart, m_ycursor, col );
 			doc->insertText( m_ycursor, m_xstart, m_text );
 
@@ -508,6 +555,7 @@ namespace KileDocument
 		m_undo = false;
 		m_inprogress = false;
 		m_ref = false;
+*/
 	}
 
 	//////////////////// build the text for completion ////////////////////
@@ -519,6 +567,11 @@ namespace KileDocument
 
 	QString CodeCompletion::filterCompletionText( const QString &text, const QString &type )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 564!
+#endif
+//FIXME: port for KDE4
+/*
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 		//KILE_DEBUG() << "   complete filter: " << text << " type " << type << endl;
 		m_type = getType( text );    // remember current type
@@ -542,7 +595,7 @@ namespace KileDocument
 
 		// build the text
 		QString s,prefix;
-		KTextEditor::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->document();
 		QString textline = doc->textLine(row);
 		switch ( m_mode )
 		{
@@ -604,6 +657,8 @@ namespace KileDocument
 			return s.right( s.length() - m_textlen );
 		else
 			return "";
+*/
+return QString();
 	}
 
 	//////////////////// text in cmLatex mode ////////////////////
@@ -689,9 +744,9 @@ namespace KileDocument
 			s = text.right( text.length() - index - 1 );
 
 			// delete abbreviation
-			KTextEditor::Document *doc = m_view->getDoc();
-			doc->removeText( m_ycursor, m_xstart, m_ycursor, m_xcursor );
-			m_view->setCursorPositionReal( m_ycursor, m_xstart );
+			KTextEditor::Document *doc = m_view->document();
+			doc->removeText(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xcursor));
+			m_view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xstart));
 			m_xcursor = m_xstart;
 
 			m_textlen = 0;
@@ -709,9 +764,9 @@ namespace KileDocument
 		if ( text.at( 0 ) == ' ' )
 		{
 			// delete space
-			KTextEditor::Document * doc = m_view->getDoc();
-			doc->removeText( m_ycursor, m_xstart, m_ycursor, m_xstart + 1 );
-			m_view->setCursorPositionReal( m_ycursor, m_xstart );
+			KTextEditor::Document * doc = m_view->document();
+			doc->removeText(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xstart + 1));
+			m_view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xstart));
 			m_xcursor = m_xstart;
 
 			m_textlen = 0;
@@ -726,6 +781,12 @@ namespace KileDocument
 
 	QString CodeCompletion::parseText( const QString &text, uint &ypos, uint &xpos, bool checkgroup )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 778!
+#endif
+//FIXME: port for KDE4
+/*
+
 		bool foundgroup = false;
 		QString s = "";
 
@@ -831,6 +892,8 @@ namespace KileDocument
 
 		// Ergebnis
 		return s;
+*/
+return QString();
 	}
 
 	// strip all names enclosed in braces
@@ -838,6 +901,12 @@ namespace KileDocument
 
 	QString CodeCompletion::stripParameter( const QString &text )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 898!
+#endif
+//FIXME: port for KDE4
+/*
+
 		QString s = "";
 		const QChar *ch = text.unicode();
 		bool ignore = false;
@@ -872,12 +941,20 @@ namespace KileDocument
 			++ch;
 		}
 		return s;
+*/
+return QString();
 	}
 
 	//////////////////// read wordlists  ////////////////////
 
 	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename, bool global )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 949!
+#endif
+//FIXME: port for KDE4
+/*
+
 		QString file = ( global )
 		             ? KGlobal::dirs()->findResource( "appdata", "complete/" + filename )
 		             : m_localAbbrevFile;
@@ -897,11 +974,17 @@ namespace KileDocument
 			}
 			f.close();
 		}
+*/
 	}
 
 	void CodeCompletion::setCompletionEntries( Q3ValueList<KTextEditor::CompletionEntry> *list,
 	                                           const QStringList &wordlist )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 914!
+#endif
+//FIXME: port for KDE4
+/*
 		// clear the list of completion entries
 		list->clear();
 
@@ -919,11 +1002,18 @@ namespace KileDocument
 			if ( list->findIndex(e) == -1 )
 				list->append(e);
 		}
+*/
 	}
 
 	void CodeCompletion::setCompletionEntriesTexmode( Q3ValueList<KTextEditor::CompletionEntry> *list,
 	        const QStringList &wordlist )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1004!
+#endif
+//FIXME: port for KDE4
+/*
+
 		// clear the list of completion entries
 		list->clear();
 
@@ -988,6 +1078,7 @@ namespace KileDocument
 			// add new entry (duplicates are impossible)
 			list->append(e);
 		}
+*/
 	}
 
 	//////////////////// determine number of entries ////////////////////
@@ -1000,6 +1091,11 @@ namespace KileDocument
 	                                   Q3ValueList<KTextEditor::CompletionEntry> *list,
 	                                   QString *entry, QString *type )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1086!
+#endif
+//FIXME: port for KDE4
+/*
 		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 		uint n = 0;
 
@@ -1014,10 +1110,17 @@ namespace KileDocument
 		}
 
 		return n;
+*/
+return 0;
 	}
 
 	QString CodeCompletion::findExpansion(const QString &abbrev)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1032!
+#endif
+//FIXME: port for KDE4
+/*
 		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
@@ -1027,12 +1130,18 @@ namespace KileDocument
 			if ( index>=0 && s.left(index)==abbrev )
 				 return s.right( s.length()-index-1 );
 		}
-
-		return QString::null;
+*/
+		return QString();
 	}
 
 	void CodeCompletion::editComplete(KTextEditor::View *view, Mode mode)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1133!
+#endif
+//FIXME: port for KDE4
+/*
+
 		m_view = view;
 
 		if ( !m_view || !isActive() || inProgress() )
@@ -1067,14 +1176,15 @@ namespace KileDocument
 		}
 		//little hack to make multiple insertions like \cite{test1,test2} possible (only when
 		//completion is invoke explicitly using ctrl+space.
-		else if ( m_view->getDoc() )
+		else if (m_view->document())
 		{
-			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
+			QString currentline = m_view->document()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
 			if ( currentline.indexOf(reCiteExt) != -1 )
 				editCompleteList(ctCitation);
 			else if ( currentline.indexOf(reRefExt) != -1 )
 				editCompleteList(ctReference);
 		}
+*/
 	}
 
 	void CodeCompletion::editCompleteList(Type type,const QString &pattern)
@@ -1096,6 +1206,12 @@ namespace KileDocument
 
 	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1203!
+#endif
+//FIXME: port for KDE4
+/*
+
 		//KILE_DEBUG() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionDone(entry);
 
@@ -1115,6 +1231,7 @@ namespace KileDocument
 				}
 			}
 		}
+*/
 	}
 
 	void CodeCompletion::slotCompleteValueList()
@@ -1132,6 +1249,12 @@ namespace KileDocument
 
 	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1246!
+#endif
+//FIXME: port for KDE4
+/*
+
 		//KILE_DEBUG() << "==slotFilterCompletion (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		if ( inProgress() )                 // dani 28.09.2004
 		{
@@ -1141,6 +1264,7 @@ namespace KileDocument
 			m_inprogress = false;
 			m_kilecompletion = true;
 		}
+*/
 	}
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
@@ -1219,6 +1343,12 @@ namespace KileDocument
 
 	bool CodeCompletion::getCompleteWord(bool latexmode, QString &text, Type &type )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1340!
+#endif
+//FIXME: port for KDE4
+/*
+
 		if ( !m_view ) return false;
 
 		uint row, col;
@@ -1232,7 +1362,7 @@ namespace KileDocument
 			return "";
 
 		// get current text line
-		QString textline = m_view->getDoc()->textLine( row );
+		QString textline = m_view->document()->line(row);
 
 		//
 		int n = 0;                           // number of characters
@@ -1257,10 +1387,18 @@ namespace KileDocument
 		type = getType( text );
 
 		return !text.isEmpty();
+*/
+return false;
 	}
 
 	bool CodeCompletion::getReferenceWord(QString &text)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1324!
+#endif
+//FIXME: port for KDE4
+/*
+
 		if ( !m_view ) return false;
 
 		uint row, col;
@@ -1273,7 +1411,7 @@ namespace KileDocument
 			return false;
 
 		// get current text line
-		QString textline = m_view->getDoc()->textLine( row );
+		QString textline = m_view->document()->textLine(row);
 
 		// search the current reference string
 		int pos = textline.findRev(reNotRefChars,col-1);
@@ -1283,16 +1421,24 @@ namespace KileDocument
 		// select pattern
 		text = textline.mid(pos+1,col-1-pos);
 		return ( (uint)pos < col-1 );
+*/
+return false;
 	}
 
 	void CodeCompletion::getDocumentWords(const QString &text,
 	                                      Q3ValueList<KTextEditor::CompletionEntry> &list)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1424!
+#endif
+//FIXME: port for KDE4
+/*
+
 		//KILE_DEBUG() << "getDocumentWords: " << endl;
 		list.clear();
 
 		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
-		KTextEditor::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->document();
 
 		QString s;
 		KTextEditor::CompletionEntry e;
@@ -1315,6 +1461,7 @@ namespace KileDocument
 				}
 			}
 		}
+*/
 	}
 
 	//////////////////// counting backslashes (dani) ////////////////////
@@ -1334,6 +1481,12 @@ namespace KileDocument
 
 	bool CodeCompletion::completeAutoAbbreviation(const QString &text)
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1397!
+#endif
+//FIXME: port for KDE4
+/*
+
 		if ( text.length() != 1 )
 			return false;
 
@@ -1355,17 +1508,19 @@ namespace KileDocument
 
 		uint len = abbrev.length();
 		uint startcol = col - len - 1;
-		KTextEditor::Document *doc = m_view->getDoc();
+		KTextEditor::Document *doc = m_view->document();
 		doc->removeText( row,startcol,row,startcol+abbrev.length()+1 );
 		doc->insertText( row,startcol,expansion+ch);
 		m_view->setCursorPositionReal( row,startcol+expansion.length()+1 );
 
 		return true;
+*/
+return false;
 	}
 
 	QString CodeCompletion::getAbbreviationWord(uint row, uint col)
 	{
-		QString textline = m_view->getDoc()->textLine( row );
+		QString textline = m_view->document()->line(row);
 
 		int index = (int)col;
 		while ( --index >= 0 )
@@ -1403,6 +1558,11 @@ namespace KileDocument
 
 	void CodeCompletion::deleteAbbreviationEntry( const QString &entry )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1422!
+#endif
+//FIXME: port for KDE4
+/*
 		KILE_DEBUG() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
 		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
@@ -1413,10 +1573,16 @@ namespace KileDocument
 				return;
 			}
 		}
+*/
 	}
 
 	void CodeCompletion::addAbbreviationEntry( const QString &entry )
 	{
+#ifdef __GNUC__
+#warning Things left to be ported at line 1442!
+#endif
+//FIXME: port for KDE4
+/*
 		KILE_DEBUG() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
 		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
@@ -1435,6 +1601,7 @@ namespace KileDocument
 			m_abbrevlist.append(e);
 		else
 			m_abbrevlist.insert(it,e);
+*/
 	}
 
 	//////////////////// autoinsert $ ////////////////////
@@ -1442,13 +1609,11 @@ namespace KileDocument
 	void CodeCompletion::autoInsertDollar()
 	{
 		KTextEditor::View *view = info()->viewManager()->currentTextView();
-		if ( view )
-		{
-			uint row,col;
+		if (view) {
 			view = info()->viewManager()->currentTextView();
-			view->cursorPositionReal( &row, &col );
-			view->getDoc()->insertText(row,col,"$");
-			view->setCursorPositionReal( row, col );
+			KTextEditor::Cursor cursor = view->cursorPosition();
+			view->document()->insertText(cursor, "$");
+			view->setCursorPosition(cursor);
 		}
 	}
 

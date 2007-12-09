@@ -17,10 +17,12 @@
 #include <qmap.h>
 #include <qobject.h>
 
+#include <kjs/function.h>
 #include <kjs/interpreter.h>
 #include <kjs/object.h>
 
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <kconfig.h>
 #include <kdirwatch.h>
 
@@ -110,7 +112,7 @@ class JScriptEnvironment {
 
 	protected:
 		KJS::Interpreter *m_interpreter;
-		KJS::Object* m_kileJSObject;
+		KJS::JSObject* m_kileJSObject;
 		KileInfo *m_kileInfo;
 };
 
@@ -225,21 +227,6 @@ class Manager : public QObject {
 		void deleteJScripts();
 
 		/**
-		 * Reads an 'unsigned int' list as value for a specific key from the local KConfig
-		 * object.
-		 * @param key the considered entry key
-		 **/
-		Q3ValueList<unsigned int> readUnsignedIntListEntry(const QString& key);
-
-		/**
-		 * Writes a key - value pair to the local KConfig object for the case that the
-		 * value is an 'unsigned int' list.
-		 * @param key the considered entry key
-		 * @param l the 'unsigned int' list that is used as value
-		 **/
-		void writeEntry(const QString& key, const Q3ValueList<unsigned int>& l);
-
-		/**
 		 * Finds the next free ID. 
 		 * @param takenIDMap map describing which IDs are already in use
 		 * @param maxID the maximum ID that is currently in use (if there is no ID assigned, then
@@ -265,7 +252,7 @@ class ScriptExecutionAction : public KAction {
 	Q_OBJECT
 
 	public:
-		ScriptExecutionAction(unsigned int scriptID, Manager *manager, KActionCollection* parent = 0);
+		ScriptExecutionAction(unsigned int scriptID, Manager *manager, QObject* parent = 0);
 
 		virtual ~ScriptExecutionAction();
 

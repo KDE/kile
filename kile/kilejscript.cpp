@@ -42,6 +42,10 @@
 #include "kileviewmanager.h"
 #include "editorkeysequencemanager.h"
 
+#ifdef __GNUC__
+#warning PORTING NOT FINISHED!
+#endif
+
 // Modified declaration from <khtml/ecma/kjs_proxy.h>
 // Acknowledgements go to:
 //  Copyright (C) 1999 Harri Porten (porten@kde.org)
@@ -80,38 +84,61 @@ void KJSCPUGuard::stop()
 }
 
 void KJSCPUGuard::alarmHandler(int) {
-    KJS::ExecState::requestTerminate();
+#ifdef __GNUC__
+#warning "Fix time limit functionality!"
+#endif
+//     KJS::ExecState::requestTerminate();
 }
 
 
 namespace KJS {
+#ifdef __GNUC__
+#warning "REMOVE ME once KJS headers get fixed"
+#endif
+
+// Taken from <kdelibs/kate/jscript/katejscript.cpp
+// Acknowledgements go to:
+// Copyright (C) 2005 Christoph Cullmann <cullmann@kde.org>
+// Copyright (C) 2005 Joseph Wenninger <jowenn@kde.org>
+// Copyright (C) 2006 Dominik Haumann <dhaumann kde org>
+#define KJS_CHECK_THIS( ClassName, theObj ) \
+  if (!theObj || !theObj->inherits(&ClassName::info)) { \
+    KJS::UString errMsg = "Attempt at calling a function that expects a "; \
+    errMsg += ClassName::info.className; \
+    errMsg += " on a "; \
+    errMsg += theObj->className(); \
+    KJS::JSObject* err = KJS::Error::create(exec, KJS::TypeError, errMsg.ascii()); \
+    exec->setException(err); \
+    return err; \
+  }
+
+
 // Taken from <khtml/ecma/kjs_binding.cpp>
 // Acknowledgements go to:
 // Copyright (C) 1999-2003 Harri Porten (porten@kde.org)
 // Copyright (C) 2001-2003 David Faure (faure@kde.org)
 // Copyright (C) 2003 Apple Computer, Inc.
-	UString::UString(const QString &d) {
-		unsigned int len = d.length();
-		UChar *dat = new UChar[len];
-		memcpy(dat, d.unicode(), len * sizeof(UChar));
-		rep = UString::Rep::create(dat, len);
-	}
+// 	UString::UString(const QString &d) {
+// 		unsigned int len = d.length();
+// 		UChar *dat = new UChar[len];
+// 		memcpy(dat, d.unicode(), len * sizeof(UChar));
+// 		rep = UString::Rep::create(dat, len);
+// 	}
 	
-	QString UString::qstring() const {
-		return QString((QChar*) data(), size());
-	}
-	
-	QConstString UString::qconststring() const {
-		return QConstString((QChar*) data(), size());
-	}
+// 	QString UString::qstring() const {
+// 		return QString((QChar*) data(), size());
+// 	}
+// 	
+// 	QConstString UString::qconststring() const {
+// 		return QConstString((QChar*) data(), size());
+// 	}
 }
-
-namespace KJS {
+namespace KileJScript {
 	class KileJSObjectFunc; // forward declaration
-}
+	class KileTextDocumentJSObjectProtoFunc; // forward declaration
 
-class KileJSObject : public KJS::ObjectImp {
- 	friend class KJS::KileJSObjectFunc;
+class KileJSObject : public KJS::JSObject {
+ 	friend class KileJSObjectFunc;
 	public:
 		KileJSObject(KJS::ExecState *exec, KileInfo *kileInfo);
 		virtual ~KileJSObject();
@@ -138,15 +165,8 @@ class KileJSObject : public KJS::ObjectImp {
 			KileInfo *m_kileInfo;
 };
 
-
-
-
-namespace KJS {
-	class KileTextDocumentJSObjectFunc; // forward declaration
-}
-
-class KileTextDocumentJSObject : public KJS::ObjectImp {
- 	friend class KJS::KileTextDocumentJSObjectFunc;
+class KileTextDocumentJSObject : public KJS::JSObject {
+ 	friend class KileTextDocumentJSObjectProtoFunc;
 	public:
 		KileTextDocumentJSObject(KJS::ExecState *exec, KTextEditor::View* view, KileInfo *kileInfo);
 
@@ -186,7 +206,7 @@ class KileTextDocumentJSObject : public KJS::ObjectImp {
 			KTextEditor::View* view;
 			KileInfo *m_kileInfo;
 };
-
+}
 
 #include "kilejscript.lut.h"
 
@@ -197,7 +217,7 @@ class KileTextDocumentJSObject : public KJS::ObjectImp {
 
 
 // Only functional properties:
-/* 
+/*
 @begin KileJSObjectProtoTable 2
   currentTextDocument                            KileJSObject::CurrentTextDocument                         DontDelete|Function 0
   getInputValue                                  KileJSObject::GetInputValue                       DontDelete|Function 2
@@ -209,14 +229,15 @@ class KileTextDocumentJSObject : public KJS::ObjectImp {
 @begin KileJSObjectTable 0
 @end
 */
+using namespace KileJScript;
+namespace KileJScript {
+KJS_DEFINE_PROTOTYPE(KileJSObjectProto)
+KJS_IMPLEMENT_PROTOFUNC(KileJSObjectFunc)
+KJS_IMPLEMENT_PROTOTYPE("KileJSObject", KileJSObjectProto, KileJSObjectFunc)
 
-DEFINE_PROTOTYPE("KileJSObject", KileJSObjectProto)
-IMPLEMENT_PROTOFUNC(KileJSObjectFunc)
-IMPLEMENT_PROTOTYPE(KileJSObjectProto, KileJSObjectFunc)
+const KJS::ClassInfo KileJSObject::info = {"KileJSObject", 0, /* &KileJSObjectTable */ NULL, 0};
 
-const KJS::ClassInfo KileJSObject::info = {"KileJSObject", 0, &KileJSObjectTable, 0};
-
-KileJSObject::KileJSObject(KJS::ExecState *exec, KileInfo *kileInfo) : ObjectImp(KileJSObjectProto::self(exec)), m_kileInfo(kileInfo) {
+KileJSObject::KileJSObject(KJS::ExecState *exec, KileInfo *kileInfo) : KJS::JSObject(KileJSObjectProto::self(exec)), m_kileInfo(kileInfo) {
 }
 
 KileJSObject::~KileJSObject() {
@@ -236,21 +257,21 @@ KJS::Value KileJSObject::get(KJS::ExecState *exec, const  KJS::Identifier &prope
 KJS::Value KileJSObject::getValueProperty(KJS::ExecState *exec, int token) const
 {
 	if (!m_kileInfo) {
-		return KJS::Undefined();
+		return KJS::jsUndefined();
 	}
 	switch (token) {
 
 	}
-	return KJS::Undefined();
+	return KJS::jsUndefined();
 }
 */
 
-KJS::Value KJS::KileJSObjectFunc::call(KJS::ExecState *exec, KJS::Object &thisObj, const KJS::List &args) {
+KJS::JSValue* KileJSObjectFunc::callAsFunction(KJS::ExecState *exec, KJS::JSObject *thisObj, const KJS::List &args) {
 	KJS_CHECK_THIS(KileJSObject, thisObj);
 // 	KileJSObject *obj = static_cast<KileJSObject *>(thisObj.imp())->doc;
-	KileInfo* kileInfo = static_cast<KileJSObject*>(thisObj.imp())->m_kileInfo;
+	KileInfo* kileInfo = static_cast<KileJSObject*>(thisObj)->m_kileInfo;
 	if(!kileInfo) {
-		return KJS::Undefined();
+		return KJS::jsUndefined();
 	}
 	QString caption, label, value;
 	KileTextDocumentJSObject *kileViewJSObject;
@@ -259,16 +280,19 @@ KJS::Value KJS::KileJSObjectFunc::call(KJS::ExecState *exec, KJS::Object &thisOb
 		case KileJSObject::CurrentTextDocument:
 			kateView = kileInfo->viewManager()->currentTextView();
 			if(kateView == 0L) {
-				return KJS::Null();
+				return KJS::jsNull();
 			}
 			else {
+#ifdef __GNUC__
+#warning Check for garbage collection at line 281!
+#endif
 				kileViewJSObject = new KileTextDocumentJSObject(exec, kateView, kileInfo);
-				return KJS::Object(kileViewJSObject);
+				return new KJS::JSObject(kileViewJSObject);
 			}
 		break;
 		case KileJSObject::GetInputValue:
-			caption = args[0].toString(exec).qstring();
-			label = args[1].toString(exec).qstring();
+			caption = args[0]->toString(exec).qstring();
+			label = args[1]->toString(exec).qstring();
 			if(caption.isEmpty()) {
 				caption = i18n("Enter Value");
 			}
@@ -276,10 +300,10 @@ KJS::Value KJS::KileJSObjectFunc::call(KJS::ExecState *exec, KJS::Object &thisOb
 				label = i18n("Please enter a value");
 			}
 			value = KInputDialog::getText(caption, label, QString(), 0, 0L);
-			return KJS::String(value);
+			return KJS::jsString(KJS::UString(value));
 		break;
 	}
-	return KJS::Undefined();
+	return KJS::jsUndefined();
 }
 
 
@@ -311,11 +335,11 @@ KJS::Value KJS::KileJSObjectFunc::call(KJS::ExecState *exec, KJS::Object &thisOb
 */
 
 
-DEFINE_PROTOTYPE("KileTextDocumentJSObject", KileTextDocumentJSObjectProto)
-IMPLEMENT_PROTOFUNC(KileTextDocumentJSObjectFunc)
-IMPLEMENT_PROTOTYPE(KileTextDocumentJSObjectProto, KileTextDocumentJSObjectFunc)
+KJS_DEFINE_PROTOTYPE(KileTextDocumentJSObjectProto)
+KJS_IMPLEMENT_PROTOFUNC(KileTextDocumentJSObjectProtoFunc)
+KJS_IMPLEMENT_PROTOTYPE("KileTextDocumentJSObject", KileTextDocumentJSObjectProto, KileTextDocumentJSObjectProtoFunc)
 
-KileTextDocumentJSObject::KileTextDocumentJSObject(KJS::ExecState *exec, KTextEditor::View* view, KileInfo *kileInfo) : ObjectImp(KileTextDocumentJSObjectProto::self(exec)), view(view), m_kileInfo(kileInfo) {
+KileTextDocumentJSObject::KileTextDocumentJSObject(KJS::ExecState *exec, KTextEditor::View* view, KileInfo *kileInfo) : KJS::JSObject(KileTextDocumentJSObjectProto::self(exec)), view(view), m_kileInfo(kileInfo) {
 }
 
 KileTextDocumentJSObject::~KileTextDocumentJSObject() {
@@ -329,20 +353,25 @@ KJS::Value KileTextDocumentJSObject::get(KJS::ExecState *exec, const  KJS::Ident
 
 /*
 KJS::Value KileTextDocumentJSObject::getValueProperty(KJS::ExecState *exec, int token) const {
-	return KJS::Undefined ();
+	return KJS::jsUndefined();
 }
 */
 
-KJS::Value KJS::KileTextDocumentJSObjectFunc::call(KJS::ExecState *exec, KJS::Object &thisObj, const KJS::List &args) {
+KJS::JSValue* KileTextDocumentJSObjectProtoFunc::callAsFunction(KJS::ExecState *exec, KJS::JSObject *thisObj, const KJS::List &args) {
 	KJS_CHECK_THIS(KileTextDocumentJSObject, thisObj);
 
 // 	KileJSObject *obj = static_cast<KileJSObject *>(thisObj.imp())->doc;
-	KileInfo* kileInfo = static_cast<KileTextDocumentJSObject *>(thisObj.imp())->m_kileInfo;
-	KTextEditor::View* view = ((KileTextDocumentJSObject*)(thisObj.imp()))->view;
+	KileInfo* kileInfo = static_cast<KileTextDocumentJSObject *>(thisObj)->m_kileInfo;
+	KTextEditor::View* view = (static_cast<KileTextDocumentJSObject *>(thisObj))->view;
 	uint col, line;
+#ifdef __GNUC__
+#warning Things left to be ported at line 359!
+#endif
+//FIXME: port for KDE4
+/*
 	switch (id) {
 		case KileTextDocumentJSObject::InsertText:
-			view->insertText(args[0].toString(exec).qstring());
+			view->insertText(args[0]->toString(exec).qstring());
 		break;
 		case KileTextDocumentJSObject::InsertBullet:
 			kileInfo->editorExtension()->insertBullet(view);
@@ -367,26 +396,26 @@ KJS::Value KJS::KileTextDocumentJSObjectFunc::call(KJS::ExecState *exec, KJS::Ob
 		break;
 		case KileTextDocumentJSObject::CursorLine:
 			view->cursorPositionReal(&line, &col);
-			return KJS::Number(line);
+			return KJS::jsNumber(line);
 		break;
 		case KileTextDocumentJSObject::CursorColumn:
 			view->cursorPositionReal(&line, &col);
-			return KJS::Number(col);
+			return KJS::jsNumber(col);
 		break;
 		case KileTextDocumentJSObject::SetCursorLine:
 			view->cursorPositionReal(&line, &col);
-			view->setCursorPositionReal(args[0].toUInt32(exec), col);
+			view->setCursorPositionReal(args[0]->toUInt32(exec), col);
 		break;
 		case KileTextDocumentJSObject::SetCursorColumn:
 			view->cursorPositionReal(&line, &col);
-			view->setCursorPositionReal(line, args[0].toUInt32(exec));
+			view->setCursorPositionReal(line, args[0]->toUInt32(exec));
 		break;
 		case KileTextDocumentJSObject::Backspace:
 			view->backspace();
 		break;
 	}
-
-	return KJS::Undefined();
+*/
+	return KJS::jsUndefined();
 }
 
 
@@ -394,9 +423,11 @@ const KJS::ClassInfo* KileTextDocumentJSObject::classInfo() const {
 	return &info;
 }
 
-const KJS::ClassInfo KileTextDocumentJSObject::info = {"KileTextDocumentJSObject", 0, &KileTextDocumentJSObjectTable, 0};
+const KJS::ClassInfo KileTextDocumentJSObject::info = {"KileTextDocumentJSObject", 0, /* &KileTextDocumentJSObjectTable */ NULL, 0};
 
-namespace KileJScript {
+} /* namespace */
+
+ namespace KileJScript {
 
 ////////////////////////////// JScript //////////////////////////////
 
@@ -467,16 +498,17 @@ namespace KileJScript {
 
 ////////////////////////////// JScriptEnvironment //////////////////////////////
 
-	JScriptEnvironment::JScriptEnvironment(KileInfo *kileInfo) : m_interpreter(new KJS::Interpreter()), m_kileJSObject(new KJS::Object(new KileJSObject(m_interpreter->globalExec(), kileInfo))), m_kileInfo(kileInfo) {
+	JScriptEnvironment::JScriptEnvironment(KileInfo *kileInfo) : m_interpreter(new KJS::Interpreter()),
+								     m_kileJSObject(new KileJSObject(m_interpreter->globalExec(), kileInfo)), m_kileInfo(kileInfo) {
 		// no garbage collection because of an external reference
-		m_interpreter->globalObject().put(m_interpreter->globalExec(), "kile", *m_kileJSObject, KJS::DontDelete|KJS::Internal);
+		m_interpreter->globalObject()->put(m_interpreter->globalExec(), KJS::Identifier("kile"), m_kileJSObject, KJS::DontDelete|KJS::Internal);
 	}
 	
 	
 	JScriptEnvironment::~JScriptEnvironment() {
 		//kileJSObject->imp() will be deleted during the next garbage cleanup
 		delete m_kileJSObject;
-		delete m_interpreter;
+		m_interpreter->deref(); // m_interpreter will be deleted by KJS' garbage collection
 	}
 	
 	void JScriptEnvironment::execute(const QString& s) {
@@ -486,16 +518,21 @@ namespace KileJScript {
 		if(useGuard) {
 			guard.start(timeLimit*1000);
 		}
-		Completion completion = m_interpreter->evaluate(s);
+		KJS::Completion completion = m_interpreter->evaluate(QString(), 0, s);
 		if(useGuard) {
 			guard.stop();
 		}
+#ifdef __GNUC__
+#warning Things left to be ported at line 498!
+#endif
+//FIXME: port for KDE4
+/*
 		if(completion.complType() == Throw) {
-			Value value = completion.value();
+			KJS::JSValue value = completion.value();
 			if(value.type() == ObjectType) {
-				Object o = Object::dynamicCast(value);
+				KJS::JSObject o = KJS::JSObject::dynamicCast(value);
 				if(o.isValid()) {
-					Value lineValue = o.get(m_interpreter->globalExec(), "line");
+					JSValue lineValue = o.get(m_interpreter->globalExec(), "line");
 					if(lineValue.type() == NumberType) {
 						KMessageBox::sorry(0L, i18n("The following exception has occurred at line %1 during execution of the script:\n%2").arg(lineValue.toInt32(m_interpreter->globalExec())).arg(value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
 						return;
@@ -504,6 +541,7 @@ namespace KileJScript {
 			}
 			KMessageBox::sorry(0L, i18n("The following exception has occurred during execution of the script:\n%1").arg(value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
 		}
+*/
 	}
 
 ////////////////////////////// Manager //////////////////////////////
@@ -511,7 +549,8 @@ namespace KileJScript {
 	Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionCollection, QObject *parent, const char *name)  : QObject(parent, name), m_jScriptDirWatch(NULL), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection) {
 		// create a local scripts directory if it doesn't exist yet
 		m_localJScriptDir = KStandardDirs::locateLocal("appdata", "scripts/", true);
-		m_jScriptDirWatch = new KDirWatch(this, "KileJScript::Manager::JScriptDirWatch");
+		m_jScriptDirWatch = new KDirWatch(this);
+		m_jScriptDirWatch->setObjectName("KileJScript::Manager::JScriptDirWatch");
 		connect(m_jScriptDirWatch, SIGNAL(dirty(const QString&)), this, SLOT(scanJScriptDirectories()));
 		connect(m_jScriptDirWatch, SIGNAL(created(const QString&)), this, SLOT(scanJScriptDirectories()));
 		connect(m_jScriptDirWatch, SIGNAL(deleted(const QString&)), this, SLOT(scanJScriptDirectories()));
@@ -570,13 +609,13 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		deleteJScripts();
 		populateDirWatch();
 
-		m_config->setGroup("Scripts");
-		Q3ValueList<unsigned int> idList = readUnsignedIntListEntry("IDs");
+		KConfigGroup configGroup = m_config->group("Scripts");
+		QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
 		unsigned int maxID = 0;
 		QMap<QString, unsigned int> pathIDMap;
 		QMap<unsigned int, bool> takenIDMap;
-		for(Q3ValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
-			QString fileName = m_config->readPathEntry("Script" + QString::number(*i, QString()));
+		for(QList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
+			QString fileName = configGroup.readPathEntry("Script" + QString::number(*i), QString());
 			if(!fileName.isEmpty()) {
 				unsigned int id = *i;
 				pathIDMap[fileName] = id;
@@ -584,15 +623,14 @@ m_kileInfo->viewManager()->currentView()->down();*/
 				maxID = qMax(maxID, id);
 			}
 		}
-		m_config->setGroup(QString());
 
-		QStringList scriptFileNamesList = KGlobal::dirs()->findAllResources("appdata", "scripts/*.js", true, true);
+		QStringList scriptFileNamesList = KGlobal::dirs()->findAllResources("appdata", "scripts/*.js", KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
 		for(QStringList::iterator i = scriptFileNamesList.begin(); i != scriptFileNamesList.end(); ++i) {
 			registerScript(*i, pathIDMap, takenIDMap, maxID);
 		}
 		//rewrite the IDs that are currently in use
 		writeIDs();
-		m_actionCollection->readShortcutSettings("Shortcuts");
+		m_actionCollection->readSettings();
 		emit jScriptsChanged();
 	}
 
@@ -608,7 +646,9 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		for(Q3ValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
 			KAction *action = (*it)->getActionObject();
 			if(action) {
-				action->unplugAll();
+				foreach (QWidget *w, action->associatedWidgets()) {
+					w->removeAction(action);
+				}
 				delete action;
 			}
 			delete *it;
@@ -636,9 +676,8 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		m_jScriptList.push_back(script);
 		m_idScriptMap[id] = script;
 		// start with setting up the key sequence
-		m_config->setGroup("Scripts");
-		QString editorKeySequence = m_config->readEntry("Script" + QString::number(id) + "KeySequence");
-		m_config->setGroup(QString());
+		KConfigGroup configGroup = m_config->group("Scripts");
+		QString editorKeySequence = configGroup.readEntry("Script" + QString::number(id) + "KeySequence");
 		if(!editorKeySequence.isEmpty()) {
 			script->setKeySequence(editorKeySequence);
 			m_kileInfo->editorKeySequenceManager()->addAction(editorKeySequence, new KileEditorKeySequence::ExecuteJScriptAction(script, this));
@@ -656,11 +695,10 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		m_config->deleteGroup("Scripts");
 		writeIDs();
 		// write the key sequences
-		m_config->setGroup("Scripts");
+		KConfigGroup configGroup = m_config->group("Scripts");
 		for(Q3ValueList<JScript*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
-			m_config->writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", (*i)->getKeySequence());
+			configGroup.writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", (*i)->getKeySequence());
 		}
-		m_config->setGroup(QString());
 	}
 
 	void Manager::setEditorKeySequence(JScript* script, const QString& keySequence) {
@@ -711,23 +749,6 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		scanJScriptDirectories();
 	}
 
-	Q3ValueList<unsigned int> Manager::readUnsignedIntListEntry(const QString& key) {
-		Q3ValueList<unsigned int> toReturn;
-		QStringList stringList = m_config->readListEntry(key);
-		for(QStringList::iterator i = stringList.begin(); i != stringList.end(); ++i) {
-			toReturn.push_back((*i).toUInt());
-		}
-		return toReturn;
-	}
-
-	void Manager::writeEntry(const QString& key, const Q3ValueList<unsigned int>& l) {
-		QStringList stringList;
-		for(Q3ValueList<unsigned int>::const_iterator i = l.begin(); i != l.end(); ++i) {
-			stringList.push_back(QString::number(*i));
-		}
-		m_config->writeEntry(key, stringList);
-	}
-
 	unsigned int Manager::findFreeID(const QMap<unsigned int, bool>& takenIDMap, unsigned int maxID) {
 		if(takenIDMap.size() == 0) {
 			return 0;
@@ -742,28 +763,28 @@ m_kileInfo->viewManager()->currentView()->down();*/
 	}
 
 	void Manager::writeIDs() {
-		m_config->setGroup("Scripts");
+		KConfigGroup configGroup = m_config->group("Scripts");
 		//delete old entries
-		Q3ValueList<unsigned int> idList = readUnsignedIntListEntry("IDs");
-		for(Q3ValueList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
-			m_config->deleteEntry("Script" + QString::number(*i));
+		QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
+		for(QList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
+			configGroup.deleteEntry("Script" + QString::number(*i));
 		}
 		//write new ones
 		idList.clear();
 		for(QMap<unsigned int, JScript*>::iterator i = m_idScriptMap.begin(); i != m_idScriptMap.end(); ++i) {
 			unsigned int id = i.key();
 			idList.push_back(id);
-			m_config->writePathEntry("Script" + QString::number(id), (*i)->getFileName());
+			configGroup.writePathEntry("Script" + QString::number(id), (*i)->getFileName());
 		}
-		writeEntry("IDs", idList);
-		m_config->setGroup(QString());
+		configGroup.writeEntry("IDs", idList);
 	}
 
 	void Manager::addDirectoryToDirWatch(const QString& dir) {
 		//FIXME: no recursive watching and no watching of files as it isn't implemented
 		//       yet
+		//FIXME: check for KDE4
 		if(!m_jScriptDirWatch->contains(dir)) {
-			m_jScriptDirWatch->addDir(dir, false, false);
+			m_jScriptDirWatch->addDir(dir,  KDirWatch::WatchDirOnly);
 		}
 		QDir qDir(dir);
 		QStringList list = qDir.entryList(QDir::Dirs);
@@ -776,7 +797,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 	}
 ////////////////////////////// ScriptExecutionAction //////////////////////////////
 
-	ScriptExecutionAction::ScriptExecutionAction(unsigned int id, KileJScript::Manager *manager, KActionCollection* parent) : KAction(QString(), KShortcut(), NULL, NULL,  parent, QString("script_execution_" + QString::number(id)).ascii()), m_manager(manager), m_id(id) {
+	ScriptExecutionAction::ScriptExecutionAction(unsigned int id, KileJScript::Manager *manager, QObject* parent) : KAction(parent), m_manager(manager), m_id(id) {
 		const KileJScript::JScript *script = m_manager->getScript(m_id);
 		Q_ASSERT(script);
 		setText(i18n("Execution of %1").arg(script->getName())); 

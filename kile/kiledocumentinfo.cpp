@@ -750,6 +750,7 @@ void LaTeXInfo::updateStructLevelInfo() {
 	// hidden commands
 	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
 	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+	m_dictStructLevel["\\newlength"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
 	m_dictStructLevel["\\newenvironment"]=KileStructData(KileStruct::Hidden, KileStruct::NewEnvironment);
 	m_dictStructLevel["\\addunit"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
 	m_dictStructLevel["\\DeclareMathOperator"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package

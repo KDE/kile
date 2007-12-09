@@ -105,7 +105,7 @@ void KileErrorHandler::jumpToProblem(OutputInfo *info)
 		if ( doc ) 
 		{
 			KTextEditor::View* view = doc->views().first();
-			if (view) view->setCursorPosition(line, 0);
+			if (view) view->setCursorPosition(KTextEditor::Cursor(line, 0));
 		}
 	}
 }

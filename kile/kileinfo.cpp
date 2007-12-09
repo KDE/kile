@@ -66,7 +66,7 @@ KileInfo::~KileInfo()
 KTextEditor::Document * KileInfo::activeTextDocument() const
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view) return view->getDoc(); else return 0L;
+	if (view) return view->document(); else return NULL;
 }
 
 QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
@@ -80,11 +80,6 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 	{
 		KILE_DEBUG() << "url " << doc->url().path() << endl;
 		title = shrt ? doc->url().fileName() : doc->url().path();
-               //work around for bug in KatePart, use docName and not url
-               //reloading the file after is it changed on disc by another application
-               //cause the URL to be empty for a short while
-		if ( title.isEmpty() )
-			title = shrt ? QFileInfo(doc->docName()).fileName() : doc->docName();
 	}
 
 	return title;
@@ -321,8 +316,9 @@ bool KileInfo::isOpen(const KUrl & url)
 	
 	for ( uint i = 0; i < cnt; ++i)
 	{
-		if ( viewManager()->textView(i)->getDoc() && similarOrEqualURL(viewManager()->textView(i)->getDoc()->url(), url) )
+		if (viewManager()->textView(i)->document() && similarOrEqualURL(viewManager()->textView(i)->document()->url(), url)) {
 			return true;
+		}
 	}
 
 	return false;
@@ -337,23 +333,21 @@ bool KileInfo::projectIsOpen(const KUrl & url)
 
 QString KileInfo::getSelection() const
 {
-	KTextEditor::Document *doc = activeTextDocument();
-	
-	if (doc && doc->hasSelection())
-	{
-		return doc->selection();
+	KTextEditor::View *view = viewManager()->currentTextView();
+
+	if (view && view->selection()) {
+		return view->selectionText();
 	}
 	
-	return QString::null;
+	return QString();
 }
 
 void KileInfo::clearSelection() const
 {
-	KTextEditor::Document *doc = activeTextDocument();
+	KTextEditor::View *view = viewManager()->currentTextView();
 	
-	if (doc && doc->hasSelection())
-	{
-		doc->removeSelectedText();
+	if(view && view->selection()) {
+		view->removeSelectionText();
 	}
 }
 

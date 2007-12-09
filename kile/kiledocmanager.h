@@ -27,6 +27,8 @@
 #include <QDropEvent>
 #include <Q3PtrList>
 
+#include <QStringList>
+
 #include "kileconstants.h"
 #include "kileproject.h"
 

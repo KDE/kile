@@ -126,7 +126,7 @@ namespace KileEditorKeySequence {
 	}
 
 	bool Manager::isSequenceAssigned(const QString& seq) const {
-		for(Q3ValueList<QString>::const_iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
+		for(QList<QString>::const_iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
 			if((*i).startsWith(seq)) {
 				return true;
 			}
@@ -135,7 +135,7 @@ namespace KileEditorKeySequence {
 	}
 
 	QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip) {
-		for(Q3ValueList<QString>::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
+		for(QList<QString>::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
 			if((*i) == skip) {
 				continue;
 			}
@@ -152,7 +152,10 @@ namespace KileEditorKeySequence {
 Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view) {
 	connect(m_manager, SIGNAL(watchedKeySequencesChanged()), this, SLOT(reloadWatchedKeySequences()));
 	connect(this, SIGNAL(detectedTypedKeySequence(const QString&)), m_manager, SLOT(keySequenceTyped(const QString&)));
-	m_view->cursorPositionReal(&m_oldLine, &m_oldCol);
+	KTextEditor::Cursor cursor = m_view->cursorPosition();
+	m_oldLine = cursor.line();
+	m_oldCol = cursor.column();
+
 	reloadWatchedKeySequences();
 }
 
@@ -163,7 +166,9 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
 	if (e->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = (QKeyEvent*)(e);
 		uint curLine, curCol;
-		m_view->cursorPositionReal(&curLine, &curCol);
+		KTextEditor::Cursor cursor = m_view->cursorPosition();
+		curLine = cursor.line();
+		curCol = cursor.column();
 		if(curLine != m_oldLine || m_oldCol+1 != curCol) {
 			m_typedSequence = QString();
 			m_oldLine = curLine;
@@ -185,7 +190,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
 		for(uint i = 0; i < s.length(); ++i) {
 			QString toCheck = s.right(s.length() - i);
 			if(m_watchedKeySequencesList.contains(toCheck) > 0) {
- 				m_view->getDoc()->removeText(m_oldLine, m_oldCol-(s.length() - i - 1), m_oldLine, m_oldCol);
+ 				m_view->document()->removeText(KTextEditor::Range(m_oldLine, m_oldCol-(s.length() - i - 1), m_oldLine, m_oldCol));
 				m_typedSequence = QString::null; // clean m_typedSequence to avoid wrong action triggering if one presses keys without printable character
 				emit detectedTypedKeySequence(toCheck);
 				return true;

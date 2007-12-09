@@ -22,6 +22,8 @@
 #include <QDropEvent>
 #include <Q3PtrList>
 
+#include <k3urldrag.h>
+
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kiconloader.h>
@@ -29,7 +31,6 @@
 #include <kurl.h>
 #include <krun.h>
 #include <kmimetype.h>
-#include <kurldrag.h>
 
 #include "kileinfo.h"
 #include "kiledocumentinfo.h"
@@ -109,14 +110,14 @@ KileProjectView::KileProjectView(QWidget *parent, KileInfo *ki) : K3ListView(par
 	addColumn(i18n("Files & Projects"),-1);
 	addColumn(i18n("Include in Archive"),10);
  	setSorting(-1);
-	setFocusPolicy(QWidget::ClickFocus);
+	setFocusPolicy(Qt::ClickFocus);
 	header()->hide();
 	setRootIsDecorated(true);
 	setAllColumnsShowFocus(true);
 	setFullWidth(true);
 	setSelectionModeExt(K3ListView::NoSelection);
 
-	m_popup = new KMenu(this, "projectview_popup");
+	m_popup = new KMenu(this);
 
 	connect(this, SIGNAL(contextMenu(K3ListView *, Q3ListViewItem *, const QPoint & )), this,SLOT(popup(K3ListView *, Q3ListViewItem * , const QPoint & )));
 
@@ -147,7 +148,7 @@ void KileProjectView::slotClicked(Q3ListViewItem *item)
 				if ( pMime->name().startsWith("text/") )
 					emit(fileSelected(itm->url()));
 				else
-					KRun::runURL(itm->url(), pMime->name());
+					KRun::runUrl(itm->url(), pMime->name(), this);
 			}
 		}
 		clearSelection();
@@ -194,7 +195,7 @@ void KileProjectView::slotProjectItem(int id)
 					break;
 				case KPV_ID_CLOSE : emit(closeURL(item->url())); break; //we can access "item" later as it isn't deleted
 				case KPV_ID_OPENWITH :
-					KRun::displayOpenWithDialog(item->url());
+					KRun::displayOpenWithDialog(item->url(), this);
 					break;
 				default : break;
 			}
@@ -228,9 +229,9 @@ void KileProjectView::slotRun(int id)
 	KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(currentItem());
 
 	if (id == 0)
-		KRun::displayOpenWithDialog(itm->url());
+		KRun::displayOpenWithDialog(itm->url(), this);
 	else
-		KRun::run(*m_offerList[id-1], itm->url());
+		KRun::run(*m_offerList[id-1], itm->url(), this);
 
 	itm->setSelected(false);
 }
@@ -238,6 +239,11 @@ void KileProjectView::slotRun(int id)
 //FIXME clean this mess up
 void KileProjectView::popup(K3ListView *, Q3ListViewItem *  item, const QPoint &  point)
 {
+#ifdef __GNUC__
+#warning The popup menu still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	if (item != 0)
 	{
 		KileProjectViewItem *itm = static_cast<KileProjectViewItem*>(item);
@@ -257,7 +263,7 @@ void KileProjectView::popup(K3ListView *, Q3ListViewItem *  item, const QPoint &
 			if ( ! isKilePrFile )
 			{
 				KMenu *apps = new KMenu( m_popup);
-				m_offerList = KTrader::self()->query(KMimeType::findByUrl(itm->url())->name(), "Type == 'Application'");
+				m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(itm->url())->name(), "Type == 'Application'");
 				for (uint i=0; i < m_offerList.count(); ++i)
 					apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
 
@@ -333,6 +339,7 @@ void KileProjectView::popup(K3ListView *, Q3ListViewItem *  item, const QPoint &
 
 		m_popup->exec(point);
 	}
+*/
 }
 
 void KileProjectView::makeTheConnection(KileProjectViewItem *item)

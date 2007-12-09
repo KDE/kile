@@ -17,7 +17,7 @@
 #ifndef KILEPROJECTVIEW_H
 #define KILEPROJECTVIEW_H
 
-#include <ktrader.h>
+#include <kmimetypetrader.h>
 #include <k3listview.h>
 
 #include "kileproject.h"
@@ -159,7 +159,7 @@ private:
 	uint						m_nProjects;
 	KToggleAction		*m_toggle;
 
-	KTrader::OfferList m_offerList;
+	KService::List m_offerList;
 };
 
 #endif

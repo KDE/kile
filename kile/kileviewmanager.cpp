@@ -26,8 +26,14 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 
+#include <k3urldrag.h>
+
+#include <kapplication.h>
+#include <kaction.h>
+#include <kactioncollection.h>
 #include <kdeversion.h>
 #include <kglobal.h>
+#include <kio/global.h>
 #include <ktexteditor/view.h>
 #include <ktexteditor/document.h>
 #include <kparts/componentfactory.h>
@@ -36,9 +42,6 @@
 #include <kiconloader.h>
 #include <kmimetype.h>
 #include <klocale.h>
-#include <ktexteditor/editinterfaceext.h>
-#include <kapplication.h>
-#include <kurldrag.h>
 
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"
@@ -76,15 +79,18 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 {
 	m_receiver = receiver;
 	m_client = client;
-	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex"))
-		new KAction(i18n("Paste as LaTe&X"), 0, this,
-			SLOT(pasteAsLaTeX()), m_client->actionCollection(), "popup_pasteaslatex");
-	if(NULL == m_client->actionCollection()->action("popup_converttolatex"))
-		new KAction(i18n("Convert Selection to &LaTeX"), 0, this,
-			SLOT(convertSelectionToLaTeX()), m_client->actionCollection(), "popup_converttolatex");
-	if(NULL == m_client->actionCollection()->action("popup_quickpreview"))
-		new KAction(i18n("&QuickPreview Selection"), 0, this,
-			SLOT(quickPreviewPopup()), m_client->actionCollection(), "popup_quickpreview");
+	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex")) {
+		KAction *action = new KAction(i18n("Paste as LaTe&X"), this);
+		connect(action, SIGNAL(triggered()), this, SLOT(pasteAsLaTeX()));
+	}
+	if(NULL == m_client->actionCollection()->action("popup_converttolatex")) {
+		KAction *action = new KAction(i18n("Convert Selection to &LaTeX"), this);
+		connect(action, SIGNAL(triggered()), this, SLOT(convertSelectionToLaTeX()));
+	}
+	if(NULL == m_client->actionCollection()->action("popup_quickpreview")) {
+		KAction *action = new KAction(i18n("&QuickPreview Selection"), this);
+		connect(action, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
+	}
 }
 
 void Manager::createTabs(QWidget *parent)
@@ -96,7 +102,7 @@ void Manager::createTabs(QWidget *parent)
 	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 	m_tabs = new KTabWidget(parent);
 	m_widgetStack->addWidget(m_tabs);
-	m_tabs->setFocusPolicy(QWidget::ClickFocus);
+	m_tabs->setFocusPolicy(Qt::ClickFocus);
 	m_tabs->setTabReorderingEnabled(true);
 	m_tabs->setHoverCloseButton(true);
 	m_tabs->setHoverCloseButtonDelayed(true);
@@ -116,7 +122,7 @@ void Manager::closeWidget(QWidget *widget)
 	if (widget->inherits( "KTextEditor::View" ))
 	{
 		KTextEditor::View *view = static_cast<KTextEditor::View*>(widget);
-		m_ki->docManager()->fileClose(view->getDoc());
+		m_ki->docManager()->fileClose(view->document());
 	}
 }
 
@@ -157,8 +163,14 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	// install a working kate part popup dialog thingy
 	Q3PopupMenu *viewPopupMenu = (Q3PopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
+#ifdef __GNUC__
+#warning: The popup menu still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	if((NULL != view) && (NULL != viewPopupMenu))
 		view->installPopup(viewPopupMenu);
+*/
 	if(NULL != viewPopupMenu)
 		connect(viewPopupMenu, SIGNAL(aboutToShow()), this, SLOT(onKatePopupMenuRequest()));
 
@@ -166,16 +178,16 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	emit(activateView(view, false));
 	QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
 	
-	reflectDocumentStatus(view->getDoc(), false, 0);
+	reflectDocumentStatus(view->document(), false, 0);
 
-	view->setFocusPolicy(QWidget::StrongFocus);
+	view->setFocusPolicy(Qt::StrongFocus);
 	view->setFocus();
 
 	emit(prepareForPart("Editor"));
 	unplugKatePartMenu(view);
 
 	// use Kile's save and save-as functions instead of Katepart's
-	KAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
+	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
 	if ( action ) 
 	{
 		KILE_DEBUG() << "   reconnect action 'file_save'..." << endl;
@@ -233,7 +245,7 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 	}
 	for(KTextEditor::View *view = m_textViewList.first(); view; view = m_textViewList.next())
 	{
-		if(view->getDoc() == doc)
+		if(view->document() == doc)
 		{
 			return view;
 		}
@@ -333,7 +345,7 @@ void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified,
 	else if ( m_ki->extensions()->isScriptFile(doc->url()) )
 		icon = SmallIcon("js");
 	else
-		icon = KMimeType::pixmapForURL (doc->url(), 0, KIcon::Small);
+		icon = KIO::pixmapForUrl(doc->url(), 0, KIconLoader::Small);
 
 	changeTab(doc->views().first(), icon, m_ki->getShortName(doc));
 }
@@ -352,31 +364,34 @@ void Manager::onKatePopupMenuRequest(void)
 		return;
 
 	// Setting up the "QuickPreview selection" entry
-	KAction *quickPreviewAction = m_client->actionCollection()->action("popup_quickpreview");
+	QAction *quickPreviewAction = m_client->actionCollection()->action("popup_quickpreview");
 	if(NULL != quickPreviewAction) {
-		if(!quickPreviewAction->isPlugged())
-			quickPreviewAction->plug(viewPopupMenu);
+		if(!quickPreviewAction->associatedWidgets().isEmpty()) {
+			viewPopupMenu->addAction(quickPreviewAction);
+		}
 
-		quickPreviewAction->setEnabled( view->getDoc()->hasSelection() || 
+		quickPreviewAction->setEnabled( view->selection() ||
 		                                m_ki->editorExtension()->hasMathgroup(view) ||
 		                                m_ki->editorExtension()->hasEnvironment(view)
 		                              );
 	}
 
 	// Setting up the "Convert to LaTeX" entry
-	KAction *latexCvtAction = m_client->actionCollection()->action("popup_converttolatex");
+	QAction *latexCvtAction = m_client->actionCollection()->action("popup_converttolatex");
 	if(NULL != latexCvtAction) {
-		if(!latexCvtAction->isPlugged())
-			latexCvtAction->plug(viewPopupMenu);
+		if(!latexCvtAction->associatedWidgets().isEmpty()) {
+			viewPopupMenu->addAction(latexCvtAction);
+		}
 
-		latexCvtAction->setEnabled(view->getDoc()->hasSelection());
+		latexCvtAction->setEnabled(view->selection());
 	}
 
 	// Setting up the "Paste as LaTeX" entry
-	KAction *pasteAsLaTeXAction = m_client->actionCollection()->action("popup_pasteaslatex");
+	QAction *pasteAsLaTeXAction = m_client->actionCollection()->action("popup_pasteaslatex");
 	if((NULL != pasteAsLaTeXAction)) {
-		if(!pasteAsLaTeXAction->isPlugged())
-			pasteAsLaTeXAction->plug(viewPopupMenu);
+		if(!pasteAsLaTeXAction->associatedWidgets().isEmpty()) {
+			viewPopupMenu->addAction(pasteAsLaTeXAction);
+		}
 
 		QClipboard *clip = KApplication::clipboard();
 		if(NULL != clip)
@@ -391,14 +406,15 @@ void Manager::convertSelectionToLaTeX(void)
 	if(NULL == view)
 		return;
 
-	KTextEditor::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->document();
 
 	if(NULL == doc)
 		return;
 
 	// Getting the selection
-	uint selStartLine = doc->selStartLine(), selStartCol = doc->selStartCol();
-	uint selEndLine = doc->selEndLine(), selEndCol = doc->selEndCol();
+	KTextEditor::Range range = view->selectionRange();
+	uint selStartLine = range.start().line(), selStartCol = range.start().column();
+	uint selEndLine = range.end().line(), selEndCol = range.start().column();
 
 	/* Variable to "restore" the selection after replacement: if {} was selected,
 	   we increase the selection of two characters */
@@ -407,9 +423,7 @@ void Manager::convertSelectionToLaTeX(void)
 	PlainToLaTeXConverter cvt;
 
 	// "Notifying" the editor that what we're about to do must be seen as ONE operation
-	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt(doc);
-	if(NULL != editInterfaceExt)
-		editInterfaceExt->editBegin();
+	doc->startEditing();
 
 	// Processing the first line
 	int firstLineLength;
@@ -417,15 +431,15 @@ void Manager::convertSelectionToLaTeX(void)
 		firstLineLength = doc->lineLength(selStartLine);
 	else
 		firstLineLength = selEndCol;
-	QString firstLine = doc->text(selStartLine, selStartCol, selStartLine, firstLineLength);
+	QString firstLine = doc->text(KTextEditor::Range(selStartLine, selStartCol, selStartLine, firstLineLength));
 	QString firstLineCvt = cvt.ConvertToLaTeX(firstLine);
-	doc->removeText(selStartLine, selStartCol, selStartLine, firstLineLength);
-	doc->insertText(selStartLine, selStartCol, firstLineCvt);
+	doc->removeText(KTextEditor::Range(selStartLine, selStartCol, selStartLine, firstLineLength));
+	doc->insertText(KTextEditor::Cursor(selStartLine, selStartCol), firstLineCvt);
 	newSelEndCol = selStartCol + firstLineCvt.length();
 
 	// Processing the intermediate lines
 	for(uint nLine = selStartLine + 1 ; nLine < selEndLine ; ++nLine) {
-		QString line = doc->textLine(nLine);
+		QString line = doc->line(nLine);
 		QString newLine = cvt.ConvertToLaTeX(line);
 		doc->removeLine(nLine);
 		doc->insertLine(nLine, newLine);
@@ -433,18 +447,17 @@ void Manager::convertSelectionToLaTeX(void)
 
 	// Processing the final line
 	if(selStartLine != selEndLine) {
-		QString lastLine = doc->text(selEndLine, 0, selEndLine, selEndCol);
+		QString lastLine = doc->text(KTextEditor::Range(selEndLine, 0, selEndLine, selEndCol));
 		QString lastLineCvt = cvt.ConvertToLaTeX(lastLine);
-		doc->removeText(selEndLine, 0, selEndLine, selEndCol);
-		doc->insertText(selEndLine, 0, lastLineCvt);
+		doc->removeText(KTextEditor::Range(selEndLine, 0, selEndLine, selEndCol));
+		doc->insertText(KTextEditor::Cursor(selEndLine, 0), lastLineCvt);
 		newSelEndCol = lastLineCvt.length();
 	}
 
 	// End of the "atomic edit operation"
-	if(NULL != editInterfaceExt)
-		editInterfaceExt->editEnd();
+	doc->endEditing();
 
-	doc->setSelection(selStartLine, selStartCol, selEndLine, newSelEndCol);
+	view->setSelection(KTextEditor::Range(selStartLine, selStartCol, selEndLine, newSelEndCol));
 }
 
 /**
@@ -457,36 +470,37 @@ void Manager::pasteAsLaTeX(void)
 	if(NULL == view)
 		return;
 
-	KTextEditor::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->document();
 
 	if(NULL == doc)
 		return;
 
 	// Getting a proper text insertion point BEFORE the atomic editing operation
 	uint cursorLine, cursorCol;
-	if(doc->hasSelection()) {
-		cursorLine = doc->selStartLine();
-		cursorCol = doc->selStartCol();
+	if(view->selection()) {
+		KTextEditor::Range range = view->selectionRange();
+		cursorLine = range.start().line();
+		cursorCol = range.start().column();
 	} else {
-		view->cursorPositionReal(&cursorLine, &cursorCol);
+		KTextEditor::Cursor cursor = view->cursorPosition();
+		cursorLine = cursor.line();
+		cursorCol = cursor.column();
 	}
 
 	// "Notifying" the editor that what we're about to do must be seen as ONE operation
-	KTextEditor::EditInterfaceExt *editInterfaceExt = KTextEditor::editInterfaceExt(doc);
-	if(NULL != editInterfaceExt)
-		editInterfaceExt->editBegin();
+	doc->startEditing();
 
 	// If there is a selection, one must remove it
-	if(doc->hasSelection())
-		doc->removeSelectedText();
+	if(view->selection()) {
+		doc->removeText(view->selectionRange());
+	}
 
 	PlainToLaTeXConverter cvt;
 	QString toPaste = cvt.ConvertToLaTeX(KApplication::clipboard()->text());
-	doc->insertText(cursorLine, cursorCol, toPaste);
+	doc->insertText(KTextEditor::Cursor(cursorLine, cursorCol), toPaste);
 
 	// End of the "atomic edit operation"
-	if(NULL != editInterfaceExt)
-		editInterfaceExt->editEnd();
+	doc->endEditing();
 }
 
 void Manager::quickPreviewPopup()
@@ -495,16 +509,12 @@ void Manager::quickPreviewPopup()
 	if( ! view )
 		return;
 
-	KTextEditor::Document *doc = view->getDoc();
-	if ( doc )
-	{
-		if ( doc->hasSelection() )
-			emit( startQuickPreview(KileTool::qpSelection) );
-		else if ( m_ki->editorExtension()->hasMathgroup(view) )
-			emit( startQuickPreview(KileTool::qpMathgroup) );
-		else if ( m_ki->editorExtension()->hasEnvironment(view) )
-			emit( startQuickPreview(KileTool::qpEnvironment) );
-	}
+	if (view->selection())
+		emit( startQuickPreview(KileTool::qpSelection) );
+	else if ( m_ki->editorExtension()->hasMathgroup(view) )
+		emit( startQuickPreview(KileTool::qpMathgroup) );
+	else if ( m_ki->editorExtension()->hasEnvironment(view) )
+		emit( startQuickPreview(KileTool::qpEnvironment) );
 }
 
 void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
@@ -586,11 +596,14 @@ void Manager::unplugKatePartMenu(KTextEditor::View* view)
 
 		for ( uint i=0; i < actionlist.count(); ++i )
 		{
-			KAction *action = view->actionCollection()->action( actionlist[i].ascii() ); 
+			QAction *action = view->actionCollection()->action(actionlist[i].ascii());
 			if ( action ) 
 			{
-				action->unplugAll();
+//FIXME: should be removed for KDE4
 //				action->setShortcut(KShortcut());
+				foreach(QWidget *w, action->associatedWidgets()) {
+					w->removeAction(action);
+				}
 			}
 		}
 	}

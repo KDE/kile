@@ -17,10 +17,11 @@
 #define KILEAPPDCOPIFACE_H
 
 #include <QObject>
+#include <QtDBus/QtDBus>
 
 // THIS API is subject to change at anytime, however it will be finalized before the next major release
 
-class KileAppDBusIface : QObject
+class KileAppDBusIface : public QDBusAbstractAdaptor
 {
 	Q_OBJECT
 	Q_CLASSINFO("D-Bus Interface", "net.sourceforge.kile.main")

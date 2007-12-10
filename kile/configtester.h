@@ -16,18 +16,14 @@
 #ifndef CONFIGCHECKER_H
 #define CONFIGCHECKER_H
 
-#include <qobject.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QObject>
+#include <QList>
+#include <QMap>
 
 class KTempDir;
 class KConfig;
-class K3Process;
+class KProcess;
 class KUrl;
-
-/**
-@author Jeroen Wijnhout
-*/
 
 class ConfigTest
 {
@@ -35,7 +31,7 @@ class ConfigTest
 		enum Status { Success = 3, Failure = 2, Critical = 1 };
 
 		ConfigTest();
-		ConfigTest(const QString &name, bool mustpass, const QString &arg, const QString &altarg = QString::null);
+		ConfigTest(const QString &name, bool mustpass, const QString &arg, const QString &altarg = QString());
 
 		int status() const;
 
@@ -66,11 +62,11 @@ class Tester : public QObject
 	Q_OBJECT
 
 public:
-	Tester(QObject *parent = 0, const char *name = 0);
+	Tester(QObject *parent = 0);
 	~Tester();
 
 	QStringList testedTools();
-	Q3ValueList<ConfigTest> resultForTool(const QString &);
+	QList<ConfigTest> resultForTool(const QString &);
 	int statusForTool(const QString &);
 
 public slots:
@@ -84,17 +80,17 @@ signals:
 	void finished(bool);
 
 private slots:
-	void determineProgress(K3Process *, char *, int);
-	void processTestResults (K3Process *);
+	void determineProgress();
+	void processTestResults(int exitCode, int exitStatus);
 	void processTool(KConfig *, const QString &);
 
-	void addResult(const QString &tool, const Q3ValueList<ConfigTest> &tests);
+	void addResult(const QString &tool, const QList<ConfigTest> &tests);
 
 private:
-	QMap<QString,Q3ValueList<ConfigTest> >	m_results;
-	QString								m_resultsFile;
-	KTempDir							*m_tempDir;
-	K3Process								*m_process;
+	QMap<QString,QList<ConfigTest> >	m_results;
+	QString					m_resultsFile;
+	KTempDir				*m_tempDir;
+	KProcess				*m_process;
 };
 
 #endif

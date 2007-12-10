@@ -15,16 +15,13 @@
 
 #include "configtester.h"
 
-#include <qfile.h>
-//Added by qt3to4:
-#include <Q3ValueList>
-
-#include <kio/netaccess.h>
+#include <kio/job.h>
 #include <klocale.h>
-#include <k3process.h>
+#include <kprocess.h>
+#include <kshell.h>
 #include <kstandarddirs.h>
 #include <ktempdir.h>
-#include <ksimpleconfig.h>
+#include <kconfig.h>
 #include <kglobal.h>
 #include "kiledebug.h"
 
@@ -34,14 +31,14 @@
 #include "kiletool.h"
 
 ConfigTest::ConfigTest() :
-	m_name(QString::null),
-	m_arg(QString::null),
-	m_altArg(QString::null),
+	m_name(QString()),
+	m_arg(QString()),
+	m_altArg(QString()),
 	m_mustPass(false)
 {
 }
 
-ConfigTest::ConfigTest(const QString &name, bool mustpass, const QString &arg, const QString &altarg /*= QString::null*/) :
+ConfigTest::ConfigTest(const QString &name, bool mustpass, const QString &arg, const QString &altarg /*= QString()*/) :
 	m_name(name),
 	m_arg(arg),
 	m_altArg(altarg),
@@ -59,9 +56,12 @@ int ConfigTest::status() const
 	else
 		passed = (m_arg == "0");
 
-	if ( passed ) return Success;
-	else if ( m_mustPass ) return Critical;
-	else return Failure;
+	if ( passed )
+		return Success;
+	else if ( m_mustPass )
+		return Critical;
+	else
+		return Failure;
 }
 
 QString ConfigTest::name() const
@@ -72,8 +72,10 @@ QString ConfigTest::name() const
 QString ConfigTest::resultText() const
 {
 	QString str = successMessage(m_name);
-	if ( status() == Failure ) str = failureMessage(m_name);
-	else if ( status() == Critical ) str = criticalMessage(m_name);
+	if ( status() == Failure )
+		str = failureMessage(m_name);
+	else if ( status() == Critical )
+		str = criticalMessage(m_name);
 
 	if ( m_name == "binary" )
 	{
@@ -100,29 +102,37 @@ void ConfigTest::addCriticalMessage(const QString &test, const QString &msg) { s
 
 QString ConfigTest::prettyName(const QString &test)
 {
-	if ( s_prettyName.contains(test) ) return s_prettyName[test];
-	else return test;
+	if ( s_prettyName.contains(test) )
+		return s_prettyName[test];
+	else
+		return test;
 }
 
 QString ConfigTest::successMessage(const QString &test)
 {
-	if ( s_msgSuccess.contains(test) ) return s_msgSuccess[test];
-	else return i18n("Passed");
+	if ( s_msgSuccess.contains(test) )
+		return s_msgSuccess[test];
+	else
+		return i18n("Passed");
 }
 
 QString ConfigTest::failureMessage(const QString &test)
 {
-	if ( s_msgFailure.contains(test) ) return s_msgFailure[test];
-	else return i18n("Failed");
+	if ( s_msgFailure.contains(test) )
+		return s_msgFailure[test];
+	else
+		return i18n("Failed");
 }
 
 QString ConfigTest::criticalMessage(const QString &test)
 {
-	if ( s_msgCritical.contains(test) ) return s_msgCritical[test];
-	else return i18n("Critical failure");
+	if ( s_msgCritical.contains(test) )
+		return s_msgCritical[test];
+	else
+		return i18n("Critical failure");
 }
 
-Tester::Tester(QObject *parent, const char *name) : QObject(parent, name), m_process(0L)
+Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 {
 	ConfigTest::addPrettyName("binary", i18n("Binary"));
 	ConfigTest::addCriticalMessage("binary", i18n("Could not find the binary for this essential tool."));
@@ -158,7 +168,7 @@ Tester::~Tester()
 
 void Tester::saveResults(const KUrl & dest)
 {
-	KIO::NetAccess::file_copy(KUrl::fromPathOrUrl(m_resultsFile), dest, -1, true);
+	KIO::file_copy(KUrl::fromPathOrUrl(m_resultsFile), dest, -1, KIO::Overwrite | KIO::HideProgressInfo);
 }
 
 void Tester::runTests()
@@ -170,47 +180,50 @@ void Tester::runTests()
 	KILE_DEBUG() << "Tester::runTests: destdir = " << destdir << endl;
 	m_resultsFile = destdir + "results.rc";
 
-	QString shellname = KGlobal::dirs()->findExe("sh");
-	KILE_DEBUG() << "Tester::runTests: shellname = " << shellname << endl;
-	m_process = new K3ShellProcess(QFile::encodeName( shellname ));
+	m_process = new KProcess();
+
 	if (! KileConfig::teXPaths().isEmpty())
 	{
-		m_process->setEnvironment("TEXINPUTS", KileInfo::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
+		m_process->setEnv("TEXINPUTS", KileInfo::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
 	}
-	*m_process << "cd " + K3ShellProcess::quote(destdir) + " && ";
-	*m_process << "cp " + K3ShellProcess::quote(srcdir) +"/* " + K3ShellProcess::quote(destdir) + " && ";
-	*m_process << "source runTests.sh " + K3ShellProcess::quote(m_resultsFile) + " " +  K3ShellProcess::quote(destdir);
-	connect(m_process, SIGNAL(receivedStdout(K3Process *, char *, int)), this, SLOT(determineProgress(K3Process *, char *, int)));
-	connect(m_process, SIGNAL(processExited(K3Process *)), this, SLOT(processTestResults(K3Process *)));
-	if (m_process->start(K3Process::NotifyOnExit, K3Process::AllOutput)) emit(started());
+	*m_process << "cd " + KShell::quoteArg(destdir) + " && ";
+	*m_process << "cp " + KShell::quoteArg(srcdir) +"/* " + KShell::quoteArg(destdir) + " && ";
+	*m_process << "source runTests.sh " + KShell::quoteArg(m_resultsFile) + " " +  KShell::quoteArg(destdir);
+	connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(determineProgress()));
+	connect(m_process, SIGNAL(finished(int,int)), this, SLOT(processTestResults(int,int)));
+	m_process->setOutputChannelMode(KProcess::MergedChannels);
+	m_process->start();
 }
 
 void Tester::stop()
 {
-	if (m_process) m_process->kill();
+	if (m_process)
+		m_process->kill();
 }
 
-void Tester::determineProgress(K3Process */*proc*/, char *buf, int len)
+void Tester::determineProgress()
 {
-	static QString s = QString::null;
+	static QString s = QString();
 
-	s += QString::fromLocal8Bit(buf, len);
+	s += QString::fromLocal8Bit(m_process->readAllStandardOutput());
+
 	if ( s.endsWith("\n") )
 	{
 		bool ok = false;
 		int number = s.toInt(&ok);
-		if (ok) emit(percentageDone(number));
-		s = QString::null;
+		if (ok)
+			emit(percentageDone(number));
+		s = QString();
 	}
 }
 
-void Tester::processTestResults (K3Process *proc)
+void Tester::processTestResults (int exitCode, int exitStatus)
 {
-	if (proc->normalExit())
+	if ( exitStatus == QProcess::NormalExit )
 	{
 		emit(percentageDone(100));
 
-		KSimpleConfig config(m_resultsFile, true);
+		KConfig config(m_resultsFile, KConfig::SimpleConfig);
 		QStringList groups = config.groupList();
 		QStringList::Iterator itend = groups.end();
 		for ( QStringList::Iterator it = groups.begin(); it != itend; ++it )
@@ -227,22 +240,26 @@ void Tester::processTestResults (K3Process *proc)
 
 void Tester::processTool(KConfig *config, const QString &tool)
 {
-	config->setGroup(tool);
+	KConfigGroup group = config->group("Group");
 
-	QStringList criticaltests = (config->readEntry("mustpass", "")).split(",");
+	QStringList criticaltests = (group.readEntry("mustpass", "")).split(",");
 
 	//Did we find the executable?
-	Q3ValueList<ConfigTest> tests;
-	tests << ConfigTest("binary", criticaltests.contains("where"), config->readEntry("where"), config->readEntry("executable"));
-	if (config->hasKey("version") ) tests << ConfigTest("version", criticaltests.contains("version"), config->readEntry("version"));
-	if (config->hasKey("basic") ) tests << ConfigTest("basic", criticaltests.contains("basic"), config->readEntry("basic"));
-	if (config->hasKey("src") ) tests << ConfigTest("src", criticaltests.contains("src"), config->readEntry("src"));
-	if (config->hasKey("kile") ) tests << ConfigTest("kile", criticaltests.contains("kile"), config->readEntry("kile"));
+	QList<ConfigTest> tests;
+	tests << ConfigTest("binary", criticaltests.contains("where"), group.readEntry("where"), group.readEntry("executable"));
+	if (group.hasKey("version") )
+		tests << ConfigTest("version", criticaltests.contains("version"), group.readEntry("version"));
+	if (group.hasKey("basic") )
+		tests << ConfigTest("basic", criticaltests.contains("basic"), group.readEntry("basic"));
+	if (group.hasKey("src") )
+		tests << ConfigTest("src", criticaltests.contains("src"), group.readEntry("src"));
+	if (group.hasKey("kile") )
+		tests << ConfigTest("kile", criticaltests.contains("kile"), group.readEntry("kile"));
 
 	addResult(tool, tests);
 }
 
-void Tester::addResult(const QString &tool, const Q3ValueList<ConfigTest> &tests)
+void Tester::addResult(const QString &tool, const QList<ConfigTest> &tests)
 {
 	m_results [tool] = tests;
 }
@@ -252,19 +269,21 @@ QStringList Tester::testedTools()
 	return m_results.keys();
 }
 
-Q3ValueList<ConfigTest> Tester::resultForTool(const QString & tool)
+QList<ConfigTest> Tester::resultForTool(const QString & tool)
 {
 	return m_results[tool];
 }
 
 int Tester::statusForTool(const QString & tool)
 {
-	Q3ValueList<ConfigTest> tests = m_results[tool];
+	QList<ConfigTest> tests = m_results[tool];
 	int status = ConfigTest::Success;
-	for ( uint i = 0; i < tests.count(); ++i)
+	for ( int i = 0; i < tests.count(); ++i)
 	{
-		if ( (tests[i].status() == ConfigTest::Failure) && (status == ConfigTest::Success)) status = ConfigTest::Failure;
-		if (tests[i].status() == ConfigTest::Critical) status = ConfigTest::Critical;
+		if ( (tests[i].status() == ConfigTest::Failure) && (status == ConfigTest::Success))
+			status = ConfigTest::Failure;
+		if (tests[i].status() == ConfigTest::Critical)
+			status = ConfigTest::Critical;
 	}
 	return status;
 }

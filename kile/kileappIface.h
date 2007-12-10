@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : sam sep 28 2002
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
+    edit		 : 12/10/2007
+    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout, 2007 Thomas Braun
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -15,22 +16,27 @@
 #ifndef KILEAPPDCOPIFACE_H
 #define KILEAPPDCOPIFACE_H
 
-#include <dcopobject.h>
+#include <QObject>
 
-class KileAppDCOPIface : virtual public DCOPObject
+// THIS API is subject to change at anytime, however it will be finalized before the next major release
+
+class KileAppDBusIface : QObject
 {
-	K_DCOP
+	Q_OBJECT
+	Q_CLASSINFO("D-Bus Interface", "net.sourceforge.kile.main")
 
-	k_dcop:
-		virtual void openDocument(const QString &)=0;
-		virtual void insertText(const QString &)=0;
-		virtual void fileSelected(const QString &)=0; //backwards compatibility
-		virtual void closeDocument()=0;
-		virtual void openProject(const QString &)=0;
-		virtual void setLine( const QString &)=0;
-		virtual void setActive()=0;
-		virtual int run(const QString &)=0;
-		virtual int runWith(const QString &, const QString &)=0;
+	public Q_SLOTS:
+		Q_SCRIPTABLE void openDocument(const QString &path);
+		Q_SCRIPTABLE void closeDocument();
+
+		Q_SCRIPTABLE void openProject(const QString &path);
+
+		Q_SCRIPTABLE void insertText(const QString &path);
+		Q_SCRIPTABLE void setLine( const int line);
+		Q_SCRIPTABLE void setActive();
+
+		Q_SCRIPTABLE int runTool(const QString &tool);
+		Q_SCRIPTABLE int runToolWithConfig(const QString &tool, const QString & config);
 };
 
 #endif

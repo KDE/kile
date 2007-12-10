@@ -19,7 +19,6 @@
 #include <kdeversion.h>
 #include <ktexteditor/view.h>
 #include <ktexteditor/document.h>
-#include <dcopobject.h>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
@@ -95,9 +94,9 @@ struct userItem
  **/
 
 /**
- * The Kile main class. It acts as the mainwindow, information manager and DCOP interface.
+ * The Kile main class. It acts as the mainwindow, information manager and DBUS interface.
  **/
-class Kile : public KParts::MainWindow, public KileAppDCOPIface, public KileInfo
+class Kile : public KParts::MainWindow, public KileInfo
 {
 	Q_OBJECT
 
@@ -107,7 +106,7 @@ public:
 
 public slots:
 	/**
-	 * @param line : Jump to give line in current editor (can be called via DCOP interface).
+	 * @param line : Jump to give line in current editor (can be called via DBUS interface).
 	 **/
 	void setLine( const QString &line);
 	void setCursor(const KUrl &, int, int);

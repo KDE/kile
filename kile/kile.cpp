@@ -46,7 +46,6 @@
 #include <ktabwidget.h>
 #include <ktip.h>
 #include <ktexteditor/configinterface.h>
-#include <dcopclient.h>
 
 #include "kileapplication.h"
 #include "kiledocumentinfo.h"
@@ -92,7 +91,6 @@
 #include "previewwidget.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
-	DCOPObject( "Kile" ),
 	KParts::MainWindow( parent, name),
 	KileInfo(this),
 	m_paPrint(0L)
@@ -1028,7 +1026,7 @@ bool Kile::queryExit()
 bool Kile::queryClose()
 {
     KTextEditor::View *view = viewManager()->currentTextView();
-    if (view) KileConfig::setLastDocument(view->getDoc()->url().path());
+    if (view) KileConfig::setLastDocument(view->document()->url().path());
     else KileConfig::setLastDocument("");
 
 	//don't close Kile if embedded viewers are present
@@ -1044,7 +1042,7 @@ bool Kile::queryClose()
 
 	for (uint i=0; i < viewManager()->textViews().count(); ++i)
 	{
-		m_listDocsOpenOnStart.append(viewManager()->textView(i)->getDoc()->url().path());
+		m_listDocsOpenOnStart.append(viewManager()->textView(i)->document()->url().path());
 	}
 
 	KILE_DEBUG() << "#projects = " << docManager()->projects()->count() << endl;
@@ -1071,7 +1069,7 @@ void Kile::showDocInfo(KTextEditor::Document *doc)
 		KTextEditor::View *view = viewManager()->currentTextView();
 
 		if (view)
-			doc = view->getDoc();
+			doc = view->document();
 		else
 			return;
 	}
@@ -1094,7 +1092,7 @@ void Kile::convertToASCII(KTextEditor::Document *doc)
 	{
 		KTextEditor::View *view = viewManager()->currentTextView();
 
-		if (view) doc = view->getDoc();
+		if (view) doc = view->document();
 		else return;
 	}
 
@@ -1110,7 +1108,7 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 	{
 		KTextEditor::View *view = viewManager()->currentTextView();
 
-		if (view) doc = view->getDoc();
+		if (view) doc = view->document();
 		else return;
 	}
 
@@ -1149,7 +1147,7 @@ void Kile::newCaption()
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if (view)
 	{
-		setCaption( getShortName( view->getDoc() ) );
+		setCaption( getShortName( view->document() ) );
 		if (m_bottomBar->currentPage()->inherits("KileWidget::Konsole"))
 			m_texKonsole->sync();
 	}
@@ -1757,7 +1755,7 @@ void Kile::quickPostscript()
 
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if ( view ) {
-		startdir = QFileInfo(view->getDoc()->url().path()).path();
+		startdir = QFileInfo(view->document()->url().path()).path();
 		texfilename = getCompileName();
 	}
 
@@ -2176,9 +2174,9 @@ void Kile::cleanBib()
 
 	QString s;
 	uint i=0;
-	while(i < view->getDoc()->numLines())
+	while(i < view->document()->numLines())
 	{
-		s = view->getDoc()->textLine(i);
+		s = view->document()->line(i);
 
 		// do we have a line that starts with ALT or OPT?
 		if ( reOptional.search( s ) >= 0 )
@@ -2186,13 +2184,13 @@ void Kile::cleanBib()
 				// yes! capture type and entry
 				QString type = reOptional.cap( 2 );
 				QString entry = reOptional.cap( 3 );
-				view->getDoc()->removeLine( i );
-				view->getDoc()->setModified(true);
+				view->document()->removeLine( i );
+				view->document()->setModified(true);
 				if ( reNonEmptyEntry.search( entry ) >= 0 )
 				{
 					type.append( " = " );
 					type.append( entry );
-					view->getDoc()->insertLine( i, type );
+					view->document()->insertLine( i, type );
 					++i;
 				}
 		}
@@ -2200,16 +2198,16 @@ void Kile::cleanBib()
 			++i;
 	}
 	uint j=0;
-	for ( i=0; i < view->getDoc()->numLines() ; i++ )
+	for ( i=0; i < view->document()->numLines() ; i++ )
 	{
 		j = i+1;
-		if ( j < view->getDoc()->numLines()  && view->getDoc()->textLine(j).contains( QRegExp("^\\s*\\}\\s*$") ) )
+		if ( j < view->document()->numLines()  && view->document()->line(j).contains( QRegExp("^\\s*\\}\\s*$") ) )
 			{
-				s =  view->getDoc()->textLine( i );
-				view->getDoc()->removeLine( i );
+				s =  view->document()->line( i );
+				view->document()->removeLine( i );
 				s.remove( QRegExp(",\\s*$") );
-				view->getDoc()->setModified( true );
-				view->getDoc()->insertLine( i, s);
+				view->document()->setModified( true );
+				view->document()->insertLine( i, s);
 			}
 	}
 }
@@ -2219,7 +2217,7 @@ void Kile::includeGraphics()
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if ( !view ) return;
 
-	QFileInfo fi( view->getDoc()->url().path() );
+	QFileInfo fi( view->document()->url().path() );
 	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(this, fi.path(), this);
 
 	if ( dialog->exec() == QDialog::Accepted )
@@ -2252,21 +2250,25 @@ void Kile::slotQuickPreview(int type)
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if ( ! view) return;
 
-	KTextEditor::Document *doc = view->getDoc();
+	KTextEditor::Document *doc = view->document();
 	if ( ! doc )
 		return;
  
 	switch ( type )
 	{
-		case KileTool::qpSelection:   m_quickPreview->previewSelection(doc);   break;
+		case KileTool::qpSelection:   m_quickPreview->previewSelection(view);   break;
 		case KileTool::qpEnvironment: m_quickPreview->previewEnvironment(doc); break;
 		case KileTool::qpSubdocument: m_quickPreview->previewSubdocument(doc); break;
 		case KileTool::qpMathgroup:   m_quickPreview->previewMathgroup(doc);   break;
 	}
 }	
 
+#ifdef __GNUC__
+#warning Port the citeViewBib function (line 2269)!
+#endif
 void Kile::citeViewBib()
 {
+/*
 	KILE_DEBUG()  << "===void Kile::citeViewBib()===" << endl;
 
 	DCOPClient *client = kapp->dcopClient();
@@ -2339,6 +2341,7 @@ void Kile::citeViewBib()
 			}
 		}
 	}
+*/
 }
 
 #include "kile.moc"

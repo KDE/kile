@@ -38,14 +38,16 @@
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
+#include <krecentfilesaction.h>
 #include <krun.h>
-#include <kkeydialog.h>
+#include <kshortcutsdialog.h>
 #include <kedittoolbar.h>
 #include <kstandarddirs.h>
 #include <kmultitabbar.h>
 #include <ktabwidget.h>
 #include <ktip.h>
 #include <ktexteditor/configinterface.h>
+#include <kxmlguifactory.h>
 
 #include "kileapplication.h"
 #include "kiledocumentinfo.h"
@@ -91,7 +93,7 @@
 #include "previewwidget.h"
 
 Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
-	KParts::MainWindow( parent, name),
+	KXmlGuiWindow(parent),
 	KileInfo(this),
 	m_paPrint(0L)
 {
@@ -101,7 +103,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readUserSettings();
 	readRecentFileSettings();
 
-	m_jScriptManager = new KileJScript::Manager(this, m_config, actionCollection(), parent, "KileJScript::Manager");
+	m_jScriptManager = new KileJScript::Manager(this, m_config.data(), actionCollection(), parent, "KileJScript::Manager");
 
     setStandardToolBarMenuEnabled(true);
 
@@ -111,7 +113,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
-	m_latexCommands = new KileDocument::LatexCommands(m_config,this);  // at first (dani)
+	m_latexCommands = new KileDocument::LatexCommands(m_config.data(),this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
 	m_help = new KileHelp::Help(m_edit);
 	m_partManager = new KParts::PartManager( this );
@@ -139,13 +141,13 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	setupStatusBar();
 
 	m_topWidgetStack = new Q3WidgetStack( this );
-	m_topWidgetStack->setFocusPolicy(QWidget::NoFocus);
+	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
-	m_horizontalSplitter = new QSplitter(QSplitter::Horizontal,m_topWidgetStack, "horizontalSplitter" );
+	m_horizontalSplitter = new QSplitter(Qt::Horizontal, m_topWidgetStack, "horizontalSplitter");
 
 	setupSideBar();
 
-	m_verticalSplitter=new QSplitter(QSplitter::Vertical, m_horizontalSplitter, "verticalSplitter");
+	m_verticalSplitter = new QSplitter(Qt::Vertical, m_horizontalSplitter, "verticalSplitter");
 	viewManager()->createTabs(m_verticalSplitter);
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
@@ -179,16 +181,16 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
 	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
 
-	applyMainWindowSettings(m_config, "KileMainWindow" );
+	applyMainWindowSettings(m_config->group("KileMainWindow"));
 
-	m_manager  = new KileTool::Manager(this, m_config, m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
+	m_manager  = new KileTool::Manager(this, m_config.data(), m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
-	m_toolFactory = new KileTool::Factory(m_manager, m_config);
+	m_toolFactory = new KileTool::Factory(m_manager, m_config.data());
 	m_manager->setFactory(m_toolFactory);
 	m_help->setUserhelp(m_manager,menuBar());     // kile user help (dani)
 
@@ -217,7 +219,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	initMenu();
 	updateModeStatus();
 
-actionCollection()->readShortcutSettings("Shortcuts", m_config);
+	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
+	actionCollection()->readSettings(&shortcutsGroup);
 }
 
 Kile::~Kile()
@@ -251,9 +254,9 @@ void Kile::setupStatusBar()
     statusBar()->removeItem(ID_HINTTEXT);
 
 	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
-	statusBar()->setItemAlignment( ID_LINE_COLUMN, AlignLeft|AlignVCenter );
+	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT,10);
-	statusBar()->setItemAlignment( ID_HINTTEXT, AlignLeft|AlignVCenter );
+	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
 }
 
 void Kile::setupSideBar()
@@ -309,7 +312,7 @@ void Kile::setupStructureView()
 {
 	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
 	m_sideBar->addTab(m_kwStructure, SmallIcon("view_tree"), i18n("Structure"));
-	m_kwStructure->setFocusPolicy(QWidget::ClickFocus);
+	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
@@ -431,7 +434,7 @@ void Kile::setupAbbreviationView()
 void Kile::setupBottomBar()
 {
 	m_bottomBar = new KileBottomBar(KileConfig::bottomBarSize(), m_verticalSplitter);
-	m_bottomBar->setFocusPolicy(QWidget::ClickFocus);
+	m_bottomBar->setFocusPolicy(Qt::ClickFocus);
 
 	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
@@ -439,13 +442,13 @@ void Kile::setupBottomBar()
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
 	connect(m_docManager,SIGNAL(printMsg(int, const QString &, const QString &)),m_logWidget,SLOT(printMsg(int, const QString &, const QString &)));
 
-	m_logWidget->setFocusPolicy(QWidget::ClickFocus);
+	m_logWidget->setFocusPolicy(Qt::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
 	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log and Messages"));
 
 	m_outputWidget = new KileWidget::Output(m_bottomBar);
-	m_outputWidget->setFocusPolicy(QWidget::ClickFocus);
+	m_outputWidget->setFocusPolicy(Qt::ClickFocus);
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
 	m_bottomBar->addTab(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
@@ -494,165 +497,226 @@ void Kile::setupPreviewTools()
 	}
 }
 
+KAction* Kile::createAction(const QString &text, const QString &name, const QObject *receiver, const char *member)
+{
+	return createAction(text, name, QString(), KShortcut(), receiver, member);
+}
+
+KAction* Kile::createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver, const char *member)
+{
+	return createAction(text, name, QString(), shortcut, receiver, member);
+}
+
+KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver, const char *member) 
+{
+	return createAction(text, name, iconName, KShortcut(), receiver, name);
+}
+
+KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut, const QObject *receiver, const char *member)
+{
+	KAction *action = actionCollection()->addAction(name, receiver, member);
+	action->setText(text);
+	if(!shortcut.isEmpty()) {
+		action->setShortcut(shortcut);
+	}
+	if(!iconName.isEmpty()) {
+		action->setIcon(KIcon(iconName));
+	}
+	return action;
+}
+
+KAction* Kile::createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver, const char *member)
+{
+	return actionCollection()->addAction(actionType, name, receiver, member);
+}
 void Kile::setupActions()
 {
-	m_paPrint = KStandardAction::print(0,0, actionCollection(), "file_print");
-	(void) KStandardAction::openNew(docManager(), SLOT(fileNew()), actionCollection(), "file_new" );
-	(void) KStandardAction::open(docManager(), SLOT(fileOpen()), actionCollection(),"file_open" );
-	m_actRecentFiles = KStandardAction::openRecent(docManager(), SLOT(fileOpen(const KUrl&)), actionCollection(), "file_open_recent");
-	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl& )), m_actRecentFiles, SLOT(addUrl(const KUrl& )));
-	m_actRecentFiles->loadEntries(m_config, "Recent Files");
+	m_paPrint = createAction(KStandardAction::Print, "file_print", NULL, NULL);
+	createAction(KStandardAction::New, "file_new", docManager(), SLOT(fileNew()));
+	createAction(KStandardAction::Open, "file_open", docManager(), SLOT(fileOpen()));
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: file_open_recent
+	m_actRecentFiles = KStandardAction::openRecent(docManager(), SLOT(fileOpen(const KUrl&)), actionCollection());
+	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl& )), m_actRecentFiles, SLOT(addUrl(const KUrl&)));
+	m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
-	(void) KStandardAction::save(docManager(), SLOT(fileSave()), actionCollection(),"kile_file_save" );
-	(void) KStandardAction::saveAs(docManager(), SLOT(fileSaveAs()), actionCollection(),"kile_file_save_as" );
+	createAction(KStandardAction::Save, "kile_file_save", docManager(), SLOT(fileSave()));
+	createAction(KStandardAction::SaveAs, "kile_file_save_as", docManager(), SLOT(fileSaveAs()));
 
-	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all");
-	(void) new KAction(i18n("Save Copy As..."),"save_copy_as", 0, docManager(), SLOT(fileSaveCopyAs()), actionCollection(),"file_save_copy_as");
-	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");
-	(void) new KAction(i18n("&Remove Template..."),0, docManager(), SLOT(removeTemplate()), actionCollection(), "template_remove");
-	(void) KStandardAction::close(docManager(), SLOT(fileClose()), actionCollection(),"file_close" );
-	(void) new KAction(i18n("Close All"), 0, docManager(), SLOT(fileCloseAll()), actionCollection(),"file_close_all" );
-	(void) new KAction(i18n("Close All Ot&hers"), 0, docManager(), SLOT(fileCloseAllOthers()), actionCollection(),"file_close_all_others" );
-	(void) new KAction(i18n("S&tatistics"), 0, this, SLOT(showDocInfo()), actionCollection(), "Statistics" );
-	(void) new KAction(i18n("&ASCII"), 0, this, SLOT(convertToASCII()), actionCollection(), "file_export_ascii" );
-	(void) new KAction(i18n("Latin-&1 (iso 8859-1)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin1" );
-	(void) new KAction(i18n("Latin-&2 (iso 8859-2)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin2" );
-	(void) new KAction(i18n("Latin-&3 (iso 8859-3)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin3" );
-	(void) new KAction(i18n("Latin-&4 (iso 8859-4)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin4" );
-	(void) new KAction(i18n("Latin-&5 (iso 8859-5)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin5" );
-	(void) new KAction(i18n("Latin-&9 (iso 8859-9)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_latin9" );
-	(void) new KAction(i18n("&Central European (cp-1250)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1250" );
-	(void) new KAction(i18n("&Western European (cp-1252)"), 0, this, SLOT(convertToEnc()), actionCollection(), "file_export_cp1252" );
-	(void) KStandardAction::quit(this, SLOT(close()), actionCollection(),"file_quit" );
+	createAction(i18n("Save All"), "file_save_all", "save_all", docManager(), SLOT(fileSaveAll()));
+	createAction(i18n("Save Copy As..."), "file_save_copy_as", "save_copy_as", docManager(), SLOT(fileSaveCopyAs()));
+	createAction(i18n("Create Template From Document..."), "template_create", docManager(), SLOT(createTemplate()));
+	createAction(i18n("&Remove Template..."), "template_remove", docManager(), SLOT(removeTemplate()));
+	createAction(KStandardAction::Close, "file_close", docManager(), SLOT(fileClose()));
+	createAction(i18n("Close All"), "file_close_all", docManager(), SLOT(fileCloseAll()));
+	createAction(i18n("Close All Ot&hers"), "file_close_all_others", docManager(), SLOT(fileCloseAllOthers()));
+	createAction(i18n("S&tatistics"), "Statistics", this, SLOT(showDocInfo()));
+	createAction(i18n("&ASCII"), "file_export_ascii", this, SLOT(convertToASCII()));
+	createAction(i18n("Latin-&1 (iso 8859-1)"), "file_export_latin1", this, SLOT(convertToEnc()));
+	createAction(i18n("Latin-&2 (iso 8859-2)"), "file_export_latin2", this, SLOT(convertToEnc()));
+	createAction(i18n("Latin-&3 (iso 8859-3)"), "file_export_latin3", this, SLOT(convertToEnc()));
+	createAction(i18n("Latin-&4 (iso 8859-4)"), "file_export_latin4", this, SLOT(convertToEnc()));
+	createAction(i18n("Latin-&5 (iso 8859-5)"), "file_export_latin5", this, SLOT(convertToEnc()));
+	createAction(i18n("Latin-&9 (iso 8859-9)"), "file_export_latin9", this, SLOT(convertToEnc()));
+	createAction(i18n("&Central European (cp-1250)"), "file_export_cp1250", this, SLOT(convertToEnc()));
+	createAction(i18n("&Western European (cp-1252)"), "file_export_cp1252", this, SLOT(convertToEnc()));
+	createAction(KStandardAction::Quit, "file_quit", this, SLOT(close()));
 
-	(void) KStandardAction::gotoLine(m_edit, SLOT(gotoLine()), actionCollection(),"edit_goto_line" );
-	(void) new KAction(i18n("Next section"), "nextsection", ALT+Key_Down, m_edit, SLOT(gotoNextSectioning()), actionCollection(),"edit_next_section" );
-	(void) new KAction(i18n("Prev section"), "prevsection", ALT+Key_Up, m_edit, SLOT(gotoPrevSectioning()), actionCollection(),"edit_prev_section" );
-	(void) new KAction(i18n("Next paragraph"), "nextparagraph", ALT+SHIFT+Key_Down, m_edit, SLOT(gotoNextParagraph()), actionCollection(),"edit_next_paragraph" );
-	(void) new KAction(i18n("Prev paragraph"), "prevparagraph", ALT+SHIFT+Key_Up, m_edit, SLOT(gotoPrevParagraph()), actionCollection(),"edit_prev_paragraph" );
+	createAction(KStandardAction::GotoLine, "edit_goto_line", m_edit, SLOT(gotoLine()));
+	createAction(i18n("Next section"), "edit_next_section", "nextsection", KShortcut(Qt::ALT + Qt::Key_Down), m_edit, SLOT(gotoNextSectioning()));
+	createAction(i18n("Prev section"), "edit_prev_section", "prevsection", KShortcut(Qt::ALT + Qt::Key_Up), m_edit, SLOT(gotoPrevSectioning()));
+	createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Down), m_edit, SLOT(gotoNextParagraph()));
+	createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Up), m_edit, SLOT(gotoPrevParagraph()));
 
-	(void) new KAction(i18n("Find &in Files..."), "filegrep", ALT+SHIFT+Key_F, this, SLOT(findInFiles()), actionCollection(),"FindInFiles" );
+	createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_F), this, SLOT(findInFiles()));
 
-	(void) new KAction(i18n("Refresh Str&ucture"), "refreshstructure", Key_F12, this, SLOT(refreshStructure()), actionCollection(),"RefreshStructure" );
+	createAction(i18n("Refresh Str&ucture"), "RefreshStructure", "refreshstructure", KShortcut(Qt::Key_F12), this, SLOT(refreshStructure()));
 
 	//project actions
-	(void) new KAction(i18n("&New Project..."), "window_new", 0, docManager(), SLOT(projectNew()), actionCollection(), "project_new");
-	(void) new KAction(i18n("&Open Project..."), "project_open", 0, docManager(), SLOT(projectOpen()), actionCollection(), "project_open");
-	m_actRecentProjects =  new KRecentFilesAction(i18n("Open &Recent Project"),  0, docManager(), SLOT(projectOpen(const KUrl &)), actionCollection(), "project_openrecent");
+	createAction(i18n("&New Project..."), "project_new", "window_new", docManager(), SLOT(projectNew()));
+	createAction(i18n("&Open Project..."), "project_open", "project_open", docManager(), SLOT(projectOpen()));
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "project_openrecent"
+	m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
+	connect(m_actRecentProjects, SIGNAL(triggered), docManager(), SLOT(projectOpen(const KUrl &)));
 	connect(docManager(), SIGNAL(removeFromRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(removeURL(const KUrl& )));
 	connect(docManager(), SIGNAL(addToRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(addUrl(const KUrl& )));
-	m_actRecentProjects->loadEntries(m_config, "Projects");
+	m_actRecentProjects->loadEntries(m_config->group("Projects"));
 
-	(void) new KAction(i18n("A&dd Files to Project..."),"project_add", 0, docManager(), SLOT(projectAddFiles()), actionCollection(), "project_add");
-	(void) new KAction(i18n("Refresh Project &Tree"), "rebuild", 0, docManager(), SLOT(buildProjectTree()), actionCollection(), "project_buildtree");
- 	(void) new KAction(i18n("&Archive"), "package", 0, this, SLOT(runArchiveTool()), actionCollection(), "project_archive");
-	(void) new KAction(i18n("Project &Options"), "configure_project", 0, docManager(), SLOT(projectOptions()), actionCollection(), "project_options");
-	(void) new KAction(i18n("&Close Project"), "fileclose", 0, docManager(), SLOT(projectClose()), actionCollection(), "project_close");
+	createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), SLOT(projectAddFiles()));
+	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "rebuild", docManager(), SLOT(buildProjectTree()));
+ 	createAction(i18n("&Archive"), "package", "project_archive", this, SLOT(runArchiveTool()));
+	createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), SLOT(projectOptions()));
+	createAction(i18n("&Close Project"), "project_close", "fileclose", docManager(), SLOT(projectClose()));
 
 	// new project actions (dani)
-	(void) new KAction(i18n("&Show Projects..."), 0, docManager(), SLOT(projectShow()), actionCollection(), "project_show");
-	(void) new KAction(i18n("Re&move Files From Project..."),"project_remove", 0, docManager(), SLOT(projectRemoveFiles()), actionCollection(), "project_remove");
-	(void) new KAction(i18n("Show Project &Files..."),"project_show", 0, docManager(), SLOT(projectShowFiles()), actionCollection(), "project_showfiles");
+	createAction(i18n("&Show Projects..."), "project_show", docManager(), SLOT(projectShow()));
+	createAction(i18n("Re&move Files From Project..."), "project_remove", "project_remove", docManager(), SLOT(projectRemoveFiles()));
+	createAction(i18n("Show Project &Files..."), "project_showfiles", "project_show", docManager(), SLOT(projectShowFiles()));
 	// tbraun
-	(void) new KAction(i18n("Open All &Project Files"), 0, docManager(), SLOT(projectOpenAllFiles()), actionCollection(), "project_openallfiles");
-	(void) new KAction(i18n("Find in &Project..."), "projectgrep", 0, this, SLOT(findInProjects()), actionCollection(),"project_findfiles" );
+	createAction(i18n("Open All &Project Files"), "project_openallfiles", docManager(), SLOT(projectOpenAllFiles()));
+	createAction(i18n("Find in &Project..."), "project_findfiles", "projectgrep", this, SLOT(findInProjects()));
 
 	//build actions
-	(void) new KAction(i18n("Clean"),"trashcan_full",0 , this, SLOT(cleanAll()), actionCollection(),"CleanAll" );
-	(void) new KAction(i18n("View Log File"),"viewlog", ALT+Key_0, m_errorHandler, SLOT(ViewLog()), actionCollection(),"ViewLog" );
-	(void) new KAction(i18n("Previous LaTeX Error"),"errorprev", 0, m_errorHandler, SLOT(PreviousError()), actionCollection(),"PreviousError" );
-	(void) new KAction(i18n("Next LaTeX Error"),"errornext", 0, m_errorHandler, SLOT(NextError()), actionCollection(),"NextError" );
-	(void) new KAction(i18n("Previous LaTeX Warning"),"warnprev", 0, m_errorHandler, SLOT(PreviousWarning()), actionCollection(),"PreviousWarning" );
-	(void) new KAction(i18n("Next LaTeX Warning"),"warnnext", 0, m_errorHandler, SLOT(NextWarning()), actionCollection(),"NextWarning" );
-	(void) new KAction(i18n("Previous LaTeX BadBox"),"bboxprev", 0, m_errorHandler, SLOT(PreviousBadBox()), actionCollection(),"PreviousBadBox" );
-	(void) new KAction(i18n("Next LaTeX BadBox"),"bboxnext", 0, m_errorHandler, SLOT(NextBadBox()), actionCollection(),"NextBadBox" );
-	m_paStop = new KAction(i18n("&Stop"),"stop",Key_Escape,0,0,actionCollection(),"Stop");
+	createAction(i18n("Clean"),"CleanAll", "trashcan_full", this, SLOT(cleanAll()));
+	createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));
+	createAction(i18n("Previous LaTeX Error"), "PreviousError", "errorprev", m_errorHandler, SLOT(PreviousError()));
+	createAction(i18n("Next LaTeX Error"), "NextError", "errornext", m_errorHandler, SLOT(NextError()));
+	createAction(i18n("Previous LaTeX Warning"), "PreviousWarning", "warnprev", m_errorHandler, SLOT(PreviousWarning()));
+	createAction(i18n("Next LaTeX Warning"), "NextWarning", "warnnext", m_errorHandler, SLOT(NextWarning()));
+	createAction(i18n("Previous LaTeX BadBox"), "PreviousBadBox", "bboxprev", m_errorHandler, SLOT(PreviousBadBox()));
+	createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
+	m_paStop = createAction(i18n("&Stop"),"Stop", "stop", KShortcut(Qt::Key_Escape), NULL, NULL);
 	m_paStop->setEnabled(false);
 
-	(void) new KAction(i18n("Editor View"),"object-edit",CTRL+Key_E , this, SLOT(showEditorWidget()), actionCollection(),"EditorView" );
-	(void) new KAction(i18n("Next Document"),"forward",ALT+Key_Right, viewManager(), SLOT(gotoNextView()), actionCollection(), "gotoNextDocument" );
-	(void) new KAction(i18n("Previous Document"),"back",ALT+Key_Left, viewManager(), SLOT(gotoPrevView()), actionCollection(), "gotoPrevDocument" );
-	(void) new KAction(i18n("Focus Log/Messages View"), CTRL+ALT+Key_M, this, SLOT(focusLog()), actionCollection(), "focus_log");
-	(void) new KAction(i18n("Focus Output View"), CTRL+ALT+Key_O, this, SLOT(focusOutput()), actionCollection(), "focus_output");
-	(void) new KAction(i18n("Focus Konsole View"), CTRL+ALT+Key_K, this, SLOT(focusKonsole()), actionCollection(), "focus_konsole");
-	(void) new KAction(i18n("Focus Editor View"), CTRL+ALT+Key_E, this, SLOT(focusEditor()), actionCollection(), "focus_editor");
+	createAction(i18n("Editor View"), "EditorView", "object-edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
+	createAction(i18n("Next Document"), "gotoNextDocument", "forward", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
+	createAction(i18n("Previous Document"), "gotoPrevDocument", "back", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
+	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_M), this, SLOT(focusLog()));
+	createAction(i18n("Focus Output View"), "focus_output", KShortcut(Qt::CTRL + Qt::ALT+ Qt::Key_O), this, SLOT(focusOutput()));
+	createAction(i18n("Focus Konsole View"), "focus_konsole", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_K), this, SLOT(focusKonsole()));
+	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_E), this, SLOT(focusEditor()));
 
  // CodeCompletion (dani)
-	(void) new KAction(i18n("(La)TeX Command"),"complete1",CTRL+Key_Space, m_edit, SLOT(completeWord()), actionCollection(), "edit_complete_word");
-	(void) new KAction(i18n("Environment"),"complete2",ALT+Key_Space, m_edit, SLOT(completeEnvironment()), actionCollection(), "edit_complete_env");
-	(void) new KAction(i18n("Abbreviation"),"complete3",CTRL+ALT+Key_Space, m_edit, SLOT(completeAbbreviation()), actionCollection(), "edit_complete_abbrev");
+	createAction(i18n("(La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::CTRL + Qt::Key_Space), m_edit, SLOT(completeWord()));
+	createAction(i18n("Environment"), "edit_complete_env", "complete2", KShortcut(Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeEnvironment()));
+	createAction(i18n("Abbreviation"), "edit_complete_abbrev", "complete3", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeAbbreviation()));
 
-	(void) new KAction(i18n("Next Bullet"),"nextbullet",CTRL+ALT+Key_Right, m_edit, SLOT(nextBullet()), actionCollection(), "edit_next_bullet");
-	(void) new KAction(i18n("Prev Bullet"),"prevbullet",CTRL+ALT+Key_Left, m_edit, SLOT(prevBullet()), actionCollection(), "edit_prev_bullet");
+	createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Right), m_edit, SLOT(nextBullet()));
+	createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Left), m_edit, SLOT(prevBullet()));
 
  // advanced editor (dani)
-	(void) new KAction(i18n("Environment (inside)"),"selenv_i",KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()), actionCollection(), "edit_select_inside_env");
-	(void) new KAction(i18n("Environment (outside)"),"selenv_o",KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()), actionCollection(), "edit_select_outside_env");
-	(void) new KAction(i18n("TeX Group (inside)"),"selgroup_i",KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()), actionCollection(), "edit_select_inside_group");
-	(void) new KAction(i18n("TeX Group (outside)"), "selgroup_o",KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()), actionCollection(), "edit_select_outside_group");
-	(void) new KAction(i18n("Math Group"), "selmath",KShortcut("CTRL+Alt+S,M"),m_edit, SLOT(selectMathgroup()), actionCollection(), "edit_select_mathgroup");
-	(void) new KAction(i18n("Paragraph"),"selpar",KShortcut("CTRL+Alt+S,P"),m_edit, SLOT(selectParagraph()), actionCollection(), "edit_select_paragraph");
-	(void) new KAction(i18n("Line"),"selline",KShortcut("CTRL+Alt+S,L"),m_edit, SLOT(selectLine()), actionCollection(), "edit_select_line");
-	(void) new KAction(i18n("TeX Word"),"selword",KShortcut("CTRL+Alt+S,W"),m_edit, SLOT(selectWord()), actionCollection(), "edit_select_word");
+	createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()));
+	createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()));
+	createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()));
+	createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()));
+	createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", KShortcut("CTRL+Alt+S,M"), m_edit, SLOT(selectMathgroup()));
+	createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", KShortcut("CTRL+Alt+S,P"), m_edit, SLOT(selectParagraph()));
+	createAction(i18n("Line"), "edit_select_line", "selline", KShortcut("CTRL+Alt+S,L"), m_edit, SLOT(selectLine()));
+	createAction(i18n("TeX Word"), "edit_select_word", "selword", KShortcut("CTRL+Alt+S,W"), m_edit, SLOT(selectWord()));
 
-	(void) new KAction(i18n("Environment (inside)"),"delenv_i",KShortcut("CTRL+Alt+T,E"), m_edit, SLOT(deleteEnvInside()), actionCollection(), "edit_delete_inside_env");
-	(void) new KAction(i18n("Environment (outside)"),"delenv_o",KShortcut("CTRL+Alt+T,F"),m_edit, SLOT(deleteEnvOutside()), actionCollection(), "edit_delete_outside_env");
-	(void) new KAction(i18n("TeX Group (inside)"),"delgroup_i",KShortcut("CTRL+Alt+T,T"), m_edit, SLOT(deleteTexgroupInside()), actionCollection(),"edit_delete_inside_group");
-	(void) new KAction(i18n("TeX Group (outside)"),"delgroup_o",KShortcut("CTRL+Alt+T,U"),m_edit, SLOT(deleteTexgroupInside()), actionCollection(), "edit_delete_outside_group");
-	(void) new KAction(i18n("Math Group"),"delmath",KShortcut("CTRL+Alt+T,M"),m_edit, SLOT(deleteMathgroup()), actionCollection(), "edit_delete_mathgroup");
-	(void) new KAction(i18n("Paragraph"),"delpar",KShortcut("CTRL+Alt+T,P"),m_edit, SLOT(deleteParagraph()), actionCollection(), "edit_delete_paragraph");
-	(void) new KAction(i18n("To End of Line"),"deleol",KShortcut("CTRL+Alt+T,I"),m_edit, SLOT(deleteEndOfLine()), actionCollection(), "edit_delete_eol");
-	(void) new KAction(i18n("TeX Word"),"delword",KShortcut("CTRL+Alt+T,W"),m_edit, SLOT(deleteWord()), actionCollection(), "edit_delete_word");
+	createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", KShortcut("CTRL+Alt+T,E"), m_edit, SLOT(deleteEnvInside()));
+	createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", KShortcut("CTRL+Alt+T,F"), m_edit, SLOT(deleteEnvOutside()));
+	createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", KShortcut("CTRL+Alt+T,T"), m_edit, SLOT(deleteTexgroupInside()));
+	createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",KShortcut("CTRL+Alt+T,U"),m_edit, SLOT(deleteTexgroupInside()));
+	createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", KShortcut("CTRL+Alt+T,M"), m_edit, SLOT(deleteMathgroup()));
+	createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", KShortcut("CTRL+Alt+T,P"), m_edit, SLOT(deleteParagraph()));
+	createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", KShortcut("CTRL+Alt+T,I"), m_edit, SLOT(deleteEndOfLine()));
+	createAction(i18n("TeX Word"), "edit_delete_word", "delword", KShortcut("CTRL+Alt+T,W"), m_edit, SLOT(deleteWord()));
 
-	(void) new KAction(i18n("Goto Begin"),"gotobeginenv",KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()), actionCollection(), "edit_begin_env");
-	(void) new KAction(i18n("Goto End"),"gotoendenv",KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()), actionCollection(), "edit_end_env");
-	(void) new KAction(i18n("Match"),"matchenv",KShortcut("CTRL+Alt+E,M"), m_edit, SLOT(matchEnv()), actionCollection(), "edit_match_env");
-	(void) new KAction(i18n("Close"),"closeenv",KShortcut("CTRL+Alt+E,C"), m_edit, SLOT(closeEnv()), actionCollection(), "edit_close_env");
-	(void) new KAction(i18n("Close All"),"closeallenv",KShortcut("CTRL+Alt+E,A"), m_edit, SLOT(closeAllEnv()), actionCollection(), "edit_closeall_env");
+	createAction(i18n("Goto Begin"), "edit_begin_env", "gotobeginenv", KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()));
+	createAction(i18n("Goto End"), "edit_end_env", "gotoendenv", KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()));
+	createAction(i18n("Match"), "edit_match_env", "matchenv", KShortcut("CTRL+Alt+E,M"), m_edit, SLOT(matchEnv()));
+	createAction(i18n("Close"), "edit_close_env", "closeenv", KShortcut("CTRL+Alt+E,C"), m_edit, SLOT(closeEnv()));
+	createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", KShortcut("CTRL+Alt+E,A"), m_edit, SLOT(closeAllEnv()));
 
-	(void) new KAction(i18n("Goto Begin"),"gotobegingroup",KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()), actionCollection(), "edit_begin_group");
-	(void) new KAction(i18n("Goto End"),"gotoendgroup",KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()), actionCollection(), "edit_end_group");
-	(void) new KAction(i18n("Match"),"matchgroup",KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()), actionCollection(), "edit_match_group");
-	(void) new KAction(i18n("Close"),"closegroup",KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()), actionCollection(), "edit_close_group");
+	createAction(i18n("Goto Begin"), "edit_begin_group", "gotobegingroup", KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()));
+	createAction(i18n("Goto End"), "edit_end_group", "gotoendgroup", KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()));
+	createAction(i18n("Match"), "edit_match_group", "matchgroup", KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()));
+	createAction(i18n("Close"), "edit_close_group", "closegroup", KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()));
 
-	(void) new KAction(i18n("Selection"),"preview_sel",KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()), actionCollection(),"quickpreview_selection" );
-	(void) new KAction(i18n("Environment"),"preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()), actionCollection(),"quickpreview_environment" );
-	(void) new KAction(i18n("Subdocument"),"preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()), actionCollection(),"quickpreview_subdocument" );
-	(void) new KAction (i18n ("Mathgroup"), "edu_mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()), actionCollection(), "quickpreview_math");
+	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()));
+	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()));
+	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()));
+	createAction(i18n ("Mathgroup"), "quickpreview_math", "edu_mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()));
 
 	KileStdActions::setupStdTags(this,this);
 	KileStdActions::setupMathTags(this);
 	KileStdActions::setupBibTags(this);
 
-	(void) new KAction(i18n("Quick Start"),"quickwizard",0 , this, SLOT(quickDocument()), actionCollection(),"wizard_document" );
+	createAction(i18n("Quick Start"), "wizard_document", "quickwizard", this, SLOT(quickDocument()));
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
-	(void) new KAction(i18n("Tabular"),"wizard_tabular",0 , this, SLOT(quickTabular()), actionCollection(),"wizard_tabular" );
-	(void) new KAction(i18n("Array"),"wizard_array",0 , this, SLOT(quickArray()), actionCollection(),"wizard_array" );
-	(void) new KAction(i18n("Tabbing"),"wizard_tabbing",0 , this, SLOT(quickTabbing()), actionCollection(),"wizard_tabbing" );
-	(void) new KAction(i18n("Floats"),"wizard_float",0, this, SLOT(quickFloat()), actionCollection(),"wizard_float" );
-	(void) new KAction(i18n("Math"),"wizard_math",0, this, SLOT(quickMathenv()), actionCollection(),"wizard_mathenv" );
-	(void) new KAction(i18n("Postscript Tools"),"wizard_pstools",0 , this, SLOT(quickPostscript()), actionCollection(),"wizard_postscript" );
+	createAction(i18n("Tabular"), "wizard_tabular", "wizard_tabular", this, SLOT(quickTabular()));
+	createAction(i18n("Array"), "wizard_array", "wizard_array", this, SLOT(quickArray()));
+	createAction(i18n("Tabbing"), "wizard_tabbing", "wizard_tabbing", this, SLOT(quickTabbing()));
+	createAction(i18n("Floats"), "wizard_float", "wizard_float", this, SLOT(quickFloat()));
+	createAction(i18n("Math"), "wizard_mathenv", "wizard_math", this, SLOT(quickMathenv()));
+	createAction(i18n("Postscript Tools"), "wizard_postscript", "wizard_pstools", this, SLOT(quickPostscript()));
 
-	(void) new KAction(i18n("Clean"),0 , this, SLOT(cleanBib()), actionCollection(),"CleanBib" );
+	createAction(i18n("Clean"), "CleanBib", this, SLOT(cleanBib()));
 
-	ModeAction=new KToggleAction(i18n("Define Current Document as '&Master Document'"),"master",0 , this, SLOT(toggleMode()), actionCollection(),"Mode" );
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "Mode"
+	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
+	ModeAction->setIcon(KIcon("master"));
+	connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMode()));
 
-	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), 0, 0, 0, actionCollection(),"StructureView" );
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "StructureView"
+	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
 	tact->setChecked(KileConfig::sideBar());
 	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
 	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
-    connect(m_sideBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
+	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
-	m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), 0, 0, 0, actionCollection(),"MessageView" );
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "MessageView"
+	m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), actionCollection());
 	m_actionMessageView->setChecked(true);
 	connect(m_actionMessageView, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
 	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), m_actionMessageView, SLOT(setChecked(bool)));
-    connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
+	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
 	else {ModeAction->setChecked(true);}
 
-	WatchFileAction=new KToggleAction(i18n("Watch File Mode"),"watchfile",0 , this, SLOT(toggleWatchFile()), actionCollection(), "WatchFile");
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "WatchFile"
+	WatchFileAction = new KToggleAction(i18n("Watch File Mode"), actionCollection());
+	WatchFileAction->setIcon(KIcon("watchfile"));
+	connect(WatchFileAction, SIGNAL(triggered()), this, SLOT(toggleWatchFile()));
 	if (m_bWatchFile) {WatchFileAction->setChecked(true);}
 	else {WatchFileAction->setChecked(false);}
 
@@ -660,17 +724,21 @@ void Kile::setupActions()
 	const KAboutData *aboutData = KGlobal::instance()->aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
 
-	KStandardAction::tipOfDay(this, SLOT(showTip()), actionCollection(), "help_tipofday");
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "help_tipofday"
+	KStandardAction::create(KStandardAction::TipofDay, this, SLOT(showTip()), actionCollection());
 
-	(void) new KAction(i18n("TeX Guide"),KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTexGuide()), actionCollection(), "help_tex_guide");
-	(void) new KAction(i18n("LaTeX"),KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()), actionCollection(), "help_latex_index");
-	(void) new KAction(i18n("LaTeX Command"),KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()), actionCollection(), "help_latex_command");
-	(void) new KAction(i18n("LaTeX Subject"),KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()), actionCollection(), "help_latex_subject");
-	(void) new KAction(i18n("LaTeX Env"),KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()), actionCollection(), "help_latex_env");
-	(void) new KAction(i18n("Context Help"),KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()), actionCollection(), "help_context");
-	(void) new KAction(i18n("Documentation Browser"),KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()), actionCollection(), "help_docbrowser");
+	createAction(i18n("TeX Guide"), "help_tex_guide", KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTexGuide()));
+	createAction(i18n("LaTeX"), "help_latex_index", KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()));
+	createAction(i18n("LaTeX Command"), "help_latex_command", KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()));
+	createAction(i18n("LaTeX Subject"), "help_latex_subject", KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()));
+	createAction(i18n("LaTeX Env"), "help_latex_env", KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()));
+	createAction(i18n("Context Help"), "help_context", KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()));
+	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()));
 
-	(void) new KAction(i18n("LaTeX Reference"),"help",0 , this, SLOT(helpLaTex()), actionCollection(),"help_latex_reference" );
+	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help", this, SLOT(helpLaTex()));
 	(void) KStandardAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
 	(void) KStandardAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
 	(void) KStandardAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
@@ -680,13 +748,13 @@ void Kile::setupActions()
 
 	(void) KStandardAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
 	(void) KStandardAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
-	new KAction(i18n("&System Check..."), 0, this, SLOT(slotPerformCheck()), actionCollection(), "settings_perform_check");
+	createAction(i18n("&System Check..."), "settings_perform_check", this, SLOT(slotPerformCheck()));
 
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
 	setupUserTagActions();
 
-	actionCollection()->readShortcutSettings();
+	actionCollection()->readSettings();
 
 	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
 }
@@ -694,7 +762,7 @@ void Kile::setupActions()
 void Kile::setupTools()
 {
 	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
-	QStringList tools = KileTool::toolList(m_config);
+	QStringList tools = KileTool::toolList(m_config.data());
 	QString toolMenu;
 	Q3PtrList<KAction> *pl;
 
@@ -709,7 +777,7 @@ void Kile::setupTools()
 		QString grp = KileTool::groupFor(tools[i], m_config);
 		KILE_DEBUG() << tools[i] << " is using group: " << grp << endl;
 		m_config->setGroup(KileTool::groupFor(tools[i], m_config));
-		toolMenu = KileTool::menuFor(tools[i], m_config);
+		toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
 		if ( toolMenu == "none" ) continue;
 
@@ -728,7 +796,7 @@ void Kile::setupTools()
 
 		if ( action(QString("tool_"+tools[i]).ascii()) == 0L )
 		{
-			KAction *act = new KAction(tools[i], KileTool::iconFor(tools[i], m_config), KShortcut(), this, SLOT(runTool()), actionCollection(), QString("tool_"+tools[i]).ascii());
+			KAction *act = createAction(tools[i], QString("tool_"+tools[i]).ascii(), KileTool::iconFor(tools[i], m_config.data()), this, SLOT(runTool()));
 			pl->append(act);
 		}
 	}
@@ -745,7 +813,7 @@ void Kile::setupTools()
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
 
-	actionCollection()->readShortcutSettings("Shortcuts", m_config);
+	actionCollection()->readSettings(m_config->group("Shortcuts"));
 }
 
 void Kile::cleanUpActionList(Q3PtrList<KAction> &list, const QStringList & tools)
@@ -780,7 +848,7 @@ void Kile::setupUserTagActions()
 		m_menuUserTags->insert(menuItem);
 	}
 
-	actionCollection()->readShortcutSettings("Shortcuts", m_config);
+	actionCollection()->readSettings(m_config->group("Shortcuts"));
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
@@ -893,16 +961,30 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	//disable gui updates to avoid flickering of toolbars
 	setUpdatesEnabled(false);
 	KTextEditor::View* view = (KTextEditor::View*)w;
-	if (view->isActive()) return;
+
+#ifdef __GNUC__
+#warning Commenting Kate::View->isActive() out!
+#endif
+//FIXME:
+// 	if (view->isActive()) return;
 
 	for (uint i=0; i< viewManager()->textViews().count(); ++i)
 	{
 		guiFactory()->removeClient(viewManager()->textView(i));
-		viewManager()->textView(i)->setActive(false);
+#ifdef __GNUC__
+#warning Commenting Kate::View->setActive() out!
+#endif
+//FIXME:
+// 		viewManager()->textView(i)->setActive(false);
 	}
 
 	guiFactory()->addClient(view);
-	view->setActive( true );
+
+#ifdef __GNUC__
+#warning Commenting Kate::View->isActive() out!
+#endif
+//FIXME:
+// 	view->setActive( true );
 
 	// remove menu entry to config Kate
 	checkKateSettings();
@@ -1136,7 +1218,7 @@ int Kile::lineNumber()
 
 	if (view)
 	{
-		para = view->cursorLine();
+		para = view->cursorPosition().line();
 	}
 
 	return para;
@@ -1232,7 +1314,7 @@ bool Kile::resetPart()
 
 	if (part && m_currentState != "Editor")
 	{
-		if(part->closeURL())
+		if(part->closeUrl())
 		{
 			m_partManager->removePart(part);
 			m_topWidgetStack->removeWidget(part->widget());
@@ -1574,7 +1656,11 @@ void Kile::prepareForPart(const QString & state)
 	for (uint i=0; i<viewManager()->textViews().count(); ++i)
 	{
 		guiFactory()->removeClient(viewManager()->textView(i));
-		viewManager()->textView(i)->setActive(false);
+#ifdef __GNUC__
+#warning Commenting Kate::View->setActive() out!
+#endif
+//FIXME:
+// 		viewManager()->textView(i)->setActive(false);
 	}
 }
 
@@ -1680,7 +1766,7 @@ void Kile::insertText(const QString &text, const QStringList &pkgs)
 
 void Kile::quickDocument()
 {
-	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(m_config, this,"Quick Start",i18n("Quick Start"));
+	KileDialog::QuickDocument *dlg = new KileDialog::QuickDocument(m_config.data(), this,"Quick Start",i18n("Quick Start"));
 
 	if ( dlg->exec() )
 	{
@@ -1708,7 +1794,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 {
 	if ( !viewManager()->currentTextView() ) return;
 
-	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(this,m_config,m_latexCommands,tabularenv);
+	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(this, m_config.data(), m_latexCommands, tabularenv);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
@@ -1718,7 +1804,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 void Kile::quickTabbing()
 {
 	if ( !viewManager()->currentTextView() ) return;
-	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(m_config,this,this,"Tabbing", i18n("Tabbing"));
+	KileDialog::QuickTabbing *dlg = new KileDialog::QuickTabbing(m_config.data(), this, this, "Tabbing", i18n("Tabbing"));
 	if ( dlg->exec() )
 	{
 		insertTag(dlg->tagData());
@@ -1730,7 +1816,7 @@ void Kile::quickFloat()
 {
 	if ( !viewManager()->currentTextView() ) return;
 
-	KileDialog::FloatEnvironmentDialog *dlg = new KileDialog::FloatEnvironmentDialog(m_config,this,this);
+	KileDialog::FloatEnvironmentDialog *dlg = new KileDialog::FloatEnvironmentDialog(m_config.data(), this, this);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
@@ -1741,7 +1827,7 @@ void Kile::quickMathenv()
 {
 	if ( !viewManager()->currentTextView() ) return;
 
-	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this,m_config,this,m_latexCommands);
+	KileDialog::MathEnvironmentDialog *dlg = new KileDialog::MathEnvironmentDialog(this, m_config.data(), this, m_latexCommands);
 	if ( dlg->exec() ) {
 		insertTag(dlg->tagData());
 	}
@@ -1819,7 +1905,7 @@ void Kile::readUserSettings()
 	//in the kilerc file
 	if ( version < 4 )
 	{
-		KileTool::Factory *factory = new KileTool::Factory(0, m_config);
+		KileTool::Factory *factory = new KileTool::Factory(0, m_config.data());
 		KILE_DEBUG() << "WRITING STD TOOL CONFIG" << endl;
 		factory->writeStdConfig();
 		delete factory;
@@ -1831,47 +1917,47 @@ void Kile::readUserSettings()
 		m_config->deleteGroup("Editor");
 	}
 
-	m_config->setGroup( "User" );
-	int len = m_config->readNumEntry("nUserTags",0);
+	KConfigGroup userGroup = m_config->group("User");
+	int len = userGroup.readEntry("nUserTags", 0);
 	for (int i = 0; i < len; ++i)
 	{
-		m_listUserTags.append(KileDialog::UserTags::splitTag(m_config->readEntry("userTagName"+QString::number(i),i18n("no name")) , m_config->readEntry("userTag"+QString::number(i),"") ));
+		m_listUserTags.append(KileDialog::UserTags::splitTag(userGroup.readEntry("userTagName" + QString::number(i), i18n("no name")) , userGroup.readEntry("userTag" + QString::number(i), "")));
 	}
 
 	//convert user tools to new KileTool classes
 	userItem tempItem;
-	len= m_config->readNumEntry("nUserTools",0);
+	len = userGroup.readEntry("nUserTools", 0);
 	for (int i=0; i< len; ++i)
 	{
-		tempItem.name=m_config->readEntry("userToolName"+QString::number(i),i18n("no name"));
-		tempItem.tag =m_config->readEntry("userTool"+QString::number(i),"");
+		tempItem.name = userGroup.readEntry("userToolName" + QString::number(i), i18n("no name"));
+		tempItem.tag = userGroup.readEntry("userTool" + QString::number(i), "");
 		m_listUserTools.append(tempItem);
 	}
 	if ( len > 0 )
 	{
  		//move the tools
-		m_config->writeEntry("nUserTools", 0);
+		userGroup.writeEntry("nUserTools", 0);
 		for ( int i = 0; i < len; ++i)
 		{
 			tempItem = m_listUserTools[i];
-			m_config->setGroup("Tools");
-			m_config->writeEntry(tempItem.name, "Default");
+			KConfigGroup toolsGroup = m_config->group("Tools");
+			toolsGroup.writeEntry(tempItem.name, "Default");
 
-			KileTool::setGUIOptions(tempItem.name, "Other", "gear", m_config);
+			KileTool::setGUIOptions(tempItem.name, "Other", "gear", m_config.data());
 
-			m_config->setGroup(KileTool::groupFor(tempItem.name, "Default"));
+			KConfigGroup group = m_config->group(KileTool::groupFor(tempItem.name, "Default"));
 			QString bin = KRun::binaryName(tempItem.tag, false);
-			m_config->writeEntry("command", bin);
-			m_config->writeEntry("options", tempItem.tag.mid(bin.length()));
-			m_config->writeEntry("class", "Base");
-			m_config->writeEntry("type", "Process");
-			m_config->writeEntry("from", "");
-			m_config->writeEntry("to", "");
+			group.writeEntry("command", bin);
+			group.writeEntry("options", tempItem.tag.mid(bin.length()));
+			group.writeEntry("class", "Base");
+			group.writeEntry("type", "Process");
+			group.writeEntry("from", "");
+			group.writeEntry("to", "");
 
 			if ( i < 10 )
 			{
-				m_config->setGroup("Shortcuts");
-				m_config->writeEntry("tool_" + tempItem.name, "Alt+Shift+" + QString::number(i + 1) ); //should be alt+shift+
+				KConfigGroup shortcutGroup = m_config->group("Shortcuts");
+				shortcutGroup.writeEntry("tool_" + tempItem.name, "Alt+Shift+" + QString::number(i + 1) ); //should be alt+shift+
 			}
 		}
 	}
@@ -1887,20 +1973,20 @@ void Kile::readUserSettings()
 
 void Kile::readRecentFileSettings()
 {
-	m_config->setGroup("FilesOpenOnStart");
-	int n = m_config->readNumEntry("NoDOOS", 0);
+	KConfigGroup group = m_config->group("FilesOpenOnStart");
+	int n = group.readEntry("NoDOOS", 0);
 	for (int i=0; i < n; ++i)
-		m_listDocsOpenOnStart.append(m_config->readPathEntry("DocsOpenOnStart"+QString::number(i, QString()), ""));
+		m_listDocsOpenOnStart.append(group.readPathEntry("DocsOpenOnStart" + QString::number(i, QString()), ""));
 
-	n = m_config->readNumEntry("NoPOOS", 0);
+	n = group.readEntry("NoPOOS", 0);
 	for (int i=0; i < n; ++i)
-		m_listProjectsOpenOnStart.append(m_config->readPathEntry("ProjectsOpenOnStart"+QString::number(i, QString()), ""));
+		m_listProjectsOpenOnStart.append(group.readPathEntry("ProjectsOpenOnStart" + QString::number(i, QString()), ""));
 }
 
 void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
-	m_edit->complete()->readConfig(m_config);
+	m_edit->complete()->readConfig(m_config.data());
 	//m_edit->initDoubleQuotes();
 	m_edit->readConfig();
 	docManager()->updateInfos();
@@ -1924,20 +2010,22 @@ void Kile::saveSettings()
 	KileConfig::setInputEncoding(m_fileSelector->comboEncoding()->lineEdit()->text());
 
 	// Store recent files
-	m_actRecentFiles->saveEntries(m_config, "Recent Files");
-	m_actRecentProjects->saveEntries(m_config, "Projects");
+	m_actRecentFiles->saveEntries(m_config->group("Recent Files"));
+	m_actRecentProjects->saveEntries(m_config->group("Projects"));
 
 	m_config->deleteGroup("FilesOpenOnStart");
 	if (KileConfig::restore())
 	{
-		m_config->setGroup("FilesOpenOnStart");
-		m_config->writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
-		for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i)
-			m_config->writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
+		KConfigGroup configGroup = m_config->group("FilesOpenOnStart");
+		configGroup.writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
+		for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i) {
+			configGroup.writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
+		}
 
-		m_config->writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
-		for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i)
-			m_config->writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+		configGroup.writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
+		for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
+			configGroup.writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
+		}
 
 		if (!m_singlemode)
 			KileConfig::setMaster(m_masterName);
@@ -1945,18 +2033,18 @@ void Kile::saveSettings()
 			KileConfig::setMaster("");
 	}
 
-	m_config->setGroup( "User" );
+	KConfigGroup userGroup = m_config->group("User");
 
-	m_config->writeEntry("nUserTags",static_cast<int>(m_listUserTags.size()));
+	userGroup.writeEntry("nUserTags", static_cast<int>(m_listUserTags.size()));
 	for (uint i=0; i < m_listUserTags.size(); ++i)
 	{
 		KileAction::TagData td( m_listUserTags[i]);
-		m_config->writeEntry( "userTagName"+QString::number(i),  td.text );
-		m_config->writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
+		userGroup.writeEntry( "userTagName"+QString::number(i),  td.text );
+		userGroup.writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
 	}
 
-	actionCollection()->writeShortcutSettings();
-	saveMainWindowSettings(m_config, "KileMainWindow" );
+	actionCollection()->writeSettings();
+	saveMainWindowSettings(m_config->group("KileMainWindow"));
 
 	scriptManager()->writeConfig();
 	m_edit->complete()->saveLocalChanges();
@@ -2058,7 +2146,7 @@ void Kile::generalOptions()
 {
 	m_edit->complete()->saveLocalChanges();
 	
-	KileDialog::Config *dlg = new KileDialog::Config(m_config,this,this);
+	KileDialog::Config *dlg = new KileDialog::Config(m_config.data(), this, this);
 
 	if (dlg->exec())
 	{
@@ -2086,8 +2174,7 @@ void Kile::generalOptions()
 // read kate plugin configuration
 bool Kile::kateCompletionPlugin()
 {
-	m_config->setGroup("Kate Document Defaults");
-	return m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
+	return m_config->group("Kate Document Defaults").readEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
 }
 
 void Kile::checkKateSettings()
@@ -2116,23 +2203,23 @@ void Kile::slotPerformCheck()
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////
 void Kile::configureKeys()
 {
-	KKeyDialog dlg( false, this );
-	Q3PtrList<KXMLGUIClient> clients = guiFactory()->clients();
-	for( Q3PtrListIterator<KXMLGUIClient> it( clients );	it.current(); ++it )
-	{
-		dlg.insert( (*it)->actionCollection() );
+	KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsDisallowed, this);
+	QList<KXMLGUIClient*> clients = guiFactory()->clients();
+	for(QList<KXMLGUIClient*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		dlg.addCollection((*it)->actionCollection());
 	}
-	dlg.configure();
-	actionCollection()->writeShortcutSettings("Shortcuts", m_config);
+	dlg.configure(false); // don't save the settings automatically
+	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
+	actionCollection()->writeSettings(&shortcutsGroup);
 }
 
 void Kile::configureToolbars()
 {
-	saveMainWindowSettings(m_config, "KileMainWindow" );
+	saveMainWindowSettings(m_config->group("KileMainWindow"));
 	KEditToolBar dlg(factory());
 	dlg.exec();
 
-	applyMainWindowSettings(m_config, "KileMainWindow" );
+	applyMainWindowSettings(m_config->group("KileMainWindow"));
  	showToolBars(m_currentState);
 }
 
@@ -2151,11 +2238,11 @@ void Kile::changeInputEncoding()
 
 		if(!encoding.isNull())
 			doc->setEncoding(encoding);
-        	unsigned int mode = doc->hlMode(); //remember the highlighting mode
+        	QString highlightingMode = doc->highlightingMode(); //remember the highlighting mode
 
 		//reload the document so that the new encoding takes effect
-		doc->openURL(doc->url());
-        	doc->setHlMode(mode);
+		doc->openUrl(doc->url());
+        	doc->setHighlightingMode(highlightingMode);
 		doc->setModified(modified);
 		
 		viewManager()->updateStructure(true,textInfo); //reparse doc to get a correct structure view
@@ -2174,7 +2261,7 @@ void Kile::cleanBib()
 
 	QString s;
 	uint i=0;
-	while(i < view->document()->numLines())
+	while(i < view->document()->lines())
 	{
 		s = view->document()->line(i);
 
@@ -2198,10 +2285,9 @@ void Kile::cleanBib()
 			++i;
 	}
 	uint j=0;
-	for ( i=0; i < view->document()->numLines() ; i++ )
-	{
+	for (i = 0; i < view->document()->lines(); ++i) {
 		j = i+1;
-		if ( j < view->document()->numLines()  && view->document()->line(j).contains( QRegExp("^\\s*\\}\\s*$") ) )
+		if ( j < view->document()->lines()  && view->document()->line(j).contains( QRegExp("^\\s*\\}\\s*$") ) )
 			{
 				s =  view->document()->line( i );
 				view->document()->removeLine( i );
@@ -2264,7 +2350,7 @@ void Kile::slotQuickPreview(int type)
 }	
 
 #ifdef __GNUC__
-#warning Port the citeViewBib function (line 2269)!
+#warning Port the citeViewBib function!
 #endif
 void Kile::citeViewBib()
 {

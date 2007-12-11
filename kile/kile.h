@@ -22,6 +22,8 @@
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
+#include <ktogglefullscreenaction.h>
+#include <kxmlguiwindow.h>
 
 #include <qsplitter.h>
 #include <qwidget.h>
@@ -90,13 +92,9 @@ struct userItem
 };
 
 /**
- * @author Jeroen Wijnhout
- **/
-
-/**
  * The Kile main class. It acts as the mainwindow, information manager and DBUS interface.
  **/
-class Kile : public KParts::MainWindow, public KileInfo
+class Kile : public KXmlGuiWindow, public KileInfo
 {
 	Q_OBJECT
 
@@ -199,7 +197,7 @@ public slots:
 
 /* config */
 private:
-	KConfig			*m_config;
+	KSharedConfigPtr	m_config;
 	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
 	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
@@ -324,10 +322,13 @@ private slots:
 
 private:
 	KileLyxServer		*m_lyxserver;
-			
-private:
 	KileErrorHandler 	*m_errorHandler;
- 	
+
+	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = QKeySequence(), const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = 0, const char *member = 0);
 // QuickPreview
 private slots:
 	void slotQuickPreview(int type);

@@ -139,7 +139,7 @@ private:
 	void setupActions();
 	void setupTools();
 	void setupUserTagActions();
-	void cleanUpActionList(Q3PtrList<KAction> &, const QStringList & tools);
+	void cleanUpActionList(QList<QAction*> &list, const QStringList &tools);
 
 	bool kateCompletionPlugin();
 	void checkKateSettings();
@@ -147,16 +147,15 @@ private:
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
-	void updateActionList(Q3PtrList<KAction> *list, bool state);
+	void updateActionList(const QList<QAction*>& list, bool state);
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 	
 	KToolBar						*m_toolsToolBar;
 	KActionMenu 					*m_menuUserTags;
 	Q3ValueList<KileAction::TagData>	m_listUserTags;
 	Q3ValueList<userItem>			m_listUserTools;
-	Q3PtrList<KAction> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	QList<QAction*> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KAction							*m_actionEditTag;
-	KActionSeparator			*m_actionEditSeparator;
 	KAction 						*m_paStop, *m_paPrint;
 	KToggleAction 					*ModeAction, *WatchFileAction;
 	KToggleAction 					*m_actionMessageView;
@@ -327,7 +326,7 @@ private:
 	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = 0, const char *member = 0);
 	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = 0, const char *member = 0);
 	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = QKeySequence(), const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = 0, const char *member = 0);
 	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = 0, const char *member = 0);
 // QuickPreview
 private slots:

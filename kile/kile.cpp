@@ -166,9 +166,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	sizes.clear();
 	sizes << m_horSplitLeft << m_horSplitRight;
 	m_horizontalSplitter->setSizes( sizes );
-	if ( ! KileConfig::bottomBar() )
-	{
-		m_actionMessageView->activate();
+	if (!KileConfig::bottomBar()) {
+		showFullScreen();
 		m_bottomBar->setSize(KileConfig::bottomBarSize());
 	}
 
@@ -253,7 +252,7 @@ void Kile::setupStatusBar()
     statusBar()->removeItem(ID_LINE_COLUMN);
     statusBar()->removeItem(ID_HINTTEXT);
 
-	statusBar()->insertItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0, true);
+	statusBar()->insertPermanentItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0);
 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT,10);
 	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
@@ -509,7 +508,7 @@ KAction* Kile::createAction(const QString &text, const QString &name, const KSho
 
 KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver, const char *member) 
 {
-	return createAction(text, name, iconName, KShortcut(), receiver, name);
+	return createAction(text, name, iconName, KShortcut(), receiver, member);
 }
 
 KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut, const QObject *receiver, const char *member)
@@ -721,7 +720,7 @@ void Kile::setupActions()
 	else {WatchFileAction->setChecked(false);}
 
 	setHelpMenuEnabled(false);
-	const KAboutData *aboutData = KGlobal::instance()->aboutData();
+	const KAboutData *aboutData = KGlobal::mainComponent().aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
 
 #ifdef __GNUC__
@@ -739,24 +738,57 @@ void Kile::setupActions()
 	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()));
 
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help", this, SLOT(helpLaTex()));
-	(void) KStandardAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection(), "help_handbook");
-	(void) KStandardAction::reportBug (help_menu, SLOT(reportBug()), actionCollection(), "report_bug");
-	(void) KStandardAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection(),"help_aboutKile" );
-	(void) KStandardAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection(),"help_aboutKDE" );
-	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection(),"settings_configure" );
-	kileconfig->setIcon("configure_kile");
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "help_handbook"
+	(void) KStandardAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection());
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "report_bug"
+	(void) KStandardAction::reportBug (help_menu, SLOT(reportBug()), actionCollection());
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "help_aboutKile"
+	(void) KStandardAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection());
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "help_aboutKDE"
+	(void) KStandardAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection());
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "settings_configure"
+	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection());
+	kileconfig->setIcon(KIcon("configure_kile"));
 
-	(void) KStandardAction::keyBindings(this, SLOT(configureKeys()), actionCollection(),"settings_keys" );
-	(void) KStandardAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection(),"settings_toolbars" );
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "settings_keys"
+	(void) KStandardAction::keyBindings(this, SLOT(configureKeys()), actionCollection());
+#ifdef __GNUC__
+#warning Use a different name for standard action!
+#endif
+//FIXME: use name: "settings_toolbars"
+	(void) KStandardAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection());
 	createAction(i18n("&System Check..."), "settings_perform_check", this, SLOT(slotPerformCheck()));
 
+#ifdef __GNUC__
+#warning m_menuUserTags still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
 	m_menuUserTags->setDelayed(false);
 	setupUserTagActions();
-
+*/
 	actionCollection()->readSettings();
 
-	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), actionCollection(), this);
+	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), this, actionCollection());
 }
 
 void Kile::setupTools()
@@ -764,7 +796,7 @@ void Kile::setupTools()
 	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
 	QStringList tools = KileTool::toolList(m_config.data());
 	QString toolMenu;
-	Q3PtrList<KAction> *pl;
+	QList<QAction*> *pl;
 
 	unplugActionList("list_compilers");
 	unplugActionList("list_converters");
@@ -772,11 +804,9 @@ void Kile::setupTools()
 	unplugActionList("list_viewers");
 	unplugActionList("list_other");
 
-	for ( uint i = 0; i < tools.count(); ++i)
-	{
-		QString grp = KileTool::groupFor(tools[i], m_config);
+	for (int i = 0; i < tools.count(); ++i) {
+		QString grp = KileTool::groupFor(tools[i], m_config.data());
 		KILE_DEBUG() << tools[i] << " is using group: " << grp << endl;
-		m_config->setGroup(KileTool::groupFor(tools[i], m_config));
 		toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
 		if ( toolMenu == "none" ) continue;
@@ -794,8 +824,7 @@ void Kile::setupTools()
 
 		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-		if ( action(QString("tool_"+tools[i]).ascii()) == 0L )
-		{
+		if (action(QString("tool_" + tools[i]).ascii()) == NULL) {
 			KAction *act = createAction(tools[i], QString("tool_"+tools[i]).ascii(), KileTool::iconFor(tools[i], m_config.data()), this, SLOT(runTool()));
 			pl->append(act);
 		}
@@ -807,33 +836,48 @@ void Kile::setupTools()
 	cleanUpActionList(m_listQuickActions, tools);
 	cleanUpActionList(m_listOtherActions, tools);
 
-	plugActionList("list_compilers", m_listCompilerActions);
+	plugActionList("list_compilers", static_cast<QList<QAction*> >(m_listCompilerActions));
 	plugActionList("list_viewers", m_listViewerActions);
 	plugActionList("list_converters", m_listConverterActions);
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
 
-	actionCollection()->readSettings(m_config->group("Shortcuts"));
+	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
+	actionCollection()->readSettings(&shortcutsGroup);
 }
 
-void Kile::cleanUpActionList(Q3PtrList<KAction> &list, const QStringList & tools)
+void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 {
-	for ( KAction *act = list.first(); act; act = list.next() )
-	{
-		if ( action(act->name()) != 0L && !tools.contains(QString(act->name()).mid(5)) )
-		{
+	for (QList<QAction*>::iterator act = list.begin(); act != list.end(); ++act) {
+		if (action((*act)->name()) != NULL && !tools.contains(QString((*act)->name()).mid(5))) {
 			list.remove(act);
-			if ( act->isPlugged(toolBar("toolsToolBar")) ) act->unplug(toolBar("toolsToolBar"));
+			if ((*act)->associatedWidgets().contains(toolBar("toolsToolBar"))) {
+				toolBar("toolsToolBar")->removeAction(*act);
+			}
 		}
 	}
 }
 
 void Kile::setupUserTagActions()
 {
-	KShortcut tagaccels[10] = {Qt::CTRL+Qt::SHIFT+Qt::Key_1, Qt::CTRL+Qt::SHIFT+Qt::Key_2,Qt::CTRL+Qt::SHIFT+Qt::Key_3,Qt::CTRL+Qt::SHIFT+Qt::Key_4,Qt::CTRL+Qt::SHIFT+Qt::Key_5,Qt::CTRL+Qt::SHIFT+Qt::Key_6,Qt::CTRL+Qt::SHIFT+Qt::Key_7,
-		Qt::CTRL+Qt::SHIFT+Qt::Key_8,Qt::CTRL+Qt::SHIFT+Qt::Key_9,Qt::CTRL+Qt::SHIFT+Qt::Key_0};
+#ifdef __GNUC__
+#warning Need to port the setupUserTagActions() method!
+#endif
+//FIXME: port for KDE4
+/*
+	KShortcut tagaccels[10] = {KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_1),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_2),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_3),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_4),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_5),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_6),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_7),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_8),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_9),
+				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_0)};
 
 	m_actionEditTag = new KAction(i18n("Edit User Tags..."),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
+
 	m_menuUserTags->insert(m_actionEditTag);
 	if ( m_listUserTags.size() > 0 )  {
 		m_actionEditSeparator = new KActionSeparator();
@@ -849,6 +893,7 @@ void Kile::setupUserTagActions()
 	}
 
 	actionCollection()->readSettings(m_config->group("Shortcuts"));
+*/
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
@@ -859,15 +904,13 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	QFileInfo fi;
 
 	KUrl url;
-	for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i)
-	{
+	for (int i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
 		fi.setFile(m_listProjectsOpenOnStart[i]);
 		// don't open project files as they will be opened later in this method 
 		if (fi.isReadable()) docManager()->projectOpen(KUrl::fromPathOrUrl(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
 	}
 
-	for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i)
-	{
+	for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
 		fi.setFile(m_listDocsOpenOnStart[i]);
 		if (fi.isReadable())
 			docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]));
@@ -906,7 +949,12 @@ void Kile::setLine( const QString &line )
 		this->show();
 		this->raise();
 		view->setFocus();
-		view->gotoLineNumber(l-1);
+#ifdef __GNUC__
+#warning Introduce a generic gotoLine function!
+#endif
+		KTextEditor::Cursor cursor = view->cursorPosition();
+		cursor.setPosition(l-1, 0);
+		view->setCursorPosition(cursor);
 
 		showEditorWidget();
 		newStatus();
@@ -921,7 +969,7 @@ void Kile::setCursor(const KUrl &url, int parag, int index)
 		KTextEditor::View *view = (KTextEditor::View*)doc->views().first();
 		if (view)
 		{
-			view->setCursorPositionReal(parag, index);
+			view->setCursorPosition(KTextEditor::Cursor(parag, index));
 			view->setFocus();
 		}
 	}
@@ -1340,7 +1388,7 @@ void Kile::activePartGUI(KParts::Part * part)
 	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
 	KILE_DEBUG() << "\twant state " << m_wantState << endl;
 
-	createGUI(part);
+	createGUI();
 	unplugActionList("list_quickies"); plugActionList("list_quickies", m_listQuickActions);
 	unplugActionList("list_compilers"); plugActionList("list_compilers", m_listCompilerActions);
 	unplugActionList("list_converters"); plugActionList("list_converters", m_listConverterActions);
@@ -1353,20 +1401,25 @@ void Kile::activePartGUI(KParts::Part * part)
 	//kghostview (which has the print action defined in
 	//a KParts::BrowserExtension)
 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
+#ifdef __GNUC__
+#warning metaObject()->slotNames() still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	if (ext && ext->metaObject()->slotNames().contains( "print()" ) ) //part is a BrowserExtension, connect printAction()
 	{
-		connect(m_paPrint, SIGNAL(activated()), ext, SLOT(print()));
-		m_paPrint->plug(toolBar("mainToolBar"),3); //plug this action into its default location
+		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
+		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
 		m_paPrint->setEnabled(true);
 	}
 	else
 	{
-		if (m_paPrint->isPlugged(toolBar("mainToolBar")))
-			m_paPrint->unplug(toolBar("mainToolBar"));
-
+		if (m_paPrint->associatedWidgets().contains(toolBar("mainToolBar"))) {
+			toolBar("mainToolBar")->removeAction(m_paPrint);
+		}
 		m_paPrint->setEnabled(false);
 	}
-
+*/
 	//set the current state
 	m_currentState = m_wantState;
 	m_wantState = "Editor";
@@ -1437,6 +1490,11 @@ void Kile::enableKileGUI(bool enable)
 	QString text;
 
 	QMenuBar *menubar = menuBar();
+#ifdef __GNUC__
+#warning Commenting out the popup menu stuff!
+#endif
+//FIXME: port for KDE4
+/*
 	for (uint i=0; i<menubar->count(); ++i) {
 		id = menubar->idAt(i);
 		Q3PopupMenu *popup = menubar->findItem(id)->popup();
@@ -1451,7 +1509,7 @@ void Kile::enableKileGUI(bool enable)
 			   menubar->setItemEnabled(id, enable);
 		}
 	}
-
+*/
 	// enable or disable userhelp entries 
 	m_help->enableUserhelpEntries(enable);
 }
@@ -1575,7 +1633,7 @@ void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
 void Kile::updateMenu()
 {
 	KILE_DEBUG() << "==Kile::updateKileMenu()====================" << endl;
-	KAction *a;
+	QAction *a;
 	QMap<QString,bool>::Iterator it;
 
 	// update project menus
@@ -1599,6 +1657,11 @@ void Kile::updateMenu()
 	KILE_DEBUG() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
 	QMenuBar *menubar = menuBar();
+#ifdef __GNUC__
+#warning Commenting out the popup menu stuff!
+#endif
+//FIXME: port for KDE4
+/*
 	for ( uint i=0; i<menubar->count(); ++i ) {
 		int menu_id = menubar->idAt(i);
 		Q3PopupMenu *menu = menubar->findItem(menu_id)->popup();
@@ -1617,28 +1680,27 @@ void Kile::updateMenu()
 			}
 		}
 	}
-
+*/
 	// update action lists
-	KActionPtrList actions = actionCollection()->actions();
-	KActionPtrList::Iterator itact;
-	for ( itact=actions.begin(); itact!=actions.end(); ++itact )
-	{
-		if ( m_dictMenuAction.contains( (*itact)->name() ) )
+	QList<QAction *> actions = actionCollection()->actions();
+	for(QList<QAction *>::iterator itact = actions.begin(); itact != actions.end(); ++itact) {
+		if (m_dictMenuAction.contains((*itact)->name())) {
 			(*itact)->setEnabled(file_open);
+		}
 	}
 
-	updateActionList(&m_listQuickActions,file_open);
-	updateActionList(&m_listCompilerActions,file_open);
-	updateActionList(&m_listConverterActions,file_open);
-	updateActionList(&m_listViewerActions,file_open);
-	updateActionList(&m_listOtherActions,file_open);
+	updateActionList(m_listQuickActions,file_open);
+	updateActionList(m_listCompilerActions,file_open);
+	updateActionList(m_listConverterActions,file_open);
+	updateActionList(m_listViewerActions,file_open);
+	updateActionList(m_listOtherActions,file_open);
 
 }
 
-void Kile::updateActionList(Q3PtrList<KAction> *list, bool state)
+void Kile::updateActionList(const QList<QAction*>& list, bool state)
 {
-	for ( KAction *a=list->first(); a; a=list->next() ) {
-		a->setEnabled(state);
+	for (QList<QAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
+		(*i)->setEnabled(state);
 	}
 }
 
@@ -1852,7 +1914,7 @@ void Kile::quickPostscript()
 
 void Kile::helpLaTex()
 {
-	QString loc = locate("html","en/kile/latexhelp.html");
+	QString loc = KStandardDirs::locate("html","en/kile/latexhelp.html");
 	KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager, false);
 	tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
 	tool->setSource(loc);
@@ -1871,14 +1933,22 @@ void Kile::editUserMenu()
 		uint len = m_listUserTagsActions.count();
 		for (uint j=0; j< len; ++j)
 		{
-			KAction *menuItem = m_listUserTagsActions.getLast();
-			m_menuUserTags->remove(menuItem);
+			QAction *menuItem = m_listUserTagsActions.last();
+//FIXME: port for KDE4
+// 			m_menuUserTags->remove(menuItem);
 			m_listUserTagsActions.removeLast();
 			delete menuItem;
 		}
+#ifdef __GNUC__
+#warning Port m_menuUserTags->remove(m_actionEditSeparator)!
+#endif
+//FIXME: port for KDE4
+/*
 		if ( len > 0 )
 			m_menuUserTags->remove(m_actionEditSeparator);
-		m_menuUserTags->remove(m_actionEditTag);
+*/
+//FIXME: port for KDE4
+//		m_menuUserTags->remove(m_actionEditTag);
 
 		m_listUserTags = dlg->result();
 		setupUserTagActions();
@@ -1976,11 +2046,11 @@ void Kile::readRecentFileSettings()
 	KConfigGroup group = m_config->group("FilesOpenOnStart");
 	int n = group.readEntry("NoDOOS", 0);
 	for (int i=0; i < n; ++i)
-		m_listDocsOpenOnStart.append(group.readPathEntry("DocsOpenOnStart" + QString::number(i, QString()), ""));
+		m_listDocsOpenOnStart.append(group.readPathEntry("DocsOpenOnStart" + QString::number(i), ""));
 
 	n = group.readEntry("NoPOOS", 0);
 	for (int i=0; i < n; ++i)
-		m_listProjectsOpenOnStart.append(group.readPathEntry("ProjectsOpenOnStart" + QString::number(i, QString()), ""));
+		m_listProjectsOpenOnStart.append(group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), ""));
 }
 
 void Kile::readConfig()
@@ -2018,12 +2088,12 @@ void Kile::saveSettings()
 	{
 		KConfigGroup configGroup = m_config->group("FilesOpenOnStart");
 		configGroup.writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
-		for (uint i=0; i < m_listDocsOpenOnStart.count(); ++i) {
+		for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
 			configGroup.writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
 		}
 
 		configGroup.writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());
-		for (uint i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
+		for (int i = 0; i < m_listProjectsOpenOnStart.count(); ++i) {
 			configGroup.writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
 		}
 
@@ -2036,8 +2106,7 @@ void Kile::saveSettings()
 	KConfigGroup userGroup = m_config->group("User");
 
 	userGroup.writeEntry("nUserTags", static_cast<int>(m_listUserTags.size()));
-	for (uint i=0; i < m_listUserTags.size(); ++i)
-	{
+	for (int i = 0; i < m_listUserTags.size(); ++i) {
 		KileAction::TagData td( m_listUserTags[i]);
 		userGroup.writeEntry( "userTagName"+QString::number(i),  td.text );
 		userGroup.writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
@@ -2088,7 +2157,7 @@ void Kile::saveSettings()
 		KileConfig::setSelectedLeftView(m_sideBar->currentTab());
 	else
 		KileConfig::setSelectedLeftView(-1);
-	KileConfig::writeConfig();
+	KileConfig::self()->writeConfig();
 	m_config->sync();
 }
 
@@ -2260,7 +2329,7 @@ void Kile::cleanBib()
 	QRegExp reNonEmptyEntry( ".*\\w.*" );
 
 	QString s;
-	uint i=0;
+	int i = 0;
 	while(i < view->document()->lines())
 	{
 		s = view->document()->line(i);
@@ -2284,7 +2353,7 @@ void Kile::cleanBib()
 		else
 			++i;
 	}
-	uint j=0;
+	int j = 0;
 	for (i = 0; i < view->document()->lines(); ++i) {
 		j = i+1;
 		if ( j < view->document()->lines()  && view->document()->line(j).contains( QRegExp("^\\s*\\}\\s*$") ) )

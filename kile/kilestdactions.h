@@ -18,14 +18,15 @@
 
 #ifndef KILESTDACTIONS_H
 #define KILESTDACTIONS_H
-class KAction;
-class KMainWindow;
+
+#include "kactioncollection.h"
+#include <QWidget>
 
 namespace KileStdActions
 {
-	void setupStdTags(KileInfo *ki, KMainWindow *parent);
-	void setupBibTags(KMainWindow *parent);
-	void setupMathTags(KMainWindow *parent);
+	void setupStdTags(KileInfo *ki, QWidget *parent, KActionCollection *actionCollection);
+	void setupBibTags(QWidget *parent, KActionCollection *actionCollection);
+	void setupMathTags(QWidget *parent, KActionCollection *actionCollection);
 }
 
 #endif

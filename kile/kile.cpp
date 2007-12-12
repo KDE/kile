@@ -663,9 +663,9 @@ void Kile::setupActions()
 	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()));
 	createAction(i18n ("Mathgroup"), "quickpreview_math", "edu_mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()));
 
-	KileStdActions::setupStdTags(this,this);
-	KileStdActions::setupMathTags(this);
-	KileStdActions::setupBibTags(this);
+	KileStdActions::setupStdTags(this, this, actionCollection());
+	KileStdActions::setupMathTags(this, actionCollection());
+	KileStdActions::setupBibTags(this, actionCollection());
 
 	createAction(i18n("Quick Start"), "wizard_document", "quickwizard", this, SLOT(quickDocument()));
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));

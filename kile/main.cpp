@@ -21,11 +21,9 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <kstartupinfo.h>
-#include <dcopclient.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kglobal.h>
-#include <kinstance.h>
 #include <kurl.h>
 #include "kiledebug.h"
 
@@ -33,15 +31,6 @@
 #include "kile.h"
 #include "kileversion.h"
 #include "kiledebug.h"
-
-
-static KCmdLineOptions options[] =
-{
-	{ "line <line>", I18N_NOOP( "Jump to line" ), "0" },
-	{ "new", I18N_NOOP( "Start a new Kile mainwindow" ), 0 },
-	{ "+[file]", I18N_NOOP( "File to open" ), 0 },
-	KCmdLineLastOption
-};
 
 bool isProject(const QString &path)
 {
@@ -75,29 +64,38 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile", kileFullVersion.ascii(), I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-						I18N_NOOP("by the Kile Team (2003 - 2007)"),
-						0,
+	KAboutData aboutData( "kile", "Kile", ki18n("Kile"), kileFullVersion.ascii(), ki18n("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
+						ki18n("by the Kile Team (2003 - 2007)"),
+						KLocalizedString(),
 						"http://kile.sourceforge.net");
-	aboutData.addAuthor("Michel Ludwig", I18N_NOOP("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
-	aboutData.addAuthor("Holger Danielsson", I18N_NOOP("former developer"), "holger.danielsson@versanet.de");
-	aboutData.addAuthor("Jeroen Wijnhout",I18N_NOOP("former maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
-	aboutData.addAuthor("Brachet Pascal",0,"");
+	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
+	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("former developer"), "holger.danielsson@versanet.de");
+	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("former maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
+	aboutData.addAuthor(ki18n("Brachet Pascal"));
 
-        aboutData.addCredit("Thomas Braun", I18N_NOOP("Lots of bug fixes!"));
-	aboutData.addCredit("Simon Martin", I18N_NOOP("KConfig XT, various improvements and bugfixing"));
-	aboutData.addCredit("Roland Schulz", I18N_NOOP("KatePart integration"));
-	aboutData.addCredit("Thorsten Lück", I18N_NOOP("Log Parsing"));
-	aboutData.addCredit("Jan-Marek Glogowski", I18N_NOOP("Find in Files dialog"));
-	aboutData.addCredit("Thomas Basset", I18N_NOOP("Translations"));
-	aboutData.addCredit(I18N_NOOP("Please consult the webpage for up to date translation credits."));
-	aboutData.addCredit("Jonathan Pechta and Federico Zenith", I18N_NOOP("Documentation"));
+        aboutData.addCredit(ki18n("Thomas Braun"), ki18n("Lots of bug fixes!"));
+	aboutData.addCredit(ki18n("Simon Martin"), ki18n("KConfig XT, various improvements and bugfixing"));
+	aboutData.addCredit(ki18n("Roland Schulz"), ki18n("KatePart integration"));
+	aboutData.addCredit(ki18n("Thorsten Lück"), ki18n("Log Parsing"));
+	aboutData.addCredit(ki18n("Jan-Marek Glogowski"), ki18n("Find in Files dialog"));
+	aboutData.addCredit(ki18n("Thomas Basset"), ki18n("Translations"));
+	aboutData.addCredit(ki18n("Please consult the webpage for up to date translation credits."));
+	aboutData.addCredit(ki18n("Jonathan Pechta and Federico Zenith"), ki18n("Documentation"));
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
-	KCmdLineArgs::addCmdLineOptions( options );
+	KCmdLineOptions options;
+	options.add("line <line>", ki18n("Jump to line"), "0");
+	options.add("new", ki18n("Start a new Kile mainwindow"), "0");
+	options.add("+[file]", ki18n("File to open"), "0");
+	KCmdLineArgs::addCmdLineOptions(options);
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
+#ifdef __GNUC__
+#warning Comment the DCOP stuff out for now!
+#endif
+//FIXME: port for KDE4
+/*
 	DCOPClient *client=0L;
 	Q3CString appID = "";
 	client  = new DCOPClient ();
@@ -113,11 +111,12 @@ int main( int argc, char ** argv )
 			break;
 		}
 	}
-
+*/
 	if ( !running || args->isSet("new") )
 	{
 		KileApplication a;
-		a.dcopClient()->registerAs("kile", false);
+//FIXME: port for KDE4
+// 		a.dcopClient()->registerAs("kile", false);
 		bool restore = (args->count() == 0);
 		Kile * mw = new Kile(restore);
 		a.setMainWidget(mw);
@@ -136,6 +135,8 @@ int main( int argc, char ** argv )
 		args->clear();
 		return a.exec();
 	}
+//FIXME: port for KDE4
+/*
 	else
 	{
 		for ( int i = 0; i < args->count(); ++i )
@@ -153,7 +154,7 @@ int main( int argc, char ** argv )
 		QByteArray empty;
 		client->send (appID, "Kile", "setActive()", empty);
 	}
-
+*/
 	return 0;
 }
 

@@ -168,7 +168,7 @@
 		emit(message(Error, i18n("Launching failed, diagnostics:")));
 
 		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
-		QString path = KGlobal::dirs()->findExe(exe, QString::null, true);
+		QString path = KGlobal::dirs()->findExe(exe, QString(), KStandardDirs::IgnoreExecBit);
 
 		if ( path.isNull() )
 		{
@@ -289,8 +289,12 @@
 		Q3WidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
-		m_part = (KParts::ReadOnlyPart *)factory->create(stack, m_libName, m_className, m_options);
-
+#ifdef __GNUC__
+#warning Port KPluginFactory::create correctly!
+#endif
+//FIXME: port for KDE4
+// 		m_part = (KParts::ReadOnlyPart *)factory->create(stack, m_libName, m_className, m_options);
+m_part = NULL;
 		if (m_part == 0)
 		{
 			emit(message(Error, i18n("Could not create component %1 from the library %2.").arg(m_className).arg(m_libName)));
@@ -314,7 +318,7 @@
 		stack->addWidget(m_part->widget() , 1 );
 		stack->raiseWidget(1);
 
-		m_part->openURL(KUrl(name));
+		m_part->openUrl(KUrl(name));
 		pm->addPart(m_part, true);
 		pm->setActivePart(m_part);
 
@@ -345,14 +349,15 @@
 		Q3WidgetStack *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
-		DocumentationViewer *htmlpart = new DocumentationViewer(stack,"help");
+		DocumentationViewer *htmlpart = new DocumentationViewer(stack);
+		htmlpart->setObjectName("help");
 		m_part = static_cast<KParts::ReadOnlyPart*>(htmlpart);
 
 		connect(htmlpart, SIGNAL(updateStatus(bool, bool)), tool(), SIGNAL(updateStatus(bool, bool)));
 
 		tool()->manager()->wantGUIState(m_state);
 
-		htmlpart->openURL(KUrl(name));
+		htmlpart->openUrl(KUrl(name));
 		htmlpart->addToHistory(name);
 		stack->addWidget(htmlpart->widget() , 1 );
 		stack->raiseWidget(1);

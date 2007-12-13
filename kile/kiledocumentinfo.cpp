@@ -102,7 +102,7 @@ KUrl Info::repairInvalidCharacters(const KUrl& url, bool checkForFileExistence /
 			i18n("Invalid Characters"),
 			i18n("The filename contains invalid characters ($~ #).<br>Please provide \
 				another one, or click \"Cancel\" to save anyway."),
-			ret.filename(),
+			ret.fileName(),
 			&isOK);
 		if(!isOK)
 			break;
@@ -122,7 +122,7 @@ KUrl Info::renameIfExist(const KUrl& url)
 			i18n("File Already Exists"),
 			i18n("A file with filename '%1' already exists.<br>Please provide \
 				another one, or click \"Cancel\" to overwrite it.").arg(ret.fileName()),
-			ret.filename(),
+			ret.fileName(),
 			&isOK);
 		if(!isOK)
 			break;
@@ -166,7 +166,7 @@ KUrl Info::makeValidTeXURL(const KUrl & url, bool istexfile, bool checkForFileEx
 	return newURL;
 }
 
-Info::Info() : m_bIsRoot(false), m_config(KGlobal::config()), documentTypePromotionAllowed(true)
+Info::Info() : m_bIsRoot(false), m_config(KGlobal::config().data()), documentTypePromotionAllowed(true)
 {
 	updateStructLevelInfo();
 }
@@ -241,15 +241,16 @@ void Info::count(const QString line, long *stat)
 	int state = stStandard;
 	bool word = false; // we are in a word
 
-	for (uint p=0; p < line.length(); ++p)
-	{
+	for (int p = 0; p < line.length(); ++p) {
 		c = line[p];
 
-		switch ( state )
-		{
+		switch(state) {
 		case stStandard	:
-			switch ( c )
-			{
+#ifdef __GNUC__
+#warning Don't use QChar in switch statement!
+#endif
+//FIXME: change for KDE4
+			switch(c.toAscii()) {
 				case TEX_CAT0	:
 					state = stControlSequence;
 					++stat[1];
@@ -372,8 +373,7 @@ QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
 	if ( list == 0L ) list = &m_deps;
 
 	KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << time.toString() << endl;
-	for ( uint i = 0; i < list->count(); ++i )
-	{
+	for(int i = 0; i < list->count(); ++i) {
 		fileinfo.setFile( basepath + '/' + (*list)[i] );
 		KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << fileinfo.lastModified().toString() << endl;
 		if ( fileinfo.lastModified() >  time )
@@ -416,7 +416,7 @@ TextInfo::TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QSt
 	setDoc(doc);
 	if (m_doc)
 	{
-		KILE_DEBUG() << "TextInfo created for " << m_doc->docName() << endl;
+		KILE_DEBUG() << "TextInfo created for " << m_doc->url() << endl;
 	}
 
  	m_arStatistics = new long[SIZE_STAT_ARRAY];
@@ -520,23 +520,8 @@ void TextInfo::setHighlightMode(const QString &highlight)
 {
 	KILE_DEBUG() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================" << endl;
 
-	if ( m_doc && !highlight.isEmpty() )
-	{
-		bool found = false;
-		uint c = m_doc->hlModeCount();
-		uint mode = 0;
-		for (uint i = 0; i < c; ++i)
-		{
-			if (m_doc->hlModeName(i) == highlight) {
-				found = true;
-				mode = i;
-				break;
-			}
-		}
-		if (found)
-		{
-			m_doc->setHlMode(mode);
-		}
+	if (m_doc && !highlight.isEmpty()) {
+		m_doc->setHighlightingMode(highlight);
 	}
 }
 
@@ -547,7 +532,7 @@ void TextInfo::setDefaultHightlightMode(const QString& string)
 
 // match a { with the corresponding }
 // pos is the position of the {
-QString TextInfo::matchBracket(QChar obracket, uint &l, uint &pos)
+QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 {
 	QChar cbracket;
 	if ( obracket == '{' ) cbracket = '}';
@@ -559,7 +544,7 @@ QString TextInfo::matchBracket(QChar obracket, uint &l, uint &pos)
 	++pos;
 
 	TodoResult todo;
-	while ( l <= m_doc->numLines() )
+	while ( l <= m_doc->lines() )
 	{
 		line = getTextline(l,todo);
 		len = line.length();
@@ -591,7 +576,7 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 	static QRegExp::QRegExp reComments("[^\\\\](%.*$)");
 
 	todo.type = -1;
-	QString s = m_doc->textLine(line);
+	QString s = m_doc->line(line);
 	if ( ! s.isEmpty() )
 	{
 		// remove comment lines
@@ -636,7 +621,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char *name)
 	{
 		return NULL;
 	}
-	KTextEditor::View *view = m_doc->createView(parent, name);
+	KTextEditor::View *view = m_doc->createView(parent);
 	installEventFilters(view);
 	return view;
 }
@@ -662,11 +647,9 @@ void TextInfo::installEventFilters()
 	{
 		return;
 	}
-	Q3PtrList<KTextEditor::View> views = m_doc->views();
-	KTextEditor::View *view;
-	for(view = views.first(); view; view = views.next())
-	{
-		installEventFilters(view);
+	QList<KTextEditor::View*> views = m_doc->views();
+	for(QList<KTextEditor::View*>::iterator i = views.begin(); i != views.end(); ++i) {
+		installEventFilters(*i);
 	}
 }
 
@@ -676,11 +659,9 @@ void TextInfo::removeInstalledEventFilters()
 	{
 		return;
 	}
-	Q3PtrList<KTextEditor::View> views = m_doc->views();
-	KTextEditor::View *view;
-	for(view = views.first(); view; view = views.next())
-	{
-		removeInstalledEventFilters(view);
+	QList<KTextEditor::View*> views = m_doc->views();
+	for(QList<KTextEditor::View*>::iterator i = views.begin(); i != views.end(); ++i) {
+		removeInstalledEventFilters(*i);
 	}
 }
 
@@ -701,7 +682,11 @@ const long* LaTeXInfo::getStatistics()
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
 	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
 	QString line;
-
+#ifdef __GNUC__
+#warning Change the signature of the getStatistics() function to take a view as parameter!
+#endif
+//FIXME: port for KDE4
+/*
 	if ( m_doc && m_doc->hasSelection() )
 	{
 		line = m_doc->selection();
@@ -709,9 +694,9 @@ const long* LaTeXInfo::getStatistics()
 		count(line, m_arStatistics);
 	}
 	else if (m_doc)
-	for (uint l=0; l < m_doc->numLines(); ++l)
-	{
-		line = m_doc->textLine(l);
+*/
+	for (int l=0; l < m_doc->lines(); ++l) {
+		line = m_doc->line(l);
 		KILE_DEBUG() << "getStat : line : " << line << endl;
 		count(line, m_arStatistics);
 	}
@@ -818,24 +803,32 @@ void LaTeXInfo::updateStructLevelInfo() {
 
 void LaTeXInfo::installEventFilters(KTextEditor::View *view)
 {
-	view->focusProxy()->installEventFilter(m_eventFilter);
+#ifdef __GNUC__
+#warning Commenting the event filter stuff out for now!
+#endif
+//FIXME: port for KDE4
+// 	view->focusProxy()->installEventFilter(m_eventFilter);
 }
 
 void LaTeXInfo::removeInstalledEventFilters(KTextEditor::View *view)
 {
-	view->focusProxy()->removeEventFilter(m_eventFilter);
+#ifdef __GNUC__
+#warning Commenting the event filter stuff out for now!
+#endif
+//FIXME: port for KDE4
+// 	view->focusProxy()->removeEventFilter(m_eventFilter);
 }
 
-BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
+BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
 {
 	BracketResult result;
 	TodoResult todo;
 
-	if ( m_doc->textLine(l)[pos] == '[' )
+	if ( m_doc->line(l)[pos] == '[' )
 	{
 		result.option = TextInfo::matchBracket('[', l, pos);
 		int p = 0;
-		while ( l < m_doc->numLines() )
+		while ( l < m_doc->lines() )
 		{
 			if ( (p = getTextline(l,todo).indexOf('{', pos)) != -1 )
 			{
@@ -850,7 +843,7 @@ BracketResult LaTeXInfo::matchBracket(uint &l, uint &pos)
 		}
 	}
 
-	if ( m_doc->textLine(l)[pos] == '{' )
+	if ( m_doc->line(l)[pos] == '{' )
 	{
 		result.line = l;
 		result.col = pos;
@@ -870,7 +863,7 @@ void LaTeXInfo::updateStruct()
 
 	Info::updateStruct();
 
-	QMapConstIterator<QString,KileStructData> it;
+	QMap<QString,KileStructData>::const_iterator it;
 	static QRegExp::QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
 	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
 	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
@@ -879,8 +872,8 @@ void LaTeXInfo::updateStruct()
 	static QRegExp::QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
 
 	int teller=0, tagStart, bd = 0;
-	uint tagEnd, tagLine = 0, tagCol = 0;
-	uint tagStartLine = 0, tagStartCol = 0;
+	int tagEnd, tagLine = 0, tagCol = 0;
+	int tagStartLine = 0, tagStartCol = 0;
 	BracketResult result;
 	QString m, s, shorthand;
 	bool foundBD = false; // found \begin { document }
@@ -888,8 +881,7 @@ void LaTeXInfo::updateStruct()
 	bool fireSuspended; // found an item, but it should not be fired (this time)
 	TodoResult todo;
 
-	for(uint i = 0; i < m_doc->numLines(); ++i)
-	{
+	for(int i = 0; i < m_doc->lines(); ++i) {
 		if (teller > 100)
 		{
 			teller=0;
@@ -921,8 +913,8 @@ void LaTeXInfo::updateStruct()
 			{
 				KILE_DEBUG() << "\tfound \\begin{document}" << endl;
 				foundBD = true;
-				if ( bd == 0 ) m_preamble = m_doc->text(0, 0, i - 1, m_doc->textLine(i - 1).length() );
-				else m_preamble = m_doc->text(0, 0, i, bd);
+				if ( bd == 0 ) m_preamble = m_doc->text(KTextEditor::Range(0, 0, i - 1, m_doc->line(i - 1).length()));
+				else m_preamble = m_doc->text(KTextEditor::Range(0, 0, i, bd));
 			}
 
 			if ((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1))
@@ -952,11 +944,11 @@ void LaTeXInfo::updateStruct()
 					tagStartCol = tagStart+1;
 					if ( reCommand.cap(1) != "\\frame" )
 					{
-						result = matchBracket(i, static_cast<uint&>(tagEnd));
+						result = matchBracket(i, tagEnd);
 						m = result.value.trimmed();
 						shorthand = result.option.trimmed();
 						if ( i >= tagLine ) //matching brackets spanned multiple lines
-							s = m_doc->textLine(i);
+							s = m_doc->line(i);
 						if ( result.line>0 || result.col>0 )
 						{
 							tagLine = result.line + 1;
@@ -1002,7 +994,7 @@ void LaTeXInfo::updateStruct()
 							if ( s.at(tagEnd+1) == '{' )
 							{
 								tagEnd++;
-								result = matchBracket(i, static_cast<uint&>(tagEnd));
+								result = matchBracket(i, tagEnd);
 								m = result.value.trimmed();
 								if(m.isEmpty()) {
 									m = untitledBlockDisplayName;
@@ -1070,8 +1062,7 @@ void LaTeXInfo::updateStruct()
 					}
 
 					// update the referenced Bib files
-					else  if( (*it).type == KileStruct::Bibliography )
-					{
+					else  if( (*it).type == KileStruct::Bibliography ) {
 						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
 
 						QStringList bibs = m.split(",");
@@ -1083,8 +1074,7 @@ void LaTeXInfo::updateStruct()
 
 						uint cumlen = 0;
 						int nextbib = 0; // length to add to jump to the next bibliography
-						for (uint b = 0; b < bibs.count(); ++b)
-						{
+						for (int b = 0; b < bibs.count(); ++b) {
 							nextbib = 0;
 							biblio=bibs[b];
 							m_bibliography.append(biblio);
@@ -1116,8 +1106,7 @@ void LaTeXInfo::updateStruct()
 					{
 						QStringList pckgs = m.split(",");
 						uint cumlen = 0;
-						for (uint p = 0; p < pckgs.count(); ++p)
-						{
+						for(int p = 0; p < pckgs.count(); ++p) {
 							QString package = pckgs[p].trimmed();
 							if ( ! package.isEmpty() ) {
 								m_packages.append(package);
@@ -1230,9 +1219,8 @@ void BibInfo::updateStruct()
 	QString s, key;
 	int col = 0, startcol, startline = 0;
 
-	for(uint i = 0; i < m_doc->numLines(); ++i)
-	{
-		s = m_doc->textLine(i);
+	for(int i = 0; i < m_doc->lines(); ++i) {
+		s = m_doc->line(i);
 		if ( (s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower()) )
 		{
 			KILE_DEBUG() << "found: " << reItem.cap(2) << endl;
@@ -1251,10 +1239,10 @@ void BibInfo::updateStruct()
 					do
 					{
 						++i;
-						s = m_doc->textLine(i);
-					} while  ( (s.length() == 0) && (i < m_doc->numLines()) );
+						s = m_doc->line(i);
+					} while  ( (s.length() == 0) && (i < m_doc->lines()) );
 
-					if ( i == m_doc->numLines() ) break;
+					if ( i == m_doc->lines() ) break;
 					col = 0;
 				}
 

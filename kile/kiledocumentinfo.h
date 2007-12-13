@@ -271,7 +271,7 @@ protected:
 	long				*m_arStatistics;
 	QString				m_defaultHighlightMode;
 
-	QString matchBracket(QChar c, uint &, uint &);
+	QString matchBracket(QChar c, int &, int &);
 	QString getTextline(uint line, TodoResult &todo);
 	void searchTodoComment(const QString &s, uint startpos, TodoResult &todo);
 
@@ -345,7 +345,7 @@ protected:
 	virtual void removeInstalledEventFilters(KTextEditor::View *view);
 
 private:
-	BracketResult matchBracket(uint &, uint &);
+	BracketResult matchBracket(int &, int &);
 };
 
 

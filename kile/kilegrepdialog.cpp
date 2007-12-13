@@ -57,6 +57,7 @@
 #include <Q3HBoxLayout>
 #include <Q3GridLayout>
 #include <Q3VBoxLayout>
+#include <Q3GroupBox>
 
 #include <kcombobox.h>
 #include <kapplication.h>
@@ -115,10 +116,10 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	projectname_label = new QLabel(projectgroup);
 	projectdirname_label = new QLabel(projectgroup);
 
-	projectgrouplayout->addWidget(project_label, 0,0, AlignLeft | AlignVCenter);
-	projectgrouplayout->addWidget(projectname_label, 0,1, AlignLeft | AlignVCenter);
-	projectgrouplayout->addWidget(projectdir_label, 1,0, AlignLeft | AlignVCenter);
-	projectgrouplayout->addWidget(projectdirname_label, 1,1, AlignLeft | AlignVCenter);
+	projectgrouplayout->addWidget(project_label, 0,0, Qt::AlignLeft | Qt::AlignVCenter);
+	projectgrouplayout->addWidget(projectname_label, 0,1, Qt::AlignLeft | Qt::AlignVCenter);
+	projectgrouplayout->addWidget(projectdir_label, 1,0, Qt::AlignLeft | Qt::AlignVCenter);
+	projectgrouplayout->addWidget(projectdirname_label, 1,1, Qt::AlignLeft | Qt::AlignVCenter);
 	projectgrouplayout->setColStretch(1,1);
 
 	// search groupbox
@@ -168,9 +169,9 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	template_label->setBuddy(template_edit);
 	template_layout->addWidget(template_edit);
 
-	searchgrouplayout->addWidget(pattern_label, 0,0, AlignLeft | AlignVCenter);
+	searchgrouplayout->addWidget(pattern_label, 0,0, Qt::AlignLeft | Qt::AlignVCenter);
 	searchgrouplayout->addWidget(pattern_combo, 0,1);
-	searchgrouplayout->addWidget(template_label, 1,0, AlignLeft | AlignVCenter);
+	searchgrouplayout->addWidget(template_label, 1,0, Qt::AlignLeft | Qt::AlignVCenter);
 	searchgrouplayout->addLayout(template_layout, 1,1);
 
 	// filter groupbox
@@ -194,7 +195,8 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		labelwidth = dir_label->sizeHint().width();
 
 	Q3BoxLayout *dir_layout = new Q3HBoxLayout(3);
-	dir_combo = new KUrlRequester( new KComboBox(true, filtergroup), filtergroup, "dir combo" );
+	dir_combo = new KUrlRequester( new KComboBox(true, filtergroup), filtergroup);
+	dir_combo->setObjectName("dir combo");
 	dir_combo->completionObject()->setMode(KUrlCompletion::DirCompletion);
 	dir_combo->setMode(KFile::Directory|KFile::LocalOnly|KFile::ExistingOnly);
 	dir_label->setBuddy(dir_combo);
@@ -203,9 +205,9 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	recursive_box = new QCheckBox(i18n("Scan directories recursively"), filtergroup);
 	recursive_box->setMinimumWidth(recursive_box->sizeHint().width());
 
-	filtergrouplayout->addWidget(files_label, 2,0, AlignLeft | AlignVCenter);
+	filtergrouplayout->addWidget(files_label, 2,0, Qt::AlignLeft | Qt::AlignVCenter);
 	filtergrouplayout->addWidget(filter_combo, 2, 1);
-	filtergrouplayout->addWidget(dir_label, 3,0, AlignLeft | AlignVCenter);
+	filtergrouplayout->addWidget(dir_label, 3,0, Qt::AlignLeft | Qt::AlignVCenter);
 	filtergrouplayout->addLayout(dir_layout, 3,1);
 	filtergrouplayout->addMultiCellWidget(recursive_box, 4,4, 1,2);
 	filtergrouplayout->setColStretch(1,1);
@@ -534,7 +536,7 @@ void KileGrepDialog::processOutput()
 			}
 			else
 			{
-				resultbox->insertItem( item.mid(dir_combo->url().length()+1) );
+				resultbox->insertItem( item.mid(dir_combo->url().prettyUrl().length()+1) );
 			}
 		}
 		buf = buf.right(buf.length()-pos-1);
@@ -660,7 +662,10 @@ QString KileGrepDialog::buildFilesCommand()
 
 	QString shell_command;
 	shell_command += "find ";
-	shell_command += KShell::quoteArg(dir_combo->url());
+#ifdef __GNUC__
+#warning Check whether this is correct!
+#endif
+	shell_command += KShell::quoteArg(dir_combo->url().prettyUrl());
 	shell_command += " \\( -name ";
 	shell_command += files;
 	shell_command += " \\)";

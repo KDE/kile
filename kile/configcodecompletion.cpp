@@ -270,8 +270,7 @@ void ConfigCodeCompletion::writeConfig(void)
 // read kate plugin configuration
 bool ConfigCodeCompletion::kateCompletionPlugin()
 {
-	m_config->setGroup("Kate Document Defaults");
-	return m_config->readBoolEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
+	return m_config->group("Kate Document Defaults").readEntry("KTextEditor Plugin ktexteditor_docwordcompletion", false);
 }
 
 //////////////////// listview ////////////////////

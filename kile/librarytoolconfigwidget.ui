@@ -1,104 +1,114 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>LibraryToolConfigWidget</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>LibraryToolConfigWidget</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>382</width>
-            <height>115</height>
-        </rect>
-    </property>
-    <property name="sizePolicy">
-        <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>1</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-        </sizepolicy>
-    </property>
-    <property name="maximumSize">
-        <size>
-            <width>32767</width>
-            <height>32767</height>
-        </size>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>0</number>
-        </property>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>m_lbOptions</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Options:</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>m_leOptions</cstring>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="0" column="1">
-            <property name="name">
-                <cstring>m_leLibrary</cstring>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="1" column="1">
-            <property name="name">
-                <cstring>m_leLibClass</cstring>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="2" column="1">
-            <property name="name">
-                <cstring>m_leOptions</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>m_lbLibClass</cstring>
-            </property>
-            <property name="text">
-                <string>Library c&amp;lass:</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>m_leLibClass</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>m_lbLibrary</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Library:</string>
-            </property>
-            <property name="buddy" stdset="0">
-                <cstring>m_leLibrary</cstring>
-            </property>
-        </widget>
-        <spacer row="3" column="1">
-            <property name="name">
-                <cstring>spacer16</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-    </grid>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+<ui version="4.0" >
+ <class>LibraryToolConfigWidget</class>
+ <widget class="QWidget" name="LibraryToolConfigWidget" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>382</width>
+    <height>115</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>32767</width>
+    <height>32767</height>
+   </size>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <item row="2" column="0" >
+    <widget class="QLabel" name="m_lbOptions" >
+     <property name="text" >
+      <string>&amp;Options:</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+     <property name="buddy" >
+      <cstring>m_leOptions</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="KLineEdit" name="m_leLibrary" />
+   </item>
+   <item row="1" column="1" >
+    <widget class="KLineEdit" name="m_leLibClass" />
+   </item>
+   <item row="2" column="1" >
+    <widget class="KLineEdit" name="m_leOptions" />
+   </item>
+   <item row="1" column="0" >
+    <widget class="QLabel" name="m_lbLibClass" >
+     <property name="text" >
+      <string>Library c&amp;lass:</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+     <property name="buddy" >
+      <cstring>m_leLibClass</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QLabel" name="m_lbLibrary" >
+     <property name="text" >
+      <string>&amp;Library:</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+     <property name="buddy" >
+      <cstring>m_leLibrary</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

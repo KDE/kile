@@ -138,12 +138,16 @@ SET( kile_UI_SRCS
 	generalconfigwidget.cpp
 	helpconfigwidget.cpp
 	latexconfigwidget.cpp
+	latextoolconfigwidget.cpp
+	librarytoolconfigwidget.cpp
 	newdocumentwidget.cpp
 	newtoolwizard.cpp
+	processtoolconfigwidget.cpp
 	quicktoolconfigwidget.cpp
 	scriptingconfigwidget.cpp
 	structureconfigwidget.cpp
 	symbolviewconfigwidget.cpp
+	toolconfigwidget.cpp
 )
 
 SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})

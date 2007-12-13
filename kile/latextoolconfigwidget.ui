@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>668</width>
-    <height>88</height>
+    <height>148</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -16,18 +16,6 @@
    </sizepolicy>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>0</number>
-   </property>
    <item>
     <widget class="QCheckBox" name="m_ckRootDoc" >
      <property name="text" >
@@ -48,6 +36,19 @@
       <string>Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX &amp;when necessary</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

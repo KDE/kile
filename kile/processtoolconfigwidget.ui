@@ -29,9 +29,9 @@
     <number>0</number>
    </property>
    <item row="0" column="1" >
-    <widget class="KLineEdit" native="1" name="m_leCommand" >
+    <widget class="KLineEdit" name="m_leCommand" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -39,9 +39,9 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="KLineEdit" native="1" name="m_leOptions" >
+    <widget class="KLineEdit" name="m_leOptions" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -97,7 +97,7 @@
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
-   <extends>QWidget</extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
  </customwidgets>

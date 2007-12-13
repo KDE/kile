@@ -6,11 +6,11 @@
     <x>0</x>
     <y>0</y>
     <width>669</width>
-    <height>409</height>
+    <height>458</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy vsizetype="" hsizetype="" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -59,7 +59,7 @@
       <item>
        <widget class="K3ListBox" name="m_lstbTools" >
         <property name="sizePolicy" >
-         <sizepolicy vsizetype="" hsizetype="Preferred" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -73,15 +73,15 @@
        </widget>
       </item>
       <item>
-       <widget class="KPushButton" native="1" name="m_pshbRemoveTool" >
-        <property name="text" stdset="0" >
+       <widget class="KPushButton" name="m_pshbRemoveTool" >
+        <property name="text" >
          <string>Remove Tool</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="KPushButton" native="1" name="m_pshbNewTool" >
-        <property name="text" stdset="0" >
+       <widget class="KPushButton" name="m_pshbNewTool" >
+        <property name="text" >
          <string>New Tool...</string>
         </property>
        </widget>
@@ -124,7 +124,7 @@
        <number>10</number>
       </property>
       <item row="2" column="1" colspan="2" >
-       <widget class="KPushButton" native="1" name="m_pshbRemoveConfig" >
+       <widget class="KPushButton" name="m_pshbRemoveConfig" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
           <horstretch>0</horstretch>
@@ -137,33 +137,33 @@
           <height>0</height>
          </size>
         </property>
-        <property name="text" stdset="0" >
+        <property name="text" >
          <string>Remove Config</string>
         </property>
        </widget>
       </item>
       <item row="2" column="3" >
-       <widget class="KPushButton" native="1" name="m_pshbDefault" >
+       <widget class="KPushButton" name="m_pshbDefault" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" stdset="0" >
+        <property name="text" >
          <string>Default Settings</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0" >
-       <widget class="KPushButton" native="1" name="m_pshbNewConfig" >
+       <widget class="KPushButton" name="m_pshbNewConfig" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" stdset="0" >
+        <property name="text" >
          <string>New Config...</string>
         </property>
        </widget>
@@ -171,7 +171,7 @@
       <item row="1" column="0" colspan="4" >
        <widget class="QTabWidget" name="m_tab" >
         <property name="sizePolicy" >
-         <sizepolicy vsizetype="" hsizetype="" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -190,7 +190,7 @@
           <item>
            <widget class="Q3WidgetStack" name="m_stackBasic" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Minimum" hsizetype="" >
+             <sizepolicy vsizetype="Minimum" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -210,7 +210,7 @@
           <item>
            <widget class="Q3WidgetStack" name="m_stackExtra" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Minimum" hsizetype="" >
+             <sizepolicy vsizetype="Minimum" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -253,7 +253,7 @@
           <item row="0" column="1" >
            <widget class="KComboBox" name="m_cbType" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -274,12 +274,12 @@
            </widget>
           </item>
           <item row="6" column="1" >
-           <widget class="KLineEdit" native="1" name="m_leRelDir" >
+           <widget class="KLineEdit" name="m_leRelDir" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -326,12 +326,12 @@
            </widget>
           </item>
           <item row="5" column="1" >
-           <widget class="KLineEdit" native="1" name="m_leFile" >
+           <widget class="KLineEdit" name="m_leFile" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -339,9 +339,9 @@
            </widget>
           </item>
           <item row="4" column="1" >
-           <widget class="KLineEdit" native="1" name="m_leTarget" >
+           <widget class="KLineEdit" name="m_leTarget" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -349,9 +349,9 @@
            </widget>
           </item>
           <item row="3" column="1" >
-           <widget class="KLineEdit" native="1" name="m_leSource" >
+           <widget class="KLineEdit" name="m_leSource" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -394,7 +394,7 @@
           <item row="2" column="1" >
            <widget class="KComboBox" name="m_cbClass" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -456,7 +456,7 @@
           <item row="0" column="1" >
            <widget class="KComboBox" name="m_cbMenu" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -493,8 +493,8 @@
            </spacer>
           </item>
           <item row="1" column="1" >
-           <widget class="KPushButton" native="1" name="m_pshbIcon" >
-            <property name="text" stdset="0" >
+           <widget class="KPushButton" name="m_pshbIcon" >
+            <property name="text" >
              <string/>
             </property>
            </widget>
@@ -555,22 +555,22 @@
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global" >kcombobox.h</header>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
    <class>K3ListBox</class>
    <extends>Q3ListBox</extends>
    <header location="global" >k3listbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QWidget</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QWidget</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -112,11 +112,21 @@ void KileListViewItem::setItemEntry()
 
 ////////////////////// introduce a new ToolTip //////////////////////
 
-KileListViewToolTip::KileListViewToolTip(K3ListView *listview) : QToolTip(listview->viewport()), m_listview(listview) 
+#ifdef __GNUC__
+#warning The class KileListViewToolTip still needs to be ported!
+#endif
+//FIXME: port for KDE4
+// KileListViewToolTip::KileListViewToolTip(K3ListView *listview) : QToolTip(listview->viewport()), m_listview(listview) 
+KileListViewToolTip::KileListViewToolTip(K3ListView *listview) : m_listview(listview) 
 {}
 
 void KileListViewToolTip::maybeTip(const QPoint &p) 
 {
+#ifdef __GNUC__
+#warning The function KileListViewToolTip::maybeTip still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	if ( ! m_listview )
 		return;
 	
@@ -137,6 +147,7 @@ void KileListViewToolTip::maybeTip(const QPoint &p)
 	{
 		tip(rect,i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button).")); 
 	}
+*/
 }
 
 
@@ -611,8 +622,12 @@ namespace KileWidget
 
 		m_default = new StructureList(this, 0L);
 		m_default->activate();
-	
-		m_popup = new KMenu(this, "structureview_popup");
+
+#ifdef __GNUC__
+#warning The popup menu still needs to be ported!
+#endif
+//FIXME: port for KDE4
+// 		m_popup = new KMenu(this, "structureview_popup");
 	}
 
 	Structure::~Structure()
@@ -694,7 +709,7 @@ namespace KileWidget
 				if (  item->type() == KileStruct::Graphics )
 				{
 					KMimeType::Ptr pMime = KMimeType::findByUrl(url);
-					KRun::runURL(url,pMime->name());
+					KRun::runUrl(url, pMime->name(), this);
 				}
 				else
 					emit(fileOpen(url, QString::null));
@@ -717,6 +732,11 @@ namespace KileWidget
 
 	void Structure::slotPopup(K3ListView *, Q3ListViewItem *itm, const QPoint &point)
 	{
+#ifdef __GNUC__
+#warning The popup menu still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 		KILE_DEBUG() << "\tStructure::slotPopup" << endl;
 		
 		m_popupItem = (KileListViewItem *)(itm);
@@ -786,6 +806,7 @@ namespace KileWidget
 			connect(m_popup,SIGNAL(activated(int)),this,SLOT(slotPopupActivated(int)));
 			m_popup->exec(point);
 		}
+*/
 	}
 
 	void Structure::slotPopupActivated(int id)
@@ -832,9 +853,9 @@ namespace KileWidget
 		url.setPath(m_popupInfo);
 		
 		if ( id == SectioningGraphicsOther )
-			KRun::displayOpenWithDialog(url);
+			KRun::displayOpenWithDialog(url, this);
 		else
-			KRun::run(*m_offerList[id-SectioningGraphicsOfferlist],url);
+			KRun::run(*m_offerList[id-SectioningGraphicsOfferlist], url, this);
 	}
 
 	StructureList* Structure::viewFor(KileDocument::Info *info)
@@ -869,10 +890,11 @@ namespace KileWidget
 
 	void Structure::clear()
 	{
-		QMapIterator<KileDocument::Info *, StructureList *> it;
-		QMapIterator<KileDocument::Info *, StructureList *> itend(m_map.end());
-		for ( it = m_map.begin(); it != itend; ++it)
+		QMap<KileDocument::Info *, StructureList *>::iterator it;
+		QMap<KileDocument::Info *, StructureList *>::iterator itend(m_map.end());
+		for (it = m_map.begin(); it != itend; ++it) {
 			if ( it.data() != 0L ) delete it.data();
+		}
 
 		m_map.clear();
 		m_docinfo = 0L;

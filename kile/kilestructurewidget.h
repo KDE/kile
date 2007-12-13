@@ -88,7 +88,8 @@ private:
 	void setItemEntry();
 };
 
-class KileListViewToolTip : public QToolTip
+//class KileListViewToolTip : public QToolTip
+class KileListViewToolTip : public QWidget
 {
 public:
 	KileListViewToolTip(K3ListView *listview);

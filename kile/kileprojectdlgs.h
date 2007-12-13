@@ -27,6 +27,7 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 
+#include "kileextensions.h"
 #include "kileproject.h"
 #include "templates.h"
 

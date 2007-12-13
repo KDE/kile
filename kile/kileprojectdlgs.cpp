@@ -60,9 +60,12 @@ const QString whatsthisMaster = i18n("Select the default master document. Leave 
 const QString tool_default = i18n("(use global setting)");
 
 KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char * name)
-	: KDialog((parent),
+	: KDialog(parent),
 	m_extmanager(extensions), m_project(0)
 {
+	QWidget *page = new QWidget(this);
+	setMainWidget(page);
+
 	setCaption(caption);
 	setModal(true);
 	setButtons(Ok | Cancel);
@@ -71,28 +74,30 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	setObjectName(name);
 
 	// properties groupbox
-	m_pgroup = new Q3VGroupBox(i18n("Project"), plainPage());
+	m_pgroup = new Q3VGroupBox(i18n("Project"), page);
 	m_pgroup->setColumnLayout(0, Qt::Vertical );
 	m_pgroup->layout()->setSpacing( 6 );
 	m_pgroup->layout()->setMargin( 11 );
 	m_pgrid = new Q3GridLayout( m_pgroup->layout() );
 	m_pgrid->setAlignment( Qt::AlignTop );
 
-	m_title = new KLineEdit(m_pgroup, "le_projectname");
+	m_title = new KLineEdit(m_pgroup);
+	m_title->setObjectName("le_projectname");
 	Q3WhatsThis::add(m_title, whatsthisName);
 	m_plabel = new QLabel(i18n("Project &title:"), m_pgroup);
 	m_plabel->setBuddy(m_title);
 	Q3WhatsThis::add(m_plabel, whatsthisName);
 	
 	// extensions groupbox
-	m_egroup= new Q3VGroupBox(i18n("Extensions"), plainPage());
+	m_egroup= new Q3VGroupBox(i18n("Extensions"), page);
 	m_egroup->setColumnLayout(0, Qt::Vertical );
 	m_egroup->layout()->setSpacing( 6 );
 	m_egroup->layout()->setMargin( 11 );
 	m_egrid = new Q3GridLayout( m_egroup->layout() );
 	m_egrid->setAlignment( Qt::AlignTop );
 
-	m_extensions = new KLineEdit(m_egroup, "le_ext");
+	m_extensions = new KLineEdit(m_egroup);
+	m_extensions->setObjectName("le_ext");
 	QRegExp reg("[\\. a-zA-Z0-9]+");
 	QRegExpValidator *extValidator = new QRegExpValidator(reg,m_egroup);
 	m_extensions->setValidator(extValidator);
@@ -216,22 +221,27 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
         : KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name), m_templateManager(templateManager),
 		m_filename(QString::null)
 {
+	QWidget *page = new QWidget(this);
+	setMainWidget(page);
+
 	// Layout
-	Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
 
 	// first groupbox
 	m_pgrid->addWidget(m_plabel, 0,0);
 	m_pgrid->addWidget(m_title, 0,2);
 	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
-	m_location = new KLineEdit(m_pgroup, "le_projectlocation");
+	m_location = new KLineEdit(m_pgroup);
+	m_location->setObjectName("le_projectlocation");
 	m_location->setMinimumWidth(200);
 
 	QLabel *lb1 = new QLabel(i18n("Project &file:"), m_pgroup);
 	Q3WhatsThis::add(lb1, whatsthisPath);
 	Q3WhatsThis::add(m_location, whatsthisPath);
 	lb1->setBuddy(m_location);
-	m_pbChooseDir= new KPushButton(i18n("Select Folder..."), m_pgroup, "dirchooser_button" );
+	m_pbChooseDir = new KPushButton(i18n("Select Folder..."), m_pgroup);
+	m_pbChooseDir->setObjectName("dirchooser_button");
 	m_pbChooseDir->setPixmap( SmallIcon("fileopen") );
 	int wpixmap = m_pbChooseDir->pixmap()->width();
 	m_pbChooseDir->setFixedWidth(wpixmap+10);
@@ -247,7 +257,7 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	connect(m_pbChooseDir, SIGNAL(clicked()), this, SLOT(browseLocation()));
 
 	// second groupbox
-	Q3VGroupBox* group2= new Q3VGroupBox(i18n("File"), plainPage());
+	Q3VGroupBox* group2= new Q3VGroupBox(i18n("File"), page);
 	QWidget *widget2 = new QWidget(group2);
 	Q3GridLayout *grid2 = new Q3GridLayout(widget2, 3,2, 6,6);
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"),widget2);
@@ -403,8 +413,7 @@ void KileNewProjectDlg::slotOk()
 			QStringList dirs = fi.path().split("/");
 			QString path;
 
-			for (uint i=0; i < dirs.count(); ++i)
-			{
+			for (int i=0; i < dirs.count(); ++i) {
 				path += '/' + dirs[i];
 				dir.setPath(path);
 				KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
@@ -485,8 +494,11 @@ TemplateItem* KileNewProjectDlg::getSelection() const
 KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent, const char * name) :
  	KileProjectDlgBase(i18n("Project Options"), extensions, parent, name )
 {
+	QWidget *page = new QWidget(this);
+	setMainWidget(page);
+
 	// Layout
-	Q3VBoxLayout *vbox = new Q3VBoxLayout(plainPage(), 6,6 );
+	Q3VBoxLayout *vbox = new Q3VBoxLayout(page, 6,6 );
 
 	m_pgrid->addWidget(m_plabel, 0,0);
 	m_pgrid->addWidget(m_title, 0,2);
@@ -502,7 +514,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_egrid->addMultiCellWidget(m_lbStandardExtensions, 7,7, 1,3);
 
 	// third groupbox
-	Q3VGroupBox* group3 = new Q3VGroupBox(i18n("Properties"), plainPage());
+	Q3VGroupBox* group3 = new Q3VGroupBox(i18n("Properties"), page);
 	group3->setColumnLayout(0, Qt::Vertical );
 	group3->layout()->setSpacing( 6 );
 	group3->layout()->setMargin( 11 );
@@ -527,8 +539,9 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 		{
 			m_master->insertItem((*rit)->url().fileName());
 			++index;
-			if ( (*rit)->url().path() == project->masterDocument() )
-				m_master->setCurrentItem(index);
+			if((*rit)->url().path() == project->masterDocument()) {
+				m_master->setCurrentIndex(index);
+			}
 		}
 		++rit;
 	}
@@ -540,7 +553,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_cbQuick = new KComboBox(group3); 
 	lb2->setBuddy(m_cbQuick);
 	m_cbQuick->insertItem(tool_default);
-	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", KGlobal::config()));
+	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", KGlobal::config().data()));
 	m_cbQuick->setCurrentText(project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default );
 
 	//don't put this after the call to toggleMakeIndex

@@ -3,10 +3,11 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
-	<include>qapplication.h</include>
-	<include>qstring.h</include>
-	<include>qtextcodec.h</include>
-	<include>qdir.h</include>
+	<include>QApplication</include>
+	<include>QString</include>
+	<include>QTextCodec</include>
+	<include>QDir</include>
+	<include>QDesktopWidget</include>
 
 	<kcfgfile name="kilerc"/>
 

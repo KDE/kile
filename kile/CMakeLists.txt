@@ -170,7 +170,7 @@ KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 #need qt3support library for now
-TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor katepartinterfaces khtml ${QT_QT3SUPPORT_LIBRARY} kde3support)
+TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor khtml ${QT_QT3SUPPORT_LIBRARY} kde3support)
 
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 

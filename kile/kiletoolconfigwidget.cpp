@@ -129,12 +129,12 @@ namespace KileWidget
 		if ( type == "Process" ) m_configWidget->m_cbType->setCurrentItem(0);
 		else if ( type == "Konsole" )
 		{
-			m_configWidget->m_cbType->setCurrentItem(1);
+			m_configWidget->m_cbType->setCurrentIndex(1);
 			enablekonsoleclose = true;
 		}
-		else if ( type == "Part" ) m_configWidget->m_cbType->setCurrentItem(2);
-		else if ( type == "DocPart" ) m_configWidget->m_cbType->setCurrentItem(3);
-		else if ( type == "Sequence" ) m_configWidget->m_cbType->setCurrentItem(4);
+		else if ( type == "Part" ) m_configWidget->m_cbType->setCurrentIndex(2);
+		else if ( type == "DocPart" ) m_configWidget->m_cbType->setCurrentIndex(3);
+		else if ( type == "Sequence" ) m_configWidget->m_cbType->setCurrentIndex(4);
 		m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
 
 		QString state = m_map["state"];
@@ -143,7 +143,7 @@ namespace KileWidget
 
 		int index = m_classes.findIndex(m_map["class"]);
 		if ( index == -1 ) index = m_classes.count()-1;
-		m_configWidget->m_cbClass->setCurrentItem(index);
+		m_configWidget->m_cbClass->setCurrentIndex(index);
 		m_configWidget->m_ckClose->setChecked(m_map["close"] == "yes");
 		m_configWidget->m_leSource->setText(m_map["from"]);
 		m_configWidget->m_leTarget->setText(m_map["to"]);
@@ -247,15 +247,17 @@ namespace KileWidget
 		{
 			QStringList groups = m_config->groupList();
 			QRegExp re = QRegExp("Tool/(.+)/.+");
-			for ( uint i = 0; i < groups.count(); ++i )
-				if ( re.exactMatch(groups[i]) )
-					m_config->deleteGroup(groups[i],true);
-			
+			for (int i = 0; i < groups.count(); ++i ) {
+				if (re.exactMatch(groups[i])) {
+					m_config->deleteGroup(groups[i]);
+				}
+			}
+
 			m_manager->factory()->writeStdConfig();
 			m_config->sync();
 			updateToollist();
   			QStringList tools = KileTool::toolList(m_config, true);
-			for ( uint i = 0; i < tools.count(); ++i){
+			for (int i = 0; i < tools.count(); ++i) {
 				switchTo(tools[i], false);// needed to retrieve the new map
  				switchTo(tools[i],true); // this writes the newly retrieved entry map (and not an perhaps changed old one)
 			}
@@ -289,8 +291,8 @@ namespace KileWidget
 
 	int ToolConfig::indexQuickBuild()
 	{
-		int index = m_configWidget->m_lstbTools->index( m_configWidget->m_lstbTools->findItem("QuickBuild",Qt::ExactMatch) );
-		
+		int index = m_configWidget->m_lstbTools->index(m_configWidget->m_lstbTools->findItem("QuickBuild", Q3ListBox::ExactMatch));
+
 		return ( index >= 0 ) ? index : 0;
 	}
 	
@@ -305,8 +307,9 @@ namespace KileWidget
 		//KILE_DEBUG() << "==ToolConfig::switchConfig(const QString & cfg)==========" << endl;
 		for ( int i = 0; i < m_configWidget->m_cbConfig->count(); ++i)
 		{
-			if ( m_configWidget->m_cbConfig->text(i) == cfg )
-				m_configWidget->m_cbConfig->setCurrentItem(i);
+			if (m_configWidget->m_cbConfig->text(i) == cfg) {
+				m_configWidget->m_cbConfig->setCurrentIndex(i);
+			}
 		}
 	}
 
@@ -336,10 +339,12 @@ namespace KileWidget
 		//show GUI info
 		m_configWidget->m_cbMenu->setCurrentText(KileTool::menuFor(m_current, m_config));
 		m_icon=KileTool::iconFor(m_current, m_config);
-		if ( m_icon.isEmpty() )
-			m_configWidget->m_pshbIcon->setPixmap(QString::null);
-		else
-			m_configWidget->m_pshbIcon->setPixmap(SmallIcon(m_icon));
+		if(!m_icon.isEmpty()) {
+			m_configWidget->m_pshbIcon->setIcon(KIcon(QString()));
+		}
+		else {
+			m_configWidget->m_pshbIcon->setIcon(SmallIcon(m_icon));
+		}
 	}
 
 	void ToolConfig::updateConfiglist()
@@ -363,10 +368,12 @@ namespace KileWidget
 		
 			m_icon = res;
 			writeConfig();
-			if ( m_icon.isEmpty() )
-				m_configWidget->m_pshbIcon->setPixmap(QString::null);
-			else
-				m_configWidget->m_pshbIcon->setPixmap(SmallIcon(m_icon));
+			if (m_icon.isEmpty()) {
+				m_configWidget->m_pshbIcon->setIcon(KIcon(QString()));
+			}
+			else {
+				m_configWidget->m_pshbIcon->setIcon(SmallIcon(m_icon));
+			}
 		}
 	}
 
@@ -385,14 +392,14 @@ namespace KileWidget
 				//copy tool info
 				KileTool::Config tempMap;
 				m_manager->retrieveEntryMap(parentTool, tempMap, false, false);
-				m_config->setGroup(KileTool::groupFor(toolName, "Default"));
-				m_config->writeEntry("class", tempMap["class"]);
-				m_config->writeEntry("type", tempMap["type"]);
-				m_config->writeEntry("state", tempMap["state"]);
-				m_config->writeEntry("close", tempMap["close"]);
-				m_config->writeEntry("checkForRoot", tempMap["checkForRoot"]);
-				m_config->writeEntry("autoRun", tempMap["autoRun"]);
-				m_config->writeEntry("jumpToFirstError", tempMap["jumpToFirstError"]);
+				KConfigGroup toolGroup = m_config->group(KileTool::groupFor(toolName, "Default"));
+				toolGroup.writeEntry("class", tempMap["class"]);
+				toolGroup.writeEntry("type", tempMap["type"]);
+				toolGroup.writeEntry("state", tempMap["state"]);
+				toolGroup.writeEntry("close", tempMap["close"]);
+				toolGroup.writeEntry("checkForRoot", tempMap["checkForRoot"]);
+				toolGroup.writeEntry("autoRun", tempMap["autoRun"]);
+				toolGroup.writeEntry("jumpToFirstError", tempMap["jumpToFirstError"]);
 			}
 
 			m_configWidget->m_lstbTools->blockSignals(true);
@@ -417,10 +424,10 @@ namespace KileWidget
 		if (ok && (!cfg.isEmpty()))
 		{
 			//copy config
-			m_config->setGroup(KileTool::groupFor(m_current, cfg));
+			KConfigGroup toolGroup = m_config->group(KileTool::groupFor(m_current, cfg));
 			for (QMap<QString,QString>::Iterator it  = m_map.begin(); it != m_map.end(); ++it)
 			{
-				m_config->writeEntry(it.key(), it.data());
+				toolGroup.writeEntry(it.key(), it.data());
 			}
 			KileTool::setConfigName(m_current, cfg, m_config);
 			switchTo(m_current, false);
@@ -430,15 +437,14 @@ namespace KileWidget
 
 	void ToolConfig::writeStdConfig(const QString & tool, const QString & cfg)
 	{
-		m_config->setGroup(KileTool::groupFor(tool, cfg));
-		m_config->writeEntry("class", "Compile");
-		m_config->writeEntry("type", "Process");
-		m_config->writeEntry("menu", "Compile");
-		m_config->writeEntry("state", "Editor");
-		m_config->writeEntry("close", "no");
+		KConfigGroup toolGroup = m_config->group(KileTool::groupFor(tool, cfg));
+		toolGroup.writeEntry("class", "Compile");
+		toolGroup.writeEntry("type", "Process");
+		toolGroup.writeEntry("menu", "Compile");
+		toolGroup.writeEntry("state", "Editor");
+		toolGroup.writeEntry("close", "no");
 
-		m_config->setGroup("Tools");
-		m_config->writeEntry(tool, cfg);
+		m_config->group("Tools").writeEntry(tool, cfg);
 	}
 
 	void ToolConfig::removeTool()
@@ -448,12 +454,10 @@ namespace KileWidget
 		{
 			KConfig *config = m_config;
 			QStringList cfgs = KileTool::configNames(m_current, config);
-			for ( uint i = 0; i < cfgs.count(); ++i)
-			{
+			for(int i = 0; i < cfgs.count(); ++i) {
 				config->deleteGroup(KileTool::groupFor(m_current, cfgs[i]));
 			}
-			config->setGroup("Tools");
-			config->deleteEntry(m_current);
+			config->group("Tools").deleteEntry(m_current);
 			int index = m_configWidget->m_lstbTools->currentItem()-1;
 			if ( index < 0 ) index=0;
 			QString tool = m_configWidget->m_lstbTools->text(index);
@@ -527,8 +531,7 @@ namespace KileWidget
 	void ToolConfig::setRunLyxServer(bool ck)
 	{
 		//KILE_DEBUG() << "setRunLyxServer" << endl;
-		m_config->setGroup("Tools");
-		m_config->writeEntry("RunLyxServer", ck);
+		m_config->group("Tools").writeEntry("RunLyxServer", ck);
 	}
 	void ToolConfig::setFrom(const QString & from) { m_map["from"] = from.trimmed(); }
 	void ToolConfig::setTo(const QString & to) { m_map["to"] = to.trimmed(); }

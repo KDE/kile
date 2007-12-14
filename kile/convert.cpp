@@ -19,6 +19,8 @@
 #include <qtextcodec.h>
 #include <qfile.h>
 
+#include <Q3TextStream>
+
 #include <kmessagebox.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
@@ -52,9 +54,11 @@ bool ConvertMap::create(const QString & encoding)
 QString ConvertMap::encodingNameFor(const QString & name)
 {
 	QString std;
-	for ( uint i = 0; i < name.length(); ++i )
-		if ( !name[i].isSpace() )
+	for(int i = 0; i < name.length(); ++i) {
+		if(!name[i].isSpace()) {
 			std += name[i];
+		}
+	}
 
 	std = std.toLower();
 
@@ -70,9 +74,11 @@ QString ConvertMap::encodingNameFor(const QString & name)
 QString ConvertMap::isoNameFor(const QString & name)
 {
 	QString std;
-	for ( uint i = 0; i < name.length(); ++i )
-		if ( !name[i].isSpace() )
+	for(int i = 0; i < name.length(); ++i) {
+		if(!name[i].isSpace()) {
 			std += name[i];
+		}
+	}
 
 	std = std.toLower();
 
@@ -149,7 +155,7 @@ QString & ConvertIO::currentLine()
 
 void ConvertIO::nextLine()
 {
-	m_line = m_doc->textLine(m_nLine++);
+	m_line = m_doc->line(m_nLine++);
 }
 
 void ConvertIO::writeText()
@@ -164,7 +170,7 @@ uint ConvertIO::current()
 
 bool ConvertIO::done()
 {
-	return current() == m_doc->numLines();
+	return current() == m_doc->lines();
 }
 
 ConvertIOFile::ConvertIOFile(KTextEditor::Document *doc, const KUrl & url) : ConvertIO(doc), m_url(url)

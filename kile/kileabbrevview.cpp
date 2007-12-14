@@ -20,6 +20,8 @@
 #include <kmessagebox.h>
 #include "kiledebug.h"
 
+#include <Q3TextStream>
+
 #include <q3header.h>
 #include <qlayout.h>
 #include <qregexp.h>
@@ -31,7 +33,7 @@
 #include <Q3VBoxLayout>
 
 KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name) 
-	: K3ListView(parent, name), m_changes(false)
+	: K3ListView(parent), m_changes(false)
 {
 
 	addColumn(i18n("Short"));
@@ -74,7 +76,7 @@ void KileAbbrevView::init(const QStringList *globallist, const QStringList *loca
 
 void KileAbbrevView::addWordlist(const QStringList *wordlist, bool global)
 {
-	QString type = ( global ) ? QString::null : "*";
+	QString type = ( global ) ? QString() : "*";
 
 	QStringList::ConstIterator it;
 	for ( it=wordlist->begin(); it!=wordlist->end(); ++it ) 

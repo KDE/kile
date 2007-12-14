@@ -20,6 +20,11 @@
 KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
 	: KPageDialog(parent), m_project(project), m_docinfo(docinfo)
 {
+#ifdef __GNUC__
+#warning Still things left to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	setObjectName(name);
 	setFaceType(Tabbed);
 	setCaption(caption);
@@ -51,10 +56,9 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 	m_pagetowidget[index]=summary;
 	m_pagetoname[index]=i18n("Summary");
 	index++; // used with activePageIndex() to get the active widget and the tabname, arrays would be more efficient, but Maps are less dangerous
-	
-	if(m_docinfo->getDoc()->hasSelection()) // the user should really have that doc as active in which the selection is
+
+	if(m_docinfo->getDoc()->selection()) // the user should really have that doc as active in which the selection is
 		m_hasSelection=true;
-	
 	
 	if(!m_project) // the active doc doesn't belong to a project
 	{	
@@ -112,6 +116,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 		}
 	}
 // 	setInitialSize( QSize(550,560), true);
+*/
 }
 
 KileStatsDlg::~KileStatsDlg()
@@ -146,7 +151,8 @@ widget->updateColumns();
 void KileStatsDlg::slotUser1() // Copy
 {
 	KILE_DEBUG() << "Copy Button was clicked" << endl;
-	KILE_DEBUG() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
+//FIXME: port for KDE4
+// 	KILE_DEBUG() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
 
 	QClipboard *clip = KApplication::clipboard();
 	QString text;
@@ -157,7 +163,8 @@ void KileStatsDlg::slotUser1() // Copy
 void KileStatsDlg::slotUser2() // CopyAsLaTeX
 {
 	KILE_DEBUG() << "CopyAsLateX Button was clicked" << endl;
-	KILE_DEBUG() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
+//FIXME: port for KDE4
+// 	KILE_DEBUG() << "Open tab is " << activePageIndex() << ' ' + ( m_pagetoname.contains(activePageIndex()) ?  m_pagetoname[activePageIndex()] : "No such entry" )<< endl;
 
 	QClipboard *clip = KApplication::clipboard();
 	QString text;
@@ -167,6 +174,11 @@ void KileStatsDlg::slotUser2() // CopyAsLaTeX
 
 void KileStatsDlg::convertText(QString* text, bool forLaTeX) // the bool determines if we want plainText or LaTeXCode
 {
+#ifdef __GNUC__
+#warning Still things left to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	KileWidgetStatistics* widget = m_pagetowidget[activePageIndex()];
 	QString name = m_pagetoname[activePageIndex()];
 	QString charGroupName = i18n("Characters"); // always ensure that these are the same than in kilestatswidget.ui, there is no way to get the label of a button group, so this ugly hack is needed
@@ -208,6 +220,7 @@ else
 		text->append( ( forLaTeX? "\\par\\bigskip\n": "\n") + widget->m_warning->text() + '\n');
 	else if(m_notAllFilesOpenWarning)
 		text->append( ( forLaTeX? "\\par\\bigskip\n": "\n") + widget->m_warning->text() + '\n');
+*/
 }
 
 

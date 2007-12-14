@@ -62,7 +62,7 @@ void KileCenteredTableItem::paint(QPainter* p,const QColorGroup& cg,const QRect&
       */
    }
 
-   p->drawText( 2,0,w-4,h, Qt::AlignHCenter|AlignVCenter, text() );
+   p->drawText(2, 0, w - 4, h, Qt::AlignHCenter | Qt::AlignVCenter, text());
 }
 
 //////////////////// KileTable ////////////////////
@@ -77,7 +77,7 @@ KileTable::KileTable(QWidget *dialog, QWidget *parent, const char *name) : Q3Tab
    setLeftMargin(0);
    setVScrollBarMode(Q3ScrollView::AlwaysOff);
    setHScrollBarMode(Q3ScrollView::AlwaysOff);
-   setFocusPolicy(QWidget::NoFocus);
+   setFocusPolicy(Qt::NoFocus);
 
    horizontalHeader()->setResizeEnabled(false);
    horizontalHeader()->setClickEnabled(false);
@@ -118,7 +118,7 @@ ConfigStructure::ConfigStructure(QWidget *parent, const char *name )
    m_entriestable->horizontalHeader()->setLabel(1,SmallIcon("structure"), i18n( "Visible" ));
    m_entriestable->horizontalHeader()->setLabel(2,SmallIcon("structure"), i18n( "Node" ));
 
-   for ( uint i=0; i<m_entries.count(); ++i ) {
+   for(int i=0; i<m_entries.count(); ++i) {
        Q3TableItem *item = new Q3TableItem(m_entriestable,Q3TableItem::Never, m_entries[i]);
        m_entriestable->setItem( i,0,item  );
        m_visible[i] = new Q3CheckTableItem(m_entriestable,"");
@@ -264,8 +264,11 @@ void ConfigStructure::comboboxChanged(const QString &name)
 
 void ConfigStructure::changeSectioning(const QStringList *list)
 {
-   for (uint i=0; i<list->count(); ++i) {
-      QString label =  ( i < (uint)m_structurelevel->value() ) ? "open" : "close";
+   for(int i = 0; i < list->count(); ++i) {
+#ifdef __GNUC__
+#warning Check whether i18n calls are needed here!
+#endif
+      QString label = (i < m_structurelevel->value()) ? "open" : "close";
       m_sectioningtable->setText(i,2,label);
    }
 }
@@ -273,11 +276,14 @@ void ConfigStructure::changeSectioning(const QStringList *list)
 void ConfigStructure::showSectioning(const QStringList *list)
 {
    QString label1,label2,label3;
-   for (uint i=0; i<5; ++i) {
-      if ( i < list->count() ) {
+   for(int i = 0; i < 5; ++i) {
+      if(i < list->count()) {
          label1 = QString("%1").arg(i+1);
          label2 = (*list)[i];
-         label3 =  ( i < (uint)m_structurelevel->value() ) ? "open" : "close";
+#ifdef __GNUC__
+#warning Check whether i18n calls are needed here!
+#endif
+         label3 = (i < m_structurelevel->value()) ? "open" : "close";
       } else {
          label1 = label2 = label3 = QString::null;
       }
@@ -300,11 +306,11 @@ void ConfigStructure::clickedAdd()
 void ConfigStructure::readConfig(KConfig *config)
 {
    // config section
-   config->setGroup( "Structure Entries" );
-   for ( uint i=0; i<m_entries.count(); ++i ) {
+   KConfigGroup entriesGroup = config->group("Structure Entries");
+   for(int i = 0; i < m_entries.count(); ++i) {
       int defaultvalue = ( m_entries[i] == i18n( "Sectioning" ) ) ? KileStructure::Visible | KileStructure::Opened
                                                           : KileStructure::Visible;
-      int num = config->readNumEntry(m_entries[i],defaultvalue);
+      int num = entriesGroup.readEntry(m_entries[i], defaultvalue);
       m_visible[i]->setChecked( (num & KileStructure::Visible) ? true : false );
       if ( num & KileStructure::Opened ) {
          m_defaultopen[i]->setChecked(true);
@@ -312,11 +318,11 @@ void ConfigStructure::readConfig(KConfig *config)
       }
    }
 
-   config->setGroup( "Structure Sectioning" );
-   QStringList classlist = config->readListEntry("classes");
+   KConfigGroup sectioningGroup = config->group( "Structure Sectioning" );
+   QStringList classlist = sectioningGroup.readEntry("classes", QStringList());
    classlist.sort();
-   for ( uint i=0; i<classlist.count(); ++i ) {
-      QStringList list = config->readListEntry(classlist[i]);
+   for(int i = 0; i < classlist.count(); ++i) {
+      QStringList list = sectioningGroup.readEntry(classlist[i], QStringList());
       if ( list.count() > 0 ) {
          comboclasses->insertItem(classlist[i]);
          QStringList *sectioningcommands = new QStringList(list);
@@ -324,33 +330,33 @@ void ConfigStructure::readConfig(KConfig *config)
      }
    }
 
-   m_structurelevel->setValue(config->readNumEntry("DefaultLevel",3));
+   m_structurelevel->setValue(sectioningGroup.readEntry("DefaultLevel", 3));
 }
 
 void ConfigStructure::writeConfig(KConfig *config)
 {
    // config section
-   config->setGroup( "Structure Entries" );
-   for ( uint i=0; i<m_entries.count(); ++i ) {
+   KConfigGroup entriesGroup = config->group("Structure Entries");
+   for(int i = 0; i < m_entries.count(); ++i) {
       int num = ( m_visible[i]->isChecked() ) ?  KileStructure::Visible : KileStructure::None;
       if  ( m_defaultopen[i]->isChecked() )
          num += KileStructure::Opened;
-      config->writeEntry(m_entries[i],num);
+      entriesGroup.writeEntry(m_entries[i], num);
    }
 
-   config->setGroup( "Structure Sectioning" );
+   KConfigGroup sectioningGroup = config->group("Structure Sectioning");
    QStringList classlist;
-   for ( int i=0; i<comboclasses->count(); ++i ) {
+   for(int i = 0; i < comboclasses->count(); ++i) {
       QString entry = comboclasses->text(i);
       if ( entry != "latex" ) {
          classlist << entry;
          QString entrylist = m_docclasses[entry]->join(",");
-         config->writeEntry( entry, entrylist );
+         sectioningGroup.writeEntry(entry, entrylist);
       }
    }
-   config->writeEntry( "classes", classlist );
+   sectioningGroup.writeEntry("classes", classlist);
 
-   config->writeEntry("DefaultLevel",m_structurelevel->value());
+   sectioningGroup.writeEntry("DefaultLevel", m_structurelevel->value());
 }
 
 }

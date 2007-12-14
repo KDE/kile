@@ -95,13 +95,18 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	Q3VBoxLayout *baseLayout = new Q3VBoxLayout(this);
 
 	m_toolbar = new KToolBar(this, "scriptControlToolBar");
+#ifdef __GNUC__
+#warning Still things left to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 	m_executeButton = m_toolbar->insertButton(BarIcon("exec"), 0, SIGNAL(clicked(int)), this, SLOT(executeSelectedScript()), true, i18n("Run Selected Script"));
 	m_newButton = m_toolbar->insertButton(BarIcon("scriptnew"), 0, SIGNAL(clicked(int)), m_kileInfo->docManager(), SLOT(createNewJScript()), true, i18n("Create New Script"));
 	m_openButton = m_toolbar->insertButton(BarIcon("scriptopen"), 0, SIGNAL(clicked(int)), this, SLOT(openSelectedScript()), true, i18n("Open Selected Script in Editor"));
 // 	m_toolbar->insertButton(BarIcon("configure_shortcuts"), 0, SIGNAL(clicked(int)), this, SLOT(configureSelectedShortcut()), true, i18n("Configure Shortcut"));
 // 	m_toolbar->insertButton(BarIcon("editclear"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh"));
 	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh List"));
-
+*/
 	baseLayout->addWidget(m_toolbar);
 	m_scriptsListView = new K3ListView(this);
 	m_scriptsListView->addColumn(i18n("Script Name"));
@@ -165,8 +170,13 @@ void ScriptsManagement::executeSelectedScript() {
 
 void ScriptsManagement::updateButtonPanel() {
 	bool b = !(m_scriptsListView->selectedItem() == NULL);
+#ifdef __GNUC__
+#warning Still things left to be ported!
+#endif
+/*
 	m_toolbar->setItemEnabled(m_executeButton, b);
 	m_toolbar->setItemEnabled(m_openButton, b);
+*/
 }
 
 }

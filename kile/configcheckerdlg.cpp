@@ -40,8 +40,7 @@ namespace KileDialog
 ResultItem::ResultItem(K3ListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests) : Q3ListBoxItem(lb)
 {
 	QString rt = "<hr><b><font color=\"%1\">%2</font></b> (%3)<br><ul>";
-	for ( uint i = 0; i < tests.count(); ++i)
-	{
+	for (int i = 0; i < tests.count(); ++i) {
 		QString itemcolor = "black";
 		if ( tests[i].status() == ConfigTest::Failure ) itemcolor = "#FFA201";
 		else if ( tests[i].status() == ConfigTest::Critical ) itemcolor = "#AA0000";
@@ -97,7 +96,7 @@ ConfigChecker::~ConfigChecker()
 {
 }
 
-KProgress* ConfigChecker::progressBar()
+QProgressBar* ConfigChecker::progressBar()
 {
 	return m_widget->progressBar();
 }
@@ -114,7 +113,7 @@ K3ListBox* ConfigChecker::listBox()
 
 void ConfigChecker::run()
 {
-	m_tester = new Tester(this, "configtester");
+	m_tester = new Tester(this);
 
 	connect(m_tester, SIGNAL(started()), this, SLOT(started()));
 	connect(m_tester, SIGNAL(percentageDone(int)), this, SLOT(setPercentageDone(int)));
@@ -154,8 +153,7 @@ void ConfigChecker::finished(bool ok)
 
 		QStringList tools = m_tester->testedTools();
 		QStringList critical, failure;
-		for ( uint i = 0; i < tools.count(); ++i )
-		{
+		for(int i = 0; i < tools.count(); ++i) {
 			int status = m_tester->statusForTool(tools[i]);
 			if ( status == ConfigTest::Critical ) critical.append(tools[i]);
 			else if ( status == ConfigTest::Failure ) failure.append(tools[i]);
@@ -181,7 +179,7 @@ void ConfigChecker::finished(bool ok)
 
 void ConfigChecker::setPercentageDone(int p)
 {
-	progressBar()->setProgress(p);
+	progressBar()->setValue(p);
 }
 
 }

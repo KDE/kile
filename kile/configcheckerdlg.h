@@ -17,7 +17,9 @@
 #define KILEDIALOG_CONFIGCHECKER_H
 
 #include <q3simplerichtext.h>
+#include <QProgressBar>
 //Added by qt3to4:
+#include <Q3ListBox>
 #include <Q3ValueList>
 #include <QLabel>
 
@@ -66,7 +68,7 @@ namespace KileDialog
 		void slotCancel();
 
 	private:
-		KProgress* progressBar();
+		QProgressBar* progressBar();
 		QLabel* label();
 		K3ListBox* listBox();
 

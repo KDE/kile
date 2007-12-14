@@ -63,7 +63,7 @@ namespace KileHelp
 		Q_OBJECT
 
 	public:
-		Help(KileDocument::EditorExtension *edit);
+		Help(KileDocument::EditorExtension *edit, QWidget *mainWindow);
 		~Help();
 		
 		void setUserhelp(KileTool::Manager *manager, KMenuBar *menubar); 
@@ -84,6 +84,7 @@ namespace KileHelp
 		void helpDocBrowser(); 
 		
 	private:
+		QWidget *m_mainWindow;
 		KileTool::Manager *m_manager;
 		KileDocument::EditorExtension *m_edit;
 		UserHelp *m_userhelp;

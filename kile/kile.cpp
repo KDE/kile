@@ -113,9 +113,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
-	m_latexCommands = new KileDocument::LatexCommands(m_config.data(),this);  // at first (dani)
+	m_latexCommands = new KileDocument::LatexCommands(m_config.data(), this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
-	m_help = new KileHelp::Help(m_edit);
+	m_help = new KileHelp::Help(m_edit, this);
 	m_partManager = new KParts::PartManager( this );
 	m_eventFilter = new KileEventFilter(m_edit);
 	m_errorHandler = new KileErrorHandler(this, this);

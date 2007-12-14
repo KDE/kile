@@ -44,7 +44,7 @@
 namespace KileHelp
 {
 
-	Help::Help(KileDocument::EditorExtension *edit) : m_edit(edit), m_userhelp(0L)
+	Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(NULL)
 	{
 		readHelpList("latex-kile.lst",m_dictHelpKile);
 		initTexDocumentation();
@@ -106,7 +106,7 @@ namespace KileHelp
 	void Help::setUserhelp(KileTool::Manager *manager, KMenuBar *menubar)
 	{ 
 		m_manager = manager;
-		m_userhelp = new UserHelp(manager,menubar);
+		m_userhelp = new UserHelp(manager, menubar, m_mainWindow);
 	}
 	
 	void Help::enableUserhelpEntries(bool state)
@@ -309,9 +309,11 @@ namespace KileHelp
 		// get current position
 		uint row,col,col1,col2;
 		QString word;
-		KTextEditor::Document *doc = view->getDoc();
-		view->cursorPositionReal(&row,&col);
-		
+		KTextEditor::Document *doc = view->document();
+		KTextEditor::Cursor cursor = view->cursorPosition();
+		row = cursor.line();
+		col = cursor.column();
+
 		if ( m_edit->getCurrentWord(doc,row,col,KileDocument::EditorExtension::smTex,word,col1,col2) )
 		   // There is no starred keyword in the references. So if     // dani 04.08.2004
 			// we find one, we better try the unstarred keyword.

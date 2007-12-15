@@ -22,7 +22,7 @@
 #include "docpart.h"
 #include "kileconfig.h"
 
-#include <q3widgetstack.h>
+#include <QStackedWidget>
 #include <qregexp.h>
 #include <qfileinfo.h>
 
@@ -286,7 +286,7 @@
 			return false;
 		}
 
-		Q3WidgetStack *stack = tool()->manager()->widgetStack();
+		QStackedWidget *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
 #ifdef __GNUC__
@@ -315,8 +315,8 @@ m_part = NULL;
 
 		tool()->manager()->wantGUIState(m_state);
 
-		stack->addWidget(m_part->widget() , 1 );
-		stack->raiseWidget(1);
+		stack->insertWidget(1, m_part->widget());
+		stack->setCurrentIndex(1);
 
 		m_part->openUrl(KUrl(name));
 		pm->addPart(m_part, true);
@@ -346,7 +346,7 @@ m_part = NULL;
 		emit(message(Info, msg));
 		emit(output(out));
 
-		Q3WidgetStack *stack = tool()->manager()->widgetStack();
+		QStackedWidget *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
 		DocumentationViewer *htmlpart = new DocumentationViewer(stack);
@@ -359,8 +359,8 @@ m_part = NULL;
 
 		htmlpart->openUrl(KUrl(name));
 		htmlpart->addToHistory(name);
-		stack->addWidget(htmlpart->widget() , 1 );
-		stack->raiseWidget(1);
+		stack->insertWidget(1, htmlpart->widget());
+		stack->setCurrentIndex(1);
 
 		pm->addPart(htmlpart, true);
 		pm->setActivePart( htmlpart);

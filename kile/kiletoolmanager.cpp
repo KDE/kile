@@ -19,7 +19,6 @@
  
 #include <qstring.h>
 #include <qfileinfo.h>
-#include <q3widgetstack.h>
 #include <qtimer.h>
 #include <qregexp.h>
 #include <qthread.h>
@@ -101,7 +100,7 @@ namespace KileTool
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, Q3WidgetStack *stack, KAction *stop, uint to) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
 		m_ki(ki),
 		m_config(config),
 		m_log(log),

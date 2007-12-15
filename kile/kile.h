@@ -28,14 +28,14 @@
 #include <qsplitter.h>
 #include <qwidget.h>
 #include <qstringlist.h>
-#include <q3widgetstack.h>
 #include <qstring.h>
 #include <qtoolbox.h>
-//Added by qt3to4:
+
 #include <Q3ValueList>
 #include <Q3PtrList>
 #include <QHideEvent>
 #include <QShowEvent>
+#include <QStackedWidget>
 
 #include "kileappIface.h"
 #include "docpart.h"
@@ -167,7 +167,7 @@ private:
 	//widgets
 	KileSideBar			*m_sideBar;
 	KileAbbrevView		*m_kileAbbrevView;
-	Q3WidgetStack 			*m_topWidgetStack;
+	QStackedWidget			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 	QToolBox			*m_toolBox;
 	SymbolView			*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;

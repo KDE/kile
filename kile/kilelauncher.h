@@ -20,8 +20,6 @@
 #include <q3dict.h>
 #include <qstringlist.h>
 
-class Q3WidgetStack;
-
 
 class K3Process;
 class K3ShellProcess;

@@ -140,7 +140,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	setupStatusBar();
 
-	m_topWidgetStack = new Q3WidgetStack( this );
+	m_topWidgetStack = new QStackedWidget(this);
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
 	m_horizontalSplitter = new QSplitter(Qt::Horizontal, m_topWidgetStack, "horizontalSplitter");
@@ -171,7 +171,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 		m_bottomBar->setSize(KileConfig::bottomBarSize());
 	}
 
-	m_topWidgetStack->addWidget(m_horizontalSplitter , 0);
+	m_topWidgetStack->addWidget(m_horizontalSplitter);
 	setCentralWidget(m_topWidgetStack);
 	newCaption();
 
@@ -1461,7 +1461,7 @@ void Kile::showToolBars(const QString & wantState)
 	{
 		stateChanged( "Editor" );
 		m_wantState="Editor";
-		m_topWidgetStack->raiseWidget(0);
+		m_topWidgetStack->setCurrentIndex(0);
 		if ( ! mainToolBar  ) toolBar("mainToolBar")->hide();
 		if ( buildToolBar ) toolBar("buildToolBar")->show();
 		if ( errorToolBar ) toolBar("errorToolBar")->show();

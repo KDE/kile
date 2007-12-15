@@ -1,9 +1,7 @@
 /**************************************************************************************
-    begin                : Fri 18-06-2004
-    edit 		 : Wed 1 Jun 2006
-    copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
-                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+              (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
+              (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -17,13 +15,9 @@
 
 #include "kilesidebar.h"
 
-#include <q3widgetstack.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
-#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLayout>
 
 #include <kdeversion.h>
 #include "kiledebug.h"
@@ -31,7 +25,7 @@
 #include "symbolview.h"
 
 KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/) : 
-	Q3Frame(parent, name),
+	QFrame(parent),
 	m_nTabs(0),
 	m_nCurrent(0),
 	m_bMinimized(false),
@@ -42,42 +36,39 @@ KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orient
 	setLineWidth(0);
 	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
  
-	QLayout *layout;
+	QLayout *layout = NULL;
 
-	m_tabStack = new Q3WidgetStack(this);
+	m_tabStack = new QStackedWidget(this);
 	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
-	if ( orientation == Qt::Horizontal ) 
-	{
-		layout = new Q3VBoxLayout(this);
+	if (orientation == Qt::Horizontal) {
+		layout = new QVBoxLayout(this);
 		tabbarpos = KMultiTabBar::Top;
 	}
-	else if ( orientation == Qt::Vertical ) 
-	{
-		layout = new Q3HBoxLayout(this);
+	else if(orientation == Qt::Vertical) {
+		layout = new QHBoxLayout(this);
 		tabbarpos = KMultiTabBar::Right;
 	}
 
 	m_tabBar = new KMultiTabBar(tabbarpos, this);
 	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
-	if ( orientation == Qt::Horizontal )
-	{
+	if(orientation == Qt::Horizontal) {
 		setMinimumHeight(m_tabBar->height());
 		m_nMinSize = m_tabBar->height();
 		m_nMaxSize = m_tabBar->maximumHeight();
 		layout->add(m_tabBar);
 		layout->add(m_tabStack);
 	}
-	else if ( orientation == Qt::Vertical )
-	{
+	else if(orientation == Qt::Vertical) {
 		setMinimumWidth(m_tabBar->width());
 		m_nMinSize = m_tabBar->width();
 		m_nMaxSize = m_tabBar->maximumWidth();
 		layout->add(m_tabStack);
 		layout->add(m_tabBar);
 	}
+	setLayout(layout);
 }
 
 KileSideBar::~KileSideBar()
@@ -89,7 +80,7 @@ int KileSideBar::addTab(QWidget *tab, const QPixmap &pic, const QString &text /*
 	m_widgetToIndex[tab] = m_nTabs;
 
 	m_tabBar->appendTab(pic, m_nTabs, text);
-	m_tabStack->addWidget(tab, m_nTabs);
+	m_tabStack->insertWidget(m_nTabs, tab);
 	connect(m_tabBar->tab(m_nTabs), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
 
 	return m_nTabs++;
@@ -136,7 +127,7 @@ void KileSideBar::expand()
 
 QWidget* KileSideBar::currentPage()
 {
-	return m_tabStack->visibleWidget();
+	return m_tabStack->currentWidget();
 }
 
 int KileSideBar::findNextShownTab(int i)
@@ -228,7 +219,7 @@ void KileSideBar::switchToTab(int id)
 	m_tabBar->setTab(m_nCurrent, false);
 	m_tabBar->setTab(id, true);
 
-	m_tabStack->raiseWidget(id);
+	m_tabStack->setCurrentIndex(id);
 
 	m_nCurrent = id;
 }

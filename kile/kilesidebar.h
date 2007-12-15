@@ -1,9 +1,7 @@
 /**************************************************************************************
-    begin                : Fri 18-06-2004
-    edit 		 : Wed 1 Jun 2006
-    copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
-                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+              (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
+              (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -18,20 +16,16 @@
 #ifndef KILESIDEBAR_H
 #define KILESIDEBAR_H
 
-#include <q3frame.h>
-#include <qmap.h>
-//Added by qt3to4:
+#include <QFrame>
+#include <QMap>
 #include <QPixmap>
+#include <QStackedWidget>
 
 #include <kmultitabbar.h>
 
-class Q3WidgetStack;
 class SymbolView;
 
-/**
-@author Jeroen Wijnhout
-*/
-class KileSideBar : public Q3Frame
+class KileSideBar : public QFrame
 {
 	Q_OBJECT
 
@@ -78,7 +72,7 @@ private:
 	int findNextShownTab(int i);
 
 protected:
-	Q3WidgetStack		*m_tabStack;
+	QStackedWidget		*m_tabStack;
 	KMultiTabBar		*m_tabBar;
 	int			m_nTabs;
 	int			m_nCurrent;

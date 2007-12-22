@@ -23,58 +23,58 @@
 #include "kilewizard.h"
 #include "latexcmd.h"
 
-#include <klineedit.h>
+class QLabel;
+class QCheckBox;
+class QComboBox;
+class QSpinBox;
 
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qspinbox.h>
-#include <q3buttongroup.h>
-#include <qmap.h>
+class KLineEdit;
+
 #include <q3valuelist.h>
- 
+
 namespace KileDialog
 {
 
-class MathEnvironmentDialog : public Wizard  
+class MathEnvironmentDialog : public Wizard
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	MathEnvironmentDialog(QWidget *parent, KConfig *config, KileInfo *ki, KileDocument::LatexCommands *commands);
-	~MathEnvironmentDialog() {}
-	
-public slots:
-	void slotOk();
+	public:
+		MathEnvironmentDialog(QWidget *parent, KConfig *config, KileInfo *ki,
+		                      KileDocument::LatexCommands *commands);
+		~MathEnvironmentDialog() {}
 
-private slots:
-	void slotEnvironmentChanged(int index);  
-	void slotSpinboxValueChanged(int index);  
+	public Q_SLOTS:
+		void slotButtonClicked(int button);
 
-private:
-	KileInfo *m_ki;
-	KileDocument::LatexCommands *m_latexCommands;
-	
-	QComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
-	QCheckBox *m_cbStarred, *m_cbBullets;
-	QSpinBox *m_spRows, *m_spCols;
-	QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;
-	QLabel *m_lbTabulator, *m_lbDisplaymath, *m_lbStarred;
-	QLabel *m_lbEnvironment, *m_lbBullets;
-	KLineEdit *m_edSpace;
-	
-	QString m_envname;
-	bool m_starred;
-	bool m_groups;
-	bool m_columns;
-	bool m_fixedcolumns;
-	bool m_mathmode;
-	QString m_tabulator;
-	QString m_parameter;
-		
-	void initEnvironments();
-	bool isParameterEnv();
-	bool isGroupsParameterEnv();
+	private Q_SLOTS:
+		void slotEnvironmentChanged(int index);
+		void slotSpinboxValueChanged(int index);
+
+	private:
+		KileInfo *m_ki;
+		KileDocument::LatexCommands *m_latexCommands;
+
+		QComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
+		QCheckBox *m_cbStarred, *m_cbBullets;
+		QSpinBox *m_spRows, *m_spCols;
+		QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;
+		QLabel *m_lbTabulator, *m_lbDisplaymath, *m_lbStarred;
+		QLabel *m_lbEnvironment, *m_lbBullets;
+		KLineEdit *m_edSpace;
+
+		QString m_envname;
+		bool m_starred;
+		bool m_groups;
+		bool m_columns;
+		bool m_fixedcolumns;
+		bool m_mathmode;
+		QString m_tabulator;
+		QString m_parameter;
+
+		void initEnvironments();
+		bool isParameterEnv();
+		bool isGroupsParameterEnv();
 };
 
 }

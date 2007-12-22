@@ -18,39 +18,33 @@
 #define FLOATDIALOG_H
 
 #include "kilewizard.h"
-#include <klineedit.h>
-
-#include <QLabel>
-#include <QCheckBox>
-#include <QRadioButton>
 
 #include "kileinfo.h"
+
+#include "ui_floatdialog_base.h"
 
 namespace KileDialog
 {
 
-class FloatEnvironmentDialog : public Wizard  
+class FloatEnvironmentDialog : public Wizard
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QWidget *parent);
-	~FloatEnvironmentDialog() {}
-	
-public slots:
-	void slotOk();
+	public:
+		FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QWidget *parent);
+		~FloatEnvironmentDialog() {}
 
-private slots:
-	void slotEnvironmentClicked();
+	public Q_SLOTS:
+		void slotButtonClicked(int button);
 
-private:
-	KLineEdit *m_edLabel, *m_edCaption;
-	QRadioButton *m_rbFigure, *m_rbTable;
-	QCheckBox *m_cbHere,*m_cbTop,*m_cbBottom,*m_cbPage;
-	QCheckBox *m_cbCenter;
-	
-	QString m_prefix;
-	KileInfo *m_ki;
+	private Q_SLOTS:
+		void slotEnvironmentClicked();
+
+	private:
+		Ui::FloatDialog m_FloatDialog;
+
+		QString m_prefix;
+		KileInfo *m_ki;
 };
 
 }

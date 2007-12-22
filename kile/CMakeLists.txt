@@ -130,6 +130,7 @@ SET( kile_UI
 	graphicsconfigwidget.ui
 	newdocumentwidget.ui
 	tabbingdialog_base.ui
+	floatdialog_base.ui
 )
 
 SET( kile_UI_SRCS

@@ -82,9 +82,8 @@ ConfigChecker::ConfigChecker(QWidget* parent) :
 	showButtonSeparator(true);
 	setButtonGuiItem(User1, KGuiItem("&Save Results..."));
 
-	Q3GridLayout *layout = new Q3GridLayout(this, 1, 1);
 	m_widget = new ConfigCheckerWidget(this);
-	layout->addWidget(m_widget, 1, 1);
+	setMainWidget(m_widget);
 
 	enableButton(Ok, false);
 	enableButton(User1, false);

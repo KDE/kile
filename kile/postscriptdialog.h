@@ -17,15 +17,9 @@
 #ifndef POSTSCRIPTDIALOG_H
 #define POSTSCRIPTDIALOG_H
 
-#include <kdialog.h>
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qspinbox.h>
-#include <qlineedit.h>
-#include <qstring.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <k3process.h>
+#include <KDialog>
+
+#include <QProcess>
 
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
@@ -49,59 +43,63 @@
 #define PS_PSTOPS_FREE    16
 #define PS_PSSELECT_FREE  17
 
-class K3ShellProcess;
+class QCheckBox;
+class QLabel;
+class QSpinBox;
+
+class KComboBox;
+class KProcess;
+class KLineEdit;
+class KUrlRequester;
 
 namespace KileDialog
 {
 
-class PostscriptDialog : public KDialog 
+class PostscriptDialog : public KDialog
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	PostscriptDialog(QWidget *parent, 
-	              const QString &texfilename,const QString &startdir,
-                 const QString &latexextensions,
-	              KileWidget::LogMsg *log, KileWidget::Output *output);
-	~PostscriptDialog();
+	public:
+		PostscriptDialog(QWidget *parent,
+		                 const QString &texfilename, const QString &startdir,
+		                 const QString &latexextensions,
+		                 KileWidget::LogMsg *log, KileWidget::Output *output);
+		~PostscriptDialog();
 
-signals:
-	void output(const QString &);
+	Q_SIGNALS:
+		void output(const QString &);
 
-private slots:
-	void chooseInfile();
-	void chooseOutfile();
-	void comboboxChanged(int index);
-	void slotUser1();
-	void slotProcessOutput(K3Process*,char* buf,int len);
-	void slotProcessExited (K3Process *proc);
-	
-private:
-	bool checkParameter();
-	QString buildTempfile();
-	QString duplicateParameter(const QString &param);
-	void showError(const QString &text);
-	void execute();
-	
-	QLineEdit *m_edInfile, *m_edOutfile, *m_edParameter;
-	QComboBox *m_cbTask;
-	QCheckBox *m_cbView;
-	QSpinBox *m_spCopies;
-	QLabel *m_lbParameter;
-	
-	QString m_startdir;
-	KileWidget::LogMsg *m_log;
-	KileWidget::Output *m_output;
-	
-	QString m_tempfile;
-	QString m_program;
-	QString m_param;
+	private Q_SLOTS:
+		void comboboxChanged(int index);
+		void slotButtonClicked(int button);
+		void slotProcessOutput();
+		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
-	K3ShellProcess* m_proc;
+	private:
+		bool checkParameter();
+		QString buildTempfile();
+		QString duplicateParameter(const QString &param);
+		void showError(const QString &text);
+		void execute();
 
+		KUrlRequester *m_edInfile, *m_edOutfile;
+		KLineEdit *m_edParameter;
+		KComboBox *m_cbTask;
+		QCheckBox *m_cbView;
+		QSpinBox *m_spCopies;
+		QLabel *m_lbParameter;
+
+		QString m_startdir;
+		KileWidget::LogMsg *m_log;
+		KileWidget::Output *m_output;
+
+		QString m_tempfile;
+		QString m_program;
+		QString m_param;
+
+		KProcess* m_proc;
 };
 
 }
-
 
 #endif

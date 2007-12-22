@@ -10,7 +10,7 @@ ADD_SUBDIRECTORY( test )
 
 INCLUDE( FindPerl )
 
-INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
+INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
 ADD_DEFINITIONS(-DQT3_SUPPORT)
 
@@ -129,6 +129,7 @@ SET( kile_UI
 	scriptingconfigwidget.ui
 	graphicsconfigwidget.ui
 	newdocumentwidget.ui
+	tabbingdialog_base.ui
 )
 
 SET( kile_UI_SRCS

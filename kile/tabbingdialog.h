@@ -19,34 +19,32 @@
 #include "kilewizard.h"
 #include "kileinfo.h"
 
-#include <qdialog.h>
-
-class QSpinBox;
-class KLineEdit;
+#include "ui_tabbingdialog_base.h"
 
 /**
-  *@author Pascal Brachet
-  *@author Jeroen Wijnhout
-  */
-
+ * @author Pascal Brachet
+ * @author Jeroen Wijnhout
+ */
 namespace KileDialog
 {
-	class QuickTabbing : public Wizard  
-	{
+
+class QuickTabbing : public Wizard
+{
 		Q_OBJECT
 
 	public:
-		QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
+		QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent = 0,
+		             const char *name = 0, const QString &caption = QString::null);
 		~QuickTabbing();
 
 	public slots:
-		void slotOk();
-	
+		void slotButtonClicked(int button);
+
 	public:
 		KileInfo *m_ki;
-		QSpinBox		*m_spCols, *m_spRows;
-		KLineEdit		*m_leSpacing;
-	};
+		Ui::TabbingDialog m_TabbingDialog;
+};
+
 }
 
 #endif

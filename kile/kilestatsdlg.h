@@ -16,37 +16,37 @@
 #ifndef KILESTATSDLG_H
 #define KILESTATSDLG_H
 
+#include <KPageDialog>
 
-#include <kpagedialog.h>
-#include <klocale.h>
-#include <kapplication.h>
-#include <qclipboard.h>
-#include <qlabel.h>
+#include <QMap>
 
-#include "kileproject.h"
+#include "kiledocmanager.h"
 #include "kiledocumentinfo.h"
-#include "kilestatswidget.h"
+
+class KileProject;
+class KileWidgetStatistics;
 
 class KileStatsDlg : public KPageDialog
 {
-public:
-	KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
-	~KileStatsDlg();
+	public:
+		KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
+		~KileStatsDlg();
 
-private:
-	void fillWidget (const long* stats, KileWidgetStatistics* widget);
-	void slotUser1();
-	void slotUser2();
-	void convertText(QString* text, bool forLaTeX);
+	public Q_SLOTS:
+		void slotButtonClicked(int button);
 
-protected:
-	KileProject				*m_project;
-	KileDocument::TextInfo			*m_docinfo;
-	long					*m_summarystats;
-	bool 					m_hasSelection;
-	bool					m_notAllFilesOpenWarning;
-	QMap<int, KileWidgetStatistics*> 	m_pagetowidget;
-	QMap<int, QString> 			m_pagetoname;
+	private:
+		void fillWidget(const long* stats, KileWidgetStatistics* widget);
+		void convertText(QString* text, bool forLaTeX);
+
+	protected:
+		KileProject *m_project;
+		KileDocument::TextInfo *m_docinfo;
+		long *m_summarystats;
+		bool m_hasSelection;
+		bool m_notAllFilesOpenWarning;
+		QMap<KPageWidgetItem*, KileWidgetStatistics*> m_pagetowidget;
+		QMap<KPageWidgetItem*, QString> m_pagetoname;
 };
 
 #endif

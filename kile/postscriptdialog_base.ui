@@ -1,0 +1,197 @@
+<ui version="4.0" >
+ <class>PostscriptDialog</class>
+ <widget class="QWidget" name="PostscriptDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>433</width>
+    <height>377</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Parameter</string>
+     </property>
+     <layout class="QGridLayout" >
+      <item row="0" column="0" colspan="2" >
+       <widget class="QLabel" name="m_lbInfo" >
+        <property name="text" >
+         <string>Conversion of ps files is made by 'pstops' and 'psselect'.
+Be sure to call 'dvips' with option '-t a4' and
+hyperref package (if needed) with option 'a4paper'.</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Input file:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="KUrlRequester" name="m_edInfile" >
+        <property name="whatsThis" >
+         <string>Input file, which should be converted.</string>
+        </property>
+        <property name="filter" >
+         <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Output file:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="KUrlRequester" name="m_edOutfile" >
+        <property name="whatsThis" >
+         <string>The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked.</string>
+        </property>
+        <property name="filter" >
+         <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Task:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" >
+       <widget class="KComboBox" name="m_cbTask" >
+        <property name="whatsThis" >
+         <string>Choose one of the 18 operations to convert a postscript file. The last four operations need specific parameters.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QLabel" name="m_lbParameter" >
+        <property name="text" >
+         <string>Parameter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" >
+       <widget class="QLabel" name="label_6" >
+        <property name="text" >
+         <string>Viewer:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QCheckBox" name="m_cbView" >
+        <property name="whatsThis" >
+         <string>View the result of the conversion process. okular is always taken as an external viewer.</string>
+        </property>
+        <property name="text" >
+         <string>Show ps file with 'okular'</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="QWidget" native="1" name="widget" >
+        <layout class="QVBoxLayout" >
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="KLineEdit" name="m_edParameter" >
+           <property name="whatsThis" >
+            <string>'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="m_spCopies" >
+           <property name="whatsThis" >
+            <string>When you want to copy pages, you must enter the number of copies</string>
+           </property>
+           <property name="minimum" >
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

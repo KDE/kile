@@ -79,25 +79,11 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	// prepare dialog
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-
-	// Layout
-	QVBoxLayout *vbox = new QVBoxLayout();
-	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
-	page->setLayout(vbox);
-
-	// groupbox with file selection
-	QGroupBox* group = new QGroupBox(i18n("Parameter"), page);
-	QGridLayout *grid = new QGridLayout;
-	grid->setMargin(KDialog::marginHint());
-	grid->setSpacing(KDialog::spacingHint());
-	group->setLayout(grid);
+	m_PostscriptDialog.setupUi(page);
 
 	// line 0: QLabel
 	bool pstops = !KStandardDirs::findExe("pstops").isNull();
 	bool psselect = !KStandardDirs::findExe("psselect").isNull();
-
-	QString title = i18n("Conversion of ps files is made by 'pstops' and 'psselect'.\nBe sure to call 'dvips' with option '-t a4' and\nhyperref package (if needed) with option 'a4paper'.");
 
 	if (!pstops || !psselect) {
 		QString msg = QString::null;
@@ -109,98 +95,44 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 		if (!psselect) {
 			msg += "'psselect'";
 		}
-		title += "\n(Error: " + msg + " not found.)";
+		m_PostscriptDialog.m_lbInfo->setText(m_PostscriptDialog.m_lbInfo->text() + "\n(Error: " + msg + " not found.)");
 	}
 
-	QLabel *label1 = new QLabel(title, group);
-	label1->setAlignment(Qt::AlignHCenter);
-	grid->addWidget(label1, 0, 0, 1, 2, Qt::AlignCenter);
+	m_PostscriptDialog.m_edInfile->lineEdit()->setText(psfilename);
 
-	// empty line
-	grid->setRowSpacing(1, 10);
-	
-	// line 1: QLabel
-	QLabel *label2 = new QLabel(i18n("Input file:"), group);
-	grid->addWidget(label2, 2, 0);
-
-	// line 1: QLineEdit
-	m_edInfile = new KUrlRequester(group);
-	m_edInfile->setFilter(i18n("*.ps|PS Files\n*.ps.gz|Zipped PS Files"));
-	m_edInfile->lineEdit()->setText(psfilename);
-	grid->addWidget(m_edInfile, 2, 1);
-
-	// line 2: QLabel
-	QLabel *label3 = new QLabel(i18n("Output file:"), group);
-	grid->addWidget(label3, 3, 0);
-
-	// line 2: QLineEdit
-	m_edOutfile = new KUrlRequester(group);
-	m_edOutfile->setFilter(i18n("*.ps|PS Files\n*.ps.gz|Zipped PS Files"));
-	grid->addWidget(m_edOutfile, 3, 1);
-
-	// line 3: task selection
-	QLabel *label4 = new QLabel(i18n("Task:"), group);
-	grid->addWidget(label4, 4, 0);
-
-	// line 3: predefined tasks
-	m_cbTask = new KComboBox(false, group);
 	if (pstops) {
-		m_cbTask->insertItem(i18n("1 DIN A5 Page + Empty Page --> DIN A4"));      // 0   PS_A5_EMPTY
-		m_cbTask->insertItem(i18n("1 DIN A5 Page + Duplicate --> DIN A4"));       // 1   PS_A5_DUPLICATE
-		m_cbTask->insertItem(i18n("2 DIN A5 Pages --> DIN A4"));                  // 2   PS_2xA5
-		m_cbTask->insertItem(i18n("2 DIN A5L Pages --> DIN A4"));                 // 3   PS_2xA5L
-		m_cbTask->insertItem(i18n("4 DIN A5 Pages --> DIN A4"));                  // 4   PS_4xA5
-		m_cbTask->insertItem(i18n("1 DIN A4 Page + Empty Page --> DIN A4"));      // 5   PS_A4_EMPTY
-		m_cbTask->insertItem(i18n("1 DIN A4 Page + Duplicate --> DIN A4"));       // 6   PS_A4_DUPLICATE
-		m_cbTask->insertItem(i18n("2 DIN A4 Pages --> DIN A4"));                  // 7   PS_2xA4
-		m_cbTask->insertItem(i18n("2 DIN A4L Pages --> DIN A4"));                 // 8   PS_2xA4L
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A5 Page + Empty Page --> DIN A4")); // 0   PS_A5_EMPTY
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A5 Page + Duplicate --> DIN A4"));  // 1   PS_A5_DUPLICATE
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A5 Pages --> DIN A4"));             // 2   PS_2xA5
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A5L Pages --> DIN A4"));            // 3   PS_2xA5L
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("4 DIN A5 Pages --> DIN A4"));             // 4   PS_4xA5
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A4 Page + Empty Page --> DIN A4")); // 5   m_PostscriptDialog.PS_A4_EMPTY
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A4 Page + Duplicate --> DIN A4"));  // 6   PS_A4_DUPLICATE
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A4 Pages --> DIN A4"));             // 7   PS_2xA4
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A4L Pages --> DIN A4"));            // 8   PS_2xA4L
 	}
 	if (psselect) {
-		m_cbTask->insertItem(i18n("Select Even Pages"));                          // 9   PS_EVEN
-		m_cbTask->insertItem(i18n("Select Odd Pages"));                           // 10  PS_ODD
-		m_cbTask->insertItem(i18n("Select Even Pages (reverse order)"));          // 11  PS_EVEN_REV
-		m_cbTask->insertItem(i18n("Select Odd Pages (reverse order)"));           // 12  PS_ODD_REV
-		m_cbTask->insertItem(i18n("Reverse All Pages"));                          // 13  PS_REVERSE
-		m_cbTask->insertItem(i18n("Copy All Pages (sorted)"));                    // 14  PS_COPY_SORTED
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Even Pages"));                 // 9   PS_EVEN
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Odd Pages"));                  // 10  PS_ODD
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Even Pages (reverse order)")); // 11  m_PostscriptDialog.PS_EVEN_REV
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Odd Pages (reverse order)"));  // 12  PS_ODD_REV
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Reverse All Pages"));                 // 13  PS_REVERSE
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Copy All Pages (sorted)"));           // 14  PS_COPY_SORTED
 	}
 	if (pstops) {
-		m_cbTask->insertItem(i18n("Copy All Pages (unsorted)"));                  // 15  PS_COPY_UNSORTED
-		m_cbTask->insertItem(i18n("pstops: Choose Parameter"));                   // 16  PS_PSTOPS_FREE 
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("Copy All Pages (unsorted)")); // 15  PS_COPY_UNSORTED
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("pstops: Choose Parameter"));  // 16  PS_PSTOPS_FREE 
 	}
 	if (psselect) {
-		m_cbTask->insertItem(i18n("psselect: Choose Parameter"));                 // 17  PS_PSSELECT_FREE 
+		m_PostscriptDialog.m_cbTask->insertItem(i18n("psselect: Choose Parameter")); // 17  PS_PSSELECT_FREE 
 	}
-	grid->addWidget(m_cbTask, 4, 1);
 
-	// line 4: QLabel (parameter or copies)
-	m_lbParameter = new QLabel(i18n("Parameter:"), group);
-	grid->addWidget(m_lbParameter, 5, 0);
-
-	// line 4: QLineEdit or QSpinBox
-	m_edParameter = new KLineEdit("", group);
-	m_edParameter->setMinimumWidth(300);
-	grid->addWidget(m_edParameter, 5, 1);
-	m_spCopies = new QSpinBox(group);
-	m_spCopies->setValue(1);
-	m_spCopies->setRange(1, 99);
-	grid->addWidget(m_spCopies, 5, 1);
+	m_PostscriptDialog.m_edInfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
+	m_PostscriptDialog.m_edOutfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
 
 	// choose one common task
-	m_cbTask->setCurrentIndex(PS_2xA4);
+	m_PostscriptDialog.m_cbTask->setCurrentIndex(PS_2xA4);
 	comboboxChanged(PS_2xA4);
-
-	// line 5: QLabel
-	QLabel *label6 = new QLabel(i18n("Viewer:"), group);
-	grid->addWidget(label6, 6, 0);
-	
-	// line 5: QCheckBox
-	m_cbView = new QCheckBox(i18n("Show ps file with 'okular'"), group);
-	m_cbView->setChecked(true);
-	grid->addWidget(m_cbView, 6, 1);
-
-	// build Layout
-	vbox->addWidget(group);
-	vbox->addStretch();
 
 	// set an user button to execute the task
 	setButtonText(Close, i18n("Done"));
@@ -209,18 +141,12 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	if (!pstops && !psselect)
 		enableButton(User1, false);
 
-	m_cbTask->setWhatsThis(i18n("Choose one of the 18 operations to convert a postscript file. The last four operations need specific parameters."));
-	m_edInfile->setWhatsThis(i18n("Input file, which should be converted."));
-	m_edOutfile->setWhatsThis(i18n("The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked."));
-	m_edParameter->setWhatsThis(i18n("'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here"));
-	m_spCopies->setWhatsThis(i18n("When you want to copy pages, you must enter the number of copies"));
-	m_cbView->setWhatsThis(i18n("View the result of the conversion process. okular is always taken as an external viewer."));
-
 	// some connections
-	connect(m_cbTask,SIGNAL(activated(int)),this, SLOT(comboboxChanged(int)));
+	connect(m_PostscriptDialog.m_cbTask, SIGNAL(activated(int)), this, SLOT(comboboxChanged(int)));
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 
-	setFocusProxy(m_edInfile);
+	setFocusProxy(m_PostscriptDialog.m_edInfile);
+	m_PostscriptDialog.m_edInfile->setFocus();
 }
 
 PostscriptDialog::~PostscriptDialog()
@@ -244,8 +170,8 @@ void PostscriptDialog::execute()
 	m_tempfile = buildTempfile();
 	if ( m_tempfile != QString::null ) {
 		m_log->clear();
-		QFileInfo from(m_edInfile->lineEdit()->text());
-		QFileInfo to(m_edOutfile->lineEdit()->text());
+		QFileInfo from(m_PostscriptDialog.m_edInfile->lineEdit()->text());
+		QFileInfo to(m_PostscriptDialog.m_edOutfile->lineEdit()->text());
 
 		// output for log window
 		QString msg = i18n("rearrange ps file: ") + from.fileName();
@@ -259,7 +185,7 @@ void PostscriptDialog::execute()
 		              + i18n("***** tool:        ") + m_program + ' ' + m_param + '\n'
 		              + i18n("***** input file:  ") + from.fileName()+ '\n'
 		              + i18n("***** output file: ") + to.fileName()+ '\n'
-		              + i18n("***** viewer:      ") + ((m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
+		              + i18n("***** viewer:      ") + ((m_PostscriptDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
 		              + "*****\n";
 		emit( output(s) );
  
@@ -310,7 +236,7 @@ QString PostscriptDialog::buildTempfile()
 	m_program = "pstops";          // default
 	m_param = "";
 
-	switch (m_cbTask->currentItem()) {
+	switch (m_PostscriptDialog.m_cbTask->currentItem()) {
 		case PS_A5_EMPTY:      m_param = "1:0L(29.7cm,0cm)";
 		                       break;
 		case PS_A5_DUPLICATE:  m_param = "1:0L(29.7cm,0cm)+0L(29.7cm,14.85cm)";
@@ -351,10 +277,10 @@ QString PostscriptDialog::buildTempfile()
 		                       break;
 		case PS_COPY_UNSORTED: m_param = "1:" + duplicateParameter("0");
 		                       break;
-		case PS_PSTOPS_FREE:   m_param = m_edParameter->text();
+		case PS_PSTOPS_FREE:   m_param = m_PostscriptDialog.m_edParameter->text();
 		                       break;
 		case PS_PSSELECT_FREE: m_program = "psselect";
-		                       m_param = m_edParameter->text();
+		                       m_param = m_PostscriptDialog.m_edParameter->text();
 		                       break;
 	}
 
@@ -373,7 +299,7 @@ QString PostscriptDialog::buildTempfile()
 	stream << "#! /bin/sh" << endl;
 
 	// accept only ".ps" or ".ps.gz" as an input file
-	QFileInfo fi(m_edInfile->lineEdit()->text());
+	QFileInfo fi(m_PostscriptDialog.m_edInfile->lineEdit()->text());
 	bool zipped_psfile = (fi.completeSuffix() == "ps.gz") ? true : false;
 
 	// there are four possible cases
@@ -385,9 +311,9 @@ QString PostscriptDialog::buildTempfile()
 
 	// some files, which are used
 	QString command    = m_program + " \"" + m_param + "\"";
-	QString inputfile  = "\"" + m_edInfile->lineEdit()->text() + "\"";
-	QString outputfile = "\"" + m_edOutfile->lineEdit()->text() + "\"";
-	bool viewer = m_cbView->isChecked();
+	QString inputfile  = "\"" + m_PostscriptDialog.m_edInfile->lineEdit()->text() + "\"";
+	QString outputfile = "\"" + m_PostscriptDialog.m_edOutfile->lineEdit()->text() + "\"";
+	bool viewer = m_PostscriptDialog.m_cbView->isChecked();
 	
 	bool equalfiles = false;
 	if (inputfile == outputfile) {
@@ -396,14 +322,14 @@ QString PostscriptDialog::buildTempfile()
 	}
 	
 	if (!zipped_psfile) {                                       // unzipped ps files
-		if (m_edOutfile->lineEdit()->text().isEmpty()) {                      // pstops/psselect | okular
-			stream << command << " " << inputfile << " | okular -" << endl;  
+		if (m_PostscriptDialog.m_edOutfile->lineEdit()->text().isEmpty()) { // pstops/psselect | okular
+			stream << command << " " << inputfile << " | okular -" << endl;
 			viewer = false;
 		} else {                                                    // pstops/psselect
 			stream << command << " " << inputfile << " " << outputfile << endl;
 		}
 	} else {                                                      // zipped ps files
-		if ( m_edOutfile->lineEdit()->text().isEmpty() ) {                     // pstops/psselect | okular
+		if (m_PostscriptDialog.m_edOutfile->lineEdit()->text().isEmpty()) { // pstops/psselect | okular
 			stream << "gunzip -c " << inputfile
 			       << " | " << command
 			       << " | okular -"
@@ -445,7 +371,7 @@ QString PostscriptDialog::buildTempfile()
 QString PostscriptDialog::duplicateParameter(const QString &param)
 {
 	QString s = QString::null;
-	for (int i = 0; i < m_spCopies->value(); ++i) {
+	for (int i = 0; i < m_PostscriptDialog.m_spCopies->value(); ++i) {
 		if (i == 0)
 			s += param;
 		else
@@ -458,7 +384,7 @@ QString PostscriptDialog::duplicateParameter(const QString &param)
 
 bool PostscriptDialog::checkParameter()
 {
-	QString infile = m_edInfile->lineEdit()->text();
+	QString infile = m_PostscriptDialog.m_edInfile->lineEdit()->text();
 	if (infile.isEmpty()) {
 		showError(i18n("No input file is given."));
 		return false;
@@ -477,8 +403,8 @@ bool PostscriptDialog::checkParameter()
 	}
 
 	// check parameter
-	int index = m_cbTask->currentItem();
-	if (m_edParameter->text().isEmpty()) {
+	int index = m_PostscriptDialog.m_cbTask->currentItem();
+	if (m_PostscriptDialog.m_edParameter->text().isEmpty()) {
 		if (index == PS_PSSELECT_FREE) {
 			showError( i18n("psselect needs some parameters in this mode.") );
 			return false;
@@ -488,8 +414,8 @@ bool PostscriptDialog::checkParameter()
 		}
 	}
 
-	QString outfile = m_edOutfile->lineEdit()->text();
-	if (outfile.isEmpty() && !m_cbView->isChecked()) {
+	QString outfile = m_PostscriptDialog.m_edOutfile->lineEdit()->text();
+	if (outfile.isEmpty() && !m_PostscriptDialog.m_cbView->isChecked()) {
 		showError(i18n("You need to define an output file or select the viewer."));
 		return false;
 	}
@@ -518,22 +444,22 @@ void PostscriptDialog::comboboxChanged(int index)
 {
 	KILE_DEBUG() << index << endl;
 	if (index == PS_COPY_SORTED || index == PS_COPY_UNSORTED) {
-		m_lbParameter->setEnabled(true);
-		m_lbParameter->setText(i18n("Copies:"));
-		m_edParameter->hide();
-		m_spCopies->show();
-		m_spCopies->setEnabled(true);
+		m_PostscriptDialog.m_lbParameter->setEnabled(true);
+		m_PostscriptDialog.m_lbParameter->setText(i18n("Copies:"));
+		m_PostscriptDialog.m_edParameter->hide();
+		m_PostscriptDialog.m_spCopies->show();
+		m_PostscriptDialog.m_spCopies->setEnabled(true);
 	} else {
 		if (index == PS_PSSELECT_FREE || index == PS_PSTOPS_FREE) {
-			m_lbParameter->setEnabled(true);
-			m_lbParameter->setText(i18n("Parameter:"));
-			m_spCopies->hide();
-			m_edParameter->show();
-			m_edParameter->setEnabled(true);
+			m_PostscriptDialog.m_lbParameter->setEnabled(true);
+			m_PostscriptDialog.m_lbParameter->setText(i18n("Parameter:"));
+			m_PostscriptDialog.m_spCopies->hide();
+			m_PostscriptDialog.m_edParameter->show();
+			m_PostscriptDialog.m_edParameter->setEnabled(true);
 		} else {
-			m_lbParameter->setEnabled(false);
-			m_edParameter->setEnabled(false);
-			m_spCopies->setEnabled(false);
+			m_PostscriptDialog.m_lbParameter->setEnabled(false);
+			m_PostscriptDialog.m_edParameter->setEnabled(false);
+			m_PostscriptDialog.m_spCopies->setEnabled(false);
 		}
 	}
 }

@@ -24,6 +24,8 @@
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
 
+#include "ui_postscriptdialog_base.h"
+
 #define PS_A5_EMPTY       0
 #define PS_A5_DUPLICATE   1
 #define PS_2xA5           2
@@ -43,14 +45,7 @@
 #define PS_PSTOPS_FREE    16
 #define PS_PSSELECT_FREE  17
 
-class QCheckBox;
-class QLabel;
-class QSpinBox;
-
-class KComboBox;
 class KProcess;
-class KLineEdit;
-class KUrlRequester;
 
 namespace KileDialog
 {
@@ -82,13 +77,6 @@ class PostscriptDialog : public KDialog
 		void showError(const QString &text);
 		void execute();
 
-		KUrlRequester *m_edInfile, *m_edOutfile;
-		KLineEdit *m_edParameter;
-		KComboBox *m_cbTask;
-		QCheckBox *m_cbView;
-		QSpinBox *m_spCopies;
-		QLabel *m_lbParameter;
-
 		QString m_startdir;
 		KileWidget::LogMsg *m_log;
 		KileWidget::Output *m_output;
@@ -98,6 +86,8 @@ class PostscriptDialog : public KDialog
 		QString m_param;
 
 		KProcess* m_proc;
+
+		Ui::PostscriptDialog m_PostscriptDialog;
 };
 
 }

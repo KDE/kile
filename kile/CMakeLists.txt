@@ -131,6 +131,7 @@ SET( kile_UI
 	newdocumentwidget.ui
 	tabbingdialog_base.ui
 	floatdialog_base.ui
+	postscriptdialog_base.ui
 )
 
 SET( kile_UI_SRCS

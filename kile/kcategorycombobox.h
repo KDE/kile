@@ -33,7 +33,7 @@ class KDEUI_EXPORT KCategoryComboBox : public KComboBox
 		virtual ~KCategoryComboBox();
 
 	public:
-		void addCategoryItem(QString text);
+		void addCategoryItem(const QString &text);
 };
 
 #endif

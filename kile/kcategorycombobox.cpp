@@ -61,7 +61,7 @@ KCategoryComboBox::~KCategoryComboBox()
 {
 }
 
-void KCategoryComboBox::addCategoryItem(QString text)
+void KCategoryComboBox::addCategoryItem(const QString &text)
 {
 	addItem(text);
 

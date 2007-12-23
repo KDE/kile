@@ -230,19 +230,19 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addMultiCellWidget(frame, 5,5, 1,3, Qt::AlignCenter);
 
 	m_btnClassOptionsAdd = new KPushButton(i18n("&Add..."), frame);
-	m_btnClassOptionsAdd->setIcon(SmallIcon("edit_add"));
+	m_btnClassOptionsAdd->setIcon(KIcon("edit-add"));
 	Q3WhatsThis::add(m_btnClassOptionsAdd, i18n("Add a new class option"));
 	hl->addWidget(m_btnClassOptionsAdd);
 	connect(m_btnClassOptionsAdd, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 
 	m_btnClassOptionsEdit = new KPushButton(i18n("Ed&it..."), frame);
-	m_btnClassOptionsEdit->setIcon(SmallIcon("object-edit"));
+	m_btnClassOptionsEdit->setIcon(KIcon("edit"));
 	Q3WhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
 	hl->addWidget(m_btnClassOptionsEdit);
 	connect(m_btnClassOptionsEdit, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
 
 	m_btnClassOptionsDelete = new KPushButton(i18n("De&lete"), frame);
-	m_btnClassOptionsDelete->setIcon(SmallIcon("eraser"));
+	m_btnClassOptionsDelete->setIcon(KIcon("draw-eraser"));
 	Q3WhatsThis::add(m_btnClassOptionsDelete, i18n("Remove the current class option"));
 	hl->addWidget(m_btnClassOptionsDelete);
 	connect(m_btnClassOptionsDelete, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
@@ -281,27 +281,27 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	hl->addStretch(1);
 
 	m_btnPackagesAdd = new KPushButton("&Add Package...", frame);
-	m_btnPackagesAdd->setIcon(SmallIcon("edit_add"));
+	m_btnPackagesAdd->setIcon(KIcon("edit-add"));
 	Q3WhatsThis::add(m_btnPackagesAdd, i18n("Add a new package"));
 	connect(m_btnPackagesAdd, SIGNAL(clicked()), this, SLOT(slotPackageAdd()));
 	hl->addWidget(m_btnPackagesAdd);
 	m_btnPackagesAddOption = new KPushButton(i18n("Add Op&tion..."), frame);
-	m_btnPackagesAddOption->setIcon(SmallIcon("edit_add"));
+	m_btnPackagesAddOption->setIcon(KIcon("edit-add"));
 	Q3WhatsThis::add(m_btnPackagesAddOption, i18n("Add a new package option"));
 	connect(m_btnPackagesAddOption, SIGNAL(clicked()), this, SLOT(slotPackageAddOption()));
 	hl->addWidget(m_btnPackagesAddOption);
 	m_btnPackagesEdit = new KPushButton("Ed&it...", frame);
-	m_btnPackagesEdit->setIcon(SmallIcon("object-edit"));
+	m_btnPackagesEdit->setIcon(KIcon("edit"));
 	Q3WhatsThis::add(m_btnPackagesEdit, i18n("Edit the current package option"));
 	connect(m_btnPackagesEdit, SIGNAL(clicked()), this, SLOT(slotPackageEdit()));
 	hl->addWidget(m_btnPackagesEdit);
 	m_btnPackagesDelete = new KPushButton(i18n("De&lete"), frame);
-	m_btnPackagesDelete->setIcon(SmallIcon("eraser"));
+	m_btnPackagesDelete->setIcon(KIcon("draw-eraser"));
 	Q3WhatsThis::add(m_btnPackagesDelete, i18n("Remove the current package option"));
 	connect(m_btnPackagesDelete, SIGNAL(clicked()), this, SLOT(slotPackageDelete()));
 	hl->addWidget(m_btnPackagesDelete);
 	m_btnPackagesReset = new KPushButton(i18n("&Reset to Defaults"), frame);
-	m_btnPackagesReset->setIcon(SmallIcon("reload"));
+	m_btnPackagesReset->setIcon(KIcon("view-refresh"));
 	Q3WhatsThis::add(m_btnPackagesReset, i18n("Reset to the default list of packages"));
 	connect(m_btnPackagesReset, SIGNAL(clicked()), this, SLOT(slotPackageReset()));
 	hl->addWidget(m_btnPackagesReset);

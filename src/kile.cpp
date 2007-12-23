@@ -541,11 +541,8 @@ void Kile::setupActions()
 	m_paPrint = createAction(KStandardAction::Print, "file_print", NULL, NULL);
 	createAction(KStandardAction::New, "file_new", docManager(), SLOT(fileNew()));
 	createAction(KStandardAction::Open, "file_open", docManager(), SLOT(fileOpen()));
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: file_open_recent
-	m_actRecentFiles = KStandardAction::openRecent(docManager(), SLOT(fileOpen(const KUrl&)), actionCollection());
+
+	m_actRecentFiles = static_cast<KRecentFilesAction*>(actionCollection()->addAction(KStandardAction::OpenRecent, "file_open_recent", docManager(), SLOT(fileOpen(const KUrl&))));
 	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl& )), m_actRecentFiles, SLOT(addUrl(const KUrl&)));
 	m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
@@ -584,12 +581,10 @@ void Kile::setupActions()
 	//project actions
 	createAction(i18n("&New Project..."), "project_new", "window_new", docManager(), SLOT(projectNew()));
 	createAction(i18n("&Open Project..."), "project_open", "project_open", docManager(), SLOT(projectOpen()));
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "project_openrecent"
+
 	m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
-	connect(m_actRecentProjects, SIGNAL(triggered), docManager(), SLOT(projectOpen(const KUrl &)));
+	actionCollection()->addAction("project_openrecent", m_actRecentProjects);
+	connect(m_actRecentProjects, SIGNAL(triggered()), docManager(), SLOT(projectOpen(const KUrl&)));
 	connect(docManager(), SIGNAL(removeFromRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(removeURL(const KUrl& )));
 	connect(docManager(), SIGNAL(addToRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(addUrl(const KUrl& )));
 	m_actRecentProjects->loadEntries(m_config->group("Projects"));
@@ -686,62 +681,47 @@ void Kile::setupActions()
 
 	createAction(i18n("Clean"), "CleanBib", this, SLOT(cleanBib()));
 
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "Mode"
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
+	actionCollection()->addAction("Mode", ModeAction);
 	ModeAction->setIcon(KIcon("master"));
 	connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMode()));
 
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "StructureView"
 	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
+	actionCollection()->addAction("StructureView", tact);
 	tact->setChecked(KileConfig::sideBar());
 	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
-#ifdef __GNUC__
-#warning Fix connection!
-#endif
-//	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
-	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
+	connect(m_sideBar, SIGNAL(visibilityChanged(bool)), tact, SLOT(setChecked(bool)));
+	connect(m_sideBar, SIGNAL(visibilityChanged(bool)), this, SLOT(sideOrBottomBarChanged(bool)));
 
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "MessageView"
 	m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), actionCollection());
+	actionCollection()->addAction("MessageView", m_actionMessageView);
 	m_actionMessageView->setChecked(true);
 	connect(m_actionMessageView, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
-#ifdef __GNUC__
-#warning Fix connection!
-#endif
-//	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), m_actionMessageView, SLOT(setChecked(bool)));
-	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
+	connect(m_bottomBar, SIGNAL(visibilityChanged(bool)), m_actionMessageView, SLOT(setChecked(bool)));
+	connect(m_bottomBar, SIGNAL(visibilityChanged(bool)), this, SLOT(sideOrBottomBarChanged(bool)));
+	if(m_singlemode) {
+		ModeAction->setChecked(false);
+	}
+	else {
+		ModeAction->setChecked(true);
+	}
 
-	if (m_singlemode) {ModeAction->setChecked(false);}
-	else {ModeAction->setChecked(true);}
-
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "WatchFile"
 	WatchFileAction = new KToggleAction(i18n("Watch File Mode"), actionCollection());
+	actionCollection()->addAction("WatchFile", WatchFileAction);
 	WatchFileAction->setIcon(KIcon("watchfile"));
 	connect(WatchFileAction, SIGNAL(triggered()), this, SLOT(toggleWatchFile()));
-	if (m_bWatchFile) {WatchFileAction->setChecked(true);}
-	else {WatchFileAction->setChecked(false);}
+	if(m_bWatchFile) {
+		WatchFileAction->setChecked(true);
+	}
+	else {
+		WatchFileAction->setChecked(false);
+	}
 
 	setHelpMenuEnabled(false);
 	const KAboutData *aboutData = KGlobal::mainComponent().aboutData();
 	KHelpMenu *help_menu = new KHelpMenu( this, aboutData);
 
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "help_tipofday"
-	KStandardAction::create(KStandardAction::TipofDay, this, SLOT(showTip()), actionCollection());
+	actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(showTip()));
 
 	createAction(i18n("TeX Guide"), "help_tex_guide", KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTexGuide()));
 	createAction(i18n("LaTeX"), "help_latex_index", KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()));
@@ -752,43 +732,17 @@ void Kile::setupActions()
 	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()));
 
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help", this, SLOT(helpLaTex()));
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "help_handbook"
-	(void) KStandardAction::helpContents(help_menu, SLOT(appHelpActivated()), actionCollection());
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "report_bug"
-	(void) KStandardAction::reportBug (help_menu, SLOT(reportBug()), actionCollection());
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "help_aboutKile"
-	(void) KStandardAction::aboutApp(help_menu, SLOT(aboutApplication()), actionCollection());
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "help_aboutKDE"
-	(void) KStandardAction::aboutKDE(help_menu, SLOT(aboutKDE()), actionCollection());
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "settings_configure"
-	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection());
+	actionCollection()->addAction(KStandardAction::HelpContents, "help_handbook", help_menu, SLOT(appHelpActivated()));
+	actionCollection()->addAction(KStandardAction::ReportBug, "report_bug", help_menu, SLOT(reportBug()));
+	actionCollection()->addAction(KStandardAction::AboutApp, "help_aboutKile", help_menu, SLOT(aboutApplication()));
+	actionCollection()->addAction(KStandardAction::AboutKDE, "help_aboutKDE", help_menu, SLOT(aboutKDE()));
+
+	KAction *kileconfig = actionCollection()->addAction(KStandardAction::Preferences, "settings_configure", this, SLOT(generalOptions()));
 	kileconfig->setIcon(KIcon("configure_kile"));
 
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "settings_keys"
-	(void) KStandardAction::keyBindings(this, SLOT(configureKeys()), actionCollection());
-#ifdef __GNUC__
-#warning Use a different name for standard action!
-#endif
-//FIXME: use name: "settings_toolbars"
-	(void) KStandardAction::configureToolbars(this, SLOT(configureToolbars()), actionCollection());
+	actionCollection()->addAction(KStandardAction::KeyBindings, "settings_keys", this, SLOT(configureKeys()));
+	actionCollection()->addAction(KStandardAction::ConfigureToolbars, "settings_toolbars", this, SLOT(configureToolbars()));
+
 	createAction(i18n("&System Check..."), "settings_perform_check", this, SLOT(slotPerformCheck()));
 
 #ifdef __GNUC__

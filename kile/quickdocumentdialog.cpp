@@ -35,6 +35,7 @@ email                : holger.danielsson@t-online.de
 #include <Q3HBoxLayout>
 #include <Q3GridLayout>
 #include <Q3VBoxLayout>
+#include <QItemDelegate>
 #include <QTreeWidget>
 
 #include <KComboBox>
@@ -101,36 +102,27 @@ void ListBoxSeparator::paint(QPainter *painter)
 
 //////////////////// EditableCheckListItem ////////////////////
 
-class EditableCheckListItem : public Q3CheckListItem
-{
-public:
-	EditableCheckListItem(Q3CheckListItem *parent, const QString &text);
+class EditableItemDelegate : public QItemDelegate {
+	public:
+		EditableItemDelegate(QObject *parent = 0) : QItemDelegate(parent) {}
 
-	virtual void paintCell(QPainter *p, const QColorGroup &cg,
-                          int column, int width, int alignment );
-};
+		virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const
+		{
+			drawBackground(painter, option, index);
 
-EditableCheckListItem::EditableCheckListItem(Q3CheckListItem *parent, const QString &text)
-  : Q3CheckListItem(parent,text,Q3CheckListItem::CheckBox)
-{
-}
-
-void EditableCheckListItem::paintCell( QPainter *p, const QColorGroup &cg,
-                                       int column, int width, int alignment )
-{
-	if ( column == 1) {
-		QColorGroup colorgroup( cg );
-
-		Q3ListViewItem *item = dynamic_cast<Q3ListViewItem*>(this);
-		if ( item && (item->text(1)==i18n("<default>") || item->text(1)==i18n("<empty>")) )  {
-			colorgroup.setColor( QColorGroup::Text, Qt::gray );
-			colorgroup.setColor( QColorGroup::HighlightedText, Qt::gray );
+			QColor textColor = option.palette.color(QPalette::Text);
+			QString text = index.data(Qt::DisplayRole).toString();
+			if (text == "<default>" || text == "<empty>") {
+				textColor = Qt::gray;
+			} else if (option.state & QStyle::State_Selected) {
+				textColor = option.palette.color(QPalette::HighlightedText);
+			}
+			painter->setPen(textColor);
+			painter->drawText(option.rect, Qt::AlignCenter | Qt::AlignVCenter, text);
+			//drawDisplay(painter, option, option.rect, index.data(Qt::DisplayRole).toString());
+			drawFocus(painter, option, option.rect);
 		}
-		Q3CheckListItem::paintCell( p, colorgroup, column, width, Qt::AlignHCenter );
-	} else {
-		Q3CheckListItem::paintCell( p, cg, column, width, alignment );
-	}
-}
+};
 
 //////////////////// QuickDocument class ////////////////////
 
@@ -146,7 +138,7 @@ QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name,
 
 	// read config file
 	readConfig();
-
+	m_lvPackages->resizeColumnToContents(0);
 }
 
 QuickDocument::~QuickDocument()
@@ -297,22 +289,22 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 
 	QLabel *label = new QLabel(i18n("LaTe&X packages:"), packages);
 	vl->addWidget(label);
-	m_lvPackages = new Q3ListView(packages);
+	m_lvPackages = new QTreeWidget(packages);
 	vl->addWidget(m_lvPackages);
 	m_lvPackages->setRootIsDecorated(true);
-	m_lvPackages->addColumn(i18n("Package"));
-	m_lvPackages->addColumn(i18n("Value"));
-	m_lvPackages->addColumn(i18n("Description"));
+	m_lvPackages->setHeaderLabels(QStringList() << i18n("Package") << i18n("Value") << i18n("Description"));
 	m_lvPackages->setAllColumnsShowFocus(true);
+	m_lvPackages->setItemDelegateForColumn(1, new EditableItemDelegate());
 	label->setBuddy(m_lvPackages);
-	connect(m_lvPackages, SIGNAL(clicked(Q3ListViewItem *)),
-	        this, SLOT(slotCheckParent(Q3ListViewItem *)));
-	connect(m_lvPackages, SIGNAL(spacePressed(Q3ListViewItem *)),
-	        this, SLOT(slotCheckParent(Q3ListViewItem *)));
-	connect(m_lvPackages, SIGNAL(selectionChanged()),
-	        this, SLOT(slotEnableButtons()));
-	connect(m_lvPackages, SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),
-	        this, SLOT(slotPackageDoubleClicked(Q3ListViewItem *,const QPoint &,int)));
+	connect(m_lvPackages, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
+	        this, SLOT(slotCheckParent(QTreeWidgetItem*)));
+	// FIXME port me to KDE4
+	/*connect(m_lvPackages, SIGNAL(spacePressed(Q3ListViewItem *)),
+					this, SLOT(slotCheckParent(Q3ListViewItem *)));*/
+	connect(m_lvPackages, SIGNAL(itemSelectionChanged()),
+					this, SLOT(slotEnableButtons()));
+	connect(m_lvPackages, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+					this, SLOT(slotPackageDoubleClicked(QTreeWidgetItem*)));
 
 	QWidget *frame = new QWidget(packages);
 	vl->addWidget(frame);
@@ -1034,146 +1026,146 @@ void QuickDocument::readPackagesConfig()
 void QuickDocument::initPackages()
 {
 	KILE_DEBUG() << "read config: init standard packages" << endl;
-	Q3CheckListItem *cli;
-	Q3CheckListItem *clichild;
+	QTreeWidgetItem *cli;
+	QTreeWidgetItem *clichild;
 
 	m_lvPackages->clear();
-	cli = insertListview(m_lvPackages,"amsmath", i18n("Special math environments and commands (AMS)") );
-	cli = insertListview(m_lvPackages,"amsfonts",i18n("Collection of fonts and symbols for math mode (AMS)") );
-	cli = insertListview(m_lvPackages,"amssymb",i18n("Defines symbol names for all math symbols in MSAM and MSBM (AMS)") );
-	cli = insertListview(m_lvPackages,"amsthm",i18n("Improved theorem setup (AMS)"));
-	cli = insertListview(m_lvPackages,"caption",i18n("Extends caption capabilities for figures and tables"));
+	cli = insertTreeWidget(m_lvPackages,"amsmath", i18n("Special math environments and commands (AMS)") );
+	cli = insertTreeWidget(m_lvPackages,"amsfonts",i18n("Collection of fonts and symbols for math mode (AMS)") );
+	cli = insertTreeWidget(m_lvPackages,"amssymb",i18n("Defines symbol names for all math symbols in MSAM and MSBM (AMS)") );
+	cli = insertTreeWidget(m_lvPackages,"amsthm",i18n("Improved theorem setup (AMS)"));
+	cli = insertTreeWidget(m_lvPackages,"caption",i18n("Extends caption capabilities for figures and tables"));
 
-	cli = insertListview(m_lvPackages,"hyperref",i18n("Hypertext marks in LaTeX") );
-	cli->setOpen(true);
-	clichild = insertListview(cli,"dvips",i18n("Use dvips as hyperref driver") );
-	clichild->setOn(true);
-	clichild = insertListview(cli,"pdftex",i18n("Use pdftex as hyperref driver") );
-	clichild = insertEditableListview(cli,"bookmarks",i18n("Make bookmarks"),"true","true" );
-	clichild = insertEditableListview(cli,"bookmarksnumbered",i18n("Put section numbers in bookmarks"),"false","false" );
-	clichild = insertEditableListview(cli,"bookmarksopen",i18n("Open up bookmark tree"),QString::null,QString::null );
-	clichild = insertEditableListview(cli,"pdfauthor",i18n("Text for PDF Author field"),QString::null,QString::null );
-	clichild = insertEditableListview(cli,"pdfcreator",i18n("Text for PDF Creator field"),i18n("LaTeX with hyperref package"),i18n("LaTeX with hyperref package") );
-	clichild = insertEditableListview(cli,"pdffitwindow",i18n("Resize document window to fit document size"),"false","false" );
-	clichild = insertEditableListview(cli,"pdfkeywords",i18n("Text for PDF Keywords field"),QString::null,QString::null );
-	clichild = insertEditableListview(cli,"pdfproducer",i18n("Text for PDF Producer field"),QString::null,QString::null );
-	clichild = insertEditableListview(cli,"pdfstartview",i18n("Starting view of PDF document"),"/Fit","/Fit" );
-	clichild = insertEditableListview(cli,"pdfsubject",i18n("Text for PDF Subject field"),QString::null,QString::null );
-	clichild = insertEditableListview(cli,"pdftitle",i18n("Text for PDF Title field"),QString::null,QString::null );
+	cli = insertTreeWidget(m_lvPackages,"hyperref",i18n("Hypertext marks in LaTeX") );
+	cli->setExpanded(true);
+	clichild = insertTreeWidget(cli,"dvips",i18n("Use dvips as hyperref driver") );
+	clichild->setCheckState(0, Qt::Checked);
+	clichild = insertTreeWidget(cli,"pdftex",i18n("Use pdftex as hyperref driver") );
+	clichild = insertEditableTreeWidget(cli,"bookmarks",i18n("Make bookmarks"),"true","true" );
+	clichild = insertEditableTreeWidget(cli,"bookmarksnumbered",i18n("Put section numbers in bookmarks"),"false","false" );
+	clichild = insertEditableTreeWidget(cli,"bookmarksopen",i18n("Open up bookmark tree"),QString::null,QString::null );
+	clichild = insertEditableTreeWidget(cli,"pdfauthor",i18n("Text for PDF Author field"),QString::null,QString::null );
+	clichild = insertEditableTreeWidget(cli,"pdfcreator",i18n("Text for PDF Creator field"),i18n("LaTeX with hyperref package"),i18n("LaTeX with hyperref package") );
+	clichild = insertEditableTreeWidget(cli,"pdffitwindow",i18n("Resize document window to fit document size"),"false","false" );
+	clichild = insertEditableTreeWidget(cli,"pdfkeywords",i18n("Text for PDF Keywords field"),QString::null,QString::null );
+	clichild = insertEditableTreeWidget(cli,"pdfproducer",i18n("Text for PDF Producer field"),QString::null,QString::null );
+	clichild = insertEditableTreeWidget(cli,"pdfstartview",i18n("Starting view of PDF document"),"/Fit","/Fit" );
+	clichild = insertEditableTreeWidget(cli,"pdfsubject",i18n("Text for PDF Subject field"),QString::null,QString::null );
+	clichild = insertEditableTreeWidget(cli,"pdftitle",i18n("Text for PDF Title field"),QString::null,QString::null );
 
-	cli = insertListview(m_lvPackages,"mathpazo",i18n("Use Palatino font as roman font (both text and math mode)") );
-	cli = insertListview(m_lvPackages,"mathptmx",i18n("Use Times font as roman font (both text and math mode)") );
-	cli = insertListview(m_lvPackages,"makeidx",i18n("Enable index generation") );
-	cli = insertListview(m_lvPackages,"multicol",i18n("Enables multicolumn environments") );
-	cli = insertListview(m_lvPackages,"pst-all",i18n("Load all pstricks packages") );
-	cli = insertListview(m_lvPackages,"rotating",i18n("Rotates text") );
-	cli = insertListview(m_lvPackages,"subfigure",i18n("Enables subfigures inside figures") );
-	cli = insertListview(m_lvPackages,"upgreek",i18n("Typesetting capital Greek letters") );
-	cli = insertListview(m_lvPackages,"xcolor",i18n("Extending LaTeX's color facilities") );
+	cli = insertTreeWidget(m_lvPackages,"mathpazo",i18n("Use Palatino font as roman font (both text and math mode)") );
+	cli = insertTreeWidget(m_lvPackages,"mathptmx",i18n("Use Times font as roman font (both text and math mode)") );
+	cli = insertTreeWidget(m_lvPackages,"makeidx",i18n("Enable index generation") );
+	cli = insertTreeWidget(m_lvPackages,"multicol",i18n("Enables multicolumn environments") );
+	cli = insertTreeWidget(m_lvPackages,"pst-all",i18n("Load all pstricks packages") );
+	cli = insertTreeWidget(m_lvPackages,"rotating",i18n("Rotates text") );
+	cli = insertTreeWidget(m_lvPackages,"subfigure",i18n("Enables subfigures inside figures") );
+	cli = insertTreeWidget(m_lvPackages,"upgreek",i18n("Typesetting capital Greek letters") );
+	cli = insertTreeWidget(m_lvPackages,"xcolor",i18n("Extending LaTeX's color facilities") );
 
-	cli = insertListview(m_lvPackages,"babel",i18n("Adds language specific support") );
-	cli->setOn(true);
-	cli->setOpen(true);
-	clichild = new Q3CheckListItem(cli,"acadian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"afrikaans" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"american" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"australian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"austrian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"bahasa" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"basque" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"brazil" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"brazilian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"breton" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"british" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"bulgarian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"canadian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"canadien" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"catalan" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"croatian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"czech" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"danish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"dutch" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"english" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"esperanto" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"estonian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"finnish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"francais" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"frenchb" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"french" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"galician" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"german" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"germanb" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"greek" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"polutonikogreek" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"hebrew" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"hungarian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"icelandic" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"interlingua" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"irish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"italian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"latin" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"lowersorbian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"magyar" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"naustrian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"newzealand" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"ngerman" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"norsk" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"samin" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"nynorsk" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"polish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"portuges" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"portuguese" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"romanian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"russian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"scottish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"serbian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"slovak" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"slovene" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"spanish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"swedish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"turkish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"ukrainian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"uppersorbian" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"welsh" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"UKenglish" ,Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli,"USenglish" ,Q3CheckListItem::CheckBox);
+	cli = insertTreeWidget(m_lvPackages,"babel",i18n("Adds language specific support") );
+	cli->setExpanded(true);
+	cli->setCheckState(0, Qt::Checked);
+	clichild = insertTreeWidget(cli, "acadian", "");
+	clichild = insertTreeWidget(cli, "afrikaans", "");
+	clichild = insertTreeWidget(cli, "american", "");
+	clichild = insertTreeWidget(cli, "australian", "");
+	clichild = insertTreeWidget(cli, "austrian", "");
+	clichild = insertTreeWidget(cli, "bahasa", "");
+	clichild = insertTreeWidget(cli, "basque", "");
+	clichild = insertTreeWidget(cli, "brazil", "");
+	clichild = insertTreeWidget(cli, "brazilian", "");
+	clichild = insertTreeWidget(cli, "breton", "");
+	clichild = insertTreeWidget(cli, "british", "");
+	clichild = insertTreeWidget(cli, "bulgarian", "");
+	clichild = insertTreeWidget(cli, "canadian", "");
+	clichild = insertTreeWidget(cli, "canadien", "");
+	clichild = insertTreeWidget(cli, "catalan", "");
+	clichild = insertTreeWidget(cli, "croatian", "");
+	clichild = insertTreeWidget(cli, "czech", "");
+	clichild = insertTreeWidget(cli, "danish", "");
+	clichild = insertTreeWidget(cli, "dutch", "");
+	clichild = insertTreeWidget(cli, "english", "");
+	clichild = insertTreeWidget(cli, "esperanto", "");
+	clichild = insertTreeWidget(cli, "estonian", "");
+	clichild = insertTreeWidget(cli, "finnish", "");
+	clichild = insertTreeWidget(cli, "francais", "");
+	clichild = insertTreeWidget(cli, "frenchb", "");
+	clichild = insertTreeWidget(cli, "french", "");
+	clichild = insertTreeWidget(cli, "galician", "");
+	clichild = insertTreeWidget(cli, "german", "");
+	clichild = insertTreeWidget(cli, "germanb", "");
+	clichild = insertTreeWidget(cli, "greek", "");
+	clichild = insertTreeWidget(cli, "polutonikogreek", "");
+	clichild = insertTreeWidget(cli, "hebrew", "");
+	clichild = insertTreeWidget(cli, "hungarian", "");
+	clichild = insertTreeWidget(cli, "icelandic", "");
+	clichild = insertTreeWidget(cli, "interlingua", "");
+	clichild = insertTreeWidget(cli, "irish", "");
+	clichild = insertTreeWidget(cli, "italian", "");
+	clichild = insertTreeWidget(cli, "latin", "");
+	clichild = insertTreeWidget(cli, "lowersorbian", "");
+	clichild = insertTreeWidget(cli, "magyar", "");
+	clichild = insertTreeWidget(cli, "naustrian", "");
+	clichild = insertTreeWidget(cli, "newzealand", "");
+	clichild = insertTreeWidget(cli, "ngerman", "");
+	clichild = insertTreeWidget(cli, "norsk", "");
+	clichild = insertTreeWidget(cli, "samin", "");
+	clichild = insertTreeWidget(cli, "nynorsk", "");
+	clichild = insertTreeWidget(cli, "polish", "");
+	clichild = insertTreeWidget(cli, "portuges", "");
+	clichild = insertTreeWidget(cli, "portuguese", "");
+	clichild = insertTreeWidget(cli, "romanian", "");
+	clichild = insertTreeWidget(cli, "russian", "");
+	clichild = insertTreeWidget(cli, "scottish", "");
+	clichild = insertTreeWidget(cli, "serbian", "");
+	clichild = insertTreeWidget(cli, "slovak", "");
+	clichild = insertTreeWidget(cli, "slovene", "");
+	clichild = insertTreeWidget(cli, "spanish", "");
+	clichild = insertTreeWidget(cli, "swedish", "");
+	clichild = insertTreeWidget(cli, "turkish", "");
+	clichild = insertTreeWidget(cli, "ukrainian", "");
+	clichild = insertTreeWidget(cli, "uppersorbian", "");
+	clichild = insertTreeWidget(cli, "welsh", "");
+	clichild = insertTreeWidget(cli, "UKenglish", "");
+	clichild = insertTreeWidget(cli, "USenglish", "");
 
-	cli = insertListview(m_lvPackages,"fontenc",i18n("Use a font encoding scheme") );
-	cli->setOn(true);
-	cli->setOpen(true);
-	clichild = new Q3CheckListItem(cli, "HE8",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "IL2",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LCH",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LCY",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LGR",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LHE",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LIT",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LO1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "LY1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "MTT",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "OML",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "OMS",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "OT1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "OT2",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "OT4",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "PD1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "PU",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "QX",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "T1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "T2A",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "T2B",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "T2C",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "T5",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "TS1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "UT1",Q3CheckListItem::CheckBox);
-	clichild = new Q3CheckListItem(cli, "X2",Q3CheckListItem::CheckBox);
+	cli = insertTreeWidget(m_lvPackages,"fontenc",i18n("Use a font encoding scheme") );
+	cli->setExpanded(true);
+	cli->setCheckState(0, Qt::Checked);
+	clichild = insertTreeWidget(cli, "HE8", "");
+	clichild = insertTreeWidget(cli, "IL2", "");
+	clichild = insertTreeWidget(cli, "LCH", "");
+	clichild = insertTreeWidget(cli, "LCY", "");
+	clichild = insertTreeWidget(cli, "LGR", "");
+	clichild = insertTreeWidget(cli, "LHE", "");
+	clichild = insertTreeWidget(cli, "LIT", "");
+	clichild = insertTreeWidget(cli, "LO1", "");
+	clichild = insertTreeWidget(cli, "LY1", "");
+	clichild = insertTreeWidget(cli, "MTT", "");
+	clichild = insertTreeWidget(cli, "OML", "");
+	clichild = insertTreeWidget(cli, "OMS", "");
+	clichild = insertTreeWidget(cli, "OT1", "");
+	clichild = insertTreeWidget(cli, "OT2", "");
+	clichild = insertTreeWidget(cli, "OT4", "");
+	clichild = insertTreeWidget(cli, "PD1", "");
+	clichild = insertTreeWidget(cli, "PU", "");
+	clichild = insertTreeWidget(cli, "QX", "");
+	clichild = insertTreeWidget(cli, "T1", "");
+	clichild = insertTreeWidget(cli, "T2A", "");
+	clichild = insertTreeWidget(cli, "T2B", "");
+	clichild = insertTreeWidget(cli, "T2C", "");
+	clichild = insertTreeWidget(cli, "T5", "");
+	clichild = insertTreeWidget(cli, "TS1", "");
+	clichild = insertTreeWidget(cli, "UT1", "");
+	clichild = insertTreeWidget(cli, "X2", "");
 
-	cli = insertListview(m_lvPackages,"graphicx",i18n("Support for including graphics") );
-	cli->setOn(true);
-	cli->setOpen(true);
-	clichild = insertListview(cli,"dvips",i18n("Specialize on graphic inclusion for dvips") );
-	clichild = insertListview(cli,"pdftex",i18n("Specialize on graphic inclusion for pdftex") );
-	clichild = insertListview(cli,"draft",i18n("Show only frames of graphics") );
+	cli = insertTreeWidget(m_lvPackages,"graphicx",i18n("Support for including graphics") );
+	cli->setExpanded(true);
+	cli->setCheckState(0, Qt::Checked);
+	clichild = insertTreeWidget(cli,"dvips",i18n("Specialize on graphic inclusion for dvips") );
+	clichild = insertTreeWidget(cli,"pdftex",i18n("Specialize on graphic inclusion for pdftex") );
+	clichild = insertTreeWidget(cli,"draft",i18n("Show only frames of graphics") );
 }
 
 // Try to read values from the config file:
@@ -1199,37 +1191,42 @@ bool QuickDocument::readPackagesListview()
 
 	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
 	for ( QStringList::Iterator it=elements.begin(); it!=elements.end(); ++it ) {
-		Q3CheckListItem *cli;
+		QTreeWidgetItem *item;
 
 		// look, if this is a main or a child entry
 		KILE_DEBUG() << "\tread config entry: " << *it << endl;
 		int pos = (*it).indexOf('!');
 		if ( pos == -1 ) {                    // main entry
-			cli = new Q3CheckListItem(m_lvPackages, *it, Q3CheckListItem::CheckBox);
+			item = new QTreeWidgetItem(m_lvPackages, QStringList(*it));
+			item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+			item->setCheckState(0, Qt::Unchecked);
 			if (reg.exactMatch(configGroup.readEntry(*it))) {
 				if ( reg.cap(1) == "1" )        // selected state (entry 1)
-					cli->setOn(true);
+					item->setCheckState(0, Qt::Checked);
 				if ( reg.cap(2) == "1" )        // open state (entry 2)
-					cli->setOpen(true);
-				cli->setText(2,reg.cap(5));     // description (entry 5)
+					item->setExpanded(true);
+				item->setText(2,reg.cap(5));     // description (entry 5)
 			} else {
-				KILE_DEBUG() << "\twrong config entry for package " << cli->text(0) << endl;
+				KILE_DEBUG() << "\twrong config entry for package " << item->text(0) << endl;
 			}
 		} else {                              // child entry
-			cli = dynamic_cast<Q3CheckListItem*>(m_lvPackages->findItem((*it).left(pos), 0));
-			if ( cli ) {
-				Q3CheckListItem *clichild;
+			QList<QTreeWidgetItem*> items = m_lvPackages->findItems((*it).left(pos), Qt::MatchExactly);
+			if (items.count() > 0) {
+				item = items[0];
+				QTreeWidgetItem *clichild;
 				if (reg.exactMatch(configGroup.readEntry(*it))) {
 					if ( reg.cap(2) == "1" ) {                                     // editable state
-						clichild = insertEditableListview(cli,(*it).mid(pos+1),reg.cap(5),reg.cap(4),reg.cap(3) );
+						clichild = insertEditableTreeWidget(item,(*it).mid(pos+1),reg.cap(5),reg.cap(4),reg.cap(3) );
 					} else {
-						clichild = new Q3CheckListItem(cli, (*it).mid(pos+1), Q3CheckListItem::CheckBox);
+						clichild = new QTreeWidgetItem(item, QStringList((*it).mid(pos+1)));
+						clichild->setFlags(clichild->flags() | Qt::ItemIsUserCheckable);
+						clichild->setCheckState(0, Qt::Unchecked);
 						clichild->setText(2,reg.cap(5));                            // description
 					}
 					if ( reg.cap(1) == "1" )                                       // selected state
-						clichild->setOn(true);
+						clichild->setCheckState(0, Qt::Checked);
 				} else {
-					KILE_DEBUG() << "\twrong config entry for package option " << cli->text(0) << endl;
+					KILE_DEBUG() << "\twrong config entry for package option " << item->text(0) << endl;
 				}
 			} else {
 				KILE_DEBUG() << "\tlistview entry for package " << (*it).left(pos) << " not found" << endl;
@@ -1247,37 +1244,38 @@ void QuickDocument::writePackagesConfig()
 	QStringList packagesList;
 
 	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
-	for (Q3ListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
-		KILE_DEBUG() << "\twrite config: " << cur->text(0) << endl;
+	for (int i = 0; i < m_lvPackages->topLevelItemCount(); ++i) {
+		QTreeWidgetItem *currentItem = m_lvPackages->topLevelItem(i);
+		KILE_DEBUG() << "\twrite config: " << currentItem->text(0) << endl;
 		// add to packages list
-		packagesList += cur->text(0);
+		packagesList += currentItem->text(0);
 
 		// determine config entry
 		QString packageentry;
 
 		// look for selected entries
-		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
-		if ( cli && cli->isOn() )
+		if (currentItem->checkState(0) == Qt::Checked)
 			packageentry = "1,";
 		else
 			packageentry = "0,";
 
 		// look if this listitem is opened
-		if ( cli && cli->isOpen() )
+		if (currentItem->isExpanded())
 			packageentry += "1,";
 		else
 			packageentry += "0,";
 
 		// two dummy entries and finally the description
-		packageentry += ",," + cur->text(2);
+		packageentry += ",," + currentItem->text(2);
 
 		// write listview entry
-		configGroup.writeEntry(cur->text(0), packageentry);
+		configGroup.writeEntry(currentItem->text(0), packageentry);
 
 		// look for children
-		for (Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
+		for (int j = 0; j < currentItem->childCount(); ++j) {
+			QTreeWidgetItem *curchild = currentItem->child(j);
 			// add child to packages list
-			QString option = cur->text(0) + '!' + curchild->text(0);
+			QString option = currentItem->text(0) + '!' + curchild->text(0);
 			packagesList += option;
 			KILE_DEBUG() << "\twrite config: " << option << endl;
 
@@ -1285,16 +1283,15 @@ void QuickDocument::writePackagesConfig()
 			QString optionentry;
 
 			// look for selected options
-			Q3CheckListItem *clichild = dynamic_cast<Q3CheckListItem*>(curchild);
-			if ( clichild && clichild->isOn() )
+			if (curchild->checkState(0) == Qt::Checked)
 				optionentry = "1,";
 			else
 				optionentry = "0,";
 
 			// look, if this child is editable
-			if ( clichild && m_dictPackagesEditable.contains(option) ) {
+			if (m_dictPackagesEditable.contains(option) ) {
 				optionentry += "1,";
-				if ( m_dictPackagesDefaultvalues.contains(option) )
+				if (m_dictPackagesDefaultvalues.contains(option))
 					optionentry += m_dictPackagesDefaultvalues[option] + ',';
 				else
 					optionentry += ',';
@@ -1314,51 +1311,53 @@ void QuickDocument::writePackagesConfig()
 	KileConfig::setPackagesList(packagesList);
 }
 
-// insert package
-Q3CheckListItem *QuickDocument::insertListview(Q3ListView *listview,
-                                              const QString &entry,
-                                              const QString &description)
+QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidget *treeWidget,
+                                                 const QString &entry,
+                                                 const QString &description)
 {
-	Q3CheckListItem *item = new Q3CheckListItem(listview,entry,Q3CheckListItem::CheckBox);
-	if ( ! description.isEmpty() )
-		item->setText(2,description);
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, QStringList() << entry << "" << description);
+	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+	item->setCheckState(0, Qt::Unchecked);
 
 	return item;
 }
 
-// insert package option (not editable)
-Q3CheckListItem *QuickDocument::insertListview(Q3CheckListItem *parent,
-                                              const QString &entry,
-                                              const QString &description)
+QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidgetItem *parent,
+                                                 const QString &entry,
+                                                 const QString &description)
 {
-	Q3CheckListItem *item = new Q3CheckListItem(parent,entry,Q3CheckListItem::CheckBox);
-	if ( ! description.isEmpty() )
-		item->setText(2,description);
+	QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << "" << description);
+	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+	item->setCheckState(0, Qt::Unchecked);
 
 	return item;
 }
 
-// insert package option (editable)
-Q3CheckListItem *QuickDocument::insertEditableListview(Q3CheckListItem *parent,
-	                                       const QString &entry,const QString &description,
-	                                       const QString value,const QString defaultvalue)
+QTreeWidgetItem* QuickDocument::insertEditableTreeWidget(QTreeWidgetItem *parent,
+                                                         const QString &entry,
+                                                         const QString &description,
+                                                         const QString &value,
+                                                         const QString &defaultvalue)
 {
-	Q3CheckListItem *item = new EditableCheckListItem(parent,entry);
+	QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << "" << description);
+	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+	item->setCheckState(0, Qt::Unchecked);
+
 	QString option = parent->text(0) + '!' + entry;
 	m_dictPackagesEditable[option] = true;
-	if ( ! defaultvalue.isEmpty() )
+	if (!defaultvalue.isEmpty())
 		m_dictPackagesDefaultvalues[option] = defaultvalue;
-	setPackagesValue(item,option,value);
-	if ( ! description.isEmpty() )
-		item->setText( 2,addPackageDefault(option,description) );
+	setPackagesValue(item, option, value);
+	if (!description.isEmpty())
+		item->setText(2, addPackageDefault(option, description));
 
 	return item;
 }
 
-void QuickDocument::setPackagesValue(Q3ListViewItem *item,const QString &option,const QString &val)
+void QuickDocument::setPackagesValue(QTreeWidgetItem *item, const QString &option, const QString &val)
 {
 	QString defaultvalue = ( m_dictPackagesDefaultvalues.contains(option) )
-	                         ? m_dictPackagesDefaultvalues[option] : QString::null;
+			? m_dictPackagesDefaultvalues[option] : QString::null;
 	QString value = ( ! val.isEmpty() ) ? val : QString::null;
 
 	if ( value == defaultvalue )
@@ -1374,36 +1373,25 @@ QString QuickDocument::getPackagesValue(const QString &value)
 	return ( value==i18n("<default>") || value==i18n("<empty>") ) ? QString::null : value;
 }
 
-
-bool QuickDocument::isListviewEntry(Q3ListView *listview,const QString &entry)
-{
-	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
-		if ( cur->text(0) == entry )
-			return true;
-	}
-
-	return false;
-}
-
 bool QuickDocument::isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry)
 {
 	return treeWidget->findItems(entry, Qt::MatchExactly).count() != 0;
 }
 
-bool QuickDocument::isListviewChild(Q3ListView *listview,const QString &entry, const QString &option)
+bool QuickDocument::isTreeWidgetChild(QTreeWidget *treeWidget, const QString &entry, const QString &option)
 {
-	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
-		// look for the main entry
-		if ( cur->text(0) == entry ) {
-			// look for children
-			for (Q3ListViewItem *curchild=cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
-				if ( option == curchild->text(0) )
+	for (int i = 0; i < treeWidget->topLevelItemCount(); ++i) {
+		QTreeWidgetItem *currentItem = treeWidget->topLevelItem(i);
+		if (currentItem->text(0) == entry) {
+			for (int j = 0; j < currentItem->childCount(); ++j) {
+				QTreeWidgetItem *currentChild = currentItem->child(j);
+				if (currentChild->text(0) == option) {
 					return true;
+				}
 			}
 			return false;
 		}
 	}
-
 	return false;
 }
 
@@ -1469,12 +1457,12 @@ bool QuickDocument::isDocumentClassOption(const QString &option)
 
 bool QuickDocument::isPackage(const QString &package)
 {
-	return isListviewEntry(m_lvPackages,package);
+	return isTreeWidgetEntry(m_lvPackages,package);
 }
 
 bool QuickDocument::isPackageOption(const QString &package, const QString &option)
 {
-	return isListviewChild(m_lvPackages,package,option);
+	return isTreeWidgetChild(m_lvPackages,package,option);
 }
 
 
@@ -1550,16 +1538,14 @@ void QuickDocument::printPackages()
 	m_hyperrefdriver = QString::null;
 	m_hyperrefsetup = QString::null;
 
-	for (Q3ListViewItem *cur=m_lvPackages->firstChild(); cur; cur=cur->nextSibling()) {
-		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
-		if ( ! cli )
-			continue;
+	for (int i = 0; i < m_lvPackages->topLevelItemCount(); ++i) {
+		QTreeWidgetItem *cur = m_lvPackages->topLevelItem(i);
 
 		if ( cur->text(0) == "hyperref" ) {          // manage hyperref package
-			m_currentHyperref = cli->isOn();
-			for (Q3ListViewItem *curchild = cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
-				Q3CheckListItem *clichild = dynamic_cast<Q3CheckListItem*>(curchild);
-				if (clichild && clichild->isOn() ) {              // manage hyperref option
+			m_currentHyperref = cur->checkState(0) == Qt::Checked;
+			for (int j = 0; j < cur->childCount(); ++j) {
+				QTreeWidgetItem *curchild = cur->child(j);
+				if (curchild->checkState(0) == Qt::Checked) {              // manage hyperref option
 					if ( isHyperrefDriver(curchild->text(0)) ) {   // either hyperref driver
 						if ( ! m_hyperrefdriver.isEmpty() )
 							m_hyperrefdriver += ',';
@@ -1574,11 +1560,11 @@ void QuickDocument::printPackages()
 					}
 				}
 			}
-		} else if ( cli->isOn() ) {                   // manage other package options
+		} else if (cur->checkState(0) == Qt::Checked) {                   // manage other package options
 			QString packageOptions;
-			for (Q3ListViewItem *curchild = cur->firstChild(); curchild; curchild=curchild->nextSibling()) {
-				Q3CheckListItem *clichild = dynamic_cast<Q3CheckListItem*>(curchild);
-				if (clichild && clichild->isOn()) {
+			for (int j = 0; j < cur->childCount(); ++j) {
+				QTreeWidgetItem *curchild = cur->child(j);
+				if (curchild->checkState(0) == Qt::Checked) {
 					QString optiontext;
 					if ( m_dictPackagesEditable.contains(cur->text(0) + '!' + curchild->text(0)) ) {
 						QString value = curchild->text(1);
@@ -1935,18 +1921,17 @@ void QuickDocument::slotPackageAdd()
 
 	if ( inputDialog(list,qd_CheckNotEmpty | qd_CheckPackage) ) {
 		KILE_DEBUG() << "\tadd package: " << list[3] << " (" << list[5] << ") checked=" << list[6] << endl;
-		Q3CheckListItem *cli = new Q3CheckListItem(m_lvPackages, list[3], Q3CheckListItem::CheckBox);
-		cli->setText(2, list[5]);
-		if ( list[6] == "true" )
-			cli->setOn(true);
+		QTreeWidgetItem *cli = new QTreeWidgetItem(m_lvPackages, QStringList() << list[3] << "" << list[5]);
+		cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
+		cli->setCheckState(0, list[6] == "true" ? Qt::Checked : Qt::Unchecked);
 	}
 }
 
 void QuickDocument::slotPackageAddOption()
 {
-	Q3ListViewItem *cur = m_lvPackages->selectedItem();
-	if ( !cur )
-		return;
+	if (m_lvPackages->selectedItems().count() == 0) return;
+
+	QTreeWidgetItem *cur = m_lvPackages->selectedItems()[0];
 
 	KILE_DEBUG() << "==QuickDocument::packageAddOption()============" << endl;
 	QStringList list;
@@ -1967,25 +1952,26 @@ void QuickDocument::slotPackageAddOption()
 	if ( !cur->parent() && inputDialog(list,qd_CheckNotEmpty | qd_CheckPackageOption) ) {
 		KILE_DEBUG() << "\tadd option: " << list[3] << " (" << list[10] << ") checked=" << list[11] << endl;
 
-		Q3CheckListItem *cli;
+		QTreeWidgetItem *cli;
 		if ( list[4] == "true" ) {
-			cli = insertEditableListview((Q3CheckListItem *)cur,list[3],list[10],list[8],list[6]);
+			cli = insertEditableTreeWidget(cur,list[3],list[10],list[8],list[6]);
 		} else {
-			cli = new Q3CheckListItem(cur, list[3], Q3CheckListItem::CheckBox);
-			cli->setText(2,list[10]);
+			cli = new QTreeWidgetItem(cur, QStringList() << list[3] << "" << list[10], Q3CheckListItem::CheckBox);
+			cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
+			cli->setCheckState(0, Qt::Unchecked);
 		}
 		if ( list[11] == "true" )
-			cli->setOn(true);
-		cur->setOpen(true);
+			cli->setCheckState(0, Qt::Checked);
+		cur->setExpanded(true);
 	}
 
 }
 
 void QuickDocument::slotPackageEdit()
 {
-	Q3ListViewItem *cur = m_lvPackages->selectedItem();
-	if ( !cur )
-		return;
+	if (m_lvPackages->selectedItems().count() == 0) return;
+
+	QTreeWidgetItem *cur = m_lvPackages->selectedItems()[0];
 
 	KILE_DEBUG() << "==QuickDocument::slotPackageEdit()============" << endl;
 	bool editableOption;
@@ -2054,9 +2040,10 @@ void QuickDocument::slotPackageEdit()
 
 void QuickDocument::slotPackageDelete()
 {
-	Q3ListViewItem *cur = m_lvPackages->selectedItem();
-	if ( !cur )
-		return;
+	if (m_lvPackages->selectedItems().count() == 0) return;
+
+	
+	QTreeWidgetItem *cur = m_lvPackages->selectedItems()[0];
 
 	bool packageoption;
 	QString message,optionname;
@@ -2071,13 +2058,10 @@ void QuickDocument::slotPackageDelete()
 	}
 
 	if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))==KMessageBox::Continue) {
-		Q3ListViewItem *childcur = cur->firstChild();
-		while (childcur) {
-			Q3ListViewItem *nextchildcur=childcur->nextSibling();
-			delete childcur;
-			childcur = nextchildcur;
+		while (cur->childCount() > 0) {
+			cur->takeChild(0);
 		}
-		delete cur;
+		m_lvPackages->takeTopLevelItem(m_lvPackages->indexOfTopLevelItem(cur));
 
 		// also delete entries for editable package option
 		if ( packageoption && m_dictPackagesEditable.contains(optionname) ) {
@@ -2099,21 +2083,17 @@ void QuickDocument::slotPackageReset()
 	}
 }
 
-void QuickDocument::slotCheckParent(Q3ListViewItem *listViewItem)
+void QuickDocument::slotCheckParent(QTreeWidgetItem *item)
 {
-	Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(listViewItem);
-	if (cli && listViewItem->parent() && cli->isOn()) {
-		Q3CheckListItem *cliparent=dynamic_cast<Q3CheckListItem*>(listViewItem->parent());
-		if (cliparent)
-			cliparent->setOn(true);
+	if (item && item->checkState(0) == Qt::Checked && item->parent()) {
+		item->parent()->setCheckState(0, Qt::Checked);
 	}
 }
 
-void QuickDocument::slotPackageDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int)
+void QuickDocument::slotPackageDoubleClicked(QTreeWidgetItem *item)
 {
-	if ( listViewItem && listViewItem->parent() ) {
-		Q3CheckListItem *parentitem = dynamic_cast<Q3CheckListItem*>(listViewItem->parent());
-		QString option = parentitem->text(0) + '!' + listViewItem->text(0);
+	if (item && item->parent() ) {
+		QString option = item->parent()->text(0) + '!' + item->text(0);
 		if ( m_dictPackagesEditable.contains(option) )
 			slotPackageEdit();
 	}
@@ -2141,11 +2121,10 @@ void QuickDocument::slotEnableButtons()
 	m_btnClassOptionsDelete->setEnabled(enable);
 
 	// packeges
-	Q3ListViewItem *cur = m_lvPackages->selectedItem();
-	if ( cur && cur->text(0)!= "hyperref" ) {
+	if (m_lvPackages->selectedItems().count() > 0 && m_lvPackages->selectedItems()[0]->text(0) != "hyperref") {
 		m_btnPackagesEdit->setEnabled(true);
 		m_btnPackagesDelete->setEnabled(true);
-		if ( cur->parent() )
+		if (m_lvPackages->selectedItems()[0]->parent())
 			m_btnPackagesAddOption->setEnabled(false);
 		else
 			m_btnPackagesAddOption->setEnabled(true);

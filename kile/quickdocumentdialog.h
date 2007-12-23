@@ -75,7 +75,7 @@ private:
 	KCategoryComboBox *m_cbPaperSize;
 	KCategoryComboBox *m_cbEncoding;
 	QTreeWidget *m_lvClassOptions;
-	Q3ListView *m_lvPackages;
+	QTreeWidget *m_lvPackages;
 	KLineEdit *m_leAuthor;
 	KLineEdit *m_leTitle;
 	KLineEdit *m_leDate;
@@ -153,22 +153,23 @@ private:
 	
 	// packages tab
 	void initPackages();
-	bool readPackagesListview();        
-	Q3CheckListItem *insertListview(Q3ListView *listview,               
-                                  const QString &entry,
-                                  const QString &description);
-	Q3CheckListItem *insertListview(Q3CheckListItem *parent,               
-                                  const QString &entry,
-                                  const QString &description);
-	Q3CheckListItem *insertEditableListview(Q3CheckListItem *parent,               
-	                                       const QString &entry,const QString &description,
-	                                       const QString value,const QString defaultvalue);
-	bool isListviewEntry(Q3ListView *listview,const QString &entry);
+	bool readPackagesListview();
+	QTreeWidgetItem *insertTreeWidget(QTreeWidget *treeWidget,
+	                                  const QString &entry,
+	                                  const QString &description);
+	QTreeWidgetItem *insertTreeWidget(QTreeWidgetItem *parent,
+	                                  const QString &entry,
+	                                  const QString &description);
+	QTreeWidgetItem *insertEditableTreeWidget(QTreeWidgetItem *parent,
+	                                          const QString &entry,
+	                                          const QString &description,
+	                                          const QString &value,
+	                                          const QString &defaultvalue);
 	bool isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry);
-	void setPackagesValue(Q3ListViewItem *item,const QString &option,const QString &val);
+	void setPackagesValue(QTreeWidgetItem *item, const QString &option, const QString &val);
 	QString getPackagesValue(const QString &value);
 
-	bool isListviewChild(Q3ListView *listview,const QString &entry, const QString &option);
+	bool isTreeWidgetChild(QTreeWidget *treeWidget, const QString &entry, const QString &option);
 	QString addPackageDefault(const QString &option,const QString &description);
 	QString stripPackageDefault(const QString &option,const QString &description);
 	bool isHyperrefDriver(const QString &name);
@@ -195,8 +196,8 @@ private slots:
 	void slotClassOptionEdit();
 	void slotClassOptionDelete();
 	
-	void slotCheckParent(Q3ListViewItem *listViewItem);
-	void slotPackageDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int);
+	void slotCheckParent(QTreeWidgetItem *item);
+	void slotPackageDoubleClicked(QTreeWidgetItem *item);
 	void slotPackageAdd();
 	void slotPackageAddOption();
 	void slotPackageEdit();

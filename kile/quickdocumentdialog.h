@@ -28,10 +28,13 @@ email                : holger.danielsson@t-online.de
 
 #include "kilewizard.h"
 
-class KCategoryComboBox;
-class KComboBox;
 class Q3ListView;
 class Q3CheckListItem;
+class QTreeWidget;
+class QTreeWidgetItem;
+
+class KCategoryComboBox;
+class KComboBox;
 class KLineEdit;
 class KPushButton;
 
@@ -71,7 +74,7 @@ private:
 	KCategoryComboBox *m_cbTypefaceSize;
 	KCategoryComboBox *m_cbPaperSize;
 	KCategoryComboBox *m_cbEncoding;
-	Q3ListView *m_lvClassOptions;
+	QTreeWidget *m_lvClassOptions;
 	Q3ListView *m_lvPackages;
 	KLineEdit *m_leAuthor;
 	KLineEdit *m_leTitle;
@@ -161,6 +164,7 @@ private:
 	                                       const QString &entry,const QString &description,
 	                                       const QString value,const QString defaultvalue);
 	bool isListviewEntry(Q3ListView *listview,const QString &entry);
+	bool isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry);
 	void setPackagesValue(Q3ListViewItem *item,const QString &option,const QString &val);
 	QString getPackagesValue(const QString &value);
 
@@ -186,7 +190,7 @@ private slots:
 	void slotTypefaceSizeDelete();  
 	void slotPaperSizeAdd();
 	void slotPaperSizeDelete();
-	void slotOptionDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int); 
+	void slotOptionDoubleClicked(QTreeWidgetItem *item, int column);
 	void slotClassOptionAdd();
 	void slotClassOptionEdit();
 	void slotClassOptionDelete();

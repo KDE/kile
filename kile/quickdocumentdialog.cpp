@@ -35,6 +35,7 @@ email                : holger.danielsson@t-online.de
 #include <Q3HBoxLayout>
 #include <Q3GridLayout>
 #include <Q3VBoxLayout>
+#include <QTreeWidget>
 
 #include <KComboBox>
 #include <KConfig>
@@ -175,13 +176,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	label->setBuddy(m_cbDocumentClass);	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
 	m_btnDocumentClassAdd = new KPushButton(classOptions);
-	m_btnDocumentClassAdd->setIcon(SmallIcon("edit_add"));
+	m_btnDocumentClassAdd->setIcon(KIcon("edit-add"));
 	Q3WhatsThis::add(m_btnDocumentClassAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnDocumentClassAdd,0,2);
 	connect(m_btnDocumentClassAdd, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 
 	m_btnDocumentClassDelete = new KPushButton(classOptions);
-	m_btnDocumentClassDelete->setIcon(SmallIcon("eraser"));
+	m_btnDocumentClassDelete->setIcon(KIcon("draw-eraser"));
 	Q3WhatsThis::add(m_btnDocumentClassDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnDocumentClassDelete,0,3);
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
@@ -197,13 +198,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(label,1,0);
 
 	m_btnTypefaceSizeAdd = new KPushButton(classOptions);
-	m_btnTypefaceSizeAdd->setIcon(SmallIcon("edit_add"));
+	m_btnTypefaceSizeAdd->setIcon(KIcon("edit-add"));
 	Q3WhatsThis::add(m_btnTypefaceSizeAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnTypefaceSizeAdd,1,2);
 	connect(m_btnTypefaceSizeAdd, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeAdd()));
 
 	m_btnTypefaceSizeDelete = new KPushButton(classOptions);
-	m_btnTypefaceSizeDelete->setIcon(SmallIcon("eraser"));
+	m_btnTypefaceSizeDelete->setIcon(KIcon("draw-eraser"));
 	Q3WhatsThis::add(m_btnTypefaceSizeDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnTypefaceSizeDelete,1,3);
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
@@ -220,13 +221,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(m_lbPaperSize,2,0);
 
 	m_btnPaperSizeAdd = new KPushButton(classOptions);
-	m_btnPaperSizeAdd->setIcon(SmallIcon("edit_add"));
+	m_btnPaperSizeAdd->setIcon(KIcon("edit-add"));
 	Q3WhatsThis::add(m_btnPaperSizeAdd, i18n("Add current text to this list"));
 	gl->addWidget(m_btnPaperSizeAdd,2,2);
 	connect(m_btnPaperSizeAdd, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 
 	m_btnPaperSizeDelete = new KPushButton(classOptions);
-	m_btnPaperSizeDelete->setIcon(SmallIcon("eraser"));
+	m_btnPaperSizeDelete->setIcon(KIcon("draw-eraser"));
 	Q3WhatsThis::add(m_btnPaperSizeDelete, i18n("Remove current element from this list"));
 	gl->addWidget(m_btnPaperSizeDelete,2,3);
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
@@ -243,15 +244,16 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->addWidget(label,3,0);
 
 	// Class Options
-	m_lvClassOptions = new Q3ListView(classOptions);
-	m_lvClassOptions->addColumn(i18n("Option"));
-	m_lvClassOptions->addColumn(i18n("Description"));
+	m_lvClassOptions = new QTreeWidget(classOptions);
+	m_lvClassOptions->setHeaderLabels(QStringList() << i18n("Option")
+	                                                << i18n("Description"));
 	m_lvClassOptions->setAllColumnsShowFocus(true);
+	m_lvClassOptions->setRootIsDecorated(false);
 	gl->addMultiCellWidget(m_lvClassOptions, 4,4, 1,3);
-	connect(m_lvClassOptions, SIGNAL(selectionChanged()),
+	connect(m_lvClassOptions, SIGNAL(itemSelectionChanged()),
 	        this, SLOT(slotEnableButtons()));
-	connect(m_lvClassOptions, SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),
-	        this, SLOT(slotOptionDoubleClicked(Q3ListViewItem *,const QPoint &,int)));
+	connect(m_lvClassOptions, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
+	        this, SLOT(slotOptionDoubleClicked(QTreeWidgetItem*, int)));
 
 	label = new QLabel(i18n("Cl&ass options:"), classOptions);
 	label->setBuddy(m_lvClassOptions);
@@ -859,17 +861,17 @@ void QuickDocument::setClassOptions(const QStringList &list, uint start)
 	for (uint i=start; i<list.count(); ++i) {
 		int pos = reg.search( list[i] );
 		if ( pos != -1 ) {
-			Q3CheckListItem *cli = new Q3CheckListItem(m_lvClassOptions, reg.cap(1), Q3CheckListItem::CheckBox);
+			QTreeWidgetItem *twi = new QTreeWidgetItem(m_lvClassOptions, QStringList(reg.cap(1)));
+			twi->setFlags(twi->flags() | Qt::ItemIsUserCheckable);
 
 			// see if it is a default option
 			if ( isDefaultClassOption(reg.cap(1)) )
-				cli->setText(1, reg.cap(2)+" [default]");
+				twi->setText(1, reg.cap(2)+" [default]");
 			else
-				cli->setText(1, reg.cap(2));
+				twi->setText(1, reg.cap(2));
 
 			// check it if this option is set by th user
-			if ( isSelectedClassOption(reg.cap(1)) )
-				cli->setOn(true);
+			twi->setCheckState(0, isSelectedClassOption(reg.cap(1)) ? Qt::Checked : Qt::Unchecked);
 		}
 	}
 }
@@ -885,11 +887,12 @@ QString QuickDocument::getClassOptions()
 
 	QString options =  fontsize + ',' + papersize;
 
-	for (Q3ListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
-		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
-		if (cli && cli->isOn()) {
-			options += ',' + cur->text(0);
+	QTreeWidgetItemIterator it(m_lvClassOptions);
+	while (*it) {
+		if ((*it)->checkState(0) == Qt::Checked) {
+			options += "," + (*it)->text(0);
 		}
+		++it;
 	}
 
 	return options;
@@ -915,18 +918,18 @@ void QuickDocument::updateClassOptions()
 	newlist << getClassOptions();
 
 	// read all options
-	for (Q3ListViewItem *cur = m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
-		Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(cur);
-		if ( cli ) {
-			QString description = cur->text(1);
-			if ( description.right(10) == " [default]" ) {
-				description = stripDefault(description);
-				if ( ! defaultoptions.isEmpty() )
-					defaultoptions += ',';
-				defaultoptions += cur->text(0);
+	QTreeWidgetItemIterator it(m_lvClassOptions);
+	while (*it) {
+		QString description = (*it)->text(1);
+		if (description.right(10) == " [default]") {
+			description = stripDefault(description);
+			if (!defaultoptions.isEmpty()) {
+				defaultoptions += ",";
 			}
-			newlist += cur->text(0) + " => " + description;
+			defaultoptions += (*it)->text(0);
 		}
+		newlist += (*it)->text(0) + " => " + description;
+		++it;
 	}
 
 	// update list entry with defaultoptions
@@ -1382,6 +1385,11 @@ bool QuickDocument::isListviewEntry(Q3ListView *listview,const QString &entry)
 	return false;
 }
 
+bool QuickDocument::isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry)
+{
+	return treeWidget->findItems(entry, Qt::MatchExactly).count() != 0;
+}
+
 bool QuickDocument::isListviewChild(Q3ListView *listview,const QString &entry, const QString &option)
 {
 	for ( Q3ListViewItem *cur=listview->firstChild(); cur; cur=cur->nextSibling() ) {
@@ -1456,7 +1464,7 @@ bool QuickDocument::isDocumentClass(const QString &name)
 
 bool QuickDocument::isDocumentClassOption(const QString &option)
 {
-	return isListviewEntry(m_lvClassOptions,option);
+	return isTreeWidgetEntry(m_lvClassOptions,option);
 }
 
 bool QuickDocument::isPackage(const QString &package)
@@ -1493,10 +1501,12 @@ void QuickDocument::printTemplate()
 	if ( !m_cbTypefaceSize->currentText().isEmpty() )
 		options += stripDefault( m_cbTypefaceSize->currentText() ) + ',';
 
-	for (Q3ListViewItem *cur=m_lvClassOptions->firstChild(); cur; cur=cur->nextSibling()) {
-		Q3CheckListItem *cli=dynamic_cast<Q3CheckListItem*>(cur);
-		if ( cli && cli->isOn() )
-			options += cur->text(0) + ',';
+	QTreeWidgetItemIterator it(m_lvClassOptions);
+	while (*it) {
+		if ((*it)->checkState(0) == Qt::Checked) {
+			options += (*it)->text(0) + ",";
+		}
+		++it;
 	}
 
 	if ( ! options.isEmpty() )
@@ -1846,11 +1856,9 @@ void QuickDocument::slotClassOptionAdd()
 
 		// add class option
 		KILE_DEBUG() << "\tadd option: " << option << " (" << description << ") checked=" << list[6] << endl;
-		Q3CheckListItem *cli = new Q3CheckListItem(m_lvClassOptions, option, Q3CheckListItem::CheckBox);
-		cli->setText(1,description);
-
-		if ( check )
-			cli->setOn(true);
+		QTreeWidgetItem *twi = new QTreeWidgetItem(m_lvClassOptions, QStringList() << option << description);
+		twi->setFlags(twi->flags() | Qt::ItemIsUserCheckable);
+		twi->setCheckState(0, check ? Qt::Checked : Qt::Unchecked);
 
 		// update dictionary
 		updateClassOptions();
@@ -1859,9 +1867,9 @@ void QuickDocument::slotClassOptionAdd()
 
 void QuickDocument::slotClassOptionEdit()
 {
-	Q3ListViewItem *cur = m_lvClassOptions->selectedItem();
-	if ( ! cur )
-		return;
+	if (m_lvClassOptions->selectedItems().count() == 0) return;
+
+	QTreeWidgetItem *cur = m_lvClassOptions->selectedItems()[0];
 
 	KILE_DEBUG() << "==QuickDocument::slotClassOptionEdit()============" << endl;
 	QStringList list;
@@ -1892,27 +1900,22 @@ void QuickDocument::slotClassOptionEdit()
 void QuickDocument::slotClassOptionDelete()
 {
 	KILE_DEBUG() << "==QuickDocument::slotClassOptionDelete()============" << endl;
-	if (m_lvClassOptions->selectedItem() && (KMessageBox::warningContinueCancel(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Continue)) {
-		Q3ListViewItem *cur = m_lvClassOptions->selectedItem();
+	if (m_lvClassOptions->selectedItems().count() > 0 && (KMessageBox::warningContinueCancel(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Continue)) {
+		QTreeWidgetItem *cur = m_lvClassOptions->selectedItems()[0];
 
 		KILE_DEBUG() << "\tdelete option: " << cur->text(0) << " (" << cur->text(1) << ")" << endl;
-		m_lvClassOptions->takeItem(m_lvClassOptions->selectedItem());
+		m_lvClassOptions->takeTopLevelItem(m_lvClassOptions->indexOfTopLevelItem(cur));
 
 		// update dictionary
 		updateClassOptions();
 	}
 }
 
-void QuickDocument::slotOptionDoubleClicked(Q3ListViewItem *listViewItem,const QPoint &,int)
+void QuickDocument::slotOptionDoubleClicked(QTreeWidgetItem *item, int column)
 {
-	Q3CheckListItem *cli = dynamic_cast<Q3CheckListItem*>(listViewItem);
-	if ( cli ) {
-		if ( ! cli->isOn() ) {
-			cli->setOn(true);
-		}
-		else
-			cli->setOn(false);
-	}
+	Q_UNUSED(column);
+
+	item->setCheckState(0, item->checkState(0) == Qt::Checked ? Qt::Unchecked : Qt::Checked);
 }
 
 ////////////////////////////// slots: packages //////////////////////////////
@@ -2133,7 +2136,7 @@ void QuickDocument::slotEnableButtons()
 
 	// class options
 	m_btnClassOptionsAdd->setEnabled(enable);
-	enable = ( enable && (m_lvClassOptions->selectedItem() != NULL) );
+	enable = ( enable && (m_lvClassOptions->selectedItems().count() != 0) );
 	m_btnClassOptionsEdit->setEnabled(enable);
 	m_btnClassOptionsDelete->setEnabled(enable);
 

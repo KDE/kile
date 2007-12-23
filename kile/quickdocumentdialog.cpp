@@ -18,25 +18,22 @@ email                : holger.danielsson@t-online.de
 
 #include "quickdocumentdialog.h"
 
-#include <qstringlist.h>
-#include <qtabwidget.h>
-#include <qlayout.h>
-#include <qwidget.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <q3listbox.h>
-#include <qpainter.h>
-#include <qpalette.h>
-#include <qstyle.h>
-#include <q3listview.h>
-#include <q3whatsthis.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <Q3HBoxLayout>
 #include <Q3GridLayout>
+#include <Q3HBoxLayout>
 #include <Q3VBoxLayout>
+#include <Q3WhatsThis>
+#include <QCheckBox>
 #include <QItemDelegate>
+#include <QLabel>
+#include <QLayout>
+#include <QPainter>
+#include <QPalette>
+#include <QRegExp>
+#include <QStringList>
+#include <QStyle>
+#include <QTabWidget>
 #include <QTreeWidget>
+#include <QWidget>
 
 #include <KComboBox>
 #include <KConfig>
@@ -72,35 +69,7 @@ enum {
 	qd_OptionsStart
 };
 
-//////////////////// ListBoxSeparator ////////////////////
-
-class ListBoxSeparator : public Q3ListBoxItem
-{
-public:
-	ListBoxSeparator(int h);
-protected:
-	virtual void paint( QPainter * );
-	virtual int width( const Q3ListBox* ) const { return listBox()->width(); }
-	virtual int height( const Q3ListBox* ) const { return m_height; }
-private:
-	int m_height;
-};
-
-ListBoxSeparator::ListBoxSeparator(int h) : Q3ListBoxItem(), m_height(h)
-{
-	// setText("-");          // not necessary, use QString::null
-	setCustomHighlighting( true );
-	setSelectable(false);    // doesn't work here, so set it again after creating item
-}
-
-void ListBoxSeparator::paint(QPainter *painter)
-{
-//	QRect r( 0, 0, width(listBox()), height(listBox()) );
-	painter->setPen(Qt::gray);
-	painter->drawLine(0,m_height/2+1,listBox()->width()-10,m_height/2+1);
-}
-
-//////////////////// EditableCheckListItem ////////////////////
+//////////////////// EditableItemDelegate ////////////////////
 
 class EditableItemDelegate : public QItemDelegate {
 	public:
@@ -138,6 +107,7 @@ QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name,
 
 	// read config file
 	readConfig();
+	m_lvClassOptions->resizeColumnToContents(0);
 	m_lvPackages->resizeColumnToContents(0);
 }
 
@@ -296,14 +266,13 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	m_lvPackages->setAllColumnsShowFocus(true);
 	m_lvPackages->setItemDelegateForColumn(1, new EditableItemDelegate());
 	label->setBuddy(m_lvPackages);
-	connect(m_lvPackages, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
+	connect(m_lvPackages, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
 	        this, SLOT(slotCheckParent(QTreeWidgetItem*)));
-	// FIXME port me to KDE4
-	/*connect(m_lvPackages, SIGNAL(spacePressed(Q3ListViewItem *)),
-					this, SLOT(slotCheckParent(Q3ListViewItem *)));*/
+	connect(m_lvPackages, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
+					this, SLOT(slotCheckParent(QTreeWidgetItem*)));
 	connect(m_lvPackages, SIGNAL(itemSelectionChanged()),
 					this, SLOT(slotEnableButtons()));
-	connect(m_lvPackages, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+	connect(m_lvPackages, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
 					this, SLOT(slotPackageDoubleClicked(QTreeWidgetItem*)));
 
 	QWidget *frame = new QWidget(packages);
@@ -1956,7 +1925,7 @@ void QuickDocument::slotPackageAddOption()
 		if ( list[4] == "true" ) {
 			cli = insertEditableTreeWidget(cur,list[3],list[10],list[8],list[6]);
 		} else {
-			cli = new QTreeWidgetItem(cur, QStringList() << list[3] << "" << list[10], Q3CheckListItem::CheckBox);
+			cli = new QTreeWidgetItem(cur, QStringList() << list[3] << "" << list[10]);
 			cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
 			cli->setCheckState(0, Qt::Unchecked);
 		}

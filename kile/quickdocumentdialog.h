@@ -19,17 +19,13 @@ email                : holger.danielsson@t-online.de
 #ifndef KILEDIALOGQUICKDOCHEADER_H
 #define KILEDIALOGQUICKDOCHEADER_H
 
-#include <qmap.h>
-#include <q3valuelist.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QTabWidget>
-#include <Q3ListView>
-
 #include "kilewizard.h"
 
-class Q3ListView;
-class Q3CheckListItem;
+#include <Q3ValueList>
+#include <QMap>
+
+class QLabel;
+class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
 

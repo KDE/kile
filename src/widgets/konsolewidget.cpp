@@ -28,6 +28,8 @@
 #include <KPluginFactory>
 #include <KUrl>
 
+#include <kde_terminal_interface.h>
+
 #include <kparts/part.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
@@ -65,6 +67,8 @@ namespace KileWidget
 
 		layout()->addWidget(m_part->widget());
 
+		// start the konsole part
+		qobject_cast<TerminalInterface*>(m_part)->showShellInDir(QString());
 #ifdef __GNUC__
 #warning Commenting this out for now!
 #endif

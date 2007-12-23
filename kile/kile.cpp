@@ -23,7 +23,6 @@
 #include <qpointer.h>
 //Added by qt3to4:
 #include <QShowEvent>
-#include <Q3ValueList>
 #include <QHideEvent>
 #include <Q3CString>
 #include <Q3PopupMenu>
@@ -97,7 +96,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KileInfo(this),
 	m_paPrint(0L)
 {
-    m_focusWidget = this;
+	m_focusWidget = this;
 
 	m_config = KGlobal::config();
 	readUserSettings();
@@ -105,7 +104,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	m_jScriptManager = new KileJScript::Manager(this, m_config.data(), actionCollection(), parent, "KileJScript::Manager");
 
-    setStandardToolBarMenuEnabled(true);
+	setStandardToolBarMenuEnabled(true);
 
 	m_masterName = KileConfig::master();
 	m_singlemode = (m_masterName.isEmpty());
@@ -127,8 +126,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	readGUISettings();
 
- KGlobal::dirs()->addResourceType( "app_symbols",KStandardDirs::kde_default("data") + "kile/mathsymbols/"); // needed for Symbolview
-
+	KGlobal::dirs()->addResourceType( "app_symbols",KStandardDirs::kde_default("data") + "kile/mathsymbols/"); // needed for Symbolview
 
 	setXMLFile( "kileui.rc" );
 
@@ -143,32 +141,39 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_topWidgetStack = new QStackedWidget(this);
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
-	m_horizontalSplitter = new QSplitter(Qt::Horizontal, m_topWidgetStack, "horizontalSplitter");
+	m_horizontalSplitter = new QSplitter(Qt::Horizontal, this);
 
 	setupSideBar();
+	m_horizontalSplitter->addWidget(m_sideBar);
 
-	m_verticalSplitter = new QSplitter(Qt::Vertical, m_horizontalSplitter, "verticalSplitter");
-	viewManager()->createTabs(m_verticalSplitter);
+	m_verticalSplitter = new QSplitter(Qt::Vertical);
+	m_horizontalSplitter->addWidget(m_verticalSplitter);
+	QWidget *tabWidget = viewManager()->createTabs(m_verticalSplitter);
+	m_verticalSplitter->addWidget(tabWidget);
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
 	setupBottomBar();
+	m_verticalSplitter->addWidget(m_bottomBar);
 	setupGraphicTools();
 	setupPreviewTools();
 	setupActions();
 	setupTools();
 
-	Q3ValueList<int> sizes;
+	QList<int> sizes;
 	sizes << m_verSplitTop << m_verSplitBottom;
-	m_verticalSplitter->setSizes( sizes );
+	m_verticalSplitter->setSizes(sizes);
 	sizes.clear();
 	sizes << m_horSplitLeft << m_horSplitRight;
-	m_horizontalSplitter->setSizes( sizes );
+	m_horizontalSplitter->setSizes(sizes);
 	if (!KileConfig::bottomBar()) {
-		showFullScreen();
-		m_bottomBar->setSize(KileConfig::bottomBarSize());
+#ifdef __GNUC__
+#warning Disabling this for now.
+#endif
+// 		showFullScreen();
+		m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
 	}
 
 	m_topWidgetStack->addWidget(m_horizontalSplitter);
@@ -212,7 +217,10 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 		m_listUserTools.clear();
 	}
 
-	KTipDialog::showTip(this, "kile/tips");
+#ifdef __GNUC__
+#warning Disabling this for now.
+#endif
+// 	KTipDialog::showTip(this, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
 	initMenu();
@@ -260,10 +268,10 @@ void Kile::setupStatusBar()
 
 void Kile::setupSideBar()
 {
-	m_sideBar = new KileSideBar(KileConfig::sideBarSize(), m_horizontalSplitter);
+	m_sideBar = new KileSideBar(m_horizontalSplitter);
 
 	m_fileSelector= new KileFileSelect(m_extensions,m_sideBar,"File Selector");
-	m_sideBar->addTab(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
+	m_sideBar->addPage(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
 	connect(m_fileSelector,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
 	connect(m_fileSelector->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
 	m_fileSelector->comboEncoding()->lineEdit()->setText(KileConfig::defaultEncoding());
@@ -275,16 +283,16 @@ void Kile::setupSideBar()
 	setupScriptsManagementView();
 	setupAbbreviationView();
 
-	m_sideBar->showTab(KileConfig::selectedLeftView());
+	m_sideBar->switchToTab(KileConfig::selectedLeftView());
 	m_sideBar->setVisible(KileConfig::sideBar());
-	m_sideBar->setSize(KileConfig::sideBarSize());
+	m_sideBar->setDirectionalSize(KileConfig::sideBarSize());
 }
 
 void Kile::setupProjectView()
 {
 	KileProjectView *projectview = new KileProjectView(m_sideBar, this);
 // 	viewManager()->setProjectView(projectview);
-	m_sideBar->addTab(projectview, SmallIcon("relation"), i18n("Files and Projects"));
+	m_sideBar->addPage(projectview, SmallIcon("relation"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const KUrl &)), docManager(), SLOT(fileSelected(const KUrl &)));
 	connect(projectview, SIGNAL(closeURL(const KUrl&)), docManager(), SLOT(fileClose(const KUrl&)));
@@ -310,7 +318,7 @@ void Kile::setupProjectView()
 void Kile::setupStructureView()
 {
 	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
-	m_sideBar->addTab(m_kwStructure, SmallIcon("view_tree"), i18n("Structure"));
+	m_sideBar->addPage(m_kwStructure, SmallIcon("view_tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
@@ -324,7 +332,7 @@ void Kile::setupScriptsManagementView()
 {
 	m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
 	connect((QObject*)editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_scriptsManagementWidget, SLOT(updateListView()));
-	m_sideBar->addTab(m_scriptsManagementWidget, SmallIcon("jspage"), i18n("Scripts"));
+	m_sideBar->addPage(m_scriptsManagementWidget, SmallIcon("jspage"), i18n("Scripts"));
 }
 
 void Kile::enableSymbolViewMFUS()
@@ -359,7 +367,7 @@ void Kile::disableSymbolViewMFUS()
 void Kile::setupSymbolViews()
 {
 	m_toolBox = new QToolBox(m_sideBar);
-	m_sideBar->addTab(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
+	m_sideBar->addPage(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
 
 	m_symbolViewMFUS = new SymbolView(m_toolBox,SymbolView::MFUS);
 	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
@@ -425,17 +433,17 @@ void Kile::setupAbbreviationView()
 {
 	m_kileAbbrevView = new KileAbbrevView( m_sideBar );
 	m_edit->complete()->setAbbreviationListview(m_kileAbbrevView);
-	m_sideBar->addTab(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
+	m_sideBar->addPage(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
 
 	connect(m_kileAbbrevView, SIGNAL(sendText(const QString& )), this, SLOT(insertText(const QString& )));
 }
 
 void Kile::setupBottomBar()
 {
-	m_bottomBar = new KileBottomBar(KileConfig::bottomBarSize(), m_verticalSplitter);
+	m_bottomBar = new KileBottomBar(this);
 	m_bottomBar->setFocusPolicy(Qt::ClickFocus);
 
-	m_logWidget = new KileWidget::LogMsg( this, m_bottomBar );
+	m_logWidget = new KileWidget::LogMsg(this, this);
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
 	connect(m_logWidget, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
@@ -444,30 +452,30 @@ void Kile::setupBottomBar()
 	m_logWidget->setFocusPolicy(Qt::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_bottomBar->addTab(m_logWidget, SmallIcon("viewlog"), i18n("Log and Messages"));
+	m_bottomBar->addPage(m_logWidget, SmallIcon("viewlog"), i18n("Log and Messages"));
 
-	m_outputWidget = new KileWidget::Output(m_bottomBar);
+	m_outputWidget = new KileWidget::Output(this);
 	m_outputWidget->setFocusPolicy(Qt::ClickFocus);
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
-	m_bottomBar->addTab(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
+	m_bottomBar->addPage(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
 
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter(m_outputInfo,m_extensions);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
-	m_texKonsole=new KileWidget::Konsole(this, m_bottomBar,"konsole");
-	m_bottomBar->addTab(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
+	m_texKonsole=new KileWidget::Konsole(this, this);
+	m_bottomBar->addPage(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
 
-	m_previewView = new Q3ScrollView (m_bottomBar);
+	m_previewView = new Q3ScrollView ();
 	m_previewWidget = new KileWidget::PreviewWidget (this, m_previewView);
 	m_previewView->viewport()->setPaletteBackgroundColor (QColor (0xff, 0xff, 0xff));
 	m_previewView->addChild(m_previewWidget, 0, 0); 
-	m_bottomBar->addTab (m_previewView, SmallIcon ("edu_mathematics"), i18n ("Preview"));
+	m_bottomBar->addPage(m_previewView, SmallIcon ("edu_mathematics"), i18n ("Preview"));
 
 	m_bottomBar->setVisible(true);
-	m_bottomBar->setSize(KileConfig::bottomBarSize());
+	m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
 }
 
 void Kile::setupGraphicTools()
@@ -693,7 +701,10 @@ void Kile::setupActions()
 	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
 	tact->setChecked(KileConfig::sideBar());
 	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
-	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
+#ifdef __GNUC__
+#warning Fix connection!
+#endif
+//	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), tact, SLOT(setChecked(bool)));
 	connect(m_sideBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
 #ifdef __GNUC__
@@ -703,7 +714,10 @@ void Kile::setupActions()
 	m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), actionCollection());
 	m_actionMessageView->setChecked(true);
 	connect(m_actionMessageView, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
-	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), m_actionMessageView, SLOT(setChecked(bool)));
+#ifdef __GNUC__
+#warning Fix connection!
+#endif
+//	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), m_actionMessageView, SLOT(setChecked(bool)));
 	connect(m_bottomBar, SIGNAL(visibilityChanged(bool )), this, SLOT(sideOrBottomBarChanged(bool)));
 
 	if (m_singlemode) {ModeAction->setChecked(false);}
@@ -2122,9 +2136,9 @@ void Kile::saveSettings()
 	KileConfig::setMainwindowWidth(width());
 	KileConfig::setMainwindowHeight(height());
 
-	Q3ValueList<int> sizes;
-	Q3ValueList<int>::Iterator it;
-	sizes=m_horizontalSplitter->sizes();
+	QList<int> sizes;
+	QList<int>::Iterator it;
+	sizes = m_horizontalSplitter->sizes();
 	it = sizes.begin();
 	m_horSplitLeft=*it;
 	++it;
@@ -2136,12 +2150,17 @@ void Kile::saveSettings()
 	++it;
 	m_verSplitBottom=*it;
 
+#ifdef __GNUC__
+#warning Restoring of the side bar's sizes and states doesn't work perfectly yet!
+#endif
 	// sync vertical splitter and size of bottom bar
-	int sizeBottomBar = m_bottomBar->size();
-	if ( m_bottomBar->isVisible() )
+	int sizeBottomBar = m_bottomBar->directionalSize();
+	if(m_bottomBar->isVisible()) {
 		sizeBottomBar = m_verSplitBottom;
-	else
+	}
+	else {
 		m_verSplitBottom = sizeBottomBar;
+	}
 
 	KileConfig::setHorizontalSplitterLeft(m_horSplitLeft);
 	KileConfig::setHorizontalSplitterRight(m_horSplitRight);
@@ -2149,14 +2168,12 @@ void Kile::saveSettings()
 	KileConfig::setVerticalSplitterBottom(m_verSplitBottom);
 
 	KileConfig::setSideBar(m_sideBar->isVisible());
-	KileConfig::setSideBarSize(m_sideBar->size());
+	KileConfig::setSideBarSize(m_sideBar->directionalSize());
 	KileConfig::setBottomBar(m_bottomBar->isVisible());
 	KileConfig::setBottomBarSize(sizeBottomBar);
 
-	if(m_sideBar->isVisible())
-		KileConfig::setSelectedLeftView(m_sideBar->currentTab());
-	else
-		KileConfig::setSelectedLeftView(-1);
+	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
+
 	KileConfig::self()->writeConfig();
 	m_config->sync();
 }

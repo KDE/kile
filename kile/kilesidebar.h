@@ -16,34 +16,33 @@
 #ifndef KILESIDEBAR_H
 #define KILESIDEBAR_H
 
-#include <QFrame>
-#include <QMap>
 #include <QPixmap>
 #include <QStackedWidget>
+#include <QWidget>
 
-#include <kmultitabbar.h>
+#include <KMultiTabBar>
 
-class SymbolView;
-
-class KileSideBar : public QFrame
+class KileSideBar : public QWidget
 {
 	Q_OBJECT
 
 public:
-	KileSideBar(int size, QWidget *parent = 0, const char *name = 0, Qt::Orientation orientation = Qt::Vertical);
-	~KileSideBar();
+	KileSideBar(QWidget *parent = 0, Qt::Orientation orientation = Qt::Vertical);
+	virtual ~KileSideBar();
 
-	int addTab(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);
-
-	int currentTab() { return m_nCurrent; }
-
-	bool isVisible() { return !m_bMinimized; }
-
-        void setSize(int sz) { m_nSize = sz; }
-        int size() { return m_nSize; }
+	int addPage(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);
+	void removePage(QWidget *w);
 
 	QWidget* currentPage();
-	void removePage(QWidget *w);
+
+	/**
+	 * Returns the index of the widget which is currently shown, or -1 if the side bar is minimized.
+	 **/
+	int currentTab();
+
+	bool isMinimized();
+
+	int count();
 
 	/**
 	 * Shows or hides the tab connected to the widget "w". If the tab to be hidden is
@@ -54,32 +53,43 @@ public:
 	 **/
 	void setPageVisible(QWidget *w, bool b);
 
+	/**
+	 * Returns the side bar's height if its orientation is vertical, its width otherwise.
+	 **/
+	int directionalSize();
+
+	/**
+	 * Sets the side bar's height if its orientation is vertical, its width otherwise.
+	 **/	
+	void setDirectionalSize(int i);
+
 signals:
-	void visibilityChanged(bool );
+	void visibilityChanged(bool b);
 
 public slots:
-	void setVisible(bool );
+	void showPage(QWidget *w);
 
-	virtual void shrink();
-	virtual void expand();
-
-	void showTab(int);
-	void showPage(QWidget *);
-	void toggleTab();
+	/**
+	 * Shows the widget with index 'id'. If 'id' is not a valid index, the side bar will be
+	 * minimized.
+	 **/
 	void switchToTab(int id);
 
 private:
 	int findNextShownTab(int i);
 
+protected slots:
+	void shrink();
+	void expand();
+	void tabClicked(int i);
+
 protected:
+	Qt::Orientation		m_orientation;
+	bool			m_minimized; /* using m_tabStack->isVisible is not enough */
+	int			m_directionalSize; /* directional size in the unminized state */
+	int 			m_currentTab;
 	QStackedWidget		*m_tabStack;
 	KMultiTabBar		*m_tabBar;
-	int			m_nTabs;
-	int			m_nCurrent;
-	QMap<int,int>		m_indexToPage;
-	QMap<QWidget*,int>	m_widgetToIndex;
-	bool			m_bMinimized;
-	int			m_nMinSize, m_nMaxSize, m_nSize;
 };
 
 class KileBottomBar : public KileSideBar
@@ -87,10 +97,8 @@ class KileBottomBar : public KileSideBar
 	Q_OBJECT
 
 public:
-	KileBottomBar(int size, QWidget *parent = 0, const char *name = 0);
+	KileBottomBar(QWidget *parent = 0);
 
-	void shrink();
-	void expand();
 };
 
 #endif

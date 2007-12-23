@@ -19,55 +19,47 @@
 #include <QVBoxLayout>
 #include <QLayout>
 
-#include <kdeversion.h>
 #include "kiledebug.h"
 
-#include "symbolview.h"
-
-KileSideBar::KileSideBar(int size, QWidget *parent, const char *name, Qt::Orientation orientation /*= Vertical*/) : 
-	QFrame(parent),
-	m_nTabs(0),
-	m_nCurrent(0),
-	m_bMinimized(false),
-	m_nMinSize(0),
-	m_nMaxSize(1000),
-	m_nSize(size)
+KileSideBar::KileSideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
+	QWidget(parent),
+	m_orientation(orientation),
+	m_minimized(true),
+	m_directionalSize(0)
 {
-	setLineWidth(0);
-	setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
- 
-	QLayout *layout = NULL;
-
-	m_tabStack = new QStackedWidget(this);
-	m_tabStack->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
+	QBoxLayout *layout = NULL;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
+
 	if (orientation == Qt::Horizontal) {
 		layout = new QVBoxLayout(this);
 		tabbarpos = KMultiTabBar::Top;
 	}
 	else if(orientation == Qt::Vertical) {
 		layout = new QHBoxLayout(this);
-		tabbarpos = KMultiTabBar::Right;
+		tabbarpos = KMultiTabBar::Left;
 	}
+
+	m_tabStack = new QStackedWidget(this);
+	m_tabStack->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	m_tabStack->setVisible(false);
 
 	m_tabBar = new KMultiTabBar(tabbarpos, this);
 	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
 	if(orientation == Qt::Horizontal) {
-		setMinimumHeight(m_tabBar->height());
-		m_nMinSize = m_tabBar->height();
-		m_nMaxSize = m_tabBar->maximumHeight();
 		layout->add(m_tabBar);
 		layout->add(m_tabStack);
+		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 	}
 	else if(orientation == Qt::Vertical) {
-		setMinimumWidth(m_tabBar->width());
-		m_nMinSize = m_tabBar->width();
-		m_nMaxSize = m_tabBar->maximumWidth();
 		layout->add(m_tabStack);
 		layout->add(m_tabBar);
+		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
 	}
+
+	layout->setMargin(0);
+	layout->setSpacing(0);
+
 	setLayout(layout);
 }
 
@@ -75,184 +67,203 @@ KileSideBar::~KileSideBar()
 {
 }
 
-int KileSideBar::addTab(QWidget *tab, const QPixmap &pic, const QString &text /* = QString::null*/)
+int KileSideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &text /* = QString::null*/)
 {
-	m_widgetToIndex[tab] = m_nTabs;
+	int index = m_tabStack->addWidget(widget);
+	m_tabBar->appendTab(pic, index, text);
+	connect(m_tabBar->tab(index), SIGNAL(clicked(int)), this, SLOT(tabClicked(int)));
 
-	m_tabBar->appendTab(pic, m_nTabs, text);
-	m_tabStack->insertWidget(m_nTabs, tab);
-	connect(m_tabBar->tab(m_nTabs), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
+	switchToTab(index);
 
-	return m_nTabs++;
+	return index;
 }
 
-
-void KileSideBar::setVisible(bool show)
+void KileSideBar::removePage(QWidget *w) 
 {
-	KILE_DEBUG() << "==KileSideBar::setVisible(" << show << ")===========" << endl;
-	if (show) expand();
-	else shrink();
+	int nTabs = m_tabStack->count();
+	int index = m_tabStack->indexOf(w);
+	int currentIndex = currentTab();
+	m_tabStack->removeWidget(w);
+	disconnect(m_tabBar->tab(index), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
+	m_tabBar->removeTab(index);
+	if(index == currentIndex && nTabs >= 2) {
+		switchToTab(findNextShownTab(index));
+	}
+}
+
+QWidget* KileSideBar::currentPage()
+{
+	if(isMinimized()) {
+		return NULL;
+	}
+
+	return m_tabStack->currentWidget();
+}
+
+int KileSideBar::currentTab()
+{
+	if(m_minimized) {
+		return -1;
+	}
+
+	return m_tabStack->currentIndex();
+}
+
+bool KileSideBar::isMinimized()
+{
+	return m_minimized;
+}
+
+int KileSideBar::count()
+{
+	return m_tabStack->count();
 }
 
 void KileSideBar::shrink()
 {
-	if ( !isVisible() ) return;
+	if(isMinimized()) {
+		return;
+	}
 
-	m_bMinimized = true;
+	m_tabStack->setVisible(false);
+	m_minimized = true;
 
-	m_nSize = width();
-	m_nMinSize = minimumWidth();
-	m_nMaxSize = maximumWidth();
+	if(m_orientation == Qt::Horizontal) {
+		m_directionalSize = height();
+		setFixedHeight(m_tabBar->sizeHint().height());
+	}
+	else if(m_orientation == Qt::Vertical) {
+		m_directionalSize = width();
+		setFixedWidth(m_tabBar->sizeHint().width());
+	}
 
-	m_tabStack->hide();
-	setFixedWidth(m_tabBar->width());
+	// deselect the currect tab
+	int currentIndex = currentTab();
+	m_tabBar->setTab(currentIndex, false);
 
 	emit visibilityChanged(false);
 }
 
 void KileSideBar::expand()
 {
-	if ( isVisible() ) return;
+	if(!isMinimized()) {
+		return;
+	}
 
-	m_bMinimized = false;
+	if(m_orientation == Qt::Horizontal) {
+		setMinimumHeight(0);
+		setMaximumHeight(QWIDGETSIZE_MAX);
+	}
+	else if(m_orientation == Qt::Vertical) {
+		setMinimumWidth(0);
+		setMaximumWidth(QWIDGETSIZE_MAX);
+	}
 
-	m_tabStack->show();
-
-	resize(m_nSize, height());
-	setMinimumWidth(m_nMinSize);
-	setMaximumWidth(m_nMaxSize);
+	m_tabStack->setVisible(true);
+	m_minimized = false;
 
 	emit visibilityChanged(true);
 }
 
-QWidget* KileSideBar::currentPage()
+void KileSideBar::tabClicked(int i)
 {
-	return m_tabStack->currentWidget();
+	int currentIndex = currentTab();
+	
+	if(i == currentIndex && !isMinimized()) {
+		shrink();
+	}
+	else {
+		switchToTab(i);
+	}
 }
 
 int KileSideBar::findNextShownTab(int i)
 {
-	if(m_nTabs <= 0)
-	{
+	int nTabs = m_tabStack->count();
+	if(nTabs <= 0) {
 		return -1;
 	}
-	for(int j = 1; j < m_nTabs; ++j)
-	{
-		int index = (i + j) % m_nTabs;
-		if(m_tabBar->tab(index)->isShown())
-		{
+	for(int j = 1; j < nTabs; ++j) {
+		int index = (i + j) % nTabs;
+
+		if(m_tabBar->tab(index)->isShown()) {
 			return index;
 		}
 	}
 	return -1;
 }
 
-void KileSideBar::removePage(QWidget *w) 
+void KileSideBar::setPageVisible(QWidget *w, bool b)
 {
-	QMap<QWidget*,int>::iterator it = m_widgetToIndex.find(w);
-	if(it == m_widgetToIndex.end())
-	{
-		return;
-	}
-	int index = *it;
-	m_tabStack->removeWidget(w);
-	disconnect(m_tabBar->tab(index), SIGNAL(clicked(int)), this, SLOT(showTab(int)));
-	m_tabBar->removeTab(index);
-	m_widgetToIndex.remove(it);
-	if(index == m_nCurrent && m_nTabs >= 2)
-	{
-		showTab(findNextShownTab(index));
-	}
-	--m_nTabs;
-}
+	int nTabs = m_tabStack->count();
+	int index = m_tabStack->indexOf(w);
+	int currentIndex = currentTab();
 
-void KileSideBar::setPageVisible(QWidget *w, bool b) {
-	QMap<QWidget*,int>::iterator it = m_widgetToIndex.find(w);
-	if(it == m_widgetToIndex.end())
-	{
-		return;
-	}
-	int index = *it;
 	KMultiTabBarTab *tab = m_tabBar->tab(index);
 	if(tab->isShown() == b) {
 		return;
 	}
-  	tab->setShown(b);
-	if(!b && index == m_nCurrent && m_nTabs >= 2)
-	{
-		showTab(findNextShownTab(index));
+	tab->setShown(b);
+	if(!b && index == currentIndex && nTabs >= 2) {
+		switchToTab(findNextShownTab(index));
 	}
 }
 
 void KileSideBar::showPage(QWidget *widget)
 {
-	if ( m_widgetToIndex.contains(widget) )
-		switchToTab(m_widgetToIndex[widget]);
+	int i = m_tabStack->indexOf(widget);
+	if(i >= 0) {
+		switchToTab(i);
+	}
 }
 
-void KileSideBar::showTab(int id)
+int KileSideBar::directionalSize()
 {
-	if(id >= m_nTabs || id < 0)
-	{
-		return;
+	if(m_minimized) {
+		return m_directionalSize;
 	}
-	if ( id != m_nCurrent)
-	{
-		switchToTab(id);
-		if (m_bMinimized) expand();
+
+	if(m_orientation == Qt::Horizontal) {
+		return m_tabStack->height();
 	}
-	else
-		toggleTab();
+	else if(m_orientation == Qt::Vertical) {
+		return m_tabStack->width();
+	}
+
+	return 0;
 }
 
-void KileSideBar::toggleTab()
+void KileSideBar::setDirectionalSize(int i)
 {
-	if (m_bMinimized) expand();
-	else shrink();
+	if(m_orientation == Qt::Horizontal) {
+		m_tabStack->resize(m_tabStack->width(), i);
+	}
+	else if(m_orientation == Qt::Vertical) {
+		m_tabStack->resize(i, m_tabStack->height());
+	}
 }
 
 void KileSideBar::switchToTab(int id)
 {
-	if(id >= m_nTabs || id < 0) {
+	int nTabs = m_tabStack->count();
+	int currentIndex = currentTab();
+
+	if(id >= nTabs || id < 0 || !m_tabBar->tab(id)->isShown()) {
+		shrink();
 		return;
 	}
-	m_tabBar->setTab(m_nCurrent, false);
+	// currentIndex == id is allowed if we are expanding, for example
+	if(currentIndex >= 0) {
+		m_tabBar->setTab(currentIndex, false);
+	}
 	m_tabBar->setTab(id, true);
 
 	m_tabStack->setCurrentIndex(id);
-
-	m_nCurrent = id;
+	expand();
 }
 
-KileBottomBar::KileBottomBar(int size, QWidget *parent, const char *name) :
-	KileSideBar(size, parent, name, Qt::Horizontal)
-{}
-
-void KileBottomBar::shrink()
+KileBottomBar::KileBottomBar(QWidget *parent) : KileSideBar(parent, Qt::Horizontal)
 {
-	m_bMinimized = true;
-
-	m_nSize = height();
-	m_nMinSize = minimumHeight();
-	m_nMaxSize = maximumHeight();
-
-	m_tabStack->hide();
-	setFixedHeight(m_tabBar->height());
-
-	emit visibilityChanged(false);
-}
-
-void KileBottomBar::expand()
-{
-	m_bMinimized = false;
-
-	m_tabStack->show();
-
-	resize(width(), m_nSize);
-	setMinimumHeight(m_nMinSize);
-	setMaximumHeight(m_nMaxSize);
-	
-	emit visibilityChanged(true);
 }
 
 #include "kilesidebar.moc"

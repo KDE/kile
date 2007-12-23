@@ -1,8 +1,9 @@
-/***************************************************************************
+/************************************************************************************************
     begin                : Sat Dec 8 2001
-    copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2001 - 2003 by Brachet Pascal
+                               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,33 +14,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEWIDGET_KONSOLE_H
-#define KILEWIDGET_KONSOLE_H
+#ifndef KONSOLEWIDGET_H
+#define KONSOLEWIDGET_H
 
-/**
-  *@author Brachet Pascal
-  @author Jeroen Wijnhout
-  */
-
-#include <q3vbox.h>
-//Added by qt3to4:
 #include <QShowEvent>
+#include <QWidget>
 
 namespace KParts { class ReadOnlyPart; }
+
 class KileInfo;
 
 namespace KileWidget
 {
-	class Konsole : public Q3VBox
+	class Konsole : public QWidget
 	{
 		Q_OBJECT
 
 		public:
-			Konsole(KileInfo *, QWidget* parent, const char* name=0);
+			Konsole(KileInfo *, QWidget* parent);
 			~Konsole();
 
 		public slots:
-			void setDirectory(const QString & dir);
+			void setDirectory(const QString& dir);
 			void activate();
 			void sync();
 
@@ -52,10 +48,9 @@ namespace KileWidget
 
 		private:
 			KParts::ReadOnlyPart	*m_part;
-			bool					m_bPresent;
-			KileInfo				*m_ki;
+			bool			m_bPresent;
+			KileInfo		*m_ki;
 	};
-
 }
 
 #endif

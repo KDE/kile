@@ -1,8 +1,9 @@
-/***************************************************************************
+/***************************************************************************************************
     begin                : Mon Dec 22 2003
-    copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2001 - 2003 by Brachet Pascal
+                               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,17 +14,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kilekonsolewidget.h"
+#include "widgets/konsolewidget.h"
+
 #include "kileinfo.h"
 
 #include <qfileinfo.h>
-#include <q3frame.h>
-//Added by qt3to4:
-#include <QShowEvent>
 
-#include <klocale.h>
-#include <klibloader.h>
-#include <kurl.h>
+#include <QShowEvent>
+#include <QVBoxLayout>
+
+#include <KLibLoader>
+#include <KLocale>
+#include <KPluginFactory>
+#include <KUrl>
+
 #include <kparts/part.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
@@ -32,11 +36,12 @@
 
 namespace KileWidget
 {
-	Konsole::Konsole(KileInfo * info, QWidget *parent, const char *name) : 
-		Q3VBox(parent, name),
-		m_bPresent(false),
+	Konsole::Konsole(KileInfo * info, QWidget *parent) :
+		QWidget(parent),
+		m_part(NULL),
 		m_ki(info)
 	{
+		setLayout(new QVBoxLayout(this));
 		spawn();
 	}
 
@@ -46,21 +51,28 @@ namespace KileWidget
 
 	void Konsole::spawn()
 	{
-		KLibFactory *factory = KLibLoader::self()->factory("libkonsolepart");
+		KPluginFactory *factory = KLibLoader::self()->factory("libkonsolepart");
 
-		if (!factory) return;
-		m_part = (KParts::ReadOnlyPart *) factory->create(this);
+		if(!factory) {
+			return;
+		}
 
-		if (!m_part) return;
+		m_part = static_cast<KParts::ReadOnlyPart*>(factory->create<QObject>(this, this));
 
+		if(!m_part) {
+			return;
+		}
+
+		layout()->addWidget(m_part->widget());
+
+#ifdef __GNUC__
+#warning Commenting this out for now!
+#endif
+/*
 		if (m_part->widget()->inherits("QFrame"))
 			((Q3Frame*)m_part->widget())->setFrameStyle(Q3Frame::Panel|Q3Frame::Sunken);
-
-		m_bPresent=true;
-		connect ( m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()) );
-	
-		m_part->widget()->show();
-		show();
+*/
+		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
 	}
 
 
@@ -69,19 +81,20 @@ namespace KileWidget
 		KTextEditor::Document *doc = m_ki->activeTextDocument();
 		KTextEditor::View *view = 0;
 
-		if (doc)
+		if(doc) {
 			view = doc->views().first();
+		}
 
-		if (view)
-		{
+		if(view) {
 			QString finame;
 			KUrl url = view->document()->url();
 
-			if ( url.path().isEmpty() || KileUntitled::isUntitled(url.path()) ) return;
+			if(url.path().isEmpty() || KileUntitled::isUntitled(url.path())) {
+				return;
+			}
 
 			QFileInfo fic(url.directory());
-			if ( fic.isReadable() )
-			{
+			if(fic.isReadable()) {
 				setDirectory(url.directory());
 				activate();
 			}
@@ -92,11 +105,11 @@ namespace KileWidget
 
 	void Konsole::setDirectory(const QString &dirname)
 	{
-		if (m_bPresent)
-		{
+		if(m_part) {
 			KUrl url(dirname);
-			if (m_part->url() != url)
+			if (m_part->url() != url) {
 				m_part->openUrl(url);
+			}
 		}
 	}
 
@@ -108,8 +121,7 @@ namespace KileWidget
 
 	void Konsole::activate()
 	{
-		if (m_bPresent)
-		{
+		if (m_part) {
 			m_part->widget()->show();
 			this->setFocusProxy(m_part->widget());
 			m_part->widget()->setFocus();
@@ -118,9 +130,9 @@ namespace KileWidget
 
 	void Konsole::slotDestroyed ()
 	{
-		m_bPresent=false;
+		m_part = NULL;
 		spawn();
 	}
 }
 
-#include "kilekonsolewidget.moc"
+#include "konsolewidget.moc"

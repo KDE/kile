@@ -71,7 +71,7 @@
 #include "kilestdtools.h"
 #include "kilelistselector.h"
 #include "kiletoolmanager.h"
-#include "kilekonsolewidget.h"
+#include "widgets/konsolewidget.h"
 #include "kileconfig.h"
 #include "kilelogwidget.h"
 #include "cleandialog.h"

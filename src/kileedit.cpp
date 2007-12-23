@@ -28,7 +28,7 @@
 #include <kinputdialog.h>
 #include <kstandarddirs.h>
 
-#include "kilekonsolewidget.h"
+#include "widgets/konsolewidget.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"

@@ -66,7 +66,7 @@
 #include "kilestdtools.h"
 #include "kilelogwidget.h"
 #include "kileoutputwidget.h"
-#include "kilekonsolewidget.h"
+#include "widgets/konsolewidget.h"
 #include "quickdocumentdialog.h"
 #include "tabbingdialog.h"
 #include "kilestructurewidget.h"
@@ -464,9 +464,9 @@ void Kile::setupBottomBar()
 	m_outputFilter=new LatexOutputFilter(m_outputInfo,m_extensions);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
-	m_texKonsole=new KileWidget::Konsole(this, this);
+	m_texKonsole = new KileWidget::Konsole(this, this);
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
-	connect(viewManager()->tabs(), SIGNAL( currentChanged( QWidget * ) ), m_texKonsole, SLOT(sync()));
+	connect(viewManager()->tabs(), SIGNAL(currentChanged(QWidget*)), m_texKonsole, SLOT(sync()));
 
 	m_previewView = new Q3ScrollView ();
 	m_previewWidget = new KileWidget::PreviewWidget (this, m_previewView);

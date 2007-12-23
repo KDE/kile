@@ -109,6 +109,7 @@ SET(kile_SRCS
 	kileversion.cpp
 	kileabbrevview.cpp
 	kileextensions.cpp
+	kcategorycombobox.cpp
 )
 
 SET( kile_UI

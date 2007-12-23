@@ -36,17 +36,17 @@ email                : holger.danielsson@t-online.de
 #include <Q3GridLayout>
 #include <Q3VBoxLayout>
 
-#include <kcombobox.h>
-#include <klocale.h>
-#include <kconfig.h>
-#include <klineedit.h>
-#include <kiconloader.h>
-#include <kpushbutton.h>
-#include <kmessagebox.h>
+#include <KComboBox>
+#include <KConfig>
+#include <KIconLoader>
+#include <KLineEdit>
+#include <KLocale>
+#include <KMessageBox>
+#include <KPushButton>
+
+#include "kcategorycombobox.h"
 #include "kiledebug.h"
-
 #include "kileconfig.h"
-
 
 namespace KileDialog
 {
@@ -163,7 +163,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->setColStretch(1,1);
 
 	// Document classes
-	m_cbDocumentClass = new KComboBox(classOptions);
+	m_cbDocumentClass = new KCategoryComboBox(classOptions);
 	m_cbDocumentClass->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbDocumentClass->setDuplicatesEnabled(false);
 //	m_cbDocumentClass->listBox()->setVariableHeight(true);
@@ -187,7 +187,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 
 	// Fontsize
-	m_cbTypefaceSize = new KComboBox(classOptions);
+	m_cbTypefaceSize = new KCategoryComboBox(classOptions);
 	m_cbTypefaceSize->setDuplicatesEnabled(false);
 	gl->addWidget(m_cbTypefaceSize,1,1);
 
@@ -209,7 +209,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
 
 	// Papersize
-	m_cbPaperSize = new KComboBox(classOptions);
+	m_cbPaperSize = new KCategoryComboBox(classOptions);
 	m_cbPaperSize->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbPaperSize->setDuplicatesEnabled(false);
 	gl->addWidget(m_cbPaperSize,2,1);
@@ -232,7 +232,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 
 	// Encoding
-	m_cbEncoding = new KComboBox(classOptions);
+	m_cbEncoding = new KCategoryComboBox(classOptions);
 	m_cbEncoding->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbEncoding->setDuplicatesEnabled(false);
 	gl->addWidget(m_cbEncoding,3,1);
@@ -943,44 +943,35 @@ void QuickDocument::updateClassOptions()
 
 // Insert all entries from a comma separated list into a combobox.
 // If this entry matches a given text, this entry will be activated.
-void QuickDocument::fillCombobox(KComboBox *combo, const QString &cslist, const QString &seltext)
+void QuickDocument::fillCombobox(KCategoryComboBox *combo, const QString &cslist, const QString &seltext)
 {
-#ifdef __GNUC__
-#warning The function fillCombobox at line 946 still needs to be ported!
-#endif
-/*
-	bool documentclasscombo = ( combo == m_cbDocumentClass );
-	Q3ListBox *listbox = combo->listBox();
+	bool documentclasscombo = (combo == m_cbDocumentClass);
 
-	QString sep = ( m_currentClass=="beamer" && combo==m_cbPaperSize ) ? ";" : ",";
+	QString sep = (m_currentClass == "beamer" && combo == m_cbPaperSize) ? ";" : ",";
 	QStringList list = cslist.split(sep);
-	if ( ! documentclasscombo )
+	if (! documentclasscombo)
 		list.sort();
 
 	combo->clear();
-	for (uint i=0; i<list.count(); ++i) {
-		if ( !documentclasscombo &&  isDefaultClassOption(list[i]) )
-			combo->insertItem( QString(list[i]) + " [default]" );
-		else if ( list[i] != "-" )
-			combo->insertItem( list[i] );
+	for (uint i = 0; i < list.count(); ++i) {
+		if (!documentclasscombo &&  isDefaultClassOption(list[i]))
+			combo->insertItem(QString(list[i]) + " [default]");
 		else
-        {
-            ListBoxSeparator *separator = new ListBoxSeparator(listbox->item(0)->height(listbox));
-			listbox->insertItem(separator);
-			// doesn't work in constructor, so set it again here
-			separator->setSelectable(false);
-		}
+			if (list[i] != "-") {
+				combo->addItem(list[i]);
+			} else {
+				combo->addCategoryItem("");
+			}
 
 		// should this entry be selected?
-		if ( !seltext.isEmpty() && list[i]==seltext )
-			combo->setCurrentItem(i);
+		if (!seltext.isEmpty() && list[i] == seltext)
+			combo->setCurrentIndex(i);
 	}
-*/
 }
 
 // Add some entries from a comma separated list to a sorted combobox.
 // The new entries must match a regular expression or will be denied.
-bool QuickDocument::addComboboxEntries(KComboBox *combo, const QString &title,const QString &entry)
+bool QuickDocument::addComboboxEntries(KCategoryComboBox *combo, const QString &title,const QString &entry)
 {
 	// read current comboxbox entries
 	QStringList combolist;

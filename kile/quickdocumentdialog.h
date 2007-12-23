@@ -28,6 +28,7 @@ email                : holger.danielsson@t-online.de
 
 #include "kilewizard.h"
 
+class KCategoryComboBox;
 class KComboBox;
 class Q3ListView;
 class Q3CheckListItem;
@@ -66,10 +67,10 @@ public slots:
 	void slotOk();
 
 private:
-	KComboBox *m_cbDocumentClass;
-	KComboBox *m_cbTypefaceSize;
-	KComboBox *m_cbPaperSize;
-	KComboBox *m_cbEncoding;
+	KCategoryComboBox *m_cbDocumentClass;
+	KCategoryComboBox *m_cbTypefaceSize;
+	KCategoryComboBox *m_cbPaperSize;
+	KCategoryComboBox *m_cbEncoding;
 	Q3ListView *m_lvClassOptions;
 	Q3ListView *m_lvPackages;
 	KLineEdit *m_leAuthor;
@@ -139,8 +140,8 @@ private:
 	void updateClassOptions(); 
 	QString getClassOptions();  
 	void fillDocumentClassCombobox();   
-	void fillCombobox(KComboBox *combo, const QString &cslist,const QString &seltext);    
-	bool addComboboxEntries(KComboBox *combo, const QString &title,const QString &entry);
+	void fillCombobox(KCategoryComboBox *combo, const QString &cslist,const QString &seltext);    
+	bool addComboboxEntries(KCategoryComboBox *combo, const QString &title,const QString &entry);
 	QString getComboxboxList(KComboBox *combo);
 		   
 	bool isDefaultClassOption(const QString &option);                   

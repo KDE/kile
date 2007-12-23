@@ -14,12 +14,14 @@ email                : msoeken@tzi.de
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KCATEGORYCOMBOBOX_H
-#define KCATEGORYCOMBOBOX_H
+#ifndef CATEGORYCOMBOBOX_H
+#define CATEGORYCOMBOBOX_H
 
 #include <KComboBox>
 
-class KDEUI_EXPORT KCategoryComboBox : public KComboBox
+namespace KileWidget {
+
+class CategoryComboBox : public KComboBox
 {
 	public:
 		enum {
@@ -27,13 +29,14 @@ class KDEUI_EXPORT KCategoryComboBox : public KComboBox
 		};
 
 	public:
-		explicit KCategoryComboBox(QWidget *parent = 0);
-		explicit KCategoryComboBox(bool rw, QWidget *parent = 0);
+		explicit CategoryComboBox(QWidget *parent = 0);
+		explicit CategoryComboBox(bool rw, QWidget *parent = 0);
 
-		virtual ~KCategoryComboBox();
+		virtual ~CategoryComboBox();
 
 	public:
 		void addCategoryItem(const QString &text);
 };
 
+}
 #endif

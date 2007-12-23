@@ -14,7 +14,7 @@ email                : msoeken@tzi.de
  *                                                                         *
  ***************************************************************************/
 
-#include "kcategorycombobox.h"
+#include "categorycombobox.h"
 
 #include <QAbstractItemView>
 #include <QItemDelegate>
@@ -22,10 +22,12 @@ email                : msoeken@tzi.de
 #include <QStandardItem>
 #include <QStandardItemModel>
 
-class KCategoryComboBoxDelegate : public QItemDelegate {
+namespace KileWidget {
+
+class CategoryComboBoxDelegate : public QItemDelegate {
 	public:
 		void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-			bool category = index.model()->data(index, KCategoryComboBox::Category).toBool();
+			bool category = index.model()->data(index, KileWidget::CategoryComboBox::Category).toBool();
 
 			if (category) {
 				painter->setPen(Qt::gray);
@@ -45,23 +47,23 @@ class KCategoryComboBoxDelegate : public QItemDelegate {
 		}
 };
 
-KCategoryComboBox::KCategoryComboBox(QWidget *parent) : KComboBox(parent)
+CategoryComboBox::CategoryComboBox(QWidget *parent) : KComboBox(parent)
 {
-	setItemDelegate(new KCategoryComboBoxDelegate());
+	setItemDelegate(new KileWidget::CategoryComboBoxDelegate());
 	//view()->setAlternatingRowColors( true );
 }
 
-KCategoryComboBox::KCategoryComboBox(bool rw, QWidget *parent) : KComboBox(rw, parent)
+CategoryComboBox::CategoryComboBox(bool rw, QWidget *parent) : KComboBox(rw, parent)
 {
-	setItemDelegate(new KCategoryComboBoxDelegate());
+	setItemDelegate(new KileWidget::CategoryComboBoxDelegate());
 	//view()->setAlternatingRowColors( true );
 }
 
-KCategoryComboBox::~KCategoryComboBox()
+CategoryComboBox::~CategoryComboBox()
 {
 }
 
-void KCategoryComboBox::addCategoryItem(const QString &text)
+void CategoryComboBox::addCategoryItem(const QString &text)
 {
 	addItem(text);
 
@@ -72,7 +74,7 @@ void KCategoryComboBox::addCategoryItem(const QString &text)
 	if (pModel) {
 		QStandardItem *item = pModel->item(row, 0);
 		if (item) {
-			item->setData(true, KCategoryComboBox::Category);
+			item->setData(true, KileWidget::CategoryComboBox::Category);
 
 			// make the item unselectable
 			item->setFlags(0);
@@ -83,3 +85,5 @@ void KCategoryComboBox::addCategoryItem(const QString &text)
 		setCurrentIndex(-1);
 	}
 }
+
+} // namespace KileWidget

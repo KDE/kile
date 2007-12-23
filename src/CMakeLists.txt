@@ -102,7 +102,7 @@ SET(kile_SRCS
 	kileversion.cpp
 	kileabbrevview.cpp
 	kileextensions.cpp
-	kcategorycombobox.cpp
+	widgets/categorycombobox.cpp
 )
 
 SET( kile_UI

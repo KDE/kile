@@ -29,7 +29,10 @@ class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
 
-class KCategoryComboBox;
+namespace KileWidget {
+	class CategoryComboBox;
+}
+
 class KComboBox;
 class KLineEdit;
 class KPushButton;
@@ -66,10 +69,10 @@ public slots:
 	void slotOk();
 
 private:
-	KCategoryComboBox *m_cbDocumentClass;
-	KCategoryComboBox *m_cbTypefaceSize;
-	KCategoryComboBox *m_cbPaperSize;
-	KCategoryComboBox *m_cbEncoding;
+	KileWidget::CategoryComboBox *m_cbDocumentClass;
+	KileWidget::CategoryComboBox *m_cbTypefaceSize;
+	KileWidget::CategoryComboBox *m_cbPaperSize;
+	KileWidget::CategoryComboBox *m_cbEncoding;
 	QTreeWidget *m_lvClassOptions;
 	QTreeWidget *m_lvPackages;
 	KLineEdit *m_leAuthor;
@@ -139,8 +142,8 @@ private:
 	void updateClassOptions(); 
 	QString getClassOptions();  
 	void fillDocumentClassCombobox();   
-	void fillCombobox(KCategoryComboBox *combo, const QString &cslist,const QString &seltext);    
-	bool addComboboxEntries(KCategoryComboBox *combo, const QString &title,const QString &entry);
+	void fillCombobox(KileWidget::CategoryComboBox *combo, const QString &cslist,const QString &seltext);    
+	bool addComboboxEntries(KileWidget::CategoryComboBox *combo, const QString &title,const QString &entry);
 	QString getComboxboxList(KComboBox *combo);
 		   
 	bool isDefaultClassOption(const QString &option);                   

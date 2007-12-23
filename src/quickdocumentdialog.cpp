@@ -43,7 +43,7 @@ email                : holger.danielsson@t-online.de
 #include <KMessageBox>
 #include <KPushButton>
 
-#include "kcategorycombobox.h"
+#include "widgets/categorycombobox.h"
 #include "kiledebug.h"
 #include "kileconfig.h"
 
@@ -126,7 +126,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	gl->setColStretch(1,1);
 
 	// Document classes
-	m_cbDocumentClass = new KCategoryComboBox(classOptions);
+	m_cbDocumentClass = new KileWidget::CategoryComboBox(classOptions);
 	m_cbDocumentClass->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbDocumentClass->setDuplicatesEnabled(false);
 //	m_cbDocumentClass->listBox()->setVariableHeight(true);
@@ -150,7 +150,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 
 	// Fontsize
-	m_cbTypefaceSize = new KCategoryComboBox(classOptions);
+	m_cbTypefaceSize = new KileWidget::CategoryComboBox(classOptions);
 	m_cbTypefaceSize->setDuplicatesEnabled(false);
 	gl->addWidget(m_cbTypefaceSize,1,1);
 
@@ -172,7 +172,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
 
 	// Papersize
-	m_cbPaperSize = new KCategoryComboBox(classOptions);
+	m_cbPaperSize = new KileWidget::CategoryComboBox(classOptions);
 	m_cbPaperSize->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbPaperSize->setDuplicatesEnabled(false);
 	gl->addWidget(m_cbPaperSize,2,1);
@@ -195,7 +195,7 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 
 	// Encoding
-	m_cbEncoding = new KCategoryComboBox(classOptions);
+	m_cbEncoding = new KileWidget::CategoryComboBox(classOptions);
 	m_cbEncoding->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbEncoding->setDuplicatesEnabled(false);
 	gl->addWidget(m_cbEncoding,3,1);
@@ -907,7 +907,7 @@ void QuickDocument::updateClassOptions()
 
 // Insert all entries from a comma separated list into a combobox.
 // If this entry matches a given text, this entry will be activated.
-void QuickDocument::fillCombobox(KCategoryComboBox *combo, const QString &cslist, const QString &seltext)
+void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QString &cslist, const QString &seltext)
 {
 	bool documentclasscombo = (combo == m_cbDocumentClass);
 
@@ -935,7 +935,7 @@ void QuickDocument::fillCombobox(KCategoryComboBox *combo, const QString &cslist
 
 // Add some entries from a comma separated list to a sorted combobox.
 // The new entries must match a regular expression or will be denied.
-bool QuickDocument::addComboboxEntries(KCategoryComboBox *combo, const QString &title,const QString &entry)
+bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, const QString &title,const QString &entry)
 {
 	// read current comboxbox entries
 	QStringList combolist;

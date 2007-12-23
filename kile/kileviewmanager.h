@@ -20,8 +20,8 @@
 #ifndef KILEVIEWKILEVIEWMANAGER_H
 #define KILEVIEWKILEVIEWMANAGER_H
 
-#include <qobject.h>
-#include <q3widgetstack.h>
+#include <QObject>
+#include <QStackedWidget>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QDropEvent>
@@ -72,7 +72,7 @@ public:
 	int getIndexOf(KTextEditor::View* view) const;
 	unsigned int getTabCount() const;
 
-	void createTabs(QWidget *);
+	QWidget* createTabs(QWidget *parent);
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
@@ -124,7 +124,7 @@ private:
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient		*m_client;
-	Q3WidgetStack			*m_widgetStack;
+	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
 
 };

@@ -25,6 +25,7 @@
 //Added by qt3to4:
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QLayout>
 
 #include <k3urldrag.h>
 
@@ -93,10 +94,10 @@ void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
 	}
 }
 
-void Manager::createTabs(QWidget *parent)
+QWidget* Manager::createTabs(QWidget *parent)
 {
-	m_widgetStack = new Q3WidgetStack(parent);
-	m_emptyDropWidget = new DropWidget(parent);
+	m_widgetStack = new QStackedWidget(parent);
+	m_emptyDropWidget = new DropWidget(m_widgetStack);
 	m_widgetStack->addWidget(m_emptyDropWidget);
 	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragMoveEvent *,  bool &)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent *, bool &)));
 	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
@@ -114,7 +115,9 @@ void Manager::createTabs(QWidget *parent)
 	connect( m_tabs, SIGNAL( testCanDecode( const QDragMoveEvent *,  bool & ) ), this, SLOT(testCanDecodeURLs( const QDragMoveEvent *, bool & )) );
 	connect( m_tabs, SIGNAL( receivedDropEvent( QDropEvent * ) ), m_ki->docManager(), SLOT(openDroppedURLs( QDropEvent * )) );
 	connect( m_tabs, SIGNAL( receivedDropEvent( QWidget*, QDropEvent * ) ), this, SLOT(replaceLoadedURL( QWidget *, QDropEvent * )) );
-	m_widgetStack->raiseWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
+	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
+
+	return m_widgetStack;
 }
 
 void Manager::closeWidget(QWidget *widget)
@@ -201,7 +204,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSaveAs()));
 	}
-	m_widgetStack->raiseWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
+	m_widgetStack->setCurrentWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
 
 	return view;
 }
@@ -219,8 +222,8 @@ void Manager::removeView(KTextEditor::View *view)
 		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
 		if (textViews().isEmpty()) {
 			m_ki->structureWidget()->clear();
-			m_widgetStack->raiseWidget(m_emptyDropWidget); // there are no tabs left, so show
-			                                               // the DropWidget
+			m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs left, so show
+			                                                    // the DropWidget
 		}
 	}
 }
@@ -594,11 +597,9 @@ void Manager::unplugKatePartMenu(KTextEditor::View* view)
 		QStringList actionlist;
 		actionlist << "set_confdlg" << "go_goto_line";      // action names from katepartui.rc
 
-		for ( uint i=0; i < actionlist.count(); ++i )
-		{
+		for (int i=0; i < actionlist.count(); ++i) {
 			QAction *action = view->actionCollection()->action(actionlist[i].ascii());
-			if ( action ) 
-			{
+			if(action) {
 //FIXME: should be removed for KDE4
 //				action->setShortcut(KShortcut());
 				foreach(QWidget *w, action->associatedWidgets()) {

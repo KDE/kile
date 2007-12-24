@@ -1,10 +1,9 @@
-/***************************************************************************
+/***************************************************************************************************
     begin                : Wed Jun 6 2001
-    copyright            : (C) 2003 by Jeroen Wijnhout
-                           (C) 2005-2007  by Holger Danielsson
-    email                : Jeroen.Wijnhout@kdemail.net
-                           holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2005-2007  by Holger Danielsson (holger.danielsson@versanet.de)
+                           (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *

@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEPROJECTDLGS_H
-#define KILEPROJECTDLGS_H
+#ifndef PROJECTDIALOGS_H
+#define PROJECTDIALOGS_H
 
 #include <qcheckbox.h>
 #include <qlayout.h>

@@ -1,8 +1,8 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Wed Jun 6 2001
-    copyright            : (C) 2003 by Jeroen Wijnout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TOOLSOPTIONSDIALOG_H
-#define TOOLSOPTIONSDIALOG_H
+#ifndef CONFIGURATIONDIALOG_H
+#define CONFIGURATIONDIALOG_H
 
 #include <kconfigdialog.h>
 #include <kdeversion.h>

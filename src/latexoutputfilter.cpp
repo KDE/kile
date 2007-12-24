@@ -171,61 +171,53 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie
 
 void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStackHeuristic()================" << endl;
-
+	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStackHeuristic()================";
 	static QString::QString strPartialFileName;
 	bool expectFileName = (dwCookie == FileNameHeuristic);
 	int index = 0;
 
-    // handle special case (bug fix for 101810)
-    if ( expectFileName && strLine[0] == ')' )
-    {
-        m_stackFile.push(LOFStackItem(strPartialFileName));
-        expectFileName = false;
-        dwCookie = Start;
-    }
+	// handle special case (bug fix for 101810)
+	if(expectFileName && strLine[0] == ')') {
+		m_stackFile.push(LOFStackItem(strPartialFileName));
+		expectFileName = false;
+		dwCookie = Start;
+	}
 
 	//scan for parentheses and grab filenames
-	for ( uint i = 0; i < strLine.length(); ++i)
-	{
+	for (int i = 0; i < strLine.length(); ++i) {
 		//We're expecting a filename. If a filename really ends at this position one of the following must be true:
 		//	1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
 		//	path, this is a TeX limitation).
 		//	2) We're at the end of the line, the filename is probably continued on the next line.
 		//	3) The TeX was closed already, signalled by the ')'.
 
-        if ( expectFileName && ( strLine[i+1].isSpace() || i+1  == strLine.length() || strLine[i+1] == ')' ) )
-		{
+        	if(expectFileName && (i+1 >= strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
 			//update the partial filename
-            strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
-         
+			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
+
 			//FIXME: improve these heuristics
-			if ( strLine[i+1].isSpace() || ( (i < 78) && (i +1  == strLine.length()) ) ||
-				strLine[i+1] == ')' ||
-				fileExists(strPartialFileName) )
-			{
+			if (i+1 < strLine.length() && (strLine[i+1].isSpace() || ( (i < 78) && (i+1  == strLine.length())) ||
+				                       strLine[i+1] == ')' ||
+				                       fileExists(strPartialFileName))) {
 				m_stackFile.push(LOFStackItem(strPartialFileName));
 				// KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
 				expectFileName = false;
 				dwCookie = Start;
 			}
 			//Guess the filename is continued on the next line.
-			else if ( i+1 == strLine.length() )
-			{
+			else if(i+1 >= strLine.length()) {
 				// KILE_DEBUG() << "\tFilename spans more than one line." << endl;
 				dwCookie = FileNameHeuristic;
 			}
 			//bail out
-			else
-			{
+			else {
 				dwCookie = Start;
 				strPartialFileName = QString::null;
 				expectFileName = false;
 			}
 		}
-        //TeX is opening a file
-		else if ( strLine[i] == '(' )
-		{
+		//TeX is opening a file
+		else if(strLine[i] == '(') {
 			//we need to extract the filename
 			expectFileName = true;
 			strPartialFileName = QString::null;
@@ -233,10 +225,9 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 
 			//this is were the filename is supposed to start
 			index = i + 1;
-        }
-	    //TeX is closing a file
-		else if ( strLine[i] == ')' )
-		{
+        	}
+		//TeX is closing a file
+		else if(strLine[i] == ')') {
 			// KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
 			//If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
 			//a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
@@ -244,8 +235,8 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 			if ( ! m_stackFile.top().reliable() )
 				m_stackFile.pop();
 			else
-				KILE_DEBUG() << "\t\toh no, forget about it!" << endl;
-        }
+				KILE_DEBUG() << "\t\toh no, forget about it!";
+		}
 	}
 }
 
@@ -628,8 +619,7 @@ void LatexOutputFilter::updateInfoLists(const QString &texfilename, int selrow, 
 	setSource(texfilename);
 	
 	//print detailed error info
-	for (uint i=0; i < m_InfoList->count() ; ++i)
-	{
+	for(int i=0; i < m_InfoList->count(); ++i) {
 		// perhaps correct filename and line number in OutputInfo
 		OutputInfo *info = &(*m_InfoList)[i];
 		info->setSource(filename);
@@ -647,8 +637,7 @@ void LatexOutputFilter::sendProblems()
 	int type;
 
 	//print detailed error info
-	for (uint i=0; i < m_InfoList->count() ; ++i)
-	{
+	for(int i=0; i < m_InfoList->count(); ++i) {
 		Message = QString("%1:%2:%3").arg((*m_InfoList)[i].source()).arg((*m_InfoList)[i].sourceLine()).arg((*m_InfoList)[i].message());
 		switch ( (*m_InfoList)[i].type()  )
 		{

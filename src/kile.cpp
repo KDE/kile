@@ -56,7 +56,7 @@
 #include "kileconfigdialog.h"
 #include "kileproject.h"
 #include "kileprojectview.h"
-#include "kileprojectdlgs.h"
+#include "dialogs/projectdialogs.h"
 #include "kilelistselector.h"
 #include "kilelyxserver.h"
 #include "kilegrepdialog.h"

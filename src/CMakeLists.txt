@@ -55,7 +55,7 @@ SET(kile_SRCS
 	kileinfo.cpp
 	kiledocumentinfo.cpp
 	kileproject.cpp
-	kileprojectdlgs.cpp
+	dialogs/projectdialogs.cpp
 	kileprojectview.cpp
 	kilelistselector.cpp
 	kilelyxserver.cpp

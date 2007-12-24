@@ -23,7 +23,7 @@
 //  - use KileDocument::Extensions
 //  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex 
 
-#include "kileprojectdlgs.h"
+#include "dialogs/projectdialogs.h"
 
 #include <QLabel>
 #include <q3whatsthis.h>
@@ -243,7 +243,10 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	m_pbChooseDir = new KPushButton(i18n("Select Folder..."), m_pgroup);
 	m_pbChooseDir->setObjectName("dirchooser_button");
 	m_pbChooseDir->setPixmap( SmallIcon("fileopen") );
-	int wpixmap = m_pbChooseDir->pixmap()->width();
+	int wpixmap = 0;
+	if(m_pbChooseDir->pixmap()) {
+		wpixmap = m_pbChooseDir->pixmap()->width();
+	}
 	m_pbChooseDir->setFixedWidth(wpixmap+10);
 	m_pbChooseDir->setFixedHeight(wpixmap+10);
 
@@ -632,4 +635,4 @@ void KileProjectOptionsDlg::slotOk()
 }
 
 
-#include "kileprojectdlgs.moc"
+#include "projectdialogs.moc"

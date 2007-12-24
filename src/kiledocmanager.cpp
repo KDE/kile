@@ -65,7 +65,7 @@
 #include "kilefileselect.h"
 #include "kileprojectview.h"
 #include "kilestructurewidget.h"
-#include "kileprojectdlgs.h"
+#include "dialogs/projectdialogs.h"
 #include "kiletool.h"
 #include "kiletool_enums.h"
 #include "kilestdtools.h"

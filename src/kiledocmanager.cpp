@@ -778,8 +778,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	
 	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")" << endl;
 
-	for (uint i = 0; i < m_ki->viewManager()->textViews().count(); ++i)
-	{
+	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i) {
 		view = m_ki->viewManager()->textView(i);
 
 		if ( view && view->document()->isModified() )
@@ -1009,15 +1008,12 @@ void Manager::fileSaveCopyAs()
 
 bool Manager::fileCloseAllOthers()
 {
-	KTextEditor::View * currentview = m_ki->viewManager()->currentTextView();
-	const QList<KTextEditor::View*>& list = m_ki->viewManager()->textViews();
-	for(QList<KTextEditor::View*>::const_iterator i =  list.begin(); i != list.end(); ++i) {
-		KTextEditor::View *view = *i;
+	KTextEditor::View * currentView = m_ki->viewManager()->currentTextView();
+	QList<KTextEditor::View*> list = m_ki->viewManager()->textViews();
+	list.removeAll(currentView);
 
-		if(view == currentview) {
-			continue;
-		}
-		if (!fileClose(view->document())) {
+	for(QList<KTextEditor::View*>::iterator i =  list.begin(); i != list.end(); ++i) {
+		if (!fileClose((*i)->document())) {
 			return false;
 		}
 	}
@@ -1372,22 +1368,18 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	}
 
 	Q3ValueList<KileProjectItem*> orderedList;
-	for(unsigned int i = 0; i < givenPositionVector.size(); ++i)
-	{
+	for(int i = 0; i < givenPositionVector.size(); ++i) {
 		KileProjectItem *item = givenPositionVector[i];
-		if(item)
-		{
+		if(item) {
 			orderedList.push_back(item);
 		}
 	}
-	for(Q3ValueList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i)
-	{
+	for(Q3ValueList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i) {
 		orderedList.push_back(*i);
 	}
 
 	unsigned int counter = 0;
-	for (Q3ValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i)
-	{
+	for (Q3ValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
 		m_kpd->progressBar()->setValue(counter + project_steps);
 		kapp->processEvents();
@@ -1453,35 +1445,28 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 
 		// determine the order in which the project items are opened
 		Q3ValueVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
-		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i)
-		{
+		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i) {
 			docinfo = (*i)->getInfo();
-			if(docinfo)
-			{
+			if(docinfo) {
 				KTextEditor::View *view = m_ki->viewManager()->textView(docinfo);
-				if(view)
-				{
+				if(view) {
 					int position = m_ki->viewManager()->getIndexOf(view);
-					if(position >= 0 && static_cast<unsigned int>(position) < viewPositionVector.size())
-					{
+					if(position >= 0 && position < viewPositionVector.size()) {
 						viewPositionVector[position] = *i;
 					}
 				}
 			}
 		}
 		int position = 0;
-		for(unsigned int i = 0; i < viewPositionVector.size(); ++i)
-		{
-			if(viewPositionVector[i] != NULL)
-			{
+		for(int i = 0; i < viewPositionVector.size(); ++i) {
+			if(viewPositionVector[i] != NULL) {
 				viewPositionVector[i]->setOrder(position);
 				++position;
 			}
 		}
 
 		//update the open-state of the items
-		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i)
-		{
+		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i) {
 			item = *i;
 			KILE_DEBUG() << "\tsetOpenState(" << (*i)->url().path() << ") to " << m_ki->isOpen(item->url()) << endl;
 			item->setOpenState(m_ki->isOpen(item->url()));
@@ -1512,15 +1497,16 @@ void Manager::projectAddFiles(const KUrl & url)
 
 void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 {
-	KILE_DEBUG() << "==Kile::projectAddFiles()==========================" << endl;
- 	if (project == 0 )
+	KILE_DEBUG() << "==Kile::projectAddFiles()==========================";
+ 	if(project == 0) {
 		project = activeProject();
+	}
 
-	if (project == 0 )
+	if(project == 0) {
 		project = selectProject(i18n("Add Files to Project"));
+	}
 
-	if (project)
-	{
+	if (project) {
 		QString currentDir;
 		if(fileUrl.isEmpty())
 			currentDir=project->url().directory();
@@ -1535,11 +1521,9 @@ void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 		dlg->setCaption(i18n("Add Files"));
 		dlg->setMode(KFile::Files | KFile::ExistingOnly);
 
-		if(dlg->exec())
-		{
+		if(dlg->exec()) {
 			KUrl::List urls = dlg->selectedUrls();
-			for (uint i=0; i < urls.count(); ++i)
-			{
+			for(int i=0; i < urls.count(); ++i) {
 				addToProject(project, urls[i]);
 			}
 			// update undefined references in all project files
@@ -1549,8 +1533,9 @@ void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 
 		//open them
 	}
-	else if (m_projects.count() == 0)
+	else if (m_projects.count() == 0) {
 		KMessageBox::error(m_ki->parentWidget(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could Not Determine Active Project"));
+	}
 }
 
 void Manager::toggleArchive(KileProjectItem *item)
@@ -1707,8 +1692,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	const QString dirPath = fi.absolutePath();
 	const QString baseName = fi.baseName(true);
 	
-	for (uint i=0; i <  templist.count(); ++i)
-	{
+	for (int i=0; i < templist.count(); ++i) {
 		fi.setFile( dirPath + '/' + baseName + templist[i] );
 		if ( fi.exists() )
 			extlist.append(templist[i]);
@@ -1736,8 +1720,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 		emit printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(fileName), i18n("Clean"));
 	else
 	{
-		for ( uint i = 0 ; i < extlist.count() ; ++i )
-		{
+		for(int i = 0; i < extlist.count(); ++i) {
 			QFile file( dirPath + '/' + baseName + extlist[i] );
 			KILE_DEBUG() << "About to remove file = " << file.name() << endl;
 			file.remove();

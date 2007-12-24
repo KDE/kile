@@ -217,10 +217,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 		m_listUserTools.clear();
 	}
 
-#ifdef __GNUC__
-#warning Disabling this for now.
-#endif
-// 	KTipDialog::showTip(this, "kile/tips");
+	KTipDialog::showTip(this, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
 	initMenu();

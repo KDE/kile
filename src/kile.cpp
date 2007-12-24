@@ -2218,10 +2218,9 @@ void Kile::checkKateSettings()
 {
 	// editor settings were only available with an opened document
 	KTextEditor::View *view = viewManager()->currentTextView();
-	if ( view )
-	{
+	if (view) {
 		// remove menu entry to config Kate
-		viewManager()->unplugKatePartMenu(view);
+		viewManager()->unplugTextEditorPartMenu(view);
 	}
 }
 

@@ -164,18 +164,16 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
 	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
-	// install a working kate part popup dialog thingy
-	Q3PopupMenu *viewPopupMenu = (Q3PopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
-#ifdef __GNUC__
-#warning: The popup menu still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	if((NULL != view) && (NULL != viewPopupMenu))
-		view->installPopup(viewPopupMenu);
-*/
-	if(NULL != viewPopupMenu)
-		connect(viewPopupMenu, SIGNAL(aboutToShow()), this, SLOT(onKatePopupMenuRequest()));
+	// install a working text editor part popup dialog thingy
+	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
+
+	if(view && viewPopupMenu) {
+		view->setContextMenu(viewPopupMenu);
+	}
+
+	if(viewPopupMenu) {
+		connect(viewPopupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
+	}
 
 	//activate the newly created view
 	emit(activateView(view, false));
@@ -187,20 +185,20 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	view->setFocus();
 
 	emit(prepareForPart("Editor"));
-	unplugKatePartMenu(view);
+	unplugTextEditorPartMenu(view);
 
-	// use Kile's save and save-as functions instead of Katepart's
+	// use Kile's save and save-as functions instead of the text editor's
 	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
 	if ( action ) 
 	{
-		KILE_DEBUG() << "   reconnect action 'file_save'..." << endl;
+		KILE_DEBUG() << "   reconnect action 'file_save'...";
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSave()));
 	}
 	action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::SaveAs));
 	if ( action ) 
 	{
-		KILE_DEBUG() << "   reconnect action 'file_save_as'..." << endl;
+		KILE_DEBUG() << "   reconnect action 'file_save_as'...";
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSaveAs()));
 	}
@@ -211,8 +209,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 void Manager::removeView(KTextEditor::View *view)
 {
-	if (view)
-	{
+	if (view) {
 		m_client->factory()->removeClient(view);
 
 		m_tabs->removePage(view);
@@ -230,9 +227,7 @@ void Manager::removeView(KTextEditor::View *view)
 
 KTextEditor::View *Manager::currentTextView() const
 {
-	if ( m_tabs->currentPage() &&
-		m_tabs->currentPage()->inherits( "KTextEditor::View" ) )
-	{
+	if (m_tabs->currentPage() && m_tabs->currentPage()->inherits("KTextEditor::View")) {
 		return (KTextEditor::View*) m_tabs->currentPage();
 	}
 
@@ -270,11 +265,9 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 	KTextEditor::View *view = 0L;
 	KTextEditor::Document *doc = m_ki->docManager()->docFor(url);
 
-	if (doc)
-	{
+	if (doc) {
 		view = static_cast<KTextEditor::View*>(doc->views().first());
-		if(view)
-		{
+		if(view) {
 			m_tabs->showPage(view);
 			if(requestFocus)
 				view->setFocus();
@@ -358,15 +351,17 @@ void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified,
 /**
  * Adds/removes the "Convert to LaTeX" entry in Kate's popup menu according to the selection.
  */
-void Manager::onKatePopupMenuRequest(void)
+void Manager::onTextEditorPopupMenuRequest(void)
 {
 	KTextEditor::View *view = currentTextView();
-	if(NULL == view)
+	if(!view) {
 		return;
+	}
 
-	Q3PopupMenu *viewPopupMenu = (Q3PopupMenu*)(m_client->factory()->container("ktexteditor_popup", m_client));
-	if(NULL == viewPopupMenu)
+	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
+	if(!viewPopupMenu) {
 		return;
+	}
 
 	// Setting up the "QuickPreview selection" entry
 	QAction *quickPreviewAction = m_client->actionCollection()->action("popup_quickpreview");
@@ -592,14 +587,16 @@ void DropWidget::dropEvent(QDropEvent *e)
 //    already one call to this configuration dialog from Kile
 //  - goto line, because we put it into a submenu
 
-void Manager::unplugKatePartMenu(KTextEditor::View* view)
+#ifdef __GNUC__
+#warning Check whether this function is actually needed / allowed!
+#endif
+void Manager::unplugTextEditorPartMenu(KTextEditor::View* view)
 {
-	if ( view ) 
-	{
+	if(view) {
 		QStringList actionlist;
 		actionlist << "set_confdlg" << "go_goto_line";      // action names from katepartui.rc
 
-		for (int i=0; i < actionlist.count(); ++i) {
+		for(int i = 0; i < actionlist.count(); ++i) {
 			QAction *action = view->actionCollection()->action(actionlist[i].ascii());
 			if(action) {
 //FIXME: should be removed for KDE4

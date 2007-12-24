@@ -76,10 +76,10 @@ public:
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
-	void unplugKatePartMenu(KTextEditor::View* view);
-
 // 	void setProjectView(KileProjectView *view) { m_projectview = view; }
 // 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
+
+	void unplugTextEditorPartMenu(KTextEditor::View* view);
 
 public slots:
 	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);
@@ -97,7 +97,6 @@ public slots:
 
 	void reflectDocumentStatus(KTextEditor::Document*, bool, unsigned char);
 
-	void onKatePopupMenuRequest(void);
 	void convertSelectionToLaTeX(void);
 	void pasteAsLaTeX(void);
 	void quickPreviewPopup();
@@ -105,6 +104,7 @@ public slots:
 protected slots:
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
 	void replaceLoadedURL(QWidget *w, QDropEvent *e);
+	void onTextEditorPopupMenuRequest(void);
 
 	/**
 	 * 

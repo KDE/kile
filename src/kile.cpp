@@ -53,7 +53,7 @@
 #include "kileactions.h"
 #include "kilestdactions.h"
 #include "usermenudialog.h"
-#include "kileconfigdialog.h"
+#include "dialogs/configurationdialog.h"
 #include "kileproject.h"
 #include "kileprojectview.h"
 #include "dialogs/projectdialogs.h"

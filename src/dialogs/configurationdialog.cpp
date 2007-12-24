@@ -27,7 +27,7 @@
 //  - add support for auto insert $
 //  - move graphics config to a separate page
 
-#include "kileconfigdialog.h"
+#include "dialogs/configurationdialog.h"
 
 #include <q3vbox.h>
 #include <qlayout.h>
@@ -78,30 +78,30 @@ namespace KileDialog
 		m_manager = new KConfigDialogManager(this,KileConfig::self());
 
 #ifdef __GNUC__
-#warning Things left to be ported at line 83!
+#warning Things left to be ported here!
 #endif
 // 		setShowIconsInTreeList(true);
-		addConfigFolder(i18n("Kile"),"kile");
-		addConfigFolder(i18n("LaTeX"),"tex");
-		addConfigFolder(i18n("Tools"),"gear");
-		addConfigFolder(i18n("Editor"),"edit");
+		KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
+		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "tex");
+		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "gear");
+		KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "edit");
 
 		// setup all configuration pages
-		setupGeneralOptions();
-		setupCodeCompletion();   // complete configuration (dani)
-		setupHelp();
-		setupScripting();
+		setupGeneralOptions(kilePageWidgetItem);
+		setupCodeCompletion(kilePageWidgetItem);   // complete configuration (dani)
+		setupHelp(kilePageWidgetItem);
+		setupScripting(kilePageWidgetItem);
 
-		setupLatex();
-		setupEnvironment();
-		setupGraphics();
-		setupStructure();
-		setupSymbolView();
+		setupLatex(latexPageWidgetItem);
+		setupEnvironment(latexPageWidgetItem);
+		setupGraphics(latexPageWidgetItem);
+		setupStructure(latexPageWidgetItem);
+		setupSymbolView(latexPageWidgetItem);
 
-		setupTools();
-		setupQuickPreview();     // QuickPreview (dani)
+		setupTools(toolsPageWidgetItem);
+		setupQuickPreview(toolsPageWidgetItem);     // QuickPreview (dani)
 
-		setupEditor();
+		setupEditor(editorPageWidgetItem);
 		showButtonSeparator(true);
 
 #ifdef __GNUC__
@@ -142,150 +142,141 @@ namespace KileDialog
 
 	//////////////////// add a new folder ////////////////////
 
-	void Config::addConfigFolder(const QString &section,const QString &icon)
+	KPageWidgetItem* Config::addConfigFolder(const QString &section, const QString &icon)
 	{
-		QStringList path;
-		path << section;
+		KPageWidgetItem *toReturn = addPage(NULL, section);
+		toReturn->setIcon(KIcon(SmallIcon(icon, KIconLoader::SizeSmallMedium)));
 
-#ifdef __GNUC__
-#warning Things left to be ported at line 142!
-#endif
-// 		setFolderIcon(path, SmallIcon(icon, KIconLoader::SizeSmallMedium));
+		return toReturn;
 	}
 
 	//////////////////// add a new page ////////////////////
 
-	void Config::addConfigPage(QWidget *page,
-	                           const QString &sectionName,const QString &itemName,
-	                           const QString &pixmapName, const QString &header,
+	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page, const QString &itemName,
+                                   const QString &pixmapName, const QString &header,
 	                           bool addSpacer)
 	{
-#ifdef __GNUC__
-#warning Fix the configuration page creation!
-#endif
-//FIXME: port for KDE4
-/*
-		KILE_DEBUG() << "slot: add config page item=" << itemName << endl;
+		KILE_DEBUG() << "slot: add config page item=" << itemName;
 
 		// add page
-		QStringList path;
-		path << sectionName << itemName;
-	
-		KVBox *vbox = addPage(path, header, SmallIcon(pixmapName,KIconLoader::SizeSmallMedium));
-		vbox->setSpacing(0); 
-		vbox->setMargin(0);
-		page->reparent(((QWidget*)vbox),0,QPoint());
-		if ( addSpacer )
-		{
-			Q3Frame *spacer = new Q3Frame(vbox);
-			vbox->setStretchFactor(spacer,1);
-		}
+		KPageWidgetItem *pageWidgetItem = addSubPage(parent, page, itemName);
+		pageWidgetItem->setIcon(KIcon(SmallIcon(pixmapName, KIconLoader::SizeSmallMedium)));
+		pageWidgetItem->setHeader(header);
+#ifdef __GNUC__
+#warning Still some things left here!
+#endif
+// 		if ( addSpacer )
+// 		{
+// 			Q3Frame *spacer = new Q3Frame(vbox);
+// 			vbox->setStretchFactor(spacer,1);
+// 		}
 
 		// add to the dialog manager
 		m_manager->addWidget(page);
-*/
+
+		return pageWidgetItem;
 	}
 
 	//////////////////// General Options ////////////////////
 
-	void Config::setupGeneralOptions()
+	void Config::setupGeneralOptions(KPageWidgetItem* parent)
 	{
 		generalPage = new KileWidgetGeneralConfig(this);
 		generalPage->setObjectName("LaTeX");
-		addConfigPage(generalPage,i18n("Kile"),i18n("General"),"configure",i18n("General Settings"));
+		addConfigPage(parent, generalPage, i18n("General"), "configure", i18n("General Settings"));
 	}
 	
 	//////////////////// Tools Configuration ////////////////////
 
-	void Config::setupTools()
+	void Config::setupTools(KPageWidgetItem* parent)
 	{
 		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), 0);
-		addConfigPage(toolPage,i18n("Tools"),i18n("Build"),"launch",i18n("Build"),false);
+		addConfigPage(parent, toolPage, i18n("Build"), "launch", i18n("Build"), false);
 	}
 
 	//////////////////// Scripting  ////////////////////
 
-	void Config::setupScripting()
+	void Config::setupScripting(KPageWidgetItem* parent)
 	{
 		scriptingPage = new KileWidgetScriptingConfig(this);
 		scriptingPage->setObjectName("Scripting");
-		addConfigPage(scriptingPage,i18n("Kile"),i18n("Scripting"),"exec",i18n("Scripting Support"));
+		addConfigPage(parent, scriptingPage, i18n("Scripting"), "exec", i18n("Scripting Support"));
 	}
 
 	//////////////////// LaTeX specific editing options ////////////////////
 
 	//////////////////// Complete configuration (dani) ////////////////////
 
-	void Config::setupCodeCompletion()
+	void Config::setupCodeCompletion(KPageWidgetItem* parent)
 	{
 		completePage = new ConfigCodeCompletion(m_config,m_ki->logWidget());
 		completePage->readConfig();
 
-		addConfigPage(completePage,i18n("Kile"),i18n("Complete"),"source",i18n("Code Completion"));
+		addConfigPage(parent, completePage, i18n("Complete"), "source", i18n("Code Completion"));
 	}
 
 	//////////////////// QuickPreview (dani) ////////////////////
 
-	void Config::setupQuickPreview()
+	void Config::setupQuickPreview(KPageWidgetItem* parent)
 	{
 		previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),0);
 		previewPage->readConfig();
 
-		addConfigPage(previewPage,i18n("Tools"),i18n("Preview"),"preview",i18n("Quick Preview"));
+		addConfigPage(parent, previewPage, i18n("Preview"), "preview", i18n("Quick Preview"));
 	}
 
-	void Config::setupHelp()
+	void Config::setupHelp(KPageWidgetItem* parent)
 	{
 		helpPage = new KileWidgetHelpConfig(this);
 		helpPage->setHelp(m_ki->help());
 
-		addConfigPage(helpPage,i18n("Kile"),i18n("Help"),"help");
+		addConfigPage(parent, helpPage, i18n("Help"),"help");
 	}
 
 	//////////////////// LaTeX environments ////////////////////
 
-	void Config::setupLatex()
+	void Config::setupLatex(KPageWidgetItem* parent)
 	{
 		latexPage = new KileWidgetLatexConfig(this);
 		latexPage->setObjectName("LaTeX");
 		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
 		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
 
-		addConfigPage(latexPage,i18n("LaTeX"),i18n("General"),"configure");
+		addConfigPage(parent, latexPage, i18n("General"), "configure");
 	}
 
-	void Config::setupEnvironment()
+	void Config::setupEnvironment(KPageWidgetItem* parent)
 	{
 		envPage = new KileWidgetEnvironmentConfig(this);
 		envPage->setObjectName("LaTeX");
-		addConfigPage(envPage,i18n("LaTeX"),i18n("Environments"),"environment");
+		addConfigPage(parent, envPage, i18n("Environments"), "environment");
 	}
 
-	void Config::setupGraphics()
+	void Config::setupGraphics(KPageWidgetItem* parent)
 	{
 		graphicsPage = new KileWidgetGraphicsConfig(this);
 		graphicsPage->setObjectName("Graphics");
 		graphicsPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") ); 
-		addConfigPage(graphicsPage,i18n("LaTeX"),i18n("Graphics"),"graphicspage");
+		addConfigPage(parent, graphicsPage, i18n("Graphics"), "graphicspage");
 	}
 
-	void Config::setupStructure()
+	void Config::setupStructure(KPageWidgetItem* parent)
 	{
 		structurePage = new KileWidgetStructureViewConfig(this);
 		structurePage->setObjectName("StructureView");
-		addConfigPage(structurePage,i18n("LaTeX"),i18n("Structure View"),"view_tree");
+		addConfigPage(parent, structurePage, i18n("Structure View"), "view_tree");
 	}
 
-	void Config::setupSymbolView()
+	void Config::setupSymbolView(KPageWidgetItem* parent)
 	{
 		symbolViewPage = new KileWidgetSymbolViewConfig(this);
 		symbolViewPage->setObjectName("SymbolView");
-		addConfigPage(symbolViewPage,i18n("LaTeX"),i18n("Symbol View"),"math0");
+		addConfigPage(parent, symbolViewPage, i18n("Symbol View"), "math0");
 	}
 
 	//////////////////// Editor ////////////////////
 
-	void Config::setupEditor()
+	void Config::setupEditor(KPageWidgetItem* parent)
 	{
 		KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 		m_editorOpened = ( view != 0L );
@@ -394,4 +385,4 @@ void Config::slotWidgetModified()
 */
 }
 
-#include "kileconfigdialog.moc"
+#include "configurationdialog.moc"

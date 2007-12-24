@@ -21,7 +21,7 @@
 
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/configpage.h>
-#include <kconfigdialogmanager.h>
+#include <KConfigDialogManager>
 
 #include "configcodecompletion.h"     // code completion (dani)
 #include "previewconfigwidget.h"      // QuickPreview (dani)
@@ -94,25 +94,24 @@ namespace KileDialog
 
 
 		// setup configuration
-		void addConfigFolder(const QString &section,const QString &icon);
+		KPageWidgetItem* addConfigFolder(const QString &section,const QString &icon);
 
-		void addConfigPage( QWidget *page,
-		                    const QString &sectionName,const QString &itemName,
-		                    const QString &pixmapName, const QString &header=QString::null,
-		                    bool addSpacer = true );
+		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
+		                    const QString &itemName, const QString &pixmapName,
+		                    const QString &header=QString::null, bool addSpacer = true);
 
-		void setupGeneralOptions();
-		void setupTools();
-		void setupLatex();
-		void setupCodeCompletion();
-		void setupQuickPreview();
-		void setupHelp();
-		void setupEditor();
-		void setupEnvironment();
-		void setupGraphics();
-		void setupStructure();
-		void setupSymbolView();
-		void setupScripting();
+		void setupGeneralOptions(KPageWidgetItem* parent);
+		void setupTools(KPageWidgetItem* parent);
+		void setupLatex(KPageWidgetItem* parent);
+		void setupCodeCompletion(KPageWidgetItem* parent);
+		void setupQuickPreview(KPageWidgetItem* parent);
+		void setupHelp(KPageWidgetItem* parent);
+		void setupEditor(KPageWidgetItem* parent);
+		void setupEnvironment(KPageWidgetItem* parent);
+		void setupGraphics(KPageWidgetItem* parent);
+		void setupStructure(KPageWidgetItem* parent);
+		void setupSymbolView(KPageWidgetItem* parent);
+		void setupScripting(KPageWidgetItem* parent);
 
 		// write configuration
 		void writeGeneralOptionsConfig();

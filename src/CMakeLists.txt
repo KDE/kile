@@ -41,7 +41,7 @@ SET(kile_SRCS
 	managetemplatesdialog.cpp
 	templates.cpp
 	usermenudialog.cpp
-	kileconfigdialog.cpp
+	dialogs/configurationdialog.cpp
 	tabbingdialog.cpp
 	symbolview.cpp
 	quickdocumentdialog.cpp

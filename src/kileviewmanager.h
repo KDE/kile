@@ -26,7 +26,7 @@
 #include <QPixmap>
 #include <QDropEvent>
 #include <QDragMoveEvent>
-#include <Q3PtrList>
+#include <QList>
 
 #include <ktabwidget.h>
 
@@ -66,7 +66,7 @@ public:
 	void setClient(QObject *receiver, KXMLGUIClient *client);
 
 	KTextEditor::View* currentTextView() const;
-	Q3PtrList<KTextEditor::View>& textViews() {return m_textViewList;}
+	const QList<KTextEditor::View*>& textViews() { return m_textViewList; }
 	KTextEditor::View* textView(int i) { return m_textViewList.at(i); }
 	KTextEditor::View* textView(KileDocument::TextInfo *info);
 	int getIndexOf(KTextEditor::View* view) const;
@@ -118,12 +118,12 @@ signals:
 
 private:
 	KileInfo			*m_ki;
-	KTextEditor::View			*m_activeTextView;
-// 	KileProjectView		*m_projectview;
-	Q3PtrList<KTextEditor::View>		m_textViewList;
+	KTextEditor::View		*m_activeTextView;
+// 	KileProjectView			*m_projectview;
+	QList<KTextEditor::View*>	m_textViewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
-	KXMLGUIClient		*m_client;
+	KXMLGUIClient			*m_client;
 	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
 

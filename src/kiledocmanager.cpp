@@ -1010,13 +1010,16 @@ void Manager::fileSaveCopyAs()
 bool Manager::fileCloseAllOthers()
 {
 	KTextEditor::View * currentview = m_ki->viewManager()->currentTextView();
-	while (  m_ki->viewManager()->textViews().count() > 1 )
-	{
-		KTextEditor::View *view =  m_ki->viewManager()->textViews().first();
-		if ( view == currentview )
-			view =  m_ki->viewManager()->textViews().next();
-		if ( ! fileClose(view->document()) )
+	const QList<KTextEditor::View*>& list = m_ki->viewManager()->textViews();
+	for(QList<KTextEditor::View*>::const_iterator i =  list.begin(); i != list.end(); ++i) {
+		KTextEditor::View *view = *i;
+
+		if(view == currentview) {
+			continue;
+		}
+		if (!fileClose(view->document())) {
 			return false;
+		}
 	}
 
 	return true;

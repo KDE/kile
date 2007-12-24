@@ -29,11 +29,11 @@
 
 #include <k3urldrag.h>
 
-#include <kapplication.h>
-#include <kaction.h>
-#include <kactioncollection.h>
+#include <KApplication>
+#include <KAction>
+#include <KActionCollection>
 #include <kdeversion.h>
-#include <kglobal.h>
+#include <KGlobal>
 #include <kio/global.h>
 #include <ktexteditor/view.h>
 #include <ktexteditor/document.h>
@@ -41,8 +41,8 @@
 #include <kxmlguiclient.h>
 #include <kxmlguifactory.h>
 #include <kiconloader.h>
-#include <kmimetype.h>
-#include <klocale.h>
+#include <KMimeType>
+#include <KLocale>
 
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"
@@ -152,7 +152,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	#endif
 	
 	m_tabs->showPage( view );
-	m_textViewList.insert((index < 0 || (uint)index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
+	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
@@ -242,17 +242,17 @@ KTextEditor::View *Manager::currentTextView() const
 KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 {
 	KTextEditor::Document *doc = info->getDoc();
-	if(!doc)
-	{
+	if(!doc) {
 		return NULL;
 	}
-	for(KTextEditor::View *view = m_textViewList.first(); view; view = m_textViewList.next())
-	{
-		if(view->document() == doc)
-		{
+	for(QList<KTextEditor::View*>::iterator i =  m_textViewList.begin(); i != m_textViewList.end(); ++i) {
+		KTextEditor::View *view = *i;
+
+		if(view->document() == doc) {
 			return view;
 		}
 	}
+
 	return NULL;
 }
 
@@ -284,16 +284,18 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 }
 
 
-void Manager::setTabLabel(QWidget *view, const QString & name)
+void Manager::setTabLabel(QWidget *view, const QString& name)
 {
-//FIXME port for KDE4
-// 	m_tabs->setTabText(view, name);
+//FIXME: this needs to be changed when we support multiple views for one document
+	m_tabs->setTabText(m_tabs->indexOf(view), name);
 }
 
-void Manager::changeTab(QWidget *view, const QPixmap & icon, const QString & name)
+void Manager::changeTab(QWidget *view, const QPixmap& icon, const QString& name)
 {
-//FIXME port for KDE4
-// 	m_tabs->changeTab(view, icon, name);
+//FIXME: this needs to be changed when we support multiple views for one document
+	int i = m_tabs->indexOf(view);
+	m_tabs->setTabIcon(i, QIcon(icon));
+	m_tabs->setTabText(i, name);
 }
 
 

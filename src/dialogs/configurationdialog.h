@@ -16,11 +16,8 @@
 #ifndef CONFIGURATIONDIALOG_H
 #define CONFIGURATIONDIALOG_H
 
-#include <kconfigdialog.h>
-#include <kdeversion.h>
+#include <KConfigDialog>
 
-#include <ktexteditor/configinterface.h>
-#include <ktexteditor/configpage.h>
 #include <KConfigDialogManager>
 
 #include "configcodecompletion.h"     // code completion (dani)
@@ -29,11 +26,7 @@
 #include "graphicsconfigwidget.h"     // graphics (dani)
 #include "structureconfigwidget.h"    // structure view (dani)
 #include "symbolviewconfigwidget.h"
-//Added by qt3to4:
-#include <Q3Frame>
-#include <Q3PtrList>
 
-class Q3Frame;
 class KConfig;
 
 namespace KileWidget { class ToolConfig; }
@@ -75,7 +68,6 @@ namespace KileDialog
 		KileInfo *m_ki;
 
 		bool m_editorSettingsChanged;
-		bool m_editorOpened;
 
 		KileWidget::ToolConfig	*toolPage;
 
@@ -100,6 +92,10 @@ namespace KileDialog
 		                    const QString &itemName, const QString &pixmapName,
 		                    const QString &header=QString::null, bool addSpacer = true);
 
+		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
+		                    const QString &itemName, const KIcon& icon,
+		                    const QString &header=QString::null, bool addSpacer = true);
+
 		void setupGeneralOptions(KPageWidgetItem* parent);
 		void setupTools(KPageWidgetItem* parent);
 		void setupLatex(KPageWidgetItem* parent);
@@ -121,7 +117,7 @@ namespace KileDialog
 		void syncKileEncoding();
 
 		// editor pages
-		Q3PtrList<KTextEditor::ConfigPage> editorPages;
+		QList<KPageWidgetItem*> m_editorPages;
 	};
 }
 #endif

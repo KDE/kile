@@ -28,16 +28,16 @@
 
 #include "dialogs/configurationdialog.h"
 
-#include <q3vbox.h>
-#include <qlayout.h>
-#include <qtextcodec.h>
-//Added by qt3to4:
-#include <Q3Frame>
+#include <QLayout>
+#include <QTextCodec>
 
 #include <kdeversion.h>
-#include <klocale.h>
+#include <KLocale>
 // #include <ksconfig.h>
-#include <kiconloader.h>
+#include <KIconLoader>
+
+#include <KTextEditor/ConfigPage>
+#include <KTextEditor/EditorChooser>
 
 #include "kiletoolmanager.h"
 #include "kiletoolconfigwidget.h"
@@ -60,9 +60,6 @@ namespace KileDialog
 		  m_config(config),
 		  m_ki(ki)
 	{
-#ifdef __GNUC__
-#warning Skipped Qt::WStyle_DialogBorder
-#endif
 		setCaption(i18n("Configure"));
 		setModal(true);
 		setButtons(Ok | Cancel);
@@ -76,10 +73,6 @@ namespace KileDialog
 		// we need a dialog manager
 		m_manager = new KConfigDialogManager(this,KileConfig::self());
 
-#ifdef __GNUC__
-#warning Things left to be ported here!
-#endif
-// 		setShowIconsInTreeList(true);
 		KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
 		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "tex");
 		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "system-run");
@@ -104,7 +97,7 @@ namespace KileDialog
 		showButtonSeparator(true);
 
 #ifdef __GNUC__
-#warning Things left to be ported at line 111!
+#warning Things left to be ported!
 #endif
 /*
 		// calculate size for opening
@@ -122,7 +115,7 @@ namespace KileDialog
 	Config::~Config()
 	{
 #ifdef __GNUC__
-#warning Things left to be ported at line 128!
+#warning Things left to be ported!
 #endif
 // 		saveDialogSize("KileConfigDialog");
 		delete m_manager;
@@ -131,7 +124,7 @@ namespace KileDialog
 	void Config::show()
 	{
 #ifdef __GNUC__
-#warning Things left to be ported at line 126!
+#warning Things left to be ported!
 #endif
 /*		if ( KileConfig::unfoldConfigTree() )
 			unfoldTreeList();*/
@@ -155,11 +148,18 @@ namespace KileDialog
                                    const QString &pixmapName, const QString &header,
 	                           bool addSpacer)
 	{
+		return addConfigPage(parent, page, itemName, KIcon(SmallIcon(pixmapName, KIconLoader::SizeSmallMedium)), header, addSpacer);
+	}
+
+	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page,
+                                               const QString &itemName, const KIcon& icon,
+                                               const QString &header, bool addSpacer)
+	{
 		KILE_DEBUG() << "slot: add config page item=" << itemName;
 
 		// add page
 		KPageWidgetItem *pageWidgetItem = addSubPage(parent, page, itemName);
-		pageWidgetItem->setIcon(KIcon(SmallIcon(pixmapName, KIconLoader::SizeSmallMedium)));
+		pageWidgetItem->setIcon(icon);
 		pageWidgetItem->setHeader(header);
 #ifdef __GNUC__
 #warning Still some things left here!
@@ -277,44 +277,27 @@ namespace KileDialog
 
 	void Config::setupEditor(KPageWidgetItem* parent)
 	{
-		KTextEditor::View *view = m_ki->viewManager()->currentTextView();
-		m_editorOpened = ( view != 0L );
 		m_editorSettingsChanged = false;
 
-		if ( ! m_editorOpened )
-			return;
+		m_editorPages.clear();
 
-		editorPages.setAutoDelete(false);
-		editorPages.clear();
-#ifdef __GNUC__
-#warning The editor configuration stuff still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-		KTextEditor::ConfigInterface *iface = dynamic_cast<KTextEditor::ConfigInterface*>(view->document());
-		if(!iface) {
-			return;
+		KTextEditor::Editor* editor = KTextEditor::EditorChooser::editor();
+		for(int i = 0; i < editor->configPages(); ++i) {
+			KTextEditor::ConfigPage *configPage = editor->configPage(i, parent->widget());
+
+			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPage, editor->configPageName(i), editor->configPageIcon(i), editor->configPageFullName(i));
+			connect(configPage, SIGNAL(changed()), this, SLOT(slotChanged()));
+			m_editorPages.append(pageWidgetItem);
 		}
-
-		QStringList path;
-		for (uint i=0; i<iface->configPages(); i++)
-		{
-			path.clear();
-			path << i18n("Editor") << iface->configPageName(i);
-
-			// create a new vbox page and add the config page
-			KVBox *page = addVBoxPage(path,iface->configPageFullName(i), iface->configPagePixmap(i,KIconLoader::SizeSmallMedium) );
-			KTextEditor::ConfigPage *configPage = iface->configPage(i,page);
-			connect( configPage, SIGNAL(changed()), this, SLOT(slotChanged()) );
-			editorPages.append(configPage);
-		}
-*/
 	}
 
 	//////////////////// encoding  ////////////////////
 
 	QString Config::readKateEncoding()
 	{
+#ifdef __GNUC__
+#warning The editor's encoding cannot be read like this!
+#endif
 		KConfigGroup group = m_config->group("Kate Document Defaults");
 		return group.readEntry("Encoding", QString());
 	}
@@ -330,19 +313,20 @@ namespace KileDialog
 
 	void Config::slotOk()
 	{
-		KILE_DEBUG() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")" << endl;
+		KILE_DEBUG() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
 
 		// editor settings are only available, when at least one document is opened
-		if ( m_editorOpened && m_editorSettingsChanged )
-		{
-			for (uint i=0; i<editorPages.count(); i++)
-				editorPages.at(i)->apply();
-#ifdef __GNUC__
-#warning Editor config saving stuff left to be ported!
-#endif
-//FIXME: port for KDE4
-//			m_ki->viewManager()->currentTextView()->document()->writeConfig();
-			
+		if(m_editorSettingsChanged) {
+			for(QList<KPageWidgetItem*>::iterator i = m_editorPages.begin(); i != m_editorPages.end(); ++i) {
+				KTextEditor::ConfigPage *configPage = static_cast<KTextEditor::ConfigPage*>((*i)->widget());
+				configPage->apply();
+			}
+
+			KTextEditor::Editor *editor = KTextEditor::EditorChooser::editor();
+			if(editor) {
+				editor->writeConfig(m_config);
+			}
+
 			// take Kate's encoding for Kile
 			syncKileEncoding();
 		}
@@ -361,7 +345,7 @@ namespace KileDialog
 
 	void Config::slotCancel()
 	{
-		KILE_DEBUG() << "   slot cancel" << endl;
+		KILE_DEBUG() << "   slot cancel";
 #ifdef __GNUC__
 #warning Check for KConfig.rollback() in KDE3!
 #endif
@@ -371,14 +355,14 @@ namespace KileDialog
 
 	void Config::slotChanged()
 	{
-		KILE_DEBUG() << "   slot changed" << endl;
+		KILE_DEBUG() << "   slot changed";
 		m_editorSettingsChanged = true;
 	}
 
 /*
 void Config::slotWidgetModified()
 {
-	KILE_DEBUG() << "slot: widget modified --> " << m_manager->hasChanged()  << endl;
+	KILE_DEBUG() << "slot: widget modified --> " << m_manager->hasChanged();
   //emit widgetModified();
 }
 */

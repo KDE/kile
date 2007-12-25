@@ -82,8 +82,8 @@ namespace KileDialog
 // 		setShowIconsInTreeList(true);
 		KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
 		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "tex");
-		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "gear");
-		KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "edit");
+		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "system-run");
+		KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "accessories-text-editor");
 
 		// setup all configuration pages
 		setupGeneralOptions(kilePageWidgetItem);

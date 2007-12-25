@@ -236,10 +236,11 @@ private:
 	Q3PtrList<TextInfo>				m_textInfoList;
 	KileInfo					*m_ki;
 	Q3PtrList<KileProject>		m_projects;
-	KProgressDialog				*m_kpd;
+	KProgressDialog				*m_progressDialog;
 	
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);
+	void createProgressDialog();
 
 	QStringList autosaveWarnings;
 

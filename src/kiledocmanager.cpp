@@ -43,7 +43,7 @@
 #include <klocale.h>
 #include <kmimetype.h>
 #include <kmessagebox.h>
-#include <kprogressdialog.h>
+#include <KProgressDialog>
 #include <kfile.h>
 #include <krun.h>
 #include <kstandarddirs.h>
@@ -85,7 +85,8 @@ namespace KileDocument
 
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent, name),
-	m_ki(info)
+	m_ki(info),
+	m_progressDialog(NULL)
 {
 	m_textInfoList.setAutoDelete(false);
 	m_projects.setAutoDelete(false);
@@ -94,15 +95,6 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 
 	if ( KileConfig::defaultEncoding() == "invalid" )
 		KileConfig::setDefaultEncoding(QString::fromLatin1(QTextCodec::codecForLocale()->name()));
-
-	QWidget *par = m_ki ? m_ki->parentWidget() : 0;
-	m_kpd = new KProgressDialog(par, i18n("Open Project..."));
-	m_kpd->setModal(true);
-	m_kpd->showCancelButton(false);
-	m_kpd->setLabelText(i18n("Scanning project files..."));
-	m_kpd->setAutoClose(true);
-	m_kpd->setMinimumDuration(2000);
-	m_kpd->hide();
 }
 
 Manager::~Manager()
@@ -1308,34 +1300,41 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 
 	const KUrl realurl = symlinkFreeURL(url);
 
-	if (m_ki->projectIsOpen(realurl))
-	{
-		m_kpd->hide();
+	if(m_ki->projectIsOpen(realurl)) {
+		if(m_progressDialog) {
+			m_progressDialog->hide();
+		}
 
 		KMessageBox::information(m_ki->parentWidget(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
-		return 0L;
+		return NULL;
 	}
 
 	QFileInfo fi(realurl.path());
-	if ( ! fi.isReadable() )
-	{
-		m_kpd->hide();
+	if(!fi.isReadable()) {
+		if(m_progressDialog) {
+			m_progressDialog->hide();
+		}
 
 		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
 			emit(removeFromRecentProjects(realurl));
 
-		return 0L;
+		return NULL;
 	}
 
-	m_kpd->show();
+	if(!m_progressDialog) {
+		createProgressDialog();
+	}
+
+	m_progressDialog->show();
 
 	KileProject *kp = new KileProject(realurl,m_ki->extensions());
 	
-	if(kp->isInvalid())
-	{
-		m_kpd->hide();
+	if(kp->isInvalid()) {
+		if(m_progressDialog) {
+			m_progressDialog->hide();
+		}
 		delete kp;
-		return 0L;
+		return NULL;
 	}
 
 	emit(addToRecentProjects(realurl));
@@ -1343,26 +1342,22 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	KileProjectItemList *list = kp->items();
 
 	int project_steps = list->count() + 1;
-	m_kpd->progressBar()->setMaximum(project_steps * max);
+	m_progressDialog->progressBar()->setMaximum(project_steps * max);
 	project_steps *= step;
-	m_kpd->progressBar()->setValue(project_steps);
+	m_progressDialog->progressBar()->setValue(project_steps);
 
 	// open the project files in the correct order
 	Q3ValueVector<KileProjectItem*> givenPositionVector(list->count(), NULL);
 	Q3ValueList<KileProjectItem*> notCorrectlyOrderedList;
-	for(KileProjectItem *item = list->first(); item; item = list->next())
-	{
+	for(KileProjectItem *item = list->first(); item; item = list->next()) {
 		int order = item->order();
-		if(order >= 0 && static_cast<unsigned int>(order) >= list->count())
-		{
+		if(order >= 0 && static_cast<unsigned int>(order) >= list->count()) {
 			order = -1;
 		}
-		if(!item->isOpen() || order < 0 || givenPositionVector[order] != NULL)
-		{
+		if(!item->isOpen() || order < 0 || givenPositionVector[order] != NULL) {
 			notCorrectlyOrderedList.push_back(item);
 		}
-		else
-		{
+		else {
 			givenPositionVector[order] = item;
 		}
 	}
@@ -1381,7 +1376,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	unsigned int counter = 0;
 	for (Q3ValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
-		m_kpd->progressBar()->setValue(counter + project_steps);
+		m_progressDialog->progressBar()->setValue(counter + project_steps);
 		kapp->processEvents();
 		++counter;
 	}
@@ -1394,10 +1389,11 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	// update undefined references in all project files
 	updateProjectReferences(kp);
 
-	if (step == (max - 1))
-		m_kpd->hide();
-
-   	m_ki->viewManager()->switchToTextView(kp->lastDocument());
+	if (step == (max - 1)) {
+		m_progressDialog->hide();
+	}
+	
+	m_ki->viewManager()->switchToTextView(kp->lastDocument());
 
 	return kp;
 }
@@ -2037,6 +2033,17 @@ void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 		current->setInfo(0);
 	}
 	delete itms;
+}
+
+void Manager::createProgressDialog()
+{
+	m_progressDialog = new KProgressDialog(kapp->activeWindow(), i18n("Open Project..."));
+	m_progressDialog->setModal(true);
+	m_progressDialog->showCancelButton(false);
+	m_progressDialog->setLabelText(i18n("Scanning project files..."));
+	m_progressDialog->setAutoClose(true);
+	m_progressDialog->setMinimumDuration(2000);
+	m_progressDialog->hide();
 }
 
 }

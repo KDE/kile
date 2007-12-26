@@ -268,7 +268,7 @@ void Kile::setupSideBar()
 	m_sideBar = new KileSideBar(m_horizontalSplitter);
 
 	m_fileSelector= new KileFileSelect(m_extensions,m_sideBar,"File Selector");
-	m_sideBar->addPage(m_fileSelector, SmallIcon("fileopen"), i18n("Open File"));
+	m_sideBar->addPage(m_fileSelector, SmallIcon("document-open"), i18n("Open File"));
 	connect(m_fileSelector,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
 	connect(m_fileSelector->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
 	m_fileSelector->comboEncoding()->lineEdit()->setText(KileConfig::defaultEncoding());
@@ -315,7 +315,7 @@ void Kile::setupProjectView()
 void Kile::setupStructureView()
 {
 	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
-	m_sideBar->addPage(m_kwStructure, SmallIcon("view_tree"), i18n("Structure"));
+	m_sideBar->addPage(m_kwStructure, SmallIcon("view-tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
@@ -449,7 +449,7 @@ void Kile::setupBottomBar()
 	m_logWidget->setFocusPolicy(Qt::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_bottomBar->addPage(m_logWidget, SmallIcon("viewlog"), i18n("Log and Messages"));
+	m_bottomBar->addPage(m_logWidget, SmallIcon("utilities-log-viewer"), i18n("Log and Messages"));
 
 	m_outputWidget = new KileWidget::Output(this);
 	m_outputWidget->setFocusPolicy(Qt::ClickFocus);
@@ -462,14 +462,14 @@ void Kile::setupBottomBar()
 	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
 
 	m_texKonsole = new KileWidget::Konsole(this, this);
-	m_bottomBar->addPage(m_texKonsole, SmallIcon("konsole"),i18n("Konsole"));
+	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL(currentChanged(QWidget*)), m_texKonsole, SLOT(sync()));
 
 	m_previewView = new Q3ScrollView ();
 	m_previewWidget = new KileWidget::PreviewWidget (this, m_previewView);
 	m_previewView->viewport()->setPaletteBackgroundColor (QColor (0xff, 0xff, 0xff));
 	m_previewView->addChild(m_previewWidget, 0, 0); 
-	m_bottomBar->addPage(m_previewView, SmallIcon ("edu_mathematics"), i18n ("Preview"));
+	m_bottomBar->addPage(m_previewView, SmallIcon ("document-preview"), i18n ("Preview"));
 
 	m_bottomBar->setVisible(true);
 	m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());

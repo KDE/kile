@@ -154,6 +154,7 @@ bool KileLyxServer::openPipes()
 			{
 				kdError() << "The file " << pipeInfo.absFilePath() <<  "we just created is not a pipe!" << endl;
 				file->close();
+				delete file;
 				continue;
 			}
 			else
@@ -163,8 +164,10 @@ bool KileLyxServer::openPipes()
 				opened=true;
 			}
 		}
-		else
+		else {
 			kdError() << "Could not open " << pipeInfo.absFilePath() << endl;
+			delete file;
+		}
 	}
 	return opened;
 }

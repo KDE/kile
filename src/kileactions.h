@@ -16,8 +16,6 @@
 #define KILEACTIONS_H
 
 #include <q3dict.h>
-//Added by qt3to4:
-#include <Q3PtrList>
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -186,7 +184,7 @@ signals:
 	void activated(const KAction&);
 
 public slots:
-	void setItems(Q3PtrList<KAction> &);
+	void setItems(const QList<KAction*> &);
 
 private slots:
 	void emitData(const QString&);

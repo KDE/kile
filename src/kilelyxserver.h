@@ -20,10 +20,10 @@
 #include <config.h>
 #endif
 
-#include <qobject.h>
-#include <q3ptrlist.h>
+#include <QObject>
+#include <QList>
 #include <q3intdict.h>
-#include <qstringlist.h>
+#include <QStringList>
 #include <ktempdir.h>
 
 #include <sys/types.h>
@@ -67,9 +67,9 @@ signals:
 private:
 	mode_t 				m_perms;
 	KTempDir			*m_tempDir;
-	Q3PtrList<QFile>			m_pipeIn;
-	Q3PtrList<QSocketNotifier>	m_notifier;
-	Q3IntDict<QFile>			m_file;
+	QList<QFile*>			m_pipeIn;
+	QList<QSocketNotifier*>		m_notifier;
+	Q3IntDict<QFile>		m_file;
 	bool				m_running;
 	QStringList 			m_links,m_pipes;
 };

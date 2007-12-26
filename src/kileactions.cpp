@@ -29,8 +29,6 @@
 #include <QCheckBox>
 #include <QFileInfo>
 #include <QGridLayout>
-//Added by qt3to4:
-#include <Q3PtrList>
 
 #include <klineedit.h>
 #include <kglobal.h>
@@ -400,17 +398,18 @@ void Select::init()
 
 void Select::emitData(const QString & name)
 {
-	m_dict[name]->trigger();
+	m_dict[name]->trigger(); 
 }
 
-void Select::setItems(Q3PtrList<KAction>& list)
+void Select::setItems(const QList<KAction*>& list)
 {
 	QStringList tmp;
 
-	for (uint i=0; i < list.count(); ++i)
-	{
-		tmp.append(list.at(i)->text());
-		m_dict.insert(list.at(i)->text(), list.at(i));
+	for(QList<KAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
+		KAction *action = *i;
+	
+		tmp.append(action->text());
+		m_dict.insert(action->text(), action);
 	}
 
 	KSelectAction::setItems(tmp);

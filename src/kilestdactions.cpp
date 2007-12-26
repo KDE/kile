@@ -26,8 +26,6 @@
 #include "kileactions.h"
 #include "kileedit.h"
 #include "kileinfo.h"
-//Added by qt3to4:
-#include <Q3PtrList>
 
 namespace KileStdActions
 {
@@ -39,7 +37,7 @@ namespace KileStdActions
 void setupStdTags(KileInfo *ki, QWidget *parent, KActionCollection *actionCollection)
 {
 	(void) new KileAction::Tag(i18n("Document Class Selection - \\documentclass{}"), KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_documentclass",
-  		"\\documentclass[10pt]{","}", 21,0,i18n("\\documentclass[options]{class}\nclass : article,report,book,letter\nsize options : 10pt, 11pt, 12pt\npaper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper\n"
+		"\\documentclass[10pt]{","}", 21,0,i18n("\\documentclass[options]{class}\nclass : article,report,book,letter\nsize options : 10pt, 11pt, 12pt\npaper size options: a4paper, a5paper, b5paper, letterpaper, legalpaper, executivepaper\n"
 		"other options: \nlandscape -- selects landscape format; default is portrait. \ntitlepage, notitlepage -- selects if there should be a separate title page.\nleqno -- display equation number on left side of equations; default is right side.\n"
 		"fleqn -- display formulae flush left; default is centered.\nonecolumn, twocolumn -- one or two columns; defaults to one column\noneside, twoside -- selects one- or two-sided layout.\n" ));
 
@@ -85,7 +83,7 @@ void setupStdTags(KileInfo *ki, QWidget *parent, KActionCollection *actionCollec
 	new KileAction::Tag(i18n("Boldface - \\textbf{}"),"text_bold", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_B), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textbf","\\textbf{","}",8,0,i18n("\\textbf{boldface text}"));
 	new KileAction::Tag(i18n("Typewriter - \\texttt{}"),"typewriter", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_T), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_texttt","\\texttt{","}",8,0,i18n("\\texttt{typewriter text}"));
 	new KileAction::Tag(i18n("Small Caps - \\textsc{}"), KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_C), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textsc","\\textsc{","}",8,0,i18n("\\textsc{small caps text}"));
- 	new KileAction::Tag("\\item","item", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_H), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_item","\\item ",QString::null,6,0, i18n("\\item[label] Hello!"));
+	new KileAction::Tag("\\item","item", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_H), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_item","\\item ",QString::null,6,0, i18n("\\item[label] Hello!"));
 
 	(void) new KileAction::Tag(i18n("Tabbing - \\begin{tabbing}"),"tabbing", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_env_tabbing" ,"\\begin{tabbing}\n","%E\n\\end{tabbing} ",0,1,i18n("The tabbing environment provides a way to align text in columns.\n\\begin{tabbing}\ntext \\= more text \\= still more text \\= last text \\\\\nsecond row \\>  \\> more \\\\\n\\end{tabbing}\nCommands :\n\\=  Sets a tab stop at the current position.\n\\>  Advances to the next tab stop.\n\\<  Allows you to put something to the left of the local margin without changing the margin. Can only be used at the start of the line.\n\\+  Moves the left margin of the next and all the following commands one tab stop to the right\n\\-  Moves the left margin of the next and all the following commands one tab stop to the left\n\\'  Moves everything that you have typed so far in the current column to the right of the previous column, flush against the current column's tab stop. \n\\`  Allows you to put text flush right against any tab stop, including tab stop 0\n\\kill  Sets tab stops without producing text.\n\\a  In a tabbing environment, the commands \\=, \\' and \\` do not produce accents as normal. Instead, the commands \\a=, \\a' and \\a` are used."));
 	(void) new KileAction::Tag("Tabular - \\begin{tabular}","tabular", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_env_tabular" ,"\\begin{tabular}{","}\n%E\n\\end{tabular} ",16,0,i18n("\\begin{tabular}[pos]{cols}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\\n...\n\\end{tabular}\npos : Specifies the vertical position; default is alignment on the center of the environment.\n     t - align on top row\n     b - align on bottom row\ncols : Specifies the column formatting.\n     l - A column of left-aligned items.\n     r - A column of right-aligned items.\n     c - A column of centered items.\n     | - A vertical line the full height and depth of the environment.\n     @{text} - this inserts text in every row.\nThe \\hline command draws a horizontal line the width of the table.\nThe \\cline{i-j} command draws horizontal lines across the columns specified, beginning in column i and ending in column j,\nThe \\vline command draws a vertical line extending the full height and depth of its row."));
@@ -109,7 +107,7 @@ void setupStdTags(KileInfo *ki, QWidget *parent, KActionCollection *actionCollec
 	(void) new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file"));
 
 	KileAction::Select *actionstructure_list = new KileAction::Select(i18n("Sectioning"), KShortcut(), actionCollection, "structure_list");
-	Q3PtrList<KAction> alist;
+	QList<KAction*> alist;
 	alist.append(new KileAction::InputTag(ki,"&part","part", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_part", parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\part%A{%R}","\n", 0,1,i18n("\\part{title}\n\\part*{title} : do not include a number and do not make an entry in the table of contents\n"), i18n("&Part"),i18n("No &numbering")));
 	alist.append(new KileAction::InputTag(ki,"&chapter","chapter", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_chapter" ,parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\chapter%A{%R}","\n", 0,1,i18n("\\chapter{title}\n\\chapter*{title} : do not include a number and do not make an entry in the table of contents\nOnly for 'report' and 'book' class document."), i18n("C&hapter"),i18n("No &numbering")));
 	alist.append(new KileAction::InputTag(ki,"&section","section", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_section",parent, KileAction::ShowAlternative|KileAction::ShowLabel , "\\section%A{%R}","\n", 0,1,i18n("\\section{title}\n\\section*{title} : do not include a number and do not make an entry in the table of contents"), i18n("&Section"),i18n("No &numbering")));
@@ -289,10 +287,10 @@ void setupMathTags(QWidget *parent, KActionCollection *actionCollection)
 		i18n("\\begin{array}{col1col2...coln}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\ \n...\n\\end{array}\nEach column, coln, is specified by a single letter that tells how items in that column should be formatted.\n"
 		"     c -- for centered \n     l -- for flush left \n     r -- for flush right\n"));
 
-	Q3PtrList<KAction> alist;
-  	KileAction::Select *actionleft_list = new KileAction::Select(i18n("Left Delimiter"), KShortcut(), actionCollection, "left_list");
- 	alist.clear();
-  	alist.append(new KileAction::Tag("left (", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"","\\left( ",QString::null,7,0));
+	QList<KAction*> alist;
+	KileAction::Select *actionleft_list = new KileAction::Select(i18n("Left Delimiter"), KShortcut(), actionCollection, "left_list");
+	alist.clear();
+	alist.append(new KileAction::Tag("left (", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"","\\left( ",QString::null,7,0));
 	alist.append(new KileAction::Tag("left [", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"","\\left[ ",QString::null,7,0));
   	alist.append(new KileAction::Tag("left {", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"","\\left\\lbrace ",QString::null,14,0));
   	alist.append(new KileAction::Tag("left <", KShortcut(), parent, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"","\\left\\langle ",QString::null,14,0));

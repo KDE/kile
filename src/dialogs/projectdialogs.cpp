@@ -28,7 +28,7 @@
 #include <QLabel>
 #include <q3whatsthis.h>
 #include <QFileInfo>
-#include <q3ptrlist.h>
+#include <QList>
 #include <qregexp.h>
 #include <qvalidator.h>
 //Added by qt3to4:
@@ -534,19 +534,16 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	Q3WhatsThis::add(lb1,whatsthisMaster);
 
 	m_master->insertItem(i18n("(auto-detect)"));
-	Q3PtrListIterator<KileProjectItem> rit(*(project->rootItems()));
+	QList<KileProjectItem*> rootItemList = project->rootItems();
 	int index = 0;
-	while (rit.current())
-	{
-		if ((*rit)->type() == KileProjectItem::Source)
-		{
-			m_master->insertItem((*rit)->url().fileName());
+	for(QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
+		if ((*it)->type() == KileProjectItem::Source) {
+			m_master->insertItem((*it)->url().fileName());
 			++index;
-			if((*rit)->url().path() == project->masterDocument()) {
+			if((*it)->url().path() == project->masterDocument()) {
 				m_master->setCurrentIndex(index);
 			}
 		}
-		++rit;
 	}
 
 	if (project->masterDocument().isNull())
@@ -604,19 +601,17 @@ void KileProjectOptionsDlg::slotOk()
 
 	this->m_project->setName(m_title->text());
 
-	Q3PtrListIterator<KileProjectItem> rit(*(m_project->rootItems()));
-	while (rit.current())
-	{
-		if ((*rit)->url().fileName() == m_master->currentText() )
-			m_project->setMasterDocument((*rit)->url().path());
-		++rit;
+	QList<KileProjectItem*> rootItemList = m_project->rootItems();
+	for(QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
+		if((*it)->url().fileName() == m_master->currentText()) {
+			m_project->setMasterDocument((*it)->url().path());
+		}
 	}
 	if (m_master->currentItem() == 0) m_project->setMasterDocument(QString::null);
 
 	m_val_extensions[m_sel_extensions->currentItem()] = m_extensions->text();
 
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) 
-	{
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 		m_project->setExtensions( (KileProjectItem::Type) i, m_val_extensions[i-1] );
 	}
 

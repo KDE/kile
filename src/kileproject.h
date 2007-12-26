@@ -15,9 +15,9 @@
 #ifndef KILEPROJECT_H
 #define KILEPROJECT_H
 
-#include <qobject.h>
-#include <q3ptrlist.h>
-#include <qregexp.h>
+#include <QObject>
+#include <QList>
+#include <QRegExp>
 
 #include "kiledebug.h"
 #include <kconfig.h>
@@ -31,7 +31,6 @@ namespace KileDocument { class Info; class TextInfo; class Extensions; }
  * KileProjectItem
  **/
 class KileProject;
-class KileProjectItemList;
 class KileProjectItem : public QObject
 {
 	Q_OBJECT
@@ -95,7 +94,7 @@ public:
 	KileProjectItem* firstChild() const { return m_child;}
 	KileProjectItem* sibling() const { return m_sibling; }
 
-	void allChildren(Q3PtrList<KileProjectItem> *) const;
+	void allChildren(QList<KileProjectItem*>* list) const;
 
 	void print(int level);
 
@@ -126,13 +125,6 @@ private:
 	int			m_order;
 };
 
-class  KileProjectItemList : public Q3PtrList<KileProjectItem>
-{
-public:
-	KileProjectItemList() { setAutoDelete(true); }
-	~KileProjectItemList() { KILE_DEBUG() << "DELETING KILEPROJECTITEMLIST" << endl;}
-};
-
 /**
  * KileProject
  **/
@@ -158,8 +150,8 @@ public:
 	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
 	const QString & quickBuildConfig() { return m_quickBuildConfig; }
 
-    void setLastDocument(const KUrl &url);
-    const KUrl & lastDocument() const { return m_lastDocument; }
+	void setLastDocument(const KUrl &url);
+	const KUrl& lastDocument() const { return m_lastDocument; }
 
 	void setMakeIndexOptions(const QString & opt) { m_makeIndexOptions = opt; }
 	const QString & makeIndexOptions() { return m_makeIndexOptions; }
@@ -174,14 +166,14 @@ public:
 
 	KileProjectItem* item(const KUrl &);
 	KileProjectItem* item(const KileDocument::Info *info);
-	KileProjectItemList* items() { return &m_projectitems; }
+	QList<KileProjectItem*> items() { return m_projectItems; }
 
 	KConfig *config() { return m_config; }
 
 	bool contains(const KUrl&);
 	bool contains(const KileDocument::Info *info);
 	KileProjectItem *rootItem(KileProjectItem *) const;
-	const Q3PtrList<KileProjectItem>* rootItems() const {return &m_rootItems;}
+	const QList<KileProjectItem*>& rootItems() const {return m_rootItems;}
 	bool isInvalid(){ return m_invalid;}
 	QString archiveFileList() const;
 
@@ -195,7 +187,7 @@ public slots:
 	bool save();
 
 	void add(KileProjectItem*);
-	void remove(const KileProjectItem*);
+	void remove(KileProjectItem*);
 
 	void itemRenamed(KileProjectItem*);
 
@@ -219,8 +211,8 @@ private:
 	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion;
 	KUrl		m_projecturl, m_baseurl, m_lastDocument;
 	bool		m_invalid;
-	Q3PtrList<KileProjectItem> m_rootItems;
-	KileProjectItemList	m_projectitems;
+	QList<KileProjectItem*> m_rootItems;
+	QList<KileProjectItem*>	m_projectItems;
 
 	QString		m_extensions[3];
 	QRegExp		m_reExtensions[3];

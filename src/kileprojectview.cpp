@@ -18,9 +18,10 @@
 #include "kileprojectview.h"
 
 #include <q3header.h>
+#include <QList>
+
 //Added by qt3to4:
 #include <QDropEvent>
-#include <Q3PtrList>
 
 #include <k3urldrag.h>
 
@@ -600,12 +601,11 @@ void KileProjectView::refreshProjectTree(const KileProject *project)
 	//KileProjectViewItem *nonsrc = new KileProjectViewItem(parent, i18n("non-sources"));
 	//parent->setNonSrc(nonsrc);
 
-	Q3PtrList<KileProjectItem> list = *(project->rootItems());
-	Q3PtrListIterator<KileProjectItem> it(list);
-	while (it.current())
-	{
+
+
+	QList<KileProjectItem*> list = project->rootItems();
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
 		addTree(*it, parent);
-		++it;
 	}
 
 	parent->sortChildItems(0, true);

@@ -80,23 +80,22 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 		setCaption(i18n("Statistics for the Project %1", m_project->name()));
 		KILE_DEBUG() << "Project file is " << project->baseURL() << endl;
 
-		KileProjectItemList *items = project->items();
+		QList<KileProjectItem*> items = project->items();
 
-		if (m_hasSelection) // if the active doc has a selection
-		{
+		if (m_hasSelection) { // if the active doc has a selection
 			stats = m_docinfo->getStatistics();
 			fillWidget(stats, summary); // if yes we fill the summary widget and are finished
 		}
-		else
-		{
-			for (uint k = 0; k < items->count()  ; k++)
-			{
-				if (items->at(k)->type() ==  KileProjectItem::ProjectFile) // ignore project files
-					continue;
+		else {
+			for(QList<KileProjectItem*>::iterator i = items.begin(); i != items.end(); ++i) {
+				KileProjectItem *item = *i;
 
-				tempDocinfo = items->at(k)->getInfo();
-				if (tempDocinfo && tempDocinfo->getDoc()) // closed items don't have a doc
-				{
+				if (item->type() ==  KileProjectItem::ProjectFile) { // ignore project files
+					continue;
+				}
+
+				tempDocinfo = item->getInfo();
+				if(tempDocinfo && tempDocinfo->getDoc()) { // closed items don't have a doc
 					tempName = tempDocinfo->getDoc()->url().fileName();
 					stats = tempDocinfo->getStatistics();
 
@@ -111,18 +110,18 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 					m_pagetoname[itemTemp] = tempName;
 					fillWidget(stats, tempWidget);
 				}
-				else
+				else {
 					m_notAllFilesOpenWarning = true; // print warning
+				}
 			}
 
 			fillWidget(m_summarystats, summary);
-			if (m_notAllFilesOpenWarning)
+			if (m_notAllFilesOpenWarning) {
 				summary->m_warning->setText(i18n("To get statistics for all project files, you have to open them all."));
+			}
 
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
 			KILE_DEBUG() << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
 			KILE_DEBUG() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
-#endif
 		}
 	}
 //  setInitialSize( QSize(550,560), true);

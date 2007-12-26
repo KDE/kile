@@ -26,7 +26,6 @@
 #include <QHideEvent>
 #include <Q3CString>
 #include <Q3PopupMenu>
-#include <Q3PtrList>
 
 #include <kaction.h>
 #include <khelpmenu.h>
@@ -968,8 +967,9 @@ int Kile::runWith(const QString &tool, const QString &config)
 void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	//KILE_DEBUG() << "==Kile::activateView==========================" << endl;
-	if (!w->inherits("KTextEditor::View"))
+	if (!w->inherits("KTextEditor::View")) {
 		return;
+	}
 
 	//disable gui updates to avoid flickering of toolbars
 	setUpdatesEnabled(false);
@@ -981,8 +981,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 //FIXME:
 // 	if (view->isActive()) return;
 
-	for (uint i=0; i< viewManager()->textViews().count(); ++i)
-	{
+	for(int i = 0; i< viewManager()->textViews().count(); ++i) {
 		guiFactory()->removeClient(viewManager()->textView(i));
 #ifdef __GNUC__
 #warning Commenting Kate::View->setActive() out!
@@ -1004,7 +1003,9 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	setUpdatesEnabled(true);
 
-	if (updateStruct) viewManager()->updateStructure();
+	if(updateStruct) {
+		viewManager()->updateStructure();
+	}
 }
 
 void Kile::updateModeStatus()
@@ -1120,14 +1121,17 @@ bool Kile::queryExit()
 
 bool Kile::queryClose()
 {
-    KTextEditor::View *view = viewManager()->currentTextView();
-    if (view) KileConfig::setLastDocument(view->document()->url().path());
-    else KileConfig::setLastDocument("");
+	KTextEditor::View *view = viewManager()->currentTextView();
+	if(view) {
+		KileConfig::setLastDocument(view->document()->url().path());
+	}
+	else {
+		KileConfig::setLastDocument("");
+	}
 
 	//don't close Kile if embedded viewers are present
 	KILE_DEBUG() << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
-	if ( m_currentState != "Editor" )
-	{
+	if(m_currentState != "Editor") {
 		resetPart();
 		return false;
 	}
@@ -1135,22 +1139,20 @@ bool Kile::queryClose()
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-	for (uint i=0; i < viewManager()->textViews().count(); ++i)
-	{
+	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
 		m_listDocsOpenOnStart.append(viewManager()->textView(i)->document()->url().path());
 	}
 
-	KILE_DEBUG() << "#projects = " << docManager()->projects()->count() << endl;
-	for (uint i=0; i < docManager()->projects()->count(); ++i)
-	{
-		m_listProjectsOpenOnStart.append(docManager()->projects()->at(i)->url().path());
+	KILE_DEBUG() << "#projects = " << docManager()->projects().count() << endl;
+	QList<KileProject*> projectList = docManager()->projects();
+	for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
+		m_listProjectsOpenOnStart.append((*i)->url().path());
 	}
 
 	bool stage1 = docManager()->projectCloseAll();
 	bool stage2 = true;
 
-	if (stage1)
-	{
+	if(stage1) {
 		stage2 = docManager()->fileCloseAll();
 	}
 
@@ -1613,8 +1615,9 @@ void Kile::updateMenu()
 
 	// project_show is only enabled, when more than 1 project is opened
 	a = actionCollection()->action("project_show");
-	if ( a )
-		a->setEnabled( project_open && docManager()->projects()->count()>1 );
+	if(a) {
+		a->setEnabled(project_open && docManager()->projects().count() > 1);
+	}
 
 	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
@@ -1672,16 +1675,17 @@ void Kile::updateActionList(const QList<QAction*>& list, bool state)
 //TODO: move to KileView::Manager
 void Kile::prepareForPart(const QString & state)
 {
-	KILE_DEBUG() << "==Kile::prepareForPart====================" << endl;
+	KILE_DEBUG() << "==Kile::prepareForPart====================";
 
-	if ( m_currentState == "Editor" && state == "Editor" ) return;
+	if(m_currentState == "Editor" && state == "Editor") {
+		return;
+	}
 
 	resetPart();
 	m_wantState = state;
 
 	//deactivate kateparts
-	for (uint i=0; i<viewManager()->textViews().count(); ++i)
-	{
+	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
 		guiFactory()->removeClient(viewManager()->textView(i));
 #ifdef __GNUC__
 #warning Commenting Kate::View->setActive() out!

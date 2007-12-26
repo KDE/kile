@@ -17,7 +17,6 @@
 #define KILEINFO_H
 
 #include <qstring.h>
-#include <q3ptrlist.h>
 #include <qmap.h>
 #include <q3scrollview.h>
 

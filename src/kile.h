@@ -32,7 +32,6 @@
 #include <qtoolbox.h>
 
 #include <Q3ValueList>
-#include <Q3PtrList>
 #include <QHideEvent>
 #include <QShowEvent>
 #include <QStackedWidget>

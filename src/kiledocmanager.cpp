@@ -88,13 +88,12 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_ki(info),
 	m_progressDialog(NULL)
 {
-	m_textInfoList.setAutoDelete(false);
-	m_projects.setAutoDelete(false);
 //FIXME: check whether this is still needed
 // 	KTextEditor::Document::setFileChangedDialogsActivated (true);
 
-	if ( KileConfig::defaultEncoding() == "invalid" )
+	if (KileConfig::defaultEncoding() == "invalid") {
 		KileConfig::setDefaultEncoding(QString::fromLatin1(QTextCodec::codecForLocale()->name()));
+	}
 }
 
 Manager::~Manager()
@@ -122,10 +121,8 @@ void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= 0L*/ )
 	KILE_DEBUG() << "just checking: docinfo->getDoc() =  " << docinfo->getDoc() << endl;
 	KILE_DEBUG() << "just checking: docFor(docinfo->url()) = " << docFor(docinfo->url()) << endl;
 
-	for ( uint i = 0; i < m_textInfoList.count(); ++i )
-	{
-		if ( (m_textInfoList.at(i) != docinfo) && (m_textInfoList.at(i)->getDoc() == doc) )
-		{
+	for (int i = 0; i < m_textInfoList.count(); ++i) {
+		if((m_textInfoList.at(i) != docinfo) && (m_textInfoList.at(i)->getDoc() == doc)) {
 			KMessageBox::information(0, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
 			kWarning() << "docinfo " << m_textInfoList.at(i) << " url " << m_textInfoList.at(i)->url().fileName() << " has a wild pointer!!!"<< endl;
 		}
@@ -138,23 +135,22 @@ void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= 0L*/ )
 // update all Info's with changed user commands
 void Manager::updateInfos()
 {
-	for (uint i=0; i < m_textInfoList.count(); ++i)
-	{
-		m_textInfoList.at(i)->updateStructLevelInfo();
+	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
+		(*it)->updateStructLevelInfo();
 	}
 }
 
 KTextEditor::Document* Manager::docFor(const KUrl & url)
 {
-	for (uint i=0; i < m_textInfoList.count(); ++i)
-	{
-		if ( m_ki->similarOrEqualURL(m_textInfoList.at(i)->url(),url) )
-        {
-			return m_textInfoList.at(i)->getDoc();
-        }
+	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
+		TextInfo *info = *it;
+
+		if(m_ki->similarOrEqualURL(info->url(), url)) {
+			return info->getDoc();
+		}
 	}
 
-	return 0L;
+	return NULL;
 }
 
 Info* Manager::getInfo() const
@@ -168,63 +164,56 @@ Info* Manager::getInfo() const
 
 TextInfo* Manager::textInfoFor(const QString & path) const
 {
-	if( path.isEmpty() )
-		return 0L;
-	
-	KILE_DEBUG() << "==KileInfo::textInfoFor(" << path << ")==========================" << endl;
-	Q3PtrListIterator<TextInfo> it(m_textInfoList);
-	while ( true )
-	{
-		if ( it.current()->url().path() == path)
-			return it.current();
-
-		if (it.atLast()) break;
-
-		++it;
+	if(path.isEmpty()) {
+		return NULL;
 	}
 
-	KILE_DEBUG() << "\tCOULD NOT find info for " << path << endl;
-	return 0L;
+	KILE_DEBUG() << "==KileInfo::textInfoFor(" << path << ")==========================";
+	for(QList<TextInfo*>::const_iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
+		TextInfo *info = *it;
+
+		if(info->url().path() == path) {
+			return info;
+		}
+	}
+
+	KILE_DEBUG() << "\tCOULD NOT find info for " << path;
+	return NULL;
 }
 
 TextInfo* Manager::textInfoForURL(const KUrl& url)
 {
-	if( url.isEmpty() )
-		return 0L;
-	
-	KILE_DEBUG() << "==KileInfo::textInfoFor(" << url << ")==========================" << endl;
-	Q3PtrListIterator<TextInfo> it(m_textInfoList);
-	TextInfo *info;
-	while ( (info = it.current()) != 0L )
-	{
-		if ( info->url() == url)
-		{
-			return info;
-		}
-		++it;
+	if(url.isEmpty()) {
+		return NULL;
 	}
 
-	KILE_DEBUG() << "\tCOULD NOT find info for " << url << endl;
-	return 0L;
+	KILE_DEBUG() << "==KileInfo::textInfoFor(" << url << ")==========================";
+
+	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
+		TextInfo *info = *it;	
+
+		if (info->url() == url) {
+			return info;
+		}
+	}
+
+	KILE_DEBUG() << "\tCOULD NOT find info for " << url;
+	return NULL;
 }
 
 TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 {
-	if( !doc )
-		return 0L;
+	if(!doc) {
+		return NULL;
+	}
+
+	for(QList<TextInfo*>::const_iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
+		if((*it)->getDoc() == doc) {
+			return (*it);
+		}
+	}
 	
-    Q3PtrListIterator<TextInfo> it(m_textInfoList);
-    while ( true )
-    {
-        if ( it.current()->getDoc() == doc)
-            return it.current();
-
-        if (it.atLast()) return 0L;
-
-        ++it;
-    }
-
-    return 0;
+	return NULL;
 }
 
 void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
@@ -234,64 +223,52 @@ void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
 
 KileProject* Manager::projectFor(const KUrl &projecturl)
 {
-	KileProject *project = 0;
-
 	//find project with url = projecturl
-	Q3PtrListIterator<KileProject> it(m_projects);
-	while ( it.current() )
-	{
-		if ((*it)->url() == projecturl)
-		{
-			return *it;
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProject *project = *it;
+		if(project->url() == projecturl) {
+			return project;
 		}
-		++it;
 	}
 
-	return project;
+	return NULL;
 }
 
 KileProject* Manager::projectFor(const QString &name)
 {
-	KileProject *project = 0;
-
 	//find project with url = projecturl
-	Q3PtrListIterator<KileProject> it(m_projects);
-	while ( it.current() )
-	{
-		if ((*it)->name() == name)
-		{
-			return *it;
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProject *project = *it;
+
+		if (project->name() == name) {
+			return project;
 		}
-		++it;
 	}
 
-	return project;
+	return NULL;
 }
 
 KileProjectItem* Manager::itemFor(const KUrl &url, KileProject *project /*=0L*/) const
 {
-	if (project == 0L)
-	{
-		Q3PtrListIterator<KileProject> it(m_projects);
-		while ( it.current() )
-		{
-			KILE_DEBUG() << "looking in project " << (*it)->name() << endl;
-			if ((*it)->contains(url))
-			{
-				KILE_DEBUG() << "\t\tfound!" << endl;
-				return (*it)->item(url);
+	if (!project) {
+		for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+			KileProject *project = *it;
+
+			KILE_DEBUG() << "looking in project " << project->name();
+			if (project->contains(url)) {
+				KILE_DEBUG() << "\t\tfound!";
+				return project->item(url);
 			}
-			++it;
 		}
-		KILE_DEBUG() << "\t nothing found" << endl;
+		KILE_DEBUG() << "\t nothing found";
 	}
-	else
-	{
-		if ( project->contains(url) )
+	else {
+		if(project->contains(url)) {
 			return project->item(url);
+		}
 	}
 
-	return 0L;
+	return NULL;
 }
 
 KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) const
@@ -299,27 +276,25 @@ KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) co
 	if(docinfo)
 		return itemFor(docinfo->url(), project);
 	else
-		return 0L;
+		return NULL;
 }
 
-KileProjectItemList* Manager::itemsFor(Info *docinfo) const
+QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const
 {
-	if ( docinfo == 0 ) return 0L;
+	if(!docinfo) {
+		return QList<KileProjectItem*>();
+	}
 
-	KILE_DEBUG() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============" << endl;
-	KileProjectItemList *list = new KileProjectItemList();
-	list->setAutoDelete(false);
+	KILE_DEBUG() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============";
+	QList<KileProjectItem*> list;
+	for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProject *project = *it;
 
-	Q3PtrListIterator<KileProject> it(m_projects);
-	while ( it.current() )
-	{
-		KILE_DEBUG() << "\tproject: " << (*it)->name() << endl;
-		if ((*it)->contains(docinfo))
-		{
-			KILE_DEBUG() << "\t\tcontains" << endl;
-			list->append((*it)->item(docinfo));
+		KILE_DEBUG() << "\tproject: " << (*it)->name();
+		if(project->contains(docinfo)) {
+			KILE_DEBUG() << "\t\tcontains";
+			list.append(project->item(docinfo));
 		}
-		++it;
 	}
 
 	return list;
@@ -332,45 +307,39 @@ bool Manager::isProjectOpen()
 
 KileProject* Manager::activeProject()
 {
-	KileProject *curpr=0;
 	KTextEditor::Document *doc = m_ki->activeTextDocument();
 
-	if (doc)
-	{
-		for (uint i=0; i < m_projects.count(); ++i)
-		{
-			if (m_projects.at(i)->contains(doc->url()) )
-			{
-				curpr = m_projects.at(i);
-				break;
+	if (doc) {
+		for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+			KileProject *project = *it;
+
+			if(project->contains(doc->url())) {
+				return project;
 			}
 		}
 	}
 
-	return curpr;
+	return NULL;
 }
 
 KileProjectItem* Manager::activeProjectItem()
 {
 	KileProject *curpr = activeProject();
 	KTextEditor::Document *doc = m_ki->activeTextDocument();
-	KileProjectItem *item = 0;
 
-	if (curpr && doc)
-	{
-		KileProjectItemList *list = curpr->items();
+	if (curpr && doc) {
+		QList<KileProjectItem*> list = curpr->items();
 
-		for (uint i=0; i < list->count(); ++i)
-		{
-			if (list->at(i)->url() == doc->url())
-			{
-				item = list->at(i);
-				break;
+		for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+			KileProjectItem *item = *it;
+
+			if (item->url() == doc->url()) {
+				return item;
 			}
 		}
 	}
 
-	return item;
+	return NULL;
 }
 
 TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & url, const KUrl& baseDirectory)
@@ -414,17 +383,16 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 
 void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 {
-	KileProjectItemList *list = itemsFor(oldinfo);
+	QList<KileProjectItem*> list = itemsFor(oldinfo);
 	KUrl url = oldinfo->url();
 	TextInfo *newinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(url), url, oldinfo->getBaseDirectory());
 
 	newinfo->setDoc(oldinfo->getDoc());
 
-	KileProjectItem *pritem = 0L;
-	for ( pritem = list->first(); pritem; pritem = list->next() )
-	{
-		pritem->setInfo(newinfo);
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+		(*it)->setInfo(newinfo);
 	}
+
 	removeTextDocumentInfo(oldinfo);
 
 	emit(updateStructure(true, newinfo));
@@ -433,13 +401,13 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* = false */)
 {
 	KILE_DEBUG() << "==Manager::removeTextDocumentInfo(Info *docinfo)=====" << endl;
-	KileProjectItemList *itms = itemsFor(docinfo);
+	QList<KileProjectItem*> itms = itemsFor(docinfo);
 	bool oneItem = false;
-	if (itms->count() == 1)
+	if(itms.count() == 1) {
 		oneItem = true;
+	}
 
-	if (itms->count() == 0 || ( closingproject && oneItem ))
-	{
+	if(itms.count() == 0 || ( closingproject && oneItem )) {
 		KILE_DEBUG() << "\tremoving " << docinfo <<  " count = " << m_textInfoList.count() << endl;
 		m_textInfoList.remove(docinfo);
 
@@ -447,13 +415,11 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 
 		cleanupDocumentInfoForProjectItems(docinfo);
 		delete docinfo;
-		delete itms;
 
 		return true;
 	}
 
 	KILE_DEBUG() << "\tnot removing " << docinfo << endl;
-	delete itms;
 	return false;
 }
 
@@ -1058,19 +1024,17 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 			kWarning() << "no DOCINFO for " << url.url() << endl;
 			return true;
 		}
-		KileProjectItemList *items = itemsFor(docinfo);
+		QList<KileProjectItem*> items = itemsFor(docinfo);
+		for(QList<KileProjectItem*>::iterator it = items.begin(); it != items.end(); ++it) {
+			KileProjectItem *item = *it;
 
-		while ( items->current() )
-		{
 			//FIXME: refactor here
- 			if (items->current() && doc) storeProjectItem(items->current(),doc);
-			items->next();
+ 			if(item && doc) {
+				storeProjectItem(item, doc);
+			}
 		}
 
-		delete items;
-
-		if ( doc->closeUrl() )
-		{
+		if(doc->closeUrl()) {
 			// docinfo may have been recreated from 'Untitled' doc to a named doc
 			if ( url.isEmpty() )
 				docinfo= textInfoFor(doc);
@@ -1175,11 +1139,11 @@ void Manager::projectNew()
 	}
 }
 
-void Manager::addProject(const KileProject *project)
+void Manager::addProject(KileProject *project)
 {
-	KILE_DEBUG() << "==void Manager::addProject(const KileProject *project)==========" << endl;
+	KILE_DEBUG() << "==void Manager::addProject(const KileProject *project)==========";
 	m_projects.append(project);
-	KILE_DEBUG() << "\tnow " << m_projects.count() << " projects" << endl;
+	KILE_DEBUG() << "\tnow " << m_projects.count() << " projects";
 	emit addToProjectView(project);
 	connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
 }
@@ -1187,17 +1151,13 @@ void Manager::addProject(const KileProject *project)
 KileProject* Manager::selectProject(const QString& caption)
 {
 	QStringList list;
-	Q3PtrListIterator<KileProject> it(m_projects);
-	while (it.current())
-	{
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
 		list.append((*it)->name());
-		++it;
 	}
 
-	KileProject *project = 0;
-	QString name = QString::null;
-	if (list.count() > 1)
-	{
+	KileProject *project = NULL;
+	QString name;
+	if (list.count() > 1) {
 		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), m_ki->parentWidget());
 		if (dlg->exec())
 		{
@@ -1205,12 +1165,12 @@ KileProject* Manager::selectProject(const QString& caption)
 		}
 		delete dlg;
 	}
-	else if (list.count() == 0)
-	{
-		return 0;
+	else if (list.count() == 0) {
+		return NULL;
 	}
-	else
+	else {
 		name = m_projects.first()->name();
+	}
 
 	project = projectFor(name);
 
@@ -1250,14 +1210,12 @@ void Manager::addToProject(KileProject* project, const KUrl & url)
 	buildProjectTree(project);
 }
 
-void Manager::removeFromProject(const KileProjectItem *item)
+void Manager::removeFromProject(KileProjectItem *item)
 {
-	if (item && item->project())
-	{
+	if (item && item->project()) {
 		KILE_DEBUG() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
 
-		if (item->project()->url() == item->url())
-		{
+		if (item->project()->url() == item->url()) {
 			KMessageBox::error(m_ki->parentWidget(), i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot Remove File From Project"));
 			return;
 		}
@@ -1265,7 +1223,7 @@ void Manager::removeFromProject(const KileProjectItem *item)
 		emit removeItemFromProjectView(item, m_ki->isOpen(item->url()));
 
 		KileProject *project = item->project();
-		item->project()->remove(item);
+		project->remove(item);
 
 		// update undefined references in all project files
 		updateProjectReferences(project);
@@ -1339,19 +1297,21 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 
 	emit(addToRecentProjects(realurl));
 
-	KileProjectItemList *list = kp->items();
+	QList<KileProjectItem*> list = kp->items();
 
-	int project_steps = list->count() + 1;
+	int project_steps = list.count() + 1;
 	m_progressDialog->progressBar()->setMaximum(project_steps * max);
 	project_steps *= step;
 	m_progressDialog->progressBar()->setValue(project_steps);
 
 	// open the project files in the correct order
-	Q3ValueVector<KileProjectItem*> givenPositionVector(list->count(), NULL);
+	Q3ValueVector<KileProjectItem*> givenPositionVector(list.count(), NULL);
 	Q3ValueList<KileProjectItem*> notCorrectlyOrderedList;
-	for(KileProjectItem *item = list->first(); item; item = list->next()) {
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+		KileProjectItem *item = *it;
 		int order = item->order();
-		if(order >= 0 && static_cast<unsigned int>(order) >= list->count()) {
+
+		if(order >= 0 && order >= list.count()) {
 			order = -1;
 		}
 		if(!item->isOpen() || order < 0 || givenPositionVector[order] != NULL) {
@@ -1401,10 +1361,9 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 // as all labels are gathered in the project, we can check for unsolved references
 void Manager::updateProjectReferences(KileProject *project)
 {
-	KileProjectItemList *list = project->items();
-	for ( uint i=0; i < list->count(); ++i)
-	{
-		emit(updateReferences(list->at(i)->getInfo()));
+	QList<KileProjectItem*> list = project->items();
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+		emit(updateReferences((*it)->getInfo()));
 	}
 }
 
@@ -1422,26 +1381,25 @@ KileProject* Manager::projectOpen()
 
 void Manager::projectSave(KileProject *project /* = 0 */)
 {
-	KILE_DEBUG() << "==Kile::projectSave==========================" << endl;
-	if (project == 0)
-	{
+	KILE_DEBUG() << "==Kile::projectSave==========================";
+	if (!project) {
 		//find the project that corresponds to the active doc
 		project= activeProject();
 	}
 
-	if (project == 0 )
+	if(!project) {
 		project = selectProject(i18n("Save Project"));
+	}
 
-	if (project)
-	{
-		KileProjectItemList *list = project->items();
+	if(project) {
+		QList<KileProjectItem*> list = project->items();
 		KTextEditor::Document *doc = NULL;
 		KileProjectItem *item = NULL;
 		TextInfo *docinfo = NULL;
 
 		// determine the order in which the project items are opened
 		Q3ValueVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
-		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i) {
+		for(QList<KileProjectItem*>::iterator i = list.begin(); i != list.end(); ++i) {
 			docinfo = (*i)->getInfo();
 			if(docinfo) {
 				KTextEditor::View *view = m_ki->viewManager()->textView(docinfo);
@@ -1462,7 +1420,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		}
 
 		//update the open-state of the items
-		for (KileProjectItemList::iterator i = list->begin(); i != list->end(); ++i) {
+		for (QList<KileProjectItem*>::iterator i = list.begin(); i != list.end(); ++i) {
 			item = *i;
 			KILE_DEBUG() << "\tsetOpenState(" << (*i)->url().path() << ") to " << m_ki->isOpen(item->url()) << endl;
 			item->setOpenState(m_ki->isOpen(item->url()));
@@ -1568,18 +1526,15 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 
 bool Manager::projectCloseAll()
 {
-	KILE_DEBUG() << "==Kile::projectCloseAll==========================" << endl;
-	bool close = true;
+	KILE_DEBUG() << "==Kile::projectCloseAll==========================";
 
-	Q3PtrListIterator<KileProject> it(m_projects);
-	int i = m_projects.count() + 1;
-	while ( it.current() && close && (i > 0))
-	{
-		close = close && projectClose(it.current()->url());
-		--i;
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		if(!projectClose((*it)->url())) {
+			return false;
+		}
 	}
 
-	return close;
+	return true;
 }
 
 bool Manager::projectClose(const KUrl & url)
@@ -1599,47 +1554,43 @@ bool Manager::projectClose(const KUrl & url)
 		project = projectFor(url);
 	}
 
- 	if (project)
-	{
-		KILE_DEBUG() << "\tclosing:" << project->name() << endl;
-        	project->setLastDocument(m_ki->getName());
+	if(project) {
+		KILE_DEBUG() << "\tclosing:" << project->name();
+		project->setLastDocument(m_ki->getName());
 
 		projectSave(project);
 
-		KileProjectItemList *list = project->items();
+		QList<KileProjectItem*> list = project->items();
 
 		bool close = true;
-		KTextEditor::Document *doc = 0L;
-		TextInfo *docinfo = 0L;
-		for (uint i =0; i < list->count(); ++i)
-		{	
-			doc = 0L;
-			docinfo = list->at(i)->getInfo();
-			if (docinfo)
-			{
+		KTextEditor::Document *doc = NULL;
+		TextInfo *docinfo = NULL;
+		for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+			KileProjectItem *item = *it;
+
+			doc = NULL;
+			docinfo = item->getInfo();
+			if (docinfo) {
 				doc = docinfo->getDoc();
 			}
-			else
-			{
+			else {
 				continue;
 			}
-			if (doc)
-			{
+			if (doc) {
 				KILE_DEBUG() << "\t\tclosing item " << doc->url().path() << endl;
 				bool r = fileClose(doc, true);
 				close = close && r;
-				if (!close)
+				if (!close) {
 					break;
+				}
 			}
-			else 
-			{
+			else {
 				// we still need to delete the TextInfo object
 				removeTextDocumentInfo(docinfo, true);
 			}
 		}
 
-		if (close)
-		{
+		if (close) {
 			m_projects.remove(project);
 			emit removeFromProjectView(project);
 			delete project;
@@ -1757,16 +1708,16 @@ void Manager::projectShow()
 
 	// get last opened document
 	const KUrl lastdoc = project->lastDocument();
-	KileProjectItem *docitem = ( !lastdoc.isEmpty() ) ? itemFor(lastdoc,project) : 0L;
+	KileProjectItem *docitem = ( !lastdoc.isEmpty() ) ? itemFor(lastdoc,project) : NULL;
 
 	// if not, we search for the first opened tex file of this project
 	// if no file is opened, we take the first tex file mentioned in the list
-	KileProjectItem *first_texitem = 0L;
-	if ( ! docitem ) 
-	{
-		KileProjectItemList *list = project->items();
-		for ( KileProjectItem *item=list->first(); item; item=list->next() ) 
-		{
+	KileProjectItem *first_texitem = NULL;
+	if(!docitem) {
+		QList<KileProjectItem*> list = project->items();
+		for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+			KileProjectItem *item = *it;
+
 			QString itempath = item->path();
 
 			// called from KAction 'Show projects...': find the first opened 
@@ -1807,11 +1758,12 @@ void Manager::projectShow()
 
 void Manager::projectRemoveFiles()
 {
-	KileProjectItemList* items = selectProjectFileItems( i18n("Select Files to Remove") );
-	if ( items && items->count() > 0 )
-		for ( KileProjectItemList::Iterator it = items->begin(); it != items->end(); ++it )
+	QList<KileProjectItem*> itemsList = selectProjectFileItems(i18n("Select Files to Remove"));
+	if(itemsList.count() > 0) {
+		for(QList<KileProjectItem*>::iterator it = itemsList.begin(); it != itemsList.end(); ++it) {
 			removeFromProject(*it);
-	delete items;
+		}
+	}
 }
 
 void Manager::projectShowFiles()
@@ -1861,19 +1813,24 @@ void Manager::projectOpenAllFiles(const KUrl & url)
 	}
 	// we remember the actual view, so the user gets the same view back after opening
 
-	KileProjectItemList *list = project->items();
-	for ( KileProjectItem *item=list->first(); item; item = list->next() )
-	{
-		if  ( item->type()==KileProjectItem::ProjectFile )
+	QList<KileProjectItem*> list = project->items();
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+		KileProjectItem *item = *it;
+
+		if (item->type()==KileProjectItem::ProjectFile) {
 			dontOpenWarning( item, i18n("Open All Project Files"), i18n("project configuration file") );
-		else if  ( item->type()==KileProjectItem::Image )
+		}
+		else if(item->type()==KileProjectItem::Image) {
 			dontOpenWarning( item, i18n("Open All Project Files"), i18n("graphics file") );
-		else if ( ! m_ki->isOpen(item->url()) )
-			fileOpen( item->url(),item->encoding() );
+		}
+		else if(!m_ki->isOpen(item->url())) {
+			fileOpen(item->url(), item->encoding());
+		}
 	}
 
-	if(doc) // we have a doc so switch back to original view
+	if(doc) { // we have a doc so switch back to original view
 		m_ki->viewManager()->switchToTextView(doc->url());
+	}
 }
 
 QStringList Manager::getProjectFiles()
@@ -1883,11 +1840,13 @@ QStringList Manager::getProjectFiles()
 	KileProject *project = activeProject();
 	if ( project )
 	{
-		KileProjectItemList *list = project->items();
-		for ( KileProjectItem *item=list->first(); item; item = list->next() )
-		{
-			if  ( item->type()!=KileProjectItem::ProjectFile && item->type()!=KileProjectItem::Image )
-				filelist <<  item->url().path();
+		QList<KileProjectItem*> list = project->items();
+		for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+			KileProjectItem *item = *it;
+
+			if(item->type() != KileProjectItem::ProjectFile && item->type() != KileProjectItem::Image) {
+				filelist << item->url().path();
+			}
 		}
 	}
 	return filelist;
@@ -1907,15 +1866,17 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 
 	// get a list of files
 	QStringList filelist;
-	QMap<QString,KileProjectItem *> map;
-	KileProjectItemList *list = project->items();
-	for ( KileProjectItem *item=list->first(); item; item = list->next() ) {
+	QMap<QString, KileProjectItem*> map;
+	QList<KileProjectItem*> list = project->items();
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+		KileProjectItem *item = *it;
+
 		filelist << item->path();
 		map[item->path()] = item;
 	}
 
 	// select one of these files
-	KileProjectItem *item = 0L;
+	KileProjectItem *item = NULL;
 	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project Files"),label, m_ki->parentWidget());
 	if ( dlg->exec() ) {
 		if ( dlg->currentItem() >= 0 ) {
@@ -1931,39 +1892,43 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 	return item;
 }
 
-KileProjectItemList* Manager::selectProjectFileItems(const QString &label)
+QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 {
 	KileProject *project = selectProject(i18n("Select Project"));
-	if ( ! project )
-		return 0L;
+	if(!project) {
+		return QList<KileProjectItem*>();
+	}
 
 	QStringList filelist, selectedfiles;
 	QMap<QString,KileProjectItem *> map;
 
-	KileProjectItemList *list = project->items();
-	for ( KileProjectItem *item=list->first(); item; item = list->next() ) {
+	QList<KileProjectItem*> list = project->items();
+	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
+		KileProjectItem *item = *it;
+
 		filelist << item->path();
 		map[item->path()] = item;
 	}
 
-	KileProjectItemList *items = new KileProjectItemList();
-	items->setAutoDelete(false);
+	QList<KileProjectItem*> itemsList;
 
-	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist,i18n("Project Files"),label, m_ki->parentWidget());
-	if ( dlg->exec() ) {
-		if ( dlg->currentItem() >= 0 ) {
+	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, m_ki->parentWidget());
+	if(dlg->exec()) {
+		if(dlg->currentItem() >= 0) {
 			selectedfiles = dlg->selected();
-			for ( QStringList::Iterator it = selectedfiles.begin(); it != selectedfiles.end(); ++it ){
-				if ( map.contains(*it) )
-					items->append( map[(*it)] );
-				else
-					KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."),i18n( "Project Error"));
+			for(QStringList::Iterator it = selectedfiles.begin(); it != selectedfiles.end(); ++it ){
+				if(map.contains(*it)) {
+					itemsList.append(map[(*it)]);
+				}
+				else {
+					KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."), i18n( "Project Error"));
+				}
 			}
 		}
 	}
 	delete dlg;
 
-	return items;
+	return itemsList;
 }
 
 // add a new file to the project
@@ -2024,15 +1989,10 @@ const KUrl Manager::symlinkFreeURL(const KUrl& url)
 
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 {
-	KileProjectItemList *itms = itemsFor(info);
-	Q3PtrListIterator<KileProjectItem> it(*itms);
-	KileProjectItem *current;
-	while((current = it.current()) != 0)
-	{
-		++it;
-		current->setInfo(0);
+	QList<KileProjectItem*> itemsList = itemsFor(info);
+	for(QList<KileProjectItem*>::iterator it = itemsList.begin(); it != itemsList.end(); ++it) {
+		(*it)->setInfo(NULL);
 	}
-	delete itms;
 }
 
 void Manager::createProgressDialog()

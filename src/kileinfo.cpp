@@ -21,8 +21,6 @@
 #include <qwidget.h>
 #include <qfileinfo.h>
 #include <qobject.h>
-//Added by qt3to4:
-#include <Q3PtrList>
 
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
@@ -171,14 +169,19 @@ QString KileInfo::getFullFromPrettyName(const QString & name)
 
 KUrl::List KileInfo::getParentsFor(KileDocument::Info *info)
 {
-	KileProjectItemList *items = docManager()->itemsFor(info);
+	QList<KileProjectItem*> items = docManager()->itemsFor(info);
 	KUrl::List list;
-	for ( uint i = 0; i < items->count(); ++i)
-		if (items->at(i)->parent()) list.append(items->at(i)->parent()->url());
-
+	for(QList<KileProjectItem*>::iterator it = items.begin(); it != items.end(); ++it) {
+		if((*it)->parent()) {
+			list.append((*it)->parent()->url());
+		}
+	}
 	return list;
 }
 
+#ifdef __GNUC__
+#warning Check why this function pointer is needed!
+#endif
 const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0L */)
 {
 	m_listTemp.clear();
@@ -186,29 +189,27 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 	if (docinfo == 0L) docinfo = docManager()->getInfo();
 	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
 
-	KILE_DEBUG() << "Kile::retrieveList()" << endl;
-	if (item)
-	{
-		const KileProject *project = item->project();
-		const KileProjectItem *root = project->rootItem(item);
-		if (root)
-		{
-			KILE_DEBUG() << "\tusing root item " << root->url().fileName() << endl;
+	KILE_DEBUG() << "Kile::retrieveList()";
+	if (item) {
+		KileProject *project = item->project();
+		KileProjectItem *root = project->rootItem(item);
+		if (root) {
+			KILE_DEBUG() << "\tusing root item " << root->url().fileName();
 
-			Q3PtrList<KileProjectItem> children;
+			QList<KileProjectItem*> children;
 			children.append(root);
 			root->allChildren(&children);
 
 			const QStringList *list;
 
-			for (uint i=0; i < children.count(); ++i)
-			{
-				KILE_DEBUG() << "\t" << children.at(i)->url().fileName() << endl;
-				list = (children.at(i)->getInfo()->*getit)();
-				if (list)
-				{
-					for (uint i=0; i < list->count(); ++i)
+			for(QList<KileProjectItem*>::iterator it = children.begin(); it != children.end(); ++it) {
+				KILE_DEBUG() << "\t" << (*it)->url().fileName();
+
+				list = ((*it)->getInfo()->*getit)();
+				if (list) {
+					for(int i = 0; i < list->count(); ++i) {
 						m_listTemp << (*list)[i];
+					}
 				}
 			}
 
@@ -409,17 +410,16 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 	QString path = url.directory();
 	QString filename = url.fileName();
 
-	KILE_DEBUG() <<"===findRelativeURL==================" << endl;
-	KILE_DEBUG() << "\tbasepath : " <<  basepath << " path: " << path << endl;
+	KILE_DEBUG() <<"===findRelativeURL==================";
+	KILE_DEBUG() << "\tbasepath : " <<  basepath << " path: " << path;
 
 	QStringList basedirs = basepath.split("/", QString::SkipEmptyParts);
 	QStringList dirs = path.split("/", QString::SkipEmptyParts);
 
-	uint nDirs = dirs.count();
+	int nDirs = dirs.count();
 	//uint nBaseDirs = basedirs.count();
 
-	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] )
-	{
+	while(dirs.count() > 0 && basedirs.count() > 0 && dirs[0] == basedirs[0]) {
 		dirs.pop_front();
 		basedirs.pop_front();
 	}
@@ -435,16 +435,13 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 		KILE_DEBUG() << "\t\tdirs " << i << ": " << dirs[i] << endl;
 	}*/
 
-	if (nDirs != dirs.count() )
-	{
+	if(nDirs != dirs.count()) {
 		path = dirs.join("/");
 
 		//KILE_DEBUG() << "\tpath : " << path << endl;
 
-		if (basedirs.count() > 0)
-		{
-			for (uint j=0; j < basedirs.count(); ++j)
-			{
+		if (basedirs.count() > 0) {
+			for (int j=0; j < basedirs.count(); ++j) {
 				path = "../" + path;
 			}
 		}
@@ -453,12 +450,11 @@ QString KileInfo::relativePath(const QString basepath, const QString & file)
 
 		path = path+filename;
 	}
-	else //assume an absolute path was requested
-	{
+	else { //assume an absolute path was requested
 		path = url.path();
 	}
 
-	KILE_DEBUG() << "\trelative path : " << path << endl;
+	KILE_DEBUG() << "\trelative path : " << path;
 
 	return path;
 }

@@ -25,7 +25,6 @@
 #include <qobject.h>
 //Added by qt3to4:
 #include <QDropEvent>
-#include <Q3PtrList>
 
 #include <QStringList>
 
@@ -40,7 +39,6 @@ namespace KTextEditor { class Document; class View;}
 class TemplateItem;
 class KileInfo;
 class KileProjectItem;
-class KileProjectItemList;
 
 namespace KileDocument 
 {
@@ -48,9 +46,6 @@ namespace KileDocument
 class Info;
 class TextInfo;
 
-/**
-@author Jeroen Wijnhout
-*/
 class Manager : public QObject
 {
 	Q_OBJECT
@@ -133,10 +128,10 @@ public slots:
 
 	KileProject* selectProject(const QString &);
 
-	void addProject(const KileProject *project);
+	void addProject(KileProject *project);
 	void addToProject(const KUrl &);
 	void addToProject(KileProject *, const KUrl &);
-	void removeFromProject(const KileProjectItem *);
+	void removeFromProject(KileProjectItem*);
 	void storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc);
 
 	void cleanUpTempFiles(const KUrl &url, bool silent = false);
@@ -170,8 +165,8 @@ signals:
 	void addToProjectView(const KileProject *);
 
 public:
-	Q3PtrList<KileProject>* projects() { return &m_projects; }
-	Q3PtrList<TextInfo>* textDocumentInfos() { return &m_textInfoList; }
+	QList<KileProject*> projects() { return m_projects; }
+	QList<TextInfo*> textDocumentInfos() { return m_textInfoList; }
 
 	KTextEditor::Document* docFor(const KUrl &url);
 
@@ -198,9 +193,9 @@ public:
 	KileProjectItem* itemFor(const KUrl &url, KileProject *project = 0) const;
 	KileProjectItem* itemFor(Info *docinfo, KileProject *project = 0) const;
 	KileProjectItem* selectProjectFileItem(const QString &label);
-	KileProjectItemList* selectProjectFileItems(const QString &label);
+	QList<KileProjectItem*> selectProjectFileItems(const QString &label);
 
-	KileProjectItemList* itemsFor(Info *docinfo) const;
+	QList<KileProjectItem*> itemsFor(Info *docinfo) const;
 
 	static const KUrl symlinkFreeURL(const KUrl& url);
 
@@ -233,10 +228,10 @@ protected:
 	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
 
 private:
-	Q3PtrList<TextInfo>				m_textInfoList;
-	KileInfo					*m_ki;
-	Q3PtrList<KileProject>		m_projects;
-	KProgressDialog				*m_progressDialog;
+	QList<TextInfo*>		m_textInfoList;
+	KileInfo			*m_ki;
+	QList<KileProject*>		m_projects;
+	KProgressDialog			*m_progressDialog;
 	
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);

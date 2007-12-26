@@ -612,7 +612,7 @@ void Kile::setupActions()
 	m_paStop = createAction(i18n("&Stop"),"Stop", "stop", KShortcut(Qt::Key_Escape), NULL, NULL);
 	m_paStop->setEnabled(false);
 
-	createAction(i18n("Editor View"), "EditorView", "object-edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
+	createAction(i18n("Editor View"), "EditorView", "edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
 	createAction(i18n("Next Document"), "gotoNextDocument", "forward", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
 	createAction(i18n("Previous Document"), "gotoPrevDocument", "back", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
 	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_M), this, SLOT(focusLog()));

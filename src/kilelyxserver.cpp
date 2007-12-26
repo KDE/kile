@@ -87,9 +87,9 @@ bool KileLyxServer::start()
 				m_notifier.append(notifier);
 				KILE_DEBUG() << "Created notifier for " << (*it)->name() << endl;
 			}
-			else
+			else {
 				KILE_DEBUG() << "No notifier created for " << (*it)->name() << endl;
-			++it;
+			}
 		}
 		m_running=true;
 	}
@@ -148,16 +148,19 @@ bool KileLyxServer::openPipes()
 			if(!S_ISFIFO(stats->st_mode)) {
 				kError() << "The file " << pipeInfo.absoluteFilePath() <<  "we just created is not a pipe!" << endl;
 				file->close();
+				delete file;
 				continue;
 			}
 			else { // everything is correct :)
 				m_pipeIn.append(file);
-				m_file.insert(file->handle(),file);
-				opened=true;
+				m_file.insert(file->handle(), file);
+				opened = true;
 			}
 		}
-		else
+		else {
 			kError() << "Could not open " << pipeInfo.absoluteFilePath() << endl;
+			delete file;
+		}
 	}
 	return opened;
 }
@@ -169,7 +172,6 @@ void KileLyxServer::stop()
 	for(QList<QFile*>::iterator it = m_pipeIn.begin(); it != m_pipeIn.end(); ++it) {
 		(*it)->close();
 		delete *it;
-		++it;
 	}
 
 	for(QList<QSocketNotifier*>::iterator i = m_notifier.begin(); i != m_notifier.end(); ++i) {

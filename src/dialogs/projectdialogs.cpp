@@ -231,35 +231,19 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 
 	// first groupbox
 	m_pgrid->addWidget(m_plabel, 0, 0);
-	m_pgrid->addWidget(m_title, 0, 2);
+	m_pgrid->addWidget(m_title, 0, 1);
 	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
-	m_location = new KLineEdit(m_pgroup);
+	m_location = new KUrlRequester(m_pgroup);
 	m_location->setObjectName("le_projectlocation");
-	m_location->setMinimumWidth(200);
 
 	QLabel *lb1 = new QLabel(i18n("Project &file:"), m_pgroup);
 	lb1->setWhatsThis(whatsthisPath);
 	m_location->setWhatsThis(whatsthisPath);
 	lb1->setBuddy(m_location);
-	m_pbChooseDir = new KPushButton(i18n("Select Folder..."), m_pgroup);
-	m_pbChooseDir->setObjectName("dirchooser_button");
-	m_pbChooseDir->setPixmap(SmallIcon("fileopen"));
-	int wpixmap = 0;
-	if (m_pbChooseDir->pixmap()) {
-		wpixmap = m_pbChooseDir->pixmap()->width();
-	}
-	m_pbChooseDir->setFixedWidth(wpixmap + 10);
-	m_pbChooseDir->setFixedHeight(wpixmap + 10);
 
 	m_pgrid->addWidget(lb1, 1, 0);
-	m_pgrid->addMultiCellWidget(m_location, 1, 1, 2, 3);
-	m_pgrid->addWidget(m_pbChooseDir, 1, 5);
-	m_pgrid->setColSpacing(1, 8);
-	m_pgrid->setColSpacing(4, 8);
-	m_pgrid->setColStretch(3, 1);
-
-	connect(m_pbChooseDir, SIGNAL(clicked()), this, SLOT(browseLocation()));
+	m_pgrid->addWidget(m_location, 1, 1);
 
 	// second groupbox
 	QGroupBox *group2 = new QGroupBox(i18n("File"), page);
@@ -341,23 +325,6 @@ QString KileNewProjectDlg::bare()
 	return projectTitle().toLower().trimmed().replace(QRegExp("\\s*"), "") + ".kilepr";
 }
 
-void KileNewProjectDlg::browseLocation()
-{
-	QString dir = m_dir;
-	if (!QFileInfo(m_dir).exists())
-		dir = QString::null;
-
-	dir = KFileDialog::getExistingDirectory(dir, this);
-
-	if (! dir.isNull())
-	{
-		m_dir = dir;
-		if (m_dir.right(1) != "/")
-			m_dir = m_dir + '/';
-		m_location->setText(m_dir + bare());
-	}
-}
-
 void KileNewProjectDlg::makeProjectPath()
 {
 	m_filename = bare();
@@ -367,7 +334,7 @@ void KileNewProjectDlg::makeProjectPath()
 		m_dir = m_dir + '/';
 
 	KILE_DEBUG() << "LOCATION " << location() << " AND " << m_dir << endl;
-	m_location->setText(m_dir + m_filename);
+	m_location->lineEdit()->setText(m_dir + m_filename);
 }
 
 void KileNewProjectDlg::slotOk()
@@ -379,7 +346,7 @@ void KileNewProjectDlg::slotOk()
 	KUrlCompletion uc;
 	uc.setReplaceEnv(true);
 	uc.setReplaceHome(true);
-	m_location->setText(uc.replacedPath(location()));
+	m_location->lineEdit()->setText(uc.replacedPath(location()));
 	m_file->setText(uc.replacedPath(file()));
 
 	if (projectTitle().trimmed().isEmpty())
@@ -487,7 +454,7 @@ void KileNewProjectDlg::fillProjectDefaults()
 	if (!m_dir.endsWith("/"))
 		m_dir += '/';
 	KILE_DEBUG() << "M_DIR " << m_dir << endl;
-	m_location->setText(m_dir);
+	m_location->lineEdit()->setText(m_dir);
 	m_cb->setChecked(true);
 
 	KileProjectDlgBase::fillProjectDefaults();
@@ -514,13 +481,9 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	page->setLayout(vbox);
 
 	m_pgrid->addWidget(m_plabel, 0, 0);
-	m_pgrid->addWidget(m_title, 0, 2);
-// m_pgrid->addWidget(labelEncoding, 1,0);
-// m_pgrid->addWidget(m_lbEncoding, 1,2);
-	m_pgrid->setColSpacing(1, 8);
-	m_pgrid->setColStretch(3, 1);
-	// second groupbox
+	m_pgrid->addWidget(m_title, 0, 1);
 
+	// second groupbox
 	m_egrid->addWidget(m_sel_extensions, 6, 0);
 	m_egrid->addMultiCellWidget(m_extensions, 6, 6, 1, 3);
 	m_egrid->addWidget(m_lbPredefinedExtensions, 7, 0);

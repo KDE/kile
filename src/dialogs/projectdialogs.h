@@ -21,7 +21,7 @@
 #include <QCheckBox>
 
 #include <KLineEdit>
-#include <KPushButton>
+#include <KUrlRequester>
 
 #include "kileextensions.h"
 #include "kileproject.h"
@@ -107,7 +107,7 @@ class KileNewProjectDlg : public KileProjectDlgBase
 
 		QString bare();
 		QString location() {
-			return m_location->text();
+			return m_location->lineEdit()->text();
 		}
 
 		TemplateItem* getSelection() const;
@@ -120,14 +120,14 @@ class KileNewProjectDlg : public KileProjectDlgBase
 
 	private slots:
 		void clickedCreateNewFileCb();
-		void browseLocation();
 		void makeProjectPath();
 		void slotOk();
 		void fillProjectDefaults();
 
 	private:
 		KileTemplate::Manager *m_templateManager;
-		KLineEdit  *m_location, *m_file, *m_name;
+		KLineEdit *m_file, *m_name;
+		KUrlRequester *m_location;
 		TemplateIconView *m_templateIconView;
 		QCheckBox  *m_cb;
 		QLabel    *m_lb;

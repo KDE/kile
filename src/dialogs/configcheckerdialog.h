@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEDIALOG_CONFIGCHECKER_H
-#define KILEDIALOG_CONFIGCHECKER_H
+#ifndef CONFIGCHECKERDIALOG_H
+#define CONFIGCHECKERDIALOG_H
 
 #include <q3simplerichtext.h>
 #include <QProgressBar>

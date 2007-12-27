@@ -85,7 +85,7 @@ SET(kile_SRCS
 	kileviewmanager.cpp
 	kileeventfilter.cpp
 	kileerrorhandler.cpp
-	configcheckerdlg.cpp
+	dialogs/configcheckerdialog.cpp
 	configtester.cpp
 	kilesidebar.cpp
 	plaintolatexconverter.cpp
@@ -109,7 +109,7 @@ SET( kile_UI
 	helpconfigwidget.ui
 	latexconfigwidget.ui
 	generalconfigwidget.ui
-	configcheckerwidget.ui
+	widgets/configcheckerwidget.ui
 	toolconfigwidget.ui
 	librarytoolconfigwidget.ui
 	processtoolconfigwidget.ui
@@ -129,7 +129,7 @@ SET( kile_UI
 )
 
 SET( kile_UI_SRCS
-	configcheckerwidget.cpp
+	widgets/configcheckerwidget.cpp
 	envconfigwidget.cpp
 	graphicsconfigwidget.cpp
 	generalconfigwidget.cpp

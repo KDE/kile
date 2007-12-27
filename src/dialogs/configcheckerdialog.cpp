@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "configcheckerdlg.h"
+#include "dialogs/configcheckerdialog.h"
 
 #include <qfileinfo.h>
 #include <qlayout.h>
@@ -32,7 +32,7 @@
 #include <k3listbox.h>
 #include "kiledebug.h"
 
-#include "configcheckerwidget.h"
+#include "widgets/configcheckerwidget.h"
 
 namespace KileDialog
 {
@@ -183,4 +183,4 @@ void ConfigChecker::setPercentageDone(int p)
 
 }
 
-#include "configcheckerdlg.moc"
+#include "configcheckerdialog.moc"

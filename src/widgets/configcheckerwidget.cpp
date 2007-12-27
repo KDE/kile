@@ -11,7 +11,7 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "configcheckerwidget.h"
+#include "widgets/configcheckerwidget.h"
 
 ConfigCheckerWidget::ConfigCheckerWidget(QWidget *parent) : QWidget(parent)
 {

@@ -76,7 +76,7 @@
 #include "kileeventfilter.h"
 #include "kileconfig.h"
 #include "kileerrorhandler.h"
-#include "configcheckerdlg.h"
+#include "dialogs/configcheckerdialog.h"
 #include "kilesidebar.h"
 #include "symbolview.h"
 #include "floatdialog.h"

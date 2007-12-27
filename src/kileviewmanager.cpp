@@ -266,11 +266,13 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 	KTextEditor::Document *doc = m_ki->docManager()->docFor(url);
 
 	if (doc) {
-		view = static_cast<KTextEditor::View*>(doc->views().first());
-		if(view) {
-			m_tabs->showPage(view);
-			if(requestFocus)
-				view->setFocus();
+		if (doc->views().count() > 0) {
+			view = static_cast<KTextEditor::View*>(doc->views().first());
+			if(view) {
+				m_tabs->showPage(view);
+				if(requestFocus)
+					view->setFocus();
+			}
 		}
 	}
 	return view;

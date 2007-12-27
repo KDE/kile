@@ -24,6 +24,8 @@
 #include <q3dict.h>
 #include <qstringlist.h>
 
+#include <KLocalizedString>
+
 class KConfig;
 class KileInfo;
 class K3ShellProcess;
@@ -146,8 +148,8 @@ namespace KileTool
 		void setFlags(uint flags) { m_flags = flags; }
 		uint flags() { return m_flags; }
 
-		void setMsg(long n, const QString & msg);
-		QString msg(long n) const { return m_messages[n]; }
+		void setMsg(long n, const KLocalizedString& msg);
+		KLocalizedString msg(long n) const { return m_messages[n]; }
 
 	protected:
 		bool needsUpdate(const QString &target, const QString &source);
@@ -251,7 +253,7 @@ namespace KileTool
         bool                m_bPrepareToRun;
 
 		//messages
-		QMap<long,QString>	m_messages;
+		QMap<long, KLocalizedString>	m_messages;
 	};
 
 	/**

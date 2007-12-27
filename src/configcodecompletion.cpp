@@ -476,7 +476,7 @@ void ConfigCodeCompletion::addClicked()
 					// check if this entry already exists
 					if ( isListviewEntry(listview,basename) )
 					{
-						m_logwidget->printMsg(KileTool::Info,i18n("Wordlist '%1' is already used.").arg(basename),i18n("Complete"));
+						m_logwidget->printMsg(KileTool::Info, i18n("Wordlist '%1' is already used.", basename), i18n("Complete"));
 						continue;
 					}
 

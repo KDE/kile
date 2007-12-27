@@ -947,8 +947,9 @@ bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, cons
 	for ( uint i=0; i<list.count(); ++i ) {
 		QString s = list[i].trimmed();
 		// entries must match a regular expression
-		if ( combolist.findIndex(s) != -1 )
-			KMessageBox::error( this, i18n("%1 '%2' already exists.").arg(title).arg(s) );
+		if(combolist.findIndex(s) != -1) {
+			KMessageBox::error(this, i18n("%1 '%2' already exists.", title, s));
+		}
 		else {
 			combolist += s;
 			KILE_DEBUG() << "\tinsert new " << title << ": " << s << endl;
@@ -1679,7 +1680,7 @@ void QuickDocument::slotDocumentClassDelete()
 	QString documentclass = m_cbDocumentClass->currentText();
 
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassDelete()============" << endl;
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?").arg(documentclass), i18n("Remove Document Class"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?", documentclass), i18n("Remove Document Class"))==KMessageBox::Continue)
 	{
 		KILE_DEBUG() << "\tlazy delete class: " << documentclass << endl;
 
@@ -1747,7 +1748,7 @@ void QuickDocument::slotTypefaceSizeAdd()
 
 void QuickDocument::slotTypefaceSizeDelete()
 {
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?").arg(m_cbPaperSize->currentText()), i18n("Remove Fontsize"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?", m_cbPaperSize->currentText()), i18n("Remove Fontsize"))==KMessageBox::Continue)
 	{
 		int i=m_cbPaperSize->currentItem();
 		m_cbPaperSize->removeItem(i);
@@ -1778,7 +1779,7 @@ void QuickDocument::slotPaperSizeAdd()
 
 void QuickDocument::slotPaperSizeDelete()
 {
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the papersize list?").arg(m_cbPaperSize->currentText()), i18n("Remove Papersize"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the papersize list?", m_cbPaperSize->currentText()), i18n("Remove Papersize"))==KMessageBox::Continue)
 	{
 		int i=m_cbPaperSize->currentItem();
 		m_cbPaperSize->removeItem(i);
@@ -2216,8 +2217,8 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 		QString s = list[i].trimmed();
 		// entries must match a regular expression
 		QRegExp reg(pattern);
-		if ( ! reg.exactMatch(s) ) {
-			KMessageBox::error( this, i18n("%1 '%2' is not allowed.").arg(title).arg(s) );
+		if(!reg.exactMatch(s)) {
+			KMessageBox::error(this, i18n("%1 '%2' is not allowed.", title, s));
 			return false;
 		}
 	}

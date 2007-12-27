@@ -199,7 +199,7 @@ void KileAbbrevView::changeAbbreviation(K3ListViewItem *item, const QString &abb
 void KileAbbrevView::deleteAbbreviation(K3ListViewItem *item)
 {
 	QString abbrev = item->text(ALVabbrev);
-	QString message = i18n("Delete the abbreviation '%1'?").arg(abbrev);
+	QString message = i18n("Delete the abbreviation '%1'?", abbrev);
 	if ( KMessageBox::questionYesNo( this,
 		       "<center>" + message + "</center>",
 		       i18n("Delete Abbreviation") ) == KMessageBox::Yes ) 

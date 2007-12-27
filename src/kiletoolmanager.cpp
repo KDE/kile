@@ -145,7 +145,7 @@ namespace KileTool
 		Base* pTool = m_factory->create(tool);
 		if (!pTool)
 		{
-			m_log->printMsg(Error, i18n("Unknown tool %1.").arg(tool));
+			m_log->printMsg(Error, i18n("Unknown tool %1.", tool));
 			return ConfigureFailed;
 		}
 		
@@ -368,7 +368,7 @@ namespace KileTool
 
 		if ( ! retrieveEntryMap(tool->name(), map, true, true, cfg) )
 		{
-			m_log->printMsg(Error, i18n("Cannot find the tool %1 in the configuration database.").arg(tool->name()));
+			m_log->printMsg(Error, i18n("Cannot find the tool %1 in the configuration database.", tool->name()));
 			return false;
 		}
 

@@ -78,7 +78,7 @@ bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString&
 		return KIO::NetAccess::copy(src, targetURL, kapp->mainWidget());
 	}
 	else {
-		KMessageBox::error(0, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.").arg(fileName));
+		KMessageBox::error(NULL, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
 		return false;
 	}
 }

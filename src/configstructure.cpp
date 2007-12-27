@@ -278,7 +278,7 @@ void ConfigStructure::showSectioning(const QStringList *list)
    QString label1,label2,label3;
    for(int i = 0; i < 5; ++i) {
       if(i < list->count()) {
-         label1 = QString("%1").arg(i+1);
+         label1 = QString::number(i + 1);
          label2 = (*list)[i];
 #ifdef __GNUC__
 #warning Check whether i18n calls are needed here!

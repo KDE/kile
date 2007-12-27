@@ -367,9 +367,9 @@ bool KileProject::load()
 
 	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt())
 	{
-		if(KMessageBox::warningYesNo(0L,i18n("The project file of %1 was created by a newer version of kile.\
+		if(KMessageBox::warningYesNo(NULL, i18n("The project file of %1 was created by a newer version of kile.\
 				Opening it can lead to unexpected results.\n\
-				Do you really want to continue (not recommended)?").arg(m_name),
+				Do you really want to continue (not recommended)?", m_name),
 				 QString::null, KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No)
 		{
 			m_invalid=true;

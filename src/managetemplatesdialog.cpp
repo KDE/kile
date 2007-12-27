@@ -83,7 +83,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	m_nameEdit = new KLineEdit(fileName, page);
 	nameLayout->addWidget(m_nameEdit);
 
-	nameLayout->addWidget(new QLabel(i18n("Type: %1").arg(KileInfo::documentTypeToString(m_templateType)), page));
+	nameLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page));
 
 	Q3HBoxLayout *iconLayout = new Q3HBoxLayout(topLayout, spacingHint());
 	iconLayout->addWidget(new QLabel(i18n("Icon:"), page));
@@ -231,19 +231,19 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	if (!KIO::NetAccess::exists(iconURL, true, kapp->mainWidget())) {
-		KMessageBox::error(this, i18n("Sorry, but the icon file: %1\ndoes not seem to exist. Please choose a new icon.").arg(icon));
+		KMessageBox::error(this, i18n("Sorry, but the icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
 		return;
 	}
 
 	if (!KIO::NetAccess::exists(m_sourceURL, true, kapp->mainWidget())) {
-		KMessageBox::error(this, i18n("Sorry, but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?").arg(m_sourceURL.prettyUrl()));
+		KMessageBox::error(this, i18n("Sorry, but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.prettyUrl()));
 		return;
 	}
 
 	Q3ListViewItem* item = m_templateList->selectedItem();
 
 	if(!item && m_templateManager->searchForTemplate(templateName, m_templateType)) {
-		KMessageBox::error(this, i18n("Sorry, but a template named \"%1\" already exists.\nPlease remove it first.").arg(templateName));
+		KMessageBox::error(this, i18n("Sorry, but a template named \"%1\" already exists.\nPlease remove it first.", templateName));
 		return;
 	}
 
@@ -252,7 +252,7 @@ void ManageTemplatesDialog::addTemplate() {
 		TemplateListViewItem *templateItem = dynamic_cast<TemplateListViewItem*>(item);
 		Q_ASSERT(templateItem);
 		KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
-		if (KMessageBox::warningYesNo(this, i18n("You are about to replace the template \"%1\"; are you sure?").arg(templateInfo.name)) == KMessageBox::No) {
+		if (KMessageBox::warningYesNo(this, i18n("You are about to replace the template \"%1\"; are you sure?", templateInfo.name)) == KMessageBox::No) {
 			reject();
 			return;
 		}
@@ -287,7 +287,7 @@ bool ManageTemplatesDialog::removeTemplate()
 		return false;
 	}
 
-	if (KMessageBox::warningYesNo(this, i18n("You are about to remove the template \"%1\"; are you sure?").arg(templateInfo.name)) == KMessageBox::No) {
+	if (KMessageBox::warningYesNo(this, i18n("You are about to remove the template \"%1\"; are you sure?", templateInfo.name)) == KMessageBox::No) {
 		return false;
 	}
 

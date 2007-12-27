@@ -117,7 +117,7 @@ void KileErrorHandler::showLogResults(const QString &src)
 	m_ki->outputFilter()->setSource(src);
 	QFileInfo fi(src);
 	QString lf = fi.absolutePath() + '/' + fi.baseName(true) + ".log";
-	m_ki->logWidget()->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...").arg(lf), i18n("Log") );
+	m_ki->logWidget()->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...", lf), i18n("Log") );
 	if ( ! m_ki->outputFilter()->Run( lf ) )
 	{
 		

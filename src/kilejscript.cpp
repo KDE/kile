@@ -534,12 +534,12 @@ const KJS::ClassInfo KileTextDocumentJSObject::info = {"KileTextDocumentJSObject
 				if(o.isValid()) {
 					JSValue lineValue = o.get(m_interpreter->globalExec(), "line");
 					if(lineValue.type() == NumberType) {
-						KMessageBox::sorry(0L, i18n("The following exception has occurred at line %1 during execution of the script:\n%2").arg(lineValue.toInt32(m_interpreter->globalExec())).arg(value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
+						KMessageBox::sorry(0L, i18n("The following exception has occurred at line %1 during execution of the script:\n%2", lineValue.toInt32(m_interpreter->globalExec()), value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
 						return;
 					}
 				}
 			}
-			KMessageBox::sorry(0L, i18n("The following exception has occurred during execution of the script:\n%1").arg(value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
+			KMessageBox::sorry(0L, i18n("The following exception has occurred during execution of the script:\n%1", value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
 		}
 */
 	}
@@ -583,7 +583,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		if(requiredVersionTagExp.search(firstLine) != -1) {
 			QString requiredKileVersion = requiredVersionTagExp.cap(2);
 			if(compareVersionStrings(requiredKileVersion, kileFullVersion) > 0) {
-				KMessageBox::sorry(0L, i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.").arg(requiredKileVersion).arg(script->getName()), i18n("Version Error"));
+				KMessageBox::sorry(0L, i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.", requiredKileVersion, script->getName()), i18n("Version Error"));
 				return;
 			}
 		}
@@ -800,7 +800,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 	ScriptExecutionAction::ScriptExecutionAction(unsigned int id, KileJScript::Manager *manager, QObject* parent) : KAction(parent), m_manager(manager), m_id(id) {
 		const KileJScript::JScript *script = m_manager->getScript(m_id);
 		Q_ASSERT(script);
-		setText(i18n("Execution of %1").arg(script->getName())); 
+		setText(i18n("Execution of %1", script->getName()));
 		connect(this, SIGNAL(activated()), this, SLOT(executeScript()));
 	}
 

@@ -123,7 +123,7 @@ namespace KileHelp
 		//FIXME strip the #label part of the source (not the target),
 		//somehow this is already done somewhere (by accident), 
 		//bad to rely on it
-		tool->setMsg(KileTool::NeedSourceExists, i18n("Sorry, could not find the teTeX documentation at %1; set the correct path in Settings->Configure Kile->Help."));
+		tool->setMsg(KileTool::NeedSourceExists, ki18n("Sorry, could not find the teTeX documentation at %1; set the correct path in Settings->Configure Kile->Help."));
 		tool->setSource(parameter);
 		tool->setTargetPath(QFileInfo(parameter).fileName());
 		tool->prepareToRun();
@@ -298,7 +298,7 @@ namespace KileHelp
 
 	void Help::noHelpAvailableFor(const QString &word)
 	{
-		m_manager->info()->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no help available for %1.").arg(word), i18n("Help"));
+		m_manager->info()->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no help available for %1.", word), i18n("Help"));
 	}
 	
 	QString Help::getKeyword(KTextEditor::View *view)         

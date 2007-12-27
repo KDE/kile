@@ -172,7 +172,7 @@
 
 		if ( path.isNull() )
 		{
-			emit(message(Error, i18n("There is no executable named \"%1\" in your path.").arg(exe)));
+			emit(message(Error, i18n("There is no executable named \"%1\" in your path.", exe)));
 			return false;
 		}
 		else
@@ -180,7 +180,7 @@
 			QFileInfo fi(path);
 			if ( ! fi.isExecutable() )
 			{
-				emit(message(Error, i18n("You do not have permission to run %1.").arg(path)));
+				emit(message(Error, i18n("You do not have permission to run %1.", path)));
 				return false;
 			}
 		}
@@ -208,7 +208,7 @@
 				if (m_proc->exitStatus() != 0) 
 				{
 					type = Error;
-					emit(message(type,i18n("finished with exit status %1").arg(m_proc->exitStatus())));
+					emit(message(type,i18n("finished with exit status %1", m_proc->exitStatus())));
 				}
 
 				if (type == Info)
@@ -282,7 +282,7 @@
 		KLibFactory *factory = KLibLoader::self()->factory(m_libName);
 		if (factory == 0)
 		{
-			emit(message(Error, i18n("Could not find the %1 library.").arg(m_libName)));
+			emit(message(Error, i18n("Could not find the %1 library.", m_libName)));
 			return false;
 		}
 
@@ -297,7 +297,7 @@
 m_part = NULL;
 		if (m_part == 0)
 		{
-			emit(message(Error, i18n("Could not create component %1 from the library %2.").arg(m_className).arg(m_libName)));
+			emit(message(Error, i18n("Could not create component %1 from the library %2.", m_className, m_libName)));
 			emit(done(Failed));
 			return false;
 		}

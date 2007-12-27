@@ -230,7 +230,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
 	}
 
 	QString ExecuteJScriptAction::getDescription() const {
-		return i18n("Script execution of %1").arg(m_jScript->getFileName());
+		return i18n("Script execution of %1", m_jScript->getFileName());
 	}
 
 

@@ -467,7 +467,7 @@ void TexDocDialog::slotListViewDoubleClicked(Q3ListViewItem *item,const QPoint &
 		filename = searchFile(texdocfile,m_texmfPath,"tex");
 		if ( filename.isEmpty() ) 
 		{
-			KMessageBox::error(this,i18n("Could not find '%1'").arg(filename));
+			KMessageBox::error(this,i18n("Could not find '%1'", filename));
 			return;
 		}
 	}
@@ -519,13 +519,13 @@ void TexDocDialog::slotSearchClicked()
 		}
 	}
 	
-	if ( searchlist.count() > 0 ) 
-	{
+	if(searchlist.count() > 0) {
 		m_texdocs->clear();
-		showToc(i18n("Search results for keyword '%1'").arg(keyword),searchlist,false);
+		showToc(i18n("Search results for keyword '%1'", keyword), searchlist, false);
 	} 
-	else
-		KMessageBox::error(this,i18n("No documents found for keyword '%1'.").arg(keyword));
+	else {
+		KMessageBox::error(this, i18n("No documents found for keyword '%1'.", keyword));
+	}
 }
 
 void TexDocDialog::slotHelp()

@@ -162,9 +162,9 @@ void ConfigChecker::finished(bool ok)
 
 		QString cap = i18n("Test Results");
 		if ( critical.count() > 0 )
-			KMessageBox::error(this, i18n("<qt>The following tools did not pass all <b>critical</b> tests:<br>%1<br>Your system is not ready to use. Please consult the results to find out what to fix.</qt>").arg(critical.join(", ")), cap);
+			KMessageBox::error(this, i18n("<qt>The following tools did not pass all <b>critical</b> tests:<br>%1<br>Your system is not ready to use. Please consult the results to find out what to fix.</qt>", critical.join(", ")), cap);
 		else if ( failure.count() > 0 )
-			KMessageBox::information(this, i18n("The following tools did not pass all tests:\n %1\nYou will still be able to use Kile; however, not all features are guaranteed to work.").arg(failure.join(", ")), cap);
+			KMessageBox::information(this, i18n("The following tools did not pass all tests:\n %1\nYou will still be able to use Kile; however, not all features are guaranteed to work.", failure.join(", ")), cap);
 		else
 			KMessageBox::information(this, i18n("No problems detected, your system is ready to use."), cap);
 	}

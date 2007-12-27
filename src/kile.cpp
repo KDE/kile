@@ -1019,16 +1019,16 @@ void Kile::updateModeStatus()
 	if (project)
 	{
 		if (m_singlemode)
-			statusBar()->changeItem(i18n("Project: %1").arg(project->name()), ID_HINTTEXT);
+			statusBar()->changeItem(i18n("Project: %1", project->name()), ID_HINTTEXT);
 		else
-			statusBar()->changeItem(i18n("Project: %1 (Master document: %2)").arg(project->name()).arg(shortName), ID_HINTTEXT);
+			statusBar()->changeItem(i18n("Project: %1 (Master document: %2)", project->name(), shortName), ID_HINTTEXT);
 	}
 	else
 	{
 		if (m_singlemode)
 			statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
 		else
-			statusBar()->changeItem(i18n("Master document: %1").arg(shortName), ID_HINTTEXT);
+			statusBar()->changeItem(i18n("Master document: %1", shortName), ID_HINTTEXT);
 	}
 
 	if (m_singlemode)
@@ -1038,7 +1038,7 @@ void Kile::updateModeStatus()
 	}
 	else
 	{
-		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
+		ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
 		ModeAction->setChecked(true);
 	}
 
@@ -1763,8 +1763,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 	insertTag(data);
 
 	KileDocument::Info *docinfo = docManager()->textInfoFor(getCompileName());
-	if ( docinfo )
-	{
+	if(docinfo) {
 		const QStringList *packagelist = allPackages(docinfo);
 		QStringList::const_iterator it;
 		QStringList warnPkgs;
@@ -1773,14 +1772,13 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 			if( !(*packagelist).contains(*it) )
 				warnPkgs.append(*it);
 
-		if( warnPkgs.count() > 0 )
-		{
-			if( warnPkgs.count() == 1 )
-				 m_logWidget->printMsg(KileTool::Error, i18n("You have to include the package %1.").arg(warnPkgs.join(",")),
-					       i18n("Insert text"));
-			else
-				m_logWidget->printMsg(KileTool::Error, i18n("You have to include the packages %1.").arg(warnPkgs.join(",")),
-					i18n("Insert text"));
+		if(warnPkgs.count() > 0) {
+			if(warnPkgs.count() == 1) {
+				 m_logWidget->printMsg(KileTool::Error, i18n("You have to include the package %1.", warnPkgs.join(",")), i18n("Insert text"));
+			}
+			else {
+				m_logWidget->printMsg(KileTool::Error, i18n("You have to include the packages %1.", warnPkgs.join(",")), i18n("Insert text"));
+			}
 		}
 	}
 }
@@ -2160,7 +2158,7 @@ void Kile::toggleMode()
 		while ( (pos = (int)shortName.indexOf('/')) != -1 )
 			shortName.remove(0,pos+1);
 
-		ModeAction->setText(i18n("Normal mode (current master document: %1)").arg(shortName));
+		ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
 		ModeAction->setChecked(true);
 		m_singlemode=false;
 	}

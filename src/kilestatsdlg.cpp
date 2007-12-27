@@ -179,24 +179,32 @@ void KileStatsDlg::convertText(QString* text, bool forLaTeX) // the bool determi
 	QString charGroupName = i18n("Characters"); // always ensure that these are the same than in kilestatswidget.ui, there is no way to get the label of a button group, so this ugly hack is needed
 	QString stringGroupName = i18n("Strings");
 
-	if (forLaTeX)
+	if (forLaTeX) {
 		text->append("\\begin{tabular}{ll}\n");
+	}
 
-	if (m_project && currentPage())
-		text->append(i18n("Statistics for project %1, file %2").arg(m_project->name()).arg(name));
-	else
-		if (m_project)
-			text->append(i18n("Statistics for project %1").arg(m_project->name()));
-		else
-			if (m_docinfo->getDoc()->url().isValid())
-				text->append(i18n("Statistics for %1").arg(m_docinfo->getDoc()->url().fileName()));
-			else
+	if (m_project && currentPage()) {
+		text->append(i18n("Statistics for project %1, file %2", m_project->name(), name));
+	}
+	else {
+		if (m_project) {
+			text->append(i18n("Statistics for project %1", m_project->name()));
+		}
+		else {
+			if (m_docinfo->getDoc()->url().isValid()) {
+				text->append(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));
+			}
+			else {
 				text->append(i18n("Statistics for Untitled"));
-
-	if (forLaTeX)
+			}
+		}
+	}
+	if(forLaTeX) {
 		text->append(" & \\\\\\hline\n");
-	else
+	}
+	else {
 		text->append("\n\n");
+	}
 	text->append(charGroupName + (forLaTeX ? " &  \\\\\n" : "\n"));
 	text->append(widget->m_wordCharText->text() + (forLaTeX ? " & " : "\t") + widget->m_wordChar->text() + (forLaTeX ? " \\\\\n" : "\n"));
 	text->append(widget->m_commandCharText->text() + (forLaTeX ? " & " : "\t") + widget->m_commandChar->text() + (forLaTeX ? " \\\\\n" : "\n"));

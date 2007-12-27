@@ -365,36 +365,31 @@ namespace KileTool
 				setRelativeBaseDir(dir);
 			}
 
-			if ( !trg.isEmpty() )
-			{
+			if(!trg.isEmpty()) {
 				translate(trg);
 				setTarget(trg);
 			}
 
 			//auto-detect the file to view
-			if ( dir.isEmpty() && trg.isEmpty() )
-			{
+			if(dir.isEmpty() && trg.isEmpty()) {
 				QFileInfo file1 = QFileInfo(baseDir() + '/' + S() + "/index.html");
 				QFileInfo file2 = QFileInfo(baseDir() + '/' + S() + ".html");
 
 				bool read1 = file1.isReadable();
 				bool read2 = file2.isReadable();
 
-				if ( !read1 && !read2 )
-				{
-					sendMessage(Error, i18n("Unable to find %1 or %2; if you are trying to view some other HTML file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.").arg(file1.absoluteFilePath()).arg(file2.absoluteFilePath()));
+				if(!read1 && !read2) {
+					sendMessage(Error, i18n("Unable to find %1 or %2; if you are trying to view some other HTML file, go to Settings->Configure Kile->Tools->ViewHTML->Advanced.", file1.absoluteFilePath(), file2.absoluteFilePath()));
 					return false;
 				}
 
 				//both exist, take most recent
-				if ( read1 && read2 )
-				{
+				if(read1 && read2) {
 					read1 = file1.lastModified() > file2.lastModified();
 					read2 = !read1;
 				}
 
-				if ( read1 )
-				{
+				if(read1) {
 					dir = S();
 					trg = "index.html";
 

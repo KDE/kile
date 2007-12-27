@@ -415,10 +415,8 @@ void KileNewProjectDlg::slotOk()
 		}
 	}
 
-	if (createNewFile())
-	{
-		if (file().trimmed().isEmpty())
-		{
+	if (createNewFile()) {
+		if (file().trimmed().isEmpty()) {
 			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
 												 i18n("No File Name Given"));
 			return;
@@ -428,19 +426,19 @@ void KileNewProjectDlg::slotOk()
 		KUrl fileURL;
 		fileURL.setFileName(file());
 		KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, m_extmanager->isTexFile(fileURL), true);
-		if (validURL != fileURL)
+		if(validURL != fileURL) {
 			m_file->setText(validURL.fileName());
+		}
 
-		if (QFileInfo(QDir(fi.path()) , file().trimmed()).exists())
-		{
-			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?").arg(file()),
-																		i18n("File Already Exists")) == KMessageBox::No)
+		if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()) {
+			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
+			
 				return;
+			}
 		}
 	}
 
-	if (QFileInfo(location()).exists())
-	{
+	if(QFileInfo(location()).exists()) {
 		KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
 		return;
 	}

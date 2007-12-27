@@ -701,7 +701,7 @@ void KileGrepDialog::slotSearch()
 	QRegExp re( getPattern() );
 	if ( ! re.isValid() )
 	{
-		KMessageBox::error( 0, i18n("Invalid regular expression: %1").arg(re.errorString()), i18n("Grep Tool Error") );
+		KMessageBox::error( 0, i18n("Invalid regular expression: %1", re.errorString()), i18n("Grep Tool Error") );
 		return;
 	}
 

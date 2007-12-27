@@ -410,9 +410,10 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 {
 	// most important: type of environment or command
 	QChar ch = getAttrChar( attr.type );
-	if ( ch == '?' )
-		return QString::null;
-	QString s = QString("%1,").arg(ch);
+	if(ch == '?') {
+		return QString();
+	}
+	QString s = ch + QString(',');
 	
 	// all environments/commands have starred attribute 
 	if ( attr.starred )

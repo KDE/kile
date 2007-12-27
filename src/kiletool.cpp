@@ -58,15 +58,15 @@ namespace KileTool
 		
 		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead;
 
-		setMsg(NeedTargetDirExec, i18n("Could not change to the folder %1."));
-		setMsg(NeedTargetDirWrite, i18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
-		setMsg(NeedTargetExists,  i18n("The file %1/%2 does not exist. If you're surprised, check the file permissions."));
-		setMsg(NeedTargetRead, i18n("The file %1/%2 is not readable. If you're surprised, check the file permissions."));
-		setMsg(NeedActiveDoc, i18n("Could not determine on which file to run %1, because there is no active document."));
-		setMsg(NeedMasterDoc, i18n("Could not determine the master file for this document."));
-		setMsg(NoUntitledDoc, i18n("Please save the untitled document first."));
-		setMsg(NeedSourceExists, i18n("Sorry, the file %1 does not exist."));
-		setMsg(NeedSourceRead, i18n("Sorry, the file %1 is not readable."));
+		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
+		setMsg(NeedTargetDirWrite, ki18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
+		setMsg(NeedTargetExists,  ki18n("The file %1/%2 does not exist. If you're surprised, check the file permissions."));
+		setMsg(NeedTargetRead, ki18n("The file %1/%2 is not readable. If you're surprised, check the file permissions."));
+		setMsg(NeedActiveDoc, ki18n("Could not determine on which file to run %1, because there is no active document."));
+		setMsg(NeedMasterDoc, ki18n("Could not determine the master file for this document."));
+		setMsg(NoUntitledDoc, ki18n("Please save the untitled document first."));
+		setMsg(NeedSourceExists, ki18n("Sorry, the file %1 does not exist."));
+		setMsg(NeedSourceRead, ki18n("Sorry, the file %1 is not readable."));
 
 		m_bPrepared = false;
 	}
@@ -89,7 +89,7 @@ namespace KileTool
 		return src;
 	}
 	
-	void Base::setMsg(long n, const QString & msg)
+	void Base::setMsg(long n, const KLocalizedString& msg)
 	{
 		m_messages[n] = msg;
 	}
@@ -209,42 +209,37 @@ namespace KileTool
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if ( (m_source.isNull()) && (m_manager->info()->activeTextDocument() == 0L)  )
-		{ 
-			sendMessage(Error, msg(NeedActiveDoc).arg(name()));
+		if((m_source.isNull()) && (m_manager->info()->activeTextDocument() == NULL)) {
+			sendMessage(Error, msg(NeedActiveDoc).subs(name()).toString());
 			return false;
 		}
 
-		if ( (m_source.isNull()) && (m_manager->info()->activeTextDocument() != 0L) )
-		{
+		if((m_source.isNull()) && (m_manager->info()->activeTextDocument() != NULL)) {
 			//couldn't find a source file, huh?
 			//we know there is an active document, the only reason is could have failed is because
 			//we couldn't find a LaTeX root document
-			sendMessage(Error, msg(NeedMasterDoc));
+			sendMessage(Error, msg(NeedMasterDoc).toString());
 			return false;
 		}
 
-		if ( KileUntitled::isUntitled(m_source) &&  (flags() & NoUntitledDoc) )
-		{
-			sendMessage(Error, msg(NoUntitledDoc));
+		if(KileUntitled::isUntitled(m_source) && (flags() & NoUntitledDoc)) {
+			sendMessage(Error, msg(NoUntitledDoc).toString());
 			emit(requestSaveAll());
 			return false;
 		}
 		
 		QFileInfo fi(source());
-		if ( (flags() & NeedSourceExists) && !fi.exists() )
-		{
-			sendMessage(Error, msg(NeedSourceExists).arg(fi.absoluteFilePath()));
+		if((flags() & NeedSourceExists) && !fi.exists()) {
+			sendMessage(Error, msg(NeedSourceExists).subs(fi.absoluteFilePath()).toString());
 			return false;
 		}
 		
-		if ( (flags() & NeedSourceRead) && !fi.isReadable() )
-		{
-			sendMessage(Error, msg(NeedSourceRead).arg(fi.absoluteFilePath()));
+		if((flags() & NeedSourceRead) && !fi.isReadable()) {
+			sendMessage(Error, msg(NeedSourceRead).subs(fi.absoluteFilePath()).toString());
 			return false;
 		}
 
-		return true;		
+		return true;
 	}
 
 	void Base::setSource(const QString &source)
@@ -322,29 +317,25 @@ namespace KileTool
 		//check if the target directory is accessible
 		QFileInfo info(m_targetdir);
 		
-		if ( (flags() & NeedTargetDirExec ) && (! info.isExecutable()) )
-		{
-			sendMessage(Error, msg(NeedTargetDirExec).arg(m_targetdir));
+		if((flags() & NeedTargetDirExec ) && (!info.isExecutable())) {
+			sendMessage(Error, msg(NeedTargetDirExec).subs(m_targetdir).toString());
 			return false;
 		}
 
-		if ((flags() & NeedTargetDirWrite) && (! info.isWritable()) )
-		{
-			sendMessage(Error, msg(NeedTargetDirWrite).arg(m_targetdir).arg(m_name));
+		if((flags() & NeedTargetDirWrite) && (!info.isWritable())) {
+			sendMessage(Error, msg(NeedTargetDirWrite).subs(m_targetdir).subs(m_name).toString());
 			return false;
 		}
 
 		info.setFile(m_targetdir + '/' + m_target);
 
-		if ( (flags() & NeedTargetExists) && ( ! info.exists() ))
-		{
-			sendMessage(Error, msg(NeedTargetExists).arg(m_targetdir).arg(m_target));
+		if((flags() & NeedTargetExists) && (!info.exists())) {
+			sendMessage(Error, msg(NeedTargetExists).subs(m_targetdir).subs(m_target).toString());
 			return false;
 		}
 
-		if ( (flags() & NeedTargetRead) && ( ! info.isReadable() ))
-		{
-			sendMessage(Error, msg(NeedTargetRead).arg(m_targetdir).arg(m_target));
+		if((flags() & NeedTargetRead) && (!info.isReadable())) {
+			sendMessage(Error, msg(NeedTargetRead).subs(m_targetdir).subs(m_target).toString());
 			return false;
 		}
 
@@ -530,7 +521,7 @@ namespace KileTool
 
 		if (!isRoot)
 		{
-			return  manager()->queryContinue(i18n("The document %1 is not a LaTeX root document; continue anyway?").arg(source()), i18n("Continue?"));
+			return  manager()->queryContinue(i18n("The document %1 is not a LaTeX root document; continue anyway?", source()), i18n("Continue?"));
 		}
 
 		return true;
@@ -542,7 +533,7 @@ namespace KileTool
 		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
 		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists) << endl;
-		setMsg(NeedTargetExists, i18n("The file %2/%3 does not exist; did you compile the source file?"));
+		setMsg(NeedTargetExists, ki18n("The file %2/%3 does not exist; did you compile the source file?"));
 	}
 
 	View::~View()
@@ -561,18 +552,17 @@ namespace KileTool
 
 	bool Archive::checkPrereqs()
 	{
-		if(m_project == 0L)
-		{	
+		if(!m_project) {
 			sendMessage(Error,i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to archive, then choose Archive again."));
 			return false;
 		}
-		else if(m_fileList.isEmpty())	
-		{
-			sendMessage(Error,i18n("No files have been chosen for archiving."));
+		else if(m_fileList.isEmpty()) {
+			sendMessage(Error, i18n("No files have been chosen for archiving."));
 			return false;
 		}
-		else
+		else {
 			return true;
+		}
 	}
 
 	void Archive::setSource(const QString &source)
@@ -582,7 +572,7 @@ namespace KileTool
 		if ( !m_project )
 			m_project = manager()->info()->docManager()->activeProject();
 		if ( !m_project )
-			m_project = manager()->info()->docManager()->selectProject(i18n("Archive Project"));	
+			m_project = manager()->info()->docManager()->selectProject(i18n("Archive Project"));
 		if ( !m_project )
 		{
 			Base::setSource(source);
@@ -649,7 +639,7 @@ namespace KileTool
 			}
 			else
 			{
-				sendMessage(Error, i18n("Unknown tool %1.").arg(tools[i]));
+				sendMessage(Error, i18n("Unknown tool %1.", tools[i]));
 				emit(done(this, Failed));
 				return ConfigureFailed;
 			}

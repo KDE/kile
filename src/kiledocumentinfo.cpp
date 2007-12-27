@@ -119,7 +119,7 @@ KUrl Info::renameIfExist(const KUrl& url)
 		QString newURL = KInputDialog::getText(
 			i18n("File Already Exists"),
 			i18n("A file with filename '%1' already exists.<br>Please provide \
-				another one, or click \"Cancel\" to overwrite it.").arg(ret.fileName()),
+				another one, or click \"Cancel\" to overwrite it.", ret.fileName()),
 			ret.fileName(),
 			&isOK);
 		if(!isOK)

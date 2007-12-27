@@ -546,12 +546,10 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		//create a new document to open the template in
 		KTextEditor::Document *tempdoc = editor->createDocument(NULL);
 
-		if (!tempdoc->openUrl(KUrl(sel->path())))
-		{
-			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1").arg(sel->name()),i18n("File Not Found"));
+		if (!tempdoc->openUrl(KUrl(sel->path()))) {
+			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));
 		}
-		else
-		{
+		else {
 			//substitute templates variables
 			text = tempdoc->text();
 			delete tempdoc;
@@ -799,7 +797,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					else
 					{
 						KILE_DEBUG()<<"backing up failed ("<<url.prettyUrl()<<" -> "<<backupUrl.prettyUrl()<<")"<<endl;
-						emit printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!").arg(backupUrl.prettyUrl()),i18n("Autosave"));
+						emit printMsg(KileTool::Error,i18n("The file %1 could not be saved, check the permissions and the free disk space!", backupUrl.prettyUrl()), i18n("Autosave"));
 					}
 				}
 				
@@ -808,7 +806,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 				fi.refresh();
 			
 				if(!saveResult) {
-					emit printMsg(KileTool::Error,i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?").arg(url.url()),i18n("Saving"));
+					emit printMsg(KileTool::Error, i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()), i18n("Saving"));
 				}
 			}
 		}
@@ -908,11 +906,9 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 		if(info->getType() == KileDocument::LaTeX) {
 			saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
-		if(KIO::NetAccess::exists(saveURL, true, kapp->mainWidget())) // check for writing possibility
-		{
-			int r =  KMessageBox::warningContinueCancel(m_ki->parentWidget(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?").arg(saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));
-			if(r != KMessageBox::Continue)
-			{
+		if(KIO::NetAccess::exists(saveURL, true, kapp->mainWidget())) { // check for writing possibility
+			int r =  KMessageBox::warningContinueCancel(m_ki->parentWidget(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?", saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));
+			if(r != KMessageBox::Continue) {
 				continue;
 			}
 		}
@@ -1194,12 +1190,12 @@ void Manager::addToProject(KileProject* project, const KUrl & url)
 
 	if (project->contains(realurl))
 	{
-		emit printMsg(KileTool::Info,i18n("The file %1 is already member of the project %2").arg(realurl.fileName()).arg(project->name()),i18n("Add to Project"));
+		emit printMsg(KileTool::Info, i18n("The file %1 is already member of the project %2", realurl.fileName(), project->name()), i18n("Add to Project"));
 		return;
 	}
 	else if(!fi.exists() || !fi.isReadable())
 	{
-		emit printMsg( KileTool::Info,i18n("The file %1 can not be added because it does not exist or is not readable").arg(realurl.fileName()),i18n("Add to Project"));
+		emit printMsg( KileTool::Info, i18n("The file %1 can not be added because it does not exist or is not readable", realurl.fileName()), i18n("Add to Project"));
 		return;
 	}
 	
@@ -1664,7 +1660,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	}
 
 	if ( extlist.count() == 0 )
-		emit printMsg(KileTool::Warning, i18n("Nothing to clean for %1").arg(fileName), i18n("Clean"));
+		emit printMsg(KileTool::Warning, i18n("Nothing to clean for %1", fileName), i18n("Clean"));
 	else
 	{
 		for(int i = 0; i < extlist.count(); ++i) {
@@ -1672,7 +1668,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 			KILE_DEBUG() << "About to remove file = " << file.name() << endl;
 			file.remove();
 		}
-		emit printMsg(KileTool::Info, i18n("Cleaning %1 : %2").arg(fileName).arg(extlist.join(" ")), i18n("Clean"));
+		emit printMsg(KileTool::Info, i18n("Cleaning %1 : %2", fileName, extlist.join(" ")), i18n("Clean"));
 	}
 }
 
@@ -1854,7 +1850,7 @@ QStringList Manager::getProjectFiles()
 
 void Manager::dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype)
 {
-	emit printMsg(KileTool::Info, i18n("not opened: %1 (%2)").arg(item->url().path()).arg(filetype), action);
+	emit printMsg(KileTool::Info, i18n("not opened: %1 (%2)", item->url().path(), filetype), action);
 }
 
 KileProjectItem* Manager::selectProjectFileItem(const QString &label)

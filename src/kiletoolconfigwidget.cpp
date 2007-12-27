@@ -450,8 +450,7 @@ namespace KileWidget
 	void ToolConfig::removeTool()
 	{
 		//KILE_DEBUG() << "==ToolConfig::removeTool()=====================" << endl;
-		if ( KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove the tool %1?").arg(m_current)) == KMessageBox::Continue )
-		{
+		if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove the tool %1?", m_current)) == KMessageBox::Continue) {
 			KConfig *config = m_config;
 			QStringList cfgs = KileTool::configNames(m_current, config);
 			for(int i = 0; i < cfgs.count(); ++i) {

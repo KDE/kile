@@ -79,13 +79,13 @@ void JScriptListViewItem::setText(int column, const QString & str) {
 			QString description = (action == 0L) ? QString() : action->getDescription();
 			switch(pair.first) {
 				case 1:
-					KMessageBox::sorry(0L, i18n("The sequence \"%1\" is already assigned to the action \"%2\"").arg(str).arg(description), i18n("Sequence Already Assigned"));
+					KMessageBox::sorry(0L, i18n("The sequence \"%1\" is already assigned to the action \"%2\"", str, description), i18n("Sequence Already Assigned"));
 					break;
 				case 2:
-					KMessageBox::sorry(0L, i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"").arg(str).arg(pair.second).arg(description), i18n("Sequence Already Assigned"));
+					KMessageBox::sorry(0L, i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", str, pair.second, description), i18n("Sequence Already Assigned"));
 					break;
 				case 3:
-					KMessageBox::sorry(0L, i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"").arg(pair.second).arg(description), i18n("Sequence Already Assigned"));
+					KMessageBox::sorry(0L, i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
 					break;
 			}
 		}

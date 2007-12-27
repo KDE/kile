@@ -352,7 +352,7 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &
 	wpx = m_width;
 	hpx = m_height;
 
-	dpi = QString("%1").arg((int)(m_resolution+0.5));
+	dpi = QString::number((int)(m_resolution+0.5));
 
 	// convert from inch to cm
 	float w = (float)m_width / m_resolution * 2.54;
@@ -491,9 +491,9 @@ void IncludeGraphics::slotProcessExited(K3Process* proc)
 	int bbh = (int)( (float)m_height*72.0/m_resolution + 0.5 );
 
 	// take width and height as parameters for the bounding box
-	 edit_bb->setText( QString("0 0 ") + QString("%1").arg(bbw)
+	 edit_bb->setText( QString("0 0 ") + QString::number(bbw)
 	                                   + ' '
-	                                   + QString("%1").arg(bbh)
+	                                   + QString::number(bbh)
 	                  );
 
          // show information

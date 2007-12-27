@@ -700,21 +700,17 @@ namespace KileWidget
 			KUrl url;
 			url.setPath(fname);
 			
-			if (fi.isReadable())
-			{	
-				if (  item->type() == KileStruct::Graphics )
-				{
+			if (fi.isReadable()) {
+				if( item->type() == KileStruct::Graphics) {
 					KMimeType::Ptr pMime = KMimeType::findByUrl(url);
 					KRun::runUrl(url, pMime->name(), this);
 				}
-				else
+				else {
 					emit(fileOpen(url, QString::null));
+				}
 			}
-			else
-			{
-				if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
-			== KMessageBox::Yes)
-				{
+			else {
+				if(KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?", fname), i18n("Cannot Find File")) == KMessageBox::Yes) {
 					emit(fileNew(url));
 				}
 			}

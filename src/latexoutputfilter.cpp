@@ -639,8 +639,7 @@ void LatexOutputFilter::sendProblems()
 	//print detailed error info
 	for(int i=0; i < m_InfoList->count(); ++i) {
 		Message = QString("%1:%2:%3").arg((*m_InfoList)[i].source()).arg((*m_InfoList)[i].sourceLine()).arg((*m_InfoList)[i].message());
-		switch ( (*m_InfoList)[i].type()  )
-		{
+		switch((*m_InfoList)[i].type()) {
 			case LatexOutputInfo::itmBadBox	: type = KileTool::ProblemBadBox; break;
 			case LatexOutputInfo::itmError	: type = KileTool::ProblemError; break;
 			case LatexOutputInfo::itmWarning	: type = KileTool::ProblemWarning; break;

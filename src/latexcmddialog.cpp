@@ -782,12 +782,13 @@ void LatexCommandsDialog::slotUserDefinedClicked()
 void LatexCommandsDialog::slotHelp()
 {
 	QString mode = ( getListviewMode() == lvEnvMode ) ? i18n("'environment'") : i18n("'command'");
-	if ( KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?").arg(mode)) == KMessageBox::Continue )
-	{
-		if ( getListviewMode() == lvEnvMode )
+	if(KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {
+		if(getListviewMode() == lvEnvMode ) {
 			resetEnvironments();
-		else
+		}
+		else {
 			resetCommands();
+		}
 		slotEnableButtons();
 	}
 }

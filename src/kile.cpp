@@ -86,7 +86,7 @@
 #include "latexcmd.h"
 #include "kileuntitled.h"
 #include "kilestatsdlg.h"
-#include "scriptsmanagementwidget.h"
+#include "widgets/scriptsmanagementwidget.h"
 #include "kilejscript.h"
 #include "previewwidget.h"
 

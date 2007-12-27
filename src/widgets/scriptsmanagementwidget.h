@@ -15,10 +15,11 @@
 #define SCRIPTSMANAGEMENTWIDGET_H
 
 #include <qtoolbutton.h>
-#include <qwidget.h>
+#include <QTableWidget>
+#include <QWidget>
 
 #include <k3listview.h>
-#include <ktoolbar.h>
+#include <KToolBar>
 
 class KileInfo;
 

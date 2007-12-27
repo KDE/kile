@@ -95,8 +95,8 @@ SET(kile_SRCS
 	previewwidget.cpp
 	kilejscript.h
 	kilejscript.cpp
-	scriptsmanagementwidget.h
-	scriptsmanagementwidget.cpp
+	widgets/scriptsmanagementwidget.h
+	widgets/scriptsmanagementwidget.cpp
 	editorkeysequencemanager.h
 	editorkeysequencemanager.cpp
 	kileversion.cpp

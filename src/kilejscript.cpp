@@ -561,7 +561,7 @@ const KJS::ClassInfo KileTextDocumentJSObject::info = {"KileTextDocumentJSObject
 		delete m_jScriptDirWatch;
 
 		//still need to delete the scripts
-		for(Q3ValueList<JScript*>::iterator it = m_jScriptList.begin(); it != m_jScriptList.end(); ++it) {
+		for(QList<JScript*>::iterator it = m_jScriptList.begin(); it != m_jScriptList.end(); ++it) {
 			delete *it;
 		}
 	}
@@ -656,7 +656,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		emit jScriptsChanged();
 	}
 
-	Q3ValueList<JScript*> Manager::getJScripts() {
+	QList<JScript*> Manager::getJScripts() {
 		return m_jScriptList;
 	}
 
@@ -696,7 +696,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		writeIDs();
 		// write the key sequences
 		KConfigGroup configGroup = m_config->group("Scripts");
-		for(Q3ValueList<JScript*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
+		for(QList<JScript*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
 			configGroup.writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", (*i)->getKeySequence());
 		}
 	}

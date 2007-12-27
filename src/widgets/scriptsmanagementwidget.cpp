@@ -11,7 +11,7 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "scriptsmanagementwidget.h"
+#include "widgets/scriptsmanagementwidget.h"
 
 #include <qlayout.h>
 #include <qtooltip.h>
@@ -133,8 +133,8 @@ ScriptsManagement::~ScriptsManagement() {
 
 void ScriptsManagement::updateListView() {
 	m_scriptsListView->clear();
-	const Q3ValueList<KileJScript::JScript*>& scriptList = m_kileInfo->scriptManager()->getJScripts();
-	for(Q3ValueList<KileJScript::JScript*>::const_iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
+	QList<KileJScript::JScript*> scriptList = m_kileInfo->scriptManager()->getJScripts();
+	for(QList<KileJScript::JScript*>::iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
  		new JScriptListViewItem(this, m_scriptsListView, *i, m_kileInfo);
 	}
 	m_scriptsListView->triggerUpdate();

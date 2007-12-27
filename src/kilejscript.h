@@ -26,7 +26,7 @@
 #include <kconfig.h>
 #include <kdirwatch.h>
 
-#include <q3valuelist.h>
+#include <QList>
 #include <q3valuevector.h>
 
 class KileInfo;
@@ -144,7 +144,7 @@ class Manager : public QObject {
 		/**
 		 * Retrieves a list of all the scripts that are currently available.
 		 **/
-		Q3ValueList<JScript*> getJScripts();
+		QList<JScript*> getJScripts();
 
 		/**
 		 * Writes the key sequence-to-script bindings to the KConfig object that has 
@@ -202,7 +202,7 @@ class Manager : public QObject {
 
 	protected:
 		QString m_localJScriptDir;
-		Q3ValueList<JScript*> m_jScriptList;
+		QList<JScript*> m_jScriptList;
  		QMap<unsigned int, JScript*> m_idScriptMap;
 		KDirWatch *m_jScriptDirWatch;
 

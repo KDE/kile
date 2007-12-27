@@ -45,7 +45,7 @@
 #include "toolconfigwidget.h"
 #include "processtoolconfigwidget.h"
 #include "librarytoolconfigwidget.h"
-#include "quicktoolconfigwidget.h"
+#include "widgets/quicktoolconfigwidget.h"
 #include "latextoolconfigwidget.h"
 #include "newtoolwizard.h"
 

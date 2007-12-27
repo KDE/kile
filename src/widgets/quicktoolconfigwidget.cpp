@@ -11,7 +11,7 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "quicktoolconfigwidget.h"
+#include "widgets/quicktoolconfigwidget.h"
 
 #include "kiletoolmanager.h"
 
@@ -32,19 +32,20 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 	m_cbTools->insertStringList(toollist);
 
 	updateConfigs(m_cbTools->currentText());
-	connect(m_cbTools, SIGNAL(activated(const QString &)), this, SLOT(updateConfigs(const QString& )));
+	connect(m_cbTools, SIGNAL(activated(const QString &)), this, SLOT(updateConfigs(const QString&)));
 
 	m_sequence=sequence;
 	QStringList list = QStringList::split(",",sequence);
 	QString tl,cfg;
 	m_lstbSeq->clear();
-	for ( uint i=0; i < list.count(); ++i)
-	{
-		KileTool::extract(list[i], tl, cfg);
-		if ( !cfg.isNull() )
-			m_lstbSeq->insertItem(tl+" ("+cfg+")");
-		else
+	for(QStringList::iterator i = list.begin(); i != list.end(); ++i) {
+		KileTool::extract(*i, tl, cfg);
+		if(!cfg.isNull()) {
+			m_lstbSeq->insertItem(tl + " (" + cfg + ")");
+		}
+		else {
 			m_lstbSeq->insertItem(tl);
+		}
 	}
 }
 
@@ -58,8 +59,7 @@ void QuickToolConfigWidget::updateConfigs(const QString &tool)
 void QuickToolConfigWidget::down()
 {
 	int current = m_lstbSeq->currentItem();
-	if ( (current != -1) && (current < ( ((int)m_lstbSeq->count())-1) ))
-	{
+	if((current != -1) && (current < ( ((int)m_lstbSeq->count())-1))) {
 		QString text = m_lstbSeq->text(current+1);
 		m_lstbSeq->changeItem(m_lstbSeq->text(current), current+1);
 		m_lstbSeq->changeItem(text, current);
@@ -71,8 +71,7 @@ void QuickToolConfigWidget::down()
 void QuickToolConfigWidget::up()
 {
 	int current = m_lstbSeq->currentItem();
-	if ( (current != -1) && (current > 0) )
-	{
+	if((current != -1) && (current > 0)) {
 		QString text = m_lstbSeq->text(current-1);
 		m_lstbSeq->changeItem(m_lstbSeq->text(current), current-1);
 		m_lstbSeq->changeItem(text, current);
@@ -84,8 +83,7 @@ void QuickToolConfigWidget::up()
 void QuickToolConfigWidget::remove()
 {
 	int current = m_lstbSeq->currentItem();
-	if ( current != -1)
-	{
+	if(current != -1) {
 		m_lstbSeq->removeItem(current);
 		changed();
 	}
@@ -94,8 +92,9 @@ void QuickToolConfigWidget::remove()
 void QuickToolConfigWidget::add()
 {
 	QString entry = m_cbTools->currentText();
-	if ( m_cbConfigs->currentText() != i18n("Not Specified") )
+	if(m_cbConfigs->currentText() != i18n("Not Specified")) {
 		entry += " (" + m_cbConfigs->currentText() + ")";
+	}
 	m_lstbSeq->insertItem(entry);
 	changed();
 }
@@ -104,8 +103,7 @@ void QuickToolConfigWidget::add()
 void QuickToolConfigWidget::changed()
 {
 	QString sequence, tool, cfg;
-	for (uint i = 0; i < m_lstbSeq->count(); ++i)
-	{
+	for(uint i = 0; i < m_lstbSeq->count(); ++i) {
 	    KileTool::extract(m_lstbSeq->text(i), tool, cfg);
 	    sequence += KileTool::format(tool,cfg)+",";
 	}

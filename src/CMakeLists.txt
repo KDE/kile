@@ -113,7 +113,7 @@ SET( kile_UI
 	toolconfigwidget.ui
 	librarytoolconfigwidget.ui
 	processtoolconfigwidget.ui
-	quicktoolconfigwidget.ui
+	widgets/quicktoolconfigwidget.ui
 	latextoolconfigwidget.ui
 	newtoolwizard_class_page.ui
 	newtoolwizard_toolname_page.ui
@@ -140,7 +140,7 @@ SET( kile_UI_SRCS
 	newdocumentwidget.cpp
 	newtoolwizard.cpp
 	processtoolconfigwidget.cpp
-	quicktoolconfigwidget.cpp
+	widgets/quicktoolconfigwidget.cpp
 	scriptingconfigwidget.cpp
 	structureconfigwidget.cpp
 	symbolviewconfigwidget.cpp

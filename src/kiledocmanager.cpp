@@ -1305,7 +1305,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	m_progressDialog->progressBar()->setValue(project_steps);
 
 	// open the project files in the correct order
-	Q3ValueVector<KileProjectItem*> givenPositionVector(list.count(), NULL);
+	QVector<KileProjectItem*> givenPositionVector(list.count(), NULL);
 	QList<KileProjectItem*> notCorrectlyOrderedList;
 	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
 		KileProjectItem *item = *it;
@@ -1398,7 +1398,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		TextInfo *docinfo = NULL;
 
 		// determine the order in which the project items are opened
-		Q3ValueVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
+		QVector<KileProjectItem*> viewPositionVector(m_ki->viewManager()->getTabCount(), NULL);
 		for(QList<KileProjectItem*>::iterator i = list.begin(); i != list.end(); ++i) {
 			docinfo = (*i)->getInfo();
 			if(docinfo) {

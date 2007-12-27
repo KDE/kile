@@ -27,7 +27,6 @@
 #include <kdirwatch.h>
 
 #include <QList>
-#include <q3valuevector.h>
 
 class KileInfo;
 

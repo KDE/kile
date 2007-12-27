@@ -545,7 +545,7 @@ void Kile::setupActions()
 	createAction(KStandardAction::Save, "kile_file_save", docManager(), SLOT(fileSave()));
 	createAction(KStandardAction::SaveAs, "kile_file_save_as", docManager(), SLOT(fileSaveAs()));
 
-	createAction(i18n("Save All"), "file_save_all", "save_all", docManager(), SLOT(fileSaveAll()));
+	createAction(i18n("Save All"), "file_save_all", "document-save-all", docManager(), SLOT(fileSaveAll()));
 	createAction(i18n("Save Copy As..."), "file_save_copy_as", "save_copy_as", docManager(), SLOT(fileSaveCopyAs()));
 	createAction(i18n("Create Template From Document..."), "template_create", docManager(), SLOT(createTemplate()));
 	createAction(i18n("&Remove Template..."), "template_remove", docManager(), SLOT(removeTemplate()));
@@ -576,7 +576,7 @@ void Kile::setupActions()
 
 	//project actions
 	createAction(i18n("&New Project..."), "project_new", "window_new", docManager(), SLOT(projectNew()));
-	createAction(i18n("&Open Project..."), "project_open", "project_open", docManager(), SLOT(projectOpen()));
+	createAction(i18n("&Open Project..."), "project_open", "project-open", docManager(), SLOT(projectOpen()));
 
 	m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
 	actionCollection()->addAction("project_openrecent", m_actRecentProjects);
@@ -589,7 +589,7 @@ void Kile::setupActions()
 	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "rebuild", docManager(), SLOT(buildProjectTree()));
  	createAction(i18n("&Archive"), "package", "project_archive", this, SLOT(runArchiveTool()));
 	createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), SLOT(projectOptions()));
-	createAction(i18n("&Close Project"), "project_close", "fileclose", docManager(), SLOT(projectClose()));
+	createAction(i18n("&Close Project"), "project_close", "window-close", docManager(), SLOT(projectClose()));
 
 	// new project actions (dani)
 	createAction(i18n("&Show Projects..."), "project_show", docManager(), SLOT(projectShow()));
@@ -612,8 +612,8 @@ void Kile::setupActions()
 	m_paStop->setEnabled(false);
 
 	createAction(i18n("Editor View"), "EditorView", "edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
-	createAction(i18n("Next Document"), "gotoNextDocument", "forward", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
-	createAction(i18n("Previous Document"), "gotoPrevDocument", "back", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
+	createAction(i18n("Next Document"), "gotoNextDocument", "arrow-right", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
+	createAction(i18n("Previous Document"), "gotoPrevDocument", "arrow-left", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
 	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_M), this, SLOT(focusLog()));
 	createAction(i18n("Focus Output View"), "focus_output", KShortcut(Qt::CTRL + Qt::ALT+ Qt::Key_O), this, SLOT(focusOutput()));
 	createAction(i18n("Focus Konsole View"), "focus_konsole", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_K), this, SLOT(focusKonsole()));

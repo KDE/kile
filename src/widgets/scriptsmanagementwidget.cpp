@@ -13,12 +13,13 @@
 
 #include "widgets/scriptsmanagementwidget.h"
 
-#include <qlayout.h>
-#include <qtooltip.h>
+#include <QLayout>
+#include <QToolTip>
 #include <q3vbox.h>
 //Added by qt3to4:
 #include <Q3VBoxLayout>
-#include <Q3ValueList>
+
+#include <QList>
 
 #include <kiconloader.h>
 #include <kinputdialog.h>

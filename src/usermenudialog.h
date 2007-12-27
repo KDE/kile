@@ -15,11 +15,10 @@
 #ifndef USERMENUDIALOG_H
 #define USERMENUDIALOG_H
 
-#include <qstring.h>
-#include <qstringlist.h>
-//Added by qt3to4:
-#include <Q3ValueList>
 #include <QLabel>
+#include <QList>
+#include <QString>
+#include <QStringList>
 
 #include <kdialog.h>
 
@@ -40,11 +39,11 @@ class UserTags: public KDialog
 	Q_OBJECT
 
 public:
-	UserTags( const Q3ValueList<KileAction::TagData> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString::null);
+	UserTags(const QList<KileAction::TagData> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString());
 	~UserTags();
 
 	int index() { return m_prevIndex; }
-	const Q3ValueList<KileAction::TagData>& result() {return m_list; }
+	const QList<KileAction::TagData>& result() {return m_list; }
 
 	static QString completeTag(const KileAction::TagData & td);
 	static KileAction::TagData splitTag(const QString & name, const QString & tag);
@@ -68,7 +67,7 @@ private:
 	QLabel			*m_labelTag;
 	KPushButton		*m_buttonRemove, *m_buttonAdd, *m_buttonInsert;
 
-	Q3ValueList<KileAction::TagData> 	m_list;
+	QList<KileAction::TagData> 	m_list;
 };
 
 }

@@ -27,8 +27,8 @@
 #include <k3process.h>
 #include <kurl.h>
 
-#include <qobject.h>
-#include <q3valuelist.h>
+#include <QObject>
+#include <QList>
 
 #include "kileconstants.h"
 
@@ -50,9 +50,9 @@ struct Info {
 		bool operator==(const Info ti) const;
 };
 
-typedef Q3ValueList<Info> TemplateList;
-typedef Q3ValueListIterator<Info> TemplateListIterator;
-typedef Q3ValueListConstIterator<Info> TemplateListConstIterator;
+typedef QList<Info> TemplateList;
+typedef QList<Info>::iterator TemplateListIterator;
+typedef QList<Info>::const_iterator TemplateListConstIterator;
 
 class Manager : public QObject {
 	Q_OBJECT

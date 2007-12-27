@@ -21,7 +21,7 @@ email                : holger.danielsson@t-online.de
 
 #include "kilewizard.h"
 
-#include <Q3ValueList>
+#include <QList>
 #include <QMap>
 
 class QLabel;
@@ -220,7 +220,7 @@ private:
 	int  m_check;
 	
 	QStringList m_description;
-	Q3ValueList<QWidget *> m_objectlist;
+	QList<QWidget*> m_objectlist;
 		
 	QString getPackageName(const QString &text);
 	bool checkListEntries(const QString &title, const QString &textlist,const QString &pattern);

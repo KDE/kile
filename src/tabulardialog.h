@@ -32,8 +32,8 @@
 #include <qregexp.h>
 #include <qvalidator.h>
 #include <q3popupmenu.h>
+#include <QList>
 //Added by qt3to4:
-#include <Q3ValueList>
 #include <Q3Frame>
 #include <QMouseEvent>
 
@@ -83,7 +83,7 @@ namespace TabularCell
 	{
 		int cnt;
 		int cells;
-		Q3ValueList<int> list;
+		QList<int> list;
 	};
 
 }

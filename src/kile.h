@@ -31,7 +31,7 @@
 #include <qstring.h>
 #include <qtoolbox.h>
 
-#include <Q3ValueList>
+#include <QList>
 #include <QHideEvent>
 #include <QShowEvent>
 #include <QStackedWidget>
@@ -149,16 +149,16 @@ private:
 	void updateActionList(const QList<QAction*>& list, bool state);
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 	
-	KToolBar						*m_toolsToolBar;
-	KActionMenu 					*m_menuUserTags;
-	Q3ValueList<KileAction::TagData>	m_listUserTags;
-	Q3ValueList<userItem>			m_listUserTools;
-	QList<QAction*> 				m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KAction							*m_actionEditTag;
-	KAction 						*m_paStop, *m_paPrint;
-	KToggleAction 					*ModeAction, *WatchFileAction;
-	KToggleAction 					*m_actionMessageView;
-	KRecentFilesAction				*m_actRecentFiles;
+	KToolBar				*m_toolsToolBar;
+	KActionMenu 				*m_menuUserTags;
+	QList<KileAction::TagData>		m_listUserTags;
+	QList<userItem>				m_listUserTools;
+	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	KAction					*m_actionEditTag;
+	KAction 				*m_paStop, *m_paPrint;
+	KToggleAction 				*ModeAction, *WatchFileAction;
+	KToggleAction 				*m_actionMessageView;
+	KRecentFilesAction			*m_actRecentFiles;
 	KToggleFullScreenAction			*m_pFullScreen;
 
 /* GUI */

@@ -20,7 +20,7 @@
 #include <QProgressBar>
 //Added by qt3to4:
 #include <Q3ListBox>
-#include <Q3ValueList>
+#include <QList>
 #include <QLabel>
 
 #include <kdialog.h>
@@ -40,7 +40,7 @@ namespace KileDialog
 	class ResultItem : public Q3ListBoxItem
 	{
 	public:
-		ResultItem(K3ListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests);
+		ResultItem(K3ListBox *lb, const QString &tool, int status, const QList<ConfigTest> &tests);
 		int width(const Q3ListBox *) const { return m_richText->widthUsed(); }
 		int height(const Q3ListBox *) const { return m_richText->height(); }
 

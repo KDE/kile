@@ -30,8 +30,6 @@ class QSpinBox;
 
 class KLineEdit;
 
-#include <q3valuelist.h>
-
 namespace KileDialog
 {
 

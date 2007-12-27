@@ -32,7 +32,6 @@
 #include <QPixmap>
 #include <QMouseEvent>
 #include <Q3GridLayout>
-#include <Q3ValueList>
 #include <Q3HBoxLayout>
 #include <QEvent>
 #include <Q3VBoxLayout>
@@ -2195,7 +2194,7 @@ void TabularDialog::slotOk()
 	char colorchar = 'A';
 	
 	// list with all column information 
-	Q3ValueList<TabularCell::Preamble> colinfo;
+	QList<TabularCell::Preamble> colinfo;
 	QString whitename = QColor(Qt::white).name();
 	QString blackname = QColor(Qt::black).name();
 	

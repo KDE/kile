@@ -25,8 +25,8 @@
 #include <q3widgetstack.h>
 #include <q3vbox.h>
 #include <qtooltip.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+
+#include <QList>
 
 #include <k3listview.h>
 #include <kmenu.h>
@@ -158,7 +158,7 @@ namespace KileWidget
 		QMap<uint, bool>					m_openByLine;
 		QMap<QString, bool>					m_openByFolders;
 		KileListViewItem					*m_parent[7], *m_root;
-		Q3ValueList<KileReferenceData> m_references;
+		QList<KileReferenceData> m_references;
 		bool m_openStructureLabels;
 		bool m_openStructureReferences;
 		bool m_openStructureBibitems;

@@ -17,9 +17,8 @@
 #ifndef CODECOMPLETION_H
 #define CODECOMPLETION_H
 
-#include <qobject.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QObject>
+#include <QList>
 
 #include <ktexteditor/codecompletioninterface.h>
 #include <ktexteditor/document.h>
@@ -122,8 +121,8 @@ private:
 	bool getReferenceWord(QString &text);
 	bool oddBackslashes(const QString& text, int index);
 
-	void appendNewCommands(Q3ValueList<KTextEditor::CompletionEntry> & list);
-	void getDocumentWords(const QString &text,Q3ValueList<KTextEditor::CompletionEntry> &list);
+	void appendNewCommands(QList<KTextEditor::CompletionEntry>& list);
+	void getDocumentWords(const QString &text, QList<KTextEditor::CompletionEntry>& list);
 
 	bool completeAutoAbbreviation(const QString &text);
 	QString getAbbreviationWord(uint row, uint col);
@@ -132,10 +131,10 @@ private:
 
 private:
 	// wordlists
-	Q3ValueList<KTextEditor::CompletionEntry> m_texlist;
-	Q3ValueList<KTextEditor::CompletionEntry> m_dictlist;
-	Q3ValueList<KTextEditor::CompletionEntry> m_abbrevlist;
-	Q3ValueList<KTextEditor::CompletionEntry> m_labellist;
+	QList<KTextEditor::CompletionEntry> m_texlist;
+	QList<KTextEditor::CompletionEntry> m_dictlist;
+	QList<KTextEditor::CompletionEntry> m_abbrevlist;
+	QList<KTextEditor::CompletionEntry> m_labellist;
 
 	KileInfo *m_ki;
 	QTimer *m_completeTimer;
@@ -191,17 +190,17 @@ private:
 	QString parseText(const QString &text, uint &ypos, uint &xpos, bool checkgroup);
 	QString stripParameter(const QString &text);
 
-	void setWordlist(const QStringList &files,const QString &dir, Q3ValueList<KTextEditor::CompletionEntry> *entrylist);
+	void setWordlist(const QStringList &files,const QString &dir, QList<KTextEditor::CompletionEntry> *entrylist);
 	void readWordlist(QStringList &wordlist, const QString &filename, bool global);
 	void addCommandsToTexlist(QStringList &wordlist);
 	
 	void setReferences();
 	QString getCommandList(KileDocument::CmdAttribute attrtype);
 	
-	void setCompletionEntries(Q3ValueList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
-	void setCompletionEntriesTexmode(Q3ValueList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
+	void setCompletionEntries(QList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
+	void setCompletionEntriesTexmode(QList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
 
-	uint countEntries(const QString &pattern, Q3ValueList<KTextEditor::CompletionEntry> *list, QString *entry, QString *type);
+	uint countEntries(const QString &pattern, QList<KTextEditor::CompletionEntry> *list, QString *entry, QString *type);
 
 	void addAbbreviationEntry( const QString &entry );
 	void deleteAbbreviationEntry( const QString &entry );

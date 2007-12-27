@@ -17,8 +17,8 @@
 #define LATEXOUTPUTINFO_H
 
 #include "outputinfo.h"
-//Added by qt3to4:
-#include <Q3ValueList>
+
+#include <QList>
 
 /**A class to keep output info from LaTeX.
  *@author Thorsten Lck
@@ -50,5 +50,5 @@ class LatexOutputInfo : public OutputInfo
 
 @author Thorsten Lck
 */
-typedef Q3ValueList<LatexOutputInfo> LatexOutputInfoArray;
+typedef QList<LatexOutputInfo> LatexOutputInfoArray;
 #endif

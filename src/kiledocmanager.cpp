@@ -27,8 +27,8 @@
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qdir.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+
+#include <QList>
 #include <QDropEvent>
 
 #include <k3urldrag.h>
@@ -1306,7 +1306,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 
 	// open the project files in the correct order
 	Q3ValueVector<KileProjectItem*> givenPositionVector(list.count(), NULL);
-	Q3ValueList<KileProjectItem*> notCorrectlyOrderedList;
+	QList<KileProjectItem*> notCorrectlyOrderedList;
 	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
 		KileProjectItem *item = *it;
 		int order = item->order();
@@ -1322,19 +1322,19 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 		}
 	}
 
-	Q3ValueList<KileProjectItem*> orderedList;
+	QList<KileProjectItem*> orderedList;
 	for(int i = 0; i < givenPositionVector.size(); ++i) {
 		KileProjectItem *item = givenPositionVector[i];
 		if(item) {
 			orderedList.push_back(item);
 		}
 	}
-	for(Q3ValueList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i) {
+	for(QList<KileProjectItem*>::iterator i = notCorrectlyOrderedList.begin(); i != notCorrectlyOrderedList.end(); ++i) {
 		orderedList.push_back(*i);
 	}
 
 	unsigned int counter = 0;
-	for (Q3ValueList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
+	for (QList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
 		m_progressDialog->progressBar()->setValue(counter + project_steps);
 		kapp->processEvents();

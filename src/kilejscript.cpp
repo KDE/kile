@@ -33,7 +33,7 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <q3textstream.h>
-#include <q3valuelist.h>
+#include <QList>
 
 #include "kileconfig.h"
 #include "kileedit.h"
@@ -635,15 +635,15 @@ m_kileInfo->viewManager()->currentView()->down();*/
 	}
 
 	void Manager::deleteJScripts() {
-		Q3ValueList<JScript*> scriptList = m_jScriptList;
+		QList<JScript*> scriptList = m_jScriptList;
 		m_jScriptList.clear(); // pretend that there are no scripts left
 		QStringList keySequenceList;
-		for(Q3ValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
+		for(QList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
 			keySequenceList.push_back((*it)->getKeySequence());
 		}
 		m_idScriptMap.clear();
 		m_kileInfo->editorKeySequenceManager()->removeKeySequence(keySequenceList);
-		for(Q3ValueList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
+		for(QList<JScript*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
 			KAction *action = (*it)->getActionObject();
 			if(action) {
 				foreach (QWidget *w, action->associatedWidgets()) {

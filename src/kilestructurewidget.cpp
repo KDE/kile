@@ -589,17 +589,13 @@ namespace KileWidget
 		const QStringList *list = ki->allLabels();
 		//KILE_DEBUG() << "\tfound " << list->count() << " labels" << endl;
 		QMap<QString,bool> labelmap;
-		for ( QStringList::ConstIterator itmap=list->begin(); itmap!=list->end(); ++itmap ) 
-		{
+		for (QStringList::const_iterator itmap = list->begin(); itmap != list->end(); ++itmap) {
 			labelmap[(*itmap)] = true;
 		}
 
 		// now check if there are unsolved references
-		Q3ValueListConstIterator<KileReferenceData> it;
-		for ( it=m_references.begin(); it!=m_references.end(); ++it )
-		{
-			if ( ! labelmap.contains((*it).name()) )
-			{ 
+		for (QList<KileReferenceData>::const_iterator it = m_references.begin(); it!=m_references.end(); ++it) {
+			if(!labelmap.contains((*it).name())) {
 				KileListViewItem *refitem = folder("refs");
 				refitem->setOpen( shouldBeOpen(refitem,"refs",0) );
 				new KileListViewItem(refitem,0L,(*it).name(),m_docinfo->url(),(*it).line(),(*it).column(),KileStruct::Reference,KileStruct::NotSpecified, 0,0 );

@@ -21,7 +21,6 @@
 #include <qpainter.h>
 //Added by qt3to4:
 #include <Q3GridLayout>
-#include <Q3ValueList>
 
 #include <klocale.h>
 #include <kcursor.h>
@@ -37,7 +36,7 @@
 namespace KileDialog
 {
 
-ResultItem::ResultItem(K3ListBox *lb, const QString &tool, int status, const Q3ValueList<ConfigTest> &tests) : Q3ListBoxItem(lb)
+ResultItem::ResultItem(K3ListBox *lb, const QString &tool, int status, const QList<ConfigTest> &tests) : Q3ListBoxItem(lb)
 {
 	QString rt = "<hr><b><font color=\"%1\">%2</font></b> (%3)<br><ul>";
 	for (int i = 0; i < tests.count(); ++i) {

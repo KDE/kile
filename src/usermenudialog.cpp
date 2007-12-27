@@ -23,7 +23,6 @@
 #include <q3buttongroup.h>
 //Added by qt3to4:
 #include <Q3GridLayout>
-#include <Q3ValueList>
 
 #include <kpushbutton.h>
 #include <klocale.h>
@@ -33,7 +32,7 @@
 namespace KileDialog
 {
 
-UserTags::UserTags(const Q3ValueList<KileAction::TagData> &list, QWidget* parent,  const char* name, const QString &caption)
+UserTags::UserTags(const QList<KileAction::TagData> &list, QWidget* parent,  const char* name, const QString &caption)
     : 	KDialog(parent), m_list(list)
 {
 	setObjectName(name);
@@ -144,15 +143,14 @@ void UserTags::slotAdd()
 
 void UserTags::slotInsert()
 {
-	m_list.insert(m_list.at(m_prevIndex), splitTag(m_editName->text(), m_editTag->text()));
+	m_list.insert(m_prevIndex, splitTag(m_editName->text(), m_editTag->text()));
 	redraw();
 }
 
 void UserTags::slotRemove()
 {
-	if (m_list.size() > 0)
-	{
-		m_list.remove( m_list.at(m_prevIndex) );
+	if (m_list.size() > 0) {
+		m_list.removeAt(m_prevIndex);
 
 		--m_prevIndex;
 		if (m_prevIndex >= static_cast<int>(m_list.count()) ) m_prevIndex = m_list.count()-1;

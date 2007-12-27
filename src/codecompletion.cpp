@@ -20,8 +20,8 @@
 #include <qfile.h>
 #include <qtimer.h>
 #include <q3dict.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+
+#include <QList>
 
 #include "kiledebug.h"
 #include <klocale.h>
@@ -256,7 +256,7 @@ namespace KileDocument
 	//////////////////// wordlists ////////////////////
 
 	void CodeCompletion::setWordlist( const QStringList &files, const QString &dir,
-	                                  Q3ValueList<KTextEditor::CompletionEntry> *entrylist
+	                                  QList<KTextEditor::CompletionEntry> *entrylist
 	                                )
 	{
 
@@ -396,7 +396,7 @@ namespace KileDocument
 		}
 
 		// determine the current list
-		Q3ValueList<KTextEditor::CompletionEntry> list;
+		QList<KTextEditor::CompletionEntry> list;
 		switch ( m_mode )
 		{
 				case cmLatex: // fall through here
@@ -460,7 +460,7 @@ namespace KileDocument
 */
 	}
 
-	void CodeCompletion::appendNewCommands(Q3ValueList<KTextEditor::CompletionEntry> & list)
+	void CodeCompletion::appendNewCommands(QList<KTextEditor::CompletionEntry> & list)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 459!
@@ -977,7 +977,7 @@ return QString();
 */
 	}
 
-	void CodeCompletion::setCompletionEntries( Q3ValueList<KTextEditor::CompletionEntry> *list,
+	void CodeCompletion::setCompletionEntries( QList<KTextEditor::CompletionEntry> *list,
 	                                           const QStringList &wordlist )
 	{
 #ifdef __GNUC__
@@ -1005,7 +1005,7 @@ return QString();
 */
 	}
 
-	void CodeCompletion::setCompletionEntriesTexmode( Q3ValueList<KTextEditor::CompletionEntry> *list,
+	void CodeCompletion::setCompletionEntriesTexmode( QList<KTextEditor::CompletionEntry> *list,
 	        const QStringList &wordlist )
 	{
 #ifdef __GNUC__
@@ -1088,7 +1088,7 @@ return QString();
 	// or 1 entries.
 
 	uint CodeCompletion::countEntries( const QString &pattern,
-	                                   Q3ValueList<KTextEditor::CompletionEntry> *list,
+	                                   QList<KTextEditor::CompletionEntry> *list,
 	                                   QString *entry, QString *type )
 	{
 #ifdef __GNUC__
@@ -1096,7 +1096,7 @@ return QString();
 #endif
 //FIXME: port for KDE4
 /*
-		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
+		QList<KTextEditor::CompletionEntry>::Iterator it;
 		uint n = 0;
 
 		for ( it = list->begin(); it != list->end() && n < 2; ++it )
@@ -1121,7 +1121,7 @@ return 0;
 #endif
 //FIXME: port for KDE4
 /*
-		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
+		QList<KTextEditor::CompletionEntry>::Iterator it;
 
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
@@ -1426,7 +1426,7 @@ return false;
 	}
 
 	void CodeCompletion::getDocumentWords(const QString &text,
-	                                      Q3ValueList<KTextEditor::CompletionEntry> &list)
+	                                      QList<KTextEditor::CompletionEntry> &list)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 1424!
@@ -1564,7 +1564,7 @@ return false;
 //FIXME: port for KDE4
 /*
 		KILE_DEBUG() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
-		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
+		QList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
 			if ( (*it).text == entry )
@@ -1584,7 +1584,7 @@ return false;
 //FIXME: port for KDE4
 /*
 		KILE_DEBUG() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
-		Q3ValueList<KTextEditor::CompletionEntry>::Iterator it;
+		QList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
 			if ( (*it).text > entry )

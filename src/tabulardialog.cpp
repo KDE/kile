@@ -459,23 +459,23 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 		connect(m_cbSep,SIGNAL(clicked()),this, SLOT(slotSeparatorClicked()));
 	}
 	
-	Q3WhatsThis::add(m_coHeader,i18n("Column or cell alignment."));
-	Q3WhatsThis::add(m_cbBold,i18n("Set bold font series."));
-	Q3WhatsThis::add(m_cbItalic,i18n("Set italic font shape."));
-	Q3WhatsThis::add(m_rbAlignleft,i18n("The text will be aligned at the left border of the cell."));
-	Q3WhatsThis::add(m_rbAligncenter,i18n("The text will be centered."));
-	Q3WhatsThis::add(m_rbAlignright,i18n("The text will be aligned at the right border of the cell."));
-	Q3WhatsThis::add(m_ccBgcolor,i18n("Choose a background color (needs color package)."));
-	Q3WhatsThis::add(m_ccTextcolor,i18n("Choose a text color (needs color package)."));
-	Q3WhatsThis::add(m_cbPre,i18n("Insert decl directly in front of the column entry."));
-	Q3WhatsThis::add(m_cbPost,i18n("Insert decl right after the column entry."));
-	Q3WhatsThis::add(m_cbAt,i18n("Suppresses inter-column space and inserts decl directly."));
-	Q3WhatsThis::add(m_cbSep,i18n("Inserts decl, but does not suppress the normally inserted space between columns in contrast to @{decl}."));
-	Q3WhatsThis::add(m_pbFrame1,i18n("Clear all border lines."));
-	Q3WhatsThis::add(m_pbFrame2,i18n("Set left and right border lines."));
-	Q3WhatsThis::add(m_pbFrame3,i18n("Set upper and lower border line."));
-	Q3WhatsThis::add(m_pbFrame4,i18n("Set all border lines."));
-	Q3WhatsThis::add(m_cellframe,i18n("Set user defined border lines. A mouse click into one of the four border ranges will set or clear this special border line."));
+	m_coHeader->setWhatsThis(i18n("Column or cell alignment."));
+	m_cbBold->setWhatsThis(i18n("Set bold font series."));
+	m_cbItalic->setWhatsThis(i18n("Set italic font shape."));
+	m_rbAlignleft->setWhatsThis(i18n("The text will be aligned at the left border of the cell."));
+	m_rbAligncenter->setWhatsThis(i18n("The text will be centered."));
+	m_rbAlignright->setWhatsThis(i18n("The text will be aligned at the right border of the cell."));
+	m_ccBgcolor->setWhatsThis(i18n("Choose a background color (needs color package)."));
+	m_ccTextcolor->setWhatsThis(i18n("Choose a text color (needs color package)."));
+	m_cbPre->setWhatsThis(i18n("Insert decl directly in front of the column entry."));
+	m_cbPost->setWhatsThis(i18n("Insert decl right after the column entry."));
+	m_cbAt->setWhatsThis(i18n("Suppresses inter-column space and inserts decl directly."));
+	m_cbSep->setWhatsThis(i18n("Inserts decl, but does not suppress the normally inserted space between columns in contrast to @{decl}."));
+	m_pbFrame1->setWhatsThis(i18n("Clear all border lines."));
+	m_pbFrame2->setWhatsThis(i18n("Set left and right border lines."));
+	m_pbFrame3->setWhatsThis(i18n("Set upper and lower border line."));
+	m_pbFrame4->setWhatsThis(i18n("Set all border lines."));
+	m_cellframe->setWhatsThis(i18n("Set user defined border lines. A mouse click into one of the four border ranges will set or clear this special border line."));
 	
 	setButtonWhatsThis(User1,i18n("Reset all settings to standard cell attributes: left alignment, normal font series and shape, white background color, black text color, no border lines."));
 }
@@ -1943,18 +1943,18 @@ TabularDialog::TabularDialog(QWidget *parent, KConfig *config, KileDocument::Lat
 	connect( m_spRows, SIGNAL(valueChanged(int)), this, SLOT(slotRowValueChanged(int)));
 	connect( m_spCols, SIGNAL(valueChanged(int)), this, SLOT(slotColValueChanged(int)));
 
-	Q3WhatsThis::add(m_table,i18n("Input data. When you press Enter, the cursor will move to the cell right of the current cell. A click with the right mouse button on a cell or a range of cells will open a popup menu, where you can edit attributes, clear attributes, delete text or define multicolumn cells."));
-	Q3WhatsThis::add(m_table->horizontalHeader(),i18n("Current layout of the preamble. A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected columns."));
-	Q3WhatsThis::add(m_table->verticalHeader(),i18n("A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected rows."));
-	Q3WhatsThis::add(m_coEnvironment,i18n("Choose an environment."));
-	Q3WhatsThis::add(m_coParameter,i18n("Optional parameter for the chosen environment."));
-	Q3WhatsThis::add(m_spRows,i18n("Choose the number of table rows."));
-	Q3WhatsThis::add(m_spCols,i18n("Choose the number of table columns."));
-	Q3WhatsThis::add(m_cbWarning,i18n("If you want, you will be asked before a non empty row a column is deleted."));
-	Q3WhatsThis::add(m_cbCenter,i18n("The tabular will be centered."));
-	Q3WhatsThis::add(m_cbBooktabs,i18n("Use line commands of the booktabs package."));
-	Q3WhatsThis::add(m_cbStarred,i18n("Use the starred version of this environment."));
-	Q3WhatsThis::add(m_cbBullets,i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+	m_table->setWhatsThis(i18n("Input data. When you press Enter, the cursor will move to the cell right of the current cell. A click with the right mouse button on a cell or a range of cells will open a popup menu, where you can edit attributes, clear attributes, delete text or define multicolumn cells."));
+	m_table->horizontalHeader()->setWhatsThis(i18n("Current layout of the preamble. A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected columns."));
+	m_table->verticalHeader()->setWhatsThis(i18n("A click with the right mouse button will open a popup menu, where you can edit some attributes of all cells, which belong to the selected rows."));
+	m_coEnvironment->setWhatsThis(i18n("Choose an environment."));
+	m_coParameter->setWhatsThis(i18n("Optional parameter for the chosen environment."));
+	m_spRows->setWhatsThis(i18n("Choose the number of table rows."));
+	m_spCols->setWhatsThis(i18n("Choose the number of table columns."));
+	m_cbWarning->setWhatsThis(i18n("If you want, you will be asked before a non empty row a column is deleted."));
+	m_cbCenter->setWhatsThis(i18n("The tabular will be centered."));
+	m_cbBooktabs->setWhatsThis(i18n("Use line commands of the booktabs package."));
+	m_cbStarred->setWhatsThis(i18n("Use the starred version of this environment."));
+	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
 
 }
 

@@ -21,7 +21,6 @@ email                : holger.danielsson@t-online.de
 #include <Q3GridLayout>
 #include <Q3HBoxLayout>
 #include <Q3VBoxLayout>
-#include <Q3WhatsThis>
 #include <QCheckBox>
 #include <QItemDelegate>
 #include <QLabel>
@@ -139,13 +138,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnDocumentClassAdd = new KPushButton(classOptions);
 	m_btnDocumentClassAdd->setIcon(KIcon("list-add"));
-	Q3WhatsThis::add(m_btnDocumentClassAdd, i18n("Add current text to this list"));
+	m_btnDocumentClassAdd->setWhatsThis(i18n("Add current text to this list"));
 	gl->addWidget(m_btnDocumentClassAdd,0,2);
 	connect(m_btnDocumentClassAdd, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 
 	m_btnDocumentClassDelete = new KPushButton(classOptions);
 	m_btnDocumentClassDelete->setIcon(KIcon("list-remove"));
-	Q3WhatsThis::add(m_btnDocumentClassDelete, i18n("Remove current element from this list"));
+	m_btnDocumentClassDelete->setWhatsThis(i18n("Remove current element from this list"));
 	gl->addWidget(m_btnDocumentClassDelete,0,3);
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 
@@ -161,13 +160,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnTypefaceSizeAdd = new KPushButton(classOptions);
 	m_btnTypefaceSizeAdd->setIcon(KIcon("list-add"));
-	Q3WhatsThis::add(m_btnTypefaceSizeAdd, i18n("Add current text to this list"));
+	m_btnTypefaceSizeAdd->setWhatsThis(i18n("Add current text to this list"));
 	gl->addWidget(m_btnTypefaceSizeAdd,1,2);
 	connect(m_btnTypefaceSizeAdd, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeAdd()));
 
 	m_btnTypefaceSizeDelete = new KPushButton(classOptions);
 	m_btnTypefaceSizeDelete->setIcon(KIcon("list-remove"));
-	Q3WhatsThis::add(m_btnTypefaceSizeDelete, i18n("Remove current element from this list"));
+	m_btnTypefaceSizeDelete->setWhatsThis(i18n("Remove current element from this list"));
 	gl->addWidget(m_btnTypefaceSizeDelete,1,3);
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
 
@@ -184,13 +183,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnPaperSizeAdd = new KPushButton(classOptions);
 	m_btnPaperSizeAdd->setIcon(KIcon("list-add"));
-	Q3WhatsThis::add(m_btnPaperSizeAdd, i18n("Add current text to this list"));
+	m_btnPaperSizeAdd->setWhatsThis(i18n("Add current text to this list"));
 	gl->addWidget(m_btnPaperSizeAdd,2,2);
 	connect(m_btnPaperSizeAdd, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 
 	m_btnPaperSizeDelete = new KPushButton(classOptions);
 	m_btnPaperSizeDelete->setIcon(KIcon("list-remove"));
-	Q3WhatsThis::add(m_btnPaperSizeDelete, i18n("Remove current element from this list"));
+	m_btnPaperSizeDelete->setWhatsThis(i18n("Remove current element from this list"));
 	gl->addWidget(m_btnPaperSizeDelete,2,3);
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 
@@ -231,19 +230,19 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnClassOptionsAdd = new KPushButton(i18n("&Add..."), frame);
 	m_btnClassOptionsAdd->setIcon(KIcon("list-add"));
-	Q3WhatsThis::add(m_btnClassOptionsAdd, i18n("Add a new class option"));
+	m_btnClassOptionsAdd->setWhatsThis(i18n("Add a new class option"));
 	hl->addWidget(m_btnClassOptionsAdd);
 	connect(m_btnClassOptionsAdd, SIGNAL(clicked()), this, SLOT(slotClassOptionAdd()));
 
 	m_btnClassOptionsEdit = new KPushButton(i18n("Ed&it..."), frame);
 	m_btnClassOptionsEdit->setIcon(KIcon("document-properties"));
-	Q3WhatsThis::add(m_btnClassOptionsEdit, i18n("Edit the current class option"));
+	m_btnClassOptionsEdit->setWhatsThis(i18n("Edit the current class option"));
 	hl->addWidget(m_btnClassOptionsEdit);
 	connect(m_btnClassOptionsEdit, SIGNAL(clicked()), this, SLOT(slotClassOptionEdit()));
 
 	m_btnClassOptionsDelete = new KPushButton(i18n("De&lete"), frame);
 	m_btnClassOptionsDelete->setIcon(KIcon("list-remove"));
-	Q3WhatsThis::add(m_btnClassOptionsDelete, i18n("Remove the current class option"));
+	m_btnClassOptionsDelete->setWhatsThis(i18n("Remove the current class option"));
 	hl->addWidget(m_btnClassOptionsDelete);
 	connect(m_btnClassOptionsDelete, SIGNAL(clicked()), this, SLOT(slotClassOptionDelete()));
 
@@ -282,27 +281,27 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 
 	m_btnPackagesAdd = new KPushButton("&Add Package...", frame);
 	m_btnPackagesAdd->setIcon(KIcon("list-add"));
-	Q3WhatsThis::add(m_btnPackagesAdd, i18n("Add a new package"));
+	m_btnPackagesAdd->setWhatsThis(i18n("Add a new package"));
 	connect(m_btnPackagesAdd, SIGNAL(clicked()), this, SLOT(slotPackageAdd()));
 	hl->addWidget(m_btnPackagesAdd);
 	m_btnPackagesAddOption = new KPushButton(i18n("Add Op&tion..."), frame);
 	m_btnPackagesAddOption->setIcon(KIcon("list-add"));
-	Q3WhatsThis::add(m_btnPackagesAddOption, i18n("Add a new package option"));
+	m_btnPackagesAddOption->setWhatsThis(i18n("Add a new package option"));
 	connect(m_btnPackagesAddOption, SIGNAL(clicked()), this, SLOT(slotPackageAddOption()));
 	hl->addWidget(m_btnPackagesAddOption);
 	m_btnPackagesEdit = new KPushButton("Ed&it...", frame);
 	m_btnPackagesEdit->setIcon(KIcon("document-properties"));
-	Q3WhatsThis::add(m_btnPackagesEdit, i18n("Edit the current package option"));
+	m_btnPackagesEdit->setWhatsThis(i18n("Edit the current package option"));
 	connect(m_btnPackagesEdit, SIGNAL(clicked()), this, SLOT(slotPackageEdit()));
 	hl->addWidget(m_btnPackagesEdit);
 	m_btnPackagesDelete = new KPushButton(i18n("De&lete"), frame);
 	m_btnPackagesDelete->setIcon(KIcon("list-remove"));
-	Q3WhatsThis::add(m_btnPackagesDelete, i18n("Remove the current package option"));
+	m_btnPackagesDelete->setWhatsThis(i18n("Remove the current package option"));
 	connect(m_btnPackagesDelete, SIGNAL(clicked()), this, SLOT(slotPackageDelete()));
 	hl->addWidget(m_btnPackagesDelete);
 	m_btnPackagesReset = new KPushButton(i18n("&Reset to Defaults"), frame);
 	m_btnPackagesReset->setIcon(KIcon("document-revert"));
-	Q3WhatsThis::add(m_btnPackagesReset, i18n("Reset to the default list of packages"));
+	m_btnPackagesReset->setWhatsThis(i18n("Reset to the default list of packages"));
 	connect(m_btnPackagesReset, SIGNAL(clicked()), this, SLOT(slotPackageReset()));
 	hl->addWidget(m_btnPackagesReset);
 	hl->addStretch(1);

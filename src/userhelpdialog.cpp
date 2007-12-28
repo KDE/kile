@@ -411,10 +411,10 @@ UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, co
 	vbox->addWidget(group);
 	vbox->addStretch();
 
-	Q3WhatsThis::add(m_leMenuEntry,i18n("The menu entry for this help file."));
-	Q3WhatsThis::add(m_leHelpFile,i18n("The name of the local help file or a valid WEB url."));
-	Q3WhatsThis::add(m_pbChooseFile,i18n("Start a file dialog to choose a local help file."));
-	Q3WhatsThis::add(m_pbChooseHtml,i18n("Start the konqueror to choose a WEB url as help file. This url should be copied inzo the edit widget."));
+	m_leMenuEntry->setWhatsThis(i18n("The menu entry for this help file."));
+	m_leHelpFile->setWhatsThis(i18n("The name of the local help file or a valid WEB url."));
+	m_pbChooseFile->setWhatsThis(i18n("Start a file dialog to choose a local help file."));
+	m_pbChooseHtml->setWhatsThis(i18n("Start the konqueror to choose a WEB url as help file. This url should be copied inzo the edit widget."));
 
 	connect( m_pbChooseFile, SIGNAL( clicked() ), this, SLOT( slotChooseFile() ) );
 	connect( m_pbChooseHtml, SIGNAL( clicked() ), this, SLOT( slotChooseHtml() ) );

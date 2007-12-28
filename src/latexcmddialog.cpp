@@ -99,12 +99,12 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	label3->setBuddy(m_edName);
 	label4->setBuddy(m_chStarred);
-	Q3WhatsThis::add(grouplabel,i18n("Name of the group, to which this environment or command belongs."));
+	grouplabel->setWhatsThis(i18n("Name of the group, to which this environment or command belongs."));
 	if ( m_addmode )
-		Q3WhatsThis::add(m_edName,i18n("Name of the new environment or command."));
+		m_edName->setWhatsThis(i18n("Name of the new environment or command."));
 	else
-		Q3WhatsThis::add(m_edName,i18n("Name of the environment or command to edit."));
-	Q3WhatsThis::add(m_chStarred,i18n("Does this environment or command also exist in a starred version?"));
+		m_edName->setWhatsThis(i18n("Name of the environment or command to edit."));
+	m_chStarred->setWhatsThis(i18n("Does this environment or command also exist in a starred version?"));
 
 	int currentRow = 3;
 	if ( m_useMathOrTab )
@@ -126,9 +126,9 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		label5->setBuddy(m_chEndofline);
 		label6->setBuddy(m_chMath);
 		label7->setBuddy(m_coTab);
-		Q3WhatsThis::add(m_chEndofline,i18n("Shall 'Smart New Line' insert \\\\?"));
-		Q3WhatsThis::add(m_chMath,i18n("Does this environment need math mode?"));
-		Q3WhatsThis::add(m_coTab,i18n("Define the standard tabulator of this environment."));
+		m_chEndofline->setWhatsThis(i18n("Shall 'Smart New Line' insert \\\\?"));
+		m_chMath->setWhatsThis(i18n("Does this environment need math mode?"));
+		m_coTab->setWhatsThis(i18n("Define the standard tabulator of this environment."));
 
 		m_coTab->addItem(QString());
 		m_coTab->addItem("&");
@@ -152,11 +152,11 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		{
 			m_coOption->addItem("[tcb]");
 			m_coOption->addItem("[lcr]");
-			Q3WhatsThis::add(m_coOption,i18n("Define an optional alignment parameter."));
+			m_coOption->setWhatsThis(i18n("Define an optional alignment parameter."));
 		}
 		else
 		{
-			Q3WhatsThis::add(m_coOption,i18n("Does this command need an optional parameter."));
+			m_coOption->setWhatsThis(i18n("Does this command need an optional parameter."));
 		}
 		m_coOption->addItem("[ ]");
 
@@ -178,13 +178,13 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 			m_coParameter->addItem("{n}");
 			m_coParameter->addItem("{w}");
 			m_coParameter->addItem("{ }");
-			Q3WhatsThis::add(m_coParameter,i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
+			m_coParameter->setWhatsThis(i18n("Does this environment need an additional parameter like {n} for an integer number, {w} for a width or { } for any other parameter?"));
 		}
 		else
 		{
 			m_coParameter->addItem("{ }");
 			// m_coParameter->addItem(QString());
-			Q3WhatsThis::add(m_coParameter,i18n("Does this command need an argument?"));
+			m_coParameter->setWhatsThis(i18n("Does this command need an argument?"));
 		}
 
 		currentRow++;
@@ -402,10 +402,10 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	setButtonText(Help,"Default Settings");
 	slotEnableButtons();
 
-	Q3WhatsThis::add(m_lvEnvironments,i18n("List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments."));
-	Q3WhatsThis::add(m_btnAdd,i18n("Add a new environment."));
-	Q3WhatsThis::add(m_btnDelete,i18n("Delete an user defined environment."));
-	Q3WhatsThis::add(m_btnEdit,i18n("Edit an user defined environment."));
+	m_lvEnvironments->setWhatsThis(i18n("List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments."));
+	m_btnAdd->setWhatsThis(i18n("Add a new environment."));
+	m_btnDelete->setWhatsThis(i18n("Delete an user defined environment."));
+	m_btnEdit->setWhatsThis(i18n("Edit an user defined environment."));
 
    connect(m_tab,SIGNAL(currentChanged(QWidget*)),this,SLOT(slotPageChanged(QWidget*)));
 	connect(m_lvEnvironments, SIGNAL(selectionChanged()),this, SLOT(slotEnableButtons()));

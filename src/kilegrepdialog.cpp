@@ -260,7 +260,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	// Anyone an idea?
 	KAcceleratorManager::manage( this );
 
-	Q3WhatsThis::add(pattern_combo,
+	pattern_combo->setWhatsThis(
 		i18n("Enter the regular expression you want to search for here.<br>"
 		 "Possible meta characters are:<br>"
 		 "<ul>"
@@ -284,10 +284,10 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		 "Furthermore, backreferences to bracketed subexpressions are "
 		 "available via the notation \\\\<i>n</i>."
 		 ));
-	Q3WhatsThis::add(filter_combo,
+	filter_combo->setWhatsThis(
 		i18n("Enter the file name pattern of the files to search here. "
 		 "You may give several patterns separated by commas."));
-	Q3WhatsThis::add(template_combo,
+	template_combo->setWhatsThis(
 		i18n("Choose one search mode. For the first modes, the search pattern is "
 		 "build from the editable template, where '%s' is replaced by the given pattern.<br><br>"
 		 "There are additional fixed predefined modes for environments, graphics, labels, references "
@@ -295,16 +295,16 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 		 "If a pattern is given, it will be inserted as a parameter. F.e., in environment mode with "
 		 "pattern 'center', Kile will search for '\\begin{center}' and in graphics mode with "
 		 "pattern '.*\\.png', Kile will search for all png files."));
-	Q3WhatsThis::add(template_edit,
+	template_edit->setWhatsThis(
 		i18n("For the first three modes you can choose a template for the pattern from the combo box "
 		 "and edit it here. The string %s in the template is replaced "
 		 "by the pattern input field, resulting in the regular expression "
 		 "to search for. In all other modes this template is ignored."));
-	Q3WhatsThis::add(dir_combo,
+	dir_combo->setWhatsThis(
 		i18n("Enter the directory which contains the files you want to search in."));
-	Q3WhatsThis::add(recursive_box,
+	recursive_box->setWhatsThis(
 		i18n("Check this box to search in all subdirectories."));
-	Q3WhatsThis::add(resultbox,
+	resultbox->setWhatsThis(
 		i18n("The results of the grep run are listed here. Select a "
 		 "filename/line number combination with a mouse click on the item "
 		 "or with the cursor to show the respective line in the editor."));

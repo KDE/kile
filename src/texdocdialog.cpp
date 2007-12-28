@@ -94,9 +94,9 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 	vbox->addWidget(m_texdocs);
 	vbox->addWidget(groupbox);
 	
-	Q3WhatsThis::add(m_texdocs,i18n("A list of avaiblable documents, which are listed in 'texdoctk.dat', coming with TexLive/teTeX. A double click with the mouse or pressing the space key will open a viewer to show this file."));
-	Q3WhatsThis::add(m_leKeywords,i18n("You can choose a keyword to show only document files, which are related to this keyword."));
-	Q3WhatsThis::add(m_pbSearch,i18n("Start the search for the chosen keyword."));
+	m_texdocs->setWhatsThis(i18n("A list of avaiblable documents, which are listed in 'texdoctk.dat', coming with TexLive/teTeX. A double click with the mouse or pressing the space key will open a viewer to show this file."));
+	m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files, which are related to this keyword."));
+	m_pbSearch->setWhatsThis(i18n("Start the search for the chosen keyword."));
 #ifdef __GNUC__
 #warning fix actionButton()
 #endif

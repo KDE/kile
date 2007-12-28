@@ -116,15 +116,15 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
 	bg_optionsLayout->setColSpacing(5,8);
 	bg_optionsLayout->setColStretch(7,1); 
 	
-	Q3WhatsThis::add(cb_setcursor,i18n("Try to place the cursor."));
-	Q3WhatsThis::add(cb_setbullets,i18n("Insert bullets, where the user must input data."));
-	Q3WhatsThis::add(cb_closeenv,i18n("Also close an environment, when an opening command is inserted."));
-	Q3WhatsThis::add(cb_usecomplete,i18n("Enable components of word completion."));
-	Q3WhatsThis::add(cb_autocomplete,i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
-	Q3WhatsThis::add(cb_autocompletetext,i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
-	Q3WhatsThis::add(sp_latexthreshold,i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
-	Q3WhatsThis::add(sp_textthreshold,i18n("Automatically show a completion list, when the word has this length."));
-	Q3WhatsThis::add(cb_citeoutofbraces,i18n("Move cursor out of braces after selecting from a citation keylist."));
+	cb_setcursor->setWhatsThis(i18n("Try to place the cursor."));
+	cb_setbullets->setWhatsThis(i18n("Insert bullets, where the user must input data."));
+	cb_closeenv->setWhatsThis(i18n("Also close an environment, when an opening command is inserted."));
+	cb_usecomplete->setWhatsThis(i18n("Enable components of word completion."));
+	cb_autocomplete->setWhatsThis(i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
+	cb_autocompletetext->setWhatsThis(i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
+	sp_latexthreshold->setWhatsThis(i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
+	sp_textthreshold->setWhatsThis(i18n("Automatically show a completion list, when the word has this length."));
+	cb_citeoutofbraces->setWhatsThis(i18n("Move cursor out of braces after selecting from a citation keylist."));
 
 	// bottom: warning
 	QLabel *lb_automodes = new QLabel(i18n("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion."), this);

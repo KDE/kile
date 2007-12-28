@@ -17,30 +17,31 @@
 #ifndef CLEANDIALOG_H
 #define CLEANDIALOG_H
 
-#include <kdialog.h>
+#include <KDialog>
+
 #include <QStringList>
 
-class K3ListView;
+class QTreeWidget;
 
 /**
-  *@author Holger Danielsson
-  */
+ * @author Holger Danielsson
+ */
 
-namespace KileDialog 
+namespace KileDialog
 {
-	class Clean : public KDialog
-	{
-	Q_OBJECT
-	
-	public: 
-		Clean(QWidget *parent, const QString & filename, const QStringList &extlist);
+class Clean : public KDialog
+{
+		Q_OBJECT
+
+	public:
+		Clean(QWidget *parent, const QString &filename, const QStringList &extlist);
 		~Clean();
-		const QStringList & getCleanlist();
-	
+		const QStringList& getCleanlist();
+
 	private:
-		K3ListView		*listview;   
-		QStringList	m_extlist;
-	};
+		QTreeWidget *m_listview;
+		QStringList m_extlist;
+};
 }
 
 #endif

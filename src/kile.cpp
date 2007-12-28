@@ -682,7 +682,7 @@ void Kile::setupActions()
 	createAction(i18n("Find in &Project..."), "project_findfiles", "projectgrep", this, SLOT(findInProjects()));
 
 	//build actions
-	createAction(i18n("Clean"),"CleanAll", "trashcan_full", this, SLOT(cleanAll()));
+	createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
 	createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));
 	createAction(i18n("Previous LaTeX Error"), "PreviousError", "errorprev", m_errorHandler, SLOT(PreviousError()));
 	createAction(i18n("Next LaTeX Error"), "NextError", "errornext", m_errorHandler, SLOT(NextError()));

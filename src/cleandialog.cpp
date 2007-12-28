@@ -16,89 +16,98 @@
 
 #include "cleandialog.h"
 
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kpushbutton.h>
-#include <k3listview.h>
+#include <KIconLoader>
+#include <KLocale>
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qpixmap.h>
-#include <qfileinfo.h>
-//Added by qt3to4:
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
+#include <QFileInfo>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QPixmap>
+#include <QTreeWidget>
+#include <QVBoxLayout>
 
 #include "kiledebug.h"
 
 namespace KileDialog
 {
-	Clean::Clean(QWidget *parent, const QString & filename, const QStringList & extlist) : 
+Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlist) :
 		KDialog(parent),
 		m_extlist(extlist)
+{
+	setCaption(i18n("Delete Files"));
+	setModal(true);
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	showButtonSeparator(true);
+
+	QWidget *page = new QWidget(this);
+	setMainWidget(page);
+
+	// Layout
+	QVBoxLayout *vbox = new QVBoxLayout();
+	vbox->setMargin(0);
+	vbox->setSpacing(KDialog::spacingHint());
+	page->setLayout(vbox);
+
+	// label widgets
+	QWidget *labelwidget = new QWidget(page);
+	QHBoxLayout *labellayout = new QHBoxLayout();
+	labellayout->setMargin(0);
+	labellayout->setSpacing(KDialog::spacingHint());
+	labelwidget->setLayout(labellayout);
+
+	// line 1: picture and label
+	QLabel *picture =  new QLabel("", labelwidget);
+	picture->setPixmap(KIconLoader::global()->loadIcon("dialog-warning", KIconLoader::NoGroup, KIconLoader::SizeMedium));
+	QLabel *label =  new QLabel(i18n("Do you really want to delete these files?"), labelwidget);
+	labellayout->addWidget(picture);
+	labellayout->addSpacing(20);
+	labellayout->addWidget(label);
+
+	// line 2: m_listview
+	m_listview = new QTreeWidget(page);
+	m_listview->setHeaderLabel(i18n("Files"));
+	m_listview->setSortingEnabled(false);
+	m_listview->setAllColumnsShowFocus(true);
+	m_listview->setRootIsDecorated(false);
+
+	// insert items into m_listview
+	QString base = QFileInfo(filename).baseName(true);
+	for (uint i = 0; i <  m_extlist.count(); ++i)
 	{
-		setCaption(i18n("Delete Files"));
-		setModal(true);
-		setButtons(Ok | Cancel);
-		setDefaultButton( Ok );
-		showButtonSeparator(true);
-
-		// Layout
-		Q3VBoxLayout *vbox = new Q3VBoxLayout(this, 6,6 );
-		
-		// label widgets
-		QWidget *labelwidget = new QWidget(this);
-		Q3HBoxLayout *labellayout = new Q3HBoxLayout(labelwidget);
-		
-		// line 1: picture and label
-		QLabel *picture =  new QLabel("", labelwidget);
-		picture->setPixmap( KIconLoader::global()->loadIcon("messagebox_warning", KIconLoader::NoGroup, KIconLoader::SizeMedium) );
-		QLabel *label =  new QLabel(i18n( "Do you really want to delete these files?" ), labelwidget);
-		labellayout->addWidget(picture);
-		labellayout->addSpacing(20);
-		labellayout->addWidget(label);
-		
-		// line 2: listview
-		listview = new K3ListView(this);
-		listview->addColumn(i18n("Files"));
-		listview->setSorting(-1);
-		
-		// insert items into listview
-		QString base = QFileInfo(filename).baseName(true);
-		for (uint i=0; i <  m_extlist.count(); ++i)
-		{
-			Q3CheckListItem *item = new Q3CheckListItem(listview, base + m_extlist[i], Q3CheckListItem::CheckBox);
-			item->setOn(true);
-			listview->insertItem(item);
-		}
-
-		vbox->addWidget(labelwidget,0,Qt::AlignHCenter);
-		vbox->addWidget(listview);
+		QTreeWidgetItem *item = new QTreeWidgetItem(m_listview,
+				QStringList(base + m_extlist[i]));
+		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+		item->setCheckState(0, Qt::Checked);
 	}
-	
-	Clean::~Clean()
-	{}
-	
-	// get all selected items
-	
-	const QStringList & Clean::getCleanlist()
-	{
-		QStringList templist;
 
-		Q3CheckListItem *item = (Q3CheckListItem *)listview->firstChild();
-		int i = m_extlist.count() - 1;
-		while ( item )
-		{
-			if ( item->isOn() && item->text(0).endsWith(m_extlist[i]) )
-				templist.append(m_extlist[i]);
+	vbox->addWidget(labelwidget, 0, Qt::AlignHCenter);
+	vbox->addWidget(m_listview);
+}
 
-			item = (Q3CheckListItem *)item->nextSibling();
-			--i;
+Clean::~Clean()
+{}
+
+// get all selected items
+
+const QStringList& Clean::getCleanlist()
+{
+	QStringList templist;
+
+	int i = 0;
+	QTreeWidgetItemIterator it(m_listview);
+	while (*it) {
+		if ((*it)->checkState(0) == Qt::Checked && (*it)->text(0).endsWith(m_extlist[i])) {
+			templist.append(m_extlist[i]);
 		}
-
-		m_extlist = templist;
-		return m_extlist;
+		++it;
+		++i;
 	}
+
+	m_extlist = templist;
+	return m_extlist;
+}
 }
 
 #include "cleandialog.moc"

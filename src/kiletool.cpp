@@ -578,7 +578,8 @@ namespace KileTool
 			Base::setSource(source);
 			return;
 		}
-		
+
+		manager()->info()->docManager()->projectSave(m_project);
 		Base::setSource(m_project->url().path());
 		m_fileList = m_project->archiveFileList();
 		

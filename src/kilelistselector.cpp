@@ -17,22 +17,23 @@
 
 #include "kilelistselector.h"
 
-#include <QStringList>
+#include <QHeaderView>
 #include <QLabel>
 #include <QLayout>
-#include <q3header.h>
-
-#include <Q3VBoxLayout>
 #include <QList>
+#include <QStringList>
+#include <QTreeWidget>
+#include <QVBoxLayout>
 
-#include <kapplication.h>
+#include <KApplication>
+#include <KLocale>
+
 #include "kiledebug.h"
-#include <klocale.h>
 
 //////////////////// KileListSelectorBase ////////////////////
 
 KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) :
-	KDialog(parent)
+		KDialog(parent)
 {
 	setObjectName(name);
 	setCaption(caption);
@@ -41,82 +42,70 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
 
-	Q3VBoxLayout *layout = new Q3VBoxLayout(this);
+	QWidget *page = new QWidget(this);
+	setMainWidget(page);
 
-	layout->addWidget(new QLabel(select, this));
-	layout->addSpacing(8);
+	QVBoxLayout *layout = new QVBoxLayout();
+	layout->setMargin(0);
+	layout->setSpacing(KDialog::spacingHint());
+	page->setLayout(layout);
 
-	m_listview = new K3ListView(this);
-	m_listview->addColumn(i18n("Files"));
-	m_listview->setSorting(-1);
+	layout->addWidget(new QLabel(select, page));
+
+	m_listview = new QTreeWidget(page);
+	m_listview->setHeaderLabel(i18n("Files"));
+	m_listview->setSortingEnabled(false);
 	m_listview->setAllColumnsShowFocus(true);
-	m_listview->setFullWidth(true);
-	m_listview->setItemsMovable(false);                 // default: true
-	//setAcceptDrops(false);                            // default: false
-	//setDragEnabled(false);                            // default: false
-	//setShadeSortColumn(true);                         // default: true
-	m_listview->header()->setMovingEnabled(false);      // default: true
-
-	m_listview->setShadeSortColumn(false);
+	m_listview->setRootIsDecorated(false);
 
 	layout->addWidget(m_listview);
 
 	insertStringList(list);
 
-	int w = m_listview->columnWidth(0) + 32;
-	w = ( w > 275 ) ? w : 275;
-	int h = ( list.count() > 0 ) ? m_listview->header()->height()+12*m_listview->firstChild()->height() : 224;
-	m_listview->setMinimumSize(w,h);
-
-	resize(sizeHint().width(),sizeHint().height()+4);
-	connect(m_listview, SIGNAL(doubleClicked(Q3ListViewItem*,const QPoint &,int)), this, SLOT(accept()));
+	connect(m_listview, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(accept()));
 }
 
 int KileListSelectorBase::currentItem()
 {
-	Q3ListViewItem *item = m_listview->currentItem();
-	return ( item ) ? m_listview->itemIndex(item) : -1; 
+	QTreeWidgetItem *item = m_listview->currentItem();
+	return (item) ? m_listview->indexOfTopLevelItem(item) : -1;
 }
 
 void KileListSelectorBase::insertStringList(const QStringList &list)
 {
 	QStringList::ConstIterator it;
-	K3ListViewItem *item = 0L;
-	for ( it=list.begin(); it!=list.end(); ++it )
+	for (it = list.begin(); it != list.end(); ++it)
 	{
-		item = new K3ListViewItem(m_listview,item,*it);
-		m_listview->insertItem(item);
+		new QTreeWidgetItem(m_listview, QStringList(*it));
 	}
 }
 
 //////////////////// with single selection ////////////////////
 
-KileListSelector::KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list,caption,select,parent,name)
+KileListSelector::KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list, caption, select, parent, name)
 {
-	m_listview->setSelectionMode(Q3ListView::Single);
+	m_listview->setSelectionMode(QAbstractItemView::SingleSelection);
 
-	if ( list.count() > 0 )
-		m_listview->setSelected(m_listview->firstChild(),true);
+	if (list.count() > 0)
+		m_listview->topLevelItem(0)->setSelected(true);
 }
 
 //////////////////// with multi selection ////////////////////
 
-KileListSelectorMultiple::KileListSelectorMultiple(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list,caption,select,parent,name)
+KileListSelectorMultiple::KileListSelectorMultiple(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list, caption, select, parent, name)
 {
-	m_listview->setSelectionMode(Q3ListView::Extended);     // default: Single
+	m_listview->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
 const QStringList& KileListSelectorMultiple::selected()
 {
 	m_selectedfiles.clear();
 
-	QList<Q3ListViewItem*> list = m_listview->selectedItems();
-	QList<Q3ListViewItem*>::iterator it;
-	
-	for (it = list.begin(); it != list.end(); ++it)
+	QTreeWidgetItemIterator it(m_listview, QTreeWidgetItemIterator::Selected);
+	while (*it) {
 		m_selectedfiles.append((*it)->text(0));
-	
+		++it;
+	}
+
 	return m_selectedfiles;
 }
-
-

@@ -17,42 +17,41 @@
 #ifndef KILELISTSELECTOR_H
 #define KILELISTSELECTOR_H
 
-#include <kdialog.h>
-#include <k3listview.h>
+#include <KDialog>
 
-class K3ListView;
+class QTreeWidget;
 class QStringList;
 
 class KileListSelectorBase : public KDialog
 {
-public:
-	KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);
-	~KileListSelectorBase() {}
+	public:
+		KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent = 0, const char *name = 0);
+		~KileListSelectorBase() {}
 
-	int currentItem();
+		int currentItem();
 
-protected:
-	K3ListView *m_listview;
-	void insertStringList(const QStringList &list);
+	protected:
+		QTreeWidget *m_listview;
+		void insertStringList(const QStringList &list);
 };
 
 class KileListSelector : public KileListSelectorBase
 {
-public:
-	KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);
-	~KileListSelector() {}
+	public:
+		KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent = 0, const char *name = 0);
+		~KileListSelector() {}
 };
 
 class KileListSelectorMultiple : public KileListSelectorBase
 {
-public:
-	KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, QWidget *parent=0, const char *name=0);
-	~KileListSelectorMultiple() {}
+	public:
+		KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, QWidget *parent = 0, const char *name = 0);
+		~KileListSelectorMultiple() {}
 
-	const QStringList &selected();
+		const QStringList &selected();
 
-private:
-	QStringList m_selectedfiles;
+	private:
+		QStringList m_selectedfiles;
 };
 
 

@@ -19,7 +19,7 @@
 #include <qtextcodec.h>
 #include <qfile.h>
 
-#include <Q3TextStream>
+#include <QTextStream>
 
 #include <kmessagebox.h>
 #include <kglobal.h>
@@ -119,17 +119,18 @@ bool ConvertMap::load()
 	//if map already exists, replace it
 	QFile qf(KGlobal::dirs()->findResource("appdata","encodings/" + encoding() + ".enc"));
 
-	if ( qf.open(QIODevice::ReadOnly) )
-	{
-		Q3TextStream stream( &qf );
+	if(qf.open(QIODevice::ReadOnly)) {
+		QTextStream stream(&qf);
 		QTextCodec *codec = QTextCodec::codecForName(isoName().ascii());
-		if ( codec ) stream.setCodec(codec);
+		if(codec) {
+			stream.setCodec(codec);
+		}
 
-		while ( !stream.atEnd() ) 
-		{
+		while(!stream.atEnd()) {
 			//parse the line
-			if ( stream.readLine().find(reMap) != -1)
+			if ( stream.readLine().find(reMap) != -1) {
 				addPair(reMap.cap(1)[0], reMap.cap(2));
+			}
 		}
 		qf.close();
 
@@ -183,7 +184,7 @@ void ConvertIOFile::writeText()
 	if ( qf.open(QIODevice::WriteOnly) )
 	{
 		//read the file
-		Q3TextStream stream( &qf );
+		QTextStream stream(&qf);
 		stream << m_text;
 		qf.close();
 	}

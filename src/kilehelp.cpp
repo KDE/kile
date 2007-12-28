@@ -18,7 +18,7 @@
 
 #include <qdir.h>
 #include <qfile.h>
-#include <q3textstream.h>
+#include <QTextStream>
 #include <qregexp.h>
 #include <qfileinfo.h>
 
@@ -330,8 +330,7 @@ namespace KileHelp
 	void Help::readHelpList(const QString &filename,QMap<QString,QString> &map)
 	{
 		QString file = KGlobal::dirs()->findResource("appdata","help/" + filename);
-		if ( file.isEmpty() )
-		{
+		if(file.isEmpty()) {
 			KILE_DEBUG() << "   file not found: " << filename << endl;
 			return;
 		}
@@ -340,20 +339,16 @@ namespace KileHelp
 		QRegExp reg("\\s*(\\S+)\\s*=>\\s*(\\S+)");
 
 		QFile f(file);
-		if ( f.open(QIODevice::ReadOnly) )
-		{     // file opened successfully
-			Q3TextStream t( &f );         // use a text stream
-			while ( ! t.eof() )
-			{        // until end of file...
-			QString s = t.readLine().trimmed();       // line of text excluding '\n'
-			if ( ! (s.isEmpty() || s.at(0)=='#') )
-			{
-				int pos = reg.search(s);
-				if ( pos != -1 )
-				{
-				map[reg.cap(1)] = reg.cap(2);
+		if(f.open(QIODevice::ReadOnly)) { // file opened successfully
+			QTextStream t(&f);         // use a text stream
+			while(!t.atEnd()) { // until end of file...
+				QString s = t.readLine().trimmed();       // line of text excluding '\n'
+				if(!(s.isEmpty() || s.at(0)=='#')) {
+					int pos = reg.search(s);
+					if ( pos != -1 ) {
+						map[reg.cap(1)] = reg.cap(2);
+					}
 				}
-			}
 			}
 			f.close();
 		}

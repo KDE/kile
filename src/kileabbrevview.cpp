@@ -20,7 +20,7 @@
 #include <kmessagebox.h>
 #include "kiledebug.h"
 
-#include <Q3TextStream>
+#include <QTextStream>
 
 #include <q3header.h>
 #include <qlayout.h>
@@ -102,16 +102,15 @@ void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
 	if ( ! abbrevfile.open( QIODevice::WriteOnly ) ) 
 		return;
 
-	Q3TextStream stream( &abbrevfile );
+	QTextStream stream(&abbrevfile);
 	stream << "# abbreviation mode: editable abbreviations\n";
 	stream << "# dani/2007\n";
 
 	//QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().ascii());
 	// stream.setCodec(codec); 
 
-	Q3ListViewItemIterator it( this );
-	while ( it.current() ) 
-	{
+	Q3ListViewItemIterator it(this);
+	while(it.current()) {
 		if ( it.current()->text(KileAbbrevView::ALVlocal) == "*" )
 		{
 			stream << it.current()->text(KileAbbrevView::ALVabbrev) 

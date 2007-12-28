@@ -32,7 +32,7 @@
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
-#include <q3textstream.h>
+#include <QTextStream>
 #include <QList>
 
 #include "kileconfig.h"
@@ -453,7 +453,7 @@ const KJS::ClassInfo KileTextDocumentJSObject::info = {"KileTextDocumentJSObject
 	QString JScript::getCode() const {
 		QFile qFile(m_file);
 		if(qFile.open(QIODevice::ReadOnly)) {
-			Q3TextStream inputStream(&qFile);
+			QTextStream inputStream(&qFile);
 // 			inputStream.setEncoding(QTextStream::UnicodeUTF8);
 			QString code = inputStream.read();
 			qFile.close();

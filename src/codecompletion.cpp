@@ -963,8 +963,8 @@ return QString();
 		QFile f( file );
 		if ( f.open( QIODevice::ReadOnly ) )
 		{     // file opened successfully
-			Q3TextStream t( &f );         // use a text stream
-			while ( ! t.eof() )
+			QTextStream t( &f );         // use a text stream
+			while ( ! t.atEnd() )
 			{        // until end of file...
 				QString s = t.readLine().trimmed();       // line of text excluding '\n'
 				if ( ! ( s.isEmpty() || s.at( 0 ) == '#' ) )

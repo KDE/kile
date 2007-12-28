@@ -21,7 +21,7 @@
 #include <qlayout.h>
 #include <qfile.h>
 #include <qfileinfo.h>
-#include <q3textstream.h>
+#include <QTextStream>
 #include <q3groupbox.h>
 #include <qregexp.h>
 #include <q3whatsthis.h>
@@ -176,12 +176,10 @@ void TexDocDialog::readToc()
 	
 	// use a textstream to read all data
 	QString textline;
-	Q3TextStream data(&fin);
-	while ( ! data.eof() ) 
-	{
+	QTextStream data(&fin);
+	while(!data.atEnd()) {
 		textline = data.readLine();
-		if ( ! (textline.isEmpty() || textline[0]=='#') ) 
-		{
+		if(!(textline.isEmpty() || textline[0]=='#')) {
 			// save the whole entry
 			m_tocList.append( textline );
 			
@@ -191,17 +189,18 @@ void TexDocDialog::readToc()
 			
 			// get basename of help file 
 			QString basename;
-			if ( list.count() > 2 ) 
-			{
+			if(list.count() > 2) {
 				QFileInfo fi(list[2]);
 				basename = fi.baseName().toLower();
 			}  
 			
 			QString entry = list[0] + ';' + list[1];
-			if ( ! basename.isEmpty() )  
+			if(!basename.isEmpty()) {
 				entry += ';' + basename;
-			if ( list.count() > 3 )
+			}
+			if(list.count() > 3) {
 				entry += ';' + list[3];
+			}
 			m_tocSearchList.append(entry);
 		}
 	}
@@ -364,58 +363,54 @@ void TexDocDialog::showStyleFile(const QString &filename,const QString &stylecod
 		KMessageBox::error(this, i18n("Could not create a temporary file."));
 		return ;
 	}
-	Q3TextStream stream(m_tempfile);
+	QTextStream stream(m_tempfile);
 
 	// use another textstream to read from the style file
-	Q3TextStream sty( &fin );
+	QTextStream sty(&fin);
 	
 	// there are four mode to read from the style file
 	QString textline;
-	if ( stylecode == "-3-" ) 
-	{
+	if(stylecode == "-3-") {
 		// mode 3: read everything up to the first empty line
-		while ( ! sty.eof() ) {
+		while(!sty.atEnd()) {
 			textline = sty.readLine().trimmed();
-			if ( textline.isEmpty() )
+			if(textline.isEmpty()) {
 				break;
+			}
 			stream << textline << "\n";
 		}
 	} 
-	else if ( stylecode == "-2-" ) 
-	{
+	else if(stylecode == "-2-") {
 		// mode 2: read everything up to a line starting with at least 4 '%' characters
-		for ( int i=0; i<9; ++i )
+		for(int i=0; i<9; ++i) {
 			stream << sty.readLine() << "\n";
-		while ( ! sty.eof() ) 
-		{
+		}
+		while(!sty.atEnd()) {
 			textline = sty.readLine();
 			if ( textline.indexOf("%%%%") == 0 )
 				break;
 			stream << textline << "\n";
 		}
 	} 
-	else if ( stylecode == "-1-" ) 
-	{
+	else if(stylecode == "-1-") {
 		// mode 1: read all lines at the end behind \endinput
-		while ( ! sty.eof() ) 
-		{
+		while (!sty.atEnd()) {
 			textline = sty.readLine().trimmed();
 			if ( textline.indexOf("\\endinput") == 0 )
 				break;
 		}
-		while ( ! sty.eof() ) 
-		{
+		while(!sty.atEnd()) {
 			stream << sty.readLine() << "\n";
 		}
 	} 
 	else 
 	{
 		// mode 0: read everything except empty lines and comments 
-		while ( ! sty.eof() ) 
-		{
+		while(!sty.atEnd()) {
 			textline = sty.readLine();
-			if ( !textline.isEmpty() && textline[0]!='%' )
+			if(!textline.isEmpty() && textline[0]!='%') {
 				stream << textline << "\n";
+			}
 		}
 	}
 	

@@ -27,6 +27,8 @@
 #include <Q3CString>
 #include <Q3PopupMenu>
 
+#include <QSplashScreen>
+
 #include <kaction.h>
 #include <khelpmenu.h>
 #include <kmenubar.h>
@@ -47,7 +49,6 @@
 #include <ktexteditor/configinterface.h>
 #include <kxmlguifactory.h>
 
-#include "kileapplication.h"
 #include "kiledocumentinfo.h"
 #include "kileactions.h"
 #include "kilestdactions.h"
@@ -123,6 +124,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 {
 	m_mainWindow = new KileMainWindow(this);
 	m_focusWidget = NULL;
+
+	QSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+	splashScreen.show();
 
 	m_config = KGlobal::config();
 	readUserSettings();
@@ -230,10 +234,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	readConfig();
 
-// 	KileApplication::closeSplash();
-
 	m_mainWindow->resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	m_mainWindow->show();
+	splashScreen.finish(m_mainWindow);
 
 	if(m_listUserTools.count() > 0) {
 		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));

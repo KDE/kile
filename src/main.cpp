@@ -27,7 +27,6 @@
 #include <kurl.h>
 #include "kiledebug.h"
 
-#include "kileapplication.h"
 #include "kile.h"
 #include "kileversion.h"
 #include "kiledebug.h"

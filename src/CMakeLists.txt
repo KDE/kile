@@ -46,7 +46,6 @@ SET(kile_SRCS
 	symbolview.cpp
 	quickdocumentdialog.cpp
 	kilefileselect.cpp
-	kileapplication.cpp
 	docpart.cpp
 	kile.cpp
 	main.cpp

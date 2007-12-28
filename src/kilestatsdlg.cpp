@@ -31,10 +31,6 @@
 KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
 		: KPageDialog(parent), m_project(project), m_docinfo(docinfo)
 {
-#ifdef __GNUC__
-#warning Still things left to be ported!
-#endif
-//FIXME: port for KDE4
 	setObjectName(name);
 	setFaceType(Tabbed);
 	setCaption(caption);
@@ -171,9 +167,6 @@ void KileStatsDlg::slotButtonClicked(int button)
 
 void KileStatsDlg::convertText(QString* text, bool forLaTeX) // the bool determines if we want plainText or LaTeXCode
 {
-#ifdef __GNUC__
-#warning Still things left to be ported!
-#endif
 	KileWidgetStatistics* widget = m_pagetowidget[currentPage()];
 	QString name = m_pagetoname[currentPage()];
 	QString charGroupName = i18n("Characters"); // always ensure that these are the same than in kilestatswidget.ui, there is no way to get the label of a button group, so this ugly hack is needed

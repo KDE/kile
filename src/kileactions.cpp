@@ -97,13 +97,13 @@ Tag::~Tag()
 
 void Tag::init(const QObject *receiver, const char *slot)
 {
-	connect(this, SIGNAL(activated()), SLOT(emitData()));
-	connect(this, SIGNAL(activated(const KileAction::TagData&)), receiver, slot);
+	connect(this, SIGNAL(triggered()), SLOT(emitData()));
+	connect(this, SIGNAL(triggered(const KileAction::TagData&)), receiver, slot);
 }
 
 void Tag::emitData()
 {
-	emit(activated(m_data));
+	emit(triggered(m_data));
 }
 
 ////////////////
@@ -185,7 +185,7 @@ void InputTag::emitData()
 			td.dx += dlg->tag().length() + 1;
 
 		// insert tag
-		emit(activated(td));
+		emit(triggered(td));
 		// refresh document structure and project tree when a file was inserted
 		if ( dlg->useAddProjectFile() ) 
 		{
@@ -393,7 +393,7 @@ Select::Select(const QString &text, const KShortcut &cut, KActionCollection *par
 
 void Select::init()
 {
-	connect(this, SIGNAL(activated(const QString&)), SLOT(emitData(const QString &)));
+	connect(this, SIGNAL(triggered(const QString&)), SLOT(emitData(const QString &)));
 }
 
 void Select::emitData(const QString & name)

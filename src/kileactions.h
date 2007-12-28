@@ -75,10 +75,10 @@ private:
 
 signals:
 	//sends along tagdata so that receiver knows what to insert
-	void activated(const KileAction::TagData&);
+	void triggered(const KileAction::TagData&);
 
 private slots:
-	//emits the activated(TagData) signal
+	//emits the triggered(TagData) signal
 	virtual void emitData();
 
 protected:
@@ -118,7 +118,7 @@ private:
 	void init();
 
 private slots:
-	//emits the activated(TagData) signal
+	//emits the triggered(TagData) signal
 	virtual void emitData();
 
 private:
@@ -181,7 +181,7 @@ private:
 	void init();
 
 signals:
-	void activated(const KAction&);
+	void triggered(const KAction&);
 
 public slots:
 	void setItems(const QList<KAction*> &);

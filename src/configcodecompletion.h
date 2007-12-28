@@ -17,83 +17,85 @@
 #ifndef CONFIGCODECOMPLETION_H
 #define CONFIGCODECOMPLETION_H
 
-#include <qwidget.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qspinbox.h>
-#include <qstring.h>
+#include <QWidget>
 
-#include <kdeversion.h>
-#include <k3listview.h>
-#include <kpushbutton.h>
-#include <kconfig.h>
+class QTabWidget;
+class QCheckBox;
+class QLabel;
+class QSpinBox;
+class QTreeWidget;
+class QTreeWidgetItem;
+
+class KConfig;
+class KPushButton;
 
 /**
   *@author Holger Danielsson
   */
 
-namespace KileWidget { class LogMsg; }
+namespace KileWidget {
+class LogMsg;
+}
 
 class ConfigCodeCompletion : public QWidget
 {
-    Q_OBJECT
-public: 
-   ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent=0, const char *name=0);
-   ~ConfigCodeCompletion();
+		Q_OBJECT
+	public:
+		ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent = 0, const char *name = 0);
+		~ConfigCodeCompletion();
 
-   void readConfig(void);
-   void writeConfig(void);
+		void readConfig(void);
+		void writeConfig(void);
 
-private:
-	enum CompletionPage { TexPage=0, DictionaryPage=1, AbbreviationPage=2, NumPages=3 };
+	private:
+		enum CompletionPage { TexPage = 0, DictionaryPage = 1, AbbreviationPage = 2, NumPages = 3 };
 
-	KConfig *m_config;
-	KileWidget::LogMsg *m_logwidget;
- 
-	// tabs, views, pages, wordlists
-	QTabWidget *tab;
-	K3ListView *m_listview[NumPages];
-	QWidget *m_page[NumPages];
-	QStringList m_wordlist[NumPages];
-	QStringList m_dirname;
+		KConfig *m_config;
+		KileWidget::LogMsg *m_logwidget;
 
-	// button
-	KPushButton *add,*remove;
+		// tabs, views, pages, wordlists
+		QTabWidget *tab;
+		QTreeWidget *m_listview[NumPages];
+		QWidget *m_page[NumPages];
+		QStringList m_wordlist[NumPages];
+		QStringList m_dirname;
 
-    // Checkboxes/Spinboxes
-    QCheckBox *cb_usecomplete, *cb_autocomplete;
-    QCheckBox *cb_setcursor, *cb_setbullets;
-    QCheckBox *cb_closeenv;
-    QSpinBox *sp_latexthreshold;
-    QLabel *lb_latexthreshold;
-	QCheckBox *cb_autocompletetext;
-	QSpinBox *sp_textthreshold;
-	QLabel *lb_textthreshold;
-	QCheckBox *cb_autocompleteabbrev;
-	QCheckBox *cb_showabbrevview;
-	QCheckBox *cb_citeoutofbraces;
+		// button
+		KPushButton *add, *remove;
 
-	bool kateCompletionPlugin();
+		// Checkboxes/Spinboxes
+		QCheckBox *cb_usecomplete, *cb_autocomplete;
+		QCheckBox *cb_setcursor, *cb_setbullets;
+		QCheckBox *cb_closeenv;
+		QSpinBox *sp_latexthreshold;
+		QLabel *lb_latexthreshold;
+		QCheckBox *cb_autocompletetext;
+		QSpinBox *sp_textthreshold;
+		QLabel *lb_textthreshold;
+		QCheckBox *cb_autocompleteabbrev;
+		QCheckBox *cb_showabbrevview;
+		QCheckBox *cb_citeoutofbraces;
 
-	K3ListView *getListview(QWidget *page);
-	QString getListname(QWidget *page);
-	void addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname);
+		bool kateCompletionPlugin();
 
-	void setListviewEntries(CompletionPage page);
-	bool getListviewEntries(CompletionPage page);
-	bool isListviewEntry(K3ListView *listview, const QString &filename);
-	void updateColumnWidth(K3ListView *listview);
+		QTreeWidget *getListview(QWidget *page);
+		QString getListname(QWidget *page);
+		void addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname);
 
-	QString m_localCwlDir, m_globalCwlDir;
-	void getCwlFiles(QMap<QString,QString> &map, QStringList &list, const QString &dir);
-	void getCwlDirs();
+		void setListviewEntries(CompletionPage page);
+		bool getListviewEntries(CompletionPage page);
+		bool isListviewEntry(QTreeWidget *listview, const QString &filename);
+		void updateColumnWidth(QTreeWidget *listview);
 
-private slots:
-   void showPage(QWidget *page);
-   void addClicked();
-   void removeClicked();
-	void slotListviewClicked(Q3ListViewItem *);
+		QString m_localCwlDir, m_globalCwlDir;
+		void getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir);
+		void getCwlDirs();
+
+	private slots:
+		void showPage(QWidget *page);
+		void addClicked();
+		void removeClicked();
+		void slotSelectionChanged();
 };
 
 #endif

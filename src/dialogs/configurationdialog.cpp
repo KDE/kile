@@ -138,8 +138,8 @@ namespace KileDialog
 
 	KPageWidgetItem* Config::addConfigFolder(const QString &section, const QString &icon)
 	{
-		KPageWidgetItem *toReturn = addPage(NULL, section);
-		toReturn->setIcon(KIcon(SmallIcon(icon, KIconLoader::SizeSmallMedium)));
+		KPageWidgetItem *toReturn = addPage(0, section);
+		toReturn->setIcon(KIcon(icon));
 
 		return toReturn;
 	}
@@ -150,7 +150,7 @@ namespace KileDialog
                                    const QString &pixmapName, const QString &header,
 	                           bool addSpacer)
 	{
-		return addConfigPage(parent, page, itemName, KIcon(SmallIcon(pixmapName, KIconLoader::SizeSmallMedium)), header, addSpacer);
+		return addConfigPage(parent, page, itemName, KIcon(pixmapName), header, addSpacer);
 	}
 
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page,
@@ -213,7 +213,7 @@ namespace KileDialog
 		completePage = new ConfigCodeCompletion(m_config,m_ki->logWidget());
 		completePage->readConfig();
 
-		addConfigPage(parent, completePage, i18n("Complete"), "source", i18n("Code Completion"));
+		addConfigPage(parent, completePage, i18n("Complete"), "text-x-tex", i18n("Code Completion"));
 	}
 
 	//////////////////// QuickPreview (dani) ////////////////////
@@ -231,7 +231,7 @@ namespace KileDialog
 		helpPage = new KileWidgetHelpConfig(this);
 		helpPage->setHelp(m_ki->help());
 
-		addConfigPage(parent, helpPage, i18n("Help"),"help");
+		addConfigPage(parent, helpPage, i18n("Help"),"help-browser");
 	}
 
 	//////////////////// LaTeX environments ////////////////////
@@ -265,7 +265,7 @@ namespace KileDialog
 	{
 		structurePage = new KileWidgetStructureViewConfig(this);
 		structurePage->setObjectName("StructureView");
-		addConfigPage(parent, structurePage, i18n("Structure View"), "view_tree");
+		addConfigPage(parent, structurePage, i18n("Structure View"), "view-tree");
 	}
 
 	void Config::setupSymbolView(KPageWidgetItem* parent)

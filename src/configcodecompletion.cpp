@@ -83,13 +83,13 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
 	cb_closeenv = new QCheckBox(i18n("Close environments"),bg_options);
 	cb_usecomplete = new QCheckBox(i18n("Use complete"),bg_options);
 	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"),bg_options);
-	lb_latexthreshold = new QLabel("Threshold:",bg_options);
+	lb_latexthreshold = new QLabel(i18n("Threshold:"), bg_options);
 	sp_latexthreshold = new QSpinBox(1,9,1,bg_options);
-	QLabel *lb_latexletters = new QLabel("letters",bg_options);
+	QLabel *lb_latexletters = new QLabel(i18n("letters"), bg_options);
 	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"),bg_options);
-	lb_textthreshold = new QLabel("Threshold:",bg_options);
+	lb_textthreshold = new QLabel(i18n("Threshold:"), bg_options);
 	sp_textthreshold = new QSpinBox(1,9,1,bg_options);
-	QLabel *lb_textletters = new QLabel("letters",bg_options);
+	QLabel *lb_textletters = new QLabel(i18n("letters"), bg_options);
 	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"),bg_options);
 	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbrev.)"),bg_options);
 	cb_citeoutofbraces = new QCheckBox(i18n("Move out of braces (citation keylists)"),bg_options);
@@ -127,7 +127,7 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
 	Q3WhatsThis::add(cb_citeoutofbraces,i18n("Move cursor out of braces after selecting from a citation keylist."));
 
 	// bottom: warning
-	QLabel *lb_automodes = new QLabel("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion.",this);
+	QLabel *lb_automodes = new QLabel(i18n("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion."), this);
 	
 	// add OptionBox and TabDialog into the layout
 	vbox->addWidget(gb_tab);

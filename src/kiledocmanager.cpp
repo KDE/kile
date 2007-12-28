@@ -456,8 +456,8 @@ KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& 
 	}
 
 	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(KTextEditor::Document *)), m_ki->parentWidget(), SLOT(newCaption()));
-	connect(doc, SIGNAL(fileNameChanged()), m_ki->parentWidget(), SLOT(newCaption()));
+	connect(doc, SIGNAL(nameChanged(KTextEditor::Document *)), m_ki->mainWindow(), SLOT(newCaption()));
+	connect(doc, SIGNAL(fileNameChanged()), m_ki->mainWindow(), SLOT(newCaption()));
 	connect(doc, SIGNAL(modStateChanged(KTextEditor::Document*)), this, SLOT(newDocumentStatus(KTextEditor::Document*)));
 	connect(doc, SIGNAL(modifiedOnDisc(KTextEditor::Document*, bool, unsigned char)), this, SIGNAL(documentStatusChanged(KTextEditor::Document*, bool, unsigned char)));
 
@@ -547,7 +547,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		KTextEditor::Document *tempdoc = editor->createDocument(NULL);
 
 		if (!tempdoc->openUrl(KUrl(sel->path()))) {
-			KMessageBox::error(m_ki->parentWidget(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));
+			KMessageBox::error(m_ki->mainWindow(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));
 		}
 		else {
 			//substitute templates variables
@@ -606,13 +606,13 @@ void Manager::createTemplate()
 	{
 		if (view->document()->isModified() )
 		{
-			KMessageBox::information(m_ki->parentWidget(),i18n("Please save the file first."));
+			KMessageBox::information(m_ki->mainWindow(),i18n("Please save the file first."));
 			return;
 		}
 	}
 	else
 	{
-		KMessageBox::information(m_ki->parentWidget(),i18n("Open/create a document first."));
+		KMessageBox::information(m_ki->mainWindow(),i18n("Open/create a document first."));
 		return;
 	}
 
@@ -621,7 +621,7 @@ void Manager::createTemplate()
 
 	if(type == KileDocument::Undefined || type == KileDocument::Text)
 	{
-		KMessageBox::information(m_ki->parentWidget(),i18n("Sorry, but a template for this type of document cannot be created."));
+		KMessageBox::information(m_ki->mainWindow(),i18n("Sorry, but a template for this type of document cannot be created."));
 		return;
 	}
 
@@ -637,7 +637,7 @@ void Manager::removeTemplate()
 
 void Manager::fileNew()
 {
-	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), m_ki->parentWidget());
+	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), m_ki->mainWindow());
 	if (nfw->exec())
 	{
 		loadTemplate(nfw->getSelection());
@@ -677,7 +677,7 @@ void Manager::fileOpen()
 	                 + "*|" + i18n("All Files");
 
 	//get the URLs
-	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->parentWidget(), i18n("Open Files") );
+	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->mainWindow(), i18n("Open Files") );
 
 	//open them
 	KUrl::List urls = result.URLs;
@@ -897,7 +897,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 	while(true)
 	{
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
-		result = KEncodingFileDialog::getSaveUrlAndEncoding(KileConfig::defaultEncoding(), startURL.url(), filter, m_ki->parentWidget(), i18n("Save File"));
+		result = KEncodingFileDialog::getSaveUrlAndEncoding(KileConfig::defaultEncoding(), startURL.url(), filter, m_ki->mainWindow(), i18n("Save File"));
 		if(result.URLs.isEmpty() || result.URLs.first().isEmpty())
 		{
 			return;
@@ -907,7 +907,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 			saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
 		if(KIO::NetAccess::exists(saveURL, true, kapp->mainWidget())) { // check for writing possibility
-			int r =  KMessageBox::warningContinueCancel(m_ki->parentWidget(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?", saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));
+			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?", saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));
 			if(r != KMessageBox::Continue) {
 				continue;
 			}
@@ -1078,13 +1078,13 @@ void Manager::buildProjectTree(KileProject *project)
 		project->buildProjectTree();
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could Not Refresh Project Tree"));
+		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could Not Refresh Project Tree"));
 }
 
 void Manager::projectNew()
 {
 	KILE_DEBUG() << "==Kile::projectNew==========================" << endl;
-	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->templateManager(), m_ki->extensions(), m_ki->parentWidget());
+	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->templateManager(), m_ki->extensions(), m_ki->mainWindow());
 	KILE_DEBUG()<< "\tdialog created" << endl;
 
 	if (dlg->exec())
@@ -1154,7 +1154,7 @@ KileProject* Manager::selectProject(const QString& caption)
 	KileProject *project = NULL;
 	QString name;
 	if (list.count() > 1) {
-		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), m_ki->parentWidget());
+		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), m_ki->mainWindow());
 		if (dlg->exec())
 		{
 			name = list[dlg->currentItem()];
@@ -1212,7 +1212,7 @@ void Manager::removeFromProject(KileProjectItem *item)
 		KILE_DEBUG() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path() << endl;
 
 		if (item->project()->url() == item->url()) {
-			KMessageBox::error(m_ki->parentWidget(), i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot Remove File From Project"));
+			KMessageBox::error(m_ki->mainWindow(), i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot Remove File From Project"));
 			return;
 		}
 
@@ -1259,7 +1259,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 			m_progressDialog->hide();
 		}
 
-		KMessageBox::information(m_ki->parentWidget(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
+		KMessageBox::information(m_ki->mainWindow(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
 		return NULL;
 	}
 
@@ -1269,7 +1269,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 			m_progressDialog->hide();
 		}
 
-		if (KMessageBox::warningYesNo(m_ki->parentWidget(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
+		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
 			emit(removeFromRecentProjects(realurl));
 
 		return NULL;
@@ -1366,7 +1366,7 @@ void Manager::updateProjectReferences(KileProject *project)
 KileProject* Manager::projectOpen()
 {
 	KILE_DEBUG() << "==Kile::projectOpen==========================" << endl;
-	KUrl url = KFileDialog::getOpenUrl( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->parentWidget(), i18n("Open Project") );
+	KUrl url = KFileDialog::getOpenUrl( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->mainWindow(), i18n("Open Project") );
 
 	if (!url.isEmpty())
 		return projectOpen(url);
@@ -1434,7 +1434,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		project->save();
 	}
 	else
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could Determine Active Project"));
+		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could Determine Active Project"));
 }
 
 void Manager::projectAddFiles(const KUrl & url)
@@ -1464,7 +1464,7 @@ void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 			currentDir=fileUrl.directory();
 
 		KILE_DEBUG() << "currentDir is " << currentDir << endl;
-		KFileDialog *dlg = new KFileDialog(currentDir, i18n("*|All Files"), m_ki->parentWidget());
+		KFileDialog *dlg = new KFileDialog(currentDir, i18n("*|All Files"), m_ki->mainWindow());
 		dlg->setModal(true);
 		KPushButton* okButton = dlg->okButton();
 		okButton->setText(i18n("Add"));
@@ -1484,7 +1484,7 @@ void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 		//open them
 	}
 	else if (m_projects.count() == 0) {
-		KMessageBox::error(m_ki->parentWidget(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could Not Determine Active Project"));
+		KMessageBox::error(m_ki->mainWindow(), i18n("There are no projects opened. Please open the project you want to add files to, then choose Add Files again."),i18n( "Could Not Determine Active Project"));
 	}
 }
 
@@ -1513,11 +1513,11 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 	if (project)
 	{
 		KILE_DEBUG() << "\t" << project->name() << endl;
-		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->extensions(), m_ki->parentWidget());
+		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->extensions(), m_ki->mainWindow());
 		dlg->exec();
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could Not Determine Active Project"));
+		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could Not Determine Active Project"));
 }
 
 bool Manager::projectCloseAll()
@@ -1597,7 +1597,7 @@ bool Manager::projectClose(const KUrl & url)
 			return false;
 	}
 	else if (m_projects.count() == 0)
-		KMessageBox::error(m_ki->parentWidget(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could Not Close Project"));
+		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to close, then choose Close Project again."),i18n( "Could Not Close Project"));
 
 	return true;
 }
@@ -1647,7 +1647,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	if (!silent && extlist.count() > 0 )
 	{
 		KILE_DEBUG() << "not silent" << endl;
-		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->parentWidget(), fileName, extlist);
+		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->mainWindow(), fileName, extlist);
 		if ( dialog->exec() )
 			extlist = dialog->getCleanlist();
 		else
@@ -1873,14 +1873,14 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 
 	// select one of these files
 	KileProjectItem *item = NULL;
-	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project Files"),label, m_ki->parentWidget());
+	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project Files"),label, m_ki->mainWindow());
 	if ( dlg->exec() ) {
 		if ( dlg->currentItem() >= 0 ) {
 			QString name = filelist[dlg->currentItem()];
 			if ( map.contains(name) )
 				item = map[name];
 			else
-				KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."),i18n( "Project Error"));
+				KMessageBox::error(m_ki->mainWindow(), i18n("Could not determine the selected file."),i18n( "Project Error"));
 		}
 	}
 	delete dlg;
@@ -1908,7 +1908,7 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 
 	QList<KileProjectItem*> itemsList;
 
-	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, m_ki->parentWidget());
+	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, m_ki->mainWindow());
 	if(dlg->exec()) {
 		if(dlg->currentItem() >= 0) {
 			selectedfiles = dlg->selected();
@@ -1917,7 +1917,7 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 					itemsList.append(map[(*it)]);
 				}
 				else {
-					KMessageBox::error(m_ki->parentWidget(), i18n("Could not determine the selected file."), i18n( "Project Error"));
+					KMessageBox::error(m_ki->mainWindow(), i18n("Could not determine the selected file."), i18n( "Project Error"));
 				}
 			}
 		}

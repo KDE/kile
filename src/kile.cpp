@@ -95,6 +95,20 @@
  * Class KileMainWindow.
  */
 
+class KileMainWindow : public KXmlGuiWindow
+{
+	public:
+		KileMainWindow(Kile *kile, QWidget *parent = 0, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+		virtual ~KileMainWindow();
+
+	protected:
+		virtual bool queryExit();
+		virtual bool queryClose();
+
+	private:
+		Kile *m_kile;
+};
+
 KileMainWindow::KileMainWindow(Kile *kile, QWidget *parent, Qt::WindowFlags f) : KXmlGuiWindow(parent, f), m_kile(kile)
 {
 }

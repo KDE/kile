@@ -42,6 +42,7 @@
 #include <qstring.h>
 
 KileInfo::KileInfo(QObject *parent) :
+	m_mainWindow(NULL),
 	m_manager(NULL),
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),

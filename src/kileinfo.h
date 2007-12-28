@@ -23,6 +23,8 @@
 #include "kiledebug.h"
 #include <kurl.h>
 
+#include <KXmlGuiWindow>
+
 #include "kileconstants.h"
 #include "kileextensions.h"
 #include "kiletoolmanager.h"
@@ -132,12 +134,14 @@ public:
 	KileFileSelect* fileSelector() const { return m_fileSelector; }
 	KileEventFilter* eventFilter() const { return m_eventFilter; }
 
-	QWidget *parentWidget() const { return m_parentWidget; }
+	QWidget* mainWindow() const { return m_mainWindow; }
 	
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
 	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }
+
 protected:
+	KXmlGuiWindow 			*m_mainWindow;
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;
@@ -158,8 +162,6 @@ protected:
 	KileDocument::LatexCommands *m_latexCommands;
 	KileDocument::Extensions *m_extensions;
 	KileTool::QuickPreview *m_quickPreview;
-
-	QWidget *m_parentWidget;
 
 	bool 		m_singlemode;
 	QString	m_masterName;

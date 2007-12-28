@@ -85,22 +85,6 @@ namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 
-class Kile;
-
-class KileMainWindow : public KXmlGuiWindow
-{
-	public:
-		KileMainWindow(Kile *kile, QWidget *parent = 0, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
-		virtual ~KileMainWindow();
-
-	protected:
-		virtual bool queryExit();
-		virtual bool queryClose();
-
-	private:
-		Kile *m_kile;
-};
-
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem
 {
@@ -169,7 +153,6 @@ signals:
 
 
 private:
-	KileMainWindow				*m_mainWindow;
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 	
 	KToolBar				*m_toolsToolBar;

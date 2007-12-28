@@ -768,14 +768,12 @@ void Kile::setupActions()
 	actionCollection()->addAction("StructureView", tact);
 	tact->setChecked(KileConfig::sideBar());
 	connect(tact, SIGNAL(toggled(bool)), m_sideBar, SLOT(setVisible(bool)));
-	connect(m_sideBar, SIGNAL(visibilityChanged(bool)), tact, SLOT(setChecked(bool)));
 	connect(m_sideBar, SIGNAL(visibilityChanged(bool)), this, SLOT(sideOrBottomBarChanged(bool)));
 
 	m_actionMessageView = new KToggleAction(i18n("Show Mess&ages Bar"), actionCollection());
 	actionCollection()->addAction("MessageView", m_actionMessageView);
 	m_actionMessageView->setChecked(true);
 	connect(m_actionMessageView, SIGNAL(toggled(bool)), m_bottomBar, SLOT(setVisible(bool)));
-	connect(m_bottomBar, SIGNAL(visibilityChanged(bool)), m_actionMessageView, SLOT(setChecked(bool)));
 	connect(m_bottomBar, SIGNAL(visibilityChanged(bool)), this, SLOT(sideOrBottomBarChanged(bool)));
 	if(m_singlemode) {
 		ModeAction->setChecked(false);

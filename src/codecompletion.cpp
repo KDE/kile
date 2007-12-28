@@ -1426,42 +1426,37 @@ return false;
 	}
 
 	void CodeCompletion::getDocumentWords(const QString &text,
-	                                      QList<KTextEditor::CompletionEntry> &list)
+																			QList<KTextEditor::CompletionEntry> &list)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 1424!
-#endif
-//FIXME: port for KDE4
-/*
-
 		//KILE_DEBUG() << "getDocumentWords: " << endl;
 		list.clear();
 
 		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
 		KTextEditor::Document *doc = m_view->document();
-
+	
 		QString s;
 		KTextEditor::CompletionEntry e;
-		Q3Dict<bool> seen;
-		bool alreadyseen = true;
+		QHash<QString, bool> seen;
 
-		for (uint i=0; i<doc->numLines(); ++i) {
-			s = doc->textLine(i);
+		for (uint i = 0; i < doc->lines(); ++i) {
+			s = doc->line(i);
 			int pos = 0;
-			while ( pos >= 0 ) {
-				pos = reg.search(s,pos);
-				if ( pos >= 0 ) {
-					if ( reg.cap(1).at(0)!='\\' && text!=reg.cap(1) && !seen.indexOf(reg.cap(1)) ) {
-						e.text = reg.cap(1);                        // normal entry
+			while (pos >= 0) {
+				pos = reg.search(s, pos);
+				if (pos >= 0) {
+					if (reg.cap(1).at(0) != '\\' && text != reg.cap(1) && !seen.contains(reg.cap(1))) {
+#ifdef __GNUC__
+#warning Things left to be ported
+#endif
+						/*e.text = reg.cap(1);                        // normal entry
 						e.type = "";
-						list.append( e );
-						seen.insert(reg.cap(1),&alreadyseen);
+						list.append(e);*/
+						seen.insert(reg.cap(1), true);
 					}
 					pos += reg.matchedLength();
 				}
 			}
 		}
-*/
 	}
 
 	//////////////////// counting backslashes (dani) ////////////////////

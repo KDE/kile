@@ -25,7 +25,6 @@
 #include <q3frame.h>
 #include <q3groupbox.h>
 #include <q3buttongroup.h>
-#include <q3whatsthis.h>
 #include <qcursor.h>
 #include <qmap.h>
 //Added by qt3to4:

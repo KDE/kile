@@ -51,7 +51,6 @@
 #include <qcheckbox.h>
 #include <qevent.h>
 #include <qregexp.h>
-#include <q3whatsthis.h>
 #include <qcursor.h>
 //Added by qt3to4:
 #include <Q3HBoxLayout>

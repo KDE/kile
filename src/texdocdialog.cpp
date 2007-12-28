@@ -24,7 +24,6 @@
 #include <QTextStream>
 #include <q3groupbox.h>
 #include <qregexp.h>
-#include <q3whatsthis.h>
 #include <QGridLayout>
 #include <QLabel>
 #include <QKeyEvent>

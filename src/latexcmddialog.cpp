@@ -24,7 +24,6 @@
 #include <qlayout.h>
 #include <qvalidator.h>
 #include <qregexp.h>
-#include <q3whatsthis.h>
 #include <QLabel>
 #include <QGroupBox>
 

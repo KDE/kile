@@ -23,7 +23,6 @@
 #include <qlabel.h>
 #include <qinputdialog.h>
 #include <qfileinfo.h>
-#include <q3whatsthis.h>
 
 #include <QGridLayout>
 #include <QBoxLayout>

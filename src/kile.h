@@ -1,8 +1,8 @@
-/***************************************************************************
+/***********************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,6 +16,7 @@
 #ifndef KILE_H
 #define KILE_H
 
+#include <KApplication>
 #include <kdeversion.h>
 #include <ktexteditor/view.h>
 #include <ktexteditor/document.h>
@@ -84,6 +85,22 @@ namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
 namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
 
+class Kile;
+
+class KileMainWindow : public KXmlGuiWindow
+{
+	public:
+		KileMainWindow(Kile *kile, QWidget *parent = 0, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+		virtual ~KileMainWindow();
+
+	protected:
+		virtual bool queryExit();
+		virtual bool queryClose();
+
+	private:
+		Kile *m_kile;
+};
+
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem
 {
@@ -91,15 +108,27 @@ struct userItem
 };
 
 /**
- * The Kile main class. It acts as the mainwindow, information manager and DBUS interface.
+ * The Kile main class. It acts as information manager and DBUS interface. It also manages the main window.
  **/
-class Kile : public KXmlGuiWindow, public KileInfo
+class Kile : public KApplication, public KileInfo
 {
 	Q_OBJECT
 
 public:
-	Kile( bool allowRestore = true, QWidget *parent = 0, const char *name = 0 );
+	Kile(bool allowRestore = true, QWidget *parent = 0, const char *name = 0);
 	~Kile();
+
+	int lineNumber();
+
+	// these functions provide convenient access to the corresponding functions of KMainWindow
+	KActionCollection* actionCollection();
+	KMenuBar* menuBar();
+	KToolBar* toolBar(const QString &name=QString());
+	KStatusBar* statusBar();
+
+	QAction* action(const char* name) const;
+	void plugActionList(const QString& name, const QList<QAction*>& actionList);
+	void unplugActionList(const QString& name);
 
 public slots:
 	/**
@@ -116,12 +145,75 @@ public slots:
 	void fileSelected(const QString & url) { openDocument(url); } //backwards compatibility
 	void closeDocument();
 	void showTip();
-	
-/* actions */
+
+	void prepareForPart(const QString &);
+
+	bool queryExit();
+	bool queryClose();
+
+	void changeInputEncoding();
+
+	void newStatus(const QString& = QString::null);
+	void updateModeStatus();
+	void newCaption();
+	void citeViewBib();
+
+	void openProject(const QString& proj);
+
+signals:
+	/**
+	 * Emit this signal when the configuration is changed. Classes that read and write to the global KConfig object
+	 * should connect to this signal so they can update their settings.
+	 **/
+	void configChanged();
+
+
 private:
-    void showEvent(QShowEvent *e);
-    void hideEvent(QHideEvent *e);
-    QWidget *m_focusWidget;
+	KileMainWindow				*m_mainWindow;
+	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
+	
+	KToolBar				*m_toolsToolBar;
+	KActionMenu 				*m_menuUserTags;
+	QList<KileAction::TagData>		m_listUserTags;
+	QList<userItem>				m_listUserTools;
+	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	KAction					*m_actionEditTag;
+	KAction 				*m_paStop, *m_paPrint;
+	KToggleAction 				*ModeAction, *WatchFileAction;
+	KToggleAction 				*m_actionMessageView;
+	KRecentFilesAction			*m_actRecentFiles;
+	KToggleFullScreenAction			*m_pFullScreen;
+
+	/* GUI */
+	//widgets
+	KileSideBar			*m_sideBar;
+	KileAbbrevView		*m_kileAbbrevView;
+	QStackedWidget			*m_topWidgetStack;
+	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
+	QToolBox			*m_toolBox;
+	SymbolView			*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
+
+	//parts
+	KParts::PartManager 		*m_partManager;
+	QString 			m_wantState, m_currentState;
+
+	/* config */
+	KSharedConfigPtr	m_config;
+	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
+	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
+
+	KRecentFilesAction *m_actRecentProjects;
+
+	QTimer *m_AutosaveTimer;
+
+	KileLyxServer		*m_lyxserver;
+	KileErrorHandler 	*m_errorHandler;
+
+	QWidget *m_focusWidget;
+
+	/* actions */
+	void showEvent(QShowEvent *e);
+	void hideEvent(QHideEvent *e);
 
 	void setupStatusBar();
 	void setupSideBar();
@@ -147,34 +239,16 @@ private:
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
 	void updateActionList(const QList<QAction*>& list, bool state);
-	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
-	
-	KToolBar				*m_toolsToolBar;
-	KActionMenu 				*m_menuUserTags;
-	QList<KileAction::TagData>		m_listUserTags;
-	QList<userItem>				m_listUserTools;
-	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KAction					*m_actionEditTag;
-	KAction 				*m_paStop, *m_paPrint;
-	KToggleAction 				*ModeAction, *WatchFileAction;
-	KToggleAction 				*m_actionMessageView;
-	KRecentFilesAction			*m_actRecentFiles;
-	KToggleFullScreenAction			*m_pFullScreen;
 
-/* GUI */
-private:
-	//widgets
-	KileSideBar			*m_sideBar;
-	KileAbbrevView		*m_kileAbbrevView;
-	QStackedWidget			*m_topWidgetStack;
-	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
-	QToolBox			*m_toolBox;
-	SymbolView			*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
+	void setViewerToolBars();
 
-	//parts
-	KParts::PartManager 		*m_partManager;
-	QString 			m_wantState, m_currentState;
-	
+	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = 0, const char *member = 0);
+
+
 private slots:
 	void toggleMode();
 	void toggleWatchFile();
@@ -183,31 +257,12 @@ private slots:
 
 	void helpLaTex();
 
-private slots:
 	bool resetPart();
 	void activePartGUI(KParts::Part *);
 	void showToolBars(const QString &);
 	void enableKileGUI(bool);
 	void slotToggleFullScreen();
 
-public slots:
-	void prepareForPart(const QString &);
-
-/* config */
-private:
-	KSharedConfigPtr	m_config;
-	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
-	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
-
-	void setViewerToolBars();
-signals:
-	/**
-	 * Emit this signal when the configuration is changed. Classes that read and write to the global KConfig object
-	 * should connect to this signal so they can update their settings.
-	 **/
-	void configChanged();
-
-private slots:
 	void restoreFilesAndProjects(bool allowRestore);
 	void readGUISettings();
 	void readUserSettings();
@@ -221,7 +276,6 @@ private slots:
 	void configureToolbars();
 	void slotPerformCheck();
 
-private slots:
 	/**
 	 * Activates (sets up the GUI for the editor part) the view.
 	 * @param updateStruct  If true, force an update of the structure view.
@@ -234,45 +288,15 @@ private slots:
 	void focusEditor();
 	void focusPreview();
 
-    void sideOrBottomBarChanged(bool visible);
+	void sideOrBottomBarChanged(bool visible);
 
-public slots:
-	bool queryExit();
-	bool queryClose();
-
-	void changeInputEncoding();
-
-	void newStatus(const QString& = QString::null);
-	void updateModeStatus();
-	void newCaption();
-	void citeViewBib();
-
-public slots:
-	void openProject(const QString& proj);
-
-private:
-	KRecentFilesAction *m_actRecentProjects;
-
-	//
-	// documentinfo
-	//
-private slots:
 	void showDocInfo(KTextEditor::Document *doc = 0);
 	void convertToASCII(KTextEditor::Document *doc = 0);
 	void convertToEnc(KTextEditor::Document *doc = 0);
 
-public:
-	int lineNumber();
-
-/* autosave */
-private slots:
-	void autoSaveAll();
-	void enableAutosave(bool);
-
-private:
-	QTimer *m_AutosaveTimer;
-
-private slots:
+	//
+	// documentinfo
+	//
 	void runTool();
 
 	void cleanAll(KileDocument::TextInfo *docinfo = 0);
@@ -282,8 +306,7 @@ private slots:
 	void findInProjects();
 	void grepItemSelected(const QString &abs_filename, int line);
 
-/* insert tags */
-private slots:
+	/* insert tags */
 	/**
 	 * @param td Inserts the TagData td into the current editor.
 	 *
@@ -318,17 +341,11 @@ private slots:
 
 	void includeGraphics();
 
-private:
-	KileLyxServer		*m_lyxserver;
-	KileErrorHandler 	*m_errorHandler;
+	/* autosave */
+	void autoSaveAll();
+	void enableAutosave(bool);
 
-	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = 0, const char *member = 0);
-// QuickPreview
-private slots:
+	// QuickPreview
 	void slotQuickPreview(int type);
 
 	void quickPreviewEnvironment() { slotQuickPreview(KileTool::qpEnvironment); }

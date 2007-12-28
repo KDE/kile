@@ -1,8 +1,8 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Thu Jul 17 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -41,14 +41,12 @@
 #include <qstringlist.h>
 #include <qstring.h>
 
-KileInfo::KileInfo(QWidget *parent) :
-	m_manager(0L),
-	m_jScriptManager(0L),
-	m_toolFactory(0L),
-	m_texKonsole(0L),
-	m_edit(0L),
-	m_parentWidget(parent),
-	m_currentTarget(QString::null)
+KileInfo::KileInfo(QObject *parent) :
+	m_manager(NULL),
+	m_jScriptManager(NULL),
+	m_toolFactory(NULL),
+	m_texKonsole(NULL),
+	m_edit(NULL)
 {
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");

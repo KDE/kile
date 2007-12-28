@@ -112,28 +112,26 @@ int main( int argc, char ** argv )
 		}
 	}
 */
-	if ( !running || args->isSet("new") )
-	{
-		KileApplication a;
+	if(!running || args->isSet("new")) {
 //FIXME: port for KDE4
 // 		a.dcopClient()->registerAs("kile", false);
 		bool restore = (args->count() == 0);
-		Kile * mw = new Kile(restore);
-		a.setMainWidget(mw);
+		Kile app(restore);
 
-		for ( int i = 0; i < args->count(); ++i)
-		{
+		for(int i = 0; i < args->count(); ++i) {
 			if ( isProject(args->arg(i)) )
-				mw->openProject(completePath(QFile::decodeName(args->arg(i))));
+				app.openProject(completePath(QFile::decodeName(args->arg(i))));
 			else
-				mw->openDocument(completePath(QFile::decodeName(args->arg(i))));
+				app.openDocument(completePath(QFile::decodeName(args->arg(i))));
 		}
 
 		QString line = args->getOption("line");
-		if (line != "0") mw->setLine(line);
+		if(line != "0") {
+			app.setLine(line);
+		}
 
 		args->clear();
-		return a.exec();
+		return app.exec();
 	}
 //FIXME: port for KDE4
 /*

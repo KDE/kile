@@ -24,9 +24,9 @@
 
 namespace KileStdActions
 {
-	void setupStdTags(KileInfo *ki, QWidget *parent, KActionCollection *actionCollection);
-	void setupBibTags(QWidget *parent, KActionCollection *actionCollection);
-	void setupMathTags(QWidget *parent, KActionCollection *actionCollection);
+	void setupStdTags(KileInfo *ki, const QObject *receiver, KActionCollection *actionCollection, QWidget *parentWidget);
+	void setupBibTags(const QObject *receiver, KActionCollection *actionCollection);
+	void setupMathTags(const QObject *receiver, KActionCollection *actionCollection);
 }
 
 #endif

@@ -1,8 +1,8 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Thu Jul 17 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -57,7 +57,7 @@ class KileInfo
 {
 	
 public:
-	KileInfo(QWidget *parent);
+	KileInfo(QObject *parent);
 	virtual ~KileInfo();
 
 public:

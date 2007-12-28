@@ -17,21 +17,14 @@
 #ifndef INCLUDEGRAPHICSDIALOG_H
 #define INCLUDEGRAPHICSDIALOG_H
 
-#include <QString>
-//Added by qt3to4:
-#include <QLabel>
+#include <KDialog>
 
-#include <kdialog.h>
+#include "ui_includegraphicsdialog_base.h"
 
 /**
-  *@author dani 
+  *@author dani
   */
-
-class QLabel;
-class QCheckBox;
-
 class KileInfo;
-class KLineEdit;
 class K3Process;
 class K3ShellProcess;
 
@@ -40,54 +33,50 @@ namespace KileDialog
 
 class IncludeGraphics : public KDialog
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	IncludeGraphics(QWidget *parent,const QString &startdir,KileInfo *ki);
-	~IncludeGraphics();
+	public:
+		IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki);
+		~IncludeGraphics();
 
-	QString getTemplate();
-	QString getFilename();
+		QString getTemplate();
+		QString getFilename();
 
-private slots:
-	void chooseFile();
-	void updateFigure();
+	private slots:
+		void chooseFile();
 
-	void slotProcessOutput(K3Process* proc,char* buffer,int buflen);
-	void slotProcessExited(K3Process* proc);
+		void slotProcessOutput(K3Process* proc, char* buffer, int buflen);
+		void slotProcessExited(K3Process* proc);
 
-	void slotOk();
+		void slotOk();
 
-private:
-	void readConfig();
-	void writeConfig();
-	bool checkParameter();
-	QString getOptions();
-	QString getInfo();
-	bool getPictureSize(int &wpx, int &hpx, QString &dpi, QString &wcm, QString &hcm);
-	void setInfo();
+	private:
+		void readConfig();
+		void writeConfig();
+		bool checkParameter();
+		QString getOptions();
+		QString getInfo();
+		bool getPictureSize(int &wpx, int &hpx, QString &dpi, QString &wcm, QString &hcm);
+		void setInfo();
 
-	QLabel *infolabel;
-	KLineEdit *edit_file, *edit_label, *edit_caption, *edit_width, *edit_height, *edit_angle, *edit_bb;
-	QCheckBox *cb_center, *cb_pdftex, *cb_figure, *cb_graphicspath;
-	QLabel *lb_label, *lb_caption;
+		Ui::IncludeGraphicsWidget m_widget;
 
-	QString m_startdir;  
-	QString m_output;
+		QString m_startdir;
+		QString m_output;
 
-	// current picture
-	int m_width,m_height;
-	float m_resolution;
+		// current picture
+		int m_width, m_height;
+		float m_resolution;
 
-	// default
-	bool m_imagemagick;
-	bool m_boundingbox;
-	float m_defaultresolution;
+		// default
+		bool m_imagemagick;
+		bool m_boundingbox;
+		float m_defaultresolution;
 
-	void execute(const QString &command);
-	
-	KileInfo *m_ki;
-	K3ShellProcess* m_proc;
+		void execute(const QString &command);
+
+		KileInfo *m_ki;
+		K3ShellProcess* m_proc;
 };
 
 }

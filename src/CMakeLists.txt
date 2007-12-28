@@ -125,6 +125,7 @@ SET( kile_UI
 	tabbingdialog_base.ui
 	floatdialog_base.ui
 	postscriptdialog_base.ui
+	includegraphicsdialog_base.ui
 )
 
 SET( kile_UI_SRCS

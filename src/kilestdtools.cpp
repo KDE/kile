@@ -38,8 +38,7 @@ namespace KileTool
 	Base* Factory::create(const QString & tool, bool prepare /* = true */)
 	{
 		//perhaps we can find the tool in the config file
-		if (m_config->hasGroup(groupFor(tool, m_config)))
-		{
+		if (m_config->hasGroup(groupFor(tool, m_config))) {
 			KConfigGroup configGroup = m_config->group(groupFor(tool, m_config));
 			QString toolClass = configGroup.readEntry("class", QString());
 
@@ -78,7 +77,7 @@ namespace KileTool
 		}
 
 		//unknown tool, return 0
-		return 0L;
+		return NULL;
 	}
 
 	void Factory::writeStdConfig()
@@ -96,10 +95,10 @@ namespace KileTool
 	bool LaTeX::updateBibs()
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
-                if ( docinfo )
-                {
-			if ( manager()->info()->allBibliographies()->count() > 0 )
+		if(docinfo) {
+			if(manager()->info()->allBibliographies()->count() > 0) {
 				return needsUpdate ( baseDir() + '/' + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
+			}
 		}
 
 		return false;
@@ -108,11 +107,11 @@ namespace KileTool
 	bool LaTeX::updateIndex()
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
-		if ( docinfo )
-		{
+		if(docinfo) {
 			const QStringList *pckgs = manager()->info()->allPackages();
-				if ( pckgs->contains("makeidx") )
-					return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
+			if(pckgs->contains("makeidx")) {
+				return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
+			}
 		}
 
 		return false;
@@ -121,18 +120,15 @@ namespace KileTool
 	bool LaTeX::updateAsy()
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
-		if ( docinfo)
-		{	
-		
+		if(docinfo) {
 			const QStringList *pckgs = manager()->info()->allPackages();
-			if ( pckgs->contains("asymptote") )
-			{
+			if(pckgs->contains("asymptote")) {
 				static QRegExp msg("File " + QRegExp::escape(S()) + "_?\\d+_?.(?:eps|pdf|tex) does not exist");
 				int sz =  manager()->info()->outputInfo()->size();
-				for (int i = 0; i < sz; ++i )
-				{
-					if( (*manager()->info()->outputInfo())[i].message().contains(msg) )
+				for(int i = 0; i < sz; ++i) {
+					if((*manager()->info()->outputInfo())[i].message().contains(msg)) {
 						return true;
+					}
 				}
 			}
 		}
@@ -144,12 +140,13 @@ namespace KileTool
 		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====" << endl;
 		
 		int nErrors = 0, nWarnings = 0;
-		if ( filterLogfile() ) {
+		if(filterLogfile()) {
 			checkErrors(nErrors,nWarnings);
 		}
 		
-		if ( readEntry("autoRun") == "yes" )
-			checkAutoRun(nErrors,nWarnings);
+		if(readEntry("autoRun") == "yes") {
+			checkAutoRun(nErrors, nWarnings);
+		}
 
 		return Compile::finish(r);
 	}
@@ -168,14 +165,14 @@ namespace KileTool
 		
 		manager()->info()->outputFilter()->sendProblems();
 		manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
-		QString es = i18np("%n error", "%n errors", nErrors);
-		QString ws = i18np("%n warning", "%n warnings", nWarnings);
-		QString bs = i18np("%n badbox", "%n badboxes", nBadBoxes);
+		QString es = i18np("1 error", "%1 errors", nErrors);
+		QString ws = i18np("1 warning", "%1 warnings", nWarnings);
+		QString bs = i18np("1 badbox", "%1 badboxes", nBadBoxes);
 
 		sendMessage(Info, es +", " + ws + ", " + bs);
 	
 		//jump to first error
-		if ( nErrors > 0 && (readEntry("jumpToFirstError") == "yes") ) {
+		if(nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
 			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
 			emit(jumpToFirstError());
 		}
@@ -186,14 +183,11 @@ namespace KileTool
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun << endl;
 		//check for "rerun LaTeX" warnings
 		bool reRan = false;
-		if ( (m_reRun < 2) && (nErrors == 0) && (nWarnings > 0) )
-		{
+		if((m_reRun < 2) && (nErrors == 0) && (nWarnings > 0)) {
 			int sz =  manager()->info()->outputInfo()->size();
-			for (int i = 0; i < sz; ++i )
-			{
-				if ( (*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
-				&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun") )
-				{
+			for(int i = 0; i < sz; ++i) {
+				if ((*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
+				&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun")) {
 					reRan = true;
 					break;
 				}
@@ -201,53 +195,49 @@ namespace KileTool
 		}
 
 		
-		if ( reRan )
+		if(reRan) {
 			m_reRun++;
-		else 
+		}
+		else {
 			m_reRun = 0;
+		}
 
 		bool bibs = updateBibs();
 		bool index = updateIndex();
 		bool asy = updateAsy();
 		
-		if ( reRan )
-		{
+		if(reRan) {
 			KILE_DEBUG() << "rerunning LaTeX " << m_reRun << endl;
 			Base *tool = manager()->factory()->create(name());
 			tool->setSource(source());
 			manager()->runNext(tool);
 		}
 		
-		if ( bibs || index || asy )
-		{
+		if(bibs || index || asy) {
 			Base *tool = manager()->factory()->create(name());
 			tool->setSource(source());
 			manager()->runNext(tool);
 
-			if ( bibs )
-			{
+			if(bibs) {
 				KILE_DEBUG() << "need to run BibTeX" << endl;
 				tool = manager()->factory()->create("BibTeX");
 				tool->setSource(source());
 				manager()->runNext(tool);
 			}
 
-			if ( index ) 
-			{
+			if(index) {
 				KILE_DEBUG() << "need to run MakeIndex" << endl;
 				tool = manager()->factory()->create("MakeIndex");
 				tool->setSource(source());
 				manager()->runNext(tool);
 			}
 			
-			if ( asy ) 
-			{
+			if(asy) {
 				KILE_DEBUG() << "need to run asymptote" << endl;
 				tool = manager()->factory()->create("Asymptote");
 				tool->setSource(source());
 				manager()->runNext(tool);
-			}
-			
+			}	
 		}
 	}
 	
@@ -263,7 +253,7 @@ namespace KileTool
 		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====" << endl;
 		
 		int nErrors = 0, nWarnings = 0;
-		if ( filterLogfile() ) {
+		if(filterLogfile()) {
 			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
 			checkErrors(nErrors,nWarnings);
 		}
@@ -280,21 +270,24 @@ namespace KileTool
 	
 	bool ForwardDVI::determineTarget()
 	{
-		if (!View::determineTarget())
+		if (!View::determineTarget()) {
 			return false;
+		}
 
 		int para = manager()->info()->lineNumber();
 		KTextEditor::Document *doc = manager()->info()->activeTextDocument();
 		QString filepath;
 
-		if (doc)
+		if (doc) {
 			filepath = doc->url().path();
-		else
+		}
+		else {
 			return false;
+		}
 
 		QString texfile = manager()->info()->relativePath(baseDir(),filepath);
 		m_urlstr = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
-		addDict("%dir_target", QString::null);
+		addDict("%dir_target", QString());
 		addDict("%target", m_urlstr);
 		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;
 		KILE_DEBUG() << "\tusing  " << m_urlstr << endl;
@@ -305,8 +298,9 @@ namespace KileTool
 	bool ViewBib::determineSource()
 	{
 		KILE_DEBUG() << "==ViewBib::determineSource()=======" << endl;
-		if (!View::determineSource())
+		if (!View::determineSource()) {
 			return false;
+		}
 
 		QString path = source(true);
 		QFileInfo info(path);
@@ -314,23 +308,20 @@ namespace KileTool
 		//get the bibliographies for this source
 		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
 		KILE_DEBUG() << "\tfound " << bibs->count() << " bibs" << endl;
-		if (bibs->count() > 0)
-		{
+		if(bibs->count() > 0) {
 			QString bib = bibs->front();
-			if (bibs->count() > 1)
-			{
+			if (bibs->count() > 1) {
 				//show dialog
 				bool bib_selected = false;
 				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
-				if (dlg->exec())
-				{
+				if (dlg->exec()) {
 					bib = (*bibs)[dlg->currentItem()];
 					bib_selected = true;
 					KILE_DEBUG() << "Bibliography selected : " << bib << endl;
 				}
 				delete dlg;
 				
-				if ( ! bib_selected ) {
+				if(!bib_selected) {
 					sendMessage(Warning, i18n("No bibliography selected."));
 					return false;
 				}
@@ -338,13 +329,11 @@ namespace KileTool
 			KILE_DEBUG() << "filename before: " << info.path() << endl;
 			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));	
 		}
-		else if( info.exists() ) //active doc is a bib file
-		{
+		else if(info.exists()) { //active doc is a bib file
 			KILE_DEBUG() << "filename before: " << info.path() << endl;
 			setSource(manager()->info()->checkOtherPaths(info.path(),info.fileName(),KileInfo::bibinputs));
 		}
-		else
-		{
+		else {
 			sendMessage(Error, i18n("No bibliographies found."));
 			return false;
 		}
@@ -353,14 +342,12 @@ namespace KileTool
 
 	bool ViewHTML::determineTarget()
 	{
-		if (target().isNull())
-		{
+		if (target().isNull()) {
 			//setRelativeBaseDir(S());
 			QString dir = readEntry("relDir");
 			QString trg = readEntry("target");
 
-			if ( !dir.isEmpty() )
-			{
+			if(!dir.isEmpty()) {
 				translate(dir);
 				setRelativeBaseDir(dir);
 			}

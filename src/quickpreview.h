@@ -22,9 +22,11 @@
 #include "kileedit.h"
 #include "previewwidget.h"
 
-#include <qobject.h> 
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QObject>
+#include <QString>
+#include <QStringList>
+
+#include <KTempDir>
 
 namespace KileTool
 {
@@ -84,12 +86,12 @@ private:
 	enum { pvLatex=0, pvDvips=1, pvDvipsCfg=2, pvViewer=3, pvViewerCfg=4, pvExtension=5 };
 	
 	KileInfo *m_ki;
-	QString m_tempfile;
+	QString m_tempFile;
 	QStringList m_taskList;
 	int m_running;
-		
+	KTempDir *m_tempDir;
+
 	int createTempfile(const QString &text);
-	void removeTempFiles(bool rmdir=false);
 	void showError(const QString &text);
 };
 

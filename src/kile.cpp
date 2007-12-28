@@ -86,7 +86,7 @@
 #include "postscriptdialog.h"
 #include "latexcmd.h"
 #include "kileuntitled.h"
-#include "kilestatsdlg.h"
+#include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
 #include "kilejscript.h"
 #include "previewwidget.h"
@@ -1252,7 +1252,7 @@ void Kile::showDocInfo(KTextEditor::Document *doc)
 	KileDocument::TextInfo *docinfo = docManager()->textInfoFor(doc);
 	KileProject *project = KileInfo::docManager()->activeProject();
 	if(docinfo) { // we have to ensure that we always get a _valid_ docinfo object
-		KileStatsDlg *dlg = new KileStatsDlg(project,docinfo, m_mainWindow, 0, "");
+		KileDialog::StatisticsDialog *dlg = new KileDialog::StatisticsDialog(project,docinfo, m_mainWindow, 0, "");
 		dlg->exec();
 		delete dlg;
 	}

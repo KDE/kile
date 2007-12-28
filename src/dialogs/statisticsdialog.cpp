@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kilestatsdlg.h"
+#include "dialogs/statisticsdialog.h"
 
 #include <QClipboard>
 #include <QLabel>
@@ -22,13 +22,15 @@
 #include <KLocale>
 
 #include "kileproject.h"
-#include "kilestatswidget.h"
+#include "widgets/statisticswidget.h"
 
 #include <ktexteditor/view.h>
 
 // A dialog that displays statistical information about the active project/file
 
-KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
+namespace KileDialog {
+
+StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
 		: KPageDialog(parent), m_project(project), m_docinfo(docinfo)
 {
 	setObjectName(name);
@@ -48,12 +50,12 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 
 	const long* stats;
 	QString tempName;
-	KileWidgetStatistics* tempWidget;
-	KileWidgetStatistics* summary;
+	KileWidget::StatisticsWidget* tempWidget;
+	KileWidget::StatisticsWidget* summary;
 	KileDocument::TextInfo* tempDocinfo;
 
 	m_hasSelection = false; // class variable, if the user has selected text,
-	summary = new KileWidgetStatistics(mainWidget());
+	summary = new KileWidget::StatisticsWidget(mainWidget());
 	KPageWidgetItem *itemSummary = new KPageWidgetItem(summary, i18n("Summary"));
 	addPage(itemSummary);
 	summary->m_commentAboutHelp->setText(i18n("For information about the accuracy see the Help."));
@@ -98,7 +100,7 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 					for (uint j = 0; j < SIZE_STAT_ARRAY; j++)
 						m_summarystats[j] += stats[j];
 
-					tempWidget = new KileWidgetStatistics();
+					tempWidget = new KileWidget::StatisticsWidget();
 					KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
 					addPage(itemTemp);
 					KILE_DEBUG() << "TempName is " << tempName << endl;
@@ -123,13 +125,13 @@ KileStatsDlg::KileStatsDlg(KileProject *project, KileDocument::TextInfo* docinfo
 //  setInitialSize( QSize(550,560), true);
 }
 
-KileStatsDlg::~KileStatsDlg()
+StatisticsDialog::~StatisticsDialog()
 {
 	delete [] m_summarystats;
 }
 
 
-void KileStatsDlg::fillWidget(const long* stats, KileWidgetStatistics* widget)
+void StatisticsDialog::fillWidget(const long* stats, KileWidget::StatisticsWidget* widget)
 {
 
 // we don't have to write 0's in the number labels because this is the default value
@@ -152,7 +154,7 @@ void KileStatsDlg::fillWidget(const long* stats, KileWidgetStatistics* widget)
 	widget->updateColumns();
 }
 
-void KileStatsDlg::slotButtonClicked(int button)
+void StatisticsDialog::slotButtonClicked(int button)
 {
 	if (button == User1 || button == User2) {
 		KILE_DEBUG() << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
@@ -165,12 +167,12 @@ void KileStatsDlg::slotButtonClicked(int button)
 	KDialog::slotButtonClicked(button);
 }
 
-void KileStatsDlg::convertText(QString* text, bool forLaTeX) // the bool determines if we want plainText or LaTeXCode
+void StatisticsDialog::convertText(QString* text, bool forLaTeX) // the bool determines if we want plainText or LaTeXCode
 {
-	KileWidgetStatistics* widget = m_pagetowidget[currentPage()];
+	KileWidget::StatisticsWidget* widget = m_pagetowidget[currentPage()];
 	QString name = m_pagetoname[currentPage()];
-	QString charGroupName = i18n("Characters"); // always ensure that these are the same than in kilestatswidget.ui, there is no way to get the label of a button group, so this ugly hack is needed
-	QString stringGroupName = i18n("Strings");
+	QString charGroupName = widget->m_charactersGroup->title();
+	QString stringGroupName = widget->m_stringsGroup->title();
 
 	if (forLaTeX) {
 		text->append("\\begin{tabular}{ll}\n");
@@ -219,4 +221,6 @@ void KileStatsDlg::convertText(QString* text, bool forLaTeX) // the bool determi
 	else
 		if (m_notAllFilesOpenWarning)
 			text->append((forLaTeX ? "\\par\\bigskip\n" : "\n") + widget->m_warning->text() + '\n');
+}
+
 }

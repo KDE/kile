@@ -13,22 +13,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEWIDGETSTATISTICS_H
-#define KILEWIDGETSTATISTICS_H
+#ifndef STATISTICSWIDGET_H
+#define STATISTICSWIDGET_H
 
+#include <QGroupBox>
 #include <QWidget>
 
 class QLabel;
 class QGridLayout;
 
-class KileWidgetStatistics : public QWidget
+namespace KileDialog {
+	class StatisticsDialog;
+}
+
+namespace KileWidget {
+
+class StatisticsWidget : public QWidget
 {
-		Q_OBJECT
+	friend class KileDialog::StatisticsDialog;
+	Q_OBJECT
 
 	public:
-		KileWidgetStatistics(QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0);
-		~KileWidgetStatistics();
+		StatisticsWidget(QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0);
+		~StatisticsWidget();
 
+		void updateColumns();
+
+	private:
 		QLabel* m_commentAboutHelp;
 		QLabel* m_warning;
 
@@ -50,11 +61,12 @@ class KileWidgetStatistics : public QWidget
 		QLabel* m_commandStringText;
 		QLabel* m_totalStringText;
 
-		void updateColumns();
+		QGroupBox *m_charactersGroup, *m_stringsGroup;
 
-	private:
 		QGridLayout *chargrouplayout;
 		QGridLayout *stringgrouplayout;
 };
 
-#endif // KILEWIDGETSTATISTICS_H
+}
+
+#endif

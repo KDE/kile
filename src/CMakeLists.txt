@@ -89,8 +89,8 @@ SET(kile_SRCS
 	kilesidebar.cpp
 	plaintolatexconverter.cpp
 	kileuntitled.cpp
-	kilestatsdlg.cpp
-	kilestatswidget.cpp
+	dialogs/statisticsdialog.cpp
+	widgets/statisticswidget.cpp
 	previewwidget.cpp
 	kilejscript.h
 	kilejscript.cpp

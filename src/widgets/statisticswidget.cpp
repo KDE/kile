@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kilestatswidget.h"
+#include "widgets/statisticswidget.h"
 
 #include <QFrame>
 #include <QGridLayout>
@@ -28,7 +28,9 @@
 
 #include "kiledebug.h"
 
-KileWidgetStatistics::KileWidgetStatistics(QWidget* parent, const char* name, Qt::WFlags fl)
+namespace KileWidget {
+
+StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags fl)
 		: QWidget(parent, name, fl)
 {
 	QVBoxLayout *vbox = new QVBoxLayout;
@@ -37,23 +39,23 @@ KileWidgetStatistics::KileWidgetStatistics(QWidget* parent, const char* name, Qt
 	setLayout(vbox);
 
 	// characters groupbox
-	QGroupBox *chargroup = new QGroupBox(i18n("Characters"), this);
+	m_charactersGroup = new QGroupBox(i18n("Characters"), this);
 	chargrouplayout = new QGridLayout();
 	chargrouplayout->setMargin(KDialog::marginHint());
 	chargrouplayout->setSpacing(KDialog::spacingHint());
 	chargrouplayout->setAlignment(Qt::AlignTop);
-	chargroup->setLayout(chargrouplayout);
+	m_charactersGroup->setLayout(chargrouplayout);
 
-	m_wordCharText = new QLabel(i18n("Words and numbers:"), chargroup);
-	m_commandCharText = new QLabel(i18n("LaTeX commands and environments:"), chargroup);
-	m_whitespaceCharText = new QLabel(i18n("Punctuation, delimiter and whitespaces:"), chargroup);
-	m_totalCharText = new QLabel(i18n("Total characters:"), chargroup);
-	m_wordChar = new QLabel(chargroup, "m_wordChar");
-	m_commandChar = new QLabel(chargroup, "m_commandChar");
-	m_whitespaceChar = new QLabel(chargroup, "m_whitespaceChar");
-	m_totalChar = new QLabel(chargroup, "m_totalChar");
+	m_wordCharText = new QLabel(i18n("Words and numbers:"), m_charactersGroup);
+	m_commandCharText = new QLabel(i18n("LaTeX commands and environments:"), m_charactersGroup);
+	m_whitespaceCharText = new QLabel(i18n("Punctuation, delimiter and whitespaces:"), m_charactersGroup);
+	m_totalCharText = new QLabel(i18n("Total characters:"), m_charactersGroup);
+	m_wordChar = new QLabel(m_charactersGroup, "m_wordChar");
+	m_commandChar = new QLabel(m_charactersGroup, "m_commandChar");
+	m_whitespaceChar = new QLabel(m_charactersGroup, "m_whitespaceChar");
+	m_totalChar = new QLabel(m_charactersGroup, "m_totalChar");
 
-	QFrame *charframe = new QFrame(chargroup);
+	QFrame *charframe = new QFrame(m_charactersGroup);
 	charframe->setFrameShape(QFrame::HLine);
 	charframe->setFrameShadow(QFrame::Sunken);
 	charframe->setLineWidth(1);
@@ -72,23 +74,23 @@ KileWidgetStatistics::KileWidgetStatistics(QWidget* parent, const char* name, Qt
 	chargrouplayout->setColStretch(3, 1);
 
 	// string groupbox
-	QGroupBox *stringgroup = new QGroupBox(i18n("Strings"), this);
+	m_stringsGroup = new QGroupBox(i18n("Strings"), this);
 	stringgrouplayout = new QGridLayout();
 	stringgrouplayout->setMargin(KDialog::marginHint());
 	stringgrouplayout->setSpacing(KDialog::spacingHint());
 	stringgrouplayout->setAlignment(Qt::AlignTop);
-	stringgroup->setLayout(stringgrouplayout);
+	m_stringsGroup->setLayout(stringgrouplayout);
 
-	m_wordStringText = new QLabel(i18n("Words:"), stringgroup);
-	m_commandStringText = new QLabel(i18n("LaTeX commands:"), stringgroup);
-	m_environmentStringText = new QLabel(i18n("LaTeX environments:"), stringgroup);
-	m_totalStringText = new QLabel(i18n("Total strings:"), stringgroup);
-	m_wordString = new QLabel(stringgroup, "m_wordString");
-	m_commandString = new QLabel(stringgroup, "m_commandStringText");
-	m_environmentString = new QLabel(stringgroup, "m_environmentStringText");
-	m_totalString = new QLabel(stringgroup, "m_totalStringText");
+	m_wordStringText = new QLabel(i18n("Words:"), m_stringsGroup);
+	m_commandStringText = new QLabel(i18n("LaTeX commands:"), m_stringsGroup);
+	m_environmentStringText = new QLabel(i18n("LaTeX environments:"), m_stringsGroup);
+	m_totalStringText = new QLabel(i18n("Total strings:"), m_stringsGroup);
+	m_wordString = new QLabel(m_stringsGroup, "m_wordString");
+	m_commandString = new QLabel(m_stringsGroup, "m_commandStringText");
+	m_environmentString = new QLabel(m_stringsGroup, "m_environmentStringText");
+	m_totalString = new QLabel(m_stringsGroup, "m_totalStringText");
 
-	QFrame *stringframe = new QFrame(stringgroup);
+	QFrame *stringframe = new QFrame(m_stringsGroup);
 	stringframe->setFrameShape(QFrame::HLine);
 	stringframe->setFrameShadow(QFrame::Sunken);
 	stringframe->setLineWidth(1);
@@ -109,8 +111,8 @@ KileWidgetStatistics::KileWidgetStatistics(QWidget* parent, const char* name, Qt
 	m_commentAboutHelp = new QLabel(parent);
 	m_warning =  new QLabel(parent);
 
-	vbox->addWidget(chargroup);
-	vbox->addWidget(stringgroup);
+	vbox->addWidget(m_charactersGroup);
+	vbox->addWidget(m_stringsGroup);
 	vbox->addSpacing(12);
 	vbox->addWidget(m_commentAboutHelp);
 	vbox->addWidget(m_warning);
@@ -123,18 +125,20 @@ KileWidgetStatistics::KileWidgetStatistics(QWidget* parent, const char* name, Qt
 
 }
 
-KileWidgetStatistics::~KileWidgetStatistics()
+StatisticsWidget::~StatisticsWidget()
 {
 }
 
-void KileWidgetStatistics::updateColumns()
+void StatisticsWidget::updateColumns()
 {
 	int w = m_totalChar->sizeHint().width();
-	if (m_totalString->sizeHint().width() > w)
+	if (m_totalString->sizeHint().width() > w) {
 		w = m_totalString->sizeHint().width();
+	}
 	chargrouplayout->setColSpacing(2, w);
 	stringgrouplayout->setColSpacing(2, w);
 }
 
+}
 
-#include "kilestatswidget.moc"
+#include "statisticswidget.moc"

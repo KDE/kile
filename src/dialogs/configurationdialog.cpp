@@ -109,6 +109,8 @@ namespace KileDialog
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
+		connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+		connect(this, SIGNAL(cancelClicked()), this, SLOT(slotCancel()));
 		connect(this, SIGNAL(okClicked()), m_manager, SLOT(updateSettings()));
 	}
 
@@ -337,7 +339,6 @@ namespace KileDialog
 		previewPage->writeConfig();   // Quick Preview (dani)
 
 		m_config->sync();
-		emit okClicked(); // Otherwise, the KConfigXT machine doesn't start...
 
 		// oder m_manager->updateSettings();
 		accept();
@@ -346,10 +347,7 @@ namespace KileDialog
 	void Config::slotCancel()
 	{
 		KILE_DEBUG() << "   slot cancel";
-#ifdef __GNUC__
-#warning Check for KConfig.rollback() in KDE3!
-#endif
-// 		m_config->rollback();
+		m_config->markAsClean();
 		accept();
 	}
 

@@ -40,7 +40,6 @@
 #include <KTextEditor/EditorChooser>
 
 #include "kiletoolmanager.h"
-#include "kiletoolconfigwidget.h"
 #include "kileviewmanager.h"
 
 #include "widgets/generalconfigwidget.h"
@@ -48,6 +47,7 @@
 #include "widgets/latexconfigwidget.h"
 #include "widgets/previewconfigwidget.h"
 #include "widgets/scriptingconfigwidget.h"
+#include "widgets/toolconfigwidget.h"
 
 #include "kileconfig.h"
 #include "kileinfo.h"

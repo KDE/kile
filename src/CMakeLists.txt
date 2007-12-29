@@ -74,7 +74,7 @@ SET(kile_SRCS
 	kilestructurewidget.cpp
 	codecompletion.cpp
 	widgets/codecompletionconfigwidget.cpp
-	kiletoolconfigwidget.cpp
+	widgets/toolconfigwidget.cpp
 	kileedit.cpp
 	cleandialog.cpp
 	kilehelp.cpp
@@ -110,7 +110,7 @@ SET( kile_UI
 	widgets/latexconfigwidget.ui
 	widgets/generalconfigwidget.ui
 	widgets/configcheckerwidget.ui
-	widgets/toolconfigwidget.ui
+	widgets/maintoolconfigwidget.ui
 	librarytoolconfigwidget.ui
 	processtoolconfigwidget.ui
 	widgets/quicktoolconfigwidget.ui
@@ -145,7 +145,7 @@ SET( kile_UI_SRCS
 	widgets/scriptingconfigwidget.cpp
 	widgets/structureviewconfigwidget.cpp
 	widgets/symbolviewconfigwidget.cpp
-	widgets/toolconfigwidget.cpp
+	widgets/maintoolconfigwidget.cpp
 )
 
 SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})

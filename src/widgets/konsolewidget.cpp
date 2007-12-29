@@ -69,13 +69,13 @@ namespace KileWidget
 
 		// start the konsole part
 		qobject_cast<TerminalInterface*>(m_part)->showShellInDir(QString());
-#ifdef __GNUC__
-#warning Commenting this out for now!
-#endif
-/*
-		if (m_part->widget()->inherits("QFrame"))
-			((Q3Frame*)m_part->widget())->setFrameStyle(Q3Frame::Panel|Q3Frame::Sunken);
-*/
+
+		setFocusProxy(m_part->widget());
+
+		if (m_part->widget()->inherits("QFrame")) {
+			((QFrame*)m_part->widget())->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+		}
+
 		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
 	}
 
@@ -83,7 +83,7 @@ namespace KileWidget
 	void Konsole::sync()
 	{
 		KTextEditor::Document *doc = m_ki->activeTextDocument();
-		KTextEditor::View *view = 0;
+		KTextEditor::View *view = NULL;
 
 		if(doc) {
 			view = doc->views().first();
@@ -127,7 +127,6 @@ namespace KileWidget
 	{
 		if (m_part) {
 			m_part->widget()->show();
-			this->setFocusProxy(m_part->widget());
 			m_part->widget()->setFocus();
 		}
 	}

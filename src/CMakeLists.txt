@@ -102,6 +102,7 @@ SET(kile_SRCS
 	kileabbrevview.cpp
 	kileextensions.cpp
 	widgets/categorycombobox.cpp
+	widgets/extendedscrollarea.cpp
 )
 
 SET( kile_UI

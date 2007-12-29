@@ -11,15 +11,20 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "generalconfigwidget.h"
+#ifndef ENVIRONMENTCONFIGWIDGET_H
+#define ENVIRONMENTCONFIGWIDGET_H
 
-KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(parent)
+#include <QWidget>
+
+#include "ui_environmentconfigwidget.h"
+
+class KileWidgetEnvironmentConfig : public QWidget, public Ui::KileWidgetEnvironmentConfig
 {
-	setupUi(this);
-}
+	Q_OBJECT
 
-KileWidgetGeneralConfig::~KileWidgetGeneralConfig()
-{
-}
+	public:
+		KileWidgetEnvironmentConfig(QWidget *parent = 0);
+		~KileWidgetEnvironmentConfig();
+};
 
-#include "generalconfigwidget.moc"
+#endif

@@ -11,20 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#ifndef ENVCONFIGWIDGET_H
-#define ENVCONFIGWIDGET_H
+#include "structureviewconfigwidget.h"
 
-#include <QWidget>
-
-#include "ui_envconfigwidget.h"
-
-class KileWidgetEnvironmentConfig : public QWidget, public Ui::KileWidgetEnvironmentConfig
+KileWidgetStructureViewConfig::KileWidgetStructureViewConfig(QWidget *parent) : QWidget(parent)
 {
-	Q_OBJECT
+	setupUi(this);
+}
 
-	public:
-		KileWidgetEnvironmentConfig(QWidget *parent = 0);
-		~KileWidgetEnvironmentConfig();
-};
+KileWidgetStructureViewConfig::~KileWidgetStructureViewConfig()
+{
+}
 
-#endif
+#include "structureviewconfigwidget.moc"

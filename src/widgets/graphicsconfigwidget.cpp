@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "toolconfigwidget.h"
+#include "widgets/graphicsconfigwidget.h"
 
-ToolConfigWidget::ToolConfigWidget(QWidget *parent) : QWidget(parent)
+KileWidgetGraphicsConfig::KileWidgetGraphicsConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-ToolConfigWidget::~ToolConfigWidget()
+KileWidgetGraphicsConfig::~KileWidgetGraphicsConfig()
 {
 }
 
-#include "toolconfigwidget.moc"
+#include "graphicsconfigwidget.moc"

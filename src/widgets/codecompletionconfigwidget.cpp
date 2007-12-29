@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "configcodecompletion.h"
+#include "widgets/codecompletionconfigwidget.h"
 
 #include <QCheckBox>
 #include <QDir>
@@ -42,7 +42,7 @@
 #include "kilelogwidget.h"
 #include "kiletool_enums.h"
 
-ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent, const char *name)
+CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent, const char *name)
 		: QWidget(parent, name), m_config(config), m_logwidget(logwidget)
 {
 	// Layout
@@ -155,11 +155,11 @@ ConfigCodeCompletion::ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *
 	getCwlDirs();
 }
 
-ConfigCodeCompletion::~ConfigCodeCompletion()
+CodeCompletionConfigWidget::~CodeCompletionConfigWidget()
 {
 }
 
-void ConfigCodeCompletion::addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname)
+void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, const QString &title, const QString &dirname)
 {
 	m_page[page] = new QWidget(tab);
 
@@ -188,7 +188,7 @@ void ConfigCodeCompletion::addPage(QTabWidget *tab, CompletionPage page, const Q
 
 //////////////////// read/write configuration ////////////////////
 
-void ConfigCodeCompletion::readConfig(void)
+void CodeCompletionConfigWidget::readConfig(void)
 {
 	// read selected and deselected filenames with wordlists
 	m_wordlist[TexPage] = KileConfig::completeTex();
@@ -224,7 +224,7 @@ void ConfigCodeCompletion::readConfig(void)
 		setListviewEntries(CompletionPage(i));
 }
 
-void ConfigCodeCompletion::writeConfig(void)
+void CodeCompletionConfigWidget::writeConfig(void)
 {
 	// default: no changes in configuration
 	bool changed = false;
@@ -279,7 +279,7 @@ void ConfigCodeCompletion::writeConfig(void)
 }
 
 // read kate plugin configuration
-bool ConfigCodeCompletion::kateCompletionPlugin()
+bool CodeCompletionConfigWidget::kateCompletionPlugin()
 {
 	return m_config->group("Kate Document Defaults").readEntry("KTextEditor Plugin ktexteditor_docwordcompletion", false);
 }
@@ -288,7 +288,7 @@ bool ConfigCodeCompletion::kateCompletionPlugin()
 
 // ListView fr den Konfigurationsdialog einstellen
 
-void ConfigCodeCompletion::setListviewEntries(CompletionPage page)
+void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 {
 	QString listname = m_dirname[page];
 	QString localdir = m_localCwlDir + listname + '/';
@@ -326,12 +326,12 @@ void ConfigCodeCompletion::setListviewEntries(CompletionPage page)
 	m_listview[page]->setUpdatesEnabled(true);
 }
 
-void ConfigCodeCompletion::updateColumnWidth(QTreeWidget *listview)
+void CodeCompletionConfigWidget::updateColumnWidth(QTreeWidget *listview)
 {
 	listview->setColumnWidth(0, listview->columnWidth(0) + 60);
 }
 
-bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
+bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 {
 	bool changed = false;
 
@@ -372,14 +372,14 @@ bool ConfigCodeCompletion::getListviewEntries(CompletionPage page)
 	return changed;
 }
 
-bool ConfigCodeCompletion::isListviewEntry(QTreeWidget *listview, const QString &filename)
+bool CodeCompletionConfigWidget::isListviewEntry(QTreeWidget *listview, const QString &filename)
 {
 	return listview->findItems(filename, Qt::MatchExactly).count() > 0;
 }
 
 //////////////////// tabpages parameter ////////////////////
 
-QTreeWidget *ConfigCodeCompletion::getListview(QWidget *page)
+QTreeWidget *CodeCompletionConfigWidget::getListview(QWidget *page)
 {
 	for (uint i = TexPage; i < NumPages; ++i)
 	{
@@ -389,7 +389,7 @@ QTreeWidget *ConfigCodeCompletion::getListview(QWidget *page)
 	return 0;
 }
 
-QString ConfigCodeCompletion::getListname(QWidget *page)
+QString CodeCompletionConfigWidget::getListname(QWidget *page)
 {
 	for (uint i = TexPage; i < NumPages; ++i)
 	{
@@ -401,7 +401,7 @@ QString ConfigCodeCompletion::getListname(QWidget *page)
 
 //////////////////// shwo tabpages ////////////////////
 
-void ConfigCodeCompletion::showPage(QWidget *page)
+void CodeCompletionConfigWidget::showPage(QWidget *page)
 {
 	QTreeWidget *listview = getListview(page);
 	if (listview)
@@ -412,7 +412,7 @@ void ConfigCodeCompletion::showPage(QWidget *page)
 
 // find local and global resource directories
 
-void ConfigCodeCompletion::getCwlDirs()
+void CodeCompletionConfigWidget::getCwlDirs()
 {
 	m_localCwlDir = KStandardDirs::locateLocal("appdata", "complete/");
 	m_globalCwlDir = QString::null;
@@ -433,7 +433,7 @@ void ConfigCodeCompletion::getCwlDirs()
 // with filename as key and filepath as value. Additionally all
 // filenames are added to a stringlist.
 
-void ConfigCodeCompletion::getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir)
+void CodeCompletionConfigWidget::getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir)
 {
 	QStringList files = QDir(dir, "*.cwl").entryList();
 	for (QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
@@ -447,7 +447,7 @@ void ConfigCodeCompletion::getCwlFiles(QMap<QString, QString> &map, QStringList 
 	}
 }
 
-void ConfigCodeCompletion::addClicked()
+void CodeCompletionConfigWidget::addClicked()
 {
 	// determine current subdirectory for current tab page
 	QString listname = getListname(tab->currentPage());
@@ -502,7 +502,7 @@ void ConfigCodeCompletion::addClicked()
 
 // delete a selected entry
 
-void ConfigCodeCompletion::removeClicked()
+void CodeCompletionConfigWidget::removeClicked()
 {
 	QWidget *page = tab->currentPage();
 	QTreeWidget *list = getListview(page);                              // determine page
@@ -514,10 +514,10 @@ void ConfigCodeCompletion::removeClicked()
 	showPage(page);
 }
 
-void ConfigCodeCompletion::slotSelectionChanged()
+void CodeCompletionConfigWidget::slotSelectionChanged()
 {
 	QTreeWidget *listview = getListview(tab->currentPage());     // get current page
 	remove->setEnabled(listview->selectedItems().count() > 0);
 }
 
-#include "configcodecompletion.moc"
+#include "codecompletionconfigwidget.moc"

@@ -1,8 +1,8 @@
-/***************************************************************************
+/******************************************************************************************
     begin                : Sat 3-1 20:40:00 CEST 2004
-    copyright            : (C) 2004 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ******************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,20 +15,18 @@
 
 #include "kiletoolconfigwidget.h"
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <q3groupbox.h>
-#include <qspinbox.h>
-#include <q3vbox.h>
-#include <qregexp.h>
-#include <qtabwidget.h>
-#include <q3widgetstack.h>
+#include <QCheckBox>
+#include <QLabel>
+#include <QLayout>
+#include <QRegExp>
+#include <QSpinBox>
+#include <QStackedWidget>
+#include <QTabWidget>
+
 //Added by qt3to4:
 #include <Q3GridLayout>
 
 #include "kiledebug.h"
-#include <k3listbox.h>
 #include <keditlistbox.h>
 #include <klocale.h>
 #include <kicondialog.h>
@@ -42,12 +40,16 @@
 
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
-#include "toolconfigwidget.h"
+#include "widgets/toolconfigwidget.h"
 #include "processtoolconfigwidget.h"
 #include "librarytoolconfigwidget.h"
 #include "widgets/quicktoolconfigwidget.h"
 #include "latextoolconfigwidget.h"
 #include "newtoolwizard.h"
+
+#ifdef __GNUC__
+#warning The code in this file still needs to be checked!
+#endif
 
 namespace KileWidget
 {
@@ -65,8 +67,7 @@ namespace KileWidget
 		m_tabMenu = m_configWidget->m_tab->page(2);
 
 		updateToollist();
-		// --->m_configWidget->m_lstbTools->setSelected(0, true);
-		m_configWidget->m_lstbTools->setSelected(indexQuickBuild(), true);
+		m_configWidget->m_lstbTools->item(indexQuickBuild())->setSelected(true);
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
 		QStringList lst; lst << i18n( "Quick" ) << i18n( "Compile" ) << i18n( "Convert" ) << i18n( "View" ) << i18n( "Other" );
@@ -81,7 +82,10 @@ namespace KileWidget
 		connect(m_configWidget->m_pshbDefault, SIGNAL(clicked()), this, SLOT(writeDefaults()));
 
 		//--->m_current = m_configWidget->m_lstbTools->text(0);
-		m_current = m_configWidget->m_lstbTools->currentText();
+		QListWidgetItem *currentItem = m_configWidget->m_lstbTools->currentItem();
+		if(currentItem) {
+			m_current = currentItem->text();
+		}
 		m_manager->retrieveEntryMap(m_current, m_map, false, false);
 		QString cfg = KileTool::configName(m_current, m_config);
 		m_configWidget->m_cbConfig->insertItem(cfg);
@@ -91,7 +95,7 @@ namespace KileWidget
 
 		switchConfig(cfg);
 		switchTo(m_current, false);
-		connect(m_configWidget->m_lstbTools, SIGNAL(highlighted(const QString &)), this, SLOT(switchTo(const QString &)));
+		connect(m_configWidget->m_lstbTools, SIGNAL(currentTextChanged(const QString &)), this, SLOT(switchTo(const QString &)));
 
 		connect(this, SIGNAL(changed()), this, SLOT(updateAdvanced()));
 		connect(this, SIGNAL(changed()), this, SLOT(updateGeneral()));
@@ -153,29 +157,29 @@ namespace KileWidget
 
 	void ToolConfig::setupGeneral()
 	{
-		m_configWidget->m_stackBasic->addWidget(new QLabel(i18n("Use the \"Advanced\" tab to configure this tool."), this), GBS_None);
+		m_configWidget->m_stackBasic->insertWidget(GBS_None, new QLabel(i18n("Use the \"Advanced\" tab to configure this tool."), this));
 
 		m_ptcw = new ProcessToolConfigWidget(m_configWidget->m_stackBasic);
-		m_configWidget->m_stackBasic->addWidget(m_ptcw, GBS_Process);
+		m_configWidget->m_stackBasic->insertWidget(GBS_Process, m_ptcw);
 		connect(m_ptcw->m_leCommand, SIGNAL(textChanged(const QString &)), this, SLOT(setCommand(const QString &)));
 		connect(m_ptcw->m_leOptions, SIGNAL(textChanged(const QString &)), this, SLOT(setOptions(const QString &)));
 
 		m_ltcw = new LibraryToolConfigWidget(m_configWidget->m_stackBasic);
-		m_configWidget->m_stackBasic->addWidget(m_ltcw, GBS_Library);
+		m_configWidget->m_stackBasic->insertWidget(GBS_Library, m_ltcw);
 		connect(m_ltcw->m_leLibrary, SIGNAL(textChanged(const QString &)), this, SLOT(setLibrary(const QString &)));
 		connect(m_ltcw->m_leLibClass, SIGNAL(textChanged(const QString &)), this, SLOT(setClassName(const QString &)));
 		connect(m_ltcw->m_leOptions, SIGNAL(textChanged(const QString &)), this, SLOT(setLibOptions(const QString &)));
 
 		m_qtcw = new QuickToolConfigWidget(m_configWidget->m_stackBasic);
-		m_configWidget->m_stackBasic->addWidget(m_qtcw, GBS_Sequence);
+		m_configWidget->m_stackBasic->insertWidget(GBS_Sequence, m_qtcw);
 		connect(m_qtcw, SIGNAL(sequenceChanged(const QString &)), this, SLOT(setSequence(const QString &)));
 
-		m_configWidget->m_stackBasic->addWidget(new QLabel(i18n("Unknown tool type; your configuration data is malformed.\nPerhaps it is a good idea to restore the default settings."), this), GBS_Error);
+		m_configWidget->m_stackBasic->insertWidget(GBS_Error, new QLabel(i18n("Unknown tool type; your configuration data is malformed.\nPerhaps it is a good idea to restore the default settings."), this));
 
-		m_configWidget->m_stackExtra->addWidget(new QWidget(this), GES_None);
+		m_configWidget->m_stackExtra->insertWidget(GES_None, new QWidget(this));
 
 		m_LaTeXtcw = new LaTeXToolConfigWidget(m_configWidget->m_stackExtra);
-		m_configWidget->m_stackExtra->addWidget(m_LaTeXtcw, GES_LaTeX);
+		m_configWidget->m_stackExtra->insertWidget(GES_LaTeX, m_LaTeXtcw);
 		connect(m_LaTeXtcw->m_ckRootDoc, SIGNAL(toggled(bool)), this, SLOT(setLaTeXCheckRoot(bool)));
 		connect(m_LaTeXtcw->m_ckJump, SIGNAL(toggled(bool)), this, SLOT(setLaTeXJump(bool)));
 		connect(m_LaTeXtcw->m_ckAutoRun, SIGNAL(toggled(bool)), this, SLOT(setLaTeXAuto(bool)));
@@ -222,32 +226,31 @@ namespace KileWidget
 // 		m_config->setGroup("Tools");
 // 		m_ViewBibtcw->m_ckRunLyxServer->setChecked(m_config->readBoolEntry("RunLyxServer", true));
 
-		KILE_DEBUG() << "showing pages " << basicPage << " " << extraPage << endl;
-		m_configWidget->m_stackBasic->raiseWidget(basicPage);
-		m_configWidget->m_stackExtra->raiseWidget(extraPage);
+		KILE_DEBUG() << "showing pages " << basicPage << " " << extraPage;
+		m_configWidget->m_stackBasic->setCurrentIndex(basicPage);
+		m_configWidget->m_stackExtra->setCurrentIndex(extraPage);
 
-		if ( m_configWidget->m_stackBasic->widget(basicPage) )
-		{
+		if(m_configWidget->m_stackBasic->widget(basicPage)) {
 			QSize szHint = m_configWidget->m_stackBasic->widget(basicPage)->sizeHint();
-            if (szHint.height() > 0)
+			if(szHint.height() > 0) {
 			     m_configWidget->m_stackBasic->setMaximumHeight(szHint.height());
+			}
 		}
-		if ( m_configWidget->m_stackExtra->widget(extraPage) )
-		{
+		if(m_configWidget->m_stackExtra->widget(extraPage)) {
 			QSize szHint = m_configWidget->m_stackExtra->widget(extraPage)->sizeHint();
-            if (szHint.height() > 0)
-			     m_configWidget->m_stackExtra->setMaximumHeight(szHint.height());
+			if (szHint.height() > 0) {
+				m_configWidget->m_stackExtra->setMaximumHeight(szHint.height());
+			}
 		}
 		m_configWidget->layout()->invalidate();
 	}
 
 	void ToolConfig::writeDefaults()
 	{
-		if ( KMessageBox::warningContinueCancel(this, i18n("All your tool settings will be overwritten with the default settings, are you sure you want to continue?")) == KMessageBox::Continue )
-		{
+		if (KMessageBox::warningContinueCancel(this, i18n("All your tool settings will be overwritten with the default settings, are you sure you want to continue?")) == KMessageBox::Continue) {
 			QStringList groups = m_config->groupList();
 			QRegExp re = QRegExp("Tool/(.+)/.+");
-			for (int i = 0; i < groups.count(); ++i ) {
+			for(int i = 0; i < groups.count(); ++i) {
 				if (re.exactMatch(groups[i])) {
 					m_config->deleteGroup(groups[i]);
 				}
@@ -263,27 +266,27 @@ namespace KileWidget
 			}
 			int index = indexQuickBuild();
 			switchTo(tools[index], false);
-			m_configWidget->m_lstbTools->setSelected(index, true);
+			m_configWidget->m_lstbTools->item(index)->setSelected(true);
 		}
 	}
 
 	void ToolConfig::updateToollist()
 	{
-		//KILE_DEBUG() << "==ToolConfig::updateToollist()====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::updateToollist()====================";
 		m_configWidget->m_lstbTools->clear();
-		m_configWidget->m_lstbTools->insertStringList(KileTool::toolList(m_config, true));
-		m_configWidget->m_lstbTools->sort();
+		m_configWidget->m_lstbTools->addItems(KileTool::toolList(m_config, true));
+		m_configWidget->m_lstbTools->sortItems();
 	}
 
 	void ToolConfig::setMenu(const QString & menu)
 	{
-		//KILE_DEBUG() << "==ToolConfig::setMenu(const QString & menu)====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::setMenu(const QString & menu)====================";
 		m_map["menu"] = menu;
 	}
 
 	void ToolConfig::writeConfig()
 	{
-		//KILE_DEBUG() << "==ToolConfig::writeConfig()====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::writeConfig()====================";
 		//save config
 		m_manager->saveEntryMap(m_current, m_map, false, false);
 		KileTool::setGUIOptions(m_current, m_configWidget->m_cbMenu->currentText(), m_icon, m_config);
@@ -291,22 +294,24 @@ namespace KileWidget
 
 	int ToolConfig::indexQuickBuild()
 	{
-		int index = m_configWidget->m_lstbTools->index(m_configWidget->m_lstbTools->findItem("QuickBuild", Q3ListBox::ExactMatch));
+		QList<QListWidgetItem *> itemsList = m_configWidget->m_lstbTools->findItems("QuickBuild", Qt::MatchExactly);
+		if(itemsList.isEmpty()) {
+			return 0;
+		}
 
-		return ( index >= 0 ) ? index : 0;
+		return m_configWidget->m_lstbTools->row(itemsList.first());
 	}
 	
 	void ToolConfig::switchConfig(int /*index*/)
 	{
-		//KILE_DEBUG() << "==ToolConfig::switchConfig(int /*index*/)====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::switchConfig(int /*index*/)====================";
 		switchTo(m_current);
 	}
 
 	void ToolConfig::switchConfig(const QString & cfg)
 	{
-		//KILE_DEBUG() << "==ToolConfig::switchConfig(const QString & cfg)==========" << endl;
-		for ( int i = 0; i < m_configWidget->m_cbConfig->count(); ++i)
-		{
+		//KILE_DEBUG() << "==ToolConfig::switchConfig(const QString & cfg)==========";
+		for(int i = 0; i < m_configWidget->m_cbConfig->count(); ++i) {
 			if (m_configWidget->m_cbConfig->text(i) == cfg) {
 				m_configWidget->m_cbConfig->setCurrentIndex(i);
 			}
@@ -315,10 +320,9 @@ namespace KileWidget
 
 	void ToolConfig::switchTo(const QString & tool, bool save /* = true */)
 	{
-		//KILE_DEBUG() << "==ToolConfig::switchTo(const QString & tool, bool save /* = true */)====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::switchTo(const QString & tool, bool save /* = true */)====================";
 		//save config
-		if (save)
-		{
+		if(save) {
 			writeConfig();
 
 			//update the config number
@@ -329,8 +333,9 @@ namespace KileWidget
 		m_current = tool;
 
 		m_map.clear();
-		if (!m_manager->retrieveEntryMap(m_current, m_map, false, false))
-			kWarning() << "no entrymap" << endl;
+		if (!m_manager->retrieveEntryMap(m_current, m_map, false, false)) {
+			kWarning() << "no entrymap";
+		}
 
 		updateConfiglist();
 		updateGeneral();
@@ -349,7 +354,7 @@ namespace KileWidget
 
 	void ToolConfig::updateConfiglist()
 	{
-		//KILE_DEBUG() << "==ToolConfig::updateConfiglist()=====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::updateConfiglist()=====================";
 		m_configWidget->m_cbConfig->clear();
 		m_configWidget->m_cbConfig->insertStringList(KileTool::configNames(m_current, m_config));
 		QString cfg = KileTool::configName(m_current, m_config);
@@ -359,13 +364,15 @@ namespace KileWidget
 
 	void ToolConfig::selectIcon()
 	{
-		KILE_DEBUG() << "icon ---> " << m_icon << endl;
-		//KILE_DEBUG() << "==ToolConfig::selectIcon()=====================" << endl;
+		KILE_DEBUG() << "icon ---> " << m_icon;
+		//KILE_DEBUG() << "==ToolConfig::selectIcon()=====================";
 		KIconDialog *dlg = new KIconDialog(this);
 		QString res = dlg->openDialog();
-		if ( m_icon != res ) {
-			if ( res.isEmpty() ) return;
-		
+		if(m_icon != res) {
+			if(res.isEmpty()) {
+				return;
+			}
+
 			m_icon = res;
 			writeConfig();
 			if (m_icon.isEmpty()) {
@@ -379,16 +386,14 @@ namespace KileWidget
 
 	void ToolConfig::newTool()
 	{
-		//KILE_DEBUG() << "==ToolConfig::newTool()=====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::newTool()=====================";
 		NewToolWizard *ntw = new NewToolWizard(this);
-		if (ntw->exec())
-		{
+		if (ntw->exec()) {
 			QString toolName = ntw->toolName();
 			QString parentTool = ntw->parentTool();
 
 			writeStdConfig(toolName, "Default");
-			if ( parentTool != ntw->customTool() )
-			{
+			if(parentTool != ntw->customTool()) {
 				//copy tool info
 				KileTool::Config tempMap;
 				m_manager->retrieveEntryMap(parentTool, tempMap, false, false);
@@ -405,28 +410,26 @@ namespace KileWidget
 			m_configWidget->m_lstbTools->blockSignals(true);
 			updateToollist();
 			switchTo(toolName);
-			for ( uint i = 0; i < m_configWidget->m_lstbTools->count(); ++i)
-				if ( m_configWidget->m_lstbTools->text(i) == toolName )
-				{
-					m_configWidget->m_lstbTools->setCurrentItem(i);
+			for(int i = 0; i < m_configWidget->m_lstbTools->count(); ++i) {
+				if(m_configWidget->m_lstbTools->item(i)->text() == toolName) {
+					m_configWidget->m_lstbTools->setCurrentRow(i);
 					break;
 				}
+			}
 			m_configWidget->m_lstbTools->blockSignals(false);
 		}
 	}
 
 	void ToolConfig::newConfig()
 	{
-		//KILE_DEBUG() << "==ToolConfig::newConfig()=====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::newConfig()=====================";
 		writeConfig();
 		bool ok;
 		QString cfg = KInputDialog::getText(i18n("New Configuration"), i18n("Enter new configuration name:"), "", &ok, this);
-		if (ok && (!cfg.isEmpty()))
-		{
+		if (ok && (!cfg.isEmpty())) {
 			//copy config
 			KConfigGroup toolGroup = m_config->group(KileTool::groupFor(m_current, cfg));
-			for (QMap<QString,QString>::Iterator it  = m_map.begin(); it != m_map.end(); ++it)
-			{
+			for (QMap<QString,QString>::Iterator it  = m_map.begin(); it != m_map.end(); ++it) {
 				toolGroup.writeEntry(it.key(), it.data());
 			}
 			KileTool::setConfigName(m_current, cfg, m_config);
@@ -449,7 +452,7 @@ namespace KileWidget
 
 	void ToolConfig::removeTool()
 	{
-		//KILE_DEBUG() << "==ToolConfig::removeTool()=====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::removeTool()=====================";
 		if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove the tool %1?", m_current)) == KMessageBox::Continue) {
 			KConfig *config = m_config;
 			QStringList cfgs = KileTool::configNames(m_current, config);
@@ -457,12 +460,14 @@ namespace KileWidget
 				config->deleteGroup(KileTool::groupFor(m_current, cfgs[i]));
 			}
 			config->group("Tools").deleteEntry(m_current);
-			int index = m_configWidget->m_lstbTools->currentItem()-1;
-			if ( index < 0 ) index=0;
-			QString tool = m_configWidget->m_lstbTools->text(index);
+			int index = m_configWidget->m_lstbTools->currentRow() - 1;
+			if(index < 0) {
+				index = 0;
+			}
+			QString tool = m_configWidget->m_lstbTools->item(index)->text();
 			m_configWidget->m_lstbTools->blockSignals(true);
 			updateToollist();
-			m_configWidget->m_lstbTools->setCurrentItem(index);
+			m_configWidget->m_lstbTools->setCurrentRow(index);
 			switchTo(tool, false);
 			m_configWidget->m_lstbTools->blockSignals(false);
 		}
@@ -470,26 +475,24 @@ namespace KileWidget
 
 	void ToolConfig::removeConfig()
 	{
-		//KILE_DEBUG() << "==ToolConfig::removeConfig()=====================" << endl;
+		//KILE_DEBUG() << "==ToolConfig::removeConfig()=====================";
 		writeConfig();
-		if ( m_configWidget->m_cbConfig->count() > 1)
-		{
-			if ( KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove this configuration?") ) == KMessageBox::Continue )
-			{
+		if ( m_configWidget->m_cbConfig->count() > 1) {
+			if(KMessageBox::warningContinueCancel(this, i18n("Are you sure that you want to remove this configuration?") ) == KMessageBox::Continue) {
 				m_config->deleteGroup(KileTool::groupFor(m_current, m_configWidget->m_cbConfig->currentText()));
 				updateConfiglist();
 				KileTool::setConfigName(m_current, m_configWidget->m_cbConfig->text(0), m_config);
 				switchTo(m_current, false);
 			}
 		}
-		else
+		else {
 			KMessageBox::error(this, i18n("You need at least one configuration for each tool."), i18n("Cannot Remove Configuration"));
+		}
 	}
 
 	void ToolConfig::switchClass(const QString & cls)
 	{
-		if ( m_map["class"] != cls )
-		{
+		if(m_map["class"] != cls) {
 			setClass(cls);
 			emit(changed());
 		}
@@ -497,14 +500,13 @@ namespace KileWidget
 
 	void ToolConfig::switchType(int index)
 	{
-		switch (index)
-		{
-		case 0 : m_map["type"] = "Process"; break;
-		case 1 : m_map["type"] = "Konsole"; break;
-		case 2 : m_map["type"] = "Part"; break;
-		case 3 : m_map["type"] = "DocPart"; break;
-		case 4 : m_map["type"] = "Sequence"; break;
-		default : m_map["type"] = "Process"; break;
+		switch (index) {
+			case 0 : m_map["type"] = "Process"; break;
+			case 1 : m_map["type"] = "Konsole"; break;
+			case 2 : m_map["type"] = "Part"; break;
+			case 3 : m_map["type"] = "DocPart"; break;
+			case 4 : m_map["type"] = "Sequence"; break;
+			default : m_map["type"] = "Process"; break;
 		}
 		emit(changed());
 	}
@@ -517,7 +519,7 @@ namespace KileWidget
 	void ToolConfig::setState(const QString & state)
 	{
 		QString str = state.trimmed();
-		if ( str .isEmpty() ) str = "Editor";
+		if(str.isEmpty()) str = "Editor";
 		m_map["state"] = str;
 	}
 	void ToolConfig::setSequence(const QString & sequence) { m_map["sequence"] = sequence.trimmed(); }
@@ -529,7 +531,7 @@ namespace KileWidget
 	void ToolConfig::setLaTeXAuto(bool ck) { m_map["autoRun"] = ck ? "yes" : "no"; }
 	void ToolConfig::setRunLyxServer(bool ck)
 	{
-		//KILE_DEBUG() << "setRunLyxServer" << endl;
+		//KILE_DEBUG() << "setRunLyxServer";
 		m_config->group("Tools").writeEntry("RunLyxServer", ck);
 	}
 	void ToolConfig::setFrom(const QString & from) { m_map["from"] = from.trimmed(); }

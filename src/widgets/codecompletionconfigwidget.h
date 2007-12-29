@@ -37,12 +37,12 @@ namespace KileWidget {
 class LogMsg;
 }
 
-class ConfigCodeCompletion : public QWidget
+class CodeCompletionConfigWidget : public QWidget
 {
 		Q_OBJECT
 	public:
-		ConfigCodeCompletion(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent = 0, const char *name = 0);
-		~ConfigCodeCompletion();
+		CodeCompletionConfigWidget(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent = 0, const char *name = 0);
+		~CodeCompletionConfigWidget();
 
 		void readConfig(void);
 		void writeConfig(void);

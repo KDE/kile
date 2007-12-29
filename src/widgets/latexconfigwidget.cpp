@@ -11,15 +11,32 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "structureconfigwidget.h"
+#include "latexconfigwidget.h"
 
-KileWidgetStructureViewConfig::KileWidgetStructureViewConfig(QWidget *parent) : QWidget(parent)
+#include "latexcmddialog.h"
+
+KileWidgetLatexConfig::KileWidgetLatexConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
+	connect(m_pbCommands, SIGNAL(clicked()), this, SLOT(slotConfigure()));
 }
 
-KileWidgetStructureViewConfig::~KileWidgetStructureViewConfig()
+KileWidgetLatexConfig::~KileWidgetLatexConfig()
 {
 }
 
-#include "structureconfigwidget.moc"
+void KileWidgetLatexConfig::slotConfigure()
+{
+	KileDialog::LatexCommandsDialog *dlg = new KileDialog::LatexCommandsDialog(m_config, m_commands, this);
+	dlg->exec();
+	delete dlg;
+}
+
+
+void KileWidgetLatexConfig::setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands)
+{
+	m_config = config;
+	m_commands = commands;
+}
+
+#include "latexconfigwidget.moc"

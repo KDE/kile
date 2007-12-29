@@ -11,15 +11,20 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "graphicsconfigwidget.h"
+#ifndef STRUCTURECONFIGWIDGET_H
+#define STRUCTURECONFIGWIDGET_H
 
-KileWidgetGraphicsConfig::KileWidgetGraphicsConfig(QWidget *parent) : QWidget(parent)
+#include <QWidget>
+
+#include "ui_structureviewconfigwidget.h"
+
+class KileWidgetStructureViewConfig : public QWidget, public Ui::KileWidgetStructureViewConfig
 {
-	setupUi(this);
-}
+	Q_OBJECT
 
-KileWidgetGraphicsConfig::~KileWidgetGraphicsConfig()
-{
-}
+	public:
+		KileWidgetStructureViewConfig(QWidget *parent = 0);
+		~KileWidgetStructureViewConfig();
+};
 
-#include "graphicsconfigwidget.moc"
+#endif

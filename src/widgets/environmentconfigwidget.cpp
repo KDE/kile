@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "symbolviewconfigwidget.h"
+#include "widgets/environmentconfigwidget.h"
 
-KileWidgetSymbolViewConfig::KileWidgetSymbolViewConfig(QWidget *parent) : QWidget(parent)
+KileWidgetEnvironmentConfig::KileWidgetEnvironmentConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-KileWidgetSymbolViewConfig::~KileWidgetSymbolViewConfig()
+KileWidgetEnvironmentConfig::~KileWidgetEnvironmentConfig()
 {
 }
 
-#include "symbolviewconfigwidget.moc"
+#include "environmentconfigwidget.moc"

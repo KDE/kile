@@ -5,18 +5,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
-    <height>194</height>
+    <width>584</width>
+    <height>361</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle" >
    <string>LaTeX</string>
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="Q3ButtonGroup" name="m_bgEnv" >
+    <widget class="QGroupBox" name="m_bgEnv" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -36,7 +42,13 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3ButtonGroup" name="m_bgGraphics" >
+    <widget class="QGroupBox" name="m_bgGraphics" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title" >
       <string>Automatic Indentation Inside Environments</string>
      </property>
@@ -138,18 +150,23 @@
      </layout>
     </widget>
    </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends>Q3GroupBox</extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

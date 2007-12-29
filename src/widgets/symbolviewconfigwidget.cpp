@@ -11,27 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "helpconfigwidget.h"
+#include "widgets/symbolviewconfigwidget.h"
 
-KileWidgetHelpConfig::KileWidgetHelpConfig(QWidget *parent) : QWidget(parent)
+KileWidgetSymbolViewConfig::KileWidgetSymbolViewConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-KileWidgetHelpConfig::~KileWidgetHelpConfig()
+KileWidgetSymbolViewConfig::~KileWidgetSymbolViewConfig()
 {
 }
 
-void KileWidgetHelpConfig::slotConfigure()
-{
-	m_help->userHelpDialog();
-}
-
-
-
-void KileWidgetHelpConfig::setHelp(KileHelp::Help *help)
-{
-	m_help = help;
-}
-
-#include "helpconfigwidget.moc"
+#include "symbolviewconfigwidget.moc"

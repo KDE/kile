@@ -11,31 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "latexconfigwidget.h"
+#include "widgets/generalconfigwidget.h"
 
-#include "latexcmddialog.h"
-
-KileWidgetLatexConfig::KileWidgetLatexConfig(QWidget *parent) : QWidget(parent)
+KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-KileWidgetLatexConfig::~KileWidgetLatexConfig()
+KileWidgetGeneralConfig::~KileWidgetGeneralConfig()
 {
 }
 
-void KileWidgetLatexConfig::slotConfigure()
-{
-	KileDialog::LatexCommandsDialog *dlg = new KileDialog::LatexCommandsDialog(m_config, m_commands, this);
-	dlg->exec();
-	delete dlg;
-}
-
-
-void KileWidgetLatexConfig::setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands)
-{
-	m_config = config;
-	m_commands = commands;
-}
-
-#include "latexconfigwidget.moc"
+#include "generalconfigwidget.moc"

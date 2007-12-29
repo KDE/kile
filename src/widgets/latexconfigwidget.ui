@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>602</width>
-    <height>365</height>
+    <height>411</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -15,6 +15,12 @@
   <layout class="QVBoxLayout" >
    <item>
     <widget class="Q3ButtonGroup" name="m_bgCommands" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title" >
       <string>Commands</string>
      </property>
@@ -48,7 +54,7 @@
    <item>
     <widget class="Q3ButtonGroup" name="m_bgQuotes" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -108,6 +114,12 @@
    </item>
    <item>
     <widget class="Q3ButtonGroup" name="m_bgMathmode" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title" >
       <string>Mathmode</string>
      </property>
@@ -127,6 +139,12 @@
    </item>
    <item>
     <widget class="Q3GroupBox" name="groupBox5" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title" >
       <string>Environment Variables</string>
      </property>
@@ -148,13 +166,13 @@
        </widget>
       </item>
       <item row="0" column="1" >
-       <widget class="KLineEdit" native="1" name="kcfg_TeXPaths" />
+       <widget class="KLineEdit" name="kcfg_TeXPaths" />
       </item>
       <item row="1" column="1" >
-       <widget class="KLineEdit" native="1" name="kcfg_BibInputPaths" />
+       <widget class="KLineEdit" name="kcfg_BibInputPaths" />
       </item>
       <item row="2" column="1" >
-       <widget class="KLineEdit" native="1" name="kcfg_BstInputPaths" />
+       <widget class="KLineEdit" name="kcfg_BstInputPaths" />
       </item>
       <item row="1" column="0" >
        <widget class="QLabel" name="m_bibinputpath" >
@@ -191,6 +209,19 @@
      </layout>
     </widget>
    </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
@@ -210,7 +241,7 @@
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
-   <extends>QWidget</extends>
+   <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
@@ -223,22 +254,5 @@
   <include location="local" >klineedit.h</include>
  </includes>
  <resources/>
- <connections>
-  <connection>
-   <sender>m_pbCommands</sender>
-   <signal>clicked()</signal>
-   <receiver>KileWidgetLatexConfig</receiver>
-   <slot>slotConfigure()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

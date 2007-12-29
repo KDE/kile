@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "scriptingconfigwidget.h"
+#include "widgets/toolconfigwidget.h"
 
-KileWidgetScriptingConfig::KileWidgetScriptingConfig(QWidget *parent) : QWidget(parent)
+ToolConfigWidget::ToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-KileWidgetScriptingConfig::~KileWidgetScriptingConfig()
+ToolConfigWidget::~ToolConfigWidget()
 {
 }
 
-#include "scriptingconfigwidget.moc"
+#include "toolconfigwidget.moc"

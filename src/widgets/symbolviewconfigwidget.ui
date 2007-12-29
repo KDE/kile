@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
-    <height>194</height>
+    <width>421</width>
+    <height>180</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -14,7 +14,13 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="Q3GroupBox" name="groupBox1" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title" >
       <string>Most Frequently Used Symbols</string>
      </property>
@@ -39,6 +45,13 @@
          </widget>
         </item>
         <item>
+         <widget class="KIntNumInput" name="kcfg_numSymbolsMFUS" >
+          <property name="value" >
+           <number>30</number>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer>
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
@@ -50,13 +63,6 @@
            </size>
           </property>
          </spacer>
-        </item>
-        <item>
-         <widget class="KIntNumInput" name="kcfg_numSymbolsMFUS" >
-          <property name="value" >
-           <number>30</number>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>
@@ -73,33 +79,27 @@
         </property>
        </widget>
       </item>
-      <item>
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>403</width>
+       <height>21</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KIntNumInput</class>
    <extends>QWidget</extends>

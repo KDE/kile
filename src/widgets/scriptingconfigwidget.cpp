@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "envconfigwidget.h"
+#include "widgets/scriptingconfigwidget.h"
 
-KileWidgetEnvironmentConfig::KileWidgetEnvironmentConfig(QWidget *parent) : QWidget(parent)
+KileWidgetScriptingConfig::KileWidgetScriptingConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-KileWidgetEnvironmentConfig::~KileWidgetEnvironmentConfig()
+KileWidgetScriptingConfig::~KileWidgetScriptingConfig()
 {
 }
 
-#include "envconfigwidget.moc"
+#include "scriptingconfigwidget.moc"

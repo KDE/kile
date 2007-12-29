@@ -6,12 +6,12 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>460</height>
+    <height>482</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
-    <horstretch>1</horstretch>
+   <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+    <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
@@ -198,6 +198,19 @@
       <string>Let Kile process LyX commands sent by bibliography editors/viewers</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

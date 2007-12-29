@@ -20,12 +20,12 @@
 
 #include <KConfigDialogManager>
 
-#include "configcodecompletion.h"     // code completion (dani)
-#include "previewconfigwidget.h"      // QuickPreview (dani)
-#include "envconfigwidget.h"          // environments (dani)
-#include "graphicsconfigwidget.h"     // graphics (dani)
-#include "structureconfigwidget.h"    // structure view (dani)
-#include "symbolviewconfigwidget.h"
+#include "widgets/codecompletionconfigwidget.h"     // code completion (dani)
+#include "widgets/previewconfigwidget.h"      // QuickPreview (dani)
+#include "widgets/environmentconfigwidget.h"          // environments (dani)
+#include "widgets/graphicsconfigwidget.h"     // graphics (dani)
+#include "widgets/structureviewconfigwidget.h"    // structure view (dani)
+#include "widgets/symbolviewconfigwidget.h"
 
 class KConfig;
 
@@ -72,7 +72,7 @@ namespace KileDialog
 		KileWidget::ToolConfig	*toolPage;
 
 		// CodeCompletion (dani)
-		ConfigCodeCompletion *completePage;
+		CodeCompletionConfigWidget *completePage;
 		KileWidgetPreviewConfig *previewPage;
 
 		KileWidgetHelpConfig *helpPage;

@@ -34,7 +34,7 @@ SET(kile_SRCS
 	mathenvdialog.cpp
 	tabulardialog.cpp
 	postscriptdialog.cpp
-	previewconfigwidget.cpp
+	widgets/previewconfigwidget.cpp
 	quickpreview.cpp
 	includegraphicsdialog.cpp
 	newfilewizard.cpp
@@ -73,7 +73,7 @@ SET(kile_SRCS
 	kilewizard.cpp
 	kilestructurewidget.cpp
 	codecompletion.cpp
-	configcodecompletion.cpp
+	widgets/codecompletionconfigwidget.cpp
 	kiletoolconfigwidget.cpp
 	kileedit.cpp
 	cleandialog.cpp
@@ -106,22 +106,22 @@ SET(kile_SRCS
 )
 
 SET( kile_UI
-	helpconfigwidget.ui
-	latexconfigwidget.ui
-	generalconfigwidget.ui
+	widgets/helpconfigwidget.ui
+	widgets/latexconfigwidget.ui
+	widgets/generalconfigwidget.ui
 	widgets/configcheckerwidget.ui
-	toolconfigwidget.ui
+	widgets/toolconfigwidget.ui
 	librarytoolconfigwidget.ui
 	processtoolconfigwidget.ui
 	widgets/quicktoolconfigwidget.ui
 	latextoolconfigwidget.ui
 	newtoolwizard_class_page.ui
 	newtoolwizard_toolname_page.ui
-	envconfigwidget.ui
-	structureconfigwidget.ui
-	symbolviewconfigwidget.ui
-	scriptingconfigwidget.ui
-	graphicsconfigwidget.ui
+	widgets/environmentconfigwidget.ui
+	widgets/structureviewconfigwidget.ui
+	widgets/symbolviewconfigwidget.ui
+	widgets/scriptingconfigwidget.ui
+	widgets/graphicsconfigwidget.ui
 	newdocumentwidget.ui
 	tabbingdialog_base.ui
 	floatdialog_base.ui
@@ -131,21 +131,21 @@ SET( kile_UI
 
 SET( kile_UI_SRCS
 	widgets/configcheckerwidget.cpp
-	envconfigwidget.cpp
-	graphicsconfigwidget.cpp
-	generalconfigwidget.cpp
-	helpconfigwidget.cpp
-	latexconfigwidget.cpp
+	widgets/environmentconfigwidget.cpp
+	widgets/graphicsconfigwidget.cpp
+	widgets/generalconfigwidget.cpp
+	widgets/helpconfigwidget.cpp
+	widgets/latexconfigwidget.cpp
 	latextoolconfigwidget.cpp
 	librarytoolconfigwidget.cpp
 	newdocumentwidget.cpp
 	newtoolwizard.cpp
 	processtoolconfigwidget.cpp
 	widgets/quicktoolconfigwidget.cpp
-	scriptingconfigwidget.cpp
-	structureconfigwidget.cpp
-	symbolviewconfigwidget.cpp
-	toolconfigwidget.cpp
+	widgets/scriptingconfigwidget.cpp
+	widgets/structureviewconfigwidget.cpp
+	widgets/symbolviewconfigwidget.cpp
+	widgets/toolconfigwidget.cpp
 )
 
 SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})

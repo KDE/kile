@@ -42,11 +42,13 @@
 #include "kiletoolmanager.h"
 #include "kiletoolconfigwidget.h"
 #include "kileviewmanager.h"
-#include "helpconfigwidget.h"
-#include "latexconfigwidget.h"
-#include "generalconfigwidget.h"
-#include "previewconfigwidget.h"
-#include "scriptingconfigwidget.h"
+
+#include "widgets/generalconfigwidget.h"
+#include "widgets/helpconfigwidget.h"
+#include "widgets/latexconfigwidget.h"
+#include "widgets/previewconfigwidget.h"
+#include "widgets/scriptingconfigwidget.h"
+
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kileedit.h"
@@ -210,7 +212,7 @@ namespace KileDialog
 
 	void Config::setupCodeCompletion(KPageWidgetItem* parent)
 	{
-		completePage = new ConfigCodeCompletion(m_config,m_ki->logWidget());
+		completePage = new CodeCompletionConfigWidget(m_config, m_ki->logWidget());
 		completePage->readConfig();
 
 		addConfigPage(parent, completePage, i18n("Complete"), "text-x-tex", i18n("Code Completion"));

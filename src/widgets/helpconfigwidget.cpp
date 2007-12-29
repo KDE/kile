@@ -11,20 +11,28 @@
 *                                                                         *
 ***************************************************************************/
 
-#ifndef STRUCTURECONFIGWIDGET_H
-#define STRUCTURECONFIGWIDGET_H
+#include "widgets/helpconfigwidget.h"
 
-#include <QWidget>
-
-#include "ui_structureconfigwidget.h"
-
-class KileWidgetStructureViewConfig : public QWidget, public Ui::KileWidgetStructureViewConfig
+KileWidgetHelpConfig::KileWidgetHelpConfig(QWidget *parent) : QWidget(parent)
 {
-	Q_OBJECT
+	setupUi(this);
+	connect(m_pbConfigure, SIGNAL(clicked()), this, SLOT(slotConfigure()));
+}
 
-	public:
-		KileWidgetStructureViewConfig(QWidget *parent = 0);
-		~KileWidgetStructureViewConfig();
-};
+KileWidgetHelpConfig::~KileWidgetHelpConfig()
+{
+}
 
-#endif
+void KileWidgetHelpConfig::slotConfigure()
+{
+	m_help->userHelpDialog();
+}
+
+
+
+void KileWidgetHelpConfig::setHelp(KileHelp::Help *help)
+{
+	m_help = help;
+}
+
+#include "helpconfigwidget.moc"

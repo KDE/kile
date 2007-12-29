@@ -2,7 +2,7 @@
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -171,7 +171,7 @@ Info::Info() : m_bIsRoot(false), m_config(KGlobal::config().data()), documentTyp
 
 Info::~Info(void)
 {
-	KILE_DEBUG() << "DELETING DOCINFO" << m_url.path() << endl;
+	KILE_DEBUG() << "DELETING DOCINFO" << this;
 }
 
 void Info::updateStructLevelInfo()
@@ -230,7 +230,7 @@ void Info::setDocumentTypePromotionAllowed(bool b)
 
 KUrl Info::url()
 {
-	return m_url;
+	return KUrl();
 }
 
 void Info::count(const QString line, long *stat)
@@ -419,16 +419,7 @@ TextInfo::TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QSt
 
  	m_arStatistics = new long[SIZE_STAT_ARRAY];
 
-	if (m_doc)
-	{
-		m_url = doc->url();
-	}
-	else
-	{
-		m_url = KUrl();
-	}
 	m_extensions = extensions;
-
 }
 
 TextInfo::~TextInfo()
@@ -451,15 +442,15 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 {
 	KILE_DEBUG() << "===void TextInfo::setDoc(KTextEditor::Document *doc)===" << endl;
 
-	if(m_doc == doc)
+	if(m_doc == doc) {
 		return;
+	}
 
 	detach();
-	if(doc)
-	{
+	if(doc) {
 		m_doc = doc;
-		m_url = doc->url();
-		connect(m_doc, SIGNAL(fileNameChanged()), this, SLOT(slotFileNameChanged()));
+		connect(m_doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
+		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		setHighlightMode(m_defaultHighlightMode);
 		installEventFilters();
@@ -468,8 +459,7 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 
 void TextInfo::detach()
 {
-	if(m_doc)
-	{
+	if(m_doc) {
 		m_doc->disconnect(this);
 		removeInstalledEventFilters();
 	}
@@ -485,23 +475,14 @@ const long* TextInfo::getStatistics()
 	return m_arStatistics;
 }
 
-// FIXME for KDE 4.0, rearrange the hole docinfo layout to get rid of this hack
 KUrl TextInfo::url()
 {
-	KUrl url;
-
-	if(m_doc)
-		url = m_doc->url();
-	else
-	{
-		QFileInfo info(m_url.path());
-		if(info.exists())
-			url = m_url;
-		else
-			url = KUrl();
+	if(m_doc) {
+		return m_doc->url();
 	}
-// 	KILE_DEBUG() << "===KUrl TextInfo::url()===, url is " << url.path() << endl;
-	return url;
+	else {
+		return KUrl();
+	}
 }
 
 Type TextInfo::getType()

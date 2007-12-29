@@ -87,9 +87,6 @@ public slots:
 	void closeWidget(QWidget *);
 	void removeView(KTextEditor::View *view);
 
-	void setTabLabel(QWidget *view, const QString & name);
-	void changeTab(QWidget *view, const QPixmap & icon, const QString & name);
-
 	void updateStructure(bool parse = false, KileDocument::Info *docinfo = 0L);
 
 	void gotoNextView();
@@ -101,15 +98,20 @@ public slots:
 	void pasteAsLaTeX(void);
 	void quickPreviewPopup();
 
+protected:
+	void setTabLabel(QWidget *view, const QString& name);
+	void setTabIcon(QWidget *view, const QPixmap& icon);
+
 protected slots:
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
 	void replaceLoadedURL(QWidget *w, QDropEvent *e);
 	void onTextEditorPopupMenuRequest(void);
 
 	/**
-	 * 
+	 * Updates the labels of every tab that contains a view for 'changedDoc' to reflect there
+	 * the name of 'changedDoc'.
 	 **/
-	void urlChanged(KileDocument::Info* info, const KUrl& url);
+	void updateTabTexts(KTextEditor::Document* changedDoc);
 
 signals:
 	void activateView(QWidget *, bool);

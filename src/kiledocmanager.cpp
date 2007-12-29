@@ -434,31 +434,34 @@ KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& 
 #endif
 	}
 	KTextEditor::Document *doc = editor->createDocument(NULL);
-	if ( docFor(url) != 0L )
+	if (docFor(url)) {
 		kWarning() << url << " already has a document!" << endl;
-	else
+	}
+	else {
 		KILE_DEBUG() << "\tappending document " <<  doc << endl;
+	}
 
 	//set the default encoding
 	QString enc = encoding.isNull() ? KileConfig::defaultEncoding() : encoding;
 	doc->setEncoding(enc);
 
-    KILE_DEBUG() << "url is = " << docinfo->url() << endl;
+	KILE_DEBUG() << "url is = " << docinfo->url() << endl;
 
-	if(!url.isEmpty())
-	{
+	if(!url.isEmpty()) {
 		bool r = doc->openUrl(url);
 		// don't add scripts to the recent files
-		if(r && docinfo->getType() != Script)
-		{
+		if(r && docinfo->getType() != Script) {
         		emit(addToRecentFiles(url));
 		}
 	}
 
 	//handle changes of the document
-	connect(doc, SIGNAL(nameChanged(KTextEditor::Document *)), m_ki->mainWindow(), SLOT(newCaption()));
-	connect(doc, SIGNAL(fileNameChanged()), m_ki->mainWindow(), SLOT(newCaption()));
-	connect(doc, SIGNAL(modStateChanged(KTextEditor::Document*)), this, SLOT(newDocumentStatus(KTextEditor::Document*)));
+	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), m_ki->mainWindow(), SLOT(newCaption()));
+	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), m_ki->mainWindow(), SLOT(newCaption()));
+	connect(doc, SIGNAL(modifiedChanged(KTextEditor::Document*)), this, SLOT(newDocumentStatus(KTextEditor::Document*)));
+#ifdef __GNUC__
+#warning Signal modifiedOnDisc still left to be ported!
+#endif
 	connect(doc, SIGNAL(modifiedOnDisc(KTextEditor::Document*, bool, unsigned char)), this, SIGNAL(documentStatusChanged(KTextEditor::Document*, bool, unsigned char)));
 
 	docinfo->setDoc(doc);

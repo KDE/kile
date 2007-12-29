@@ -132,32 +132,28 @@ void Manager::closeWidget(QWidget *widget)
 KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
 	KTextEditor::Document *doc = info->getDoc();
-	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView (m_tabs, 0L));
+	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView (m_tabs, NULL));
 
 	//install a key sequence recorder on the view
 	view->focusProxy()->installEventFilter(new KileEditorKeySequence::Recorder(view, m_ki->editorKeySequenceManager()));
 
 	// in the case of simple text documents, we mimic the behaviour of LaTeX documents
-	if(info->getType() == KileDocument::Text)
-	{
+	if(info->getType() == KileDocument::Text) {
 		view->focusProxy()->installEventFilter(m_ki->eventFilter());
 	}
 
 	//insert the view in the tab widget
-	m_tabs->insertTab( view, m_ki->getShortName(doc), index );
-	#if KDE_VERSION >= KDE_MAKE_VERSION(3,4,0)
-		m_tabs->setTabToolTip(view, doc->url().pathOrUrl() );
-	#else
-		m_tabs->setTabToolTip(view, doc->url().prettyUrl() );
-	#endif
+	m_tabs->insertTab(view, m_ki->getShortName(doc), index);
+	m_tabs->setTabToolTip(view, doc->url().pathOrUrl() );
 	
-	m_tabs->showPage( view );
+	m_tabs->showPage(view);
 	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
 	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
 	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
-	connect(info, SIGNAL(urlChanged(KileDocument::Info*, const KUrl&)), this, SLOT(urlChanged(KileDocument::Info*, const KUrl&)));
+	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
+	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 
 	connect( doc,  SIGNAL(charactersInteractivelyInserted (int,int,const QString&)), m_ki->editorExtension()->complete(),  SLOT(slotCharactersInserted(int,int,const QString&)) );
 	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
@@ -189,19 +185,18 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	// use Kile's save and save-as functions instead of the text editor's
 	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
-	if ( action ) 
-	{
+	if(action) {
 		KILE_DEBUG() << "   reconnect action 'file_save'...";
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSave()));
 	}
 	action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::SaveAs));
-	if ( action ) 
-	{
+	if(action) {
 		KILE_DEBUG() << "   reconnect action 'file_save_as'...";
 		action->disconnect(SIGNAL(activated()));
 		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSaveAs()));
 	}
+	updateTabTexts(doc);
 	m_widgetStack->setCurrentWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
 
 	return view;
@@ -281,18 +276,13 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 
 void Manager::setTabLabel(QWidget *view, const QString& name)
 {
-//FIXME: this needs to be changed when we support multiple views for one document
 	m_tabs->setTabText(m_tabs->indexOf(view), name);
 }
 
-void Manager::changeTab(QWidget *view, const QPixmap& icon, const QString& name)
+void Manager::setTabIcon(QWidget *view, const QPixmap& icon)
 {
-//FIXME: this needs to be changed when we support multiple views for one document
-	int i = m_tabs->indexOf(view);
-	m_tabs->setTabIcon(i, QIcon(icon));
-	m_tabs->setTabText(i, name);
+	m_tabs->setTabIcon(m_tabs->indexOf(view), QIcon(icon));
 }
-
 
 void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = 0L */)
 {
@@ -336,18 +326,26 @@ void Manager::gotoPrevView()
 void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified, unsigned char reason)
 {
 	QPixmap icon;
-	if ( reason == 0 && isModified ) //nothing
+	if(reason == 0 && isModified) { //nothing
 		icon = SmallIcon("filesave");
-	else if ( reason == 1 || reason == 2 ) //dirty file
+	}
+	else if(reason == 1 || reason == 2) { //dirty file
 		icon = SmallIcon("revert");
-	else if ( reason == 3 ) //file deleted
+	}
+	else if(reason == 3) { //file deleted
 		icon = SmallIcon("stop");
-	else if ( m_ki->extensions()->isScriptFile(doc->url()) )
+	}
+	else if(m_ki->extensions()->isScriptFile(doc->url())) {
 		icon = SmallIcon("js");
-	else
+	}
+	else {
 		icon = KIO::pixmapForUrl(doc->url(), 0, KIconLoader::Small);
+	}
 
-	changeTab(doc->views().first(), icon, m_ki->getShortName(doc));
+	const QList<KTextEditor::View*> &viewsList = doc->views();
+	for(QList<KTextEditor::View*>::const_iterator i = viewsList.begin(); i != viewsList.end(); ++i) {
+		setTabIcon(*i, icon);
+	}
 }
 
 /**
@@ -469,13 +467,15 @@ void Manager::pasteAsLaTeX(void)
 {
 	KTextEditor::View *view = currentTextView();
 
-	if(NULL == view)
+	if(!view) {
 		return;
+	}
 
 	KTextEditor::Document *doc = view->document();
 
-	if(NULL == doc)
+	if(!doc) {
 		return;
+	}
 
 	// Getting a proper text insertion point BEFORE the atomic editing operation
 	uint cursorLine, cursorCol;
@@ -508,8 +508,9 @@ void Manager::pasteAsLaTeX(void)
 void Manager::quickPreviewPopup()
 {
 	KTextEditor::View *view = currentTextView();
-	if( ! view )
+	if(!view) {
 		return;
+	}
 
 	if (view->selection())
 		emit( startQuickPreview(KileTool::qpSelection) );
@@ -540,7 +541,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 		}
 		else if(!hasReplacedTab) {
 			closeWidget(w);
-			m_ki->docManager()->fileOpen(url, QString::null, index);
+			m_ki->docManager()->fileOpen(url, QString(), index);
 			hasReplacedTab = true;
 		}
 		else {
@@ -549,17 +550,15 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 	}
 }
 
-void Manager::urlChanged(KileDocument::Info* info, const KUrl& /*url*/)
+void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 {
-	KileDocument::TextInfo *textInfo = dynamic_cast<KileDocument::TextInfo*>(info);
-	if(textInfo)
-	{
-		KTextEditor::View *view = textView(textInfo);
-		if(!view)
-		{
-			return;
+	const QList<KTextEditor::View*> &viewsList = changedDoc->views();
+	for(QList<KTextEditor::View*>::const_iterator i = viewsList.begin(); i != viewsList.end(); ++i) {
+		QString documentName = changedDoc->documentName();
+		if(documentName.isEmpty()) {
+			documentName = i18n("Untitled");
 		}
-		setTabLabel(view, m_ki->getShortName(textInfo->getDoc()));
+		setTabLabel(*i, documentName);
 	}
 }
 

@@ -175,14 +175,12 @@ protected slots:
 protected:
 	void count(const QString line, long *stat);
 
-protected:
 	enum State
 	{
 		stStandard=0, stComment=1, stControlSequence=3, stControlSymbol=4,
 	 	stCommand=5,stEnvironment=6
 	};
 
-protected:
 	bool						m_bIsRoot;
 	QStringList					m_labels;
 	QStringList					m_bibItems;
@@ -192,7 +190,6 @@ protected:
 	QStringList					m_newCommands;
 	QString						m_preamble;
 	QMap<QString,KileStructData>			m_dictStructLevel;
-	KUrl						m_url;
 	KConfig						*m_config;
 	bool m_showStructureLabels;
 	bool m_showStructureBibitems;

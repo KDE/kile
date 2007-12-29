@@ -16,9 +16,8 @@
 #ifndef KILEINFO_H
 #define KILEINFO_H
 
-#include <qstring.h>
-#include <qmap.h>
-#include <q3scrollview.h>
+#include <QString>
+#include <QMap>
 
 #include "kiledebug.h"
 #include <kurl.h>
@@ -48,7 +47,7 @@ namespace KTextEditor { class Document;}
 class KileBottomBar;
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
-namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; }
+namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 namespace KileJScript { class Manager; }
@@ -115,7 +114,7 @@ public:
 	KileWidget::Output *outputWidget() { return m_outputWidget; }
 	KileBottomBar *outputView() { return m_bottomBar; }
 	KileWidget::LogMsg *logWidget() { return m_logWidget; }
-	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; } 
+	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; }
 
 	KileDocument::Manager* docManager() const { return m_docManager; }
 	KileView::Manager* viewManager() const { return m_viewManager; }
@@ -154,8 +153,8 @@ protected:
 	KileWidget::LogMsg		*m_logWidget;
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileBottomBar			*m_bottomBar;
-	KileWidget::PreviewWidget *m_previewWidget; 
-	Q3ScrollView *m_previewView;
+	KileWidget::PreviewWidget	*m_previewWidget; 
+	KileWidget::ExtendedScrollArea	*m_previewScrollArea;
 
 	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;

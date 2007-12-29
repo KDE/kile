@@ -90,6 +90,7 @@
 #include "widgets/scriptsmanagementwidget.h"
 #include "kilejscript.h"
 #include "previewwidget.h"
+#include "widgets/extendedscrollarea.h"
 
 /*
  * Class KileMainWindow.
@@ -546,11 +547,11 @@ void Kile::setupBottomBar()
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL(currentChanged(QWidget*)), m_texKonsole, SLOT(sync()));
 
-	m_previewView = new Q3ScrollView ();
-	m_previewWidget = new KileWidget::PreviewWidget (this, m_previewView);
-	m_previewView->viewport()->setPaletteBackgroundColor (QColor (0xff, 0xff, 0xff));
-	m_previewView->addChild(m_previewWidget, 0, 0); 
-	m_bottomBar->addPage(m_previewView, SmallIcon ("document-preview"), i18n ("Preview"));
+	m_previewScrollArea = new KileWidget::ExtendedScrollArea(m_mainWindow);
+	m_previewWidget = new KileWidget::PreviewWidget(this, m_previewScrollArea);
+	m_previewScrollArea->setBackgroundColor(QColor(Qt::white));
+	m_previewScrollArea->setWidget(m_previewWidget);
+	m_bottomBar->addPage(m_previewScrollArea, SmallIcon ("document-preview"), i18n ("Preview"));
 
 	m_bottomBar->setVisible(true);
 	m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
@@ -1160,7 +1161,7 @@ void Kile::openProject(const QString& proj)
 
 void Kile::focusPreview()
 {
-	m_bottomBar->showPage(m_previewView);
+	m_bottomBar->showPage(m_previewScrollArea);
 }
 
 void Kile::focusLog()

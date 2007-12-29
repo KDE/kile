@@ -23,7 +23,6 @@
 #include <QHideEvent>
 
 #include <k3iconview.h>
-#include <q3scrollview.h>
 #include <QString>
 #include <QLabel>
 

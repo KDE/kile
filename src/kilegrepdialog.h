@@ -66,10 +66,10 @@ public:
 	void appendTemplate(const QString &name, const QString &regexp);
 	void clearTemplates();
 
-public slots:
+public Q_SLOTS:
 	void slotSearchFor(const QString &pattern);
 
-signals:
+Q_SIGNALS:
 	void itemSelected(const QString &abs_filename, int line);
 
 private:
@@ -123,7 +123,7 @@ private:
 	QStringList template_list;
 	int m_lastTemplateIndex;
 
-private slots:
+private Q_SLOTS:
 	void childExited();
 	void receivedOutput(K3Process *proc, char *buffer, int buflen);
 	void receivedErrOutput(K3Process *proc, char *buffer, int buflen);

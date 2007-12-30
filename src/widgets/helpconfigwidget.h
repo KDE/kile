@@ -30,7 +30,7 @@ class KileWidgetHelpConfig : public QWidget, public Ui::KileWidgetHelpConfig
 
 		void setHelp(KileHelp::Help *help);
 
-	protected slots:
+	protected Q_SLOTS:
 		void slotConfigure();
 
 	protected:

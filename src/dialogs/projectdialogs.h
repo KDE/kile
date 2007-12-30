@@ -68,11 +68,11 @@ class KileProjectDlgBase : public KDialog
 			return m_val_extensions[type-1];
 		}
 
-	protected slots:
+	protected Q_SLOTS:
 		virtual void slotOk() = 0;
 		virtual void fillProjectDefaults();
 
-	private slots:
+	private Q_SLOTS:
 		void slotExtensionsHighlighted(int index);
 		void slotExtensionsTextChanged(const QString &text);
 
@@ -118,7 +118,7 @@ class KileNewProjectDlg : public KileProjectDlgBase
 			return m_cb->isChecked();
 		}
 
-	private slots:
+	private Q_SLOTS:
 		void clickedCreateNewFileCb();
 		void makeProjectPath();
 		void slotOk();
@@ -144,7 +144,7 @@ class KileProjectOptionsDlg : public KileProjectDlgBase
 		KileProjectOptionsDlg(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = 0, const char * name = 0);
 		~KileProjectOptionsDlg();
 
-	private slots:
+	private Q_SLOTS:
 		void slotOk();
 		void toggleMakeIndex(bool);
 

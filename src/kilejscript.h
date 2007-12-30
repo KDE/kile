@@ -177,7 +177,7 @@ class Manager : public QObject {
 		 **/
 		const JScript* getScript(unsigned int id);
 
-	signals:
+	Q_SIGNALS:
 		/**
 		 * Signal emitted whenever the managed scripts haved changed, for example if the
 		 * watched directories have been scanned for scripts and thus, the potentially
@@ -187,7 +187,7 @@ class Manager : public QObject {
 		 **/
 		void jScriptsChanged();
 
-	public slots:
+	public Q_SLOTS:
 		/**
 		 * Does nothing if scripting has been disabled.
 		 **/
@@ -255,7 +255,7 @@ class ScriptExecutionAction : public KAction {
 
 		virtual ~ScriptExecutionAction();
 
-	protected slots:
+	protected Q_SLOTS:
 		void executeScript();
 
 	protected:

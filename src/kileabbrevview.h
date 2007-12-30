@@ -42,11 +42,11 @@ public:
 	bool findAbbreviation(const QString &abbrev);
 	void saveLocalAbbreviation(const QString &filename);
 
-signals:
+Q_SIGNALS:
 	void updateAbbrevList(const QString &ds, const QString &as);
 	void sendText(const QString &text);
  
-private slots:
+private Q_SLOTS:
 	void slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &pos, int);
 	void slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos);
 	void slotPopupAbbreviation(int id);
@@ -84,10 +84,10 @@ private:
 	int m_mode;
 	QString m_abbrev, m_expansion;
 
-public slots:
+public Q_SLOTS:
 	void slotOk();
 
-private slots:
+private Q_SLOTS:
 	void slotTextChanged(const QString &text);
 
 };

@@ -78,13 +78,13 @@ private:
 protected:
 	bool eventFilter(QObject *o, QEvent *e); 
 
-signals:
+Q_SIGNALS:
 	void processFinished();
 
-protected slots:
+protected Q_SLOTS:
 	void slotHelp(); 
 	
-private slots:
+private Q_SLOTS:
 	void slotListViewDoubleClicked(Q3ListViewItem *item,const QPoint &,int); 
 	void slotTextChanged(const QString &text);
 	void slotSearchClicked();

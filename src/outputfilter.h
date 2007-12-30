@@ -51,7 +51,7 @@ public:
     const QString & source() const  { return m_source; }
     const QString & path() const { return m_srcPath; }
 
-signals:
+Q_SIGNALS:
     void problem(int, const QString &);
     void output(const QString &);
 

@@ -52,10 +52,10 @@ namespace KileDialog
 
 		virtual void show();
 
-	//signals:
+	//Q_SIGNALS:
 	//	void widgetModified();
 
-	private slots:
+	private Q_SLOTS:
 		void slotOk();
 		void slotCancel();
 		void slotChanged();

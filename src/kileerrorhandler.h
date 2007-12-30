@@ -34,7 +34,7 @@ public:
 	~KileErrorHandler();
 
 /* log view, error handling */
-private slots:
+private Q_SLOTS:
 	void ViewLog();
 	void NextError();
 	void PreviousError();
@@ -47,7 +47,7 @@ private:
 	void jumpToProblem(int type, bool);
 	void jumpToProblem(OutputInfo *);
 
-public slots:
+public Q_SLOTS:
 	void jumpToFirstError();
 	void reset();
 	void showLogResults(const QString &);

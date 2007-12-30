@@ -154,11 +154,11 @@ namespace KileTool
 	protected:
 		bool needsUpdate(const QString &target, const QString &source);
 
-	public slots:
+	public Q_SLOTS:
 		void sendMessage(int, const QString &);
 		virtual void filterOutput(const QString &);
 
-	signals:
+	Q_SIGNALS:
 		void message(int, const QString &, const QString &);
 		void output(const QString &);
 
@@ -207,7 +207,7 @@ namespace KileTool
 		 **/
 		 virtual bool configure(const QString & cfg = QString::null);
 
-	public slots:
+	public Q_SLOTS:
 		/**
 		 * Starts the tool. First it performs basic checks (checkPrereqs()),
 		 * if all is well it launches the tool (launch()). After the process has
@@ -317,7 +317,7 @@ namespace KileTool
 	public:
 		Sequence(const QString &name, Manager * manager, bool prepare = true);
 
-	public slots:
+	public Q_SLOTS:
 		int run();
 	};
 }

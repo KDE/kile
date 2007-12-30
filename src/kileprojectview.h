@@ -74,7 +74,7 @@ public:
 	void setFolder(int folder) { m_folder = folder; }
 	int folder() { return m_folder; }
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * @warning Does nothing if "url" is empty !
 	 **/ 
@@ -82,7 +82,7 @@ public slots:
 	void nameChanged(const QString & name);
 	void isrootChanged(bool isroot);
 
-private slots:
+private Q_SLOTS:
 	/**
 	 * Dummy slot, simply forwarding to urlChanged(const KUrl& url).
 	 **/
@@ -104,7 +104,7 @@ class KileProjectView : public K3ListView
 public:
 	KileProjectView(QWidget *parent, KileInfo *ki);
 
-signals:
+Q_SIGNALS:
 	void fileSelected(const KileProjectItem *);
 	void fileSelected(const KUrl &);
 	void saveURL(const KUrl&);
@@ -119,7 +119,7 @@ signals:
 	void removeFromProject(const KileProjectItem *);
 	void buildProjectTree(const KUrl &);
 
-public slots:
+public Q_SLOTS:
 	void slotClicked(Q3ListViewItem * item = 0);
 
 	void slotFile(int id);
@@ -146,7 +146,7 @@ public:
 protected:
 	virtual bool acceptDrag(QDropEvent *e) const;
 
-private slots:
+private Q_SLOTS:
 	void popup(K3ListView *, Q3ListViewItem *, const QPoint &);
 
 private:

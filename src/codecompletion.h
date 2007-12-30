@@ -93,7 +93,7 @@ public:
 
 	void setAbbreviationListview(KileAbbrevView *listview);
 
-public slots:
+public Q_SLOTS:
 	//in these two methods we should set m_view
 	void slotCharactersInserted(int, int, const QString&);
 	void editComplete(KTextEditor::View *view, KileDocument::CodeCompletion::Mode mode);

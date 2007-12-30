@@ -32,7 +32,7 @@ class KileWidgetLatexConfig : public QWidget, public Ui::KileWidgetLatexConfig
 
 		void setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands);
 
-	protected slots:
+	protected Q_SLOTS:
 		void slotConfigure();
 
 	protected:

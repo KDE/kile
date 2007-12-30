@@ -152,14 +152,14 @@ public:
 	virtual bool isDocumentTypePromotionAllowed();
 	void setDocumentTypePromotionAllowed(bool b);
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * Never call this function directly, use KileWidget::Structure::update(KileDocument::Info *, bool) instead
 	 **/
 	virtual void updateStruct();
 	virtual void updateBibItems();
 
-signals:
+Q_SIGNALS:
 	void urlChanged(KileDocument::Info* info, const KUrl& url);
 	void isrootChanged(bool);
 
@@ -169,7 +169,7 @@ signals:
 	void depChanged();
 	void completed(KileDocument::Info* info);
 
-protected slots:
+protected Q_SLOTS:
 	void slotCompleted();
 
 protected:
@@ -260,7 +260,7 @@ public:
 	 **/
 	KTextEditor::View* createView(QWidget *parent, const char *name=0);
 
-protected slots:
+protected Q_SLOTS:
 	void slotFileNameChanged();
 
 protected:
@@ -322,7 +322,7 @@ public:
 
 	virtual QString getFileFilter() const;
 
-public slots:
+public Q_SLOTS:
 	virtual void updateStruct();
 
 protected:
@@ -361,7 +361,7 @@ public:
 
 	virtual QString getFileFilter() const;
 
-public slots:
+public Q_SLOTS:
 	virtual void updateStruct();
 };
 

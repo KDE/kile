@@ -95,7 +95,7 @@ namespace KileTool
 		bool shouldBlock();
 		int lastResult() { return m_nLastResult; }
 
-	public slots:
+	public Q_SLOTS:
 		void started(Base*);
 		void done(Base *, int);
 
@@ -110,11 +110,11 @@ namespace KileTool
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 
-	private slots:
+	private Q_SLOTS:
 		int runNextInQueue();
 		void enableClear();
 
-	signals:
+	Q_SIGNALS:
 		void requestGUIState(const QString &);
 		void requestSaveAll(bool, bool);
 		void jumpToFirstError();

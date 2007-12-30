@@ -59,7 +59,7 @@ namespace KileDialog
 		ConfigChecker(QWidget* parent = 0);
 		~ConfigChecker();
 
-	public slots:
+	public Q_SLOTS:
 		void run();
 		void started();
 		void finished(bool);

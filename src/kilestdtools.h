@@ -51,10 +51,10 @@ namespace KileTool
 	public:
 		LaTeX(const QString & tool, Manager *mngr, bool prepare) : Compile(tool, mngr, prepare) {}
 
-	signals:
+	Q_SIGNALS:
 		void jumpToFirstError();
 
-	public slots:
+	public Q_SLOTS:
 		bool finish(int);
 
 	protected:
@@ -80,7 +80,7 @@ namespace KileTool
 		
 		void setPreviewInfo(const QString &filename, int selrow,int docrow);
 		
-	public slots:
+	public Q_SLOTS:
 		bool finish(int);
 		
 	private:
@@ -121,7 +121,7 @@ namespace KileTool
 	protected:
 		bool determineTarget();
 
-	signals:
+	Q_SIGNALS:
 		void updateStatus(bool, bool);
 	};
 }

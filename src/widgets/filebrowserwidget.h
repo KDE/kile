@@ -45,12 +45,12 @@ public:
 	KDirOperator* dirOperator();
 	KComboBox* comboEncoding();
 
-public slots:
+public Q_SLOTS:
 	void setDir(const KUrl& url);
 	void readConfig();
 	void writeConfig();
 
-private slots:
+private Q_SLOTS:
 	void comboBoxReturnPressed(const QString& u);
 	void dirUrlEntered(const KUrl& u);
 
@@ -59,7 +59,7 @@ private slots:
 protected:
 	void focusInEvent(QFocusEvent*);
 
-signals:
+Q_SIGNALS:
 	void fileSelected(const KFileItem& fileItem);
 
 private:

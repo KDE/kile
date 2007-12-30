@@ -114,7 +114,7 @@ public:
 	void plugActionList(const QString& name, const QList<QAction*>& actionList);
 	void unplugActionList(const QString& name);
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * @param line : Jump to give line in current editor (can be called via DBUS interface).
 	 **/
@@ -144,7 +144,7 @@ public slots:
 
 	void openProject(const QString& proj);
 
-signals:
+Q_SIGNALS:
 	/**
 	 * Emit this signal when the configuration is changed. Classes that read and write to the global KConfig object
 	 * should connect to this signal so they can update their settings.
@@ -232,7 +232,7 @@ private:
 	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = 0, const char *member = 0);
 
 
-private slots:
+private Q_SLOTS:
 	void toggleMode();
 	void toggleWatchFile();
 	void showEditorWidget();

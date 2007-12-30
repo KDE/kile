@@ -30,13 +30,13 @@ public:
 	bool backEnable();
 	bool forwardEnable();
 
-public slots:
+public Q_SLOTS:
 	void home();
 	void forward();
 	void back();
 	void addToHistory( const QString & url );
 
-signals:
+Q_SIGNALS:
 	void updateStatus( bool back, bool forward );
 
 protected:

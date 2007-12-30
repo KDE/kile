@@ -34,12 +34,12 @@ namespace KileWidget
 			Konsole(KileInfo *, QWidget* parent);
 			~Konsole();
 
-		public slots:
+		public Q_SLOTS:
 			void setDirectory(const QString& dir);
 			void activate();
 			void sync();
 
-		private slots:
+		private Q_SLOTS:
 			void slotDestroyed();
 
 		protected:

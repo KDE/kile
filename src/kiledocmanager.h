@@ -53,7 +53,7 @@ public:
 	Manager(KileInfo *info, QObject *parent = 0, const char *name = 0);
 	~Manager();
 
-public slots:
+public Q_SLOTS:
 	KTextEditor::View* createNewJScript();
 	KTextEditor::View* createNewLaTeXDocument();
 
@@ -138,7 +138,7 @@ public slots:
 
 	void openDroppedURLs(QDropEvent *e);
 
-signals:
+Q_SIGNALS:
 	void projectTreeChanged(const KileProject *);
 	void closingDocument(KileDocument::Info *);
 	void documentInfoCreated(KileDocument::Info *);

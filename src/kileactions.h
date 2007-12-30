@@ -73,11 +73,11 @@ public:
 private:
 	void init(const QObject *receiver = 0, const char *slot = 0);
 
-signals:
+Q_SIGNALS:
 	//sends along tagdata so that receiver knows what to insert
 	void triggered(const KileAction::TagData&);
 
-private slots:
+private Q_SLOTS:
 	//emits the triggered(TagData) signal
 	virtual void emitData();
 
@@ -117,7 +117,7 @@ public:
 private:
 	void init();
 
-private slots:
+private Q_SLOTS:
 	//emits the triggered(TagData) signal
 	virtual void emitData();
 
@@ -146,13 +146,13 @@ public:
 	bool useLabel() {return m_useLabel;}
 	bool useAddProjectFile() {return m_useAddProjectFile;}
 
-public slots:
+public Q_SLOTS:
 	void slotBrowse();
 	void slotAltClicked();
 
 	void setTag(const QString&);
 
-signals:
+Q_SIGNALS:
 	void setInput(const QString&);
 
 public:
@@ -180,13 +180,13 @@ public:
 private:
 	void init();
 
-signals:
+Q_SIGNALS:
 	void triggered(const KAction&);
 
-public slots:
+public Q_SLOTS:
 	void setItems(const QList<KAction*> &);
 
-private slots:
+private Q_SLOTS:
 	void emitData(const QString&);
 
 private:

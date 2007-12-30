@@ -33,7 +33,7 @@ class KileEventFilter : public QObject
 public:
 	KileEventFilter(KileDocument::EditorExtension *edit);
 
-public slots:
+public Q_SLOTS:
 	void readConfig();
 
 protected:

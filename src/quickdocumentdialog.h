@@ -65,7 +65,7 @@ public:
 	bool isPackage(const QString &package);
 	bool isPackageOption(const QString &package, const QString &option);
 	
-public slots:
+public Q_SLOTS:
 	void slotOk();
 
 private:
@@ -182,7 +182,7 @@ private:
 	// input dialog
 	bool inputDialog(QStringList &list,int check=qd_CheckNotEmpty);
 
-private slots:
+private Q_SLOTS:
 	void slotDocumentClassAdd();
 	void slotDocumentClassDelete();
 	void slotDocumentClassChanged(int index);  
@@ -225,7 +225,7 @@ private:
 	QString getPackageName(const QString &text);
 	bool checkListEntries(const QString &title, const QString &textlist,const QString &pattern);
 	
-private slots:
+private Q_SLOTS:
 	void slotOk();
 };
 

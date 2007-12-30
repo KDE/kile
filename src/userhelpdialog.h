@@ -49,7 +49,7 @@ private:
 
 	void updateButton();
    
-private slots:
+private Q_SLOTS:
 	void slotChange(int index);
 	void slotAdd();
 	void slotRemove();
@@ -75,7 +75,7 @@ public:
 	QString getMenuitem() { return m_leMenuEntry->text(); }
 	QString getHelpfile() { return m_leHelpFile->text();  }
 	   
-private slots:
+private Q_SLOTS:
 	void slotChooseFile();
 	void slotChooseHtml();
 	void slotOk();

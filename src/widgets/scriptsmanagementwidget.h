@@ -62,16 +62,16 @@ namespace KileWidget {
 			ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0);
 			~ScriptsManagement();
 	
-// 		signals:
+// 		Q_SIGNALS:
 
-		public slots:
+		public Q_SLOTS:
 			/**
 			 * Rebuilds the list view.
 			 **/
 			void updateListView();
 			
 
-		protected slots:
+		protected Q_SLOTS:
 			/**
 			 * Opens the currently selected script in Kile's editing area.
 			 **/

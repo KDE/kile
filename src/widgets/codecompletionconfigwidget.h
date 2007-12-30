@@ -91,7 +91,7 @@ class CodeCompletionConfigWidget : public QWidget
 		void getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir);
 		void getCwlDirs();
 
-	private slots:
+	private Q_SLOTS:
 		void showPage(QWidget *page);
 		void addClicked();
 		void removeClicked();

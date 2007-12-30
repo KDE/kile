@@ -41,7 +41,7 @@ public:
 	void userHelpDialog();   
 	void enableUserHelpEntries(bool state);
 
-private slots:
+private Q_SLOTS:
 	void slotUserHelpActivated(int index);   
 	//void slotUserHelpDialog();   
 	

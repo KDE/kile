@@ -69,17 +69,17 @@ public:
 	QList<ConfigTest> resultForTool(const QString &);
 	int statusForTool(const QString &);
 
-public slots:
+public Q_SLOTS:
 	void runTests();
 	void saveResults(const KUrl &);
 	void stop();
 
-signals:
+Q_SIGNALS:
 	void started();
 	void percentageDone(int);
 	void finished(bool);
 
-private slots:
+private Q_SLOTS:
 	void determineProgress();
 	void processTestResults(int exitCode, int exitStatus);
 	void processTool(KConfig *, const QString &);

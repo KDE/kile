@@ -74,7 +74,7 @@ namespace KileHelp
 		void noHelpAvailableFor(const QString &word);
 		void userHelpDialog() { m_userhelp->userHelpDialog(); }
 		void enableUserhelpEntries(bool state);
-	public slots:
+	public Q_SLOTS:
 		void helpTexGuide();
 		void helpLatexIndex() { helpLatex(KileHelp::HelpLatexIndex); }
 		void helpLatexCommand() { helpLatex(KileHelp::HelpLatexCommand); }

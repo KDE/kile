@@ -45,7 +45,7 @@ namespace KileTool
 		Launcher();
 		~Launcher();
 
-	public slots:
+	public Q_SLOTS:
 		virtual bool launch() = 0;
 		virtual bool kill() = 0;
 		virtual bool selfCheck() = 0;
@@ -56,7 +56,7 @@ namespace KileTool
 		void setTool(Base *tool) { m_tool = tool; }
 		Base* tool() { return m_tool; }
 		
-	signals:
+	Q_SIGNALS:
 		void message(int, const QString & );
 		void output(const QString &);
 
@@ -84,12 +84,12 @@ namespace KileTool
 		void setCommand(const QString & cmd) { m_cmd = cmd; }
 		void setOptions(const QString & opt) { m_options = opt; }
 
-	public slots:
+	public Q_SLOTS:
 		bool launch();
 		bool kill();
 		bool selfCheck();
 
-	private slots:
+	private Q_SLOTS:
 		void slotProcessOutput(K3Process*, char*, int );
 		void slotProcessExited(K3Process*);
 
@@ -106,7 +106,7 @@ namespace KileTool
 	public:
 		KonsoleLauncher(const char * shellname =0);
 
-	public slots:
+	public Q_SLOTS:
 		bool launch();
 	};
 
@@ -122,7 +122,7 @@ namespace KileTool
 		void setClass(const char *clas) { m_className = clas; }
 		void setOptions(QString & options) { m_options = options; }
 
-	public slots:
+	public Q_SLOTS:
 		bool launch();
 		bool kill();
 		bool selfCheck() { return true; } //no additional self-checks, all of them are done in launch()
@@ -144,7 +144,7 @@ namespace KileTool
 	public:
 		DocPartLauncher(const char * name = 0) : PartLauncher(name) {}
 		
-	public slots:
+	public Q_SLOTS:
 		bool launch();
 	};
 }

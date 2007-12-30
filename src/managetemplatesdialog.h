@@ -42,16 +42,16 @@ public:
 	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption,QWidget *parent=0, const char *name=0);	
 	virtual ~ManageTemplatesDialog();
 
-public slots:
+public Q_SLOTS:
 	void slotSelectedTemplate(Q3ListViewItem *item);
 	void slotSelectIcon();
 	void addTemplate();
 	bool removeTemplate();
 
-signals:
+Q_SIGNALS:
 	void aboutToClose();
 
-protected slots:
+protected Q_SLOTS:
 	void updateTemplateListView(bool showAllTypes);
 	void clearSelection();
 	virtual void slotOk();

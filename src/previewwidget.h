@@ -81,7 +81,7 @@ protected:
 	void paintEvent (QPaintEvent*);
 	void showError(const QString &text);
 
-public slots:
+public Q_SLOTS:
   /**
    * Notify, if the DVItoPNG tool is done.
    *

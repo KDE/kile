@@ -79,7 +79,7 @@ public:
    */
 	QString getPreviewFile(const QString &extension); 
 	
-private slots:
+private Q_SLOTS:
 	void toolDestroyed();
 
 private:

@@ -81,7 +81,7 @@ public:
 
 	void unplugTextEditorPartMenu(KTextEditor::View* view);
 
-public slots:
+public Q_SLOTS:
 	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);
 
 	void closeWidget(QWidget *);
@@ -102,7 +102,7 @@ protected:
 	void setTabLabel(QWidget *view, const QString& name);
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 
-protected slots:
+protected Q_SLOTS:
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
 	void replaceLoadedURL(QWidget *w, QDropEvent *e);
 	void onTextEditorPopupMenuRequest(void);
@@ -113,7 +113,7 @@ protected slots:
 	 **/
 	void updateTabTexts(KTextEditor::Document* changedDoc);
 
-signals:
+Q_SIGNALS:
 	void activateView(QWidget *, bool);
 	void prepareForPart(const QString &);
 	void startQuickPreview(int);
@@ -146,7 +146,7 @@ class DropWidget : public QWidget {
 
 		virtual void dropEvent(QDropEvent *e);
 
-	signals:
+	Q_SIGNALS:
 		void testCanDecode(const QDragMoveEvent *, bool &);
 		void receivedDropEvent(QDropEvent *);
 };

@@ -83,7 +83,7 @@ public:
 	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = 0L);
 	bool hasMathgroup(KTextEditor::View *view = 0L);
 	
-public slots:
+public Q_SLOTS:
 	void insertIntelligentNewline(KTextEditor::View *view = 0L);
 
 	void selectEnvInside() { selectEnvironment(true); }
@@ -243,7 +243,7 @@ private:
 	KileInfo	*m_ki;
 
 //code completion
-public slots:
+public Q_SLOTS:
 	void completeWord();
 	void completeEnvironment();
 	void completeAbbreviation();

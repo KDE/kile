@@ -30,7 +30,7 @@ namespace KileWidget
 
 		void setReadOnly(bool r) { Q3TextEdit::setReadOnly(r); } //we don't want the greyed background
 
-	public slots:
+	public Q_SLOTS:
 		void receive(const QString &);
 	};
 }

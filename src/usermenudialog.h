@@ -48,7 +48,7 @@ public:
 	static QString completeTag(const KileAction::TagData & td);
 	static KileAction::TagData splitTag(const QString & name, const QString & tag);
 
-private slots:
+private Q_SLOTS:
 	void change(int index);
 	void redraw();
 

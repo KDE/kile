@@ -120,7 +120,7 @@ public:
 	TabularCell::Data data();
 	QString header();
 	
-private slots:
+private Q_SLOTS:
 	void slotFramebuttonClicked();
 	void slotSeparatorClicked();
 	void slotResetClicked();
@@ -244,7 +244,7 @@ private:
 	Q3PopupMenu *m_cellpopup;
 	TabularDialog *m_tabdialog;
 	
-private slots:
+private Q_SLOTS:
 	void slotContextMenuClicked(int row,int col,const QPoint &);	
 	void slotCellPopupActivated(int id);
 	void slotHeaderPopupActivated(int id);
@@ -264,11 +264,11 @@ public:
 	~TabularDialog() {}
 	QStringList columnAlignments();
 
-public slots:
+public Q_SLOTS:
 	void slotOk();
 	void slotRowValueChanged(int value);
 
-private slots:
+private Q_SLOTS:
 	void slotColValueChanged(int value);
 	void slotEnvironmentChanged(const QString &env);
 	

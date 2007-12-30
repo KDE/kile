@@ -37,7 +37,7 @@ class QuickTabbing : public Wizard
 		             const char *name = 0, const QString &caption = QString::null);
 		~QuickTabbing();
 
-	public slots:
+	public Q_SLOTS:
 		void slotButtonClicked(int button);
 
 	public:

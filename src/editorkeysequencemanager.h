@@ -166,13 +166,13 @@ namespace KileEditorKeySequence {
 			 **/
 			QPair<int, QString> checkSequence(const QString& seq, const QString& skip = QString());
 	
-		signals:
+		Q_SIGNALS:
 			/**
 			 * Emitted whenever the set of watched key sequences changes.
 			 **/
 			void watchedKeySequencesChanged();
 
-		protected slots:
+		protected Q_SLOTS:
 			/**
 			 * Signalises to the manager that a (watched) sequence has been typed.
 			 * @param seq the sequence that has been typed
@@ -195,7 +195,7 @@ namespace KileEditorKeySequence {
 			Recorder(KTextEditor::View *view, Manager *manager);
 			virtual ~Recorder();
 
-		signals:
+		Q_SIGNALS:
 			/**
 			 * Emitted whenever a key sequence that is currently watched has 
 			 * been typed.
@@ -203,7 +203,7 @@ namespace KileEditorKeySequence {
 			void detectedTypedKeySequence(const QString& seq);
 	
 
-		public slots:
+		public Q_SLOTS:
 			/**
 			 * Reloads the key sequences that this recorders watches.
 			 **/

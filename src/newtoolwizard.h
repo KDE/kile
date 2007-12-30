@@ -31,7 +31,7 @@ class NewToolWizard : public KAssistantDialog, public Ui::NewToolWizardToolNameP
 		virtual QString toolName();
 		virtual QString parentTool();
 	
-	protected slots:
+	protected Q_SLOTS:
 		void nameChanged(const QString & name);
 		void slotCurrentPageChanged(KPageWidgetItem* current, KPageWidgetItem* before);
 

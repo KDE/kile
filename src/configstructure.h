@@ -58,7 +58,7 @@ public:
    void paintFocus(QPainter *, const QRect &) {}
 protected:
    void contentsMousePressEvent(QMouseEvent *ev);
-signals:
+Q_SIGNALS:
    void clickedCell(KileTable *,int row,int cell);
 };
 
@@ -86,10 +86,10 @@ private:
    void showSectioning(const QStringList *list);
    void changeSectioning(const QStringList *list);
 
-public slots:
+public Q_SLOTS:
    void polish();
 
-private slots:
+private Q_SLOTS:
   void clickedTable(KileTable *table,int row,int col);
   void clickedAdd();
   void spinboxChanged(int);

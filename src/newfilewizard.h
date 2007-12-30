@@ -41,7 +41,7 @@ public:
 	TemplateItem* getSelection() const;
 	bool useWizard();
 
-protected slots:
+protected Q_SLOTS:
 	void slotOk();
 	void slotActivated(int index);
 

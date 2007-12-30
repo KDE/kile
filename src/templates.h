@@ -144,7 +144,7 @@ class TemplateIconView : public K3IconView {
 
 		void fillWithTemplates(KileDocument::Type type);
 
-	signals:
+	Q_SIGNALS:
 		void classFileSearchFinished();
 
 	protected:
@@ -156,7 +156,7 @@ class TemplateIconView : public K3IconView {
 		void addTemplateIcons(KileDocument::Type type);
 		void searchLaTeXClassFiles();
 
-	protected slots:
+	protected Q_SLOTS:
 		void slotProcessOutput(K3Process*,char* buf,int len);
 		void slotProcessExited (K3Process *proc);
 };

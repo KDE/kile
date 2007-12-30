@@ -47,11 +47,11 @@ private:
 	void extract(const QString& key, int& count);
 	void initPage(int page);
 
-signals:
+Q_SIGNALS:
 	void insertText(const QString& text,const QStringList &pkgs);
 	void addToList(const Q3IconViewItem *item);
 
-private slots:
+private Q_SLOTS:
 	void showToolTip( Q3IconViewItem *item );
 	void slotAddToList(const Q3IconViewItem *item);
 	void removeToolTip();

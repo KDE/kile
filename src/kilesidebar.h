@@ -63,10 +63,10 @@ public:
 	 **/	
 	void setDirectionalSize(int i);
 
-signals:
+Q_SIGNALS:
 	void visibilityChanged(bool b);
 
-public slots:
+public Q_SLOTS:
 	void showPage(QWidget *w);
 
 	/**
@@ -78,7 +78,7 @@ public slots:
 private:
 	int findNextShownTab(int i);
 
-protected slots:
+protected Q_SLOTS:
 	void shrink();
 	void expand();
 	void tabClicked(int i);

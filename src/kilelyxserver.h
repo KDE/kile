@@ -49,11 +49,11 @@ public:
 
 	bool isRunning() { return m_running; }
 
-public slots:
+public Q_SLOTS:
 	bool start();
 	void stop();
 
-private slots:
+private Q_SLOTS:
 	void receive(int);
 	
 private:
@@ -61,7 +61,7 @@ private:
 	void removePipes();
 	void processLine(const QString &);
 
-signals:
+Q_SIGNALS:
 	void insert(const KileAction::TagData &);
 
 private:

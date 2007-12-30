@@ -98,17 +98,17 @@ public:
 
 	void print(int level);
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * @warning Does nothing if "url" is empty !
 	 **/ 
 	void changeURL(const KUrl &url);
 	void changePath(const QString& path) { m_path = path;}
 
-private slots:
+private Q_SLOTS:
 	void slotChangeURL(KileDocument::Info* info, const KUrl& url);
 
-signals:
+Q_SIGNALS:
 	void urlChanged(KileProjectItem*);
 
 private:
@@ -177,12 +177,12 @@ public:
 	bool isInvalid(){ return m_invalid;}
 	QString archiveFileList() const;
 
-signals:
+Q_SIGNALS:
 	void nameChanged(const QString &);
 	void masterDocumentChanged(const QString &);
 	void projectTreeChanged(const KileProject *);
 
-public slots:
+public Q_SLOTS:
 	bool load();
 	bool save();
 
@@ -196,7 +196,7 @@ public slots:
 	//debugging
 	void dump();
 
-signals:
+Q_SIGNALS:
 	void loadFile(const KUrl &url , const QString & encoding);
 
 private:

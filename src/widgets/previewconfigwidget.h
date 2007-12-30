@@ -62,7 +62,7 @@ private:
 	void setupBottomBar();
 	void setupProperties();
 
-private slots:
+private Q_SLOTS:
 	void updateConversionTools();
 };
 

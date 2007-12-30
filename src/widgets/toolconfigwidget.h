@@ -46,7 +46,7 @@ namespace KileWidget
 	public:
 		ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
 
-	public slots:
+	public Q_SLOTS:
 		void writeConfig();
 
 	private:
@@ -54,7 +54,7 @@ namespace KileWidget
 		void setupGeneral();
 		int indexQuickBuild();
 		
-	private slots:
+	private Q_SLOTS:
 		void updateGeneral();
 		void updateAdvanced();
 		void switchTo(const QString & tool, bool save = true);
@@ -92,7 +92,7 @@ namespace KileWidget
 		void switchClass(const QString &);
 		void switchType(int);
 
-	signals:
+	Q_SIGNALS:
 		void changed();
 
 	private:

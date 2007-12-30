@@ -60,7 +60,7 @@ private:
 	KileDocument::CmdAttribute m_cmdType;
 	QMap<QString,bool> *m_dict;
 	
-private slots:
+private Q_SLOTS:
 	void slotOk();
 };
 
@@ -110,7 +110,7 @@ private:
 	void readConfig();
 	void writeConfig(K3ListView *listview, const QString &groupname, bool env);
 	
-private slots:
+private Q_SLOTS:
 	void slotPageChanged(QWidget *);
 	void slotEnableButtons();
 	void slotAddClicked();

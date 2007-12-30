@@ -135,7 +135,7 @@ namespace KileWidget
 		KUrl url() const { return m_docinfo->url(); }
 		void updateRoot();
 
-	public slots:
+	public Q_SLOTS:
 		void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
 		             const QString & pix, const QString &folder = "root" );
 		void slotConfigChanged();
@@ -196,7 +196,7 @@ namespace KileWidget
 		       SectioningGraphicsOther=100, SectioningGraphicsOfferlist=101
 		     };
 
-		public slots:
+		public Q_SLOTS:
 			void slotClicked(Q3ListViewItem *);
 			void slotDoubleClicked(Q3ListViewItem *);
 			void slotPopup(K3ListView *, Q3ListViewItem *itm, const QPoint &point);
@@ -214,7 +214,7 @@ namespace KileWidget
 			**/
 			void clear();
 
-		signals:
+		Q_SIGNALS:
 			void sendText(const QString &);
 			void setCursor(const KUrl &, int, int);
 			void fileOpen(const KUrl &, const QString &);

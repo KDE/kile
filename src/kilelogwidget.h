@@ -39,7 +39,7 @@ namespace KileWidget
 
 		void setReadOnly(bool r) { Q3TextEdit::setReadOnly(r); } //we don't want the greyed background
 
-	public slots:
+	public Q_SLOTS:
 		void highlight(); //FIXME for compatibility, should remove it asap
 		void highlight(uint l, int direction = 1);
 		void highlightByIndex(int index, int size, int direction = 1);
@@ -49,7 +49,7 @@ namespace KileWidget
 
 		void slotClicked(int, int);
 
-	signals:
+	Q_SIGNALS:
 		void fileOpen(const KUrl &, const QString &);
 		void setLine(const QString &);
 		void showingErrorMessage(QWidget *);
@@ -57,7 +57,7 @@ namespace KileWidget
 	protected:
 		Q3PopupMenu* createPopupMenu (const QPoint & pos);
 
-	protected slots:
+	protected Q_SLOTS:
 		void handlePopup(int);
 
 	private:

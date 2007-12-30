@@ -195,7 +195,9 @@ void InputTag::emitData()
 	delete dlg;
 }
 
-
+#ifdef __GNUC__
+#warning Not all addWidget commands have correct values
+#endif
 /*
 	InputDialog
 */
@@ -220,7 +222,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	QGridLayout *gbox = new QGridLayout(page);
 
 	QLabel *lb = new QLabel(hint, page);
-	gbox->addWidget(lb, 0, 0, 0, 2);
+	gbox->addWidget(lb, 0, 0, 1, 2);
 
 	m_tag=QString::null;
 	QWidget *focus;
@@ -235,9 +237,9 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setEditText(const QString&)));
 		if ( options & KileAction::ShowBrowseButton )
-			gbox->addWidget(input,1,0);
+			gbox->addWidget(input, 1, 0);
 		else
-			gbox->addWidget(input, 1, 1, 0, 2);
+			gbox->addWidget(input, 1, 0, 1, 2);
 
 		const QStringList *list;
 
@@ -274,7 +276,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		if ( options & KileAction::ShowBrowseButton )
 			gbox->addWidget(input,1,0);
 		else
-			gbox->addWidget(input, 1, 1, 0, 2);
+			gbox->addWidget(input, 1, 0, 1, 2);
 
 		input->setText(ki->getSelection());
 		m_usedSelection=true;
@@ -286,7 +288,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	if ( options & KileAction::ShowBrowseButton)
 	{
 		KPushButton *pbutton = new KPushButton("", page);
-		pbutton->setIcon(SmallIcon("fileopen"));
+		pbutton->setIcon(KIcon("document-open"));
 		gbox->addWidget(pbutton,1,2);
 #ifdef __GNUC__
 #warning Still some stuff related to QGridLayout left to be ported!

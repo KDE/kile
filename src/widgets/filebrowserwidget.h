@@ -1,11 +1,12 @@
-/***************************************************************************
+/********************************************************************************************
     begin                : Wed Aug 14 2002
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
+    copyright            : (C) 2002 - 2003 by Pascal Brachet
+                               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
 
 from Kate (C) 2001 by Matt Newell
 
- ***************************************************************************/
+ ********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,64 +17,58 @@ from Kate (C) 2001 by Matt Newell
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEFILESELECT_H
-#define KILEFILESELECT_H
+#ifndef FILEBROWSERWIDGET_H
+#define FILEBROWSERWIDGET_H
 
-#include <qwidget.h>
-#include <qtoolbutton.h>
-//Added by qt3to4:
 #include <QFocusEvent>
 #include <kfile.h>
 #include <kdiroperator.h>
 #include <kurlcombobox.h>
 #include <kurlcompletion.h>
-#include <kurl.h>
+#include <KUrl>
 
 #include "kileextensions.h"
-
-/**
-  *@author Jeroen Wijnhout
-  */
 
 class KFileItem;
 class KComboBox;
 
-class KileFileSelect : public QWidget
+namespace KileWidget {
+
+class FileBrowserWidget : public QWidget
 {
 	Q_OBJECT
 
 public: 
-	KileFileSelect(KileDocument::Extensions *extensions, QWidget *parent=0, const char *name=0);
-	~KileFileSelect();
+	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent = NULL, const char *name = NULL);
+	~FileBrowserWidget();
 
-	void setView(KFile::FileView);
-	KDirOperator * dirOperator(){return dir;}
-	KComboBox* comboEncoding() { return m_comboEncoding; }
+	KDirOperator* dirOperator();
+	KComboBox* comboEncoding();
 
 public slots:
-	void setDir(KUrl);
+	void setDir(const KUrl& url);
 	void readConfig();
 	void writeConfig();
 
 private slots:
-	void cmbPathActivated( const KUrl& u );
-	void cmbPathReturnPressed( const QString& u );
-	void dirUrlEntered( const KUrl& u );
+	void comboBoxReturnPressed(const QString& u);
+	void dirUrlEntered(const KUrl& u);
 
-	void clickedToolbar(int);
+	void emitFileSelectedSignal();
 
 protected:
 	void focusInEvent(QFocusEvent*);
 
 signals:
-	void fileSelected(const KFileItem&);
+	void fileSelected(const KFileItem& fileItem);
 
 private:
-	KUrlComboBox	*cmbPath;
-	KDirOperator	* dir;
+	KUrlComboBox	*m_pathComboBox;
+	KDirOperator	*m_dirOperator;
 	KComboBox	*m_comboEncoding;
-	QToolButton	*home, *up, *back, *forward;
-	KUrlCompletion	*cmpl;
+	KUrlCompletion	*m_urlCompletion;
 };
+
+}
 
 #endif

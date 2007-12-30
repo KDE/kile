@@ -39,7 +39,7 @@
 
 #include "kileappIface.h"
 #include "docpart.h"
-#include "kilefileselect.h"
+#include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
 #include "symbolview.h"
 

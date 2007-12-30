@@ -68,7 +68,7 @@ public slots:
 
 	void fileSelected(const KUrl &);
 	void fileSelected(const KileProjectItem * item);
-	void fileSelected(const KFileItem *file);
+	void fileSelected(const KFileItem& file);
 
 	void fileOpen();
 	void fileOpen(const KUrl& url, const QString & encoding = QString::null, int index = -1);

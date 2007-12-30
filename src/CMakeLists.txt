@@ -45,7 +45,7 @@ SET(kile_SRCS
 	tabbingdialog.cpp
 	symbolview.cpp
 	quickdocumentdialog.cpp
-	kilefileselect.cpp
+	widgets/filebrowserwidget.cpp
 	docpart.cpp
 	kile.cpp
 	main.cpp

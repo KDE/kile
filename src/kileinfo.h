@@ -39,7 +39,6 @@ namespace KileDocument { class Info; }
 class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
-class KileFileSelect;
 class KileEventFilter;
 
 namespace KTextEditor { class Document;}
@@ -47,7 +46,7 @@ namespace KTextEditor { class Document;}
 class KileBottomBar;
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
-namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; }
+namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 namespace KileJScript { class Manager; }
@@ -130,7 +129,7 @@ public:
 	KileTemplate::Manager *templateManager() const { return m_templateManager; }
 
 	//FIXME:refactor
-	KileFileSelect* fileSelector() const { return m_fileSelector; }
+	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
 	KileEventFilter* eventFilter() const { return m_eventFilter; }
 
 	QWidget* mainWindow() const { return m_mainWindow; }
@@ -173,7 +172,7 @@ protected:
 	LatexOutputInfoArray	*m_outputInfo;
 
 	KileWidget::Structure	*m_kwStructure;
-	KileFileSelect 			*m_fileSelector;
+	KileWidget::FileBrowserWidget 			*m_fileBrowserWidget;
 	KileEventFilter*		m_eventFilter;
 };
 

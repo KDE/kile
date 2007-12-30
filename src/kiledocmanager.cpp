@@ -62,7 +62,7 @@
 #include "kileproject.h"
 #include "kiledocumentinfo.h"
 #include "kileviewmanager.h"
-#include "kilefileselect.h"
+#include "widgets/filebrowserwidget.h"
 #include "kileprojectview.h"
 #include "kilestructurewidget.h"
 #include "dialogs/projectdialogs.h"
@@ -688,14 +688,9 @@ void Manager::fileOpen()
 		fileOpen(*i, result.encoding);
 }
 
-void Manager::fileSelected(const KFileItem *file)
+void Manager::fileSelected(const KFileItem& file)
 {
-	fileSelected(file->url());
-#ifdef __GNUC__
-#warning Things left to be ported at line 724!
-#endif
-//FIXME: port for KDE4
-// 	m_ki->fileSelector()->dirOperator()->view()->setSelected(file,false);
+	fileSelected(file.url());
 }
 
 void Manager::fileSelected(const KileProjectItem * item)

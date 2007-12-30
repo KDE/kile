@@ -349,12 +349,12 @@ void Kile::setupSideBar()
 {
 	m_sideBar = new KileSideBar(m_horizontalSplitter);
 
-	m_fileSelector= new KileFileSelect(m_extensions,m_sideBar,"File Selector");
-	m_sideBar->addPage(m_fileSelector, SmallIcon("document-open"), i18n("Open File"));
-	connect(m_fileSelector,SIGNAL(fileSelected(const KFileItem*)), docManager(), SLOT(fileSelected(const KFileItem*)));
-	connect(m_fileSelector->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	m_fileSelector->comboEncoding()->lineEdit()->setText(KileConfig::defaultEncoding());
-	m_fileSelector->readConfig();
+	m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar, "File Selector");
+	m_sideBar->addPage(m_fileBrowserWidget, SmallIcon("document-open"), i18n("Open File"));
+	connect(m_fileBrowserWidget,SIGNAL(fileSelected(const KFileItem&)), docManager(), SLOT(fileSelected(const KFileItem&)));
+	connect(m_fileBrowserWidget->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
+	m_fileBrowserWidget->comboEncoding()->lineEdit()->setText(KileConfig::defaultEncoding());
+	m_fileBrowserWidget->readConfig();
 
 	setupProjectView();
 	setupStructureView();
@@ -2119,10 +2119,10 @@ void Kile::saveSettings()
 {
 	showEditorWidget();
 
-	m_fileSelector->writeConfig();
+	m_fileBrowserWidget->writeConfig();
 	m_symbolViewMFUS->writeConfig();
 
-	KileConfig::setInputEncoding(m_fileSelector->comboEncoding()->lineEdit()->text());
+	KileConfig::setInputEncoding(m_fileBrowserWidget->comboEncoding()->lineEdit()->text());
 
 	// Store recent files
 	m_actRecentFiles->saveEntries(m_config->group("Recent Files"));
@@ -2347,7 +2347,7 @@ void Kile::changeInputEncoding()
 		if( !textInfo )
 			return;
 
-		QString encoding = m_fileSelector->comboEncoding()->lineEdit()->text();
+		QString encoding = m_fileBrowserWidget->comboEncoding()->lineEdit()->text();
 
 		if(!encoding.isNull())
 			doc->setEncoding(encoding);

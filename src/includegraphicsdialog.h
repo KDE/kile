@@ -42,9 +42,10 @@ class IncludeGraphics : public KDialog
 		QString getTemplate();
 		QString getFilename();
 
-	private slots:
-		void chooseFile();
-
+	private Q_SLOTS:
+		void slotChooseFilter();
+		void slotUrlSelected(const KUrl& url);
+		void slotTextChanged(const QString& string);
 		void slotProcessOutput(K3Process* proc, char* buffer, int buflen);
 		void slotProcessExited(K3Process* proc);
 

@@ -55,7 +55,16 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	// read configuration
 	readConfig();
 
+	slotChooseFilter();
 	setFocusProxy(m_widget.edit_file);
+	m_widget.edit_file->setFocus();
+
+	connect(m_widget.cb_pdftex, SIGNAL(toggled(bool)),
+	        this, SLOT(slotChooseFilter()));
+	connect(m_widget.edit_file, SIGNAL(urlSelected(const KUrl&)),
+	        this, SLOT(slotUrlSelected(const KUrl&)));
+	connect(m_widget.edit_file, SIGNAL(textChanged(const QString&)),
+	        this, SLOT(slotTextChanged(const QString&)));
 }
 
 IncludeGraphics::~IncludeGraphics()
@@ -236,46 +245,52 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &
 	return true;
 }
 
-// FIXME port me to KUrlRequester
-void IncludeGraphics::chooseFile()
+void IncludeGraphics::slotChooseFilter()
 {
 	QString filter = (m_widget.cb_pdftex->isChecked())
-									 ? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
-									 + "*.png|PNG Files\n"
-									 + "*.jpg|JPG Files\n"
-									 + "*.pdf|PDF Files\n"
-									 + "*|All Files"
-									 : i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
-									 + "*.png|PNG Files\n"
-									 + "*.jpg|JPG Files\n"
-									 + "*.eps.gz|Zipped EPS Files\n"
-									 + "*.eps|EPS Files\n"
-									 + "*|All Files";
+			? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
+			+ "*.png|PNG Files\n"
+			+ "*.jpg|JPG Files\n"
+			+ "*.pdf|PDF Files\n"
+			+ "*|All Files"
+	: i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
+			+ "*.png|PNG Files\n"
+			+ "*.jpg|JPG Files\n"
+			+ "*.eps.gz|Zipped EPS Files\n"
+			+ "*.eps|EPS Files\n"
+			+ "*|All Files";
+	m_widget.edit_file->setFilter(filter);
+}
 
-	QString fn = KFileDialog::getOpenFileName(m_startdir, filter,
-							 this, i18n("Select File"));
-	QFileInfo fi(fn);
-	// insert the chosen file
-	m_widget.edit_file->lineEdit()->setText(fn);
+void IncludeGraphics::slotUrlSelected(const KUrl& url)
+{
+	QFileInfo fi(url.path());
 
 	// could we accept the picture?
-	if (!fn.isEmpty() && fi.exists() && fi.isReadable())
+	if (!url.path().isEmpty() && fi.exists() && fi.isReadable())
 	{
 		// execute the command and filter the result:
 		// eps|eps.gz --> %%BoundingBox: 0 0 123 456
 		// bitmaps    --> w=123 h=456 dpi=789
 		QString grep = " | grep -m1 \"^%%BoundingBox:\"";
-		QString ext = QFileInfo(fn).completeSuffix();
+		QString ext = fi.completeSuffix();
 		if (ext == "eps")
-			execute("cat " + fn + grep);
+			execute("cat " + url.path() + grep);
 		else
 			if (ext == "eps.gz")
-				execute("gunzip -c " + fn + grep);
-			else
-				execute("identify -format \"w=%w h=%h dpi=%x\" " + fn);
+				execute("gunzip -c " + url.path() + grep);
+		else
+			execute("identify -format \"w=%w h=%h dpi=%x\" " + url.path());
 	} else {
 		KILE_DEBUG() << "=== IncludeGraphics::error ====================" << endl;
-		KILE_DEBUG() << "   filename: '" << fn << "'" << endl;
+		KILE_DEBUG() << "   filename: '" << url.path() << "'" << endl;
+	}
+}
+
+void IncludeGraphics::slotTextChanged(const QString& string)
+{
+	if (QFileInfo(string).exists()) {
+		slotUrlSelected(KUrl(string));
 	}
 }
 

@@ -16,7 +16,7 @@
 
 #include <QWidget>
 
-#include "ui_toolconfigwidget.h"
+#include "ui_maintoolconfigwidget.h"
 
 class ToolConfigWidget : public QWidget, public Ui::ToolConfigWidget
 {

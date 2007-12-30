@@ -19,14 +19,17 @@
 
 #include <KDialog>
 
+#include <QProcess>
+
 #include "ui_includegraphicsdialog_base.h"
 
 /**
   *@author dani
   */
+
+class KProcess;
+
 class KileInfo;
-class K3Process;
-class K3ShellProcess;
 
 namespace KileDialog
 {
@@ -46,8 +49,8 @@ class IncludeGraphics : public KDialog
 		void slotChooseFilter();
 		void slotUrlSelected(const KUrl& url);
 		void slotTextChanged(const QString& string);
-		void slotProcessOutput(K3Process* proc, char* buffer, int buflen);
-		void slotProcessExited(K3Process* proc);
+		void slotProcessOutput();
+		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
 		void slotOk();
 
@@ -77,7 +80,7 @@ class IncludeGraphics : public KDialog
 		void execute(const QString &command);
 
 		KileInfo *m_ki;
-		K3ShellProcess* m_proc;
+		KProcess* m_proc;
 };
 
 }

@@ -20,12 +20,12 @@
 #include <QFileInfo>
 #include <QPixmap>
 
-#include <K3Process>
 #include <KFileDialog>
 #include <KIconLoader>
 #include <KLineEdit>
 #include <KLocale>
 #include <KMessageBox>
+#include <KProcess>
 #include <KPushButton>
 
 #include "kiledebug.h"
@@ -284,14 +284,15 @@ void IncludeGraphics::slotUrlSelected(const KUrl& url)
 	} else {
 		KILE_DEBUG() << "=== IncludeGraphics::error ====================" << endl;
 		KILE_DEBUG() << "   filename: '" << url.path() << "'" << endl;
+
+		m_widget.infolabel->setText("---");
+		m_widget.edit_bb->setText("");
 	}
 }
 
 void IncludeGraphics::slotTextChanged(const QString& string)
 {
-	if (QFileInfo(string).exists()) {
-		slotUrlSelected(KUrl(string));
-	}
+	slotUrlSelected(KUrl(string));
 }
 
 void IncludeGraphics::execute(const QString &command)
@@ -302,36 +303,37 @@ void IncludeGraphics::execute(const QString &command)
 	if (m_proc)
 		delete m_proc;
 
-	m_proc = new K3ShellProcess("/bin/sh");
-	m_proc->clearArguments();
-	(*m_proc) << command.split(' ');
+	m_proc = new KProcess(this);
+	m_proc->setShellCommand(command);
+	m_proc->setOutputChannelMode(KProcess::MergedChannels);
+	m_proc->setReadChannel(QProcess::StandardOutput);
 
-	connect(m_proc, SIGNAL(receivedStdout(K3Process*, char*, int)),
-					this, SLOT(slotProcessOutput(K3Process*, char*, int)));
-	connect(m_proc, SIGNAL(receivedStderr(K3Process*, char*, int)),
-					this, SLOT(slotProcessOutput(K3Process*, char*, int)));
-	connect(m_proc, SIGNAL(processExited(K3Process*)),
-					this, SLOT(slotProcessExited(K3Process*)));
+	connect(m_proc, SIGNAL(readyReadStandardOutput()),
+					this, SLOT(slotProcessOutput()));
+	connect(m_proc, SIGNAL(readyReadStandardError()),
+					this, SLOT(slotProcessOutput()));
+	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
+					this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
 	m_output = "";
 	KILE_DEBUG() << "=== IncludeGraphics::execute ====================" << endl;
 	KILE_DEBUG() << "   execute '" << command << "'" << endl;
 
-	m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput);
+	m_proc->start();
 }
 
 // get all output of identify
 
-void IncludeGraphics::slotProcessOutput(K3Process*, char* buffer, int buflen)
+void IncludeGraphics::slotProcessOutput()
 {
-	m_output += QString::fromLocal8Bit(buffer, buflen);
+	m_output += m_proc->readAll();
 }
 
 // identify was called
 
-void IncludeGraphics::slotProcessExited(K3Process* proc)
+void IncludeGraphics::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
-	if (proc->normalExit() &&  !proc->exitStatus()) {
+	if (exitStatus == QProcess::NormalExit) {
 		KILE_DEBUG() << "   result: " << m_output << endl;
 
 		// set the default resolution

@@ -56,7 +56,7 @@
 #include "kileuntitled.h"
 #include "templates.h"
 #include "newfilewizard.h"
-#include "managetemplatesdialog.h"
+#include "dialogs/managetemplatesdialog.h"
 #include "kileinfo.h"
 #include "kilejscript.h"
 #include "kileproject.h"
@@ -74,7 +74,7 @@
 #include "widgets/konsolewidget.h"
 #include "kileconfig.h"
 #include "kilelogwidget.h"
-#include "cleandialog.h"
+#include "dialogs/cleandialog.h"
 
 /*
  * Newly created text documents have an empty URL and a non-empty document name.

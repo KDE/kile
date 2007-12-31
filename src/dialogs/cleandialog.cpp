@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "cleandialog.h"
+#include "dialogs/cleandialog.h"
 
 #include <KIconLoader>
 #include <KLocale>

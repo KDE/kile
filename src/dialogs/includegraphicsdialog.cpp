@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "includegraphicsdialog.h"
+#include "dialogs/includegraphicsdialog.h"
 
 #include <QRegExp>
 #include <QFileInfo>

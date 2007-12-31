@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "floatdialog.h"
+#include "dialogs/floatdialog.h"
 
 #include <QRegExp>
 

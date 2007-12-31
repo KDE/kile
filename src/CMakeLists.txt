@@ -30,21 +30,21 @@ SET(kile_SRCS
 	texdocdialog.cpp
 	userhelp.cpp
 	userhelpdialog.cpp
-	floatdialog.cpp
+	dialogs/floatdialog.cpp
 	mathenvdialog.cpp
 	tabulardialog.cpp
 	postscriptdialog.cpp
 	widgets/previewconfigwidget.cpp
 	quickpreview.cpp
-	includegraphicsdialog.cpp
+	dialogs/includegraphicsdialog.cpp
 	newfilewizard.cpp
-	managetemplatesdialog.cpp
+	dialogs/managetemplatesdialog.cpp
 	templates.cpp
 	usermenudialog.cpp
 	dialogs/configurationdialog.cpp
 	tabbingdialog.cpp
 	symbolview.cpp
-	quickdocumentdialog.cpp
+	dialogs/quickdocumentdialog.cpp
 	widgets/filebrowserwidget.cpp
 	docpart.cpp
 	kile.cpp
@@ -76,7 +76,7 @@ SET(kile_SRCS
 	widgets/codecompletionconfigwidget.cpp
 	widgets/toolconfigwidget.cpp
 	kileedit.cpp
-	cleandialog.cpp
+	dialogs/cleandialog.cpp
 	kilehelp.cpp
 	convert.cpp
 	kiledocmanager.cpp
@@ -123,9 +123,9 @@ SET( kile_UI
 	widgets/graphicsconfigwidget.ui
 	newdocumentwidget.ui
 	tabbingdialog_base.ui
-	floatdialog_base.ui
+	dialogs/floatdialog_base.ui
 	postscriptdialog_base.ui
-	includegraphicsdialog_base.ui
+	dialogs/includegraphicsdialog_base.ui
 )
 
 SET( kile_UI_SRCS

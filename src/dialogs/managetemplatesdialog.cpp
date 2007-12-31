@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "managetemplatesdialog.h"
+#include "dialogs/managetemplatesdialog.h"
 
 #include <QLayout>
 #include <QLabel>

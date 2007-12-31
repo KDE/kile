@@ -16,7 +16,7 @@ email                : holger.danielsson@t-online.de
  *                                                                         *
  ***************************************************************************/
 
-#include "quickdocumentdialog.h"
+#include "dialogs/quickdocumentdialog.h"
 
 #include <Q3GridLayout>
 #include <Q3HBoxLayout>

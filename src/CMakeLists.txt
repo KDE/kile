@@ -78,7 +78,6 @@ SET(kile_SRCS
 	kileedit.cpp
 	cleandialog.cpp
 	kilehelp.cpp
-	configstructure.cpp
 	convert.cpp
 	kiledocmanager.cpp
 	kileviewmanager.cpp

@@ -19,6 +19,7 @@
 #include <QObject>
 #include <QList>
 #include <QMap>
+#include <QProcess>
 
 class KTempDir;
 class KConfig;
@@ -81,7 +82,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void determineProgress();
-	void processTestResults(int exitCode, int exitStatus);
+	void processTestResults(int exitCode, QProcess::ExitStatus exitStatus);
 	void processTool(KConfig *, const QString &);
 
 	void addResult(const QString &tool, const QList<ConfigTest> &tests);

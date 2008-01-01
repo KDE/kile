@@ -186,12 +186,15 @@ void Tester::runTests()
 	{
 		m_process->setEnv("TEXINPUTS", KileInfo::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
 	}
-	*m_process << "cd " + KShell::quoteArg(destdir) + " && ";
-	*m_process << "cp " + KShell::quoteArg(srcdir) +"/* " + KShell::quoteArg(destdir) + " && ";
-	*m_process << "source runTests.sh " + KShell::quoteArg(m_resultsFile) + " " +  KShell::quoteArg(destdir);
+	QString command = "cd " + KShell::quoteArg(destdir) + " && ";
+	command += "cp " + KShell::quoteArg(srcdir) +"/* " + KShell::quoteArg(destdir) + " && ";
+	command += "source runTests.sh " + KShell::quoteArg(m_resultsFile) + " " +  KShell::quoteArg(destdir);
+	m_process->setShellCommand(command);
+	
 	connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(determineProgress()));
-	connect(m_process, SIGNAL(finished(int,int)), this, SLOT(processTestResults(int,int)));
+	connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(processTestResults(int,QProcess::ExitStatus)));
 	m_process->setOutputChannelMode(KProcess::MergedChannels);
+	m_process->setReadChannel(QProcess::StandardOutput);
 	m_process->start();
 }
 
@@ -217,7 +220,7 @@ void Tester::determineProgress()
 	}
 }
 
-void Tester::processTestResults (int exitCode, int exitStatus)
+void Tester::processTestResults (int exitCode, QProcess::ExitStatus exitStatus)
 {
 	if ( exitStatus == QProcess::NormalExit )
 	{

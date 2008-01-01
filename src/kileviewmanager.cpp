@@ -143,8 +143,8 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	}
 
 	//insert the view in the tab widget
-	m_tabs->insertTab(view, m_ki->getShortName(doc), index);
-	m_tabs->setTabToolTip(view, doc->url().pathOrUrl() );
+	m_tabs->insertTab(index, view, m_ki->getShortName(doc));
+	m_tabs->setTabToolTip(m_tabs->indexOf(view), doc->url().pathOrUrl());
 	
 	m_tabs->showPage(view);
 	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
@@ -222,11 +222,9 @@ void Manager::removeView(KTextEditor::View *view)
 
 KTextEditor::View *Manager::currentTextView() const
 {
-	if (m_tabs->currentPage() && m_tabs->currentPage()->inherits("KTextEditor::View")) {
-		return (KTextEditor::View*) m_tabs->currentPage();
-	}
+	KTextEditor::View *view = qobject_cast<KTextEditor::View*>(m_tabs->currentWidget());
 
-	return 0;
+	return view;
 }
 
 KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
@@ -301,26 +299,32 @@ void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *doci
 
 void Manager::gotoNextView()
 {
-	if ( m_tabs->count() < 2 )
+	if(m_tabs->count() < 2) {
 		return;
+	}
 
-	int cPage = m_tabs->currentPageIndex() + 1;
-	if ( cPage >= m_tabs->count() )
-		m_tabs->setCurrentPage( 0 );
-	else
-		m_tabs->setCurrentPage( cPage );
+	int cPage = m_tabs->currentIndex() + 1;
+	if(cPage >= m_tabs->count()) {
+		m_tabs->setCurrentIndex(0);
+	}
+	else {
+		m_tabs->setCurrentIndex(cPage);
+	}
 }
 
 void Manager::gotoPrevView()
 {
-	if ( m_tabs->count() < 2 )
+	if(m_tabs->count() < 2) {
 		return;
+	}
 
-	int cPage = m_tabs->currentPageIndex() - 1;
-	if ( cPage < 0 )
-		m_tabs->setCurrentPage( m_tabs->count() - 1 );
-	else
-		m_tabs->setCurrentPage( cPage );
+	int cPage = m_tabs->currentIndex() - 1;
+	if(cPage < 0) {
+		m_tabs->setCurrentIndex(m_tabs->count() - 1);
+	}
+	else {
+		m_tabs->setCurrentIndex(cPage);
+	}
 }
 
 void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified, unsigned char reason)

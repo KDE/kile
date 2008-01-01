@@ -137,7 +137,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	// set an user button to execute the task
 	setButtonText(Close, i18n("Done"));
 	setButtonText(User1, i18n("Execute"));
-	setButtonIcon(User1, KIcon("gear"));
+	setButtonIcon(User1, KIcon("system-run"));
 	if (!pstops && !psselect)
 		enableButton(User1, false);
 

@@ -815,7 +815,7 @@ void Kile::setupActions()
 	actionCollection()->addAction(KStandardAction::AboutKDE, "help_aboutKDE", help_menu, SLOT(aboutKDE()));
 
 	KAction *kileconfig = actionCollection()->addAction(KStandardAction::Preferences, "settings_configure", this, SLOT(generalOptions()));
-	kileconfig->setIcon(KIcon("configure_kile"));
+	kileconfig->setIcon(KIcon("configure-kile"));
 
 	actionCollection()->addAction(KStandardAction::KeyBindings, "settings_keys", this, SLOT(configureKeys()));
 	actionCollection()->addAction(KStandardAction::ConfigureToolbars, "settings_toolbars", this, SLOT(configureToolbars()));
@@ -2058,7 +2058,7 @@ void Kile::readUserSettings()
 			KConfigGroup toolsGroup = m_config->group("Tools");
 			toolsGroup.writeEntry(tempItem.name, "Default");
 
-			KileTool::setGUIOptions(tempItem.name, "Other", "gear", m_config.data());
+			KileTool::setGUIOptions(tempItem.name, "Other", "preferences-other", m_config.data());
 
 			KConfigGroup group = m_config->group(KileTool::groupFor(tempItem.name, "Default"));
 			QString bin = KRun::binaryName(tempItem.tag, false);

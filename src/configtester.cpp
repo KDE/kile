@@ -188,7 +188,7 @@ void Tester::runTests()
 	}
 	QString command = "cd " + KShell::quoteArg(destdir) + " && ";
 	command += "cp " + KShell::quoteArg(srcdir) +"/* " + KShell::quoteArg(destdir) + " && ";
-	command += "source runTests.sh " + KShell::quoteArg(m_resultsFile) + " " +  KShell::quoteArg(destdir);
+	command += "bash runTests.sh " + KShell::quoteArg(m_resultsFile) + " " +  KShell::quoteArg(destdir);
 	m_process->setShellCommand(command);
 	
 	connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(determineProgress()));

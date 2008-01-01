@@ -15,20 +15,19 @@
 
 #include "dialogs/configcheckerdialog.h"
 
-#include <qfileinfo.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qpainter.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
+#include <QFileInfo>
+#include <QLabel>
+#include <QLayout>
+#include <QPainter>
 
-#include <klocale.h>
-#include <kcursor.h>
-#include <kprogressdialog.h>
-#include <kglobal.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <k3listbox.h>
+#include <K3ListBox>
+#include <KCursor>
+#include <KFileDialog>
+#include <KGlobal>
+#include <KLocale>
+#include <KMessageBox>
+#include <KProgressDialog>
+
 #include "kiledebug.h"
 
 #include "widgets/configcheckerwidget.h"

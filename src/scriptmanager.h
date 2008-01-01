@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net) *
+*   Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -11,37 +11,33 @@
 *                                                                         *
 ***************************************************************************/
 
-#ifndef KILEJSCRIPT_H
-#define KILEJSCRIPT_H
+#ifndef SCRIPTMANAGER_H
+#define SCRIPTMANAGER_H
 
-#include <qmap.h>
-#include <qobject.h>
+#include <QMap>
+#include <QObject>
 
-#include <kjs/function.h>
-#include <kjs/interpreter.h>
-#include <kjs/object.h>
-
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kconfig.h>
-#include <kdirwatch.h>
+#include <KAction>
+#include <KActionCollection>
+#include <KConfig>
+#include <KDirWatch>
 
 #include <QList>
 
 class KileInfo;
 
-namespace KileJScript {
+namespace KileScript {
 
 /**
- * This class represents a JavaScript script.
+ * This class represents a script.
  **/
-class JScript {
+class Script {
 	public:
 		/**
 		 * Constructs a new JavaScript script.
 		 * @param file the file that contains the script
 		 **/
-		JScript(unsigned int id, const QString& file);
+		Script(unsigned int id, const QString& file);
 
 		/**
 		 * Returns the code of this script, i.e. the file is read and its contents are
@@ -92,30 +88,6 @@ class JScript {
 };
 
 /**
- * This class represents the JavaScript environment that is used to execute Kile's scripts
- * in.
- **/
-class JScriptEnvironment {
-	public:
-		/**
-		 * Constructs a new environment.
-		 **/
-		JScriptEnvironment(KileInfo *kileInfo);
-		~JScriptEnvironment();
-
-		/**
-		 * Executes JavaScript code in this environment.
-		 * @param c the code that should be executed
-		 **/
-		void execute(const QString& c);
-
-	protected:
-		KJS::Interpreter *m_interpreter;
-		KJS::JSObject* m_kileJSObject;
-		KileInfo *m_kileInfo;
-};
-
-/**
  * This class handles the scripting functionality in Kile.
  **/
 class Manager : public QObject {
@@ -132,18 +104,18 @@ class Manager : public QObject {
 		 * Executes a script in Kile's scripting environment.
 		 * @param script the script that should be executed
 		 **/
-		void executeJScript(const JScript *script);
+		void executeScript(const Script *script);
 
 		/**
 		 * Executes a script in Kile's scripting environment.
 		 * @param id the id of the script that should be executed
 		 **/
-		void executeJScript(unsigned int id);
+		void executeScript(unsigned int id);
 
 		/**
 		 * Retrieves a list of all the scripts that are currently available.
 		 **/
-		QList<JScript*> getJScripts();
+		QList<Script*> getScripts();
 
 		/**
 		 * Writes the key sequence-to-script bindings to the KConfig object that has 
@@ -157,25 +129,25 @@ class Manager : public QObject {
 		 * @param script the script that is considered
 		 * @param keySequence the key sequence that is assigned
 		 **/	
-		void setEditorKeySequence(JScript* script, const QString& keySequence);
+		void setEditorKeySequence(Script* script, const QString& keySequence);
 
 		/**
 		 * Removes an assigned key sequence from a script.
 		 * @param script the script that is considered
 		 **/
-		void removeEditorKeySequence(JScript* script);
+		void removeEditorKeySequence(Script* script);
 
 		/**
 		 * Returns the directory that can be used by the used to store Kile's scripts.
 		 * Usually $HOME/.kde/share/apps/kile/scripts
 		 **/
-		QString getLocalJScriptDirectory() const;
+		QString getLocalScriptDirectory() const;
 
 		/**
 		 * Returns the script object that corresponds to a script id.
 		 * @param id the id of the script
 		 **/
-		const JScript* getScript(unsigned int id);
+		const Script* getScript(unsigned int id);
 
 	Q_SIGNALS:
 		/**
@@ -191,7 +163,7 @@ class Manager : public QObject {
 		/**
 		 * Does nothing if scripting has been disabled.
 		 **/
-		void scanJScriptDirectories();
+		void scanScriptDirectories();
 
 		/**
 		 * Reads and assigns the key sequence-to-script bindings from the KConfig
@@ -200,9 +172,9 @@ class Manager : public QObject {
 		void readConfig();
 
 	protected:
-		QString m_localJScriptDir;
-		QList<JScript*> m_jScriptList;
- 		QMap<unsigned int, JScript*> m_idScriptMap;
+		QString m_localScriptDir;
+		QList<Script*> m_jScriptList;
+ 		QMap<unsigned int, Script*> m_idScriptMap;
 		KDirWatch *m_jScriptDirWatch;
 
 		KileInfo *m_kileInfo;
@@ -223,7 +195,7 @@ class Manager : public QObject {
 		/**
 		 * Deletes all the scripts that are handled by this manager.
 		 **/
-		void deleteJScripts();
+		void deleteScripts();
 
 		/**
 		 * Finds the next free ID. 
@@ -259,7 +231,7 @@ class ScriptExecutionAction : public KAction {
 		void executeScript();
 
 	protected:
-		KileJScript::Manager *m_manager;
+		KileScript::Manager *m_manager;
 		unsigned int m_id;
 };
 

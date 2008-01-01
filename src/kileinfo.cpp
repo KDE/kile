@@ -33,7 +33,7 @@
 #include "kiledocumentinfo.h"
 #include "kileproject.h"
 #include "kileuntitled.h"
-#include "kilejscript.h"
+#include "scriptmanager.h"
 #include "editorkeysequencemanager.h"
 #include "templates.h"
 

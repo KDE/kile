@@ -14,7 +14,7 @@
 #include "editorkeysequencemanager.h"
 
 #include "kileinfo.h"
-#include "kilejscript.h"
+#include "scriptmanager.h"
 
 #include <ktexteditor/document.h>
 #include <klocale.h>
@@ -26,13 +26,16 @@
 
 namespace KileEditorKeySequence {
 
-	Manager::Manager(KileInfo* kileInfo, QObject *parent, const char *name) : QObject(parent, name), m_kileInfo(kileInfo) {
+	Manager::Manager(KileInfo* kileInfo, QObject *parent, const char *name) : QObject(parent, name), m_kileInfo(kileInfo)
+	{
 	}
 
-	Manager::~Manager() {
+	Manager::~Manager()
+	{
 	}
 
-	void Manager::addAction(const QString& seq, Action *action) {
+	void Manager::addAction(const QString& seq, Action *action)
+	{
 		if(seq.isEmpty()) {
 			return;
 		}
@@ -43,8 +46,8 @@ namespace KileEditorKeySequence {
 		}
 	}
 
-
-	void Manager::removeKeySequence(const QString& seq) {
+	void Manager::removeKeySequence(const QString& seq)
+	{
 		if(seq.isEmpty()) {
 			return;
 		}
@@ -57,7 +60,8 @@ namespace KileEditorKeySequence {
 		}
 	}
 
-	void Manager::removeKeySequence(const QStringList& l) {
+	void Manager::removeKeySequence(const QStringList& l)
+	{
 		bool changed = false;
 		for(QStringList::const_iterator i = l.begin(); i != l.end(); ++i) {
 			if((*i).isEmpty()) {
@@ -76,7 +80,8 @@ namespace KileEditorKeySequence {
 		}
 	}
 
-	void Manager::addActionMap(const QMap<QString, Action*>& map) {
+	void Manager::addActionMap(const QMap<QString, Action*>& map)
+	{
 		bool changed = false;
 		for(QMap<QString, Action*>::const_iterator i = map.begin(); i != map.end(); ++i) {
 			if(i.key().isEmpty()) {
@@ -92,7 +97,8 @@ namespace KileEditorKeySequence {
 		}
 	}
 
-	QString Manager::getKeySequence(const Action* a) {
+	QString Manager::getKeySequence(const Action* a)
+	{
 		for(QMap<QString, Action*>::const_iterator i = m_actionMap.begin(); i != m_actionMap.end(); ++i) {
 			if(i.data() == a) {
 				return i.key();
@@ -101,26 +107,31 @@ namespace KileEditorKeySequence {
 		return QString();
 	}
 
-	Action* Manager::getAction(const QString& seq) {
+	Action* Manager::getAction(const QString& seq)
+	{
 		QMap<QString, Action*>::iterator i = m_actionMap.find(seq);
-		return (i == m_actionMap.end()) ? 0L : (*i);
+		return (i == m_actionMap.end()) ? NULL : (*i);
 	}
 
-	void Manager::setEditorKeySequence(const QString& /* seq */, Action* /* action */) {
+	void Manager::setEditorKeySequence(const QString& /* seq */, Action* /* action */)
+	{
 	}
 
-	void Manager::keySequenceTyped(const QString& seq) {
+	void Manager::keySequenceTyped(const QString& seq)
+	{
 		m_actionMap[seq]->execute();
 	}
 
-	void Manager::clear() {
+	void Manager::clear()
+	{
 		m_watchedKeySequencesList.clear();
 		m_actionMap.clear();
 		emit watchedKeySequencesChanged();
 	}
 
 
-	const QStringList& Manager::getWatchedKeySequences() {
+	const QStringList& Manager::getWatchedKeySequences()
+	{
 		return m_watchedKeySequencesList;
 	}
 
@@ -133,7 +144,8 @@ namespace KileEditorKeySequence {
 		return false;
 	}
 
-	QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip) {
+	QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip)
+	{
 		for(QList<QString>::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
 			if((*i) == skip) {
 				continue;
@@ -148,7 +160,8 @@ namespace KileEditorKeySequence {
 		return qMakePair<int, QString>(0, QString());
 	}
 
-Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view) {
+Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view)
+{
 	connect(m_manager, SIGNAL(watchedKeySequencesChanged()), this, SLOT(reloadWatchedKeySequences()));
 	connect(this, SIGNAL(detectedTypedKeySequence(const QString&)), m_manager, SLOT(keySequenceTyped(const QString&)));
 	KTextEditor::Cursor cursor = m_view->cursorPosition();
@@ -158,10 +171,12 @@ Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m
 	reloadWatchedKeySequences();
 }
 
-Recorder::~Recorder() {
+Recorder::~Recorder()
+{
 }
 
-bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
+bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
+{
 	if (e->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = (QKeyEvent*)(e);
 		uint curLine, curCol;
@@ -185,8 +200,9 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
 	return false;
 }
 
-	bool Recorder::seekForKeySequence(const QString& s) {
-		for(uint i = 0; i < s.length(); ++i) {
+	bool Recorder::seekForKeySequence(const QString& s)
+	{
+		for(int i = 0; i < s.length(); ++i) {
 			QString toCheck = s.right(s.length() - i);
 			if(m_watchedKeySequencesList.contains(toCheck) > 0) {
  				m_view->document()->removeText(KTextEditor::Range(m_oldLine, m_oldCol-(s.length() - i - 1), m_oldLine, m_oldCol));
@@ -198,7 +214,8 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
 		return false;
 	}
 
-	void Recorder::reloadWatchedKeySequences() {
+	void Recorder::reloadWatchedKeySequences()
+	{
 		m_watchedKeySequencesList = m_manager->getWatchedKeySequences();
 		m_maxSequenceLength = 0;
 		for(QStringList::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
@@ -219,18 +236,22 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e) {
 		return QString();
 	}
 
-	ExecuteJScriptAction::ExecuteJScriptAction(KileJScript::JScript *jScript, KileJScript::Manager *jScriptManager) : m_jScript(jScript), m_jScriptManager(jScriptManager){
+	ExecuteScriptAction::ExecuteScriptAction(KileScript::Script *script, KileScript::Manager *scriptManager) : m_script(script), m_scriptManager(scriptManager)
+	{
 	}
 
-	ExecuteJScriptAction::~ExecuteJScriptAction() {
+	ExecuteScriptAction::~ExecuteScriptAction()
+	{
 	}
 
-	void ExecuteJScriptAction::execute() {
-		m_jScriptManager->executeJScript(m_jScript);
+	void ExecuteScriptAction::execute()
+	{
+		m_scriptManager->executeScript(m_script);
 	}
 
-	QString ExecuteJScriptAction::getDescription() const {
-		return i18n("Script execution of %1", m_jScript->getFileName());
+	QString ExecuteScriptAction::getDescription() const
+	{
+		return i18n("Script execution of %1", m_script->getFileName());
 	}
 
 

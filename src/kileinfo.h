@@ -49,7 +49,7 @@ namespace KileView { class Manager; }
 namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
-namespace KileJScript { class Manager; }
+namespace KileScript { class Manager; }
 namespace KileEditorKeySequence { class Manager; }
 namespace KileTemplate { class Manager; }
 
@@ -118,7 +118,7 @@ public:
 	KileDocument::Manager* docManager() const { return m_docManager; }
 	KileView::Manager* viewManager() const { return m_viewManager; }
 	KileTool::Manager* toolManager() const { return m_manager; }
-	KileJScript::Manager* scriptManager() const { return m_jScriptManager; }
+	KileScript::Manager* scriptManager() const { return m_jScriptManager; }
 	KileEditorKeySequence::Manager* editorKeySequenceManager() const { return m_editorKeySequenceManager; }
 	KileTool::Factory* toolFactory() const { return m_toolFactory; }
 	KileDocument::EditorExtension *editorExtension() const { return m_edit; }
@@ -144,7 +144,7 @@ protected:
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;
 	KileTemplate::Manager		*m_templateManager;
-	KileJScript::Manager		*m_jScriptManager;
+	KileScript::Manager		*m_jScriptManager;
 	KileEditorKeySequence::Manager	*m_editorKeySequenceManager;
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;

@@ -88,7 +88,7 @@
 #include "kileuntitled.h"
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
-#include "kilejscript.h"
+#include "scriptmanager.h"
 #include "previewwidget.h"
 #include "widgets/extendedscrollarea.h"
 
@@ -147,7 +147,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readUserSettings();
 	readRecentFileSettings();
 
-	m_jScriptManager = new KileJScript::Manager(this, m_config.data(), actionCollection(), parent, "KileJScript::Manager");
+	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
 
 	m_mainWindow->setStandardToolBarMenuEnabled(true);
 

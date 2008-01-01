@@ -58,7 +58,7 @@
 #include "newfilewizard.h"
 #include "dialogs/managetemplatesdialog.h"
 #include "kileinfo.h"
-#include "kilejscript.h"
+#include "scriptmanager.h"
 #include "kileproject.h"
 #include "kiledocumentinfo.h"
 #include "kileviewmanager.h"
@@ -562,7 +562,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 
 	KileDocument::Type type = sel->type();
 	//always set the base directory for scripts
-	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalJScriptDirectory() : QString()));
+	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalScriptDirectory() : QString()));
 }
 
 KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KUrl& baseDirectory)
@@ -580,7 +580,7 @@ KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocu
 
 KTextEditor::View* Manager::createNewJScript()
 {
-	KTextEditor::View *view = createDocumentWithText(QString::null, Script, "js", m_ki->scriptManager()->getLocalJScriptDirectory());
+	KTextEditor::View *view = createDocumentWithText(QString::null, Script, "js", m_ki->scriptManager()->getLocalScriptDirectory());
 	emit(updateStructure(false, 0L));
 	emit(updateModeStatus());
 	return view;

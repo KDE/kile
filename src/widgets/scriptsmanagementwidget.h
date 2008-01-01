@@ -23,13 +23,9 @@
 
 class KileInfo;
 
-namespace KileJScript {
+namespace KileScript {
 	class Manager;
-	class JScript;
-};
-
-namespace KileJScript {
-	class Manager;
+	class Script;
 };
 
 namespace KileWidget {
@@ -37,18 +33,18 @@ namespace KileWidget {
 	/**
 	 * This class represents an entry in the scripts list view.
 	 **/
-	class JScriptListViewItem : public K3ListViewItem {
+	class ScriptListViewItem : public K3ListViewItem {
 		public:
-			JScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileJScript::JScript *script, KileInfo *kileInfo);
-			virtual ~JScriptListViewItem();
+			ScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileScript::Script *script, KileInfo *kileInfo);
+			virtual ~ScriptListViewItem();
 
-			KileJScript::JScript* getScript();
+			KileScript::Script* getScript();
 
 			virtual void setText(int column, const QString & text);
 			virtual QString text(int column) const;
 
 		protected:
-			KileJScript::JScript *m_script;
+			KileScript::Script *m_script;
 			KileInfo *m_kileInfo;
 			QWidget *m_managementWidget;
 	};

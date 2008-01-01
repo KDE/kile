@@ -9,20 +9,6 @@ ADD_DEFINITIONS(-DQT3_SUPPORT)
 
 ########### next target ###############
 
-
-# taken from KDE4's KJS CMakeLists.txt file
-
-SET(CREATE_HASH_TABLE ${CMAKE_CURRENT_SOURCE_DIR}/create_hash_table )
-
-MACRO(CREATE_LUT _srcs_LIST _in_FILE _out_FILE _dep_FILE)
-	ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_out_FILE}
-		COMMAND ${PERL_EXECUTABLE} ${CREATE_HASH_TABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${_in_FILE} -n KileJScript > ${CMAKE_CURRENT_BINARY_DIR}/${_out_FILE}
-		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_in_FILE} )
-	SET( ${_srcs_LIST}  ${${_srcs_LIST}} ${CMAKE_CURRENT_BINARY_DIR}/${_out_FILE})
-ENDMACRO(CREATE_LUT)
-
-CREATE_LUT(kile_SRCS kilejscript.cpp kilejscript.lut.h kilejscript.cpp)
-
 SET(kile_SRCS
 	${kile_SRCS}
 	latexcmd.cpp
@@ -91,8 +77,6 @@ SET(kile_SRCS
 	dialogs/statisticsdialog.cpp
 	widgets/statisticswidget.cpp
 	previewwidget.cpp
-	kilejscript.h
-	kilejscript.cpp
 	widgets/scriptsmanagementwidget.h
 	widgets/scriptsmanagementwidget.cpp
 	editorkeysequencemanager.h
@@ -102,6 +86,8 @@ SET(kile_SRCS
 	kileextensions.cpp
 	widgets/categorycombobox.cpp
 	widgets/extendedscrollarea.cpp
+	scripting/bindings.cpp
+	scriptmanager.cpp
 )
 
 SET( kile_UI
@@ -167,7 +153,7 @@ KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 #need qt3support library for now
-TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor khtml ${QT_QT3SUPPORT_LIBRARY} kde3support)
+TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} kjs ktexteditor khtml ${KDE4_KROSSCORE_LIBS} ${QT_QT3SUPPORT_LIBRARY} kde3support)
 
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 

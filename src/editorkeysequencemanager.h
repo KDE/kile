@@ -23,8 +23,8 @@
 // include <kaction.h>
 #include <ktexteditor/view.h>
 
-namespace KileJScript {
-	class JScript;
+namespace KileScript {
+	class Script;
 	class Manager;
 }
 
@@ -51,19 +51,19 @@ namespace KileEditorKeySequence {
  	};
 
 	/**
-	 * This class represents the execution of a JavaScript in Kile.
+	 * This class represents the execution of a script in Kile.
 	 **/
-	class ExecuteJScriptAction : public Action {
+	class ExecuteScriptAction : public Action {
 		public:
-			ExecuteJScriptAction(KileJScript::JScript *jScript, KileJScript::Manager *jScriptManager);
-			virtual ~ExecuteJScriptAction();
+			ExecuteScriptAction(KileScript::Script *script, KileScript::Manager *scriptManager);
+			virtual ~ExecuteScriptAction();
 
 			virtual void execute();
 			virtual QString getDescription() const;
 
 		protected:
-			KileJScript::JScript *m_jScript;
-			KileJScript::Manager *m_jScriptManager;
+			KileScript::Script *m_script;
+			KileScript::Manager *m_scriptManager;
 	};
 
 	// forward declaration

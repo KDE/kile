@@ -29,21 +29,21 @@
 #include "editorkeysequencemanager.h"
 #include "kiledocmanager.h"
 #include "kileinfo.h"
-#include "kilejscript.h"
+#include "scriptmanager.h"
 
 namespace KileWidget {
 
-JScriptListViewItem::JScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileJScript::JScript *script, KileInfo *kileInfo) : K3ListViewItem(parent), m_script(script), m_kileInfo(kileInfo), m_managementWidget(managementWidget) {
+ScriptListViewItem::ScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileScript::Script *script, KileInfo *kileInfo) : K3ListViewItem(parent), m_script(script), m_kileInfo(kileInfo), m_managementWidget(managementWidget) {
 }
 
-JScriptListViewItem::~JScriptListViewItem() {
+ScriptListViewItem::~ScriptListViewItem() {
 }
 
-KileJScript::JScript* JScriptListViewItem::getScript() {
+KileScript::Script* ScriptListViewItem::getScript() {
 	return m_script;
 }
 
-QString JScriptListViewItem::text(int column) const {
+QString ScriptListViewItem::text(int column) const {
 	switch(column) {
 		case 0:
  			return m_script->getName();
@@ -54,7 +54,7 @@ QString JScriptListViewItem::text(int column) const {
 }
 
 
-void JScriptListViewItem::setText(int column, const QString & str) {
+void ScriptListViewItem::setText(int column, const QString & str) {
 	if(column == 1) {
 		QString oldAssignedString = m_script->getKeySequence();
 		if(str.isEmpty()) {
@@ -102,11 +102,11 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 //FIXME: port for KDE4
 /*
 	m_executeButton = m_toolbar->insertButton(BarIcon("exec"), 0, SIGNAL(clicked(int)), this, SLOT(executeSelectedScript()), true, i18n("Run Selected Script"));
-	m_newButton = m_toolbar->insertButton(BarIcon("scriptnew"), 0, SIGNAL(clicked(int)), m_kileInfo->docManager(), SLOT(createNewJScript()), true, i18n("Create New Script"));
+	m_newButton = m_toolbar->insertButton(BarIcon("scriptnew"), 0, SIGNAL(clicked(int)), m_kileInfo->docManager(), SLOT(createNewScript()), true, i18n("Create New Script"));
 	m_openButton = m_toolbar->insertButton(BarIcon("scriptopen"), 0, SIGNAL(clicked(int)), this, SLOT(openSelectedScript()), true, i18n("Open Selected Script in Editor"));
 // 	m_toolbar->insertButton(BarIcon("configure_shortcuts"), 0, SIGNAL(clicked(int)), this, SLOT(configureSelectedShortcut()), true, i18n("Configure Shortcut"));
-// 	m_toolbar->insertButton(BarIcon("editclear"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh"));
-	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanJScriptDirectories()), true, i18n("Refresh List"));
+// 	m_toolbar->insertButton(BarIcon("editclear"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()), true, i18n("Refresh"));
+	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()), true, i18n("Refresh List"));
 */
 	baseLayout->addWidget(m_toolbar);
 	m_scriptsListView = new K3ListView(this);
@@ -134,9 +134,9 @@ ScriptsManagement::~ScriptsManagement() {
 
 void ScriptsManagement::updateListView() {
 	m_scriptsListView->clear();
-	QList<KileJScript::JScript*> scriptList = m_kileInfo->scriptManager()->getJScripts();
-	for(QList<KileJScript::JScript*>::iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
- 		new JScriptListViewItem(this, m_scriptsListView, *i, m_kileInfo);
+	QList<KileScript::Script*> scriptList = m_kileInfo->scriptManager()->getScripts();
+	for(QList<KileScript::Script*>::iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
+ 		new ScriptListViewItem(this, m_scriptsListView, *i, m_kileInfo);
 	}
 	m_scriptsListView->triggerUpdate();
 }
@@ -146,7 +146,7 @@ void ScriptsManagement::openSelectedScript() {
 	if(!item) {
 		return;
 	}
-	JScriptListViewItem *jItem = (JScriptListViewItem*)item;
+	ScriptListViewItem *jItem = (ScriptListViewItem*)item;
 	m_kileInfo->docManager()->fileOpen(jItem->getScript()->getFileName());
 }
 
@@ -155,8 +155,8 @@ void ScriptsManagement::executeSelectedScript() {
 	if(!item) {
 		return;
 	}
-	JScriptListViewItem *jItem = (JScriptListViewItem*)item;
-	m_kileInfo->scriptManager()->executeJScript(jItem->getScript());
+	ScriptListViewItem *jItem = (ScriptListViewItem*)item;
+	m_kileInfo->scriptManager()->executeScript(jItem->getScript());
 }
 
 // void ScriptsManagement::configureSelectedShortcut() {
@@ -164,7 +164,7 @@ void ScriptsManagement::executeSelectedScript() {
 // 	if(!item) {
 // 		return;
 // 	}
-// 	JScriptListViewItem *jItem = (JScriptListViewItem*)item;
+// 	ScriptListViewItem *jItem = (ScriptListViewItem*)item;
 // 	QString sequence = determineKeySequence();
 // 	m_kileInfo->scriptManager()->setEditorKeySequence(jItem->getScript(), sequence);
 // }

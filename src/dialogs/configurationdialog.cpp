@@ -267,7 +267,7 @@ namespace KileDialog
 	{
 		structurePage = new KileWidgetStructureViewConfig(this);
 		structurePage->setObjectName("StructureView");
-		addConfigPage(parent, structurePage, i18n("Structure View"), "view-tree");
+		addConfigPage(parent, structurePage, i18n("Structure View"), "view-list-tree");
 	}
 
 	void Config::setupSymbolView(KPageWidgetItem* parent)

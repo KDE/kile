@@ -397,7 +397,7 @@ void Kile::setupProjectView()
 void Kile::setupStructureView()
 {
 	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
-	m_sideBar->addPage(m_kwStructure, SmallIcon("view-tree"), i18n("Structure"));
+	m_sideBar->addPage(m_kwStructure, SmallIcon("view-list-tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
@@ -411,7 +411,7 @@ void Kile::setupScriptsManagementView()
 {
 	m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
 	connect((QObject*)editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_scriptsManagementWidget, SLOT(updateListView()));
-	m_sideBar->addPage(m_scriptsManagementWidget, SmallIcon("jspage"), i18n("Scripts"));
+	m_sideBar->addPage(m_scriptsManagementWidget, SmallIcon("preferences-plugin-script"), i18n("Scripts"));
 }
 
 void Kile::enableSymbolViewMFUS()

@@ -67,7 +67,8 @@ namespace KileWidget
 		m_tabMenu = m_configWidget->m_tab->page(2);
 
 		updateToollist();
-		m_configWidget->m_lstbTools->item(indexQuickBuild())->setSelected(true);
+		if (m_configWidget->m_lstbTools->item(indexQuickBuild()))
+			m_configWidget->m_lstbTools->item(indexQuickBuild())->setSelected(true);
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
 		QStringList lst; lst << i18n( "Quick" ) << i18n( "Compile" ) << i18n( "Convert" ) << i18n( "View" ) << i18n( "Other" );

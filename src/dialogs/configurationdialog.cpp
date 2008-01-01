@@ -285,7 +285,11 @@ namespace KileDialog
 
 		m_editorPages.clear();
 
+#ifdef __GNUC__
+#warning editor seems to be null
+#endif
 		KTextEditor::Editor* editor = KTextEditor::EditorChooser::editor();
+		if (!editor) return;
 		for(int i = 0; i < editor->configPages(); ++i) {
 			KTextEditor::ConfigPage *configPage = editor->configPage(i, parent->widget());
 

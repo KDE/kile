@@ -187,14 +187,14 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
 	if(action) {
 		KILE_DEBUG() << "   reconnect action 'file_save'...";
-		action->disconnect(SIGNAL(activated()));
-		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSave()));
+		action->disconnect(SIGNAL(triggered(bool)));
+		connect(action, SIGNAL(triggered()), m_ki->docManager(), SLOT(fileSave()));
 	}
 	action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::SaveAs));
 	if(action) {
 		KILE_DEBUG() << "   reconnect action 'file_save_as'...";
-		action->disconnect(SIGNAL(activated()));
-		connect(action, SIGNAL(activated()), m_ki->docManager(), SLOT(fileSaveAs()));
+		action->disconnect(SIGNAL(triggered(bool)));
+		connect(action, SIGNAL(triggered()), m_ki->docManager(), SLOT(fileSaveAs()));
 	}
 	updateTabTexts(doc);
 	m_widgetStack->setCurrentWidget(m_tabs); // there is at least one tab, so show the KTabWidget now

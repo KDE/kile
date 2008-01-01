@@ -243,7 +243,7 @@ void Tester::processTestResults (int exitCode, QProcess::ExitStatus exitStatus)
 
 void Tester::processTool(KConfig *config, const QString &tool)
 {
-	KConfigGroup group = config->group("Group");
+	KConfigGroup group = config->group(tool);
 
 	QStringList criticaltests = (group.readEntry("mustpass", "")).split(",");
 

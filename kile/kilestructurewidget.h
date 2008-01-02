@@ -183,7 +183,7 @@ namespace KileWidget
 			int level();
 			KileInfo *info() { return m_ki; }
 
-			bool findSectioning(Kate::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol);
+			bool findSectioning(KileListViewItem *item, Kate::Document *doc, uint row, uint col, bool backwards, bool checkLevel, uint &sectRow, uint &sectCol);
 			void updateUrl(KileDocument::Info *docinfo);
 
 		enum { SectioningCut=10, SectioningCopy=11, SectioningPaste=12, 

@@ -2601,8 +2601,8 @@ void EditorExtension::gotoSectioning(bool backwards, Kate::View *view)
 
 	uint rowFound,colFound;
 	m_ki->viewManager()->updateStructure(true);
-	if ( m_ki->structureWidget()->findSectioning(view->getDoc(),view->cursorLine(),view->cursorColumn(),
-	                                             backwards,rowFound,colFound) )
+	if ( m_ki->structureWidget()->findSectioning(NULL, view->getDoc(), view->cursorLine(), view->cursorColumn(),
+	                                             backwards, false, rowFound, colFound))
 	{
 		view->setCursorPositionReal(rowFound,colFound);
 	}
@@ -2625,6 +2625,7 @@ void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 	row = row1 = item->startline() - 1;
 	col = col1 = item->startcol() - 1;
 
+	// FIXME tbraun make this more clever, introdoce in kiledocinfo a flag which can be easily queried for that, so that we don't have to hardcode the names of the sections here (which is definitly a bad idea)
 	// check, if the document was changed in the meantime 
 	QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
 	QString textline = getTextLineReal(doc,row1);
@@ -2640,7 +2641,7 @@ void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 	// increase cursor position and find the following sectioning command
 	if ( ! increaseCursorPosition(doc,row,col) )
 		return;
-	if ( ! m_ki->structureWidget()->findSectioning(doc,row,col,false,row2,col2) )
+	if (!m_ki->structureWidget()->findSectioning(item, doc, row, col, false, true, row2, col2))
 	{
 		// or the end of the document
 		// if there is a '\end{document} command, we have to exclude it

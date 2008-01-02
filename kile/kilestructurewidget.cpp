@@ -946,12 +946,18 @@ namespace KileWidget
 
 	////////////////////// Structure: find sectioning //////////////////////
 
-	bool Structure::findSectioning(Kate::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol)
+	bool Structure::findSectioning(KileListViewItem *refItem, Kate::Document *doc, uint row, uint col, bool backwards, bool checkLevel, uint &sectRow, uint &sectCol)
 	{
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(doc);
-		if ( ! docinfo )
+		
+		if ( ! docinfo ){
 			return false;
-
+		}
+		
+		if( checkLevel && !refItem ){ // only allow a refItem == NULL if checkLevel is false
+			return false;
+		}
+		
 		bool found = false;
 		uint foundRow,foundCol;
 		StructureList *structurelist = viewFor(docinfo);
@@ -959,7 +965,7 @@ namespace KileWidget
 		while ( it.current() ) 
 		{
 			KileListViewItem *item = (KileListViewItem *)(it.current());
-			if  ( item->type() == KileStruct::Sect )
+			if  (item->type() == KileStruct::Sect && (!checkLevel || item->level() <= refItem->level()))
 			{
 				foundRow = item->startline() - 1;
 				foundCol = item->startcol() - 1;

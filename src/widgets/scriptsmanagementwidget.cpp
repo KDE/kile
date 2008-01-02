@@ -186,13 +186,13 @@ void ScriptsManagement::configureSelectedKeySequence() {
 		switch(pair.first) {
 			case 1:
 				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is already assigned to the action \"%2\"", value, description), i18n("Sequence Already Assigned"));
-				break;
+				return;
 			case 2:
 				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", value, pair.second, description), i18n("Sequence Already Assigned"));
-				break;
+				return;
 			case 3:
 				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
-				break;
+				return;
 		}
 		m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
 	}

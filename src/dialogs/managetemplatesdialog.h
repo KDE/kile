@@ -18,10 +18,10 @@
 
 #include <KDialog>
 
-class Q3ListViewItem;
 class QCheckBox;
+class QTreeWidget;
+class QTreeWidgetItem;
 
-class K3ListView;
 class KLineEdit;
 class KUrl;
 
@@ -43,7 +43,7 @@ public:
 	virtual ~ManageTemplatesDialog();
 
 public Q_SLOTS:
-	void slotSelectedTemplate(Q3ListViewItem *item);
+	void slotSelectedTemplate(QTreeWidgetItem *item);
 	void slotSelectIcon();
 	void addTemplate();
 	bool removeTemplate();
@@ -59,7 +59,7 @@ protected Q_SLOTS:
 protected:
 	KileTemplate::Manager* m_templateManager;
 	KLineEdit *m_nameEdit, *m_iconEdit;
-	K3ListView *m_templateList;
+	QTreeWidget *m_templateList;
 	KileDocument::Type m_templateType;
 	QCheckBox *m_showAllTypesCheckBox;
 	KUrl m_sourceURL;

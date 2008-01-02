@@ -86,7 +86,7 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	setObjectName(name);
 	setCaption(QString());
 	setModal(false);
-	setButtons(Ok | Cancel | User1);
+	setButtons(0);
 	setDefaultButton(NoDefault);
 	showButtonSeparator(false);
 

@@ -179,8 +179,12 @@ void ManageTemplatesDialog::clearSelection() {
 	m_templateList->clearSelection();
 }
 
-void ManageTemplatesDialog::slotOk() {
-	emit aboutToClose();
+void ManageTemplatesDialog::slotButtonClicked(int button)
+{
+	if (button == Ok) {
+		emit aboutToClose();
+	}
+	KDialog::slotButtonClicked(button);
 }
 
 void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type) {

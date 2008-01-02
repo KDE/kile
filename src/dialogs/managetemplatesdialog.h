@@ -54,7 +54,7 @@ Q_SIGNALS:
 protected Q_SLOTS:
 	void updateTemplateListView(bool showAllTypes);
 	void clearSelection();
-	virtual void slotOk();
+	void slotButtonClicked(int button);
 
 protected:
 	KileTemplate::Manager* m_templateManager;

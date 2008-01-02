@@ -16,14 +16,12 @@
 #ifndef CONFIGCHECKERDIALOG_H
 #define CONFIGCHECKERDIALOG_H
 
-#include <q3simplerichtext.h>
-#include <QProgressBar>
-//Added by qt3to4:
-#include <Q3ListBox>
-#include <QList>
-#include <QLabel>
+#include <KDialog>
 
-#include <kdialog.h>
+#include <QLabel>
+#include <QList>
+#include <QListWidget>
+#include <QProgressBar>
 
 #include "configtester.h"
 
@@ -31,28 +29,19 @@ class QLabel;
 class QPainter;
 
 class KProgress;
-class K3ListBox;
 
 class ConfigCheckerWidget;
 
 namespace KileDialog
 {
-	class ResultItem : public Q3ListBoxItem
-	{
+class ResultItem : public QListWidgetItem
+{
 	public:
-		ResultItem(K3ListBox *lb, const QString &tool, int status, const QList<ConfigTest> &tests);
-		int width(const Q3ListBox *) const { return m_richText->widthUsed(); }
-		int height(const Q3ListBox *) const { return m_richText->height(); }
+		ResultItem(QListWidget *listWidget, const QString &tool, int status, const QList<ConfigTest> &tests);
+};
 
-	protected:
-		void paint(QPainter *);
-
-	private:
-		Q3SimpleRichText	*m_richText;
-	};
-
-	class ConfigChecker : public KDialog
-	{
+class ConfigChecker : public KDialog
+{
 		Q_OBJECT
 
 	public:
@@ -70,11 +59,11 @@ namespace KileDialog
 	private:
 		QProgressBar* progressBar();
 		QLabel* label();
-		K3ListBox* listBox();
+		QListWidget* listWidget();
 
 	private:
-		ConfigCheckerWidget	*m_widget;
-		Tester				*m_tester;
-	};
+		ConfigCheckerWidget *m_widget;
+		Tester    *m_tester;
+};
 }
 #endif

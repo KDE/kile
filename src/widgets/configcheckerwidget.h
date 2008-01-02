@@ -18,7 +18,7 @@
 #include <QProgressBar>
 #include <QWidget>
 
-#include <k3listbox.h>
+#include <QListWidget>
 
 #include "ui_configcheckerwidget.h"
 
@@ -32,7 +32,7 @@ class ConfigCheckerWidget : public QWidget, public Ui::ConfigCheckerWidget
 
 		QProgressBar* progressBar();
 		QLabel* label();
-		K3ListBox* listBox();
+		QListWidget* listWidget();
 
 };
 

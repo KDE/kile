@@ -18,9 +18,10 @@
 #include <QFileInfo>
 #include <QLabel>
 #include <QLayout>
+#include <QItemDelegate>
 #include <QPainter>
+#include <QTextDocument>
 
-#include <K3ListBox>
 #include <KCursor>
 #include <KFileDialog>
 #include <KGlobal>
@@ -35,43 +36,64 @@
 namespace KileDialog
 {
 
-ResultItem::ResultItem(K3ListBox *lb, const QString &tool, int status, const QList<ConfigTest> &tests) : Q3ListBoxItem(lb)
+class ResultItemDelegate : public QItemDelegate {
+	public:
+		ResultItemDelegate(QListWidget *parent) : QItemDelegate(parent) {}
+
+		virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+		{
+			drawBackground(painter, option, index);
+
+			QTextDocument document;
+			document.setHtml(index.data(Qt::UserRole).toString());
+			painter->resetMatrix();
+			painter->translate(option.rect.topLeft());
+			document.drawContents(painter);
+		}
+
+		virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+		{
+			QTextDocument document;
+			document.setHtml(index.data(Qt::UserRole).toString());
+			return document.size().toSize();
+		}
+};
+
+ResultItem::ResultItem(QListWidget *listWidget, const QString &tool, int status, const QList<ConfigTest> &tests) : QListWidgetItem(listWidget)
 {
-	QString rt = "<hr><b><font color=\"%1\">%2</font></b> (%3)<br><ul>";
+	QString rt = "<hr /><b><font color=\"%1\">%2</font></b> (%3)<br /><ul>";
 	for (int i = 0; i < tests.count(); ++i) {
 		QString itemcolor = "black";
-		if ( tests[i].status() == ConfigTest::Failure ) itemcolor = "#FFA201";
-		else if ( tests[i].status() == ConfigTest::Critical ) itemcolor = "#AA0000";
+		if (tests[i].status() == ConfigTest::Failure)
+			itemcolor = "#FFA201";
+		else
+			if (tests[i].status() == ConfigTest::Critical)
+				itemcolor = "#AA0000";
 		rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor).arg(tests[i].name()).arg(tests[i].resultText());
 	}
 	rt += "</ul>";
 
 	QString color = "#00AA00", statustr = i18n("Passed");
-	if ( status == ConfigTest::Failure )
+	if (status == ConfigTest::Failure)
 	{
 		color = "#FFA201";
 		statustr = i18n("Failed, but not critical");
 	}
-	else if ( status == ConfigTest::Critical )
-	{
-		color = "#AA0000";
-		statustr = i18n("Critical failure, Kile will not function properly");
-	}
+	else
+		if (status == ConfigTest::Critical)
+		{
+			color = "#AA0000";
+			statustr = i18n("Critical failure, Kile will not function properly");
+		}
 
-	m_richText = new Q3SimpleRichText(rt.arg(color).arg(tool).arg(statustr), listBox()->font());
-	m_richText->setWidth(listBox()->width());
+	setData(Qt::UserRole, rt.arg(color).arg(tool).arg(statustr));
 
 	//this is for sorting only
 	setText(QString::number(status) + ':' + tool);
 }
 
-void ResultItem::paint(QPainter *p)
-{
-	m_richText->draw(p, 0, 0, QRect(), listBox()->colorGroup());
-}
-
 ConfigChecker::ConfigChecker(QWidget* parent) :
-	KDialog(parent), m_tester(0L)
+		KDialog(parent), m_tester(0L)
 {
 	setCaption(i18n("System Check"));
 	setModal(true);
@@ -85,6 +107,10 @@ ConfigChecker::ConfigChecker(QWidget* parent) :
 
 	enableButton(Ok, false);
 	enableButton(User1, false);
+
+	listWidget()->setAlternatingRowColors(true);
+	listWidget()->setSelectionMode(QAbstractItemView::NoSelection);
+	listWidget()->setItemDelegate(new ResultItemDelegate(listWidget()));
 
 	run();
 }
@@ -103,9 +129,9 @@ QLabel* ConfigChecker::label()
 	return m_widget->label();
 }
 
-K3ListBox* ConfigChecker::listBox()
+QListWidget* ConfigChecker::listWidget()
 {
-	return m_widget->listBox();
+	return m_widget->listWidget();
 }
 
 void ConfigChecker::run()
@@ -122,7 +148,8 @@ void ConfigChecker::run()
 
 void ConfigChecker::slotCancel()
 {
-	if (m_tester) m_tester->stop();
+	if (m_tester)
+		m_tester->stop();
 	finished(false);
 	reject();
 }
@@ -130,7 +157,8 @@ void ConfigChecker::slotCancel()
 void ConfigChecker::saveResults()
 {
 	KUrl url = KFileDialog::getSaveUrl();
-	if ( !url.isEmpty() ) m_tester->saveResults(url);
+	if (!url.isEmpty())
+		m_tester->saveResults(url);
 }
 
 void ConfigChecker::started()
@@ -150,22 +178,26 @@ void ConfigChecker::finished(bool ok)
 
 		QStringList tools = m_tester->testedTools();
 		QStringList critical, failure;
-		for(int i = 0; i < tools.count(); ++i) {
+		for (int i = 0; i < tools.count(); ++i) {
 			int status = m_tester->statusForTool(tools[i]);
-			if ( status == ConfigTest::Critical ) critical.append(tools[i]);
-			else if ( status == ConfigTest::Failure ) failure.append(tools[i]);
-			new ResultItem(listBox(), tools[i], status, m_tester->resultForTool(tools[i]));
+			if (status == ConfigTest::Critical)
+				critical.append(tools[i]);
+			else
+				if (status == ConfigTest::Failure)
+					failure.append(tools[i]);
+			new ResultItem(listWidget(), tools[i], status, m_tester->resultForTool(tools[i]));
 		}
 
-		listBox()->sort();
+		listWidget()->sortItems();
 
 		QString cap = i18n("Test Results");
-		if ( critical.count() > 0 )
+		if (critical.count() > 0)
 			KMessageBox::error(this, i18n("<qt>The following tools did not pass all <b>critical</b> tests:<br>%1<br>Your system is not ready to use. Please consult the results to find out what to fix.</qt>", critical.join(", ")), cap);
-		else if ( failure.count() > 0 )
-			KMessageBox::information(this, i18n("The following tools did not pass all tests:\n %1\nYou will still be able to use Kile; however, not all features are guaranteed to work.", failure.join(", ")), cap);
 		else
-			KMessageBox::information(this, i18n("No problems detected, your system is ready to use."), cap);
+			if (failure.count() > 0)
+				KMessageBox::information(this, i18n("The following tools did not pass all tests:\n %1\nYou will still be able to use Kile; however, not all features are guaranteed to work.", failure.join(", ")), cap);
+			else
+				KMessageBox::information(this, i18n("No problems detected, your system is ready to use."), cap);
 	}
 	else
 		label()->setText(i18n("Tests finished abruptly..."));

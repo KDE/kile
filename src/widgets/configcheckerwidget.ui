@@ -55,7 +55,7 @@
      </property>
      <layout class="QGridLayout" >
       <item row="0" column="0" >
-       <widget class="K3ListBox" name="m_lstResults" >
+       <widget class="QListWidget" name="m_lstResults" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
           <horstretch>1</horstretch>
@@ -83,11 +83,6 @@
    <extends>QGroupBox</extends>
    <header>Qt3Support/Q3GroupBox</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>K3ListBox</class>
-   <extends>Q3ListBox</extends>
-   <header location="global" >k3listbox.h</header>
   </customwidget>
  </customwidgets>
  <includes>

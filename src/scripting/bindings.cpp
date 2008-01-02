@@ -124,7 +124,7 @@ QString KileScriptObject::getInputValue(const QString& caption, const QString& l
 	if(label.isEmpty()) {
 		checkedLabel = i18n("Please enter a value");
 	}
-	return KInputDialog::getText(checkedCaption, checkedLabel, QString(), 0, NULL);
+	return KInputDialog::getText(checkedCaption, checkedLabel, QString(), NULL, m_kileInfo->mainWindow());
 }
 
 QObject* KileScriptObject::currentTextDocument()

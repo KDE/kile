@@ -58,22 +58,22 @@
 #include <Q3VBoxLayout>
 #include <Q3GroupBox>
 
-#include <kcombobox.h>
-#include <kapplication.h>
-#include <kacceleratormanager.h>
-#include <k3buttonbox.h>
-#include <kfiledialog.h>
-#include <k3process.h>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kurlrequester.h>
-#include <kurlcompletion.h>
-#include <klineedit.h>
-#include <k3listbox.h>
-#include <kshell.h>
-#include "kiledebug.h"
+#include <K3ListBox>
+#include <K3Process>
+#include <KAcceleratorManager>
+#include <KApplication>
+#include <KComboBox>
+#include <KDialogButtonBox>
+#include <KFileDialog>
+#include <KIconLoader>
+#include <KLineEdit>
+#include <KLocale>
+#include <KMessageBox>
+#include <KShell>
+#include <KUrlCompletion>
+#include <KUrlRequester>
 
+#include "kiledebug.h"
 #include "kileconfig.h"
 #include "kileproject.h"
 #include "kiledocmanager.h"
@@ -95,15 +95,18 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	//setWFlags( Qt::WStyle_StaysOnTop );
 
 	// build dialog
-	Q3VBoxLayout *vbox = new Q3VBoxLayout( page,5,KDialog::spacingHint() );
+	QVBoxLayout *vbox = new QVBoxLayout();
+	vbox->setMargin(0);
+	vbox->setSpacing(KDialog::spacingHint());
+	page->setLayout(vbox);
 
 	// project groupbox
-	Q3GroupBox *projectgroup = new Q3GroupBox( i18n("Project"),page); 
-	projectgroup->setColumnLayout(0, Qt::Vertical );
-	projectgroup->layout()->setSpacing( 6 );
-	projectgroup->layout()->setMargin( 11 );
-	Q3GridLayout *projectgrouplayout = new Q3GridLayout( projectgroup->layout() );
+	QGroupBox *projectgroup = new QGroupBox(i18n("Project"), page);
+	QGridLayout *projectgrouplayout = new QGridLayout();
+	projectgrouplayout->setMargin(KDialog::marginHint());
+	projectgrouplayout->setSpacing(KDialog::spacingHint());
 	projectgrouplayout->setAlignment( Qt::AlignTop );
+	projectgroup->setLayout(projectgrouplayout);
 
 	QLabel *project_label = new QLabel(i18n("Name:"), projectgroup);
 	int labelwidth = project_label->sizeHint().width();
@@ -122,12 +125,12 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	projectgrouplayout->setColStretch(1,1);
 
 	// search groupbox
-	Q3GroupBox *searchgroup = new Q3GroupBox( i18n("Search"),page); 
-	searchgroup->setColumnLayout(0, Qt::Vertical );
-	searchgroup->layout()->setSpacing( 6 );
-	searchgroup->layout()->setMargin( 11 );
-	Q3GridLayout *searchgrouplayout = new Q3GridLayout( searchgroup->layout() );
+	QGroupBox *searchgroup = new QGroupBox(i18n("Search"), page);
+	QGridLayout *searchgrouplayout = new QGridLayout();
+	searchgrouplayout->setMargin(KDialog::marginHint());
+	searchgrouplayout->setSpacing(KDialog::spacingHint());
 	searchgrouplayout->setAlignment( Qt::AlignTop );
+	searchgroup->setLayout(searchgrouplayout);
 
 	QLabel *pattern_label = new QLabel(i18n("Pattern:"), searchgroup);
 	if ( pattern_label->sizeHint().width() > labelwidth )
@@ -154,7 +157,9 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	                  << i18n("File")
 	                  ;
 
-	Q3BoxLayout *template_layout = new Q3HBoxLayout(4);
+	QHBoxLayout *template_layout = new QHBoxLayout();
+	template_layout->setMargin(0);
+	template_layout->setSpacing(KDialog::spacingHint());
 	template_combo = new KComboBox(false, searchgroup);
 	template_combo->insertStringList(templatemode_list);
 	template_combo->adjustSize();
@@ -174,12 +179,12 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	searchgrouplayout->addLayout(template_layout, 1,1);
 
 	// filter groupbox
-	Q3GroupBox *filtergroup = new Q3GroupBox( i18n("Directory Options"),page); 
-	filtergroup->setColumnLayout(0, Qt::Vertical );
-	filtergroup->layout()->setSpacing( 6 );
-	filtergroup->layout()->setMargin( 11 );
-	Q3GridLayout *filtergrouplayout = new Q3GridLayout( filtergroup->layout() );
+	QGroupBox *filtergroup = new Q3GroupBox(i18n("Directory Options"), page);
+	QGridLayout *filtergrouplayout = new QGridLayout();
+	filtergrouplayout->setMargin(KDialog::marginHint());
+	filtergrouplayout->setSpacing(KDialog::spacingHint());
 	filtergrouplayout->setAlignment( Qt::AlignTop );
+	filtergroup->setLayout(filtergrouplayout);
 
 	QLabel *files_label = new QLabel(i18n("Filter:"), filtergroup);
 	if ( files_label->sizeHint().width() > labelwidth )
@@ -193,22 +198,20 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	if ( dir_label->sizeHint().width() > labelwidth )
 		labelwidth = dir_label->sizeHint().width();
 
-	Q3BoxLayout *dir_layout = new Q3HBoxLayout(3);
 	dir_combo = new KUrlRequester( new KComboBox(true, filtergroup), filtergroup);
 	dir_combo->setObjectName("dir combo");
 	dir_combo->completionObject()->setMode(KUrlCompletion::DirCompletion);
 	dir_combo->setMode(KFile::Directory|KFile::LocalOnly|KFile::ExistingOnly);
 	dir_label->setBuddy(dir_combo);
-	dir_layout->addWidget(dir_combo);
 
 	recursive_box = new QCheckBox(i18n("Scan directories recursively"), filtergroup);
 	recursive_box->setMinimumWidth(recursive_box->sizeHint().width());
 
-	filtergrouplayout->addWidget(files_label, 2,0, Qt::AlignLeft | Qt::AlignVCenter);
-	filtergrouplayout->addWidget(filter_combo, 2, 1);
-	filtergrouplayout->addWidget(dir_label, 3,0, Qt::AlignLeft | Qt::AlignVCenter);
-	filtergrouplayout->addLayout(dir_layout, 3,1);
-	filtergrouplayout->addMultiCellWidget(recursive_box, 4,4, 1,2);
+	filtergrouplayout->addWidget(files_label, 0, 0);
+	filtergrouplayout->addWidget(filter_combo, 0, 1);
+	filtergrouplayout->addWidget(dir_label, 1, 0);
+	filtergrouplayout->addWidget(dir_combo, 1, 1);
+	filtergrouplayout->addWidget(recursive_box, 2, 1);
 	filtergrouplayout->setColStretch(1,1);
 
 	// result box
@@ -216,19 +219,15 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	resultbox->setMinimumHeight(150);
 
 	// button box
-	K3ButtonBox *actionbox = new K3ButtonBox(page, Qt::Horizontal);
-	search_button = actionbox->addButton(i18n("&Search"));
+	KDialogButtonBox *actionbox = new KDialogButtonBox(page);
+	search_button = actionbox->addButton(i18n("&Search"), QDialogButtonBox::ActionRole, this, SLOT(slotSearch()));
 	search_button->setDefault(true);
 	search_button->setEnabled(false);
-	clear_button = actionbox->addButton(i18n("&Clear"));
+	search_button->setIcon(KIcon("edit-find"));
+	clear_button = actionbox->addButton(i18n("&Clear"), QDialogButtonBox::ActionRole, this, SLOT(slotClear()));
 	clear_button->setEnabled(false);
-	actionbox->addStretch();
-#if KDE_VERSION >= KDE_MAKE_VERSION(3,3,0)
-	close_button = actionbox->addButton(KStandardGuiItem::close());
-#else
-        close_button = actionbox->addButton(i18n("Cl&ose"));
-#endif
-	actionbox->layout();
+	clear_button->setIcon(KIcon("edit-clear-locationbar"));
+	close_button = actionbox->addButton(KStandardGuiItem::close(), QDialogButtonBox::DestructiveRole, this, SLOT(slotClose()));
 
 	// adjust labels
 	project_label->setFixedWidth(labelwidth);
@@ -332,11 +331,6 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	connect( resultbox, SIGNAL(highlighted(const QString&)),
 		SLOT(slotItemSelected(const QString&)) );
 
-	connect( search_button, SIGNAL(clicked()), SLOT(slotSearch()) );
-	connect( clear_button,  SIGNAL(clicked()), SLOT(slotClear()) );
-	connect( close_button,  SIGNAL(clicked()), SIGNAL(closeClicked()) );
-
-	connect( this, SIGNAL(closeClicked()), SLOT(slotClose()) );
 	connect( this, SIGNAL(finished()), SLOT(slotFinished()) );
 
 	resize(450,sizeHint().height());

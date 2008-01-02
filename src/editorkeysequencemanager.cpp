@@ -16,13 +16,11 @@
 #include "kileinfo.h"
 #include "scriptmanager.h"
 
-#include <ktexteditor/document.h>
-#include <klocale.h>
-
 #include <QEvent>
 #include <QKeyEvent>
 
-#define MAX(a,b) (a >= b ? a : b)
+#include <KTextEditor/Document>
+#include <KLocale>
 
 namespace KileEditorKeySequence {
 
@@ -179,7 +177,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 {
 	if (e->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = (QKeyEvent*)(e);
-		uint curLine, curCol;
+		int curLine, curCol;
 		KTextEditor::Cursor cursor = m_view->cursorPosition();
 		curLine = cursor.line();
 		curCol = cursor.column();
@@ -192,7 +190,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 			++m_oldCol;
 		}
 		m_typedSequence += keyEvent->text();
-		if(m_typedSequence.length() == m_maxSequenceLength+1) {
+		if(m_typedSequence.length() == m_maxSequenceLength + 1) {
 			m_typedSequence = m_typedSequence.mid(1, m_typedSequence.length() - 1);
 		}
 		return seekForKeySequence(m_typedSequence);
@@ -205,7 +203,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 		for(int i = 0; i < s.length(); ++i) {
 			QString toCheck = s.right(s.length() - i);
 			if(m_watchedKeySequencesList.contains(toCheck) > 0) {
- 				m_view->document()->removeText(KTextEditor::Range(m_oldLine, m_oldCol-(s.length() - i - 1), m_oldLine, m_oldCol));
+ 				m_view->document()->removeText(KTextEditor::Range(m_oldLine, m_oldCol - (s.length() - i - 1), m_oldLine, m_oldCol));
 				m_typedSequence = QString::null; // clean m_typedSequence to avoid wrong action triggering if one presses keys without printable character
 				emit detectedTypedKeySequence(toCheck);
 				return true;
@@ -219,7 +217,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 		m_watchedKeySequencesList = m_manager->getWatchedKeySequences();
 		m_maxSequenceLength = 0;
 		for(QStringList::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
-			m_maxSequenceLength = MAX(m_maxSequenceLength, (*i).length());
+			m_maxSequenceLength = qMax(m_maxSequenceLength, (*i).length());
 		}
 		if(m_maxSequenceLength < m_typedSequence.length()) {
 			m_typedSequence = m_typedSequence.right(m_maxSequenceLength);

@@ -14,14 +14,13 @@
 #ifndef EDITORKEYSEQUENCEMANAGER_H
 #define EDITORKEYSEQUENCEMANAGER_H
 
-#include <qevent.h>
-#include <qmap.h>
-#include <qobject.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QEvent>
+#include <QMap>
+#include <QObject>
+#include <QString>
+#include <QStringList>
 
-// include <kaction.h>
-#include <ktexteditor/view.h>
+#include <KTextEditor/View>
 
 namespace KileScript {
 	class Script;
@@ -212,8 +211,8 @@ namespace KileEditorKeySequence {
 		protected:
 			Manager *m_manager;
 			QString m_typedSequence;
-			uint m_maxSequenceLength;
-			uint m_oldCol, m_oldLine;
+			int m_maxSequenceLength;
+			int m_oldCol, m_oldLine;
 			KTextEditor::View* m_view;
 			QStringList m_watchedKeySequencesList;
 

@@ -15,24 +15,28 @@
 
 #include "dialogs/managetemplatesdialog.h"
 
+#include <QCheckBox>
+#include <QFileInfo>
 #include <QLayout>
 #include <QLabel>
 #include <QToolTip>
-//Added by qt3to4:
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
+#include <QGridLayout>
 
-#include <kapplication.h>
-#include <klocale.h>
-#include <kglobal.h>
-#include <kstandarddirs.h>
-#include <kiconloader.h>
-#include <kpushbutton.h>
-#include <kicondialog.h>
-#include <kmessagebox.h>
-#include "kiledebug.h"
+#include <K3ListView>
+#include <KApplication>
+#include <KGlobal>
+#include <KIconDialog>
+#include <KIconLoader>
+#include <KLineEdit>
+#include <KLocale>
+#include <KMessageBox>
+#include <KPushButton>
+#include <KStandardDirs>
+#include <KUrl>
+
 #include <kio/netaccess.h>
 
+#include "kiledebug.h"
 #include "kileextensions.h"
 #include "kileinfo.h"
 #include "templates.h"
@@ -69,10 +73,12 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	QWidget *page = new QWidget(this , "managetemplates_mainwidget");
 	setMainWidget(page);
-	Q3VBoxLayout *topLayout = new Q3VBoxLayout(page, 0, spacingHint());
+	QGridLayout *topLayout = new QGridLayout();
+	topLayout->setMargin(0);
+	topLayout->setSpacing(KDialog::spacingHint());
+	page->setLayout(topLayout);
 
-	Q3HBoxLayout *nameLayout = new Q3HBoxLayout(topLayout, spacingHint());
-	nameLayout->addWidget(new QLabel(i18n("Name:"),page));
+	topLayout->addWidget(new QLabel(i18n("Name:"),page), 0, 0);
 
 	QString fileName = m_sourceURL.fileName();
 	//remove the extension
@@ -81,18 +87,16 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 		fileName = fileName.mid(0, dotPos);
 	}
 	m_nameEdit = new KLineEdit(fileName, page);
-	nameLayout->addWidget(m_nameEdit);
+	topLayout->addWidget(m_nameEdit, 0, 1);
 
-	nameLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page));
-
-	Q3HBoxLayout *iconLayout = new Q3HBoxLayout(topLayout, spacingHint());
-	iconLayout->addWidget(new QLabel(i18n("Icon:"), page));
+	topLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page), 0, 2);
+	topLayout->addWidget(new QLabel(i18n("Icon:"), page), 1, 0);
 
 	m_iconEdit = new KLineEdit(KGlobal::dirs()->findResource("appdata", "pics/type_Default.png"), page);
-	iconLayout->addWidget(m_iconEdit);
+	topLayout->addWidget(m_iconEdit, 1, 1);
 
 	KPushButton *iconbut = new KPushButton(i18n("Select..."),page);
-	iconLayout->addWidget(iconbut);
+	topLayout->addWidget(iconbut, 1, 2);
 
 	m_templateList = new K3ListView(page);
 	m_templateList->setSorting(-1);
@@ -105,23 +109,22 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	populateTemplateListView(m_templateType);
 
-	topLayout->addWidget(m_templateList);
+	topLayout->addWidget(m_templateList, 2, 0, 1, 3);
 
-	Q3HBoxLayout *controlLayout = new Q3HBoxLayout(topLayout, spacingHint());
 	m_showAllTypesCheckBox = new QCheckBox(i18n("Show all the templates"), page);
 	m_showAllTypesCheckBox->setChecked(false);
 	connect(m_showAllTypesCheckBox, SIGNAL(toggled(bool)), this, SLOT(updateTemplateListView(bool)));
-	controlLayout->addWidget(m_showAllTypesCheckBox);
-
-	controlLayout->addStretch();
+	topLayout->addWidget(m_showAllTypesCheckBox, 3, 0, 1, 2);
 
 	KPushButton *clearSelectionButton = new KPushButton(page);
-	clearSelectionButton->setPixmap(SmallIcon("clear_left.png"));
+	clearSelectionButton->setIcon(KIcon("edit-clear-locationbar"));
+	int buttonSize = clearSelectionButton->sizeHint().height();
+	clearSelectionButton->setFixedSize(buttonSize, buttonSize);
 	QToolTip::add(clearSelectionButton, i18n("Clear Selection"));
 	connect(clearSelectionButton, SIGNAL(clicked()),this, SLOT(clearSelection()));
-	controlLayout->addWidget(clearSelectionButton);
+	topLayout->addWidget(clearSelectionButton, 3, 2, Qt::AlignRight);
 
-	topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterisk:\nif you do select such a template, a new template with the same name\nwill be created in a location you have write access to."),page));
+	topLayout->addWidget( new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterisk:\nif you do select such a template, a new template with the same name\nwill be created in a location you have write access to."),page), 4, 0, 1, 3);
 
 	connect(m_templateList, SIGNAL(selectionChanged(Q3ListViewItem*)), this, SLOT(slotSelectedTemplate(Q3ListViewItem*)));
 	connect(iconbut, SIGNAL(clicked()),this, SLOT(slotSelectIcon()));
@@ -142,7 +145,10 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	QWidget *page = new QWidget(this, "managetemplates_mainwidget");
 	setMainWidget(page);
-	Q3VBoxLayout *topLayout = new Q3VBoxLayout(page, 0, spacingHint());
+	QVBoxLayout *topLayout = new QVBoxLayout();
+	topLayout->setMargin(0);
+	topLayout->setSpacing(KDialog::spacingHint());
+	page->setLayout(topLayout);
 
 	m_templateList = new K3ListView(page);
 	m_templateList->setSorting(-1);

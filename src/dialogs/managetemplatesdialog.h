@@ -16,14 +16,14 @@
 #ifndef MANAGETEMPLATESDIALOG_H
 #define MANAGETEMPLATESDIALOG_H
 
-#include <qcheckbox.h>
-#include <qfileinfo.h>
-#include <qstring.h>
+#include <KDialog>
 
-#include <k3listview.h>
-#include <kdialog.h>
-#include <klineedit.h>
-#include <kurl.h>
+class Q3ListViewItem;
+class QCheckBox;
+
+class K3ListView;
+class KLineEdit;
+class KUrl;
 
 #include "kileconstants.h"
 

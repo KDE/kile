@@ -313,7 +313,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		//rewrite the IDs that are currently in use
 		writeIDs();
 		m_actionCollection->readSettings();
-		emit jScriptsChanged();
+		emit scriptsChanged();
 	}
 
 	void Manager::deleteScripts() {
@@ -328,14 +328,14 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		for(QList<Script*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
 			KAction *action = (*it)->getActionObject();
 			if(action) {
-				foreach (QWidget *w, action->associatedWidgets()) {
+				foreach(QWidget *w, action->associatedWidgets()) {
 					w->removeAction(action);
 				}
 				delete action;
 			}
 			delete *it;
 		}
-		emit jScriptsChanged();
+		emit scriptsChanged();
 	}
 
 	QList<Script*> Manager::getScripts() {

@@ -14,11 +14,10 @@
 #ifndef SCRIPTSMANAGEMENTWIDGET_H
 #define SCRIPTSMANAGEMENTWIDGET_H
 
-#include <qtoolbutton.h>
-#include <QTableWidget>
+#include <QTreeWidget>
 #include <QWidget>
 
-#include <QTreeWidget>
+#include <KAction>
 #include <KToolBar>
 
 class KileInfo;
@@ -31,7 +30,7 @@ namespace KileScript {
 namespace KileWidget {
 
 	/**
-	 * This widget is used to handle Kile's scripting functionality.
+	 * This widget is used to control Kile's scripting features.
 	 **/
 	class ScriptsManagement : public QWidget {
 		Q_OBJECT
@@ -44,7 +43,6 @@ namespace KileWidget {
 			 * Rebuilds the view.
 			 **/
 			void update();
-			
 
 		protected Q_SLOTS:
 			/**
@@ -57,9 +55,9 @@ namespace KileWidget {
 			 **/
 			void executeSelectedScript();
 
-			void configureSelectedShortcut();
+			void configureSelectedKeySequence();
 
-			void removeSelectedShortcut();
+			void removeSelectedKeySequence();
 
 			void updateButtonPanel();
 
@@ -68,13 +66,8 @@ namespace KileWidget {
 			QTreeWidget *m_treeWidget;
 
 		private:
-			int m_newButton;
-			int m_executeButton;
-			int m_openButton;
-			int m_refreshButton;
+			KAction *m_runAction, *m_scriptOpenAction, *m_configureKeySequenceAction, *m_removeKeySequenceAction; 
 			KToolBar *m_toolBar;
-
-			QString determineKeySequence(KileScript::Script* script);
 	};
 
 }

@@ -157,7 +157,7 @@ class Manager : public QObject {
 		 * The signal is also emitted when the currently available scripts have been
 		 * deleted internally in Kile (for example, after disabling the scripting feature).
 		 **/
-		void jScriptsChanged();
+		void scriptsChanged();
 
 	public Q_SLOTS:
 		/**

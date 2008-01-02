@@ -410,7 +410,6 @@ void Kile::setupStructureView()
 void Kile::setupScriptsManagementView()
 {
 	m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
-	connect((QObject*)editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_scriptsManagementWidget, SLOT(update()));
 	m_sideBar->addPage(m_scriptsManagementWidget, SmallIcon("preferences-plugin-script"), i18n("Scripts"));
 }
 

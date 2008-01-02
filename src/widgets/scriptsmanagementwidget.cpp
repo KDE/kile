@@ -29,6 +29,11 @@
 #include "kileinfo.h"
 #include "scriptmanager.h"
 
+/*
+ * We do not use the 'watchedKeySequencesChanged' signal as it creates lots of problems with the setKeySequences... methods.
+ * This works fine as this class is the only one modifying the key sequences.
+ */
+
 namespace KileWidget {
 
 /**
@@ -107,7 +112,6 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	m_treeWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	m_treeWidget->setRootIsDecorated(false);
 	connect(m_kileInfo->scriptManager(), SIGNAL(scriptsChanged()), this, SLOT(update()));
-	connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(update()));
 // 	connect(m_treeWidget, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), this, SLOT(executed(QListViewItem*, const QPoint&, int)));
 // 	connect(m_treeWidget, SIGNAL(itemRenamed(QListViewItem*, const QString&, int)), this, SLOT(itemRenamed(QListViewItem*, const QString&, int)));
 	connect(m_treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateButtonPanel()));
@@ -140,12 +144,7 @@ void ScriptsManagement::openSelectedScript() {
 		return;
 	}
 	KileScript::Script *script = static_cast<ScriptListItem*>(selectedItems.first())->getScript();
-	// safety precaution
-	m_kileInfo->editorKeySequenceManager()->blockSignals(true);
-	m_kileInfo->scriptManager()->blockSignals(true);
 	m_kileInfo->docManager()->fileOpen(script->getFileName());
-	m_kileInfo->editorKeySequenceManager()->blockSignals(false);
-	m_kileInfo->scriptManager()->blockSignals(false);
 }
 
 void ScriptsManagement::executeSelectedScript() {
@@ -154,12 +153,7 @@ void ScriptsManagement::executeSelectedScript() {
 		return;
 	}
 	KileScript::Script *script = static_cast<ScriptListItem*>(selectedItems.first())->getScript();
-	//safety precaution
-	m_kileInfo->editorKeySequenceManager()->blockSignals(true);
-	m_kileInfo->scriptManager()->blockSignals(true);
 	m_kileInfo->scriptManager()->executeScript(script);
-	m_kileInfo->editorKeySequenceManager()->blockSignals(false);
-	m_kileInfo->scriptManager()->blockSignals(false);
 }
 
 void ScriptsManagement::configureSelectedKeySequence() {
@@ -177,12 +171,7 @@ void ScriptsManagement::configureSelectedKeySequence() {
 	}
 
 	if(value.isEmpty()) {
-		// we don't want the 'update' method to be called while this mehotd is run in a signal handler
-		m_kileInfo->editorKeySequenceManager()->blockSignals(true);
-		m_kileInfo->scriptManager()->blockSignals(true);
 		m_kileInfo->scriptManager()->removeEditorKeySequence(script);
-		m_kileInfo->editorKeySequenceManager()->blockSignals(false);
-		m_kileInfo->scriptManager()->blockSignals(false);
 	}
 	else if(value == oldSequence || (value.isEmpty() && oldSequence.isEmpty())) {
 		return;
@@ -190,11 +179,7 @@ void ScriptsManagement::configureSelectedKeySequence() {
 	else {
 		QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(value, oldSequence);
 		if(pair.first == 0) {
-			m_kileInfo->editorKeySequenceManager()->blockSignals(true);
-			m_kileInfo->scriptManager()->blockSignals(true);
 			m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
-			m_kileInfo->editorKeySequenceManager()->blockSignals(false);
-			m_kileInfo->scriptManager()->blockSignals(false);
 		}
 		KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
 		QString description = (!action) ? QString() : action->getDescription();
@@ -209,11 +194,7 @@ void ScriptsManagement::configureSelectedKeySequence() {
 				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
 				break;
 		}
-		m_kileInfo->editorKeySequenceManager()->blockSignals(true);
-		m_kileInfo->scriptManager()->blockSignals(true);
 		m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
-		m_kileInfo->editorKeySequenceManager()->blockSignals(false);
-		m_kileInfo->scriptManager()->blockSignals(false);
 	}
 	QTimer::singleShot(0, this, SLOT(update()));
 }
@@ -226,11 +207,7 @@ void ScriptsManagement::removeSelectedKeySequence()
 	}
 	KileScript::Script *script = static_cast<ScriptListItem*>(selectedItems.first())->getScript();
 	// better not use the QTreeWidgetItem as it can be destroyed as a side effect of the removeEditorKeySequence method.
-	m_kileInfo->editorKeySequenceManager()->blockSignals(true);
-	m_kileInfo->scriptManager()->blockSignals(true);
 	m_kileInfo->scriptManager()->removeEditorKeySequence(script);
-	m_kileInfo->editorKeySequenceManager()->blockSignals(false);
-	m_kileInfo->scriptManager()->blockSignals(false);
 	QTimer::singleShot(0, this, SLOT(update()));
 }
 

@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net   *
 ***************************************************************************/
 
 /**************************************************************************
@@ -18,7 +18,7 @@
 #include <QTableWidget>
 #include <QWidget>
 
-#include <k3listview.h>
+#include <QTreeWidget>
 #include <KToolBar>
 
 class KileInfo;
@@ -31,25 +31,6 @@ namespace KileScript {
 namespace KileWidget {
 
 	/**
-	 * This class represents an entry in the scripts list view.
-	 **/
-	class ScriptListViewItem : public K3ListViewItem {
-		public:
-			ScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileScript::Script *script, KileInfo *kileInfo);
-			virtual ~ScriptListViewItem();
-
-			KileScript::Script* getScript();
-
-			virtual void setText(int column, const QString & text);
-			virtual QString text(int column) const;
-
-		protected:
-			KileScript::Script *m_script;
-			KileInfo *m_kileInfo;
-			QWidget *m_managementWidget;
-	};
-
-	/**
 	 * This widget is used to handle Kile's scripting functionality.
 	 **/
 	class ScriptsManagement : public QWidget {
@@ -57,14 +38,12 @@ namespace KileWidget {
 		public:
 			ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0);
 			~ScriptsManagement();
-	
-// 		Q_SIGNALS:
 
 		public Q_SLOTS:
 			/**
-			 * Rebuilds the list view.
+			 * Rebuilds the view.
 			 **/
-			void updateListView();
+			void update();
 			
 
 		protected Q_SLOTS:
@@ -77,20 +56,25 @@ namespace KileWidget {
 			 * Executes the currently selected script.
 			 **/
 			void executeSelectedScript();
-// 			void configureSelectedShortcut();
+
+			void configureSelectedShortcut();
+
+			void removeSelectedShortcut();
 
 			void updateButtonPanel();
 
 		protected:
 			KileInfo *m_kileInfo;
-			K3ListView *m_scriptsListView;
+			QTreeWidget *m_treeWidget;
 
 		private:
 			int m_newButton;
 			int m_executeButton;
 			int m_openButton;
 			int m_refreshButton;
-			KToolBar *m_toolbar;
+			KToolBar *m_toolBar;
+
+			QString determineKeySequence(KileScript::Script* script);
 	};
 
 }

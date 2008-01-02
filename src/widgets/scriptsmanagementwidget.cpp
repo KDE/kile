@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net) *
+*   Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -15,9 +15,7 @@
 
 #include <QLayout>
 #include <QToolTip>
-#include <q3vbox.h>
-//Added by qt3to4:
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 #include <QList>
 
@@ -31,153 +29,220 @@
 #include "kileinfo.h"
 #include "scriptmanager.h"
 
+#include <K3ListView>
+
 namespace KileWidget {
 
-ScriptListViewItem::ScriptListViewItem(QWidget *managementWidget, K3ListView *parent, KileScript::Script *script, KileInfo *kileInfo) : K3ListViewItem(parent), m_script(script), m_kileInfo(kileInfo), m_managementWidget(managementWidget) {
-}
-
-ScriptListViewItem::~ScriptListViewItem() {
-}
-
-KileScript::Script* ScriptListViewItem::getScript() {
-	return m_script;
-}
-
-QString ScriptListViewItem::text(int column) const {
-	switch(column) {
-		case 0:
- 			return m_script->getName();
-		case 1:
-			return m_script->getKeySequence();
-	}
-	return QString();
-}
-
-
-void ScriptListViewItem::setText(int column, const QString & str) {
-	if(column == 1) {
-		QString oldAssignedString = m_script->getKeySequence();
-		if(str.isEmpty()) {
-			// don't reload the list view here as this may cause a segfault (for example on x86_64)
-			QObject::disconnect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_managementWidget, SLOT(updateListView()));
-			m_kileInfo->scriptManager()->removeEditorKeySequence(m_script);
-			QObject::connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_managementWidget, SLOT(updateListView()));
+/**
+* This class represents an entry in the scripts tree widget.
+**/
+class ScriptListItem : public QTreeWidgetItem {
+	public:
+		ScriptListItem(QTreeWidget *parent, KileScript::Script *script) : QTreeWidgetItem(parent), m_script(script)
+		{
 		}
-		else if(str == oldAssignedString || (str.isEmpty() && oldAssignedString.isEmpty())) {
-			return;
+
+		virtual ~ScriptListItem()
+		{
 		}
-		else {
-			QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(str, oldAssignedString);
-			if(pair.first == 0) {
-				// don't reload the list view here as this may cause a segfault (for example on x86_64)
-				QObject::disconnect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_managementWidget, SLOT(updateListView()));
-				m_kileInfo->scriptManager()->setEditorKeySequence(m_script, str);
-				QObject::connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), m_managementWidget, SLOT(updateListView()));
-				return; // leaving !
-			}
-			KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
-			QString description = (action == 0L) ? QString() : action->getDescription();
-			switch(pair.first) {
-				case 1:
-					KMessageBox::sorry(0L, i18n("The sequence \"%1\" is already assigned to the action \"%2\"", str, description), i18n("Sequence Already Assigned"));
-					break;
-				case 2:
-					KMessageBox::sorry(0L, i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", str, pair.second, description), i18n("Sequence Already Assigned"));
-					break;
-				case 3:
-					KMessageBox::sorry(0L, i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
-					break;
-			}
+
+		KileScript::Script* getScript()
+		{
+			return m_script;
 		}
-	}
-}
+
+	protected:
+		KileScript::Script *m_script;
+};
+
+// void ScriptListItem::setText(int column, const QString & str) {
+// 	if(column == 1) {
+
+// 	}
+// }
+
+
 
 ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, name, f), m_kileInfo(kileInfo) {
-	Q3VBoxLayout *baseLayout = new Q3VBoxLayout(this);
+	QVBoxLayout *baseLayout = new QVBoxLayout(this);
+	setLayout(baseLayout);
 
-	m_toolbar = new KToolBar(this, "scriptControlToolBar");
-#ifdef __GNUC__
-#warning Still things left to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	m_executeButton = m_toolbar->insertButton(BarIcon("exec"), 0, SIGNAL(clicked(int)), this, SLOT(executeSelectedScript()), true, i18n("Run Selected Script"));
-	m_newButton = m_toolbar->insertButton(BarIcon("scriptnew"), 0, SIGNAL(clicked(int)), m_kileInfo->docManager(), SLOT(createNewScript()), true, i18n("Create New Script"));
-	m_openButton = m_toolbar->insertButton(BarIcon("scriptopen"), 0, SIGNAL(clicked(int)), this, SLOT(openSelectedScript()), true, i18n("Open Selected Script in Editor"));
-// 	m_toolbar->insertButton(BarIcon("configure_shortcuts"), 0, SIGNAL(clicked(int)), this, SLOT(configureSelectedShortcut()), true, i18n("Configure Shortcut"));
-// 	m_toolbar->insertButton(BarIcon("editclear"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()), true, i18n("Refresh"));
-	m_refreshButton = m_toolbar->insertButton(BarIcon("reload"), 1, SIGNAL(clicked(int)), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()), true, i18n("Refresh List"));
-*/
-	baseLayout->addWidget(m_toolbar);
-	m_scriptsListView = new K3ListView(this);
-	m_scriptsListView->addColumn(i18n("Script Name"));
-	m_scriptsListView->addColumn(i18n("Sequence"));
-	m_scriptsListView->setAllColumnsShowFocus(true);
-	m_scriptsListView->setItemsRenameable(true);
-	m_scriptsListView->setRenameable(0, false);
-	m_scriptsListView->setRenameable(1, true);
+	m_toolBar = new KToolBar(this, "scriptControlToolBar");
+	m_toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+	m_toolBar->setIconDimensions(KIconLoader::SizeSmall);
 
-	connect(m_kileInfo->scriptManager(), SIGNAL(jScriptsChanged()), this, SLOT(updateListView()));
-	connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(updateListView()));
-// 	connect(m_scriptsListView, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), this, SLOT(executed(QListViewItem*, const QPoint&, int)));
-// 	connect(m_scriptsListView, SIGNAL(itemRenamed(QListViewItem*, const QString&, int)), this, SLOT(itemRenamed(QListViewItem*, const QString&, int)));
-	connect(m_scriptsListView, SIGNAL(selectionChanged()), this, SLOT(updateButtonPanel()));
+	KAction *action = new KAction(this);
+	action->setIcon(SmallIcon("run-build"));
+	action->setText(i18n("Run Selected Script"));
+	connect(action, SIGNAL(triggered()), this, SLOT(executeSelectedScript()));
+	m_toolBar->addAction(action);
 
-	baseLayout->addWidget(m_scriptsListView);
+	action = new KAction(this);
+	action->setIcon(SmallIcon("scriptnew"));
+	action->setText(i18n("Create New Script"));
+	connect(action, SIGNAL(triggered()), m_kileInfo->docManager(), SLOT(createNewScript()));
+	m_toolBar->addAction(action);
+
+	action = new KAction(this);
+	action->setIcon(SmallIcon("scriptopen"));
+	action->setText(i18n("Open Selected Script in Editor"));
+	connect(action, SIGNAL(triggered()), this, SLOT(openSelectedScript()));
+	m_toolBar->addAction(action);
+
+	action = new KAction(this);
+	action->setIcon(SmallIcon("configure-shortcuts"));
+	action->setText(i18n("Configure Key Sequence"));
+	connect(action, SIGNAL(triggered()), this, SLOT(configureSelectedShortcut()));
+	m_toolBar->addAction(action);
+
+	action = new KAction(this);
+	action->setIcon(SmallIcon("edit-delete"));
+	action->setText(i18n("Remove Key Sequence"));
+	connect(action, SIGNAL(triggered()), this, SLOT(removeSelectedShortcut()));
+	m_toolBar->addAction(action);
+
+	action = new KAction(this);
+	action->setIcon(SmallIcon("view-refresh"));
+	action->setText(i18n("Refresh List"));
+	connect(action, SIGNAL(triggered()), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()));
+	m_toolBar->addAction(action);
+
+	baseLayout->addWidget(m_toolBar);
+	m_treeWidget = new QTreeWidget(this);
+	m_treeWidget->setColumnCount(2);
+	QStringList headerLabels;
+	headerLabels.push_back(i18n("Script Name"));
+	headerLabels.push_back(i18n("Sequence"));
+	m_treeWidget->setHeaderLabels(headerLabels);
+	m_treeWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+	m_treeWidget->setRootIsDecorated(false);
+	connect(m_kileInfo->scriptManager(), SIGNAL(jScriptsChanged()), this, SLOT(update()));
+	connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(update()));
+// 	connect(m_treeWidget, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), this, SLOT(executed(QListViewItem*, const QPoint&, int)));
+// 	connect(m_treeWidget, SIGNAL(itemRenamed(QListViewItem*, const QString&, int)), this, SLOT(itemRenamed(QListViewItem*, const QString&, int)));
+	connect(m_treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateButtonPanel()));
+
+	baseLayout->addWidget(m_treeWidget);
 	updateButtonPanel();
-	updateListView();
+	update();
 }
 
 ScriptsManagement::~ScriptsManagement() {
 }
 
 
-void ScriptsManagement::updateListView() {
-	m_scriptsListView->clear();
+void ScriptsManagement::update() {
+	m_treeWidget->clear();
 	QList<KileScript::Script*> scriptList = m_kileInfo->scriptManager()->getScripts();
+	QList<QTreeWidgetItem*> childrenList;
 	for(QList<KileScript::Script*>::iterator i = scriptList.begin(); i != scriptList.end(); ++i) {
- 		new ScriptListViewItem(this, m_scriptsListView, *i, m_kileInfo);
+		ScriptListItem *item = new ScriptListItem(m_treeWidget, *i);
+		item->setText(0, (*i)->getName());
+		item->setText(1, (*i)->getKeySequence());
+ 		childrenList.push_back(item);
 	}
-	m_scriptsListView->triggerUpdate();
+	m_treeWidget->addTopLevelItems(childrenList);
 }
 
 void ScriptsManagement::openSelectedScript() {
-	Q3ListViewItem *item = m_scriptsListView->selectedItem();
-	if(!item) {
+	QList<QTreeWidgetItem*> selectedItems = m_treeWidget->selectedItems();
+	if(selectedItems.isEmpty()) {
 		return;
 	}
-	ScriptListViewItem *jItem = (ScriptListViewItem*)item;
-	m_kileInfo->docManager()->fileOpen(jItem->getScript()->getFileName());
+	ScriptListItem *item = static_cast<ScriptListItem*>(selectedItems.first());
+	m_kileInfo->docManager()->fileOpen(item->getScript()->getFileName());
 }
 
 void ScriptsManagement::executeSelectedScript() {
-	Q3ListViewItem *item = m_scriptsListView->selectedItem();
-	if(!item) {
+	QList<QTreeWidgetItem*> selectedItems = m_treeWidget->selectedItems();
+	if(selectedItems.isEmpty()) {
 		return;
 	}
-	ScriptListViewItem *jItem = (ScriptListViewItem*)item;
-	m_kileInfo->scriptManager()->executeScript(jItem->getScript());
+	ScriptListItem *item = static_cast<ScriptListItem*>(selectedItems.first());
+	m_kileInfo->scriptManager()->executeScript(item->getScript());
 }
 
-// void ScriptsManagement::configureSelectedShortcut() {
-// 	QListViewItem *item = m_scriptsListView->selectedItem();
-// 	if(!item) {
-// 		return;
-// 	}
-// 	ScriptListViewItem *jItem = (ScriptListViewItem*)item;
-// 	QString sequence = determineKeySequence();
-// 	m_kileInfo->scriptManager()->setEditorKeySequence(jItem->getScript(), sequence);
-// }
+void ScriptsManagement::configureSelectedShortcut() {
+	QList<QTreeWidgetItem*> selectedItems = m_treeWidget->selectedItems();
+	if(selectedItems.isEmpty()) {
+		return;
+	}
+	ScriptListItem *item = static_cast<ScriptListItem*>(selectedItems.first());
+	QString sequence = determineKeySequence(item->getScript());
+	m_kileInfo->scriptManager()->setEditorKeySequence(item->getScript(), sequence);
+}
+
+void ScriptsManagement::removeSelectedShortcut()
+{
+	QList<QTreeWidgetItem*> selectedItems = m_treeWidget->selectedItems();
+	if(selectedItems.isEmpty()) {
+		return;
+	}
+	ScriptListItem *item = static_cast<ScriptListItem*>(selectedItems.first());
+	m_kileInfo->scriptManager()->removeEditorKeySequence(item->getScript());
+}
 
 void ScriptsManagement::updateButtonPanel() {
-	bool b = !(m_scriptsListView->selectedItem() == NULL);
+// 	bool b = !(m_treeWidget->selectedItem() == NULL);
 #ifdef __GNUC__
 #warning Still things left to be ported!
 #endif
 /*
-	m_toolbar->setItemEnabled(m_executeButton, b);
-	m_toolbar->setItemEnabled(m_openButton, b);
+	m_toolBar->setItemEnabled(m_executeButton, b);
+	m_toolBar->setItemEnabled(m_openButton, b);
 */
+}
+
+QString ScriptsManagement::determineKeySequence(KileScript::Script* script)
+{
+	QString oldSequence = script->getKeySequence();
+	bool ok;
+	QString value = KInputDialog::getText(i18n("New Key Sequence"), i18n("Please enter a new key sequence:"), oldSequence, &ok, m_kileInfo->mainWindow());
+	if(!ok) {
+		return oldSequence;
+	}
+
+	if(value.isEmpty()) {
+#ifdef __GNUC__
+#warning Check whether that's still the case!
+#endif
+		// don't reload the list view here as this may cause a segfault (for example on x86_64)
+		QObject::disconnect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(update()));
+		m_kileInfo->scriptManager()->removeEditorKeySequence(script);
+		QObject::connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(update()));
+	}
+	else if(value == oldSequence || (value.isEmpty() && oldSequence.isEmpty())) {
+		return oldSequence;
+	}
+	else {
+		QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(value, oldSequence);
+		if(pair.first == 0) {
+#ifdef __GNUC__
+#warning Check whether that's still the case!
+#endif
+			// don't reload the list view here as this may cause a segfault (for example on x86_64)
+			QObject::disconnect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()),this, SLOT(update()));
+			m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
+			QObject::connect(m_kileInfo->editorKeySequenceManager(), SIGNAL(watchedKeySequencesChanged()), this, SLOT(update()));
+			return oldSequence; // leaving !
+		}
+		KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
+		QString description = (!action) ? QString() : action->getDescription();
+		switch(pair.first) {
+			case 1:
+				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is already assigned to the action \"%2\"", value, description), i18n("Sequence Already Assigned"));
+				break;
+			case 2:
+				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", value, pair.second, description), i18n("Sequence Already Assigned"));
+				break;
+			case 3:
+				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
+				break;
+		}
+		return oldSequence;
+	}
+
+	return value;
 }
 
 }

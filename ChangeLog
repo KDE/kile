@@ -1,3 +1,15 @@
+version 2.0 -> 2.0.1
+
+Fixes:
+ - Do all section actions on the hole section (#154272)
+ - Fix possible crash due to unchecked index bounds
+ - Some i18n fixes (#153371)
+ - fix wrong commands with \left and \right and make them more complete
+ - Sync kile project on disk before archiving
+
+Features:
+ - add \newlength as a variation of newcommand
+
 version 2.0beta2 -> 2.0
 
 Fixes:

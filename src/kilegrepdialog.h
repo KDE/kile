@@ -24,116 +24,118 @@
 #ifndef __KILE_GREP_DIALOG_H_
 #define __KILE_GREP_DIALOG_H_
 
-#include <kdialog.h>
+#include <KDialog>
+
 #include <QStringList>
-//Added by qt3to4:
-#include <QEvent>
-#include <QLabel>
 
 #include "kileinfo.h"
 #include "latexcmd.h"
 
 class QCheckBox;
-class QPushButton;
-class QLabel;
 class QEvent;
+class QLabel;
+class QListWidget;
+class QPushButton;
 
+class K3Process;
 class KComboBox;
 class KLineEdit;
-class K3Process;
 class KUrlRequester;
-class K3ListBox;
 
 #define KILEGREP_MAX 12
 
 namespace KileGrep
 {
-	enum Mode { Project=0, Directory  };
-	enum List { SearchItems=0, SearchPaths, SearchTemplates };
-	enum TemplateMode { tmNormal=0,tmCommand,tmCommandWithOption,tmEnv,tmGraphics,tmLabel,tmRefs,tmFiles };
+enum Mode { Project = 0, Directory  };
+enum List { SearchItems = 0, SearchPaths, SearchTemplates };
+enum TemplateMode { tmNormal = 0, tmCommand, tmCommandWithOption, tmEnv, tmGraphics, tmLabel, tmRefs, tmFiles };
 }
 
 class KileGrepDialog : public KDialog
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
-	~KileGrepDialog();
+	public:
+		KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
+		~KileGrepDialog();
 
-	void appendFilter(const QString &name, const QString &filter);
+		void appendFilter(const QString &name, const QString &filter);
 
-	void appendTemplate(const QString &name, const QString &regexp);
-	void clearTemplates();
+		void appendTemplate(const QString &name, const QString &regexp);
+		void clearTemplates();
 
-public Q_SLOTS:
-	void slotSearchFor(const QString &pattern);
+	public Q_SLOTS:
+		void slotSearchFor(const QString &pattern);
 
-Q_SIGNALS:
-	void itemSelected(const QString &abs_filename, int line);
+	Q_SIGNALS:
+		void itemSelected(const QString &abs_filename, int line);
 
-private:
-	KileInfo *m_ki;
-	KileGrep::Mode m_mode;
-	K3Process *childproc;
-	int m_grepJobs;
+	private:
+		KileInfo *m_ki;
+		KileGrep::Mode m_mode;
+		K3Process *childproc;
+		int m_grepJobs;
 
-	void readConfig();
-	void writeConfig();
+		void readConfig();
+		void writeConfig();
 
-	QStringList getListItems(KComboBox *combo);
-	int findListItem(KComboBox *combo, const QString &s);
-	void updateListItems(KComboBox *combo);
+		QStringList getListItems(KComboBox *combo);
+		int findListItem(KComboBox *combo, const QString &s);
+		void updateListItems(KComboBox *combo);
 
-	void processOutput();
-	void finish();
+		void processOutput();
+		void finish();
 
-	void startGrep();
-	bool shouldRestart() { return (m_grepJobs > 0); }
-	void clearGrepJobs() { m_grepJobs = 0; }
-	QString buildFilesCommand();
-	QString buildProjectCommand();
-	QString getPattern();
-	QString getShellPattern();
-	QString getCommandList(KileDocument::CmdAttribute attrtype);
+		void startGrep();
+		bool shouldRestart() {
+			return (m_grepJobs > 0);
+		}
+		void clearGrepJobs() {
+			m_grepJobs = 0;
+		}
+		QString buildFilesCommand();
+		QString buildProjectCommand();
+		QString getPattern();
+		QString getShellPattern();
+		QString getCommandList(KileDocument::CmdAttribute attrtype);
 
-	void setupDirectory();
-	void setupProject();
-	void setDirName(const QString &dir);
-	void setFilter(const QString &filter);
-	QStringList readList(KileGrep::List listtype);
-	void updateLists();
-	void updateWidgets();
+		void setupDirectory();
+		void setupProject();
+		void setDirName(const QString &dir);
+		void setFilter(const QString &filter);
+		QStringList readList(KileGrep::List listtype);
+		void updateLists();
+		void updateWidgets();
 
-	QStringList m_projectfiles;
-	QString m_projectdir;
-	bool m_projectOpened;
-	
-	QLabel *projectname_label, *projectdirname_label;
-	KLineEdit *template_edit;
-	KComboBox *filter_combo, *pattern_combo, *template_combo;
-	KUrlRequester *dir_combo;
-	QCheckBox *recursive_box;
-	K3ListBox *resultbox;
-	QPushButton *search_button, *clear_button, *close_button;
-	QString buf;
-	QString errbuf;
-	QStringList lastSearchPaths;
-	QStringList filter_list;
-	QStringList template_list;
-	int m_lastTemplateIndex;
+		QStringList m_projectfiles;
+		QString m_projectdir;
+		bool m_projectOpened;
 
-private Q_SLOTS:
-	void childExited();
-	void receivedOutput(K3Process *proc, char *buffer, int buflen);
-	void receivedErrOutput(K3Process *proc, char *buffer, int buflen);
-	void slotItemSelected(const QString&);
-	void slotSearch();
-	void slotClear();
-	void slotClose();
-	void slotFinished();
-	void slotPatternTextChanged(const QString &);
-	void slotTemplateActivated(int index);
+		QLabel *projectname_label, *projectdirname_label;
+		KLineEdit *template_edit;
+		KComboBox *filter_combo, *pattern_combo, *template_combo;
+		KUrlRequester *dir_combo;
+		QCheckBox *recursive_box;
+		QListWidget *resultbox;
+		QPushButton *search_button, *clear_button, *close_button;
+		QString buf;
+		QString errbuf;
+		QStringList lastSearchPaths;
+		QStringList filter_list;
+		QStringList template_list;
+		int m_lastTemplateIndex;
+
+	private Q_SLOTS:
+		void childExited();
+		void receivedOutput(K3Process *proc, char *buffer, int buflen);
+		void receivedErrOutput(K3Process *proc, char *buffer, int buflen);
+		void slotItemSelected(const QString&);
+		void slotSearch();
+		void slotClear();
+		void slotClose();
+		void slotFinished();
+		void slotPatternTextChanged(const QString &);
+		void slotTemplateActivated(int index);
 };
 
 #endif // __KILE_GREP_DIALOG_H_

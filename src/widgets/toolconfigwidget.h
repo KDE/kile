@@ -24,8 +24,6 @@
 
 #include "kiletool.h"
 
-class Q3GridLayout;
-
 namespace KileTool { class Manager; }
 class ToolConfigWidget;
 class ProcessToolConfigWidget;
@@ -100,7 +98,6 @@ namespace KileWidget
 		KileTool::Manager	*m_manager;
 		KConfig			*m_config;
 		KileTool::Config	m_map;
-		Q3GridLayout		*m_layout;
 		QString			m_current, m_icon;
 		QStringList		m_classes;
 		QWidget			*m_tabGeneral, *m_tabAdvanced, *m_tabMenu;

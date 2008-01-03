@@ -22,9 +22,7 @@
 #include <QSpinBox>
 #include <QStackedWidget>
 #include <QTabWidget>
-
-//Added by qt3to4:
-#include <Q3GridLayout>
+#include <QVBoxLayout>
 
 #include "kiledebug.h"
 #include <keditlistbox.h>
@@ -58,9 +56,12 @@ namespace KileWidget
 		m_manager(mngr)
 	{
 		m_config = m_manager->config();
-		m_layout = new Q3GridLayout(this, 1, 1, 0, 0);
+		QVBoxLayout *layout = new QVBoxLayout();
+		layout->setMargin(0);
+		layout->setSpacing(KDialog::spacingHint());
+		setLayout(layout);
 		m_configWidget = new ToolConfigWidget(this);
-		m_layout->addWidget(m_configWidget, 0, 0);
+		layout->addWidget(m_configWidget);
 
 		m_tabGeneral = m_configWidget->m_tab->page(0);
 		m_tabAdvanced = m_configWidget->m_tab->page(1);

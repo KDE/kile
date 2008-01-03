@@ -52,7 +52,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	(void) new KileAction::Tag(i18n("Title Definition - \\title{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_title","\\title{","}",7,0,i18n( "\\title{text}\nThe \\title command declares text to be the title.\nUse \\\\ to tell LaTeX where to start a new line in a long title."));
 	(void) new KileAction::Tag(i18n("Author Definition - \\author{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_author","\\author{","}",8,0,i18n( "\\author{names}\nThe \\author command declares the author(s), where names is a list of authors separated by \\and commands."));
 
-	(void) new KileAction::Tag(i18n("Center - \\begin{center}"),"text_center", KShortcut(), receiver,
+	(void) new KileAction::Tag(i18n("Center - \\begin{center}"),"format-justify-center", KShortcut(), receiver,
 	SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_center", "\\begin{center}\n","%E\n\\end{center}", 0,1, i18n("Each line must be terminated with the string \\\\."));
 	(void) new KileAction::Tag(i18n("Align Left - \\begin{flushleft}"),"text_left", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_flushleft", "\\begin{flushleft}\n","%E\n\\end{flushleft}", 0,1, i18n("Each line must be terminated with the string \\\\.") );
 	(void) new KileAction::Tag(i18n("Align Right - \\begin{flushright}"),"text_right", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_flushright", "\\begin{flushright}\n","%E\n\\end{flushright}", 0,1, i18n("Each line must be terminated with the string \\\\.") );
@@ -78,9 +78,9 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	(void) new KileAction::Tag(i18n("Title Page - \\begin{titlepage}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_titlepage" ,"\\begin{titlepage}\n","%E\n\\end{titlepage} ",0,1,
 		i18n("\\begin{titlepage}\ntext\n\\end{titlepage}\nThe titlepage environment creates a title page, i.e. a page with no printed page number or heading."));
 
-	new KileAction::Tag(i18n("Italics - \\textit{}"),"text_italic", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_I), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textit","\\textit{","}",8,0,i18n("\\textit{italic text}"));
+	new KileAction::Tag(i18n("Italics - \\textit{}"),"format-text-italic", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_I), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textit","\\textit{","}",8,0,i18n("\\textit{italic text}"));
 	new KileAction::Tag(i18n("Slanted - \\textsl{}"),"slanted", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_A), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textsl","\\textsl{","}",8,0,i18n("\\textsl{slanted text}"));
-	new KileAction::Tag(i18n("Boldface - \\textbf{}"),"text_bold", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_B), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textbf","\\textbf{","}",8,0,i18n("\\textbf{boldface text}"));
+	new KileAction::Tag(i18n("Boldface - \\textbf{}"),"format-text-bold", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_B), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textbf","\\textbf{","}",8,0,i18n("\\textbf{boldface text}"));
 	new KileAction::Tag(i18n("Typewriter - \\texttt{}"),"typewriter", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_T), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_texttt","\\texttt{","}",8,0,i18n("\\texttt{typewriter text}"));
 	new KileAction::Tag(i18n("Small Caps - \\textsc{}"), KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_C), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_textsc","\\textsc{","}",8,0,i18n("\\textsc{small caps text}"));
 	new KileAction::Tag("\\item","item", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_H), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_item","\\item ",QString::null,6,0, i18n("\\item[label] Hello!"));
@@ -147,7 +147,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 	actionother_list->setItems(alist);
 
-	(void) new KileAction::Tag(i18n("Underline - \\underline{}"),"text_under", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_underline", "\\underline{","}",11);
+	(void) new KileAction::Tag(i18n("Underline - \\underline{}"),"format-text-underline", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_underline", "\\underline{","}",11);
 
 	QString icon = (KStandardDirs::locate("icon","default.kde/22x22/actions/key_enter.png").isEmpty()) ? "newline" : "key_enter";
 	action = actionCollection->addAction("tag_newline", ki->editorExtension(), SLOT(insertIntelligentNewline()));
@@ -276,8 +276,8 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	(void) new KileAction::Tag(i18n("Math Mode - $...$"),"mathmode", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_M), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_mathmode","$","$",1);
 	(void) new KileAction::Tag("Displaymath Mode - \\[...\\]", "displaymathmode", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_E), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_equation", "\\[","\\]", 2);
   	(void) new KileAction::Tag(i18n("Equation - \\begin{equation}"),"equation", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_env_equation","\\begin{equation}\n","%E\n\\end{equation} ",0,1);
-	(void) new KileAction::Tag(i18n("Subscript - _{}"),"math_lsup", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_D), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_subscript","_{","}",2);
-	(void) new KileAction::Tag(i18n("Superscript - ^{}"),"math_lsub", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_U), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_superscript","^{","}",2);
+	(void) new KileAction::Tag(i18n("Subscript - _{}"),"format-text-subscript", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_D), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_subscript","_{","}",2);
+	(void) new KileAction::Tag(i18n("Superscript - ^{}"),"format-text-superscript", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_U), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_superscript","^{","}",2);
 	(void) new KileAction::Tag(i18n("Normal - \\frac{}{}"),"smallfrac", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_F), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_frac", "\\frac{","}{}",6);
 	(void) new KileAction::Tag(i18n("Displaystyle - \\dfrac{}{}"),"dfrac", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_Q), receiver, SLOT(insertAmsTag(const KileAction::TagData&)), actionCollection,"tag_dfrac", "\\dfrac{","}{}", 7);
 	(void) new KileAction::Tag(i18n("Square Root - \\sqrt{}"),"math_sqrt", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_S), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_sqrt", "\\sqrt{","}", 6);

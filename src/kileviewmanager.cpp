@@ -337,7 +337,7 @@ void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified,
 		icon = SmallIcon("revert");
 	}
 	else if(reason == 3) { //file deleted
-		icon = SmallIcon("stop");
+		icon = SmallIcon("process-stop");
 	}
 	else if(m_ki->extensions()->isScriptFile(doc->url())) {
 		icon = SmallIcon("js");

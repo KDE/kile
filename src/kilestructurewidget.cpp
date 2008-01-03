@@ -347,7 +347,7 @@ namespace KileWidget
 		else if ( folder == "refs" )
 		{
 			fldr->setText(0, i18n("Undefined References"));
-			fldr->setPixmap(0, SmallIcon("stop"));
+			fldr->setPixmap(0, SmallIcon("process-stop"));
 		}
 		else if ( folder == "todo" )
 		{

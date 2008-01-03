@@ -690,7 +690,7 @@ void Kile::setupActions()
 	createAction(i18n("Next LaTeX Warning"), "NextWarning", "warnnext", m_errorHandler, SLOT(NextWarning()));
 	createAction(i18n("Previous LaTeX BadBox"), "PreviousBadBox", "bboxprev", m_errorHandler, SLOT(PreviousBadBox()));
 	createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
-	m_paStop = createAction(i18n("&Stop"),"Stop", "stop", KShortcut(Qt::Key_Escape), NULL, NULL);
+	m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape), NULL, NULL);
 	m_paStop->setEnabled(false);
 
 	createAction(i18n("Editor View"), "EditorView", "edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));

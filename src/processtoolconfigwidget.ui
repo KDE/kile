@@ -92,7 +92,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="11" margin="11" />
+ <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
@@ -101,6 +101,7 @@
    <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
+ <includes/>
  <resources/>
  <connections/>
 </ui>

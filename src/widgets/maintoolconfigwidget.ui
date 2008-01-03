@@ -25,6 +25,18 @@
    <string>Configure</string>
   </property>
   <layout class="QVBoxLayout" >
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" >
      <item>
@@ -32,7 +44,7 @@
        <item>
         <widget class="QLabel" name="m_lbSelectTool" >
          <property name="text" >
-          <string>Select a &amp;tool:</string>
+          <string>Select a tool:</string>
          </property>
          <property name="wordWrap" >
           <bool>false</bool>
@@ -533,7 +545,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
@@ -568,6 +580,7 @@
   <tabstop>m_leRelDir</tabstop>
   <tabstop>m_cbMenu</tabstop>
  </tabstops>
+ <includes/>
  <resources/>
  <connections/>
 </ui>

@@ -82,7 +82,8 @@ SET(kile_SRCS
 	editorkeysequencemanager.h
 	editorkeysequencemanager.cpp
 	kileversion.cpp
-	kileabbrevview.cpp
+	widgets/abbreviationview.cpp
+	dialogs/abbreviationinputdialog.cpp
 	kileextensions.cpp
 	widgets/categorycombobox.cpp
 	widgets/extendedscrollarea.cpp

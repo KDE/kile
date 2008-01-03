@@ -26,7 +26,7 @@
 #include <kconfig.h>
 
 #include "latexcmd.h"
-#include "kileabbrevview.h"
+#include "widgets/abbreviationview.h"
 
 namespace KTextEditor {class CompletionEntry;}
 
@@ -91,7 +91,7 @@ public:
 	void readKateConfigFlags(KConfig *config);
 	void saveLocalChanges();
 
-	void setAbbreviationListview(KileAbbrevView *listview);
+	void setAbbreviationListview(KileWidget::AbbreviationView *listview);
 
 public Q_SLOTS:
 	//in these two methods we should set m_view
@@ -171,7 +171,7 @@ private:
 
 	// local abbreviation
 	QString m_localAbbrevFile;
-	KileAbbrevView *m_abbrevListview;
+	KileWidget::AbbreviationView *m_abbrevListview;
 
 	// internal parameter
 	KTextEditor::View *m_view;                  // View

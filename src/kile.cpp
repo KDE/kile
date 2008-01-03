@@ -509,7 +509,7 @@ void Kile::setupSymbolViews()
 
 void Kile::setupAbbreviationView()
 {
-	m_kileAbbrevView = new KileAbbrevView( m_sideBar );
+	m_kileAbbrevView = new KileWidget::AbbreviationView(m_sideBar);
 	m_edit->complete()->setAbbreviationListview(m_kileAbbrevView);
 	m_sideBar->addPage(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
 

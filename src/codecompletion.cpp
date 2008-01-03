@@ -1530,7 +1530,7 @@ return false;
 
 	//////////////////// connection with the abbreviation listview  ////////////////////
 
-	void CodeCompletion::setAbbreviationListview(KileAbbrevView *listview)
+	void CodeCompletion::setAbbreviationListview(KileWidget::AbbreviationView *listview)
 	{
 		m_abbrevListview = listview;
 

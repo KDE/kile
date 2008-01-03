@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEABBREVVIEW_H
-#define KILEABBREVVIEW_H
+#ifndef ABBREVIATIONINPUTDIALOG_H
+#define ABBREVIATIONINPUTDIALOG_H
 
 #include <QString>
 #include <QLabel>
@@ -23,60 +23,26 @@
 #include <klineedit.h>
 #include <k3listbox.h>
 #include <k3listview.h>
-#include <kdialog.h>
+#include <KDialog>
 
-//////////////////// KlistView for abbreviations ////////////////////
-
-class KileAbbrevView : public K3ListView  
-{
-  Q_OBJECT
-
-public:
-	enum { ALVabbrev=0, ALVlocal=1, ALVexpansion=2 };
-	enum { ALVnone=0, ALVadd=1, ALVedit=2, ALVdelete=3 };
-
-	KileAbbrevView(QWidget *parent=0, const char *name=0);
-	~KileAbbrevView();
-
-	void init(const QStringList *globallist, const QStringList *locallist);
-	bool findAbbreviation(const QString &abbrev);
-	void saveLocalAbbreviation(const QString &filename);
-
-Q_SIGNALS:
-	void updateAbbrevList(const QString &ds, const QString &as);
-	void sendText(const QString &text);
- 
-private Q_SLOTS:
-	void slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &pos, int);
-	void slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos);
-	void slotPopupAbbreviation(int id);
-
-private:
-	Q3PopupMenu* m_popup;
-	bool m_changes;
-
-	void addAbbreviation(const QString &abbrev, const QString &expansion);
-	void changeAbbreviation(K3ListViewItem *item,const QString &abbrev, const QString &expansion);
-	void deleteAbbreviation(K3ListViewItem *item);
-
-	void addWordlist(const QStringList *wordlist, bool global);
-
-};
+#include "widgets/abbreviationview.h"
 
 //////////////////// add/edit dialog for abbreviations ////////////////////
 
-class KileAbbrevInputDialog : public KDialog
+namespace KileDialog {
+
+class AbbreviationInputDialog : public KDialog
 {
    Q_OBJECT
 
-public: 
-	KileAbbrevInputDialog(KileAbbrevView *listview, K3ListViewItem *item, int mode, const char *name=0);
-	~KileAbbrevInputDialog();
+public:
+	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name=0);
+	~AbbreviationInputDialog();
 
 	void abbreviation(QString &abbrev, QString &expansion);
 
 private:
-	KileAbbrevView *m_listview;
+	KileWidget::AbbreviationView *m_listview;
 	K3ListViewItem *m_abbrevItem;
 	KLineEdit *m_leAbbrev;
 	KLineEdit *m_leExpansion;
@@ -91,5 +57,7 @@ private Q_SLOTS:
 	void slotTextChanged(const QString &text);
 
 };
+
+}
 
 #endif

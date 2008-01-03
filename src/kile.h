@@ -50,7 +50,7 @@
 #include "kileedit.h"              // advanced editor (dani)
 #include "kilehelp.h"              // kile help (dani)
 #include "quickpreview.h"
-#include "kileabbrevview.h"
+#include "widgets/abbreviationview.h"
 
 #define ID_HINTTEXT 301
 #define ID_LINE_COLUMN 302
@@ -170,7 +170,7 @@ private:
 	/* GUI */
 	//widgets
 	KileSideBar			*m_sideBar;
-	KileAbbrevView		*m_kileAbbrevView;
+	KileWidget::AbbreviationView		*m_kileAbbrevView;
 	QStackedWidget			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 	QToolBox			*m_toolBox;

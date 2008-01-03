@@ -28,7 +28,6 @@
 
 class KConfig;
 class KileInfo;
-class K3ShellProcess;
 class KileProject;
 
 namespace KileTool

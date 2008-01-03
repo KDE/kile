@@ -16,10 +16,11 @@
 #ifndef KILEDOCUMENTINFO_H
 #define KILEDOCUMENTINFO_H
 
-#include <ktexteditor/document.h>
+#include <KTextEditor/Document>
+#include <KUrl>
+
 #include "kiledebug.h"
-#include <k3listview.h>
-#include <kurl.h>
+
 #include <latexcmd.h>
 
 #include "kileconstants.h"

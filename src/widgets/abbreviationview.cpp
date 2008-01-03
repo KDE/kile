@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kileabbrevview.h"
+#include "widgets/abbreviationview.h"
 
 #include <k3listview.h>
 #include <klocale.h>
@@ -32,7 +32,11 @@
 #include <Q3PopupMenu>
 #include <Q3VBoxLayout>
 
-KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name) 
+#include "dialogs/abbreviationinputdialog.h"
+
+namespace KileWidget {
+
+AbbreviationView::AbbreviationView(QWidget *parent, const char *name) 
 	: K3ListView(parent), m_changes(false)
 {
 
@@ -57,13 +61,13 @@ KileAbbrevView::KileAbbrevView(QWidget *parent, const char *name)
 	        this, SLOT(slotContextMenu(K3ListView *,Q3ListViewItem *,const QPoint &)));
 }
 
-KileAbbrevView::~KileAbbrevView()
+AbbreviationView::~AbbreviationView()
 {
 }
 //////////////////// init abbreviation view with wordlists ////////////////////
 
 
-void KileAbbrevView::init(const QStringList *globallist, const QStringList *locallist)
+void AbbreviationView::init(const QStringList *globallist, const QStringList *locallist)
 {
 	setUpdatesEnabled(false);
 	clear();
@@ -74,7 +78,7 @@ void KileAbbrevView::init(const QStringList *globallist, const QStringList *loca
 	m_changes = false;
 }
 
-void KileAbbrevView::addWordlist(const QStringList *wordlist, bool global)
+void AbbreviationView::addWordlist(const QStringList *wordlist, bool global)
 {
 	QString type = ( global ) ? QString() : "*";
 
@@ -91,12 +95,12 @@ void KileAbbrevView::addWordlist(const QStringList *wordlist, bool global)
 
 //////////////////// save local abbreviation list ////////////////////
 
-void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
+void AbbreviationView::saveLocalAbbreviation(const QString &filename)
 {
 	if ( ! m_changes )
 		return;
 
-	KILE_DEBUG() << "=== KileAbbrevView::saveLocalAbbreviation ===================" << endl;
+	KILE_DEBUG() << "=== AbbreviationView::saveLocalAbbreviation ===================" << endl;
 	// create the file 
 	QFile abbrevfile(filename);
 	if ( ! abbrevfile.open( QIODevice::WriteOnly ) ) 
@@ -111,11 +115,11 @@ void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
 
 	Q3ListViewItemIterator it(this);
 	while(it.current()) {
-		if ( it.current()->text(KileAbbrevView::ALVlocal) == "*" )
+		if ( it.current()->text(AbbreviationView::ALVlocal) == "*" )
 		{
-			stream << it.current()->text(KileAbbrevView::ALVabbrev) 
+			stream << it.current()->text(AbbreviationView::ALVabbrev) 
 			       << "=" 
-			       << it.current()->text(KileAbbrevView::ALVexpansion)
+			       << it.current()->text(AbbreviationView::ALVexpansion)
 			       << "\n";
 		}
 		++it;
@@ -127,12 +131,12 @@ void KileAbbrevView::saveLocalAbbreviation(const QString &filename)
 
 //////////////////// find abbreviation ////////////////////
 
-bool KileAbbrevView::findAbbreviation(const QString &abbrev)
+bool AbbreviationView::findAbbreviation(const QString &abbrev)
 {
 	Q3ListViewItemIterator it( this );
 	while ( it.current() ) 
 	{
-		if ( it.current()->text(KileAbbrevView::ALVabbrev) == abbrev )
+		if ( it.current()->text(AbbreviationView::ALVabbrev) == abbrev )
 			return true;
  
 		++it;
@@ -142,17 +146,17 @@ bool KileAbbrevView::findAbbreviation(const QString &abbrev)
 
 //////////////////// item clicked ////////////////////
 
-void KileAbbrevView::slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &, int)
+void AbbreviationView::slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &, int)
 {
 	if ( button==1 && item )
 	{
-		emit( sendText( item->text(KileAbbrevView::ALVexpansion) ) );
+		emit( sendText( item->text(AbbreviationView::ALVexpansion) ) );
 	}
 }
 
 //////////////////// context menu ////////////////////
 
-void KileAbbrevView::slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos)
+void AbbreviationView::slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos)
 {
 	m_popup->clear();
 	m_popup->disconnect();
@@ -172,7 +176,7 @@ void KileAbbrevView::slotContextMenu(K3ListView *, Q3ListViewItem *item, const Q
 	m_popup->exec(pos);
 }
 
-void KileAbbrevView::addAbbreviation(const QString &abbrev, const QString &expansion)
+void AbbreviationView::addAbbreviation(const QString &abbrev, const QString &expansion)
 {
 	insertItem( new K3ListViewItem(this,abbrev,"*",expansion) ); 
 	QString newAbbrev = abbrev + '=' + expansion;
@@ -181,7 +185,7 @@ void KileAbbrevView::addAbbreviation(const QString &abbrev, const QString &expan
 	m_changes = true;
 }
 
-void KileAbbrevView::changeAbbreviation(K3ListViewItem *item, const QString &abbrev, const QString &expansion)
+void AbbreviationView::changeAbbreviation(K3ListViewItem *item, const QString &abbrev, const QString &expansion)
 {
 	if ( item )
 	{
@@ -195,7 +199,7 @@ void KileAbbrevView::changeAbbreviation(K3ListViewItem *item, const QString &abb
 	}
 }
 
-void KileAbbrevView::deleteAbbreviation(K3ListViewItem *item)
+void AbbreviationView::deleteAbbreviation(K3ListViewItem *item)
 {
 	QString abbrev = item->text(ALVabbrev);
 	QString message = i18n("Delete the abbreviation '%1'?", abbrev);
@@ -211,120 +215,37 @@ void KileAbbrevView::deleteAbbreviation(K3ListViewItem *item)
 	}
 }
 
-void KileAbbrevView::slotPopupAbbreviation(int id)
+void AbbreviationView::slotPopupAbbreviation(int id)
 {
 	K3ListViewItem *item = (K3ListViewItem *)selectedItem();
 
 	int mode = ALVnone;
-	if ( id == ALVadd )
+	if(id == ALVadd) {
 		mode = ALVadd;
-	else if ( id==ALVedit && item )
+	}
+	else if(id==ALVedit && item) {
 		mode = ALVedit;
-	else if ( id==ALVdelete && item ) 
+	}
+	else if(id==ALVdelete && item) {
 		deleteAbbreviation(item);
+	}
 	
-	if ( mode != ALVnone )
-	{
-		KileAbbrevInputDialog *dialog = new KileAbbrevInputDialog(this,item,mode);
-		if ( dialog->exec() == QDialog::Accepted )
-		{
+	if(mode != ALVnone) {
+		KileDialog::AbbreviationInputDialog *dialog = new KileDialog::AbbreviationInputDialog(this, item, mode);
+		if(dialog->exec() == QDialog::Accepted) {
 			QString abbrev,expansion;
 			dialog->abbreviation(abbrev,expansion);
-			if ( mode == ALVadd )
+			if(mode == ALVadd) {
 				addAbbreviation(abbrev,expansion);
-			else
+			}
+			else {
 				changeAbbreviation(item,abbrev,expansion);
+			}
 		}
 		delete dialog;
 	}
 }
 
-//////////////////// add/edit abbreviation ////////////////////
-
-KileAbbrevInputDialog::KileAbbrevInputDialog(KileAbbrevView *listview, K3ListViewItem *item, int mode, const char *name )
-	: KDialog(listview), m_listview(listview), m_abbrevItem(item), m_mode(mode)
-{
-	setCaption(i18n("Add Abbreviation"));
-	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
-	setObjectName(name);
-
-	QWidget *page = new QWidget(this);
-	setMainWidget(page);
-	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
-
-	if ( m_mode == KileAbbrevView::ALVedit )
-	{
-		setCaption( i18n("Edit Abbreviation") );
-		m_abbrev = m_abbrevItem->text(KileAbbrevView::ALVabbrev);
-		m_expansion = m_abbrevItem->text(KileAbbrevView::ALVexpansion);
-	}
-	
-	QLabel *abbrev = new QLabel(i18n("&Abbreviation:"),page);
-	QLabel *expansion = new QLabel(i18n("&Expanded Text:"),page);
-	m_leAbbrev = new KLineEdit(m_abbrev,page);
-	m_leExpansion = new KLineEdit(m_expansion,page);
-
-	vl->addWidget(abbrev);
-	vl->addWidget(m_leAbbrev);
-	vl->addWidget(expansion);
-	vl->addWidget(m_leExpansion);
-	vl->addSpacing(8);
-
-	abbrev->setBuddy(m_leAbbrev);
-	expansion->setBuddy(m_leExpansion);
-
-	QRegExp reg("[a-zA-Z0-9]+");
-	QRegExpValidator *abbrevValidator = new QRegExpValidator(reg,this);
-	m_leAbbrev->setValidator(abbrevValidator);
-
-	connect(m_leAbbrev,SIGNAL(textChanged(const QString &)),
-	        this,SLOT(slotTextChanged(const QString &)));
-	connect(m_leExpansion,SIGNAL(textChanged(const QString &)),
-	        this,SLOT(slotTextChanged(const QString &)));
-
-	slotTextChanged(QString::null);
-	m_leAbbrev->setFocus();
-	page->setMinimumWidth(350);
 }
 
-KileAbbrevInputDialog::~KileAbbrevInputDialog()
-{
-}
-
-void KileAbbrevInputDialog::abbreviation(QString &abbrev, QString &expansion)
-{
-	abbrev = m_leAbbrev->text(); 
-	expansion = m_leExpansion->text().trimmed();
-}
-
-void KileAbbrevInputDialog::slotTextChanged(const QString &)
-{
-	bool state = ( m_mode == KileAbbrevView::ALVadd )
-	           ? ! m_listview->findAbbreviation( m_leAbbrev->text() ) : true;
- 	state = state && !m_leAbbrev->text().isEmpty() && !m_leExpansion->text().isEmpty();
-
-	enableButton(Ok,state);
-}
-
-void KileAbbrevInputDialog::slotOk()
-{
-	QString abbrev = m_leAbbrev->text();
-	QString expansion = m_leExpansion->text().trimmed();
-
-	if ( abbrev.isEmpty() || expansion.isEmpty() )
-	{
-		KMessageBox::error( this, i18n("Empty strings are not allowed.") );
-		return;
-	}
-
-	if ( abbrev!=m_abbrev || expansion!=m_expansion )
-		accept();
-	else
-		reject();
-}
-
-
-#include "kileabbrevview.moc"
+#include "abbreviationview.moc"

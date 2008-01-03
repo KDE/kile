@@ -190,7 +190,7 @@ namespace KileWidget
 		{
 			m_root->setURL(m_docinfo->url());
 			m_root->setOpen(true);
-			m_root->setPixmap(0, SmallIcon("contents"));
+			m_root->setPixmap(0, SmallIcon("help-contents"));
 			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)), 
 			        this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
 // 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
@@ -347,17 +347,17 @@ namespace KileWidget
 		else if ( folder == "refs" )
 		{
 			fldr->setText(0, i18n("Undefined References"));
-			fldr->setPixmap(0, SmallIcon("process-stop"));
+			fldr->setPixmap(0, SmallIcon("dialog-error"));
 		}
 		else if ( folder == "todo" )
 		{
 			fldr->setText(0, i18n("TODO"));
-			fldr->setPixmap(0, SmallIcon("bookmark"));
+			fldr->setPixmap(0, SmallIcon("bookmarks"));
 		}
 		else if ( folder == "fixme" )
 		{
 			fldr->setText(0, i18n("FIXME"));
-			fldr->setPixmap(0, SmallIcon("bookmark"));
+			fldr->setPixmap(0, SmallIcon("bookmarks"));
 		}
 
 		m_folders[ folder ] = fldr;

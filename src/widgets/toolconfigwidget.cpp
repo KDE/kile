@@ -350,7 +350,7 @@ namespace KileWidget
 			m_configWidget->m_pshbIcon->setIcon(KIcon(QString()));
 		}
 		else {
-			m_configWidget->m_pshbIcon->setIcon(SmallIcon(m_icon));
+			m_configWidget->m_pshbIcon->setIcon(KIcon(m_icon));
 		}
 	}
 
@@ -381,7 +381,7 @@ namespace KileWidget
 				m_configWidget->m_pshbIcon->setIcon(KIcon(QString()));
 			}
 			else {
-				m_configWidget->m_pshbIcon->setIcon(SmallIcon(m_icon));
+				m_configWidget->m_pshbIcon->setIcon(KIcon(m_icon));
 			}
 		}
 	}

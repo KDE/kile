@@ -17,59 +17,64 @@
 
 #include "previewconfigwidget.h"
 
-#include <klocale.h>
-#include "kiledebug.h"
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QMap>
+#include <QStringList>
+#include <QValidator>
+#include <QVBoxLayout>
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qstringlist.h>
-#include <qmap.h>
-#include <qvalidator.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
-#include <Q3VBoxLayout>
+#include <KComboBox>
+#include <KLineEdit>
+#include <KLocale>
 
 #include "kileconfig.h"
+#include "kiledebug.h"
 
-KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent, const char *name )
-	: QWidget(parent,name),
-	  m_config(config),
-	  m_preview(preview)
+KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent, const char *name)
+		: QWidget(parent, name),
+		m_config(config),
+		m_preview(preview)
 {
 	// Layout
-	Q3VBoxLayout *vbox = new Q3VBoxLayout(this, 5,5 );
+	QVBoxLayout *vbox = new QVBoxLayout();
+	vbox->setMargin(0);
+	vbox->setSpacing(KDialog::spacingHint());
+	setLayout(vbox);
 
-	Q3GroupBox *groupbox = new Q3GroupBox( i18n("Quick Preview in a separate window"), this, "groupbox" );
-	groupbox->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)1, 0, 0, groupbox->sizePolicy().hasHeightForWidth() ) );
-	groupbox->setColumnLayout(0, Qt::Vertical ); 
-	groupbox->layout()->setSpacing( 6 ); 
-	groupbox->layout()->setMargin( 11 );
-	Q3GridLayout *groupboxLayout = new Q3GridLayout( groupbox->layout() );
-	groupboxLayout->setAlignment( Qt::AlignTop );
-   
-	QLabel *label = new QLabel( i18n("Select a configuration:"), groupbox, "label");
-	m_combobox = new KComboBox( false, groupbox );
-	m_combobox->setObjectName( "combobox" );
+	QGroupBox *groupbox = new QGroupBox(i18n("Quick Preview in a separate window"), this);
+	QGridLayout *groupboxLayout = new QGridLayout();
+	groupboxLayout->setMargin(KDialog::marginHint());
+	groupboxLayout->setSpacing(KDialog::spacingHint());
+	groupboxLayout->setAlignment(Qt::AlignTop);
+	groupbox->setLayout(groupboxLayout);
 
-	groupboxLayout->addWidget(label,0,0);
-	groupboxLayout->addWidget(m_combobox,0,2);
-	groupboxLayout->setColSpacing(1,8);
-	groupboxLayout->setColStretch(3,1);
-	
-	Q3GroupBox *gbResolution = new Q3GroupBox( i18n("Quick Preview in bottom bar"), this, "gbresolution" );
-	gbResolution->setColumnLayout(0, Qt::Vertical );
-	gbResolution->layout()->setSpacing( 6 );
-	gbResolution->layout()->setMargin( 11 );
-	Q3GridLayout *resLayout = new Q3GridLayout( gbResolution->layout() );
-	resLayout->setAlignment( Qt::AlignTop );
+	QLabel *label = new QLabel(i18n("Select a configuration:"), groupbox, "label");
+	m_combobox = new KComboBox(false, groupbox);
+	m_combobox->setObjectName("combobox");
 
-	QLabel *resLabel = new QLabel( i18n("&Resolution:"), gbResolution );
-	m_leDvipngResolution = new KLineEdit( gbResolution );
-	QLabel *resDpi = new QLabel( i18n("dpi"), gbResolution );
-	QLabel *resAllowed = new QLabel( i18n("(allowed values: 30-1000 dpi)"), gbResolution );
-	
+	groupboxLayout->addWidget(label, 0, 0);
+	groupboxLayout->addWidget(m_combobox, 0, 2);
+	groupboxLayout->setColSpacing(1, 8);
+	groupboxLayout->setColStretch(3, 1);
+
+	QGroupBox *gbResolution = new QGroupBox(i18n("Quick Preview in bottom bar"), this);
+	QGridLayout *resLayout = new QGridLayout();
+	resLayout->setMargin(KDialog::marginHint());
+	resLayout->setSpacing(KDialog::spacingHint());
+	resLayout->setAlignment(Qt::AlignTop);
+	gbResolution->setLayout(resLayout);
+
+	QLabel *resLabel = new QLabel(i18n("&Resolution:"), gbResolution);
+	m_leDvipngResolution = new KLineEdit(gbResolution);
+	QLabel *resDpi = new QLabel(i18n("dpi"), gbResolution);
+	QLabel *resAllowed = new QLabel(i18n("(allowed values: 30-1000 dpi)"), gbResolution);
+
 	// set validator
-	QValidator* validator = new QIntValidator(30,1000,this);
+	QValidator* validator = new QIntValidator(30, 1000, this);
 	m_leDvipngResolution->setValidator(validator);
 	resLabel->setBuddy(m_leDvipngResolution);
 
@@ -85,26 +90,26 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	QLabel *labelConvert = new QLabel(i18n("convert:"), gbResolution);
 	m_lbDvipng = new QLabel(gbResolution);
 	m_lbConvert = new QLabel(gbResolution);
-	
-	resLayout->addWidget(resLabel,0,0);
-	resLayout->addWidget(m_leDvipngResolution,0,2);
-	resLayout->addWidget(resDpi,0,3);
-	resLayout->addWidget(resAllowed,0,5,Qt::AlignLeft);
-	resLayout->addMultiCellWidget(labelDescription,1,1,0,5);
-	resLayout->addWidget(labelDvipng,2,0);
-	resLayout->addWidget(m_lbDvipng,2,2);
-	resLayout->addWidget(labelConvert,3,0);
-	resLayout->addWidget(m_lbConvert,3,2);
-	resLayout->setColSpacing(1,8);
-	resLayout->setColSpacing(4,24);
-	resLayout->setColStretch(5,1);
 
-	m_gbPreview = new Q3GroupBox( i18n("Properties"), this, "gbpreview" );
-	m_gbPreview->setColumnLayout(0, Qt::Vertical );
-	m_gbPreview->layout()->setSpacing( 6 );
-	m_gbPreview->layout()->setMargin( 11 );
-	Q3GridLayout *previewLayout = new Q3GridLayout( m_gbPreview->layout() );
-	previewLayout->setAlignment( Qt::AlignTop );
+	resLayout->addWidget(resLabel, 0, 0);
+	resLayout->addWidget(m_leDvipngResolution, 0, 2);
+	resLayout->addWidget(resDpi, 0, 3);
+	resLayout->addWidget(resAllowed, 0, 5, Qt::AlignLeft);
+	resLayout->addMultiCellWidget(labelDescription, 1, 1, 0, 5);
+	resLayout->addWidget(labelDvipng, 2, 0);
+	resLayout->addWidget(m_lbDvipng, 2, 2);
+	resLayout->addWidget(labelConvert, 3, 0);
+	resLayout->addWidget(m_lbConvert, 3, 2);
+	resLayout->setColSpacing(1, 8);
+	resLayout->setColSpacing(4, 24);
+	resLayout->setColStretch(5, 1);
+
+	m_gbPreview = new QGroupBox(i18n("Properties"), this, "gbpreview");
+	QGridLayout *previewLayout = new QGridLayout();
+	previewLayout->setMargin(KDialog::marginHint());
+	previewLayout->setSpacing(KDialog::spacingHint());
+	previewLayout->setAlignment(Qt::AlignTop);
+	m_gbPreview->setLayout(previewLayout);
 
 	QLabel *labelPreviewWidget = new QLabel(i18n("Show preview in bottom bar:"), m_gbPreview);
 	QLabel *labelPreviewType = new QLabel(i18n("Conversion to image:"), m_gbPreview);
@@ -116,37 +121,37 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	m_cbSelection = new QCheckBox(m_gbPreview);
 	m_cbEnvironment = new QCheckBox(m_gbPreview);
 	m_cbMathgroup = new QCheckBox(m_gbPreview);
-	m_coSelection = new KComboBox(false,m_gbPreview);
-	m_coEnvironment = new KComboBox(false,m_gbPreview);
+	m_coSelection = new KComboBox(false, m_gbPreview);
+	m_coEnvironment = new KComboBox(false, m_gbPreview);
 	m_lbMathgroup = new QLabel(i18n("Preview uses always 'dvipng'."), m_gbPreview);
 
-	previewLayout->addMultiCellWidget(labelPreviewWidget,0,0,0,2);
-	previewLayout->addWidget(labelPreviewType,0,4);
-	previewLayout->addWidget(labelSelection,1,0);
-	previewLayout->addWidget(m_cbSelection,1,2);
-	previewLayout->addWidget(m_coSelection,1,4);
-	previewLayout->addWidget(labelEnvironment,2,0);
-	previewLayout->addWidget(m_cbEnvironment,2,2);
-	previewLayout->addWidget(m_coEnvironment,2,4);
-	previewLayout->addWidget(labelMathgroup,3,0);
-	previewLayout->addWidget(m_cbMathgroup,3,2);
-	previewLayout->addMultiCellWidget(m_lbMathgroup,3,3,4,5,Qt::AlignLeft);
-	previewLayout->addWidget(labelSubdocument1,4,0);
-	previewLayout->addMultiCellWidget(labelSubdocument2,4,4,2,5,Qt::AlignLeft);
-	previewLayout->setRowSpacing(0,3*labelPreviewWidget->sizeHint().height()/2);
-	previewLayout->setRowSpacing(3,m_coEnvironment->sizeHint().height());
-	previewLayout->setColSpacing(1,12);
-	previewLayout->setColSpacing(3,40);
-	previewLayout->setColStretch(5,1);
+	previewLayout->addMultiCellWidget(labelPreviewWidget, 0, 0, 0, 2);
+	previewLayout->addWidget(labelPreviewType, 0, 4);
+	previewLayout->addWidget(labelSelection, 1, 0);
+	previewLayout->addWidget(m_cbSelection, 1, 2);
+	previewLayout->addWidget(m_coSelection, 1, 4);
+	previewLayout->addWidget(labelEnvironment, 2, 0);
+	previewLayout->addWidget(m_cbEnvironment, 2, 2);
+	previewLayout->addWidget(m_coEnvironment, 2, 4);
+	previewLayout->addWidget(labelMathgroup, 3, 0);
+	previewLayout->addWidget(m_cbMathgroup, 3, 2);
+	previewLayout->addMultiCellWidget(m_lbMathgroup, 3, 3, 4, 5, Qt::AlignLeft);
+	previewLayout->addWidget(labelSubdocument1, 4, 0);
+	previewLayout->addMultiCellWidget(labelSubdocument2, 4, 4, 2, 5, Qt::AlignLeft);
+	previewLayout->setRowSpacing(0, 3*labelPreviewWidget->sizeHint().height() / 2);
+	previewLayout->setRowSpacing(3, m_coEnvironment->sizeHint().height());
+	previewLayout->setColSpacing(1, 12);
+	previewLayout->setColSpacing(3, 40);
+	previewLayout->setColStretch(5, 1);
 
 	vbox->addWidget(groupbox);
 	vbox->addWidget(gbResolution);
 	vbox->addWidget(m_gbPreview);
 	vbox->addStretch();
 
-	connect(m_cbEnvironment,SIGNAL(clicked()),this,SLOT(updateConversionTools()));
-	connect(m_cbSelection,SIGNAL(clicked()),this,SLOT(updateConversionTools()));
-	connect(m_cbMathgroup,SIGNAL(clicked()),this,SLOT(updateConversionTools()));
+	connect(m_cbEnvironment, SIGNAL(clicked()), this, SLOT(updateConversionTools()));
+	connect(m_cbSelection, SIGNAL(clicked()), this, SLOT(updateConversionTools()));
+	connect(m_cbMathgroup, SIGNAL(clicked()), this, SLOT(updateConversionTools()));
 }
 
 //////////////////// read/write configuration ////////////////////
@@ -162,33 +167,34 @@ void KileWidgetPreviewConfig::readConfig(void)
 
 void KileWidgetPreviewConfig::writeConfig(void)
 {
-	KileConfig::setPreviewTask( m_combobox->currentText() );
+	KileConfig::setPreviewTask(m_combobox->currentText());
 
 	bool ok;
 	QString resolution = m_leDvipngResolution->text();
 	int dpi = resolution.toInt(&ok);
-	if ( ok )
+	if (ok)
 	{
-		if ( dpi < 30 )
+		if (dpi < 30)
 			resolution = "30";
-		else if ( dpi > 1000 )
-			resolution = "1000";
-		KileConfig::setDvipngResolution( resolution );
+		else
+			if (dpi > 1000)
+				resolution = "1000";
+		KileConfig::setDvipngResolution(resolution);
 	}
 
-	if ( m_gbPreview->isEnabled() )
+	if (m_gbPreview->isEnabled())
 	{
-		KileConfig::setSelPreviewInWidget( m_cbSelection->isChecked() );
-		KileConfig::setEnvPreviewInWidget( m_cbEnvironment->isChecked() );
-		KileConfig::setMathgroupPreviewInWidget( ( m_dvipngInstalled ) ? m_cbMathgroup->isChecked() : false ); 
+		KileConfig::setSelPreviewInWidget(m_cbSelection->isChecked());
+		KileConfig::setEnvPreviewInWidget(m_cbEnvironment->isChecked());
+		KileConfig::setMathgroupPreviewInWidget((m_dvipngInstalled) ? m_cbMathgroup->isChecked() : false);
 
-		KileConfig::setSelPreviewTool( index2tool(m_coSelection->currentItem()) );
-		KileConfig::setEnvPreviewTool( index2tool(m_coEnvironment->currentItem()) );
+		KileConfig::setSelPreviewTool(index2tool(m_coSelection->currentItem()));
+		KileConfig::setEnvPreviewTool(index2tool(m_coEnvironment->currentItem()));
 	}
 	else
 	{
-		KileConfig::setEnvPreviewInWidget( false );
-		KileConfig::setSelPreviewInWidget( false );
+		KileConfig::setEnvPreviewInWidget(false);
+		KileConfig::setSelPreviewInWidget(false);
 	}
 }
 
@@ -197,62 +203,62 @@ void KileWidgetPreviewConfig::setupSeparateWindow()
 	// get all possible tasks for QuickPreview in a separate window
 	QStringList tasklist;
 	m_preview->getTaskList(tasklist);
-	
+
 	// split them into group and combobox entry
 	m_combobox->clear();
-	for ( uint i=0; i<tasklist.count(); ++i ) 
+	for (uint i = 0; i < tasklist.count(); ++i)
 	{
 		QStringList list = tasklist[i].split("=");
-		if ( m_config->hasGroup( list[0] ) ) 
+		if (m_config->hasGroup(list[0]))
 		{
-			m_combobox->insertItem( list[1] );
-		}	
+			m_combobox->insertItem(list[1]);
+		}
 	}
-	
+
 	// set current task
-	m_combobox->setCurrentText( KileConfig::previewTask() );
+	m_combobox->setCurrentText(KileConfig::previewTask());
 }
 
 void KileWidgetPreviewConfig::setupBottomBar()
 {
 	// setup resolution for QuickPreview in bottom bar
-	m_leDvipngResolution->setText( KileConfig::dvipngResolution() );
+	m_leDvipngResolution->setText(KileConfig::dvipngResolution());
 
 	// setup tools
 	m_dvipngInstalled = KileConfig::dvipng();
 	m_convertInstalled = KileConfig::convert();
-	
-	m_lbDvipng->setText( ( m_dvipngInstalled ) ? i18n("installed") : i18n("not installed") ); 
-	m_lbConvert->setText( ( m_convertInstalled ) ? i18n("installed") : i18n("not installed") ); 
+
+	m_lbDvipng->setText((m_dvipngInstalled) ? i18n("installed") : i18n("not installed"));
+	m_lbConvert->setText((m_convertInstalled) ? i18n("installed") : i18n("not installed"));
 }
 
 void KileWidgetPreviewConfig::setupProperties()
 {
 	// setup properties for QuickPreview
-	m_cbSelection->setChecked( KileConfig::selPreviewInWidget() );
-	m_cbEnvironment->setChecked( KileConfig::envPreviewInWidget() );
-	m_cbMathgroup->setChecked( KileConfig::mathgroupPreviewInWidget() );
+	m_cbSelection->setChecked(KileConfig::selPreviewInWidget());
+	m_cbEnvironment->setChecked(KileConfig::envPreviewInWidget());
+	m_cbMathgroup->setChecked(KileConfig::mathgroupPreviewInWidget());
 
 	// setup conversion tools
 	QStringList toollist;
-	if ( m_dvipngInstalled )
+	if (m_dvipngInstalled)
 	{
 		toollist << i18n("dvi --> png");
 	}
 	else
 	{
-		m_cbMathgroup->setChecked( false );
-		m_cbMathgroup->setEnabled( false );
-		m_lbMathgroup->setText( i18n("Opens always in a separate window.") );
+		m_cbMathgroup->setChecked(false);
+		m_cbMathgroup->setEnabled(false);
+		m_lbMathgroup->setText(i18n("Opens always in a separate window."));
 	}
-	if ( m_convertInstalled )
+	if (m_convertInstalled)
 	{
 		toollist << i18n("dvi --> ps --> png");
 		toollist << i18n("pdf --> png");
 	}
 
 	// setup comboboxes
-	if ( installedTools() == 0 )
+	if (installedTools() == 0)
 	{
 		m_gbPreview->setEnabled(false);
 	}
@@ -261,8 +267,8 @@ void KileWidgetPreviewConfig::setupProperties()
 		m_coSelection->insertStringList(toollist);
 		m_coEnvironment->insertStringList(toollist);
 
-		m_coSelection->setCurrentIndex( tool2index(KileConfig::selPreviewTool()) );
-		m_coEnvironment->setCurrentIndex( tool2index(KileConfig::envPreviewTool()) );
+		m_coSelection->setCurrentIndex(tool2index(KileConfig::selPreviewTool()));
+		m_coEnvironment->setCurrentIndex(tool2index(KileConfig::envPreviewTool()));
 	}
 }
 
@@ -281,10 +287,11 @@ int KileWidgetPreviewConfig::tool2index(int tool)
 	int result = 0;
 
 	int available = installedTools();
-	if ( available == 3 )
+	if (available == 3)
 		result = tool;
-	else if ( available==2 && tool>0 )
-		result = tool - 1;
+	else
+		if (available == 2 && tool > 0)
+			result = tool - 1;
 
 	return result;
 }
@@ -294,10 +301,11 @@ int KileWidgetPreviewConfig::index2tool(int index)
 	int result = 0;
 
 	int available = installedTools();
-	if ( available == 3 )
+	if (available == 3)
 		result = index;
-	else if ( available == 2 )
-		result = index + 1;
+	else
+		if (available == 2)
+			result = index + 1;
 
 	return result;
 }
@@ -311,20 +319,20 @@ int KileWidgetPreviewConfig::index2tool(int index)
 int KileWidgetPreviewConfig::installedTools()
 {
 	int tools = 0;
-	if ( m_dvipngInstalled )
+	if (m_dvipngInstalled)
 		tools += 1;
-	if ( m_convertInstalled )
+	if (m_convertInstalled)
 		tools += 2;
-	
+
 	return tools;
 }
 
 void KileWidgetPreviewConfig::updateConversionTools()
 {
-	m_coSelection->setEnabled( m_cbSelection->isChecked() );
-	m_coEnvironment->setEnabled( m_cbEnvironment->isChecked() );
-	if ( m_dvipngInstalled )
-		m_lbMathgroup->setEnabled( m_cbMathgroup->isChecked() );
+	m_coSelection->setEnabled(m_cbSelection->isChecked());
+	m_coEnvironment->setEnabled(m_cbEnvironment->isChecked());
+	if (m_dvipngInstalled)
+		m_lbMathgroup->setEnabled(m_cbMathgroup->isChecked());
 }
 
 #include "previewconfigwidget.moc"

@@ -37,7 +37,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3GroupBox" name="executionTimeLimitGroupBox" >
+    <widget class="QGroupBox" name="executionTimeLimitGroupBox" >
      <property name="enabled" >
       <bool>true</bool>
      </property>
@@ -49,6 +49,9 @@
      </property>
      <property name="title" >
       <string>Execution Time Limit</string>
+     </property>
+     <property name="flat" >
+      <bool>true</bool>
      </property>
      <layout class="QVBoxLayout" >
       <item>
@@ -160,19 +163,12 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>KIntNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >knuminput.h</include>
   <include location="local" >knuminput.h</include>
  </includes>
  <resources/>

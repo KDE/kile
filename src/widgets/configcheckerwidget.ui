@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
+    <width>585</width>
     <height>605</height>
    </rect>
   </property>
@@ -43,7 +43,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3GroupBox" name="m_grpResults" >
+    <widget class="QGroupBox" name="m_grpResults" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
        <horstretch>1</horstretch>
@@ -77,17 +77,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local" >k3listbox.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

@@ -1,6 +1,6 @@
-/**************************************************************************
-*   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
-***************************************************************************/
+/********************************************************************************
+*   Copyright (C) 2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*********************************************************************************/
 
 /**************************************************************************
 *                                                                         *
@@ -18,6 +18,11 @@
 QuickToolConfigWidget::QuickToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
+	m_notSpecifiedString = i18n("Not Specified");
+	connect(m_pshbAdd, SIGNAL(clicked()), this, SLOT(add()));
+	connect(m_pshbRemove, SIGNAL(clicked()), this, SLOT(remove()));
+	connect(m_pshbUp, SIGNAL(clicked()), this, SLOT(up()));
+	connect(m_pshbDown, SIGNAL(clicked()), this, SLOT(down()));
 }
 
 QuickToolConfigWidget::~QuickToolConfigWidget()
@@ -32,19 +37,19 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 	m_cbTools->insertStringList(toollist);
 
 	updateConfigs(m_cbTools->currentText());
-	connect(m_cbTools, SIGNAL(activated(const QString &)), this, SLOT(updateConfigs(const QString&)));
+	connect(m_cbTools, SIGNAL(activated(const QString&)), this, SLOT(updateConfigs(const QString&)));
 
-	m_sequence=sequence;
-	QStringList list = QStringList::split(",",sequence);
-	QString tl,cfg;
+	m_sequence = sequence;
+	QStringList list = QStringList::split(",", sequence);
+	QString tl, cfg;
 	m_lstbSeq->clear();
 	for(QStringList::iterator i = list.begin(); i != list.end(); ++i) {
 		KileTool::extract(*i, tl, cfg);
-		if(!cfg.isNull()) {
-			m_lstbSeq->insertItem(tl + " (" + cfg + ")");
+		if(!cfg.isEmpty()) {
+			m_lstbSeq->addItem(tl + " (" + cfg + ")");
 		}
 		else {
-			m_lstbSeq->insertItem(tl);
+			m_lstbSeq->addItem(tl);
 		}
 	}
 }
@@ -52,50 +57,66 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 void QuickToolConfigWidget::updateConfigs(const QString &tool)
 {
 	m_cbConfigs->clear();
-	m_cbConfigs->insertItem(i18n("Not Specified"));
+	m_cbConfigs->addItem(m_notSpecifiedString);
 	m_cbConfigs->insertStringList(KileTool::configNames(tool, KGlobal::config().data()));
 }
 
 void QuickToolConfigWidget::down()
 {
-	int current = m_lstbSeq->currentItem();
-	if((current != -1) && (current < ( ((int)m_lstbSeq->count())-1))) {
-		QString text = m_lstbSeq->text(current+1);
-		m_lstbSeq->changeItem(m_lstbSeq->text(current), current+1);
-		m_lstbSeq->changeItem(text, current);
-		m_lstbSeq->setCurrentItem(current+1);
+	QList<QListWidgetItem*> selectedItems = m_lstbSeq->selectedItems();
+	if(selectedItems.isEmpty()) {
+		return;
+	}
+	QListWidgetItem *selectedItem = selectedItems.first();
+	int row = m_lstbSeq->row(selectedItem);
+	if(row < m_lstbSeq->count() - 1) {
+		QListWidgetItem *nextItem = m_lstbSeq->item(row + 1);
+		QString text = selectedItem->text();
+		selectedItem->setText(nextItem->text());
+		nextItem->setText(text);
+		nextItem->setSelected(true);
 		changed();
 	}
 }
 
 void QuickToolConfigWidget::up()
 {
-	int current = m_lstbSeq->currentItem();
-	if((current != -1) && (current > 0)) {
-		QString text = m_lstbSeq->text(current-1);
-		m_lstbSeq->changeItem(m_lstbSeq->text(current), current-1);
-		m_lstbSeq->changeItem(text, current);
-		m_lstbSeq->setCurrentItem(current-1);
+	QList<QListWidgetItem*> selectedItems = m_lstbSeq->selectedItems();
+	if(selectedItems.isEmpty()) {
+		return;
+	}
+	QListWidgetItem *selectedItem = selectedItems.first();
+	int row = m_lstbSeq->row(selectedItem);
+	if(row > 0) {
+		QListWidgetItem *previousItem = m_lstbSeq->item(row - 1);
+		QString text = selectedItem->text();
+		selectedItem->setText(previousItem->text());
+		previousItem->setText(text);
+		previousItem->setSelected(true);
 		changed();
 	}
 }
 
 void QuickToolConfigWidget::remove()
 {
-	int current = m_lstbSeq->currentItem();
-	if(current != -1) {
-		m_lstbSeq->removeItem(current);
-		changed();
+	QList<QListWidgetItem*> selectedItems = m_lstbSeq->selectedItems();
+	if(selectedItems.isEmpty()) {
+		return;
 	}
+	QListWidgetItem *selectedItem = selectedItems.first();
+	delete selectedItem;
 }
 
 void QuickToolConfigWidget::add()
 {
 	QString entry = m_cbTools->currentText();
-	if(m_cbConfigs->currentText() != i18n("Not Specified")) {
+	if(m_cbConfigs->currentText() != m_notSpecifiedString) {
 		entry += " (" + m_cbConfigs->currentText() + ")";
 	}
-	m_lstbSeq->insertItem(entry);
+	if(!m_lstbSeq->findItems(entry, Qt::MatchExactly).isEmpty()) {
+		return;
+	}
+	m_lstbSeq->addItem(entry);
 	changed();
 }
 
@@ -103,11 +124,13 @@ void QuickToolConfigWidget::add()
 void QuickToolConfigWidget::changed()
 {
 	QString sequence, tool, cfg;
-	for(uint i = 0; i < m_lstbSeq->count(); ++i) {
-	    KileTool::extract(m_lstbSeq->text(i), tool, cfg);
-	    sequence += KileTool::format(tool,cfg)+",";
+	for(int i = 0; i < m_lstbSeq->count(); ++i) {
+	    KileTool::extract(m_lstbSeq->item(i)->text(), tool, cfg);
+	    sequence += KileTool::format(tool, cfg) + ",";
 	}
-	if (sequence.endsWith(",") ) sequence = sequence.left(sequence.length()-1);
+	if(sequence.endsWith(",")) {
+		sequence = sequence.left(sequence.length()-1);
+	}
 	m_sequence = sequence;
 	emit sequenceChanged(m_sequence);
 }

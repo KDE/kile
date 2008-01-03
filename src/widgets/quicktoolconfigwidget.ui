@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>216</height>
+    <width>543</width>
+    <height>295</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -15,129 +15,158 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="1" colspan="2" >
-    <widget class="KComboBox" name="m_cbTools" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-       <horstretch>1</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize" >
-      <size>
-       <width>100</width>
-       <height>0</height>
-      </size>
-     </property>
-    </widget>
+  <layout class="QVBoxLayout" >
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="m_lbTool" >
+       <property name="text" >
+        <string>Tool:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="m_cbTools" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="m_lbConfig" >
+       <property name="text" >
+        <string>Configuration:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="m_cbConfigs" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="m_lbTool" >
-     <property name="text" >
-      <string>Tool:</string>
-     </property>
-     <property name="wordWrap" >
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3" >
-    <widget class="QLabel" name="m_lbConfig" >
-     <property name="text" >
-      <string>Configuration:</string>
-     </property>
-     <property name="wordWrap" >
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4" >
-    <widget class="KComboBox" name="m_cbConfigs" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-       <horstretch>1</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize" >
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2" >
-    <widget class="KPushButton" name="m_pshbAdd" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text" >
-      <string>&amp;Add</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="KPushButton" name="m_pshbRemove" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text" >
-      <string>&amp;Remove</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2" >
-    <widget class="KPushButton" name="m_pshbDown" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text" >
-      <string>&amp;Down</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2" >
-    <widget class="KPushButton" name="m_pshbUp" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text" >
-      <string>&amp;Up</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>16</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item rowspan="5" row="1" column="2" colspan="3" >
-    <widget class="K3ListBox" name="m_lstbSeq" />
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="KPushButton" name="m_pshbAdd" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&amp;Add</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KPushButton" name="m_pshbRemove" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&amp;Remove</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>16</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="KPushButton" name="m_pshbUp" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&amp;Up</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KPushButton" name="m_pshbDown" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&amp;Down</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="KListWidget" name="m_lstbSeq" >
+       <property name="selectionBehavior" >
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -150,81 +179,16 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
-  <customwidget>
-   <class>K3ListBox</class>
-   <extends>Q3ListBox</extends>
-   <header location="global" >k3listbox.h</header>
-  </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>m_pshbAdd</sender>
-   <signal>clicked()</signal>
-   <receiver>QuickToolConfigWidget</receiver>
-   <slot>add()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pshbRemove</sender>
-   <signal>clicked()</signal>
-   <receiver>QuickToolConfigWidget</receiver>
-   <slot>remove()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pshbUp</sender>
-   <signal>clicked()</signal>
-   <receiver>QuickToolConfigWidget</receiver>
-   <slot>up()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pshbDown</sender>
-   <signal>clicked()</signal>
-   <receiver>QuickToolConfigWidget</receiver>
-   <slot>down()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

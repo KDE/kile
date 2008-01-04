@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *******************************************************************************************/
 
 /***************************************************************************
@@ -16,23 +16,21 @@
 
 #include "templates.h"
 
-#include <kapplication.h>
-#include "kiledebug.h"
-#include <kglobal.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kio/job.h>
-#include <kio/netaccess.h>
-#include <kmessagebox.h>
+#include <QDir>
+#include <QFileInfo>
+#include <QStringList>
 
-#include <qdir.h>
-#include <qfileinfo.h>
-#include <qstringlist.h>
-#include <qregexp.h>
-//Added by qt3to4:
-#include <QPixmap>
+#include <KApplication>
+#include <KGlobal>
+#include <KLocale>
+#include <KMessageBox>
+#include <KShell>
+#include <KStandardDirs>
+#include <KIO/Job>
+#include <KIO/NetAccess>
 
 #include "kileinfo.h"
+#include "kiledebug.h"
 
 // 2005-08-04: dani
 //  - added script support to search existing class files 
@@ -153,31 +151,27 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTem
 }
 
 void Manager::scanForTemplates() {
-	KILE_DEBUG() << "===scanForTemplates()===================" << endl;
+	KILE_DEBUG() << "===scanForTemplates()===================";
 	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "templates");
 	QDir templates;
 	KileTemplate::Info ti;
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 
 	m_TemplateList.clear();
-	for ( QStringList::iterator i = dirs.begin(); i != dirs.end(); ++i)
-	{
+	for(QStringList::iterator i = dirs.begin(); i != dirs.end(); ++i) {
 		templates = QDir(*i, "template_*");
-		for ( uint j = 0; j< templates.count(); ++j)
-		{
+		for (uint j = 0; j < templates.count(); ++j) {
 			ti.path = templates.path() + '/' + templates[j];
 			QFileInfo fileInfo(ti.path);
 			ti.name = fileInfo.baseName(true).mid(9); //remove "template_", do it this way to avoid problems with user input!
 			ti.type = extensions->determineDocumentType(KUrl::fromPathOrUrl(ti.path));
 			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
-			if (m_TemplateList.contains(ti))
-			{
-				KILE_DEBUG() << "\tignoring: " << ti.path << endl;
+			if (m_TemplateList.contains(ti)) {
+				KILE_DEBUG() << "\tignoring: " << ti.path;
 			}
-			else
-			{
+			else {
 				m_TemplateList.append(ti);
-				KILE_DEBUG() << "\tadding: " << ti.name << " " << ti.path << endl;
+				KILE_DEBUG() << "\tadding: " << ti.name << " " << ti.path;
 			}
 		}
 	}
@@ -188,14 +182,12 @@ TemplateList Manager::getAllTemplates() const {
 }
 
 TemplateList Manager::getTemplates(KileDocument::Type type) const {
-	if(type == KileDocument::Undefined) 
-	{
+	if(type == KileDocument::Undefined) {
 		return getAllTemplates();
 	}
 
 	TemplateList toReturn;
-	for (KileTemplate::TemplateListConstIterator i = m_TemplateList.constBegin(); i != m_TemplateList.constEnd(); ++i)
-	{
+	for (KileTemplate::TemplateListConstIterator i = m_TemplateList.constBegin(); i != m_TemplateList.constEnd(); ++i) {
 		KileTemplate::Info info = *i;
 		if(info.type == type) {
 			toReturn.push_back(info);
@@ -217,10 +209,10 @@ TemplateItem::TemplateItem(Q3IconView * parent, const KileTemplate::Info& info) 
 
 int TemplateItem::compare( Q3IconViewItem *i ) const
 {
-	if ( key() == DEFAULT_EMPTY_CAPTION ) {
+	if(key() == DEFAULT_EMPTY_CAPTION) {
 		return -1;
 	}
-	else if ( i->key() == DEFAULT_EMPTY_CAPTION ) {
+	else if(i->key() == DEFAULT_EMPTY_CAPTION) {
 		return 1;
 	}
 	else {
@@ -264,43 +256,47 @@ void TemplateIconView::fillWithTemplates(KileDocument::Type type) {
 
 void TemplateIconView::searchLaTeXClassFiles()
 {
-	if(!m_templateManager) return;
+	if(!m_templateManager) {
+		return;
+	}
+
+	m_output.clear();
 
 	QString command = "kpsewhich -format=tex scrartcl.cls beamer.cls prosper.cls HA-prosper.sty";
 
 	delete m_proc;
 
-	m_proc = new K3Process(this);
-	m_proc->clearArguments();
-	m_proc->setUseShell(true);
-	(*m_proc) << command.split(' ');
-	m_output = QString::null;
+	m_proc = new KProcess(this);
+	(*m_proc) << KShell::splitArgs(command);
 
-	connect(m_proc, SIGNAL(receivedStdout(K3Process*,char*,int)),
-	        this,   SLOT(slotProcessOutput(K3Process*,char*,int)) );
-	connect(m_proc, SIGNAL(receivedStderr(K3Process*,char*,int)),
-	        this,   SLOT(slotProcessOutput(K3Process*,char*,int)) );
-	connect(m_proc, SIGNAL(processExited(K3Process*)),
-	        this,   SLOT(slotProcessExited(K3Process*)) );
+	m_proc->setOutputChannelMode(KProcess::MergedChannels);
+	m_proc->setReadChannel(QProcess::StandardOutput);
 
-	KILE_DEBUG() << "=== NewFileWidget::searchClassFiles() ====================" << endl;
-	KILE_DEBUG() << "\texecute: " << command << endl;
-	if ( ! m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput) ) 
-	{
-		KILE_DEBUG() << "\tstart of shell process failed" << endl;
-		addTemplateIcons(KileDocument::LaTeX);
+	connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
+	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+	connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError()));
+	KILE_DEBUG() << "=== NewFileWidget::searchClassFiles() ====================";
+	KILE_DEBUG() << "\texecute: " << command;
+	m_proc->start();
+}
+
+void TemplateIconView::slotProcessOutput()
+{
+	QByteArray buf = m_proc->readAllStandardOutput();
+	m_output += QString::fromLocal8Bit(buf.data(), buf.size());
+}
+
+void TemplateIconView::slotProcessError()
+{
+	addTemplateIcons(KileDocument::LaTeX);
+	emit classFileSearchFinished();
+}
+
+void TemplateIconView::slotProcessExited(int /*exitCode*/, QProcess::ExitStatus exitStatus)
+{
+	if(exitStatus != QProcess::NormalExit) {
+		m_output.clear();
 	}
-}
-
-void TemplateIconView::slotProcessOutput(K3Process*, char* buf, int len)
-{
-	m_output += QString::fromLocal8Bit(buf,len);
-}
-
-void TemplateIconView::slotProcessExited(K3Process *proc)
-{
-	if ( ! proc->normalExit() ) 
-		m_output = QString::null;
 
 	addTemplateIcons(KileDocument::LaTeX);
 	emit classFileSearchFinished();
@@ -308,7 +304,9 @@ void TemplateIconView::slotProcessExited(K3Process *proc)
 
 void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 {
-	if(!m_templateManager) return;
+	if(!m_templateManager) {
+		return;
+	}
 
 	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
 
@@ -332,42 +330,40 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		
 		// split search results and look, which class files are present
 		QStringList list = m_output.split("\n");
-		for ( QStringList::Iterator it=list.begin(); it!=list.end(); ++it ) 
-		{
+		for(QStringList::Iterator it=list.begin(); it!=list.end(); ++it) {
 			QString filename = QFileInfo(*it).fileName();
-			if ( filename=="scrartcl.cls" )
-			{
+			if(filename=="scrartcl.cls") {
 				map["Scrartcl"] = true;
 				map["Scrbook"]  = true;
 				map["Scrreprt"] = true;
 				map["Scrlttr2"] = true;
 			}
-			else if ( filename=="beamer.cls" )  
+			else if(filename=="beamer.cls") {
 				map["Beamer"] = true;
-			else if ( filename=="prosper.cls" )
+			}
+			else if(filename=="prosper.cls") {
 				map["Prosper"] = true;
-			else if ( filename=="HA-prosper.sty" )
+			}
+			else if(filename=="HA-prosper.sty") {
 				map["HA-prosper"] = true;
+			}
 		}
 		
 	
 		KileTemplate::TemplateList templateList = m_templateManager->getTemplates(KileDocument::LaTeX);
 		// insert all standard templates, all user defined templates 
 		// and those templates, which have a present class 
-		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i)
-		{
+		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i) {
 			KileTemplate::Info info = *i;
 			QString classname = info.name;
-			if ( !map.contains(classname) || map[classname]==true )
-			{
+			if(!map.contains(classname) || map[classname]==true) {
 				new TemplateItem(this, info);
 			}
 		}
 	}
 	else {
-		KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type); 
-		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i)
-		{
+		KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type);
+		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i) {
 			new TemplateItem(this, *i);
 		}
 	}
@@ -376,8 +372,8 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	sort();
 	
 	// set the default item, if its given
-	for ( Q3IconViewItem *item = firstItem(); item; item = item->nextItem() ) {
-		if ( static_cast<TemplateItem*>(item)->name() == m_selicon ) {
+	for(Q3IconViewItem *item = firstItem(); item; item = item->nextItem()) {
+		if(static_cast<TemplateItem*>(item)->name() == m_selicon) {
 			setSelected(item, true);
 			ensureItemVisible(item);
 		}

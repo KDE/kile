@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -16,18 +16,14 @@
 #ifndef TEMPLATES_H
 #define TEMPLATES_H
 
-
-/**
-  *@author Jeroen Wijnhout
-  */
-
-#include <kstandarddirs.h>
+#include <KStandardDirs>
 #include <k3iconview.h>
-#include <klocale.h>
-#include <k3process.h>
-#include <kurl.h>
+#include <KLocale>
+#include <KProcess>
+#include <KUrl>
 
 #include <QObject>
+#include <QProcess>
 #include <QList>
 
 #include "kileconstants.h"
@@ -151,14 +147,15 @@ class TemplateIconView : public K3IconView {
 		KileTemplate::Manager *m_templateManager;
 		QString m_output;
 		QString m_selicon;
-		K3Process *m_proc;
+		KProcess *m_proc;
 
 		void addTemplateIcons(KileDocument::Type type);
 		void searchLaTeXClassFiles();
 
 	protected Q_SLOTS:
-		void slotProcessOutput(K3Process*,char* buf,int len);
-		void slotProcessExited (K3Process *proc);
+		void slotProcessError();
+		void slotProcessOutput();
+		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 };
 
 #endif

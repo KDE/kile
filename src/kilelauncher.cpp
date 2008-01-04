@@ -29,11 +29,12 @@
 #include <KRun>
 #include <KProcess>
 #include <KLocale>
+#include <KShell>
 #include <KStandardDirs>
 #include <KLibLoader>
-#include <kparts/part.h>
-#include <kparts/factory.h>
-#include <kparts/partmanager.h>
+#include <KParts/Part>
+#include <KParts/Factory>
+#include <KParts/PartManager>
 
 namespace KileTool {
 
@@ -124,7 +125,7 @@ namespace KileTool {
 		QString str;
 		tool()->translate(m_cmd);
 		tool()->translate(m_options);
-		*m_proc << m_cmd << m_options;
+		*m_proc << m_cmd << KShell::splitArgs(m_options, KShell::AbortOnMeta);
 
 		if (m_proc) {
 			out += QString("*****     ") + m_cmd+ ' ' + m_options + '\n';

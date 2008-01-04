@@ -38,20 +38,10 @@
 namespace KileTool
 {
 	Base::Base(const QString &name, Manager * manager, bool prepare /* = true */) :
+		m_launcher(NULL),
+		m_quickie(false),
 		m_manager(manager),
 		m_name(name),
-		m_from(QString::null),
-		m_to(QString::null),
-		m_target(QString::null),
-		m_basedir(QString::null),
-		m_relativedir(QString::null),
-		m_targetdir(QString::null),
-		m_source(QString::null),
-		m_S(QString::null),
-		m_options(QString::null),
-		m_resolution(QString::null),
-		m_launcher(0L),
-		m_quickie(false),
 		m_bPrepareToRun(prepare)
 	{
 		m_manager->initTool(this);
@@ -77,7 +67,7 @@ namespace KileTool
 		delete m_launcher;
 	}
 
-	const QString Base::source(bool absolute /* = true */) const
+	QString Base::source(bool absolute /* = true */) const
 	{
 		if (m_source.isNull())
 			return QString::null;
@@ -97,10 +87,9 @@ namespace KileTool
 	void Base::translate(QString &str)
 	{
 		Q3DictIterator<QString> it(*paramDict());
-		for( it.toFirst() ; it.current(); ++it )
-		{
+		for(it.toFirst(); it.current(); ++it) {
 // 			KILE_DEBUG() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
-			str.replace(it.currentKey(), *( it.current() ) );
+			str.replace(it.currentKey(), *(it.current()));
 		}
 	}
 
@@ -150,6 +139,9 @@ namespace KileTool
 
 		m_launcher->setWorkingDirectory(workingDir());
 
+#ifdef __GNUC__
+#warning Better turn this into a QStringList!
+#endif
 		//fill in the dictionary
 		addDict("%options", m_options);
 

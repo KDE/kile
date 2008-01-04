@@ -1,8 +1,8 @@
-/***************************************************************************
+/***************************************************************************************
     begin                : mon 3-11 20:40:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,14 +16,13 @@
 #ifndef KILE_LAUNCHER
 #define KILE_LAUNCHER
 
-#include <qobject.h>
-#include <q3dict.h>
-#include <qstringlist.h>
+#include <QObject>
+#include <QProcess>
 
+class KProcess;
 
-class K3Process;
-class K3ShellProcess;
 class KileInfo;
+
 namespace KParts { class ReadOnlyPart; class PartManager; }
 
 namespace KileTool
@@ -47,7 +46,7 @@ namespace KileTool
 
 	public Q_SLOTS:
 		virtual bool launch() = 0;
-		virtual bool kill() = 0;
+		virtual void kill() = 0;
 		virtual bool selfCheck() = 0;
 
 	public:
@@ -57,8 +56,8 @@ namespace KileTool
 		Base* tool() { return m_tool; }
 		
 	Q_SIGNALS:
-		void message(int, const QString & );
-		void output(const QString &);
+		void message(int, const QString&);
+		void output(const QString&);
 
 		void exitedWith(int);
 		void abnormalExit();
@@ -75,27 +74,28 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		ProcessLauncher(const char * shellname =0);
+		ProcessLauncher(const QString& shellCommand = QString());
 		~ProcessLauncher();
 
 	public:
 		void setWorkingDirectory(const QString &wd);
-		void changeToWorkingDirectory(bool change) { m_changeTo = change; }
-		void setCommand(const QString & cmd) { m_cmd = cmd; }
-		void setOptions(const QString & opt) { m_options = opt; }
+		void changeToWorkingDirectory(bool change);
+		void setCommand(const QString& cmd);
+		void setOptions(const QString& opt);
 
 	public Q_SLOTS:
 		bool launch();
-		bool kill();
+		void kill();
 		bool selfCheck();
 
 	private Q_SLOTS:
-		void slotProcessOutput(K3Process*, char*, int );
-		void slotProcessExited(K3Process*);
+		void slotProcessOutput();
+		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
 	private:
-		QString 	m_wd, m_cmd, m_options, m_texinputs, m_bibinputs, m_bstinputs;
-		K3ShellProcess	*m_proc;
+		QString 	m_wd, m_cmd, m_texinputs, m_bibinputs, m_bstinputs;
+		QString		m_options;
+		KProcess	*m_proc;
 		bool		m_changeTo;
 	};
 
@@ -104,7 +104,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		KonsoleLauncher(const char * shellname =0);
+		KonsoleLauncher(const QString& shellCommand = QString());
 
 	public Q_SLOTS:
 		bool launch();
@@ -115,26 +115,26 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		PartLauncher(const char * = 0);
+		PartLauncher();
 		~PartLauncher();
 
-		void setLibrary(const char *lib) { m_libName = lib; }
-		void setClass(const char *clas) { m_className = clas; }
-		void setOptions(QString & options) { m_options = options; }
+		void setLibrary(const QString& lib);
+		void setClass(const QString& clas);
+		void setOptions(const QString& options);
 
 	public Q_SLOTS:
 		bool launch();
-		bool kill();
-		bool selfCheck() { return true; } //no additional self-checks, all of them are done in launch()
+		void kill();
+		bool selfCheck();
 
-		KParts::ReadOnlyPart* part() { return m_part; }
+		KParts::ReadOnlyPart* part();
 
 	protected:
 		KParts::ReadOnlyPart	*m_part;
 
-		QString				m_state;
-		const char			*m_name, *m_libName, *m_className;
-		QString				m_options;
+		QString		m_state;
+		QString		m_libName, m_className;
+		QString		m_options;
 	};
 
 	class DocPartLauncher : public PartLauncher
@@ -142,7 +142,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		DocPartLauncher(const char * name = 0) : PartLauncher(name) {}
+		DocPartLauncher();
 		
 	public Q_SLOTS:
 		bool launch();

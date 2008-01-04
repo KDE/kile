@@ -19,11 +19,9 @@
 #include <QString>
 #include <QCheckBox>
 
-#include <kstandarddirs.h>
-#include <k3iconview.h>
-#include <kdialog.h>
-#include <klocale.h>
-#include <k3process.h>
+#include <KStandardDirs>
+#include <KDialog>
+#include <KLocale>
 
 #include "kileconstants.h"
 #include "templates.h"

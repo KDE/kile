@@ -32,7 +32,7 @@ class KileProject;
 
 namespace KileTool
 {
-	typedef QMap<QString,QString> Config;
+	typedef QMap<QString, QString> Config;
 
 	class Manager;
 	
@@ -79,18 +79,18 @@ namespace KileTool
 		/**
 		 * @returns the source file that is used to run the tool on.
 		 **/
-		const QString source(bool absolute = true) const;
-		
-		const QString S() const { return m_S; }
-		const QString baseDir() const { return m_basedir; }
-		const QString relativeDir() const { return m_relativedir; }
-		const QString targetDir() const { return m_targetdir; }
-		const QString from() const { return m_from; }
-		const QString to() const { return m_to; }
-		const QString target() const { return m_target; }
-		const QString options() const { return m_options; }
+		QString source(bool absolute = true) const;
 
-		void setOptions(const QString &opt) { m_options = opt; }
+		QString S() const { return m_S; }
+		QString baseDir() const { return m_basedir; }
+		QString relativeDir() const { return m_relativedir; }
+		QString targetDir() const { return m_targetdir; }
+		QString from() const { return m_from; }
+		QString to() const { return m_to; }
+		QString target() const { return m_target; }
+		QString options() const { return m_options; }
+
+		void setOptions(const QString& opt) { m_options = opt; }
 
 		virtual bool isViewer() { return false; }
 
@@ -140,7 +140,7 @@ namespace KileTool
 		 **/
 		Q3Dict<QString>* paramDict() { return &m_dictParams; }
 
-		bool addDict(const QString & key, const QString & value);
+		bool addDict(const QString& key, const QString& value);
 
 		void translate(QString &str);
 
@@ -150,12 +150,28 @@ namespace KileTool
 		void setMsg(long n, const KLocalizedString& msg);
 		KLocalizedString msg(long n) const { return m_messages[n]; }
 
-	protected:
-		bool needsUpdate(const QString &target, const QString &source);
-
 	public Q_SLOTS:
 		void sendMessage(int, const QString &);
 		virtual void filterOutput(const QString &);
+
+		/**
+		 * Starts the tool. First it performs basic checks (checkPrereqs()),
+		 * if all is well it launches the tool (launch()). After the process has
+		 * exited it calls finish().
+		 * @return the exit code of the tool (if available)
+		 **/
+		virtual int run();
+
+		/**
+		 * Terminates the running process.
+		 **/
+		virtual void stop();
+
+		/**
+		 * Clean up after the process/lib has finished.
+		 **/
+		virtual bool finish(int);
+
 
 	Q_SIGNALS:
 		void message(int, const QString &, const QString &);
@@ -170,12 +186,21 @@ namespace KileTool
 		void setEntryMap(Config map) { m_entryMap = map; }
 		const QString readEntry(const QString & key) { return m_entryMap[key]; }
 
-	public:
 		virtual void prepareToRun(const QString &cfg = QString::null);
-    		bool isPrepared() { return m_bPrepared; }
+		bool isPrepared() { return m_bPrepared; }
 		bool needsToBePrepared() { return m_bPrepareToRun; }
 
+		/**
+		 * Configures the tool object.
+		 **/
+		 virtual bool configure(const QString & cfg = QString::null);
+
 	protected:
+		Launcher	*m_launcher;
+		bool		m_quickie;
+
+		bool needsUpdate(const QString &target, const QString &source);
+
 		/**
 		 * Checks if the prerequisites are in order.
 		 * @returns true if everything is ok, false otherwise.
@@ -200,56 +225,27 @@ namespace KileTool
 		
 		virtual bool checkSource();
 
-  public:
-		/**
-		 * Configures the tool object.
-		 **/
-		 virtual bool configure(const QString & cfg = QString::null);
-
-	public Q_SLOTS:
-		/**
-		 * Starts the tool. First it performs basic checks (checkPrereqs()),
-		 * if all is well it launches the tool (launch()). After the process has
-		 * exited it calls finish().
-		 * @return the exit code of the tool (if available)
-		 **/
-		virtual int run();
-
-		/**
-		 * Terminates the running process.
-		 **/
-		virtual void stop();
-
-		/**
-		 * Clean up after the process/lib has finished.
-		 **/
-		virtual bool finish(int);
-
 	private:
 		Manager			*m_manager;
 		KileInfo		*m_ki;
 		KConfig			*m_config;
 
 		QString			m_name, m_from, m_to;
-		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_options;
+		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S;
+		QString			m_options;
 		QString			m_resolution;
 
 		QString			m_message;
 
 		bool			m_buildPrereqs;
 
-	protected:
-		Launcher			*m_launcher;
-		bool m_quickie;
-
-	private:
 		Q3Dict<QString>		m_dictParams;
-		Config				m_entryMap;
+		Config			m_entryMap;
 
 		uint		    	m_flags;
-		int					m_nPreparationResult;
-		bool				m_bPrepared;
-        bool                m_bPrepareToRun;
+		int			m_nPreparationResult;
+		bool			m_bPrepared;
+		bool			m_bPrepareToRun;
 
 		//messages
 		QMap<long, KLocalizedString>	m_messages;

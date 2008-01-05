@@ -231,9 +231,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		m_edName->setReadOnly(true);
 		m_chStarred->setChecked(lvitem->text(1) == "*");
 
-#ifdef __GNUC__
-#warning fix QComboBox->setCurrentText()
-#endif
+		int index;
 		if (m_envmode)             // insert existing arguments for environments
 		{
 			label1->setText(i18n("Edit a LaTeX Environment"));
@@ -241,23 +239,28 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 			{
 				m_chEndofline->setChecked(lvitem->text(2) == "\\\\");
 				m_chMath->setChecked(lvitem->text(3) == "$");
-//     m_coTab->setCurrentText( lvitem->text(4) );
+				if ((index = m_coTab->findText(lvitem->text(4))) > -1)
+					m_coTab->setCurrentIndex(index);
 			}
 			if (m_useOption) {
-//     m_coOption->setCurrentText( lvitem->text(5) );
+				if ((index = m_coOption->findText(lvitem->text(5))) > -1)
+					m_coOption->setCurrentIndex(index);
 			}
 			if (m_useParameter) {
-//     m_coParameter->setCurrentText( lvitem->text(6) );
+				if ((index = m_coParameter->findText(lvitem->text(6))) > -1)
+					m_coParameter->setCurrentIndex(index);
 			}
 		}
 		else                      // insert existing arguments for commands
 		{
 			label1->setText(i18n("Edit a LaTeX Command"));
 			if (m_useOption) {
-//     m_coOption->setCurrentText( lvitem->text(2) );
+				if ((index = m_coOption->findText(lvitem->text(2))) > -1)
+					m_coOption->setCurrentIndex(index);
 			}
 			if (m_useParameter) {
-//     m_coParameter->setCurrentText( lvitem->text(3) );
+				if ((index = m_coParameter->findText(lvitem->text(3))) > -1)
+					m_coParameter->setCurrentIndex(index);
 			}
 		}
 	}
@@ -368,8 +371,6 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	// FIXME port me to QTreeWidget
 	//for (int col = 1; col <= 6; col++)
 	//	m_lvEnvironments->setColumnAlignment(col, Qt::AlignHCenter);
-	for (int col = 0; col <= 6; col++)
-		m_lvEnvironments->resizeColumnToContents(col);
 
 	// tab 2: command listview
 	m_lvCommands = new QTreeWidget(m_tab);
@@ -384,8 +385,6 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	// FIXME port me to QTreeWidget
 	//for (int col = 1; col <= 3; col++)
 	//	m_lvCommands->setColumnAlignment(col, Qt::AlignHCenter);
-	for (int col = 0; col <= 3; col++)
-		m_lvCommands->resizeColumnToContents(col);
 
 	// add all pages to TabWidget
 	m_tab->addTab(m_lvEnvironments, i18n("&Environments"));
@@ -441,6 +440,11 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	// init listview
 	resetListviews();
 	slotEnableButtons();
+
+	for (int col = 0; col <= 6; col++)
+		m_lvEnvironments->resizeColumnToContents(col);
+	for (int col = 0; col <= 3; col++)
+		m_lvCommands->resizeColumnToContents(col);
 
 	//resize(sizeHint().width()+20,sizeHint().height()+50);
 }

@@ -333,7 +333,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 {
 	setCaption(i18n("LaTeX Configuration"));
 	setModal(true);
-	setButtons(Ok | Cancel | Help);
+	setButtons(Ok | Cancel | Default);
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
 
@@ -395,9 +395,9 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_btnAdd = new KPushButton(i18n("&Add..."), buttonBox);
 	m_btnAdd->setIcon(KIcon("list-add"));
 	m_btnDelete = new KPushButton(i18n("&Delete"), buttonBox);
-	m_btnAdd->setIcon(KIcon("list-remove"));
+	m_btnDelete->setIcon(KIcon("list-remove"));
 	m_btnEdit = new KPushButton(i18n("&Edit..."), buttonBox);
-	m_btnAdd->setIcon(KIcon("document-properties"));
+	m_btnEdit->setIcon(KIcon("document-properties"));
 
 	buttonBoxLayout->addStretch();
 	buttonBoxLayout->addWidget(m_btnAdd);
@@ -412,7 +412,6 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	pageLayout->addWidget(m_cbUserDefined);
 	pageLayout->addStretch();
 
-	setButtonText(Help,"Default Settings");
 	slotEnableButtons();
 
 	m_lvEnvironments->setWhatsThis(i18n("List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments."));
@@ -646,7 +645,7 @@ void LatexCommandsDialog::slotEnableButtons()
 	m_btnAdd->setEnabled(addState);
 	m_btnDelete->setEnabled(deleteState);
 	m_btnEdit->setEnabled(editState);
-	enableButton(Help,resetState);
+	enableButton(Default,resetState);
 }
 
 void LatexCommandsDialog::slotAddClicked()
@@ -792,7 +791,7 @@ void LatexCommandsDialog::slotUserDefinedClicked()
 
 // reset to default settings
 
-void LatexCommandsDialog::slotHelp()
+void LatexCommandsDialog::slotDefault()
 {
 	QString mode = ( getListviewMode() == lvEnvMode ) ? i18n("'environment'") : i18n("'command'");
 	if(KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {

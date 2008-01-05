@@ -120,7 +120,7 @@ private Q_SLOTS:
 	void slotDeleteClicked();
 	void slotEditClicked();
 	void slotUserDefinedClicked();
-	void slotHelp();
+	void slotDefault();
 	void slotOk();
 };
 

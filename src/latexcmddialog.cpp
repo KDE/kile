@@ -28,10 +28,10 @@
 #include <QLayout>
 #include <QRegExp>
 #include <QTabWidget>
+#include <QTreeWidget>
 #include <QValidator>
 #include <QVBoxLayout>
 
-#include <K3ListView>
 #include <KConfig>
 #include <KIcon>
 #include <KLineEdit>
@@ -49,7 +49,7 @@ namespace KileDialog
 // BEGIN NewLatexCommand
 
 NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
-																 const QString &groupname, K3ListViewItem *lvitem,
+																 const QString &groupname, QTreeWidgetItem *lvitem,
 																 KileDocument::CmdAttribute cmdtype,
 																 QMap<QString, bool> *dict)
 		: KDialog(parent), m_dict(dict)
@@ -60,7 +60,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
 
-	// 'add' is only allowed, if the K3ListViewItem is defined
+	// 'add' is only allowed, if the QTreeWidgetItem is defined
 	m_addmode = (lvitem == 0);
 	m_envmode = (cmdtype < KileDocument::CmdAttrLabel);
 	m_cmdType = cmdtype;
@@ -329,7 +329,7 @@ void NewLatexCommand::slotOk()
 
 //BEGIN LatexCommandsDialog
 
-LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent, const char *name)
+LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent)
 		: KDialog(parent), m_config(config), m_commands(commands)
 {
 	setCaption(i18n("LaTeX Configuration"));
@@ -353,33 +353,39 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_cbUserDefined = new QCheckBox(i18n("&Show only user defined environments and commands"), page);
 
 	// tab 1: environment listview
-	m_lvEnvironments = new K3ListView(m_tab);
+	m_lvEnvironments = new QTreeWidget(m_tab);
 	m_lvEnvironments->setRootIsDecorated(true);
-	m_lvEnvironments->addColumn(i18n("Environment"));
-	m_lvEnvironments->addColumn(i18n("Starred"));
-	m_lvEnvironments->addColumn(i18n("EOL"));
-	m_lvEnvironments->addColumn(i18n("Math"));
-	m_lvEnvironments->addColumn(i18n("Tab"));
-	m_lvEnvironments->addColumn(i18n("Option"));
-	m_lvEnvironments->addColumn(i18n("Parameter"));
+	m_lvEnvironments->setHeaderLabels(QStringList() << i18n("Environment")
+	                                                << i18n("Starred")
+	                                                << i18n("EOL")
+	                                                << i18n("Math")
+	                                                << i18n("Tab")
+	                                                << i18n("Option")
+	                                                << i18n("Parameter"));
 	m_lvEnvironments->setAllColumnsShowFocus(true);
-	m_lvEnvironments->setSelectionMode(Q3ListView::Single);
+	m_lvEnvironments->setSelectionMode(QAbstractItemView::SingleSelection);
 
-	for (int col = 1; col <= 6; col++)
-		m_lvEnvironments->setColumnAlignment(col, Qt::AlignHCenter);
+	// FIXME port me to QTreeWidget
+	//for (int col = 1; col <= 6; col++)
+	//	m_lvEnvironments->setColumnAlignment(col, Qt::AlignHCenter);
+	for (int col = 0; col <= 6; col++)
+		m_lvEnvironments->resizeColumnToContents(col);
 
 	// tab 2: command listview
-	m_lvCommands = new K3ListView(m_tab);
+	m_lvCommands = new QTreeWidget(m_tab);
 	m_lvCommands->setRootIsDecorated(true);
-	m_lvCommands->addColumn(i18n("Command"));
-	m_lvCommands->addColumn(i18n("Starred"));
-	m_lvCommands->addColumn(i18n("Option"));
-	m_lvCommands->addColumn(i18n("Parameter"));
+	m_lvCommands->setHeaderLabels(QStringList() << i18n("Command")
+	                                            << i18n("Starred")
+	                                            << i18n("Option")
+	                                            << i18n("Parameter"));
 	m_lvCommands->setAllColumnsShowFocus(true);
-	m_lvCommands->setSelectionMode(Q3ListView::Single);
+	m_lvCommands->setSelectionMode(QAbstractItemView::SingleSelection);
 
-	for (int col = 1; col <= 3; col++)
-		m_lvCommands->setColumnAlignment(col, Qt::AlignHCenter);
+	// FIXME port me to QTreeWidget
+	//for (int col = 1; col <= 3; col++)
+	//	m_lvCommands->setColumnAlignment(col, Qt::AlignHCenter);
+	for (int col = 0; col <= 3; col++)
+		m_lvCommands->resizeColumnToContents(col);
 
 	// add all pages to TabWidget
 	m_tab->addTab(m_lvEnvironments, i18n("&Environments"));
@@ -421,8 +427,8 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_btnEdit->setWhatsThis(i18n("Edit an user defined environment."));
 
 	connect(m_tab, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotPageChanged(QWidget*)));
-	connect(m_lvEnvironments, SIGNAL(selectionChanged()), this, SLOT(slotEnableButtons()));
-	connect(m_lvCommands, SIGNAL(selectionChanged()), this, SLOT(slotEnableButtons()));
+	connect(m_lvEnvironments, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
+	connect(m_lvCommands, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
 	connect(m_btnAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
 	connect(m_btnDelete, SIGNAL(clicked()), this, SLOT(slotDeleteClicked()));
 	connect(m_btnEdit, SIGNAL(clicked()), this, SLOT(slotEditClicked()));
@@ -447,16 +453,16 @@ void LatexCommandsDialog::resetListviews()
 	m_lvEnvironments->clear();
 	m_lvCommands->clear();
 
-	m_lviAmsmath    = new K3ListViewItem(m_lvEnvironments, i18n("AMS-Math"));
-	m_lviMath       = new K3ListViewItem(m_lvEnvironments, i18n("Math"));
-	m_lviList       = new K3ListViewItem(m_lvEnvironments, i18n("Lists"));
-	m_lviTabular    = new K3ListViewItem(m_lvEnvironments, i18n("Tabular"));
-	m_lviVerbatim   = new K3ListViewItem(m_lvEnvironments, i18n("Verbatim"));
+	m_lviAmsmath    = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("AMS-Math")));
+	m_lviMath       = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Math")));
+	m_lviList       = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Lists")));
+	m_lviTabular    = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Tabular")));
+	m_lviVerbatim   = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Verbatim")));
 
-	m_lviLabels     = new K3ListViewItem(m_lvCommands, i18n("Labels"));
-	m_lviReferences = new K3ListViewItem(m_lvCommands, i18n("References"));
-	m_lviCitations  = new K3ListViewItem(m_lvCommands, i18n("Citations"));
-	m_lviInputs = new K3ListViewItem(m_lvCommands, i18n("Includes"));
+	m_lviLabels     = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("Labels")));
+	m_lviReferences = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("References")));
+	m_lviCitations  = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("Citations")));
+	m_lviInputs     = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("Includes")));
 
 	QStringList list;
 	QStringList::ConstIterator it;
@@ -467,7 +473,7 @@ void LatexCommandsDialog::resetListviews()
 	{
 		if (m_commands->commandAttributes(*it, attr))
 		{
-			K3ListViewItem *parent;
+			QTreeWidgetItem *parent;
 			switch (attr.type) {
 			case KileDocument::CmdAttrAmsmath:
 				parent = m_lviAmsmath;
@@ -509,7 +515,7 @@ LatexCommandsDialog::LVmode LatexCommandsDialog::getListviewMode()
 	return (m_tab->currentIndex() == 0) ? lvEnvMode : lvCmdMode;
 }
 
-KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(K3ListViewItem *item)
+KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(QTreeWidgetItem *item)
 {
 	KileDocument::CmdAttribute type;
 
@@ -545,7 +551,7 @@ KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(K3ListViewItem *i
 	return type;
 }
 
-bool LatexCommandsDialog::isParentItem(K3ListViewItem *item)
+bool LatexCommandsDialog::isParentItem(QTreeWidgetItem *item)
 {
 	return (item == m_lviMath       ||
 					item == m_lviList       ||
@@ -560,14 +566,14 @@ bool LatexCommandsDialog::isParentItem(K3ListViewItem *item)
 
 ////////////////////////////// entries //////////////////////////////
 
-void LatexCommandsDialog::setEntry(K3ListViewItem *parent, const QString &name,
+void LatexCommandsDialog::setEntry(QTreeWidgetItem *parent, const QString &name,
 																	 KileDocument::LatexCmdAttributes &attr)
 {
 	// set dictionary
 	m_dictCommands[name] = attr.standard;
 
 	// create an item
-	K3ListViewItem *item = new K3ListViewItem(parent, name);
+	QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList(name));
 
 	// always set the starred entry
 	if (attr.starred)
@@ -594,7 +600,7 @@ void LatexCommandsDialog::setEntry(K3ListViewItem *parent, const QString &name,
 	}
 }
 
-void LatexCommandsDialog::getEntry(K3ListViewItem *item, KileDocument::LatexCmdAttributes &attr)
+void LatexCommandsDialog::getEntry(QTreeWidgetItem *item, KileDocument::LatexCmdAttributes &attr)
 {
 	// always set the starred entry
 	attr.starred = (item->text(1) == "*");
@@ -629,14 +635,15 @@ bool LatexCommandsDialog::isUserDefined(const QString &name)
 
 // look for user defined environment or commands in this listview
 
-bool LatexCommandsDialog::hasUserDefined(K3ListView *listview)
+bool LatexCommandsDialog::hasUserDefined(QTreeWidget *listview)
 {
-	for (Q3ListViewItem *cur = listview->firstChild(); cur; cur = cur->nextSibling())
-	{
-		for (Q3ListViewItem *curchild = cur->firstChild(); curchild; curchild = curchild->nextSibling())
-		{
-			if (isUserDefined(curchild->text(0)))
+	QTreeWidgetItem *tli;
+	for (int i = 0; i < listview->topLevelItemCount(); ++i) {
+		tli = listview->topLevelItem(i);
+		for (int j = 0; j < tli->childCount(); ++j) {
+			if (isUserDefined(tli->child(j)->text(0))) {
 				return true;
+			}
 		}
 	}
 	return false;
@@ -656,10 +663,10 @@ void LatexCommandsDialog::slotEnableButtons()
 	bool editState = false;
 	bool resetState = false;
 
-	K3ListView *listview = (getListviewMode() == lvEnvMode) ? m_lvEnvironments : m_lvCommands;
+	QTreeWidget *listview = (getListviewMode() == lvEnvMode) ? m_lvEnvironments : m_lvCommands;
 	resetState = (hasUserDefined(listview));
 
-	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
+	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
 
 	if (item && item != m_lviAmsmath)
 	{
@@ -679,7 +686,7 @@ void LatexCommandsDialog::slotEnableButtons()
 
 void LatexCommandsDialog::slotAddClicked()
 {
-	K3ListView *listview;
+	QTreeWidget *listview;
 	QString caption;
 	bool envmode;
 
@@ -696,7 +703,7 @@ void LatexCommandsDialog::slotAddClicked()
 		envmode  = false;
 	}
 
-	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
+	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
 	if (item && isParentItem(item))
 	{
 		// get current command type
@@ -717,11 +724,11 @@ void LatexCommandsDialog::slotAddClicked()
 			QString name;
 			KileDocument::LatexCmdAttributes attr;
 			dialog->getParameter(name, attr);
-			setEntry((K3ListViewItem *)item, name, attr);
+			setEntry((QTreeWidgetItem *)item, name, attr);
 			// open this parent item
-			if (!item->isOpen())
+			if (!item->isExpanded())
 			{
-				item->setOpen(true);
+				item->setExpanded(true);
 			}
 			slotEnableButtons();
 		}
@@ -731,7 +738,7 @@ void LatexCommandsDialog::slotAddClicked()
 
 void LatexCommandsDialog::slotDeleteClicked()
 {
-	K3ListView *listview;
+	QTreeWidget *listview;
 	QString message;
 
 	if (getListviewMode() == lvEnvMode)
@@ -745,7 +752,7 @@ void LatexCommandsDialog::slotDeleteClicked()
 		message  = i18n("Do you want to delete this command?");
 	}
 
-	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
+	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
 	if (item && !isParentItem(item))
 	{
 		if (KMessageBox::warningContinueCancel(this, message, i18n("Delete")) == KMessageBox::Continue)
@@ -762,7 +769,7 @@ void LatexCommandsDialog::slotDeleteClicked()
 
 void LatexCommandsDialog::slotEditClicked()
 {
-	K3ListView *listview;
+	QTreeWidget *listview;
 	QString caption;
 
 	if (getListviewMode() == lvEnvMode)
@@ -776,10 +783,10 @@ void LatexCommandsDialog::slotEditClicked()
 		caption  = i18n("LaTeX Commands");
 	}
 
-	K3ListViewItem *item = (K3ListViewItem *)listview->selectedItem();
+	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
 	if (item && !isParentItem(item))
 	{
-		K3ListViewItem *parentitem = (K3ListViewItem *)item->parent();
+		QTreeWidgetItem *parentitem = (QTreeWidgetItem *)item->parent();
 		if (parentitem)
 		{
 			// get current command type
@@ -862,7 +869,7 @@ void LatexCommandsDialog::readConfig()
 	m_cbUserDefined->setChecked(KileConfig::showUserCommands());
 }
 
-void LatexCommandsDialog::writeConfig(K3ListView *listview, const QString &groupname, bool env)
+void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &groupname, bool env)
 {
 	// first delete old entries
 	if (m_config->hasGroup(groupname))
@@ -876,10 +883,10 @@ void LatexCommandsDialog::writeConfig(K3ListView *listview, const QString &group
 	attr.standard = false;
 
 	// scan the listview for non standard entries
-	for (Q3ListViewItem *cur = listview->firstChild(); cur; cur = cur->nextSibling())
-	{
+	for (int i = 0; i < listview->topLevelItemCount(); ++i) {
+		QTreeWidgetItem *cur = listview->topLevelItem(i);
 		// get the type of the parent entry
-		attr.type = getCommandMode((K3ListViewItem *)cur);
+		attr.type = getCommandMode(cur);
 		if (attr.type == KileDocument::CmdAttrNone)
 		{
 			KILE_DEBUG() << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
@@ -887,12 +894,12 @@ void LatexCommandsDialog::writeConfig(K3ListView *listview, const QString &group
 		}
 
 		// look for children
-		for (Q3ListViewItem *curchild = cur->firstChild(); curchild; curchild = curchild->nextSibling())
-		{
+		for (int j = 0; j < cur->childCount(); ++j) {
+			QTreeWidgetItem *curchild = cur->child(j);
 			QString key = curchild->text(0);
 			if (isUserDefined(key))
 			{
-				getEntry((K3ListViewItem *)curchild, attr);
+				getEntry(curchild, attr);
 				QString value = m_commands->configString(attr, env);
 				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
 				if (! value.isEmpty())
@@ -944,30 +951,30 @@ void LatexCommandsDialog::resetCommands()
 
 void LatexCommandsDialog::getListviewStates(bool states[])
 {
-	states[0] = m_lvEnvironments->isOpen(m_lviAmsmath);
-	states[1] = m_lvEnvironments->isOpen(m_lviMath);
-	states[2] = m_lvEnvironments->isOpen(m_lviList);
-	states[3] = m_lvEnvironments->isOpen(m_lviTabular);
-	states[4] = m_lvEnvironments->isOpen(m_lviVerbatim);
+	states[0] = m_lviAmsmath->isExpanded();
+	states[1] = m_lviMath->isExpanded();
+	states[2] = m_lviList->isExpanded();
+	states[3] = m_lviTabular->isExpanded();
+	states[4] = m_lviVerbatim->isExpanded();
 
-	states[5] = m_lvCommands->isOpen(m_lviLabels);
-	states[6] = m_lvCommands->isOpen(m_lviReferences);
-	states[7] = m_lvCommands->isOpen(m_lviCitations);
-	states[8] = m_lvCommands->isOpen(m_lviInputs);
+	states[5] = m_lviLabels->isExpanded();
+	states[6] = m_lviReferences->isExpanded();
+	states[7] = m_lviCitations->isExpanded();
+	states[8] = m_lviInputs->isExpanded();
 }
 
 void LatexCommandsDialog::setListviewStates(bool states[])
 {
-	m_lvEnvironments->setOpen(m_lviAmsmath, states[0]);
-	m_lvEnvironments->setOpen(m_lviMath, states[1]);
-	m_lvEnvironments->setOpen(m_lviList, states[2]);
-	m_lvEnvironments->setOpen(m_lviTabular, states[3]);
-	m_lvEnvironments->setOpen(m_lviVerbatim, states[4]);
+	m_lviAmsmath->setExpanded(states[0]);
+	m_lviMath->setExpanded(states[1]);
+	m_lviList->setExpanded(states[2]);
+	m_lviTabular->setExpanded(states[3]);
+	m_lviVerbatim->setExpanded(states[4]);
 
-	m_lvCommands->setOpen(m_lviLabels, states[5]);
-	m_lvCommands->setOpen(m_lviReferences, states[6]);
-	m_lvCommands->setOpen(m_lviCitations, states[7]);
-	m_lvCommands->setOpen(m_lviInputs, states[8]);
+	m_lviLabels->setExpanded(states[5]);
+	m_lviReferences->setExpanded(states[6]);
+	m_lviCitations->setExpanded(states[7]);
+	m_lviInputs->setExpanded(states[8]);
 }
 
 //END LatexCommandsDialog

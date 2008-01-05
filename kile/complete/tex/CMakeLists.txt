@@ -84,6 +84,7 @@ SET(kile_texCompleteFiles
 	tabularx.cwl
 	tex.cwl
 	textcomp.cwl
+	url.cwl
 	varioref.cwl
 	verse.cwl
 	xifthen.cwl

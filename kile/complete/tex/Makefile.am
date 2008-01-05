@@ -82,6 +82,7 @@ texcomplete_DATA = \
 	tabularx.cwl \
 	tex.cwl \
 	textcomp.cwl \
+	url.cwl \
 	varioref.cwl \
 	verse.cwl \
 	xifthen.cwl \

@@ -381,8 +381,11 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	buttonBox->setLayout(buttonBoxLayout);
 
 	m_btnAdd = new KPushButton(i18n("&Add..."), buttonBox);
+	m_btnAdd->setIcon(KIcon("list-add"));
 	m_btnDelete = new KPushButton(i18n("&Delete"), buttonBox);
+	m_btnAdd->setIcon(KIcon("list-remove"));
 	m_btnEdit = new KPushButton(i18n("&Edit..."), buttonBox);
+	m_btnAdd->setIcon(KIcon("document-properties"));
 
 	buttonBoxLayout->addStretch();
 	buttonBoxLayout->addWidget(m_btnAdd);

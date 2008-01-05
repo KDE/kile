@@ -76,8 +76,8 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 #endif
 // 	groupbox->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)1, 0, 0, groupbox->sizePolicy().hasHeightForWidth() ) );
 // 	groupbox->setColumnLayout(0, Qt::Vertical ); 
-	groupbox->layout()->setSpacing( 6 ); 
-	groupbox->layout()->setMargin( 11 );
+// 	groupbox->layout()->setSpacing( 6 ); 
+// 	groupbox->layout()->setMargin( 11 );
 	QGridLayout *groupboxLayout = new QGridLayout(groupbox);
 	groupboxLayout->setAlignment( Qt::AlignTop );
    
@@ -166,9 +166,8 @@ TexDocDialog::~TexDocDialog()
 void TexDocDialog::readToc()
 {
 	// open to read
-	QFile fin( m_texdoctkPath );
-	if ( !fin.exists() || !fin.open(QIODevice::ReadOnly) ) 
-	{
+	QFile fin(m_texdoctkPath);
+	if(!fin.exists() || !fin.open(QIODevice::ReadOnly)) {
 		KMessageBox::error(this,i18n("Could not read 'texdoctk.dat'."));
 		return;
 	}
@@ -178,9 +177,9 @@ void TexDocDialog::readToc()
 	QTextStream data(&fin);
 	while(!data.atEnd()) {
 		textline = data.readLine();
-		if(!(textline.isEmpty() || textline[0]=='#')) {
+		if(!(textline.isEmpty() || textline[0] =='#')) {
 			// save the whole entry
-			m_tocList.append( textline );
+			m_tocList.append(textline);
 			
 			// list entries 0,1,basename(2),3 are needed for keyword search
 			// (key,title,filepath,keywords)
@@ -191,8 +190,10 @@ void TexDocDialog::readToc()
 			if(list.count() > 2) {
 				QFileInfo fi(list[2]);
 				basename = fi.baseName().toLower();
-			}  
-			
+			}
+			else if(list.count() < 2) {
+				continue;
+			}
 			QString entry = list[0] + ';' + list[1];
 			if(!basename.isEmpty()) {
 				entry += ';' + basename;
@@ -214,37 +215,36 @@ void TexDocDialog::showToc(const QString &caption,const QStringList &doclist, bo
 	setUpdatesEnabled( false );
 	m_texdocs->setColumnText(0,caption);	
 	
-	for (uint i=0; i<doclist.count(); i++ ) 
-	{
-		if ( doclist[i][0] == '@' ) 
-		{
+	for(int i = 0; i < doclist.count(); ++i) {
+		if (doclist[i][0] == '@') {
 			section = doclist[i];
 			itemsection = new K3ListViewItem(m_texdocs,section.remove(0,1));
-		} 
-		else 
-		{
+		}
+		else {
 			keylist = doclist[i].split(';', QString::KeepEmptyParts);
-			if ( itemsection ) 
-			{
+			if(keylist.size() < 4) {
+				continue;
+			}
+			if(itemsection) {
 				K3ListViewItem *item = new K3ListViewItem(itemsection,keylist[1],keylist[0]);
-				item->setPixmap(0, SmallIcon(getIconName(keylist[2])) );
+				item->setPixmap(0, SmallIcon(getIconName(keylist[2])));
 				
 				// save filename in dictionary
 				m_dictDocuments[keylist[0]] = keylist[2];
 				
 				// search for special keywords
 				QRegExp reg( "^\\s*(-\\d-)" );
-				if ( keylist[3].indexOf(reg, 0) == 0 ) 
-				{
+				if(keylist[3].indexOf(reg, 0) == 0) {
 					m_dictStyleCodes[keylist[0]] = reg.cap(1);
 				}
 			}
 		}
 	}
-	setUpdatesEnabled( true );
+	setUpdatesEnabled(true);
 	
-	if ( toc )
+	if(toc) {
 		m_pbSearch->setEnabled(false);
+	}
 	enableButton(Help,!toc);
 	m_texdocs->setFocus();
 }

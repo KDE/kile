@@ -60,7 +60,6 @@
 class QFileInfo;
 class QTimer;
 class QSignalMapper;
-class Q3IconViewItem;
 
 class KToolBar;
 class KAction;

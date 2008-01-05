@@ -421,16 +421,16 @@ void Kile::enableSymbolViewMFUS()
 			Click on an icon to insert the command, additionally pressing Qt::SHIFT inserts it in math mode,\
 			pressing Qt::CTRL in curly brackets."));
 
-	connect(m_symbolViewRelation,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewOperators,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewArrows,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewMiscMath,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewMiscText,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewDelimiters,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewGreek,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewSpecial,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewCyrillic,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
-	connect(m_symbolViewUser,SIGNAL(addToList(const Q3IconViewItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const Q3IconViewItem *)));
+	connect(m_symbolViewRelation,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewOperators,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewArrows,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewMiscMath,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewMiscText,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewDelimiters,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewGreek,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewSpecial,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewCyrillic,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewUser,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
 }
 
 void Kile::disableSymbolViewMFUS()

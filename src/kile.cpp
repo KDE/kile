@@ -1419,7 +1419,7 @@ bool Kile::resetPart()
 
 	m_currentState = "Editor";
 	m_wantState = "Editor";
-	m_partManager->setActivePart( 0L);
+	//m_partManager->setActivePart( 0L);
 	return true;
 }
 

@@ -4,6 +4,7 @@
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
    Copyright (C) 2005 Holger Danielsson <holger.danielsson@versanet.de>
+   Copyright (C) 2008 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -41,7 +42,7 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
-#include "kilegrepdialog.h"
+#include "dialogs/findfilesdialog.h"
 
 #include <QCheckBox>
 #include <QCursor>
@@ -58,7 +59,7 @@
 #include <QRegExp>
 #include <QVBoxLayout>
 
-#include <K3Process>
+#include <KProcess>
 #include <KAcceleratorManager>
 #include <KApplication>
 #include <KComboBox>
@@ -78,9 +79,11 @@
 #include "kiledocmanager.h"
 #include "kileextensions.h"
 
-KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name)
+namespace KileDialog {
+
+FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name)
 		: KDialog(parent),
-		m_ki(ki), m_mode(mode), childproc(0), m_grepJobs(0)
+		m_ki(ki), m_mode(mode), m_proc(NULL), m_grepJobs(0)
 {
 	setObjectName(name);
 	setCaption(QString());
@@ -111,8 +114,9 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	int labelwidth = project_label->sizeHint().width();
 
 	QLabel *projectdir_label = new QLabel(i18n("Directory:"), projectgroup);
-	if (projectdir_label->sizeHint().width() > labelwidth)
+	if(projectdir_label->sizeHint().width() > labelwidth) {
 		labelwidth = projectdir_label->sizeHint().width();
+	}
 
 	projectname_label = new QLabel(projectgroup);
 	projectdirname_label = new QLabel(projectgroup);
@@ -132,8 +136,9 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	searchgroup->setLayout(searchgrouplayout);
 
 	QLabel *pattern_label = new QLabel(i18n("Pattern:"), searchgroup);
-	if (pattern_label->sizeHint().width() > labelwidth)
+	if(pattern_label->sizeHint().width() > labelwidth) {
 		labelwidth = pattern_label->sizeHint().width();
+	}
 
 	pattern_combo = new KComboBox(true, searchgroup);
 	pattern_combo->setInsertPolicy(KComboBox::NoInsert);
@@ -142,8 +147,9 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	pattern_label->setBuddy(pattern_combo);
 
 	QLabel *template_label = new QLabel(i18n("Template:"), searchgroup);
-	if (template_label->sizeHint().width() > labelwidth)
+	if(template_label->sizeHint().width() > labelwidth) {
 		labelwidth = template_label->sizeHint().width();
+	}
 
 	QStringList templatemode_list;
 	templatemode_list << i18n("Normal")
@@ -186,16 +192,18 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	filtergroup->setLayout(filtergrouplayout);
 
 	QLabel *files_label = new QLabel(i18n("Filter:"), filtergroup);
-	if (files_label->sizeHint().width() > labelwidth)
+	if (files_label->sizeHint().width() > labelwidth) {
 		labelwidth = files_label->sizeHint().width();
+	}
 
 	filter_combo = new KComboBox(true, filtergroup);
 	filter_combo->setMinimumSize(filter_combo->sizeHint());
 	files_label->setBuddy(filter_combo->focusProxy());
 
 	QLabel *dir_label = new QLabel(i18n("Directory:"), filtergroup);
-	if (dir_label->sizeHint().width() > labelwidth)
+	if (dir_label->sizeHint().width() > labelwidth) {
 		labelwidth = dir_label->sizeHint().width();
+	}
 
 	dir_combo = new KUrlRequester(new KComboBox(true, filtergroup), filtergroup);
 	dir_combo->setObjectName("dir combo");
@@ -236,14 +244,12 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	files_label->setFixedWidth(labelwidth);
 	dir_label->setFixedWidth(labelwidth);
 
-	if (m_mode == KileGrep::Project)
-	{
+	if (m_mode == KileGrep::Project) {
 		filtergroup->hide();
 		vbox->addWidget(projectgroup);
 		vbox->addWidget(searchgroup);
 	}
-	else
-	{
+	else {
 		projectgroup->hide();
 		vbox->addWidget(searchgroup);
 		vbox->addWidget(filtergroup);
@@ -308,20 +314,18 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 
 	// read config and setup dialog for both modes
 	readConfig();
-	if (m_mode == KileGrep::Directory)
-	{
+	if (m_mode == KileGrep::Directory) {
 		setCaption(i18n("Find in Files"));
 		setupDirectory();
 	}
-	else
-	{
+	else {
 		setCaption(i18n("Find in Project"));
 		setupProject();
 	}
 
-	pattern_combo->setEditText(QString::null);
-	template_edit->setText(template_list[0]);
-	slotPatternTextChanged(QString::null);
+	pattern_combo->setEditText(QString());
+	template_edit->setText(m_TemplateList[0]);
+	slotPatternTextChanged(QString());
 
 	connect(pattern_combo->lineEdit(), SIGNAL(textChanged(const QString &)),
 					SLOT(slotPatternTextChanged(const QString &)));
@@ -333,54 +337,50 @@ KileGrepDialog::KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mod
 	connect(this, SIGNAL(finished()), SLOT(slotFinished()));
 
 	resize(450, sizeHint().height());
-	KILE_DEBUG() << "==KileGrepDialog (create dialog)=============================" << endl;
+	KILE_DEBUG() << "==FindFilesDialog (create dialog)=============================";
 }
 
-KileGrepDialog::~KileGrepDialog()
+FindFilesDialog::~FindFilesDialog()
 {
-	KILE_DEBUG() << "==KileGrepDialog (delete dialog)=============================" << endl;
+	KILE_DEBUG() << "==FindFilesDialog (delete dialog)=============================";
 	writeConfig();
-	delete childproc;
 }
 
 ///////////////////// config /////////////////////
 
-void KileGrepDialog::readConfig()
+void FindFilesDialog::readConfig()
 {
 	pattern_combo->insertStringList(readList(KileGrep::SearchItems));
 
 	QString labels = getCommandList(KileDocument::CmdAttrLabel);
 	QString references = getCommandList(KileDocument::CmdAttrReference);
-	template_list = readList(KileGrep::SearchTemplates) ;
-	if (template_list.count() != 3)
-	{
-		template_list.clear();
-		template_list << "%s" << "\\\\%s\\{" << "\\\\%s(\\[[^]]*\\])?\\{";
+	m_TemplateList = readList(KileGrep::SearchTemplates) ;
+	if(m_TemplateList.count() != 3) {
+		m_TemplateList.clear();
+		m_TemplateList << "%s" << "\\\\%s\\{" << "\\\\%s(\\[[^]]*\\])?\\{";
 	}
-	template_list << "\\\\begin\\{"                             // to be closed with "%s\\}"
+	m_TemplateList << "\\\\begin\\{"                             // to be closed with "%s\\}"
 	<< "\\\\includegraphics(\\[[^]]*\\])?\\{"
 	<< "\\\\(label" + labels + ")\\{"
 	<< "\\\\(ref|pageref|vref|vpageref|fref|Fref|eqref" + references + ")(\\[[^]]*\\])?\\{"
 	<< "\\\\(input|include)\\{"
 	;
 
-	if (m_mode == KileGrep::Directory)
-	{
+	if (m_mode == KileGrep::Directory) {
 		dir_combo->comboBox()->insertStringList(readList(KileGrep::SearchPaths));
 		recursive_box->setChecked(KileConfig::grepRecursive());
 	}
 }
 
-void KileGrepDialog::writeConfig()
+void FindFilesDialog::writeConfig()
 {
 	KileConfig::setLastSearchItems(getListItems(pattern_combo));
 
 	QStringList list;
-	list << template_list[0] << template_list[1] << template_list[2];
+	list << m_TemplateList[0] << m_TemplateList[1] << m_TemplateList[2];
 	KileConfig::setLastSearchTemplates(list);
 
-	if (m_mode == KileGrep::Directory)
-	{
+	if(m_mode == KileGrep::Directory) {
 		KileConfig::setLastSearchPaths(getListItems(dir_combo->comboBox()));
 		KileConfig::setGrepRecursive(recursive_box->isChecked());
 	}
@@ -388,7 +388,7 @@ void KileGrepDialog::writeConfig()
 
 ///////////////////// setup search modes /////////////////////
 
-void KileGrepDialog::setupDirectory()
+void FindFilesDialog::setupDirectory()
 {
 	setDirName(QDir::home().absolutePath());
 
@@ -402,11 +402,10 @@ void KileGrepDialog::setupDirectory()
 	setFilter(filter);
 }
 
-void KileGrepDialog::setupProject()
+void FindFilesDialog::setupProject()
 {
 	KileProject *project = m_ki->docManager()->activeProject();
-	if (project)
-	{
+	if(project) {
 		m_projectOpened = true;
 		m_projectdir = project->baseURL().path();
 		projectname_label->setText(project->name());
@@ -415,41 +414,40 @@ void KileGrepDialog::setupProject()
 		m_projectfiles.clear();
 		m_projectfiles = m_ki->docManager()->getProjectFiles();
 	}
-	else
-	{
+	else {
 		m_projectOpened = false;
 		projectname_label->setText(i18n("no project opened"));
-		projectdirname_label->setText(QString::null);
+		projectdirname_label->setText(QString());
 	}
 }
 
 ///////////////////// read entries /////////////////////
 
-QStringList KileGrepDialog::readList(KileGrep::List listtype)
+QStringList FindFilesDialog::readList(KileGrep::List listtype)
 {
 	QStringList strings, result;
 
 	bool stripSlash = false;
-	switch (listtype)
-	{
-	case KileGrep::SearchItems:
-		strings = KileConfig::lastSearchItems();
-		break;
-	case KileGrep::SearchPaths:
-		strings = KileConfig::lastSearchPaths();
-		stripSlash = true;
-		break;
-	case KileGrep::SearchTemplates:
-		strings = KileConfig::lastSearchTemplates();
-		break;
+	switch (listtype) {
+		case KileGrep::SearchItems:
+			strings = KileConfig::lastSearchItems();
+			break;
+		case KileGrep::SearchPaths:
+			strings = KileConfig::lastSearchPaths();
+			stripSlash = true;
+			break;
+		case KileGrep::SearchTemplates:
+			strings = KileConfig::lastSearchTemplates();
+			break;
 	}
 
-	while (strings.count() > 0)
-	{
-		if (stripSlash && strings[0].right(1) == "/")
+	while (strings.count() > 0) {
+		if(stripSlash && strings[0].right(1) == "/") {
 			strings[0].truncate(strings[0].length() - 1);
-		if (! strings[0].isEmpty())
+		}
+		if(!strings[0].isEmpty()) {
 			result.append(strings[0]);
+		}
 		strings.remove(strings[0]);
 	}
 	return result;
@@ -457,127 +455,118 @@ QStringList KileGrepDialog::readList(KileGrep::List listtype)
 
 ///////////////////// item selected /////////////////////
 
-void KileGrepDialog::slotItemSelected(const QString& item)
+void FindFilesDialog::slotItemSelected(const QString& item)
 {
-	KILE_DEBUG() << "\tgrep: start item selected" << endl;
+	KILE_DEBUG() << "\tgrep: start item selected";
 	int pos;
 	QString filename, linenumber;
 
 	QString str = item;
-	if ((pos = str.indexOf(':')) != -1)
-	{
+	if((pos = str.indexOf(':')) != -1) {
 		filename = str.left(pos);
 		str = str.right(str.length() - 1 - pos);
-		if ((pos = str.indexOf(':')) != -1)
-		{
+		if((pos = str.indexOf(':')) != -1) {
 			linenumber = str.left(pos);
-			if (m_mode == KileGrep::Project)
+			if(m_mode == KileGrep::Project) {
 				emit itemSelected(m_projectdir + '/' + filename, linenumber.toInt());
-			else
-				//emit itemSelected(lastSearchPaths[0] + "/" + filename,linenumber.toInt());
+			}
+			else {
 				emit itemSelected(dir_combo->comboBox()->text(0) + '/' + filename, linenumber.toInt());
+			}
 		}
 	}
 }
 
 ///////////////////// grep /////////////////////
 
-void KileGrepDialog::startGrep()
+void FindFilesDialog::startGrep()
 {
-	childproc = new K3Process();
-	childproc->setUseShell(true);
+	m_proc = new KProcess(this);
+	m_proc->setOutputChannelMode(KProcess::SeparateChannels);
 
-	if (m_mode == KileGrep::Project)
-	{
-		QString command = buildProjectCommand() + ' ' + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
-		KILE_DEBUG() << "\tgrep (project): " <<  command << endl;
-		(*childproc) << command.split(' ');
+	m_buf.clear();
+	m_errbuf.clear();
+	QString command;
+	if (m_mode == KileGrep::Project) {
+		command = buildProjectCommand() + ' ' + KShell::quoteArg(m_projectfiles[m_grepJobs-1]);
 	}
-	else
-	{
-		QString command = buildFilesCommand();
-		KILE_DEBUG() << "\tgrep (files): " << command << endl;
-		(*childproc) << command.split(' ');
+	else {
+		command = buildFilesCommand();
 	}
+	KILE_DEBUG() << "\tgrep (project): " <<  command;
+	(*m_proc) << KShell::splitArgs(command);
+
 	m_grepJobs--;
 
-	connect(childproc, SIGNAL(processExited(K3Process *)),
-					SLOT(childExited()));
-	connect(childproc, SIGNAL(receivedStdout(K3Process *, char *, int)),
-					SLOT(receivedOutput(K3Process *, char *, int)));
-	connect(childproc, SIGNAL(receivedStderr(K3Process *, char *, int)),
-					SLOT(receivedErrOutput(K3Process *, char *, int)));
+	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processExited(int, QProcess::ExitStatus)));
+	connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(processStandardOutputReady()));
+	connect(m_proc, SIGNAL(readyReadStandardError()), this, SLOT(processErrorOutputReady()));
 
-	childproc->start(K3Process::NotifyOnExit, K3Process::AllOutput);
+	m_proc->start();
 }
 
-void KileGrepDialog::processOutput()
+void FindFilesDialog::processOutput()
 {
 	int pos;
-	while ((pos = buf.indexOf('\n')) != -1)
-	{
-		QString item = buf.left(pos);
-		if (! item.isEmpty())
-		{
-			if (m_mode == KileGrep::Project)
-			{
-				if (item.indexOf(m_projectdir + '/') == 0)
+	while((pos = m_buf.indexOf('\n')) != -1) {
+		QString item = m_buf.left(pos);
+		if(!item.isEmpty()) {
+			if(m_mode == KileGrep::Project) {
+				if (item.indexOf(m_projectdir + '/') == 0) {
 					new QListWidgetItem(item.mid(m_projectdir.length() + 1), resultbox);
-				else
+				}
+				else {
 					new QListWidgetItem(item, resultbox);
+				}
 			}
-			else
-			{
+			else {
 				new QListWidgetItem(item.mid(dir_combo->url().prettyUrl().length() + 1), resultbox);
 			}
 		}
-		buf = buf.right(buf.length() - pos - 1);
+		m_buf = m_buf.right(m_buf.length() - pos - 1);
 	}
 	kapp->processEvents();
 }
 
-void KileGrepDialog::receivedOutput(K3Process */*proc*/, char *buffer, int buflen)
+void FindFilesDialog::processStandardOutputReady()
 {
-	buf += QString::fromLocal8Bit(buffer, buflen);
+	QByteArray outputBuffer = m_proc->readAllStandardOutput();
+	m_buf += QString::fromLocal8Bit(outputBuffer.data(), outputBuffer.size());
+kDebug() << "buffer " << m_buf;
 	processOutput();
 }
 
-void KileGrepDialog::receivedErrOutput(K3Process */*proc*/, char *buffer, int buflen)
+void FindFilesDialog::processErrorOutputReady()
 {
-	errbuf += QString::fromLocal8Bit(buffer, buflen);
+	QByteArray outputBuffer = m_proc->readAllStandardError();
+	m_errbuf += QString::fromLocal8Bit(outputBuffer.data(), outputBuffer.size());
+kDebug() << "err buffer " << m_errbuf;
 }
 
-void KileGrepDialog::childExited()
+void FindFilesDialog::processExited(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
 {
-//  int status = childproc->exitStatus();
-
-	if (! errbuf.isEmpty())
-	{
-		KMessageBox::information(parentWidget(),
-														 i18n("<strong>Error:</strong><p>") + errbuf,
-														 i18n("Grep Tool Error"));
-		errbuf.truncate(0);
+	if(!m_errbuf.isEmpty()) {
+		KMessageBox::information(parentWidget(), i18n("<strong>Error:</strong><p>") + m_errbuf, i18n("Grep Tool Error"));
+		m_errbuf.clear();
 	}
-	else
+	else {
 		finish();
+	}
 }
 
-void KileGrepDialog::finish()
+void FindFilesDialog::finish()
 {
-	buf += '\n';
+	m_buf += '\n';
 	processOutput();
-	if (childproc)
-	{
-		delete childproc;
-		childproc = 0;
+	if(m_proc) {
+		m_proc->deleteLater();
+		m_proc = NULL;
 	}
 
-	if (shouldRestart())
-	{
+	if (shouldRestart()) {
 		startGrep();
 	}
-	else
-	{
+	else {
 		updateLists();
 
 		resultbox->unsetCursor();
@@ -587,190 +576,189 @@ void KileGrepDialog::finish()
 	}
 }
 
-void KileGrepDialog::updateLists()
+void FindFilesDialog::updateLists()
 {
 	updateListItems(pattern_combo);
-	if (m_mode == KileGrep::Directory)
-	{
+	if(m_mode == KileGrep::Directory) {
 		updateListItems(dir_combo->comboBox());
 	}
 }
 
 ///////////////////// build commands /////////////////////
 
-QString KileGrepDialog::getPattern()
+QString FindFilesDialog::getPattern()
 {
 	QString pattern;
 	int template_mode = template_combo->currentItem();
-	if (template_mode < KileGrep::tmEnv)
-	{
+	if (template_mode < KileGrep::tmEnv) {
 		pattern = template_edit->text();
-		if (pattern.isEmpty())
+		if (pattern.isEmpty()) {
 			pattern = pattern_combo->currentText();
-		else
+		}
+		else {
 			pattern.replace("%s", pattern_combo->currentText());
+		}
 	}
-	else
-	{
-		pattern = template_list[template_mode];
-		if (! pattern_combo->currentText().isEmpty())
+	else {
+		pattern = m_TemplateList[template_mode];
+		if (!pattern_combo->currentText().isEmpty()) {
 			pattern += pattern_combo->currentText()  + "\\}";
+		}
 	}
 
 	return pattern;
 }
 
-QString KileGrepDialog::getShellPattern()
+QString FindFilesDialog::getShellPattern()
 {
 	QString pattern = getPattern();
 	pattern.replace("'", "'\\''");
-	return '\'' + pattern + '\'';
-	//return KShell::quoteArg(pattern);
+	return KShell::quoteArg(pattern);
 }
 
 
-QString KileGrepDialog::buildFilesCommand()
+QString FindFilesDialog::buildFilesCommand()
 {
 	QString files, files_temp;
 
-	if (filter_combo->currentItem() >= 0)
-		files_temp = filter_list[filter_combo->currentItem()];
-	else
+	if(filter_combo->currentItem() >= 0) {
+		files_temp = m_filterList[filter_combo->currentItem()];
+	}
+	else {
 		files_temp = filter_combo->currentText();
+	}
 
-	if (files_temp.right(1) != ",")
+	if(files_temp.right(1) != ",") {
 		files_temp = files_temp + ',';
+	}
 
 	QStringList tokens = files_temp.split(",", QString::SkipEmptyParts);
 	QStringList::Iterator it = tokens.begin();
-	if (it != tokens.end())
-	{
+	if (it != tokens.end()) {
 		files = " '" + (*it) + '\'';
 		++it;
 	}
 
-	for (; it != tokens.end(); ++it)
+	for(; it != tokens.end(); ++it) {
 		files = files + " -o -name " + '\'' + (*it) + '\'';
+	}
 
+#ifdef __GNUC__
+#warning Something is still broken with the 'find' command used and with output processing!
+#endif
 	QString shell_command;
 	shell_command += "find ";
-#ifdef __GNUC__
-#warning Check whether this is correct!
-#endif
-	shell_command += KShell::quoteArg(dir_combo->url().prettyUrl());
+	shell_command += KShell::quoteArg(dir_combo->url().pathOrUrl());
 	shell_command += " \\( -name ";
 	shell_command += files;
 	shell_command += " \\)";
-	if (!recursive_box->isChecked())
+	if (!recursive_box->isChecked()) {
 		shell_command += " -maxdepth 1";
+	}
 	shell_command += " -exec grep -n -E -I -H -e " + getShellPattern() + " {} \\;";
 
 	return shell_command;
 }
 
-QString KileGrepDialog::buildProjectCommand()
+QString FindFilesDialog::buildProjectCommand()
 {
 	return "grep -n -E -I -H -e " + getShellPattern();
 }
 
 ///////////////////// Search /////////////////////
 
-void KileGrepDialog::slotSearch()
+void FindFilesDialog::slotSearch()
 {
-	KILE_DEBUG() << "\tgrep: start slot search" << endl;
+	KILE_DEBUG() << "\tgrep: start slot search";
 	slotClear();
 
-	if (template_combo->currentItem() < KileGrep::tmEnv && pattern_combo->currentText().isEmpty())
-		return;
-
-	if (childproc && childproc->isRunning())
-	{
-		childproc->kill();
+	if (template_combo->currentItem() < KileGrep::tmEnv && pattern_combo->currentText().isEmpty()) {
 		return;
 	}
 
-	KILE_DEBUG() << "\tgrep: start new search" << endl;
+	if (m_proc && m_proc->state() == QProcess::Running) {
+		m_proc->kill();
+		return;
+	}
+
+	KILE_DEBUG() << "\tgrep: start new search";
 	QRegExp re(getPattern());
-	if (! re.isValid())
-	{
-		KMessageBox::error(0, i18n("Invalid regular expression: %1", re.errorString()), i18n("Grep Tool Error"));
+	if(!re.isValid()) {
+		KMessageBox::error(m_ki->mainWindow(), i18n("Invalid regular expression: %1", re.errorString()), i18n("Grep Tool Error"));
 		return;
 	}
 
 	resultbox->setCursor(QCursor(Qt::WaitCursor));
 	search_button->setText(i18n("&Cancel"));
-	if (template_combo->currentItem() < KileGrep::tmEnv)
-		template_list[m_lastTemplateIndex] = template_edit->text();
+	if (template_combo->currentItem() < KileGrep::tmEnv) {
+		m_TemplateList[m_lastTemplateIndex] = template_edit->text();
+	}
 
 	// start grep command
 	m_grepJobs = (m_mode == KileGrep::Project) ? m_projectfiles.count() : 1;
 	startGrep();
 }
 
-void KileGrepDialog::slotSearchFor(const QString &pattern)
+void FindFilesDialog::slotSearchFor(const QString &pattern)
 {
 	slotClear();
 	pattern_combo->setEditText(pattern);
 	slotSearch();
 }
 
-void KileGrepDialog::slotClear()
+void FindFilesDialog::slotClear()
 {
-	//KILE_DEBUG() << "\tgrep: slot clear" << endl;
+	//KILE_DEBUG() << "\tgrep: slot clear";
 	clearGrepJobs();
 	resultbox->clear();
 	finish();
 }
 
-void KileGrepDialog::slotClose()
+void FindFilesDialog::slotClose()
 {
-	//KILE_DEBUG() << "\tgrep: slot close" << endl;
+	//KILE_DEBUG() << "\tgrep: slot close";
 	clearGrepJobs();
 	finish();
 	delayedDestruct();
 }
 
-void KileGrepDialog::slotFinished()
+void FindFilesDialog::slotFinished()
 {
-	//KILE_DEBUG() << "\tgrep: slot finished" << endl;
+	//KILE_DEBUG() << "\tgrep: slot finished";
 	finish();
 	delayedDestruct();
 }
 
 ///////////////////// templates /////////////////////
 
-void KileGrepDialog::slotPatternTextChanged(const QString &)
+void FindFilesDialog::slotPatternTextChanged(const QString &)
 {
 	updateWidgets();
 }
 
-void KileGrepDialog::slotTemplateActivated(int index)
+void FindFilesDialog::slotTemplateActivated(int index)
 {
-	if (index < KileGrep::tmEnv)
-	{
-		template_list[m_lastTemplateIndex] = template_edit->text();
-		template_edit->setText(template_list[index]);
+	if (index < KileGrep::tmEnv) {
+		m_TemplateList[m_lastTemplateIndex] = template_edit->text();
+		template_edit->setText(m_TemplateList[index]);
 	}
-	else
-	{
-		template_edit->setText(QString::null);
+	else {
+		template_edit->setText(QString());
 	}
 	m_lastTemplateIndex = index;
 
 	updateWidgets();
 }
 
-void KileGrepDialog::updateWidgets()
+void FindFilesDialog::updateWidgets()
 {
 	bool search_state = (m_mode == KileGrep::Directory) || (m_mode == KileGrep::Project && m_projectOpened);
 
-	if (template_combo->currentItem()  < KileGrep::tmEnv)
-	{
+	if (template_combo->currentItem()  < KileGrep::tmEnv) {
 		template_edit->setEnabled(true);
 		search_button->setEnabled(search_state && !pattern_combo->currentText().isEmpty());
 	}
-	else
-	{
+	else {
 		template_edit->setEnabled(false);
 		search_button->setEnabled(search_state);
 	}
@@ -778,95 +766,95 @@ void KileGrepDialog::updateWidgets()
 
 ///////////////////// directory /////////////////////
 
-void KileGrepDialog::setDirName(const QString &dir)
+void FindFilesDialog::setDirName(const QString &dir)
 {
 	KComboBox *combo = dir_combo->comboBox();
 
-	if (findListItem(combo, dir) < 0)
+	if (findListItem(combo, dir) < 0) {
 		combo->insertItem(dir);
-	if (combo->text(0) != dir)
+	}
+	if (combo->text(0) != dir) {
 		slotClear();
+	}
 }
 
 ///////////////////// filter /////////////////////
 
-void KileGrepDialog::setFilter(const QString &filter)
+void FindFilesDialog::setFilter(const QString &filter)
 {
-	filter_list.clear();
+	m_filterList.clear();
 	filter_combo->clear();
-	if (!filter.isEmpty())
-	{
+	if (!filter.isEmpty()) {
 		QStringList filter_lst = filter.split("\n");
-		for (QStringList::Iterator it = filter_lst.begin();
-				 it != filter_lst.end(); ++it)
-		{
+		for (QStringList::Iterator it = filter_lst.begin(); it != filter_lst.end(); ++it) {
 			QStringList filter_split = (*it).split("|");
-			filter_list.append(filter_split[0]);
+			m_filterList.append(filter_split[0]);
 			filter_combo->insertItem(filter_split[1]);
 		}
 	}
 }
 
-void KileGrepDialog::appendFilter(const QString &name, const QString &filter)
+void FindFilesDialog::appendFilter(const QString &name, const QString &filter)
 {
 	filter_combo->insertItem(name);
-	filter_list.append(filter);
+	m_filterList.append(filter);
 }
 
 ///////////////////// template /////////////////////
 
-void KileGrepDialog::appendTemplate(const QString &name, const QString &regexp)
+void FindFilesDialog::appendTemplate(const QString &name, const QString &regexp)
 {
 	template_combo->insertItem(name);
-	template_list.append(regexp);
+	m_TemplateList.append(regexp);
 }
 
-void KileGrepDialog::clearTemplates()
+void FindFilesDialog::clearTemplates()
 {
 	template_combo->clear();
-	template_list.clear();
+	m_TemplateList.clear();
 }
 
 ///////////////////// KComboBox /////////////////////
 
-QStringList KileGrepDialog::getListItems(KComboBox *combo)
+QStringList FindFilesDialog::getListItems(KComboBox *combo)
 {
 	QStringList list;
-	for (int i = 0; i < combo->count() && i < KILEGREP_MAX; ++i)
+	for (int i = 0; i < combo->count() && i < KILEGREP_MAX; ++i) {
 		list.append(combo->text(i));
+	}
 	return list;
 }
 
-int KileGrepDialog::findListItem(KComboBox *combo, const QString &s)
+int FindFilesDialog::findListItem(KComboBox *combo, const QString &s)
 {
-	for (int i = 0; i < combo->count(); ++i)
-	{
-		if (combo->text(i) == s)
+	for (int i = 0; i < combo->count(); ++i) {
+		if (combo->text(i) == s) {
 			return i;
+		}
 	}
 	return -1;
 }
 
-void KileGrepDialog::updateListItems(KComboBox *combo)
+void FindFilesDialog::updateListItems(KComboBox *combo)
 {
 	QString s = combo->currentText();
-	if (s.isEmpty())
+	if (s.isEmpty()) {
 		return;
+	}
 
 	int index = findListItem(combo, s);
-	if (index > 0)                                 // combo already contains s
-	{
+	if (index > 0) {                                 // combo already contains s
 		combo->removeItem(index);                   // remove this item
 	}
-	else
-		if (index == -1)                          // combo doesn't contain s
-		{
-			if (combo->count() >= KILEGREP_MAX)
+	else {
+		if (index == -1) {                          // combo doesn't contain s
+			if (combo->count() >= KILEGREP_MAX) {
 				combo->removeItem(combo->count() - 1);   // remove last item
+			}
 		}
+	}
 
-	if (index != 0)
-	{
+	if(index != 0) {
 		combo->insertItem(s, 0);                    // insert this item as first item
 		combo->setCurrentItem(0);                   // and select it
 	}
@@ -874,7 +862,7 @@ void KileGrepDialog::updateListItems(KComboBox *combo)
 
 ///////////////////// template /////////////////////
 
-QString KileGrepDialog::getCommandList(KileDocument::CmdAttribute attrtype)
+QString FindFilesDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 {
 	QStringList cmdlist;
 	QStringList::ConstIterator it;
@@ -884,13 +872,13 @@ QString KileGrepDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 	cmd->commandList(cmdlist, attrtype, true);
 
 	// build list of references
-	QString commands = QString::null;
-	for (it = cmdlist.begin(); it != cmdlist.end(); ++it)
-	{
+	QString commands;
+	for (it = cmdlist.begin(); it != cmdlist.end(); ++it) {
 		commands += '|' + (*it).mid(1);
 	}
 	return commands;
 }
 
+}
 
-#include "kilegrepdialog.moc"
+#include "findfilesdialog.moc"

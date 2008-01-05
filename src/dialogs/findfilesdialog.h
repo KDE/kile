@@ -3,6 +3,7 @@
    Copyright (C) 2001 Joseph Wenninger <jowenn@kde.org>
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
+   Copyright (C) 2008 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -21,8 +22,8 @@
    Original from kdebase / kate
 */
 
-#ifndef __KILE_GREP_DIALOG_H_
-#define __KILE_GREP_DIALOG_H_
+#ifndef FINDFILESDIALOG_H
+#define FINDFILESDIALOG_H
 
 #include <KDialog>
 
@@ -37,7 +38,7 @@ class QLabel;
 class QListWidget;
 class QPushButton;
 
-class K3Process;
+class KProcess;
 class KComboBox;
 class KLineEdit;
 class KUrlRequester;
@@ -51,13 +52,15 @@ enum List { SearchItems = 0, SearchPaths, SearchTemplates };
 enum TemplateMode { tmNormal = 0, tmCommand, tmCommandWithOption, tmEnv, tmGraphics, tmLabel, tmRefs, tmFiles };
 }
 
-class KileGrepDialog : public KDialog
+namespace KileDialog {
+
+class FindFilesDialog : public KDialog
 {
 		Q_OBJECT
 
 	public:
-		KileGrepDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
-		~KileGrepDialog();
+		FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
+		~FindFilesDialog();
 
 		void appendFilter(const QString &name, const QString &filter);
 
@@ -73,7 +76,7 @@ class KileGrepDialog : public KDialog
 	private:
 		KileInfo *m_ki;
 		KileGrep::Mode m_mode;
-		K3Process *childproc;
+		KProcess *m_proc;
 		int m_grepJobs;
 
 		void readConfig();
@@ -118,17 +121,16 @@ class KileGrepDialog : public KDialog
 		QCheckBox *recursive_box;
 		QListWidget *resultbox;
 		QPushButton *search_button, *clear_button, *close_button;
-		QString buf;
-		QString errbuf;
-		QStringList lastSearchPaths;
-		QStringList filter_list;
-		QStringList template_list;
+		QString m_buf;
+		QString m_errbuf;
+		QStringList m_filterList;
+		QStringList m_TemplateList;
 		int m_lastTemplateIndex;
 
 	private Q_SLOTS:
-		void childExited();
-		void receivedOutput(K3Process *proc, char *buffer, int buflen);
-		void receivedErrOutput(K3Process *proc, char *buffer, int buflen);
+		void processExited(int exitCode, QProcess::ExitStatus exitStatus);
+		void processStandardOutputReady();
+		void processErrorOutputReady();
 		void slotItemSelected(const QString&);
 		void slotSearch();
 		void slotClear();
@@ -138,4 +140,6 @@ class KileGrepDialog : public KDialog
 		void slotTemplateActivated(int index);
 };
 
-#endif // __KILE_GREP_DIALOG_H_
+}
+
+#endif

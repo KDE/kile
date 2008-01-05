@@ -59,7 +59,7 @@
 #include "dialogs/projectdialogs.h"
 #include "kilelistselector.h"
 #include "kilelyxserver.h"
-#include "kilegrepdialog.h"
+#include "dialogs/findfilesdialog.h"
 #include "kiletool_enums.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
@@ -1340,18 +1340,16 @@ void Kile::grepItemSelected(const QString &abs_filename, int line)
 
 void Kile::findInFiles()
 {
-	static QPointer<KileGrepDialog> dlg = 0;
+	static QPointer<KileDialog::FindFilesDialog> dlg = 0;
 
-	if ( ! dlg )
-	{
+	if (!dlg) {
 		KILE_DEBUG() << "grep guard: create findInFiles dlg" << endl;
-		dlg = new KileGrepDialog(0L,this,KileGrep::Directory);
+		dlg = new KileDialog::FindFilesDialog(mainWindow(), this, KileGrep::Directory);
 		dlg->show();
 		connect(dlg, SIGNAL(itemSelected(const QString &, int)),
 		        this, SLOT(grepItemSelected(const QString &, int)));
 	}
-	else
-	{
+	else {
 		KILE_DEBUG() << "grep guard: show findInFiles dlg" << endl;
 		dlg->setActiveWindow();
 		dlg->raise();
@@ -1360,18 +1358,16 @@ void Kile::findInFiles()
 
 void Kile::findInProjects()
 {
-	static QPointer<KileGrepDialog> project_dlg = 0;
+	static QPointer<KileDialog::FindFilesDialog> project_dlg = NULL;
 
-	if ( ! project_dlg )
-	{
+	if(!project_dlg) {
 		KILE_DEBUG() << "grep guard: create findInProjects dlg" << endl;
-		project_dlg = new KileGrepDialog(0L,this,KileGrep::Project);
+		project_dlg = new KileDialog::FindFilesDialog(mainWindow(), this, KileGrep::Project);
 		project_dlg->show();
 		connect(project_dlg, SIGNAL(itemSelected(const QString &, int)),
 		        this, SLOT(grepItemSelected(const QString &, int)));
 	}
-	else
-	{
+	else {
 		KILE_DEBUG() << "grep guard: show findInProjects dlg" << endl;
 		project_dlg->setActiveWindow();
 		project_dlg->raise();

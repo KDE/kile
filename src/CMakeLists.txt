@@ -48,7 +48,7 @@ SET(kile_SRCS
 	outputinfo.cpp
 	latexoutputinfo.cpp
 	outputfilter.cpp
-	kilegrepdialog.cpp
+	dialogs/findfilesdialog.cpp
 	kiletool.cpp
 	kilelauncher.cpp
 	kiletoolmanager.cpp

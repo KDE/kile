@@ -82,22 +82,25 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	setMainWidget(page);
 
 	// layout
-	QVBoxLayout *vbox = new QVBoxLayout(page);
+	QVBoxLayout *vbox = new QVBoxLayout();
+	vbox->setMargin(0);
+	vbox->setSpacing(KDialog::spacingHint());
+	page->setLayout(vbox);
+
 	QLabel *label1 = new QLabel(page);
 
 	QGroupBox* group = new QGroupBox(i18n("Attributes"), page);
-	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout(widget);
-//FIXME: dropped the marginHint parameter
-// marginHint()
+	QGridLayout *grid = new QGridLayout();
+	grid->setMargin(marginHint());
 	grid->setSpacing(spacingHint());
+	group->setLayout(grid);
 
-	QLabel *label2 = new QLabel(i18n("Group:"), widget);
-	QLabel *label3 = new QLabel(i18n("&Name:"), widget);
-	QLabel *grouplabel = new QLabel(groupname, widget);
-	QLabel *label4 = new QLabel(i18n("Include *-&version:"), widget);
-	m_edName = new KLineEdit(widget);
-	m_chStarred =  new QCheckBox(widget);
+	QLabel *label2 = new QLabel(i18n("Group:"), group);
+	QLabel *label3 = new QLabel(i18n("&Name:"), group);
+	QLabel *grouplabel = new QLabel(groupname, group);
+	QLabel *label4 = new QLabel(i18n("Include *-&version:"), group);
+	m_edName = new KLineEdit(group);
+	m_chStarred =  new QCheckBox(group);
 
 	grid->addWidget(label2,0,0);
 	grid->addWidget(grouplabel,0,2);
@@ -118,12 +121,12 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	int currentRow = 3;
 	if ( m_useMathOrTab )
 	{
-		QLabel *label5 = new QLabel(i18n("\\\\ is end of &line:"), widget);
-		QLabel *label6 = new QLabel(i18n("Needs &math mode:"), widget);
-		QLabel *label7 = new QLabel(i18n("&Tabulator:"), widget);
-		m_chEndofline =  new QCheckBox(widget);
-		m_chMath =  new QCheckBox(widget);
-		m_coTab = new QComboBox(widget);
+		QLabel *label5 = new QLabel(i18n("\\\\ is end of &line:"), group);
+		QLabel *label6 = new QLabel(i18n("Needs &math mode:"), group);
+		QLabel *label7 = new QLabel(i18n("&Tabulator:"), group);
+		m_chEndofline =  new QCheckBox(group);
+		m_chMath =  new QCheckBox(group);
+		m_coTab = new QComboBox(group);
 
 		grid->addWidget(label5,3,0);
 		grid->addWidget(m_chEndofline,3,2);
@@ -149,8 +152,8 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	if ( m_useOption )
 	{
-		QLabel *label8 = new QLabel(i18n("Opt&ion:"), widget);
-		m_coOption = new QComboBox(widget);
+		QLabel *label8 = new QLabel(i18n("Opt&ion:"), group);
+		m_coOption = new QComboBox(group);
 		grid->addWidget(label8,currentRow,0);
 		grid->addWidget(m_coOption,currentRow,2);
 
@@ -174,8 +177,8 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	if ( m_useParameter )
 	{
-		QLabel *label9 = new QLabel(i18n("&Parameter:"), widget);
-		m_coParameter = new QComboBox(widget);
+		QLabel *label9 = new QLabel(i18n("&Parameter:"), group);
+		m_coParameter = new QComboBox(group);
 		grid->addWidget(label9,currentRow,0);
 		grid->addWidget(m_coParameter,currentRow,2);
 
@@ -407,6 +410,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	pageLayout->addWidget(m_tab);
 	pageLayout->addWidget(buttonBox);
 	pageLayout->addWidget(m_cbUserDefined);
+	pageLayout->addStretch();
 
 	setButtonText(Help,"Default Settings");
 	slotEnableButtons();

@@ -20,21 +20,24 @@
 #ifndef LATEXCMDDIALOG_H
 #define LATEXCMDDIALOG_H
 
-#include <kpushbutton.h>
-#include <kdialog.h>
-#include <klineedit.h>
-#include <k3listview.h>
-#include <kconfig.h>
+#include <KDialog>
 
-#include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <q3listview.h>
-#include <qstringlist.h>
-#include <QTabWidget>
 #include <QMap>
 
 #include "latexcmd.h"
+
+class Q3ListView;
+class QCheckBox;
+class QComboBox;
+class QLabel;
+class QTabWidget;
+
+class K3ListView;
+class K3ListViewItem;
+class KConfig;
+class KLineEdit;
+class KPushButton;
+class KTabWidget;
 
 namespace KileDialog
 {

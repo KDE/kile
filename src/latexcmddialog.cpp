@@ -19,20 +19,29 @@
 // kommandos mit weiteren Parametern
 
 #include "latexcmddialog.h"
-#include "latexcmd.h"
 
-#include <qlayout.h>
-#include <qvalidator.h>
-#include <qregexp.h>
-#include <QLabel>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QRegExp>
+#include <QTabWidget>
+#include <QValidator>
 #include <QVBoxLayout>
 
-#include <kmessagebox.h>
-#include <klocale.h>
-#include "kiledebug.h"
+#include <K3ListView>
+#include <KConfig>
+#include <KIcon>
+#include <KLineEdit>
+#include <KLocale>
+#include <KMessageBox>
+#include <KPushButton>
 
 #include "kileconfig.h"
+#include "kiledebug.h"
+#include "latexcmd.h"
 
 namespace KileDialog
 {

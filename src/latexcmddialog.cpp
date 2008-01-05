@@ -26,6 +26,7 @@
 #include <qregexp.h>
 #include <QLabel>
 #include <QGroupBox>
+#include <QVBoxLayout>
 
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -327,8 +328,10 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	QWidget *page = new QWidget( this );
 	setMainWidget(page);
 
-//FIXME: dropped parameter spacingHint()
-	QGridLayout *grid = new QGridLayout(page);
+	QVBoxLayout *pageLayout = new QVBoxLayout();
+	pageLayout->setMargin(0);
+	pageLayout->setSpacing(KDialog::spacingHint());
+	page->setLayout(pageLayout);
 
 	QLabel *label = new QLabel(i18n("Define LaTeX Environments and Commands for Kile"), page);
 
@@ -336,9 +339,8 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_tab = new QTabWidget(page);
    m_cbUserDefined = new QCheckBox(i18n("&Show only user defined environments and commands"),page);
 
-	// page 1: environment listview
-	QWidget *page1 = new QWidget(m_tab);
-	m_lvEnvironments = new K3ListView(page1);
+	// tab 1: environment listview
+	m_lvEnvironments = new K3ListView(m_tab);
 	m_lvEnvironments->setRootIsDecorated(true);
 	m_lvEnvironments->addColumn(i18n("Environment"));
 	m_lvEnvironments->addColumn(i18n("Starred"));
@@ -350,15 +352,11 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvEnvironments->setAllColumnsShowFocus(true);
 	m_lvEnvironments->setSelectionMode(Q3ListView::Single);
 
-	QGridLayout *grid1 = new QGridLayout(page1);
-	grid1->addWidget(m_lvEnvironments,0,0);
-
 	for ( int col=1; col<=6; col++ )
 		m_lvEnvironments->setColumnAlignment(col,Qt::AlignHCenter);
 
-	// page 2: command listview
-	QWidget *page2 = new QWidget(m_tab);
-	m_lvCommands = new K3ListView(page2);
+	// tab 2: command listview
+	m_lvCommands = new K3ListView(m_tab);
 	m_lvCommands->setRootIsDecorated(true);
 	m_lvCommands->addColumn(i18n("Command"));
 	m_lvCommands->addColumn(i18n("Starred"));
@@ -367,36 +365,36 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	m_lvCommands->setAllColumnsShowFocus(true);
 	m_lvCommands->setSelectionMode(Q3ListView::Single);
 
-	QGridLayout *grid2 = new QGridLayout(page2);
-	grid2->addWidget(m_lvCommands,0,0);
-
 	for ( int col=1; col<=3; col++ )
 		m_lvCommands->setColumnAlignment(col,Qt::AlignHCenter);
 
 	// add all pages to TabWidget
-	m_tab->addTab(page1,i18n("&Environments"));
-	m_tab->addTab(page2,i18n("&Commands"));
+	m_tab->addTab(m_lvEnvironments,i18n("&Environments"));
+	m_tab->addTab(m_lvCommands,i18n("&Commands"));
 	// page2->setEnabled(false);                        // disable command page
 
 	// button
-	m_btnAdd = new KPushButton(i18n("&Add..."), page);
-	m_btnDelete = new KPushButton(i18n("&Delete"), page);
-	m_btnEdit = new KPushButton(i18n("&Edit..."), page);
+	QWidget *buttonBox = new QWidget(page);
+	QHBoxLayout *buttonBoxLayout = new QHBoxLayout();
+	buttonBoxLayout->setMargin(0);
+	buttonBoxLayout->setSpacing(KDialog::spacingHint());
+	buttonBox->setLayout(buttonBoxLayout);
+
+	m_btnAdd = new KPushButton(i18n("&Add..."), buttonBox);
+	m_btnDelete = new KPushButton(i18n("&Delete"), buttonBox);
+	m_btnEdit = new KPushButton(i18n("&Edit..."), buttonBox);
+
+	buttonBoxLayout->addStretch();
+	buttonBoxLayout->addWidget(m_btnAdd);
+	buttonBoxLayout->addWidget(m_btnDelete);
+	buttonBoxLayout->addWidget(m_btnEdit);
+	buttonBoxLayout->addStretch();
 
 	// add to grid
-	grid->addWidget(label,0,0,0,2, Qt::AlignHCenter);
-	grid->addWidget(m_tab,1,5,0,0);
-	grid->addWidget(m_cbUserDefined,6,0);          // grid --> 7
-	grid->addWidget(m_btnAdd,2,2);
-	grid->addWidget(m_btnDelete,3,2);
-	grid->addWidget(m_btnEdit,4,2);
-
-//FIXME: disabled for now
-// 	grid->setRowSpacing(1,m_btnAdd->height()-4);
-	grid->setRowStretch(5,1);
-	grid->setColumnStretch(0,1);
-//FIXME: disabled for now
-// 	grid->addColumnSpacing(1,12);
+	pageLayout->addWidget(label);
+	pageLayout->addWidget(m_tab);
+	pageLayout->addWidget(buttonBox);
+	pageLayout->addWidget(m_cbUserDefined);
 
 	setButtonText(Help,"Default Settings");
 	slotEnableButtons();
@@ -422,7 +420,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	resetListviews();
 	slotEnableButtons();
 
-	resize(sizeHint().width()+20,sizeHint().height()+50);
+	//resize(sizeHint().width()+20,sizeHint().height()+50);
 }
 
 ////////////////////////////// listview //////////////////////////////

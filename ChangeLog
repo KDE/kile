@@ -6,6 +6,7 @@ Fixes:
  - Some i18n fixes (#153371)
  - cwl files: fix wrong commands with \left and \right and make them more complete
  - Sync kile project on disk before archiving
+ - Add figure* to the structure view also (#151743)
 
 Features:
  - add \newlength as a variation of newcommand

@@ -776,6 +776,7 @@ void LaTeXInfo::updateStructLevelInfo() {
 
 		// some entries, which could never be found (but they are set manually)
 		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
 		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
 		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
@@ -984,7 +985,7 @@ void LaTeXInfo::updateStruct()
 					// floating environments and beamer frames are passed
 					if ( (*it).type == KileStruct::BeginEnv )
 					{
-						if ( m=="figure" || m=="table" )
+						if ( m=="figure" || m=="figure*" || m=="table" )
 						{
 							it = m_dictStructLevel.find("\\begin{" + m +'}');
 						}
@@ -1016,7 +1017,7 @@ void LaTeXInfo::updateStruct()
 					// tell structure view that a floating environment or a beamer frame must be closed
 					else if ( (*it).type == KileStruct::EndEnv )
 					{
-						if ( m=="figure" || m=="table")
+						if ( m=="figure" || m== "figure*" || m=="table")
 						{
 							it = m_dictStructLevel.find("\\end{float}");
 						}

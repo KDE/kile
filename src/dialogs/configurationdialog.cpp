@@ -51,7 +51,7 @@
 
 #include "kileconfig.h"
 #include "kileinfo.h"
-#include "kileedit.h"
+#include "editorextension.h"
 
 #include "kiledebug.h"
 

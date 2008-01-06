@@ -24,7 +24,7 @@
 #include <kconfig.h>
 #include <kmenubar.h>
 #include <ktexteditor/view.h>
-#include "kileedit.h"
+#include "editorextension.h"
 
 #include "userhelp.h"
 #include "texdocdialog.h"

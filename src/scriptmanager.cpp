@@ -33,7 +33,7 @@
 #include "scripting/bindings.h"
 
 #include "kileconfig.h"
-#include "kileedit.h"
+#include "editorextension.h"
 #include "kileinfo.h"
 #include "kileversion.h"
 #include "kileviewmanager.h"

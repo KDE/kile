@@ -31,7 +31,7 @@
 #include "kiledebug.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
-#include "kileedit.h"
+#include "editorextension.h"
 
 namespace KileDialog
 {

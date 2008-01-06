@@ -78,9 +78,9 @@ void QuickPreview::previewSelection(KTextEditor::View *view, bool previewInWidge
 
 void QuickPreview::previewEnvironment(KTextEditor::Document *doc)
 {
-	uint row,col;
+	int row, col;
 	QString envname;
-	QString text = m_ki->editorExtension()->getEnvironmentText(row,col,envname);
+	QString text = m_ki->editorExtension()->getEnvironmentText(row, col, envname);
 	if (!text.isEmpty()) {
 		if(m_ki->latexCommands()->isMathModeEnv(envname)) {
 			text = '$' + text + '$';
@@ -97,7 +97,7 @@ void QuickPreview::previewEnvironment(KTextEditor::Document *doc)
 		}
 	}
 	else {
-		showError( i18n("There is no surrounding environment.") );
+		showError(i18n("There is no surrounding environment."));
 	}
 }
 

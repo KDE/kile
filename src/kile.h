@@ -47,7 +47,7 @@
 #include "latexoutputfilter.h"
 
 #include "codecompletion.h"        // code completion (dani)
-#include "kileedit.h"              // advanced editor (dani)
+#include "editorextension.h"              // advanced editor (dani)
 #include "kilehelp.h"              // kile help (dani)
 #include "quickpreview.h"
 #include "widgets/abbreviationview.h"

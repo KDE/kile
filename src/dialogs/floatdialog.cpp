@@ -21,7 +21,7 @@
 #include <KLocale>
 
 #include "kiledebug.h"
-#include "kileedit.h"
+#include "editorextension.h"
 
 namespace KileDialog
 {

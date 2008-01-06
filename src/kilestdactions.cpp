@@ -24,7 +24,7 @@
 #include <kstandarddirs.h>
 
 #include "kileactions.h"
-#include "kileedit.h"
+#include "editorextension.h"
 #include "kileinfo.h"
 
 namespace KileStdActions

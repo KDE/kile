@@ -19,7 +19,7 @@
 
 #include "kileinfo.h"
 #include "kiletool.h"
-#include "kileedit.h"
+#include "editorextension.h"
 #include "previewwidget.h"
 
 #include <QObject>

@@ -186,7 +186,7 @@ namespace KileWidget
 			int level();
 			KileInfo *info() { return m_ki; }
 
-			bool findSectioning(KTextEditor::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol);
+			bool findSectioning(KTextEditor::Document *doc, int row, int col, bool backwards, int &sectRow, int &sectCol);
 			void updateUrl(KileDocument::Info *docinfo);
 
 		enum { SectioningCut=10, SectioningCopy=11, SectioningPaste=12, 

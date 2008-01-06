@@ -26,7 +26,7 @@
 #include <ktexteditor/document.h>
 #include "kiledebug.h"
 
-#include "kileedit.h"
+#include "editorextension.h"
 #include "kileconfig.h"
 
 KileEventFilter::KileEventFilter(KileDocument::EditorExtension *edit) : m_edit(edit)

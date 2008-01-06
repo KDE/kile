@@ -960,39 +960,34 @@ namespace KileWidget
 
 	////////////////////// Structure: find sectioning //////////////////////
 
-	bool Structure::findSectioning(KTextEditor::Document *doc, uint row, uint col, bool backwards, uint &sectRow, uint &sectCol)
+	bool Structure::findSectioning(KTextEditor::Document *doc, int row, int col, bool backwards, int &sectRow, int &sectCol)
 	{
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(doc);
-		if ( ! docinfo )
+		if(!docinfo) {
 			return false;
+		}
 
 		bool found = false;
-		uint foundRow,foundCol;
+		int foundRow, foundCol;
 		StructureList *structurelist = viewFor(docinfo);
 		Q3ListViewItemIterator it( structurelist );
-		while ( it.current() ) 
-		{
+		while(it.current()) {
 			KileListViewItem *item = (KileListViewItem *)(it.current());
-			if  ( item->type() == KileStruct::Sect )
-			{
+			if (item->type() == KileStruct::Sect) {
 				foundRow = item->startline() - 1;
 				foundCol = item->startcol() - 1;
-				if ( backwards )
-				{
-					if ( foundRow<row || (foundRow==row &&foundCol<col) )
-					{
+				if(backwards) {
+					if(foundRow < row || (foundRow==row && foundCol < col)) {
 						sectRow = foundRow;
 						sectCol = foundCol;
 						found = true;
 					}
-					else
-					{
+					else {
 						return found;
 					}
 					
 				}
-				else if ( !backwards && (foundRow>row || (foundRow==row &&foundCol>col)) )
-				{
+				else if(!backwards && (foundRow > row || (foundRow == row && foundCol > col))) {
 					sectRow = foundRow;
 					sectCol = foundCol;
 					return true;

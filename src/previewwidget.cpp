@@ -32,7 +32,7 @@
 #include <ktexteditor/document.h>
 
 #include "kileconfig.h"
-#include "kileedit.h"
+#include "editorextension.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kilelogwidget.h"

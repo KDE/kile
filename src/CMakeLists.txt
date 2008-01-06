@@ -61,7 +61,7 @@ SET(kile_SRCS
 	codecompletion.cpp
 	widgets/codecompletionconfigwidget.cpp
 	widgets/toolconfigwidget.cpp
-	kileedit.cpp
+	editorextension.cpp
 	dialogs/cleandialog.cpp
 	kilehelp.cpp
 	convert.cpp

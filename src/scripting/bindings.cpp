@@ -17,7 +17,7 @@
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
-#include "kileedit.h"
+#include "editorextension.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 

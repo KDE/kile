@@ -35,7 +35,7 @@
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
-#include "kileedit.h"
+#include "editorextension.h"
 
 #ifdef __GNUC__
 #warning !!This whole file basically remains to be ported!!

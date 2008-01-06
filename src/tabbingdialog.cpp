@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include "tabbingdialog.h"
-#include "kileedit.h"
+#include "editorextension.h"
 
 #include <KLocale>
 

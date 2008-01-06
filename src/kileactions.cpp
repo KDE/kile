@@ -400,7 +400,7 @@ void Select::init()
 
 void Select::emitData(const QString & name)
 {
-	m_dict[name]->trigger(); 
+	m_dict[name]->trigger();
 }
 
 void Select::setItems(const QList<KAction*>& list)

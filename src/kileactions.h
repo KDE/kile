@@ -1,8 +1,7 @@
-/***************************************************************************
+/*************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                :  Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,13 +14,13 @@
 #ifndef KILEACTIONS_H
 #define KILEACTIONS_H
 
-#include <q3dict.h>
+#include <QHash>
 
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kselectaction.h>
-#include <kdialog.h>
-#include <klineedit.h>
+#include <KAction>
+#include <KActionCollection>
+#include <KSelectAction>
+#include <KDialog>
+#include <KLineEdit>
 
 class QCheckBox;
 class QLineEdit;
@@ -190,10 +189,9 @@ private Q_SLOTS:
 	void emitData(const QString&);
 
 private:
-	Q3Dict<KAction> m_dict;
+	QHash<QString, KAction*> m_dict;
 };
 
 }
 
 #endif
-

@@ -27,7 +27,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include "kilestructurewidget.h"
+#include "widgets/structurewidget.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "kiledocumentinfo.h"

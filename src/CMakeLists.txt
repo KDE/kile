@@ -57,7 +57,7 @@ SET(kile_SRCS
 	kileoutputwidget.cpp
 	widgets/konsolewidget.cpp
 	kilewizard.cpp
-	kilestructurewidget.cpp
+	widgets/structurewidget.cpp
 	codecompletion.cpp
 	widgets/codecompletionconfigwidget.cpp
 	widgets/toolconfigwidget.cpp

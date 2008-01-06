@@ -69,7 +69,7 @@
 #include "widgets/konsolewidget.h"
 #include "dialogs/quickdocumentdialog.h"
 #include "tabbingdialog.h"
-#include "kilestructurewidget.h"
+#include "widgets/structurewidget.h"
 #include "convert.h"
 #include "dialogs/includegraphicsdialog.h"
 #include "kiledocmanager.h"

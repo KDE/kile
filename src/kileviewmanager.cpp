@@ -51,7 +51,7 @@
 #include "kileextensions.h"
 #include "kileprojectview.h"
 #include "kileeventfilter.h"
-#include "kilestructurewidget.h"
+#include "widgets/structurewidget.h"
 #include "editorextension.h"
 #include "plaintolatexconverter.h"
 #include "previewwidget.h"

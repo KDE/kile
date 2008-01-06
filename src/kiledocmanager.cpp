@@ -64,7 +64,7 @@
 #include "kileviewmanager.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileprojectview.h"
-#include "kilestructurewidget.h"
+#include "widgets/structurewidget.h"
 #include "dialogs/projectdialogs.h"
 #include "kiletool.h"
 #include "kiletool_enums.h"

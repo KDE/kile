@@ -57,7 +57,7 @@
 // 2007-04-06 dani
 // - add TODO/FIXME section to structure view
 
-#include "kilestructurewidget.h"
+#include "widgets/structurewidget.h"
 
 #include <qfileinfo.h>
 #include <q3header.h>
@@ -1001,4 +1001,4 @@ namespace KileWidget
 
 }
 
-#include "kilestructurewidget.moc"
+#include "structurewidget.moc"

@@ -25,7 +25,7 @@
 
 #include <ktexteditor/document.h>
 
-#include "kilestructurewidget.h"
+#include "widgets/structurewidget.h"
 #include "codecompletion.h"
 #include "latexcmd.h"
 

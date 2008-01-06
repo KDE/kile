@@ -15,8 +15,8 @@
  *                                                                         *
   ***************************************************************************/
 
-#ifndef KILEWIDGET_STRUCTURE_H
-#define KILEWIDGET_STRUCTURE_H
+#ifndef STRUCTUREWIDGET_H
+#define STRUCTUREWIDGET_H
   
  /**
   * @author Jeroen Wijnhout, Holger Danielsson

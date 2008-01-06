@@ -301,28 +301,33 @@ namespace KileHelp
 		m_manager->info()->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no help available for %1.", word), i18n("Help"));
 	}
 	
-	QString Help::getKeyword(KTextEditor::View *view)         
+	QString Help::getKeyword(KTextEditor::View *view)
 	{
-		if ( !view )
-			return QString::null;
-		
+		if(!view) {
+			return QString();
+		}
+
 		// get current position
-		uint row,col,col1,col2;
+		int row, col, col1, col2;
 		QString word;
 		KTextEditor::Document *doc = view->document();
 		KTextEditor::Cursor cursor = view->cursorPosition();
 		row = cursor.line();
 		col = cursor.column();
 
-		if ( m_edit->getCurrentWord(doc,row,col,KileDocument::EditorExtension::smTex,word,col1,col2) )
+		if (m_edit->getCurrentWord(doc, row, col, KileDocument::EditorExtension::smTex, word, col1, col2)) {
 		   // There is no starred keyword in the references. So if     // dani 04.08.2004
 			// we find one, we better try the unstarred keyword.
-			if ( word.right(1) == "*" )
-				return word.left( word.length()-1 );
-			else
+			if(word.right(1) == "*") {
+				return word.left(word.length() - 1);
+			}
+			else {
 				return word;
-		else
-			return QString::null;
+			}
+		}
+		else {
+			return QString();
+		}
 	}
 
 //////////////////// read help lists ////////////////////

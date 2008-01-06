@@ -1,8 +1,9 @@
-/***************************************************************************
+/*********************************************************************************************
     date                 : Feb 20 2007
     version              : 0.45
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -72,7 +73,7 @@ public:
 	const QStringList doubleQuotesList() { return m_quoteList; }
 	
 	// get current word
-	bool getCurrentWord(KTextEditor::Document *doc, int row, int col, SelectMode mode, QString &word, uint &x1, uint &x2);
+	bool getCurrentWord(KTextEditor::Document *doc, int row, int col, SelectMode mode, QString &word, int &x1, int &x2);
 	QString getEnvironmentText(int &row, int &col, QString &name, KTextEditor::View *view = NULL);
 	bool hasEnvironment(KTextEditor::View *view = NULL);
 
@@ -82,7 +83,9 @@ public:
 	// mathgroup
 	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = NULL);
 	bool hasMathgroup(KTextEditor::View *view = NULL);
-	
+
+	CodeCompletion* complete() const { return m_complete; }
+
 public Q_SLOTS:
 	void insertIntelligentNewline(KTextEditor::View *view = NULL);
 
@@ -131,6 +134,12 @@ public Q_SLOTS:
 	void initDoubleQuotes();
 
 	void insertIntelligentTabulator();
+
+	//code completion
+	void completeWord();
+	void completeEnvironment();
+	void completeAbbreviation();
+
 private:
 
 	enum EnvTag {EnvBegin, EnvEnd};
@@ -167,6 +176,18 @@ private:
 	QRegExp m_reg;
 	bool m_overwritemode;
 	QString m_envAutoIndent;
+
+	CodeCompletion	*m_complete;
+
+	KileInfo	*m_ki;
+
+	// complete environments
+	QRegExp m_regexpEnter;
+
+	// double Quotes
+	bool m_dblQuotes;
+	QStringList m_quoteList;
+	QString m_leftDblQuote, m_rightDblQuote;
 
 	// change cursor position
 	bool increaseCursorPosition(KTextEditor::Document *doc, int &row, int &col);
@@ -227,31 +248,7 @@ private:
 	// help
 	void readHelpList(QString const &filename);
 
-
-//code completion
-public Q_SLOTS:
-	void completeWord();
-	void completeEnvironment();
-	void completeAbbreviation();
-
-public:
-	CodeCompletion* complete() const { return m_complete; }
-
-private:
-	CodeCompletion	*m_complete;
-
-	KileInfo	*m_ki;
-
-	// complete environments
-	QRegExp m_regexpEnter;
-
-	// double Quotes
-	bool m_dblQuotes;
-	QStringList m_quoteList;
-	QString m_leftDblQuote, m_rightDblQuote;
-
-	KTextEditor::View *determineView(KTextEditor::View *);
-
+	KTextEditor::View *determineView(KTextEditor::View *view);
 };
 
 }

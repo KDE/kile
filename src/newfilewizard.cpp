@@ -31,7 +31,7 @@
 #include <kiconloader.h>
 #include <kglobal.h>
 
-#include "newdocumentwidget.h"
+#include "widgets/newdocumentwidget.h"
 
 #define LATEX_TYPE	0
 #define BIBTEX_TYPE	1

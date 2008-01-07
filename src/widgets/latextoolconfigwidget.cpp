@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "processtoolconfigwidget.h"
+#include "widgets/latextoolconfigwidget.h"
 
-ProcessToolConfigWidget::ProcessToolConfigWidget(QWidget *parent) : QWidget(parent)
+LaTeXToolConfigWidget::LaTeXToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-ProcessToolConfigWidget::~ProcessToolConfigWidget()
+LaTeXToolConfigWidget::~LaTeXToolConfigWidget()
 {
 }
 
-#include "processtoolconfigwidget.moc"
+#include "latextoolconfigwidget.moc"

@@ -89,7 +89,7 @@
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
 #include "scriptmanager.h"
-#include "previewwidget.h"
+#include "widgets/previewwidget.h"
 #include "widgets/extendedscrollarea.h"
 
 /*

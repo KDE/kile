@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "latextoolconfigwidget.h"
+#include "widgets/newdocumentwidget.h"
 
-LaTeXToolConfigWidget::LaTeXToolConfigWidget(QWidget *parent) : QWidget(parent)
+NewDocumentWidget::NewDocumentWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-LaTeXToolConfigWidget::~LaTeXToolConfigWidget()
+NewDocumentWidget::~NewDocumentWidget()
 {
 }
 
-#include "latextoolconfigwidget.moc"
+#include "newdocumentwidget.moc"

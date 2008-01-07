@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "librarytoolconfigwidget.h"
+#include "widgets/processtoolconfigwidget.h"
 
-LibraryToolConfigWidget::LibraryToolConfigWidget(QWidget *parent) : QWidget(parent)
+ProcessToolConfigWidget::ProcessToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-LibraryToolConfigWidget::~LibraryToolConfigWidget()
+ProcessToolConfigWidget::~ProcessToolConfigWidget()
 {
 }
 
-#include "librarytoolconfigwidget.moc"
+#include "processtoolconfigwidget.moc"

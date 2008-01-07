@@ -39,10 +39,10 @@
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "widgets/maintoolconfigwidget.h"
-#include "processtoolconfigwidget.h"
-#include "librarytoolconfigwidget.h"
+#include "widgets/processtoolconfigwidget.h"
+#include "widgets/librarytoolconfigwidget.h"
 #include "widgets/quicktoolconfigwidget.h"
-#include "latextoolconfigwidget.h"
+#include "widgets/latextoolconfigwidget.h"
 #include "newtoolwizard.h"
 
 #ifdef __GNUC__

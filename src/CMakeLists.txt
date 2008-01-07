@@ -76,7 +76,7 @@ SET(kile_SRCS
 	kileuntitled.cpp
 	dialogs/statisticsdialog.cpp
 	widgets/statisticswidget.cpp
-	previewwidget.cpp
+	widgets/previewwidget.cpp
 	widgets/scriptsmanagementwidget.h
 	widgets/scriptsmanagementwidget.cpp
 	editorkeysequencemanager.h
@@ -97,10 +97,10 @@ SET( kile_UI
 	widgets/generalconfigwidget.ui
 	widgets/configcheckerwidget.ui
 	widgets/maintoolconfigwidget.ui
-	librarytoolconfigwidget.ui
-	processtoolconfigwidget.ui
+	widgets/librarytoolconfigwidget.ui
+	widgets/processtoolconfigwidget.ui
 	widgets/quicktoolconfigwidget.ui
-	latextoolconfigwidget.ui
+	widgets/latextoolconfigwidget.ui
 	newtoolwizard_class_page.ui
 	newtoolwizard_toolname_page.ui
 	widgets/environmentconfigwidget.ui
@@ -108,7 +108,7 @@ SET( kile_UI
 	widgets/symbolviewconfigwidget.ui
 	widgets/scriptingconfigwidget.ui
 	widgets/graphicsconfigwidget.ui
-	newdocumentwidget.ui
+	widgets/newdocumentwidget.ui
 	tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
 	postscriptdialog_base.ui
@@ -122,11 +122,11 @@ SET( kile_UI_SRCS
 	widgets/generalconfigwidget.cpp
 	widgets/helpconfigwidget.cpp
 	widgets/latexconfigwidget.cpp
-	latextoolconfigwidget.cpp
-	librarytoolconfigwidget.cpp
-	newdocumentwidget.cpp
+	widgets/latextoolconfigwidget.cpp
+	widgets/librarytoolconfigwidget.cpp
+	widgets/newdocumentwidget.cpp
 	newtoolwizard.cpp
-	processtoolconfigwidget.cpp
+	widgets/processtoolconfigwidget.cpp
 	widgets/quicktoolconfigwidget.cpp
 	widgets/scriptingconfigwidget.cpp
 	widgets/structureviewconfigwidget.cpp

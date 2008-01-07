@@ -54,7 +54,7 @@
 #include "widgets/structurewidget.h"
 #include "editorextension.h"
 #include "plaintolatexconverter.h"
-#include "previewwidget.h"
+#include "widgets/previewwidget.h"
 #include "quickpreview.h"
 
 namespace KileView 

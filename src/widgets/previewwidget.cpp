@@ -18,7 +18,7 @@
 //
 //
 
-#include "previewwidget.h"
+#include "widgets/previewwidget.h"
 
 #include <qimage.h>
 #include <qpainter.h>

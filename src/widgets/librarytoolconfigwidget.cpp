@@ -11,15 +11,15 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "newdocumentwidget.h"
+#include "widgets/librarytoolconfigwidget.h"
 
-NewDocumentWidget::NewDocumentWidget(QWidget *parent) : QWidget(parent)
+LibraryToolConfigWidget::LibraryToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 }
 
-NewDocumentWidget::~NewDocumentWidget()
+LibraryToolConfigWidget::~LibraryToolConfigWidget()
 {
 }
 
-#include "newdocumentwidget.moc"
+#include "librarytoolconfigwidget.moc"

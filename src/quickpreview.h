@@ -20,7 +20,7 @@
 #include "kileinfo.h"
 #include "kiletool.h"
 #include "editorextension.h"
-#include "previewwidget.h"
+#include "widgets/previewwidget.h"
 
 #include <QObject>
 #include <QString>

@@ -29,7 +29,7 @@ tbraun 2007-06-13
     - Added Most frequently used symbolview, including remembering icons upon restart, removing of least popular item and configurable max item count
 */
 
-#include "symbolview.h"
+#include "widgets/symbolview.h"
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -43,6 +43,12 @@ tbraun 2007-06-13
 
 #include "kileconfig.h"
 #include "kiledebug.h"
+
+#define MFUS_GROUP "MostFrequentlyUsedSymbols"
+#define MFUS_PREFIX "MFUS"
+
+
+namespace KileWidget {
 
 SymbolView::SymbolView(QWidget *parent, int type, const char *name)
 		: QListWidget(parent)
@@ -68,16 +74,18 @@ SymbolView::~SymbolView()
 
 void SymbolView::extract(const QString& key, int& refCnt)
 {
-	if (!key.isEmpty())
+	if (!key.isEmpty()) {
 		refCnt = key.section('%', 0, 0).toInt();
+	}
 
 	return;
 }
 
 void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringList &args, QStringList &pkgs)
 {
-	if (key.isEmpty())
+	if (key.isEmpty()) {
 		return;
+	}
 
 	extract(key, refCnt);
 
@@ -89,8 +97,7 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 	cmd = key.section('%', 1, 1);
 	QString text = key.section('%', 2, 2);
 
-	if (text.indexOf(rePkgs) != -1)
-	{
+	if (text.indexOf(rePkgs) != -1) {
 		args = rePkgs.cap(1).split(",");
 		pkgs = rePkgs.cap(2).split(",");
 	}
@@ -101,7 +108,7 @@ void SymbolView::initPage(int page)
 	switch (page)
 	{
 	case MFUS:
-		fillWidget(MFUSprefix);
+		fillWidget(MFUS_PREFIX);
 		break;
 
 	case Relation:
@@ -217,9 +224,9 @@ void SymbolView::fillWidget(const QString& prefix)
 	QListWidgetItem* item;
 	QStringList refCnts, paths;
 
-	if (prefix == MFUSprefix)
+	if (prefix == MFUS_PREFIX)
 	{
-		KConfigGroup config = KGlobal::config()->group(MFUSGroup);
+		KConfigGroup config = KGlobal::config()->group(MFUS_GROUP);
 		QString configPaths = config.readEntry("paths");
 		QString configrefCnts = config.readEntry("counts");
 		paths = configPaths.split(',');
@@ -262,7 +269,7 @@ void SymbolView::writeConfig()
 	QStringList paths, refCnts;
 
 
-	KConfigGroup grp = KGlobal::config()->group(MFUSGroup);
+	KConfigGroup grp = KGlobal::config()->group(MFUS_GROUP);
 
 	if (KileConfig::clearMFUS())
 	{
@@ -343,6 +350,8 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 		tmpItem->setData(Qt::UserRole, key);
 		tmpItem->setToolTip(getToolTip(key));
 	}
+}
+
 }
 
 #include "symbolview.moc"

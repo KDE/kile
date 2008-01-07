@@ -14,8 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KILEPROJECTVIEW_H
-#define KILEPROJECTVIEW_H
+#ifndef PROJECTVIEW_H
+#define PROJECTVIEW_H
 
 #include <kmimetypetrader.h>
 #include <k3listview.h>
@@ -30,33 +30,35 @@ class KToggleAction;
 class KileDocument::Info;
 class KileInfo;
 
-namespace KileType {enum ProjectView { Project=0, ProjectItem, ProjectExtra, File, Folder};}
+namespace KileType {enum ProjectView {Project = 0, ProjectItem, ProjectExtra, File, Folder};}
 
-class KileProjectViewItem : public QObject, public K3ListViewItem
+namespace KileWidget {
+
+class ProjectViewItem : public QObject, public K3ListViewItem
 {
 	Q_OBJECT
 
 public:
-	KileProjectViewItem (Q3ListView *parent, KileProjectItem *item, bool ar = false) : K3ListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
-	KileProjectViewItem (Q3ListView *parent, Q3ListViewItem *after, KileProjectItem *item, bool ar = false) : K3ListViewItem(parent, after, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
-	KileProjectViewItem (Q3ListViewItem *parent, KileProjectItem *item, bool ar = false) : K3ListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
+	ProjectViewItem (Q3ListView *parent, KileProjectItem *item, bool ar = false) : K3ListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
+	ProjectViewItem (Q3ListView *parent, Q3ListViewItem *after, KileProjectItem *item, bool ar = false) : K3ListViewItem(parent, after, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
+	ProjectViewItem (Q3ListViewItem *parent, KileProjectItem *item, bool ar = false) : K3ListViewItem(parent, item->url().fileName()), m_folder(-1), m_projectItem(item) { setArchiveState(ar);}
 
 	//use this to create folders
-	KileProjectViewItem (Q3ListViewItem *parent, const QString & name) : K3ListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
+	ProjectViewItem (Q3ListViewItem *parent, const QString & name) : K3ListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
 
 	//use this to create non-project files
-	KileProjectViewItem (Q3ListView *parent, const QString & name) : K3ListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
+	ProjectViewItem (Q3ListView *parent, const QString & name) : K3ListViewItem(parent, name), m_folder(-1), m_projectItem(0L) {}
 	
-	KileProjectViewItem (Q3ListView *parent, const KileProject *project) : K3ListViewItem(parent, project->name()), m_folder(-1), m_projectItem(0L) {}
+	ProjectViewItem (Q3ListView *parent, const KileProject *project) : K3ListViewItem(parent, project->name()), m_folder(-1), m_projectItem(0L) {}
 	
 
-	~KileProjectViewItem() {KILE_DEBUG() << "DELETING PROJVIEWITEM " << m_url.fileName() << endl;}
+	~ProjectViewItem() {KILE_DEBUG() << "DELETING PROJVIEWITEM " << m_url.fileName();}
 
 	KileProjectItem* projectItem() { return m_projectItem; }
 
-	KileProjectViewItem* parent() { return dynamic_cast<KileProjectViewItem*>(K3ListViewItem::parent()); }
-	KileProjectViewItem* firstChild() { return dynamic_cast<KileProjectViewItem*>(K3ListViewItem::firstChild()); }
-	KileProjectViewItem* nextSibling() { return dynamic_cast<KileProjectViewItem*>(K3ListViewItem::nextSibling()); }
+	ProjectViewItem* parent() { return dynamic_cast<ProjectViewItem*>(K3ListViewItem::parent()); }
+	ProjectViewItem* firstChild() { return dynamic_cast<ProjectViewItem*>(K3ListViewItem::firstChild()); }
+	ProjectViewItem* nextSibling() { return dynamic_cast<ProjectViewItem*>(K3ListViewItem::nextSibling()); }
 
 	void setInfo(KileDocument::Info *docinfo) { m_docinfo = docinfo;}
 	KileDocument::Info * getInfo() { return m_docinfo;}
@@ -97,12 +99,12 @@ private:
 	KileProjectItem *m_projectItem;
 };
 
-class KileProjectView : public K3ListView
+class ProjectView : public K3ListView
 {
 	Q_OBJECT
 
 public:
-	KileProjectView(QWidget *parent, KileInfo *ki);
+	ProjectView(QWidget *parent, KileInfo *ki);
 
 Q_SIGNALS:
 	void fileSelected(const KileProjectItem *);
@@ -134,14 +136,14 @@ public Q_SLOTS:
 	void remove(const KUrl & url);
 	void remove(const KileProject *project);
 	void removeItem(const KileProjectItem *, bool);
-	KileProjectViewItem* add(KileProjectItem *item, KileProjectViewItem * projvi  = 0);
+	ProjectViewItem* add(KileProjectItem *item, ProjectViewItem * projvi  = 0);
 
 public:
-	void addTree(KileProjectItem *item, KileProjectViewItem * projvi );
+	void addTree(KileProjectItem *item, ProjectViewItem * projvi );
 
-	KileProjectViewItem* projectViewItemFor(const KUrl &);
-	KileProjectViewItem* itemFor(const KUrl &);
-	KileProjectViewItem* parentFor(const KileProjectItem *projitem, KileProjectViewItem *projvi);
+	ProjectViewItem* projectViewItemFor(const KUrl &);
+	ProjectViewItem* itemFor(const KUrl &);
+	ProjectViewItem* parentFor(const KileProjectItem *projitem, ProjectViewItem *projvi);
 
 protected:
 	virtual bool acceptDrag(QDropEvent *e) const;
@@ -150,8 +152,8 @@ private Q_SLOTS:
 	void popup(K3ListView *, Q3ListViewItem *, const QPoint &);
 
 private:
-	void makeTheConnection(KileProjectViewItem *);
-	KileProjectViewItem* folder(const KileProjectItem *item, KileProjectViewItem *);
+	void makeTheConnection(ProjectViewItem *);
+	ProjectViewItem* folder(const KileProjectItem *item, ProjectViewItem *);
 
 private:
 	KileInfo					*m_ki;
@@ -161,5 +163,7 @@ private:
 
 	KService::List m_offerList;
 };
+
+}
 
 #endif

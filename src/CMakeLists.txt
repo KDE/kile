@@ -29,7 +29,7 @@ SET(kile_SRCS
 	usermenudialog.cpp
 	dialogs/configurationdialog.cpp
 	tabbingdialog.cpp
-	symbolview.cpp
+	widgets/symbolview.cpp
 	dialogs/quickdocumentdialog.cpp
 	widgets/filebrowserwidget.cpp
 	docpart.cpp
@@ -41,7 +41,7 @@ SET(kile_SRCS
 	kiledocumentinfo.cpp
 	kileproject.cpp
 	dialogs/projectdialogs.cpp
-	kileprojectview.cpp
+	widgets/projectview.cpp
 	kilelistselector.cpp
 	kilelyxserver.cpp
 	latexoutputfilter.cpp

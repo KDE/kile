@@ -21,12 +21,11 @@
 
 class QMouseEvent;
 
-static const QString MFUSGroup = "MostFrequentlyUsedSymbols";
-static const QString MFUSprefix = "MFUS";
+namespace KileWidget {
 
 class SymbolView : public QListWidget
 {
-		Q_OBJECT
+	Q_OBJECT
 
 	public:
 		SymbolView(QWidget *parent = 0, int type = -1, const char *name = 0);
@@ -52,5 +51,7 @@ class SymbolView : public QListWidget
 	public Q_SLOTS:
 		void slotAddToList(const QListWidgetItem *item);
 };
+
+}
 
 #endif

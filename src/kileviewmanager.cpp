@@ -49,7 +49,7 @@
 #include "kileconstants.h"
 #include "kiledocmanager.h"
 #include "kileextensions.h"
-#include "kileprojectview.h"
+#include "widgets/projectview.h"
 #include "kileeventfilter.h"
 #include "widgets/structurewidget.h"
 #include "editorextension.h"

@@ -37,7 +37,10 @@ class KXMLGUIClient;
 
 class KileInfo;
 class KileEventFilter;
-class KileProjectView;
+
+namespace KileWidget {
+	class ProjectView;
+}
 
 namespace KTextEditor {
 	class Document;
@@ -76,8 +79,8 @@ public:
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 	KTabWidget* tabs() { return m_tabs; }
 
-// 	void setProjectView(KileProjectView *view) { m_projectview = view; }
-// 	KileProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
+// 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
+// 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 	void unplugTextEditorPartMenu(KTextEditor::View* view);
 
@@ -121,7 +124,7 @@ Q_SIGNALS:
 private:
 	KileInfo			*m_ki;
 	KTextEditor::View		*m_activeTextView;
-// 	KileProjectView			*m_projectview;
+// 	KileWidget::ProjectView			*m_projectview;
 	QList<KTextEditor::View*>	m_textViewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;

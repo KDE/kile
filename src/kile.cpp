@@ -55,7 +55,7 @@
 #include "usermenudialog.h"
 #include "dialogs/configurationdialog.h"
 #include "kileproject.h"
-#include "kileprojectview.h"
+#include "widgets/projectview.h"
 #include "dialogs/projectdialogs.h"
 #include "kilelistselector.h"
 #include "kilelyxserver.h"
@@ -79,7 +79,6 @@
 #include "kileerrorhandler.h"
 #include "dialogs/configcheckerdialog.h"
 #include "kilesidebar.h"
-#include "symbolview.h"
 #include "dialogs/floatdialog.h"
 #include "mathenvdialog.h"
 #include "tabulardialog.h"
@@ -369,7 +368,7 @@ void Kile::setupSideBar()
 
 void Kile::setupProjectView()
 {
-	KileProjectView *projectview = new KileProjectView(m_sideBar, this);
+	KileWidget::ProjectView *projectview = new KileWidget::ProjectView(m_sideBar, this);
 // 	viewManager()->setProjectView(projectview);
 	m_sideBar->addPage(projectview, SmallIcon("relation"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
@@ -447,64 +446,65 @@ void Kile::setupSymbolViews()
 	m_toolBox = new QToolBox(m_sideBar);
 	m_sideBar->addPage(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
 
-	m_symbolViewMFUS = new SymbolView(m_toolBox,SymbolView::MFUS);
+	m_symbolViewMFUS = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::MFUS);
 	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
 	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 	
-	m_symbolViewRelation = new SymbolView(m_toolBox,SymbolView::Relation);
+	m_symbolViewRelation = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Relation);
 	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
 	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QStringList&)),
 		 this, SLOT(insertText(const QString& ,const QStringList&)));
 		
-	m_symbolViewOperators = new SymbolView(m_toolBox,SymbolView::Operator);
+	m_symbolViewOperators = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Operator);
 	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
 	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewArrows = new SymbolView(m_toolBox,SymbolView::Arrow);
+	m_symbolViewArrows = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Arrow);
 	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
 	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewMiscMath = new SymbolView(m_toolBox,SymbolView::MiscMath);
+	m_symbolViewMiscMath = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::MiscMath);
 	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
 	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewMiscText = new SymbolView(m_toolBox,SymbolView::MiscText);
+	m_symbolViewMiscText = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::MiscText);
 	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
 	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewDelimiters= new SymbolView(m_toolBox,SymbolView::Delimiters);
+	m_symbolViewDelimiters= new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Delimiters);
 	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
 	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString& ,const QStringList&)));
 
-	m_symbolViewGreek = new SymbolView(m_toolBox,SymbolView::Greek);
+	m_symbolViewGreek = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Greek);
 	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
 	connect(m_symbolViewGreek, SIGNAL(insertText(const QString&, const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList&)));
 
-	m_symbolViewSpecial = new SymbolView(m_toolBox,SymbolView::Special);
+	m_symbolViewSpecial = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Special);
 	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
 	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList&)));
 
-	m_symbolViewCyrillic = new SymbolView(m_toolBox,SymbolView::Cyrillic);
+	m_symbolViewCyrillic = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Cyrillic);
 	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
 	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& ,const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList&)));
 
-	m_symbolViewUser = new SymbolView(m_toolBox,SymbolView::User);
+	m_symbolViewUser = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::User);
 	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
 	connect(m_symbolViewUser, SIGNAL(insertText(const QString&, const QStringList&)),
 		this, SLOT(insertText(const QString&, const QStringList& )));
 
-	for (int i=0; i< m_toolBox->count(); i++)
+	for(int i = 0; i < m_toolBox->count(); ++i) {
 		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.\nClick on the images to insert the command, additionally pressing SHIFT inserts it in math mode, pressing CTRL in curly brackets."));
+	}
 }
 
 void Kile::setupAbbreviationView()
@@ -807,7 +807,7 @@ void Kile::setupActions()
 	createAction(i18n("Context Help"), "help_context", KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()));
 	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()));
 
-	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help", this, SLOT(helpLaTex()));
+	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-contents", this, SLOT(helpLaTex()));
 	actionCollection()->addAction(KStandardAction::HelpContents, "help_handbook", help_menu, SLOT(appHelpActivated()));
 	actionCollection()->addAction(KStandardAction::ReportBug, "report_bug", help_menu, SLOT(reportBug()));
 	actionCollection()->addAction(KStandardAction::AboutApp, "help_aboutKile", help_menu, SLOT(aboutApplication()));

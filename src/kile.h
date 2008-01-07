@@ -41,7 +41,7 @@
 #include "docpart.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
-#include "symbolview.h"
+#include "widgets/symbolview.h"
 
 #include "latexoutputinfo.h"
 #include "latexoutputfilter.h"
@@ -73,7 +73,6 @@ class KileLyxServer;
 class KileEventFilter;
 class KileProject;
 class KileProjectItem;
-class KileProjectView;
 class TemplateItem;
 class KileAutoSaveJob;
 class KileErrorHandler;
@@ -173,7 +172,7 @@ private:
 	QStackedWidget			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 	QToolBox			*m_toolBox;
-	SymbolView			*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
+	KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 
 	//parts
 	KParts::PartManager 		*m_partManager;

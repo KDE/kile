@@ -1,11 +1,10 @@
-/***************************************************************************
+/******************************************************************************************
 date                 : Sep 12 2004
 version              : 0.22
-copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
+copyright            : Thomas Fischer (t-fisch@users.sourceforge.net)
                        restructured, improved and completed by Holger Danielsson
-                       (C) 2004 by Holger Danielsson
-email                : holger.danielsson@t-online.de
-***************************************************************************/
+                       (C) 2004 by Holger Danielsson (holger.danielsson@t-online.de)
+*******************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,8 +15,8 @@ email                : holger.danielsson@t-online.de
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEDIALOGQUICKDOCHEADER_H
-#define KILEDIALOGQUICKDOCHEADER_H
+#ifndef QUICKDOCUMENTDIALOG_H
+#define QUICKDOCUMENTDIALOG_H
 
 #include "kilewizard.h"
 

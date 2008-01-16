@@ -177,7 +177,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 	int index = 0;
 
 	// handle special case (bug fix for 101810)
-	if(expectFileName && strLine[0] == ')') {
+	if(expectFileName && strLine.length() > 0 && strLine[0] == ')') {
 		m_stackFile.push(LOFStackItem(strPartialFileName));
 		expectFileName = false;
 		dwCookie = Start;

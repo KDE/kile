@@ -64,7 +64,7 @@
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kileoutputwidget.h"
 #include "widgets/konsolewidget.h"
 #include "dialogs/quickdocumentdialog.h"
@@ -521,7 +521,7 @@ void Kile::setupBottomBar()
 	m_bottomBar = new KileBottomBar(m_mainWindow);
 	m_bottomBar->setFocusPolicy(Qt::ClickFocus);
 
-	m_logWidget = new KileWidget::LogMsg(this, m_mainWindow);
+	m_logWidget = new KileWidget::LogWidget(this, m_mainWindow);
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
 	connect(m_logWidget, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
 	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));

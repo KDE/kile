@@ -81,7 +81,7 @@ class KileSideBar;
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogMsg; class Output; class Konsole; class Structure; }
+namespace KileWidget { class LogWidget; class Output; class Konsole; class Structure; }
 
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem

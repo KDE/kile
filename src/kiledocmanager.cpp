@@ -73,7 +73,7 @@
 #include "kiletoolmanager.h"
 #include "widgets/konsolewidget.h"
 #include "kileconfig.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "dialogs/cleandialog.h"
 
 /*

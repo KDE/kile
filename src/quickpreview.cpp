@@ -17,7 +17,7 @@
 #include "quickpreview.h"
 #include "kiletool_enums.h"
 #include "kiledocmanager.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 
 #include <QDir>
 #include <QMap>

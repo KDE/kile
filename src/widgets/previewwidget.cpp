@@ -35,7 +35,7 @@
 #include "editorextension.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kiletool.h"
 #include "kiletool_enums.h"
 #include "quickpreview.h"

@@ -179,8 +179,8 @@ public:
 private:
 	void init();
 
-Q_SIGNALS:
-	void triggered(const KAction&);
+// Q_SIGNALS:
+// 	void triggered(const KAction&);
 
 public Q_SLOTS:
 	void setItems(const QList<KAction*> &);

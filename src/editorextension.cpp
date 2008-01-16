@@ -33,7 +33,7 @@
 #include "kileactions.h"
 
 #include "kiletool_enums.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kileextensions.h"
 #include "quickpreview.h"
 

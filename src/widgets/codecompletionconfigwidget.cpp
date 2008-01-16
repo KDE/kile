@@ -39,10 +39,10 @@
 
 #include "kilelistselector.h"
 #include "kileconfig.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kiletool_enums.h"
 
-CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent, const char *name)
+CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent, const char *name)
 		: QWidget(parent, name), m_config(config), m_logwidget(logwidget)
 {
 	// Layout

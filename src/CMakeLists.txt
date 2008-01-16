@@ -53,7 +53,7 @@ SET(kile_SRCS
 	kilelauncher.cpp
 	kiletoolmanager.cpp
 	kilestdtools.cpp
-	kilelogwidget.cpp
+	widgets/logwidget.cpp
 	kileoutputwidget.cpp
 	widgets/konsolewidget.cpp
 	kilewizard.cpp

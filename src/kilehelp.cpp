@@ -33,7 +33,7 @@
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 #include "kileinfo.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kilestdtools.h"
 #include "kileconfig.h"
 

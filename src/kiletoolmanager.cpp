@@ -38,7 +38,7 @@
 #include "kileproject.h"
 #include "kiletool_enums.h"
 #include "kilestdtools.h"
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kileoutputwidget.h"
 #include "kiledocmanager.h"
 #include "kilesidebar.h"
@@ -100,7 +100,7 @@ namespace KileTool
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogMsg *log, KileWidget::Output *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::Output *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
 		m_ki(ki),
 		m_config(config),
 		m_log(log),
@@ -212,13 +212,14 @@ namespace KileTool
 	int Manager::runNextInQueue()
 	{
 		Base *head = m_queue.tool();
-		if (head)
-		{
-			if (m_log->lines() > 1) 
+		if(head) {
+			if (m_log->isShowingOutput()) {
 				m_log->append("\n");
+			}
 
-	        if ( ! head->isPrepared() )
-    	        head->prepareToRun();
+			if(!head->isPrepared()) {
+				head->prepareToRun();
+			}
 
 			int status;
 			if ( (status=head->run()) != Running ) //tool did not even start, clear queue
@@ -390,14 +391,13 @@ namespace KileTool
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
 
-		for ( uint i = 0; i < groups.count(); ++i )
-		{
-			if ( re.exactMatch(groups[i]) )
-			{
-				if ( ! groups[i].endsWith(configName(re.cap(1), config)) ) continue;
+		for(int i = 0; i < groups.count(); ++i) {
+			if(re.exactMatch(groups[i])) {
+				if(!groups[i].endsWith(configName(re.cap(1), config))) {
+					continue;
+				}
 
-				if ( (! menuOnly) || ( menuFor(re.cap(1),config) != "none" ) )
-				{
+				if((!menuOnly) || (menuFor(re.cap(1), config) != "none")) {
 					tools.append(re.cap(1));
 				}
 			}
@@ -458,10 +458,8 @@ namespace KileTool
 		QStringList groups = config->groupList(), configs;
 		QRegExp re = QRegExp("Tool/"+ tool +"/(.+)");
 
-		for ( uint i = 0; i < groups.count(); ++i )
-		{
-			if ( re.exactMatch(groups[i]) )
-			{
+		for(int i = 0; i < groups.count(); ++i) {
+			if(re.exactMatch(groups[i])) {
 				configs.append(re.cap(1));
 			}
 		}

@@ -1,8 +1,7 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Sat Dec 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -12,13 +11,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ****************************************************************************/
-#ifndef KILEWIDGET_LOGMSG_H
-#define KILEWIDGET_LOGMSG_H
+#ifndef LOGWIDGET_H
+#define LOGWIDGET_H
 
-#include <k3textedit.h>
-//Added by qt3to4:
 #include <Q3PopupMenu>
-#include <Q3TextEdit>
+#include <KTextEdit>
 
 class QString;
 class Q3PopupMenu;
@@ -27,24 +24,25 @@ class QPoint;
 class KileInfo;
 class KUrl;
 
-namespace KileWidget
-{
-	class LogMsg : public K3TextEdit  
+namespace KileWidget {
+	class LogWidget : public KTextEdit
 	{
 		Q_OBJECT
 
-	public: 
-		LogMsg(KileInfo *info, QWidget *parent, const char *name=0);
-		~LogMsg();
+	public:
+		LogWidget(KileInfo *info, QWidget *parent, const char *name=0);
+		~LogWidget();
 
-		void setReadOnly(bool r) { Q3TextEdit::setReadOnly(r); } //we don't want the greyed background
+		bool isShowingOutput() const;
+
+		void scrollToBottom();
 
 	public Q_SLOTS:
 		void highlight(); //FIXME for compatibility, should remove it asap
 		void highlight(uint l, int direction = 1);
 		void highlightByIndex(int index, int size, int direction = 1);
 
-		void printMsg(int type, const QString & message, const QString &tool = "Kile" );
+		void printMsg(int type, const QString & message, const QString &tool = "Kile");
 		void printProblem(int type, const QString & problem);
 
 		void slotClicked(int, int);
@@ -55,7 +53,7 @@ namespace KileWidget
 		void showingErrorMessage(QWidget *);
 
 	protected:
-		Q3PopupMenu* createPopupMenu (const QPoint & pos);
+// 		Q3PopupMenu* createPopupMenu (const QPoint & pos);
 
 	protected Q_SLOTS:
 		void handlePopup(int);

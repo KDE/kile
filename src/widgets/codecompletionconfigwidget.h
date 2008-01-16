@@ -34,14 +34,14 @@ class KPushButton;
   */
 
 namespace KileWidget {
-class LogMsg;
+class LogWidget;
 }
 
 class CodeCompletionConfigWidget : public QWidget
 {
 		Q_OBJECT
 	public:
-		CodeCompletionConfigWidget(KConfig *config, KileWidget::LogMsg *logwidget, QWidget *parent = 0, const char *name = 0);
+		CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent = 0, const char *name = 0);
 		~CodeCompletionConfigWidget();
 
 		void readConfig(void);
@@ -51,7 +51,7 @@ class CodeCompletionConfigWidget : public QWidget
 		enum CompletionPage { TexPage = 0, DictionaryPage = 1, AbbreviationPage = 2, NumPages = 3 };
 
 		KConfig *m_config;
-		KileWidget::LogMsg *m_logwidget;
+		KileWidget::LogWidget *m_logwidget;
 
 		// tabs, views, pages, wordlists
 		QTabWidget *tab;

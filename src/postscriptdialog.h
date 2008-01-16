@@ -21,7 +21,7 @@
 
 #include <QProcess>
 
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 #include "kileoutputwidget.h"
 
 #include "ui_postscriptdialog_base.h"
@@ -58,7 +58,7 @@ class PostscriptDialog : public KDialog
 		PostscriptDialog(QWidget *parent,
 		                 const QString &texfilename, const QString &startdir,
 		                 const QString &latexextensions,
-		                 KileWidget::LogMsg *log, KileWidget::Output *output);
+		                 KileWidget::LogWidget *log, KileWidget::Output *output);
 		~PostscriptDialog();
 
 	Q_SIGNALS:
@@ -78,7 +78,7 @@ class PostscriptDialog : public KDialog
 		void execute();
 
 		QString m_startdir;
-		KileWidget::LogMsg *m_log;
+		KileWidget::LogWidget *m_log;
 		KileWidget::Output *m_output;
 
 		QString m_tempfile;

@@ -1,8 +1,8 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Sat Dec 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,15 +13,17 @@
  *                                                                         *
  ****************************************************************************/
 
-#include "kilelogwidget.h"
+#include "widgets/logwidget.h"
 
-#include <qregexp.h>
-#include <qfileinfo.h>
+#include <QFileInfo>
+#include <QRegExp>
+#include <QTextStream>
+
 #include <q3popupmenu.h>
 
 #include "kiledebug.h"
-#include <kurl.h>
-#include <klocale.h>
+#include <KUrl>
+#include <KLocale>
 
 #include "kiletool_enums.h"
 #include "kileinfo.h"
@@ -29,26 +31,52 @@
 
 namespace KileWidget
 {
-	LogMsg::LogMsg(KileInfo *info, QWidget *parent, const char *name ) :
-		K3TextEdit(parent),
+	LogWidget::LogWidget(KileInfo *info, QWidget *parent, const char *name ) :
+		KTextEdit(parent),
 		m_info(info)
 	{
 		setObjectName(name);
 		setTabStopWidth(10);
 		connect(this, SIGNAL(clicked(int, int)), this, SLOT(slotClicked(int, int)));
+		QPalette customPalette = palette();
+		customPalette.setColor(QPalette::Window, QColor(Qt::white));
+		setPalette(customPalette);
 	}
 	
-	LogMsg::~LogMsg(){
-	}
-	
-	void LogMsg::highlight()
+	LogWidget::~LogWidget()
 	{
-		blockSignals(true); // block signals to avoid recursion
-		setUpdatesEnabled(false);
+	}
+
+	bool LogWidget::isShowingOutput() const
+	{
+		return !document()->isEmpty();
+	}
+
+	void LogWidget::scrollToBottom()
+	{
+		textCursor().movePosition(QTextCursor::End);
+		ensureCursorVisible();
+	}
+
+	void LogWidget::highlight()
+	{
+#ifdef __GNUC__
+#warning Method still needs to be ported!
+#endif
+//FIXME: port for KDE4
+// 		blockSignals(true); // block signals to avoid recursion
+// 		setUpdatesEnabled(false);
 		int cursorParagraph, cursorIndex;
 
-		getCursorPosition( &cursorParagraph, &cursorIndex );
+		QString contents = document()->toPlainText();
+		QTextStream textStream(&contents, QIODevice::ReadOnly);
 
+// 		getCursorPosition(&cursorParagraph, &cursorIndex);
+
+		while(!textStream.atEnd()) {
+			QString line = textStream.readLine();
+		}
+/*
 		int line=0;
 		for(uint i = 0 ; i < m_info->outputInfo()->size() ; ++i )
 		{
@@ -65,19 +93,29 @@ namespace KileWidget
 			}
 			removeSelection();
 		}
-		setCursorPosition( cursorParagraph, cursorIndex );
-		setUpdatesEnabled(true);
-		blockSignals(false); // block signals to avoid recursion
+*/
+// 		setCursorPosition( cursorParagraph, cursorIndex );
+// 		setUpdatesEnabled(true);
+// 		blockSignals(false); // block signals to avoid recursion
 	}
 
-	void LogMsg::highlight(uint l, int direction /* = 1 */)
+	void LogWidget::highlight(uint l, int direction /* = 1 */)
 	{
-		setCursorPosition(l + direction * 3 , 0);
-		setSelection(l, 0, l, paragraphLength(l));
+#ifdef __GNUC__
+#warning Method still needs to be ported!
+#endif
+//FIXME: port for KDE4
+// 		setCursorPosition(l + direction * 3 , 0);
+// 		setSelection(l, 0, l, paragraphLength(l));
 	}
 
-	void LogMsg::highlightByIndex(int index, int size, int direction /* = 1 */)
+	void LogWidget::highlightByIndex(int index, int size, int direction /* = 1 */)
 	{
+#ifdef __GNUC__
+#warning Method still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 		int parags = paragraphs();
 		int problemsFound = 0;
 		int targetProblemNumber = size - index;
@@ -95,22 +133,26 @@ namespace KileWidget
 				break;
 			}
 		}
+*/
 	}
 
-	void LogMsg::slotClicked(int parag, int /*index*/)
+	void LogWidget::slotClicked(int parag, int /*index*/)
 	{
+#ifdef __GNUC__
+#warning Method still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
 		int l = 0;
-		QString s = text(parag), file = QString::null;
+		QString s = text(parag), file;
 	
 		static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
 		//maybe there is an error summary
-		if (  reES.search(s) != -1 ) 
-		{
+		if(reES.search(s) != -1) {
 			l = reES.cap(2).toInt();
 			file = reES.cap(1);
 		}
-		else
-		{
+		else {
 			//look for error at line parag
 			for (uint i=0; i< m_info->outputInfo()->size(); ++i)
 			{
@@ -125,53 +167,70 @@ namespace KileWidget
 
 		file = m_info->getFullFromPrettyName(file);
 
-		if ( file != QString::null )
-		{
-			emit(fileOpen(KUrl::fromPathOrUrl(file), QString::null));
-			if ( l > 0 ) emit(setLine(QString::number(l)));
+		if(!file.isEmpty()) {
+			emit(fileOpen(KUrl::fromPathOrUrl(file), QString()));
+			if(l > 0) {
+				emit(setLine(QString::number(l)));
+			}
 		}
+*/
 	}
 
-	void LogMsg::printMsg(int type, const QString & message, const QString &tool)
+	void LogWidget::printMsg(int type, const QString & message, const QString &tool)
 	{
-		if ( type == KileTool::Error ) emit showingErrorMessage(this);
+		if(type == KileTool::Error) {
+			emit showingErrorMessage(this);
+		}
 
 		QString ot = "", ct = "</font>";
 
-		switch (type)
-		{
+		switch(type) {
 			case KileTool::Warning :
-				ot = "<font color='blue'>"; 
+				ot = "<font color='blue'>";
 			break;
-			case KileTool::ProblemWarning : 
-				if ( KileConfig::hideProblemWarning() ) return;
-				ot = "<font color='blue'>"; 
+			case KileTool::ProblemWarning :
+				if(KileConfig::hideProblemWarning()) {
+					return;
+				}
+				ot = "<font color='blue'>";
 			break;
-			case KileTool::Error : case KileTool::ProblemError :
+			case KileTool::Error: // fall through
+			case KileTool::ProblemError:
 				ot = "<font color='red'>";
 			break;
-			case KileTool::ProblemBadBox :
-				if ( KileConfig::hideProblemBadBox() ) return;
+			case KileTool::ProblemBadBox:
+				if (KileConfig::hideProblemBadBox()) {
+					return;
+				}
 				ot = "<font color='#666666'>";
 			break;
-			default : ot = "<font color='black'>"; break;
+			default:
+				ot = "<font color='black'>";
+			break;
 		}
 
-		if (tool.isNull())
+		if(tool.isEmpty()) {
 			append(ot + message + ct);
-		else
+		}
+		else {
 			append(ot + "<b>[" + tool + "]</b> " + message + ct );
+		}
 
 		scrollToBottom();
 	}
 
-	void LogMsg::printProblem(int type, const QString & problem)
+	void LogWidget::printProblem(int type, const QString & problem)
 	{
 		KILE_DEBUG() << "\t" << problem << endl;
 		printMsg(type, problem, QString::null);
 	}
 
-	Q3PopupMenu* LogMsg::createPopupMenu (const QPoint & pos)
+#ifdef __GNUC__
+#warning Method still needs to be ported!
+#endif
+//FIXME: port for KDE4
+/*
+	Q3PopupMenu* LogWidget::createPopupMenu (const QPoint & pos)
 	{
 		//get standard popup menu
 		Q3PopupMenu * popup = K3TextEdit::createPopupMenu(pos);
@@ -190,12 +249,13 @@ namespace KileWidget
 
 		return popup;
 	}
+*/
 
-	void LogMsg::handlePopup(int id)
+	void LogWidget::handlePopup(int id)
 	{
 		if ( id == m_idBadBox ) KileConfig::setHideProblemBadBox(!KileConfig::hideProblemBadBox());
 		else if ( id == m_idWarning ) KileConfig::setHideProblemWarning(!KileConfig::hideProblemWarning());
 	}
 }
 
-#include "kilelogwidget.moc"
+#include "logwidget.moc"

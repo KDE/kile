@@ -112,7 +112,7 @@ public:
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::Output *outputWidget() { return m_outputWidget; }
 	KileBottomBar *outputView() { return m_bottomBar; }
-	KileWidget::LogMsg *logWidget() { return m_logWidget; }
+	KileWidget::LogWidget *logWidget() { return m_logWidget; }
 	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; }
 
 	KileDocument::Manager* docManager() const { return m_docManager; }
@@ -149,7 +149,7 @@ protected:
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;
 	KileWidget::Output		*m_outputWidget;
-	KileWidget::LogMsg		*m_logWidget;
+	KileWidget::LogWidget		*m_logWidget;
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileBottomBar			*m_bottomBar;
 	KileWidget::PreviewWidget	*m_previewWidget; 

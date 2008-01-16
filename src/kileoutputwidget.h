@@ -15,24 +15,23 @@
 #ifndef KILEWIDGET_OUTPUTMSG_H
 #define KILEWIDGET_OUTPUTMSG_H
 
-#include <q3textedit.h>
-#include <k3textedit.h>
+#include <KTextEdit>
 
 namespace KileWidget
 {
-	class Output : public K3TextEdit  
-	{
+class Output : public KTextEdit
+{
 		Q_OBJECT
 
-	public: 
-		Output(QWidget *parent, const char *name=0);
+	public:
+		Output(QWidget *parent);
 		~Output();
 
-		void setReadOnly(bool r) { Q3TextEdit::setReadOnly(r); } //we don't want the greyed background
+		void setReadOnly(bool r) { QTextEdit::setReadOnly(r); } // no gray background
 
 	public Q_SLOTS:
 		void receive(const QString &);
-	};
+};
 }
 
 #endif

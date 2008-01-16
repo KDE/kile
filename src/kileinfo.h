@@ -46,7 +46,7 @@ namespace KTextEditor { class Document;}
 class KileBottomBar;
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
-namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; }
+namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; class OutputView; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 namespace KileScript { class Manager; }
@@ -110,7 +110,7 @@ public:
 
 	KileWidget::Structure *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
-	KileWidget::Output *outputWidget() { return m_outputWidget; }
+	KileWidget::OutputView *outputWidget() { return m_outputWidget; }
 	KileBottomBar *outputView() { return m_bottomBar; }
 	KileWidget::LogWidget *logWidget() { return m_logWidget; }
 	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; }
@@ -148,7 +148,7 @@ protected:
 	KileEditorKeySequence::Manager	*m_editorKeySequenceManager;
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;
-	KileWidget::Output		*m_outputWidget;
+	KileWidget::OutputView		*m_outputWidget;
 	KileWidget::LogWidget		*m_logWidget;
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileBottomBar			*m_bottomBar;

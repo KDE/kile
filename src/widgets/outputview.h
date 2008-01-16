@@ -12,22 +12,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ****************************************************************************/
-#ifndef KILEWIDGET_OUTPUTMSG_H
-#define KILEWIDGET_OUTPUTMSG_H
+#ifndef OUTPUTVIEW_H
+#define OUTPUTVIEW_H
 
 #include <KTextEdit>
 
 namespace KileWidget
 {
-class Output : public KTextEdit
+class OutputView : public KTextEdit
 {
 		Q_OBJECT
 
 	public:
-		Output(QWidget *parent);
-		~Output();
-
-		void setReadOnly(bool r) { QTextEdit::setReadOnly(r); } // no gray background
+		OutputView(QWidget *parent);
+		~OutputView();
 
 	public Q_SLOTS:
 		void receive(const QString &);

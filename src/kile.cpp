@@ -65,7 +65,7 @@
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "widgets/logwidget.h"
-#include "kileoutputwidget.h"
+#include "widgets/outputview.h"
 #include "widgets/konsolewidget.h"
 #include "dialogs/quickdocumentdialog.h"
 #include "tabbingdialog.h"
@@ -532,7 +532,7 @@ void Kile::setupBottomBar()
 	m_logWidget->setReadOnly(true);
 	m_bottomBar->addPage(m_logWidget, SmallIcon("utilities-log-viewer"), i18n("Log and Messages"));
 
-	m_outputWidget = new KileWidget::Output(m_mainWindow);
+	m_outputWidget = new KileWidget::OutputView(m_mainWindow);
 	m_outputWidget->setFocusPolicy(Qt::ClickFocus);
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);

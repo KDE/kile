@@ -54,7 +54,7 @@ SET(kile_SRCS
 	kiletoolmanager.cpp
 	kilestdtools.cpp
 	widgets/logwidget.cpp
-	kileoutputwidget.cpp
+	widgets/outputview.cpp
 	widgets/konsolewidget.cpp
 	kilewizard.cpp
 	widgets/structurewidget.cpp

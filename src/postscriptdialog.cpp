@@ -48,7 +48,7 @@ namespace KileDialog
 PostscriptDialog::PostscriptDialog(QWidget *parent,
                                    const QString &texfilename,const QString &startdir,
                                    const QString &latexextensions,
-                                   KileWidget::LogWidget *log,KileWidget::Output *output) :
+                                   KileWidget::LogWidget *log,KileWidget::OutputView *output) :
 	KDialog(parent),
 	m_startdir(startdir),
 	m_log(log),

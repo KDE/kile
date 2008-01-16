@@ -32,7 +32,7 @@ class KAction;
 namespace KParts { class PartManager; }
 
 class KileInfo;
-namespace KileWidget { class LogWidget; class Output; }
+namespace KileWidget { class LogWidget; class OutputView; }
 
 namespace KileTool
 {
@@ -69,7 +69,7 @@ namespace KileTool
 		Q_OBJECT
 		
 	public:
-		Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::Output *output, KParts::PartManager *, QStackedWidget* stack, KAction *, uint to);
+		Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::OutputView *output, KParts::PartManager *, QStackedWidget* stack, KAction *, uint to);
 		~Manager();
 
 	public:
@@ -125,7 +125,7 @@ namespace KileTool
 		KileInfo		*m_ki;
 		KConfig		*m_config;
 		KileWidget::LogWidget		*m_log;
-		KileWidget::Output		*m_output;
+		KileWidget::OutputView		*m_output;
 		KParts::PartManager	*m_pm;
 		QStackedWidget				*m_stack;
 		KAction				*m_stop;

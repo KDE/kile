@@ -39,7 +39,7 @@
 #include "kiletool_enums.h"
 #include "kilestdtools.h"
 #include "widgets/logwidget.h"
-#include "kileoutputwidget.h"
+#include "widgets/outputview.h"
 #include "kiledocmanager.h"
 #include "kilesidebar.h"
 
@@ -100,7 +100,7 @@ namespace KileTool
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::Output *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::OutputView *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
 		m_ki(ki),
 		m_config(config),
 		m_log(log),

@@ -13,21 +13,25 @@
  *                                                                         *
  ****************************************************************************/
 
-#include "kileoutputwidget.h"
+#include "widgets/outputview.h"
 #include "kiledebug.h"
 
 namespace KileWidget
 {
-Output::Output(QWidget *parent) : KTextEdit(parent)
+OutputView::OutputView(QWidget *parent) : KTextEdit(parent)
 {
 	setReadOnly(true);
+	QPalette customPalette = palette();
+	customPalette.setColor(QPalette::Base, QColor(Qt::white));
+	customPalette.setColor(QPalette::Window, QColor(Qt::white));
+	setPalette(customPalette);
 }
 
-Output::~Output()
+OutputView::~OutputView()
 {
 }
 
-void Output::receive(const QString & str)
+void OutputView::receive(const QString & str)
 {
 	static QString line = "";
 
@@ -48,4 +52,4 @@ void Output::receive(const QString & str)
 }
 }
 
-#include "kileoutputwidget.moc"
+#include "outputview.moc"

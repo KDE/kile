@@ -26,7 +26,7 @@
 
 #include "kiletool_enums.h"
 #include "widgets/logwidget.h"
-#include "kileoutputwidget.h"
+#include "widgets/outputview.h"
 #include "kileinfo.h"
 #include "latexoutputfilter.h"
 #include "latexoutputinfo.h"

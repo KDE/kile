@@ -19,8 +19,8 @@
 
 #include <qstring.h>
 
-const QString kileVersion="2.0";
-const QString kileFullVersion="2.0.0";
+const QString kileVersion="2.1";
+const QString kileFullVersion="2.0.80";
 const QString kilePrVersion="2";
 
 /**

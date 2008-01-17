@@ -34,7 +34,7 @@
 #include <kmimetype.h>
 
 #include "kileinfo.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kiledocmanager.h"
 
 const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,

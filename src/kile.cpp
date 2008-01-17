@@ -49,7 +49,7 @@
 #include <ktexteditor/configinterface.h>
 #include <kxmlguifactory.h>
 
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kileactions.h"
 #include "kilestdactions.h"
 #include "usermenudialog.h"

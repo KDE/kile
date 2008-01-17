@@ -21,7 +21,7 @@
 #include <QMap>
 
 #include "kiledocmanager.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 
 class KileProject;
 

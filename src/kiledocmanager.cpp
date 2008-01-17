@@ -60,7 +60,7 @@
 #include "kileinfo.h"
 #include "scriptmanager.h"
 #include "kileproject.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kileviewmanager.h"
 #include "widgets/filebrowserwidget.h"
 #include "widgets/projectview.h"

@@ -46,7 +46,7 @@
 #include "kiledebug.h"
 #include "kileproject.h"
 #include "kiletoolmanager.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kileconfig.h"
 #include "kileextensions.h"
 #include "templates.h"

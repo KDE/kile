@@ -32,7 +32,7 @@
 #include "kiletoolmanager.h"
 #include "kiledocmanager.h"
 #include "kileinfo.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kileproject.h"
 
 namespace KileTool

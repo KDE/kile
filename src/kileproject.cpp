@@ -32,7 +32,7 @@
 #include <kmessagebox.h>
 #include <ksharedptr.h>
 
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kiledocmanager.h"
 #include "kiletoolmanager.h"
 #include "kileinfo.h"

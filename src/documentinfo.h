@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEDOCUMENTINFO_H
-#define KILEDOCUMENTINFO_H
+#ifndef DOCUMENTINFO_H
+#define DOCUMENTINFO_H
 
 #include <KTextEditor/Document>
 #include <KUrl>
@@ -67,7 +67,7 @@ namespace KileStruct
 class KileStructData
 {
 public:
-	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString::null, QString fldr = "root" )  : level(lvl), type(tp), pix(px), folder(fldr) {}
+	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString(), QString fldr = "root" )  : level(lvl), type(tp), pix(px), folder(fldr) {}
 	/** At which level the element should be visible **/
 	int				level;
 	/** The type of element (see @ref KileStruct) **/
@@ -86,7 +86,7 @@ namespace KileDocument
 
 struct BracketResult
 {
-	BracketResult() : option(QString::null), value(QString::null), line(0), col(0) {}
+	BracketResult() : line(0), col(0) {}
 	QString option, value;
 	int line, col;
 };
@@ -176,10 +176,9 @@ protected Q_SLOTS:
 protected:
 	void count(const QString line, long *stat);
 
-	enum State
-	{
-		stStandard=0, stComment=1, stControlSequence=3, stControlSymbol=4,
-	 	stCommand=5,stEnvironment=6
+	enum State {
+		stStandard = 0, stComment = 1, stControlSequence = 3, stControlSymbol = 4,
+	 	stCommand = 5, stEnvironment = 6
 	};
 
 	bool						m_bIsRoot;
@@ -221,7 +220,7 @@ public:
 	 * @param defaultHighlightMode the highlight mode that will be set automatically
 	 *                             once a new document is installed
 	 **/
-	TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode = QString::null);
+	TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode = QString());
 	virtual ~TextInfo();
 
 	/**
@@ -249,7 +248,7 @@ public:
 
 	bool isTextDocument();
 
-	void setHighlightMode(const QString & highlight = QString::null);
+	void setHighlightMode(const QString & highlight = QString());
 
 	void setDefaultHightlightMode(const QString& string);
 
@@ -314,7 +313,7 @@ public:
 	/**
 	 * @param eventFilter the event filter that will be installed on managed documents
 	 **/
-	LaTeXInfo(KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter);
+	LaTeXInfo(KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, QObject* eventFilter);
 	virtual ~LaTeXInfo();
 
 	const long* getStatistics();
@@ -328,7 +327,7 @@ public Q_SLOTS:
 
 protected:
 	LatexCommands *m_commands;
-	const QObject *m_eventFilter;
+	QObject *m_eventFilter;
 
 	virtual void updateStructLevelInfo();
 	virtual void checkChangedDeps();

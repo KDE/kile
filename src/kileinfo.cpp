@@ -30,7 +30,7 @@
 #include "widgets/structurewidget.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kileproject.h"
 #include "kileuntitled.h"
 #include "scriptmanager.h"

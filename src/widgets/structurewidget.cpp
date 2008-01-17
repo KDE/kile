@@ -76,7 +76,7 @@
 
 #include "kileinfo.h"
 #include "kiledocmanager.h"
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 #include "kileconfig.h"
 
 ////////////////////// KileListViewItem with all info //////////////////////

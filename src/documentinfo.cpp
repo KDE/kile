@@ -60,7 +60,7 @@
 // 2007-04-06 dani
 // - add TODO/FIXME section to structure view
 
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 
 #include <qfileinfo.h>
 #include <qlabel.h>
@@ -113,8 +113,7 @@ KUrl Info::repairInvalidCharacters(const KUrl& url, bool checkForFileExistence /
 KUrl Info::renameIfExist(const KUrl& url)
 {
 	KUrl ret(url);
-	while ( KIO::NetAccess::exists(url, true, kapp->mainWidget()) ) // check for writing possibility
-	{
+	while(KIO::NetAccess::exists(url, true, kapp->mainWidget())) { // check for writing possibility
 		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("File Already Exists"),
@@ -122,8 +121,9 @@ KUrl Info::renameIfExist(const KUrl& url)
 				another one, or click \"Cancel\" to overwrite it.", ret.fileName()),
 			ret.fileName(),
 			&isOK);
-		if(!isOK)
+		if(!isOK) {
 			break;
+		}
 		ret.setFileName(newURL);
 	}
 	return ret;
@@ -154,12 +154,14 @@ KUrl Info::makeValidTeXURL(const KUrl & url, bool istexfile, bool checkForFileEx
 	KUrl newURL(url);
 
 	//add a .tex extension
-	if ( ! istexfile )
+	if(!istexfile) {
 		newURL = repairExtension(newURL, checkForFileExistence);
+	}
 
 	//remove characters TeX does not accept, make sure the newURL does not exists yet
-	if(containsInvalidCharacters(newURL))
+	if(containsInvalidCharacters(newURL)) {
 		newURL = repairInvalidCharacters(newURL, checkForFileExistence);
+	}
 
 	return newURL;
 }
@@ -176,7 +178,7 @@ Info::~Info(void)
 
 void Info::updateStructLevelInfo()
 {
-	KILE_DEBUG() << "===void Info::updateStructLevelInfo()===" << endl;
+	KILE_DEBUG() << "===void Info::updateStructLevelInfo()===";
 	// read config for structureview items
 	m_showStructureLabels = KileConfig::svShowLabels();
 	m_showStructureReferences = KileConfig::svShowReferences();
@@ -194,7 +196,7 @@ void Info::updateStructLevelInfo()
 
 void Info::setBaseDirectory(const KUrl& url)
 {
-	KILE_DEBUG() << "===void Info::setBaseDirectory(const KUrl&" << url << ")===" << endl;
+	KILE_DEBUG() << "===void Info::setBaseDirectory(const KUrl&" << url << ")===";
 	m_baseDirectory = url;
 }
 
@@ -215,7 +217,7 @@ Type Info::getType()
 
 QString Info::getFileFilter() const
 {
-	return QString::null;
+	return QString();
 }
 
 bool Info::isDocumentTypePromotionAllowed()
@@ -239,156 +241,142 @@ void Info::count(const QString line, long *stat)
 	int state = stStandard;
 	bool word = false; // we are in a word
 
-	for (int p = 0; p < line.length(); ++p) {
+	for(int p = 0; p < line.length(); ++p) {
 		c = line[p];
 
 		switch(state) {
-		case stStandard	:
-#ifdef __GNUC__
-#warning Don't use QChar in switch statement!
-#endif
-//FIXME: change for KDE4
-			switch(c.toAscii()) {
-				case TEX_CAT0	:
-					state = stControlSequence;
-					++stat[1];
-
-					//look ahead to avoid counting words like K\"ahler as two words
-					if (! line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )
-						word=false;
-				break;
-
-				case TEX_CAT14 :
-					state=stComment;
-				break;
-
-				default:
-					if (c.isLetterOrNumber())
-					{
-						//only start new word if first character is a letter (42test is still counted as a word, but 42.2 not)
-						if (c.isLetter() && !word)
-						{
-							word=true;
-							++stat[3];
+			case stStandard:
+				switch(c.toAscii()) {
+					if(c == TEX_CAT0) {
+						state = stControlSequence;
+						++stat[1];
+	
+						//look ahead to avoid counting words like K\"ahler as two words
+						if(!line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^') {
+							word = false;
 						}
-						++stat[0];
 					}
-					else
-					{
-						++stat[2];
-						word = false;
+					else if(c == TEX_CAT14) {
+						state = stComment;
 					}
-
-				break;
-			}
-		break;
-
-		case stControlSequence :
-			if ( c.isLetter() )
-			{
-			// "\begin{[a-zA-z]+}" is an environment, and you can't define a command like \begin
-				if ( line.mid(p,5) == "begin" )
-				{
-					++stat[5];
-					state = stEnvironment;
-					stat[1] +=5;
-					p+=4; // after break p++ is executed
+					else {
+						if (c.isLetterOrNumber()) {
+							//only start new word if first character is a letter (42test is still counted as a word, but 42.2 not)
+							if (c.isLetter() && !word) {
+								word = true;
+								++stat[3];
+							}
+							++stat[0];
+						}
+						else {
+							++stat[2];
+							word = false;
+						}
+					}
 				}
-				else if ( line.mid(p,3) == "end" )
-				{
-					stat[1] +=3;
-					state = stEnvironment;
-					p+=2;
-				} // we don't count \end as new environment, this can give wrong results in selections
-				else
-				{
+			break;
+	
+			case stControlSequence :
+				if(c.isLetter()) {
+				// "\begin{[a-zA-z]+}" is an environment, and you can't define a command like \begin
+					if(line.mid(p, 5) == "begin") {
+						++stat[5];
+						state = stEnvironment;
+						stat[1] +=5;
+						p+=4; // after break p++ is executed
+					}
+					else if(line.mid(p, 3) == "end") {
+						stat[1] +=3;
+						state = stEnvironment;
+						p+=2;
+					} // we don't count \end as new environment, this can give wrong results in selections
+					else {
+						++stat[4];
+						++stat[1];
+						state = stCommand;
+					}
+				}
+				else {
 					++stat[4];
 					++stat[1];
-					state = stCommand;
+					state = stStandard;
 				}
-			}
-			else
-			{
-				++stat[4];
-				++stat[1];
-				state = stStandard;
-			}
-		break;
-
-		case stCommand :
-			if ( c.isLetter() )
-				++stat[1];
-			else if ( c == TEX_CAT0 )
-			{
-				++stat[1];
-				state=stControlSequence;
-			}
-			else if ( c == TEX_CAT14 )
-				state=stComment;
-			else
-			{
-				++stat[2];
-				state = stStandard;
-			}
-		break;
-
-		case stEnvironment :
-			if ( c == TEX_CAT2  ) // until we find a closing } we have an environment
-			{
-				++stat[1];
-				state=stStandard;
-			}
-			else if ( c == TEX_CAT14 )
-				state=stComment;
-			else
-				++stat[1];
-
-		break;
-
-		case stComment : // if we get a selection the line possibly contains \n and so the comment is only valid till \n and not necessarily till line.length()
-			if ( c == '\n')
-			{
-			++stat[2]; // \n was counted as punctuation in the old implementation
-			state=stStandard;
-			word=false;
-			}
-		break;
-
-		default :
-			kWarning() << "Unhandled state in getStatistics " << state << endl;
-		break;
+			break;
+	
+			case stCommand :
+				if(c.isLetter()) {
+					++stat[1];
+				}
+				else if(c == TEX_CAT0) {
+					++stat[1];
+					state = stControlSequence;
+				}
+				else if(c == TEX_CAT14) {
+					state = stComment;
+				}
+				else {
+					++stat[2];
+					state = stStandard;
+				}
+			break;
+	
+			case stEnvironment :
+				if(c == TEX_CAT2) { // until we find a closing } we have an environment
+					++stat[1];
+					state = stStandard;
+				}
+				else if(c == TEX_CAT14) {
+					state = stComment;
+				}
+				else {
+					++stat[1];
+				}
+			break;
+	
+			case stComment : // if we get a selection the line possibly contains \n and so the comment is only valid till \n and not necessarily till line.length()
+				if(c == '\n') {
+					++stat[2]; // \n was counted as punctuation in the old implementation
+					state = stStandard;
+					word = false;
+				}
+			break;
+	
+			default :
+				kWarning() << "Unhandled state in getStatistics " << state;
+			break;
 		}
 	}
 }
 
-QString Info::lastModifiedFile(const QStringList *list /* = 0L */)
+QString Info::lastModifiedFile(const QStringList *list /* = NULL */)
 {
-	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====" << endl;
-	QFileInfo fileinfo ( url().path() );
+	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====";
+	QFileInfo fileinfo(url().path());
 	QString basepath = fileinfo.absolutePath(), last = fileinfo.absoluteFilePath();
-	QDateTime time ( fileinfo.lastModified() );
+	QDateTime time(fileinfo.lastModified());
 
-	if ( list == 0L ) list = &m_deps;
+	if(!list) {
+		list = &m_deps;
+	}
 
-	KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << time.toString() << endl;
+	KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << time.toString();
 	for(int i = 0; i < list->count(); ++i) {
 		fileinfo.setFile( basepath + '/' + (*list)[i] );
-		KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << fileinfo.lastModified().toString() << endl;
-		if ( fileinfo.lastModified() >  time )
-		{
+		KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << fileinfo.lastModified().toString();
+		if(fileinfo.lastModified() >  time) {
 			time = fileinfo.lastModified();
 			last = fileinfo.absoluteFilePath();
-			KILE_DEBUG() << "\t\tlater" << endl;
+			KILE_DEBUG() << "\t\tlater";
 		}
 	}
 
-	KILE_DEBUG() << "\treturning " << fileinfo.absoluteFilePath() << endl;
+	KILE_DEBUG() << "\treturning " << fileinfo.absoluteFilePath();
 	return last;
 }
 
 void Info::updateStruct()
 {
-	KILE_DEBUG() << "==Info::updateStruct()=======" << endl;
+	KILE_DEBUG() << "==Info::updateStruct()=======";
 	m_labels.clear();
 	m_bibItems.clear();
 	m_deps.clear();
@@ -396,7 +384,7 @@ void Info::updateStruct()
 	m_packages.clear();
 	m_newCommands.clear();
 	m_bIsRoot = false;
-	m_preamble = QString::null;
+	m_preamble.clear();
 }
 
 void Info::updateBibItems()
@@ -412,9 +400,8 @@ void Info::slotCompleted()
 TextInfo::TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
 {
 	setDoc(doc);
-	if (m_doc)
-	{
-		KILE_DEBUG() << "TextInfo created for " << m_doc->url() << endl;
+	if(m_doc) {
+		KILE_DEBUG() << "TextInfo created for " << m_doc->url();
 	}
 
  	m_arStatistics = new long[SIZE_STAT_ARRAY];
@@ -440,7 +427,7 @@ KTextEditor::Document* TextInfo::getDoc()
 
 void TextInfo::setDoc(KTextEditor::Document *doc)
 {
-	KILE_DEBUG() << "===void TextInfo::setDoc(KTextEditor::Document *doc)===" << endl;
+	KILE_DEBUG() << "===void TextInfo::setDoc(KTextEditor::Document *doc)===";
 
 	if(m_doc == doc) {
 		return;
@@ -463,14 +450,14 @@ void TextInfo::detach()
 		m_doc->disconnect(this);
 		removeInstalledEventFilters();
 	}
-	m_doc = 0L;
+	m_doc = NULL;
 }
 
 const long* TextInfo::getStatistics()
 {
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
-	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
+	m_arStatistics[0] = m_arStatistics[1] = m_arStatistics[2] = m_arStatistics[3] = m_arStatistics[4] = m_arStatistics[5] = 0;
 
 	return m_arStatistics;
 }
@@ -497,7 +484,7 @@ bool TextInfo::isTextDocument()
 
 void TextInfo::setHighlightMode(const QString &highlight)
 {
-	KILE_DEBUG() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================" << endl;
+	KILE_DEBUG() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================";
 
 	if (m_doc && !highlight.isEmpty()) {
 		m_doc->setHighlightingMode(highlight);
@@ -514,28 +501,34 @@ void TextInfo::setDefaultHightlightMode(const QString& string)
 QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 {
 	QChar cbracket;
-	if ( obracket == '{' ) cbracket = '}';
-	if ( obracket == '[' ) cbracket = ']';
-	if ( obracket == '(' ) cbracket = ')';
+	if(obracket == '{') {
+		cbracket = '}';
+	}
+	if(obracket == '[') {
+		cbracket = ']';
+	}
+	if(obracket == '(') {
+		cbracket = ')';
+	}
 
 	QString line, grab = "";
 	int count=0, len;
 	++pos;
 
 	TodoResult todo;
-	while ( l <= m_doc->lines() )
-	{
+	while(l <= m_doc->lines()) {
 		line = getTextline(l,todo);
 		len = line.length();
-		for (int i=pos; i < len; ++i)
-		{
-			if (line[i] == '\\' && ( line[i+1] == obracket || line[i+1] == cbracket) ) ++i;
-			else if (line[i] == obracket) ++count;
-			else if (line[i] == cbracket)
-			{
+		for (int i=pos; i < len; ++i) {
+			if(line[i] == '\\' && (line[i+1] == obracket || line[i+1] == cbracket)) {
+				++i;
+			}
+			else if(line[i] == obracket) {
+				++count;
+			}
+			else if(line[i] == cbracket) {
 				--count;
-				if (count < 0)
-				{
+				if (count < 0) {
 					pos = i;
 					return grab;
 				}
@@ -544,10 +537,10 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 			grab += line[i];
 		}
 		++l;
-		pos=0;
+		pos = 0;
 	}
 
-	return QString::null;
+	return QString();
 }
 
 QString TextInfo::getTextline(uint line, TodoResult &todo)
@@ -556,24 +549,20 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 
 	todo.type = -1;
 	QString s = m_doc->line(line);
-	if ( ! s.isEmpty() )
-	{
+	if(!s.isEmpty()) {
 		// remove comment lines
-		if ( s[0] == '%' )
-		{
+		if(s[0] == '%') {
 			searchTodoComment(s,0,todo);
-			s = QString::null;
+			s.clear();
 		}
-		else
-		{
+		else {
 			//remove escaped \ characters
 			s.replace("\\\\", "  ");
 
 			//remove comments
 			int pos = s.indexOf(reComments);
-			if ( pos != -1 )
-			{
-				searchTodoComment(s,pos,todo);
+			if(pos != -1) {
+				searchTodoComment(s, pos,todo);
 				s = s.left(reComments.pos(1));
 			}
 		}
@@ -585,19 +574,17 @@ void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &to
 {
 	static QRegExp::QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
 
-	if ( s.indexOf(reTodoComment,startpos) != -1 )
-	{
-		todo.type = ( reTodoComment.cap(1) == "TODO" ) ? KileStruct::ToDo : KileStruct::FixMe;
+	if(s.indexOf(reTodoComment, startpos) != -1) {
+		todo.type = (reTodoComment.cap(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
 		todo.colTag = reTodoComment.pos(1);
 		todo.colComment = reTodoComment.pos(3);
 		todo.comment = reTodoComment.cap(3).trimmed();
 	}
 }
 
-KTextEditor::View* TextInfo::createView(QWidget *parent, const char *name)
+KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 {
-	if(!m_doc)
-	{
+	if(!m_doc) {
 		return NULL;
 	}
 	KTextEditor::View *view = m_doc->createView(parent);
@@ -622,8 +609,7 @@ void TextInfo::removeInstalledEventFilters(KTextEditor::View* /* view */)
 
 void TextInfo::installEventFilters()
 {
-	if(!m_doc)
-	{
+	if(!m_doc) {
 		return;
 	}
 	QList<KTextEditor::View*> views = m_doc->views();
@@ -634,8 +620,7 @@ void TextInfo::installEventFilters()
 
 void TextInfo::removeInstalledEventFilters()
 {
-	if(!m_doc)
-	{
+	if(!m_doc) {
 		return;
 	}
 	QList<KTextEditor::View*> views = m_doc->views();
@@ -645,7 +630,7 @@ void TextInfo::removeInstalledEventFilters()
 }
 
 
-LaTeXInfo::LaTeXInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter) : TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
+LaTeXInfo::LaTeXInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, QObject* eventFilter) : TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -659,7 +644,7 @@ const long* LaTeXInfo::getStatistics()
 {
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
-	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
+	m_arStatistics[0] = m_arStatistics[1] = m_arStatistics[2] = m_arStatistics[3] = m_arStatistics[4] = m_arStatistics[5] = 0;
 	QString line;
 #ifdef __GNUC__
 #warning Change the signature of the getStatistics() function to take a view as parameter!
@@ -669,14 +654,14 @@ const long* LaTeXInfo::getStatistics()
 	if ( m_doc && m_doc->hasSelection() )
 	{
 		line = m_doc->selection();
-		KILE_DEBUG() << "getStat : line : " << line << endl;
+		KILE_DEBUG() << "getStat : line : " << line;
 		count(line, m_arStatistics);
 	}
 	else if (m_doc)
 */
-	for (int l=0; l < m_doc->lines(); ++l) {
+	for(int l = 0; l < m_doc->lines(); ++l) {
 		line = m_doc->line(l);
-		KILE_DEBUG() << "getStat : line : " << line << endl;
+		KILE_DEBUG() << "getStat : line : " << line;
 		count(line, m_arStatistics);
 	}
 	return m_arStatistics;
@@ -694,7 +679,7 @@ QString LaTeXInfo::getFileFilter() const
 
 void LaTeXInfo::updateStructLevelInfo() {
 
-	KILE_DEBUG() << "===void LaTeXInfo::updateStructLevelInfo()===" << endl;
+	KILE_DEBUG() << "===void LaTeXInfo::updateStructLevelInfo()===";
 
 	// read config stuff
 	Info::updateStructLevelInfo();
@@ -705,54 +690,51 @@ void LaTeXInfo::updateStructLevelInfo() {
 	//TODO: make sectioning and bibliography configurable
 
 	// sectioning
-	m_dictStructLevel["\\part"]=KileStructData(1, KileStruct::Sect, "part");
-	m_dictStructLevel["\\chapter"]=KileStructData(2, KileStruct::Sect, "chapter");
-	m_dictStructLevel["\\section"]=KileStructData(3, KileStruct::Sect, "section");
-	m_dictStructLevel["\\subsection"]=KileStructData(4, KileStruct::Sect, "subsection");
-	m_dictStructLevel["\\subsubsection"]=KileStructData(5, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\paragraph"]=KileStructData(6, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\subparagraph"]=KileStructData(7, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\bibliography"]=KileStructData(0,KileStruct::Bibliography, "viewbib");
+	m_dictStructLevel["\\part"] = KileStructData(1, KileStruct::Sect, "part");
+	m_dictStructLevel["\\chapter"] = KileStructData(2, KileStruct::Sect, "chapter");
+	m_dictStructLevel["\\section"] = KileStructData(3, KileStruct::Sect, "section");
+	m_dictStructLevel["\\subsection"] = KileStructData(4, KileStruct::Sect, "subsection");
+	m_dictStructLevel["\\subsubsection"] = KileStructData(5, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\paragraph"] = KileStructData(6, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\subparagraph"] = KileStructData(7, KileStruct::Sect, "subsubsection");
+	m_dictStructLevel["\\bibliography"] = KileStructData(0,KileStruct::Bibliography, "viewbib");
 
 	// hidden commands
-	m_dictStructLevel["\\usepackage"]=KileStructData(KileStruct::Hidden, KileStruct::Package);
-	m_dictStructLevel["\\newcommand"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-	m_dictStructLevel["\\newlength"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
-	m_dictStructLevel["\\newenvironment"]=KileStructData(KileStruct::Hidden, KileStruct::NewEnvironment);
-	m_dictStructLevel["\\addunit"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
-	m_dictStructLevel["\\DeclareMathOperator"]=KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
-	m_dictStructLevel["\\caption"]=KileStructData(KileStruct::Hidden,KileStruct::Caption);
+	m_dictStructLevel["\\usepackage"] = KileStructData(KileStruct::Hidden, KileStruct::Package);
+	m_dictStructLevel["\\newcommand"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+	m_dictStructLevel["\\newlength"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand);
+	m_dictStructLevel["\\newenvironment"] = KileStructData(KileStruct::Hidden, KileStruct::NewEnvironment);
+	m_dictStructLevel["\\addunit"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // hack to get support for the fancyunits package until we can configure the commands in the gui (tbraun)
+	m_dictStructLevel["\\DeclareMathOperator"] = KileStructData(KileStruct::Hidden, KileStruct::NewCommand); // amsmath package
+	m_dictStructLevel["\\caption"] = KileStructData(KileStruct::Hidden,KileStruct::Caption);
 
 	// bibitems
-	if ( m_showStructureBibitems )
-	{
-		m_dictStructLevel["\\bibitem"]= KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString::null, "bibs");
+	if(m_showStructureBibitems) {
+		m_dictStructLevel["\\bibitem"] = KileStructData(KileStruct::NotSpecified, KileStruct::BibItem, QString(), "bibs");
 	}
 
 	// graphics
-	if ( m_showStructureGraphics )
-	{
-		m_dictStructLevel["\\includegraphics"]=KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
+	if(m_showStructureGraphics) {
+		m_dictStructLevel["\\includegraphics"] = KileStructData(KileStruct::Object,KileStruct::Graphics, "graphics");
 	}
 
 	// float environments
-	if ( m_showStructureFloats )
-	{
-		m_dictStructLevel["\\begin"]=KileStructData(KileStruct::Object,KileStruct::BeginEnv);
-		m_dictStructLevel["\\end"]=KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
+	if(m_showStructureFloats) {
+		m_dictStructLevel["\\begin"] = KileStructData(KileStruct::Object,KileStruct::BeginEnv);
+		m_dictStructLevel["\\end"] = KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
 
 		// some entries, which could never be found (but they are set manually)
-		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
-		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
-		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
+		m_dictStructLevel["\\begin{figure}"] = KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+		m_dictStructLevel["\\begin{table}"] =KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
+		m_dictStructLevel["\\end{float}"] = KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
 
 	// preliminary minimal beamer support
-	m_dictStructLevel["\\frame"]=KileStructData(KileStruct::Object, KileStruct::BeamerFrame, "beamerframe");
-	m_dictStructLevel["\\frametitle"]=KileStructData(KileStruct::Hidden, KileStruct::BeamerFrametitle);
-	m_dictStructLevel["\\begin{frame}"]=KileStructData(KileStruct::Object, KileStruct::BeamerBeginFrame, "beamerframe");
-	m_dictStructLevel["\\end{frame}"]=KileStructData(KileStruct::Hidden, KileStruct::BeamerEndFrame);
-	m_dictStructLevel["\\begin{block}"]=KileStructData(KileStruct::Object, KileStruct::BeamerBeginBlock, "beamerblock");
+	m_dictStructLevel["\\frame"] = KileStructData(KileStruct::Object, KileStruct::BeamerFrame, "beamerframe");
+	m_dictStructLevel["\\frametitle"] = KileStructData(KileStruct::Hidden, KileStruct::BeamerFrametitle);
+	m_dictStructLevel["\\begin{frame}"] = KileStructData(KileStruct::Object, KileStruct::BeamerBeginFrame, "beamerframe");
+	m_dictStructLevel["\\end{frame}"] = KileStructData(KileStruct::Hidden, KileStruct::BeamerEndFrame);
+	m_dictStructLevel["\\begin{block}"] = KileStructData(KileStruct::Object, KileStruct::BeamerBeginBlock, "beamerblock");
 
 	// add user defined commands
 
@@ -760,24 +742,25 @@ void LaTeXInfo::updateStructLevelInfo() {
 	QStringList::ConstIterator it;
 
 	// labels, we also gather them
-	m_commands->commandList(list,KileDocument::CmdAttrLabel,false);
-	for ( it=list.begin(); it != list.end(); ++it )
-		m_dictStructLevel[*it]= KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString::null, "labels");
+	m_commands->commandList(list,KileDocument::CmdAttrLabel, false);
+	for(it=list.begin(); it != list.end(); ++it) {
+		m_dictStructLevel[*it] = KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString(), "labels");
+	}
 
 	// input files
-	if ( m_showStructureInputFiles )
-	{
-		m_commands->commandList(list,KileDocument::CmdAttrIncludes,false);
-		for ( it=list.begin(); it != list.end(); ++it )
-			m_dictStructLevel[*it]= KileStructData(KileStruct::File, KileStruct::Input, "include");
+	if(m_showStructureInputFiles) {
+		m_commands->commandList(list, KileDocument::CmdAttrIncludes, false);
+		for(it = list.begin(); it != list.end(); ++it) {
+			m_dictStructLevel[*it] = KileStructData(KileStruct::File, KileStruct::Input, "include");
+		}
 	}
 
 	// references
-	if ( m_showStructureReferences )
-	{
-		m_commands->commandList(list,KileDocument::CmdAttrReference,false);
-		for ( it=list.begin(); it != list.end(); ++it )
-			m_dictStructLevel[*it]= KileStructData(KileStruct::Hidden, KileStruct::Reference);
+	if(m_showStructureReferences) {
+		m_commands->commandList(list, KileDocument::CmdAttrReference, false);
+		for(it=list.begin(); it != list.end(); ++it ) {
+			m_dictStructLevel[*it] = KileStructData(KileStruct::Hidden, KileStruct::Reference);
+		}
 	}
 }
 
@@ -804,27 +787,22 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
 	BracketResult result;
 	TodoResult todo;
 
-	if ( m_doc->line(l)[pos] == '[' )
-	{
+	if(m_doc->line(l)[pos] == '[') {
 		result.option = TextInfo::matchBracket('[', l, pos);
 		int p = 0;
-		while ( l < m_doc->lines() )
-		{
-			if ( (p = getTextline(l,todo).indexOf('{', pos)) != -1 )
-			{
+		while(l < m_doc->lines()) {
+			if((p = getTextline(l, todo).indexOf('{', pos)) != -1) {
 				pos = p;
 				break;
 			}
-			else
-			{
+			else {
 				pos = 0;
 				++l;
 			}
 		}
 	}
 
-	if ( m_doc->line(l)[pos] == '{' )
-	{
+	if(m_doc->line(l)[pos] == '{') {
 		result.line = l;
 		result.col = pos;
 		result.value  = TextInfo::matchBracket('{', l, pos);
@@ -836,10 +814,11 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
 //FIXME refactor, clean this mess up
 void LaTeXInfo::updateStruct()
 {
-	KILE_DEBUG() << "==void TeXInfo::updateStruct: (" << url() << ")=========" << endl;
+	KILE_DEBUG() << "==void TeXInfo::updateStruct: (" << url() << ")=========";
 
-	if ( getDoc() == 0L )
+	if(!getDoc()) {
 		return;
+	}
 
 	Info::updateStruct();
 
@@ -862,117 +841,108 @@ void LaTeXInfo::updateStruct()
 	TodoResult todo;
 
 	for(int i = 0; i < m_doc->lines(); ++i) {
-		if (teller > 100)
-		{
+		if (teller > 100) {
 			teller=0;
 			kapp->processEvents();
 		}
-		else
+		else {
 			++teller;
+		}
 
-		tagStart=tagEnd=0;
+		tagStart = tagEnd = 0;
 		fire = true;
 		s = getTextline(i,todo);
-		if ( todo.type!=-1 && m_showStructureTodo )
-		{
-			QString folder = ( todo.type == KileStruct::ToDo ) ? "todo" : "fixme";
-			emit( foundItem(todo.comment, i+1, todo.colComment, todo.type, KileStruct::Object, i+1, todo.colTag, QString::null, folder) );
+		if(todo.type!=-1 && m_showStructureTodo) {
+			QString folder = (todo.type == KileStruct::ToDo) ? "todo" : "fixme";
+			emit( foundItem(todo.comment, i+1, todo.colComment, todo.type, KileStruct::Object, i+1, todo.colTag, QString(), folder) );
 		}
 
 
-		if ( s.isEmpty() )
+		if(s.isEmpty()) {
 			continue;
+		}
 
 		//ignore renewcommands
 		s.replace(reReNewCommand, "");
 
 		//find all commands in this line
-		while (tagStart != -1)
-		{
-			if ( (!foundBD) && ( (bd = s.indexOf(reBD, tagEnd)) != -1))
-			{
-				KILE_DEBUG() << "\tfound \\begin{document}" << endl;
+		while(tagStart != -1) {
+			if((!foundBD) && ((bd = s.indexOf(reBD, tagEnd)) != -1)) {
+				KILE_DEBUG() << "\tfound \\begin{document}";
 				foundBD = true;
-				if ( bd == 0 ) m_preamble = m_doc->text(KTextEditor::Range(0, 0, i - 1, m_doc->line(i - 1).length()));
-				else m_preamble = m_doc->text(KTextEditor::Range(0, 0, i, bd));
+				if(bd == 0) {
+					m_preamble = m_doc->text(KTextEditor::Range(0, 0, i - 1, m_doc->line(i - 1).length()));
+				}
+				else {
+					m_preamble = m_doc->text(KTextEditor::Range(0, 0, i, bd));
+				}
 			}
 
-			if ((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1))
-			{
-				KILE_DEBUG() << "\tsetting m_bIsRoot to true" << endl;
+			if((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1)) {
+				KILE_DEBUG() << "\tsetting m_bIsRoot to true";
 				tagEnd += reRoot.cap(0).length();
 				m_bIsRoot = true;
 			}
 
 			tagStart = reCommand.search(s,tagEnd);
-			m=QString::null;
-			shorthand = QString::null;
+			m.clear();
+			shorthand.clear();
 
-			if (tagStart != -1)
-			{
+			if(tagStart != -1) {
 				tagEnd = tagStart + reCommand.cap(0).length()-1;
 
 				//look up the command in the dictionary
 				it = m_dictStructLevel.find(reCommand.cap(1));
 
 				//if it is was a structure element, find the title (or label)
-				if (it != m_dictStructLevel.end())
-				{
+				if(it != m_dictStructLevel.end()) {
 					tagLine = i+1;
 					tagCol = tagEnd+1;
 					tagStartLine = tagLine;
 					tagStartCol = tagStart+1;
-					if ( reCommand.cap(1) != "\\frame" )
-					{
+					if(reCommand.cap(1) != "\\frame") {
 						result = matchBracket(i, tagEnd);
 						m = result.value.trimmed();
 						shorthand = result.option.trimmed();
-						if ( i >= tagLine ) //matching brackets spanned multiple lines
+						if(i >= tagLine) { //matching brackets spanned multiple lines
 							s = m_doc->line(i);
-						if ( result.line>0 || result.col>0 )
-						{
+						}
+						if(result.line > 0 || result.col > 0) {
 							tagLine = result.line + 1;
 							tagCol = result.col + 1;
 						}
-					//KILE_DEBUG() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}" << endl;
+					//KILE_DEBUG() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}";
 					}
-					else
-					{
+					else {
 						m = i18n("Frame");
 					}
 				}
 
 				//title (or label) found, add the element to the listview
-				if ( !m.isNull() )
-				{
+				if(!m.isNull()) {
 					// no problems so far ...
 					fireSuspended = false;
 
 					// remove trailing ./
-					if ( (*it).type & (KileStruct::Input | KileStruct::Graphics) )
-					{
-						if ( m.left(2) == "./" )
-							m = m.mid(2,m.length()-2);
+					if((*it).type & (KileStruct::Input | KileStruct::Graphics)) {
+						if(m.left(2) == "./") {
+							m = m.mid(2, m.length() - 2);
+						}
 					}
 					// update parameter for environments, because only
 					// floating environments and beamer frames are passed
-					if ( (*it).type == KileStruct::BeginEnv )
-					{
-						if ( m=="figure" || m=="table" )
-						{
+					if((*it).type == KileStruct::BeginEnv) {
+						if(m == "figure" || m == "table") {
 							it = m_dictStructLevel.find("\\begin{" + m +'}');
 						}
-						else if ( m == "frame" )
-						{
+						else if(m == "frame") {
 							it = m_dictStructLevel.find("\\begin{frame}");
 							m = i18n("Frame");
 						}
-						else if ( m=="block" || m=="exampleblock" || m=="alertblock")
-						{
+						else if(m=="block" || m=="exampleblock" || m=="alertblock") {
 							const QString untitledBlockDisplayName = i18n("Untitled Block");
 							it = m_dictStructLevel.find("\\begin{block}");
-							if ( s.at(tagEnd+1) == '{' )
-							{
+							if(s.at(tagEnd+1) == '{') {
 								tagEnd++;
 								result = matchBracket(i, tagEnd);
 								m = result.value.trimmed();
@@ -980,70 +950,66 @@ void LaTeXInfo::updateStruct()
 									m = untitledBlockDisplayName;
 								}
 							}
-							else
+							else {
 								m = untitledBlockDisplayName;
+							}
 						}
-						else
+						else {
 							fireSuspended = true;    // only floats and beamer frames, no other environments
+						}
 					}
 
 					// tell structure view that a floating environment or a beamer frame must be closed
-					else if ( (*it).type == KileStruct::EndEnv )
-					{
-						if ( m=="figure" || m=="table")
-						{
+					else if((*it).type == KileStruct::EndEnv) {
+						if(m=="figure" || m=="table") {
 							it = m_dictStructLevel.find("\\end{float}");
 						}
-						else if ( m == "frame" )
-						{
+						else if(m == "frame") {
 							it = m_dictStructLevel.find("\\end{frame}");
 						}
-						else
+						else {
 							fireSuspended = true;          // only floats, no other environments
+						}
 					}
-
 					// sectioning commands
-					else if ( (*it).type == KileStruct::Sect )
-					{
-						if ( ! shorthand.isNull() )
+					else if((*it).type == KileStruct::Sect) {
+						if(!shorthand.isEmpty()) {
 							m = shorthand;
+						}
 					}
 
 					// update the label list
-					else if ( (*it).type == KileStruct::Label )
-					{
+					else if((*it).type == KileStruct::Label) {
 						m_labels.append(m);
 						// label entry as child of sectioning
-						if ( m_showSectioningLabels )
-						{
-							emit( foundItem(m, tagLine, tagCol, KileStruct::Label, KileStruct::Object, tagStartLine, tagStartCol, "label", "root") );
+						if(m_showSectioningLabels) {
+							emit(foundItem(m, tagLine, tagCol, KileStruct::Label, KileStruct::Object, tagStartLine, tagStartCol, "label", "root") );
 							fireSuspended = true;
 						}
 					}
 
 					// update the references list
-					else if ( (*it).type == KileStruct::Reference )
-					{
+					else if((*it).type == KileStruct::Reference) {
 						// m_references.append(m);
 						//fireSuspended = true;          // don't emit references
 					}
 
 					// update the dependencies
-					else if ((*it).type == KileStruct::Input)
-					{
+					else if((*it).type == KileStruct::Input) {
 						// \input- or \include-commands can be used without extension. So we check
 						// if an extension exists. If not the default extension is added
 						// ( LaTeX reference says that this is '.tex'). This assures that
 						// all files, which are listed in the structure view, have an extension.
 						QString ext = QFileInfo(m).completeSuffix();
-						if ( ext.isEmpty() )
+						if(ext.isEmpty()) {
 							m += m_extensions->latexDocumentDefault();
+						}
 						m_deps.append(m);
 					}
 
 					// update the referenced Bib files
-					else  if( (*it).type == KileStruct::Bibliography ) {
-						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m << endl;
+					else  if((*it).type == KileStruct::Bibliography) {
+						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
 
 						QStringList bibs = m.split(",");
 						QString biblio;
@@ -1054,16 +1020,15 @@ void LaTeXInfo::updateStruct()
 
 						uint cumlen = 0;
 						int nextbib = 0; // length to add to jump to the next bibliography
-						for (int b = 0; b < bibs.count(); ++b) {
+						for(int b = 0; b < bibs.count(); ++b) {
 							nextbib = 0;
 							biblio=bibs[b];
 							m_bibliography.append(biblio);
-							if ( biblio.left(2) == "./" )
-							{	nextbib += 2;
-								biblio = biblio.mid(2,biblio.length()-2);
+							if(biblio.left(2) == "./") {
+								nextbib += 2;
+								biblio = biblio.mid(2, biblio.length() - 2);
 							}
-							if ( biblio.right(bibextlen) != bibext )
-							{
+							if(biblio.right(bibextlen) != bibext) {
 								biblio += bibext;
 								nextbib -= bibextlen;
 							}
@@ -1075,20 +1040,18 @@ void LaTeXInfo::updateStruct()
 					}
 
 					// update the bibitem list
-					else if ( (*it).type == KileStruct::BibItem )
-					{
-						//KILE_DEBUG() << "\tappending bibitem " << m << endl;
+					else if((*it).type == KileStruct::BibItem) {
+						//KILE_DEBUG() << "\tappending bibitem " << m;
 						m_bibItems.append(m);
 					}
 
 					// update the package list
-					else if ( (*it).type == KileStruct::Package )
-					{
+					else if((*it).type == KileStruct::Package) {
 						QStringList pckgs = m.split(",");
 						uint cumlen = 0;
 						for(int p = 0; p < pckgs.count(); ++p) {
 							QString package = pckgs[p].trimmed();
-							if ( ! package.isEmpty() ) {
+							if(!package.isEmpty()) {
 								m_packages.append(package);
 								// hidden, so emit is useless
 								// emit( foundItem(package, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
@@ -1099,58 +1062,52 @@ void LaTeXInfo::updateStruct()
 					}
 
 					// newcommand found, add it to the newCommands list
-					else if ( (*it).type & ( KileStruct::NewCommand | KileStruct::NewEnvironment ) )
-					{
+					else if((*it).type & (KileStruct::NewCommand | KileStruct::NewEnvironment)) {
 						QString optArg, mandArgs;
 
 						//find how many parameters this command takes
-						if ( s.indexOf(reNumOfParams, tagEnd + 1) != -1 )
-						{
+						if(s.indexOf(reNumOfParams, tagEnd + 1) != -1) {
 							bool ok;
 							int noo = reNumOfParams.cap(1).toInt(&ok);
 
-							if ( ok )
-							{
-								if(s.indexOf(reNumOfOptParams, tagEnd + 1) != -1)
-								{
-									KILE_DEBUG() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL" << endl;
+							if(ok) {
+								if(s.indexOf(reNumOfOptParams, tagEnd + 1) != -1) {
+									KILE_DEBUG() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL";
 									noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
 									optArg = '[' + reNumOfOptParams.cap(2) + ']';
 								}
 
-								for ( int noo_index = 0; noo_index < noo; ++noo_index)
-								{
+								for(int noo_index = 0; noo_index < noo; ++noo_index) {
 									mandArgs +=  '{' + s_bullet + '}';
 								}
 
 							}
-							if( !optArg.isEmpty() )
-							{
-								if( (*it).type == KileStruct::NewEnvironment)
-								{
+							if(!optArg.isEmpty()) {
+								if((*it).type == KileStruct::NewEnvironment) {
 									m_newCommands.append(QString("\\begin{%1}%2%3").arg(m).arg(optArg).arg(mandArgs));
 								}
-								else
+								else {
 									m_newCommands.append(m + optArg + mandArgs);
+								}
 							}
 						}
-						if( (*it).type == KileStruct::NewEnvironment)
-						{
+						if((*it).type == KileStruct::NewEnvironment) {
 							m_newCommands.append(QString("\\begin{%1}%3").arg(m).arg(mandArgs));
 							m_newCommands.append(QString("\\end{%1}").arg(m));
 						}
-						else
+						else {
 							m_newCommands.append(m + mandArgs);
-
+						}
 						//FIXME  set tagEnd to the end of the command definition
 						break;
 					}
 					// and some other commands, which don't need special actions:
 					// \caption, ...
 
-					// KILE_DEBUG() << "\t\temitting: " << m << endl;
-					if ( fire && !fireSuspended )
+					// KILE_DEBUG() << "\t\temitting: " << m;
+					if(fire && !fireSuspended) {
 						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
+					}
 				} //if m
 			} // if tagStart
 		} // while tagStart
@@ -1163,8 +1120,7 @@ void LaTeXInfo::updateStruct()
 
 void LaTeXInfo::checkChangedDeps()
 {
-	if( m_depsPrev != m_deps )
-	{
+	if(m_depsPrev != m_deps) {
 		KILE_DEBUG() << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
 		emit(depChanged());
 		m_depsPrev = m_deps;
@@ -1187,11 +1143,13 @@ bool BibInfo::isLaTeXRoot()
 
 void BibInfo::updateStruct()
 {
-	if ( getDoc() == 0L ) return;
+	if(!getDoc()) {
+		return;
+	}
 
 	Info::updateStruct();
 
-	KILE_DEBUG() << "==void BibInfo::updateStruct()========" << endl;
+	KILE_DEBUG() << "==void BibInfo::updateStruct()========";
 
 	static QRegExp::QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
 	static QRegExp::QRegExp reSpecial("string|preamble|comment");
@@ -1201,9 +1159,8 @@ void BibInfo::updateStruct()
 
 	for(int i = 0; i < m_doc->lines(); ++i) {
 		s = m_doc->line(i);
-		if ( (s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower()) )
-		{
-			KILE_DEBUG() << "found: " << reItem.cap(2) << endl;
+		if((s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower())) {
+			KILE_DEBUG() << "found: " << reItem.cap(2);
 			//start looking for key
 			key = "";
 			bool keystarted = false;
@@ -1211,40 +1168,42 @@ void BibInfo::updateStruct()
 			startcol = reItem.cap(1).length();
 			col  = startcol + reItem.cap(2).length();
 
-			while ( col <  static_cast<int>(s.length()) )
-			{
+			while(col < static_cast<int>(s.length())) {
 				++col;
-				if ( col == static_cast<int>(s.length()) )
-				{
-					do
-					{
+				if(col == static_cast<int>(s.length())) {
+					do {
 						++i;
 						s = m_doc->line(i);
-					} while  ( (s.length() == 0) && (i < m_doc->lines()) );
+					}
+					while((s.length() == 0) && (i < m_doc->lines()));
 
-					if ( i == m_doc->lines() ) break;
+					if(i == m_doc->lines()) {
+						break;
+					}
 					col = 0;
 				}
 
-				if ( state == 0 )
-				{
-					if ( s[col] == '{' ) state = 1;
-					else if ( ! s[col].isSpace() ) break;
+				if(state == 0) {
+					if(s[col] == '{') {
+						state = 1;
+					}
+					else if(!s[col].isSpace()) {
+						break;
+					}
 				}
-				else if ( state == 1 )
-				{
-					if ( s[col] == ',' )
-					{
+				else if(state == 1) {
+					if(s[col] == ',') {
 						key = key.trimmed();
-						KILE_DEBUG() << "found: " << key << endl;
+						KILE_DEBUG() << "found: " << key;
 						m_bibItems.append(key);
 						emit(foundItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).toLower()) );
 						break;
 					}
-					else
-					{
+					else {
 						key += s[col];
-						if (!keystarted) { startcol = col; startline = i; }
+						if(!keystarted) {
+							startcol = col; startline = i;
+						}
 						keystarted=true;
 					}
 				}
@@ -1291,4 +1250,4 @@ QString ScriptInfo::getFileFilter() const
 
 }
 
-#include "kiledocumentinfo.moc"
+#include "documentinfo.moc"

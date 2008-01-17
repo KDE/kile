@@ -23,7 +23,6 @@
   **/
 
 #include <q3widgetstack.h>
-#include <q3vbox.h>
 #include <qtooltip.h>
 
 #include <QList>
@@ -32,7 +31,7 @@
 #include <kmenu.h>
 #include <kmimetypetrader.h>
 
-#include "kiledocumentinfo.h"
+#include "documentinfo.h"
 
 //2007-02-15: dani
 // - class KileListViewItem not only saves the cursor position of the parameter,

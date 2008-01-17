@@ -38,7 +38,7 @@ SET(kile_SRCS
 	kileactions.cpp
 	kilestdactions.cpp
 	kileinfo.cpp
-	kiledocumentinfo.cpp
+	documentinfo.cpp
 	kileproject.cpp
 	dialogs/projectdialogs.cpp
 	widgets/projectview.cpp

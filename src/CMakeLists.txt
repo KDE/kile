@@ -71,7 +71,7 @@ SET(kile_SRCS
 	kileerrorhandler.cpp
 	dialogs/configcheckerdialog.cpp
 	configtester.cpp
-	kilesidebar.cpp
+	widgets/sidebar.cpp
 	plaintolatexconverter.cpp
 	kileuntitled.cpp
 	dialogs/statisticsdialog.cpp

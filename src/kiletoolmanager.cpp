@@ -41,7 +41,7 @@
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
 #include "kiledocmanager.h"
-#include "kilesidebar.h"
+#include "widgets/sidebar.h"
 
 namespace KileTool
 {

@@ -78,7 +78,7 @@
 #include "kileconfig.h"
 #include "kileerrorhandler.h"
 #include "dialogs/configcheckerdialog.h"
-#include "kilesidebar.h"
+#include "widgets/sidebar.h"
 #include "dialogs/floatdialog.h"
 #include "mathenvdialog.h"
 #include "tabulardialog.h"
@@ -346,7 +346,7 @@ void Kile::setupStatusBar()
 
 void Kile::setupSideBar()
 {
-	m_sideBar = new KileSideBar(m_horizontalSplitter);
+	m_sideBar = new KileWidget::SideBar(m_horizontalSplitter);
 
 	m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar, "File Selector");
 	m_sideBar->addPage(m_fileBrowserWidget, SmallIcon("document-open"), i18n("Open File"));
@@ -518,7 +518,7 @@ void Kile::setupAbbreviationView()
 
 void Kile::setupBottomBar()
 {
-	m_bottomBar = new KileBottomBar(m_mainWindow);
+	m_bottomBar = new KileWidget::BottomBar(m_mainWindow);
 	m_bottomBar->setFocusPolicy(Qt::ClickFocus);
 
 	m_logWidget = new KileWidget::LogWidget(this, m_mainWindow);

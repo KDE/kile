@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef KILESIDEBAR_H
-#define KILESIDEBAR_H
+#ifndef SIDEBAR_H
+#define SIDEBAR_H
 
 #include <QPixmap>
 #include <QStackedWidget>
@@ -22,13 +22,15 @@
 
 #include <KMultiTabBar>
 
-class KileSideBar : public QWidget
+namespace KileWidget {
+
+class SideBar : public QWidget
 {
 	Q_OBJECT
 
 public:
-	KileSideBar(QWidget *parent = 0, Qt::Orientation orientation = Qt::Vertical);
-	virtual ~KileSideBar();
+	SideBar(QWidget *parent = 0, Qt::Orientation orientation = Qt::Vertical);
+	virtual ~SideBar();
 
 	int addPage(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);
 	void removePage(QWidget *w);
@@ -92,13 +94,15 @@ protected:
 	KMultiTabBar		*m_tabBar;
 };
 
-class KileBottomBar : public KileSideBar
+class BottomBar : public SideBar
 {
 	Q_OBJECT
 
 public:
-	KileBottomBar(QWidget *parent = 0);
+	BottomBar(QWidget *parent = 0);
 
 };
+
+}
 
 #endif

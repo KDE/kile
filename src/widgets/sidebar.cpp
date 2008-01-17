@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kilesidebar.h"
+#include "sidebar.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -21,7 +21,9 @@
 
 #include "kiledebug.h"
 
-KileSideBar::KileSideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
+namespace KileWidget {
+
+SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	QWidget(parent),
 	m_orientation(orientation),
 	m_minimized(true),
@@ -63,11 +65,11 @@ KileSideBar::KileSideBar(QWidget *parent, Qt::Orientation orientation /*= Vertic
 	setLayout(layout);
 }
 
-KileSideBar::~KileSideBar()
+SideBar::~SideBar()
 {
 }
 
-int KileSideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &text /* = QString::null*/)
+int SideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &text /* = QString::null*/)
 {
 	int index = m_tabStack->addWidget(widget);
 	m_tabBar->appendTab(pic, index, text);
@@ -78,7 +80,7 @@ int KileSideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &tex
 	return index;
 }
 
-void KileSideBar::removePage(QWidget *w) 
+void SideBar::removePage(QWidget *w) 
 {
 	int nTabs = m_tabStack->count();
 	int index = m_tabStack->indexOf(w);
@@ -91,7 +93,7 @@ void KileSideBar::removePage(QWidget *w)
 	}
 }
 
-QWidget* KileSideBar::currentPage()
+QWidget* SideBar::currentPage()
 {
 	if(isMinimized()) {
 		return NULL;
@@ -100,7 +102,7 @@ QWidget* KileSideBar::currentPage()
 	return m_tabStack->currentWidget();
 }
 
-int KileSideBar::currentTab()
+int SideBar::currentTab()
 {
 	if(m_minimized) {
 		return -1;
@@ -109,17 +111,17 @@ int KileSideBar::currentTab()
 	return m_tabStack->currentIndex();
 }
 
-bool KileSideBar::isMinimized()
+bool SideBar::isMinimized()
 {
 	return m_minimized;
 }
 
-int KileSideBar::count()
+int SideBar::count()
 {
 	return m_tabStack->count();
 }
 
-void KileSideBar::shrink()
+void SideBar::shrink()
 {
 	if(isMinimized()) {
 		return;
@@ -144,7 +146,7 @@ void KileSideBar::shrink()
 	emit visibilityChanged(false);
 }
 
-void KileSideBar::expand()
+void SideBar::expand()
 {
 	if(!isMinimized()) {
 		return;
@@ -165,7 +167,7 @@ void KileSideBar::expand()
 	emit visibilityChanged(true);
 }
 
-void KileSideBar::tabClicked(int i)
+void SideBar::tabClicked(int i)
 {
 	int currentIndex = currentTab();
 	
@@ -177,7 +179,7 @@ void KileSideBar::tabClicked(int i)
 	}
 }
 
-int KileSideBar::findNextShownTab(int i)
+int SideBar::findNextShownTab(int i)
 {
 	int nTabs = m_tabStack->count();
 	if(nTabs <= 0) {
@@ -193,7 +195,7 @@ int KileSideBar::findNextShownTab(int i)
 	return -1;
 }
 
-void KileSideBar::setPageVisible(QWidget *w, bool b)
+void SideBar::setPageVisible(QWidget *w, bool b)
 {
 	int nTabs = m_tabStack->count();
 	int index = m_tabStack->indexOf(w);
@@ -209,7 +211,7 @@ void KileSideBar::setPageVisible(QWidget *w, bool b)
 	}
 }
 
-void KileSideBar::showPage(QWidget *widget)
+void SideBar::showPage(QWidget *widget)
 {
 	int i = m_tabStack->indexOf(widget);
 	if(i >= 0) {
@@ -217,7 +219,7 @@ void KileSideBar::showPage(QWidget *widget)
 	}
 }
 
-int KileSideBar::directionalSize()
+int SideBar::directionalSize()
 {
 	if(m_minimized) {
 		return m_directionalSize;
@@ -233,7 +235,7 @@ int KileSideBar::directionalSize()
 	return 0;
 }
 
-void KileSideBar::setDirectionalSize(int i)
+void SideBar::setDirectionalSize(int i)
 {
 	if(m_orientation == Qt::Horizontal) {
 		m_tabStack->resize(m_tabStack->width(), i);
@@ -243,7 +245,7 @@ void KileSideBar::setDirectionalSize(int i)
 	}
 }
 
-void KileSideBar::switchToTab(int id)
+void SideBar::switchToTab(int id)
 {
 	int nTabs = m_tabStack->count();
 	int currentIndex = currentTab();
@@ -262,8 +264,10 @@ void KileSideBar::switchToTab(int id)
 	expand();
 }
 
-KileBottomBar::KileBottomBar(QWidget *parent) : KileSideBar(parent, Qt::Horizontal)
+BottomBar::BottomBar(QWidget *parent) : SideBar(parent, Qt::Horizontal)
 {
 }
 
-#include "kilesidebar.moc"
+}
+
+#include "sidebar.moc"

@@ -76,12 +76,11 @@ class KileProjectItem;
 class TemplateItem;
 class KileAutoSaveJob;
 class KileErrorHandler;
-class KileSideBar;
 
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogWidget; class Output; class Konsole; class Structure; }
+namespace KileWidget { class LogWidget; class Output; class Konsole; class Structure; class SideBar; class BottomBar; }
 
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem
@@ -167,7 +166,7 @@ private:
 
 	/* GUI */
 	//widgets
-	KileSideBar			*m_sideBar;
+	KileWidget::SideBar			*m_sideBar;
 	KileWidget::AbbreviationView		*m_kileAbbrevView;
 	QStackedWidget			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;

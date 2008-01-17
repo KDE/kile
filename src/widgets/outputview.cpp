@@ -1,8 +1,7 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Sun Dec 21 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,8 +15,8 @@
 #include "widgets/outputview.h"
 #include "kiledebug.h"
 
-namespace KileWidget
-{
+namespace KileWidget {
+
 OutputView::OutputView(QWidget *parent) : KTextEdit(parent)
 {
 	setReadOnly(true);
@@ -31,25 +30,26 @@ OutputView::~OutputView()
 {
 }
 
-void OutputView::receive(const QString & str)
+void OutputView::receive(const QString& str)
 {
-	static QString line = "";
+	static QString line;
 
 	//find newline symbol
 	//only output if we have receive one or more
 	//full lines of text
 	int newLineAt = str.findRev('\n');
-	if(newLineAt != -1)
-	{
+	if(newLineAt != -1) {
 		line += str.left(newLineAt); //don't copy the newline char
 		line.replace('<', "&lt;");
 		line.replace('>', "&gt;");
 		append(line);
 		line = str.mid(newLineAt + 1);
 	}
-	else
+	else {
 		line += str;
+	}
 }
+
 }
 
 #include "outputview.moc"

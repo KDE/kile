@@ -1,8 +1,7 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Sun Dec 21 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -17,8 +16,8 @@
 
 #include <KTextEdit>
 
-namespace KileWidget
-{
+namespace KileWidget {
+
 class OutputView : public KTextEdit
 {
 		Q_OBJECT
@@ -30,6 +29,7 @@ class OutputView : public KTextEdit
 	public Q_SLOTS:
 		void receive(const QString &);
 };
+
 }
 
 #endif

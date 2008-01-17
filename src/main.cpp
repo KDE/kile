@@ -1,8 +1,8 @@
-/***************************************************************************
+/********************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003-2005 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2002 - 2003 by Pascal Brachet
+                               2003 - 2005 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ ********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,18 +13,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdir.h>
-#include <qfile.h>
-//Added by qt3to4:
-#include <Q3CString>
+#include <QDir>
+#include <QFile>
 
-#include <kcmdlineargs.h>
-#include <kaboutdata.h>
-#include <kstartupinfo.h>
-#include <kmessagebox.h>
-#include <klocale.h>
-#include <kglobal.h>
-#include <kurl.h>
+#include <KAboutData>
+#include <KCmdLineArgs>
+#include <KGlobal>
+#include <KLocale>
+#include <KStartupInfo>
+#include <KUrl>
+
 #include "kiledebug.h"
 
 #include "kile.h"
@@ -33,7 +31,7 @@
 
 bool isProject(const QString &path)
 {
-	return path.right(7) == ".kilepr";
+	return path.endsWith(".kilepr");
 }
 
 /**
@@ -44,27 +42,26 @@ QString completePath(const QString &path)
 {
 	QString fullpath(path);
 
-	KILE_DEBUG() << "==complete path is " << path << endl;
-	if ( path.left(1) != "/" )
-	{
-		if ( path.left(5) == "file:" )
-		{
+	KILE_DEBUG() << "==complete path is " << path;
+	if(path.left(1) != "/") {
+		if(path.startsWith("file:")) {
 			KUrl url = KUrl::fromPathOrUrl(path);
 			url.setFileName(completePath(url.path()));
 			fullpath = url.url();
 		}
-		else if ( path.indexOf(QRegExp("^[a-z]+:")) == -1 )
+		else if(path.indexOf(QRegExp("^[a-z]+:")) == -1) {
 			fullpath = QDir::currentPath() + '/' + path;
+		}
 	}
 
-	KILE_DEBUG() << "\t" << fullpath << endl;
+	KILE_DEBUG() << "\t" << fullpath;
 	return fullpath;
 }
 
 int main( int argc, char ** argv )
 {
 	KAboutData aboutData( "kile", "Kile", ki18n("Kile"), kileFullVersion.ascii(), ki18n("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-						ki18n("by the Kile Team (2003 - 2007)"),
+						ki18n("by the Kile Team (2003 - 2008)"),
 						KLocalizedString(),
 						"http://kile.sourceforge.net");
 	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");

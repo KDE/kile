@@ -29,7 +29,7 @@ class QTreeWidget;
 class QTreeWidgetItem;
 
 namespace KileWidget {
-	class CategoryComboBox;
+class CategoryComboBox;
 }
 
 class KComboBox;
@@ -41,191 +41,191 @@ namespace KileDialog
 
 // some flags to check the results of the input dialog
 enum {
-	qd_CheckNotEmpty=1,        
-	qd_CheckDocumentClass=2,
-	qd_CheckClassOption=4,
-	qd_CheckPackage=8,
-	qd_CheckPackageOption=16,
-	qd_CheckFontsize=32,
-	qd_CheckPapersize=64
+	qd_CheckNotEmpty = 1,
+	qd_CheckDocumentClass = 2,
+	qd_CheckClassOption = 4,
+	qd_CheckPackage = 8,
+	qd_CheckPackageOption = 16,
+	qd_CheckFontsize = 32,
+	qd_CheckPapersize = 64
 };
 
 class QuickDocument : public Wizard
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	QuickDocument(KConfig *, QWidget *parent=0, const char *name=0, const QString &caption = QString::null);
-	~QuickDocument();
+	public:
+		QuickDocument(KConfig *, QWidget *parent = 0, const char *name = 0, const QString &caption = QString::null);
+		~QuickDocument();
 
-	bool isStandardClass(const QString &classname);             
-	bool isDocumentClass(const QString &name);
-	bool isDocumentClassOption(const QString &option);
-	bool isPackage(const QString &package);
-	bool isPackageOption(const QString &package, const QString &option);
-	
-public Q_SLOTS:
-	void slotOk();
+		bool isStandardClass(const QString &classname);
+		bool isDocumentClass(const QString &name);
+		bool isDocumentClassOption(const QString &option);
+		bool isPackage(const QString &package);
+		bool isPackageOption(const QString &package, const QString &option);
 
-private:
-	KileWidget::CategoryComboBox *m_cbDocumentClass;
-	KileWidget::CategoryComboBox *m_cbTypefaceSize;
-	KileWidget::CategoryComboBox *m_cbPaperSize;
-	KileWidget::CategoryComboBox *m_cbEncoding;
-	QTreeWidget *m_lvClassOptions;
-	QTreeWidget *m_lvPackages;
-	KLineEdit *m_leAuthor;
-	KLineEdit *m_leTitle;
-	KLineEdit *m_leDate;
-	QLabel    *m_lbPaperSize;
-	
-	QString m_currentClass;                          
-	QString m_currentFontsize;                      
-	QString m_currentPapersize;       
-	QString m_currentEncoding;     
-	bool m_currentHyperref;
-	QString m_hyperrefdriver;
-	QString m_hyperrefsetup;      
-	QStringList m_userClasslist;           
-	QStringList m_deleteDocumentClasses;       
-	
-	QMap<QString,QStringList> m_dictDocumentClasses; 
-	QMap<QString,bool> m_dictStandardClasses;    
-	QMap<QString,bool> m_currentDefaultOptions;   
-	QMap<QString,bool> m_currentSelectedOptions;   
-	QMap<QString,bool> m_dictPackagesEditable;   
-	QMap<QString,QString> m_dictPackagesDefaultvalues;     
-	QMap<QString,bool> m_dictHyperrefDriver;   
-	
-	KPushButton *m_btnDocumentClassAdd;
-	KPushButton *m_btnDocumentClassDelete;
-	KPushButton *m_btnTypefaceSizeAdd;
-	KPushButton *m_btnTypefaceSizeDelete;
-	KPushButton *m_btnPaperSizeAdd;
-	KPushButton *m_btnPaperSizeDelete;
-	KPushButton *m_btnEncodingAdd;
-	KPushButton *m_btnEncodingDelete;
-	
-	KPushButton *m_btnClassOptionsAdd;
-	KPushButton *m_btnClassOptionsEdit;
-	KPushButton *m_btnClassOptionsDelete;
-	KPushButton *m_btnPackagesAdd;
-	KPushButton *m_btnPackagesAddOption;
-	KPushButton *m_btnPackagesEdit;
-	KPushButton *m_btnPackagesDelete;
-	KPushButton *m_btnPackagesReset;
+	public Q_SLOTS:
+		void slotOk();
 
-	// GUI
-	QWidget *setupClassOptions(QTabWidget *tab);           
-	QWidget *setupPackages(QTabWidget *tab);                
-	QWidget *setupProperties(QTabWidget *tab);              
-	
-	// read/write config files and init data
-	void readConfig();
-	void readDocumentClassConfig();
-	void readPackagesConfig();
-	void initHyperref();
-	void writeConfig();
-	void writeDocumentClassConfig();
-	void writePackagesConfig();                
-	
-	// document class tab
-	void initDocumentClass(); 
-	void initStandardClass(const QString &classname,const QString &fontsize,      
-	                       const QString &papersize,const QString &defaultoptions,
-	                       const QString &selectedoptions);
-	void initStandardOptions(const QString &classname,QStringList &optionlist); 	
-	void setDefaultClassOptions(const QString &defaultoptions);            
-	void setSelectedClassOptions(const QString &selectedoptions);             
-	void setClassOptions(const QStringList &list,uint start);            
-	void updateClassOptions(); 
-	QString getClassOptions();  
-	void fillDocumentClassCombobox();   
-	void fillCombobox(KileWidget::CategoryComboBox *combo, const QString &cslist,const QString &seltext);    
-	bool addComboboxEntries(KileWidget::CategoryComboBox *combo, const QString &title,const QString &entry);
-	QString getComboxboxList(KComboBox *combo);
-		   
-	bool isDefaultClassOption(const QString &option);                   
-	bool isSelectedClassOption(const QString &option);                  
-	QString stripDefault(const QString &s);          
-	
-	// packages tab
-	void initPackages();
-	bool readPackagesListview();
-	QTreeWidgetItem *insertTreeWidget(QTreeWidget *treeWidget,
-	                                  const QString &entry,
-	                                  const QString &description);
-	QTreeWidgetItem *insertTreeWidget(QTreeWidgetItem *parent,
-	                                  const QString &entry,
-	                                  const QString &description);
-	QTreeWidgetItem *insertEditableTreeWidget(QTreeWidgetItem *parent,
-	                                          const QString &entry,
-	                                          const QString &description,
-	                                          const QString &value,
-	                                          const QString &defaultvalue);
-	bool isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry);
-	void setPackagesValue(QTreeWidgetItem *item, const QString &option, const QString &val);
-	QString getPackagesValue(const QString &value);
+	private:
+		KileWidget::CategoryComboBox *m_cbDocumentClass;
+		KileWidget::CategoryComboBox *m_cbTypefaceSize;
+		KileWidget::CategoryComboBox *m_cbPaperSize;
+		KileWidget::CategoryComboBox *m_cbEncoding;
+		QTreeWidget *m_lvClassOptions;
+		QTreeWidget *m_lvPackages;
+		KLineEdit *m_leAuthor;
+		KLineEdit *m_leTitle;
+		KLineEdit *m_leDate;
+		QLabel    *m_lbPaperSize;
 
-	bool isTreeWidgetChild(QTreeWidget *treeWidget, const QString &entry, const QString &option);
-	QString addPackageDefault(const QString &option,const QString &description);
-	QString stripPackageDefault(const QString &option,const QString &description);
-	bool isHyperrefDriver(const QString &name);
-	
-	// document template
-	void printTemplate();
-	void printPackages();
-	void printHyperref();
-	void printBeamerTheme();
-	
-	// input dialog
-	bool inputDialog(QStringList &list,int check=qd_CheckNotEmpty);
+		QString m_currentClass;
+		QString m_currentFontsize;
+		QString m_currentPapersize;
+		QString m_currentEncoding;
+		bool m_currentHyperref;
+		QString m_hyperrefdriver;
+		QString m_hyperrefsetup;
+		QStringList m_userClasslist;
+		QStringList m_deleteDocumentClasses;
 
-private Q_SLOTS:
-	void slotDocumentClassAdd();
-	void slotDocumentClassDelete();
-	void slotDocumentClassChanged(int index);  
-	void slotTypefaceSizeAdd();  
-	void slotTypefaceSizeDelete();  
-	void slotPaperSizeAdd();
-	void slotPaperSizeDelete();
-	void slotOptionDoubleClicked(QTreeWidgetItem *item, int column);
-	void slotClassOptionAdd();
-	void slotClassOptionEdit();
-	void slotClassOptionDelete();
-	
-	void slotCheckParent(QTreeWidgetItem *item);
-	void slotPackageDoubleClicked(QTreeWidgetItem *item);
-	void slotPackageAdd();
-	void slotPackageAddOption();
-	void slotPackageEdit();
-	void slotPackageDelete();
-	void slotPackageReset();
-	
-	void slotEnableButtons();
+		QMap<QString, QStringList> m_dictDocumentClasses;
+		QMap<QString, bool> m_dictStandardClasses;
+		QMap<QString, bool> m_currentDefaultOptions;
+		QMap<QString, bool> m_currentSelectedOptions;
+		QMap<QString, bool> m_dictPackagesEditable;
+		QMap<QString, QString> m_dictPackagesDefaultvalues;
+		QMap<QString, bool> m_dictHyperrefDriver;
+
+		KPushButton *m_btnDocumentClassAdd;
+		KPushButton *m_btnDocumentClassDelete;
+		KPushButton *m_btnTypefaceSizeAdd;
+		KPushButton *m_btnTypefaceSizeDelete;
+		KPushButton *m_btnPaperSizeAdd;
+		KPushButton *m_btnPaperSizeDelete;
+		KPushButton *m_btnEncodingAdd;
+		KPushButton *m_btnEncodingDelete;
+
+		KPushButton *m_btnClassOptionsAdd;
+		KPushButton *m_btnClassOptionsEdit;
+		KPushButton *m_btnClassOptionsDelete;
+		KPushButton *m_btnPackagesAdd;
+		KPushButton *m_btnPackagesAddOption;
+		KPushButton *m_btnPackagesEdit;
+		KPushButton *m_btnPackagesDelete;
+		KPushButton *m_btnPackagesReset;
+
+		// GUI
+		QWidget *setupClassOptions(QTabWidget *tab);
+		QWidget *setupPackages(QTabWidget *tab);
+		QWidget *setupProperties(QTabWidget *tab);
+
+		// read/write config files and init data
+		void readConfig();
+		void readDocumentClassConfig();
+		void readPackagesConfig();
+		void initHyperref();
+		void writeConfig();
+		void writeDocumentClassConfig();
+		void writePackagesConfig();
+
+		// document class tab
+		void initDocumentClass();
+		void initStandardClass(const QString &classname, const QString &fontsize,
+		                       const QString &papersize, const QString &defaultoptions,
+		                       const QString &selectedoptions);
+		void initStandardOptions(const QString &classname, QStringList &optionlist);
+		void setDefaultClassOptions(const QString &defaultoptions);
+		void setSelectedClassOptions(const QString &selectedoptions);
+		void setClassOptions(const QStringList &list, uint start);
+		void updateClassOptions();
+		QString getClassOptions();
+		void fillDocumentClassCombobox();
+		void fillCombobox(KileWidget::CategoryComboBox *combo, const QString &cslist, const QString &seltext);
+		bool addComboboxEntries(KileWidget::CategoryComboBox *combo, const QString &title, const QString &entry);
+		QString getComboxboxList(KComboBox *combo);
+
+		bool isDefaultClassOption(const QString &option);
+		bool isSelectedClassOption(const QString &option);
+		QString stripDefault(const QString &s);
+
+		// packages tab
+		void initPackages();
+		bool readPackagesListview();
+		QTreeWidgetItem *insertTreeWidget(QTreeWidget *treeWidget,
+		                                  const QString &entry,
+		                                  const QString &description);
+		QTreeWidgetItem *insertTreeWidget(QTreeWidgetItem *parent,
+		                                  const QString &entry,
+		                                  const QString &description);
+		QTreeWidgetItem *insertEditableTreeWidget(QTreeWidgetItem *parent,
+		    const QString &entry,
+		    const QString &description,
+		    const QString &value,
+		    const QString &defaultvalue);
+		bool isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry);
+		void setPackagesValue(QTreeWidgetItem *item, const QString &option, const QString &val);
+		QString getPackagesValue(const QString &value);
+
+		bool isTreeWidgetChild(QTreeWidget *treeWidget, const QString &entry, const QString &option);
+		QString addPackageDefault(const QString &option, const QString &description);
+		QString stripPackageDefault(const QString &option, const QString &description);
+		bool isHyperrefDriver(const QString &name);
+
+		// document template
+		void printTemplate();
+		void printPackages();
+		void printHyperref();
+		void printBeamerTheme();
+
+		// input dialog
+		bool inputDialog(QStringList &list, int check = qd_CheckNotEmpty);
+
+	private Q_SLOTS:
+		void slotDocumentClassAdd();
+		void slotDocumentClassDelete();
+		void slotDocumentClassChanged(int index);
+		void slotTypefaceSizeAdd();
+		void slotTypefaceSizeDelete();
+		void slotPaperSizeAdd();
+		void slotPaperSizeDelete();
+		void slotOptionDoubleClicked(QTreeWidgetItem *item, int column);
+		void slotClassOptionAdd();
+		void slotClassOptionEdit();
+		void slotClassOptionDelete();
+
+		void slotCheckParent(QTreeWidgetItem *item);
+		void slotPackageDoubleClicked(QTreeWidgetItem *item);
+		void slotPackageAdd();
+		void slotPackageAddOption();
+		void slotPackageEdit();
+		void slotPackageDelete();
+		void slotPackageReset();
+
+		void slotEnableButtons();
 };
 
 class QuickDocumentInputDialog : public KDialog {
-   Q_OBJECT
-public: 
-	QuickDocumentInputDialog(const QStringList &list,int check=0,
-	                         QuickDocument *parent=0, const char *name=0);
-	~QuickDocumentInputDialog();
+		Q_OBJECT
+	public:
+		QuickDocumentInputDialog(const QStringList &list, int check = 0,
+		                         QuickDocument *parent = 0, const char *name = 0);
+		~QuickDocumentInputDialog();
 
-	void getResults(QStringList &list);
-	
-private:
-	QuickDocument *m_parent;
-	int  m_check;
-	
-	QStringList m_description;
-	QList<QWidget*> m_objectlist;
-		
-	QString getPackageName(const QString &text);
-	bool checkListEntries(const QString &title, const QString &textlist,const QString &pattern);
-	
-private Q_SLOTS:
-	void slotOk();
+		void getResults(QStringList &list);
+
+	private:
+		QuickDocument *m_parent;
+		int  m_check;
+
+		QStringList m_description;
+		QList<QWidget*> m_objectlist;
+
+		QString getPackageName(const QString &text);
+		bool checkListEntries(const QString &title, const QString &textlist, const QString &pattern);
+
+	private Q_SLOTS:
+		void slotOk();
 };
 
 } // namespace

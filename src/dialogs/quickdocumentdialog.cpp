@@ -17,10 +17,9 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 
 #include "dialogs/quickdocumentdialog.h"
 
-#include <Q3GridLayout>
-#include <Q3HBoxLayout>
-#include <Q3VBoxLayout>
 #include <QCheckBox>
+#include <QGridLayout>
+#include <QHBoxLayout>
 #include <QItemDelegate>
 #include <QLabel>
 #include <QLayout>
@@ -31,6 +30,7 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 #include <QStyle>
 #include <QTabWidget>
 #include <QTreeWidget>
+#include <QVBoxLayout>
 #include <QWidget>
 
 #include <KComboBox>
@@ -48,14 +48,14 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 namespace KileDialog
 {
 enum {
-	qd_Base=1,
-	qd_Article=2,
-	qd_BookReport=4,
-	qd_KomaArticle=8,
-	qd_KomaBookReport=16,
-	qd_KomaAbstract=32,
-	qd_Prosper=64,
-	qd_Beamer=128
+	qd_Base = 1,
+	qd_Article = 2,
+	qd_BookReport = 4,
+	qd_KomaArticle = 8,
+	qd_KomaBookReport = 16,
+	qd_KomaAbstract = 32,
+	qd_Prosper = 64,
+	qd_Beamer = 128
 };
 
 // list with index numbers for the stringlist with all information of a document class
@@ -81,9 +81,10 @@ class EditableItemDelegate : public QItemDelegate {
 			QString text = index.data(Qt::DisplayRole).toString();
 			if (text == "<default>" || text == "<empty>") {
 				textColor = Qt::gray;
-			} else if (option.state & QStyle::State_Selected) {
-				textColor = option.palette.color(QPalette::HighlightedText);
-			}
+			} else
+				if (option.state & QStyle::State_Selected) {
+					textColor = option.palette.color(QPalette::HighlightedText);
+				}
 			painter->setPen(textColor);
 			painter->drawText(option.rect, Qt::AlignCenter | Qt::AlignVCenter, text);
 			//drawDisplay(painter, option, option.rect, index.data(Qt::DisplayRole).toString());
@@ -93,7 +94,7 @@ class EditableItemDelegate : public QItemDelegate {
 
 //////////////////// QuickDocument class ////////////////////
 
-QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name, const QString &caption) : Wizard(config, parent,name,caption)
+QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name, const QString &caption) : Wizard(config, parent, name, caption)
 {
 	KILE_DEBUG() << "==QuickDocument::setupGUI()============";
 	QTabWidget *tabWidget = new QTabWidget(this);
@@ -119,97 +120,100 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	KILE_DEBUG() << "\tsetupClassOptions";
 	QLabel *label;
 
-	QWidget *classOptions = new QWidget( tab );
-	Q3GridLayout *gl = new Q3GridLayout(classOptions, 6,4, marginHint(), spacingHint());
-	gl->setColStretch(1,1);
+	QWidget *classOptions = new QWidget(tab);
+	QGridLayout *gl = new QGridLayout();
+	gl->setMargin(marginHint());
+	gl->setSpacing(spacingHint());
+	classOptions->setLayout(gl);
 
 	// Document classes
 	m_cbDocumentClass = new KileWidget::CategoryComboBox(classOptions);
 	m_cbDocumentClass->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbDocumentClass->setDuplicatesEnabled(false);
-//	m_cbDocumentClass->listBox()->setVariableHeight(true);
-	gl->addWidget(m_cbDocumentClass,0,1);
+// m_cbDocumentClass->listBox()->setVariableHeight(true);
+	gl->addWidget(m_cbDocumentClass, 0, 1);
 	connect(m_cbDocumentClass, SIGNAL(activated(int)), this, SLOT(slotDocumentClassChanged(int)));
 
 	label = new QLabel(i18n("Doc&ument class:"), classOptions);
-	gl->addWidget(label,0,0);
-	label->setBuddy(m_cbDocumentClass);	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+	gl->addWidget(label, 0, 0);
+	label->setBuddy(m_cbDocumentClass);
+	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
 	m_btnDocumentClassAdd = new KPushButton(classOptions);
 	m_btnDocumentClassAdd->setIcon(KIcon("list-add"));
 	m_btnDocumentClassAdd->setWhatsThis(i18n("Add current text to this list"));
-	gl->addWidget(m_btnDocumentClassAdd,0,2);
+	gl->addWidget(m_btnDocumentClassAdd, 0, 2);
 	connect(m_btnDocumentClassAdd, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 
 	m_btnDocumentClassDelete = new KPushButton(classOptions);
 	m_btnDocumentClassDelete->setIcon(KIcon("list-remove"));
 	m_btnDocumentClassDelete->setWhatsThis(i18n("Remove current element from this list"));
-	gl->addWidget(m_btnDocumentClassDelete,0,3);
+	gl->addWidget(m_btnDocumentClassDelete, 0, 3);
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 
 	// Fontsize
 	m_cbTypefaceSize = new KileWidget::CategoryComboBox(classOptions);
 	m_cbTypefaceSize->setDuplicatesEnabled(false);
-	gl->addWidget(m_cbTypefaceSize,1,1);
+	gl->addWidget(m_cbTypefaceSize, 1, 1);
 
 	label = new QLabel(i18n("&Typeface size:"), classOptions);
 	label->setBuddy(m_cbTypefaceSize);
 	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	gl->addWidget(label,1,0);
+	gl->addWidget(label, 1, 0);
 
 	m_btnTypefaceSizeAdd = new KPushButton(classOptions);
 	m_btnTypefaceSizeAdd->setIcon(KIcon("list-add"));
 	m_btnTypefaceSizeAdd->setWhatsThis(i18n("Add current text to this list"));
-	gl->addWidget(m_btnTypefaceSizeAdd,1,2);
+	gl->addWidget(m_btnTypefaceSizeAdd, 1, 2);
 	connect(m_btnTypefaceSizeAdd, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeAdd()));
 
 	m_btnTypefaceSizeDelete = new KPushButton(classOptions);
 	m_btnTypefaceSizeDelete->setIcon(KIcon("list-remove"));
 	m_btnTypefaceSizeDelete->setWhatsThis(i18n("Remove current element from this list"));
-	gl->addWidget(m_btnTypefaceSizeDelete,1,3);
+	gl->addWidget(m_btnTypefaceSizeDelete, 1, 3);
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
 
 	// Papersize
 	m_cbPaperSize = new KileWidget::CategoryComboBox(classOptions);
 	m_cbPaperSize->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbPaperSize->setDuplicatesEnabled(false);
-	gl->addWidget(m_cbPaperSize,2,1);
+	gl->addWidget(m_cbPaperSize, 2, 1);
 
 	m_lbPaperSize = new QLabel(i18n("Paper si&ze:"), classOptions);
 	m_lbPaperSize->setBuddy(m_cbPaperSize);
 	m_lbPaperSize->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	gl->addWidget(m_lbPaperSize,2,0);
+	gl->addWidget(m_lbPaperSize, 2, 0);
 
 	m_btnPaperSizeAdd = new KPushButton(classOptions);
 	m_btnPaperSizeAdd->setIcon(KIcon("list-add"));
 	m_btnPaperSizeAdd->setWhatsThis(i18n("Add current text to this list"));
-	gl->addWidget(m_btnPaperSizeAdd,2,2);
+	gl->addWidget(m_btnPaperSizeAdd, 2, 2);
 	connect(m_btnPaperSizeAdd, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 
 	m_btnPaperSizeDelete = new KPushButton(classOptions);
 	m_btnPaperSizeDelete->setIcon(KIcon("list-remove"));
 	m_btnPaperSizeDelete->setWhatsThis(i18n("Remove current element from this list"));
-	gl->addWidget(m_btnPaperSizeDelete,2,3);
+	gl->addWidget(m_btnPaperSizeDelete, 2, 3);
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 
 	// Encoding
 	m_cbEncoding = new KileWidget::CategoryComboBox(classOptions);
 	m_cbEncoding->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbEncoding->setDuplicatesEnabled(false);
-	gl->addWidget(m_cbEncoding,3,1);
+	gl->addWidget(m_cbEncoding, 3, 1);
 
 	label = new QLabel(i18n("E&ncoding:"), classOptions);
 	label->setBuddy(m_cbEncoding);
 	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-	gl->addWidget(label,3,0);
+	gl->addWidget(label, 3, 0);
 
 	// Class Options
 	m_lvClassOptions = new QTreeWidget(classOptions);
 	m_lvClassOptions->setHeaderLabels(QStringList() << i18n("Option")
-	                                                << i18n("Description"));
+	                                  << i18n("Description"));
 	m_lvClassOptions->setAllColumnsShowFocus(true);
 	m_lvClassOptions->setRootIsDecorated(false);
-	gl->addMultiCellWidget(m_lvClassOptions, 4,4, 1,3);
+	gl->addWidget(m_lvClassOptions, 4, 1, 1, 3);
 	connect(m_lvClassOptions, SIGNAL(itemSelectionChanged()),
 	        this, SLOT(slotEnableButtons()));
 	connect(m_lvClassOptions, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
@@ -219,13 +223,15 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	label->setBuddy(m_lvClassOptions);
 	label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
 	label->setAlignment(Qt::AlignTop);
-	gl->addWidget(label,4,0);
+	gl->addWidget(label, 4, 0);
 
 	// button
 	QWidget *frame = new QWidget(classOptions);
-	Q3HBoxLayout *hl = new Q3HBoxLayout(frame, 0, spacingHint());
-	//hl->addStretch(1);
-	gl->addMultiCellWidget(frame, 5,5, 1,3, Qt::AlignCenter);
+	QHBoxLayout *hl = new QHBoxLayout();
+	hl->setMargin(0);
+	hl->setSpacing(spacingHint());
+	frame->setLayout(hl);
+	gl->addWidget(frame, 5, 1, 1, 3, Qt::AlignCenter);
 
 	m_btnClassOptionsAdd = new KPushButton(i18n("&Add..."), frame);
 	m_btnClassOptionsAdd->setIcon(KIcon("list-add"));
@@ -252,8 +258,11 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 {
 	KILE_DEBUG() << "\tsetupPackages";
 
-	QWidget *packages = new QWidget( tab );
-	Q3VBoxLayout *vl = new Q3VBoxLayout(packages, marginHint(), spacingHint());
+	QWidget *packages = new QWidget(tab);
+	QVBoxLayout *vl = new QVBoxLayout();
+	vl->setMargin(marginHint());
+	vl->setSpacing(spacingHint());
+	packages->setLayout(vl);
 
 	QLabel *label = new QLabel(i18n("LaTe&X packages:"), packages);
 	vl->addWidget(label);
@@ -267,16 +276,19 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	connect(m_lvPackages, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
 	        this, SLOT(slotCheckParent(QTreeWidgetItem*)));
 	connect(m_lvPackages, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
-					this, SLOT(slotCheckParent(QTreeWidgetItem*)));
+	        this, SLOT(slotCheckParent(QTreeWidgetItem*)));
 	connect(m_lvPackages, SIGNAL(itemSelectionChanged()),
-					this, SLOT(slotEnableButtons()));
+	        this, SLOT(slotEnableButtons()));
 	connect(m_lvPackages, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
-					this, SLOT(slotPackageDoubleClicked(QTreeWidgetItem*)));
+	        this, SLOT(slotPackageDoubleClicked(QTreeWidgetItem*)));
 
 	QWidget *frame = new QWidget(packages);
 	vl->addWidget(frame);
-	Q3HBoxLayout *hl = new Q3HBoxLayout(frame, 0, spacingHint());
-	hl->addStretch(1);
+	QHBoxLayout *hl = new QHBoxLayout();
+	hl->setMargin(0);
+	hl->setSpacing(spacingHint());
+	frame->setLayout(hl);
+	hl->addStretch();
 
 	m_btnPackagesAdd = new KPushButton("&Add Package...", frame);
 	m_btnPackagesAdd->setIcon(KIcon("list-add"));
@@ -303,7 +315,7 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	m_btnPackagesReset->setWhatsThis(i18n("Reset to the default list of packages"));
 	connect(m_btnPackagesReset, SIGNAL(clicked()), this, SLOT(slotPackageReset()));
 	hl->addWidget(m_btnPackagesReset);
-	hl->addStretch(1);
+	hl->addStretch();
 
 	return packages;
 }
@@ -313,9 +325,17 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 	KILE_DEBUG() << "\tsetupProperties";
 	QLabel *label;
 
-	QWidget *personalInfo = new QWidget( tab );
-	Q3GridLayout *gl = new Q3GridLayout(personalInfo, 4,2, marginHint(),spacingHint());
-	gl->setRowStretch(gl->numRows()-1, 1);
+	QWidget *personalInfoPage = new QWidget(tab);
+	QVBoxLayout *vl = new QVBoxLayout();
+	vl->setMargin(0);
+	vl->setSpacing(spacingHint());
+	personalInfoPage->setLayout(vl);
+
+	QWidget *personalInfo = new QWidget(personalInfoPage);
+	QGridLayout *gl = new QGridLayout();
+	gl->setMargin(marginHint());
+	gl->setSpacing(spacingHint());
+	personalInfo->setLayout(gl);
 
 	m_leAuthor = new KLineEdit(personalInfo);
 	gl->addWidget(m_leAuthor, 0, 1);
@@ -338,7 +358,10 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 	// set current date
 	m_leDate->setText(KGlobal::locale()->formatDate(QDate::currentDate(), KLocale::ShortDate));
 
-	return personalInfo;
+	vl->addWidget(personalInfo);
+	vl->addStretch();
+
+	return personalInfoPage;
 }
 
 //////////////////// read configuration ////////////////////
@@ -394,42 +417,42 @@ void QuickDocument::readDocumentClassConfig()
 	QString beamerThemes = "bars;boxes;classic;lined;plain;sidebar;sidebar (dark);sidebar (tab);"
 	                       "sidebar (dark,tab);shadow;split;tree;tree (bar)";
 
-	initStandardClass("article",stdFontsize,stdPapersize,
+	initStandardClass("article", stdFontsize, stdPapersize,
 	                  "10pt,letterpaper,oneside,onecolumn,final",
 	                  KileConfig::optionsArticle());
-	initStandardClass("book",stdFontsize,stdPapersize,
+	initStandardClass("book", stdFontsize, stdPapersize,
 	                  "10pt,letterpaper,twoside,onecolumn,final,openright",
 	                  KileConfig::optionsBook());
-	initStandardClass("letter",stdFontsize,stdPapersize,
+	initStandardClass("letter", stdFontsize, stdPapersize,
 	                  "10pt,letterpaper,oneside,onecolumn,final",
 	                  KileConfig::optionsLetter());
-	initStandardClass("report",stdFontsize,stdPapersize,
+	initStandardClass("report", stdFontsize, stdPapersize,
 	                  "10pt,letterpaper,oneside,onecolumn,final,openany",
 	                  KileConfig::optionsReport());
-	initStandardClass("scrartcl",stdFontsize,stdPapersize,
+	initStandardClass("scrartcl", stdFontsize, stdPapersize,
 	                  "11pt,a4paper,abstractoff,bigheadings,final,headnosepline,"
 	                  "footnosepline,listsindent,onelinecaption,notitlepage,onecolumn,"
 	                  "oneside,openany,parindent,tablecaptionbelow,tocindent",
 	                  KileConfig::optionsScrartcl());
-	initStandardClass("scrbook",stdFontsize,stdPapersize,
+	initStandardClass("scrbook", stdFontsize, stdPapersize,
 	                  "11pt,a4paper,bigheadings,final,headnosepline,footnosepline,"
 	                  "listsindent,nochapterprefix,onelinecaption,onecolumn,"
 	                  "openright,parindent,tablecaptionbelow,titlepage,tocindent,twoside",
 	                  KileConfig::optionsScrbook());
-	initStandardClass("scrreprt",stdFontsize,stdPapersize,
+	initStandardClass("scrreprt", stdFontsize, stdPapersize,
 	                  "11pt,a4paper,abstractoff,bigheadings,final,headnosepline,"
 	                  "footnosepline,listsindent,nochapterprefix,onelinecaption,onecolumn,"
 	                  "oneside,openany,parindent,tablecaptionbelow,titlepage,tocindent",
 	                  KileConfig::optionsScrreprt());
-	initStandardClass("prosper",QString(),QString(),
+	initStandardClass("prosper", QString(), QString(),
 	                  "final,slideBW,total,nocolorBG,ps,noaccumulate,ps2pdf",
 	                  KileConfig::optionsProsper());
-	initStandardClass("beamer","8pt,9pt,10pt,11pt,12pt,14pt,17pt,20pt",beamerThemes,
+	initStandardClass("beamer", "8pt,9pt,10pt,11pt,12pt,14pt,17pt,20pt", beamerThemes,
 	                  "11pt,blue,notes=show,sans,slidescentered",
 	                  KileConfig::optionsBeamer());
 
 	// init all user classes
-	for(int i = 0; i < m_userClasslist.count(); ++i) {
+	for (int i = 0; i < m_userClasslist.count(); ++i) {
 		KILE_DEBUG() << "\tinit user class: " << m_userClasslist[i];
 		QStringList list;
 		// read dour default entries for this user class
@@ -440,7 +463,7 @@ void QuickDocument::readDocumentClassConfig()
 		list.append(configGroup.readEntry("selectedOptions"));
 		// now read all user defined options
 		QStringList options = (configGroup.readEntry("options")).split(",");
-		for(int j = 0; j < options.count(); ++j) {
+		for (int j = 0; j < options.count(); ++j) {
 			list.append(options[j] + " => " + configGroup.readEntry(options[j]));
 		}
 
@@ -454,7 +477,7 @@ void QuickDocument::readDocumentClassConfig()
 	// set encoding combobox
 	fillCombobox(m_cbEncoding,
 	             "ansinew,applemac,ascii,cp1252,cp1250,cp1251,cp1257,cp437,cp437de,cp850,cp858,"
-				     "cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin4,latin5,latin9,latin10,next,utf8,utf8x,utf-8,utfcyr",
+	             "cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin4,latin5,latin9,latin10,next,utf8,utf8x,utf-8,utfcyr",
 	             m_currentEncoding);
 }
 
@@ -465,7 +488,7 @@ void QuickDocument::fillDocumentClassCombobox()
 
 	// set classes combobox (standard and user defined classes)
 	QStringList classlist = stdUserClasses.split(",");
-	for(int i = 0; i < m_userClasslist.count(); ++i) {
+	for (int i = 0; i < m_userClasslist.count(); ++i) {
 		classlist.append(m_userClasslist[i]);
 	}
 	classlist.sort();
@@ -477,7 +500,7 @@ void QuickDocument::writeDocumentClassConfig()
 	KILE_DEBUG() << "\twrite config: document class";
 
 	// first delete all marked document classes
-	for(int i = 0; i < m_deleteDocumentClasses.count(); ++i) {
+	for (int i = 0; i < m_deleteDocumentClasses.count(); ++i) {
 		KILE_DEBUG() << "\tdelete class: " << m_deleteDocumentClasses[i];
 		m_config->deleteGroup(QString("QuickDocument/") + m_deleteDocumentClasses[i]);
 	}
@@ -507,7 +530,7 @@ void QuickDocument::writeDocumentClassConfig()
 
 	// write config of user packages
 	QRegExp reg("(\\S+)\\s+=>\\s+(.*)");
-	for(int i = 0; i < userclasses.count(); ++i) {
+	for (int i = 0; i < userclasses.count(); ++i) {
 		// get the stringlist with all information
 		KILE_DEBUG() << "\twrite user class: " << userclasses[i];
 		QStringList list = m_dictDocumentClasses[userclasses[i]];
@@ -521,9 +544,9 @@ void QuickDocument::writeDocumentClassConfig()
 
 		// write user defined options
 		QString options;
-		for(int j = qd_OptionsStart; j < list.count(); ++j) {
+		for (int j = qd_OptionsStart; j < list.count(); ++j) {
 			int pos = reg.search(list[j]);
-			if(pos != -1) {
+			if (pos != -1) {
 				configGroup.writeEntry(reg.cap(1), reg.cap(2));
 				if (!options.isEmpty()) {
 					options += ',';
@@ -547,27 +570,27 @@ void QuickDocument::initDocumentClass()
 	// selectedOptions-dictionary for this class, before inserting options
 	// into the listview. The function setClassOptions() will look
 	// into both dictionaries to do some extra work.
-	setDefaultClassOptions( classlist[qd_DefaultOptions] );
-	setSelectedClassOptions( classlist[qd_SelectedOptions] );
+	setDefaultClassOptions(classlist[qd_DefaultOptions]);
+	setSelectedClassOptions(classlist[qd_SelectedOptions]);
 
 	// set comboboxes for fontsizes and papersizes
-	fillCombobox(m_cbTypefaceSize,classlist[qd_Fontsizes],m_currentFontsize);
-	fillCombobox(m_cbPaperSize,classlist[qd_Papersizes],m_currentPapersize);
+	fillCombobox(m_cbTypefaceSize, classlist[qd_Fontsizes], m_currentFontsize);
+	fillCombobox(m_cbPaperSize, classlist[qd_Papersizes], m_currentPapersize);
 
 	// now we are ready to set the class options
-	if ( isStandardClass(m_currentClass) ) {
+	if (isStandardClass(m_currentClass)) {
 		QStringList optionlist;
-		initStandardOptions(m_currentClass,optionlist);
-		setClassOptions(optionlist,0);
+		initStandardOptions(m_currentClass, optionlist);
+		setClassOptions(optionlist, 0);
 	} else {
-		setClassOptions(classlist,qd_OptionsStart);
+		setClassOptions(classlist, qd_OptionsStart);
 	}
 
 	// there is no papersize with class beamer, but a theme
-	if ( m_currentClass == "beamer" )
-		m_lbPaperSize->setText( i18n("&Theme:") );
+	if (m_currentClass == "beamer")
+		m_lbPaperSize->setText(i18n("&Theme:"));
 	else
-		m_lbPaperSize->setText( i18n("Paper si&ze:") );
+		m_lbPaperSize->setText(i18n("Paper si&ze:"));
 
 	// enable/disable buttons to add or delete entries
 	slotEnableButtons();
@@ -591,173 +614,181 @@ void QuickDocument::initStandardClass(const QString &classname,
 }
 
 // build all option for the current standard class
-void QuickDocument::initStandardOptions(const QString &classname,QStringList &optionlist)
+void QuickDocument::initStandardOptions(const QString &classname, QStringList &optionlist)
 {
 	// build the bitcode for all options of this class
 	int options;
-	if ( classname == "article" )
+	if (classname == "article")
 		options = qd_Base + qd_Article;
-	else if ( classname == "book" )
-		options = qd_Base + qd_Article + qd_BookReport;
-	else if ( classname == "letter" )
-		options = qd_Base;
-	else if ( classname == "report" )
-		options = qd_Base + qd_Article + qd_BookReport;
-	else if ( classname == "scrartcl" )
-		options = qd_Base + qd_Article + qd_KomaArticle + qd_KomaAbstract;
-	else if ( classname == "scrbook" )
-		options = qd_Base + qd_Article + qd_BookReport + qd_KomaArticle + qd_KomaBookReport;
-	else if ( classname == "scrreprt" )
-		options = qd_Base + qd_Article + qd_BookReport + qd_KomaArticle + qd_KomaAbstract + qd_KomaBookReport;
-	else if ( classname == "prosper" )
-		options = qd_Prosper;
-	else if ( classname == "beamer" )
-		options = qd_Beamer;
 	else
-		return;
+		if (classname == "book")
+			options = qd_Base + qd_Article + qd_BookReport;
+		else
+			if (classname == "letter")
+				options = qd_Base;
+			else
+				if (classname == "report")
+					options = qd_Base + qd_Article + qd_BookReport;
+				else
+					if (classname == "scrartcl")
+						options = qd_Base + qd_Article + qd_KomaArticle + qd_KomaAbstract;
+					else
+						if (classname == "scrbook")
+							options = qd_Base + qd_Article + qd_BookReport + qd_KomaArticle + qd_KomaBookReport;
+						else
+							if (classname == "scrreprt")
+								options = qd_Base + qd_Article + qd_BookReport + qd_KomaArticle + qd_KomaAbstract + qd_KomaBookReport;
+							else
+								if (classname == "prosper")
+									options = qd_Prosper;
+								else
+									if (classname == "beamer")
+										options = qd_Beamer;
+									else
+										return;
 
 	// insert all options into the list
-	if ( options & qd_Base ) {
+	if (options & qd_Base) {
 		optionlist
-			<< QString("landscape => ") + i18n("Sets the document's orientation to landscape")
-			<< QString("oneside => ") + i18n("Margins are set for single side output")
-			<< QString("twoside => ") + i18n("Left and right pages differ in page margins")
-			<< QString("draft => ") + i18n("Marks \"overfull hboxes\" on the output with black boxes")
-			<< QString("final => ") + i18n("No special marks for \"overfull hboxes\" on the output")
-			<< QString("leqno => ") + i18n("Puts formula numbers on the left side")
-			<< QString("fleqn => ") + i18n("Aligns formulas on the left side")
-			;
+		<< QString("landscape => ") + i18n("Sets the document's orientation to landscape")
+		<< QString("oneside => ") + i18n("Margins are set for single side output")
+		<< QString("twoside => ") + i18n("Left and right pages differ in page margins")
+		<< QString("draft => ") + i18n("Marks \"overfull hboxes\" on the output with black boxes")
+		<< QString("final => ") + i18n("No special marks for \"overfull hboxes\" on the output")
+		<< QString("leqno => ") + i18n("Puts formula numbers on the left side")
+		<< QString("fleqn => ") + i18n("Aligns formulas on the left side")
+		;
 	}
 
-	if ( options & qd_Article ) {
+	if (options & qd_Article) {
 		optionlist
-			<< QString("titlepage => ") + i18n("Puts title and abstract on an extra page")
-			<< QString("notitlepage => ") + i18n("Puts title and abstract on the same page as the text")
-			<< QString("onecolumn => ") + i18n("Puts the text in one column")
-			<< QString("twocolumn => ") + i18n("Puts the text in two columns")
-			<< QString("openbib => ") + i18n("Formats the bibliography in open style")
-			;
+		<< QString("titlepage => ") + i18n("Puts title and abstract on an extra page")
+		<< QString("notitlepage => ") + i18n("Puts title and abstract on the same page as the text")
+		<< QString("onecolumn => ") + i18n("Puts the text in one column")
+		<< QString("twocolumn => ") + i18n("Puts the text in two columns")
+		<< QString("openbib => ") + i18n("Formats the bibliography in open style")
+		;
 	}
 
-	if ( options & qd_BookReport ) {
+	if (options & qd_BookReport) {
 		optionlist
-			<< QString("openany => ") + i18n("Chapters may start on top of every page")
-			<< QString("openright => ") + i18n("Chapters may only start on top of right pages")
-			;
+		<< QString("openany => ") + i18n("Chapters may start on top of every page")
+		<< QString("openright => ") + i18n("Chapters may only start on top of right pages")
+		;
 	}
 
-	if ( options & qd_KomaArticle ) {
+	if (options & qd_KomaArticle) {
 		optionlist
-			<< QString("headinclude => ") + i18n("Cause the header to be counted as text")
-			<< QString("headexclude => ") + i18n("Cause the header to be counted as border")
-			<< QString("footinclude => ") + i18n("Cause the footer to be counted as text")
-			<< QString("footexclude => ") + i18n("Cause the footer to be counted as border")
-			<< QString("mpinclude => ") + i18n("Cause the margin-note to be counted to the text body")
-			<< QString("mpexclude => ") + i18n("The normal margin is used for the margin-note area")
-			<< QString("dvips => ") + i18n("Writes the paper size as a special into the DVI-file")
-			<< QString("pdftex => ") + i18n("Writes the paper size into the pdftex page register")
-			<< QString("pagesize => ") + i18n("Uses the correct mechanism with PDF- or DVI-file")
-			<< QString("cleardoubleempty => ") + i18n("Enables the default for an empty left page")
-			<< QString("cleardoubleplain => ") + i18n("An empty left page will set with the plain-pagestyle")
-			<< QString("cleardoublestandard => ") + i18n("An empty left page will set with the empty-pagestyle")
-			<< QString("headsepline => ") + i18n("Use a line to separate the header from the text body")
-			<< QString("headnosepline => ") + i18n("Use no line to separate the header from the text body")
-			<< QString("footsepline => ") + i18n("Use a line to separate the footer from the text body")
-			<< QString("footnosepline => ") + i18n("Use no line to separate the footer from the text body")
-			<< QString("parskip => ") + i18n("Normal paragraph spacing of one line")
-			<< QString("parskip- => ") + i18n("Normal spacing, at least 1/3 of the last line is free")
-			<< QString("parskip+ => ") + i18n("Normal spacing, at least 1/4 of the last line is free")
-			<< QString("parskip* => ") + i18n("Normal spacing, no special provision for the last line")
-			<< QString("halfparskip => ") + i18n("Paragraph spacing of half a line")
-			<< QString("halfparskip- => ") + i18n("Spacing 1/2 line, at least 1/3 of the last line is free")
-			<< QString("halfparskip+ => ") + i18n("Spacing 1/2 line, at least 1/4 of the last line is free")
-			<< QString("halfparskip* => ") + i18n("Spacing 1/2 line, no special provision for the last line")
-			<< QString("parindent => ") + i18n("No spacing between paragraphs, indent the first line by 1 em")
-			<< QString("onelinecaption => ") + i18n("One-line captions are centered, multi-line left-justified")
-			<< QString("noonelinecaption => ") + i18n("No special handling of one-line captions")
-			<< QString("bigheading => ") + i18n("Normal great title font sizes")
-			<< QString("normalheadings => ") + i18n("Small font sizes for titles")
-			<< QString("smallheadings => ") + i18n("Even smaller font sizes for titles")
-			<< QString("liststotoc => ") + i18n("Include lists of figures and tables in the TOC")
-			<< QString("bibtotoc => ") + i18n("Include the bibliography in the TOC")
-			<< QString("idxtotoc => ") + i18n("Include the index in the TOC")
-			<< QString("liststotocnumbered => ") + i18n("Number the lists of figures and tables in the TOC")
-			<< QString("bibtotocnumbered => ") + i18n("Number the bibliography in the TOC")
-			<< QString("tocleft => ") + i18n("All numbers and titles are set in a left-justified column")
-			<< QString("tocindent => ") + i18n("Different sectional units have different indentations")
-			<< QString("listsleft => ") + i18n("All numbers and captions are set in a left-justified column")
-			<< QString("listsindent => ") + i18n("All Numbers uses a fixed space")
-			<< QString("pointednumbers => ") + i18n("Numbering of sectional units have a point at the end")
-			<< QString("pointlessnumbers => ") + i18n("Numbering of sectional units have no point at the end")
-			<< QString("tablecaptionabove => ") + i18n("Caption command acts like \\captionabove")
-			<< QString("tablecaptionbelow => ") + i18n("Caption command acts like \\captionbelow")
-			<< QString("origlongtable => ") + i18n("Captions of the longtable package should not be redefined")
-			;
+		<< QString("headinclude => ") + i18n("Cause the header to be counted as text")
+		<< QString("headexclude => ") + i18n("Cause the header to be counted as border")
+		<< QString("footinclude => ") + i18n("Cause the footer to be counted as text")
+		<< QString("footexclude => ") + i18n("Cause the footer to be counted as border")
+		<< QString("mpinclude => ") + i18n("Cause the margin-note to be counted to the text body")
+		<< QString("mpexclude => ") + i18n("The normal margin is used for the margin-note area")
+		<< QString("dvips => ") + i18n("Writes the paper size as a special into the DVI-file")
+		<< QString("pdftex => ") + i18n("Writes the paper size into the pdftex page register")
+		<< QString("pagesize => ") + i18n("Uses the correct mechanism with PDF- or DVI-file")
+		<< QString("cleardoubleempty => ") + i18n("Enables the default for an empty left page")
+		<< QString("cleardoubleplain => ") + i18n("An empty left page will set with the plain-pagestyle")
+		<< QString("cleardoublestandard => ") + i18n("An empty left page will set with the empty-pagestyle")
+		<< QString("headsepline => ") + i18n("Use a line to separate the header from the text body")
+		<< QString("headnosepline => ") + i18n("Use no line to separate the header from the text body")
+		<< QString("footsepline => ") + i18n("Use a line to separate the footer from the text body")
+		<< QString("footnosepline => ") + i18n("Use no line to separate the footer from the text body")
+		<< QString("parskip => ") + i18n("Normal paragraph spacing of one line")
+		<< QString("parskip- => ") + i18n("Normal spacing, at least 1/3 of the last line is free")
+		<< QString("parskip+ => ") + i18n("Normal spacing, at least 1/4 of the last line is free")
+		<< QString("parskip* => ") + i18n("Normal spacing, no special provision for the last line")
+		<< QString("halfparskip => ") + i18n("Paragraph spacing of half a line")
+		<< QString("halfparskip- => ") + i18n("Spacing 1/2 line, at least 1/3 of the last line is free")
+		<< QString("halfparskip+ => ") + i18n("Spacing 1/2 line, at least 1/4 of the last line is free")
+		<< QString("halfparskip* => ") + i18n("Spacing 1/2 line, no special provision for the last line")
+		<< QString("parindent => ") + i18n("No spacing between paragraphs, indent the first line by 1 em")
+		<< QString("onelinecaption => ") + i18n("One-line captions are centered, multi-line left-justified")
+		<< QString("noonelinecaption => ") + i18n("No special handling of one-line captions")
+		<< QString("bigheading => ") + i18n("Normal great title font sizes")
+		<< QString("normalheadings => ") + i18n("Small font sizes for titles")
+		<< QString("smallheadings => ") + i18n("Even smaller font sizes for titles")
+		<< QString("liststotoc => ") + i18n("Include lists of figures and tables in the TOC")
+		<< QString("bibtotoc => ") + i18n("Include the bibliography in the TOC")
+		<< QString("idxtotoc => ") + i18n("Include the index in the TOC")
+		<< QString("liststotocnumbered => ") + i18n("Number the lists of figures and tables in the TOC")
+		<< QString("bibtotocnumbered => ") + i18n("Number the bibliography in the TOC")
+		<< QString("tocleft => ") + i18n("All numbers and titles are set in a left-justified column")
+		<< QString("tocindent => ") + i18n("Different sectional units have different indentations")
+		<< QString("listsleft => ") + i18n("All numbers and captions are set in a left-justified column")
+		<< QString("listsindent => ") + i18n("All Numbers uses a fixed space")
+		<< QString("pointednumbers => ") + i18n("Numbering of sectional units have a point at the end")
+		<< QString("pointlessnumbers => ") + i18n("Numbering of sectional units have no point at the end")
+		<< QString("tablecaptionabove => ") + i18n("Caption command acts like \\captionabove")
+		<< QString("tablecaptionbelow => ") + i18n("Caption command acts like \\captionbelow")
+		<< QString("origlongtable => ") + i18n("Captions of the longtable package should not be redefined")
+		;
 	}
 
-	if ( options & qd_KomaBookReport ) {
+	if (options & qd_KomaBookReport) {
 		optionlist
-			<< QString("chapterprefix => ") + i18n("Use a separate line for the chapter number")
-			<< QString("nochapterprefix => ") + i18n("Use the same line for the chapter number and title")
-			<< QString("appendixprefix => ") + i18n("Use a separate line for the appendix name")
-			<< QString("noappendixprefix  => ") + i18n("No separate line for the appendix name")
-			;
+		<< QString("chapterprefix => ") + i18n("Use a separate line for the chapter number")
+		<< QString("nochapterprefix => ") + i18n("Use the same line for the chapter number and title")
+		<< QString("appendixprefix => ") + i18n("Use a separate line for the appendix name")
+		<< QString("noappendixprefix  => ") + i18n("No separate line for the appendix name")
+		;
 	}
 
-	if ( options & qd_KomaAbstract ) {
+	if (options & qd_KomaAbstract) {
 		optionlist
-			<< QString("abstracton => ") + i18n("Include the abstract's title")
-			<< QString("abstractoff => ") + i18n("Exclude the abstract's title")
-			;
+		<< QString("abstracton => ") + i18n("Include the abstract's title")
+		<< QString("abstractoff => ") + i18n("Exclude the abstract's title")
+		;
 	}
 
-	if ( options & qd_Prosper ) {
+	if (options & qd_Prosper) {
 		optionlist
-			<< QString("draft => ") + i18n("The file is compiled in draft mode")
-			<< QString("final => ") + i18n("The file is compiled in final mode")
-			<< QString("slideColor => ") + i18n("Slides will use many colors")
-			<< QString("slideBW => ") + i18n("Slides will use a restricted set of colors")
-			<< QString("total => ") + i18n("Display the number of the current slide and the total number")
-			<< QString("nototal => ") + i18n("Display only the number of the current slide")
-			<< QString("nocolorBG => ") + i18n("The background of the slide is always white")
-			<< QString("colorBG => ") + i18n("The color of the background depends on the current style")
-			<< QString("ps => ") + i18n("The LaTeX file is compiled to produce a PostScript file")
-			<< QString("pdf => ") + i18n("The LaTeX file is compiled to produce a PDF file")
-			<< QString("accumulate => ") + i18n("Some macros interpret their argument in ps mode")
-			<< QString("noaccumulate => ") + i18n("Some macros do not interpret their argument in ps mode")
-			<< QString("distiller => ") + i18n("The PS file is to be translated into a PDF file using Adobe Distiller")
-			<< QString("YandY => ") + i18n("The LaTeX file is to be processed with YandY LaTeX")
-			<< QString("ps2pdf => ") + i18n("The PS file is to be translated into a PDF file using ps2pdf")
-			<< QString("vtex => ") + i18n("The LaTeX file is to be processed with MicroPress VTeX")
-			<< QString("noFooter => ") + i18n("Do not add any caption at the bottom of the slides")
-			;
+		<< QString("draft => ") + i18n("The file is compiled in draft mode")
+		<< QString("final => ") + i18n("The file is compiled in final mode")
+		<< QString("slideColor => ") + i18n("Slides will use many colors")
+		<< QString("slideBW => ") + i18n("Slides will use a restricted set of colors")
+		<< QString("total => ") + i18n("Display the number of the current slide and the total number")
+		<< QString("nototal => ") + i18n("Display only the number of the current slide")
+		<< QString("nocolorBG => ") + i18n("The background of the slide is always white")
+		<< QString("colorBG => ") + i18n("The color of the background depends on the current style")
+		<< QString("ps => ") + i18n("The LaTeX file is compiled to produce a PostScript file")
+		<< QString("pdf => ") + i18n("The LaTeX file is compiled to produce a PDF file")
+		<< QString("accumulate => ") + i18n("Some macros interpret their argument in ps mode")
+		<< QString("noaccumulate => ") + i18n("Some macros do not interpret their argument in ps mode")
+		<< QString("distiller => ") + i18n("The PS file is to be translated into a PDF file using Adobe Distiller")
+		<< QString("YandY => ") + i18n("The LaTeX file is to be processed with YandY LaTeX")
+		<< QString("ps2pdf => ") + i18n("The PS file is to be translated into a PDF file using ps2pdf")
+		<< QString("vtex => ") + i18n("The LaTeX file is to be processed with MicroPress VTeX")
+		<< QString("noFooter => ") + i18n("Do not add any caption at the bottom of the slides")
+		;
 	}
 
-	if ( options & qd_Beamer ) {
+	if (options & qd_Beamer) {
 		optionlist
-			<< QString("slidestop => ") + i18n("Place text of slides at the (vertical) top of the slides")
-			<< QString("slidescentered => ") + i18n("Place text of slides at the (vertical) center of the slides")
-			<< QString("draft => ") + i18n("Headlines, footlines, and sidebars are replaced by gray rectangles")
-			<< QString("compress => ") + i18n("Make all navigation bars as small as possible")
-			<< QString("usepdftitle=false => ") + i18n("Suppresses generation of some entries in the pdf information")
-			<< QString("notheorems => ") + i18n("Switches off the definition of default blocks like theorem")
-			<< QString("noamsthm => ") + i18n("Does not load amsthm and amsmath")
-			<< QString("CJK => ") + i18n("Needed when using the CJK package for Asian fonts")
-			<< QString("sans => ") + i18n("Use a sans-serif font during the presentation")
-			<< QString("serif => ") + i18n("Use a serif font during the presentation")
-			<< QString("mathsans => ") + i18n("Override the math font to be a sans-serif font")
-			<< QString("mathserif => ") + i18n("Override the math font to be a serif font")
-			<< QString("professionalfont => ") + i18n("Deactivate internal font replacements for math text")
-			<< QString("handout => ") + i18n("Create a PDF handout")
-			<< QString("trans => ") + i18n("For PDF transparency")
-			<< QString("blue => ") + i18n("All structure elements are typeset in blue")
-			<< QString("red => ") + i18n("All structure elements are typeset in red")
-			<< QString("blackandwhite => ") + i18n("All structure elements are typeset in black and white")
-			<< QString("brown => ") + i18n("All structure elements are typeset in brown")
-			<< QString("notes=hide => ") + i18n(" Notes are not shown")
-			<< QString("notes=show => ") + i18n(" Include notes in the output file")
-			<< QString("notes=only => ") + i18n(" Include only notes and suppress frames")
-			;
+		<< QString("slidestop => ") + i18n("Place text of slides at the (vertical) top of the slides")
+		<< QString("slidescentered => ") + i18n("Place text of slides at the (vertical) center of the slides")
+		<< QString("draft => ") + i18n("Headlines, footlines, and sidebars are replaced by gray rectangles")
+		<< QString("compress => ") + i18n("Make all navigation bars as small as possible")
+		<< QString("usepdftitle=false => ") + i18n("Suppresses generation of some entries in the pdf information")
+		<< QString("notheorems => ") + i18n("Switches off the definition of default blocks like theorem")
+		<< QString("noamsthm => ") + i18n("Does not load amsthm and amsmath")
+		<< QString("CJK => ") + i18n("Needed when using the CJK package for Asian fonts")
+		<< QString("sans => ") + i18n("Use a sans-serif font during the presentation")
+		<< QString("serif => ") + i18n("Use a serif font during the presentation")
+		<< QString("mathsans => ") + i18n("Override the math font to be a sans-serif font")
+		<< QString("mathserif => ") + i18n("Override the math font to be a serif font")
+		<< QString("professionalfont => ") + i18n("Deactivate internal font replacements for math text")
+		<< QString("handout => ") + i18n("Create a PDF handout")
+		<< QString("trans => ") + i18n("For PDF transparency")
+		<< QString("blue => ") + i18n("All structure elements are typeset in blue")
+		<< QString("red => ") + i18n("All structure elements are typeset in red")
+		<< QString("blackandwhite => ") + i18n("All structure elements are typeset in black and white")
+		<< QString("brown => ") + i18n("All structure elements are typeset in brown")
+		<< QString("notes=hide => ") + i18n(" Notes are not shown")
+		<< QString("notes=show => ") + i18n(" Include notes in the output file")
+		<< QString("notes=only => ") + i18n(" Include only notes and suppress frames")
+		;
 	}
 }
 
@@ -784,8 +815,8 @@ void QuickDocument::setDefaultClassOptions(const QString &defaultoptions)
 {
 	QStringList list = defaultoptions.split(",");
 	m_currentDefaultOptions.clear();
-	for(int i = 0; i < list.count(); ++i) {
-		if(!list[i].isEmpty()) {
+	for (int i = 0; i < list.count(); ++i) {
+		if (!list[i].isEmpty()) {
 			m_currentDefaultOptions[list[i]] = true;
 		}
 	}
@@ -799,12 +830,12 @@ void QuickDocument::setSelectedClassOptions(const QString &selectedoptions)
 	QStringList list = selectedoptions.split(",");
 	uint nlist = list.count();
 
-	m_currentFontsize  = ( nlist >= 1 ) ? list[0] : "";
-	m_currentPapersize = ( nlist >= 2 ) ? list[1] : "";
+	m_currentFontsize  = (nlist >= 1) ? list[0] : "";
+	m_currentPapersize = (nlist >= 2) ? list[1] : "";
 
 	m_currentSelectedOptions.clear();
-	for ( uint i=0; i<nlist; ++i ) {
-		if ( ! list[i].isEmpty() )
+	for (uint i = 0; i < nlist; ++i) {
+		if (! list[i].isEmpty())
 			m_currentSelectedOptions[ list[i] ] = true;
 	}
 }
@@ -818,14 +849,14 @@ void QuickDocument::setClassOptions(const QStringList &list, uint start)
 	QRegExp reg("(\\S+)\\s+=>\\s+(.*)");
 
 	m_lvClassOptions->clear();
-	for(int i = start; i < list.count(); ++i) {
-		int pos = reg.search( list[i] );
-		if(pos != -1) {
+	for (int i = start; i < list.count(); ++i) {
+		int pos = reg.search(list[i]);
+		if (pos != -1) {
 			QTreeWidgetItem *twi = new QTreeWidgetItem(m_lvClassOptions, QStringList(reg.cap(1)));
 			twi->setFlags(twi->flags() | Qt::ItemIsUserCheckable);
 
 			// see if it is a default option
-			if(isDefaultClassOption(reg.cap(1))) {
+			if (isDefaultClassOption(reg.cap(1))) {
 				twi->setText(1, reg.cap(2) + " [default]");
 			}
 			else {
@@ -844,8 +875,8 @@ void QuickDocument::setClassOptions(const QStringList &list, uint start)
 //  - followed by all other checked options
 QString QuickDocument::getClassOptions()
 {
-	QString fontsize = stripDefault( m_cbTypefaceSize->currentText() );
-	QString papersize = stripDefault( m_cbPaperSize->currentText() );
+	QString fontsize = stripDefault(m_cbTypefaceSize->currentText());
+	QString papersize = stripDefault(m_cbPaperSize->currentText());
 
 	QString options =  fontsize + ',' + papersize;
 
@@ -914,12 +945,12 @@ void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QStr
 
 	QString sep = (m_currentClass == "beamer" && combo == m_cbPaperSize) ? ";" : ",";
 	QStringList list = cslist.split(sep);
-	if(!documentclasscombo) {
+	if (!documentclasscombo) {
 		list.sort();
 	}
 
 	combo->clear();
-	for(int i = 0; i < list.count(); ++i) {
+	for (int i = 0; i < list.count(); ++i) {
 		if (!documentclasscombo && isDefaultClassOption(list[i])) {
 			combo->insertItem(QString(list[i]) + " [default]");
 		}
@@ -940,20 +971,20 @@ void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QStr
 
 // Add some entries from a comma separated list to a sorted combobox.
 // The new entries must match a regular expression or will be denied.
-bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, const QString &title,const QString &entry)
+bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, const QString &title, const QString &entry)
 {
 	// read current comboxbox entries
 	QStringList combolist;
-	for(int i = 0; i < combo->count(); ++i) {
+	for (int i = 0; i < combo->count(); ++i) {
 		combolist += combo->text(i);
 	}
 
 	// add new entries (one or a comma separated list)
 	QStringList list = entry.split(",");
-	for(int i = 0; i < list.count(); ++i) {
+	for (int i = 0; i < list.count(); ++i) {
 		QString s = list[i].trimmed();
 		// entries must match a regular expression
-		if(combolist.findIndex(s) != -1) {
+		if (combolist.findIndex(s) != -1) {
 			KMessageBox::error(this, i18n("%1 '%2' already exists.", title, s));
 		}
 		else {
@@ -963,7 +994,7 @@ bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, cons
 	}
 
 	// insert list, if there are more entries than before
-	if(combolist.count() > combo->count()) {
+	if (combolist.count() > combo->count()) {
 		fillCombobox(combo, combolist.join(","), list[0]);
 		return true;
 	}
@@ -975,17 +1006,17 @@ bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, cons
 QString QuickDocument::getComboxboxList(KComboBox *combo)
 {
 	QStringList list;
-	for ( int i=0; i<combo->count(); ++i ) {
+	for (int i = 0; i < combo->count(); ++i) {
 		list += combo->text(i);
 	}
 
-	return ( list.count() > 0 ) ? list.join(",") : QString();
+	return (list.count() > 0) ? list.join(",") : QString();
 }
 
 // strip an optional default-tag from the string
 QString QuickDocument::stripDefault(const QString &s)
 {
-	return ( s.right(10) == " [default]" ) ? s.left( s.length()-10 ) : s;
+	return (s.right(10) == " [default]") ? s.left(s.length() - 10) : s;
 }
 
 ////////////////////////////// packages tab //////////////////////////////
@@ -994,7 +1025,7 @@ void QuickDocument::readPackagesConfig()
 {
 	KILE_DEBUG() << "\tread config: packages";
 
-	if ( ! readPackagesListview() )
+	if (! readPackagesListview())
 		initPackages();
 }
 
@@ -1006,40 +1037,40 @@ void QuickDocument::initPackages()
 	QTreeWidgetItem *clichild;
 
 	m_lvPackages->clear();
-	cli = insertTreeWidget(m_lvPackages,"amsmath", i18n("Special math environments and commands (AMS)") );
-	cli = insertTreeWidget(m_lvPackages,"amsfonts",i18n("Collection of fonts and symbols for math mode (AMS)") );
-	cli = insertTreeWidget(m_lvPackages,"amssymb",i18n("Defines symbol names for all math symbols in MSAM and MSBM (AMS)") );
-	cli = insertTreeWidget(m_lvPackages,"amsthm",i18n("Improved theorem setup (AMS)"));
-	cli = insertTreeWidget(m_lvPackages,"caption",i18n("Extends caption capabilities for figures and tables"));
+	cli = insertTreeWidget(m_lvPackages, "amsmath", i18n("Special math environments and commands (AMS)"));
+	cli = insertTreeWidget(m_lvPackages, "amsfonts", i18n("Collection of fonts and symbols for math mode (AMS)"));
+	cli = insertTreeWidget(m_lvPackages, "amssymb", i18n("Defines symbol names for all math symbols in MSAM and MSBM (AMS)"));
+	cli = insertTreeWidget(m_lvPackages, "amsthm", i18n("Improved theorem setup (AMS)"));
+	cli = insertTreeWidget(m_lvPackages, "caption", i18n("Extends caption capabilities for figures and tables"));
 
-	cli = insertTreeWidget(m_lvPackages,"hyperref",i18n("Hypertext marks in LaTeX") );
+	cli = insertTreeWidget(m_lvPackages, "hyperref", i18n("Hypertext marks in LaTeX"));
 	cli->setExpanded(true);
-	clichild = insertTreeWidget(cli,"dvips",i18n("Use dvips as hyperref driver") );
+	clichild = insertTreeWidget(cli, "dvips", i18n("Use dvips as hyperref driver"));
 	clichild->setCheckState(0, Qt::Checked);
-	clichild = insertTreeWidget(cli,"pdftex",i18n("Use pdftex as hyperref driver") );
-	clichild = insertEditableTreeWidget(cli,"bookmarks",i18n("Make bookmarks"),"true","true" );
-	clichild = insertEditableTreeWidget(cli,"bookmarksnumbered",i18n("Put section numbers in bookmarks"),"false","false" );
-	clichild = insertEditableTreeWidget(cli,"bookmarksopen",i18n("Open up bookmark tree"),QString(),QString() );
-	clichild = insertEditableTreeWidget(cli,"pdfauthor",i18n("Text for PDF Author field"),QString(),QString() );
-	clichild = insertEditableTreeWidget(cli,"pdfcreator",i18n("Text for PDF Creator field"),i18n("LaTeX with hyperref package"),i18n("LaTeX with hyperref package") );
-	clichild = insertEditableTreeWidget(cli,"pdffitwindow",i18n("Resize document window to fit document size"),"false","false" );
-	clichild = insertEditableTreeWidget(cli,"pdfkeywords",i18n("Text for PDF Keywords field"),QString(),QString() );
-	clichild = insertEditableTreeWidget(cli,"pdfproducer",i18n("Text for PDF Producer field"),QString(),QString() );
-	clichild = insertEditableTreeWidget(cli,"pdfstartview",i18n("Starting view of PDF document"),"/Fit","/Fit" );
-	clichild = insertEditableTreeWidget(cli,"pdfsubject",i18n("Text for PDF Subject field"),QString(),QString() );
-	clichild = insertEditableTreeWidget(cli,"pdftitle",i18n("Text for PDF Title field"),QString(),QString() );
+	clichild = insertTreeWidget(cli, "pdftex", i18n("Use pdftex as hyperref driver"));
+	clichild = insertEditableTreeWidget(cli, "bookmarks", i18n("Make bookmarks"), "true", "true");
+	clichild = insertEditableTreeWidget(cli, "bookmarksnumbered", i18n("Put section numbers in bookmarks"), "false", "false");
+	clichild = insertEditableTreeWidget(cli, "bookmarksopen", i18n("Open up bookmark tree"), QString(), QString());
+	clichild = insertEditableTreeWidget(cli, "pdfauthor", i18n("Text for PDF Author field"), QString(), QString());
+	clichild = insertEditableTreeWidget(cli, "pdfcreator", i18n("Text for PDF Creator field"), i18n("LaTeX with hyperref package"), i18n("LaTeX with hyperref package"));
+	clichild = insertEditableTreeWidget(cli, "pdffitwindow", i18n("Resize document window to fit document size"), "false", "false");
+	clichild = insertEditableTreeWidget(cli, "pdfkeywords", i18n("Text for PDF Keywords field"), QString(), QString());
+	clichild = insertEditableTreeWidget(cli, "pdfproducer", i18n("Text for PDF Producer field"), QString(), QString());
+	clichild = insertEditableTreeWidget(cli, "pdfstartview", i18n("Starting view of PDF document"), "/Fit", "/Fit");
+	clichild = insertEditableTreeWidget(cli, "pdfsubject", i18n("Text for PDF Subject field"), QString(), QString());
+	clichild = insertEditableTreeWidget(cli, "pdftitle", i18n("Text for PDF Title field"), QString(), QString());
 
-	cli = insertTreeWidget(m_lvPackages,"mathpazo",i18n("Use Palatino font as roman font (both text and math mode)") );
-	cli = insertTreeWidget(m_lvPackages,"mathptmx",i18n("Use Times font as roman font (both text and math mode)") );
-	cli = insertTreeWidget(m_lvPackages,"makeidx",i18n("Enable index generation") );
-	cli = insertTreeWidget(m_lvPackages,"multicol",i18n("Enables multicolumn environments") );
-	cli = insertTreeWidget(m_lvPackages,"pst-all",i18n("Load all pstricks packages") );
-	cli = insertTreeWidget(m_lvPackages,"rotating",i18n("Rotates text") );
-	cli = insertTreeWidget(m_lvPackages,"subfigure",i18n("Enables subfigures inside figures") );
-	cli = insertTreeWidget(m_lvPackages,"upgreek",i18n("Typesetting capital Greek letters") );
-	cli = insertTreeWidget(m_lvPackages,"xcolor",i18n("Extending LaTeX's color facilities") );
+	cli = insertTreeWidget(m_lvPackages, "mathpazo", i18n("Use Palatino font as roman font (both text and math mode)"));
+	cli = insertTreeWidget(m_lvPackages, "mathptmx", i18n("Use Times font as roman font (both text and math mode)"));
+	cli = insertTreeWidget(m_lvPackages, "makeidx", i18n("Enable index generation"));
+	cli = insertTreeWidget(m_lvPackages, "multicol", i18n("Enables multicolumn environments"));
+	cli = insertTreeWidget(m_lvPackages, "pst-all", i18n("Load all pstricks packages"));
+	cli = insertTreeWidget(m_lvPackages, "rotating", i18n("Rotates text"));
+	cli = insertTreeWidget(m_lvPackages, "subfigure", i18n("Enables subfigures inside figures"));
+	cli = insertTreeWidget(m_lvPackages, "upgreek", i18n("Typesetting capital Greek letters"));
+	cli = insertTreeWidget(m_lvPackages, "xcolor", i18n("Extending LaTeX's color facilities"));
 
-	cli = insertTreeWidget(m_lvPackages,"babel",i18n("Adds language specific support") );
+	cli = insertTreeWidget(m_lvPackages, "babel", i18n("Adds language specific support"));
 	cli->setExpanded(true);
 	cli->setCheckState(0, Qt::Checked);
 	clichild = insertTreeWidget(cli, "acadian", "");
@@ -1106,7 +1137,7 @@ void QuickDocument::initPackages()
 	clichild = insertTreeWidget(cli, "UKenglish", "");
 	clichild = insertTreeWidget(cli, "USenglish", "");
 
-	cli = insertTreeWidget(m_lvPackages,"fontenc",i18n("Use a font encoding scheme") );
+	cli = insertTreeWidget(m_lvPackages, "fontenc", i18n("Use a font encoding scheme"));
 	cli->setExpanded(true);
 	cli->setCheckState(0, Qt::Checked);
 	clichild = insertTreeWidget(cli, "HE8", "");
@@ -1136,12 +1167,12 @@ void QuickDocument::initPackages()
 	clichild = insertTreeWidget(cli, "UT1", "");
 	clichild = insertTreeWidget(cli, "X2", "");
 
-	cli = insertTreeWidget(m_lvPackages,"graphicx",i18n("Support for including graphics") );
+	cli = insertTreeWidget(m_lvPackages, "graphicx", i18n("Support for including graphics"));
 	cli->setExpanded(true);
 	cli->setCheckState(0, Qt::Checked);
-	clichild = insertTreeWidget(cli,"dvips",i18n("Specialize on graphic inclusion for dvips") );
-	clichild = insertTreeWidget(cli,"pdftex",i18n("Specialize on graphic inclusion for pdftex") );
-	clichild = insertTreeWidget(cli,"draft",i18n("Show only frames of graphics") );
+	clichild = insertTreeWidget(cli, "dvips", i18n("Specialize on graphic inclusion for dvips"));
+	clichild = insertTreeWidget(cli, "pdftex", i18n("Specialize on graphic inclusion for pdftex"));
+	clichild = insertTreeWidget(cli, "draft", i18n("Show only frames of graphics"));
 }
 
 // Try to read values from the config file:
@@ -1159,29 +1190,29 @@ bool QuickDocument::readPackagesListview()
 	m_dictPackagesDefaultvalues.clear();
 	m_lvPackages->clear();
 
-	if ( elements.empty() )
+	if (elements.empty())
 		return false;
 
 	// regular expression to split the string from the config file
 	QRegExp reg("([^,]*),([^,]*),([^,]*),([^,]*),(.*)");
 
 	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
-	for ( QStringList::Iterator it=elements.begin(); it!=elements.end(); ++it ) {
+	for (QStringList::Iterator it = elements.begin(); it != elements.end(); ++it) {
 		QTreeWidgetItem *item;
 
 		// look, if this is a main or a child entry
 		KILE_DEBUG() << "\tread config entry: " << *it;
 		int pos = (*it).indexOf('!');
-		if ( pos == -1 ) {                    // main entry
+		if (pos == -1) {                      // main entry
 			item = new QTreeWidgetItem(m_lvPackages, QStringList(*it));
 			item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
 			item->setCheckState(0, Qt::Unchecked);
 			if (reg.exactMatch(configGroup.readEntry(*it))) {
-				if ( reg.cap(1) == "1" )        // selected state (entry 1)
+				if (reg.cap(1) == "1")          // selected state (entry 1)
 					item->setCheckState(0, Qt::Checked);
-				if ( reg.cap(2) == "1" )        // open state (entry 2)
+				if (reg.cap(2) == "1")          // open state (entry 2)
 					item->setExpanded(true);
-				item->setText(2,reg.cap(5));     // description (entry 5)
+				item->setText(2, reg.cap(5));    // description (entry 5)
 			} else {
 				KILE_DEBUG() << "\twrong config entry for package " << item->text(0);
 			}
@@ -1191,15 +1222,15 @@ bool QuickDocument::readPackagesListview()
 				item = items[0];
 				QTreeWidgetItem *clichild;
 				if (reg.exactMatch(configGroup.readEntry(*it))) {
-					if ( reg.cap(2) == "1" ) {                                     // editable state
-						clichild = insertEditableTreeWidget(item,(*it).mid(pos+1),reg.cap(5),reg.cap(4),reg.cap(3) );
+					if (reg.cap(2) == "1") {                                       // editable state
+						clichild = insertEditableTreeWidget(item, (*it).mid(pos + 1), reg.cap(5), reg.cap(4), reg.cap(3));
 					} else {
-						clichild = new QTreeWidgetItem(item, QStringList((*it).mid(pos+1)));
+						clichild = new QTreeWidgetItem(item, QStringList((*it).mid(pos + 1)));
 						clichild->setFlags(clichild->flags() | Qt::ItemIsUserCheckable);
 						clichild->setCheckState(0, Qt::Unchecked);
-						clichild->setText(2,reg.cap(5));                            // description
+						clichild->setText(2, reg.cap(5));                           // description
 					}
-					if ( reg.cap(1) == "1" )                                       // selected state
+					if (reg.cap(1) == "1")                                         // selected state
 						clichild->setCheckState(0, Qt::Checked);
 				} else {
 					KILE_DEBUG() << "\twrong config entry for package option " << item->text(0);
@@ -1265,7 +1296,7 @@ void QuickDocument::writePackagesConfig()
 				optionentry = "0,";
 
 			// look, if this child is editable
-			if (m_dictPackagesEditable.contains(option) ) {
+			if (m_dictPackagesEditable.contains(option)) {
 				optionentry += "1,";
 				if (m_dictPackagesDefaultvalues.contains(option))
 					optionentry += m_dictPackagesDefaultvalues[option] + ',';
@@ -1276,7 +1307,7 @@ void QuickDocument::writePackagesConfig()
 
 			// add a value and a description
 			optionentry += getPackagesValue(curchild->text(1))
-			                    + ',' + stripPackageDefault(option,curchild->text(2));
+			               + ',' + stripPackageDefault(option, curchild->text(2));
 
 			// write listview entry
 			configGroup.writeEntry(option, optionentry);
@@ -1288,8 +1319,8 @@ void QuickDocument::writePackagesConfig()
 }
 
 QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidget *treeWidget,
-                                                 const QString &entry,
-                                                 const QString &description)
+    const QString &entry,
+    const QString &description)
 {
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, QStringList() << entry << "" << description);
 	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
@@ -1299,8 +1330,8 @@ QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidget *treeWidget,
 }
 
 QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidgetItem *parent,
-                                                 const QString &entry,
-                                                 const QString &description)
+    const QString &entry,
+    const QString &description)
 {
 	QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << "" << description);
 	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
@@ -1310,10 +1341,10 @@ QTreeWidgetItem* QuickDocument::insertTreeWidget(QTreeWidgetItem *parent,
 }
 
 QTreeWidgetItem* QuickDocument::insertEditableTreeWidget(QTreeWidgetItem *parent,
-                                                         const QString &entry,
-                                                         const QString &description,
-                                                         const QString &value,
-                                                         const QString &defaultvalue)
+    const QString &entry,
+    const QString &description,
+    const QString &value,
+    const QString &defaultvalue)
 {
 	QTreeWidgetItem *item = new QTreeWidgetItem(parent, QStringList() << entry << "" << description);
 	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
@@ -1332,21 +1363,22 @@ QTreeWidgetItem* QuickDocument::insertEditableTreeWidget(QTreeWidgetItem *parent
 
 void QuickDocument::setPackagesValue(QTreeWidgetItem *item, const QString &option, const QString &val)
 {
-	QString defaultvalue = ( m_dictPackagesDefaultvalues.contains(option) )
-			? m_dictPackagesDefaultvalues[option] : QString();
-	QString value = ( ! val.isEmpty() ) ? val : QString();
+	QString defaultvalue = (m_dictPackagesDefaultvalues.contains(option))
+	                       ? m_dictPackagesDefaultvalues[option] : QString();
+	QString value = (! val.isEmpty()) ? val : QString();
 
-	if ( value == defaultvalue )
-		item->setText(1,i18n("<default>") );
-	else if ( value.isEmpty() )
-		item->setText(1,i18n("<empty>") );
+	if (value == defaultvalue)
+		item->setText(1, i18n("<default>"));
 	else
-		item->setText(1,value);
+		if (value.isEmpty())
+			item->setText(1, i18n("<empty>"));
+		else
+			item->setText(1, value);
 }
 
 QString QuickDocument::getPackagesValue(const QString &value)
 {
-	return ( value==i18n("<default>") || value==i18n("<empty>") ) ? QString() : value;
+	return (value == i18n("<default>") || value == i18n("<empty>")) ? QString() : value;
 }
 
 bool QuickDocument::isTreeWidgetEntry(QTreeWidget *treeWidget, const QString &entry)
@@ -1371,26 +1403,26 @@ bool QuickDocument::isTreeWidgetChild(QTreeWidget *treeWidget, const QString &en
 	return false;
 }
 
-QString QuickDocument::addPackageDefault(const QString &option,const QString &description)
+QString QuickDocument::addPackageDefault(const QString &option, const QString &description)
 {
-	return ( m_dictPackagesDefaultvalues.contains(option) )
+	return (m_dictPackagesDefaultvalues.contains(option))
 	       ? description + " [" + m_dictPackagesDefaultvalues[option] + ']'
-			 : description + " [ ]";
+	       : description + " [ ]";
 }
 
-QString QuickDocument::stripPackageDefault(const QString &option,const QString &description)
+QString QuickDocument::stripPackageDefault(const QString &option, const QString &description)
 {
 	QRegExp reg("(.*) \\[([^\\[]*)\\]");
 
-	if ( description.right(4) == " [ ]" )
-		return description.left(description.length()-4);
+	if (description.right(4) == " [ ]")
+		return description.left(description.length() - 4);
 
-	if ( ! reg.exactMatch(description) )
+	if (! reg.exactMatch(description))
 		return description;
 
-	return ( reg.cap(2).isEmpty() ||
-		     ( m_dictPackagesDefaultvalues.contains(option) && m_dictPackagesDefaultvalues[option]==reg.cap(2) )
-		    ) ? reg.cap(1) : description;
+	return (reg.cap(2).isEmpty() ||
+	        (m_dictPackagesDefaultvalues.contains(option) && m_dictPackagesDefaultvalues[option] == reg.cap(2))
+	       ) ? reg.cap(1) : description;
 }
 
 ////////////////////////////// hyperref tab //////////////////////////////
@@ -1405,7 +1437,7 @@ void QuickDocument::initHyperref()
 	QStringList list = driver.split(",");
 
 	m_dictHyperrefDriver.clear();
-	for(int i = 0; i < list.count(); ++i) {
+	for (int i = 0; i < list.count(); ++i) {
 		m_dictHyperrefDriver[list[i]] = true;
 	}
 }
@@ -1419,8 +1451,8 @@ bool QuickDocument::isHyperrefDriver(const QString &name)
 
 bool QuickDocument::isDocumentClass(const QString &name)
 {
-	for ( int i=0; i<m_cbDocumentClass->count(); ++i ) {
-		if ( m_cbDocumentClass->text(i) == name )
+	for (int i = 0; i < m_cbDocumentClass->count(); ++i) {
+		if (m_cbDocumentClass->text(i) == name)
 			return true;
 	}
 	return false;
@@ -1428,17 +1460,17 @@ bool QuickDocument::isDocumentClass(const QString &name)
 
 bool QuickDocument::isDocumentClassOption(const QString &option)
 {
-	return isTreeWidgetEntry(m_lvClassOptions,option);
+	return isTreeWidgetEntry(m_lvClassOptions, option);
 }
 
 bool QuickDocument::isPackage(const QString &package)
 {
-	return isTreeWidgetEntry(m_lvPackages,package);
+	return isTreeWidgetEntry(m_lvPackages, package);
 }
 
 bool QuickDocument::isPackageOption(const QString &package, const QString &option)
 {
-	return isTreeWidgetChild(m_lvPackages,package,option);
+	return isTreeWidgetChild(m_lvPackages, package, option);
 }
 
 
@@ -1457,13 +1489,13 @@ void QuickDocument::printTemplate()
 
 	// build options
 	QString options;
-	if ( documentclass != "beamer" ) {
-		if ( !m_cbPaperSize->currentText().isEmpty() )
-			options += stripDefault( m_cbPaperSize->currentText() ) + ',';
+	if (documentclass != "beamer") {
+		if (!m_cbPaperSize->currentText().isEmpty())
+			options += stripDefault(m_cbPaperSize->currentText()) + ',';
 	}
 
-	if ( !m_cbTypefaceSize->currentText().isEmpty() )
-		options += stripDefault( m_cbTypefaceSize->currentText() ) + ',';
+	if (!m_cbTypefaceSize->currentText().isEmpty())
+		options += stripDefault(m_cbTypefaceSize->currentText()) + ',';
 
 	QTreeWidgetItemIterator it(m_lvClassOptions);
 	while (*it) {
@@ -1473,19 +1505,19 @@ void QuickDocument::printTemplate()
 		++it;
 	}
 
-	if ( ! options.isEmpty() )
-		m_td.tagBegin += '[' + options.left( options.length()-1 ) + ']';
+	if (! options.isEmpty())
+		m_td.tagBegin += '[' + options.left(options.length() - 1) + ']';
 	m_td.tagBegin += '{' + documentclass + "}\n\n";
 
-	
+
 	QString enc = m_cbEncoding->currentText();
 	if (!enc.isEmpty())
 	{
-		if( enc.indexOf("utf") != -1 )
+		if (enc.indexOf("utf") != -1)
 			m_td.tagBegin += "\\usepackage{ucs}\n";
 		m_td.tagBegin += "\\usepackage[" + enc + "]{inputenc}\n";
 	}
-	if ( documentclass != "beamer" ) {
+	if (documentclass != "beamer") {
 		printPackages();
 		printHyperref();
 	} else {
@@ -1494,11 +1526,11 @@ void QuickDocument::printTemplate()
 	}
 
 	if (!m_leAuthor->text().isEmpty())
-		m_td.tagBegin += "\\author{"+m_leAuthor->text()+"}\n";
+		m_td.tagBegin += "\\author{" + m_leAuthor->text() + "}\n";
 	if (!m_leTitle->text().isEmpty())
-		m_td.tagBegin += "\\title{"+m_leTitle->text()+"}\n";
+		m_td.tagBegin += "\\title{" + m_leTitle->text() + "}\n";
 	if (!m_leDate->text().isEmpty())
-		m_td.tagBegin += "\\date{"+m_leDate->text()+"}\n";
+		m_td.tagBegin += "\\date{" + m_leDate->text() + "}\n";
 	m_td.tagBegin += '\n';
 
 	m_td.tagBegin += "\\begin{document}\n%E%C";
@@ -1517,70 +1549,71 @@ void QuickDocument::printPackages()
 	for (int i = 0; i < m_lvPackages->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *cur = m_lvPackages->topLevelItem(i);
 
-		if ( cur->text(0) == "hyperref" ) {          // manage hyperref package
+		if (cur->text(0) == "hyperref") {            // manage hyperref package
 			m_currentHyperref = cur->checkState(0) == Qt::Checked;
 			for (int j = 0; j < cur->childCount(); ++j) {
 				QTreeWidgetItem *curchild = cur->child(j);
 				if (curchild->checkState(0) == Qt::Checked) {              // manage hyperref option
-					if ( isHyperrefDriver(curchild->text(0)) ) {   // either hyperref driver
-						if ( ! m_hyperrefdriver.isEmpty() )
+					if (isHyperrefDriver(curchild->text(0))) {     // either hyperref driver
+						if (! m_hyperrefdriver.isEmpty())
 							m_hyperrefdriver += ',';
 						m_hyperrefdriver += curchild->text(0);
 					} else {
 						QString value = curchild->text(1);          // or another option
-						if ( value != i18n("<default>") ) {
-							if ( ! m_hyperrefsetup.isEmpty() )
+						if (value != i18n("<default>")) {
+							if (! m_hyperrefsetup.isEmpty())
 								m_hyperrefsetup += ',';
 							m_hyperrefsetup += "%\n   " + curchild->text(0) + '=' + getPackagesValue(curchild->text(1));
 						}
 					}
 				}
 			}
-		} else if (cur->checkState(0) == Qt::Checked) {                   // manage other package options
-			QString packageOptions;
-			for (int j = 0; j < cur->childCount(); ++j) {
-				QTreeWidgetItem *curchild = cur->child(j);
-				if (curchild->checkState(0) == Qt::Checked) {
-					QString optiontext;
-					if ( m_dictPackagesEditable.contains(cur->text(0) + '!' + curchild->text(0)) ) {
-						QString value = curchild->text(1);
-						if ( value != i18n("<default>") )
-							optiontext = curchild->text(0) + '=' + getPackagesValue(curchild->text(1));
-					} else
-						optiontext = curchild->text(0);
+		} else
+			if (cur->checkState(0) == Qt::Checked) {                   // manage other package options
+				QString packageOptions;
+				for (int j = 0; j < cur->childCount(); ++j) {
+					QTreeWidgetItem *curchild = cur->child(j);
+					if (curchild->checkState(0) == Qt::Checked) {
+						QString optiontext;
+						if (m_dictPackagesEditable.contains(cur->text(0) + '!' + curchild->text(0))) {
+							QString value = curchild->text(1);
+							if (value != i18n("<default>"))
+								optiontext = curchild->text(0) + '=' + getPackagesValue(curchild->text(1));
+						} else
+							optiontext = curchild->text(0);
 
-					if ( ! optiontext.isEmpty() ) {
-						if (!packageOptions.isEmpty())
-							packageOptions += ',';
-						packageOptions += optiontext;
+						if (! optiontext.isEmpty()) {
+							if (!packageOptions.isEmpty())
+								packageOptions += ',';
+							packageOptions += optiontext;
+						}
 					}
 				}
-			}
 
-			m_td.tagBegin += "\\usepackage";
-			if (!packageOptions.isEmpty())
-				m_td.tagBegin += '[' + packageOptions + ']';
-			m_td.tagBegin += '{' + cur->text(0) + "}\n";
-		}
+				m_td.tagBegin += "\\usepackage";
+				if (!packageOptions.isEmpty())
+					m_td.tagBegin += '[' + packageOptions + ']';
+				m_td.tagBegin += '{' + cur->text(0) + "}\n";
+			}
 	}
 	m_td.tagBegin += '\n';
 }
 
 void QuickDocument::printHyperref()
 {
-	if ( ! m_currentHyperref )
+	if (! m_currentHyperref)
 		return;
 
 	KILE_DEBUG() << "\thyperref";
 
 	// output hyperref package
 	m_td.tagBegin += "\\usepackage";
-	if ( ! m_hyperrefdriver.isEmpty()  )
+	if (! m_hyperrefdriver.isEmpty())
 		m_td.tagBegin += '[' + m_hyperrefdriver + ']';
 	m_td.tagBegin += "{hyperref}\n";
 
 	// output hyperref options
-	if ( ! m_hyperrefsetup.isEmpty() ) {
+	if (! m_hyperrefsetup.isEmpty()) {
 		m_td.tagBegin += "\\hypersetup{" + m_hyperrefsetup + "%\n}\n";
 	}
 
@@ -1596,7 +1629,7 @@ void QuickDocument::printBeamerTheme()
 	QString theme = m_cbPaperSize->currentText();
 	QRegExp reg("(\\w+)\\s+\\((.*)\\)$");
 
-	if ( reg.search(theme) >= 0 ) {
+	if (reg.search(theme) >= 0) {
 		QStringList optionlist = reg.cap(2).split(",");
 		m_td.tagBegin += "\\usepackage[" + optionlist.join(",") + "]{beamertheme" + reg.cap(1) + "}\n\n";
 	} else {
@@ -1634,26 +1667,26 @@ void QuickDocument::slotDocumentClassAdd()
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassAdd()============";
 	QStringList list;
 	list << i18n("Document Class")
-	     << "label,edit,label,combobox,checkbox,checkbox"
-	     << i18n("Please enter the new document &class:")
-	     << QString()                                     // 3
-	     << i18n("&Set all options from this standard class (optional):")
-	     << ",article,book,letter,report,scrartcl,scrbook,scrreprt"    // 5
-	     << i18n("Use standard &fontsizes")                   // 6
-	     << i18n("Use standard &papersizes")                  // 7
-	     ;
+	<< "label,edit,label,combobox,checkbox,checkbox"
+	<< i18n("Please enter the new document &class:")
+	<< QString()                                     // 3
+	<< i18n("&Set all options from this standard class (optional):")
+	<< ",article,book,letter,report,scrartcl,scrbook,scrreprt"    // 5
+	<< i18n("Use standard &fontsizes")                   // 6
+	<< i18n("Use standard &papersizes")                  // 7
+	;
 
-	if(inputDialog(list, qd_CheckNotEmpty | qd_CheckDocumentClass)) {
+	if (inputDialog(list, qd_CheckNotEmpty | qd_CheckDocumentClass)) {
 		QString classname = list[3];
 
 		QStringList classlist;
-		if(list[5].isEmpty()) {             // no base class
-			QString useFontsizes = ( list[6] == "true" )
-			           ? "10pt,11pt,12pt" : "";
-			QString usePapersizes = ( list[7] == "true" )
-			           ? "a4paper,a5paper,b5paper,executivepaper,legalpaper,letterpaper" : "";
+		if (list[5].isEmpty()) {            // no base class
+			QString useFontsizes = (list[6] == "true")
+			                       ? "10pt,11pt,12pt" : "";
+			QString usePapersizes = (list[7] == "true")
+			                        ? "a4paper,a5paper,b5paper,executivepaper,legalpaper,letterpaper" : "";
 			KILE_DEBUG() << "\tadd document class: " << classname
-		 	         << " fontsize=" << list[6] << " papersize=" << list[7];
+			<< " fontsize=" << list[6] << " papersize=" << list[7];
 
 			// set default entries for the documentClass-dictionary
 			classlist <<  useFontsizes << usePapersizes << "" << "";
@@ -1663,8 +1696,8 @@ void QuickDocument::slotDocumentClassAdd()
 			classlist = m_dictDocumentClasses[list[5]];
 			// then add all baseclass options
 			QStringList optionlist;
-			initStandardOptions(list[5],optionlist);
-			for(int i = 0; i < optionlist.count(); ++i) {
+			initStandardOptions(list[5], optionlist);
+			for (int i = 0; i < optionlist.count(); ++i) {
 				classlist.append(optionlist[i]);
 			}
 		}
@@ -1688,7 +1721,7 @@ void QuickDocument::slotDocumentClassDelete()
 	QString documentclass = m_cbDocumentClass->currentText();
 
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassDelete()============";
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?", documentclass), i18n("Remove Document Class"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?", documentclass), i18n("Remove Document Class")) == KMessageBox::Continue)
 	{
 		KILE_DEBUG() << "\tlazy delete class: " << documentclass;
 
@@ -1696,7 +1729,7 @@ void QuickDocument::slotDocumentClassDelete()
 		m_dictDocumentClasses.remove(documentclass);
 
 		// mark this document class for deleting from config file (only with OK-Button)
-		if ( m_deleteDocumentClasses.findIndex(documentclass) == -1 )
+		if (m_deleteDocumentClasses.findIndex(documentclass) == -1)
 			m_deleteDocumentClasses.append(documentclass);
 
 		// remove it from the list of userclasses
@@ -1717,7 +1750,7 @@ void QuickDocument::slotDocumentClassDelete()
 void QuickDocument::slotDocumentClassChanged(int index)
 {
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassChanged()============";
-	if ( m_cbDocumentClass->text(index).isNull() ) {
+	if (m_cbDocumentClass->text(index).isNull()) {
 		KILE_DEBUG() << "\tnull";
 		return;
 	}
@@ -1740,14 +1773,14 @@ void QuickDocument::slotTypefaceSizeAdd()
 	KILE_DEBUG() << "==QuickDocument::slotTypefaceSizeAdd()============";
 	QStringList list;
 	list << i18n("Add Fontsize")
-	     << "label,edit"
-	     << i18n("Please enter the &fontsizes (comma-separated list):")
-	     << QString()             // 3
-	     ;
+	<< "label,edit"
+	<< i18n("Please enter the &fontsizes (comma-separated list):")
+	<< QString()             // 3
+	;
 
-	if ( inputDialog(list,qd_CheckNotEmpty |qd_CheckFontsize) ) {
+	if (inputDialog(list, qd_CheckNotEmpty | qd_CheckFontsize)) {
 		KILE_DEBUG() << "\tadd fontsize: " << list[3];
-		addComboboxEntries(m_cbTypefaceSize,"fontsize",list[3]);
+		addComboboxEntries(m_cbTypefaceSize, "fontsize", list[3]);
 
 		// save the new list of fontsizes
 		m_dictDocumentClasses[m_currentClass][qd_Fontsizes] = getComboxboxList(m_cbTypefaceSize);
@@ -1756,9 +1789,9 @@ void QuickDocument::slotTypefaceSizeAdd()
 
 void QuickDocument::slotTypefaceSizeDelete()
 {
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?", m_cbPaperSize->currentText()), i18n("Remove Fontsize"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?", m_cbPaperSize->currentText()), i18n("Remove Fontsize")) == KMessageBox::Continue)
 	{
-		int i=m_cbPaperSize->currentItem();
+		int i = m_cbPaperSize->currentItem();
 		m_cbPaperSize->removeItem(i);
 
 		// save the new list of fontsizes
@@ -1771,14 +1804,14 @@ void QuickDocument::slotPaperSizeAdd()
 	KILE_DEBUG() << "==QuickDocument::slotPaperSizeAdd()============";
 	QStringList list;
 	list << i18n("Add Papersize")
-	     << "label,edit"
-	     << i18n("Please enter the &papersizes (comma-separated list):")
-	     << QString()                 // 3
-	     ;
+	<< "label,edit"
+	<< i18n("Please enter the &papersizes (comma-separated list):")
+	<< QString()                 // 3
+	;
 
-	if ( inputDialog(list,qd_CheckNotEmpty |qd_CheckPapersize) ) {
+	if (inputDialog(list, qd_CheckNotEmpty | qd_CheckPapersize)) {
 		KILE_DEBUG() << "\tadd papersize: " << list[3];
-		addComboboxEntries(m_cbPaperSize,"papersize",list[3]);
+		addComboboxEntries(m_cbPaperSize, "papersize", list[3]);
 
 		// save the new list of papersizes
 		m_dictDocumentClasses[m_currentClass][qd_Papersizes] = getComboxboxList(m_cbPaperSize);
@@ -1787,9 +1820,9 @@ void QuickDocument::slotPaperSizeAdd()
 
 void QuickDocument::slotPaperSizeDelete()
 {
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the papersize list?", m_cbPaperSize->currentText()), i18n("Remove Papersize"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the papersize list?", m_cbPaperSize->currentText()), i18n("Remove Papersize")) == KMessageBox::Continue)
 	{
-		int i=m_cbPaperSize->currentItem();
+		int i = m_cbPaperSize->currentItem();
 		m_cbPaperSize->removeItem(i);
 
 		// save the new list of papersizes
@@ -1804,19 +1837,19 @@ void QuickDocument::slotClassOptionAdd()
 	KILE_DEBUG() << "==QuickDocument::slotClassOptionAdd()============";
 	QStringList list;
 	list << i18n("Add Option")
-	     << "label,edit,label,edit,checkbox"
-	     << i18n("Name of &option:")
-	     << QString()                  // 3
-	     << i18n("&Description:")
-	     << QString()                  // 5
-	     << i18n("&Select this option")    // 6
-	     ;
+	<< "label,edit,label,edit,checkbox"
+	<< i18n("Name of &option:")
+	<< QString()                  // 3
+	<< i18n("&Description:")
+	<< QString()                  // 5
+	<< i18n("&Select this option")    // 6
+	;
 
-	if ( inputDialog(list,qd_CheckNotEmpty | qd_CheckClassOption) ) {
+	if (inputDialog(list, qd_CheckNotEmpty | qd_CheckClassOption)) {
 		// get results
 		QString option = list[3];
 		QString description = list[5];
-		bool check = ( list[6] == "true" );
+		bool check = (list[6] == "true");
 
 		// add class option
 		KILE_DEBUG() << "\tadd option: " << option << " (" << description << ") checked=" << list[6];
@@ -1831,22 +1864,23 @@ void QuickDocument::slotClassOptionAdd()
 
 void QuickDocument::slotClassOptionEdit()
 {
-	if (m_lvClassOptions->selectedItems().count() == 0) return;
+	if (m_lvClassOptions->selectedItems().count() == 0)
+		return;
 
 	QTreeWidgetItem *cur = m_lvClassOptions->selectedItems()[0];
 
 	KILE_DEBUG() << "==QuickDocument::slotClassOptionEdit()============";
 	QStringList list;
 	list << i18n("Edit Option")
-	     << "label,edit-r,label,edit"
-	     << i18n("Name of &option:")
-	     << cur->text(0)
-	     << i18n("&Description:")
-	     << stripDefault(cur->text(1))           // 5
-	     ;
+	<< "label,edit-r,label,edit"
+	<< i18n("Name of &option:")
+	<< cur->text(0)
+	<< i18n("&Description:")
+	<< stripDefault(cur->text(1))           // 5
+	;
 
 	//if ( inputDialog(list,qd_CheckNotEmpty | qd_CheckClassOption) ) {
-	if ( inputDialog(list) ) {
+	if (inputDialog(list)) {
 		// get results
 		//QString option = list[3];
 		QString description = list[5];
@@ -1864,7 +1898,7 @@ void QuickDocument::slotClassOptionEdit()
 void QuickDocument::slotClassOptionDelete()
 {
 	KILE_DEBUG() << "==QuickDocument::slotClassOptionDelete()============";
-	if (m_lvClassOptions->selectedItems().count() > 0 && (KMessageBox::warningContinueCancel(this, i18n("Do you want to delete this class option?"), i18n("Delete"))==KMessageBox::Continue)) {
+	if (m_lvClassOptions->selectedItems().count() > 0 && (KMessageBox::warningContinueCancel(this, i18n("Do you want to delete this class option?"), i18n("Delete")) == KMessageBox::Continue)) {
 		QTreeWidgetItem *cur = m_lvClassOptions->selectedItems()[0];
 
 		KILE_DEBUG() << "\tdelete option: " << cur->text(0) << " (" << cur->text(1) << ")";
@@ -1889,15 +1923,15 @@ void QuickDocument::slotPackageAdd()
 	KILE_DEBUG() << "==QuickDocument::slotPackageAdd()============";
 	QStringList list;
 	list << i18n("Add Package")
-	     << "label,edit,label,edit,checkbox"
-	     << i18n("&Package:")
-	     << QString()                        // 3
-	     << i18n("&Description:")
-	     << QString()                        // 5
-	     << i18n("&Select this package")         // 6
-	     ;
+	<< "label,edit,label,edit,checkbox"
+	<< i18n("&Package:")
+	<< QString()                        // 3
+	<< i18n("&Description:")
+	<< QString()                        // 5
+	<< i18n("&Select this package")         // 6
+	;
 
-	if ( inputDialog(list,qd_CheckNotEmpty | qd_CheckPackage) ) {
+	if (inputDialog(list, qd_CheckNotEmpty | qd_CheckPackage)) {
 		KILE_DEBUG() << "\tadd package: " << list[3] << " (" << list[5] << ") checked=" << list[6];
 		QTreeWidgetItem *cli = new QTreeWidgetItem(m_lvPackages, QStringList() << list[3] << "" << list[5]);
 		cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
@@ -1907,38 +1941,39 @@ void QuickDocument::slotPackageAdd()
 
 void QuickDocument::slotPackageAddOption()
 {
-	if (m_lvPackages->selectedItems().count() == 0) return;
+	if (m_lvPackages->selectedItems().count() == 0)
+		return;
 
 	QTreeWidgetItem *cur = m_lvPackages->selectedItems()[0];
 
 	KILE_DEBUG() << "==QuickDocument::packageAddOption()============";
 	QStringList list;
 	list << i18n("Add Option")
-	     << "label,edit,checkbox,label,edit,label,edit,label,edit,checkbox"
-	     << i18n("&Option:") + " (" + i18n("package:") + ' ' + cur->text(0) + ')'
-	     << QString()                   // 3
-	     << i18n("&Editable")               // 4
-	     << i18n("De&fault value:")
-	     << QString()                   // 6
-	     << i18n("&Value:")
-	     << QString()                   // 8
-	     << i18n("&Description:")
-	     << QString()                   // 10
-	     << i18n("&Select this option")     // 11
-	     ;
+	<< "label,edit,checkbox,label,edit,label,edit,label,edit,checkbox"
+	<< i18n("&Option:") + " (" + i18n("package:") + ' ' + cur->text(0) + ')'
+	<< QString()                   // 3
+	<< i18n("&Editable")               // 4
+	<< i18n("De&fault value:")
+	<< QString()                   // 6
+	<< i18n("&Value:")
+	<< QString()                   // 8
+	<< i18n("&Description:")
+	<< QString()                   // 10
+	<< i18n("&Select this option")     // 11
+	;
 
-	if ( !cur->parent() && inputDialog(list,qd_CheckNotEmpty | qd_CheckPackageOption) ) {
+	if (!cur->parent() && inputDialog(list, qd_CheckNotEmpty | qd_CheckPackageOption)) {
 		KILE_DEBUG() << "\tadd option: " << list[3] << " (" << list[10] << ") checked=" << list[11];
 
 		QTreeWidgetItem *cli;
-		if ( list[4] == "true" ) {
-			cli = insertEditableTreeWidget(cur,list[3],list[10],list[8],list[6]);
+		if (list[4] == "true") {
+			cli = insertEditableTreeWidget(cur, list[3], list[10], list[8], list[6]);
 		} else {
 			cli = new QTreeWidgetItem(cur, QStringList() << list[3] << "" << list[10]);
 			cli->setFlags(cli->flags() | Qt::ItemIsUserCheckable);
 			cli->setCheckState(0, Qt::Unchecked);
 		}
-		if ( list[11] == "true" )
+		if (list[11] == "true")
 			cli->setCheckState(0, Qt::Checked);
 		cur->setExpanded(true);
 	}
@@ -1947,22 +1982,23 @@ void QuickDocument::slotPackageAddOption()
 
 void QuickDocument::slotPackageEdit()
 {
-	if (m_lvPackages->selectedItems().count() == 0) return;
+	if (m_lvPackages->selectedItems().count() == 0)
+		return;
 
 	QTreeWidgetItem *cur = m_lvPackages->selectedItems()[0];
 
 	KILE_DEBUG() << "==QuickDocument::slotPackageEdit()============";
 	bool editableOption;
-	QString caption,labelText,optionname;
+	QString caption, labelText, optionname;
 
-	if ( cur->parent() ) {
-//		checkmode = qd_CheckPackageOption;
+	if (cur->parent()) {
+//  checkmode = qd_CheckPackageOption;
 		caption = i18n("Edit Option");
 		labelText = i18n("Op&tion:")  + " (" + i18n("package:") + ' ' + cur->parent()->text(0) + ')';
 		optionname = cur->parent()->text(0) + '!' + cur->text(0);
 		editableOption = m_dictPackagesEditable.contains(optionname);
 	} else {
-//		checkmode = qd_CheckPackage;
+//  checkmode = qd_CheckPackage;
 		caption = i18n("Edit Package");
 		labelText = i18n("&Package:");
 		optionname = QString();
@@ -1972,41 +2008,41 @@ void QuickDocument::slotPackageEdit()
 	// create one of three different dialogs; edit package, edit editable option, edit option
 	QStringList list;
 	list << caption;
-	if ( editableOption ) {
-		QString defaultvalue = ( m_dictPackagesDefaultvalues.contains(optionname) )
-		                     ? m_dictPackagesDefaultvalues[optionname]
-		                     : QString();
-		QString value = ( cur->text(1) == i18n("<default>") )
-		                     ? defaultvalue : getPackagesValue(cur->text(1));
+	if (editableOption) {
+		QString defaultvalue = (m_dictPackagesDefaultvalues.contains(optionname))
+		                       ? m_dictPackagesDefaultvalues[optionname]
+		                       : QString();
+		QString value = (cur->text(1) == i18n("<default>"))
+		                ? defaultvalue : getPackagesValue(cur->text(1));
 
 		list << "label,edit-r,label,edit-r,label,edit,label,edit"
-		     << labelText
-		     << cur->text(0)                           // 3
-		     << i18n("De&fault value:")
-		     << defaultvalue                           // 5
-		     << i18n("&Value:")
-		     << value                                  // 7
-		     << i18n("&Description:")
-		     << stripPackageDefault(optionname,cur->text(2))      // 9
-		     ;
+		<< labelText
+		<< cur->text(0)                           // 3
+		<< i18n("De&fault value:")
+		<< defaultvalue                           // 5
+		<< i18n("&Value:")
+		<< value                                  // 7
+		<< i18n("&Description:")
+		<< stripPackageDefault(optionname, cur->text(2))     // 9
+		;
 	} else {
 		list << "label,edit-r,label,edit"
-		     << labelText
-		     << cur->text(0)                           // 3
-		     << i18n("&Description:")
-		     << cur->text(2)                           // 5
-		     ;
+		<< labelText
+		<< cur->text(0)                           // 3
+		<< i18n("&Description:")
+		<< cur->text(2)                           // 5
+		;
 	}
 
-	if ( inputDialog(list) ) {
-		if ( editableOption ) {
+	if (inputDialog(list)) {
+		if (editableOption) {
 			KILE_DEBUG() << "\tedit package: "
-			          << list[3]
-			          << " (" << list[7] << ") "
-			          << " (" << list[9] << ")";
+			<< list[3]
+			<< " (" << list[7] << ") "
+			<< " (" << list[9] << ")";
 			cur->setText(0, list[3]);
-			setPackagesValue(cur,optionname,list[7]);
-			cur->setText(2, addPackageDefault(optionname,list[9]));
+			setPackagesValue(cur, optionname, list[7]);
+			cur->setText(2, addPackageDefault(optionname, list[9]));
 		} else {
 			KILE_DEBUG() << "\tedit package: " << list[3] << " (" << list[5] << ")";
 			cur->setText(0, list[3]);
@@ -2017,14 +2053,15 @@ void QuickDocument::slotPackageEdit()
 
 void QuickDocument::slotPackageDelete()
 {
-	if (m_lvPackages->selectedItems().count() == 0) return;
+	if (m_lvPackages->selectedItems().count() == 0)
+		return;
 
-	
+
 	QTreeWidgetItem *cur = m_lvPackages->selectedItems()[0];
 
 	bool packageoption;
-	QString message,optionname;
-	if ( cur->parent() ) {
+	QString message, optionname;
+	if (cur->parent()) {
 		packageoption = true;
 		message = i18n("Do you want do delete this package option?");
 		optionname = cur->parent()->text(0) + '!' + cur->text(0);
@@ -2034,16 +2071,16 @@ void QuickDocument::slotPackageDelete()
 		optionname = cur->text(0);
 	}
 
-	if (KMessageBox::warningContinueCancel(this, message, i18n("Delete"))==KMessageBox::Continue) {
+	if (KMessageBox::warningContinueCancel(this, message, i18n("Delete")) == KMessageBox::Continue) {
 		while (cur->childCount() > 0) {
 			cur->takeChild(0);
 		}
 		m_lvPackages->takeTopLevelItem(m_lvPackages->indexOfTopLevelItem(cur));
 
 		// also delete entries for editable package option
-		if ( packageoption && m_dictPackagesEditable.contains(optionname) ) {
+		if (packageoption && m_dictPackagesEditable.contains(optionname)) {
 			m_dictPackagesEditable.remove(optionname);
-			if ( m_dictPackagesDefaultvalues.contains(optionname) )
+			if (m_dictPackagesDefaultvalues.contains(optionname))
 				m_dictPackagesDefaultvalues.remove(optionname);
 		}
 	}
@@ -2051,7 +2088,7 @@ void QuickDocument::slotPackageDelete()
 
 void QuickDocument::slotPackageReset()
 {
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List"))==KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to reset this package list?"), i18n("Reset Package List")) == KMessageBox::Continue)
 	{
 		KILE_DEBUG() << "\treset packages";
 
@@ -2069,9 +2106,9 @@ void QuickDocument::slotCheckParent(QTreeWidgetItem *item)
 
 void QuickDocument::slotPackageDoubleClicked(QTreeWidgetItem *item)
 {
-	if (item && item->parent() ) {
+	if (item && item->parent()) {
 		QString option = item->parent()->text(0) + '!' + item->text(0);
-		if ( m_dictPackagesEditable.contains(option) )
+		if (m_dictPackagesEditable.contains(option))
 			slotPackageEdit();
 	}
 }
@@ -2082,18 +2119,18 @@ void QuickDocument::slotEnableButtons()
 {
 	bool enable;
 
-	enable = ( ! isStandardClass(m_currentClass) );
+	enable = (! isStandardClass(m_currentClass));
 
 	// add/delete button
 	m_btnDocumentClassDelete->setEnabled(enable);
 	m_btnTypefaceSizeAdd->setEnabled(enable);
-	m_btnTypefaceSizeDelete->setEnabled(enable && m_cbTypefaceSize->count()>0);
+	m_btnTypefaceSizeDelete->setEnabled(enable && m_cbTypefaceSize->count() > 0);
 	m_btnPaperSizeAdd->setEnabled(enable);
-	m_btnPaperSizeDelete->setEnabled(enable && m_cbPaperSize->count()>0);
+	m_btnPaperSizeDelete->setEnabled(enable && m_cbPaperSize->count() > 0);
 
 	// class options
 	m_btnClassOptionsAdd->setEnabled(enable);
-	enable = ( enable && (m_lvClassOptions->selectedItems().count() != 0) );
+	enable = (enable && (m_lvClassOptions->selectedItems().count() != 0));
 	m_btnClassOptionsEdit->setEnabled(enable);
 	m_btnClassOptionsDelete->setEnabled(enable);
 
@@ -2124,23 +2161,23 @@ void QuickDocument::slotEnableButtons()
 
 bool QuickDocument::inputDialog(QStringList &list, int check)
 {
-	QuickDocumentInputDialog *dialog = new QuickDocumentInputDialog(list,check,this,"inputDialog");
+	QuickDocumentInputDialog *dialog = new QuickDocumentInputDialog(list, check, this, "inputDialog");
 
 	bool result = false;
-	if ( dialog->exec() ) {
+	if (dialog->exec()) {
 		dialog->getResults(list);
 		result = true;
 	}
 
-   delete dialog;
+	delete dialog;
 	return result;
 
 }
 
-QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int check,
-	                                                QuickDocument *parent,
-	                                                const char *name )
-	: KDialog(parent), m_parent(parent), m_check(check)
+QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int check,
+    QuickDocument *parent,
+    const char *name)
+		: KDialog(parent), m_parent(parent), m_check(check)
 {
 	setObjectName(name);
 	setCaption(list[0]);
@@ -2151,46 +2188,52 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list,int c
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
+	QVBoxLayout *vl = new QVBoxLayout();
+	vl->setMargin(0);
+	vl->setSpacing(spacingHint());
+	page->setLayout(vl);
 
 	int firstlinedit = -1;
 	m_description = list[1].split(",");
 	for (int i = 0; i < m_description.count(); ++i) {
 		// create the object
-		if(m_description[i] == "label") {
-			m_objectlist.append( new QLabel(list[i+2], page) );
+		if (m_description[i] == "label") {
+			m_objectlist.append(new QLabel(list[i+2], page));
 		}
-		else if(m_description[i] == "checkbox") {
-			m_objectlist.append( new QCheckBox(list[i+2], page));
-		}
-		else if(m_description[i] == "combobox") {
-			KComboBox *combobox = new KComboBox(page);
-			combobox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
-			combobox->setDuplicatesEnabled(false);
-			combobox->insertStringList( list[i+2].split(",", QString::KeepEmptyParts) );
-			if(i > 0 && m_description[i-1] == "label") {
-				((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
+		else
+			if (m_description[i] == "checkbox") {
+				m_objectlist.append(new QCheckBox(list[i+2], page));
 			}
-			m_objectlist.append( combobox );
-		}
-		else {
-			m_objectlist.append( new KLineEdit(list[i+2],page) );
-			if(m_description[i] == "edit-r") {
-				((KLineEdit *)m_objectlist[i])->setReadOnly(true);
-			}
-			else if(firstlinedit == -1) {
-				firstlinedit = i;
-			}
-			if(i > 0 && m_description[i-1] == "label") {
-				((QLabel *)m_objectlist[i-1])->setBuddy(m_objectlist[i]);
-			}
-		}
+			else
+				if (m_description[i] == "combobox") {
+					KComboBox *combobox = new KComboBox(page);
+					combobox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+					combobox->setDuplicatesEnabled(false);
+					combobox->insertStringList(list[i+2].split(",", QString::KeepEmptyParts));
+					if (i > 0 && m_description[i-1] == "label") {
+						((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
+					}
+					m_objectlist.append(combobox);
+				}
+				else {
+					m_objectlist.append(new KLineEdit(list[i+2], page));
+					if (m_description[i] == "edit-r") {
+						((KLineEdit *)m_objectlist[i])->setReadOnly(true);
+					}
+					else
+						if (firstlinedit == -1) {
+							firstlinedit = i;
+						}
+					if (i > 0 && m_description[i-1] == "label") {
+						((QLabel *)m_objectlist[i-1])->setBuddy(m_objectlist[i]);
+					}
+				}
 
 		// insert the new object into the layout
 		vl->addWidget(m_objectlist[i]);
 	}
 
-	if ( firstlinedit != -1 )
+	if (firstlinedit != -1)
 		m_objectlist[firstlinedit]->setFocus();
 	vl->addStretch(1);
 	page->setMinimumWidth(350);
@@ -2201,19 +2244,21 @@ QuickDocumentInputDialog::~QuickDocumentInputDialog()
 
 void QuickDocumentInputDialog::getResults(QStringList &list)
 {
-	for(int i = 0; i < m_description.count(); ++i) {
-		if(m_description[i] == "label") {
+	for (int i = 0; i < m_description.count(); ++i) {
+		if (m_description[i] == "label") {
 			list[i+2] = ((QLabel *)m_objectlist[i])->text();
 		}
-		else if(m_description[i] == "checkbox") {
-			list[i+2] = ( ((QCheckBox *)m_objectlist[i])->isOn() ) ? "true" : "false";
-		}
-		else if(m_description[i] == "combobox") {
-		   list[i+2] = ((KComboBox *)m_objectlist[i])->currentText();
-		}
-		else  {
-			list[i+2] = ((KLineEdit *)m_objectlist[i])->text().simplified();
-		}
+		else
+			if (m_description[i] == "checkbox") {
+				list[i+2] = (((QCheckBox *)m_objectlist[i])->isOn()) ? "true" : "false";
+			}
+			else
+				if (m_description[i] == "combobox") {
+					list[i+2] = ((KComboBox *)m_objectlist[i])->currentText();
+				}
+				else  {
+					list[i+2] = ((KLineEdit *)m_objectlist[i])->text().simplified();
+				}
 	}
 }
 
@@ -2225,16 +2270,16 @@ QString QuickDocumentInputDialog::getPackageName(const QString &text)
 }
 
 bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QString &textlist,
-                                                const QString &pattern)
+    const QString &pattern)
 {
 	// split entries (one or a comma separated list)
 	QStringList list = textlist.split(",");
 
-	for(int i = 0; i < list.count(); ++i) {
+	for (int i = 0; i < list.count(); ++i) {
 		QString s = list[i].trimmed();
 		// entries must match a regular expression
 		QRegExp reg(pattern);
-		if(!reg.exactMatch(s)) {
+		if (!reg.exactMatch(s)) {
 			KMessageBox::error(this, i18n("%1 '%2' is not allowed.", title, s));
 			return false;
 		}
@@ -2245,63 +2290,63 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 // check the main result of the input dialog
 void QuickDocumentInputDialog::slotOk()
 {
-	if(m_check) {
+	if (m_check) {
 		// get the label and main input string from the first label/linedit
 		QString inputlabel = ((QLabel *)m_objectlist[0])->text();
 		QString input = ((KLineEdit *)m_objectlist[1])->text().simplified();
 
 		// should we check for an empty string
-		if((m_check & qd_CheckNotEmpty) && input.isEmpty()) {
+		if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {
 			KMessageBox::error(this, i18n("An empty string is not allowed."));
 			return;
 		}
 
 		// should we check for an existing document class
-		if(m_check & qd_CheckDocumentClass) {
-			if(m_parent->isDocumentClass(input)) {
+		if (m_check & qd_CheckDocumentClass) {
+			if (m_parent->isDocumentClass(input)) {
 				KMessageBox::error(this, i18n("This document class already exists."));
 				return;
 			}
 
 			QRegExp reg("\\w+");
-			if(!reg.exactMatch(input)) {
+			if (!reg.exactMatch(input)) {
 				KMessageBox::error(this, i18n("This name is not allowed for a document class."));
 				return;
 			}
 		}
 
 		// should we check for an existing document class option
-		if((m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input)) {
+		if ((m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input)) {
 			KMessageBox::error(this, i18n("This document class option already exists."));
 			return;
 		}
 
 		// should we check for an existing package
-		if((m_check & qd_CheckPackage) && m_parent->isPackage(input)) {
+		if ((m_check & qd_CheckPackage) && m_parent->isPackage(input)) {
 			KMessageBox::error(this, i18n("This package already exists."));
 			return;
 		}
 
 		// should we check for an existing package option
-		if(m_check & qd_CheckPackageOption) {
+		if (m_check & qd_CheckPackageOption) {
 			QString package = getPackageName(inputlabel);
-			if(package.isEmpty()) {
+			if (package.isEmpty()) {
 				KMessageBox::error(this, i18n("Could not identify the package name."));
 				return;
 			}
-			if(m_parent->isPackageOption(package,input)) {
+			if (m_parent->isPackageOption(package, input)) {
 				KMessageBox::error(this, i18n("This package option already exists."));
 				return;
 			}
 		}
 
 		// should we check for a (list of) fontsizes
-		if((m_check & qd_CheckFontsize) && !checkListEntries("Fontsize", input, "\\d+pt")) {
+		if ((m_check & qd_CheckFontsize) && !checkListEntries("Fontsize", input, "\\d+pt")) {
 			return;
 		}
 
 		// should we check for a (list of) papersizes
-		if((m_check & qd_CheckPapersize) && !checkListEntries("Papersize", input, "\\w+")) {
+		if ((m_check & qd_CheckPapersize) && !checkListEntries("Papersize", input, "\\w+")) {
 			return;
 		}
 	}

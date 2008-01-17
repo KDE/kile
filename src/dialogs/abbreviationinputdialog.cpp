@@ -29,8 +29,7 @@
 #include <qfile.h>
 //Added by qt3to4:
 #include <QLabel>
-#include <Q3PopupMenu>
-#include <Q3VBoxLayout>
+#include <QVBoxLayout>
 
 namespace KileDialog {
 
@@ -48,7 +47,10 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	Q3VBoxLayout *vl = new Q3VBoxLayout(page, 0, spacingHint());
+	QVBoxLayout *vl = new QVBoxLayout();
+	vl->setMargin(0);
+	vl->setSpacing(spacingHint());
+	page->setLayout(vl);
 
 	if ( m_mode == KileWidget::AbbreviationView::ALVedit )
 	{

@@ -60,43 +60,41 @@ namespace KileWidget
 
 	void LogWidget::highlight()
 	{
-#ifdef __GNUC__
-#warning Method still needs to be ported!
-#endif
-//FIXME: port for KDE4
-// 		blockSignals(true); // block signals to avoid recursion
-// 		setUpdatesEnabled(false);
-		int cursorParagraph, cursorIndex;
+		blockSignals(true); // block signals to avoid recursion
+		setUpdatesEnabled(false);
+		QTextCursor cursor;
 
 		QString contents = document()->toPlainText();
 		QTextStream textStream(&contents, QIODevice::ReadOnly);
 
-// 		getCursorPosition(&cursorParagraph, &cursorIndex);
+		cursor = textCursor();
 
 		while(!textStream.atEnd()) {
 			QString line = textStream.readLine();
 		}
-/*
+
 		int line=0;
 		for(uint i = 0 ; i < m_info->outputInfo()->size() ; ++i )
 		{
 			line = (*m_info->outputInfo())[i].outputLine();
 
-			setSelection( line,0, line,paragraphLength(line) );
+			QTextCursor cursor = textCursor();
+			cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, line);
+			cursor.select(QTextCursor::LineUnderCursor);
+			setTextCursor(cursor);
 			
 			switch ( (*m_info->outputInfo())[i].type() )
 			{
-			case LatexOutputInfo::itmError : setColor(QColor(0xCC, 0x00, 0x00)); break;
-			case LatexOutputInfo::itmWarning : setColor(QColor(0x00, 0x00, 0xCC )); break;
-			case LatexOutputInfo::itmBadBox : setColor(QColor(0x00, 0x80, 0x00)); break;
+			case LatexOutputInfo::itmError : setTextColor(QColor(0xCC, 0x00, 0x00)); break;
+			case LatexOutputInfo::itmWarning : setTextColor(QColor(0x00, 0x00, 0xCC )); break;
+			case LatexOutputInfo::itmBadBox : setTextColor(QColor(0x00, 0x80, 0x00)); break;
 			default : break;
 			}
-			removeSelection();
 		}
-*/
-// 		setCursorPosition( cursorParagraph, cursorIndex );
-// 		setUpdatesEnabled(true);
-// 		blockSignals(false); // block signals to avoid recursion
+
+		setTextCursor(cursor);
+		setUpdatesEnabled(true);
+		blockSignals(false); // block signals to avoid recursion
 	}
 
 	void LogWidget::highlight(uint l, int direction /* = 1 */)

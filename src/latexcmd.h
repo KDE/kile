@@ -32,15 +32,15 @@ class KileInfo;
 namespace KileDocument
 {
 
-const uint MaxEnvAttr = 8;
-const uint MaxCmdAttr = 5;
+const int MaxEnvAttr = 8;
+const int MaxCmdAttr = 5;
 
-enum CmdAttribute { 
-	CmdAttrNone=0,                                                                      // unknown 
-	CmdAttrAmsmath=1,CmdAttrMath=2,CmdAttrList=4,CmdAttrTabular=8,CmdAttrVerbatim=16,   // environments
-	CmdAttrLabel=32,CmdAttrReference=64,CmdAttrCitations=128,CmdAttrIncludes=256        // commands
+enum CmdAttribute {
+	CmdAttrNone = 0,                                                                                  // unknown
+	CmdAttrAmsmath = 1, CmdAttrMath = 2, CmdAttrList = 4, CmdAttrTabular = 8, CmdAttrVerbatim = 16,   // environments
+	CmdAttrLabel = 32, CmdAttrReference = 64, CmdAttrCitations = 128, CmdAttrIncludes = 256           // commands
 };
-                     
+
 class LatexCmdAttributes 
 {
 public:
@@ -66,12 +66,12 @@ public:
 	QString envGroupName() { return m_envGroupName; }
 	QString cmdGroupName() { return m_cmdGroupName; }
 	QString configString(LatexCmdAttributes &attr,bool env);
-	
+
 	bool isMathEnv(const QString &name); 
 	bool isListEnv(const QString &name) { return isType(name,'l'); } 
 	bool isTabularEnv(const QString &name) { return isType(name,'t'); } 
 	bool isVerbatimEnv(const QString &name) { return isType(name,'v'); } 
-	
+
 	bool isLabelCmd(const QString &name) { return isType(name,'L'); } 
 	bool isReferenceCmd(const QString &name) { return isType(name,'R'); } 
 	bool isCitationCmd(const QString &name) { return isType(name,'C'); } 
@@ -83,12 +83,12 @@ public:
 	bool isDisplaymathModeEnv(const QString &name);
 	bool needsMathMode(const QString &name);
 	QString getTabulator(const QString &name);
-	
+
 	void commandList(QStringList &list, uint attr, bool userdefined); 
 	bool commandAttributes(const QString &name, LatexCmdAttributes &attr); 
-	
+
 	void resetCommands();
-		
+
 private:
 	
 	KConfig *m_config;
@@ -105,13 +105,11 @@ private:
 	
 	bool isUserDefined(const QString &name);
 	bool isType(const QString &name, QChar ch);
-	QString getAttrAt(const QString &name, uint index);
+	QString getAttrAt(const QString &name, int index);
 	QChar getAttrChar(CmdAttribute attr);
 	CmdAttribute getCharAttr(QChar ch);
 
 };
-
-
 
 
 }

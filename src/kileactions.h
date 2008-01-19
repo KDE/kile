@@ -14,8 +14,6 @@
 #ifndef KILEACTIONS_H
 #define KILEACTIONS_H
 
-#include <QHash>
-
 #include <KAction>
 #include <KActionCollection>
 #include <KSelectAction>
@@ -176,20 +174,9 @@ public:
 	//constructors
 	Select(const QString &text, const KShortcut &cut, KActionCollection *parent, const char *name);
 
-private:
-	void init();
-
-// Q_SIGNALS:
-// 	void triggered(const KAction&);
-
 public Q_SLOTS:
 	void setItems(const QList<KAction*> &);
 
-private Q_SLOTS:
-	void emitData(const QString&);
-
-private:
-	QHash<QString, KAction*> m_dict;
 };
 
 }

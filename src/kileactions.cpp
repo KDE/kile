@@ -1,8 +1,7 @@
-/***************************************************************************
+/**************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                :  Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -154,12 +153,13 @@ void InputTag::init()
 
 void InputTag::emitData()
 {
-	KILE_DEBUG() << "InputTag::emitData() " << m_ki->getName() << endl;
+	KILE_DEBUG() << "InputTag::emitData() " << m_ki->getName();
 
 	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_ki, m_parent, "input_dialog");
-	if (dlg->exec())
-	{
-		if ( (! dlg->tag().isEmpty()) && hasHistory()) addToHistory(dlg->tag());
+	if (dlg->exec()) {
+		if((!dlg->tag().isEmpty()) && hasHistory()) {
+			addToHistory(dlg->tag());
+		}
 
 		TagData td(m_data);
 
@@ -170,26 +170,26 @@ void InputTag::emitData()
 		td.tagBegin.replace("%A", alt);
 		td.tagEnd.replace("%A", alt);
 
-		if ( dlg->useLabel() ) 
-		{
+		if(dlg->useLabel()) {
 			td.tagEnd += dlg->label();
 			td.dy++;
 		}
 
-		if (dlg->usedSelection())
+		if(dlg->usedSelection()) {
 			m_ki->clearSelection();
-			
+		}
+
 		// if a filename was given for a \input- or \include-command,
 		// the cursor is moved out of the braces
-		if ( (m_options & KileAction::ShowBrowseButton) && !dlg->tag().isEmpty() )
+		if((m_options & KileAction::ShowBrowseButton) && !dlg->tag().isEmpty()) {
 			td.dx += dlg->tag().length() + 1;
+		}
 
 		// insert tag
 		emit(triggered(td));
 		// refresh document structure and project tree when a file was inserted
-		if ( dlg->useAddProjectFile() ) 
-		{
-			m_ki->docManager()->projectAddFile( QFileInfo(m_ki->getCompileName()).absolutePath() + '/' + dlg->tag() );
+		if(dlg->useAddProjectFile()) {
+			m_ki->docManager()->projectAddFile(QFileInfo(m_ki->getCompileName()).absolutePath() + '/' + dlg->tag());
 		}
 	}
 	delete dlg;
@@ -224,69 +224,70 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	QLabel *lb = new QLabel(hint, page);
 	gbox->addWidget(lb, 0, 0, 1, 2);
 
-	m_tag=QString::null;
+	m_tag.clear();
 	QWidget *focus;
-	if ( (options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList) )
-	{
-		KComboBox *input = new KComboBox( true, page );
-		input->setObjectName( "input_dialog_input" );
+	if((options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList)) {
+		KComboBox *input = new KComboBox(true, page);
+		input->setObjectName("input_dialog_input");
 		input->setCompletionMode(KGlobalSettings::CompletionAuto);
 		input->setMinimumWidth(300);
 		focus = input;
 
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setEditText(const QString&)));
-		if ( options & KileAction::ShowBrowseButton )
+		if(options & KileAction::ShowBrowseButton) {
 			gbox->addWidget(input, 1, 0);
-		else
+		}
+		else {
 			gbox->addWidget(input, 1, 0, 1, 2);
+		}
 
 		const QStringList *list;
 
-		if (options & KileAction::FromLabelList)
-		{
+		if(options & KileAction::FromLabelList) {
 			list = ki->allLabels();
-			input->addItems(*list);
-			m_tag = list->first();
+			if(list && list->size() > 0) {
+				input->addItems(*list);
+				m_tag = list->first();
+			}
 		}
-		else
-		if (options & KileAction::FromBibItemList)
-		{
+		else if(options & KileAction::FromBibItemList) {
 			list = ki->allBibItems();
-			input->addItems(*list);
-			m_tag = list->first();
+			if(list && list->size() > 0) {
+				input->addItems(*list);
+				m_tag = list->first();
+			}
 		}
-		else
-		{
-			if (history.size()>0)
-			{
+		else {
+			if(history.size() > 0){
 				input->addItems(history);
 				m_tag = history.first();
 			}
 		}
 	}
-	else
-	{
+	else {
 		KLineEdit *input = new KLineEdit(page);
 		input->setMinimumWidth(300);
 		focus = input;
 
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setText(const QString&)));
-		if ( options & KileAction::ShowBrowseButton )
+		if(options & KileAction::ShowBrowseButton) {
 			gbox->addWidget(input,1,0);
-		else
+		}
+		else {
 			gbox->addWidget(input, 1, 0, 1, 2);
+		}
 
 		input->setText(ki->getSelection());
 		m_usedSelection=true;
 	}
 
-	if (focus)
+	if(focus) {
 		lb->setBuddy(focus);
+	}
 
-	if ( options & KileAction::ShowBrowseButton)
-	{
+	if(options & KileAction::ShowBrowseButton) {
 		KPushButton *pbutton = new KPushButton("", page);
 		pbutton->setIcon(KIcon("document-open"));
 		gbox->addWidget(pbutton,1,2);
@@ -299,19 +300,17 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		connect(pbutton, SIGNAL(clicked()), this, SLOT(slotBrowse()));
 	}
 
-	if ( options & KileAction::ShowAlternative)
-	{
-		QCheckBox * m_checkbox = new QCheckBox(alter, page);
+	if(options & KileAction::ShowAlternative) {
+		QCheckBox *m_checkbox = new QCheckBox(alter, page);
 		m_checkbox->setObjectName("input_dialog_checkbox");
 		connect(m_checkbox, SIGNAL(clicked()), this, SLOT(slotAltClicked()));
 		m_useAlternative=false;
 		gbox->addWidget(m_checkbox, 2, 2, 0, 2);
 	}
 
-	m_edLabel = 0L;
-	m_useLabel = ( options & KileAction::ShowLabel );
-	if ( m_useLabel )
-	{
+	m_edLabel = NULL;
+	m_useLabel = (options & KileAction::ShowLabel);
+	if(m_useLabel) {
 		// Label
 		QLabel *label = new QLabel(i18n("&Label:"),page);
 		m_edLabel = new KLineEdit("",page);
@@ -322,7 +321,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		gbox->addWidget(m_edLabel, 4, 4, 0, 2);
 	}
 
-	m_useAddProjectFile = ( options & KileAction::AddProjectFile );
+	m_useAddProjectFile = (options & KileAction::AddProjectFile);
 	
 	gbox->setRowStretch(5,1);
 //FIXME: port for KDE4
@@ -346,14 +345,14 @@ void InputDialog::slotBrowse()
 	QString filter = m_ki->extensions()->latexDocumentFileFilter() + '\n' + "*|" + i18n("All Files");
 
 	fn = KFileDialog::getOpenFileName(fi.absoluteFilePath(), filter, this,i18n("Select File") );
-	if ( !fn.isEmpty() )
-	{
+	if(!fn.isEmpty()) {
 		QString path = m_ki->relativePath(fi.path(), fn);
 
 		// if the file has no extension, we add the default TeX extension
-		if ( QFileInfo(path).completeSuffix().isEmpty() )
+		if(QFileInfo(path).completeSuffix().isEmpty()) {
 			path += m_ki->extensions()->latexDocumentDefault();
- 
+ 		}
+
 		setTag(path);
 		emit(setInput(path));
 	}
@@ -371,50 +370,34 @@ void InputDialog::setTag(const QString &tag)
 
 QString InputDialog::label()
 {
-	if ( m_edLabel ) 
-	{
+	if(m_edLabel) {
 		QString label = m_edLabel->text().trimmed();
-		if ( !label.isEmpty() && label!=m_labelprefix )
+		if(!label.isEmpty() && label != m_labelprefix) {
 			return "\\label{" + label + "}\n";
+		}
 	}
 	
-	return QString::null;
+	return QString();
 }
 
 /////////////////
 //  SelectTag  //
 /////////////////
 
-Select::Select(const QString &text, const KShortcut &cut, KActionCollection *parent, const char *name )
+Select::Select(const QString &text, const KShortcut &cut, KActionCollection *parent, const char *name)
 	: KSelectAction(text, parent)
 {
 	parent->addAction(name, this);
 	setShortcut(cut);
-	init();
-}
-
-void Select::init()
-{
-	connect(this, SIGNAL(triggered(const QString&)), SLOT(emitData(const QString &)));
-}
-
-void Select::emitData(const QString & name)
-{
-	m_dict[name]->trigger();
 }
 
 void Select::setItems(const QList<KAction*>& list)
 {
-	QStringList tmp;
+	removeAllActions();
 
 	for(QList<KAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
-		KAction *action = *i;
-	
-		tmp.append(action->text());
-		m_dict.insert(action->text(), action);
+		addAction(*i);
 	}
-
-	KSelectAction::setItems(tmp);
 }
 
 }

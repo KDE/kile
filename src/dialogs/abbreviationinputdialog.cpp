@@ -1,8 +1,7 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Feb 24 2007
-    copyright            : 2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
-***************************************************************************/
+    copyright            : 2007 by Holger Danielsson (holger.danielsson@versanet.de)
+***************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,27 +14,25 @@
 
 #include "dialogs/abbreviationinputdialog.h"
 
-#include <k3listview.h>
-#include <klocale.h>
-#include <kmessagebox.h>
 #include "kiledebug.h"
 
-#include <QTextStream>
+#include <k3listview.h>
+#include <KLocale>
+#include <KMessageBox>
 
-#include <q3header.h>
-#include <qlayout.h>
-#include <qregexp.h>
-#include <qvalidator.h>
-#include <qfile.h>
-//Added by qt3to4:
+#include <QFile>
 #include <QLabel>
+#include <QLayout>
+#include <QRegExp>
+#include <QTextStream>
+#include <QValidator>
 #include <QVBoxLayout>
 
 namespace KileDialog {
 
 //////////////////// add/edit abbreviation ////////////////////
 
-AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name )
+AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name)
 	: KDialog(listview), m_listview(listview), m_abbrevItem(item), m_mode(mode)
 {
 	setCaption(i18n("Add Abbreviation"));
@@ -52,17 +49,16 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
 	vl->setSpacing(spacingHint());
 	page->setLayout(vl);
 
-	if ( m_mode == KileWidget::AbbreviationView::ALVedit )
-	{
+	if(m_mode == KileWidget::AbbreviationView::ALVedit) {
 		setCaption( i18n("Edit Abbreviation") );
 		m_abbrev = m_abbrevItem->text(KileWidget::AbbreviationView::ALVabbrev);
 		m_expansion = m_abbrevItem->text(KileWidget::AbbreviationView::ALVexpansion);
 	}
 	
-	QLabel *abbrev = new QLabel(i18n("&Abbreviation:"),page);
-	QLabel *expansion = new QLabel(i18n("&Expanded Text:"),page);
-	m_leAbbrev = new KLineEdit(m_abbrev,page);
-	m_leExpansion = new KLineEdit(m_expansion,page);
+	QLabel *abbrev = new QLabel(i18n("&Abbreviation:"), page);
+	QLabel *expansion = new QLabel(i18n("&Expanded Text:"), page);
+	m_leAbbrev = new KLineEdit(m_abbrev, page);
+	m_leExpansion = new KLineEdit(m_expansion, page);
 
 	vl->addWidget(abbrev);
 	vl->addWidget(m_leAbbrev);
@@ -74,7 +70,7 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
 	expansion->setBuddy(m_leExpansion);
 
 	QRegExp reg("[a-zA-Z0-9]+");
-	QRegExpValidator *abbrevValidator = new QRegExpValidator(reg,this);
+	QRegExpValidator *abbrevValidator = new QRegExpValidator(reg, this);
 	m_leAbbrev->setValidator(abbrevValidator);
 
 	connect(m_leAbbrev,SIGNAL(textChanged(const QString &)),
@@ -99,8 +95,8 @@ void AbbreviationInputDialog::abbreviation(QString &abbrev, QString &expansion)
 
 void AbbreviationInputDialog::slotTextChanged(const QString &)
 {
-	bool state = ( m_mode == KileWidget::AbbreviationView::ALVadd )
-	           ? ! m_listview->findAbbreviation( m_leAbbrev->text() ) : true;
+	bool state = (m_mode == KileWidget::AbbreviationView::ALVadd)
+	           ? !m_listview->findAbbreviation( m_leAbbrev->text()) : true;
  	state = state && !m_leAbbrev->text().isEmpty() && !m_leExpansion->text().isEmpty();
 
 	enableButton(Ok,state);
@@ -111,16 +107,17 @@ void AbbreviationInputDialog::slotOk()
 	QString abbrev = m_leAbbrev->text();
 	QString expansion = m_leExpansion->text().trimmed();
 
-	if ( abbrev.isEmpty() || expansion.isEmpty() )
-	{
-		KMessageBox::error( this, i18n("Empty strings are not allowed.") );
+	if(abbrev.isEmpty() || expansion.isEmpty()) {
+		KMessageBox::error(this, i18n("Empty strings are not allowed."));
 		return;
 	}
 
-	if ( abbrev!=m_abbrev || expansion!=m_expansion )
+	if(abbrev!=m_abbrev || expansion!=m_expansion) {
 		accept();
-	else
+	}
+	else {
 		reject();
+	}
 }
 
 }

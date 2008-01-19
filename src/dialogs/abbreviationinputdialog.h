@@ -1,8 +1,7 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Feb 24 2007
-    copyright            : 2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : 2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -18,12 +17,11 @@
 
 #include <QString>
 #include <QLabel>
-#include <q3popupmenu.h>
 
-#include <klineedit.h>
+#include <KDialog>
+#include <KLineEdit>
 #include <k3listbox.h>
 #include <k3listview.h>
-#include <KDialog>
 
 #include "widgets/abbreviationview.h"
 
@@ -36,7 +34,7 @@ class AbbreviationInputDialog : public KDialog
    Q_OBJECT
 
 public:
-	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name=0);
+	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name = NULL);
 	~AbbreviationInputDialog();
 
 	void abbreviation(QString &abbrev, QString &expansion);

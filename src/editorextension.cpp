@@ -256,7 +256,7 @@ void EditorExtension::gotoEnvironment(bool backwards, KTextEditor::View *view)
 	// start searching
 	if(backwards) {
 		found = findBeginEnvironment(doc,row,col,env);
-		//KILE_DEBUG() << "   goto begin env:  " << env.row << "/" << env.col << endl;
+		//KILE_DEBUG() << "   goto begin env:  " << env.row << "/" << env.col;
 	
 	}
 	else {
@@ -549,7 +549,7 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 	}
 
 	if(begin.tag == mmMathDollar && !(begin.numdollar & 1)) {
-		//KILE_DEBUG() << "error: even number of '$' --> no math mode"  << endl;
+		//KILE_DEBUG() << "error: even number of '$' --> no math mode" ;
 		return false;
 	}
 
@@ -577,13 +577,13 @@ bool EditorExtension::checkMathtags(const MathData &begin,const MathData &end)
 {
 	// both tags were found, but they must be of the same type
 	if(begin.tag != end.tag) {
-		//KILE_DEBUG() << "error: opening and closing tag of mathmode don't match"  << endl;
+		//KILE_DEBUG() << "error: opening and closing tag of mathmode don't match" ;
 		return false;
 	}
 
 	// and additionally: if it is a math env, both tags must have the same name
 	if(begin.tag == mmDisplaymathEnv && begin.envname != end.envname) {
-		//KILE_DEBUG() << "error: opening and closing env tags have different names"  << endl;
+		//KILE_DEBUG() << "error: opening and closing env tags have different names" ;
 		return false;
 	}
 
@@ -606,11 +606,7 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 	mathdata.col = col;
 	mathdata.len = reg.cap(0).length();
 
-#ifdef __GNUC__
-#warning Fix: don't rely on QChar.toAscii() in a switch statement!
-#endif
-//FIXME: fix for KDE4
-	switch(id.toAscii()) {
+	switch(id.ascii()) {
 		case 'b':
 			if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
 				return false;
@@ -619,10 +615,10 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 			mathdata.envname = envname;
 		break;
 		case '[':
-			mathdata.tag = mmDisplaymathParen; 
+			mathdata.tag = mmDisplaymathParen;
 		break;
 		case '(':
-			mathdata.tag = mmMathParen; 
+			mathdata.tag = mmMathParen;
 		break;
 	}
 
@@ -646,17 +642,13 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 	mathdata.col = pos;
 	mathdata.len = reg.cap(0).length();
 
-#ifdef __GNUC__
-#warning Fix: don't rely on QChar.toAscii() in a switch statement (line 649)!
-#endif
-//FIXME: fix for KDE4
-	switch(id.toAscii()) {
+	switch(id.ascii()) {
 		case 'e':
 			if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
 				return false;
 			}
-				mathdata.tag = ( envname=="math" ) ? mmMathEnv : mmDisplaymathEnv;
-				mathdata.envname = envname;
+			mathdata.tag = ( envname=="math" ) ? mmMathEnv : mmDisplaymathEnv;
+			mathdata.envname = envname;
 		break;
 		case ']':
 			mathdata.tag = mmDisplaymathParen;
@@ -714,7 +706,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 					return true;
 				}
 				else {
-					//KILE_DEBUG() << "error: dollar not allowed in \\[ or \\( mode" << endl;
+					//KILE_DEBUG() << "error: dollar not allowed in \\[ or \\( mode";
 					return false;
 				}
 			}
@@ -729,7 +721,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 				// if we found the opening tag of a math env
 				if(m_latexCommands->isMathEnv(envname) || envname=="math") {
 					if(numDollar > 0) {
-						//KILE_DEBUG() << "error: dollar not allowed in math env   numdollar=" << numDollar  << endl;
+						//KILE_DEBUG() << "error: dollar not allowed in math env   numdollar=" << numDollar;
 						return false;
 					}
 
@@ -756,9 +748,9 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 				QString envname = reg.cap(2);
 
 				// if we found the closing tag of a math env
-				if(m_latexCommands->isMathEnv(envname) || envname=="math") {
+				if(m_latexCommands->isMathEnv(envname) || envname == "math") {
 					// if this is a math env with its own mathmode
-					if(!m_latexCommands->needsMathMode(envname) || envname=="math") {
+					if(!m_latexCommands->needsMathMode(envname) || envname == "math") {
 						continueSearch = false;
 						break;
 					}
@@ -780,7 +772,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 				}
 			}
 			else {
-				//KILE_DEBUG() << "error: unknown match" << endl;
+				//KILE_DEBUG() << "error: unknown match";
 				return false;
 			}
 
@@ -809,7 +801,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 	mathdata.len = 1;
 	mathdata.numdollar = numDollar;
 	
-	mathdata.tag = ( numDollar > 0 ) ? mmMathDollar : mmNoMathMode;
+	mathdata.tag = (numDollar > 0) ? mmMathDollar : mmNoMathMode;
 	
 	return true;
 }
@@ -849,19 +841,19 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 				return true;
 			}
 			else if(mathname=="\\[" || mathname=="\\(") {
-				//KILE_DEBUG() << "error: current mathgroup was not closed" << endl;
+				//KILE_DEBUG() << "error: current mathgroup was not closed";
 				return false;
 			}
 			else if(mathname=="\\b") {
 				QString envname = reg.cap(1);
 				
 				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
-					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found begin tag)" << endl;
+					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found begin tag)";
 					return false;
 				}
 
 				if(!m_latexCommands->needsMathMode(envname) || envname=="math") {
-					//KILE_DEBUG() << "error: mathenv with its own mathmode are not allowed in mathmode " << endl;
+					//KILE_DEBUG() << "error: mathenv with its own mathmode are not allowed in mathmode ";
 					return false;
 				}
 				// else continue search
@@ -869,7 +861,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 			else if(mathname == "\\e") {
 				QString envname = reg.cap(2);
 				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
-					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found end tag)" << endl;
+					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found end tag)";
 					return false;
 				}
 
@@ -908,7 +900,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 
 void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 {
-	KILE_DEBUG() << "void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)" << endl;
+	KILE_DEBUG() << "void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)";
 	
 	view = determineView(view);
 	
@@ -931,7 +923,7 @@ void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 
 		
 	if(isCommentPosition(doc, row, col)) {
-		KILE_DEBUG() << "found comment" << endl;
+		KILE_DEBUG() << "found comment";
 #ifdef __GNUC__
 #warning The 'keyReturn' feature still needs to be ported somehow!
 #endif
@@ -982,7 +974,7 @@ bool EditorExtension::findOpenedEnvironment(int &row, int &col, QString &envname
 	int startrow = row;
 	int startcol = col;
 	
-	//KILE_DEBUG() << "   close - start " << endl;
+	//KILE_DEBUG() << "   close - start ";
 	// accept a starting place outside an environment
 	bool env_position = isEnvironmentPosition(doc, row, col, env);
 
@@ -996,7 +988,7 @@ bool EditorExtension::findOpenedEnvironment(int &row, int &col, QString &envname
 	}
 	
 	if(!env_position && findEnvironmentTag(doc, startrow, startcol, env, true)) {
-		//KILE_DEBUG() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name;
 		row = env.row;
 		col = env.col;
 		envname = env.name;
@@ -1252,17 +1244,17 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 
 bool EditorExtension::findBeginEnvironment(KTextEditor::Document *doc, int row, int col, EnvData &env)
 {
-	// KILE_DEBUG() << "   find begin:  " << endl;
+	// KILE_DEBUG() << "   find begin:  ";
 	if(isEnvironmentPosition(doc, row, col, env)) {
 		// already found position?
-		//KILE_DEBUG() << "   found env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   found env at:  " << env.row << "/" << env.col << " " << env.name;
 		if(env.tag == EnvBegin) {
-		//KILE_DEBUG() << "   is begin env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   is begin env at:  " << env.row << "/" << env.col << " " << env.name;
 			return true;
 		}
 	
 		// go one position back
-		//KILE_DEBUG() << "   is end env at:  " << env.row << "/" << env.col << " " << env.name << endl;
+		//KILE_DEBUG() << "   is end env at:  " << env.row << "/" << env.col << " " << env.name;
 		row = env.row;
 		col = env.col;
 		if(!decreaseCursorPosition(doc, row, col)) {
@@ -1271,7 +1263,7 @@ bool EditorExtension::findBeginEnvironment(KTextEditor::Document *doc, int row, 
 	}
 	
 	// looking back for last environment
-	//KILE_DEBUG() << "   looking back from pos:  " << row << "/" << col << " " << env.name << endl;
+	//KILE_DEBUG() << "   looking back from pos:  " << row << "/" << col << " " << env.name;
 	return findEnvironmentTag(doc, row, col, env, true);
 }
 
@@ -1407,7 +1399,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 				return true;
 			}
 			left = true;
-		//KILE_DEBUG() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1)) << endl;
+		//KILE_DEBUG() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1));
 		}
 	}
 	
@@ -1427,10 +1419,10 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 		}
 		envright.cpos = EnvLeft;
 		right = true;
-		//KILE_DEBUG() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1)) << endl;
+		//KILE_DEBUG() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1));
 	}
 	
-	//KILE_DEBUG() << "found left/right: " << left << "/" << right << endl;
+	//KILE_DEBUG() << "found left/right: " << left << "/" << right;
 	// did we find a tag?
 	if(!(left || right)) {
 		return false;
@@ -1451,19 +1443,19 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 		}
 	}
 	else if(left && env.tag == EnvEnd) {
-		//KILE_DEBUG() << "   1: accept left end:  " << env.name << endl;
+		//KILE_DEBUG() << "   1: accept left end:  " << env.name;
 		return true;
 	}
 	else if(right && envright.tag == EnvBegin) {
-		//KILE_DEBUG() << "   2: accept right begin:  " << envright.name << endl;
+		//KILE_DEBUG() << "   2: accept right begin:  " << envright.name;
 		env = envright;
 	}
 	else if(left && env.tag == EnvBegin) {
-		// KILE_DEBUG() << "   3: accept left begin:  " << env.name << endl;
+		// KILE_DEBUG() << "   3: accept left begin:  " << env.name;
 		return true;
 	}
 	else if(right && envright.tag == EnvEnd) {
-		//KILE_DEBUG() << "   4: accept right end:  " << envright.name << endl;
+		//KILE_DEBUG() << "   4: accept right end:  " << envright.name;
 		env = envright;
 	}
 	else {
@@ -1773,11 +1765,11 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 	col = cursor.column();
 	
 	if(!findOpenBracket(doc, row, col, open))  {
-		//KILE_DEBUG() << "no open bracket" << endl; 
+		//KILE_DEBUG() << "no open bracket"; 
 		return false;
 	}
 	if(!findCloseBracket(doc, row, col, close)) {
-		//KILE_DEBUG() << "no close bracket" << endl; 
+		//KILE_DEBUG() << "no close bracket"; 
 		return false;
 	}
 	
@@ -1932,7 +1924,7 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
 		QString textline = getTextLineReal(doc, line);
 		int start = (line == row) ? col : textline.length() - 1;
 		for (int i = start; i >= 0; --i) {
-			//KILE_DEBUG() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1() << endl;
+			//KILE_DEBUG() << "findOpenBracketTag: (" << line << "," << i << ") = " << textline[i].toLatin1();
 			if(textline[i] == '{') {
 				if(brackets > 0) {
 					--brackets;
@@ -1950,7 +1942,7 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
 		}
 	}
 	
-	//KILE_DEBUG() << "nothting found" << endl;
+	//KILE_DEBUG() << "nothting found";
 	return false;
 }
 
@@ -2465,13 +2457,13 @@ bool EditorExtension::insertDoubleQuotes()
 // 	}
 	
 	QString textline = doc->line(row);
-	//KILE_DEBUG() << "text=" << textline << " open=" << openfound << endl;
+	//KILE_DEBUG() << "text=" << textline << " open=" << openfound;
 	if(openfound) {
 		// If we last inserted a language specific doublequote open,  
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote close
 		int startcol = col - m_leftDblQuote.length();
-		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col  << endl;
+		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col ;
 		if (startcol>=0 && textline.indexOf(m_leftDblQuote, startcol) == startcol) {
 				doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_leftDblQuote.length()));
 				doc->insertText(KTextEditor::Cursor(row, startcol), "\"");
@@ -2485,7 +2477,7 @@ bool EditorExtension::insertDoubleQuotes()
 		// we have to change it to a normal doublequote. If not we 
 		// insert a language specific doublequote open
 		int startcol = col - m_rightDblQuote.length();
-		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col  << endl;
+		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col ;
 		if (startcol >= 0 && textline.indexOf(m_rightDblQuote, startcol) == startcol) {
 			doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_rightDblQuote.length()));
 			doc->insertText(KTextEditor::Cursor(row,startcol), "\"");
@@ -2583,10 +2575,10 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 
 bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *view)
 {
-	KILE_DEBUG() << "===EditorExtension::shouldCompleteEnv( " << env << " )===" << endl;
+	KILE_DEBUG() << "===EditorExtension::shouldCompleteEnv( " << env << " )===";
 	QRegExp reTestBegin,reTestEnd;
 	if(env == "\\[") {
-		KILE_DEBUG() << "display style" << endl;
+		KILE_DEBUG() << "display style";
 		reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\["); 
 		// the first part is a non-capturing bracket (?:...) and we check if we don't have a backslash in front,
 		//  or that we are at the begin of the line
@@ -2608,7 +2600,7 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *v
 	for(int i = realLine; i < num; ++i) {
 		numBeginsFound += view->document()->line(i).count(reTestBegin);
 		numEndsFound += view->document()->line(i).count(reTestEnd);
-		KILE_DEBUG() << "line is " << i <<  " numBeginsFound = " << numBeginsFound <<  " , " << "numEndsFound = " << numEndsFound << endl;
+		KILE_DEBUG() << "line is " << i <<  " numBeginsFound = " << numBeginsFound <<  " , " << "numEndsFound = " << numEndsFound;
 		if ( numEndsFound >= numBeginsFound )
 			return false;
 		else if ( numEndsFound == 0 && numBeginsFound > 1 )

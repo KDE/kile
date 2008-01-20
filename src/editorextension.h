@@ -29,16 +29,12 @@
 #include "codecompletion.h"
 #include "latexcmd.h"
 
-/**
-  *@author Holger Danielsson
-  */
-
 class KileInfo;
 namespace KileAction { class TagData; }
 
 namespace KileDocument
 {
-  
+
 class EditorExtension : public QObject
 {
 	Q_OBJECT

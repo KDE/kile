@@ -1,9 +1,8 @@
-/***************************************************************************
+/************************************************************************************************
     date                 : Mar 21 2007
     version              : 0.40
-    copyright            : (C) 2004-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ ************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -20,9 +19,9 @@
 #include <QObject>
 #include <QList>
 
-#include <ktexteditor/codecompletioninterface.h>
-#include <ktexteditor/document.h>
-#include <ktexteditor/view.h>
+#include <KTextEditor/CodeCompletionInterface>
+#include <KTextEditor/Document>
+#include <KTextEditor/View>
 #include <kconfig.h>
 
 #include "latexcmd.h"
@@ -51,7 +50,7 @@ class CodeCompletion : public QObject
 {
 	Q_OBJECT
 
-public:        
+public:
 	CodeCompletion(KileInfo *ki);
 	~CodeCompletion();
 
@@ -74,8 +73,8 @@ public:
 
 	enum KateConfigFlags
 	{
-		cfAutoIndent= 0x1,
-		cfAutoBrackets= 0x40   
+		cfAutoIndent = 0x1,
+		cfAutoBrackets = 0x40
 	};
 
 	bool isActive();
@@ -102,7 +101,7 @@ public Q_SLOTS:
 	void slotCompleteValueList();
 	void slotCompletionAborted();
 
-	void slotFilterCompletion(KTextEditor::CompletionEntry* c,QString *s);
+	void slotFilterCompletion(KTextEditor::CompletionEntry* c, QString *s);
 
 	// a abbreviation was modified ind the abbreviation view (add, edit or delete)
 	// so the abbreviation list was must also be updated
@@ -115,8 +114,8 @@ private:
 	void CompletionDone(KTextEditor::CompletionEntry);
 	void CompletionAborted();
 
-	void completeFromList(const QStringList *list,const QString &pattern=QString::null);
-	void editCompleteList(KileDocument::CodeCompletion::Type type,const QString &pattern=QString::null);
+	void completeFromList(const QStringList *list,const QString &pattern = QString());
+	void editCompleteList(KileDocument::CodeCompletion::Type type,const QString &pattern = QString());
 	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
 	bool getReferenceWord(QString &text);
 	bool oddBackslashes(const QString& text, int index);
@@ -181,13 +180,13 @@ private:
 	uint m_ycursor,m_xcursor,m_xstart;   // current cursor position
 	uint m_yoffset,m_xoffset;            // offset of the new cursor position
 
-	QString buildLatexText(const QString &text, uint &ypos, uint &xpos);
-	QString buildEnvironmentText(const QString &text, const QString &type, const QString &prefix, uint &ypos, uint &xpos);
+	QString buildLatexText(const QString &text, int &ypos, int &xpos);
+	QString buildEnvironmentText(const QString &text, const QString &type, const QString &prefix, int &ypos, int &xpos);
 	QString getWhiteSpace(const QString &s);
 	QString buildAbbreviationText(const QString &text);
 	QString buildLabelText(const QString &text);
 
-	QString parseText(const QString &text, uint &ypos, uint &xpos, bool checkgroup);
+	QString parseText(const QString &text, int &ypos, int &xpos, bool checkgroup);
 	QString stripParameter(const QString &text);
 
 	void setWordlist(const QStringList &files,const QString &dir, QList<KTextEditor::CompletionEntry> *entrylist);

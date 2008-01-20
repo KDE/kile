@@ -1,9 +1,9 @@
-/***************************************************************************
+/**********************************************************************************************
     date                 : Mar 21 2007
     version              : 0.40
-    copyright            : (C) 2004-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
-***************************************************************************/
+    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+***********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -65,7 +65,7 @@ namespace KileDocument
 	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
 	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
 
-	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
+	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(NULL)
 	{
 		m_firstconfig = true;
 		m_inprogress = false;
@@ -75,7 +75,7 @@ namespace KileDocument
 		m_keylistType = CodeCompletion::ctNone;
 
 		// local abbreviation list
-		m_abbrevListview = 0L;
+		m_abbrevListview = NULL;
 		m_localAbbrevFile = KStandardDirs::locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
 
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
@@ -83,7 +83,9 @@ namespace KileDocument
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
 	}
 
-	CodeCompletion::~CodeCompletion() {}
+	CodeCompletion::~CodeCompletion()
+	{
+	}
 
 	bool CodeCompletion::isActive()
 	{
@@ -107,12 +109,15 @@ namespace KileDocument
 
 	CodeCompletion::Type CodeCompletion::getType( const QString &text )
 	{
-		if ( text.indexOf( reRef ) != -1 )
+		if(text.indexOf(reRef) != -1) {
 			return CodeCompletion::ctReference;
-		else if ( text.indexOf( reCite ) != -1 )
+		}
+		else if(text.indexOf(reCite) != -1) {
 			return CodeCompletion::ctCitation;
-		else
+		}
+		else {
 			return CodeCompletion::ctNone;
+		}
 	}
 
 	CodeCompletion::Mode CodeCompletion::getMode()
@@ -122,27 +127,24 @@ namespace KileDocument
 
 	CodeCompletion::Type CodeCompletion::insideReference(QString &startpattern)
 	{
-		if ( m_view->document() )
-		{
+		if(m_view->document()) {
 			KTextEditor::Cursor cursor = m_view->cursorPosition();
 			uint column = cursor.column();
 			QString currentline = m_view->document()->line(cursor.line()).left(column);
 			int pos = currentline.findRev('\\');
-			if ( pos >= 0 )
-			{
-
+			if(pos >= 0) {
 				QString command = currentline.mid(pos,column-pos);
- 				if ( command.indexOf(reRef) != -1 )
-				{
+ 				if(command.indexOf(reRef) != -1) {
 					startpattern = command.right(command.length()-reRef.cap(0).length());
-					if ( startpattern.indexOf(reNotRefChars) == -1 )
-						return CodeCompletion::ctReference ;
+					if(startpattern.indexOf(reNotRefChars) == -1) {
+						return CodeCompletion::ctReference;
+					}
 				}
-				else if ( command.indexOf(reCite) != -1 )
-				{
+				else if(command.indexOf(reCite) != -1) {
 					startpattern = command.right(command.length()-reCite.cap(0).length());
-					if ( startpattern.indexOf(reNotCiteChars) == -1 )
+					if(startpattern.indexOf(reNotCiteChars) == -1) {
 						return CodeCompletion::ctCitation ;
+					}
 				}
 			}
 		}
@@ -175,8 +177,7 @@ namespace KileDocument
 
 		// reading the wordlists is only necessary at the first start
 		// and when the list of files changes
-		if ( m_firstconfig || KileConfig::completeChangedLists()  || KileConfig::completeChangedCommands() )
-		{
+		if(m_firstconfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
 			KILE_DEBUG() << "   set regexp for references..." << endl;
 			setReferences();
 
@@ -243,11 +244,11 @@ namespace KileDocument
 		cmd->commandList(cmdlist,attrtype,false);
 
 		// build list of references
-		QString commands = QString::null;
-		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it )
-		{
-			if ( cmd->isStarredEnv(*it) )
+		QString commands;
+		for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+			if(cmd->isStarredEnv(*it) ) {
 				commands += '|' + (*it).mid(1) + '*';
+			}
 			commands += '|' + (*it).mid(1);
 		}
 		return commands;
@@ -255,49 +256,44 @@ namespace KileDocument
 
 	//////////////////// wordlists ////////////////////
 
-	void CodeCompletion::setWordlist( const QStringList &files, const QString &dir,
-	                                  QList<KTextEditor::CompletionEntry> *entrylist
-	                                )
+	void CodeCompletion::setWordlist(const QStringList &files, const QString &dir,
+	                                 QList<KTextEditor::CompletionEntry> *entrylist)
 	{
 
 		// read wordlists from files
 		QStringList wordlist;
-		for ( uint i = 0; i < files.count(); ++i )
-		{
+		for(int i = 0; i < files.count(); ++i) {
 			// if checked, the wordlist has to be read
-			if ( files[ i ].at( 0 ) == '1' )
-			{
-				readWordlist( wordlist, dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl", true );
+			if(files[i].at(0) == '1') {
+				readWordlist(wordlist, dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl", true);
 			}
 		}
 
 		// add user defined commands and environments
-		if ( dir == "tex" )
-		{
+		if(dir == "tex") {
 			addCommandsToTexlist(wordlist);
 			setCompletionEntriesTexmode( entrylist, wordlist );
 		}
-		else if ( dir == "dictionary" )
-		{
+		else if(dir == "dictionary") {
 			wordlist.sort();
 			setCompletionEntries( entrylist, wordlist );
 		}
-		else if ( dir == "abbreviation" )
-		{
+		else if(dir == "abbreviation") {
 			// read local wordlist
 			QStringList localWordlist;
-			readWordlist(localWordlist, QString::null, false);
+			readWordlist(localWordlist, QString(), false);
 
 			// add local/global wordlists to the abbreviation view
 			m_abbrevListview->init(&wordlist,&localWordlist);
 
 			// finally add local wordlists to the abbreviation list
 			QStringList::ConstIterator it;
-			for ( it=localWordlist.begin(); it!=localWordlist.end(); ++it )
+			for(it = localWordlist.begin(); it != localWordlist.end(); ++it) {
 				wordlist.append( *it );
+			}
 
 			wordlist.sort();
-			setCompletionEntries( entrylist, wordlist );
+			setCompletionEntries(entrylist, wordlist);
 		}
 	}
 
@@ -312,44 +308,42 @@ namespace KileDocument
 		cmd->commandList(cmdlist,KileDocument::CmdAttrNone,true);
 
 		// add entries to wordlist
-		for ( it=cmdlist.begin(); it != cmdlist.end(); ++it )
-		{
-			if ( cmd->commandAttributes(*it,attr) )
-			{
+		for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+			if(cmd->commandAttributes(*it, attr)) {
 				QString command,eos;
 				QStringList entrylist;
-				if ( attr.type < KileDocument::CmdAttrLabel )          // environment
-				{
+				if(attr.type < KileDocument::CmdAttrLabel) {         // environment
 					command = "\\begin{" + (*it);
 					eos = "}";
 				}
-				else                                                   // command
-				{
+				else {                                                   // command
 					command = (*it);
-					// eos = QString::null;
+					// eos.clear();
 				}
 
 				// get all possibilities into a stringlist
-				entrylist.append( command + eos );
-				if ( ! attr.option.isEmpty() )
-					entrylist.append( command + eos + "[option]" );
-				if ( attr.starred )
-				{
-					entrylist.append( command + '*' + eos );
-					if ( ! attr.option.isEmpty() )
-						entrylist.append( command + '*' + eos + "[option]" );
+				entrylist.append(command + eos);
+				if(!attr.option.isEmpty()) {
+					entrylist.append(command + eos + "[option]");
+				}
+				if(attr.starred) {
+					entrylist.append(command + '*' + eos);
+					if (!attr.option.isEmpty()) {
+						entrylist.append(command + '*' + eos + "[option]");
+					}
 				}
 
 				// finally append entries to wordlist
 				QStringList::ConstIterator itentry;
-				for ( itentry=entrylist.begin(); itentry != entrylist.end(); ++itentry )
-				{
+				for(itentry = entrylist.begin(); itentry != entrylist.end(); ++itentry) {
 					QString entry = (*itentry);
-					if ( ! attr.parameter.isEmpty()  )
+					if(!attr.parameter.isEmpty()) {
 						entry += "{param}";
-					if ( attr.type == KileDocument::CmdAttrList )
+					}
+					if(attr.type == KileDocument::CmdAttrList) {
 						entry += "\\item";
-					wordlist.append( entry );
+					}
+					wordlist.append(entry);
 				}
 			}
 		}
@@ -565,7 +559,7 @@ namespace KileDocument
 	// - set cursor position
 	// - insert bullets
 
-	QString CodeCompletion::filterCompletionText( const QString &text, const QString &type )
+	QString CodeCompletion::filterCompletionText(const QString &text, const QString &type)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 564!
@@ -607,7 +601,7 @@ namespace KileDocument
 				}
 				break;
 				case cmEnvironment:
-				prefix = QString::null;
+				prefix.clear();
 				if ( m_autoindent )
 				{
 					if ( col-m_textlen>0 )
@@ -663,21 +657,23 @@ return QString();
 
 	//////////////////// text in cmLatex mode ////////////////////
 
-	QString CodeCompletion::buildLatexText( const QString &text, uint &ypos, uint &xpos )
+	QString CodeCompletion::buildLatexText(const QString &text, int &ypos, int &xpos)
 	{
-		return parseText( stripParameter( text ), ypos, xpos, true );
+		return parseText(stripParameter(text), ypos, xpos, true);
 	}
 
 	////////////////////  text in cmEnvironment mode ////////////////////
 
-	QString CodeCompletion::buildEnvironmentText( const QString &text, const QString &type,
-	                                              const QString &prefix, uint &ypos, uint &xpos )
+	QString CodeCompletion::buildEnvironmentText(const QString &text, const QString &type,
+	                                             const QString &prefix, int &ypos, int &xpos)
 	{
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
 
-		if (reEnv.search(text) == -1) return text;
+		if(reEnv.search(text) == -1) {
+			return text;
+		}
 
-		QString parameter = stripParameter( reEnv.cap(3) );
+		QString parameter = stripParameter(reEnv.cap(3));
 		QString start = reEnv.cap(1);
 		QString envname = reEnv.cap(2);
 		QString whitespace = getWhiteSpace(prefix);
@@ -686,34 +682,37 @@ return QString();
 		QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
 
 		s += whitespace;
-		if ( start != "end" )
+		if(start != "end") {
 			s += envIndent;
+		}
 
-		bool item = (type == "list" );
-		if ( item )
+		bool item = (type == "list");
+		if(item) {
 			s += "\\item ";
+		}
 
-		if ( m_setbullets && !parameter.isEmpty() )
+		if(m_setbullets && !parameter.isEmpty()) {
 			s += s_bullet;
+		}
 
-		if ( m_closeenv && start != "end" )
+		if(m_closeenv && start != "end") {
 			s += '\n' + whitespace + "\\end{" + envname + "}\n";
+		}
 
 		// place cursor
-		if ( m_setcursor )
-		{
-			if ( parameter.isEmpty() )
-			{
+		if(m_setcursor) {
+			if(parameter.isEmpty()) {
 				ypos = 1;
-				xpos = whitespace.length() + envIndent.length() + (( item ) ? 6 : 0);
+				xpos = whitespace.length() + envIndent.length() + ((item) ? 6 : 0);
 			}
-			else
-			{
+			else {
 				ypos = 0;
-				if( parameter.left(2) == "[<" )
+				if(parameter.left(2) == "[<") {
 					xpos = 10 + envname.length();
-				else
+				}
+				else {
 					xpos = 9 + envname.length();
+				}
 			}
 		}
 
@@ -723,25 +722,24 @@ return QString();
 	QString CodeCompletion::getWhiteSpace(const QString &s)
 	{
 		QString whitespace = s;
-		for ( uint i=0; i<whitespace.length(); ++i )
-		{
-			if ( ! whitespace[i].isSpace() )
+		for(int i = 0; i < whitespace.length(); ++i) {
+			if(!whitespace[i].isSpace()) {
 				whitespace[i] = ' ';
+			}
 		}
 		return whitespace;
 	}
 
 	//////////////////// text in  cmAbbreviation mode ////////////////////
 
-	QString CodeCompletion::buildAbbreviationText( const QString &text )
+	QString CodeCompletion::buildAbbreviationText(const QString &text)
 	{
 		QString s;
 
-		int index = text.indexOf( '=' );
-		if ( index >= 0 )
-		{
+		int index = text.indexOf('=');
+		if(index >= 0) {
 			// determine text to insert
-			s = text.right( text.length() - index - 1 );
+			s = text.right(text.length() - index - 1);
 
 			// delete abbreviation
 			KTextEditor::Document *doc = m_view->document();
@@ -751,8 +749,9 @@ return QString();
 
 			m_textlen = 0;
 		}
-		else
+		else {
 			s = "";
+		}
 
 		return s;
 	}
@@ -761,8 +760,7 @@ return QString();
 
 	QString CodeCompletion::buildLabelText( const QString &text )
 	{
-		if ( text.at( 0 ) == ' ' )
-		{
+		if(text.at(0) == ' ') {
 			// delete space
 			KTextEditor::Document * doc = m_view->document();
 			doc->removeText(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xstart + 1));
@@ -770,215 +768,192 @@ return QString();
 			m_xcursor = m_xstart;
 
 			m_textlen = 0;
-			return text.right( text.length() - 1 );
+			return text.right(text.length() - 1);
 		}
-		else
+		else {
 			return text;
+		}
 	}
 
 
 	//////////////////// some functions ////////////////////
 
-	QString CodeCompletion::parseText( const QString &text, uint &ypos, uint &xpos, bool checkgroup )
+	QString CodeCompletion::parseText(const QString &text, int &ypos, int &xpos, bool checkgroup)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 778!
-#endif
-//FIXME: port for KDE4
-/*
-
 		bool foundgroup = false;
-		QString s = "";
+		QString s;
 
 		xpos = ypos = 0;
-		for ( uint i = 0; i < text.length(); ++i )
-		{
-			switch ( text[ i ] )
-			{
-					case '<':
-					case '{':
-					case '(':
-					case '[':		// insert character
-					s += text[ i ];
-					if ( xpos == 0 )
-					{
+		for(int i = 0; i < text.length(); ++i) {
+			QChar c = text[i];
+			switch(c.ascii()) {
+				case '<':
+				case '{':
+				case '(':
+				case '[': // insert character
+					s += c;
+					if(xpos == 0) {
 						// remember position after first brace
-						if(text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<'){
+						if(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<') {
 							xpos = i + 2;
-							s += text[i+1];
+							s += text[i + 1];
 							i++;
 						}// special handling for '[<'
-						else
+						else {
 							xpos = i + 1;
+						}
 						// insert bullet, if this is no cursorposition
-						if ( ( ! m_setcursor ) && m_setbullets && !( text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<' ))
+						if((!m_setcursor) && m_setbullets && !(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<')) {
 							s += s_bullet;
+						}
 					}
 					// insert bullets after following braces
-					else if ( m_setbullets && !( text[i] == '[' && (i+1) < text.length() &&  text[i+1] == '<' ) )
+					else if(m_setbullets && !(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<')) {
 						s += s_bullet;
-					break;
-					case '>':
-					case '}':
-					case ')':
-					case ']':                    // insert character
-					s += text[ i ];
-					break;
-					case ',':                    // insert character
-					s += text[ i ];
-					// insert bullet?
-					if ( m_setbullets )
-						s += s_bullet;
-					break;
-					case '.':      // if the last character is a point of a range operator,
-					// it will be replaced by a space or a bullet surrounded by spaces
-					if ( checkgroup && ( s.right( 1 ) == "." ) )
-					{
-						foundgroup = true;
-						s.truncate( s.length() - 1 );
-						if ( m_setbullets )
-							s += ' ' + s_bullet + ' ';
-						else
-							s += ' ';
 					}
-					else
-						s += text[ i ];
-					break;
-					default:                      // insert all other characters
-					s += text[ i ];
-					break;
+				break;
+				case '>':
+				case '}':
+				case ')':
+				case ']':                    // insert character
+					s += c;
+				break;
+				case ',':                    // insert character
+					s += c;
+					// insert bullet?
+					if(m_setbullets) {
+						s += s_bullet;
+					}
+				break;
+				case '.': // if the last character is a point of a range operator,
+					 // it will be replaced by a space or a bullet surrounded by spaces
+					if(checkgroup && (s.right(1) == ".")) {
+						foundgroup = true;
+						s.truncate(s.length() - 1);
+						if(m_setbullets) {
+							s += ' ' + s_bullet + ' ';
+						}
+						else {
+							s += ' ';
+						}
+					}
+					else {
+						s += c;
+					}
+				break;
+				default:                      // insert all other characters
+					s += c;
+				break;
 			}
 		}
 
 		// some more work with groups and bullets
-		if ( checkgroup && foundgroup && ( m_setbullets | m_setcursor ) )
-		{
+		if(s.length() >= 2 && checkgroup && foundgroup && (m_setbullets | m_setcursor)) {
 			int pos = 0;
 
 			// search for braces, brackets and parens
-			switch ( QChar( s[ 1 ] ) )
-			{
-					case 'l' :
-					if ( s.left( 6 ) == "\\left " )
+			switch(s[1].ascii()) {
+				case 'l':
+					if(s.left(6) == "\\left ") {
 						pos = 5;
-					break;
-					case 'b' :
-					if ( s.left( 6 ) == "\\bigl " )
+					}
+				break;
+				case 'b':
+					if(s.left(6) == "\\bigl ") {
 						pos = 5;
-					else if ( s.left( 7 ) == "\\biggl " )
+					}
+					else if(s.left(7) == "\\biggl ") {
 						pos = 6;
-					break;
-					case 'B' :
-					if ( s.left( 6 ) == "\\Bigl " )
+					}
+				break;
+				case 'B' :
+					if(s.left(6) == "\\Bigl ") {
 						pos = 5;
-					else if ( s.left( 7 ) == "\\Biggl " )
+					}
+					else if(s.left(7) == "\\Biggl ") {
 						pos = 6;
-					break;
+					}
+				break;
 			}
 
 			// update cursorposition and set bullet
-			if ( pos > 0 )
-			{
-				if ( m_setcursor )
+			if(pos > 0) {
+				if(m_setcursor) {
 					xpos = pos;
-				if ( m_setbullets )
-				{
-					if ( ! m_setcursor )
-						s.insert( pos, s_bullet );
-					s.append( s_bullet );
+				}
+				if(m_setbullets) {
+					if(!m_setcursor) {
+						s.insert(pos, s_bullet);
+					}
+					s.append(s_bullet);
 				}
 			}
 		}
 
-		// Ergebnis
 		return s;
-*/
-return QString();
 	}
 
 	// strip all names enclosed in braces
 	// consider also beamer like stuff [<...>] and <...>
-
-	QString CodeCompletion::stripParameter( const QString &text )
+	QString CodeCompletion::stripParameter(const QString &text)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 898!
-#endif
-//FIXME: port for KDE4
-/*
-
-		QString s = "";
-		const QChar *ch = text.unicode();
+		QString s;
 		bool ignore = false;
 
-
-		for ( uint i = 0; i < text.length(); ++i )
-		{
-			switch ( *ch )
-			{
-					case '[':
-					case '{':
-					case '(':
-					case '<':
-					s += *ch;
+		for(int i = 0; i < text.length(); ++i) {
+			QChar c = text[i];
+			switch(c.ascii()) {
+				case '[':
+				case '{':
+				case '(':
+				case '<':
+					s += c;
 					ignore = true;
-					break;
-					case ']':
-					case '}':
-					case ')':
-					case '>':
-					s += *ch;
+				break;
+				case ']':
+				case '}':
+				case ')':
+				case '>':
+					s += c;
 					ignore = false;
-					break;
-					case ',':
-					s += *ch;
-					break;
-					default:
-					if ( ! ignore )
-						s += *ch;
-					break;
+				break;
+				case ',':
+					s += c;
+				break;
+				default:
+					if(!ignore) {
+						s += c;
+					}
+				break;
 			}
-			++ch;
 		}
 		return s;
-*/
-return QString();
 	}
 
 	//////////////////// read wordlists  ////////////////////
 
-	void CodeCompletion::readWordlist( QStringList &wordlist, const QString &filename, bool global )
+	void CodeCompletion::readWordlist(QStringList &wordlist, const QString &filename, bool global)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 949!
-#endif
-//FIXME: port for KDE4
-/*
+		QString file = (global) ? KGlobal::dirs()->findResource("appdata", "complete/" + filename) : m_localAbbrevFile;
+		if(file.isEmpty()) {
+			return;
+		}
 
-		QString file = ( global )
-		             ? KGlobal::dirs()->findResource( "appdata", "complete/" + filename )
-		             : m_localAbbrevFile;
-		if ( file.isEmpty() ) return;
-
-		QFile f( file );
-		if ( f.open( QIODevice::ReadOnly ) )
-		{     // file opened successfully
-			QTextStream t( &f );         // use a text stream
-			while ( ! t.atEnd() )
-			{        // until end of file...
+		QFile f(file);
+		if(f.open(QIODevice::ReadOnly)) {     // file opened successfully
+			QTextStream t(&f);         // use a text stream
+			while(!t.atEnd()) {        // until end of file...
 				QString s = t.readLine().trimmed();       // line of text excluding '\n'
-				if ( ! ( s.isEmpty() || s.at( 0 ) == '#' ) )
-				{
-					wordlist.append( s );
+				if(!(s.isEmpty() || s.at(0) == '#')) {
+					wordlist.append(s);
 				}
 			}
 			f.close();
 		}
-*/
 	}
 
-	void CodeCompletion::setCompletionEntries( QList<KTextEditor::CompletionEntry> *list,
-	                                           const QStringList &wordlist )
+	void CodeCompletion::setCompletionEntries(QList<KTextEditor::CompletionEntry> *list,
+	                                          const QStringList &wordlist)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 914!
@@ -1005,8 +980,7 @@ return QString();
 */
 	}
 
-	void CodeCompletion::setCompletionEntriesTexmode( QList<KTextEditor::CompletionEntry> *list,
-	        const QStringList &wordlist )
+	void CodeCompletion::setCompletionEntriesTexmode(QList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 1004!
@@ -1087,9 +1061,9 @@ return QString();
 	// because special functions are only called, when there are 0
 	// or 1 entries.
 
-	uint CodeCompletion::countEntries( const QString &pattern,
-	                                   QList<KTextEditor::CompletionEntry> *list,
-	                                   QString *entry, QString *type )
+	uint CodeCompletion::countEntries(const QString &pattern,
+	                                  QList<KTextEditor::CompletionEntry> *list,
+	                                  QString *entry, QString *type)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 1086!
@@ -1247,7 +1221,7 @@ return 0;
 		CompletionAborted();
 	}
 
-	void CodeCompletion::slotFilterCompletion( KTextEditor::CompletionEntry* c, QString *s )
+	void CodeCompletion::slotFilterCompletion(KTextEditor::CompletionEntry* c, QString *s)
 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 1246!
@@ -1267,99 +1241,91 @@ return 0;
 */
 	}
 
-	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
+	void CodeCompletion::slotCharactersInserted(int, int, const QString& string)
 	{
 		//KILE_DEBUG() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << string << ")=============" << endl;
 
-		if ( !inProgress() && m_autoDollar && string=="$" )
-		{
+		if (!inProgress() && m_autoDollar && string=="$") {
 			autoInsertDollar();
 			return;
 		}
 
 		// only work, if autocomplete mode of Kile is active
-		if ( !isActive() || !autoComplete() )
+		if(!isActive() || !autoComplete()) {
 			return ;
+		}
 
 		//FIXME this is not very efficient
 		m_view = info()->viewManager()->currentTextView();
 
 		// try to autocomplete abbreviations after punctuation symbol
-		if ( !inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(string) )
+		if(!inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(string)) {
 			return;
+		}
 
 		// rather unsusual, but it may happen: the cursor is inside
 		// of a reference command without a labellist.
-		if ( ! m_ref )
-		{
+		if(! m_ref) {
 			QString startpattern;
 			CodeCompletion::Type reftype = insideReference(startpattern);
-			if ( reftype != CodeCompletion::ctNone )
-			{
+			if(reftype != CodeCompletion::ctNone) {
 				m_ref = true;
-				editCompleteList(reftype,startpattern);
+				editCompleteList(reftype, startpattern);
 				return;
 			}
 		}
 
 		QString word;
 		Type type;
-		bool found = ( m_ref ) ? getReferenceWord(word) : getCompleteWord(true,word,type );
-		if ( found )
-		{
+		bool found = (m_ref) ? getReferenceWord(word) : getCompleteWord(true, word, type);
+		if(found) {
 			int wordlen = word.length();
 			//KILE_DEBUG() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
-			if ( inProgress() )               // continue a running mode?
-			{
+			if(inProgress()) {               // continue a running mode?
 				//KILE_DEBUG() << "   auto completion: continue current mode" << endl;
 				completeWord(word, m_mode);
 			}
-			else if ( word.at( 0 )=='\\' && m_autocomplete && wordlen>=m_latexthreshold)
-			{
+			else if(word.at(0) == '\\' && m_autocomplete && wordlen >= m_latexthreshold) {
 				//KILE_DEBUG() << "   auto completion: latex mode" << endl;
-				if ( string.at( 0 ).isLetter() )
-				{
+				if(string.at(0).isLetter()) {
 					completeWord(word, cmLatex);
 				}
-				else if ( string.at( 0 ) == '{' )
-				{
+				else if(string.at(0) == '{') {
 					editCompleteList(type);
 				}
 			}
-			else if ( word.at(0).isLetter() && m_autocompletetext && wordlen>=m_textthreshold)
-			{
+			else if(word.at(0).isLetter() && m_autocompletetext && wordlen >= m_textthreshold) {
 				//KILE_DEBUG() << "   auto completion: document mode" << endl;
-				completeWord(word,cmDocumentWord);
+				completeWord(word, cmDocumentWord);
 			}
 		}
 	}
 
 	//////////////////// testing characters (dani) ////////////////////
 
-	static bool isBackslash ( QChar ch )
+	static bool isBackslash(QChar ch)
 	{
-		return ( ch == '\\' );
+		return (ch == '\\');
 	}
 
-	bool CodeCompletion::getCompleteWord(bool latexmode, QString &text, Type &type )
+	bool CodeCompletion::getCompleteWord(bool latexmode, QString &text, Type &type)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 1340!
-#endif
-//FIXME: port for KDE4
-/*
+		if(!m_view) {
+			return false;
+		}
 
-		if ( !m_view ) return false;
-
-		uint row, col;
+		int row, col;
 		QChar ch;
 
 		// get current position
-		m_view->cursorPositionReal( &row, &col );
+		KTextEditor::Cursor cursor = m_view->cursorPosition();
+		row = cursor.line();
+		col = cursor.column();
 
 		// there must be et least one sign
-		if ( col < 1 )
+		if(col < 1) {
 			return "";
+		}
 
 		// get current text line
 		QString textline = m_view->document()->line(row);
@@ -1367,66 +1333,61 @@ return 0;
 		//
 		int n = 0;                           // number of characters
 		int index = col;                     // go back from here
-		while ( --index >= 0 )
-		{
+		while(--index >= 0) {
 			// get current character
-			ch = textline.at( index );
+			ch = textline.at(index);
 
-			if ( ch.isLetter() || ch=='.' || ch == '_' || ch.isDigit() || ( latexmode && ( index + 1 == ( int ) col ) && ch == '{' ) )
+			if(ch.isLetter() || ch=='.' || ch == '_' || ch.isDigit() || (latexmode && (index + 1 == col) && ch == '{')) {
 				++n;                           // accept letters and '{' as first character in latexmode
-			else
-			{
-				if ( latexmode && isBackslash( ch ) && oddBackslashes( textline, index ) )         // backslash?
+			}
+			else {
+				if(latexmode && isBackslash(ch) && oddBackslashes(textline, index)) {        // backslash?
 					++n;
+				}
 				break;                         // stop when a backslash was found
 			}
 		}
 
 		// select pattern and set type of match
-		text = textline.mid( col - n, n );
-		type = getType( text );
+		text = textline.mid(col - n, n);
+		type = getType(text);
 
 		return !text.isEmpty();
-*/
-return false;
 	}
 
 	bool CodeCompletion::getReferenceWord(QString &text)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 1324!
-#endif
-//FIXME: port for KDE4
-/*
+		if(!m_view) {
+			return false;
+		}
 
-		if ( !m_view ) return false;
-
-		uint row, col;
+		int row, col;
 		QChar ch;
 
 		// get current position
-		m_view->cursorPositionReal( &row, &col );
-		// there must be et least one sign
-		if ( col < 1 )
+		KTextEditor::Cursor cursor = m_view->cursorPosition();
+		row = cursor.line();
+		col = cursor.column();
+		// there must be at least one sign
+		if(col < 1) {
 			return false;
+		}
 
 		// get current text line
-		QString textline = m_view->document()->textLine(row);
+		QString textline = m_view->document()->line(row);
 
 		// search the current reference string
-		int pos = textline.findRev(reNotRefChars,col-1);
-		if ( pos < 0 )
+		int pos = textline.findRev(reNotRefChars, col - 1);
+		if(pos < 0) {
 			pos = 0;
+		}
 
 		// select pattern
-		text = textline.mid(pos+1,col-1-pos);
-		return ( (uint)pos < col-1 );
-*/
-return false;
+		text = textline.mid(pos + 1, col - 1 - pos);
+		return (pos < col - 1);
 	}
 
-	void CodeCompletion::getDocumentWords(const QString &text,
-																			QList<KTextEditor::CompletionEntry> &list)
+	void CodeCompletion::getDocumentWords(const QString &text, QList<KTextEditor::CompletionEntry> &list)
 	{
 		//KILE_DEBUG() << "getDocumentWords: " << endl;
 		list.clear();
@@ -1438,7 +1399,7 @@ return false;
 		KTextEditor::CompletionEntry e;
 		QHash<QString, bool> seen;
 
-		for (uint i = 0; i < doc->lines(); ++i) {
+		for (int i = 0; i < doc->lines(); ++i) {
 			s = doc->line(i);
 			int pos = 0;
 			while (pos >= 0) {
@@ -1461,11 +1422,10 @@ return false;
 
 	//////////////////// counting backslashes (dani) ////////////////////
 
-	bool CodeCompletion::oddBackslashes( const QString& text, int index )
+	bool CodeCompletion::oddBackslashes(const QString& text, int index)
 	{
 		uint n = 0;
-		while ( index >= 0 && isBackslash( text.at( index ) ) )
-		{
+		while ( index >= 0 && isBackslash(text.at(index))) {
 			++n;
 			--index;
 		}
@@ -1476,41 +1436,39 @@ return false;
 
 	bool CodeCompletion::completeAutoAbbreviation(const QString &text)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 1397!
-#endif
-//FIXME: port for KDE4
-/*
-
-		if ( text.length() != 1 )
+		if(text.length() != 1) {
 			return false;
+		}
 
 		QChar ch = text[0];
-		if ( ! (ch.isSpace() || ch.isPunct()) )
+		if(!(ch.isSpace() || ch.isPunct())) {
 			return false;
+		}
 
-		uint row,col;
-		m_view->cursorPositionReal( &row, &col );
-		QString abbrev = getAbbreviationWord(row,col-1);
-		if ( abbrev.isEmpty() )
+		int row, col;
+		KTextEditor::Cursor cursor = m_view->cursorPosition();
+		row = cursor.line();
+		col = cursor.column();
+		QString abbrev = getAbbreviationWord(row, col - 1);
+		if(abbrev.isEmpty()) {
 			return false;
+		}
 
 		QString expansion = findExpansion(abbrev);
-		if ( expansion.isEmpty() )
+		if(expansion.isEmpty()) {
 			return false;
+		}
 
 		KILE_DEBUG() << "=== CodeCompletion::completeAutoAbbreviation: abbrev=" << abbrev << "  exp=" << expansion << endl;
 
 		uint len = abbrev.length();
 		uint startcol = col - len - 1;
 		KTextEditor::Document *doc = m_view->document();
-		doc->removeText( row,startcol,row,startcol+abbrev.length()+1 );
-		doc->insertText( row,startcol,expansion+ch);
-		m_view->setCursorPositionReal( row,startcol+expansion.length()+1 );
+		doc->removeText(KTextEditor::Range(row, startcol, row, startcol + abbrev.length() + 1));
+		doc->insertText(KTextEditor::Cursor(row, startcol), expansion + ch);
+		m_view->setCursorPosition(KTextEditor::Cursor(row, startcol + expansion.length() + 1));
 
 		return true;
-*/
-return false;
 	}
 
 	QString CodeCompletion::getAbbreviationWord(uint row, uint col)
@@ -1518,14 +1476,14 @@ return false;
 		QString textline = m_view->document()->line(row);
 
 		int index = (int)col;
-		while ( --index >= 0 )
-		{
-			QChar ch = textline.at( index );
-			if ( ! ch.isLetterOrNumber() )
+		while(--index >= 0) {
+			QChar ch = textline.at(index);
+			if(!ch.isLetterOrNumber()) {
 				break;
+			}
 		}
 
-		return textline.mid(index+1,col-index-1);
+		return textline.mid(index + 1, col - index - 1);
 	}
 
 	//////////////////// connection with the abbreviation listview  ////////////////////
@@ -1541,12 +1499,10 @@ return false;
 
 	void CodeCompletion::slotUpdateAbbrevList(const QString &ds, const QString &as)
 	{
-		if ( ! ds.isEmpty() )
-		{
+		if(!ds.isEmpty()) {
 			deleteAbbreviationEntry(ds);
 		}
-		if ( ! as.isEmpty() )
-		{
+		if(!as.isEmpty()) {
 			addAbbreviationEntry(as);
 		}
 	}
@@ -1588,7 +1544,7 @@ return false;
 
 		KTextEditor::CompletionEntry e;
 		e.text = entry;
-		e.type = QString::null;
+		e.type.clear();
 
 		if ( it == m_abbrevlist.begin() )
 			m_abbrevlist.prepend(e);

@@ -22,12 +22,12 @@
 #include <KDialog>
 
 #include <QMap>
+#include <QProcess>
 
 class QTreeWidget;
 class QTreeWidgetItem;
 
-class K3Process;
-class K3ShellProcess;
+class KProcess;
 class KLineEdit;
 class KPushButton;
 class KTemporaryFile;
@@ -61,7 +61,7 @@ class TexDocDialog : public KDialog
 		QString m_output;
 
 		KTemporaryFile *m_tempfile;
-		K3ShellProcess *m_proc;
+		KProcess *m_proc;
 
 		void callSearch();
 		void executeScript(const QString &command);
@@ -89,8 +89,8 @@ class TexDocDialog : public KDialog
 		void slotTextChanged(const QString &text);
 		void slotSearchClicked();
 
-		void slotProcessOutput(K3Process*, char* buf, int len);
-		void slotProcessExited(K3Process *proc);
+		void slotProcessOutput();
+		void slotProcessExited(int, QProcess::ExitStatus);
 
 		void slotInitToc();
 		void slotShowFile();

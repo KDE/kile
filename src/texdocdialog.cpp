@@ -32,7 +32,6 @@
 #include <QTextStream>
 #include <QTreeWidget>
 
-#include <K3Process>
 #include <KApplication>
 #include <KIconLoader>
 #include <KLineEdit>
@@ -40,6 +39,7 @@
 #include <KMessageBox>
 #include <KMimeType>
 #include <KMimeTypeTrader>
+#include <KProcess>
 #include <KPushButton>
 #include <KRun>
 #include <KService>
@@ -545,39 +545,37 @@ void TexDocDialog::executeScript(const QString &command)
 	if(m_proc)
 		delete m_proc;
 
-	m_proc = new K3ShellProcess("/bin/sh");
-	m_proc->clearArguments();
-	(*m_proc) << command.split(' ');
-	m_output = QString::null;
+	m_proc = new KProcess();
+	m_proc->setShellCommand(command);
+	m_proc->setOutputChannelMode(KProcess::MergedChannels);
+	m_proc->setReadChannel(QProcess::StandardOutput);
+	m_output = QString();
 
-	connect(m_proc, SIGNAL(receivedStdout(K3Process*, char*, int)),
-	        this,   SLOT(slotProcessOutput(K3Process*, char*, int)));
-	connect(m_proc, SIGNAL(receivedStderr(K3Process*, char*, int)),
-	        this,   SLOT(slotProcessOutput(K3Process*, char*, int)));
-	connect(m_proc, SIGNAL(processExited(K3Process*)),
-	        this,   SLOT(slotProcessExited(K3Process*)));
+	connect(m_proc, SIGNAL(readyReadStandardOutput()),
+	        this,   SLOT(slotProcessOutput()));
+	connect(m_proc, SIGNAL(readyReadStandardError()),
+	        this,   SLOT(slotProcessOutput()));
+	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
+	        this,   SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
 	KILE_DEBUG() << "=== TexDocDialog::runShellSkript() ====================" << endl;
 	KILE_DEBUG() << "   execute: " << command << endl;
-	if(! m_proc->start(K3Process::NotifyOnExit, K3Process::AllOutput))
-		KILE_DEBUG() << "\tstart of shell process failed" << endl;
+	m_proc->start();
 }
 
-void TexDocDialog::slotProcessOutput(K3Process*, char* buf, int len)
+void TexDocDialog::slotProcessOutput()
 {
-	m_output += QString::fromLocal8Bit(buf, len);
+	m_output += m_proc->readAll();
 }
 
 
-void TexDocDialog::slotProcessExited(K3Process *proc)
+void TexDocDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
-	if(proc->normalExit() &&  !proc->exitStatus())
-	{
+	if(exitStatus == QProcess::NormalExit) {
 		//showFile(m_filename);
 		emit(processFinished());
 	}
-	else
-	{
+	else {
 		KMessageBox::error(this, i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless.") + i18n("</center>"), i18n("TexDoc Dialog"));
 	}
 }

@@ -40,7 +40,7 @@ class TexDocDialog : public KDialog
 		Q_OBJECT
 
 	public:
-		TexDocDialog(QWidget *parent = 0, const char *name = 0);
+		TexDocDialog(QWidget *parent = 0);
 		~TexDocDialog();
 
 	private:
@@ -82,7 +82,7 @@ class TexDocDialog : public KDialog
 		void processFinished();
 
 	protected Q_SLOTS:
-		void slotDefault();
+		void slotButtonClicked(int button);
 
 	private Q_SLOTS:
 		void slotListViewDoubleClicked(QTreeWidgetItem *item);

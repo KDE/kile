@@ -53,7 +53,7 @@ namespace KileDialog
 
 //BEGIN TexDocDialog
 
-TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
+TexDocDialog::TexDocDialog(QWidget *parent)
 		: KDialog(parent), m_tempfile(0), m_proc(0)
 {
 	setCaption(i18n("Documentation Browser"));
@@ -525,11 +525,14 @@ void TexDocDialog::slotSearchClicked()
 	}
 }
 
-void TexDocDialog::slotDefault()
+void TexDocDialog::slotButtonClicked(int button)
 {
-	m_leKeywords->setText(QString::null);
-	m_texdocs->clear();
-	showToc(i18n("Table of Contents"), m_tocList, true);
+	if(button == Default) {
+		m_leKeywords->setText(QString());
+		m_texdocs->clear();
+		showToc(i18n("Table of Contents"), m_tocList, true);
+	}
+	KDialog::slotButtonClicked(button);
 }
 
 void TexDocDialog::callSearch()
@@ -571,6 +574,8 @@ void TexDocDialog::slotProcessOutput()
 
 void TexDocDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 {
+	Q_UNUSED(exitCode);
+
 	if(exitStatus == QProcess::NormalExit) {
 		//showFile(m_filename);
 		emit(processFinished());
@@ -608,7 +613,7 @@ void TexDocDialog::slotInitToc()
 
 	// read data and initialize listview
 	readToc();
-	slotDefault();
+	slotButtonClicked(Default);
 }
 
 void TexDocDialog::slotShowFile()

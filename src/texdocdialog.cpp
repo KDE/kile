@@ -507,7 +507,7 @@ void TexDocDialog::slotSearchClicked()
 			writesection = true;
 		}
 		else
-			if(m_tocSearchList[i].indexOf(keyword, 0, Qt::CaseInsensitive) > -1)
+			if(i < m_tocSearchList.count() && m_tocSearchList[i].indexOf(keyword, 0, Qt::CaseInsensitive) > -1)
 			{
 				if(writesection)
 					searchlist.append(section);

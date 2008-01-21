@@ -22,10 +22,11 @@
 #include <qwidget.h>   
 #include <qstringlist.h>
 
-#include <k3listbox.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <kdialog.h>
+
+class QListWidget;
 
 namespace KileDialog
 {
@@ -41,7 +42,7 @@ public:
 	void setParameter(const QStringList &menuentries, const QStringList &helpfiles);
 	void getParameter(QStringList &userhelpmenulist, QStringList &userhelpfilelist);
 private:
-	K3ListBox *m_menulistbox;
+	QListWidget *m_menulistbox;
 	KLineEdit *m_fileedit;
 	KPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
 
@@ -50,7 +51,7 @@ private:
 	void updateButton();
    
 private Q_SLOTS:
-	void slotChange(int index);
+	void slotChange();
 	void slotAdd();
 	void slotRemove();
 	void slotAddSep();
@@ -63,13 +64,13 @@ class UserHelpAddDialog : public KDialog
 	Q_OBJECT
    
 public: 
-	UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent=0, const char *name=0);
+	UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent=0, const char *name=0);
 	~UserHelpAddDialog() {} 
 
 private:
 	KLineEdit *m_leMenuEntry, *m_leHelpFile;
 	KPushButton *m_pbChooseFile,*m_pbChooseHtml;
-	K3ListBox *m_menulistbox;
+	QListWidget *m_menulistbox;
 	
 public:
 	QString getMenuitem() { return m_leMenuEntry->text(); }

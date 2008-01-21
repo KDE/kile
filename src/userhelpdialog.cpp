@@ -26,6 +26,7 @@
 
 #include <QGridLayout>
 #include <QBoxLayout>
+#include <QListWidget>
 
 #include <klocale.h>
 #include <kfiledialog.h>
@@ -70,7 +71,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	// listbox
 	QLabel *label1 = new QLabel(i18n("&Menu item:"),group);
 	grid->addWidget(label1, 0, 0);
-	m_menulistbox = new K3ListBox(group);
+	m_menulistbox = new QListWidget(group);
 	grid->addWidget(m_menulistbox, 1, 0);
 	label1->setBuddy(m_menulistbox);
 
@@ -124,7 +125,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	// fill vbox
 	vbox->addWidget(group);
 
-	connect( m_menulistbox, SIGNAL(highlighted(int)),this,SLOT(slotChange(int)));
+	connect( m_menulistbox, SIGNAL(itemSelectionChanged()),this,SLOT(slotChange()));
 	connect( m_add, SIGNAL(clicked()), SLOT(slotAdd()) );
 	connect( m_remove, SIGNAL(clicked()), SLOT(slotRemove()) );
 	connect( m_addsep, SIGNAL(clicked()), SLOT(slotAddSep()) );
@@ -139,12 +140,12 @@ void UserHelpDialog::setParameter(const QStringList &menuentries, const QStringL
 {
 	for (uint i=0; i<menuentries.count(); ++i)
 	{
-		m_menulistbox->insertItem(menuentries[i]);
+		m_menulistbox->addItem(menuentries[i]);
 
-		if ( m_menulistbox->text(i) != "-" )
+		if ( m_menulistbox->item(i)->text() != "-" )
 			m_filelist << helpfiles[i];
 		else
-			m_filelist << QString::null ;
+			m_filelist << QString();
 	}
 	updateButton();
 }
@@ -157,25 +158,26 @@ void UserHelpDialog::getParameter(QStringList &userhelpmenulist, QStringList &us
 	bool separator = false;
 
 	// now get all entries
-	for (uint i=0; i<m_menulistbox->count(); ++i)
+	for (int i=0; i<m_menulistbox->count(); ++i)
 	{
-		if ( m_menulistbox->text(i) != "-" )
+		if ( m_menulistbox->item(i)->text() != "-" )
 		{
-			userhelpmenulist << m_menulistbox->text(i);
+			userhelpmenulist << m_menulistbox->item(i)->text();
 			userhelpfilelist << m_filelist[i];
 			separator = false;
 		}
 		else if ( !separator )
 		{
-			userhelpmenulist << m_menulistbox->text(i);
-			userhelpfilelist << QString::null;
+			userhelpmenulist << m_menulistbox->item(i)->text();
+			userhelpfilelist << QString();
 			separator = true;
 		}
 	}
 }
 
-void UserHelpDialog::slotChange(int index)
+void UserHelpDialog::slotChange()
 {
+	int index = m_menulistbox->currentRow();
 	if ( index >= 0 )
 	{
 		m_fileedit->setText( m_filelist[index] );
@@ -193,8 +195,8 @@ void UserHelpDialog::slotAdd()
 	if ( dialog->exec() )
 	{
 		// insert into listbox
-		m_menulistbox->insertItem( dialog->getMenuitem() );
-		m_menulistbox->setCurrentItem( m_menulistbox->count()-1 );
+		m_menulistbox->addItem(dialog->getMenuitem());
+		m_menulistbox->setCurrentRow(m_menulistbox->count() - 1 );
 
 		// with corresponding filename
 		QString helpfile = dialog->getHelpfile();
@@ -208,26 +210,26 @@ void UserHelpDialog::slotAdd()
 void UserHelpDialog::slotRemove()
 {
 	// get current index
-	int index = m_menulistbox->currentItem();
+	int index = m_menulistbox->currentRow();
 	if ( index >= 0 )
 	{
 		// remove item
-		m_menulistbox->removeItem(index);
+		m_menulistbox->takeItem(index);
 		m_filelist.removeAt(index);
 
 		// select a new index: first we try to take the old index. When
 		// this index is too big now, index is decremented.
 		// If the list is empty now, index is set to -1.
-		int entries = (int)m_menulistbox->count();
+		int entries = m_menulistbox->count();
 		if ( entries > 0  )
 		{
 			if ( index >= entries )
 				index--;
-			m_menulistbox->setSelected(index,true);
+			m_menulistbox->setCurrentRow(index);
 		}
 		else
 		{
-			m_menulistbox->setCurrentItem(-1);
+			m_menulistbox->setCurrentItem(0);
 		}
 	}
 
@@ -237,11 +239,11 @@ void UserHelpDialog::slotRemove()
 void UserHelpDialog::slotAddSep()
 {
 	// get current index
-	int index = m_menulistbox->currentItem();
+	int index = m_menulistbox->currentRow();
 	if ( index == -1 ) return;
 
 	// insert separator
-	m_menulistbox->insertItem("-",index);
+	m_menulistbox->insertItem(index, "-");
 	m_filelist.insert(index, QString());
 
 	updateButton();
@@ -250,49 +252,49 @@ void UserHelpDialog::slotAddSep()
 void UserHelpDialog::slotUp()
 {
 	// get current index
-	int index = m_menulistbox->currentItem();
+	int index = m_menulistbox->currentRow();
 	if ( index <= 0 ) return;
 
 	// insert current entry before current
-	m_menulistbox->insertItem(m_menulistbox->currentText(),index-1);
+	m_menulistbox->insertItem(index-1, m_menulistbox->currentItem()->text());
 	m_filelist.insert(index - 1, m_filelist[index]);
 
 	// then remove the old entry
-	m_menulistbox->removeItem(index+1);
+	m_menulistbox->takeItem(index+1);
 	m_filelist.removeAt(index + 1);
 
 	// select current entry
-	m_menulistbox->setSelected(index-1,true);
+	m_menulistbox->setCurrentRow(index - 1);
 
 	updateButton();
 }
 
 void UserHelpDialog::slotDown()
 {
-	int entries = (int)m_menulistbox->count();
+	int entries = m_menulistbox->count();
 
 	// get current index
-	int index = m_menulistbox->currentItem();
+	int index = m_menulistbox->currentRow();
 	if ( index<0 || index==entries-1 ) return;
 
 	// insert current entry after current
 	if ( index < entries-2 )
 	{
-		m_menulistbox->insertItem(m_menulistbox->currentText(),index+2);    // index + 2
+		m_menulistbox->insertItem(index + 2, m_menulistbox->currentItem()->text());    // index + 2
 		m_filelist.insert(index + 2, m_filelist[index]);
 	}
 	else
 	{
-		m_menulistbox->insertItem(m_menulistbox->currentText());            // at the end
+		m_menulistbox->addItem(m_menulistbox->currentItem()->text());
 		m_filelist.append( m_filelist[index] );
 	}
 
 	// then remove the old entry
-	m_menulistbox->removeItem(index);
+	m_menulistbox->takeItem(index);
 	m_filelist.removeAt(index);
 
 	// select current entry
-	m_menulistbox->setSelected(index+1,true);
+	m_menulistbox->setCurrentRow(index + 1);
 
 	updateButton();
 }
@@ -306,8 +308,8 @@ void UserHelpDialog::updateButton()
 	bool down_state = false;
 
 	// change button states, if there are entries
-	int index = m_menulistbox->currentItem();
-	int entries = (int)m_menulistbox->count();
+	int index = m_menulistbox->currentRow();
+	int entries = m_menulistbox->count();
 	if ( entries == 1 )
 	{
 		rem_state = true;
@@ -333,7 +335,7 @@ void UserHelpDialog::updateButton()
 	}
 
 	// don't allow two continuous spearators
-	if ( m_menulistbox->currentText() == "-" )
+	if ( m_menulistbox->currentItem() && m_menulistbox->currentItem()->text() == "-" )
 		sep_state = false;
 
 	// set button states
@@ -348,7 +350,7 @@ void UserHelpDialog::updateButton()
 
 //BEGIN UserHelpAddDialog
 
-UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, const char *name)
+UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent, const char *name)
 	: KDialog(parent), m_menulistbox(menulistbox)
 {
 	setCaption(i18n("Add User Helpfile"));
@@ -452,7 +454,7 @@ void UserHelpAddDialog::slotOk()
 		return;
 	}
 
-	if(m_menulistbox->findItem(m_leMenuEntry->text(), Q3ListBox::ExactMatch))
+	if(m_menulistbox->findItems(m_leMenuEntry->text(), Qt::MatchExactly).count() > 0)
 	{
 		KMessageBox::error(this,i18n("This menuitem already exists."));
 		return;

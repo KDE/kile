@@ -19,81 +19,81 @@
 #ifndef TEXDOCDIALOG_H
 #define TEXDOCDIALOG_H
 
-#include <kdialog.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
-#include <k3process.h>
-#include <ktemporaryfile.h>
-#include <k3listview.h>
+#include <KDialog>
 
-#include <QLabel>
-#include <QStringList>
 #include <QMap>
-//Added by qt3to4:
-#include <QEvent>
+
+class QTreeWidget;
+class QTreeWidgetItem;
+
+class K3Process;
+class K3ShellProcess;
+class KLineEdit;
+class KPushButton;
+class KTemporaryFile;
 
 namespace KileDialog
 {
 
 class TexDocDialog : public KDialog
 {
-	Q_OBJECT
+		Q_OBJECT
 
-public:
-	TexDocDialog(QWidget *parent=0, const char *name=0);
-	~TexDocDialog();
+	public:
+		TexDocDialog(QWidget *parent = 0, const char *name = 0);
+		~TexDocDialog();
 
-private:	
-	K3ListView *m_texdocs;
-	KLineEdit *m_leKeywords;
-	KPushButton *m_pbSearch;
+	private:
+		QTreeWidget *m_texdocs;
+		KLineEdit *m_leKeywords;
+		KPushButton *m_pbSearch;
 
-	QString m_texmfPath, m_texmfdocPath, m_texdoctkPath;
-	
-	QStringList m_tocList,m_tocSearchList;
-	QMap<QString,QString> m_dictDocuments;
-	QMap<QString,QString> m_dictStyleCodes;
-	
-	void readToc();
-	void showToc(const QString &caption,const QStringList &doclist, bool toc=true);
+		QString m_texmfPath, m_texmfdocPath, m_texdoctkPath;
 
-	QString m_filename;
-	QString m_output;
-	
-	KTemporaryFile *m_tempfile;
-	K3ShellProcess *m_proc;
-	
-	void callSearch();
-	void executeScript(const QString &command);
-	void showFile(const QString &filename);
+		QStringList m_tocList, m_tocSearchList;
+		QMap<QString, QString> m_dictDocuments;
+		QMap<QString, QString> m_dictStyleCodes;
 
-	QString searchFile(const QString &docfilename,const QString &listofpathes, 
-	                   const QString &subdir=QString::null);
-	void decompressFile(const QString &docfile,const QString &command);
-	void showStyleFile(const QString &filename,const QString &stylecode);
-	
-	QString getMimeType(const QString &filename);
-	QString getIconName(const QString &filename);
+		void readToc();
+		void showToc(const QString &caption, const QStringList &doclist, bool toc = true);
 
-protected:
-	bool eventFilter(QObject *o, QEvent *e); 
+		QString m_filename;
+		QString m_output;
 
-Q_SIGNALS:
-	void processFinished();
+		KTemporaryFile *m_tempfile;
+		K3ShellProcess *m_proc;
 
-protected Q_SLOTS:
-	void slotHelp(); 
-	
-private Q_SLOTS:
-	void slotListViewDoubleClicked(Q3ListViewItem *item,const QPoint &,int); 
-	void slotTextChanged(const QString &text);
-	void slotSearchClicked();
-	
-	void slotProcessOutput(K3Process*,char* buf,int len);
-	void slotProcessExited (K3Process *proc);
+		void callSearch();
+		void executeScript(const QString &command);
+		void showFile(const QString &filename);
 
-	void slotInitToc();
-	void slotShowFile();
+		QString searchFile(const QString &docfilename, const QString &listofpathes,
+		                   const QString &subdir = QString::null);
+		void decompressFile(const QString &docfile, const QString &command);
+		void showStyleFile(const QString &filename, const QString &stylecode);
+
+		QString getMimeType(const QString &filename);
+		QString getIconName(const QString &filename);
+
+	protected:
+		bool eventFilter(QObject *o, QEvent *e);
+
+	Q_SIGNALS:
+		void processFinished();
+
+	protected Q_SLOTS:
+		void slotHelp();
+
+	private Q_SLOTS:
+		void slotListViewDoubleClicked(QTreeWidgetItem *item);
+		void slotTextChanged(const QString &text);
+		void slotSearchClicked();
+
+		void slotProcessOutput(K3Process*, char* buf, int len);
+		void slotProcessExited(K3Process *proc);
+
+		void slotInitToc();
+		void slotShowFile();
 };
 
 }

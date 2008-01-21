@@ -82,7 +82,7 @@ class TexDocDialog : public KDialog
 		void processFinished();
 
 	protected Q_SLOTS:
-		void slotHelp();
+		void slotDefault();
 
 	private Q_SLOTS:
 		void slotListViewDoubleClicked(QTreeWidgetItem *item);

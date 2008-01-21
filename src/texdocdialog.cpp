@@ -23,8 +23,8 @@
 #include <QEvent>
 #include <QFile>
 #include <QFileInfo>
-#include <QGridLayout>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QLayout>
@@ -58,7 +58,7 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 {
 	setCaption(i18n("Documentation Browser"));
 	setModal(true);
-	setButtons(Close | Help);
+	setButtons(Close | Default);
 	setDefaultButton(NoDefault);
 	showButtonSeparator(true);
 
@@ -74,19 +74,19 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 
 	// groupbox
 	QGroupBox *groupbox = new QGroupBox(i18n("Search"), page);
-	QGridLayout *groupboxLayout = new QGridLayout(groupbox);
+	QHBoxLayout *groupboxLayout = new QHBoxLayout();
 	groupboxLayout->setAlignment(Qt::AlignTop);
 	groupboxLayout->setMargin(KDialog::marginHint());
 	groupboxLayout->setSpacing(KDialog::spacingHint());
+	groupbox->setLayout(groupboxLayout);
 
-	QLabel *label = new QLabel(i18n("&Keyword:"), groupbox);
 	m_leKeywords = new KLineEdit("", groupbox);
+	m_leKeywords->setClickMessage("Keyword");
+	m_leKeywords->setClearButtonShown(true);
 	m_pbSearch = new KPushButton(i18n("&Search"), groupbox);
-	label->setBuddy(m_leKeywords);
 
-	groupboxLayout->addWidget(label, 0, 0);
-	groupboxLayout->addWidget(m_leKeywords, 0, 1);
-	groupboxLayout->addWidget(m_pbSearch, 1, 0);
+	groupboxLayout->addWidget(m_leKeywords);
+	groupboxLayout->addWidget(m_pbSearch);
 
 	vbox->addWidget(m_texdocs);
 	vbox->addWidget(groupbox);
@@ -94,14 +94,11 @@ TexDocDialog::TexDocDialog(QWidget *parent, const char *name)
 	m_texdocs->setWhatsThis(i18n("A list of avaiblable documents, which are listed in 'texdoctk.dat', coming with TexLive/teTeX. A double click with the mouse or pressing the space key will open a viewer to show this file."));
 	m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files, which are related to this keyword."));
 	m_pbSearch->setWhatsThis(i18n("Start the search for the chosen keyword."));
-#ifdef __GNUC__
-#warning fix actionButton()
-#endif
-// 	Q3WhatsThis::add(actionButton(Help),i18n("Reset TOC to show all available files."));
+	button(Default)->setWhatsThis(i18n("Reset TOC to show all available files."));
 
-	setButtonText(Help, i18n("Reset &TOC"));
+	setButtonText(Default, i18n("Reset &TOC"));
 	m_pbSearch->setEnabled(false);
-	enableButton(Help, false);
+	enableButton(Default, false);
 
 	// catch some Return/Enter events
 	m_texdocs->installEventFilter(this);
@@ -246,7 +243,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 	if(toc) {
 		m_pbSearch->setEnabled(false);
 	}
-	enableButton(Help, !toc);
+	enableButton(Default, !toc);
 	m_texdocs->setFocus();
 }
 
@@ -528,7 +525,7 @@ void TexDocDialog::slotSearchClicked()
 	}
 }
 
-void TexDocDialog::slotHelp()
+void TexDocDialog::slotDefault()
 {
 	m_leKeywords->setText(QString::null);
 	m_texdocs->clear();
@@ -613,7 +610,7 @@ void TexDocDialog::slotInitToc()
 
 	// read data and initialize listview
 	readToc();
-	slotHelp();
+	slotDefault();
 }
 
 void TexDocDialog::slotShowFile()

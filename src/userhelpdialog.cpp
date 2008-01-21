@@ -62,27 +62,23 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	QVBoxLayout *vbox = new QVBoxLayout(page);
 	QGroupBox* group= new QGroupBox(i18n("User Help"), page);
 
-	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout(widget);
-#ifdef __GNU__
-#warning Some QGridLayout still remains to be ported
-#endif
-//FIXME: port for KDE4
-// 	grid->setRowStretch(1,1);
-// 	grid->setColStretch(0,1);
-// 	grid->setRowSpacing(2,12);
-// 	grid->setColSpacing(1,20);
+	QGridLayout *grid = new QGridLayout();
+	grid->setMargin(KDialog::marginHint());
+	grid->setSpacing(KDialog::spacingHint());
+	group->setLayout(grid);
 
 	// listbox
-	QLabel *label1 = new QLabel(i18n("&Menu item:"),widget);
+	QLabel *label1 = new QLabel(i18n("&Menu item:"),group);
 	grid->addWidget(label1, 0, 0);
-	m_menulistbox = new K3ListBox(widget);
+	m_menulistbox = new K3ListBox(group);
 	grid->addWidget(m_menulistbox, 1, 0);
 	label1->setBuddy(m_menulistbox);
 
 	// action widget
-	QWidget *actionwidget = new QWidget(widget);
+	QWidget *actionwidget = new QWidget(group);
 	QVBoxLayout *actions = new QVBoxLayout(actionwidget);
+	actions->setMargin(0);
+	actions->setSpacing(KDialog::spacingHint());
 
 	m_add = new KPushButton(i18n("&Add..."),actionwidget);
 	m_remove = new KPushButton(i18n("&Remove"),actionwidget);
@@ -106,7 +102,6 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	m_up->setFixedWidth(wmax);
 	m_down->setFixedWidth(wmax);
 
-	actions->addStretch(1);
 	actions->addWidget(m_add);
 	actions->addWidget(m_remove);
 	actions->addSpacing(20);
@@ -117,14 +112,14 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	actions->addStretch(1);
 
 	// inserta ction widget
-	grid->addWidget( actionwidget,1,2, Qt::AlignTop );
+	grid->addWidget( actionwidget,1,1, Qt::AlignTop );
 
 	// file
-	QLabel *label2 = new QLabel(i18n("File:"),widget);
-	grid->addWidget( label2, 3,0 );
-	m_fileedit = new KLineEdit("",widget);
+	QLabel *label2 = new QLabel(i18n("File:"),group);
+	grid->addWidget( label2, 2,0 );
+	m_fileedit = new KLineEdit("",group);
 	m_fileedit->setReadOnly(true);
-	grid->addWidget(m_fileedit, 4, 4, 0, 2);
+	grid->addWidget(m_fileedit, 3, 0, 1, 2);
 
 	// fill vbox
 	vbox->addWidget(group);
@@ -368,41 +363,38 @@ UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, co
 	setMainWidget(page);
 
 	// layout
-	QVBoxLayout *vbox = new QVBoxLayout(page);
+	QVBoxLayout *vbox = new QVBoxLayout();
+	vbox->setMargin(0);
+	vbox->setSpacing(KDialog::spacingHint());
+	page->setLayout(vbox);
 	QGroupBox* group= new QGroupBox(i18n("User Help"), page);
 
-	QWidget *widget = new QWidget(group);
-	QGridLayout *grid = new QGridLayout(widget);
-//FIXME: port for KDE4
-// 	grid->setColSpacing(2,8);
-// 	grid->setColSpacing(4,8);
+	QGridLayout *grid = new QGridLayout();
+	grid->setMargin(KDialog::marginHint());
+	grid->setSpacing(KDialog::spacingHint());
+	group->setLayout(grid);
 
 	// menu entry
-	QLabel *label1 = new QLabel(i18n("&Menu entry:"),widget);
+	QLabel *label1 = new QLabel(i18n("&Menu entry:"),group);
 	grid->addWidget( label1,0,0 );
-	m_leMenuEntry = new KLineEdit("",widget);
+	m_leMenuEntry = new KLineEdit("",group);
 	grid->addWidget( m_leMenuEntry, 0,1 );
 	label1->setBuddy(m_leMenuEntry);
 
 	// help file
-	QLabel *label2 = new QLabel(i18n("&Help file:"),widget);
+	QLabel *label2 = new QLabel(i18n("&Help file:"),group);
 	grid->addWidget( label2, 1,0 );
-	m_leHelpFile = new KLineEdit("",widget);
+	m_leHelpFile = new KLineEdit("",group);
 	m_leHelpFile->setReadOnly(false);
 	grid->addWidget( m_leHelpFile, 1,1 );
-	m_pbChooseFile = new KPushButton( "", widget );
+	m_pbChooseFile = new KPushButton( "", group);
 	m_pbChooseFile->setObjectName( "filechooser_button" );
-	m_pbChooseFile->setIcon( SmallIcon("fileopen") );
-//FIXME: port for KDE4
-// 	grid->addRowSpacing( 1, m_pbChooseFile->sizeHint().height()+5 );
+	m_pbChooseFile->setIcon( KIcon("document-open") );
 	grid->addWidget(m_pbChooseFile,1,3);
-	m_pbChooseHtml = new KPushButton( "", widget );
+	m_pbChooseHtml = new KPushButton( "", group );
 	m_pbChooseHtml->setObjectName( "htmlchooser_button" );
-	m_pbChooseHtml->setIcon(SmallIcon("viewhtml"));
+	m_pbChooseHtml->setIcon(KIcon("document-open-remote"));
 	grid->addWidget(m_pbChooseHtml,1,5);
-//FIXME: port for KDE4
-// 	grid->setColSpacing(3, m_pbChooseFile->sizeHint().width()+5 );
-// 	grid->setColSpacing(5, m_pbChooseHtml->sizeHint().width()+5 );
 
 	label2->setBuddy(m_pbChooseFile);
 
@@ -413,7 +405,7 @@ UserHelpAddDialog::UserHelpAddDialog(K3ListBox *menulistbox, QWidget *parent, co
 	m_leMenuEntry->setWhatsThis(i18n("The menu entry for this help file."));
 	m_leHelpFile->setWhatsThis(i18n("The name of the local help file or a valid WEB url."));
 	m_pbChooseFile->setWhatsThis(i18n("Start a file dialog to choose a local help file."));
-	m_pbChooseHtml->setWhatsThis(i18n("Start the konqueror to choose a WEB url as help file. This url should be copied inzo the edit widget."));
+	m_pbChooseHtml->setWhatsThis(i18n("Start the konqueror to choose a WEB url as help file. This url should be copied into the edit widget."));
 
 	connect( m_pbChooseFile, SIGNAL( clicked() ), this, SLOT( slotChooseFile() ) );
 	connect( m_pbChooseHtml, SIGNAL( clicked() ), this, SLOT( slotChooseHtml() ) );

@@ -194,14 +194,14 @@ void UserHelpDialog::slotAdd()
 	KileDialog::UserHelpAddDialog *dialog = new KileDialog::UserHelpAddDialog(m_menulistbox,this);
 	if ( dialog->exec() )
 	{
-		// insert into listbox
-		m_menulistbox->addItem(dialog->getMenuitem());
-		m_menulistbox->setCurrentRow(m_menulistbox->count() - 1 );
-
 		// with corresponding filename
 		QString helpfile = dialog->getHelpfile();
 		m_filelist.append(helpfile);
 		m_fileedit->setText(helpfile);
+
+		// insert into listbox
+		m_menulistbox->addItem(dialog->getMenuitem());
+		m_menulistbox->setCurrentRow(m_menulistbox->count() - 1 );
 
 		updateButton();
 	}

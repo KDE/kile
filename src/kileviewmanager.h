@@ -106,6 +106,7 @@ protected:
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 
 protected Q_SLOTS:
+	void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
 	void replaceLoadedURL(QWidget *w, QDropEvent *e);
 	void onTextEditorPopupMenuRequest(void);
@@ -145,12 +146,12 @@ class DropWidget : public QWidget {
 		DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WFlags f = 0);
 		virtual ~DropWidget();
 
-		virtual void dragMoveEvent(QDragMoveEvent *e);
+		virtual void dragEnterEvent(QDragEnterEvent *e);
 
 		virtual void dropEvent(QDropEvent *e);
 
 	Q_SIGNALS:
-		void testCanDecode(const QDragMoveEvent *, bool &);
+		void testCanDecode(const QDragEnterEvent *, bool &);
 		void receivedDropEvent(QDropEvent *);
 };
 

@@ -18,31 +18,25 @@
 
 #include "kileviewmanager.h"
 
-#include <q3popupmenu.h>
-#include <qtimer.h> //for QTimer::singleShot trick
-#include <qpixmap.h>
-#include <qclipboard.h>
-//Added by qt3to4:
+#include <QClipboard>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QLayout>
-
-#include <k3urldrag.h>
+#include <QPixmap>
+#include <QTimer> //for QTimer::singleShot trick
 
 #include <KApplication>
 #include <KAction>
 #include <KActionCollection>
-#include <kdeversion.h>
 #include <KGlobal>
+#include <KIconLoader>
 #include <kio/global.h>
-#include <ktexteditor/view.h>
-#include <ktexteditor/document.h>
-#include <kparts/componentfactory.h>
-#include <kxmlguiclient.h>
-#include <kxmlguifactory.h>
-#include <kiconloader.h>
-#include <KMimeType>
 #include <KLocale>
+#include <KMimeType>
+#include <KTextEditor/Document>
+#include <KTextEditor/View>
+#include <KXMLGUIClient>
+#include <KXMLGUIFactory>
 
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"
@@ -63,11 +57,11 @@ namespace KileView
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent, name),
 	m_ki(info),
-	m_activeTextView(0L),
-// 	m_projectview(0L),
-	m_tabs(0L),
-	m_widgetStack(0L),
-	m_emptyDropWidget(0L)
+	m_activeTextView(NULL),
+// 	m_projectview(NULL),
+	m_tabs(NULL),
+	m_widgetStack(NULL),
+	m_emptyDropWidget(NULL)
 {
 }
 
@@ -99,8 +93,8 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_widgetStack = new QStackedWidget(parent);
 	m_emptyDropWidget = new DropWidget(m_widgetStack);
 	m_widgetStack->addWidget(m_emptyDropWidget);
-	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragMoveEvent *,  bool &)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent *, bool &)));
-	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
+	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragEnterEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragEnterEvent*, bool&)));
+	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
 	m_tabs = new KTabWidget(parent);
 	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(Qt::ClickFocus);
@@ -108,13 +102,13 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_tabs->setHoverCloseButton(true);
 	m_tabs->setHoverCloseButtonDelayed(true);
 	m_tabs->setFocus();
-	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(newCaption()) );
-	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(activateView( QWidget * )) );
-	connect( m_tabs, SIGNAL( currentChanged( QWidget * ) ), m_receiver, SLOT(updateModeStatus()) );
-	connect( m_tabs, SIGNAL( closeRequest(QWidget *) ), this, SLOT(closeWidget(QWidget *)));
-	connect( m_tabs, SIGNAL( testCanDecode( const QDragMoveEvent *,  bool & ) ), this, SLOT(testCanDecodeURLs( const QDragMoveEvent *, bool & )) );
-	connect( m_tabs, SIGNAL( receivedDropEvent( QDropEvent * ) ), m_ki->docManager(), SLOT(openDroppedURLs( QDropEvent * )) );
-	connect( m_tabs, SIGNAL( receivedDropEvent( QWidget*, QDropEvent * ) ), this, SLOT(replaceLoadedURL( QWidget *, QDropEvent * )) );
+	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), m_receiver, SLOT(newCaption()));
+	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), m_receiver, SLOT(activateView(QWidget*)));
+	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), m_receiver, SLOT(updateModeStatus()));
+	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
+	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
+	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
+	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
 	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
 
 	return m_widgetStack;
@@ -255,7 +249,7 @@ unsigned int Manager::getTabCount() const {
 
 KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus)
 {
-	KTextEditor::View *view = 0L;
+	KTextEditor::View *view = NULL;
 	KTextEditor::Document *doc = m_ki->docManager()->docFor(url);
 
 	if (doc) {
@@ -282,19 +276,24 @@ void Manager::setTabIcon(QWidget *view, const QPixmap& icon)
 	m_tabs->setTabIcon(m_tabs->indexOf(view), QIcon(icon));
 }
 
-void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = 0L */)
+void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = NULL */)
 {
-	if (docinfo == 0L)
+	if (!docinfo) {
 		docinfo = m_ki->docManager()->getInfo();
+	}
 
-	if (docinfo)
+	if(docinfo) {
 		m_ki->structureWidget()->update(docinfo, parse);
+	}
 
 	KTextEditor::View *view = currentTextView();
-	if (view) {view->setFocus();}
+	if(view) {
+		view->setFocus();
+	}
 
-	if ( textViews().count() == 0 )
+	if(textViews().count() == 0) {
 		m_ki->structureWidget()->clear();
+	}
 }
 
 void Manager::gotoNextView()
@@ -516,23 +515,31 @@ void Manager::quickPreviewPopup()
 		return;
 	}
 
-	if (view->selection())
-		emit( startQuickPreview(KileTool::qpSelection) );
-	else if ( m_ki->editorExtension()->hasMathgroup(view) )
-		emit( startQuickPreview(KileTool::qpMathgroup) );
-	else if ( m_ki->editorExtension()->hasEnvironment(view) )
-		emit( startQuickPreview(KileTool::qpEnvironment) );
+	if(view->selection()) {
+		emit(startQuickPreview(KileTool::qpSelection));
+	}
+	else if(m_ki->editorExtension()->hasMathgroup(view)) {
+		emit(startQuickPreview(KileTool::qpMathgroup));
+	}
+	else if(m_ki->editorExtension()->hasEnvironment(view)) {
+		emit(startQuickPreview(KileTool::qpEnvironment));
+	}
+}
+
+void Manager::testCanDecodeURLs(const QDragEnterEvent *e, bool &accept)
+{
+	accept = e->mimeData()->hasUrls(); // only accept URL drops
 }
 
 void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
 {
-	accept = K3URLDrag::canDecode(e); // only accept URL drops
+	accept = e->mimeData()->hasUrls(); // only accept URL drops
 }
 
 void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 {
-	KUrl::List urls;
-	if(!K3URLDrag::decode(e, urls)) {
+	KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
+	if (urls.isEmpty()) {
 		return;
 	}
 	int index = m_tabs->indexOf(w);
@@ -575,11 +582,13 @@ DropWidget::~DropWidget()
 {
 }
 
-void DropWidget::dragMoveEvent(QDragMoveEvent *e)
+void DropWidget::dragEnterEvent(QDragEnterEvent *e)
 {
 	bool b;
 	emit testCanDecode(e, b);
-	e->accept(b);
+	if(b) {
+		e->acceptProposedAction();
+	}
 }
 
 void DropWidget::dropEvent(QDropEvent *e)

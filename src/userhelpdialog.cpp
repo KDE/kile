@@ -391,7 +391,8 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
 	QLabel *label1 = new QLabel(i18n("&Menu entry:"), group);
 	grid->addWidget(label1, 0, 0);
 	m_leMenuEntry = new KLineEdit("", group);
-	grid->addWidget(m_leMenuEntry, 0, 1);
+	m_leMenuEntry->setClearButtonShown(true);
+	grid->addWidget(m_leMenuEntry, 0, 1, 1, 3);
 	label1->setBuddy(m_leMenuEntry);
 
 	// help file
@@ -399,15 +400,20 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
 	grid->addWidget(label2, 1, 0);
 	m_leHelpFile = new KLineEdit("", group);
 	m_leHelpFile->setReadOnly(false);
+	m_leHelpFile->setClearButtonShown(true);
 	grid->addWidget(m_leHelpFile, 1, 1);
 	m_pbChooseFile = new KPushButton("", group);
 	m_pbChooseFile->setObjectName("filechooser_button");
 	m_pbChooseFile->setIcon(KIcon("document-open"));
-	grid->addWidget(m_pbChooseFile, 1, 3);
+	int buttonSize = m_leHelpFile->sizeHint().height();
+	m_pbChooseFile->setFixedSize(buttonSize, buttonSize);
+	m_pbChooseFile->setToolTip(i18n("Open file dialog"));
+	grid->addWidget(m_pbChooseFile, 1, 2);
 	m_pbChooseHtml = new KPushButton("", group);
 	m_pbChooseHtml->setObjectName("htmlchooser_button");
 	m_pbChooseHtml->setIcon(KIcon("document-open-remote"));
-	grid->addWidget(m_pbChooseHtml, 1, 5);
+	m_pbChooseHtml->setFixedSize(buttonSize, buttonSize);
+	grid->addWidget(m_pbChooseHtml, 1, 3);
 
 	label2->setBuddy(m_pbChooseFile);
 

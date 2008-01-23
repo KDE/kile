@@ -19,67 +19,73 @@
 #ifndef USERHELPDIALOG_H
 #define USERHELPDIALOG_H
 
-#include <qwidget.h>   
-#include <qstringlist.h>
+#include <KDialog>
 
-#include <klineedit.h>
-#include <kpushbutton.h>
-#include <kdialog.h>
+#include <QStringList>
+
+#include <KLineEdit>
 
 class QListWidget;
+
+class KLineEdit;
+class KPushButton;
 
 namespace KileDialog
 {
 
 class UserHelpDialog : public KDialog
 {
-	Q_OBJECT
-   
-public: 
-	UserHelpDialog(QWidget *parent=0, const char *name=0);
-	~UserHelpDialog() {} 
-	
-	void setParameter(const QStringList &menuentries, const QStringList &helpfiles);
-	void getParameter(QStringList &userhelpmenulist, QStringList &userhelpfilelist);
-private:
-	QListWidget *m_menulistbox;
-	KLineEdit *m_fileedit;
-	KPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
+		Q_OBJECT
 
-	QStringList m_filelist;
+	public:
+		UserHelpDialog(QWidget *parent = 0, const char *name = 0);
+		~UserHelpDialog() {}
 
-	void updateButton();
-   
-private Q_SLOTS:
-	void slotChange();
-	void slotAdd();
-	void slotRemove();
-	void slotAddSep();
-	void slotUp();
-	void slotDown();
+		void setParameter(const QStringList &menuentries, const QStringList &helpfiles);
+		void getParameter(QStringList &userhelpmenulist, QStringList &userhelpfilelist);
+	private:
+		QListWidget *m_menulistbox;
+		KLineEdit *m_fileedit;
+		KPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
+
+		QStringList m_filelist;
+
+		void updateButton();
+
+	private Q_SLOTS:
+		void slotChange();
+		void slotAdd();
+		void slotRemove();
+		void slotAddSep();
+		void slotUp();
+		void slotDown();
 };
 
 class UserHelpAddDialog : public KDialog
 {
-	Q_OBJECT
-   
-public: 
-	UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent=0, const char *name=0);
-	~UserHelpAddDialog() {} 
+		Q_OBJECT
 
-private:
-	KLineEdit *m_leMenuEntry, *m_leHelpFile;
-	KPushButton *m_pbChooseFile,*m_pbChooseHtml;
-	QListWidget *m_menulistbox;
-	
-public:
-	QString getMenuitem() { return m_leMenuEntry->text(); }
-	QString getHelpfile() { return m_leHelpFile->text();  }
-	   
-private Q_SLOTS:
-	void slotChooseFile();
-	void slotChooseHtml();
-	void slotOk();
+	public:
+		UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = 0);
+		~UserHelpAddDialog() {}
+
+	private:
+		KLineEdit *m_leMenuEntry, *m_leHelpFile;
+		KPushButton *m_pbChooseFile, *m_pbChooseHtml;
+		QListWidget *m_menulistbox;
+
+	public:
+		QString getMenuitem() {
+			return m_leMenuEntry->text();
+		}
+		QString getHelpfile() {
+			return m_leHelpFile->text();
+		}
+
+	private Q_SLOTS:
+		void slotChooseFile();
+		void slotChooseHtml();
+		void slotOk();
 };
 
 }

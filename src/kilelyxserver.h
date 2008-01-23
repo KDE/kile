@@ -20,11 +20,13 @@
 #include <config.h>
 #endif
 
-#include <QObject>
+
+#include <QHash>
 #include <QList>
-#include <q3intdict.h>
+#include <QObject>
 #include <QStringList>
-#include <ktempdir.h>
+
+#include <KTempDir>
 
 #include <sys/types.h>
 
@@ -69,7 +71,7 @@ private:
 	KTempDir			*m_tempDir;
 	QList<QFile*>			m_pipeIn;
 	QList<QSocketNotifier*>		m_notifier;
-	Q3IntDict<QFile>		m_file;
+	QHash<int, QFile*>		m_file;
 	bool				m_running;
 	QStringList 			m_links,m_pipes;
 };

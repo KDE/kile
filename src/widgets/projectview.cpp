@@ -20,10 +20,7 @@
 #include <q3header.h>
 #include <QList>
 
-//Added by qt3to4:
 #include <QDropEvent>
-
-#include <k3urldrag.h>
 
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -694,7 +691,7 @@ void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 
 bool ProjectView::acceptDrag(QDropEvent *e) const
 {
-	return K3URLDrag::canDecode(e); // only accept URL drops
+	return e->mimeData()->hasUrls(); // only accept URL drops
 }
 
 }

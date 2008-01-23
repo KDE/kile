@@ -31,8 +31,6 @@
 #include <QList>
 #include <QDropEvent>
 
-#include <k3urldrag.h>
-
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/editorchooser.h>
@@ -1671,19 +1669,16 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 }
 
 void Manager::openDroppedURLs(QDropEvent *e) {
-	KUrl::List urls;
+	KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
 	Extensions *extensions = m_ki->extensions();
-	if(K3URLDrag::decode(e, urls)) {
-		for(KUrl::List::iterator i = urls.begin(); i != urls.end(); ++i) {
-			KUrl url = *i;
-			if(extensions->isProjectFile(url))
-			{
-				projectOpen(url);
-			}
-			else
-			{
-				fileOpen(url);
-			}
+
+	for(KUrl::List::iterator i = urls.begin(); i != urls.end(); ++i) {
+		KUrl url = *i;
+		if(extensions->isProjectFile(url)) {
+			projectOpen(url);
+		}
+		else {
+			fileOpen(url);
 		}
 	}
 }

@@ -107,7 +107,7 @@ namespace KileDocument
 		return m_type;
 	}
 
-	CodeCompletion::Type CodeCompletion::getType( const QString &text )
+	CodeCompletion::Type CodeCompletion::getType(const QString &text)
 	{
 		if(text.indexOf(reRef) != -1) {
 			return CodeCompletion::ctReference;
@@ -156,10 +156,10 @@ namespace KileDocument
 
 	void CodeCompletion::readConfig(KConfig *config)
 	{
-		KILE_DEBUG() << "=== CodeCompletion::readConfig ===================" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::readConfig ===================";
 
 		// save normal parameter
-		//KILE_DEBUG() << "   read bool entries" << endl;
+		//KILE_DEBUG() << "   read bool entries";
 		m_isenabled = KileConfig::completeEnabled();
 		m_setcursor = KileConfig::completeCursor();
 		m_setbullets = KileConfig::completeBullets();
@@ -178,10 +178,10 @@ namespace KileDocument
 		// reading the wordlists is only necessary at the first start
 		// and when the list of files changes
 		if(m_firstconfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
-			KILE_DEBUG() << "   set regexp for references..." << endl;
+			KILE_DEBUG() << "   set regexp for references...";
 			setReferences();
 
-			KILE_DEBUG() << "   read wordlists..." << endl;
+			KILE_DEBUG() << "   read wordlists...";
 			// wordlists for Tex/Latex mode
 			QStringList files = KileConfig::completeTex();
 			setWordlist( files, "tex", &m_texlist );
@@ -213,7 +213,7 @@ namespace KileDocument
 
 	void CodeCompletion::saveLocalChanges()
 	{
-		KILE_DEBUG() << "=== CodeCompletion::saveLocalChanges ===================" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::saveLocalChanges ===================";
 		m_abbrevListview->saveLocalAbbreviation(m_localAbbrevFile);
 	}
 
@@ -358,10 +358,10 @@ namespace KileDocument
 #endif
 //FIXME: port for KDE4
 /*
-		KILE_DEBUG() << "==CodeCompletion::completeWord(" << text << ")=========" << endl;
-		//KILE_DEBUG() << "\tm_view = " << m_view << endl;
+		KILE_DEBUG() << "==CodeCompletion::completeWord(" << text << ")=========";
+		//KILE_DEBUG() << "\tm_view = " << m_view;
 		if ( !m_view) return;
-		//KILE_DEBUG() << "ok" << endl;
+		//KILE_DEBUG() << "ok";
 
 		// remember all parameters (view, pattern, length of pattern, mode)
 		m_text = text;
@@ -380,7 +380,7 @@ namespace KileDocument
 			QString s = doc->textLine(m_ycursor);
 			int pos = s.findRev("\\",m_xcursor);
 			if (pos < 0) {
-				//KILE_DEBUG() << "\tfound no backslash! s=" << s << endl;
+				//KILE_DEBUG() << "\tfound no backslash! s=" << s;
 				return;
 			}
 			m_xstart = pos;
@@ -417,7 +417,7 @@ namespace KileDocument
 		QString pattern = ( m_mode != cmEnvironment ) ? text : "\\begin{" + text;
 		uint n = countEntries( pattern, &list, &entry, &type );
 
-		//KILE_DEBUG() << "entries = " << n << endl;
+		//KILE_DEBUG() << "entries = " << n;
 
 		// nothing to do
 		if ( n == 0 )
@@ -552,6 +552,66 @@ namespace KileDocument
 */
 	}
 
+	void CodeCompletion::textInsertedInView(KTextEditor::View *view, const KTextEditor::Cursor &position, const QString &text)
+	{
+		KILE_DEBUG() << "(" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << text << ")=============";
+
+		if (!inProgress() && m_autoDollar && text == "$") {
+			autoInsertDollar();
+			return;
+		}
+
+		// only work, if autocomplete mode of Kile is active
+		if(!isActive() || !autoComplete()) {
+			return ;
+		}
+
+		//FIXME: why is this needed?
+		m_view = view;
+
+		// try to autocomplete abbreviations after punctuation symbol
+		if(!inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(text)) {
+			return;
+		}
+
+		// rather unsusual, but it may happen: the cursor is inside
+		// of a reference command without a labellist.
+		if(!m_ref) {
+			QString startpattern;
+			CodeCompletion::Type reftype = insideReference(startpattern);
+			if(reftype != CodeCompletion::ctNone) {
+				m_ref = true;
+				editCompleteList(reftype, startpattern);
+				return;
+			}
+		}
+
+		QString word;
+		Type type;
+		bool found = (m_ref) ? getReferenceWord(word) : getCompleteWord(true, word, type);
+		if(found) {
+			int wordlen = word.length();
+			KILE_DEBUG() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress();
+			if(inProgress()) {               // continue a running mode?
+				KILE_DEBUG() << "   auto completion: continue current mode";
+				completeWord(word, m_mode);
+			}
+			else if(word.at(0) == '\\' && m_autocomplete && wordlen >= m_latexthreshold) {
+				KILE_DEBUG() << "   auto completion: latex mode";
+				if(text.at(0).isLetter()) {
+					completeWord(word, cmLatex);
+				}
+				else if(text.at(0) == '{') {
+					editCompleteList(type);
+				}
+			}
+			else if(word.at(0).isLetter() && m_autocompletetext && wordlen >= m_textthreshold) {
+				KILE_DEBUG() << "   auto completion: document mode";
+				completeWord(word, cmDocumentWord);
+			}
+		}
+	}
+
 	//////////////////// build the text for completion ////////////////////
 
 	// parse an entry for kile completion modes:
@@ -567,7 +627,7 @@ namespace KileDocument
 //FIXME: port for KDE4
 /*
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
-		//KILE_DEBUG() << "   complete filter: " << text << " type " << type << endl;
+		//KILE_DEBUG() << "   complete filter: " << text << " type " << type;
 		m_type = getType( text );    // remember current type
 
 		if ( text!="\\begin{}" && reEnv.search(text)!=-1 )
@@ -1161,18 +1221,19 @@ return 0;
 */
 	}
 
-	void CodeCompletion::editCompleteList(Type type,const QString &pattern)
+	void CodeCompletion::editCompleteList(Type type, const QString &pattern)
 	{
-		//KILE_DEBUG() << "==editCompleteList=============" << endl;
+		//KILE_DEBUG() << "==editCompleteList=============";
 		m_keylistType = type;
-		if ( type == ctReference )
-			completeFromList(info()->allLabels(),pattern);
-		else if ( type == ctCitation )
-			completeFromList(info()->allBibItems(),pattern);
-		else
-		{
+		if(type == ctReference) {
+			completeFromList(info()->allLabels(), pattern);
+		}
+		else if(type == ctCitation) {
+			completeFromList(info()->allBibItems(), pattern);
+		}
+		else {
 			m_keylistType = CodeCompletion::ctNone;
-			kWarning() << "unsupported type in CodeCompletion::editCompleteList" << endl;
+			kWarning() << "unsupported type in CodeCompletion::editCompleteList";
 		}
 	}
 
@@ -1186,7 +1247,7 @@ return 0;
 //FIXME: port for KDE4
 /*
 
-		//KILE_DEBUG() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============";
 		CompletionDone(entry);
 
 		// if kile completion was active, look if we need to show an additional list
@@ -1210,14 +1271,14 @@ return 0;
 
 	void CodeCompletion::slotCompleteValueList()
 	{
-		//KILE_DEBUG() << "==slotCompleteValueList (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCompleteValueList (" << m_kilecompletion << "," << m_inprogress << ")=============";
 		m_completeTimer->stop();
 		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()
 	{
-		//KILE_DEBUG() << "==slotCompletionAborted (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotCompletionAborted (" << m_kilecompletion << "," << m_inprogress << ")=============";
 		CompletionAborted();
 	}
 
@@ -1229,76 +1290,16 @@ return 0;
 //FIXME: port for KDE4
 /*
 
-		//KILE_DEBUG() << "==slotFilterCompletion (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
+		//KILE_DEBUG() << "==slotFilterCompletion (" << m_kilecompletion << "," << m_inprogress << ")=============";
 		if ( inProgress() )                 // dani 28.09.2004
 		{
-			//KILE_DEBUG() << "\tin progress: s=" << *s << endl;
+			//KILE_DEBUG() << "\tin progress: s=" << *s;
 			*s = filterCompletionText( c->text, c->type );
-			//KILE_DEBUG() << "\tfilter --->" << *s << endl;
+			//KILE_DEBUG() << "\tfilter --->" << *s;
 			m_inprogress = false;
 			m_kilecompletion = true;
 		}
 */
-	}
-
-	void CodeCompletion::slotCharactersInserted(int, int, const QString& string)
-	{
-		//KILE_DEBUG() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << string << ")=============" << endl;
-
-		if (!inProgress() && m_autoDollar && string=="$") {
-			autoInsertDollar();
-			return;
-		}
-
-		// only work, if autocomplete mode of Kile is active
-		if(!isActive() || !autoComplete()) {
-			return ;
-		}
-
-		//FIXME this is not very efficient
-		m_view = info()->viewManager()->currentTextView();
-
-		// try to autocomplete abbreviations after punctuation symbol
-		if(!inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(string)) {
-			return;
-		}
-
-		// rather unsusual, but it may happen: the cursor is inside
-		// of a reference command without a labellist.
-		if(! m_ref) {
-			QString startpattern;
-			CodeCompletion::Type reftype = insideReference(startpattern);
-			if(reftype != CodeCompletion::ctNone) {
-				m_ref = true;
-				editCompleteList(reftype, startpattern);
-				return;
-			}
-		}
-
-		QString word;
-		Type type;
-		bool found = (m_ref) ? getReferenceWord(word) : getCompleteWord(true, word, type);
-		if(found) {
-			int wordlen = word.length();
-			//KILE_DEBUG() << "   auto completion: word=" << word << " mode=" << m_mode << " inprogress=" << inProgress() << endl;
-			if(inProgress()) {               // continue a running mode?
-				//KILE_DEBUG() << "   auto completion: continue current mode" << endl;
-				completeWord(word, m_mode);
-			}
-			else if(word.at(0) == '\\' && m_autocomplete && wordlen >= m_latexthreshold) {
-				//KILE_DEBUG() << "   auto completion: latex mode" << endl;
-				if(string.at(0).isLetter()) {
-					completeWord(word, cmLatex);
-				}
-				else if(string.at(0) == '{') {
-					editCompleteList(type);
-				}
-			}
-			else if(word.at(0).isLetter() && m_autocompletetext && wordlen >= m_textthreshold) {
-				//KILE_DEBUG() << "   auto completion: document mode" << endl;
-				completeWord(word, cmDocumentWord);
-			}
-		}
 	}
 
 	//////////////////// testing characters (dani) ////////////////////
@@ -1389,7 +1390,7 @@ return 0;
 
 	void CodeCompletion::getDocumentWords(const QString &text, QList<KTextEditor::CompletionEntry> &list)
 	{
-		//KILE_DEBUG() << "getDocumentWords: " << endl;
+		//KILE_DEBUG() << "getDocumentWords: ";
 		list.clear();
 
 		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
@@ -1459,7 +1460,7 @@ return 0;
 			return false;
 		}
 
-		KILE_DEBUG() << "=== CodeCompletion::completeAutoAbbreviation: abbrev=" << abbrev << "  exp=" << expansion << endl;
+		KILE_DEBUG() << "=== CodeCompletion::completeAutoAbbreviation: abbrev=" << abbrev << "  exp=" << expansion;
 
 		uint len = abbrev.length();
 		uint startcol = col - len - 1;
@@ -1514,7 +1515,7 @@ return 0;
 #endif
 //FIXME: port for KDE4
 /*
-		KILE_DEBUG() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::deleteAbbreviationEntry (" << entry << ")";
 		QList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{
@@ -1534,7 +1535,7 @@ return 0;
 #endif
 //FIXME: port for KDE4
 /*
-		KILE_DEBUG() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")" << endl;
+		KILE_DEBUG() << "=== CodeCompletion::addAbbreviationEntry (" << entry << ")";
 		QList<KTextEditor::CompletionEntry>::Iterator it;
 		for ( it=m_abbrevlist.begin(); it!=m_abbrevlist.end(); ++it )
 		{

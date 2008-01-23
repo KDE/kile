@@ -2,6 +2,7 @@
     date                 : Mar 21 2007
     version              : 0.40
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************************/
 
 /***************************************************************************
@@ -94,7 +95,7 @@ public:
 
 public Q_SLOTS:
 	//in these two methods we should set m_view
-	void slotCharactersInserted(int, int, const QString&);
+	void textInsertedInView(KTextEditor::View *view, const KTextEditor::Cursor &position, const QString &text);
 	void editComplete(KTextEditor::View *view, KileDocument::CodeCompletion::Mode mode);
 
 	void slotCompletionDone(KTextEditor::CompletionEntry);

@@ -201,34 +201,34 @@ TemplateList Manager::getTemplates(KileDocument::Type type) const {
 
 // new compare function to make the "Empty (...) Document" items appear at the beginning
 
-TemplateItem::TemplateItem(Q3IconView * parent, const KileTemplate::Info& info) : Q3IconViewItem(parent,info.name, QPixmap(info.icon))
+TemplateItem::TemplateItem(QListWidget * parent, const KileTemplate::Info& info)
+	: QListWidgetItem(QPixmap(info.icon), info.name, parent)
 {
-	setDragEnabled(false);
 	m_info = info;
 }
 
-int TemplateItem::compare( Q3IconViewItem *i ) const
+bool TemplateItem::operator<(const QListWidgetItem &other) const
 {
-	if(key() == DEFAULT_EMPTY_CAPTION) {
-		return -1;
+	if(text() == DEFAULT_EMPTY_CAPTION) {
+		return true;
 	}
-	else if(i->key() == DEFAULT_EMPTY_CAPTION) {
-		return 1;
+	else if(other.text() == DEFAULT_EMPTY_CAPTION) {
+		return false;
 	}
 	else {
-		return key().compare( i->key() );
+		return QListWidgetItem::operator<(other);
 	}
 }
 
 ////////////////////// TemplateIconView //////////////////////
 
-TemplateIconView::TemplateIconView(QWidget *parent, const char *name, Qt::WFlags f) : K3IconView(parent, name, f), m_templateManager(NULL), m_proc(NULL) {
-	setItemsMovable(false);
-	setMode(K3IconView::Select);
-	setResizeMode(Q3IconView::Adjust);
-	setSelectionMode(Q3IconView::Single);
-	setResizePolicy(Q3ScrollView::Default);
-	setArrangement(Q3IconView::TopToBottom);
+TemplateIconView::TemplateIconView(QWidget *parent)
+	: QListWidget(parent), m_templateManager(NULL), m_proc(NULL) {
+	setViewMode(QListView::IconMode);
+	setMovement(QListView::Static);
+	setResizeMode(QListView::Adjust);
+	setSelectionMode(QAbstractItemView::SingleSelection);
+	setFlow(QListView::TopToBottom);
 	setMinimumHeight(100);
 }
 
@@ -315,7 +315,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	emptyDocumentInfo.icon = emptyIcon;
 	emptyDocumentInfo.type = type;
 	TemplateItem *emp = new TemplateItem(this, emptyDocumentInfo);
-	setSelected(emp, true);
+	emp->setSelected(true);
 
 	if(type == KileDocument::LaTeX) {
 		// disable non standard templates
@@ -369,13 +369,13 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	}
 
 	// sort all items (item for 'Empty Document' will always be the first one)
-	sort();
+	sortItems();
 	
 	// set the default item, if its given
-	for(Q3IconViewItem *item = firstItem(); item; item = item->nextItem()) {
-		if(static_cast<TemplateItem*>(item)->name() == m_selicon) {
-			setSelected(item, true);
-			ensureItemVisible(item);
+	for(int i = 0; i < count(); ++i) {
+		if(static_cast<TemplateItem*>(item(i))->name() == m_selicon) {
+			item(i)->setSelected(true);
+			break;
 		}
 	}
 }

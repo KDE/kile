@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QProcess>
 #include <QList>
+#include <QListWidget>
 
 #include "kileconstants.h"
 
@@ -112,13 +113,13 @@ const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
 const QString DEFAULT_EMPTY_LATEX_CAPTION = i18n("Empty LaTeX Document");
 const QString DEFAULT_EMPTY_BIBTEX_CAPTION = i18n("Empty BibTeX Document");
 
-class TemplateItem : public Q3IconViewItem
+class TemplateItem : public QListWidgetItem
 {
 public:
-	TemplateItem( Q3IconView * parent, const KileTemplate::Info & info);
+	TemplateItem( QListWidget * parent, const KileTemplate::Info & info);
 	~TemplateItem() {}
 
-	int compare( Q3IconViewItem *i ) const;
+	bool operator<(const QListWidgetItem &other) const;
 	
 	QString name() { return m_info.name; }
 	QString path() { return m_info.path; }
@@ -129,11 +130,11 @@ private:
 	KileTemplate::Info m_info;
 };
 
-class TemplateIconView : public K3IconView {
+class TemplateIconView : public QListWidget {
 	Q_OBJECT
 	
 	public:
-		TemplateIconView(QWidget *parent=0, const char *name=0, Qt::WFlags f=0);
+		TemplateIconView(QWidget *parent=0);
 		virtual ~TemplateIconView();
 
 		void setTemplateManager(KileTemplate::Manager *templateManager);

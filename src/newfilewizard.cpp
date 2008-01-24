@@ -86,12 +86,7 @@ NewFileWizard::~NewFileWizard()
 
 TemplateItem* NewFileWizard::getSelection()const
 {
-	for(Q3IconViewItem *item = m_newDocumentWidget->templateIconView->firstItem(); item; item = item->nextItem()) {
-		if(item->isSelected()) {
-			return static_cast<TemplateItem*>(item);
-		}
-	}
-	return NULL;
+	return static_cast<TemplateItem*>(m_newDocumentWidget->templateIconView->currentItem());
 }
 
 bool NewFileWizard::useWizard()
@@ -134,9 +129,9 @@ void NewFileWizard::restoreSelectedIcon()
 {
 	KConfigGroup defaultGroup = KGlobal::config()->group("default");
 	QString selectedIconName = defaultGroup.readEntry(getConfigKey(m_currentlyDisplayedType), DEFAULT_EMPTY_CAPTION);
-	Q3IconViewItem *item = m_newDocumentWidget->templateIconView->findItem(selectedIconName);
-	if(item) {
-		m_newDocumentWidget->templateIconView->setSelected(item, true);
+	QList<QListWidgetItem*> items = m_newDocumentWidget->templateIconView->findItems(selectedIconName, Qt::MatchExactly);
+	if(items.count() > 0) {
+		items[0]->setSelected(true);
 	}
 }
 

@@ -174,4 +174,6 @@ pics_DATA = img001special.png \
 	img172special.png \
 	img173special.png \
 	img174special.png \
-	img175special.png
+	img175special.png \
+	img176special.png \
+	img177special.png

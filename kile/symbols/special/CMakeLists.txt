@@ -177,6 +177,8 @@ SET( symbols
 	img173special.png
 	img174special.png
 	img175special.png
+	img176special.png
+	img177special.png
 )
 
 INSTALL( FILES ${symbols} DESTINATION share/apps/kile/mathsymbols/special )

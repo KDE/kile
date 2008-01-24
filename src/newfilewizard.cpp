@@ -56,7 +56,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, QWidget *pa
 	if ( h == -1 ) h = height();
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
-	connect(m_newDocumentWidget->templateIconView, SIGNAL(doubleClicked(Q3IconViewItem *)), SLOT(slotOk()));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotOk()));
 	m_templateManager->scanForTemplates();
 	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
 	m_newDocumentWidget->templateIconView->fillWithTemplates(KileDocument::LaTeX);

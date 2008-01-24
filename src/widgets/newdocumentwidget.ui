@@ -11,7 +11,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="Q3GroupBox" name="groupBox2" >
+    <widget class="QGroupBox" name="groupBox2" >
      <property name="title" >
       <string>Document Type</string>
      </property>
@@ -53,7 +53,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3GroupBox" name="groupBox1" >
+    <widget class="QGroupBox" name="groupBox1" >
      <property name="title" >
       <string>Template</string>
      </property>
@@ -86,12 +86,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>TemplateIconView</class>
    <extends>QWidget</extends>

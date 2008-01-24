@@ -24,6 +24,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
+#include <KProcess>
 #include <KShell>
 #include <KStandardDirs>
 #include <KIO/Job>

@@ -16,20 +16,19 @@
 #ifndef TEMPLATES_H
 #define TEMPLATES_H
 
-#include <KStandardDirs>
-#include <k3iconview.h>
-#include <KLocale>
-#include <KProcess>
-#include <KUrl>
-
-#include <QObject>
-#include <QProcess>
-#include <QList>
 #include <QListWidget>
+#include <QObject>
+
+#include <QProcess>
+
+#include <KLocale>
+#include <KUrl>
 
 #include "kileconstants.h"
 
 #define DEFAULT_EMPTY_ICON "type_Empty"
+
+class KProcess;
 
 class KileInfo;
 

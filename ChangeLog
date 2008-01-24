@@ -12,6 +12,9 @@ Features:
  - add \newlength as a variation of newcommand
  - add url.cwl file
 
+Syntax:
+ - Highlight & and @{} in tabular like environments
+
 version 2.0beta2 -> 2.0
 
 Fixes:

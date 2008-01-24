@@ -1,8 +1,7 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Tue Nov 25 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,37 +14,30 @@
 
 #include "kiletoolmanager.h"
 
-#include <stdlib.h> //for getenv()
- 
-#include <qstring.h>
-#include <qfileinfo.h>
-#include <qtimer.h>
-#include <qregexp.h>
-#include <qthread.h>
+#include <QFileInfo>
+#include <QRegExp>
+#include <QTimer>
 
-#include <kaction.h>
-#include <ktextedit.h>
-#include <kconfig.h>
-#include "kiledebug.h"
-#include <klocale.h>
-#include <kparts/partmanager.h>
-#include <kmessagebox.h>
-#include <kapplication.h>
-#include <ksimpleconfig.h>
+#include <KAction>
+#include <KConfig>
+#include <KLocale>
+#include <KMessageBox>
+#include <KParts/PartManager>
 
-#include "kileinfo.h"
 #include "kileconfig.h"
+#include "kiledebug.h"
+#include "kiledocmanager.h"
+#include "kileinfo.h"
 #include "kileproject.h"
-#include "kiletool_enums.h"
 #include "kilestdtools.h"
+#include "kiletool_enums.h"
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
-#include "kiledocmanager.h"
 #include "widgets/sidebar.h"
 
 namespace KileTool
 {
-	QueueItem::QueueItem(Base *tool, const QString & cfg, bool block) : m_tool(tool), m_cfg(cfg), m_bBlock(block)
+	QueueItem::QueueItem(Base *tool, const QString &cfg, bool block) : m_tool(tool), m_cfg(cfg), m_bBlock(block)
 	{
 	}
 
@@ -56,44 +48,49 @@ namespace KileTool
 
 	Base* Queue::tool() const
 	{
-		if ( head() )
+		if(head()) {
 			return head()->tool();
-		else
+		}
+		else {
 			return 0;
+		}
 	}
 
 	const QString Queue::cfg() const
 	{
-		if ( head() )
+		if(head()) {
 			return head()->cfg();
-		else
-			return QString::null;
+		}
+		else {
+			return QString();
+		}
 	}
 
 	bool Queue::shouldBlock() const
 	{
-		if ( head() )
+		if(head()) {
 			return head()->shouldBlock();
-		else
+		}
+		else {
 			return false;
+		}
 	}
 
 	void Queue::enqueueNext(QueueItem *item)
 	{
-		if ( count() < 2 )
+		if(count() < 2) {
 			enqueue(item);
-		else
-		{
+		}
+		else {
 			QueueItem *headitem = dequeue();
 			Queue *oldqueue = new Queue(*this);
 
-			setAutoDelete(false); clear();
+			clear();
 			KILE_DEBUG() << "\tenqueueing: " << headitem->tool()->name() << endl;
 			enqueue(headitem);
 			KILE_DEBUG() << "\tenqueueing: " << item->tool()->name() << endl;
 			enqueue(item);
-			while ( oldqueue->head() )
-			{
+			while(oldqueue->head()) {
 				KILE_DEBUG() << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
 				enqueue(oldqueue->dequeue());
 			}
@@ -136,15 +133,13 @@ namespace KileTool
 
 	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
-		if (!m_factory)
-		{
+		if (!m_factory) {
 			m_log->printMsg(Error, i18n("No factory installed, contact the author of Kile."));
 			return ConfigureFailed;
 		}
 	
 		Base* pTool = m_factory->create(tool);
-		if (!pTool)
-		{
+		if (!pTool) {
 			m_log->printMsg(Error, i18n("Unknown tool %1.", tool));
 			return ConfigureFailed;
 		}
@@ -155,35 +150,41 @@ namespace KileTool
 	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
-		if (m_bClear && (m_queue.count() == 0) )
-		{
+		if(m_bClear && (m_queue.count() == 0)) {
 			m_log->clear();
 			m_ki->setLogPresent(false);
 			m_output->clear();
 		}
 
-		if ( tool->needsToBePrepared() )
+		if(tool->needsToBePrepared()) {
 			tool->prepareToRun(cfg);
-    else
-      tool->configure(cfg);
+		}
+		else { 
+			tool->configure(cfg);
+		}
 
 		//FIXME: shouldn't restart timer if a Sequence command takes longer than the 10 secs
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
 		m_bClear=false;
 		m_timer->start(m_nTimeout);
 
-		if ( insertNext )
+		if(insertNext) {
 			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
-		else
+		}
+		else {
 			m_queue.enqueue(new QueueItem(tool, cfg, block));
+		}
 
 		KILE_DEBUG() << "\tin queue: " << m_queue.count() << endl;
-		if ( m_queue.count() == 1 )
+		if(m_queue.count() == 1) {
 			return runNextInQueue();
-		else if ( m_queue.count() > 1 )
+		}
+		else if(m_queue.count() > 1) {
 			return Running;
-		else
+		}
+		else {
 			return ConfigureFailed;
+		}
 	}
 
 	int Manager::runNext(const QString &tool , const QString &config, bool block /*= false*/) 
@@ -198,10 +199,12 @@ namespace KileTool
 
 	int Manager::runBlocking(const QString &tool, const QString &config /*= QString::null*/, bool insertAtTop /*= false*/)
 	{
-		if ( run(tool, config, insertAtTop, true) == Running )
+		if(run(tool, config, insertAtTop, true) == Running) {
 			return lastResult();
-		else
+		}
+		else {
 			return Failed;
+		}
 	}
 
 	int Manager::runNextBlocking(const QString &tool, const QString &config)
@@ -222,10 +225,12 @@ namespace KileTool
 			}
 
 			int status;
-			if ( (status=head->run()) != Running ) //tool did not even start, clear queue
-			{
+			if((status=head->run()) != Running) { //tool did not even start, clear queue
 				stop();
-				m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
+				for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+					delete (*i);
+				}
+				m_queue.clear();
 				return status;
 			}
 
@@ -254,9 +259,10 @@ namespace KileTool
 		KILE_DEBUG() << "STARTING tool: " << tool->name() << endl;
 		m_stop->setEnabled(true);
 
-		if (tool->isViewer()) 
-		{
-			if ( tool == m_queue.tool() ) m_queue.dequeue();
+		if (tool->isViewer()) {
+			if(tool == m_queue.tool()) {
+				m_queue.dequeue();
+			}
 			m_stop->setEnabled(false);
 			QTimer::singleShot(100, this, SLOT(runNextInQueue()));
 		}
@@ -265,8 +271,9 @@ namespace KileTool
 	void Manager::stop()
 	{
 		m_stop->setEnabled(false);
-		if ( m_queue.tool() )
+		if(m_queue.tool()) {
 			m_queue.tool()->stop();
+		}
 	}
 
 	void Manager::done(Base *tool, int result)
@@ -274,73 +281,74 @@ namespace KileTool
 		m_stop->setEnabled(false);
 		m_nLastResult = result;
 
-		if ( tool != m_queue.tool() ) //oops, tool finished async, could happen with view tools
-		{
+		if(tool != m_queue.tool()) { //oops, tool finished async, could happen with view tools
 			delete tool;
 			return;
 		}
 
 		delete m_queue.dequeue();
 
-		if ( result == Aborted)
+		if(result == Aborted) {
 			tool->sendMessage(Error, i18n("Aborted"));
+		}
 
-		if ( result != Success && result != Silent ) //abort execution, delete all remaining tools
-		{
-			m_queue.setAutoDelete(true); m_queue.clear(); m_queue.setAutoDelete(false);
+		if(result != Success && result != Silent) { //abort execution, delete all remaining tools
+			for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+				delete (*i);
+			}
+			m_queue.clear();
 			m_ki->outputView()->showPage(m_log);
 		}
-		else //continue
+		else { //continue
 			runNextInQueue();
+		}
 	}
 
 	QString Manager::currentGroup(const QString &name, bool usequeue, bool useproject)
 	{
-		if (useproject)
-		{
+		if (useproject) {
 			KileProject *project = m_ki->docManager()->activeProject();
-			if (project)
-			{
+			if(project) {
 				QString cfg = configName(name, dynamic_cast<KConfig*>(project->config()));
-				if ( cfg.length() > 0 ) return groupFor(name, cfg);
+				if(cfg.length() > 0) {
+					return groupFor(name, cfg);
+				}
 			}
 		}
 
-		if (usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isNull()) )
+		if(usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isEmpty())) {
 			return groupFor(name, m_queue.cfg());
-		else
+		}
+		else {
 			return groupFor(name, m_config);
+		}
 	}
 
 	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject, const QString & cfg /*= QString::null*/)
 	{
-		QString group = (cfg == QString::null )
-                    ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
+		QString group = (cfg.isEmpty()) ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
 
 		KILE_DEBUG() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
 		KILE_DEBUG() << "\t" << name << " => " << group << endl;
-		if ( m_config->hasGroup(group) )
-		{
+		if(m_config->hasGroup(group)) {
 			map = m_config->entryMap(group);
 
 			//use project overrides
 			KileProject *project = m_ki->docManager()->activeProject();
-			if ( useproject && project)
-			{
+			if(useproject && project) {
 				KConfig *prjcfg = dynamic_cast<KConfig*>(project->config());
-				if ( prjcfg )
-				{
+				if(prjcfg) {
 					QString grp = groupFor(name, prjcfg);
 					Config prjmap = prjcfg->entryMap(grp);
-					for (Config::Iterator it  = prjmap.begin(); it != prjmap.end(); ++it)
-					{
+					for (Config::Iterator it  = prjmap.begin(); it != prjmap.end(); ++it) {
 						map[it.key()] = it.data();
 					}
 				}
 			}
 		}
-		else
+		else {
 			return false;
+		}
 
 		return true;
 	}
@@ -353,10 +361,10 @@ namespace KileTool
 		KConfigGroup configGroup = m_config->group(group);
 
 		Config::Iterator it;
-		for ( it = map.begin() ; it != map.end(); ++it)
-		{
-			if ( ! it.data().isEmpty() )
+		for(it = map.begin() ; it != map.end(); ++it) {
+			if(!it.data().isEmpty()) {
 				configGroup.writeEntry(it.key(), it.data());
+			}
 		}
 	}
 
@@ -367,8 +375,7 @@ namespace KileTool
 
 		Config map;
 
-		if ( ! retrieveEntryMap(tool->name(), map, true, true, cfg) )
-		{
+		if(!retrieveEntryMap(tool->name(), map, true, true, cfg)) {
 			m_log->printMsg(Error, i18n("Cannot find the tool %1 in the configuration database.", tool->name()));
 			return false;
 		}
@@ -434,9 +441,8 @@ namespace KileTool
 		static QRegExp re("([^\\(]*)\\((.*)\\)");
 		QString lcl = str;
 		lcl.trimmed();
-		cfg = QString::null;
-		if ( re.exactMatch(lcl) )
-		{
+		cfg.clear();
+		if(re.exactMatch(lcl)) {
 			tool = re.cap(1).trimmed();
 			cfg = re.cap(2).trimmed();
 		}
@@ -447,10 +453,12 @@ namespace KileTool
 
 	QString format(const QString & tool, const QString &cfg)
 	{
-		if (!cfg.isNull())
+		if (!cfg.isEmpty()) {
 			return tool + '(' + cfg + ')';
-		else
+		}
+		else {
 			return tool;
+		}
 	}
 
 	QStringList configNames(const QString &tool, KConfig *config)
@@ -486,16 +494,22 @@ namespace KileTool
 
 	QString categoryFor(const QString &clss)
 	{
-		if ( clss == "Compile" || clss == "LaTeX" )
+		if(clss == "Compile" || clss == "LaTeX") {
 			return "Compile";
-		if ( clss == "Convert" )
+		}
+		if(clss == "Convert") {
 			return "Convert";
-		if ( clss == "View" || clss == "ViewBib" || clss == "ViewHTML" || clss == "ForwardDVI" )
+		}
+		if(clss == "View" || clss == "ViewBib" || clss == "ViewHTML" || clss == "ForwardDVI") {
 			return "View";
-		if ( clss == "Sequence" )
+		}
+		if(clss == "Sequence") {
 			return "Sequence";
-		if ( clss == "Archive")
+		}
+		if(clss == "Archive") {
 			return "Archive";
+		}
+
 		return "Base";
 	}
 }

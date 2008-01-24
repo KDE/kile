@@ -1,8 +1,7 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Tue Nov 25 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,11 +15,10 @@
 #ifndef KILETOOLMANAGER_H
 #define KILETOOLMANAGER_H
 
-#include <qobject.h>
-#include <qstringlist.h>
-#include <q3ptrqueue.h>
-
 #include <QStackedWidget>
+#include <QStringList>
+#include <QObject>
+#include <QQueue>
 
 #include "kiletool.h"
 
@@ -41,7 +39,7 @@ namespace KileTool
 	class QueueItem
 	{
 	public:
-		QueueItem(Base *tool, const QString & cfg = QString::null, bool block = false);
+		QueueItem(Base *tool, const QString & cfg = QString(), bool block = false);
 		~QueueItem();
 
 		Base* tool() const { return m_tool; }
@@ -54,7 +52,7 @@ namespace KileTool
 		bool		m_bBlock;
 	};
 
-	class Queue : public Q3PtrQueue<QueueItem>
+	class Queue : public QQueue<QueueItem*>
 	{
 	public:
 		Base* tool() const;
@@ -74,8 +72,8 @@ namespace KileTool
 
 	public:
 		void initTool(Base*);
-		bool configure(Base*, const QString & cfg = QString::null);
-		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString::null);
+		bool configure(Base*, const QString & cfg = QString());
+		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString());
 		void saveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
 		QString currentGroup(const QString &name, bool usequeue = true, bool useproject = true);
 
@@ -90,7 +88,7 @@ namespace KileTool
 		void setFactory(Factory* fac) { m_factory = fac; }
 		Factory* factory() { return m_factory; }
 
-		bool queryContinue(const QString & question, const QString & caption = QString::null);
+		bool queryContinue(const QString & question, const QString & caption = QString());
 
 		bool shouldBlock();
 		int lastResult() { return m_nLastResult; }
@@ -99,14 +97,14 @@ namespace KileTool
 		void started(Base*);
 		void done(Base *, int);
 
-		int run(const QString &, const QString & = QString::null, bool insertAtTop = false, bool block = false);
-		int run(Base *, const QString & = QString::null, bool insertAtTop = false, bool block = false);
+		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false);
+		int run(Base *, const QString& = QString(), bool insertAtTop = false, bool block = false);
 
-		int runNext(const QString &, const QString & = QString::null, bool block = false);
-		int runNext(Base *, const QString & = QString::null, bool block = false);
+		int runNext(const QString&, const QString& = QString(), bool block = false);
+		int runNext(Base *, const QString& = QString(), bool block = false);
 
-		int runBlocking(const QString &, const QString & = QString::null, bool = false);
-		int runNextBlocking(const QString &, const QString & = QString::null);
+		int runBlocking(const QString&, const QString& = QString(), bool = false);
+		int runNextBlocking(const QString&, const QString& = QString());
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 

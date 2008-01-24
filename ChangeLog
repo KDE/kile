@@ -7,10 +7,12 @@ Fixes:
  - cwl files: fix wrong commands with \left and \right and make them more complete
  - Sync kile project on disk before archiving
  - Add figure* to the structure view also (#151743)
+ - Fix completion for multiple citations/references (#152766)
 
 Features:
- - add \newlength as a variation of newcommand
- - add url.cwl file
+ - Add \newlength as a variation of newcommand
+ - Add url.cwl file
+ - Allow ":" and "-" in citation keys, important for codecompletion
 
 Syntax:
  - Highlight & and @{} in tabular like environments

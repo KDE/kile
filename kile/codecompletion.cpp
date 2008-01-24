@@ -33,21 +33,17 @@
 #include "kileviewmanager.h"
 #include "kileconfig.h"
 #include "kileedit.h"
+#include "kiledebug.h"
 
 namespace KileDocument
 {
-
-	//static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
-	//static QRegExp::QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
-	//static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
-	//static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
 
 	static QRegExp::QRegExp reRef;
 	static QRegExp::QRegExp reRefExt;
 	static QRegExp::QRegExp reCite;
 	static QRegExp::QRegExp reCiteExt;
 	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
-	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
+	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@\\-\\:]");
 
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(0L)
 	{
@@ -113,23 +109,41 @@ namespace KileDocument
 			int pos = currentline.findRev('\\');
 			if ( pos >= 0 )
 			{
-
 				QString command = currentline.mid(pos,column-pos);
- 				if ( command.find(reRef) != -1 )
-				{
-					startpattern = command.right(command.length()-reRef.cap(0).length());
-					if ( startpattern.find(reNotRefChars) == -1 )
+				KILE_DEBUG() << "pos=" << pos << ",column=" << column << ",currentline=" << currentline << ",command=" << command << endl;
+
+				if( command.find(reRefExt) != -1 ){
+					KILE_DEBUG() << "reRefExt" << endl;
+					startpattern = command.right(command.length()-reRefExt.cap(0).length());
+					KILE_DEBUG() << "startpattern=" << startpattern << endl;
+					if ( startpattern.find(reNotRefChars) == -1 ){
 						return CodeCompletion::ctReference ;
+					}
 				}
-				else if ( command.find(reCite) != -1 )
-				{
+ 				else if ( command.find(reRef) != -1 ){
+					startpattern = command.right(command.length()-reRef.cap(0).length());
+					KILE_DEBUG() << "startpattern=" << startpattern << endl;
+					if ( startpattern.find(reNotRefChars) == -1 ){
+						return CodeCompletion::ctReference ;
+					}
+				}
+				else if( command.find(reCiteExt) != -1 ){
+					KILE_DEBUG() << "reCiteExt" << endl;
+					startpattern = command.right(command.length()-reCiteExt.cap(0).length());
+					KILE_DEBUG() << "startpattern=" << startpattern << endl;
+					if ( startpattern.find(reNotCiteChars) == -1 ){
+						return CodeCompletion::ctCitation;
+					}
+				}
+				else if ( command.find(reCite) != -1 ){
 					startpattern = command.right(command.length()-reCite.cap(0).length());
-					if ( startpattern.find(reNotCiteChars) == -1 )
-						return CodeCompletion::ctCitation ;
+					KILE_DEBUG() << "startpattern=" << startpattern << endl;
+					if ( startpattern.find(reNotCiteChars) == -1 ){
+						return CodeCompletion::ctCitation;
+					}
 				}
 			}
 		}
-
 		return CodeCompletion::ctNone;
 	}
 
@@ -207,13 +221,13 @@ namespace KileDocument
 		QString references = getCommandList(KileDocument::CmdAttrReference);
 		references.replace("*","\\*");
 		reRef.setPattern("^\\\\(" + references + ")\\{");
-		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
+		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,");
 
 		// build list of citations
 		QString citations = getCommandList(KileDocument::CmdAttrCitations);
 		citations.replace("*","\\*");
 		reCite.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
-		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
+		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,");
 	}
 
 	QString CodeCompletion::getCommandList(KileDocument::CmdAttribute attrtype)
@@ -1063,21 +1077,11 @@ namespace KileDocument
 			else
 				editCompleteList(type);
 		}
-		//little hack to make multiple insertions like \cite{test1,test2} possible (only when
-		//completion is invoke explicitly using ctrl+space.
-		else if ( m_view->getDoc() )
-		{
-			QString currentline = m_view->getDoc()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
-			if ( currentline.find(reCiteExt) != -1 )
-				editCompleteList(ctCitation);
-			else if ( currentline.find(reRefExt) != -1 )
-				editCompleteList(ctReference);
-		}
 	}
 
 	void CodeCompletion::editCompleteList(Type type,const QString &pattern)
 	{
-		//KILE_DEBUG() << "==editCompleteList=============" << endl;
+		KILE_DEBUG() << "==editCompleteList=============" << endl;
 		m_keylistType = type;
 		if ( type == ctReference )
 			completeFromList(info()->allLabels(),pattern);

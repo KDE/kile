@@ -18,11 +18,11 @@
 
 #include "kilelauncher.h"
 
-#include <qobject.h>
-#include <qmap.h>
-#include <qstring.h>
-#include <q3dict.h>
-#include <qstringlist.h>
+#include <QHash>
+#include <QMap>
+#include <QObject>
+#include <QString>
+#include <QStringList>
 
 #include <KLocalizedString>
 
@@ -138,7 +138,7 @@ namespace KileTool
 		 * %source : the source file (no path)
 		 * %S : the source filename without an extension (no path)
 		 **/
-		Q3Dict<QString>* paramDict() { return &m_dictParams; }
+		QHash<QString,QString>& paramDict() { return m_dictParams; }
 
 		bool addDict(const QString& key, const QString& value);
 
@@ -239,7 +239,7 @@ namespace KileTool
 
 		bool			m_buildPrereqs;
 
-		Q3Dict<QString>		m_dictParams;
+		QHash<QString,QString> m_dictParams;
 		Config			m_entryMap;
 
 		uint		    	m_flags;

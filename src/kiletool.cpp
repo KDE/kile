@@ -15,15 +15,15 @@
 
 #include "kiletool.h"
 
-#include <qdir.h>
-#include <qfileinfo.h>
-#include <qmetaobject.h>
-#include <qregexp.h>
-#include <qtimer.h>
+#include <QDir>
+#include <QFileInfo>
+#include <QMetaObject>
+#include <QRegExp>
+#include <QTimer>
 
-#include <klocale.h>
-#include <kconfig.h>
-#include <kurl.h>
+#include <KConfig>
+#include <KLocale>
+#include <KUrl>
 
 #include "kileconfig.h"
 #include "kileuntitled.h"
@@ -86,10 +86,10 @@ namespace KileTool
 
 	void Base::translate(QString &str)
 	{
-		Q3DictIterator<QString> it(*paramDict());
-		for(it.toFirst(); it.current(); ++it) {
-// 			KILE_DEBUG() << "translate " << str << " /// key=" << it.currentKey() << " value=" << *(it.current()) << endl;
-			str.replace(it.currentKey(), *(it.current()));
+		QHashIterator<QString,QString> it(paramDict());
+		while(it.hasNext()) {
+			it.next();
+			str.replace(it.key(), it.value());
 		}
 	}
 
@@ -465,8 +465,8 @@ namespace KileTool
 
 	bool Base::addDict(const QString & key, const QString & value)
 	{
-		bool e = (paramDict()->find(key) == 0);
-		paramDict()->replace(key, &value);
+		bool e = !(paramDict().contains(key));
+		paramDict()[key] = value;
 		return e;
 	}
 

@@ -115,10 +115,13 @@ int main( int argc, char ** argv )
 		Kile app(restore);
 
 		for(int i = 0; i < args->count(); ++i) {
-			if ( isProject(args->arg(i)) )
-				app.openProject(completePath(QFile::decodeName(args->arg(i))));
-			else
-				app.openDocument(completePath(QFile::decodeName(args->arg(i))));
+			//FIXME: check whether this can be used to open Urls
+			if(isProject(args->arg(i))) {
+				app.openProject(completePath(args->arg(i)));
+			}
+			else {
+				app.openDocument(completePath(args->arg(i)));
+			}
 		}
 
 		QString line = args->getOption("line");

@@ -44,6 +44,8 @@ namespace KileDialog
 IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki) :
 	KDialogBase( Plain, i18n("Include Graphics"), Ok | Cancel, Ok, parent, 0, true, true),
 	m_startdir(startdir),
+	m_width(0),
+	m_height(0),
 	m_ki(ki),
 	m_proc(0)
 {
@@ -301,7 +303,7 @@ QString IncludeGraphics::getOptions()
 QString IncludeGraphics::getInfo()
 {
 	QString wcm,hcm,dpi;
-	int wpx,hpx;
+	int wpx=0,hpx=0;
 
 	bool ok = getPictureSize(wpx,hpx,dpi,wcm,hcm);
 	if ( ! ok )

@@ -33,6 +33,7 @@ class NewTabularDialog : public KDialog {
 
 	private:
 		void alignItems(int alignment);
+		QString iconForAlignment(int alignment) const;
 
 	private Q_SLOTS:
 		void updateColsAndRows();

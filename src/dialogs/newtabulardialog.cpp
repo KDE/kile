@@ -16,6 +16,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QList>
 #include <QSpinBox>
 #include <QTableWidget>
 #include <QToolBar>
@@ -91,15 +92,67 @@ NewTabularDialog::~NewTabularDialog()
 
 void NewTabularDialog::alignItems(int alignment)
 {
+	QList<int> checkedColumns;
+
 	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
 		item->setTextAlignment(alignment | Qt::AlignVCenter);
+
+		int column = item->column();
+		if(!checkedColumns.contains(column)) {
+			bool allItemsInColumnAreSelected = true;
+
+			for(int row = 0; row < m_Table->rowCount(); ++row) {
+				if(!(m_Table->item(row, column)->isSelected())) {
+					allItemsInColumnAreSelected = false;
+					break;
+				}
+			}
+
+			if(allItemsInColumnAreSelected) {
+				m_Table->horizontalHeaderItem(column)->setIcon(KIcon(iconForAlignment(alignment)));
+			}
+
+			checkedColumns.append(column);
+		}
+	}
+}
+
+inline QString NewTabularDialog::iconForAlignment(int alignment) const
+{
+	switch(alignment) {
+		case Qt::AlignLeft:
+			return "format-justify-left";
+		case Qt::AlignHCenter:
+			return "format-justify-center";
+		case Qt::AlignRight:
+			return "format-justify-right";
 	}
 }
 
 void NewTabularDialog::updateColsAndRows()
 {
+	int addedCols = m_sbCols->value() - m_Table->columnCount();
+	int addedRows = m_sbRows->value() - m_Table->rowCount();
+
 	m_Table->setColumnCount(m_sbCols->value());
 	m_Table->setRowCount(m_sbRows->value());
+
+	if(addedCols > 0) {
+		for(int i = m_Table->columnCount() - addedCols; i < m_Table->columnCount(); ++i) {
+			m_Table->setHorizontalHeaderItem(i, new QTableWidgetItem(KIcon("format-justify-left"), QString::number(i + 1)));
+
+			// each cell should be an item. This is necessary for selection checking
+			for(int row = m_Table->rowCount() - addedRows; row < m_Table->rowCount(); ++row) {
+				m_Table->setItem(row, i, new QTableWidgetItem(QString()));
+			}
+		}
+	}
+
+	if(addedRows > 0) {
+		for(int i = m_Table->rowCount() - addedRows; i < m_Table->rowCount(); ++i) {
+			m_Table->resizeRowToContents(i);
+		}
+	}
 }
 
 void NewTabularDialog::slotAlignLeft()

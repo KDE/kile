@@ -82,6 +82,7 @@
 #include "dialogs/floatdialog.h"
 #include "mathenvdialog.h"
 #include "tabulardialog.h"
+#include "dialogs/newtabulardialog.h"
 #include "postscriptdialog.h"
 #include "latexcmd.h"
 #include "kileuntitled.h"
@@ -1893,11 +1894,18 @@ void Kile::quickTabulardialog(bool tabularenv)
 		return;
 	}
 
-	KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(m_mainWindow, m_config.data(), m_latexCommands, tabularenv);
-	if(dlg->exec()) {
-		insertTag(dlg->tagData());
+	// NOTE This is to have access on the old and the new dialog to make
+	//      sure that no feature is missing.
+	if (!tabularenv) {
+		KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(m_mainWindow, m_config.data(), m_latexCommands, tabularenv);
+		if(dlg->exec()) {
+			insertTag(dlg->tagData());
+		}
+		delete dlg;
+	} else {
+		KileDialog::NewTabularDialog dlg(m_mainWindow);
+		dlg.exec();
 	}
-	delete dlg;
 }
 
 void Kile::quickTabbing()

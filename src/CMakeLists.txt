@@ -89,6 +89,7 @@ SET(kile_SRCS
 	widgets/extendedscrollarea.cpp
 	scripting/bindings.cpp
 	scriptmanager.cpp
+	dialogs/newtabulardialog.cpp
 )
 
 SET( kile_UI

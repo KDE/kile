@@ -51,7 +51,7 @@ class ResultItemDelegate : public QItemDelegate {
 			document.drawContents(painter);
 		}
 
-		virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+		virtual QSize sizeHint(const QStyleOptionViewItem& /* option */, const QModelIndex &index) const
 		{
 			QTextDocument document;
 			document.setHtml(index.data(Qt::UserRole).toString());

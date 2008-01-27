@@ -220,22 +220,21 @@ void Tester::determineProgress()
 	}
 }
 
-void Tester::processTestResults (int exitCode, QProcess::ExitStatus exitStatus)
+void Tester::processTestResults(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
-	if ( exitStatus == QProcess::NormalExit )
-	{
+	if(exitStatus == QProcess::NormalExit) {
 		emit(percentageDone(100));
 
 		KConfig config(m_resultsFile, KConfig::SimpleConfig);
 		QStringList groups = config.groupList();
 		QStringList::Iterator itend = groups.end();
-		for ( QStringList::Iterator it = groups.begin(); it != itend; ++it )
+		for(QStringList::Iterator it = groups.begin(); it != itend; ++it) {
 			processTool(&config, *it);
+		}
 
 		emit(finished(true));
 	}
-	else
-	{
+	else {
 		emit(percentageDone(0));
 		emit(finished(false));
 	}

@@ -336,11 +336,12 @@ bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 	bool changed = false;
 
 	// count number of entries
-	uint n = m_listview[page]->topLevelItemCount();
+	int n = m_listview[page]->topLevelItemCount();
 
 	// there are changes if this number has changed
-	if (n != m_wordlist[page].count())
+	if(n != m_wordlist[page].count()) {
 		changed = true;
+	}
 
 	// clear all stringlist with files, if there are no entries
 	if (n == 0) {
@@ -366,8 +367,9 @@ bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 	}
 
 	// only update if there are changes
-	if (changed)
+	if (changed) {
 		m_wordlist[page] = newfiles;
+	}
 
 	return changed;
 }

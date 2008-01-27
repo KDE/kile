@@ -282,8 +282,8 @@ void IncludeGraphics::slotUrlSelected(const KUrl& url)
 		else
 			execute("identify -format \"w=%w h=%h dpi=%x\" " + url.path());
 	} else {
-		KILE_DEBUG() << "=== IncludeGraphics::error ====================" << endl;
-		KILE_DEBUG() << "   filename: '" << url.path() << "'" << endl;
+		KILE_DEBUG() << "=== IncludeGraphics::error ====================";
+		KILE_DEBUG() << "   filename: '" << url.path() << "'";
 
 		m_widget.infolabel->setText("---");
 		m_widget.edit_bb->setText("");
@@ -316,8 +316,8 @@ void IncludeGraphics::execute(const QString &command)
 					this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
 	m_output = "";
-	KILE_DEBUG() << "=== IncludeGraphics::execute ====================" << endl;
-	KILE_DEBUG() << "   execute '" << command << "'" << endl;
+	KILE_DEBUG() << "=== IncludeGraphics::execute ====================";
+	KILE_DEBUG() << "   execute '" << command << "'";
 
 	m_proc->start();
 }
@@ -331,10 +331,10 @@ void IncludeGraphics::slotProcessOutput()
 
 // identify was called
 
-void IncludeGraphics::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
+void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
 	if (exitStatus == QProcess::NormalExit) {
-		KILE_DEBUG() << "   result: " << m_output << endl;
+		KILE_DEBUG() << "   result: " << m_output;
 
 		// set the default resolution
 		m_resolution = m_defaultresolution;

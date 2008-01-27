@@ -63,14 +63,14 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 
 	// determine if a psfile already exists
 	QString psfilename;
-	if ( !texfilename.isEmpty() ) {
+	if(!texfilename.isEmpty()) {
 		// working with a postscript document, so we try to determine the LaTeX source file
 		QStringList extlist = latexextensions.split(" ");
 		for (QStringList::Iterator it = extlist.begin(); it != extlist.end(); ++it) {
 			if (texfilename.indexOf((*it), -(*it).length()) >= 0) {
 				psfilename = texfilename.left(texfilename.length() - (*it).length()) + ".ps";
 				if (!QFileInfo(psfilename).exists())
-					psfilename = QString::null;
+					psfilename.clear();
 				break;
 			}
 		}
@@ -82,11 +82,11 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	m_PostscriptDialog.setupUi(page);
 
 	// line 0: QLabel
-	bool pstops = !KStandardDirs::findExe("pstops").isNull();
-	bool psselect = !KStandardDirs::findExe("psselect").isNull();
+	bool pstops = !KStandardDirs::findExe("pstops").isEmpty();
+	bool psselect = !KStandardDirs::findExe("psselect").isEmpty();
 
 	if (!pstops || !psselect) {
-		QString msg = QString::null;
+		QString msg;
 		if (!pstops) { 
 			msg = "'pstops'";
 			if (!psselect)
@@ -168,7 +168,7 @@ void PostscriptDialog::slotButtonClicked(int button)
 void PostscriptDialog::execute()
 {
 	m_tempfile = buildTempfile();
-	if ( m_tempfile != QString::null ) {
+	if(m_tempfile.isEmpty()) {
 		m_log->clear();
 		QFileInfo from(m_PostscriptDialog.m_edInfile->lineEdit()->text());
 		QFileInfo to(m_PostscriptDialog.m_edOutfile->lineEdit()->text());
@@ -219,10 +219,11 @@ void PostscriptDialog::slotProcessOutput()
 }
 
 
-void PostscriptDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
+void PostscriptDialog::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
-	if (exitStatus != QProcess::NormalExit)
+	if (exitStatus != QProcess::NormalExit) {
 		showError(i18n("An error occurred, while rearranging the file."));
+	}
 
 	QFile::remove(m_tempfile);
 }
@@ -370,7 +371,7 @@ QString PostscriptDialog::buildTempfile()
 
 QString PostscriptDialog::duplicateParameter(const QString &param)
 {
-	QString s = QString::null;
+	QString s;
 	for (int i = 0; i < m_PostscriptDialog.m_spCopies->value(); ++i) {
 		if (i == 0)
 			s += param;

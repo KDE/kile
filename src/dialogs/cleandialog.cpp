@@ -74,8 +74,7 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 
 	// insert items into m_listview
 	QString base = QFileInfo(filename).baseName(true);
-	for (uint i = 0; i <  m_extlist.count(); ++i)
-	{
+	for(int i = 0; i <  m_extlist.count(); ++i) {
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_listview,
 				QStringList(base + m_extlist[i]));
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);

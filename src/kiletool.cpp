@@ -614,31 +614,27 @@ namespace KileTool
 		QStringList tools = readEntry("sequence").split(',');
 		QString tl, cfg;
 		Base *tool;
-		for (uint i=0; i < tools.count(); ++i)
-		{
+		for(int i=0; i < tools.count(); ++i) {
 			tools[i] = tools[i].trimmed();
 			extract(tools[i], tl, cfg);
 
 			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation
-			if (tool)
-			{
+			if (tool) {
 				KILE_DEBUG() << "===tool created with name " << tool->name() << endl;
-				if ( ! (manager()->info()->watchFile() && tool->isViewer() ) )
-				{
+				if(!(manager()->info()->watchFile() && tool->isViewer())) {
 					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source() << endl;
 					tool->setSource(source());
 					manager()->run(tool, cfg);
 				}
 			}
-			else
-			{
+			else {
 				sendMessage(Error, i18n("Unknown tool %1.", tools[i]));
 				emit(done(this, Failed));
 				return ConfigureFailed;
 			}
 		}
 
-		emit(done(this,Silent));
+		emit(done(this, Silent));
 
 		return Success;
 	}

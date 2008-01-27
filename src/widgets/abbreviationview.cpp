@@ -36,12 +36,12 @@
 
 namespace KileWidget {
 
-AbbreviationView::AbbreviationView(QWidget *parent, const char *name) 
+AbbreviationView::AbbreviationView(QWidget *parent, const char *name)
 	: K3ListView(parent), m_changes(false)
 {
-
+	setObjectName(name);
 	addColumn(i18n("Short"));
-	addColumn(QString::null);
+	addColumn(QString());
 	addColumn(i18n("Expanded Text"));
 	setAllColumnsShowFocus(true);
 	setFullWidth(true);
@@ -181,7 +181,7 @@ void AbbreviationView::addAbbreviation(const QString &abbrev, const QString &exp
 	insertItem( new K3ListViewItem(this,abbrev,"*",expansion) ); 
 	QString newAbbrev = abbrev + '=' + expansion;
 
-	emit( updateAbbrevList(QString::null,newAbbrev) );
+	emit(updateAbbrevList(QString(), newAbbrev));
 	m_changes = true;
 }
 
@@ -203,14 +203,13 @@ void AbbreviationView::deleteAbbreviation(K3ListViewItem *item)
 {
 	QString abbrev = item->text(ALVabbrev);
 	QString message = i18n("Delete the abbreviation '%1'?", abbrev);
-	if ( KMessageBox::questionYesNo( this,
+	if(KMessageBox::questionYesNo( this,
 		       "<center>" + message + "</center>",
-		       i18n("Delete Abbreviation") ) == KMessageBox::Yes ) 
-	{
+		       i18n("Delete Abbreviation") ) == KMessageBox::Yes)  {
 		QString s = item->text(ALVabbrev) + '=' + item->text(ALVexpansion);
 		delete item;
 
-		emit( updateAbbrevList(s,QString::null) );
+		emit(updateAbbrevList(s, QString()));
 		m_changes = true;
 	}
 }

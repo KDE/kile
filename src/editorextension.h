@@ -14,16 +14,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KILEEDIT_H
-#define KILEEDIT_H
+#ifndef EDITOREXTENSION_H
+#define EDITOREXTENSION_H
 
-#include <qobject.h>
-#include <qregexp.h>
-#include <qmap.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QObject>
+#include <QRegExp>
+#include <QString>
+#include <QStringList>
 
-#include <ktexteditor/document.h>
+#include <KTextEditor/Document>
 
 #include "widgets/structurewidget.h"
 #include "codecompletion.h"
@@ -136,6 +135,9 @@ public Q_SLOTS:
 	void completeEnvironment();
 	void completeAbbreviation();
 
+	void keyReturn(KTextEditor::View *view = NULL);
+	void commentLaTeX(KTextEditor::Document* document, const KTextEditor::Range &range);
+
 private:
 
 	enum EnvTag {EnvBegin, EnvEnd};
@@ -215,8 +217,8 @@ private:
 	// find math tags
 	bool isOpeningMathTagPosition(KTextEditor::Document *doc, uint row, uint col, MathData &mathdata);
 	bool isClosingMathTagPosition(KTextEditor::Document *doc, uint row, uint col, MathData &mathdata);
-	bool findOpenMathTag(KTextEditor::Document *doc, int row, int col, QRegExp &reg, MathData &mathdata);
-	bool findCloseMathTag(KTextEditor::Document *doc, int row, int col, QRegExp &reg, MathData &mathdata);
+	bool findOpenMathTag(KTextEditor::Document *doc, int row, int col, MathData &mathdata);
+	bool findCloseMathTag(KTextEditor::Document *doc, int row, int col, MathData &mathdata);
 	bool checkMathtags(const MathData &begin,const MathData &end);
 
 	// mathgroup

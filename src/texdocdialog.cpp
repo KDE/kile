@@ -1,11 +1,10 @@
-/***************************************************************************
+/************************************************************************************************
                          texdocdialog.cpp
                          ----------------
     date                 : Feb 15 2007
     version              : 0.14
-    copyright            : (C) 2005-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ ************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -116,27 +115,37 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	// kpsewhich --progname=texdoctk --format='other text files' texdoctk.dat
 	//m_texdoctkPath = "/usr/share/texmf/texdoctk/texdoctk.dat";
 
-	m_texmfPath = QString::null;
-	m_texmfdocPath = QString::null;
-	m_texdoctkPath = QString::null;
+	m_texmfPath.clear();
+	m_texmfdocPath.clear();
+	m_texdoctkPath.clear();
 
+#ifdef __GNUC__
+#warning Hardcoding the size of the dialog shouldn't be necessary!
+#endif
 	QDesktopWidget *desktop = KApplication::desktop();
 	int w = desktop->screenGeometry(0).width();
 	if(w >= 1024)
 		w = 550;
-	else
-		if(w >= 800)
+	else {
+		if(w >= 800) {
 			w = 500;
-		else
+		}
+		else {
 			w = 450;
+		}
+	}
 	int h = desktop->screenGeometry(0).height() ;
-	if(h >= 768)
+	if(h >= 768) {
 		h = 550;
-	else
-		if(h >= 600)
+	}
+	else {
+		if(h >= 600) {
 			h = 500;
-		else
+		}
+		else {
 			h = 450;
+		}
+	}
 	resize(w, h);
 
 	connect(this, SIGNAL(processFinished()), this, SLOT(slotInitToc()));
@@ -152,10 +161,12 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 
 TexDocDialog::~TexDocDialog()
 {
-	if(m_proc)
+	if(m_proc) {
 		delete m_proc;
-	if(m_tempfile)
+	}
+	if(m_tempfile) {
 		delete m_tempfile;
+	}
 }
 
 ////////////////////// TOC //////////////////////
@@ -250,30 +261,26 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 {
 	// catch KeyPress events
-	if(e->type() == QEvent::KeyPress)
-	{
+	if(e->type() == QEvent::KeyPress) {
 		QKeyEvent *kev = (QKeyEvent*) e;
 
 		// ListView:
 		//  - space:  enable start of viewer
 		//  - return: ignore
-		if(o == m_texdocs)
-		{
-			if(kev->key() == Qt::Key_Space)
-			{
+		if(o == m_texdocs) {
+			if(kev->key() == Qt::Key_Space) {
 				slotListViewDoubleClicked(m_texdocs->currentItem());
 				return true;
 			}
-			if(kev->key() == Qt::Key_Return || kev->key() == Qt::Key_Enter)
+			if(kev->key() == Qt::Key_Return || kev->key() == Qt::Key_Enter) {
 				return true;
+			}
 		}
 
 		// LineEdit
 		//  - return: start search, if button is enabled
-		if(o == m_leKeywords)
-		{
-			if(kev->key() == Qt::Key_Return || kev->key() == Qt::Key_Enter)
-			{
+		if(o == m_leKeywords) {
+			if(kev->key() == Qt::Key_Return || kev->key() == Qt::Key_Enter) {
 				callSearch();
 				return true;
 			}
@@ -291,26 +298,26 @@ QString TexDocDialog::searchFile(const QString &docfilename, const QString &list
 	QStringList extlist   = QString(",.gz,.bz2").split(',', QString::KeepEmptyParts);
 
 	QString filename;
-	for (QStringList::Iterator itp = pathlist.begin(); itp != pathlist.end(); ++itp)
-	{
-		for (QStringList::Iterator ite = extlist.begin(); ite != extlist.end(); ++ite)
-		{
+	for (QStringList::Iterator itp = pathlist.begin(); itp != pathlist.end(); ++itp) {
+		for (QStringList::Iterator ite = extlist.begin(); ite != extlist.end(); ++ite) {
 			filename = (subdir.isEmpty()) ? (*itp) + '/' + docfilename + (*ite)
 			           : (*itp) + '/' + subdir + '/' + docfilename + (*ite);
 			// KILE_DEBUG() << "search file: "  << filename << endl;
-			if(QFile::exists(filename))
+			if(QFile::exists(filename)) {
 				return filename;
+			}
 		}
 	}
 
-	return QString::null;
+	return QString();
 }
 
 void TexDocDialog::decompressFile(const QString &docfile, const QString &command)
 {
 	QString ext = QFileInfo(docfile).suffix().toLower();
-	if(!(ext == "dvi" || ext == "pdf" || ext == "ps" || ext == "html"))
+	if(!(ext == "dvi" || ext == "pdf" || ext == "ps" || ext == "html")) {
 		ext = "txt";
+	}
 
 	if(m_tempfile) {
 		delete m_tempfile;
@@ -321,8 +328,7 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 #ifdef __GNUC__
 #warning check whether the function decompressFile actually works!
 #endif
-	if(!m_tempfile->open())
-	{
+	if(!m_tempfile->open()) {
 		KMessageBox::error(this, i18n("Could not create a temporary file."));
 		return;
 	}
@@ -337,8 +343,9 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 void TexDocDialog::showStyleFile(const QString &filename, const QString &stylecode)
 {
 	KILE_DEBUG() << "\tshow style file: " << filename << endl;
-	if(! QFile::exists(filename))
+	if(! QFile::exists(filename)) {
 		return;
+	}
 
 	// open to read
 	QFile fin(filename);
@@ -355,8 +362,7 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 	m_tempfile->setSuffix(".txt");
 
 	// use a textstream to write to the temporary file
-	if(!m_tempfile->open())
-	{
+	if(!m_tempfile->open()) {
 		KMessageBox::error(this, i18n("Could not create a temporary file."));
 		return ;
 	}
@@ -377,7 +383,7 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 			stream << textline << "\n";
 		}
 	}
-	else
+	else {
 		if(stylecode == "-2-") {
 			// mode 2: read everything up to a line starting with at least 4 '%' characters
 			for (int i = 0; i < 9; ++i) {
@@ -390,7 +396,7 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 				stream << textline << "\n";
 			}
 		}
-		else
+		else {
 			if(stylecode == "-1-") {
 				// mode 1: read all lines at the end behind \endinput
 				while(!sty.atEnd()) {
@@ -402,8 +408,7 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 					stream << sty.readLine() << "\n";
 				}
 			}
-			else
-			{
+			else {
 				// mode 0: read everything except empty lines and comments
 				while(!sty.atEnd()) {
 					textline = sty.readLine();
@@ -412,7 +417,8 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 					}
 				}
 			}
-
+		}
+	}
 	// start the viewer
 	showFile(m_tempfile->fileName());
 }
@@ -420,8 +426,7 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 void TexDocDialog::showFile(const QString &filename)
 {
 	KILE_DEBUG() << "\tshow file: " << filename << endl;
-	if(QFile::exists(filename))
-	{
+	if(QFile::exists(filename)) {
 		KUrl url;
 		url.setPath(filename);
 
@@ -441,26 +446,26 @@ void TexDocDialog::showFile(const QString &filename)
 
 void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
 {
-	if(! item->parent())
+	if(! item->parent()) {
 		return;
+	}
 
 	QString package = item->text(1);
 	KILE_DEBUG() << "\tselect child: "  << item->text(0) << endl
 	<< "\tis package: " << package << endl;
-	if(! m_dictDocuments.contains(package))
+	if(! m_dictDocuments.contains(package)) {
 		return;
+	}
 
 	QString texdocfile = m_dictDocuments[package];
 	KILE_DEBUG() << "\tis texdocfile: " << texdocfile << endl;
 
 	// search for the file in the documentation directories
 	QString filename = searchFile(texdocfile, m_texmfdocPath);
-	if(filename.isEmpty())
-	{
+	if(filename.isEmpty()) {
 		// not found: search it elsewhere
 		filename = searchFile(texdocfile, m_texmfPath, "tex");
-		if(filename.isEmpty())
-		{
+		if(filename.isEmpty()) {
 			KMessageBox::error(this, i18n("Could not find '%1'", filename));
 			return;
 		}
@@ -468,17 +473,23 @@ void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
 	KILE_DEBUG() << "\tfound file: " << filename << endl;
 
 	QString ext = QFileInfo(filename).suffix().toLower();
-	m_filename = QString::null;
-	if(ext == "gz")
+	m_filename.clear();
+	if(ext == "gz") {
 		decompressFile(m_dictDocuments[package], "gzip -cd " + filename);
-	else
-		if(ext == "bz2")
+	}
+	else {
+		if(ext == "bz2") {
 			decompressFile(m_dictDocuments[package], "bzip2 -cd " + filename);
-		else
-			if(ext == "sty" &&  m_dictStyleCodes.contains(package))
+		}
+		else {
+			if(ext == "sty" &&  m_dictStyleCodes.contains(package)) {
 				showStyleFile(filename, m_dictStyleCodes[package]);
-			else
+			}
+			else {
 				showFile(filename);
+			}
+		}
+	}
 }
 
 void TexDocDialog::slotTextChanged(const QString &text)
@@ -489,8 +500,7 @@ void TexDocDialog::slotTextChanged(const QString &text)
 void TexDocDialog::slotSearchClicked()
 {
 	QString keyword = m_leKeywords->text().trimmed();
-	if(keyword.isEmpty())
-	{
+	if(keyword.isEmpty()) {
 		KMessageBox::error(this, i18n("No keyword given."));
 		return;
 	}
@@ -499,16 +509,13 @@ void TexDocDialog::slotSearchClicked()
 	bool writesection = true;
 	QStringList searchlist;
 
-	for (uint i = 0; i < m_tocList.count(); i++)
-	{
-		if(m_tocList[i][0] == '@')
-		{
+	for(int i = 0; i < m_tocList.count(); i++) {
+		if(m_tocList[i][0] == '@') {
 			section = m_tocList[i];
 			writesection = true;
 		}
 		else
-			if(i < m_tocSearchList.count() && m_tocSearchList[i].indexOf(keyword, 0, Qt::CaseInsensitive) > -1)
-			{
+			if(i < m_tocSearchList.count() && m_tocSearchList[i].indexOf(keyword, 0, Qt::CaseInsensitive) > -1) {
 				if(writesection)
 					searchlist.append(section);
 				searchlist.append(m_tocList[i]);
@@ -537,16 +544,18 @@ void TexDocDialog::slotButtonClicked(int button)
 
 void TexDocDialog::callSearch()
 {
-	if(m_pbSearch->isEnabled())
+	if(m_pbSearch->isEnabled()) {
 		slotSearchClicked();
+	}
 }
 
 ////////////////////// execute shell script //////////////////////
 
 void TexDocDialog::executeScript(const QString &command)
 {
-	if(m_proc)
+	if(m_proc) {
 		delete m_proc;
+	}
 
 	m_proc = new KProcess();
 	m_proc->setShellCommand(command);
@@ -592,8 +601,7 @@ void TexDocDialog::slotInitToc()
 	disconnect(this, SIGNAL(processFinished()), this, SLOT(slotInitToc()));
 
 	QStringList results = m_output.split('\n', QString::KeepEmptyParts);
-	if(results.count() < 3)
-	{
+	if(results.count() < 3) {
 		KMessageBox::error(this, i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless."));
 		return;
 	}
@@ -606,8 +614,7 @@ void TexDocDialog::slotInitToc()
 	KILE_DEBUG() << "\ttexmfdoc path: " << m_texmfdocPath << endl;
 	KILE_DEBUG() << "\ttexmf path: " << m_texmfPath << endl;
 
-	if(m_texdoctkPath.indexOf('\n', -1) > -1)
-	{
+	if(m_texdoctkPath.indexOf('\n', -1) > -1) {
 		m_texdoctkPath.truncate(m_texdoctkPath.length() - 1);
 	}
 
@@ -631,12 +638,10 @@ QString TexDocDialog::getMimeType(const QString &filename)
 	QString ext = fi.suffix().toLower();
 
 	QString mimetype;
-	if(ext == "txt" || ext == "faq" || ext == "sty" || basename == "readme" || basename == "00readme")
-	{
+	if(ext == "txt" || ext == "faq" || ext == "sty" || basename == "readme" || basename == "00readme") {
 		mimetype = "text/plain";
 	}
-	else
-	{
+	else {
 		KUrl mimeurl;
 		mimeurl.setPath(filename);
 		KMimeType::Ptr pMime = KMimeType::findByUrl(mimeurl);
@@ -654,20 +659,27 @@ QString TexDocDialog::getIconName(const QString &filename)
 	QString ext = fi.suffix().toLower();
 
 	QString icon;
-	if(ext == "dvi" || ext == "pdf" || ext == "html" || ext == "htm"  || ext == "txt")
+	if(ext == "dvi" || ext == "pdf" || ext == "html" || ext == "htm"  || ext == "txt") {
 		icon = ext;
-	else
-		if(ext == "ps")
+	}
+	else {
+		if(ext == "ps") {
 			icon = "postscript";
-		else
-			if(ext == "sty")
+		}
+		else {
+			if(ext == "sty") {
 				icon = "tex";
-			else
-				if(ext == "faq" || basename == "readme" || basename == "00readme")
+			}
+			else {
+				if(ext == "faq" || basename == "readme" || basename == "00readme") {
 					icon = "readme";
-				else
+				}
+				else {
 					icon = "ascii";
-
+				}
+			}
+		}
+	}
 	return icon;
 }
 

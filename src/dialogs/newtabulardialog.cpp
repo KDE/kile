@@ -42,15 +42,10 @@ NewTabularDialog::NewTabularDialog(QWidget *parent)
 	m_tbFormat->setFloatable(false);
 	m_tbFormat->setOrientation(Qt::Horizontal);
 
-	KAction *action = new KAction(KIcon("format-justify-left"), i18n("Align Left"), page);
-	connect(action, SIGNAL(triggered(bool)), this, SLOT(slotAlignLeft()));
-	m_tbFormat->addAction(action);
-	action = new KAction(KIcon("format-justify-center"), i18n("Align Center"), page);
-	connect(action, SIGNAL(triggered(bool)), this, SLOT(slotAlignCenter()));
-	m_tbFormat->addAction(action);
-	action = new KAction(KIcon("format-justify-right"), i18n("Align Right"), page);
-	connect(action, SIGNAL(triggered(bool)), this, SLOT(slotAlignRight()));
-	m_tbFormat->addAction(action);
+	addAction(KIcon("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
+	addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
+	addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
+	addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
 
 	m_Table = new QTableWidget(page);
 
@@ -90,6 +85,15 @@ NewTabularDialog::~NewTabularDialog()
 {
 }
 
+KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)
+{
+	KAction *action = new KAction(icon, text, parent);
+	connect(action, SIGNAL(triggered(bool)), this, method);
+	m_tbFormat->addAction(action);
+
+	return action;
+}
+
 void NewTabularDialog::alignItems(int alignment)
 {
 	QList<int> checkedColumns;
@@ -126,6 +130,8 @@ inline QString NewTabularDialog::iconForAlignment(int alignment) const
 			return "format-justify-center";
 		case Qt::AlignRight:
 			return "format-justify-right";
+		default:
+			return "";
 	}
 }
 
@@ -168,6 +174,19 @@ void NewTabularDialog::slotAlignCenter()
 void NewTabularDialog::slotAlignRight()
 {
 	alignItems(Qt::AlignRight);
+}
+
+// FIXME joining cells does only work the first time
+void NewTabularDialog::slotJoinCells()
+{
+	QList<QTableWidgetSelectionRange> selectedRanges = m_Table->selectedRanges();
+
+	if(selectedRanges.count() == 0) return;
+
+	foreach(QTableWidgetSelectionRange range, selectedRanges) {
+		m_Table->setSpan(range.topRow(), range.leftColumn(),
+		                 range.rowCount(), range.columnCount());
+	}
 }
 
 }

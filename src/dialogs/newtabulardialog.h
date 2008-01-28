@@ -22,6 +22,9 @@ class QSpinBox;
 class QTableWidget;
 class QToolBar;
 
+class KAction;
+class KIcon;
+
 namespace KileDialog {
 
 class NewTabularDialog : public KDialog {
@@ -32,6 +35,7 @@ class NewTabularDialog : public KDialog {
 		~NewTabularDialog();
 
 	private:
+		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
 		void alignItems(int alignment);
 		QString iconForAlignment(int alignment) const;
 
@@ -40,6 +44,7 @@ class NewTabularDialog : public KDialog {
 		void slotAlignLeft();
 		void slotAlignCenter();
 		void slotAlignRight();
+		void slotJoinCells();
 
 	private:
 		QToolBar *m_tbFormat;

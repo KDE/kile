@@ -28,6 +28,7 @@
 #include <KComboBox>
 #include <KIcon>
 #include <KLocale>
+#include <KMessageBox>
 
 namespace KileDialog {
 
@@ -170,6 +171,48 @@ void NewTabularDialog::updateColsAndRows()
 	int addedCols = m_sbCols->value() - m_Table->columnCount();
 	int addedRows = m_sbRows->value() - m_Table->rowCount();
 
+	// check whether content could be deleted when shrinking the table
+	if(addedCols < 0) {
+		bool hasContent = false;
+		for(int column = m_Table->columnCount() + addedCols; column < m_Table->columnCount(); ++column) {
+			for(int row = 0; row < m_Table->rowCount(); ++row) {
+				if(m_Table->item(row, column) && !(m_Table->item(row, column)->text().isEmpty())) {
+					hasContent = true;
+					break;
+				}
+			}
+			if(hasContent) break;
+		}
+
+		if(hasContent) {
+			if(KMessageBox::questionYesNo(m_Table, i18n("Setting the new size for the table will delete content. Are you sure to set the new size?"), i18n("Resizing table")) == KMessageBox::No) {
+				m_sbCols->setValue(m_Table->columnCount());
+				return;
+			}
+		}
+	}
+
+	// check whether content could be deleted when shrinking the table
+	if(addedRows < 0) {
+		bool hasContent = false;
+		for(int row = m_Table->rowCount() + addedRows; row < m_Table->rowCount(); ++row) {
+			for(int column = 0; column < m_Table->columnCount(); ++column) {
+				if(m_Table->item(row, column) && !(m_Table->item(row, column)->text().isEmpty())) {
+					hasContent = true;
+					break;
+				}
+			}
+			if(hasContent) break;
+		}
+
+		if(hasContent) {
+			if(KMessageBox::questionYesNo(m_Table, i18n("Setting the new size for the table will delete content. Are you sure to set the new size?"), i18n("Resizing table")) == KMessageBox::No) {
+				m_sbRows->setValue(m_Table->rowCount());
+				return;
+			}
+		}
+	}
+
 	m_Table->setColumnCount(m_sbCols->value());
 	m_Table->setRowCount(m_sbRows->value());
 
@@ -187,6 +230,11 @@ void NewTabularDialog::updateColsAndRows()
 	if(addedRows > 0) {
 		for(int i = m_Table->rowCount() - addedRows; i < m_Table->rowCount(); ++i) {
 			m_Table->resizeRowToContents(i);
+
+			// each cell should be an item. This is necessary for selection checking
+			for(int column = m_Table->columnCount() - addedCols; column < m_Table->columnCount(); ++column) {
+				m_Table->setItem(i, column, new QTableWidgetItem(QString()));
+			}
 		}
 	}
 }

@@ -29,7 +29,8 @@
 
 #include <QSplashScreen>
 
-#include <kaction.h>
+#include <KAction>
+#include <KActionMenu>
 #include <khelpmenu.h>
 #include <kmenubar.h>
 #include <kstatusbar.h>
@@ -822,15 +823,12 @@ void Kile::setupActions()
 
 	createAction(i18n("&System Check..."), "settings_perform_check", this, SLOT(slotPerformCheck()));
 
-#ifdef __GNUC__
-#warning m_menuUserTags still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	m_menuUserTags = new KActionMenu(i18n("User Tags"), SmallIcon("label"), actionCollection(),"menuUserTags");
+	m_menuUserTags = new KActionMenu(i18n("User Tags"), actionCollection());
+	m_menuUserTags->setIcon(KIcon("label"));
 	m_menuUserTags->setDelayed(false);
+	actionCollection()->addAction("menuUserTags", m_menuUserTags);
 	setupUserTagActions();
-*/
+
 	actionCollection()->readSettings();
 
 	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), m_mainWindow, actionCollection());
@@ -905,11 +903,6 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 
 void Kile::setupUserTagActions()
 {
-#ifdef __GNUC__
-#warning Need to port the setupUserTagActions() method!
-#endif
-//FIXME: port for KDE4
-/*
 	KShortcut tagaccels[10] = {KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_1),
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_2),
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_3),
@@ -921,24 +914,28 @@ void Kile::setupUserTagActions()
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_9),
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_0)};
 
-	m_actionEditTag = new KAction(i18n("Edit User Tags..."),0 , this, SLOT(editUserMenu()), m_menuUserTags,"EditUserMenu" );
+	m_actionEditTag = new KAction(m_menuUserTags);
+	m_actionEditTag->setText(i18n("Edit User Tags..."));
+	connect(m_actionEditTag, SIGNAL(triggered()), this, SLOT(editUserMenu()));
+	actionCollection()->addAction("EditUserMenu", m_actionEditTag);
 
-	m_menuUserTags->insert(m_actionEditTag);
-	if ( m_listUserTags.size() > 0 )  {
-		m_actionEditSeparator = new KActionSeparator();
-		m_menuUserTags->insert(m_actionEditSeparator);
+	m_menuUserTags->addAction(m_actionEditTag);
+	if(m_listUserTags.size() > 0)  {
+		m_menuUserTags->addSeparator();
 	}
-	for (uint i=0; i<m_listUserTags.size(); ++i)
-	{
-		KShortcut sc; if (i<10)  { sc = tagaccels[i]; } else { sc = 0; }
-		QString name = QString::number(i+1)+": "+m_listUserTags[i].text;
+	for (int i = 0; i < m_listUserTags.size(); ++i) {
+		KShortcut sc;
+		if(i < 10) {
+			sc = tagaccels[i];
+		}
+		QString name = QString::number(i+1) + ": " + m_listUserTags[i].text;
 		KileAction::Tag *menuItem = new KileAction::Tag(name, sc, this, SLOT(insertTag(const KileAction::TagData &)), actionCollection(), QString("tag_user_" + m_listUserTags[i].text).ascii(), m_listUserTags[i]);
 		m_listUserTagsActions.append(menuItem);
-		m_menuUserTags->insert(menuItem);
+		m_menuUserTags->addAction(menuItem);
 	}
 
-	actionCollection()->readSettings(m_config->group("Shortcuts"));
-*/
+	KConfigGroup shortcutGroup = m_config->group("Shortcuts");
+	actionCollection()->readSettings(&shortcutGroup);
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)

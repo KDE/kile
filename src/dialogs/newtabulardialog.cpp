@@ -14,7 +14,9 @@
 
 #include "newtabulardialog.h"
 
-#include <QHBoxLayout>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QGroupBox>
 #include <QLabel>
 #include <QList>
 #include <QSpinBox>
@@ -23,6 +25,7 @@
 #include <QVBoxLayout>
 
 #include <KAction>
+#include <KComboBox>
 #include <KIcon>
 #include <KLocale>
 
@@ -49,24 +52,51 @@ NewTabularDialog::NewTabularDialog(QWidget *parent)
 
 	m_Table = new QTableWidget(page);
 
-	QWidget *configPage = new QWidget(page);
-	QHBoxLayout *configPageLayout = new QHBoxLayout();
-	configPageLayout->setMargin(0);
+	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
+	QGridLayout *configPageLayout = new QGridLayout();
+	configPageLayout->setMargin(KDialog::marginHint());
 	configPageLayout->setSpacing(KDialog::spacingHint());
 	configPage->setLayout(configPageLayout);
 
-	QLabel *label = new QLabel(i18n("Cols:"), configPage);
-	m_sbCols = new QSpinBox(configPage);
-	m_sbCols->setValue(3);
-	label->setBuddy(m_sbCols);
-	configPageLayout->addWidget(label);
-	configPageLayout->addWidget(m_sbCols);
-	label = new QLabel(i18n("Rows:"), configPage);
+	QLabel *label = new QLabel(i18n("Name:"), configPage);
+	m_cmbName = new KComboBox(configPage);
+	m_cmbName->addItems(QStringList() << "array" << "ltxtable" << "mpsupertabular"
+	                                  << "mpxtabular" << "supertabular"
+	                                  << "tabbing" << "tabular" << "tabularx"
+	                                  << "xtabular");
+	label->setBuddy(m_cmbName);
+	configPageLayout->addWidget(label, 0, 0);
+	configPageLayout->addWidget(m_cmbName, 0, 1);
+	label = new QLabel(i18n("Parameter:"), configPage);
+	m_cmbParameter = new KComboBox(configPage);
+	m_cmbParameter->addItems(QStringList() << "" << "[" << "t" << "c" << "b" << "]");
+	label->setBuddy(m_cmbParameter);
+	configPageLayout->addWidget(label, 1, 0);
+	configPageLayout->addWidget(m_cmbParameter, 1, 1);
+
+	label = new QLabel(i18n("Number of rows:"), configPage);
 	m_sbRows = new QSpinBox(configPage);
 	m_sbRows->setValue(3);
 	label->setBuddy(m_sbRows);
-	configPageLayout->addWidget(label);
-	configPageLayout->addWidget(m_sbRows);
+	configPageLayout->addWidget(label, 0, 2);
+	configPageLayout->addWidget(m_sbRows, 0, 3);
+	label = new QLabel(i18n("Number of cols:"), configPage);
+	m_sbCols = new QSpinBox(configPage);
+	m_sbCols->setValue(3);
+	label->setBuddy(m_sbCols);
+	configPageLayout->addWidget(label, 1, 2);
+	configPageLayout->addWidget(m_sbCols, 1, 3);
+
+	m_cbStarred = new QCheckBox(i18n("Use starred version"), configPage);
+	m_cbCenter = new QCheckBox(i18n("Center"), configPage);
+	m_cbCenter->setChecked(true);
+	m_cbBooktabs = new QCheckBox(i18n("Use booktabs package"), configPage);
+	m_cbBullets = new QCheckBox(i18n("Insert bullets"), configPage);
+	m_cbBullets->setChecked(true);
+	configPageLayout->addWidget(m_cbStarred, 2, 0, 1, 2);
+	configPageLayout->addWidget(m_cbCenter, 2, 2, 1, 2);
+	configPageLayout->addWidget(m_cbBooktabs, 3, 0, 1, 2);
+	configPageLayout->addWidget(m_cbBullets, 3, 2, 1, 2);
 
 	pageLayout->addWidget(m_tbFormat);
 	pageLayout->addWidget(m_Table);

@@ -18,11 +18,13 @@
 
 #include <KDialog>
 
+class QCheckBox;
 class QSpinBox;
 class QTableWidget;
 class QToolBar;
 
 class KAction;
+class KComboBox;
 class KIcon;
 
 namespace KileDialog {
@@ -49,7 +51,9 @@ class NewTabularDialog : public KDialog {
 	private:
 		QToolBar *m_tbFormat;
 		QTableWidget *m_Table;
+		KComboBox *m_cmbName, *m_cmbParameter;
 		QSpinBox *m_sbRows, *m_sbCols;
+		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
 };
 
 }

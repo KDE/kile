@@ -53,6 +53,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
 	addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
 	addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
+	addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
 
 	m_Table = new QTableWidget(page);
 
@@ -325,6 +326,18 @@ void NewTabularDialog::slotJoinCells()
 
 	/* everything's fine -> join the cells */
 	m_Table->setSpan(row, columns.first(), 1, columns.size());
+}
+
+void NewTabularDialog::slotSplitCells()
+{
+	/* one item has to be selected */
+	if(m_Table->selectedItems().count() != 1) return;
+
+	QTableWidgetItem *selectedItem = m_Table->selectedItems()[0];
+
+	if(m_Table->columnSpan(selectedItem->row(), selectedItem->column()) > 1) {
+		m_Table->setSpan(selectedItem->row(), selectedItem->column(), 1, 1);
+	}
 }
 
 }

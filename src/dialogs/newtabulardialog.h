@@ -53,6 +53,7 @@ class NewTabularDialog : public KDialog {
 		void slotAlignCenter();
 		void slotAlignRight();
 		void slotJoinCells();
+		void slotSplitCells();
 
 	private:
 		KileDocument::LatexCommands *m_latexCommands;

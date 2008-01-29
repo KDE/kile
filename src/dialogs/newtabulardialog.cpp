@@ -31,11 +31,12 @@
 #include <KMessageBox>
 
 #include "kiledebug.h"
+#include "latexcmd.h"
 
 namespace KileDialog {
 
-NewTabularDialog::NewTabularDialog(QWidget *parent)
-	: KDialog(parent)
+NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent)
+	: KDialog(parent), m_latexCommands(commands)
 {
 	QWidget *page = new QWidget(this);
 	QVBoxLayout *pageLayout = new QVBoxLayout();
@@ -63,10 +64,6 @@ NewTabularDialog::NewTabularDialog(QWidget *parent)
 
 	QLabel *label = new QLabel(i18n("Name:"), configPage);
 	m_cmbName = new KComboBox(configPage);
-	m_cmbName->addItems(QStringList() << "array" << "ltxtable" << "mpsupertabular"
-	                                  << "mpxtabular" << "supertabular"
-	                                  << "tabbing" << "tabular" << "tabularx"
-	                                  << "xtabular");
 	label->setBuddy(m_cmbName);
 	configPageLayout->addWidget(label, 0, 0);
 	configPageLayout->addWidget(m_cmbName, 0, 1);
@@ -106,6 +103,7 @@ NewTabularDialog::NewTabularDialog(QWidget *parent)
 	pageLayout->addWidget(configPage);
 
 	setMainWidget(page);
+	initEnvironments();
 	updateColsAndRows();
 
 	connect(m_sbCols, SIGNAL(valueChanged(int)),
@@ -116,6 +114,18 @@ NewTabularDialog::NewTabularDialog(QWidget *parent)
 
 NewTabularDialog::~NewTabularDialog()
 {
+}
+
+void NewTabularDialog::initEnvironments()
+{
+	/* read all tabular environments and insert them into the combobox */
+	QStringList list;
+	QStringList::ConstIterator it;
+	m_latexCommands->commandList(list, KileDocument::CmdAttrTabular, false);
+	m_cmbName->addItems(list);
+	
+	// FIXME differ between array and tabular environment
+	// FIXME refresh other gui elements regarding environment combo box
 }
 
 KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)

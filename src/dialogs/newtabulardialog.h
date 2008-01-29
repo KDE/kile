@@ -27,16 +27,21 @@ class KAction;
 class KComboBox;
 class KIcon;
 
+namespace KileDocument {
+	class LatexCommands;
+}
+
 namespace KileDialog {
 
 class NewTabularDialog : public KDialog {
 	Q_OBJECT
 
 	public:
-		NewTabularDialog(QWidget *parent = 0);
+		NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent = 0);
 		~NewTabularDialog();
 
 	private:
+		void initEnvironments();
 		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
 		void alignItems(int alignment);
 		QString iconForAlignment(int alignment) const;
@@ -49,6 +54,8 @@ class NewTabularDialog : public KDialog {
 		void slotJoinCells();
 
 	private:
+		KileDocument::LatexCommands *m_latexCommands;
+
 		QToolBar *m_tbFormat;
 		QTableWidget *m_Table;
 		KComboBox *m_cmbName, *m_cmbParameter;

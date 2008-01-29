@@ -48,6 +48,7 @@ class NewTabularDialog : public KDialog {
 
 	private Q_SLOTS:
 		void updateColsAndRows();
+		void slotEnvironmentChanged(const QString &environment);
 		void slotAlignLeft();
 		void slotAlignCenter();
 		void slotAlignRight();

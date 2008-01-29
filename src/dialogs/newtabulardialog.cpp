@@ -69,7 +69,6 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	configPageLayout->addWidget(m_cmbName, 0, 1);
 	label = new QLabel(i18n("Parameter:"), configPage);
 	m_cmbParameter = new KComboBox(configPage);
-	m_cmbParameter->addItems(QStringList() << "" << "[" << "t" << "c" << "b" << "]");
 	label->setBuddy(m_cmbParameter);
 	configPageLayout->addWidget(label, 1, 0);
 	configPageLayout->addWidget(m_cmbParameter, 1, 1);
@@ -106,6 +105,8 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	initEnvironments();
 	updateColsAndRows();
 
+	connect(m_cmbName, SIGNAL(activated(const QString&)),
+	        this, SLOT(slotEnvironmentChanged(const QString&)));
 	connect(m_sbCols, SIGNAL(valueChanged(int)),
 	        this, SLOT(updateColsAndRows()));
 	connect(m_sbRows, SIGNAL(valueChanged(int)),
@@ -125,7 +126,9 @@ void NewTabularDialog::initEnvironments()
 	m_cmbName->addItems(list);
 	
 	// FIXME differ between array and tabular environment
-	// FIXME refresh other gui elements regarding environment combo box
+
+	// refresh other gui elements regarding environment combo box
+	slotEnvironmentChanged(m_cmbName->currentText());
 }
 
 KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)
@@ -249,6 +252,36 @@ void NewTabularDialog::updateColsAndRows()
 			}
 		}
 	}
+}
+
+void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
+{
+	// clear parameter combobox
+	m_cmbParameter->clear();
+	m_cmbParameter->setEnabled(false);
+
+	// look for environment parameter in dictionary
+	KileDocument::LatexCmdAttributes attr;
+	if(m_latexCommands->commandAttributes(environment, attr)) {
+		// starred version
+		m_cbStarred->setEnabled(attr.starred);
+
+		// option
+		if(attr.option.indexOf('[') == 0) {
+			QStringList optionlist = attr.option.split("");
+			if(optionlist.count() > 2) {
+				// ok, let's enable it
+				m_cmbParameter->setEnabled(true);
+				m_cmbParameter->insertItem(QString());
+				// insert some options
+				for(int i = 1; i < optionlist.count() - 1; ++i) {
+					m_cmbParameter->insertItem(optionlist[i]);
+				}
+			}
+		}
+	}
+
+	// NOTE do not forget the align list
 }
 
 void NewTabularDialog::slotAlignLeft()

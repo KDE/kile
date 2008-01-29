@@ -30,6 +30,8 @@
 #include <KLocale>
 #include <KMessageBox>
 
+#include "kiledebug.h"
+
 namespace KileDialog {
 
 NewTabularDialog::NewTabularDialog(QWidget *parent)
@@ -254,17 +256,32 @@ void NewTabularDialog::slotAlignRight()
 	alignItems(Qt::AlignRight);
 }
 
-// FIXME joining cells does only work the first time
+// FIXME joining joined cells or cells adjacent to joined cells does not work
 void NewTabularDialog::slotJoinCells()
 {
-	QList<QTableWidgetSelectionRange> selectedRanges = m_Table->selectedRanges();
+	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+	if(selectedItems.count() < 2) return;
 
-	if(selectedRanges.count() == 0) return;
-
-	foreach(QTableWidgetSelectionRange range, selectedRanges) {
-		m_Table->setSpan(range.topRow(), range.leftColumn(),
-		                 range.rowCount(), range.columnCount());
+	/* check whether all selected items are in the same row */
+	int row = selectedItems[0]->row();
+	for(int i = 1; i < selectedItems.count(); ++i) {
+		if(selectedItems[i]->row() != row) {
+			return;
+		}
 	}
+
+	/* check whether all selected items are adjacent */
+	QList<int> columns;
+	foreach(QTableWidgetItem* item, selectedItems) {
+		columns.append(item->column());
+	}
+	qSort(columns);
+	if((columns.last() - columns.first()) != (columns.size() - 1)) {
+		return;
+	}
+
+	/* everything's fine -> join the cells */
+	m_Table->setSpan(row, columns.first(), 1, columns.size());
 }
 
 }

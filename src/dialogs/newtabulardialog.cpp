@@ -300,7 +300,6 @@ void NewTabularDialog::slotAlignRight()
 	alignItems(Qt::AlignRight);
 }
 
-// FIXME joining joined cells or cells adjacent to joined cells does not work
 void NewTabularDialog::slotJoinCells()
 {
 	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();

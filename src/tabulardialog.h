@@ -31,7 +31,6 @@
 #include <qspinbox.h>
 #include <qregexp.h>
 #include <qvalidator.h>
-#include <q3popupmenu.h>
 #include <QList>
 //Added by qt3to4:
 #include <Q3Frame>
@@ -40,6 +39,8 @@
 #include <kdialog.h>
 #include <kcolorcombo.h>
 #include <kpushbutton.h>
+
+class QMenu;
  
 namespace KileDialog
 {
@@ -222,12 +223,11 @@ private:
 	void getCellRange(int row,int col1, int col2, int &xl, int &xr);
 	QString getCellRangeText(int row,int col1, int col2);
 
-	Q3PopupMenu *createPopupMenu();
-	void insertPopupAlign(Q3PopupMenu *popup,bool header);
-	void insertPopupClear(Q3PopupMenu *popup);
-	int popupId(Q3PopupMenu *popup, int id);
+	QMenu *createPopupMenu();
+	void insertPopupAlign(QMenu *popup,bool header);
+	void insertPopupClear(QMenu *popup);
+	int popupId(QMenu *popup, int id);
 	
-	void cellPopupEdit();
 	void cellPopupSetMulticolumn();
 	void cellPopupBreakMulticolumn();
 	void cellPopupAlign(int align);
@@ -240,14 +240,15 @@ private:
 	int m_section;
 	int m_x1,m_y1,m_x2,m_y2;
 	
-	Q3PopupMenu *m_headerpopup;
-	Q3PopupMenu *m_cellpopup;
+	QMenu *m_headerpopup;
+	QMenu *m_cellpopup;
 	TabularDialog *m_tabdialog;
 	
 private Q_SLOTS:
 	void slotContextMenuClicked(int row,int col,const QPoint &);	
 	void slotCellPopupActivated(int id);
 	void slotHeaderPopupActivated(int id);
+	void cellPopupEdit();
 	
 protected:
 	bool eventFilter(QObject *o, QEvent *e); 

@@ -29,6 +29,7 @@
 #include <qmap.h>
 //Added by qt3to4:
 #include <QPixmap>
+#include <QMenu>
 #include <QMouseEvent>
 #include <Q3GridLayout>
 #include <Q3HBoxLayout>
@@ -1124,16 +1125,16 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 
 ////////////////////////////// popup menus //////////////////////////////
 
-Q3PopupMenu *TabularTable::createPopupMenu()
+QMenu *TabularTable::createPopupMenu()
 {
-	Q3PopupMenu *menu = new Q3PopupMenu(this);
-	menu->insertItem( i18n("Edit..."));
-	menu->insertSeparator();
-	
+	QMenu *menu = new QMenu(this);
+	menu->addAction(i18n("Edit..."), this, SLOT(cellPopupEdit()));
+	menu->addSeparator();
+
 	return menu;
 }
 
-void TabularTable::insertPopupAlign(Q3PopupMenu *popup,bool header)
+void TabularTable::insertPopupAlign(QMenu *popup,bool header)
 {
 	// alignment 
 	int align = 0;
@@ -1164,14 +1165,14 @@ void TabularTable::insertPopupAlign(Q3PopupMenu *popup,bool header)
 		popup->insertSeparator();
 }
 
-void TabularTable::insertPopupClear(Q3PopupMenu *popup)
+void TabularTable::insertPopupClear(QMenu *popup)
 {
 	popup->insertItem( i18n("Clear Text"));
 	popup->insertItem( i18n("Clear Attributes"));
 	popup->insertItem( i18n("Clear All"));
 }
 
-int TabularTable::popupId(Q3PopupMenu *popup, int id)
+int TabularTable::popupId(QMenu *popup, int id)
 {
 	QString entry = popup->text(id);
 	

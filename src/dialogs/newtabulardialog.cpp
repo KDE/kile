@@ -324,8 +324,19 @@ void NewTabularDialog::slotJoinCells()
 		return;
 	}
 
+	int newColumnSpan = columns.size();
+
+	/* check for already joined cells in range */
+	foreach(int column, columns) {
+		int thisColumnSpan = m_Table->columnSpan(row, column);
+		if(thisColumnSpan > 1) {
+			newColumnSpan = qMax(newColumnSpan, thisColumnSpan + column - columns.first());
+			m_Table->setSpan(row, column, 1, 1);
+		}
+	}
+
 	/* everything's fine -> join the cells */
-	m_Table->setSpan(row, columns.first(), 1, columns.size());
+	m_Table->setSpan(row, columns.first(), 1, newColumnSpan);
 }
 
 void NewTabularDialog::slotSplitCells()

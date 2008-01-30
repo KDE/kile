@@ -102,6 +102,17 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	pageLayout->addWidget(m_Table);
 	pageLayout->addWidget(configPage);
 
+	// whats this texts
+	// NOTE add texts for table and table header
+	m_cmbName->setWhatsThis(i18n("Choose an environment."));
+	m_cmbParameter->setWhatsThis(i18n("Optional parameter for the chosen environment."));
+	m_sbRows->setWhatsThis(i18n("Choose the number of table rows."));
+	m_sbCols->setWhatsThis(i18n("Choose the number of table columns."));
+	m_cbCenter->setWhatsThis(i18n("The tabular will be centered."));
+	m_cbBooktabs->setWhatsThis(i18n("Use line commands of the booktabs package."));
+	m_cbStarred->setWhatsThis(i18n("Use the starred version of this environment."));
+	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+
 	setMainWidget(page);
 	initEnvironments();
 	updateColsAndRows();

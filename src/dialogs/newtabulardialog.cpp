@@ -237,7 +237,7 @@ void NewTabularDialog::updateColsAndRows()
 			m_Table->setHorizontalHeaderItem(i, new QTableWidgetItem(KIcon("format-justify-left"), QString::number(i + 1)));
 
 			// each cell should be an item. This is necessary for selection checking
-			for(int row = m_Table->rowCount() - addedRows; row < m_Table->rowCount(); ++row) {
+			for(int row = 0; row < m_Table->rowCount(); ++row) {
 				m_Table->setItem(row, i, new QTableWidgetItem(QString()));
 			}
 		}
@@ -248,7 +248,7 @@ void NewTabularDialog::updateColsAndRows()
 			m_Table->resizeRowToContents(i);
 
 			// each cell should be an item. This is necessary for selection checking
-			for(int column = m_Table->columnCount() - addedCols; column < m_Table->columnCount(); ++column) {
+			for(int column = 0; column < m_Table->columnCount(); ++column) {
 				m_Table->setItem(i, column, new QTableWidgetItem(QString()));
 			}
 		}
@@ -304,12 +304,16 @@ void NewTabularDialog::slotAlignRight()
 void NewTabularDialog::slotJoinCells()
 {
 	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
-	if(selectedItems.count() < 2) return;
+	if(selectedItems.count() < 2) {
+		KILE_DEBUG() << "cannot join cells, because selectedItems.count() < 2";
+		return;
+	}
 
 	/* check whether all selected items are in the same row */
 	int row = selectedItems[0]->row();
 	for(int i = 1; i < selectedItems.count(); ++i) {
 		if(selectedItems[i]->row() != row) {
+			KILE_DEBUG() << "cannot join cells, because of different rows";
 			return;
 		}
 	}
@@ -321,6 +325,7 @@ void NewTabularDialog::slotJoinCells()
 	}
 	qSort(columns);
 	if((columns.last() - columns.first()) != (columns.size() - 1)) {
+		KILE_DEBUG() << "cannot join cells, because not all cells are adjacent";
 		return;
 	}
 

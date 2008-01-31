@@ -222,6 +222,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	setMainWidget(page);
 	initEnvironments();
 	updateColsAndRows();
+	m_Table->item(0, 0)->setSelected(true);
 
 	connect(m_Table, SIGNAL(itemSelectionChanged()),
 	        this, SLOT(slotItemSelectionChanged()));

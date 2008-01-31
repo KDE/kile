@@ -25,15 +25,66 @@
 #include <QVBoxLayout>
 
 #include <KAction>
+#include <KColorCells>
 #include <KComboBox>
 #include <KIcon>
 #include <KLocale>
+#include <KMenu>
 #include <KMessageBox>
+#include <KPushButton>
+#include <KToolBarPopupAction>
 
 #include "kiledebug.h"
 #include "latexcmd.h"
 
 namespace KileDialog {
+
+class SelectColorAction : public KToolBarPopupAction {
+	public:
+		SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent);
+
+	private:
+		KColorCells *m_ccColors;
+		KPushButton *m_pbCustom;
+};
+
+SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent)
+	: KToolBarPopupAction(icon, text, parent)
+{
+	QWidget *page = new QWidget(parent);
+	QVBoxLayout *layout = new QVBoxLayout();
+	layout->setMargin(0);
+	layout->setSpacing(0);
+	page->setLayout(layout);
+
+	m_ccColors = new KColorCells(page, 4, 4);
+	m_ccColors->setSelectionMode(QAbstractItemView::NoSelection);
+	m_ccColors->setColor(0, Qt::white);
+	m_ccColors->setColor(1, Qt::black);
+	m_ccColors->setColor(2, Qt::red);
+	m_ccColors->setColor(3, Qt::darkRed);
+	m_ccColors->setColor(4, Qt::green);
+	m_ccColors->setColor(5, Qt::darkGreen);
+	m_ccColors->setColor(6, Qt::blue);
+	m_ccColors->setColor(7, Qt::darkBlue);
+	m_ccColors->setColor(8, Qt::cyan);
+	m_ccColors->setColor(9, Qt::darkCyan);
+	m_ccColors->setColor(10, Qt::magenta);
+	m_ccColors->setColor(11, Qt::darkMagenta);
+	m_ccColors->setColor(12, Qt::yellow);
+	m_ccColors->setColor(13, Qt::darkYellow);
+	m_ccColors->setColor(14, Qt::gray);
+	m_ccColors->setColor(15, Qt::darkGray);
+
+	m_pbCustom = new KPushButton(i18n("Select custom color"), page);
+
+	layout->addWidget(m_ccColors);
+	layout->addWidget(m_pbCustom);
+
+	QWidgetAction *widgetAction = new QWidgetAction(this);
+	widgetAction->setDefaultWidget(page);
+	popupMenu()->addAction(widgetAction);
+}
 
 NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent)
 	: KDialog(parent), m_latexCommands(commands)
@@ -59,6 +110,12 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_tbFormat->addSeparator();
 	m_acJoin = addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
 	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
+	m_tbFormat->addSeparator();
+
+	SelectColorAction *background = new SelectColorAction(KIcon("format-fill-color"), i18n("Background"), page);
+	m_tbFormat->addAction(background);
+	SelectColorAction *foreground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Foreground"), page);
+	m_tbFormat->addAction(foreground);
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);

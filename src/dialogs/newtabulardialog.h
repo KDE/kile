@@ -52,6 +52,9 @@ class NewTabularDialog : public KDialog {
 		void slotAlignLeft();
 		void slotAlignCenter();
 		void slotAlignRight();
+		void slotBold();
+		void slotItalic();
+		void slotUnderline();
 		void slotJoinCells();
 		void slotSplitCells();
 

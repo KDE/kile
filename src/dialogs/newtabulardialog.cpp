@@ -52,6 +52,11 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	addAction(KIcon("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
 	addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
 	addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
+	m_tbFormat->addSeparator();
+	addAction(KIcon("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
+	addAction(KIcon("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
+	addAction(KIcon("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
+	m_tbFormat->addSeparator();
 	addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
 	addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
 
@@ -309,6 +314,33 @@ void NewTabularDialog::slotAlignCenter()
 void NewTabularDialog::slotAlignRight()
 {
 	alignItems(Qt::AlignRight);
+}
+
+void NewTabularDialog::slotBold()
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		QFont font = item->font();
+		font.setBold(!font.bold());
+		item->setFont(font);
+	}
+}
+
+void NewTabularDialog::slotItalic()
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		QFont font = item->font();
+		font.setItalic(!font.italic());
+		item->setFont(font);
+	}
+}
+
+void NewTabularDialog::slotUnderline()
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		QFont font = item->font();
+		font.setUnderline(!font.underline());
+		item->setFont(font);
+	}
 }
 
 void NewTabularDialog::slotJoinCells()

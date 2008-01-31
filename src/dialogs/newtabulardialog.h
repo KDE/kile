@@ -45,6 +45,7 @@ class SelectColorAction : public KToolBarPopupAction {
 	private Q_SLOTS:
 		void slotPopupAboutToShow();
 		void slotColorSelected(int index, const QColor &color);
+		void slotCustomClicked();
 
 	Q_SIGNALS:
 		void colorSelected(const QColor &color);
@@ -79,6 +80,8 @@ class NewTabularDialog : public KDialog {
 		void slotUnderline();
 		void slotJoinCells();
 		void slotSplitCells();
+		void slotBackground(const QColor &color);
+		void slotForeground(const QColor &color);
 
 	private:
 		KileDocument::LatexCommands *m_latexCommands;

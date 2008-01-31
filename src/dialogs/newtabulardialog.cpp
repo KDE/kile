@@ -26,6 +26,7 @@
 
 #include <KAction>
 #include <KColorCells>
+#include <KColorDialog>
 #include <KComboBox>
 #include <KIcon>
 #include <KLocale>
@@ -79,6 +80,8 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 					this, SLOT(slotPopupAboutToShow()));
 	connect(m_ccColors, SIGNAL(colorSelected(int, const QColor&)),
 	        this, SLOT(slotColorSelected(int, const QColor&)));
+	connect(m_pbCustom, SIGNAL(clicked()),
+					this, SLOT(slotCustomClicked()));
 }
 
 void SelectColorAction::slotPopupAboutToShow()
@@ -91,6 +94,16 @@ void SelectColorAction::slotColorSelected(int index, const QColor &color)
 	Q_UNUSED(index);
 
 	emit colorSelected(color);
+	popupMenu()->hide();
+}
+
+void SelectColorAction::slotCustomClicked()
+{
+	QColor color;
+	int result = KColorDialog::getColor(color);
+	if (result == KColorDialog::Accepted) {
+		emit colorSelected(color);
+	}
 	popupMenu()->hide();
 }
 
@@ -121,9 +134,11 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_tbFormat->addSeparator();
 
 	SelectColorAction *background = new SelectColorAction(KIcon("format-fill-color"), i18n("Background"), page);
+	connect(background, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
 	m_tbFormat->addAction(background);
 	SelectColorAction *foreground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Foreground"), page);
 	m_tbFormat->addAction(foreground);
+	connect(foreground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);
@@ -535,6 +550,20 @@ void NewTabularDialog::slotSplitCells()
 
 	if(m_Table->columnSpan(selectedItem->row(), selectedItem->column()) > 1) {
 		m_Table->setSpan(selectedItem->row(), selectedItem->column(), 1, 1);
+	}
+}
+
+void NewTabularDialog::slotBackground(const QColor &color)
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		item->setBackground(color);
+	}
+}
+
+void NewTabularDialog::slotForeground(const QColor &color)
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		item->setForeground(color);
 	}
 }
 

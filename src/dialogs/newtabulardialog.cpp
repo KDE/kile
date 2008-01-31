@@ -32,21 +32,11 @@
 #include <KMenu>
 #include <KMessageBox>
 #include <KPushButton>
-#include <KToolBarPopupAction>
 
 #include "kiledebug.h"
 #include "latexcmd.h"
 
 namespace KileDialog {
-
-class SelectColorAction : public KToolBarPopupAction {
-	public:
-		SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent);
-
-	private:
-		KColorCells *m_ccColors;
-		KPushButton *m_pbCustom;
-};
 
 SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent)
 	: KToolBarPopupAction(icon, text, parent)
@@ -84,6 +74,24 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 	QWidgetAction *widgetAction = new QWidgetAction(this);
 	widgetAction->setDefaultWidget(page);
 	popupMenu()->addAction(widgetAction);
+
+	connect(popupMenu(), SIGNAL(aboutToShow()),
+					this, SLOT(slotPopupAboutToShow()));
+	connect(m_ccColors, SIGNAL(colorSelected(int, const QColor&)),
+	        this, SLOT(slotColorSelected(int, const QColor&)));
+}
+
+void SelectColorAction::slotPopupAboutToShow()
+{
+	m_ccColors->selectionModel()->clearSelection();
+}
+
+void SelectColorAction::slotColorSelected(int index, const QColor &color)
+{
+	Q_UNUSED(index);
+
+	emit colorSelected(color);
+	popupMenu()->hide();
 }
 
 NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent)

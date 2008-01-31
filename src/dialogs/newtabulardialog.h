@@ -17,6 +17,7 @@
 #define NEW_TABULARDIALOG_H
 
 #include <KDialog>
+#include <KToolBarPopupAction>
 
 class QCheckBox;
 class QSpinBox;
@@ -24,14 +25,34 @@ class QTableWidget;
 class QToolBar;
 
 class KAction;
+class KColorCells;
 class KComboBox;
 class KIcon;
+class KPushButton;
 
 namespace KileDocument {
 	class LatexCommands;
 }
 
 namespace KileDialog {
+	
+class SelectColorAction : public KToolBarPopupAction {
+	Q_OBJECT
+
+	public:
+		SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent);
+
+	private Q_SLOTS:
+		void slotPopupAboutToShow();
+		void slotColorSelected(int index, const QColor &color);
+
+	Q_SIGNALS:
+		void colorSelected(const QColor &color);
+
+	private:
+		KColorCells *m_ccColors;
+		KPushButton *m_pbCustom;
+};
 
 class NewTabularDialog : public KDialog {
 	Q_OBJECT

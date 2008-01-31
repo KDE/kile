@@ -82,6 +82,8 @@ class NewTabularDialog : public KDialog {
 		void slotSplitCells();
 		void slotBackground(const QColor &color);
 		void slotForeground(const QColor &color);
+		void slotCurrentBackground();
+		void slotCurrentForeground();
 
 	private:
 		KileDocument::LatexCommands *m_latexCommands;
@@ -94,6 +96,7 @@ class NewTabularDialog : public KDialog {
 		KComboBox *m_cmbName, *m_cmbParameter;
 		QSpinBox *m_sbRows, *m_sbCols;
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
+		QColor m_clCurrentBackground, m_clCurrentForeground;
 };
 
 }

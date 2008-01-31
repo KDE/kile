@@ -108,7 +108,10 @@ void SelectColorAction::slotCustomClicked()
 }
 
 NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent)
-	: KDialog(parent), m_latexCommands(commands)
+	: KDialog(parent),
+	  m_latexCommands(commands),
+	  m_clCurrentBackground(Qt::white),
+	  m_clCurrentForeground(Qt::black)
 {
 	QWidget *page = new QWidget(this);
 	QVBoxLayout *pageLayout = new QVBoxLayout();
@@ -134,11 +137,13 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_tbFormat->addSeparator();
 
 	SelectColorAction *background = new SelectColorAction(KIcon("format-fill-color"), i18n("Background"), page);
+	connect(background, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
 	connect(background, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
 	m_tbFormat->addAction(background);
 	SelectColorAction *foreground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Foreground"), page);
 	m_tbFormat->addAction(foreground);
 	connect(foreground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
+	connect(foreground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);
@@ -555,6 +560,7 @@ void NewTabularDialog::slotSplitCells()
 
 void NewTabularDialog::slotBackground(const QColor &color)
 {
+	m_clCurrentBackground = color;
 	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
 		item->setBackground(color);
 	}
@@ -562,9 +568,20 @@ void NewTabularDialog::slotBackground(const QColor &color)
 
 void NewTabularDialog::slotForeground(const QColor &color)
 {
+	m_clCurrentForeground = color;
 	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
 		item->setForeground(color);
 	}
+}
+
+void NewTabularDialog::slotCurrentBackground()
+{
+	slotBackground(m_clCurrentBackground);
+}
+
+void NewTabularDialog::slotCurrentForeground()
+{
+	slotForeground(m_clCurrentForeground);
 }
 
 }

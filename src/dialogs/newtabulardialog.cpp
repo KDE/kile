@@ -49,16 +49,24 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_tbFormat->setFloatable(false);
 	m_tbFormat->setOrientation(Qt::Horizontal);
 
-	addAction(KIcon("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
-	addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
-	addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
+	m_acLeft = addAction(KIcon("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
+	m_acCenter = addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
+	m_acRight = addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
 	m_tbFormat->addSeparator();
-	addAction(KIcon("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
-	addAction(KIcon("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
-	addAction(KIcon("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
+	m_acBold = addAction(KIcon("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
+	m_acItalic = addAction(KIcon("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
+	m_acUnderline = addAction(KIcon("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
 	m_tbFormat->addSeparator();
-	addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
-	addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
+	m_acJoin = addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
+	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
+
+	/* checkable items */
+	m_acLeft->setCheckable(true);
+	m_acCenter->setCheckable(true);
+	m_acRight->setCheckable(true);
+	m_acBold->setCheckable(true);
+	m_acItalic->setCheckable(true);
+	m_acUnderline->setCheckable(true);
 
 	m_Table = new QTableWidget(page);
 
@@ -122,6 +130,8 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	initEnvironments();
 	updateColsAndRows();
 
+	connect(m_Table, SIGNAL(itemSelectionChanged()),
+	        this, SLOT(slotItemSelectionChanged()));
 	connect(m_cmbName, SIGNAL(activated(const QString&)),
 	        this, SLOT(slotEnvironmentChanged(const QString&)));
 	connect(m_sbCols, SIGNAL(valueChanged(int)),
@@ -182,6 +192,8 @@ void NewTabularDialog::alignItems(int alignment)
 			checkedColumns.append(column);
 		}
 	}
+
+	slotItemSelectionChanged();
 }
 
 inline QString NewTabularDialog::iconForAlignment(int alignment) const
@@ -254,7 +266,9 @@ void NewTabularDialog::updateColsAndRows()
 
 			// each cell should be an item. This is necessary for selection checking
 			for(int row = 0; row < m_Table->rowCount(); ++row) {
-				m_Table->setItem(row, i, new QTableWidgetItem(QString()));
+				QTableWidgetItem *item = new QTableWidgetItem(QString());
+				item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+				m_Table->setItem(row, i, item);
 			}
 		}
 	}
@@ -265,7 +279,9 @@ void NewTabularDialog::updateColsAndRows()
 
 			// each cell should be an item. This is necessary for selection checking
 			for(int column = 0; column < m_Table->columnCount(); ++column) {
-				m_Table->setItem(i, column, new QTableWidgetItem(QString()));
+				QTableWidgetItem *item = new QTableWidgetItem(QString());
+				item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+				m_Table->setItem(i, column, item);
 			}
 		}
 	}
@@ -301,6 +317,62 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 	// NOTE do not forget the align list
 }
 
+void NewTabularDialog::slotItemSelectionChanged()
+{
+	/* unset some items */
+	m_acLeft->setChecked(false);
+	m_acCenter->setChecked(false);
+	m_acRight->setChecked(false);
+
+	/* set all font format items and eventually unset them later */
+	m_acBold->setChecked(true);
+	m_acItalic->setChecked(true);
+	m_acUnderline->setChecked(true);
+
+	/* nothing selected, nothing to do! */
+	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+	if(selectedItems.count() == 0) return;
+
+	/* check for alignment */
+	int alignment = selectedItems[0]->textAlignment();
+	bool sameAlignment = true;
+	for(int i = 1; i < selectedItems.count(); ++i) {
+		if(selectedItems[i]->textAlignment() != alignment) {
+			sameAlignment = false;
+			break;
+		}
+	}
+	if(sameAlignment) {
+		m_acLeft->setChecked(alignment & Qt::AlignLeft);
+		m_acCenter->setChecked(alignment & Qt::AlignHCenter);
+		m_acRight->setChecked(alignment & Qt::AlignRight);
+	}
+
+	/* check for font format */
+	bool unsetBold = false;
+	bool unsetItalic = false;
+	bool unsetUnderline = false;
+	foreach(QTableWidgetItem *item, selectedItems) {
+		if(!unsetBold && !item->font().bold()) {
+			m_acBold->setChecked(false);
+			unsetBold = true;
+		}
+		if(!unsetItalic && !item->font().italic()) {
+			m_acItalic->setChecked(false);
+			unsetItalic = true;
+		}
+		if(!unsetUnderline && !item->font().underline()) {
+			m_acUnderline->setChecked(false);
+			unsetUnderline = true;
+		}
+		if(unsetBold && unsetItalic && unsetUnderline) {
+			break;
+		}
+	}
+
+	// TODO set/unset join/split actions
+}
+
 void NewTabularDialog::slotAlignLeft()
 {
 	alignItems(Qt::AlignLeft);
@@ -323,6 +395,7 @@ void NewTabularDialog::slotBold()
 		font.setBold(!font.bold());
 		item->setFont(font);
 	}
+	slotItemSelectionChanged();
 }
 
 void NewTabularDialog::slotItalic()
@@ -332,6 +405,7 @@ void NewTabularDialog::slotItalic()
 		font.setItalic(!font.italic());
 		item->setFont(font);
 	}
+	slotItemSelectionChanged();
 }
 
 void NewTabularDialog::slotUnderline()
@@ -341,6 +415,7 @@ void NewTabularDialog::slotUnderline()
 		font.setUnderline(!font.underline());
 		item->setFont(font);
 	}
+	slotItemSelectionChanged();
 }
 
 void NewTabularDialog::slotJoinCells()

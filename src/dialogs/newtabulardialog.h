@@ -49,6 +49,7 @@ class NewTabularDialog : public KDialog {
 	private Q_SLOTS:
 		void updateColsAndRows();
 		void slotEnvironmentChanged(const QString &environment);
+		void slotItemSelectionChanged();
 		void slotAlignLeft();
 		void slotAlignCenter();
 		void slotAlignRight();
@@ -61,6 +62,9 @@ class NewTabularDialog : public KDialog {
 	private:
 		KileDocument::LatexCommands *m_latexCommands;
 
+		KAction *m_acLeft, *m_acCenter, *m_acRight,
+		        *m_acBold, *m_acItalic, *m_acUnderline,
+		        *m_acJoin, *m_acSplit;
 		QToolBar *m_tbFormat;
 		QTableWidget *m_Table;
 		KComboBox *m_cmbName, *m_cmbParameter;

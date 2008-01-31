@@ -182,12 +182,14 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 
 	label = new QLabel(i18n("Number of rows:"), configPage);
 	m_sbRows = new QSpinBox(configPage);
+	m_sbRows->setMinimum(1);
 	m_sbRows->setValue(3);
 	label->setBuddy(m_sbRows);
 	configPageLayout->addWidget(label, 0, 2);
 	configPageLayout->addWidget(m_sbRows, 0, 3);
 	label = new QLabel(i18n("Number of cols:"), configPage);
 	m_sbCols = new QSpinBox(configPage);
+	m_sbCols->setMinimum(1);
 	m_sbCols->setValue(3);
 	label->setBuddy(m_sbCols);
 	configPageLayout->addWidget(label, 1, 2);

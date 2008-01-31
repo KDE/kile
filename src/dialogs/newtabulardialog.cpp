@@ -148,6 +148,11 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
 	m_tbFormat->addAction(m_acForeground);
 
+	m_tbFormat->addSeparator();
+	m_acClearText = addAction(KIcon("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
+	m_acClearAttributes = addAction(KIcon("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
+	m_acClearAll = addAction(KIcon("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
+
 	/* checkable items */
 	m_acLeft->setCheckable(true);
 	m_acCenter->setCheckable(true);
@@ -602,6 +607,33 @@ void NewTabularDialog::slotCurrentBackground()
 void NewTabularDialog::slotCurrentForeground()
 {
 	slotForeground(m_clCurrentForeground);
+}
+
+void NewTabularDialog::slotClearText()
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		item->setText(QString());
+	}
+}
+
+void NewTabularDialog::slotClearAttributes()
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+		QFont font = item->font();
+		font.setBold(false);
+		font.setItalic(false);
+		font.setUnderline(false);
+		item->setFont(font);
+		item->setBackground(Qt::white);
+		item->setForeground(Qt::black);
+	}
+}
+
+void NewTabularDialog::slotClearAll()
+{
+	slotClearText();
+	slotClearAttributes();
 }
 
 }

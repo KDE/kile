@@ -85,13 +85,17 @@ class NewTabularDialog : public KDialog {
 		void slotForeground(const QColor &color);
 		void slotCurrentBackground();
 		void slotCurrentForeground();
+		void slotClearText();
+		void slotClearAttributes();
+		void slotClearAll();
 
 	private:
 		KileDocument::LatexCommands *m_latexCommands;
 
 		KAction *m_acLeft, *m_acCenter, *m_acRight,
 		        *m_acBold, *m_acItalic, *m_acUnderline,
-		        *m_acJoin, *m_acSplit;
+		        *m_acJoin, *m_acSplit,
+		        *m_acClearText, *m_acClearAttributes, *m_acClearAll;
 		SelectColorAction *m_acBackground, *m_acForeground;
 		QToolBar *m_tbFormat;
 		QTableWidget *m_Table;

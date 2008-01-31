@@ -67,6 +67,7 @@ class NewTabularDialog : public KDialog {
 		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
 		void alignItems(int alignment);
 		QString iconForAlignment(int alignment) const;
+		QIcon generateColorIcon(bool background) const;
 
 	private Q_SLOTS:
 		void updateColsAndRows();
@@ -91,6 +92,7 @@ class NewTabularDialog : public KDialog {
 		KAction *m_acLeft, *m_acCenter, *m_acRight,
 		        *m_acBold, *m_acItalic, *m_acUnderline,
 		        *m_acJoin, *m_acSplit;
+		SelectColorAction *m_acBackground, *m_acForeground;
 		QToolBar *m_tbFormat;
 		QTableWidget *m_Table;
 		KComboBox *m_cmbName, *m_cmbParameter;

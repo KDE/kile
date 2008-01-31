@@ -19,6 +19,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QList>
+#include <QPainter>
 #include <QSpinBox>
 #include <QTableWidget>
 #include <QToolBar>
@@ -136,14 +137,16 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
 	m_tbFormat->addSeparator();
 
-	SelectColorAction *background = new SelectColorAction(KIcon("format-fill-color"), i18n("Background"), page);
-	connect(background, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
-	connect(background, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
-	m_tbFormat->addAction(background);
-	SelectColorAction *foreground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Foreground"), page);
-	m_tbFormat->addAction(foreground);
-	connect(foreground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
-	connect(foreground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
+	m_acBackground = new SelectColorAction(KIcon("format-fill-color"), i18n("Background"), page);
+	m_acBackground->setIcon(generateColorIcon(true));
+	connect(m_acBackground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
+	connect(m_acBackground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
+	m_tbFormat->addAction(m_acBackground);
+	m_acForeground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Foreground"), page);
+	m_acForeground->setIcon(generateColorIcon(false));
+	connect(m_acForeground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
+	connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
+	m_tbFormat->addAction(m_acForeground);
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);
@@ -293,6 +296,19 @@ inline QString NewTabularDialog::iconForAlignment(int alignment) const
 		default:
 			return "";
 	}
+}
+
+QIcon NewTabularDialog::generateColorIcon(bool background) const
+{
+	QString iconName = background ? "format-fill-color" : "format-stroke-color";
+	QPixmap pixmap = KIconLoader().loadIcon(iconName, KIconLoader::Toolbar);
+
+	QPainter painter(&pixmap);
+	QColor color = background ? m_clCurrentBackground : m_clCurrentForeground;
+	painter.fillRect(1, pixmap.height() - 7, pixmap.width() - 2, 6, color);
+	painter.end();
+
+	return QIcon(pixmap);
 }
 
 void NewTabularDialog::updateColsAndRows()
@@ -564,6 +580,8 @@ void NewTabularDialog::slotBackground(const QColor &color)
 	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
 		item->setBackground(color);
 	}
+	m_acBackground->setIcon(generateColorIcon(true));
+	m_acForeground->setIcon(generateColorIcon(false));
 }
 
 void NewTabularDialog::slotForeground(const QColor &color)
@@ -572,6 +590,8 @@ void NewTabularDialog::slotForeground(const QColor &color)
 	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
 		item->setForeground(color);
 	}
+	m_acBackground->setIcon(generateColorIcon(true));
+	m_acForeground->setIcon(generateColorIcon(false));
 }
 
 void NewTabularDialog::slotCurrentBackground()

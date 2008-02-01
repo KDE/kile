@@ -226,8 +226,13 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_acLeft->setWhatsThis(i18n("The text will be aligned at the left border of the cell."));
 	m_acCenter->setWhatsThis(i18n("The text will be centered."));
 	m_acRight->setWhatsThis(i18n("The text will be aligned at the right border of the cell."));
+	m_acJoin->setWhatsThis(i18n("Joins adjacent cells when they are in the same row."));
+	m_acSplit->setWhatsThis(i18n("Splits joined cells."));
 	m_acBackground->setWhatsThis(i18n("Choose a background color (needs color package)."));
 	m_acForeground->setWhatsThis(i18n("Choose a text color (needs color package)."));
+	m_acClearText->setWhatsThis(i18n("Clears the text of the selected cells but keeps the attributes like alignment and font shape."));
+	m_acClearAttributes->setWhatsThis(i18n("Resets the attributes of the selected cells to the default values but keeps the text."));
+	m_acClearAll->setWhatsThis(i18n("Clears the text of the selected cells and resets the attributes."));
 
 	setMainWidget(page);
 	initEnvironments();

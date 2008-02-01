@@ -137,12 +137,12 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
 	m_tbFormat->addSeparator();
 
-	m_acBackground = new SelectColorAction(KIcon("format-fill-color"), i18n("Background"), page);
+	m_acBackground = new SelectColorAction(KIcon("format-fill-color"), i18n("Background Color"), page);
 	m_acBackground->setIcon(generateColorIcon(true));
 	connect(m_acBackground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
 	connect(m_acBackground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
 	m_tbFormat->addAction(m_acBackground);
-	m_acForeground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Foreground"), page);
+	m_acForeground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Text Color"), page);
 	m_acForeground->setIcon(generateColorIcon(false));
 	connect(m_acForeground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
 	connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
@@ -211,7 +211,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	pageLayout->addWidget(configPage);
 
 	// whats this texts
-	// NOTE add texts for table and table header
+	m_Table->setWhatsThis(i18n("Input data. Just type the text when a cell is selected."));
 	m_cmbName->setWhatsThis(i18n("Choose an environment."));
 	m_cmbParameter->setWhatsThis(i18n("Optional parameter for the chosen environment."));
 	m_sbRows->setWhatsThis(i18n("Choose the number of table rows."));
@@ -220,6 +220,14 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_cbBooktabs->setWhatsThis(i18n("Use line commands of the booktabs package."));
 	m_cbStarred->setWhatsThis(i18n("Use the starred version of this environment."));
 	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+	m_acBold->setWhatsThis(i18n("Set bold font series."));
+	m_acItalic->setWhatsThis(i18n("Set italic font shape."));
+	m_acUnderline->setWhatsThis(i18n("Set underlined font shape."));
+	m_acLeft->setWhatsThis(i18n("The text will be aligned at the left border of the cell."));
+	m_acCenter->setWhatsThis(i18n("The text will be centered."));
+	m_acRight->setWhatsThis(i18n("The text will be aligned at the right border of the cell."));
+	m_acBackground->setWhatsThis(i18n("Choose a background color (needs color package)."));
+	m_acForeground->setWhatsThis(i18n("Choose a text color (needs color package)."));
 
 	setMainWidget(page);
 	initEnvironments();

@@ -228,8 +228,6 @@ private:
 	void insertPopupClear(QMenu *popup);
 	int popupId(QMenu *popup, int id);
 	
-	void cellPopupSetMulticolumn();
-	void cellPopupBreakMulticolumn();
 	void cellPopupAlign(int align);
 	
 	void setupContextHeaderPopup(bool horizontal, int section);
@@ -249,6 +247,8 @@ private Q_SLOTS:
 	void slotCellPopupActivated(int id);
 	void slotHeaderPopupActivated(int id);
 	void cellPopupEdit();
+	void cellPopupSetMulticolumn();
+	void cellPopupBreakMulticolumn();
 	
 protected:
 	bool eventFilter(QObject *o, QEvent *e); 

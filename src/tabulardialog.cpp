@@ -1221,8 +1221,8 @@ void TabularTable::slotContextMenuClicked(int row,int col,const QPoint &)
 			TabularItem *cellitem = dynamic_cast<TabularItem*>( item(m_y1,m_x1) );
 			if ( cellitem && cellitem->isMulticolumn() ) 
 			{
-				m_cellpopup->insertItem( i18n("Break Multicolumn"));
-				m_cellpopup->insertSeparator();
+				m_cellpopup->addAction(i18n("Break Multicolumn"), this, SLOT(cellPopupBreakMulticolumn()));
+				m_cellpopup->addSeparator();
 			}
 		} 
 		else if ( m_x2 > m_x1 ) 
@@ -1231,8 +1231,8 @@ void TabularTable::slotContextMenuClicked(int row,int col,const QPoint &)
 			TabularItem *cellitem2 = dynamic_cast<TabularItem*>( item(m_y2,m_x2) );
 			if ( (!cellitem1 && !cellitem2) || (cellitem1!=cellitem2) )
 			{
-				m_cellpopup->insertItem( i18n("Set Multicolumn"));
-				m_cellpopup->insertSeparator();
+				m_cellpopup->addAction(i18n("Set Multicolumn"), this, SLOT(cellPopupSetMulticolumn()));
+				m_cellpopup->addSeparator();
 			}
 		}
 	}

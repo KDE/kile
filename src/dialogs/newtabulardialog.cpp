@@ -308,7 +308,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	frameWidgetLayout->addWidget(m_FrameWidget);
 	frameWidgetLayout->addStretch();
 
-	m_pbDone = new KPushButton(i18n("Done"), page);
+	m_pbDone = new KPushButton(KIcon("dialog-ok"), i18n("Done"), page);
 
 	layout->addWidget(buttonBox);
 	layout->addWidget(frameWidget);
@@ -418,7 +418,7 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 	m_ccColors->setColor(14, Qt::gray);
 	m_ccColors->setColor(15, Qt::darkGray);
 
-	m_pbCustom = new KPushButton(i18n("Select custom color..."), page);
+	m_pbCustom = new KPushButton(KIcon("kcolorchooser"), i18n("Select custom color..."), page);
 
 	layout->addWidget(m_ccColors);
 	layout->addWidget(m_pbCustom);

@@ -19,6 +19,8 @@
 #include <KDialog>
 #include <KToolBarPopupAction>
 
+#include <QTableWidgetItem>
+
 class QCheckBox;
 class QSpinBox;
 class QTableWidget;
@@ -77,6 +79,20 @@ class SelectColorAction : public KToolBarPopupAction {
 	private:
 		KColorCells *m_ccColors;
 		KPushButton *m_pbCustom;
+};
+
+class TabularCell : public QTableWidgetItem {
+	public:
+		enum { None = 0, Left = 1, Top = 2, Right = 4, Bottom = 8 };
+
+		TabularCell();
+		TabularCell(const QString &text);
+
+		void setBorder(int border);
+		int border() const;
+
+	private:
+		int m_Border;
 };
 
 class NewTabularDialog : public KDialog {

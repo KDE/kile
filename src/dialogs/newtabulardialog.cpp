@@ -47,8 +47,6 @@ namespace KileDialog {
 class TabularFrameWidget : public QFrame
 {
 	public:
-		enum { None = 0, Left = 1, Top = 2, Right = 4, Bottom = 8 };
-
 		TabularFrameWidget(QWidget* parent = 0);
 		void setBorder(int value);
 		int border() const { return m_border; }
@@ -65,7 +63,7 @@ class TabularFrameWidget : public QFrame
 TabularFrameWidget::TabularFrameWidget(QWidget* parent)
 	: QFrame(parent)
 {
-	m_border = None;
+	m_border = TabularCell::None;
 
 	setBackgroundColor(Qt::white);
 	setFixedWidth(120);
@@ -127,13 +125,13 @@ void TabularFrameWidget::paintEvent(QPaintEvent *event)
 	//QPen pen = QPen(Qt::red,4);
 	QPen pen = QPen(Qt::black, 4);
 	painter.setPen(pen);
-	if(m_border & Left)
+	if(m_border & TabularCell::Left)
 		painter.drawLine(x1 + 10, y1 + 20, x1 + 10, y2 - 20);
-	if(m_border & Top)
+	if(m_border & TabularCell::Top)
 		painter.drawLine(x1 + 20, y1 + 10, x2 - 20, y1 + 10);
-	if(m_border & Right)
+	if(m_border & TabularCell::Right)
 		painter.drawLine(x2 - 10, y1 + 20, x2 - 10, y2 - 20);
-	if(m_border & Bottom)
+	if(m_border & TabularCell::Bottom)
 		painter.drawLine(x1 + 20, y2 - 10, x2 - 20, y2 - 10);
 }
 
@@ -147,13 +145,13 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
 
 	int state = 0;
 	if(m_left.contains(x, y))
-		state = Left;
+		state = TabularCell::Left;
 	else if(m_top.contains(x, y))
-		state = Top;
+		state = TabularCell::Top;
 	else if(m_right.contains(x, y))
-		state = Right;
+		state = TabularCell::Right;
 	else if(m_bottom.contains(x, y))
-		state = Bottom;
+		state = TabularCell::Bottom;
 
 	if(state > 0) {
 		if (m_border & state){
@@ -170,7 +168,7 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
 SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	: KToolBarPopupAction(KIcon(), text, parent),
 	  m_Parent(parent),
-	  m_CurrentBorder(TabularFrameWidget::None)
+	  m_CurrentBorder(TabularCell::None)
 {
 	setIcon(generateIcon());
 
@@ -202,13 +200,13 @@ QIcon SelectFrameAction::generateIcon()
 	painter.fillRect(pixmap.rect(), Qt::gray);
 
 	painter.setPen(Qt::black);
-	if(m_CurrentBorder & TabularFrameWidget::Left)
+	if(m_CurrentBorder & TabularCell::Left)
 		painter.drawLine(0, 0, 0, pixmap.height() - 1);
-	if(m_CurrentBorder & TabularFrameWidget::Top)
+	if(m_CurrentBorder & TabularCell::Top)
 		painter.drawLine(0, 0, pixmap.width() - 1, 0);
-	if(m_CurrentBorder & TabularFrameWidget::Right)
+	if(m_CurrentBorder & TabularCell::Right)
 		painter.drawLine(pixmap.width() - 1, 0, pixmap.width() - 1, pixmap.height() - 1);
-	if(m_CurrentBorder & TabularFrameWidget::Bottom)
+	if(m_CurrentBorder & TabularCell::Bottom)
 		painter.drawLine(0, pixmap.height() - 1, pixmap.width() - 1, pixmap.height() - 1);
 
 	painter.end();
@@ -294,6 +292,31 @@ void SelectColorAction::slotCustomClicked()
 	}
 	popupMenu()->hide();
 }
+
+//BEGIN TabularCell
+TabularCell::TabularCell()
+	: QTableWidgetItem(),
+	  m_Border(None)
+{
+}
+
+TabularCell::TabularCell(const QString &text)
+	: QTableWidgetItem(text),
+	  m_Border(None)
+{
+}
+
+void TabularCell::setBorder(int border)
+{
+	m_Border = border;
+	tableWidget()->update();
+}
+
+int TabularCell::border() const
+{
+	return m_Border;
+}
+//END
 
 NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent)
 	: KDialog(parent),
@@ -577,7 +600,7 @@ void NewTabularDialog::updateColsAndRows()
 
 			// each cell should be an item. This is necessary for selection checking
 			for(int row = 0; row < m_Table->rowCount(); ++row) {
-				QTableWidgetItem *item = new QTableWidgetItem(QString());
+				QTableWidgetItem *item = new TabularCell(QString());
 				item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 				m_Table->setItem(row, i, item);
 			}
@@ -590,7 +613,7 @@ void NewTabularDialog::updateColsAndRows()
 
 			// each cell should be an item. This is necessary for selection checking
 			for(int column = 0; column < m_Table->columnCount(); ++column) {
-				QTableWidgetItem *item = new QTableWidgetItem(QString());
+				QTableWidgetItem *item = new TabularCell(QString());
 				item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 				m_Table->setItem(i, column, item);
 			}

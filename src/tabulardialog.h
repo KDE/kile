@@ -223,7 +223,7 @@ private:
 	void getCellRange(int row,int col1, int col2, int &xl, int &xr);
 	QString getCellRangeText(int row,int col1, int col2);
 
-	QMenu *createPopupMenu();
+	QMenu *createPopupMenu(bool header);
 	void insertPopupAlign(QMenu *popup,bool header);
 	void insertPopupClear(QMenu *popup);
 	int popupId(QMenu *popup, int id);
@@ -231,7 +231,6 @@ private:
 	void cellPopupAlign(int align);
 	
 	void setupContextHeaderPopup(bool horizontal, int section);
-	void headerPopupEdit();
 	void headerPopupAlign(QChar alignchar);
 	
 	bool m_horizontal;
@@ -249,6 +248,7 @@ private Q_SLOTS:
 	void cellPopupEdit();
 	void cellPopupSetMulticolumn();
 	void cellPopupBreakMulticolumn();
+	void headerPopupEdit();
 	
 protected:
 	bool eventFilter(QObject *o, QEvent *e); 

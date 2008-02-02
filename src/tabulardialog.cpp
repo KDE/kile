@@ -1125,10 +1125,10 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 
 ////////////////////////////// popup menus //////////////////////////////
 
-QMenu *TabularTable::createPopupMenu()
+QMenu *TabularTable::createPopupMenu(bool header)
 {
 	QMenu *menu = new QMenu(this);
-	menu->addAction(i18n("Edit..."), this, SLOT(cellPopupEdit()));
+	menu->addAction(i18n("Edit..."), this, header ? SLOT(headerPopupEdit()) : SLOT(cellPopupEdit()));
 	menu->addSeparator();
 
 	return menu;
@@ -1211,7 +1211,7 @@ void TabularTable::slotContextMenuClicked(int row,int col,const QPoint &)
 		return;
 
 	// create popup menu
-	m_cellpopup = createPopupMenu();
+	m_cellpopup = createPopupMenu(false);
 	
 	// multicolumns
 	if ( m_y1 == m_y2 ) 
@@ -1416,7 +1416,7 @@ void TabularTable::setupContextHeaderPopup(bool horizontal, int section)
 	}
 	
 	// create popup menu
-	m_headerpopup = createPopupMenu();
+	m_headerpopup = createPopupMenu(true);
 	insertPopupAlign(m_headerpopup,m_horizontal);
 	insertPopupClear(m_headerpopup);
 	

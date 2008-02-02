@@ -329,18 +329,32 @@ void TabularCellDelegate::paint(QPainter *painter,
 {
 	QItemDelegate::paint(painter, option, index);
 
-	TabularCell *cell = static_cast<TabularCell*>(m_Table->item(index.row(), index.column()));
+	int rowCount = m_Table->rowCount();
+	int columnCount = m_Table->columnCount();
 
-	painter->setPen(cell->border() & TabularCell::Left ? Qt::black : Qt::lightGray);
-	painter->drawLine(option.rect.topLeft(), option.rect.bottomLeft());
+	int row = index.row();
+	int column = index.column();
 
-	painter->setPen(cell->border() & TabularCell::Top ? Qt::black : Qt::lightGray);
-	painter->drawLine(option.rect.topLeft(), option.rect.topRight());
+	TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
 
-	painter->setPen(cell->border() & TabularCell::Right ? Qt::black : Qt::lightGray);
+	if(column == 0) {
+		painter->setPen(cell->border() & TabularCell::Left ? Qt::black : Qt::lightGray);
+		painter->drawLine(option.rect.topLeft(), option.rect.bottomLeft());
+	}
+
+	if(row == 0) {
+		painter->setPen(cell->border() & TabularCell::Top ? Qt::black : Qt::lightGray);
+		painter->drawLine(option.rect.topLeft(), option.rect.topRight());
+	}
+
+	bool right = (cell->border() & TabularCell::Right)
+		|| (column < (columnCount - 1) && static_cast<TabularCell*>(m_Table->item(row, column + 1))->border() & TabularCell::Left);
+	painter->setPen(right ? Qt::black : Qt::lightGray);
 	painter->drawLine(option.rect.topRight(), option.rect.bottomRight());
 
-	painter->setPen(cell->border() & TabularCell::Bottom ? Qt::black : Qt::lightGray);
+	bool bottom = (cell->border() & TabularCell::Bottom)
+		|| (row < (rowCount - 1) && static_cast<TabularCell*>(m_Table->item(row + 1, column))->border() & TabularCell::Top);
+	painter->setPen(bottom ? Qt::black : Qt::lightGray);
 	painter->drawLine(option.rect.bottomLeft(), option.rect.bottomRight());
 }
 //END

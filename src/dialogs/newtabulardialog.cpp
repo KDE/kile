@@ -418,7 +418,7 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 	m_ccColors->setColor(14, Qt::gray);
 	m_ccColors->setColor(15, Qt::darkGray);
 
-	m_pbCustom = new KPushButton(i18n("Select custom color"), page);
+	m_pbCustom = new KPushButton(i18n("Select custom color..."), page);
 
 	layout->addWidget(m_ccColors);
 	layout->addWidget(m_pbCustom);

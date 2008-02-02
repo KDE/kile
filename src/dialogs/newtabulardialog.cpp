@@ -167,6 +167,66 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
 }
 //END
 
+SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
+	: KToolBarPopupAction(KIcon(), text, parent),
+	  m_Parent(parent),
+	  m_CurrentBorder(TabularFrameWidget::None)
+{
+	setIcon(generateIcon());
+
+	QWidget *page = new QWidget(parent);
+	QVBoxLayout *layout = new QVBoxLayout();
+	layout->setMargin(0);
+	layout->setSpacing(0);
+	page->setLayout(layout);
+
+	m_FrameWidget = new TabularFrameWidget(page);
+	m_pbDone = new KPushButton(i18n("Done"), page);
+
+	layout->addWidget(m_FrameWidget);
+	layout->addWidget(m_pbDone);
+
+	QWidgetAction *widgetAction = new QWidgetAction(this);
+	widgetAction->setDefaultWidget(page);
+	popupMenu()->addAction(widgetAction);
+
+	connect(m_pbDone, SIGNAL(clicked()),
+	        this, SLOT(slotDoneClicked()));
+}
+
+QIcon SelectFrameAction::generateIcon()
+{
+	QPixmap pixmap(m_Parent->iconSize());
+
+	QPainter painter(&pixmap);
+	painter.fillRect(pixmap.rect(), Qt::gray);
+
+	painter.setPen(Qt::black);
+	if(m_CurrentBorder & TabularFrameWidget::Left)
+		painter.drawLine(0, 0, 0, pixmap.height() - 1);
+	if(m_CurrentBorder & TabularFrameWidget::Top)
+		painter.drawLine(0, 0, pixmap.width() - 1, 0);
+	if(m_CurrentBorder & TabularFrameWidget::Right)
+		painter.drawLine(pixmap.width() - 1, 0, pixmap.width() - 1, pixmap.height() - 1);
+	if(m_CurrentBorder & TabularFrameWidget::Bottom)
+		painter.drawLine(0, pixmap.height() - 1, pixmap.width() - 1, pixmap.height() - 1);
+
+	painter.end();
+
+	return QIcon(pixmap);
+}
+
+void SelectFrameAction::slotDoneClicked()
+{
+	int newBorder = m_FrameWidget->border();
+	if(m_CurrentBorder != newBorder) {
+		m_CurrentBorder = newBorder;
+		setIcon(generateIcon());
+		emit borderSelected(newBorder);
+		popupMenu()->hide();
+	}
+}
+
 SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent)
 	: KToolBarPopupAction(icon, text, parent)
 {
@@ -205,11 +265,11 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 	popupMenu()->addAction(widgetAction);
 
 	connect(popupMenu(), SIGNAL(aboutToShow()),
-					this, SLOT(slotPopupAboutToShow()));
+	        this, SLOT(slotPopupAboutToShow()));
 	connect(m_ccColors, SIGNAL(colorSelected(int, const QColor&)),
 	        this, SLOT(slotColorSelected(int, const QColor&)));
 	connect(m_pbCustom, SIGNAL(clicked()),
-					this, SLOT(slotCustomClicked()));
+	        this, SLOT(slotCustomClicked()));
 }
 
 void SelectColorAction::slotPopupAboutToShow()
@@ -262,6 +322,8 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_tbFormat->addSeparator();
 	m_acJoin = addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
 	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
+	m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
+	m_tbFormat->addAction(m_acFrame);
 	m_tbFormat->addSeparator();
 
 	m_acBackground = new SelectColorAction(KIcon("format-fill-color"), i18n("Background Color"), page);

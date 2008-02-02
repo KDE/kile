@@ -35,7 +35,31 @@ namespace KileDocument {
 }
 
 namespace KileDialog {
-	
+
+class TabularFrameWidget;
+
+class SelectFrameAction : public KToolBarPopupAction {
+	Q_OBJECT
+
+	public:
+		SelectFrameAction(const QString &text, QToolBar *parent);
+
+	private:
+		QIcon generateIcon();
+
+	private:
+		TabularFrameWidget *m_FrameWidget;
+		KPushButton *m_pbDone;
+		QToolBar *m_Parent;
+		int m_CurrentBorder;
+
+	private Q_SLOTS:
+		void slotDoneClicked();
+
+	Q_SIGNALS:
+		void borderSelected(int border);
+};
+
 class SelectColorAction : public KToolBarPopupAction {
 	Q_OBJECT
 
@@ -96,6 +120,7 @@ class NewTabularDialog : public KDialog {
 		        *m_acBold, *m_acItalic, *m_acUnderline,
 		        *m_acJoin, *m_acSplit,
 		        *m_acClearText, *m_acClearAttributes, *m_acClearAll;
+		SelectFrameAction *m_acFrame;
 		SelectColorAction *m_acBackground, *m_acForeground;
 		QToolBar *m_tbFormat;
 		QTableWidget *m_Table;

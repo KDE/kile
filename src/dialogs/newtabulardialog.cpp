@@ -15,11 +15,14 @@
 #include "newtabulardialog.h"
 
 #include <QCheckBox>
+#include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QList>
+#include <QMouseEvent>
 #include <QPainter>
+#include <QPaintEvent>
 #include <QSpinBox>
 #include <QTableWidget>
 #include <QToolBar>
@@ -39,6 +42,130 @@
 #include "latexcmd.h"
 
 namespace KileDialog {
+
+//BEGIN TabularFrameWidget
+class TabularFrameWidget : public QFrame
+{
+	public:
+		enum { None = 0, Left = 1, Top = 2, Right = 4, Bottom = 8 };
+
+		TabularFrameWidget(QWidget* parent = 0);
+		void setBorder(int value);
+		int border() const { return m_border; }
+
+	protected:
+		void paintEvent(QPaintEvent *event);
+		void mousePressEvent(QMouseEvent *event);
+
+	private:
+		int m_border;
+		QRect m_left, m_top, m_right, m_bottom;
+};
+
+TabularFrameWidget::TabularFrameWidget(QWidget* parent)
+	: QFrame(parent)
+{
+	m_border = None;
+
+	setBackgroundColor(Qt::white);
+	setFixedWidth(120);
+	setFixedHeight(120);
+	setLineWidth(2);
+	setFrameStyle(QFrame::Box | QFrame::Raised);
+
+	QRect r = contentsRect();
+	int x1 = r.left();
+	int y1 = r.top();
+	int x2 = r.right();
+	int y2 = r.bottom();
+
+	m_left.setRect(x1, y1 + 20, 20, y2 - 43);
+	m_top.setRect(x1 + 20, y1, x2 - 43, 20);
+	m_right.setRect(x2 - 20, y1 + 20, 20, y2 - 43);
+	m_bottom.setRect(x1 + 20, y2 - 20, x2 - 43, 20);
+}
+
+void TabularFrameWidget::setBorder(int value)
+{
+	m_border = value;
+	update();
+}
+
+void TabularFrameWidget::paintEvent(QPaintEvent *event)
+{
+	Q_UNUSED(event);
+	QPainter painter(this);
+
+	QRect r = contentsRect();
+	int x1 = r.left();
+	int y1 = r.top();
+	int x2 = r.right();
+	int y2 = r.bottom();
+	
+	// left/top
+	painter.setPen(Qt::black);
+	painter.drawLine(x1 + 6, y1 + 14, x1 + 14, y1 + 14);
+	painter.drawLine(x1 + 14, y1 + 14, x1 + 14, y1 + 6);
+	
+	// left/bottom
+	painter.drawLine(x1 + 6, y2 - 14, x1 + 14, y2 - 14);
+	painter.drawLine(x1 + 14, y2 - 14, x1 + 14, y2 - 6);
+	
+	// right/top
+	painter.drawLine(x2 - 6, y1 + 14, x2 - 14, y1 + 14);
+	painter.drawLine(x2 - 14, y1 + 14, x2 - 14, y1 + 6);
+	
+	// right/bottom
+	painter.drawLine(x2 - 6, y2 - 14, x2 - 14, y2 - 14);
+	painter.drawLine(x2 - 14, y2 - 14, x2 - 14, y2 - 6);
+	
+	// centered rectangle
+	painter.setPen(Qt::gray);
+	painter.setBrush(Qt::gray);
+	painter.drawRect(x1 + 20, y1 + 20, x2 - 43, y2 - 43);
+	
+	//QPen pen = QPen(Qt::red,4);
+	QPen pen = QPen(Qt::black, 4);
+	painter.setPen(pen);
+	if(m_border & Left)
+		painter.drawLine(x1 + 10, y1 + 20, x1 + 10, y2 - 20);
+	if(m_border & Top)
+		painter.drawLine(x1 + 20, y1 + 10, x2 - 20, y1 + 10);
+	if(m_border & Right)
+		painter.drawLine(x2 - 10, y1 + 20, x2 - 10, y2 - 20);
+	if(m_border & Bottom)
+		painter.drawLine(x1 + 20, y2 - 10, x2 - 20, y2 - 10);
+}
+
+void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
+{
+	if (event->button() != Qt::LeftButton)
+		return;
+
+	int x = event->x();
+	int y = event->y();
+
+	int state = 0;
+	if(m_left.contains(x, y))
+		state = Left;
+	else if(m_top.contains(x, y))
+		state = Top;
+	else if(m_right.contains(x, y))
+		state = Right;
+	else if(m_bottom.contains(x, y))
+		state = Bottom;
+
+	if(state > 0) {
+		if (m_border & state){
+			m_border &= ~state;
+		}
+		else{
+			m_border |= state;
+		}
+		update();
+	}
+}
+//END
 
 SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent)
 	: KToolBarPopupAction(icon, text, parent)

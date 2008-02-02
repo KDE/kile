@@ -314,9 +314,8 @@ namespace KileTool
 					return groupFor(name, cfg);
 				}
 			}
-		}
-
-		if(usequeue && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isEmpty())) {
+		} 
+		if(usequeue && !m_queue.isEmpty() && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isEmpty())) {
 			return groupFor(name, m_queue.cfg());
 		}
 		else {

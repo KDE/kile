@@ -74,7 +74,7 @@ QString completePath(const QString &path)
 int main( int argc, char ** argv )
 {
 	KAboutData aboutData( "kile", "Kile", kileFullVersion.ascii(), I18N_NOOP("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-						I18N_NOOP("by the Kile Team (2003 - 2007)"),
+						I18N_NOOP("by the Kile Team (2003 - 2008)"),
 						0,
 						"http://kile.sourceforge.net");
 	aboutData.addAuthor("Michel Ludwig", I18N_NOOP("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");

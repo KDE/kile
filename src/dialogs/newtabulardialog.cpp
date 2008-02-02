@@ -18,12 +18,14 @@
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QItemDelegate>
 #include <QLabel>
 #include <QList>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QSpinBox>
+#include <QStyleOptionViewItem>
 #include <QTableWidget>
 #include <QToolBar>
 #include <QVBoxLayout>
@@ -125,14 +127,18 @@ void TabularFrameWidget::paintEvent(QPaintEvent *event)
 	//QPen pen = QPen(Qt::red,4);
 	QPen pen = QPen(Qt::black, 4);
 	painter.setPen(pen);
-	if(m_border & TabularCell::Left)
+	if(m_border & TabularCell::Left) {
 		painter.drawLine(x1 + 10, y1 + 20, x1 + 10, y2 - 20);
-	if(m_border & TabularCell::Top)
+	}
+	if(m_border & TabularCell::Top) {
 		painter.drawLine(x1 + 20, y1 + 10, x2 - 20, y1 + 10);
-	if(m_border & TabularCell::Right)
+	}
+	if(m_border & TabularCell::Right) {
 		painter.drawLine(x2 - 10, y1 + 20, x2 - 10, y2 - 20);
-	if(m_border & TabularCell::Bottom)
+	}
+	if(m_border & TabularCell::Bottom) {
 		painter.drawLine(x1 + 20, y2 - 10, x2 - 20, y2 - 10);
+	}
 }
 
 void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
@@ -188,6 +194,8 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	widgetAction->setDefaultWidget(page);
 	popupMenu()->addAction(widgetAction);
 
+	connect(this, SIGNAL(triggered(bool)),
+	        this, SLOT(slotTriggered()));
 	connect(m_pbDone, SIGNAL(clicked()),
 	        this, SLOT(slotDoneClicked()));
 }
@@ -214,15 +222,20 @@ QIcon SelectFrameAction::generateIcon()
 	return QIcon(pixmap);
 }
 
+void SelectFrameAction::slotTriggered()
+{
+	emit borderSelected(m_CurrentBorder);
+}
+
 void SelectFrameAction::slotDoneClicked()
 {
 	int newBorder = m_FrameWidget->border();
 	if(m_CurrentBorder != newBorder) {
 		m_CurrentBorder = newBorder;
 		setIcon(generateIcon());
-		emit borderSelected(newBorder);
-		popupMenu()->hide();
 	}
+	emit borderSelected(newBorder);
+	popupMenu()->hide();
 }
 
 SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent)
@@ -293,6 +306,45 @@ void SelectColorAction::slotCustomClicked()
 	popupMenu()->hide();
 }
 
+//BEGIN TabularCellDelegate
+class TabularCellDelegate : public QItemDelegate {
+	public:
+		TabularCellDelegate(QTableWidget *parent = 0);
+
+		virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+	private:
+		QTableWidget *m_Table;
+};
+
+TabularCellDelegate::TabularCellDelegate(QTableWidget *parent)
+	: QItemDelegate(parent),
+	  m_Table(parent)
+{
+}
+
+void TabularCellDelegate::paint(QPainter *painter,
+                                const QStyleOptionViewItem &option,
+                                const QModelIndex &index) const
+{
+	QItemDelegate::paint(painter, option, index);
+
+	TabularCell *cell = static_cast<TabularCell*>(m_Table->item(index.row(), index.column()));
+
+	painter->setPen(cell->border() & TabularCell::Left ? Qt::black : Qt::lightGray);
+	painter->drawLine(option.rect.topLeft(), option.rect.bottomLeft());
+
+	painter->setPen(cell->border() & TabularCell::Top ? Qt::black : Qt::lightGray);
+	painter->drawLine(option.rect.topLeft(), option.rect.topRight());
+
+	painter->setPen(cell->border() & TabularCell::Right ? Qt::black : Qt::lightGray);
+	painter->drawLine(option.rect.topRight(), option.rect.bottomRight());
+
+	painter->setPen(cell->border() & TabularCell::Bottom ? Qt::black : Qt::lightGray);
+	painter->drawLine(option.rect.bottomLeft(), option.rect.bottomRight());
+}
+//END
+
 //BEGIN TabularCell
 TabularCell::TabularCell()
 	: QTableWidgetItem(),
@@ -346,6 +398,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_acJoin = addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
 	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
 	m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
+	connect(m_acFrame, SIGNAL(borderSelected(int)), this, SLOT(slotFrame(int)));
 	m_tbFormat->addAction(m_acFrame);
 	m_tbFormat->addSeparator();
 
@@ -374,6 +427,8 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_acUnderline->setCheckable(true);
 
 	m_Table = new QTableWidget(page);
+	m_Table->setItemDelegate(new TabularCellDelegate(m_Table));
+	m_Table->setShowGrid(false);
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
@@ -804,6 +859,13 @@ void NewTabularDialog::slotSplitCells()
 
 	if(m_Table->columnSpan(selectedItem->row(), selectedItem->column()) > 1) {
 		m_Table->setSpan(selectedItem->row(), selectedItem->column(), 1, 1);
+	}
+}
+
+void NewTabularDialog::slotFrame(int border)
+{
+	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
+		static_cast<TabularCell*>(item)->setBorder(border);
 	}
 }
 

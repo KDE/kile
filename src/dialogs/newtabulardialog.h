@@ -56,6 +56,7 @@ class SelectFrameAction : public KToolBarPopupAction {
 		int m_CurrentBorder;
 
 	private Q_SLOTS:
+		void slotTriggered();
 		void slotDoneClicked();
 
 	Q_SIGNALS:
@@ -121,6 +122,7 @@ class NewTabularDialog : public KDialog {
 		void slotUnderline();
 		void slotJoinCells();
 		void slotSplitCells();
+		void slotFrame(int border);
 		void slotBackground(const QColor &color);
 		void slotForeground(const QColor &color);
 		void slotCurrentBackground();

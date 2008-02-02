@@ -18,6 +18,7 @@
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QItemDelegate>
 #include <QLabel>
 #include <QList>
@@ -44,6 +45,88 @@
 #include "latexcmd.h"
 
 namespace KileDialog {
+
+//BEGIN Icons for standard frames
+static const char * const all_border_xpm[] = {
+"14 14 2 1",
+"# c #000000",
+". c #ffffff",
+"##############",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"##############"
+};
+
+static const char * const lr_border_xpm[] = {
+"14 14 2 1",
+"# c #000000",
+". c #ffffff",
+"#............#",
+"#............#",
+"#............#", 
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#",
+"#............#"
+};
+
+static const char * const tb_border_xpm[] = {
+"14 14 2 1",
+"# c #000000",
+". c #ffffff",
+"##############",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"##############"
+};
+
+static const char * const no_border_xpm[] = {
+"14 14 2 1",
+"# c #000000",
+". c #ffffff",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+"..............",
+".............."
+};
+//END
 
 //BEGIN TabularFrameWidget
 class TabularFrameWidget : public QFrame
@@ -184,10 +267,51 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	layout->setSpacing(0);
 	page->setLayout(layout);
 
-	m_FrameWidget = new TabularFrameWidget(page);
+	QWidget *buttonBox = new QWidget(page);
+	QHBoxLayout *buttonBoxLayout = new QHBoxLayout();
+	buttonBoxLayout->setMargin(0);
+	buttonBoxLayout->setSpacing(KDialog::spacingHint());
+	buttonBox->setLayout(buttonBoxLayout);
+
+	m_pbNone = new KPushButton(buttonBox);
+	m_pbLeftRight = new KPushButton(buttonBox);
+	m_pbTopBottom = new KPushButton(buttonBox);
+	m_pbAll = new KPushButton(buttonBox);
+
+	int height = m_pbNone->sizeHint().height();
+	m_pbNone->setFixedSize(height, height);
+	m_pbLeftRight->setFixedSize(height, height);
+	m_pbTopBottom->setFixedSize(height, height);
+	m_pbAll->setFixedSize(height, height);
+
+	m_pbNone->setPixmap(QPixmap(const_cast<const char**>(no_border_xpm)));
+	m_pbLeftRight->setPixmap(QPixmap(const_cast<const char**>(lr_border_xpm)));
+	m_pbTopBottom->setPixmap(QPixmap(const_cast<const char**>(tb_border_xpm)));
+	m_pbAll->setPixmap(QPixmap(const_cast<const char**>(all_border_xpm)));
+
+	buttonBoxLayout->addStretch();
+	buttonBoxLayout->addWidget(m_pbNone);
+	buttonBoxLayout->addWidget(m_pbLeftRight);
+	buttonBoxLayout->addWidget(m_pbTopBottom);
+	buttonBoxLayout->addWidget(m_pbAll);
+	buttonBoxLayout->addStretch();
+
+	QWidget *frameWidget = new QWidget(page);
+	QHBoxLayout *frameWidgetLayout = new QHBoxLayout();
+	frameWidgetLayout->setMargin(0);
+	frameWidgetLayout->setSpacing(KDialog::spacingHint());
+	frameWidget->setLayout(frameWidgetLayout);
+
+	m_FrameWidget = new TabularFrameWidget(frameWidget);
+
+	frameWidgetLayout->addStretch();
+	frameWidgetLayout->addWidget(m_FrameWidget);
+	frameWidgetLayout->addStretch();
+
 	m_pbDone = new KPushButton(i18n("Done"), page);
 
-	layout->addWidget(m_FrameWidget);
+	layout->addWidget(buttonBox);
+	layout->addWidget(frameWidget);
 	layout->addWidget(m_pbDone);
 
 	QWidgetAction *widgetAction = new QWidgetAction(this);
@@ -196,6 +320,14 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 
 	connect(this, SIGNAL(triggered(bool)),
 	        this, SLOT(slotTriggered()));
+	connect(m_pbNone, SIGNAL(clicked()),
+	        this, SLOT(slotNoneClicked()));
+	connect(m_pbLeftRight, SIGNAL(clicked()),
+	        this, SLOT(slotLeftRightClicked()));
+	connect(m_pbTopBottom, SIGNAL(clicked()),
+	        this, SLOT(slotTopBottomClicked()));
+	connect(m_pbAll, SIGNAL(clicked()),
+	        this, SLOT(slotAllClicked()));
 	connect(m_pbDone, SIGNAL(clicked()),
 	        this, SLOT(slotDoneClicked()));
 }
@@ -225,6 +357,26 @@ QIcon SelectFrameAction::generateIcon()
 void SelectFrameAction::slotTriggered()
 {
 	emit borderSelected(m_CurrentBorder);
+}
+
+void SelectFrameAction::slotNoneClicked()
+{
+	m_FrameWidget->setBorder(TabularCell::None);
+}
+
+void SelectFrameAction::slotLeftRightClicked()
+{
+	m_FrameWidget->setBorder(TabularCell::Left | TabularCell::Right);
+}
+
+void SelectFrameAction::slotTopBottomClicked()
+{
+	m_FrameWidget->setBorder(TabularCell::Top | TabularCell::Bottom);
+}
+
+void SelectFrameAction::slotAllClicked()
+{
+	m_FrameWidget->setBorder(TabularCell::Left | TabularCell::Right | TabularCell::Top | TabularCell::Bottom);
 }
 
 void SelectFrameAction::slotDoneClicked()

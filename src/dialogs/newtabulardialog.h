@@ -50,6 +50,7 @@ class SelectFrameAction : public KToolBarPopupAction {
 		QIcon generateIcon();
 
 	private:
+		KPushButton *m_pbNone, *m_pbLeftRight, *m_pbTopBottom, *m_pbAll;
 		TabularFrameWidget *m_FrameWidget;
 		KPushButton *m_pbDone;
 		QToolBar *m_Parent;
@@ -57,6 +58,10 @@ class SelectFrameAction : public KToolBarPopupAction {
 
 	private Q_SLOTS:
 		void slotTriggered();
+		void slotNoneClicked();
+		void slotLeftRightClicked();
+		void slotTopBottomClicked();
+		void slotAllClicked();
 		void slotDoneClicked();
 
 	Q_SIGNALS:

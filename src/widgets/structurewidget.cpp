@@ -503,8 +503,7 @@ namespace KileWidget
 				if ( m_lastSectioning && (m_lastLine==line-1 || m_lastLine==line) )
 					m_lastSectioning->setLabel(title);
 			}
-			else if ( m_lastType==KileStruct::BeamerBeginFrame )
-			{
+			else if(m_lastType == KileStruct::BeamerBeginFrame && m_lastFrameEnv) {
 				m_lastFrameEnv->setLabel(title);
 			}
 

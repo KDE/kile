@@ -543,6 +543,8 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfi
 	  m_clCurrentBackground(Qt::white),
 	  m_clCurrentForeground(Qt::black)
 {
+	setCaption(i18n("Tabular Environments"));
+
 	QWidget *page = new QWidget(this);
 	QVBoxLayout *pageLayout = new QVBoxLayout();
 	pageLayout->setMargin(0);

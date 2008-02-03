@@ -718,16 +718,7 @@ void NewTabularDialog::alignItems(int alignment)
 
 		int column = item->column();
 		if(!checkedColumns.contains(column)) {
-			bool allItemsInColumnAreSelected = true;
-
-			for(int row = 0; row < m_Table->rowCount(); ++row) {
-				if(!(m_Table->item(row, column)->isSelected())) {
-					allItemsInColumnAreSelected = false;
-					break;
-				}
-			}
-
-			if(allItemsInColumnAreSelected) {
+			if(checkForColumnAlignment(column)) {
 				m_Table->horizontalHeaderItem(column)->setIcon(KIcon(iconForAlignment(alignment)));
 			}
 
@@ -736,6 +727,19 @@ void NewTabularDialog::alignItems(int alignment)
 	}
 
 	slotItemSelectionChanged();
+}
+
+bool NewTabularDialog::checkForColumnAlignment(int column)
+{
+	int alignment = m_Table->item(0, column)->textAlignment();
+
+	for(int row = 1; row < m_Table->rowCount(); ++row) {
+		if(m_Table->item(row, column)->textAlignment() != alignment) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 inline QString NewTabularDialog::iconForAlignment(int alignment) const

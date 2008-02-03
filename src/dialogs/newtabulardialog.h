@@ -112,6 +112,7 @@ class NewTabularDialog : public KDialog {
 		void initEnvironments();
 		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
 		void alignItems(int alignment);
+		bool checkForColumnAlignment(int column);
 		QString iconForAlignment(int alignment) const;
 		QIcon generateColorIcon(bool background) const;
 

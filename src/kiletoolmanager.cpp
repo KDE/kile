@@ -48,7 +48,7 @@ namespace KileTool
 
 	Base* Queue::tool() const
 	{
-		if(head()) {
+		if(count() > 0 && head()) {
 			return head()->tool();
 		}
 		else {
@@ -58,7 +58,7 @@ namespace KileTool
 
 	const QString Queue::cfg() const
 	{
-		if(head()) {
+		if(count() > 0 && head()) {
 			return head()->cfg();
 		}
 		else {
@@ -68,7 +68,7 @@ namespace KileTool
 
 	bool Queue::shouldBlock() const
 	{
-		if(head()) {
+		if(count() > 0 && head()) {
 			return head()->shouldBlock();
 		}
 		else {

@@ -2172,8 +2172,13 @@ QStringList TabularDialog::sortColorTable(QMap<QString,char> &colors)
 
 ////////////////////////////// determine the whole tag //////////////////////////////
 
-void TabularDialog::slotOk()
+void TabularDialog::slotButtonClicked(int button)
 {
+	if(button != KDialog::Ok) {
+		Wizard::slotButtonClicked(button);
+		return;
+	}
+
 	m_table->updateCurrentCell();
 
 	QString preamble,textline,s,s1,s2,s3;

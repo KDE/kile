@@ -266,7 +266,7 @@ public:
 	QStringList columnAlignments();
 
 public Q_SLOTS:
-	void slotOk();
+	void slotButtonClicked(int button);
 	void slotRowValueChanged(int value);
 
 private Q_SLOTS:

@@ -1,8 +1,8 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Sun Jun 3 2001
-    copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2001 - 2003 by Brachet Pascal
+                               2003 Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -12,7 +12,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "usermenudialog.h"
+#include "dialogs/usertagsdialog.h"
 
 #include <qlabel.h>
 #include <qlineedit.h>
@@ -92,19 +92,16 @@ void UserTags::redraw()
 	KILE_DEBUG() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
 	m_combo->clear();
 
-	if (m_list.size() > 0)
-	{
-		for (uint i=0; i<m_list.size(); ++i)
-		{
-			m_combo->insertItem( QString::number(i+1) + ": " + m_list[i].text );
+	if (m_list.size() > 0) {
+		for (int i = 0; i < m_list.size(); ++i) {
+			m_combo->insertItem(QString::number(i + 1) + ": " + m_list[i].text);
 		}
 		m_combo->setCurrentItem(m_prevIndex);
 
-		m_editTag->setText( completeTag(m_list[m_prevIndex]) );
+		m_editTag->setText(completeTag(m_list[m_prevIndex]));
 		m_editName->setText(m_list[m_prevIndex].text);
 	}
-	else
-	{
+	else {
 		m_editTag->setText("");
 		m_editName->setText("");
 	}
@@ -126,8 +123,9 @@ void UserTags::change(int index)
 void UserTags::slotApply()
 {
 	//store current values before exiting
-	if (m_list.count() > 0 )
+	if(m_list.count() > 0) {
 		m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
+	}
 
 	KILE_DEBUG() << "usermenudialog: slotApply" << endl;
 	accept();
@@ -153,8 +151,13 @@ void UserTags::slotRemove()
 		m_list.removeAt(m_prevIndex);
 
 		--m_prevIndex;
-		if (m_prevIndex >= static_cast<int>(m_list.count()) ) m_prevIndex = m_list.count()-1;
-		if (m_prevIndex < 0 ) m_prevIndex=0;
+		if(m_prevIndex >= static_cast<int>(m_list.count())) {
+			m_prevIndex = m_list.count() - 1;
+		}
+
+		if(m_prevIndex < 0 ) {
+			m_prevIndex=0;
+		}
 
 		redraw();
 	}
@@ -162,26 +165,28 @@ void UserTags::slotRemove()
 
 QString UserTags::completeTag(const KileAction::TagData & td)
 {
-	if ( td.tagEnd.length() == 0 )
+	if(td.tagEnd.length() == 0) {
 		return td.tagBegin;
-	else
+	}
+	else {
 		return td.tagBegin + "%M" + td.tagEnd;
+	}
 }
 
 KileAction::TagData UserTags::splitTag(const QString & name, const QString & tag)
 {
 	QStringList parts = tag.split("%M");
 	int dx = parts[0].length();
-	if ( parts[1].length() == 0 )
-	{
+	if(parts[1].length() == 0) {
 		int i = parts[0].indexOf(QRegExp("[\\[\\{\\(]"));
-		if ( i != -1 )
+		if(i != -1) {
 			dx = i + 1;
+		}
 	}
 
-	return KileAction::TagData(name, parts[0], parts[1], dx, 0, QString::null); 
+	return KileAction::TagData(name, parts[0], parts[1], dx, 0, QString());
 }
 
 }
 
-#include "usermenudialog.moc"
+#include "usertagsdialog.moc"

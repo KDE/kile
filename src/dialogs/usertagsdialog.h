@@ -1,8 +1,8 @@
-/***************************************************************************
+/************************************************************************************
     begin                : Sun Jun 3 2001
-    copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2001 - 2003 by Brachet Pascal
+                               2003 Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ ************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -12,8 +12,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef USERMENUDIALOG_H
-#define USERMENUDIALOG_H
+#ifndef USERTAGSDIALOG_H
+#define USERTAGSDIALOG_H
 
 #include <QLabel>
 #include <QList>
@@ -39,7 +39,7 @@ class UserTags: public KDialog
 	Q_OBJECT
 
 public:
-	UserTags(const QList<KileAction::TagData> &list, QWidget* parent = 0, const char* name = 0, const QString &caption = QString());
+	UserTags(const QList<KileAction::TagData> &list, QWidget* parent = NULL, const char* name = NULL, const QString &caption = QString());
 	~UserTags();
 
 	int index() { return m_prevIndex; }
@@ -59,7 +59,7 @@ private Q_SLOTS:
 	void slotApply();
 
 private:
-	int 				m_prevIndex;
+	int 			m_prevIndex;
 	KTextEdit 		*m_editTag;
 	QLineEdit 		*m_editName;
 	QComboBox 		*m_combo;
@@ -67,9 +67,9 @@ private:
 	QLabel			*m_labelTag;
 	KPushButton		*m_buttonRemove, *m_buttonAdd, *m_buttonInsert;
 
-	QList<KileAction::TagData> 	m_list;
+	QList<KileAction::TagData>	m_list;
 };
 
 }
 
-#endif // USERMENUDIALOG_H
+#endif

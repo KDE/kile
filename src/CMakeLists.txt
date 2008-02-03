@@ -26,7 +26,7 @@ SET(kile_SRCS
 	newfilewizard.cpp
 	dialogs/managetemplatesdialog.cpp
 	templates.cpp
-	usermenudialog.cpp
+	dialogs/usertagsdialog.cpp
 	dialogs/configurationdialog.cpp
 	tabbingdialog.cpp
 	widgets/symbolview.cpp

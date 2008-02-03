@@ -53,7 +53,7 @@
 #include "documentinfo.h"
 #include "kileactions.h"
 #include "kilestdactions.h"
-#include "usermenudialog.h"
+#include "dialogs/usertagsdialog.h"
 #include "dialogs/configurationdialog.h"
 #include "kileproject.h"
 #include "widgets/projectview.h"

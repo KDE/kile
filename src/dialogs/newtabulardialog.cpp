@@ -243,10 +243,10 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
 		state = TabularCell::Bottom;
 
 	if(state > 0) {
-		if (m_border & state){
+		if(m_border & state) {
 			m_border &= ~state;
 		}
-		else{
+		else {
 			m_border |= state;
 		}
 		update();
@@ -595,6 +595,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_Table = new QTableWidget(page);
 	m_Table->setItemDelegate(new TabularCellDelegate(m_Table));
 	m_Table->setShowGrid(false);
+	m_Table->installEventFilter(this);
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
@@ -767,6 +768,35 @@ QIcon NewTabularDialog::generateColorIcon(bool background) const
 	painter.end();
 
 	return QIcon(pixmap);
+}
+
+bool NewTabularDialog::eventFilter(QObject *obj, QEvent *event)
+{
+	if(obj == m_Table && event->type() == QEvent::KeyPress && m_Table->selectedItems().count() == 1) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+		if(keyEvent->key() == Qt::Key_Return) {
+			QTableWidgetItem *item = m_Table->selectedItems()[0];
+			int row = item->row();
+			int column = item->column();
+			if(column < (m_Table->columnCount() - 1)) {
+				item->setSelected(false);
+				m_Table->item(row, column + 1)->setSelected(true);
+				m_Table->setCurrentItem(m_Table->item(row, column + 1));
+			} else {
+				if(row == (m_Table->rowCount() - 1)) {
+					m_sbRows->setValue(m_sbRows->value() + 1);
+					/* This is called twice, but now we can be sure that the new row has been created */
+					updateColsAndRows();
+				}
+				item->setSelected(false);
+				m_Table->item(row + 1, 0)->setSelected(true);
+				m_Table->setCurrentItem(m_Table->item(row + 1, 0));
+			}
+		}
+	}
+
+	return KDialog::eventFilter(obj, event);
 }
 
 void NewTabularDialog::updateColsAndRows()

@@ -116,6 +116,9 @@ class NewTabularDialog : public KDialog {
 		QString iconForAlignment(int alignment) const;
 		QIcon generateColorIcon(bool background) const;
 
+	protected:
+		bool eventFilter(QObject *obj, QEvent *event);
+
 	private Q_SLOTS:
 		void updateColsAndRows();
 		void slotEnvironmentChanged(const QString &environment);

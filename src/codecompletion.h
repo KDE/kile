@@ -21,6 +21,7 @@
 #include <QList>
 
 #include <KTextEditor/CodeCompletionInterface>
+#include <KTextEditor/CodeCompletionModel>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <kconfig.h>
@@ -33,17 +34,26 @@ namespace KTextEditor {class CompletionEntry;}
 //default bullet char (a cross)
 static const QChar s_bullet_char = QChar(0xd7);
 static const QString s_bullet = QString(&s_bullet_char, 1);
-		
-/**
-  *@author Holger Danielsson
-  */
-  
+
 class QTimer;
 
 class KileInfo;
 
 namespace KileDocument
 {
+	class CodeCompletionModel : public KTextEditor::CodeCompletionModel {
+		public:
+			CodeCompletionModel(QObject *parent);
+			virtual ~CodeCompletionModel();
+
+			virtual QVariant data(const QModelIndex& index, int role) const;
+			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range, InvocationType invocationType);
+			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+			void setCompletionList(const QStringList& list);
+
+		protected:
+			QStringList m_completionList;
+	};
 
 //FIXME fix the way the KTextEditor::View is passed, I'm not 100% confident m_view doesn't turn into a wild pointer
 //FIXME refactor the complete class, it's pretty ugly, there are too many methods with similar names suggesting that the code could be more efficient
@@ -109,7 +119,7 @@ public Q_SLOTS:
 	void slotUpdateAbbrevList(const QString &ds, const QString &as);
 
 private:
-	void completeWord(const QString &text, CodeCompletion::Mode mode);
+	void completeWord(KTextEditor::View* view, const KTextEditor::Range& range, CodeCompletion::Mode mode);
 	QString filterCompletionText(const QString &text, const QString &type);
 
 	void CompletionDone(KTextEditor::CompletionEntry);
@@ -117,12 +127,12 @@ private:
 
 	void completeFromList(const QStringList *list,const QString &pattern = QString());
 	void editCompleteList(KileDocument::CodeCompletion::Type type,const QString &pattern = QString());
-	bool getCompleteWord(bool latexmode, QString &text, KileDocument::CodeCompletion::Type &type);
-	bool getReferenceWord(QString &text);
+	KTextEditor::Range getCompleteWord(KTextEditor::View *view, bool latexmode, KileDocument::CodeCompletion::Type &type);
+	KTextEditor::Range getReferenceWord(KTextEditor::View *view);
 	bool oddBackslashes(const QString& text, int index);
 
-	void appendNewCommands(QList<KTextEditor::CompletionEntry>& list);
-	void getDocumentWords(const QString &text, QList<KTextEditor::CompletionEntry>& list);
+	void appendNewCommands(QStringList& list);
+	QStringList getDocumentWords(const QString &text);
 
 	bool completeAutoAbbreviation(const QString &text);
 	QString getAbbreviationWord(uint row, uint col);
@@ -130,11 +140,13 @@ private:
 	CodeCompletion::Type insideReference(QString &startpattern);
 
 private:
+	KileDocument::CodeCompletionModel *m_codeCompletionModel;
+
 	// wordlists
-	QList<KTextEditor::CompletionEntry> m_texlist;
-	QList<KTextEditor::CompletionEntry> m_dictlist;
-	QList<KTextEditor::CompletionEntry> m_abbrevlist;
-	QList<KTextEditor::CompletionEntry> m_labellist;
+	QStringList m_texlist;
+	QStringList m_dictlist;
+	QStringList m_abbrevlist;
+	QStringList m_labellist;
 
 	KileInfo *m_ki;
 	QTimer *m_completeTimer;
@@ -190,17 +202,16 @@ private:
 	QString parseText(const QString &text, int &ypos, int &xpos, bool checkgroup);
 	QString stripParameter(const QString &text);
 
-	void setWordlist(const QStringList &files,const QString &dir, QList<KTextEditor::CompletionEntry> *entrylist);
+	QStringList buildWordList(const QStringList &files,const QString &dir);
 	void readWordlist(QStringList &wordlist, const QString &filename, bool global);
 	void addCommandsToTexlist(QStringList &wordlist);
 	
 	void setReferences();
 	QString getCommandList(KileDocument::CmdAttribute attrtype);
 	
-	void setCompletionEntries(QList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
 	void setCompletionEntriesTexmode(QList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
 
-	uint countEntries(const QString &pattern, QList<KTextEditor::CompletionEntry> *list, QString *entry, QString *type);
+	int countEntries(const QString &pattern, const QStringList& list, QString *entry);
 
 	void addAbbreviationEntry( const QString &entry );
 	void deleteAbbreviationEntry( const QString &entry );

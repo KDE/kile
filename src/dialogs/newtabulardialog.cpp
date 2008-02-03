@@ -645,7 +645,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	pageLayout->addWidget(configPage);
 
 	// whats this texts
-	m_Table->setWhatsThis(i18n("Input data. Just type the text when a cell is selected."));
+	m_Table->setWhatsThis(i18n("Input data. Just type the text when a cell is selected. When pressing return, the adjacent cell will be selected."));
 	m_cmbName->setWhatsThis(i18n("Choose an environment."));
 	m_cmbParameter->setWhatsThis(i18n("Optional parameter for the chosen environment."));
 	m_sbRows->setWhatsThis(i18n("Choose the number of table rows."));
@@ -662,6 +662,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidge
 	m_acRight->setWhatsThis(i18n("The text will be aligned at the right border of the cell."));
 	m_acJoin->setWhatsThis(i18n("Joins adjacent cells when they are in the same row."));
 	m_acSplit->setWhatsThis(i18n("Splits joined cells."));
+	m_acFrame->setWhatsThis(i18n("Choose the border for the selected cells. When clicking on the button, the current border will be applied to the selected cells."));
 	m_acBackground->setWhatsThis(i18n("Choose a background color (needs color package)."));
 	m_acForeground->setWhatsThis(i18n("Choose a text color (needs color package)."));
 	m_acClearText->setWhatsThis(i18n("Clears the text of the selected cells but keeps the attributes like alignment and font shape."));

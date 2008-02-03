@@ -563,6 +563,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfi
 	m_tbFormat->addSeparator();
 	m_acJoin = addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
 	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
+	m_acSplit->setEnabled(false);
 	m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
 	connect(m_acFrame, SIGNAL(borderSelected(int)), this, SLOT(slotFrame(int)));
 	m_tbFormat->addAction(m_acFrame);
@@ -960,7 +961,11 @@ void NewTabularDialog::slotItemSelectionChanged()
 		}
 	}
 
-	// TODO set/unset join/split actions
+	// TODO set/unset join action
+
+	/* split action */
+	m_acSplit->setEnabled(selectedItems.count() == 1 &&
+		m_Table->columnSpan(selectedItems[0]->row(), selectedItems[0]->column()) > 1);
 }
 
 void NewTabularDialog::slotAlignLeft()
@@ -1049,6 +1054,8 @@ void NewTabularDialog::slotJoinCells()
 
 	/* everything's fine -> join the cells */
 	m_Table->setSpan(row, columns.first(), 1, newColumnSpan);
+
+	slotItemSelectionChanged();
 }
 
 void NewTabularDialog::slotSplitCells()
@@ -1061,6 +1068,8 @@ void NewTabularDialog::slotSplitCells()
 	if(m_Table->columnSpan(selectedItem->row(), selectedItem->column()) > 1) {
 		m_Table->setSpan(selectedItem->row(), selectedItem->column(), 1, 1);
 	}
+
+	slotItemSelectionChanged();
 }
 
 void NewTabularDialog::slotFrame(int border)

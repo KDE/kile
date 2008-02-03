@@ -1900,7 +1900,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 		}
 		delete dlg;
 	} else {
-		KileDialog::NewTabularDialog dlg(m_latexCommands, m_mainWindow);
+		KileDialog::NewTabularDialog dlg(m_latexCommands, m_config.data(), m_mainWindow);
 		dlg.exec();
 	}
 }

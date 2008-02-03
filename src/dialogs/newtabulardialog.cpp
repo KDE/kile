@@ -536,8 +536,8 @@ int TabularCell::border() const
 }
 //END
 
-NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent)
-	: KDialog(parent),
+NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent)
+	: Wizard(config, parent),
 	  m_latexCommands(commands),
 	  m_clCurrentBackground(Qt::white),
 	  m_clCurrentForeground(Qt::black)
@@ -797,7 +797,7 @@ bool NewTabularDialog::eventFilter(QObject *obj, QEvent *event)
 		}
 	}
 
-	return KDialog::eventFilter(obj, event);
+	return Wizard::eventFilter(obj, event);
 }
 
 void NewTabularDialog::updateColsAndRows()

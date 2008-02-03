@@ -16,10 +16,11 @@
 #ifndef NEW_TABULARDIALOG_H
 #define NEW_TABULARDIALOG_H
 
-#include <KDialog>
 #include <KToolBarPopupAction>
 
 #include <QTableWidgetItem>
+
+#include "kilewizard.h"
 
 class QCheckBox;
 class QSpinBox;
@@ -101,11 +102,11 @@ class TabularCell : public QTableWidgetItem {
 		int m_Border;
 };
 
-class NewTabularDialog : public KDialog {
+class NewTabularDialog : public Wizard {
 	Q_OBJECT
 
 	public:
-		NewTabularDialog(KileDocument::LatexCommands *commands, QWidget *parent = 0);
+		NewTabularDialog(KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent = 0);
 		~NewTabularDialog();
 
 	private:

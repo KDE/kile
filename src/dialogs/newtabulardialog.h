@@ -120,6 +120,9 @@ class NewTabularDialog : public Wizard {
 	protected:
 		bool eventFilter(QObject *obj, QEvent *event);
 
+	public Q_SLOTS:
+		int exec();
+
 	private Q_SLOTS:
 		void updateColsAndRows();
 		void slotEnvironmentChanged(const QString &environment);

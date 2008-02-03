@@ -804,6 +804,15 @@ bool NewTabularDialog::eventFilter(QObject *obj, QEvent *event)
 	return Wizard::eventFilter(obj, event);
 }
 
+int NewTabularDialog::exec()
+{
+	/* all toolbar items should be visible when showing the dialog */
+	show();
+	mainWidget()->setMinimumWidth(m_tbFormat->width() + 2 * KDialog::marginHint());
+
+	return Wizard::exec();
+}
+
 void NewTabularDialog::updateColsAndRows()
 {
 	int addedCols = m_sbCols->value() - m_Table->columnCount();

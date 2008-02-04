@@ -548,6 +548,9 @@ TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	m_Popup->addAction(KIcon("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
 	m_Popup->addAction(KIcon("format-justify-center"), i18n("Align Center"), this, SLOT(slotAlignCenter()));
 	m_Popup->addAction(KIcon("format-justify-right"), i18n("Align Right"), this, SLOT(slotAlignRight()));
+	m_Popup->addAction(i18n("p{w} Alignment"), this, SLOT(slotAlignP()));
+	m_Popup->addAction(i18n("b{w} Alignment"), this, SLOT(slotAlignB()));
+	m_Popup->addAction(i18n("m{w} Alignment"), this, SLOT(slotAlignM()));
 }
 
 void TabularHeaderItem::setAlignment(int alignment)
@@ -568,7 +571,7 @@ QMenu* TabularHeaderItem::popupMenu() const
 
 void TabularHeaderItem::format()
 {
-	setIcon(KIcon(iconForAlignment(m_Alignment)));
+	setIcon(iconForAlignment(m_Alignment));
 
 	QString text = "";
 
@@ -582,22 +585,31 @@ void TabularHeaderItem::format()
 		case Qt::AlignRight:
 			text += "r";
 			break;
+		case AlignP:
+			text += "p{}";
+			break;
+		case AlignB:
+			text += "b{}";
+			break;
+		case AlignM:
+			text += "m{}";
+			break;
 	}
 
 	setText(text);
 }
 
-inline QString TabularHeaderItem::iconForAlignment(int alignment) const
+inline KIcon TabularHeaderItem::iconForAlignment(int alignment) const
 {
 	switch(alignment) {
 		case Qt::AlignLeft:
-			return "format-justify-left";
+			return KIcon("format-justify-left");
 		case Qt::AlignHCenter:
-			return "format-justify-center";
+			return KIcon("format-justify-center");
 		case Qt::AlignRight:
-			return "format-justify-right";
+			return KIcon("format-justify-right");
 		default:
-			return "";
+			return KIcon();
 	}
 }
 
@@ -617,6 +629,24 @@ void TabularHeaderItem::slotAlignRight()
 {
 	setAlignment(Qt::AlignRight);
 	emit alignColumn(Qt::AlignRight);
+}
+
+void TabularHeaderItem::slotAlignP()
+{
+	setAlignment(AlignP);
+	emit alignColumn(Qt::AlignLeft);
+}
+
+void TabularHeaderItem::slotAlignB()
+{
+	setAlignment(AlignB);
+	emit alignColumn(Qt::AlignLeft);
+}
+
+void TabularHeaderItem::slotAlignM()
+{
+	setAlignment(AlignM);
+	emit alignColumn(Qt::AlignLeft);
 }
 //END
 

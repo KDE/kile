@@ -118,12 +118,15 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 
 	private:
 		void format();
-		QString iconForAlignment(int alignment) const;
+		KIcon iconForAlignment(int alignment) const;
 
 	private Q_SLOTS:
 		void slotAlignLeft();
 		void slotAlignCenter();
 		void slotAlignRight();
+		void slotAlignP();
+		void slotAlignB();
+		void slotAlignM();
 
 	Q_SIGNALS:
 		void alignColumn(int alignment);

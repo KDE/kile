@@ -20,6 +20,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QItemDelegate>
 #include <QLabel>
 #include <QList>
@@ -538,10 +539,15 @@ int TabularCell::border() const
 //END
 
 //BEGIN TabularHeaderItem
-TabularHeaderItem::TabularHeaderItem()
-	: QTableWidgetItem(KIcon("format-justify-left"), "l"),
+TabularHeaderItem::TabularHeaderItem(QWidget *parent)
+	: QObject(parent),
+	  QTableWidgetItem(KIcon("format-justify-left"), "l"),
 	  m_Alignment(Qt::AlignLeft)
 {
+	m_Popup = new QMenu(parent);
+	m_Popup->addAction(KIcon("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
+	m_Popup->addAction(KIcon("format-justify-center"), i18n("Align Center"), this, SLOT(slotAlignCenter()));
+	m_Popup->addAction(KIcon("format-justify-right"), i18n("Align Right"), this, SLOT(slotAlignRight()));
 }
 
 void TabularHeaderItem::setAlignment(int alignment)
@@ -553,6 +559,11 @@ void TabularHeaderItem::setAlignment(int alignment)
 int TabularHeaderItem::alignment() const
 {
 	return m_Alignment;
+}
+
+QMenu* TabularHeaderItem::popupMenu() const
+{
+	return m_Popup;
 }
 
 void TabularHeaderItem::format()
@@ -588,6 +599,24 @@ inline QString TabularHeaderItem::iconForAlignment(int alignment) const
 		default:
 			return "";
 	}
+}
+
+void TabularHeaderItem::slotAlignLeft()
+{
+	setAlignment(Qt::AlignLeft);
+	emit alignColumn(Qt::AlignLeft);
+}
+
+void TabularHeaderItem::slotAlignCenter()
+{
+	setAlignment(Qt::AlignHCenter);
+	emit alignColumn(Qt::AlignHCenter);
+}
+
+void TabularHeaderItem::slotAlignRight()
+{
+	setAlignment(Qt::AlignRight);
+	emit alignColumn(Qt::AlignRight);
 }
 //END
 
@@ -654,6 +683,7 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfi
 	m_Table->setItemDelegate(new TabularCellDelegate(m_Table));
 	m_Table->setShowGrid(false);
 	m_Table->installEventFilter(this);
+	m_Table->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
@@ -740,6 +770,8 @@ NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfi
 	        this, SLOT(updateColsAndRows()));
 	connect(m_sbRows, SIGNAL(valueChanged(int)),
 	        this, SLOT(updateColsAndRows()));
+	connect(m_Table->horizontalHeader(), SIGNAL(customContextMenuRequested(const QPoint&)),
+					this, SLOT(slotHeaderCustomContextMenuRequested(const QPoint&)));
 }
 
 NewTabularDialog::~NewTabularDialog()
@@ -907,7 +939,9 @@ void NewTabularDialog::updateColsAndRows()
 
 	if(addedCols > 0) {
 		for(int i = m_Table->columnCount() - addedCols; i < m_Table->columnCount(); ++i) {
-			m_Table->setHorizontalHeaderItem(i, new TabularHeaderItem());
+			TabularHeaderItem *headerItem = new TabularHeaderItem(m_Table->horizontalHeader());
+			connect(headerItem, SIGNAL(alignColumn(int)), this, SLOT(slotAlignColumn(int)));
+			m_Table->setHorizontalHeaderItem(i, headerItem);
 
 			// each cell should be an item. This is necessary for selection checking
 			for(int row = 0; row < m_Table->rowCount(); ++row) {
@@ -1020,6 +1054,31 @@ void NewTabularDialog::slotItemSelectionChanged()
 	/* split action */
 	m_acSplit->setEnabled(selectedItems.count() == 1 &&
 		m_Table->columnSpan(selectedItems[0]->row(), selectedItems[0]->column()) > 1);
+}
+
+void NewTabularDialog::slotHeaderCustomContextMenuRequested(const QPoint &pos)
+{
+	int logicalIndex = m_Table->horizontalHeader()->logicalIndexAt(pos);
+	if(logicalIndex == -1) return;
+
+	QMenu *popup = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(logicalIndex))->popupMenu();
+	popup->exec(m_Table->horizontalHeader()->mapToGlobal(pos));
+}
+
+void NewTabularDialog::slotAlignColumn(int alignment)
+{
+	TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(sender());
+
+	// find column
+	for(int column = 0; column < m_Table->columnCount(); ++column) {
+		if(m_Table->horizontalHeaderItem(column) == headerItem) {
+			for(int row = 0; row < m_Table->rowCount(); ++row) {
+				m_Table->item(row, column)->setTextAlignment(Qt::AlignVCenter | alignment);
+			}
+
+			break;
+		}
+	}
 }
 
 void NewTabularDialog::slotAlignLeft()

@@ -23,6 +23,7 @@
 #include "kilewizard.h"
 
 class QCheckBox;
+class QMenu;
 class QSpinBox;
 class QTableWidget;
 class QToolBar;
@@ -102,21 +103,34 @@ class TabularCell : public QTableWidgetItem {
 		int m_Border;
 };
 
-class TabularHeaderItem : public QTableWidgetItem {
+class TabularHeaderItem : public QObject, public QTableWidgetItem {
+	Q_OBJECT
+
 	public:
 		enum { AlignP = 0x0200, AlignB = 0x0400, AlignM = 0x0800 };
 
-		TabularHeaderItem();
+		TabularHeaderItem(QWidget *parent);
 
 		void setAlignment(int alignment);
 		int alignment() const;
+
+		QMenu* popupMenu() const;
 
 	private:
 		void format();
 		QString iconForAlignment(int alignment) const;
 
+	private Q_SLOTS:
+		void slotAlignLeft();
+		void slotAlignCenter();
+		void slotAlignRight();
+
+	Q_SIGNALS:
+		void alignColumn(int alignment);
+
 	private:
 		int m_Alignment;
+		QMenu *m_Popup;
 };
 
 class NewTabularDialog : public Wizard {
@@ -143,6 +157,8 @@ class NewTabularDialog : public Wizard {
 		void updateColsAndRows();
 		void slotEnvironmentChanged(const QString &environment);
 		void slotItemSelectionChanged();
+		void slotHeaderCustomContextMenuRequested(const QPoint &pos);
+		void slotAlignColumn(int alignment);
 		void slotAlignLeft();
 		void slotAlignCenter();
 		void slotAlignRight();

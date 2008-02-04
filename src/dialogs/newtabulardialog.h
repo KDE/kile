@@ -102,6 +102,23 @@ class TabularCell : public QTableWidgetItem {
 		int m_Border;
 };
 
+class TabularHeaderItem : public QTableWidgetItem {
+	public:
+		enum { AlignP = 0x0200, AlignB = 0x0400, AlignM = 0x0800 };
+
+		TabularHeaderItem();
+
+		void setAlignment(int alignment);
+		int alignment() const;
+
+	private:
+		void format();
+		QString iconForAlignment(int alignment) const;
+
+	private:
+		int m_Alignment;
+};
+
 class NewTabularDialog : public Wizard {
 	Q_OBJECT
 
@@ -114,7 +131,6 @@ class NewTabularDialog : public Wizard {
 		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
 		void alignItems(int alignment);
 		bool checkForColumnAlignment(int column);
-		QString iconForAlignment(int alignment) const;
 		QIcon generateColorIcon(bool background) const;
 
 	protected:

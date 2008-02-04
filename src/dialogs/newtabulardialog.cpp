@@ -537,6 +537,60 @@ int TabularCell::border() const
 }
 //END
 
+//BEGIN TabularHeaderItem
+TabularHeaderItem::TabularHeaderItem()
+	: QTableWidgetItem(KIcon("format-justify-left"), "l"),
+	  m_Alignment(Qt::AlignLeft)
+{
+}
+
+void TabularHeaderItem::setAlignment(int alignment)
+{
+	m_Alignment = alignment;
+	format();
+}
+
+int TabularHeaderItem::alignment() const
+{
+	return m_Alignment;
+}
+
+void TabularHeaderItem::format()
+{
+	setIcon(KIcon(iconForAlignment(m_Alignment)));
+
+	QString text = "";
+
+	switch(m_Alignment) {
+		case Qt::AlignLeft:
+			text += "l";
+			break;
+		case Qt::AlignHCenter:
+			text += "c";
+			break;
+		case Qt::AlignRight:
+			text += "r";
+			break;
+	}
+
+	setText(text);
+}
+
+inline QString TabularHeaderItem::iconForAlignment(int alignment) const
+{
+	switch(alignment) {
+		case Qt::AlignLeft:
+			return "format-justify-left";
+		case Qt::AlignHCenter:
+			return "format-justify-center";
+		case Qt::AlignRight:
+			return "format-justify-right";
+		default:
+			return "";
+	}
+}
+//END
+
 NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent)
 	: Wizard(config, parent),
 	  m_latexCommands(commands),
@@ -725,7 +779,7 @@ void NewTabularDialog::alignItems(int alignment)
 		int column = item->column();
 		if(!checkedColumns.contains(column)) {
 			if(checkForColumnAlignment(column)) {
-				m_Table->horizontalHeaderItem(column)->setIcon(KIcon(iconForAlignment(alignment)));
+				static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column))->setAlignment(alignment);
 			}
 
 			checkedColumns.append(column);
@@ -746,20 +800,6 @@ bool NewTabularDialog::checkForColumnAlignment(int column)
 	}
 
 	return true;
-}
-
-inline QString NewTabularDialog::iconForAlignment(int alignment) const
-{
-	switch(alignment) {
-		case Qt::AlignLeft:
-			return "format-justify-left";
-		case Qt::AlignHCenter:
-			return "format-justify-center";
-		case Qt::AlignRight:
-			return "format-justify-right";
-		default:
-			return "";
-	}
 }
 
 QIcon NewTabularDialog::generateColorIcon(bool background) const
@@ -865,7 +905,7 @@ void NewTabularDialog::updateColsAndRows()
 
 	if(addedCols > 0) {
 		for(int i = m_Table->columnCount() - addedCols; i < m_Table->columnCount(); ++i) {
-			m_Table->setHorizontalHeaderItem(i, new QTableWidgetItem(KIcon("format-justify-left"), QString::number(i + 1)));
+			m_Table->setHorizontalHeaderItem(i, new TabularHeaderItem());
 
 			// each cell should be an item. This is necessary for selection checking
 			for(int row = 0; row < m_Table->rowCount(); ++row) {

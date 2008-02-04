@@ -771,18 +771,20 @@ KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, con
 
 void NewTabularDialog::alignItems(int alignment)
 {
-	QList<int> checkedColumns;
+	QList<int> checkColumns;
 
 	foreach(QTableWidgetItem *item, m_Table->selectedItems()) {
 		item->setTextAlignment(alignment | Qt::AlignVCenter);
 
 		int column = item->column();
-		if(!checkedColumns.contains(column)) {
-			if(checkForColumnAlignment(column)) {
-				static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column))->setAlignment(alignment);
-			}
+		if(!checkColumns.contains(column)) {
+			checkColumns.append(column);
+		}
+	}
 
-			checkedColumns.append(column);
+	foreach(int column, checkColumns) {
+		if(checkForColumnAlignment(column)) {
+			static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column))->setAlignment(alignment);
 		}
 	}
 

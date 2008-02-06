@@ -546,7 +546,8 @@ TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	  m_InsertBefore(false),
 	  m_InsertAfter(false),
 	  m_SuppressSpace(false),
-	  m_DontSuppressSpace(false)
+	  m_DontSuppressSpace(false),
+	  m_hasXAlignment(false)
 {
 	m_Popup = new QMenu(parent);
 	m_Popup->addAction(KIcon("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
@@ -555,6 +556,7 @@ TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	m_Popup->addAction(i18n("p{w} Alignment"), this, SLOT(slotAlignP()));
 	m_Popup->addAction(i18n("b{w} Alignment"), this, SLOT(slotAlignB()));
 	m_Popup->addAction(i18n("m{w} Alignment"), this, SLOT(slotAlignM()));
+	m_acXAlignment = m_Popup->addAction(i18n("X Alignment"), this, SLOT(slotAlignX()));
 	m_Popup->addSeparator();
 	m_acDeclPre = m_Popup->addAction(i18n("Insert Before Declaration"), this, SLOT(slotDeclPre()));
 	m_acDeclPost = m_Popup->addAction(i18n("Insert After Declaration"), this, SLOT(slotDeclPost()));
@@ -598,9 +600,22 @@ bool TabularHeaderItem::dontSuppressSpace() const
 	return m_DontSuppressSpace;
 }
 
+void TabularHeaderItem::setHasXAlignment(bool hasXAlignment)
+{
+	m_hasXAlignment = hasXAlignment;
+	if(!hasXAlignment && m_Alignment == AlignX) {
+		slotAlignLeft();
+	}
+}
+
+bool TabularHeaderItem::hasXAlignment() const
+{
+	return m_hasXAlignment;
+}
 
 QMenu* TabularHeaderItem::popupMenu() const
 {
+	m_acXAlignment->setVisible(m_hasXAlignment);
 	return m_Popup;
 }
 
@@ -637,6 +652,9 @@ void TabularHeaderItem::format()
 			break;
 		case AlignM:
 			text += 'm';
+			break;
+		case AlignX:
+			text += 'X';
 			break;
 	}
 
@@ -694,6 +712,12 @@ void TabularHeaderItem::slotAlignB()
 void TabularHeaderItem::slotAlignM()
 {
 	setAlignment(AlignM);
+	emit alignColumn(Qt::AlignLeft);
+}
+
+void TabularHeaderItem::slotAlignX()
+{
+	setAlignment(AlignX);
 	emit alignColumn(Qt::AlignLeft);
 }
 
@@ -1103,7 +1127,11 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 		}
 	}
 
-	// NOTE do not forget the align list
+	// has X alignment
+	bool hasXAlignment = (environment == "tabularx" || environment == "xtabular");
+	for(int column = 0; column < m_Table->columnCount(); ++column) {
+		static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column))->setHasXAlignment(hasXAlignment);
+	}
 }
 
 void NewTabularDialog::slotItemSelectionChanged()

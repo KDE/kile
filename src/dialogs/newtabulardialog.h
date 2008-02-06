@@ -107,7 +107,7 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 	Q_OBJECT
 
 	public:
-		enum { AlignP = 0x0200, AlignB = 0x0400, AlignM = 0x0800 };
+		enum { AlignP = 0x0200, AlignB = 0x0400, AlignM = 0x0800, AlignX = 0x1000 };
 
 		TabularHeaderItem(QWidget *parent);
 
@@ -118,6 +118,9 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 		bool insertAfter() const;
 		bool suppressSpace() const;
 		bool dontSuppressSpace() const;
+
+		void setHasXAlignment(bool hasXAlignment);
+		bool hasXAlignment() const;
 
 		QMenu* popupMenu() const;
 
@@ -132,6 +135,7 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 		void slotAlignP();
 		void slotAlignB();
 		void slotAlignM();
+		void slotAlignX();
 		void slotDeclPre();
 		void slotDeclPost();
 		void slotDeclAt();
@@ -144,7 +148,9 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 		int m_Alignment;
 		bool m_InsertBefore, m_InsertAfter, m_SuppressSpace, m_DontSuppressSpace;
 		QMenu *m_Popup;
-		QAction *m_acDeclPre, *m_acDeclPost, *m_acDeclAt, *m_acDeclBang;
+		QAction *m_acXAlignment,
+		        *m_acDeclPre, *m_acDeclPost, *m_acDeclAt, *m_acDeclBang;
+		bool m_hasXAlignment;
 };
 
 class NewTabularDialog : public Wizard {

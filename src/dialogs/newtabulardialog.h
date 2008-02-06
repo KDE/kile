@@ -114,6 +114,11 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 		void setAlignment(int alignment);
 		int alignment() const;
 
+		bool insertBefore() const;
+		bool insertAfter() const;
+		bool suppressSpace() const;
+		bool dontSuppressSpace() const;
+
 		QMenu* popupMenu() const;
 
 	private:
@@ -127,13 +132,19 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 		void slotAlignP();
 		void slotAlignB();
 		void slotAlignM();
+		void slotDeclPre();
+		void slotDeclPost();
+		void slotDeclAt();
+		void slotDeclBang();
 
 	Q_SIGNALS:
 		void alignColumn(int alignment);
 
 	private:
 		int m_Alignment;
+		bool m_InsertBefore, m_InsertAfter, m_SuppressSpace, m_DontSuppressSpace;
 		QMenu *m_Popup;
+		QAction *m_acDeclPre, *m_acDeclPost, *m_acDeclAt, *m_acDeclBang;
 };
 
 class NewTabularDialog : public Wizard {

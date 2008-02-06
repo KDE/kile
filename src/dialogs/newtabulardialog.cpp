@@ -542,7 +542,11 @@ int TabularCell::border() const
 TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	: QObject(parent),
 	  QTableWidgetItem(KIcon("format-justify-left"), "l"),
-	  m_Alignment(Qt::AlignLeft)
+	  m_Alignment(Qt::AlignLeft),
+	  m_InsertBefore(false),
+	  m_InsertAfter(false),
+	  m_SuppressSpace(false),
+	  m_DontSuppressSpace(false)
 {
 	m_Popup = new QMenu(parent);
 	m_Popup->addAction(KIcon("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
@@ -551,6 +555,16 @@ TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	m_Popup->addAction(i18n("p{w} Alignment"), this, SLOT(slotAlignP()));
 	m_Popup->addAction(i18n("b{w} Alignment"), this, SLOT(slotAlignB()));
 	m_Popup->addAction(i18n("m{w} Alignment"), this, SLOT(slotAlignM()));
+	m_Popup->addSeparator();
+	m_acDeclPre = m_Popup->addAction(i18n("Insert Before Declaration"), this, SLOT(slotDeclPre()));
+	m_acDeclPost = m_Popup->addAction(i18n("Insert After Declaration"), this, SLOT(slotDeclPost()));
+	m_acDeclAt = m_Popup->addAction(i18n("Suppress Space"), this, SLOT(slotDeclAt()));
+	m_acDeclBang = m_Popup->addAction(i18n("Do not Suppress Space"), this, SLOT(slotDeclBang()));
+
+	m_acDeclPre->setCheckable(true);
+	m_acDeclPost->setCheckable(true);
+	m_acDeclAt->setCheckable(true);
+	m_acDeclBang->setCheckable(true);
 }
 
 void TabularHeaderItem::setAlignment(int alignment)
@@ -564,6 +578,27 @@ int TabularHeaderItem::alignment() const
 	return m_Alignment;
 }
 
+bool TabularHeaderItem::insertBefore() const
+{
+	return m_InsertBefore;
+}
+
+bool TabularHeaderItem::insertAfter() const
+{
+	return m_InsertAfter;
+}
+
+bool TabularHeaderItem::suppressSpace() const
+{
+	return m_SuppressSpace;
+}
+
+bool TabularHeaderItem::dontSuppressSpace() const
+{
+	return m_DontSuppressSpace;
+}
+
+
 QMenu* TabularHeaderItem::popupMenu() const
 {
 	return m_Popup;
@@ -575,25 +610,38 @@ void TabularHeaderItem::format()
 
 	QString text = "";
 
+	if(m_SuppressSpace) {
+		text += '@';
+	} else if(m_DontSuppressSpace) {
+		text += '!';
+	}
+	if(m_InsertBefore) {
+		text += '>';
+	}
+
 	switch(m_Alignment) {
 		case Qt::AlignLeft:
-			text += "l";
+			text += 'l';
 			break;
 		case Qt::AlignHCenter:
-			text += "c";
+			text += 'c';
 			break;
 		case Qt::AlignRight:
-			text += "r";
+			text += 'r';
 			break;
 		case AlignP:
-			text += "p{}";
+			text += 'p';
 			break;
 		case AlignB:
-			text += "b{}";
+			text += 'b';
 			break;
 		case AlignM:
-			text += "m{}";
+			text += 'm';
 			break;
+	}
+
+	if(m_InsertAfter) {
+		text += '<';
 	}
 
 	setText(text);
@@ -647,6 +695,38 @@ void TabularHeaderItem::slotAlignM()
 {
 	setAlignment(AlignM);
 	emit alignColumn(Qt::AlignLeft);
+}
+
+void TabularHeaderItem::slotDeclPre()
+{
+	m_InsertBefore = m_acDeclPre->isChecked();
+	format();
+}
+
+void TabularHeaderItem::slotDeclPost()
+{
+	m_InsertAfter = m_acDeclPost->isChecked();
+	format();
+}
+
+void TabularHeaderItem::slotDeclAt()
+{
+	m_SuppressSpace = m_acDeclAt->isChecked();
+	if(m_SuppressSpace) {
+		m_DontSuppressSpace = false;
+		m_acDeclBang->setChecked(false);
+	}
+	format();
+}
+
+void TabularHeaderItem::slotDeclBang()
+{
+	m_DontSuppressSpace = m_acDeclBang->isChecked();
+	if(m_DontSuppressSpace) {
+		m_SuppressSpace = false;
+		m_acDeclAt->setChecked(false);
+	}
+	format();
 }
 //END
 

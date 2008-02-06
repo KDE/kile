@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "tabbingdialog.h"
+#include "dialogs/tabbingdialog.h"
 #include "editorextension.h"
 
 #include <KLocale>

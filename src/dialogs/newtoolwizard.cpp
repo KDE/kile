@@ -11,7 +11,7 @@
 *                                                                         *
 ***************************************************************************/
 
-#include "newtoolwizard.h"
+#include "dialogs/newtoolwizard.h"
 
 #include "kiletoolmanager.h"
 

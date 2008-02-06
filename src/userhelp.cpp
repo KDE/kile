@@ -29,7 +29,7 @@
 #include <kmimetype.h>
 #include "kiledebug.h"
 
-#include "userhelpdialog.h"
+#include "dialogs/userhelpdialog.h"
 #include "kileconfig.h"
 
 #ifdef __GNUC__

@@ -43,7 +43,7 @@
 #include "widgets/librarytoolconfigwidget.h"
 #include "widgets/quicktoolconfigwidget.h"
 #include "widgets/latextoolconfigwidget.h"
-#include "newtoolwizard.h"
+#include "dialogs/newtoolwizard.h"
 
 #ifdef __GNUC__
 #warning The code in this file still needs to be checked!

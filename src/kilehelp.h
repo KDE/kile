@@ -27,7 +27,7 @@
 #include "editorextension.h"
 
 #include "userhelp.h"
-#include "texdocdialog.h"
+#include "dialogs/texdocumentationdialog.h"
 #include "dialogs/usertagsdialog.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"

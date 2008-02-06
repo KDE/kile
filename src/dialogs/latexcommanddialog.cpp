@@ -18,7 +18,7 @@
 
 // kommandos mit weiteren Parametern
 
-#include "latexcmddialog.h"
+#include "dialogs/latexcommanddialog.h"
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -985,4 +985,4 @@ void LatexCommandsDialog::setListviewStates(bool states[])
 
 
 }
-#include "latexcmddialog.moc"
+#include "latexcommanddialog.moc"

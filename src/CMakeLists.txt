@@ -12,23 +12,23 @@ ADD_DEFINITIONS(-DQT3_SUPPORT)
 SET(kile_SRCS
 	${kile_SRCS}
 	latexcmd.cpp
-	latexcmddialog.cpp
-	texdocdialog.cpp
+	dialogs/latexcommanddialog.cpp
+	dialogs/texdocumentationdialog.cpp
 	userhelp.cpp
-	userhelpdialog.cpp
+	dialogs/userhelpdialog.cpp
 	dialogs/floatdialog.cpp
-	mathenvdialog.cpp
+	dialogs/mathenvironmentdialog.cpp
 	tabulardialog.cpp
-	postscriptdialog.cpp
+	dialogs/postscriptdialog.cpp
 	widgets/previewconfigwidget.cpp
 	quickpreview.cpp
 	dialogs/includegraphicsdialog.cpp
-	newfilewizard.cpp
+	dialogs/newfilewizard.cpp
 	dialogs/managetemplatesdialog.cpp
 	templates.cpp
 	dialogs/usertagsdialog.cpp
 	dialogs/configurationdialog.cpp
-	tabbingdialog.cpp
+	dialogs/tabbingdialog.cpp
 	widgets/symbolview.cpp
 	dialogs/quickdocumentdialog.cpp
 	widgets/filebrowserwidget.cpp
@@ -102,17 +102,17 @@ SET( kile_UI
 	widgets/processtoolconfigwidget.ui
 	widgets/quicktoolconfigwidget.ui
 	widgets/latextoolconfigwidget.ui
-	newtoolwizard_class_page.ui
-	newtoolwizard_toolname_page.ui
+	dialogs/newtoolwizard_class_page.ui
+	dialogs/newtoolwizard_toolname_page.ui
 	widgets/environmentconfigwidget.ui
 	widgets/structureviewconfigwidget.ui
 	widgets/symbolviewconfigwidget.ui
 	widgets/scriptingconfigwidget.ui
 	widgets/graphicsconfigwidget.ui
 	widgets/newdocumentwidget.ui
-	tabbingdialog_base.ui
+	dialogs/tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
-	postscriptdialog_base.ui
+	dialogs/postscriptdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 )
 
@@ -126,7 +126,7 @@ SET( kile_UI_SRCS
 	widgets/latextoolconfigwidget.cpp
 	widgets/librarytoolconfigwidget.cpp
 	widgets/newdocumentwidget.cpp
-	newtoolwizard.cpp
+	dialogs/newtoolwizard.cpp
 	widgets/processtoolconfigwidget.cpp
 	widgets/quicktoolconfigwidget.cpp
 	widgets/scriptingconfigwidget.cpp

@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "newfilewizard.h"
+#include "dialogs/newfilewizard.h"
 
 #include <qcombobox.h>
 #include <qlayout.h>

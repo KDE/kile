@@ -17,7 +17,7 @@
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
 
-#include "postscriptdialog.h"
+#include "dialogs/postscriptdialog.h"
 
 #include <QLabel>
 #include <QCheckBox>

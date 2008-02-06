@@ -53,7 +53,7 @@
 #include "kileeventfilter.h"
 #include "kileuntitled.h"
 #include "templates.h"
-#include "newfilewizard.h"
+#include "dialogs/newfilewizard.h"
 #include "dialogs/managetemplatesdialog.h"
 #include "kileinfo.h"
 #include "scriptmanager.h"

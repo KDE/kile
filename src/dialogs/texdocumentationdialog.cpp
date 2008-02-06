@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "texdocdialog.h"
+#include "dialogs/texdocumentationdialog.h"
 
 #include <QBoxLayout>
 #include <QDesktopWidget>
@@ -688,4 +688,4 @@ QString TexDocDialog::getIconName(const QString &filename)
 
 
 }
-#include "texdocdialog.moc"
+#include "texdocumentationdialog.moc"

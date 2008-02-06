@@ -13,7 +13,7 @@
 
 #include "latexconfigwidget.h"
 
-#include "latexcmddialog.h"
+#include "dialogs/latexcommanddialog.h"
 
 KileWidgetLatexConfig::KileWidgetLatexConfig(QWidget *parent) : QWidget(parent)
 {

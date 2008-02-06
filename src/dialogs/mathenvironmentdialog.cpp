@@ -16,7 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "mathenvdialog.h"
+#include "mathenvironmentdialog.h"
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -390,4 +390,4 @@ void MathEnvironmentDialog::slotButtonClicked(int button)
 
 }
 
-#include "mathenvdialog.moc"
+#include "mathenvironmentdialog.moc"

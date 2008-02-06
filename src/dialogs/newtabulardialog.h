@@ -172,6 +172,7 @@ class NewTabularDialog : public Wizard {
 
 	public Q_SLOTS:
 		int exec();
+		void slotButtonClicked(int button);
 
 	private Q_SLOTS:
 		void updateColsAndRows();

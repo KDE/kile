@@ -1021,6 +1021,39 @@ int NewTabularDialog::exec()
 	return Wizard::exec();
 }
 
+void NewTabularDialog::slotButtonClicked(int button)
+{
+	if(button == KDialog::Ok) {
+		/* environment */
+		QString environment = m_cmbName->currentText();
+		QString environmentFormatted = environment;
+		if(m_cbStarred->isChecked()) {
+			environmentFormatted += '*';
+		}
+
+		/* center tabular? */
+		if(m_cbCenter->isChecked()) {
+			m_td.tagBegin += "\\begin{center}\n";
+		}
+
+		/* build table parameter */
+		QString tableParameter = "";
+		if(m_cmbParameter->currentIndex() != 0) {
+			tableParameter = "[" + m_cmbParameter->currentText() + "]";
+		}
+
+		m_td.tagBegin += QString("\\begin{%1}%2\n").arg(environmentFormatted).arg(tableParameter);
+		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
+
+		/* center tabular? */
+		if(m_cbCenter->isChecked()) {
+			m_td.tagEnd += "\\end{center}\n";
+		}
+	}
+
+	Wizard::slotButtonClicked(button);
+}
+
 void NewTabularDialog::updateColsAndRows()
 {
 	int addedCols = m_sbCols->value() - m_Table->columnCount();
@@ -1115,6 +1148,7 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 		// option
 		if(attr.option.indexOf('[') == 0) {
 			QStringList optionlist = attr.option.split("");
+			optionlist.removeAll("");
 			if(optionlist.count() > 2) {
 				// ok, let's enable it
 				m_cmbParameter->setEnabled(true);

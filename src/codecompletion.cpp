@@ -634,7 +634,7 @@ namespace KileDocument
 				KILE_DEBUG() << "   auto completion: continue current mode";
 				completeWord(view, range, m_mode);
 			}
-			else if(word.at(0) == '\\' && m_autocomplete && wordlen >= m_latexthreshold) {
+			else if(wordlen >= m_latexthreshold && word.at(0) == '\\' && m_autocomplete) {
 				KILE_DEBUG() << "   auto completion: latex mode";
 				if(text.at(0).isLetter()) {
 					completeWord(view, range, cmLatex);
@@ -643,7 +643,7 @@ namespace KileDocument
 					editCompleteList(type);
 				}
 			}
-			else if(word.at(0).isLetter() && m_autocompletetext && wordlen >= m_textthreshold) {
+			else if(wordlen >= m_textthreshold && word.at(0).isLetter() && m_autocompletetext) {
 				KILE_DEBUG() << "   auto completion: document mode";
 				completeWord(view, range, cmDocumentWord);
 			}

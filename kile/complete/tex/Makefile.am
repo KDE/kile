@@ -79,6 +79,7 @@ texcomplete_DATA = \
 	setspace.cwl \
 	subfig.cwl \
 	supertabular.cwl \
+	svninfo.cwl \
 	tabularx.cwl \
 	tex.cwl \
 	textcomp.cwl \

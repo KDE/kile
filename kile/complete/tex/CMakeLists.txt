@@ -82,6 +82,7 @@ SET(kile_texCompleteFiles
 	subfig.cwl
 	supertabular.cwl
 	svninfo.cwl
+	svn-multi.cwl
 	tabularx.cwl
 	tex.cwl
 	textcomp.cwl

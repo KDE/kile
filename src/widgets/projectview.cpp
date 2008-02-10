@@ -1,10 +1,8 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : Tue Aug 12 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-                           (C) 2006 by Michel Ludwig
-    email                : Jeroen.Wijnhout@kdemail.net
-                           michel.ludwig@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2006, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -17,18 +15,15 @@
 
 #include "widgets/projectview.h"
 
-#include <q3header.h>
+#include <QHeaderView>
 #include <QList>
 
-#include <QDropEvent>
-
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kiconloader.h>
-#include <kmenu.h>
-#include <kurl.h>
-#include <krun.h>
-#include <kmimetype.h>
+#include <KIcon>
+#include <KLocale>
+#include <KMenu>
+#include <KMimeType>
+#include <KRun>
+#include <KUrl>
 
 #include "kileinfo.h"
 #include "documentinfo.h"
@@ -44,11 +39,86 @@ namespace KileWidget {
 /*
  * ProjectViewItem
  */
+ProjectViewItem::ProjectViewItem(QTreeWidget *parent, KileProjectItem *item, bool ar)
+: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_folder(-1), m_projectItem(item)
+{
+	setArchiveState(ar);
+}
+
+ProjectViewItem::ProjectViewItem(QTreeWidget *parent, QTreeWidgetItem *after, KileProjectItem *item, bool ar)
+: QTreeWidgetItem(parent, after), m_folder(-1), m_projectItem(item)
+{
+	setText(0, item->url().fileName());
+	setArchiveState(ar);
+}
+
+ProjectViewItem::ProjectViewItem(QTreeWidgetItem *parent, KileProjectItem *item, bool ar)
+: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_folder(-1), m_projectItem(item)
+{
+	setArchiveState(ar);
+}
+
+//use this to create folders
+ProjectViewItem::ProjectViewItem(QTreeWidgetItem *parent, const QString& name)
+: QTreeWidgetItem(parent, QStringList(name)), m_folder(-1), m_projectItem(NULL)
+{
+}
+
+//use this to create non-project files
+ProjectViewItem::ProjectViewItem(QTreeWidget *parent, const QString& name)
+: QTreeWidgetItem(parent, QStringList(name)), m_folder(-1), m_projectItem(NULL)
+{
+}
+
+ProjectViewItem::ProjectViewItem(QTreeWidget *parent, const KileProject *project)
+: QTreeWidgetItem(parent, QStringList(project->name())), m_folder(-1), m_projectItem(NULL)
+{
+}
+
+ProjectViewItem::~ProjectViewItem()
+{
+	KILE_DEBUG() << "DELETING PROJVIEWITEM " << m_url.fileName();
+}
+
+KileProjectItem* ProjectViewItem::projectItem()
+{
+	return m_projectItem;
+}
+
+ProjectViewItem* ProjectViewItem::parent()
+{
+	return dynamic_cast<ProjectViewItem*>(QTreeWidgetItem::parent());
+}
+
+ProjectViewItem* ProjectViewItem::firstChild()
+{
+	return dynamic_cast<ProjectViewItem*>(QTreeWidgetItem::child(0));
+}
+
+void ProjectViewItem::setInfo(KileDocument::Info *docinfo)
+{
+	m_docinfo = docinfo;
+}
+
+KileDocument::Info* ProjectViewItem::getInfo()
+{
+	return m_docinfo;
+}
+
+void ProjectViewItem::setType(KileType::ProjectView type)
+{
+	m_type = type;
+}
+
+KileType::ProjectView ProjectViewItem::type() const
+{
+	return m_type;
+}
+
 void ProjectViewItem::urlChanged(const KUrl &url)
 {
 	// don't allow empty URLs
-	if(!url.isEmpty()) 
-	{
+	if(!url.isEmpty()) {
 		setURL(url);
 		setText(0, url.fileName());
 	}
@@ -61,19 +131,20 @@ void ProjectViewItem::nameChanged(const QString & name)
 
 void ProjectViewItem::isrootChanged(bool isroot)
 {
-	KILE_DEBUG() << "SLOT isrootChanged " << text(0) << " to " << isroot << endl;
-	if (isroot)
-	{
-		setPixmap(0,SmallIcon("masteritem"));
+	KILE_DEBUG() << "SLOT isrootChanged " << text(0) << " to " << isroot;
+	if(isroot) {
+		setIcon(0, KIcon("masteritem"));
 	}
-	else
-	{
-		if ( text(0).right(7) == ".kilepr" )
-			setPixmap(0,SmallIcon("kile"));
-		else if (type() == KileType::ProjectItem)
-			setPixmap(0,SmallIcon("projectitem"));
-		else
-			setPixmap(0,SmallIcon("file"));
+	else {
+		if(text(0).right(7) == ".kilepr") {
+			setIcon(0, KIcon("kile"));
+		}
+		else if(type() == KileType::ProjectItem) {
+			setIcon(0, KIcon("projectitem"));
+		}
+		else {
+			setIcon(0, KIcon("file"));
+		}
 	}
 }
 
@@ -82,73 +153,111 @@ void ProjectViewItem::slotURLChanged(KileDocument::Info*, const KUrl & url)
 	urlChanged(url);
 }
 
-int ProjectViewItem::compare(Q3ListViewItem * i, int col, bool ascending) const
+bool ProjectViewItem::operator<(const QTreeWidgetItem& other) const
 {
-	ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(i);
-
-	// sort: 
-	//  - first:  container items in fixed order (projectfile, packages, images, other)
-	//  - second: root items without container (sorted in ascending order)
-	if ( item->type() == KileType::Folder )
-	{
-		if ( type() != KileType::Folder ) 
-			return 1;
-		else 
-			return ( m_folder < item->folder() ) ? -1 : 1;
+	try {
+		const ProjectViewItem& otherItem = dynamic_cast<const ProjectViewItem&>(other);
+	
+		// sort:
+		//  - first:  container items in fixed order (projectfile, packages, images, other)
+		//  - second: root items without container (sorted in ascending order)
+		if(otherItem.type() == KileType::Folder) {
+			if(otherItem.type() != KileType::Folder) {
+				return true;
+			}
+			else {
+				return (m_folder < otherItem.folder()) ? false : true;
+			}
+		}
+		else if(type() == KileType::Folder) {
+			return false;
+		}
+		else {
+			return QTreeWidgetItem::operator<(other);
+		}
 	}
-	else if ( type() == KileType::Folder ) 
-		return -1;
-	else 
-		return Q3ListViewItem::compare(i, col, ascending);
+	catch(std::bad_cast&) {
+		return QTreeWidgetItem::operator<(other);
+	}
+}
+
+void ProjectViewItem::setURL(const KUrl & url)
+{
+	m_url = url;
+}
+
+const KUrl& ProjectViewItem::url()
+{
+	return m_url;
+}
+
+void ProjectViewItem::setArchiveState(bool ar)
+{
+	setText(1, ar ? "*" : "");
+}
+
+void ProjectViewItem::setFolder(int folder)
+{
+	m_folder = folder;
+}
+
+int ProjectViewItem::folder() const
+{
+	return m_folder;
 }
 
 /*
  * ProjectView
  */
-ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : K3ListView(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
+ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
 {
-	addColumn(i18n("Files & Projects"),-1);
-	addColumn(i18n("Include in Archive"),10);
- 	setSorting(-1);
+	setColumnCount(2);
+	QStringList labelList;
+	labelList << i18n("Files & Projects") << i18n("Include in Archive");
+	setHeaderLabels(labelList);
+	setColumnWidth(1, 10);
+
 	setFocusPolicy(Qt::ClickFocus);
 	header()->hide();
+	header()->setResizeMode(QHeaderView::ResizeToContents);
 	setRootIsDecorated(true);
 	setAllColumnsShowFocus(true);
-	setFullWidth(true);
-	setSelectionModeExt(K3ListView::NoSelection);
+	setSelectionMode(QTreeWidget::NoSelection);
 
 	m_popup = new KMenu(this);
 
-	connect(this, SIGNAL(contextMenu(K3ListView *, Q3ListViewItem *, const QPoint & )), this,SLOT(popup(K3ListView *, Q3ListViewItem * , const QPoint & )));
+	connect(this, SIGNAL(contextMenu(QTreeWidget*, QTreeWidgetItem*, const QPoint&)), this,SLOT(popup(QTreeWidget *, QTreeWidgetItem * , const QPoint & )));
 
-	connect(this, SIGNAL(executed(Q3ListViewItem*)), this, SLOT(slotClicked(Q3ListViewItem*)));
+	connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotClicked(QTreeWidgetItem*)));
 	setAcceptDrops(true);
-	connect(this, SIGNAL(dropped(QDropEvent *, Q3ListViewItem *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
+	connect(this, SIGNAL(dropped(QDropEvent*, QTreeWidgetItem*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 }
 
-void ProjectView::slotClicked(Q3ListViewItem *item)
+void ProjectView::slotClicked(QTreeWidgetItem *item)
 {
-	if (item == 0)
+	if(!item) {
 		item = currentItem();
+	}
 
 	ProjectViewItem *itm = static_cast<ProjectViewItem*>(item);
-	if (itm)
-	{
-		if (itm->type() == KileType::File )
+	if(itm) {
+		if(itm->type() == KileType::File) {
 			emit(fileSelected(itm->url()));
-		else if ( itm->type() == KileType::ProjectItem )
+		}
+		else if(itm->type() == KileType::ProjectItem) {
 			emit(fileSelected(itm->projectItem()));
-		else if ( itm->type() != KileType::Folder )
-		{
+		}
+		else if(itm->type() != KileType::Folder) {
 			// don't open project configuration files (*.kilepr)
-			if ( itm->url().path().right(7) != ".kilepr" )
-			{
+			if(itm->url().path().right(7) != ".kilepr") {
 				//determine mimeType and open file with preferred application
 				KMimeType::Ptr pMime = KMimeType::findByUrl(itm->url());
-				if ( pMime->name().startsWith("text/") )
+				if(pMime->name().startsWith("text/")) {
 					emit(fileSelected(itm->url()));
-				else
+				}
+				else {
 					KRun::runUrl(itm->url(), pMime->name(), this);
+				}
 			}
 		}
 		clearSelection();
@@ -158,17 +267,23 @@ void ProjectView::slotClicked(Q3ListViewItem *item)
 void ProjectView::slotFile(int id)
 {
 	ProjectViewItem *item = static_cast<ProjectViewItem*>(currentItem());
-	if (item )
-	{
-		if ( item->type() == KileType::File )
-		{
-			switch (id)
-			{
-				case KPV_ID_OPEN : emit(fileSelected(item->url())); break;
-				case KPV_ID_SAVE : emit(saveURL(item->url())); break;
-				case KPV_ID_ADD : emit(addToProject(item->url())); break;
-				case KPV_ID_CLOSE : emit(closeURL(item->url())); return; //don't access "item" later on
-				default : break;
+	if(item) {
+		if(item->type() == KileType::File) {
+			switch(id) {
+				case KPV_ID_OPEN: 
+					emit(fileSelected(item->url()));
+				break;
+				case KPV_ID_SAVE:
+					emit(saveURL(item->url()));
+				break;
+				case KPV_ID_ADD:
+					emit(addToProject(item->url()));
+				break;
+				case KPV_ID_CLOSE:
+					emit(closeURL(item->url()));
+				return; //don't access "item" later on
+				default:
+				break;
 			}
 		}
 	}
@@ -177,27 +292,35 @@ void ProjectView::slotFile(int id)
 void ProjectView::slotProjectItem(int id)
 {
 	ProjectViewItem *item = static_cast<ProjectViewItem*>(currentItem());
-	if ( item )
-	{
-		if ( item->type()==KileType::ProjectItem || item->type()==KileType::ProjectExtra )
-		{
-			switch (id)
-			{
-				case KPV_ID_OPEN : emit(fileSelected(item->projectItem())); break;
-				case KPV_ID_SAVE : emit(saveURL(item->url())); break;
-				case KPV_ID_REMOVE :
+	if(item) {
+		if(item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra) {
+			switch(id) {
+				case KPV_ID_OPEN:
+					emit(fileSelected(item->projectItem()));
+				break;
+				case KPV_ID_SAVE:
+					emit(saveURL(item->url()));
+				break;
+				case KPV_ID_REMOVE:
 					emit(removeFromProject(item->projectItem()));
-					break;
+				break;
 				case KPV_ID_INCLUDE :
-					if (item->text(1) == "*") item->setText(1,"");
-					else item->setText(1,"*");
+					if(item->text(1) == "*") {
+						item->setText(1, "");
+					}
+					else {
+						item->setText(1, "*");
+					}
 					emit(toggleArchive(item->projectItem()));
-					break;
-				case KPV_ID_CLOSE : emit(closeURL(item->url())); break; //we can access "item" later as it isn't deleted
-				case KPV_ID_OPENWITH :
+				break;
+				case KPV_ID_CLOSE:
+					emit(closeURL(item->url()));
+				break; //we can access "item" later as it isn't deleted
+				case KPV_ID_OPENWITH:
 					KRun::displayOpenWithDialog(item->url(), this);
-					break;
-				default : break;
+				break;
+				default:
+				break;
 			}
 		}
 	}
@@ -206,19 +329,29 @@ void ProjectView::slotProjectItem(int id)
 void ProjectView::slotProject(int id)
 {
 	ProjectViewItem *item = static_cast<ProjectViewItem*>(currentItem());
-	if ( item )
-	{
-		if ( item->type() == KileType::Project )
-		{
-			switch (id)
-			{
-				case KPV_ID_BUILDTREE : emit(buildProjectTree(item->url())); break;
-				case KPV_ID_OPTIONS : emit(projectOptions(item->url())); break;
-				case KPV_ID_CLOSE : emit(closeProject(item->url())); return; //don't access "item" later on
-				case KPV_ID_ARCHIVE : emit(projectArchive(item->url())); break;
-				case KPV_ID_ADDFILES : emit(addFiles(item->url())); break;
-				case KPV_ID_OPENALLFILES : emit(openAllFiles(item->url())); break;
-				default : break;
+	if(item) {
+		if(item->type() == KileType::Project) {
+			switch(id) {
+				case KPV_ID_BUILDTREE:
+					emit(buildProjectTree(item->url()));
+				break;
+				case KPV_ID_OPTIONS:
+					emit(projectOptions(item->url()));
+				break;
+				case KPV_ID_CLOSE:
+					emit(closeProject(item->url()));
+				return; //don't access "item" later on
+				case KPV_ID_ARCHIVE:
+					emit(projectArchive(item->url()));
+				break;
+				case KPV_ID_ADDFILES:
+					emit(addFiles(item->url()));
+				break;
+				case KPV_ID_OPENALLFILES:
+					emit(openAllFiles(item->url()));
+				break;
+				default:
+				break;
 			}
 		}
 	}
@@ -228,17 +361,19 @@ void ProjectView::slotRun(int id)
 {
 	ProjectViewItem *itm = static_cast<ProjectViewItem*>(currentItem());
 
-	if (id == 0)
+	if(id == 0) {
 		KRun::displayOpenWithDialog(itm->url(), this);
-	else
+	}
+	else {
 		KRun::run(*m_offerList[id-1], itm->url(), this);
+	}
 
 	itm->setSelected(false);
 }
 
 //FIXME clean this mess up
-void ProjectView::popup(K3ListView *, Q3ListViewItem *  item, const QPoint &  point)
-{
+// void ProjectView::popup(QTreeWidget *, QTreeWidgetItem *  item, const QPoint &  point)
+// {
 #ifdef __GNUC__
 #warning The popup menu still needs to be ported!
 #endif
@@ -340,16 +475,16 @@ void ProjectView::popup(K3ListView *, Q3ListViewItem *  item, const QPoint &  po
 		m_popup->exec(point);
 	}
 */
-}
+// }
 
 void ProjectView::makeTheConnection(ProjectViewItem *item)
 {
-	KILE_DEBUG() << "\tmakeTheConnection " << item->text(0) << endl;
+	KILE_DEBUG() << "\tmakeTheConnection " << item->text(0);
 
 	if (item->type() == KileType::Project) {
 		KileProject *project = m_ki->docManager()->projectFor(item->url());
 		if (!project) {
-			kWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path() << endl;
+			kWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path();
 		}
 		else {
 			connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
@@ -358,7 +493,10 @@ void ProjectView::makeTheConnection(ProjectViewItem *item)
 	else {
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().path());
 		item->setInfo(docinfo);
-		if (docinfo ==0 ) {KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO" << endl; return;}
+		if(!docinfo) {
+			KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO";
+			return;
+		}
 		connect(docinfo, SIGNAL(urlChanged(KileDocument::Info*, const KUrl&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KUrl&)));
 		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
@@ -370,15 +508,15 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 {
 	ProjectViewItem *parent = parentFor(pi, item);
 
-	if (parent == 0)
-	{
-		kError() << "no parent for " << pi->url().path() << endl;
-		return 0;
+	if(!parent) {
+		kError() << "no parent for " << pi->url().path();
+		return NULL;
 	}
 
 	// we have already found the parent folder
-	if ( parent->type() == KileType::Folder )
+	if(parent->type() == KileType::Folder) {
 		return parent;
+	}
 
 	// we are looking at the children, if there is an existing folder for this type
 	ProjectViewItem *folder;
@@ -403,22 +541,21 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 
 	// if there already a folder for this type on this level?
 	bool found = false;
-	folder = parent->firstChild();
-	while ( folder )
-	{
-		if ( folder->text(0) == foldername )
-		{
+	QTreeWidgetItemIterator it(parent);
+	++it; // skip 'parent'
+	while(*it) {
+		folder = dynamic_cast<ProjectViewItem*>(*it);
+		if(folder && folder->text(0) == foldername) {
 			found = true;
 			break;
 		}
-		folder = folder->nextSibling();
+		++it;
 	}
 	
 	// if no folder was found, we must create a new one
-	if ( ! found )
-	{
+	if(!found) {
 		folder = new ProjectViewItem(parent,foldername);
-		KILE_DEBUG() << "new folder: " << parent->url().url() << endl;
+		KILE_DEBUG() << "new folder: " << parent->url().url();
 
 		folder->setFolder(pi->type());
 		folder->setType(KileType::Folder);
@@ -433,8 +570,8 @@ void ProjectView::add(const KileProject *project)
 	
 	parent->setType(KileType::Project);
 	parent->setURL(project->url());
-	parent->setOpen(true);
-	parent->setPixmap(0,SmallIcon("relation"));
+	parent->setExpanded(true);
+	parent->setIcon(0, KIcon("relation"));
 	makeTheConnection(parent);
 
 	//ProjectViewItem *nonsrc = new ProjectViewItem(parent, i18n("non-source"));
@@ -445,18 +582,20 @@ void ProjectView::add(const KileProject *project)
 	++m_nProjects;
 }
 
-ProjectViewItem * ProjectView::projectViewItemFor(const KUrl & url)
+ProjectViewItem * ProjectView::projectViewItemFor(const KUrl& url)
 {
-	ProjectViewItem *item = 0;
+	ProjectViewItem *item = NULL;
 
 	//find project view item
-	item = static_cast<ProjectViewItem*>(firstChild());
+	QTreeWidgetItemIterator it(this);
+	++it; // skip 'this'
 
-	while ( item)
-	{
-		if ( (item->type() == KileType::Project) && (item->url() == url) )
+	while(*it) {
+		item = dynamic_cast<ProjectViewItem*>(*it);
+		if(item && (item->type() == KileType::Project) && (item->url() == url)) {
 			break;
-		item = static_cast<ProjectViewItem*>(item->nextSibling());
+		}
+		++it;
 	}
 
 	return item;
@@ -466,12 +605,12 @@ ProjectViewItem * ProjectView::itemFor(const KUrl & url)
 {
 	ProjectViewItem *item=0;
 
-	Q3ListViewItemIterator it(this);
-	while (it.current())
-	{
+	QTreeWidgetItemIterator it(this);
+	while(*it) {
 		item = static_cast<ProjectViewItem*>(*it);
-		if (item->url() == url)
+		if (item->url() == url) {
 			break;
+		}
 		++it;
 	}
 
@@ -486,14 +625,12 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
 
 	if (parpi) {
 		//find parent viewitem that has an URL parpi->url()
-		Q3ListViewItemIterator it( projvi );
-		KILE_DEBUG() << "\tlooking for " << parpi->url().path() << endl;
-		while (it.current())
-		{
+		QTreeWidgetItemIterator it(projvi);
+		KILE_DEBUG() << "\tlooking for " << parpi->url().path();
+		while(*it) {
 			vi = static_cast<ProjectViewItem*>(*it);
-			KILE_DEBUG() << "\t\t" << vi->url().path() << endl;
-			if (vi->url() == parpi->url())
-			{
+			KILE_DEBUG() << "\t\t" << vi->url().path();
+			if (vi->url() == parpi->url()) {
 				parpvi = vi;
 				KILE_DEBUG() << "\t\tfound" <<endl;
 				break;
@@ -501,26 +638,29 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
 			++it;
 		}
 
-		KILE_DEBUG() << "\t\tnot found" << endl;
+		KILE_DEBUG() << "\t\tnot found";
 	}
 	else {
-		KILE_DEBUG() << "\tlooking for folder type " << projitem->type() << endl;
-		for (parpvi = parpvi->firstChild(); parpvi; parpvi = parpvi->nextSibling())
-		{
-			if ( (parpvi->type() == KileType::Folder) && (parpvi->folder() == projitem->type()) )
-			{
-				KILE_DEBUG() << "\t\tfound" << endl;
+		KILE_DEBUG() << "\tlooking for folder type " << projitem->type();
+		QTreeWidgetItemIterator it(projvi);
+		++it; // skip projvi
+		while(*it) {
+			ProjectViewItem *child = dynamic_cast<ProjectViewItem*>(*it);
+			if(child && (child->type() == KileType::Folder) && (child->folder() == projitem->type())) {
+				KILE_DEBUG() << "\t\tfound";
+				parpvi = child;
 				break;
 			}
+			++it;
 		}
 	}
 
-	return (parpvi == 0) ? projvi : parpvi;
+	return (!parpvi) ? projvi : parpvi;
 }
 
 ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * projvi /* = 0*/)
 {
-	KILE_DEBUG() << "\tProjectView::adding projectitem " << projitem->path() << endl;
+	KILE_DEBUG() << "\tProjectView::adding projectitem " << projitem->path();
 
 	const KileProject *project = projitem->project();
 
@@ -528,7 +668,7 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * p
 		projvi = projectViewItemFor(project->url());
 	}
 
-	KILE_DEBUG() << "\tparent projectviewitem " << projvi->url().fileName() << endl;
+	KILE_DEBUG() << "\tparent projectviewitem " << projvi->url().fileName();
 
 	ProjectViewItem *item, *parent;
 
@@ -536,28 +676,28 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * p
 	case (KileProjectItem::Source):
 		item = new ProjectViewItem(projvi, projitem);
 		item->setType(KileType::ProjectItem);
-		item->setPixmap(0,SmallIcon("projectitem"));
-		break;
+		item->setIcon(0, KIcon("projectitem"));
+	break;
 	case (KileProjectItem::Package):
 		parent = folder(projitem, projvi);
 		item = new ProjectViewItem(parent, projitem);
 		item->setType(KileType::ProjectItem);
-		item->setPixmap(0,SmallIcon("projectitem"));
-		break;
+		item->setIcon(0, KIcon("projectitem"));
+	break;
 	case (KileProjectItem::ProjectFile):
 	default:
 		parent = folder(projitem, projvi);
 		item = new ProjectViewItem(parent, projitem);
 		item->setType(KileType::ProjectExtra);
-		item->setPixmap(0,SmallIcon( (projitem->type()==KileProjectItem::ProjectFile) ? "kile" : "file" ));
-		break;
+		item->setIcon(0, KIcon((projitem->type()==KileProjectItem::ProjectFile) ? "kile" : "file"));
+	break;
 	}
 
 	item->setArchiveState(projitem->archive());
 	item->setURL(projitem->url());
 	makeTheConnection(item);
 
-	projvi->sortChildItems(0,true);
+	projvi->sortChildren(0, Qt::AscendingOrder);
 
 	return item;
 }
@@ -566,27 +706,29 @@ void ProjectView::addTree(KileProjectItem *projitem, ProjectViewItem * projvi)
 {
 	ProjectViewItem * item = add(projitem, projvi);
 
-	if (projitem->firstChild())
+	if(projitem->firstChild()) {
 		addTree(projitem->firstChild(), item);
+	}
 
-	if (projitem->sibling())
+	if (projitem->sibling()) {
 		addTree(projitem->sibling(), projvi);
+	}
 }
 
 void ProjectView::refreshProjectTree(const KileProject *project)
 {
-	KILE_DEBUG() << "\tProjectView::refreshProjectTree(" << project->name() << ")" << endl;
+	KILE_DEBUG() << "\tProjectView::refreshProjectTree(" << project->name() << ")";
 	ProjectViewItem *parent= projectViewItemFor(project->url());
 
 	//clean the tree
 	if(parent) {
-		KILE_DEBUG() << "\tusing parent projectviewitem " << parent->url().fileName() << endl;
+		KILE_DEBUG() << "\tusing parent projectviewitem " << parent->url().fileName();
 		parent->setFolder(-1);
-		Q3ListViewItem *vi = parent->firstChild(), *next;
-		while (vi) {
-			next = vi->nextSibling();
-			delete vi;
-			vi = next;
+		QTreeWidgetItemIterator it(parent);
+		++it; // skip 'parent'
+		while(*it) {
+			delete *it;
+			++it;
 		}
 	}
 	else {
@@ -597,27 +739,25 @@ void ProjectView::refreshProjectTree(const KileProject *project)
 	//ProjectViewItem *nonsrc = new ProjectViewItem(parent, i18n("non-sources"));
 	//parent->setNonSrc(nonsrc);
 
-
-
 	QList<KileProjectItem*> list = project->rootItems();
 	for(QList<KileProjectItem*>::iterator it = list.begin(); it != list.end(); ++it) {
 		addTree(*it, parent);
 	}
 
-	parent->sortChildItems(0, true);
+	parent->sortChildren(0, Qt::AscendingOrder);
 }
 
 void ProjectView::add(const KUrl& url)
 {
-	KILE_DEBUG() << "\tProjectView::adding item " << url.path() << endl;
+	KILE_DEBUG() << "\tProjectView::adding item " << url.path();
 	//check if file is already present
-	Q3ListViewItemIterator it( this );
+	QTreeWidgetItemIterator it(this);
 	ProjectViewItem *item;
-	while ( it.current())
-	{
+	while(*it) {
 		item = static_cast<ProjectViewItem*>(*it);
-		if ( (item->type() != KileType::Project) && (item->url() == url) )
+		if((item->type() != KileType::Project) && (item->url() == url)) {
 			return;
+		}
 		++it;
 	}
 
@@ -629,18 +769,15 @@ void ProjectView::add(const KUrl& url)
 
 void ProjectView::remove(const KileProject *project)
 {
-	ProjectViewItem *item = static_cast<ProjectViewItem*>(firstChild());
+	for(int i = 0; i < topLevelItemCount(); ++i) {
+		ProjectViewItem *item = static_cast<ProjectViewItem*>(topLevelItem(i));
 
-	while ( item)
-	{
-		if ( item->url() == project->url() )
-		{
-			takeItem(item);
+		if(item->url() == project->url()) {
+			removeChild(item);
 			delete item;
 			--m_nProjects;
 			break;
 		}
-		item = static_cast<ProjectViewItem*>(item->nextSibling());
 	}
 }
 
@@ -649,38 +786,32 @@ void ProjectView::remove(const KileProject *project)
  **/
 void ProjectView::remove(const KUrl &url)
 {
-	ProjectViewItem *item = static_cast<ProjectViewItem*>(firstChild());
+	for(int i = 0; i < topLevelItemCount(); ++i) {
+		ProjectViewItem *item = static_cast<ProjectViewItem*>(topLevelItem(i));
 
-	while ( item)
-	{
-		if ( (item->type() == KileType::File) && (item->url() == url) )
-		{
-			takeItem(item);
+		if((item->type() == KileType::File) && (item->url() == url)) {
+			removeChild(item);
 			delete item;
 			break;
 		}
-		item = static_cast<ProjectViewItem*>(item->nextSibling());
 	}
 }
 
 void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 {
-	Q3ListViewItemIterator it( this );
+	QTreeWidgetItemIterator it(this);
 	ProjectViewItem *item;
-	while ( it.current())
-	{
+	while(*it) {
 		item = static_cast<ProjectViewItem*>(*it);
-		if ( (item->type() == KileType::ProjectItem) && (item->projectItem() == projitem) )
-		{
-			KILE_DEBUG() << "removing projectviewitem" << endl;
-			item->parent()->takeItem(item);
+		if((item->type() == KileType::ProjectItem) && (item->projectItem() == projitem)) {
+			KILE_DEBUG() << "removing projectviewitem";
+			static_cast<QTreeWidgetItem*>(item->parent())->removeChild(item);
 			delete item;
 		}
 		++it;
 	}
 
-	if ( open )
-	{
+	if(open) {
 		item = new ProjectViewItem(this, projitem->url().fileName());
 		item->setType(KileType::File);
 		item->setURL(projitem->url());

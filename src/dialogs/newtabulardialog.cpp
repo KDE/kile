@@ -43,6 +43,7 @@
 #include <KMessageBox>
 #include <KPushButton>
 
+#include "codecompletion.h"
 #include "kiledebug.h"
 #include "latexcmd.h"
 
@@ -623,7 +624,7 @@ void TabularHeaderItem::format()
 {
 	setIcon(iconForAlignment(m_Alignment));
 
-	QString text = "";
+	QString text;
 
 	if(m_SuppressSpace) {
 		text += '@';
@@ -1024,6 +1025,13 @@ int NewTabularDialog::exec()
 void NewTabularDialog::slotButtonClicked(int button)
 {
 	if(button == KDialog::Ok) {
+		int rows = m_Table->rowCount();
+		int columns = m_Table->columnCount();
+
+		/* bullet */
+		QString bullet;
+		if(m_cbBullets) bullet = s_bullet;
+
 		/* environment */
 		QString environment = m_cmbName->currentText();
 		QString environmentFormatted = environment;
@@ -1037,12 +1045,67 @@ void NewTabularDialog::slotButtonClicked(int button)
 		}
 
 		/* build table parameter */
-		QString tableParameter = "";
+		QString tableParameter;
 		if(m_cmbParameter->currentIndex() != 0) {
 			tableParameter = "[" + m_cmbParameter->currentText() + "]";
 		}
 
-		m_td.tagBegin += QString("\\begin{%1}%2\n").arg(environmentFormatted).arg(tableParameter);
+		/* build table alignment */
+		QString tableAlignment = QString('{');
+		for(int column = 0; column < columns; ++column) {
+			TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column));
+			if(headerItem->suppressSpace()) {
+				tableAlignment += QString("@{%1}").arg(bullet);
+			} else if(headerItem->dontSuppressSpace()) {
+				tableAlignment += QString("!{%1}").arg(bullet);
+			}
+			if(headerItem->insertBefore()) {
+				tableAlignment += QString(">{%1}").arg(bullet);
+			}
+
+			switch(headerItem->alignment()) {
+				case Qt::AlignLeft:
+					tableAlignment += 'l';
+					break;
+				case Qt::AlignHCenter:
+					tableAlignment += 'c';
+					break;
+				case Qt::AlignRight:
+					tableAlignment += 'r';
+					break;
+				case TabularHeaderItem::AlignP:
+					tableAlignment += QString("p{%1}").arg(bullet);
+					break;
+				case TabularHeaderItem::AlignB:
+					tableAlignment += QString("b{%1}").arg(bullet);
+					break;
+				case TabularHeaderItem::AlignM:
+					tableAlignment += QString("m{%1}").arg(bullet);
+					break;
+				case TabularHeaderItem::AlignX:
+					tableAlignment += 'X';
+					break;
+			}
+
+			if(headerItem->insertAfter()) {
+				tableAlignment += QString("<{%1}").arg(bullet);
+			}
+		}
+		tableAlignment += '}';
+
+		m_td.tagBegin += QString("\\begin{%1}%2%3\n").arg(environmentFormatted).arg(tableParameter).arg(tableAlignment);
+
+		for(int row = 0; row < rows; ++row) {
+			for(int column = 0; column < columns; ++column) {
+				QString content = m_Table->item(row, column)->text();
+				if(content.isEmpty()) {
+					content = bullet;
+				}
+				QString sep = column < columns - 1 ? " & " : " \\\\\n";
+				m_td.tagBegin += content + sep;
+			}
+		}
+
 		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
 
 		/* center tabular? */

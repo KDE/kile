@@ -1,10 +1,9 @@
-/***************************************************************************
+/**************************************************************************************************
     begin                : Sun Dec 28 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-                               2005-2007  by Holger Danielsson
-    email                : Jeroen.Wijnhout@kdemail.net
-                         : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -17,42 +16,36 @@
 
 #ifndef STRUCTUREWIDGET_H
 #define STRUCTUREWIDGET_H
-  
- /**
-  * @author Jeroen Wijnhout, Holger Danielsson
-  **/
-
-#include <q3widgetstack.h>
-#include <qtooltip.h>
 
 #include <QList>
+#include <QStackedWidget>
+#include <QToolTip>
+#include <QTreeWidget>
 
-#include <k3listview.h>
-#include <kmenu.h>
-#include <kmimetypetrader.h>
+#include <KMenu>
+#include <KService>
 
 #include "documentinfo.h"
 
 //2007-02-15: dani
-// - class KileListViewItem not only saves the cursor position of the parameter,
+// - class StructureViewItem not only saves the cursor position of the parameter,
 //   but also the real cursor position of the command
 
-class QString;
-class KUrl;
 class KileInfo;
-class Q3ListViewItem;
 
 /**
  * ListView items that can hold some additional information appropriate for the Structure View. The
  * additional information is: line number, title string.
  **/
- 
-class KileListViewItem : public K3ListViewItem
+namespace KileWidget
+{
+
+class StructureViewItem : public QTreeWidgetItem
 {
 public:
-	KileListViewItem(Q3ListViewItem * parent, Q3ListViewItem * after, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
-	KileListViewItem(Q3ListView * parent, const QString & label);
-	KileListViewItem(Q3ListViewItem * parent, const QString & label);
+	StructureViewItem(QTreeWidgetItem* parent, QTreeWidgetItem * after, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
+	StructureViewItem(QTreeWidget* parent, const QString & label);
+	StructureViewItem(QTreeWidgetItem* parent, const QString & label);
 
 	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() const { return m_title; }
@@ -91,11 +84,11 @@ private:
 class KileListViewToolTip : public QWidget
 {
 public:
-	KileListViewToolTip(K3ListView *listview);
+	KileListViewToolTip(QTreeWidget *listview);
 protected:
 	void maybeTip(const QPoint &p);
 private:
-	K3ListView *m_listview;
+	QTreeWidget *m_listview;
 };
 
 class KileReferenceData
@@ -115,17 +108,15 @@ private:
 	uint m_column;
 };
 
-namespace KileWidget
-{
-	class Structure; //forward declaration
+	class StructureWidget; //forward declaration
 
-	class StructureList : public K3ListView
+	class StructureView : public QTreeWidget
 	{
 		Q_OBJECT
 
 	public:
-		StructureList(Structure *stack, KileDocument::Info *docinfo);
-		~StructureList();
+		StructureView(StructureWidget *stack, KileDocument::Info *docinfo);
+		~StructureView();
 
 		void activate();
 		void cleanUp(bool preserveState = true);
@@ -140,23 +131,23 @@ namespace KileWidget
 		void slotConfigChanged();
 
 	private:
-		KileListViewItem *parentFor(int lev, const QString & fldr);
+		StructureViewItem *parentFor(int lev, const QString & fldr);
 
 		void init();
-		KileListViewItem* createFolder(const QString &folder);
-		KileListViewItem* folder(const QString &folder);
+		StructureViewItem* createFolder(const QString &folder);
+		StructureViewItem* folder(const QString &folder);
 
 		void saveState();
-		bool shouldBeOpen(KileListViewItem *item, const QString & folder, int level);
+		bool shouldBeOpen(StructureViewItem *item, const QString & folder, int level);
 
 	private:
-		Structure							*m_stack;
-		KileDocument::Info					*m_docinfo;
-		QMap<QString, KileListViewItem *>	m_folders;
-		QMap<QString, bool>					m_openByTitle;
-		QMap<uint, bool>					m_openByLine;
-		QMap<QString, bool>					m_openByFolders;
-		KileListViewItem					*m_parent[7], *m_root;
+		StructureWidget				*m_stack;
+		KileDocument::Info			*m_docinfo;
+		QMap<QString, StructureViewItem *>	m_folders;
+		QMap<QString, bool>			m_openByTitle;
+		QMap<uint, bool>			m_openByLine;
+		QMap<QString, bool>			m_openByFolders;
+		StructureViewItem			*m_parent[7], *m_root;
 		QList<KileReferenceData> m_references;
 		bool m_openStructureLabels;
 		bool m_openStructureReferences;
@@ -166,21 +157,21 @@ namespace KileWidget
 
 		int m_lastType;
 		uint m_lastLine;
-		KileListViewItem *m_lastSectioning;
-		KileListViewItem *m_lastFloat;
-		KileListViewItem *m_lastFrame;
-		KileListViewItem *m_lastFrameEnv;
+		StructureViewItem *m_lastSectioning;
+		StructureViewItem *m_lastFloat;
+		StructureViewItem *m_lastFrame;
+		StructureViewItem *m_lastFrameEnv;
 		
 		bool m_stop;
 	};
 
-	class Structure : public Q3WidgetStack
+	class StructureWidget : public QStackedWidget
 	{
 		Q_OBJECT
 
 		public:
-			Structure(KileInfo *, QWidget * parent, const char * name = 0);
-			~Structure();
+			StructureWidget(KileInfo *, QWidget * parent, const char * name = 0);
+			~StructureWidget();
 
 			int level();
 			KileInfo *info() { return m_ki; }
@@ -196,9 +187,9 @@ namespace KileWidget
 		     };
 
 		public Q_SLOTS:
-			void slotClicked(Q3ListViewItem *);
-			void slotDoubleClicked(Q3ListViewItem *);
-			void slotPopup(K3ListView *, Q3ListViewItem *itm, const QPoint &point);
+			void slotClicked(QTreeWidgetItem *);
+			void slotDoubleClicked(QTreeWidgetItem *);
+// 			void slotPopup(QTreeWidget*, QTreeWidgetItem *itm, const QPoint &point);
 			void slotPopupActivated(int id);
 
 			void addDocumentInfo(KileDocument::Info *);
@@ -219,10 +210,10 @@ namespace KileWidget
 			void fileOpen(const KUrl &, const QString &);
 			void fileNew(const KUrl &);
 			void configChanged();
-			void sectioningPopup(KileListViewItem *item, int id);
+			void sectioningPopup(StructureViewItem *item, int id);
 
 		private:
-			StructureList* viewFor(KileDocument::Info *info);
+			StructureView* viewFor(KileDocument::Info *info);
 			bool viewExistsFor(KileDocument::Info *info);
 
 			void slotPopupLabel(int id);
@@ -230,13 +221,13 @@ namespace KileWidget
 			void slotPopupGraphics(int id);
 
 		private:
-			KileInfo									*m_ki;
-			KileDocument::Info							*m_docinfo;
-			QMap<KileDocument::Info *, StructureList *>	m_map;
-			StructureList								*m_default;
+			KileInfo							*m_ki;
+			KileDocument::Info						*m_docinfo;
+			QMap<KileDocument::Info *, StructureView*>			m_map;
+			StructureView							*m_default;
 			
 			KMenu *m_popup;
-			KileListViewItem *m_popupItem;
+			StructureViewItem *m_popupItem;
 			QString m_popupInfo;
 			
 			KService::List m_offerList;

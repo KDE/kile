@@ -80,7 +80,7 @@ class KileErrorHandler;
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogWidget; class Output; class Konsole; class Structure; class SideBar; class BottomBar; }
+namespace KileWidget { class LogWidget; class Output; class Konsole; class StructureWidget; class SideBar; class BottomBar; }
 
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem

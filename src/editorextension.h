@@ -123,7 +123,7 @@ public Q_SLOTS:
 
 	void gotoNextSectioning();
 	void gotoPrevSectioning();
-	void sectioningCommand(KileListViewItem *item, int id);
+	void sectioningCommand(KileWidget::StructureViewItem *item, int id);
 
 	bool insertDoubleQuotes();
 	void initDoubleQuotes();

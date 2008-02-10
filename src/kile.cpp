@@ -397,7 +397,7 @@ void Kile::setupProjectView()
 
 void Kile::setupStructureView()
 {
-	m_kwStructure = new KileWidget::Structure(this, m_sideBar);
+	m_kwStructure = new KileWidget::StructureWidget(this, m_sideBar);
 	m_sideBar->addPage(m_kwStructure, SmallIcon("view-list-tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));

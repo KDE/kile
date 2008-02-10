@@ -2733,7 +2733,7 @@ void EditorExtension::gotoSectioning(bool backwards, KTextEditor::View *view)
 
 //////////////////// sectioning popup ////////////////////
 
-void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
+void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int id)
 {
 	KTextEditor::View *view = determineView(NULL);
 	if(!view) {
@@ -2782,30 +2782,30 @@ void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 	QString text;
 	doc->startEditing();
 	switch (id) {
-		case KileWidget::Structure::SectioningCut:
+		case KileWidget::StructureWidget::SectioningCut:
 			KApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
 			doc->removeText(KTextEditor::Range(row1, col1, row2, col2));                                  // delete
 		break;
-		case KileWidget::Structure::SectioningCopy:
+		case KileWidget::StructureWidget::SectioningCopy:
 			KApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
 		break;
-		case KileWidget::Structure::SectioningPaste: 
+		case KileWidget::StructureWidget::SectioningPaste: 
 			text = KApplication::clipboard()->text();                              // clipboard -> text
 			if(!text.isEmpty()) {
 				view->setCursorPosition(KTextEditor::Cursor(row2, col2));                             // insert
 				view->insertText(text + '\n');
 			}
 		break;
-		case KileWidget::Structure::SectioningSelect:
+		case KileWidget::StructureWidget::SectioningSelect:
 			view->setSelection(KTextEditor::Range(row1, col1, row2, col2));                                // select
 		break;
-		case KileWidget::Structure::SectioningDelete:
+		case KileWidget::StructureWidget::SectioningDelete:
 			doc->removeText(KTextEditor::Range(row1, col1, row2, col2));                                  // delete
 		break;
-		case KileWidget::Structure::SectioningComment:
+		case KileWidget::StructureWidget::SectioningComment:
 			commentLaTeX(doc, KTextEditor::Range(row1, col1, row2, col2));
 		break;
-		case KileWidget::Structure::SectioningPreview: 
+		case KileWidget::StructureWidget::SectioningPreview: 
 			view->setSelection(KTextEditor::Range(row1, col1, row2, col2));                               // quick preview
 			m_ki->quickPreview()->previewSelection(view, false);
 			view->removeSelection();
@@ -2814,7 +2814,7 @@ void EditorExtension::sectioningCommand(KileListViewItem *item, int id)
 	doc->endEditing();
 
 	// update structure view, because it has changed
-	if(id == KileWidget::Structure::SectioningDelete || id == KileWidget::Structure::SectioningComment) {
+	if(id == KileWidget::StructureWidget::SectioningDelete || id == KileWidget::StructureWidget::SectioningComment) {
 		m_ki->viewManager()->updateStructure(true);
 	}
 

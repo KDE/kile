@@ -45,7 +45,7 @@ namespace KTextEditor { class Document;}
 
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
-namespace KileWidget { class Structure; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; class OutputView; class BottomBar; }
+namespace KileWidget { class StructureWidget; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; class OutputView; class BottomBar; }
 namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 namespace KileScript { class Manager; }
@@ -107,7 +107,7 @@ public:
 	
 	QString relativePath(const QString basepath, const QString & file);
 
-	KileWidget::Structure *structureWidget() { return m_kwStructure; }
+	KileWidget::StructureWidget *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::OutputView *outputWidget() { return m_outputWidget; }
 	KileWidget::BottomBar *outputView() { return m_bottomBar; }
@@ -170,7 +170,7 @@ protected:
 	LatexOutputFilter		*m_outputFilter;
 	LatexOutputInfoArray	*m_outputInfo;
 
-	KileWidget::Structure	*m_kwStructure;
+	KileWidget::StructureWidget	*m_kwStructure;
 	KileWidget::FileBrowserWidget 			*m_fileBrowserWidget;
 	KileEventFilter*		m_eventFilter;
 };

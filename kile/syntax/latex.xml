@@ -26,7 +26,7 @@
 
 	<!-- NoWeb -->
       <context name="NoWeb" attribute="Normal Text" lineEndContext="#stay" >
-	<RegExpr String="^\s*@\s*%" attribute="Normal Text" context="#pop" />
+	<RegExpr String="^\s*@\s*" attribute="Normal Text" context="#pop" />
       </context>
 
       <!-- LaTeX sectioning commands -->

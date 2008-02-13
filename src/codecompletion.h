@@ -48,6 +48,7 @@ namespace KileDocument
 
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range, InvocationType invocationType);
+			virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 			void setCompletionList(const QStringList& list);
 

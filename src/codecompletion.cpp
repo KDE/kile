@@ -78,8 +78,6 @@ namespace KileDocument
 				return 0;
 			case HighlightingMethod:
 				return QVariant::Invalid;
-			case GroupRole:
-				return QVariant(0);
 		}
 	
 		return QVariant();
@@ -89,8 +87,19 @@ namespace KileDocument
 	{
 	}
 
-	int CodeCompletionModel::rowCount(const QModelIndex& /* parent */) const
+	QModelIndex CodeCompletionModel::index(int row, int column, const QModelIndex& parent) const {
+		if(row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+			return QModelIndex();
+		}
+	
+		return createIndex(row, column, 0);
+	}
+
+	int CodeCompletionModel::rowCount(const QModelIndex& parent) const
 	{
+		if(parent.isValid()) {
+			return 0; //Do not make the model look hierarchical
+		}
 		return m_completionList.size();
 	}
 
@@ -500,10 +509,8 @@ namespace KileDocument
 		// show the completion dialog
 		m_inprogress = true;
 
-//FIXME: disabling this for now as the completion currently doesn't seem to work in
-//       Kate / Kwrite either
-// 		m_codeCompletionModel->setCompletionList(list);
-// 		completionInterface->startCompletion(range, m_codeCompletionModel);
+		m_codeCompletionModel->setCompletionList(list);
+		completionInterface->startCompletion(range, m_codeCompletionModel);
 	}
 
 	void CodeCompletion::appendNewCommands(QStringList& list)

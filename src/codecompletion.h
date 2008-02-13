@@ -209,8 +209,6 @@ private:
 	
 	void setReferences();
 	QString getCommandList(KileDocument::CmdAttribute attrtype);
-	
-	void setCompletionEntriesTexmode(QList<KTextEditor::CompletionEntry> *list, const QStringList &wordlist);
 
 	int countEntries(const QString &pattern, const QStringList& list, QString *entry);
 

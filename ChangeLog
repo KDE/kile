@@ -11,11 +11,12 @@ Fixes:
 
 Features:
  - Add \newlength as a variation of newcommand
- - Add url.cwl, svninfo.cwl
+ - Add url.cwl, svninfo.cwl, svn-multi.cwl
  - Allow ":" and "-" in citation keys, important for codecompletion
 
 Syntax:
  - Highlight & and @{} in tabular like environments
+ - Ignore Noweb blocks
 
 version 2.0beta2 -> 2.0
 

@@ -121,13 +121,13 @@ public Q_SLOTS:
 
 private:
 	void completeWord(KTextEditor::View* view, const KTextEditor::Range& range, CodeCompletion::Mode mode);
-	QString filterCompletionText(const QString &text, const QString &type);
+	QString filterCompletionText(KTextEditor::View *view, const QString &text, const QString &type);
 
 	void CompletionDone(KTextEditor::CompletionEntry);
 	void CompletionAborted();
 
-	void completeFromList(const QStringList *list,const QString &pattern = QString());
-	void editCompleteList(KileDocument::CodeCompletion::Type type,const QString &pattern = QString());
+	void completeFromList(KTextEditor::View* view, const QStringList *list, const KTextEditor::Cursor &position, const QString &pattern = QString());
+	void editCompleteList(KTextEditor::View* view, KileDocument::CodeCompletion::Type type, const KTextEditor::Cursor &position, const QString &pattern = QString());
 	KTextEditor::Range getCompleteWord(KTextEditor::View *view, bool latexmode, KileDocument::CodeCompletion::Type &type);
 	KTextEditor::Range getReferenceWord(KTextEditor::View *view);
 	bool oddBackslashes(const QString& text, int index);
@@ -188,11 +188,11 @@ private:
 
 	// internal parameter
 	KTextEditor::View *m_view;                  // View
-	QString m_text;                      // current pattern
-	uint m_textlen;                      // length of current pattern
-	CodeCompletion::Mode m_mode;         // completion mode
-	uint m_ycursor,m_xcursor,m_xstart;   // current cursor position
-	uint m_yoffset,m_xoffset;            // offset of the new cursor position
+	QString m_text;                       // current pattern
+	int m_textlen;                        // length of current pattern
+	CodeCompletion::Mode m_mode;          // completion mode
+	int m_ycursor, m_xcursor, m_xstart;   // current cursor position
+	int m_yoffset, m_xoffset;             // offset of the new cursor position
 
 	QString buildLatexText(const QString &text, int &ypos, int &xpos);
 	QString buildEnvironmentText(const QString &text, const QString &type, const QString &prefix, int &ypos, int &xpos);

@@ -38,7 +38,7 @@
 #include "editorextension.h"
 
 #ifdef __GNUC__
-#warning !!This whole file basically remains to be ported!!
+#warning !!This whole file should be reworked completely!!
 #endif
 
 #ifdef __GNUC__
@@ -408,9 +408,6 @@ namespace KileDocument
 
 	void CodeCompletion::completeWord(KTextEditor::View* view, const KTextEditor::Range& range, CodeCompletion::Mode mode)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported!
-#endif
 		KILE_DEBUG() << "==CodeCompletion::completeWord(" << range << ")=========";
 
 		KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
@@ -426,9 +423,10 @@ namespace KileDocument
 		m_mode = mode;
 
 		// and the current cursor position
-//FIXME: port
-// 		m_view->cursorPositionReal( &m_ycursor, &m_xcursor );
-// 		m_xstart = m_xcursor - m_textlen;
+		KTextEditor::Cursor cursorPosition = view->cursorPosition();
+		m_xcursor = cursorPosition.line();
+		m_ycursor = cursorPosition.column();
+		m_xstart = m_xcursor - m_textlen;
 
 		// and the current document
 		KTextEditor::Document *doc = view->document();
@@ -442,8 +440,7 @@ namespace KileDocument
 				return;
 			}
 			m_xstart = pos;
-//FIXME: port
-// 			m_text = doc->text(m_ycursor,m_xstart,m_ycursor,m_xcursor);
+			m_text = doc->text(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xcursor));
 			m_textlen = m_text.length();
 			m_mode = cmLatex;
 		}
@@ -487,15 +484,13 @@ namespace KileDocument
 		// means that the original text has to be restored, if the user
 		// aborts the completion dialog
 		if(m_mode == cmEnvironment) {
-//FIXME: port
-// 			doc->removeText(m_ycursor, m_xstart, m_ycursor, m_xcursor);
-// 			doc->insertText(m_ycursor, m_xstart, "\\begin{" + m_text);
+			doc->removeText(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xcursor));
+			doc->insertText(KTextEditor::Cursor(m_ycursor, m_xstart), "\\begin{" + m_text);
 
 			// set the cursor to the new position
 			m_textlen += 7;
 			m_xcursor += 7;
-//FIXME: port
-// 			m_view->setCursorPositionReal(m_ycursor, m_xcursor);
+			view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xcursor));
 
 			// set restore mode
 			m_undo = true;
@@ -519,30 +514,20 @@ namespace KileDocument
 		list = *ncommands + list;
 	}
 
-	void CodeCompletion::completeFromList(const QStringList *list,const QString &pattern)
+	void CodeCompletion::completeFromList(KTextEditor::View* view, const QStringList *list, const KTextEditor::Cursor &position, const QString &pattern)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 483!
-#endif
-//FIXME: port for KDE4
-/*
-		KTextEditor::CompletionEntry e;
-
 		KILE_DEBUG() << "completeFromList: " << list->count() << " items" <<   " << pattern=" << pattern<< endl;
-		QStringList sortedlist( *list );
+		QStringList sortedlist(*list);
 		sortedlist.sort();
 
 		m_labellist.clear();
 		QStringList::ConstIterator it;
 		QStringList::ConstIterator itend(sortedlist.end());
-		for ( it = sortedlist.begin(); it != itend; ++it )
-		{
-			e.text = *it;
-			m_labellist.append(  e );
+		for(it = sortedlist.begin(); it != itend; ++it) {
+			m_labellist.append(*it);
 		}
 
-		completeWord(pattern, cmLabel);
-*/
+		completeWord(view, KTextEditor::Range(position, position + KTextEditor::Cursor(pattern.length(), 0)), cmLabel);
 	}
 
 	//////////////////// completion was done ////////////////////
@@ -626,7 +611,7 @@ namespace KileDocument
 			CodeCompletion::Type reftype = insideReference(startpattern);
 			if(reftype != CodeCompletion::ctNone) {
 				m_ref = true;
-				editCompleteList(reftype, startpattern);
+				editCompleteList(view, reftype, position, startpattern);
 				return;
 			}
 		}
@@ -647,7 +632,7 @@ namespace KileDocument
 					completeWord(view, range, cmLatex);
 				}
 				else if(text.at(0) == '{') {
-					editCompleteList(type);
+					editCompleteList(view, type, position);
 				}
 			}
 			else if(wordlen >= m_textthreshold && word.at(0).isLetter() && m_autocompletetext) {
@@ -664,28 +649,25 @@ namespace KileDocument
 	// - set cursor position
 	// - insert bullets
 
-	QString CodeCompletion::filterCompletionText(const QString &text, const QString &type)
+	QString CodeCompletion::filterCompletionText(KTextEditor::View *view, const QString &text, const QString &type)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 564!
-#endif
-//FIXME: port for KDE4
-/*
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 		//KILE_DEBUG() << "   complete filter: " << text << " type " << type;
-		m_type = getType( text );    // remember current type
+		m_type = getType(text);    // remember current type
 
-		if ( text!="\\begin{}" && reEnv.search(text)!=-1 )
+		if(text != "\\begin{}" && reEnv.search(text) != -1) {
 			m_mode = cmEnvironment;
+		}
 
 		// check the cursor position, because the user may have
 		// typed some characters or the backspace key. This also
 		// changes the length of the current pattern.
-		uint row, col;
-		m_view->cursorPositionReal( &row, &col );
-		if ( m_xcursor != col )
-		{
-			m_textlen += ( col - m_xcursor );
+		int row, col;
+		KTextEditor::Cursor cursorPosition = view->cursorPosition();
+		row = cursorPosition.line();
+		col = cursorPosition.column();
+		if(m_xcursor != col) {
+			m_textlen += (col - m_xcursor);
 			m_xcursor = col;
 		}
 
@@ -693,71 +675,67 @@ namespace KileDocument
 		m_xoffset = m_yoffset = 0;
 
 		// build the text
-		QString s,prefix;
+		QString s, prefix;
 		KTextEditor::Document *doc = m_view->document();
-		QString textline = doc->textLine(row);
-		switch ( m_mode )
-		{
-				case cmLatex:
-				s = buildLatexText( text, m_yoffset, m_xoffset );
-				if ( m_autobrackets && textline.at(col)=='}' && m_text.indexOf('{')>=0 )
-				{
-					doc->removeText(row,col,row,col+1);
+		QString textline = doc->line(row);
+		switch(m_mode) {
+			case cmLatex:
+				s = buildLatexText(text, m_yoffset, m_xoffset);
+				if(m_autobrackets && textline.at(col)=='}' && m_text.indexOf('{') >= 0) {
+					doc->removeText(KTextEditor::Range(row, col, row, col + 1));
 				}
 				break;
-				case cmEnvironment:
+			case cmEnvironment:
 				prefix.clear();
-				if ( m_autoindent )
-				{
-					if ( col-m_textlen>0 )
-					{
+				if(m_autoindent) {
+					if(col - m_textlen > 0) {
 						prefix = textline.left(col-m_textlen);
-						if ( prefix.right(7) == "\\begin{" )
+						if(prefix.right(7) == "\\begin{") {
 							prefix.truncate(prefix.length()-7);
-						else if ( prefix.right(5) == "\\end{" )
-							prefix.truncate(prefix.length()-5);
+						}
+						else if(prefix.right(5) == "\\end{") {
+							prefix.truncate(prefix.length() - 5);
+						}
 					}
 				}
-				s = buildEnvironmentText( text, type, prefix, m_yoffset, m_xoffset );
-				if ( m_autobrackets && textline.at(col)=='}' && (textline[m_xstart]!='\\' || m_text.indexOf('{')>=0 ) )
-				{
-					doc->removeText(row,col,row,col+1);
+				s = buildEnvironmentText(text, type, prefix, m_yoffset, m_xoffset);
+				if(m_autobrackets && textline.at(col) == '}' && (textline[m_xstart] != '\\' || m_text.indexOf('{') >= 0)) {
+					doc->removeText(KTextEditor::Range(row, col, row, col + 1));
 				}
-				if ( m_xstart>=7 && textline.mid(m_xstart-7,7) == "\\begin{" )
-				{
+				if(m_xstart >= 7 && textline.mid(m_xstart - 7, 7) == "\\begin{") {
 					m_textlen += 7;
 				}
-				else if ( m_xstart>=5 && textline.mid(m_xstart-5,5) == "\\end{" )
-				{
+				else if(m_xstart >= 5 && textline.mid(m_xstart - 5, 5) == "\\end{") {
 					m_textlen += 5;
 				}
 				break;
-				case cmDictionary:
+			case cmDictionary:
 				s = text;
 				break;
-				case cmAbbreviation:
-				s = buildAbbreviationText( text );
+			case cmAbbreviation:
+				s = buildAbbreviationText(text);
 				break;
-				case cmLabel:
-				s = buildLabelText( text );
-				if ( m_keylistType==CodeCompletion::ctReference
-				     || (m_keylistType==CodeCompletion::ctCitation && m_citationMove) )
-				{
+			case cmLabel:
+				s = buildLabelText(text);
+				if (m_keylistType == CodeCompletion::ctReference
+				|| (m_keylistType == CodeCompletion::ctCitation && m_citationMove)) {
 					m_xoffset = s.length() + 1;
 				}
 				break;
-				case cmDocumentWord:
+			case cmDocumentWord:
 				s = text;
 				break;
-        default : s = text; break;
+			default:
+				s = text;
+				break;
 		}
 
-		if ( s.length() > m_textlen )
-			return s.right( s.length() - m_textlen );
-		else
+		if(s.length() > m_textlen) {
+			return s.right(s.length() - m_textlen);
+		}
+		else {
 			return "";
-*/
-return QString();
+		}
 	}
 
 	//////////////////// text in cmLatex mode ////////////////////
@@ -1189,7 +1167,7 @@ return QString();
 			if ( reftype != CodeCompletion::ctNone )
 			{
 				m_ref = true;
-				editCompleteList(reftype,startpattern);
+				editCompleteList(view, reftype,startpattern);
 				return;
 			}
 		}
@@ -1206,7 +1184,7 @@ return QString();
 			if ( type == CodeCompletion::ctNone )
 				completeWord(word, mode);
 			else
-				editCompleteList(type);
+				editCompleteList(view, type);
 		}
 		//little hack to make multiple insertions like \cite{test1,test2} possible (only when
 		//completion is invoke explicitly using ctrl+space.
@@ -1214,22 +1192,22 @@ return QString();
 		{
 			QString currentline = m_view->document()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
 			if ( currentline.indexOf(reCiteExt) != -1 )
-				editCompleteList(ctCitation);
+				editCompleteList(view, ctCitation);
 			else if ( currentline.indexOf(reRefExt) != -1 )
-				editCompleteList(ctReference);
+				editCompleteList(view, ctReference);
 		}
 */
 	}
 
-	void CodeCompletion::editCompleteList(Type type, const QString &pattern)
+	void CodeCompletion::editCompleteList(KTextEditor::View* view, Type type, const KTextEditor::Cursor &position, const QString &pattern)
 	{
 		//KILE_DEBUG() << "==editCompleteList=============";
 		m_keylistType = type;
 		if(type == ctReference) {
-			completeFromList(info()->allLabels(), pattern);
+			completeFromList(view, info()->allLabels(), position, pattern);
 		}
 		else if(type == ctCitation) {
-			completeFromList(info()->allBibItems(), pattern);
+			completeFromList(view, info()->allBibItems(), position, pattern);
 		}
 		else {
 			m_keylistType = CodeCompletion::ctNone;
@@ -1273,7 +1251,11 @@ return QString();
 	{
 		//KILE_DEBUG() << "==slotCompleteValueList (" << m_kilecompletion << "," << m_inprogress << ")=============";
 		m_completeTimer->stop();
-		editCompleteList(getType());
+#ifdef __GNUC__
+#warning Things left to be ported!
+#endif
+//FIXME: port for KDE4
+//		editCompleteList(getType());
 	}
 
 	void CodeCompletion::slotCompletionAborted()

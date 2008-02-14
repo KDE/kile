@@ -90,7 +90,7 @@ public:
 	};
 
 	bool isActive();
-	bool inProgress();
+	bool inProgress(KTextEditor::View *view);
 	bool autoComplete();
 	CodeCompletion::Mode getMode();
 	CodeCompletion::Type getType();
@@ -171,7 +171,6 @@ private:
 
 	// state of complete: some flags
 	bool m_firstconfig;
-	bool m_inprogress;
 	bool m_ref;
 	bool m_kilecompletion;
 	

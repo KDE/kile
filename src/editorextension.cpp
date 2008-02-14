@@ -2571,7 +2571,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 {
 	// don't complete environment, if we are
 	// still working inside the completion box
-	if(m_complete->inProgress()) {
+	if(m_complete->inProgress(view)) {
 		return false;
 	}
 

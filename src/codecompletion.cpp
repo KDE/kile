@@ -123,7 +123,6 @@ namespace KileDocument
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(NULL)
 	{
 		m_firstconfig = true;
-		m_inprogress = false;
 		m_undo = false;
 		m_ref = false;
 		m_kilecompletion = false;
@@ -149,9 +148,14 @@ namespace KileDocument
 		return m_isenabled;
 	}
 
-	bool CodeCompletion::inProgress()
+	bool CodeCompletion::inProgress(KTextEditor::View *view)
 	{
-		return m_inprogress;
+		KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+		if(!completionInterface) {
+			return false;
+		}
+
+		return completionInterface->isCompletionActive();
 	}
 
 	bool CodeCompletion::autoComplete()
@@ -501,9 +505,6 @@ namespace KileDocument
 			m_undo = true;
 		}
 
-		// show the completion dialog
-		m_inprogress = true;
-
 		m_codeCompletionModel->setCompletionList(list);
 		completionInterface->startCompletion(range, m_codeCompletionModel);
 	}
@@ -550,7 +551,6 @@ namespace KileDocument
 		}
 
 		m_undo = false;
-		m_inprogress = false;
 		m_ref = false;
 */
 	}
@@ -577,16 +577,16 @@ namespace KileDocument
 		}
 
 		m_undo = false;
-		m_inprogress = false;
 		m_ref = false;
 */
 	}
 
 	void CodeCompletion::textInsertedInView(KTextEditor::View *view, const KTextEditor::Cursor &position, const QString &text)
 	{
-		KILE_DEBUG() << "(" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << text << ")=============";
+		bool completionInProgress = inProgress(view);
+		KILE_DEBUG() << "(" << m_kilecompletion << "," << completionInProgress << ", " << m_ref << ", " << text << ")=============";
 
-		if (!inProgress() && m_autoDollar && text == "$") {
+		if (!completionInProgress && m_autoDollar && text == "$") {
 			autoInsertDollar();
 			return;
 		}
@@ -600,7 +600,7 @@ namespace KileDocument
 		m_view = view;
 
 		// try to autocomplete abbreviations after punctuation symbol
-		if(!inProgress() && m_autocompleteabbrev && completeAutoAbbreviation(text)) {
+		if(!completionInProgress && m_autocompleteabbrev && completeAutoAbbreviation(text)) {
 			return;
 		}
 
@@ -621,8 +621,8 @@ namespace KileDocument
 		if(range.isValid()) {
 			QString word = view->document()->text(range);
 			int wordlen = word.length();
-			KILE_DEBUG() << "   auto completion: range=" << range << " mode=" << m_mode << " inprogress=" << inProgress();
-			if(inProgress()) {               // continue a running mode?
+			KILE_DEBUG() << "   auto completion: range=" << range << " mode=" << m_mode << " inprogress=" << completionInProgress;
+			if(completionInProgress) {               // continue a running mode?
 				KILE_DEBUG() << "   auto completion: continue current mode";
 				completeWord(view, range, m_mode);
 			}
@@ -1073,55 +1073,50 @@ namespace KileDocument
 
 	void CodeCompletion::editComplete(KTextEditor::View *view, Mode mode)
 	{
-#ifdef __GNUC__
-#warning Things left to be ported at line 1133!
-#endif
-//FIXME: port for KDE4
-/*
-
 		m_view = view;
 
-		if ( !m_view || !isActive() || inProgress() )
-			return ;
+		if(!m_view || !isActive() || inProgress(view)) {
+			return;
+		}
 
 		// check for a special case: call from inside of a reference command
-		if ( mode==cmLatex )
-		{
+		if(mode == cmLatex) {
 			QString startpattern;
 			CodeCompletion::Type reftype = insideReference(startpattern);
-			if ( reftype != CodeCompletion::ctNone )
-			{
+			if(reftype != CodeCompletion::ctNone) {
 				m_ref = true;
-				editCompleteList(view, reftype,startpattern);
+				editCompleteList(view, reftype, view->cursorPosition(), startpattern);
 				return;
 			}
 		}
 
-		QString word;
 		Type type;
-		if ( getCompleteWord(( mode == cmLatex ) ? true : false, word, type ) )
-		{
-			if ( mode == cmLatex && word.at( 0 ) != '\\' )
-			{
+		KTextEditor::Range completeWordRange = getCompleteWord(view, (mode == cmLatex) ? true : false, type);
+		if(completeWordRange.isValid()) {
+			QString word = view->document()->text(completeWordRange);
+			if(mode == cmLatex && word.at(0) != '\\') {
 				mode = cmDictionary;
 			}
 
-			if ( type == CodeCompletion::ctNone )
-				completeWord(word, mode);
-			else
-				editCompleteList(view, type);
+			if(type == CodeCompletion::ctNone) {
+				completeWord(view, completeWordRange, mode);
+			}
+			else {
+				editCompleteList(view, type, view->cursorPosition());
+			}
 		}
 		//little hack to make multiple insertions like \cite{test1,test2} possible (only when
 		//completion is invoke explicitly using ctrl+space.
-		else if (m_view->document())
-		{
-			QString currentline = m_view->document()->textLine(m_view->cursorLine()).left(m_view->cursorColumnReal() + 1);
-			if ( currentline.indexOf(reCiteExt) != -1 )
-				editCompleteList(view, ctCitation);
-			else if ( currentline.indexOf(reRefExt) != -1 )
-				editCompleteList(view, ctReference);
+		else if (m_view->document()) {
+			KTextEditor::Cursor cursorPosition = view->cursorPosition();
+			QString currentline = m_view->document()->line(cursorPosition.line()).left(cursorPosition.column() + 1);
+			if(currentline.indexOf(reCiteExt) != -1) {
+				editCompleteList(view, ctCitation, cursorPosition);
+			}
+			else if(currentline.indexOf(reRefExt) != -1) {
+				editCompleteList(view, ctReference, cursorPosition);
+			}
 		}
-*/
 	}
 
 	void CodeCompletion::editCompleteList(KTextEditor::View* view, Type type, const KTextEditor::Cursor &position, const QString &pattern)
@@ -1203,7 +1198,6 @@ namespace KileDocument
 			//KILE_DEBUG() << "\tin progress: s=" << *s;
 			*s = filterCompletionText( c->text, c->type );
 			//KILE_DEBUG() << "\tfilter --->" << *s;
-			m_inprogress = false;
 			m_kilecompletion = true;
 		}
 */

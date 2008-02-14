@@ -28,6 +28,7 @@
 #include <QVBoxLayout>
 
 #include <KComboBox>
+#include <KDialog>
 #include <KLineEdit>
 #include <KLocale>
 

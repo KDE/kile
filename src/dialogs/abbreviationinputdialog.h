@@ -15,13 +15,12 @@
 #ifndef ABBREVIATIONINPUTDIALOG_H
 #define ABBREVIATIONINPUTDIALOG_H
 
-#include <QString>
 #include <QLabel>
+#include <QString>
+#include <QTreeWidgetItem>
 
 #include <KDialog>
 #include <KLineEdit>
-#include <k3listbox.h>
-#include <k3listview.h>
 
 #include "widgets/abbreviationview.h"
 
@@ -34,14 +33,14 @@ class AbbreviationInputDialog : public KDialog
    Q_OBJECT
 
 public:
-	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name = NULL);
+	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name = NULL);
 	~AbbreviationInputDialog();
 
 	void abbreviation(QString &abbrev, QString &expansion);
 
 private:
 	KileWidget::AbbreviationView *m_listview;
-	K3ListViewItem *m_abbrevItem;
+	QTreeWidgetItem *m_abbrevItem;
 	KLineEdit *m_leAbbrev;
 	KLineEdit *m_leExpansion;
 

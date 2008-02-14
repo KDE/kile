@@ -1,8 +1,8 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : Feb 24 2007
-    copyright            : 2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : 2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                           2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,28 +16,23 @@
 #ifndef ABBREVIATIONVIEW_H
 #define ABBREVIATIONVIEW_H
 
-#include <QString>
 #include <QLabel>
-#include <q3popupmenu.h>
-
-#include <klineedit.h>
-#include <k3listbox.h>
-#include <k3listview.h>
-#include <kdialog.h>
+#include <QString>
+#include <QTreeWidget>
 
 //////////////////// KlistView for abbreviations ////////////////////
 
 namespace KileWidget {
 
-class AbbreviationView : public K3ListView
+class AbbreviationView : public QTreeWidget
 {
   Q_OBJECT
 
 public:
-	enum { ALVabbrev=0, ALVlocal=1, ALVexpansion=2 };
-	enum { ALVnone=0, ALVadd=1, ALVedit=2, ALVdelete=3 };
+	enum {ALVabbrev = 0, ALVlocal = 1, ALVexpansion = 2};
+	enum {ALVnone = 0, ALVadd = 1, ALVedit = 2, ALVdelete = 3};
 
-	AbbreviationView(QWidget *parent=0, const char *name=0);
+	AbbreviationView(QWidget *parent = NULL, const char *name = NULL);
 	~AbbreviationView();
 
 	void init(const QStringList *globallist, const QStringList *locallist);
@@ -49,17 +44,18 @@ Q_SIGNALS:
 	void sendText(const QString &text);
  
 private Q_SLOTS:
-	void slotMouseButtonClicked(int button, Q3ListViewItem *item, const QPoint &pos, int);
-	void slotContextMenu(K3ListView *, Q3ListViewItem *item, const QPoint &pos);
-	void slotPopupAbbreviation(int id);
+	void slotItemClicked(QTreeWidgetItem *item, int column);
+	void slotCustomContextMenuRequested(const QPoint& p);
+	void slotAddAbbreviation();
+	void slotChangeAbbreviation();
+	void slotDeleteAbbreviation();
 
 private:
-	Q3PopupMenu* m_popup;
 	bool m_changes;
 
 	void addAbbreviation(const QString &abbrev, const QString &expansion);
-	void changeAbbreviation(K3ListViewItem *item,const QString &abbrev, const QString &expansion);
-	void deleteAbbreviation(K3ListViewItem *item);
+	void changeAbbreviation(QTreeWidgetItem *item, const QString &abbrev, const QString &expansion);
+	void deleteAbbreviation(QTreeWidgetItem *item);
 
 	void addWordlist(const QStringList *wordlist, bool global);
 

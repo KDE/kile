@@ -16,7 +16,6 @@
 
 #include "kiledebug.h"
 
-#include <k3listview.h>
 #include <KLocale>
 #include <KMessageBox>
 
@@ -32,7 +31,7 @@ namespace KileDialog {
 
 //////////////////// add/edit abbreviation ////////////////////
 
-AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *listview, K3ListViewItem *item, int mode, const char *name)
+AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name)
 	: KDialog(listview), m_listview(listview), m_abbrevItem(item), m_mode(mode)
 {
 	setCaption(i18n("Add Abbreviation"));

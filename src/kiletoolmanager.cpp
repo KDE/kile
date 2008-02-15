@@ -90,7 +90,7 @@ namespace KileTool
 			enqueue(headitem);
 			KILE_DEBUG() << "\tenqueueing: " << item->tool()->name() << endl;
 			enqueue(item);
-			while(oldqueue->head()) {
+			while(!oldqueue->isEmpty()) {
 				KILE_DEBUG() << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
 				enqueue(oldqueue->dequeue());
 			}

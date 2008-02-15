@@ -558,7 +558,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		}
 	}
 
-	KileDocument::Type type = sel->type();
+	KileDocument::Type type = sel?sel->type() : KileDocument::Undefined;
 	//always set the base directory for scripts
 	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalScriptDirectory() : QString()));
 }

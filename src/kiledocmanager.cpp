@@ -534,15 +534,16 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const QString& nam
 //FIXME: template stuff should be in own class
 KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 {
-	QString text = QString::null;
+	QString text;
 
-	if (sel && sel->name() != DEFAULT_EMPTY_CAPTION && sel->name() != DEFAULT_EMPTY_LATEX_CAPTION && sel->name() != DEFAULT_EMPTY_BIBTEX_CAPTION)
-	{
+	if(!sel) {
+		return NULL;
+	}
+
+	if (sel->name() != DEFAULT_EMPTY_CAPTION && sel->name() != DEFAULT_EMPTY_LATEX_CAPTION && sel->name() != DEFAULT_EMPTY_BIBTEX_CAPTION) {
 		KTextEditor::Editor* editor = KTextEditor::EditorChooser::editor();
 		if(!editor) {
-#ifdef __GNUC__
-#warning Check for errors at line 576!
-#endif
+			return NULL;
 		}
 		//create a new document to open the template in
 		KTextEditor::Document *tempdoc = editor->createDocument(NULL);
@@ -558,7 +559,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		}
 	}
 
-	KileDocument::Type type = sel?sel->type() : KileDocument::Undefined;
+	KileDocument::Type type = sel->type();
 	//always set the base directory for scripts
 	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalScriptDirectory() : QString()));
 }
@@ -639,12 +640,15 @@ void Manager::removeTemplate()
 void Manager::fileNew()
 {
 	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), m_ki->mainWindow());
-	if (nfw->exec())
-	{
-		loadTemplate(nfw->getSelection());
-		if ( nfw->useWizard() ) emit ( startWizard() );
-		emit(updateStructure(false, 0L));
-		emit(updateModeStatus());
+	if(nfw->exec()) {
+		KTextEditor::View *view = loadTemplate(nfw->getSelection());
+		if(view) {
+			if(nfw->useWizard()) {
+				emit(startWizard());
+			}
+			emit(updateStructure(false, NULL));
+			emit(updateModeStatus());
+		}
 	}
 	delete nfw;
 }
@@ -1096,31 +1100,32 @@ void Manager::projectNew()
 		item->setOpenState(false);
 		projectOpenItem(item);
 
-		if (dlg->createNewFile())
-		{
+		if(dlg->createNewFile()) {
 			QString filename = dlg->file();
 
 			//create the new document and fill it with the template
 			//TODO: shell expand the filename
 			KTextEditor::View *view = loadTemplate(dlg->getSelection());
 
-			//derive the URL from the base url of the project
-			KUrl url = project->baseURL();
-			url.addPath(filename);
-
-			TextInfo *docinfo = textInfoFor(view->document());
-
-			//save the new file
-			view->document()->saveAs(url);
-            		emit documentStatusChanged(view->document(), false, 0);
-
-			//add this file to the project
-			item = new KileProjectItem(project, url);
-			//project->add(item);
-			mapItem(docinfo, item);
-
-			//docinfo->updateStruct(m_kwStructure->level());
-			emit(updateStructure(true, docinfo));
+			if(view) {
+				//derive the URL from the base url of the project
+				KUrl url = project->baseURL();
+				url.addPath(filename);
+	
+				TextInfo *docinfo = textInfoFor(view->document());
+	
+				//save the new file
+				view->document()->saveAs(url);
+				emit documentStatusChanged(view->document(), false, 0);
+	
+				//add this file to the project
+				item = new KileProjectItem(project, url);
+				//project->add(item);
+				mapItem(docinfo, item);
+	
+				//docinfo->updateStruct(m_kwStructure->level());
+				emit(updateStructure(true, docinfo));
+			}
 		}
 
 		project->buildProjectTree();

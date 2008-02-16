@@ -65,7 +65,7 @@ public:
 	const QString &label() const { return m_label; }
 	
 	void setTitle(const QString &title);
-	void setLabel(const QString &label) { m_label = label; }
+	void setLabel(const QString &label);
 
 private:
 	QString  m_title;
@@ -78,17 +78,6 @@ private:
 	QString  m_label;
 	
 	void setItemEntry();
-};
-
-//class KileListViewToolTip : public QToolTip
-class KileListViewToolTip : public QWidget
-{
-public:
-	KileListViewToolTip(QTreeWidget *listview);
-protected:
-	void maybeTip(const QPoint &p);
-private:
-	QTreeWidget *m_listview;
 };
 
 class KileReferenceData

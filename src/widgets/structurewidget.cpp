@@ -2,6 +2,7 @@
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net
                                2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -91,7 +92,9 @@ StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, QTreeWidgetItem* a
 StructureViewItem::StructureViewItem(QTreeWidget* parent, const QString& label) :
 	QTreeWidgetItem(parent, QStringList(label)),
 	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
-{}
+{
+	setToolTip(0, i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button)."));
+}
 
 StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString& label) :
 	QTreeWidgetItem(parent, QStringList(label)),
@@ -109,47 +112,15 @@ void StructureViewItem::setItemEntry()
 	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
 }
 
-////////////////////// introduce a new ToolTip //////////////////////
-
-#ifdef __GNUC__
-#warning The class KileListViewToolTip still needs to be ported!
-#endif
-//FIXME: port for KDE4
-// KileListViewToolTip::KileListViewToolTip(K3ListView *listview) : QToolTip(listview->viewport()), m_listview(listview) 
-KileListViewToolTip::KileListViewToolTip(QTreeWidget *listview) : m_listview(listview) 
-{}
-
-void KileListViewToolTip::maybeTip(const QPoint &p)
+void StructureViewItem::setLabel(const QString &label)
 {
-#ifdef __GNUC__
-#warning The function KileListViewToolTip::maybeTip still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	if ( ! m_listview )
-		return;
-	
-	const StructureViewItem *item = (StructureViewItem *)m_listview->itemAt(p);
-//	if ( !item || item->label().isNull() )
-	if ( !item )
-		return;
-	
-	const QRect rect = m_listview->itemRect(item);
-	if ( ! rect.isValid() )
-		return;
-	
-	if ( ! item->label().isNull() )
-	{
-		tip(rect,i18n("Label: ") + item->label());
+	m_label = label;
+	if(!m_label.isEmpty()) {
+		setToolTip(0, i18n("Label: %1", m_label));
 	}
-	else if ( item->line()==0 && item->column()==0 && item->parent()==NULL )  // only root
-	{
-		tip(rect,i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button).")); 
-	}
-*/
 }
 
-	////////////////////// StructureView tree widget //////////////////////
+////////////////////// StructureView tree widget //////////////////////
 	
 	StructureView::StructureView(StructureWidget *stack, KileDocument::Info *docinfo) :
 		QTreeWidget(stack),
@@ -166,9 +137,6 @@ void KileListViewToolTip::maybeTip(const QPoint &p)
 		setAllColumnsShowFocus(true);
 		setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-		QToolTip::remove(this);
-		new KileListViewToolTip(this);
-		
 		//connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotDoubleClicked(QTreeWidgetItem*)));
 		connect(this, SIGNAL(contextMenu(K3ListView *, QTreeWidgetItem *, const QPoint & )), m_stack, SLOT(slotPopup(K3ListView *, QTreeWidgetItem * , const QPoint & )));

@@ -120,7 +120,7 @@ namespace KileDocument
 	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
 	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
 
-	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info), m_view(NULL)
+	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info)
 	{
 		m_firstconfig = true;
 		m_undo = false;
@@ -186,12 +186,12 @@ namespace KileDocument
 		return m_mode;
 	}
 
-	CodeCompletion::Type CodeCompletion::insideReference(QString &startpattern)
+	CodeCompletion::Type CodeCompletion::insideReference(KTextEditor::View *view, QString &startpattern)
 	{
-		if(m_view->document()) {
-			KTextEditor::Cursor cursor = m_view->cursorPosition();
+		if(view->document()) {
+			KTextEditor::Cursor cursor = view->cursorPosition();
 			uint column = cursor.column();
-			QString currentline = m_view->document()->line(cursor.line()).left(column);
+			QString currentline = view->document()->line(cursor.line()).left(column);
 			int pos = currentline.findRev('\\');
 			if(pos >= 0) {
 				QString command = currentline.mid(pos,column-pos);
@@ -467,7 +467,7 @@ namespace KileDocument
 				list = m_labellist;
 			break;
 			case cmDocumentWord:
-				list = getDocumentWords(text);
+				list = getDocumentWords(view, text);
 			break;
 		}
 
@@ -596,11 +596,8 @@ namespace KileDocument
 			return ;
 		}
 
-		//FIXME: why is this needed?
-		m_view = view;
-
 		// try to autocomplete abbreviations after punctuation symbol
-		if(!completionInProgress && m_autocompleteabbrev && completeAutoAbbreviation(text)) {
+		if(!completionInProgress && m_autocompleteabbrev && completeAutoAbbreviation(view, text)) {
 			return;
 		}
 
@@ -608,7 +605,7 @@ namespace KileDocument
 		// of a reference command without a labellist.
 		if(!m_ref) {
 			QString startpattern;
-			CodeCompletion::Type reftype = insideReference(startpattern);
+			CodeCompletion::Type reftype = insideReference(view, startpattern);
 			if(reftype != CodeCompletion::ctNone) {
 				m_ref = true;
 				editCompleteList(view, reftype, position, startpattern);
@@ -676,7 +673,7 @@ namespace KileDocument
 
 		// build the text
 		QString s, prefix;
-		KTextEditor::Document *doc = m_view->document();
+		KTextEditor::Document *doc = view->document();
 		QString textline = doc->line(row);
 		switch(m_mode) {
 			case cmLatex:
@@ -713,10 +710,10 @@ namespace KileDocument
 				s = text;
 				break;
 			case cmAbbreviation:
-				s = buildAbbreviationText(text);
+				s = buildAbbreviationText(view, text);
 				break;
 			case cmLabel:
-				s = buildLabelText(text);
+				s = buildLabelText(view, text);
 				if (m_keylistType == CodeCompletion::ctReference
 				|| (m_keylistType == CodeCompletion::ctCitation && m_citationMove)) {
 					m_xoffset = s.length() + 1;
@@ -815,7 +812,7 @@ namespace KileDocument
 
 	//////////////////// text in  cmAbbreviation mode ////////////////////
 
-	QString CodeCompletion::buildAbbreviationText(const QString &text)
+	QString CodeCompletion::buildAbbreviationText(KTextEditor::View *view, const QString &text)
 	{
 		QString s;
 
@@ -825,9 +822,9 @@ namespace KileDocument
 			s = text.right(text.length() - index - 1);
 
 			// delete abbreviation
-			KTextEditor::Document *doc = m_view->document();
+			KTextEditor::Document *doc = view->document();
 			doc->removeText(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xcursor));
-			m_view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xstart));
+			view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xstart));
 			m_xcursor = m_xstart;
 
 			m_textlen = 0;
@@ -841,13 +838,13 @@ namespace KileDocument
 
 	//////////////////// text in cmLabel mode ////////////////////
 
-	QString CodeCompletion::buildLabelText( const QString &text )
+	QString CodeCompletion::buildLabelText(KTextEditor::View *view, const QString &text)
 	{
 		if(text.at(0) == ' ') {
 			// delete space
-			KTextEditor::Document * doc = m_view->document();
+			KTextEditor::Document * doc = view->document();
 			doc->removeText(KTextEditor::Range(m_ycursor, m_xstart, m_ycursor, m_xstart + 1));
-			m_view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xstart));
+			view->setCursorPosition(KTextEditor::Cursor(m_ycursor, m_xstart));
 			m_xcursor = m_xstart;
 
 			m_textlen = 0;
@@ -1073,16 +1070,14 @@ namespace KileDocument
 
 	void CodeCompletion::editComplete(KTextEditor::View *view, Mode mode)
 	{
-		m_view = view;
-
-		if(!m_view || !isActive() || inProgress(view)) {
+		if(!view || !isActive() || inProgress(view)) {
 			return;
 		}
 
 		// check for a special case: call from inside of a reference command
 		if(mode == cmLatex) {
 			QString startpattern;
-			CodeCompletion::Type reftype = insideReference(startpattern);
+			CodeCompletion::Type reftype = insideReference(view, startpattern);
 			if(reftype != CodeCompletion::ctNone) {
 				m_ref = true;
 				editCompleteList(view, reftype, view->cursorPosition(), startpattern);
@@ -1107,9 +1102,9 @@ namespace KileDocument
 		}
 		//little hack to make multiple insertions like \cite{test1,test2} possible (only when
 		//completion is invoke explicitly using ctrl+space.
-		else if (m_view->document()) {
+		else if(view->document()) {
 			KTextEditor::Cursor cursorPosition = view->cursorPosition();
-			QString currentline = m_view->document()->line(cursorPosition.line()).left(cursorPosition.column() + 1);
+			QString currentline = view->document()->line(cursorPosition.line()).left(cursorPosition.column() + 1);
 			if(currentline.indexOf(reCiteExt) != -1) {
 				editCompleteList(view, ctCitation, cursorPosition);
 			}
@@ -1283,13 +1278,13 @@ namespace KileDocument
 		return KTextEditor::Range(row, pos + 1, row, col - 1);
 	}
 
-	QStringList CodeCompletion::getDocumentWords(const QString &text)
+	QStringList CodeCompletion::getDocumentWords(KTextEditor::View *view, const QString &text)
 	{
 		//KILE_DEBUG() << "getDocumentWords: ";
 		QStringList list;
 
 		QRegExp reg("(\\\\?\\b" + QString(text[0]) + "[^\\W\\d_]+)\\b");
-		KTextEditor::Document *doc = m_view->document();
+		KTextEditor::Document *doc = view->document();
 	
 		QString s;
 		QHash<QString, bool> seen;
@@ -1326,7 +1321,7 @@ namespace KileDocument
 
 	//////////////////// complete auto abbreviation ////////////////////
 
-	bool CodeCompletion::completeAutoAbbreviation(const QString &text)
+	bool CodeCompletion::completeAutoAbbreviation(KTextEditor::View *view, const QString &text)
 	{
 		if(text.length() != 1) {
 			return false;
@@ -1338,10 +1333,10 @@ namespace KileDocument
 		}
 
 		int row, col;
-		KTextEditor::Cursor cursor = m_view->cursorPosition();
+		KTextEditor::Cursor cursor = view->cursorPosition();
 		row = cursor.line();
 		col = cursor.column();
-		QString abbrev = getAbbreviationWord(row, col - 1);
+		QString abbrev = getAbbreviationWord(view, row, col - 1);
 		if(abbrev.isEmpty()) {
 			return false;
 		}
@@ -1355,17 +1350,17 @@ namespace KileDocument
 
 		uint len = abbrev.length();
 		uint startcol = col - len - 1;
-		KTextEditor::Document *doc = m_view->document();
+		KTextEditor::Document *doc = view->document();
 		doc->removeText(KTextEditor::Range(row, startcol, row, startcol + abbrev.length() + 1));
 		doc->insertText(KTextEditor::Cursor(row, startcol), expansion + ch);
-		m_view->setCursorPosition(KTextEditor::Cursor(row, startcol + expansion.length() + 1));
+		view->setCursorPosition(KTextEditor::Cursor(row, startcol + expansion.length() + 1));
 
 		return true;
 	}
 
-	QString CodeCompletion::getAbbreviationWord(uint row, uint col)
+	QString CodeCompletion::getAbbreviationWord(KTextEditor::View *view, int row, int col)
 	{
-		QString textline = m_view->document()->line(row);
+		QString textline = view->document()->line(row);
 
 		int index = (int)col;
 		while(--index >= 0) {

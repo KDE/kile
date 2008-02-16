@@ -56,7 +56,6 @@ namespace KileDocument
 			QStringList m_completionList;
 	};
 
-//FIXME fix the way the KTextEditor::View is passed, I'm not 100% confident m_view doesn't turn into a wild pointer
 //FIXME refactor the complete class, it's pretty ugly, there are too many methods with similar names suggesting that the code could be more efficient
 class CodeCompletion : public QObject
 {
@@ -133,12 +132,12 @@ private:
 	bool oddBackslashes(const QString& text, int index);
 
 	void appendNewCommands(QStringList& list);
-	QStringList getDocumentWords(const QString &text);
+	QStringList getDocumentWords(KTextEditor::View *view, const QString &text);
 
-	bool completeAutoAbbreviation(const QString &text);
-	QString getAbbreviationWord(uint row, uint col);
+	bool completeAutoAbbreviation(KTextEditor::View *view, const QString &text);
+	QString getAbbreviationWord(KTextEditor::View *view, int row, int col);
 
-	CodeCompletion::Type insideReference(QString &startpattern);
+	CodeCompletion::Type insideReference(KTextEditor::View *view, QString &startpattern);
 
 private:
 	KileDocument::CodeCompletionModel *m_codeCompletionModel;
@@ -186,7 +185,6 @@ private:
 	KileWidget::AbbreviationView *m_abbrevListview;
 
 	// internal parameter
-	KTextEditor::View *m_view;                  // View
 	QString m_text;                       // current pattern
 	int m_textlen;                        // length of current pattern
 	CodeCompletion::Mode m_mode;          // completion mode
@@ -196,8 +194,8 @@ private:
 	QString buildLatexText(const QString &text, int &ypos, int &xpos);
 	QString buildEnvironmentText(const QString &text, const QString &type, const QString &prefix, int &ypos, int &xpos);
 	QString getWhiteSpace(const QString &s);
-	QString buildAbbreviationText(const QString &text);
-	QString buildLabelText(const QString &text);
+	QString buildAbbreviationText(KTextEditor::View *view, const QString &text);
+	QString buildLabelText(KTextEditor::View *view, const QString &text);
 
 	QString parseText(const QString &text, int &ypos, int &xpos, bool checkgroup);
 	QString stripParameter(const QString &text);
@@ -211,8 +209,8 @@ private:
 
 	int countEntries(const QString &pattern, const QStringList& list, QString *entry);
 
-	void addAbbreviationEntry( const QString &entry );
-	void deleteAbbreviationEntry( const QString &entry );
+	void addAbbreviationEntry(const QString &entry);
+	void deleteAbbreviationEntry(const QString &entry);
 	QString findExpansion(const QString &abbrev);
 
 	void autoInsertDollar();

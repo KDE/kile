@@ -50,7 +50,6 @@
 #include <kurl.h>
 #include <kfileitem.h>
 
-#include "kileeventfilter.h"
 #include "kileuntitled.h"
 #include "templates.h"
 #include "dialogs/newfilewizard.h"
@@ -355,19 +354,19 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 			case Undefined: // fall through
 			case Text:
 				KILE_DEBUG() << "CREATING TextInfo for " << url.url() << endl;
-				docinfo = new TextInfo(0L,m_ki->extensions());
+				docinfo = new TextInfo(NULL, m_ki->extensions());
 				break;
 			case LaTeX:
 				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url() << endl;
-				docinfo = new LaTeXInfo(0L, m_ki->extensions(), m_ki->latexCommands(), m_ki->eventFilter());
+				docinfo = new LaTeXInfo(NULL, m_ki->extensions(), m_ki->latexCommands(), m_ki->editorExtension(), m_ki->configurationManager());
 				break;
 			case BibTeX:
 				KILE_DEBUG() << "CREATING BibInfo for " << url.url() << endl;
-				docinfo = new BibInfo(0L, m_ki->extensions(), m_ki->latexCommands());
+				docinfo = new BibInfo(NULL, m_ki->extensions(), m_ki->latexCommands());
 				break;
 			case Script:
 				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url() << endl;
-				docinfo = new ScriptInfo(0L, m_ki->extensions());
+				docinfo = new ScriptInfo(NULL, m_ki->extensions());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);

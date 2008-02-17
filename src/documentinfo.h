@@ -16,6 +16,8 @@
 #ifndef DOCUMENTINFO_H
 #define DOCUMENTINFO_H
 
+#include <QHash>
+
 #include <KTextEditor/Document>
 #include <KUrl>
 
@@ -38,6 +40,9 @@
 #define TEX_CAT14 '%'
 
 #define SIZE_STAT_ARRAY 6
+
+namespace KileDocument { class EditorExtension; }
+namespace KileConfiguration { class Manager; }
 
 namespace KileStruct
 {
@@ -258,32 +263,42 @@ public:
 	 * @warning Only this method should be used to create new views for text documents !
 	 * @return NULL if no document is set (m_doc == NULL)
 	 **/
-	KTextEditor::View* createView(QWidget *parent, const char *name=0);
+	KTextEditor::View* createView(QWidget *parent, const char *name = NULL);
 
 protected Q_SLOTS:
 	void slotFileNameChanged();
+	void slotViewDestroyed(QObject *object);
 
 protected:
-	KTextEditor::Document			*m_doc;
-	long				*m_arStatistics;
-	QString				m_defaultHighlightMode;
+	KTextEditor::Document				*m_doc;
+	long						*m_arStatistics;
+	QString						m_defaultHighlightMode;
+	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;
 
 	QString matchBracket(QChar c, int &, int &);
 	QString getTextline(uint line, TodoResult &todo);
 	void searchTodoComment(const QString &s, uint startpos, TodoResult &todo);
 
 	/**
-	 * Installs an event filter on a view. Subclasses can override this method to
-	 * provide custom event filters. The default implementation does nothing. Whenever this
-	 * method is overridden, "removeInstalledEventFilters" should be overridden as well.
+	 * Creates the event filters that should be used on a view. Subclasses can override
+	 * this method to provide custom event filters. The default implementation does nothing and
+	 * returns an empty list. The event filters that are returned by this method are managed by
+	 * the "installEventFilters", "removeInstalledEventFilters" methods.
+	 * @warning The event filters that are created must be children of the view!
+	 * @param view the view that is considered
+	 **/
+	virtual QList<QObject*> createEventFilters(KTextEditor::View *view);
+
+	/**
+	 * Installs event filters on a view. The function "createEventFilters(KTextEditor::View *view)
+	 * function is used for a specific view.
 	 * @param view the view that is considered
 	 **/
 	virtual void installEventFilters(KTextEditor::View *view);
 
 	/**
 	 * Removes the event filters that were previously installed by the "installEventFilters"
-	 * function. Subclasses can override this method to remove custom event filters. The
-	 * default implementation does nothing.
+	 * function.
 	 * @param view the view that is considered
 	 **/
 	virtual void removeInstalledEventFilters(KTextEditor::View *view);
@@ -297,8 +312,7 @@ protected:
 
 	/**
 	 * Removes the event filters from all the views that are currently open for the
-	 * managed document object. The function "removeInstalledEventFilters(KTextEditor::View *view)
-	 * function is used for a specific view.
+	 * managed document object.
 	 **/
 	void removeInstalledEventFilters();
 };
@@ -313,7 +327,7 @@ public:
 	/**
 	 * @param eventFilter the event filter that will be installed on managed documents
 	 **/
-	LaTeXInfo(KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, QObject* eventFilter);
+	LaTeXInfo(KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, KileDocument::EditorExtension *editorExtension, KileConfiguration::Manager* manager);
 	virtual ~LaTeXInfo();
 
 	const long* getStatistics();
@@ -327,19 +341,17 @@ public Q_SLOTS:
 
 protected:
 	LatexCommands *m_commands;
+	EditorExtension *m_editorExtension;
+	KileConfiguration::Manager *m_configurationManager;
 	QObject *m_eventFilter;
 
 	virtual void updateStructLevelInfo();
 	virtual void checkChangedDeps();
-	/**
-	 * Installs a custom event filter.
-	 **/
-	virtual void installEventFilters(KTextEditor::View *view);
 
 	/**
-	 * Revmoves the custom event filter.
-	 **/
-	virtual void removeInstalledEventFilters(KTextEditor::View *view);
+	 * Creates a custom event filter.
+	 */
+	virtual QList<QObject*> createEventFilters(KTextEditor::View *view);
 
 private:
 	BracketResult matchBracket(int &, int &);

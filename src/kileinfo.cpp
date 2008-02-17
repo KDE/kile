@@ -28,6 +28,7 @@
 #include <kmessagebox.h>
 
 #include "widgets/structurewidget.h"
+#include "configurationmanager.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "documentinfo.h"
@@ -49,6 +50,7 @@ KileInfo::KileInfo(QObject *parent) :
 	m_texKonsole(NULL),
 	m_edit(NULL)
 {
+	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
 	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");

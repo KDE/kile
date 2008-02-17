@@ -50,6 +50,7 @@
 #include <ktexteditor/configinterface.h>
 #include <kxmlguifactory.h>
 
+#include "configurationmanager.h"
 #include "documentinfo.h"
 #include "kileactions.h"
 #include "kilestdactions.h"
@@ -75,7 +76,6 @@
 #include "dialogs/includegraphicsdialog.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
-#include "kileeventfilter.h"
 #include "kileconfig.h"
 #include "kileerrorhandler.h"
 #include "dialogs/configcheckerdialog.h"
@@ -162,13 +162,11 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_edit = new KileDocument::EditorExtension(this);
 	m_help = new KileHelp::Help(m_edit, m_mainWindow);
 	m_partManager = new KParts::PartManager(m_mainWindow);
-	m_eventFilter = new KileEventFilter(m_edit);
 	m_errorHandler = new KileErrorHandler(this, this);
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
 
 	connect( m_partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
-	connect(this,SIGNAL(configChanged()), m_eventFilter, SLOT(readConfig()));
 
 	readGUISettings();
 
@@ -282,7 +280,6 @@ Kile::~Kile()
 	delete m_lyxserver; //QObject without parent, have to delete it ourselves
 	delete m_outputInfo;
 	delete m_outputFilter;
-	delete m_eventFilter;
 }
 
 KActionCollection* Kile::actionCollection()
@@ -400,7 +397,7 @@ void Kile::setupStructureView()
 	m_kwStructure = new KileWidget::StructureWidget(this, m_sideBar);
 	m_sideBar->addPage(m_kwStructure, SmallIcon("view-list-tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
-	connect(this, SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
+	connect(configurationManager(), SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
 	connect(m_kwStructure, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KUrl&)), docManager(), SLOT(fileNew(const KUrl&)));
@@ -2261,6 +2258,7 @@ void Kile::toggleWatchFile()
 
 void Kile::generalOptions()
 {
+	//FIXME: this should be moved into the configuration manager
 	m_edit->complete()->saveLocalChanges();
 	
 	KileDialog::Config *dlg = new KileDialog::Config(m_config.data(), this, m_mainWindow);
@@ -2275,7 +2273,7 @@ void Kile::generalOptions()
 		setupTools();
 		m_help->update();
 
-		emit configChanged();
+		configurationManager()->emitConfigChanged();
 
 		//stop/restart LyX server if necessary
 		if (KileConfig::runLyxServer() && !m_lyxserver->isRunning())

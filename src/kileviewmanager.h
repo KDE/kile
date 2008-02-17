@@ -36,7 +36,6 @@ class KUrl;
 class KXMLGUIClient;
 
 class KileInfo;
-class KileEventFilter;
 
 namespace KileWidget {
 	class ProjectView;
@@ -64,7 +63,7 @@ public:
 	Manager(KileInfo *ki, QObject *parent = 0, const char *name = 0);
 
 	~Manager();
-   
+
 public:
 	void setClient(QObject *receiver, KXMLGUIClient *client);
 
@@ -83,6 +82,9 @@ public:
 // 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
 	void unplugTextEditorPartMenu(KTextEditor::View* view);
+
+	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
+	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 
 public Q_SLOTS:
 	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);

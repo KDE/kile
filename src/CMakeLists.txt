@@ -67,7 +67,7 @@ SET(kile_SRCS
 	convert.cpp
 	kiledocmanager.cpp
 	kileviewmanager.cpp
-	kileeventfilter.cpp
+	eventfilter.cpp
 	kileerrorhandler.cpp
 	dialogs/configcheckerdialog.cpp
 	configtester.cpp
@@ -90,6 +90,7 @@ SET(kile_SRCS
 	scripting/bindings.cpp
 	scriptmanager.cpp
 	dialogs/newtabulardialog.cpp
+	configurationmanager.cpp
 )
 
 SET( kile_UI

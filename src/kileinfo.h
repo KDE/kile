@@ -39,10 +39,10 @@ namespace KileDocument { class Info; }
 class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
-class KileEventFilter;
 
 namespace KTextEditor { class Document;}
 
+namespace KileConfiguration{ class Manager; }
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
 namespace KileWidget { class StructureWidget; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; class OutputView; class BottomBar; }
@@ -114,6 +114,7 @@ public:
 	KileWidget::LogWidget *logWidget() { return m_logWidget; }
 	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; }
 
+	KileConfiguration::Manager* configurationManager() const { return m_configurationManager; }
 	KileDocument::Manager* docManager() const { return m_docManager; }
 	KileView::Manager* viewManager() const { return m_viewManager; }
 	KileTool::Manager* toolManager() const { return m_manager; }
@@ -129,7 +130,6 @@ public:
 
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
-	KileEventFilter* eventFilter() const { return m_eventFilter; }
 
 	QWidget* mainWindow() const { return m_mainWindow; }
 	
@@ -138,6 +138,7 @@ public:
 	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }
 
 protected:
+	KileConfiguration::Manager	*m_configurationManager;
 	KXmlGuiWindow 			*m_mainWindow;
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
@@ -172,7 +173,6 @@ protected:
 
 	KileWidget::StructureWidget	*m_kwStructure;
 	KileWidget::FileBrowserWidget 			*m_fileBrowserWidget;
-	KileEventFilter*		m_eventFilter;
 };
 
 #endif

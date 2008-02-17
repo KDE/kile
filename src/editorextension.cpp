@@ -2423,7 +2423,7 @@ void EditorExtension::initDoubleQuotes()
 	KILE_DEBUG() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;
 }
 
-bool EditorExtension::insertDoubleQuotes()
+bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 {
 	// don't insert double quotes, if konsole has focus 
 	// return false, because if this is called from an event
@@ -2434,7 +2434,7 @@ bool EditorExtension::insertDoubleQuotes()
 
 	// insert double quotes, normal mode or autocompletion mode
 	// always return true for event handler
-	KTextEditor::View *view = determineView(NULL);
+	view = determineView(view);
 	if(!view) {
 		return true;
 	}
@@ -2565,10 +2565,14 @@ void EditorExtension::insertIntelligentTabulator()
 
 //////////////////// autocomplete environment ////////////////////
 
-// should we complete the current environment (call from KileEventFilter)
+// should we complete the current environment (call from LaTeXEventFilter)
 
 bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 {
+	if(!view) {
+		return false;
+	}
+
 	// don't complete environment, if we are
 	// still working inside the completion box
 	if(m_complete->inProgress(view)) {

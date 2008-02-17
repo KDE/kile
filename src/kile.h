@@ -70,7 +70,6 @@ class KToggleToolBarAction;
 class KMultiTabBar;
 
 class KileLyxServer;
-class KileEventFilter;
 class KileProject;
 class KileProjectItem;
 class TemplateItem;
@@ -140,14 +139,6 @@ public Q_SLOTS:
 	void citeViewBib();
 
 	void openProject(const QString& proj);
-
-Q_SIGNALS:
-	/**
-	 * Emit this signal when the configuration is changed. Classes that read and write to the global KConfig object
-	 * should connect to this signal so they can update their settings.
-	 **/
-	void configChanged();
-
 
 private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;

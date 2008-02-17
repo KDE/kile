@@ -125,7 +125,7 @@ public Q_SLOTS:
 	void gotoPrevSectioning();
 	void sectioningCommand(KileWidget::StructureViewItem *item, int id);
 
-	bool insertDoubleQuotes();
+	bool insertDoubleQuotes(KTextEditor::View *view = NULL);
 	void initDoubleQuotes();
 
 	void insertIntelligentTabulator();

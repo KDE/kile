@@ -79,8 +79,12 @@
 #include <kglobal.h>
 
 #include "codecompletion.h"
-#include "kileuntitled.h"
+#include "configurationmanager.h"
+#include "editorextension.h"
 #include "kileconfig.h"
+#include "eventfilter.h"
+#include "kileuntitled.h"
+#include "kileviewmanager.h"
 
 namespace KileDocument
 {
@@ -411,6 +415,7 @@ TextInfo::TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QSt
 
 TextInfo::~TextInfo()
 {
+	detach();
 	delete [] m_arStatistics;
 }
 
@@ -589,6 +594,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 	}
 	KTextEditor::View *view = m_doc->createView(parent);
 	installEventFilters(view);
+	connect(view, SIGNAL(destroyed(QObject*)), this, SLOT(slotViewDestroyed(QObject*)));
 	return view;
 }
 
@@ -597,14 +603,39 @@ void TextInfo::slotFileNameChanged()
 	emit urlChanged(this, url());
 }
 
-void TextInfo::installEventFilters(KTextEditor::View* /* view */)
+void TextInfo::installEventFilters(KTextEditor::View *view)
 {
-	/* do nothing */
+	if(m_eventFilterHash.find(view) != m_eventFilterHash.end()) {
+		return;
+	}
+
+	QList<QObject*> eventFilterList = createEventFilters(view);
+	if(!eventFilterList.isEmpty()) {
+		for(QList<QObject*>::iterator i = eventFilterList.begin(); i != eventFilterList.end(); ++i) {
+			QObject* eventFilter = *i;
+			KileView::Manager::installEventFilter(view, eventFilter);
+		}
+		m_eventFilterHash[view] = eventFilterList;
+	}
 }
 
-void TextInfo::removeInstalledEventFilters(KTextEditor::View* /* view */)
+void TextInfo::removeInstalledEventFilters(KTextEditor::View *view)
 {
-	/* do nothing */
+	QHash<KTextEditor::View*, QList<QObject*> >::iterator i = m_eventFilterHash.find(view);
+	if(i != m_eventFilterHash.end()) {
+		QList<QObject*> eventFilterList = *i;
+		for(QList<QObject*>::iterator i2 = eventFilterList.begin(); i2 != eventFilterList.end(); ++i2) {
+			QObject *eventFilter = *i2;
+			KileView::Manager::removeEventFilter(view, eventFilter);
+			delete(*i2);
+		}
+		m_eventFilterHash.erase(i);
+	}
+}
+
+QList<QObject*> TextInfo::createEventFilters(KTextEditor::View* /* view */)
+{
+	return QList<QObject*>();
 }
 
 void TextInfo::installEventFilters()
@@ -629,8 +660,19 @@ void TextInfo::removeInstalledEventFilters()
 	}
 }
 
+void TextInfo::slotViewDestroyed(QObject *object)
+{
+	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(object);
+	if(view) {
+		QHash<KTextEditor::View*, QList<QObject*> >::iterator i = m_eventFilterHash.find(view);
+		if(i != m_eventFilterHash.end()) {
+			m_eventFilterHash.erase(i);
+		}
+	}
+}
 
-LaTeXInfo::LaTeXInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, QObject* eventFilter) : TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_eventFilter(eventFilter)
+LaTeXInfo::LaTeXInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, KileDocument::EditorExtension *editorExtension, KileConfiguration::Manager* manager)
+: TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_editorExtension(editorExtension), m_configurationManager(manager), m_eventFilter(NULL)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -764,22 +806,13 @@ void LaTeXInfo::updateStructLevelInfo() {
 	}
 }
 
-void LaTeXInfo::installEventFilters(KTextEditor::View *view)
+QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 {
-#ifdef __GNUC__
-#warning Commenting the event filter stuff out for now!
-#endif
-//FIXME: port for KDE4
-// 	view->focusProxy()->installEventFilter(m_eventFilter);
-}
-
-void LaTeXInfo::removeInstalledEventFilters(KTextEditor::View *view)
-{
-#ifdef __GNUC__
-#warning Commenting the event filter stuff out for now!
-#endif
-//FIXME: port for KDE4
-// 	view->focusProxy()->removeEventFilter(m_eventFilter);
+	QList<QObject*> toReturn;
+	QObject *eventFilter = new LaTeXEventFilter(view, m_editorExtension);
+	connect(m_configurationManager, SIGNAL(configChanged()), eventFilter, SLOT(readConfig()));
+	toReturn << eventFilter;
+	return toReturn;
 }
 
 BracketResult LaTeXInfo::matchBracket(int &l, int &pos)

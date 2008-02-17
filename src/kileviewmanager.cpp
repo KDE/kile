@@ -45,7 +45,6 @@
 #include "kiledocmanager.h"
 #include "kileextensions.h"
 #include "widgets/projectview.h"
-#include "kileeventfilter.h"
 #include "widgets/structurewidget.h"
 #include "editorextension.h"
 #include "plaintolatexconverter.h"
@@ -134,7 +133,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	// in the case of simple text documents, we mimic the behaviour of LaTeX documents
 	if(info->getType() == KileDocument::Text) {
-		view->focusProxy()->installEventFilter(m_ki->eventFilter());
+// 		view->focusProxy()->installEventFilter(m_ki->eventFilter());
 	}
 
 	//insert the view in the tab widget
@@ -627,6 +626,29 @@ void Manager::unplugTextEditorPartMenu(KTextEditor::View* view)
 				}
 			}
 		}
+	}
+}
+
+
+void Manager::installEventFilter(KTextEditor::View *view, QObject *eventFilter)
+{
+	QWidget *focusProxy = view->focusProxy();
+	if(focusProxy) {
+		focusProxy->installEventFilter(eventFilter);
+	}
+	else {
+		view->installEventFilter(eventFilter);
+	}
+}
+
+void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
+{
+	QWidget *focusProxy = view->focusProxy();
+	if(focusProxy) {
+		focusProxy->removeEventFilter(eventFilter);
+	}
+	else {
+		view->removeEventFilter(eventFilter);
 	}
 }
 

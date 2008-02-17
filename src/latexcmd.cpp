@@ -219,10 +219,12 @@ bool LatexCommands::isType(const QString &name, QChar ch)
 {
 	if(name.indexOf('*', -1) >= 0) {
 		QString envname = name.left(name.length() - 1);
-		return (getValue(envname).at(2) == ch && isStarredEnv(envname));
+		QString value = getValue(envname);
+		return (value.length() >= 3 && value.at(2) == ch && isStarredEnv(envname));
 	}
 	else {
-		return (getValue(name).at(2) == ch);
+		QString value = getValue(name);
+		return (value.length() >= 3 && value.at(2) == ch);
 	}
 }
 

@@ -11,7 +11,7 @@ Fixes:
 
 Features:
  - Add \newlength as a variation of newcommand
- - Add url.cwl, svninfo.cwl, svn-multi.cwl
+ - Add url.cwl, svninfo.cwl, svn-multi.cwl, yfonts.cwl
  - Allow ":" and "-" in citation keys, important for codecompletion
 
 Syntax:

@@ -89,4 +89,5 @@ texcomplete_DATA = \
 	verse.cwl \
 	xifthen.cwl \
 	xltxtra.cwl \
-	xtab.cwl
+	xtab.cwl \
+	yfonts.cwl

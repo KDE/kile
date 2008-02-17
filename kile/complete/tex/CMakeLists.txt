@@ -92,6 +92,7 @@ SET(kile_texCompleteFiles
 	xifthen.cwl
 	xltxtra.cwl
 	xtab.cwl
+	yfonts.cwl
 )
 
 INSTALL( FILES ${kile_texCompleteFiles} DESTINATION share/apps/kile/complete/tex )

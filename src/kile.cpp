@@ -529,7 +529,19 @@ void Kile::setupBottomBar()
 	m_logWidget->setFocusPolicy(Qt::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
 	m_logWidget->setReadOnly(true);
-	m_bottomBar->addPage(m_logWidget, SmallIcon("utilities-log-viewer"), i18n("Log and Messages"));
+
+	QWidget *widget = new QWidget(m_mainWindow);
+	QHBoxLayout *layout = new QHBoxLayout(widget);
+	widget->setLayout(layout);
+	
+	m_latexOutputErrorToolBar = new KToolBar(widget);
+	m_latexOutputErrorToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+	m_latexOutputErrorToolBar->setIconDimensions(KIconLoader::SizeSmall);
+	m_latexOutputErrorToolBar->setOrientation(Qt::Vertical);
+
+	layout->addWidget(m_logWidget);
+	layout->addWidget(m_latexOutputErrorToolBar);
+	m_bottomBar->addPage(widget, SmallIcon("utilities-log-viewer"), i18n("Log and Messages"));
 
 	m_outputWidget = new KileWidget::OutputView(m_mainWindow);
 	m_outputWidget->setFocusPolicy(Qt::ClickFocus);
@@ -615,6 +627,8 @@ KAction* Kile::createAction(KStandardAction::StandardAction actionType, const QS
 }
 void Kile::setupActions()
 {
+	QAction *action;
+
 	m_paPrint = createAction(KStandardAction::Print, "file_print", NULL, NULL);
 	createAction(KStandardAction::New, "file_new", docManager(), SLOT(fileNew()));
 	createAction(KStandardAction::Open, "file_open", docManager(), SLOT(fileOpen()));
@@ -681,16 +695,24 @@ void Kile::setupActions()
 	createAction(i18n("Find in &Project..."), "project_findfiles", "projectgrep", this, SLOT(findInProjects()));
 
 	//build actions
-	createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
-	createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));
-	createAction(i18n("Previous LaTeX Error"), "PreviousError", "errorprev", m_errorHandler, SLOT(PreviousError()));
-	createAction(i18n("Next LaTeX Error"), "NextError", "errornext", m_errorHandler, SLOT(NextError()));
-	createAction(i18n("Previous LaTeX Warning"), "PreviousWarning", "warnprev", m_errorHandler, SLOT(PreviousWarning()));
-	createAction(i18n("Next LaTeX Warning"), "NextWarning", "warnnext", m_errorHandler, SLOT(NextWarning()));
-	createAction(i18n("Previous LaTeX BadBox"), "PreviousBadBox", "bboxprev", m_errorHandler, SLOT(PreviousBadBox()));
-	createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
-	m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape), NULL, NULL);
+	action = createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
+	action = createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));
+	m_latexOutputErrorToolBar->addAction(action);
+	action = createAction(i18n("Previous LaTeX Error"), "PreviousError", "errorprev", m_errorHandler, SLOT(PreviousError()));
+	m_latexOutputErrorToolBar->addAction(action);
+	action = createAction(i18n("Next LaTeX Error"), "NextError", "errornext", m_errorHandler, SLOT(NextError()));
+	m_latexOutputErrorToolBar->addAction(action);
+	action = createAction(i18n("Previous LaTeX Warning"), "PreviousWarning", "warnprev", m_errorHandler, SLOT(PreviousWarning()));
+	m_latexOutputErrorToolBar->addAction(action);
+	action = createAction(i18n("Next LaTeX Warning"), "NextWarning", "warnnext", m_errorHandler, SLOT(NextWarning()));
+	m_latexOutputErrorToolBar->addAction(action);
+	action = createAction(i18n("Previous LaTeX BadBox"), "PreviousBadBox", "bboxprev", m_errorHandler, SLOT(PreviousBadBox()));
+	m_latexOutputErrorToolBar->addAction(action);
+	action = createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
+	m_latexOutputErrorToolBar->addAction(action);
+	m_paStop = m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape), NULL, NULL);
 	m_paStop->setEnabled(false);
+	m_latexOutputErrorToolBar->addAction(m_paStop);
 
 	createAction(i18n("Editor View"), "EditorView", "edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
 	createAction(i18n("Next Document"), "gotoNextDocument", "arrow-right", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
@@ -1465,16 +1487,12 @@ void Kile::showToolBars(const QString & wantState)
 {
 	// save state of all toolbars
 	static bool mainToolBar = true;
-	static bool buildToolBar = true;
-	static bool errorToolBar = true;
 	static bool toolsToolBar = true;
 	static bool editToolBar = true;
 	static bool mathToolBar = true;
 
 	if(m_currentState == "Editor") {
 		mainToolBar  = toolBar("mainToolBar")->isShown();
-		buildToolBar = toolBar("buildToolBar")->isShown();
-		errorToolBar = toolBar("errorToolBar")->isShown();
 		toolsToolBar = toolBar("toolsToolBar")->isShown();
 		editToolBar  = toolBar("editToolBar")->isShown();
 		mathToolBar  = toolBar("mathToolBar")->isShown();
@@ -1495,8 +1513,6 @@ void Kile::showToolBars(const QString & wantState)
 		m_wantState="Editor";
 		m_topWidgetStack->setCurrentIndex(0);
 		if ( ! mainToolBar  ) toolBar("mainToolBar")->hide();
-		if ( buildToolBar ) toolBar("buildToolBar")->show();
-		if ( errorToolBar ) toolBar("errorToolBar")->show();
 		if ( toolsToolBar ) toolBar("toolsToolBar")->show();
 		if ( editToolBar  ) toolBar("editToolBar")->show();
 		if ( mathToolBar  ) toolBar("mathToolBar")->show();
@@ -1508,8 +1524,6 @@ void Kile::showToolBars(const QString & wantState)
 void Kile::setViewerToolBars()
 {
 	toolBar("mainToolBar")->show();
-	toolBar("buildToolBar")->hide();
-	toolBar("errorToolBar")->hide();
 	toolBar("toolsToolBar")->hide();
 	toolBar("editToolBar")->hide();
 	toolBar("mathToolBar")->hide();

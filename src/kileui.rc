@@ -527,23 +527,8 @@
 	<Action name="file_open"/>
 	<Action name="file_close"/>
 	<Merge/>
-	<Action name="Mode"/>
-	<Action name="settings_configure" />
 </ToolBar>
-<ToolBar name="buildToolBar" fullWidth="false" index="2"><text>Build</text>
-	<Action name="WatchFile"/>
-	<Action name="Stop"/>
-</ToolBar>
-<ToolBar name="errorToolBar" fullWidth="false" index="3"><text>Error</text>
-	<Action name="ViewLog"/>
-	<Action name="PreviousError"/>
-	<Action name="NextError"/>
-	<Action name="PreviousWarning"/>
-	<Action name="NextWarning"/>
-	<Action name="PreviousBadBox"/>
-	<Action name="NextBadBox"/>
-</ToolBar>
-<ToolBar name="toolsToolBar" fullWidth="false" index="4"><text>Tools</text>
+<ToolBar name="toolsToolBar" fullWidth="false" index="2"><text>Tools</text>
 	<Action name="tool_QuickBuild"/>
 	<Action name="quickpreview_selection"/>
 	<Separator lineSeparator="true"/>
@@ -563,7 +548,7 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tool_ForwardDVI"/>
 </ToolBar>
-<ToolBar name="editToolBar" fullWidth="false" index="5"><text>Edit</text>
+<ToolBar name="editToolBar" fullWidth="false" index="3"><text>Edit</text>
 	<Action name="structure_list"/>
 	<Separator lineSeparator="true"/>
 	<Action name="other_list"/>
@@ -582,7 +567,7 @@
 	<Action name="tag_env_description"/>
 	<Action name="tag_item"/>
 </ToolBar>
-<ToolBar name="mathToolBar" fullWidth="false" index="6"><text>Math</text>
+<ToolBar name="mathToolBar" fullWidth="false" index="4"><text>Math</text>
 	<Action name="tag_mathmode"/>
 	<Action name="tag_subscript"/>
 	<Action name="tag_superscript"/>
@@ -596,7 +581,7 @@
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
 </ToolBar>
-<ToolBar name="extraToolBar" index="7" noMerge="1"><text>Extra</text>
+<ToolBar name="extraToolBar" index="5" noMerge="1"><text>Extra</text>
 	<Merge/>
 	<Separator lineSeparator="true"/>
 	<Action name="EditorView"/>

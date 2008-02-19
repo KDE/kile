@@ -1067,32 +1067,25 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 		return;
 	}
 
+	//FIXME: this doesn't seem to work properly!
 	//disable gui updates to avoid flickering of toolbars
 	m_mainWindow->setUpdatesEnabled(false);
-	KTextEditor::View* view = (KTextEditor::View*)w;
 
-#ifdef __GNUC__
-#warning Commenting Kate::View->isActive() out!
-#endif
-//FIXME:
-// 	if (view->isActive()) return;
+	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(w);
+	Q_ASSERT(view);
 
-	for(int i = 0; i< viewManager()->textViews().count(); ++i) {
-		m_mainWindow->guiFactory()->removeClient(viewManager()->textView(i));
-#ifdef __GNUC__
-#warning Commenting Kate::View->setActive() out!
-#endif
-//FIXME:
-// 		viewManager()->textView(i)->setActive(false);
+	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
+		KTextEditor::View *view2 = viewManager()->textView(i);
+		if(view == view2) {
+			continue;
+		}
+		m_mainWindow->guiFactory()->removeClient(view2);
+		view2->clearFocus();
 	}
 
 	m_mainWindow->guiFactory()->addClient(view);
 
-#ifdef __GNUC__
-#warning Commenting Kate::View->isActive() out!
-#endif
-//FIXME:
-// 	view->setActive( true );
+	view->setFocus(Qt::OtherFocusReason);
 
 	// remove menu entry to config Kate
 	checkKateSettings();
@@ -1765,12 +1758,9 @@ void Kile::prepareForPart(const QString & state)
 
 	//deactivate kateparts
 	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
-		m_mainWindow->guiFactory()->removeClient(viewManager()->textView(i));
-#ifdef __GNUC__
-#warning Commenting Kate::View->setActive() out!
-#endif
-//FIXME:
-// 		viewManager()->textView(i)->setActive(false);
+		KTextEditor::View *view = viewManager()->textView(i);
+		m_mainWindow->guiFactory()->removeClient(view);
+		view->clearFocus();
 	}
 }
 

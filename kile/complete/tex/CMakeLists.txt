@@ -89,6 +89,7 @@ SET(kile_texCompleteFiles
 	url.cwl
 	varioref.cwl
 	verse.cwl
+	virginialake.cwl
 	xifthen.cwl
 	xltxtra.cwl
 	xtab.cwl

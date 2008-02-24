@@ -1,9 +1,9 @@
-/***************************************************************************
+/***************************************************************************************
     begin                : Fri Aug 1 2003
-    edit   : Fri April 6 2007
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout, 2006 - 2007 Thomas Braun
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2002 - 2003 by Pascal Brachet
+                               2003 Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2006 - 2007 Thomas Braun
+ ***************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -28,7 +28,7 @@ class SymbolView : public QListWidget
 	Q_OBJECT
 
 	public:
-		SymbolView(QWidget *parent = 0, int type = -1, const char *name = 0);
+		SymbolView(QWidget *parent = 0, int type = -1, const char *name = NULL);
 		~SymbolView();
 		enum { MFUS = 0, Relation, Operator, Arrow, MiscMath, MiscText, Delimiters, Greek, Special, Cyrillic, User };
 		void writeConfig();

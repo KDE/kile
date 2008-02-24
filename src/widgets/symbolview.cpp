@@ -1,9 +1,8 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : Fri Aug 1 2003
-    edit   : Fri April 6 2007
-    copyright            : (C) 2003 by Jeroen Wijnhout, 2006 - 2007 by Thomas Braun
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2006 - 2007 by Thomas Braun
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -105,55 +104,54 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 
 void SymbolView::initPage(int page)
 {
-	switch (page)
-	{
-	case MFUS:
-		fillWidget(MFUS_PREFIX);
-		break;
-
-	case Relation:
-		fillWidget("relation");
-		break;
-
-	case Operator:
-		fillWidget("operators");
-		break;
-
-	case Arrow:
-		fillWidget("arrows");
-		break;
-
-	case MiscMath:
-		fillWidget("misc-math");
-		break;
-
-	case MiscText:
-		fillWidget("misc-text");
-		break;
-
-	case Delimiters:
-		fillWidget("delimiters");
-		break;
-
-	case Greek:
-		fillWidget("greek");
-		break;
-
-	case Special:
-		fillWidget("special");
-		break;
-
-	case Cyrillic:
-		fillWidget("cyrillic");
-		break;
-
-	case User:
-		fillWidget("user");
-		break;
-
-	default:
-		kWarning() << "wrong argument in initPage()" << endl;
-		break;
+	switch(page) {
+		case MFUS:
+			fillWidget(MFUS_PREFIX);
+			break;
+	
+		case Relation:
+			fillWidget("relation");
+			break;
+	
+		case Operator:
+			fillWidget("operators");
+			break;
+	
+		case Arrow:
+			fillWidget("arrows");
+			break;
+	
+		case MiscMath:
+			fillWidget("misc-math");
+			break;
+	
+		case MiscText:
+			fillWidget("misc-text");
+			break;
+	
+		case Delimiters:
+			fillWidget("delimiters");
+			break;
+	
+		case Greek:
+			fillWidget("greek");
+			break;
+	
+		case Special:
+			fillWidget("special");
+			break;
+	
+		case Cyrillic:
+			fillWidget("cyrillic");
+			break;
+	
+		case User:
+			fillWidget("user");
+			break;
+	
+		default:
+			kWarning() << "wrong argument in initPage()";
+			break;
 	}
 }
 
@@ -167,19 +165,21 @@ QString SymbolView::getToolTip(const QString &key)
 
 	label = i18n("Command: ") + cmd + "\n";
 
-	if (pkgs.count() > 0)
-	{
-		if (pkgs.count() == 1)
+	if(pkgs.count() > 0) {
+		if(pkgs.count() == 1) {
 			label += i18n("Package: ");
-		else
+		}
+		else {
 			label += i18n("Packages: ");
+		}
 
-		for (int i = 0; i < pkgs.count() ; i++)
-		{
-			if (i < args.count())
+		for (int i = 0; i < pkgs.count() ; i++) {
+			if(i < args.count()) {
 				label = label + "[" + args[i] + "]" + pkgs[i] + "\n";
-			else
+			}
+			else {
 				label = label + pkgs[i] + "\n";
+			}
 		}
 	}
 
@@ -190,67 +190,63 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 {
 	QString code_symbol;
 	QStringList args, pkgs;
-	QListWidgetItem *item = 0;
+	QListWidgetItem *item = NULL;
 	int count;
 	bool math = false, bracket = false;
 
-	if (event->button() == Qt::LeftButton && (item = itemAt(event->pos())))
-	{
+	if(event->button() == Qt::LeftButton && (item = itemAt(event->pos()))) {
 		bracket = (event->state() & Qt::ControlModifier) ==  Qt::ControlModifier;
 		math = (event->state() & Qt::ShiftModifier) ==  Qt::ShiftModifier;
 
 		extract(item->data(Qt::UserRole).toString(), count, code_symbol, args, pkgs);
 
-		if (math == bracket)
-			;
-		else
-			if (math)
+		if(math != bracket) {
+			if(math) {
 				code_symbol = '$' + code_symbol + '$';
-			else
-				if (bracket)
+			}
+			else {
+				if(bracket) {
 					code_symbol = '{' + code_symbol + '}';
-
+				}
+			}
+		}
 		emit(insertText(code_symbol, pkgs));
 		emit(addToList(item));
 	}
 
-	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "") << endl;
+	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
 }
 
 void SymbolView::fillWidget(const QString& prefix)
 {
-	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===" << endl;
+	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
 	QImage image;
 	QListWidgetItem* item;
 	QStringList refCnts, paths;
 
-	if (prefix == MFUS_PREFIX)
-	{
+	if (prefix == MFUS_PREFIX) {
 		KConfigGroup config = KGlobal::config()->group(MFUS_GROUP);
 		QString configPaths = config.readEntry("paths");
 		QString configrefCnts = config.readEntry("counts");
 		paths = configPaths.split(',');
 		refCnts = configrefCnts.split(',');
-		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts" << endl;
-		if (paths.count() != refCnts.count())
-		{
-			KILE_DEBUG() << "error in saved LRU list" << endl;
+		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
+		if(paths.count() != refCnts.count()) {
+			KILE_DEBUG() << "error in saved LRU list";
 			paths.clear();
 			refCnts.clear();
 		}
 	}
-	else
-	{
+	else {
 		paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png", KStandardDirs::NoDuplicates);
 		paths.sort();
-		for (int i = 0 ; i < paths.count() ; i++)
+		for(int i = 0 ; i < paths.count() ; i++) {
 			refCnts.append("1");
+		}
 	}
-	for (int i = 0; i < paths.count(); i++)
-	{
-		if (image.load(paths[i]))
-		{
-//      KILE_DEBUG() << "path is " << paths[i] << endl;
+	for(int i = 0; i < paths.count(); i++) {
+		if(image.load(paths[i])) {
+//      KILE_DEBUG() << "path is " << paths[i];
 			item = new QListWidgetItem(this);
 			item->setIcon(QPixmap::fromImage(image));
 			QString key = refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i];
@@ -258,8 +254,9 @@ void SymbolView::fillWidget(const QString& prefix)
 			item->setToolTip(getToolTip(key));
 //    image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
 		}
-		else
-			KILE_DEBUG() << "Loading file " << paths[i] << " failed" << endl;
+		else {
+			KILE_DEBUG() << "Loading file " << paths[i] << " failed";
+		}
 	}
 }
 
@@ -271,18 +268,16 @@ void SymbolView::writeConfig()
 
 	KConfigGroup grp = KGlobal::config()->group(MFUS_GROUP);
 
-	if (KileConfig::clearMFUS())
-	{
+	if (KileConfig::clearMFUS()) {
 		grp.deleteEntry("paths");
 		grp.deleteEntry("counts");
 	}
-	else
-	{
-		for (int i = 0; i < count(); ++i) {
+	else {
+		for(int i = 0; i < count(); ++i) {
 			item = this->item(i);
 			refCnts.append(item->data(Qt::UserRole).toString().section('%', 0, 0));
 			paths.append(item->data(Qt::UserRole).toString().section('%', 3, 3));
-			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last() << endl;
+			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last();
 		}
 		grp.writeEntry("paths", paths);
 		grp.writeEntry("counts", refCnts);
@@ -291,48 +286,46 @@ void SymbolView::writeConfig()
 
 void SymbolView::slotAddToList(const QListWidgetItem *item)
 {
-	if (!item || item->icon().isNull())
+	if(!item || item->icon().isNull()) {
 		return;
+	}
 
 	QListWidgetItem *tmpItem;
 	bool found = false;
 	const QRegExp reCnt("^\\d+");
 
-	KILE_DEBUG() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===" << endl;
+	KILE_DEBUG() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
 
-	for (int i = 0; i < count(); ++i) {
+	for(int i = 0; i < count(); ++i) {
 		tmpItem = this->item(i);
-		if (item->data(Qt::UserRole).toString().section('%', 1) == tmpItem->data(Qt::UserRole).toString().section('%', 1))
-		{
+		if (item->data(Qt::UserRole).toString().section('%', 1) == tmpItem->data(Qt::UserRole).toString().section('%', 1)) {
 			found = true;
 			break;
 		}
 	}
 
-	if (!found && (this->count() + 1) > KileConfig::numSymbolsMFUS())    // we check before adding the symbol
-	{
+	if(!found
+           && static_cast<unsigned int>(this->count() + 1) > KileConfig::numSymbolsMFUS()) {   // we check before adding the symbol
 		int refCnt, minRefCnt = 10000;
-		QListWidgetItem *unpopularItem = 0;
+		QListWidgetItem *unpopularItem = NULL;
 
-		KILE_DEBUG() << "Removing most unpopular item" << endl;
+		KILE_DEBUG() << "Removing most unpopular item";
 
 		for (int i = 0; i < count(); ++i) {
 			tmpItem = this->item(i);
 			extract(tmpItem->data(Qt::UserRole).toString(), refCnt);
 
-			if (refCnt < minRefCnt)
-			{
+			if (refCnt < minRefCnt) {
 				refCnt = minRefCnt;
 				unpopularItem = tmpItem;
 			}
 		}
-		KILE_DEBUG() << " minRefCnt is " << minRefCnt << endl;
+		KILE_DEBUG() << " minRefCnt is " << minRefCnt;
 		delete unpopularItem;
 	}
 
-	if (found)
-	{
-		KILE_DEBUG() << "item is already in the iconview" << endl;
+	if(found) {
+		KILE_DEBUG() << "item is already in the iconview";
 
 		int refCnt;
 		extract(tmpItem->data(Qt::UserRole).toString(), refCnt);
@@ -342,8 +335,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 		tmpItem->setData(Qt::UserRole, key);
 		tmpItem->setToolTip(getToolTip(key));
 	}
-	else
-	{
+	else {
 		tmpItem = new QListWidgetItem(this);
 		tmpItem->setIcon(item->icon());
 		QString key = item->data(Qt::UserRole).toString();

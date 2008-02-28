@@ -84,10 +84,7 @@ namespace KileTool
 	{
 		QString from_cfg = KGlobal::dirs()->findResource("appdata", "kilestdtools.rc");
 		QString to_cfg = KGlobal::dirs()->saveLocation("config") + "/kilerc";
-#ifdef __GNUC__
-#warning Has to be checked. Was KConfig *pCfg = new KConfig(from_cfg, false, false) before.
-#endif
-		KConfig *pCfg = new KConfig(from_cfg);
+		KConfig *pCfg = new KConfig(from_cfg, KConfig::NoGlobals);
 		pCfg->copyTo(to_cfg, m_config);
 	}
 

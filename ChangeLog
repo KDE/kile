@@ -9,6 +9,7 @@ Fixes:
  - Add figure* to the structure view also (#151743)
  - Fix completion for multiple citations/references (#152766)
  - Fix crash at template handling, reported and fixed by Vincenzo Di Massa
+ - Rename some cwl files so that they not only differ by case (#158600)
 
 Features:
  - Add \newlength as a variation of newcommand

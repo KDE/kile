@@ -33,11 +33,11 @@ SET(kile_texCompleteFiles
 	fancybox.cwl
 	fancyhdr.cwl
 	fancyunits-base.cwl
+	fancyunits_big-fractions.cwl
+	fancyunits_medium-fractions.cwl
 	fancyunits-np.cwl
 	fancyunits-per.cwl
-	fancyunits-uf.cwl
-	fancyunits-Uf.cwl
-	fancyunits-UF.cwl
+	fancyunits_small-fractions.cwl
 	fancyvrb.cwl
 	fontspec.cwl
 	graphicx.cwl

@@ -2434,12 +2434,11 @@ void Kile::includeGraphics()
 
 void Kile::slotToggleFullScreen()
 {
-	//FIXME for Qt 3.3.x we can do: setWindowState(windowState() ^ WindowFullScreen);
 	if (!m_pFullScreen->isChecked()) {
-		m_mainWindow->showNormal();
+		m_mainWindow->setWindowState( m_mainWindow->windowState() & ~Qt::WindowFullScreen );
 	}
 	else {
-		m_mainWindow->showFullScreen();
+		m_mainWindow->setWindowState( m_mainWindow->windowState() | Qt::WindowFullScreen );
 	}
 }
 

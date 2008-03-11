@@ -5,6 +5,7 @@ texcomplete_DATA = \
 	amsbsy.cwl \
 	amsfonts.cwl \
 	amsmath.cwl \
+	amsopn.cwl \
 	amssymb.cwl \
 	amsthm.cwl \
 	array.cwl \

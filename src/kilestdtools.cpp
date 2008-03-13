@@ -1,8 +1,7 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Thu Nov 27 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,13 +14,12 @@
 
 #include "kilestdtools.h"
 
-#include <qfileinfo.h>
-#include <qregexp.h>
+#include <QFileInfo>
+#include <QRegExp>
 
-#include <kconfig.h>
-#include <klocale.h>
-#include <ktexteditor/document.h>
-#include <kstandarddirs.h>
+#include <KConfig>
+#include <KLocale>
+#include <KStandardDirs>
 
 #include "kileconfig.h"
 #include "kiletool.h"
@@ -35,45 +33,64 @@
 
 namespace KileTool
 {
-	Base* Factory::create(const QString & tool, bool prepare /* = true */)
+	Factory::Factory(Manager *mngr, KConfig *config) : m_manager(mngr), m_config(config)
+	{
+	}
+
+	Factory::~Factory()
+	{
+	}
+
+	Base* Factory::create(const QString& tool, bool prepare /* = true */)
 	{
 		//perhaps we can find the tool in the config file
 		if (m_config->hasGroup(groupFor(tool, m_config))) {
 			KConfigGroup configGroup = m_config->group(groupFor(tool, m_config));
 			QString toolClass = configGroup.readEntry("class", QString());
 
-			if ( toolClass == "LaTeX")
+			if(toolClass == "LaTeX") {
 				return new LaTeX(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "LaTeXpreview")
+			if(toolClass == "LaTeXpreview") {
 				return new PreviewLaTeX(tool, m_manager, prepare);
-				
-			if ( toolClass == "ForwardDVI" )
+			}
+
+			if(toolClass == "ForwardDVI") {
 				return new ForwardDVI(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "ViewHTML" )
+			if(toolClass == "ViewHTML") {
 				return new ViewHTML(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "ViewBib" )
+			if(toolClass == "ViewBib") {
 				return new ViewBib(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "Base" )
+			if(toolClass == "Base") {
 				return new Base(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "Compile" )
+			if(toolClass == "Compile") {
 				return new Compile(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "Convert" )
+			if(toolClass == "Convert") {
 				return new Convert(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "Archive" )
+			if(toolClass == "Archive") {
 				return new Archive(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "View" )
+			if(toolClass == "View") {
 				return new View(tool, m_manager, prepare);
+			}
 
-			if ( toolClass == "Sequence" )
+			if(toolClass == "Sequence") {
 				return new Sequence(tool, m_manager, prepare);
+			}
 		}
 
 		//unknown tool, return 0
@@ -89,6 +106,10 @@ namespace KileTool
 	}
 
 	/////////////// LaTeX ////////////////
+
+	LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare) : Compile(tool, mngr, prepare)
+	{
+	}
 
 	int LaTeX::m_reRun = 0;
 
@@ -137,7 +158,7 @@ namespace KileTool
 
 	bool LaTeX::finish(int r)
 	{
-		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====" << endl;
+		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====";
 		
 		int nErrors = 0, nWarnings = 0;
 		if(filterLogfile()) {
@@ -180,7 +201,7 @@ namespace KileTool
 	
 	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
 	{
-		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun << endl;
+		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
 		//check for "rerun LaTeX" warnings
 		bool reRan = false;
 		if((m_reRun < 2) && (nErrors == 0) && (nWarnings > 0)) {
@@ -207,7 +228,7 @@ namespace KileTool
 		bool asy = updateAsy();
 		
 		if(reRan) {
-			KILE_DEBUG() << "rerunning LaTeX " << m_reRun << endl;
+			KILE_DEBUG() << "rerunning LaTeX " << m_reRun;
 			Base *tool = manager()->factory()->create(name());
 			tool->setSource(source());
 			manager()->runNext(tool);
@@ -219,30 +240,34 @@ namespace KileTool
 			manager()->runNext(tool);
 
 			if(bibs) {
-				KILE_DEBUG() << "need to run BibTeX" << endl;
+				KILE_DEBUG() << "need to run BibTeX";
 				tool = manager()->factory()->create("BibTeX");
 				tool->setSource(source());
 				manager()->runNext(tool);
 			}
 
 			if(index) {
-				KILE_DEBUG() << "need to run MakeIndex" << endl;
+				KILE_DEBUG() << "need to run MakeIndex";
 				tool = manager()->factory()->create("MakeIndex");
 				tool->setSource(source());
 				manager()->runNext(tool);
 			}
 			
 			if(asy) {
-				KILE_DEBUG() << "need to run asymptote" << endl;
+				KILE_DEBUG() << "need to run asymptote";
 				tool = manager()->factory()->create("Asymptote");
 				tool->setSource(source());
 				manager()->runNext(tool);
-			}	
+			}
 		}
 	}
 	
 	
 	/////////////// PreviewLaTeX (dani) ////////////////
+
+	PreviewLaTeX::PreviewLaTeX(const QString& tool, Manager *mngr, bool prepare) : LaTeX(tool, mngr, prepare)
+	{
+	}
 
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
@@ -250,7 +275,7 @@ namespace KileTool
 	// - checkErrors()    : count errors and warnings and emit signals   
 	bool PreviewLaTeX::finish(int r)
 	{
-		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====" << endl;
+		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
 		
 		int nErrors = 0, nWarnings = 0;
 		if(filterLogfile()) {
@@ -267,7 +292,11 @@ namespace KileTool
 		m_selrow = selrow;
 		m_docrow = docrow;
 	}
-	
+
+	ForwardDVI::ForwardDVI(const QString& tool, Manager *mngr, bool prepare) : View(tool, mngr, prepare)
+	{
+	}
+
 	bool ForwardDVI::determineTarget()
 	{
 		if (!View::determineTarget()) {
@@ -289,15 +318,19 @@ namespace KileTool
 		m_urlstr = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
 		addDict("%dir_target", QString());
 		addDict("%target", m_urlstr);
-		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n" << endl;
-		KILE_DEBUG() << "\tusing  " << m_urlstr << endl;
+		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n";
+		KILE_DEBUG() << "\tusing  " << m_urlstr;
 
 		return true;
 	}
 
+	ViewBib::ViewBib(const QString& tool, Manager *mngr, bool prepare) : View(tool, mngr, prepare)
+	{
+	}
+
 	bool ViewBib::determineSource()
 	{
-		KILE_DEBUG() << "==ViewBib::determineSource()=======" << endl;
+		KILE_DEBUG() << "==ViewBib::determineSource()=======";
 		if (!View::determineSource()) {
 			return false;
 		}
@@ -307,7 +340,7 @@ namespace KileTool
 
 		//get the bibliographies for this source
 		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
-		KILE_DEBUG() << "\tfound " << bibs->count() << " bibs" << endl;
+		KILE_DEBUG() << "\tfound " << bibs->count() << " bibs";
 		if(bibs->count() > 0) {
 			QString bib = bibs->front();
 			if (bibs->count() > 1) {
@@ -317,7 +350,7 @@ namespace KileTool
 				if (dlg->exec()) {
 					bib = (*bibs)[dlg->currentItem()];
 					bib_selected = true;
-					KILE_DEBUG() << "Bibliography selected : " << bib << endl;
+					KILE_DEBUG() << "Bibliography selected : " << bib;
 				}
 				delete dlg;
 				
@@ -326,11 +359,11 @@ namespace KileTool
 					return false;
 				}
 			}
-			KILE_DEBUG() << "filename before: " << info.path() << endl;
+			KILE_DEBUG() << "filename before: " << info.path();
 			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));	
 		}
 		else if(info.exists()) { //active doc is a bib file
-			KILE_DEBUG() << "filename before: " << info.path() << endl;
+			KILE_DEBUG() << "filename before: " << info.path();
 			setSource(manager()->info()->checkOtherPaths(info.path(),info.fileName(),KileInfo::bibinputs));
 		}
 		else {
@@ -338,6 +371,10 @@ namespace KileTool
 			return false;
 		}
 		return true;
+	}
+
+	ViewHTML::ViewHTML(const QString& tool, Manager *mngr, bool prepare) : View(tool, mngr, prepare)
+	{
 	}
 
 	bool ViewHTML::determineTarget()

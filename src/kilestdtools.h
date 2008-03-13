@@ -1,8 +1,7 @@
-/***************************************************************************
+/*************************************************************************************
     begin                : Thu Nov 27 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,9 +15,9 @@
 #ifndef KILESTDTOOLS_H
 #define KILESTDTOOLS_H
 
-#include "kiledebug.h"
-#include <qstring.h>
+#include <QString>
 
+#include "kiledebug.h"
 #include "kiletool.h"
 
 class KConfig;
@@ -31,98 +30,96 @@ namespace KileTool
 
 	class Factory
 	{
-	public:
-		Factory(Manager *mngr, KConfig *config) : m_manager(mngr), m_config(config) {}
-		~Factory() {}
-
-		Base* create(const QString & tool, bool prepare = true);
-
-		void writeStdConfig();
-
-	private:
-		Manager		*m_manager;
-		KConfig		*m_config;
+		public:
+			Factory(Manager *mngr, KConfig *config);
+			~Factory();
+	
+			Base* create(const QString & tool, bool prepare = true);
+	
+			void writeStdConfig();
+	
+		private:
+			Manager		*m_manager;
+			KConfig		*m_config;
 	};
 
 	class LaTeX : public Compile
 	{
 		Q_OBJECT
 
-	public:
-		LaTeX(const QString & tool, Manager *mngr, bool prepare) : Compile(tool, mngr, prepare) {}
+		public:
+			LaTeX(const QString& tool, Manager *mngr, bool prepare);
 
-	Q_SIGNALS:
-		void jumpToFirstError();
+		Q_SIGNALS:
+			void jumpToFirstError();
+	
+		public Q_SLOTS:
+			bool finish(int);
+	
+		protected:
+			bool filterLogfile();
+			void checkErrors(int &nErrors, int &nWarnings);
+			void checkAutoRun(int nErrors, int nWarnings);
+			
+		private:
+			bool updateBibs();
+			bool updateIndex();
+			bool updateAsy();
 
-	public Q_SLOTS:
-		bool finish(int);
-
-	protected:
-		bool filterLogfile();
-		void checkErrors(int &nErrors, int &nWarnings);
-		void checkAutoRun(int nErrors, int nWarnings);
-		
-	private:
-		bool updateBibs();
-		bool updateIndex();
-		bool updateAsy();
-
-	private:
-		static int m_reRun;
+			static int m_reRun;
 	};
 
 	class PreviewLaTeX : public LaTeX
 	{
 		Q_OBJECT
 
-	public:
-		PreviewLaTeX(const QString & tool, Manager *mngr, bool prepare) : LaTeX(tool, mngr, prepare) {}
-		
-		void setPreviewInfo(const QString &filename, int selrow,int docrow);
-		
-	public Q_SLOTS:
-		bool finish(int);
-		
-	private:
-		QString m_filename;
-		int m_selrow;
-		int m_docrow;
+		public:
+			PreviewLaTeX(const QString& tool, Manager *mngr, bool prepare);
 
+			void setPreviewInfo(const QString &filename, int selrow, int docrow);
+
+		public Q_SLOTS:
+			bool finish(int);
+			
+		private:
+			QString m_filename;
+			int m_selrow;
+			int m_docrow;
 	};
 	
 	class ForwardDVI : public View
 	{
-	public:
-		ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true) : View(tool, mngr, prepare) {}
+		public:
+			ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
 
-	protected:
-		bool determineTarget();
-
-	private:
-		QString	m_urlstr;
+		protected:
+			bool determineTarget();
+	
+		private:
+			QString m_urlstr;
 	};
 
 	class ViewBib : public View
 	{
-	public:
-		ViewBib(const QString & tool, Manager *mngr, bool prepare = true) : View(tool, mngr, prepare) {}
-
-	protected:
-		bool determineSource();
+		public:
+			ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
+	
+		protected:
+			bool determineSource();
 	};
 
 	class ViewHTML : public View
 	{
 		Q_OBJECT
 
-	public:
-		ViewHTML(const QString & tool, Manager *mngr, bool prepare = true) : View(tool, mngr, prepare) {}
-
-	protected:
-		bool determineTarget();
-
-	Q_SIGNALS:
-		void updateStatus(bool, bool);
+		public:
+			ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);
+	
+		protected:
+			bool determineTarget();
+	
+		Q_SIGNALS:
+			void updateStatus(bool, bool);
 	};
 }
 

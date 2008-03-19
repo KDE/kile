@@ -98,6 +98,8 @@ class TabularCell : public QTableWidgetItem {
 
 		void setBorder(int border);
 		int border() const;
+		
+		QString toLaTeX() const;
 
 	private:
 		int m_Border;

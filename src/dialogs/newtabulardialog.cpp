@@ -537,6 +537,58 @@ int TabularCell::border() const
 {
 	return m_Border;
 }
+
+QString TabularCell::toLaTeX() const
+{
+	if (text().trimmed().isEmpty()) {
+		return QString();
+	}
+
+	QString prefix = QString();
+	QString suffix = QString();
+
+	int alignment = textAlignment() & ~Qt::AlignVCenter;
+	TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(tableWidget()->horizontalHeaderItem(column()));
+	if (headerItem->alignment() != alignment) {
+		switch (alignment) {
+			case Qt::AlignLeft: // TODO consider AlignP etc.
+				prefix += "\\multicolumn{1}{l}{";
+				suffix = "}" + suffix;
+				break;
+
+			case Qt::AlignHCenter:
+				prefix += "\\multicolumn{1}{c}{";
+				suffix = "}" + suffix;
+				break;
+
+			case Qt::AlignRight:
+				prefix += "\\multicolumn{1}{r}{";
+				suffix = "}" + suffix;
+				break;
+		};
+	}
+
+	/* format */
+	if (font().bold()) {
+		prefix += "\\textbf{";
+		suffix = '}' + suffix;
+	}
+	if (font().italic()) {
+		prefix += "\\textit{";
+		suffix = '}' + suffix;
+	}
+
+	/* prefix */
+	if (font().underline()) {
+		prefix += "\\underline{";
+		suffix = '}' + suffix;
+	}
+
+	/* content */
+	QString content = "";
+	content += prefix + text().trimmed() + suffix;
+	return content;
+}
 //END
 
 //BEGIN TabularHeaderItem
@@ -1097,7 +1149,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 		for(int row = 0; row < rows; ++row) {
 			for(int column = 0; column < columns; ++column) {
-				QString content = m_Table->item(row, column)->text();
+				QString content = static_cast<TabularCell*>(m_Table->item(row, column))->toLaTeX();
 				if(content.isEmpty()) {
 					content = bullet;
 				}

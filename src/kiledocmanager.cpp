@@ -31,10 +31,10 @@
 #include <QList>
 #include <QDropEvent>
 
-#include <ktexteditor/document.h>
-#include <ktexteditor/editor.h>
-#include <ktexteditor/editorchooser.h>
-#include <ktexteditor/view.h>
+#include <KTextEditor/Document>
+#include <KTextEditor/Editor>
+#include <KTextEditor/EditorChooser>
+#include <KTextEditor/View>
 #include <kapplication.h>
 #include "kiledebug.h"
 #include <kencodingfiledialog.h>
@@ -85,6 +85,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_ki(info),
 	m_progressDialog(NULL)
 {
+	m_editor = KTextEditor::EditorChooser::editor();
 //FIXME: check whether this is still needed
 // 	KTextEditor::Document::setFileChangedDialogsActivated (true);
 
@@ -135,6 +136,11 @@ void Manager::updateInfos()
 	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
 		(*it)->updateStructLevelInfo();
 	}
+}
+
+KTextEditor::Editor* Manager::getEditor()
+{
+	return m_editor;
 }
 
 KTextEditor::Document* Manager::docFor(const KUrl & url)
@@ -423,14 +429,12 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight)
 {
 	KILE_DEBUG() << "==KTextEditor::Document* Manager::createDocument()===========" << endl;
-	//FIXME: this shouldn't be needed twice
-	KTextEditor::Editor* editor = KTextEditor::EditorChooser::editor();
-	if(!editor) {
+	if(!m_editor) {
 #ifdef __GNUC__
 #warning Check for errors at line 471!
 #endif
 	}
-	KTextEditor::Document *doc = editor->createDocument(NULL);
+	KTextEditor::Document *doc = m_editor->createDocument(NULL);
 	if (docFor(url)) {
 		kWarning() << url << " already has a document!" << endl;
 	}
@@ -474,7 +478,7 @@ KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& 
 
 KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text, bool openProjectItemViews)
 {
-	KTextEditor::View *view = 0L;
+	KTextEditor::View *view = NULL;
 
 	KILE_DEBUG() << "==loadItem(" << item->url().path() << ")======" << endl;
 
@@ -540,12 +544,11 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 	}
 
 	if (sel->name() != DEFAULT_EMPTY_CAPTION && sel->name() != DEFAULT_EMPTY_LATEX_CAPTION && sel->name() != DEFAULT_EMPTY_BIBTEX_CAPTION) {
-		KTextEditor::Editor* editor = KTextEditor::EditorChooser::editor();
-		if(!editor) {
+		if(!m_editor) {
 			return NULL;
 		}
 		//create a new document to open the template in
-		KTextEditor::Document *tempdoc = editor->createDocument(NULL);
+		KTextEditor::Document *tempdoc = m_editor->createDocument(NULL);
 
 		if (!tempdoc->openUrl(KUrl(sel->path()))) {
 			KMessageBox::error(m_ki->mainWindow(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));

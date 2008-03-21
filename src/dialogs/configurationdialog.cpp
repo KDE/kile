@@ -35,10 +35,12 @@
 #include <KLocale>
 // #include <ksconfig.h>
 #include <KIconLoader>
+#include <KVBox>
 
 #include <KTextEditor/ConfigPage>
 #include <KTextEditor/EditorChooser>
 
+#include "kiledocmanager.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 
@@ -285,15 +287,15 @@ namespace KileDialog
 
 		m_editorPages.clear();
 
-#ifdef __GNUC__
-#warning editor seems to be null
-#endif
-		KTextEditor::Editor* editor = KTextEditor::EditorChooser::editor();
-		if (!editor) return;
+		KTextEditor::Editor* editor = m_ki->docManager()->getEditor();
+		if(!editor) {
+			return;
+		}
 		for(int i = 0; i < editor->configPages(); ++i) {
-			KTextEditor::ConfigPage *configPage = editor->configPage(i, parent->widget());
+			KVBox *configPageParent = new KVBox(this);
+			KTextEditor::ConfigPage *configPage = editor->configPage(i, configPageParent);
 
-			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPage, editor->configPageName(i), editor->configPageIcon(i), editor->configPageFullName(i));
+			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, editor->configPageName(i), editor->configPageIcon(i), editor->configPageFullName(i));
 			connect(configPage, SIGNAL(changed()), this, SLOT(slotChanged()));
 			m_editorPages.append(pageWidgetItem);
 		}

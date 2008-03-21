@@ -31,6 +31,8 @@
 #include "kileconstants.h"
 #include "kileproject.h"
 
+#include <KTextEditor/Editor>
+
 class KUrl;
 class KFileItem;
 class KProgressDialog;
@@ -165,6 +167,8 @@ Q_SIGNALS:
 	void addToProjectView(const KileProject *);
 
 public:
+	KTextEditor::Editor* getEditor();
+
 	QList<KileProject*> projects() { return m_projects; }
 	QList<TextInfo*> textDocumentInfos() { return m_textInfoList; }
 
@@ -228,6 +232,7 @@ protected:
 	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
 
 private:
+	KTextEditor::Editor		*m_editor;
 	QList<TextInfo*>		m_textInfoList;
 	KileInfo			*m_ki;
 	QList<KileProject*>		m_projects;

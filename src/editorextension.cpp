@@ -1325,11 +1325,12 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 
 	for(QVector<KTextEditor::Range>::iterator i = foundRanges.begin(); i != foundRanges.end(); ++i) {
 		KTextEditor::Range range = *i;
+		KILE_DEBUG() << doc->text(*i);
 		if(!range.isValid()) {
 			break;
 		}
 		env.row = range.start().line();
-		env.col = range.start().line();
+		env.col = range.start().column();
 		env.len = doc->text(range).length();
 
 		if(isValidBackslash(doc, env.row, env.col)) {

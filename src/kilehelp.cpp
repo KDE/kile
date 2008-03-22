@@ -1,9 +1,8 @@
-/***************************************************************************
+/**********************************************************************************************
     date                 : Feb 12 2007
     version              : 0.30
-    copyright            : (C) 2004-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ **********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,19 +15,19 @@
 
 #include "kilehelp.h"
 
-#include <qdir.h>
-#include <qfile.h>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QRegExp>
 #include <QTextStream>
-#include <qregexp.h>
-#include <qfileinfo.h>
 
-#include <kapplication.h>
-#include <kglobal.h>
-#include <kstandarddirs.h>
+#include <KApplication>
+#include <KGlobal>
+#include <KLocale>
+#include <KStandardDirs>
+#include <KTextEditor/Document>
+
 #include "kiledebug.h"
-#include <klocale.h>
-#include <ktexteditor/document.h>
-
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
@@ -36,7 +35,6 @@
 #include "widgets/logwidget.h"
 #include "kilestdtools.h"
 #include "kileconfig.h"
-
 
 // tbraun 27.06.2007
 // it _looks_ like texlive 2007 has the same layout than texlive 2005 so don't get confused about the variable names :)
@@ -46,11 +44,11 @@ namespace KileHelp
 
 	Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(NULL)
 	{
-		readHelpList("latex-kile.lst",m_dictHelpKile);
+		readHelpList("latex-kile.lst", m_dictHelpKile);
 		initTexDocumentation();
 	}
 	
-	Help::~Help() 
+	Help::~Help()
 	{
 		delete m_userhelp;
 	}
@@ -63,19 +61,16 @@ namespace KileHelp
 		// first check for TexLive2005
 		QString texref = m_texdocPath + "/english/tex-refs";
 		QDir dir(texref);
-		if ( dir.exists() )
-		{
+		if(dir.exists()) {
 			// we found TexLive2005
 			m_texVersion = TEXLIVE2005;
 			m_texReference = "/english/tex-refs/";
 			readHelpList("latex-texlive-3.9.lst",m_dictHelpTex);
 		}
-		else
-		{
+		else {
 			// now we check for tetex3
 			dir.setPath(m_texdocPath + "/latex/tex-refs");
-			if ( dir.exists() ) 
-			{
+			if(dir.exists())  {
 				m_texVersion = TETEX3;
 				// check if this is buggy tetex3.0 or an updated version with subdirectory 'html'
 				dir.setPath(m_texdocPath + "/latex/tex-refs/html");
@@ -83,8 +78,7 @@ namespace KileHelp
 				               ? "/latex/tex-refs/html/" : "/latex/tex-refs/";
 				readHelpList("latex-tetex3.lst",m_dictHelpTex);
 			}
-			else
-			{
+			else {
 				// we set it to tetex2 (what else should it be?)
 				m_texVersion = TETEX2;
 				m_texReference = "/latex/latex2e-html/";
@@ -97,22 +91,24 @@ namespace KileHelp
 
 	void Help::update()
 	{
-		if ( m_texdocPath != KileConfig::location() )
+		if(m_texdocPath != KileConfig::location()) {
 			initTexDocumentation();
+		}
 	}
 
 	////////////////////// set parameter/initialize user help //////////////////////
 	
-	void Help::setUserhelp(KileTool::Manager *manager, KMenuBar *menubar)
-	{ 
+	void Help::setUserhelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu)
+	{
 		m_manager = manager;
-		m_userhelp = new UserHelp(manager, menubar, m_mainWindow);
+		m_userhelp = new UserHelp(manager, userHelpActionMenu, m_mainWindow);
 	}
 	
 	void Help::enableUserhelpEntries(bool state)
 	{ 
-		if ( m_userhelp )
+		if(m_userhelp) {
 			m_userhelp->enableUserHelpEntries(state);
+		}
 	}
 	////////////////////// show help //////////////////////
 	
@@ -151,8 +147,7 @@ namespace KileHelp
 	{
 		QString filename;
 
-		switch ( m_texVersion )
-		{
+		switch(m_texVersion) {
 			case TEXLIVE2005:
 				filename = "english/texlive-en/live.html";
 				break;
@@ -175,10 +170,8 @@ namespace KileHelp
 	{
 		QString link;
 		
-		if ( m_texVersion == TEXLIVE2005) 
-		{
-			switch ( type )
-			{
+		if(m_texVersion == TEXLIVE2005) {
+			switch(type) {
 				case HelpLatexIndex:
 					link = "tex-refs.html#latex";
 					break;
@@ -195,10 +188,8 @@ namespace KileHelp
 					return;
 			}
 		}
-		else if ( m_texVersion == TETEX3) 
-		{
-			switch ( type )
-			{
+		else if(m_texVersion == TETEX3) {
+			switch(type) {
 				case HelpLatexIndex:
 					link = "latex.html#latex";
 					break;
@@ -215,10 +206,8 @@ namespace KileHelp
 					return;
 			}
 		}
-		else
-		{
-			switch ( type )
-			{
+		else {
+			switch(type) {
 				case HelpLatexCommand:
 					link = "ltx-2.html#cmd";
 					break;
@@ -238,12 +227,15 @@ namespace KileHelp
 		
 		// show help file
 		QString texversion;
-		if ( m_texVersion == TEXLIVE2005 )
+		if(m_texVersion == TEXLIVE2005) {
 			texversion = "TexLive 2005";
-		else if ( m_texVersion == TETEX3 )
+		}
+		else if(m_texVersion == TETEX3) {
 			texversion = "teTeX v3.x";
-		else 
+		}
+		else { 
 			texversion = "teTeX v2.x";
+		}
 		KILE_DEBUG() << "TeX Version: "<< texversion << " link=" << link << endl;
 
 		showHelpFile( m_texdocPath + m_texReference + link );
@@ -255,14 +247,13 @@ namespace KileHelp
 	void Help::helpKeyword(KTextEditor::View *view)                   // dani 04.08.2004
 	{
 		int type = (0 == KileConfig::use()) ? HelpKileRefs : HelpTexRefs;
-		switch ( type )
-		{
-		case HelpTexRefs:
-			helpTexRefsKeyword(view);
-			break;
-		case HelpKileRefs:
-			helpKileRefsKeyword(view);
-			break;
+		switch(type) {
+			case HelpTexRefs:
+				helpTexRefsKeyword(view);
+				break;
+			case HelpKileRefs:
+				helpKileRefsKeyword(view);
+				break;
 		}
 	}
 
@@ -270,8 +261,7 @@ namespace KileHelp
 	{
 		QString word = getKeyword(view);
 		KILE_DEBUG() << "keyword: " << word << endl;
-		if ( !word.isNull() && m_dictHelpTex.contains(word) )
-		{
+		if(!word.isEmpty() && m_dictHelpTex.contains(word)) {
 			KILE_DEBUG() << "about to show help for " << word << " (section " << m_dictHelpTex[word] << " )" << endl;
 			showHelpFile( m_texdocPath + m_texReference + m_dictHelpTex[word] );
 		}
@@ -283,16 +273,15 @@ namespace KileHelp
 	{
 		QString kilehelp = KGlobal::dirs()->findResource("html","en/kile/latexhelp.html");
 		KILE_DEBUG() << "kilehelp = " << kilehelp << endl;
-		if ( ! kilehelp.isEmpty() )
-		{
+		if(!kilehelp.isEmpty()) {
 			QString word = getKeyword(view);
 			KILE_DEBUG() << "word = " << word << " " << m_dictHelpKile.contains(word) << endl;
-			if ( !word.isNull() && m_dictHelpKile.contains(word) )
-			{
-				showHelpFile( kilehelp + '#' + m_dictHelpKile[word] );
+			if(!word.isEmpty() && m_dictHelpKile.contains(word)) {
+				showHelpFile(kilehelp + '#' + m_dictHelpKile[word]);
 			}
-			else
+			else {
 				noHelpAvailableFor(word);
+			}
 		}
 	}
 

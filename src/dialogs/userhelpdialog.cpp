@@ -1,11 +1,11 @@
-/***************************************************************************
+/*****************************************************************************************
                            userhelpdialog.cpp
 ----------------------------------------------------------------------------
     date                 : Jul 22 2005
     version              : 0.20
-    copyright            : (C) 2005 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
- ***************************************************************************/
+    copyright            : (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -54,7 +54,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
 
-	KILE_DEBUG() << "==UserHelpDialog::UserHelpDialog()===================" << endl;
+	KILE_DEBUG() << "==UserHelpDialog::UserHelpDialog()===================";
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -141,21 +141,22 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	updateButton();
 }
 
-void UserHelpDialog::setParameter(const QStringList &menuentries, const QStringList &helpfiles)
+void UserHelpDialog::setParameter(const QStringList &menuentries, const QList<KUrl> &helpfiles)
 {
-	for (int i = 0; i < menuentries.count(); ++i)
-	{
+	for (int i = 0; i < menuentries.count(); ++i) {
 		m_menulistbox->addItem(menuentries[i]);
 
-		if(m_menulistbox->item(i)->text() != "-")
+		if(m_menulistbox->item(i)->text() != "-") {
 			m_filelist << helpfiles[i];
-		else
-			m_filelist << QString();
+		}
+		else {
+			m_filelist << KUrl();
+		}
 	}
 	updateButton();
 }
 
-void UserHelpDialog::getParameter(QStringList &userhelpmenulist, QStringList &userhelpfilelist)
+void UserHelpDialog::getParameter(QStringList &userhelpmenulist, QList<KUrl> &userhelpfilelist)
 {
 	// clear result
 	userhelpmenulist.clear();
@@ -163,33 +164,29 @@ void UserHelpDialog::getParameter(QStringList &userhelpmenulist, QStringList &us
 	bool separator = false;
 
 	// now get all entries
-	for (int i = 0; i < m_menulistbox->count(); ++i)
-	{
-		if(m_menulistbox->item(i)->text() != "-")
-		{
+	for (int i = 0; i < m_menulistbox->count(); ++i) {
+		if(m_menulistbox->item(i)->text() != "-") {
 			userhelpmenulist << m_menulistbox->item(i)->text();
 			userhelpfilelist << m_filelist[i];
 			separator = false;
 		}
-		else
-			if(!separator)
-			{
+		else {
+			if(!separator) {
 				userhelpmenulist << m_menulistbox->item(i)->text();
 				userhelpfilelist << QString();
 				separator = true;
 			}
+		}
 	}
 }
 
 void UserHelpDialog::slotChange()
 {
 	int index = m_menulistbox->currentRow();
-	if(index >= 0)
-	{
-		m_fileedit->setText(m_filelist[index]);
+	if(index >= 0) {
+		m_fileedit->setText(m_filelist[index].url());
 	}
-	else
-	{
+	else {
 		m_fileedit->clear();
 	}
 	updateButton();
@@ -198,8 +195,7 @@ void UserHelpDialog::slotChange()
 void UserHelpDialog::slotAdd()
 {
 	KileDialog::UserHelpAddDialog *dialog = new KileDialog::UserHelpAddDialog(m_menulistbox, this);
-	if(dialog->exec())
-	{
+	if(dialog->exec()) {
 		// with corresponding filename
 		QString helpfile = dialog->getHelpfile();
 		m_filelist.append(helpfile);
@@ -217,8 +213,7 @@ void UserHelpDialog::slotRemove()
 {
 	// get current index
 	int index = m_menulistbox->currentRow();
-	if(index >= 0)
-	{
+	if(index >= 0) {
 		// remove item
 		m_menulistbox->takeItem(index);
 		m_filelist.removeAt(index);
@@ -227,14 +222,12 @@ void UserHelpDialog::slotRemove()
 		// this index is too big now, index is decremented.
 		// If the list is empty now, index is set to -1.
 		int entries = m_menulistbox->count();
-		if(entries > 0)
-		{
+		if(entries > 0) {
 			if(index >= entries)
 				index--;
 			m_menulistbox->setCurrentRow(index);
 		}
-		else
-		{
+		else {
 			m_menulistbox->setCurrentItem(0);
 		}
 	}
@@ -246,8 +239,9 @@ void UserHelpDialog::slotAddSep()
 {
 	// get current index
 	int index = m_menulistbox->currentRow();
-	if(index == -1)
+	if(index == -1) {
 		return;
+	}
 
 	// insert separator
 	m_menulistbox->insertItem(index, "-");
@@ -260,8 +254,9 @@ void UserHelpDialog::slotUp()
 {
 	// get current index
 	int index = m_menulistbox->currentRow();
-	if(index <= 0)
+	if(index <= 0) {
 		return;
+	}
 
 	// insert current entry before current
 	m_menulistbox->insertItem(index - 1, m_menulistbox->currentItem()->text());
@@ -283,17 +278,16 @@ void UserHelpDialog::slotDown()
 
 	// get current index
 	int index = m_menulistbox->currentRow();
-	if(index < 0 || index == entries - 1)
+	if(index < 0 || index == entries - 1) {
 		return;
+	}
 
 	// insert current entry after current
-	if(index < entries - 2)
-	{
+	if(index < entries - 2) {
 		m_menulistbox->insertItem(index + 2, m_menulistbox->currentItem()->text());    // index + 2
 		m_filelist.insert(index + 2, m_filelist[index]);
 	}
-	else
-	{
+	else {
 		m_menulistbox->addItem(m_menulistbox->currentItem()->text());
 		m_filelist.append(m_filelist[index]);
 	}
@@ -319,35 +313,32 @@ void UserHelpDialog::updateButton()
 	// change button states, if there are entries
 	int index = m_menulistbox->currentRow();
 	int entries = m_menulistbox->count();
-	if(entries == 1)
-	{
+	if(entries == 1) {
 		rem_state = true;
 	}
-	else
-		if(entries >= 2)
-		{
+	else {
+		if(entries >= 2) {
 			rem_state = true;
-			if(index == 0)
-			{
+			if(index == 0) {
 				down_state = true;         // index = 0
 			}
-			else
-				if(index == entries - 1)
-				{
+			else {
+				if(index == entries - 1) {
 					sep_state = true;          // index = entries-1
 					up_state = true;
 				}
-				else
-				{                             // 0 < index < entries-1
+				else {                             // 0 < index < entries-1
 					sep_state = true;
 					up_state = true;
 					down_state = true;
 				}
+			}
 		}
-
+	}
 	// don't allow two continuous spearators
-	if(m_menulistbox->currentItem() && m_menulistbox->currentItem()->text() == "-")
+	if(m_menulistbox->currentItem() && m_menulistbox->currentItem()->text() == "-") {
 		sep_state = false;
+	}
 
 	// set button states
 	m_remove->setEnabled(rem_state);
@@ -370,7 +361,7 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
 
-	KILE_DEBUG() << "==UserHelpAddDialog::UserHelpAddDialog()===================" << endl;
+	KILE_DEBUG() << "==UserHelpAddDialog::UserHelpAddDialog()===================";
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -459,34 +450,35 @@ void UserHelpAddDialog::slotChooseHtml()
 	KRun::runUrl(url, "text/html", this);
 }
 
-void UserHelpAddDialog::slotOk()
+void UserHelpAddDialog::slotButtonClicked(int button)
 {
+	if(button != KDialog::Ok) {
+		KDialog::slotButtonClicked(button);
+		return;
+	}
 	m_leMenuEntry->setText(m_leMenuEntry->text().trimmed());
-	QString filename = m_leHelpFile->text().trimmed();
-	m_leHelpFile->setText(filename);
+	QString urlString = m_leHelpFile->text().trimmed();
+	m_leHelpFile->setText(urlString);
+	KUrl url(urlString);
 
-	if(m_leMenuEntry->text().isEmpty())
-	{
-		KMessageBox::error(this, i18n("No menuitem was given."));
+	if(m_leMenuEntry->text().isEmpty()) {
+		KMessageBox::error(this, i18n("No menu item was given."));
 		return;
 	}
 
-	if(m_menulistbox->findItems(m_leMenuEntry->text(), Qt::MatchExactly).count() > 0)
-	{
-		KMessageBox::error(this, i18n("This menuitem already exists."));
+	if(m_menulistbox->findItems(m_leMenuEntry->text(), Qt::MatchExactly).count() > 0) {
+		KMessageBox::error(this, i18n("This menu item exists already."));
 		return;
 	}
 
-	if(filename.isEmpty())
-	{
+	if(urlString.isEmpty()) {
 		KMessageBox::error(this, i18n("No help file was chosen."));
 		return;
 	}
 
-	QFileInfo fi(filename);
-	if(filename.indexOf("http://", 0) != 0 && !fi.exists())
-	{
-		KMessageBox::error(this, i18n("File '%1' doesn't exist.", filename));
+	QFileInfo fi(url.path());
+	if(url.isLocalFile() && !QFileInfo(url.path()).exists()) {
+		KMessageBox::error(this, i18n("The file '%1' doesn't exist.", url.prettyUrl()));
 		return;
 	}
 

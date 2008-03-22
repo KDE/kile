@@ -516,6 +516,8 @@
 		<Action name="help_latex_env" />
 	</Menu>
 	<Separator/>
+	<Action name="help_userhelp"/>
+	<Separator/>
 	<Action name="report_bug"/>
 	<Separator/>
 	<Action name="help_aboutKile"/>

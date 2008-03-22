@@ -145,6 +145,7 @@ private:
 	
 	KToolBar				*m_toolsToolBar;
 	KActionMenu 				*m_menuUserTags;
+	KActionMenu				*m_userHelpActionMenu;
 	QList<KileAction::TagData>		m_listUserTags;
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;

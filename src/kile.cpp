@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
  ****************************************************************************************/
 
@@ -19,9 +19,7 @@
 
 #include "kile.h"
 
-#include <qtooltip.h>
-#include <qpointer.h>
-//Added by qt3to4:
+#include <QPointer>
 #include <QShowEvent>
 #include <QHideEvent>
 #include <Q3CString>
@@ -100,7 +98,7 @@
 class KileMainWindow : public KXmlGuiWindow
 {
 	public:
-		KileMainWindow(Kile *kile, QWidget *parent = 0, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+		KileMainWindow(Kile *kile, QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
 		virtual ~KileMainWindow();
 
 	protected:
@@ -222,7 +220,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_mainWindow->setCentralWidget(m_topWidgetStack);
 	newCaption();
 
-	m_partManager->setActivePart( 0L );
+	m_partManager->setActivePart(NULL);
 
 	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
 	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
@@ -238,7 +236,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config.data());
 	m_manager->setFactory(m_toolFactory);
-	m_help->setUserhelp(m_manager,menuBar());     // kile user help (dani)
+	m_help->setUserhelp(m_manager, m_userHelpActionMenu);     // kile user help (dani)
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
@@ -847,6 +845,9 @@ void Kile::setupActions()
 	m_menuUserTags->setDelayed(false);
 	actionCollection()->addAction("menuUserTags", m_menuUserTags);
 	setupUserTagActions();
+
+	m_userHelpActionMenu = new KActionMenu(i18n("User Help"), actionCollection());
+	actionCollection()->addAction("help_userhelp", m_userHelpActionMenu);
 
 	actionCollection()->readSettings();
 
@@ -1655,7 +1656,8 @@ void Kile::initMenu()
 	   // action lists
 	   << "structure_list" << "size_list" << "other_list"
 	   << "left_list" << "right_list"
-	   ;
+	  // user help
+	   << "help_userhelp";
 
 	setMenuItems(projectlist,m_dictMenuProject);
 	setMenuItems(filelist,m_dictMenuFile);

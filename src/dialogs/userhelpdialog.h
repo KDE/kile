@@ -1,11 +1,11 @@
-/***************************************************************************
+/*****************************************************************************************
                            userhelpdialog.h
 ----------------------------------------------------------------------------
     date                 : Jul 22 2005
     version              : 0.20
-    copyright            : (C) 2005 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
- ***************************************************************************/
+    copyright            : (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -19,10 +19,10 @@
 #ifndef USERHELPDIALOG_H
 #define USERHELPDIALOG_H
 
-#include <KDialog>
-
+#include <QList>
 #include <QStringList>
 
+#include <KDialog>
 #include <KLineEdit>
 
 class QListWidget;
@@ -41,14 +41,14 @@ class UserHelpDialog : public KDialog
 		UserHelpDialog(QWidget *parent = 0, const char *name = 0);
 		~UserHelpDialog() {}
 
-		void setParameter(const QStringList &menuentries, const QStringList &helpfiles);
-		void getParameter(QStringList &userhelpmenulist, QStringList &userhelpfilelist);
+		void setParameter(const QStringList &menuentries, const QList<KUrl> &helpfiles);
+		void getParameter(QStringList &userhelpmenulist, QList<KUrl> &userhelpfilelist);
 	private:
 		QListWidget *m_menulistbox;
 		KLineEdit *m_fileedit;
 		KPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
 
-		QStringList m_filelist;
+		QList<KUrl> m_filelist;
 
 		void updateButton();
 
@@ -66,7 +66,7 @@ class UserHelpAddDialog : public KDialog
 		Q_OBJECT
 
 	public:
-		UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = 0);
+		UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = NULL);
 		~UserHelpAddDialog() {}
 
 	private:
@@ -85,7 +85,7 @@ class UserHelpAddDialog : public KDialog
 	private Q_SLOTS:
 		void slotChooseFile();
 		void slotChooseHtml();
-		void slotOk();
+		void slotButtonClicked(int button);
 };
 
 }

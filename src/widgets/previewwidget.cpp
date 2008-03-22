@@ -1,8 +1,6 @@
 //
 // C++ Implementation: previewwidget
 //
-// Description: 
-//
 // Author: Mathias Soeken <msoeken@informatik.uni-bremen.de>, (C) 2006
 //         (orginal version of this preview)
 //
@@ -20,16 +18,13 @@
 
 #include "widgets/previewwidget.h"
 
-#include <qimage.h>
-#include <qpainter.h>
-#include <qpalette.h>
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QImage>
+#include <QPainter>
 #include <QPaintEvent>
+#include <QPalette>
+#include <QWidget>
 
-#include <klocale.h>
-#include <ktexteditor/view.h>
-#include <ktexteditor/document.h>
+#include <KLocale>
 
 #include "kileconfig.h"
 #include "editorextension.h"
@@ -40,13 +35,13 @@
 #include "kiletool_enums.h"
 #include "quickpreview.h"
 
-namespace KileWidget 
+namespace KileWidget
 {
 
 PreviewWidget::PreviewWidget(KileInfo *info, QWidget *parent, const char *name) 
-	: QWidget(parent,name), m_info(info), m_previewImage(0L), m_running(false) 
+	: QWidget(parent,name), m_info(info), m_previewImage(NULL), m_running(false) 
 {
-	setPalette( QPalette(QColor(0xff,0xff,0xff)) );
+	setPalette(QPalette(QColor(0xff,0xff,0xff)));
 }
 
 
@@ -55,53 +50,55 @@ PreviewWidget::~PreviewWidget()
 	delete m_previewImage;
 }
 
-void PreviewWidget::paintEvent(QPaintEvent*) 
+void PreviewWidget::paintEvent(QPaintEvent*)
 {
 	QPainter p(this);
-	if ( m_previewImage )
-		p.drawImage(3,3,*m_previewImage);
+	if(m_previewImage) {
+		p.drawImage(3, 3, *m_previewImage);
+	}
 }
 
 void PreviewWidget::showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype)
 {
-	KILE_DEBUG() << "==PreviewWidget::showActivePreview()=========================="  << endl;
+	KILE_DEBUG() << "==PreviewWidget::showActivePreview()==========================";
 	m_info->logWidget()->clear();
-	if ( m_running || m_info->quickPreview()->isRunning() )
-	{
+	if(m_running || m_info->quickPreview()->isRunning()) {
 		showError( i18n("There is already a preview running, which you have to finish to run this one.") );
 		return;
 	}
 
 	// determine the type of conversion
 	int conversiontype;
-	switch ( previewtype )
-	{
-		case KileTool::qpSelection:   conversiontype = KileConfig::selPreviewTool(); break;
-		case KileTool::qpEnvironment: conversiontype = KileConfig::envPreviewTool(); break;
-		default:                      conversiontype = pwDvipng;                     break;	
+	switch(previewtype) {
+		case KileTool::qpSelection:
+			conversiontype = KileConfig::selPreviewTool();
+			break;
+		case KileTool::qpEnvironment:
+			conversiontype = KileConfig::envPreviewTool();
+			break;
+		default:
+			conversiontype = pwDvipng;
+			break;
 	}
 
 
 	// set parameter for these tools
-	QString tasklist,tool,toolcfg,extension;
-	if (conversiontype == pwConvert )
-	{
+	QString tasklist, tool, toolcfg, extension;
+	if(conversiontype == pwConvert) {
 		m_conversionTool = "convert";
 		tasklist = "PreviewPDFLaTeX,,,,,png";
 		tool = "Convert";
 		toolcfg = "pdf2png";
 		extension = "pdf";
 	}
-	else if (conversiontype == pwDvipsConvert )
-	{
+	else if(conversiontype == pwDvipsConvert) {
 		m_conversionTool = "dvips/convert";
 		tasklist = "PreviewLaTeX,DVItoPS,dvi2eps,,,png";
 		tool = "Convert";
 		toolcfg = "eps2png";
 		extension = "eps";
 	}
-	else
-	{
+	else {
 		m_conversionTool = "dvipng";
 		tasklist = "PreviewLaTeX,,,,,png";
 		tool = "DVItoPNG";
@@ -109,13 +106,13 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 		extension = "dvi";
 	}
 
-	if ( ! m_info->quickPreview()->run(text, textfilename, startrow, tasklist) )
+	if(!m_info->quickPreview()->run(text, textfilename, startrow, tasklist)) {
 		return;
- 
+	}
+
 	KileTool::Base *pngConverter = m_info->toolFactory()->create(tool);
-	if ( ! pngConverter ) 
-	{
-		showError( i18n("Could not run '%1' for QuickPreview.",tool) );
+	if(!pngConverter) {
+		showError(i18n("Could not run '%1' for QuickPreview.", tool));
 		return;
 	}
 	pngConverter->setSource(m_info->quickPreview()->getPreviewFile(extension));
@@ -149,25 +146,34 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 	connect(pngConverter, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
 
 	// Now we are ready to start the process...
-	if ( m_info->toolManager()->run(pngConverter,toolcfg) == KileTool::Running )
+	if(m_info->toolManager()->run(pngConverter,toolcfg) == KileTool::Running) {
 		m_running = true;
+	}
 }
 
-void PreviewWidget::drawImage() 
+void PreviewWidget::clear()
 {
-	KILE_DEBUG() << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)" << endl;
-	if ( ! m_previewImage )
+	delete m_previewImage;
+	m_previewImage = NULL;
+	repaint();
+}
+
+void PreviewWidget::drawImage()
+{
+	KILE_DEBUG() << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)";
+	if(!m_previewImage) {
 		delete m_previewImage;
+	}
 
 	m_previewImage = new QImage (m_info->quickPreview()->getPreviewFile ("png"));
-	setFixedSize( m_previewImage->width()+6,m_previewImage->height()+6 );
+	setFixedSize(m_previewImage->width() + 6, m_previewImage->height() + 6);
 
-	repaint ();
+	repaint();
 }
 
-void PreviewWidget::toolDestroyed() 
+void PreviewWidget::toolDestroyed()
 {
-	KILE_DEBUG() << "\tQuickPreview: tool destroyed" << endl;
+	KILE_DEBUG() << "\tQuickPreview: tool destroyed";
 	m_running = false;
 }
 

@@ -1,9 +1,6 @@
 //
 // C++ Interface: previewwidget
 //
-// Description: 
-//
-//
 // Author: Mathias Soeken <msoeken@informatik.uni-bremen.de>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
@@ -12,21 +9,16 @@
 #ifndef PREVIEWWIDGET_H
 #define PREVIEWWIDGET_H
 
-#include <qwidget.h>
-//Added by qt3to4:
+#include <QWidget>
 #include <QPaintEvent>
 
 class QImage;
-class QPaintEvent;
 
 class KileInfo;
 
-namespace KileTool 
-{
-  class Base;
-}
+namespace KileTool { class Base; }
 
-namespace KileWidget 
+namespace KileWidget
 {
 
 /**
@@ -51,23 +43,26 @@ namespace KileWidget
 class PreviewWidget : public QWidget
 {
 	Q_OBJECT
-  
+
 public:
 	PreviewWidget(KileInfo *info, QWidget *parent = 0, const char *name = 0);
 	~PreviewWidget();
 
-  /**
-   * Trys to paint the current mathgroup of 
-   * the current document.
-   *
-   * If a document is open and the cursor is
-   * inside a mathgroup, a PNG is generated
-   * containing this mathgroup.
-   * 
-   * This PNG image is then displayed on the
-   * widget.
-   */
-	void showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype);
+	/**
+	 * Trys to paint the current mathgroup of 
+	 * the current document.
+	 *
+	 * If a document is open and the cursor is
+	 * inside a mathgroup, a PNG is generated
+	 * containing this mathgroup.
+	 *
+	 *  This PNG image is then displayed on the
+	 * widget.
+	 **/
+	void showActivePreview(const QString &text, const QString &textfilename, int startrow, int previewtype);
+
+public Q_SLOTS:
+	void clear();
 
 private:
 	enum { pwDvipng=0, pwDvipsConvert, pwConvert };
@@ -82,19 +77,19 @@ protected:
 	void showError(const QString &text);
 
 public Q_SLOTS:
-  /**
-   * Notify, if the DVItoPNG tool is done.
-   *
-   * Because the tool runs async. we
-   * must wait, if the process is done.
-   * 
-   * Then we try to generate a image of the
-   * temporary PNG filename and display it on 
-   * the widget.
-   *
-   * The size of the widget is also adjusted
-   * to the size of the widget.
-   */
+	/**
+	 * Notify, if the DVItoPNG tool is done.
+	 *
+	 * Because the tool runs async. we
+	 * must wait, if the process is done.
+	 *
+	 * Then we try to generate a image of the
+	 * temporary PNG filename and display it on 
+	 * the widget.
+	 *
+	 * The size of the widget is also adjusted
+	 * to the size of the widget.
+	 **/
 	void drawImage();
 	void toolDestroyed();
 }; 

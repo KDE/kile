@@ -125,6 +125,9 @@ namespace KileTool {
 		QString str;
 		tool()->translate(m_cmd);
 		tool()->translate(m_options);
+		if(m_cmd.isEmpty()) {
+			return false;
+		}
 		*m_proc << m_cmd << KShell::splitArgs(m_options, KShell::AbortOnMeta);
 
 		if (m_proc) {

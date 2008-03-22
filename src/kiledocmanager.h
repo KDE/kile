@@ -22,21 +22,19 @@
 #ifndef KILEDOCUMENTKILEDOCMANAGER_H
 #define KILEDOCUMENTKILEDOCMANAGER_H
 
-#include <qobject.h>
-//Added by qt3to4:
 #include <QDropEvent>
-
+#include <QObject>
 #include <QStringList>
+
+#include <KTextEditor/Editor>
 
 #include "kileconstants.h"
 #include "kileproject.h"
 
-#include <KTextEditor/Editor>
-
 class KUrl;
 class KFileItem;
 class KProgressDialog;
-namespace KTextEditor { class Document; class View;}
+namespace KTextEditor {class Document; class View;}
 
 class TemplateItem;
 class KileInfo;
@@ -52,7 +50,7 @@ class Manager : public QObject
 {
 	Q_OBJECT
 public:
-	Manager(KileInfo *info, QObject *parent = 0, const char *name = 0);
+	Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
 	~Manager();
 
 public Q_SLOTS:

@@ -20,15 +20,14 @@
 #ifndef KILEVIEWKILEVIEWMANAGER_H
 #define KILEVIEWKILEVIEWMANAGER_H
 
-#include <QObject>
-#include <QStackedWidget>
-//Added by qt3to4:
-#include <QPixmap>
 #include <QDropEvent>
 #include <QDragMoveEvent>
 #include <QList>
+#include <QObject>
+#include <QPixmap>
+#include <QStackedWidget>
 
-#include <ktabwidget.h>
+#include <KTabWidget>
 
 class QPixmap;
 

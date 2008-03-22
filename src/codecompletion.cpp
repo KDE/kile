@@ -16,19 +16,17 @@
 
 #include "codecompletion.h"
 
-#include <qregexp.h>
-#include <qfile.h>
-#include <qtimer.h>
-#include <q3dict.h>
-
+#include <QFile>
 #include <QList>
+#include <QRegExp>
+#include <QTimer>
 
 #include "kiledebug.h"
-#include <klocale.h>
-#include <kglobal.h>
-#include <kstandarddirs.h>
-#include <kconfig.h>
-#include <kmessagebox.h>
+
+#include <KConfig>
+#include <KGlobal>
+#include <KLocale>
+#include <KStandardDirs>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Cursor>
 

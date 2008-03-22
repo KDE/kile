@@ -1,6 +1,7 @@
 /**************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -397,6 +398,29 @@ void Select::setItems(const QList<KAction*>& list)
 
 	for(QList<KAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
 		addAction(*i);
+	}
+}
+
+/////////////////////////
+//  VariantSelection   //
+/////////////////////////
+
+VariantSelection::VariantSelection(const QString &text, const QVariant& value, QObject *parent)
+: KAction(text, parent), m_variant(value)
+{
+	connect(this, SIGNAL(triggered(bool)), this, SLOT(slotTriggered()));
+}
+
+void VariantSelection::slotTriggered()
+{
+	emit(triggered(m_variant));
+
+	if(m_variant.canConvert<KUrl>()) {
+		emit(triggered(m_variant.value<KUrl>()));
+	}
+
+	if(m_variant.canConvert<QString>()) {
+		emit(triggered(m_variant.value<QString>()));
 	}
 }
 

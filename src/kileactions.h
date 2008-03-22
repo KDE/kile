@@ -1,6 +1,7 @@
 /*************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -177,6 +178,25 @@ public:
 public Q_SLOTS:
 	void setItems(const QList<KAction*> &);
 
+};
+
+class VariantSelection : public KAction
+{
+	Q_OBJECT
+
+	public:
+		VariantSelection(const QString &text, const QVariant& value, QObject *parent = NULL);
+
+	Q_SIGNALS:
+		void triggered(const QVariant& value);
+		void triggered(const KUrl& url);
+		void triggered(const QString& string);
+
+	private Q_SLOTS:
+		void slotTriggered();
+
+	private:
+		QVariant m_variant;
 };
 
 }

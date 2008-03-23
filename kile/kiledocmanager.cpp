@@ -1658,9 +1658,15 @@ void Manager::storeProjectItem(KileProjectItem *item, Kate::Document *doc)
 	KILE_DEBUG() << "\titem = " << item << ", doc = " << doc << endl;
 	item->setEncoding(doc->encoding());
 	item->setHighlight(doc->hlModeName(doc->hlMode()));
-	Kate::View *view = static_cast<Kate::View*>(doc->views().first());
 	uint l = 0, c = 0;
-	if (view) view->cursorPosition(&l,&c);
+	QPtrList<KTextEditor::View> viewList = doc->views();
+	if(!viewList.isEmpty()) {
+		Kate::View *view = static_cast<Kate::View*>(viewList.first());
+	
+		if(view) {
+			view->cursorPosition(&l,&c);
+		}
+	}
 	item->setLineNumber(l);
 	item->setColumnNumber(c);
 

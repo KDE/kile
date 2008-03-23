@@ -1611,12 +1611,16 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 	KILE_DEBUG() << "\titem = " << item << ", doc = " << doc << endl;
 	item->setEncoding(doc->encoding());
 	item->setHighlight(doc->highlightingMode());
-	KTextEditor::View *view = static_cast<KTextEditor::View*>(doc->views().first());
 	uint l = 0, c = 0;
-	if (view) {
-		KTextEditor::Cursor cursor = view->cursorPosition();
-		l = cursor.line();
-		c = cursor.column();
+	QList<KTextEditor::View*> viewList = doc->views();
+	if(viewList.size() > 0) {
+		KTextEditor::View *view = static_cast<KTextEditor::View*>(viewList.first());
+
+		if (view) {
+			KTextEditor::Cursor cursor = view->cursorPosition();
+			l = cursor.line();
+			c = cursor.column();
+		}
 	}
 	item->setLineNumber(l);
 	item->setColumnNumber(c);

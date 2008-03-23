@@ -632,7 +632,7 @@ void Kile::setupActions()
 	createAction(KStandardAction::Open, "file_open", docManager(), SLOT(fileOpen()));
 
 	m_actRecentFiles = static_cast<KRecentFilesAction*>(actionCollection()->addAction(KStandardAction::OpenRecent, "file_open_recent", docManager(), SLOT(fileOpen(const KUrl&))));
-	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl& )), m_actRecentFiles, SLOT(addUrl(const KUrl&)));
+	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl&)), this, SLOT(addRecentFile(const KUrl&)));
 	m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
 	createAction(KStandardAction::Save, "kile_file_save", docManager(), SLOT(fileSave()));
@@ -673,9 +673,9 @@ void Kile::setupActions()
 
 	m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
 	actionCollection()->addAction("project_openrecent", m_actRecentProjects);
-	connect(m_actRecentProjects, SIGNAL(triggered()), docManager(), SLOT(projectOpen(const KUrl&)));
-	connect(docManager(), SIGNAL(removeFromRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(removeURL(const KUrl& )));
-	connect(docManager(), SIGNAL(addToRecentProjects(const KUrl& )), m_actRecentProjects, SLOT(addUrl(const KUrl& )));
+	connect(m_actRecentProjects, SIGNAL(urlSelected(const KUrl&)), docManager(), SLOT(projectOpen(const KUrl&)));
+	connect(docManager(), SIGNAL(removeFromRecentProjects(const KUrl&)), this, SLOT(removeRecentProject(const KUrl&)));
+	connect(docManager(), SIGNAL(addToRecentProjects(const KUrl& )), this, SLOT(addRecentProject(const KUrl&)));
 	m_actRecentProjects->loadEntries(m_config->group("Projects"));
 
 	createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), SLOT(projectAddFiles()));
@@ -2467,7 +2467,7 @@ void Kile::slotQuickPreview(int type)
 		case KileTool::qpSubdocument: m_quickPreview->previewSubdocument(doc); break;
 		case KileTool::qpMathgroup:   m_quickPreview->previewMathgroup(doc);   break;
 	}
-}	
+}
 
 #ifdef __GNUC__
 #warning Port the citeViewBib function!
@@ -2548,6 +2548,26 @@ void Kile::citeViewBib()
 		}
 	}
 */
+}
+
+void Kile::addRecentFile(const KUrl& url)
+{
+	m_actRecentFiles->addUrl(url);
+}
+
+void Kile::removeRecentFile(const KUrl& url)
+{
+	m_actRecentFiles->removeUrl(url);
+}
+
+void Kile::addRecentProject(const KUrl& url)
+{
+	m_actRecentProjects->addUrl(url);
+}
+
+void Kile::removeRecentProject(const KUrl& url)
+{
+	m_actRecentProjects->removeUrl(url);
 }
 
 #include "kile.moc"

@@ -1,8 +1,8 @@
-/***********************************************************************************
+/***************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
- ***********************************************************************************/
+                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,26 +16,25 @@
 #ifndef KILE_H
 #define KILE_H
 
+#include <QList>
+#include <QHideEvent>
+#include <QShowEvent>
+#include <QSplitter>
+#include <QStackedWidget>
+#include <QString>
+#include <QStringList>
+#include <QToolBox>
+#include <QWidget>
+
 #include <KApplication>
 #include <kdeversion.h>
-#include <ktexteditor/view.h>
-#include <ktexteditor/document.h>
+#include <KTextEditor/View>
+#include <KTextEditor/Document>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
 #include <ktogglefullscreenaction.h>
-#include <kxmlguiwindow.h>
-
-#include <qsplitter.h>
-#include <qwidget.h>
-#include <qstringlist.h>
-#include <qstring.h>
-#include <qtoolbox.h>
-
-#include <QList>
-#include <QHideEvent>
-#include <QShowEvent>
-#include <QStackedWidget>
+#include <KXmlGuiWindow>
 
 #include "kileappIface.h"
 #include "docpart.h"
@@ -325,6 +324,11 @@ private Q_SLOTS:
 	void quickPreviewSelection()   { slotQuickPreview(KileTool::qpSelection);   }
 	void quickPreviewSubdocument() { slotQuickPreview(KileTool::qpSubdocument); }
 	void quickPreviewMathgroup()   { slotQuickPreview(KileTool::qpMathgroup);   }
+
+	void addRecentFile(const KUrl& url);
+	void removeRecentFile(const KUrl& url);
+	void addRecentProject(const KUrl& url);
+	void removeRecentProject(const KUrl& url);
 };
 
 #endif

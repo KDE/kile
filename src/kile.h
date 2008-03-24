@@ -110,19 +110,13 @@ public:
 	void unplugActionList(const QString& name);
 
 public Q_SLOTS:
-	/**
-	 * @param line : Jump to give line in current editor (can be called via DBUS interface).
-	 **/
-	void setLine( const QString &line);
 	void setCursor(const KUrl &, int, int);
-	void setActive();
+
 	int run(const QString &);
 	int runWith(const QString &, const QString &);
 	void runArchiveTool();
 	void runArchiveTool(const KUrl&);
-	void openDocument(const QString & url);
 	void fileSelected(const QString & url) { openDocument(url); } //backwards compatibility
-	void closeDocument();
 	void showTip();
 
 	void prepareForPart(const QString &);
@@ -137,7 +131,18 @@ public Q_SLOTS:
 	void newCaption();
 	void citeViewBib();
 
+	// D-Bus Interface
+	void openDocument(const QString & url);
+	void closeDocument();
+	void setActive();
+	/**
+	 * @param line : Jump to give line in current editor (can be called via DBUS interface).
+	 **/
+	void setLine(const QString &line);
 	void openProject(const QString& proj);
+	int runTool(const QString& tool);
+	int runToolWithConfig(const QString &tool, const QString &config);
+	void insertText(const QString &text);
 
 private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
@@ -266,11 +271,6 @@ private Q_SLOTS:
 	void convertToASCII(KTextEditor::Document *doc = 0);
 	void convertToEnc(KTextEditor::Document *doc = 0);
 
-	//
-	// documentinfo
-	//
-	void runTool();
-
 	void cleanAll(KileDocument::TextInfo *docinfo = 0);
 	void cleanBib();
 
@@ -298,7 +298,6 @@ private Q_SLOTS:
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
 	void insertAmsTag(const KileAction::TagData& td);
 	void insertText(const QString &text, const QStringList &pkgs);
-	void insertText(const QString &text);
 
 	void quickTabular();
 	void quickArray();

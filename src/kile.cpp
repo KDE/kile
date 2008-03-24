@@ -82,6 +82,7 @@
 #include "dialogs/newtabulardialog.h"
 #include "dialogs/postscriptdialog.h"
 #include "latexcmd.h"
+#include "mainadaptor.h"
 #include "kileuntitled.h"
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
@@ -270,6 +271,11 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
 	actionCollection()->readSettings(&shortcutsGroup);
+
+	// publish the D-Bus interfaces
+	new MainAdaptor(this);
+	QDBusConnection dbus = QDBusConnection::sessionBus();
+	dbus.registerObject("/Main", this);
 }
 
 Kile::~Kile()
@@ -1769,12 +1775,17 @@ void Kile::prepareForPart(const QString & state)
 	}
 }
 
-void Kile::runTool()
+int Kile::runTool(const QString& tool)
+{
+	runToolWithConfig(tool, QString());
+}
+
+int Kile::runToolWithConfig(const QString &tool, const QString &config)
 {
 	focusLog();
-	QString name = sender()->name();
-	name.replace(QRegExp("^.*tool_"), "");
-	m_manager->run(name);
+	QString localName = tool;
+	localName.replace(QRegExp("^.*tool_"), "");
+	return m_manager->run(localName, config);
 }
 
 void Kile::cleanAll(KileDocument::TextInfo *docinfo)

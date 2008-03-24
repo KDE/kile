@@ -140,12 +140,12 @@ SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 
 KDE4_ADD_UI_FILES(kile_SRCS ${kile_UI})
 
-SET( kile_DCOP_SKEL_SRCS
-	kileappIface.h
-)
+# this doesn't seem to work right now:
+# QT4_GENERATE_DBUS_INTERFACE(kile.h org.kde.kile.xml)
+# use qdbuscpp2xml -a kileappIface.h -o net.sourceforge.kile.main.xml instead
+SET(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
 
-# FIXME: disabling this for now
-# KDE3_ADD_DCOP_SKELS(kile_SRCS ${kile_DCOP_SKEL_SRCS})
+QT4_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
 
 SET( kile_KCFG_SRCS
 	kileconfig.kcfgc
@@ -165,6 +165,7 @@ INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
+INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 INSTALL( FILES kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 INSTALL( FILES kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION

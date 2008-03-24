@@ -1,9 +1,11 @@
-/***************************************************************************
+/********************************************************************************************
     begin                : sam sep 28 2002
     edit		 : 12/10/2007
-    copyright            : (C) 2002 - 2003 by Pascal Brachet, 2003 Jeroen Wijnhout, 2007 Thomas Braun
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2002 - 2003 by Pascal Brachet (Jeroen.Wijnhout@kdemail.net)
+                               2003 by Jeroen Wijnhout
+                               2007 by Thomas Braun
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,8 +15,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KILEAPPDCOPIFACE_H
-#define KILEAPPDCOPIFACE_H
+#ifndef KILEDBUSIFACE_H
+#define KILEDBUSIFACE_H
 
 #include <QObject>
 #include <QtDBus/QtDBus>
@@ -33,7 +35,7 @@ class KileAppDBusIface : public QDBusAbstractAdaptor
 		Q_SCRIPTABLE void openProject(const QString &path);
 
 		Q_SCRIPTABLE void insertText(const QString &path);
-		Q_SCRIPTABLE void setLine( const int line);
+		Q_SCRIPTABLE void setLine(const QString& line);
 		Q_SCRIPTABLE void setActive();
 
 		Q_SCRIPTABLE int runTool(const QString &tool);

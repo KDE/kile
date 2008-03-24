@@ -1,0 +1,30 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="net.sourceforge.kile.main">
+    <method name="openDocument">
+      <arg name="path" type="s" direction="in"/>
+    </method>
+    <method name="closeDocument">
+    </method>
+    <method name="openProject">
+      <arg name="path" type="s" direction="in"/>
+    </method>
+    <method name="insertText">
+      <arg name="path" type="s" direction="in"/>
+    </method>
+    <method name="setLine">
+      <arg name="line" type="s" direction="in"/>
+    </method>
+    <method name="setActive">
+    </method>
+    <method name="runTool">
+      <arg type="i" direction="out"/>
+      <arg name="tool" type="s" direction="in"/>
+    </method>
+    <method name="runToolWithConfig">
+      <arg type="i" direction="out"/>
+      <arg name="tool" type="s" direction="in"/>
+      <arg name="config" type="s" direction="in"/>
+    </method>
+  </interface>
+</node>

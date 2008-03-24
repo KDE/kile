@@ -5,7 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006-2008
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -27,6 +27,7 @@
 #include <QStringList>
 
 #include <KTextEditor/Editor>
+#include <KTextEditor/ModificationInterface>
 
 #include "kileconstants.h"
 #include "kileproject.h"
@@ -131,7 +132,7 @@ public Q_SLOTS:
 	void addProject(KileProject *project);
 	void addToProject(const KUrl &);
 	void addToProject(KileProject *, const KUrl &);
-	void removeFromProject(KileProjectItem*);
+	void removeFromProject(KileProjectItem *item);
 	void storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc);
 
 	void cleanUpTempFiles(const KUrl &url, bool silent = false);
@@ -147,7 +148,9 @@ Q_SIGNALS:
 	void updateModeStatus();
 	void updateReferences(KileDocument::Info *);
 
-	void documentStatusChanged(KTextEditor::Document *, bool, unsigned char reason);
+	void documentModificationStatusChanged(KTextEditor::Document *, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
+	void documentUrlChanged(KTextEditor::Document*);
+	void documentNameChanged(KTextEditor::Document*);
 
 	void addToRecentFiles(const KUrl &);
 	void addToRecentProjects(const KUrl &);

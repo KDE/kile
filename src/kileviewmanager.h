@@ -5,7 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006-2008
 //
 
 /***************************************************************************
@@ -28,6 +28,7 @@
 #include <QStackedWidget>
 
 #include <KTabWidget>
+#include <KTextEditor/ModificationInterface>
 
 class QPixmap;
 
@@ -64,7 +65,7 @@ public:
 	~Manager();
 
 public:
-	void setClient(QObject *receiver, KXMLGUIClient *client);
+	void setClient(KXMLGUIClient *client);
 
 	KTextEditor::View* currentTextView() const;
 	const QList<KTextEditor::View*>& textViews() { return m_textViewList; }
@@ -85,6 +86,15 @@ public:
 	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
 	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 
+Q_SIGNALS:
+	void activateView(QWidget*, bool);
+	void prepareForPart(const QString&);
+	void startQuickPreview(int);
+	void currentViewChanged(QWidget*);
+	void updateModeStatus();
+	void updateCaption();
+	void newStatusMessage(KTextEditor::View*, const QString&);
+
 public Q_SLOTS:
 	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);
 
@@ -96,7 +106,9 @@ public Q_SLOTS:
 	void gotoNextView();
 	void gotoPrevView();
 
-	void reflectDocumentStatus(KTextEditor::Document*, bool, unsigned char);
+	void reflectDocumentModificationStatus(KTextEditor::Document*,
+	                                       bool,
+	                                       KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
 
 	void convertSelectionToLaTeX(void);
 	void pasteAsLaTeX(void);
@@ -117,11 +129,6 @@ protected Q_SLOTS:
 	 * the name of 'changedDoc'.
 	 **/
 	void updateTabTexts(KTextEditor::Document* changedDoc);
-
-Q_SIGNALS:
-	void activateView(QWidget *, bool);
-	void prepareForPart(const QString &);
-	void startQuickPreview(int);
 
 private:
 	KileInfo			*m_ki;

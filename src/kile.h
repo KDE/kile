@@ -132,7 +132,7 @@ public Q_SLOTS:
 
 	void changeInputEncoding();
 
-	void newStatus(const QString& = QString::null);
+	void newStatus(KTextEditor::View *view = NULL, const QString& = QString());
 	void updateModeStatus();
 	void newCaption();
 	void citeViewBib();

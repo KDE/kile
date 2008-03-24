@@ -137,7 +137,7 @@ Q_SIGNALS:
 	void toggleArchive(KileProjectItem *);
 	void closeProject(const KUrl &);
 	void addToProject(const KUrl &);
-	void removeFromProject(const KileProjectItem *);
+	void removeFromProject(KileProjectItem*);
 	void buildProjectTree(const KUrl &);
 
 protected:

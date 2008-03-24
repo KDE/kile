@@ -70,9 +70,8 @@ Manager::~Manager()
 {
 }
 
-void Manager::setClient(QObject *receiver, KXMLGUIClient *client)
+void Manager::setClient(KXMLGUIClient *client)
 {
-	m_receiver = receiver;
 	m_client = client;
 	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex")) {
 		KAction *action = new KAction(i18n("Paste as LaTe&X"), this);
@@ -102,9 +101,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_tabs->setHoverCloseButton(true);
 	m_tabs->setHoverCloseButtonDelayed(true);
 	m_tabs->setFocus();
-	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), m_receiver, SLOT(newCaption()));
-	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), m_receiver, SLOT(activateView(QWidget*)));
-	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), m_receiver, SLOT(updateModeStatus()));
+	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), this, SIGNAL(currentViewChanged(QWidget*)));
 	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
@@ -143,8 +140,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	m_tabs->showPage(view);
 	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
-	connect(view, SIGNAL(viewStatusMsg(const QString&)), m_receiver, SLOT(newStatus(const QString&)));
-	connect(view, SIGNAL(newStatus()), m_receiver, SLOT(newCaption()));
+	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(newStatusMessage(KTextEditor::View*,const QString&)));
+	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*)), this, SIGNAL(updateCaption()));
+	connect(view, SIGNAL(viewEditModeChanged(KTextEditor::View*, enum KTextEditor::View::EditMode)), this, SIGNAL(updateModeStatus()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
@@ -173,9 +171,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	//activate the newly created view
 	emit(activateView(view, false));
-	QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
-	
-	reflectDocumentStatus(view->document(), false, 0);
+	emit(updateCaption());  //make sure the caption gets updated
+
+	reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
 
 	view->setFocusPolicy(Qt::StrongFocus);
 	view->setFocus();
@@ -211,7 +209,7 @@ void Manager::removeView(KTextEditor::View *view)
 		m_textViewList.remove(view);
 		delete view;
 		
-		QTimer::singleShot(0, m_receiver, SLOT(newCaption())); //make sure the caption gets updated
+		emit(updateCaption());  //make sure the caption gets updated
 		if (textViews().isEmpty()) {
 			m_ki->structureWidget()->clear();
 			m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs left, so show
@@ -332,16 +330,20 @@ void Manager::gotoPrevView()
 	}
 }
 
-void Manager::reflectDocumentStatus(KTextEditor::Document *doc, bool isModified, unsigned char reason)
+void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
+                                                bool isModified,
+                                                KTextEditor::ModificationInterface::ModifiedOnDiskReason reason)
 {
+
 	QPixmap icon;
-	if(reason == 0 && isModified) { //nothing
-		icon = SmallIcon("filesave");
+	if(reason == KTextEditor::ModificationInterface::OnDiskUnmodified && isModified) { //nothing
+		icon = SmallIcon("modified");
 	}
-	else if(reason == 1 || reason == 2) { //dirty file
-		icon = SmallIcon("revert");
+	else if(reason == KTextEditor::ModificationInterface::OnDiskModified
+	     || reason == KTextEditor::ModificationInterface::OnDiskCreated) { //dirty file
+		icon = SmallIcon("modonhd");
 	}
-	else if(reason == 3) { //file deleted
+	else if(reason == reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
 		icon = SmallIcon("process-stop");
 	}
 	else if(m_ki->extensions()->isScriptFile(doc->url())) {

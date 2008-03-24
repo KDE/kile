@@ -55,7 +55,10 @@ KileInfo::KileInfo(QObject *parent) :
 	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
 	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
-	QObject::connect(m_docManager, SIGNAL(documentStatusChanged(KTextEditor::Document*, bool, unsigned char)), m_viewManager, SLOT(reflectDocumentStatus(KTextEditor::Document*, bool, unsigned char)));
+	QObject::connect(m_docManager,
+	                 SIGNAL(documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
+	                 m_viewManager,
+	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 }
 
 KileInfo::~KileInfo()

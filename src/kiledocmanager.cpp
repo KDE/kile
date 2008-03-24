@@ -457,13 +457,15 @@ KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& 
 	}
 
 	//handle changes of the document
-	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), m_ki->mainWindow(), SLOT(newCaption()));
-	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), m_ki->mainWindow(), SLOT(newCaption()));
+	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SIGNAL(documentNameChanged(KTextEditor::Document*)));
+	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SIGNAL(documentUrlChanged(KTextEditor::Document*)));
 	connect(doc, SIGNAL(modifiedChanged(KTextEditor::Document*)), this, SLOT(newDocumentStatus(KTextEditor::Document*)));
-#ifdef __GNUC__
-#warning Signal modifiedOnDisc still left to be ported!
-#endif
-	connect(doc, SIGNAL(modifiedOnDisc(KTextEditor::Document*, bool, unsigned char)), this, SIGNAL(documentStatusChanged(KTextEditor::Document*, bool, unsigned char)));
+	KTextEditor::ModificationInterface *modificationInterface = qobject_cast<KTextEditor::ModificationInterface*>(doc);
+	if(modificationInterface) {
+		modificationInterface->setModifiedOnDiskWarning(true);
+		connect(doc, SIGNAL(modifiedOnDisk(KTextEditor::Document*,bool,KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
+                        this, SIGNAL(documentModificationStatusChanged(KTextEditor::Document*,bool,KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
+	}
 
 	docinfo->setDoc(doc);
 	docinfo->setHighlightMode(highlight);
@@ -720,7 +722,7 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
 	//sync terminal
 	m_ki->texKonsole()->sync();
 
-	emit(documentStatusChanged(doc,  doc->isModified(), 0));
+	emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
 
 	//updatestructure if active document changed from modified to unmodified (typically after a save)
 	if (!doc->isModified())
@@ -1113,18 +1115,19 @@ void Manager::projectNew()
 				//derive the URL from the base url of the project
 				KUrl url = project->baseURL();
 				url.addPath(filename);
-	
+
 				TextInfo *docinfo = textInfoFor(view->document());
-	
+
 				//save the new file
 				view->document()->saveAs(url);
-				emit documentStatusChanged(view->document(), false, 0);
-	
+				emit(documentModificationStatusChanged(view->document(),
+				     false, KTextEditor::ModificationInterface::OnDiskUnmodified));
+
 				//add this file to the project
 				item = new KileProjectItem(project, url);
 				//project->add(item);
 				mapItem(docinfo, item);
-	
+
 				//docinfo->updateStruct(m_kwStructure->level());
 				emit(updateStructure(true, docinfo));
 			}

@@ -19,38 +19,36 @@
 
 #include "kile.h"
 
+#include <QHideEvent>
 #include <QPointer>
 #include <QShowEvent>
-#include <QHideEvent>
+#include <QSplashScreen>
+
 #include <Q3CString>
 #include <Q3PopupMenu>
 
-#include <QSplashScreen>
-
 #include <KAction>
 #include <KActionMenu>
-#include <khelpmenu.h>
-#include <kmenubar.h>
-#include <kstatusbar.h>
-#include "kiledebug.h"
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <krecentfilesaction.h>
-#include <krun.h>
-#include <kshortcutsdialog.h>
-#include <kedittoolbar.h>
-#include <kstandarddirs.h>
-#include <kmultitabbar.h>
-#include <ktabwidget.h>
-#include <ktip.h>
-#include <ktexteditor/configinterface.h>
-#include <kxmlguifactory.h>
+#include <KConfigGroup>
+#include <KEditToolBar>
+#include <KHelpMenu>
+#include <KIconLoader>
+#include <KLocale>
+#include <KMenuBar>
+#include <KMessageBox>
+#include <KRecentFilesAction>
+#include <KRun>
+#include <KShortcutsDialog>
+#include <KStandardDirs>
+#include <KStatusBar>
+#include <KTipDialog>
+#include <KXMLGUIFactory>
+#include <KXmlGuiWindow>
 
 #include "configurationmanager.h"
 #include "documentinfo.h"
 #include "kileactions.h"
+#include "kiledebug.h"
 #include "kilestdactions.h"
 #include "dialogs/usertagsdialog.h"
 #include "dialogs/configurationdialog.h"
@@ -164,17 +162,26 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
 
-	connect( m_partManager, SIGNAL( activePartChanged( KParts::Part * ) ), this, SLOT(activePartGUI ( KParts::Part * ) ) );
+	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
 
 	readGUISettings();
 
-	KGlobal::dirs()->addResourceType("app_symbols",KStandardDirs::kde_default("data") + "kile/mathsymbols/"); // needed for Symbolview
+	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/"); // needed for Symbolview
 
 	// do initializations first
 	m_currentState = m_wantState = "Editor";
 	m_bWatchFile = m_logPresent = false;
 
-	viewManager()->setClient(this, m_mainWindow);
+	viewManager()->setClient(m_mainWindow);
+	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(newCaption()));
+	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(activateView(QWidget*)));
+	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(updateModeStatus()));
+	connect(viewManager(), SIGNAL(newStatusMessage(KTextEditor::View*,const QString&)), this, SLOT(newStatus(KTextEditor::View*,const QString&)));
+	connect(viewManager(), SIGNAL(updateCaption()), this, SLOT(newCaption()));
+	connect(viewManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
+
+	connect(docManager(), SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
+	connect(docManager(), SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 
 	setupStatusBar();
 
@@ -332,8 +339,8 @@ void Kile::hideEvent(QHideEvent *)
 
 void Kile::setupStatusBar()
 {
-    statusBar()->removeItem(ID_LINE_COLUMN);
-    statusBar()->removeItem(ID_HINTTEXT);
+	statusBar()->removeItem(ID_LINE_COLUMN);
+	statusBar()->removeItem(ID_HINTTEXT);
 
 	statusBar()->insertPermanentItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0);
 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
@@ -374,7 +381,7 @@ void Kile::setupProjectView()
 	connect(projectview, SIGNAL(closeProject(const KUrl&)), docManager(), SLOT(projectClose(const KUrl&)));
 	connect(projectview, SIGNAL(projectOptions(const KUrl&)), docManager(), SLOT(projectOptions(const KUrl&)));
 	connect(projectview, SIGNAL(projectArchive(const KUrl&)), this, SLOT(runArchiveTool(const KUrl&)));
-	connect(projectview, SIGNAL(removeFromProject(const KileProjectItem *)), docManager(), SLOT(removeFromProject(const KileProjectItem *)));
+	connect(projectview, SIGNAL(removeFromProject(KileProjectItem *)), docManager(), SLOT(removeFromProject(KileProjectItem*)));
 	connect(projectview, SIGNAL(addFiles(const KUrl &)), docManager(), SLOT(projectAddFiles(const KUrl &)));
 	connect(projectview, SIGNAL(openAllFiles(const KUrl &)), docManager(), SLOT(projectOpenAllFiles(const KUrl &)));
 	connect(projectview, SIGNAL(toggleArchive(KileProjectItem *)), docManager(), SLOT(toggleArchive(KileProjectItem *)));
@@ -1104,30 +1111,31 @@ void Kile::updateModeStatus()
 	KileProject *project = docManager()->activeProject();
 	QString shortName = m_masterName;
 	int pos = shortName.findRev('/');
-	shortName.remove(0,pos+1);
+	shortName.remove(0, pos + 1);
 
-	if (project)
-	{
-		if (m_singlemode)
+	if(project) {
+		if(m_singlemode) {
 			statusBar()->changeItem(i18n("Project: %1", project->name()), ID_HINTTEXT);
-		else
+		}
+		else {
 			statusBar()->changeItem(i18n("Project: %1 (Master document: %2)", project->name(), shortName), ID_HINTTEXT);
+		}
 	}
 	else
 	{
-		if (m_singlemode)
+		if (m_singlemode) {
 			statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
-		else
+		}
+		else {
 			statusBar()->changeItem(i18n("Master document: %1", shortName), ID_HINTTEXT);
+		}
 	}
 
-	if (m_singlemode)
-	{
+	if(m_singlemode) {
 		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
 		ModeAction->setChecked(false);
 	}
-	else
-	{
+	else {
 		ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
 		ModeAction->setChecked(true);
 	}
@@ -1154,8 +1162,7 @@ void Kile::autoSaveAll()
 
 void Kile::enableAutosave(bool as)
 {
-	if (as)
-	{
+	if(as) {
 		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
 		int interval = KileConfig::autosaveInterval();
 		if ( interval < 1 || interval > 99 ) interval = 10;
@@ -1289,16 +1296,14 @@ void Kile::convertToASCII(KTextEditor::Document *doc)
 
 void Kile::convertToEnc(KTextEditor::Document *doc)
 {
-	if (doc == 0)
-	{
+	if(!doc) {
 		KTextEditor::View *view = viewManager()->currentTextView();
 
 		if (view) doc = view->document();
 		else return;
 	}
 
-	if (sender())
-	{
+	if(sender()) {
 		ConvertIO io(doc);
 		QString name = QString(sender()->name()).section('_', -1);
 		ConvertASCIIToEnc conv = ConvertASCIIToEnc(name, &io);
@@ -1308,9 +1313,9 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 }
 
 ////////////////// GENERAL SLOTS //////////////
-void Kile::newStatus(const QString & msg)
+void Kile::newStatus(KTextEditor::View* /* view */, const QString& msg)
 {
-	statusBar()->changeItem(msg,ID_LINE_COLUMN);
+	statusBar()->changeItem(msg, ID_LINE_COLUMN);
 }
 
 int Kile::lineNumber()
@@ -1319,8 +1324,7 @@ int Kile::lineNumber()
 
 	int para = 0;
 
-	if (view)
-	{
+	if (view) {
 		para = view->cursorPosition().line();
 	}
 
@@ -1424,9 +1428,9 @@ bool Kile::resetPart()
 			return false;
 	}
 
-    setupStatusBar();
-    updateModeStatus();
-    newCaption();
+	setupStatusBar();
+	updateModeStatus();
+	newCaption();
 
 	m_currentState = "Editor";
 	m_wantState = "Editor";

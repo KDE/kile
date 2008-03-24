@@ -117,7 +117,6 @@ public Q_SLOTS:
 	void prevBullet(KTextEditor::View* view = NULL);
 	void insertBullet(KTextEditor::View* view = NULL);
 
-	void gotoLine(KTextEditor::View *view = NULL);
 	void gotoNextParagraph(KTextEditor::View *view = NULL);
 	void gotoPrevParagraph(KTextEditor::View *view = NULL);
 

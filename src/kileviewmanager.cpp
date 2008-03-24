@@ -616,7 +616,7 @@ void Manager::unplugTextEditorPartMenu(KTextEditor::View* view)
 {
 	if(view) {
 		QStringList actionlist;
-		actionlist << "set_confdlg" << "go_goto_line";      // action names from katepartui.rc
+		actionlist << "set_confdlg";      // action names from katepartui.rc
 
 		for(int i = 0; i < actionlist.count(); ++i) {
 			QAction *action = view->actionCollection()->action(actionlist[i].ascii());

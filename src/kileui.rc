@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="30">
+<kpartgui name="kile" version="31">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -22,7 +22,7 @@
 	<Action name="template_create"/>
 	<Action name="template_remove"/>
 	<Separator/>
-	<DefineGroup name="file_print" append="print_merge" />
+	<DefineGroup name="print_merge" append="print_merge" />
 	<Merge/>
 	<Menu name="convert"><text>Con&amp;vert To</text>
 		<Action name="file_export_ascii"/>
@@ -47,16 +47,12 @@
 
 <Menu name="edit"><text>&amp;Edit</text>
 	<DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
-	<Separator/>
 	<DefineGroup name="edit_paste_merge" append="edit_paste_merge"/>
-	<Separator/>
 	<DefineGroup name="edit_select_merge" append="edit_select_merge"/>
-	<Separator/>
 	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
-	<Menu name="goto" >
-		<text>&amp;Goto</text>
-		<Action name="edit_goto_line" />
-		<Separator/>
+	<Separator/>
+	<Menu name="goto_menu" >
+		<text>&amp;Go to</text>
 		<Action name="edit_next_section" />
 		<Action name="edit_prev_section" />
 		<Separator/>
@@ -617,7 +613,6 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
-	<Action name="edit_goto_line" />
 	<Action name="edit_next_section" />
 	<Action name="edit_prev_section" />
 	<Action name="edit_next_paragraph" />
@@ -701,7 +696,6 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
-	<Action name="edit_goto_line" />
 	<Action name="edit_next_section" />
 	<Action name="edit_prev_section" />
 	<Action name="edit_next_paragraph" />
@@ -786,7 +780,6 @@
 	<Action name="Mode"/>
 	<Action name="gotoNextDocument"/>
 	<Action name="gotoPrevDocument"/>
-	<Action name="edit_goto_line" />
 	<Action name="edit_next_section" />
 	<Action name="edit_prev_section" />
 	<Action name="edit_next_paragraph" />

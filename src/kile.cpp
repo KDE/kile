@@ -664,7 +664,6 @@ void Kile::setupActions()
 	createAction(i18n("&Western European (cp-1252)"), "file_export_cp1252", this, SLOT(convertToEnc()));
 	createAction(KStandardAction::Quit, "file_quit", m_mainWindow, SLOT(close()));
 
-	createAction(KStandardAction::GotoLine, "edit_goto_line", m_edit, SLOT(gotoLine()));
 	createAction(i18n("Next section"), "edit_next_section", "nextsection", KShortcut(Qt::ALT + Qt::Key_Down), m_edit, SLOT(gotoNextSectioning()));
 	createAction(i18n("Prev section"), "edit_prev_section", "prevsection", KShortcut(Qt::ALT + Qt::Key_Up), m_edit, SLOT(gotoPrevSectioning()));
 	createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Down), m_edit, SLOT(gotoNextParagraph()));
@@ -754,14 +753,14 @@ void Kile::setupActions()
 	createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", KShortcut("CTRL+Alt+T,I"), m_edit, SLOT(deleteEndOfLine()));
 	createAction(i18n("TeX Word"), "edit_delete_word", "delword", KShortcut("CTRL+Alt+T,W"), m_edit, SLOT(deleteWord()));
 
-	createAction(i18n("Goto Begin"), "edit_begin_env", "gotobeginenv", KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()));
-	createAction(i18n("Goto End"), "edit_end_env", "gotoendenv", KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()));
+	createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()));
+	createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()));
 	createAction(i18n("Match"), "edit_match_env", "matchenv", KShortcut("CTRL+Alt+E,M"), m_edit, SLOT(matchEnv()));
 	createAction(i18n("Close"), "edit_close_env", "closeenv", KShortcut("CTRL+Alt+E,C"), m_edit, SLOT(closeEnv()));
 	createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", KShortcut("CTRL+Alt+E,A"), m_edit, SLOT(closeAllEnv()));
 
-	createAction(i18n("Goto Begin"), "edit_begin_group", "gotobegingroup", KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()));
-	createAction(i18n("Goto End"), "edit_end_group", "gotoendgroup", KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()));
+	createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()));
+	createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()));
 	createAction(i18n("Match"), "edit_match_group", "matchgroup", KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()));
 	createAction(i18n("Close"), "edit_close_group", "closegroup", KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()));
 
@@ -1575,7 +1574,7 @@ void Kile::initMenu()
 	   // file
 	   << "convert"
 	   // edit
-	   << "goto" << "complete" << "bullet" << "select"
+	   << "goto_menu" << "complete" << "bullet" << "select"
 	   << "delete" << "environment" << "texgroup"
 	   // build
 	   << "quickpreview" << "menu_compile" << "menu_convert"

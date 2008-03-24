@@ -2255,20 +2255,6 @@ void EditorExtension::gotoPrevParagraph(KTextEditor::View *view)
 	}
 }
 
-//////////////////// gotoLine ////////////////////
-
-void EditorExtension::gotoLine(KTextEditor::View *view)
-{
-	view = determineView(view);
-	if (view) {
-#ifdef __GNUC__
-#warning The 'gotoLine' feature still needs to be ported somehow (line 2255)!
-#endif
-//FIXME: port for KDE4
-// 		view->gotoLine();
-	}
-}
-
 //////////////////// one line of text////////////////////
 
 void EditorExtension::selectLine(KTextEditor::View *view)

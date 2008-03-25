@@ -87,7 +87,6 @@
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
 #include "scriptmanager.h"
-#include "spellcheck.h"
 #include "widgets/previewwidget.h"
 #include "widgets/extendedscrollarea.h"
 
@@ -147,7 +146,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readRecentFileSettings();
 
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
-	m_spellCheckManager = new KileSpellCheck::Manager(this);
 
 	m_mainWindow->setStandardToolBarMenuEnabled(true);
 

@@ -131,6 +131,8 @@ public Q_SLOTS:
 	void newCaption();
 	void citeViewBib();
 
+	void runTool();
+
 	// D-Bus Interface
 	void openDocument(const QString & url);
 	void closeDocument();

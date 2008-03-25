@@ -87,6 +87,7 @@
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
 #include "scriptmanager.h"
+#include "spellcheck.h"
 #include "widgets/previewwidget.h"
 #include "widgets/extendedscrollarea.h"
 
@@ -146,6 +147,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readRecentFileSettings();
 
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
+	m_spellCheckManager = new KileSpellCheck::Manager(this);
 
 	m_mainWindow->setStandardToolBarMenuEnabled(true);
 
@@ -1775,6 +1777,14 @@ void Kile::prepareForPart(const QString & state)
 	}
 }
 
+void Kile::runTool()
+{
+	//FIXME: this needs to be done without using 'sender()'!
+	QString toolName = sender()->name();
+	toolName.replace(QRegExp("^.*tool_"), "");
+	runTool(toolName);
+}
+
 int Kile::runTool(const QString& tool)
 {
 	runToolWithConfig(tool, QString());
@@ -1783,9 +1793,7 @@ int Kile::runTool(const QString& tool)
 int Kile::runToolWithConfig(const QString &tool, const QString &config)
 {
 	focusLog();
-	QString localName = tool;
-	localName.replace(QRegExp("^.*tool_"), "");
-	return m_manager->run(localName, config);
+	return m_manager->run(tool, config);
 }
 
 void Kile::cleanAll(KileDocument::TextInfo *docinfo)

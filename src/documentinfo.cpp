@@ -2,7 +2,7 @@
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -62,29 +62,28 @@
 
 #include "documentinfo.h"
 
-#include <qfileinfo.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qregexp.h>
-#include <qdatetime.h>
+#include <QDateTime>
+#include <QFileInfo>
+#include <QRegExp>
 
-#include <kio/netaccess.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <kapplication.h>
-#include "kiledebug.h"
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kinputdialog.h>
-#include <kglobal.h>
+#include <KApplication>
+#include <KConfig>
+#include <KGlobal>
+#include <KIconLoader>
+#include <KInputDialog>
+#include <KIO/NetAccess>
+#include <KLocale>
+#include <KMessageBox>
 
 #include "codecompletion.h"
 #include "configurationmanager.h"
 #include "editorextension.h"
-#include "kileconfig.h"
 #include "eventfilter.h"
+#include "kileconfig.h"
+#include "kiledebug.h"
 #include "kileuntitled.h"
 #include "kileviewmanager.h"
+#include "spellcheck.h"
 
 namespace KileDocument
 {
@@ -401,7 +400,13 @@ void Info::slotCompleted()
 }
 
 
-TextInfo::TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode) : m_doc(0), m_defaultHighlightMode(defaultHighlightMode)
+TextInfo::TextInfo(KTextEditor::Document *doc,
+                   Extensions *extensions,
+                   KileSpellCheck::Manager *spellCheckManager,
+                   const QString& defaultHighlightMode)
+: m_doc(NULL),
+  m_spellCheckManager(spellCheckManager),
+  m_defaultHighlightMode(defaultHighlightMode)
 {
 	setDoc(doc);
 	if(m_doc) {
@@ -445,6 +450,14 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		setHighlightMode(m_defaultHighlightMode);
+		connect(m_doc, SIGNAL(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)),
+                        m_spellCheckManager, SLOT(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)));
+		connect(m_doc, SIGNAL(textInserted(KTextEditor::Document*,const KTextEditor::Range&)),
+                        m_spellCheckManager, SLOT(textInserted(KTextEditor::Document*,const KTextEditor::Range&)));
+		connect(m_doc, SIGNAL(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)),
+                        m_spellCheckManager, SLOT(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)));
+		connect(m_doc, SIGNAL(destroyed(QObject*)), m_spellCheckManager, SLOT(documentDestroyed(QObject*)));
+		m_spellCheckManager->onTheFlyCheckDocument(doc);
 		installEventFilters();
 	}
 }
@@ -453,7 +466,14 @@ void TextInfo::detach()
 {
 	if(m_doc) {
 		m_doc->disconnect(this);
+		disconnect(m_doc, SIGNAL(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)),
+                           m_spellCheckManager, SLOT(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)));
+		disconnect(m_doc, SIGNAL(textInserted(KTextEditor::Document*,const KTextEditor::Range&)),
+                           m_spellCheckManager, SLOT(textInserted(KTextEditor::Document*,const KTextEditor::Range&)));
+		disconnect(m_doc, SIGNAL(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)),
+                           m_spellCheckManager, SLOT(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)));
 		removeInstalledEventFilters();
+		removeSignalConnections();
 	}
 	m_doc = NULL;
 }
@@ -594,6 +614,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 	}
 	KTextEditor::View *view = m_doc->createView(parent);
 	installEventFilters(view);
+	installSignalConnections(view);
 	connect(view, SIGNAL(destroyed(QObject*)), this, SLOT(slotViewDestroyed(QObject*)));
 	return view;
 }
@@ -660,6 +681,38 @@ void TextInfo::removeInstalledEventFilters()
 	}
 }
 
+void TextInfo::installSignalConnections(KTextEditor::View */* view */)
+{
+	/* does nothing */
+}
+
+void TextInfo::removeSignalConnections(KTextEditor::View */* view */)
+{
+	/* does nothing */
+}
+
+void TextInfo::installSignalConnections()
+{
+	if(!m_doc) {
+		return;
+	}
+	QList<KTextEditor::View*> views = m_doc->views();
+	for(QList<KTextEditor::View*>::iterator i = views.begin(); i != views.end(); ++i) {
+		installSignalConnections(*i);
+	}
+}
+
+void TextInfo::removeSignalConnections()
+{
+	if(!m_doc) {
+		return;
+	}
+	QList<KTextEditor::View*> views = m_doc->views();
+	for(QList<KTextEditor::View*>::iterator i = views.begin(); i != views.end(); ++i) {
+		removeSignalConnections(*i);
+	}
+}
+
 void TextInfo::slotViewDestroyed(QObject *object)
 {
 	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(object);
@@ -671,8 +724,17 @@ void TextInfo::slotViewDestroyed(QObject *object)
 	}
 }
 
-LaTeXInfo::LaTeXInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, KileDocument::EditorExtension *editorExtension, KileConfiguration::Manager* manager)
-: TextInfo(doc, extensions, "LaTeX"), m_commands(commands), m_editorExtension(editorExtension), m_configurationManager(manager), m_eventFilter(NULL)
+LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
+                     Extensions *extensions,
+                     LatexCommands *commands,
+                     KileDocument::EditorExtension *editorExtension,
+                     KileConfiguration::Manager* manager,
+                     KileSpellCheck::Manager *spellCheckManager)
+: TextInfo(doc, extensions, spellCheckManager, "LaTeX"),
+  m_commands(commands),
+  m_editorExtension(editorExtension),
+  m_configurationManager(manager),
+  m_eventFilter(NULL)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -813,6 +875,16 @@ QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 	connect(m_configurationManager, SIGNAL(configChanged()), eventFilter, SLOT(readConfig()));
 	toReturn << eventFilter;
 	return toReturn;
+}
+
+void LaTeXInfo::installSignalConnections(KTextEditor::View * /* view */)
+{
+
+}
+
+void LaTeXInfo::removeSignalConnections(KTextEditor::View * /* view */)
+{
+
 }
 
 BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
@@ -1160,7 +1232,11 @@ void LaTeXInfo::checkChangedDeps()
 	}
 }
 
-BibInfo::BibInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands* /* commands */) : TextInfo(doc, extensions, "BibTeX")
+BibInfo::BibInfo (KTextEditor::Document *doc,
+                  Extensions *extensions,
+                  LatexCommands* /* commands */,
+                  KileSpellCheck::Manager *spellCheckManager)
+: TextInfo(doc, extensions, spellCheckManager, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1257,7 +1333,10 @@ QString BibInfo::getFileFilter() const
 	return m_extensions->bibtexFileFilter();
 }
 
-ScriptInfo::ScriptInfo(KTextEditor::Document *doc, Extensions *extensions ) : TextInfo(doc, extensions, "JavaScript")
+ScriptInfo::ScriptInfo(KTextEditor::Document *doc,
+                       Extensions *extensions,
+                       KileSpellCheck::Manager *spellCheckManager)
+: TextInfo(doc, extensions, spellCheckManager, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }

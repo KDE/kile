@@ -42,6 +42,7 @@
 #include <KStandardDirs>
 #include <KStatusBar>
 #include <KTipDialog>
+#include <KToggleAction>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
 
@@ -87,6 +88,7 @@
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
 #include "scriptmanager.h"
+#include "spellcheck.h"
 #include "widgets/previewwidget.h"
 #include "widgets/extendedscrollarea.h"
 
@@ -146,6 +148,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	readRecentFileSettings();
 
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
+	m_spellCheckManager = new KileSpellCheck::Manager(this, viewManager());
 
 	m_mainWindow->setStandardToolBarMenuEnabled(true);
 
@@ -864,6 +867,13 @@ void Kile::setupActions()
 	actionCollection()->readSettings();
 
 	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), m_mainWindow, actionCollection());
+
+	//FIXME: this is just temporary
+	action = new KToggleAction(actionCollection());
+	actionCollection()->addAction("kile_onthefly_spellcheck", action);
+	action->setText(i18n("Toggle On-the-Fly Spellcheck"));
+	action->setIcon(KIcon("tools-check-spelling"));
+	connect(action, SIGNAL(triggered(bool)), m_spellCheckManager, SLOT(setOnTheFlySpellCheckEnabled(bool)));
 }
 
 void Kile::setupTools()
@@ -1785,7 +1795,7 @@ void Kile::runTool()
 
 int Kile::runTool(const QString& tool)
 {
-	runToolWithConfig(tool, QString());
+	return runToolWithConfig(tool, QString());
 }
 
 int Kile::runToolWithConfig(const QString &tool, const QString &config)

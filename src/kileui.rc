@@ -481,6 +481,8 @@
 <Merge/>
 
 <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+	<Action name="kile_onthefly_spellcheck"/>
+	<Separator/>
 	<Action name="Mode"/>
 	<Separator/>
 	<Action name="StructureView"/>

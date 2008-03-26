@@ -360,19 +360,24 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 			case Undefined: // fall through
 			case Text:
 				KILE_DEBUG() << "CREATING TextInfo for " << url.url() << endl;
-				docinfo = new TextInfo(NULL, m_ki->extensions());
+				docinfo = new TextInfo(NULL, m_ki->extensions(), m_ki->spellCheckManager());
 				break;
 			case LaTeX:
 				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url() << endl;
-				docinfo = new LaTeXInfo(NULL, m_ki->extensions(), m_ki->latexCommands(), m_ki->editorExtension(), m_ki->configurationManager());
+				docinfo = new LaTeXInfo(NULL, m_ki->extensions(),
+                                                              m_ki->latexCommands(),
+                                                              m_ki->editorExtension(),
+                                                              m_ki->configurationManager(),
+                                                              m_ki->spellCheckManager());
 				break;
 			case BibTeX:
 				KILE_DEBUG() << "CREATING BibInfo for " << url.url() << endl;
-				docinfo = new BibInfo(NULL, m_ki->extensions(), m_ki->latexCommands());
+				docinfo = new BibInfo(NULL, m_ki->extensions(), m_ki->latexCommands(),
+                                                                                m_ki->spellCheckManager());
 				break;
 			case Script:
 				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url() << endl;
-				docinfo = new ScriptInfo(NULL, m_ki->extensions());
+				docinfo = new ScriptInfo(NULL, m_ki->extensions(), m_ki->spellCheckManager());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);

@@ -43,6 +43,7 @@
 
 namespace KileDocument { class EditorExtension; }
 namespace KileConfiguration { class Manager; }
+namespace KileSpellCheck { class Manager; }
 
 namespace KileStruct
 {
@@ -225,7 +226,10 @@ public:
 	 * @param defaultHighlightMode the highlight mode that will be set automatically
 	 *                             once a new document is installed
 	 **/
-	TextInfo(KTextEditor::Document *doc, Extensions *extensions, const QString& defaultHighlightMode = QString());
+	TextInfo(KTextEditor::Document *doc,
+	         Extensions *extensions,
+                 KileSpellCheck::Manager *spellCheckManager,
+	         const QString& defaultHighlightMode = QString());
 	virtual ~TextInfo();
 
 	/**
@@ -259,6 +263,7 @@ public:
 
 	/**
 	 * "Overridden" method that installs custom event filters by using the "installEventFilters"
+	 * method. It also installs signal connections by using the "installSignalConnections"
 	 * method.
 	 * @warning Only this method should be used to create new views for text documents !
 	 * @return NULL if no document is set (m_doc == NULL)
@@ -271,6 +276,7 @@ protected Q_SLOTS:
 
 protected:
 	KTextEditor::Document				*m_doc;
+	KileSpellCheck::Manager				*m_spellCheckManager;
 	long						*m_arStatistics;
 	QString						m_defaultHighlightMode;
 	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;
@@ -315,6 +321,30 @@ protected:
 	 * managed document object.
 	 **/
 	void removeInstalledEventFilters();
+
+	/**
+	 * Installs signal connections on a view.
+	 */
+	virtual void installSignalConnections(KTextEditor::View *view);
+
+	/**
+	 * Disconnects the signals that were previously connected with the 
+	 * "installSignalConnections" function.
+	 */
+	virtual void removeSignalConnections(KTextEditor::View *view);
+
+	/**
+	 * Installs signal connections on all the views that are currently open for the
+	 * managed document object. The function "installSignalConnections(KTextEditor::View *view)
+	 * function is used for a specific view.
+	 **/
+	void installSignalConnections();
+
+	/**
+	 * Removes signal connections from all the views that are currently open for the
+	 * managed document object.
+	 **/
+	void removeSignalConnections();
 };
 
 
@@ -327,7 +357,12 @@ public:
 	/**
 	 * @param eventFilter the event filter that will be installed on managed documents
 	 **/
-	LaTeXInfo(KTextEditor::Document *doc, Extensions *extensions, LatexCommands *commands, KileDocument::EditorExtension *editorExtension, KileConfiguration::Manager* manager);
+	LaTeXInfo(KTextEditor::Document *doc,
+	          Extensions *extensions,
+	          LatexCommands *commands,
+	          KileDocument::EditorExtension *editorExtension,
+	          KileConfiguration::Manager *manager,
+	          KileSpellCheck::Manager *spellCheckManager);
 	virtual ~LaTeXInfo();
 
 	const long* getStatistics();
@@ -353,6 +388,10 @@ protected:
 	 */
 	virtual QList<QObject*> createEventFilters(KTextEditor::View *view);
 
+	virtual void installSignalConnections(KTextEditor::View *view);
+
+	virtual void removeSignalConnections(KTextEditor::View *view);
+
 private:
 	BracketResult matchBracket(int &, int &);
 };
@@ -364,7 +403,10 @@ class BibInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	BibInfo (KTextEditor::Document *doc, Extensions *extensions, LatexCommands* commands);
+	BibInfo (KTextEditor::Document *doc,
+                 Extensions *extensions,
+                 LatexCommands* commands,
+                 KileSpellCheck::Manager *spellCheckManager);
 	virtual ~BibInfo();
 
 	virtual bool isLaTeXRoot();
@@ -382,7 +424,9 @@ class ScriptInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	ScriptInfo(KTextEditor::Document *doc, Extensions *extensions);
+	ScriptInfo(KTextEditor::Document *doc,
+                   Extensions *extensions,
+                   KileSpellCheck::Manager *spellCheckManager);
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();

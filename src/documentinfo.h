@@ -270,6 +270,9 @@ public:
 	 **/
 	KTextEditor::View* createView(QWidget *parent, const char *name = NULL);
 
+Q_SIGNALS:
+	void documentDetached(KTextEditor::Document*);
+
 protected Q_SLOTS:
 	void slotFileNameChanged();
 	void slotViewDestroyed(QObject *object);

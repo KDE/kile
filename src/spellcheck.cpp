@@ -21,15 +21,20 @@
 #include <KTextEditor/View>
 #include <sonnet/speller.h>
 
+#include "documentinfo.h"
 #include "kiledebug.h"
 #include "kileviewmanager.h"
 
 namespace KileSpellCheck {
 
 OnTheFlyChecker::OnTheFlyChecker(QObject *parent)
-: QThread(parent), m_currentlyCheckedLine(invalidSpellCheckQueueItem)
+: QObject(parent), m_currentlyCheckedLine(invalidSpellCheckQueueItem)
 {
 	KILE_DEBUG() << "created";
+	m_stop = false;
+
+	QTimer::singleShot(0, this, SLOT(spellCheckLine()));
+
 	m_backgroundChecker = new Sonnet::BackgroundChecker(Sonnet::Speller(), this);
 	connect(m_backgroundChecker,
 	        SIGNAL(misspelling(const QString&,int)),
@@ -46,17 +51,18 @@ OnTheFlyChecker::~OnTheFlyChecker()
 const OnTheFlyChecker::SpellCheckQueueItem OnTheFlyChecker::invalidSpellCheckQueueItem =
                        SpellCheckQueueItem(NULL, SpellCheckLine(-1, QString()));
 
-void OnTheFlyChecker::run()
+void OnTheFlyChecker::stop()
 {
-	KILE_DEBUG() << "spell checking thread started";
-	QTimer::singleShot(0, this, SLOT(spellCheckLine()));
-	exec();
+	m_stop = true;
 }
 
-void OnTheFlyChecker::textAdded(KTextEditor::Document *document, const KTextEditor::Range &range)
+void OnTheFlyChecker::textInserted(KTextEditor::Document *document, const KTextEditor::Range &range)
 {
-	KILE_DEBUG() << "textAdded called";
-	m_spellCheckQueueMutex.lock();
+	KILE_DEBUG() << "entered in thread " << QThread::currentThreadId();
+	if(m_stop) {
+		KILE_DEBUG() << "exited as we have to stop";
+		return;
+	}
 	int rangeBegin = range.start().line();
 	int rangeEnd = range.end().line();
 	for(int i = rangeEnd; i >= rangeBegin; --i) {
@@ -65,27 +71,33 @@ void OnTheFlyChecker::textAdded(KTextEditor::Document *document, const KTextEdit
 		             << SpellCheckQueueItem(document, SpellCheckLine(i, document->line(i)))
 		             << " to the queue, which has a length of " << m_spellCheckQueue.size();
 	}
-	m_spellCheckQueueMutex.unlock();
 	QTimer::singleShot(0, this, SLOT(spellCheckLine()));
 }
 
 void OnTheFlyChecker::textRemoved(KTextEditor::Document *document, const KTextEditor::Range &range)
 {
-	KILE_DEBUG() << "textRemoved called";
-	m_backgroundCheckerMutex.lock();
-	m_backgroundChecker->stop();
-	m_backgroundCheckerMutex.unlock();
+	KILE_DEBUG() << "entered in thread " << QThread::currentThreadId();
+	if(m_stop) {
+		KILE_DEBUG() << "exited as we have to stop";
+		return;
+	}
+	if(m_currentlyCheckedLine != invalidSpellCheckQueueItem) { // check in progress
+		KILE_DEBUG() << "sleeping";
+		KILE_DEBUG() << "continuing";
+	}
 
-	m_spellCheckQueueMutex.lock();
 	int rangeBegin = range.start().line();
 	int rangeEnd = range.end().line();
 	for(QList<SpellCheckQueueItem>::iterator i = m_spellCheckQueue.begin();
-	    i != m_spellCheckQueue.end(); ++i) {
+	    i != m_spellCheckQueue.end();) {
 		int line = (*i).second.first;
 		KTextEditor::Document *lineDocument = (*i).first;
 		if(document == lineDocument && rangeBegin <= line && line <= rangeEnd) {
 			KILE_DEBUG() << "erasing range " << *i;
-			m_spellCheckQueue.erase(i);
+			i = m_spellCheckQueue.erase(i);
+		}
+		else {
+			++i;
 		}
 	}
 	if(m_currentlyCheckedLine != invalidSpellCheckQueueItem) {
@@ -111,51 +123,54 @@ void OnTheFlyChecker::textRemoved(KTextEditor::Document *document, const KTextEd
 		             << SpellCheckQueueItem(document, SpellCheckLine(i, document->line(i)))
 		             << " to the queue, which has a length of " << m_spellCheckQueue.size();
 	}
-	m_spellCheckQueueMutex.unlock();
+	KILE_DEBUG() << "exited";
 	QTimer::singleShot(0, this, SLOT(spellCheckLine()));
 }
 
-void OnTheFlyChecker::documentDestroyed(QObject *object)
+void OnTheFlyChecker::freeDocument(KTextEditor::Document *document)
 {
-	KILE_DEBUG() << "documentDestroyed called";
-	m_backgroundCheckerMutex.lock();
-	m_backgroundChecker->stop();
-	m_backgroundCheckerMutex.unlock();
+	KILE_DEBUG() << "entered in thread " << QThread::currentThreadId();
 
-	m_spellCheckQueueMutex.lock();
 	for(QList<SpellCheckQueueItem>::iterator i = m_spellCheckQueue.begin();
-	    i != m_spellCheckQueue.end(); ++i) {
+	    i != m_spellCheckQueue.end();) {
 		KTextEditor::Document *lineDocument = (*i).first;
-		if(object == lineDocument) {
+		if(document == lineDocument) {
 			KILE_DEBUG() << "erasing range " << *i;
-			m_spellCheckQueue.erase(i);
+			i = m_spellCheckQueue.erase(i);
+		}
+		else {
+			++i;
 		}
 	}
 	if(m_currentlyCheckedLine != invalidSpellCheckQueueItem) {
 		KTextEditor::Document *lineDocument = m_currentlyCheckedLine.first;
-		if(object != lineDocument) {
+		if(document != lineDocument) {
 			m_spellCheckQueue.push_front(m_currentlyCheckedLine);
 		}
-		else {
-			m_currentlyCheckedLine = invalidSpellCheckQueueItem;
-		}
 	}
-	m_spellCheckQueueMutex.unlock();
+	m_currentlyCheckedLine = invalidSpellCheckQueueItem;
+	KILE_DEBUG() << "exited";
 	QTimer::singleShot(0, this, SLOT(spellCheckLine()));
 }
 
 void OnTheFlyChecker::spellCheckLine()
 {
-	KILE_DEBUG() << "spellCheckLine called";
+	KILE_DEBUG() << "entered in thread " << QThread::currentThreadId();
+	if(m_stop) {
+		KILE_DEBUG() << "exited as we have to stop";
+		return;
+	}
 	SpellCheckQueueItem queueItem;
-	m_spellCheckQueueMutex.lock();
-	if(m_spellCheckQueue.isEmpty() || m_currentlyCheckedLine != invalidSpellCheckQueueItem) {
-		m_spellCheckQueueMutex.unlock();
+	if(m_currentlyCheckedLine != invalidSpellCheckQueueItem) {
+		KILE_DEBUG() << "exited as a check is currenly in progress";
+		return;
+	}
+	if(m_spellCheckQueue.isEmpty()) {
+		KILE_DEBUG() << "exited as there is nothing to do";
 		return;
 	}
 	queueItem = m_spellCheckQueue.takeFirst();
 	m_currentlyCheckedLine = queueItem;
-	m_spellCheckQueueMutex.unlock();
 
 	KTextEditor::Document *document = queueItem.first;
 	int line = queueItem.second.first;
@@ -177,20 +192,25 @@ void OnTheFlyChecker::spellCheckLine()
 		smartInterface->smartMutex()->unlock();
 	}
 
-	m_backgroundCheckerMutex.lock();
 	QString text = queueItem.second.second;
-	KILE_DEBUG() << "spell checking checking line " << text;
+	KILE_DEBUG() << "next spell checking line " << text;
 	m_backgroundChecker->setText(text); // don't call 'start()' after this!
-	m_backgroundCheckerMutex.unlock();
+	KILE_DEBUG() << "exited";
 }
 
 void OnTheFlyChecker::misspelling(const QString &word, int start)
 {
+	KILE_DEBUG() << "entered in thread " << QThread::currentThreadId();
+	if(m_stop) {
+		KILE_DEBUG() << "exited as we have to stop";
+		return;
+	}
+	if(m_currentlyCheckedLine == invalidSpellCheckQueueItem) {
+		KILE_DEBUG() << "exited as no spell check is taking place";
+		return;
+	}
 	SpellCheckQueueItem queueItem;
-	m_spellCheckQueueMutex.lock();
 	queueItem = m_currentlyCheckedLine;
-	m_spellCheckQueueMutex.unlock();
-
 	KILE_DEBUG() << "misspelled " << word
 	                              << " at line "
 	                              << queueItem.second.first << " column " << start;
@@ -215,16 +235,25 @@ void OnTheFlyChecker::misspelling(const QString &word, int start)
 		smartInterface->smartMutex()->unlock();
 	}
 
-	m_backgroundCheckerMutex.lock();
+	if(m_stop) {
+		return;
+	}
 	m_backgroundChecker->continueChecking();
-	m_backgroundCheckerMutex.unlock();
-
+	KILE_DEBUG() << "exited";
 }
 
 void OnTheFlyChecker::spellCheckDone()
 {
+	KILE_DEBUG() << "entered in thread " << QThread::currentThreadId();
 	KILE_DEBUG() << "on-the-fly spell check done, queue length " << m_spellCheckQueue.size();
-	m_spellCheckQueueMutex.lock();
+	if(m_stop) {
+		KILE_DEBUG() << "exited as we have to stop";
+		return;
+	}
+	if(m_currentlyCheckedLine == invalidSpellCheckQueueItem) {
+		KILE_DEBUG() << "exited as no spell check is taking place";
+		return;
+	}
 	KTextEditor::Document *document = m_currentlyCheckedLine.first;
 	KTextEditor::SmartInterface *smartInterface =
 	                             qobject_cast<KTextEditor::SmartInterface*>(document);
@@ -234,55 +263,48 @@ void OnTheFlyChecker::spellCheckDone()
 		KILE_DEBUG() << "number of smart ranges " << highlightsList.size();
 	}
 	m_currentlyCheckedLine = invalidSpellCheckQueueItem;
-	m_spellCheckQueueMutex.unlock();
 	QTimer::singleShot(0, this, SLOT(spellCheckLine()));
+	KILE_DEBUG() << "exited";
 }
 
 //////////////////////////////////// Manager //////////////////////////////////////////////
 
 Manager::Manager(QObject *parent, KileView::Manager *viewManager)
-: QObject(parent), m_viewManager(viewManager), m_onTheFlyChecker(NULL)
+: QThread(parent), m_viewManager(viewManager)
 {
+	// necessary for connecting signals acress Threads
+	qRegisterMetaType<KTextEditor::Document*>("KTextEditor::Document*");
+	qRegisterMetaType<KTextEditor::Range>("KTextEditor::Range");
+
+	connect(this, SIGNAL(onTheFlyCheckerSetup()),
+	        this, SLOT(onTheFlyCheckOpenDocuments()), Qt::BlockingQueuedConnection);
 }
 
 Manager::~Manager()
 {
+	stopOnTheFlySpellCheckThread();
 }
 
 void Manager::onTheFlyCheckDocument(KTextEditor::Document *document)
 {
-	textInserted(document, document->documentRange());
+	emit(textInserted(document, document->documentRange()));
 }
 
-void Manager::textChanged(KTextEditor::Document *document,
-                                 const KTextEditor::Range & /* oldRange */,
-                                 const KTextEditor::Range &newRange)
+void Manager::addOnTheFlySpellChecking(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG() << "text changed: " << document->text(newRange);
-
+	connect(info->getDoc(), SIGNAL(textInserted(KTextEditor::Document*, const KTextEditor::Range&)),
+                this, SIGNAL(textInserted(KTextEditor::Document*, const KTextEditor::Range&)));
+	connect(info->getDoc(), SIGNAL(textRemoved(KTextEditor::Document*, const KTextEditor::Range&)),
+                this, SIGNAL(textRemoved(KTextEditor::Document*, const KTextEditor::Range&)));
 }
 
-void Manager::textInserted(KTextEditor::Document *document, const KTextEditor::Range &range)
+void Manager::removeOnTheFlySpellChecking(KTextEditor::Document *doc)
 {
-	KILE_DEBUG() << "text inserted: " << document->text(range);
-	if(m_onTheFlyChecker) {
-		m_onTheFlyChecker->textAdded(document, range);
-	}
-}
-
-void Manager::textRemoved(KTextEditor::Document *document, const KTextEditor::Range &range)
-{
-	KILE_DEBUG() << "text removed: " << range;
-	if(m_onTheFlyChecker) {
-		m_onTheFlyChecker->textRemoved(document, range);
-	}
-}
-
-void Manager::documentDestroyed(QObject *object)
-{
-	if(m_onTheFlyChecker) {
-		m_onTheFlyChecker->documentDestroyed(object);
-	}
+	disconnect(doc, SIGNAL(textInserted(KTextEditor::Document*, const KTextEditor::Range&)),
+                this, SIGNAL(textInserted(KTextEditor::Document*, const KTextEditor::Range&)));
+	disconnect(doc, SIGNAL(textRemoved(KTextEditor::Document*, const KTextEditor::Range&)),
+                this, SIGNAL(textRemoved(KTextEditor::Document*, const KTextEditor::Range&)));
+	emit(freeDocument(doc));
 }
 
 void Manager::setOnTheFlySpellCheckEnabled(bool b)
@@ -297,12 +319,25 @@ void Manager::setOnTheFlySpellCheckEnabled(bool b)
 
 void Manager::startOnTheFlySpellCheckThread()
 {
-	if(m_onTheFlyChecker) {
+	if(isRunning()) {
 		return;
 	}
+	m_onTheFlyCheckerMutex.lock();
+	m_onTheFlyCheckerSetup = false;
+	m_onTheFlyCheckerMutex.unlock();
+	KILE_DEBUG() << "starting spell check thread from thread " << QThread::currentThreadId();
+	start();
+	// wait for all the signal connections to be made before calling 'onTheFlyCheckOpenDocuments()'
+	m_onTheFlyCheckerMutex.lock();
+	while(!m_onTheFlyCheckerSetup) {
+		m_onTheFlyCheckerSetupWaitCondition.wait(&m_onTheFlyCheckerMutex, 200);
+	}
+	m_onTheFlyCheckerMutex.unlock();
+	onTheFlyCheckOpenDocuments();
+}
 
-	m_onTheFlyChecker = new OnTheFlyChecker(this);
-	m_onTheFlyChecker->start();
+void Manager::onTheFlyCheckOpenDocuments()
+{
 	QHash<KTextEditor::Document*, bool> documentHash;
 	const QList<KTextEditor::View*> textViews = m_viewManager->textViews();
 	for(QList<KTextEditor::View*>::const_iterator i = textViews.begin();
@@ -317,13 +352,13 @@ void Manager::startOnTheFlySpellCheckThread()
 
 void Manager::stopOnTheFlySpellCheckThread()
 {
-	if(!m_onTheFlyChecker) {
+	if(!isRunning()) {
 		return;
 	}
-	m_onTheFlyChecker->exit();
+	emit(stop());
+	quit();
+	wait();
 	removeOnTheFlyHighlighting();
-	delete m_onTheFlyChecker;
-	m_onTheFlyChecker = NULL;
 }
 
 void Manager::removeOnTheFlyHighlighting()
@@ -345,6 +380,35 @@ void Manager::removeOnTheFlyHighlighting()
 			smartInterface->smartMutex()->unlock();
 		}
 	}
+}
+
+void Manager::run()
+{
+	KILE_DEBUG() << "spell checking thread started, id " << QThread::currentThreadId()
+	                                                     << " " << QThread::currentThread();
+	OnTheFlyChecker *onTheFlyChecker = new OnTheFlyChecker();
+
+	// 'BlockingQueuedConnection' is important as we want the GUI thread has to wait until the document
+	// has been removed from the spell check queue. Moreover, without blocking it might happen that
+	// 'freeDocument' is called although there are still e.g. some 'textInsert' calls left
+	connect(this, SIGNAL(textInserted(KTextEditor::Document*, const KTextEditor::Range&)),
+                onTheFlyChecker, SLOT(textInserted(KTextEditor::Document*, const KTextEditor::Range&)),
+                Qt::BlockingQueuedConnection);
+	connect(this, SIGNAL(textRemoved(KTextEditor::Document*, const KTextEditor::Range&)),
+                onTheFlyChecker, SLOT(textRemoved(KTextEditor::Document*, const KTextEditor::Range&)),
+                Qt::BlockingQueuedConnection);
+	connect(this, SIGNAL(freeDocument(KTextEditor::Document*)),
+                onTheFlyChecker, SLOT(freeDocument(KTextEditor::Document*)),
+                Qt::BlockingQueuedConnection);
+	connect(this, SIGNAL(stop()), onTheFlyChecker, SLOT(stop()), Qt::BlockingQueuedConnection);
+	m_onTheFlyCheckerMutex.lock();
+	m_onTheFlyCheckerSetup = true;
+	m_onTheFlyCheckerSetupWaitCondition.wakeAll();
+	m_onTheFlyCheckerMutex.unlock();
+
+	exec();
+	KILE_DEBUG() << "spell check thread stopped";
+	delete onTheFlyChecker;
 }
 
 }

@@ -20,47 +20,53 @@
 #include <QMutex>
 #include <QString>
 #include <QThread>
+#include <QWaitCondition>
 
 #include <KTextEditor/Document>
 #include <sonnet/backgroundchecker.h>
 
 class KileInfo;
 
+namespace KileDocument {class TextInfo;};
 namespace KileView {class Manager;};
 
 namespace KileSpellCheck {
 
-	class OnTheFlyChecker : public QThread {
+	class Manager;
+
+	class OnTheFlyChecker : public QObject {
 		Q_OBJECT
+
+		friend class Manager;
 
 		typedef QPair<int, QString> SpellCheckLine;
 		typedef QPair<KTextEditor::Document*, SpellCheckLine> SpellCheckQueueItem;
 
 		public:
 			OnTheFlyChecker(QObject *parent = NULL);
-			virtual ~OnTheFlyChecker();
+			~OnTheFlyChecker();
 
-			void textAdded(KTextEditor::Document *document, const KTextEditor::Range &range);
+		public Q_SLOTS:
+			void spellCheckLine();
+			void textInserted(KTextEditor::Document *document, const KTextEditor::Range &range);
 			void textRemoved(KTextEditor::Document *document, const KTextEditor::Range &range);
-			void documentDestroyed(QObject *object);
+			void freeDocument(KTextEditor::Document *document);
 
-			virtual void run();
+			void stop();
 
 		protected:
-			QMutex m_spellCheckQueueMutex;
-			QMutex m_backgroundCheckerMutex;
 			QList<SpellCheckQueueItem> m_spellCheckQueue;
 			Sonnet::BackgroundChecker *m_backgroundChecker;
 			SpellCheckQueueItem m_currentlyCheckedLine;
 			static const SpellCheckQueueItem invalidSpellCheckQueueItem;
+			bool m_stop;
 
 		protected Q_SLOTS:
 			void misspelling(const QString &word, int start);
 			void spellCheckDone();
-			void spellCheckLine();
 	};
 
-	class Manager : public QObject {
+	class Manager : public QThread {
 		Q_OBJECT
 
 		public:
@@ -68,26 +74,32 @@ namespace KileSpellCheck {
 			virtual ~Manager();
 
 			void onTheFlyCheckDocument(KTextEditor::Document *document);
+			void addOnTheFlySpellChecking(KileDocument::TextInfo *info);
+			void removeOnTheFlySpellChecking(KTextEditor::Document *doc);
+
+		Q_SIGNALS:
+			void stop();
+			void textInserted(KTextEditor::Document*, const KTextEditor::Range&);
+			void textRemoved(KTextEditor::Document*, const KTextEditor::Range&);
+			void freeDocument(KTextEditor::Document*);
 
 		public Q_SLOTS:
-			void textChanged(KTextEditor::Document *document,
-			                        const KTextEditor::Range &oldRange,
-			                        const KTextEditor::Range &newRange);
-			void textInserted(KTextEditor::Document *document,
-			                  const KTextEditor::Range &range);
-			void textRemoved(KTextEditor::Document *document,
-			                 const KTextEditor::Range &range);
-			void documentDestroyed(QObject *object);
-
 			void setOnTheFlySpellCheckEnabled(bool b);
 
 		protected:
 			KileView::Manager* m_viewManager;
-			OnTheFlyChecker *m_onTheFlyChecker;
+			QMutex m_onTheFlyCheckerMutex;
+			bool m_onTheFlyCheckerSetup;
+			QWaitCondition m_onTheFlyCheckerSetupWaitCondition;
 
 			void startOnTheFlySpellCheckThread();
 			void stopOnTheFlySpellCheckThread();
 			void removeOnTheFlyHighlighting();
+
+			virtual void run();
+
+		protected Q_SLOTS:
+			void onTheFlyCheckOpenDocuments();
 	};
 }
 

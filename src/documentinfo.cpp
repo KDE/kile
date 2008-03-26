@@ -450,15 +450,9 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		setHighlightMode(m_defaultHighlightMode);
-		connect(m_doc, SIGNAL(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)),
-                        m_spellCheckManager, SLOT(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)));
-		connect(m_doc, SIGNAL(textInserted(KTextEditor::Document*,const KTextEditor::Range&)),
-                        m_spellCheckManager, SLOT(textInserted(KTextEditor::Document*,const KTextEditor::Range&)));
-		connect(m_doc, SIGNAL(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)),
-                        m_spellCheckManager, SLOT(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)));
-		connect(m_doc, SIGNAL(destroyed(QObject*)), m_spellCheckManager, SLOT(documentDestroyed(QObject*)));
 		m_spellCheckManager->onTheFlyCheckDocument(doc);
 		installEventFilters();
+		m_spellCheckManager->addOnTheFlySpellChecking(this);
 	}
 }
 
@@ -466,14 +460,10 @@ void TextInfo::detach()
 {
 	if(m_doc) {
 		m_doc->disconnect(this);
-		disconnect(m_doc, SIGNAL(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)),
-                           m_spellCheckManager, SLOT(textChanged(KTextEditor::Document*,const KTextEditor::Range&,const KTextEditor::Range&)));
-		disconnect(m_doc, SIGNAL(textInserted(KTextEditor::Document*,const KTextEditor::Range&)),
-                           m_spellCheckManager, SLOT(textInserted(KTextEditor::Document*,const KTextEditor::Range&)));
-		disconnect(m_doc, SIGNAL(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)),
-                           m_spellCheckManager, SLOT(textRemoved(KTextEditor::Document*,const KTextEditor::Range&)));
 		removeInstalledEventFilters();
 		removeSignalConnections();
+		m_spellCheckManager->removeOnTheFlySpellChecking(m_doc);
+		emit(documentDetached(m_doc));
 	}
 	m_doc = NULL;
 }

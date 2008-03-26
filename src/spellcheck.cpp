@@ -228,8 +228,8 @@ void OnTheFlyChecker::misspelling(const QString &word, int start)
 		                                                                          line,
 		                                                                          start + word.length()));
 		KTextEditor::Attribute *attribute = new KTextEditor::Attribute();
-		attribute->setFontBold(true);
-// 		attribute->setOutline(QBrush(QColor(Qt::red)));
+		attribute->setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+		attribute->setUnderlineColor(QColor(Qt::red));
 		smartRange->setAttribute(KTextEditor::Attribute::Ptr(attribute));
 		smartInterface->addHighlightToDocument(smartRange);
 		smartInterface->smartMutex()->unlock();

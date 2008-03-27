@@ -17,10 +17,7 @@
 #include <QList>
 #include <QObject>
 #include <QPair>
-#include <QMutex>
 #include <QString>
-#include <QThread>
-#include <QWaitCondition>
 
 #include <KTextEditor/Document>
 #include <sonnet/backgroundchecker.h>
@@ -52,21 +49,21 @@ namespace KileSpellCheck {
 			void textRemoved(KTextEditor::Document *document, const KTextEditor::Range &range);
 			void freeDocument(KTextEditor::Document *document);
 
-			void stop();
+			void setEnabled(bool b);
 
 		protected:
 			QList<SpellCheckQueueItem> m_spellCheckQueue;
 			Sonnet::BackgroundChecker *m_backgroundChecker;
 			SpellCheckQueueItem m_currentlyCheckedLine;
 			static const SpellCheckQueueItem invalidSpellCheckQueueItem;
-			bool m_stop;
+			bool m_enabled;
 
 		protected Q_SLOTS:
 			void misspelling(const QString &word, int start);
 			void spellCheckDone();
 	};
 
-	class Manager : public QThread {
+	class Manager : public QObject {
 		Q_OBJECT
 
 		public:
@@ -74,31 +71,19 @@ namespace KileSpellCheck {
 			virtual ~Manager();
 
 			void onTheFlyCheckDocument(KTextEditor::Document *document);
-			void addOnTheFlySpellChecking(KileDocument::TextInfo *info);
+			void addOnTheFlySpellChecking(KTextEditor::Document *doc);
 			void removeOnTheFlySpellChecking(KTextEditor::Document *doc);
-
-		Q_SIGNALS:
-			void stop();
-			void textInserted(KTextEditor::Document*, const KTextEditor::Range&);
-			void textRemoved(KTextEditor::Document*, const KTextEditor::Range&);
-			void freeDocument(KTextEditor::Document*);
 
 		public Q_SLOTS:
 			void setOnTheFlySpellCheckEnabled(bool b);
 
 		protected:
 			KileView::Manager* m_viewManager;
-			QMutex m_onTheFlyCheckerMutex;
-			bool m_onTheFlyCheckerSetup;
-			QWaitCondition m_onTheFlyCheckerSetupWaitCondition;
+			OnTheFlyChecker *m_onTheFlyChecker;
 
 			void startOnTheFlySpellCheckThread();
 			void stopOnTheFlySpellCheckThread();
 			void removeOnTheFlyHighlighting();
-
-			virtual void run();
-
-		protected Q_SLOTS:
 			void onTheFlyCheckOpenDocuments();
 	};
 }

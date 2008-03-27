@@ -450,9 +450,8 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		setHighlightMode(m_defaultHighlightMode);
-		m_spellCheckManager->onTheFlyCheckDocument(doc);
 		installEventFilters();
-		m_spellCheckManager->addOnTheFlySpellChecking(this);
+		m_spellCheckManager->addOnTheFlySpellChecking(doc);
 	}
 }
 

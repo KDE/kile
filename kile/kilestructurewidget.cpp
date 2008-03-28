@@ -657,8 +657,7 @@ namespace KileWidget
 		
 		if ( item->type() & (KileStruct::Input | KileStruct::Bibliography | KileStruct::Graphics) )
 		{
-			QString fname = item->title();
-			
+			QString fname = item->title();	
 			
 			if(fname.find(suffix) != -1) // check if we have a suffix, if not add standard suffixes
 			{
@@ -698,8 +697,23 @@ namespace KileWidget
 				else
 					emit(fileOpen(url, QString::null));
 			}
-			else
-			{
+			else if( item->type() == KileStruct::Bibliography ){
+				fname = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::bibinputs);
+				fi.setFile(fname);
+				url.setPath(fname);
+				if(fi.isReadable()){
+					emit(fileOpen(url, QString::null));
+				}
+			}
+			else if( item->type() == KileStruct::Input ){
+				fname = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::texinputs);
+				fi.setFile(fname);
+				url.setPath(fname);
+				if(fi.isReadable()){
+					emit(fileOpen(url, QString::null));
+				}
+			}
+			else{
 				if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
 			== KMessageBox::Yes)
 				{

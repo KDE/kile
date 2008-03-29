@@ -1,6 +1,7 @@
 /***************************************************************************
-    begin                : Mon April 17 2003
-    copyright            : (C) 2006 by Thomas Braun
+    begin                : Mon April 17 2006
+    edit:		 : Sat March 29 2008
+    copyright            : (C) 2006-2008 by Thomas Braun
     email                : braun@physik.fu-berlin.de
  ***************************************************************************/
 
@@ -67,13 +68,17 @@ QRegExp arg("\\\\(?:math)?command\\{(.*)\\}");
 QRegExp beginenvpkgs("^\\\\begin\\{neededpkgs\\}(?:\\[(.*)\\])?\\{(.*)\\}");
 QRegExp endenvpkgs("^\\\\end\\{neededpkgs\\}");
 QRegExp cmdpkgs("\\\\pkgs(?:\\[(.*)\\])?\\{(.*)\\}");
+QRegExp	comment("^\\s*%");
 
 int number=1;
 beginenvpkgs.setMinimal(true);
 cmdpkgs.setMinimal(true);
+// optarg.setMinimal(true); in some cases necessary
 
 while( (line = t.readLine()) != 0L)
 {
+	if( line.find(comment) != -1 )
+		continue;
 	if(env)
 	{
 		pkgs=savepkgs;

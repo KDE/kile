@@ -100,7 +100,10 @@ bool KileLyxServer::start()
 }
 
 bool KileLyxServer::openPipes()
-{	
+{
+	#ifdef __GNUC__
+	#warning Something is broken here, only one pipe is created
+	#endif
 	KILE_DEBUG() << "===bool KileLyxServer::openPipes()===";
 	
 	bool opened = false;
@@ -115,6 +118,9 @@ bool KileLyxServer::openPipes()
  		
 		QFile::remove(linkInfo.absoluteFilePath());
 		linkInfo.refresh();
+
+		KILE_DEBUG() << "pipe=" << m_pipes[i] << endl;
+		KILE_DEBUG() << "link=" << m_links[i] << endl;
  		
 		if(!pipeInfo.exists()) {
 			//create the dir first
@@ -153,15 +159,16 @@ bool KileLyxServer::openPipes()
 				delete file;
 				continue;
 			}
-			else { // everything is correct :)
+			else { 
 				m_pipeIn.append(file);
 				m_file.insert(file->handle(), file);
 				opened = true;
+				KILE_DEBUG() << "everything is correct :)" << endl;
 			}
 		}
 		else {
 			kError() << "Could not open " << pipeInfo.absoluteFilePath();
-			delete file;
+			//delete file;
 		}
 	}
 	return opened;

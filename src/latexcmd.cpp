@@ -299,7 +299,12 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 
 bool LatexCommands::isMathEnv(const QString &name)
 {
-	QChar ch = getValue(name).at(2);
+	QString value = getValue(name);
+	if(value.length() < 3) {
+		return false;
+	}
+
+	QChar ch = value.at(2);
 	return (ch == 'm' || ch == 'a');
 }
 

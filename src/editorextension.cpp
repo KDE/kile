@@ -299,7 +299,7 @@ void EditorExtension::matchEnvironment(KTextEditor::View *view)
 		return;
 	}
 	
-	gotoEnvironment( env.tag != EnvBegin,view);
+	gotoEnvironment(env.tag != EnvBegin, view);
 }
 
 //////////////////// close opened environments  ////////////////////

@@ -5,7 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006, 2007
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006-2008
 
 /***************************************************************************
  *                                                                         *
@@ -32,6 +32,7 @@
 #include <KIconLoader>
 #include <kio/global.h>
 #include <KLocale>
+#include <KMessageBox>
 #include <KMimeType>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
@@ -61,7 +62,10 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 // 	m_projectview(NULL),
 	m_tabs(NULL),
 	m_widgetStack(NULL),
-	m_emptyDropWidget(NULL)
+	m_emptyDropWidget(NULL),
+	m_pasteAsLaTeXAction(NULL),
+	m_convertToLaTeXAction(NULL),
+	m_quickPreviewAction(NULL)
 {
 }
 
@@ -74,16 +78,16 @@ void Manager::setClient(KXMLGUIClient *client)
 {
 	m_client = client;
 	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex")) {
-		KAction *action = new KAction(i18n("Paste as LaTe&X"), this);
-		connect(action, SIGNAL(triggered()), this, SLOT(pasteAsLaTeX()));
+		m_pasteAsLaTeXAction = new KAction(i18n("Paste as LaTe&X"), this);
+		connect(m_pasteAsLaTeXAction, SIGNAL(triggered()), this, SLOT(pasteAsLaTeX()));
 	}
 	if(NULL == m_client->actionCollection()->action("popup_converttolatex")) {
-		KAction *action = new KAction(i18n("Convert Selection to &LaTeX"), this);
-		connect(action, SIGNAL(triggered()), this, SLOT(convertSelectionToLaTeX()));
+		m_convertToLaTeXAction = new KAction(i18n("Convert Selection to &LaTeX"), this);
+		connect(m_convertToLaTeXAction, SIGNAL(triggered()), this, SLOT(convertSelectionToLaTeX()));
 	}
 	if(NULL == m_client->actionCollection()->action("popup_quickpreview")) {
-		KAction *action = new KAction(i18n("&QuickPreview Selection"), this);
-		connect(action, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
+		m_quickPreviewAction = new KAction(i18n("&QuickPreview Selection"), this);
+		connect(m_quickPreviewAction, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
 	}
 }
 
@@ -123,7 +127,11 @@ void Manager::closeWidget(QWidget *widget)
 KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
 	KTextEditor::Document *doc = info->getDoc();
-	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView (m_tabs, NULL));
+	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView(m_tabs, NULL));
+
+	if(!view) {
+		KMessageBox::error(m_ki->mainWindow(), i18n("Could not create an editor view."), i18n("Fatal Error"));
+	}
 
 	//install a key sequence recorder on the view
 	view->focusProxy()->installEventFilter(new KileEditorKeySequence::Recorder(view, m_ki->editorKeySequenceManager()));
@@ -147,9 +155,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 
-	connect( view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
-	connect( view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
-	connect( view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
+	connect(view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
+	connect(view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
+	connect(view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// code completion
 	KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
@@ -159,14 +167,20 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	}
 
 	// install a working text editor part popup dialog thingy
-	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
+// 	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
 
-	if(view && viewPopupMenu) {
-		view->setContextMenu(viewPopupMenu);
-	}
+	QMenu *popupMenu = view->defaultContextMenu();
 
-	if(viewPopupMenu) {
-		connect(viewPopupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
+	if(popupMenu) {
+		connect(popupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
+
+		// install some more actions on it
+		popupMenu->addSeparator();
+		popupMenu->addAction(m_pasteAsLaTeXAction);
+		popupMenu->addAction(m_convertToLaTeXAction);
+		popupMenu->addSeparator();
+		popupMenu->addAction(m_quickPreviewAction);
+		view->setContextMenu(popupMenu);
 	}
 
 	//activate the newly created view
@@ -362,51 +376,25 @@ void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
 /**
  * Adds/removes the "Convert to LaTeX" entry in Kate's popup menu according to the selection.
  */
-void Manager::onTextEditorPopupMenuRequest(void)
+void Manager::onTextEditorPopupMenuRequest()
 {
 	KTextEditor::View *view = currentTextView();
 	if(!view) {
 		return;
 	}
 
-	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
-	if(!viewPopupMenu) {
-		return;
-	}
-
 	// Setting up the "QuickPreview selection" entry
-	QAction *quickPreviewAction = m_client->actionCollection()->action("popup_quickpreview");
-	if(NULL != quickPreviewAction) {
-		if(!quickPreviewAction->associatedWidgets().isEmpty()) {
-			viewPopupMenu->addAction(quickPreviewAction);
-		}
-
-		quickPreviewAction->setEnabled( view->selection() ||
-		                                m_ki->editorExtension()->hasMathgroup(view) ||
-		                                m_ki->editorExtension()->hasEnvironment(view)
-		                              );
-	}
+	m_quickPreviewAction->setEnabled(view->selection()
+	                                 || m_ki->editorExtension()->hasMathgroup(view)
+	                                 || m_ki->editorExtension()->hasEnvironment(view));
 
 	// Setting up the "Convert to LaTeX" entry
-	QAction *latexCvtAction = m_client->actionCollection()->action("popup_converttolatex");
-	if(NULL != latexCvtAction) {
-		if(!latexCvtAction->associatedWidgets().isEmpty()) {
-			viewPopupMenu->addAction(latexCvtAction);
-		}
-
-		latexCvtAction->setEnabled(view->selection());
-	}
+	m_convertToLaTeXAction->setEnabled(view->selection());
 
 	// Setting up the "Paste as LaTeX" entry
-	QAction *pasteAsLaTeXAction = m_client->actionCollection()->action("popup_pasteaslatex");
-	if((NULL != pasteAsLaTeXAction)) {
-		if(!pasteAsLaTeXAction->associatedWidgets().isEmpty()) {
-			viewPopupMenu->addAction(pasteAsLaTeXAction);
-		}
-
-		QClipboard *clip = KApplication::clipboard();
-		if(NULL != clip)
-			pasteAsLaTeXAction->setEnabled(!clip->text().isNull());
+	QClipboard *clipboard = KApplication::clipboard();
+	if(clipboard) {
+		m_pasteAsLaTeXAction->setEnabled(!clipboard->text().isEmpty());
 	}
 }
 

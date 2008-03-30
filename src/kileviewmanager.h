@@ -27,6 +27,7 @@
 #include <QPixmap>
 #include <QStackedWidget>
 
+#include <KAction>
 #include <KTabWidget>
 #include <KTextEditor/ModificationInterface>
 
@@ -140,7 +141,8 @@ private:
 	KXMLGUIClient			*m_client;
 	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
-
+	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
+					*m_quickPreviewAction;
 };
 
 /**

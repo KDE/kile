@@ -86,7 +86,7 @@ void Manager::setClient(KXMLGUIClient *client)
 		connect(m_convertToLaTeXAction, SIGNAL(triggered()), this, SLOT(convertSelectionToLaTeX()));
 	}
 	if(NULL == m_client->actionCollection()->action("popup_quickpreview")) {
-		m_quickPreviewAction = new KAction(i18n("&QuickPreview Selection"), this);
+		m_quickPreviewAction = new KAction(this);
 		connect(m_quickPreviewAction, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
 	}
 }
@@ -383,10 +383,25 @@ void Manager::onTextEditorPopupMenuRequest()
 		return;
 	}
 
+	const QString quickPreviewSelection = i18n("&QuickPreview Selection");
+	const QString quickPreviewEnvironment = i18n("&QuickPreview Environment");
+
 	// Setting up the "QuickPreview selection" entry
-	m_quickPreviewAction->setEnabled(view->selection()
-	                                 || m_ki->editorExtension()->hasMathgroup(view)
-	                                 || m_ki->editorExtension()->hasEnvironment(view));
+	if(view->selection()) {
+		m_quickPreviewAction->setText(quickPreviewSelection);
+		m_quickPreviewAction->setEnabled(true);
+		
+	}
+	else if(m_ki->editorExtension()->hasMathgroup(view)
+	     || m_ki->editorExtension()->hasEnvironment(view)) {
+		m_quickPreviewAction->setText(quickPreviewEnvironment);
+		m_quickPreviewAction->setEnabled(true);
+	}
+	else {
+		m_quickPreviewAction->setText(quickPreviewSelection);
+		m_quickPreviewAction->setEnabled(false);
+	}
+
 
 	// Setting up the "Convert to LaTeX" entry
 	m_convertToLaTeXAction->setEnabled(view->selection());

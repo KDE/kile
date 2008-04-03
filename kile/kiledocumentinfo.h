@@ -49,7 +49,7 @@ namespace KileStruct
 		Graphics = 0x100, Reference = 0x200, BeginEnv = 0x400, EndEnv = 0x800,
 		BeginFloat = 0x1000, EndFloat = 0x2000,  Caption = 0x4000, BeamerFrame = 0x8000,
 		BeamerBeginFrame = 0x10000, BeamerEndFrame = 0x20000, BeamerFrametitle = 0x40000, BeamerBeginBlock = 0x80000,
-		ToDo = 0x160000, FixMe = 0x320000, NewEnvironment = 0x640000
+		ToDo = 0x100000, FixMe = 0x200000, NewEnvironment = 0x400000
 	};
 
 	//Different levels (in the parent-child hierarchy) in the structure view

@@ -11,7 +11,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 ########### next target ###############
 
 SET(kile_SRCS
-	${kile_SRCS}
 	latexcmd.cpp
 	dialogs/latexcommanddialog.cpp
 	dialogs/texdocumentationdialog.cpp
@@ -158,8 +157,8 @@ KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 #need qt3support library for now
-TARGET_LINK_LIBRARIES(kile ${QT_AND_KDECORE_LIBS} ${KDE4_KHTML_LIBS}
-${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS} ${QT_QT3SUPPORT_LIBRARY}
+TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS}
+${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS} 
 ${KDE4_KDE3SUPPORT_LIBS})
 
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )

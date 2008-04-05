@@ -11,6 +11,9 @@ Fixes:
  - Fix completion for multiple citations/references (#152766)
  - Fix crash at template handling, reported and fixed by Vincenzo Di Massa
  - Rename some cwl files so that they not only differ by case (#158600)
+ - Search also in $BIBINPUTS and $TEXINPUTS paths if opening files from the
+   structure view
+ - Add missing package definitions to some symbols from the misc-text pane 
 
 Features:
  - Add \newlength as a variation of newcommand

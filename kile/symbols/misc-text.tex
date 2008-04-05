@@ -6,11 +6,10 @@
 \usepackage{marvosym}
 \usepackage{wasysym}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Author: Thomas Braun
 % begin: Sat  15 april 2006
-% last edit: --
+% last edit: Sat 5 april 2008
 % License: GPLv2 or later
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -21,7 +20,6 @@
 \newcommand{\pkgs}[2][]{}
 \fi
 
-% TODO pkgs dazuschreiben
 \begin{document}
 
 \command{\dots}
@@ -86,10 +84,10 @@
 
 \command{\textcircled{a}}
 \command{\textcopyright}
-\command{\textcopyleft}
+\pkgs{textcomp}\command{\textcopyleft}
 \command{\textregistered}
 \command{\texttrademark}
-\command{\textservicemark}
+\pkgs{textcomp}\command{\textservicemark}
 % \cc dvipng chokes here
 % \ccby
 % \ccnc
@@ -106,33 +104,37 @@
 \command{\oldstylenums{7}}
 \command{\oldstylenums{8}}
 \command{\oldstylenums{9}}
-
+% 
+\begin{neededpkgs}{textcomp}
+% 
 \command{\textonehalf}
 \command{\textonequarter}
 \command{\textthreequarters}
-
+% 
 \command{\textonesuperior}
 \command{\texttwosuperior}
 \command{\textthreesuperior}
-
+% 
 \command{\textnumero}
-
+% 
 \command{\textpertenthousand}
 \command{\textperthousand}
-
-
+% 
 \command{\textdiscount}
 \command{\textblank}
 \command{\textrecipe}
 \command{\textestimated}
 \command{\textreferencemark}
 \command{\textmusicalnote}
+% 
+\end{neededpkgs}
+% 
 \command{\dag}
 \command{\ddag}
 \command{\S}
 \command{\$}
-\command{\textpilcrow}
-
+\pkgs{textcomp}\command{\textpilcrow}
+% 
 \begin{neededpkgs}{marvosym}
 \command{\Cutleft}
 \command{\Cutright}
@@ -141,22 +143,22 @@
 \command{\Kutline}
 \command{\Rightscissors}
 \end{neededpkgs}
-
+% 
 \begin{neededpkgs}{wasysym}
 \command{\CheckedBox}
 \command{\Square}
 \command{\XBox}
 \end{neededpkgs}
-
-\command{\textbigcircle}
-\command{\textopenbullet}
+% 
+\pkgs{textcomp} \command{\textbigcircle}
+\pkgs{textcomp} \command{\textopenbullet}
 \command{\textbullet}
 \pkgs{amssymb}\command{\checkmark}
 \pkgs{amssymb}\command{\maltese}
 
-% \textcapitalcompwordmark currently not working due to missing glyps (april 14 2006)
+% \textcapitalcompwordmark currently not working due to missing glyps (april 5 2008) with texlive-full version 2005
 % \textascendercompwordmark ""
-
+\begin{neededpkgs}{textcomp}
 \command{\textordmasculine}
 \command{\textordfeminine}
 \command{\textborn}
@@ -169,11 +171,14 @@
 \command{\textdegree}
 \command{\textmho}
 \command{\textohm}
+\end{neededpkgs}
 
 \command{\textbackslash}
 \command{\textbar}
-\command{\textbrokenbar}
+\pkgs{textcomp} \command{\textbrokenbar}
 \command{\textbardbl}
+% 
+\begin{neededpkgs}{textcomp}
 \command{\textfractionsolidus}
 \command{\textlangle}
 \command{\textlnot}
@@ -185,10 +190,15 @@
 \command{\textpm}
 \command{\textlquill}
 \command{\textrquill}
+\end{neededpkgs}
+% 
 \command{\textless}
 \command{\textgreater}
+% 
+\begin{neededpkgs}{textcomp}
 \command{\textsurd}
 \command{\texttimes}
 \command{\textdiv}
-
+\end{neededpkgs}
+% 
 \end{document}

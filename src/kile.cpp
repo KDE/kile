@@ -1086,7 +1086,7 @@ int Kile::runWith(const QString &tool, const QString &config)
 void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
 	//KILE_DEBUG() << "==Kile::activateView==========================" << endl;
-	if (!w->inherits("KTextEditor::View")) {
+	if (!w || !w->inherits("KTextEditor::View")) {
 		return;
 	}
 

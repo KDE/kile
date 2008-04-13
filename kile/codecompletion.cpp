@@ -1046,11 +1046,16 @@ namespace KileDocument
 
 	void CodeCompletion::editComplete(Kate::View *view, Mode mode)
 	{
-		m_view = view;
+		KILE_DEBUG() << "void CodeCompletion::editComplete(Kate::View *view, Mode "<< mode << ")" << endl;
+		KILE_DEBUG() << "m_inprogress=" << m_inprogress << ", isActive()=" << isActive() << endl;
+		m_view = view; 
 
-		if ( !m_view || !isActive() || inProgress() )
+		if ( !m_view || !isActive() )
 			return ;
+		
+		m_inprogress=true;
 
+		KILE_DEBUG() << "proceeded" << endl;
 		// check for a special case: call from inside of a reference command
 		if ( mode==cmLatex )
 		{
@@ -1101,7 +1106,7 @@ namespace KileDocument
 	{
 		KILE_DEBUG() << "==slotCompletionDone (" << m_kilecompletion << "," << m_inprogress << ")=============" << endl;
 		CompletionDone(entry);
-
+		
 		// if kile completion was active, look if we need to show an additional list
 		if ( m_kilecompletion )
 		{

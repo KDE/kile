@@ -42,7 +42,7 @@
 #include "kileinfo.h"
 #include "widgets/symbolview.h"
 
-#include "latexoutputinfo.h"
+#include "outputinfo.h"
 #include "latexoutputfilter.h"
 
 #include "codecompletion.h"        // code completion (dani)

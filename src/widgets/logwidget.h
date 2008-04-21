@@ -1,6 +1,7 @@
 /*************************************************************************************
     begin                : Sat Dec 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -11,56 +12,84 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ****************************************************************************/
+
 #ifndef LOGWIDGET_H
 #define LOGWIDGET_H
 
-#include <Q3PopupMenu>
-#include <KTextEdit>
+#include <QItemDelegate>
+#include <QTextDocument>
+
+#include <KListWidget>
+
+#include "outputinfo.h"
 
 class QString;
-class Q3PopupMenu;
 class QPoint;
 
 class KileInfo;
 class KUrl;
 
 namespace KileWidget {
-	class LogWidget : public KTextEdit
+	class LogWidgetItemDelegate : public QItemDelegate
+	{
+		Q_OBJECT
+
+		public:
+			LogWidgetItemDelegate(QObject* parent = NULL);
+
+			virtual QSize sizeHint(const QStyleOptionViewItem& option,
+			                       const QModelIndex& index) const;
+
+		protected:
+			virtual void paint(QPainter* painter,
+			                   const QStyleOptionViewItem& option,
+			                   const QModelIndex & index) const;
+
+			QTextDocument* constructTextDocument(const QModelIndex& index) const;
+	};
+
+	class LogWidget : public KListWidget
 	{
 		Q_OBJECT
 
 	public:
-		LogWidget(KileInfo *info, QWidget *parent, const char *name=0);
+		LogWidget(KileInfo *info, QWidget *parent, const char *name = NULL);
 		~LogWidget();
 
 		bool isShowingOutput() const;
 
-		void scrollToBottom();
-
 	public Q_SLOTS:
-		void highlight(); //FIXME for compatibility, should remove it asap
-		void highlight(uint l, int direction = 1);
-		void highlightByIndex(int index, int size, int direction = 1);
+		void highlight(const OutputInfo& info);
 
-		void printMsg(int type, const QString & message, const QString &tool = "Kile");
-		void printProblem(int type, const QString & problem);
+		void printMessage(const QString& message);
+		void printMessage(int type, const QString& message, const QString &tool = "Kile",
+		                  const OutputInfo& outputInfo = OutputInfo(), bool allowSection = false);
+		void printProblem(int type, const QString& problem, const OutputInfo& outputInfo = OutputInfo());
 
-		void slotClicked(int, int);
+		void addEmptyLine();
 
 	Q_SIGNALS:
-		void fileOpen(const KUrl &, const QString &);
-		void setLine(const QString &);
-		void showingErrorMessage(QWidget *);
+		void showingErrorMessage(QWidget*);
+		void outputInfoSelected(const OutputInfo&);
 
 	protected:
 // 		Q3PopupMenu* createPopupMenu (const QPoint & pos);
+		virtual void enterEvent(QEvent *event);
+		virtual void leaveEvent(QEvent *event);
+		virtual void mouseMoveEvent(QMouseEvent* event);
+
+		void adaptMouseCursor(const QPoint& p);
+		void keyPressEvent(QKeyEvent *event);
 
 	protected Q_SLOTS:
 		void handlePopup(int);
+		void slotItemClicked(QListWidgetItem *item);
+		void deselectAllItems();
 
 	private:
-		KileInfo	*m_info;
-		int		m_idWarning, m_idBadBox;
+		KileInfo		*m_info;
+		int			m_idWarning, m_idBadBox;
+		LogWidgetItemDelegate	*m_itemDelegate;
 	};
 }
 

@@ -15,32 +15,99 @@
 
 #include "widgets/logwidget.h"
 
-#include <QFileInfo>
-#include <QRegExp>
+#include <QAbstractTextDocumentLayout>
+#include <QPainter>
+#include <QTextDocument>
 #include <QTextStream>
 
-#include <q3popupmenu.h>
-
-#include "kiledebug.h"
 #include <KUrl>
 #include <KLocale>
 
-#include "kiletool_enums.h"
-#include "kileinfo.h"
 #include "kileconfig.h"
+#include "kiledebug.h"
+#include "kileinfo.h"
+#include "kiletool_enums.h"
 
 namespace KileWidget
 {
-	LogWidget::LogWidget(KileInfo *info, QWidget *parent, const char *name ) :
-		KTextEdit(parent),
+	LogWidgetItemDelegate::LogWidgetItemDelegate(QObject* parent)
+	: QItemDelegate(parent)
+	{
+	}
+
+	QSize LogWidgetItemDelegate::sizeHint(const QStyleOptionViewItem& /* option */,
+	                                     const QModelIndex& index) const
+	{
+		QTextDocument *textDocument = constructTextDocument(index);
+		QSize size = textDocument->documentLayout()->documentSize().toSize();
+		delete textDocument;
+		return size;
+	}
+
+	void LogWidgetItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
+	                                                     const QModelIndex& index) const
+	{
+		painter->save();
+		QAbstractTextDocumentLayout::PaintContext context;
+		QVector<QAbstractTextDocumentLayout::Selection> selectionVector;
+
+		painter->translate(option.rect.x(), option.rect.y());
+		QTextDocument *textDocument = constructTextDocument(index);
+
+		if(option.state & QStyle::State_MouseOver && index.data(Qt::UserRole).isValid()) {
+			QTextCursor cursor(textDocument);
+			cursor.select(QTextCursor::Document);
+			QTextCharFormat format;
+			format.setFontUnderline(true);
+			cursor.mergeCharFormat(format);
+		}
+
+		if(option.state & QStyle::State_Selected) {
+			QTextCursor cursor(textDocument);
+			cursor.setPosition(0);
+			cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+			QTextCharFormat selectionTextCharFormat;
+			selectionTextCharFormat.setFontWeight(QFont::Bold);
+			selectionTextCharFormat.setBackground(option.palette.highlight());
+			selectionTextCharFormat.setForeground(option.palette.highlightedText());
+			QAbstractTextDocumentLayout::Selection selection;
+			selection.cursor = cursor;
+			selection.format = selectionTextCharFormat;
+			selectionVector.push_back(selection);
+			context.selections = selectionVector;
+		}
+
+		textDocument->documentLayout()->draw(painter, context);
+		delete textDocument;
+
+		painter->restore();
+	}
+
+	QTextDocument* LogWidgetItemDelegate::constructTextDocument(const QModelIndex& index) const
+	{
+		QTextDocument *textDocument = new QTextDocument();
+		textDocument->setHtml(index.data().toString());
+		return textDocument;
+	}
+
+	LogWidget::LogWidget(KileInfo *info, QWidget *parent, const char *name) :
+		KListWidget(parent),
 		m_info(info)
 	{
 		setObjectName(name);
-		setTabStopWidth(10);
-		connect(this, SIGNAL(clicked(int, int)), this, SLOT(slotClicked(int, int)));
+		connect(this, SIGNAL(itemClicked(QListWidgetItem*)),
+		        this, SLOT(slotItemClicked(QListWidgetItem*)));
 		QPalette customPalette = palette();
 		customPalette.setColor(QPalette::Window, QColor(Qt::white));
 		setPalette(customPalette);
+		m_itemDelegate = new LogWidgetItemDelegate(this);
+		setSelectionMode(QAbstractItemView::MultiSelection);
+		QAbstractItemDelegate *delegate = itemDelegate();
+		if(delegate) {
+			delete delegate;
+		}
+		setItemDelegate(m_itemDelegate);
+		setMouseTracking(true);
 	}
 	
 	LogWidget::~LogWidget()
@@ -49,132 +116,95 @@ namespace KileWidget
 
 	bool LogWidget::isShowingOutput() const
 	{
-		return !document()->isEmpty();
+		return (count() > 0);
 	}
 
-	void LogWidget::scrollToBottom()
+	void LogWidget::highlight(const OutputInfo& info)
 	{
-		textCursor().movePosition(QTextCursor::End);
-		ensureCursorVisible();
-	}
-
-	void LogWidget::highlight()
-	{
-		blockSignals(true); // block signals to avoid recursion
-		setUpdatesEnabled(false);
-		QTextCursor cursor;
-
-		QString contents = document()->toPlainText();
-		QTextStream textStream(&contents, QIODevice::ReadOnly);
-
-		cursor = textCursor();
-
-		while(!textStream.atEnd()) {
-			QString line = textStream.readLine();
-		}
-
-		int line=0;
-		for(uint i = 0 ; i < m_info->outputInfo()->size() ; ++i )
-		{
-			line = (*m_info->outputInfo())[i].outputLine();
-
-			QTextCursor cursor = textCursor();
-			cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, line);
-			cursor.select(QTextCursor::LineUnderCursor);
-			setTextCursor(cursor);
-			
-			switch ( (*m_info->outputInfo())[i].type() )
-			{
-			case LatexOutputInfo::itmError : setTextColor(QColor(0xCC, 0x00, 0x00)); break;
-			case LatexOutputInfo::itmWarning : setTextColor(QColor(0x00, 0x00, 0xCC )); break;
-			case LatexOutputInfo::itmBadBox : setTextColor(QColor(0x00, 0x80, 0x00)); break;
-			default : break;
+		for(int i = 0; i < count(); ++i) {
+			QListWidgetItem *listItem = item(i);
+			QVariant variant = listItem->data(Qt::UserRole);
+			if(!variant.isValid()) {
+				continue;
 			}
-		}
-
-		setTextCursor(cursor);
-		setUpdatesEnabled(true);
-		blockSignals(false); // block signals to avoid recursion
-	}
-
-	void LogWidget::highlight(uint l, int direction /* = 1 */)
-	{
-#ifdef __GNUC__
-#warning Method still needs to be ported!
-#endif
-//FIXME: port for KDE4
-// 		setCursorPosition(l + direction * 3 , 0);
-// 		setSelection(l, 0, l, paragraphLength(l));
-	}
-
-	void LogWidget::highlightByIndex(int index, int size, int direction /* = 1 */)
-	{
-#ifdef __GNUC__
-#warning Method still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-		int parags = paragraphs();
-		int problemsFound = 0;
-		int targetProblemNumber = size - index;
-		static QRegExp reProblem(".*:[0-9]+:.*");
-		
-		//start from the bottom (most recent error) because
-		//there could very well be errors with the same name
-		for ( int i = parags - 1; i >= 0;  --i )
-		{
-			if ( reProblem.exactMatch(text(i)) ) ++problemsFound;
-			
-			if ( problemsFound == targetProblemNumber )
-			{
-				highlight(i, direction);
+			OutputInfo info2 = variant.value<OutputInfo>();
+			if(info == info2) {
+				deselectAllItems();
+				scrollToItem(listItem);
+				listItem->setSelected(true);
 				break;
 			}
 		}
-*/
 	}
 
-	void LogWidget::slotClicked(int parag, int /*index*/)
+	void LogWidget::slotItemClicked(QListWidgetItem *item)
 	{
-#ifdef __GNUC__
-#warning Method still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-		int l = 0;
-		QString s = text(parag), file;
-	
-		static QRegExp reES = QRegExp("(^.*):([0-9]+):.*");
-		//maybe there is an error summary
-		if(reES.search(s) != -1) {
-			l = reES.cap(2).toInt();
-			file = reES.cap(1);
+		QVariant variant = item->data(Qt::UserRole);
+		if(!variant.isValid()) {
+			return;
+		}
+
+		OutputInfo info = variant.value<OutputInfo>();
+
+		emit(outputInfoSelected(info));
+	}
+
+	void LogWidget::enterEvent(QEvent */* event */)
+	{
+		adaptMouseCursor(mapFromGlobal(QCursor::pos()));
+	}
+
+	void LogWidget::leaveEvent(QEvent */* event */)
+	{
+		unsetCursor();
+	}
+
+	void LogWidget::mouseMoveEvent(QMouseEvent* event)
+	{
+		QPoint p = event->pos();
+		adaptMouseCursor(p);
+	}
+
+	void LogWidget::adaptMouseCursor(const QPoint& p)
+	{
+		QListWidgetItem *item = itemAt(p);
+		if(!item) {
+			unsetCursor();
+			return;
+		}
+
+		QVariant variant = item->data(Qt::UserRole);
+		if(variant.isValid()) {
+			setCursor(Qt::PointingHandCursor);
 		}
 		else {
-			//look for error at line parag
-			for (uint i=0; i< m_info->outputInfo()->size(); ++i)
-			{
-				if ( (*m_info->outputInfo())[i].outputLine() == parag)
-				{
-					file = (*m_info->outputInfo())[i].source();
-					l = (*m_info->outputInfo())[i].sourceLine();
-					break;
-				}
-			}
+			unsetCursor();
 		}
-
-		file = m_info->getFullFromPrettyName(file);
-
-		if(!file.isEmpty()) {
-			emit(fileOpen(KUrl::fromPathOrUrl(file), QString()));
-			if(l > 0) {
-				emit(setLine(QString::number(l)));
-			}
-		}
-*/
 	}
 
-	void LogWidget::printMsg(int type, const QString & message, const QString &tool)
+	void LogWidget::keyPressEvent(QKeyEvent *event)
+	{
+		QAbstractScrollArea::keyPressEvent(event);
+	}
+
+	void LogWidget::deselectAllItems()
+	{
+		QList<QListWidgetItem*> items = selectedItems();
+		for(QList<QListWidgetItem*>::iterator i = items.begin();
+		                                      i != items.end(); ++i) {
+			QListWidgetItem *item = *i;
+			item->setSelected(false);
+		}
+	}
+
+	void LogWidget::printMessage(const QString& message)
+	{
+		KILE_DEBUG() << "\t" << message;
+		printMessage(-1, message, QString());
+	}
+
+	void LogWidget::printMessage(int type, const QString& message, const QString &tool,
+	                             const OutputInfo& outputInfo, bool allowSection)
 	{
 		if(type == KileTool::Error) {
 			emit showingErrorMessage(this);
@@ -185,42 +215,58 @@ namespace KileWidget
 		switch(type) {
 			case KileTool::Warning :
 				ot = "<font color='blue'>";
-			break;
+				break;
 			case KileTool::ProblemWarning :
 				if(KileConfig::hideProblemWarning()) {
 					return;
 				}
 				ot = "<font color='blue'>";
-			break;
+				break;
 			case KileTool::Error: // fall through
 			case KileTool::ProblemError:
 				ot = "<font color='red'>";
-			break;
+				break;
 			case KileTool::ProblemBadBox:
 				if (KileConfig::hideProblemBadBox()) {
 					return;
 				}
 				ot = "<font color='#666666'>";
-			break;
+				break;
 			default:
 				ot = "<font color='black'>";
-			break;
+				break;
 		}
+
+		QListWidgetItem *item = new QListWidgetItem(this);
 
 		if(tool.isEmpty()) {
-			append(ot + message + ct);
+			item->setText(ot + message + ct);
 		}
 		else {
-			append(ot + "<b>[" + tool + "]</b> " + message + ct );
+			item->setText(ot + "<b>[" + tool + "]</b> " + message + ct);
 		}
 
-		scrollToBottom();
+		if(outputInfo.isValid()) {
+			item->setData(Qt::UserRole, QVariant::fromValue(outputInfo));
+		}
+		else if(!allowSection) {
+			// Don't allow the user to manually select this item
+			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+		}
+
+		addItem(item);
+		scrollToItem(item);
 	}
 
-	void LogWidget::printProblem(int type, const QString & problem)
+	void LogWidget::printProblem(int type, const QString& problem, const OutputInfo& outputInfo)
 	{
-		KILE_DEBUG() << "\t" << problem << endl;
-		printMsg(type, problem, QString::null);
+		KILE_DEBUG() << "\t" << problem;
+		printMessage(type, problem, QString(), outputInfo);
+	}
+
+	void LogWidget::addEmptyLine()
+	{
+		printMessage(-1, QString(), QString());
 	}
 
 #ifdef __GNUC__

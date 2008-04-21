@@ -45,12 +45,12 @@ private Q_SLOTS:
 
 private:
 	void jumpToProblem(int type, bool);
-	void jumpToProblem(OutputInfo *);
 
 public Q_SLOTS:
 	void jumpToFirstError();
+	void jumpToProblem(const OutputInfo& info);
 	void reset();
-	void showLogResults(const QString &);
+	void showLogResults(const QString&);
 
 private:
 	KileInfo		*m_ki;

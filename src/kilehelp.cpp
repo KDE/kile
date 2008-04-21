@@ -287,7 +287,7 @@ namespace KileHelp
 
 	void Help::noHelpAvailableFor(const QString &word)
 	{
-		m_manager->info()->logWidget()->printMsg(KileTool::Error, i18n("Sorry, no help available for %1.", word), i18n("Help"));
+		m_manager->info()->logWidget()->printMessage(KileTool::Error, i18n("Sorry, no help available for %1.", word), i18n("Help"));
 	}
 	
 	QString Help::getKeyword(KTextEditor::View *view)

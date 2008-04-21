@@ -177,7 +177,7 @@ void PostscriptDialog::execute()
 		QString msg = i18n("rearrange ps file: ") + from.fileName();
 		if (!to.fileName().isEmpty())
 			msg += " ---> " + to.fileName();
-		m_log->printMsg(KileTool::Info, msg, m_program);
+		m_log->printMessage(KileTool::Info, msg, m_program);
 
 		// some output logs 
 		m_output->clear();

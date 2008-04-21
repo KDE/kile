@@ -1,8 +1,8 @@
-/***************************************************************************
+/**************************************************************************************
     begin                : Tue May 25 2004
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,12 +15,13 @@
 
 #include "kileerrorhandler.h"
 
-#include <KTabWidget>
 #include <QFileInfo>
+#include <QHash>
 #include <QRegExp>
 
 #include <KLocale>
 #include <KUrl>
+#include <KTabWidget>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
@@ -29,7 +30,7 @@
 #include "widgets/outputview.h"
 #include "kileinfo.h"
 #include "latexoutputfilter.h"
-#include "latexoutputinfo.h"
+#include "outputinfo.h"
 #include "kiledocmanager.h"
 #include "widgets/sidebar.h"
 
@@ -52,7 +53,11 @@ void KileErrorHandler::reset()
 
 void KileErrorHandler::ViewLog()
 {
-	m_ki->outputView()->showPage(m_ki->logWidget());
+#ifdef __GNUC__
+#warning FIXME: this is still very slow!
+#endif
+	KileWidget::LogWidget *logWidget = m_ki->logWidget();
+	m_ki->outputView()->showPage(logWidget);
 	m_ki->setLogPresent(false);
 
 	QString cn = m_ki->getCompileName();
@@ -64,13 +69,46 @@ void KileErrorHandler::ViewLog()
 	QString log = m_ki->outputFilter()->log();
 
 	if(!log.isEmpty()) {
-		m_ki->logWidget()->setText(log);
-		m_ki->logWidget()->highlight();
-		m_ki->logWidget()->scrollToBottom();
+		QHash<int, OutputInfo> hash;
+
+		LatexOutputInfoArray outputList = *m_ki->outputInfo();
+
+		for(QList<LatexOutputInfo>::iterator i = outputList.begin();
+		                                     i != outputList.end(); ++i) {
+			LatexOutputInfo info = *i;
+			hash[info.outputLine()] = info;
+		}
+
+		QTextStream textStream(&log, QIODevice::ReadOnly);
+
+// 		logWidget->setUpdatesEnabled(false);
+// 		logWidget->blockSignals(true);
+		for(int lineNumber = 0; !textStream.atEnd(); ++lineNumber) {
+			int type = -1;
+			QString line = textStream.readLine();
+			if(hash.find(lineNumber) != hash.end()) {
+				switch(hash[lineNumber].type()) {
+					case LatexOutputInfo::itmError:
+						type = KileTool::Error;
+						break;
+					case LatexOutputInfo::itmWarning:
+						type = KileTool::Warning;
+						break;
+					case LatexOutputInfo::itmBadBox:
+						type = KileTool::ProblemBadBox;
+						break;
+				}
+			}
+			logWidget->printMessage(type, line, QString(), hash[lineNumber], true);
+		}
+// 		logWidget->setUpdatesEnabled(true);
+// 		logWidget->blockSignals(false);
+
+		logWidget->scrollToBottom();
 		m_ki->setLogPresent(true);
 	}
 	else {
-		m_ki->logWidget()->printProblem(KileTool::Error, i18n("Cannot open log file; did you run LaTeX?"));
+		logWidget->printProblem(KileTool::Error, i18n("Cannot open log file; did you run LaTeX?"));
 	}
 }
 
@@ -79,21 +117,20 @@ void KileErrorHandler::jumpToFirstError()
 	int sz = m_ki->outputInfo()->size();
 	for(int i = 0; i < sz; ++i) {
 		if((*m_ki->outputInfo())[i].type() == LatexOutputInfo::itmError) {
-			jumpToProblem(&(*m_ki->outputInfo())[i]);
+			jumpToProblem((*m_ki->outputInfo())[i]);
 			m_nCurrentError = i;
-			m_ki->logWidget()->highlightByIndex(i, sz, -1);
 			break;
 		}
 	}
 }
 
-void KileErrorHandler::jumpToProblem(OutputInfo *info)
+void KileErrorHandler::jumpToProblem(const OutputInfo& info)
 {
-	QString file = m_ki->getFullFromPrettyName(info->source());
+	QString file = m_ki->getFullFromPrettyName(info.source());
 
 	if(!file.isEmpty()) {
 		m_ki->docManager()->fileOpen(KUrl::fromPathOrUrl(file));
-		int line = info->sourceLine() > 0 ? (info->sourceLine() - 1) : 0;
+		int line = (info.sourceLine() > 0) ? (info.sourceLine() - 1) : 0;
 
 		KTextEditor::Document *doc = m_ki->docManager()->docFor(KUrl::fromPathOrUrl(file));
 		if(doc) {
@@ -112,13 +149,13 @@ void KileErrorHandler::showLogResults(const QString &src)
 	m_ki->outputFilter()->setSource(src);
 	QFileInfo fi(src);
 	QString lf = fi.absolutePath() + '/' + fi.baseName(true) + ".log";
-	m_ki->logWidget()->printMsg(KileTool::Info, i18n("Detecting errors (%1), please wait ...", lf), i18n("Log"));
+	m_ki->logWidget()->printMessage(KileTool::Info, i18n("Detecting errors (%1), please wait ...", lf), i18n("Log"));
 	if(!m_ki->outputFilter()->Run(lf)) {
 		m_ki->outputFilter()->setSource(QString());
 		return;
 	}
 	else {
-		m_ki->logWidget()->printMsg(KileTool::Info, i18n("Done."), i18n("Log"));
+		m_ki->logWidget()->printMessage(KileTool::Info, i18n("Done."), i18n("Log"));
 	}
 }
 
@@ -163,18 +200,13 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 
 		//If the log file is being viewed, use this to jump to the errors,
 		//otherwise, use the error summary display
-		if(m_ki->logPresent()) {
-			m_ki->logWidget()->highlight( (*m_ki->outputInfo())[m_nCurrentError].outputLine(), pl );
-		} 
-		else {
- 			m_ki->logWidget()->highlightByIndex(m_nCurrentError, sz, pl);
-		}
+		m_ki->logWidget()->highlight((*m_ki->outputInfo())[m_nCurrentError]);
 
-		jumpToProblem(&(*m_ki->outputInfo())[m_nCurrentError]);
+		jumpToProblem((*m_ki->outputInfo())[m_nCurrentError]);
 	}
 
 	if(m_ki->outputInfo()->isEmpty() && correctlogfile) {
-		m_ki->logWidget()->append("\n<font color=\"#008800\">" + i18n("No LaTeX errors detected.") + "</font>");
+		m_ki->logWidget()->printMessage(i18n("No LaTeX errors detected."));
 	}
 }
 

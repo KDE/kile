@@ -134,13 +134,13 @@ namespace KileTool
 	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
 	{
 		if (!m_factory) {
-			m_log->printMsg(Error, i18n("No factory installed, contact the author of Kile."));
+			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
 			return ConfigureFailed;
 		}
 	
 		Base* pTool = m_factory->create(tool);
 		if (!pTool) {
-			m_log->printMsg(Error, i18n("Unknown tool %1.", tool));
+			m_log->printMessage(Error, i18n("Unknown tool %1.", tool));
 			return ConfigureFailed;
 		}
 		
@@ -217,7 +217,7 @@ namespace KileTool
 		Base *head = m_queue.tool();
 		if(head) {
 			if (m_log->isShowingOutput()) {
-				m_log->append("\n");
+				m_log->addEmptyLine();
 			}
 
 			if(!head->isPrepared()) {
@@ -247,7 +247,7 @@ namespace KileTool
 		tool->setInfo(m_ki);
 		tool->setConfig(m_config);
 
-		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMsg(int, const QString &, const QString &)));
+		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMessage(int, const QString &, const QString &)));
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 		connect(tool, SIGNAL(done(Base*,int)), this, SLOT(done(Base*, int)));
 		connect(tool, SIGNAL(start(Base* )), this, SLOT(started(Base*)));
@@ -375,7 +375,7 @@ namespace KileTool
 		Config map;
 
 		if(!retrieveEntryMap(tool->name(), map, true, true, cfg)) {
-			m_log->printMsg(Error, i18n("Cannot find the tool %1 in the configuration database.", tool->name()));
+			m_log->printMessage(Error, i18n("Cannot find the tool %1 in the configuration database.", tool->name()));
 			return false;
 		}
 

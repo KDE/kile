@@ -29,7 +29,7 @@
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "latexoutputfilter.h"
-#include "latexoutputinfo.h"
+#include "outputinfo.h"
 #include "latexcmd.h"
 #include "kileconfig.h"
 #include "spellcheck.h"

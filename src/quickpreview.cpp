@@ -376,7 +376,7 @@ int QuickPreview::createTempfile(const QString &text)
 
 void QuickPreview::showError(const QString &text)
 {
-	m_ki->logWidget()->printMsg(KileTool::Error, text, i18n("QuickPreview"));
+	m_ki->logWidget()->printMessage(KileTool::Error, text, i18n("QuickPreview"));
 }
 
 }

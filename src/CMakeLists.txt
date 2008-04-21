@@ -46,7 +46,6 @@ SET(kile_SRCS
 	kilelyxserver.cpp
 	latexoutputfilter.cpp
 	outputinfo.cpp
-	latexoutputinfo.cpp
 	outputfilter.cpp
 	dialogs/findfilesdialog.cpp
 	kiletool.cpp

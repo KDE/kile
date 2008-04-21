@@ -19,7 +19,7 @@
 #include <QString>
 
 #include "outputfilter.h"
-#include "latexoutputinfo.h"
+#include "outputinfo.h"
 #include "kileextensions.h"
 
 /**
@@ -35,7 +35,7 @@ class KTextEdit;
 class LOFStackItem
 {
 public:
-	LOFStackItem(const QString & file = QString::null, bool sure = false) : m_file(file), m_reliable(sure) {}
+	LOFStackItem(const QString& file = QString(), bool sure = false) : m_file(file), m_reliable(sure) {}
 
 	const QString & file() const { return m_file; }
 	void setFile(const QString & file) { m_file = file; }
@@ -44,8 +44,8 @@ public:
 	void setReliable(bool sure) { m_reliable = sure; }
 
 private:
-	QString	m_file;
-	bool		m_reliable;
+	QString m_file;
+	bool m_reliable;
 };
 
 class LatexOutputFilter : public OutputFilter
@@ -54,7 +54,7 @@ class LatexOutputFilter : public OutputFilter
         LatexOutputFilter(LatexOutputInfoArray* LatexOutputInfoArray, KileDocument::Extensions *extensions);
         ~LatexOutputFilter();
 
-        virtual bool Run(const QString & logfile);
+        virtual bool Run(const QString& logfile);
 	void sendProblems();
 	void updateInfoLists(const QString &texfilename, int selrow, int docrow);
 
@@ -127,11 +127,11 @@ class LatexOutputFilter : public OutputFilter
         QStack<LOFStackItem> m_stackFile;
 
         /** The item currently parsed. */
-        LatexOutputInfo	m_currentItem;
+        LatexOutputInfo m_currentItem;
 
     public:                                                                     // Public attributes
         /** Pointer to list of Latex output information */
-        LatexOutputInfoArray *m_InfoList;
+        LatexOutputInfoArray *m_infoList;
 
 private:
 	KileDocument::Extensions *m_extensions;

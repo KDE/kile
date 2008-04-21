@@ -179,7 +179,7 @@ void PreviewWidget::toolDestroyed()
 
 void PreviewWidget::showError(const QString &text)
 {
-	m_info->logWidget()->printMsg( KileTool::Error, text, i18n("QuickPreview") );
+	m_info->logWidget()->printMessage(KileTool::Error, text, i18n("QuickPreview"));
 }
 
 }

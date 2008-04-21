@@ -41,21 +41,21 @@ public:
 protected:
 
 public:
-    virtual bool Run(const QString & logfile);
+    virtual bool Run(const QString& logfile);
 
     //void setLog(const QString &log) { m_log = log; }
-    const QString & log() const { return m_log; }
+    const QString& log() const { return m_log; }
 
     void setSource(const QString &src);
-    const QString & source() const  { return m_source; }
-    const QString & path() const { return m_srcPath; }
+    const QString& source() const  { return m_source; }
+    const QString& path() const { return m_srcPath; }
 
 Q_SIGNALS:
-    void problem(int, const QString &);
-    void output(const QString &);
+    void problem(int, const QString&, const OutputInfo& outputInfo = OutputInfo());
+    void output(const QString&);
 
 protected:
-    virtual short parseLine(const QString & strLine, short dwCookie);
+    virtual short parseLine(const QString& strLine, short dwCookie);
     virtual bool OnTerminate();
     /**
     Returns the zero based index of the currently parsed line in the

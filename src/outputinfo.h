@@ -1,8 +1,8 @@
-/***************************************************************************
+/**********************************************************************************
     begin                : Die Sep 16 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : wijnhout@science.uva.nl
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -17,27 +17,37 @@
 #define OUTPUTINFO_H
 
 #include <QList>
+#include <QMetaType>
 #include <QString>
 
-/**Class for output-information of third program (e.g. Latex-Output, C-Compiler output)
-
-@author Thorsten Lck
-  *@author Jeroen Wijnhout
-  */
-
-using namespace std;
+/**
+ * Class for output-information of third program (e.g. Latex-Output, C-Compiler output)
+ *
+ * @author Thorsten Lck
+ * @author Jeroen Wijnhout
+ **/
 
 class OutputInfo
 {
-    public:
-        OutputInfo();
-        OutputInfo(const QString & strSrcFile, int nSrcLine, int nOutputLine, const QString & strError ="", int nErrorID=-1);
+	public:
+		/**
+		 * Constructs an invalid output information object.
+		 **/
+		OutputInfo();
+
+		OutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine, const QString& strError = QString(), int nErrorID = -1);
 
 	public:
+		/**
+		 * Returns true if and only if this object contains valid output
+		 * information.
+		 **/
+		bool isValid() const;
+
 		/** Source file where error occurred. */
 		QString source() const { return m_strSrcFile; }
 		/** Source file where error occurred. */
-		void setSource(const QString & src) { m_strSrcFile = src; }
+		void setSource(const QString& src) { m_strSrcFile = src; }
 
 		/** Line number in source file of the current message */
 		int sourceLine() const { return m_nSrcLine; }
@@ -47,7 +57,7 @@ class OutputInfo
 		/** Error message */
 		QString message() const { return m_strError; }
 		/** Error message */
-		void setMessage(const QString & message) { m_strError = message; }
+		void setMessage(const QString& message) { m_strError = message; }
 
 		/** Error code */
 		int type() const { return m_nErrorID; }
@@ -59,20 +69,57 @@ class OutputInfo
 		/** Line number in the output, where error was reported. */
 		void setOutputLine(int line) { m_nOutputLine = line; }
 
-        /** Clears all attributes. */
-        void Clear();
+		/**
+		 * Clears the information stored in this object, turning it
+		 * into an invalid output information object.
+		 **/
+		void clear();
+
+		/**
+		 * Comparison operator
+		 **/
+		bool operator==(const OutputInfo& info) const;
 
 private:
-	QString m_strSrcFile, m_file;
+	QString m_strSrcFile;
 	int m_nSrcLine;
 	QString m_strError;
 	int m_nOutputLine;
 	int m_nErrorID;
 };
 
-/**Array of OutputInfo
+Q_DECLARE_METATYPE(OutputInfo)
 
-@author Thorsten Lck
-*/
+/**
+ * Array of OutputInfo
+ * @author Thorsten Lck
+ **/
 typedef QList<OutputInfo> OutputInfoArray;
+
+class LatexOutputInfo : public OutputInfo
+{
+	public:
+		LatexOutputInfo();
+		LatexOutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine, const QString& strError = QString(), int nErrorID = -1);
+	
+	public:
+		/**
+		 * These constants are describing, which item types is currently
+		 * parsed. (to be set as error code)
+		 **/
+		enum tagCookies
+		{
+			itmNone = 0,
+			itmError,
+			itmWarning,
+			itmBadBox
+		};
+};
+
+/**
+ * Array of LatexOutputInfo
+ * @author Thorsten Lck
+ **/
+typedef QList<LatexOutputInfo> LatexOutputInfoArray;
+
 #endif

@@ -536,13 +536,11 @@ void Kile::setupBottomBar()
 
 	m_logWidget = new KileWidget::LogWidget(this, m_mainWindow);
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
-	connect(m_logWidget, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
-	connect(m_logWidget, SIGNAL(setLine(const QString& )), this, SLOT(setLine(const QString& )));
-	connect(m_docManager,SIGNAL(printMsg(int, const QString &, const QString &)),m_logWidget,SLOT(printMsg(int, const QString &, const QString &)));
+	connect(m_logWidget, SIGNAL(outputInfoSelected(const OutputInfo&)), m_errorHandler, SLOT(jumpToProblem(const OutputInfo&)));
+	connect(m_docManager,SIGNAL(printMsg(int, const QString&, const QString&, const OutputInfo&)), m_logWidget, SLOT(printMessage(int, const QString&, const QString&, const OutputInfo&)));
 
 	m_logWidget->setFocusPolicy(Qt::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
-	m_logWidget->setReadOnly(true);
 
 	QWidget *widget = new QWidget(m_mainWindow);
 	QHBoxLayout *layout = new QHBoxLayout(widget);
@@ -565,7 +563,7 @@ void Kile::setupBottomBar()
 
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter(m_outputInfo,m_extensions);
-	connect(m_outputFilter, SIGNAL(problem(int, const QString& )), m_logWidget, SLOT(printProblem(int, const QString& )));
+	connect(m_outputFilter, SIGNAL(problem(int, const QString&, const OutputInfo&)), m_logWidget, SLOT(printProblem(int, const QString&, const OutputInfo&)));
 
 	m_texKonsole = new KileWidget::Konsole(this, m_mainWindow);
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
@@ -1814,7 +1812,7 @@ void Kile::cleanAll(KileDocument::TextInfo *docinfo)
 			docinfo = docManager()->textInfoFor(doc);
 		else
 		{
-			m_logWidget->printMsg(KileTool::Error, noactivedoc, i18n("Clean"));
+			m_logWidget->printMessage(KileTool::Error, noactivedoc, i18n("Clean"));
 			return;
 		}
 	}
@@ -1832,16 +1830,17 @@ void Kile::insertTag(const KileAction::TagData& data)
 {
 	logWidget()->clear();
 
-	if ( data.description.length() > 0 )
-	{
+	if(data.description.length() > 0) {
 		outputView()->showPage(logWidget());
 		setLogPresent(false);
-		logWidget()->append(data.description);
+		logWidget()->printMessage(data.description);
 	}
 
 	KTextEditor::View *view = viewManager()->currentTextView();
 
-	if ( !view ) return;
+	if(!view) {
+		return;
+	}
 
 	view->setFocus();
 
@@ -1875,10 +1874,10 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
 		if(warnPkgs.count() > 0) {
 			if(warnPkgs.count() == 1) {
-				 m_logWidget->printMsg(KileTool::Error, i18n("You have to include the package %1.", warnPkgs.join(",")), i18n("Insert text"));
+				 m_logWidget->printMessage(KileTool::Error, i18n("You have to include the package %1.", warnPkgs.join(",")), i18n("Insert text"));
 			}
 			else {
-				m_logWidget->printMsg(KileTool::Error, i18n("You have to include the packages %1.", warnPkgs.join(",")), i18n("Insert text"));
+				m_logWidget->printMessage(KileTool::Error, i18n("You have to include the packages %1.", warnPkgs.join(",")), i18n("Insert text"));
 			}
 		}
 	}
@@ -2341,7 +2340,7 @@ void Kile::checkKateSettings()
 void Kile::slotPerformCheck()
 {
 	if(!m_singlemode) {
-		m_logWidget->printMsg(KileTool::Error, i18n("Please turn off the \'Master Document\' mode before performing the System Check."), i18n("System Check"));
+		m_logWidget->printMessage(KileTool::Error, i18n("Please turn off the \'Master Document\' mode before performing the System Check."), i18n("System Check"));
 		return;
 	}
 	KileDialog::ConfigChecker *dlg = new KileDialog::ConfigChecker(m_mainWindow);
@@ -2522,12 +2521,12 @@ void Kile::citeViewBib()
 	remoteApps = client->registeredApplications();
 	if( !remoteApps.contains(viewBibApp) )
 	{
-		m_logWidget->printMsg(KileTool::Warning,
+		m_logWidget->printMessage(KileTool::Warning,
 		i18n("No ViewBib tool running, trying to start it now"),
 		i18n("ViewBib Citation"));
 		uint ret = runWith("ViewBib","KBib");
 		if( ret == 0 )
-			m_logWidget->printMsg(KileTool::Info,
+			m_logWidget->printMessage(KileTool::Info,
 				i18n("Please select the desired bibliographies and re-execute this command"),
 				i18n("ViewBib Citation"));
 		return;	
@@ -2536,7 +2535,7 @@ void Kile::citeViewBib()
 	remoteObjs = client->remoteObjects(viewBibApp);
 	if( !remoteObjs.contains(viewBibObj) )
 	{
-		m_logWidget->printMsg(KileTool::Warning,
+		m_logWidget->printMessage(KileTool::Warning,
 				      i18n("The ViewBib tool does not have the correct interface"),
 				      i18n("ViewBib Citation"));
 		return;
@@ -2545,7 +2544,7 @@ void Kile::citeViewBib()
 	functions = client->remoteFunctions(viewBibApp,viewBibObj);
 	if( !functions.contains(viewBibFncDef) )
 	{
-		m_logWidget->printMsg(KileTool::Warning,
+		m_logWidget->printMessage(KileTool::Warning,
 					i18n("The ViewBib tool does not have the correct definition of the cite function"),
 					i18n("ViewBib Citation"));
 		return;
@@ -2566,7 +2565,7 @@ void Kile::citeViewBib()
 
 			if (result.isEmpty())
 			{
-				m_logWidget->printMsg(KileTool::Warning,
+				m_logWidget->printMessage(KileTool::Warning,
 						i18n("No reference selected.\nPlease select a reference first!"),
 						i18n("ViewBib Citation"));
 			}

@@ -2747,7 +2747,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	QString textline = getTextLineReal(doc,row1);
 	if(reg.search(textline, col1) != col1) {
 		m_ki->logWidget()->clear();
-		m_ki->logWidget()->printMsg(KileTool::Error,
+		m_ki->logWidget()->printMessage(KileTool::Error,
 		       i18n("The document was modified and the structure view should be updated, before starting such an operation."),
 		       i18n("Structure View Error") );
 		return;

@@ -29,7 +29,7 @@
 #include "kilelistselector.h"
 #include "kiledocmanager.h"
 #include "documentinfo.h"
-#include "latexoutputinfo.h"
+#include "outputinfo.h"
 
 namespace KileTool
 {

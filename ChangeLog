@@ -13,7 +13,8 @@ Fixes:
  - Rename some cwl files so that they not only differ by case (#158600)
  - Search also in $BIBINPUTS and $TEXINPUTS paths if opening files from the
    structure view
- - Add missing package definitions to some symbols from the misc-text pane 
+ - Add missing package definitions to some symbols from the misc-text pane
+ - Allow spaces in the name of images in the includegraphics dialog (#161101)
 
 Features:
  - Add \newlength as a variation of newcommand

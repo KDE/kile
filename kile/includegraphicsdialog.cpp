@@ -390,8 +390,9 @@ void IncludeGraphics::chooseFile()
       else if ( ext == "eps.gz" )
          execute( "gunzip -c " + fn + grep);
       else
-         execute( "identify -format \"w=%w h=%h dpi=%x\" " + fn);
-   } else {
+	 execute("identify -format \"w=%w h=%h dpi=%x\" \"" + fn + "\"");
+   }
+   else{
       KILE_DEBUG() << "=== IncludeGraphics::error ====================" << endl;
       KILE_DEBUG() << "   filename: '" << fn << "'" << endl;
    }

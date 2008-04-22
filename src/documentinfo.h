@@ -180,7 +180,7 @@ protected Q_SLOTS:
 	void slotCompleted();
 
 protected:
-	void count(const QString line, long *stat);
+	void count(const QString& line, long *stat);
 
 	enum State {
 		stStandard = 0, stComment = 1, stControlSequence = 3, stControlSymbol = 4,
@@ -246,7 +246,7 @@ public:
 	 * The array is filled as follows: [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments **/
 
-	virtual const long* getStatistics();
+	virtual const long* getStatistics(KTextEditor::View *view = NULL);
 
 	/**
 	 * @returns the URL of the KTextEditor::Document.
@@ -368,7 +368,7 @@ public:
 	          KileSpellCheck::Manager *spellCheckManager);
 	virtual ~LaTeXInfo();
 
-	const long* getStatistics();
+	const long* getStatistics(KTextEditor::View *view = NULL);
 
 	virtual Type getType();
 

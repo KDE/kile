@@ -34,7 +34,9 @@ namespace KileDialog {
 class StatisticsDialog : public KPageDialog
 {
 	public:
-		StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent = 0,  const char* name = 0, const QString &caption = QString::null);
+		StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo,
+		                 QWidget* parent = NULL, KTextEditor::View *view = NULL,
+		                 const char* name = NULL, const QString &caption = QString());
 		~StatisticsDialog();
 
 	public Q_SLOTS:
@@ -47,6 +49,7 @@ class StatisticsDialog : public KPageDialog
 	protected:
 		KileProject *m_project;
 		KileDocument::TextInfo *m_docinfo;
+		KTextEditor::View *m_view;
 		long *m_summarystats;
 		bool m_hasSelection;
 		bool m_notAllFilesOpenWarning;

@@ -1269,26 +1269,30 @@ bool Kile::queryClose()
 	return stage1 && stage2;
 }
 
-void Kile::showDocInfo(KTextEditor::Document *doc)
+void Kile::showDocInfo(KTextEditor::View *view)
 {
-	if (!doc) {
-		KTextEditor::View *view = viewManager()->currentTextView();
-
-		if (view)
-			doc = view->document();
-		else
-			return;
+	if(!view) {
+		view = viewManager()->currentTextView();
 	}
 
-	KileDocument::TextInfo *docinfo = docManager()->textInfoFor(doc);
+	if(!view) {
+		return;
+	}
+
+	KileDocument::TextInfo *docinfo = docManager()->textInfoFor(view->document());
 	KileProject *project = KileInfo::docManager()->activeProject();
 	if(docinfo) { // we have to ensure that we always get a _valid_ docinfo object
-		KileDialog::StatisticsDialog *dlg = new KileDialog::StatisticsDialog(project,docinfo, m_mainWindow, 0, "");
+		KileDialog::StatisticsDialog *dlg = new KileDialog::StatisticsDialog(project,
+		                                                                     docinfo,
+		                                                                     m_mainWindow,
+		                                                                     view,
+		                                                                     NULL, "");
 		dlg->exec();
 		delete dlg;
 	}
-	else
-		kWarning() << "There is no KileDocument::Info object belonging to this document!" << endl;
+	else {
+		kWarning() << "There is no KileDocument::Info object belonging to this document!";
+	}
 }
 
 void Kile::convertToASCII(KTextEditor::Document *doc)

@@ -269,7 +269,7 @@ private Q_SLOTS:
 
 	void sideOrBottomBarChanged(bool visible);
 
-	void showDocInfo(KTextEditor::Document *doc = 0);
+	void showDocInfo(KTextEditor::View *view = NULL);
 	void convertToASCII(KTextEditor::Document *doc = 0);
 	void convertToEnc(KTextEditor::Document *doc = 0);
 

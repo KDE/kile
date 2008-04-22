@@ -1,8 +1,7 @@
-/***************************************************************************
+/**********************************************************************************
     begin                : Tuesday Nov 1 2005
-    copyright            : (C) 2005 by Thomas Braun
-    email                : braun@physik.fu-berlin.de
- ***************************************************************************/
+    copyright            : (C) 2005 by Thomas Braun (braun@physik.fu-berlin.de)
+ **********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,14 +23,15 @@
 #include "kileproject.h"
 #include "widgets/statisticswidget.h"
 
-#include <ktexteditor/view.h>
+#include <KTextEditor/View>
 
 // A dialog that displays statistical information about the active project/file
 
 namespace KileDialog {
 
-StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,  const char* name, const QString &caption)
-		: KPageDialog(parent), m_project(project), m_docinfo(docinfo)
+StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,
+                                   KTextEditor::View *view, const char* name, const QString &caption)
+		: KPageDialog(parent), m_project(project), m_docinfo(docinfo), m_view(view)
 {
 	setObjectName(name);
 	setFaceType(Tabbed);
@@ -64,24 +64,23 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 	m_pagetowidget[itemSummary] = summary;
 	m_pagetoname[itemSummary] = i18n("Summary");
 
-	if (m_docinfo->getDoc()->activeView()->selection()) // the user should really have that doc as active in which the selection is
+	if (m_docinfo->getDoc()->activeView()->selection()) { // the user should really have that doc as active in which the selection is
 		m_hasSelection = true;
+	}
 
-	if (!m_project) // the active doc doesn't belong to a project
-	{
+	if (!m_project) { // the active doc doesn't belong to a project
 		setCaption(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));
-		stats = m_docinfo->getStatistics();
+		stats = m_docinfo->getStatistics(m_view);
 		fillWidget(stats, summary);
 	}
-	else // active doc belongs to a project
-	{
+	else { // active doc belongs to a project
 		setCaption(i18n("Statistics for the Project %1", m_project->name()));
 		KILE_DEBUG() << "Project file is " << project->baseURL() << endl;
 
 		QList<KileProjectItem*> items = project->items();
 
 		if (m_hasSelection) { // if the active doc has a selection
-			stats = m_docinfo->getStatistics();
+			stats = m_docinfo->getStatistics(m_view);
 			fillWidget(stats, summary); // if yes we fill the summary widget and are finished
 		}
 		else {
@@ -95,10 +94,11 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 				tempDocinfo = item->getInfo();
 				if(tempDocinfo && tempDocinfo->getDoc()) { // closed items don't have a doc
 					tempName = tempDocinfo->getDoc()->url().fileName();
-					stats = tempDocinfo->getStatistics();
+					stats = tempDocinfo->getStatistics(m_view);
 
-					for (uint j = 0; j < SIZE_STAT_ARRAY; j++)
+					for (uint j = 0; j < SIZE_STAT_ARRAY; j++) {
 						m_summarystats[j] += stats[j];
+					}
 
 					tempWidget = new KileWidget::StatisticsWidget();
 					KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
@@ -133,13 +133,14 @@ StatisticsDialog::~StatisticsDialog()
 
 void StatisticsDialog::fillWidget(const long* stats, KileWidget::StatisticsWidget* widget)
 {
-
 // we don't have to write 0's in the number labels because this is the default value
-	if (!stats || !widget)
+	if (!stats || !widget) {
 		return;
+	}
 
-	if (m_hasSelection)
+	if (m_hasSelection) {
 		widget->m_warning->setText(i18n("WARNING: These are the statistics for the selected text only."));
+	}
 
 	widget->m_wordChar->setText(QString::number(stats[0]));
 	widget->m_commandChar->setText(QString::number(stats[1]));
@@ -213,14 +214,18 @@ void StatisticsDialog::convertText(QString* text, bool forLaTeX) // the bool det
 	text->append(widget->m_environmentStringText->text() + (forLaTeX ? " & " : "\t") + widget->m_environmentString->text() + (forLaTeX ? " \\\\\n" : "\n"));
 	text->append(widget->m_totalStringText->text() + (forLaTeX ? " & " : "\t") + widget->m_totalString->text() + (forLaTeX ? " \\\\\\hline\n" : "\n"));
 
-	if (forLaTeX)
+	if (forLaTeX) {
 		text->append("\\end{tabular}\n");
+	}
 
-	if (m_hasSelection) // we can't have both cases
+	if (m_hasSelection) { // we can't have both cases
 		text->append((forLaTeX ? "\\par\\bigskip\n" : "\n") + widget->m_warning->text() + '\n');
-	else
-		if (m_notAllFilesOpenWarning)
+	}
+	else {
+		if(m_notAllFilesOpenWarning) {
 			text->append((forLaTeX ? "\\par\\bigskip\n" : "\n") + widget->m_warning->text() + '\n');
+		}
+	}
 }
 
 }

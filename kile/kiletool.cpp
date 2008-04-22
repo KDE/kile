@@ -492,6 +492,7 @@ namespace KileTool
 		KILE_DEBUG() << "==Base::needsUpdate(" << target << "," << source << endl;
 		QFileInfo targetinfo(target);
 		QFileInfo sourceinfo(source);
+		QDateTime currDateTime = QDateTime::currentDateTime();
 
 		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
 		{
@@ -507,6 +508,18 @@ namespace KileTool
 
 		KILE_DEBUG() << "\ttarget: " << targetinfo.lastModified().toString() << endl;
 		KILE_DEBUG() << "\tsource: " << sourceinfo.lastModified().toString() << endl;
+		
+		if( targetinfo.lastModified() > currDateTime ){
+		
+			KILE_DEBUG() << "targetinfo.lastModifiedTime() is in the future" << endl;
+			return false;
+		}
+		else if( sourceinfo.lastModified() > currDateTime ){
+		
+			KILE_DEBUG() << "sourceinfo.lastModifiedTime() is in the future" << endl;
+			return false;
+		}
+		
 		KILE_DEBUG() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified()) << endl;
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}

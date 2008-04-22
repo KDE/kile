@@ -15,6 +15,7 @@ Fixes:
    structure view
  - Add missing package definitions to some symbols from the misc-text pane
  - Allow spaces in the name of images in the includegraphics dialog (#161101)
+ - Don't recompile forever if some file timestamps are in the future (#121956)
 
 Features:
  - Add \newlength as a variation of newcommand

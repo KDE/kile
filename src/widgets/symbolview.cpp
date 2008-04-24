@@ -290,7 +290,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 		return;
 	}
 
-	QListWidgetItem *tmpItem;
+	QListWidgetItem *tmpItem = NULL;
 	bool found = false;
 	const QRegExp reCnt("^\\d+");
 
@@ -305,7 +305,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 	}
 
 	if(!found
-           && static_cast<unsigned int>(this->count() + 1) > KileConfig::numSymbolsMFUS()) {   // we check before adding the symbol
+	   && static_cast<unsigned int>(this->count() + 1) > KileConfig::numSymbolsMFUS()) {   // we check before adding the symbol
 		int refCnt, minRefCnt = 10000;
 		QListWidgetItem *unpopularItem = NULL;
 

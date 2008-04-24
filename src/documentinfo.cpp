@@ -249,32 +249,30 @@ void Info::count(const QString& line, long *stat)
 
 		switch(state) {
 			case stStandard:
-				switch(c.toAscii()) {
-					if(c == TEX_CAT0) {
-						state = stControlSequence;
-						++stat[1];
-	
-						//look ahead to avoid counting words like K\"ahler as two words
-						if(!line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^') {
-							word = false;
-						}
+				if(c == TEX_CAT0) {
+					state = stControlSequence;
+					++stat[1];
+
+					//look ahead to avoid counting words like K\"ahler as two words
+					if(!line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^') {
+						word = false;
 					}
-					else if(c == TEX_CAT14) {
-						state = stComment;
+				}
+				else if(c == TEX_CAT14) {
+					state = stComment;
+				}
+				else {
+					if (c.isLetterOrNumber()) {
+						//only start new word if first character is a letter (42test is still counted as a word, but 42.2 not)
+						if (c.isLetter() && !word) {
+							word = true;
+							++stat[3];
+						}
+						++stat[0];
 					}
 					else {
-						if (c.isLetterOrNumber()) {
-							//only start new word if first character is a letter (42test is still counted as a word, but 42.2 not)
-							if (c.isLetter() && !word) {
-								word = true;
-								++stat[3];
-							}
-							++stat[0];
-						}
-						else {
-							++stat[2];
-							word = false;
-						}
+						++stat[2];
+						word = false;
 					}
 				}
 			break;

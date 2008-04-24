@@ -64,27 +64,27 @@ public Q_SLOTS:
 	/**
 	 * Creates a new file on disk.
 	 **/
-	void fileNew(const KUrl &);
+	void fileNew(const KUrl&);
 	void fileNew();
 
-	void fileSelected(const KUrl &);
-	void fileSelected(const KileProjectItem * item);
+	void fileSelected(const KUrl&);
+	void fileSelected(const KileProjectItem *item);
 	void fileSelected(const KFileItem& file);
 
 	void fileOpen();
-	void fileOpen(const KUrl& url, const QString & encoding = QString::null, int index = -1);
+	void fileOpen(const KUrl& url, const QString& encoding = QString(), int index = -1);
 
 	void fileSave();
-	void fileSaveAs(KTextEditor::View* = 0L);
+	void fileSaveAs(KTextEditor::View* = NULL);
 	void fileSaveCopyAs();
 
-	void saveURL(const KUrl &);
+	void saveURL(const KUrl&);
 	void fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
 
 	bool fileCloseAllOthers();
 	bool fileCloseAll();
-	bool fileClose(const KUrl & url);
-	bool fileClose(KTextEditor::Document *doc = 0L, bool closingproject = false);
+	bool fileClose(const KUrl& url);
+	bool fileClose(KTextEditor::Document *doc = NULL, bool closingproject = false);
 
 //templates
 	KTextEditor::View* loadTemplate(TemplateItem*);
@@ -109,15 +109,15 @@ public Q_SLOTS:
 	/**
 	 * Saves the state of the project, if @param project is zero, the active project is saved.
 	 **/
-	void projectSave(KileProject * project = 0);
-	void projectAddFiles(const KUrl &);
-	void projectAddFiles(KileProject * project = 0,const KUrl & url = KUrl());
+	void projectSave(KileProject* project = NULL);
+	void projectAddFiles(const KUrl&);
+	void projectAddFiles(KileProject* project = NULL,const KUrl & url = KUrl());
 	void toggleArchive(KileProjectItem *);
-	void buildProjectTree(KileProject *project = 0);
-	void buildProjectTree(const KUrl &);
-	void projectOptions(const KUrl &);
-	void projectOptions(KileProject *project = 0);
-	bool projectClose(const KUrl & url = KUrl());
+	void buildProjectTree(KileProject *project = NULL);
+	void buildProjectTree(const KUrl&);
+	void projectOptions(const KUrl&);
+	void projectOptions(KileProject *project = NULL);
+	bool projectClose(const KUrl& url = KUrl());
 	bool projectCloseAll();
 
 	void projectShow();
@@ -125,13 +125,13 @@ public Q_SLOTS:
 	void projectShowFiles();
 	void projectAddFile(QString filename, bool graphics=false);
 	void projectOpenAllFiles();
-	void projectOpenAllFiles(const KUrl &);
+	void projectOpenAllFiles(const KUrl&);
 
-	KileProject* selectProject(const QString &);
+	KileProject* selectProject(const QString&);
 
 	void addProject(KileProject *project);
-	void addToProject(const KUrl &);
-	void addToProject(KileProject *, const KUrl &);
+	void addToProject(const KUrl&);
+	void addToProject(KileProject*, const KUrl&);
 	void removeFromProject(KileProjectItem *item);
 	void storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc);
 
@@ -140,32 +140,30 @@ public Q_SLOTS:
 	void openDroppedURLs(QDropEvent *e);
 
 Q_SIGNALS:
-	void projectTreeChanged(const KileProject *);
-	void closingDocument(KileDocument::Info *);
-	void documentInfoCreated(KileDocument::Info *);
+	void projectTreeChanged(const KileProject*);
+	void closingDocument(KileDocument::Info*);
+	void documentInfoCreated(KileDocument::Info*);
 
 	void updateStructure(bool needToParse, KileDocument::Info*);
 	void updateModeStatus();
-	void updateReferences(KileDocument::Info *);
+	void updateReferences(KileDocument::Info*);
 
-	void documentModificationStatusChanged(KTextEditor::Document *, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
+	void documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
 	void documentUrlChanged(KTextEditor::Document*);
 	void documentNameChanged(KTextEditor::Document*);
 
-	void addToRecentFiles(const KUrl &);
-	void addToRecentProjects(const KUrl &);
-	void removeFromRecentProjects(const KUrl &);
+	void addToRecentFiles(const KUrl&);
+	void addToRecentProjects(const KUrl&);
+	void removeFromRecentProjects(const KUrl&);
 
 	void startWizard();
 
-	void printMsg(int type, const QString & message, const QString &tool = "Kile" );
-
-	void removeFromProjectView(const KUrl &);
-	void removeFromProjectView(const KileProject *);
-	void removeItemFromProjectView(const KileProjectItem *, bool);
-	void addToProjectView(const KUrl &);
+	void removeFromProjectView(const KUrl&);
+	void removeFromProjectView(const KileProject*);
+	void removeItemFromProjectView(const KileProjectItem*, bool);
+	void addToProjectView(const KUrl&);
 	void addToProjectView(KileProjectItem *item);
-	void addToProjectView(const KileProject *);
+	void addToProjectView(const KileProject*);
 
 public:
 	KTextEditor::Editor* getEditor();
@@ -195,8 +193,8 @@ public:
 	 * Finds the project item for the file with URL @param url.
 	 * @returns a pointer to the project item, 0 if this file does not belong to a project
 	 **/
-	KileProjectItem* itemFor(const KUrl &url, KileProject *project = 0) const;
-	KileProjectItem* itemFor(Info *docinfo, KileProject *project = 0) const;
+	KileProjectItem* itemFor(const KUrl &url, KileProject *project = NULL) const;
+	KileProjectItem* itemFor(Info *docinfo, KileProject *project = NULL) const;
 	KileProjectItem* selectProjectFileItem(const QString &label);
 	QList<KileProjectItem*> selectProjectFileItems(const QString &label);
 
@@ -207,7 +205,7 @@ public:
 protected:
 	void mapItem(TextInfo *docinfo, KileProjectItem *item);
 
-	void trashDoc(TextInfo *docinfo, KTextEditor::Document *doc = 0L);
+	void trashDoc(TextInfo *docinfo, KTextEditor::Document *doc = NULL);
 
 	TextInfo* createTextDocumentInfo(KileDocument::Type type, const KUrl &url, const KUrl& baseDirectory = KUrl());
 	void recreateTextDocumentInfo(TextInfo *oldinfo);
@@ -220,17 +218,17 @@ protected:
 	 * @warning This method does not close or delete any Kate documents that are associated with the TextInfo object !
 	 **/
 	bool removeTextDocumentInfo(TextInfo *docinfo, bool closingproject = false);
-	KTextEditor::Document* createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight);
+	KTextEditor::Document* createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString& encoding, const QString& highlight);
 
 	/**
 	 *  Creates a document with the specified text.
 	 * 
 	 *  @param extension The extension of the file that should be created without leading "."
 	 **/
-	KTextEditor::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString::null, const KUrl& baseDirectory = KUrl());
+	KTextEditor::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString(), const KUrl& baseDirectory = KUrl());
 
-	KTextEditor::View* loadText(KileDocument::Type type, const QString& name, const KUrl &url, const QString & encoding = QString::null, bool create = true, const QString & highlight  = QString::null, const QString &text = QString::null, int index = -1, const KUrl& baseDirectory = KUrl());
-	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString & text = QString::null, bool openProjectItemViews = true);
+	KTextEditor::View* loadText(KileDocument::Type type, const QString& name, const KUrl &url, const QString& encoding = QString(), bool create = true, const QString & highlight  = QString(), const QString &text = QString(), int index = -1, const KUrl& baseDirectory = KUrl());
+	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString& text = QString(), bool openProjectItemViews = true);
 
 private:
 	KTextEditor::Editor		*m_editor;

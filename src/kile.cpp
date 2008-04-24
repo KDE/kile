@@ -537,7 +537,6 @@ void Kile::setupBottomBar()
 	m_logWidget = new KileWidget::LogWidget(this, m_mainWindow);
 	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
 	connect(m_logWidget, SIGNAL(outputInfoSelected(const OutputInfo&)), m_errorHandler, SLOT(jumpToProblem(const OutputInfo&)));
-	connect(m_docManager,SIGNAL(printMsg(int, const QString&, const QString&, const OutputInfo&)), m_logWidget, SLOT(printMessage(int, const QString&, const QString&, const OutputInfo&)));
 
 	m_logWidget->setFocusPolicy(Qt::ClickFocus);
 	m_logWidget->setMinimumHeight(40);
@@ -1297,12 +1296,15 @@ void Kile::showDocInfo(KTextEditor::View *view)
 
 void Kile::convertToASCII(KTextEditor::Document *doc)
 {
-	if (doc == 0)
-	{
+	if(!doc) {
 		KTextEditor::View *view = viewManager()->currentTextView();
 
-		if (view) doc = view->document();
-		else return;
+		if(view) {
+			doc = view->document();
+		}
+		else {
+			return;
+		}
 	}
 
 	ConvertIO io(doc);

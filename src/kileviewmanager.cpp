@@ -148,7 +148,13 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	m_tabs->showPage(view);
 	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
-	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(newStatusMessage(KTextEditor::View*,const QString&)));
+	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
+	        this, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
+	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*)),
+	        this, SIGNAL(viewModeChanged(KTextEditor::View*)));
+	connect(view, SIGNAL(selectionChanged(KTextEditor::View*)),
+	        this, SIGNAL(selectionChanged(KTextEditor::View*)));
+	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
 	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*)), this, SIGNAL(updateCaption()));
 	connect(view, SIGNAL(viewEditModeChanged(KTextEditor::View*, enum KTextEditor::View::EditMode)), this, SIGNAL(updateModeStatus()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));

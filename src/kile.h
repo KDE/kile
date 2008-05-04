@@ -51,8 +51,10 @@
 #include "quickpreview.h"
 #include "widgets/abbreviationview.h"
 
-#define ID_HINTTEXT 301
-#define ID_LINE_COLUMN 302
+#define ID_HINTTEXT         301
+#define ID_LINE_COLUMN      302
+#define ID_VIEW_MODE        303
+#define ID_SELECTION_MODE   304
 
 #define KILERC_VERSION 6
 
@@ -126,7 +128,6 @@ public Q_SLOTS:
 
 	void changeInputEncoding();
 
-	void newStatus(KTextEditor::View *view = NULL, const QString& = QString());
 	void updateModeStatus();
 	void newCaption();
 	void citeViewBib();
@@ -330,6 +331,11 @@ private Q_SLOTS:
 	void removeRecentFile(const KUrl& url);
 	void addRecentProject(const KUrl& url);
 	void removeRecentProject(const KUrl& url);
+
+	void updateStatusBarCursorPosition(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
+	void updateStatusBarViewMode(KTextEditor::View *view);
+	void updateStatusBarInformationMessage(KTextEditor::View *view, const QString &message);
+	void updateStatusBarSelection(KTextEditor::View *view);
 };
 
 #endif

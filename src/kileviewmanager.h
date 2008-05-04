@@ -29,6 +29,7 @@
 
 #include <KAction>
 #include <KTabWidget>
+#include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
 
 class QPixmap;
@@ -94,7 +95,11 @@ Q_SIGNALS:
 	void currentViewChanged(QWidget*);
 	void updateModeStatus();
 	void updateCaption();
-	void newStatusMessage(KTextEditor::View*, const QString&);
+
+	void informationMessage(KTextEditor::View*, const QString&);
+	void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
+	void viewModeChanged(KTextEditor::View *view);
+	void selectionChanged(KTextEditor::View *view);
 
 public Q_SLOTS:
 	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);
@@ -102,7 +107,7 @@ public Q_SLOTS:
 	void closeWidget(QWidget *);
 	void removeView(KTextEditor::View *view);
 
-	void updateStructure(bool parse = false, KileDocument::Info *docinfo = 0L);
+	void updateStructure(bool parse = false, KileDocument::Info *docinfo = NULL);
 
 	void gotoNextView();
 	void gotoPrevView();

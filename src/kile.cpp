@@ -180,9 +180,16 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(newCaption()));
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(activateView(QWidget*)));
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(updateModeStatus()));
-	connect(viewManager(), SIGNAL(newStatusMessage(KTextEditor::View*,const QString&)), this, SLOT(newStatus(KTextEditor::View*,const QString&)));
 	connect(viewManager(), SIGNAL(updateCaption()), this, SLOT(newCaption()));
 	connect(viewManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
+	connect(viewManager(), SIGNAL(cursorPositionChanged(KTextEditor::View*,const KTextEditor::Cursor&)),
+	        this, SLOT(updateStatusBarCursorPosition(KTextEditor::View*,const KTextEditor::Cursor&)));
+	connect(viewManager(), SIGNAL(viewModeChanged(KTextEditor::View*)),
+	        this, SLOT(updateStatusBarViewMode(KTextEditor::View*)));
+	connect(viewManager(), SIGNAL(informationMessage(KTextEditor::View*,const QString&)),
+	        this, SLOT(updateStatusBarInformationMessage(KTextEditor::View*,const QString&)));
+	connect(viewManager(), SIGNAL(selectionChanged(KTextEditor::View*)),
+	        this, SLOT(updateStatusBarSelection(KTextEditor::View*)));
 
 	connect(docManager(), SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 	connect(docManager(), SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
@@ -350,11 +357,17 @@ void Kile::setupStatusBar()
 {
 	statusBar()->removeItem(ID_LINE_COLUMN);
 	statusBar()->removeItem(ID_HINTTEXT);
+	statusBar()->removeItem(ID_VIEW_MODE);
+	statusBar()->removeItem(ID_SELECTION_MODE);
 
-	statusBar()->insertPermanentItem(i18n("Line: 1 Col: 1"), ID_LINE_COLUMN, 0);
-	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
-	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT,10);
+	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT, 10);
 	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->insertPermanentItem(QString(), ID_LINE_COLUMN, 0);
+	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->insertPermanentItem(QString(), ID_VIEW_MODE, 0);
+	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->insertPermanentItem(QString(), ID_SELECTION_MODE, 0);
+	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
 }
 
 void Kile::setupSideBar()
@@ -1023,7 +1036,7 @@ void Kile::showTip()
 void Kile::setLine(const QString &line)
 {
 	bool ok;
-	uint l=line.toUInt(&ok,10);
+	uint l = line.toUInt(&ok, 10);
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if (view && ok) {
 		m_mainWindow->show();
@@ -1033,12 +1046,11 @@ void Kile::setLine(const QString &line)
 #warning Introduce a generic gotoLine function!
 #endif
 		KTextEditor::Cursor cursor = view->cursorPosition();
-		cursor.setPosition(l-1, 0);
+		cursor.setPosition(l - 1, 0);
 		view->setCursorPosition(cursor);
 
 		showEditorWidget();
-		newStatus();
-  	}
+	}
 }
 
 void Kile::setCursor(const KUrl &url, int parag, int index)
@@ -1119,7 +1131,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 void Kile::updateModeStatus()
 {
-	KILE_DEBUG() << "==Kile::updateModeStatus()==========" << endl;
+	KILE_DEBUG() << "==Kile::updateModeStatus()==========";
 	KileProject *project = docManager()->activeProject();
 	QString shortName = m_masterName;
 	int pos = shortName.findRev('/');
@@ -1154,6 +1166,12 @@ void Kile::updateModeStatus()
 
 	// enable or disable entries in Kile'S menu
 	updateMenu();
+
+	KTextEditor::View *view = viewManager()->currentTextView();
+	// Passing NULL is ok
+	updateStatusBarCursorPosition(view, (view ? view->cursorPosition() : KTextEditor::Cursor()));
+	updateStatusBarViewMode(view);
+	updateStatusBarSelection(view);
 }
 
 void Kile::openDocument(const QString & url)
@@ -1332,11 +1350,6 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 }
 
 ////////////////// GENERAL SLOTS //////////////
-void Kile::newStatus(KTextEditor::View* /* view */, const QString& msg)
-{
-	statusBar()->changeItem(msg, ID_LINE_COLUMN);
-}
-
 int Kile::lineNumber()
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
@@ -2603,6 +2616,47 @@ void Kile::addRecentProject(const KUrl& url)
 void Kile::removeRecentProject(const KUrl& url)
 {
 	m_actRecentProjects->removeUrl(url);
+}
+
+void Kile::updateStatusBarCursorPosition(KTextEditor::View *view,
+                                         const KTextEditor::Cursor &newPosition)
+{
+	if(!view) {
+		statusBar()->changeItem(QString(), ID_LINE_COLUMN);
+	}
+	else {
+		statusBar()->changeItem(i18n("Line: %1 Col: %2",
+		                             newPosition.line() + 1,
+		                             newPosition.column() + 1), ID_LINE_COLUMN);
+	}
+}
+
+void Kile::updateStatusBarViewMode(KTextEditor::View *view)
+{
+	if(!view) {
+		statusBar()->changeItem(QString(), ID_VIEW_MODE);
+	}
+	else {
+		statusBar()->changeItem(view->viewMode(), ID_VIEW_MODE);
+	}
+}
+
+void Kile::updateStatusBarInformationMessage(KTextEditor::View */* view */, const QString &message)
+{
+	statusBar()->showMessage(message, 5000);
+}
+
+void Kile::updateStatusBarSelection(KTextEditor::View *view)
+{
+	if(!view) {
+		statusBar()->changeItem(QString(), ID_SELECTION_MODE);
+	}
+	else {
+		const QString text = view->blockSelection() ?
+					i18nc("@info:status status bar label for block selection mode", "BLOCK") + ' ' :
+					i18nc("@info:status status bar label for line selection mode", "LINE") + ' ';
+		statusBar()->changeItem(text, ID_SELECTION_MODE);
+	}
 }
 
 #include "kile.moc"

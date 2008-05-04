@@ -1,7 +1,8 @@
 /*************************************************************************************
     begin                : Sun Jun 3 2001
     copyright            : (C) 2001 - 2003 by Brachet Pascal
-                               2003 Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -14,26 +15,24 @@
  ***************************************************************************/
 #include "dialogs/usertagsdialog.h"
 
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qcombobox.h>
-#include <qregexp.h>
-#include <qradiobutton.h>
-#include <q3buttongroup.h>
-//Added by qt3to4:
-#include <Q3GridLayout>
+#include <QComboBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QRegExp>
+#include <QVBoxLayout>
 
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <ktextedit.h>
+#include <KLocale>
+#include <KPushButton>
+#include <KTextEdit>
+
 #include "kiledebug.h"
 
 namespace KileDialog
 {
 
 UserTags::UserTags(const QList<KileAction::TagData> &list, QWidget* parent,  const char* name, const QString &caption)
-    : 	KDialog(parent), m_list(list)
+    : KDialog(parent), m_list(list)
 {
 	setObjectName(name);
 	setCaption(caption);
@@ -42,44 +41,73 @@ UserTags::UserTags(const QList<KileAction::TagData> &list, QWidget* parent,  con
 	setDefaultButton(Apply);
 	showButtonSeparator(true);
 
- 	QWidget *page = new QWidget( this );
+	connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+
+	QWidget *page = new QWidget(this);
+	QVBoxLayout *vBoxLayout = new QVBoxLayout(page);
+	vBoxLayout->setMargin(KDialog::marginHint());
+	vBoxLayout->setSpacing(KDialog::spacingHint());
 	setMainWidget(page);
-	Q3GridLayout *gbox = new Q3GridLayout( page, 6, 3,5,5,"");
-  	gbox->addRowSpacing( 0, fontMetrics().lineSpacing() );
 
-	m_combo=new QComboBox(page,"combo");
-	connect(m_combo, SIGNAL(activated(int)),this,SLOT(change(int)));
+	m_combo = new QComboBox(page, "combo");
+	connect(m_combo, SIGNAL(activated(int)), this, SLOT(change(int)));
 
-	m_labelName = new QLabel( page, "label1" );
+	m_labelName = new QLabel(page, "label1");
 	m_labelName->setText(i18n("Menu item:"));
-	m_editName =new QLineEdit(page,"name");
+	m_editName = new QLineEdit(page, "name");
 
-	m_labelTag = new QLabel( page, "label2" );
+	m_labelTag = new QLabel(page, "label2");
 	m_labelTag->setText(i18n("Value:"));
-	m_editTag=new KTextEdit(page);
+	m_editTag = new KTextEdit(page);
 	m_editTag->setObjectName("tag");
 	m_editTag->setTextFormat(Qt::PlainText);
 
-	m_buttonAdd = new KPushButton(i18n("Add"),page);
-	m_buttonInsert = new KPushButton(i18n("Insert"),page);
-	m_buttonRemove = new KPushButton(i18n("Remove"),page);
+	m_buttonAdd = new KPushButton(i18n("Add"), page);
+	m_buttonInsert = new KPushButton(i18n("Insert"), page);
+	m_buttonRemove = new KPushButton(i18n("Remove"), page);
 
-	connect(m_buttonAdd, SIGNAL(clicked()) , this , SLOT(slotAdd()));
-	connect(m_buttonInsert, SIGNAL(clicked()) , this , SLOT(slotInsert()));
-	connect(m_buttonRemove, SIGNAL(clicked()) , this , SLOT(slotRemove()));
+	connect(m_buttonAdd, SIGNAL(clicked()), this, SLOT(slotAdd()));
+	connect(m_buttonInsert, SIGNAL(clicked()), this, SLOT(slotInsert()));
+	connect(m_buttonRemove, SIGNAL(clicked()), this, SLOT(slotRemove()));
 
-	gbox->addMultiCellWidget(m_combo,0,0,0,2,0);
-	gbox->addMultiCellWidget(m_labelName,1,1,0,2,0);
-	gbox->addMultiCellWidget(m_editName,2,2,0,2,0);
-	gbox->addMultiCellWidget(m_labelTag,3,3,0,2,0);
-	gbox->addMultiCellWidget(m_editTag,4,4,0,2,0);
-	gbox->addWidget(m_buttonAdd, 5,0, Qt::AlignLeft);
-	gbox->addWidget(m_buttonInsert, 5,1, Qt::AlignLeft);
-	gbox->addWidget(m_buttonRemove, 5,2, Qt::AlignLeft);
+	vBoxLayout->addWidget(m_combo);
 
-	resize(350,150);
+	QWidget *widget = new QWidget(page);
+	QVBoxLayout *vBoxLayout2 = new QVBoxLayout(widget);
+	vBoxLayout2->setMargin(0);
+	vBoxLayout2->setSpacing(0);
+	QWidget *widget2 = new QWidget(widget);
+	QHBoxLayout *hBoxLayout = new QHBoxLayout(widget2);
+	hBoxLayout->addWidget(m_labelName);
+	hBoxLayout->addStretch();
+	vBoxLayout2->addWidget(widget2);
+	vBoxLayout2->addWidget(m_editName);
+	vBoxLayout->addWidget(widget);
 
-	m_prevIndex=0;
+	widget = new QWidget(page);
+	vBoxLayout2 = new QVBoxLayout(widget);
+	vBoxLayout2->setMargin(0);
+	vBoxLayout2->setSpacing(0);
+	widget2 = new QWidget(widget);
+	hBoxLayout = new QHBoxLayout(widget2);
+	hBoxLayout->addWidget(m_labelTag);
+	hBoxLayout->addStretch();
+	vBoxLayout2->addWidget(widget2);
+	vBoxLayout2->addWidget(m_editTag);
+	vBoxLayout->addWidget(widget);
+
+	widget = new QWidget(page);
+	hBoxLayout = new QHBoxLayout(widget);
+	hBoxLayout->addStretch();
+	hBoxLayout->addWidget(m_buttonAdd);
+	hBoxLayout->addStretch();
+	hBoxLayout->addWidget(m_buttonInsert);
+	hBoxLayout->addStretch();
+	hBoxLayout->addWidget(m_buttonRemove);
+	hBoxLayout->addStretch();
+	vBoxLayout->addWidget(widget);
+
+	m_prevIndex = 0;
 	redraw();
 }
 
@@ -89,11 +117,11 @@ UserTags::~UserTags()
 
 void UserTags::redraw()
 {
-	KILE_DEBUG() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size()) << endl;
+	KILE_DEBUG() << QString("usermenudialog redraw() m_prevIndex = %1, m_list.size() = %2").arg(m_prevIndex).arg(m_list.size());
 	m_combo->clear();
 
-	if (m_list.size() > 0) {
-		for (int i = 0; i < m_list.size(); ++i) {
+	if(m_list.size() > 0) {
+		for(int i = 0; i < m_list.size(); ++i) {
 			m_combo->insertItem(QString::number(i + 1) + ": " + m_list[i].text);
 		}
 		m_combo->setCurrentItem(m_prevIndex);
@@ -109,15 +137,15 @@ void UserTags::redraw()
 
 void UserTags::change(int index)
 {
-	KILE_DEBUG() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex) << endl;
+	KILE_DEBUG() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex);
 	m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
 
-	m_combo->changeItem(QString::number(m_prevIndex+1)+": "+m_list[m_prevIndex].text, m_prevIndex);
+	m_combo->changeItem(QString::number(m_prevIndex + 1) + ": " + m_list[m_prevIndex].text, m_prevIndex);
 
-	m_editTag->setText( completeTag(m_list[index]) );
+	m_editTag->setText(completeTag(m_list[index]));
 	m_editName->setText(m_list[index].text);
 
-	m_prevIndex=index;
+	m_prevIndex = index;
 }
 
 void UserTags::slotApply()
@@ -127,13 +155,19 @@ void UserTags::slotApply()
 		m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
 	}
 
-	KILE_DEBUG() << "usermenudialog: slotApply" << endl;
+	KILE_DEBUG() << "usermenudialog: slotApply";
 	accept();
 }
 
 void UserTags::slotAdd()
 {
-	m_list.append(splitTag(m_editName->text(), m_editTag->text()));
+	QString name = m_editName->text();
+	QString tag = m_editTag->text();
+	if(name.isEmpty() || tag.isEmpty()) {
+		return;
+	}
+
+	m_list.append(splitTag(name, tag));
 
 	m_prevIndex = m_list.count() - 1;
 	redraw();
@@ -141,7 +175,13 @@ void UserTags::slotAdd()
 
 void UserTags::slotInsert()
 {
-	m_list.insert(m_prevIndex, splitTag(m_editName->text(), m_editTag->text()));
+	QString name = m_editName->text();
+	QString tag = m_editTag->text();
+	if(name.isEmpty() || tag.isEmpty()) {
+		return;
+	}
+
+	m_list.insert(m_prevIndex, splitTag(name, tag));
 	redraw();
 }
 
@@ -155,15 +195,15 @@ void UserTags::slotRemove()
 			m_prevIndex = m_list.count() - 1;
 		}
 
-		if(m_prevIndex < 0 ) {
-			m_prevIndex=0;
+		if(m_prevIndex < 0) {
+			m_prevIndex = 0;
 		}
 
 		redraw();
 	}
 }
 
-QString UserTags::completeTag(const KileAction::TagData & td)
+QString UserTags::completeTag(const KileAction::TagData& td)
 {
 	if(td.tagEnd.length() == 0) {
 		return td.tagBegin;
@@ -173,18 +213,20 @@ QString UserTags::completeTag(const KileAction::TagData & td)
 	}
 }
 
-KileAction::TagData UserTags::splitTag(const QString & name, const QString & tag)
+KileAction::TagData UserTags::splitTag(const QString& name, const QString& tag)
 {
 	QStringList parts = tag.split("%M");
 	int dx = parts[0].length();
-	if(parts[1].length() == 0) {
+	QString secondPart;
+	if(parts.size() >= 2 && parts[1].length() == 0) {
+		secondPart = parts[1];
 		int i = parts[0].indexOf(QRegExp("[\\[\\{\\(]"));
 		if(i != -1) {
 			dx = i + 1;
 		}
 	}
 
-	return KileAction::TagData(name, parts[0], parts[1], dx, 0, QString());
+	return KileAction::TagData(name, parts[0], secondPart, dx, 0, QString());
 }
 
 }

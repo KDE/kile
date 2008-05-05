@@ -2393,6 +2393,17 @@ void EditorExtension::commentLaTeX(KTextEditor::Document* document, const KTextE
 	}
 }
 
+void EditorExtension::goToLine(int line, KTextEditor::View *view)
+{
+	view = determineView(view);
+	if(!view) {
+		return;
+	}
+
+	KTextEditor::Cursor cursor(line, 0);
+	view->setCursorPosition(cursor);
+}
+
 //////////////////// double quotes ////////////////////
 
 void EditorExtension::initDoubleQuotes()

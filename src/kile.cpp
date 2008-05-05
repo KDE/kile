@@ -1042,12 +1042,7 @@ void Kile::setLine(const QString &line)
 		m_mainWindow->show();
 		m_mainWindow->raise();
 		view->setFocus();
-#ifdef __GNUC__
-#warning Introduce a generic gotoLine function!
-#endif
-		KTextEditor::Cursor cursor = view->cursorPosition();
-		cursor.setPosition(l - 1, 0);
-		view->setCursorPosition(cursor);
+		editorExtension()->goToLine(l - 1, view);
 
 		showEditorWidget();
 	}
@@ -1056,11 +1051,9 @@ void Kile::setLine(const QString &line)
 void Kile::setCursor(const KUrl &url, int parag, int index)
 {
 	KTextEditor::Document *doc = docManager()->docFor(url);
-	if (doc)
-	{
+	if(doc) {
 		KTextEditor::View *view = (KTextEditor::View*)doc->views().first();
-		if (view)
-		{
+		if(view) {
 			view->setCursorPosition(KTextEditor::Cursor(parag, index));
 			view->setFocus();
 		}

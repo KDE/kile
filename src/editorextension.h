@@ -137,6 +137,8 @@ public Q_SLOTS:
 	void keyReturn(KTextEditor::View *view = NULL);
 	void commentLaTeX(KTextEditor::Document* document, const KTextEditor::Range &range);
 
+	void goToLine(int line, KTextEditor::View *view = NULL);
+
 private:
 
 	enum EnvTag {EnvBegin, EnvEnd};

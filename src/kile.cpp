@@ -966,12 +966,12 @@ void Kile::setupUserTagActions()
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_9),
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_0)};
 
-	m_actionEditTag = new KAction(m_menuUserTags);
-	m_actionEditTag->setText(i18n("Edit User Tags..."));
-	connect(m_actionEditTag, SIGNAL(triggered()), this, SLOT(editUserMenu()));
-	actionCollection()->addAction("EditUserMenu", m_actionEditTag);
+	KAction *action = new KAction(m_menuUserTags);
+	action->setText(i18n("Edit User Tags..."));
+	connect(action, SIGNAL(triggered()), this, SLOT(editUserMenu()));
+	actionCollection()->addAction("EditUserMenu", action);
 
-	m_menuUserTags->addAction(m_actionEditTag);
+	m_menuUserTags->addAction(action);
 	if(m_listUserTags.size() > 0)  {
 		m_menuUserTags->addSeparator();
 	}
@@ -2029,24 +2029,12 @@ void Kile::editUserMenu()
 
 	if(dlg->exec()) {
 		//remove all actions
-		uint len = m_listUserTagsActions.count();
-		for (uint j=0; j< len; ++j) {
-			QAction *menuItem = m_listUserTagsActions.last();
-//FIXME: port for KDE4
-// 			m_menuUserTags->remove(menuItem);
-			m_listUserTagsActions.removeLast();
-			delete menuItem;
+		for(QList<QAction*>::iterator i = m_listUserTagsActions.begin();
+		                              i != m_listUserTagsActions.end(); ++i) {
+			delete(*i);
 		}
-#ifdef __GNUC__
-#warning Port m_menuUserTags->remove(m_actionEditSeparator)!
-#endif
-//FIXME: port for KDE4
-/*
-		if ( len > 0 )
-			m_menuUserTags->remove(m_actionEditSeparator);
-*/
-//FIXME: port for KDE4
-//		m_menuUserTags->remove(m_actionEditTag);
+		m_listUserTagsActions.clear();
+		m_menuUserTags->menu()->clear();
 
 		m_listUserTags = dlg->result();
 		setupUserTagActions();

@@ -156,7 +156,6 @@ private:
 	QList<KileAction::TagData>		m_listUserTags;
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KAction					*m_actionEditTag;
 	KAction 				*m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
 	KToggleAction 				*m_actionMessageView;

@@ -538,7 +538,7 @@ int TabularCell::border() const
 	return m_Border;
 }
 
-QString TabularCell::toLaTeX() const
+QString TabularCell::toLaTeX( TabularProperties &properties ) const
 {
 	if (text().trimmed().isEmpty()) {
 		return QString();
@@ -552,17 +552,20 @@ QString TabularCell::toLaTeX() const
 	if (headerItem->alignment() != alignment) {
 		switch (alignment) {
 			case Qt::AlignLeft: // TODO consider AlignP etc.
-				prefix += "\\multicolumn{1}{l}{";
+				properties.setUseMultiColumn();
+				prefix += "\\mc{1}{l}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignHCenter:
-				prefix += "\\multicolumn{1}{c}{";
+				properties.setUseMultiColumn();
+				prefix += "\\mc{1}{c}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignRight:
-				prefix += "\\multicolumn{1}{r}{";
+				properties.setUseMultiColumn();
+				prefix += "\\mc{1}{r}{";
 				suffix = "}" + suffix;
 				break;
 		};
@@ -804,6 +807,22 @@ void TabularHeaderItem::slotDeclBang()
 		m_acDeclAt->setChecked(false);
 	}
 	format();
+}
+//END
+
+//BEGIN TabularProperties
+
+TabularProperties::TabularProperties()
+	: mUseMultiColumn( false ) {}
+
+void TabularProperties::setUseMultiColumn( bool useMultiColumn )
+{
+	mUseMultiColumn = useMultiColumn;
+}
+
+bool TabularProperties::useMultiColumn() const
+{
+	return mUseMultiColumn;
 }
 //END
 
@@ -1081,6 +1100,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 	if(button == KDialog::Ok) {
 		int rows = m_Table->rowCount();
 		int columns = m_Table->columnCount();
+		TabularProperties properties;
 
 		/* bullet */
 		QString bullet;
@@ -1091,11 +1111,6 @@ void NewTabularDialog::slotButtonClicked(int button)
 		QString environmentFormatted = environment;
 		if(m_cbStarred->isChecked()) {
 			environmentFormatted += '*';
-		}
-
-		/* center tabular? */
-		if(m_cbCenter->isChecked()) {
-			m_td.tagBegin += "\\begin{center}\n";
 		}
 
 		/* build table parameter */
@@ -1151,7 +1166,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 		for(int row = 0; row < rows; ++row) {
 			for(int column = 0; column < columns; ++column) {
-				QString content = static_cast<TabularCell*>(m_Table->item(row, column))->toLaTeX();
+				QString content = static_cast<TabularCell*>(m_Table->item(row, column))->toLaTeX( properties );
 				if(content.isEmpty()) {
 					content = bullet;
 				}
@@ -1162,9 +1177,18 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
 
-		/* center tabular? */
+		if(properties.useMultiColumn()) {
+			m_td.tagBegin = "\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n"
+					+ m_td.tagBegin;
+		}
+
+		/* center tabular? or use {} if mc was defined */
 		if(m_cbCenter->isChecked()) {
+			m_td.tagBegin = "\\begin{center}\n" + m_td.tagBegin;
 			m_td.tagEnd += "\\end{center}\n";
+		} else if(properties.useMultiColumn()) {
+			m_td.tagBegin = "{%\n" + m_td.tagBegin;
+			m_td.tagEnd += "}%\n";
 		}
 	}
 

@@ -41,6 +41,7 @@ namespace KileDocument {
 namespace KileDialog {
 
 class TabularFrameWidget;
+class TabularProperties;
 
 class SelectFrameAction : public KToolBarPopupAction {
 	Q_OBJECT
@@ -99,7 +100,7 @@ class TabularCell : public QTableWidgetItem {
 		void setBorder(int border);
 		int border() const;
 		
-		QString toLaTeX() const;
+		QString toLaTeX( TabularProperties &properties ) const;
 
 	private:
 		int m_Border;
@@ -153,6 +154,23 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 		QAction *m_acXAlignment,
 		        *m_acDeclPre, *m_acDeclPost, *m_acDeclAt, *m_acDeclBang;
 		bool m_hasXAlignment;
+};
+
+/**
+ * @brief This class stores data while generating LaTeX output.
+ *
+ * This class saves informations like whether the \multicolumn command
+ * and/or other commands have been used.
+ */
+class TabularProperties {
+	public:
+		TabularProperties();
+
+		void setUseMultiColumn( bool useMultiColumn = true );
+		bool useMultiColumn() const;
+
+	private:
+		bool mUseMultiColumn;
 };
 
 class NewTabularDialog : public Wizard {

@@ -540,32 +540,37 @@ int TabularCell::border() const
 
 QString TabularCell::toLaTeX( TabularProperties &properties ) const
 {
-	if (text().trimmed().isEmpty()) {
-		return QString();
-	}
-
 	QString prefix = QString();
 	QString suffix = QString();
 
 	int alignment = textAlignment() & ~Qt::AlignVCenter;
 	TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(tableWidget()->horizontalHeaderItem(column()));
-	if (headerItem->alignment() != alignment) {
-		switch (alignment) {
+
+	QString colorCommand;
+	if(backgroundColor().isValid()
+	    && backgroundColor() != Qt::white
+	    && !properties.rowColor(row()).isValid()) {
+		colorCommand = ">{\\columncolor{" + properties.colorName(backgroundColor()) + "}}";
+	}
+
+	if(headerItem->alignment() != alignment || !colorCommand.isEmpty()) {
+
+		switch(alignment) {
 			case Qt::AlignLeft: // TODO consider AlignP etc.
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{l}{";
+				prefix += "\\mc{1}{" + colorCommand + "l}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignHCenter:
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{c}{";
+				prefix += "\\mc{1}{" + colorCommand + "c}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignRight:
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{r}{";
+				prefix += "\\mc{1}{" + colorCommand + "r}{";
 				suffix = "}" + suffix;
 				break;
 		};
@@ -589,7 +594,11 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 
 	/* content */
 	QString content = "";
-	content += prefix + text().trimmed() + suffix;
+	QString incontent = text().trimmed();
+	if(incontent.isEmpty()) {
+		incontent = properties.bullet();
+	}
+	content += prefix + incontent + suffix;
 	return content;
 }
 //END
@@ -811,18 +820,90 @@ void TabularHeaderItem::slotDeclBang()
 //END
 
 //BEGIN TabularProperties
-
 TabularProperties::TabularProperties()
-	: mUseMultiColumn( false ) {}
+	: m_UseMultiColumn(false), m_ColorIndex(0) {}
 
-void TabularProperties::setUseMultiColumn( bool useMultiColumn )
+void TabularProperties::setUseMultiColumn(bool useMultiColumn)
 {
-	mUseMultiColumn = useMultiColumn;
+	m_UseMultiColumn = useMultiColumn;
 }
 
 bool TabularProperties::useMultiColumn() const
 {
-	return mUseMultiColumn;
+	return m_UseMultiColumn;
+}
+
+void TabularProperties::addRowColor(int row, const QColor &color)
+{
+	if(!color.isValid() || color == Qt::white) {
+		return;
+	}
+	
+	m_RowColors.insert(row, color);
+}
+
+void TabularProperties::addColor(const QColor &color)
+{
+	if(!color.isValid() || color == Qt::white) {
+		return;
+	}
+
+	if(!m_ColorNames.contains(color.name())) {
+		int index = m_ColorIndex;
+		int value;
+		QString colorName = "tc";
+
+		do {
+			value = index % 26;
+			colorName += ('A' + value);
+			index -= value;
+		} while(index > 0);
+
+		if(m_ColorNames.count() == 0) {
+			m_RequiredPackages << "color" << "colortbl";
+		}
+
+		m_ColorNames.insert(color.name(), colorName);
+		++m_ColorIndex;
+	}
+}
+
+QColor TabularProperties::rowColor(int row) const
+{
+	if(m_RowColors.contains(row)) {
+		return m_RowColors[row];
+	} else {
+		return QColor();
+	}
+}
+
+QString TabularProperties::colorName(const QColor &color) const
+{
+	if(color.isValid() && color != Qt::white && m_ColorNames.contains(color.name())) {
+		return m_ColorNames[color.name()];
+	} else {
+		return QString();
+	}
+}
+
+const QHash<QString, QString>& TabularProperties::colorNames() const
+{
+	return m_ColorNames;
+}
+
+const QStringList& TabularProperties::requiredPackages() const
+{
+	return m_RequiredPackages;
+}
+
+void TabularProperties::setBullet(const QString &bullet)
+{
+	m_Bullet = bullet;
+}
+
+QString TabularProperties::bullet() const
+{
+	return m_Bullet;
 }
 //END
 
@@ -1102,9 +1183,28 @@ void NewTabularDialog::slotButtonClicked(int button)
 		int columns = m_Table->columnCount();
 		TabularProperties properties;
 
+		//BEGIN preprocessing colors
+		QColor firstColor, currentColor;
+		for(int row = 0; row < rows; ++row) {
+			bool sameColor = true;
+			firstColor = m_Table->item(row, 0)->backgroundColor();
+			for(int column = 0; column < columns; ++column) {
+				currentColor = m_Table->item(row, column)->backgroundColor();
+				properties.addColor(currentColor);
+				if(currentColor != firstColor) {
+					sameColor = false;
+				}
+			}
+			if(sameColor) {
+				properties.addRowColor(row, firstColor);
+			}
+		}
+		//END
+
 		/* bullet */
-		QString bullet;
-		if(m_cbBullets) bullet = s_bullet;
+		if(m_cbBullets) {
+			properties.setBullet(s_bullet);
+		}
 
 		/* environment */
 		QString environment = m_cmbName->currentText();
@@ -1124,12 +1224,12 @@ void NewTabularDialog::slotButtonClicked(int button)
 		for(int column = 0; column < columns; ++column) {
 			TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column));
 			if(headerItem->suppressSpace()) {
-				tableAlignment += QString("@{%1}").arg(bullet);
+				tableAlignment += QString("@{%1}").arg(properties.bullet());
 			} else if(headerItem->dontSuppressSpace()) {
-				tableAlignment += QString("!{%1}").arg(bullet);
+				tableAlignment += QString("!{%1}").arg(properties.bullet());
 			}
 			if(headerItem->insertBefore()) {
-				tableAlignment += QString(">{%1}").arg(bullet);
+				tableAlignment += QString(">{%1}").arg(properties.bullet());
 			}
 
 			switch(headerItem->alignment()) {
@@ -1143,13 +1243,13 @@ void NewTabularDialog::slotButtonClicked(int button)
 					tableAlignment += 'r';
 					break;
 				case TabularHeaderItem::AlignP:
-					tableAlignment += QString("p{%1}").arg(bullet);
+					tableAlignment += QString("p{%1}").arg(properties.bullet());
 					break;
 				case TabularHeaderItem::AlignB:
-					tableAlignment += QString("b{%1}").arg(bullet);
+					tableAlignment += QString("b{%1}").arg(properties.bullet());
 					break;
 				case TabularHeaderItem::AlignM:
-					tableAlignment += QString("m{%1}").arg(bullet);
+					tableAlignment += QString("m{%1}").arg(properties.bullet());
 					break;
 				case TabularHeaderItem::AlignX:
 					tableAlignment += 'X';
@@ -1157,25 +1257,44 @@ void NewTabularDialog::slotButtonClicked(int button)
 			}
 
 			if(headerItem->insertAfter()) {
-				tableAlignment += QString("<{%1}").arg(bullet);
+				tableAlignment += QString("<{%1}").arg(properties.bullet());
 			}
 		}
 		tableAlignment += '}';
 
 		m_td.tagBegin += QString("\\begin{%1}%2%3\n").arg(environmentFormatted).arg(tableParameter).arg(tableAlignment);
 
+		/* required packages */
+		if(properties.requiredPackages().count()) {
+			m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + "\n";
+		}
+
+		QColor rowColor;
 		for(int row = 0; row < rows; ++row) {
+			rowColor = properties.rowColor(row);
+			if(rowColor.isValid()) {
+				m_td.tagBegin += "\\rowcolor{" + properties.colorName(rowColor) + "}\n";
+			}
 			for(int column = 0; column < columns; ++column) {
 				QString content = static_cast<TabularCell*>(m_Table->item(row, column))->toLaTeX( properties );
-				if(content.isEmpty()) {
-					content = bullet;
-				}
 				QString sep = column < columns - 1 ? " & " : " \\\\\n";
 				m_td.tagBegin += content + sep;
 			}
 		}
 
 		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
+
+		QHashIterator<QString, QString> itColorName(properties.colorNames());
+		QString colorNames = "";
+		while(itColorName.hasNext()) {
+			itColorName.next();
+			colorNames += "\\definecolor{" + itColorName.value() + "}{rgb}{";
+			QColor color(itColorName.key());
+			colorNames += QString::number(color.redF()) + ","
+					+ QString::number(color.greenF()) + ","
+					+ QString::number(color.blueF()) + "}\n";
+		}
+		m_td.tagBegin = colorNames + m_td.tagBegin;
 
 		if(properties.useMultiColumn()) {
 			m_td.tagBegin = "\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n"

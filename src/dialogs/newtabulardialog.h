@@ -166,11 +166,27 @@ class TabularProperties {
 	public:
 		TabularProperties();
 
-		void setUseMultiColumn( bool useMultiColumn = true );
+		void setUseMultiColumn(bool useMultiColumn = true);
 		bool useMultiColumn() const;
 
+		void addRowColor(int row, const QColor &color);
+		void addColor(const QColor &color);
+		QColor rowColor(int row) const;
+		QString colorName(const QColor &color) const;
+		const QHash<QString, QString>& colorNames() const;
+
+		const QStringList& requiredPackages() const;
+
+		void setBullet(const QString &bullet);
+		QString bullet() const;
+
 	private:
-		bool mUseMultiColumn;
+		bool m_UseMultiColumn;
+		QHash<int, QColor> m_RowColors;
+		QHash<QString, QString> m_ColorNames;
+		int m_ColorIndex;
+		QStringList m_RequiredPackages;
+		QString m_Bullet;
 };
 
 class NewTabularDialog : public Wizard {

@@ -1059,6 +1059,8 @@ bool NewTabularDialog::eventFilter(QObject *obj, QEvent *event)
 				m_Table->item(row + 1, 0)->setSelected(true);
 				m_Table->setCurrentItem(m_Table->item(row + 1, 0));
 			}
+
+			return true;
 		}
 	}
 

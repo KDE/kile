@@ -1092,9 +1092,17 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 		return;
 	}
 
-	//FIXME: this doesn't seem to work properly!
 	//disable gui updates to avoid flickering of toolbars
 	m_mainWindow->setUpdatesEnabled(false);
+
+	QList<KToolBar*> toolBarsList = m_mainWindow->toolBars();
+	QHash<KToolBar*, bool> toolBarVisibilityHash;
+	for(QList<KToolBar*>::iterator i = toolBarsList.begin();
+	                              i != toolBarsList.end(); ++i) {
+		KToolBar *toolBar = *i;
+		toolBarVisibilityHash[toolBar] = toolBar->isVisible();
+		toolBar->hide(); // hide all the tool bars to avoid flickering
+	}
 
 	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(w);
 	Q_ASSERT(view);
@@ -1114,6 +1122,12 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	// remove menu entry to config Kate
 	checkKateSettings();
+
+	for(QList<KToolBar*>::iterator i = toolBarsList.begin();
+	                              i != toolBarsList.end(); ++i) {
+		KToolBar *toolBar = *i;
+		toolBar->setVisible(toolBarVisibilityHash[*i]);
+	}
 
 	m_mainWindow->setUpdatesEnabled(true);
 

@@ -935,8 +935,17 @@ void EditorExtension::insertIntelligentNewline(Kate::View *view)
 	{
 		if ( m_latexCommands->isListEnv(name) )
 		{
+			
 			view->keyReturn();
-			view->insertText("\\item " );
+			
+			if ( name == "description" )
+			{
+				view->insertText("\\item[]");
+				view->cursorLeft();
+			}
+			else
+				view->insertText("\\item ");
+			
 			return;
 		}
 		else if ( m_latexCommands->isTabularEnv(name) || m_latexCommands->isMathEnv(name) )

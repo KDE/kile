@@ -1,3 +1,15 @@
+version 2.0.1 -> 2.0.2
+
+Fixes:
+ -
+
+Features:
+ -
+
+Syntax:
+ -
+
+
 version 2.0 -> 2.0.1
 
 Fixes:
@@ -16,6 +28,7 @@ Fixes:
  - Add missing package definitions to some symbols from the misc-text pane
  - Allow spaces in the name of images in the includegraphics dialog (#161101)
  - Don't recompile forever if some file timestamps are in the future (#121956)
+ - Fix the "autocompletion dies" bug (#155044) and also (#160555)
 
 Features:
  - Add \newlength as a variation of newcommand

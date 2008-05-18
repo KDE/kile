@@ -38,12 +38,11 @@ namespace KileTool
 QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_running(0), m_tempDir(NULL)
 {
 	m_taskList << i18n("LaTeX ---> DVI")
-	           << i18n("LaTeX ---> DVI (KDVI)")
+	           << i18n("LaTeX ---> DVI (Okular)")
 	           << i18n("LaTeX ---> PS")
-	           << i18n("LaTeX ---> PS (KGhostView)")
+	           << i18n("LaTeX ---> PS (Okular)")
 	           << i18n("PDFLaTeX ---> PDF")
-	           << i18n("PDFLaTeX ---> PDF (KGhostView)")
-	           << i18n("PDFLaTeX ---> PDF (KPDF)")
+	           << i18n("PDFLaTeX ---> PDF (Okular)")
 	           ;
 }
 
@@ -147,12 +146,11 @@ void QuickPreview::getTaskList(QStringList &tasklist)
 {
 	tasklist.clear();
 	tasklist << "Tool/ViewDVI/Embedded Viewer=" + m_taskList[0]
-	         << "Tool/ViewDVI/KDVI Unique="     + m_taskList[1]
+	         << "Tool/ViewDVI/Okular="     + m_taskList[1]
 	         << "Tool/ViewPS/Embedded Viewer="  + m_taskList[2]
-	         << "Tool/ViewPS/KGhostView="       + m_taskList[3]
+	         << "Tool/ViewPS/Okular="       + m_taskList[3]
 	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[4]
-	         << "Tool/ViewPDF/KGhostView="      + m_taskList[5]
-	         << "Tool/ViewPDF/KPDF="            + m_taskList[6]
+	         << "Tool/ViewPDF/Okular="      + m_taskList[5]
 	         ;
 }
 
@@ -166,12 +164,11 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	// define possible tools
 	QMap <QString,QString> map;
 	map[m_taskList[0]] = "PreviewLaTeX,,,ViewDVI,Embedded Viewer,dvi"; 
-	map[m_taskList[1]] = "PreviewLaTeX,,,ViewDVI,KDVI Unique,dvi";
+	map[m_taskList[1]] = "PreviewLaTeX,,,ViewDVI,Okular,dvi"; 
 	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,Embedded Viewer,ps";
-	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,KGhostView,ps";
-	map[m_taskList[4]] = "PreviewPDFLaTeX,,,ViewPDF,KPDF (embedded),pdf"; 
-	map[m_taskList[5]] = "PreviewPDFLaTeX,,,ViewPDF,KGhostView,pdf";
-	map[m_taskList[6]] = "PreviewPDFLaTeX,,,ViewPDF,KPDF,pdf";
+	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps";
+	map[m_taskList[4]] = "PreviewPDFLaTeX,,,ViewPDF,Embedded Viewer,pdf"; 
+	map[m_taskList[5]] = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
 
 	QString previewtask = KileConfig::previewTask();
 	if(!map.contains(previewtask)) {

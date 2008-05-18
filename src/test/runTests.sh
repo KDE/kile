@@ -128,8 +128,8 @@ if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPS"; fi
 echo "starting test: DVItoPDF"
 setTool DVItoPDF
 setKey mustpass ""
-setKey executable dvipdfm
-setKey where `which dvipdfm`
+setKey executable dvipdfmx
+setKey where `which dvipdfmx`
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPDF"; fi
 
 echo "starting test: PStoPDF"
@@ -145,6 +145,7 @@ setTool BibTeX
 setKey mustpass ""
 setKey executable bibtex
 setKey where `which bibtex`
+
 if [ -r "test.dvi" ] #LaTeX is working
 then
 	testFileBase=test_bib
@@ -161,6 +162,7 @@ setTool MakeIndex
 setKey mustpass ""
 setKey executable makeindex
 setKey where `which makeindex`
+
 if [ -r "test.dvi" ] #LaTeX is working
 then
 	testFileBase=test_index
@@ -172,23 +174,11 @@ then
 	$closeDoc
 fi
 
-echo "starting test: KDVI"
-setTool KDVI
+echo "starting test: Okular"
+setTool Okular
 setKey mustpass "where"
-setKey executable kdvi
-setKey where `which kdvi`
-
-echo "starting test: KGhostView"
-setTool KGhostView
-setKey mustpass ""
-setKey executable kghostview
-setKey where `which kghostview`
-
-echo "starting test: KPDF"
-setTool KPDF
-setKey mustpass ""
-setKey executable kpdf
-setKey where `which kpdf`
+setKey executable okular
+setKey where `which okular`
 
 echo "starting test: Acroread"
 setTool Acroread

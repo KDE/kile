@@ -16,12 +16,17 @@
 #include "widgets/logwidget.h"
 
 #include <QAbstractTextDocumentLayout>
+#include <QClipboard>
+#include <QHash>
+#include <QMenu>
 #include <QPainter>
 #include <QTextDocument>
 #include <QTextStream>
 
-#include <KUrl>
+#include <KAction>
 #include <KLocale>
+#include <KStandardAction>
+#include <KUrl>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -269,36 +274,67 @@ namespace KileWidget
 		printMessage(-1, QString(), QString());
 	}
 
-#ifdef __GNUC__
-#warning Method still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	Q3PopupMenu* LogWidget::createPopupMenu (const QPoint & pos)
+	void LogWidget::copy()
 	{
-		//get standard popup menu
-		Q3PopupMenu * popup = K3TextEdit::createPopupMenu(pos);
-
-		//add toggle operations for hiding warnings/badboxes
-		popup->insertSeparator();
-
-		m_idBadBox = popup->insertItem(i18n("Hide &Bad Boxes"));
-		popup->setItemChecked(m_idBadBox, KileConfig::hideProblemBadBox());
-
-		m_idWarning = popup->insertItem(i18n("Hide (La)TeX &Warnings"));
-		popup->setItemChecked(m_idWarning, KileConfig::hideProblemWarning());
-
-		disconnect ( popup , SIGNAL(activated(int)), this , SLOT(handlePopup(int )));
-		connect ( popup , SIGNAL(activated(int)), this , SLOT(handlePopup(int )));
-
-		return popup;
+		QList<QListWidgetItem*> selectedList = selectedItems();
+		QString toCopy;
+		int maxIndex = 0;
+		QHash<int, QListWidgetItem*> itemHash;
+		for(QList<QListWidgetItem*>::iterator i = selectedList.begin();
+		                                     i != selectedList.end(); ++i) {
+			QListWidgetItem* item = *i;
+			int row = indexFromItem(item).row();
+			itemHash[row] = item;
+			maxIndex = QMAX(maxIndex, row);
+		}
+		for(int i = 0; i <= maxIndex; ++i) {
+			QHash<int, QListWidgetItem*>::iterator it = itemHash.find(i);
+			if(it != itemHash.end()) {
+				toCopy += (*it)->data(Qt::UserRole).value<OutputInfo>().message() + '\n';
+			}
+		}
+		if(!toCopy.isEmpty()) {
+			QApplication::clipboard()->setText(toCopy);
+		}
 	}
-*/
-
-	void LogWidget::handlePopup(int id)
+ 
+	void LogWidget::contextMenuEvent(QContextMenuEvent *event)
 	{
-		if ( id == m_idBadBox ) KileConfig::setHideProblemBadBox(!KileConfig::hideProblemBadBox());
-		else if ( id == m_idWarning ) KileConfig::setHideProblemWarning(!KileConfig::hideProblemWarning());
+		QMenu popup;
+
+		QAction *action = KStandardAction::copy(this, SLOT(copy()), this);
+		action->setShortcuts(QList<QKeySequence>());
+		popup.addAction(action);
+
+		action = KStandardAction::selectAll(this, SLOT(selectAll()), this);
+		action->setShortcuts(QList<QKeySequence>());
+		popup.addAction(action);
+
+		popup.addSeparator();
+
+		action = new QAction(i18n("Hide &Bad Boxes"), &popup);
+		action->setCheckable(true);
+		action->setChecked(KileConfig::hideProblemBadBox());
+		connect(action, SIGNAL(triggered()), this, SLOT(toggleBadBoxHiding()));
+		popup.addAction(action);
+
+		action = new QAction(i18n("Hide (La)TeX &Warnings"), &popup);
+		action->setCheckable(true);
+		action->setChecked(KileConfig::hideProblemWarning());
+		connect(action, SIGNAL(triggered()), this, SLOT(toggleWarningsHiding()));
+		popup.addAction(action);
+
+		popup.exec(event->globalPos());
+	}
+
+	void LogWidget::toggleBadBoxHiding()
+	{
+		KileConfig::setHideProblemBadBox(!KileConfig::hideProblemBadBox());
+	}
+
+	void LogWidget::toggleWarningsHiding()
+	{
+		KileConfig::setHideProblemWarning(!KileConfig::hideProblemWarning());
 	}
 }
 

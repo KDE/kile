@@ -68,12 +68,13 @@ namespace KileWidget {
 
 		void addEmptyLine();
 
+		void copy();
+
 	Q_SIGNALS:
 		void showingErrorMessage(QWidget*);
 		void outputInfoSelected(const OutputInfo&);
 
 	protected:
-// 		Q3PopupMenu* createPopupMenu (const QPoint & pos);
 		virtual void enterEvent(QEvent *event);
 		virtual void leaveEvent(QEvent *event);
 		virtual void mouseMoveEvent(QMouseEvent* event);
@@ -81,10 +82,14 @@ namespace KileWidget {
 		void adaptMouseCursor(const QPoint& p);
 		void keyPressEvent(QKeyEvent *event);
 
+		virtual void contextMenuEvent(QContextMenuEvent *event);
+
 	protected Q_SLOTS:
-		void handlePopup(int);
 		void slotItemClicked(QListWidgetItem *item);
 		void deselectAllItems();
+
+		void toggleBadBoxHiding();
+		void toggleWarningsHiding();
 
 	private:
 		KileInfo		*m_info;

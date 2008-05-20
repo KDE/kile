@@ -95,6 +95,8 @@ namespace KileWidget {
 		KileInfo		*m_info;
 		int			m_idWarning, m_idBadBox;
 		LogWidgetItemDelegate	*m_itemDelegate;
+
+		bool containsSelectableItems() const;
 	};
 }
 

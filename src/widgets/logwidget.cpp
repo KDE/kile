@@ -304,10 +304,16 @@ namespace KileWidget
 
 		QAction *action = KStandardAction::copy(this, SLOT(copy()), this);
 		action->setShortcuts(QList<QKeySequence>());
+		if(selectedItems().size() == 0) {
+			action->setEnabled(false);
+		}
 		popup.addAction(action);
 
 		action = KStandardAction::selectAll(this, SLOT(selectAll()), this);
 		action->setShortcuts(QList<QKeySequence>());
+		if(!containsSelectableItems()) {
+			action->setEnabled(false);
+		}
 		popup.addAction(action);
 
 		popup.addSeparator();
@@ -336,6 +342,18 @@ namespace KileWidget
 	{
 		KileConfig::setHideProblemWarning(!KileConfig::hideProblemWarning());
 	}
+
+	bool LogWidget::containsSelectableItems() const
+	{
+		for(int i = 0; i < count(); ++i) {
+			if(item(i)->flags() & Qt::ItemIsSelectable) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }
 
 #include "logwidget.moc"

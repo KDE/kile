@@ -1,8 +1,8 @@
-/***************************************************************************
+/***********************************************************************************************
     begin                : Sun Jul 29 2001
-    copyright            : (C) 2001 - 2003 by Brachet Pascal, 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2001 - 2003 by Brachet Pascal
+                               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ ***********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -18,34 +18,39 @@
 
 #include <QStringList>
 
-#include <khtml_part.h>
+#include <KHTMLPart>
 
 class DocumentationViewer : public KHTMLPart
 {
 	Q_OBJECT
 
-public:
-	DocumentationViewer(QWidget *parent = 0);
-	~DocumentationViewer();
-	bool backEnable();
-	bool forwardEnable();
+	public:
+		DocumentationViewer(QWidget *parent = NULL);
+		~DocumentationViewer();
 
-public Q_SLOTS:
-	void home();
-	void forward();
-	void back();
-	void addToHistory( const QString & url );
+		bool backEnable();
+		bool forwardEnable();
 
-Q_SIGNALS:
-	void updateStatus( bool back, bool forward );
+	public Q_SLOTS:
+		void home();
+		void forward();
+		void back();
+		void addToHistory(const QString& url);
 
-protected:
-	virtual bool urlSelected (const QString &url, int button, int state, const QString &_target, const KParts::OpenUrlArguments &args=KParts::OpenUrlArguments(), const KParts::BrowserArguments &browserArgs=KParts::BrowserArguments());
+	Q_SIGNALS:
+		void updateStatus(bool back, bool forward);
 
-private:
-	QStringList	m_history;
-	unsigned int	m_hpos;
+	protected:
+		virtual bool urlSelected(const QString &url,
+					int button,
+					int state,
+					const QString &_target,
+					const KParts::OpenUrlArguments &args = KParts::OpenUrlArguments(),
+					const KParts::BrowserArguments &browserArgs = KParts::BrowserArguments());
 
+	private:
+		QStringList	m_history;
+		int		m_hpos;
 };
 
 #endif

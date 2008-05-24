@@ -39,7 +39,8 @@ KileLyxServer::KileLyxServer(bool startMe) :
 	KILE_DEBUG() << "===KileLyxServer::KileLyxServer(bool" << startMe << ")=== ";
 
 	m_tempDir = new KTempDir();
-	if(!m_tempDir) {
+	if(m_tempDir->status() != 0) {
+		KILE_DEBUG() << "an error ocurred while creating a tempfile" ;
 		return;
 	}
 
@@ -48,7 +49,7 @@ KileLyxServer::KileLyxServer(bool startMe) :
 
 	for(int i = 0; i < m_links.count() ; ++i) {
 		m_pipes.append( m_tempDir->name() + m_links[i] );
-		m_links[i].prepend(QDir::homePath() + '/' );
+		m_links[i].prepend(QDir::homePath() + QDir::separator() );
 		KILE_DEBUG() << "m_pipes[" << i << "]=" << m_pipes[i];
 		KILE_DEBUG() << "m_links[" << i << "]=" << m_links[i];
 	}
@@ -62,7 +63,9 @@ KileLyxServer::~KileLyxServer()
 {
 	stop();
 	removePipes();
+
 	delete m_tempDir;
+
 	for(QList<QFile*>::iterator i = m_pipeIn.begin(); i != m_pipeIn.end(); ++i) {
 		delete *i;
 	}
@@ -101,9 +104,6 @@ bool KileLyxServer::start()
 
 bool KileLyxServer::openPipes()
 {
-	#ifdef __GNUC__
-	#warning Something is broken here, only one pipe is created
-	#endif
 	KILE_DEBUG() << "===bool KileLyxServer::openPipes()===";
 	
 	bool opened = false;
@@ -132,6 +132,7 @@ bool KileLyxServer::openPipes()
 				else {
 					KILE_DEBUG() << "Created directory " << pipeInfo.path();
 				}
+			}
 				if (mkfifo(QFile::encodeName( pipeInfo.absoluteFilePath() ), m_perms) != 0) {
 					kError() << "Could not create pipe: " << pipeInfo.absoluteFilePath();
 					continue;
@@ -139,7 +140,6 @@ bool KileLyxServer::openPipes()
 				else {
 					KILE_DEBUG() << "Created pipe: " << pipeInfo.absoluteFilePath();
 				}
-			}
 		}
 		
 		if(symlink(QFile::encodeName(pipeInfo.absoluteFilePath()),QFile::encodeName(linkInfo.absoluteFilePath())) != 0) {

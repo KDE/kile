@@ -285,7 +285,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	// publish the D-Bus interfaces
 	new MainAdaptor(this);
 	QDBusConnection dbus = QDBusConnection::sessionBus();
-	dbus.registerObject("/Main", this);
+	dbus.registerObject("/main", this);
+	dbus.registerService("net.sourceforge.kile"); // register under a constant names
 }
 
 Kile::~Kile()
@@ -1023,9 +1024,12 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
 void Kile::setActive()
 {
-	KILE_DEBUG() << "ACTIVATING" << endl;
-	kapp->mainWidget()->raise();
-	kapp->mainWidget()->setActiveWindow();
+	#ifdef __GNUC__
+	#warning crashes here if called via D-BUS, therefore commenting out
+	#endif
+// 	KILE_DEBUG() << "ACTIVATING" << endl;
+// 	kapp->mainWidget()->raise();
+// 	kapp->mainWidget()->setActiveWindow();
 }
 
 void Kile::showTip()

@@ -15,6 +15,7 @@
 
 #include <QDir>
 #include <QFile>
+#include <QtDBus>
 
 #include <KAboutData>
 #include <KCmdLineArgs>
@@ -22,8 +23,6 @@
 #include <KLocale>
 #include <KStartupInfo>
 #include <KUrl>
-
-#include "kiledebug.h"
 
 #include "kile.h"
 #include "kileversion.h"
@@ -34,10 +33,10 @@ bool isProject(const QString &path)
 	return path.endsWith(".kilepr");
 }
 
-/**
+/*
  * Complete a relative paths to absolute ones.
  * Also accepts URLs of the form file:relativepath.
- **/
+*/
 QString completePath(const QString &path)
 {
 	QString fullpath(path);
@@ -87,30 +86,11 @@ int main( int argc, char ** argv )
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
-#ifdef __GNUC__
-#warning Comment the DCOP stuff out for now!
-#endif
-//FIXME: port for KDE4
-/*
-	DCOPClient *client=0L;
-	Q3CString appID = "";
-	client  = new DCOPClient ();
-	client->attach();
-	QCStringList apps = client->registeredApplications();
+     	QDBusConnection dbus = QDBusConnection::sessionBus();
+	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
-	for ( QCStringList::Iterator it = apps.begin(); it != apps.end(); ++it )
-	{
-		if  ((*it).contains ("kile") > 0)
-		{
-			appID = (*it);
-			running = true;
-			break;
-		}
-	}
-*/
-	if(!running || args->isSet("new")) {
-//FIXME: port for KDE4
-// 		a.dcopClient()->registerAs("kile", false);
+	if( !running  || args->isSet("new") ){
+
 		bool restore = (args->count() == 0);
 		Kile app(restore);
 
@@ -132,26 +112,30 @@ int main( int argc, char ** argv )
 		args->clear();
 		return app.exec();
 	}
-//FIXME: port for KDE4
-/*
-	else
-	{
-		for ( int i = 0; i < args->count(); ++i )
-		{
-			if ( isProject(args->arg(i)) )
-				client->send (appID, "Kile", "openProject(QString)", completePath(QFile::decodeName(args->arg(i))));
-			else
-				client->send (appID, "Kile", "openDocument(QString)", completePath(QFile::decodeName(args->arg(i))));
+	else {
+		QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
+
+		for ( int i = 0; i < args->count(); ++i ) {
+			QString path = QFile::decodeName(args->arg(i));
+			path = completePath(path);
+
+			if ( isProject(args->arg(i)) ){
+                         	interface->call("openProject",path);
+			}
+			else {
+				interface->call("openDocument",path);
+			}
 		}
 
 		QString line = args->getOption("line");
-		if (line != "0") client->send (appID, "Kile", "setLine(QString)", line);
+		if (line != "0") {
+			interface->call("setLine", line);
+		}
 
 		KStartupInfo::appStarted();
-		QByteArray empty;
-		client->send (appID, "Kile", "setActive()", empty);
+		interface->call("setActive"); 
+		delete interface;
 	}
-*/
 	return 0;
 }
 

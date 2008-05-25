@@ -137,6 +137,12 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KileInfo(this),
 	m_paPrint(NULL)
 {
+	// publish the D-Bus interfaces
+	new MainAdaptor(this);
+	QDBusConnection dbus = QDBusConnection::sessionBus();
+	dbus.registerObject("/main", this);
+	dbus.registerService("net.sourceforge.kile"); // register under a constant names
+
 	m_mainWindow = new KileMainWindow(this);
 	m_focusWidget = NULL;
 
@@ -282,11 +288,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
 	actionCollection()->readSettings(&shortcutsGroup);
 
-	// publish the D-Bus interfaces
-	new MainAdaptor(this);
-	QDBusConnection dbus = QDBusConnection::sessionBus();
-	dbus.registerObject("/main", this);
-	dbus.registerService("net.sourceforge.kile"); // register under a constant names
 }
 
 Kile::~Kile()
@@ -2517,7 +2518,7 @@ void Kile::slotQuickPreview(int type)
 }
 
 #ifdef __GNUC__
-#warning Port the citeViewBib function!
+#warning Port the citeViewBib function as soon as we got a kbib version for KDE4.
 #endif
 void Kile::citeViewBib()
 {

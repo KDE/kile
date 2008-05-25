@@ -59,10 +59,12 @@ QString completePath(const QString &path)
 
 int main( int argc, char ** argv )
 {
-	KAboutData aboutData( "kile", "Kile", ki18n("Kile"), kileFullVersion.ascii(), ki18n("KDE Integrated LaTeX Environment"), KAboutData::License_GPL,
-						ki18n("by the Kile Team (2003 - 2008)"),
-						KLocalizedString(),
-						"http://kile.sourceforge.net");
+	KAboutData aboutData( "kile", "Kile", ki18n("Kile"), kileFullVersion.ascii(),
+				ki18n("KDE Integrated LaTeX Environment"),
+				KAboutData::License_GPL,
+				ki18n("by the Kile Team (2003 - 2008)"),
+				KLocalizedString(),
+				"http://kile.sourceforge.net");
 	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
 	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("former developer"), "holger.danielsson@versanet.de");
 	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("former maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");

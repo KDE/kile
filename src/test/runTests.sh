@@ -8,9 +8,10 @@ echo "outfile = $1, basedir = $2"
 
 goAhead=ok
 
-kileDCOP="dcop kile Kile"
-openDoc="$kileDCOP openDocument"
-closeDoc="$kileDCOP closeDocument"
+# see man dbus-send for an explanation, also the qdbusviewer from the QT package serves very well
+kileDBUS="dbus-send --type=method_call --print-reply --dest=net.sourceforge.kile /main net.sourceforge.kile.main"
+openDoc="$kileDBUS.openDocument string:"
+closeDoc="$kileDBUS.closeDocument string:"
 
 declare -i totalnotests=17
 declare -i current=0
@@ -53,7 +54,7 @@ function performKileTest
 
 	key=$1
 	shift
-	declare -i result=`$kileDCOP $*`
+	declare -i result=`$kileDBUS $*`
 	setKey $key $result
 	current=$current+1
 	echo $(( (100*$current)/$totalnotests));
@@ -74,7 +75,7 @@ echo "current dir $PWD"
 
 testFile=test_plain.tex
 echo "opening $basedir/$testFile"
-$openDoc $basedir/$testFile
+$openDoc"$basedir/$testFile"
 
 echo "starting test: TeX"
 setTool TeX
@@ -99,7 +100,7 @@ $closeDoc
 testFileBase="test"
 testFile=$testFileBase.tex
 echo "opening $basedir/$testFile"
-$openDoc $basedir/$testFile
+$openDoc"$basedir/$testFile"
 echo "starting test: LaTeX"
 setTool LaTeX
 tool="latex --interaction=nonstopmode"
@@ -150,7 +151,7 @@ if [ -r "test.dvi" ] #LaTeX is working
 then
 	testFileBase=test_bib
 	testFile=$testFileBase.tex
-	$openDoc $basedir/$testFile
+	$openDoc"$basedir/$testFile"
 	latex --interaction=nonstopmode $testFile
 	performTest basic "bibtex $testFileBase"
 	performKileTest kile "run BibTeX"
@@ -167,7 +168,7 @@ if [ -r "test.dvi" ] #LaTeX is working
 then
 	testFileBase=test_index
 	testFile=$testFileBase.tex
-	$openDoc $basedir/$testFile
+	$openDoc"$basedir/$testFile"
 	latex --interaction=nonstopmode $testFile
 	performTest basic "makeindex $testFileBase"
 	performKileTest kile "run MakeIndex"

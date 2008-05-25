@@ -50,8 +50,6 @@
 namespace KileDialog
 {
 
-//BEGIN TexDocDialog
-
 TexDocDialog::TexDocDialog(QWidget *parent)
 		: KDialog(parent), m_tempfile(0), m_proc(0)
 {
@@ -302,7 +300,7 @@ QString TexDocDialog::searchFile(const QString &docfilename, const QString &list
 		for (QStringList::Iterator ite = extlist.begin(); ite != extlist.end(); ++ite) {
 			filename = (subdir.isEmpty()) ? (*itp) + '/' + docfilename + (*ite)
 			           : (*itp) + '/' + subdir + '/' + docfilename + (*ite);
-			// KILE_DEBUG() << "search file: "  << filename << endl;
+			KILE_DEBUG() << "search file: "  << filename << endl;
 			if(QFile::exists(filename)) {
 				return filename;
 			}
@@ -325,11 +323,13 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 	m_tempfile = new KTemporaryFile();
 	m_tempfile->setSuffix('.' + ext);
 	m_tempfile->setAutoRemove(true);
+
 #ifdef __GNUC__
 #warning check whether the function decompressFile actually works!
 #endif
 	if(!m_tempfile->open()) {
 		KMessageBox::error(this, i18n("Could not create a temporary file."));
+		m_filename = QString();
 		return;
 	}
 	m_filename = m_tempfile->fileName();
@@ -658,34 +658,42 @@ QString TexDocDialog::getIconName(const QString &filename)
 	QString basename = fi.baseName().toLower();
 	QString ext = fi.suffix().toLower();
 
+#ifdef __GNUC__
+#warning fix missing icons (readme, dvi)as soon as they are available
+#endif
 	QString icon;
-	if(ext == "dvi" || ext == "pdf" || ext == "html" || ext == "htm"  || ext == "txt") {
+	if(ext == "dvi" ) {
 		icon = ext;
+	}
+	else if( ext == "htm" || ext == "html" ){
+		icon = "text-html";
+	}
+	else if(ext == "pdf" ){
+		icon = "application-pdf";
+	}
+	else if( ext == "txt"){
+		ext = "text-plain";
 	}
 	else {
 		if(ext == "ps") {
-			icon = "postscript";
+			icon = "application-postscript";
 		}
 		else {
 			if(ext == "sty") {
-				icon = "tex";
+				icon = "text-x-tex";
 			}
 			else {
 				if(ext == "faq" || basename == "readme" || basename == "00readme") {
 					icon = "readme";
 				}
 				else {
-					icon = "ascii";
+					icon = "text-plain";
 				}
 			}
 		}
 	}
 	return icon;
 }
-
-
-//END TexDocDialog
-
 
 }
 #include "texdocumentationdialog.moc"

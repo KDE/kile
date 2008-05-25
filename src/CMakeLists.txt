@@ -140,16 +140,10 @@ SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 
 KDE4_ADD_UI_FILES(kile_SRCS ${kile_UI})
 
-# this doesn't seem to work right now:
-# QT4_GENERATE_DBUS_INTERFACE(kile.h org.kde.kile.xml)
-# use qdbuscpp2xml -a kileappIface.h -o net.sourceforge.kile.main.xml instead
 SET(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
-
 QT4_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
 
-SET( kile_KCFG_SRCS
-	kileconfig.kcfgc
-)
+SET( kile_KCFG_SRCS kileconfig.kcfgc)
 
 KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 

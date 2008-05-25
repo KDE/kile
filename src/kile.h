@@ -36,7 +36,6 @@
 #include <ktogglefullscreenaction.h>
 #include <KXmlGuiWindow>
 
-#include "kileappIface.h"
 #include "docpart.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"

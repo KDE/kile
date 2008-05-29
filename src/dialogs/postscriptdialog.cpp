@@ -168,7 +168,12 @@ void PostscriptDialog::slotButtonClicked(int button)
 void PostscriptDialog::execute()
 {
 	m_tempfile = buildTempfile();
+	
 	if(m_tempfile.isEmpty()) {
+		m_log->printMessage(KileTool::Error, i18n("Could not create a tempfile!"));
+		return;
+	}
+	else {
 		m_log->clear();
 		QFileInfo from(m_PostscriptDialog.m_edInfile->lineEdit()->text());
 		QFileInfo to(m_PostscriptDialog.m_edOutfile->lineEdit()->text());
@@ -209,7 +214,6 @@ void PostscriptDialog::execute()
 		KILE_DEBUG() << "   execute '" << m_tempfile << "'";
 		m_proc->start();
 	}
-	
 }
 
 void PostscriptDialog::slotProcessOutput()
@@ -228,9 +232,6 @@ void PostscriptDialog::slotProcessExited(int /* exitCode */, QProcess::ExitStatu
 	QFile::remove(m_tempfile);
 }
 
-#ifdef __GNUC__
-#warning FIXME: redesign the method buildTempfile(). It won't work correctly like it is now!
-#endif
 QString PostscriptDialog::buildTempfile()
 {
 	// build command
@@ -290,9 +291,8 @@ QString PostscriptDialog::buildTempfile()
 	temp.setSuffix(".sh");
 	temp.setAutoRemove(false);
 	if(!temp.open()) {
-#ifdef __GNUC__
-#warning FIXME: add error handling
-#endif
+		KILE_DEBUG() << "Could not create tempfile in QString PostscriptDialog::buildTempfile()" ;
+		return QString();
 	}
 	QString tempname = temp.name();
 	

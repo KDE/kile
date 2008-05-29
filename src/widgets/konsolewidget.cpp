@@ -56,6 +56,7 @@ namespace KileWidget
 		KPluginFactory *factory = KLibLoader::self()->factory("libkonsolepart");
 
 		if(!factory) {
+			KILE_DEBUG() << "no factory for konsolepart";
 			return;
 		}
 

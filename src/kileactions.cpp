@@ -347,7 +347,7 @@ void InputDialog::slotBrowse()
 
 	fn = KFileDialog::getOpenFileName(fi.absoluteFilePath(), filter, this,i18n("Select File") );
 	if(!fn.isEmpty()) {
-		QString path = m_ki->relativePath(fi.path(), fn);
+		QString path = KUrl::relativePath(fi.path(), fn);
 
 		// if the file has no extension, we add the default TeX extension
 		if(QFileInfo(path).completeSuffix().isEmpty()) {

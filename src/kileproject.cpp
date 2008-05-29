@@ -26,6 +26,8 @@
 #include <qfileinfo.h>
 #include <qdir.h>
 
+#include <krun.h>
+#include <KUrl>
 #include <klocale.h>
 #include <kglobal.h>
 #include "kiledebug.h"
@@ -37,7 +39,7 @@
 #include "kiletoolmanager.h"
 #include "kileinfo.h"
 #include "kileextensions.h"
-#include <krun.h>
+
 /*
  01/24/06 tbraun
 	Added the logic to get versioned kilepr files
@@ -610,71 +612,22 @@ void KileProject::itemRenamed(KileProjectItem *item)
 	item->changePath(findRelativePath(item->url()));
 }
 
+QString KileProject::findRelativePath(const QString &path)
+{
+	return this->findRelativePath(KUrl::fromPathOrUrl(path));
+}
+
 QString KileProject::findRelativePath(const KUrl &url)
 {
-	QString basepath = m_baseurl.path();
-	QString path = url.directory();
-	QString filename = url.fileName();
+	KILE_DEBUG() << "QString KileProject::findRelativePath(const KUrl " << url.path() << ")";
 
- 	KILE_DEBUG() <<"===findRelativeURL==================";
- 	KILE_DEBUG() << "\tbasepath : " <<  basepath << " path: " << path;
-
-//   if ( basepath == path )
-//   {
-//     return "./";
-//   }
-
-	QStringList basedirs = basepath.split("/", QString::SkipEmptyParts);
-	QStringList dirs = path.split("/", QString::SkipEmptyParts);
-
-	int nDirs = dirs.count();
-	//uint nBaseDirs = basedirs.count();
-
-// 	for (uint i=0; i < basedirs.count(); ++i)
-// 	{
-// 		KILE_DEBUG() << "\t\tbasedirs " << i << ": " << basedirs[i];
-// 	}
-
-// 	for (uint i=0; i < dirs.count(); ++i)
-// 	{
-//  		KILE_DEBUG() << "\t\tdirs " << i << ": " << dirs[i];
-// 	}
-
-	while ( dirs.count() > 0 && basedirs.count() > 0 &&  dirs[0] == basedirs[0] ) {
-		dirs.pop_front();
-		basedirs.pop_front();
+	if ( m_baseurl.path() == url.path() ) {
+    		return "./";
 	}
 
-// 	KILE_DEBUG() << "\tafter";
-// 	for (uint i=0; i < basedirs.count(); ++i)
-// 	{
-// 		KILE_DEBUG() << "\t\tbasedirs " << i << ": " << basedirs[i];
-// 	}
-// 
-// 	for (uint i=0; i < dirs.count(); ++i)
-// 	{
-// 		KILE_DEBUG() << "\t\tdirs " << i << ": " << dirs[i];
-// 	}
-
-	if(nDirs != dirs.count()) {
-		path = dirs.join("/");
-
-		if (basedirs.count() > 0) {
-			for (int j = 0; j < basedirs.count(); ++j) {
-				path = "../" + path;
-			}
-		}
-
-		if ( path.length() > 0 && path.right(1) != "/" ) path = path + '/';
-
-		path = path+filename;
-	}
-	else { //assume an absolute path was requested
-		path = url.path();
-	}
-
-//  	KILE_DEBUG() << "\tpath : " << path;
-
+	m_baseurl.adjustPath(KUrl::AddTrailingSlash);
+	QString path = KUrl::relativeUrl(m_baseurl,url);
+	KILE_DEBUG() << "relPath is " << path;
 	return path;
 }
 

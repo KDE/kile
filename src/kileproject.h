@@ -202,6 +202,8 @@ Q_SIGNALS:
 private:
 	void init(const QString& name, const KUrl& url, KileDocument::Extensions *extensions);
 	QString	findRelativePath(const KUrl&);
+	QString	findRelativePath(const QString&);
+
 	void setType(KileProjectItem *item);
   	QString addBaseURL(const QString &path);
   	QString removeBaseURL(const QString &path);

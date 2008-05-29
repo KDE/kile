@@ -314,7 +314,7 @@ namespace KileTool
 			return false;
 		}
 
-		QString texfile = manager()->info()->relativePath(baseDir(),filepath);
+		QString texfile = KUrl::relativePath(baseDir(),filepath);
 		m_urlstr = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
 		addDict("%dir_target", QString());
 		addDict("%target", m_urlstr);

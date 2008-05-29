@@ -107,8 +107,6 @@ public:
 	
 	virtual int lineNumber() = 0;
 	
-	QString relativePath(const QString basepath, const QString & file);
-
 	KileWidget::StructureWidget *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::OutputView *outputWidget() { return m_outputWidget; }

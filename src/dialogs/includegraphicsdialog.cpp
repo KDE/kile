@@ -129,8 +129,8 @@ QString IncludeGraphics::getTemplate()
 	// add name of picture
 	// either take the filename or try to take the relative part of the name
 	QString filename = (m_widget.cb_graphicspath->isChecked())
-										 ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
-										 : m_ki->relativePath(QFileInfo(m_ki->getCompileName()).path(), m_widget.edit_file->lineEdit()->text());
+			 ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
+			 : KUrl::relativePath(QFileInfo(m_ki->getCompileName()).path(), m_widget.edit_file->lineEdit()->text());
 	s += '{' + filename + "}\n";
 
 	// add some comments (depending of given resolution, this may be wrong!)

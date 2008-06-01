@@ -33,9 +33,8 @@ from Kate (C) 2001 by Matt Newell
 #include <KLocale>
 #include <KToolBar>
 
-#include "kiledebug.h"
-
 #include "kileconfig.h"
+#include "kiledebug.h"
 
 namespace KileWidget {
 
@@ -57,9 +56,6 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	m_pathComboBox->setCompletionObject(m_urlCompletion);
 	layout->addWidget(m_pathComboBox);
 	connect(m_pathComboBox, SIGNAL(urlActivated(const KUrl&)), this, SLOT(setDir(const KUrl&)));
-#ifdef __GNUC__
-#warning The return pressed signal currently doesn't seem to work!
-#endif
 	connect(m_pathComboBox, SIGNAL(returnPressed(const QString&)), this, SLOT(comboBoxReturnPressed(const QString&)));
 
 	m_dirOperator = new KDirOperator(KUrl(), this);

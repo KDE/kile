@@ -84,9 +84,13 @@ NewFileWizard::~NewFileWizard()
 {
 }
 
-TemplateItem* NewFileWizard::getSelection()const
+TemplateItem* NewFileWizard::getSelection() const
 {
-	return static_cast<TemplateItem*>(m_newDocumentWidget->templateIconView->currentItem());
+	QList<QListWidgetItem*> selectedItems = m_newDocumentWidget->templateIconView->selectedItems();
+	if(selectedItems.isEmpty()) {
+		return NULL;
+	}
+	return static_cast<TemplateItem*>(selectedItems.first());
 }
 
 bool NewFileWizard::useWizard()

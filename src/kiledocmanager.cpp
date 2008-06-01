@@ -889,24 +889,24 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 	Q_ASSERT(doc);
 	KileDocument::TextInfo* info = textInfoFor(doc);
 	Q_ASSERT(info);
-	KUrl startURL = info->url();
-	KUrl oldURL = startURL;
-	if(startURL.isEmpty()) {
+	QString startDir = info->url().url();
+	KUrl oldURL = info->url();
+	if(startDir.isEmpty()) {
 		if((info->getBaseDirectory()).isEmpty()) {
-			startURL = ":KILE_LATEX_SAVE_DIR";
+			startDir = ":KILE_LATEX_SAVE_DIR";
 		}
 		else {
-			startURL = doc->url();
+			startDir = doc->url().url();
 		}
 	}
 	
-	KILE_DEBUG() << "startURL is " << startURL.path();
+	KILE_DEBUG() << "startDir is " << startDir;
 	
 	KEncodingFileDialog::Result result;
 	KUrl saveURL;
 	while(true) {
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
-		result = KEncodingFileDialog::getSaveUrlAndEncoding(KileConfig::defaultEncoding(), startURL.url(), filter, m_ki->mainWindow(), i18n("Save File"));
+		result = KEncodingFileDialog::getSaveUrlAndEncoding(KileConfig::defaultEncoding(), startDir, filter, m_ki->mainWindow(), i18n("Save File"));
 		if(result.URLs.isEmpty() || result.URLs.first().isEmpty()) {
 			return;
 		}

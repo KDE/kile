@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006 - 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -17,6 +17,7 @@
 
 #include <QHeaderView>
 #include <QList>
+#include <QSignalMapper>
 
 #include <KIcon>
 #include <KLocale>
@@ -127,7 +128,7 @@ void ProjectViewItem::urlChanged(const KUrl &url)
 
 void ProjectViewItem::nameChanged(const QString & name)
 {
-	setText(0,name);
+	setText(0, name);
 }
 
 void ProjectViewItem::isrootChanged(bool isroot)
@@ -182,7 +183,7 @@ bool ProjectViewItem::operator<(const QTreeWidgetItem& other) const
 	}
 }
 
-void ProjectViewItem::setURL(const KUrl & url)
+void ProjectViewItem::setURL(const KUrl& url)
 {
 	m_url = url;
 }
@@ -210,7 +211,7 @@ int ProjectViewItem::folder() const
 /*
  * ProjectView
  */
-ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m_ki(ki), m_nProjects(0), m_toggle(0)
+ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m_ki(ki), m_nProjects(0)
 {
 	setColumnCount(2);
 	QStringList labelList;
@@ -223,11 +224,7 @@ ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m
 	header()->setResizeMode(QHeaderView::ResizeToContents);
 	setRootIsDecorated(true);
 	setAllColumnsShowFocus(true);
-	setSelectionMode(QTreeWidget::NoSelection);
-
-	m_popup = new KMenu(this);
-
-	connect(this, SIGNAL(contextMenu(QTreeWidget*, QTreeWidgetItem*, const QPoint&)), this,SLOT(popup(QTreeWidget *, QTreeWidgetItem * , const QPoint & )));
+	setSelectionMode(QTreeWidget::SingleSelection);
 
 	connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotClicked(QTreeWidgetItem*)));
 	setAcceptDrops(true);
@@ -267,7 +264,7 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
 
 void ProjectView::slotFile(int id)
 {
-	ProjectViewItem *item = static_cast<ProjectViewItem*>(currentItem());
+	ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(currentItem());
 	if(item) {
 		if(item->type() == KileType::File) {
 			switch(id) {
@@ -292,7 +289,7 @@ void ProjectView::slotFile(int id)
 
 void ProjectView::slotProjectItem(int id)
 {
-	ProjectViewItem *item = static_cast<ProjectViewItem*>(currentItem());
+	ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(currentItem());
 	if(item) {
 		if(item->type() == KileType::ProjectItem || item->type() == KileType::ProjectExtra) {
 			switch(id) {
@@ -329,7 +326,7 @@ void ProjectView::slotProjectItem(int id)
 
 void ProjectView::slotProject(int id)
 {
-	ProjectViewItem *item = static_cast<ProjectViewItem*>(currentItem());
+	ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(currentItem());
 	if(item) {
 		if(item->type() == KileType::Project) {
 			switch(id) {
@@ -360,7 +357,11 @@ void ProjectView::slotProject(int id)
 
 void ProjectView::slotRun(int id)
 {
-	ProjectViewItem *itm = static_cast<ProjectViewItem*>(currentItem());
+	ProjectViewItem *itm = dynamic_cast<ProjectViewItem*>(currentItem());
+
+	if(!itm) {
+		return;
+	}
 
 	if(id == 0) {
 		KRun::displayOpenWithDialog(itm->url(), this);
@@ -371,112 +372,6 @@ void ProjectView::slotRun(int id)
 
 	itm->setSelected(false);
 }
-
-//FIXME clean this mess up
-// void ProjectView::popup(QTreeWidget *, QTreeWidgetItem *  item, const QPoint &  point)
-// {
-#ifdef __GNUC__
-#warning The popup menu still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	if (item != 0)
-	{
-		ProjectViewItem *itm = static_cast<ProjectViewItem*>(item);
-		if ( itm->type() == KileType::Folder )
-			return;
-		 
-		m_popup->clear();
-		m_popup->disconnect();
-
-		bool isKilePrFile = false;
-		if (itm->type() != KileType::Project && itm->projectItem() && itm->projectItem()->project())
-			isKilePrFile = itm->projectItem()->project()->url() == itm->url();
-
-		bool insertsep = false; 
-		if (itm->type() == KileType::ProjectExtra)
-		{
-			if ( ! isKilePrFile )
-			{
-				KMenu *apps = new KMenu( m_popup);
-				m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(itm->url())->name(), "Type == 'Application'");
-				for (uint i=0; i < m_offerList.count(); ++i)
-					apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
-
-				apps->insertSeparator();
-				apps->insertItem(i18n("Other..."), 0);
-				connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));
-				m_popup->insertItem(SmallIcon("fork"), i18n("&Open With"),apps);
-				insertsep = true;
-			}
-		}
-
-		if (itm->type() == KileType::File || itm->type() == KileType::ProjectItem)
-		{
-			if ( ! m_ki->isOpen(itm->url()) )
-				m_popup->insertItem(SmallIcon("fileopen"), i18n("&Open"), KPV_ID_OPEN);
-			else
-				m_popup->insertItem(SmallIcon("filesave"), i18n("&Save"), KPV_ID_SAVE);
-			insertsep = true;
-		}
-
-		if (itm->type() == KileType::File)
-		{
-			if ( m_nProjects > 0)
-			{
-				if ( insertsep )
-					m_popup->insertSeparator();
-			   m_popup->insertItem(SmallIcon("project_add"),i18n("&Add to Project"), KPV_ID_ADD);
-			   insertsep = true;
-			}
-			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotFile(int)));
-		}
-		else if (itm->type() == KileType::ProjectItem || itm->type() == KileType::ProjectExtra)
-		{
-			KileProjectItem *pi  = itm->projectItem();
-			if (pi)
-			{
-				if ( insertsep )
-					m_popup->insertSeparator();
-				m_popup->insertItem(i18n("&Include in Archive"), KPV_ID_INCLUDE);
-				m_popup->setItemChecked(KPV_ID_INCLUDE, pi->archive());
-				insertsep = true;
-			}
-			if ( !isKilePrFile ) 
-			{
-				if ( insertsep )
-					m_popup->insertSeparator();
-				m_popup->insertItem(SmallIcon("project_remove"),i18n("&Remove From Project"), KPV_ID_REMOVE);
-				insertsep = true;
-			}
-   			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProjectItem(int)));
-		}
-		else if (itm->type() == KileType::Project)
-		{
-			if ( insertsep )
-				m_popup->insertSeparator();
-			m_popup->insertItem(i18n("A&dd Files..."), KPV_ID_ADDFILES);
-			m_popup->insertSeparator();
-			m_popup->insertItem(i18n("Open All &Project Files"), KPV_ID_OPENALLFILES);
-			m_popup->insertSeparator();
-			m_popup->insertItem(SmallIcon("relation"),i18n("Refresh Project &Tree"), KPV_ID_BUILDTREE);
-			m_popup->insertItem(SmallIcon("configure"),i18n("Project &Options"), KPV_ID_OPTIONS);
-			m_popup->insertItem(SmallIcon("package"),i18n("&Archive"), KPV_ID_ARCHIVE);
-			connect(m_popup,  SIGNAL(activated(int)), this, SLOT(slotProject(int)));
-			insertsep = true;
-		}
-
-		if ( (itm->type() == KileType::File) || (itm->type() == KileType::ProjectItem) || (itm->type()== KileType::Project))
-		{
-			if ( insertsep )
-				m_popup->insertSeparator();
-			m_popup->insertItem(SmallIcon("fileclose"), i18n("&Close"), KPV_ID_CLOSE);
-		}
-
-		m_popup->exec(point);
-	}
-*/
-// }
 
 void ProjectView::makeTheConnection(ProjectViewItem *item)
 {
@@ -534,7 +429,7 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 		case (KileProjectItem::Image):
 			foldername = i18n("images");
 		break;
-		case (KileProjectItem::Other): 
+		case (KileProjectItem::Other):
 		default :
 			foldername = i18n("other");
 		break;
@@ -583,7 +478,7 @@ void ProjectView::add(const KileProject *project)
 	++m_nProjects;
 }
 
-ProjectViewItem * ProjectView::projectViewItemFor(const KUrl& url)
+ProjectViewItem* ProjectView::projectViewItemFor(const KUrl& url)
 {
 	ProjectViewItem *item = NULL;
 
@@ -602,9 +497,9 @@ ProjectViewItem * ProjectView::projectViewItemFor(const KUrl& url)
 	return item;
 }
 
-ProjectViewItem * ProjectView::itemFor(const KUrl & url)
+ProjectViewItem* ProjectView::itemFor(const KUrl & url)
 {
-	ProjectViewItem *item=0;
+	ProjectViewItem *item = NULL;
 
 	QTreeWidgetItemIterator it(this);
 	while(*it) {
@@ -659,7 +554,7 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
 	return (!parpvi) ? projvi : parpvi;
 }
 
-ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * projvi /* = 0*/)
+ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * projvi /* = NULL */)
 {
 	KILE_DEBUG() << "\tProjectView::adding projectitem " << projitem->path();
 
@@ -703,7 +598,7 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * p
 	return item;
 }
 
-void ProjectView::addTree(KileProjectItem *projitem, ProjectViewItem * projvi)
+void ProjectView::addTree(KileProjectItem *projitem, ProjectViewItem *projvi)
 {
 	ProjectViewItem * item = add(projitem, projvi);
 
@@ -788,9 +683,9 @@ void ProjectView::remove(const KileProject *project)
 void ProjectView::remove(const KUrl &url)
 {
 	for(int i = 0; i < topLevelItemCount(); ++i) {
-		ProjectViewItem *item = static_cast<ProjectViewItem*>(topLevelItem(i));
+		ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(topLevelItem(i));
 
-		if((item->type() == KileType::File) && (item->url() == url)) {
+		if(item && (item->type() == KileType::File) && (item->url() == url)) {
 			removeChild(item);
 			delete item;
 			break;
@@ -803,8 +698,8 @@ void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 	QTreeWidgetItemIterator it(this);
 	ProjectViewItem *item;
 	while(*it) {
-		item = static_cast<ProjectViewItem*>(*it);
-		if((item->type() == KileType::ProjectItem) && (item->projectItem() == projitem)) {
+		item = dynamic_cast<ProjectViewItem*>(*it);
+		if(item && (item->type() == KileType::ProjectItem) && (item->projectItem() == projitem)) {
 			KILE_DEBUG() << "removing projectviewitem";
 			static_cast<QTreeWidgetItem*>(item->parent())->removeChild(item);
 			delete item;
@@ -824,6 +719,127 @@ void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 bool ProjectView::acceptDrag(QDropEvent *e) const
 {
 	return e->mimeData()->hasUrls(); // only accept URL drops
+}
+
+void ProjectView::contextMenuEvent(QContextMenuEvent *event)
+{
+	QSignalMapper signalMapper;
+	KMenu popup;
+	QAction *action = NULL;
+
+	QTreeWidgetItem* treeWidgetItem = itemAt(event->pos());
+	if(!treeWidgetItem) {
+		return;
+	}
+
+	ProjectViewItem *projectViewItem = dynamic_cast<ProjectViewItem*>(treeWidgetItem);
+	if(!projectViewItem) {
+		return;
+	}
+
+	if(projectViewItem->type() == KileType::Folder) {
+		return;
+	}
+
+	bool insertsep = false;
+	bool isKilePrFile = false;
+	if(projectViewItem->type() != KileType::Project && projectViewItem->projectItem()
+	                                                && projectViewItem->projectItem()->project()) {
+		isKilePrFile = projectViewItem->projectItem()->project()->url() == projectViewItem->url();
+	}
+#ifdef __GNUC__
+#warning The popup menu hasn't been ported completely yet!
+#endif
+/*
+	if(projectViewItem->type() == KileType::ProjectExtra && !isKilePrFile) {
+		KMenu *apps = new KMenu( m_popup);
+		m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(projectViewItem->url())->name(), "Type == 'Application'");
+		for (uint i=0; i < m_offerList.count(); ++i)
+			apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
+
+		apps->insertSeparator();
+		apps->insertItem(i18n("Other..."), 0);
+		connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));
+		m_popup->insertItem(KIcon("fork"), i18n("&Open With"),apps);
+		insertsep = true;
+	}
+*/
+
+	if (projectViewItem->type() == KileType::File || projectViewItem->type() == KileType::ProjectItem) {
+		if(!m_ki->isOpen(projectViewItem->url())) {
+			action = popup.addAction(KIcon("document-open"), i18n("&Open"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, KPV_ID_OPEN);
+		}
+		else {
+			action = popup.addAction(KIcon("document-save"), i18n("&Save"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, KPV_ID_SAVE);
+		}
+		insertsep = true;
+	}
+
+	if(projectViewItem->type() == KileType::File) {
+		if(m_nProjects > 0) {
+			if(insertsep) {
+				popup.insertSeparator();
+			}
+			action = popup.addAction(KIcon("project_add"), i18n("&Add to Project"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, KPV_ID_ADD);
+			insertsep = true;
+		}
+		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotFile(int)));
+	}
+	else if(projectViewItem->type() == KileType::ProjectItem || projectViewItem->type() == KileType::ProjectExtra) {
+		KileProjectItem *pi = projectViewItem->projectItem();
+		if(pi) {
+			if(insertsep) {
+				popup.insertSeparator();
+			}
+			action = popup.addAction(i18n("&Include in Archive"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, KPV_ID_INCLUDE);
+			action->setCheckable(true);
+			action->setChecked(pi->archive());
+			insertsep = true;
+		}
+		if(!isKilePrFile) {
+			if(insertsep) {
+				popup.insertSeparator();
+			}
+			popup.addAction(KIcon("project_remove"),i18n("&Remove From Project"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, KPV_ID_REMOVE);
+			insertsep = true;
+		}
+		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotProjectItem(int)));
+	}
+	else if(projectViewItem->type() == KileType::Project) {
+		if(insertsep) {
+			popup.insertSeparator();
+		}
+		popup.addAction(i18n("A&dd Files..."), &signalMapper, SLOT(map()));
+		signalMapper.setMapping(action, KPV_ID_ADDFILES);
+		popup.insertSeparator();
+		popup.addAction(i18n("Open All &Project Files"), &signalMapper, SLOT(map()));
+		signalMapper.setMapping(action, KPV_ID_OPENALLFILES);
+		popup.insertSeparator();
+		popup.addAction(KIcon("view-refresh"),i18n("Refresh Project &Tree"), &signalMapper, SLOT(map()));
+		signalMapper.setMapping(action, KPV_ID_BUILDTREE);
+		popup.addAction(KIcon("configure"), i18n("Project &Options"), &signalMapper, SLOT(map()));
+		signalMapper.setMapping(action, KPV_ID_OPTIONS);
+		popup.addAction(i18n("&Archive"), &signalMapper, SLOT(map()));
+		signalMapper.setMapping(action, KPV_ID_ARCHIVE);
+		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotProject(int)));
+		insertsep = true;
+	}
+
+	if((projectViewItem->type() == KileType::File) || (projectViewItem->type() == KileType::ProjectItem)
+	                                               || (projectViewItem->type()== KileType::Project)) {
+		if(insertsep) {
+			popup.insertSeparator();
+		}
+		action = popup.addAction(KIcon("view-close"), i18n("&Close"), &signalMapper, SLOT(map()));
+		signalMapper.setMapping(action, KPV_ID_CLOSE);
+	}
+
+	popup.exec(event->globalPos());
 }
 
 }

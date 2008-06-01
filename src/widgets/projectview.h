@@ -1,7 +1,7 @@
 /*****************************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006 - 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *****************************************************************************************/
 
 /***************************************************************************
@@ -42,10 +42,10 @@ public:
 	ProjectViewItem(QTreeWidgetItem *parent, KileProjectItem *item, bool ar = false);
 
 	//use this to create folders
-	ProjectViewItem(QTreeWidgetItem *parent, const QString & name);
+	ProjectViewItem(QTreeWidgetItem *parent, const QString& name);
 
 	//use this to create non-project files
-	ProjectViewItem(QTreeWidget *parent, const QString & name);
+	ProjectViewItem(QTreeWidget *parent, const QString& name);
 	
 	ProjectViewItem(QTreeWidget *parent, const KileProject *project);
 	
@@ -64,7 +64,7 @@ public:
 
 	virtual bool operator<(const QTreeWidgetItem& other) const;
 
-	void setURL(const KUrl & url);
+	void setURL(const KUrl& url);
 	const KUrl& url();
 
 	void setArchiveState(bool ar);
@@ -77,21 +77,21 @@ public Q_SLOTS:
 	 * @warning Does nothing if "url" is empty !
 	 **/ 
 	void urlChanged(const KUrl& url);
-	void nameChanged(const QString & name);
+	void nameChanged(const QString& name);
 	void isrootChanged(bool isroot);
 
 private Q_SLOTS:
 	/**
 	 * Dummy slot, simply forwarding to urlChanged(const KUrl& url).
 	 **/
-	void slotURLChanged(KileDocument::Info*, const KUrl & url);
+	void slotURLChanged(KileDocument::Info*, const KUrl& url);
 
 
 private:
-	KUrl	m_url;
-	KileType::ProjectView	m_type;
-	KileDocument::Info	*m_docinfo;
-	int   m_folder;
+	KUrl m_url;
+	KileType::ProjectView m_type;
+	KileDocument::Info *m_docinfo;
+	int m_folder;
 	KileProjectItem *m_projectItem;
 };
 
@@ -102,14 +102,14 @@ class ProjectView : public QTreeWidget
 public:
 	ProjectView(QWidget *parent, KileInfo *ki);
 
-	void addTree(KileProjectItem *item, ProjectViewItem * projvi );
+	void addTree(KileProjectItem *item, ProjectViewItem *projvi);
 
-	ProjectViewItem* projectViewItemFor(const KUrl &);
-	ProjectViewItem* itemFor(const KUrl &);
+	ProjectViewItem* projectViewItemFor(const KUrl&);
+	ProjectViewItem* itemFor(const KUrl&);
 	ProjectViewItem* parentFor(const KileProjectItem *projitem, ProjectViewItem *projvi);
 
 public Q_SLOTS:
-	void slotClicked(QTreeWidgetItem* item = 0);
+	void slotClicked(QTreeWidgetItem* item = NULL);
 
 	void slotFile(int id);
 	void slotProjectItem(int id);
@@ -123,35 +123,31 @@ public Q_SLOTS:
 	void remove(const KUrl & url);
 	void remove(const KileProject *project);
 	void removeItem(const KileProjectItem *, bool);
-	ProjectViewItem* add(KileProjectItem *item, ProjectViewItem * projvi  = 0);
+	ProjectViewItem* add(KileProjectItem *item, ProjectViewItem *projvi = NULL);
 
 Q_SIGNALS:
 	void fileSelected(const KileProjectItem *);
-	void fileSelected(const KUrl &);
+	void fileSelected(const KUrl&);
 	void saveURL(const KUrl&);
 	void closeURL(const KUrl&);
-	void projectOptions(const KUrl &);
-	void projectArchive(const KUrl &);
-	void addFiles(const KUrl &);
-	void openAllFiles(const KUrl &);
-	void toggleArchive(KileProjectItem *);
-	void closeProject(const KUrl &);
-	void addToProject(const KUrl &);
+	void projectOptions(const KUrl&);
+	void projectArchive(const KUrl&);
+	void addFiles(const KUrl&);
+	void openAllFiles(const KUrl&);
+	void toggleArchive(KileProjectItem*);
+	void closeProject(const KUrl&);
+	void addToProject(const KUrl&);
 	void removeFromProject(KileProjectItem*);
-	void buildProjectTree(const KUrl &);
+	void buildProjectTree(const KUrl&);
 
 protected:
 	virtual bool acceptDrag(QDropEvent *e) const;
-
-private Q_SLOTS:
-// 	void popup(K3ListView *, Q3ListViewItem *, const QPoint &);
+	virtual void contextMenuEvent(QContextMenuEvent *event);
 
 private:
 
 	KileInfo	*m_ki;
-	KMenu		*m_popup;
 	uint		m_nProjects;
-	KToggleAction	*m_toggle;
 
 	KService::List m_offerList;
 

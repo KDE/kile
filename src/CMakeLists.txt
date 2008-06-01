@@ -91,6 +91,7 @@ SET(kile_SRCS
 	dialogs/newtabulardialog.cpp
 	configurationmanager.cpp
 	spellcheck.cpp
+	utilities.cpp
 )
 
 SET( kile_UI

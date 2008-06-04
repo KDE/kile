@@ -1,0 +1,111 @@
+Index: latexoutputfilter.cpp
+===================================================================
+--- latexoutputfilter.cpp	(Revision 808700)
++++ latexoutputfilter.cpp	(Arbeitskopie)
+@@ -99,7 +99,7 @@
+ //	from the context.
+ void LatexOutputFilter::updateFileStack(const QString &strLine, short & dwCookie)
+ {
+-	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStack()================" << endl;
++// 	KILE_DEBUG() << "==LatexOutputFilter::updateFileStack()================" << endl;
+ 
+ 	static QString::QString strPartialFileName;
+ 
+@@ -110,7 +110,7 @@
+ 			//TeX is opening a file
+ 			if ( strLine.startsWith(":<+ ") )
+ 			{
+-// 				KILE_DEBUG() << "filename detected" << endl;
++//  				KILE_DEBUG() << "filename detected" << endl;
+ 				//grab the filename, it might be a partial name (i.e. continued on the next line)
+ 				strPartialFileName = strLine.mid(4).stripWhiteSpace();
+ 
+@@ -120,7 +120,7 @@
+ 			//TeX closed a file
+ 			else if ( strLine.startsWith(":<-") )
+ 			{
+-// 				KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
++//  				KILE_DEBUG() << "popping : " << m_stackFile.top().file() << endl;
+ 				m_stackFile.pop();
+ 				dwCookie = Start;
+ 			}
+@@ -137,7 +137,7 @@
+ 			{
+ 				//push the filename on the stack and mark it as 'reliable'
+ 				m_stackFile.push(LOFStackItem(strPartialFileName, true));
+-// 				KILE_DEBUG() << "\tpushed : " << strPartialFileName << endl;
++//  				KILE_DEBUG() << "pushed : " << strPartialFileName << endl;
+ 				strPartialFileName = QString::null;
+ 				dwCookie = Start;
+ 			}
+@@ -152,7 +152,7 @@
+ 			}
+ 			else if ( strLine.startsWith("No file") )
+ 			{
+-// 				KILE_DEBUG() << "No file: " << strLine << endl;
++//  				KILE_DEBUG() << "No file: " << strLine << endl;
+ 				dwCookie = Start;
+ 				strPartialFileName = QString::null;
+ 				detectWarning(strLine, dwCookie);
+@@ -160,7 +160,7 @@
+ 			//Partial filename still isn't complete.
+ 			else
+ 			{
+-// 				KILE_DEBUG() << "\tpartial file name, adding" << endl;
++//  				KILE_DEBUG() << "partial file name, adding" << endl;
+ 				strPartialFileName = strPartialFileName + strLine.stripWhiteSpace();
+ 			}
+ 		break;
+@@ -185,29 +185,41 @@
+ 
+ 	//scan for parentheses and grab filenames
+ 	for (unsigned int i = 0; i < strLine.length(); ++i) {
+-		//We're expecting a filename. If a filename really ends at this position one of the following must be true:
+-		//	1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
+-		//	path, this is a TeX limitation).
+-		//	2) We're at the end of the line, the filename is probably continued on the next line.
+-		//	3) The TeX was closed already, signalled by the ')'.
+-
++		/*
++		We're expecting a filename. If a filename really ends at this position one of the following must be true:
++			1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
++			path, this is a TeX limitation).
++		comment by tbraun: there is a workround \include{{"file name"}} according to http://groups.google.com/group/comp.text.tex/browse_thread/thread/af873534f0644e4f/cd7e0cdb61a8b837?lnk=st&q=include+space+tex#cd7e0cdb61a8b837,
++		but this is currently not supported by kile.
++			2) We're at the end of the line, the filename is probably continued on the next line.
++			3) The TeX was closed already, signalled by the ')'.
++		*/
++		
+         	if(expectFileName && (i+1 >= strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
+-			//update the partial filename
+ 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
++			KILE_DEBUG() << "update the partial filename " << strPartialFileName << endl;
+ 
+ 			//FIXME: improve these heuristics
+ 			if (i+1 < strLine.length() && (strLine[i+1].isSpace() || ( (i < 78) && (i+1  == strLine.length())) ||
+ 				                       strLine[i+1] == ')' ||
+ 				                       fileExists(strPartialFileName))) {
+ 				m_stackFile.push(LOFStackItem(strPartialFileName));
+-				// KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
++			 	KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+ 				expectFileName = false;
+ 				dwCookie = Start;
+ 			}
+-			//Guess the filename is continued on the next line.
++			//Guess the filename is continued on the next line, only if the current strPartialFileName does not exist, see bug # 162899
+ 			else if(i+1 >= strLine.length()) {
+-				// KILE_DEBUG() << "\tFilename spans more than one line." << endl;
+-				dwCookie = FileNameHeuristic;
++				if(fileExists(strPartialFileName)) {
++					m_stackFile.push(LOFStackItem(strPartialFileName));
++					KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
++					expectFileName = false;
++					dwCookie = Start;
++				}
++				else {
++					KILE_DEBUG() << "\tFilename spans more than one line." << endl;
++					dwCookie = FileNameHeuristic;
++				}
+ 			}
+ 			//bail out
+ 			else {

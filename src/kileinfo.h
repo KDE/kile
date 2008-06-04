@@ -132,8 +132,8 @@ public:
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
 
-	QWidget* mainWindow() const { return m_mainWindow; }
-	
+	KXmlGuiWindow* mainWindow() const { return m_mainWindow; }
+
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
 	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }

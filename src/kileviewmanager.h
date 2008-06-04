@@ -119,6 +119,7 @@ public Q_SLOTS:
 	void convertSelectionToLaTeX(void);
 	void pasteAsLaTeX(void);
 	void quickPreviewPopup();
+	void tabContext(QWidget* widget,const QPoint & pos);
 
 protected:
 	void setTabLabel(QWidget *view, const QString& name);

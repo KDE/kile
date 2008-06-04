@@ -39,10 +39,12 @@
 #include <KTextEditor/View>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
+#include <KMenu>
 
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"
 #include "kileconstants.h"
+#include "kileproject.h"
 #include "kiledocmanager.h"
 #include "kileextensions.h"
 #include "widgets/projectview.h"
@@ -110,6 +112,8 @@ QWidget* Manager::createTabs(QWidget *parent)
 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
+	connect(m_tabs, SIGNAL(contextMenu(QWidget*,const QPoint &)), this, SLOT(tabContext(QWidget*,const QPoint &)));
+
 	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
 
 	return m_widgetStack;
@@ -218,6 +222,35 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	m_widgetStack->setCurrentWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
 
 	return view;
+}
+
+void Manager::tabContext(QWidget* widget,const QPoint & pos)
+{
+	KILE_DEBUG() << "void Manager::tabContext(QWidget* widget,const QPoint & pos)";
+
+	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(widget);
+
+	if(!view || !view->document()) {
+		return;
+	}
+
+	KMenu tabMenu;
+
+	tabMenu.addTitle(m_ki->getShortName(view->document()));
+	tabMenu.addAction( m_ki->mainWindow()->action("kile_file_save"));
+	tabMenu.addAction( m_ki->mainWindow()->action("file_close"));
+	tabMenu.addAction(m_ki->mainWindow()->action(i18n("file_close_all_others")));
+
+/*
+	FIXME create proper actions which delete/add the current file without asking stupidly
+	QAction* removeAction = m_ki->mainWindow()->action(i18n("project_remove"));
+	QAction* addAction = m_ki->mainWindow()->action(i18n("project_add"));
+
+	tabMenu.insertSeparator(addAction);
+	tabMenu.addAction(addAction);
+	tabMenu.addAction(removeAction);*/
+
+	tabMenu.exec(pos);
 }
 
 void Manager::removeView(KTextEditor::View *view)

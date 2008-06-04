@@ -186,14 +186,18 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 
 	//scan for parentheses and grab filenames
 	for(int i = 0; i < strLine.length(); ++i) {
-		//We're expecting a filename. If a filename really ends at this position one of the following must be true:
-		//	1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
-		//	path, this is a TeX limitation).
-		//	2) We're at the end of the line, the filename is probably continued on the next line.
-		//	3) The TeX was closed already, signalled by the ')'.
+		/*
+		We're expecting a filename. If a filename really ends at this position one of the following must be true:
+			1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
+			path, this is a TeX limitation).
+		comment by tbraun: there is a workround \include{{"file name"}} according to http://groups.google.com/group/comp.text.tex/browse_thread/thread/af873534f0644e4f/cd7e0cdb61a8b837?lnk=st&q=include+space+tex#cd7e0cdb61a8b837,
+		but this is currently not supported by kile.
+			2) We're at the end of the line, the filename is probably continued on the next line.
+			3) The TeX was closed already, signalled by the ')'.
+		*/
 
         	if(expectFileName && (i+1 >= strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
-			//update the partial filename
+			KILE_DEBUG() << "Update the partial filename " << strPartialFileName << endl;
 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
 
 			//FIXME: improve these heuristics
@@ -205,15 +209,23 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 				expectFileName = false;
 				dwCookie = Start;
 			}
-			//Guess the filename is continued on the next line.
+			//Guess the filename is continued on the next line, only if the current strPartialFileName does not exist, see bug # 162899
 			else if(i+1 >= strLine.length()) {
-				// KILE_DEBUG() << "\tFilename spans more than one line." << endl;
-				dwCookie = FileNameHeuristic;
+				if(fileExists(strPartialFileName)) {
+					m_stackFile.push(LOFStackItem(strPartialFileName));
+					KILE_DEBUG() << "pushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+					expectFileName = false;
+					dwCookie = Start;
+				}
+				else {
+					KILE_DEBUG() << "Filename spans more than one line." << endl;
+					dwCookie = FileNameHeuristic;
+				}
 			}
 			//bail out
 			else {
 				dwCookie = Start;
-				strPartialFileName = QString::null;
+				strPartialFileName = QString();
 				expectFileName = false;
 			}
 		}

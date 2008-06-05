@@ -243,8 +243,8 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 
 /*
 	FIXME create proper actions which delete/add the current file without asking stupidly
-	QAction* removeAction = m_ki->mainWindow()->action(i18n("project_remove"));
-	QAction* addAction = m_ki->mainWindow()->action(i18n("project_add"));
+	QAction* removeAction = m_ki->mainWindow()->action("project_remove");
+	QAction* addAction = m_ki->mainWindow()->action("project_add");
 
 	tabMenu.insertSeparator(addAction);
 	tabMenu.addAction(addAction);

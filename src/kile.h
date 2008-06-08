@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QToolBox>
 #include <QWidget>
+#include <QSignalMapper>
 
 #include <KApplication>
 #include <kdeversion.h>
@@ -131,8 +132,6 @@ public Q_SLOTS:
 	void newCaption();
 	void citeViewBib();
 
-	void runTool();
-
 	// D-Bus Interface
 	void openDocument(const QString & url);
 	void closeDocument();
@@ -174,6 +173,7 @@ private:
 	//parts
 	KParts::PartManager 		*m_partManager;
 	QString 			m_wantState, m_currentState;
+	QSignalMapper			*m_signalMapper;
 
 	/* config */
 	KSharedConfigPtr	m_config;

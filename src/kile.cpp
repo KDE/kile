@@ -219,6 +219,10 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
+ 	m_signalMapper = new QSignalMapper(this);
+	connect(m_signalMapper, SIGNAL(mapped(const QString &)),
+             this, SLOT(runTool(const QString &)));
+
 	setupBottomBar();
 	m_verticalSplitter->addWidget(m_bottomBar);
 	setupGraphicTools();
@@ -922,7 +926,9 @@ void Kile::setupTools()
 		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
 		if (action(QString("tool_" + tools[i]).ascii()) == NULL) {
-			KAction *act = createAction(tools[i], QString("tool_"+tools[i]).ascii(), KileTool::iconFor(tools[i], m_config.data()), this, SLOT(runTool()));
+			KAction *act = createAction(tools[i], QString("tool_"+tools[i]).ascii(), KileTool::iconFor(tools[i], m_config.data()), m_signalMapper, SLOT(map()));
+			m_signalMapper->removeMappings(act);
+ 			m_signalMapper->setMapping(act, tools[i]);
 			pl->append(act);
 		}
 	}
@@ -1812,14 +1818,6 @@ void Kile::prepareForPart(const QString & state)
 		m_mainWindow->guiFactory()->removeClient(view);
 		view->clearFocus();
 	}
-}
-
-void Kile::runTool()
-{
-	//FIXME: this needs to be done without using 'sender()'!
-	QString toolName = sender()->name();
-	toolName.replace(QRegExp("^.*tool_"), "");
-	runTool(toolName);
 }
 
 int Kile::runTool(const QString& tool)

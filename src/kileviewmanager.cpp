@@ -239,7 +239,7 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 	tabMenu.addTitle(m_ki->getShortName(view->document()));
 	tabMenu.addAction( m_ki->mainWindow()->action("kile_file_save"));
 	tabMenu.addAction( m_ki->mainWindow()->action("file_close"));
-	tabMenu.addAction(m_ki->mainWindow()->action(i18n("file_close_all_others")));
+	tabMenu.addAction(m_ki->mainWindow()->action("file_close_all_others"));
 
 /*
 	FIXME create proper actions which delete/add the current file without asking stupidly

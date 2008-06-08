@@ -3,6 +3,7 @@ version 2.0.1 -> 2.0.2
 Fixes:
  - insert \item[] in description environments for smart newline (#161658),
  reported and fixed by Job Noorman
+ - fix regression in 2.0.1 inside structure view with opening files (debian #484146)
 
 Features:
  -

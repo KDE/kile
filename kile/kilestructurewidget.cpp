@@ -697,27 +697,28 @@ namespace KileWidget
 				else
 					emit(fileOpen(url, QString::null));
 			}
-			else if( item->type() == KileStruct::Bibliography ){
-				fname = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::bibinputs);
-				fi.setFile(fname);
-				url.setPath(fname);
-				if(fi.isReadable()){
-					emit(fileOpen(url, QString::null));
-				}
-			}
-			else if( item->type() == KileStruct::Input ){
-				fname = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::texinputs);
-				fi.setFile(fname);
-				url.setPath(fname);
-				if(fi.isReadable()){
-					emit(fileOpen(url, QString::null));
-				}
-			}
 			else{
-				if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
-			== KMessageBox::Yes)
-				{
-					emit(fileNew(url));
+				QString otherFilename;
+
+				if( item->type() == KileStruct::Bibliography ){
+					otherFilename = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::bibinputs);
+				}
+				else if( item->type() == KileStruct::Input ){
+					otherFilename = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::texinputs);
+				}
+
+				fi.setFile(otherFilename);
+
+				if(fi.isReadable()){
+					url.setPath(otherFilename);
+					emit(fileOpen(url, QString::null));
+				}
+				else{
+					if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
+				== KMessageBox::Yes) {
+						url.setPath(fname);
+						emit(fileNew(url));
+					}
 				}
 			}
 		}

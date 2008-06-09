@@ -297,7 +297,7 @@ namespace KileDialog
 
 			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, editor->configPageName(i), editor->configPageIcon(i), editor->configPageFullName(i));
 			connect(configPage, SIGNAL(changed()), this, SLOT(slotChanged()));
-			m_editorPages.append(pageWidgetItem);
+			m_editorPages.insert(pageWidgetItem, configPage);
 		}
 	}
 
@@ -327,9 +327,10 @@ namespace KileDialog
 
 		// editor settings are only available, when at least one document is opened
 		if(m_editorSettingsChanged) {
-			for(QList<KPageWidgetItem*>::iterator i = m_editorPages.begin(); i != m_editorPages.end(); ++i) {
-				KTextEditor::ConfigPage *configPage = static_cast<KTextEditor::ConfigPage*>((*i)->widget());
-				configPage->apply();
+			QMapIterator<KPageWidgetItem*, KTextEditor::ConfigPage*> i(m_editorPages);
+			while (i.hasNext()) {
+				i.next();
+				i.value()->apply();
 			}
 
 			KTextEditor::Editor *editor = KTextEditor::EditorChooser::editor();

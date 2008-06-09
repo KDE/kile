@@ -40,6 +40,8 @@ class KileWidgetScriptingConfig;
 
 namespace KileTool { class Manager; }
 
+namespace KTextEditor { class ConfigPage; }
+
 namespace KileDialog
 {
 	class Config : public KPageDialog
@@ -117,7 +119,7 @@ namespace KileDialog
 		void syncKileEncoding();
 
 		// editor pages
-		QList<KPageWidgetItem*> m_editorPages;
+		QMap<KPageWidgetItem*, KTextEditor::ConfigPage*> m_editorPages;
 	};
 }
 #endif

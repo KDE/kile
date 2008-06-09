@@ -365,9 +365,11 @@ void Manager::stopOnTheFlySpellCheckThread()
 void Manager::removeOnTheFlyHighlighting()
 {
 	const QList<KTextEditor::View*> textViews = m_viewManager->textViews();
-	for(QList<KTextEditor::View*>::const_iterator i = textViews.begin();
-	    i != textViews.end(); ++i) {
-		KTextEditor::Document *document = (*i)->document();
+	foreach ( const KTextEditor::View *view, textViews ) {
+		if (!view) {
+			continue;
+		}
+		KTextEditor::Document *document = view->document();
 		KTextEditor::SmartInterface *smartInterface =
 		             qobject_cast<KTextEditor::SmartInterface*>(document);
 		if(smartInterface) {
@@ -375,9 +377,9 @@ void Manager::removeOnTheFlyHighlighting()
 // 			smartInterface->clearDocumentHighlights();
 			const QList<KTextEditor::SmartRange*> highlightsList =
 			                                      smartInterface->documentHighlights();
-			for(QList<KTextEditor::SmartRange*>::const_iterator i = highlightsList.begin();
-			i != highlightsList.end(); ++i) {
-				delete(*i);
+			for(QList<KTextEditor::SmartRange*>::const_iterator j = highlightsList.begin();
+			j != highlightsList.end(); ++j) {
+				delete(*j);
 			}
 			smartInterface->smartMutex()->unlock();
 		}

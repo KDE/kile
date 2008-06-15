@@ -50,18 +50,18 @@ public:
 	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() const { return m_title; }
 	/** @returns the line number of the structure element. **/
-	const uint line() const { return m_line; }
+	uint line() const { return m_line; }
 	/** @returns the column number of the structure element, right after the { **/
-	const uint column() const { return m_column; }
+	uint column() const { return m_column; }
 	/** @returns the type of element, see @ref KileStruct **/
-	const int type() const { return m_type; }
-	const uint startline() const { return m_startline; }
-	const uint startcol() const { return m_startcol; }
+	int type() const { return m_type; }
+	uint startline() const { return m_startline; }
+	uint startcol() const { return m_startcol; }
 	/**@returns the file in which this item was found*/
 	const KUrl & url() const { return m_url; }
 	void setURL(const KUrl & url) { m_url = url; }
 
-	const int level() const { return m_level; }
+	int level() const { return m_level; }
 	const QString &label() const { return m_label; }
 	
 	void setTitle(const QString &title);
@@ -88,8 +88,8 @@ public:
 	~KileReferenceData() {}
 	
 	const QString &name() const { return m_name; }
-	const uint line() const { return m_line; }
-	const uint column() const { return m_column; }
+	uint line() const { return m_line; }
+	uint column() const { return m_column; }
 	
 private:
 	QString m_name;

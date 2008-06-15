@@ -748,7 +748,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 		isKilePrFile = projectViewItem->projectItem()->project()->url() == projectViewItem->url();
 	}
 #ifdef __GNUC__
-#warning The popup menu hasn't been ported completely yet!
+#warning The popup menu has not been ported completely yet!
 #endif
 /*
 	if(projectViewItem->type() == KileType::ProjectExtra && !isKilePrFile) {

@@ -25,7 +25,6 @@
 class KUrl;
 class KMenu;
 class KToggleAction;
-class KileDocument::Info;
 class KileInfo;
 
 namespace KileType {enum ProjectView {Project = 0, ProjectItem, ProjectExtra, File, Folder};}

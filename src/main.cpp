@@ -118,7 +118,7 @@ int main( int argc, char ** argv )
 		QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
 
 		for ( int i = 0; i < args->count(); ++i ) {
-			QString path = QFile::decodeName(args->arg(i));
+			QString path = args->arg(i);
 			path = completePath(path);
 
 			if ( isProject(args->arg(i)) ){

@@ -129,7 +129,7 @@ static const char * const no_border_xpm[] = {
 
 TabCellFrame::TabCellFrame(QWidget* parent) : Q3Frame(parent) 
 {
-	m_border = TabularCell::cbNone;
+	m_border = TabularCell_OLD::cbNone;
 	
 	setBackgroundColor(Qt::white);
 	setFixedWidth(120);
@@ -191,13 +191,13 @@ void TabCellFrame::drawContents(QPainter *p)
 	//QPen pen = QPen(Qt::red,4);
 	QPen pen = QPen(Qt::black,4);
 	p->setPen(pen);
-	if ( m_border & TabularCell::cbLeft )
+	if ( m_border & TabularCell_OLD::cbLeft )
 		p->drawLine(x1+10,y1+20,x1+10,y2-20);
-	if ( m_border & TabularCell::cbTop )
+	if ( m_border & TabularCell_OLD::cbTop )
 		p->drawLine(x1+20,y1+10,x2-20,y1+10);
-	if ( m_border & TabularCell::cbRight )
+	if ( m_border & TabularCell_OLD::cbRight )
 		p->drawLine(x2-10,y1+20,x2-10,y2-20);
-	if ( m_border & TabularCell::cbBottom )
+	if ( m_border & TabularCell_OLD::cbBottom )
 		p->drawLine(x1+20,y2-10,x2-20,y2-10);
 
 	p->restore();
@@ -214,13 +214,13 @@ void TabCellFrame::mousePressEvent(QMouseEvent *event)
 		
 	int state = 0;
 	if ( m_left.contains(x,y) )
-		state = TabularCell::cbLeft;
+		state = TabularCell_OLD::cbLeft;
 	else if ( m_top.contains(x,y) )
-		state = TabularCell::cbTop;
+		state = TabularCell_OLD::cbTop;
 	else if ( m_right.contains(x,y) )
-		state = TabularCell::cbRight;
+		state = TabularCell_OLD::cbRight;
 	else if ( m_bottom.contains(x,y) )
-		state = TabularCell::cbBottom;
+		state = TabularCell_OLD::cbBottom;
 		
 	if ( state > 0 ) 
 	{
@@ -245,7 +245,7 @@ void TabCellFrame::mouseDoubleClickEvent(QMouseEvent *event)
 
 //BEGIN TabCellDialog
 
-TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
+TabCellDialog::TabCellDialog(QWidget *parent, TabularCell_OLD::Data *data,
                              const QString &headerlabel, const QStringList &alignlist) 
 	: KDialog( parent)
 {
@@ -482,7 +482,7 @@ TabCellDialog::TabCellDialog(QWidget *parent, TabularCell::Data *data,
 
 ////////////////////////////// read data //////////////////////////////
 
-TabularCell::Data TabCellDialog::data()
+TabularCell_OLD::Data TabCellDialog::data()
 {
 	if ( m_header ) 
 	{
@@ -503,11 +503,11 @@ TabularCell::Data TabCellDialog::data()
 			m_data.align = Qt::AlignLeft;
 	}
 		
-	m_data.font = TabularCell::cfNormal;
+	m_data.font = TabularCell_OLD::cfNormal;
 	if ( m_cbBold->isChecked() )
-		m_data.font |= TabularCell::cfBold;
+		m_data.font |= TabularCell_OLD::cfBold;
 	if ( m_cbItalic->isChecked() )
-		m_data.font |= TabularCell::cfItalic;
+		m_data.font |= TabularCell_OLD::cfItalic;
 		
 	m_data.border = m_cellframe->border();
 		
@@ -544,8 +544,8 @@ QString TabCellDialog::header()
 void TabCellDialog::initWidgetData()
 {
 	m_data.align = Qt::AlignLeft;	
-	m_data.font = TabularCell::cfNormal;
-	m_data.border = TabularCell::cbNone;
+	m_data.font = TabularCell_OLD::cfNormal;
+	m_data.border = TabularCell_OLD::cbNone;
 	m_data.bgcolor = QColor(Qt::white);
 	m_data.textcolor = QColor(Qt::black);
 }
@@ -559,8 +559,8 @@ void TabCellDialog::initWidgets()
 	else
 		m_rbAlignleft->setChecked(true);
 		
-	m_cbBold->setChecked( m_data.font & TabularCell::cfBold );
-	m_cbItalic->setChecked( m_data.font & TabularCell::cfItalic );
+	m_cbBold->setChecked( m_data.font & TabularCell_OLD::cfBold );
+	m_cbItalic->setChecked( m_data.font & TabularCell_OLD::cfItalic );
 		
 	m_ccBgcolor->setColor(m_data.bgcolor);	
 	m_ccTextcolor->setColor(m_data.textcolor);
@@ -606,13 +606,13 @@ void TabCellDialog::slotFramebuttonClicked()
 	
 	int border = -1;
 	if ( name == "no" )
-		border = TabularCell::cbNone;  
+		border = TabularCell_OLD::cbNone;  
 	else if ( name == "lr" )
-		border = TabularCell::cbLeft | TabularCell::cbRight;  
+		border = TabularCell_OLD::cbLeft | TabularCell_OLD::cbRight;  
 	else if ( name == "tb" )
-		border = TabularCell::cbTop | TabularCell::cbBottom;  
+		border = TabularCell_OLD::cbTop | TabularCell_OLD::cbBottom;  
 	else if ( name == "all" )
-		border = TabularCell::cbLeft | TabularCell::cbTop | TabularCell::cbBottom | TabularCell::cbRight;
+		border = TabularCell_OLD::cbLeft | TabularCell_OLD::cbTop | TabularCell_OLD::cbBottom | TabularCell_OLD::cbRight;
 	
 	if ( border >= 0 )
 		m_cellframe->setBorder(border);                         
@@ -645,7 +645,7 @@ TabularItem::TabularItem(Q3Table* table)
 	m_data = tab->defaultAttributes();
 }
 
-TabularItem::TabularItem(Q3Table* table, const TabularCell::Data &data)
+TabularItem::TabularItem(Q3Table* table, const TabularCell_OLD::Data &data)
 	: Q3TableItem(table,Q3TableItem::OnTyping,QString::null) 
 {
 	m_data = data;
@@ -678,9 +678,9 @@ void TabularItem::paint(QPainter *p,const QColorGroup &cg,const QRect &cr,bool s
 	if ( m_data.font ) 
 	{
 		QFont f( p->font() );
-		if ( m_data.font & TabularCell::cfBold )
+		if ( m_data.font & TabularCell_OLD::cfBold )
 			f.setBold(true);
-		if ( m_data.font & TabularCell::cfItalic )
+		if ( m_data.font & TabularCell_OLD::cfItalic )
 			f.setItalic(true);
 		p->setFont(f);
 	}
@@ -791,22 +791,22 @@ void TabularTable::mouseContextVerticalHeader(int pos)
 
 ////////////////////////////// cell items //////////////////////////////
 
-TabularCell::Data TabularTable::defaultAttributes()
+TabularCell_OLD::Data TabularTable::defaultAttributes()
 {
-	TabularCell::Data data;
+	TabularCell_OLD::Data data;
 	
 	data.align = Qt::AlignLeft;	
-	data.font = TabularCell::cfNormal;
-	data.border = TabularCell::cbNone;
+	data.font = TabularCell_OLD::cfNormal;
+	data.border = TabularCell_OLD::cbNone;
 	data.bgcolor = QColor(Qt::white);
 	data.textcolor = QColor(Qt::black);
 
 	return data;
 }	
 
-bool TabularTable::isDefaultAttr(const TabularCell::Data &data)
+bool TabularTable::isDefaultAttr(const TabularCell_OLD::Data &data)
 {
-	TabularCell::Data defaultdata	= defaultAttributes();
+	TabularCell_OLD::Data defaultdata	= defaultAttributes();
 
 	return ( data.align == defaultdata.align           &&	
 	         data.font == defaultdata.font             &&
@@ -880,7 +880,7 @@ bool TabularTable::isMulticolumn(int row,int col)
 }
 
 // Set new attributes. If all settings are default, delete QTableItem
-void TabularTable::setAttributes(int row,int col, const TabularCell::Data &data)
+void TabularTable::setAttributes(int row,int col, const TabularCell_OLD::Data &data)
 {
 	TabularItem *cellitem = dynamic_cast<TabularItem*>( item(row,col) );
 	if ( cellitem ) 
@@ -895,7 +895,7 @@ void TabularTable::setAttributes(int row,int col, const TabularCell::Data &data)
 void TabularTable::clearAttributes(int row,int col)
 {
 	//KILE_DEBUG() << "clear attr (" << row << "/" << col << ")" << endl;
-	TabularCell::Data data = defaultAttributes();	
+	TabularCell_OLD::Data data = defaultAttributes();	
 	setAttributes(row,col,data);
 }
 
@@ -973,7 +973,7 @@ void TabularTable::clearCellrange(int x1,int y1,int x2,int y2,bool cleartext,boo
 	}
 }
 
-void TabularTable::setCellrangeAttributes(int x1,int y1,int x2,int y2,const TabularCell::Data &data)
+void TabularTable::setCellrangeAttributes(int x1,int y1,int x2,int y2,const TabularCell_OLD::Data &data)
 {
 	bool singlecell = (x1==x2 && y1==y2);
 	//KILE_DEBUG() << x1 << " " << y1 << " "<< x2 << " "<< y2 << " " << data.align << endl;
@@ -1085,35 +1085,35 @@ void TabularTable::paintCell( QPainter *p, int row, int col,
 			border = cellitem->m_data.border;
 			
 			// draw left border only in column 0
-			if ( col==0 && (border & TabularCell::cbLeft) ) 
+			if ( col==0 && (border & TabularCell_OLD::cbLeft) ) 
 				p->drawLine( 0,0,0,y2 );
 			
 			// draw top border only in row 0
-			if ( row==0 && (border & TabularCell::cbTop) )
+			if ( row==0 && (border & TabularCell_OLD::cbTop) )
 				p->drawLine( 0,0,x2,0 );
 		}	
 		
 		// at the bottom border of the cell either the gridline or the 
 		// bottom border (or the top border of the cell below) is drawn
 		bool drawborder;
-		if ( border & TabularCell::cbBottom ) 
+		if ( border & TabularCell_OLD::cbBottom ) 
 			drawborder = true;
 		else 
 		{
 			TabularItem *below = dynamic_cast<TabularItem*>( item(row+1,col) );
-			drawborder = ( below && (below->m_data.border & TabularCell::cbTop) );
+			drawborder = ( below && (below->m_data.border & TabularCell_OLD::cbTop) );
 		}
 		p->setPen( (drawborder) ? Qt::black : gridlinecolor );
 		p->drawLine( 0,y2,x2,y2 );
 		
 		// at the right border of the cell either the gridline or the 
 		// right border (or the left border of the cell below) is drawn
-		if ( border & TabularCell::cbRight ) 
+		if ( border & TabularCell_OLD::cbRight ) 
 			drawborder = true;
 		else 
 		{
 			TabularItem *right = dynamic_cast<TabularItem*>( item(row,col+colspan) );
-			drawborder = ( right && (right->m_data.border & TabularCell::cbLeft) );
+			drawborder = ( right && (right->m_data.border & TabularCell_OLD::cbLeft) );
 		}
 		p->setPen( (drawborder) ? Qt::black : gridlinecolor );
 		p->drawLine( x2,0,x2,y2 );
@@ -1267,7 +1267,7 @@ void TabularTable::cellPopupEdit()
 	//KILE_DEBUG() << "cellPopupEdit" << endl;
 		
 	// default edit mode for a range: no data and no header 
-	TabularCell::Data *pdata = 0;
+	TabularCell_OLD::Data *pdata = 0;
 	
 	// if there one single cell, we use the attributes if they exist
 	if ( m_x1==m_x2 && m_y1==m_y2 ) 
@@ -1530,7 +1530,7 @@ bool TabularTable::getCurrentSelection(int &x1,int &y1,int &x2,int &y2)
 // cell parameter dialog for a range of cells or a single cell
 // - single cell: current attributes are shown
 // - cellrange: attributes are shown, if they are all equal
-void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell::Data *data,
+void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell_OLD::Data *data,
                                        const QString &headerlabel)
 {
 	//KILE_DEBUG() << "selection " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
@@ -1539,7 +1539,7 @@ void TabularTable::cellParameterDialog(int x1,int y1,int x2,int y2, TabularCell:
 	// they are defined and have the same values
 	if ( ! data ) 
 	{ 
-		TabularCell::Data defaultdata = defaultAttributes();
+		TabularCell_OLD::Data defaultdata = defaultAttributes();
 		
 		// look if there is a QTableItem in the upper left cell
 		TabularItem *cellitem = dynamic_cast<TabularItem*>( item(y1,x1) );
@@ -1588,7 +1588,7 @@ bool TabularTable::equalParameter(int x1,int y1,int x2,int y2, int code)
 		return false;
 
 	// get attributes from upper left cell
-	TabularCell::Data data;
+	TabularCell_OLD::Data data;
 	data = upperleft->m_data;
 
 	// look if all cells in this range have the same attributes
@@ -1632,25 +1632,25 @@ bool TabularTable::isVLine(int row,int col, bool left)
 	if ( left ) 
 	{
 		// look at the left border
-		if ( cellitem->m_data.border & TabularCell::cbLeft )
+		if ( cellitem->m_data.border & TabularCell_OLD::cbLeft )
 			return true;	
 		// look also at the right border of the left neighbour
 		if ( col > 0 ) 
 		{
 			TabularItem *left = dynamic_cast<TabularItem*>( item(row,col-1) );
-			vlinefound = ( left && (left->m_data.border & TabularCell::cbRight) );
+			vlinefound = ( left && (left->m_data.border & TabularCell_OLD::cbRight) );
 		}
 	} 
 	else 
 	{
 		// look at the right border
-		if ( cellitem->m_data.border & TabularCell::cbRight )
+		if ( cellitem->m_data.border & TabularCell_OLD::cbRight )
 			return true;
 		// look also at the left border of the right neighbour
 		if ( col < numCols()-1 ) 
 		{
 			TabularItem *left = dynamic_cast<TabularItem*>( item(row,col-1) );
-			vlinefound = ( left && (left->m_data.border & TabularCell::cbRight) );
+			vlinefound = ( left && (left->m_data.border & TabularCell_OLD::cbRight) );
 		}
 	}
 
@@ -1659,9 +1659,9 @@ bool TabularTable::isVLine(int row,int col, bool left)
 
 // Count vertical lines on the left side. If there is none, 
 // we also check the right border of the left neighbour.
-TabularCell::CountLines TabularTable::countVLines(int col, bool left)
+TabularCell_OLD::CountLines TabularTable::countVLines(int col, bool left)
 {
-	TabularCell::CountLines count;
+	TabularCell_OLD::CountLines count;
 	count.cnt = 0;
 	count.cells = 0;
 	count.list.clear();
@@ -1689,12 +1689,12 @@ TabularCell::CountLines TabularTable::countVLines(int col, bool left)
 }
 
 // looking at to bottom of the line (or the top of the next line)
-TabularCell::CountLines TabularTable::countHLines(int row, bool top)
+TabularCell_OLD::CountLines TabularTable::countHLines(int row, bool top)
 {
 	bool neighbour;
 	bool hline;
 	
-	TabularCell::CountLines count;
+	TabularCell_OLD::CountLines count;
 	count.cnt = 0;
 	count.cells = numCols();
 	count.list.clear();
@@ -1710,12 +1710,12 @@ TabularCell::CountLines TabularTable::countHLines(int row, bool top)
 		{    
 			if ( top ) 
 			{
-				if ( cellitem->m_data.border & TabularCell::cbTop ) 
+				if ( cellitem->m_data.border & TabularCell_OLD::cbTop ) 
 					hline = true;
 			} 
 			else 
 			{
-				if ( cellitem->m_data.border & TabularCell::cbBottom )
+				if ( cellitem->m_data.border & TabularCell_OLD::cbBottom )
 					hline = true;
 				else 
 					neighbour = true;
@@ -1725,7 +1725,7 @@ TabularCell::CountLines TabularTable::countHLines(int row, bool top)
 		if ( neighbour ) 
 		{
 			TabularItem *below = dynamic_cast<TabularItem*>( item(row+1,col) );
-			if( below && (below->m_data.border & TabularCell::cbTop) )
+			if( below && (below->m_data.border & TabularCell_OLD::cbTop) )
 				hline = true;
 		}
 		
@@ -1755,7 +1755,7 @@ TabularCell::CountLines TabularTable::countHLines(int row, bool top)
 }
 
 
-TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
+TabularCell_OLD::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 {
 	//KILE_DEBUG() << "count font,colors,textcolors" << endl;
 	
@@ -1772,7 +1772,7 @@ TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 	itb = textcolors.find(blackname);
 
 	// initialize result
-	TabularCell::Count count = { 0,0,0,0,0, whitename,blackname };
+	TabularCell_OLD::Count count = { 0,0,0,0,0, whitename,blackname };
 	
 	// although it looks like a range, it is simply a row or a column,
 	// because either x1=x2 or y1=y2
@@ -1787,11 +1787,11 @@ TabularCell::Count TabularTable::countCells(int x1,int y1,int x2,int y2)
 					continue;
 				
 				// check bold 	
-				if ( cellitem->m_data.font & TabularCell::cfBold )
+				if ( cellitem->m_data.font & TabularCell_OLD::cfBold )
 					count.bold++;
 					
 				// check italic
-				if ( cellitem->m_data.font & TabularCell::cfItalic )
+				if ( cellitem->m_data.font & TabularCell_OLD::cfItalic )
 					count.italic++;
 					
 				// check backgroundcolor
@@ -2182,8 +2182,8 @@ void TabularDialog::slotButtonClicked(int button)
 	m_table->updateCurrentCell();
 
 	QString preamble,textline,s,s1,s2,s3;
-	TabularCell::CountLines lines;
-	TabularCell::Count cnt;
+	TabularCell_OLD::CountLines lines;
+	TabularCell_OLD::Count cnt;
 	
 	// list of packages
 	bool pkgArray = false; 
@@ -2199,7 +2199,7 @@ void TabularDialog::slotButtonClicked(int button)
 	char colorchar = 'A';
 	
 	// list with all column information 
-	QList<TabularCell::Preamble> colinfo;
+	QList<TabularCell_OLD::Preamble> colinfo;
 	QString whitename = QColor(Qt::white).name();
 	QString blackname = QColor(Qt::black).name();
 	
@@ -2214,7 +2214,7 @@ void TabularDialog::slotButtonClicked(int button)
 	m_td.tagEnd = QString::null;
 	for ( int col=0; col<=numcols; ++col ) 
 	{
-		TabularCell::Preamble info;
+		TabularCell_OLD::Preamble info;
 		info.vline = false;
 		info.align = Qt::AlignLeft;
 		
@@ -2369,11 +2369,11 @@ void TabularDialog::slotButtonClicked(int button)
 				}
 				
 				// now build cell entries
-				if ( colinfo[col].bold != (cellitem->m_data.font & TabularCell::cfBold) ) 
+				if ( colinfo[col].bold != (cellitem->m_data.font & TabularCell_OLD::cfBold) ) 
 				{
 					s3 += "\\bfseries";
 				}
-				if ( colinfo[col].italic != (cellitem->m_data.font & TabularCell::cfItalic) ) 
+				if ( colinfo[col].italic != (cellitem->m_data.font & TabularCell_OLD::cfItalic) ) 
 				{
 					s3 += "\\itshape";
 				}
@@ -2549,7 +2549,7 @@ QString TabularDialog::getEol(int row, bool top)
 	QString s;
 	
 	bool booktabs = m_cbBooktabs->isChecked();
-	TabularCell::CountLines lines = m_table->countHLines(row,top);
+	TabularCell_OLD::CountLines lines = m_table->countHLines(row,top);
 	if ( lines.cnt == lines.cells )
 	{
 		if ( booktabs ) 

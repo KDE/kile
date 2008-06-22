@@ -688,6 +688,7 @@ Archive=Tar + gzip
 Asymptote=Default
 BibTeX=Default
 Convert=pdf2png
+ConTeXt=PDF
 DBLaTeX=LaTeX
 DVItoPDF=Default
 DVItoPNG=Default
@@ -710,6 +711,7 @@ ViewDVI=Okular
 ViewHTML=Konqueror
 ForwardDVI=Okular
 Lilypond=PDF
+XeTeX=Default
 
 [ToolsGUI]
 Lilypond=Compile,lilypond

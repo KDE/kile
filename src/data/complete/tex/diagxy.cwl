@@ -1,18 +1,18 @@
-% diagxy package - Michael Barr's commutative-diagram package
-% freyj 04/04/2007
-% version 2: freyj 7/10/2007
-%-----------------
-% delimiters
+# diagxy package - Michael Barr's commutative-diagram package
+# freyj 04/04/2007
+# version 2: freyj 7/10/2007
+#-----------------
+# delimiters
 \bfig
 \efig
-% in-line macros
+# in-line macros
 \to/{sh}/^{L}_{L}
 \mon^{L}_{L}
 \epi^{L}_{L}
 \toleft^{L}_{L}
 \monleft^{L}_{L}
 \epileft^{L}_{L}
-% diagram macros
+# diagram macros
 \place({x},{y})[{item}]
 \twoar({dx},{dy})
 \morphism({x},{y})|{p}|/{sh}/<{dx},{dy}>[{N}`{N};{L}]
@@ -32,9 +32,9 @@
 \Ctrianglepair({x},{y})|{p}{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}`{sh}/<{dx},{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}`{L}]
 \Dtrianglepair({x},{y})|{p}{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}`{sh}/<{dx},{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}`{L}]
 \pullback({x},{y})|{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}/<{dx}`{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}]|{p}{p}{p}|/{sh}`{sh}`{sh}/<{dx},{dy}>[{N};{L}`{L}`{L}]
-\Square({x},{y})|{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}/<{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}] % width automatically determined
-\hSquares({x},{y})|{p}{p}{p}{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}`{sh}`{sh}`{sh}/<{dy}>[{N}`{N}`{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}`{L}`{L}`{L}] % width automatically determined
-\vSquares({x},{y})|{p}{p}{p}{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}`{sh}`{sh}`{sh}/<{dy},{dy}>[{N}`{N}`{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}`{L}`{L}`{L}] % width automatically determined
+\Square({x},{y})|{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}/<{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}] # width automatically determined
+\hSquares({x},{y})|{p}{p}{p}{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}`{sh}`{sh}`{sh}/<{dy}>[{N}`{N}`{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}`{L}`{L}`{L}] # width automatically determined
+\vSquares({x},{y})|{p}{p}{p}{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}`{sh}`{sh}`{sh}/<{dy},{dy}>[{N}`{N}`{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}`{L}`{L}`{L}] # width automatically determined
 \cube({x},{y})|{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}/<{dx},{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}]({x},{y})|{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}/<{dx},{dy}>[{N}`{N}`{N}`{N};{L}`{L}`{L}`{L}]|{p}{p}{p}{p}|/{sh}`{sh}`{sh}`{sh}/[{L}`{L}`{L}`{L}]
 \node {id}({x},{y})[{N}]
 \arrow|{p}|/{sh}/[{id}`{id};{L}]

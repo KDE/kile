@@ -72,6 +72,7 @@
 \displaylines
 \displaywidowpenalty
 \displaywidth
+\displaystyle
 \divide
 \dotfill
 \dots

@@ -811,9 +811,10 @@ void LaTeXInfo::updateStructLevelInfo() {
 		m_dictStructLevel["\\end"] = KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
 
 		// some entries, which could never be found (but they are set manually)
-		m_dictStructLevel["\\begin{figure}"] = KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
-		m_dictStructLevel["\\begin{table}"] =KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
-		m_dictStructLevel["\\end{float}"] = KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
+		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
+		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
+		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
 
 	// preliminary minimal beamer support
@@ -1019,8 +1020,10 @@ void LaTeXInfo::updateStruct()
 					}
 					// update parameter for environments, because only
 					// floating environments and beamer frames are passed
-					if((*it).type == KileStruct::BeginEnv) {
-						if(m == "figure" || m == "table") {
+					if ( (*it).type == KileStruct::BeginEnv )
+					{
+						if ( m=="figure" || m=="figure*" || m=="table" )
+						{
 							it = m_dictStructLevel.find("\\begin{" + m +'}');
 						}
 						else if(m == "frame") {
@@ -1048,8 +1051,10 @@ void LaTeXInfo::updateStruct()
 					}
 
 					// tell structure view that a floating environment or a beamer frame must be closed
-					else if((*it).type == KileStruct::EndEnv) {
-						if(m=="figure" || m=="table") {
+					else if ( (*it).type == KileStruct::EndEnv )
+					{
+						if ( m=="figure" || m== "figure*" || m=="table")
+						{
 							it = m_dictStructLevel.find("\\end{float}");
 						}
 						else if(m == "frame") {

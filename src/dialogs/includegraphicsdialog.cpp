@@ -276,13 +276,15 @@ void IncludeGraphics::slotUrlSelected(const KUrl& url)
 		// bitmaps    --> w=123 h=456 dpi=789
 		QString grep = " | grep -m1 \"^%%BoundingBox:\"";
 		QString ext = fi.completeSuffix();
-		if (ext == "eps")
+		if (ext == "eps"){
 			execute("cat " + url.path() + grep);
-		else
-			if (ext == "eps.gz")
+		}
+		else if (ext == "eps.gz"){
 				execute("gunzip -c " + url.path() + grep);
-		else
-			execute("identify -format \"w=%w h=%h dpi=%x\" " + url.path());
+		}
+		else{
+			execute("identify -format \"w=%w h=%h dpi=%x\" \"" + url.path() + "\"");
+		}
 	} else {
 		KILE_DEBUG() << "=== IncludeGraphics::error ====================";
 		KILE_DEBUG() << "   filename: '" << url.path() << "'";

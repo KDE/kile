@@ -731,6 +731,7 @@ void Manager::saveURL(const KUrl & url)
 
 void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
+	KILE_DEBUG() << "void Manager::newDocumentStatus(Kate::Document)" << endl; 
 	if (doc == 0L) return;
 
 	//sync terminal
@@ -824,6 +825,11 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 			}
 		}
 	}
+	/*
+	 This may look superfluos but actually it is not, in the case of multiple modified docs it ensures that the structure view keeps synchronized with the currentTextView
+	 And if we only have one masterdoc or none nothing goes wrong.
+	*/
+	emit(updateStructure(false,NULL));
 }
 
 void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)

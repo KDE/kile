@@ -165,7 +165,7 @@ private:
 			int level();
 			KileInfo *info() { return m_ki; }
 
-			bool findSectioning(KTextEditor::Document *doc, int row, int col, bool backwards, int &sectRow, int &sectCol);
+			bool findSectioning(StructureViewItem *item, KTextEditor::Document *doc, int row, int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
 			void updateUrl(KileDocument::Info *docinfo);
 
 		enum { SectioningCut=10, SectioningCopy=11, SectioningPaste=12, 

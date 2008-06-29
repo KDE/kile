@@ -2728,7 +2728,7 @@ void EditorExtension::gotoSectioning(bool backwards, KTextEditor::View *view)
 
 	int rowFound, colFound;
 	m_ki->viewManager()->updateStructure(true);
-	if(m_ki->structureWidget()->findSectioning(view->document(), view->cursorPosition().line(), view->cursorPosition().column(), backwards, rowFound, colFound)) {
+	if(m_ki->structureWidget()->findSectioning(NULL,view->document(), view->cursorPosition().line(), view->cursorPosition().column(), backwards, false, rowFound, colFound)) {
 		view->setCursorPosition(KTextEditor::Cursor(rowFound, colFound));
 	}
 }
@@ -2753,6 +2753,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	row = row1 = item->startline() - 1;
 	col = col1 = item->startcol() - 1;
 
+        // FIXME tbraun make this more clever, introdoce in kiledocinfo a flag which can be easily queried for that, so that we don'
 	// check, if the document was changed in the meantime 
 	QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
 	QString textline = getTextLineReal(doc,row1);
@@ -2768,7 +2769,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	if(!increaseCursorPosition(doc, row, col)) {
 		return;
 	}
-	if(!m_ki->structureWidget()->findSectioning(doc, row, col, false, row2, col2)) {
+	if (!m_ki->structureWidget()->findSectioning(item, doc, row, col, false, true, row2, col2)){
 		// or the end of the document
 		// if there is a '\end{document} command, we have to exclude it
 		if (!findEndOfDocument(doc, row, col, row2, col2)) {

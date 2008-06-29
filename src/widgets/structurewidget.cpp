@@ -961,10 +961,14 @@ void StructureViewItem::setLabel(const QString &label)
 
 	////////////////////// StructureWidget: find sectioning //////////////////////
 
-	bool StructureWidget::findSectioning(KTextEditor::Document *doc, int row, int col, bool backwards, int &sectRow, int &sectCol)
+	bool StructureWidget::findSectioning(StructureViewItem *refItem, KTextEditor::Document *doc, int row, int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol)
 	{
 		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(doc);
 		if(!docinfo) {
+			return false;
+		}
+
+		if( checkLevel && !refItem ){ // only allow a refItem == NULL if checkLevel is false
 			return false;
 		}
 
@@ -974,7 +978,7 @@ void StructureViewItem::setLabel(const QString &label)
 		QTreeWidgetItemIterator it(structurelist);
 		while(*it) {
 			StructureViewItem *item = dynamic_cast<StructureViewItem*>(*it);
-			if(item && item->type() == KileStruct::Sect) {
+			if  (item && item->type() == KileStruct::Sect && (!checkLevel || item->level() <= refItem->level())){
 				foundRow = item->startline() - 1;
 				foundCol = item->startcol() - 1;
 				if(backwards) {

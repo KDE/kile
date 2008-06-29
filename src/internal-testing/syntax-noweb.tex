@@ -1,0 +1,67 @@
+% /***************************************************************************
+%     begin                : Mon 12 february 2008
+%     copyright            : (C) 2008 by Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+%  description:  test document for syntax file latex.xml
+% 		turn off syntax-HL inside noweb blocks
+%  compiles:	no
+
+\begin{document}
+
+\latexCmd
+$ \alpha + \beta = \gamma $	
+
+<<SomeName,echo=F>>=
+code line
+code line$var
+var$var2
+class$varname
+output LaTeX
+@  %defs
+
+\latexCmd
+$ \alpha + \beta = \gamma $	
+
+<<SomeName,echo=F>>=
+code line
+code line$var
+var$var2
+class$varname
+output LaTeX
+ @  
+\latexCmd
+$ \alpha + \beta = \gamma $	
+
+<<SomeName,echo=F>>=
+code line
+code line$var
+var$var2
+class$varname
+output LaTeX
+@  %defs
+
+\latexCmd
+$ \alpha + \beta = \gamma $	
+
+<<SomeName,echo=F>>=
+code line
+code line$var
+var$var2
+class$varname
+output LaTeX
+ @  %defs
+
+\latexCmd
+$ \alpha + \beta = \gamma $	
+
+\end{document}
+

@@ -40,7 +40,9 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 		KDialog(parent),
 		m_startdir(startdir),
 		m_ki(ki),
-		m_proc(0)
+		m_proc(0),
+		m_width(0),
+		m_height(0)
 {
 	setCaption(i18n("Include Graphics"));
 	setModal(true);
@@ -192,8 +194,8 @@ QString IncludeGraphics::getOptions()
 
 QString IncludeGraphics::getInfo()
 {
-	QString wcm, hcm, dpi;
-	int wpx, hpx;
+	QString wcm,hcm,dpi;
+	int wpx=0,hpx=0;
 
 	bool ok = getPictureSize(wpx, hpx, dpi, wcm, hcm);
 	if (! ok)

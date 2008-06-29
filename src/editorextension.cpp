@@ -950,7 +950,18 @@ void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 	else if(findOpenedEnvironment(row, col, name, view)) {
 		if(m_latexCommands->isListEnv(name)) {
 			keyReturn(view);
-			view->insertText("\\item " );
+			
+			if ( name == "description" )
+			{
+				view->insertText("\\item[]");
+				cursor = view->cursorPosition();
+				row = cursor.line();
+				col = cursor.column();
+				view->setCursorPosition(KTextEditor::Cursor(row, col-1));
+			}
+			else
+				view->insertText("\\item ");
+			
 			return;
 		}
 		else if(m_latexCommands->isTabularEnv(name) || m_latexCommands->isMathEnv(name)) {

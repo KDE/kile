@@ -133,11 +133,22 @@ namespace KileTool
 
 		/**
 		 * @returns the dictionary that translates the following keys
-		 * %dir_base : the directory of the root file
-		 * %dir_target : same as %dir_base, except when the relativeDir has been set explicitly, then %dir_target= %dir_base/relativedir
-		 * %source : the source file (no path)
-		 * %S : the source filename without an extension (no path)
-		 **/
+		Example docu:
+		Consider a file which is called myBestBook.tex which resides in /home/thomas/latex and you compile it with pdflatex to myBestBook.pdf.
+
+		The variables have the following meanings:
+		%source ->  filename with suffix but without path <-> myBestBook.tex
+		%S ->  filename without suffix but without path <-> myBestBook
+		%dir_base  -> path of the source file without filename  <-> /home/thomas/latex
+		%dir_target -> path of the target file without filename, same as %dir_base if no relative path has been set <-> /home/thomas/latex
+		%target -> target filename without path <-> without filename 
+
+		And these are special variables
+		%res <-> resolution of the quickpreview action set in configure kile->tools->preview
+
+		%AFL <-> List of all files in a project marked for archiving. You can set the archive flag in the "Files and projects" sidebar using the context menu.
+
+		*/
 		QHash<QString,QString>& paramDict() { return m_dictParams; }
 
 		bool addDict(const QString& key, const QString& value);

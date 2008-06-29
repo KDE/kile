@@ -1,0 +1,35 @@
+SVN commit 765739 by tbraun:
+
+- fix multiple citations/references
+- allow : and - in citation keys
+
+M  +4 -2      ChangeLog  
+M  +32 -28    kile/codecompletion.cpp  
+
+
+SVN commit 771423 by tbraun:
+
+more debug output
+
+
+ M  +18 -17    codecompletion.cpp  
+
+SVN commit 771425 by tbraun:
+
+fix one part of the codecompletion error
+I'm not sure if this is really the correct way, but at least my testing revealed no big drawbacks.
+CCBUG: 155044
+
+
+ M  +1 -0      kileviewmanager.cpp 
+
+SVN commit 796505 by tbraun:
+
+revert old codecompletion fix from 771425 because it created more problems as it solved
+
+add new very hackish codecompletion fix. I tried for half an hour an didn't find any regressions.
+And I also hope that our users do also not :)
+
+These two bugs are in principle fixed with this commit, but I wait until it it confirmed
+CCBUG: 155044
+CCBUG: 160555

@@ -1,9 +1,9 @@
-/***************************************************************************
+/**************************************************************************************************
     date                 : Dec 06 2005
     version              : 0.24
-    copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
-    email                : holger.danielsson@t-online.de
- ***************************************************************************/
+    copyright            : (C) 2004-2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                              2004 by Jeroen Wijnhout
+ **************************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -39,10 +39,10 @@ namespace KileDialog
 IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki) :
 		KDialog(parent),
 		m_startdir(startdir),
-		m_ki(ki),
-		m_proc(0),
 		m_width(0),
-		m_height(0)
+		m_height(0),
+		m_ki(ki),
+		m_proc(NULL)
 {
 	setCaption(i18n("Include Graphics"));
 	setModal(true);

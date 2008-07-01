@@ -942,10 +942,26 @@ void Manager::fileSaveAs(Kate::View* view)
 		}
 		break;
 	}
-	doc->setEncoding(result.encoding);
-	if(!doc->saveAs(saveURL))
-	{
-		return;
+	if(doc->encoding().lower() != result.encoding.lower()) {
+		// save the document twice if the user has selected a different encoding;
+		// this works around a bug in KatePart in the 'setEncoding' method, which 
+		// enforces a reload on every change of the encoding, and as a consequence the
+		// user sees a document-modified dialog
+		if(!doc->saveAs(saveURL))
+		{
+			return;
+		}
+		doc->setEncoding(result.encoding);
+		if(!doc->save())
+		{
+			return;
+		}
+	}
+	else {
+		if(!doc->saveAs(saveURL))
+		{
+			return;
+		}
 	}
 	if(oldURL != saveURL)
 	{

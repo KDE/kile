@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Wed Aug 14 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
 
 from Kate (C) 2001 by Matt Newell
 
@@ -29,7 +29,6 @@ from Kate (C) 2001 by Matt Newell
 
 #include <KActionCollection>
 #include <KCharsets>
-#include <KComboBox>
 #include <KLocale>
 #include <KToolBar>
 
@@ -100,14 +99,6 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 
 	layout->addWidget(m_dirOperator);
 	layout->setStretchFactor(m_dirOperator, 2);
-	
-	m_comboEncoding = new KComboBox(false, this);
-	m_comboEncoding->setObjectName("comboEncoding");
-	QStringList availableEncodingNames(KGlobal::charsets()->availableEncodingNames());
-	m_comboEncoding->setEditable(true);
-	m_comboEncoding->insertStringList(availableEncodingNames);
-	QToolTip::add(m_comboEncoding, i18n("Set encoding"));
-	layout->addWidget(m_comboEncoding);
 }
 
 FileBrowserWidget::~FileBrowserWidget()
@@ -133,16 +124,11 @@ void FileBrowserWidget::writeConfig()
 }
 
 #ifdef __GNUC__
-#warning There shouldn't be a need to expose the m_dirOperator and m_comboEncoding objects!
+#warning There should not be a need to expose the m_dirOperator object!
 #endif
 KDirOperator* FileBrowserWidget::dirOperator()
 {
 	return m_dirOperator;
-}
-
-KComboBox* FileBrowserWidget::comboEncoding()
-{
-	return m_comboEncoding;
 }
 
 void FileBrowserWidget::comboBoxReturnPressed(const QString& u)

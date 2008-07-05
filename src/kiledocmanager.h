@@ -218,7 +218,7 @@ protected:
 	 * @warning This method does not close or delete any Kate documents that are associated with the TextInfo object !
 	 **/
 	bool removeTextDocumentInfo(TextInfo *docinfo, bool closingproject = false);
-	KTextEditor::Document* createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString& encoding, const QString& highlight);
+	KTextEditor::Document* createDocument(const KUrl& url, TextInfo *docinfo, const QString& encoding, const QString& highlight);
 
 	/**
 	 *  Creates a document with the specified text.
@@ -227,7 +227,7 @@ protected:
 	 **/
 	KTextEditor::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString(), const KUrl& baseDirectory = KUrl());
 
-	KTextEditor::View* loadText(KileDocument::Type type, const QString& name, const KUrl &url, const QString& encoding = QString(), bool create = true, const QString & highlight  = QString(), const QString &text = QString(), int index = -1, const KUrl& baseDirectory = KUrl());
+	KTextEditor::View* loadText(KileDocument::Type type, const KUrl& url, const QString& encoding = QString(), bool create = true, const QString& highlight  = QString(), const QString &text = QString(), int index = -1, const KUrl& baseDirectory = KUrl());
 	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString& text = QString(), bool openProjectItemViews = true);
 
 private:

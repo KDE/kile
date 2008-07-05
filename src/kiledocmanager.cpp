@@ -37,9 +37,9 @@
 #include <KTextEditor/View>
 #include <kapplication.h>
 #include "kiledebug.h"
-#include <kencodingfiledialog.h>
-#include <klocale.h>
-#include <kmimetype.h>
+#include <KEncodingFileDialog>
+#include <KLocale>
+#include <KMimeType>
 #include <kmessagebox.h>
 #include <KProgressDialog>
 #include <kfile.h>
@@ -88,10 +88,6 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_editor = KTextEditor::EditorChooser::editor();
 //FIXME: check whether this is still needed
 // 	KTextEditor::Document::setFileChangedDialogsActivated (true);
-
-	if (KileConfig::defaultEncoding() == "invalid") {
-		KileConfig::setDefaultEncoding(QString::fromLatin1(QTextCodec::codecForLocale()->name()));
-	}
 }
 
 Manager::~Manager()
@@ -440,7 +436,7 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 	return false;
 }
 
-KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& url, TextInfo *docinfo, const QString & encoding, const QString & highlight)
+KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinfo, const QString& encoding, const QString & highlight)
 {
 	KILE_DEBUG() << "==KTextEditor::Document* Manager::createDocument()===========";
 	if(!m_editor) {
@@ -456,9 +452,7 @@ KTextEditor::Document* Manager::createDocument(const QString& name, const KUrl& 
 		KILE_DEBUG() << "\tappending document " <<  doc;
 	}
 
-	//set the default encoding
-	QString enc = encoding.isNull() ? KileConfig::defaultEncoding() : encoding;
-	doc->setEncoding(enc);
+	doc->setEncoding(encoding);
 
 	KILE_DEBUG() << "url is = " << docinfo->url();
 
@@ -500,7 +494,7 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 
 	if ( item->type() != KileProjectItem::Image )
 	{
-		view = loadText(type, QString::null, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->highlight(), text);
+		view = loadText(type, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->highlight(), text);
 		KILE_DEBUG() << "\tloadItem: docfor = " << docFor(item->url().path());
 
 		TextInfo *docinfo = textInfoFor(item->url().path());
@@ -525,7 +519,7 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 	return view;
 }
 
-KTextEditor::View* Manager::loadText(KileDocument::Type type, const QString& name, const KUrl &url , const QString & encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KUrl& baseDirectory /* = KUrl() */)
+KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url , const QString& encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KUrl& baseDirectory /* = KUrl() */)
 {
 	KILE_DEBUG() << "==loadText(" << url.url() << ")=================";
 	//if doc already opened, update the structure view and return the view
@@ -533,7 +527,7 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const QString& nam
 		return m_ki->viewManager()->switchToTextView(url);
 
 	TextInfo *docinfo = createTextDocumentInfo(type, url, baseDirectory);
-	KTextEditor::Document *doc = createDocument(name, url, docinfo, encoding, highlight);
+	KTextEditor::Document *doc = createDocument(url, docinfo, encoding, highlight);
 
 	m_ki->structureWidget()->clean(docinfo);
 	docinfo->updateStruct();
@@ -582,11 +576,10 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalScriptDirectory() : QString()));
 }
 
-KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& extension, const KUrl& baseDirectory)
+KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& /* extension */, const KUrl& baseDirectory)
 {
-	KTextEditor::View *view = loadText(type, KileUntitled::next() + (extension.isEmpty() ? QString::null : '.' + extension), KUrl(), QString::null, true, QString::null, text, -1, baseDirectory);
-	if (view)
-	{
+	KTextEditor::View *view = loadText(type, KUrl(), QString(), true, QString(), text, -1, baseDirectory);
+	if(view) {
 		//FIXME this shouldn't be necessary!!!
 		view->document()->setModified(true);
 		newDocumentStatus(view->document());
@@ -700,7 +693,7 @@ void Manager::fileOpen()
 	                 + "*|" + i18n("All Files");
 
 	//get the URLs
-	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding( KileConfig::defaultEncoding(), currentDir, filter, m_ki->mainWindow(), i18n("Open Files") );
+	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(QString(), currentDir, filter, m_ki->mainWindow(), i18n("Open Files"));
 
 	//open them
 	KUrl::List urls = result.URLs;
@@ -718,9 +711,9 @@ void Manager::fileSelected(const KileProjectItem * item)
 	fileOpen(item->url(), item->encoding());
 }
 
-void Manager::fileSelected(const KUrl & url)
+void Manager::fileSelected(const KUrl& url)
 {
-	fileOpen(url, m_ki->fileSelector()->comboEncoding()->lineEdit()->text());
+	fileOpen(url, QString());
 }
 
 void Manager::saveURL(const KUrl & url)
@@ -846,7 +839,7 @@ void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
 	
 	bool isopen = m_ki->isOpen(realurl);
 
-	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), QString::null, realurl, encoding, true, QString::null, QString::null, index);
+	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), index);
 	KileProjectItem *item = itemFor(realurl);
 
 	if(!isopen) {
@@ -912,7 +905,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 	KUrl saveURL;
 	while(true) {
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
-		result = KEncodingFileDialog::getSaveUrlAndEncoding(KileConfig::defaultEncoding(), startDir, filter, m_ki->mainWindow(), i18n("Save File"));
+		result = KEncodingFileDialog::getSaveUrlAndEncoding(doc->encoding(), startDir, filter, m_ki->mainWindow(), i18n("Save File"));
 		if(result.URLs.isEmpty() || result.URLs.first().isEmpty()) {
 			return;
 		}

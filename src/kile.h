@@ -126,8 +126,6 @@ public Q_SLOTS:
 	bool queryExit();
 	bool queryClose();
 
-	void changeInputEncoding();
-
 	void updateModeStatus();
 	void newCaption();
 	void citeViewBib();

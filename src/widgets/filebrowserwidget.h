@@ -2,7 +2,7 @@
     begin                : Wed Aug 14 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
 
 from Kate (C) 2001 by Matt Newell
 
@@ -21,16 +21,16 @@ from Kate (C) 2001 by Matt Newell
 #define FILEBROWSERWIDGET_H
 
 #include <QFocusEvent>
-#include <kfile.h>
-#include <kdiroperator.h>
-#include <kurlcombobox.h>
-#include <kurlcompletion.h>
+
+#include <KFile>
+#include <KDirOperator>
+#include <KUrlComboBox>
+#include <KUrlCompletion>
 #include <KUrl>
 
 #include "kileextensions.h"
 
 class KFileItem;
-class KComboBox;
 
 namespace KileWidget {
 
@@ -43,7 +43,6 @@ public:
 	~FileBrowserWidget();
 
 	KDirOperator* dirOperator();
-	KComboBox* comboEncoding();
 
 public Q_SLOTS:
 	void setDir(const KUrl& url);
@@ -65,7 +64,6 @@ Q_SIGNALS:
 private:
 	KUrlComboBox	*m_pathComboBox;
 	KDirOperator	*m_dirOperator;
-	KComboBox	*m_comboEncoding;
 	KUrlCompletion	*m_urlCompletion;
 };
 

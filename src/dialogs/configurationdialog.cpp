@@ -301,24 +301,6 @@ namespace KileDialog
 		}
 	}
 
-	//////////////////// encoding  ////////////////////
-
-	QString Config::readKateEncoding()
-	{
-#ifdef __GNUC__
-#warning The editor's encoding cannot be read like this!
-#endif
-		KConfigGroup group = m_config->group("Kate Document Defaults");
-		return group.readEntry("Encoding", QString());
-	}
-	
-	void Config::syncKileEncoding()
-	{
-		QString enc = readKateEncoding();
-		if ( enc.isEmpty() )
-				enc = QString::fromLatin1(QTextCodec::codecForLocale()->name());
-		KileConfig::setDefaultEncoding( enc );
-	}
 	//////////////////// slots ////////////////////
 
 	void Config::slotOk()
@@ -337,9 +319,6 @@ namespace KileDialog
 			if(editor) {
 				editor->writeConfig(m_config);
 			}
-
-			// take Kate's encoding for Kile
-			syncKileEncoding();
 		}
 
 		// Kile settings

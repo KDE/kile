@@ -114,10 +114,6 @@ namespace KileDialog
 		// write configuration
 		void writeGeneralOptionsConfig();
 
-		// synchronize encoding
-		QString readKateEncoding();
-		void syncKileEncoding();
-
 		// editor pages
 		QMap<KPageWidgetItem*, KTextEditor::ConfigPage*> m_editorPages;
 	};

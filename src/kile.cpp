@@ -383,8 +383,6 @@ void Kile::setupSideBar()
 	m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar, "File Selector");
 	m_sideBar->addPage(m_fileBrowserWidget, SmallIcon("document-open"), i18n("Open File"));
 	connect(m_fileBrowserWidget,SIGNAL(fileSelected(const KFileItem&)), docManager(), SLOT(fileSelected(const KFileItem&)));
-	connect(m_fileBrowserWidget->comboEncoding(), SIGNAL(activated(int)),this,SLOT(changeInputEncoding()));
-	m_fileBrowserWidget->comboEncoding()->lineEdit()->setText(KileConfig::defaultEncoding());
 	m_fileBrowserWidget->readConfig();
 
 	setupProjectView();
@@ -2215,8 +2213,6 @@ void Kile::saveSettings()
 	m_fileBrowserWidget->writeConfig();
 	m_symbolViewMFUS->writeConfig();
 
-	KileConfig::setInputEncoding(m_fileBrowserWidget->comboEncoding()->lineEdit()->text());
-
 	// Store recent files
 	m_actRecentFiles->saveEntries(m_config->group("Recent Files"));
 	m_actRecentProjects->saveEntries(m_config->group("Projects"));
@@ -2428,32 +2424,6 @@ void Kile::configureToolbars()
 
 	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
  	showToolBars(m_currentState);
-}
-
-void Kile::changeInputEncoding()
-{
-	KTextEditor::Document *doc = activeTextDocument();
-	if ( doc )
-	{
-		KileDocument::TextInfo *textInfo = docManager()->textInfoFor(doc);
-		bool modified = doc->isModified();
-		
-		if( !textInfo )
-			return;
-
-		QString encoding = m_fileBrowserWidget->comboEncoding()->lineEdit()->text();
-
-		if(!encoding.isNull())
-			doc->setEncoding(encoding);
-        	QString highlightingMode = doc->highlightingMode(); //remember the highlighting mode
-
-		//reload the document so that the new encoding takes effect
-		doc->openUrl(doc->url());
-        	doc->setHighlightingMode(highlightingMode);
-		doc->setModified(modified);
-		
-		viewManager()->updateStructure(true,textInfo); //reparse doc to get a correct structure view
-	}
 }
 
 //////////////////// CLEAN BIB /////////////////////

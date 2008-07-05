@@ -123,12 +123,9 @@ void FileBrowserWidget::writeConfig()
 	KileConfig::setLastDir(m_dirOperator->url().path());
 }
 
-#ifdef __GNUC__
-#warning There should not be a need to expose the m_dirOperator object!
-#endif
-KDirOperator* FileBrowserWidget::dirOperator()
+KUrl FileBrowserWidget::currentUrl() const
 {
-	return m_dirOperator;
+	return m_dirOperator->url();
 }
 
 void FileBrowserWidget::comboBoxReturnPressed(const QString& u)

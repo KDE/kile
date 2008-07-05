@@ -42,7 +42,7 @@ public:
 	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent = NULL, const char *name = NULL);
 	~FileBrowserWidget();
 
-	KDirOperator* dirOperator();
+	KUrl currentUrl() const;
 
 public Q_SLOTS:
 	void setDir(const KUrl& url);

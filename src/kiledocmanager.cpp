@@ -677,12 +677,14 @@ void Manager::fileNew(const KUrl & url)
 void Manager::fileOpen()
 {
 	//determine the starting dir for the file dialog
-    QString compileName = m_ki->getCompileName();
+	QString compileName = m_ki->getCompileName();
 	QString currentDir;
-    if ( QFileInfo(compileName).exists() )
-        currentDir = QFileInfo(compileName).absolutePath();
-    else
-        currentDir = m_ki->fileSelector()->dirOperator()->url().path();
+	if(QFileInfo(compileName).exists()) {
+		currentDir = QFileInfo(compileName).absolutePath();
+	}
+	else {
+		currentDir = m_ki->fileSelector()->currentUrl().path();
+	}
 
 	// use a filter for fileOpen dialog
 	Extensions *extensions = m_ki->extensions();
@@ -951,11 +953,13 @@ void Manager::fileSaveCopyAs()
 		
 		KileDocument::TextInfo *newInfo = textInfoFor(view->document());
 		
-		if(originalInfo->url().isEmpty()) // untitled doc
-			newInfo->setBaseDirectory(m_ki->fileSelector()->dirOperator()->url().path());
-		else
+		if(originalInfo->url().isEmpty()) { // untitled doc
+			newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl().path());
+		}
+		else {
 			newInfo->setBaseDirectory(originalInfo->url().path());
-		
+		}
+
 		fileSaveAs(view);
 		
 		doc = view->document();

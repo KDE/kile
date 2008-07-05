@@ -383,26 +383,7 @@
 		<Action name="tag_env_cases"/>
 	</Menu>
 	<Separator/>
-	<Menu name="menu_bibliography"><text>&amp;Bibliography</text>
-		<Action name="tag_bibliographystyle"/>
-		<Action name="tag_bibliography"/>
-		<Separator/>
-		<Action name="tag_bib_article"/>
-		<Action name="tag_bib_inproc"/>
-		<Action name="tag_bib_incol"/>
-		<Action name="tag_bib_inbook"/>
-		<Action name="tag_bib_proceedings"/>
-		<Action name="tag_bib_book"/>
-		<Action name="tag_bib_booklet"/>
-		<Action name="tag_bib_phdthesis"/>
-		<Action name="tag_bib_masterthesis"/>
-		<Action name="tag_bib_techreport"/>
-		<Action name="tag_bib_manual"/>
-		<Action name="tag_bib_unpublished"/>
-		<Action name="tag_bib_misc"/>
-		<Separator/>
-		<Action name="CleanBib"/>
-	</Menu>
+	<Action name="menu_bibliography"/>
 	<Separator/>
 	<Menu name="menu_fontstyles"><text>&amp;Font Styles</text>
 		<Action name="tag_textit"/>

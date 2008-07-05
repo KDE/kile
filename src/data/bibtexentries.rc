@@ -1,0 +1,78 @@
+[Article]
+internalName = article
+name = Article in Journal
+key  = author ,title ,journal ,year
+optkey = key ,volume ,number ,pages ,month ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[InProceedings]
+internalName = inproc
+name = Article in Conference Proceedings
+key = author ,title ,booktitle
+optkey = crossref ,key ,pages ,year ,editor ,volume ,number ,series ,address ,month ,organization ,publisher ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[InCollection]
+internalName = incol
+name = Article in Collection
+key = author ,title ,booktitle
+optkey = crossref ,key ,pages ,publisher ,year ,editor ,volume ,number ,series ,type ,chapter ,address ,edition ,month ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[InBook]
+internalName = inbook
+name = Chapter or Pages in Book
+key = title ,chapter ,publisher ,year 
+altkey = author ,editor
+optkey = key ,volume ,number ,series ,type ,address ,edition ,month ,pages ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[Proceedings]
+internalName = proceedings
+name = Conference Proceedings
+key = title ,year
+optkey = ,key ,editor ,volume ,number ,series ,address ,month ,organization ,publisher ,note ,annote ,url ,doi ,issn ,localfile ,abstracts
+
+[Book]
+internalName = book
+name = Book
+altkey = ALTauthor ,ALTeditor
+key = title, publisher ,year
+optkey = key ,volume ,number ,series ,address ,edition ,month ,note ,annote ,url ,doi ,issn ,localfile ,abstracts
+
+[Booklet]
+internalName = booklet
+name = Booklet
+key = title
+optkey = key, author, howpublished, address, month, year, note, annote, url, doi, issn, localfile, abstract
+
+[PhdThesis]
+internalName = phdthesis
+name = PhD. Thesis
+key = author ,title ,school ,year
+optkey = key ,type ,address ,month ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[MastersThesis]
+internalName = masterthesis
+name = Master's Thesis
+key = author, title ,school ,year
+optkey = key, type, address, month, note, annote, url, doi, issn, localfile, abstract
+
+[TechReport]
+internalName = techreport
+name = Technical Report
+key = author ,title ,institution ,year
+optkey = key ,type ,number ,address ,month ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[Manual]
+internalName = manual
+name = Technical Manual
+key = title
+optkey = key ,author ,organization ,address ,edition ,month ,year ,note ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[Unpublished]
+internalName = unpublished
+name = Unpublished
+key = author ,title ,note
+optkey = key ,month ,year ,annote ,url ,doi ,issn ,localfile ,abstract
+
+[Misc]
+internalName = misc
+name = Miscellaneous
+optkey = key ,author ,title ,howpublished ,month ,year ,note ,annote ,url ,doi ,issn ,localfile

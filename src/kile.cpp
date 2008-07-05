@@ -657,7 +657,7 @@ KAction* Kile::createAction(KStandardAction::StandardAction actionType, const QS
 }
 void Kile::setupActions()
 {
-	QAction *action;
+	QAction *act;
 
 	m_paPrint = createAction(KStandardAction::Print, "file_print", NULL, NULL);
 	createAction(KStandardAction::New, "file_new", docManager(), SLOT(fileNew()));
@@ -724,21 +724,21 @@ void Kile::setupActions()
 	createAction(i18n("Find in &Project..."), "project_findfiles", "projectgrep", this, SLOT(findInProjects()));
 
 	//build actions
-	action = createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
-	action = createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));
-	m_latexOutputErrorToolBar->addAction(action);
-	action = createAction(i18n("Previous LaTeX Error"), "PreviousError", "errorprev", m_errorHandler, SLOT(PreviousError()));
-	m_latexOutputErrorToolBar->addAction(action);
-	action = createAction(i18n("Next LaTeX Error"), "NextError", "errornext", m_errorHandler, SLOT(NextError()));
-	m_latexOutputErrorToolBar->addAction(action);
-	action = createAction(i18n("Previous LaTeX Warning"), "PreviousWarning", "warnprev", m_errorHandler, SLOT(PreviousWarning()));
-	m_latexOutputErrorToolBar->addAction(action);
-	action = createAction(i18n("Next LaTeX Warning"), "NextWarning", "warnnext", m_errorHandler, SLOT(NextWarning()));
-	m_latexOutputErrorToolBar->addAction(action);
-	action = createAction(i18n("Previous LaTeX BadBox"), "PreviousBadBox", "bboxprev", m_errorHandler, SLOT(PreviousBadBox()));
-	m_latexOutputErrorToolBar->addAction(action);
-	action = createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
-	m_latexOutputErrorToolBar->addAction(action);
+	act = createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
+	act = createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));
+	m_latexOutputErrorToolBar->addAction(act);
+	act = createAction(i18n("Previous LaTeX Error"), "PreviousError", "errorprev", m_errorHandler, SLOT(PreviousError()));
+	m_latexOutputErrorToolBar->addAction(act);
+	act = createAction(i18n("Next LaTeX Error"), "NextError", "errornext", m_errorHandler, SLOT(NextError()));
+	m_latexOutputErrorToolBar->addAction(act);
+	act = createAction(i18n("Previous LaTeX Warning"), "PreviousWarning", "warnprev", m_errorHandler, SLOT(PreviousWarning()));
+	m_latexOutputErrorToolBar->addAction(act);
+	act = createAction(i18n("Next LaTeX Warning"), "NextWarning", "warnnext", m_errorHandler, SLOT(NextWarning()));
+	m_latexOutputErrorToolBar->addAction(act);
+	act = createAction(i18n("Previous LaTeX BadBox"), "PreviousBadBox", "bboxprev", m_errorHandler, SLOT(PreviousBadBox()));
+	m_latexOutputErrorToolBar->addAction(act);
+	act = createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
+	m_latexOutputErrorToolBar->addAction(act);
 	m_paStop = m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape), NULL, NULL);
 	m_paStop->setEnabled(false);
 	m_latexOutputErrorToolBar->addAction(m_paStop);
@@ -796,7 +796,26 @@ void Kile::setupActions()
 
 	KileStdActions::setupStdTags(this, this, actionCollection(), m_mainWindow);
 	KileStdActions::setupMathTags(this, actionCollection());
-	KileStdActions::setupBibTags(this, actionCollection());
+
+	m_bibTagActionMenu = new KActionMenu(i18n("&Bibliography"), actionCollection());
+	m_bibTagActionMenu->setDelayed(false);
+	actionCollection()->addAction("menu_bibliography", m_bibTagActionMenu);
+
+ 	createAction(i18n("Clean"), "CleanBib", this, SLOT(cleanBib()));
+
+	m_bibTagSettings = new KSelectAction(i18n("&Settings"),actionCollection());
+	actionCollection()->addAction("settings_menu_bibliography", m_bibTagSettings);
+
+	act = createAction(i18n("BibTeX"), "setting_bibtex", this, SLOT(rebuildBibliographyMenu()));
+	act->setCheckable(true);
+	m_bibTagSettings->addAction(act);
+
+	act = createAction(i18n("Biblatex"), "setting_biblatex", this, SLOT(rebuildBibliographyMenu()));
+	act->setCheckable(true);
+	m_bibTagSettings->addAction(act);
+	m_bibTagSettings->setCurrentAction(action(QString("setting_") + KileConfig::bibliographyType() ));
+
+	rebuildBibliographyMenu();
 
 	createAction(i18n("Quick Start"), "wizard_document", "quickwizard", this, SLOT(quickDocument()));
 	connect(docManager(), SIGNAL(startWizard()), this, SLOT(quickDocument()));
@@ -806,8 +825,6 @@ void Kile::setupActions()
 	createAction(i18n("Floats"), "wizard_float", "wizard_float", this, SLOT(quickFloat()));
 	createAction(i18n("Math"), "wizard_mathenv", "wizard_math", this, SLOT(quickMathenv()));
 	createAction(i18n("Postscript Tools"), "wizard_postscript", "wizard_pstools", this, SLOT(quickPostscript()));
-
-	createAction(i18n("Clean"), "CleanBib", this, SLOT(cleanBib()));
 
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
@@ -885,11 +902,39 @@ void Kile::setupActions()
 	m_pFullScreen = KStandardAction::fullScreen(this, SLOT(slotToggleFullScreen()), m_mainWindow, actionCollection());
 
 	//FIXME: this is just temporary
-	action = new KToggleAction(actionCollection());
-	actionCollection()->addAction("kile_onthefly_spellcheck", action);
-	action->setText(i18n("Toggle On-the-Fly Spellcheck"));
-	action->setIcon(KIcon("tools-check-spelling"));
-	connect(action, SIGNAL(triggered(bool)), m_spellCheckManager, SLOT(setOnTheFlySpellCheckEnabled(bool)));
+	act = new KToggleAction(actionCollection());
+	actionCollection()->addAction("kile_onthefly_spellcheck", act);
+	act->setText(i18n("Toggle On-the-Fly Spellcheck"));
+	act->setIcon(KIcon("tools-check-spelling"));
+	connect(act, SIGNAL(triggered(bool)), m_spellCheckManager, SLOT(setOnTheFlySpellCheckEnabled(bool)));
+}
+
+void Kile::rebuildBibliographyMenu(){
+
+	KILE_DEBUG() << " current is " << m_bibTagSettings->currentText();
+
+	QString currentItem = m_bibTagSettings->currentText();
+	QString name;
+
+	if( currentItem == i18n("Bibtex") ){ // avoid writing i18n'ed strings to config file
+		name = QString("bibtex");
+	}
+	else if ( currentItem == i18n("Biblatex") ){
+		name = QString("biblatex");
+	}
+	else{
+		KILE_DEBUG() << "wrong currentItem in bibliography settings menu"; 
+		name = QString("bibtex");
+	}
+
+	KileConfig::setBibliographyType(name);
+	m_bibTagActionMenu->menu()->clear();
+
+	KileStdActions::setupBibTags(this, actionCollection(),m_bibTagActionMenu);
+	m_bibTagActionMenu->addSeparator();
+ 	m_bibTagActionMenu->addAction(action("CleanBib"));
+	m_bibTagActionMenu->addSeparator();
+	m_bibTagActionMenu->addAction(action("settings_menu_bibliography"));
 }
 
 void Kile::setupTools()
@@ -1685,10 +1730,8 @@ void Kile::initMenu()
 	   << "tag_env_gather" << "tag_env_gather*" << "tag_env_align" << "tag_env_align*"
 	   << "tag_env_flalign" << "tag_env_flalign*" << "tag_env_alignat" << "tag_env_alignat*"
 	   << "tag_env_aligned" << "tag_env_gathered" << "tag_env_alignedat" << "tag_env_cases"
-	   << "tag_bibliographystyle" << "tag_bibliography" << "tag_bib_article" << "tag_bib_inproc"
-	   << "tag_bib_incol" << "tag_bib_inbook" << "tag_bib_proceedings" << "tag_bib_book"
-	   << "tag_bib_booklet" << "tag_bib_phdthesis" << "tag_bib_masterthesis" << "tag_bib_techreport"
-	   << "tag_bib_manual" << "tag_bib_unpublished" << "tag_bib_misc" << "CleanBib"
+	   // bibliography stuff
+	   << "menu_bibliography"
 	   << "tag_textit" << "tag_textsl" << "tag_textbf" << "tag_underline"
 	   << "tag_texttt" << "tag_textsc" << "tag_emph" << "tag_strong"
 	   << "tag_rmfamily" << "tag_sffamily" << "tag_ttfamily"
@@ -1790,7 +1833,6 @@ void Kile::updateMenu()
 	updateActionList(m_listConverterActions,file_open);
 	updateActionList(m_listViewerActions,file_open);
 	updateActionList(m_listOtherActions,file_open);
-
 }
 
 void Kile::updateActionList(const QList<QAction*>& list, bool state)

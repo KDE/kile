@@ -132,6 +132,8 @@ public Q_SLOTS:
 	void newCaption();
 	void citeViewBib();
 
+	void rebuildBibliographyMenu();
+
 	// D-Bus Interface
 	void openDocument(const QString & url);
 	void closeDocument();
@@ -151,9 +153,11 @@ private:
 	KToolBar				*m_toolsToolBar;
 	KActionMenu 				*m_menuUserTags;
 	KActionMenu				*m_userHelpActionMenu;
+	KSelectAction				*m_bibTagSettings;
 	QList<KileAction::TagData>		m_listUserTags;
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	KActionMenu 				*m_bibTagActionMenu;
 	KAction 				*m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
 	KToggleAction 				*m_actionMessageView;

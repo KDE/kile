@@ -22,8 +22,10 @@
 #include <kmainwindow.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <KConfig>
 
 #include "kileactions.h"
+#include "kilestdactions.h"
 #include "editorextension.h"
 #include "kileinfo.h"
 
@@ -100,8 +102,6 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	// two new shortcuts (dani)
 	(void) new KileAction::InputTag(ki,i18n("Customizable File Inclusion - \\include{file}"),"include", KShortcut("Alt+I,F"), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_include", parentWidget, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\include{%R","}",9,0, i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),i18n("Type or select a filename: "));
 	(void) new KileAction::InputTag(ki,i18n("File Inclusion - \\input{file}"),"include",KShortcut("Alt+I,P"), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_input", parentWidget, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\input{%R","}",7,0,i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),i18n("Type or select a filename: "));
-	(void) new KileAction::Tag(i18n("Bibliography Style Selection - \\bibliographystyle{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels."));
-	(void) new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file"));
 
 	KActionMenu *actionstructure_list = new KActionMenu(i18n("Sectioning"), actionCollection);
 	actionCollection->addAction("structure_list", actionstructure_list);
@@ -219,23 +219,124 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 }
 
-void setupBibTags(const QObject *receiver, KActionCollection *actionCollection)
+void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, KActionMenu * menu)
 {
-	(void) new KileAction::Tag(i18n("Article in Journal"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_article","@Article{,\nauthor = {},\ntitle = {},\njournal = {},\nyear = {},\nOPTkey = {},\nOPTvolume = {},\nOPTnumber = {},\nOPTpages = {},\nOPTmonth = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),9,0,i18n("Bib fields - Article in Journal\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Article in Conference Proceedings"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_inproc","@InProceedings{,\nauthor = {},\ntitle = {},\nbooktitle = {},\nOPTcrossref = {},\nOPTkey = {},\nOPTpages = {},\nOPTyear = {},\nOPTeditor = {},\nOPTvolume = {},\nOPTnumber = {},\nOPTseries = {},\nOPTaddress = {},\nOPTmonth = {},\nOPTorganization = {},\nOPTpublisher = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),15,0,i18n("Bib fields - Article in Conference Proceedings\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Article in Collection"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_incol","@InCollection{,\nauthor = {},\ntitle = {},\nbooktitle = {},\nOPTcrossref = {},\nOPTkey = {},\nOPTpages = {},\nOPTpublisher = {},\nOPTyear = {},\nOPTeditor = {},\nOPTvolume = {},\nOPTnumber = {},\nOPTseries = {},\nOPTtype = {},\nOPTchapter = {},\nOPTaddress = {},\nOPTedition = {},\nOPTmonth = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),14,0,i18n("Bib fields - Article in a Collection\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Chapter or Pages in Book"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_inbook","@InBook{,\nALTauthor = {},\nALTeditor = {},\ntitle = {},\nchapter = {},\npublisher = {},\nyear = {},\nOPTkey = {},\nOPTvolume = {},\nOPTnumber = {},\nOPTseries = {},\nOPTtype = {},\nOPTaddress = {},\nOPTedition = {},\nOPTmonth = {},\nOPTpages = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),8,0,i18n("Bib fields - Chapter or Pages in a Book\nALT.... : you have the choice between these two fields\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Conference Proceedings"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_proceedings","@Proceedings{,\ntitle = {},\nyear = {},\nOPTkey = {},\nOPTeditor = {},\nOPTvolume = {},\nOPTnumber = {},\nOPTseries = {},\nOPTaddress = {},\nOPTmonth = {},\nOPTorganization = {},\nOPTpublisher = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),13,0,i18n("Bib Fields - Conference Proceedings\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Book"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_book","@Book{,\nALTauthor = {},\nALTeditor = {},\ntitle = {},\npublisher = {},\nyear = {},\nOPTkey = {},\nOPTvolume = {},\nOPTnumber = {},\nOPTseries = {},\nOPTaddress = {},\nOPTedition = {},\nOPTmonth = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),6,0,i18n("Bib Fields - Book\nALT.... : you have the choice between these two fields\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Booklet"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_booklet","@Booklet{,\ntitle = {},\nOPTkey = {},\nOPTauthor = {},\nOPThowpublished = {},\nOPTaddress = {},\nOPTmonth = {},\nOPTyear = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),9,0,i18n("Bib fields - Booklet\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("PhD. Thesis"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_phdthesis","@PhdThesis{,\nauthor = {},\ntitle = {},\nschool = {},\nyear = {},\nOPTkey = {},\nOPTtype = {},\nOPTaddress = {},\nOPTmonth = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),11,0,i18n("Bib fields - PhD. Thesis\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Master's Thesis"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_masterthesis","@MastersThesis{,\nauthor = {},\ntitle = {},\nschool = {},\nyear = {},\nOPTkey = {},\nOPTtype = {},\nOPTaddress = {},\nOPTmonth = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),15,0,i18n("Bib fields - Master's Thesis\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Technical Report"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_techreport","@TechReport{,\nauthor = {},\ntitle = {},\ninstitution = {},\nyear = {},\nOPTkey = {},\nOPTtype = {},\nOPTnumber = {},\nOPTaddress = {},\nOPTmonth = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),12,0,i18n("Bib fields - Technical Report\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Technical Manual"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_manual","@Manual{,\ntitle = {},\nOPTkey = {},\nOPTauthor = {},\nOPTorganization = {},\nOPTaddress = {},\nOPTedition = {},\nOPTmonth = {},\nOPTyear = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),8,0,i18n("Bib fields - Technical Manual\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Unpublished"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_unpublished","@Unpublished{,\nauthor = {},\ntitle = {},\nnote = {},\nOPTkey = {},\nOPTmonth = {},\nOPTyear = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),13,0,i18n("Bib fields - Unpublished\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-	(void) new KileAction::Tag(i18n("Miscellaneous"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bib_misc","@Misc{,\nOPTkey = {},\nOPTauthor = {},\nOPTtitle = {},\nOPThowpublished = {},\nOPTmonth = {},\nOPTyear = {},\nOPTnote = {},\nOPTannote = {},\nOPTurl = {},\nOPTdoi = {},\nOPTissn = {},\nOPTlocalfile = {},\nOPTabstract = {}\n}\n",QString(),6,0,i18n("Bib fields - Miscellaneous\nOPT.... : optional fields (use the 'Clean' command to remove them)"));
-}
+	KILE_DEBUG() << "void setupBibTags(const QObject *receiver, KActionCollection *actionCollection)";
 
+	QString filename;
+
+	if(KileConfig::bibliographyType().isEmpty() || KileConfig::bibliographyType() == QString("bibtex") ) {
+
+		menu->addAction(new KileAction::Tag(i18n("Bibliography Style Selection - \\bibliographystyle{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels.")));
+		menu->addAction(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
+		menu->addSeparator();	
+	
+		filename = KGlobal::dirs()->findResource("appdata", "bibtexentries.rc");
+	}
+	else if(KileConfig::bibliographyType() == QString("biblatex") ){
+
+		menu->addAction(new KileAction::Tag(i18n("Load Biblatex Package - \\usepackage{biblatex}"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyPackage", "\\usepackage{biblatex}\n",QString(),21,0,i18n("This includes the package biblatex")));
+		menu->addAction(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
+		menu->addAction(new KileAction::Tag(i18n("Print Bibliography"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_printbibliography", "\\printbibliography",QString(),18,0,i18n("Prints the complete bibliography")));
+		menu->addAction(new KileAction::Tag(i18n("Print Bibliography by Section"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyBySection", "\\bibbysection[","]",14,0,i18n("Print the bibliography for eaach section")));
+		menu->addAction(new KileAction::Tag(i18n("Print List of Shorthands"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyShortHands", "\\printshorthands",QString(),16,0,i18n("")));
+		menu->addSeparator();	
+/* use this to insert more
+		menu->addAction(new KileAction::Tag(i18n(""), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_", "\\",QString(),,0,i18n("")));
+Load Biblatex-Package - \usepackage{biblatex}
+Bibliography File - \bibliography{} 
+Print Bibliography - \printbibliography 
+Print Bibliography by Section - \bibbysection[]
+Print List of Shorthands - \printshorthands
+*/
+		filename = KGlobal::dirs()->findResource("appdata", "biblatexentries.rc");
+	}
+	else
+		filename == QString();
+
+	if(filename.isEmpty()){
+		KILE_DEBUG() << "found no filename" << endl;
+		return;
+	}
+
+	KConfig *bibCfg = new KConfig(filename, KConfig::SimpleConfig);
+
+	if(bibCfg == NULL )
+		return;
+
+	QStringList groupList = bibCfg->groupList();
+
+	if( groupList.count() == 0 )
+		return;
+
+	QString name, tag, internalName, keys, key;
+	QStringList keyList, optKeyList, altKeyList;
+	QString altText, optText, compText;
+
+	for(QList<QString>::iterator it = groupList.begin(); it != groupList.end(); it++ ) {
+		altKeyList.clear();
+		keyList.clear();
+		optKeyList.clear();
+
+		KConfigGroup grp = bibCfg->group(*it);
+
+// 		KILE_DEBUG() << "group " <<  grp.name();
+
+		tag = grp.name();
+		name = grp.readEntry(QString("name"));
+		internalName = grp.readEntry(QString("internalName"));
+		keyList = grp.readEntry(QString("key")).split(",",QString::SkipEmptyParts);
+		altKeyList = grp.readEntry(QString("altkey")).split(",",QString::SkipEmptyParts);
+		optKeyList = grp.readEntry(QString("optkey")).split(",",QString::SkipEmptyParts);
+	
+// 		KILE_DEBUG() << "length(keys)=" << keyList.count() << ", length(altkeys)=" << altKeyList.count() << ", length(optkeys)=" << optKeyList.count();
+// 		KILE_DEBUG() << "tag=" << tag << ", name=" << name << ", internalName=" << internalName;
+	
+		keys = QString("@%1{,\n").arg(tag);
+		int length = keys.length() - 2;
+		
+		// do some trimming
+		name = name.trimmed();
+		internalName = "tag_bib_" + internalName.trimmed();
+		tag = tag.trimmed();
+
+		for(QList<QString>::iterator it = keyList.begin(); it != keyList.end(); it++ ) {
+			key = (*it).trimmed();
+			key = QString(" %1 = {},\n").arg(key);
+			keys.append(key);
+// 			KILE_DEBUG() << "key" << key ;
+		}
+
+		for(QList<QString>::iterator it = altKeyList.begin(); it != altKeyList.end(); it++ ) {
+			key = (*it).trimmed();
+			key = QString(" ALT%1 = {},\n").arg(key);
+			keys.append(key);
+// 			KILE_DEBUG() << "altkey" << key ;
+		}
+	
+		for(QList<QString>::iterator it = optKeyList.begin(); it != optKeyList.end(); it++ ) {
+			key = (*it).trimmed();
+			key = QString(" OPT%1 = {},\n").arg(key);
+			keys.append(key);
+// 			KILE_DEBUG() << "optKey" << key;
+		}
+		keys.append("}\n");
+
+		altText = i18n("ALT.... : you have the choice between these two fields\n");
+		optText = i18n("OPT.... : optional fields (use the 'Clean' command to remove them)");
+		compText = i18n("Bib fields - %1\n",name);
+	
+		if( altKeyList.count() > 1 ) {
+			compText.append(altText);
+		}	
+		if( optKeyList.count() > 1 ) {
+			compText.append(optText);
+		}
+	
+		menu->addAction(new KileAction::Tag(name, KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,internalName,keys,QString(),length,0,compText));
+	}
+}
+	
 void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 {
 	(void) new KileAction::Tag("\\mathrm{}",  KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_mathrm","\\mathrm{","}",8);

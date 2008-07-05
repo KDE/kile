@@ -1,0 +1,112 @@
+
+[article]
+internalName = article
+name = Article in Journal
+key = author, title, journaltitle, year
+optkey =  editor, translator, redactor, annotator, commentator, subtitle, titleaddon, journalsubtitle, issuetitle, issuesubtitle, language,  origlanguage, series, volume, number, eid, issue, pages, note, issn, addendum, doi, url, urldate, gender
+
+[book]
+internalName = book
+name = Book
+key = author, title, year
+optkey =  editor, translator, redactor, annotator, commentator, introduction, foreword, afterword, subtitle, titleaddon, maintitle, mainsubtitle, maintitleaddon, language, origlanguage, volume, part, edition, volumes, series, number, note, publisher, location, isbn, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+
+[booklet]
+internalName = booklet
+name = Booklet
+key = title, year
+altkey = author ,editor
+optkey =  subtitle, titleaddon, language, howpublished, type, note, location, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+
+[collection]
+internalName = collection
+name = Collection
+key = editor,title,year
+optkey =  translator, redactor, annotator, commentator, introduction, foreword, afterword, subtitle, titleaddon, maintitle, mainsubtitle, maintitleaddon, language, origlanguage, volume, part, edition, volumes, series, number, note, publisher, location, isbn, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+
+[inbook]
+internalName = inbook
+name = Chapter or Pages in Book
+key = author,title,booktitle,year
+optkey =  bookauthor, editor, translator, redactor, annotator, commentator, introduction, foreword, afterword, subtitle, titleaddon, maintitle, mainsubtitle, maintitleaddon, booksubtitle, booktitleaddon, language, origlanguage, volume, part, edition, volumes, series, number, note, publisher, location, isbn, chapter, pages, addendum, doi, url, urldate, gender
+
+
+[incollection]
+internalName = incol
+name = Article in Collection
+key = author,editor,title,booktitle,year
+optkey =  translator, redactor, annotator, commentator, introduction, foreword, afterword, subtitle, titleaddon, maintitle, mainsubtitle, maintitleaddon, booksubtitle, booktitleaddon, language, origlanguage, volume, part, edition, volumes, series, number, note, publisher, location, isbn, chapter, pages, addendum, doi, url, urldate, gender
+
+
+[inproceedings]
+internalName = inproc
+name = Article in Conference Proceedings
+key = author,editor,title,booktitle,year
+optkey =  subtitle, titleaddon, maintitle, mainsubtitle, maintitleaddon, booksubtitle, booktitleaddon, venue, language, volume, part, volumes, series, number, note, organization, publisher, location, isbn, chapter, pages, addendum, doi, url, urldate, gender 
+
+[manual]
+internalName = manual
+name = Technical Manual
+key = title,year
+altkey = author ,editor
+optkey =  subtitle, titleaddon, language, edition, type, version, series, number, note, organization, publisher, location, isbn, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+[misc]
+internalName = misc
+name = Miscellaneous
+key = title,year
+altkey = author, editor
+optkey =  subtitle, titleaddon, language, howpublished, type, version, note, organization, location, date, addendum, doi, url, urldate, gender  
+
+[online]
+internalName = online
+name = Online Ressource
+key = title,year,url
+altkey = author, editor
+optkey =  subtitle, titleaddon, language, version, note, organization, date, addendum, urldate, gender
+
+[patent]
+internalName = patent
+name = Patent or Paten request
+key = author, title, number, year
+optkey = holder, subtitle, titleaddon, type, version, location, note, date, addendum, url, urldate, gender
+
+
+
+[periodical]
+internalName = periodical
+name = Periodical
+key = editor, title, year
+optkey =  subtitle, issuetitle, issuesubtitle, language, series, volume, number, issue, month, date, note, issn, addendum, doi, url, urldate, gender
+
+
+[proceedings]
+internalName = proceedings
+name = Proceedings of a Conference
+key = editor,title,year
+optkey =  subtitle, titleaddon, maintitle, mainsubtitle, maintitleaddon, venue, language, volume, part, volumes, series, number, note, organization, publisher, location, isbn, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+
+
+[report]
+internalName = report
+name = Report
+key = author,title,type,institution,year
+optkey =  subtitle, titleaddon, language, number, version, note, location, isrn, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+[thesis]
+internalName = thesis
+name = Scientific Thesis
+key = author,title,type,institution,year
+optkey =  subtitle, titleaddon, language, note, location, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
+
+
+[unpublished]
+internalName = unpublished
+name = Unpublished
+key = author,title,year
+optkey =  subtitle, titleaddon, language, howpublished, note, date, addendum, url, urldate, gender
+

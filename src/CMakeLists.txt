@@ -162,8 +162,8 @@ INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 INSTALL( FILES kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
-INSTALL( FILES kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION
-${DATA_INSTALL_DIR}/kile )
+INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
+kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
 
 # FIXME: disabling this for now
 kde4_install_icons( ${ICON_INSTALL_DIR}  )

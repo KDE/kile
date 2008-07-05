@@ -101,6 +101,12 @@
 			<default>false</default>
 		</entry>
 	</group>
+	<group name="BibliographyMenu">
+		<entry name="BibliographyType" type="String">
+			<label>What type of bibliography (bibtex or biblatex) kile should show.</label>
+			<default>bibtex</default>
+		</entry>
+	</group>
 	<group name="Tools">
 		<entry name="RunLyxServer" type="Bool">
 			<label>Whether to run the Lyx server.</label>

@@ -21,12 +21,14 @@
 
 #include "kactioncollection.h"
 #include <QWidget>
+#include <KActionMenu>
 
 namespace KileStdActions
 {
 	void setupStdTags(KileInfo *ki, const QObject *receiver, KActionCollection *actionCollection, QWidget *parentWidget);
-	void setupBibTags(const QObject *receiver, KActionCollection *actionCollection);
+	void setupBibTags(const QObject *receiver, KActionCollection *actionCollection,KActionMenu* menu);
 	void setupMathTags(const QObject *receiver, KActionCollection *actionCollection);
+
 }
 
 #endif

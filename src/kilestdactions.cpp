@@ -239,7 +239,7 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
 		menu->addAction(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
 		menu->addAction(new KileAction::Tag(i18n("Print Bibliography"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_printbibliography", "\\printbibliography",QString(),18,0,i18n("Prints the complete bibliography")));
 		menu->addAction(new KileAction::Tag(i18n("Print Bibliography by Section"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyBySection", "\\bibbysection[","]",14,0,i18n("Print the bibliography for eaach section")));
-		menu->addAction(new KileAction::Tag(i18n("Print List of Shorthands"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyShortHands", "\\printshorthands",QString(),16,0,i18n("")));
+		menu->addAction(new KileAction::Tag(i18n("Print List of Shorthands"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyShortHands", "\\printshorthands",QString(),16,0,QString()));
 		menu->addSeparator();	
 /* use this to insert more
 		menu->addAction(new KileAction::Tag(i18n(""), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_", "\\",QString(),,0,i18n("")));

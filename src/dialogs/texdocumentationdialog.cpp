@@ -118,7 +118,7 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	m_texdoctkPath.clear();
 
 #ifdef __GNUC__
-#warning Hardcoding the size of the dialog shouldn't be necessary!
+#warning Hardcoding the size of the dialog should not be necessary!
 #endif
 	QDesktopWidget *desktop = KApplication::desktop();
 	int w = desktop->screenGeometry(0).width();

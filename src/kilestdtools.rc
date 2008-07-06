@@ -561,7 +561,7 @@ to=html
 type=Part
 class=ForwardDVI
 className=Okular::Part
-libName=libokular
+libName=libokularpart
 from=dvi
 to=dvi
 state=Viewer
@@ -578,7 +578,7 @@ to=dvi
 [Tool/ViewDVI/Embedded Viewer]
 class=View
 className=Okular::Part
-libName=libokular
+libName=libokularpart
 state=Viewer
 type=Part
 
@@ -612,7 +612,7 @@ type=Process
 [Tool/ViewPS/Embedded Viewer]
 class=View
 className=Okular::Part
-libName=libokular
+libName=libokularpart
 state=Viewer
 type=Part
 
@@ -628,7 +628,7 @@ type=Process
 [Tool/ViewPDF/Embedded Viewer]
 class=View
 className=Okular::Part
-libName=libokular
+libName=libokularpart
 from=pdf
 to=pdf
 state=Viewer

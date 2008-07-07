@@ -168,7 +168,7 @@ void Tester::runTests()
 	KILE_DEBUG() << "Tester::runTests: destdir = " << destdir << endl;
 	m_resultsFile = destdir + "results.rc";
 
-	QString shellname = KGlobal::dirs()->findExe("sh");
+	QString shellname = KGlobal::dirs()->findExe("bash");
 	KILE_DEBUG() << "Tester::runTests: shellname = " << shellname << endl;
 	m_process = new KShellProcess(QFile::encodeName( shellname ));
 	if (! KileConfig::teXPaths().isEmpty())

@@ -12,6 +12,9 @@ Fixes:
    document-modified dialog) (#160258)
  - minor cwl fixes
 
+Features:
+ - cwl file for the siunitx package, thanks to Dirk Sarpe
+
 version 2.0 -> 2.0.1
 
 Fixes:

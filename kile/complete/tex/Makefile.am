@@ -78,6 +78,8 @@ texcomplete_DATA = \
 	scrpage2.cwl \
 	scrtime.cwl \
 	setspace.cwl \
+	siunitx.cwl \
+	siunitx-special.cwl \
 	subfig.cwl \
 	supertabular.cwl \
 	svninfo.cwl \

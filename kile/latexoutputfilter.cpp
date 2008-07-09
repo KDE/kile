@@ -191,21 +191,21 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 		//	2) We're at the end of the line, the filename is probably continued on the next line.
 		//	3) The TeX was closed already, signalled by the ')'.
 
-        	if(expectFileName && (i+1 >= strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
+        	if(expectFileName && (i+1 == strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
 			//update the partial filename
 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
 
 			//FIXME: improve these heuristics
-			if (i+1 < strLine.length() && (strLine[i+1].isSpace() || ( (i < 78) && (i+1  == strLine.length())) ||
+			if (strLine[i+1].isSpace() || ( (i < 78) && (i+1  == strLine.length())) ||
 				                       strLine[i+1] == ')' ||
-				                       fileExists(strPartialFileName))) {
+				                       fileExists(strPartialFileName)) {
 				m_stackFile.push(LOFStackItem(strPartialFileName));
 				// KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
 				expectFileName = false;
 				dwCookie = Start;
 			}
 			//Guess the filename is continued on the next line.
-			else if(i+1 >= strLine.length()) {
+			else if(i+1 == strLine.length()) {
 				// KILE_DEBUG() << "\tFilename spans more than one line." << endl;
 				dwCookie = FileNameHeuristic;
 			}

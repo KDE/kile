@@ -4,13 +4,13 @@ Fixes:
  - insert \item[] in description environments for smart newline (#161658),
  reported and fixed by Job Noorman
  - fix regression in 2.0.1 inside structure view with opening files (debian #484146)
-
-Features:
- -
-
-Syntax:
- -
-
+ - fix regression in latexoutputfilter resulting in the wrong file being
+ reported (#162899)
+ - remove not sh-compliant code by requiring a bash shell for system check(debian #489618)
+ - Add a workaround for a bug contained in KatePart 3.x in the 'setEncoding' method, which enforces
+   a reload on every change of the encoding (as a consequence the user sees a confusing
+   document-modified dialog) (#160258)
+ - minor cwl fixes
 
 version 2.0 -> 2.0.1
 

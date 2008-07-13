@@ -45,6 +45,7 @@
 #include <KToggleAction>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
+#include <KSelectAction>
 
 #include "configurationmanager.h"
 #include "documentinfo.h"
@@ -228,6 +229,7 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	setupGraphicTools();
 	setupPreviewTools();
 	setupActions();
+	initSelectActions();
 	setupTools();
 
 	QList<int> sizes;
@@ -941,30 +943,46 @@ void Kile::setupTools()
 	QStringList tools = KileTool::toolList(m_config.data());
 	QString toolMenu;
 	QList<QAction*> *pl;
+	ToolbarSelectAction *pSelectAction = NULL;
 
 	unplugActionList("list_compilers");
 	unplugActionList("list_converters");
 	unplugActionList("list_quickies");
 	unplugActionList("list_viewers");
 	unplugActionList("list_other");
-
+	
+	m_compilerActions->removeAllActions();
+	m_viewActions->removeAllActions();
+	m_convertActions->removeAllActions();
+	m_quickActions->removeAllActions();
+	
 	for (int i = 0; i < tools.count(); ++i) {
 		QString grp = KileTool::groupFor(tools[i], m_config.data());
 		KILE_DEBUG() << tools[i] << " is using group: " << grp << endl;
 		toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
 		if ( toolMenu == "none" ) continue;
-
-		if ( toolMenu == "Compile" )
-			pl = &m_listCompilerActions;
-		else if ( toolMenu == "View" )
-			pl = &m_listViewerActions;
-		else if ( toolMenu == "Convert" )
-			pl = &m_listConverterActions;
-		else if ( toolMenu == "Quick" )
-			pl = &m_listQuickActions;
-		else
-			pl = &m_listOtherActions;
+  
+ 		if ( toolMenu == "Compile" ){
+  			pl = &m_listCompilerActions;
+ 			pSelectAction = m_compilerActions;
+ 		}
+ 		else if ( toolMenu == "View" ){
+  			pl = &m_listViewerActions;
+ 			pSelectAction = m_viewActions;
+ 		}
+ 		else if ( toolMenu == "Convert" ){
+  			pl = &m_listConverterActions;
+ 			pSelectAction = m_convertActions;
+ 		}
+ 		else if ( toolMenu == "Quick" ){
+  			pl = &m_listQuickActions;
+ 			pSelectAction = m_quickActions;
+ 		}
+ 		else{
+  			pl = &m_listOtherActions;
+ 			pSelectAction = NULL;
+ 		}
 
 		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
@@ -974,7 +992,17 @@ void Kile::setupTools()
  			m_signalMapper->setMapping(act, tools[i]);
 			pl->append(act);
 		}
+		if( pSelectAction != NULL ){
+			pSelectAction->addAction(action(QString("tool_"+tools[i]).ascii()));
+		}
 	}
+
+	m_quickActions->addAction(action("quickpreview_selection"));
+ 	m_quickActions->addAction(action("quickpreview_environment"));
+ 	m_quickActions->addAction(action("quickpreview_subdocument"));
+ 	m_quickActions->addAction(action("quickpreview_math"));
+ 	
+ 	restoreLastSelectedAction();
 
 	cleanUpActionList(m_listCompilerActions, tools);
 	cleanUpActionList(m_listViewerActions, tools);
@@ -990,6 +1018,120 @@ void Kile::setupTools()
 
 	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
 	actionCollection()->readSettings(&shortcutsGroup);
+}
+
+void Kile::initSelectActions(){
+
+	m_compilerActions = new ToolbarSelectAction(i18n("Compile"),this);
+	m_viewActions = new ToolbarSelectAction(i18n("View"),this);
+	m_convertActions = new ToolbarSelectAction(i18n("Convert"),this);
+	m_quickActions = new ToolbarSelectAction(i18n("Quick"),this);
+	
+	actionCollection()->addAction("list_compiler_select",m_compilerActions);
+	actionCollection()->addAction("list_convert_select",m_convertActions);
+	actionCollection()->addAction("list_view_select",m_viewActions);
+	actionCollection()->addAction("list_quick_select",m_quickActions);
+}
+
+void Kile::saveLastSelectedAction(){
+
+	KILE_DEBUG() << "Kile::saveLastSelectedAction()" << endl;
+	QStringList list;
+	QString actName;
+	
+	list << "Compile" << "Convert" << "View" << "Quick";
+	
+	ToolbarSelectAction *pSelectAction = NULL ;
+	
+	KConfigGroup grp = m_config->group("ToolSelectAction");
+
+	for(QStringList::Iterator it = list.begin(); it != list.end() ; it++ ){
+		
+		actName.clear();
+		
+		if ( *it == "Compile" ){
+			pSelectAction = m_compilerActions;
+		}
+		else if ( *it == "View" ){
+			pSelectAction = m_viewActions;
+		}
+		else if ( *it == "Convert" ){
+			pSelectAction = m_convertActions;
+		}
+		else if ( *it == "Quick" ){
+			pSelectAction = m_quickActions;
+		}
+		
+		KILE_DEBUG() << "list is " << *it << " " << pSelectAction->items().join(" ,");
+		
+		actName = pSelectAction->currentText();
+		
+		KILE_DEBUG() << "actName is " << actName;
+		
+		grp.writeEntry(*it,actName);
+	}
+}
+
+void Kile::restoreLastSelectedAction(){
+
+	QStringList list;
+	list << "Compile" << "Convert" << "View" << "Quick";
+	
+	QString actName;
+	ToolbarSelectAction *pSelectAction = NULL;
+	QAction *act = NULL;
+	
+	KConfigGroup grp = m_config->group("ToolSelectAction");
+	
+	for(QStringList::Iterator it = list.begin(); it != list.end() ; it++ ) {
+		
+		actName.clear();
+		act = NULL;
+		
+		if ( *it == "Compile" ) {
+			pSelectAction = m_compilerActions;
+		}
+		else if ( *it == "View" ) {
+			pSelectAction = m_viewActions;
+		}
+		else if ( *it == "Convert" ) {
+			pSelectAction = m_convertActions;
+		}
+		else if ( *it == "Quick" ) {
+			pSelectAction = m_quickActions;
+		}
+		
+ 		actName = grp.readEntry(*it,QString());
+				
+		if( *it == "Quick" ) {
+			if( actName == i18n("Selection") )
+				act = action("quickpreview_selection");
+			else if( actName == i18n("Environment") )
+				act = action("quickpreview_environment");
+			else if( actName == i18n("Subdocument") )
+				act = action("quickpreview_subdocument");
+			else if( actName == i18n("Mathgroup") )
+				act = action("quickpreview_math");
+			else
+				act = action("tool_quickpreview");
+		}
+		else{
+			KILE_DEBUG() << "actName is " << actName;
+			act = action("tool_" + actName);
+		}
+
+		if( pSelectAction->actions().count() == 0){ // don't crash with empty tool list
+			KILE_DEBUG() << "Error in " << *it << " tool list";
+			return;
+		}
+		if( act == NULL ) {
+			act = pSelectAction->actions().first(); // set default value
+		}
+		if( act != NULL ) {
+			KILE_DEBUG() << "inserting" << act->text();
+			pSelectAction->slotTriggered(act);
+		}
+	}
 }
 
 void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
@@ -1833,8 +1975,7 @@ void Kile::updateMenu()
 	updateActionList(m_listOtherActions,file_open);
 }
 
-void Kile::updateActionList(const QList<QAction*>& list, bool state)
-{
+void Kile::updateActionList(const QList<QAction*>& list, bool state){
 	for (QList<QAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
 		(*i)->setEnabled(state);
 	}
@@ -2212,7 +2353,7 @@ void Kile::saveSettings()
 
 	m_fileBrowserWidget->writeConfig();
 	m_symbolViewMFUS->writeConfig();
-
+	saveLastSelectedAction();
 	// Store recent files
 	m_actRecentFiles->saveEntries(m_config->group("Recent Files"));
 	m_actRecentProjects->saveEntries(m_config->group("Projects"));
@@ -2360,6 +2501,7 @@ void Kile::generalOptions()
 
 		// update new settings
 		readConfig();
+		saveLastSelectedAction(); // save the old current tools before calling setupTools() which calls restoreLastSelectedActions()
 		setupTools();
 		m_help->update();
 

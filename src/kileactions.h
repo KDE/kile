@@ -201,4 +201,16 @@ class VariantSelection : public KAction
 
 }
 
+class ToolbarSelectAction : public KSelectAction
+{
+	Q_OBJECT
+
+public:
+	ToolbarSelectAction(const char *name, QObject *parent);
+
+public Q_SLOTS:
+	void slotTriggered(QAction*);
+
+};
+
 #endif

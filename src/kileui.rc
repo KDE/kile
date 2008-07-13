@@ -510,24 +510,14 @@
 	<Merge/>
 </ToolBar>
 <ToolBar name="toolsToolBar" fullWidth="false" index="2"><text>Tools</text>
-	<Action name="tool_QuickBuild"/>
-	<Action name="quickpreview_selection"/>
+	<Action name="list_compiler_select"/>
 	<Separator lineSeparator="true"/>
-	<Action name="tool_LaTeX"/>
-	<Action name="tool_ViewDVI"/>
-	<Action name="tool_DVItoPS"/>
-	<Action name="tool_ViewPS"/>
+	<Action name="list_view_select"/>
 	<Separator lineSeparator="true"/>
-	<Action name="tool_PDFLaTeX"/>
-	<Action name="tool_ViewPDF"/>
+	<Action name="list_convert_select"/>
 	<Separator lineSeparator="true"/>
-	<Action name="tool_DVItoPDF"/>
-	<Action name="tool_PStoPDF"/>
+	<Action name="list_quick_select"/>
 	<Separator lineSeparator="true"/>
-	<Action name="tool_LaTeXtoHTML"/>
-	<Action name="tool_ViewHTML"/>
-	<Separator lineSeparator="true"/>
-	<Action name="tool_ForwardDVI"/>
 </ToolBar>
 <ToolBar name="editToolBar" fullWidth="false" index="3"><text>Edit</text>
 	<Action name="structure_list"/>

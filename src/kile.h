@@ -40,6 +40,7 @@
 #include "docpart.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
+#include "kileactions.h"
 #include "widgets/symbolview.h"
 
 #include "outputinfo.h"
@@ -152,6 +153,7 @@ private:
 	KActionMenu 				*m_menuUserTags;
 	KActionMenu				*m_userHelpActionMenu;
 	KSelectAction				*m_bibTagSettings;
+	ToolbarSelectAction			*m_compilerActions, *m_viewActions, *m_convertActions, *m_quickActions;
 	QList<KileAction::TagData>		m_listUserTags;
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
@@ -195,6 +197,7 @@ private:
 	void showEvent(QShowEvent *e);
 	void hideEvent(QHideEvent *e);
 
+	void initSelectActions();
 	void setupStatusBar();
 	void setupSideBar();
 	void setupProjectView();
@@ -211,6 +214,8 @@ private:
 	void setupTools();
 	void setupUserTagActions();
 	void cleanUpActionList(QList<QAction*> &list, const QStringList &tools);
+	void restoreLastSelectedAction();
+	void saveLastSelectedAction();
 
 	bool kateCompletionPlugin();
 	void checkKateSettings();

@@ -426,4 +426,32 @@ void VariantSelection::slotTriggered()
 
 }
 
+// Toolbar
+
+ToolbarSelectAction::ToolbarSelectAction(const char *name, QObject *parent)
+	: KSelectAction(name, parent)
+{
+	setToolBarMode(KSelectAction::MenuMode);
+  	setToolButtonPopupMode(QToolButton::MenuButtonPopup);
+
+	connect(this,SIGNAL(triggered(QAction*)),this,SLOT(slotTriggered(QAction*)));
+}
+
+void ToolbarSelectAction::slotTriggered(QAction* action){
+
+	KILE_DEBUG() << "triggered with " << action->text();
+
+	if( currentAction() != action ) {
+		setIcon(action->icon());
+		setText(action->text());
+
+		action->setCheckable(true); // FIXME verys hackish but needed by KSelectAction
+		setCurrentAction(action);
+		action->setCheckable(false);
+
+		disconnect(SIGNAL(triggered(bool)));
+		connect(this,SIGNAL(triggered(bool)),action,SIGNAL(triggered(bool)));
+	}
+}
+
 #include "kileactions.moc"

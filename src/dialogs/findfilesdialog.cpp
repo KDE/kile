@@ -628,11 +628,7 @@ QString FindFilesDialog::buildFilesCommand()
 		files_temp = filter_combo->currentText();
 	}
 
-	if(files_temp.right(1) != ",") {
-		files_temp = files_temp + ',';
-	}
-
-	QStringList tokens = files_temp.split(",", QString::SkipEmptyParts);
+	QStringList tokens = files_temp.split(" ", QString::SkipEmptyParts);
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end()) {
 		files = " '" + (*it) + '\'';

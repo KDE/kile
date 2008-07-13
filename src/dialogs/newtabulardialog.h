@@ -203,6 +203,11 @@ class TabularProperties {
 		void setHasTopBorder();
 		bool hasTopBorder() const;
 
+		void addBorderBesideColumn(int column);
+		bool hasBorderBesideColumn(int column) const;
+		void setHasLeftBorder();
+		bool hasLeftBorder() const;
+
 	private:
 		bool m_UseMultiColumn;
 		QHash<int, QColor> m_RowColors;
@@ -212,6 +217,8 @@ class TabularProperties {
 		QString m_Bullet;
 		QList<int> m_BorderUnderRow;
 		bool m_TopBorder;
+		QList<int> m_BorderBesideColumn;
+		bool m_LeftBorder;
 };
 
 class NewTabularDialog : public Wizard {

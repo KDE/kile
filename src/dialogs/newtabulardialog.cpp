@@ -553,24 +553,40 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 		colorCommand = ">{\\columncolor{" + properties.colorName(backgroundColor()) + "}}";
 	}
 
-	if(headerItem->alignment() != alignment || !colorCommand.isEmpty()) {
+	QString leftBorder, rightBorder;
+	if(column() == 0 &&  !properties.hasLeftBorder() &&
+		 (border() & TabularCell::Left)) {
+		leftBorder = '|';
+		if(properties.hasBorderBesideColumn(1)) {
+			rightBorder = '|';
+		}
+	}
+	if(!properties.hasBorderBesideColumn(column()) && (border() & TabularCell::Right)) {
+		rightBorder = '|';
+		if(column() == 0 && properties.hasLeftBorder()) {
+			leftBorder = '|';
+		}
+	}
+	bool adjustBorder = !leftBorder.isEmpty() || !rightBorder.isEmpty();
+
+	if(headerItem->alignment() != alignment || !colorCommand.isEmpty() || adjustBorder) {
 
 		switch(alignment) {
 			case Qt::AlignLeft: // TODO consider AlignP etc.
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{" + colorCommand + "l}{";
+				prefix += "\\mc{1}{" + leftBorder + colorCommand + "l" + rightBorder + "}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignHCenter:
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{" + colorCommand + "c}{";
+				prefix += "\\mc{1}{" + leftBorder + colorCommand + "c" + rightBorder + "}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignRight:
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{" + colorCommand + "r}{";
+				prefix += "\\mc{1}{" + leftBorder + colorCommand + "r" + rightBorder + "}{";
 				suffix = "}" + suffix;
 				break;
 		};
@@ -858,7 +874,8 @@ QString MultiColumnBorderHelper::toLaTeX() const
 
 //BEGIN TabularProperties
 TabularProperties::TabularProperties()
-	: m_UseMultiColumn(false), m_ColorIndex(0), m_TopBorder(false) {}
+	: m_UseMultiColumn(false), m_ColorIndex(0),
+	  m_TopBorder(false), m_LeftBorder(false) {}
 
 void TabularProperties::setUseMultiColumn(bool useMultiColumn)
 {
@@ -961,6 +978,26 @@ void TabularProperties::setHasTopBorder()
 bool TabularProperties::hasTopBorder() const
 {
 	return m_TopBorder;
+}
+
+void TabularProperties::addBorderBesideColumn(int column)
+{
+	m_BorderBesideColumn.append(column);
+}
+
+bool TabularProperties::hasBorderBesideColumn(int column) const
+{
+	return m_BorderBesideColumn.contains(column);
+}
+
+void TabularProperties::setHasLeftBorder()
+{
+	m_LeftBorder = true;
+}
+
+bool TabularProperties::hasLeftBorder() const
+{
+	return m_LeftBorder;
 }
 //END
 
@@ -1287,6 +1324,28 @@ void NewTabularDialog::slotButtonClicked(int button)
 		if(topBorder) {
 			properties.setHasTopBorder();
 		}
+
+		bool leftBorder = true;
+		for(int column = 0; column < columns; ++column) {
+			bool borderBesideColumn = true;
+			for(int row = 0; row < rows; ++row) {
+				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
+
+				if(!(cell->border() & TabularCell::Right)) {
+					borderBesideColumn = false;
+				}
+				if (column == 0 && !(cell->border() & TabularCell::Left)) {
+					leftBorder = false;
+				}
+			}
+			if(borderBesideColumn) {
+				properties.addBorderBesideColumn(column);
+			}
+		}
+		
+		if(leftBorder) {
+			properties.setHasLeftBorder();
+		}
 		//END
 
 		/* bullet */
@@ -1309,6 +1368,9 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 		/* build table alignment */
 		QString tableAlignment = QString('{');
+		if(properties.hasLeftBorder()) {
+			tableAlignment += '|';
+		}
 		for(int column = 0; column < columns; ++column) {
 			TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column));
 			if(headerItem->suppressSpace()) {
@@ -1346,6 +1408,10 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 			if(headerItem->insertAfter()) {
 				tableAlignment += QString("<{%1}").arg(properties.bullet());
+			}
+
+			if(properties.hasBorderBesideColumn(column)) {
+				tableAlignment += '|';
 			}
 		}
 		tableAlignment += '}';

@@ -631,11 +631,8 @@ QString KileGrepDialog::buildFilesCommand()
 		files_temp = filter_list[filter_combo->currentItem()];
 	else
 		files_temp = filter_combo->currentText();
-
-	if (files_temp.right(1) != ",")
-		files_temp = files_temp + ',';
-
-	QStringList tokens = QStringList::split ( ",", files_temp, false );
+	
+	QStringList tokens = QStringList::split ( " ", files_temp, false );
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end())
 	{

@@ -10,6 +10,7 @@ Fixes:
  - Add a workaround for a bug contained in KatePart 3.x in the 'setEncoding' method, which enforces
    a reload on every change of the encoding (as a consequence the user sees a confusing
    document-modified dialog) (#160258)
+ - Make find in files work again with anyting else than the "all files" filter (#165636)
  - minor cwl fixes
 
 Features:

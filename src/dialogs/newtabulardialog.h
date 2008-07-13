@@ -20,6 +20,8 @@
 
 #include <QTableWidgetItem>
 
+#include <utility>
+
 #include "kilewizard.h"
 
 class QCheckBox;
@@ -157,6 +159,22 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 };
 
 /**
+ * @brief A helper class for managing multi column borders
+ */
+class MultiColumnBorderHelper {
+	public:
+		MultiColumnBorderHelper();
+		void addColumn(int column);
+		void finish();
+		QString toLaTeX() const;
+
+	private:
+		QVector<std::pair<int,int> > m_SpanColumns;
+		int m_FirstNumber;
+		int m_LastNumber;
+};
+
+/**
  * @brief This class stores data while generating LaTeX output.
  *
  * This class saves informations like whether the \multicolumn command
@@ -180,6 +198,11 @@ class TabularProperties {
 		void setBullet(const QString &bullet);
 		QString bullet() const;
 
+		void addBorderUnderRow(int row);
+		bool hasBorderUnderRow(int row) const;
+		void setHasTopBorder();
+		bool hasTopBorder() const;
+
 	private:
 		bool m_UseMultiColumn;
 		QHash<int, QColor> m_RowColors;
@@ -187,6 +210,8 @@ class TabularProperties {
 		int m_ColorIndex;
 		QStringList m_RequiredPackages;
 		QString m_Bullet;
+		QList<int> m_BorderUnderRow;
+		bool m_TopBorder;
 };
 
 class NewTabularDialog : public Wizard {

@@ -819,9 +819,46 @@ void TabularHeaderItem::slotDeclBang()
 }
 //END
 
+//BEGIN MultiColumnBorderHelper
+MultiColumnBorderHelper::MultiColumnBorderHelper()
+	: m_FirstNumber(-2), m_LastNumber(-2)
+{
+}
+
+void MultiColumnBorderHelper::addColumn(int column)
+{
+	if(column == m_LastNumber + 1) { // enlarge range
+		m_LastNumber = column;
+	} else {
+		if(m_LastNumber != -2) {
+			m_SpanColumns.append(std::make_pair(m_FirstNumber, m_LastNumber));
+		}
+		m_FirstNumber = m_LastNumber = column;
+	}
+}
+
+void MultiColumnBorderHelper::finish()
+{
+	if(m_LastNumber != -2) {
+		m_SpanColumns.append(std::make_pair(m_FirstNumber, m_LastNumber));
+	}
+}
+
+QString MultiColumnBorderHelper::toLaTeX() const
+{
+	QString result;
+	QVector<std::pair<int,int> >::const_iterator it;
+	for(it = m_SpanColumns.constBegin(); it != m_SpanColumns.constEnd(); ++it) {
+		result += "\\cline{" + QString::number(it->first + 1) + '-' +
+		          QString::number(it->second + 1) + '}';
+	}
+	return result;
+}
+//END
+
 //BEGIN TabularProperties
 TabularProperties::TabularProperties()
-	: m_UseMultiColumn(false), m_ColorIndex(0) {}
+	: m_UseMultiColumn(false), m_ColorIndex(0), m_TopBorder(false) {}
 
 void TabularProperties::setUseMultiColumn(bool useMultiColumn)
 {
@@ -904,6 +941,26 @@ void TabularProperties::setBullet(const QString &bullet)
 QString TabularProperties::bullet() const
 {
 	return m_Bullet;
+}
+
+void TabularProperties::addBorderUnderRow(int row)
+{
+	m_BorderUnderRow.append(row);
+}
+
+bool TabularProperties::hasBorderUnderRow(int row) const
+{
+	return m_BorderUnderRow.contains(row);
+}
+
+void TabularProperties::setHasTopBorder()
+{
+	m_TopBorder = true;
+}
+
+bool TabularProperties::hasTopBorder() const
+{
+	return m_TopBorder;
 }
 //END
 
@@ -1183,10 +1240,12 @@ void NewTabularDialog::slotButtonClicked(int button)
 		int columns = m_Table->columnCount();
 		TabularProperties properties;
 
-		//BEGIN preprocessing colors
+		//BEGIN preprocessing colors and border
 		QColor firstColor, currentColor;
+		bool topBorder = true;
 		for(int row = 0; row < rows; ++row) {
 			bool sameColor = true;
+			bool borderUnderRow = true;
 			firstColor = m_Table->item(row, 0)->backgroundColor();
 			for(int column = 0; column < columns; ++column) {
 				currentColor = m_Table->item(row, column)->backgroundColor();
@@ -1194,10 +1253,24 @@ void NewTabularDialog::slotButtonClicked(int button)
 				if(currentColor != firstColor) {
 					sameColor = false;
 				}
+				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
+				if(!(cell->border() & TabularCell::Bottom)) {
+					borderUnderRow = false;
+				}
+				if (row == 0 && !(cell->border() & TabularCell::Top)) {
+					topBorder = false;
+				}
 			}
 			if(sameColor) {
 				properties.addRowColor(row, firstColor);
 			}
+			if(borderUnderRow) {
+				properties.addBorderUnderRow(row);
+			}
+		}
+		
+		if(topBorder) {
+			properties.setHasTopBorder();
 		}
 		//END
 
@@ -1262,7 +1335,27 @@ void NewTabularDialog::slotButtonClicked(int button)
 		}
 		tableAlignment += '}';
 
-		m_td.tagBegin += QString("\\begin{%1}%2%3\n").arg(environmentFormatted).arg(tableParameter).arg(tableAlignment);
+		/* build top border */
+		QString topBorderStr;
+		if(properties.hasTopBorder()) {
+			topBorderStr = "\\hline";
+		} else {
+			MultiColumnBorderHelper topBorderHelper;
+			for(int column = 0; column < columns; ++column) {
+				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(0, column));
+				if(cell->border() & TabularCell::Top) {
+					topBorderHelper.addColumn(column);
+				}
+			}
+			topBorderHelper.finish();
+			topBorderStr = topBorderHelper.toLaTeX();
+		}
+
+		m_td.tagBegin += QString("\\begin{%1}%2%3%4\n")
+			.arg(environmentFormatted)
+			.arg(tableParameter)
+			.arg(tableAlignment)
+			.arg(topBorderStr);
 
 		/* required packages */
 		if(properties.requiredPackages().count()) {
@@ -1275,9 +1368,26 @@ void NewTabularDialog::slotButtonClicked(int button)
 			if(rowColor.isValid()) {
 				m_td.tagBegin += "\\rowcolor{" + properties.colorName(rowColor) + "}\n";
 			}
+			MultiColumnBorderHelper columnBorderHelper;
 			for(int column = 0; column < columns; ++column) {
-				QString content = static_cast<TabularCell*>(m_Table->item(row, column))->toLaTeX( properties );
-				QString sep = column < columns - 1 ? " & " : " \\\\\n";
+				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
+				QString content = cell->toLaTeX(properties);
+
+				if(!properties.hasBorderUnderRow(row) && (cell->border() & TabularCell::Bottom)) {
+					columnBorderHelper.addColumn(column);
+				}
+
+				QString sep = " & ";
+				if(column == columns - 1) {
+					sep = "\\\\";
+					if(properties.hasBorderUnderRow(row)) {
+						sep += "\\hline";
+					} else {
+						columnBorderHelper.finish();
+						sep += columnBorderHelper.toLaTeX();
+					}
+					sep += '\n';
+				}
 				m_td.tagBegin += content + sep;
 			}
 		}

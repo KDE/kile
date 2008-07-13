@@ -1248,12 +1248,27 @@ void NewTabularDialog::slotButtonClicked(int button)
 			bool borderUnderRow = true;
 			firstColor = m_Table->item(row, 0)->backgroundColor();
 			for(int column = 0; column < columns; ++column) {
+				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
+
+				// Adjust right and bottom border for current item
+				if(column < columns - 1) {
+					TabularCell *next = static_cast<TabularCell*>(m_Table->item(row, column + 1));
+					if(next->border() & TabularCell::Left) {
+						cell->setBorder(cell->border() | TabularCell::Right);
+					}
+				}
+				if(row < rows - 1) {
+					TabularCell *next = static_cast<TabularCell*>(m_Table->item(row + 1, column));
+					if(next->border() & TabularCell::Top) {
+						cell->setBorder(cell->border() | TabularCell::Bottom);
+					}
+				}
+
 				currentColor = m_Table->item(row, column)->backgroundColor();
 				properties.addColor(currentColor);
 				if(currentColor != firstColor) {
 					sameColor = false;
 				}
-				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
 				if(!(cell->border() & TabularCell::Bottom)) {
 					borderUnderRow = false;
 				}

@@ -520,7 +520,7 @@ void FindFilesDialog::processOutput()
 				}
 			}
 			else {
-				new QListWidgetItem(item.mid(dir_combo->url().prettyUrl().length() + 1), resultbox);
+				new QListWidgetItem(item.mid(dir_combo->url().path().length() + 1), resultbox);
 			}
 		}
 		m_buf = m_buf.right(m_buf.length() - pos - 1);
@@ -532,7 +532,7 @@ void FindFilesDialog::processStandardOutputReady()
 {
 	QByteArray outputBuffer = m_proc->readAllStandardOutput();
 	m_buf += QString::fromLocal8Bit(outputBuffer.data(), outputBuffer.size());
-kDebug() << "buffer " << m_buf;
+	kDebug() << "buffer " << m_buf;
 	processOutput();
 }
 
@@ -540,7 +540,7 @@ void FindFilesDialog::processErrorOutputReady()
 {
 	QByteArray outputBuffer = m_proc->readAllStandardError();
 	m_errbuf += QString::fromLocal8Bit(outputBuffer.data(), outputBuffer.size());
-kDebug() << "err buffer " << m_errbuf;
+	kDebug() << "err buffer " << m_errbuf;
 }
 
 void FindFilesDialog::processExited(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
@@ -639,9 +639,6 @@ QString FindFilesDialog::buildFilesCommand()
 		files = files + " -o -name " + '\'' + (*it) + '\'';
 	}
 
-#ifdef __GNUC__
-#warning Something is still broken with the 'find' command used and with output processing!
-#endif
 	QString shell_command;
 	shell_command += "find ";
 	shell_command += KShell::quoteArg(dir_combo->url().pathOrUrl());

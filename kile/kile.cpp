@@ -498,9 +498,6 @@ void Kile::setupActions()
 	connect(docManager(), SIGNAL(addToRecentFiles(const KURL& )), m_actRecentFiles, SLOT(addURL(const KURL& )));
 	m_actRecentFiles->loadEntries(m_config, "Recent Files");
 
-	(void) KStdAction::save(docManager(), SLOT(fileSave()), actionCollection(),"kile_file_save" );
-	(void) KStdAction::saveAs(docManager(), SLOT(fileSaveAs()), actionCollection(),"kile_file_save_as" );
-
 	(void) new KAction(i18n("Save All"),"save_all", 0, docManager(), SLOT(fileSaveAll()), actionCollection(),"file_save_all");
 	(void) new KAction(i18n("Save Copy As..."),"save_copy_as", 0, docManager(), SLOT(fileSaveCopyAs()), actionCollection(),"file_save_copy_as");
 	(void) new KAction(i18n("Create Template From Document..."), 0, docManager(), SLOT(createTemplate()), actionCollection(),"template_create");

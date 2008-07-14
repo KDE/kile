@@ -667,9 +667,6 @@ void Kile::setupActions()
 	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl&)), this, SLOT(addRecentFile(const KUrl&)));
 	m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
-	createAction(KStandardAction::Save, "kile_file_save", docManager(), SLOT(fileSave()));
-	createAction(KStandardAction::SaveAs, "kile_file_save_as", docManager(), SLOT(fileSaveAs()));
-
 	createAction(i18n("Save All"), "file_save_all", "document-save-all", docManager(), SLOT(fileSaveAll()));
 	createAction(i18n("Save Copy As..."), "file_save_copy_as", "save_copy_as", docManager(), SLOT(fileSaveCopyAs()));
 	createAction(i18n("Create Template From Document..."), "template_create", docManager(), SLOT(createTemplate()));

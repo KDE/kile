@@ -403,7 +403,7 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 	page->setLayout(layout);
 
 	m_ccColors = new KColorCells(page, 4, 4);
-	m_ccColors->setSelectionMode(QAbstractItemView::NoSelection);
+	m_ccColors->setSelectionMode(QAbstractItemView::SingleSelection);
 	m_ccColors->setColor(0, Qt::white);
 	m_ccColors->setColor(1, Qt::black);
 	m_ccColors->setColor(2, Qt::red);

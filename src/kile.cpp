@@ -2142,7 +2142,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 		}
 		delete dlg;
 	} else {
-		KileDialog::NewTabularDialog dlg(m_latexCommands, m_config.data(), m_mainWindow);
+		KileDialog::NewTabularDialog dlg("tabular", m_latexCommands, m_config.data(), m_mainWindow);
 		if(dlg.exec()) {
 			insertTag(dlg.tagData());
 		}

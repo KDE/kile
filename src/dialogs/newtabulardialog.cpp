@@ -569,24 +569,30 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 	}
 	bool adjustBorder = !leftBorder.isEmpty() || !rightBorder.isEmpty();
 
-	if(headerItem->alignment() != alignment || !colorCommand.isEmpty() || adjustBorder) {
+	int columnSpan = tableWidget()->columnSpan(row(), column());
+
+	if(headerItem->alignment() != alignment || !colorCommand.isEmpty() ||
+		 adjustBorder || columnSpan > 1 ) {
 
 		switch(alignment) {
 			case Qt::AlignLeft: // TODO consider AlignP etc.
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{" + leftBorder + colorCommand + "l" + rightBorder + "}{";
+				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
+				          leftBorder + colorCommand + "l" + rightBorder + "}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignHCenter:
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{" + leftBorder + colorCommand + "c" + rightBorder + "}{";
+				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
+				          leftBorder + colorCommand + "c" + rightBorder + "}{";
 				suffix = "}" + suffix;
 				break;
 
 			case Qt::AlignRight:
 				properties.setUseMultiColumn();
-				prefix += "\\mc{1}{" + leftBorder + colorCommand + "r" + rightBorder + "}{";
+				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
+				          leftBorder + colorCommand + "r" + rightBorder + "}{";
 				suffix = "}" + suffix;
 				break;
 		};
@@ -1001,11 +1007,12 @@ bool TabularProperties::hasLeftBorder() const
 }
 //END
 
-NewTabularDialog::NewTabularDialog(KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent)
+NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent)
 	: Wizard(config, parent),
 	  m_latexCommands(commands),
 	  m_clCurrentBackground(Qt::white),
-	  m_clCurrentForeground(Qt::black)
+	  m_clCurrentForeground(Qt::black),
+		m_defaultEnvironment(environment)
 {
 	setCaption(i18n("Tabular Environments"));
 
@@ -1167,7 +1174,11 @@ void NewTabularDialog::initEnvironments()
 	m_latexCommands->commandList(list, KileDocument::CmdAttrTabular, false);
 	m_cmbName->addItems(list);
 	
-	// FIXME differ between array and tabular environment
+	// set default environment
+	int index = m_cmbName->findText(m_defaultEnvironment);
+	if(index != -1) {
+		m_cmbName->setCurrentIndex(index);
+	}
 
 	// refresh other gui elements regarding environment combo box
 	slotEnvironmentChanged(m_cmbName->currentText());
@@ -1450,16 +1461,19 @@ void NewTabularDialog::slotButtonClicked(int button)
 				m_td.tagBegin += "\\rowcolor{" + properties.colorName(rowColor) + "}\n";
 			}
 			MultiColumnBorderHelper columnBorderHelper;
-			for(int column = 0; column < columns; ++column) {
+			for(int column = 0; column < columns;) {
 				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
 				QString content = cell->toLaTeX(properties);
+				int columnSpan = m_Table->columnSpan(row, column);
 
 				if(!properties.hasBorderUnderRow(row) && (cell->border() & TabularCell::Bottom)) {
-					columnBorderHelper.addColumn(column);
+					for(int c2 = 0; c2 < columnSpan; ++c2) {
+						columnBorderHelper.addColumn(column + c2);
+					}
 				}
 
 				QString sep = " & ";
-				if(column == columns - 1) {
+				if(column + columnSpan >= columns) {
 					sep = "\\\\";
 					if(properties.hasBorderUnderRow(row)) {
 						sep += "\\hline";
@@ -1470,6 +1484,8 @@ void NewTabularDialog::slotButtonClicked(int button)
 					sep += '\n';
 				}
 				m_td.tagBegin += content + sep;
+
+				column += columnSpan;
 			}
 		}
 

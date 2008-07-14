@@ -225,7 +225,7 @@ class NewTabularDialog : public Wizard {
 	Q_OBJECT
 
 	public:
-		NewTabularDialog(KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent = 0);
+		NewTabularDialog(const QString &environment, KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent = 0);
 		~NewTabularDialog();
 
 	private:
@@ -280,6 +280,7 @@ class NewTabularDialog : public Wizard {
 		QSpinBox *m_sbRows, *m_sbCols;
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
 		QColor m_clCurrentBackground, m_clCurrentForeground;
+		QString m_defaultEnvironment;
 };
 
 }

@@ -177,7 +177,7 @@ class MultiColumnBorderHelper {
 /**
  * @brief This class stores data while generating LaTeX output.
  *
- * This class saves informations like whether the \multicolumn command
+ * This class saves information like whether the \multicolumn command
  * and/or other commands have been used.
  */
 class TabularProperties {

@@ -540,8 +540,8 @@ int TabularCell::border() const
 
 QString TabularCell::toLaTeX( TabularProperties &properties ) const
 {
-	QString prefix = QString();
-	QString suffix = QString();
+	QString prefix;
+	QString suffix;
 
 	int alignment = textAlignment() & ~Qt::AlignVCenter;
 	TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(tableWidget()->horizontalHeaderItem(column()));
@@ -578,22 +578,22 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 			case Qt::AlignLeft: // TODO consider AlignP etc.
 				properties.setUseMultiColumn();
 				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-				          leftBorder + colorCommand + "l" + rightBorder + "}{";
-				suffix = "}" + suffix;
+				          leftBorder + colorCommand + 'l' + rightBorder + "}{";
+				suffix = '}' + suffix;
 				break;
 
 			case Qt::AlignHCenter:
 				properties.setUseMultiColumn();
 				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-				          leftBorder + colorCommand + "c" + rightBorder + "}{";
-				suffix = "}" + suffix;
+				          leftBorder + colorCommand + 'c' + rightBorder + "}{";
+				suffix = '}' + suffix;
 				break;
 
 			case Qt::AlignRight:
 				properties.setUseMultiColumn();
 				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-				          leftBorder + colorCommand + "r" + rightBorder + "}{";
-				suffix = "}" + suffix;
+				          leftBorder + colorCommand + 'r' + rightBorder + "}{";
+				suffix = '}' + suffix;
 				break;
 		};
 	}
@@ -1374,7 +1374,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 		/* build table parameter */
 		QString tableParameter;
 		if(m_cmbParameter->currentIndex() != 0) {
-			tableParameter = "[" + m_cmbParameter->currentText() + "]";
+			tableParameter = '[' + m_cmbParameter->currentText() + ']';
 		}
 
 		/* build table alignment */
@@ -1451,7 +1451,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 		/* required packages */
 		if(properties.requiredPackages().count()) {
-			m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + "\n";
+			m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + '\n';
 		}
 
 		QColor rowColor;
@@ -1497,8 +1497,8 @@ void NewTabularDialog::slotButtonClicked(int button)
 			itColorName.next();
 			colorNames += "\\definecolor{" + itColorName.value() + "}{rgb}{";
 			QColor color(itColorName.key());
-			colorNames += QString::number(color.redF()) + ","
-					+ QString::number(color.greenF()) + ","
+			colorNames += QString::number(color.redF()) + ','
+					+ QString::number(color.greenF()) + ','
 					+ QString::number(color.blueF()) + "}\n";
 		}
 		m_td.tagBegin = colorNames + m_td.tagBegin;

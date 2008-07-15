@@ -19,6 +19,7 @@
 \reflectbox{text}
 \resizebox*{h-length}{v-length}{text}
 \rotatebox[key val list]{angle}{text}
+\scalebox{h-scale}{text}
 \scalebox{h-scale}[v-scale]{text}
 \setkeys{Gin}{key val}
 \textcolor{name}{text}

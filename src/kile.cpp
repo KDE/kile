@@ -81,7 +81,7 @@
 #include "dialogs/floatdialog.h"
 #include "dialogs/mathenvironmentdialog.h"
 #include "tabulardialog.h"
-#include "dialogs/newtabulardialog.h"
+#include "dialogs/tabular/newtabulardialog.h"
 #include "dialogs/postscriptdialog.h"
 #include "latexcmd.h"
 #include "mainadaptor.h"

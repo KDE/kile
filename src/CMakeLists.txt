@@ -88,7 +88,13 @@ SET(kile_SRCS
 	widgets/extendedscrollarea.cpp
 	scripting/bindings.cpp
 	scriptmanager.cpp
+	dialogs/tabular/multicolumnborderhelper.cpp
 	dialogs/tabular/newtabulardialog.cpp
+	dialogs/tabular/selectcoloraction.cpp
+	dialogs/tabular/selectframeaction.cpp
+	dialogs/tabular/tabularcell.cpp
+	dialogs/tabular/tabularheaderitem.cpp
+	dialogs/tabular/tabularproperties.cpp
 	configurationmanager.cpp
 	spellcheck.cpp
 	utilities.cpp

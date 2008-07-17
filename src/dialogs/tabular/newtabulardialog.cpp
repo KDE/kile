@@ -63,6 +63,14 @@ class TabularCellDelegate : public QStyledItemDelegate {
 
 		virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
+		virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+		                              const QModelIndex &index) const;
+		virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+		virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
+		                          const QModelIndex &index) const;
+		virtual void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
+		                                  const QModelIndex &index) const;
+
 	private:
 		QTableWidget *m_Table;
 };
@@ -106,6 +114,56 @@ void TabularCellDelegate::paint(QPainter *painter,
 		|| (row < (rowCount - 1) && static_cast<TabularCell*>(m_Table->item(row + 1, column))->border() & TabularCell::Top);
 	painter->setPen(bottom ? Qt::black : Qt::lightGray);
 	painter->drawLine(option.rect.bottomLeft(), option.rect.bottomRight());
+}
+
+QWidget* TabularCellDelegate::createEditor(QWidget *parent,
+		const QStyleOptionViewItem &option,
+		const QModelIndex &index) const
+{
+	Q_UNUSED(option);
+	Q_UNUSED(index);
+
+	KLineEdit *editor = new KLineEdit(parent);
+	editor->setFrame(false);
+	return editor;
+}
+
+void TabularCellDelegate::setEditorData(QWidget *editor,
+		const QModelIndex &index) const
+{
+	QString value = index.model()->data(index, Qt::EditRole).toString();
+	QBrush bgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::BackgroundRole));
+	QBrush fgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::ForegroundRole));
+	int alignment = index.model()->data(index, Qt::TextAlignmentRole).toInt();
+	KLineEdit *edit = static_cast<KLineEdit*>(editor);
+	QString styleSheet;
+	if(bgBrush.style() != Qt::NoBrush) {
+		styleSheet += "background-color:" + bgBrush.color().name() + ';';
+	}
+	if(fgBrush.style() != Qt::NoBrush) {
+		styleSheet += "color:" + fgBrush.color().name() + ';';
+	}
+	edit->setStyleSheet(styleSheet);
+	edit->setAlignment((Qt::Alignment)alignment);
+	edit->setText(value);
+}
+
+void TabularCellDelegate::setModelData(QWidget *editor,
+		QAbstractItemModel *model,
+		const QModelIndex &index) const
+{
+	KLineEdit *edit = static_cast<KLineEdit*>(editor);
+	QString value = edit->text();
+	model->setData(index, value, Qt::EditRole);
+}
+
+void TabularCellDelegate::updateEditorGeometry(QWidget *editor,
+		const QStyleOptionViewItem &option,
+		const QModelIndex &index) const
+{
+	Q_UNUSED(index);
+
+	editor->setGeometry(option.rect);
 }
 //END
 

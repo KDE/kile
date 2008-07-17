@@ -21,7 +21,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QLabel>
 #include <QList>
 #include <QMouseEvent>
@@ -57,7 +57,7 @@
 namespace KileDialog {
 
 //BEGIN TabularCellDelegate
-class TabularCellDelegate : public QItemDelegate {
+class TabularCellDelegate : public QStyledItemDelegate {
 	public:
 		TabularCellDelegate(QTableWidget *parent = 0);
 
@@ -68,7 +68,7 @@ class TabularCellDelegate : public QItemDelegate {
 };
 
 TabularCellDelegate::TabularCellDelegate(QTableWidget *parent)
-	: QItemDelegate(parent),
+	: QStyledItemDelegate(parent),
 	  m_Table(parent)
 {
 }
@@ -77,7 +77,7 @@ void TabularCellDelegate::paint(QPainter *painter,
                                 const QStyleOptionViewItem &option,
                                 const QModelIndex &index) const
 {
-	QItemDelegate::paint(painter, option, index);
+	QStyledItemDelegate::paint(painter, option, index);
 
 	int rowCount = m_Table->rowCount();
 	int columnCount = m_Table->columnCount();

@@ -21,14 +21,12 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
-#include <QStyledItemDelegate>
 #include <QLabel>
 #include <QList>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QSpinBox>
-#include <QStyleOptionViewItem>
 #include <QTableWidget>
 #include <QToolBar>
 #include <QVBoxLayout>
@@ -51,121 +49,11 @@
 #include "selectcoloraction.h"
 #include "selectframeaction.h"
 #include "tabularcell.h"
+#include "tabularcelldelegate.h"
 #include "tabularheaderitem.h"
 #include "tabularproperties.h"
 
 namespace KileDialog {
-
-//BEGIN TabularCellDelegate
-class TabularCellDelegate : public QStyledItemDelegate {
-	public:
-		TabularCellDelegate(QTableWidget *parent = 0);
-
-		virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-		virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-		                              const QModelIndex &index) const;
-		virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
-		virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-		                          const QModelIndex &index) const;
-		virtual void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
-		                                  const QModelIndex &index) const;
-
-	private:
-		QTableWidget *m_Table;
-};
-
-TabularCellDelegate::TabularCellDelegate(QTableWidget *parent)
-	: QStyledItemDelegate(parent),
-	  m_Table(parent)
-{
-}
-
-void TabularCellDelegate::paint(QPainter *painter,
-                                const QStyleOptionViewItem &option,
-                                const QModelIndex &index) const
-{
-	QStyledItemDelegate::paint(painter, option, index);
-
-	int rowCount = m_Table->rowCount();
-	int columnCount = m_Table->columnCount();
-
-	int row = index.row();
-	int column = index.column();
-
-	TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
-
-	if(column == 0) {
-		painter->setPen(cell->border() & TabularCell::Left ? Qt::black : Qt::lightGray);
-		painter->drawLine(option.rect.topLeft(), option.rect.bottomLeft());
-	}
-
-	if(row == 0) {
-		painter->setPen(cell->border() & TabularCell::Top ? Qt::black : Qt::lightGray);
-		painter->drawLine(option.rect.topLeft(), option.rect.topRight());
-	}
-
-	bool right = (cell->border() & TabularCell::Right)
-		|| (column < (columnCount - 1) && static_cast<TabularCell*>(m_Table->item(row, column + 1))->border() & TabularCell::Left);
-	painter->setPen(right ? Qt::black : Qt::lightGray);
-	painter->drawLine(option.rect.topRight(), option.rect.bottomRight());
-
-	bool bottom = (cell->border() & TabularCell::Bottom)
-		|| (row < (rowCount - 1) && static_cast<TabularCell*>(m_Table->item(row + 1, column))->border() & TabularCell::Top);
-	painter->setPen(bottom ? Qt::black : Qt::lightGray);
-	painter->drawLine(option.rect.bottomLeft(), option.rect.bottomRight());
-}
-
-QWidget* TabularCellDelegate::createEditor(QWidget *parent,
-		const QStyleOptionViewItem &option,
-		const QModelIndex &index) const
-{
-	Q_UNUSED(option);
-	Q_UNUSED(index);
-
-	KLineEdit *editor = new KLineEdit(parent);
-	editor->setFrame(false);
-	return editor;
-}
-
-void TabularCellDelegate::setEditorData(QWidget *editor,
-		const QModelIndex &index) const
-{
-	QString value = index.model()->data(index, Qt::EditRole).toString();
-	QBrush bgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::BackgroundRole));
-	QBrush fgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::ForegroundRole));
-	int alignment = index.model()->data(index, Qt::TextAlignmentRole).toInt();
-	KLineEdit *edit = static_cast<KLineEdit*>(editor);
-	QString styleSheet;
-	if(bgBrush.style() != Qt::NoBrush) {
-		styleSheet += "background-color:" + bgBrush.color().name() + ';';
-	}
-	if(fgBrush.style() != Qt::NoBrush) {
-		styleSheet += "color:" + fgBrush.color().name() + ';';
-	}
-	edit->setStyleSheet(styleSheet);
-	edit->setAlignment((Qt::Alignment)alignment);
-	edit->setText(value);
-}
-
-void TabularCellDelegate::setModelData(QWidget *editor,
-		QAbstractItemModel *model,
-		const QModelIndex &index) const
-{
-	KLineEdit *edit = static_cast<KLineEdit*>(editor);
-	QString value = edit->text();
-	model->setData(index, value, Qt::EditRole);
-}
-
-void TabularCellDelegate::updateEditorGeometry(QWidget *editor,
-		const QStyleOptionViewItem &option,
-		const QModelIndex &index) const
-{
-	Q_UNUSED(index);
-
-	editor->setGeometry(option.rect);
-}
-//END
 
 NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent)
 	: Wizard(config, parent),

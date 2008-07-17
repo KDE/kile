@@ -93,6 +93,7 @@ SET(kile_SRCS
 	dialogs/tabular/selectcoloraction.cpp
 	dialogs/tabular/selectframeaction.cpp
 	dialogs/tabular/tabularcell.cpp
+	dialogs/tabular/tabularcelldelegate.cpp
 	dialogs/tabular/tabularheaderitem.cpp
 	dialogs/tabular/tabularproperties.cpp
 	configurationmanager.cpp

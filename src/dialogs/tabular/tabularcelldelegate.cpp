@@ -39,11 +39,14 @@ void TabularCellDelegate::paint(QPainter *painter,
 		QStyledItemDelegate::paint(painter, option, index);
 	} else {
 		painter->fillRect(option.rect, qvariant_cast<QBrush>(index.model()->data(index, Qt::BackgroundRole)));
+		QFont oldFont = painter->font();
+		painter->setFont(qvariant_cast<QFont>(index.model()->data(index, Qt::FontRole)));
 		QRect textRect(option.rect.x() + 3, option.rect.y(), option.rect.width() - 6, option.rect.height());
 		QApplication::style()->drawItemText(painter, textRect,
 			index.model()->data(index, Qt::TextAlignmentRole).toInt(),
 			QPalette(qvariant_cast<QBrush>(index.model()->data(index, Qt::ForegroundRole)).color()),
 			true, index.model()->data(index, Qt::DisplayRole).toString(), QPalette::Window );
+		painter->setFont(oldFont);
 	}
 
 	int rowCount = m_Table->rowCount();
@@ -93,6 +96,7 @@ void TabularCellDelegate::setEditorData(QWidget *editor,
 	QString value = index.model()->data(index, Qt::EditRole).toString();
 	QBrush bgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::BackgroundRole));
 	QBrush fgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::ForegroundRole));
+	QFont font = qvariant_cast<QFont>(index.model()->data(index, Qt::FontRole));
 	int alignment = index.model()->data(index, Qt::TextAlignmentRole).toInt();
 	KLineEdit *edit = static_cast<KLineEdit*>(editor);
 	QString styleSheet;
@@ -104,6 +108,7 @@ void TabularCellDelegate::setEditorData(QWidget *editor,
 	}
 	edit->setStyleSheet(styleSheet);
 	edit->setAlignment((Qt::Alignment)alignment);
+	edit->setFont(font);
 	edit->setText(value);
 }
 

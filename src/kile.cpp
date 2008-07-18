@@ -2141,7 +2141,7 @@ void Kile::quickTabulardialog(bool tabularenv)
 	} else {
 		KileDialog::NewTabularDialog dlg("tabular", m_latexCommands, m_config.data(), m_mainWindow);
 		if(dlg.exec()) {
-			insertTag(dlg.tagData());
+			insertTag(dlg.tagData(), dlg.requiredPackages());
 		}
 	}
 }

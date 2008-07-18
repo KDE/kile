@@ -214,6 +214,11 @@ NewTabularDialog::~NewTabularDialog()
 {
 }
 
+const QStringList& NewTabularDialog::requiredPackages() const
+{
+	return m_requiredPackages;
+}
+
 void NewTabularDialog::initEnvironments()
 {
 	/* read all tabular environments and insert them into the combobox */
@@ -529,8 +534,10 @@ void NewTabularDialog::slotButtonClicked(int button)
 			.arg(topBorderStr);
 
 		/* required packages */
+		m_requiredPackages.clear();
 		if(properties.requiredPackages().count()) {
 			m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + '\n';
+			m_requiredPackages << properties.requiredPackages();
 		}
 
 		QColor rowColor;

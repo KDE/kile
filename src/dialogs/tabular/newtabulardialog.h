@@ -50,6 +50,8 @@ class NewTabularDialog : public Wizard {
 		NewTabularDialog(const QString &environment, KileDocument::LatexCommands *commands, KConfig *config, QWidget *parent = 0);
 		~NewTabularDialog();
 
+		const QStringList& requiredPackages() const;
+
 	private:
 		void initEnvironments();
 		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
@@ -104,6 +106,7 @@ class NewTabularDialog : public Wizard {
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
 		QColor m_clCurrentBackground, m_clCurrentForeground;
 		QString m_defaultEnvironment;
+		QStringList m_requiredPackages;
 };
 
 }

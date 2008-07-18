@@ -553,14 +553,18 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 				QString sep = " & ";
 				if(column + columnSpan >= columns) {
-					sep = "\\\\";
+					QString end;
+					sep.clear();
 					if(properties.hasBorderUnderRow(row)) {
-						sep += "\\hline";
+						end = "\\hline";
 					} else {
 						columnBorderHelper.finish();
-						sep += columnBorderHelper.toLaTeX();
+						end = columnBorderHelper.toLaTeX();
 					}
-					sep += '\n';
+					if(row < rows - 1 || !end.isEmpty()) {
+						sep = "\\\\";
+					}
+					sep += end + '\n';
 				}
 				m_td.tagBegin += content + sep;
 

@@ -439,7 +439,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 		//END
 
 		/* bullet */
-		if(m_cbBullets) {
+		if(m_cbBullets->isChecked()) {
 			properties.setBullet(s_bullet);
 		}
 

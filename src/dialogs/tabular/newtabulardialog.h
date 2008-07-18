@@ -56,6 +56,7 @@ class NewTabularDialog : public Wizard {
 		void alignItems(int alignment);
 		bool checkForColumnAlignment(int column);
 		QIcon generateColorIcon(bool background) const;
+		bool canJoin() const;
 
 	protected:
 		bool eventFilter(QObject *obj, QEvent *event);

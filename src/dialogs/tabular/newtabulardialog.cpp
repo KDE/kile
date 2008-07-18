@@ -289,6 +289,37 @@ QIcon NewTabularDialog::generateColorIcon(bool background) const
 	return QIcon(pixmap);
 }
 
+bool NewTabularDialog::canJoin() const
+{
+	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+	if(selectedItems.count() < 2) {
+		KILE_DEBUG() << "cannot join cells, because selectedItems.count() < 2";
+		return false;
+	}
+
+	/* check whether all selected items are in the same row */
+	int row = selectedItems[0]->row();
+	for(int i = 1; i < selectedItems.count(); ++i) {
+		if(selectedItems[i]->row() != row) {
+			KILE_DEBUG() << "cannot join cells, because of different rows";
+			return false;
+		}
+	}
+
+	/* check whether all selected items are adjacent */
+	QList<int> columns;
+	foreach(QTableWidgetItem* item, selectedItems) {
+		columns.append(item->column());
+	}
+	qSort(columns);
+	if((columns.last() - columns.first()) != (columns.size() - 1)) {
+		KILE_DEBUG() << "cannot join cells, because not all cells are adjacent";
+		return false;
+	}
+
+	return true;
+}
+
 bool NewTabularDialog::eventFilter(QObject *obj, QEvent *event)
 {
 	if(obj == m_Table && event->type() == QEvent::KeyPress && m_Table->selectedItems().count() == 1) {
@@ -736,7 +767,7 @@ void NewTabularDialog::slotItemSelectionChanged()
 		}
 	}
 
-	// TODO set/unset join action
+	m_acJoin->setEnabled(canJoin());
 
 	/* split action */
 	m_acSplit->setEnabled(selectedItems.count() == 1 &&
@@ -815,31 +846,16 @@ void NewTabularDialog::slotUnderline()
 
 void NewTabularDialog::slotJoinCells()
 {
+	if(!canJoin()) return;
+
 	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
-	if(selectedItems.count() < 2) {
-		KILE_DEBUG() << "cannot join cells, because selectedItems.count() < 2";
-		return;
-	}
-
-	/* check whether all selected items are in the same row */
 	int row = selectedItems[0]->row();
-	for(int i = 1; i < selectedItems.count(); ++i) {
-		if(selectedItems[i]->row() != row) {
-			KILE_DEBUG() << "cannot join cells, because of different rows";
-			return;
-		}
-	}
 
-	/* check whether all selected items are adjacent */
 	QList<int> columns;
 	foreach(QTableWidgetItem* item, selectedItems) {
 		columns.append(item->column());
 	}
 	qSort(columns);
-	if((columns.last() - columns.first()) != (columns.size() - 1)) {
-		KILE_DEBUG() << "cannot join cells, because not all cells are adjacent";
-		return;
-	}
 
 	int newColumnSpan = columns.size();
 

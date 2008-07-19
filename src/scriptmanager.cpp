@@ -493,6 +493,6 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		m_manager->executeScript(m_id);
 	}
 
-};
+}
 
 #include "scriptmanager.moc"

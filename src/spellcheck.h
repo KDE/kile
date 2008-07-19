@@ -24,8 +24,8 @@
 
 class KileInfo;
 
-namespace KileDocument {class TextInfo;};
-namespace KileView {class Manager;};
+namespace KileDocument {class TextInfo;}
+namespace KileView {class Manager;}
 
 namespace KileSpellCheck {
 

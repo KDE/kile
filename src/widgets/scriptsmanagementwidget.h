@@ -25,7 +25,7 @@ class KileInfo;
 namespace KileScript {
 	class Manager;
 	class Script;
-};
+}
 
 namespace KileWidget {
 

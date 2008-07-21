@@ -2367,19 +2367,23 @@ void EditorExtension::insertBullet(KTextEditor::View* view)
 	view->document()->insertText(view->cursorPosition(), s_bullet);
 }
 
+#ifdef __GNUC__
+#warning codecompletion is broken
+#endif
+
 void EditorExtension::completeWord()
 {
-	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmLatex);
+//	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmLatex);
 }
 
 void EditorExtension::completeEnvironment()
 {
-	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmEnvironment);
+//	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmEnvironment);
 }
 
 void EditorExtension::completeAbbreviation()
 {
-	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmAbbreviation);
+//	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmAbbreviation);
 }
 
 ///////////////////// Special Functions ///////////////

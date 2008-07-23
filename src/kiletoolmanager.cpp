@@ -43,7 +43,6 @@ namespace KileTool
 
 	QueueItem::~QueueItem()
 	{
-		delete m_tool;
 	}
 
 	Base* Queue::tool() const
@@ -228,6 +227,7 @@ namespace KileTool
 			if((status=head->run()) != Running) { //tool did not even start, clear queue
 				stop();
 				for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+					(*i)->tool()->deleteLater();
 					delete (*i);
 				}
 				m_queue.clear();
@@ -282,11 +282,13 @@ namespace KileTool
 		m_nLastResult = result;
 
 		if(tool != m_queue.tool()) { //oops, tool finished async, could happen with view tools
-			delete tool;
+			tool->deleteLater();
 			return;
 		}
 
-		delete m_queue.dequeue();
+		QueueItem *item = m_queue.dequeue();
+		item->tool()->deleteLater();
+		delete item;
 
 		if(result == Aborted) {
 			tool->sendMessage(Error, i18n("Aborted"));
@@ -294,6 +296,7 @@ namespace KileTool
 
 		if(result != Success && result != Silent) { //abort execution, delete all remaining tools
 			for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+				(*i)->tool()->deleteLater();
 				delete (*i);
 			}
 			m_queue.clear();

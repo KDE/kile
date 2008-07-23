@@ -94,9 +94,6 @@ namespace KileTool
 		int lastResult() { return m_nLastResult; }
 
 	public Q_SLOTS:
-		void started(Base*);
-		void done(Base *, int);
-
 		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false);
 		int run(Base *, const QString& = QString(), bool insertAtTop = false, bool block = false);
 
@@ -106,11 +103,14 @@ namespace KileTool
 		int runBlocking(const QString&, const QString& = QString(), bool = false);
 		int runNextBlocking(const QString&, const QString& = QString());
 
-		void stop(); //should be a slot that stops the active tool and clears the queue
-
 	private Q_SLOTS:
 		int runNextInQueue();
 		void enableClear();
+
+		void started(Base*);
+		void done(Base *, int);
+
+		void stop(); //should be a slot that stops the active tool and clears the queue
 
 	Q_SIGNALS:
 		void requestGUIState(const QString &);

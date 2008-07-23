@@ -278,6 +278,7 @@ namespace KileTool {
 	}
 
 	PartLauncher::PartLauncher() :
+		m_part(NULL),
 		m_state("Viewer")
 	{
 	}

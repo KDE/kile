@@ -169,13 +169,17 @@ namespace KileTool
 		emit(requestSaveAll(false, true));
 		emit(start(this));
 		
-		if (!m_launcher->launch())
-		{
+		if (!m_launcher || !m_launcher->launch()) {
 			KILE_DEBUG() << "\tlaunching failed" << endl;
-			if (!m_launcher->selfCheck())
-				return SelfCheckFailed;
-			else
+			if(!m_launcher) {
 				return CouldNotLaunch;
+			}
+			if(!m_launcher->selfCheck()) {
+				return SelfCheckFailed;
+			}
+			else {
+				return CouldNotLaunch;
+			}
 		}
 
 		KILE_DEBUG() << "\trunning..." << endl;

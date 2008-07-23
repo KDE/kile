@@ -399,7 +399,7 @@ void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
 	     || reason == KTextEditor::ModificationInterface::OnDiskCreated) { //dirty file
 		icon = SmallIcon("modonhd");
 	}
-	else if(reason == reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
+	else if(reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
 		icon = SmallIcon("process-stop");
 	}
 	else if(m_ki->extensions()->isScriptFile(doc->url())) {

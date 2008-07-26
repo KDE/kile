@@ -449,8 +449,8 @@ void Kile::enableSymbolViewMFUS()
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),true);
 	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),
 			i18n("Move the mouse over an icon to see the corresponding LaTeX command.\n \
-			Click on an icon to insert the command, additionally pressing Qt::SHIFT inserts it in math mode,\
-			pressing Qt::CTRL in curly brackets."));
+			Click on an icon to insert the command, additionally pressing \"Shift\" inserts it in math mode,\
+			pressing \"Ctrl\" in curly brackets."));
 
 	connect(m_symbolViewRelation,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
 	connect(m_symbolViewOperators,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));

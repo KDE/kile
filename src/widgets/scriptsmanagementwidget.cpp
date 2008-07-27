@@ -58,7 +58,8 @@ class ScriptListItem : public QTreeWidgetItem {
 		KileScript::Script *m_script;
 };
 
-ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, name, f), m_kileInfo(kileInfo) {
+ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const char *name, Qt::WFlags f)
+ : QWidget(parent, name, f), m_kileInfo(kileInfo) {
 	QVBoxLayout *baseLayout = new QVBoxLayout(this);
 	setLayout(baseLayout);
 
@@ -75,7 +76,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	KAction *action = new KAction(this);
 	action->setIcon(SmallIcon("scriptnew"));
 	action->setText(i18n("Create New Script"));
-	connect(action, SIGNAL(triggered()), m_kileInfo->docManager(), SLOT(createNewScript()));
+	connect(action, SIGNAL(triggered()), kileInfo->docManager(), SLOT(fileNewScript()));
 	m_toolBar->addAction(action);
 
 	m_scriptOpenAction = new KAction(this);

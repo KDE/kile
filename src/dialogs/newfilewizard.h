@@ -1,7 +1,7 @@
 /*****************************************************************************************
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2008 by Michel Ludwig (michel.ludwig@kdemail.net)
  *****************************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,8 @@ class NewFileWizard : public KDialog
 {
 	Q_OBJECT
 public:
-	NewFileWizard(KileTemplate::Manager *manager, QWidget *parent=0, const char *name=0);
+	NewFileWizard(KileTemplate::Manager *manager, KileDocument::Type startType = KileDocument::LaTeX,
+	              QWidget *parent = NULL, const char *name = NULL);
 	~NewFileWizard();
 
 public:
@@ -53,7 +54,7 @@ protected:
 	QString getConfigKey(int index);
 
 	void storeSelectedIcon();
-
+	void displayType(int index);
 };
 
 #endif

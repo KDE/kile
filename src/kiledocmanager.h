@@ -65,7 +65,8 @@ public Q_SLOTS:
 	 * Creates a new file on disk.
 	 **/
 	void fileNew(const KUrl&);
-	void fileNew();
+	void fileNewScript();
+	void fileNew(KileDocument::Type type = LaTeX);
 
 	void fileSelected(const KUrl&);
 	void fileSelected(const KileProjectItem *item);

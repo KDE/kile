@@ -5,7 +5,7 @@
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006, 2007
+//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006-2008
 //         Holger Danielsson <holger.danielsson@versanet.de>, (C) 2007
 
 /***************************************************************************
@@ -648,9 +648,9 @@ void Manager::removeTemplate()
 	mtd.exec();
 }
 
-void Manager::fileNew()
+void Manager::fileNew(KileDocument::Type type)
 {
-	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), m_ki->mainWindow());
+	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), type, m_ki->mainWindow());
 	if(nfw->exec()) {
 		KTextEditor::View *view = loadTemplate(nfw->getSelection());
 		if(view) {
@@ -662,6 +662,11 @@ void Manager::fileNew()
 		}
 	}
 	delete nfw;
+}
+
+void Manager::fileNewScript()
+{
+	fileNew(KileDocument::Script);
 }
 
 void Manager::fileNew(const KUrl & url)

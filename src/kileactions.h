@@ -206,7 +206,7 @@ class ToolbarSelectAction : public KSelectAction
 	Q_OBJECT
 
 public:
-	ToolbarSelectAction(const char *name, QObject *parent);
+	ToolbarSelectAction(const QString& text, QObject *parent);
 
 public Q_SLOTS:
 	void slotTriggered(QAction*);

@@ -19,9 +19,9 @@
 
 namespace KileConfiguration {
 
-	Manager::Manager(KileInfo *kileInfo, QObject *parent, const char *name)  : QObject(parent, name), m_kileInfo(kileInfo)
+	Manager::Manager(KileInfo *kileInfo, QObject *parent, const char *name)  : QObject(parent), m_kileInfo(kileInfo)
 	{
-
+		setObjectName(name);
 	}
 
 	Manager::~Manager() {

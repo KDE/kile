@@ -244,7 +244,7 @@ namespace KileDialog
 	{
 		latexPage = new KileWidgetLatexConfig(this);
 		latexPage->setObjectName("LaTeX");
-		latexPage->kcfg_DoubleQuotes->insertStringList( m_ki->editorExtension()->doubleQuotesList() ); 
+		latexPage->kcfg_DoubleQuotes->addItems(m_ki->editorExtension()->doubleQuotesList());
 		latexPage->setLatexCommands(m_config,m_ki->latexCommands());
 
 		addConfigPage(parent, latexPage, i18n("General"), "configure");

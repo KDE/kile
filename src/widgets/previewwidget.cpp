@@ -39,8 +39,9 @@ namespace KileWidget
 {
 
 PreviewWidget::PreviewWidget(KileInfo *info, QWidget *parent, const char *name) 
-	: QWidget(parent,name), m_info(info), m_previewImage(NULL), m_running(false) 
+	: QWidget(parent), m_info(info), m_previewImage(NULL), m_running(false) 
 {
+	setObjectName(name);
 	setPalette(QPalette(QColor(0xff,0xff,0xff)));
 }
 

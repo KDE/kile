@@ -37,8 +37,8 @@ NewToolWizard::NewToolWizard(QWidget *parent, Qt::WFlags fl) : KAssistantDialog(
 	setValid(toolNamePage, false);
 
 	//setup the Behavior page (page 1)
-	m_cbTools->insertItem(customTool());
-	m_cbTools->insertStringList(m_toolList);
+	m_cbTools->addItem(customTool());
+	m_cbTools->addItems(m_toolList);
 }
 
 NewToolWizard::~NewToolWizard()
@@ -67,22 +67,21 @@ void NewToolWizard::nameChanged(const QString &name)
 	static QRegExp reBracket = QRegExp("\\(|\\)|\\[|\\]");
 	bool ok = true;
 
-	if (m_toolList.contains(name))
-	{
+	if(m_toolList.contains(name)) {
 		m_lbWarning->setText(i18n( "Error: A tool by this name already exists." ));
 		ok = false;
 	}
-	else if (name.find("/") != -1)
-	{
+	else if(name.indexOf("/") != -1) {
 		m_lbWarning->setText(i18n( "Error: The name may not contain a slash '/'." ));
 		ok = false;
 	}
-	else if ( name.find(reBracket) != -1 )
-	{
+	else if(name.indexOf(reBracket) != -1) {
 		m_lbWarning->setText(i18n("Error: The name may not contain a (,),[ or ]."));
 		ok = false;
 	}
-	else m_lbWarning->setText("");
+	else {
+		m_lbWarning->setText("");
+	}
 	setValid(toolNamePage, true);
 }
 

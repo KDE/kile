@@ -59,7 +59,8 @@ class ScriptListItem : public QTreeWidgetItem {
 };
 
 ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const char *name, Qt::WFlags f)
- : QWidget(parent, name, f), m_kileInfo(kileInfo) {
+ : QWidget(parent, f), m_kileInfo(kileInfo) {
+	setObjectName(name);
 	QVBoxLayout *baseLayout = new QVBoxLayout(this);
 	setLayout(baseLayout);
 

@@ -37,7 +37,7 @@ void OutputView::receive(const QString& str)
 	//find newline symbol
 	//only output if we have receive one or more
 	//full lines of text
-	int newLineAt = str.findRev('\n');
+	int newLineAt = str.lastIndexOf('\n');
 	if(newLineAt != -1) {
 		line += str.left(newLineAt); //don't copy the newline char
 		line.replace('<', "&lt;");

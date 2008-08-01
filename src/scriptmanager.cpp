@@ -228,7 +228,10 @@ class ScriptEnvironment {
 
 ////////////////////////////// Manager //////////////////////////////
 
-	Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionCollection, QObject *parent, const char *name)  : QObject(parent, name), m_jScriptDirWatch(NULL), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection) {
+	Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionCollection, QObject *parent, const char *name)
+	: QObject(parent), m_jScriptDirWatch(NULL), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection)
+	{
+		setObjectName(name);
 		// create a local scripts directory if it doesn't exist yet
 		m_localScriptDir = KStandardDirs::locateLocal("appdata", "scripts/", true);
 		m_jScriptDirWatch = new KDirWatch(this);
@@ -262,7 +265,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		int i = code.indexOf(endOfLineExp);
 		QString firstLine = (i >= 0 ? code.left(i) : code);
 		QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
-		if(requiredVersionTagExp.search(firstLine) != -1) {
+		if(requiredVersionTagExp.indexIn(firstLine) != -1) {
 			QString requiredKileVersion = requiredVersionTagExp.cap(2);
 			if(compareVersionStrings(requiredKileVersion, kileFullVersion) > 0) {
 				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.", requiredKileVersion, script->getName()), i18n("Version Error"));

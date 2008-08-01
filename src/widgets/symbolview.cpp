@@ -195,8 +195,8 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 	bool math = false, bracket = false;
 
 	if(event->button() == Qt::LeftButton && (item = itemAt(event->pos()))) {
-		bracket = (event->state() & Qt::ControlModifier) ==  Qt::ControlModifier;
-		math = (event->state() & Qt::ShiftModifier) ==  Qt::ShiftModifier;
+		bracket = event->modifiers() & Qt::ControlModifier;
+		math = event->modifiers() & Qt::ShiftModifier;
 
 		extract(item->data(Qt::UserRole).toString(), count, code_symbol, args, pkgs);
 

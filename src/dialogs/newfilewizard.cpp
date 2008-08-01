@@ -70,9 +70,9 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 
 	setMainWidget(m_newDocumentWidget);
 
-	m_newDocumentWidget->documentTypeComboBox->insertItem(i18n("LaTeX Document"), LATEX_TYPE);
-	m_newDocumentWidget->documentTypeComboBox->insertItem(i18n("BibTeX Document"), BIBTEX_TYPE);
-	m_newDocumentWidget->documentTypeComboBox->insertItem(i18n("Kile Script"), SCRIPT_TYPE);
+	m_newDocumentWidget->documentTypeComboBox->insertItem(LATEX_TYPE, i18n("LaTeX Document"));
+	m_newDocumentWidget->documentTypeComboBox->insertItem(BIBTEX_TYPE, i18n("BibTeX Document"));
+	m_newDocumentWidget->documentTypeComboBox->insertItem(SCRIPT_TYPE, i18n("Kile Script"));
 
 	// set config entries
 	m_newDocumentWidget->quickStartWizardCheckBox->setChecked(wizard);
@@ -93,7 +93,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	}
 
 	// select the document type
-	m_newDocumentWidget->documentTypeComboBox->setCurrentItem(index);
+	m_newDocumentWidget->documentTypeComboBox->setCurrentIndex(index);
 	m_currentlyDisplayedType = index;
 	displayType(index);
 }
@@ -114,7 +114,7 @@ TemplateItem* NewFileWizard::getSelection() const
 bool NewFileWizard::useWizard()
 {
 	// check (among other things) whether we want to create a LaTeX document
-	return ( (m_newDocumentWidget->documentTypeComboBox->currentItem() == 0) && getSelection() && (getSelection()->name() == DEFAULT_EMPTY_CAPTION || getSelection()->name() == DEFAULT_EMPTY_LATEX_CAPTION) && m_newDocumentWidget->quickStartWizardCheckBox->isChecked() );
+	return ( (m_newDocumentWidget->documentTypeComboBox->currentIndex() == 0) && getSelection() && (getSelection()->name() == DEFAULT_EMPTY_CAPTION || getSelection()->name() == DEFAULT_EMPTY_LATEX_CAPTION) && m_newDocumentWidget->quickStartWizardCheckBox->isChecked() );
 }
 
 QString NewFileWizard::getConfigKey(int index)

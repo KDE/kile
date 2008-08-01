@@ -140,7 +140,7 @@ void FileBrowserWidget::dirUrlEntered(const KUrl& u)
 	QStringList urls = m_pathComboBox->urls();
 	urls.prepend(u.url());
 	while(urls.count() >= m_pathComboBox->maxItems()) {
-		urls.remove(urls.last());
+		urls.removeAll(urls.last());
 	}
 	m_pathComboBox->setUrls(urls);
 }

@@ -100,31 +100,34 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 
 	m_PostscriptDialog.m_edInfile->lineEdit()->setText(psfilename);
 
+#ifdef __GNUC__
+#warning This is prone to fail as the indexes might change!
+#endif
 	if (pstops) {
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A5 Page + Empty Page --> DIN A4")); // 0   PS_A5_EMPTY
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A5 Page + Duplicate --> DIN A4"));  // 1   PS_A5_DUPLICATE
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A5 Pages --> DIN A4"));             // 2   PS_2xA5
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A5L Pages --> DIN A4"));            // 3   PS_2xA5L
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("4 DIN A5 Pages --> DIN A4"));             // 4   PS_4xA5
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A4 Page + Empty Page --> DIN A4")); // 5   m_PostscriptDialog.PS_A4_EMPTY
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("1 DIN A4 Page + Duplicate --> DIN A4"));  // 6   PS_A4_DUPLICATE
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A4 Pages --> DIN A4"));             // 7   PS_2xA4
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("2 DIN A4L Pages --> DIN A4"));            // 8   PS_2xA4L
+		m_PostscriptDialog.m_cbTask->addItem(i18n("1 DIN A5 Page + Empty Page --> DIN A4")); // 0   PS_A5_EMPTY
+		m_PostscriptDialog.m_cbTask->addItem(i18n("1 DIN A5 Page + Duplicate --> DIN A4"));  // 1   PS_A5_DUPLICATE
+		m_PostscriptDialog.m_cbTask->addItem(i18n("2 DIN A5 Pages --> DIN A4"));             // 2   PS_2xA5
+		m_PostscriptDialog.m_cbTask->addItem(i18n("2 DIN A5L Pages --> DIN A4"));            // 3   PS_2xA5L
+		m_PostscriptDialog.m_cbTask->addItem(i18n("4 DIN A5 Pages --> DIN A4"));             // 4   PS_4xA5
+		m_PostscriptDialog.m_cbTask->addItem(i18n("1 DIN A4 Page + Empty Page --> DIN A4")); // 5   m_PostscriptDialog.PS_A4_EMPTY
+		m_PostscriptDialog.m_cbTask->addItem(i18n("1 DIN A4 Page + Duplicate --> DIN A4"));  // 6   PS_A4_DUPLICATE
+		m_PostscriptDialog.m_cbTask->addItem(i18n("2 DIN A4 Pages --> DIN A4"));             // 7   PS_2xA4
+		m_PostscriptDialog.m_cbTask->addItem(i18n("2 DIN A4L Pages --> DIN A4"));            // 8   PS_2xA4L
 	}
 	if (psselect) {
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Even Pages"));                 // 9   PS_EVEN
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Odd Pages"));                  // 10  PS_ODD
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Even Pages (reverse order)")); // 11  m_PostscriptDialog.PS_EVEN_REV
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Select Odd Pages (reverse order)"));  // 12  PS_ODD_REV
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Reverse All Pages"));                 // 13  PS_REVERSE
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Copy All Pages (sorted)"));           // 14  PS_COPY_SORTED
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Select Even Pages"));                 // 9   PS_EVEN
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Select Odd Pages"));                  // 10  PS_ODD
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Select Even Pages (reverse order)")); // 11  m_PostscriptDialog.PS_EVEN_REV
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Select Odd Pages (reverse order)"));  // 12  PS_ODD_REV
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Reverse All Pages"));                 // 13  PS_REVERSE
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Copy All Pages (sorted)"));           // 14  PS_COPY_SORTED
 	}
 	if (pstops) {
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("Copy All Pages (unsorted)")); // 15  PS_COPY_UNSORTED
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("pstops: Choose Parameter"));  // 16  PS_PSTOPS_FREE 
+		m_PostscriptDialog.m_cbTask->addItem(i18n("Copy All Pages (unsorted)")); // 15  PS_COPY_UNSORTED
+		m_PostscriptDialog.m_cbTask->addItem(i18n("pstops: Choose Parameter"));  // 16  PS_PSTOPS_FREE 
 	}
 	if (psselect) {
-		m_PostscriptDialog.m_cbTask->insertItem(i18n("psselect: Choose Parameter")); // 17  PS_PSSELECT_FREE 
+		m_PostscriptDialog.m_cbTask->addItem(i18n("psselect: Choose Parameter")); // 17  PS_PSSELECT_FREE 
 	}
 
 	m_PostscriptDialog.m_edInfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
@@ -238,7 +241,7 @@ QString PostscriptDialog::buildTempfile()
 	m_program = "pstops";          // default
 	m_param = "";
 
-	switch (m_PostscriptDialog.m_cbTask->currentItem()) {
+	switch (m_PostscriptDialog.m_cbTask->currentIndex()) {
 		case PS_A5_EMPTY:      m_param = "1:0L(29.7cm,0cm)";
 		                       break;
 		case PS_A5_DUPLICATE:  m_param = "1:0L(29.7cm,0cm)+0L(29.7cm,14.85cm)";
@@ -294,7 +297,7 @@ QString PostscriptDialog::buildTempfile()
 		KILE_DEBUG() << "Could not create tempfile in QString PostscriptDialog::buildTempfile()" ;
 		return QString();
 	}
-	QString tempname = temp.name();
+	QString tempname = temp.fileName();
 	
 	QTextStream stream(&temp);
 	stream << "#! /bin/sh" << endl;
@@ -404,7 +407,7 @@ bool PostscriptDialog::checkParameter()
 	}
 
 	// check parameter
-	int index = m_PostscriptDialog.m_cbTask->currentItem();
+	int index = m_PostscriptDialog.m_cbTask->currentIndex();
 	if (m_PostscriptDialog.m_edParameter->text().isEmpty()) {
 		if (index == PS_PSSELECT_FREE) {
 			showError( i18n("psselect needs some parameters in this mode.") );

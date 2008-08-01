@@ -24,8 +24,9 @@
 
 namespace KileEditorKeySequence {
 
-	Manager::Manager(KileInfo* kileInfo, QObject *parent, const char *name) : QObject(parent, name), m_kileInfo(kileInfo)
+	Manager::Manager(KileInfo* kileInfo, QObject *parent, const char *name) : QObject(parent), m_kileInfo(kileInfo)
 	{
+		setObjectName(name);
 	}
 
 	Manager::~Manager()
@@ -51,9 +52,9 @@ namespace KileEditorKeySequence {
 		}
 		QMap<QString, Action*>::iterator it = m_actionMap.find(seq);
 		if(it != m_actionMap.end()) {
-			delete (it.data());
-			m_actionMap.remove(it);
-			m_watchedKeySequencesList.remove(seq);
+			delete (it.value());
+			m_actionMap.erase(it);
+			m_watchedKeySequencesList.removeAll(seq);
 			emit watchedKeySequencesChanged();
 		}
 	}
@@ -67,9 +68,9 @@ namespace KileEditorKeySequence {
 			}
 			QMap<QString, Action*>::iterator it = m_actionMap.find(*i);
 			if(it != m_actionMap.end()) {
-				delete (it.data());
-				m_actionMap.remove(it);
-				m_watchedKeySequencesList.remove(*i);
+				delete (it.value());
+				m_actionMap.erase(it);
+				m_watchedKeySequencesList.removeAll(*i);
 				changed = true;
 			}
 		}
@@ -85,8 +86,8 @@ namespace KileEditorKeySequence {
 			if(i.key().isEmpty()) {
 				continue;
 			}
-			if(m_actionMap[i.key()] != i.data()) {
-				m_actionMap[i.key()] = i.data();
+			if(m_actionMap[i.key()] != i.value()) {
+				m_actionMap[i.key()] = i.value();
 				changed = true;
 			}
 		}
@@ -98,7 +99,7 @@ namespace KileEditorKeySequence {
 	QString Manager::getKeySequence(const Action* a)
 	{
 		for(QMap<QString, Action*>::const_iterator i = m_actionMap.begin(); i != m_actionMap.end(); ++i) {
-			if(i.data() == a) {
+			if(i.value() == a) {
 				return i.key();
 			}
 		}

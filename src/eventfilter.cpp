@@ -46,16 +46,16 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 {
 	if(e->type() == QEvent::KeyPress) {
 		QKeyEvent *ke = (QKeyEvent*) e;
-		if(ke->key() == Qt::Key_QuoteDbl && ke->ascii() == Qt::Key_QuoteDbl) {
+		if(ke->key() == Qt::Key_QuoteDbl) {
 			return m_edit->insertDoubleQuotes(m_view);
 		}
-		if(m_bCompleteEnvironment && ke->key() == Qt::Key_Return && ke->state() == 0) {
+		if(m_bCompleteEnvironment && ke->key() == Qt::Key_Return && ke->modifiers() == 0) {
 			return m_edit->eventInsertEnvironment(m_view);
 		}
 	}
 	else if(e->type() == QEvent::MouseButtonDblClick) {
 		QMouseEvent *me = static_cast<QMouseEvent*>(e);
-		if(me->button() == Qt::LeftButton && ((me->state() & Qt::ControlModifier) == Qt::ControlModifier)) {
+		if(me->button() == Qt::LeftButton && me->modifiers() & Qt::ControlModifier) {
 			m_edit->selectWord(KileDocument::EditorExtension::smTex, m_view);
 			return true;
 		}

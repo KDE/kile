@@ -35,8 +35,9 @@
 #include "widgets/sidebar.h"
 
 KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, const char *name)
- : QObject(parent, name), m_ki(info), m_nCurrentError(-1)
+ : QObject(parent), m_ki(info), m_nCurrentError(-1)
 {
+	setObjectName(name);
 }
 
 
@@ -148,7 +149,7 @@ void KileErrorHandler::showLogResults(const QString &src)
 	m_ki->setLogPresent(false);
 	m_ki->outputFilter()->setSource(src);
 	QFileInfo fi(src);
-	QString lf = fi.absolutePath() + '/' + fi.baseName(true) + ".log";
+	QString lf = fi.absolutePath() + '/' + fi.completeBaseName() + ".log";
 	m_ki->logWidget()->printMessage(KileTool::Info, i18n("Detecting errors (%1), please wait ...", lf), i18n("Log"));
 	if(!m_ki->outputFilter()->Run(lf)) {
 		m_ki->outputFilter()->setSource(QString());

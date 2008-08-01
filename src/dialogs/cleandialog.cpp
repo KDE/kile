@@ -73,7 +73,7 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 	m_listview->setRootIsDecorated(false);
 
 	// insert items into m_listview
-	QString base = QFileInfo(filename).baseName(true);
+	QString base = QFileInfo(filename).completeBaseName();
 	for(int i = 0; i <  m_extlist.count(); ++i) {
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_listview,
 				QStringList(base + m_extlist[i]));

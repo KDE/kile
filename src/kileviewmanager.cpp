@@ -58,7 +58,7 @@ namespace KileView
 {
 
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
-	QObject(parent, name),
+	QObject(parent),
 	m_ki(info),
 	m_activeTextView(NULL),
 // 	m_projectview(NULL),
@@ -69,6 +69,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_convertToLaTeXAction(NULL),
 	m_quickPreviewAction(NULL)
 {
+	setObjectName(name);
 }
 
 
@@ -104,8 +105,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(Qt::ClickFocus);
 	m_tabs->setTabReorderingEnabled(true);
-	m_tabs->setHoverCloseButton(true);
-	m_tabs->setHoverCloseButtonDelayed(true);
+	m_tabs->setCloseButtonEnabled(true);
 	m_tabs->setFocus();
 	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), this, SIGNAL(currentViewChanged(QWidget*)));
 	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
@@ -149,7 +149,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	m_tabs->insertTab(index, view, m_ki->getShortName(doc));
 	m_tabs->setTabToolTip(m_tabs->indexOf(view), doc->url().pathOrUrl());
 	
-	m_tabs->showPage(view);
+	m_tabs->setCurrentIndex(m_tabs->indexOf(view));
 	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
@@ -261,8 +261,8 @@ void Manager::removeView(KTextEditor::View *view)
 	if (view) {
 		m_client->factory()->removeClient(view);
 
-		m_tabs->removePage(view);
-		m_textViewList.remove(view);
+		m_tabs->removeTab(m_tabs->indexOf(view));
+		m_textViewList.removeAll(view);
 		delete view;
 		
 		emit(updateCaption());  //make sure the caption gets updated
@@ -316,7 +316,7 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 		if (doc->views().count() > 0) {
 			view = static_cast<KTextEditor::View*>(doc->views().first());
 			if(view) {
-				m_tabs->showPage(view);
+				m_tabs->setCurrentIndex(m_tabs->indexOf(view));
 				if(requestFocus)
 					view->setFocus();
 			}
@@ -626,8 +626,9 @@ void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 	}
 }
 
-DropWidget::DropWidget(QWidget * parent, const char * name, Qt::WFlags f) : QWidget(parent, name, f)
+DropWidget::DropWidget(QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, f)
 {
+	setObjectName(name);
 	setAcceptDrops(true);
 }
 
@@ -664,7 +665,7 @@ void Manager::unplugTextEditorPartMenu(KTextEditor::View* view)
 		actionlist << "set_confdlg";      // action names from katepartui.rc
 
 		for(int i = 0; i < actionlist.count(); ++i) {
-			QAction *action = view->actionCollection()->action(actionlist[i].ascii());
+			QAction *action = view->actionCollection()->action(actionlist[i]);
 			if(action) {
 //FIXME: should be removed for KDE4
 //				action->setShortcut(KShortcut());

@@ -289,7 +289,7 @@
 		<entry name="DefaultProjectLocation" type="String">
 			<label>The default location where the projects must be created.</label>
 			<default code="true">
-				QDir::home().absPath()
+				QDir::home().absolutePath()
 			</default>
 		</entry>
 	</group>

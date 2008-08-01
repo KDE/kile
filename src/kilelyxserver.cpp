@@ -86,14 +86,14 @@ bool KileLyxServer::start()
 	if (openPipes()) {
 		QSocketNotifier *notifier;
 		for(QList<QFile*>::iterator it = m_pipeIn.begin(); it != m_pipeIn.end(); ++it) {
-			if ((*it)->name().right(3) == ".in" ) {
+			if ((*it)->fileName().right(3) == ".in" ) {
 				notifier = new QSocketNotifier((*it)->handle(), QSocketNotifier::Read, this);
 				connect(notifier, SIGNAL(activated(int)), this, SLOT(receive(int)));
 				m_notifier.append(notifier);
-				KILE_DEBUG() << "Created notifier for " << (*it)->name();
+				KILE_DEBUG() << "Created notifier for " << (*it)->fileName();
 			}
 			else {
-				KILE_DEBUG() << "No notifier created for " << (*it)->name();
+				KILE_DEBUG() << "No notifier created for " << (*it)->fileName();
 			}
 		}
 		m_running=true;

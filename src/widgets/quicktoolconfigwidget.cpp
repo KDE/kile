@@ -34,13 +34,13 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 	QStringList toollist = KileTool::toolList(KGlobal::config().data(), true);
 	toollist.sort();
 	m_cbTools->clear();
-	m_cbTools->insertStringList(toollist);
+	m_cbTools->addItems(toollist);
 
 	updateConfigs(m_cbTools->currentText());
 	connect(m_cbTools, SIGNAL(activated(const QString&)), this, SLOT(updateConfigs(const QString&)));
 
 	m_sequence = sequence;
-	QStringList list = QStringList::split(",", sequence);
+	QStringList list = sequence.split(",", QString::SkipEmptyParts);
 	QString tl, cfg;
 	m_lstbSeq->clear();
 	for(QStringList::iterator i = list.begin(); i != list.end(); ++i) {
@@ -58,7 +58,7 @@ void QuickToolConfigWidget::updateConfigs(const QString &tool)
 {
 	m_cbConfigs->clear();
 	m_cbConfigs->addItem(m_notSpecifiedString);
-	m_cbConfigs->insertStringList(KileTool::configNames(tool, KGlobal::config().data()));
+	m_cbConfigs->addItems(KileTool::configNames(tool, KGlobal::config().data()));
 }
 
 void QuickToolConfigWidget::down()

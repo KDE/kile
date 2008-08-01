@@ -343,7 +343,7 @@ namespace KileTool
 					QString grp = groupFor(name, prjcfg);
 					Config prjmap = prjcfg->entryMap(grp);
 					for (Config::Iterator it  = prjmap.begin(); it != prjmap.end(); ++it) {
-						map[it.key()] = it.data();
+						map[it.key()] = it.value();
 					}
 				}
 			}
@@ -364,8 +364,8 @@ namespace KileTool
 
 		Config::Iterator it;
 		for(it = map.begin() ; it != map.end(); ++it) {
-			if(!it.data().isEmpty()) {
-				configGroup.writeEntry(it.key(), it.data());
+			if(!it.value().isEmpty()) {
+				configGroup.writeEntry(it.key(), it.value());
 			}
 		}
 	}

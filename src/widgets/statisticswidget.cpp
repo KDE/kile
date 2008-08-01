@@ -30,9 +30,10 @@
 
 namespace KileWidget {
 
-StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags fl)
-		: QWidget(parent, name, fl)
+StatisticsWidget::StatisticsWidget(QWidget* parent, const char *name, Qt::WFlags fl)
+		: QWidget(parent, fl)
 {
+	setObjectName(name);
 	QVBoxLayout *vbox = new QVBoxLayout;
 	vbox->setMargin(0);
 	vbox->setSpacing(KDialog::spacingHint());
@@ -50,10 +51,14 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags
 	m_commandCharText = new QLabel(i18n("LaTeX commands and environments:"), m_charactersGroup);
 	m_whitespaceCharText = new QLabel(i18n("Punctuation, delimiter and whitespaces:"), m_charactersGroup);
 	m_totalCharText = new QLabel(i18n("Total characters:"), m_charactersGroup);
-	m_wordChar = new QLabel(m_charactersGroup, "m_wordChar");
-	m_commandChar = new QLabel(m_charactersGroup, "m_commandChar");
-	m_whitespaceChar = new QLabel(m_charactersGroup, "m_whitespaceChar");
-	m_totalChar = new QLabel(m_charactersGroup, "m_totalChar");
+	m_wordChar = new QLabel(m_charactersGroup);
+	m_wordChar->setObjectName("m_wordChar");
+	m_commandChar = new QLabel(m_charactersGroup);
+	m_commandChar->setObjectName("m_commandChar");
+	m_whitespaceChar = new QLabel(m_charactersGroup);
+	m_whitespaceChar->setObjectName("m_whitespaceChar");
+	m_totalChar = new QLabel(m_charactersGroup);
+	m_totalChar->setObjectName("m_totalChar");
 
 	QFrame *charframe = new QFrame(m_charactersGroup);
 	charframe->setFrameShape(QFrame::HLine);
@@ -67,11 +72,11 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags
 	chargrouplayout->addWidget(m_wordChar, 0, 2, Qt::AlignRight);
 	chargrouplayout->addWidget(m_commandChar, 1, 2, Qt::AlignRight);
 	chargrouplayout->addWidget(m_whitespaceChar, 2, 2, Qt::AlignRight);
-	chargrouplayout->addMultiCellWidget(charframe, 3, 3, 1, 2);
+	chargrouplayout->addWidget(charframe, 3, 3, 1, 2);
 	chargrouplayout->addWidget(m_totalChar, 4, 2, Qt::AlignRight);
-	chargrouplayout->setColSpacing(1, 16);
-	chargrouplayout->setColSpacing(3, 1);
-	chargrouplayout->setColStretch(3, 1);
+	chargrouplayout->setColumnMinimumWidth(1, 16);
+	chargrouplayout->setColumnMinimumWidth(3, 1);
+	chargrouplayout->setColumnStretch(3, 1);
 
 	// string groupbox
 	m_stringsGroup = new QGroupBox(i18n("Strings"), this);
@@ -85,10 +90,14 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags
 	m_commandStringText = new QLabel(i18n("LaTeX commands:"), m_stringsGroup);
 	m_environmentStringText = new QLabel(i18n("LaTeX environments:"), m_stringsGroup);
 	m_totalStringText = new QLabel(i18n("Total strings:"), m_stringsGroup);
-	m_wordString = new QLabel(m_stringsGroup, "m_wordString");
-	m_commandString = new QLabel(m_stringsGroup, "m_commandStringText");
-	m_environmentString = new QLabel(m_stringsGroup, "m_environmentStringText");
-	m_totalString = new QLabel(m_stringsGroup, "m_totalStringText");
+	m_wordString = new QLabel(m_stringsGroup);
+	m_wordString->setObjectName("m_wordString");
+	m_commandString = new QLabel(m_stringsGroup);
+	m_commandString->setObjectName("m_commandStringText");
+	m_environmentString = new QLabel(m_stringsGroup);
+	m_environmentString->setObjectName("m_environmentStringText");
+	m_totalString = new QLabel(m_stringsGroup);
+	m_totalString->setObjectName("m_totalStringText");
 
 	QFrame *stringframe = new QFrame(m_stringsGroup);
 	stringframe->setFrameShape(QFrame::HLine);
@@ -102,11 +111,11 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags
 	stringgrouplayout->addWidget(m_wordString, 0, 2, Qt::AlignRight);
 	stringgrouplayout->addWidget(m_commandString, 1, 2, Qt::AlignRight);
 	stringgrouplayout->addWidget(m_environmentString, 2, 2, Qt::AlignRight);
-	stringgrouplayout->addMultiCellWidget(stringframe, 3, 3, 1, 2);
+	stringgrouplayout->addWidget(stringframe, 3, 3, 1, 2);
 	stringgrouplayout->addWidget(m_totalString, 4, 2, Qt::AlignRight);
-	stringgrouplayout->setColSpacing(1, 16);
-	stringgrouplayout->setColSpacing(3, 1);
-	stringgrouplayout->setColStretch(3, 1);
+	stringgrouplayout->setColumnMinimumWidth(1, 16);
+	stringgrouplayout->setColumnMinimumWidth(3, 1);
+	stringgrouplayout->setColumnStretch(3, 1);
 
 	m_commentAboutHelp = new QLabel(parent);
 	m_warning =  new QLabel(parent);
@@ -119,9 +128,10 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char* name, Qt::WFlags
 	vbox->addStretch(1);
 
 	int w = m_commandCharText->sizeHint().width();
-	if (m_whitespaceCharText->sizeHint().width() > w)
+	if (m_whitespaceCharText->sizeHint().width() > w) {
 		w = m_whitespaceCharText->sizeHint().width();
-	stringgrouplayout->setColSpacing(0, w);
+	}
+	stringgrouplayout->setColumnMinimumWidth(0, w);
 
 }
 
@@ -135,8 +145,8 @@ void StatisticsWidget::updateColumns()
 	if (m_totalString->sizeHint().width() > w) {
 		w = m_totalString->sizeHint().width();
 	}
-	chargrouplayout->setColSpacing(2, w);
-	stringgrouplayout->setColSpacing(2, w);
+	chargrouplayout->setColumnMinimumWidth(2, w);
+	stringgrouplayout->setColumnMinimumWidth(2, w);
 }
 
 }
